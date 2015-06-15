@@ -2620,25 +2620,25 @@ public abstract class ChoiceManager
 
 		// Choice 689 is The Final Chest
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure689", "Daily Dungeon",
+			"Dungeon", "choiceAdventure689", "Daily Dungeon: Chest 3",
 			new Object[] { "Get fat loot token" } ),
 
 		// The First Chest Isn't the Deepest.
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure690", "Daily Dungeon",
+			"Dungeon", "choiceAdventure690", "Daily Dungeon: Chest 1",
 			new Object[] { "Get item", "Skip to 8th chamber, no turn spent", "Skip to 6th chamber, no turn spent" } ),
 
 		// Second Chest
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure691", "Daily Dungeon",
+			"Dungeon", "choiceAdventure691", "Daily Dungeon: Chest 2",
 			new Object[] { "Get item", "Skip to 13th chamber, no turn spent", "Skip to 11th chamber, no turn spent" } ),
 
 		// Choice 692 is I Wanna Be a Door
 				
 		// It's Almost Certainly a Trap
 		new ChoiceAdventure(
-			"Dungeon", "choiceAdventure693", "Daily Dungeon",
-			new Object[] { "Suffer elemental damage, get stats", "Avoid trap, no turn spent", "Leave, no turn spent" } ),
+			"Dungeon", "choiceAdventure693", "Daily Dungeon: Traps",
+			new Object[] { "Suffer elemental damage, get stats", "Avoid trap with eleven-foot pole, no turn spent", "Leave, no turn spent" } ),
 
 		// Choice 695 is A Drawer of Chests
 
