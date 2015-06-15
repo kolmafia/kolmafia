@@ -155,15 +155,14 @@ public class ResponseTextParser
 
 	public static boolean hasResult( final String location )
 	{
-		String path = location;
-		String queryString = "";
-
 		if ( location == null )
 		{
 			return false;
 		}
 
 		int queryStringBegin = location.indexOf( '?' );
+		String path = location;
+		String queryString = "";
 
 		if ( queryStringBegin != -1 )
 		{
@@ -186,8 +185,8 @@ public class ResponseTextParser
 
 		if ( location.startsWith( "showplayer.php" ) )
 		{
-			// showplayer.php?who=1&action=jung&whichperson=jick
-			return location.contains( "action=jung" );
+			// We want to register new items from Equipment and Familiar
+			return true;
 		}
 
 		if ( location.endsWith( "menu.php" ) ||

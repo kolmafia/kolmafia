@@ -700,13 +700,32 @@ public class ProfileRequest
 		return this.getPlayerLevel().intValue() - pr.getPlayerLevel().intValue();
 	}
 
+	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d+)" );
+	private static final Pattern EQUIPMENT_PATTERN = Pattern.compile( "<center>Equipment:</center>(<table>.*?</table>)" );
+	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "<p>Familiar:.*?(<table>.*?</table>)" );
+
 	public static void parseResponse( String location, String responseText )
 	{
-		if ( location.equals( "showplayer.php?who=1" ) &&		// see if we're looking at Jick's profile
-		     InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and that we have an empty jar
-		     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and that we haven't already filled a jar
+		Matcher matcher = ProfileRequest.WHO_PATTERN.matcher( location );
+		if ( matcher.find() && matcher.group( 1 ).equals( "1" ) &&	// if we're looking at Jick's profile
+		     InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and we have an empty jar
+		     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and we haven't already filled a jar
 		{
 			Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
+		}
+
+		// Look for new items in equipment
+		matcher = ProfileRequest.EQUIPMENT_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			ItemDatabase.parseNewItems( matcher.group( 1 ) );
+		}
+
+		// Look for new item on current familiar
+		matcher = ProfileRequest.FAMILIAR_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			ItemDatabase.parseNewItems( matcher.group( 1 ) );
 		}
 	}
 }
