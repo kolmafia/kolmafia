@@ -379,8 +379,8 @@ public class ChoiceOptionsPanel
 		this.dailyDungeonDoorSelect = new JComboBox();
 		this.dailyDungeonDoorSelect.addItem( "show in browser" );
 		this.dailyDungeonDoorSelect.addItem( "suffer trap effects" );
-		this.dailyDungeonDoorSelect.addItem( "unlock door" );
-		this.dailyDungeonDoorSelect.addItem( "try to avoid trap" );
+		this.dailyDungeonDoorSelect.addItem( "unlock door using PYEC, lockpicks, or skeleton key" );
+		this.dailyDungeonDoorSelect.addItem( "try to avoid trap using highest buffed stat" );
 
 		this.gongSelect = new JComboBox();
 		for ( int i = 0; i < GongCommand.GONG_PATHS.length; ++i )
@@ -447,7 +447,7 @@ public class ChoiceOptionsPanel
 		this.addChoiceSelect( "HiddenCity", "Hidden Bowling Alley", this.hiddenBowlingAlleySelect );
 		this.addChoiceSelect( "HiddenCity", "Hidden Ziggurat", this.hiddenZigguratSelect );
 		this.addChoiceSelect( "KOL High School", "Delirium in the Cafeterium", this.kolhsCafeteriaSelect );
-		this.addChoiceSelect( "Dungeon", "Daily Dungeon", this.dailyDungeonDoorSelect );
+		this.addChoiceSelect( "Dungeon", "Daily Dungeon: Doors", this.dailyDungeonDoorSelect );
 		this.addChoiceSelect( "Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect );
 		this.addChoiceSelect( "Conspiracy Island", "Containment Unit", this.containmentSelect );
 
