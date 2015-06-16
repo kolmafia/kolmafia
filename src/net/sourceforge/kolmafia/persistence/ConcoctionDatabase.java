@@ -140,7 +140,6 @@ public class ConcoctionDatabase
 	public static final Concoction adventureJewelcraftingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction turnFreeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction turnFreeSmithingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
-	public static final Concoction turnFreeJewelcraftingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction meatLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 
 	public static final SortedListModelArray<AdventureResult> knownUses = new SortedListModelArray<AdventureResult>();
@@ -1550,15 +1549,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.turnFreeSmithingLimit.creatable = 0;
 		ConcoctionDatabase.turnFreeSmithingLimit.visibleTotal = ConcoctionDatabase.turnFreeSmithingLimit.total;
 
-		// If we want to do turn-free jewelcrafting, we can only use free turns in lieu of adventures. Jewelcrafting can't be queued
-
-		ConcoctionDatabase.turnFreeJewelcraftingLimit.total = ConcoctionDatabase.getFreeCraftingTurns() + 
-		                                                      ConcoctionDatabase.getFreeSmithJewelTurns();
-		ConcoctionDatabase.turnFreeJewelcraftingLimit.initial = ConcoctionDatabase.turnFreeJewelcraftingLimit.total - 
-		                                                        ConcoctionDatabase.queuedFreeCraftingTurns;
-		ConcoctionDatabase.turnFreeJewelcraftingLimit.creatable = 0;
-		ConcoctionDatabase.turnFreeJewelcraftingLimit.visibleTotal = ConcoctionDatabase.turnFreeJewelcraftingLimit.total;
-
 		// Stills are also considered Item #0 in the event that the
 		// concoction will use stills.
 
@@ -1691,7 +1681,7 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JEWELRY );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JEWELRY, 0 );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, 3 );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.JEWELRY, 0 );
 		}
 
 		if ( KoLCharacter.canCraftExpensiveJewelry() )

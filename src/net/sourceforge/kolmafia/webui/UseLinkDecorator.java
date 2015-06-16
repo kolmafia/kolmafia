@@ -123,7 +123,7 @@ public abstract class UseLinkDecorator
 		// Defer use links until later if this isn't the final combat/choice page
 		String macro = FightRequest.lastMacroUsed;
 		boolean usedNativeMacro = macro != null && !macro.equals( "" ) && !macro.equals( "0" );
-		boolean usedMafiaMacro = location.indexOf( "action=done" ) != -1;
+		boolean usedMafiaMacro = location.contains( "action=done" );
 		boolean usedMacro = inCombat && ( usedNativeMacro || usedMafiaMacro );
 
 		// Some combats lead to a non-optional choice
@@ -509,7 +509,7 @@ public abstract class UseLinkDecorator
 	private static final boolean addEffectLink( String location, Matcher useLinkMatcher, StringBuffer buffer, LinkedList<AdventureResult> effects )
 	{
 		String message = useLinkMatcher.group(0);
-		if ( message.indexOf( "You acquire an effect" ) == -1 )
+		if ( !message.contains( "You acquire an effect" ) )
 		{
 			return false;
 		}
@@ -609,6 +609,7 @@ public abstract class UseLinkDecorator
 		{
 		case COMBINE:
 		case ACOMBINE:
+		case JEWELRY:
 			return new UseLink( itemId, itemCount, "combine", "craft.php?mode=combine&a=" );
 
 		case MIX:
@@ -616,9 +617,6 @@ public abstract class UseLinkDecorator
 
 		case COOK:
 			return new UseLink( itemId, itemCount, "cook", "craft.php?mode=cook&a=" );
-
-		case JEWELRY:
-			return new UseLink( itemId, itemCount, "jewelry", "craft.php?mode=jewelry&a=" );
 		}
 
 		return null;
@@ -1191,7 +1189,7 @@ public abstract class UseLinkDecorator
 				// chilly it has suddenly become.
 
 				if ( consumeMethod == KoLConstants.EQUIP_PANTS &&
-				     text.indexOf( "steal the pants from your unsuspecting self" ) != -1 )
+				     text.contains( "steal the pants from your unsuspecting self" ) )
 				{
 					uses.add( new UseLink( itemId, "guild", "guild.php?place=challenge" ) );
 				}
