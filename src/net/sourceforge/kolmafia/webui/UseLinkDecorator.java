@@ -1004,9 +1004,6 @@ public abstract class UseLinkDecorator
 					"shop.php?&whichshop=generalstore&action=buyitem&quantity=1&whichrow=655",
 					true );
 
-			case ItemPool.MEATSMITH_CHECK:
-				return new UseLink( itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith" );
-
 			case ItemPool.BARLEY:
 			case ItemPool.HOPS:
 			case ItemPool.FANCY_BEER_BOTTLE:
@@ -1814,7 +1811,11 @@ public abstract class UseLinkDecorator
 				new UseLink( itemId, count, "radio", "place.php?whichplace=airport_spooky&action=airport2_radio" );
 		}
 
-		default:
+        case ItemPool.MEATSMITH_CHECK:
+            return new UseLink( itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith" );
+
+
+            default:
 
 		}
 
