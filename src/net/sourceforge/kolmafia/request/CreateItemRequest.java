@@ -147,6 +147,7 @@ public class CreateItemRequest
 		{
 		case COMBINE:
 		case ACOMBINE:
+		case JEWELRY:
 			mode = "combine";
 			break;
 
@@ -163,10 +164,6 @@ public class CreateItemRequest
 		case SMITH:
 		case SSMITH:
 			mode = "smith";
-			break;
-
-		case JEWELRY:
-			mode = "jewelry";
 			break;
 
 		case ROLLING_PIN:
@@ -677,7 +674,7 @@ public class CreateItemRequest
 
 		// Check to see if box-servant was overworked and exploded.
 
-		if ( this.responseText.indexOf( "Smoke" ) != -1 )
+		if ( this.responseText.contains( "Smoke" ) )
 		{
 			KoLmafia.updateDisplay( "Your box servant has escaped!" );
 		}
@@ -777,7 +774,7 @@ public class CreateItemRequest
 			created = qty;
 		}
 
-		if ( responseText.indexOf( "Smoke" ) != -1 )
+		if ( responseText.contains( "Smoke" ) )
 		{
 			String servant = "servant";
 			if ( mode.equals( "cook" ) )
@@ -821,20 +818,6 @@ public class CreateItemRequest
 				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
 			}
 		}
-		else if ( mode.equals( "jewelry" ) )
-		{
-			int turnsSaved = 0;
-			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) )
-			{
-				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created );
-				Preferences.increment( "_thorsPliersCrafting", 3 * created, 10, false );
-				turnsSaved += thorsPliersTurnsSaved;
-			}
-			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
-			{
-				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
-			}
-		}
 		else
 		{
 			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
@@ -855,7 +838,7 @@ public class CreateItemRequest
 
 		// If nothing was created, don't deal with ingredients
 
-		if ( responseText.indexOf( "You acquire" ) == -1 )
+		if ( !responseText.contains( "You acquire" ) )
 		{
 			return true;
 		}
@@ -863,13 +846,13 @@ public class CreateItemRequest
 		int multiplier = 1;
 
 		// Using the Malus uses 5 ingredients at a time
-		if ( urlString.indexOf( "action=malussmash" ) != -1 )
+		if ( urlString.contains( "action=malussmash" ) )
 		{
 			multiplier = 5;
 		}
 
 		// The only other guild creation uses the Wok
-		else if ( urlString.indexOf( "action=wokcook" ) == -1 )
+		else if ( !urlString.contains( "action=wokcook" ) )
 		{
 			return true;
 		}
@@ -1317,9 +1300,6 @@ public class CreateItemRequest
 		case SSMITH:
 			return 1;
 
-		case JEWELRY:
-			return 3;
-
 		case COOK_FANCY:
 			return KoLCharacter.hasChef() ? 0 : 1;
 
@@ -1342,11 +1322,6 @@ public class CreateItemRequest
 			return Math.max( 0, ( quantityNeeded
 					      - ConcoctionDatabase.getFreeCraftingTurns()  
 					      - ConcoctionDatabase.getFreeSmithingTurns()
-					      - ConcoctionDatabase.getFreeSmithJewelTurns() ) );
-
-		case JEWELRY:
-			return Math.max( 0, ( ( 3 * quantityNeeded )
-					      - ConcoctionDatabase.getFreeCraftingTurns()  
 					      - ConcoctionDatabase.getFreeSmithJewelTurns() ) );
 
 		case COOK_FANCY:
@@ -1677,7 +1652,7 @@ public class CreateItemRequest
 			ResultProcessor.processItem( item.getItemId(), 0 - quantity );
 		}
 
-		if ( urlString.indexOf( "mode=combine" ) != -1 )
+		if ( urlString.contains( "mode=combine" ) )
 		{
 			ResultProcessor.processItem( ItemPool.MEAT_PASTE, 0 - quantity );
 		}

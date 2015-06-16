@@ -1173,10 +1173,6 @@ public class Concoction
 			{
 				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeSmithingLimit : ConcoctionDatabase.adventureSmithingLimit );
 			}
-			else if ( this.mixingMethod == CraftingType.JEWELRY )
-			{
-				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeJewelcraftingLimit : ConcoctionDatabase.adventureJewelcraftingLimit );
-			}
 			else
 			{
 				c = ( turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit );
@@ -1347,11 +1343,6 @@ public class Concoction
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
 			                                                        ConcoctionDatabase.getFreeSmithingTurns() +
-			                                                        ConcoctionDatabase.getFreeSmithJewelTurns() ), 0 );
-		}
-		if ( this.mixingMethod == CraftingType.JEWELRY )
-		{
-			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +
 			                                                        ConcoctionDatabase.getFreeSmithJewelTurns() ), 0 );
 		}
 		return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), 0 );
