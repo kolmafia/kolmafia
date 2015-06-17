@@ -1870,3 +1870,38 @@
 1869	Wearing a Guard's Hat	walkietalkie.gif	8b2ef75057d8f1b7703c73799473eb64	use 1 warehouse walkie-talkie
 1870	Janitoriffic	mop.gif	4605a47559bc4f8571d0438ae4906009	use 1 janitor's mop
 1871	Disguised as a Warehouse Clerk	obsglasses.gif	324b84b76ac914e711eb297ec0532032	use 1 warehouse clerk's glasses
+1872
+1873
+1874
+1875
+1876
+1877
+1878
+1879
+1880
+1881
+1882
+1883
+1884
+1885
+1886
+1887
+1888
+1889
+1890
+1891
+1892
+1893
+1894
+1895
+1896
+1897
+1898
+1899
+1900
+1901
+1902
+1903
+1904
+1905
+1906	WAKKA WAKKA WAKKA	puckman.gif	03830365a0602503275dae3707a14277	use 1 yellow pixel potion

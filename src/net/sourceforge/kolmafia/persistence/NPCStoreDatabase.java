@@ -457,6 +457,13 @@ public class NPCStoreDatabase
 				return QuestDatabase.isQuestFinished( Quest.DOC );
 			}
 		}
+		else if ( storeId.equals( "mystic" ) )
+		{
+			if ( itemId == ItemPool.YELLOW_SUBMARINE )
+			{
+				return !KoLCharacter.desertBeachAccessible();
+			}
+		}
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

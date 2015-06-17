@@ -420,14 +420,14 @@ public class ResultProcessor
 
 	public static boolean processFamiliarWeightGain( final String results )
 	{
-		if ( results.indexOf( "gains a pound" ) != -1 ||
-		     // The following are Haiku results
-		     results.indexOf( "gained a pound" ) != -1 ||
-		     results.indexOf( "puts on weight" ) != -1 ||
-		     results.indexOf( "gaining weight" ) != -1 ||
-		     // The following are Anapest results
-		     results.indexOf( "just got heavier" ) != -1 ||
-		     results.indexOf( "put on some weight" ) != -1 )
+		if ( results.contains( "gains a pound" ) ||
+		     		     // The following are Haiku results
+		     results.contains( "gained a pound" ) ||
+		     results.contains( "puts on weight" ) ||
+		     results.contains( "gaining weight" ) ||
+		     		     // The following are Anapest results
+		     results.contains( "just got heavier" ) ||
+		     results.contains( "put on some weight" ) )
 		{
 			KoLCharacter.incrementFamilarWeight();
 
@@ -747,7 +747,7 @@ public class ResultProcessor
 
 		lastToken = lastToken.trim();
 
-		if ( lastToken.indexOf( "Meat" ) != -1 )
+		if ( lastToken.contains( "Meat" ) )
 		{
 			return ResultProcessor.processMeat( lastToken, data );
 		}
@@ -1402,6 +1402,7 @@ public class ResultProcessor
 		case ItemPool.DESERT_BUS_PASS:
 		case ItemPool.PUMPKIN_CARRIAGE:
 		case ItemPool.TIN_LIZZIE:
+		case ItemPool.YELLOW_SUBMARINE:
 			// Desert beach unlocked
 			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			break;
@@ -2827,7 +2828,7 @@ public class ResultProcessor
 		// The treasure includes some Meat, but you give it away to
 		// some moist orphans. They need it to buy dry clothes.
 
-		if ( responseText.indexOf( "give it away to moist orphans" ) != -1 )
+		if ( responseText.contains( "give it away to moist orphans" ) )
 		{
 			KoLCharacter.makeCharitableDonation( 150 );
 			return;
@@ -2838,7 +2839,7 @@ public class ResultProcessor
 		// The Cola Wars Veterans Administration is really gonna
 		// appreciate the huge donation you're about to make!
 
-		if ( responseText.indexOf( "Cola Wars Veterans Administration" ) != -1 )
+		if ( responseText.contains( "Cola Wars Veterans Administration" ) )
 		{
 			KoLCharacter.makeCharitableDonation( 3000 );
 			return;

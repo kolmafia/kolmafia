@@ -5685,6 +5685,7 @@ Effect	Void Between the Stars	Cold Damage: +50
 Effect	Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
 Effect	Waiting for Ninjas	Avatar: "waiter dressed as a ninja"
 Effect	Waking the Dead	Combat Rate: +20
+Effect	WAKKA WAKKA WAKKA	Monster Level: +20
 Effect	Walberg's Dim Bulb	Initiative: +10
 Effect	Walking Carpet	Avatar: "grouchy furry monster"
 Effect	Wallflowering	Damage Absorption: +100, Damage Reduction: 10
@@ -7368,6 +7369,7 @@ Item	Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration:
 Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Item	milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 Item	Milk Studs	Effect: "Milk Studly", Effect Duration: 15
+Item	miniature power pill	Effect: "Pill Power", Effect Duration: 30
 Item	miniscule temporal rip	Free Pull
 Item	Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 Item	mocking turtle	Effect: "Tortious", Effect Duration: 15
@@ -7895,6 +7897,7 @@ Item	worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
+Item	yellow pixel potion	Effect: "WAKKA WAKKA WAKKA", Effect Duration: 20
 Item	yellow puck	Free Pull
 Item	yellow puck with a bow on it	Free Pull
 Item	yellow snowcone	Effect: "Yellow Tongue", Effect Duration: 20
