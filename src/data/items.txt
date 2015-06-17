@@ -8364,3 +8364,42 @@
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	usable	t,d	5
 8340	janitor's mop	570677877	mop.gif	usable	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	usable	t,d	5
+8342
+8343
+8344
+8345
+8346
+8347
+8348
+8349
+8350
+8351
+8352
+8353
+8354
+8355
+8356
+8357
+8358
+8359
+8360
+8361
+8362
+8363
+8364
+8365
+8366
+8367
+8368
+8369
+8370
+8371
+8372
+8373
+8374
+8375
+8376	yellow submarine	812297540	yellowsub.gif	none	q	0
+8377	pixel lemon	649933692	pixellemon.gif	food	t,d	120
+8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120
+8379	miniature power pill	721265969	minipowerpill.gif	usable	t,d	120
+8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
