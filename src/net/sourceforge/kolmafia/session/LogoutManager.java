@@ -105,10 +105,7 @@ public class LogoutManager
 
 	private static void resetGUI()
 	{
-		// If you need to allow for another login, create a login frame
-		// to ensure that there is an active frame to display messages.
-
-		if ( !KoLmafia.isSessionEnding() && StaticEntity.isGUIRequired() )
+		if ( StaticEntity.isGUIRequired() )
 		{
 			KoLmafiaGUI.constructFrame( LoginFrame.class );
 		}
