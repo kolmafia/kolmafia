@@ -8177,7 +8177,7 @@
 8152	polyeaster egg	230673096	polyegg.gif	usable	t	0
 8153	porcelain candy dish	317824568	porcbowl.gif	usable	t	0
 8154	Spechunky bar	114809341	sbar.gif	usable	t,d	5
-8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25
+8155	talisman of Horus	800789609	tal_h.gif	usable	q,d	25	talismen of Horus
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
 8157	Skeleton Store office key	916430296	officekey.gif	none	q	0
 8158	bone with a price tag on it	517247442	tagbone.gif	usable	q	0
