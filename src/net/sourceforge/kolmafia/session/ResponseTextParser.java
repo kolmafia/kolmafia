@@ -189,6 +189,12 @@ public class ResponseTextParser
 			return true;
 		}
 
+		if ( location.startsWith( "displaycollection.php" ) )
+		{
+			// We want to register new items in display cases
+			return true;
+		}
+
 		if ( location.endsWith( "menu.php" ) ||
 		     location.startsWith( "actionbar" ) )
 		{
