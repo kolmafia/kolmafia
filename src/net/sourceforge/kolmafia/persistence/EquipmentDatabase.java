@@ -239,8 +239,11 @@ public class EquipmentDatabase
 				for ( int i = 0; i < pieces.length; ++i )
 				{
 					int pieceId = ItemDatabase.getItemId( pieces[ i ] );
-					EquipmentDatabase.outfitPieces.put( IntegerPool.get( pieceId ), id );
-					outfit.addPiece( ItemPool.get( pieceId ) );
+					if ( pieceId != -1 )
+					{
+						EquipmentDatabase.outfitPieces.put( IntegerPool.get( pieceId ), id );
+						outfit.addPiece( ItemPool.get( pieceId ) );
+					}
 				}
 			}
 		}

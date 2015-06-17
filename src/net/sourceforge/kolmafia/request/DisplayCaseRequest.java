@@ -33,15 +33,21 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DisplayCaseRequest
 	extends TransferItemRequest
@@ -52,6 +58,20 @@ public class DisplayCaseRequest
 	public DisplayCaseRequest()
 	{
 		super( "managecollectionshelves.php" );
+
+		this.isDeposit = false;
+		this.isWithdrawal = false;
+	}
+
+	public DisplayCaseRequest( final AdventureResult[] items, final int[] shelves )
+	{
+		super( "managecollectionshelves.php" );
+		this.addFormField( "action", "arrange" );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			this.addFormField( "whichshelf" + items[ i ].getItemId(), String.valueOf( shelves[ i ] ) );
+		}
 
 		this.isDeposit = false;
 		this.isWithdrawal = false;
@@ -79,18 +99,16 @@ public class DisplayCaseRequest
 		this.addFormField( "ajax", "1" );
 	}
 
-	public DisplayCaseRequest( final AdventureResult[] items, final int[] shelves )
+	public DisplayCaseRequest( String who )
 	{
-		this();
-		this.addFormField( "action", "arrange" );
+		super( "displaycollection.php" );
 
-		for ( int i = 0; i < items.length; ++i )
+		if ( !StringUtilities.isNumeric( who ) )
 		{
-			this.addFormField( "whichshelf" + items[ i ].getItemId(), String.valueOf( shelves[ i ] ) );
+			who = ContactManager.getPlayerId( who, true );
 		}
 
-		this.isDeposit = false;
-		this.isWithdrawal = false;
+		this.addFormField( "who", who );
 	}
 
 	public DisplayCaseRequest( final AdventureResult[] items, final int shelf )
@@ -233,6 +251,36 @@ public class DisplayCaseRequest
 		}
 
 		return true;
+	}
+
+	// <table><tr><td valign=center><img src="http://images.kingdomofloathing.com/otherimages/museum/displaycase.gif" width=100 height=100></td><td valign=center>...txt...</td></tr></table>
+	public static final Pattern ANNOUNCEMENT_PATTERN = Pattern.compile( "<table><tr><td valign=center><img src=\"http://images.kingdomofloathing.com/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>" );
+
+	public static final boolean parseDisplayCase( final String urlString, String responseText )
+	{
+		RequestThread.runInParallel( new DisplayCaseParser( responseText ), false );
+		return true;
+	}
+
+	private static class DisplayCaseParser
+		implements Runnable
+	{
+		private final String responseText;
+
+		public DisplayCaseParser( final String responseText )
+		{
+			Matcher matcher = DisplayCaseRequest.ANNOUNCEMENT_PATTERN.matcher( responseText );
+			String announcement = matcher.find() ? matcher.group( 1 ).trim() : "";
+			this.responseText =
+				announcement.equals( "" ) ?
+				responseText :
+				StringUtilities.singleStringReplace( responseText, announcement, "" );
+		}
+
+		public void run()
+		{
+			ItemDatabase.parseNewItems( responseText );
+		}
 	}
 
 	@Override

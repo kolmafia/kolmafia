@@ -2573,6 +2573,14 @@ public class GenericRequest
 			return;
 		}
 
+		if ( urlString.startsWith( "displaycollection.php" ) )
+		{
+			// Again, these pages cannot possibly contain an actual
+			// item drop, but have a user supplied message.
+			DisplayCaseRequest.parseDisplayCase( urlString, this.responseText );
+			return;
+		}
+
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory,
 		//
