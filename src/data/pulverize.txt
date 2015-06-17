@@ -498,3 +498,7 @@ hare pin	nosmash
 
 # Special cases. We need a better way to specify these.
 bejeweled cufflinks	258112
+
+rainbow pearl earring	rainbow pearl
+rainbow pearl necklace	rainbow pearl
+rainbow pearl ring	rainbow pearl
