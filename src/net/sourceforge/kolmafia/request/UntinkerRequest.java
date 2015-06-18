@@ -131,7 +131,8 @@ public class UntinkerRequest
 		// paste, and only execute the request if it is known to be
 		// creatable through combination.
 
-		if ( ConcoctionDatabase.getMixingMethod( this.itemId ) != CraftingType.COMBINE )
+		CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( this.itemId );
+		if ( mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You cannot untinker that item." );
 			return;

@@ -1041,7 +1041,7 @@ public class CreateItemRequest
 
 		// If this is a combining request, you need meat paste as well.
 		
-		if ( ( this.mixingMethod == CraftingType.COMBINE || this.mixingMethod == CraftingType.ACOMBINE ) &&
+		if ( ( this.mixingMethod == CraftingType.COMBINE || this.mixingMethod == CraftingType.ACOMBINE || this.mixingMethod == CraftingType.JEWELRY ) &&
 		     ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore()  ) )
 		{
 			int pasteNeeded = this.concoction.getMeatPasteNeeded(

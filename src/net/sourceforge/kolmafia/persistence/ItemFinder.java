@@ -242,7 +242,8 @@ public class ItemFinder
 				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) != CraftingType.COMBINE );
+				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId );
+				ItemFinder.conditionalRemove( nameIterator, mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY );
 				break;
 			case ItemFinder.EQUIP_MATCH:
 				switch ( useType )

@@ -1258,7 +1258,7 @@ public class Concoction
 
 		int create = quantityNeeded - this.initial;
 		if ( create <= 0 ||
-		     ( this.mixingMethod != CraftingType.COMBINE && this.mixingMethod != CraftingType.ACOMBINE ) ||
+		     ( this.mixingMethod != CraftingType.COMBINE && this.mixingMethod != CraftingType.ACOMBINE && this.mixingMethod != CraftingType.JEWELRY ) ||
 		     ( KoLCharacter.knollAvailable() && !KoLCharacter.inZombiecore() ) )
 		{
 			return 0;
