@@ -80,7 +80,8 @@ public class UntinkerMenuItem
 				}
 
 				// Otherwise, accept any COMBINE recipe
-				if ( ConcoctionDatabase.getMixingMethod( currentItem ) == CraftingType.COMBINE )
+				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( currentItem );
+				if ( mixMethod == CraftingType.COMBINE || mixMethod == CraftingType.JEWELRY )
 				{
 					untinkerItems.add( currentItem );
 				}

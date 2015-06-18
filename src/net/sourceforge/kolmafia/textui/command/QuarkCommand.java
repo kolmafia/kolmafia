@@ -139,11 +139,11 @@ public class QuarkCommand
 
 	private boolean isPasteable( final AdventureResult item )
 	{
-		Iterator i = ConcoctionDatabase.getKnownUses( item ).iterator();
-		while ( i.hasNext() )
+		for ( AdventureResult use : ConcoctionDatabase.getKnownUses( item ) )
 		{
-			AdventureResult use = (AdventureResult) i.next();
-			if ( ConcoctionDatabase.getMixingMethod( use.getItemId() ) == CraftingType.COMBINE )
+			CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( use.getItemId() );
+			// Should CraftingType.ACOMBINE be included?
+			if ( mixMethod == CraftingType.COMBINE || mixMethod == CraftingType.JEWELRY )
 			{
 				return true;
 			}
