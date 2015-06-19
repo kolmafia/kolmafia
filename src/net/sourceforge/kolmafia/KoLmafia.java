@@ -883,8 +883,8 @@ public abstract class KoLmafia
 
 		InventoryManager.checkBuddyBjorn();
 
-		// If we have a Crimbo Shrub, check its decorations
-		FamiliarData.checkShrub();
+		// Refresh familiar stuff
+		FamiliarData.reset();
 
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();

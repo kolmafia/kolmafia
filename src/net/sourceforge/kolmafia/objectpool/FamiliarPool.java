@@ -114,4 +114,6 @@ public class FamiliarPool
 	public static final int CRIMBO_SHRUB = 189;
 	public static final int GOLDEN_MONKEY = 192;
 	public static final int ADVENTUROUS_SPELUNKER = 193;
+	public static final int PUCK_MAN = 196;
+	public static final int MS_PUCK_MAN = 197;
 }
