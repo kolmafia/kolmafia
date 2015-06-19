@@ -1943,6 +1943,27 @@ public class KoLAdventure
 			MafiaState.PENDING
 		},
 
+		// The forest is silent, those who stalked it having themselves been stalked.
+		{
+			"The forest is silent",
+			"The Dreadsylvanian Woods boss has been defeated.",
+			MafiaState.PENDING
+		},
+
+		// The village is now a ghost town in the figurative sense, rather than the literal.
+		{
+			"The village is now a ghost town",
+			"The Dreadsylvanian Village boss has been defeated.",
+			MafiaState.PENDING
+		},
+
+		// Look upon this castle, ye mighty, and despair, because the king is dead, baby.
+		{
+			"the king is dead, baby",
+			"The Dreadsylvanian Castle boss has been defeated.",
+			MafiaState.PENDING
+		},
+
 		// This part of the city is awfully unremarkable, now that
 		// you've cleared that ancient protector spirit out.
 		{
