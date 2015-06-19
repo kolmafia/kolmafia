@@ -422,30 +422,6 @@ public class CharPaneDecorator
 		StringBuffer buffer = new StringBuffer();
 		switch ( familiar.getId() )
 		{
-		case FamiliarPool.TRON:
-			buffer.append( Preferences.getString( "_tokenDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.SANDWORM:
-			buffer.append( Preferences.getString( "_aguaDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.LLAMA:
-			buffer.append( Preferences.getString( "_gongDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.PIXIE:
-			buffer.append( Preferences.getString( "_absintheDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.BADGER:
-			buffer.append( Preferences.getString( "_astralDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
 
 		case FamiliarPool.BANDER:
 			if ( !KoLCharacter.inBigcore() )
@@ -578,6 +554,7 @@ public class CharPaneDecorator
 		case FamiliarPool.HAPPY_MEDIUM:
 			buffer.append( Preferences.getString( "_mediumSiphons" ) );
 			buffer.append( " siphon" );
+			
 			if ( Preferences.getInteger( "_mediumSiphons" ) != 1 )
 			{
 				buffer.append( "s" );
@@ -587,31 +564,6 @@ public class CharPaneDecorator
 		case FamiliarPool.JACK_IN_THE_BOX:
 			buffer.append( Preferences.getString( "_jitbCharge" ) );
 			buffer.append( "/2 charges" );
-			return buffer;
-
-		case FamiliarPool.ALIEN:
-			buffer.append( Preferences.getString( "_transponderDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.GROOSE:
-			buffer.append( Preferences.getString( "_grooseDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.KLOOP:
-			buffer.append( Preferences.getString( "_kloopDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.CARNIE:
-			buffer.append( Preferences.getString( "_carnieCandyDrops" ) );
-			buffer.append( "/10" );
-			return buffer;
-
-		case FamiliarPool.UNCONSCIOUS_COLLECTIVE:
-			buffer.append( Preferences.getString( "_dreamJarDrops" ) );
-			buffer.append( "/5" );
 			return buffer;
 
 		case FamiliarPool.ANGRY_JUNG_MAN:
@@ -656,21 +608,6 @@ public class CharPaneDecorator
 			}
 			return buffer;
 
-		case FamiliarPool.GRIM_BROTHER:
-			buffer.append( Preferences.getString( "_grimFairyTaleDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.GALLOPING_GRILL:
-			buffer.append( Preferences.getString( "_hotAshesDrops" ) );
-			buffer.append( "/5" );
-			return buffer;
-
-		case FamiliarPool.FIST_TURKEY:
-			buffer.append( Preferences.getString( "_turkeyBooze" ) );
-			buffer.append( "/5" );
-			return buffer;
-
 		case FamiliarPool.CRIMBO_SHRUB:
 			if ( KoLCharacter.getHippyStoneBroken() && Preferences.getString( "shrubGarland" ).equals( "PvP" ) )
 			{
@@ -679,17 +616,17 @@ public class CharPaneDecorator
 				return buffer;
 			}
 			return null;
-
-		case FamiliarPool.GOLDEN_MONKEY:
-			buffer.append( Preferences.getString( "_powderedGoldDrops" ) );
-			buffer.append( "/5" );
+		}
+		
+		if( familiar.hasDrop() )
+		{
+			buffer.append( familiar.dropsToday() );
+			if( familiar.dropDailyCap() != -1 )
+			{
+				buffer.append( "/" );
+				buffer.append( familiar.dropDailyCap() );
+			}
 			return buffer;
-
-		case FamiliarPool.ADVENTUROUS_SPELUNKER:
-			buffer.append( Preferences.getString( "_spelunkingTalesDrops" ) );
-			buffer.append( "/1" );
-			return buffer;
-
 		}
 
 		return null;

@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -270,7 +271,7 @@ public class DailyDeedsPanel
 	private static final int getVersion( String deed )
 	{
 		// Add a method to return the proper version for the deed given.
-		// i.e. if( deed.equals( "Breakfast" ) ) return 1;
+		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
 		if ( deed.equals( "Chateau Desk" ) )
 			return 9;
@@ -2592,11 +2593,11 @@ public class DailyDeedsPanel
 				maxSummons = 10;
 			}
 			String text = "Fights: ";
-			if( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
-			if( bf && ( hf || sc ) ) text = text + ", ";
-			if( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
-			if( hf && sc ) text = text + ", ";
-			if( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
+			if ( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
+			if ( bf && ( hf || sc ) ) text = text + ", ";
+			if ( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
+			if ( hf && sc ) text = text + ", ";
+			if ( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
 			this.setText( text );
 		}
 	}
@@ -2633,62 +2634,62 @@ public class DailyDeedsPanel
 			if ( !shown ) return;
 			boolean needComma = false;
 			String text = "Runaways: ";
-			if( hba && !hbo )
+			if ( hba && !hbo )
 			{
 				text += Preferences.getInteger( "_banderRunaways" ) + " bandersnatch";
 				needComma = true;
 			}
-			if( hba && hbo )
+			if ( hba && hbo )
 			{
 				text += Preferences.getInteger( "_banderRunaways" ) + " bandersnatch+boots" ;
 				needComma = true;
 			}
-			if( hbo && !hba )
+			if ( hbo && !hba )
 			{
 				text += Preferences.getInteger( "_banderRunaways" ) + " stomping boots" ;
 				needComma = true;
 			}
-			if( needComma && ( run || gp || nr || pp ) ) 
+			if ( needComma && ( run || gp || nr || pp ) ) 
 			{
 				text += ", ";
 				needComma = false;
 			}
-			if( run && !nr && !gp && !pp )
+			if ( run && !nr && !gp && !pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " navel ring";
 				needComma = true;
 			}
-			if( nr && !gp && !pp )
+			if ( nr && !gp && !pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " navel ring";
 				needComma = true;
 			}
-			if( nr && !gp && pp )
+			if ( nr && !gp && pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " navel+parasol";
 				needComma = true;
 			}
-			if( nr && gp && !pp )
+			if ( nr && gp && !pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " gap+navel";
 				needComma = true;
 			}
-			if( nr && gp && pp )
+			if ( nr && gp && pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " gap+navel+parasol";
 				needComma = true;
 			}
-			if( !nr && gp && !pp )
+			if ( !nr && gp && !pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " gap pants";
 				needComma = true;
 			}
-			if( !nr && gp && pp )
+			if ( !nr && gp && pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " gap+parasol";
 				needComma = true;
 			}
-			if( !nr && !gp && pp )
+			if ( !nr && !gp && pp )
 			{
 				text += Preferences.getInteger( "_navelRunaways" ) + " peppermint parasol";
 				needComma = true;
@@ -2712,178 +2713,81 @@ public class DailyDeedsPanel
 	{
 		public DropsDaily()
 		{
-			this.addListener( "_absintheDrops" );
-			this.addListener( "_aguaDrops" );
-			this.addListener( "_astralDrops" );
+			for ( FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS )
+			{
+				this.addListener( info.dropTracker );
+			}
 			this.addListener( "_carrotNoseDrops" );
-			this.addListener( "_gongDrops" );
-			this.addListener( "_grooseDrops" );
-			this.addListener( "_kloopDrops" );
 			this.addListener( "_mediumSiphons" );
 			this.addListener( "_pieDrops" );
 			this.addListener( "_piePartsCount" );
-			this.addListener( "_jungDrops" );
-			this.addListener( "_dreamJarDrops" );
 			this.addListener( "_bootStomps" );
 			this.addListener( "bootsCharged" );
-			this.addListener( "_tokenDrops" );
-			this.addListener( "_transponderDrops" );
-			this.addListener( "_grimstoneMaskDrops" );
 			this.addListener( "_grimstoneMaskDropsCrown" );
-			this.addListener( "_grimFairyTaleDrops" );
 			this.addListener( "_grimFairyTaleDropsCrown" );
-			this.addListener( "_hotAshesDrops" );
-			this.addListener( "_turkeyBooze" );
-			this.addListener( "_spelunkingTalesDrops" );
-			this.addListener( "_powderedGoldDrops" );
 			this.addListener( "(character)" );
 			this.addItem( ItemPool.SNOW_SUIT );
 			this.addLabel( "" );
 		}
-
+		
+		private int count;
+		private boolean shown;
+		private static final int dropsPerLine = 5;
+		private void addDropCounter(StringBuilder buffer, String text)
+		{
+			if ( count >= dropsPerLine )
+			{
+				buffer.append( "<br>" );
+				count = 0;
+			}
+			
+			if ( count == 0 )
+			{
+				buffer.append( "Drops: " );
+			}
+			else if ( count < dropsPerLine )
+			{
+				buffer.append( ", " );
+			}
+			buffer.append( text );
+			++count;
+			shown = true;
+		}
+		
 		@Override
 		public void update()
 		{
 			StringBuilder buffer = new StringBuilder();
-			boolean shown = false;
-			int count = 0;
+			count = 0;
+			shown = false;
 
-			buffer.append( "<html>Drops: " );
-
-			FamiliarData pixie = KoLCharacter.findFamiliar( FamiliarPool.PIXIE );
-			int absintheDrops = Preferences.getInteger( "_absintheDrops" );
-			if ( ( pixie != null && pixie.canEquip() ) || absintheDrops > 0  )
+			buffer.append( "<html>" );
+			
+			for ( FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS )
 			{
-				if ( count >= 5 )
+				FamiliarData fam = KoLCharacter.findFamiliar( info.id );
+				if ( fam != null && fam.canEquip() )
 				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
+					StringBuilder addition = new StringBuilder();
+					int drops = info.dropsToday();
+					addition.append(drops);
+					if ( info.dailyCap != -1 )
+					{
+						addition.append( "/" );
+						addition.append( info.dailyCap );
+					}
+					addition.append( " " );
+					addition.append( info.dropName );
+					addDropCounter( buffer, addition.toString() );
 				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( absintheDrops );
-				buffer.append( " absinthe" );
-				shown = true;
-				count++;
 			}
 
-			FamiliarData sandworm = KoLCharacter.findFamiliar( FamiliarPool.SANDWORM );
-			int aguaDrops = Preferences.getInteger( "_aguaDrops" );
-			if ( (sandworm != null && sandworm.canEquip() ) || aguaDrops > 0  )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( aguaDrops );
-				buffer.append( " agua" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData badger = KoLCharacter.findFamiliar( FamiliarPool.BADGER );
-			int badgerDrops = Preferences.getInteger( "_astralDrops" );
-			if ( ( badger != null && badger.canEquip() ) || badgerDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( badgerDrops );
-				buffer.append( " astral" );
-				shown = true;
-				count++;
-			}
-
-			boolean snowsuit = InventoryManager.getCount( ItemPool.SNOW_SUIT ) > 0
-				|| KoLCharacter.hasEquipped( DailyDeedsPanel.SNOW_SUIT );
+			boolean snowsuit = InventoryManager.getCount( ItemPool.SNOW_SUIT ) > 0 ||
+				KoLCharacter.hasEquipped( DailyDeedsPanel.SNOW_SUIT );
 			int noseDrops = Preferences.getInteger( "_carrotNoseDrops" );
 			if ( snowsuit || noseDrops > 0 )
 			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( noseDrops );
-				buffer.append( " carrot nose" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData kloop = KoLCharacter.findFamiliar( FamiliarPool.KLOOP );
-			int kloopDrops = Preferences.getInteger( "_kloopDrops" );
-			if ( ( kloop != null && kloop.canEquip() ) || kloopDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( kloopDrops );
-				buffer.append( " folio" );
-				if ( kloopDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData llama = KoLCharacter.findFamiliar( FamiliarPool.LLAMA );
-			int gongDrops = Preferences.getInteger( "_gongDrops" );
-			if ( ( llama != null && llama.canEquip() ) || gongDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( gongDrops );
-				buffer.append( " gong" );
-				if ( gongDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData groose = KoLCharacter.findFamiliar( FamiliarPool.GROOSE );
-			int grooseDrops = Preferences.getInteger( "_grooseDrops" );
-			if ( ( groose != null && groose.canEquip() ) || grooseDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( grooseDrops );
-				buffer.append( " grease" );
-				shown = true;
-				count++;
+				addDropCounter( buffer, String.valueOf( noseDrops ) + " carrot nose" );
 			}
 
 			FamiliarData grinder = KoLCharacter.findFamiliar( FamiliarPool.GRINDER );
@@ -2891,26 +2795,18 @@ public class DailyDeedsPanel
 
 			if ( grinder != null && ( grinder.canEquip() || pieDrops > 0 ) )
 			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( pieDrops );
+				StringBuilder addition = new StringBuilder();
+				addition.append( pieDrops );
 				if ( pieDrops == 1 )
 				{
-					buffer.append( " pie (" );
+					addition.append( " pie (" );
 				}
 				else
 				{
-					buffer.append( " pies (" );
+					addition.append( " pies (" );
 				}
-				buffer.append( Preferences.getString( "_piePartsCount" ) );
-				buffer.append( "/" );
+				addition.append( Preferences.getString( "_piePartsCount" ) );
+				addition.append( "/" );
 				int drops = Preferences.getInteger( "_pieDrops" );
 				int need;
 				if ( drops < 1 )
@@ -2923,253 +2819,32 @@ public class DailyDeedsPanel
 					need = 5 + ( 10 + drops ) * ( drops + 1 ) / 2;
 					need = Math.min( need, 50 );
 					AdventureResult item = grinder.getItem();
-					if( item != null && item.getItemId() == ItemPool.MICROWAVE_STOGIE )
+					if ( item != null && item.getItemId() == ItemPool.MICROWAVE_STOGIE )
 					{
 						need -= 5;
 					}
 				}
-				buffer.append( String.valueOf( need ) );
-				buffer.append( ")" );
-				shown = true;
-				count++;
+				addition.append( String.valueOf( need ) );
+				addition.append( ")" );
+				addDropCounter( buffer, addition.toString() );
 			}
 
 			FamiliarData hm = KoLCharacter.findFamiliar( FamiliarPool.HAPPY_MEDIUM );
 			int mediumSiphons = Preferences.getInteger( "_mediumSiphons" );
 			if ( ( hm != null && hm.canEquip() ) || mediumSiphons > 0 )
 			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( mediumSiphons );
-				buffer.append( " siphon" );
-				if ( mediumSiphons != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
+				addDropCounter( buffer, String.valueOf( mediumSiphons ) + " siphon" + ( mediumSiphons != 1 ? "s" : "" ) );
 			}
 
 			FamiliarData boots = KoLCharacter.findFamiliar( FamiliarPool.BOOTS );
 			if ( boots != null && boots.canEquip() )
 			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( Preferences.getString( "_bootStomps" ) );
-				buffer.append( " stomp" );
-				if ( Preferences.getInteger( "_bootStomps" ) != 1 ) buffer.append( "s" );
-				if ( Preferences.getBoolean( "bootsCharged" ) ) buffer.append( " (C)" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData tron = KoLCharacter.findFamiliar( FamiliarPool.TRON );
-			int tokenDrops = Preferences.getInteger( "_tokenDrops" );
-			if ( ( tron != null && tron.canEquip() ) || tokenDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( tokenDrops );
-				buffer.append( " token" );
-				if ( tokenDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData alien = KoLCharacter.findFamiliar( FamiliarPool.ALIEN );
-			int alienDrops = Preferences.getInteger( "_transponderDrops" );
-			if ( ( alien != null && alien.canEquip() ) || alienDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( alienDrops );
-				buffer.append( " transponder" );
-				if ( alienDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData collective = KoLCharacter.findFamiliar( FamiliarPool.UNCONSCIOUS_COLLECTIVE );
-			int collectiveDrops = Preferences.getInteger( "_dreamJarDrops" );
-			if ( ( collective != null && collective.canEquip() ) || collectiveDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( collectiveDrops );
-				buffer.append( " dream jar" );
-				if ( collectiveDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData jung = KoLCharacter.findFamiliar( FamiliarPool.ANGRY_JUNG_MAN );
-			int jungDrops = Preferences.getInteger( "_jungDrops" );
-			if ( ( jung != null && jung.canEquip() ) || jungDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( jungDrops );
-				buffer.append( "/1 psycho jar" );
-				if ( jungDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData grimBrother = KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER );
-			int grimFairyDrops = Preferences.getInteger( "_grimFairyTaleDrops" );
-			if ( ( grimBrother != null && grimBrother.canEquip() ) || grimFairyDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( grimFairyDrops );
-				buffer.append( "/5 fairy tale" );
-				if ( grimFairyDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData grimGolem = KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM );
-			int grimMaskDrops = Preferences.getInteger( "_grimstoneMaskDrops" );
-			if ( ( grimGolem != null && grimGolem.canEquip() ) || grimMaskDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( grimMaskDrops );
-				buffer.append( "/1 grim mask" );
-				if ( grimMaskDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData gallopingGrill = KoLCharacter.findFamiliar( FamiliarPool.GALLOPING_GRILL );
-			int grillDrops = Preferences.getInteger( "_hotAshesDrops" );
-			if ( ( gallopingGrill != null && gallopingGrill.canEquip() ) || grillDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( grillDrops );
-				buffer.append( " hot ashes" );
-				if ( grillDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData fistTurkey = KoLCharacter.findFamiliar( FamiliarPool.FIST_TURKEY );
-			int turkeyDrops = Preferences.getInteger( "_turkeyBooze" );
-			if ( ( fistTurkey != null && fistTurkey.canEquip() ) || turkeyDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( turkeyDrops );
-				buffer.append( " turkey booze" );
-				if ( turkeyDrops != 1 ) buffer.append( "s" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData goldenMonkey = KoLCharacter.findFamiliar( FamiliarPool.GOLDEN_MONKEY );
-			int goldenMonkeyDrops = Preferences.getInteger( "_powderedGoldDrops" );
-			if ( ( goldenMonkey != null && goldenMonkey.canEquip() ) || goldenMonkeyDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( goldenMonkeyDrops );
-				buffer.append( " powdered gold" );
-				shown = true;
-				count++;
-			}
-
-			FamiliarData spelunker = KoLCharacter.findFamiliar( FamiliarPool.ADVENTUROUS_SPELUNKER );
-			int spelunkerDrops = Preferences.getInteger( "_spelunkingTalesDrops" );
-			if ( ( spelunker != null && spelunker.canEquip() ) || spelunkerDrops > 0 )
-			{
-				if ( count >= 5 )
-				{
-					buffer.append( "<br>Drops: " );
-					count = 0;
-				}
-				else if ( shown )
-				{
-					buffer.append( ", " );
-				}
-				buffer.append( spelunkerDrops );
-				buffer.append( " tales of spelunking" );
-				shown = true;
-				count++;
+				StringBuilder addition = new StringBuilder();
+				addition.append( Preferences.getString( "_bootStomps" ) );
+				addition.append( " stomp" );
+				if ( Preferences.getInteger( "_bootStomps" ) != 1 ) addition.append( "s" );
+				if ( Preferences.getBoolean( "bootsCharged" ) ) addition.append( " (C)" );
+				addDropCounter( buffer, addition.toString() );
 			}
 
 			buffer.append( "</html>" );
@@ -3212,17 +2887,17 @@ public class DailyDeedsPanel
 			FamiliarData gnome = KoLCharacter.findFamiliar( FamiliarPool.REAGNIMATED_GNOME );
 			boolean hf6 = gnome != null && gnome.canEquip() ;
 			String text = "Advs: ";
-			if( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
-			if( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
-			if( hf2 ) text = text + Preferences.getInteger( "_hareAdv" ) + " hare";
-			if( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
-			if( hf3 ) text = text + Preferences.getInteger( "_riftletAdv" ) + " riftlet";
-			if( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
-			if( hf4 ) text = text + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet";
-			if( hf4 && ( hf5 || hf6 ) ) text = text + ", ";
-			if( hf5 ) text = text + Preferences.getInteger( "_vmaskAdv" ) + " V mask";
-			if( hf5 && hf6 ) text = text + ", ";
-			if( hf6 ) text = text + Preferences.getInteger( "_gnomeAdv" ) + " gnome";
+			if ( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
+			if ( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf2 ) text = text + Preferences.getInteger( "_hareAdv" ) + " hare";
+			if ( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf3 ) text = text + Preferences.getInteger( "_riftletAdv" ) + " riftlet";
+			if ( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf4 ) text = text + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet";
+			if ( hf4 && ( hf5 || hf6 ) ) text = text + ", ";
+			if ( hf5 ) text = text + Preferences.getInteger( "_vmaskAdv" ) + " V mask";
+			if ( hf5 && hf6 ) text = text + ", ";
+			if ( hf6 ) text = text + Preferences.getInteger( "_gnomeAdv" ) + " gnome";
 			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 );
 			this.setText( text );
 		}

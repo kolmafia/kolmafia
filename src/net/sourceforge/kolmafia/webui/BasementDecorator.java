@@ -176,43 +176,13 @@ public class BasementDecorator
 			case FamiliarPool.SOMBRERO:
 				useful = !KoLCharacter.getFamiliarList().contains( BasementRequest.SANDWORM );
 				break;
-			case FamiliarPool.BADGER:
-				useful = Preferences.getInteger( "_astralDrops" ) < 5;
-				break;
-			case FamiliarPool.PIXIE:
-				useful = Preferences.getInteger( "_absintheDrops" ) < 5;
-				break;
-			case FamiliarPool.LLAMA:
-				useful = Preferences.getInteger( "_gongDrops" ) < 5;
-				break;
-			case FamiliarPool.TRON:
-				useful = Preferences.getInteger( "_tokenDrops" ) < 5;
-				break;
-			case FamiliarPool.ALIEN:
-				useful = Preferences.getInteger( "_transponderDrops" ) < 5;
-				break;
-			case FamiliarPool.GROOSE:
-				useful = Preferences.getInteger( "_grooseDrops" ) < 5;
-				break;
-			case FamiliarPool.KLOOP:
-				useful = Preferences.getInteger( "_kloopDrops" ) < 5;
-				break;
-			case FamiliarPool.UNCONSCIOUS_COLLECTIVE:
-				useful = Preferences.getInteger( "_dreamJarDrops" ) < 5;
-				break;
-			case FamiliarPool.ANGRY_JUNG_MAN:
-				useful = Preferences.getInteger( "_jungDrops" ) < 1;
-				break;
-			case FamiliarPool.GALLOPING_GRILL:
-				useful = Preferences.getInteger( "_hotAshesDrops" ) < 5;
-				break;
-			case FamiliarPool.GOLDEN_MONKEY:
-				useful = Preferences.getInteger( "_powderedGoldDrops" ) < 5;
-				break;
-			case FamiliarPool.ADVENTUROUS_SPELUNKER:
-				useful = Preferences.getInteger( "_spelunkingTalesDrops" ) < 1;
-				break;
 			}
+			
+			if ( fam.hasDrop() )
+			{
+				useful = fam.dropsToday() < fam.dropDailyCap();
+			}
+			
 			if ( !useful ) continue;
 
 			changes.append( "<option value=\"familiar " );
