@@ -338,14 +338,14 @@ public class Preferences
 		{
 			current += delta;
 
+			if ( mod && max > 0 && current >= max )
+			{
+				current %= max;
+			}
+
 			if ( max > 0 && current > max )
 			{
 				current = max;
-			}
-
-			if ( mod && current >= max )
-			{
-				current %= max;
 			}
 
 			Preferences.setInteger( name, current );
