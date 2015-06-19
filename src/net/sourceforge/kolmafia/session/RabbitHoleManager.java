@@ -1131,9 +1131,9 @@ public abstract class RabbitHoleManager
 			newSquare = moveSquare;
 			action = "-";
 			// Verify that KoL recognizes that we cleared the board
-			if ( responseText.indexOf( "queen cookie" ) != -1 )
+			if ( responseText.contains( "queen cookie" ) )
 			{
-				Preferences.increment( "chessboardsCleared", 1 );
+				Preferences.increment( "chessboardsCleared", 1, 50, false );
 			}
 		}
 
