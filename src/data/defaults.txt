@@ -1212,6 +1212,7 @@ user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
 user	_mediumSiphons	0
+user	_miniMartiniDrops	0
 user	_momFoodReceived	false
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100

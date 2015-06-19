@@ -2229,6 +2229,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.MINI_MARTINI:
+			if ( combatResults )
+			{
+				Preferences.increment( "_miniMartiniDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:

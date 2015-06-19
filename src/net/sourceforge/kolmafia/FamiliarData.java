@@ -784,6 +784,7 @@ public class FamiliarData
 		new DropInfo( FamiliarPool.GOLDEN_MONKEY, ItemPool.POWDERED_GOLD, "powdered gold", "_powderedGoldDrops", 5 ),
 		new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales of spelunking", "_spelunkingTalesDrops", 1 ),
 		new DropInfo( FamiliarPool.CARNIE, -1, "cotton candy", "_carnieCandyDrops", 10 ),
+		new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ),
 	};
 
 	public static DropInfo getDropInfo( int id )
