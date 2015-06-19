@@ -459,11 +459,11 @@ public class ResultProcessor
 		// Skip skill acquisition - it's followed by a boldface
 		// which makes the parser think it's found an item.
 
-		if ( lastToken.indexOf( "You acquire a skill" ) != -1 ||
-		     lastToken.indexOf( "You learn a skill" ) != -1 ||
-		     lastToken.indexOf( "You gain a skill" ) != -1 ||
-		     lastToken.indexOf( "You have learned a skill" ) != -1 ||
-		     lastToken.indexOf( "You acquire a new skill" ) != -1 )
+		if ( lastToken.contains( "You acquire a skill" ) ||
+		     lastToken.contains( "You learn a skill" ) ||
+		     lastToken.contains( "You gain a skill" ) ||
+		     lastToken.contains( "You have learned a skill" ) ||
+		     lastToken.contains( "You acquire a new skill" ) )
 		{
 			return false;
 		}
@@ -2236,6 +2236,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.POWER_PILL:
+			if ( combatResults )
+			{
+				Preferences.increment( "_powerPillDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:
@@ -2899,8 +2906,8 @@ public class ResultProcessor
 		//
 		// Thanks for the larva, Adventurer. We'll put this to good use.
 
-		if ( responseText.indexOf( "Thanks for the larva, Adventurer" ) != -1 &&
-		     responseText.indexOf( "You gain" ) == -1 )
+		if ( responseText.contains( "Thanks for the larva, Adventurer" ) &&
+		     !responseText.contains( "You gain" ) )
 		{
 			KoLCharacter.makeCharitableDonation( 500 );
 			return;
@@ -2912,11 +2919,11 @@ public class ResultProcessor
 		// You take the Meat into town and drop it in the donation slot
 		// at the orphanage. You know, the one next to the library.
 
-		if ( responseText.indexOf( "the one next to the library" ) != -1 )
+		if ( responseText.contains( "the one next to the library" ) )
 		{
 			int donation =
-				urlString.indexOf( "place=ocg" ) != -1 ? 500 :
-				urlString.indexOf( "place=scg" ) != -1 ? 1000 :
+				urlString.contains( "place=ocg" ) ? 500 :
+				urlString.contains( "place=scg" ) ? 1000 :
 				0;
 			KoLCharacter.makeCharitableDonation( donation );
 			return;
@@ -2927,7 +2934,7 @@ public class ResultProcessor
 		// The furs you divide up between yourself and the Tr4pz0r, the
 		// Meat you divide up between the Tr4pz0r and the needy.
 
-		if ( responseText.indexOf( "you divide up between the Tr4pz0r and the needy" ) != -1 )
+		if ( responseText.contains( "you divide up between the Tr4pz0r and the needy" ) )
 		{
 			KoLCharacter.makeCharitableDonation( 5000 );
 			return;

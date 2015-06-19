@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -152,6 +153,12 @@ public class FamiliarData
 		this.favorite = itemData.contains( "[unfavorite]" );
 	}
 
+	public static final void reset()
+	{
+		FamiliarData.loadDropFamiliars();
+		FamiliarData.checkShrub();
+	}
+
 	public final boolean canEquip()
 	{
 		// Familiars cannot be equipped by most Avatar classes
@@ -198,7 +205,7 @@ public class FamiliarData
 
 			experienceModifier -= itemModifier;
 
-			if ( responseText.indexOf( "offer some words of encouragement and support" ) != -1 )
+			if ( responseText.contains( "offer some words of encouragement and support" ) )
 			{
 				experienceModifier += 3;
 			}
@@ -347,7 +354,7 @@ public class FamiliarData
 
 	private static final AdventureResult parseFamiliarItem( final int id, final String text )
 	{
-		if ( text.indexOf( "<img" ) == -1 )
+		if ( !text.contains( "<img" ) )
 		{
 			return EquipmentRequest.UNEQUIP;
 		}
@@ -765,27 +772,33 @@ public class FamiliarData
 		}
 	}
 
-	public static final DropInfo [] DROP_FAMILIARS = new DropInfo[]
+	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
+
+	private static final void loadDropFamiliars()
 	{
-		new DropInfo( FamiliarPool.PIXIE, ItemPool.ABSINTHE, "absinthe", "_absintheDrops", 5 ),
-		new DropInfo( FamiliarPool.SANDWORM, ItemPool.AGUA_DE_VIDA, "agua", "_aguaDrops", 5 ),
-		new DropInfo( FamiliarPool.BADGER, ItemPool.ASTRAL_MUSHROOM, "astral", "_astralDrops", 5 ),
-		new DropInfo( FamiliarPool.KLOOP, ItemPool.DEVILISH_FOLIO, "folio", "_kloopDrops", 5 ),
-		new DropInfo( FamiliarPool.LLAMA, ItemPool.GONG, "gong", "_gongDrops", 5 ),
-		new DropInfo( FamiliarPool.GROOSE, ItemPool.GROOSE_GREASE, "grease", "_grooseDrops", 5 ),
-		new DropInfo( FamiliarPool.TRON, ItemPool.GG_TOKEN, "token", "_tokenDrops", 5 ),
-		new DropInfo( FamiliarPool.ALIEN, ItemPool.TRANSPORTER_TRANSPONDER, "transponder", "_transponderDrops", 5 ),
-		new DropInfo( FamiliarPool.UNCONSCIOUS_COLLECTIVE, ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR, "dream jar", "_dreamJarDrops", 5 ),
-		new DropInfo( FamiliarPool.ANGRY_JUNG_MAN, ItemPool.PSYCHOANALYTIC_JAR, "psycho jar", "_jungDrops", 1 ),
-		new DropInfo( FamiliarPool.GRIM_BROTHER, ItemPool.GRIM_FAIRY_TALE, "fairy tale", "_grimFairyTaleDrops", 5 ),
-		new DropInfo( FamiliarPool.GRIMSTONE_GOLEM, ItemPool.GRIMSTONE_MASK, "grim mask", "_grimstoneMaskDrops", 1 ),
-		new DropInfo( FamiliarPool.GALLOPING_GRILL, ItemPool.HOT_ASHES, "hot ashes", "_hotAshesDrops", 5 ),
-		new DropInfo( FamiliarPool.FIST_TURKEY, -1, "turkey booze", "_turkeyBooze", 5 ),
-		new DropInfo( FamiliarPool.GOLDEN_MONKEY, ItemPool.POWDERED_GOLD, "powdered gold", "_powderedGoldDrops", 5 ),
-		new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales of spelunking", "_spelunkingTalesDrops", 1 ),
-		new DropInfo( FamiliarPool.CARNIE, -1, "cotton candy", "_carnieCandyDrops", 10 ),
-		new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ),
-	};
+		DROP_FAMILIARS.clear();
+
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.PIXIE, ItemPool.ABSINTHE, "absinthe", "_absintheDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.SANDWORM, ItemPool.AGUA_DE_VIDA, "agua", "_aguaDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.BADGER, ItemPool.ASTRAL_MUSHROOM, "astral", "_astralDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.KLOOP, ItemPool.DEVILISH_FOLIO, "folio", "_kloopDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.LLAMA, ItemPool.GONG, "gong", "_gongDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GROOSE, ItemPool.GROOSE_GREASE, "grease", "_grooseDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.TRON, ItemPool.GG_TOKEN, "token", "_tokenDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.ALIEN, ItemPool.TRANSPORTER_TRANSPONDER, "transponder", "_transponderDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.UNCONSCIOUS_COLLECTIVE, ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR, "dream jar", "_dreamJarDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.ANGRY_JUNG_MAN, ItemPool.PSYCHOANALYTIC_JAR, "psycho jar", "_jungDrops", 1 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GRIM_BROTHER, ItemPool.GRIM_FAIRY_TALE, "fairy tale", "_grimFairyTaleDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GRIMSTONE_GOLEM, ItemPool.GRIMSTONE_MASK, "grim mask", "_grimstoneMaskDrops", 1 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GALLOPING_GRILL, ItemPool.HOT_ASHES, "hot ashes", "_hotAshesDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.FIST_TURKEY, -1, "turkey booze", "_turkeyBooze", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GOLDEN_MONKEY, ItemPool.POWDERED_GOLD, "powdered gold", "_powderedGoldDrops", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales of spelunking", "_spelunkingTalesDrops", 1 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.CARNIE, -1, "cotton candy", "_carnieCandyDrops", 10 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MS_PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
+	}
 
 	public static DropInfo getDropInfo( int id )
 	{
@@ -875,6 +888,7 @@ public class FamiliarData
 		return this.id;
 	}
 
+	@Override
 	public int compareTo( final FamiliarData fd )
 	{
 		return this.race.compareToIgnoreCase( fd.race );
