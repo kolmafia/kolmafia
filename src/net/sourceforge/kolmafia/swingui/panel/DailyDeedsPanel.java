@@ -42,6 +42,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -2763,22 +2764,27 @@ public class DailyDeedsPanel
 
 			buffer.append( "<html>" );
 			
+			HashSet<String> dropTrackers = new HashSet<String>();
 			for ( FamiliarData.DropInfo info : FamiliarData.DROP_FAMILIARS )
 			{
-				FamiliarData fam = KoLCharacter.findFamiliar( info.id );
-				if ( fam != null && fam.canEquip() )
+				if ( !dropTrackers.contains( info.dropTracker ) )
 				{
-					StringBuilder addition = new StringBuilder();
-					int drops = info.dropsToday();
-					addition.append(drops);
-					if ( info.dailyCap != -1 )
+					FamiliarData fam = KoLCharacter.findFamiliar( info.id );
+					if ( fam != null && fam.canEquip() )
 					{
-						addition.append( "/" );
-						addition.append( info.dailyCap );
+						dropTrackers.add( info.dropTracker );
+						StringBuilder addition = new StringBuilder();
+						int drops = info.dropsToday();
+						addition.append(drops);
+						if ( info.dailyCap != -1 )
+						{
+							addition.append( "/" );
+							addition.append( info.dailyCap );
+						}
+						addition.append( " " );
+						addition.append( info.dropName );
+						addDropCounter( buffer, addition.toString() );
 					}
-					addition.append( " " );
-					addition.append( info.dropName );
-					addDropCounter( buffer, addition.toString() );
 				}
 			}
 
