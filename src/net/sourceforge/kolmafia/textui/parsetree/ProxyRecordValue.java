@@ -448,6 +448,10 @@ public class ProxyRecordValue
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "name", DataTypes.STRING_TYPE )
 			.add( "charges", DataTypes.INT_TYPE )
+			.add( "drop_name", DataTypes.STRING_TYPE )
+			.add( "drop_item", DataTypes.ITEM_TYPE )
+			.add( "drops_today", DataTypes.INT_TYPE )
+			.add( "drops_limit", DataTypes.INT_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -475,10 +479,33 @@ public class ProxyRecordValue
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? "" : fam.getName();
 		}
+		
 		public int get_charges()
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? 0 : fam.getCharges();
+		}
+		
+		public String get_drop_name()
+		{
+			String dropName = FamiliarData.dropName( (int)this.contentLong );
+			return dropName == null ? "" : dropName;
+		}
+		
+		public Value get_drop_item()
+		{
+			AdventureResult item = FamiliarData.dropItem( (int)this.contentLong );
+			return DataTypes.makeItemValue( item == null ? -1 : item.getItemId(), true );
+		}
+		
+		public int get_drops_today()
+		{
+			return FamiliarData.dropsToday( (int)this.contentLong );
+		}
+		
+		public int get_drops_limit()
+		{
+			return FamiliarData.dropDailyCap( (int)this.contentLong );
 		}
 	}
 

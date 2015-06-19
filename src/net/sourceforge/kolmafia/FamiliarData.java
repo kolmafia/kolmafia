@@ -258,7 +258,7 @@ public class FamiliarData
 		String newTTPref = rawTTPref + delimiter + String.valueOf( this.id ) + ":1";
 		Preferences.setString( "testudinalTeachings", newTTPref );
 	}
-	
+
 	public final void recognizeCombatUse()
 	{
 		int singleFamiliarRun = getSingleFamiliarRun();
@@ -735,6 +735,125 @@ public class FamiliarData
 			return false;
 		}
 		return true;
+	}
+
+	public static class DropInfo
+	{
+		public final int id;
+		public final AdventureResult dropItem;
+		public final String dropName;
+		public final String dropTracker;
+		public final int dailyCap;
+		
+		public DropInfo( int id, int dropId, String dropName, String dropTracker, int dailyCap )
+		{
+			this.id = id;
+			this.dropItem = dropId < 0 ? null : ItemPool.get( dropId );
+			this.dropName = dropName;
+			this.dropTracker = dropTracker;
+			this.dailyCap = dailyCap;
+		}
+		
+		public int dropsToday()
+		{
+			return Preferences.getInteger( this.dropTracker );
+		}
+		
+		public boolean hasDropsLeft()
+		{
+			return this.dropsToday() < this.dailyCap;
+		}
+	}
+
+	public static final DropInfo [] DROP_FAMILIARS = new DropInfo[]
+	{
+		new DropInfo( FamiliarPool.PIXIE, ItemPool.ABSINTHE, "absinthe", "_absintheDrops", 5 ),
+		new DropInfo( FamiliarPool.SANDWORM, ItemPool.AGUA_DE_VIDA, "agua", "_aguaDrops", 5 ),
+		new DropInfo( FamiliarPool.BADGER, ItemPool.ASTRAL_MUSHROOM, "astral", "_astralDrops", 5 ),
+		new DropInfo( FamiliarPool.KLOOP, ItemPool.DEVILISH_FOLIO, "folio", "_kloopDrops", 5 ),
+		new DropInfo( FamiliarPool.LLAMA, ItemPool.GONG, "gong", "_gongDrops", 5 ),
+		new DropInfo( FamiliarPool.GROOSE, ItemPool.GROOSE_GREASE, "grease", "_grooseDrops", 5 ),
+		new DropInfo( FamiliarPool.TRON, ItemPool.GG_TOKEN, "token", "_tokenDrops", 5 ),
+		new DropInfo( FamiliarPool.ALIEN, ItemPool.TRANSPORTER_TRANSPONDER, "transponder", "_transponderDrops", 5 ),
+		new DropInfo( FamiliarPool.UNCONSCIOUS_COLLECTIVE, ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR, "dream jar", "_dreamJarDrops", 5 ),
+		new DropInfo( FamiliarPool.ANGRY_JUNG_MAN, ItemPool.PSYCHOANALYTIC_JAR, "psycho jar", "_jungDrops", 1 ),
+		new DropInfo( FamiliarPool.GRIM_BROTHER, ItemPool.GRIM_FAIRY_TALE, "fairy tale", "_grimFairyTaleDrops", 5 ),
+		new DropInfo( FamiliarPool.GRIMSTONE_GOLEM, ItemPool.GRIMSTONE_MASK, "grim mask", "_grimstoneMaskDrops", 1 ),
+		new DropInfo( FamiliarPool.GALLOPING_GRILL, ItemPool.HOT_ASHES, "hot ashes", "_hotAshesDrops", 5 ),
+		new DropInfo( FamiliarPool.FIST_TURKEY, -1, "turkey booze", "_turkeyBooze", 5 ),
+		new DropInfo( FamiliarPool.GOLDEN_MONKEY, ItemPool.POWDERED_GOLD, "powdered gold", "_powderedGoldDrops", 5 ),
+		new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales of spelunking", "_spelunkingTalesDrops", 1 ),
+		new DropInfo( FamiliarPool.CARNIE, -1, "cotton candy", "_carnieCandyDrops", 10 ),
+	};
+
+	public static DropInfo getDropInfo( int id )
+	{
+		for( DropInfo info : DROP_FAMILIARS )
+		{
+			if( info.id == id )
+				return info;
+		}
+		
+		return null;
+	}
+
+	public DropInfo getDropInfo()
+	{
+		return FamiliarData.getDropInfo( this.id );
+	}
+
+	public static String dropName( int id )
+	{
+		DropInfo drops = FamiliarData.getDropInfo( id );
+		return drops == null ? null : drops.dropName;
+	}
+
+	public String dropName()
+	{
+		return FamiliarData.dropName( this.id );
+	}
+
+	public static AdventureResult dropItem( int id )
+	{
+		DropInfo drops = FamiliarData.getDropInfo( id );
+		return drops == null ? null : drops.dropItem;
+	}
+
+	public AdventureResult dropItem()
+	{
+		return FamiliarData.dropItem( this.id );
+	}
+
+	public static int dropsToday( int id )
+	{
+		DropInfo drops = FamiliarData.getDropInfo( id );
+		return drops == null ? 0 : drops.dropsToday();
+	}
+
+	public int dropsToday()
+	{
+		return FamiliarData.dropsToday( this.id );
+	}
+
+	public static int dropDailyCap( int id )
+	{
+		DropInfo drops = FamiliarData.getDropInfo( id );
+		return drops == null ? 0 : drops.dailyCap;
+	}
+
+	public int dropDailyCap()
+	{
+		return FamiliarData.dropDailyCap( this.id );
+	}
+
+	public static boolean hasDrop( int id )
+	{
+		return FamiliarData.getDropInfo( id ) != null;
+	}
+
+	public boolean hasDrop()
+	{
+		return FamiliarData.hasDrop( this.id );
 	}
 
 	@Override
