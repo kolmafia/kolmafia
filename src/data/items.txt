@@ -8401,5 +8401,5 @@
 8376	yellow submarine	812297540	yellowsub.gif	none	q	0
 8377	pixel lemon	649933692	pixellemon.gif	food	t,d	120
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120
-8379	miniature power pill	721265969	minipowerpill.gif	usable	t,d	120
+8379	miniature power pill	721265969	minipowerpill.gif	multiple	t,d	120
 8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
