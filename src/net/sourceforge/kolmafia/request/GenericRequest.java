@@ -177,6 +177,7 @@ public class GenericRequest
 	private byte[] dataString = null;
 
 	public int responseCode;
+	public String responseMessage;
 	public String responseText;
 	public HttpURLConnection formConnection;
 	public String redirectLocation;
@@ -1569,6 +1570,7 @@ public class GenericRequest
 		// the connection.
 
 		this.responseCode = 0;
+		this.responseMessage = null;
 		this.responseText = null;
 		this.redirectLocation = null;
 		this.redirectMethod = null;
@@ -1819,12 +1821,12 @@ public class GenericRequest
 		catch ( IOException e )
 		{
 			this.responseCode = this.getResponseCode();
-			String responseMessage = this.getResponseMessage();
+			this.responseMessage = this.getResponseMessage();
 
 			if ( this.responseCode != 0 )
 			{
-				String message = "Server returned response code " + this.responseCode + " (" + responseMessage + ") for " + this.baseURLString;
-				RequestLogger.printLine( MafiaState.ERROR, message );
+				String message = "Server returned response code " + this.responseCode + " (" + this.responseMessage + ") for " + this.baseURLString;
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
 			}
 
 			if ( this.shouldUpdateDebugLog() )
