@@ -2262,6 +2262,13 @@ public class KoLAdventure
 			"You can't pass as a pirate.",
 		},
 
+
+		// Already beat Yomama.
+		{
+			"Already beat Yomama",
+			"You already beat Yomama",
+		},
+
 		// The ghost has arrived. Your time has run out!
 		{
 			"The ghost has arrived",
