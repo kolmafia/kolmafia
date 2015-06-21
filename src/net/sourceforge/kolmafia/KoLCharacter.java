@@ -829,7 +829,7 @@ public abstract class KoLCharacter
 	public static final int getSpleenLimit()
 	{
 		int limit = 15;
-		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
 		{
 			return 0;
 		}
@@ -4505,9 +4505,10 @@ public abstract class KoLCharacter
 
 	public static final boolean canPickpocket()
 	{
-		return KoLCharacter.isMoxieClass() ||
-		       KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
-		       KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND );
+		return 	KoLCharacter.limitmode != Limitmode.SPELUNKY &&
+			( KoLCharacter.isMoxieClass() ||
+			  KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
+			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) );
 	}
 
 	public static final boolean isTorsoAware()
