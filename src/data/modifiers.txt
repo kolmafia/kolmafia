@@ -6320,6 +6320,7 @@ Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
 Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
+Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
 Item	powdered donut	Effect: "Powdered", Effect Duration: 5
@@ -6522,6 +6523,7 @@ Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
 Item	oozenog	Effect: "Festive Radiation", Effect Duration: 10
 Item	Oreille Divis&eacute;e brandy	Effect: "Hoity Toity", Effect Duration: 20
 Item	overpowering mushroom wine	Effect: "Boletus Swoletus", Effect Duration: 80
+Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5
 Item	Red Dwarf	Effect: "World's Shortest Giant", Effect Duration: 5
@@ -7494,8 +7496,6 @@ Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 Item	pirate tract	Effect: "Carrrsmic", Effect Duration: 10
-Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 10
-Item	pixel banana	Effect: "Going Ape", Effect Duration: 10
 Item	pixel star	Effect: "Nigh-Invincible", Effect Duration: 30
 # pixellated candy heart: Restores 4-5 HP
 Item	pixellated candy heart	Effect: "Sugar Rush", Effect Duration: 3
