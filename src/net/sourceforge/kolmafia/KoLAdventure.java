@@ -2262,6 +2262,11 @@ public class KoLAdventure
 			"You can't pass as a pirate.",
 		},
 
+		// LOLmec's lair lies lempty. Empty.
+		{
+			"LOLmec's lair lies lempty",
+			"You already beat LOLmec",
+		},
 
 		// Already beat Yomama.
 		{
