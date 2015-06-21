@@ -1423,7 +1423,8 @@ public class Evaluator
 				FamiliarData familiar = (FamiliarData) familiarList.get( f );
 				if ( familiar != null && familiar != FamiliarData.NO_FAMILIAR && familiar.canCarry() && StandardRequest.isAllowed( "Familiars", familiar.getRace() ) &&
 				    !familiar.equals( KoLCharacter.getFamiliar() ) && !this.carriedFamiliars.contains( familiar ) &&
-					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) )
+					!familiar.equals( useCrownFamiliar ) && !familiar.equals( useBjornFamiliar ) && !familiar.equals( bestCarriedFamiliar ) &&
+					!( KoLCharacter.inBeecore() && KoLCharacter.getBeeosity( familiar.getRace() ) > 0 ) )
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					spec.attachment = item;
