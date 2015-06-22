@@ -4993,6 +4993,7 @@ Effect	Nihao You Doin'?	Avatar: "lucky cat statue"
 Effect	Ninja in Waiting	Avatar: "ninja dressed as a waiter"
 Effect	Ninja, Please	Critical Hit Percent: +15, Spell Critical Percent: +15
 Effect	Ninjas Just Tryin' to Get Paid	Avatar: "salary ninja"
+Effect	No Accounting for... Barbarians	Avatar: "Accountant-Barbarian"
 Effect	No Squealer Healer	Avatar: "Quiet Healer"
 Effect	No Vertigo	Initiative: +20
 Effect	No Worries	Experience: +3
@@ -6770,6 +6771,7 @@ Item	bottle of limeade	Effect: "Sugar Rush", Effect Duration: 20
 # bottle of Monsieur Bubble: Restores 45-65 MP
 Item	bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 Item	bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
+Item	bottle of Red-Out	Effect: "No Accounting for... Barbarians", Effect Duration: 50
 Item	bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Duration: 10
 # bottle of Vangoghbitussin: Restores 100 HP and MP and makes you feel weird
 Item	bottle of Vangoghbitussin	Effect: "The 'Tussin", Effect Duration: 5

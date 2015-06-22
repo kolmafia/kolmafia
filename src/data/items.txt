@@ -8338,7 +8338,7 @@
 8313	spicy jerky stick	995309412	owlstix.gif	usable	t,d	5
 8314	costume rental shop	981484328	dollhouse.gif	usable	t,d	5
 8315	muscle oil	270624749	bottle.gif	usable	t,d	5
-8316
+8316	bottle of Red-Out	813026026	blankout.gif	usable	t,d	5
 8317	pickpocket protector	936001492	keycard.gif	usable	t,d	5
 8318	sinister-looking cat	992738186	bkitten.gif	usable	t,d	5
 8319	jazzy cigarette holder	390104882	cornholder.gif	usable	t,d	5
