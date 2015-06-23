@@ -931,6 +931,11 @@ public class SpelunkyRequest
 		// Simplified, since Skills, Elemental Damage, and Bonus
 		// Critical Hits are not applicable
 
+		// There are special combat rules in effect during a Spelunking adventure:
+		//
+		// * You never miss or fumble.
+		// * The monster never misses or fumbles.
+
 		// Player stats
 		int muscle = KoLCharacter.getAdjustedMuscle();
 		int moxie = KoLCharacter.getAdjustedMoxie();
@@ -939,7 +944,7 @@ public class SpelunkyRequest
 		int monsterAttack = MonsterStatusTracker.getMonsterAttack();
 		int monsterDefense = MonsterStatusTracker.getMonsterDefense();
 
-		// Append your expected combat damage
+		// Calculate your expected combat damage
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
 		int itemId = weapon.getItemId();
 
@@ -960,24 +965,27 @@ public class SpelunkyRequest
 		// Weapon power determines damage range: 10% - 20%
 		int power = EquipmentDatabase.getPower( itemId );
 
+		// (Minimum) Damage from your weapon is one tenth the weapon's power
+		int weaponDamageMin = Math.max( Math.round( power / 10.0f ), 1 );
+		int weaponDamageMax = weaponDamageMin * 2;
+
 		// Spelunky weapons can have bonus damage
 
 		int bonusWeaponDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Weapon Damage" );
 		int bonusRangedDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Ranged Damage" );
 		int bonusDamage = bonusWeaponDamage + ( stat == Stat.MOXIE ? bonusRangedDamage : 0 );
 
-		// (Minimum) Damage from your weapon is one tenth the weapon's power
-		int weaponDamageMin = Math.max( Math.round( power / 10.0f ), 1 );
-		int weaponDamageMax = weaponDamageMin * 2;
-
-		// You have a 9% chance of scoring a critical hit, which
-		// doubles the weapon damage component of combat damage
-
 		buffer.append( "<br />Your damage: " );
 		buffer.append( String.valueOf( statDamage + weaponDamageMin + bonusDamage ) );
 		buffer.append( "-" );
 		buffer.append( String.valueOf( statDamage + weaponDamageMax + bonusDamage ) );
-		buffer.append( " (100% hit 0% fumble 9% critical) = " );
+
+		// You have a 9% chance of scoring a critical hit, which
+		// doubles the weapon damage component of combat damage
+
+		// * You never miss or fumble.
+
+		buffer.append( " (9% critical) = " );
 		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMin * 1.09 ) + bonusDamage ) );
 		buffer.append( "-" );
 		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMax * 1.09 ) + bonusDamage ) );
@@ -988,6 +996,15 @@ public class SpelunkyRequest
 		int monsterStatDamage = Math.max( monsterAttack - moxie, 0 );
 		int monsterDamageMin = monsterStatDamage + monsterAttack / 5;
 		int monsterDamageMax = monsterStatDamage + monsterAttack / 4;
+
+		buffer.append( "<br />His damage: " );
+		buffer.append( String.valueOf( monsterDamageMin ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( monsterDamageMax ) );
+
+		// * The monster never misses or fumbles.
+
+		/*
 
 		// Monster Hit chance
 		//
@@ -1003,16 +1020,14 @@ public class SpelunkyRequest
 
 		float monsterHitChance = SpelunkyRequest.hitChance( monsterAttack, moxie, 0.06f, 0.06f );
 
-		buffer.append( "<br />His damage: " );
-		buffer.append( String.valueOf( monsterDamageMin ) );
-		buffer.append( "-" );
-		buffer.append( String.valueOf( monsterDamageMax ) );
 		buffer.append( " (" );
 		buffer.append( String.valueOf( (int)Math.round( 100.0f * monsterHitChance ) ) );
 		buffer.append( "% hit 6% fumble 6% critical) = " );
 		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMin ) ) );
 		buffer.append( "-" );
 		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMax ) ) );
+
+		*/
 	}
 
 	public static final float hitChance( final int attack, final int defense, final float critical, final float fumble )
