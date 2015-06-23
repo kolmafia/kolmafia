@@ -903,11 +903,6 @@ public class SpelunkyRequest
 
 	public static final void decorateSpelunkyExit( final StringBuffer buffer )
 	{
-		if ( InventoryManager.getCount( ItemPool.TALES_OF_SPELUNKING ) < 1 )
-		{
-			return;
-		}
-
 		int index = buffer.indexOf( "<center><A href=main.php>Back to the Main Map</a></center>" );
 		if ( index == -1 )
 		{
