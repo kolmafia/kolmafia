@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
@@ -1518,21 +1519,22 @@ public class RequestEditorKit
 				}
 			}
 		}
+
 		String bounty = BountyDatabase.getNameByMonster( MonsterDatabase.findMonster( monsterName, false ).getName() );
 		if ( bounty != null )
 		{
-			if ( items.isEmpty() )
-			{
-			monsterData.append( "<br />Drops: " );			
-			}
-			else
-			{
-				monsterData.append( ", " );
-			}
-			monsterData.append( bounty ).append( " (bounty)" );
+			monsterData.append( items.isEmpty() ? "<br />Drops: " : ", " );
+			monsterData.append( bounty );
+			monsterData.append( " (bounty)" );
 		}
 
 		IslandDecorator.appendMissingGremlinTool( monsterData );
+
+		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		{
+			SpelunkyRequest.decorateSpelunkyMonster( monsterData );
+		}
+
 		monsterData.append( "</font>" );
 		buffer.insert( insertionPointForData, monsterData.toString() );
 
