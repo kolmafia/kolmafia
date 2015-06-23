@@ -39,11 +39,16 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -919,5 +924,128 @@ public class SpelunkyRequest
 		section.append( "Read another copy of Tales of Spelunking" );
 		section.append( "</a></center><center><p>" );
 		buffer.insert( index, section.toString() );
+	}
+
+	public static final void decorateSpelunkyMonster( final StringBuffer buffer )
+	{
+		// Simplified, since Skills, Elemental Damage, and Bonus
+		// Critical Hits are not applicable
+
+		// Player stats
+		int muscle = KoLCharacter.getAdjustedMuscle();
+		int moxie = KoLCharacter.getAdjustedMoxie();
+
+		// Monster stats
+		int monsterAttack = MonsterStatusTracker.getMonsterAttack();
+		int monsterDefense = MonsterStatusTracker.getMonsterDefense();
+
+		// Append your expected combat damage
+		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+		int itemId = weapon.getItemId();
+
+		// Hit stat is MUSCLE, MOXIE, or NONE, if no weapon equipped.
+		Stat stat = EquipmentDatabase.getWeaponStat( itemId );
+		int statValue =
+			stat == Stat.MUSCLE ?
+			muscle :
+			stat == Stat.MOXIE ?
+			moxie * 3 / 4 :
+			// Can you fight bare-handed in Spelunky?
+			muscle / 4;
+
+		// Damage from your hit stat is the amount that it exceeds
+		// the monster's defense.
+		int statDamage = Math.max( statValue - monsterDefense, 0 );
+
+		// Weapon power determines damage range: 10% - 20%
+		int power = EquipmentDatabase.getPower( itemId );
+
+		// Spelunky weapons can have bonus damage
+
+		int bonusWeaponDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Weapon Damage" );
+		int bonusRangedDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Ranged Damage" );
+		int bonusDamage = bonusWeaponDamage + ( stat == Stat.MOXIE ? bonusRangedDamage : 0 );
+
+		// (Minimum) Damage from your weapon is one tenth the weapon's power
+		int weaponDamageMin = Math.max( Math.round( power / 10.0f ), 1 );
+		int weaponDamageMax = weaponDamageMin * 2;
+
+		// You have a 9% chance of scoring a critical hit, which
+		// doubles the weapon damage component of combat damage
+
+		buffer.append( "<br />Your damage: " );
+		buffer.append( String.valueOf( statDamage + weaponDamageMin + bonusDamage ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( statDamage + weaponDamageMax + bonusDamage ) );
+		buffer.append( " (100% hit 0% fumble 9% critical) = " );
+		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMin * 1.09 ) + bonusDamage ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMax * 1.09 ) + bonusDamage ) );
+
+		// Append monster's expected combat damage
+
+		// Raw monster damage
+		int monsterStatDamage = Math.max( monsterAttack - moxie, 0 );
+		int monsterDamageMin = monsterStatDamage + monsterAttack / 5;
+		int monsterDamageMax = monsterStatDamage + monsterAttack / 4;
+
+		// Monster Hit chance
+		//
+		// http://kolspading.com/forums/viewtopic.php?f=3&t=36
+		//
+		// Monster Hit Chance formula is: hit_successful = ( (Monster Attack - Player Moxie) + rand(0,9) - rand(0,9) >= 0 
+		//
+		// When your Moxie is 9 or more under the Monster's Attack, you will always be hit (unless it fumbles).
+		// When your Moxie is 10 or more above the Monster's Attack, you will never be hit (unless it crits).
+		//
+		// flat 6% chance for a critical.
+		// flat 6% chance for a fumble.
+
+		float monsterHitChance = SpelunkyRequest.hitChance( monsterAttack, moxie, 0.06f, 0.06f );
+
+		buffer.append( "<br />His damage: " );
+		buffer.append( String.valueOf( monsterDamageMin ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( monsterDamageMax ) );
+		buffer.append( " (" );
+		buffer.append( String.valueOf( (int)Math.round( 100.0f * monsterHitChance ) ) );
+		buffer.append( "% hit 6% fumble 6% critical) = " );
+		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMin ) ) );
+		buffer.append( "-" );
+		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMax ) ) );
+	}
+
+	public static final float hitChance( final int attack, final int defense, final float critical, final float fumble )
+	{
+		// The +d10-d10 in the Hit Chance formula means the distribution is not linear.
+		//
+		// According to the Wiki
+		//    http://kol.coldfront.net/thekolwiki/index.php/Monsters#Monster_Hit_Chance
+		// it is the CDF of a triangular distribution
+		//    https://en.wikipedia.org/wiki/Triangular_distribution
+
+		// a = -9, b = 10, c = 0.5, x = defense - attack
+
+		float hitchance = SpelunkyRequest.cdf( -9.0f, 10.0f, 0.5f, defense - attack);
+		return 1.0f - Math.max( Math.min( hitchance, 1.0f - fumble ), critical );
+	}
+
+	private static final float cdf( final float a, final float b, final float c, final float x )
+	{
+		/*
+		  (defun cdf (a b c x)
+		    (cond ((<= x a)
+		           0)
+		          ((<= b x)
+		           1)
+		          ((<= x c)
+		           (/ (* (- x a) (- x a)) (* (- b a) (- c a))))
+		          (t
+		           (- 1 (/ (* (- b x) (- b x)) (* (- b a) (- b c)))))))
+		*/
+		return  x <= a ? 0.0f :
+			b <= x ? 1.0f :
+			x <= c ? ( ( x - a) * ( x - a) ) / ( ( b - a) * ( c - a ) ) :
+			( 1.0f -  ( ( b - x) * ( b - x) ) / ( ( b - a) * ( b - c ) ) );
 	}
 }

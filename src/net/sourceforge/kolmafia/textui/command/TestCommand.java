@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -252,6 +253,26 @@ public class TestCommand
 			}
 			double itemDrop = Modifiers.getNumericModifier( "Familiar", familiar.getRace(), "Item Drop" );
 			RequestLogger.printLine( "Item Drop: " + itemDrop );
+			return;
+		}
+
+		if ( command.equals( "hitchance" ) )
+		{
+			if ( split.length < 5 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test hitchance attack defense critical fumble" );
+				return;
+			}
+
+			int attack = StringUtilities.parseInt( split[ 1 ] );
+			int defense = StringUtilities.parseInt( split[ 2 ] );
+			int critical = StringUtilities.parseInt( split[ 3 ] );
+			int fumble = StringUtilities.parseInt( split[ 4 ] );
+
+			float hitchance = SpelunkyRequest.hitChance( attack, defense, critical / 100.0f, fumble / 100.0f );
+
+			RequestLogger.printLine( "Hit Chance: " + (int)Math.round( 100.0 * hitchance ) );
+
 			return;
 		}
 
