@@ -1402,7 +1402,6 @@ public class ResultProcessor
 		case ItemPool.DESERT_BUS_PASS:
 		case ItemPool.PUMPKIN_CARRIAGE:
 		case ItemPool.TIN_LIZZIE:
-		case ItemPool.YELLOW_SUBMARINE:
 			// Desert beach unlocked
 			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
 			break;
@@ -1415,6 +1414,7 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step3" );
 		case ItemPool.DINGHY_DINGY:
 		case ItemPool.SKIFF:
+		case ItemPool.YELLOW_SUBMARINE:
 			// Island unlocked
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			break;
