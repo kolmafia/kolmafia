@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatParser;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 
+import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -89,7 +90,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -269,7 +269,7 @@ public class TestCommand
 			int critical = StringUtilities.parseInt( split[ 3 ] );
 			int fumble = StringUtilities.parseInt( split[ 4 ] );
 
-			float hitchance = SpelunkyRequest.hitChance( attack, defense, critical / 100.0f, fumble / 100.0f );
+			float hitchance = CombatUtilities.hitChance( attack, defense, critical / 100.0f, fumble / 100.0f );
 
 			RequestLogger.printLine( "Hit Chance: " + (int)Math.round( 100.0 * hitchance ) );
 
