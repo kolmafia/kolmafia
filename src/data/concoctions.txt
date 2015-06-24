@@ -1560,10 +1560,6 @@ porquoise eyebrow ring	JEWEL	porquoise	piercing post
 porquoise necklace	JEWEL	porquoise	necklace chain
 porquoise ring	JEWEL	porquoise	ring setting
 
-rainbow pearl earring	JEWEL	rainbow pearl	piercing post
-rainbow pearl necklace	JEWEL	rainbow pearl	necklace chain
-rainbow pearl ring	JEWEL	rainbow pearl	ring setting
-
 vampire pearl earring	JEWEL	vampire pearl	piercing post
 vampire pearl necklace	JEWEL	vampire pearl	necklace chain
 vampire pearl ring	JEWEL	vampire pearl	ring setting
@@ -1625,6 +1621,10 @@ aquamariner's necklace	EJEWEL	marine aquamarine	long-forgotten necklace
 aquamariner's ring	EJEWEL	marine aquamarine	jam band
 pearl diver's necklace	EJEWEL	giant pearl	long-forgotten necklace
 pearl diver's ring	EJEWEL	giant pearl	jam band
+
+rainbow pearl earring	EJEWEL	rainbow pearl	precious piercing post
+rainbow pearl necklace	EJEWEL	rainbow pearl	heavy necklace chain
+rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 
 # Chef staves made by Rodoric
 
