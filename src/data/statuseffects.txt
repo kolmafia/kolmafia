@@ -1830,7 +1830,7 @@
 1829	Force of Mayo Be With You	blankoutglob.gif	0156026f7efd2eed62873dd94bcbe203	mayosoak
 1830	Tropical Contact High	palmtree.gif	d06f1760057989a93364a6c92d993827	use 1 Kokomo Resort Pass
 1831	Curse of Randomness	dice.gif	ebff503e89d748c3d54cf9ba1fd9d63c
-1832	Pill Power	powerpill.gif	4a93d9928ab62c1801436fc9a633f833	use 1 power pill
+1832	Pill Power	powerpill.gif	4a93d9928ab62c1801436fc9a633f833	use either 1 miniature power pill, 1 power pill
 1833	Nigh-Invincible	pixelstar.gif	7077db973135b6c3b5aa1083723bbef1	use 1 pixel star
 1834	Going Ape	pixelbanana.gif	d74c67715fbce3f871e556c62ff2264c	eat 1 pixel banana
 1835	Analog Drunk	pixelbeer.gif	ef22205adcc0399c1a9ea0be0fdec0e4	drink 1 pixel beer
