@@ -2470,8 +2470,8 @@ ghast iron codpiece	ASMITH	ghast iron ingot	pants kit
 ghast iron Garibaldi	ASMITH	ghast iron ingot	helmet recipe
 ghast iron heater shield	ASMITH	ghast iron ingot	buckler buckle
 deluxe layer cake	COOK	moose chocolate	sheet cake
-Pendant of Gargalesis	JEWEL	heavy necklace chain	mangled finger
-doll-eye amulet	JEWEL	heavy necklace chain	droopy doll eye
+Pendant of Gargalesis	EJEWEL	heavy necklace chain	mangled finger
+doll-eye amulet	EJEWEL	heavy necklace chain	droopy doll eye
 picture of you	COMBINE	ancient oil painting of yourself	ornate picture frame
 
 # Twitch Events
