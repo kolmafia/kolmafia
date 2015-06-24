@@ -398,6 +398,8 @@ jumping bean taco	COOK	pile of jumping beans	taco shell
 Knob shroomkabob	COOK	Knob mushroom	skewer
 Knoll shroomkabob	COOK	Knoll mushroom	skewer
 lihc eye pie	COOK	lihc eye	pie crust
+loaf of soda bread	COOK	wad of dough	soda water
+magical baguette	COOK	magicalness-in-a-can	wad of dough
 menudo	COOK	catgut	spices
 papaya taco	COOK	papaya	taco shell
 pr0n cocktail	COOK	pr0n legs	ketchup
@@ -408,6 +410,7 @@ rat scrapple	COOK	ratgut	spices
 royal jelly taco	COOK	royal jelly	taco shell
 skewered cat appendix	COOK	cat appendix	skewer
 spooky shroomkabob	COOK	spooky mushroom	skewer
+standard-issue cupcake	COOK	glob of enchanted icing	wad of dough
 stuffed spooky mushroom	COOK	spooky mushroom	goat cheese
 tofu casserole	COOK	wad of tofu	Gnollish casserole dish
 tofu taco	COOK	wad of tofu	taco shell

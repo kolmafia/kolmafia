@@ -136,6 +136,7 @@ Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	R
 Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
+Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
 McMillicancuddy's Barn	100	generic duck

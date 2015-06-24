@@ -62,6 +62,7 @@ cornuthaum	85	Mox: 27
 corrosive cowl	200	Mox: 150
 Covers-Your-Head	300	Mox: 250
 crappy Mer-kin mask	200	Mox: 85
+cr&ecirc;epy mask	20	none
 Crimbo hat	100	Mox: 35
 Crown of the Goblin King	70	Mox: 20
 Crown of Thrones	100	none

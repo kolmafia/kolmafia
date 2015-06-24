@@ -1814,7 +1814,7 @@
 1813	Little Mouse Skull Buddy	mouseskull.gif	06cf6eac71000fa3297d0a514e73cf78	use 1 mouse skull
 1814	Extra Backbone	bigspine.gif	7026c30f6df80fffdf3a48f78e24f8d9	use 1 really thick spine
 1815	Almost Cool	brokeshades.gif	9331698654bc9026043261b61727791f	use 1 mostly-broken sunglasses
-1816
+1816	Bread Burps	sodabread.gif	998142e54c1071ab1d4480208f019fbc	eat 1 loaf of soda bread
 1817	Vital	coughsyrup.gif	9655060d265b52316d5cc7eafff3a5a8	use 1 Doc Galaktik's Vitality Serum
 1818	Toxic Vengeance	dizzy.gif	6a88a4aa93f9e0dffd803c4c01464b6a
 1819	How to Scam Tourists	book2.gif	f51578e6c4ff07634d3a21699d5cd38b	use 1 How to Avoid Scams
@@ -1905,3 +1905,4 @@
 1904
 1905
 1906	WAKKA WAKKA WAKKA	puckman.gif	03830365a0602503275dae3707a14277	use 1 yellow pixel potion
+1907	Ready to Snap	gingersnaps.gif	2941e9b9cd23013d28e3b3f9d19e4769	use 1 ginger snaps
