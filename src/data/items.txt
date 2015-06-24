@@ -8188,10 +8188,10 @@
 8163	three-legged pants	582529200	3legpants.gif	pants	t,d	25
 8164	remaindered axe	225226001	headlessaxe.gif	weapon	t,d	25
 8165	low-budget shield	474565785	woodyshield.gif	offhand	t,d	25
-8166
-8167
-8168
-8169
+8166	cr&ecirc;epy mask	630652168	crepemask.gif	hat	t,d	25
+8167	magical baguette	218899360	baguette.gif	food	t,d	25
+8168	glob of enchanted icing	250622195	magicicing.gif	none	t,d	25
+8169	ginger snaps	514737495	gingersnaps.gif	usable	t,d	25
 8170	mostly-broken sunglasses	649978519	brokeshades.gif	usable	t,d	25
 8171	unflavored wine cooler	314851779	winecooler.gif	drink	t,d	25
 8172	carton of snake milk	273705150	milkcarton.gif	food	t,d	25
@@ -8215,15 +8215,16 @@
 8190	Orangemageddon wine cooler	941844173	winecooler.gif	drink	t,d	25
 8191	Breakfast Blast wine cooler	985646556	winecooler.gif	drink	t,d	25
 8192	Citrus Crush wine cooler	755253317	winecooler.gif	drink	t,d	25
-8193
+8193	plain bagel	281035207	jarl_bagel.gif	food	t,d	7	plain bagels
 8194	glob of cream cheese	880907559	blankoutglob.gif	food	t,d	7	globs of cream cheese
 8194
+8195	loaf of soda bread	995601519	sodabread.gif	food	t,d	30
 8196
-8197
+8197	standard-issue cupcake	133905889	ccake1.gif	food	t,d	20
 8198
 8199
-8200
-8201
+8200	popular tart	654591716	poptart.gif	food	t,d	50
+8201	no-handed pie	870363637	0hpie.gif	none	q	0
 8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	usable	t,d	15
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0
 8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0
@@ -8403,3 +8404,6 @@
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120
 8379	miniature power pill	721265969	minipowerpill.gif	multiple	t,d	120
 8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
+8381
+8382
+8383	popular part	172388652	clwidget.gif	none	q	0

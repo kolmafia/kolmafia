@@ -418,6 +418,7 @@ liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
 loaf of alien bread	3	4	good	6-9	0	10-20	0
+loaf of soda bread	3	1	decent	1-1	0	0	0
 Lobster <i>qua</i> Grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
@@ -426,6 +427,7 @@ Lord of the Flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
 Lucky Surprise Egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
 Ludovico Pastaco	2	3	EPIC	12-14	0	0	20-40	40 Tremella Tremens (+40 Item Drop)
 magical ancient serpent roll	3	1		9-14	0	8-16	20-30	50/60 Fishy
+magical baguette	2	1	decent	1-1	0	0	0
 magical beefy maki	3	1		7-12	8-16	0	0	50/60 Fishy
 magical eleven oceans roll	3	1		9-14	20-30	20-30	28-46	50/60 Fishy
 magical giant dragon roll	3	1		9-14	28-46	0	0	50/60 Fishy
@@ -511,12 +513,14 @@ pigeon egg	1	1	decent	2	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	1-1	0	0	0
+plain bagel	3	1	decent	1-1	0	0	0
 plain pizza	2	1	decent	2-4	0	0	0
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
 poisonous caviar	3	5	good	8	0	0	0	50 Majorly Poisoned
 popcorn	1	1	decent	2	0	0	0
+popular tart	2	1	EPIC	1-1	0	0	0
 poutine	2	1	decent	2-3	2-3	2-3	2-3
 powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 mys exp)
 pr0n chow mein	4	7	awesome	16-23	20-26	0	20-26

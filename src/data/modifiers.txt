@@ -130,6 +130,7 @@ Item	cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xF
 Item	corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4, Slime Hates It: +1, Familiar Effect: "0.5xPotato, 0.5xFairy"
 Item	Covers-Your-Head	Moxie: +250, Maximum HP: +100, Maximum MP: +100, Initiative: +50, Class: "Disco Bandit", Familiar Effect: "atk, 2xVolley"
 Item	crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "hot atk, 1xBarrr"
+Item	cr&ecirc;epy mask	Mysticality: +2, Maximum MP: +5
 Item	Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
 # Crown of Thrones: Put a Familiar In It!
@@ -4085,6 +4086,7 @@ Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zo
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Effect	Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
+Effect	Bread Burps	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5
 Effect	Breakfast Clubbed	Monster Level: [min(25,T)]
 Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
@@ -5177,6 +5179,7 @@ Effect	Rave Nirvana	Meat Drop: +50
 Effect	Raving Lunatic	Weapon Damage: +20
 Effect	Ravonovichy	Avatar: "Father Nikolai Ravonovich"
 Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Effect	Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -7144,6 +7147,7 @@ Item	giant giant moth dust	Effect: "Slightly Larger Than Usual", Effect Duration
 Item	giant neckbeard	Effect: "Majestic Neckbeard", Effect Duration: 50
 Item	giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 Item	gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
+Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 Item	glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
@@ -7313,6 +7317,7 @@ Item	liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
 Item	little red .epub file	Effect: "Xiblaxian Sympathizer", Effect Duration: 50
 Item	little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 Item	llama lama cria	Free Pull
+Item	loaf of soda bread	Effect: "Bread Burps", Effect Duration: 15
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Item	Loathing Legion jackhammer	Softcore Only
 Item	Lobos Mints	Effect: "Lobos Fresh", Effect Duration: 20
