@@ -3854,11 +3854,12 @@ public abstract class KoLCharacter
 		if ( Preferences.getInteger( "lastIslandUnlock" ) != KoLCharacter.getAscensions() )
 		{
 			if ( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
-				InventoryManager.hasItem( ItemPool.SKIFF ) ||
-				InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
-				Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
-				KoLCharacter.kingLiberated() )
-			 {
+			     InventoryManager.hasItem( ItemPool.SKIFF ) ||
+			     InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
+			     Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
+			     KoLCharacter.kingLiberated() ||
+			     InventoryManager.hasItem( ItemPool.YELLOW_SUBMARINE ) )
+			{
 				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			}
 		}
