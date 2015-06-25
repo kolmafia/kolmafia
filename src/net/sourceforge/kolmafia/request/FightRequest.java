@@ -3922,7 +3922,7 @@ public class FightRequest
 				action.append( String.valueOf( MonsterStatusTracker.getMonsterAttack() ) );
 				action.append( " attack vs. " );
 				action.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
-				action.append( " defense)" );
+				action.append( " moxie)" );
 			}
 		}
 
@@ -3989,7 +3989,9 @@ public class FightRequest
 				{
 					action.append( " (" );
 					action.append( String.valueOf( hitStat ) );
-					action.append( " attack vs. " );
+					action.append( " " );
+					action.append( stat == Stat.MOXIE ? "moxie" : "muscle" );
+					action.append( " vs. " );
 					action.append( String.valueOf( defense ) );
 					action.append( " defense)" );
 				}
