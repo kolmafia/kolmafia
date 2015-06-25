@@ -946,17 +946,16 @@ public class SpelunkyRequest
 
 		// Hit stat is MUSCLE, MOXIE, or NONE, if no weapon equipped.
 		Stat stat = EquipmentDatabase.getWeaponStat( itemId );
-		int statValue =
-			stat == Stat.MUSCLE ?
-			muscle :
-			stat == Stat.MOXIE ?
-			moxie * 3 / 4 :
-			// Can you fight bare-handed in Spelunky?
-			muscle / 4;
 
-		// Damage from your hit stat is the amount that it exceeds
-		// the monster's defense.
-		int statDamage = Math.max( statValue - monsterDefense, 0 );
+		// Damage from your hit stat is the amount that it exceeds the
+		// monster's defense, or 3/4 of that for ranged weapons
+		int statDamage =
+			stat == Stat.MUSCLE ?
+			Math.max( muscle - monsterDefense, 0 ) :
+			stat == Stat.MOXIE ?
+			Math.max( ( moxie - monsterDefense ) * 3 / 4, 0 ) :
+			// Can you fight bare-handed in Spelunky?
+			Math.max( ( muscle / 4 ) - monsterDefense, 0 );
 
 		// Weapon power determines damage range: 10% - 20%
 		int power = EquipmentDatabase.getPower( itemId );
