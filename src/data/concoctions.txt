@@ -437,6 +437,11 @@ Crimbo pie	COOK	pie crust	plum
 pear tart	COOK	pie crust	pear
 peach pie	COOK	pie crust	peach
 
+# Madness Bakery
+
+loaf of soda bread	COOK	wad of dough	soda water
+magical baguette	COOK	wad of dough	magicalness-in-a-can
+standard-issue cupcake	COOK	wad of dough	glob of enchanted icing
 
 # Sushi
 
