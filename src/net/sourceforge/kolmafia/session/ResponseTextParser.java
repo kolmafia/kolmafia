@@ -882,6 +882,7 @@ public class ResponseTextParser
 	private static final Pattern [] RECIPE_PATTERNS =
 	{
 		Pattern.compile( "You learn to .*?craft.*? a new item:.*?<b>(.*?)</b>" ),
+		Pattern.compile( "<b>(.*?)</b>.*?You'll have to try that one sometime.*?You (?:have|just) .*?discovered.*? a new recipe" ),
 		Pattern.compile( "You (?:have|just) .*?discovered.*? a new recipe.*?<b>(.*?)</b>" )
 	};
 
