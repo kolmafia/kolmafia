@@ -215,8 +215,8 @@ public class AdventureResult
 			return AdventureResult.MEAT_PRIORITY;
 		}
 		if ( name.equals( AdventureResult.HP ) || name.equals( AdventureResult.MP ) ||
-			 name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.FULL ) ||
-			 name.equals( AdventureResult.PVP ) )
+		     name.equals( AdventureResult.DRUNK ) || name.equals( AdventureResult.FULL ) ||
+		     name.equals( AdventureResult.PVP ) )
 		{
 			return AdventureResult.NO_PRIORITY;
 		}

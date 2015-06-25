@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -80,6 +81,7 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -3874,12 +3876,79 @@ public class FightRequest
 		}
 	}
 
-	private static final void logMonsterAttribute( final StringBuffer action, final int damage, final int type )
+	private static final void logPlayerAttribute( final TagStatus status, String message )
 	{
+		if ( message.startsWith( "You gain a" ) || message.startsWith( "You gain some" ) )
+		{
+			// Ability points or levels
+			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			return;
+		}
+
+		// Trim message, just like ResultProcessor.processGainLoss
+		int index = message.indexOf( "." );
+		if ( index != -1 )
+		{
+			message = message.substring( 0, index );
+		}
+
+		index = message.indexOf( "(" );
+		if ( index != -1 )
+		{
+			message = message.substring( 0, index );
+		}
+
+		message = message.trim();
+
+		// Parse message
+		AdventureResult result = ResultProcessor.parseResult( message );
+		if ( result == null )
+		{
+			// We don't recognize this. Assume we need a status refresh.
+			status.shouldRefresh  = true;
+			return;
+		}
+
+		StringBuffer action = status.action;
+		FightRequest.getRound( action );
+		action.append( message );
+
+		if ( status.limitmode == Limitmode.SPELUNKY )
+		{
+			// If we lose HP in battle, annotate with attack/defense
+			if ( result.getName().equals( AdventureResult.HP ) )
+			{
+				action.append( " (" );
+				action.append( String.valueOf( MonsterStatusTracker.getMonsterAttack() ) );
+				action.append( " attack vs. " );
+				action.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
+				action.append( " defense)" );
+			}
+		}
+
+		message = action.toString();
+		RequestLogger.printLine( message );
+		if ( Preferences.getBoolean( "logStatGains" ) )
+		{
+			RequestLogger.updateSessionLog( message );
+		}
+
+		status.shouldRefresh |= ResultProcessor.processResult( result );
+	}
+
+	private static final void logMonsterAttribute( final TagStatus status, final int damage, final int type )
+	{
+		if ( !status.logMonsterHealth )
+		{
+			return;
+		}
+
 		if ( damage == 0 )
 		{
 			return;
 		}
+
+		StringBuffer action = status.action;
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : Preferences.getString( "lastEncounter" );
@@ -3902,6 +3971,44 @@ public class FightRequest
 			action.append( type == ATTACK ? " attack power." :
 				       type == DEFENSE ? " defense." :
 				       " hit points." );
+		}
+
+		if ( status.limitmode == Limitmode.SPELUNKY )
+		{
+			// additional logging when decrease monster's HP, attack, or defense
+			AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
+			Stat stat = EquipmentDatabase.getWeaponStat( weapon.getItemId() );
+			int hitStat = stat == Stat.MOXIE ? KoLCharacter.getAdjustedMoxie() : KoLCharacter.getAdjustedMuscle();
+			int attack = MonsterStatusTracker.getMonsterAttack();
+			int defense = MonsterStatusTracker.getMonsterDefense();
+			String next = FightRequest.nextAction;
+			switch ( type )
+			{
+			case HEALTH:
+				if ( next != null && next.equals( "attack" ) )
+				{
+					action.append( " (" );
+					action.append( String.valueOf( hitStat ) );
+					action.append( " attack vs. " );
+					action.append( String.valueOf( defense ) );
+					action.append( " defense)" );
+				}
+				break;
+			case ATTACK:
+				action.append( " (" );
+				action.append( String.valueOf( attack ) );
+				action.append( " -> " );
+				action.append( String.valueOf( attack - damage ) );
+				action.append( ")" );
+				break;
+			case DEFENSE:
+				action.append( " (" );
+				action.append( String.valueOf( defense ) );
+				action.append( " -> " );
+				action.append( String.valueOf( defense - damage ) );
+				action.append( ")" );
+				break;
+			}
 		}
 
 		String message = action.toString();
@@ -4063,7 +4170,7 @@ public class FightRequest
 		boolean hasBold = FightRequest.extractVerse( node, action, "b" );
 		String haiku = action.toString();
 
-		if ( FightRequest.foundVerseDamage( inode, action, status ) )
+		if ( FightRequest.foundVerseDamage( inode, status ) )
 		{
 			return;
 		}
@@ -4074,19 +4181,19 @@ public class FightRequest
 			if ( image.equals( "strboost.gif" ) && hasBold )
 			{
 				String message = "You gain a Muscle point!";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+				FightRequest.logPlayerAttribute( status, message );
 			}
 
 			if ( image.equals( "snowflakes.gif" ) && hasBold )
 			{
 				String message = "You gain a Mysticality point!";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+				FightRequest.logPlayerAttribute( status, message );
 			}
 
 			if ( image.equals( "wink.gif" ) && hasBold )
 			{
 				String message = "You gain a Moxie point!";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+				FightRequest.logPlayerAttribute( status, message );
 			}
 			return;
 		}
@@ -4134,7 +4241,7 @@ public class FightRequest
 			}
 
 			String message = "You " + gain + " " + points + " hit points";
-			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
@@ -4178,8 +4285,7 @@ public class FightRequest
 				gain = "gain";
 			}
 			String message = "You " + gain + " " + points + " Mojo points";
-
-			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
@@ -4208,10 +4314,7 @@ public class FightRequest
 		{
 			// Using a combat item
 			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
-			}
+			FightRequest.logMonsterAttribute( status, damage, HEALTH );
 			MonsterStatusTracker.damageMonster( damage );
 			return;
 		}
@@ -4242,7 +4345,7 @@ public class FightRequest
 		return damage;
 	}
 
-	private static final boolean foundVerseDamage( final TagNode inode, final StringBuffer action, final TagStatus status )
+	private static final boolean foundVerseDamage( final TagNode inode, final TagStatus status )
 	{
 		int damage = parseVerseDamage( inode );
 		if ( damage == 0 )
@@ -4250,11 +4353,7 @@ public class FightRequest
 			return false;
 		}
 
-		if ( status.logMonsterHealth )
-		{
-			FightRequest.logMonsterAttribute( action, damage, HEALTH );
-		}
-
+		FightRequest.logMonsterAttribute( status, damage, HEALTH );
 		MonsterStatusTracker.damageMonster( damage );
 
 		return true;
@@ -4274,7 +4373,7 @@ public class FightRequest
 		boolean hasFont = FightRequest.extractVerse( node, action, "font" );
 		String verse = action.toString();
 
-		if ( FightRequest.foundVerseDamage( inode, action, status ) )
+		if ( FightRequest.foundVerseDamage( inode, status ) )
 		{
 			return;
 		}
@@ -4361,7 +4460,7 @@ public class FightRequest
 			}
 
 			String message = "You " + gain + " " + points + " hit points";
-			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 
 			if ( gain.equals( "gain" ) )
 			{
@@ -4370,11 +4469,7 @@ public class FightRequest
 					status.mosquito = false;
 
 					int damage = StringUtilities.parseInt( points );
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterAttribute( action, damage, HEALTH );
-					}
-
+					FightRequest.logMonsterAttribute( status, damage, HEALTH );
 					MonsterStatusTracker.damageMonster( damage );
 				}
 			}
@@ -4417,29 +4512,28 @@ public class FightRequest
 			}
 
 			String message = "You " + gain + " " + points + " Mojo points";
-
-			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
 		if ( image.equals( "strboost.gif" ) )
 		{
 			String message = "You gain " + points + " Strongness";
-			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
 		if ( image.equals( "snowflakes.gif" ) )
 		{
 			String message = "You gain " + points + " Magicalness";
-			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
 		if ( image.equals( "wink.gif" ) )
 		{
 			String message = "You gain " + points + " Roguishness";
-			status.shouldRefresh |= ResultProcessor.processStatGain( message, null );
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
@@ -4450,12 +4544,8 @@ public class FightRequest
 		{
 			// Using a combat item
 			int damage = StringUtilities.parseInt( points );
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
-			}
+			FightRequest.logMonsterAttribute( status, damage, HEALTH );
 			MonsterStatusTracker.damageMonster( damage );
-
 			return;
 		}
 	}
@@ -4486,6 +4576,7 @@ public class FightRequest
 		public boolean seahorse;
 		public boolean mayowasp;
 		public boolean dolphin;
+		public String limitmode;
 
 		public TagStatus()
 		{
@@ -4526,6 +4617,9 @@ public class FightRequest
 			this.ravers = ( KoLAdventure.lastAdventureId() == AdventurePool.OUTSIDE_THE_CLUB );
 
 			this.ghost = null;
+
+			// Save limitmode so we can log appropriately
+			this.limitmode = KoLCharacter.getLimitmode();
 		}
 
 		public void setFamiliar( final String image )
@@ -4722,7 +4816,7 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String message = "You lose " + m.group( 1 ) + " hit points";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+				FightRequest.logPlayerAttribute( status, message );
 			}
 			break;
 		}
@@ -4734,7 +4828,7 @@ public class FightRequest
 			if ( m.find() )
 			{
 				String message = "You lose " + m.group( 1 ) + " hit points";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+				FightRequest.logPlayerAttribute( status, message );
 			}
 			break;
 		}
@@ -4914,10 +5008,7 @@ public class FightRequest
 			int damage = FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, HEALTH );
-				}
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 				FightRequest.processComments( node, status );
 				return;
@@ -4986,10 +5077,7 @@ public class FightRequest
 				int damage = FightRequest.parseNormalDamage( text );
 				if ( damage != 0 )
 				{
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterAttribute( action, damage, HEALTH );
-					}
+					FightRequest.logMonsterAttribute( status, damage, HEALTH );
 					MonsterStatusTracker.damageMonster( damage );
 					continue;
 				}
@@ -5007,7 +5095,7 @@ public class FightRequest
 
 				if ( text.startsWith( "You gain" ) )
 				{
-					status.shouldRefresh |= ResultProcessor.processGainLoss( text, null );
+					FightRequest.logPlayerAttribute( status, text );
 					continue;
 				}
 
@@ -5015,7 +5103,7 @@ public class FightRequest
 				{
 					// Adjust for Can Has Cyborger
 					text = StringUtilities.singleStringReplace( text, "can has", "gain" );
-					ResultProcessor.processGainLoss( text, null );
+					FightRequest.logPlayerAttribute( status, text );
 					continue;
 				}
 				continue;
@@ -5092,17 +5180,14 @@ public class FightRequest
 				FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, HEALTH );
-				}
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 			}
 
 			// If it's not combat damage, perhaps it's a stat gain or loss
 			else if ( str.startsWith( "You gain" ) || str.startsWith( "You lose" ) )
 			{
-				status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+				FightRequest.logPlayerAttribute( status, str );
 			}
 
 			// The tootlers tootle! The singers all sing!
@@ -5113,7 +5198,7 @@ public class FightRequest
 			else if ( FightRequest.anapest && str.indexOf( "You went up a level" ) != -1 )
 			{
 				String msg = "You gain a Level!";
-				status.shouldRefresh |= ResultProcessor.processGainLoss( msg, null );
+				FightRequest.logPlayerAttribute( status, msg );
 			}
 
 			// If it is something else, let caller process the
@@ -5130,8 +5215,7 @@ public class FightRequest
 		// Look for items and effects first
 		if ( onclick != null )
 		{
-			if ( onclick.startsWith( "descitem" ) &&
-			     !str.contains( "An item drops:" ) )
+			if ( onclick.startsWith( "descitem" ) && !str.contains( "An item drops:" ) )
 			{
 				Matcher m = INT_PATTERN.matcher( onclick );
 				if ( !m.find() )
@@ -5195,10 +5279,7 @@ public class FightRequest
 				if ( effectId == EffectPool.HAIKU_STATE_OF_MIND )
 				{
 					FightRequest.haiku = true;
-					if ( status.logMonsterHealth )
-					{
-						FightRequest.logMonsterAttribute( action, 17, HEALTH );
-					}
+					FightRequest.logMonsterAttribute( status, 17, HEALTH );
 					MonsterStatusTracker.damageMonster( 17 );
 				}
 				else if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS )
@@ -5224,16 +5305,12 @@ public class FightRequest
 		}
 
 		if ( image.equals( "hp.gif" ) &&
-		     ( str.indexOf( "regains" ) != -1 ||
-		       str.indexOf( "She looks about" ) != -1 ) )
+		     ( str.indexOf( "regains" ) != -1 || str.indexOf( "She looks about" ) != -1 ) )
 		{
 			// The monster heals itself
 			Matcher m = INT_PATTERN.matcher( str );
 			int healAmount = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, -healAmount, HEALTH );
-			}
+			FightRequest.logMonsterAttribute( status, -healAmount, HEALTH );
 			MonsterStatusTracker.healMonster( healAmount );
 
 			status.shouldRefresh = true;
@@ -5245,10 +5322,7 @@ public class FightRequest
 			// You modify monster attack power
 			Matcher m = SPACE_INT_PATTERN.matcher( str );
 			int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, ATTACK );
-			}
+			FightRequest.logMonsterAttribute( status, damage, ATTACK );
 			MonsterStatusTracker.lowerMonsterAttack( damage );
 			return false;
 		}
@@ -5258,10 +5332,7 @@ public class FightRequest
 			// You modify monster defense
 			Matcher m = INT_PATTERN.matcher( str );
 			int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, DEFENSE );
-			}
+			FightRequest.logMonsterAttribute( status, damage, DEFENSE );
 			MonsterStatusTracker.lowerMonsterDefense( damage );
 			return false;
 		}
@@ -5312,8 +5383,7 @@ public class FightRequest
 			return false;
 		}
 
-		if ( image.equals( "hp.gif" ) ||
-		     image.equals( "mp.gif" ) )
+		if ( image.equals( "hp.gif" ) || image.equals( "mp.gif" ) )
 		{
 			// You gain HP or MP
 			if ( status.mosquito )
@@ -5321,14 +5391,11 @@ public class FightRequest
 				status.mosquito = false;
 				Matcher m = INT_PATTERN.matcher( str );
 				int damage = m.find() ? StringUtilities.parseInt( m.group() ) : 0;
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, HEALTH );
-				}
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 			}
 
-			status.shouldRefresh |= ResultProcessor.processGainLoss( str, null );
+			FightRequest.logPlayerAttribute( status, str );
 			return false;
 		}
 
@@ -5342,9 +5409,8 @@ public class FightRequest
 		{
 			// You struck with your haiku katana. Pull the
 			// damage out of the img tag if we can
-			if ( FightRequest.foundVerseDamage( inode, action, status ) )
+			if ( FightRequest.foundVerseDamage( inode, status ) )
 			{
-
 				return false;
 			}
 		}
@@ -5605,10 +5671,7 @@ public class FightRequest
 
 			if ( damage != 0 )
 			{
-				if ( status.logMonsterHealth )
-				{
-					FightRequest.logMonsterAttribute( action, damage, HEALTH );
-				}
+				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 			}
 
@@ -5667,10 +5730,7 @@ public class FightRequest
 		int damage = FightRequest.parseNormalDamage( content );
 		if ( damage != 0 )
 		{
-			if ( status.logMonsterHealth )
-			{
-				FightRequest.logMonsterAttribute( action, damage, HEALTH );
-			}
+			FightRequest.logMonsterAttribute( status, damage, HEALTH );
 			MonsterStatusTracker.damageMonster( damage );
 		}
 
@@ -5684,7 +5744,7 @@ public class FightRequest
 		if ( m.find() )
 		{
 			String message = "You lose " + m.group( 1 ) + " hit points";
-			status.shouldRefresh |= ResultProcessor.processGainLoss( message, null );
+			FightRequest.logPlayerAttribute( status, text );
 			return true;
 		}
 
