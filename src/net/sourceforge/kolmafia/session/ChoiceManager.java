@@ -3425,7 +3425,7 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "gain 250 gold with Resourceful Kid", 1 ),
 				       new Option( "gain 250 gold with spring boots and yellow cloak", 2 ),
 				       new Option( "gain 250 gold with jetpack", 3 ),
-				       new Option( "gain 250 gold and lose all hp", 4 ),
+				       new Option( "gain 250 gold and lose 50 hp", 4 ),
 				       new Option( "leave", 6 ) } ),
 
 		// Choice 1037 is It's a Trap!  A Smashy Trap.

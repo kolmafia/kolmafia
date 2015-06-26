@@ -2268,6 +2268,7 @@ public class FightRequest
 
 		// Clean HTML and process it
 		FightRequest.processNormalResults( responseText, macroMatcher );
+		MonsterStatusTracker.applyManuelStats();
 
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );

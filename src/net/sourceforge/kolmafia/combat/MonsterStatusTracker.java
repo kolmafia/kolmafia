@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -184,11 +185,6 @@ public class MonsterStatusTracker
 			return 0;
 		}
 
-		if ( MonsterStatusTracker.manuelFound )
-		{
-			return MonsterStatusTracker.healthManuel;
-		}
-
 		return MonsterStatusTracker.originalHealth - MonsterStatusTracker.healthModifier;
 	}
 
@@ -228,11 +224,6 @@ public class MonsterStatusTracker
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			return 0;
-		}
-
-		if ( MonsterStatusTracker.manuelFound )
-		{
-			return MonsterStatusTracker.attackManuel;
 		}
 
 		int baseAttack = MonsterStatusTracker.originalAttack;
@@ -290,11 +281,6 @@ public class MonsterStatusTracker
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			return 0;
-		}
-
-		if ( MonsterStatusTracker.manuelFound )
-		{
-			return MonsterStatusTracker.defenseManuel;
 		}
 
 		int baseDefense = MonsterStatusTracker.originalDefense;
@@ -394,19 +380,33 @@ public class MonsterStatusTracker
 
 	public static void setManuelStats( int attack, int defense, int hp )
 	{
-		// If these are the first stats from Manuel
-		if ( !manuelFound )
+		// Save what Manuel reported. These are the stats at the END of
+		// the round's actions - including those which automatically
+		// fired on round 0 before the player did anything.
+		MonsterStatusTracker.attackManuel = attack;
+		MonsterStatusTracker.defenseManuel = defense;
+		MonsterStatusTracker.healthManuel = hp;
+
+		// If we don't know anything about this monster, assume that
+		// Manuel is showing the original stats - even though, as
+		// described above, that's not always the case.
+		if ( !manuelFound && MonsterStatusTracker.originalAttack == 0)
 		{
-			// Save them as the monster's original stats
 			MonsterStatusTracker.originalAttack = attack;
 			MonsterStatusTracker.originalDefense = defense;
 			MonsterStatusTracker.originalHealth = hp;
 		}
 
-		MonsterStatusTracker.attackManuel = attack;
-		MonsterStatusTracker.defenseManuel = defense;
-		MonsterStatusTracker.healthManuel = hp;
 		MonsterStatusTracker.manuelFound = true;
 	}
 
+	public static void applyManuelStats()
+	{
+		if ( manuelFound )
+		{
+			MonsterStatusTracker.attackModifier = MonsterStatusTracker.attackManuel - MonsterStatusTracker.originalAttack;
+			MonsterStatusTracker.defenseModifier = MonsterStatusTracker.defenseManuel - MonsterStatusTracker.originalDefense;
+			MonsterStatusTracker.healthModifier = MonsterStatusTracker.originalHealth - MonsterStatusTracker.healthManuel;
+		}
+	}
 }
