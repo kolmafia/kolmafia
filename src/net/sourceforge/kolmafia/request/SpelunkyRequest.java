@@ -989,8 +989,12 @@ public class SpelunkyRequest
 
 		// Raw monster damage
 		int monsterStatDamage = Math.max( monsterAttack - moxie, 0 );
-		int monsterDamageMin = monsterStatDamage + monsterAttack / 5;
-		int monsterDamageMax = monsterStatDamage + monsterAttack / 4;
+
+		// Some Spelunky items provide Damage Reduction
+		int dr = (int)KoLCharacter.currentNumericModifier( Modifiers.DAMAGE_REDUCTION );
+			
+		int monsterDamageMin = Math.min( monsterStatDamage + monsterAttack / 5 - dr, 1 );
+		int monsterDamageMax = Math.min( monsterStatDamage + monsterAttack / 4 - dr, 1 );
 
 		buffer.append( "<br />His damage: " );
 		buffer.append( String.valueOf( monsterDamageMin ) );
