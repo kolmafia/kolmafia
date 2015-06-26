@@ -5001,6 +5001,11 @@ public class FightRequest
 				return;
 			}
 
+			if ( FightRequest.handleSpelunky( str, status ) )
+			{
+				return;
+			}
+
 			boolean ghostAction = status.ghost != null && str.indexOf( status.ghost ) != -1;
 			if ( ghostAction && status.logFamiliar )
 			{
@@ -5044,24 +5049,29 @@ public class FightRequest
 			if ( child instanceof ContentToken )
 			{
 				ContentToken object = (ContentToken) child;
-				String text = object.getContent().trim();
+				String str = object.getContent().trim();
 
-				if ( text.equals( "" ) )
+				if ( str.equals( "" ) )
 				{
 					continue;
 				}
 
-				if ( FightRequest.handleFuzzyDice( text, status ) )
+				if ( FightRequest.handleFuzzyDice( str, status ) )
 				{
 					continue;
 				}
 
-				if ( FightRequest.processFumble( text, status ) )
+				if ( FightRequest.processFumble( str, status ) )
 				{
 					continue;
 				}
 
-				if ( text.indexOf( "you feel all warm and fuzzy" ) != -1 )
+				if ( FightRequest.handleSpelunky( str, status ) )
+				{
+					continue;
+				}
+
+				if ( str.indexOf( "you feel all warm and fuzzy" ) != -1 )
 				{
 					if ( status.logFamiliar )
 					{
@@ -5070,14 +5080,14 @@ public class FightRequest
 					continue;
 				}
 
-				boolean ghostAction = status.ghost != null && text.indexOf( status.ghost) != -1;
+				boolean ghostAction = status.ghost != null && str.contains( status.ghost);
 				if ( ghostAction && status.logFamiliar )
 				{
 					// Pastamancer ghost action
-					FightRequest.logText( text, status );
+					FightRequest.logText( str, status );
 				}
 
-				int damage = FightRequest.parseNormalDamage( text );
+				int damage = FightRequest.parseNormalDamage( str );
 				if ( damage != 0 )
 				{
 					FightRequest.logMonsterAttribute( status, damage, HEALTH );
@@ -5085,7 +5095,7 @@ public class FightRequest
 					continue;
 				}
 
-				if ( text.startsWith( "You acquire a skill" ) )
+				if ( str.startsWith( "You acquire a skill" ) )
 				{
 					TagNode bnode = node.findElementByName( "b", true );
 					if ( bnode != null )
@@ -5096,17 +5106,17 @@ public class FightRequest
 					continue;
 				}
 
-				if ( text.startsWith( "You gain" ) )
+				if ( str.startsWith( "You gain" ) )
 				{
-					FightRequest.logPlayerAttribute( status, text );
+					FightRequest.logPlayerAttribute( status, str );
 					continue;
 				}
 
-				if ( text.startsWith( "You can has" ) )
+				if ( str.startsWith( "You can has" ) )
 				{
 					// Adjust for Can Has Cyborger
-					text = StringUtilities.singleStringReplace( text, "can has", "gain" );
-					FightRequest.logPlayerAttribute( status, text );
+					str = StringUtilities.singleStringReplace( str, "can has", "gain" );
+					FightRequest.logPlayerAttribute( status, str );
 					continue;
 				}
 				continue;
@@ -5183,6 +5193,7 @@ public class FightRequest
 				FightRequest.parseNormalDamage( str );
 			if ( damage != 0 )
 			{
+				FightRequest.handleSpelunky( str, status );
 				FightRequest.logMonsterAttribute( status, damage, HEALTH );
 				MonsterStatusTracker.damageMonster( damage );
 			}
@@ -5198,7 +5209,7 @@ public class FightRequest
 			// Come raise a glass high, and come join in the revel!
 			// We're all celebrating! You went up a level!
 
-			else if ( FightRequest.anapest && str.indexOf( "You went up a level" ) != -1 )
+			else if ( FightRequest.anapest && str.contains( "You went up a level" ) )
 			{
 				String msg = "You gain a Level!";
 				FightRequest.logPlayerAttribute( status, msg );
@@ -5899,6 +5910,40 @@ public class FightRequest
 
 		FightRequest.logText( "The mayo wasp deposits an egg in your abdomen!", status );
 		return true;
+	}
+
+	private static boolean handleSpelunky( String text, TagStatus status )
+	{
+		if ( status.limitmode != Limitmode.SPELUNKY )
+		{
+			return false;
+		}
+
+		// Non-damage messages that should be logged
+		if ( text.startsWith( "You leap out of your foe's reach" ) ||
+		     text.startsWith( "With your swoopy cape and your springy boots" ) ||
+		     text.startsWith( "With your spring-soled boots you leap" ) ||
+		     text.startsWith( "He struggles against your rope" ) ||
+		     text.startsWith( "It finally breaks free of your rope" ) )
+		{
+			FightRequest.logText( text, status );
+			return true;
+		}
+
+		// Damage messages that should logged
+		if ( text.startsWith( "You blast upwards with your jetpack" ) ||
+		     text.startsWith( "You leap into the air" ) ||
+		     text.startsWith( "You leap on your foe with your spiked boots" ) ||
+		     text.startsWith( "You thrust your torch at your foe" ) ||
+		     text.startsWith( "Your skeleton buddy punches your foe" ) ||
+		     text.startsWith( "Enraged, your skeleton buddy pummels Yomama" ) ||
+		     text.startsWith( "Yomama belches up some smoke" ) )
+		{
+			FightRequest.logText( text, status );
+			return false;
+		}
+
+		return false;
 	}
 
 	private static void handleRaver( String text, TagStatus status )
