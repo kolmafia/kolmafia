@@ -2268,7 +2268,6 @@ public class FightRequest
 
 		// Clean HTML and process it
 		FightRequest.processNormalResults( responseText, macroMatcher );
-		MonsterStatusTracker.applyManuelStats();
 
 		// Perform other processing for the final round
 		FightRequest.updateRoundData( macroMatcher );
@@ -2552,11 +2551,12 @@ public class FightRequest
 		// fight is continuing
 
 		if ( !won &&
-			responseText.contains( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
-				"(show old combat form)" :
-				"action=fight.php" ) )
+		     responseText.contains( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+					    "(show old combat form)" :
+					    "action=fight.php" ) )
 		{
 			// The fight is not over, none of the stuff below needs to be checked
+			MonsterStatusTracker.applyManuelStats();
 			return;
 		}
 
