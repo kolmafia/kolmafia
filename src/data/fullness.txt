@@ -8,6 +8,7 @@
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
+acceptable bagel	3	1	good	1-1	0	0	0	
 acceptable mayolus	1	3	good	1-1	0	0	0
 accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30
 actual tapas	1	11	awesome	4-5	30-50	0	0
@@ -739,6 +740,7 @@ Turnip and Rutabaga Pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise (8-10 HP
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
 twigs and gravel	3	1		3-6	5-6	5-6	5-6
 Ultimate Breakfast Sandwich	7	1	EPIC	32-38	30-40	50-60	0
+ultra-deluxe cupcake	1	1	awesome	4	4-6	4-6	4-6	
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
 unappetizing mayolus	1	1	crappy	1-1	0	0	0
 uncooked chorizo	1	1	crappy	1	-5	0	0

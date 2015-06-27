@@ -914,6 +914,7 @@ Item	bow staff	Mysticality: +5, Weapon Damage: +3
 Item	boxing glove on a spring	Moxie: +3, Weapon Damage: +4, Initiative: +10
 Item	brand new key	Muscle Percent: +5, Weapon Damage: +20
 Item	breadchucks	Weapon Damage: +10, Hot Damage: +10
+Item	breadwand	Spell Damage: +3
 Item	BRICKO sword	Weapon Damage: +6
 Item	Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 # broken beer bottle
@@ -1680,6 +1681,7 @@ Item	box-in-the-box-in-the-box	Meat Drop: +3
 # Brand of Violence: Allows you to grow your brand by branding opponents
 Item	Brand of Violence	Moxie Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30
 Item	brass dorsal fin	Weapon Damage Percent: +20, Damage Reduction: 13
+Item	bread basket	Food Drop: +20
 Item	BRICKO bulwark	Maximum HP: +6, Damage Reduction: 3
 Item	Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25, Brimstone
 Item	brown crock marble	Stench Spell Damage: +35
@@ -2459,6 +2461,7 @@ Item	La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Reg
 Item	ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 Item	Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 # left half of a heart necklace
+Item	loafers	Initiative: +10, Single Equip
 Item	Loathing Legion necktie	Experience: +4, Single Equip, Softcore Only
 Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only
 Item	Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip

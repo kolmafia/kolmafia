@@ -8189,7 +8189,7 @@
 8164	remaindered axe	225226001	headlessaxe.gif	weapon	t,d	25
 8165	low-budget shield	474565785	woodyshield.gif	offhand	t,d	25
 8166	cr&ecirc;epy mask	630652168	crepemask.gif	hat	t,d	25
-8167	magical baguette	218899360	baguette.gif	food	t,d	25
+8167	magical baguette	218899360	baguette.gif	food, usable	t,d	25
 8168	glob of enchanted icing	250622195	magicicing.gif	none	t,d	25
 8169	ginger snaps	514737495	gingersnaps.gif	usable	t,d	25
 8170	mostly-broken sunglasses	649978519	brokeshades.gif	usable	t,d	25
@@ -8202,10 +8202,10 @@
 8177	brown paper pants	463340033	paperpants.gif	pants	t,d	25
 8178	brown paper bag mask	476925222	paperbaghat.gif	hat	t,d	25
 8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0
-8180
-8181
+8180	breadwand	121809700	breadwand.gif	weapon	t,d	30
+8181	loafers	658560542	loafers.gif	accessory	t,d	25
 8182	Map to Kokomo	734514643	map.gif	usable		0
-8183
+8183	bread basket	625281322	breadbasket.gif	offhand	t,d	25
 8184	Ed the Undying exhibit crate	456673748	crate.gif	usable	t	0
 8185	The Crown of Ed the Undying	538837118	nemes.gif	hat		0
 8186	Doc Galaktik's Invigorating Tonic	112603433	beerbottle.gif	multiple	t,d	25
@@ -8219,9 +8219,9 @@
 8194	glob of cream cheese	880907559	blankoutglob.gif	food	t,d	7	globs of cream cheese
 8194
 8195	loaf of soda bread	995601519	sodabread.gif	food	t,d	30
-8196
+8196	acceptable bagel	243520859	ccbagel.gif	food	t,d	35
 8197	standard-issue cupcake	133905889	ccake1.gif	food	t,d	20
-8198
+8198	ultra-deluxe cupcake	257911912	ccake2.gif	food	t,d	35
 8199
 8200	popular tart	654591716	poptart.gif	food	t,d	50
 8201	no-handed pie	870363637	0hpie.gif	none	q	0

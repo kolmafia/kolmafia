@@ -437,12 +437,6 @@ Crimbo pie	COOK	pie crust	plum
 pear tart	COOK	pie crust	pear
 peach pie	COOK	pie crust	peach
 
-# Madness Bakery
-
-loaf of soda bread	COOK	wad of dough	soda water
-magical baguette	COOK	wad of dough	magicalness-in-a-can
-standard-issue cupcake	COOK	wad of dough	glob of enchanted icing
-
 # Sushi
 
 beefy nigiri	SUSHI	beefy fish meat	white rice
@@ -2530,3 +2524,11 @@ Citrus Crush wine cooler	MIX	unflavored wine cooler	lemon
 Orangemageddon wine cooler	MIX	unflavored wine cooler	orange
 Radberry Rip wine cooler	MIX	unflavored wine cooler	strawberry
 Cherrytastrophe wine cooler	MIX	unflavored wine cooler	cherry
+
+# Madness Bakery
+
+loaf of soda bread	COOK	wad of dough	soda water
+magical baguette	COOK	wad of dough	magicalness-in-a-can
+standard-issue cupcake	COOK	wad of dough	glob of enchanted icing
+acceptable bagel	COOK	plain bagel	glob of cream cheese
+ultra-deluxe cupcake	COOK	standard-issue cupcake	cherry
