@@ -3521,6 +3521,14 @@ public abstract class ChoiceManager
 				       new Option( "skip adventure and guarantees this adventure will reoccur", 6 ) } ),		
 
 		// Choice 1076 is Mayo Minder&trade;
+
+		// Choice 1081 is Assault and Baguettery
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1081", "magical baguette",
+			new Object[] { new Option( "breadwand", 1, "breadwand" ),
+				       new Option( "loafers", 2, "loafers" ),
+				       new Option( "bread basket", 3, "bread basket" ),
+				       new Option( "make nothing", 4 ) } ),		
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

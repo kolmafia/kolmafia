@@ -771,6 +771,7 @@ bow staff	100	Mus: 35	2-handed staff
 boxing glove on a spring	55	Mox: 12	1-handed club
 brand new key	200	Mus: 85	1-handed knife
 breadchucks	155	Mus: 62	1-handed flail
+breadwand	25	Mus: 0	1-handed wand
 BRICKO sword	60	Mus: 0	2-handed club
 Brimstone Bludgeon	200	Mus: 30	1-handed club
 broken beer bottle	75	Mus: 10	1-handed knife
@@ -1442,6 +1443,7 @@ box-in-the-box	20	none
 box-in-the-box-in-the-box	30	none
 Brand of Violence	200	Mus: 125
 brass dorsal fin	200	Mus: 85	shield
+bread basket	0	none
 BRICKO bulwark	60	none	shield
 Brimstone Bunker	240	Mus: 30	shield
 brown crock marble	202	Mys: 85
@@ -2106,6 +2108,7 @@ La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 ladle of mystery	40	Mys: 5
 Lead Zeta of Chastity	200	Mys: 85
 left half of a heart necklace	10	none
+loafers	0	none
 Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	160	Mys: 65

@@ -911,14 +911,15 @@ public class ResponseTextParser
 		}
 
 		int id = ItemDatabase.getItemId( itemName, 1, false );
-		String message = "Learned recipe: " + itemName + " (" + id + ")";
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
 
 		if ( id <= 0 )
 		{
 			return;
 		}
+
+		String message = "Learned recipe: " + itemName + " (" + id + ")";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 
 		Preferences.setBoolean( "unknownRecipe" + id, false );
 		ConcoctionDatabase.setRefreshNeeded( false );
