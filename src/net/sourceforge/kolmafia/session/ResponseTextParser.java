@@ -204,7 +204,8 @@ public class ResponseTextParser
 		if ( location.startsWith( "api.php" ) ||
 		     location.startsWith( "game.php" ) ||
 		     location.startsWith( "desc" ) ||
-		     location.startsWith( "quest" ) )
+		     location.startsWith( "quest" ) ||
+		     location.startsWith( "static" ) )
 		{
 			return false;
 		}
