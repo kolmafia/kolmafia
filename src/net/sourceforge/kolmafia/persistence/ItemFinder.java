@@ -104,11 +104,11 @@ public class ItemFinder
 		{
 			String name0 = nameList.get( 0 );
 			String name1 = nameList.get( 1 );
-			if ( name0.indexOf( name1 ) != -1 )
+			if ( name0.contains( name1 ) )
 			{
 				nameList.remove( 0 );
 			}
-			else if ( name1.indexOf( name0 ) != -1 )
+			else if ( name1.contains( name0 ) )
 			{
 				nameList.remove( 1 );
 			}
@@ -446,12 +446,6 @@ public class ItemFinder
 				matchList.add( name );
 			}
 		}
-		else if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
-		{
-			// The entire parameter is a single item
-			matchList = new ArrayList<String>();
-			matchList.add( parameters.trim() );
-		}
 		else
 		{
 			int spaceIndex = parameters.indexOf( ' ' );
@@ -466,10 +460,19 @@ public class ItemFinder
 					parameters = parameters.substring( spaceIndex + 1 ).trim();
 				}
 			}
+			if ( ItemDatabase.getItemId( parameters, 1 ) != -1 )
+			{
+				// The entire parameter is a single item
+				matchList = new ArrayList<String>();
+				matchList.add( parameters.trim() );
+			}
+			else
+			{
 
-			// This is not right for "1 seal tooth, 2 turtle totem, 3 stolen accordion"
-			// since the first count is trimmed off
-			matchList = ItemFinder.getMatchingNames( parameters );
+				// This is not right for "1 seal tooth, 2 turtle totem, 3 stolen accordion"
+				// since the first count is trimmed off
+				matchList = ItemFinder.getMatchingNames( parameters );
+			}
 		}
 
 		String itemName = ItemFinder.getFirstMatchingItemName( matchList, parameters, filterType );
