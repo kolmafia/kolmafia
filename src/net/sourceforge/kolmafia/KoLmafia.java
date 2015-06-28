@@ -1723,37 +1723,41 @@ public abstract class KoLmafia
 			( !KoLCharacter.canInteract() && firstRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY ) ?
 			KoLConstants.storage : KoLConstants.inventory;
 
-		AdventureResult item = firstRequest.getItem();
-		int itemId = item.getItemId();
+		int remaining = maxPurchases;
+		int itemId = 0;
 
-		if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
-		     destination == KoLConstants.inventory &&
-		     InventoryManager.cloverProtectionActive() &&
-		     !KoLCharacter.inBeecore() )
-		{
-			// Clover protection will miraculously turn ten-leaf
-			// clovers into disassembled clovers as soon as they
-			// come into inventory
-
-			item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
-		}
-
-		int initialCount = item.getCount( destination );
-		int currentCount = initialCount;
-		int desiredCount = maxPurchases == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + maxPurchases;
-
-		for ( int i = firstIndex; i < purchases.length && currentCount < desiredCount && KoLmafia.permitsContinue(); ++i )
+		for ( int i = firstIndex; i < purchases.length && remaining > 0 && KoLmafia.permitsContinue(); ++i )
 		{
 			PurchaseRequest currentRequest = (PurchaseRequest) purchases[ i ];
+			AdventureResult item = currentRequest.getItem();
+			itemId = item.getItemId();
+
+			if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
+			     destination == KoLConstants.inventory &&
+			     InventoryManager.cloverProtectionActive() &&
+			     !KoLCharacter.inBeecore() )
+			{
+				// Clover protection will miraculously turn ten-leaf
+				// clovers into disassembled clovers as soon as they
+				// come into inventory
+
+				item = ItemPool.get( ItemPool.DISASSEMBLED_CLOVER, item.getCount() );
+			}
+
+			int initialCount = item.getCount( destination );
+			int currentCount = initialCount;
+			int desiredCount = remaining == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + remaining;
+
 			int currentPrice = currentRequest.getPrice();
 
 			if ( ( priceLimit > 0 && currentPrice > priceLimit ) ||
 			     ( isAutomated && currentPrice > Preferences.getInteger( "autoBuyPriceLimit" ) ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR,
-					"Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
+				// KoLmafia.updateDisplay( MafiaState.ERROR,
+				// "Stopped purchasing " + currentRequest.getItemName() + " @ " + KoLConstants.COMMA_FORMAT.format( currentPrice ) + "." );
 
-				return;
+				// If we are purchasing multiple different items, the next item might be affordable.
+				continue;
 			}
 
 			int previousLimit = currentRequest.getLimit();
@@ -1791,17 +1795,17 @@ public abstract class KoLmafia
 			}
 
 			// Update how many of the item we have post-purchase
-
-			currentCount = item.getCount( destination );
+			int purchased = item.getCount( destination ) - currentCount;
+			remaining -= purchased;
 		}
 
-		if ( currentCount >= desiredCount || maxPurchases == Integer.MAX_VALUE )
+		if ( remaining == 0 || maxPurchases == Integer.MAX_VALUE )
 		{
 			KoLmafia.updateDisplay( "Purchases complete." );
 		}
 		else
 		{
-			KoLmafia.updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " + ( currentCount - initialCount ) + ")" );
+			KoLmafia.updateDisplay( "Desired purchase quantity not reached (wanted " + maxPurchases + ", got " + ( maxPurchases - remaining ) + ")" );
 			StoreManager.flushCache( itemId );
 		}
 	}
