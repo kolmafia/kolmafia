@@ -98,8 +98,6 @@ import net.sourceforge.kolmafia.webui.BarrelDecorator;
 public class ResultProcessor
 {
 	private static final Pattern DISCARD_PATTERN = Pattern.compile( "You discard your (.*?)\\." );
-	private static final Pattern INT_PATTERN = Pattern.compile( "([\\d]+)" );
-	private static final Pattern TRAILING_INT_PATTERN = Pattern.compile( "(.*?)(?:\\s*\\((\\d+)\\))?" );
 
 	private static boolean receivedClover = false;
 	private static boolean receivedDisassembledClover = false;
@@ -1467,7 +1465,10 @@ public class ResultProcessor
 			ResultProcessor.processItem( ItemPool.FORGED_ID_DOCUMENTS, -1 );
 			QuestDatabase.setQuestProgress( Quest.BLACK, "step3" );
 			// Automatically use the diary to open zones
-			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			if ( Preferences.getBoolean( "autoQuest" ) )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			}
 			break;
 
 		case ItemPool.BJORNS_HAMMER:
@@ -1486,7 +1487,10 @@ public class ResultProcessor
 			TurnCounter.stopCounting( "Nemesis Assassin window end" );
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
 			// Automatically use the map to open zones
-			RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			if ( Preferences.getBoolean( "autoQuest" ) )
+			{
+				RequestThread.postRequest( UseItemRequest.getInstance( result ) );
+			}
 			break;
 
 		case ItemPool.FIRST_PIZZA:
