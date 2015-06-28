@@ -786,16 +786,13 @@ public class CompactSidePane
 			this.bonusValueLabel[ count ].setText( KoLConstants.ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 			count++;
 			int hobo = KoLCharacter.getHoboPower();
-			int clown = KoLCharacter.getClownosity();
-			int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
-			int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
-			int smithsness = KoLCharacter.getSmithsness();
 			if ( hobo != 0 && count < this.BONUS_LABELS )
 			{
 				this.bonusLabel[ count ].setText( "Hobo: " );
 				this.bonusValueLabel[ count ].setText( KoLConstants.MODIFIER_FORMAT.format( hobo ) );
 				count++;
 			}
+			int smithsness = KoLCharacter.getSmithsness();
 			if ( smithsness != 0 && count < this.BONUS_LABELS )
 			{
 				this.bonusLabel[ count ].setText( "Smithsness: " );
@@ -809,18 +806,21 @@ public class CompactSidePane
 				this.bonusValueLabel[ count ].setText( String.valueOf( bee ) );
 				count++;
 			}
+			int surgeon = (int) KoLCharacter.currentNumericModifier( Modifiers.SURGEONOSITY );
 			if ( surgeon != 0 && count < this.BONUS_LABELS )
 			{
 				this.bonusLabel[ count ].setText( "Surgeon: " );
 				this.bonusValueLabel[ count ].setText( surgeon + " / 5" );
 				count++;
 			}
+			int rave = KoLCharacter.currentBitmapModifier( Modifiers.RAVEOSITY );
 			if ( rave != 0 && count < this.BONUS_LABELS )
 			{
 				this.bonusLabel[ count ].setText( "Rave: " );
 				this.bonusValueLabel[ count ].setText( rave + " / 7" );
 				count++;
 			}
+			int clown = KoLCharacter.getClownosity();
 			if ( clown != 0 && count < this.BONUS_LABELS )
 			{
 				this.bonusLabel[ count ].setText( "Clown: " );
@@ -828,6 +828,16 @@ public class CompactSidePane
 				count++;
 			}
 		}
+		else
+		{
+			this.bonusLabel[ count ].setText( "DR: " );
+			this.bonusValueLabel[ count ].setText( String.valueOf( (int)KoLCharacter.currentNumericModifier( Modifiers.DAMAGE_REDUCTION ) ) );
+			count++;
+			this.bonusLabel[ count ].setText( "Luck: " );
+			this.bonusValueLabel[ count ].setText( String.valueOf( (int)KoLCharacter.currentNumericModifier( Modifiers.LUCK ) ) );
+			count++;
+		}
+		
 		for( int i = count ; i < BONUS_LABELS ; i++ )
 		{
 			this.bonusLabel[ i ].setText( "" );

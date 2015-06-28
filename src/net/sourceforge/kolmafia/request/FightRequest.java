@@ -5923,6 +5923,9 @@ public class FightRequest
 		if ( text.startsWith( "You leap out of your foe's reach" ) ||
 		     text.startsWith( "With your swoopy cape and your springy boots" ) ||
 		     text.startsWith( "With your spring-soled boots you leap" ) ||
+		     text.startsWith( "By the light of your torch" ) ||
+		     text.startsWith( "By the light of your helmet" ) ||
+		     text.startsWith( "A bird stole" ) ||
 		     text.startsWith( "He struggles against your rope" ) ||
 		     text.startsWith( "It finally breaks free of your rope" ) )
 		{

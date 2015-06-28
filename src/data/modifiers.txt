@@ -3425,12 +3425,12 @@ Item	Xiblaxian holo-bowtie	Familiar Weight: +5
 
 # Virtual Equipment
 
-# Bananubis's Staff: -6 Luck
 # Bananubis's Staff: Raise Skeleton Buddies
+Item	Bananubis's Staff	Luck: -6
 Item	boomerang	Weakens Monster
 # crumbling skull: Can be thrown
-# cursed coffee cup: -2 Luck
 # cursed coffee cup: Drink blood, get healthy
+Item	cursed coffee cup	Luck: -2
 Item	heavy pickaxe	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	jetpack	Moxie: +10
 # mining helmet: Lights Dark Places
@@ -3443,15 +3443,13 @@ Item	spelunking fedora	Muscle: +5, Mysticality: +5, Moxie: +5
 # spiked boots: Deal some damage at the start of combat
 # spring boots: Sometimes Avoid Enemy Attacks
 Item	sturdy machete	Weapon Damage: +5
-# The Clown Crown: -6 Luck
-# The Joke Book of the Dead: -6 Luck
-Item	The Joke Book of the Dead	Damage Reduction: 5, Weapon Damage: +5
+Item	The Clown Crown	Luck: -6
+Item	The Joke Book of the Dead	Damage Reduction: 5, Weapon Damage: +5, Luck: -6
 # torch: Burns foes
 # torch: Lights dark places
 # torch: Can be thrown
-Item	X-ray goggles	Moxie: -5
-# X-ray goggles: +5 Luck
 # X-ray goggles: Reveals Secrets
+Item	X-ray goggles	Moxie: -5, Luck: +5
 Item	yellow cape	Moxie: +5
 
 # Minstrel section of modifiers.txt
