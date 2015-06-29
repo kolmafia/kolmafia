@@ -4105,8 +4105,8 @@ public class FightRequest
 	}
 
 	public static final Pattern HAIKU_PATTERN = Pattern.compile( "<td valign=center[^>]*>(.*?)</td>" );
-	private static final Pattern INT_PATTERN = Pattern.compile( "[\\d,]+" );
-	private static final Pattern SPACE_INT_PATTERN = Pattern.compile( " [\\d,]+" );
+	private static final Pattern INT_PATTERN = Pattern.compile( "\\d[\\d,]*" );
+	private static final Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d[\\d,]*" );
 	private static final Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
 
 	private static final int parseHaikuDamage( final String text )
