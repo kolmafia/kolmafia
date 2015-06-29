@@ -3233,8 +3233,6 @@ public class FightRequest
 
 			if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
 			{
-				// Check for gold gain
-				SpelunkyRequest.gainGold( FightRequest.lastResponseText );
 				// Check for unlocks
 				if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
 				{
@@ -4237,8 +4235,8 @@ public class FightRequest
 			// than you were before.
 
 			if ( haiku.indexOf( "Your wounds fly away" ) != -1 ||
-				 haiku.indexOf( "restored to your body" ) != -1 ||
-				 haiku.indexOf( "You're feeling better" ) != -1 )
+			     haiku.indexOf( "restored to your body" ) != -1 ||
+			     haiku.indexOf( "You're feeling better" ) != -1 )
 			{
 				gain = "gain";
 			}
@@ -5310,6 +5308,11 @@ public class FightRequest
 
 		String image = src.substring( src.lastIndexOf( "/" ) + 1 );
 
+		if ( FightRequest.handleSpelunkyGold( image, str, status ) )
+		{
+			return false;
+		}
+
 		// Attempt to identify combat items
 		String itemName = inode.getAttributeByName( "title" );
 		int itemId = ItemDatabase.getItemId( itemName );
@@ -5923,13 +5926,27 @@ public class FightRequest
 		if ( text.startsWith( "You leap out of your foe's reach" ) ||
 		     text.startsWith( "With your swoopy cape and your springy boots" ) ||
 		     text.startsWith( "With your spring-soled boots you leap" ) ||
-		     text.startsWith( "By the light of your torch" ) ||
-		     text.startsWith( "By the light of your helmet" ) ||
 		     text.startsWith( "A bird stole" ) ||
 		     text.startsWith( "He struggles against your rope" ) ||
 		     text.startsWith( "It finally breaks free of your rope" ) )
 		{
 			FightRequest.logText( text, status );
+			return true;
+		}
+		
+		// Finding combat supplies and gold
+		if ( text.startsWith( "By the light of your torch" ) ||
+		     text.startsWith( "By the light of your helmet" ) )
+		{
+			FightRequest.logText( text, status );
+			if ( text.contains( "you find a bomb!" ) )
+			{
+				FightRequest.logText( "You find a bomb", status );
+			}
+			if ( text.contains( "you find a rope!" ) )
+			{
+				FightRequest.logText( "You find a rope", status );
+			}
 			return true;
 		}
 
@@ -5944,6 +5961,30 @@ public class FightRequest
 		{
 			FightRequest.logText( text, status );
 			return false;
+		}
+
+		return false;
+	}
+
+	private static boolean handleSpelunkyGold( String image, String str, TagStatus status )
+	{
+		if ( status.limitmode != Limitmode.SPELUNKY )
+		{
+			return false;
+		}
+
+		if ( !image.equals( "goldnug.gif" ) &&
+		     !image.equals( "coinpurse.gif" ) &&
+		     !image.equals(" lolmecidol.gif" ) )
+		{
+			return false;
+		}
+
+		Matcher m = INT_PATTERN.matcher( str );
+		if ( m.find() )
+		{
+			FightRequest.logText( "You gain " + m.group() + " gold", status );
+			return true;
 		}
 
 		return false;
@@ -7012,23 +7053,19 @@ public class FightRequest
 			break;
 
 		case SkillPool.THROW_SKULL:
-			KoLmafia.updateDisplay( "Skull discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_SKULL, -1 );
+			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_SKULL );
 			break;
 
 		case SkillPool.THROW_ROCK:
-			KoLmafia.updateDisplay( "Rock discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_ROCK, -1 );
+			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_ROCK );
 			break;
 
 		case SkillPool.THROW_POT:
-			KoLmafia.updateDisplay( "Pot discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_POT, -1 );
+			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_POT );
 			break;
 
 		case SkillPool.THROW_TORCH:
-			KoLmafia.updateDisplay( "Torch discard" );
-			ResultProcessor.processItem( ItemPool.SPELUNKY_TORCH, -1 );
+			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_TORCH );
 			break;
 
 		case SkillPool.LASH_OF_COBRA:

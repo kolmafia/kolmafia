@@ -75,7 +75,6 @@ public class SpelunkyRequest
 	private static final Pattern GEAR_SECTION_PATTERN = Pattern.compile( "Gear:</b(.*?)</table>" );
 	private static final Pattern EQUIPMENT_PATTERN = Pattern.compile( "descitem\\((\\d+)\\)" );
 	private static final Pattern SHOP_PATTERN = Pattern.compile( "Buddy:</b(?:.*)alt='(.*?)' " );
-	private static final Pattern GOLD_GAIN_PATTERN = Pattern.compile( "(?:goldnug.gif|coinpurse.gif|lolmecidol.gif) (?:.*?)+<b>(\\d+) Gold!</b>" );
 
 	private static final Pattern TURNS_STATUS_PATTERN = Pattern.compile( "Turns: (\\d+)" );
 	private static final Pattern GOLD_STATUS_PATTERN = Pattern.compile( "Gold: (\\d+)" );
@@ -703,25 +702,14 @@ public class SpelunkyRequest
 		}
 	}
 
-	public static void gainGold( final String responseText )
+	private static final Pattern GOLD_GAIN_PATTERN = Pattern.compile( "(?:goldnug.gif|coinpurse.gif|lolmecidol.gif) (?:.*?)+<b>(\\d+) Gold!</b>" );
+	private static void gainGold( final String responseText )
 	{
 		Matcher goldMatcher = SpelunkyRequest.GOLD_GAIN_PATTERN.matcher( responseText );
 		while ( goldMatcher.find() )
 		{
 			String gain = goldMatcher.group( 1 );
 			String updateMessage = "You gain " + gain + " gold";
-			RequestLogger.updateSessionLog( updateMessage );
-			KoLmafia.updateDisplay( updateMessage );
-		}
-		if ( responseText.contains( "you find a bomb!" ) )
-		{
-			String updateMessage = "You find a bomb";
-			RequestLogger.updateSessionLog( updateMessage );
-			KoLmafia.updateDisplay( updateMessage );
-		}
-		if ( responseText.contains( "you find a rope!" ) )
-		{
-			String updateMessage = "You find a rope";
 			RequestLogger.updateSessionLog( updateMessage );
 			KoLmafia.updateDisplay( updateMessage );
 		}
