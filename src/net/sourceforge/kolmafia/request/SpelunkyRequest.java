@@ -587,20 +587,42 @@ public class SpelunkyRequest
 		}
 	}
 
+	public static void incrementNonCombatPhase()
+	{
+		if ( Preferences.increment( "spelunkyNextNoncombat", 1 ) > 3 )
+		{
+			Preferences.setInteger( "spelunkyNextNoncombat", 1 );
+		}
+	}
+
+	public static void incrementWinCount()
+	{
+		// Once the win count reaches 3, a noncombat is available.  If
+		// you adventure in Hell, which does not have a non-combat, the
+		// noncombat continues to be available. If you do not take it
+		// before winning 3 more fights, a noncombat remains available
+		// - but at the next phase step.
+		if ( Preferences.increment( "spelunkyWinCount" ) == 6 )
+		{
+			SpelunkyRequest.incrementNonCombatPhase();
+			Preferences.setInteger( "spelunkyWinCount", 3 );
+		}
+	}
+
 	public static void parseChoice( final int choice, final String responseText, final int decision )
 	{
 		// Sacrifice doesn't increment win count or counter
 		if ( choice != 1040 && choice != 1041 )
 		{
-			Preferences.resetToDefault( "spelunkyWinCount" );
+			// If you win more than three fights before taking a
+			// noncombat, the extra wins count towards the next
+			// noncombat
+			Preferences.decrement( "spelunkyWinCount", 3 );
+
 			// Shopkeeper doesn't increment the counter til you leave or fight
-			if ( !( choice == 1028 && decision < 5 ) )
+			if ( choice != 1028 || decision >= 5 )
 			{
-				Preferences.increment( "spelunkyNextNoncombat", 1 );
-				if ( Preferences.getInteger( "spelunkyNextNoncombat" ) > 3 )
-				{
-					Preferences.setInteger( "spelunkyNextNoncombat", 1 );
-				}
+				SpelunkyRequest.incrementNonCombatPhase();
 			}
 		}
 		

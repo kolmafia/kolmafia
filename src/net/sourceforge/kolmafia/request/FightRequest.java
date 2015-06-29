@@ -3259,9 +3259,9 @@ public class FightRequest
 				{
 					SpelunkyRequest.spiderQueenDefeated();
 				}
-				if ( !monsterName.equals( "shopkeeper" ) )
+				if ( !monsterName.equals( "shopkeeper" ) && !monsterName.equals( "ghost (spelunky)" ) )
 				{
-					Preferences.increment( "spelunkyWinCount", 1 );
+					SpelunkyRequest.incrementWinCount();
 				}
 			}
 
