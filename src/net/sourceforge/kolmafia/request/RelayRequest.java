@@ -2187,19 +2187,9 @@ public class RelayRequest
 			return false;
 		}
 
-		// If we have won fewer than 3 combats since the last
-		// noncombat, no noncombat is due.
-
-		if ( Preferences.getInteger( "spelunkyWinCount" ) < 3 )
-		{
-			return false;
-		}
-
-		// A noncombat is due. Tell the user about all the available
-		// noncombat options and give him a chance to confirm that he
-		// really intends to adventure in the location he has selected
-
-		String message = SpelunkyRequest.spelunkyNoncombatWarning( adventure );
+		// Depending on noncombat phase step and/or adventure location,
+		// craft an appropriate warning
+		String message = SpelunkyRequest.spelunkyWarning( adventure, CONFIRM_SPELUNKY );
 		if ( message != null )
 		{
 			this.sendGeneralWarning( "spelwhip.gif", message, CONFIRM_SPELUNKY );
