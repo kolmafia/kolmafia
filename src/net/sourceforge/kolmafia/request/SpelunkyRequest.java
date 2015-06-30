@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
@@ -1037,5 +1038,18 @@ public class SpelunkyRequest
 		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMax ) ) );
 
 		*/
+	}
+
+	public static final String spelunkyNoncombatWarning( KoLAdventure adventure )
+	{
+		int wincount = Preferences.getInteger( "spelunkyWinCount" );
+		if ( wincount < 3 )
+		{
+			return null;
+		}
+
+		int noncombat = Preferences.getInteger( "spelunkyNextNoncombat" );
+		
+		return "The ghost is waving and a phase " + noncombat + " noncombat is available . Are you sure you want to adventure in " + adventure.getAdventureName() + "?";
 	}
 }

@@ -261,6 +261,7 @@ public class OptionsFrame
 				{ "relayAddsCustomCombat", "Add custom buttons to the top of fight pages" },
 				{ "relayScriptButtonFirst", "If using custom buttons, put script button first rather than attack" },
 				{ "arcadeGameHints", "Provide hints for Arcade games" },
+				{ "spelunkyHints", "Provide hints for Spelunky" },
 			};
 
 			this.setOptions( options );
