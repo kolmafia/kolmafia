@@ -1114,7 +1114,7 @@ public class SpelunkyRequest
 			buffer.append( "</td><td>" );
 			if ( phase == 1 )
 			{
-				buffer.append( "20 Gold" );
+				buffer.append( "gain 20 gold" );
 				// Assume you can only have 1 pot
 				if ( !SpelunkyRequest.haveItem( SpelunkyRequest.POT ) )
 				{
@@ -1132,7 +1132,7 @@ public class SpelunkyRequest
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.WHIP ) )
 				{
 					buffer.append( divider );
-					buffer.append( "use whip and take 5 damage" );
+					buffer.append( "use equipped whip and take 5 damage" );
 					divider = "<br>";
 				}
 				if ( !snakePit && !spiderHole )
@@ -1179,14 +1179,14 @@ public class SpelunkyRequest
 			}
 			else if ( phase == 2 )
 			{
-				buffer.append( "gain 20-25 Gold or a buddy" );
+				buffer.append( "gain 20-25 gold or a buddy" );
 				String divider = "<br>";
 				// Assume you can only have 1 shotgun
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.HEAVY_PICKAXE ) &&
 				     !SpelunkyRequest.haveItem( SpelunkyRequest.SHOTGUN ))
 				{
 					buffer.append( divider );
-					buffer.append( "use equipped pick-axe to get a shotgun" );
+					buffer.append( "wield pick-axe to get a shotgun" );
 				}
 				// Assume you can only have 1 The Clown Crown
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.XRAY_GOGGLES ) &&
@@ -1249,11 +1249,11 @@ public class SpelunkyRequest
 			}
 			else if ( phase == 2 )
 			{
-				buffer.append( "get 50-60 gold" );
+				buffer.append( "gain 50-60 gold" );
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.TORCH ) )
 				{
 					buffer.append( "<br>" );
-					buffer.append( buddy.equals( "" ) ? "get a buddy" : "get 60-70 gold" );
+					buffer.append( buddy.equals( "" ) ? "get a buddy" : "gain 60-70 gold" );
 				}
 			}
 			else if ( phase == 3 )
@@ -1294,24 +1294,24 @@ public class SpelunkyRequest
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.JETPACK ) )
 				{
 					buffer.append( divider );
-					buffer.append( "get 250 Gold using jetpack" );
+					buffer.append( "gain 250 gold using jetpack" );
 					divider = "<br>";
 				}
 				if ( SpelunkyRequest.haveItem( SpelunkyRequest.YELLOW_CAPE ) &&
 				     SpelunkyRequest.haveItem( SpelunkyRequest.SPRING_BOOTS ))
 				{
 					buffer.append( divider );
-					buffer.append( "get 250 Gold using yellow cape and spring boots" );
+					buffer.append( "gain 250 gold using yellow cape and spring boots" );
 					divider = "<br>";
 				}
 				if ( buddy.equals( "Resourceful Kid" ) )
 				{
 					buffer.append( divider );
-					buffer.append( "get 250 Gold using Resourceful Kid" );
+					buffer.append( "gain 250 gold using Resourceful Kid" );
 					divider = "<br>";
 				}
 				buffer.append( divider );
-				buffer.append( "get 250 Gold and take 50 damage" );
+				buffer.append( "gain 250 gold and take 50 damage" );
 				divider = "<br>";
 			}
 			else if ( phase == 3 )
@@ -1327,6 +1327,113 @@ public class SpelunkyRequest
 				buffer.append( "take 40 damage" );
 				divider = "<br>";
 			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( snakePit )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 429, confirm, "snakepit.gif", "The Snake Pit" ) );
+			buffer.append( "</td><td>" );
+			buffer.append( "A Crate" );
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( spiderHole )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 430, confirm, "spiderhole.gif", "The Spider Hole" ) );
+			buffer.append( "</td><td>" );
+			buffer.append( "gain 15-20 gold" );
+			String divider = "<br>";
+			if ( SpelunkyRequest.haveItem( SpelunkyRequest.MACHETE ) )
+			{
+				buffer.append( divider );
+				buffer.append( "wield sturdy machete to " );
+				buffer.append( buddy.equals( "" ) ? "get a buddy" : "gain 30-40 gold" );
+			}
+			if ( SpelunkyRequest.haveItem( SpelunkyRequest.TORCH ) )
+			{
+				buffer.append( divider );
+				buffer.append( "wield torch to gain 30-50 gold" );
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( burialGround )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 431, confirm, "burialground.gif", "The Ancient Burial Ground" ) );
+			buffer.append( "</td><td>" );
+			buffer.append( "gain 20-25 gold or a buddy" );
+			String divider = "<br>";
+			// Assume you can only have 1 shotgun
+			if ( SpelunkyRequest.haveItem( SpelunkyRequest.HEAVY_PICKAXE ) &&
+			     !SpelunkyRequest.haveItem( SpelunkyRequest.SHOTGUN ))
+			{
+				buffer.append( divider );
+				buffer.append( "wield pick-axe to get a shotgun" );
+			}
+			// Assume you can only have 1 The Clown Crown
+			if ( SpelunkyRequest.haveItem( SpelunkyRequest.XRAY_GOGGLES ) &&
+			     !SpelunkyRequest.haveItem( SpelunkyRequest.CLOWN_CROWN ))
+			{
+				buffer.append( divider );
+				buffer.append( "wear x-ray goggles to find The Clown Crown" );
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( beehive )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 432, confirm, "beehive.gif", "The Beehive" ) );
+			buffer.append( "</td><td>" );
+			buffer.append( "A Crate" );
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( crashedUFO )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 433, confirm, "ufo.gif", "The Crashed U.F.O." ) );
+			buffer.append( "</td><td>" );
+			buffer.append( "A Crate" );
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( cityOfGoooold )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 434, confirm, "citygold.gif", "The City of Goooold" ) );
+			buffer.append( "</td><td>" );
+			String divider = "";
+			if ( keys > 0 )
+			{
+				buffer.append( divider );
+				buffer.append( "use key to gain 150 gold" );
+				divider = "<br>";
+			}
+			if ( bombs > 0 )
+			{
+				buffer.append( divider );
+				buffer.append( "use bomb to gain 80-100 gold" );
+				divider = "<br>";
+			}
+			buffer.append( divider );
+			buffer.append( "gain 50-60 gold and take 20 damage" );
 			buffer.append( "</td>" );
 			buffer.append( "</tr>" );
 		}
