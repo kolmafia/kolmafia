@@ -94,6 +94,20 @@ public class SpelunkyRequest
 		{	"Golden Monkey", "spelbuddy5.gif", "Finds extra gold"	},
 	};
 
+	private static final AdventureResult WHIP = ItemPool.get( ItemPool.SPELUNKY_WHIP, 1 );
+	private static final AdventureResult MACHETE = ItemPool.get( ItemPool.SPELUNKY_MACHETE, 1 );
+	private static final AdventureResult SHOTGUN = ItemPool.get( ItemPool.SPELUNKY_SHOTGUN, 1 );
+	private static final AdventureResult YELLOW_CAPE = ItemPool.get( ItemPool.SPELUNKY_CAPE, 1 );
+	private static final AdventureResult JETPACK = ItemPool.get( ItemPool.SPELUNKY_JETPACK, 1 );
+	private static final AdventureResult XRAY_GOGGLES = ItemPool.get( ItemPool.SPELUNKY_GOGGLES, 1 );
+	private static final AdventureResult CLOWN_CROWN = ItemPool.get( ItemPool.SPELUNKY_CROWN, 1 );
+	private static final AdventureResult SPRING_BOOTS = ItemPool.get( ItemPool.SPELUNKY_SPRING_BOOTS, 1 );
+	private static final AdventureResult HEAVY_PICKAXE = ItemPool.get( ItemPool.SPELUNKY_PICKAXE, 1 );
+	private static final AdventureResult SKULL = ItemPool.get( ItemPool.SPELUNKY_SKULL, 1 );
+	private static final AdventureResult ROCK = ItemPool.get( ItemPool.SPELUNKY_ROCK, 1 );
+	private static final AdventureResult POT = ItemPool.get( ItemPool.SPELUNKY_POT, 1 );
+	private static final AdventureResult TORCH = ItemPool.get( ItemPool.SPELUNKY_TORCH, 1 );
+
 	public SpelunkyRequest()
 	{
 		super( "place.php" );
@@ -155,7 +169,7 @@ public class SpelunkyRequest
 			return;
 		}
 
-		Boolean ghostWaving = false;
+		boolean ghostWaving = false;
 
 		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
 
@@ -421,20 +435,20 @@ public class SpelunkyRequest
 		String buddy = matcher.find() ? matcher.group( 1 ) : "";
 		matcher = SpelunkyRequest.UNLOCK_STATUS_PATTERN.matcher( spelunkyStatus );
 		String unlocks = matcher.find() ? matcher.group( 1 ) : "";
-		Boolean ghostWaving = spelunkyStatus.contains( "Non-combat Due" );
+		boolean ghostWaving = spelunkyStatus.contains( "Non-combat Due" );
 
-		Boolean jungleUnlocked = unlocks.contains( "Jungle" ) || responseText.contains( "spelunky/jungle.gif" );
-		Boolean iceCavesUnlocked = unlocks.contains( "Ice Caves" ) || responseText.contains( "spelunky/icecaves.gif" );
-		Boolean templeRuinsUnlocked = unlocks.contains( "Temple Ruins" ) || responseText.contains( "spelunky/templeruins.gif" );
-		Boolean snakePitUnlocked = unlocks.contains( "Snake Pit" ) || responseText.contains( "spelunky/snakepit.gif" );
-		Boolean spiderHoleUnlocked = unlocks.contains( "Spider Hole" ) || responseText.contains( "spelunky/spiderhole.gif" );
-		Boolean burialGroundUnlocked = unlocks.contains( "Burial Ground" ) || responseText.contains( "spelunky/burialground.gif" );
-		Boolean beehiveUnlocked = unlocks.contains( "Beehive" ) || responseText.contains( "spelunky/beehive.gif" );
-		Boolean crashedUFOUnlocked = unlocks.contains( "Crashed UFO" ) || responseText.contains( "spelunky/ufo.gif" );
-		Boolean altarUnlocked = unlocks.contains( "Altar" ) || responseText.contains( "spelunky/altar.gif" );
-		Boolean cityOfGooooldUnlocked = unlocks.contains( "City of Goooold" ) || responseText.contains( "spelunky/citygold.gif" );
-		Boolean LOLmecLairUnlocked = unlocks.contains( "LOLmec's Lair" ) || responseText.contains( "spelunky/lolmec.gif" );
-		Boolean HellUnlocked = unlocks.contains( "Hell" ) || responseText.contains( "spelunky/heckofirezzz.gif" );
+		boolean jungleUnlocked = unlocks.contains( "Jungle" ) || responseText.contains( "spelunky/jungle.gif" );
+		boolean iceCavesUnlocked = unlocks.contains( "Ice Caves" ) || responseText.contains( "spelunky/icecaves.gif" );
+		boolean templeRuinsUnlocked = unlocks.contains( "Temple Ruins" ) || responseText.contains( "spelunky/templeruins.gif" );
+		boolean snakePitUnlocked = unlocks.contains( "Snake Pit" ) || responseText.contains( "spelunky/snakepit.gif" );
+		boolean spiderHoleUnlocked = unlocks.contains( "Spider Hole" ) || responseText.contains( "spelunky/spiderhole.gif" );
+		boolean burialGroundUnlocked = unlocks.contains( "Burial Ground" ) || responseText.contains( "spelunky/burialground.gif" );
+		boolean beehiveUnlocked = unlocks.contains( "Beehive" ) || responseText.contains( "spelunky/beehive.gif" );
+		boolean crashedUFOUnlocked = unlocks.contains( "Crashed UFO" ) || responseText.contains( "spelunky/ufo.gif" );
+		boolean altarUnlocked = unlocks.contains( "Altar" ) || responseText.contains( "spelunky/altar.gif" );
+		boolean cityOfGooooldUnlocked = unlocks.contains( "City of Goooold" ) || responseText.contains( "spelunky/citygold.gif" );
+		boolean LOLmecLairUnlocked = unlocks.contains( "LOLmec's Lair" ) || responseText.contains( "spelunky/lolmec.gif" );
+		boolean HellUnlocked = unlocks.contains( "Hell" ) || responseText.contains( "spelunky/heckofirezzz.gif" );
 
 		StringBuffer newUnlocks = new StringBuffer( unlocks );
 		if ( jungleUnlocked && !unlocks.contains( "Jungle" ) )
@@ -1040,16 +1054,308 @@ public class SpelunkyRequest
 		*/
 	}
 
-	public static final String spelunkyNoncombatWarning( KoLAdventure adventure )
+	public static final String spelunkyWarning( final KoLAdventure adventure, final String confirm )
 	{
-		int wincount = Preferences.getInteger( "spelunkyWinCount" );
-		if ( wincount < 3 )
+		// If we have won fewer than 3 combats since the last
+		// noncombat, no noncombat is due.
+
+		if ( Preferences.getInteger( "spelunkyWinCount" ) < 3 )
 		{
+			// *** here is where combat warnings would be created
 			return null;
 		}
 
-		int noncombat = Preferences.getInteger( "spelunkyNextNoncombat" );
-		
-		return "The ghost is waving and a phase " + noncombat + " noncombat is available . Are you sure you want to adventure in " + adventure.getAdventureName() + "?";
+		String location = adventure.getAdventureName();
+
+		// A noncombat is due. Tell the user about all the available
+		// noncombat options and give him a chance to confirm that he
+		// really intends to adventure in the location he has selected
+
+		int phase = Preferences.getInteger( "spelunkyNextNoncombat" );
+		String message = "The ghost is waving and a phase " + phase + " noncombat is available . Click on the icon above to adventure in " + location + " or equip yourself appropriately and click on one of the locations below to go there instead.";
+
+		String status = Preferences.getString( "spelunkyStatus" );
+
+		Matcher matcher = SpelunkyRequest.BOMB_STATUS_PATTERN.matcher( status );
+		int bombs = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+
+		matcher = SpelunkyRequest.ROPE_STATUS_PATTERN.matcher( status );
+		int ropes = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+
+		matcher = SpelunkyRequest.KEY_STATUS_PATTERN.matcher( status );
+		int keys = matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+
+		matcher = SpelunkyRequest.BUDDY_STATUS_PATTERN.matcher( status );
+		String buddy = matcher.find() ? matcher.group( 1 ) : "";
+
+		matcher = SpelunkyRequest.UNLOCK_STATUS_PATTERN.matcher( status );
+		String unlocks = matcher.find() ? matcher.group( 1 ) : "";
+
+		boolean mines = true;
+		boolean jungle = unlocks.contains( "Jungle" );
+		boolean iceCaves = unlocks.contains( "Ice Caves" );
+		boolean templeRuins = unlocks.contains( "Temple Ruins" );
+		boolean snakePit = unlocks.contains( "Snake Pit" );
+		boolean spiderHole = unlocks.contains( "Spider Hole" );
+		boolean burialGround = unlocks.contains( "Burial Ground" );
+		boolean beehive = unlocks.contains( "Beehive" );
+		boolean crashedUFO = unlocks.contains( "Crashed UFO" );
+		boolean altar = unlocks.contains( "Altar" );
+		boolean cityOfGoooold = unlocks.contains( "City of Goooold" );
+
+		StringBuilder buffer = new StringBuilder( message );
+		buffer.append( "<p><table>" );
+
+		if ( mines )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 424, confirm, "mines.gif", "The Mines" ) );
+			buffer.append( "</td><td>" );
+			if ( phase == 1 )
+			{
+				buffer.append( "20 Gold" );
+				// Assume you can only have 1 pot
+				if ( !SpelunkyRequest.haveItem( SpelunkyRequest.POT ) )
+				{
+					buffer.append( "<br>" );
+					buffer.append( "pot" );
+				}
+			}
+			else if ( phase == 2 )
+			{
+				buffer.append( "A Shop" );
+			}
+			else if ( phase == 3 )
+			{
+				String divider = "";
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.WHIP ) )
+				{
+					buffer.append( divider );
+					buffer.append( "use whip and take 5 damage" );
+					divider = "<br>";
+				}
+				if ( !snakePit && !spiderHole )
+				{
+					if ( bombs > 0 )
+					{
+						buffer.append( divider );
+						buffer.append( "use a bomb to open the Snake Pit" );
+						divider = "<br>";
+					}
+					if ( ropes > 0 )
+					{
+						buffer.append( divider );
+						buffer.append( "use a rope to open the Spider Pit" );
+						divider = "<br>";
+					}
+				}
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.SKULL ) ||
+				     SpelunkyRequest.haveItem( SpelunkyRequest.ROCK ) ||
+				     SpelunkyRequest.haveItem( SpelunkyRequest.POT ) ||
+				     SpelunkyRequest.haveItem( SpelunkyRequest.TORCH ))
+				{
+					buffer.append( divider );
+					buffer.append( "discard equipped off-hand item to take no damage" );
+					divider = "<br>";
+				}
+				buffer.append( divider );
+				buffer.append( "use no resources and take 10 damage" );
+				divider = "<br>";
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( jungle )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 425, confirm, "jungle.gif", "The Jungle" ) );
+			buffer.append( "</td><td>" );
+			if ( phase == 1 )
+			{
+				buffer.append( "A Shop" );
+			}
+			else if ( phase == 2 )
+			{
+				buffer.append( "gain 20-25 Gold or a buddy" );
+				String divider = "<br>";
+				// Assume you can only have 1 shotgun
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.HEAVY_PICKAXE ) &&
+				     !SpelunkyRequest.haveItem( SpelunkyRequest.SHOTGUN ))
+				{
+					buffer.append( divider );
+					buffer.append( "use equipped pick-axe to get a shotgun" );
+				}
+				// Assume you can only have 1 The Clown Crown
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.XRAY_GOGGLES ) &&
+				     !SpelunkyRequest.haveItem( SpelunkyRequest.CLOWN_CROWN ))
+				{
+					buffer.append( divider );
+					buffer.append( "wear x-ray goggles to find The Clown Crown" );
+				}
+			}
+			else if ( phase == 3 )
+			{
+				String divider = "";
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.SPRING_BOOTS ) )
+				{
+					buffer.append( divider );
+					buffer.append( "avoid trap using equipped spring boots" );
+					divider = "<br>";
+				}
+				if ( !beehive && !burialGround )
+				{
+					if ( bombs > 0 )
+					{
+						buffer.append( divider );
+						buffer.append( "use a bomb to open The Beehive" );
+						if ( !status.contains( "Sticky Bombs" ) )
+						{
+							buffer.append( " and take 15 damage" );
+						}
+						divider = "<br>";
+					}
+					if ( ropes > 0 )
+					{
+						buffer.append( divider );
+						buffer.append( "use a rope to open the The Ancient Burial Ground" );
+						buffer.append( " and take 15 damage" );
+						if ( SpelunkyRequest.haveItem( SpelunkyRequest.YELLOW_CAPE ) ||
+						     SpelunkyRequest.haveItem( SpelunkyRequest.JETPACK ))
+						{
+							buffer.append( " (unless you equip a back item)" );
+						}
+						divider = "<br>";
+					}
+					buffer.append( divider );
+					buffer.append( "take 30 damage" );
+				}
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( iceCaves )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 426, confirm, "icecaves.gif", "The Ice Caves" ) );
+			buffer.append( "</td><td>" );
+			if ( phase == 1 )
+			{
+				buffer.append( "A Shop" );
+			}
+			else if ( phase == 2 )
+			{
+				buffer.append( "get 50-60 gold" );
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.TORCH ) )
+				{
+					buffer.append( "<br>" );
+					buffer.append( buddy.equals( "" ) ? "get a buddy" : "get 60-70 gold" );
+				}
+			}
+			else if ( phase == 3 )
+			{
+				String divider = "";
+				if ( !altar && !crashedUFO )
+				{
+					buffer.append( divider );
+					buffer.append( "take 10 damage and open The Altar" );
+					divider = "<br>";
+					if ( ropes >= 3 )
+					{
+						buffer.append( divider );
+						buffer.append( "use 3 ropes and open The Crashed U.F.O." );
+						divider = "<br>";
+					}
+				}
+				buffer.append( divider );
+				buffer.append( "take 30 damage" );
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		if ( templeRuins )
+		{
+			buffer.append( "<tr>" );
+			buffer.append( "<td>" );
+			buffer.append( spelunkyLocationLink( 427, confirm, "templeruins.gif", "The Temple Ruins" ) );
+			buffer.append( "</td><td>" );
+			if ( phase == 1 )
+			{
+				buffer.append( "A Crate" );
+			}
+			else if ( phase == 2 )
+			{
+				String divider = "";
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.JETPACK ) )
+				{
+					buffer.append( divider );
+					buffer.append( "get 250 Gold using jetpack" );
+					divider = "<br>";
+				}
+				if ( SpelunkyRequest.haveItem( SpelunkyRequest.YELLOW_CAPE ) &&
+				     SpelunkyRequest.haveItem( SpelunkyRequest.SPRING_BOOTS ))
+				{
+					buffer.append( divider );
+					buffer.append( "get 250 Gold using yellow cape and spring boots" );
+					divider = "<br>";
+				}
+				if ( buddy.equals( "Resourceful Kid" ) )
+				{
+					buffer.append( divider );
+					buffer.append( "get 250 Gold using Resourceful Kid" );
+					divider = "<br>";
+				}
+				buffer.append( divider );
+				buffer.append( "get 250 Gold and take 50 damage" );
+				divider = "<br>";
+			}
+			else if ( phase == 3 )
+			{
+				String divider = "";
+				if ( keys > 0 && !cityOfGoooold )
+				{
+					buffer.append( divider );
+					buffer.append( "use key to open The City of Goooold" );
+					divider = "<br>";
+				}
+				buffer.append( divider );
+				buffer.append( "take 40 damage" );
+				divider = "<br>";
+			}
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+		}
+
+		buffer.append( "</table>" );
+
+		return buffer.toString();
+	}
+
+	private static final boolean haveItem( final AdventureResult item )
+	{
+		return item.getCount( KoLConstants.inventory ) > 0 || InventoryManager.getEquippedCount( item ) > 0;
+	}
+
+	private static final String spelunkyLocationLink( final int id, final String confirm, final String image, final String name )
+	{
+		StringBuilder link = new StringBuilder();
+		link.append( "<a href=\"adventure.php?snarfblat=" );
+		link.append( String.valueOf( id ) );
+		link.append( "&" );
+		link.append( confirm );
+		link.append( "=on" );
+		link.append( "\"><img src=\"http://images.kingdomofloathing.com/otherimages/spelunky/" );
+		link.append( image );
+		link.append( "\" height=105 border=0 alt=\"" );
+		link.append( name );
+		link.append( "\" title=\"" );
+		link.append( name );
+		link.append( "\"></a>" );
+		return link.toString();
 	}
 }
