@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -169,6 +170,7 @@ public class RelayRequest
 	private static String CONFIRM_BOILER = "confirm19";
 	private static String CONFIRM_DIARY = "confirm20";
 	private static String CONFIRM_BORING_DOORS = "confirm21";
+	private static String CONFIRM_SPELUNKY = "confirm22";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
@@ -2159,6 +2161,54 @@ public class RelayRequest
 		return true;
 	}
 
+	private boolean sendSpelunkyWarning( final KoLAdventure adventure )
+	{
+		// If this is not an adventure URL, nothing to do here
+		if ( adventure == null )
+		{
+			return false;
+		}
+
+		// If the player doesn't want Spelunky hints, punt
+		if ( !Preferences.getBoolean( "spelunkyHints" ) )
+		{
+			return false;
+		}
+
+		// If the game is over, nothing to warn about
+		if ( SpelunkyRequest.getTurnsLeft() == 0 )
+		{
+			return false;
+		}
+
+		// If the player has said he doesn't care about this warning, cool
+		if ( this.getFormField( CONFIRM_SPELUNKY ) != null )
+		{
+			return false;
+		}
+
+		// If we have won fewer than 3 combats since the last
+		// noncombat, no noncombat is due.
+
+		if ( Preferences.getInteger( "spelunkyWinCount" ) < 3 )
+		{
+			return false;
+		}
+
+		// A noncombat is due. Tell the user about all the available
+		// noncombat options and give him a chance to confirm that he
+		// really intends to adventure in the location he has selected
+
+		String message = SpelunkyRequest.spelunkyNoncombatWarning( adventure );
+		if ( message != null )
+		{
+			this.sendGeneralWarning( "spelwhip.gif", message, CONFIRM_SPELUNKY );
+			return true;
+		}
+
+		return false;
+	}
+
 	public void sendGeneralWarning( final String image, final String message, final String confirm )
 	{
 		this.sendGeneralWarning( image, message, confirm, null, false );
@@ -2983,7 +3033,6 @@ public class RelayRequest
 			RelayRequest.executeAfterAdventureScript();
 		}
 	}
-
 	/**
 	 * Centralized method for sending warnings before executing a relay request.  Call individual warnings from here.
 	 * 
@@ -2994,16 +3043,24 @@ public class RelayRequest
 	 */
 	private boolean sendWarnings( KoLAdventure adventure, String adventureName, String nextAdventure )
 	{
+		String limitmode = KoLCharacter.getLimitmode();
+
+		// If we are playing Spelunky, a specialized set of warnings are relevant
+		if ( limitmode == Limitmode.SPELUNKY )
+		{
+			return this.sendSpelunkyWarning( adventure );
+		}
+
+		// If we are in some other limitmode, no warnings are relevant
+		if ( limitmode != null )
+		{
+			return false;
+		}
+
 		String path = this.getBasePath();
 		String urlString = this.getURLString();
 		AreaCombatData areaSummary;
 		boolean isNonCombatsOnly = false;
-
-		// If limitmode isn't null (eg Spelunky), none of these warnings are relevant
-		if ( KoLCharacter.getLimitmode() != null )
-		{
-			return false;
-		}
 
 		// basement.php is a KoLAdventure, but with no additional form
 		// fields, it simply shows you the current basement level.
