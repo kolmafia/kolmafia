@@ -2192,7 +2192,8 @@ public class RelayRequest
 		String message = SpelunkyRequest.spelunkyWarning( adventure, CONFIRM_SPELUNKY );
 		if ( message != null )
 		{
-			this.sendGeneralWarning( "spelwhip.gif", message, CONFIRM_SPELUNKY );
+			String image = SpelunkyRequest.adventureImage( adventure );
+			this.sendGeneralWarning( image != null ? image : "spelwhip.gif", message, CONFIRM_SPELUNKY );
 			return true;
 		}
 
@@ -2247,9 +2248,18 @@ public class RelayRequest
 				warning.append( " value=\"" );
 				warning.append( "on" );
 				warning.append( "\">" );
-				warning.append( "<input type=\"image\" src=\"/images/itemimages/" );
+				warning.append( "<input type=\"image\" src=\"/images/" );
+				if ( !image.contains( "/" ) )
+				{
+					warning.append( "itemimages/" );
+				}
 				warning.append( image );
-				warning.append( "\" width=30 height=30>" );
+				warning.append( "\"" );
+				if ( !image.contains( "/" ) )
+				{
+					warning.append( " width=30 height=30" );
+				}
+				warning.append( ">" );
 				warning.append( "</form>" );
 			}
 			else
@@ -2269,9 +2279,18 @@ public class RelayRequest
 					}
 					warning.append( "\">" );
 				}
-				warning.append( "<img id=\"warningImage\" src=\"/images/itemimages/" );
+				warning.append( "<img id=\"warningImage\" src=\"/images/" );
+				if ( !image.contains( "/" ) )
+				{
+					warning.append( "itemimages/" );
+				}
 				warning.append( image );
-				warning.append( "\" width=30 height=30>" );
+				warning.append( "\"" );
+				if ( !image.contains( "/" ) )
+				{
+					warning.append( " width=30 height=30" );
+				}
+				warning.append( ">" );
 				if ( confirm != null )
 				{
 					warning.append( "</a>" );
