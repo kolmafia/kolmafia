@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -108,35 +110,74 @@ public class SpelunkyRequest
 	private static final AdventureResult POT = ItemPool.get( ItemPool.SPELUNKY_POT, 1 );
 	private static final AdventureResult TORCH = ItemPool.get( ItemPool.SPELUNKY_TORCH, 1 );
 
+	private static final AdventureResult[] ITEMS =
+	{
+		// Weapons
+		SpelunkyRequest.WHIP,
+		SpelunkyRequest.MACHETE,
+		SpelunkyRequest.SHOTGUN,
+		ItemPool.get( ItemPool.SPELUNKY_BOOMERANG, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_RIFLE, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_STAFF, 1 ),
+
+		// Off-hand items
+		SpelunkyRequest.SKULL,
+		SpelunkyRequest.ROCK,
+		SpelunkyRequest.POT,
+		SpelunkyRequest.HEAVY_PICKAXE,
+		SpelunkyRequest.TORCH,
+		ItemPool.get( ItemPool.SPELUNKY_COFFEE_CUP, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_JOKE_BOOK, 1 ),
+
+		// Hats
+		ItemPool.get( ItemPool.SPELUNKY_FEDORA, 1 ),
+		ItemPool.get( ItemPool.SPELUNKY_HELMET, 1 ),
+		SpelunkyRequest.XRAY_GOGGLES,
+		SpelunkyRequest.CLOWN_CROWN,
+
+		// Back items
+		SpelunkyRequest.YELLOW_CAPE,
+		SpelunkyRequest.JETPACK,
+
+		// Accessories
+		SpelunkyRequest.SPRING_BOOTS,
+		ItemPool.get( ItemPool.SPELUNKY_SPIKED_BOOTS, 1 ),
+	};
+
+	private static final HashMap<String,String> adventureImages = new HashMap<String,String>();
+
+	static
+	{
+		SpelunkyRequest.adventureImages.put( "The Mines", "mines.gif" );
+		SpelunkyRequest.adventureImages.put( "The Jungle", "jungle.gif" );
+		SpelunkyRequest.adventureImages.put( "The Ice Caves", "icecaves.gif" );
+		SpelunkyRequest.adventureImages.put( "The Temple Ruins", "templeruins.gif" );
+		SpelunkyRequest.adventureImages.put( "Hell", "heckofirezzz.gif" );
+		SpelunkyRequest.adventureImages.put( "The Snake Pit", "snakepit.gif" );
+		SpelunkyRequest.adventureImages.put( "The Spider Hole", "spiderhole.gif" );
+		SpelunkyRequest.adventureImages.put( "The Ancient Burial Ground", "burialground.gif" );
+		SpelunkyRequest.adventureImages.put( "The Beehive", "beehive.gif" );
+		SpelunkyRequest.adventureImages.put( "The Crashed U. F. O.", "ufo.gif" );
+		SpelunkyRequest.adventureImages.put( "The City of Goooold", "citygold.gif" );
+		SpelunkyRequest.adventureImages.put( "LOLmec's Lair", "lolmec.gif" );
+		SpelunkyRequest.adventureImages.put( "Yomama's Throne", "yomama.gif" );
+	};
+
+	public static String adventureImage( KoLAdventure adventure )
+	{
+		return SpelunkyRequest.adventureImage( adventure.getAdventureName() );
+	}
+
+	public static String adventureImage( String adventureName )
+	{
+		String image = SpelunkyRequest.adventureImages.get( adventureName );
+		return image == null ? null : "otherimages/spelunky/" + image;
+	}
+
 	public SpelunkyRequest()
 	{
 		super( "place.php" );
 	}
-
-	private static final AdventureResult[] ITEMS =
-	{
-		ItemPool.get( ItemPool.SPELUNKY_WHIP, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_SKULL, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_ROCK, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_POT, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_FEDORA, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_MACHETE, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_SHOTGUN, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_BOOMERANG, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_HELMET, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_GOGGLES, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_CAPE, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_JETPACK, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_SPRING_BOOTS, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_SPIKED_BOOTS, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_PICKAXE, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_TORCH, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_RIFLE, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_STAFF, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_JOKE_BOOK, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_CROWN, 1 ),
-		ItemPool.get( ItemPool.SPELUNKY_COFFEE_CUP, 1 ),
-	};
 
 	public static void reset()
 	{
@@ -449,6 +490,7 @@ public class SpelunkyRequest
 		boolean cityOfGooooldUnlocked = unlocks.contains( "City of Goooold" ) || responseText.contains( "spelunky/citygold.gif" );
 		boolean LOLmecLairUnlocked = unlocks.contains( "LOLmec's Lair" ) || responseText.contains( "spelunky/lolmec.gif" );
 		boolean HellUnlocked = unlocks.contains( "Hell" ) || responseText.contains( "spelunky/heckofirezzz.gif" );
+		boolean YomamaThroneUnlocked = unlocks.contains( "Yomama's Throne" ) || responseText.contains( "spelunky/yomama.gif" );
 
 		StringBuffer newUnlocks = new StringBuffer( unlocks );
 		if ( jungleUnlocked && !unlocks.contains( "Jungle" ) )
@@ -546,6 +588,14 @@ public class SpelunkyRequest
 				newUnlocks.append( ", " );
 			}
 			newUnlocks.append( "Hell" );
+		}
+		if ( YomamaThroneUnlocked && !unlocks.contains( "Yomama's Throne" ) )
+		{
+			if ( !unlocks.equals( "" ) || newUnlocks.length() > 0 )
+			{
+				newUnlocks.append( ", " );
+			}
+			newUnlocks.append( "Yomama's Throne" );
 		}
 
 		// Write status string
@@ -1072,7 +1122,7 @@ public class SpelunkyRequest
 		// really intends to adventure in the location he has selected
 
 		int phase = Preferences.getInteger( "spelunkyNextNoncombat" );
-		String message = "The ghost is waving and a phase " + phase + " noncombat is available . Click on the icon above to adventure in " + location + " or equip yourself appropriately and click on one of the locations below to go there instead.";
+		String message = "The ghost is waving and a phase " + phase + " noncombat is available. Click on the icon above to adventure in " + location + " or equip yourself appropriately and click on one of the locations below to go there instead.";
 
 		String status = Preferences.getString( "spelunkyStatus" );
 
@@ -1110,7 +1160,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 424, confirm, "mines.gif", "The Mines" ) );
+			buffer.append( spelunkyLocationLink( "The Mines", AdventurePool.THE_MINES_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			if ( phase == 1 )
 			{
@@ -1171,7 +1221,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 425, confirm, "jungle.gif", "The Jungle" ) );
+			buffer.append( spelunkyLocationLink( "The Jungle", AdventurePool.THE_JUNGLE_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			if ( phase == 1 )
 			{
@@ -1241,7 +1291,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 426, confirm, "icecaves.gif", "The Ice Caves" ) );
+			buffer.append( spelunkyLocationLink( "The Ice Caves", AdventurePool.THE_ICE_CAVES_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			if ( phase == 1 )
 			{
@@ -1282,7 +1332,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 427, confirm, "templeruins.gif", "The Temple Ruins" ) );
+			buffer.append( spelunkyLocationLink( "The Temple Ruins", AdventurePool.THE_TEMPLE_RUINS_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			if ( phase == 1 )
 			{
@@ -1335,7 +1385,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 429, confirm, "snakepit.gif", "The Snake Pit" ) );
+			buffer.append( spelunkyLocationLink( "The Snake Pit", AdventurePool.THE_SNAKE_PIT_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			buffer.append( "A Crate" );
 			buffer.append( "</td>" );
@@ -1346,7 +1396,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 430, confirm, "spiderhole.gif", "The Spider Hole" ) );
+			buffer.append( spelunkyLocationLink( "The Spider Hole", AdventurePool.THE_SPIDER_HOLE_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			buffer.append( "gain 15-20 gold" );
 			String divider = "<br>";
@@ -1369,7 +1419,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 431, confirm, "burialground.gif", "The Ancient Burial Ground" ) );
+			buffer.append( spelunkyLocationLink( "The Ancient Burial Ground", AdventurePool.THE_ANCIENT_BURIAL_GROUND_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			buffer.append( "gain 20-25 gold or a buddy" );
 			String divider = "<br>";
@@ -1395,7 +1445,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 432, confirm, "beehive.gif", "The Beehive" ) );
+			buffer.append( spelunkyLocationLink( "The Beehive", AdventurePool.THE_BEEHIVE_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			buffer.append( "A Crate" );
 			buffer.append( "</td>" );
@@ -1406,7 +1456,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 433, confirm, "ufo.gif", "The Crashed U.F.O." ) );
+			buffer.append( spelunkyLocationLink( "The Crashed U.F.O.", AdventurePool.THE_CRASHED_UFO_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			buffer.append( "A Crate" );
 			buffer.append( "</td>" );
@@ -1417,7 +1467,7 @@ public class SpelunkyRequest
 		{
 			buffer.append( "<tr>" );
 			buffer.append( "<td>" );
-			buffer.append( spelunkyLocationLink( 434, confirm, "citygold.gif", "The City of Goooold" ) );
+			buffer.append( spelunkyLocationLink( "The City of Goooold", AdventurePool.THE_CITY_OF_GOOOOLD_ID, confirm ) );
 			buffer.append( "</td><td>" );
 			String divider = "";
 			if ( keys > 0 )
@@ -1448,16 +1498,16 @@ public class SpelunkyRequest
 		return item.getCount( KoLConstants.inventory ) > 0 || InventoryManager.getEquippedCount( item ) > 0;
 	}
 
-	private static final String spelunkyLocationLink( final int id, final String confirm, final String image, final String name )
+	private static final String spelunkyLocationLink( String name, final String id, final String confirm )
 	{
 		StringBuilder link = new StringBuilder();
 		link.append( "<a href=\"adventure.php?snarfblat=" );
-		link.append( String.valueOf( id ) );
+		link.append( id );
 		link.append( "&" );
 		link.append( confirm );
 		link.append( "=on" );
-		link.append( "\"><img src=\"http://images.kingdomofloathing.com/otherimages/spelunky/" );
-		link.append( image );
+		link.append( "\"><img src=\"/images/" );
+		link.append( SpelunkyRequest.adventureImage( name ) );
 		link.append( "\" height=105 border=0 alt=\"" );
 		link.append( name );
 		link.append( "\" title=\"" );
