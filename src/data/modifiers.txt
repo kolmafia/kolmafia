@@ -1209,7 +1209,6 @@ Item	KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen 
 Item	law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 Item	lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 Item	lawnmower blade	Weapon Damage: +15
-Item	lead pipe	Muscle: +6, Mysticality: +6
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
 # licorice whip: Candiful Crits
@@ -1284,6 +1283,7 @@ Item	old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
 # origami riding crop: Makes you prone to innuendo (heh heh)
 Item	origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
 Item	out-of-tune biwa	Ranged Damage: +2
+Item	oversized pipe	Muscle: +6, Mysticality: +6
 Item	oversized pizza cutter	Spell Damage: +13
 Item	pair of bolt cutters	Weakens Monster
 Item	palm-frond whip	Weapon Damage: +30
