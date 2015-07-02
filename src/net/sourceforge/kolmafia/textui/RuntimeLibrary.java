@@ -158,6 +158,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
@@ -6014,9 +6015,8 @@ public abstract class RuntimeLibrary
 
 	public static Value who_clan( Interpreter interpreter )
 	{
-		List<ChatMessage> chatMessages = new LinkedList<ChatMessage>();
-
-		ChatSender.sendMessage( chatMessages, "/who clan", false, false, false );
+		InternalChatRequest request = new InternalChatRequest( "/who clan" );
+		List<ChatMessage> chatMessages = ChatSender.sendRequest( request );
 
 		MapValue value = new MapValue( DataTypes.BOOLEAN_MAP_TYPE );
 		for ( ChatMessage chatMessage : chatMessages )

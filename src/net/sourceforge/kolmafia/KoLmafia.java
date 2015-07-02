@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
@@ -1840,11 +1841,7 @@ public abstract class KoLmafia
 
 	public static String whoisPlayer( final String player )
 	{
-		GenericRequest request = new GenericRequest( "submitnewchat.php" );
-		request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserId() ) );
-		request.addFormField( "pwd" );
-		request.addFormField( "graf", "/whois " + player );
-
+		InternalChatRequest request = new InternalChatRequest( "/whois " + player );
 		RequestThread.postRequest( request );
 		return request.responseText;
 	}
