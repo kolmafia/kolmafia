@@ -32,7 +32,7 @@ Dimemaster	buy	5	fancy seashell necklace
 Dimemaster	buy	10	Hippy Army MPE
 Dimemaster	buy	15	Gaia beads
 Dimemaster	buy	15	Lockenstock&trade; sandals
-Dimemaster	buy	20	lead pipe
+Dimemaster	buy	20	oversized pipe
 Dimemaster	buy	25	hippy medical kit
 Dimemaster	buy	30	wicker shield
 Dimemaster	buy	35	didgeridooka
@@ -56,7 +56,7 @@ Quartersmaster	sell	2	Gaia beads
 Quartersmaster	sell	5	green clay bead
 Quartersmaster	sell	3	hippy medical kit
 Quartersmaster	sell	1	hippy protest button
-Quartersmaster	sell	1	lead pipe
+Quartersmaster	sell	1	oversized pipe
 Quartersmaster	sell	2	Lockenstock&trade; sandals
 Quartersmaster	sell	1	pink clay bead
 Quartersmaster	sell	3	purple clay bead

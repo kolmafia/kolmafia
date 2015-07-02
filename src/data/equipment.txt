@@ -1037,7 +1037,6 @@ KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 law-abiding citizen cane	50	Mus: 0	1-handed club
 lawn dart	200	Mus: 200	1-handed club
 lawnmower blade	120	Mus: 45	2-handed sword
-lead pipe	175	Mus: 72	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yoyo
 leechknife	125	Mus: 47	1-handed knife
 licorice whip	10	Mus: 0	1-handed whip
@@ -1099,6 +1098,7 @@ old dry bone	225	Mus: 200	1-handed club
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	120	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
 out-of-tune biwa	30	Mox: 0	2-handed guitar
+oversized pipe	175	Mus: 72	1-handed club
 oversized pizza cutter	100	Mys: 35	1-handed utensil
 pair of bolt cutters	60	Mus: 15	2-handed club
 palm-frond whip	25	Mus: 0	1-handed whip

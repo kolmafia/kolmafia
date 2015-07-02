@@ -2358,7 +2358,7 @@
 2333	stuffed ninja snowman	739544930	stuffninja.gif	none	g,d	25	stuffed ninja snowmen
 2334	Holy MacGuffin	302128482	macguffin.gif	none	q	0
 2335	rubber WWBBDD? bracelet	540134689	rubracelet.gif	accessory		0
-2336	lead pipe	209797948	leadpipe.gif	weapon	t,d	72
+2336	oversized pipe	209797948	leadpipe.gif	weapon	t,d	72
 2337	reinforced beaded headband	213151374	warheadband.gif	hat	t,d	95
 2338	black pudding	716388011	blpudding.gif	food	t,d	40
 2339	Blackfly Chardonnay	459189919	wine2.gif	drink	t,d	40	bottles of blackfly chardonnay
