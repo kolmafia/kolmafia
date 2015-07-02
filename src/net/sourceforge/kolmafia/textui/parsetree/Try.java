@@ -80,7 +80,7 @@ public class Try
 				KoLmafia.forceContinue();
 				if ( interpreter.isTracing() )
 				{
-					interpreter.trace( "Entering finally, saved state: " + interpreter.getState() );
+					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}
 				Value newResult = this.finalClause.execute( interpreter );
 				if ( interpreter.getState() == Interpreter.STATE_NORMAL )

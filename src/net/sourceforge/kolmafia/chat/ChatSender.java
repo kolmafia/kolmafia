@@ -196,6 +196,11 @@ public class ChatSender
 		return request.responseText == null ? "" : request.responseText;
 	}
 
+	public static final List<ChatMessage> sendRequest( ChatRequest request )
+	{
+		return ChatSender.sendRequest( request, false );
+	}
+
 	public static final List<ChatMessage> sendRequest( ChatRequest request, boolean tabbedChat )
 	{
 		if ( !ChatManager.chatLiterate() )

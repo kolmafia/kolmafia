@@ -40,7 +40,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 public class ChatRequest
 	extends GenericRequest
 {
-	private final String graf;
+	protected final String graf;
 
 	/**
 	 * Constructs a new <code>ChatRequest</code> where the given parameter
