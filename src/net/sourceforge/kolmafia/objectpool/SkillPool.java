@@ -91,6 +91,11 @@ public class SkillPool
 	public static final int HOLIDAY_FUN = 121;
 	public static final int SUMMON_CARROT = 128;
 	public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
+	public static final int HEALING_SALVE = 136;
+	public static final int DARK_RITUAL = 137;
+	public static final int LIGHTNING_BOLT_CARD = 138;
+	public static final int GIANT_GROWTH = 139;
+	public static final int ANCESTRAL_RECALL = 140;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
@@ -271,7 +276,7 @@ public class SkillPool
 	public static final int CLEAN_HAIR_LIGHTNING = 16022;
 	public static final int BALL_LIGHTNING = 16023;
 	public static final int SHEET_LIGHTNING = 16024;
-	public static final int LIGHTNING_BOLT = 16025;
+	public static final int LIGHTNING_BOLT_RAIN = 16025;
 	public static final int LIGHTNING_ROD = 16026;
 	public static final int LASH_OF_COBRA = 17012;
 	public static final int CURSE_OF_FORTUNE = 17018;

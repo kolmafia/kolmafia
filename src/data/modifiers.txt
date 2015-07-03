@@ -1209,6 +1209,7 @@ Item	KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen 
 Item	law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 Item	lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 Item	lawnmower blade	Weapon Damage: +15
+Item	lead pipe	Maximum HP: +50, Muscle Percent: +100, Lasts Until Rollover
 # lead yo-yo
 Item	leechknife	Maximum HP: +10, Maximum MP: +5, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6
 # licorice whip: Candiful Crits
@@ -1360,6 +1361,7 @@ Item	ridiculously overelaborate ninja weapon	Critical Hit Percent: +15, Fumble: 
 Item	right bear arm	Muscle Percent: +10, Weapon Damage Percent: +30
 Item	roboduck-on-a-string	Weapon Damage: +5, Item Drop: +5
 Item	Rock and Roll Legend	Moxie: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
+Item	rope	Experience (Muscle): +2, Familiar Weight: +10, Lasts Until Rollover
 Item	rubber axe	Sleaze Damage: +2
 Item	rubber band gun	Moxie: +5
 Item	rubber spatula	Spell Damage: +2
@@ -1617,6 +1619,7 @@ Item	world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # worm-riding hooks
 # Wrath of the Capsaician Pastalords: Special Attack:  Noodles of Fire
 Item	Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative: +40, Class: "Pastamancer"
+Item	wrench	Maximum MP: +50, Spell Damage Percent: +100, Lasts Until Rollover
 Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 # X-37 gun: Shoots Elemental Blasts
 Item	yak whip	Weakens Monster
@@ -4291,7 +4294,8 @@ Effect	Dance of the Sugar Fairy	Item Drop: +25
 Effect	Dances with Tweedles	Meat Drop: +40
 # Dances with Warbears: +10% Item Drops from WarBears
 Effect	Dancin' Drunk	Item Drop: +100
-Effect	Dancin' Fool	Item Drop: +20
+Effect	[1609]Dancin' Fool	Item Drop: +20
+Effect	[1910]Dancin' Fool	Moxie Percent: +200
 Effect	Dancing Prowess	Item Drop: +15
 Effect	Dang Near Cut In Half	Muscle Percent: -50
 Effect	Dangerous Zone Song	Meat Drop: +25
