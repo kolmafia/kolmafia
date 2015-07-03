@@ -8042,7 +8042,7 @@
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
 8018	red and green rain stick	121053600	rainstick.gif	reusable		0
 8019	Chateau Mantegna room key	667086316	cmkey.gif	usable	t	0
-8020	Choco-Mint patty	561293201	mintpatty.gif	food	t,d	5
+8020	Choco-Mint patty	561293201	mintpatty.gif	food	t,d	5	Choco-Mint patties
 8021	hot mint schnocolate	654738040	coffeecup.gif	drink	t,d	5
 8022	homeopathic mint tea	904622324	glasswater.gif	spleen	t,d	5
 8023	electric muscle stimulator	791264166	stimulator.gif	none	q	0
