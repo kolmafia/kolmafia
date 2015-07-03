@@ -1530,6 +1530,7 @@ public abstract class KoLCharacter
 			HellKitchenRequest.reset();
 			GearChangeFrame.clearFamiliarList();
 			InventoryManager.refresh();
+			EquipmentManager.resetCustomOutfits();
 			SkillBuffFrame.update();
 		}
 	}

@@ -820,8 +820,10 @@ public abstract class KoLmafia
 		BanishManager.loadBanishedMonsters();
 
 		// Retrieve Custom Outfit list
-
-		RequestThread.postRequest( new CustomOutfitRequest() );
+		if ( !Limitmode.limitOutfits() )
+		{
+			RequestThread.postRequest( new CustomOutfitRequest() );
+		}
 
 		// Look at the Quest Log
 
@@ -881,7 +883,6 @@ public abstract class KoLmafia
 		// If we have a Crown of Thrones and/or Buddy Bjorn available and it's not
 		// equipped, see which familiar is sitting in it, if any.
 		InventoryManager.checkCrownOfThrones();
-
 		InventoryManager.checkBuddyBjorn();
 
 		// Refresh familiar stuff
@@ -987,6 +988,9 @@ public abstract class KoLmafia
 	{
 		KoLmafia.setIsRefreshing( true );
 
+		// Clear Spelunky preferences & items
+		SpelunkyRequest.reset();
+
 		// Set this first to prevent duplicate skill refreshing
 		KoLCharacter.setRestricted( false );
 
@@ -1002,11 +1006,11 @@ public abstract class KoLmafia
 
 		RequestThread.postRequest( new CharSheetRequest() );
 
-		// Clear preferences
-		SpelunkyRequest.reset();
-
 		// Retrieve inventory contents, since quest items may disappear.
 		InventoryManager.refresh();
+
+		// Retrieve Custom Outfit list, since outfits contain limited items
+		RequestThread.postRequest( new CustomOutfitRequest() );
 
 		// Retrieve the Terrarium
 		RequestThread.postRequest( new FamiliarRequest() );

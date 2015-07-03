@@ -1112,8 +1112,7 @@ public class GearChangeFrame
 
 		List shirtItems = this.validShirtItems( currentShirt );
 		this.updateEquipmentList( this.shirts, shirtItems, shirtItem );
-		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.isTorsoAware() &&
-															!Limitmode.limitSlot( EquipmentManager.SHIRT ) );
+		this.equipment[ EquipmentManager.SHIRT ].setEnabled( this.isEnabled && KoLCharacter.isTorsoAware() && !Limitmode.limitSlot( EquipmentManager.SHIRT ) );
 
 		AdventureResult containerItem = (AdventureResult) this.equipment[ EquipmentManager.CONTAINER ].getSelectedItem();
 		AdventureResult currentContainer = EquipmentManager.getEquipment( EquipmentManager.CONTAINER );
@@ -1235,6 +1234,9 @@ public class GearChangeFrame
 		this.equipment[ EquipmentManager.CROWNOFTHRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
 		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
 		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+
+		this.outfitSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
+		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 	}
 
 	private List validHatItems( final AdventureResult currentHat )
