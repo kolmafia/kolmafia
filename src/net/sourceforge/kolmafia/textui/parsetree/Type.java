@@ -265,6 +265,55 @@ public class Type
 		return null;
 	}
 
+	public Value makeValue( final Integer idval, final boolean returnDefault )
+	{
+		int id = idval.intValue();
+		switch ( this.type )
+		{
+		case DataTypes.TYPE_BOOLEAN:
+			return DataTypes.makeBooleanValue( id );
+		case DataTypes.TYPE_INT:
+			return DataTypes.makeIntValue( id );
+		case DataTypes.TYPE_FLOAT:
+			return DataTypes.makeFloatValue( id );
+		case DataTypes.TYPE_STRING:
+			return new Value( String.valueOf( id ) );
+		case DataTypes.TYPE_ITEM:
+			return DataTypes.makeItemValue( id, returnDefault );
+		case DataTypes.TYPE_SKILL:
+			return DataTypes.makeSkillValue( id, returnDefault );
+		case DataTypes.TYPE_EFFECT:
+			return DataTypes.makeEffectValue( id, returnDefault );
+		case DataTypes.TYPE_FAMILIAR:
+			return DataTypes.makeFamiliarValue( id, returnDefault );
+		case DataTypes.TYPE_MONSTER:
+			return DataTypes.makeMonsterValue( id, returnDefault );
+		case DataTypes.TYPE_THRALL:
+			return DataTypes.makeThrallValue( id, returnDefault );
+		case DataTypes.TYPE_SERVANT:
+			return DataTypes.makeServantValue( id, returnDefault );
+
+			// The following don't have an integer -> object mapping
+		case DataTypes.TYPE_LOCATION:
+			return DataTypes.LOCATION_INIT;
+		case DataTypes.TYPE_CLASS:
+			return DataTypes.CLASS_INIT;
+		case DataTypes.TYPE_STAT:
+			return DataTypes.STAT_INIT;
+		case DataTypes.TYPE_SLOT:
+			return DataTypes.SLOT_INIT;
+		case DataTypes.TYPE_ELEMENT:
+			return DataTypes.ELEMENT_INIT;
+		case DataTypes.TYPE_COINMASTER:
+			return DataTypes.COINMASTER_INIT;
+		case DataTypes.TYPE_PHYLUM:
+			return DataTypes.PHYLUM_INIT;
+		case DataTypes.TYPE_BOUNTY:
+			return DataTypes.SERVANT_INIT;
+		}
+		return null;
+	}
+
 	public Value coerceValue( final Object object, final boolean returnDefault )
 	{
 		if ( object instanceof String )
@@ -409,20 +458,16 @@ public class Type
 			if ( o instanceof Map.Entry )
 			{	// Some of the database entrySet() methods return
 				// Integer:String mappings, others String:<something>.
-				// Attempt to handle either transparently.
+				// We prefer the former, but can handle either
 				Map.Entry e = (Map.Entry) o;
 				o = e.getKey();
-				if ( !(o instanceof String) )
-				{
-					o = e.getValue();
-				}
 			}
 			if ( o instanceof KoLAdventure )
 			{	// KoLAdventure.toString() returns "zone: location",
 				// which isn't parseable as an ASH location.
 				o = ((KoLAdventure) o).getAdventureName();
 			}
-			Value v = this.parseValue( o.toString(), false );
+			Value v = this.coerceValue( o, false );
 			if ( v != null ) results.add( v );
 		}
 	}
