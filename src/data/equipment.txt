@@ -285,6 +285,7 @@ sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
 The Clown Crown	0	none
 The Crown of Ed the Undying	100	none
+The Emperor's new hat	10	none
 The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
@@ -526,6 +527,7 @@ stylish swimsuit	40	Mus: 5
 sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
+The Emperor's new pants	10	none
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
 Three Mile Island shorts	100	Mox: 35
@@ -666,6 +668,7 @@ Stephen's lab coat	120	Mus: 45
 sugar shirt	100	none
 supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
+The Emperor's new shirt	10	none
 Thinknerd T-Shirt	10	none
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
