@@ -1241,6 +1241,7 @@ user	_poisonArrows	0
 user	_poolGames	0
 user	_powderedGoldDrops	0
 user	_powerPillDrops	0
+user	_powerPillUses	0
 user	_precisionCasts	0
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
