@@ -7298,6 +7298,17 @@ public class FightRequest
 				Preferences.setString( "dnaSyringe", dna.toString() );
 			}
 			break;
+
+		case ItemPool.POWER_PILL:
+			if ( responseText.contains( "devours your foe" ) )
+			{
+				Preferences.increment( "_powerPillUses" );
+			}
+			else if ( responseText.contains( "refuses to eat" ) )
+			{
+				Preferences.setInteger( "_powerPillUses", 20 );
+			}
+			break;
 		}
 
 		// May update a quest, handle in QuestManager
