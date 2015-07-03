@@ -794,6 +794,7 @@ can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
 can-you-dig-it?	10	Mus: 0	1-handed spade
+candlestick	100	Mus: 0	1-handed wand
 candy knife	150	Mus: 40	1-handed knife
 candy knuckles	10	Mus: 0	1-handed knuckles
 candy stick	80	Mys: 25	1-handed staff
@@ -1026,6 +1027,7 @@ Kentucky-fried meat staff	70	Mus: 20	2-handed staff
 Kentucky-fried meat sword	70	Mus: 20	2-handed sword
 kiwi beak	100	Mus: 35	1-handed sword
 kneecapping stick	90	Mus: 30	1-handed club
+knife	100	Mus: 0	1-handed knife
 knob bugle	60	Mox: 15	1-handed horn
 Knob Goblin deluxe scimitar	50	Mus: 10	1-handed sword
 Knob Goblin elite polearm	60	Mus: 15	2-handed polearm
@@ -1037,6 +1039,7 @@ KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
 law-abiding citizen cane	50	Mus: 0	1-handed club
 lawn dart	200	Mus: 200	1-handed club
 lawnmower blade	120	Mus: 45	2-handed sword
+lead pipe	100	Mus: 0	1-handed club
 lead yo-yo	80	Mox: 25	1-handed yoyo
 leechknife	125	Mus: 47	1-handed knife
 licorice whip	10	Mus: 0	1-handed whip
@@ -1161,12 +1164,14 @@ regret hose	85	Mox: 30	1-handed forearm replacement
 remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow
+revolver	100	Mox: 0	1-handed pistol
 rib of the Bonerdagon	80	Mus: 25	2-handed staff
 ridiculously huge sword	140	Mus: 55	3-handed sword
 ridiculously overelaborate ninja weapon	100	Mus: 35	3-handed ...weapon
 right bear arm	100	Mus: 0	1-handed club
 roboduck-on-a-string	100	Mus: 35	1-handed flail
 Rock and Roll Legend	50	Mox: 10	2-handed accordion
+rope	10	Mus: 0	1-handed whip
 rubber axe	40	Mus: 5	2-handed axe
 rubber band gun	30	Mox: 0	1-handed pistol
 rubber spatula	25	Mys: 0	1-handed utensil
@@ -1384,6 +1389,7 @@ Work is a Four Letter Sword	100	Mus: 0	1-handed sword
 world's smallest violin	150	Mox: 60	1-handed violin
 worm-riding hooks	50	Mus: 0	2-handed club
 Wrath of the Capsaician Pastalords	200	Mys: 60	1-handed utensil
+wrench	100	Mys: 0	1-handed utensil
 wumpus-hair whip	15	Mus: 0	1-handed whip
 X-37 gun	160	Mox: 65	1-handed pistol
 yak whip	20	Mus: 0	1-handed whip

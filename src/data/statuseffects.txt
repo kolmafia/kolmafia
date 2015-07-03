@@ -1906,3 +1906,5 @@
 1905
 1906	WAKKA WAKKA WAKKA	puckman.gif	03830365a0602503275dae3707a14277	use 1 yellow pixel potion
 1907	Ready to Snap	gingersnaps.gif	2941e9b9cd23013d28e3b3f9d19e4769	use 1 ginger snaps
+
+1910	Dancin' Fool	dance2.gif	36348033db6b570a60a7fd2dc360153d

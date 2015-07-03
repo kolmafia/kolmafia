@@ -158,6 +158,11 @@
 133	Rotten Memories	dinseybrain.gif	3	15	10
 134	Bear Essence	stench.gif	0	0	0
 135	Summon Kokomo Resort Pass	palmtree.gif	1	1	0
+136	Healing Salve	potion4.gif	5	0	0
+137	Dark Ritual	skull.gif	2	0	0
+138	Lightning Bolt	lightning.gif	5	0	0
+139	Giant Growth	smilerat.gif	5	0	0
+140	Ancestral Recall	raindrop.gif	3	0	0
 
 # Skills available to Clubbers
 

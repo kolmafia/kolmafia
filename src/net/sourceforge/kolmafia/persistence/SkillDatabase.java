@@ -1031,7 +1031,7 @@ public class SkillDatabase
 			return 5;
 		case SkillPool.SHEET_LIGHTNING:
 			return 10;
-		case SkillPool.LIGHTNING_BOLT:
+		case SkillPool.LIGHTNING_BOLT_RAIN:
 			return 1;
 		case SkillPool.LIGHTNING_ROD:
 			return 20;

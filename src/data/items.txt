@@ -8404,6 +8404,27 @@
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120
 8379	miniature power pill	721265969	minipowerpill.gif	multiple	t,d	120
 8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
-8381
-8382
+8381	Pack of Every Card	953300668	deckbox.gif	usable	t	0
+8382	Deck of Every Card	857757278	deckdeck.gif	usable		0
 8383	popular part	172388652	clwidget.gif	none	q	0
+8384	bubblegum heart	423510142	cartoonheart.gif	usable	t,d	30
+8385	cubic zirconia	718061077	baconstone.gif	none	t,d	100
+8386	valuable coin	833463824	goldcoin.gif	none	t,d	500
+8387	white mana	599679299	goldcoin.gif	none	t	0
+8388	black mana	529332102	goldcoin.gif	none	t	0
+8389	red mana	245453940	goldcoin.gif	none	t	0
+8390	green mana	969926039	goldcoin.gif	none	t	0
+8391	blue mana	521152123	goldcoin.gif	none	t	0
+8392	gift card	132840364	buscard.gif	usable	t	0
+8393	hermit factoid	484177815	guildapp.gif	usable	t,d	37
+8394	The Emperor's dry cleaning	287667995	plainbrown.gif	usable	t	0
+8395	The Emperor's new hat	354942962	blank.gif	hat		0
+8396	The Emperor's new shirt	112751980	blank.gif	shirt		0
+8397	The Emperor's new pants	531322996	blank.gif	pants		0
+8398	lead pipe	930676579	leadpipe.gif	weapon	q	0
+8399	rope	699436180	lasso.gif	weapon	q	0
+8400	wrench	196043255	monkeywrench.gif	weapon	q	0
+8401	candlestick	707044196	nopic.gif	weapon	q	0
+8402	knife	752666911	colaknife.gif	weapon	q	0
+8403	revolver	987227451	sixshooter.gif	weapon	q	0
+8404	1952 Mickey Mantle card	547494119	tradecard.gif	none	t,d	10000

@@ -23,6 +23,7 @@ blue potion	item	0	0	20	30	0
 blue striped oyster egg	item	0	0	30	35	0
 bottle of Monsieur Bubble	item	0	0	45	65	0
 bottle of Vangoghbitussin	item	100	100	100	100	0
+bubblegum heart	item	80	100	0	0	0
 Camp Scout pup tent	item	1000	1000	0	0	0
 # Special - handled in code.
 Campground	loc	1	1	1	1	1
