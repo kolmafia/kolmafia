@@ -3363,7 +3363,7 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Beanstalk", "choiceAdventure1026", "Ground Floor Foodie",
 			new Object[] { "4 pieces of candy",
-				       new Option( "electric boning knife", "electric boning knife" ),
+				       new Option( "electric boning knife, then skip adventure", "electric boning knife" ),
 				       "skip adventure" } ),
 
 		// Choice 1027 is The End of the Tale of Spelunking
@@ -12080,6 +12080,17 @@ public abstract class ChoiceManager
 				return "5";
 			}
 			return "0";
+
+		case 1026:
+			// Home on the Free Range
+
+			// Option 2 is electric boning knife - until you get
+			// it, at which point the option is not available.
+			if ( decision.equals( "2" ) && !responseText.contains( "Investigate the noisy drawer" ) )
+			{
+				return "3";
+			}
+			return decision;
 		}
 		return decision;
 	}
