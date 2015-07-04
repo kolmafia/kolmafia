@@ -6419,6 +6419,25 @@ public abstract class ChoiceManager
 			// A Shop
 			SpelunkyRequest.logShop( ChoiceManager.lastResponseText, ChoiceManager.lastDecision );
 			break;
+
+		case 1085: // Deck of Every Card
+			RequestLogger.printLine( "made it to 1085" );
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "_deckCardsDrawn", 1, 15, false );
+			}
+			EncounterManager.ignoreSpecialMonsters();
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = request.getURLString();
+			KoLAdventure.setNextAdventure( "None" );
+			GenericRequest.itemMonster = "Deck of Every Card";
+			break;
+
+		case 1086: // Pick a Card
+			// The extra 1 will be covered in choice 1085
+			Preferences.increment( "_deckCardsDrawn", 4, 15, false );
+			break;
 		}
 	}
 
@@ -8630,6 +8649,7 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.GARBAGE_BAG, -1 );
 				Preferences.setBoolean( "_dinseyGarbageDisposed", true );
 			}
+			break;
 
 		case 1076:
 			// Mayo Minder&trade;
@@ -8648,6 +8668,8 @@ public abstract class ChoiceManager
 			case 6:
 				Preferences.setString( "mayoMinderSetting", "" );
 			}
+			break;
+
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
@@ -8886,7 +8908,7 @@ public abstract class ChoiceManager
 			// this party
 
 			if ( ChoiceManager.lastDecision == 1  &&
-			     text.indexOf( "very strict dress code" ) == -1 )
+			     !text.contains( "very strict dress code" ) )
 			{
 				Preferences.setBoolean( "_madTeaParty", true );
 			}
@@ -10305,7 +10327,7 @@ public abstract class ChoiceManager
 			Matcher matcher = ChoiceManager.DINSEY_PIRATE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				Preferences.setBoolean( "dinseyGarbagePirate", ( matcher.group( 1 ).equals( "lit" ) ? true : false ) );
+				Preferences.setBoolean( "dinseyGarbagePirate", ( matcher.group( 1 ).equals( "lit" ) ) );
 			}
 			break;
 		}
