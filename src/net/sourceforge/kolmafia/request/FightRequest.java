@@ -7309,6 +7309,17 @@ public class FightRequest
 				Preferences.setInteger( "_powerPillUses", 20 );
 			}
 			break;
+
+		case ItemPool.GLARK_CABLE:
+			if ( responseText.contains( "neatly vaporized" ) )
+			{
+				Preferences.increment( "_glarkCableUses", 1, 5, false );
+			}
+			else if ( responseText.contains( "glark batteries" ) )
+			{
+				Preferences.setInteger( "_glarkCableUses", 5 );
+			}
+			break;
 		}
 
 		// May update a quest, handle in QuestManager
