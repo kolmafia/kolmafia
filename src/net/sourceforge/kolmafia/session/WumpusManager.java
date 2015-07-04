@@ -77,20 +77,17 @@ public abstract class WumpusManager
 		null,	// z
 	};
 
-	public static TreeMap rooms = new TreeMap();
+	public static TreeMap<String,Room> rooms = new TreeMap<String,Room>();
 
 	static
 	{
 		// Initialize all rooms to unknown
-		for ( int i = 0; i < CHAMBERS.length; ++i )
+		for ( String name : CHAMBERS )
 		{
-			String name = CHAMBERS[ i ];
-			if ( name == null )
+			if ( name != null )
 			{
-				continue;
+				WumpusManager.rooms.put( name, new Room( name ) );
 			}
-			Room room = new Room( name );
-			WumpusManager.rooms.put( name, room );
 		}
 	};
 
@@ -151,10 +148,8 @@ public abstract class WumpusManager
 	public static void reset()
 	{
 		// Reset all rooms to initial state
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			room.reset();
 		}
 
@@ -222,13 +217,13 @@ public abstract class WumpusManager
 			return;
 		}
 
-		if ( text.indexOf( "Wait for the bats to drop you" ) != -1 )
+		if ( text.contains( "Wait for the bats to drop you" ) )
 		{
 			WumpusManager.knownBats( room, VISIT );
 			return;
 		}
 
-		if ( text.indexOf( "Thump" ) != -1 )
+		if ( text.contains( "Thump" ) )
 		{
 			WumpusManager.knownPit( room, VISIT );
 			return;
@@ -258,25 +253,27 @@ public abstract class WumpusManager
 
 		WumpusManager.printDeduction( "Exits: " + WumpusManager.current.exitString() );
 
-		WumpusManager.knownSafe( VISIT );
-
 		// Basic logic: assume all rooms have all warnings initially.
 		// Remove any warnings from linked rooms that aren't present
 		// in the current room.
 
 		int warn = WARN_INDEFINITE;
-		if ( text.indexOf( "squeaking coming from somewhere nearby" ) != -1 )
+		if ( text.contains( "squeaking coming from somewhere nearby" ) )
 		{
 			warn |= WARN_BATS;
 		}
-		if ( text.indexOf( "hear a low roaring sound nearby" ) != -1 )
+		if ( text.contains( "hear a low roaring sound nearby" ) )
 		{
 			warn |= WARN_PIT;
 		}
-		if ( text.indexOf( "the Wumpus must be nearby" ) != -1 )
+		if ( text.contains( "the Wumpus must be nearby" ) )
 		{
 			warn |= WARN_WUMPUS;
 		}
+
+		WumpusManager.printDeduction( "Sounds: " + WumpusManager.current.listenString() );
+
+		WumpusManager.knownSafe( VISIT );
 
 		WumpusManager.current.setListen( warn );
 
@@ -300,6 +297,64 @@ public abstract class WumpusManager
 		// doesn't hurt to try.
 
 		WumpusManager.deduce( room );
+	}
+
+	private static final Pattern ENCOUNTER_PATTERN = Pattern.compile( "Encounter: (.*)" );
+	private static final Pattern EXITS_PATTERN = Pattern.compile( "Exits: (.*), (.*), (.*)" );
+
+	public static String reconstructResponseText( final String encounter, final String exits, final String sounds )
+	{
+		if ( encounter == null )
+		{
+			return null;
+		}
+
+		Matcher m = WumpusManager.ENCOUNTER_PATTERN.matcher( encounter );
+		if ( !m.find() )
+		{
+			return null;
+		}
+
+		StringBuilder buffer = new StringBuilder();
+		buffer.append( "<b>" );
+		buffer.append( m.group( 1 ) );
+		buffer.append ("</b>" );
+		buffer.append( "\n" );
+
+		if ( exits != null )
+		{
+			m = WumpusManager.EXITS_PATTERN.matcher( exits );
+			if ( m.find() )
+			{
+				buffer.append( "Enter " );
+				buffer.append( m.group( 1 ) );
+				buffer.append( "\n" );
+				buffer.append( "Enter " );
+				buffer.append( m.group( 2 ) );
+				buffer.append( "\n" );
+				buffer.append( "Enter " );
+				buffer.append( m.group( 3 ) );
+				buffer.append( "\n" );
+			}
+		}
+
+		if ( sounds != null )
+		{
+			if ( sounds.contains( "pit" ) )
+			{
+				buffer.append( "You hear a low roaring sound nearby, like the echo of wind in an empty space.\n" );
+			}
+			if ( sounds.contains( "bats" ) )
+			{
+				buffer.append( "You hear the fluttering of wings and a high-pitched squeaking coming from somewhere nearby.\n" );
+			}
+			if ( sounds.contains( "Wumpus" ) )
+			{
+				buffer.append( "Spatters of blood covering the floor and an overpowering stench indicate that the Wumpus must be nearby.\n" );
+			}
+		}
+
+		return buffer.toString();
 	}
 
 	private static void knownSafe( final int type  )
@@ -419,56 +474,86 @@ public abstract class WumpusManager
 	
 	private static void possibleHazard( final Room room, int warn )
 	{
-		// If we have already positively identified this room,
-		// leave it alone
-		if ( ( room.getHazards() & WARN_INDEFINITE ) == 0 )
+		// If we have already been to this room, leave it alone
+		if ( room.visited )
+		{
+			return;
+		}
+
+		// If we have already positively identified the hazards in this
+		// room, leave it alone
+		int hazards = room.getHazards();
+		if ( ( hazards & WARN_INDEFINITE ) == 0 )
 		{
 			return;
 		}
 
 		// We hear various sounds from an adjacent room. Mark
-		// this room as a possible source. This is currently
-		// only used to generate the Wumpinator string.
+		// this room as a possible source.
 
-		if ( ( warn & WARN_BATS ) != 0 )
+		// If it is possible there are bats in this room...
+		if ( (hazards & WARN_BATS ) != 0 )
 		{
-			// If we know both bat rooms, no bats in this room.
-			if ( WumpusManager.bats1 != null && WumpusManager.bats2 != null )
+			if ( ( warn & WARN_BATS ) != 0 )
 			{
-				warn &= ~WARN_BATS;
+				// If we know both bat rooms, no bats in this room.
+				if ( WumpusManager.bats1 != null && WumpusManager.bats2 != null )
+				{
+					warn &= ~WARN_BATS;
+				}
+				else if ( ++room.bat == 3 )
+				{
+					WumpusManager.knownBats( room, DEDUCTION );
+					return;
+				}
 			}
-			else if ( ++room.bat == 3 )
+			else
 			{
-				WumpusManager.knownBats( room, DEDUCTION );
-				return;
+				WumpusManager.eliminateHazard( room, WARN_BATS );
 			}
 		}
 
-		if ( ( warn & WARN_PIT ) != 0 )
+		// If it is possible there are pits in this room...
+		if ( ( hazards & WARN_PIT ) != 0 )
 		{
-			// If we know both pit rooms, no pit in this room.
-			if ( WumpusManager.pit1 != null && WumpusManager.pit2 != null )
+			if ( ( warn & WARN_PIT ) != 0 )
 			{
-				warn &= ~WARN_PIT;
+				// If we know both pit rooms, no pit in this room.
+				if ( WumpusManager.pit1 != null && WumpusManager.pit2 != null )
+				{
+					warn &= ~WARN_PIT;
+				}
+				else if ( ++room.pit == 3 )
+				{
+					WumpusManager.knownPit( room, DEDUCTION );
+					return;
+				}
 			}
-			else if ( ++room.pit == 3 )
+			else
 			{
-				WumpusManager.knownPit( room, DEDUCTION );
-				return;
+				WumpusManager.eliminateHazard( room, WARN_PIT );
 			}
 		}
 
-		if ( ( warn & WARN_WUMPUS ) != 0 )
+		// If it is possible the Wumpus is in this room...
+		if ( ( hazards & WARN_WUMPUS ) != 0 )
 		{
-			// If we know the Wumpus room, no Wumpus in this room.
-			if ( WumpusManager.wumpus != null )
+			if ( ( warn & WARN_WUMPUS ) != 0 )
 			{
-				warn &= ~WARN_WUMPUS;
+				// If we know the Wumpus room, no Wumpus in this room.
+				if ( WumpusManager.wumpus != null )
+				{
+					warn &= ~WARN_WUMPUS;
+				}
+				else if ( ++room.wumpus == 2 )
+				{
+					WumpusManager.knownWumpus( room, DEDUCTION );
+					return;
+				}
 			}
-			else if ( ++room.wumpus == 2 )
+			else
 			{
-				WumpusManager.knownWumpus( room, DEDUCTION );
-				return;
+				WumpusManager.eliminateHazard( room, WARN_WUMPUS );
 			}
 		}
 
@@ -522,10 +607,8 @@ public abstract class WumpusManager
 
 	private static void eliminateHazard( final int hazard )
 	{
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			WumpusManager.eliminateHazard( room, hazard );
 		}
 	}
@@ -566,11 +649,6 @@ public abstract class WumpusManager
 		String warnString = WumpusManager.ELIMINATE_STRINGS[ hazard ];
 
 		WumpusManager.addDeduction( "Deduction: " + warnString + " in " + room );
-
-		// Look at neighbors and see if what we learned in
-		// this one tells us more about other rooms.
-
-		WumpusManager.deduceNeighbors( room );
 	}
 
 	private static void deduceNeighbors( final Room room )
@@ -668,7 +746,7 @@ public abstract class WumpusManager
 		}
 
 		// Unfortunately, the wumpus was nowhere to be seen.
-		if ( text.indexOf( "wumpus was nowhere to be seen" ) != -1  )
+		if ( text.contains( "wumpus was nowhere to be seen" )  )
 		{
 			WumpusManager.last = WumpusManager.current;
 			WumpusManager.eliminateHazard( room, WARN_WUMPUS );
@@ -681,8 +759,8 @@ public abstract class WumpusManager
 		// Now that you have successfully snuck up and surprised the
 		// wumpus, it doesn't seem to really know how to react.
 
-		if ( text.indexOf( "unexpectedly, a wumpus" ) != -1 ||
-		     text.indexOf( "surprised the wumpus" ) != -1 )
+		if ( text.contains( "unexpectedly, a wumpus" ) ||
+		     text.contains( "surprised the wumpus" ) )
 		{
 			WumpusManager.last = WumpusManager.current;
 			WumpusManager.knownWumpus( room, VISIT );
@@ -774,11 +852,16 @@ public abstract class WumpusManager
 		WumpusManager.deductions.setLength( 0 );
 	}
 
-	public static final void invokeWumpinator()
+	public static final String getWumpinatorURL()
 	{
 		String code = WumpusManager.getWumpinatorCode();
 		String current = WumpusManager.getCurrentField();
-		RelayLoader.openSystemBrowser( "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current );
+		return "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current;
+	}
+
+	public static final void invokeWumpinator()
+	{
+		RelayLoader.openSystemBrowser( WumpusManager.getWumpinatorURL() );
 	}
 
 	private static final Room currentRoom()
@@ -810,9 +893,9 @@ public abstract class WumpusManager
 
 	private static final String getWumpinatorLink()
 	{
+		String code = WumpusManager.getWumpinatorCode();
 		String current = WumpusManager.getCurrentField();
-		String map = WumpusManager.getWumpinatorCode();
-		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + map + current + " target=_blank>View in Wumpinator</a>";
+		return "<a href=http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current + " target=_blank>View in Wumpinator</a>";
 	}
 
 	private static final String getWumpinatorMap()
@@ -824,18 +907,16 @@ public abstract class WumpusManager
 			return WumpusManager.getWumpinatorLink();
 		}
 		String litstring = "litstring=" + layout;
-		String map = "&map=" + WumpusManager.getWumpinatorCode();
+		String code = "&map=" + WumpusManager.getWumpinatorCode();
 		String current = WumpusManager.getCurrentField();
-		return "<tr><td><center><img border=0 src=http://www.feesher.com/wumpus/wump_graphic3.php?" + litstring + map + current + "></center></td></tr>";
+		return "<tr><td><center><img border=0 src=http://www.feesher.com/wumpus/wump_graphic3.php?" + litstring + code + current + "></center></td></tr>";
 	}
 
 	public static final void printStatus()
 	{
 		// Since we use a TreeMap, rooms are in alphabetical order
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			String name = room.toString();
 			String exits = room.shortExitString();
 			String pit = room.pit == 9 ? "no pit" : room.pit == 8 ? "PIT" : String.valueOf( room.pit );
@@ -897,10 +978,8 @@ public abstract class WumpusManager
 		StringBuffer buffer = new StringBuffer();
 
 		// Since we use a TreeMap, rooms are in alphabetical order
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			// Append code letters for each exit
 			for ( int i = 0; i < 3; ++i )
 			{
@@ -915,10 +994,8 @@ public abstract class WumpusManager
 
 		// Append pit groups
 		buffer.append( "::P" );
-		it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			if ( ( room.getListen() & WARN_PIT ) == 0 )
 			{
 				continue;
@@ -933,10 +1010,8 @@ public abstract class WumpusManager
 
 		// Append bat groups
 		buffer.append( "::B" );
-		it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			if ( ( room.getListen() & WARN_BATS ) == 0 )
 			{
 				continue;
@@ -1050,10 +1125,8 @@ public abstract class WumpusManager
 
 		// We failed to generate a layout from the specified
 		// room. Try again with any visited room.
-		Iterator it = WumpusManager.rooms.values().iterator();
-		while ( it.hasNext() )
+		for ( Room room : WumpusManager.rooms.values() )
 		{
-			Room room = (Room) it.next();
 			if ( room == current || !room.visited )
 			{
 				continue;
@@ -1272,6 +1345,32 @@ public abstract class WumpusManager
 			String exit2 = this.exits[1] == null ? "unknown" : this.exits[1].getName();
 			String exit3 = this.exits[2] == null ? "unknown" : this.exits[2].getName();
 			return exit1 + ", " + exit2 + ", " + exit3;
+		}
+
+		public String listenString()
+		{
+			StringBuilder buffer = new StringBuilder();
+			String delim = "";
+			if ( ( this.listen & WARN_BATS ) != 0 )
+			{
+				buffer.append( delim );
+				buffer.append( "bats" );
+				delim = ", ";
+			}
+			if ( ( this.listen & WARN_PIT ) != 0 )
+			{
+				buffer.append( delim );
+				buffer.append( "pit" );
+				delim = ", ";
+			}
+			if ( ( this.listen & WARN_WUMPUS ) != 0 )
+			{
+				buffer.append( delim );
+				buffer.append( "Wumpus" );
+				delim = ", ";
+			}
+			String sounds = buffer.toString();
+			return sounds.equals( "" ) ? "none" : sounds;
 		}
 
 		public int getHazards()
