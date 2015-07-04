@@ -77,6 +77,12 @@ public class WumpusCommand
 			return;
 		}
 
+		if ( option.equals( "reset" ) )
+		{
+			WumpusManager.reset();
+			return;
+		}
+
 		if ( option.equals( "replay" ) )
 		{
 			if ( tokens.length < 2 )
