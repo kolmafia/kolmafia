@@ -1906,5 +1906,8 @@
 1905
 1906	WAKKA WAKKA WAKKA	puckman.gif	03830365a0602503275dae3707a14277	use 1 yellow pixel potion
 1907	Ready to Snap	gingersnaps.gif	2941e9b9cd23013d28e3b3f9d19e4769	use 1 ginger snaps
-
+1908	Giant Growth	smilerat.gif	fcc91625e3f8182075304ffb8280b6ec
+1909	Racing!	fast.gif	76eecc6079e2912934a35633f34482a8
 1910	Dancin' Fool	dance2.gif	36348033db6b570a60a7fd2dc360153d
+1911	Magicianship	snowflakes.gif	5229a02e57640fa1e525e15772b6ba91
+1912	Strongly Motivated	barbell.gif	dd62de877d5d9821d08cd919ed8ac2cf
