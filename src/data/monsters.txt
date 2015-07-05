@@ -2079,3 +2079,8 @@ Shadow Avatar of Boris	0		DUMMY
 Shadow Zombie Master	0		DUMMY
 Shadow Avatar of Jarlsberg	0		DUMMY
 Shadow Avatar of Sneaky Pete	0		DUMMY
+
+# Deck of Every Card (July 2015)
+
+The Emperor	1782	nopic.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100
+legal alien	1783	illegal_alien.gif	Atk: 50 Def: 50 HP: 100 P: humanoid Init: 50
