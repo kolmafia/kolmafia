@@ -8408,7 +8408,7 @@
 8382	Deck of Every Card	857757278	deckdeck.gif	usable		0
 8383	popular part	172388652	clwidget.gif	none	q	0
 8384	bubblegum heart	423510142	cartoonheart.gif	usable	t,d	30
-8385	cubic zirconia	718061077	baconstone.gif	none	t,d	100
+8385	cubic zirconia	718061077	baconstone.gif	none	t,d	100	hyper-cubic zirconiae
 8386	valuable coin	833463824	goldcoin.gif	none	t,d	500
 8387	white mana	599679299	goldcoin.gif	none	t	0
 8388	black mana	529332102	goldcoin.gif	none	t	0
