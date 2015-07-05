@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -152,8 +153,20 @@ public abstract class ChoiceManager
 		return 0;
 	}
 
-	private static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
+	public static final Pattern URL_CHOICE_PATTERN = Pattern.compile( "whichchoice=(\\d+)" );
+	public static int extractChoiceFromURL( final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	public static final Pattern URL_OPTION_PATTERN = Pattern.compile( "(?<!force)option=(\\d+)" );
+	public static int extractOptionFromURL( final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -7174,7 +7187,7 @@ public abstract class ChoiceManager
 
 		case 720:
 			// The Florist Friar's Cottage
-			FloristRequest.parseResponse( urlString , text );
+			FloristRequest.parseResponse( urlString, text );
 			return;
 
 		case 721:
@@ -8669,6 +8682,12 @@ public abstract class ChoiceManager
 			}
 			break;
 
+
+		case 1085:
+		case 1086:
+			// The Deck of Every Card
+			DeckOfEveryCardRequest.parseResponse( urlString , text );
+			return;
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
@@ -12304,12 +12323,10 @@ public abstract class ChoiceManager
 			return true;
 		}
 
-		Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher( urlString );
-		int choice = 0;
+		int choice = ChoiceManager.extractChoiceFromURL( urlString );
 		int decision = 0;
-		if ( matcher.find() )
+		if ( choice != 0 )
 		{
-			choice = StringUtilities.parseInt( matcher.group( 1 ) );
 			switch ( choice )
 			{
 			case 443:
@@ -12356,10 +12373,9 @@ public abstract class ChoiceManager
 				return SorceressLairManager.registerChoice( choice, urlString );
 			}
 
-			matcher = ChoiceManager.URL_OPTION_PATTERN.matcher( urlString );
-			if ( matcher.find() )
+			decision = ChoiceManager.extractOptionFromURL( urlString );
+			if ( decision != 0 )
 			{
-				decision = StringUtilities.parseInt( matcher.group( 1 ) );
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 				String desc = "unknown";
 				if ( spoilers != null && spoilers.length > 2 )
