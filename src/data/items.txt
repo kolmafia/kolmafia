@@ -8057,9 +8057,9 @@
 8032	fancy calligraphy pen	224300796	calpen.gif	none, curse	t	0
 8033	alpine watercolor set	256906862	briefcase.gif	none, combat		0
 8034	tope&eacute;	656752459	topihat.gif	hat		0
-8035	topiary tights	858882198	topipants.gif	pants		0
+8035	topiary tights	858882198	topipants.gif	pants		0	pairs of topiary tights
 8036	topiary necktie	987273017	topitie.gif	accessory		0
-8037	bowl of topioca	766474108	topibowl.gif	food	d	70
+8037	bowl of topioca	766474108	topibowl.gif	food	d	70	bowls of topioca
 8038	topiary skunk	801393694	topiskunk.gif	grow		0
 8039	topiary noseplugs	765635512	topiplugs.gif	familiar	d	70
 8040	trusty whip	553091778	spelwhip.gif	weapon	q	0

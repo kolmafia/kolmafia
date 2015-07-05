@@ -4561,6 +4561,7 @@ Effect	Gemini Rising	Maximum HP Percent: +100
 # Get Me Off This Crazy Thing!: Jane!
 # Ghost Finger: +100 Damage vs. Ghosts
 Effect	Ghostly Shell	Damage Absorption: +80
+Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
 # Gift of the Warbear: +15% Item Drops from WarBears
 Effect	Ginger Fightis	Avatar: "creepy ginger twin"
 Effect	Ginger Snapped	Spooky Damage: +10
@@ -4895,6 +4896,7 @@ Effect	Macho, Macho Dog	Muscle Percent: +50, Critical Hit Percent: +10
 Effect	Mad at Science	Muscle: +3
 # Magic Tongue: Everything tastes weird
 Effect	Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
+Effect	Magicianship	Mysticality Percent: +200
 Effect	Magreame Headache	Avatar: "Ice Cream Conjurer"
 Effect	Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Majestic Neckbeard	Avatar: "Neckbeard Giant"
@@ -5166,6 +5168,7 @@ Effect	Quadrilled	Item Drop: +20
 Effect	Quivering with Rage	Muscle Percent: -10
 # QWOPped Up: Always Fumble
 Effect	QWOPped Up	Initiative: -100
+Effect	Racing!	Initiative: +200
 Effect	Rad-ish	Moxie Percent: +25
 Effect	Radiant Personality	Moxie Percent: +30
 Effect	Radiated and Grodiated	Mysticality Percent: +50, Stench Spell Damage: +25, Stench Resistance: +3
@@ -5474,6 +5477,7 @@ Effect	Strength of Ten Ettins	Muscle Percent: +25
 Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
 Effect	Strong Spirit	Muscle: +15
+Effect	Strongly Motivated	Muscle Percent: +200
 # Stubbly Legs: <s>Love is a battlefield</s>Legs are a stubble field
 Effect	Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 # Stuck-Up Hair: Damages Attacking Opponents
