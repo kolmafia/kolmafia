@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.CurseRequest;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
@@ -673,6 +674,13 @@ public class RequestLogger
 
 		// The Clan Lounge Swimming Pool is an instance of choice.php
 		if ( ( request instanceof ClanLoungeSwimmingPoolRequest || isExternal ) && ClanLoungeSwimmingPoolRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// The Deck of Every Card is an instance of choice.php
+		if ( ( request instanceof DeckOfEveryCardRequest || isExternal ) && DeckOfEveryCardRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
