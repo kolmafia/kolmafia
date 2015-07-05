@@ -6421,7 +6421,6 @@ public abstract class ChoiceManager
 			break;
 
 		case 1085: // Deck of Every Card
-			RequestLogger.printLine( "made it to 1085" );
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.increment( "_deckCardsDrawn", 1, 15, false );
