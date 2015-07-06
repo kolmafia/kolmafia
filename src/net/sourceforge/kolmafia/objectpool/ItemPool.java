@@ -2380,6 +2380,7 @@ public class ItemPool
 	public static final int COCKTAIL_SHAKER = 8283;
 	public static final int POWER_PILL = 8300;
 	public static final int YELLOW_SUBMARINE = 8376;
+	public static final int DECK_OF_EVERY_CARD = 8382;
 	public static final int WHITE_MANA = 8387;
 	public static final int BLACK_MANA = 8388;
 	public static final int RED_MANA = 8389;

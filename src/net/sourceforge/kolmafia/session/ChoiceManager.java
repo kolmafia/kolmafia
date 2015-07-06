@@ -6438,17 +6438,14 @@ public abstract class ChoiceManager
 			{
 				Preferences.increment( "_deckCardsDrawn", 1, 15, false );
 			}
-			EncounterManager.ignoreSpecialMonsters();
-			KoLAdventure.lastVisitedLocation = null;
-			KoLAdventure.lastLocationName = null;
-			KoLAdventure.lastLocationURL = request.getURLString();
-			KoLAdventure.setNextAdventure( "None" );
-			GenericRequest.itemMonster = "Deck of Every Card";
 			break;
 
 		case 1086: // Pick a Card
-			// The extra 1 will be covered in choice 1085
-			Preferences.increment( "_deckCardsDrawn", 4, 15, false );
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// The extra 1 will be covered in choice 1085
+				Preferences.increment( "_deckCardsDrawn", 4, 15, false );
+			}
 			break;
 		}
 	}
@@ -8686,7 +8683,7 @@ public abstract class ChoiceManager
 		case 1085:
 		case 1086:
 			// The Deck of Every Card
-			DeckOfEveryCardRequest.parseResponse( urlString , text );
+			DeckOfEveryCardRequest.postChoice1( text );
 			return;
 		}
 		// Certain choices cost meat or items when selected
@@ -10388,6 +10385,10 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 1085: // Deck of Every Card
+			DeckOfEveryCardRequest.visitChoice( text );
+			break;
 		}
 	}
 

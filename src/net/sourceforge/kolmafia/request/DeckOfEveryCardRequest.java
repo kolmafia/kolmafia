@@ -209,18 +209,41 @@ public class DeckOfEveryCardRequest
 		}
 	}
 
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "choice.php" ) )
-		{
-			return;
-		}
+	// <div>You draw a card: <b>Dark Ritual</b><p>This card looks like it contains a magic spell of some kind.</div>
+	public static final Pattern DRAW_CARD_PATTERN = Pattern.compile( "<div id=\"blurb\">You draw a card: <b>(.*?)</b><p>(.*?)</div>", Pattern.DOTALL );
 
-		int choice = ChoiceManager.extractChoiceFromURL( urlString );
-		if ( choice != 1085 && choice != 1086 )
+	public static void visitChoice( final String responseText )
+	{
+		Matcher matcher = DeckOfEveryCardRequest.DRAW_CARD_PATTERN.matcher( responseText );
+		if ( matcher.find() )
 		{
-			return;
+			String message = "You draw a card: " + matcher.group( 1 );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
+	}
+
+	// There's something written on the ground under the shovels: GGUGEWCCCI<center>
+	public static final Pattern SPADE_CARD_PATTERN = Pattern.compile( "There's something written on the ground under the shovels: (.*?)<" );
+
+	public static void postChoice1( final String responseText )
+	{
+		Matcher matcher = DeckOfEveryCardRequest.SPADE_CARD_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String message = "Spade letters: " + matcher.group( 1 );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+	}
+
+	public static final Pattern URL_CARD_PATTERN = Pattern.compile( "which=(\\d+)" );
+	public static EveryCard extractCardFromURL( final String urlString )
+	{
+		Matcher matcher = DeckOfEveryCardRequest.URL_CARD_PATTERN.matcher( urlString );
+		return  matcher.find() ?
+			DeckOfEveryCardRequest.idToCard.get( StringUtilities.parseInt( matcher.group( 1 ) ) ) :
+			null;
 	}
 
 	public static boolean registerRequest( final String urlString )
@@ -231,12 +254,24 @@ public class DeckOfEveryCardRequest
 		}
 
 		int choice = ChoiceManager.extractChoiceFromURL( urlString );
+
 		if ( choice != 1085 && choice != 1086 )
 		{
 			return false;
 		}
 
-		return false;
+		EveryCard card = DeckOfEveryCardRequest.extractCardFromURL( urlString );
+		if ( card == null )
+		{
+			// You are confirming the action for the card you drew
+			return true;
+		}
+
+		String  message = "play " + card;
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+		return true;
 	}
 
 	public static class EveryCard
