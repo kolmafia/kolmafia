@@ -1795,7 +1795,7 @@ Mesmerizing Penguin	909	pengmesmer.gif	Init: -10000 P: penguin	Crimbuck (0)	pock
 Mob Penguin Arsonist	905	pengarson.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime	0	pengcapo.gif	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	908	pengdemo.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Goon	0	pengbook.gif	P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Goon	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Kneecapper	0	pengthug.gif	P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Undercover Penguin	910	pengundercover.gif	Init: -10000 P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Don Crimbo	0	doncrimbo.gif	HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100

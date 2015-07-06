@@ -2386,6 +2386,7 @@ public class ItemPool
 	public static final int RED_MANA = 8389;
 	public static final int GREEN_MANA = 8390;
 	public static final int BLUE_MANA = 8391;
+	public static final int GIFT_CARD = 8392;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

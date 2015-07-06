@@ -8405,7 +8405,7 @@
 8379	miniature power pill	721265969	minipowerpill.gif	multiple	t,d	120
 8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
 8381	Pack of Every Card	953300668	deckbox.gif	usable	t	0
-8382	Deck of Every Card	857757278	deckdeck.gif	usable		0
+8382	Deck of Every Card	857757278	deckdeck.gif	reusable		0
 8383	popular part	172388652	clwidget.gif	none	q	0
 8384	bubblegum heart	423510142	cartoonheart.gif	usable	t,d	30
 8385	cubic zirconia	718061077	baconstone.gif	none	t,d	100	hyper-cubic zirconiae
