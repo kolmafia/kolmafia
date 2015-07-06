@@ -2983,6 +2983,11 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.DECK_OF_EVERY_CARD:
+			itemName = "Deck of Every Card";
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		default:
 			return;
 		}
