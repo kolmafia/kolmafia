@@ -2988,6 +2988,12 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.GIFT_CARD:
+			itemName = "gift card";
+			consumed = true;
+			EncounterManager.ignoreSpecialMonsters();
+			break;
+
 		default:
 			return;
 		}

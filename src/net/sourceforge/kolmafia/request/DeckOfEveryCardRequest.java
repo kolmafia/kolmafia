@@ -40,7 +40,11 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
@@ -54,6 +58,14 @@ public class DeckOfEveryCardRequest
 	private static final TreeMap<Integer,EveryCard> idToCard = new TreeMap<Integer,EveryCard>();
 	private static final TreeMap<String,EveryCard> canonicalNameToCard = new TreeMap<String,EveryCard>();
 	private static final TreeMap<Phylum,EveryCard> phylumToCard = new TreeMap<Phylum,EveryCard>();
+	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<Stat,EveryCard>();
+	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<AdventureResult,EveryCard>();
+
+	private static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
+	private static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
+	private static final AdventureResult DANCIN_FOOL = EffectPool.get( EffectPool.DANCIN_FOOL_CARD, 20 );
+	// private static final AdventureResult FORTUNE_OF_THE_WHEEL = EffectPool.get( EffectPool.FORTUNE_OF_THE_WHEEL, 20 );
+	private static final AdventureResult RACING = EffectPool.get( EffectPool.RACING, 20 );
 
 	static
 	{
@@ -83,7 +95,7 @@ public class DeckOfEveryCardRequest
 		registerCard( 33, "Mountain" );			// Gives a red mana
 		registerCard( 34, "Forest" );			// Gives a green mana
 		registerCard( 35, "Island" );			// Gives a blue mana
-		registerCard( 52, "Lead Pipe" );			// Get a Lead Pipe
+		registerCard( 52, "Lead Pipe" );		// Get a Lead Pipe
 		registerCard( 53, "Rope" );			// Get a Rope
 		registerCard( 54, "Wrench" );			// Get a Wrench
 		registerCard( 55, "Candlestick" );		// Get a Candlestick
@@ -93,9 +105,9 @@ public class DeckOfEveryCardRequest
 		registerCard( 58, "1952 Mickey Mantle" );	// Get a 1952 Mickey Mantle card
 
 		// The following give stats
-		registerCard( 70, "III - The Empress" );		// Gives 500 mysticality substats
-		registerCard( 69, "VI - The Lovers" );		// Gives 500 moxie substats
-		registerCard( 68, "XXI - The World" );		// Gives 500 muscle substats
+		registerCard( 68, "XXI - The World", Stat.MUSCLE );		// Gives 500 muscle substats
+		registerCard( 70, "III - The Empress", Stat.MYSTICALITY );	// Gives 500 mysticality substats
+		registerCard( 69, "VI - The Lovers", Stat.MOXIE );		// Gives 500 moxie substats
 
 		// The following give skills
 		registerCard( 36, "Healing Salve" );		// Gives the skill Healing Salve
@@ -105,11 +117,11 @@ public class DeckOfEveryCardRequest
 		registerCard( 40, "Ancestral Recall" );		// Gives the skill Ancestral Recall
 
 		// The following give buffs
-		registerCard( 49, "0 - The Fool" );		// Gives 20 turns of Dancin' Fool (+200% moxie)
-		registerCard( 50, "I - The Magician" );		// Gives 20 turns of Magicianship (+200% mysticality)
-		registerCard( 67, "X - The Wheel of Fortune" );	// Gives 20 turns of a +100% item drops buff
-		registerCard( 51, "XI - Strength" );		// Gives 20 turns of Strongly Motivated (+200% muscle)
-		registerCard( 48, "The Race Card" );		// Gives 20 turns of Racing! (+200% init)
+		registerCard( 51, "XI - Strength", STRONGLY_MOTIVATED );	// Gives 20 turns of Strongly Motivated (+200% muscle)
+		registerCard( 50, "I - The Magician", MAGICIANSHIP );		// Gives 20 turns of Magicianship (+200% mysticality)
+		registerCard( 49, "0 - The Fool", DANCIN_FOOL );		// Gives 20 turns of Dancin' Fool (+200% moxie)
+		registerCard( 67, "X - The Wheel of Fortune" );			// Gives 20 turns of Fortune of the Wheel (+100% item drop)
+		registerCard( 48, "The Race Card", RACING );			// Gives 20 turns of Racing! (+200% init)
 
 		// The following lead to fights
 		registerCard( 46, "Green Card" );		// Fight a legal alien
@@ -151,8 +163,22 @@ public class DeckOfEveryCardRequest
 	private static void registerCard( int id, String name, Phylum phylum )
 	{
 		EveryCard card = DeckOfEveryCardRequest.registerCard( id, name );
-		card.phylum = phylum;
 		DeckOfEveryCardRequest.phylumToCard.put( phylum, card );
+	}
+
+	private static void registerCard( int id, String name, Stat stat )
+	{
+		EveryCard card = DeckOfEveryCardRequest.registerCard( id, name );
+		DeckOfEveryCardRequest.statToCard.put( stat, card );
+	}
+
+	private static void registerCard( int id, String name, AdventureResult thing )
+	{
+		EveryCard card = DeckOfEveryCardRequest.registerCard( id, name );
+		if ( thing.isStatusEffect() )
+		{
+			DeckOfEveryCardRequest.buffToCard.put( thing, card );
+		}
 	}
 
 	private static String [] CANONICAL_CARDS_ARRAY;
@@ -278,21 +304,13 @@ public class DeckOfEveryCardRequest
 	{
 		public int id;
 		public String name;
-		public Phylum phylum;
 		private String stringForm;
 
 		public EveryCard( int id, String name )
 		{
 			this.id = id;
 			this.name = name;
-			this.phylum = null;
 			this.stringForm = name + " (" + id + ")";
-		}
-
-		public EveryCard( int id, String name, Phylum phylum )
-		{
-			this( id, name );
-			this.phylum = phylum;
 		}
 
 		@Override
