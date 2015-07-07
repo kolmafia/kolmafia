@@ -292,11 +292,11 @@ public class EffectPool
 	public static final int SOME_PIGS = 1640;
 	public static final int CONFIDENCE = 1791;
 	public static final int PURR_OF_THE_FELINE = 1800;
-	public static final int STRONGLY_MOTIVATED = 1911;
-	public static final int MAGICIANSHIP = 1910;
-	public static final int DANCIN_FOOL_CARD = 1910;
-	// public static final int FORTUNE_OF_THE_WHEEL = 1912;
 	public static final int RACING = 1909;
+	public static final int DANCIN_FOOL_CARD = 1910;
+	public static final int MAGICIANSHIP = 1911;
+	public static final int STRONGLY_MOTIVATED = 1912;
+	public static final int FORTUNE_OF_THE_WHEEL = 1913;
 
 	public static final AdventureResult get( final int effectId )
 	{

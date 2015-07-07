@@ -64,7 +64,7 @@ public class DeckOfEveryCardRequest
 	private static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
 	private static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
 	private static final AdventureResult DANCIN_FOOL = EffectPool.get( EffectPool.DANCIN_FOOL_CARD, 20 );
-	// private static final AdventureResult FORTUNE_OF_THE_WHEEL = EffectPool.get( EffectPool.FORTUNE_OF_THE_WHEEL, 20 );
+	private static final AdventureResult FORTUNE_OF_THE_WHEEL = EffectPool.get( EffectPool.FORTUNE_OF_THE_WHEEL, 20 );
 	private static final AdventureResult RACING = EffectPool.get( EffectPool.RACING, 20 );
 
 	static
@@ -147,7 +147,7 @@ public class DeckOfEveryCardRequest
 		registerCard( 27, "Suit Warehouse Discount Card", Phylum.PENGUIN );	// Fight a random Penguin
 		registerCard( 23, "Pirate Birthday Card", Phylum.PIRATE );	// Fight a random Pirate
 		registerCard( 22, "Plantable Greeting Card", Phylum.PLANT );	// Fight a random Plant
-		registerCard( 18, "Slimer Trading Card", Phylum.SLIME );		// Fight a random Slime
+		registerCard( 18, "Slimer Trading Card", Phylum.SLIME );	// Fight a random Slime
 		registerCard( 9, "XIII - Death", Phylum.UNDEAD );		// Fight a random Undead
 		registerCard( 25, "Unstable Portal", Phylum.WEIRD );		// Fight a random Weird
 	};
@@ -235,18 +235,14 @@ public class DeckOfEveryCardRequest
 		}
 	}
 
+	// <div id="blurb">You draw a card: <b>X - The Wheel of Fortune</b><p>This card has a little wheel pinned to the center of it.</div>
 	// <div>You draw a card: <b>Dark Ritual</b><p>This card looks like it contains a magic spell of some kind.</div>
-	public static final Pattern DRAW_CARD_PATTERN = Pattern.compile( "<div id=\"blurb\">You draw a card: <b>(.*?)</b><p>(.*?)</div>", Pattern.DOTALL );
+	public static final Pattern DRAW_CARD_PATTERN = Pattern.compile( "<div id=\"blurb\">.*?You draw a card: <b>(.*?)</b><p>(.*?)</div>", Pattern.DOTALL );
 
-	public static void visitChoice( final String responseText )
+	public static String parseCardEncounter( final String responseText )
 	{
 		Matcher matcher = DeckOfEveryCardRequest.DRAW_CARD_PATTERN.matcher( responseText );
-		if ( matcher.find() )
-		{
-			String message = "You draw a card: " + matcher.group( 1 );
-			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-		}
+		return  matcher.find() ? matcher.group( 1 ) : null;
 	}
 
 	// There's something written on the ground under the shovels: GGUGEWCCCI<center>

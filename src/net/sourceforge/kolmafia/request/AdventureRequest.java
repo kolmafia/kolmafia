@@ -758,9 +758,26 @@ public class AdventureRequest
 			return LouvreManager.encounterName( choice );
 		}
 
-		// No "encounter" when moving on the chessboard
-		if ( choice == 443 && urlString.contains( "xy" ) )
+		switch ( choice )
 		{
+		case 443:	// Chess Puzzle
+			// No "encounter" when moving on the chessboard
+			if ( urlString.contains( "xy" ) )
+			{
+				return null;
+			}
+			break;
+
+		case 1085:	// Deck of Every Card
+			return DeckOfEveryCardRequest.parseCardEncounter( responseText );
+
+		case 535:	// Deep Inside Ronald, Baby
+		case 536:	// Deep Inside Grimace, Bow Chick-a Bow Bow	
+		case 585:	// Screwing Around!
+		case 595:	// Fire! I... have made... fire!
+		case 807:	// Breaker Breaker!
+		case 1003:	// Test Your Might And Also Test Other Things
+		case 1086:	// Pick a Card
 			return null;
 		}
 
@@ -772,17 +789,6 @@ public class AdventureRequest
 
 		if ( ChoiceManager.canWalkFromChoice( choice ) )
 		{
-			return null;
-		}
-
-		switch ( choice )
-		{
-		case 535:	// Deep Inside Ronald, Baby
-		case 536:	// Deep Inside Grimace, Bow Chick-a Bow Bow	
-		case 585:	// Screwing Around!
-		case 595:	// Fire! I... have made... fire!
-		case 807:	// Breaker Breaker!
-		case 1003:	// Test Your Might And Also Test Other Things
 			return null;
 		}
 

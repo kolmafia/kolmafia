@@ -2248,9 +2248,14 @@ public class GenericRequest
 			Matcher m = GenericRequest.JS_REDIRECT_PATTERN.matcher( this.responseText );
 			if ( m.find() )
 			{
+				// Do NOT call processResults for a redirection
+				// But do log the redirection
+				if ( this.shouldUpdateDebugLog() )
+				{
+					RequestLogger.updateDebugLog( this.responseText );
+				}
 				this.redirectLocation = m.group( 1 );
 				this.redirectMethod = "GET";
-				// Do NOT call processResults for a redirection
 				return this.handleServerRedirect();
 			}
 		}
