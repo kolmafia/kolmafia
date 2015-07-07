@@ -6249,7 +6249,7 @@ public abstract class ChoiceManager
 
 		if ( choice == null || option == null )
 		{
-		// Visiting a choice page but not yet making a decision
+			// Visiting a choice page but not yet making a decision
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.lastDecision = 0;
 			ChoiceManager.lastResponseText = null;
@@ -10385,10 +10385,6 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
-
-		case 1085: // Deck of Every Card
-			DeckOfEveryCardRequest.visitChoice( text );
-			break;
 		}
 	}
 
