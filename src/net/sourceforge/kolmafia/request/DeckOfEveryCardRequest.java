@@ -41,14 +41,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -225,13 +231,98 @@ public class DeckOfEveryCardRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
+		// If you can't get a deck into inventory, punt
+		if ( !InventoryManager.retrieveItem( ItemPool.DECK_OF_EVERY_CARD, 1, true ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Deck of Every Card available" );
+			return;
+		}
+
+		// If you've used up your draws for the day, punt
+		int drawsUsed = Preferences.getInteger( "_deckCardsDrawn" );
+		int drawsNeeded = card == null ? 1 : 5;
+		if ( drawsUsed + drawsNeeded > 15 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough draws left from the deck to do that today" );
+			return;
+		}
+
+		GenericRequest useRequest = new GenericRequest( "inv_use.php" );
+		useRequest.addFormField( "whichitem", String.valueOf( ItemPool.DECK_OF_EVERY_CARD ) );
 		if ( this.card == null )
 		{
-			RequestLogger.printLine( "Playing a random card" );
+			useRequest.addFormField( "which", "3" );
 		}
 		else
 		{
-			RequestLogger.printLine( "Playing " + this.card );
+			useRequest.addFormField( "cheat", "1" );
+		}
+
+		useRequest.run();
+
+		String responseText = useRequest.responseText;
+
+		// You're too beaten up. An accidental papercut would kill you at this point.
+		if ( responseText.contains( "You're too beaten up" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too beaten up to draw a card" );
+			return;
+		}
+
+		// You've already drawn your day's allotment of cards from the Deck of Every Card.
+		// Shouldn't happen, unless you've drawn cards outside of KoLmafia
+		if ( responseText.contains( "You've already drawn your day's allotment of cards" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You've already used all your draws for the day" );
+			Preferences.setInteger( "_deckCardsDrawn", 15 );
+			return;
+		}
+
+		// You're too drunk to draw.
+		if ( responseText.contains( "You're too drunk to draw" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You're too drunk to draw a card" );
+			return;
+		}
+
+		// What is the message if have draws available, but not enough to cheat?
+
+		// If you have already cheated a particular card today, it will
+		// not be available. Unfortunately, if you submit the request
+		// to cheat that card again, KoL says "Huh?" - and counts it as
+		// 5 draws. I submitted a bug report for this, but unless they
+		// decide to fix it, we'd better make sure the card is
+		// available
+
+		if ( this.card != null && !responseText.contains( this.card.name ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "That card is not currently available." );
+			return;
+		}
+
+		super.run();
+
+		responseText = this.responseText;
+
+		// Are there any generic failures we should look for here?
+
+		if ( this.card != null )
+		{
+			// <span class='guts'>Huh?</span>
+			if ( responseText.contains( "<span class='guts'>Huh?</span>" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You already drew that card today." );
+				return;
+			}
+
+			// Otherwise, need to confirm the draw
+			this.constructURLString( "choice.php?whichchoice=1085&option=1", false );
+			this.run();
 		}
 	}
 
