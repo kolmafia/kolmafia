@@ -106,8 +106,6 @@ public class GuildRequest
 		{
 		case MUSCLE:
 			return "The Malus of Forethought";
-		case MYSTICALITY:
-			return "The Wok of Ages";
 		case MOXIE:
 			return "Nash Crosby's Still";
 		}
@@ -323,9 +321,9 @@ public class GuildRequest
 			// <Moxie class> grins and takes Fernswarthy's key from
 			// you.
 
-			if ( responseText.indexOf( "hand over Fernswarthy's key" ) != -1 ||
-			     responseText.indexOf( "returned with Fernswarthy's key" ) != -1 ||
-			     responseText.indexOf( "takes Fernswarthy's key" ) != -1 )
+			if ( responseText.contains( "hand over Fernswarthy's key" ) ||
+			     responseText.contains( "returned with Fernswarthy's key" ) ||
+			     responseText.contains( "takes Fernswarthy's key" ) )
 			{
 				ResultProcessor.processItem( ItemPool.FERNSWARTHYS_KEY, -1 );
 			}
@@ -379,7 +377,7 @@ public class GuildRequest
 
 		if ( action.equals( "buyskill" ) )
 		{
-			if ( responseText.indexOf( "You learn a new skill" ) != -1 )
+			if ( responseText.contains( "You learn a new skill" ) )
 			{
 				int skillId = GuildRequest.findSkill( urlString );
 				int cost = SkillDatabase.getSkillPurchaseCost( skillId );
@@ -405,8 +403,7 @@ public class GuildRequest
 			return;
 		}
 
-		if ( action.equals( "wokcook" ) ||
-		     action.equals( "malussmash" ) )
+		if ( action.equals( "malussmash" ) )
 		{
 			CreateItemRequest.parseGuildCreation( urlString, responseText );
 			return;

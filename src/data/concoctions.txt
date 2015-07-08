@@ -3,7 +3,7 @@
 # of the following elements:
 #
 # Basic creation type (exactly one is required):
-# COMBINE, COOK, MIX, WOK, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
+# COMBINE, COOK, MIX, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
 # TINKER, STAFF, SUSHI, SUSE, MUSE, PHINEAS
 # STILL (booze & mixer upgrades)
 # SMITH (basic smithing that can be done by Innabox)
@@ -1437,17 +1437,19 @@ Knoll lo mein	PASTA	Knoll stir-fry	dry noodles
 olive lo mein	PASTA	olive stir-fry	dry noodles
 spooky lo mein	PASTA	spooky stir-fry	dry noodles
 
+Knob stuffed shells	PASTA	Knob sausage	dry noodles
+b&auml;tzle	PASTA	bat wing	dry noodles
+ratini	PASTA	rat appendix	dry noodles
+Knob stroganoff	PASTA	Knob mushroom	dry noodles
+menudo ravioli	PASTA	batgut	dry noodles
 
-# High-end foods made by upgrading stir-fries at the Wok of Ages
+# Savory noodles
+savory noodles	TNOODLE	dry noodles	MSG
 
-bat wing chow mein	WOK	bat wing stir-fry	dry noodles	MSG
-Knob sausage chow mein	WOK	Knob sausage stir-fry	dry noodles	MSG
-pr0n chow mein	WOK	pr0n stir-fry	dry noodles	MSG
-rat appendix chow mein	WOK	rat appendix stir-fry	dry noodles	MSG
-tofu chow mein	WOK	tofu stir-fry	dry noodles	MSG
+# High-end foods made by cooking with savory noodles
 
-unfortunate dumplings	WOK	C.H.U.M. chum	dry noodles	MSG
-wok lobster	WOK	live lobster	dry noodles	MSG
+unfortunate dumplings	TNOODLE	C.H.U.M. chum	savory noodles
+wok lobster	TNOODLE	live lobster	savory noodles
 
 cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets
@@ -1456,22 +1458,22 @@ spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky nuggets
 stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench nuggets
 
 
-# Top-end foods made by upgrading element-and-sour sauces at the Wok of Ages
+# Top-end foods made by cooking element-and-sour sauces with savory noodles
 
-cold hi mein	WOK	cold and sour sauce	dry noodles	MSG
-hot hi mein	WOK	hot and sour sauce	dry noodles	MSG
-sleazy hi mein	WOK	sleazy and sour sauce	dry noodles	MSG
-spooky hi mein	WOK	spooky and sour sauce	dry noodles	MSG
-stinky hi mein	WOK	stench and sour sauce	dry noodles	MSG
+cold hi mein	TNOODLE	cold and sour sauce	savory noodles
+hot hi mein	TNOODLE	hot and sour sauce	savory noodles
+sleazy hi mein	TNOODLE	sleazy and sour sauce	savory noodles
+spooky hi mein	TNOODLE	spooky and sour sauce	savory noodles
+stinky hi mein	TNOODLE	stench and sour sauce	savory noodles
 
 
-# Top-end foods made by upgrading other things at the Wok of Ages
+# Top-end foods made by cooking other things with savory noodles
 
-fishy fish lasagna	WOK	fishy fish casserole	dry noodles	MSG
-gnat lasagna	WOK	gnatloaf casserole	dry noodles	MSG
-long pork lasagna	WOK	long pork casserole	dry noodles	MSG
-sausage wonton	WOK	beer basted brat	dry noodles	MSG
-tofu wonton	WOK	super salad	dry noodles	MSG
+fishy fish lasagna	TNOODLE	fishy fish casserole	savory noodles
+gnat lasagna	TNOODLE	gnatloaf casserole	savory noodles
+long pork lasagna	TNOODLE	long pork casserole	savory noodles
+sausage wonton	TNOODLE	beer basted brat	savory noodles
+tofu wonton	TNOODLE	super salad	savory noodles
 
 
 # Tempura foods
