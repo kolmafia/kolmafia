@@ -170,11 +170,6 @@ public class CreateItemRequest
 			formSource = "inv_use.php";
 			break;
 
-		case WOK:
-			formSource = "guild.php";
-			action = "wokcook";
-			break;
-
 		case MALUS:
 			formSource = "guild.php";
 			action = "malussmash";
@@ -627,7 +622,7 @@ public class CreateItemRequest
 		AdventureResult[] ingredients =
 			ConcoctionDatabase.getIngredients( this.concoction.getIngredients() );
 
-		if ( ingredients.length == 1 || this.mixingMethod == CraftingType.WOK )
+		if ( ingredients.length == 1 )
 		{
 			if ( this.getAdventuresUsed() > KoLCharacter.getAdventuresLeft() )
 			{
@@ -851,8 +846,7 @@ public class CreateItemRequest
 			multiplier = 5;
 		}
 
-		// The only other guild creation uses the Wok
-		else if ( !urlString.contains( "action=wokcook" ) )
+		else
 		{
 			return true;
 		}
@@ -1265,7 +1259,7 @@ public class CreateItemRequest
 	{
 		if ( urlString.startsWith( "guild.php" ) )
 		{
-			return urlString.contains( "action=wokcook" ) ? CraftingType.WOK: CraftingType.NOCREATE;
+			return CraftingType.NOCREATE;
 		}
 		Concoction concoction = CreateItemRequest.findConcoction( urlString );
 		return concoction == null ? CraftingType.NOCREATE: concoction.getMixingMethod();
@@ -1306,8 +1300,6 @@ public class CreateItemRequest
 		case MIX_FANCY:
 			return KoLCharacter.hasBartender() ? 0 : 1;
 
-		case WOK:
-			return 1;
 		}
 
 		return 0;
@@ -1328,9 +1320,6 @@ public class CreateItemRequest
 		case MIX_FANCY:
 			return Math.max( 0, ( quantityNeeded
 					      - ConcoctionDatabase.getFreeCraftingTurns() ) );
-
-		case WOK:
-			return quantityNeeded;
 		}
 
 		return 0;
@@ -1488,12 +1477,7 @@ public class CreateItemRequest
 		}
 		else if ( urlString.startsWith( "guild.php" ) )
 		{
-			if ( urlString.contains( "action=wokcook" ) )
-			{
-				command = "Wok";
-				usesTurns = true;
-			}
-			else if ( urlString.contains( "action=malussmash" ) )
+			if ( urlString.contains( "action=malussmash" ) )
 			{
 				command = "Pulverize";
 				multiplier = 5;
@@ -1586,12 +1570,6 @@ public class CreateItemRequest
 		while ( matcher.find() )
 		{
 			ingredients.add( CreateItemRequest.getIngredient( matcher.group(1) ) );
-		}
-
-		if ( urlString.contains( "action=wokcook" ) )
-		{
-			ingredients.add( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) );
-			ingredients.add( ItemPool.get( ItemPool.MSG, 1 ) );
 		}
 
 		return ingredients.toArray();

@@ -1335,10 +1335,6 @@ public class Concoction
 			runningTotal += ingredient.getAdventuresNeeded( create );
 		}
 
-		if ( this.mixingMethod == CraftingType.WOK )
-		{
-			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() ), create );
-		}
 		if ( this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH )
 		{
 			return Math.max( runningTotal - ( !considerInigos ? 0 : ConcoctionDatabase.getFreeCraftingTurns() +

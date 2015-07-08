@@ -44,7 +44,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -66,7 +65,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
-import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -86,7 +84,6 @@ import net.sourceforge.kolmafia.swingui.listener.InvocationListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -998,7 +995,6 @@ public abstract class ItemManagePanel
 						isVisibleWithFilter = FilterItemField.this.food || FilterItemField.this.other;
 						break;
 
-					case WOK:
 					case SUSHI:
 						isVisibleWithFilter = FilterItemField.this.food;
 						break;

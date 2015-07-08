@@ -326,9 +326,6 @@ public class ConcoctionDatabase
 			case MULTI_USE:
 				ConcoctionDatabase.multiUse.put( IntegerPool.get( ingredients[ 0 ].getItemId() ), concoction );
 				break;
-			case WOK:
-				ConcoctionDatabase.noodles.put( IntegerPool.get( concoction.getItemId() ), concoction );
-				break;
 			}
 
 			if ( ConcoctionDatabase.requirements.contains( CraftingRequirements.PASTA ) )
@@ -1969,18 +1966,6 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.EXCUSE.put( CraftingType.CLIPART, hasClipArt ? "You have no Tome uses remaining."
 				: "You don't have the Tome of Clip Art." );
 
-		// Using the Wok of Ages is possible if the person has
-		// Transcendental Noodlecraft and is a Mysticality class
-		// character.
-
-		if ( KoLCharacter.canUseWok() )
-		{
-			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.WOK );
-			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.WOK, 1 );
-			ConcoctionDatabase.CREATION_COST.put( CraftingType.WOK, 0 );
-		}
-		ConcoctionDatabase.EXCUSE.put( CraftingType.WOK, "Only mysticality classes can use the Wok." );
-
 		// Using the Malus of Forethought is possible if the person has
 		// Pulverize and is a Muscle class character.
 
@@ -2157,8 +2142,7 @@ public class ConcoctionDatabase
 					continue;
 				}
 				if ( adv > KoLCharacter.getAdventuresLeft() + 
-				     ( method == CraftingType.WOK ? 0 :
-					   method == CraftingType.SMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
+				     ( method == CraftingType.SMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
 					                                  ConcoctionDatabase.getFreeSmithJewelTurns() +
 					                                  ConcoctionDatabase.getFreeSmithingTurns() :
 					   method == CraftingType.SSMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
@@ -2294,10 +2278,6 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.STILL )
 		{
 			result.append( "Nash Crosby's Still" );
-		}
-		else if ( mixingMethod == CraftingType.WOK )
-		{
-			result.append( "Wok of Ages" );
 		}
 		else if ( mixingMethod == CraftingType.MALUS )
 		{
@@ -2665,11 +2645,6 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.STILL;
 		}
-		// Items requiring access to the Wok of Ages
-		else if ( mix.equals( "WOK" ) )
-		{
-			ConcoctionDatabase.mixingMethod = CraftingType.WOK;
-		}
 		// Items requiring access to the Malus of Forethought
 		else if ( mix.equals( "MALUS" ) )
 		{
@@ -2851,10 +2826,6 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
 		}
 		// Requires Transcendental Noodlecraft
-		else if ( mix.equals( "TRANSNOODLE" ) )
-		{
-			ConcoctionDatabase.requirements.add( CraftingRequirements.TRANSNOODLE );
-		}
 		// Requires Tempuramancy
 		else if ( mix.equals( "TEMPURAMANCY" ) )
 		{
@@ -2903,7 +2874,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.requirements.add( CraftingRequirements.PASTA );
 		}
 		// Items requiring Transcendental Noodlecraft
-		else if ( mix.equals( "TNOODLE" ) )
+		else if ( mix.equals( "TNOODLE" ) || mix.equals( "TRANSNOODLE" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.COOK_FANCY;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.TRANSNOODLE );

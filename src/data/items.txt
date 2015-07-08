@@ -835,11 +835,11 @@
 810	rat appendix stir-fry	12572335	chorizo.gif	food	t,d	68	plates of rat appendix stir-fry
 811	tofu stir-fry	16882335	chorizo.gif	food	t,d	105	plates of tofu stir-fry
 812	pr0n stir-fry	18372335	chorizo.gif	food	t,d	126	plates of pr0n stir-fry
-813	Knob sausage chow mein	17775757	bowl.gif	food	t,d	72	plates of Knob sausage chow mein
-814	bat wing chow mein	17764757	bowl.gif	food	t,d	73	plates of bat wing chow mein
-815	rat appendix chow mein	17762757	bowl.gif	food	t,d	71	plates of rat appendix chow mein
-816	tofu chow mein	17792757	bowl.gif	food	t,d	109	plates of tofu chow mein
-817	pr0n chow mein	17731257	bowl.gif	food	t,d	130	plates of pr0n chow mein
+813	Knob stuffed shells	17775757	oystercrackers.gif	food	t,d	72	plates of Knob stuffed shells
+814	b&auml;tzle	17764757	soupbowl.gif	food	t,d	73	dishes of b&auml;tzle
+815	ratini	17762757	bowl.gif	food	t,d	71	bowls of ratini
+816	Knob stroganoff	17792757	soupbowl.gif	food	t,d	109	bowls of Knob stroganoff
+817	menudo ravioli	17731257	ravshurikens.gif	food	t,d	130	bowls of menudo ravioli
 818	plus sign	79993334	plus.gif	usable	q	0
 819	milky potion	300000011	exclam.gif	multiple, combat, single	t,d	60
 820	swirly potion	301004011	exclam.gif	multiple, combat, single	t,d	60

@@ -586,7 +586,6 @@ public interface KoLConstants
 		SMITH,		// Items anybody can create with a tenderizing hammer or via Innabox
 		SSMITH,		// Items that can only be created with a tenderizing hammer, not via Innabox
 		STILL,		// Items requiring access to Nash Crosby's Still
-		WOK,		// Items requiring access to the Wok of Ages
 		MALUS,		// Items requiring access to the Malus of Forethought
 		JEWELRY,	// Items created with jewelry-making pliers
 		STARCHART,	// Items anybody can create with starcharts, stars, and lines
