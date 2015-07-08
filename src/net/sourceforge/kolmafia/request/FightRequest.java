@@ -4561,7 +4561,9 @@ public class FightRequest
 	{
 		public String familiar;
 		public String enthroned;
+		public String enthronedName;
 		public String bjorned;
+		public String bjornedName;
 		public final boolean doppel;
 		public final boolean crimbo;
 		public String diceMessage;
@@ -4597,11 +4599,16 @@ public class FightRequest
 
 			this.diceMessage = ( current.getId() == FamiliarPool.DICE ) ? ( current.getName() + " begins to roll." ) : null;
 
-
 			FamiliarData enthroned = KoLCharacter.getEnthroned();
-			FamiliarData bjorned = KoLCharacter.getBjorned();
+			String enthronedName = enthroned.getName();
 			this.enthroned = enthroned.getImageLocation();
+			this.enthronedName = ( enthronedName == null || enthronedName.equals( "" ) ) ? null : enthronedName;
+
+			FamiliarData bjorned = KoLCharacter.getBjorned();
+			String bjornedName = bjorned.getName();
 			this.bjorned = bjorned.getImageLocation();
+			this.bjornedName = ( bjornedName == null || bjornedName.equals( "" ) ) ? null : bjornedName;
+
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
 			this.action = new StringBuffer();
@@ -5006,6 +5013,11 @@ public class FightRequest
 			}
 
 			if ( FightRequest.handleSpelunky( str, status ) )
+			{
+				return;
+			}
+
+			if ( FightRequest.handleFamiliarInteraction( str, status ) )
 			{
 				return;
 			}
@@ -5993,6 +6005,18 @@ public class FightRequest
 			return true;
 		}
 
+		return false;
+	}
+
+	private static boolean handleFamiliarInteraction( String text, TagStatus status )
+	{
+		if ( status.logFamiliar &&
+		     status.enthronedName != null && status.bjornedName != null &&
+		     text.startsWith( status.enthronedName ) && text.contains( status.bjornedName ) )
+		{
+			FightRequest.logText( text, status );
+			return true;
+		}
 		return false;
 	}
 

@@ -2037,7 +2037,7 @@ public class GenericRequest
 		{
 			GenericRequest.checkItemRedirection( this.getURLString() );
 
-			if ( this instanceof UseItemRequest || this instanceof ChateauRequest )
+			if ( this instanceof UseItemRequest || this instanceof ChateauRequest || this instanceof DeckOfEveryCardRequest )
 			{
 				FightRequest.INSTANCE.run();
 				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
