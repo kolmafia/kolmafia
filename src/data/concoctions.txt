@@ -1443,13 +1443,13 @@ ratini	PASTA	rat appendix	dry noodles
 Knob stroganoff	PASTA	Knob mushroom	dry noodles
 menudo ravioli	PASTA	batgut	dry noodles
 
-# Savory noodles
-savory noodles	TNOODLE	dry noodles	MSG
+# savory dry noodles
+savory dry noodles	TNOODLE	dry noodles	MSG
 
-# High-end foods made by cooking with savory noodles
+# High-end foods made by cooking with savory dry noodles
 
-unfortunate dumplings	TNOODLE	C.H.U.M. chum	savory noodles
-wok lobster	TNOODLE	live lobster	savory noodles
+unfortunate dumplings	TNOODLE	C.H.U.M. chum	savory dry noodles
+wok lobster	TNOODLE	live lobster	savory dry noodles
 
 cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets
@@ -1458,22 +1458,22 @@ spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky nuggets
 stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench nuggets
 
 
-# Top-end foods made by cooking element-and-sour sauces with savory noodles
+# Top-end foods made by cooking element-and-sour sauces with savory dry noodles
 
-cold hi mein	TNOODLE	cold and sour sauce	savory noodles
-hot hi mein	TNOODLE	hot and sour sauce	savory noodles
-sleazy hi mein	TNOODLE	sleazy and sour sauce	savory noodles
-spooky hi mein	TNOODLE	spooky and sour sauce	savory noodles
-stinky hi mein	TNOODLE	stench and sour sauce	savory noodles
+cold hi mein	TNOODLE	cold and sour sauce	savory dry noodles
+hot hi mein	TNOODLE	hot and sour sauce	savory dry noodles
+sleazy hi mein	TNOODLE	sleazy and sour sauce	savory dry noodles
+spooky hi mein	TNOODLE	spooky and sour sauce	savory dry noodles
+stinky hi mein	TNOODLE	stench and sour sauce	savory dry noodles
 
 
-# Top-end foods made by cooking other things with savory noodles
+# Top-end foods made by cooking other things with savory dry noodles
 
-fishy fish lasagna	TNOODLE	fishy fish casserole	savory noodles
-gnat lasagna	TNOODLE	gnatloaf casserole	savory noodles
-long pork lasagna	TNOODLE	long pork casserole	savory noodles
-sausage wonton	TNOODLE	beer basted brat	savory noodles
-tofu wonton	TNOODLE	super salad	savory noodles
+fishy fish lasagna	TNOODLE	fishy fish casserole	savory dry noodles
+gnat lasagna	TNOODLE	gnatloaf casserole	savory dry noodles
+long pork lasagna	TNOODLE	long pork casserole	savory dry noodles
+sausage wonton	TNOODLE	beer basted brat	savory dry noodles
+tofu wonton	TNOODLE	super salad	savory dry noodles
 
 
 # Tempura foods
@@ -1645,7 +1645,7 @@ Staff of the Short Order Cook	STAFF	basic meat staff	bowl of cottage cheese	ice-
 Staff of the Soupbone	STAFF	rib of the Bonerdagon	spooky lo mein	old-fashioned	Glass Balls of the Goblin King	lump of diamond	lihc face
 Staff of the Teapot Tempest	STAFF	big stirring stick	menudo	sangria	hippy herbal tea	concentrated magicalness pill	magical mystery juice (3)
 Staff of the Walk-In Freezer	STAFF	ram stick	cold hi mein (3)	icy mushroom wine	cold wad (10)	frozen feather
-Staff of the Well-Tempered Cauldron	STAFF	Staff of the Black Kettle	bat wing chow mein	Supernova Champagne	bit-o-cactus	squashed frog	eye of newt	salamander spleen
+Staff of the Well-Tempered Cauldron	STAFF	Staff of the Black Kettle	b&auml;tzle	Supernova Champagne	bit-o-cactus	squashed frog	eye of newt	salamander spleen
 
 # Archaeology recipes
 
