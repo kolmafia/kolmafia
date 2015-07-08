@@ -8322,7 +8322,7 @@
 8296	Thwaitgold caterpillar statuette	681318742	thwaitcat.gif	none		0
 8297	powdered dice	387104784	scpowder.gif	usable	t	0
 8298	yellow pixel	512868873	pixel7.gif	none	t,d	5
-8299	pixel coin	818106945	pixelcoin.gif	usable	t	0
+8299	pixel coin	818106945	pixelcoin.gif	multiple	t	0
 8300	power pill	515789880	powerpill.gif	usable, combat	t,d	200
 8301	pixel star	177951003	pixelstar.gif	usable	t,d	150
 8302	pixel banana	390664858	pixelbanana.gif	food	t,d	150
