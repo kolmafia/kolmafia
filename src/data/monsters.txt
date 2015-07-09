@@ -1559,6 +1559,10 @@ nasty bear	1769	nastybear.gif	Atk: 150 Def: 150 HP: 1000 E: stench P: beast Init
 # Dinseylandfill (April 2015)
 Wart Dinsey	1770	wartdinsey.gif	Atk: 700 Def: 700 HP: 1000 E: stench P: construct Init: 250	Dinsey's brain (0)	brain preservation fluid (c100)	Wart Dinsey: An Afterlife (0)
 
+# Deck of Every Card (July 2015)
+legal alien	1783	illegal_alien.gif	Atk: 50 Def: 50 HP: 100 P: humanoid Init: 50
+The Emperor	1782	nopic.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	The Emperor's dry cleaning (100)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
@@ -1778,26 +1782,26 @@ Underworld Tree	0	shiv_underworld.gif		Underworld acorn (100)	Underworld trunk (
 
 # Crimbo Town Toy Factory (Crimbo 2009)
 Amateur Elf	899	elf_amateur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-Auteur Elf	0	elf_auteur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
+Auteur Elf	898	elf_auteur.gif	Scale: -5 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 bolt-cuttin' elf	900	elf_boltcutters.gif	Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
 monkey wrenchin' elf	894	elf_wrench.gif	Init: -10000 P: elf	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 propaganda-spewin' elf	901	elf_propaganda.gif	Init: -10000 P: elf	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 Provocateur Elf	0	elf_provocateur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Raconteur Elf	897	elf_raconteur.gif	Scale: -3 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-Saboteur Elf	0	elf_saboteur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
+Saboteur Elf	895	elf_saboteur.gif		elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 Wire-Crossin' Elf	902	elf_wires.gif		elf resistance button (100)	handful of wires (c100)	live wire (0)
 Edwing Abbidriel	0	edwing.gif		elf resistance button (100)
 
 # Don Crimbo's Compound (Crimbo 2009)
-Black-and-White-Ops Penguin	911	pengblackop.gif	Init: -10000 P: penguin	Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
-Cement Cobbler Penguin	912	pengcement.gif	Init: -10000 P: penguin	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
-Mesmerizing Penguin	909	pengmesmer.gif	Init: -10000 P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
-Mob Penguin Arsonist	905	pengarson.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Caporegime	0	pengcapo.gif	P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Demolitionist	908	pengdemo.gif	Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Goon	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Undercover Penguin	910	pengundercover.gif	Init: -10000 P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
+Black-and-White-Ops Penguin	911	pengblackop.gif	Scale: 3 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck (0)	grappling hook (c100)	night-vision goggles (0)
+Cement Cobbler Penguin	912	pengcement.gif	Scale: 4 Cap: 10000 Floor: 10 Init: -10000 P: penguin	cement sandals (0)	chunk of cement (c100)	Crimbuck (0)
+Mesmerizing Penguin	909	pengmesmer.gif	Scale: 2 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck (0)	pocketwatch on a chain (0)	spiraling shape (c100)
+Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Goon	906	penggoon.gif	Scale: 0 Cap: 10000 Floor: 10 Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Cap: 10000 Floor: 10 Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Undercover Penguin	910	pengundercover.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Don Crimbo	0	doncrimbo.gif	HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
 
 # Bigg's Diggg (September 2010)
@@ -1963,8 +1967,6 @@ ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Cap: 10000 Floor: 10 Ini
 exo-suited miner	1648	crimbominer1.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
 semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
 
-# One Crazy Random Summer (May 2015)
-
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
@@ -2079,8 +2081,3 @@ Shadow Avatar of Boris	0		DUMMY
 Shadow Zombie Master	0		DUMMY
 Shadow Avatar of Jarlsberg	0		DUMMY
 Shadow Avatar of Sneaky Pete	0		DUMMY
-
-# Deck of Every Card (July 2015)
-
-The Emperor	1782	nopic.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100
-legal alien	1783	illegal_alien.gif	Atk: 50 Def: 50 HP: 100 P: humanoid Init: 50
