@@ -555,10 +555,11 @@ public class Maximizer
 						continue;
 					}
 					int onHand = InventoryManager.getAccessibleCount( ItemPool.EVIL_SCROLL );
+					int candles = InventoryManager.getAccessibleCount( ItemPool.BLACK_CANDLE );
 					int creatable = CreateItemRequest.getInstance( ItemPool.EVIL_SCROLL )
 						.getQuantityPossible();
 
-					if ( !KoLCharacter.canInteract() && ( onHand + creatable ) < 1 )
+					if ( !KoLCharacter.canInteract() && ( ( onHand + creatable ) < 1 || candles < 3 ) )
 					{
 						continue;
 					}
