@@ -12,7 +12,7 @@ Brimstone Chicken Sandwich, Double Bacon Beelzeburger, Lord of the Flies-sized f
 bat haggis, menudo, rat scrapple
 bat wing kabob, ghuol-ear kabob, Knob shroomkabob, Knoll shroomkabob, rat appendix kabob, skewered cat appendix, spooky shroomkabob
 Boris's key lime pie, Jarlsberg's key lime pie, Sneaky Pete's key lime pie
-bat wing chow mein, Knob sausage chow mein, pr0n chow mein, rat appendix chow mein, tofu chow mein
+# bat wing chow mein, Knob sausage chow mein, pr0n chow mein, rat appendix chow mein, tofu chow mein
 asparagus lo mein, Knob lo mein, Knoll lo mein, olive lo mein, spooky lo mein
 cold hi mein, hot hi mein, sleazy hi mein, spooky hi mein, stinky hi mein
 cool mushroom casserole, cream of pointy mushroom soup, spicy mushroom quesadilla
