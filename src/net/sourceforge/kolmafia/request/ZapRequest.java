@@ -111,8 +111,13 @@ public class ZapRequest
 				String[] list = line.split( "\\s*,\\s*" );
 				for ( int i = 0; i < list.length; ++i )
 				{
-					String name = StringUtilities.getCanonicalName( list[ i ] );
-					int itemId = ItemDatabase.getItemId( name );
+					String name = list[ i ];
+					int itemId = ItemDatabase.getItemId( name, 1, false );
+					if ( itemId < 0 )
+					{
+						RequestLogger.printLine( "Unknown item in zap group: " + name );
+						continue;
+					}
 					ZapRequest.zappableItems.add( ItemPool.get( itemId ) );
 					ZapRequest.isZappable.set( itemId, true );
 					ZapRequest.zapGroups.put( IntegerPool.get( itemId ), list );
@@ -132,7 +137,9 @@ public class ZapRequest
 		SortedListModel<AdventureResult> matchingItems = new SortedListModel<AdventureResult>();
 		matchingItems.addAll( KoLConstants.inventory );
 		if ( Preferences.getBoolean( "relayTrimsZapList" ) )
+		{
 			matchingItems.retainAll( ZapRequest.zappableItems );
+		}
 		return matchingItems;
 	}
 
