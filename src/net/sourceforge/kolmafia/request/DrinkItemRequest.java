@@ -735,6 +735,10 @@ public class DrinkItemRequest
 			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() - 5 * item.getCount() );
 			KoLCharacter.updateStatus();
 			return;
+
+		case ItemPool.MINI_MARTINI:
+			Preferences.increment( "miniMartinisDrunk", item.getCount() );
+			return;
 		}
 	}
 
