@@ -229,6 +229,12 @@ public class DeckOfEveryCardRequest
 	}
 
 	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
+	@Override
 	public void run()
 	{
 		if ( GenericRequest.abortIfInFightOrChoice() )
@@ -290,7 +296,12 @@ public class DeckOfEveryCardRequest
 			return;
 		}
 
-		// What is the message if have draws available, but not enough to cheat?
+		// You don't have enough energy left to cheat today.
+		if ( responseText.contains( "You don't have enough energy left to cheat today" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough draws left to cheat roday" );
+			return;
+		}
 
 		// If you have already cheated a particular card today, it will
 		// not be available. Unfortunately, if you submit the request
@@ -321,8 +332,8 @@ public class DeckOfEveryCardRequest
 			}
 
 			// Otherwise, need to confirm the draw
-			this.constructURLString( "choice.php?whichchoice=1085&option=1", false );
-			this.run();
+			this.constructURLString( "choice.php?whichchoice=1085&option=1", true );
+			super.run();
 		}
 	}
 
