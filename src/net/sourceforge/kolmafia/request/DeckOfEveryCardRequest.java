@@ -126,7 +126,7 @@ public class DeckOfEveryCardRequest
 		registerCard( 51, "XI - Strength", STRONGLY_MOTIVATED );	// Gives 20 turns of Strongly Motivated (+200% muscle)
 		registerCard( 50, "I - The Magician", MAGICIANSHIP );		// Gives 20 turns of Magicianship (+200% mysticality)
 		registerCard( 49, "0 - The Fool", DANCIN_FOOL );		// Gives 20 turns of Dancin' Fool (+200% moxie)
-		registerCard( 67, "X - The Wheel of Fortune" );			// Gives 20 turns of Fortune of the Wheel (+100% item drop)
+		registerCard( 67, "X - The Wheel of Fortune", FORTUNE_OF_THE_WHEEL );	// Gives 20 turns of Fortune of the Wheel (+100% item drop)
 		registerCard( 48, "The Race Card", RACING );			// Gives 20 turns of Racing! (+200% init)
 
 		// The following lead to fights
@@ -299,7 +299,7 @@ public class DeckOfEveryCardRequest
 		// You don't have enough energy left to cheat today.
 		if ( responseText.contains( "You don't have enough energy left to cheat today" ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough draws left to cheat roday" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough draws left to cheat today" );
 			return;
 		}
 
