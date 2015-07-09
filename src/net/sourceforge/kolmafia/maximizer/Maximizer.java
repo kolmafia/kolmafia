@@ -885,6 +885,27 @@ public class Maximizer
 					}
 					usesRemaining = 5 - Preferences.getInteger( "_gapBuffs" );
 				}
+				else if ( cmd.startsWith( "play" ) )
+				{
+					if ( InventoryManager.getAccessibleCount( ItemPool.DECK_OF_EVERY_CARD ) == 0 )
+					{
+						if ( includeAll )
+						{
+							text = "(acquire Deck of Every Card for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getInteger( "_deckCardsDrawn" ) > 10 )
+					{
+						cmd = "";
+					}
+					duration = 20;
+					usesRemaining = ( 15 - Preferences.getInteger( "_deckCardsDrawn" ) ) / 5;
+				}
 				else if ( cmd.startsWith( "grim" ) )
 				{
 					FamiliarData fam = KoLCharacter.findFamiliar( FamiliarPool.GRIM_BROTHER );
