@@ -791,6 +791,15 @@ public class UseSkillRequest
 		case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
 			maximumCast = Preferences.getBoolean( "_summonResortPassUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.ANCESTRAL_RECALL:
+			maximumCast = Math.min( 10 - Preferences.getInteger( "_ancestralRecallCasts" ),
+			              InventoryManager.getCount( ItemPool.BLUE_MANA ) );
+			break;
+
+		case SkillPool.DARK_RITUAL:
+			maximumCast = InventoryManager.getCount( ItemPool.BLACK_MANA );
+			break;
 		}
 
 		return maximumCast;
@@ -2151,6 +2160,16 @@ public class UseSkillRequest
 		case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
 			Preferences.setBoolean( "_summonResortPassUsed", true );
 			break;
+
+		case SkillPool.ANCESTRAL_RECALL:
+			Preferences.increment( "_ancestralRecallCasts", count );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.BLUE_MANA, -count ) );
+			break;
+
+		case SkillPool.DARK_RITUAL:
+			ResultProcessor.processResult( ItemPool.get( ItemPool.BLACK_MANA, -count ) );
+			break;
+
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )
@@ -2220,7 +2239,7 @@ public class UseSkillRequest
 
 		if ( action.equals( "cliparts" ) )
 		{
-			if ( urlString.indexOf( "clip3=" ) == -1 )
+			if ( !urlString.contains( "clip3=" ) )
 			{
 				return -1;
 			}
