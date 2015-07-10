@@ -941,6 +941,7 @@ Item	can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 Item	can of fake snow	Cold Damage: +5
 Item	can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 # can-you-dig-it?: + ???
+Item	candlestick	Experience (Mysticality): +2, Mysticality Percent: +100, Lasts Until Rollover
 # candy knife
 Item	candy knuckles	Weapon Damage: +25
 Item	candy stick	Spell Damage Percent: +50, Candy Drop: +40
@@ -1201,6 +1202,7 @@ Item	Kentucky-fried meat staff	Mysticality: +5
 Item	Kentucky-fried meat sword	Muscle: +5
 Item	kiwi beak	Food Drop: +25, Booze Drop: +25
 Item	kneecapping stick	Critical Hit Percent: +8
+Item	knife	Meat Drop: +50, Moxie Percent: +100, Lasts Until Rollover
 Item	knob bugle	Weakens Monster
 Item	Knob Goblin deluxe scimitar	Muscle: +5
 Item	Knob Goblin elite polearm	Weapon Damage: +3
@@ -1357,6 +1359,7 @@ Item	regret hose	Cold Damage: +10
 Item	remaindered axe	Muscle: +2, Weapon Damage: +2
 # remorseless knife: Successful hit causes bleeding.
 Item	repeating crossbow	Moxie: +2, Critical Hit Percent: +15
+Item	revolver	Experience (Moxie): +2, Initiative: +50, Lasts Until Rollover
 Item	rib of the Bonerdagon	Muscle: +5, Mysticality: +5, Spell Damage: +15
 Item	ridiculously huge sword	Weapon Damage: +12, Muscle: +4
 Item	ridiculously overelaborate ninja weapon	Critical Hit Percent: +15, Fumble: 3
