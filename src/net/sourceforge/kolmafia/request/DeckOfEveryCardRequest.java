@@ -323,6 +323,8 @@ public class DeckOfEveryCardRequest
 		if ( this.card != null && !responseText.contains( this.card.name ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That card is not currently available." );
+			this.constructURLString( "choice.php?whichchoice=1086&option=2", true );
+			super.run();
 			return;
 		}
 
