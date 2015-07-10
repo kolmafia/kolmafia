@@ -67,11 +67,11 @@ public class DeckOfEveryCardRequest
 	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<Stat,EveryCard>();
 	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<AdventureResult,EveryCard>();
 
-	private static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
-	private static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
-	private static final AdventureResult DANCIN_FOOL = EffectPool.get( EffectPool.DANCIN_FOOL_CARD, 20 );
-	private static final AdventureResult FORTUNE_OF_THE_WHEEL = EffectPool.get( EffectPool.FORTUNE_OF_THE_WHEEL, 20 );
-	private static final AdventureResult RACING = EffectPool.get( EffectPool.RACING, 20 );
+	public static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
+	public static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
+	public static final AdventureResult DANCIN_FOOL = EffectPool.get( EffectPool.DANCIN_FOOL_CARD, 20 );
+	public static final AdventureResult FORTUNE_OF_THE_WHEEL = EffectPool.get( EffectPool.FORTUNE_OF_THE_WHEEL, 20 );
+	public static final AdventureResult RACING = EffectPool.get( EffectPool.RACING, 20 );
 
 	static
 	{
@@ -207,6 +207,16 @@ public class DeckOfEveryCardRequest
 	public static EveryCard canonicalNameToCard( String name )
 	{
 		return DeckOfEveryCardRequest.canonicalNameToCard.get( name );
+	}
+
+	public static EveryCard statToCard( Stat stat )
+	{
+		return DeckOfEveryCardRequest.statToCard.get( stat );
+	}
+
+	public static EveryCard buffToCard( AdventureResult buff )
+	{
+		return DeckOfEveryCardRequest.buffToCard.get( buff );
 	}
 
 	private EveryCard card;

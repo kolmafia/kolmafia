@@ -811,7 +811,7 @@ public class KoLmafiaCLI
 		new PastaThrallCommand().register( "thralls" );
 		new PirateInsultsCommand().register( "insults" );
 		new PlayerSnapshotCommand().register( "log" );
-		new PlayCommand().register( "play" );
+		new PlayCommand().register( "play" ).register( "cheat" );
 		new PoolCommand().register( "pool" );
 		new PoolskillCommand().register( "poolskill" );
 		new PrefRefCommand().register( "prefref" );
