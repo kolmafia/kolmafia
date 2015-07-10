@@ -1056,6 +1056,7 @@ user	_absintheDrops	0
 user	_aguaDrops	0
 user	_akgyxothUsed	false
 user	_allYearSucker	false
+user	_ancestralRecallCasts	0
 user	_aprilShower	false
 user	_astralDrops	0
 user	_badlyRomanticArrows	0
