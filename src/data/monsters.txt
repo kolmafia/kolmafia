@@ -1562,6 +1562,7 @@ Wart Dinsey	1770	wartdinsey.gif	Atk: 700 Def: 700 HP: 1000 E: stench P: construc
 # Deck of Every Card (July 2015)
 legal alien	1783	illegal_alien.gif	Atk: 50 Def: 50 HP: 100 P: humanoid Init: 50
 The Emperor	1782	nopic.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	The Emperor's dry cleaning (100)
+The Hermit	0	hermit.gif	Atk: 100 Def: 100 HP: 100 Init: 100 : Dude	hermit factoid (0)
 
 # KoL Con
 
