@@ -8,8 +8,8 @@
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
-acceptable bagel	3	1	good	1-1	0	0	0	
-acceptable mayolus	1	3	good	1-1	0	0	0
+acceptable bagel	3	1	good	1-1	0	0	0	Unspaded
+acceptable mayolus	1	3	good	3	1-10	1-10	1-10
 accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30
 actual tapas	1	11	awesome	4-5	30-50	0	0
 amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
@@ -40,7 +40,7 @@ bat haggis	2	2	decent	2-7	0	10-12	0
 bat wing kabob	2	1	decent	2-5	0	7-8	0
 bat wing stir-fry	3	4	awesome	6-14	0	27-45	0
 bat-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
-b&auml;tzle	4	4	good	1-1	0	0	0
+b&auml;tzle	4	4	good	1-1	0	0	0	Unspaded
 bean burrito	3	1	decent	3-8	10-14	0	0
 beautiful soup	2	5	good	4-8	34-49	0	0
 Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus)
@@ -238,7 +238,7 @@ elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
 Energy Buzz Pastaco	2	3	EPIC	12-14	0	30-50	0	40 Stemonitis Storm (+50 max MP, +5-10 MP regen)
 Ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
-enticing mayolus	1	4	awesome	1-1	0	0	0
+enticing mayolus	1	4	awesome	1-1	0	0	0	Unspaded
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
 Every Day is Like This Sundae	2	1	good	4-6	0	4-6	0	100 Smithsness Dinner (+10 Smithsness)
 evil boring spaghetti	3	3	good	6-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
@@ -397,8 +397,8 @@ Knob sausage	2	1	crappy	2-3	0	0	0
 Knob sausage stir-fry	3	4	awesome	7-14	25-28	0	0
 Knob shroomkabob	2	1	decent	2-5	0	6-11	0
 Knob stir-fry	2	3	good	2-10	0	12-18	0
-Knob stroganoff	4	5	good	1-1	0	0	0
-Knob stuffed shells	4	5	good	1-1	0	0	0
+Knob stroganoff	4	5	good	1-1	0	0	0	Unspaded
+Knob stuffed shells	4	5	good	1-1	0	0	0	Unspaded
 Knoll lo mein	4	6	awesome	14-21	30-34	0	0
 Knoll mushroom	2	1	crappy	1-3	0	0	0
 Knoll shroomkabob	2	1	decent	2-5	6-11	0	0
@@ -420,7 +420,7 @@ liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
 loaf of alien bread	3	4	good	6-9	0	10-20	0
-loaf of soda bread	3	1	decent	1-1	0	0	0
+loaf of soda bread	3	1	decent	1-1	0	0	0	Unspaded
 Lobster <i>qua</i> Grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
@@ -429,7 +429,7 @@ Lord of the Flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
 Lucky Surprise Egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
 Ludovico Pastaco	2	3	EPIC	12-14	0	0	20-40	40 Tremella Tremens (+40 Item Drop)
 magical ancient serpent roll	3	1		9-14	0	8-16	20-30	50/60 Fishy
-magical baguette	2	1	decent	1-1	0	0	0
+magical baguette	2	1	decent	1-1	0	0	0	Unspaded
 magical beefy maki	3	1		7-12	8-16	0	0	50/60 Fishy
 magical eleven oceans roll	3	1		9-14	20-30	20-30	28-46	50/60 Fishy
 magical giant dragon roll	3	1		9-14	28-46	0	0	50/60 Fishy
@@ -449,7 +449,7 @@ Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
-menudo ravioli	4	4	good	1-1	0	0	0
+menudo ravioli	4	4	good	1-1	0	0	0	Unspaded
 mind flayer corpse	5	1	crappy	5	0	21-25	0
 Miserable Pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)
 mixed wildflower greens	1	10	good	2-4	25-30	0	0
@@ -457,7 +457,7 @@ mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
-mouth-watering mayolus	1	5	EPIC	1-1	0	0	0
+mouth-watering mayolus	1	5	EPIC	1-1	0	0	0	Unspaded
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
@@ -515,15 +515,15 @@ piece of wedding cake	2	1	decent	2-5	0	0	0
 pigeon egg	1	1	decent	2	0	0	0
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
-pixel lemon	2	1	awesome	1-1	0	0	0
-plain bagel	3	1	decent	1-1	0	0	0
+pixel lemon	2	1	awesome	9-11	0	0	0
+plain bagel	3	1	decent	1-1	0	0	0	Unspaded
 plain pizza	2	1	decent	2-4	0	0	0
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
 poisonous caviar	3	5	good	8	0	0	0	50 Majorly Poisoned
 popcorn	1	1	decent	2	0	0	0
-popular tart	2	1	EPIC	1-1	0	0	0
+popular tart	2	1	EPIC	10	1-5	1-5	1-5
 poutine	2	1	decent	2-3	2-3	2-3	2-3
 powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 mys exp)
 pr0n cocktail	2	1	decent	2-5	8-12	8-12	8-12
@@ -545,7 +545,7 @@ raspberry	1	2	decent	2	0	0	0
 rat appendix kabob	2	1	decent	2-5	0	0	6-9
 rat appendix stir-fry	3	4	awesome	7-14	0	0	27-45
 rat scrapple	2	2	decent	2-7	0	0	10-12
-ratini	4	4	good	1-1	0	0	0
+ratini	4	4	good	1-1	0	0	0	Unspaded
 ravioli della hippy	3	3	good	4-12	0	19-23	0
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart (+100 Muscle)
 Red Herring Velvet Cake	5	1		14-19	0	0	0
@@ -742,12 +742,12 @@ twigs and gravel	3	1		3-6	5-6	5-6	5-6
 Ultimate Breakfast Sandwich	7	1	EPIC	32-38	30-40	50-60	0
 ultra-deluxe cupcake	1	1	awesome	4	4-6	4-6	4-6	
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
-unappetizing mayolus	1	1	crappy	1-1	0	0	0
+unappetizing mayolus	1	1	crappy	1-1	0	0	0	Unspaded
 uncooked chorizo	1	1	crappy	1	-5	0	0
 unfortunate dumplings	3	1	crappy	0	0	0	0	20 Really Quite Poisoned
 unidentifiable dried fruit	1	6	EPIC	5-6	20-40	20-40	20-40	50 Fruited (+100 Max HP, +100 Max MP)
 unidentified jerky	2	9	good	4-8	10-15	10-15	10-15
-uninteresting mayolus	1	2	crappy	1-1	0	0	0
+uninteresting mayolus	1	2	crappy	1-1	0	0	0	Unspaded
 Ur-Donut	1	1	good	2-3	65-85	65-85	65-85
 urinal cake	2	1	crappy	2	0	0	0
 Valentine's Day cake	3	1	crappy	3	0	0	0

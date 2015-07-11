@@ -107,6 +107,7 @@ public class QuestDatabase
 			SHIRT( "questM22Shirt" ),
 			MEATSMITH( "questM23Meatsmith" ),
 			DOC( "questM24Doc" ),
+			ARMORER( "questM25Armorer" ),
 			GENERATOR( "questF04Elves" ),
 			SEA_OLD_GUY( "questS01OldGuy" ),
 			SEA_MONKEES( "questS02Monkees" ),

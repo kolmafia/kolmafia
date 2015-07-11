@@ -326,6 +326,7 @@ public class ItemPool
 	public static final int CUMMERBUND = 778;
 	public static final int MAFIA_ARIA = 781;
 	public static final int RAFFLE_TICKET = 785;
+	public static final int STRAWBERRY = 786;
 	public static final int GOLDEN_MR_ACCESSORY = 792;
 	public static final int ROCKIN_WAGON = 797;
 	public static final int PLUS_SIGN = 818;
@@ -2342,10 +2343,13 @@ public class ItemPool
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;
 	public static final int MEATSMITH_CHECK = 8156;
+	public static final int ENCHANTED_ICING = 8168;
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
 	public static final int MAP_TO_KOKOMO = 8182;
 	public static final int CROWN_OF_ED = 8185;
 	public static final int BOOZE_MAP = 8187;
+	public static final int POPULAR_TART = 8200;
+	public static final int NO_HANDED_PIE = 8201;
 	public static final int DOC_VITALITY_SERUM = 8202;
 	public static final int DINSEY_CHARTER = 8203;
 	public static final int DINSEY_TICKET = 8204;
@@ -2381,6 +2385,7 @@ public class ItemPool
 	public static final int POWER_PILL = 8300;
 	public static final int YELLOW_SUBMARINE = 8376;
 	public static final int DECK_OF_EVERY_CARD = 8382;
+	public static final int POPULAR_PART = 8383;
 	public static final int WHITE_MANA = 8387;
 	public static final int BLACK_MANA = 8388;
 	public static final int RED_MANA = 8389;

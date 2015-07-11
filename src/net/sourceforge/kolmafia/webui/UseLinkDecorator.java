@@ -1812,6 +1812,9 @@ public abstract class UseLinkDecorator
         case ItemPool.MEATSMITH_CHECK:
             return new UseLink( itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith" );
 
+        case ItemPool.NO_HANDED_PIE:
+            return new UseLink( itemId, 1, "visit armorer", "shop.php?whichshop=armory" );
+
 
             default:
 

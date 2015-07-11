@@ -1681,6 +1681,10 @@ public class QuestManager
 		{
 			Preferences.setInteger( "lastWartDinseyDefeated", KoLCharacter.getAscensions() );
 		}
+		else if ( monsterName.equals( "Cake Lord" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.ARMORER, "step3" );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -1929,6 +1933,10 @@ public class QuestManager
 		     monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step21" );
+		}
+		else if ( monsterName.equals( "Cake Lord" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.ARMORER, "step2" );
 		}
 	}
 	
