@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public class VariableReferenceList extends ParseTreeNodeList
+public class VariableReferenceList extends ParseTreeNodeList<VariableReference>
 {
-	public boolean add( final VariableReference n )
-	{
-		this.list.add( n );
-		return true;
-	}
 }

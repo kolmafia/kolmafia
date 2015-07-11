@@ -71,7 +71,7 @@ public class ForEachLoop
 		return this.variableReferences;
 	}
 
-	public ListIterator getReferences()
+	public ListIterator<VariableReference> getReferences()
 	{
 		return this.variableReferences.listIterator();
 	}
@@ -107,15 +107,22 @@ public class ForEachLoop
 
 		// Iterate over the slice with bound keyvar
 
-		ListIterator it = this.getReferences();
-		return this.executeSlice( interpreter, slice, it, (VariableReference) it.next() );
+		ListIterator<VariableReference> it = this.getReferences();
+		Value retval = this.executeSlice( interpreter, slice, it, it.next() );
+
+		if ( interpreter.getState() == Interpreter.STATE_BREAK )
+		{
+			interpreter.setState( Interpreter.STATE_NORMAL );
+		}
+
+		return retval;
 	}
 
-	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice, final ListIterator it,
-		final VariableReference variable )
+	private Value executeSlice( final Interpreter interpreter, final AggregateValue slice,
+				    final ListIterator<VariableReference> it, final VariableReference variable )
 	{
 		// Get the next key variable
-		VariableReference nextVariable = it.hasNext() ? (VariableReference) it.next() : null;
+		VariableReference nextVariable = it.hasNext() ? it.next() : null;
 
 		// Get an iterator over the keys for the slice
 		Iterator keys = slice.iterator();
@@ -177,15 +184,11 @@ public class ForEachLoop
 				continue;
 			}
 
-			if ( interpreter.getState() == Interpreter.STATE_BREAK )
-			{
-				interpreter.setState( Interpreter.STATE_NORMAL );
-			}
-
 			if ( nextVariable != null )
 			{
 				it.previous();
 			}
+
 			interpreter.traceUnindent();
 			interpreter.iterators.remove( stackPos + 2 );
 			interpreter.iterators.remove( stackPos + 1 );
@@ -197,6 +200,7 @@ public class ForEachLoop
 		{
 			it.previous();
 		}
+
 		interpreter.traceUnindent();
 		interpreter.iterators.remove( stackPos + 2 );
 		interpreter.iterators.remove( stackPos + 1 );
@@ -216,10 +220,8 @@ public class ForEachLoop
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<FOREACH>" );
 
-		Iterator it = this.getReferences();
-		while ( it.hasNext() )
+		for ( VariableReference current : this.getVariableReferences() )
 		{
-			VariableReference current = (VariableReference) it.next();
 			current.print( stream, indent + 1 );
 		}
 

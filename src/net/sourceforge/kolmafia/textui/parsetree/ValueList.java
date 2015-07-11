@@ -33,11 +33,6 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-public class ValueList extends ParseTreeNodeList
+public class ValueList extends ParseTreeNodeList<Value>
 {
-	public boolean add( final Value n )
-	{
-		this.list.add( n );
-		return true;
-	}
 }

@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
-public class ParseTreeNodeList
+public class ParseTreeNodeList<E extends ParseTreeNode>
+	implements Iterable<E>
 {
-	protected ArrayList list = new ArrayList();
+	protected ArrayList<E> list = new ArrayList<E>();
 
-	public boolean add( final ParseTreeNode n )
+	public boolean add( final E n )
 	{
 		list.add( n );
 		return true;
@@ -51,17 +52,17 @@ public class ParseTreeNodeList
 		return list.isEmpty();
 	}
 
-	public ParseTreeNode get( int i )
+	public E get( int i )
 	{
-		return (ParseTreeNode) list.get(i);
+		return list.get(i);
 	}
 
-	public Iterator iterator()
+	public Iterator<E> iterator()
 	{
 		return list.iterator();
 	}
 
-	public ListIterator listIterator()
+	public ListIterator<E> listIterator()
 	{
 		return list.listIterator();
 	}
