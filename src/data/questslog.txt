@@ -63,6 +63,7 @@ questM21Dance	Lady Spookyraven's Dance	Go see Lady Spookyraven on the second flo
 questM22Shirt	The Shirt Off His Lack of Back	Go to the Thinknerd Warehouse and find Melvign's "shirt."	Take the shirt back to Melvign.	You've retrieved Melvin's T-shirt, which was, as it turned out, of no use to him.
 questM23Meatsmith	Helping Make Ends Meat	The Meatsmith wants you to recover his check from the Skeleton Store in Market Square	Take the recovered check back to The Meatsmith.	You helped the Meatsmith almost collect his debt from the Skeleton Store's former owner.
 questM24Doc	What's Up, Doc?	Doc Galaktik needs some medicinal flowers from the Overgrown Lot:	Take the collection of flowers back to Doc Galaktik.	You found some herbs for Doc Galaktik, and he rewarded you with a permanent discount on his patent medicines. Nifty!
+questM25Armorer	Lending a Hand (and a Foot)	(no unique message)	Get through the door to the office in the Bakery on the Right Side of the Tracks.	Defeat the Cake Lord in the Bakery on the Right Side of the Tracks.	(no unique message)	Return the no-handed pie to the Armorer and Leggerer.	You delivered a no-handed pie to the Armorer and Leggerer.
 
 # Sea Quests
 questS01OldGuy	An Old Guy and The Ocean	The Old Man wants you to find his boot in The Sea.	Take the boot back to the Old Man.	You helped the Old Man retrieve his boot from The Sea. Marvelous!

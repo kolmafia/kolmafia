@@ -858,6 +858,7 @@ user	questM21Dance	unstarted
 user	questM22Shirt	unstarted
 user	questM23Meatsmith	unstarted
 user	questM24Doc	unstarted
+user	questM25Armorer	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false

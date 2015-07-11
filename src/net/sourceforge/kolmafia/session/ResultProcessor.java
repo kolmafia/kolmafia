@@ -2798,6 +2798,15 @@ public class ResultProcessor
 			Preferences.setBoolean( "_mayoDeviceRented", true );
 			break;
 		
+		case ItemPool.NO_HANDED_PIE:
+			QuestDatabase.setQuestProgress( Quest.ARMORER, "step4" );
+			break;
+
+		case ItemPool.POPULAR_PART:
+			QuestDatabase.setQuestProgress( Quest.ARMORER, QuestDatabase.FINISHED );
+			ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.

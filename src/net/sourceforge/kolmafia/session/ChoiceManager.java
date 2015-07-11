@@ -8435,7 +8435,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 1023: // Like a Bat Into Hell
-			if( ChoiceManager.lastDecision == 1 )
+			if ( ChoiceManager.lastDecision == 1 )
 			{
 				KoLCharacter.setLimitmode( Limitmode.ED );
 			}
@@ -8572,6 +8572,27 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.removeItem( ItemPool.SKELETON_KEY  );
 			}
+			break;
+
+		case 1061:
+			// Heart of Madness
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.ARMORER, "step1" );
+			}
+			if ( text.contains( "place the popular part" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
+			}
+			break;
+
+		case 1065:
+			// Lending a Hand (and a Foot)
+			if ( text.contains( "I'm freakin' starving, here" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.ARMORER, QuestDatabase.STARTED );
+			}
+			break;
 
 		case 1066:
 			// Employee Assignment Kiosk
@@ -8679,6 +8700,23 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1080:
+			// Bagelmat-5000
+			if ( text.contains( "shove a wad of dough into the slot" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.DOUGH );
+			}
+			break;
+
+		case 1084:
+			// The Popular Machine
+			if ( text.contains( "popular tart springs" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.DOUGH );
+				ResultProcessor.removeItem( ItemPool.STRAWBERRY );
+				ResultProcessor.removeItem( ItemPool.ENCHANTED_ICING );
+			}
+			break;
 
 		case 1085:
 		case 1086:
