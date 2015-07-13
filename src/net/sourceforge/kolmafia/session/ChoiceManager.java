@@ -3501,7 +3501,14 @@ public abstract class ChoiceManager
 				       new Option( "gain muscle stats", 3 ),
 				       new Option( "fight former owner of the Skeleton Store, with office key", 4 ) } ),
 
-		// Choice 1061 is Doc G Quest Choice
+		// Choice 1061 is Heart of Madness
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1061", "Madness Bakery",
+			new Object[] { new Option( "try to enter office", 1 ),
+				       new Option( "bagel machine", 2 ),
+				       new Option( "popular machine", 3 ),
+				       new Option( "learn recipe", 4 ),
+				       new Option( "gain mysticality stats", 5 ) } ),
 
 		// Choice 1062 is Lots of Options
 		new ChoiceAdventure(
@@ -3522,6 +3529,7 @@ public abstract class ChoiceManager
 				       "+10% Item Drops from Monsters, +20% Meat from Monsters",
 				       "The first attack against you will always miss, Regenerate 10-20 HP per Adventure" } ),
 
+		// Choice 1065 is Lending a Hand (and a Foot)
 		// Choice 1067 is Maint Misbehavin'
 		// Choice 1068 is Barf Mountain Breakdown
 		// Choice 1069 is The Pirate Bay
@@ -3535,13 +3543,25 @@ public abstract class ChoiceManager
 
 		// Choice 1076 is Mayo Minder&trade;
 
+		// Choice 1080 is Bagelmat-5000
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1080", "Bagelmat-5000",
+			new Object[] { new Option( "make 3 plain bagels using wad of dough", 1 ),
+				       new Option( "return to Madness Bakery", 2 ) } ),
+
 		// Choice 1081 is Assault and Baguettery
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure1081", "magical baguette",
 			new Object[] { new Option( "breadwand", 1, "breadwand" ),
 				       new Option( "loafers", 2, "loafers" ),
 				       new Option( "bread basket", 3, "bread basket" ),
-				       new Option( "make nothing", 4 ) } ),		
+				       new Option( "make nothing", 4 ) } ),
+
+		// Choice 1084 is The Popular Machine
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1084", "Popular Machine",
+			new Object[] { new Option( "make popular tart", 1 ),
+				       new Option( "return to Madness Bakery", 2 ) } ),
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
