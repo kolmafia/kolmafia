@@ -58,6 +58,14 @@ The Tweedleporium	tweedle	helm of the white knight	30000	ROW587
 The Tweedleporium	tweedle	trousers of the white knight	30000	ROW588
 The Tweedleporium	tweedle	wristwatch of the white knight	30000	ROW589
 
+Madeline's Baking Supply	madeline	Gnollish pie tin	25	ROW736
+Madeline's Baking Supply	madeline	wad of dough	40	ROW737
+Madeline's Baking Supply	madeline	skewer	60	ROW739
+Madeline's Baking Supply	madeline	taco shell	60	ROW738
+Madeline's Baking Supply	madeline	Gnollish casserole dish	100	ROW740
+Madeline's Baking Supply	madeline	rolling pin	400	ROW741
+Madeline's Baking Supply	madeline	unrolling pin	400	ROW742
+
 Bugbear Bakery	bugbear	Gnollish pie tin	30	ROW677
 Bugbear Bakery	bugbear	wad of dough	50	ROW678
 Bugbear Bakery	bugbear	taco shell	80	ROW679
