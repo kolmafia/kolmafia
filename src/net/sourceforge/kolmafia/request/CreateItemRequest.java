@@ -85,6 +85,10 @@ public class CreateItemRequest
 		Pattern.compile( "<!-- ?cr:(\\d+)x(-?\\d+),(-?\\d+)=(\\d+) ?-->" );
 	// 1=quantity, 2,3=items used, 4=result (redundant)
 	public static final Pattern DISCOVERY_PATTERN = Pattern.compile( "descitem\\((\\d+)\\);" );
+	public static final Pattern JACKHAMMER_PATTERN = Pattern.compile( "jackhammer lets you finish your smithing in record time" );
+	public static final Pattern AUTO_ANVIL_PATTERN = Pattern.compile( "auto-anvil handles some of the smithing" );
+	public static final Pattern THORS_PLIERS_PATTERN = Pattern.compile( "use Thor's Pliers to do the job super fast" );
+	public static final Pattern RAPID_PROTOTYPING_PATTERN = Pattern.compile( "That rapid prototyping programming you downloaded is really paying dividends!" );
 
 	public static final AdventureResult TENDER_HAMMER = ItemPool.get( ItemPool.TENDER_HAMMER, 1 );
 	public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get( ItemPool.GRIMACITE_HAMMER, 1 );
@@ -790,32 +794,37 @@ public class CreateItemRequest
 			int turnsSaved = 0;
 
 			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
-			if ( responseText.contains( "jackhammer lets you finish your smithing in record time" ) )
+			Matcher freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
 			{
 				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created );
 				Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
 				turnsSaved += jackhammerTurnsSaved;
 			}
-			if ( responseText.contains( "auto-anvil handles some of the smithing" ) && created > turnsSaved )
+			freeTurn = AUTO_ANVIL_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
 			{
 				int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), created - turnsSaved );
 				Preferences.increment( "_warbearAutoAnvilCrafting", created - turnsSaved, 5, false );
 				turnsSaved += autoAnvilTurnsSaved;
 			}
-			if ( responseText.contains( "use Thor's Pliers to do the job super fast" ) && created > turnsSaved )
+			freeTurn = THORS_PLIERS_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
 			{
 				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created - turnsSaved );
 				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
 				turnsSaved += thorsPliersTurnsSaved;
 			}
-			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
+			freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
 			{
 				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
 			}
 		}
 		else
 		{
-			if ( responseText.contains( "That rapid prototyping programming you downloaded is really paying dividends!" ) )
+			Matcher freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
 			{
 				Preferences.increment( "_rapidPrototypingUsed", created, 5, false );
 			}
