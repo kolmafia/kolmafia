@@ -205,17 +205,14 @@ public class CafeRequest
 
 		this.parseResponse();
 
+		// Handle food helpers and adjust fullness, if necessary
+		EatItemRequest.handleFoodHelper( this.itemName, 1, this.responseText );
+
 		KoLmafia.updateDisplay( "Goodie purchased." );
 	}
 
 	protected void parseResponse()
 	{
-		int fullness = ConsumablesDatabase.getFullness( this.itemName );
-		if ( fullness > 0 && !this.responseText.contains( "Fullness" ) )
-		// if fullness display is on, ResultProcessor will handle incrementing fullness
-		{
-			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
-		}
 	}
 
 	protected static void addMenuItem( final LockableListModel<String> menu, final String itemName, final int price )

@@ -1806,13 +1806,9 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
-			int fullness = ClanLoungeRequest.hotdogIndexToFullness( index );
-			// if fullness display is on, ResultProcessor will handle incrementing fullness
-			if ( fullness > 0 && !responseText.contains( "Fullness" ) )
-			{
-				KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
-			}
 			String name = ClanLoungeRequest.hotdogIndexToName( index );
+			// Handle food helpers and adjust fullness, if necessary
+			EatItemRequest.handleFoodHelper( name, 1, responseText );
 			if ( name.equals( "optimal dog" ) )
 			{
 				// Remove existing Fortune Cookie counters and set one to 0.
