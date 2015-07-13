@@ -691,7 +691,7 @@ public class SkillDatabase
 	public static final int libramSkillCasts( int availableMP )
 	{
 		int cast = Preferences.getInteger( "libramSummons" );
-		return libramSkillCasts( cast + 1, availableMP );
+		return Math.min( 200, libramSkillCasts( cast + 1, availableMP ) );
 	}
 
 	/**
