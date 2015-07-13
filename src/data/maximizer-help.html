@@ -31,6 +31,7 @@ Slot names can be used as keywords:
 <br><b>empty</b> - With positive weight, consider only slots that are currently empty; with negative weight, only those that aren't empty.  Either way, <b>+<i>slot</i></b> and <b>-<i>slot</i></b> can be used to further refine the selected slots.
 <br><b>hand</b>ed - With a weight of 1, only 1-handed weapons will be considered.  With a larger weight, only weapons with at least that handedness will be considered.
 <br><b>melee</b> - With positive weight, only melee weapons will be considered.  With negative weight, only ranged weapons will be considered.
+<br><b>effective</b> - With positive weight, if muscle higher than moxie, only melee weapons are considered, if moxie higher or equal to muscle, ranged weapons (and knives with Tricky Knifework known) are considered.
 <br><b>type <i>text</i></b> - Only weapons with a type containing <i>text</i> are considered; for example, <b>type club</b> if you plan to do some Seal Clubbing.
 <br><b>shield</b> - With positive weight, only shields will be considered for your off-hand.  Implies <b>1 handed</b>.
 <br><b>current</b> - By default Maximizer considers your current equipment in Hardcore and Ronin. With -current keyword it does not, with +current keyword in aftercore it forces it to be considered. Not considering current equipment will reduce the number of combinations considered, but will sometimes mean changes of equipment are suggested even though they don't improve what you are wearing.

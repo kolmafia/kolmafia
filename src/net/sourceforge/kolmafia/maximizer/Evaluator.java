@@ -94,6 +94,7 @@ public class Evaluator
 	private String weaponType = null;
 	private int hands = 0;
 	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
+	private boolean effective = false;
 	private boolean requireShield = false;
 	private boolean noTiebreaker = false;
 	private boolean current = !KoLCharacter.canInteract();
@@ -303,6 +304,11 @@ public class Evaluator
 			else if ( keyword.equals( "melee" ) )
 			{
 				this.melee = (int) (weight * 2.0);
+				continue;
+			}
+			else if ( keyword.equals( "effective" ) )
+			{
+				this.effective = weight > 0.0;
 				continue;
 			}
 			else if ( keyword.equals( "empty" ) )
@@ -1071,6 +1077,20 @@ public class Evaluator
 					if ( this.melee < 0 && weaponType != WeaponType.RANGED )
 					{
 						continue;
+					}
+					if ( this.effective )
+					{
+						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
+							weaponType != WeaponType.RANGED &&
+							( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
+						{
+							continue;
+						}
+						if ( KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle() &&
+							weaponType != WeaponType.MELEE )
+						{
+							continue;
+						}
 					}
 					String type = EquipmentDatabase.getItemType( id );
 					if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
