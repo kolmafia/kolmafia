@@ -255,9 +255,11 @@ public class ManaBurnManager
 			// highest skillBurnXXXX value (>0), and cast it.
 			
 			// Last chance: let the user specify something to do with this
-			// MP that we can't find any other use for.
+			// MP that we can't find any other use for. Don't allow burn command
+			// as there is no burn command that'll work without changing the amount
+			// of MP spent
 			String cmd = Preferences.getString( "lastChanceBurn" );
-			if ( cmd.length() == 0 )
+			if ( cmd.length() == 0 || cmd.startsWith( "burn " ) )
 			{
 				return null;
 			}
