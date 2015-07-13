@@ -690,7 +690,7 @@ public class EatItemRequest
 		}
 
 		// The food was consumed successfully
-		EatItemRequest.handleFoodHelper( item, responseText );
+		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
@@ -792,7 +792,7 @@ public class EatItemRequest
 		}
 	}
 
-	public static final void handleFoodHelper( final AdventureResult item, final String responseText )
+	public static final void handleFoodHelper( final String itemName, final int count, final String responseText )
 	{
 		// You chase it with that salt you made in the chemistry
 		// lab. Man. Teenagers will eat anything.
@@ -861,14 +861,12 @@ public class EatItemRequest
 		// If you had mayo in your mouth, you do no longer
 		Preferences.setString( "mayoInMouth", "" );
 
-		int count = item.getCount();
-
 		// If the user has fullness display turned on ( "You gain x
 		// Fullness" ) DON'T touch fullness here.  It is handled in
 		// ResultProcessor.
 		if ( !responseText.contains( " Fullness" ) )
 		{
-			int fullness = ConsumablesDatabase.getFullness( item.getName() );
+			int fullness = ConsumablesDatabase.getFullness( itemName );
 			int fullnessUsed = fullness * count;
 
 			// The Mayodiol kicks in and converts some of what you just ate into pure ethanol.
@@ -877,7 +875,7 @@ public class EatItemRequest
 				fullnessUsed -= 1;
 			}
 
-			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullness );
+			KoLCharacter.setFullness( KoLCharacter.getFullness() + fullnessUsed );
 		}
 
 		Preferences.decrement( "munchiesPillsUsed", count );

@@ -177,7 +177,7 @@ public class ChezSnooteeRequest
 		AdventureResult item = ItemPool.get( GenericRequest.getWhichItem( urlString ), 1 );
 
 		// Handle food helpers and adjust fullness, if necessary
-		EatItemRequest.handleFoodHelper( item, responseText );
+		EatItemRequest.handleFoodHelper( item.getName(), 1, responseText );
 	}
 
 	public static final boolean onMenu( final String name )
