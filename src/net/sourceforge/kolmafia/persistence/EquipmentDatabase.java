@@ -759,6 +759,11 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" );
 	}
 	
+	public static final boolean isKnife( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "knife" );
+	}
+	
 	public static final boolean isHat( final AdventureResult item)
 	{
 		return EquipmentDatabase.getItemType( item.getItemId() ).equals( "hat" );
