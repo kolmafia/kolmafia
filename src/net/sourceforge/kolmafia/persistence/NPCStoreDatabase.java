@@ -199,6 +199,11 @@ public class NPCStoreDatabase
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
+		else if ( storeId.equals( "madeline" ) )
+		{
+			// Bugbear Bakery
+			return QuestDatabase.isQuestFinished( Quest.ARMORER );
+		}
 		else if ( storeId.equals( "bartender" ) )
 		{
 			// The Typical Tavern
