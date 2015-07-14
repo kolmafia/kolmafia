@@ -34,17 +34,12 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.PrintStream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
@@ -57,10 +52,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLDatabase;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -75,20 +68,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
-import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ConsumablesDatabase
 	extends KoLDatabase
@@ -775,11 +760,11 @@ public class ConsumablesDatabase
 		{
 			if ( KoLCharacter.isMysticalityClass() )
 			{
-				return perUnit ? ( 10.0 / fullness ) : 5.0;
+				return perUnit ? ( 5.0 / fullness ) : 5.0;
 			}
 			else
 			{
-				return perUnit ? ( 5.0 / fullness ) : 5.0;
+				return perUnit ? ( 3.0 / fullness ) : 5.0;
 			}
 		}
 		return 0.0;
