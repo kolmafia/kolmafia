@@ -8430,3 +8430,18 @@
 8404	1952 Mickey Mantle card	547494119	tradecard.gif	none	t,d	10000
 8405
 8406	savory dry noodles	294214139	pasta.gif	none	t,d	10
+8407
+8408
+8409
+8410
+8411
+8412
+8413
+8414
+8415
+8416
+8417
+8418
+8419
+8420
+8421	Jick's autograph	972003195	whitecard.gif	none	t	0
