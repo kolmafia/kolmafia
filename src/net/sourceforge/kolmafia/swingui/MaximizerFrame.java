@@ -87,12 +87,13 @@ public class MaximizerFrame
 	extends GenericFrame
 	implements ListSelectionListener
 {
-	public static final JComboBox expressionSelect = new JComboBox( KoLConstants.maximizerExpressions );
+	public static final JComboBox expressionSelect = new JComboBox();
 	static
 	{	// This has to be done before the constructor runs, since the
 		// CLI "maximize" command can set the selected item prior to the
 		// frame being instantiated.
 		expressionSelect.setEditable( true );
+		KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 	}
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;

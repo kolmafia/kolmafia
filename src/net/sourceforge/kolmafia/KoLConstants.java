@@ -287,51 +287,11 @@ public interface KoLConstants
 	public static final LockableListModel<File> scripts = new LockableListModel<File>();
 	public static final LockableListModel<String> bookmarks = new LockableListModel<String>();
 
-	public static String [] maximizerExpressions =
-	{
-		"mainstat",
-		"mus",
-		"mys",
-		"mox",
-		"familiar weight",
-		"HP",
-		"MP",
-		"ML",
-		"DA",
-		"DR",
-		"+combat -tie",
-		"-combat -tie",
-		"initiative",
-		"exp",
-		"meat drop",
-		"item drop",
-		"2.0 meat, 1.0 item",
-		"item, sea",
-		"weapon dmg",
-		"ranged dmg",
-		"elemental dmg",
-		"spell dmg",
-		"adv",
-		"pvp fights",
-		"hot res",
-		"cold res",
-		"spooky res",
-		"stench res",
-		"sleaze res",
-		"all res",
-		"mp regen",
-		"ML, 0.001 slime res",
-		"4 clownosity, -tie",
-		"7 raveosity, -tie",
-		"surgeonosity",
-		"+four songs",
-	};
-
 	public static final ArrayList<String> disabledScripts = new ArrayList<String>();
 	public static final ScriptMRUList scriptMList = 
 			  new ScriptMRUList( "scriptMRUList", "scriptMRULength" );
 	public static final PartialMRUList maximizerMList =
-			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", KoLConstants.maximizerExpressions );
+			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", "maximizerList" );
 
 	public static final SortedListModel<AdventureResult> junkList = new SortedListModel<AdventureResult>();
 	public static final SortedListModel<AdventureResult> singletonList = new SortedListModel<AdventureResult>();
