@@ -764,7 +764,7 @@ public class ConsumablesDatabase
 			}
 			else
 			{
-				return perUnit ? ( 3.0 / fullness ) : 5.0;
+				return perUnit ? ( 3.0 / fullness ) : 3.0;
 			}
 		}
 		return 0.0;
