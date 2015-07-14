@@ -163,7 +163,8 @@ public class OptionsFrame
 
 		selectorPanel.addPanel( "Script Buttons", new ScriptButtonPanel(), true );
 		selectorPanel.addPanel( "Bookmarks", new BookmarkManagePanel(), true );
-		selectorPanel.addPanel( "SVN", new SVNPanel() );
+		selectorPanel.addPanel( "SVN", new SVNPanel(), true );
+		selectorPanel.addPanel( "Maximizer Strings", new MaximizerStringsPanel() );
 
 		this.setCenterComponent( selectorPanel );
 
@@ -599,6 +600,75 @@ public class OptionsFrame
 			}
 
 			Preferences.setString( "scriptList", settingString.toString() );
+		}
+	}
+
+	private class MaximizerStringsPanel
+		extends ShiftableOrderPanel
+	{
+		public MaximizerStringsPanel()
+		{
+			super( "Modifier Maximizer Strings", new LockableListModel() );
+			String[] scriptList = Preferences.getString( "maximizerList" ).split( " \\| " );
+
+			for ( int i = 0; i < scriptList.length; ++i )
+			{
+				this.list.add( scriptList[ i ] );
+			}
+
+			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
+			extraButtons.add( new ThreadedButton( "add", new AddMaximizerRunnable() ), BorderLayout.CENTER );
+			extraButtons.add( new ThreadedButton( "delete", new DeleteListingRunnable() ), BorderLayout.SOUTH );
+			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
+		}
+
+		private class AddMaximizerRunnable
+			implements Runnable
+		{
+			public void run()
+			{
+				String currentValue = InputFieldUtilities.input( "Enter the desired maximizer string" );
+				if ( currentValue != null && currentValue.length() != 0 )
+				{
+					MaximizerStringsPanel.this.list.add( currentValue );
+				}
+
+				MaximizerStringsPanel.this.saveSettings();
+			}
+		}
+
+		private class DeleteListingRunnable
+			implements Runnable
+		{
+			public void run()
+			{
+				int index = MaximizerStringsPanel.this.elementList.getSelectedIndex();
+				if ( index == -1 )
+				{
+					return;
+				}
+
+				MaximizerStringsPanel.this.list.remove( index );
+				MaximizerStringsPanel.this.saveSettings();
+			}
+		}
+
+		@Override
+		public void saveSettings()
+		{
+			StringBuilder settingString = new StringBuilder();
+			if ( this.list.size() != 0 )
+			{
+				settingString.append( (String) this.list.getElementAt( 0 ) );
+			}
+
+			for ( int i = 1; i < this.list.getSize(); ++i )
+			{
+				settingString.append( " | " );
+				settingString.append( (String) this.list.getElementAt( i ) );
+			}
+
+			Preferences.setString( "maximizerList", settingString.toString() );
 		}
 	}
 

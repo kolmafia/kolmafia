@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.LinkedList;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
@@ -42,13 +43,19 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.ListCellRenderer;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 /**
  * Like an MRUList, but maintains a list of "default" settings at the bottom under a JSeparator.
  */
 public class PartialMRUList
 	extends ScriptMRUList
+	implements Listener
 {
-	private final String[] defaultList;
+	private final LinkedList<String> defaultList = new LinkedList<String>();
+	private final String pDefaultList;
 	private final ComboSeparatorsRenderer renderer = new ComboSeparatorsRenderer( new DefaultListCellRenderer() )
 	{
 		@Override
@@ -64,10 +71,12 @@ public class PartialMRUList
 	 * @param pList
 	 * @param pLen
 	 */
-	public PartialMRUList( String pList, String pLen, String[] defaultList )
+	public PartialMRUList( String pList, String pLen, String pDefaultList )
 	{
 		super( pList, pLen );
-		this.defaultList = defaultList;
+		this.pDefaultList = pDefaultList;
+		PreferenceListenerRegistry.registerPreferenceListener( pDefaultList, this );
+		update();
 	}
 
 	/*
@@ -148,5 +157,15 @@ public class PartialMRUList
 		}
 
 		protected abstract boolean addSeparatorAfter( JList list, Object value, int index );
+	}
+
+	public void update()
+	{
+		String[] newlist = Preferences.getString( this.pDefaultList ).split( " \\| " );
+		this.defaultList.clear();
+		for ( String it : newlist )
+		{
+			this.defaultList.add( it );
+		}
 	}
 }
