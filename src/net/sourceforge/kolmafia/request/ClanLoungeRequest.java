@@ -778,39 +778,16 @@ public class ClanLoungeRequest
 	}
 
 	public static final AdventureResult VIP_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
-	private static final GenericRequest VIP_KEY_REQUEST =
-		new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { ClanLoungeRequest.VIP_KEY } );
 	private static GenericRequest VISIT_REQUEST = new ClanLoungeRequest();
-
-	private static void pullVIPKey()
-	{
-		if ( VIP_KEY.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.inBadMoon() )
-		{
-			// Do not pull a VIP key if you cannot use it
-			return;
-		}
-
-		// If you have a VIP Lounge Key in storage, pull it.
-		if ( VIP_KEY.getCount( KoLConstants.freepulls ) > 0 )
-		{
-			RequestThread.postRequest( VIP_KEY_REQUEST );
-		}
-	}
 
 	public static boolean canVisitLounge()
 	{
-		// Pull a key from storage, if necessary
-		ClanLoungeRequest.pullVIPKey();
-
 		// If we have no Clan VIP Lounge key, nothing to do
 		return VIP_KEY.getCount( KoLConstants.inventory ) > 0;
 	}
 
 	public static boolean visitLounge( final int location )
 	{
-		// Pull a key from storage, if necessary
-		ClanLoungeRequest.pullVIPKey();
-
 		// If we have no Clan VIP Lounge key, nothing to do
 		if ( VIP_KEY.getCount( KoLConstants.inventory ) == 0 )
 		{
@@ -1771,7 +1748,7 @@ public class ClanLoungeRequest
 			return;
 		}
 
-		if ( action.equals( "eathotdog" ) )
+		if ( action.equals( "eathotdog" ) )//
 		{
 			// Do nothing if consumption of a basic hot dog failed
 			// Do nothing if overeating on basic hot dogs causes you to lose stats
