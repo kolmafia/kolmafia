@@ -74,25 +74,25 @@ public class EquipmentRequest
 	// <table class='item' id="ic653" rel="id=653&s=0&q=1&d=0&g=0&t=0&n=1&m=0&u=."><td id='i653' valign=top><b class="ircm"><a onClick='javascript:descitem(126122919,0, event);'>intragalactic rowboat</a></b>&nbsp;<span></span><font size=1><br></font></td></table>
 
 	private static final Pattern HAT_PATTERN =
-		Pattern.compile( "Hat</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=hat" );
+		Pattern.compile( "Hat</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =
-		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=weapon" );
+		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
-		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
+		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
 	private static final Pattern CONTAINER_PATTERN =
-		Pattern.compile( "Back</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=container" );
+		Pattern.compile( "Back</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container" );
 	private static final Pattern SHIRT_PATTERN =
-		Pattern.compile( "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=shirt" );
+		Pattern.compile( "Shirt</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=shirt" );
 	private static final Pattern PANTS_PATTERN =
-		Pattern.compile( "Pants</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=pants" );
+		Pattern.compile( "Pants</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=pants" );
 	private static final Pattern ACC1_PATTERN =
-		Pattern.compile( "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^<]+)</b> *<a[^>]*unequip&type=acc1" );
+		Pattern.compile( "Accessory</a>(?:&nbsp;1)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc1" );
 	private static final Pattern ACC2_PATTERN =
-		Pattern.compile( "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^>]+)</b> *<a[^>]*unequip&type=acc2" );
+		Pattern.compile( "Accessory</a>(?:&nbsp;2)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc2" );
 	private static final Pattern ACC3_PATTERN =
-		Pattern.compile( "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>([^>]+)</b> *<a[^>]*unequip&type=acc3" );
+		Pattern.compile( "Accessory</a>(?:&nbsp;3)?:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *<a[^>]*unequip&type=acc3" );
 	private static final Pattern FAMILIARITEM_PATTERN =
-		Pattern.compile( "Familiar</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b>(.*?)</b>.*?unequip&type=familiarequip\"" );
+		Pattern.compile( "Familiar</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=familiarequip\"" );
 	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
 	private static final Pattern STICKER_PATTERN = Pattern.compile(
 		"<td>\\s*(shiny|dull)?\\s*([^<]+)<a [^>]+action=peel|<td>\\s*<img [^>]+magnify" );
