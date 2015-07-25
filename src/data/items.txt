@@ -8428,7 +8428,7 @@
 8402	knife	752666911	colaknife.gif	weapon	q	0
 8403	revolver	987227451	sixshooter.gif	weapon	q	0
 8404	1952 Mickey Mantle card	547494119	tradecard.gif	none	t,d	10000
-8405
+8405	talking spade	617691448	gardenspade.gif	reusable		0
 8406	savory dry noodles	294214139	pasta.gif	none	t,d	10
 8407
 8408
