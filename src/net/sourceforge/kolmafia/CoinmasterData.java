@@ -343,7 +343,7 @@ public class CoinmasterData
 		return item.getCount( this.buyItems ) > 0;
 	}
 
-	public final int getBuyPrice( final int itemId )
+	public int getBuyPrice( final int itemId )
 	{
 		if ( this.buyPrices == null )
 		{
