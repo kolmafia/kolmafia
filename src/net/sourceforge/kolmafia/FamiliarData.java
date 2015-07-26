@@ -804,7 +804,7 @@ public class FamiliarData
 	{
 		for( DropInfo info : DROP_FAMILIARS )
 		{
-			if( info.id == id )
+			if ( info.id == id )
 				return info;
 		}
 		
