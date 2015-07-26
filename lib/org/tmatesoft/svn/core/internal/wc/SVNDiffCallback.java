@@ -25,6 +25,7 @@ import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.internal.util.SVNCharsetOutputStream;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNAdminArea;
+import org.tmatesoft.svn.core.internal.wc2.ng.ISvnPropertiesDiffHandler;
 import org.tmatesoft.svn.core.wc.DefaultSVNDiffGenerator;
 import org.tmatesoft.svn.core.wc.ISVNDiffGenerator;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
@@ -126,6 +127,9 @@ public class SVNDiffCallback extends AbstractDiffCallback {
             }
         }
         try {
+            if (myGenerator instanceof ISvnPropertiesDiffHandler) {
+                ((ISvnPropertiesDiffHandler) myGenerator).handlePropertiesDiff(originalProperties, diff);
+            }
             myGenerator.displayFileDiff(getDisplayPath(path), file1, file2, getRevision(revision1), getRevision(revision2), mimeType1, mimeType2, result);
         } finally {
             if (resetEncoding) {

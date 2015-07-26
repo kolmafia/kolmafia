@@ -23,14 +23,14 @@ import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.ACTUAL_NO
  * @version 1.4
  * @author TMate Software Ltd.
  */
-public class SVNWCDbSelectActualChildrenTreeConflict extends SVNSqlJetSelectFieldsStatement<ACTUAL_NODE__Fields> {
+public class SVNWCDbSelectActualChildrenConflict extends SVNSqlJetSelectFieldsStatement<ACTUAL_NODE__Fields> {
 
-    public SVNWCDbSelectActualChildrenTreeConflict(SVNSqlJetDb sDb) throws SVNException {
+    public SVNWCDbSelectActualChildrenConflict(SVNSqlJetDb sDb) throws SVNException {
         super(sDb, SVNWCDbSchema.ACTUAL_NODE, SVNWCDbSchema.ACTUAL_NODE__Indices.I_ACTUAL_PARENT);
     }
 
     protected boolean isFilterPassed() throws SVNException {
-        if (isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
+        if (isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data)) {
             return false;
         }
         if (isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.wc_id)) {
@@ -44,7 +44,7 @@ public class SVNWCDbSelectActualChildrenTreeConflict extends SVNSqlJetSelectFiel
 
     protected void defineFields() {
         fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.local_relpath);
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data);
+        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data);
     }
 
 }

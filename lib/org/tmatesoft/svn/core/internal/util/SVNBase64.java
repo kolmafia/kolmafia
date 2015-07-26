@@ -12,6 +12,8 @@
 
 package org.tmatesoft.svn.core.internal.util;
 
+import java.nio.CharBuffer;
+
 /**
  * @version 1.3
  * @author  TMate Software Ltd.
@@ -94,6 +96,14 @@ public class SVNBase64 {
         throw new IllegalArgumentException("Invalid SVNBase64 string: " + s.toString(), e);
       }
     }
+
+    public static int base64ToByteArray(char[] s, byte[] buffer) {
+        try {
+          return base64ToByteArray(s, buffer, false);
+        } catch (ArrayIndexOutOfBoundsException e) {
+          throw new IllegalArgumentException("Invalid SVNBase64 string: " + s.toString(), e);
+        }
+      }
     
     public static StringBuffer normalizeBase64(StringBuffer in) {
         StringBuffer result = new StringBuffer();
@@ -106,25 +116,53 @@ public class SVNBase64 {
         return result;
     }
 
-    private static int base64ToByteArray(StringBuffer s, byte[] result, boolean alternate) {
+    public static char[] normalizeBase64(char[] in) {
+        final CharBuffer cb = CharBuffer.allocate(in.length);
+        for (int i = 0; i < in.length; i++) {
+            if (Character.isWhitespace(in[i])) {
+                continue;
+            }
+            cb.put(in[i]);
+        }
+
+        final char[] result;
+        try {
+            if (cb.position() == in.length) {
+                result = in;
+            } else {
+                result = new char[cb.position()];
+                cb.flip();
+                cb.get(result);
+            }
+        } finally {
+            if (cb.hasArray()) {
+                SVNEncodingUtil.clearArray(cb.array());
+            }
+        }
+        return result;
+    }
+
+    private static int base64ToByteArray(StringBuffer sb, byte[] result, boolean alternate) {
+        return base64ToByteArray(sb.toString().toCharArray(), result, alternate);
+    }
+
+    private static int base64ToByteArray(char[] s, byte[] result, boolean alternate) {
         byte[] alphaToInt = (alternate ? altBase64ToInt : base64ToInt);
-        int sLen = s.length();
+        int sLen = s.length;
         int numGroups = sLen / 4;
         if (4 * numGroups != sLen) {
-            for (int i = 0; i < 4 - (sLen % 4); i++) {
-                s = s.append('=');
-            }
             numGroups++;
             sLen = 4 * numGroups;
         }
+        
         int missingBytesInLastGroup = 0;
         int numFullGroups = numGroups;
         if (sLen != 0) {
-            if (s.charAt(sLen - 1) == '=') {
+            if (charAt(s, sLen - 1) == '=') {
                 missingBytesInLastGroup++;
                 numFullGroups--;
             }
-            if (s.charAt(sLen - 2) == '=')
+            if (charAt(s, sLen - 2) == '=')
                 missingBytesInLastGroup++;
         }
         int resultLength = 3 * numGroups - missingBytesInLastGroup;
@@ -132,10 +170,10 @@ public class SVNBase64 {
         // Translate all full groups from base64 to byte array elements
         int inCursor = 0, outCursor = 0;
         for (int i = 0; i < numFullGroups; i++) {
-            int ch0 = alphaToInt[s.charAt(inCursor++)];
-            int ch1 = alphaToInt[s.charAt(inCursor++)];
-            int ch2 = alphaToInt[s.charAt(inCursor++)];
-            int ch3 = alphaToInt[s.charAt(inCursor++)];
+            int ch0 = alphaToInt[charAt(s, inCursor++)];
+            int ch1 = alphaToInt[charAt(s, inCursor++)];
+            int ch2 = alphaToInt[charAt(s, inCursor++)];
+            int ch3 = alphaToInt[charAt(s, inCursor++)];
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
             result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             result[outCursor++] = (byte) ((ch2 << 6) | ch3);
@@ -143,16 +181,23 @@ public class SVNBase64 {
 
         // Translate partial group, if present
         if (missingBytesInLastGroup != 0) {
-            int ch0 = alphaToInt[s.charAt(inCursor++)];
-            int ch1 = alphaToInt[s.charAt(inCursor++)];
+            int ch0 = alphaToInt[charAt(s, inCursor++)];
+            int ch1 = alphaToInt[charAt(s, inCursor++)];
             result[outCursor++] = (byte) ((ch0 << 2) | (ch1 >> 4));
 
             if (missingBytesInLastGroup == 1) {
-                int ch2 = alphaToInt[s.charAt(inCursor++)];
+                int ch2 = alphaToInt[charAt(s, inCursor++)];
                 result[outCursor++] = (byte) ((ch1 << 4) | (ch2 >> 2));
             }
         }
         return resultLength;
+    }
+    
+    private static char charAt(char[] array, int index) {
+        if (index >= array.length) {
+            return '=';
+        }
+        return array[index];
     }
 
     /**

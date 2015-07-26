@@ -25,6 +25,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     protected static final String WC_REVISION_LABEL = "(working copy)";
     protected static final String PROPERTIES_SEPARATOR = "___________________________________________________________________";
     protected static final String HEADER_SEPARATOR = "===================================================================";
+    protected static final String HEADER_ENCODING = "UTF-8";
 
     private SvnTarget originalTarget1;
     private SvnTarget originalTarget2;
@@ -37,6 +38,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     private boolean forcedBinaryDiff;
 
     private boolean diffDeleted;
+    private boolean diffAdded;
     private List<String> rawDiffOptions;
     private boolean forceEmpty;
 
@@ -45,6 +47,8 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     private SVNDiffOptions diffOptions;
     private boolean fallbackToAbsolutePath;
     private ISVNOptions options;
+    private boolean propertiesOnly;
+    private boolean ignoreProperties;
 
     private String getDisplayPath(SvnTarget target) {
         String relativePath;
@@ -122,6 +126,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         this.originalTarget2 = null;
         this.visitedPaths = new HashSet<String>();
         this.diffDeleted = true;
+        this.diffAdded = true;
     }
 
     public void setBaseTarget(SvnTarget baseTarget) {
@@ -187,6 +192,22 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         this.forcedBinaryDiff = forcedBinaryDiff;
     }
 
+    public boolean isPropertiesOnly() {
+        return propertiesOnly;
+    }
+
+    public void setPropertiesOnly(boolean propertiesOnly) {
+        this.propertiesOnly = propertiesOnly;
+    }
+
+    public boolean isIgnoreProperties() {
+        return ignoreProperties;
+    }
+
+    public void setIgnoreProperties(boolean ignoreProperties) {
+        this.ignoreProperties = ignoreProperties;
+    }
+
     public void displayDeletedDirectory(SvnTarget target, String revision1, String revision2, OutputStream outputStream) throws SVNException {
     }
 
@@ -194,6 +215,12 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     }
 
     public void displayPropsChanged(SvnTarget target, String revision1, String revision2, boolean dirWasAdded, SVNProperties originalProps, SVNProperties propChanges, OutputStream outputStream) throws SVNException {
+        if (isIgnoreProperties()) {
+            return;
+        }
+        if (dirWasAdded && !isDiffAdded()) {
+            return;
+        }
         ensureEncodingAndEOLSet();
         String displayPath = getDisplayPath(target);
 
@@ -204,54 +231,52 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
             displayPath = ".";
         }
 
+        if (useGitFormat) {
+            targetString1 = adjustRelativeToReposRoot(targetString1);
+            targetString2 = adjustRelativeToReposRoot(targetString2);
+        }
+
+        String newTargetString = displayPath;
+        String newTargetString1 = targetString1;
+        String newTargetString2 = targetString2;
+
+        String commonAncestor = SVNPathUtil.getCommonPathAncestor(newTargetString1, newTargetString2);
+        int commonLength = commonAncestor == null ? 0 : commonAncestor.length();
+
+        newTargetString1 = newTargetString1.substring(commonLength);
+        newTargetString2 = newTargetString2.substring(commonLength);
+
+        newTargetString1 = computeLabel(newTargetString, newTargetString1);
+        newTargetString2 = computeLabel(newTargetString, newTargetString2);
+
+        if (relativeToTarget != null) {
+            String relativeToPath = relativeToTarget.getPathOrUrlDecodedString();
+            String absolutePath = target.getPathOrUrlDecodedString();
+
+            String childPath = getChildPath(absolutePath, relativeToPath);
+            if (childPath == null) {
+                throwBadRelativePathException(absolutePath, relativeToPath);
+            }
+            String childPath1 = getChildPath(newTargetString1, relativeToPath);
+            if (childPath1 == null) {
+                throwBadRelativePathException(newTargetString1, relativeToPath);
+            }
+            String childPath2 = getChildPath(newTargetString2, relativeToPath);
+            if (childPath2 == null) {
+                throwBadRelativePathException(newTargetString2, relativeToPath);
+            }
+
+            displayPath = childPath;
+            newTargetString1 = childPath1;
+            newTargetString2 = childPath2;
+        }
+
         boolean showDiffHeader = !visitedPaths.contains(displayPath);
         if (showDiffHeader) {
-
-
-            if (useGitFormat) {
-                targetString1 = adjustRelativeToReposRoot(targetString1);
-                targetString2 = adjustRelativeToReposRoot(targetString2);
-            }
-
-            String newTargetString = displayPath;
-            String newTargetString1 = targetString1;
-            String newTargetString2 = targetString2;
-
-            String commonAncestor = SVNPathUtil.getCommonPathAncestor(newTargetString1, newTargetString2);
-            int commonLength = commonAncestor == null ? 0 : commonAncestor.length();
-
-            newTargetString1 = newTargetString1.substring(commonLength);
-            newTargetString2 = newTargetString2.substring(commonLength);
-
-            newTargetString1 = computeLabel(newTargetString, newTargetString1);
-            newTargetString2 = computeLabel(newTargetString, newTargetString2);
-
-            if (relativeToTarget != null) {
-                String relativeToPath = relativeToTarget.getPathOrUrlDecodedString();
-                String absolutePath = target.getPathOrUrlDecodedString();
-
-                String childPath = getChildPath(absolutePath, relativeToPath);
-                if (childPath == null) {
-                    throwBadRelativePathException(absolutePath, relativeToPath);
-                }
-                String childPath1 = getChildPath(newTargetString1, relativeToPath);
-                if (childPath1 == null) {
-                    throwBadRelativePathException(newTargetString1, relativeToPath);
-                }
-                String childPath2 = getChildPath(newTargetString2, relativeToPath);
-                if (childPath2 == null) {
-                    throwBadRelativePathException(newTargetString2, relativeToPath);
-                }
-
-                displayPath = childPath;
-                newTargetString1 = childPath1;
-                newTargetString2 = childPath2;
-            }
-
             String label1 = getLabel(newTargetString1, revision1);
             String label2 = getLabel(newTargetString2, revision2);
 
-            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, false, SvnDiffCallback.OperationKind.Modified);
+            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, false, fallbackToAbsolutePath, SvnDiffCallback.OperationKind.Modified);
             visitedPaths.add(displayPath);
             if (useGitFormat) {
                 displayGitDiffHeader(outputStream, SvnDiffCallback.OperationKind.Modified,
@@ -327,7 +352,10 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         }
     }
 
-    public void displayContentChanged(SvnTarget target, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, OutputStream outputStream) throws SVNException {
+    public void displayContentChanged(SvnTarget target, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, SVNProperties originalProperties, SVNProperties propChanges, OutputStream outputStream) throws SVNException {
+        if (isPropertiesOnly()) {
+            return;
+        }
         ensureEncodingAndEOLSet();
         String displayPath = getDisplayPath(target);
 
@@ -388,7 +416,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         }
 
         if (!forcedBinaryDiff && (leftIsBinary || rightIsBinary)) {
-            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, rightFile == null, operation);
+            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, rightFile == null, leftFile == null, operation);
             if (useGitFormat) {
                 displayGitDiffHeader(outputStream, operation,
                         getRelativeToRootPath(target, originalTarget1),
@@ -409,7 +437,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
 
         final String diffCommand = getExternalDiffCommand();
         if (diffCommand != null) {
-            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, rightFile == null, operation);
+            boolean shouldStopDisplaying = displayHeader(outputStream, displayPath, rightFile == null, leftFile == null, operation);
             if (useGitFormat) {
                 displayGitDiffHeader(outputStream, operation,
                         getRelativeToRootPath(target, originalTarget1),
@@ -444,13 +472,23 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
     }
 
     private void internalDiff(SvnTarget target, OutputStream outputStream, String displayPath, File file1, File file2, String label1, String label2, SvnDiffCallback.OperationKind operation, String copyFromPath, String revision1, String revision2) throws SVNException {
-        String header = getHeaderString(target, displayPath, file2 == null, operation, copyFromPath);
+        String header = getHeaderString(target, displayPath, file2 == null, file1 == null, operation, copyFromPath);
         if (file2 == null && !isDiffDeleted()) {
             try {
                 displayString(outputStream, header);
             } catch (IOException e) {
                 wrapException(e);
             }
+            visitedPaths.add(displayPath);
+            return;
+        }
+        if (file1 == null && !isDiffAdded()) {
+            try {
+                displayString(outputStream, header);
+            } catch (IOException e) {
+                wrapException(e);
+            }
+            visitedPaths.add(displayPath);
             return;
         }
         String headerFields = getHeaderFieldsString(target, displayPath, label1, label2, revision1, revision2, operation, copyFromPath);
@@ -482,12 +520,12 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
                 diffHeader = header + headerFields;
             }
             QDiffGenerator generator = new QDiffUniGenerator(properties, diffHeader);
-            EmptyDetectionWriter writer = new EmptyDetectionWriter(new OutputStreamWriter(outputStream, getEncoding()));
-            QDiffManager.generateTextDiff(is1, is2, getEncoding(), writer, generator);
-            if (writer.isSomethingWritten()) {
+            EmptyDetectionOutputStream emptyDetectionOutputStream = new EmptyDetectionOutputStream(outputStream);
+            QDiffManager.generateTextDiff(is1, is2, emptyDetectionOutputStream, generator);
+            if (emptyDetectionOutputStream.isSomethingWritten()) {
                 visitedPaths.add(displayPath);
             }
-            writer.flush();
+            emptyDetectionOutputStream.flush();
         } catch (IOException e) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getMessage());
             SVNErrorManager.error(err, e, SVNLogType.DEFAULT);
@@ -518,16 +556,16 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
 
         try {
             byteArrayOutputStream.close();
-            return byteArrayOutputStream.toString(getEncoding());
+            return byteArrayOutputStream.toString(HEADER_ENCODING);
         } catch (IOException e) {
             return "";
         }
     }
 
-    private String getHeaderString(SvnTarget target, String displayPath, boolean deleted, SvnDiffCallback.OperationKind operation, String copyFromPath) throws SVNException {
+    private String getHeaderString(SvnTarget target, String displayPath, boolean deleted, boolean added, SvnDiffCallback.OperationKind operation, String copyFromPath) throws SVNException {
         final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try {
-            boolean stopDisplaying = displayHeader(byteArrayOutputStream, displayPath, deleted, operation);
+            boolean stopDisplaying = displayHeader(byteArrayOutputStream, displayPath, deleted, added, operation);
             if (useGitFormat) {
                 displayGitDiffHeader(byteArrayOutputStream, operation,
                         getRelativeToRootPath(target, originalTarget1),
@@ -547,7 +585,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
 
         try {
             byteArrayOutputStream.close();
-            return byteArrayOutputStream.toString(getEncoding());
+            return byteArrayOutputStream.toString(HEADER_ENCODING);
         } catch (IOException e) {
             return "";
         }
@@ -745,7 +783,7 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
                 QDiffGenerator generator = new QDiffUniGenerator(properties, "");
                 Writer writer = new OutputStreamWriter(outputStream, getEncoding());
                 QDiffManager.generateTextDiff(new ByteArrayInputStream(originalValueBytes), new ByteArrayInputStream(newValueBytes),
-                        getEncoding(), writer, generator);
+                        null, writer, generator);
                 writer.flush();
                 if (!newValueHadEol) {
                     displayString(outputStream, "\\ No newline at end of property");
@@ -955,12 +993,21 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         return path + "\t" + revToken;
     }
 
-    protected boolean displayHeader(OutputStream os, String path, boolean deleted, SvnDiffCallback.OperationKind operation) throws SVNException {
+    protected boolean displayHeader(OutputStream os, String path, boolean deleted, boolean added, SvnDiffCallback.OperationKind operation) throws SVNException {
         try {
             if (deleted && !isDiffDeleted()) {
                 displayString(os, "Index: ");
                 displayString(os, path);
                 displayString(os, " (deleted)");
+                displayEOL(os);
+                displayString(os, HEADER_SEPARATOR);
+                displayEOL(os);
+                return true;
+            }
+            if (added && !isDiffAdded()) {
+                displayString(os, "Index: ");
+                displayString(os, path);
+                displayString(os, " (added)");
                 displayEOL(os);
                 displayString(os, HEADER_SEPARATOR);
                 displayEOL(os);
@@ -1056,13 +1103,17 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         return diffDeleted;
     }
 
+    public boolean isDiffAdded() {
+        return diffAdded;
+    }
+
     private void wrapException(IOException e) throws SVNException {
         SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, e);
         SVNErrorManager.error(errorMessage, e, SVNLogType.WC);
     }
 
     private void displayString(OutputStream outputStream, String s) throws IOException {
-        outputStream.write(s.getBytes(getEncoding()));
+        outputStream.write(s.getBytes(HEADER_ENCODING));
     }
 
     private void displayEOL(OutputStream os) throws IOException {
@@ -1092,6 +1143,10 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         this.diffDeleted = diffDeleted;
     }
 
+    public void setDiffAdded(boolean diffAdded) {
+        this.diffAdded = diffAdded;
+    }
+
     public void setBasePath(File absoluteFile) {
         setBaseTarget(SvnTarget.fromFile(absoluteFile));
     }
@@ -1108,13 +1163,13 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         return options;
     }
 
-    private class EmptyDetectionWriter extends Writer {
+    private class EmptyDetectionOutputStream extends OutputStream {
 
-        private final Writer writer;
+        private final OutputStream outputStream;
         private boolean somethingWritten;
 
-        public EmptyDetectionWriter(Writer writer) {
-            this.writer = writer;
+        public EmptyDetectionOutputStream(OutputStream outputStream) {
+            this.outputStream = outputStream;
             this.somethingWritten = false;
         }
 
@@ -1125,59 +1180,29 @@ public class SvnDiffGenerator implements ISvnDiffGenerator {
         @Override
         public void write(int c) throws IOException {
             somethingWritten = true;
-            writer.write(c);
+            outputStream.write(c);
         }
 
         @Override
-        public void write(char[] cbuf) throws IOException {
-            somethingWritten = cbuf.length > 0;
-            writer.write(cbuf);
+        public void write(byte[] bytes) throws IOException {
+            somethingWritten = bytes.length > 0;
+            outputStream.write(bytes);
         }
 
         @Override
-        public void write(char[] cbuf, int off, int len) throws IOException {
-            somethingWritten = len > 0 && cbuf.length > 0;
-            writer.write(cbuf, off, len);
-        }
-
-        @Override
-        public void write(String str) throws IOException {
-            somethingWritten = str.length() > 0;
-            writer.write(str);
-        }
-
-        @Override
-        public void write(String str, int off, int len) throws IOException {
-            somethingWritten = len > 0 && str.length() > 0;
-            writer.write(str, off, len);
-        }
-
-        @Override
-        public Writer append(CharSequence csq) throws IOException {
-            somethingWritten = csq.length() > 0;
-            return writer.append(csq);
-        }
-
-        @Override
-        public Writer append(CharSequence csq, int start, int end) throws IOException {
-            somethingWritten = csq.length() > 0 && (start >= end);
-            return writer.append(csq, start, end);
-        }
-
-        @Override
-        public Writer append(char c) throws IOException {
-            somethingWritten = true;
-            return writer.append(c);
+        public void write(byte[] bytes, int offset, int length) throws IOException {
+            somethingWritten = length > 0;
+            outputStream.write(bytes, offset, length);
         }
 
         @Override
         public void flush() throws IOException {
-            writer.flush();
+            outputStream.flush();
         }
 
         @Override
         public void close() throws IOException {
-            writer.close();
+            outputStream.close();
         }
     }
 }

@@ -487,5 +487,4 @@ public class SVNPatchHunk {
         }
         return null;
     }
-
 }

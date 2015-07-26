@@ -11,17 +11,17 @@
  */
 package org.tmatesoft.svn.core.internal.util;
 
-import java.rmi.server.UID;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Random;
-
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.util.SVNLogType;
+
+import java.rmi.server.UID;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * @version 1.3
@@ -48,7 +48,7 @@ public class SVNUUIDGenerator {
              * Reset the fudge factor. if we are generating them too fast, then
              * the fudge may need to be reset to something greater than zero.
              */
-            if (ourLastGeneratedTime + ourFudgeFactor > currentTime) {
+            if (ourLastGeneratedTime + ourFudgeFactor >= currentTime) {
                 ourFudgeFactor = ourLastGeneratedTime + ourFudgeFactor - currentTime + 1;
             } else {
                 ourFudgeFactor = 0;
@@ -64,7 +64,7 @@ public class SVNUUIDGenerator {
     public static String generateUUIDString() throws SVNException {
         return formatUUID(generateUUID());
     }
-    
+
     public static synchronized byte[] generateUUID() throws SVNException {
         if (ourUUIDStateNode[0] == 0) {
             initState();

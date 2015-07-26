@@ -1390,7 +1390,7 @@ public abstract class SVNAdminArea {
                 File pathToTranslate = text;
                 if (compareTextBase && needsTranslation) {
                     if (!special) {
-                        Map keywordsMap = SVNTranslator.computeKeywords(keywords, null, entry.getAuthor(), entry.getCommittedDate(), entry.getRevision() + "", getWCAccess().getOptions());
+                        Map keywordsMap = SVNTranslator.computeKeywords(keywords, null, entry.getRepositoryRoot(), entry.getAuthor(), entry.getCommittedDate(), entry.getRevision() + "", getWCAccess().getOptions());
                         byte[] eols = SVNTranslator.getBaseEOL(eolStyle);
                         textStream = SVNTranslator.getTranslatingInputStream(textStream, charset, eols, true, keywordsMap, false);
                         pathToTranslate = text;
@@ -1404,7 +1404,7 @@ public abstract class SVNAdminArea {
                         textStream = new ByteArrayInputStream(symlinkContents.getBytes());
                     }
                 } else if (needsTranslation) {
-                    Map keywordsMap = SVNTranslator.computeKeywords(keywords, entry.getURL(), entry.getAuthor(), entry.getCommittedDate(), entry.getRevision() + "", getWCAccess().getOptions());
+                    Map keywordsMap = SVNTranslator.computeKeywords(keywords, entry.getURL(), entry.getRepositoryRoot(), entry.getAuthor(), entry.getCommittedDate(), entry.getRevision() + "", getWCAccess().getOptions());
                     byte[] eols = SVNTranslator.getEOL(eolStyle, getWCAccess().getOptions());
                     baseStream = SVNTranslator.getTranslatingInputStream(baseStream, charset, eols, false, keywordsMap, true);
                     pathToTranslate = baseFile;

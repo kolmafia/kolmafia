@@ -18,8 +18,10 @@ import org.tmatesoft.svn.core.internal.wc.DefaultSVNOptions;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.wc.admin.SVNAdminBasicClient;
 import org.tmatesoft.svn.core.wc.admin.SVNAdminClient;
 import org.tmatesoft.svn.core.wc.admin.SVNLookClient;
+import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.util.ISVNDebugLog;
 import org.tmatesoft.svn.util.SVNDebugLog;
 
@@ -132,6 +134,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
     private ISVNRepositoryPool myRepositoryPool;
     private ISVNDebugLog myDebugLog;
 
+    private SvnOperationFactory myOperationFactory;
+
     private boolean myIsIgnoreExternals;
 
     private SVNClientManager(ISVNOptions options, ISVNRepositoryPool repositoryPool) {
@@ -145,7 +149,11 @@ public class SVNClientManager implements ISVNRepositoryPool {
     private SVNClientManager(ISVNOptions options, final ISVNAuthenticationManager authManager) {
         this(options, new DefaultSVNRepositoryPool(authManager == null ? SVNWCUtil.createDefaultAuthenticationManager() : authManager, options));
     }
-    
+
+    private SVNClientManager(SvnOperationFactory of) {
+        myOperationFactory = of;
+    }
+
     /**
      * Creates a new instance of this class using default {@link ISVNOptions}
      * and {@link org.tmatesoft.svn.core.auth.ISVNAuthenticationManager} drivers. 
@@ -192,7 +200,11 @@ public class SVNClientManager implements ISVNRepositoryPool {
     public static SVNClientManager newInstance(ISVNOptions options, ISVNAuthenticationManager authManager) {
         return new SVNClientManager(options, authManager);
     }
-    
+
+    public static SVNClientManager newInstance(SvnOperationFactory operationFactory) {
+        return new SVNClientManager(operationFactory);
+    }
+
     /**
      * Creates a new instance of this class using the provided
      * config driver and creator of of <b>SVNRepository</b> objects. 
@@ -220,7 +232,7 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @return             a new <b>SVNClientManager</b> instance
      */
     public static SVNClientManager newInstance(DefaultSVNOptions options, String userName, String password) {
-        boolean storeAuth = options == null ? true : options.isAuthStorageEnabled();
+        boolean storeAuth = options == null || options.isAuthStorageEnabled();
         ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(null, userName, password, storeAuth);
         return new SVNClientManager(options, authManager);
     }
@@ -248,8 +260,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @throws SVNException
      */
     public SVNRepository createRepository(SVNURL url, boolean mayReuse) throws SVNException {
-        if (myRepositoryPool != null) {
-            return myRepositoryPool.createRepository(url, mayReuse);
+        if (getRepositoryPool() != null) {
+            return getRepositoryPool().createRepository(url, mayReuse);
         }
         SVNRepository repository = SVNRepositoryFactory.create(url);
         repository.setAuthenticationManager(SVNWCUtil.createDefaultAuthenticationManager());
@@ -258,12 +270,13 @@ public class SVNClientManager implements ISVNRepositoryPool {
     }
 
     /**
-     * @param shutdownAll 
+     * @param shutdownAll   whether to shutdown connection
+     *                      that are considered active at the moment
      * @deprecated          use {@link #dispose()} instead
      */
     public void shutdownConnections(boolean shutdownAll) {
-        if (myRepositoryPool != null) {
-            myRepositoryPool.dispose();
+        if (getRepositoryPool() != null) {
+            getRepositoryPool().dispose();
         }
     }
 
@@ -273,7 +286,9 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * any open network sessions. 
      */
     public void dispose() {
-        if (myRepositoryPool != null) {
+        if (myOperationFactory != null) {
+            myOperationFactory.dispose();
+        } else if (myRepositoryPool != null) {
             myRepositoryPool.dispose();
         }
     }
@@ -285,6 +300,9 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @return  a run-time options driver
      */
     public ISVNOptions getOptions() {
+        if (myOperationFactory != null) {
+            return myOperationFactory.getOptions();
+        }
         return myOptions;
     }
     
@@ -397,36 +415,40 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @param options  run-time configuration options 
      */
     public void setOptions(ISVNOptions options) {
-        myOptions = options;
-        if (myCommitClient != null) {
-            myCommitClient.setOptions(options);
-        }
-        if (myCopyClient != null) {
-            myCopyClient.setOptions(options);
-        }
-        if (myDiffClient != null) {
-            myDiffClient.setOptions(options);
-        }
-        if (myLogClient != null) {
-            myLogClient.setOptions(options);
-        }
-        if (myMoveClient != null) {
-            myMoveClient.setOptions(options);
-        }
-        if (myStatusClient != null) {
-            myStatusClient.setOptions(options);
-        }
-        if (myUpdateClient != null) {
-            myUpdateClient.setOptions(options);
-        }
-        if (myWCClient != null) {
-            myWCClient.setOptions(options);
-        }
-        if (myAdminClient != null) {
-            myAdminClient.setOptions(options);
-        }
-        if (myLookClient != null) {
-            myLookClient.setOptions(options);
+        if (myOperationFactory != null) {
+            myOperationFactory.setOptions(options);
+        } else {
+            myOptions = options;
+            if (myCommitClient != null) {
+                myCommitClient.setOptions(options);
+            }
+            if (myCopyClient != null) {
+                myCopyClient.setOptions(options);
+            }
+            if (myDiffClient != null) {
+                myDiffClient.setOptions(options);
+            }
+            if (myLogClient != null) {
+                myLogClient.setOptions(options);
+            }
+            if (myMoveClient != null) {
+                myMoveClient.setOptions(options);
+            }
+            if (myStatusClient != null) {
+                myStatusClient.setOptions(options);
+            }
+            if (myUpdateClient != null) {
+                myUpdateClient.setOptions(options);
+            }
+            if (myWCClient != null) {
+                myWCClient.setOptions(options);
+            }
+            if (myAdminClient != null) {
+                myAdminClient.setOptions(options);
+            }
+            if (myLookClient != null) {
+                myLookClient.setOptions(options);
+            }
         }
     }
     
@@ -444,7 +466,7 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNCommitClient getCommitClient() {
         if (myCommitClient == null) {
-            myCommitClient = new SVNCommitClient(this, myOptions);
+            myCommitClient = myOperationFactory != null ? new SVNCommitClient(myOperationFactory) : new SVNCommitClient(this, myOptions);
             myCommitClient.setEventHandler(myEventHandler);
             myCommitClient.setDebugLog(getDebugLog());
             myCommitClient.setIgnoreExternals(myIsIgnoreExternals);
@@ -466,9 +488,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNAdminClient getAdminClient() {
         if (myAdminClient == null) {
-            myAdminClient = new SVNAdminClient(this, myOptions);
-            myAdminClient.setEventHandler(myEventHandler);
-            myAdminClient.setDebugLog(getDebugLog());
+            myAdminClient = myOperationFactory != null ? new SVNAdminClient(myOperationFactory) : new SVNAdminClient(this, myOptions);
+            initClientDefaults(myAdminClient);
         }
         return myAdminClient;
     }
@@ -487,9 +508,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNLookClient getLookClient() {
         if (myLookClient == null) {
-            myLookClient = new SVNLookClient(this, myOptions);
-            myLookClient.setEventHandler(myEventHandler);
-            myLookClient.setDebugLog(getDebugLog());
+            myLookClient = myOperationFactory != null ? new SVNLookClient(myOperationFactory) : new SVNLookClient(this, myOptions);
+            initClientDefaults(myLookClient);
         }
         return myLookClient;
     }
@@ -508,10 +528,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNCopyClient getCopyClient() {
         if (myCopyClient == null) {
-            myCopyClient = new SVNCopyClient(this, myOptions);
-            myCopyClient.setEventHandler(myEventHandler);
-            myCopyClient.setDebugLog(getDebugLog());
-            myCopyClient.setIgnoreExternals(myIsIgnoreExternals);
+            myCopyClient = myOperationFactory != null ? new SVNCopyClient(myOperationFactory) : new SVNCopyClient(this, myOptions);
+            initClientDefaults(myCopyClient);
         }
         return myCopyClient;
     }
@@ -530,10 +548,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNDiffClient getDiffClient() {
         if (myDiffClient == null) {
-            myDiffClient = new SVNDiffClient(this, myOptions);
-            myDiffClient.setEventHandler(myEventHandler);
-            myDiffClient.setDebugLog(getDebugLog());
-            myDiffClient.setIgnoreExternals(myIsIgnoreExternals);
+            myDiffClient = myOperationFactory != null ? new SVNDiffClient(myOperationFactory) : new SVNDiffClient(this, myOptions);
+            initClientDefaults(myDiffClient);
         }
         return myDiffClient;
     }
@@ -553,10 +569,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNLogClient getLogClient() {
         if (myLogClient == null) {
-            myLogClient = new SVNLogClient(this, myOptions);
-            myLogClient.setEventHandler(myEventHandler);
-            myLogClient.setDebugLog(getDebugLog());
-            myLogClient.setIgnoreExternals(myIsIgnoreExternals);
+            myLogClient = myOperationFactory != null ? new SVNLogClient(myOperationFactory) : new SVNLogClient(this, myOptions);
+            initClientDefaults(myLogClient);
         }
         return myLogClient;
     }
@@ -575,10 +589,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNMoveClient getMoveClient() {
         if (myMoveClient == null) {
-            myMoveClient = new SVNMoveClient(this, myOptions);
-            myMoveClient.setEventHandler(myEventHandler);
-            myMoveClient.setDebugLog(getDebugLog());
-            myMoveClient.setIgnoreExternals(myIsIgnoreExternals);
+            myMoveClient = myOperationFactory != null ? new SVNMoveClient(myOperationFactory) : new SVNMoveClient(this, myOptions);
+            initClientDefaults(myMoveClient);
         }
         return myMoveClient;
     }
@@ -597,10 +609,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNStatusClient getStatusClient() {
         if (myStatusClient == null) {
-            myStatusClient = new SVNStatusClient(this, myOptions);
-            myStatusClient.setEventHandler(myEventHandler);
-            myStatusClient.setDebugLog(getDebugLog());
-            myStatusClient.setIgnoreExternals(myIsIgnoreExternals);
+            myStatusClient = myOperationFactory != null ? new SVNStatusClient(myOperationFactory) : new SVNStatusClient(this, myOptions);
+            initClientDefaults(myStatusClient);
         }
         return myStatusClient;
     }
@@ -619,10 +629,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNUpdateClient getUpdateClient() {
         if (myUpdateClient == null) {
-            myUpdateClient = new SVNUpdateClient(this, myOptions);
-            myUpdateClient.setEventHandler(myEventHandler);
-            myUpdateClient.setDebugLog(getDebugLog());
-            myUpdateClient.setIgnoreExternals(myIsIgnoreExternals);
+            myUpdateClient = myOperationFactory != null ? new SVNUpdateClient(myOperationFactory) : new SVNUpdateClient(this, myOptions);
+            initClientDefaults(myUpdateClient);
         }
         return myUpdateClient;
     }
@@ -641,10 +649,8 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNWCClient getWCClient() {
         if (myWCClient == null) {
-            myWCClient = new SVNWCClient(this, myOptions);
-            myWCClient.setEventHandler(myEventHandler);
-            myWCClient.setDebugLog(getDebugLog());
-            myWCClient.setIgnoreExternals(myIsIgnoreExternals);
+            myWCClient = myOperationFactory != null ? new SVNWCClient(myOperationFactory) : new SVNWCClient(this, myOptions);
+            initClientDefaults(myWCClient);
         }
         return myWCClient;
     }
@@ -664,14 +670,23 @@ public class SVNClientManager implements ISVNRepositoryPool {
      */
     public SVNChangelistClient getChangelistClient() {
         if (myChangelistClient == null) {
-            myChangelistClient = new SVNChangelistClient(this, myOptions);
-            myChangelistClient.setEventHandler(myEventHandler);
-            myChangelistClient.setDebugLog(getDebugLog());
-            myChangelistClient.setIgnoreExternals(myIsIgnoreExternals);
+            myChangelistClient = myOperationFactory != null ? new SVNChangelistClient(myOperationFactory) : new SVNChangelistClient(this, myOptions);
+            initClientDefaults(myChangelistClient);
         }
         return myChangelistClient;
     }
-    
+
+    protected void initClientDefaults(SVNBasicClient client) {
+        client.setEventHandler(myEventHandler);
+        client.setDebugLog(getDebugLog());
+        client.setIgnoreExternals(myIsIgnoreExternals);
+    }
+
+    protected void initClientDefaults(SVNAdminBasicClient client) {
+        client.setEventHandler(myEventHandler);
+        client.setDebugLog(getDebugLog());
+    }
+
     /**
      * Returns the debug logger currently in use.  
      * 
@@ -745,7 +760,9 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @param authManager   user's implementation of the authentication manager interface 
      */
     public void setAuthenticationManager(ISVNAuthenticationManager authManager) {
-        if (myRepositoryPool != null) {
+        if (myOperationFactory != null) {
+            myOperationFactory.setAuthenticationManager(authManager);
+        } else if (myRepositoryPool != null) {
             myRepositoryPool.setAuthenticationManager(authManager);
         }
     }
@@ -758,7 +775,9 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @since               1.2.0
      */
     public void setCanceller(ISVNCanceller canceller) {
-        if (myRepositoryPool != null) {
+        if (myOperationFactory != null) {
+            myOperationFactory.setCanceller(canceller);
+        } else if (myRepositoryPool != null) {
             myRepositoryPool.setCanceller(canceller);
         }
     }
@@ -772,6 +791,13 @@ public class SVNClientManager implements ISVNRepositoryPool {
      * @since         1.2.0
      */
     public ISVNRepositoryPool getRepositoryPool() {
+        if (myOperationFactory != null) {
+            return myOperationFactory.getRepositoryPool();
+        }
         return myRepositoryPool;
+    }
+
+    public SvnOperationFactory getOperationFactory() {
+        return myOperationFactory;
     }
 }

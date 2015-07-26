@@ -56,7 +56,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.lstat(path, ourSharedMemory) :
                             cLibrary.__lxstat64(0, path, ourSharedMemory);
                     }
@@ -110,7 +110,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.lstat(path, ourSharedMemory) :
                             cLibrary.__lxstat64(0, path, ourSharedMemory);
                     }
@@ -194,7 +194,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.lstat(path, ourSharedMemory) :
                             cLibrary.__lxstat64(0, path, ourSharedMemory);
                     }
@@ -232,7 +232,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.lstat(path, ourSharedMemory) :
                             cLibrary.__lxstat64(0, path, ourSharedMemory);
                     }
@@ -291,7 +291,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._lstat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.lstat(path, ourSharedMemory) :
                             cLibrary.__lxstat64(0, path, ourSharedMemory);
                     }
@@ -346,7 +346,7 @@ public class SVNLinuxUtil {
                     if (ourIsDashStat && SVNFileUtil.isBSD) {
                         rc = cLibrary._stat(path, ourSharedMemory);
                     } else {
-                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris ?
+                        rc = SVNFileUtil.isOSX || SVNFileUtil.isBSD || SVNFileUtil.isSolaris || (SVNFileUtil.isLinux && SVNFileUtil.is32Bit) ?
                             cLibrary.stat(path, ourSharedMemory) :
                             cLibrary.__xstat64(0, path, ourSharedMemory);
                     }

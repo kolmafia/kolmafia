@@ -71,11 +71,8 @@ public class SVNBasicClient {
         this.operationFactory.setAuthenticationManager(authManager);
         this.operationFactory.setRepositoryPool(new DefaultSVNRepositoryPool(authManager, options));
         this.operationFactory.setAutoDisposeRepositoryPool(true);
-        
-        setPathListHandler(null);
-        setDebugLog(null);
-        setEventPathPrefix(null);
-        setEventHandler(null);
+
+        initDefaults();
     }
 
     protected SVNBasicClient(ISVNRepositoryPool pool, ISVNOptions options) {
@@ -91,7 +88,16 @@ public class SVNBasicClient {
         setOptions(options);
         this.operationFactory.setRepositoryPool(pool);
         this.operationFactory.setAutoDisposeRepositoryPool(autoDisposeRepositoryPool);
-        
+        initDefaults();
+    }
+
+    protected SVNBasicClient(SvnOperationFactory of) {
+        this.operationFactory = of;
+        setOptions(of.getOptions());
+        initDefaults();
+    }
+
+    protected void initDefaults() {
         setPathListHandler(null);
         setDebugLog(null);
         setEventPathPrefix(null);

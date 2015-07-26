@@ -373,7 +373,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                     String cmtRev = properties.getStringValue(SVNProperty.COMMITTED_REVISION);
                     String cmtDate = properties.getStringValue(SVNProperty.COMMITTED_DATE);
                     String author = properties.getStringValue(SVNProperty.LAST_AUTHOR);
-                    Map keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? repos.getLocation().toString() : null, author, cmtDate, cmtRev, getOptions());
+                    Map keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? repos.getLocation().toString() : null, repos.getRepositoryRoot(true).toString(), author, cmtDate, cmtRev, getOptions());
                     OutputStream translatingStream = SVNTranslator.getTranslatingOutputStream(dst, charset, SVNTranslator.getEOL(eol, getOptions()), false, keywordsMap, expandKeywords);
                     repos.getFile("", revNumber, null, new SVNCancellableOutputStream(translatingStream, getEventDispatcher()));
                     try {
@@ -453,7 +453,7 @@ public class SVNWCClient16 extends SVNBasicDelegate {
                 String cmtRev = properties.getStringValue(SVNProperty.COMMITTED_REVISION);
                 String cmtDate = properties.getStringValue(SVNProperty.COMMITTED_DATE);
                 String author = properties.getStringValue(SVNProperty.LAST_AUTHOR);
-                Map keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? repos.getLocation().toString() : null, author, cmtDate, cmtRev, getOptions());
+                Map keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? repos.getLocation().toString() : null, repos.getRepositoryRoot(true).toString(), author, cmtDate, cmtRev, getOptions());
                 OutputStream translatingStream = SVNTranslator.getTranslatingOutputStream(dst, charset, SVNTranslator.getEOL(eol, getOptions()), false, keywordsMap, expandKeywords);
                 repos.getFile("", revNumber, null, new SVNCancellableOutputStream(translatingStream, getEventDispatcher()));
                 try {
@@ -3983,9 +3983,10 @@ public class SVNWCClient16 extends SVNBasicDelegate {
             }
             if (keywords != null) {
                 String url = entry.getURL();
+                String repositoryRoot = entry.getRepositoryRoot();
                 String author = hasMods ? "(local)" : entry.getAuthor();
                 String rev = hasMods ? entry.getCommittedRevision() + "M" : entry.getCommittedRevision() + "";
-                keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? url : null, author, time, rev, getOptions());
+                keywordsMap = SVNTranslator.computeKeywords(keywords, expandKeywords ? url : null, repositoryRoot, author, time, rev, getOptions());
             }
             OutputStream translatingStream = charset != null || eols != null || keywordsMap != null ? SVNTranslator.getTranslatingOutputStream(dst, charset, eols, false, keywordsMap, expandKeywords)
                     : dst;

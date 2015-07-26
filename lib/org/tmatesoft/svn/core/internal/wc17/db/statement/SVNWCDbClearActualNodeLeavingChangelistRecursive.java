@@ -59,11 +59,8 @@ public class SVNWCDbClearActualNodeLeavingChangelistRecursive extends SVNSqlJetU
         Map<String, Object> rowValues = getRowValues();
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.properties.toString(), null);
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.text_mod.toString(), null);
+        rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data.toString(), null);
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data.toString(), null);
-        rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old.toString(), null);
-        rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new.toString(), null);
-        rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working.toString(), null);
-        rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject.toString(), null);
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.older_checksum.toString(), null);
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.left_checksum.toString(), null);
         rowValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.right_checksum.toString(), null);

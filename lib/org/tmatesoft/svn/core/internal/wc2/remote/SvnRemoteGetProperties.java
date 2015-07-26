@@ -1,8 +1,12 @@
 package org.tmatesoft.svn.core.internal.wc2.remote;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import org.tmatesoft.svn.core.ISVNDirEntryHandler;
 import org.tmatesoft.svn.core.SVNDepth;
@@ -16,12 +20,17 @@ import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
 import org.tmatesoft.svn.core.internal.wc2.SvnRemoteOperationRunner;
 import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.RepositoryInfo;
+import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.RevisionsPair;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc2.SvnGetProperties;
+import org.tmatesoft.svn.core.wc2.SvnInheritedProperties;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
 
@@ -43,19 +52,69 @@ public class SvnRemoteGetProperties extends SvnRemoteOperationRunner<SVNProperti
     @Override
     protected SVNProperties run() throws SVNException {
         SvnTarget target = getOperation().getFirstTarget();
+        SVNURL url;
+        SVNRepository repository;
+        long revnum;
+        SvnTarget reposTarget = target;
+        SVNRevision revision = getOperation().getRevision();
+        SVNRevision pegRevision = target.getResolvedPegRevision();
+        if (pegRevision.isLocal() && target.isFile()) {
+            final File localAbsPath = getOperation().getFirstTarget().getFile();            
+            final Structure<NodeOriginInfo> origin = getWcContext().getNodeOrigin(localAbsPath, false, 
+                    NodeOriginInfo.isCopy, NodeOriginInfo.copyRootAbsPath, 
+                    NodeOriginInfo.reposRelpath, NodeOriginInfo.reposRootUrl,
+                    NodeOriginInfo.reposUuid, NodeOriginInfo.revision);
+            final File reposRelPath = origin.get(NodeOriginInfo.reposRelpath);
+            if (reposRelPath != null) {
+                final SVNURL rootURL = origin.get(NodeOriginInfo.reposRootUrl);
+                url = rootURL.appendPath(SVNFileUtil.getFilePath(reposRelPath), false);
+                reposTarget = SvnTarget.fromURL(url);
+                Structure<RevisionsPair> revisionPair = null;
+                revisionPair = getRepositoryAccess().getRevisionNumber(null, target, target.getResolvedPegRevision(), revisionPair);
+                final long pegrevnum = revisionPair.lng(RevisionsPair.revNumber);
+                pegRevision = SVNRevision.create(pegrevnum);
+                
+                if (getOperation().getRevision().isLocal()) {
+                    revisionPair = getRepositoryAccess().getRevisionNumber(null, target, getOperation().getRevision(), revisionPair);
+                    revnum = revisionPair.lng(RevisionsPair.revNumber);
+                    revision = SVNRevision.create(revnum);
+                } 
+            } 
+        } 
+
         Structure<RepositoryInfo> repositoryInfo = 
             getRepositoryAccess().createRepositoryFor(
-                    target, 
-                    getOperation().getRevision(), 
-                    target.getResolvedPegRevision(), 
+                    reposTarget, 
+                    revision, 
+                    pegRevision, 
                     null);
-        
-        SVNRepository repository = repositoryInfo.<SVNRepository>get(RepositoryInfo.repository);
-        long revnum = repositoryInfo.lng(RepositoryInfo.revision);
-        SVNURL url = repositoryInfo.<SVNURL>get(RepositoryInfo.url);
+        repository = repositoryInfo.<SVNRepository>get(RepositoryInfo.repository);
+        revnum = repositoryInfo.lng(RepositoryInfo.revision);
+        url = repositoryInfo.<SVNURL>get(RepositoryInfo.url);
         repositoryInfo.release();
         
-        SVNNodeKind kind = repository.checkPath("", revnum);        
+        SVNNodeKind kind = repository.checkPath("", revnum);
+        if (kind == SVNNodeKind.UNKNOWN) {
+            final SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.NODE_UNKNOWN_KIND, "Unknown node kind for ''{0}''", repository.getLocation());
+            SVNErrorManager.error(err, SVNLogType.WC);
+        } else if (kind == null || kind == SVNNodeKind.NONE) {
+            final SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND, "''{0}'' does not exist in revision {1}", repository.getLocation(), revnum);
+            SVNErrorManager.error(err, SVNLogType.WC);
+        }
+        if (getOperation().getTargetInheritedPropertiesReceiver() != null) {
+            final SVNURL repositoryRoot = repository.getRepositoryRoot(true);
+            final Map<String, SVNProperties> inheritedProperties = repository.getInheritedProperties("", revnum, null);
+            final List<SvnInheritedProperties> result = new ArrayList<SvnInheritedProperties>();
+            for (String path : inheritedProperties.keySet()) {
+                final SvnInheritedProperties propItem = new SvnInheritedProperties();
+                propItem.setTarget(SvnTarget.fromURL(repositoryRoot.appendPath(path, false)));
+                propItem.setProperties(inheritedProperties.get(path));
+                result.add(propItem);
+            }
+            if (!result.isEmpty()) {
+                getOperation().getTargetInheritedPropertiesReceiver().receive(target, result);
+            }
+        }
         remotePropertyGet(url, kind, "", repository, revnum, getOperation().getDepth());
         
         return getOperation().first();

@@ -49,6 +49,17 @@ public class SVNConflictReason {
     /** Constant saying that an object is already replaced.
      * @since New in 1.7. */
     public static final SVNConflictReason REPLACED = new SVNConflictReason("replaced");
+    
+    /** Constant saying that an object has been moved away
+     * @since New in 1.8. */
+    public static final SVNConflictReason MOVED_AWAY = new SVNConflictReason("moved-away");
+    /** Constant saying that an object has been moved here
+     * @since New in 1.8. */
+    public static final SVNConflictReason MOVED_HERE = new SVNConflictReason("moved-here");
+    /**
+     * @since New in 1.8. */
+    public static final SVNConflictReason SKIP = new SVNConflictReason("skip");
+    public static final SVNConflictReason WC_SKIP = new SVNConflictReason("wc-skip");
 
     /**
      * Converts a string reason name to an <code>SVNConflictReason</code> object.
@@ -79,6 +90,12 @@ public class SVNConflictReason {
         }
         if (REPLACED.getName().equals(reason)) {
             return REPLACED;
+        }
+        if (MOVED_AWAY.getName().equals(reason)) {
+            return MOVED_AWAY;
+        }
+        if (MOVED_HERE.getName().equals(reason)) {
+            return MOVED_HERE;
         }
         return null;
     }

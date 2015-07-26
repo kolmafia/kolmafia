@@ -33,21 +33,17 @@ import org.tmatesoft.svn.util.SVNLogType;
  */
 public class SVNPathUtil {
 
-    public static final Comparator PATH_COMPARATOR = new Comparator() {
+    public static final Comparator<String> PATH_COMPARATOR = new Comparator<String>() {
 
-        public int compare(Object o1, Object o2) {
+        public int compare(String o1, String o2) {
             if (o1 == o2) {
                 return 0;
             } else if (o1 == null) {
                 return -1;
             } else if (o2 == null) {
                 return 1;
-            } else if (o1.getClass() != String.class || o2.getClass() != String.class) {
-                return o1.getClass() == o2.getClass() ? 0 : o1.getClass() == String.class ? 1 : -1;
-            }
-            String p1 = (String) o1;
-            String p2 = (String) o2;
-            return p1.replace('/', '\0').compareTo(p2.replace('/', '\0'));
+            } 
+            return o1.replace('/', '\0').compareTo(o2.replace('/', '\0'));
         }
     };
 
@@ -454,6 +450,9 @@ public class SVNPathUtil {
         }
         if (pathChild.compareTo(path) == 0) {
             return null;
+        }
+        if (path.length() == 0 && !pathChild.startsWith("/")) {
+            return pathChild;
         }
 	    if (!path.endsWith("/")) { // We don't want to have /foobar being a child of /foo
 		    path = path + "/";

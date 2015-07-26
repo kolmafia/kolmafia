@@ -137,42 +137,42 @@ public class SVNJNAUtil {
         return false;
     }
     
-    public static String decrypt(String encryptedData) {
+    public static char[] decrypt(char[] encryptedData) {
         if (isJNAPresent()) {
             return SVNWinCrypt.decrypt(encryptedData);
         }
         return null;
     }
     
-    public static String encrypt(String rawData) {
+    public static char[] encrypt(char[] rawData) {
         if (isJNAPresent()) {
             return SVNWinCrypt.encrypt(rawData);
         }
         return null;
     }
 
-    public static boolean addPasswordToMacOsKeychain(String realm, String userName, String password, boolean nonInteractive) throws SVNException {
+    public static boolean addPasswordToMacOsKeychain(String realm, String userName, char[] password, boolean nonInteractive) throws SVNException {
         if (isJNAPresent()) {
             return SVNMacOsKeychain.setPassword(realm, userName, password, nonInteractive);
         }
         return false;
     }
 
-    public static String getPasswordFromMacOsKeychain(String realm, String userName, boolean nonInteractive) throws SVNException {
+    public static char[] getPasswordFromMacOsKeychain(String realm, String userName, boolean nonInteractive) throws SVNException {
         if (isJNAPresent()) {
             return SVNMacOsKeychain.getPassword(realm, userName, nonInteractive);
         }
         return null;
     }
 
-    public static boolean addPasswordToGnomeKeyring(String realm, String userName, String password, boolean nonInteractive, ISVNGnomeKeyringPasswordProvider keyringPasswordProvider) throws SVNException {
+    public static boolean addPasswordToGnomeKeyring(String realm, String userName, char[] password, boolean nonInteractive, ISVNGnomeKeyringPasswordProvider keyringPasswordProvider) throws SVNException {
         if (isJNAPresent()) {
             return SVNGnomeKeyring.setPassword(realm, userName, password, nonInteractive, keyringPasswordProvider);
         }
         return false;
     }
 
-    public static String getPasswordFromGnomeKeyring(String realm, String userName, boolean nonInteractive, ISVNGnomeKeyringPasswordProvider keyringPasswordProvider) throws SVNException {
+    public static char[] getPasswordFromGnomeKeyring(String realm, String userName, boolean nonInteractive, ISVNGnomeKeyringPasswordProvider keyringPasswordProvider) throws SVNException {
         if (isJNAPresent()) {
             return SVNGnomeKeyring.getPassword(realm, userName, nonInteractive, keyringPasswordProvider);
         }

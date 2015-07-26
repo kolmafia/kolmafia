@@ -72,9 +72,9 @@ public class SvnNgMarkReplaced extends SvnNgOperationRunner<Void, SvnMarkReplace
     private void markAdded(ISVNWCDb db, File path) throws SVNException {
         final ISVNWCDb.SVNWCDbKind kind = getKind(db, path);
         if (kind == ISVNWCDb.SVNWCDbKind.Dir) {
-            db.opAddDirectory(path, null);
+            db.opAddDirectory(path, null, null);
         } else if (kind == ISVNWCDb.SVNWCDbKind.File) {
-            db.opAddFile(path, null);
+            db.opAddFile(path, null, null);
         }
         final SVNEvent event = SVNEventFactory.createSVNEvent(path,
                 kind == ISVNWCDb.SVNWCDbKind.Dir ? SVNNodeKind.DIR : SVNNodeKind.FILE, null, -1, SVNEventAction.ADD,
@@ -86,7 +86,7 @@ public class SvnNgMarkReplaced extends SvnNgOperationRunner<Void, SvnMarkReplace
         final List<File> deletedPaths = new ArrayList<File>();
         final ISVNEventHandler eventHandler = getOperation().getEventHandler();
 
-        db.opDelete(path, new ISVNEventHandler() {
+        db.opDelete(path, null, true, null, null, new ISVNEventHandler() {
             public void handleEvent(SVNEvent event, double progress) throws SVNException {
                 if (event != null && event.getAction() == SVNEventAction.DELETE) {
                     deletedPaths.add(event.getFile());

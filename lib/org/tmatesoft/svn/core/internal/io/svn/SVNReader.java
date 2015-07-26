@@ -395,7 +395,7 @@ public class SVNReader {
                 ch = readChar(is);
                 if (Character.isDigit(ch)) {
                     value = value * 10 + Character.digit(ch, 10);
-                    if (previousValue != value / 10) {
+                    if (previousValue != value / 10 && value != -1) {
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_SVN_MALFORMED_DATA, "Number is larger than maximum");
                         SVNErrorManager.error(err, SVNLogType.NETWORK);
                     }

@@ -33,6 +33,8 @@ public class SvnWorkingCopyInfo {
     private Collection<SVNConflictDescription> conflicts;
     
     private File wcRoot;
+    private File movedFrom;
+    private File movedTo;
     
     /**
      * Returns working copy path.
@@ -237,5 +239,21 @@ public class SvnWorkingCopyInfo {
      */
     public void setCopyFromRevision(long copyFromRevision) {
         this.copyFromRevision = copyFromRevision;
+    }
+    
+    public File getMovedFrom() {
+        return movedFrom;
+    }
+
+    public void setMovedFrom(File movedFrom) {
+        this.movedFrom = movedFrom;
+    }
+    
+    public File getMovedTo() {
+        return movedTo;
+    }
+
+    public void setMovedTo(File movedTo) {
+        this.movedTo = movedTo;
     }
 }

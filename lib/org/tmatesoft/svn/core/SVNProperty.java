@@ -26,11 +26,12 @@ import java.util.Set;
  * @since   1.2
  */
 public class SVNProperty {
+
     /**
      * An <span class="javastring">"svn:"</span> prefix.
      */
     public static final String SVN_PREFIX = "svn:";
-    
+
     /**
      * SVNKit's own property namespace.
      */
@@ -59,6 +60,11 @@ public class SVNProperty {
      * An <span class="javastring">"svn:entry:"</span> prefix.
      */
     public static final String SVN_ENTRY_PREFIX = "svn:entry:";
+
+    /**
+     * An <span class="javastring">"svnkit:entry:"</span> prefix.
+     */
+    public static final String SVNKIT_ENTRY_PREFIX = "svnkit:entry:";
     /**
      * An <span class="javastring">"svn:eol-style"</span> SVN special property.
      */
@@ -92,7 +98,17 @@ public class SVNProperty {
      * @since SVN 1.5
      */
     public static final String MERGE_INFO = SVN_PREFIX + "mergeinfo";
-    
+
+    /**
+     * @since SVN 1.8
+     */
+    public static final String INHERITABLE_IGNORES = SVN_PREFIX + "global-ignores";
+
+    /**
+     * @since SVN 1.8
+     */
+    public static final String INHERITABLE_AUTO_PROPS = SVN_PREFIX + "auto-props";
+
     /**
      * An <span class="javastring">"svn:entry:revision"</span> SVN untweakable metaproperty.
      */
@@ -179,11 +195,17 @@ public class SVNProperty {
      * @since 1.3, new in Subversion 1.6
      */
     public static final String TREE_CONFLICT_DATA = SVN_ENTRY_PREFIX + "tree-conflicts";
-    
+
     /**
      * An <span class="javastring">"svn:entry:checksum"</span> SVN untweakable metaproperty.
      */
     public static final String CHECKSUM = SVN_ENTRY_PREFIX + "checksum";
+
+    /**
+     * An <span class="javastring">"svnkit:entry:sha1-checksum"</span> SVNKit untweakable metaproperty.
+     */
+    public static final String SVNKIT_SHA1_CHECKSUM = SVNKIT_ENTRY_PREFIX + "sha1-checksum";
+
     /**
      * An <span class="javastring">"svn:entry:url"</span> SVN untweakable metaproperty.
      */
@@ -295,6 +317,7 @@ public class SVNProperty {
      * An <span class="javastring">"svn:needs-lock"</span> SVN special property.
      */
     public static final String NEEDS_LOCK = SVN_PREFIX + "needs-lock";
+
     /**
      * One of the two possible values of the {@link #KIND} property -
      * <span class="javastring">"dir"</span>
@@ -343,20 +366,20 @@ public class SVNProperty {
 
     /**
      * <code>SVNKit</code> specific property denoting a charset. A user may set this property on files
-     * if he would like to fix the charset of the file. Then when checking out, exporting, updating, etc. 
+     * if he would like to fix the charset of the file. Then when checking out, exporting, updating, etc.
      * files with such properties set on them will be translated (encoded) using the charset value of this
-     * property. Note that to take advantage of this property a user must utilize a corresponging version 
+     * property. Note that to take advantage of this property a user must utilize a corresponging version
      * of the <code>SVNKit</code> library supporting this property.
      */
     public static final String CHARSET = SVNKIT_PREFIX + "charset";
 
     /**
-     * Default value for the {@link #CHARSET} property denoting that the native charset should be used 
-     * to encode a file during translation. The native charset name will be fetched via a call to 
+     * Default value for the {@link #CHARSET} property denoting that the native charset should be used
+     * to encode a file during translation. The native charset name will be fetched via a call to
      * {@link org.tmatesoft.svn.core.wc.ISVNOptions#getNativeCharset()}.
      */
     public static final String NATIVE = "native";
-    
+
     /**
      * One of the three possible values of the {@link #SCHEDULE} property -
      * <span class="javastring">"add"</span>
@@ -373,6 +396,7 @@ public class SVNProperty {
      */
     public static final String SCHEDULE_REPLACE = "replace";
 
+
     /**
      * Default value of the {@link #WORKING_SIZE} property.
      * @since  1.2.0, new in Subversion 1.5.0
@@ -382,7 +406,7 @@ public class SVNProperty {
     /**
      * Default value for such properties as {@link #EXECUTABLE}, {@link #NEEDS_LOCK}, {@link #SPECIAL}.
      * Used only by <code>SVNKit</code> internals, never stored in a working copy.
-     * 
+     *
      * @since  1.2.0
      */
     public static final SVNPropertyValue BOOLEAN_PROPERTY_VALUE = SVNPropertyValue.create("*");
@@ -410,7 +434,7 @@ public class SVNProperty {
      *         the {@link #SVN_ENTRY_PREFIX} prefix, otherwise <span class="javakeyword">false</span>
      */
     public static boolean isEntryProperty(String name) {
-        return name != null && name.startsWith(SVN_ENTRY_PREFIX);
+        return name != null && (name.startsWith(SVN_ENTRY_PREFIX) || name.startsWith(SVNKIT_ENTRY_PREFIX));
     }
 
     /**
@@ -440,12 +464,12 @@ public class SVNProperty {
     }
 
     /**
-     * Checks if a property is regular. 
-     * 
+     * Checks if a property is regular.
+     *
      * <p/>
-     * A property is considered to be regular if it is not <span class="javakeyword">null</span> and 
+     * A property is considered to be regular if it is not <span class="javakeyword">null</span> and
      * does not start neither with {@link #SVN_WC_PREFIX} nor with {@link #SVN_ENTRY_PREFIX}.
-     * 
+     *
      * @param name a property name
      * @return <span class="javakeyword">true</span> if regular, otherwise
      *         <span class="javakeyword">false</span>
@@ -453,7 +477,7 @@ public class SVNProperty {
     public static boolean isRegularProperty(String name) {
         if (name == null) {
             return false;
-        } else if (name.startsWith(SVN_WC_PREFIX) || name.startsWith(SVN_ENTRY_PREFIX)) {
+        } else if (isWorkingCopyProperty(name) || isEntryProperty(name)) {
             return false;
         } else {
             return true;
@@ -590,7 +614,7 @@ public class SVNProperty {
      * @since 1.1
      */
     public static SVNPropertyValue getValueOfBooleanProperty(String propName) {
-        if (SVNProperty.EXECUTABLE.equals(propName) || SVNProperty.NEEDS_LOCK.equals(propName) || 
+        if (SVNProperty.EXECUTABLE.equals(propName) || SVNProperty.NEEDS_LOCK.equals(propName) ||
                 SVNProperty.SPECIAL.equals(propName)) {
             return BOOLEAN_PROPERTY_VALUE;
         }
@@ -608,7 +632,7 @@ public class SVNProperty {
     public static boolean isBooleanProperty(String propName) {
         return SVNProperty.EXECUTABLE.equals(propName) || SVNProperty.SPECIAL.equals(propName) || SVNProperty.NEEDS_LOCK.equals(propName);
     }
-    
+
 
     private static final Set ourTextMimeTypes = new HashSet();
 
@@ -623,7 +647,15 @@ public class SVNProperty {
             }
         }
     }
-    
+
+    public static boolean mimeTypeIsBinary(String mimeType) {
+        int len = mimeType.indexOf(';');
+        if (len == -1) {
+            len = mimeType.indexOf(' ');
+        }
+        return ((!"text/".equals(mimeType.substring(0, 5))) && (len != 15 || "image/x-xbitmap".equals(mimeType.substring(0, len))));
+    }
+
     /**
      * Returns custom mime-types previously added.
      */

@@ -70,16 +70,15 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
 
     public void deleteEntry(String path, long revision) throws SVNException {
         final File local_abspath = SVNFileUtil.createFilePath(myAnchorAbsPath, path);
-        final SVNWCDbKind kind = myWCContext.getDb().readKind(local_abspath, false);
-        
-        tweakStatusHash(myDirectoryInfo, new DirectoryInfo(path, myDirectoryInfo), local_abspath, kind == SVNWCDbKind.Dir, SVNStatusType.STATUS_DELETED, SVNStatusType.STATUS_NONE, SVNStatusType.STATUS_NONE,
+
+        tweakStatusHash(myDirectoryInfo, new DirectoryInfo(path, myDirectoryInfo), local_abspath, SVNStatusType.STATUS_DELETED, SVNStatusType.STATUS_NONE, SVNStatusType.STATUS_NONE,
                 SVNRevision.create(revision), null);
         if (myDirectoryInfo.parent != null && myTargetBaseName == null)
-            tweakStatusHash(myDirectoryInfo.parent, myDirectoryInfo, myDirectoryInfo.localAbsPath, kind == SVNWCDbKind.Dir, SVNStatusType.STATUS_MODIFIED, SVNStatusType.STATUS_MODIFIED,
+            tweakStatusHash(myDirectoryInfo.parent, myDirectoryInfo, myDirectoryInfo.localAbsPath, SVNStatusType.STATUS_MODIFIED, SVNStatusType.STATUS_MODIFIED,
                     SVNStatusType.STATUS_NONE, null, null);
     }
 
-    private void tweakStatusHash(DirectoryInfo dirInfo, DirectoryInfo childDir, File localAbsPath, boolean isDir, SVNStatusType reposNodeStatus, SVNStatusType reposTextStatus,
+    private void tweakStatusHash(DirectoryInfo dirInfo, DirectoryInfo childDir, File localAbsPath, SVNStatusType reposNodeStatus, SVNStatusType reposTextStatus,
             SVNStatusType reposPropStatus, SVNRevision deletedRev, SVNLock reposLock) throws SVNException {
 
         Map<File, SvnStatus> statushash = dirInfo.statii;
@@ -106,6 +105,9 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
 
             /* Use the public API to get a statstruct, and put it into the hash. */
             statstruct = internalStatus(myWCContext, localAbsPath);
+            if (statstruct.getNodeStatus() == SVNStatusType.STATUS_UNVERSIONED || statstruct.getNodeStatus() == SVNStatusType.STATUS_NONE) {
+                statstruct.setWorkingCopyFormat(myAnchorStatus.getWorkingCopyFormat());
+            }
             statstruct.setRepositoryLock(reposLock);
             statushash.put(localAbsPath, statstruct);
         }
@@ -130,7 +132,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
          * available.
          */
         if (statstruct.getRepositoryNodeStatus() == SVNStatusType.STATUS_DELETED) {
-            statstruct.setRepositoryKind(isDir ? SVNNodeKind.DIR : SVNNodeKind.FILE);
+            statstruct.setRepositoryKind(statstruct.getKind());
 
             /*
              * Pre 1.5 servers don't provide the revision a path was deleted. So
@@ -219,7 +221,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
                  * ### When we add directory locking, we need to find a ###
                  * directory lock here.
                  */
-                tweakStatusHash(pb, db, db.localAbsPath, true, repos_node_status, repos_text_status, repos_prop_status, null, null);
+                tweakStatusHash(pb, db, db.localAbsPath, repos_node_status, repos_text_status, repos_prop_status, null, null);
             } else {
                 /*
                  * We're editing the root dir of the WC. As its repos status
@@ -376,6 +378,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
 
     public void applyTextDelta(String path, String baseChecksum) throws SVNException {
         myFileInfo.text_changed = true;
+        myFileInfo.baseChecksum = baseChecksum;
     }
 
     public void changeFileProperty(String path, String propertyName, SVNPropertyValue propertyValue) throws SVNException {
@@ -403,6 +406,10 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
         SVNStatusType repos_text_status;
         SVNStatusType repos_prop_status;
         SVNLock repos_lock = null;
+
+        if (myFileInfo.baseChecksum != null && textChecksum != null) {
+            myFileInfo.text_changed = !myFileInfo.baseChecksum.equals(textChecksum);
+        }
 
         /* If nothing has changed, return. */
         if (!(myFileInfo.added || myFileInfo.prop_changed || myFileInfo.text_changed))
@@ -444,6 +451,9 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
                 return;
             statstruct = internalStatus(myWCContext, localAbsPath);
             statstruct.setRepositoryLock(reposLock);
+            if (statstruct.getNodeStatus() == SVNStatusType.STATUS_UNVERSIONED || statstruct.getNodeStatus() == SVNStatusType.STATUS_NONE) {
+                statstruct.setWorkingCopyFormat(myAnchorStatus.getWorkingCopyFormat());
+            }
             statushash.put(localAbsPath, statstruct);
         }
 
@@ -494,6 +504,9 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
     }
 
     public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
+        if (diffWindow != SVNDiffWindow.EMPTY) {
+            myFileInfo.text_changed = true;
+        }
         return null;
     }
 
@@ -650,6 +663,7 @@ public class SVNRemoteStatusEditor17 extends SVNStatusEditor17 implements ISVNEd
         private boolean added;
         private boolean text_changed;
         private boolean prop_changed;
+        private String baseChecksum;
 
         public FileInfo(DirectoryInfo parent, String path, boolean added) {
             this.localAbsPath = SVNFileUtil.createFilePath(myAnchorAbsPath, path);

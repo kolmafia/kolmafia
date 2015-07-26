@@ -68,6 +68,7 @@ public class SVNWCDbInsertActualEmpties extends SVNSqlJetInsertStatement {
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.local_relpath.toString(), selectedRow.get(SVNWCDbSchema.TARGETS_LIST__Fields.local_relpath.toString()));
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.parent_relpath.toString(), selectedRow.get(SVNWCDbSchema.TARGETS_LIST__Fields.parent_relpath.toString()));
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.properties.toString(), null);
+        insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data.toString(), null);
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old.toString(), null);
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new.toString(), null);
         insertValues.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working.toString(), null);

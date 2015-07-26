@@ -117,7 +117,11 @@ public class SVNConnection {
         if (r >= 0 && attempt == 0) {
             return skipLeadingGrabage(attempt + 1);
         }
-        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_SVN_MALFORMED_DATA, "Handshake failed, received: ''{0}''", new String(bytes));
+        if (r <= 0) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_SVN_MALFORMED_DATA, "Handshake failed, data stream ended unexpectedly");
+            SVNErrorManager.error(err, SVNLogType.NETWORK);
+        }
+        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_SVN_MALFORMED_DATA, "Handshake failed, received: ''{0}''", new String(bytes, 0, r));
         SVNErrorManager.error(err, SVNLogType.NETWORK);
         return null;
     }
@@ -180,7 +184,7 @@ public class SVNConnection {
         List mechs = SVNReader.getList(items, 0);
         if (mechs == null || mechs.size() == 0) {
             if (authManager instanceof ISVNAuthenticationManagerExt) {
-                ((ISVNAuthenticationManagerExt)authManager).acknowledgeConnectionSuccessful(myRepository.getLocation());
+                ((ISVNAuthenticationManagerExt)authManager).acknowledgeConnectionSuccessful(myRepository.getLocation(), "");
             }
             return;
         }
@@ -194,7 +198,7 @@ public class SVNConnection {
         myAuthentication = authenticator.authenticate(mechs, myRealm, repository);
         receiveRepositoryCredentials(repository);
         if (authManager instanceof ISVNAuthenticationManagerExt) {
-            ((ISVNAuthenticationManagerExt)authManager).acknowledgeConnectionSuccessful(myRepository.getLocation());
+            ((ISVNAuthenticationManagerExt)authManager).acknowledgeConnectionSuccessful(myRepository.getLocation(), "");
         }
     }
     

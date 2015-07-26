@@ -1,5 +1,7 @@
 package org.tmatesoft.svn.core.wc2;
 
+import java.util.List;
+
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNProperties;
@@ -28,6 +30,7 @@ public class SvnGetProperties extends SvnReceivingOperation<SVNProperties> {
 
     private boolean revisionProperties;
     private long revisionNumber;
+    private ISvnObjectReceiver<List<SvnInheritedProperties>> inheritedPropertiesReceiver;
 
     protected SvnGetProperties(SvnOperationFactory factory) {
         super(factory);
@@ -89,5 +92,13 @@ public class SvnGetProperties extends SvnReceivingOperation<SVNProperties> {
     @Override
     public boolean isChangesWorkingCopy() {
         return false;
+    }
+    
+    public void setTargetInheritedPropertiesReceiver(ISvnObjectReceiver<List<SvnInheritedProperties>> receiver) {
+        this.inheritedPropertiesReceiver = receiver;
+    }
+    
+    public ISvnObjectReceiver<List<SvnInheritedProperties>> getTargetInheritedPropertiesReceiver() {
+        return this.inheritedPropertiesReceiver;
     }
 }

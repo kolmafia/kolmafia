@@ -21,6 +21,7 @@ import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNAdminArea;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNLog;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ConflictMarkersInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbConflicts;
 import org.tmatesoft.svn.core.wc.ISVNConflictHandler;
 import org.tmatesoft.svn.core.wc.SVNDiffOptions;
 import org.tmatesoft.svn.core.wc.SVNMergeFileSet;
@@ -55,10 +56,10 @@ public class DefaultSvnMerger implements ISvnMerger {
     }
     
     public SvnMergeResult mergeText(ISvnMerger baseMerger, File resultFile,
-            File targetAbspath,
-            File detranslatedTargetAbspath, File leftAbspath,
-            File rightAbspath, String targetLabel, String leftLabel,
-            String rightLabel, SVNDiffOptions options) throws SVNException {
+                                    File targetAbspath,
+                                    File detranslatedTargetAbspath, File leftAbspath,
+                                    File rightAbspath, String targetLabel, String leftLabel,
+                                    String rightLabel, SVNDiffOptions options, SVNDiffConflictChoiceStyle style) throws SVNException {
         
         ConflictMarkersInfo markersInfo = context.initConflictMarkers(targetLabel, leftLabel, rightLabel);
         String targetMarker = markersInfo.targetMarker;
@@ -79,7 +80,7 @@ public class DefaultSvnMerger implements ISvnMerger {
             QSequenceLineRAData baseData = new QSequenceLineRAFileData(baseIS);
             QSequenceLineRAData localData = new QSequenceLineRAFileData(localIS);
             QSequenceLineRAData latestData = new QSequenceLineRAFileData(latestIS);
-            mergeResult = merger.merge(baseData, localData, latestData, options, result, SVNDiffConflictChoiceStyle.CHOOSE_MODIFIED_LATEST);
+            mergeResult = merger.merge(baseData, localData, latestData, options, result, style);
         } catch (IOException e) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e.getLocalizedMessage());
             SVNErrorManager.error(err, e, SVNLogType.WC);
@@ -97,90 +98,31 @@ public class DefaultSvnMerger implements ISvnMerger {
     }
 
     public SvnMergeResult mergeProperties(ISvnMerger baseMerger,
-            File localAbsPath, SVNNodeKind kind,
-            SVNConflictVersion leftVersion, SVNConflictVersion rightVersion,
-            SVNProperties serverBaseProperties,
-            SVNProperties pristineProperties, SVNProperties actualProperties,
-            SVNProperties propChanges, boolean baseMerge, boolean dryRun) throws SVNException {
-        
-        this.workItems = null;
-        SVNSkel conflictSkel = null;
-        boolean isDir = (kind == SVNNodeKind.DIR);
-        ISVNConflictHandler conflictResolver = context.getOptions().getConflictResolver();
-        
-        SVNStatusType mergeOutcome = SVNStatusType.UNCHANGED;
-        
-        if (propChanges != null) {
-            for (Iterator<?> i = propChanges.nameSet().iterator(); i.hasNext();) {
-                context.checkCancelled();
-                String propname = (String) i.next();
-                SVNPropertyValue toVal = propChanges.getSVNPropertyValue(propname);
-                SVNPropertyValue fromVal = serverBaseProperties.getSVNPropertyValue(propname);
-                SVNPropertyValue baseVal = pristineProperties.getSVNPropertyValue(propname);
-                boolean conflictRemains;
-                if (baseMerge) {
-                    if (toVal != null) {
-                        pristineProperties.put(propname, toVal);
-                    } else {
-                        pristineProperties.remove(propname);
-                    }
-                }
-                SVNPropertyValue mineVal = actualProperties.getSVNPropertyValue(propname);
-                mergeOutcome = context.setPropMergeState(mergeOutcome, SVNStatusType.CHANGED);
-                if (fromVal == null) {
-                    SVNWCContext.MergePropStatusInfo mergePropStatus = context.applySinglePropAdd(mergeOutcome, localAbsPath, leftVersion, rightVersion, isDir, actualProperties, propname, baseVal, toVal, conflictResolver, dryRun);
-                    mergeOutcome = mergePropStatus.state;
-                    conflictRemains = mergePropStatus.conflictRemains;
-                } else if (toVal == null) {
-                    SVNWCContext.MergePropStatusInfo mergePropStatus = context.applySinglePropDelete(mergeOutcome, localAbsPath, leftVersion, rightVersion, isDir, actualProperties, propname, baseVal, fromVal, conflictResolver, dryRun);
-                    mergeOutcome = mergePropStatus.state;
-                    conflictRemains = mergePropStatus.conflictRemains;
-                } else {
-                    SVNWCContext.MergePropStatusInfo mergePropStatus = context.applySinglePropChange(mergeOutcome, localAbsPath, leftVersion, rightVersion, isDir, actualProperties, propname, baseVal, fromVal, toVal, conflictResolver, dryRun);
-                    mergeOutcome = mergePropStatus.state;
-                    conflictRemains = mergePropStatus.conflictRemains;
-                }
-                if (conflictRemains) {
-                    mergeOutcome = context.setPropMergeState(mergeOutcome, SVNStatusType.CONFLICTED);
-                    if (dryRun) {
-                        continue;
-                    }
-                    if (conflictSkel == null) {
-                        conflictSkel = SVNSkel.createEmptyList();
-                    }
-                    context.conflictSkelAddPropConflict(conflictSkel, propname, baseVal, mineVal, toVal, fromVal);
-                }
-            }
-        }
-        
+                                          File localAbsPath, SVNNodeKind kind,
+                                          SVNConflictVersion leftVersion, SVNConflictVersion rightVersion,
+                                          SVNProperties serverBaseProperties,
+                                          SVNProperties pristineProperties, SVNProperties actualProperties,
+                                          SVNProperties propChanges, boolean baseMerge, boolean dryRun, ISVNConflictHandler conflictResolver) throws SVNException {
+
+        SVNWCContext.MergePropertiesInfo mergePropertiesInfo = new SVNWCContext.MergePropertiesInfo();
+        mergePropertiesInfo = context.mergeProperties3(mergePropertiesInfo, localAbsPath, serverBaseProperties, pristineProperties, actualProperties, propChanges);
+
+        SvnMergeResult result = new SvnMergeResult(mergePropertiesInfo.mergeOutcome);
         if (dryRun) {
-            return SvnMergeResult.create(mergeOutcome);
+            return SvnMergeResult.create(mergePropertiesInfo.mergeOutcome);
         }
-        SvnMergeResult result = SvnMergeResult.create(mergeOutcome);
-        result.getBaseProperties().putAll(pristineProperties);
-        result.getActualProperties().putAll(actualProperties);
-        
+        result.setActualProperties(mergePropertiesInfo.newActualProperties);
+        result.setBaseProperties(mergePropertiesInfo.newBaseProperties);
+
+        SVNSkel conflictSkel = mergePropertiesInfo.conflictSkel;
         SVNSkel workItems = null;
         if (conflictSkel != null) {
-            File rejectPath = context.getPrejfileAbspath(localAbsPath);
-            if (rejectPath == null) {
-                File rejectDirpath;
-                String rejectFilename;
-                if (isDir) {
-                    rejectDirpath = localAbsPath;
-                    rejectFilename = SVNWCContext.THIS_DIR_PREJ;
-                } else {
-                    rejectDirpath = SVNFileUtil.getFileDir(localAbsPath);
-                    rejectFilename = SVNFileUtil.getFileName(localAbsPath);
-                }
-                rejectPath = SVNFileUtil.createUniqueFile(rejectDirpath, rejectFilename, SVNWCContext.PROP_REJ_EXT, false);
-                SVNSkel workItem = context.wqBuildSetPropertyConflictMarkerTemp(localAbsPath, rejectPath);
-                workItems = context.wqMerge(workItems, workItem);
-            }
-            SVNSkel workItem = context.wqBuildPrejInstall(localAbsPath, conflictSkel);
+            SvnWcDbConflicts.conflictSkelOpMerge(conflictSkel, leftVersion, rightVersion);
+            SVNSkel workItem = SvnWcDbConflicts.createConflictMarkers(context.getDb(), localAbsPath, conflictSkel);
             workItems = context.wqMerge(workItems, workItem);
         }
         this.workItems = workItems;
+        result.setConflictSkel(conflictSkel);
         return result;
     }
 

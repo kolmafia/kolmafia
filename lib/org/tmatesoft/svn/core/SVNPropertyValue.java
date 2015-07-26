@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
+
 
 /**
  * The <b>SVNPropertyValue</b> represents an object wrapper for string and binary version controlled 
@@ -106,6 +108,23 @@ public class SVNPropertyValue implements Serializable {
     }
 
     /**
+     * Creates a new property value object representing a text property value.
+     * 
+     * <p/>
+     * This method is intended to create text property values only.
+     * 
+     * @param  propertyValue text property value which is stored as is 
+     * @return               new property value object; <span class="javakeyword">null</span> if 
+     *                       <code>propertyValue</code> is <span class="javakeyword">null</span>  
+     */
+    public static SVNPropertyValue create(char[] propertyValue, String encoding) {
+        if (propertyValue == null){
+            return null;            
+        }
+        return new SVNPropertyValue(propertyValue, encoding);
+    }
+
+    /**
      * Returns <code>byte[]</code> representation of <code>value</code>.
      * 
      * <p/>
@@ -163,6 +182,32 @@ public class SVNPropertyValue implements Serializable {
             }
         }
         return value.getString();
+    }
+
+    /**
+     * Returns <code>String</code> representation of <code>value</code>.
+     * 
+     * <p/>
+     * If <code>value</code> is a {@link SVNPropertyValue#isBinary() binary} property value, then its bytes are
+     * converted to a <code>String</code> encoding them with the <span class="javastring">"UTF-8"</span> charset 
+     * and returned back to the caller. If that encoding fails, bytes are encoded with the default platform's 
+     * charset.
+     * 
+     * <p/>
+     * Otherwise, {@link SVNPropertyValue#getString()} is returned.
+     * 
+     * @param  value property value object 
+     * @return       string property value; <span class="javakeyword">null</span> if <code>value</code> is
+     *               <span class="javakeyword">null</span>
+     */
+    public static char[] getPropertyAsChars(SVNPropertyValue value) {
+        if (value == null) {
+            return null;
+        }
+        if (value.isBinary()) {
+            return SVNEncodingUtil.getChars(value.getBytes(), "UTF-8");
+        }
+        return value.getString().toCharArray();
     }
 
     /**
@@ -277,4 +322,25 @@ public class SVNPropertyValue implements Serializable {
         myValue = propertyValue;
     }
 
+    private SVNPropertyValue(char[] propertyValue, String encoding) {
+        myData = SVNEncodingUtil.getBytes(propertyValue, encoding == null ? "UTF-8" : encoding);
+    }
+
+    public static boolean areEqual(SVNPropertyValue propertyValue1, SVNPropertyValue propertyValue2) {
+        if (propertyValue1 == null) {
+            return propertyValue2 == null;
+        }
+        if (propertyValue2 == null) {
+            return false;
+        }
+        byte[] propertyValueBytes1 = SVNPropertyValue.getPropertyAsBytes(propertyValue1);
+        byte[] propertyValueBytes2 = SVNPropertyValue.getPropertyAsBytes(propertyValue2);
+
+        return Arrays.equals(propertyValueBytes1, propertyValueBytes2);
+    }
+
+    public void clear() {
+        SVNEncodingUtil.clearArray(myData);
+        myValue = null;
+    }
 }

@@ -46,8 +46,57 @@ import org.tmatesoft.svn.core.io.SVNRepository;
  * @since   1.2
  * @see     ISVNAuthenticationProvider
  */
-public class BasicAuthenticationManager implements ISVNAuthenticationManager, ISVNProxyManager, ISVNSSHHostVerifier {
+public class BasicAuthenticationManager implements ISVNAuthenticationManager, ISVNProxyManagerEx, ISVNSSHHostVerifier {
 
+    /**
+     * Creates an auth manager given a user credential - a username 
+     * and password. 
+     * 
+     * @param userName  a username
+     * @param password  a password
+     * 
+     * @since 1.8.9
+     */
+    public static BasicAuthenticationManager newInstance(String userName, char[] password) {
+        return newInstance(new SVNAuthentication[] {
+            SVNPasswordAuthentication.newInstance(userName, password, false, null, false),
+            SVNSSHAuthentication.newInstance(userName, password, -1, false, null, false),
+            SVNUserNameAuthentication.newInstance(userName, false, null, false),
+        });        
+    }
+    
+    /**
+     * Creates an auth manager given a user credential - a username and 
+     * an ssh private key.
+     * 
+     * @param userName    a username
+     * @param keyFile     a private key file
+     * @param passphrase  a password to the private key
+     * @param portNumber  a port number over which an ssh tunnel is established
+     * 
+     * @since 1.8.9
+     */
+    public static BasicAuthenticationManager newInstance(String userName, File keyFile, char[] passphrase, int portNumber) {
+        return newInstance(new SVNAuthentication[] {
+            SVNSSHAuthentication.newInstance(userName, keyFile, passphrase, portNumber, false, null, false),
+            SVNUserNameAuthentication.newInstance(userName, false, null, false),
+        });        
+    }
+    
+    /**
+     * Creates an auth manager given user credentials to use.
+     * 
+     * @param credentials user credentials
+     * 
+     * @since 1.8.9
+     */
+    public static BasicAuthenticationManager newInstance(SVNAuthentication[] credentials) {
+        return new BasicAuthenticationManager(credentials);        
+    }
+
+    /**
+     * Utility method to acknowledge successful or failed authentication attempt
+     */
 	public static void acknowledgeAuthentication(boolean accepted, String kind, String realm, SVNErrorMessage errorMessage, SVNAuthentication authentication, SVNURL accessedURL, ISVNAuthenticationManager authManager) throws SVNException {
 		if (authManager instanceof ISVNAuthenticationManagerExt) {
 			((ISVNAuthenticationManagerExt)authManager).acknowledgeAuthentication(accepted, kind, realm, errorMessage, authentication, accessedURL);
@@ -70,27 +119,31 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
     private String myProxyHost;
     private int myProxyPort;
     private String myProxyUserName;
-    private String myProxyPassword;
+    private char[] myProxyPassword;
     private boolean myIsAuthenticationForced;
     
     /**
      * Creates an auth manager given a user credential - a username 
      * and password. 
      * 
+     * @deprecated Use {@link #newInstance(String, char[])} method
+     * 
      * @param userName  a username
      * @param password  a password
      */
     public BasicAuthenticationManager(String userName, String password) {
-        setAuthentications(new SVNAuthentication[] {
-                new SVNPasswordAuthentication(userName, password, false, null, false),
-                new SVNSSHAuthentication(userName, password, -1, false, null, false),
-                new SVNUserNameAuthentication(userName, false, null, false),
+        this(new SVNAuthentication[] {
+                SVNPasswordAuthentication.newInstance(userName, password != null ? password.toCharArray() : null, false, null, false),
+                SVNSSHAuthentication.newInstance(userName, password != null ? password.toCharArray() : null, -1, false, null, false),
+                SVNUserNameAuthentication.newInstance(userName, false, null, false),
         });        
     }
     
     /**
      * Creates an auth manager given a user credential - a username and 
-     * an ssh private key.  
+     * an ssh private key.
+     * 
+     * @deprecated Use {@link #newInstance(String, File, char[], int)} method
      * 
      * @param userName    a username
      * @param keyFile     a private key file
@@ -98,9 +151,9 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
      * @param portNumber  a port number over which an ssh tunnel is established
      */
     public BasicAuthenticationManager(String userName, File keyFile, String passphrase, int portNumber) {
-        setAuthentications(new SVNAuthentication[] {
-                new SVNSSHAuthentication(userName, keyFile, passphrase, portNumber, false, null, false),
-                new SVNUserNameAuthentication(userName, false, null, false),
+        this(new SVNAuthentication[] {
+                SVNSSHAuthentication.newInstance(userName, keyFile, passphrase != null ? passphrase.toCharArray() : null, portNumber, false, null, false),
+                SVNUserNameAuthentication.newInstance(userName, false, null, false),
         });        
     }
     
@@ -119,10 +172,13 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
      * @param authentications user credentials
      */
     public void setAuthentications(SVNAuthentication[] authentications) {
+        dismissSensitiveData();
+
         myPasswordAuthentications = new ArrayList<SVNAuthentication>();
         mySSHAuthentications = new ArrayList<SVNAuthentication>();
         myUserNameAuthentications = new ArrayList<SVNAuthentication>();
         mySSLAuthentications = new ArrayList<SVNAuthentication>();
+        
         myPasswordIndex = 0;
         mySSHIndex = 0;
         mySSLIndex = 0;
@@ -144,12 +200,26 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
     /**
      * Sets a proxy server context to this manager.
      * 
+     * @deprecated
+     * 
      * @param proxyHost        a proxy server hostname
      * @param proxyPort        a proxy server port
      * @param proxyUserName    a username to supply to a proxy machine
      * @param proxyPassword    a password to supply to a proxy machine
      */
     public void setProxy(String proxyHost, int proxyPort, String proxyUserName, String proxyPassword) {
+        setProxy(proxyHost, proxyPort, proxyUserName, proxyPassword != null ? proxyPassword.toCharArray() : null);
+    }
+
+    /**
+     * Sets a proxy server context to this manager.
+     * 
+     * @param proxyHost        a proxy server hostname
+     * @param proxyPort        a proxy server port
+     * @param proxyUserName    a username to supply to a proxy machine
+     * @param proxyPassword    a password to supply to a proxy machine
+     */
+    public void setProxy(String proxyHost, int proxyPort, String proxyUserName, char[] proxyPassword) {
         myProxyHost = proxyHost;
         myProxyPort = proxyPort >= 0 ? proxyPort : 3128;
         myProxyUserName = proxyUserName;
@@ -184,10 +254,10 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
         }
         if (ISVNAuthenticationManager.USERNAME.equals(kind)) {
             if (url.getUserInfo() != null && !"".equals(url.getUserInfo())) {
-                return new SVNUserNameAuthentication(url.getUserInfo(), false, url, false);
+                return SVNUserNameAuthentication.newInstance(url.getUserInfo(), false, url, false);
             }
             // client will use default.
-            return new SVNUserNameAuthentication(null, false, url, false);
+            return SVNUserNameAuthentication.newInstance(null, false, url, false);
         }
         SVNErrorManager.authenticationFailed("Authentication required for ''{0}''", realm);
         return null;
@@ -330,10 +400,25 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
 
     /**
      * Returns the password to authenticate against the proxy server.
+     * 
+     * @deprecated Use {@link #getProxyPasswordValue()}
+     * 
      * @return the proxy password argument value specified via the {@link #setProxy(String, int, String, String)} 
      *         method 
      */
     public String getProxyPassword() {
+        return myProxyPassword != null ? new String(myProxyPassword) : null;
+    }
+    
+    /**
+     * Returns the password to authenticate against the proxy server.
+     *
+     * @since 1.8.9
+     * 
+     * @return the proxy password argument value specified via the {@link #setProxy(String, int, String, String)} 
+     *         method 
+     */
+    public char[] getProxyPasswordValue() {
         return myProxyPassword;
     }
     
@@ -387,6 +472,35 @@ public class BasicAuthenticationManager implements ISVNAuthenticationManager, IS
     }
 
     public void verifyHostKey(String hostName, int port, String keyAlgorithm, byte[] hostKey) throws SVNException {
+    }
+
+    /**
+     * Dismiss cached sensitive data (e.g. password)
+     * 
+     * Calling this method clears and removes all credentials stored in this authentication manager.
+     * 
+     * @since 1.8.9
+     */
+    public void dismissSensitiveData() {
+        dismissSensitiveData(myPasswordAuthentications);
+        dismissSensitiveData(mySSHAuthentications);
+        dismissSensitiveData(myUserNameAuthentications);
+        dismissSensitiveData(mySSLAuthentications);
+
+        myPasswordIndex = 0;
+        mySSHIndex = 0;
+        mySSLIndex = 0;
+        myUserNameIndex = 0;
+    }
+    
+    private void dismissSensitiveData(List<SVNAuthentication> auths) {
+        if (auths == null) {
+            return;
+        }
+        for (SVNAuthentication auth : auths) {
+            auth.dismissSensitiveData();
+        }
+        auths.clear();
     }
 
 }

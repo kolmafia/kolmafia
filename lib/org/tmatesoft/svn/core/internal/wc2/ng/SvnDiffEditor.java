@@ -3,33 +3,18 @@ package org.tmatesoft.svn.core.internal.wc2.ng;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
-import org.tmatesoft.svn.core.ISVNCanceller;
-import org.tmatesoft.svn.core.SVNCancelException;
-import org.tmatesoft.svn.core.SVNCommitInfo;
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.ISVNUpdateEditor;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.Structure;
-import org.tmatesoft.svn.core.internal.wc17.db.StructureFields;
-import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbShared;
+import org.tmatesoft.svn.core.internal.wc17.db.*;
 import org.tmatesoft.svn.core.io.ISVNEditor;
+import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.diff.SVNDeltaProcessor;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.core.wc2.SvnChecksum;
@@ -44,14 +29,15 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     private ISVNWCDb db;
     private File anchorAbspath;
     private String target;
-    private boolean useTextBase;
     private boolean showCopiesAsAdds;
-    private ISvnDiffCallback callback;
+    private ISvnDiffCallback2 callback;
     private Collection<String> changelists;
     private boolean ignoreAncestry;
     private boolean useGitDiffFormat;
     private ISVNCanceller canceller;
     private boolean reverseOrder; //actually, has the opposite meaning
+    private boolean localBeforeRemote;
+    private boolean diffPristine;
 
     //mutable
     private long revision;
@@ -59,30 +45,46 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     private Entry rootEntry;
     private Entry currentEntry;
     private Collection<File> tempFiles;
+    private SVNWCDbRoot wcRoot;
 
     //once initialized
     private final SVNDeltaProcessor deltaProcessor;
+    private final SvnDiffCallbackResult result;
 
     public SvnDiffEditor(File anchorAbspath, String target, ISvnDiffCallback callback, SVNDepth depth, SVNWCContext context, boolean reverseOrder, boolean useTextBase, boolean showCopiesAsAdds, boolean ignoreAncestry, Collection<String> changelists, boolean useGitDiffFormat, ISVNCanceller canceller) {
+        if (useGitDiffFormat) {
+            showCopiesAsAdds = true;
+        }
         this.depth = depth;
         this.context = context;
         this.db = context.getDb();
         this.anchorAbspath = anchorAbspath;
         this.target = target;
-        this.useTextBase = useTextBase;
+        this.diffPristine = useTextBase;
         this.showCopiesAsAdds = showCopiesAsAdds;
-        this.callback = callback;
+        this.callback = new SvnDiffCallbackWrapper(callback, true, anchorAbspath);
+        if (!showCopiesAsAdds) {
+            this.callback = new SvnCopyAsChangedDiffCallback(this.callback);
+        }
+        if (reverseOrder) {
+            this.callback = new SvnReverseOrderDiffCallback(this.callback, null);
+        }
         this.changelists = changelists;
+        if (showCopiesAsAdds) {
+            ignoreAncestry = false;
+        }
         this.ignoreAncestry = ignoreAncestry;
         this.useGitDiffFormat = useGitDiffFormat;
         this.canceller = canceller;
         this.reverseOrder = reverseOrder;
         this.deltaProcessor = new SVNDeltaProcessor();
         this.tempFiles = new ArrayList<File>();
+        this.result = new SvnDiffCallbackResult();
     }
 
     public SvnDiffEditor() {
         this.deltaProcessor = new SVNDeltaProcessor();
+        this.result = new SvnDiffCallbackResult();
     }
 
     public void targetRevision(long revision) throws SVNException {
@@ -93,40 +95,28 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
         this.rootOpened = true;
         rootEntry = new Entry(false, "", null, false, depth, anchorAbspath);
         currentEntry = rootEntry;
+
+        if (target.length() == 0) {
+            currentEntry.leftSource = new SvnDiffSource(this.revision);
+            currentEntry.rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+
+            callback.dirOpened(result, new File(""), currentEntry.leftSource, currentEntry.rightSource, null, null);
+            currentEntry.skip = result.skip;
+            currentEntry.skipChildren = result.skipChildren;
+        } else {
+            currentEntry.skip = true;
+        }
     }
 
     public void deleteEntry(String path, long revision) throws SVNException {
         File localAbspath = getLocalAbspath(path);
+        String name = SVNPathUtil.tail(path);
+        Entry pb = currentEntry;
 
-        addToCompared(currentEntry, path);
-
-        Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(localAbspath, StructureFields.NodeInfo.status, StructureFields.NodeInfo.kind);
-        ISVNWCDb.SVNWCDbKind kind = nodeInfoStructure.get(StructureFields.NodeInfo.kind);
-        ISVNWCDb.SVNWCDbStatus status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-
-        if (!useTextBase && status == ISVNWCDb.SVNWCDbStatus.Deleted) {
-            return;
+        if (pb.deletes == null) {
+            pb.deletes = new HashSet<String>();
         }
-
-        switch (kind) {
-            case File:
-            case Symlink:
-                if (reverseOrder) {
-                    File textBase = getPristineFile(localAbspath, useTextBase);
-                    SVNProperties baseProps = context.getPristineProps(localAbspath);
-                    String baseMimeType = getPropMimeType(baseProps);
-
-                    callback.fileDeleted(null, localAbspath, textBase, null, baseMimeType, null, baseProps);
-                } else {
-                    reportFileAdded(localAbspath, path);
-                }
-                break;
-            case Dir:
-                reportDirectoryAdded(localAbspath, path, SVNDepth.INFINITY);
-                break;
-            default:
-                break;
-        }
+        pb.deletes.add(name);
     }
 
     public void absentDir(String path) throws SVNException {
@@ -138,233 +128,395 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     public void addDir(String path, String copyFromPath, long copyFromRevision) throws SVNException {
         SVNDepth subdirDepth = (depth == SVNDepth.IMMEDIATES) ? SVNDepth.EMPTY : depth;
 
-        addToCompared(currentEntry, path);
-
+        Entry pb = currentEntry;
         currentEntry = new Entry(false, path, currentEntry, true, subdirDepth, getLocalAbspath(path));
+        if (pb.reposOnly || !ignoreAncestry) {
+            currentEntry.reposOnly = true;
+        } else {
+            pb.ensureLocalInfo();
+            ISVNWCDb.SVNWCDbInfo info = pb.localInfo.get(currentEntry.name);
+
+            if (info == null || info.kind != ISVNWCDb.SVNWCDbKind.Dir || info.status.isNotPresent()) {
+                currentEntry.reposOnly = true;
+            }
+
+            if (!currentEntry.reposOnly && info.status != ISVNWCDb.SVNWCDbStatus.Added) {
+                currentEntry.reposOnly = true;
+            }
+
+            if (!currentEntry.reposOnly) {
+                currentEntry.rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+                currentEntry.ignoringAncestry = true;
+                if (pb.compared == null) {
+                    pb.compared = new HashSet<String>();
+                }
+                pb.compared.add(currentEntry.name);
+            }
+        }
+        currentEntry.leftSource = new SvnDiffSource(this.revision);
+        if (localBeforeRemote && !currentEntry.reposOnly && !currentEntry.ignoringAncestry) {
+            handleLocalOnly(pb, currentEntry.name);
+        }
+        result.reset();
+        callback.dirOpened(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, null, null);
+        currentEntry.skip = result.skip;
+        currentEntry.skipChildren = result.skipChildren;
     }
 
     public void openDir(String path, long revision) throws SVNException {
         SVNDepth subdirDepth = (depth == SVNDepth.IMMEDIATES) ? SVNDepth.EMPTY : depth;
-
-        addToCompared(currentEntry, path);
-
+        Entry pb = currentEntry;
         currentEntry = new Entry(false, path, currentEntry, false, subdirDepth, getLocalAbspath(path));
-    }
 
-    public void closeDir() throws SVNException {
-        if (!currentEntry.propChanges.isEmpty()) {
-            SVNProperties originalProps;
-            if (currentEntry.added) {
-                originalProps = new SVNProperties();
-            } else {
-                if (useTextBase) {
-                    originalProps = context.getPristineProps(currentEntry.localAbspath);
-                } else {
-                    originalProps = context.getActualProps(currentEntry.localAbspath);
-                    SVNProperties baseProps = context.getPristineProps(currentEntry.localAbspath);
-                    SVNProperties reposProps = applyPropsChanges(baseProps, currentEntry.propChanges);
-                    currentEntry.propChanges = computePropDiff(originalProps, reposProps);
+        if (pb.reposOnly) {
+            currentEntry.reposOnly = true;
+        } else {
+            pb.ensureLocalInfo();
+
+            ISVNWCDb.SVNWCDbInfo info = pb.localInfo.get(currentEntry.name);
+
+            if (info == null || info.kind != ISVNWCDb.SVNWCDbKind.Dir || info.status.isNotPresent()) {
+                currentEntry.reposOnly = true;
+            }
+
+            if (!currentEntry.reposOnly) {
+                switch (info.status) {
+                    case Normal:
+                        break;
+                    case Deleted:
+                        currentEntry.reposOnly = true;
+                        if (!info.haveMoreWork) {
+                            if (pb.compared == null) {
+                                pb.compared = new HashSet<String>();
+                            }
+                            pb.compared.add(currentEntry.name);
+                        }
+                        break;
+                    case Added:
+                        if (ignoreAncestry) {
+                            currentEntry.ignoringAncestry = true;
+                        } else {
+                            currentEntry.reposOnly = true;
+                        }
+                        break;
+                    default:
+                        SVNErrorManager.assertionFailure(false, null, SVNLogType.WC);
+                        break;
                 }
             }
 
-            if (!reverseOrder) {
-                reversePropChanges(originalProps, currentEntry.propChanges);
+            if (!currentEntry.reposOnly) {
+                currentEntry.rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+                if (pb.compared == null) {
+                    pb.compared = new HashSet<String>();
+                }
+                pb.compared.add(currentEntry.name);
             }
-
-            callback.dirPropsChanged(null, currentEntry.localAbspath, currentEntry.added, currentEntry.propChanges, originalProps);
-
-            addToCompared(currentEntry, currentEntry.path);
         }
 
-        if (!currentEntry.added) {
+        currentEntry.leftSource = new SvnDiffSource(this.revision);
+        if (localBeforeRemote && !currentEntry.reposOnly && !currentEntry.ignoringAncestry) {
+            handleLocalOnly(pb, currentEntry.name);
+        }
+
+        callback.dirOpened(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, null, null);
+        currentEntry.skip = result.skip;
+        currentEntry.skipChildren = result.skipChildren;
+    }
+
+    public void closeDir() throws SVNException {
+        try {
+        boolean reportedClosed = false;
+        Entry pb = currentEntry.parent;
+
+        if (!currentEntry.skipChildren && currentEntry.deletes != null && currentEntry.deletes.size() > 0) {
+            List<String> children = new ArrayList<String>(currentEntry.deletes);
+            Collections.sort(children);
+
+            for (String name : children) {
+                handleLocalOnly(currentEntry, name);
+                if (currentEntry.compared == null) {
+                    currentEntry.compared = new HashSet<String>();
+                }
+                currentEntry.compared.add(name);
+            }
+        }
+
+        if (!currentEntry.reposOnly && !currentEntry.skipChildren) {
             walkLocalNodesDiff(currentEntry.localAbspath, currentEntry.path, currentEntry.depth, currentEntry.compared);
         }
 
-        callback.dirClosed(null, currentEntry.localAbspath, currentEntry.added);
+        if (currentEntry.skip) {
 
-        currentEntry = currentEntry.parent;
+        } else if (currentEntry.propChanges.size() > 0 || currentEntry.reposOnly || currentEntry.changePropertyCalled) {
+            SVNProperties reposProps;
+            if (currentEntry.added) {
+                reposProps = new SVNProperties();
+            } else {
+                reposProps = db.getBaseProps(currentEntry.localAbspath);
+            }
+
+            if (currentEntry.propChanges.size() > 0 || currentEntry.changePropertyCalled) {
+                reposProps.putAll(currentEntry.propChanges);
+                reposProps.removeNullValues();
+            }
+
+            if (currentEntry.reposOnly) {
+                result.reset();
+                callback.dirDeleted(result, new File(currentEntry.path), currentEntry.leftSource, reposProps, null);
+                reportedClosed = true;
+            } else {
+                SVNProperties localProps;
+                if (diffPristine) {
+                    Structure<StructureFields.PristineInfo> pristineInfoStructure = db.readPristineInfo(currentEntry.localAbspath);
+                    localProps = pristineInfoStructure.get(StructureFields.PristineInfo.props);
+                } else {
+                    localProps = db.readProperties(currentEntry.localAbspath);
+                }
+                SVNProperties propChanges = reposProps.compareTo(localProps);
+                if (propChanges.size() > 0) {
+                    result.reset();
+                    callback.dirChanged(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, reposProps, localProps, propChanges, null);
+                    reportedClosed = true;
+                }
+            }
+        }
+
+        if (!reportedClosed && !currentEntry.skip) {
+            result.reset();
+            callback.dirClosed(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, null);
+        }
+        if (pb != null && !localBeforeRemote && !currentEntry.reposOnly && !currentEntry.ignoringAncestry) {
+            handleLocalOnly(pb, currentEntry.name);
+        }
+        } finally {
+            currentEntry = currentEntry.parent;
+        }
     }
 
     public void addFile(String path, String copyFromPath, long copyFromRevision) throws SVNException {
-
-        addToCompared(currentEntry, path);
-
+        Entry pb = currentEntry;
         currentEntry = new Entry(true, path, currentEntry, true, SVNDepth.UNKNOWN, getLocalAbspath(path));
+
+        if (pb.skipChildren) {
+            currentEntry.skip = true;
+            return;
+        } else if (pb.reposOnly || !ignoreAncestry) {
+            currentEntry.reposOnly = true;
+        } else {
+            pb.ensureLocalInfo();
+            ISVNWCDb.SVNWCDbInfo info = pb.localInfo.get(currentEntry.name);
+
+            if (info == null || info.kind != ISVNWCDb.SVNWCDbKind.File || info.status.isNotPresent()) {
+                currentEntry.reposOnly = true;
+            }
+
+            if (!currentEntry.reposOnly && info.status != ISVNWCDb.SVNWCDbStatus.Added) {
+                currentEntry.reposOnly = true;
+            }
+
+            if (!currentEntry.reposOnly) {
+                currentEntry.rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+                currentEntry.ignoringAncestry = true;
+
+                if (pb.compared == null) {
+                    pb.compared = new HashSet<String>();
+                }
+                pb.compared.add(currentEntry.name);
+            }
+        }
+
+        currentEntry.leftSource = new SvnDiffSource(this.revision);
+
+        result.reset();
+        callback.fileOpened(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, null, false, null);
+        currentEntry.skip = result.skip;
     }
 
     public void openFile(String path, long revision) throws SVNException {
-        addToCompared(currentEntry, path);
-
+        Entry pb = currentEntry;
         currentEntry = new Entry(true, path, currentEntry, false, SVNDepth.UNKNOWN, getLocalAbspath(path));
 
-        ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(currentEntry.localAbspath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.checksum);
-        currentEntry.baseChecksum = baseInfo.checksum;
+        if (pb.skipChildren) {
+            currentEntry.skip = true;
+        } else if (pb.reposOnly) {
+            currentEntry.reposOnly = true;
+        } else {
+            pb.ensureLocalInfo();
+            ISVNWCDb.SVNWCDbInfo info = pb.localInfo.get(currentEntry.name);
 
-        callback.fileOpened(null, currentEntry.localAbspath, revision);
+            if (info == null || info.kind != ISVNWCDb.SVNWCDbKind.File || info.status.isNotPresent()) {
+                currentEntry.reposOnly = true;
+            }
+            if (!currentEntry.reposOnly) {
+                switch (info.status) {
+                    case Normal:
+                        break;
+                    case Deleted:
+                        currentEntry.reposOnly = true;
+                        if (!info.haveMoreWork) {
+                            if (pb.compared == null) {
+                                pb.compared = new HashSet<String>();
+                            }
+                            pb.compared.add(currentEntry.name);
+                        }
+                        break;
+                    case Added:
+                        if (ignoreAncestry) {
+                            currentEntry.ignoringAncestry = true;
+                        } else {
+                            currentEntry.reposOnly = true;
+                        }
+                        break;
+                    default:
+                        SVNErrorManager.assertionFailure(false, null, SVNLogType.WC);
+                        break;
+                }
+            }
+            if (!currentEntry.reposOnly) {
+                currentEntry.rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+                if (pb.compared == null) {
+                    pb.compared = new HashSet<String>();
+                }
+                pb.compared.add(currentEntry.name);
+            }
+        }
+        currentEntry.leftSource = new SvnDiffSource(this.revision);
+
+        ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(currentEntry.localAbspath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.checksum, ISVNWCDb.WCDbBaseInfo.BaseInfoField.props);
+        currentEntry.baseChecksum = baseInfo.checksum;
+        currentEntry.baseProps = baseInfo.props;
+
+        result.reset();
+        callback.fileOpened(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, null, false, null);
+        currentEntry.skip = result.skip;
     }
 
     public void applyTextDelta(String path, String baseChecksum) throws SVNException {
-
+        if (currentEntry.skip) {
+            return;
+        }
         InputStream sourceStream;
-        if (currentEntry.baseChecksum != null) {
+        if (baseChecksum != null && currentEntry.baseChecksum != null) {
+            SvnChecksum baseMd5 = db.getPristineMD5(anchorAbspath, currentEntry.baseChecksum);
+            if (baseMd5 != null && !baseMd5.getDigest().equals(baseChecksum)) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CHECKSUM_MISMATCH, "Checksum mismatch for ''{0}''", currentEntry.localAbspath);
+                SVNErrorManager.error(err, SVNLogType.WC);
+            }
+            sourceStream = db.readPristine(currentEntry.localAbspath, currentEntry.baseChecksum);
+        } else if (currentEntry.baseChecksum != null) {
             sourceStream = db.readPristine(currentEntry.localAbspath, currentEntry.baseChecksum);
         } else {
             sourceStream = SVNFileUtil.DUMMY_IN;
         }
 
-        currentEntry.file = createTempFile(db.getWCRootTempDir(currentEntry.localAbspath));
-        deltaProcessor.applyTextDelta(sourceStream, currentEntry.file, true);
+        currentEntry.tempFile = createTempFile(db.getWCRootTempDir(currentEntry.localAbspath));
+        deltaProcessor.applyTextDelta(sourceStream, currentEntry.tempFile, true);
     }
 
     public void closeFile(String path, String textChecksum) throws SVNException {
         try {
-        if (textChecksum != null) {
-            SvnChecksum reposChecksum = currentEntry.resultChecksum;
+        Entry pb = currentEntry.parent;
 
-            if (reposChecksum == null) {
-                reposChecksum = currentEntry.baseChecksum;
+        if (!currentEntry.skip && textChecksum != null) {
+
+            SvnChecksum resultChecksum;
+            if (currentEntry.tempFile != null) {
+                resultChecksum = currentEntry.resultChecksum;
+            } else {
+                resultChecksum = currentEntry.baseChecksum;
             }
 
-            if (reposChecksum.getKind() != SvnChecksum.Kind.md5) {
-                reposChecksum = db.getPristineMD5(currentEntry.localAbspath, reposChecksum);
+            if (resultChecksum.getKind() != SvnChecksum.Kind.md5) {
+                resultChecksum = db.getPristineMD5(currentEntry.localAbspath, resultChecksum);
             }
 
-            if (!reposChecksum.getDigest().equals(textChecksum)) {
+            if (!textChecksum.equals(resultChecksum.getDigest())) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CHECKSUM_MISMATCH, "Checksum mismatch for ''{0}''", currentEntry.localAbspath);
                 SVNErrorManager.error(err, SVNLogType.DEFAULT);
             }
         }
 
-        ISVNWCDb.SVNWCDbStatus status;
-        SvnChecksum pristineChecksum;
-        boolean hadProps;
-        boolean propsMod;
-        try {
-            Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(currentEntry.localAbspath,
-                    StructureFields.NodeInfo.status,
-                    StructureFields.NodeInfo.checksum,
-                    StructureFields.NodeInfo.hadProps,
-                    StructureFields.NodeInfo.propsMod);
-            status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-            pristineChecksum = nodeInfoStructure.get(StructureFields.NodeInfo.checksum);
-            hadProps = nodeInfoStructure.is(StructureFields.NodeInfo.hadProps);
-            propsMod = nodeInfoStructure.is(StructureFields.NodeInfo.propsMod);
-        } catch (SVNException e) {
-            if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND) {
-                status = ISVNWCDb.SVNWCDbStatus.NotPresent;
-                pristineChecksum = null;
-                hadProps = false;
-                propsMod = false;
-            } else {
-                throw e;
-            }
+        if (localBeforeRemote && !currentEntry.reposOnly && !currentEntry.ignoringAncestry) {
+            handleLocalOnly(pb, currentEntry.name);
         }
 
+        SVNProperties propBase;
 
-        SVNProperties pristineProps;
-        File pristineFile;
         if (currentEntry.added) {
-            pristineProps = new SVNProperties();
-            pristineFile = null;
+            propBase = new SVNProperties();
         } else {
-            if (status != ISVNWCDb.SVNWCDbStatus.Normal) {
-                Structure<StructureFields.NodeInfo> nodeInfoStructure = SvnWcDbShared.getBaseInfo((SVNWCDb) db, currentEntry.localAbspath,
-                        StructureFields.NodeInfo.checksum,
-                        StructureFields.NodeInfo.hadProps);
-                pristineChecksum = nodeInfoStructure.get(StructureFields.NodeInfo.checksum);
-                hadProps = nodeInfoStructure.is(StructureFields.NodeInfo.hadProps);
-            }
-            pristineFile = db.getPristinePath(currentEntry.localAbspath, pristineChecksum);
-
-            if (hadProps) {
-                pristineProps = db.getBaseProps(currentEntry.localAbspath);
-            } else {
-                pristineProps = new SVNProperties();
-            }
+            propBase = currentEntry.baseProps;
         }
 
-        if (status == ISVNWCDb.SVNWCDbStatus.Added) {
-            ISVNWCDb.WCDbAdditionInfo wcDbAdditionInfo = db.scanAddition(currentEntry.localAbspath, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.status);
-            status = wcDbAdditionInfo.status;
+        SVNProperties reposProps = new SVNProperties(propBase);
+        reposProps.putAll(currentEntry.propChanges);
+        reposProps.removeNullValues();
+
+        File reposFile = currentEntry.tempFile;
+        if (reposFile == null) {
+            assert currentEntry.baseChecksum != null;
+            reposFile = SvnWcDbPristines.getPristinePath(getWcRoot(), currentEntry.baseChecksum);
         }
 
-        SVNProperties reposProps = applyPropsChanges(pristineProps, currentEntry.propChanges);
-        String reposMimeType = getPropMimeType(reposProps);
-        File reposFile = currentEntry.file != null ? currentEntry.file : pristineFile;
+        if (currentEntry.skip) {
 
-        if (currentEntry.added || (!useTextBase && status == ISVNWCDb.SVNWCDbStatus.Deleted)) {
-            if (reverseOrder) {
-                callback.fileAdded(null, currentEntry.localAbspath, null, reposFile, 0, revision, null, reposMimeType, null, -1, currentEntry.propChanges, new SVNProperties());
-            } else {
-                callback.fileDeleted(null, currentEntry.localAbspath, reposFile, null, reposMimeType, null, reposProps);
-            }
-            return;
-        }
-
-        if ((status == ISVNWCDb.SVNWCDbStatus.Copied || status == ISVNWCDb.SVNWCDbStatus.MovedHere) && showCopiesAsAdds) {
-            callback.fileAdded(null, currentEntry.localAbspath, null, currentEntry.localAbspath, 0, revision, null, reposMimeType, null, -1, currentEntry.propChanges, new SVNProperties());
-            return;
-        }
-
-        boolean modified = currentEntry.file != null;
-        if (!modified && !useTextBase) {
-            modified = context.isTextModified(currentEntry.localAbspath, false);
-        }
-
-        File localFile;
-        if (modified) {
-            if (useTextBase) {
-                localFile = getPristineFile(currentEntry.localAbspath, false);
-            } else {
-                localFile = context.getTranslatedFile(currentEntry.localAbspath, currentEntry.localAbspath, true, false, false, false, false);
-
-                //TODO: cancellation?
-            }
+        } else if (currentEntry.reposOnly) {
+            result.reset();
+            callback.fileDeleted(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.tempFile, reposProps);
         } else {
-            reposFile = null;
-            localFile = null;
-        }
+            File localFile;
+            SVNProperties localProps;
+            if (diffPristine) {
+                Structure<StructureFields.PristineInfo> pristineInfoStructure = db.readPristineInfo(currentEntry.localAbspath);
+                SvnChecksum checksum = pristineInfoStructure.get(StructureFields.PristineInfo.checksum);
+                localProps = pristineInfoStructure.get(StructureFields.PristineInfo.props);
 
-        SVNProperties originalProps;
-        if (useTextBase) {
-            originalProps = pristineProps;
-        } else {
-            originalProps = context.getActualProps(currentEntry.localAbspath);
-            currentEntry.propChanges = computePropDiff(originalProps, reposProps);
-        }
+                assert checksum != null;
 
-        if (localFile != null || !currentEntry.propChanges.isEmpty()) {
-            String originalMimeType = getPropMimeType(originalProps);
-
-            if (!currentEntry.propChanges.isEmpty() && !reverseOrder) {
-                reversePropChanges(originalProps, currentEntry.propChanges);
+                localFile = SvnWcDbPristines.getPristinePath(getWcRoot(), checksum);
+            } else {
+                localProps = db.readProperties(currentEntry.localAbspath);
+                localFile = context.getTranslatedFile(currentEntry.localAbspath, currentEntry.localAbspath, true, false, false, false, false); //TODO: cancellation?
             }
 
-            callback.fileChanged(null, currentEntry.localAbspath,
-                    reverseOrder ? localFile : reposFile,
-                    reverseOrder ? reposFile : localFile,
-                    reverseOrder ? -1 : revision,
-                    reverseOrder ? revision : -1,
-                    reverseOrder ? originalMimeType : reposMimeType,
-                    reverseOrder ? reposMimeType : originalMimeType,
-                    currentEntry.propChanges,
-                    originalProps);
+            SVNProperties propChanges = reposProps.compareTo(localProps);
 
-            return;
+            result.reset();
+            callback.fileChanged(result, new File(currentEntry.path), currentEntry.leftSource, currentEntry.rightSource, reposFile, localFile, reposProps, localProps, true, propChanges);
+        }
+
+        if (!localBeforeRemote && !currentEntry.reposOnly && !currentEntry.ignoringAncestry) {
+            handleLocalOnly(pb, currentEntry.name);
         }
         } finally {
-
-            //there're a lot of returns, but we should switch the entry
             currentEntry = currentEntry.parent;
         }
     }
 
     public void changeDirProperty(String name, SVNPropertyValue value) throws SVNException {
-        currentEntry.propChanges.put(name, value);
+        if (SVNProperty.isWorkingCopyProperty(name)) {
+            return;
+        } else if (SVNProperty.isRegularProperty(name)) {
+            currentEntry.hasPropChange = true;
+            if (currentEntry.propChanges == null) {
+                currentEntry.propChanges = new SVNProperties();
+            }
+            currentEntry.propChanges.put(name, value);
+        }
+        currentEntry.changePropertyCalled = true;
     }
 
     public void changeFileProperty(String path, String propertyName, SVNPropertyValue propertyValue) throws SVNException {
-        currentEntry.propChanges.put(propertyName, propertyValue);
+        if (SVNProperty.isWorkingCopyProperty(propertyName)) {
+            return;
+        } else if (SVNProperty.isRegularProperty(propertyName)) {
+            currentEntry.hasPropChange = true;
+            if (currentEntry.propChanges == null) {
+                currentEntry.propChanges = new SVNProperties();
+            }
+            currentEntry.propChanges.put(propertyName, propertyValue);
+        }
     }
 
     public SVNCommitInfo closeEdit() throws SVNException {
@@ -386,263 +538,6 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
         currentEntry.resultChecksum = new SvnChecksum(SvnChecksum.Kind.md5, checksum);
     }
 
-    private File getPristineFile(File localAbspath, boolean useTextBase) throws SVNException {
-        SvnChecksum checksum;
-        if (!useTextBase) {
-            Structure<StructureFields.PristineInfo> pristineInfoStructure = db.readPristineInfo(localAbspath);
-            checksum = pristineInfoStructure.get(StructureFields.PristineInfo.checksum);
-        } else {
-            ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(localAbspath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.checksum);
-            checksum = baseInfo.checksum;
-        }
-
-        if (checksum != null) {
-            return db.getPristinePath(localAbspath, checksum);
-        }
-
-        return null;
-    }
-
-    private String getPropMimeType(SVNProperties baseProps) {
-        if (baseProps == null) {
-            return null;
-        }
-        return baseProps.getStringValue(SVNProperty.MIME_TYPE);
-    }
-
-    private void reportFileAdded(File localAbspath, String path) throws SVNException {
-        if (!context.matchesChangelist(localAbspath, changelists)) {
-            return;
-        }
-
-        Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(localAbspath,
-                StructureFields.NodeInfo.revision,
-                StructureFields.NodeInfo.status);
-        long revision = nodeInfoStructure.lng(StructureFields.NodeInfo.revision);
-        ISVNWCDb.SVNWCDbStatus status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-
-        if (status == ISVNWCDb.SVNWCDbStatus.Added) {
-            ISVNWCDb.WCDbAdditionInfo wcDbAdditionInfo = db.scanAddition(localAbspath, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.status);
-            status = wcDbAdditionInfo.status;
-        }
-
-        assert status != ISVNWCDb.SVNWCDbStatus.Deleted || useTextBase;
-
-        if (status == ISVNWCDb.SVNWCDbStatus.Copied || status == ISVNWCDb.SVNWCDbStatus.MovedHere) {
-            if (useTextBase) {
-                return;
-            }
-
-            fileDiff(localAbspath, path);
-        }
-
-        SVNProperties emptyProps = new SVNProperties();
-        SVNProperties wcProps;
-        if (useTextBase) {
-            wcProps = context.getPristineProps(localAbspath);
-        } else {
-            wcProps = context.getActualProps(localAbspath);
-        }
-
-        String mimeType = getPropMimeType(wcProps);
-        SVNProperties propchanges = computePropDiff(emptyProps, wcProps);
-
-        File sourceFile;
-        if (useTextBase) {
-            sourceFile = getPristineFile(localAbspath, false);
-        } else {
-            sourceFile = localAbspath;
-        }
-
-        File translatedFile = context.getTranslatedFile(sourceFile, localAbspath, true, false, false, false, false);//TODO; cancel
-
-        callback.fileAdded(null, localAbspath,
-                null, translatedFile,
-                0, revision,
-                null, mimeType,
-                null, -1,
-                propchanges, emptyProps);
-
-    }
-
-    private void reportDirectoryAdded(File localAbspath, String path, SVNDepth depth) throws SVNException {
-        SVNProperties emptyProps = new SVNProperties();
-        if (context.matchesChangelist(localAbspath, changelists)) {
-            SVNProperties wcProps;
-            if (useTextBase) {
-                wcProps = context.getPristineProps(localAbspath);
-            } else {
-                wcProps = context.getActualProps(localAbspath);
-            }
-
-            SVNProperties propChanges = computePropDiff(emptyProps, wcProps);
-            if (!propChanges.isEmpty()) {
-                callback.dirPropsChanged(null, localAbspath, true, propChanges, emptyProps);
-            }
-        }
-
-        Set<String> children = db.readChildren(localAbspath);
-        for (String name : children) {
-            checkCancelled();
-
-            final File childAbspath = new File(localAbspath, name);
-
-            Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(childAbspath, StructureFields.NodeInfo.status, StructureFields.NodeInfo.kind);
-            ISVNWCDb.SVNWCDbStatus status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-            ISVNWCDb.SVNWCDbKind kind = nodeInfoStructure.get(StructureFields.NodeInfo.kind);
-
-            if (status == ISVNWCDb.SVNWCDbStatus.NotPresent
-                    || status == ISVNWCDb.SVNWCDbStatus.Excluded
-                    || status == ISVNWCDb.SVNWCDbStatus.ServerExcluded) {
-                continue;
-            }
-
-            if (!useTextBase && status == ISVNWCDb.SVNWCDbStatus.Deleted) {
-                continue;
-            }
-
-            String childPath = SVNPathUtil.append(path, name);
-
-            switch (kind) {
-                case File:
-                case Symlink:
-                    reportFileAdded(childAbspath, childPath);
-                    break;
-
-                case Dir:
-                    if (depth.compareTo(SVNDepth.FILES) > 0 || depth == SVNDepth.UNKNOWN) {
-                        SVNDepth depthBelowHere = depth;
-                        if (depthBelowHere == SVNDepth.IMMEDIATES) {
-                            depthBelowHere = SVNDepth.EMPTY;
-                        }
-
-                        reportDirectoryAdded(childAbspath, childPath, depthBelowHere);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    private void fileDiff(File localAbspath, String path) throws SVNException {
-        boolean useBase = false;
-
-        assert !useTextBase;
-
-        if (!context.matchesChangelist(localAbspath, changelists)) {
-            return;
-        }
-
-        Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(localAbspath,
-                StructureFields.NodeInfo.status,
-                StructureFields.NodeInfo.revision,
-                StructureFields.NodeInfo.haveBase);
-        ISVNWCDb.SVNWCDbStatus status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-        long revision = nodeInfoStructure.lng(StructureFields.NodeInfo.revision);
-        boolean haveBase = nodeInfoStructure.is(StructureFields.NodeInfo.haveBase);
-
-        ISVNWCDb.SVNWCDbStatus baseStatus = null;
-        long revertBaseRevision = -1;
-        if (haveBase) {
-            ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(localAbspath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.status, ISVNWCDb.WCDbBaseInfo.BaseInfoField.revision);
-            baseStatus = baseInfo.status;
-            revertBaseRevision = baseInfo.revision;
-        }
-
-        boolean replaced = ((status == ISVNWCDb.SVNWCDbStatus.Added) && haveBase && baseStatus != ISVNWCDb.SVNWCDbStatus.NotPresent);
-
-        File originalReposRelpath = null;
-
-        if (status == ISVNWCDb.SVNWCDbStatus.Added) {
-            ISVNWCDb.WCDbAdditionInfo wcDbAdditionInfo = db.scanAddition(localAbspath, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.status, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.originalReposRelPath);
-            status = wcDbAdditionInfo.status;
-            originalReposRelpath =  wcDbAdditionInfo.originalReposRelPath;
-        }
-
-        if (replaced && ! (status == ISVNWCDb.SVNWCDbStatus.Copied || status == ISVNWCDb.SVNWCDbStatus.MovedHere)) {
-            useBase = true;
-            revision = revertBaseRevision;
-        }
-
-        File textBase = getPristineFile(localAbspath, useBase);
-
-        if ((!replaced && status == ISVNWCDb.SVNWCDbStatus.Deleted) || (replaced && !ignoreAncestry)) {
-            SVNProperties baseProps = context.getPristineProps(localAbspath);
-
-            String baseMimeType;
-            if (baseProps != null) {
-                baseMimeType = getPropMimeType(baseProps);
-            } else {
-                baseMimeType = null;
-            }
-
-            callback.fileDeleted(null, localAbspath, textBase, null, baseMimeType, null, baseProps);
-
-            if (! (replaced && !ignoreAncestry)) {
-                return;
-            }
-        }
-
-        File translatedFile = null;
-        if ((! replaced && status == ISVNWCDb.SVNWCDbStatus.Added) || (replaced && !ignoreAncestry) ||
-                ((status == ISVNWCDb.SVNWCDbStatus.Copied || status == ISVNWCDb.SVNWCDbStatus.MovedHere) &&
-                (showCopiesAsAdds || useGitDiffFormat))) {
-            SVNProperties workingProps = context.getActualProps(localAbspath);
-            String workingMimeType = getPropMimeType(workingProps);
-
-            SVNProperties baseProps = new SVNProperties();
-            SVNProperties propChanges = computePropDiff(baseProps, workingProps);
-
-            translatedFile = context.getTranslatedFile(localAbspath, localAbspath, true, false, false, false, false);
-
-            callback.fileAdded(null, localAbspath,
-                    (!showCopiesAsAdds && useGitDiffFormat && status != ISVNWCDb.SVNWCDbStatus.Added) ? textBase : null,
-                    translatedFile,
-                    0, revision,
-                    null,
-                    workingMimeType,
-                    originalReposRelpath,
-                    -1,
-                    propChanges, baseProps);
-        } else {
-            boolean modified = context.isTextModified(localAbspath, false);
-            if (modified) {
-                translatedFile = context.getTranslatedFile(localAbspath, localAbspath, true, false, false, false, false);
-            }
-
-            SVNProperties baseProps;
-            if (replaced && ignoreAncestry) {
-                baseProps = db.getBaseProps(localAbspath);
-            } else {
-                assert (!replaced ||
-                        status == ISVNWCDb.SVNWCDbStatus.Copied ||
-                        status == ISVNWCDb.SVNWCDbStatus.MovedHere);
-
-                baseProps = context.getPristineProps(localAbspath);
-
-                if (baseProps == null) {
-                    baseProps = new SVNProperties();
-                }
-            }
-
-
-            String baseMimeType = getPropMimeType(baseProps);
-
-            SVNProperties workingProps = context.getActualProps(localAbspath);
-            String workingMimeType = getPropMimeType(workingProps);
-            SVNProperties propChanges = computePropDiff(baseProps, workingProps);
-
-            if (modified || !propChanges.isEmpty()) {
-                callback.fileChanged(null, localAbspath,
-                        modified ? textBase : null, translatedFile,
-                        revision, -1,
-                        baseMimeType, workingMimeType,
-                        propChanges, baseProps);
-            }
-        }
-    }
-
     private File getLocalAbspath(String path) {
         return new File(anchorAbspath, path);
     }
@@ -650,108 +545,185 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
     private void checkCancelled() throws SVNCancelException {
         canceller.checkCancelled();
     }
-
-    private SVNProperties applyPropsChanges(SVNProperties props, SVNProperties propChanges) {
-        SVNProperties result = new SVNProperties(props);
-        if (propChanges != null) {
-            for(Iterator names = propChanges.nameSet().iterator(); names.hasNext();) {
-                String name = (String) names.next();
-                SVNPropertyValue value = propChanges.getSVNPropertyValue(name);
-                if (value == null) {
-                    result.remove(name);
-                } else {
-                    result.put(name, value);
-                }
-            }
-        }
-        return result;
-    }
-
-    private static void reversePropChanges(SVNProperties base, SVNProperties diff) {
-        Collection<String> namesList = new ArrayList<String>(diff.nameSet());
-        for (Iterator names = namesList.iterator(); names.hasNext();) {
-            String name = (String) names.next();
-            SVNPropertyValue newValue = diff.getSVNPropertyValue(name);
-            SVNPropertyValue oldValue = base.getSVNPropertyValue(name);
-            if (oldValue == null && newValue != null) {
-                base.put(name, newValue);
-                diff.put(name, (SVNPropertyValue) null);
-            } else if (oldValue != null && newValue == null) {
-                base.put(name, (SVNPropertyValue) null);
-                diff.put(name, oldValue);
-            } else if (oldValue != null && newValue != null) {
-                base.put(name, newValue);
-                diff.put(name, oldValue);
-            }
-        }
-    }
+//
+//    private SVNProperties applyPropsChanges(SVNProperties props, SVNProperties propChanges) {
+//        SVNProperties result = new SVNProperties(props);
+//        if (propChanges != null) {
+//            for(Iterator names = propChanges.nameSet().iterator(); names.hasNext();) {
+//                String name = (String) names.next();
+//                SVNPropertyValue value = propChanges.getSVNPropertyValue(name);
+//                if (value == null) {
+//                    result.remove(name);
+//                } else {
+//                    result.put(name, value);
+//                }
+//            }
+//        }
+//        return result;
+//    }
+//
+//    private static void reversePropChanges(SVNProperties base, SVNProperties diff) {
+//        Collection<String> namesList = new ArrayList<String>(diff.nameSet());
+//        for (Iterator names = namesList.iterator(); names.hasNext();) {
+//            String name = (String) names.next();
+//            SVNPropertyValue newValue = diff.getSVNPropertyValue(name);
+//            SVNPropertyValue oldValue = base.getSVNPropertyValue(name);
+//            if (oldValue == null && newValue != null) {
+//                base.put(name, newValue);
+//                diff.put(name, (SVNPropertyValue) null);
+//            } else if (oldValue != null && newValue == null) {
+//                base.put(name, (SVNPropertyValue) null);
+//                diff.put(name, oldValue);
+//            } else if (oldValue != null && newValue != null) {
+//                base.put(name, newValue);
+//                diff.put(name, oldValue);
+//            }
+//        }
+//    }
 
     private void walkLocalNodesDiff(File localAbspath, String path, SVNDepth depth, Set<String> compared) throws SVNException {
-        if (useTextBase) {
+
+        if (diffPristine) {
             return;
         }
 
         boolean inAnchorNotTarget = path.length() == 0 && target.length() != 0;
 
-        if (context.matchesChangelist(localAbspath, changelists) && !inAnchorNotTarget && (compared == null|| !compared.contains(path))) {
-            boolean modified = context.isPropsModified(localAbspath);
-            if (modified) {
-                SVNWCContext.PropDiffs propDiffs = context.getPropDiffs(localAbspath);
-                SVNProperties baseProps = propDiffs.originalProps;
-                SVNProperties propChanges = propDiffs.propChanges;
+        ISVNWCDb.WCDbInfo wcDbInfo = db.readInfo(localAbspath, ISVNWCDb.WCDbInfo.InfoField.revision, ISVNWCDb.WCDbInfo.InfoField.propsMod);
+        long revision = wcDbInfo.revision;
+        boolean propsMod = wcDbInfo.propsMod;
 
-                callback.dirPropsChanged(null, localAbspath, false, propChanges, baseProps);
+        SvnDiffSource leftSource = new SvnDiffSource(revision);
+        SvnDiffSource rightSource = new SvnDiffSource(SVNRepository.INVALID_REVISION);
+
+        boolean skip = false;
+        boolean skipChildren = false;
+
+        if (compared != null) {
+            //
+            skip = true;
+        } else if (!inAnchorNotTarget) {
+            result.reset();
+            callback.dirOpened(result, new File(path), leftSource, rightSource, null, null);
+            skip = result.skip;
+            skipChildren = result.skipChildren;
+        }
+
+        if (!skipChildren && depth != SVNDepth.EMPTY) {
+            SVNDepth depthBelowHere = depth;
+
+            if (depthBelowHere == SVNDepth.IMMEDIATES) {
+                depthBelowHere = SVNDepth.EMPTY;
+            }
+
+            boolean diffFiles = (depth == SVNDepth.UNKNOWN || depth.compareTo(SVNDepth.FILES) >= 0);
+            boolean diffDirectories = (depth == SVNDepth.UNKNOWN || depth.compareTo(SVNDepth.IMMEDIATES) >= 0);
+
+            Map<String, ISVNWCDb.SVNWCDbInfo> nodes = new HashMap<String, ISVNWCDb.SVNWCDbInfo>();
+            db.readChildren(localAbspath, nodes, new HashSet<String>());
+
+            List<String> children = new ArrayList<String>(nodes.keySet());
+            Collections.sort(children);
+
+            for (String name : children) {
+                ISVNWCDb.SVNWCDbInfo info = nodes.get(name);
+
+                if (inAnchorNotTarget && !target.equals(name)) {
+                    continue;
+                }
+
+                if (compared != null && compared.contains(name)) {
+                    continue;
+                }
+
+                if (info.status.isNotPresent()) {
+                    continue;
+                }
+
+                assert info.status == ISVNWCDb.SVNWCDbStatus.Normal ||
+                        info.status == ISVNWCDb.SVNWCDbStatus.Added ||
+                        info.status == ISVNWCDb.SVNWCDbStatus.Deleted;
+
+                File childAbsPath = SVNFileUtil.createFilePath(localAbspath, name);
+                File childRelPath = SVNFileUtil.createFilePath(path, name);
+
+                boolean reposOnly = false;
+                boolean localOnly = false;
+                ISVNWCDb.SVNWCDbKind baseKind = ISVNWCDb.SVNWCDbKind.Unknown;
+
+                if (!info.haveBase) {
+                    localOnly = true;
+                } else if (info.status == ISVNWCDb.SVNWCDbStatus.Normal) {
+                    baseKind = info.kind;
+                } else if (info.status == ISVNWCDb.SVNWCDbStatus.Deleted && (!diffPristine || !info.haveMoreWork)) {
+                    reposOnly = true;
+                    ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(childAbsPath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.status, ISVNWCDb.WCDbBaseInfo.BaseInfoField.kind);
+                    baseKind = baseInfo.kind;
+                    if (baseInfo.status.isNotPresent()) {
+                        continue;
+                    }
+                } else {
+                    ISVNWCDb.WCDbBaseInfo baseInfo = db.getBaseInfo(childAbsPath, ISVNWCDb.WCDbBaseInfo.BaseInfoField.status, ISVNWCDb.WCDbBaseInfo.BaseInfoField.kind);
+                    baseKind = baseInfo.kind;
+                    if (baseInfo.status.isNotPresent()) {
+                        localOnly = true;
+                    } else if (baseKind != info.kind || !ignoreAncestry) {
+                        reposOnly = true;
+                        localOnly = true;
+                    }
+                }
+
+                if (localBeforeRemote && localOnly) {
+                    if (info.kind == ISVNWCDb.SVNWCDbKind.File && diffFiles) {
+                        SvnNgDiffUtil.diffLocalOnlyFile(childAbsPath, childRelPath, changelists, this.diffPristine, this.context, this.callback);
+                    } else if (info.kind == ISVNWCDb.SVNWCDbKind.Dir && diffDirectories) {
+                        SvnNgDiffUtil.diffLocalOnlyDirectory(childAbsPath, childRelPath, depthBelowHere, changelists, this.diffPristine, this.context, this.callback);
+                    }
+                }
+
+                if (reposOnly) {
+                    if (baseKind == ISVNWCDb.SVNWCDbKind.File && diffFiles) {
+                        SvnNgDiffUtil.diffBaseOnlyFile(childAbsPath, childRelPath, this.revision, this.db, this.callback);
+                    } else if (baseKind == ISVNWCDb.SVNWCDbKind.Dir && diffDirectories) {
+                        SvnNgDiffUtil.diffBaseOnlyDirectory(childAbsPath, childRelPath, this.revision, depthBelowHere, this.db, this.callback);
+                    }
+                } else if (!localOnly) {
+                    if (info.kind == ISVNWCDb.SVNWCDbKind.File && diffFiles) {
+                        if (info.status != ISVNWCDb.SVNWCDbStatus.Normal || !diffPristine) {
+                            SvnNgDiffUtil.diffBaseWorkingDiff(childAbsPath, childRelPath, this.revision, changelists, this.diffPristine, this.context, this.callback);
+                        }
+                    } else if (info.kind == ISVNWCDb.SVNWCDbKind.Dir && diffDirectories) {
+                        walkLocalNodesDiff(childAbsPath, SVNFileUtil.getFilePath(childRelPath), depthBelowHere, null);
+                    }
+                }
+
+                if (!localBeforeRemote && localOnly) {
+                    if (info.kind == ISVNWCDb.SVNWCDbKind.File && diffFiles) {
+                        SvnNgDiffUtil.diffLocalOnlyFile(childAbsPath, childRelPath, changelists, this.diffPristine, this.context, this.callback);
+                    } else if (info.kind == ISVNWCDb.SVNWCDbKind.Dir && diffDirectories) {
+                        SvnNgDiffUtil.diffLocalOnlyDirectory(childAbsPath, childRelPath, depthBelowHere, changelists, this.diffPristine, this.context, this.callback);
+                    }
+                }
             }
         }
 
-        if (depth == SVNDepth.EMPTY && !inAnchorNotTarget) {
+        if (compared != null) {
             return;
         }
 
-        Set<String> children = db.readChildren(localAbspath);
-        for (String name : children) {
-            checkCancelled();
+        if (!skip && changelists == null && !inAnchorNotTarget && propsMod) {
+            SVNWCContext.PropDiffs propDiffs = context.getPropDiffs(localAbspath);
+            SVNProperties propChanges = propDiffs.propChanges;
+            SVNProperties leftProps = propDiffs.originalProps;
+            SVNProperties rightProps = new SVNProperties(leftProps);
+            rightProps.putAll(propChanges);
+            rightProps.removeNullValues();
 
-            if (inAnchorNotTarget && !name.equals(target)) {
-                continue;
-            }
-
-            File childAbspath = new File(localAbspath, name);
-
-            Structure<StructureFields.NodeInfo> nodeInfoStructure = db.readInfo(childAbspath, StructureFields.NodeInfo.status, StructureFields.NodeInfo.kind);
-            ISVNWCDb.SVNWCDbStatus status = nodeInfoStructure.get(StructureFields.NodeInfo.status);
-            ISVNWCDb.SVNWCDbKind kind = nodeInfoStructure.get(StructureFields.NodeInfo.kind);
-
-            if (status == ISVNWCDb.SVNWCDbStatus.NotPresent || status == ISVNWCDb.SVNWCDbStatus.Excluded || status == ISVNWCDb.SVNWCDbStatus.ServerExcluded) {
-                continue;
-            }
-
-            String childPath = SVNPathUtil.append(path, name);
-
-            if (compared != null && compared.contains(childPath)) {
-                continue;
-            }
-
-
-            switch (kind) {
-                case File:
-                case Symlink:
-                    fileDiff(childAbspath, childPath);
-                    break;
-                case Dir:
-                    if (inAnchorNotTarget
-                            || (depth.compareTo(SVNDepth.FILES) > 0) || depth == SVNDepth.UNKNOWN) {
-                        SVNDepth depthBelowHere = depth;
-                        if (depthBelowHere == SVNDepth.IMMEDIATES) {
-                            depthBelowHere = SVNDepth.EMPTY;
-                        }
-
-                        walkLocalNodesDiff(childAbspath, childPath, depthBelowHere, null);
-                    }
-                    break;
-                default:
-                    break;
-            }
+            result.reset();
+            callback.dirChanged(result, new File(path), leftSource, rightSource, leftProps, rightProps, propChanges, null);
+        } else if (!skip) {
+            result.reset();
+            callback.dirClosed(result, new File(path), leftSource, rightSource, null);
         }
     }
 
@@ -783,54 +755,137 @@ public class SvnDiffEditor implements ISVNEditor, ISVNUpdateEditor {
 
     public static SVNProperties computePropDiff(SVNProperties props1, SVNProperties props2) {
         SVNProperties propsDiff = new SVNProperties();
-        for (Iterator names = props2.nameSet().iterator(); names.hasNext();) {
-            String newPropName = (String) names.next();
-            if (props1.containsName(newPropName)) {
-                // changed.
-                SVNPropertyValue oldValue = props2.getSVNPropertyValue(newPropName);
-                SVNPropertyValue value = props1.getSVNPropertyValue(newPropName);
-                if (oldValue != null && !oldValue.equals(value)) {
-                    propsDiff.put(newPropName, oldValue);
-                } else if (oldValue == null && value != null) {
-                    propsDiff.put(newPropName, oldValue);
+        if (props2 != null) {
+            for (Iterator names = props2.nameSet().iterator(); names.hasNext();) {
+                String newPropName = (String) names.next();
+                if (props1.containsName(newPropName)) {
+                    // changed.
+                    SVNPropertyValue oldValue = props2.getSVNPropertyValue(newPropName);
+                    SVNPropertyValue value = props1.getSVNPropertyValue(newPropName);
+                    if (oldValue != null && !oldValue.equals(value)) {
+                        propsDiff.put(newPropName, oldValue);
+                    } else if (oldValue == null && value != null) {
+                        propsDiff.put(newPropName, oldValue);
+                    }
+                } else {
+                    // added.
+                    propsDiff.put(newPropName, props2.getSVNPropertyValue(newPropName));
                 }
-            } else {
-                // added.
-                propsDiff.put(newPropName, props2.getSVNPropertyValue(newPropName));
             }
         }
-        for (Iterator names = props1.nameSet().iterator(); names.hasNext();) {
-            String oldPropName = (String) names.next();
-            if (!props2.containsName(oldPropName)) {
-                // deleted
-                propsDiff.put(oldPropName, (String) null);
+        if (props1 != null) {
+            for (Iterator names = props1.nameSet().iterator(); names.hasNext();) {
+                String oldPropName = (String) names.next();
+                if (!props2.containsName(oldPropName)) {
+                    // deleted
+                    propsDiff.put(oldPropName, (String) null);
+                }
             }
         }
         return propsDiff;
     }
 
-    private static class Entry {
+    private SVNWCDbRoot getWcRoot() throws SVNException {
+        if (wcRoot == null) {
+            SVNWCDb.DirParsedInfo parsed = ((SVNWCDb) db).parseDir(anchorAbspath, SVNSqlJetDb.Mode.ReadOnly);
+            wcRoot = parsed.wcDbDir.getWCRoot();
+        }
+        return wcRoot;
+    }
 
+    private void handleLocalOnly(Entry pb, String name) throws SVNException {
+        boolean reposDelete = (pb.deletes != null && pb.deletes.contains(name));
+
+        assert !name.contains("/");
+        assert !pb.added || ignoreAncestry;
+
+        if (pb.skipChildren) {
+            return;
+        }
+
+        pb.ensureLocalInfo();
+        ISVNWCDb.SVNWCDbInfo info = pb.localInfo.get(name);
+
+        if (info == null || info.status.isNotPresent()) {
+            return;
+        }
+
+        switch (info.status) {
+            case Incomplete:
+                return;
+            case Normal:
+                if (!reposDelete) {
+                    return;
+                }
+                pb.deletes.remove(name);
+                break;
+            case Deleted:
+                if (!(diffPristine && reposDelete)) {
+                    return;
+                }
+                break;
+            case Added:
+            default:
+                break;
+        }
+
+        if (info.kind == ISVNWCDb.SVNWCDbKind.Dir) {
+            if (pb.depth == SVNDepth.INFINITY || pb.depth == SVNDepth.UNKNOWN) {
+                depth = pb.depth;
+            } else {
+                depth = SVNDepth.EMPTY;
+            }
+
+            SvnNgDiffUtil.diffLocalOnlyDirectory(SVNFileUtil.createFilePath(pb.localAbspath, name), SVNFileUtil.createFilePath(pb.path, name), reposDelete ? SVNDepth.INFINITY : depth, changelists, this.diffPristine, this.context, this.callback);
+        } else {
+            SvnNgDiffUtil.diffLocalOnlyFile(SVNFileUtil.createFilePath(pb.localAbspath, name), SVNFileUtil.createFilePath(pb.path, name), changelists, this.diffPristine, this.context, this.callback);
+        }
+    }
+
+    private class Entry {
         private boolean isFile;
         private Entry parent;
         private String path;
+        private String name;
         private boolean added;
         private SVNDepth depth;
         private SVNProperties propChanges;
         private File localAbspath;
         private SvnChecksum baseChecksum;
         private SvnChecksum resultChecksum;
-        private File file;
+//        private File file;
         private Set<String> compared;
+        private SvnDiffSource leftSource;
+        private SvnDiffSource rightSource;
+        private boolean skip;
+        private boolean skipChildren;
+        private Set<String> deletes;
+        private boolean reposOnly;
+        private boolean ignoringAncestry;
+        private File tempFile;
+        private Map<String, ISVNWCDb.SVNWCDbInfo> localInfo;
+        private SVNProperties baseProps;
+        private boolean hasPropChange;
+        private boolean changePropertyCalled;
 
         public Entry(boolean file, String path, Entry parent, boolean added, SVNDepth depth, File localAbspath) {
             this.isFile = file;
             this.path = path;
+            this.name = SVNPathUtil.tail(path);
             this.parent = parent;
             this.added = added;
             this.depth = depth;
             this.localAbspath = localAbspath;
             this.propChanges = new SVNProperties();
+            this.compared = new HashSet<String>();
+        }
+
+        public void ensureLocalInfo() throws SVNException {
+            if (localInfo != null) {
+                return;
+            }
+            localInfo = new HashMap<String, ISVNWCDb.SVNWCDbInfo>();
+            db.readChildren(localAbspath, localInfo, new HashSet<String>());
         }
     }
 }

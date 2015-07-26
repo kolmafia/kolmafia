@@ -12,6 +12,7 @@ import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 import com.trilead.ssh2.ServerHostKeyVerifier;
+import com.trilead.ssh2.auth.AgentProxy;
 
 public class SshSessionPool {
     
@@ -58,11 +59,11 @@ public class SshSessionPool {
     }
     
     public SshSession openSession(String host, int port, String userName,
-            char[] privateKey, char[] passphrase, char[] password,
+            char[] privateKey, char[] passphrase, char[] password,  AgentProxy agentProxy,
             ServerHostKeyVerifier verifier, int connectTimeout, int readTimeout) throws IOException {
 
         final SshHost newHost = new SshHost(host, port);
-        newHost.setCredentials(userName, privateKey, passphrase, password);
+        newHost.setCredentials(userName, privateKey, passphrase, password, agentProxy);
         newHost.setConnectionTimeout(connectTimeout);
         newHost.setHostVerifier(verifier);
         newHost.setReadTimeout(readTimeout);

@@ -8,20 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
-import org.tmatesoft.svn.core.internal.wc.SVNFileListUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNFileType;
-import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNPropertiesManager;
+import org.tmatesoft.svn.core.internal.util.SVNSkel;
+import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ConflictInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
@@ -30,10 +21,8 @@ import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbStatus;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbRevert;
-import org.tmatesoft.svn.core.wc.SVNEventAction;
-import org.tmatesoft.svn.core.wc2.ISvnAddParameters;
-import org.tmatesoft.svn.core.wc2.SvnScheduleForAddition;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc.*;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition> {
@@ -136,13 +125,13 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
                 SVNFileUtil.ensureDirectoryExists(parentPath);
-                addFromDisk(parentPath, true);
+                addFromDisk(parentPath, null, true);
             }
         }
         SVNNodeKind kind = SVNFileType.getNodeKind(SVNFileType.getType(path));
         try {
             if (kind == SVNNodeKind.DIR) {
-                addDirectory(path, getOperation().getDepth());
+                addDirectory(path, getOperation().getDepth(), !getOperation().isIncludeIgnored());
             } else if (kind == SVNNodeKind.FILE) {
                 addFile(path);
             } else if (kind == SVNNodeKind.NONE) {
@@ -178,15 +167,17 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
         SVNProperties properties = null;
         
         if (!special) {
-            final Map<?, ?> autoProps = SVNPropertiesManager.computeAutoProperties(getOperation().getOptions(), path, null);
-            if (autoProps != null && !autoProps.isEmpty()) {
-                properties = SVNProperties.wrap(autoProps);
+            if (getOperation().isApplyAutoProperties()) {
+                final Map<?, ?> autoProps = getAllAutoProperties(getOperation().getOptions(), path);
+                if (autoProps != null && !autoProps.isEmpty()) {
+                    properties = SVNProperties.wrap(autoProps);
+                }
             }
         } else {
             properties = new SVNProperties();
             properties.put(SVNProperty.SPECIAL, "*");
         }
-        addFromDisk(path, false);
+        addFromDisk(path, null, false);
         if (properties != null) {
             final ISvnAddParameters addParameters = getOperation().getAddParameters() == null ?
                     ISvnAddParameters.DEFAULT :
@@ -207,11 +198,74 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
                 null, null, 1, 1));
     }
 
+    private Map getAllAutoProperties(ISVNOptions options, File file) throws SVNException {
+        Map<String, String> allAutoProperties = new HashMap<String, String>();
+        Map configAutoProperties = SVNPropertiesManager.computeAutoProperties(options, file, null);
+        if (configAutoProperties != null) {
+            allAutoProperties.putAll(configAutoProperties);
+        }
+
+        SVNProperties regularProperties;
+        SVNRevision revision = SVNRevision.WORKING;
+
+        File parentFile = SVNFileUtil.getParentFile(file);
+
+        final List<SvnInheritedProperties>[] inheritedConfigAutoProperties = new List[1];
+        do {
+            SvnGetProperties getProperties = getOperation().getOperationFactory().createGetProperties();
+            getProperties.setSingleTarget(SvnTarget.fromFile(parentFile, revision));
+            getProperties.setRevision(revision);
+            getProperties.setDepth(SVNDepth.EMPTY);
+            getProperties.setTargetInheritedPropertiesReceiver(new ISvnObjectReceiver<List<SvnInheritedProperties>>() {
+                public void receive(SvnTarget target, List<SvnInheritedProperties> inheritedProperties) throws SVNException {
+                    inheritedConfigAutoProperties[0] = inheritedProperties;
+                }
+            });
+            try {
+                regularProperties = getProperties.run();
+                break;
+            } catch (SVNException e) {
+                if (e.getErrorMessage().getErrorCode() != SVNErrorCode.UNVERSIONED_RESOURCE) {
+                    throw e;
+                }
+                parentFile = findExistingParent(parentFile);
+            }
+        } while (true);
+
+        if (inheritedConfigAutoProperties[0] != null) {
+            for (SvnInheritedProperties inheritedConfigAutoProperty : inheritedConfigAutoProperties[0]) {
+                SVNProperties inheritedProperties = inheritedConfigAutoProperty.getProperties();
+                Map<String, SVNPropertyValue> inheritedPropertiesMap = inheritedProperties.asMap();
+                for (Map.Entry<String, SVNPropertyValue> entry : inheritedPropertiesMap.entrySet()) {
+                    String propertyName = entry.getKey();
+                    if (!SVNProperty.INHERITABLE_AUTO_PROPS.equals(propertyName)) {
+                        continue;
+                    }
+                    SVNPropertyValue propertyValue = entry.getValue();
+                    allAutoProperties.putAll(SvnNgPropertiesManager.getMatchedAutoProperties(file.getName(), SvnNgPropertiesManager.parseAutoProperties(propertyValue, null)));
+                }
+            }
+        }
+        if (regularProperties != null) {
+            Map<String, SVNPropertyValue> regularPropertiesMap = regularProperties.asMap();
+            for (Map.Entry<String, SVNPropertyValue> entry : regularPropertiesMap.entrySet()) {
+                String propertyName = entry.getKey();
+                if (!SVNProperty.INHERITABLE_AUTO_PROPS.equals(propertyName)) {
+                    continue;
+                }
+                SVNPropertyValue propertyValue = entry.getValue();
+                allAutoProperties.putAll(SvnNgPropertiesManager.getMatchedAutoProperties(file.getName(), SvnNgPropertiesManager.parseAutoProperties(propertyValue, null)));
+            }
+        }
+
+        return allAutoProperties;
+    }
+
     private void doRevert(File path) {
         try {
             try {
                 getWcContext().getDb().opRevert(path, SVNDepth.EMPTY);
-                SvnNgRevert.restore(getWcContext(), path, SVNDepth.EMPTY, false, null);
+                SvnNgRevert.restore(getWcContext(), path, SVNDepth.EMPTY, false, true, null);
             } finally {
                 SvnWcDbRevert.dropRevertList(getWcContext(), path);
             }
@@ -220,23 +274,26 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
         } 
     }
 
-    private void addDirectory(File path, SVNDepth depth) throws SVNException {
+    private void addDirectory(File path, SVNDepth depth, boolean refreshIgnores) throws SVNException {
+        boolean entryExists = false;
+
         checkCancelled();
         try {
-            addFromDisk(path, true);
+            addFromDisk(path, null, true);
         } catch (SVNException e) {
             if (!(getOperation().isForce() && e.getErrorMessage().getErrorCode() == SVNErrorCode.ENTRY_EXISTS)) {
                 throw e;
             }
+            entryExists = true;
         }
         if (depth.compareTo(SVNDepth.EMPTY) <= 0) {
             return;
         }
         Collection<String> ignorePatterns = null;
-        if (!getOperation().isIncludeIgnored()) {
+        if (refreshIgnores) {
             ignorePatterns = SvnNgPropertiesManager.getEffectiveIgnores(getWcContext(), path, null);
         }
-        
+
         File[] children = SVNFileListUtil.listFiles(path);
         for (int i = 0; children != null && i < children.length; i++) {
             checkCancelled();
@@ -253,7 +310,10 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
                 if (depth == SVNDepth.IMMEDIATES) {
                     depthBelow = SVNDepth.EMPTY;
                 }
-                addDirectory(children[i], depthBelow);
+                if (refreshIgnores && !entryExists) {
+                    refreshIgnores = false;
+                }
+                addDirectory(children[i], depthBelow, refreshIgnores);
             } else if (childKind == SVNNodeKind.FILE && depth.compareTo(SVNDepth.FILES) >= 0) {
                 try {
                     addFile(children[i]);
@@ -266,13 +326,23 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
         }
     }
 
-    private void addFromDisk(File path, boolean fireEvent) throws SVNException {
+    public void addFromDisk(File path, SVNProperties props, boolean fireEvent) throws SVNException {
         SVNNodeKind kind = checkCanAddNode(path);
         checkCanAddtoParent(path);
         if (kind == SVNNodeKind.FILE) {
-            getWcContext().getDb().opAddFile(path, null);
+            SVNSkel workItem = null;
+
+            if (props != null && (props.getSVNPropertyValue(SVNProperty.EXECUTABLE) != null || props.getSVNPropertyValue(SVNProperty.NEEDS_LOCK) != null)) {
+                workItem = getWcContext().wqBuildSyncFileFlags(path);
+            }
+
+            getWcContext().getDb().opAddFile(path, props, workItem);
+
+            if (workItem != null) {
+                getWcContext().wqRun(path);
+            }
         } else {
-            getWcContext().getDb().opAddDirectory(path, null);
+            getWcContext().getDb().opAddDirectory(path, props, null);
         }
         if (fireEvent) {
             handleEvent(SVNEventFactory.createSVNEvent(path, kind, null, -1, SVNEventAction.ADD, 
@@ -280,82 +350,180 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
         }
     }
 
-    private void checkCanAddtoParent(File path) throws SVNException {
-        File parentPath = SVNFileUtil.getParentFile(path);
-        getWcContext().writeCheck(parentPath);
-        try {
-            Structure<NodeInfo> info = getWcContext().getDb().readInfo(parentPath, NodeInfo.status, NodeInfo.kind);
-            ISVNWCDb.SVNWCDbStatus status = info.<ISVNWCDb.SVNWCDbStatus>get(NodeInfo.status);
-            ISVNWCDb.SVNWCDbKind kind = info.<ISVNWCDb.SVNWCDbKind>get(NodeInfo.kind);
-            if (status == SVNWCDbStatus.NotPresent || status == SVNWCDbStatus.Excluded || status == SVNWCDbStatus.ServerExcluded) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND, 
-                        "Can''t find parent directory''s node while trying to add ''{0}''", path);
-                SVNErrorManager.error(err, SVNLogType.WC);
+    protected void add(File localAbsPath, SVNDepth depth, SVNURL copyFromUrl, long copyFromRevision, boolean fireEvent) throws SVNException {
+        CheckCanAddNode checkCanAddNode = checkCanAddNode(localAbsPath, copyFromUrl, copyFromRevision);
+        SVNNodeKind kind = checkCanAddNode.kind;
+        boolean dbRowExists = checkCanAddNode.dbRowExists;
+        boolean isWcRoot = checkCanAddNode.isWcRoot;
+
+        CheckCanAddToParent checkCanAddToParent = checkCanAddtoParent(localAbsPath);
+        SVNURL reposRootUrl = checkCanAddToParent.reposRootUrl;
+        String reposUuid = checkCanAddToParent.reposUuid;
+        if (copyFromUrl != null && !SVNPathUtil.isAncestor(reposRootUrl.toString(), copyFromUrl.toString())) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "The URL ''{0}'' has a different repository root than its parent", copyFromUrl);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+
+        if (isWcRoot) {
+            ISVNWCDb.WCDbRepositoryInfo repositoryInfo = getWcContext().getDb().scanBaseRepository(localAbsPath, ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField.relPath, ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField.rootUrl, ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField.uuid);
+            File reposRelPath = repositoryInfo.relPath;
+            SVNURL innerReposRootUrl = repositoryInfo.rootUrl;
+            String innerReposUuid = repositoryInfo.uuid;
+
+            if (!innerReposUuid.equals(reposUuid) || !reposRootUrl.equals(innerReposRootUrl)) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE,
+                        "Can't schedule the working copy at ''{0}'' from repository ''{1}'' with uuid ''{2}'' " +
+                                "for addition under a working copy from repository ''{3}'' with uuid ''{4}''.",
+                        localAbsPath, innerReposRootUrl, innerReposUuid, reposRootUrl, reposUuid);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
             }
-            if (status == SVNWCDbStatus.Deleted) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_SCHEDULE_CONFLICT, 
-                        "Can''t add ''{0}'' to a parent directory scheduled for deletion", path);
-                SVNErrorManager.error(err, SVNLogType.WC);
-            } else if (kind != SVNWCDbKind.Dir) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_SCHEDULE_CONFLICT, 
-                        "Can''t schedule an addition of ''{0}'' below a not-directory node", path);
-                SVNErrorManager.error(err, SVNLogType.WC);
+
+            SVNURL innerUrl = reposRootUrl.appendPath(SVNFileUtil.getFilePath(reposRelPath), false);
+
+            if (!innerUrl.equals(copyFromUrl)) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Can't add ''{0}'' with URL ''{1}'', but with the data from ''{2}''", localAbsPath, copyFromUrl, innerUrl);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
             }
-            info.release();
-        } catch (SVNException e) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND, 
-                    "Can''t find parent directory''s node while trying to add ''{0}''", path);
-            SVNErrorManager.error(err, SVNLogType.WC);
+        }
+
+        if (copyFromUrl == null) {
+            addFromDisk(localAbsPath, null, false);
+            if (kind == SVNNodeKind.DIR && !dbRowExists) {
+                boolean ownsLock = getWcContext().getDb().isWCLockOwns(localAbsPath, false);
+                if (!ownsLock) {
+                    getWcContext().getDb().obtainWCLock(localAbsPath, 0, false);
+                }
+            }
+        } else if (!isWcRoot) {
+            if (kind == SVNNodeKind.FILE) {
+                SvnNgReposToWcCopy.addFileToWc(getWcContext(), localAbsPath, null, null, null, null, copyFromUrl, copyFromRevision);
+            } else {
+                File reposRelPath = SVNFileUtil.createFilePath(SVNPathUtil.getRelativePath(reposRootUrl.toDecodedString(), copyFromUrl.toDecodedString()));
+                getWcContext().getDb().opCopyDir(localAbsPath, new SVNProperties(), copyFromRevision, SVNDate.NULL, null,
+                        reposRelPath, reposRootUrl, reposUuid, copyFromRevision, null, false, null, null, null);
+            }
+        } else {
+            integrateNestedWcAsCopy(localAbsPath);
+        }
+
+        if (fireEvent && getWcContext().getEventHandler() != null) {
+            SVNEvent event = SVNEventFactory.createSVNEvent(localAbsPath, kind, null, -1, SVNEventAction.ADD, SVNEventAction.ADD, null, null);
+            getWcContext().getEventHandler().handleEvent(event, UNKNOWN);
         }
     }
 
-    private SVNNodeKind checkCanAddNode(File path) throws SVNException {
-        String name = SVNFileUtil.getFileName(path);
-        if (SVNFileUtil.getAdminDirectoryName().equals(name)) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_FORBIDDEN, 
-                    "Can''t create an entry with a reserved name while trying to add ''{0}''", path);
+    private CheckCanAddToParent checkCanAddtoParent(File localAbsPath) throws SVNException {
+        File parentPath = SVNFileUtil.getParentFile(localAbsPath);
+        getWcContext().writeCheck(parentPath);
+        CheckCanAddToParent result = new CheckCanAddToParent();
+        try {
+            Structure<NodeInfo> info = getWcContext().getDb().readInfo(parentPath, NodeInfo.status, NodeInfo.kind, NodeInfo.reposRootUrl, NodeInfo.reposUuid);
+            ISVNWCDb.SVNWCDbStatus status = info.<ISVNWCDb.SVNWCDbStatus>get(NodeInfo.status);
+            ISVNWCDb.SVNWCDbKind kind = info.<ISVNWCDb.SVNWCDbKind>get(NodeInfo.kind);
+            result.reposRootUrl = info.get(NodeInfo.reposRootUrl);
+            result.reposUuid = info.get(NodeInfo.reposUuid);
+            if (status == SVNWCDbStatus.NotPresent || status == SVNWCDbStatus.Excluded || status == SVNWCDbStatus.ServerExcluded) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND,
+                        "Can''t find parent directory''s node while trying to add ''{0}''", localAbsPath);
+                SVNErrorManager.error(err, SVNLogType.WC);
+            }
+            if (status == SVNWCDbStatus.Deleted) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_SCHEDULE_CONFLICT,
+                        "Can''t add ''{0}'' to a parent directory scheduled for deletion", localAbsPath);
+                SVNErrorManager.error(err, SVNLogType.WC);
+            } else if (kind != SVNWCDbKind.Dir) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_SCHEDULE_CONFLICT,
+                        "Can''t schedule an addition of ''{0}'' below a not-directory node", localAbsPath);
+                SVNErrorManager.error(err, SVNLogType.WC);
+            }
+            if (result.reposRootUrl == null || result.reposUuid == null) {
+                if (status == SVNWCDbStatus.Added) {
+                    ISVNWCDb.WCDbAdditionInfo additionInfo = getWcContext().getDb().scanAddition(parentPath, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.reposRootUrl, ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.reposUuid);
+                    result.reposRootUrl = additionInfo.reposRootUrl;
+                    result.reposUuid = additionInfo.reposUuid;
+                } else {
+                    ISVNWCDb.WCDbRepositoryInfo repositoryInfo = getWcContext().getDb().scanBaseRepository(parentPath, ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField.rootUrl, ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField.uuid);
+                    result.reposRootUrl = repositoryInfo.rootUrl;
+                    result.reposUuid = repositoryInfo.uuid;
+                }
+            }
+            info.release();
+        } catch (SVNException e) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND,
+                    "Can''t find parent directory''s node while trying to add ''{0}''", localAbsPath);
             SVNErrorManager.error(err, SVNLogType.WC);
         }
-        SVNFileType pathType = SVNFileType.getType(path);
+        return result;
+    }
+
+    private CheckCanAddNode checkCanAddNode(File localAbsPath, SVNURL copyFromUrl, long copyFromRevision) throws SVNException {
+        String name = SVNFileUtil.getFileName(localAbsPath);
+
+        assert SVNFileUtil.isAbsolute(localAbsPath);
+        assert (copyFromUrl == null || SVNRevision.isValidRevisionNumber(copyFromRevision));
+
+        if (SVNFileUtil.getAdminDirectoryName().equals(name)) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_FORBIDDEN, "Can't create an entry with a reserved name while trying to add ''{0}''", localAbsPath);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+
+        SVNFileType pathType = SVNFileType.getType(localAbsPath);
+
         if (pathType == SVNFileType.NONE) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_PATH_NOT_FOUND, 
-                    "''{0}'' not found", path);
-            SVNErrorManager.error(err, SVNLogType.WC);
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_PATH_NOT_FOUND, "''{0}'' not found", localAbsPath);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
         }
         if (pathType == SVNFileType.UNKNOWN) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, 
-                    "Unsupported node kind for ''{0}''", path);
-            SVNErrorManager.error(err, SVNLogType.WC);
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Unsupported node kind for ''{0}''", localAbsPath);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
         }
-        
+
+        CheckCanAddNode result = new CheckCanAddNode();
+        result.kind = SVNFileType.getNodeKind(pathType);
+
         try {
-            Structure<NodeInfo> nodeInfo = getWcContext().getDb().readInfo(path, true, NodeInfo.status, NodeInfo.conflicted);
+            Structure<NodeInfo> nodeInfo = getWcContext().getDb().readInfo(localAbsPath, true, NodeInfo.status, NodeInfo.conflicted);
+            result.isWcRoot = false;
+            result.dbRowExists = true;
             if (nodeInfo.is(NodeInfo.conflicted)) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, 
-                        "''{0}'' is an existing item in conflict; please mark the conflict as resolved before adding a new item here", 
-                        path);
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT,
+                        "''{0}'' is an existing item in conflict; please mark the conflict as resolved before adding a new item here",
+                        localAbsPath);
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
             switch(nodeInfo.<ISVNWCDb.SVNWCDbStatus>get(NodeInfo.status)) {
-            case NotPresent:
-                break;
-            case Deleted:
-                break;
-            case Normal:
-                // only deal when copy from.
-            default:
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, 
-                        "''{0}'' is already under version control", path);
-                SVNErrorManager.error(err, SVNLogType.WC);
+                case NotPresent:
+                    break;
+                case Deleted:
+                    break;
+                case Normal:
+                    result.isWcRoot = getWcContext().getDb().isWCRoot(localAbsPath);
+                    if (result.isWcRoot && copyFromUrl != null) {
+                        break;
+                    } else if (result.isWcRoot && pathType == SVNFileType.SYMLINK) {
+                        break;
+                    }
+                    // only deal when copy from.
+                default:
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS,
+                            "''{0}'' is already under version control", localAbsPath);
+                    SVNErrorManager.error(err, SVNLogType.WC);
             }
             nodeInfo.release();
         } catch (SVNException e) {
             if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
                 throw e;
             }
+            result.dbRowExists = false;
+            result.isWcRoot = false;
         }
-        
-        return SVNFileType.getNodeKind(pathType);
+
+        return result;
+    }
+
+    private SVNNodeKind checkCanAddNode(File path) throws SVNException {
+        CheckCanAddNode checkCanAddNode = checkCanAddNode(path, null, -1);
+        return checkCanAddNode.kind;
     }
 
     private File findExistingParent(File parentPath) throws SVNException {
@@ -379,4 +547,39 @@ public class SvnNgAdd extends SvnNgOperationRunner<Void, SvnScheduleForAddition>
         return findExistingParent(parentPath);
     }
 
+    private void integrateNestedWcAsCopy(File localAbsPath) throws SVNException {
+        getWcContext().getDb().dropRoot(localAbsPath);
+
+        File tempDir = getWcContext().getDb().getWCRootTempDir(localAbsPath);
+        File movedAbsPath = SVNFileUtil.createUniqueFile(tempDir, "", "", false);
+        try {
+            SVNFileUtil.ensureDirectoryExists(movedAbsPath);
+            File admAbsPath = SVNFileUtil.createFilePath(localAbsPath, SVNFileUtil.getAdminDirectoryName());
+            File movedAdmAbsPath = SVNFileUtil.createFilePath(movedAbsPath, SVNFileUtil.getAdminDirectoryName());
+            SVNFileUtil.moveDir(admAbsPath, movedAdmAbsPath);
+
+            SvnNgWcToWcCopy svnNgWcToWcCopy = new SvnNgWcToWcCopy();
+            svnNgWcToWcCopy.copy(getWcContext(), movedAbsPath, localAbsPath, true);
+
+            getWcContext().getDb().dropRoot(movedAbsPath);
+        } finally {
+            SVNFileUtil.deleteAll(movedAbsPath, null);
+        }
+
+        boolean ownsLock = getWcContext().getDb().isWCLockOwns(localAbsPath, false);
+        if (!ownsLock) {
+            getWcContext().getDb().obtainWCLock(localAbsPath, 0, false);
+        }
+    }
+
+    private static class CheckCanAddNode {
+        public SVNNodeKind kind;
+        public boolean dbRowExists;
+        public boolean isWcRoot;
+    }
+
+    private static class CheckCanAddToParent {
+        public SVNURL reposRootUrl;
+        public String reposUuid;
+    }
 }

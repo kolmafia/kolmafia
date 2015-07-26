@@ -74,7 +74,7 @@ public class DefaultHTTPNegotiateAuthentication extends HTTPNegotiateAuthenticat
                 if (callbacks[i] instanceof NameCallback) {
                     ((NameCallback)callbacks[i]).setName(getUserName());
                 } else if (callbacks[i] instanceof PasswordCallback) {
-                    ((PasswordCallback)callbacks[i]).setPassword(getPassword() == null ? null : getPassword().toCharArray());
+                    ((PasswordCallback)callbacks[i]).setPassword(getPassword());
                 }
             }
         }

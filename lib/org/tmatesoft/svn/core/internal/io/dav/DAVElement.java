@@ -24,8 +24,8 @@ import org.tmatesoft.svn.core.internal.util.SVNHashMap;
  */
 public class DAVElement {
 
-    private static Map ourProperties = new SVNHashMap();    
-    
+    private static Map ourProperties = new SVNHashMap();
+
     public static DAVElement getElement(String namespace, String name) {
         if (namespace == null) {
             namespace = "";
@@ -43,25 +43,27 @@ public class DAVElement {
         }
         return property;
     }
-    
+
     public static final String SVN_DAV_PROPERTY_NAMESPACE = "http://subversion.tigris.org/xmlns/dav/";
     public static final String SVN_CUSTOM_PROPERTY_NAMESPACE = "http://subversion.tigris.org/xmlns/custom/";
     public static final String SVN_SVN_PROPERTY_NAMESPACE = "http://subversion.tigris.org/xmlns/svn/";
     public static final String SVN_APACHE_PROPERTY_NAMESPACE = "http://apache.org/dav/xmlns";
-    
+
     public static final String SVN_DAV_ERROR_NAMESPACE = "svn:";
     public static final String DAV_NAMESPACE = "DAV:";
     public static final String SVN_NAMESPACE = "svn:";
-    
+
     public static final String DEPTH_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/depth";
     public static final String MERGE_INFO_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/mergeinfo";
     public static final String LOG_REVPROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/log-revprops";
     public static final String PARTIAL_REPLAY_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/partial-replay";
     public static final String ATOMIC_REVPROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/atomic-revprops";
+    public static final String INHERITED_PROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/inherited-props";
+    public static final String EPHEMERAL_PROPS_OPTION = SVN_DAV_PROPERTY_NAMESPACE + "svn/ephemeral-txnprops";
 
     public static final DAVElement ACTIVITY = getElement(DAV_NAMESPACE, "activity");
     public static final DAVElement VERSION_HISTORY = getElement(DAV_NAMESPACE, "version-history");
-    public static final DAVElement DISPLAY_NAME = getElement(DAV_NAMESPACE, "displayname");    
+    public static final DAVElement DISPLAY_NAME = getElement(DAV_NAMESPACE, "displayname");
     public static final DAVElement SUPPORTED_LIVE_PROPERTY = getElement(DAV_NAMESPACE, "supported-live-property");
     public static final DAVElement MERGE_RESPONSE = getElement(DAV_NAMESPACE, "merge-response");
     public static final DAVElement UPDATE_SET = getElement(DAV_NAMESPACE, "updated-set");
@@ -84,8 +86,8 @@ public class DAVElement {
     public static final DAVElement VERSION_NAME = getElement(DAV_NAMESPACE, "version-name");
     public static final DAVElement GET_CONTENT_LENGTH = getElement(DAV_NAMESPACE, "getcontentlength");
     public static final DAVElement CREATION_DATE = getElement(DAV_NAMESPACE, "creationdate");
-    public static final DAVElement CREATOR_DISPLAY_NAME = getElement(DAV_NAMESPACE, "creator-displayname");    
-    public static final DAVElement COMMENT = getElement(DAV_NAMESPACE, "comment");    
+    public static final DAVElement CREATOR_DISPLAY_NAME = getElement(DAV_NAMESPACE, "creator-displayname");
+    public static final DAVElement COMMENT = getElement(DAV_NAMESPACE, "comment");
     public static final DAVElement DATE = getElement(SVN_NAMESPACE, "date");
     public static final DAVElement POST_COMMIT_ERROR = DAVElement.getElement(DAVElement.SVN_NAMESPACE, "post-commit-err");
     public static final DAVElement PROPFIND = DAVElement.getElement(DAV_NAMESPACE, "propfind");
@@ -98,14 +100,14 @@ public class DAVElement {
     public static final DAVElement EXCLUSIVE = DAVElement.getElement(DAV_NAMESPACE, "exclusive");
     public static final DAVElement SHARED = DAVElement.getElement(DAV_NAMESPACE, "shared");
     public static final DAVElement DEPTH = DAVElement.getElement(DAV_NAMESPACE, "depth");
-    
+
     public static final DAVElement SUPPORTED_LOCK = getElement(DAV_NAMESPACE, "supportedlock");
     public static final DAVElement LOCK_DISCOVERY = getElement(DAV_NAMESPACE, "lockdiscovery");
     public static final DAVElement LOCK_OWNER = getElement(DAV_NAMESPACE, "owner");
     public static final DAVElement LOCK_TIMEOUT = getElement(DAV_NAMESPACE, "timeout");
     public static final DAVElement LOCK_TOKEN = getElement(DAV_NAMESPACE, "locktoken");
     public static final DAVElement LOCK_ENTRY = getElement(DAV_NAMESPACE, "lockentry");
-    
+
     public static final DAVElement SVN_LOCK_TOKEN_LIST = getElement(SVN_NAMESPACE, "lock-token-list");
     public static final DAVElement SVN_LOCK = getElement(SVN_NAMESPACE, "lock");
     public static final DAVElement SVN_LOCK_PATH = getElement(SVN_NAMESPACE, "path");
@@ -122,10 +124,11 @@ public class DAVElement {
     public static final DAVElement END_REVISION = DAVElement.getElement(DAVElement.SVN_NAMESPACE, "end-revision");
     public static final DAVElement PEG_REVISION = DAVElement.getElement(DAVElement.SVN_NAMESPACE, "peg-revision");
     public static final DAVElement INCLUDE_MERGED_REVISIONS = getElement(SVN_NAMESPACE, "include-merged-revisions");
-    
+
     public static final DAVElement BASELINE_RELATIVE_PATH = getElement(SVN_DAV_PROPERTY_NAMESPACE, "baseline-relative-path");
     public static final DAVElement REPOSITORY_UUID = getElement(SVN_DAV_PROPERTY_NAMESPACE, "repository-uuid");
     public static final DAVElement MD5_CHECKSUM = getElement(SVN_DAV_PROPERTY_NAMESPACE, "md5-checksum");
+    public static final DAVElement SHA1_CHECKSUM = getElement(SVN_DAV_PROPERTY_NAMESPACE, "sha1-checksum");
     public static final DAVElement DEADPROP_COUNT = getElement(SVN_DAV_PROPERTY_NAMESPACE, "deadprop-count");
 
     public static final DAVElement AUTO_VERSION = getElement(DAV_NAMESPACE, "auto-version");
@@ -142,7 +145,7 @@ public class DAVElement {
 
     public static final DAVElement[] STARTING_PROPERTIES = {VERSION_CONTROLLED_CONFIGURATION, RESOURCE_TYPE, BASELINE_RELATIVE_PATH, REPOSITORY_UUID};
     public static final DAVElement[] BASELINE_PROPERTIES = {BASELINE_COLLECTION, VERSION_NAME};
-    
+
     private String myPropertyName;
     private String myNamespace;
     public static final DAVElement LOG = getElement(SVN_SVN_PROPERTY_NAMESPACE, "log");
@@ -155,11 +158,11 @@ public class DAVElement {
     public String getNamespace() {
         return myNamespace;
     }
-    
+
     public String getName() {
         return myPropertyName;
     }
-    
+
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(getNamespace());
@@ -182,7 +185,7 @@ public class DAVElement {
         if (this == obj) {
             return true;
         }
-            
+
         if (obj == null) {
             return false;
         }
@@ -190,7 +193,7 @@ public class DAVElement {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         DAVElement other = (DAVElement) obj;
         if (myNamespace == null) {
             if (other.myNamespace != null) {
@@ -199,7 +202,7 @@ public class DAVElement {
         } else if (!myNamespace.equals(other.myNamespace)) {
             return false;
         }
-        
+
         if (myPropertyName == null) {
             if (other.myPropertyName != null) {
                 return false;
@@ -207,7 +210,7 @@ public class DAVElement {
         } else if (!myPropertyName.equals(other.myPropertyName)) {
             return false;
         }
-            
+
         return true;
     }
 

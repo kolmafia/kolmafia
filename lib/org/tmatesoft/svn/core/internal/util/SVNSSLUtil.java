@@ -154,4 +154,12 @@ public class SVNSSLUtil {
             super(msg);
         }
     }
+
+    @SuppressWarnings("serial")
+    public static class CertificateDoesNotConformConstraints extends CertificateException {
+
+        public CertificateDoesNotConformConstraints(String msg, Exception source) {
+            super(msg, source);
+        }
+    }
 }

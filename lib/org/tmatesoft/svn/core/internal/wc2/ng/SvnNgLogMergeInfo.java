@@ -1,24 +1,19 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNLogEntry;
-import org.tmatesoft.svn.core.SVNMergeRange;
-import org.tmatesoft.svn.core.SVNMergeRangeList;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNMergeInfoUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
+import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
+import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
+import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
 import org.tmatesoft.svn.core.wc2.SvnLog;
@@ -26,6 +21,7 @@ import org.tmatesoft.svn.core.wc2.SvnLogMergeInfo;
 import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnRevisionRange;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogMergeInfo> {
 
@@ -46,18 +42,60 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
     @Override
     protected SVNLogEntry run(SVNWCContext context) throws SVNException {
         SVNURL[] root = new SVNURL[1];
-        
-        Map<String, Map<String, SVNMergeRangeList>> mergeInfoCatalog = 
-                SvnNgMergeinfoUtil.getMergeInfo(getWcContext(), getRepositoryAccess(), getOperation().getFirstTarget(), getOperation().getDepth() == SVNDepth.INFINITY, true, root);
-        
-        SvnTarget target = getOperation().getFirstTarget();
-        File reposRelPath = null;
-        if (target.isURL()) {
-            reposRelPath = SVNFileUtil.createFilePath(SVNPathUtil.getRelativePath(root[0].getPath(), target.getURL().getPath()));
-        } else {
-            reposRelPath = getWcContext().getNodeReposRelPath(getOperation().getFirstTarget().getFile());
+
+        if (getOperation().getDepth() != SVNDepth.EMPTY && getOperation().getDepth() != SVNDepth.INFINITY) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Only depths 'infinity' and 'empty' are currently supported");
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
         }
-        
+
+        Collection<SvnRevisionRange> ranges = getOperation().getRanges();
+        SVNRevision sourceStartRevision = (ranges == null || ranges.size() == 0) ? SVNRevision.UNDEFINED : ranges.iterator().next().getStart();
+        SVNRevision sourceEndRevision = (ranges == null || ranges.size() == 0) ? SVNRevision.UNDEFINED : ranges.iterator().next().getEnd();
+
+        if (sourceStartRevision.isLocal()) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION);
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+        }
+        if (sourceEndRevision.isLocal()) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION);
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+        }
+        if (sourceEndRevision != SVNRevision.UNDEFINED && sourceStartRevision == SVNRevision.UNDEFINED) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION);
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+        }
+        if (sourceEndRevision == SVNRevision.UNDEFINED && sourceStartRevision != SVNRevision.UNDEFINED) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION);
+            SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+        }
+
+
+        Map<String, Map<String, SVNMergeRangeList>> targetMergeInfoCatalog = null;
+        Map<String, Map<String, SVNMergeRangeList>> mergeInfoCatalog = null;
+
+        SVNRepository sourceRepository = null;
+        SVNRepository targetRepository = null;
+        if (targetMergeInfoCatalog != null) {
+            if (targetMergeInfoCatalog.size() == 0) {
+                Structure<SvnRepositoryAccess.RepositoryInfo> repositoryInfo = getRepositoryAccess().createRepositoryFor(getOperation().getFirstTarget(), getOperation().getFirstTarget().getPegRevision(), getOperation().getFirstTarget().getPegRevision(), null);
+                targetRepository = repositoryInfo.get(SvnRepositoryAccess.RepositoryInfo.repository);
+                root[0] = targetRepository.getRepositoryRoot(true);
+            } else {
+                mergeInfoCatalog = SvnNgMergeinfoUtil.getMergeInfo(getWcContext(), getRepositoryAccess(), getOperation().getFirstTarget(), getOperation().getDepth() == SVNDepth.INFINITY, true, root);
+                targetMergeInfoCatalog = mergeInfoCatalog;
+            }
+        } else {
+            mergeInfoCatalog = SvnNgMergeinfoUtil.getMergeInfo(getWcContext(), getRepositoryAccess(), getOperation().getFirstTarget(), getOperation().getDepth() == SVNDepth.INFINITY, true, root);
+        }
+
+        File reposRelPath = null;
+        SvnTarget target = getOperation().getFirstTarget();
+        if (!target.isURL()) {
+            reposRelPath = getWcContext().getNodeReposRelPath(getOperation().getFirstTarget().getFile());
+        } else {
+            reposRelPath = SVNFileUtil.createFilePath(SVNPathUtil.getRelativePath(root[0].getPath(), target.getURL().getPath()));
+        }
+
         if (mergeInfoCatalog == null) {
             if (getOperation().isFindMerged()) {
                 return getOperation().first();
@@ -68,9 +106,19 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
         Map<String, SVNMergeRangeList> history = null;
         Map<String, SVNMergeRangeList> sourceHistory = null;
         if (!getOperation().isFindMerged()) {
-            history = getRepositoryAccess().getHistoryAsMergeInfo(null, target, -1, -1);
+            history = getRepositoryAccess().getHistoryAsMergeInfo(targetRepository, target, -1, -1);
         }
-        sourceHistory = getRepositoryAccess().getHistoryAsMergeInfo(null, getOperation().getSource(), -1, -1);
+        Structure<SvnRepositoryAccess.RepositoryInfo> repositoryInfo = getRepositoryAccess().createRepositoryFor(getOperation().getSource(), getOperation().getSource().getPegRevision(), getOperation().getSource().getPegRevision(), null);
+        sourceRepository = repositoryInfo.get(SvnRepositoryAccess.RepositoryInfo.repository);
+        long pathRevision = repositoryInfo.lng(SvnRepositoryAccess.RepositoryInfo.revision);
+        Structure<SvnRepositoryAccess.RevisionsPair> startRevisionPair = getRepositoryAccess().getRevisionNumber(sourceRepository, getOperation().getSource(), sourceStartRevision, null);
+        long startRevision = startRevisionPair.lng(SvnRepositoryAccess.RevisionsPair.revNumber);
+        Structure<SvnRepositoryAccess.RevisionsPair> endRevisionPair = getRepositoryAccess().getRevisionNumber(sourceRepository, getOperation().getSource(), sourceEndRevision, null);
+        long endRevision = endRevisionPair.lng(SvnRepositoryAccess.RevisionsPair.revNumber);
+        sourceHistory = getRepositoryAccess().getHistoryAsMergeInfo(null, getOperation().getSource(), Math.max(endRevision, startRevision), Math.min(endRevision, startRevision));
+
+        boolean oldestRevsFirst = startRevision <= endRevision;
+
         String reposRelPathStr = SVNFileUtil.getFilePath(reposRelPath);
         SVNMergeRangeList masterNonInheritableRangeList = new SVNMergeRangeList((SVNMergeRange[]) null);
         SVNMergeRangeList masterInheritableRangeList = new SVNMergeRangeList((SVNMergeRange[]) null);
@@ -176,7 +224,8 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
         logForMergeInfoRangeList(logTargetURL, 
                 mergeSourcePaths, 
                 getOperation().isFindMerged(), 
-                masterInheritableRangeList, 
+                masterInheritableRangeList,
+                oldestRevsFirst,
                 mergeInfoCatalog, 
                 "/" + reposRelPathStr, 
                 getOperation().isDiscoverChangedPaths(), 
@@ -188,7 +237,7 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
     
     @SuppressWarnings("unchecked")
     private void logForMergeInfoRangeList(SVNURL sourceURL, List<String> mergeSourcePaths, boolean filteringMerged, 
-            SVNMergeRangeList rangelist, Map<String, Map<String, SVNMergeRangeList>> targetCatalog, String absReposTargetPath, boolean discoverChangedPaths,
+            SVNMergeRangeList rangelist, boolean oldestRevsFirst, Map<String, Map<String, SVNMergeRangeList>> targetCatalog, String absReposTargetPath, boolean discoverChangedPaths,
             String[] revprops, ISvnObjectReceiver<SVNLogEntry> receiver) throws SVNException {
         if (rangelist.isEmpty()) {
             return;
@@ -228,7 +277,7 @@ public class SvnNgLogMergeInfo extends SvnNgOperationRunner<SVNLogEntry, SvnLogM
         log.setLimit(-1);
         log.setStopOnCopy(false);
         log.setUseMergeHistory(false);
-        log.addRange(SvnRevisionRange.create(SVNRevision.create(oldestRev), SVNRevision.create(youngestRev)));
+        log.addRange(oldestRevsFirst ? SvnRevisionRange.create(SVNRevision.create(oldestRev), SVNRevision.create(youngestRev)) : SvnRevisionRange.create(SVNRevision.create(youngestRev), SVNRevision.create(oldestRev)));
         log.setReceiver(filteringReceiver);
         
         log.run();

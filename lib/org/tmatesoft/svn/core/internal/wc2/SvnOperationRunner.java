@@ -17,7 +17,11 @@ public abstract class SvnOperationRunner<V, T extends SvnOperation<V>> implement
     
     public V run(T operation) throws SVNException {
         setOperation(operation);
-        return run();
+        try {
+            return run();
+        } finally {
+            reset(getWcGeneration());
+        }
     }
     
     public void reset(SvnWcGeneration wcGeneration) {
@@ -39,7 +43,7 @@ public abstract class SvnOperationRunner<V, T extends SvnOperation<V>> implement
         this.operation = operation;
     }
 
-    protected T getOperation() {
+    public T getOperation() {
         return this.operation;
     }
     
@@ -53,8 +57,14 @@ public abstract class SvnOperationRunner<V, T extends SvnOperation<V>> implement
     }
     
     public void handleEvent(SVNEvent event, double progress) throws SVNException {
-        if (getOperation() != null && getOperation().getEventHandler() != null) {
-            getOperation().getEventHandler().handleEvent(event, progress);
+        ISVNEventHandler eventHandler = null;
+        if (getOperation() != null) {
+            eventHandler = getOperation().getEventHandler();
+        } else if (getWcContext() != null) {
+            eventHandler = getWcContext().getEventHandler();
+        }
+        if (eventHandler != null) {
+            eventHandler.handleEvent(event, progress);
         }
     }
     

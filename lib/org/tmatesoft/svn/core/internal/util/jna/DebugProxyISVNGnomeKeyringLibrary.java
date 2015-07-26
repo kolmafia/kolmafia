@@ -52,7 +52,7 @@ public class DebugProxyISVNGnomeKeyringLibrary implements ISVNGnomeKeyringLibrar
         return b;
     }
 
-    public void gnome_keyring_unlock(String keyringName, String keyringPassword, GnomeKeyringOperationDoneCallback callback, Pointer data, Pointer destroyData) {
+    public void gnome_keyring_unlock(String keyringName, Pointer keyringPassword, GnomeKeyringOperationDoneCallback callback, Pointer data, Pointer destroyData) {
         myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNGnomeKeyringLibrary#gnome_keyring_unlock(" + keyringName + ", " +
                 DebugProxyISVNCLibrary.isNull(keyringPassword) + ", " + DebugProxyISVNCLibrary.toStringNullable(callback) +
                 ", " + DebugProxyISVNCLibrary.toStringNullable(data) +
@@ -60,7 +60,7 @@ public class DebugProxyISVNGnomeKeyringLibrary implements ISVNGnomeKeyringLibrar
         myLibrary.gnome_keyring_unlock(keyringName, keyringPassword, callback, data, destroyData);
     }
 
-    public int gnome_keyring_set_network_password_sync(String keychain, String userName, String domain, String server, String object, String protocol, String authType, int port, String password, IntByReference itemId) {
+    public int gnome_keyring_set_network_password_sync(String keychain, String userName, String domain, String server, String object, String protocol, String authType, int port, Pointer password, IntByReference itemId) {
         final int i = myLibrary.gnome_keyring_set_network_password_sync(keychain, userName, domain, server, object, protocol, authType, port, password, itemId);
         myDebugLog.log(SVNLogType.NATIVE_CALL, "CALLED ISVNGnomeKeyringLibrary#gnome_keyring_set_network_password_sync(" +
                 keychain + ", " + userName + ", " + domain + ", " + server + ", " + object + ", " + protocol +

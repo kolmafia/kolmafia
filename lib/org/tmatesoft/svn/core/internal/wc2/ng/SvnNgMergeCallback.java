@@ -301,7 +301,7 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
             boolean same = compareFiles(leftFile, originalProperties, path);
             if (same || isForce() || isRecordOnly()) {
                 if (!isDryRun()) {
-                    SvnNgRemove.delete(getContext(), path, false, true, null);
+                    SvnNgRemove.delete(getContext(), path, null, false, true, null);
                 }
                 result.contentState = SVNStatusType.CHANGED;
             } else {
@@ -357,7 +357,7 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
                         SvnNgRemove.checkCanDelete(driver.operation.getOperationFactory(), getContext(), path);
                     }
                     if (!isDryRun()) {
-                        SvnNgRemove.delete(getContext(), path, false, false, null);
+                        SvnNgRemove.delete(getContext(), path, null, false, false, null);
                     }
                     result.contentState = SVNStatusType.CHANGED;
                 } catch (SVNException e) {
@@ -457,12 +457,12 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
                             reposInfo.reposRootUrl, 
                             reposInfo.reposUuid, 
                             copyFromRev, 
-                            null, 
+                            null, false,
                             SVNDepth.INFINITY, 
                             null, 
                             null);
                 } else {
-                    getContext().getDb().opAddDirectory(path, null);
+                    getContext().getDb().opAddDirectory(path, null, null);
                 }
             }
             result.contentState = SVNStatusType.CHANGED;
@@ -478,12 +478,12 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
                                 reposInfo.reposRootUrl, 
                                 reposInfo.reposUuid, 
                                 copyFromRev, 
-                                null, 
+                                null, false,
                                 SVNDepth.INFINITY, 
                                 null, 
                                 null);
                     } else {
-                        getContext().getDb().opAddDirectory(path, null);
+                        getContext().getDb().opAddDirectory(path, null, null);
                     }
                 } else {
                     setAddedPath(path);
@@ -563,7 +563,7 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
             }
             SVNException err = null;
             try {
-                mergeOutcome = getContext().mergeProperties(localAbsPath, null, null, originalProperties, props, isDryRun());
+                mergeOutcome = getContext().mergeProperties(localAbsPath, null, null, originalProperties, props, isDryRun(), getContext().getOptions().getConflictResolver());
             } catch (SVNException e) {
                 err = e;
             }
@@ -767,7 +767,7 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
         return result;
     }
 
-    private SVNProperties omitMergeInfoChanges(SVNProperties props) {
+    protected static SVNProperties omitMergeInfoChanges(SVNProperties props) {
         SVNProperties result = new SVNProperties();
         for (String name : props.nameSet()) {
             if (SVNProperty.MERGE_INFO.equals(name)) {
@@ -896,7 +896,7 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
     }
     
     private boolean isForce() {
-        return driver.force;
+        return driver.forceDelete;
     }
 
     private boolean isSameRepos() {
@@ -940,16 +940,16 @@ public class SvnNgMergeCallback implements ISvnDiffCallback {
     }
     
     private SVNURL getSource1URL() {
-        return driver.source.url1;
+        return driver.mergeSource.url1;
     }
     private SVNURL getSource2URL() {
-        return driver.source.url2;
+        return driver.mergeSource.url2;
     }
     private long getSource1Rev() {
-        return driver.source.rev1;
+        return driver.mergeSource.rev1;
     }
     private long getSource2Rev() {
-        return driver.source.rev2;
+        return driver.mergeSource.rev2;
     }
     
     private Collection<File> getDryRunDeletions() {

@@ -47,7 +47,9 @@ public enum SVNWCDbSchema {
     //19 version of sDb
     BASE_NODE(BASE_NODE__Fields.class),
     //19 version of sDb
-    WORKING_NODE(WORKING_NODE__Fields.class)
+    WORKING_NODE(WORKING_NODE__Fields.class),
+
+    UPDATE_MOVE_LIST(UPDATE_MOVE_LIST__Fields.class)
     ;
 
     final public Class<? extends Enum<?>> fields;
@@ -103,11 +105,12 @@ public enum SVNWCDbSchema {
     }
 
     public enum NODES__Fields {
-        wc_id, local_relpath, op_depth, parent_relpath, repos_id, repos_path, revision, presence, moved_here, moved_to, kind, properties, depth, checksum, symlink_target, changed_revision, changed_date, changed_author, translated_size, last_mod_time, dav_cache, file_external;
+        wc_id, local_relpath, op_depth, parent_relpath, repos_id, repos_path, revision, presence, moved_here, moved_to, kind, properties, depth, checksum, symlink_target, changed_revision, changed_date, changed_author, translated_size, last_mod_time, dav_cache, file_external, inherited_props;
     }
 
     public enum NODES__Indices {
-        I_NODES_PARENT;
+        I_NODES_PARENT,
+        I_NODES_MOVED,
     }
 
     public enum WORK_QUEUE__Fields {
@@ -137,7 +140,7 @@ public enum SVNWCDbSchema {
     }
 
     public enum REVERT_LIST__Fields {
-        local_relpath, actual, conflict_old, conflict_new, conflict_working, prop_reject, notify, op_depth, repos_id, kind;
+        local_relpath, actual, conflict_data, notify, op_depth, repos_id, kind;
     }
     
     public enum CHANGELIST_LIST__Fields {
@@ -152,5 +155,7 @@ public enum SVNWCDbSchema {
         wc_id, local_relpath, parent_relpath, copyfrom_repos_id, copyfrom_repos_path, copyfrom_revnum, presence, kind, properties, depth, checksum, symlink_target, changed_rev, changed_date, changed_author, translated_size, last_mod_time;
     }
     
-    
+    public enum UPDATE_MOVE_LIST__Fields {
+        local_relpath, action, kind, content_state, prop_state
+    }
 }

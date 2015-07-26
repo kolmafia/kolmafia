@@ -94,6 +94,8 @@ public class SVNSaslAuthenticator extends SVNAuthenticator {
                 if (myClient == null) {
                     return new SVNPlainAuthenticator(getConnection()).authenticate(mechs, realm, repository);
                 }
+                // reiterate from the first available credentials next time:
+                boolean startOver = false;
                 try {
                     if (tryAuthentication(repository, getMechanismName(myClient, isAnonymous))) {
                         if (myAuthenticationManager != null && myAuthentication != null) {
@@ -110,6 +112,7 @@ public class SVNSaslAuthenticator extends SVNAuthenticator {
                     // it may be plain replaced with anonymous.
                     String mechName = getMechanismName(myClient, isAnonymous);
                     mechs.remove(mechName);
+                    startOver = true;
                 } 
                 if (myAuthenticationManager != null) {
                     SVNErrorMessage error = getLastError();
@@ -130,6 +133,9 @@ public class SVNSaslAuthenticator extends SVNAuthenticator {
                 if (mechs.isEmpty()) {
                     failed = true;
                     break;
+                }
+                if (startOver) {
+                    myAuthentication = null;
                 }
                 myClient = createSaslClient(mechs, realm, repository, repository.getLocation());
             }
@@ -287,13 +293,13 @@ public class SVNSaslAuthenticator extends SVNAuthenticator {
                 }
                 SVNAuthentication auth = null;
                 if ("ANONYMOUS".equals(mech)) {
-                    auth = new SVNPasswordAuthentication("", "", false, location, false);
+                    auth = SVNPasswordAuthentication.newInstance("", new char[0], false, location, false);
                 } else if ("EXTERNAL".equals(mech)) {
                     String name = repos.getExternalUserName();
                     if (name == null) {
                         name = "";
                     }
-                    auth = new SVNPasswordAuthentication(name, "", false, location, false);
+                    auth = SVNPasswordAuthentication.newInstance(name, new char[0], false, location, false);
                 } else {                
                     if (myAuthenticationManager == null) {
                         SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_NOT_AUTHORIZED, "Authentication required for ''{0}''", realm),
@@ -416,8 +422,8 @@ public class SVNSaslAuthenticator extends SVNAuthenticator {
                     String userName = myAuthentication.getUserName();
                     ((NameCallback) callback).setName(userName != null ? userName : "");
                 } else if (callback instanceof PasswordCallback) {
-                    String password = ((SVNPasswordAuthentication) myAuthentication).getPassword();
-                    ((PasswordCallback) callback).setPassword(password != null ? password.toCharArray() : new char[0]);
+                    final char[] password = ((SVNPasswordAuthentication) myAuthentication).getPasswordValue();
+                    ((PasswordCallback) callback).setPassword(password != null ? password : new char[0]);
                 } else if (callback instanceof RealmCallback) {
                     ((RealmCallback) callback).setText(myRealm);
                 } else {

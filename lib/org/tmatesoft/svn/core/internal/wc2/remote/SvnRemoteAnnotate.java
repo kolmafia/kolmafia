@@ -26,11 +26,10 @@ import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.RevisionsPair;
 import org.tmatesoft.svn.core.io.SVNFileRevision;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNAnnotateHandler;
+import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
-import org.tmatesoft.svn.core.wc2.SvnAnnotate;
-import org.tmatesoft.svn.core.wc2.SvnAnnotateItem;
-import org.tmatesoft.svn.core.wc2.SvnStatus;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem, SvnAnnotate> implements ISVNAnnotateHandler { 
@@ -72,6 +71,25 @@ public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem,
         if (endRev < startRev) {
             SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.CLIENT_BAD_REVISION, "Start revision must precede end revision"), SVNLogType.DEFAULT);
         }
+
+        if (!getOperation().isIgnoreMimeType()) {
+            SvnOperationFactory operationFactory = getOperation().getOperationFactory();
+            ISVNEventHandler oldEventHandler = operationFactory.getEventHandler();
+            operationFactory.setEventHandler(null);
+            SvnGetProperties getProperties = operationFactory.createGetProperties();
+            getProperties.setRevision(getOperation().getRevision());
+            getProperties.setSingleTarget(getOperation().getFirstTarget());
+            SVNProperties svnProperties = getProperties.run();
+            operationFactory.setEventHandler(oldEventHandler);
+
+            if (svnProperties != null) {
+                String mimeTypeString = svnProperties.getStringValue(SVNProperty.MIME_TYPE);
+                if (SVNProperty.isBinaryMimeType(mimeTypeString)) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CLIENT_IS_BINARY_FILE, "Cannot calculate blame information for binary file ''{0}''", getOperation().getFirstTarget());
+                    SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+                }
+            }
+        }
         
         String path;
         File tmpFile;
@@ -103,7 +121,7 @@ public class SvnRemoteAnnotate extends SvnRemoteOperationRunner<SvnAnnotateItem,
                     try {
                         source = SVNFileUtil.openFileForReading(target);
                         Map<?,?> keywordsMap = keywords != null ?  
-                                SVNTranslator.computeKeywords(keywords, null, null, null, null, getOperation().getOptions()) : null;
+                                SVNTranslator.computeKeywords(keywords, null, null, null, null, null, getOperation().getOptions()) : null;
                         source = new SVNTranslatorInputStream(source, new byte[] {'\n'}, false, keywordsMap, false);
 
                         SVNFileRevision localRevision = new SVNFileRevision(path, -1, new SVNProperties(), new SVNProperties());

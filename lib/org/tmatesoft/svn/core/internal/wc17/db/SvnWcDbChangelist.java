@@ -37,7 +37,7 @@ public class SvnWcDbChangelist extends SvnWcDbShared {
         }
         finally {
         	try {
-        		SVNSqlJetStatement dropList = new SVNWCDbCreateSchema(root.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.DROP_CHANGELIST_LIST, -1);
+        		SVNSqlJetStatement dropList = new SVNWCDbCreateSchema(root.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.DROP_CHANGELIST_LIST, -1, false);
                 try {
         		    dropList.done();
                 } finally {
@@ -73,7 +73,7 @@ public class SvnWcDbChangelist extends SvnWcDbShared {
                 }
 	        	
 	        	/* Now create our notification table. */
-	        	stmt = new SVNWCDbCreateSchema(wcRoot.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.CHANGELIST_LIST, -1);
+	        	stmt = new SVNWCDbCreateSchema(wcRoot.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.CHANGELIST_LIST, -1, false);
                 try {
 	        	    stmt.done();
                 } finally {
@@ -129,7 +129,7 @@ public class SvnWcDbChangelist extends SvnWcDbShared {
 	            else {
 	            	stmt = wcRoot.getSDb().getStatement(SVNWCDbStatements.DELETE_ACTUAL_EMPTIES);
                     try {
-                        stmt.bindf("i", wcRoot.getWcId());
+                        stmt.bindf("i", wcRoot.getWcId(), localRelPath);
                         stmt.done();
                     } finally {
                         stmt.reset();
@@ -148,7 +148,7 @@ public class SvnWcDbChangelist extends SvnWcDbShared {
         {
         	long affectedRows = 0;
         	
-        	SVNSqlJetStatement stmt = new SVNWCDbCreateSchema(wcRoot.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.TARGETS_LIST, -1);
+        	SVNSqlJetStatement stmt = new SVNWCDbCreateSchema(wcRoot.getSDb().getTemporaryDb(), SVNWCDbCreateSchema.TARGETS_LIST, -1, false);
             try {
         	    stmt.done();
             } finally {

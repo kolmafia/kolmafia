@@ -42,13 +42,22 @@ public class SVNWCDbDeleteActualEmpty extends SVNSqlJetDeleteStatement {
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.properties)) {
             return false;
         }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data)) {
+            return false;
+        }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
+            return false;
+        }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject)) {
+            return false;
+        }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new)) {
             return false;
         }
-        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject)) {
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.changelist)) {
@@ -57,7 +66,7 @@ public class SVNWCDbDeleteActualEmpty extends SVNSqlJetDeleteStatement {
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.text_mod)) {
             return false;
         }
-        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.older_checksum)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.right_checksum)) {

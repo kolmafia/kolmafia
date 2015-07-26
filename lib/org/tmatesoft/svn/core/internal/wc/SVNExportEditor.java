@@ -55,13 +55,14 @@ public class SVNExportEditor implements ISVNEditor {
     private SVNProperties myFileProperties;
     private ISVNEventHandler myEventDispatcher;
     private String myURL;
+    private String myRepositoryRootUrl;
     private ISVNOptions myOptions;
     
     private SVNDeltaProcessor myDeltaProcessor;
     private boolean myIsExpandKeywords;
 
     public SVNExportEditor(ISVNEventHandler eventDispatcher, String url,
-            File dstPath, boolean force, String eolStyle, boolean expandKeywords, ISVNOptions options) {
+            File dstPath, boolean force, String eolStyle, boolean expandKeywords, String repositoryRootUrl, ISVNOptions options) {
         myRoot = dstPath;
         myIsForce = force;
         myEOLStyle = eolStyle;
@@ -71,6 +72,7 @@ public class SVNExportEditor implements ISVNEditor {
         myDeltaProcessor = new SVNDeltaProcessor();
         myOptions = options;
         myIsExpandKeywords = expandKeywords;
+        myRepositoryRootUrl = repositoryRootUrl;
     }
 
     public Map<String,String> getCollectedExternals() {
@@ -190,7 +192,8 @@ public class SVNExportEditor implements ISVNEditor {
                 url = SVNPathUtil.append(url, SVNEncodingUtil.uriEncode(myCurrentFile.getName()));
                 String author = myFileProperties.getStringValue(SVNProperty.LAST_AUTHOR);
                 String revStr = myFileProperties.getStringValue(SVNProperty.COMMITTED_REVISION);
-                keywordsMap = SVNTranslator.computeKeywords(keywords, url, author, date, revStr, myOptions);
+
+                keywordsMap = SVNTranslator.computeKeywords(keywords, url, myRepositoryRootUrl, author, date, revStr, myOptions);
             }
             String charset = SVNTranslator.getCharset(myFileProperties.getStringValue(SVNProperty.CHARSET), mimeType, myCurrentFile.getPath(), myOptions);
             byte[] eolBytes = null;

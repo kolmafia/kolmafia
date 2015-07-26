@@ -80,11 +80,31 @@ class SVNWin32Util {
             SVNFileUtil.setReadonly(src, true);
         }
         synchronized (library) {
-            try {
-                int rc = library.MoveFileExW(new WString(src.getAbsoluteFile().getAbsolutePath()), new WString(dst.getAbsoluteFile().getAbsolutePath()), new NativeLong(3));
-                return rc != 0;
-            } catch (Throwable th) {
-            }
+            int errorCode = 0;
+            int attempts = SVNFileUtil.FILE_CREATION_ATTEMPTS_COUNT;
+            long sleep = 1;
+                do {
+                    int rc = 0;
+                    try {
+                        rc = library.MoveFileExW(new WString(src.getAbsoluteFile().getAbsolutePath()), new WString(dst.getAbsoluteFile().getAbsolutePath()), new NativeLong(3));
+                    } catch (Throwable th) {
+                        return false;
+                    }            
+                    if (rc != 0) {
+                        return true;
+                    }
+                    errorCode = library.GetLastError();
+                    attempts--;
+                    if (errorCode == 5) {
+                        try {
+                            Thread.sleep(sleep);
+                        } catch (InterruptedException e1) {
+                        }
+                        if (sleep < 128) {
+                            sleep = sleep * 2;
+                        }
+                    }
+                } while(errorCode == 5 && attempts >= 0);
         }
         return false;
     }

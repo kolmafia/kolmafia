@@ -33,7 +33,7 @@ public class SpoolFile {
 
     private static final long LIMIT = 1024*1024*512; // 512MB
     private static final long MEMORY_TRESHOLD = 1024*100; // 100KB
-    
+
     private File myDirectory;
     private LinkedList<File> myFiles;
     private ByteArrayOutputStream myBuffer;
@@ -43,15 +43,15 @@ public class SpoolFile {
         myFiles = new LinkedList<File>();
         myBuffer = new ByteArrayOutputStream();
     }
-    
+
     public OutputStream openForWriting() {
         return new SpoolOutputStream();
     }
-    
+
     public InputStream openForReading() {
         return new SpoolInputStream();
     }
-    
+
     public void delete() throws SVNException {
         for (Iterator<File> files = myFiles.iterator(); files.hasNext();) {
             final File file = files.next();
@@ -59,9 +59,9 @@ public class SpoolFile {
         }
         myBuffer = null;
     }
-    
+
     private class SpoolInputStream extends InputStream {
-        
+
         private File myCurrentFile;
         private long myCurrentSize;
         private int myBufferOffset;
@@ -87,18 +87,18 @@ public class SpoolFile {
                     return -1;
                 }
                 int toRead = Math.min(bufferSize, len);
-                
+
                 byte[] buffer = myBuffer.toByteArray();
                 System.arraycopy(buffer, myBufferOffset, b, off, toRead);
                 myBufferOffset += toRead;
                 return toRead;
             }
-            
+
             int read = 0;
             while(len - read > 0) {
                 if (myCurrentFile == null) {
                     if (myFiles.isEmpty()) {
-                        SVNDebugLog.getDefaultLog().logFine(SVNLogType.NETWORK, 
+                        SVNDebugLog.getDefaultLog().logFine(SVNLogType.NETWORK,
                                 "FAILED TO READ SPOOLED RESPONSE FULLY (no more files): " + (read == 0 ? -1 : read));
                         return read == 0 ? -1 : read;
                     }
@@ -107,7 +107,7 @@ public class SpoolFile {
                 int toRead = (int) Math.min(len - read, myCurrentSize);
                 int wasRead = myCurrentInput.read(b, off + read, toRead);
                 if (wasRead < 0) {
-                    SVNDebugLog.getDefaultLog().logFine(SVNLogType.NETWORK, 
+                    SVNDebugLog.getDefaultLog().logFine(SVNLogType.NETWORK,
                             "FAILED TO READ SPOOLED RESPONSE FULLY (cannot read more from the current file): " + (read == 0 ? -1 : read));
                     return read == 0 ? -1 : read;
                 }
@@ -176,7 +176,7 @@ public class SpoolFile {
                 try {
                     SVNFileUtil.deleteFile(myCurrentFile);
                 } catch (SVNException e) {
-
+                    //
                 }
                 myCurrentFile = null;
             }
@@ -190,13 +190,13 @@ public class SpoolFile {
             myBufferOffset = 0;
         }
     }
-    
-    
+
+
     private class SpoolOutputStream extends OutputStream {
-        
+
         private OutputStream myCurrentOutput;
         private long myCurrentSize;
-        
+
         public void write(int b) throws IOException {
             write(new byte[] {(byte) (b & 0xFF)});
         }
@@ -225,7 +225,7 @@ public class SpoolFile {
                     }
                     throw new IOException(e.getMessage());
                 }
-            } 
+            }
 
             if (myBuffer != null) {
                 myBuffer.close();
@@ -258,13 +258,13 @@ public class SpoolFile {
                 myCurrentOutput.flush();
             }
         }
-        
+
         private File createNextFile() throws IOException {
             File file = File.createTempFile("svnkit.", ".spool", myDirectory);
             file.createNewFile();
             return file;
         }
-        
+
     }
 
 }

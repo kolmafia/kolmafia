@@ -322,6 +322,11 @@ public abstract class FSRoot {
         return FSInputStream.createDeltaStream(combiner, fileNode, getOwner());
     }
 
+    public long getFileSize(String path) throws SVNException {
+        FSRevisionNode fileNode = getRevisionNode(path);
+        return fileNode.getFileLength();
+    }
+
     private static final class RevisionCache {
 
         private LinkedList myKeys;

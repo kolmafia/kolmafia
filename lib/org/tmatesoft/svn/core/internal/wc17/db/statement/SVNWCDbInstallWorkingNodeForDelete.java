@@ -20,17 +20,16 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetInsertStatement;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil;
 
 /**
  * INSERT OR REPLACE INTO nodes (
  *    wc_id, local_relpath, op_depth,
- *   parent_relpath, presence, kind)
- * SELECT wc_id, local_relpath, ?3 op_depth,
- *      parent_relpath, ?4 presence, kind
- * FROM nodes
- * WHERE wc_id = ?1 AND local_relpath = ?2 AND op_depth = 0
+ *    parent_relpath, presence, kind)
+ * VALUES(?1, ?2, ?3, ?4, 'base-deleted', ?5)
  *
- * @version 1.4
+ * @version 1.8
  * @author TMate Software Ltd.
  */
 public class SVNWCDbInstallWorkingNodeForDelete extends SVNSqlJetInsertStatement {
@@ -63,12 +62,12 @@ public class SVNWCDbInstallWorkingNodeForDelete extends SVNSqlJetInsertStatement
 
     protected Map<String, Object> getInsertValues() throws SVNException {
         Map<String, Object> insertValues = new HashMap<String, Object>();
-        insertValues.put(SVNWCDbSchema.NODES__Fields.wc_id.toString(), select.getColumn(SVNWCDbSchema.NODES__Fields.wc_id));
-        insertValues.put(SVNWCDbSchema.NODES__Fields.local_relpath.toString(), select.getColumn(SVNWCDbSchema.NODES__Fields.local_relpath));
+        insertValues.put(SVNWCDbSchema.NODES__Fields.wc_id.toString(), getBind(1));
+        insertValues.put(SVNWCDbSchema.NODES__Fields.local_relpath.toString(), getBind(2));
         insertValues.put(SVNWCDbSchema.NODES__Fields.op_depth.toString(), getBind(3));
-        insertValues.put(SVNWCDbSchema.NODES__Fields.parent_relpath.toString(), select.getColumn(SVNWCDbSchema.NODES__Fields.parent_relpath));
-        insertValues.put(SVNWCDbSchema.NODES__Fields.presence.toString(), getBind(4));
-        insertValues.put(SVNWCDbSchema.NODES__Fields.kind.toString(), select.getColumn(SVNWCDbSchema.NODES__Fields.kind));
+        insertValues.put(SVNWCDbSchema.NODES__Fields.parent_relpath.toString(), getBind(4));
+        insertValues.put(SVNWCDbSchema.NODES__Fields.presence.toString(), SvnWcDbStatementUtil.getPresenceText(ISVNWCDb.SVNWCDbStatus.BaseDeleted));
+        insertValues.put(SVNWCDbSchema.NODES__Fields.kind.toString(), getBind(5));
         return insertValues;
     }
 

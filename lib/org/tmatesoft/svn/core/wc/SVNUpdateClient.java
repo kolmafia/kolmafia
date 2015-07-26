@@ -20,13 +20,7 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc2.SvnCanonicalizeUrls;
-import org.tmatesoft.svn.core.wc2.SvnCheckout;
-import org.tmatesoft.svn.core.wc2.SvnExport;
-import org.tmatesoft.svn.core.wc2.SvnRelocate;
-import org.tmatesoft.svn.core.wc2.SvnSwitch;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
-import org.tmatesoft.svn.core.wc2.SvnUpdate;
+import org.tmatesoft.svn.core.wc2.*;
 
 /**
  * This class provides methods which allow to check out, update, switch and
@@ -101,7 +95,6 @@ public class SVNUpdateClient extends SVNBasicClient {
      */
     public SVNUpdateClient(ISVNAuthenticationManager authManager, ISVNOptions options) {
         super(authManager, options);
-        setExternalsHandler(null);
     }
 
     /**
@@ -127,6 +120,13 @@ public class SVNUpdateClient extends SVNBasicClient {
      */
     public SVNUpdateClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNUpdateClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setExternalsHandler(null);
     }
 

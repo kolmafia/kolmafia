@@ -126,5 +126,21 @@ public class SvnChecksum {
         return new SvnChecksum(kind, digest);
     }
 
+    public static boolean match(SvnChecksum checksum1, SvnChecksum checksum2) {
+        if (checksum1 == null || checksum2 == null) {
+            return true;
+        }
 
+        if (checksum1.getKind() != checksum2.getKind()) {
+            return false;
+        }
+
+        switch (checksum1.getKind()) {
+            case md5:
+            case sha1:
+                return checksum1.getDigest().equals(checksum2.getDigest());
+            default:
+                return false;
+        }
+    }
 }

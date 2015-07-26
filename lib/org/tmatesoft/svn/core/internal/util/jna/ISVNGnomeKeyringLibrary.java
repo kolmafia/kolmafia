@@ -69,7 +69,7 @@ public interface ISVNGnomeKeyringLibrary extends Library {
     boolean gnome_keyring_info_get_is_locked(Pointer keyringInfo);
 
     void gnome_keyring_unlock(String keyringName,
-                              String keyringPassword,
+                              Pointer keyringPassword,
                               GnomeKeyringOperationDoneCallback callback,
                               Pointer data,
                               Pointer destroyData);
@@ -82,7 +82,7 @@ public interface ISVNGnomeKeyringLibrary extends Library {
                                                 String protocol,
                                                 String authType,
                                                 int port,
-                                                String password,
+                                                Pointer password,
                                                 IntByReference itemId);
 
     int gnome_keyring_find_network_password_sync(String userName,

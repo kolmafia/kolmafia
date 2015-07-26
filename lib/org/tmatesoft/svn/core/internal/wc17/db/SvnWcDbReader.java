@@ -56,7 +56,7 @@ public class SvnWcDbReader extends SvnWcDbShared {
         pristineProps,
         changedDate,
     }
-    
+
     public static Collection<File> getServerExcludedNodes(SVNWCDb db, File path) throws SVNException {
         DirParsedInfo dirInfo = db.obtainWcRoot(path);
         SVNSqlJetDb sdb = dirInfo.wcDbDir.getWCRoot().getSDb();
@@ -467,7 +467,7 @@ public class SvnWcDbReader extends SvnWcDbShared {
                                 if (size != SVNFileUtil.getFileLength(localFile)) {
                                     return true;
                                 }
-                                if (date/1000 == SVNFileUtil.getFileLastModified(localFile)) {
+                                if (date == SVNFileUtil.getFileLastModifiedMicros(localFile)) {
                                     cursor.next();
                                     continue;
                                 }

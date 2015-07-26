@@ -109,10 +109,6 @@ public class SVNPath {
                     revStr.toLowerCase().startsWith("%7b") && revStr.toLowerCase().endsWith("%7d")) {
                 revStr = SVNEncodingUtil.uriDecode(revStr);
             }
-            if (revStr.startsWith("r")) {
-                //TODO: should we put this code to SVNRevision#parse?
-                revStr = revStr.substring("r".length());
-            }
             SVNRevision revision = SVNRevision.parse(revStr);
             if (revision != SVNRevision.UNDEFINED) {
                 if (use) {

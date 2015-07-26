@@ -73,7 +73,7 @@ public class SVNWCUtil {
      * @see #getDefaultConfigurationDirectory()
      */
     public static ISVNAuthenticationManager createDefaultAuthenticationManager() {
-        return createDefaultAuthenticationManager(getDefaultConfigurationDirectory(), null, null);
+        return createDefaultAuthenticationManager(getDefaultConfigurationDirectory(), null, (char[]) null);
     }
 
     /**
@@ -87,7 +87,7 @@ public class SVNWCUtil {
      *         configuration driver interface
      */
     public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir) {
-        return createDefaultAuthenticationManager(configDir, null, null, true);
+        return createDefaultAuthenticationManager(configDir, null, (char[]) null, true);
     }
 
     /**
@@ -103,6 +103,15 @@ public class SVNWCUtil {
      *            a user's password
      * @return a default implementation of the credentials and servers
      *         configuration driver interface
+     *         
+     * @since 1.8.9
+     */
+    public static ISVNAuthenticationManager createDefaultAuthenticationManager(String userName, char[] password) {
+        return createDefaultAuthenticationManager(null, userName, password);
+    }
+
+    /**
+     * @deprecated Use {@link #createDefaultAuthenticationManager(String, char[])} method.
      */
     public static ISVNAuthenticationManager createDefaultAuthenticationManager(String userName, String password) {
         return createDefaultAuthenticationManager(null, userName, password);
@@ -125,6 +134,17 @@ public class SVNWCUtil {
      *            a user's password
      * @return a default implementation of the credentials and servers
      *         configuration driver interface
+     *         
+     * @since 1.8.9
+     */
+    public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, char[] password) {
+        DefaultSVNOptions options = createDefaultOptions(configDir, true);
+        boolean store = options.isAuthStorageEnabled();
+        return createDefaultAuthenticationManager(configDir, userName, password, store);
+    }
+
+    /**
+     * @deprecated Use {@link #createDefaultAuthenticationManager(File, String, char[])} method.
      */
     public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, String password) {
         DefaultSVNOptions options = createDefaultOptions(configDir, true);
@@ -149,6 +169,15 @@ public class SVNWCUtil {
      *            storage is enabled, otherwise disabled
      * @return a default implementation of the credentials and servers
      *         configuration driver interface
+     *         
+     * @since 1.8.9
+     */
+    public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, char[] password, boolean storeAuth) {
+        return createDefaultAuthenticationManager(configDir, userName, password, null, null, storeAuth);
+    }
+
+    /**
+     * @deprecated Use {@link #createDefaultAuthenticationManager(File, String, char[], boolean)} method.
      */
     public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, String password, boolean storeAuth) {
         return createDefaultAuthenticationManager(configDir, userName, password, null, null, storeAuth);
@@ -175,8 +204,10 @@ public class SVNWCUtil {
      *            storage is enabled, otherwise disabled
      * @return a default implementation of the credentials and servers
      *         configuration driver interface
+     *         
+     * @since 1.8.9
      */
-    public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, String password, File privateKey, String passphrase, boolean storeAuth) {
+    public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, char[] password, File privateKey, char[] passphrase, boolean storeAuth) {
         // check whether we are running inside Eclipse.
         if (isEclipseKeyringSupported()) {
             // use reflection to allow compilation when there is no Eclipse.
@@ -188,7 +219,7 @@ public class SVNWCUtil {
                 Class<?> managerClass = loader.loadClass(ECLIPSE_AUTH_MANAGER_CLASSNAME);
                 if (managerClass != null) {
                     Constructor<?> method = managerClass.getConstructor(new Class[] {
-                            File.class, Boolean.TYPE, String.class, String.class, File.class, String.class
+                            File.class, Boolean.TYPE, String.class, char[].class, File.class, char[].class
                     });
                     if (method != null) {
                         return (ISVNAuthenticationManager) method.newInstance(new Object[] {
@@ -200,6 +231,15 @@ public class SVNWCUtil {
             }
         }
         return new DefaultSVNAuthenticationManager(configDir, storeAuth, userName, password, privateKey, passphrase);
+    }
+
+    /**
+     * @deprecated Use {@link #createDefaultAuthenticationManager(File, String, char[], File, char[], boolean)} method.
+     */
+    public static ISVNAuthenticationManager createDefaultAuthenticationManager(File configDir, String userName, String password, File privateKey, String passphrase, boolean storeAuth) {
+        final char[] passwordValue = password != null ? password.toCharArray() : null;
+        final char[] passphraseValue = passphrase != null ? passphrase.toCharArray() : null;
+        return createDefaultAuthenticationManager(configDir, userName, passwordValue, privateKey, passphraseValue, storeAuth);
     }
     
     /**

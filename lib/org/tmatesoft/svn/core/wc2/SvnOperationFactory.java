@@ -43,6 +43,7 @@ import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDbDir;
 import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDbRoot;
 import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbPristines;
 import org.tmatesoft.svn.core.internal.wc2.ISvnCommitRunner;
+import org.tmatesoft.svn.core.internal.wc2.SvnOperationRunner;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryCatImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryCopyRevisionPropertiesImpl;
@@ -54,6 +55,7 @@ import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetChangedDirector
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetChangedImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetDateImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetDiffImpl;
+import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetFileSizeImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetHistoryImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetInfoImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryGetLockImpl;
@@ -79,40 +81,7 @@ import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositorySyncInfoImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositorySynchronizeImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryUpgradeImpl;
 import org.tmatesoft.svn.core.internal.wc2.admin.SvnRepositoryVerifyImpl;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgAdd;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCanonicalizeUrls;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCat;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCheckout;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCleanup;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgCommit;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgDiff;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgExport;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetChangelistPaths;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetInfo;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetMergeInfo;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetProperties;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetStatus;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgGetStatusSummary;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgLogMergeInfo;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgMarkReplaced;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgMerge;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgMergePegged;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgMergeReintegrate;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgRelocate;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgRemove;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgReposToWcCopy;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgResolve;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgRevert;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgSetChangelist;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgSetLock;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgSetProperty;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgSuggestMergeSources;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgSwitch;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgUnlock;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgUpdate;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgUpgrade;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgWcToReposCopy;
-import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgWcToWcCopy;
+import org.tmatesoft.svn.core.internal.wc2.ng.*;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldAdd;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldAnnotate;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldCanonicalizeUrls;
@@ -130,6 +99,7 @@ import org.tmatesoft.svn.core.internal.wc2.old.SvnOldGetProperties;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldGetStatus;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldGetStatusSummary;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldImport;
+import org.tmatesoft.svn.core.internal.wc2.old.SvnOldList;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldLogMergeInfo;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldMarkReplaced;
 import org.tmatesoft.svn.core.internal.wc2.old.SvnOldMerge;
@@ -150,7 +120,6 @@ import org.tmatesoft.svn.core.internal.wc2.remote.SvnNgReposToReposCopy;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteAnnotate;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteCat;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteDiff;
-import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteDiffSummarize;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteExport;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteGetInfo;
 import org.tmatesoft.svn.core.internal.wc2.remote.SvnRemoteGetProperties;
@@ -179,6 +148,7 @@ import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetChanged;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetChangedDirectories;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetDate;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetDiff;
+import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetFileSize;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetHistory;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetInfo;
 import org.tmatesoft.svn.core.wc2.admin.SvnRepositoryGetLock;
@@ -238,6 +208,9 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
     
     private SvnWcGeneration primaryWcGeneration;
     private int runLevel;
+    
+    private SvnWcGeneration detectedWcGeneration = SvnWcGeneration.NOT_DETECTED;
+	private boolean isWcGenerationSticky;
 
     /**
      * Creates operation factory and initializes it with empty <code>context</code>.
@@ -332,7 +305,7 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
         registerOperationRunner(SvnCat.class, new SvnNgCat());
         registerOperationRunner(SvnCat.class, new SvnOldCat());
 
-        registerOperationRunner(SvnDiffSummarize.class, new SvnRemoteDiffSummarize());
+        registerOperationRunner(SvnDiffSummarize.class, new SvnNgDiffSummarize());
         
         registerOperationRunner(SvnCopy.class, new SvnNgWcToWcCopy());
         registerOperationRunner(SvnCopy.class, new SvnNgReposToWcCopy());
@@ -367,6 +340,8 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
         registerOperationRunner(SvnDiff.class, new SvnNgDiff());
         registerOperationRunner(SvnDiff.class, new SvnRemoteDiff());
 
+        registerOperationRunner(SvnPatch.class, new SvnNgPatch());
+
         registerOperationRunner(SvnCleanup.class, new SvnOldCleanup());
         registerOperationRunner(SvnCleanup.class, new SvnNgCleanup());
         
@@ -375,8 +350,9 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
         registerOperationRunner(SvnResolve.class, new SvnOldResolve());
         registerOperationRunner(SvnResolve.class, new SvnNgResolve());
         
+        registerOperationRunner(SvnList.class, new SvnOldList());
         registerOperationRunner(SvnList.class, new SvnRemoteList());
-        
+
         registerOperationRunner(SvnLogMergeInfo.class, new SvnOldLogMergeInfo());
         registerOperationRunner(SvnLogMergeInfo.class, new SvnNgLogMergeInfo());
         registerOperationRunner(SvnGetMergeInfo.class, new SvnOldGetMergeInfo());
@@ -423,7 +399,8 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
         registerOperationRunner(SvnRepositoryGetDiff.class, new SvnRepositoryGetDiffImpl());
         registerOperationRunner(SvnRepositoryGetHistory.class, new SvnRepositoryGetHistoryImpl());
         registerOperationRunner(SvnRepositoryGetTree.class, new SvnRepositoryGetTreeImpl());
-        
+        registerOperationRunner(SvnRepositoryGetFileSize.class, new SvnRepositoryGetFileSizeImpl());
+
         registerOperationRunner(SvnUpgrade.class, new SvnOldUpgrade());
         registerOperationRunner(SvnUpgrade.class, new SvnNgUpgrade());
 
@@ -859,6 +836,14 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
     public SvnDiff createDiff() {
         return new SvnDiff(this);
     }
+
+    /**
+     * Creates patch operation.
+     * @return new <code>SvnPatch</code> object
+     */
+    public SvnPatch createPatch() {
+        return new SvnPatch(this);
+    }
     
     /**
      * Creates diff summarize operation.
@@ -1205,11 +1190,23 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
     }
 
     /**
+     * Creates operation for retrieving file size from the repository
+     * @return new <code>SvnRepositoryGetFileSize</code> object
+     */
+    public SvnRepositoryGetFileSize createGetRepositoryFileSize() {
+        return new SvnRepositoryGetFileSize(this);
+    }
+
+    /**
      * Creates get status summary operation.
      * @return new <code>SvnStatusSummary</code> object
      */
     public SvnGetStatusSummary createGetStatusSummary() {
         return new SvnGetStatusSummary(this);
+    }
+
+    public SvnSetWCDbVersion createSetWCDbVersion() {
+        return new SvnSetWCDbVersion(this);
     }
 
     /**
@@ -1272,8 +1269,9 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
 
     private SVNWCContext obtainWcContext(SvnOperation<?> operation) {
         if (wcContext == null) {
-            wcContext = new SVNWCContext(getOptions(), getEventHandler());
+            wcContext = new SVNWCContext(SVNWCDbOpenMode.ReadWrite, getOptions(), false, true, getEventHandler());
         }
+        wcContext.setOperation(operation);
         return wcContext;
     }
 
@@ -1297,14 +1295,31 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
 
         SvnWcGeneration wcGeneration = SvnWcGeneration.NOT_DETECTED;
         if (operation.getOperationalWorkingCopy() != null) {
-            if (operation.getClass() == SvnCheckout.class) {
-                if (SVNWCUtil.isVersionedDirectory(operation.getOperationalWorkingCopy())) {
-                    wcGeneration = detectWcGeneration(operation.getOperationalWorkingCopy(), false, isAdditionMode);
-                } else {
-                    wcGeneration = getPrimaryWcGeneration();
-                }
-            } else {
-                wcGeneration = detectWcGeneration(operation.getOperationalWorkingCopy(), false, isAdditionMode);
+        	if (isWcGenerationSticky && detectedWcGeneration != SvnWcGeneration.NOT_DETECTED) {
+        		wcGeneration = detectedWcGeneration;
+        	} else {
+	            if (operation.getClass() == SvnCheckout.class) {
+	                if (SVNWCUtil.isVersionedDirectory(operation.getOperationalWorkingCopy())) {
+	                    wcGeneration = detectWcGeneration(operation.getOperationalWorkingCopy(), false, isAdditionMode);
+	                } else {
+                        SvnCheckout checkout = (SvnCheckout) operation;
+                        final int targetWorkingCopyFormat = checkout.getTargetWorkingCopyFormat();
+                        if (targetWorkingCopyFormat > 0) {
+                            if (targetWorkingCopyFormat >= SVNWCContext.WC_NG_VERSION) {
+                                wcGeneration = SvnWcGeneration.V17;
+                            } else {
+                                wcGeneration = SvnWcGeneration.V16;
+                            }
+                        } else {
+	                        wcGeneration = getPrimaryWcGeneration();
+                        }
+	                }
+	            } else {
+	                wcGeneration = detectWcGeneration(operation.getOperationalWorkingCopy(), false, isAdditionMode);
+	            }
+        	}
+            if (isWcGenerationSticky && wcGeneration != SvnWcGeneration.NOT_DETECTED) {
+            	detectedWcGeneration = wcGeneration;
             }
         }
         
@@ -1339,6 +1354,20 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
             break;
         }
         if (runner != null) {
+            //we should NOT reuse already running runners (i.e. runners with operation != null)
+            //instead we should create new runner of the same class
+            if ((runner instanceof SvnOperationRunner) && (((SvnOperationRunner) runner).getOperation() != null)) {
+                final Class<? extends ISvnOperationRunner> runnerClass = runner.getClass();
+                try {
+                    runner = (ISvnOperationRunner<?, SvnOperation<?>>)runnerClass.newInstance();
+                } catch (InstantiationException e) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ASSERTION_FAIL, e);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                } catch (IllegalAccessException e) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ASSERTION_FAIL, e);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                }
+            }
             runner.reset(wcGeneration);
         } else {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Runner for ''{0}'' command have not been found; probably not yet implement in this API.",
@@ -1639,7 +1668,7 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
             }
             SVNWCDb db = new SVNWCDb();
             try {
-                db.open(SVNWCDbOpenMode.ReadOnly, (ISVNOptions) null, true, false);
+            	db.open(SVNWCDbOpenMode.ReadOnly, (ISVNOptions) null, false, false);
                 DirParsedInfo info = db.parseDir(path, Mode.ReadOnly, true, isAdditionMode);
                 if (info != null && SVNWCDbDir.isUsable(info.wcDbDir)) {
                     return SvnWcGeneration.V17;
@@ -1760,6 +1789,26 @@ public class SvnOperationFactory implements ISvnOperationOptionsProvider {
         }
         this.primaryWcGeneration = primaryWcGeneration;
         registerRunners();
+    }
+    
+    /**
+     * When set to true, first encountered working copy generation becomes 'sticky'
+     * for this instance of {@link SvnOperationFactory} and no working copy format detection 
+     * will be performed for subsequent operation. 
+     * 
+     * @param isWcGenerationSticky
+     */
+    public void setWcGenerationSticky(boolean isWcGenerationSticky) {
+		detectedWcGeneration = SvnWcGeneration.NOT_DETECTED; 
+    	this.isWcGenerationSticky = isWcGenerationSticky;
+    }
+    
+    /**
+     * @see #setWcGenerationSticky(boolean)
+     * @return true when this instance of {@link SvnOperationFactory}
+     */
+    public boolean isWcGenerationSticky() {
+    	return this.isWcGenerationSticky;
     }
     
     private SvnWcGeneration[] getRunnerScope(ISvnOperationRunner<?, ? extends SvnOperation<?>> runner) {

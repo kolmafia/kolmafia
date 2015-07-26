@@ -15,6 +15,7 @@ import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.ISVNRepositoryPool;
 import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
+import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.util.ISVNDebugLog;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -126,8 +127,7 @@ public class SVNAdminBasicClient implements ISVNEventHandler {
 		return myEventDispatcher;
 	}
 
-	protected SVNAdminBasicClient(final ISVNAuthenticationManager authManager,
-			ISVNOptions options) {
+	protected SVNAdminBasicClient(final ISVNAuthenticationManager authManager, ISVNOptions options) {
 		this(new DefaultSVNRepositoryPool(authManager == null ? SVNWCUtil
 				.createDefaultAuthenticationManager() : authManager, options,
 				0, false), options);
@@ -138,6 +138,11 @@ public class SVNAdminBasicClient implements ISVNEventHandler {
 		myRepositoryPool = repositoryPool;
 		setOptions(options);
 	}
+
+    protected SVNAdminBasicClient(SvnOperationFactory of) {
+        myRepositoryPool = of.getRepositoryPool();
+        setOptions(of.getOptions());
+    }
 
 	/** 
 	 * Sets run-time global configuration options to this object.

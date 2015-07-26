@@ -27,6 +27,7 @@ import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.auth.SVNPasswordAuthentication;
+import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.util.SVNLogType;
 
@@ -38,7 +39,7 @@ abstract class HTTPAuthentication {
 
     private Map<String, String> myChallengeParameters;
     private String myUserName;
-    private String myPassword;
+    private char[] myPassword;
     
     private static final String AUTH_METHODS_PROPERTY = "svnkit.http.methods";
     private static final String OLD_AUTH_METHODS_PROPERTY = "javasvn.http.methods";
@@ -46,11 +47,11 @@ abstract class HTTPAuthentication {
     protected HTTPAuthentication (SVNPasswordAuthentication credentials) {
         if (credentials != null) {
             myUserName = credentials.getUserName();
-            myPassword = credentials.getPassword();
+            myPassword = credentials.getPasswordValue();
         }
     }
 
-    protected HTTPAuthentication (String name, String password) {
+    protected HTTPAuthentication (String name, char[] password) {
         myUserName = name;
         myPassword = password;
     }
@@ -80,7 +81,7 @@ abstract class HTTPAuthentication {
     public void setCredentials(SVNPasswordAuthentication credentials) {
         if (credentials != null) {
             myUserName = credentials.getUserName();
-            myPassword = credentials.getPassword();
+            myPassword = credentials.getPasswordValue();
         }
     }
     
@@ -92,7 +93,7 @@ abstract class HTTPAuthentication {
         return myUserName;
     }
     
-    public String getPassword() {
+    public char[] getPassword() {
         return myPassword;
     }
 
@@ -100,7 +101,7 @@ abstract class HTTPAuthentication {
         myUserName = name;
     }
     
-    public void setPassword(String password) {
+    public void setPassword(char[] password) {
         myPassword = password;
     }
     
@@ -149,7 +150,7 @@ abstract class HTTPAuthentication {
                 }
                 break;
             } else if ("Digest".equalsIgnoreCase(method)) {
-                auth = new HTTPDigestAuthentication();
+                auth = new HTTPDigestAuthentication(charset);
                 
                 char[] chars = (source + " ").toCharArray();
                 int tokenIndex = 0;
@@ -190,14 +191,24 @@ abstract class HTTPAuthentication {
             } else if ("NTLM".equalsIgnoreCase(method)) {
                 HTTPNTLMAuthentication ntlmAuth = null;
                 if (source.length() == 0) {
-                    if ("jna".equalsIgnoreCase(System.getProperty("svnkit.http.ntlm", "java"))) {
+                    String ntlmImpl = System.getProperty("svnkit.http.ntlm", "java:apache");
+                    if ("jna".equalsIgnoreCase(ntlmImpl)) {
                         ntlmAuth = HTTPNativeNTLMAuthentication.newInstance(charset);
-                    }
-                    if (ntlmAuth != null) {
-                        ntlmAuth.parseChallenge(null);
+                        if (ntlmAuth != null) {
+                            ntlmAuth.parseChallenge(null);
+                        }
                     }
                     if (ntlmAuth == null) {
-                        ntlmAuth = new HTTPNTLMAuthentication(charset);
+                        if ("jna".equalsIgnoreCase(ntlmImpl)) {
+                            ntlmImpl = "java";
+                        }
+                        if ("java:apache".equalsIgnoreCase(ntlmImpl)) {
+                            ntlmAuth = HTTPApacheNTLMAuthentication.newInstance(charset, HTTPApacheNTLMAuthentication.APACHE_ENGINE);
+                        } else if ("java:jcifs".equalsIgnoreCase(ntlmImpl)) {
+                            ntlmAuth = HTTPApacheNTLMAuthentication.newInstance(charset, HTTPApacheNTLMAuthentication.JCIFS_ENGINE);
+                        } else {
+                            ntlmAuth = new HTTPNTLMAuthentication(charset);
+                        }
                     }
                     ntlmAuth.setType1State();
                 } else {
@@ -349,6 +360,18 @@ abstract class HTTPAuthentication {
         } catch (UnsupportedEncodingException e) {
             return data.getBytes();
         }
+    }
+
+    protected static byte[] getBytes(final char[] data, String charset) {
+        return SVNEncodingUtil.getBytes(data, charset);
+    }
+
+    public static void clear(byte[] array) {
+        SVNEncodingUtil.clearArray(array);
+    }
+
+    public static void clear(char[] array) {
+        SVNEncodingUtil.clearArray(array);
     }
 
 }

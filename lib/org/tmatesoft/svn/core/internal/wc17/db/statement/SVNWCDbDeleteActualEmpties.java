@@ -38,8 +38,27 @@ public class SVNWCDbDeleteActualEmpties extends SVNSqlJetDeleteStatement {
         super(sDb, SVNWCDbSchema.ACTUAL_NODE);
     }
 
+    @Override
+    protected String getPathScope() {
+        return (String) getBind(2);
+    }
+
+    @Override
+    protected boolean isStrictiDescendant() {
+        return true;
+    }
+
     protected boolean isFilterPassed() throws SVNException {
     	if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.properties)) {
+            return false;
+        }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data)) {
+            return false;
+        }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
+            return false;
+        }
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old)) {
@@ -48,16 +67,13 @@ public class SVNWCDbDeleteActualEmpties extends SVNSqlJetDeleteStatement {
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new)) {
             return false;
         }
-        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject)) {
+        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.changelist)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.text_mod)) {
-            return false;
-        }
-        if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
             return false;
         }
         if (!isColumnNull(SVNWCDbSchema.ACTUAL_NODE__Fields.older_checksum)) {

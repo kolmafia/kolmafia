@@ -37,23 +37,19 @@ public class SVNWCDbFindWCLock extends SVNSqlJetSelectFieldsStatement<SVNWCDbSch
         fields.add(SVNWCDbSchema.WC_LOCK__Fields.local_dir_relpath);
     }
 
-    protected boolean isFilterPassed() throws SVNException {
-        if (getBinds().size() < 2) {
-            return super.isFilterPassed();
-        }
-        Object bind = getBind(2);
-        if (bind == null) {
-            return isColumnNull(SVNWCDbSchema.WC_LOCK__Fields.local_dir_relpath);
-        }
-        if (bind instanceof File) {
-            if (isColumnNull(SVNWCDbSchema.WC_LOCK__Fields.local_dir_relpath)) {
-                return false;
-            }
-            File path = (File) bind;
-            File localDirPath = SVNFileUtil.createFilePath(getColumnString(SVNWCDbSchema.WC_LOCK__Fields.local_dir_relpath));
-            return SVNWCUtils.isAncestor(path, localDirPath);
-        }
-        return super.isFilterPassed();
+    @Override
+    protected String getRowPath() throws SVNException {
+        return getColumnString(SVNWCDbSchema.WC_LOCK__Fields.local_dir_relpath);
+    }
+
+    @Override
+    protected String getPathScope() {
+        return (String) getBind(2);
+    }
+
+    @Override
+    protected boolean isStrictiDescendant() {
+        return true;
     }
 
     protected Object[] getWhere() throws SVNException {

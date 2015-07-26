@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -32,11 +33,12 @@ class SVNMacOsKeychain {
 
     private static final int ERR_SEC_ITEM_NOT_FOUND = -25300;
 
-    static boolean isEnabled() {
-        return SVNFileUtil.isOSX && JNALibraryLoader.getMacOsSecurityLibrary() != null;
+    public static boolean isEnabled() {
+        final boolean enabled = Boolean.valueOf(System.getProperty("svnkit.library.osxkeychain.enabled", "true"));
+        return enabled && SVNFileUtil.isOSX && JNALibraryLoader.getMacOsSecurityLibrary() != null;
     }
 
-    public static synchronized boolean setPassword(String realm, String userName, String password, boolean nonInteractive) throws SVNException {
+    public static synchronized boolean setPassword(String realm, String userName, char[] password, boolean nonInteractive) throws SVNException {
         final ISVNMacOsSecurityLibrary library = JNALibraryLoader.getMacOsSecurityLibrary();
         if (library == null) {
             return false;
@@ -49,11 +51,12 @@ class SVNMacOsKeychain {
             library.SecKeychainSetUserInteractionAllowed(false);
         }
 
+        byte[] rawPassword = null;
         try {
             byte[] rawRealm = realm.getBytes("UTF-8");
             byte[] rawUserName = userName == null ? null : userName.getBytes("UTF-8");
             int rawUserNameLength = userName == null ? 0 : rawUserName.length;
-            byte[] rawPassword = password.getBytes("UTF-8");
+            rawPassword = SVNEncodingUtil.getBytes(password, "UTF-8");
 
             PointerByReference itemHolder = new PointerByReference();
             int status = library.SecKeychainFindGenericPassword(null, rawRealm.length, rawRealm,
@@ -79,12 +82,13 @@ class SVNMacOsKeychain {
             if (nonInteractive) {
                 library.SecKeychainSetUserInteractionAllowed(true);
             }
+            SVNEncodingUtil.clearArray(rawPassword);
         }
         
         return false;
     }
 
-    public static synchronized String getPassword(String realm, String userName, boolean nonInteractive) throws SVNException {
+    public static synchronized char[] getPassword(String realm, String userName, boolean nonInteractive) throws SVNException {
         ISVNMacOsSecurityLibrary library = JNALibraryLoader.getMacOsSecurityLibrary();
         if (library == null) {
             return null;
@@ -120,15 +124,12 @@ class SVNMacOsKeychain {
             int passwordLength = passwordLengthHolder.getValue();
             byte[] rawPassword = passwordPointer.getByteArray(0, passwordLength);
 
-            String password;
+            char[] password;
             try {
-                password = new String(rawPassword, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                SVNErrorMessage error = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
-                SVNErrorManager.error(error, e, SVNLogType.DEFAULT);
-                password = null;
+                password = SVNEncodingUtil.getChars(rawPassword, "UTF-8");
             } finally {
                 library.SecKeychainItemFreeContent(null, passwordPointer);
+                SVNEncodingUtil.clearArray(rawPassword);
             }
 
             return password;

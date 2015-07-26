@@ -11,12 +11,7 @@
  */
 package org.tmatesoft.svn.core.internal.wc.admin;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
@@ -29,11 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNCharsetInputStream;
 import org.tmatesoft.svn.core.internal.util.SVNCharsetOutputStream;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
@@ -124,12 +115,13 @@ public class SVNTranslator {
             if (expand) {
                 SVNEntry entry = adminArea.getVersionedEntry(name, true);
                 String url = entry.getURL();
+                String repositoryRoot = entry.getRepositoryRoot();
                 String author = entry.getAuthor();
                 String date = entry.getCommittedDate();
                 String rev = Long.toString(entry.getCommittedRevision());
-                keywordsMap = computeKeywords(keywords, url, author, date, rev, options);
+                keywordsMap = computeKeywords(keywords, url, repositoryRoot, author, date, rev, options);
             } else {
-                keywordsMap = computeKeywords(keywords, null, null, null, null, null);
+                keywordsMap = computeKeywords(keywords, null, null, null, null, null, null);
             }
         }
         if (!expand) {
@@ -234,17 +226,18 @@ public class SVNTranslator {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.IO_UNKNOWN_EOL);
                     SVNErrorManager.error(err, SVNLogType.DEFAULT);
                 }
-                Map<String, byte[]> keywordsMap = computeKeywords(keywords, null, null, null, null, null);
+                Map<String, byte[]> keywordsMap = computeKeywords(keywords, null, null, null, null, null, null);
                 boolean repair = (eolStyle != null && eol != null && !SVNProperty.EOL_STYLE_NATIVE.equals(eolStyle)) || repairEOL;
                 return getTranslatingInputStream(SVNFileUtil.openFileForReading(src, SVNLogType.WC), charset, eol, repair, keywordsMap, false);
             }
 
             SVNEntry entry = adminArea.getVersionedEntry(name, false);
             String url = entry.getURL();
+            String repositoryRoot = entry.getRepositoryRoot();
             String author = entry.getAuthor();
             String date = entry.getCommittedDate();
             String rev = Long.toString(entry.getCommittedRevision());
-            Map<String, byte[]> keywordsMap = computeKeywords(keywords, url, author, date, rev, options);
+            Map<String, byte[]> keywordsMap = computeKeywords(keywords, url, repositoryRoot, author, date, rev, options);
             return getTranslatingInputStream(SVNFileUtil.openFileForReading(src, SVNLogType.WC), charset, eol, true, keywordsMap, true);
         }
         return SVNFileUtil.openFileForReading(src, SVNLogType.WC);
@@ -273,10 +266,11 @@ public class SVNTranslator {
             } else {
                 SVNEntry entry = dir.getVersionedEntry(name, false);
                 String url = entry.getURL();
+                String repositoryRoot = entry.getRepositoryRoot();
                 String author = entry.getAuthor();
                 String date = entry.getCommittedDate();
                 String rev = Long.toString(entry.getCommittedRevision());
-                Map<String, byte[]> keywordsMap = computeKeywords(keywords, url, author, date, rev, options);
+                Map<String, byte[]> keywordsMap = computeKeywords(keywords, url, repositoryRoot, author, date, rev, options);
                 copyAndTranslate(src, result, charset, getEOL(eolStyle, options), keywordsMap, special, true, true);
             }
         }
@@ -358,7 +352,7 @@ public class SVNTranslator {
             SVNErrorManager.error(err, SVNLogType.DEFAULT);
         }
 
-        Map<String, byte[]> keywordsMap = computeKeywords(keywords, null, null, null, null, null);
+        Map<String, byte[]> keywordsMap = computeKeywords(keywords, null, null, null, null, null, null);
         boolean repair = (eolStyle != null && eol != null && !SVNProperty.EOL_STYLE_NATIVE.equals(eolStyle)) || alwaysRepairEOLs;
         copyAndTranslate(source, destination, charset, eol, keywordsMap, isSpecial, false, repair);
     }
@@ -573,83 +567,56 @@ public class SVNTranslator {
         return result;
     }
 
-    public static Map<String, byte[]> computeKeywords(String keywords, String u, String a, String d, String r, ISVNOptions options) {
+    public static Map<String, byte[]> computeKeywords(String keywords, String locationUrl, String repositoryRoot, String a, String d, String r, ISVNOptions options) {
         if (keywords == null) {
             return Collections.emptyMap();
         }
-        boolean expand = u != null;
-        byte[] date = null;
-        byte[] idDate = null;
-        byte[] url = null;
-        byte[] rev = null;
-        byte[] author = null;
-        byte[] name = null;
-        byte[] id = null;
-        byte[] header = null;
-
-        Date jDate = d == null ? null : SVNDate.parseDate(d);
-
+        boolean expand = locationUrl != null;
+        boolean expandCustomKeywords = expand; //if we want to prevent custom keywords from expanding, change this
         Map<String, byte[]> map = new HashMap<String, byte[]>();
         try {
+            SVNKeywordFormatter keywordFormatter = new SVNKeywordFormatter(expand, expandCustomKeywords, locationUrl == null ? null : SVNURL.parseURIEncoded(locationUrl), repositoryRoot == null ? null : SVNURL.parseURIEncoded(repositoryRoot), a, d, r, options);
+
             for (StringTokenizer tokens = new StringTokenizer(keywords, " \t\n\b\r\f"); tokens.hasMoreTokens();) {
                 String token = tokens.nextToken();
-                if ("LastChangedDate".equals(token) || "Date".equalsIgnoreCase(token)) {
-                    date = expand && date == null ? SVNDate.formatHumanDate(jDate, options).getBytes("UTF-8") : date;
+                String customFormat = null;
+                if (expandCustomKeywords) {
+                    int pos = token.lastIndexOf('=');
+                    if (pos >= 0) {
+                        customFormat = token.substring(pos + 1);
+                        token = token.substring(0, pos);
+                    }
+                }
+                if (customFormat != null) {
+                    byte[] customValue = keywordFormatter.format(customFormat);
+                    map.put(token, customValue);
+                } else if ("LastChangedDate".equals(token) || "Date".equalsIgnoreCase(token)) {
+                    byte[] date = keywordFormatter.format("%D");
                     map.put("LastChangedDate", date);
                     map.put("Date", date);
                 } else
                 if ("LastChangedRevision".equals(token) || "Revision".equals(token) || "Rev".equalsIgnoreCase(token)) {
-                    rev = expand && rev == null ? r.getBytes("UTF-8") : rev;
-                    map.put("LastChangedRevision", rev);
-                    map.put("Revision", rev);
-                    map.put("Rev", rev);
+                    byte[] revision = keywordFormatter.format("%r");
+                    map.put("LastChangedRevision", revision);
+                    map.put("Revision", revision);
+                    map.put("Rev", revision);
                 } else if ("LastChangedBy".equals(token) || "Author".equalsIgnoreCase(token)) {
-                    author = expand && author == null ? (a == null ? new byte[0] : a.getBytes("UTF-8")) : author;
+                    byte[] author = keywordFormatter.format("%a");
                     map.put("LastChangedBy", author);
                     map.put("Author", author);
                 } else if ("HeadURL".equals(token) || "URL".equalsIgnoreCase(token)) {
-                    url = expand && url == null ? u.getBytes("UTF-8") : url;
+                    byte[] url = keywordFormatter.format("%u");
                     map.put("HeadURL", url);
                     map.put("URL", url);
                 } else if ("Id".equalsIgnoreCase(token)) {
-                    if (expand && header == null) {
-                        rev = rev == null ? r.getBytes("UTF-8") : rev;
-                        idDate = idDate == null ? SVNDate.formatShortDate(jDate).getBytes("UTF-8") : idDate;
-                        name = name == null ? SVNEncodingUtil.uriDecode(SVNPathUtil.tail(u)).getBytes("UTF-8") : name;
-                        author = author == null ? (a == null ? new byte[0] : a.getBytes("UTF-8")) : author;
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bos.write(name);
-                        bos.write(' ');
-                        bos.write(rev);
-                        bos.write(' ');
-                        bos.write(idDate);
-                        bos.write(' ');
-                        bos.write(author);
-                        bos.close();
-                        id = bos.toByteArray();
-                    }
+                    byte[] id = keywordFormatter.format("%b %r %d %a");
                     map.put("Id", expand ? id : null);
                 } else if ("Header".equalsIgnoreCase(token)) {
-                    if (expand && header == null) {
-                        rev = rev == null ? r.getBytes("UTF-8") : rev;
-                        url = expand && url == null ? SVNEncodingUtil.uriDecode(u).getBytes("UTF-8") : url;
-                        idDate = idDate == null ? SVNDate.formatShortDate(jDate).getBytes("UTF-8") : idDate;
-                        author = author == null ? (a == null ? new byte[0] : a.getBytes("UTF-8")) : author;
-                        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                        bos.write(url);
-                        bos.write(' ');
-                        bos.write(rev);
-                        bos.write(' ');
-                        bos.write(idDate);
-                        bos.write(' ');
-                        bos.write(author);
-                        bos.close();
-                        header = bos.toByteArray();
-                    }
+                    byte[] header = keywordFormatter.format("%u %r %d %a");
                     map.put("Header", expand ? header : null);
                 }
             }
-        } catch (IOException e) {
+        } catch (SVNException e) {
             //
         }
         return map;
@@ -744,5 +711,267 @@ public class SVNTranslator {
     public static synchronized void setEncoderActions(CodingErrorAction onMalformedInput, CodingErrorAction onUnmappableCharacter) {
         onMalformedInputAction = onMalformedInput;
         onUnmappableCharacterAction = onUnmappableCharacter;
+    }
+
+    private static class SVNKeywordFormatter {
+        private boolean expand;
+        private boolean expandCustomKeywords;
+        private String authorString;
+        private String dateString;
+        private String revisionString;
+        private ISVNOptions options;
+        private byte[] date;
+        private byte[] idDate;
+        private byte[] url;
+        private byte[] baseUrl;
+        private byte[] repositoryRoot;
+        private byte[] reposRelPath;
+        private byte[] rev;
+        private byte[] author;
+        private byte[] name;
+        private byte[] id;
+        private byte[] header;
+        private Date javaDate;
+        private SVNURL locationUrl;
+        private SVNURL repositoryRootUrl;
+
+        private SVNKeywordFormatter(boolean expand, boolean expandCustomKeywords, SVNURL locationUrl, SVNURL repositoryRootUrl, String authorString, String dateString, String revisionString, ISVNOptions options) {
+            this.expand = expand;
+            this.expandCustomKeywords = expandCustomKeywords;
+            this.authorString = authorString;
+            this.dateString = dateString;
+            this.revisionString = revisionString;
+            this.options = options;
+            this.locationUrl = locationUrl;
+            this.repositoryRootUrl = repositoryRootUrl;
+            date = null;
+            idDate = null;
+            url = null;
+            rev = null;
+            author = null;
+            name = null;
+            id = null;
+            header = null;
+        }
+
+        private byte[] format(String format) throws SVNException {
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            try {
+                int pos;
+                while (true) {
+                    pos = 0;
+
+                    while (pos < format.length() && format.charAt(pos) != '%') {
+                        pos++;
+                    }
+
+                    byteArrayOutputStream.write(format.substring(0, pos).getBytes("UTF-8"));
+
+                    if (pos == format.length()) {
+                        break;
+                    }
+
+                    if (pos + 1 == format.length()) {
+                        byteArrayOutputStream.write(format.charAt(pos));
+                        pos--;
+                    } else {
+                        switch (format.charAt(pos + 1)) {
+                            case 'a':
+                                byte[] author = getAuthor();
+                                if (author != null) {
+                                    byteArrayOutputStream.write(author);
+                                }
+                                break;
+                            case 'b':
+                                byte[] baseUrl = getName();
+                                if (baseUrl != null) {
+                                    byteArrayOutputStream.write(baseUrl);
+                                }
+                                break;
+                            case 'd':
+                                byte[] idDate = getIdDate();
+                                if (idDate != null) {
+                                    byteArrayOutputStream.write(idDate);
+                                }
+                                break;
+                            case 'D':
+                                byte[] date = getDate();
+                                if (date != null) {
+                                    byteArrayOutputStream.write(date);
+                                }
+                                break;
+                            case 'P':
+                                byte[] reposRelPath = getReposRelPath();
+                                if (reposRelPath != null) {
+                                    byteArrayOutputStream.write(reposRelPath);
+                                }
+                                break;
+                            case 'R':
+                                byte[] repositoryRoot = getRepositoryRoot();
+                                if (repositoryRoot != null) {
+                                    byteArrayOutputStream.write(repositoryRoot);
+                                }
+                                break;
+                            case 'r':
+                                final byte[] revision = getRevision();
+                                if (revision != null) {
+                                    byteArrayOutputStream.write(revision);
+                                }
+                                break;
+                            case 'u':
+                                final byte[] url = getUrl();
+                                if (url != null) {
+                                    byteArrayOutputStream.write(url);
+                                }
+                                break;
+                            case '_':
+                                byteArrayOutputStream.write(' ');
+                                break;
+                            case '%':
+                                byteArrayOutputStream.write('%');
+                                break;
+                            case 'H':
+                                byteArrayOutputStream.write(format("%P%_%r%_%d%_%a"));
+                                break;
+                            case 'I':
+                                byteArrayOutputStream.write(format("%b%_%r%_%d%_%a"));
+                                break;
+                            default:
+                                byteArrayOutputStream.write(format.charAt(pos));
+                                byteArrayOutputStream.write(format.charAt(pos + 1));
+                                break;
+                        }
+                    }
+
+                    format = format.substring(pos + 2);
+                }
+                return byteArrayOutputStream.toByteArray();
+            } catch (UnsupportedEncodingException e) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
+                SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+            } catch (IOException e) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
+                SVNErrorManager.error(errorMessage, SVNLogType.CLIENT);
+            } finally {
+                SVNFileUtil.closeFile(byteArrayOutputStream);
+            }
+            return null;
+        }
+
+        private Date getJavaDate() {
+            if (javaDate == null) {
+                javaDate = dateString == null ? null : SVNDate.parseDate(dateString);
+            }
+            return javaDate;
+        }
+
+        private byte[] getAuthor() throws UnsupportedEncodingException {
+            if (author == null) {
+                author = expand ? (authorString == null ? new byte[0] : authorString.getBytes("UTF-8")) : author;
+            }
+            return author;
+        }
+
+        private byte[] getDate() throws UnsupportedEncodingException {
+            if (date == null) {
+                date = expand ? SVNDate.formatHumanDate(getJavaDate(), options).getBytes("UTF-8") : date;
+            }
+            return date;
+        }
+
+        private byte[] getRevision() throws UnsupportedEncodingException {
+            if (rev == null) {
+                rev = expand ? revisionString.getBytes("UTF-8") : rev;
+            }
+            return rev;
+        }
+
+        private byte[] getUrl() throws UnsupportedEncodingException {
+            if (url == null) {
+                if (locationUrl != null) {
+                    url = expand ? locationUrl.toString().getBytes("UTF-8") : url;
+                }
+            }
+            return url;
+        }
+
+        private byte[] getBaseUrl() throws UnsupportedEncodingException, SVNException {
+            if (baseUrl == null) {
+                if (locationUrl != null) {
+                    baseUrl = locationUrl.removePathTail().toString().getBytes("UTF-8");
+                }
+            }
+            return baseUrl;
+        }
+
+        private byte[] getRepositoryRoot() throws UnsupportedEncodingException {
+            if (repositoryRoot == null) {
+                if (repositoryRootUrl != null) {
+                    repositoryRoot = repositoryRootUrl.toString().getBytes("UTF-8");
+                }
+            }
+            return repositoryRoot;
+        }
+
+        private byte[] getReposRelPath() throws UnsupportedEncodingException {
+            if (reposRelPath == null) {
+                if (repositoryRootUrl != null && locationUrl != null) {
+                    reposRelPath = SVNPathUtil.getRelativePath(repositoryRootUrl.toDecodedString(), locationUrl.toDecodedString()).getBytes("UTF-8");
+                }
+            }
+            return reposRelPath;
+        }
+
+        private byte[] getName() throws UnsupportedEncodingException {
+            if (name == null) {
+                if (locationUrl != null) {
+                    name = SVNEncodingUtil.uriDecode(SVNPathUtil.tail(locationUrl.toDecodedString())).getBytes("UTF-8");
+                }
+            }
+            return name;
+        }
+
+        private byte[] getIdDate() throws UnsupportedEncodingException {
+            if (idDate == null) {
+                idDate = SVNDate.formatShortDate(getJavaDate()).getBytes("UTF-8");
+            }
+            return idDate;
+        }
+
+        private byte[] getId() throws IOException {
+            if (id == null) {
+                if (expand) {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bos.write(getName());
+                    bos.write(' ');
+                    bos.write(getRevision());
+                    bos.write(' ');
+                    bos.write(getIdDate());
+                    bos.write(' ');
+                    bos.write(getAuthor());
+                    bos.close();
+                    id = bos.toByteArray();
+                }
+            }
+            return id;
+        }
+
+        private byte[] getHeader() throws IOException {
+            if (header == null) {
+                if (expand) {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bos.write(getUrl());
+                    bos.write(' ');
+                    bos.write(getRevision());
+                    bos.write(' ');
+                    bos.write(getIdDate());
+                    bos.write(' ');
+                    bos.write(getAuthor());
+                    bos.close();
+                    header = bos.toByteArray();
+                }
+            }
+            return header;
+        }
     }
 }

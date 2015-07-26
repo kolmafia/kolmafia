@@ -11,8 +11,6 @@
  */
 package org.tmatesoft.svn.core.internal.io.svn;
 
-import java.text.MessageFormat;
-
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
@@ -25,14 +23,16 @@ import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @version 1.3
  * @author  TMate Software Ltd.
  */
 public class SVNTunnelConnector extends SVNAbstractTunnelConnector {
-    
-    private static final String TUNNEL_COMMAND = "{0} {1} svnserve -t";
-    
+
     private String myTunnelSpec;
     private String myName;
 
@@ -43,14 +43,19 @@ public class SVNTunnelConnector extends SVNAbstractTunnelConnector {
 
     public void open(SVNRepositoryImpl repository) throws SVNException {
         // 1. expand tunnel spec (when env. is used).
-        String expandedTunnel = expandTunnelSpec(myName, myTunnelSpec);
-        // 2. create tunnel command using repo URL. 
+        final String[] expandedTunnel = expandTunnelSpec(myName, myTunnelSpec);
+
+        final List<String> sshCommand = new ArrayList<String>();
+        sshCommand.addAll(Arrays.asList(expandedTunnel));
+
+        // 2. create tunnel command using repo URL.
         String host = repository.getLocation().getHost();
         if (repository.getLocation().getUserInfo() != null && !"".equals(repository.getLocation().getUserInfo())) {
             String username = repository.getLocation().getUserInfo();
             host = username + "@" + host;
         }
-        expandedTunnel = MessageFormat.format(TUNNEL_COMMAND, new Object[] {expandedTunnel, host});
+        sshCommand.add(host);
+        final String svnServeCommand;
         // 3. get and append --tunnel-user if needed.
         final ISVNAuthenticationManager authManager = repository.getAuthenticationManager();
         if (authManager != null) {
@@ -64,15 +69,18 @@ public class SVNTunnelConnector extends SVNAbstractTunnelConnector {
             }
             auth = new SVNUserNameAuthentication(userName, auth.isStorageAllowed(), repository.getLocation(), false);
             BasicAuthenticationManager.acknowledgeAuthentication(true, ISVNAuthenticationManager.USERNAME, host, null, auth, repository.getLocation(), authManager);
-            expandedTunnel += " --tunnel-user " + userName;
-            
+            svnServeCommand = "svnserve -t --tunnel-user \"" + userName + "\"";
             repository.setExternalUserName(userName);
-        } 
-        SVNDebugLog.getDefaultLog().logFinest(SVNLogType.NETWORK, "tunnel command: " + expandedTunnel);
-        open(repository, expandedTunnel);
+        } else {
+            svnServeCommand = "svnserve -t";
+        }
+        sshCommand.add(svnServeCommand);
+
+        SVNDebugLog.getDefaultLog().logFinest(SVNLogType.NETWORK, "tunnel command: " + sshCommand);
+        open(repository, sshCommand.toArray(new String[sshCommand.size()]));
     }
 
-    private static String expandTunnelSpec(String name, String tunnelSpec) throws SVNException {
+    private static String[] expandTunnelSpec(String name, String tunnelSpec) throws SVNException {
         if (tunnelSpec == null || tunnelSpec.trim().length() == 0) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.EXTERNAL_PROGRAM, "No tunnel spec foound for ''{0}''", name);
             SVNErrorManager.error(err, SVNLogType.NETWORK);
@@ -82,7 +90,7 @@ public class SVNTunnelConnector extends SVNAbstractTunnelConnector {
         int spaceIndex = tunnelSpec.indexOf(' ');
         String firstSegment = spaceIndex > 0 ? tunnelSpec.substring(0, spaceIndex) : tunnelSpec;
         String lastSegment = spaceIndex > 0 ? tunnelSpec.substring(spaceIndex).trim() : tunnelSpec;
-        
+
         if (firstSegment.charAt(0) == '%' && firstSegment.charAt(firstSegment.length() - 1) == '%') {
             firstSegment = firstSegment.substring(1);
             firstSegment = firstSegment.substring(0, firstSegment.length() - 1);
@@ -101,7 +109,7 @@ public class SVNTunnelConnector extends SVNAbstractTunnelConnector {
             // was expanded with no result.
             tunnelSpec = lastSegment;
         }
-        return tunnelSpec;
+        return tunnelSpec.split("\\s");
     }
 
     public void handleExceptionOnOpen(SVNRepositoryImpl repository, SVNException exception) throws SVNException {

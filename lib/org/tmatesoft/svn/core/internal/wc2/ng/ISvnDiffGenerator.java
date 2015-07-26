@@ -39,7 +39,7 @@ public interface ISvnDiffGenerator {
 
     void displayPropsChanged(SvnTarget target, String revision1, String revision2, boolean dirWasAdded, SVNProperties originalProps, SVNProperties propChanges, OutputStream outputStream) throws SVNException;
 
-    void displayContentChanged(SvnTarget target, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, OutputStream outputStream) throws SVNException;
+    void displayContentChanged(SvnTarget target, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, SVNProperties originalProperties, SVNProperties propChanges, OutputStream outputStream) throws SVNException;
 
     boolean isForcedBinaryDiff();
 }
