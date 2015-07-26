@@ -94,6 +94,7 @@ public class SwaggerShopRequest
 			true
 			)
 		{
+			@Override
 			public final int getBuyPrice( final int itemId )
 			{
 				switch ( itemId )
