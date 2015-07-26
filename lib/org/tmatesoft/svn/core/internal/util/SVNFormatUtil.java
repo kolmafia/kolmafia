@@ -50,6 +50,21 @@ public class SVNFormatUtil {
         target.append(HEX[hi]);
         target.append(HEX[lo]);
     }
+
+    public static boolean isSpace(char c) {
+        return c == ' ' || c == '\t' || c == '\n' || c == 0x0b || c == '\f' || c == '\r';
+    }
+
+    public static String collapseSpaces(String s) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            final char c = s.charAt(i);
+            if (!isSpace(c)) {
+                stringBuilder.append(c);
+            }
+        }
+        return stringBuilder.toString();
+    }
     
     private static char[] HEX = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 

@@ -160,10 +160,13 @@ public class SvnCopy extends SvnOperation<Void> {
     private boolean ignoreExternals;
     private boolean virtual;
     private boolean disjoint;
+    private boolean allowMixedRevisions;
+    private boolean metadataOnly;
 
     protected SvnCopy(SvnOperationFactory factory) {
         super(factory);
         this.sources = new HashSet<SvnCopySource>();
+        this.allowMixedRevisions = true;
     }
 
     /**
@@ -303,5 +306,30 @@ public class SvnCopy extends SvnOperation<Void> {
     @Override
     public boolean isChangesWorkingCopy() {
         return true;
+    }
+
+    /**
+     * Gets whether the coping of directories with mixed revisions is allowed
+     * @return <code>true</code> if coping of directories with mixed revisions is allowed
+     */
+    public boolean isAllowMixedRevisions() {
+        return allowMixedRevisions;
+    }
+
+    /**
+     * Sets whether the coping of directories with mixed revisions is allowed
+     *
+     * @param allowMixedRevisions <code>true</code> if coping of directories with mixed revisions is allowed
+     */
+    public void setAllowMixedRevisions(boolean allowMixedRevisions) {
+        this.allowMixedRevisions = allowMixedRevisions;
+    }
+
+    public boolean isMetadataOnly() {
+        return metadataOnly;
+    }
+
+    public void setMetadataOnly(boolean metadataOnly) {
+        this.metadataOnly = metadataOnly;
     }
 }

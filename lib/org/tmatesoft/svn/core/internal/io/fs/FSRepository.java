@@ -52,6 +52,7 @@ import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNMergeInfoManager;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.ISVNFileRevisionHandler;
+import org.tmatesoft.svn.core.io.ISVNInheritedPropertiesHandler;
 import org.tmatesoft.svn.core.io.ISVNLocationEntryHandler;
 import org.tmatesoft.svn.core.io.ISVNLocationSegmentHandler;
 import org.tmatesoft.svn.core.io.ISVNLockHandler;
@@ -63,6 +64,7 @@ import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
 import org.tmatesoft.svn.core.io.SVNCapability;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.util.SVNLogType;
+import org.tmatesoft.svn.util.Version;
 
 /**
  * @version 1.3
@@ -77,7 +79,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
     private SVNMergeInfoManager myMergeInfoManager;
     private FSLog myLogDriver;
     private boolean myIsHooksEnabled;
-    
+
     protected FSRepository(SVNURL location, ISVNSession options) {
         super(location, options);
         setHooksEnabled(true);
@@ -89,7 +91,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
             getFSFS().setHooksEnabled(isHooksEnabled());
         }
     }
-    
+
     public boolean isHooksEnabled() {
         return myIsHooksEnabled;
     }
@@ -329,7 +331,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
 
             FSFileRevisionsFinder finder = new FSFileRevisionsFinder(myFSFS);
             int fileRevsNumber = finder.getFileRevisions(path, startRevision, endRevision,
-                                                         includeMergedRevisions, handler);
+                    includeMergedRevisions, handler);
             return fileRevsNumber;
         } finally {
             closeRepository();
@@ -376,7 +378,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
                 histEnd = startRevision;
             }
 
-            FSLog logDriver = getLogDriver(absPaths, limit, histStart, histEnd, isDescendingOrder, 
+            FSLog logDriver = getLogDriver(absPaths, limit, histStart, histEnd, isDescendingOrder,
                     discoverChangedPaths, strictNode, includeMergedRevisions, revPropNames, handler);
             return logDriver.runLog();
         } finally {
@@ -384,7 +386,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
         }
     }
 
-    protected int getLocationsImpl(String path, long pegRevision, long[] revisions, 
+    protected int getLocationsImpl(String path, long pegRevision, long[] revisions,
             ISVNLocationEntryHandler handler) throws SVNException {
         assertValidRevision(pegRevision);
         for (int i = 0; i < revisions.length; i++) {
@@ -400,7 +402,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
         }
     }
 
-    protected long getLocationSegmentsImpl(String path, long pegRevision, long startRevision, long endRevision, 
+    protected long getLocationSegmentsImpl(String path, long pegRevision, long startRevision, long endRevision,
             ISVNLocationSegmentHandler handler) throws SVNException {
         try {
             openRepository();
@@ -596,7 +598,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_BAD_ARGS, "Depth 'exclude' not supported for link");
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
-        
+
         SVNURL reposRootURL = getRepositoryRoot(false);
         if (url.toDecodedString().indexOf(reposRootURL.toDecodedString()) == -1) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "''{0}''\nis not the same repository as\n''{1}''", new Object[] {
@@ -670,14 +672,14 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
     }
 
 	public boolean hasCapability(SVNCapability capability) throws SVNException {
-		if (capability == SVNCapability.DEPTH || 
+		if (capability == SVNCapability.DEPTH ||
 		        capability == SVNCapability.LOG_REVPROPS ||
-				capability == SVNCapability.PARTIAL_REPLAY || 
+				capability == SVNCapability.PARTIAL_REPLAY ||
 				capability == SVNCapability.COMMIT_REVPROPS) {
 			return true;
 		} else if (capability == SVNCapability.ATOMIC_REVPROPS) {
-		    return false;		
-		} else if (capability == SVNCapability.MERGE_INFO) {		
+		    return false;
+		} else if (capability == SVNCapability.MERGE_INFO) {
 		    try {
 		        getMergeInfoImpl(new String[] { "" }, 0, SVNMergeInfoInheritance.EXPLICIT, false);
 		    } catch (SVNException svne) {
@@ -690,12 +692,47 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
 		        throw svne;
 		    }
 		    return true;
-		}
-		SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN_CAPABILITY, 
+		} else if (capability == SVNCapability.INHERITED_PROPS) {
+		    return true;
+		} else if (capability == SVNCapability.EPHEMERAL_PROPS) {
+            return true;
+        }
+		SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN_CAPABILITY,
 				"Don''t know anything about capability ''{0}''", capability);
 		SVNErrorManager.error(err, SVNLogType.FSFS);
 		return false;
 	}
+
+    protected void getInheritedPropertiesImpl(String path, long revision, String propertyName, ISVNInheritedPropertiesHandler handler) throws SVNException {
+        try {
+            openRepository();
+            path = getRepositoryPath(path);
+
+            String parentPath = path;
+
+            final FSRevisionRoot root = myFSFS.createRevisionRoot(revision);
+            while(!"/".equals(parentPath) && !"".equals(parentPath)) {
+                parentPath = SVNPathUtil.removeTail(parentPath);
+                if ("".equals(parentPath)) {
+                    parentPath = "/";
+                }
+
+                final FSRevisionNode node = root.getRevisionNode(parentPath);
+                final SVNProperties properties = myFSFS.getProperties(node);
+                if (properties != null && handler != null && !properties.isEmpty()) {
+                    if (propertyName != null && properties.containsName(propertyName)) {
+                        final SVNProperties singleProperty = new SVNProperties();
+                        singleProperty.put(propertyName, properties.getSVNPropertyValue(propertyName));
+                        handler.handleInheritedProperites(parentPath, singleProperty);
+                    } else if (propertyName == null) {
+                        handler.handleInheritedProperites(parentPath, properties);
+                    }
+                }
+            }
+        } finally {
+            closeRepository();
+        }
+    }
 
     void closeRepository() throws SVNException {
         if (myFSFS != null) {
@@ -704,7 +741,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
         unlock();
     }
 
-    protected Map getMergeInfoImpl(String[] paths, long revision, SVNMergeInfoInheritance inherit, 
+    protected Map getMergeInfoImpl(String[] paths, long revision, SVNMergeInfoInheritance inherit,
             boolean includeDescendants) throws SVNException {
         try {
             openRepository();
@@ -737,7 +774,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
         return new FSCommitEditor(getRepositoryPath(""), locks, keepLocks, null, myFSFS, this, revProps);
     }
 
-    protected void replayRangeImpl(long startRevision, long endRevision, long lowRevision, boolean sendDeltas, 
+    protected void replayRangeImpl(long startRevision, long endRevision, long lowRevision, boolean sendDeltas,
             ISVNReplayHandler handler) throws SVNException {
         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED);
         SVNErrorManager.error(err, SVNLogType.FSFS);
@@ -781,7 +818,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_LOCAL_REPOS_OPEN_FAILED, "Unable to open repository ''{0}''", getLocation().toString());
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
-        
+
         String dirPath = rootPath.replaceFirst("\\|", "\\:");
 
         myReposRootDir = hasCustomHostName ? new File("\\\\" + hostName, dirPath).getAbsoluteFile() :
@@ -877,7 +914,7 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_BAD_ARGS, "Request depth 'exclude' not supported");
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
-        
+
         target = target == null ? "" : target;
 
         if (!isValidRevision(targetRevision)) {
@@ -980,17 +1017,16 @@ public class FSRepository extends SVNRepository implements ISVNReporter {
         return myMergeInfoManager;
     }
 
-    private FSLog getLogDriver(String[] absPaths, long limit, long histStart, long histEnd, 
-            boolean isDescendingOrder, boolean discoverChangedPaths, boolean strictNode, 
+    private FSLog getLogDriver(String[] absPaths, long limit, long histStart, long histEnd,
+            boolean isDescendingOrder, boolean discoverChangedPaths, boolean strictNode,
             boolean includeMergedRevisions, String[] revPropNames, ISVNLogEntryHandler handler) {
         if (myLogDriver == null) {
-            myLogDriver = new FSLog(myFSFS, absPaths, limit, histStart, histEnd, isDescendingOrder, 
+            myLogDriver = new FSLog(myFSFS, absPaths, limit, histStart, histEnd, isDescendingOrder,
                     discoverChangedPaths, strictNode, includeMergedRevisions, revPropNames, handler);
         } else {
-            myLogDriver.reset(myFSFS, absPaths, limit, histStart, histEnd, isDescendingOrder, 
+            myLogDriver.reset(myFSFS, absPaths, limit, histStart, histEnd, isDescendingOrder,
                     discoverChangedPaths, strictNode, includeMergedRevisions, revPropNames, handler);
         }
         return myLogDriver;
     }
-
 }

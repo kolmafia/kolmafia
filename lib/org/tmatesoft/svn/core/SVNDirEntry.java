@@ -100,6 +100,8 @@ public class SVNDirEntry implements Comparable {
     private SVNLock myLock;
     private SVNURL myURL;
     private SVNURL myRepositoryRoot;
+    private SVNURL myExternalParentUrl;
+    private String myExternalTarget;
 
     /**
      * Constructs an instance of <b>SVNDirEntry</b>.
@@ -334,7 +336,23 @@ public class SVNDirEntry implements Comparable {
     public void setLock(SVNLock lock) {
         myLock = lock;
     }
-    
+
+    public SVNURL getExternalParentUrl() {
+        return myExternalParentUrl;
+    }
+
+    public void setExternalParentUrl(SVNURL myExternalParentUrl) {
+        this.myExternalParentUrl = myExternalParentUrl;
+    }
+
+    public String getExternalTarget() {
+        return myExternalTarget;
+    }
+
+    public void setExternalTarget(String myExternalTarget) {
+        this.myExternalTarget = myExternalTarget;
+    }
+
     /**
      * Retirns a string representation of this object. 
      * 

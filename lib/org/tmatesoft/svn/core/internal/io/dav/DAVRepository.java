@@ -12,11 +12,14 @@
 
 package org.tmatesoft.svn.core.internal.io.dav;
 
+import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +47,7 @@ import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVDateRevisionHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVDeletedRevisionHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVEditorHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVFileRevisionHandler;
+import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVInheritedPropertiesHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVLocationSegmentsHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVLocationsHandler;
 import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVLogHandler;
@@ -53,6 +57,7 @@ import org.tmatesoft.svn.core.internal.io.dav.handlers.DAVReplayHandler;
 import org.tmatesoft.svn.core.internal.io.dav.http.HTTPStatus;
 import org.tmatesoft.svn.core.internal.io.dav.http.IHTTPConnectionFactory;
 import org.tmatesoft.svn.core.internal.io.fs.FSErrors;
+import org.tmatesoft.svn.core.internal.io.fs.FSRepositoryUtil;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
@@ -60,18 +65,11 @@ import org.tmatesoft.svn.core.internal.util.SVNHashSet;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNDepthFilterEditor;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.io.ISVNEditor;
-import org.tmatesoft.svn.core.io.ISVNFileRevisionHandler;
-import org.tmatesoft.svn.core.io.ISVNLocationEntryHandler;
-import org.tmatesoft.svn.core.io.ISVNLocationSegmentHandler;
-import org.tmatesoft.svn.core.io.ISVNLockHandler;
-import org.tmatesoft.svn.core.io.ISVNReplayHandler;
-import org.tmatesoft.svn.core.io.ISVNReporterBaton;
-import org.tmatesoft.svn.core.io.ISVNSession;
-import org.tmatesoft.svn.core.io.ISVNWorkspaceMediator;
-import org.tmatesoft.svn.core.io.SVNCapability;
-import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.io.*;
+import org.tmatesoft.svn.core.wc2.SvnChecksum;
 import org.tmatesoft.svn.util.SVNLogType;
+import org.tmatesoft.svn.util.Version;
 
 /**
  * @version 1.3
@@ -82,18 +80,27 @@ public class DAVRepository extends SVNRepository {
     private DAVConnection myConnection;
     private IHTTPConnectionFactory myConnectionFactory;
     private boolean myIsSpoolResponse;
-    
+
     private static boolean ourIsKeepCredentials = Boolean.valueOf(System.getProperty("svnkit.http.keepCredentials", Boolean.TRUE.toString())).booleanValue();
-    
+    private File mySpoolLocation;
+
     public static void setKeepCredentials(boolean keepCredentials) {
         ourIsKeepCredentials = keepCredentials;
     }
-    
+
     protected DAVRepository(IHTTPConnectionFactory connectionFactory, SVNURL location, ISVNSession options) {
         super(location, options);
         myConnectionFactory = connectionFactory;
     }
-    
+
+    public void setSpoolLocation(File spoolLocation) {
+        mySpoolLocation = spoolLocation;
+    }
+
+    public File getSpoolLocation() {
+        return mySpoolLocation;
+    }
+
     public void testConnection() throws SVNException {
         try {
             openConnection();
@@ -106,11 +113,11 @@ public class DAVRepository extends SVNRepository {
             closeConnection();
         }
     }
-    
+
     public boolean hasRepositoryUUID() {
         return myRepositoryUUID != null;
     }
-    
+
     public void setRepositoryUUID(String uuid) {
         myRepositoryUUID = uuid;
     }
@@ -122,7 +129,7 @@ public class DAVRepository extends SVNRepository {
     public void setRepositoryRoot(SVNURL root) {
         myRepositoryRoot = root;
     }
-    
+
     public SVNURL getRepositoryRoot(boolean forceConnection) throws SVNException {
         if (myRepositoryRoot != null && !forceConnection) {
             return myRepositoryRoot;
@@ -154,7 +161,7 @@ public class DAVRepository extends SVNRepository {
         }
         return myRepositoryUUID;
     }
-    
+
     public void setSpoolResponse(boolean spool) {
         myIsSpoolResponse = spool;
         DAVConnection connection = getConnection();
@@ -162,11 +169,11 @@ public class DAVRepository extends SVNRepository {
             connection.setReportResponseSpooled(spool);
         }
     }
-    
+
     public boolean isSpoolResponse() {
         return myIsSpoolResponse;
     }
-    
+
     public void setAuthenticationManager(ISVNAuthenticationManager authManager) {
         DAVConnection connection = getConnection();
         if (authManager != getAuthenticationManager() && connection != null) {
@@ -175,7 +182,7 @@ public class DAVRepository extends SVNRepository {
         super.setAuthenticationManager(authManager);
     }
 
-    public long getLatestRevision() throws SVNException {        
+    public long getLatestRevision() throws SVNException {
         try {
             openConnection();
             String path = getLocation().getPath();
@@ -200,7 +207,7 @@ public class DAVRepository extends SVNRepository {
 			HTTPStatus status = connection.doReport(path, request, handler);
             if (status.getError() != null) {
                 if (status.getError().getErrorCode() == SVNErrorCode.UNSUPPORTED_FEATURE) {
-                    SVNErrorMessage err2 = SVNErrorMessage.create(status.getError().getErrorCode(), 
+                    SVNErrorMessage err2 = SVNErrorMessage.create(status.getError().getErrorCode(),
                             "Server does not support date-based operations");
                     SVNErrorManager.error(err2, status.getError(), SVNLogType.NETWORK);
                 }
@@ -236,7 +243,7 @@ public class DAVRepository extends SVNRepository {
         }
         return kind;
     }
-    
+
     public SVNProperties getRevisionProperties(long revision, SVNProperties properties) throws SVNException {
         properties = properties == null ? new SVNProperties() : properties;
         try {
@@ -255,13 +262,17 @@ public class DAVRepository extends SVNRepository {
         }
         return properties;
     }
-    
+
     public SVNPropertyValue getRevisionPropertyValue(long revision, String propertyName) throws SVNException {
         SVNProperties properties = getRevisionProperties(revision, null);
         return properties.getSVNPropertyValue(propertyName);
     }
 
     public long getFile(String path, long revision, final SVNProperties properties, OutputStream contents) throws SVNException {
+        return getFile(path, revision, properties, contents, null);
+    }
+
+    public long getFile(String path, long revision, final SVNProperties properties, OutputStream contents, ISVNWorkingCopyContentMediator workingCopyContentMediator) throws SVNException {
         long fileRevision = revision;
         try {
             openConnection();
@@ -271,21 +282,36 @@ public class DAVRepository extends SVNRepository {
             if (revision != -2) {
                 DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, path, revision, false, true, null);
                 path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
-                fileRevision = info.revision; 
+                fileRevision = info.revision;
             }
             if (properties != null) {
                 DAVProperties props = DAVUtil.getResourceProperties(connection, path, null, null);
                 DAVUtil.filterProperties(props, properties);
                 for (Iterator names = props.getProperties().keySet().iterator(); names.hasNext();) {
                     DAVElement property = (DAVElement) names.next();
-                    DAVUtil.setSpecialWCProperties(properties, property, props.getPropertyValue(property));
+                    DAVUtil.setSpecialWCProperties(properties, property, props.getPropertyValue(property), false);
                 }
                 if (fileRevision >= 0) {
                     properties.put(SVNProperty.REVISION, Long.toString(fileRevision));
                 }
             }
             if (contents != null) {
-                connection.doGet(path, contents);
+                InputStream inputStream = null;
+                try {
+                    if (workingCopyContentMediator != null && properties != null && properties.containsName(SVNProperty.SVNKIT_SHA1_CHECKSUM)) {
+                        String sha1Checksum = SVNPropertyValue.getPropertyAsString(properties.getSVNPropertyValue(SVNProperty.SVNKIT_SHA1_CHECKSUM));
+                        if (sha1Checksum != null) {
+                            inputStream = workingCopyContentMediator.getContentAsStream(new SvnChecksum(SvnChecksum.Kind.sha1, sha1Checksum));
+                        }
+                    }
+                    if (inputStream != null) {
+                        FSRepositoryUtil.copy(inputStream, contents, getCanceller());
+                    } else {
+                        connection.doGet(path, contents);
+                    }
+                } finally {
+                    SVNFileUtil.closeFile(inputStream);
+                }
             }
         } finally {
             closeConnection();
@@ -308,19 +334,19 @@ public class DAVRepository extends SVNRepository {
             if (revision != -2) {
                 DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, path, revision, false, true, null);
                 path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
-                dirRevision = info.revision; 
+                dirRevision = info.revision;
             }
-            
+
             DAVProperties deadProp = DAVUtil.getResourceProperties(connection, path, null, new DAVElement[] {DAVElement.DEADPROP_COUNT});
             boolean supportsDeadPropCount = deadProp != null && deadProp.getPropertyValue(DAVElement.DEADPROP_COUNT) != null ;
-            
+
             if (handler != null) {
                 DAVElement[] whichProps = null;
                 if ((entryFields & SVNDirEntry.DIRENT_HAS_PROPERTIES) == 0 ||
                         supportsDeadPropCount) {
-                    
+
                     List individualProps = new LinkedList();
-                    
+
                     if ((entryFields & SVNDirEntry.DIRENT_KIND) != 0) {
                         individualProps.add(DAVElement.RESOURCE_TYPE);
                     }
@@ -348,7 +374,7 @@ public class DAVRepository extends SVNRepository {
                     SVNErrorManager.error(status.getError(), SVNLogType.NETWORK);
                 }
                 if (!hasRepositoryRoot()) {
-                    connection.fetchRepositoryRoot(this);                    
+                    connection.fetchRepositoryRoot(this);
                 }
                 SVNURL repositryRoot = getRepositoryRoot(false);
                 for(Iterator dirEnts = dirEntsMap.keySet().iterator(); dirEnts.hasNext();) {
@@ -359,18 +385,19 @@ public class DAVRepository extends SVNRepository {
                         continue;
                     }
                     String name = SVNEncodingUtil.uriDecode(SVNPathUtil.tail(href));
-                    
+
                     SVNNodeKind kind = SVNNodeKind.UNKNOWN;
                     if ((entryFields & SVNDirEntry.DIRENT_KIND) != 0) {
-                        kind = child.isCollection() ? SVNNodeKind.DIR : SVNNodeKind.FILE;  
+                        kind = child.isCollection() ? SVNNodeKind.DIR : SVNNodeKind.FILE;
                     }
-                    
+
                     long size = 0;
                     if ((entryFields & SVNDirEntry.DIRENT_SIZE) != 0) {
-                    SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
-                        if (sizeValue != null) {
+                        final SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
+                        final String sizeValueString = SVNPropertyValue.getPropertyAsString(sizeValue);
+                        if (sizeValueString != null && sizeValueString.trim().length() > 0) {
                             try {
-                                size = Long.parseLong(sizeValue.getString());
+                                size = Long.parseLong(sizeValueString.trim());
                             } catch (NumberFormatException nfe) {
                                 SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, nfe), SVNLogType.NETWORK);
                             }
@@ -382,7 +409,7 @@ public class DAVRepository extends SVNRepository {
                         if (supportsDeadPropCount) {
                             SVNPropertyValue propVal = child.getPropertyValue(DAVElement.DEADPROP_COUNT);
                             if (propVal == null) {
-                                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.INCOMPLETE_DATA, 
+                                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.INCOMPLETE_DATA,
                                         "Server response missing the expected deadprop-count property");
                                 SVNErrorManager.error(err, SVNLogType.NETWORK);
                             } else {
@@ -397,15 +424,15 @@ public class DAVRepository extends SVNRepository {
                         } else {
                             for(Iterator props = child.getProperties().keySet().iterator(); props.hasNext();) {
                                 DAVElement property = (DAVElement) props.next();
-                                if (DAVElement.SVN_CUSTOM_PROPERTY_NAMESPACE.equals(property.getNamespace()) || 
+                                if (DAVElement.SVN_CUSTOM_PROPERTY_NAMESPACE.equals(property.getNamespace()) ||
                                         DAVElement.SVN_SVN_PROPERTY_NAMESPACE.equals(property.getNamespace())) {
                                     hasProperties = true;
                                     break;
                                 }
                             }
                         }
-                    }                    
-                    
+                    }
+
                     long lastRevision = INVALID_REVISION;
                     if ((entryFields & SVNDirEntry.DIRENT_CREATED_REVISION) != 0) {
                         Object revisionStr = child.getPropertyValue(DAVElement.VERSION_NAME);
@@ -432,19 +459,19 @@ public class DAVRepository extends SVNRepository {
                         SVNPropertyValue authorValue = child.getPropertyValue(DAVElement.CREATOR_DISPLAY_NAME);
                         author = authorValue == null ? null : authorValue.getString();
                     }
-                    
+
                     SVNURL childURL = getLocation().setPath(fullPath, true);
                     childURL = childURL.appendPath(name, false);
                     SVNDirEntry dirEntry = new SVNDirEntry(childURL, repositryRoot, name, kind, size, hasProperties, lastRevision, date, author);
                     handler.handleDirEntry(dirEntry);
-                }                
+                }
             }
             if (properties != null) {
                 DAVProperties dirProps = DAVUtil.getResourceProperties(connection, path, null, null);
                 DAVUtil.filterProperties(dirProps, properties);
                 for(Iterator props = dirProps.getProperties().keySet().iterator(); props.hasNext();) {
                     DAVElement property = (DAVElement) props.next();
-                    DAVUtil.setSpecialWCProperties(properties, property, dirProps.getPropertyValue(property));
+                    DAVUtil.setSpecialWCProperties(properties, property, dirProps.getPropertyValue(property), true);
                 }
             }
         } finally {
@@ -468,9 +495,9 @@ public class DAVRepository extends SVNRepository {
             }
             final int parentPathSegments = SVNPathUtil.getSegmentsCount(path);
             final List vccs = new ArrayList();
-            
-            DAVElement[] dirProperties = new DAVElement[] {DAVElement.VERSION_CONTROLLED_CONFIGURATION, 
-                    DAVElement.VERSION_NAME, DAVElement.GET_CONTENT_LENGTH, DAVElement.RESOURCE_TYPE, 
+
+            DAVElement[] dirProperties = new DAVElement[] {DAVElement.VERSION_CONTROLLED_CONFIGURATION,
+                    DAVElement.VERSION_NAME, DAVElement.GET_CONTENT_LENGTH, DAVElement.RESOURCE_TYPE,
                     DAVElement.CREATOR_DISPLAY_NAME, DAVElement.CREATION_DATE};
             Map dirEntsMap = new SVNHashMap();
             HTTPStatus status = DAVUtil.getProperties(connection, path, DAVUtil.DEPTH_ONE, null, dirProperties, dirEntsMap);
@@ -495,11 +522,12 @@ public class DAVRepository extends SVNRepository {
                         SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, nfe), SVNLogType.NETWORK);
                     }
                 }
-                SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
+                final SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
+                final String sizeValueString = SVNPropertyValue.getPropertyAsString(sizeValue);
                 long size = 0;
-                if (sizeValue != null) {
+                if (sizeValueString != null && sizeValueString.trim().length() > 0) {
                     try {
-                        size = Long.parseLong(sizeValue.getString());
+                        size = Long.parseLong(sizeValueString.trim());
                     } catch (NumberFormatException nfe) {
                         SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, nfe), SVNLogType.NETWORK);
                     }
@@ -515,14 +543,14 @@ public class DAVRepository extends SVNRepository {
                 SVNURL repositoryRoot = getRepositoryRoot(false);
                 SVNURL childURL = getLocation().setPath(fullPath, true);
                 if ("".equals(name)) {
-                    parent[0] = new SVNDirEntry(childURL, repositoryRoot, name, kind, size, false, lastRevision, 
+                    parent[0] = new SVNDirEntry(childURL, repositoryRoot, name, kind, size, false, lastRevision,
                             date, author);
                     SVNPropertyValue vcc = child.getPropertyValue(DAVElement.VERSION_CONTROLLED_CONFIGURATION);
                     parentVCC[0] = vcc == null ? null : vcc.getString();
                 } else {
                     childURL = childURL.appendPath(name, false);
                     if (entries != null) {
-                    	entries.add(new SVNDirEntry(childURL, repositoryRoot, name, kind, size, false, lastRevision, 
+                    	entries.add(new SVNDirEntry(childURL, repositoryRoot, name, kind, size, false, lastRevision,
                     	        date, author));
                     }
                     SVNPropertyValue vccValue = child.getPropertyValue(DAVElement.VERSION_CONTROLLED_CONFIGURATION);
@@ -551,7 +579,7 @@ public class DAVRepository extends SVNRepository {
                                 if (e.getErrorMessage().getErrorCode() != SVNErrorCode.RA_DAV_PROPS_NOT_FOUND) {
                                     throw e;
                                 }
-                            }                        
+                            }
                             getOptions().saveCommitMessage(DAVRepository.this, currentEntry.getRevision(), commitMessage);
                             currentEntry.setCommitMessage(commitMessage);
                         }
@@ -582,7 +610,7 @@ public class DAVRepository extends SVNRepository {
             DAVConnection connection = getConnection();
             HTTPStatus status = connection.doReport(bcPath, request, handler);
             if (status.getCode() == 501) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED,
                         "'replay' REPORT not implemented");
                 SVNErrorManager.error(err, status.getError(), SVNLogType.NETWORK);
             } else if (status.getError() != null) {
@@ -601,7 +629,7 @@ public class DAVRepository extends SVNRepository {
             openConnection();
             // get baseline url and proppatch.
             DAVConnection connection = getConnection();
-            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, 
+            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this,
                     SVNEncodingUtil.uriEncode(getLocation().getPath()), revision, false, false, null);
             String path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
             path = info.baseline;
@@ -610,7 +638,7 @@ public class DAVRepository extends SVNRepository {
             try {
                 connection.doProppatch(null, path, request, handler, null);
             } catch (SVNException e) {
-                requestError = e.getErrorMessage();                
+                requestError = e.getErrorMessage();
             }
             if (requestError != null || handler.getError() != null){
                 if (requestError != null){
@@ -618,7 +646,7 @@ public class DAVRepository extends SVNRepository {
                 } else {
                     requestError = handler.getError();
                 }
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED,
                         "DAV request failed; it's possible that the repository's " +
                         "pre-revprop-change hook either failed or is non-existent");
                 SVNErrorManager.error(err, requestError, SVNLogType.NETWORK);
@@ -671,12 +699,12 @@ public class DAVRepository extends SVNRepository {
                 SVNErrorMessage error = null;
                 long revisionNumber = revision != null ? revision.longValue() : -1;
                 try {
-                     lock = connection.doLock(path, this, comment, force, revisionNumber);
+                     lock = connection.doLock(repositoryPath, path, this, comment, force, revisionNumber);
                 } catch (SVNException e) {
                     error = null;
                     if (e.getErrorMessage() != null) {
                         if (FSErrors.isLockError(e.getErrorMessage())) {
-                            error = e.getErrorMessage();                            
+                            error = e.getErrorMessage();
                         }
                     }
                     if (error == null) {
@@ -709,7 +737,7 @@ public class DAVRepository extends SVNRepository {
                     connection.doUnlock(path, this, id, force);
                     error = null;
                 } catch (SVNException e) {
-                    if (e.getErrorMessage() != null && 
+                    if (e.getErrorMessage() != null &&
                             (e.getErrorMessage().getErrorCode() == SVNErrorCode.RA_NOT_LOCKED  || FSErrors.isUnlockError(e.getErrorMessage()))) {
                         error = e.getErrorMessage();
 
@@ -801,8 +829,8 @@ public class DAVRepository extends SVNRepository {
         }
         return fullPath;
     }
-    
-    public void diff(SVNURL url, long targetRevision, long revision, String target, boolean ignoreAncestry, 
+
+    public void diff(SVNURL url, long targetRevision, long revision, String target, boolean ignoreAncestry,
             SVNDepth depth, boolean getContents, ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
         if (url == null) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL could not be NULL");
@@ -812,13 +840,13 @@ public class DAVRepository extends SVNRepository {
             revision = targetRevision;
         }
         boolean sendAll = myConnectionFactory.useSendAllForDiff(this);
-        runReport(getLocation(), targetRevision, target, url.toString(), depth, ignoreAncestry, false, 
-                getContents, false, sendAll, false, true, reporter, editor);
+        runReport(getLocation(), targetRevision, target, url.toString(), depth, ignoreAncestry, false,
+                getContents, false, sendAll, false, true, null, reporter, editor);
     }
 
     public void status(long revision, String target, SVNDepth depth, ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
-        runReport(getLocation(), revision, target, null, depth, false, false, false, false, true, false, 
-                false, reporter, editor);
+        runReport(getLocation(), revision, target, null, depth, false, false, false, false, true, false,
+                false, null, reporter, editor);
     }
 
     public void update(SVNURL url, long revision, String target, SVNDepth depth, ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
@@ -826,14 +854,14 @@ public class DAVRepository extends SVNRepository {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_ILLEGAL_URL, "URL could not be NULL");
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
-        runReport(getLocation(), revision, target, url.toString(), depth, true, false, true, false, true, true, 
-                false, reporter, editor);
+        runReport(getLocation(), revision, target, url.toString(), depth, true, false, true, false, true, true,
+                false, null, reporter, editor);
     }
 
-    public void update(long revision, String target, SVNDepth depth, boolean sendCopyFromArgs, 
+    public void update(long revision, String target, SVNDepth depth, boolean sendCopyFromArgs,
             ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
-        runReport(getLocation(), revision, target, null, depth, false, false, true, sendCopyFromArgs, true, 
-                false, false, reporter, editor);
+        runReport(getLocation(), revision, target, null, depth, false, false, true, sendCopyFromArgs, true,
+                false, false, null, reporter, editor);
     }
 
     public boolean hasCapability(SVNCapability capability) throws SVNException {
@@ -891,7 +919,7 @@ public class DAVRepository extends SVNRepository {
         return false;
     }
 
-    protected int getFileRevisionsImpl(String path, long startRevision, long endRevision, 
+    protected int getFileRevisionsImpl(String path, long startRevision, long endRevision,
             boolean includeMergedRevisions, ISVNFileRevisionHandler handler) throws SVNException {
         String bcPath = getLocation().getPath();
         bcPath = SVNEncodingUtil.uriEncode(bcPath);
@@ -901,24 +929,24 @@ public class DAVRepository extends SVNRepository {
 
             path = "".equals(path) ? "" : doGetRepositoryPath(path);
             DAVFileRevisionHandler davHandler = new DAVFileRevisionHandler(handler);
-            StringBuffer request = DAVFileRevisionHandler.generateFileRevisionsRequest(null, startRevision, 
+            StringBuffer request = DAVFileRevisionHandler.generateFileRevisionsRequest(null, startRevision,
                     endRevision, path, includeMergedRevisions);
             long revision = -1;
             if (isValidRevision(startRevision) && isValidRevision(endRevision)) {
-                revision = Math.max(startRevision, endRevision);                
+                revision = Math.max(startRevision, endRevision);
             }
             DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, bcPath, revision, false, false, null);
             bcPath = SVNPathUtil.append(info.baselineBase, info.baselinePath);
             HTTPStatus status = connection.doReport(bcPath, request, davHandler);
             if (status.getCode() == 501) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED,
                         "'get-file-revs' REPORT not implemented");
                 SVNErrorManager.error(err, status.getError(), SVNLogType.NETWORK);
             } else if (status.getError() != null) {
                 SVNErrorManager.error(status.getError(), SVNLogType.NETWORK);
             }
             if (davHandler.getEntriesCount() <= 0) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED,
                         "The file-revs report didn't contain any revisions");
                 SVNErrorManager.error(err, SVNLogType.NETWORK);
             }
@@ -927,11 +955,11 @@ public class DAVRepository extends SVNRepository {
             closeConnection();
         }
     }
-    
+
     //TODO: FIXME
-    protected long logImpl(String[] targetPaths, long startRevision, long endRevision, 
-                    boolean changedPath, boolean strictNode, long limit, 
-                    boolean includeMergedRevisions, String[] revPropNames, 
+    protected long logImpl(String[] targetPaths, long startRevision, long endRevision,
+                    boolean changedPath, boolean strictNode, long limit,
+                    boolean includeMergedRevisions, String[] revPropNames,
                     final ISVNLogEntryHandler handler) throws SVNException {
         if (targetPaths == null || targetPaths.length == 0) {
             targetPaths = new String[]{""};
@@ -945,22 +973,22 @@ public class DAVRepository extends SVNRepository {
                     if (handler != null) {
                         handler.handleLogEntry(logEntry);
                     }
-                }            
+                }
         };
-        
+
         long latestRev = -1;
         if (isInvalidRevision(startRevision)) {
             startRevision = latestRev = getLatestRevision();
         }
         if (isInvalidRevision(endRevision)) {
-            endRevision = latestRev != -1 ? latestRev : getLatestRevision(); 
+            endRevision = latestRev != -1 ? latestRev : getLatestRevision();
         }
-        
+
         try {
             openConnection();
             DAVConnection connection = getConnection();
             String[] fullPaths = new String[targetPaths.length];
-            
+
             for (int i = 0; i < targetPaths.length; i++) {
                 fullPaths[i] = doGetFullPath(targetPaths[i]);
             }
@@ -970,15 +998,15 @@ public class DAVRepository extends SVNRepository {
                 relativePaths.add("");
             }
             fullPaths = (String[]) relativePaths.toArray(new String[relativePaths.size()]);
-            
-            StringBuffer request = DAVLogHandler.generateLogRequest(null, startRevision, endRevision, changedPath, 
+
+            StringBuffer request = DAVLogHandler.generateLogRequest(null, startRevision, endRevision, changedPath,
                     strictNode, includeMergedRevisions, revPropNames, limit, fullPaths);
             davHandler = new DAVLogHandler(cachingHandler, limit, revPropNames);
             if (davHandler.isWantCustomRevprops()) {
                 String capability = connection.getCapabilityResponse(SVNCapability.LOG_REVPROPS);
                 if (!DAVConnection.DAV_CAPABILITY_SERVER_YES.equals(capability) &&
                         !DAVConnection.DAV_CAPABILITY_YES.equals(capability)) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, 
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED,
                             "Server does not support custom revprops via log");
                     SVNErrorManager.error(err, SVNLogType.NETWORK);
                 }
@@ -993,13 +1021,13 @@ public class DAVRepository extends SVNRepository {
                     SVNErrorManager.error(status.getError(), SVNLogType.NETWORK);
                 }
             } catch (SVNException e) {
-                if (e.getErrorMessage() != null && e.getErrorMessage().getErrorCode() == SVNErrorCode.UNKNOWN && 
+                if (e.getErrorMessage() != null && e.getErrorMessage().getErrorCode() == SVNErrorCode.UNKNOWN &&
                         davHandler.isCompatibleMode()) {
                     cachingHandler.handleLogEntry(SVNLogEntry.EMPTY_ENTRY);
                 } else {
                     throw e;
                 }
-                
+
             }
         } finally {
             closeConnection();
@@ -1018,9 +1046,9 @@ public class DAVRepository extends SVNRepository {
     }
 
     protected DAVConnection createDAVConnection(IHTTPConnectionFactory connectionFactory, DAVRepository repo) {
-        return new DAVConnection(connectionFactory, repo); 
+        return new DAVConnection(connectionFactory, repo);
     }
-    
+
     protected void closeConnection() {
         DAVConnection connection = getConnection();
         if (connection != null && !ourIsKeepCredentials) {
@@ -1032,7 +1060,7 @@ public class DAVRepository extends SVNRepository {
         unlock();
         fireConnectionClosed();
     }
-    
+
     protected int getLocationsImpl(String path, long pegRevision, long[] revisions, ISVNLocationEntryHandler handler) throws SVNException {
         try {
             openConnection();
@@ -1049,15 +1077,15 @@ public class DAVRepository extends SVNRepository {
                 }
             }
             StringBuffer request = DAVLocationsHandler.generateLocationsRequest(null, path, pegRevision, revisions);
-            
+
             DAVLocationsHandler davHandler = new DAVLocationsHandler(handler);
             String root = getLocation().getPath();
             root = SVNEncodingUtil.uriEncode(root);
-            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, root, pegRevision, false, false, null);            
+            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, root, pegRevision, false, false, null);
             path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
             HTTPStatus status = connection.doReport(path, request, davHandler);
             if (status.getCode() == 501) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED,
                         "'get-locations' REPORT not implemented");
                 SVNErrorManager.error(err, status.getError(), SVNLogType.NETWORK);
             } else if (status.getError() != null) {
@@ -1086,17 +1114,17 @@ public class DAVRepository extends SVNRepository {
                 }
             }
 
-            StringBuffer request = DAVLocationSegmentsHandler.generateGetLocationSegmentsRequest(null, path, 
-                    pegRevision, startRevision, endRevision); 
+            StringBuffer request = DAVLocationSegmentsHandler.generateGetLocationSegmentsRequest(null, path,
+                    pegRevision, startRevision, endRevision);
             DAVLocationSegmentsHandler davHandler = new DAVLocationSegmentsHandler(handler);
             String root = absolutePath ? myRepositoryRoot.getPath() : getLocation().getPath();
             root = SVNEncodingUtil.uriEncode(root);
-            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, root, pegRevision, false, 
-                    false, null);            
+            DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, root, pegRevision, false,
+                    false, null);
             path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
             HTTPStatus status = connection.doReport(path, request, davHandler);
             if (status.getCode() == 501) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, 
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED,
                         "'get-location-segments' REPORT not implemented");
                 SVNErrorManager.error(err, status.getError(), SVNLogType.NETWORK);
             } else if (status.getError() != null) {
@@ -1129,13 +1157,13 @@ public class DAVRepository extends SVNRepository {
             boolean includeDescendants) throws SVNException {
         try {
             openConnection();
-            return doGetMergeInfo(paths, revision, inherit, includeDescendants);            
+            return doGetMergeInfo(paths, revision, inherit, includeDescendants);
         } finally {
             closeConnection();
         }
     }
 
-    protected void replayRangeImpl(long startRevision, long endRevision, long lowRevision, boolean sendDeltas, 
+    protected void replayRangeImpl(long startRevision, long endRevision, long lowRevision, boolean sendDeltas,
             ISVNReplayHandler handler) throws SVNException {
         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED);
         SVNErrorManager.error(err, SVNLogType.NETWORK);
@@ -1146,6 +1174,26 @@ public class DAVRepository extends SVNRepository {
             openConnection();
             DAVConnection connection = getConnection();
 
+            final SVNProperties filteredRevProps = new SVNProperties();
+            if (revProps != null) {
+                filteredRevProps.putAll(revProps);
+            }
+            if (DAVConnection.DAV_CAPABILITY_YES.equals(connection.getCapabilityResponse(SVNCapability.EPHEMERAL_PROPS))) {
+                if (!filteredRevProps.containsName(SVNRevisionProperty.SVN_TXN_USER_AGENT)) {
+                    filteredRevProps.put(SVNRevisionProperty.SVN_TXN_USER_AGENT, Version.getUserAgent());
+                }
+                if (!filteredRevProps.containsName(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION)) {
+                    filteredRevProps.put(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION, Version.getSVNVersion());
+                }
+            } else {
+                for(String propertyName : new HashSet<String>(filteredRevProps.nameSet())) {
+                    if (propertyName.startsWith(SVNRevisionProperty.SVN_TXN_PREFIX)) {
+                        filteredRevProps.remove(propertyName);
+                    }
+                }
+            }
+            revProps = filteredRevProps;
+
             Map translatedLocks = null;
             if (locks != null && !locks.isEmpty()) {
                 translatedLocks = new SVNHashMap();
@@ -1155,7 +1203,7 @@ public class DAVRepository extends SVNRepository {
                 for (Iterator paths = locks.keySet().iterator(); paths.hasNext();) {
                     String path = (String) paths.next();
                     String lock = (String) locks.get(path);
-    
+
                     if (path.startsWith("/")) {
                         path = SVNPathUtil.append(root, SVNEncodingUtil.uriEncode(path));
                     } else {
@@ -1175,7 +1223,7 @@ public class DAVRepository extends SVNRepository {
             closeConnection();
             if (th instanceof SVNException) {
                 throw (SVNException) th;
-            } 
+            }
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNKNOWN, "can not get commit editor: ''{0}''", th.getLocalizedMessage());
             SVNErrorManager.error(err, th, SVNLogType.NETWORK);
             return null;
@@ -1188,7 +1236,7 @@ public class DAVRepository extends SVNRepository {
             DAVConnection connection = getConnection();
             String thisSessionPath = doGetFullPath("");
             thisSessionPath = SVNEncodingUtil.uriEncode(thisSessionPath);
-            
+
             DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, thisSessionPath, pegRevision, false, false, null);
             String finalBCPath = SVNPathUtil.append(info.baselineBase, info.baselinePath);
             StringBuffer requestBody = DAVDeletedRevisionHandler.generateGetDeletedRevisionRequest(null, path, pegRevision, endRevision);
@@ -1218,7 +1266,7 @@ public class DAVRepository extends SVNRepository {
         DAVConnection connection = getConnection();
         DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, path, revision, false, true, null);
         path = SVNPathUtil.append(info.baselineBase, info.baselinePath);
-        
+
         if (paths == null || paths.length == 0) {
             paths = new String[]{""};
         }
@@ -1255,26 +1303,26 @@ public class DAVRepository extends SVNRepository {
         }
         return mergeInfoWithPath;
     }
-    
-    private void runReport(SVNURL url, long targetRevision, String target, String dstPath, SVNDepth depth, 
-            boolean ignoreAncestry, boolean resourceWalk, boolean fetchContents, boolean sendCopyFromArgs, 
-            boolean sendAll, boolean closeEditorOnException, boolean spool, ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
+
+    private void runReport(SVNURL url, long targetRevision, String target, String dstPath, SVNDepth depth,
+            boolean ignoreAncestry, boolean resourceWalk, boolean fetchContents, boolean sendCopyFromArgs,
+            boolean sendAll, boolean closeEditorOnException, boolean spool, ISVNWorkingCopyContentMediator workingCopyContentMediator, ISVNReporterBaton reporter, ISVNEditor editor) throws SVNException {
         boolean serverSupportsDepth = hasCapability(SVNCapability.DEPTH);
         if (depth != SVNDepth.FILES && depth != SVNDepth.INFINITY && !serverSupportsDepth) {
             editor = SVNDepthFilterEditor.getDepthFilterEditor(depth, editor, target != null);
         }
-        
+
         DAVEditorHandler handler = null;
         try {
             openConnection();
             DAVConnection connection = getConnection();
 
             Map lockTokens = new SVNHashMap();
-            StringBuffer request = DAVEditorHandler.generateEditorRequest(connection, null, 
-                    url.toString(), targetRevision, target, dstPath, depth, lockTokens, ignoreAncestry, 
+            StringBuffer request = DAVEditorHandler.generateEditorRequest(connection, null,
+                    url.toString(), targetRevision, target, dstPath, depth, lockTokens, ignoreAncestry,
                     resourceWalk, fetchContents, sendCopyFromArgs, sendAll, reporter);
-            handler = new DAVEditorHandler(myConnectionFactory, this, editor, lockTokens, fetchContents, 
-                    target != null && !"".equals(target));
+            handler = new DAVEditorHandler(myConnectionFactory, this, editor, lockTokens, fetchContents,
+                    target != null && !"".equals(target), workingCopyContentMediator);
             String bcPath = SVNEncodingUtil.uriEncode(getLocation().getPath());
             try {
                 bcPath = DAVUtil.getVCCPath(connection, this, bcPath);
@@ -1310,12 +1358,12 @@ public class DAVRepository extends SVNRepository {
                 SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, nfe), SVNLogType.NETWORK);
             }
         }
-        SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
-        
+        final SVNPropertyValue sizeValue = child.getPropertyValue(DAVElement.GET_CONTENT_LENGTH);
+        final String sizeValueString = SVNPropertyValue.getPropertyAsString(sizeValue);
         long size = 0;
-        if (sizeValue != null) {
+        if (sizeValueString != null && sizeValueString.trim().length() > 0) {
             try {
-                size = Long.parseLong(sizeValue.getString());
+                size = Long.parseLong(sizeValueString.trim());
             } catch (NumberFormatException nfe) {
                 SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_DAV_MALFORMED_DATA, nfe), SVNLogType.NETWORK);
             }
@@ -1337,11 +1385,45 @@ public class DAVRepository extends SVNRepository {
             }
         }
         DAVConnection connection = getConnection();
-        connection.fetchRepositoryRoot(this);            
+        connection.fetchRepositoryRoot(this);
         SVNURL repositoryRoot = getRepositoryRoot(false);
         SVNURL url = getLocation().setPath(fullPath, true);
         String name = repositoryRoot.equals(url) ? "" : SVNPathUtil.tail(href);
         return new SVNDirEntry(url, repositoryRoot, name, kind, size, hasProperties, lastRevision, date, author);
+    }
+
+    protected void getInheritedPropertiesImpl(String path, long revision, String propertyName, ISVNInheritedPropertiesHandler handler) throws SVNException {
+        try {
+            openConnection();
+            DAVConnection connection = getConnection();
+            String thisSessionPath = doGetFullPath("");
+            thisSessionPath = SVNEncodingUtil.uriEncode(thisSessionPath);
+
+            final DAVBaselineInfo info = DAVUtil.getBaselineInfo(connection, this, thisSessionPath, revision, false, false, null);
+            final String finalBCPath = SVNPathUtil.append(info.baselineBase, info.baselinePath);
+            final StringBuffer requestBody = DAVInheritedPropertiesHandler.generateReport(null, path, revision);
+            final DAVInheritedPropertiesHandler davHandler = new DAVInheritedPropertiesHandler();
+            HTTPStatus status = connection.doReport(finalBCPath, requestBody, davHandler);
+            if (status.getCode() == 501) {
+                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_NOT_IMPLEMENTED, "'inherited-props-report' REPORT not implemented");
+                SVNErrorManager.error(err, status.getError(), SVNLogType.NETWORK);
+            }
+            if (handler != null) {
+                final Map<String, SVNProperties> result = davHandler.getInheritedProperties();
+                for (String propsPath : result.keySet()) {
+                    final SVNProperties propsFromPath = result.get(propsPath);
+                    if (propertyName != null && propsFromPath.containsName(propertyName)) {
+                        final SVNProperties singleProp = new SVNProperties();
+                        singleProp.put(propertyName, propsFromPath.getSVNPropertyValue(propertyName));
+                        handler.handleInheritedProperites(propsPath, singleProp);
+                    } else if (propertyName == null) {
+                        handler.handleInheritedProperites(propsPath, propsFromPath);
+                    }
+                }
+            }
+        } finally {
+            closeConnection();
+        }
     }
 
 }

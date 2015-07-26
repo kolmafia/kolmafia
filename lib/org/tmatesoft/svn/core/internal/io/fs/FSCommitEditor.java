@@ -36,6 +36,7 @@ import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.util.SVNLogType;
+import org.tmatesoft.svn.util.Version;
 
 /**
  * @version 1.3
@@ -58,7 +59,7 @@ public class FSCommitEditor implements ISVNEditor {
     private FSCommitter myCommitter;
     private SVNProperties myRevProps;
     private String myAuthor;
-    
+
     public FSCommitEditor(String path, String logMessage, String userName, Map<String, String> lockTokens, boolean keepLocks, FSTransactionInfo txn, FSFS owner, FSRepository repository) {
         this(path, lockTokens, keepLocks, txn, owner, repository, null);
         myRevProps = new SVNProperties();
@@ -69,6 +70,7 @@ public class FSCommitEditor implements ISVNEditor {
         if (logMessage != null) {
             myRevProps.put(SVNRevisionProperty.LOG, logMessage);
         }
+        myRevProps.put(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION, Version.getSVNVersion());
     }
 
     public FSCommitEditor(String path, Map<String, String> lockTokens, boolean keepLocks, FSTransactionInfo txn, FSFS owner, FSRepository repository, SVNProperties revProps) {
@@ -81,6 +83,9 @@ public class FSCommitEditor implements ISVNEditor {
         myFSFS = owner;
         myDirsStack = new Stack<DirBaton>();
         myRevProps = revProps != null ? revProps : new SVNProperties();
+        if (!myRevProps.containsName(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION)) {
+            myRevProps.put(SVNRevisionProperty.SVN_TXN_CLIENT_COMPAT_VERSION, Version.getSVNVersion());
+        }
     }
 
     public void targetRevision(long revision) throws SVNException {
@@ -204,7 +209,7 @@ public class FSCommitEditor implements ISVNEditor {
 
                 myCommitter.makePathMutable(parentPath, path);
                 properties = parentPath.getRevNode().getProperties(myFSFS);
-                
+
                 done = true;
             }
 
@@ -214,7 +219,7 @@ public class FSCommitEditor implements ISVNEditor {
 
             if (myFSFS.supportsMergeInfo() && propName.equals(SVNProperty.MERGE_INFO)) {
                 long increment = 0;
-                boolean hadMergeInfo = parentPath.getRevNode().hasMergeInfo(); 
+                boolean hadMergeInfo = parentPath.getRevNode().hasMergeInfo();
                 if (propValue != null && !hadMergeInfo) {
                     increment = 1;
                 } else if (propValue == null && hadMergeInfo) {
@@ -231,7 +236,7 @@ public class FSCommitEditor implements ISVNEditor {
             } else {
                 properties.put(propName, propValue);
             }
-            
+
             if (!haveRealChanges) {
                 haveRealChanges = true;
             }
@@ -242,7 +247,7 @@ public class FSCommitEditor implements ISVNEditor {
             myCommitter.addChange(path, parentPath.getRevNode().getId(), FSPathChangeKind.FS_PATH_CHANGE_MODIFY, false, true, SVNRepository.INVALID_REVISION, null, kind);
         }
     }
-    
+
     public void closeDir() throws SVNException {
         flushPendingProperties();
         myDirsStack.pop();
@@ -319,7 +324,7 @@ public class FSCommitEditor implements ISVNEditor {
         }
         return myCurrentFileProps;
     }
-    
+
     private void flushPendingProperties() throws SVNException {
         if (myCurrentFilePath != null) {
             SVNProperties props = getFilePropertiesStorage();
@@ -328,10 +333,10 @@ public class FSCommitEditor implements ISVNEditor {
             myCurrentFilePath = null;
         }
     }
-    
+
     public void closeFile(String path, String textChecksum) throws SVNException {
         flushPendingProperties();
-        
+
         if (textChecksum != null) {
             String fullPath = SVNPathUtil.getAbsolutePath(SVNPathUtil.append(myBasePath, path));
             FSRevisionNode revNode = myTxnRoot.getRevisionNode(fullPath);
@@ -351,23 +356,23 @@ public class FSCommitEditor implements ISVNEditor {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.REPOS_BAD_ARGS, "No valid transaction supplied to closeEdit()");
                 SVNErrorManager.error(err, SVNLogType.FSFS);
             }
-    
+
             long committedRev = -1;
             if (myDeltaConsumer != null) {
                 myDeltaConsumer.close();
             }
-            
+
             SVNErrorMessage[] errorMessage = new SVNErrorMessage[1];
             committedRev = myCommitter.commitTxn(true, true, errorMessage, null);
-                
+
             SVNProperties revProps = myFSFS.getRevisionProperties(committedRev);
             String dateProp = revProps.getStringValue(SVNRevisionProperty.DATE);
             Date datestamp = dateProp != null ? SVNDate.parseDateString(dateProp) : null;
-            
+
             SVNErrorMessage err = errorMessage[0];
             if (err != null && err.getErrorCode() == SVNErrorCode.REPOS_POST_COMMIT_HOOK_FAILED) {
                 String message = err.getChildErrorMessage() != null ? err.getChildErrorMessage().getFullMessage() : err.getFullMessage();
-                err = SVNErrorMessage.create(SVNErrorCode.REPOS_POST_COMMIT_HOOK_FAILED, message, 
+                err = SVNErrorMessage.create(SVNErrorCode.REPOS_POST_COMMIT_HOOK_FAILED, message,
                         SVNErrorMessage.TYPE_WARNING);
             }
             SVNCommitInfo info = new SVNCommitInfo(committedRev, getAuthor(), datestamp, err);

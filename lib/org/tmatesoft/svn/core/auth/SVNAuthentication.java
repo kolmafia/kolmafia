@@ -12,6 +12,7 @@
 package org.tmatesoft.svn.core.auth;
 
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 
 /**
  * The <b>SVNAuthentication</b> is the base class that represents user 
@@ -118,6 +119,29 @@ public class SVNAuthentication {
 
     public SVNURL getURL() {
         return myURL;
+    }
+    
+    /**
+     * Disposes sensitive data (e.g. password) stored in this object.
+     * 
+     * @since 1.8.9
+     */
+    public void dismissSensitiveData() {
+    }
+    
+    /**
+     * Creates a deep copy of this credentials object. Sensitive data (e.g. password) is copied too.
+     * 
+     * @since 1.8.9
+     * @return copy of this object.
+     */
+    public SVNAuthentication copy() {
+        return new SVNAuthentication(myKind, myUserName, myIsStorageAllowed, myURL, myIsPartial);
+    }
+    
+    protected char[] copyOf(char[] source) {
+        return SVNEncodingUtil.copyOf(source);
+
     }
 
 }

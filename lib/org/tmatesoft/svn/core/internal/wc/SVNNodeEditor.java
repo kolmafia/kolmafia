@@ -36,6 +36,7 @@ import org.tmatesoft.svn.core.internal.io.fs.FSRoot;
 import org.tmatesoft.svn.core.internal.io.fs.FSTransactionRoot;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
+import org.tmatesoft.svn.core.internal.wc2.ng.ISvnPropertiesDiffHandler;
 import org.tmatesoft.svn.core.io.ISVNEditor;
 import org.tmatesoft.svn.core.io.SVNLocationEntry;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
@@ -270,6 +271,23 @@ public class SVNNodeEditor implements ISVNEditor {
                 printedHeader = true;
             }
         }
+
+        SVNProperties baseProps = null;
+        SVNProperties propsDiff = null;
+        String displayPath = null;
+
+        if (node.myHasPropModifications && node.myAction != SVNChangeEntry.TYPE_DELETED) {
+            FSRevisionNode localNode = root.getRevisionNode(path);
+            SVNProperties props = localNode.getProperties(root.getOwner());
+            if (node.myAction != SVNChangeEntry.TYPE_ADDED) {
+                FSRevisionNode baseNode = baseRoot.getRevisionNode(basePath);
+                baseProps = baseNode.getProperties(baseRoot.getOwner());
+            }
+            propsDiff = FSRepositoryUtil.getPropsDiffs(baseProps, props);
+            if (propsDiff.size() > 0) {
+                displayPath = path.startsWith("/") ? path.substring(1) : path;
+            }
+        }
         
         if (doDiff) {
             if (defaultGenerator != null) {
@@ -289,6 +307,9 @@ public class SVNNodeEditor implements ISVNEditor {
                 FSTransactionRoot txnRoot = (FSTransactionRoot) root;
                 rev2 = "(txn " + txnRoot.getTxnID() + ")";
             }
+            if (generator instanceof ISvnPropertiesDiffHandler) {
+                ((ISvnPropertiesDiffHandler)generator).handlePropertiesDiff(baseProps, propsDiff);
+            }
             generator.displayFileDiff(path, originalFile.myTmpFile, newFile.myTmpFile, rev1, rev2, originalFile.myMimeType, newFile.myMimeType, os);
             boolean hasDiff = defaultGenerator != null ? defaultGenerator.isDiffWritten() : true;
             if (!hasDiff && !node.myHasPropModifications &&
@@ -302,22 +323,11 @@ public class SVNNodeEditor implements ISVNEditor {
         } else if (printedHeader) {
             generator.displayHeader(ISVNGNUDiffGenerator.NO_DIFF, path, null, -1, os);
         }
-        
-        if (node.myHasPropModifications && node.myAction != SVNChangeEntry.TYPE_DELETED) {
-            FSRevisionNode localNode = root.getRevisionNode(path);
-            SVNProperties props = localNode.getProperties(root.getOwner());
-            SVNProperties baseProps = null;
-            if (node.myAction != SVNChangeEntry.TYPE_ADDED) {
-                FSRevisionNode baseNode = baseRoot.getRevisionNode(basePath);
-                baseProps = baseNode.getProperties(baseRoot.getOwner());
-            }
-            SVNProperties propsDiff = FSRepositoryUtil.getPropsDiffs(baseProps, props);
-            if (propsDiff.size() > 0) {
-                String displayPath = path.startsWith("/") ? path.substring(1) : path;
-                generator.displayPropDiff(displayPath, baseProps, propsDiff, os);
-            }
+
+        if (propsDiff != null && displayPath != null) {
+            generator.displayPropDiff(displayPath, baseProps, propsDiff, os);
         }
-        
+
         if (node.myChildren == null || node.myChildren.size() == 0) {
             return;
         }

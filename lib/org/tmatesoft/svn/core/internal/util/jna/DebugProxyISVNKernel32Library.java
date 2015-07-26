@@ -55,4 +55,8 @@ public class DebugProxyISVNKernel32Library implements ISVNKernel32Library {
                 DebugProxyISVNCLibrary.toStringNullable(pInfo) + ") = " + i, Level.INFO);
         return i;
     }
+
+    public int GetLastError() {
+        return myLibrary.GetLastError();
+    }
 }

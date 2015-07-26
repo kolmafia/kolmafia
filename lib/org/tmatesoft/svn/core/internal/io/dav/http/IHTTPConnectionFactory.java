@@ -11,6 +11,8 @@
  */
 package org.tmatesoft.svn.core.internal.io.dav.http;
 
+import java.io.File;
+
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.io.SVNRepository;
 
@@ -23,9 +25,16 @@ public interface IHTTPConnectionFactory {
     public IHTTPConnectionFactory DEFAULT = new IHTTPConnectionFactory() {
 
         public IHTTPConnection createHTTPConnection(SVNRepository repository) throws SVNException {
-            String charset = System.getProperty("svnkit.http.encoding", "UTF-8");
-            return new HTTPConnection(repository, charset, null, false);
-//            return new HttpConnection(repository, charset, null, false);
+            final String charset = System.getProperty("svnkit.http.encoding", "UTF-8");
+            final String spoolPath = System.getProperty("svnkit.http.spoolDirectory", null);
+            File spoolDirectory = spoolPath != null ? new File(spoolPath) : null;
+            if (spoolDirectory != null) {
+                spoolDirectory.mkdirs();
+                if (!spoolDirectory.isDirectory()) {
+                    spoolDirectory = null;
+                }
+            }
+            return new HTTPConnection(repository, charset, spoolDirectory, spoolDirectory != null);
         }
 
         public boolean useSendAllForDiff(SVNRepository repository) throws SVNException {

@@ -88,11 +88,14 @@ public class SvnOldDiffGenerator implements ISvnDiffGenerator {
         generator.displayPropDiff(getDisplayPath(displayPath), originalProps, propChanges, outputStream);
     }
 
-    public void displayContentChanged(SvnTarget displayPath, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, OutputStream outputStream) throws SVNException {
+    public void displayContentChanged(SvnTarget displayPath, File leftFile, File rightFile, String revision1, String revision2, String mimeType1, String mimeType2, SvnDiffCallback.OperationKind operation, File copyFromPath, SVNProperties originalProperties, SVNProperties propChanges, OutputStream outputStream) throws SVNException {
         if (operation == SvnDiffCallback.OperationKind.Deleted && !generator.isDiffDeleted()
                 || operation == SvnDiffCallback.OperationKind.Added && !generator.isDiffAdded()
                 || operation == SvnDiffCallback.OperationKind.Copied && !generator.isDiffCopied()) {
             return;
+        }
+        if (generator instanceof ISvnPropertiesDiffHandler) {
+            ((ISvnPropertiesDiffHandler) generator).handlePropertiesDiff(originalProperties, propChanges);
         }
         generator.displayFileDiff(getDisplayPath(displayPath), leftFile, rightFile, revision1, revision2, mimeType1, mimeType2, outputStream);
     }

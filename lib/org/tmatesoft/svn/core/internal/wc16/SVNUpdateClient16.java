@@ -1391,7 +1391,7 @@ public class SVNUpdateClient16 extends SVNBasicDelegate {
             } else {
                 author = entry.getAuthor();
             }
-            keywordsMap = SVNTranslator.computeKeywords(keywords, entry.getURL(), author, entry.getCommittedDate(), rev, getOptions());
+            keywordsMap = SVNTranslator.computeKeywords(keywords, entry.getURL(), entry.getRepositoryRoot(), author, entry.getCommittedDate(), rev, getOptions());
         }
         File srcFile = revision == SVNRevision.WORKING ? adminArea.getFile(fileName) : adminArea.getBaseFile(fileName, false);
         SVNFileType fileType = SVNFileType.getType(srcFile);
@@ -1417,7 +1417,7 @@ public class SVNUpdateClient16 extends SVNBasicDelegate {
     private long doRemoteExport(SVNRepository repository, final long revNumber, File dstPath, String eolStyle, boolean force, SVNDepth depth) throws SVNException {
         SVNNodeKind dstKind = repository.checkPath("", revNumber);
         if (dstKind == SVNNodeKind.DIR) {
-            SVNExportEditor editor = new SVNExportEditor(this, repository.getLocation().toString(), dstPath, force, eolStyle, isExportExpandsKeywords(), getOptions());
+            SVNExportEditor editor = new SVNExportEditor(this, repository.getLocation().toString(), dstPath, force, eolStyle, isExportExpandsKeywords(), repository.getRepositoryRoot(true).toString(), getOptions());
             repository.update(revNumber, null, depth, false, new ISVNReporterBaton() {
 
                 public void report(ISVNReporter reporter) throws SVNException {
@@ -1435,6 +1435,7 @@ public class SVNUpdateClient16 extends SVNBasicDelegate {
             }
         } else if (dstKind == SVNNodeKind.FILE) {
             String url = repository.getLocation().toString();
+            String repositoryRoot = isExportExpandsKeywords() ? repository.getRepositoryRoot(true).toString() : null;
             if (dstPath.isDirectory()) {
                 dstPath = new File(dstPath, SVNEncodingUtil.uriDecode(SVNPathUtil.tail(url)));
             }
@@ -1465,7 +1466,7 @@ public class SVNUpdateClient16 extends SVNBasicDelegate {
                 String mimeType = properties.getStringValue(SVNProperty.MIME_TYPE);
                 boolean binary = SVNProperty.isBinaryMimeType(mimeType);
                 String charset = SVNTranslator.getCharset(properties.getStringValue(SVNProperty.CHARSET), mimeType, url, getOptions());
-                Map keywords = SVNTranslator.computeKeywords(properties.getStringValue(SVNProperty.KEYWORDS), url, properties.getStringValue(SVNProperty.LAST_AUTHOR), properties
+                Map keywords = SVNTranslator.computeKeywords(properties.getStringValue(SVNProperty.KEYWORDS), url, repositoryRoot, properties.getStringValue(SVNProperty.LAST_AUTHOR), properties
                         .getStringValue(SVNProperty.COMMITTED_DATE), properties.getStringValue(SVNProperty.COMMITTED_REVISION), getOptions());
                 byte[] eols = null;
                 if (SVNProperty.EOL_STYLE_NATIVE.equals(properties.getStringValue(SVNProperty.EOL_STYLE))) {

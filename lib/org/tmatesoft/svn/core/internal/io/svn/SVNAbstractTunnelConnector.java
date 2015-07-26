@@ -1,11 +1,6 @@
 package org.tmatesoft.svn.core.internal.io.svn;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
+import com.trilead.ssh2.StreamGobbler;
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
 import org.tmatesoft.svn.core.SVNException;
@@ -13,7 +8,11 @@ import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.util.SVNLogType;
 
-import com.trilead.ssh2.StreamGobbler;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * @version 1.3
@@ -26,9 +25,24 @@ public abstract class SVNAbstractTunnelConnector implements ISVNConnector {
     private Process myProcess;
 
     public void open(SVNRepositoryImpl repository, String process) throws SVNException {
-        // 4. launch process.
         try {
             myProcess = Runtime.getRuntime().exec(process);
+            myInputStream = new BufferedInputStream(myProcess.getInputStream());
+            myOutputStream = new BufferedOutputStream(myProcess.getOutputStream());
+            new StreamGobbler(myProcess.getErrorStream());
+        } catch (IOException e) {
+            try {
+                close(repository);
+            } catch (SVNException inner) {
+            }
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.EXTERNAL_PROGRAM, "Cannot create tunnel: ''{0}''", e.getMessage());
+            SVNErrorManager.error(err, e, SVNLogType.NETWORK);
+        }
+    }
+
+    public void open(SVNRepositoryImpl repository, String[] command) throws SVNException {
+        try {
+            myProcess = Runtime.getRuntime().exec(command);
             myInputStream = new BufferedInputStream(myProcess.getInputStream());
             myOutputStream = new BufferedOutputStream(myProcess.getOutputStream());
             new StreamGobbler(myProcess.getErrorStream());
@@ -53,7 +67,7 @@ public abstract class SVNAbstractTunnelConnector implements ISVNConnector {
     public boolean isConnected(SVNRepositoryImpl repos) throws SVNException {
         return myInputStream != null;
     }
-    
+
     public boolean isStale() {
         return false;
     }

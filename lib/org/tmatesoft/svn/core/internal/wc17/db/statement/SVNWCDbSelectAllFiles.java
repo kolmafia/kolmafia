@@ -34,7 +34,7 @@ public class SVNWCDbSelectAllFiles extends SVNSqlJetSelectFieldsStatement<SVNWCD
     }
 
     protected Object[] getWhere() throws SVNException {
-    	return new Object[] {(Long)getBind(1), (String)getBind(2)};
+    	return new Object[] {getBind(1), getBind(2)};
     }
     
     @Override

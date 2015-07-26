@@ -10,6 +10,7 @@ import org.tmatesoft.svn.core.internal.wc17.SVNStatusEditor17;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.PristineContentsInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
@@ -26,7 +27,7 @@ public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
 
     @Override
     protected Void run(SVNWCContext context) throws SVNException {
-        
+        SVNURL reposRootUrl = null;
         SVNNodeKind kind = context.readKind(getFirstTarget(), false);
         if (kind == SVNNodeKind.UNKNOWN || kind == SVNNodeKind.NONE) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNVERSIONED_RESOURCE, "''{0}'' is not under version control", getFirstTarget().getAbsolutePath());
@@ -64,18 +65,20 @@ public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
             if (localModifications && !special) {
                 lastModified = SVNFileUtil.getFileLastModified(getFirstTarget());
             } else {
-                Structure<NodeInfo> info = context.getDb().readInfo(getFirstTarget(), NodeInfo.recordedTime);
+                Structure<NodeInfo> info = context.getDb().readInfo(getFirstTarget(), NodeInfo.recordedTime, NodeInfo.reposRootUrl);
+                reposRootUrl = info.get(NodeInfo.reposRootUrl);
                 lastModified = info.lng(NodeInfo.recordedTime) / 1000;
                 info.release();
             }
             
             Map<?, ?> keywordsMap = null;
             if (keywords != null && getOperation().isExpandKeywords()) {
-                Structure<NodeInfo> info = context.getDb().readInfo(getFirstTarget(), NodeInfo.changedRev, NodeInfo.changedAuthor);
+                Structure<NodeInfo> info = context.getDb().readInfo(getFirstTarget(), NodeInfo.changedRev, NodeInfo.changedAuthor, NodeInfo.reposRootUrl);
                 SVNURL url = context.getNodeUrl(getFirstTarget());
                 
                 String rev = Long.toString(info.lng(NodeInfo.changedRev));
                 String author = info.get(NodeInfo.changedAuthor);
+                reposRootUrl = info.get(NodeInfo.reposRootUrl);
                 info.release();
                 
                 if (localModifications) {
@@ -83,7 +86,7 @@ public class SvnNgCat extends SvnNgOperationRunner<Void, SvnCat> {
                     author = "(local)";
                 }
                 String date = SVNDate.formatDate(new Date(lastModified));
-                keywordsMap = SVNTranslator.computeKeywords(keywords, url.toString(), author, date, rev, getOperation().getOptions());
+                keywordsMap = SVNTranslator.computeKeywords(keywords, url.toString(), reposRootUrl == null ? null : reposRootUrl.toString(), author, date, rev, getOperation().getOptions());
             }
             
             if (keywordsMap != null || eolStyle != null) {

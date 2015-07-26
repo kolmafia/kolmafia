@@ -323,6 +323,18 @@ public class SVNConfigFile {
         writeFile("/org/tmatesoft/svn/core/internal/wc/config", configFile);
         writeFile("/org/tmatesoft/svn/core/internal/wc/servers", serversFile);
         writeFile("/org/tmatesoft/svn/core/internal/wc/README.txt", readmeFile);
+
+        File authDirectory = new File(configDir, "auth");
+        File authSvnSimpleDirectory = new File(authDirectory, "svn.simple");
+        File authSvnSslClientPassphraseDirectory = new File(authDirectory, "svn.ssl.client-passphrase");
+        File authSvnUsernameDirectory = new File(authDirectory, "svn.username");
+        File authSvnSslServerDirectory = new File(authDirectory, "svn.ssl.server");
+
+        authDirectory.mkdir();
+        authSvnSimpleDirectory.mkdir();
+        authSvnSslClientPassphraseDirectory.mkdir();
+        authSvnUsernameDirectory.mkdir();
+        authSvnSslServerDirectory.mkdir();
     }
 
     private static void writeFile(String url, File configFile) {

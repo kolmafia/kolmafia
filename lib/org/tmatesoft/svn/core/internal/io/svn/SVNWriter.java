@@ -86,16 +86,20 @@ public class SVNWriter {
                     os.write(Integer.toString(bytes.length).getBytes("UTF-8"));
                     os.write(':');
                     os.write(bytes);
+                    os.write(' ');
                 } else if (ch == 'n') {
                     os.write(item.toString().getBytes("UTF-8"));
+                    os.write(' ');
                 } else if (ch == 'w') {
                     os.write(item.toString().getBytes("UTF-8"));
+                    os.write(' ');
                 } else if (ch == 's') {
                     os.write(Integer.toString(
                             item.toString().getBytes("UTF-8").length).getBytes(
                             "UTF-8"));
                     os.write(':');
                     os.write(item.toString().getBytes("UTF-8"));
+                    os.write(' ');
                 } else if (ch == '*') {
                     ch = template.charAt(i + 1);
                     if (item instanceof Object[]) {
@@ -160,7 +164,6 @@ public class SVNWriter {
                     }
                     i++;
                 }
-                os.write(' ');
             }
         } catch (IOException e) {
             SVNErrorManager.error(SVNErrorMessage.create(SVNErrorCode.RA_SVN_IO_ERROR, e.getMessage()), e, SVNLogType.NETWORK);

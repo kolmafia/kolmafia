@@ -23,6 +23,7 @@ import org.tmatesoft.svn.core.wc2.SvnChecksum;
 import org.tmatesoft.svn.util.SVNLogType;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -384,6 +385,71 @@ public class SvnWcDbPristines extends SvnWcDbShared {
         }
 
         return checksumToRefCount;
+    }
+
+    public static void transferPristine(SVNWCDb db, File srcLocalAbsPath, File dstWriAbsPath) throws SVNException {
+        SVNWCDb.DirParsedInfo srcParsed = db.parseDir(srcLocalAbsPath, SVNSqlJetDb.Mode.ReadOnly);
+        SVNWCDb.verifyDirUsable(srcParsed.wcDbDir);
+        SVNWCDb.DirParsedInfo dstParsed = db.parseDir(dstWriAbsPath, SVNSqlJetDb.Mode.ReadOnly);
+        SVNWCDb.verifyDirUsable(dstParsed.wcDbDir);
+        if (srcParsed.wcDbDir.getWCRoot() == dstParsed.wcDbDir.getWCRoot() &&
+                srcParsed.wcDbDir.getWCRoot().getSDb() == dstParsed.wcDbDir.getWCRoot().getSDb()) {
+            return;
+        }
+
+        PristineTransfer pristineTransfer = new PristineTransfer();
+        pristineTransfer.srcWcRoot = srcParsed.wcDbDir.getWCRoot();
+        pristineTransfer.dstWcRoot = dstParsed.wcDbDir.getWCRoot();
+        pristineTransfer.srcRelPath = srcParsed.localRelPath;
+
+        srcParsed.wcDbDir.getWCRoot().getSDb().runTransaction(pristineTransfer);
+    }
+
+    private static class PristineTransfer implements SVNSqlJetTransaction {
+
+        public SVNWCDbRoot srcWcRoot;
+        public SVNWCDbRoot dstWcRoot;
+        public File srcRelPath;
+
+        public void transaction(SVNSqlJetDb db) throws SqlJetException, SVNException {
+            SVNSqlJetStatement stmt = db.getStatement(SVNWCDbStatements.SELECT_COPY_PRISTINES);
+            try {
+                stmt.bindf("is", srcWcRoot.getWcId(), srcRelPath);
+                boolean gotRow = stmt.next();
+
+                while (gotRow) {
+                    SvnChecksum checksum = SvnWcDbStatementUtil.getColumnChecksum(stmt, NODES__Fields.checksum);
+                    SvnChecksum md5Checksum = SvnWcDbStatementUtil.getColumnChecksum(stmt.getJoinedStatement(SVNWCDbSchema.PRISTINE), PRISTINE__Fields.md5_checksum);
+                    long size = stmt.getJoinedStatement(SVNWCDbSchema.PRISTINE).getColumnLong(PRISTINE__Fields.size);
+
+                    maybeTransferOnePristine(srcWcRoot, dstWcRoot, checksum, md5Checksum, size);
+
+                    gotRow = stmt.next();
+                }
+            } finally {
+                stmt.reset();
+            }
+        }
+    }
+
+    private static void maybeTransferOnePristine(SVNWCDbRoot srcWcRoot, SVNWCDbRoot dstWcRoot, SvnChecksum checksum, SvnChecksum md5Checksum, long size) throws SVNException {
+        SVNSqlJetStatement stmt = dstWcRoot.getSDb().getStatement(SVNWCDbStatements.INSERT_OR_IGNORE_PRISTINE);
+        try {
+            stmt.bindChecksum(1, checksum);
+            stmt.bindChecksum(2, md5Checksum);
+            stmt.bindLong(3, size);
+            long affectedRows = stmt.done();
+            if (affectedRows == 0) {
+                return;
+            }
+        } finally {
+            stmt.reset();
+        }
+
+        File srcAbsPath = getPristineFileName(srcWcRoot, checksum, false);
+        File dstAbsPath = getPristineFileName(dstWcRoot, checksum, true);
+
+        SVNFileUtil.copy(srcAbsPath, dstAbsPath, true, false);
     }
 }
 

@@ -24,6 +24,7 @@ import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgUpgradeSDb;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -67,11 +68,15 @@ public class SVNWCDbRoot {
      */
     private List<WCLock> ownedLocks = new ArrayList<WCLock>();
 
-    public SVNWCDbRoot(SVNWCDb db, File absPath, SVNSqlJetDb sDb, long wcId, int format, boolean autoUpgrade, boolean enforceEmptyWQ) throws SVNException {
+    public SVNWCDbRoot(SVNWCDb db, File absPath, SVNSqlJetDb sDb, long wcId, int format, boolean autoUpgrade, boolean failOnVersionsMismatch, boolean enforceEmptyWQ) throws SVNException {
         if (sDb != null) {
             try {
                 format = sDb.getDb().getOptions().getUserVersion();
             } catch (SqlJetException e) {
+                if (e.getErrorCode() == SqlJetErrorCode.NOTADB) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_CORRUPT, e);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                }
                 SVNSqlJetDb.createSqlJetError(e);
             }
         }
@@ -85,29 +90,30 @@ public class SVNWCDbRoot {
 
         /* If this working copy is PRE-1.0, then simply bail out. */
         if (format < 4) {
-            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UNSUPPORTED_FORMAT, "Working copy format of ''{0}'' is too old ''{1}''", new Object[] {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UPGRADE_REQUIRED, "Working copy format of ''{0}'' is too old ''{1}''", new Object[] {
                     absPath, format
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
 
-        /* If this working copy is from a future version, then bail out. */
-        if (format > ISVNWCDb.WC_FORMAT_17) {
+        if (format > ISVNWCDb.WC_FORMAT_18) {
+            /* If this working copy is from a future version, then bail out. */
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UNSUPPORTED_FORMAT, "This client is too old to work with the working copy at\n" + "''{0}'' (format ''{1}'').", new Object[] {
                     absPath, format
             });
             SVNErrorManager.error(err, SVNLogType.WC);
         }
 
-        /* Auto-upgrade the SDB if possible. */
-        if (format < ISVNWCDb.WC_FORMAT_17 && autoUpgrade) {
-            if (autoUpgrade) {
-                //format = SvnNgUpgradeSDb.upgrade(absPath, sDb, format);
-            } else {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UNSUPPORTED_FORMAT, "Working copy format of ''{0}'' is too old ''{1}''", new Object[] {
-                        absPath, format
-                });
-                SVNErrorManager.error(err, SVNLogType.WC);
+        if (failOnVersionsMismatch) {
+            if (format < ISVNWCDb.WC_FORMAT_17) {
+                if (autoUpgrade) {
+                    format = SvnNgUpgradeSDb.upgrade(absPath, db, sDb, format, null);
+                } else {
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_UPGRADE_REQUIRED, "Working copy format of ''{0}'' is too old ''{1}''", new Object[] {
+                            absPath, format
+                    });
+                    SVNErrorManager.error(err, SVNLogType.WC);
+                }
             }
         }
 

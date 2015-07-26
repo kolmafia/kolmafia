@@ -18,6 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import org.tmatesoft.svn.core.auth.SVNPasswordAuthentication;
+import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.util.SVNFormatUtil;
 
 /**
@@ -33,7 +34,7 @@ public class CramMD5 {
     }
 
     public byte[] buildChallengeResponse(byte[] challenge) throws IOException {
-        byte[] password = myCredentials.getPassword().getBytes("UTF-8");
+        byte[] password = SVNEncodingUtil.getBytes(myCredentials.getPasswordValue(), "UTF-8");
         byte[] secret = new byte[64];
         Arrays.fill(secret, (byte) 0);
         System.arraycopy(password, 0, secret, 0, Math.min(secret.length, password.length));

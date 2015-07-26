@@ -60,7 +60,7 @@ public class HTTPHeader {
     public static final String SET_COOKIE = "Set-Cookie";
     public static final String COOKIE = "Cookie";
     
-    private Map<String, Collection<String>> myHeaders;
+    private Map<String, List<String>> myHeaders;
 
     public HTTPHeader() {
     }
@@ -86,8 +86,8 @@ public class HTTPHeader {
     }
 
     public void addHeaderValue(String name, String value) {
-        Map<String, Collection<String>> headers = getHeaders();
-        Collection<String> values = headers.get(name);
+        Map<String, List<String>> headers = getHeaders();
+        List<String> values = headers.get(name);
         if (values == null) {
             values = new LinkedList<String>();
             headers.put(name, values);
@@ -95,11 +95,11 @@ public class HTTPHeader {
         values.add(value);
     }
     
-    public Map<String, Collection<String>> getRawHeaders() {
+    public Map<String, List<String>> getRawHeaders() {
         return getHeaders();
     }
 
-    public Collection<String> getHeaderValues(String name) {
+    public List<String> getHeaderValues(String name) {
         if (myHeaders == null) {
             return null;
         }
@@ -124,8 +124,8 @@ public class HTTPHeader {
     }
     
     public void setHeaderValue(String name, String value){
-        Map<String, Collection<String>> headers = getHeaders();
-        Collection<String> values = headers.get(name);
+        Map<String, List<String>> headers = getHeaders();
+        List<String> values = headers.get(name);
         if (values == null) {
             values = new LinkedList<String>();
             headers.put(name, values);
@@ -135,9 +135,9 @@ public class HTTPHeader {
         values.add(value);
     }
     
-    private Map<String, Collection<String>> getHeaders() {
+    private Map<String, List<String>> getHeaders() {
         if (myHeaders == null) {
-            myHeaders = new TreeMap<String, Collection<String>>();
+            myHeaders = new TreeMap<String, List<String>>();
         }
         return myHeaders;
     }

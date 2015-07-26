@@ -285,8 +285,15 @@ public class DAVUtil {
         return null;
     }
 
+    /**
+     * @deprecated for binary compatibility only
+     */
     public static void setSpecialWCProperties(SVNProperties props, DAVElement property, SVNPropertyValue propValue) {
-        String propName = convertDAVElementToPropName(property);
+        setSpecialWCProperties(props, property, propValue, false);
+    }
+
+    public static void setSpecialWCProperties(SVNProperties props, DAVElement property, SVNPropertyValue propValue, boolean isDir) {
+        String propName = convertDAVElementToPropName(property, isDir);
         if (propName != null) {
             props.put(propName, propValue);
         }
@@ -294,7 +301,7 @@ public class DAVUtil {
 
     public static void setSpecialWCProperties(ISVNEditor editor, boolean isDir, String path, DAVElement property, 
             SVNPropertyValue propValue) throws SVNException {
-        String propName = convertDAVElementToPropName(property);
+        String propName = convertDAVElementToPropName(property, isDir);
         if (propName != null) {
             if (isDir) {
                 editor.changeDirProperty(propName, propValue);
@@ -321,7 +328,7 @@ public class DAVUtil {
         return "/";
     }
 
-    private static String convertDAVElementToPropName(DAVElement property) {
+    private static String convertDAVElementToPropName(DAVElement property, boolean isDir) {
         String propName = null;
         if (property == DAVElement.VERSION_NAME) {
             propName = SVNProperty.COMMITTED_REVISION;    
@@ -331,8 +338,10 @@ public class DAVUtil {
             propName = SVNProperty.COMMITTED_DATE;
         } else if (property == DAVElement.REPOSITORY_UUID) {
             propName = SVNProperty.UUID;
-        } else if (property == DAVElement.MD5_CHECKSUM) {
+        } else if (property == DAVElement.MD5_CHECKSUM && !isDir) {
             propName = SVNProperty.CHECKSUM;
+        } else if (property == DAVElement.SHA1_CHECKSUM && !isDir) {
+            propName = SVNProperty.SVNKIT_SHA1_CHECKSUM;
         }
         return propName;
     }

@@ -95,9 +95,9 @@ public abstract class SVNPasswordCipher {
     protected SVNPasswordCipher() {
     }
     
-    public abstract String encrypt(String rawData);
+    public abstract char[] encrypt(char[] rawData);
 
-    public abstract String decrypt(String encyrptedData);
+    public abstract char[] decrypt(char[] encyrptedData);
 
     public abstract String getCipherType();
 
@@ -120,15 +120,15 @@ public abstract class SVNPasswordCipher {
             myCiphers.add(chipher);
         }
 
-        public synchronized String decrypt(String encyrptedData) {
+        public synchronized char[] decrypt(char[] encryptedData) {
             for (Iterator chiphers = myCiphers.iterator(); chiphers.hasNext();) {
                 SVNPasswordCipher chipher = (SVNPasswordCipher) chiphers.next();
-                encyrptedData = chipher.decrypt(encyrptedData);
+                encryptedData = chipher.decrypt(encryptedData);
             }
-            return encyrptedData;
+            return encryptedData;
         }
 
-        public synchronized String encrypt(String rawData) {
+        public synchronized char[] encrypt(char[] rawData) {
             for (Iterator chiphers = myCiphers.iterator(); chiphers.hasNext();) {
                 SVNPasswordCipher chipher = (SVNPasswordCipher) chiphers.next();
                 rawData = chipher.encrypt(rawData);

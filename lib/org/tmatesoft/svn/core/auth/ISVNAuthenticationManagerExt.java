@@ -22,7 +22,7 @@ import org.tmatesoft.svn.core.SVNURL;
  */
 public interface ISVNAuthenticationManagerExt extends ISVNAuthenticationManager {
     
-	void acknowledgeConnectionSuccessful(SVNURL url);
+	void acknowledgeConnectionSuccessful(SVNURL url, String method);
 
 	void acknowledgeAuthentication(boolean accepted, String kind, String realm, SVNErrorMessage errorMessage, SVNAuthentication authentication, SVNURL accessedLocation) throws SVNException;
 }

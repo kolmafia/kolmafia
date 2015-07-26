@@ -21,6 +21,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc2.SvnGetChangelistPaths;
+import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnSetChangelist;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 
@@ -103,6 +104,10 @@ public class SVNChangelistClient extends SVNBasicClient {
      */
     public SVNChangelistClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNChangelistClient(SvnOperationFactory of) {
+        super(of);
     }
 
     /**

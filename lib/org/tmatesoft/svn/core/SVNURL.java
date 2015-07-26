@@ -491,9 +491,9 @@ public class SVNURL {
      * @throws SVNException
      */
     public SVNURL removePathTail() throws SVNException {
-        String newPath = SVNPathUtil.removeTail(myPath);
-        String url = composeURL(getProtocol(), getUserInfo(), getHost(), myIsDefaultPort ? -1 : getPort(), newPath);
-        return parseURIDecoded(url);
+        final String newPath = SVNPathUtil.removeTail(myEncodedPath);
+        final String url = composeURL(getProtocol(), getUserInfo(), getHost(), myIsDefaultPort ? -1 : getPort(), newPath);
+        return parseURIEncoded(url);
     }
     /**
      * Compares this object with another one.

@@ -33,7 +33,8 @@ public class SvnCommitItem {
     public static final int PROPS_MODIFIED = 0x08;
     public static final int COPY = 0x10;
     public static final int LOCK = 0x20;
-    
+    public static final int MOVED_HERE = 0x40;
+
     private File path;
     private SVNNodeKind kind;
     private SVNURL url;
@@ -41,6 +42,8 @@ public class SvnCommitItem {
     
     private SVNURL copyFromUrl;
     private long copyFromRevision;
+
+    private File movedFromAbsPath;
     
     private int flags;
     private Map<String, SVNPropertyValue> outgoingProperties;
@@ -163,7 +166,15 @@ public class SvnCommitItem {
     public void setCopyFromRevision(long copyFromRevision) {
         this.copyFromRevision = copyFromRevision;
     }
-    
+
+    public File getMovedFromAbsPath() {
+        return movedFromAbsPath;
+    }
+
+    public void setMovedFromAbsPath(File movedFromAbsPath) {
+        this.movedFromAbsPath = movedFromAbsPath;
+    }
+
     /**
      * Sets commit item's flags.
      * They can be the following value(s):

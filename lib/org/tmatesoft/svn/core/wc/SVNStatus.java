@@ -155,6 +155,9 @@ public class SVNStatus {
 
     private boolean myIsVersioned;
     private SVNDepth myDepth;
+    
+    private File myMovedToPath;
+    private File myMovedFromPath;
 
     /**
      * Constructs an <b>SVNStatus</b> object filling it with status information
@@ -544,8 +547,8 @@ public class SVNStatus {
      * Gets the item's last committed repository revision. Relevant for a remote
      * status invocation.
      *
-     * @return the latest repository revision when the item was changed; <span
-     *         class="javakeyword">null</span> if there are no incoming changes
+     * @return the latest repository revision when the item was changed;
+     *         SVNRevision.UNDEFINED if there are no incoming changes
      *         for this file or directory.
      */
     public SVNRevision getRemoteRevision() {
@@ -811,6 +814,14 @@ public class SVNStatus {
     public SVNDepth getDepth() {
         return myDepth;
     }
+    
+    public File getMovedToPath() {
+        return myMovedToPath;
+    }
+
+    public File getMovedFromPath() {
+        return myMovedFromPath;
+    }
 
     public void setRemoteNodeStatus(SVNStatusType remoteNodeStatus) {
         myRemoteNodeStatus = remoteNodeStatus;
@@ -974,6 +985,14 @@ public class SVNStatus {
 
     public void setDepth(SVNDepth depth) {
         myDepth = depth;
+    }
+    
+    public void setMovedFromPath(File path) {
+        myMovedFromPath = path;
+    }
+    
+    public void setMovedToPath(File path) {
+        myMovedToPath = path;
     }
 
     public static SVNStatusType combineNodeAndContentsStatus(int workingCopyFormat, SVNStatusType nodeStatus, SVNStatusType contentsStatus, boolean versioned, boolean conflicted) {

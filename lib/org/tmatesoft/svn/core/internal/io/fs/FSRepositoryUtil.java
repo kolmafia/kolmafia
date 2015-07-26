@@ -385,6 +385,15 @@ public class FSRepositoryUtil {
     }
    
     public static void checkReposDBFormat(int format) throws SVNException {
+        if (format == FSFS.MIN_PACKED_REVPROP_SQLITE_DEV_FORMAT) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_UNSUPPORTED_FORMAT, 
+                    "Found format '%s', only created by " +
+                    "unreleased dev builds; see " +
+                    "http://subversion.apache.org" +
+                    "/docs/release-notes/1.7#revprop-packing",  
+                    new Integer(FSFS.MIN_PACKED_REVPROP_SQLITE_DEV_FORMAT));
+            SVNErrorManager.error(err, SVNLogType.FSFS);
+        }
         if (format < FSFS.DB_FORMAT_LOW || format > FSFS.DB_FORMAT) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_UNSUPPORTED_FORMAT, 
                     "Expected FS format between ''{0}'' and ''{1}''; found format ''{2}''", 

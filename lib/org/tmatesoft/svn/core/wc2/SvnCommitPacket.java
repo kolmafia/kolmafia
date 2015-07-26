@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNLock;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
@@ -125,7 +126,7 @@ public class SvnCommitPacket {
      * @throws SVNException if URL parse error occurred
      */
     public SvnCommitItem addItem(File path, SVNNodeKind kind, SVNURL repositoryRoot, String repositoryPath, long revision,
-            String copyFromPath, long copyFromRevision, int flags) throws SVNException {
+            String copyFromPath, long copyFromRevision, File movedFromAbsPath, int flags) throws SVNException {
         SvnCommitItem item = new SvnCommitItem();
         item.setPath(path);
         item.setKind(kind);
@@ -137,6 +138,7 @@ public class SvnCommitPacket {
         } else {
             item.setCopyFromRevision(-1);
         }
+        item.setMovedFromAbsPath(movedFromAbsPath);
         item.setFlags(flags);
 
         addItem(item, repositoryRoot);

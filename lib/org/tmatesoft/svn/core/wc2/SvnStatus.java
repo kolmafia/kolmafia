@@ -61,8 +61,11 @@ public class SvnStatus extends SvnObject {
     private long repositoryChangedRevision;
     private SVNDate repositoryChangedDate;
     private String repositoryChangedAuthor;
+    
+    private File movedToPath; 
+    private File movedFromPath; 
 
-    private int workingCopyFormat = ISVNWCDb.WC_FORMAT_17;
+    private int workingCopyFormat = ISVNWCDb.WC_FORMAT_18;
     
     /**
      * Gets the item's node kind characterizing it as an entry.
@@ -688,5 +691,21 @@ public class SvnStatus extends SvnObject {
      */
     public void setWorkingCopyFormat(int workingCopyFormat) {
         this.workingCopyFormat = workingCopyFormat;
+    }
+    
+    public File getMovedToPath() {
+        return movedToPath;
+    }
+    
+    public void setMovedToPath(File path) {
+        movedToPath = path;
+    }
+
+    public File getMovedFromPath() {
+        return movedFromPath;
+    }
+    
+    public void setMovedFromPath(File path) {
+        movedFromPath = path;
     }
 }

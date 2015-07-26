@@ -103,11 +103,10 @@ public class SVNMoveClient extends SVNBasicClient {
      */
     public SVNMoveClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
-        setDebugLog(null);
-        setOptions(null);
-        setEventHandler(null);
+    }
 
-        setOptions(options);
+    public SVNMoveClient(SvnOperationFactory of) {
+        super(of);
     }
 
     /**

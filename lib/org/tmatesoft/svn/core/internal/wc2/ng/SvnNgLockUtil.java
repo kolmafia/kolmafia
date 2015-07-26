@@ -60,13 +60,18 @@ public class SvnNgLockUtil {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_MISSING_URL, "''{0}'' has no URL", file);
                 SVNErrorManager.error(err, SVNLogType.WC);
             }
-            
+
+            ISVNWCDb.WCDbBaseInfo baseInfo = context.getDb().getBaseInfo(file, BaseInfoField.lock, BaseInfoField.kind);
+            if (baseInfo.kind != ISVNWCDb.SVNWCDbKind.File) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_NOT_FILE, "The node ''{0}'' is not a file", file);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
             if (lock) {
                 SVNRevision revision = stealLock ? SVNRevision.UNDEFINED :
                 	SVNRevision.create(context.getNodeBaseRev(file));
                 lockInfo.put(url, new LockInfo(file, revision));
             } else {
-            	ISVNWCDb.SVNWCDbLock dbLock = context.getDb().getBaseInfo(file, BaseInfoField.lock).lock;
+                ISVNWCDb.SVNWCDbLock dbLock = baseInfo.lock;
             	if (!stealLock && dbLock == null) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CLIENT_MISSING_LOCK_TOKEN, "''{0}'' is not locked in this working copy", file);
                     SVNErrorManager.error(err, SVNLogType.WC);

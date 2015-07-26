@@ -183,11 +183,9 @@ public class SvnDiffStatusReceiver implements ISvnObjectReceiver<SvnStatus> {
 
         if (status == ISVNWCDb.SVNWCDbStatus.Added) {
             ISVNWCDb.WCDbAdditionInfo wcDbAdditionInfo = getDb().scanAddition(localAbspath,
-                    ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.status,
-                    ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.originalReposRelPath);
+                    ISVNWCDb.WCDbAdditionInfo.AdditionInfoField.status);
 
             status = wcDbAdditionInfo.status;
-            originalReposRelpath = wcDbAdditionInfo.originalReposRelPath;
         }
 
         //here we can create an empty file

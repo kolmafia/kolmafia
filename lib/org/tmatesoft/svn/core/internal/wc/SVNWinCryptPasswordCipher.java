@@ -25,11 +25,11 @@ public class SVNWinCryptPasswordCipher extends SVNPasswordCipher {
         return SVNJNAUtil.isWinCryptEnabled();
     }
     
-    public String decrypt(String encryptedData) {
+    public char[] decrypt(char[] encryptedData) {
         return SVNJNAUtil.decrypt(encryptedData);
     }
 
-    public String encrypt(String rawData) {
+    public char[] encrypt(char[] rawData) {
         return SVNJNAUtil.encrypt(rawData);
     }
 

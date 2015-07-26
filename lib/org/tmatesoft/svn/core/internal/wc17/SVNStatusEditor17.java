@@ -12,6 +12,7 @@
 package org.tmatesoft.svn.core.internal.wc17;
 
 import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb.Mode;
 import org.tmatesoft.svn.core.internal.util.SVNHashMap;
 import org.tmatesoft.svn.core.internal.wc.SVNFileListUtil;
@@ -27,6 +28,8 @@ import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo.InfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb.DirParsedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.ExternalNodeInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.InheritedProperties;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.MovedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
 import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgPropertiesManager;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
@@ -148,7 +151,7 @@ public class SVNStatusEditor17 {
         return myIsNoIgnore;
     }
 
-    private static Collection<String> getGlobalIgnores(ISVNOptions options) {
+    public static Collection<String> getGlobalIgnores(ISVNOptions options) {
         if (options != null) {
             String[] ignores = options.getIgnorePatterns();
             if (ignores != null) {
@@ -187,13 +190,23 @@ public class SVNStatusEditor17 {
             }
         }
         SvnStatus status = assembleStatus(myWCContext, localAbsPath, parentReposInfo, info, pathKind, pathSpecial, getAll, myIgnoreTextMods, repositoryLock);
+        status = tweakStatus(status);
         if (status != null && handler != null) {
             handler.receive(SvnTarget.fromFile(localAbsPath), status);
         }
 
     }
 
-    private void sendUnversionedItem(File nodeAbsPath, SVNNodeKind pathKind, boolean treeConflicted, Collection<String> patterns, boolean noIgnore, ISvnObjectReceiver<SvnStatus> handler) throws SVNException {
+    private SvnStatus tweakStatus(SvnStatus status) {
+        if (status != null) {
+            if (status.isFileExternal()) {
+                status.setSwitched(false);
+            }
+        }
+        return status;
+    }
+
+    private void sendUnversionedItem(File nodeAbsPath, SVNNodeKind pathKind, boolean treeConflicted, Collection<String> patterns, boolean noIgnore, int workingCopyFormat, ISvnObjectReceiver<SvnStatus> handler) throws SVNException {
         boolean isIgnored = SvnNgPropertiesManager.isIgnored(SVNFileUtil.getFileName(nodeAbsPath), patterns);
         boolean isExternal = isExternal(nodeAbsPath);
         SvnStatus status = assembleUnversioned17(nodeAbsPath, pathKind, treeConflicted, isIgnored);
@@ -203,6 +216,9 @@ public class SVNStatusEditor17 {
             }
             if (status.isConflicted()) {
                 isIgnored = false;
+            }
+            if (workingCopyFormat > 0) {
+                status.setWorkingCopyFormat(workingCopyFormat);
             }
             if (handler != null && (noIgnore || !isIgnored || isExternal)) {
                 handler.receive(SvnTarget.fromFile(nodeAbsPath), status);
@@ -263,28 +279,23 @@ public class SVNStatusEditor17 {
             switched_p = name == null || !name.equals(SVNFileUtil.getFileName(localAbsPath)); 
         }
 
-        if (info.kind == SVNWCDbKind.Dir) {
-            if (info.status == SVNWCDbStatus.Incomplete || info.incomplete) {
-                node_status = SVNStatusType.STATUS_INCOMPLETE;
-            } else if (info.status == SVNWCDbStatus.Deleted) {
-                node_status = SVNStatusType.STATUS_DELETED;
-                if (!info.haveBase) {
+        if (info.status == SVNWCDbStatus.Incomplete || info.incomplete) {
+            node_status = SVNStatusType.STATUS_INCOMPLETE;
+        } else if (info.status == SVNWCDbStatus.Deleted) {
+            node_status = SVNStatusType.STATUS_DELETED;
+            if (!info.haveBase || info.haveMoreWork || info.copied) {
+                copied = true;
+            } else if (!info.haveMoreWork && info.haveBase) {
+                copied = false;
+            } else {
+                WCDbDeletionInfo deletionInfo = context.getDb().scanDeletion(localAbsPath);
+                if (deletionInfo.workDelAbsPath != null) {
                     copied = true;
-                } else {
-                    copied = context.getNodeScheduleInternal(localAbsPath, false, true).copied;
-                }
-            } else if (pathKind == null || pathKind != SVNNodeKind.DIR) {
-                if (pathKind == null || pathKind == SVNNodeKind.NONE) {
-                    node_status = SVNStatusType.STATUS_MISSING;
-                } else {
-                    node_status = SVNStatusType.STATUS_OBSTRUCTED;
                 }
             }
         } else {
-            if (info.status == SVNWCDbStatus.Deleted) {
-                node_status = SVNStatusType.STATUS_DELETED;
-                copied = context.getNodeScheduleInternal(localAbsPath, false, true).copied;
-            } else if (pathKind == null || pathKind != SVNNodeKind.FILE) {
+            SVNNodeKind expectedKind = info.kind == SVNWCDbKind.Dir ? SVNNodeKind.DIR : SVNNodeKind.FILE;
+            if (pathKind == null || pathKind != expectedKind) {
                 if (pathKind == null || pathKind == SVNNodeKind.NONE) {
                     node_status = SVNStatusType.STATUS_MISSING;
                 } else {
@@ -292,7 +303,7 @@ public class SVNStatusEditor17 {
                 }
             }
         }
-        
+
         if (info.status != SVNWCDbStatus.Deleted) {
             if (info.propsMod) {
                 prop_status = SVNStatusType.STATUS_MODIFIED;
@@ -304,7 +315,7 @@ public class SVNStatusEditor17 {
         if (info.kind != SVNWCDbKind.Dir && node_status == SVNStatusType.STATUS_NORMAL) {
             boolean text_modified_p = false;
             long fileSize = SVNFileUtil.getFileLength(localAbsPath);
-            long fileTime = SVNFileUtil.getFileLastModified(localAbsPath);
+            long fileTime = SVNFileUtil.getFileLastModifiedMicros(localAbsPath);
             
             if ((info.kind == SVNWCDbKind.File || info.kind == SVNWCDbKind.Symlink) && (!SVNFileUtil.symlinksSupported() || info.special == pathSpecial)) {
                 if (!info.hasChecksum) {
@@ -313,7 +324,7 @@ public class SVNStatusEditor17 {
                     (pathKind != null && 
                             info.recordedSize != -1 &&
                             info.recordedModTime != 0 &&
-                            (info.recordedModTime / 1000) == fileTime &&
+                            info.recordedModTime == fileTime &&
                             info.recordedSize == fileSize)) {
                     text_modified_p = false;
                 } else {
@@ -333,6 +344,7 @@ public class SVNStatusEditor17 {
                 text_status = SVNStatusType.STATUS_MODIFIED;
             }
         }
+        File movedFromAbsPath = null;
         boolean conflicted = info.conflicted;
         if (conflicted) {
             SVNWCContext.ConflictInfo conflictInfo = context.getConflicted(localAbsPath, true, true, true);
@@ -342,18 +354,28 @@ public class SVNStatusEditor17 {
         }
         if (node_status == SVNStatusType.STATUS_NORMAL) {
             if (info.status == SVNWCDbStatus.Added) {
+                copied = info.copied;
                 if (!info.opRoot) {
-                    copied = true;
-                } else if (info.kind == SVNWCDbKind.File && !info.haveBase && !info.haveMoreWork) {
+                } else if (!info.haveBase && !info.haveMoreWork) {
                     node_status = SVNStatusType.STATUS_ADDED;
-                    copied = info.hasChecksum;
                 } else {
-                    ScheduleInternalInfo scheduleInfo = context.getNodeScheduleInternal(localAbsPath, true, true);
-                    copied = scheduleInfo.copied;
-                    if (scheduleInfo.schedule == SVNWCSchedule.add) {
-                        node_status = SVNStatusType.STATUS_ADDED;
-                    } else if (scheduleInfo.schedule == SVNWCSchedule.replace) {
+                    WCDbInfo infoBelowWorking = context.getDb().readInfoBelowWorking(localAbsPath);
+
+                    if (infoBelowWorking.status != SVNWCDbStatus.NotPresent && infoBelowWorking.status != SVNWCDbStatus.Deleted) {
                         node_status = SVNStatusType.STATUS_REPLACED;
+                    } else {
+                        node_status = SVNStatusType.STATUS_ADDED;
+                    }
+                }
+                
+                if (info.movedHere && info.opRoot) {
+                    try {
+                        final Structure<MovedInfo> movedInfo = SvnWcDbShared.scanMoved((SVNWCDb) context.getDb(), localAbsPath);
+                        movedFromAbsPath = movedInfo.get(MovedInfo.movedFromAbsPath);
+                    } catch (SVNException e) {
+                        if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_UNEXPECTED_STATUS) {
+                            throw e;
+                        }
                     }
                 }
             }
@@ -389,8 +411,7 @@ public class SVNStatusEditor17 {
             }
             origin.release();
         }
-        
-        WCDbRepositoryInfo reposInfo = getRepositoryRootUrlRelPath(context, parentReposInfo, info, localAbsPath);
+
         SVNNodeKind statusKind = null;
         switch (info.kind) {
         case Dir:
@@ -408,6 +429,7 @@ public class SVNStatusEditor17 {
         stat.setKind(statusKind);
         stat.setPath(localAbsPath);
 
+        WCDbRepositoryInfo reposInfo = getRepositoryRootUrlRelPath(context, parentReposInfo, info, localAbsPath);
         if (info.lock != null) {
             stat.setLock(new SVNLock(SVNFileUtil.getFilePath(reposInfo.relPath), info.lock.token, info.lock.owner, info.lock.comment, info.lock.date, null));
         }
@@ -436,12 +458,16 @@ public class SVNStatusEditor17 {
         stat.setRepositoryChangedAuthor(null);
 
         stat.setWcLocked(info.locked);
-        stat.setConflicted(info.conflicted);
+        stat.setConflicted(conflicted);
         stat.setVersioned(true);
         stat.setChangelist(info.changelist);
         stat.setRepositoryRootUrl(reposInfo.rootUrl);
         stat.setRepositoryRelativePath(SVNFileUtil.getFilePath(reposInfo.relPath));
         stat.setRepositoryUuid(reposInfo.uuid);
+
+        stat.setTextStatus(text_status);
+        stat.setNodeStatus(node_status);
+        stat.setPropertiesStatus(prop_status);
 
         if (stat.isVersioned() && stat.isConflicted()) {
             SVNWCContext.ConflictInfo conflictInfo = context.getConflicted(stat.getPath(), true, true, true);
@@ -455,25 +481,33 @@ public class SVNStatusEditor17 {
                 stat.setNodeStatus(SVNStatusType.STATUS_CONFLICTED);
             }
         }
-
-        if (stat.isSwitched() && stat.isVersioned() && stat.getKind() == SVNNodeKind.FILE) {
-            try {
-                Structure<ExternalNodeInfo> externalInfo = SvnWcDbExternals.readExternal(context, stat.getPath(), stat.getPath(), ExternalNodeInfo.kind);
-                if (externalInfo != null) {
-                    stat.setFileExternal(externalInfo.<SVNWCDbKind>get(ExternalNodeInfo.kind) == SVNWCDbKind.File);
-                    stat.setSwitched(false);
-                    stat.setNodeStatus(stat.getTextStatus());
-                    
-                    externalInfo.release();
-                }
-            } catch (SVNException e) {
-                if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
-                    throw e;
-                }
-            }
-            
+        stat.setFileExternal(info.fileExternal);
+//
+//        if (stat.isSwitched() && stat.isVersioned() && stat.getKind() == SVNNodeKind.FILE) {
+//            try {
+//                Structure<ExternalNodeInfo> externalInfo = SvnWcDbExternals.readExternal(context, stat.getPath(), stat.getPath(), ExternalNodeInfo.kind);
+//                if (externalInfo != null) {
+//                    stat.setFileExternal(externalInfo.<SVNWCDbKind>get(ExternalNodeInfo.kind) == SVNWCDbKind.File);
+//                    stat.setSwitched(false);
+//                    stat.setNodeStatus(stat.getTextStatus());
+//
+//                    externalInfo.release();
+//                }
+//            } catch (SVNException e) {
+//                if (e.getErrorMessage().getErrorCode() != SVNErrorCode.WC_PATH_NOT_FOUND) {
+//                    throw e;
+//                }
+//            }
+//
+//        }
+//
+        stat.setMovedFromPath(movedFromAbsPath);
+        if (info.movedToAbsPath != null) {
+            stat.setMovedToPath(info.movedToAbsPath);
         }
-        
+        if (info.format != -1) {
+            stat.setWorkingCopyFormat(info.format);
+        }
         return stat;
     }
 
@@ -491,20 +525,38 @@ public class SVNStatusEditor17 {
     }
 
     private Collection<String> collectIgnorePatterns(SVNWCDbRoot root, File localRelPath, Collection<String> ignores) throws SVNException {
-        SVNProperties props = SvnWcDbProperties.readProperties(root, localRelPath);
-        final String localIgnores = props != null ? props.getStringValue(SVNProperty.IGNORE) : null;
-        if (localIgnores != null) {
-            final List<String> patterns = new ArrayList<String>();
+        final List<String> patterns = new ArrayList<String>();
+        if (ignores != null) {
             patterns.addAll(ignores);
-            for (StringTokenizer tokens = new StringTokenizer(localIgnores, "\r\n"); tokens.hasMoreTokens();) {
-                String token = tokens.nextToken().trim();
-                if (token.length() > 0) {
-                    patterns.add(token);
-                }
-            }
-            return patterns;
         }
-        return ignores;
+        final SVNProperties props = SvnWcDbProperties.readProperties(root, localRelPath);
+        if (props != null) {
+            final String localIgnores = props.getStringValue(SVNProperty.IGNORE);
+            if (localIgnores != null) {
+                SvnNgPropertiesManager.splitAndAppend(patterns, localIgnores);
+            }            
+            final String inheritedIgnores = props.getStringValue(SVNProperty.INHERITABLE_IGNORES);
+            if (inheritedIgnores != null) {
+                SvnNgPropertiesManager.splitAndAppend(patterns, inheritedIgnores);
+            }            
+            
+        }
+        List<Structure<InheritedProperties>> inheritedProps = null;
+        try {
+            inheritedProps = SvnWcDbProperties.readInheritedProperties(root, localRelPath, SVNProperty.INHERITABLE_IGNORES);
+        } catch (SVNException e) {
+            if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_UNEXPECTED_STATUS) {
+                return patterns;
+            } else {
+                throw e;
+            }
+        }
+        for (Structure<InheritedProperties> element : inheritedProps) {
+            final SVNProperties inherited = element.get(InheritedProperties.properties);
+            SvnNgPropertiesManager.splitAndAppend(patterns, inherited.getStringValue(SVNProperty.INHERITABLE_IGNORES));
+            
+        }
+        return patterns;
     }
 
     public void setRepositoryInfo(SVNURL repositoryRoot, HashMap<String, SVNLock> repositoryLocks) {
@@ -517,14 +569,26 @@ public class SVNStatusEditor17 {
         
         WCDbInfo readInfo = context.getDb().readInfo(localAbsPath, InfoField.status, InfoField.kind, InfoField.revision, InfoField.reposRelPath, InfoField.reposRootUrl, InfoField.reposUuid,
                 InfoField.changedRev, InfoField.changedDate, InfoField.changedAuthor, InfoField.depth, InfoField.checksum, InfoField.lock, InfoField.translatedSize,
-                InfoField.lastModTime, InfoField.changelist, InfoField.conflicted, InfoField.opRoot, InfoField.hadProps, InfoField.propsMod, InfoField.haveBase, InfoField.haveMoreWork);
+                InfoField.lastModTime, InfoField.changelist, InfoField.originalReposRelpath, InfoField.conflicted, InfoField.opRoot, InfoField.hadProps, InfoField.propsMod, InfoField.haveBase, InfoField.haveMoreWork,
+                InfoField.movedHere, InfoField.movedTo);
         result.load(readInfo);
         
         result.locked = context.getDb().isWCLocked(localAbsPath);
+        WCDbBaseInfo baseInfo = null;
         if (result.haveBase && (result.status == SVNWCDbStatus.Added || result.status == SVNWCDbStatus.Deleted)) {
-            result.lock = context.getDb().getBaseInfo(localAbsPath, BaseInfoField.lock).lock;
+            baseInfo = context.getDb().getBaseInfo(localAbsPath, BaseInfoField.lock, BaseInfoField.updateRoot);
+            result.lock = baseInfo.lock;
+        }
+        if (result.haveBase && result.kind == SVNWCDbKind.File) {
+            if (baseInfo == null) {
+                baseInfo = context.getDb().getBaseInfo(localAbsPath, BaseInfoField.lock, BaseInfoField.updateRoot);
+            }
+            result.fileExternal = baseInfo.updateRoot;
+        } else {
+            result.fileExternal = false;
         }
         result.hasChecksum = readInfo.checksum != null;
+        result.copied = readInfo.originalReposRelpath != null;
         if (result.kind == SVNWCDbKind.File && (result.hadProps || result.propsMod)) {
             SVNProperties properties;
             if (result.propsMod) {
@@ -534,6 +598,8 @@ public class SVNStatusEditor17 {
             }
             result.special = properties.getSVNPropertyValue(SVNProperty.SPECIAL) != null;
         }
+        DirParsedInfo parsed = ((SVNWCDb) context.getDb()).parseDir(localAbsPath, Mode.ReadOnly);
+        result.format = parsed.wcDbDir.getWCRoot().getFormat();
         return result;
     }
     
@@ -661,7 +727,7 @@ public class SVNStatusEditor17 {
                 if (ignorePatterns != null && patterns == null) {
                     patterns = collectIgnorePatterns(wcRoot, wcRoot.computeRelPath(localAbsPath), ignorePatterns);
                 }
-                sendUnversionedItem(nodeAbsPath, SVNFileType.getNodeKind(nodeFileType), true, patterns, noIgnore, handler);                
+                sendUnversionedItem(nodeAbsPath, SVNFileType.getNodeKind(nodeFileType), true, patterns, noIgnore, wcRoot.getFormat(), handler);
                 continue;
             }
             if (nodeFileType == null) {
@@ -676,7 +742,7 @@ public class SVNStatusEditor17 {
             if (ignorePatterns != null && patterns == null) {
                 patterns = collectIgnorePatterns(wcRoot, wcRoot.computeRelPath(localAbsPath), ignorePatterns);
             }
-            sendUnversionedItem(nodeAbsPath, SVNFileType.getNodeKind(nodeFileType), false, patterns, noIgnore || selected != null, handler);                
+            sendUnversionedItem(nodeAbsPath, SVNFileType.getNodeKind(nodeFileType), false, patterns, noIgnore || selected != null, wcRoot.getFormat(), handler);
         }
     }
     

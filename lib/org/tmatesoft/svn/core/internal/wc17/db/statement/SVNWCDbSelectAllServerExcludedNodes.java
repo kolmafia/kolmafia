@@ -14,6 +14,8 @@ package org.tmatesoft.svn.core.internal.wc17.db.statement;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil;
 import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.NODES__Fields;
 
 /**
@@ -39,7 +41,8 @@ public class SVNWCDbSelectAllServerExcludedNodes extends SVNSqlJetSelectStatemen
     }
 
     protected boolean isFilterPassed() throws SVNException {
-        if (!"absent".equals(getColumnString(NODES__Fields.presence))) {
+        final ISVNWCDb.SVNWCDbStatus presence = SvnWcDbStatementUtil.getColumnPresence(this);
+        if (presence != ISVNWCDb.SVNWCDbStatus.ServerExcluded) {
             return false;
         }
         final long rowDepth = getColumnLong(NODES__Fields.op_depth);

@@ -864,7 +864,6 @@ public class SVNUpdateEditor15 implements ISVNUpdateEditor, ISVNCleanupHandler {
             OutputStream baseTextOS = null;
             try {
                 baseTextOS = SVNFileUtil.openFileForWriting(info.copiedBaseText);
-                myFileFetcher.fetchFile(copyFromPath, copyFromRevision, baseTextOS, baseProperties);
                 SVNChecksumOutputStream checksumBaseTextOS = new SVNChecksumOutputStream(baseTextOS, 
                         SVNChecksumOutputStream.MD5_ALGORITHM, true);
                 baseTextOS = checksumBaseTextOS;

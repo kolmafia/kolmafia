@@ -11,50 +11,91 @@
  */
 package org.tmatesoft.svn.core.internal.wc17.db.statement;
 
+import org.tmatesoft.sqljet.core.SqlJetException;
+import org.tmatesoft.sqljet.core.table.ISqlJetCursor;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectFieldsStatement;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetStatement;
 
 /**
- * SELECT nodes_base.presence, nodes_work.presence, nodes_work.moved_to FROM
- * nodes nodes_work LEFT OUTER JOIN nodes nodes_base ON nodes_base.wc_id =
- * nodes_work.wc_id AND nodes_base.local_relpath = nodes_work.local_relpath AND
- * nodes_base.op_depth = 0 WHERE nodes_work.wc_id = ?1 AND
- * nodes_work.local_relpath = ?2 AND nodes_work.op_depth = (SELECT MAX(op_depth)
- * FROM nodes WHERE wc_id = ?1 AND local_relpath = ?2 AND op_depth > 0);
+ * SELECT (SELECT b.presence FROM nodes AS b
+ * WHERE b.wc_id = ?1 AND b.local_relpath = ?2 AND b.op_depth = 0),
+ * work.presence, work.op_depth
+ * FROM nodes_current AS work
+ * WHERE work.wc_id = ?1 AND work.local_relpath = ?2 AND work.op_depth > 0
+ * LIMIT 1
  *
+ * @version 1.8
  * @author TMate Software Ltd.
  */
-public class SVNWCDbSelectDeletionInfo extends SVNSqlJetSelectStatement {
+public class SVNWCDbSelectDeletionInfo extends SVNSqlJetSelectFieldsStatement<SVNWCDbSchema.NODES__Fields> {
 
-    public static final String NODES_BASE = "nodes_base";
-    private SVNWCDbNodesMaxOpDepth myMaxOpDepth;
+    private InternalSelect internalStatement;
+    private SVNWCDbNodesMaxOpDepth maxOpDepth;
 
     public SVNWCDbSelectDeletionInfo(SVNSqlJetDb sDb) throws SVNException {
         super(sDb, SVNWCDbSchema.NODES);
-        myMaxOpDepth = new SVNWCDbNodesMaxOpDepth(sDb);
+        maxOpDepth = new SVNWCDbNodesMaxOpDepth(sDb, 0);
     }
 
-    public SVNSqlJetStatement getJoinedStatement(String joinedTable) throws SVNException {
-        if (!eof() && NODES_BASE.equalsIgnoreCase(joinedTable)) {
-            SVNSqlJetSelectStatement baseNodeStmt = new SVNSqlJetSelectStatement(sDb, SVNWCDbSchema.NODES);
-            baseNodeStmt.bindLong(1, getColumnLong(SVNWCDbSchema.NODES__Fields.wc_id));
-            baseNodeStmt.bindString(2, getColumnString(SVNWCDbSchema.NODES__Fields.local_relpath));
-            baseNodeStmt.bindLong(3, 0);
-            return baseNodeStmt;
+    @Override
+    protected void defineFields() {
+        fields.add(SVNWCDbSchema.NODES__Fields.presence);
+        fields.add(SVNWCDbSchema.NODES__Fields.op_depth);
+    }
+
+    public InternalSelect getInternalStatement() throws SVNException {
+        if (internalStatement == null) {
+            internalStatement = new InternalSelect(sDb);
+            internalStatement.bindf("isi", getBind(1), getBind(2), 0);
+            internalStatement.next();
         }
-        return super.getJoinedStatement(joinedTable);
+        return internalStatement;
     }
 
+    @Override
+    public void reset() throws SVNException {
+        super.reset();
+        if (internalStatement != null) {
+            internalStatement.reset();
+            internalStatement = null;
+        }
+    }
+
+    @Override
+    protected ISqlJetCursor openCursor() throws SVNException {
+        try {
+            ISqlJetCursor cursor = super.openCursor();
+            cursor.setLimit(1);
+            return cursor;
+        } catch (SqlJetException e) {
+            SVNSqlJetDb.createSqlJetError(e);
+        }
+        return null;
+
+    }
+
+    @Override
+    protected boolean isFilterPassed() throws SVNException {
+        return getColumnLong(SVNWCDbSchema.NODES__Fields.op_depth) > 0;
+    }
+
+    @Override
     protected Object[] getWhere() throws SVNException {
-        Long maxOpDepth = myMaxOpDepth.getMaxOpDepth((Long) binds.get(0), (String) binds.get(1));
-        if (maxOpDepth != null) {
-            bindLong(3, maxOpDepth);
-        } else {
-            bindNull(3);
-        }
-        return super.getWhere();
+        return new Object[] {getBind(1), getBind(2), maxOpDepth.getMaxOpDepth((Long)getBind(1), (String)getBind(2))};
     }
 
+    public static class InternalSelect extends SVNSqlJetSelectFieldsStatement<SVNWCDbSchema.NODES__Fields> {
+
+        public InternalSelect(SVNSqlJetDb sDb) throws SVNException {
+            super(sDb, SVNWCDbSchema.NODES);
+        }
+
+        @Override
+        protected void defineFields() {
+            fields.add(SVNWCDbSchema.NODES__Fields.presence);
+        }
+    }
 }

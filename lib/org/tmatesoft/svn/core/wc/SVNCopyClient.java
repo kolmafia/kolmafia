@@ -25,6 +25,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc2.SvnCopy;
+import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.core.wc2.SvnRemoteCopy;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 
@@ -113,9 +114,6 @@ public class SVNCopyClient extends SVNBasicClient {
      */
     public SVNCopyClient(ISVNAuthenticationManager authManager, ISVNOptions options) {
         super(authManager, options);
-        setCommitParameters(null);
-        setCommitHandler(null);
-        setExternalsHandler(null);
     }
 
     /**
@@ -141,6 +139,13 @@ public class SVNCopyClient extends SVNBasicClient {
      */
     public SVNCopyClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNCopyClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setCommitParameters(null);
         setCommitHandler(null);
         setExternalsHandler(null);
@@ -342,6 +347,102 @@ public class SVNCopyClient extends SVNBasicClient {
             cp.addCopySource(SvnCodec.copySource(sources[i]));
         }
         
+        cp.run();
+    }
+
+    /**
+     * Copies each source in <code>sources</code> to <code>dst</code>.
+     *
+     * <p/>
+     * If multiple <code>sources</code> are given, <code>dst</code> must be a
+     * directory, and <code>sources</code> will be copied as children of
+     * <code>dst</code>.
+     *
+     * <p/>
+     * Each <code>src</code> in <code>sources</code> must be files or
+     * directories under version control, or URLs of a versioned item in the
+     * repository. If <code>sources</code> has multiple items, they must be all
+     * repository URLs or all working copy paths.
+     *
+     * <p/>
+     * The parent of <code>dst</code> must already exist.
+     *
+     * <p/>
+     * If <code>sources</code> has only one item, attempts to copy it to
+     * <code>dst</code>. If <code>failWhenDstExists</code> is <span
+     * class="javakeyword">false</span> and <code>dst</code> already exists,
+     * attempts to copy the item as a child of <code>dst</code>. If
+     * <code>failWhenDstExists</code> is <span class="javakeyword">true</span>
+     * and <code>dst</code> already exists, throws an {@link SVNException} with
+     * the {@link SVNErrorCode#ENTRY_EXISTS} error code.
+     *
+     * <p/>
+     * If <code>sources</code> has multiple items, and
+     * <code>failWhenDstExists</code> is <span class="javakeyword">false</span>,
+     * all <code>sources</code> are copied as children of <code>dst</code>. If
+     * any child of <code>dst</code> already exists with the same name any item
+     * in <code>sources</code>, throws an {@link SVNException} with the
+     * {@link SVNErrorCode#ENTRY_EXISTS} error code.
+     *
+     * <p/>
+     * If <code>sources</code> has multiple items, and
+     * <code>failWhenDstExists</code> is <span class="javakeyword">true</span>,
+     * throws an {@link SVNException} with the
+     * {@link SVNErrorCode#CLIENT_MULTIPLE_SOURCES_DISALLOWED}.
+     *
+     * <p/>
+     * This method is just a variant of a local add operation, where
+     * <code>sources</code> are scheduled for addition as copies. No changes
+     * will happen to the repository until a commit occurs. This scheduling can
+     * be removed with
+     * {@link SVNWCClient#doRevert(File[], SVNDepth, Collection)}.
+     *
+     * <p/>
+     * If
+     * <code>makeParents is <span class="javakeyword">true</span>, creates any non-existent parent directories
+     * also.
+     *
+     * <p/>
+     * If the caller's {@link ISVNEventHandler} is non-<span class="javakeyword">null</span>, invokes it
+     * for each item added at the new location.
+     *
+     * <p/>
+     * Note: this routine requires repository access only when sources are urls.
+     *
+     * @param sources
+     *            array of copy sources
+     * @param dst
+     *            destination working copy path
+     * @param isMove
+     *            if <span class="javakeyword">true</span>, then it will be a
+     *            move operation (delete, then add with history)
+     * @param makeParents
+     *            if <span class="javakeyword">true</span>, creates non-existent
+     *            parent directories as well
+     * @param failWhenDstExists
+     *            controls whether to fail or not if <code>dst</code> already
+     *            exists
+     * @param allowMixedRevisions
+     *            allow to move directories with nodes with mixed revisions in it
+     * @param metadataOnly
+     *            don't copy physical files
+     * @throws SVNException
+     * @since 1.8, SVN 1.8
+     */
+    public void doCopy(SVNCopySource[] sources, File dst, boolean isMove, boolean makeParents, boolean failWhenDstExists, boolean allowMixedRevisions, boolean metadataOnly) throws SVNException {
+        SvnCopy cp = getOperationsFactory().createCopy();
+        cp.setSingleTarget(SvnTarget.fromFile(dst));
+        cp.setMove(isMove);
+        cp.setFailWhenDstExists(failWhenDstExists);
+        cp.setMakeParents(makeParents);
+        cp.setIgnoreExternals(isIgnoreExternals());
+        cp.setAllowMixedRevisions(allowMixedRevisions);
+        cp.setMetadataOnly(metadataOnly);
+
+        for (int i = 0; i < sources.length; i++) {
+            cp.addCopySource(SvnCodec.copySource(sources[i]));
+        }
+
         cp.run();
     }
 

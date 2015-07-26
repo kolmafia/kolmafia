@@ -179,12 +179,15 @@ public class SvnRemoteGetInfo extends SvnRemoteOperationRunner<SvnInfo, SvnGetIn
         return getOperation().first();        
     }
     
-    private void pushDirInfo(SVNRepository repos, SVNRevision rev, String path, SVNURL root, String uuid, SVNURL url, Map<String, SVNLock> locks, SVNDepth depth) throws SVNException {
-        Collection<SVNDirEntry> children =  repos.getDir(path, rev.getNumber(), null, SVNDirEntry.DIRENT_SIZE | SVNDirEntry.DIRENT_KIND | SVNDirEntry.DIRENT_CREATED_REVISION | SVNDirEntry.DIRENT_TIME | SVNDirEntry.DIRENT_LAST_AUTHOR,  new ArrayList<SVNDirEntry>());
+    private void pushDirInfo(SVNRepository repos, SVNRevision rev, String dir, SVNURL root, String uuid, SVNURL url, Map<String, SVNLock> locks, SVNDepth depth) throws SVNException {
+        Collection<SVNDirEntry> children =  repos.getDir(dir, rev.getNumber(), null, SVNDirEntry.DIRENT_SIZE | SVNDirEntry.DIRENT_KIND | SVNDirEntry.DIRENT_CREATED_REVISION | SVNDirEntry.DIRENT_TIME | SVNDirEntry.DIRENT_LAST_AUTHOR,  new ArrayList<SVNDirEntry>());
         
         for (SVNDirEntry child : children) {
             SVNURL childURL = url.appendPath(child.getName(), false);
-            SVNLock lock = locks.get(path);            
+            String path = SVNPathUtil.append(dir, child.getName());
+            String fsPath = "/" + SVNPathUtil.getRelativePath(root.toDecodedString(), childURL.toDecodedString());
+
+            SVNLock lock = locks.get(fsPath);
             
             if (depth.compareTo(SVNDepth.IMMEDIATES) >= 0 || (depth == SVNDepth.FILES && child.getKind() == SVNNodeKind.FILE)) {
                 SvnInfo info = creatSvnInfoForEntry(root, uuid, child, childURL, rev.getNumber(), lock);
@@ -193,7 +196,7 @@ public class SvnRemoteGetInfo extends SvnRemoteOperationRunner<SvnInfo, SvnGetIn
             }
             
             if (depth == SVNDepth.INFINITY && child.getKind() == SVNNodeKind.DIR) {
-                pushDirInfo(repos, rev, SVNPathUtil.append(path, child.getName()), root, uuid, childURL, locks, depth);
+                pushDirInfo(repos, rev, path, root, uuid, childURL, locks, depth);
             }
         }
     }

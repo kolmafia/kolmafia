@@ -24,10 +24,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.tmatesoft.svn.core.ISVNCanceller;
 import org.tmatesoft.svn.core.ISVNDirEntryHandler;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
+import org.tmatesoft.svn.core.SVNAuthenticationException;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
 import org.tmatesoft.svn.core.SVNErrorCode;
@@ -40,6 +42,7 @@ import org.tmatesoft.svn.core.SVNMergeInfo;
 import org.tmatesoft.svn.core.SVNMergeInfoInheritance;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.SVNRevisionProperty;
 import org.tmatesoft.svn.core.SVNURL;
@@ -2771,6 +2774,62 @@ public abstract class SVNRepository {
             throw svne;
         }
     }
+    
+    public Map<String, SVNProperties> getInheritedProperties(String path, long revision, String propertyName) throws SVNException {
+        final Map<String, SVNProperties> result = new TreeMap<String, SVNProperties>(SVNPathUtil.PATH_COMPARATOR);
+        getInheritedProperties(path, revision, propertyName, new ISVNInheritedPropertiesHandler() {
+            public void handleInheritedProperites(String inheritedFromPath, SVNProperties properties) throws SVNException {
+                result.put(inheritedFromPath, properties);
+            }
+        });
+        return result;
+    }
+
+    public void getInheritedProperties(String path, long revision, String propertyName, ISVNInheritedPropertiesHandler handler) throws SVNException {
+        if (isInvalidRevision(revision)) {
+            revision = getLatestRevision();
+        }
+        if (hasCapability(SVNCapability.INHERITED_PROPS)) {
+            getInheritedPropertiesImpl(path, revision, propertyName, handler);
+            return;
+        }
+        
+        final SVNURL originalLocation = getLocation();
+        String rootRelativePath = getRepositoryPath("");
+        try {
+            while(!"/".equals(rootRelativePath)) {            
+                rootRelativePath = SVNPathUtil.removeTail(rootRelativePath);
+                if ("".equals(rootRelativePath)) {
+                    rootRelativePath = "/";
+                }
+                setLocation(getLocation().removePathTail(), false);
+                final SVNProperties properties = new SVNProperties();
+                try {
+                    getDir("", revision, properties, 0, (ISVNDirEntryHandler) null);
+                } catch (SVNAuthenticationException ae) {
+                    continue;
+                }
+                
+                final SVNProperties filtered = new SVNProperties();
+                if (propertyName != null && properties.containsName(propertyName)) {
+                    filtered.put(propertyName, properties.getSVNPropertyValue(propertyName));
+                } else if (propertyName == null) {
+                    for(String propName : properties.nameSet()) {
+                        if (SVNProperty.isRegularProperty(propName)) {
+                            filtered.put(propName, properties.getSVNPropertyValue(propName));
+                        }
+                    }
+                }
+                if (handler != null && !filtered.isEmpty()) {
+                    handler.handleInheritedProperites(rootRelativePath, filtered);
+                }
+            }
+        } finally {
+            setLocation(originalLocation, false);
+        }
+    }
+    
+    protected abstract void getInheritedPropertiesImpl(String path, long revision, String propertyName, ISVNInheritedPropertiesHandler handler) throws SVNException;
     
     protected abstract long getDeletedRevisionImpl(String path, long pegRevision, long endRevision) throws SVNException;
     

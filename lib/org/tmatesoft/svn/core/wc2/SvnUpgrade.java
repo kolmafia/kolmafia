@@ -1,6 +1,7 @@
 package org.tmatesoft.svn.core.wc2;
 
 import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
 
 /**
@@ -30,9 +31,12 @@ import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
  * @since 1.7 (SVN 1.7)
  */
 public class SvnUpgrade extends SvnOperation<SvnWcGeneration> {
+
+    private int targetWorkingCopyFormat;
     
     protected SvnUpgrade(SvnOperationFactory factory) {
         super(factory);
+        targetWorkingCopyFormat = ISVNWCDb.WC_FORMAT_18;
     }
 
     /**
@@ -42,5 +46,13 @@ public class SvnUpgrade extends SvnOperation<SvnWcGeneration> {
     @Override
     public boolean isChangesWorkingCopy() {
         return true;
+    }
+
+    public void setTargetWorkingCopyFormat(int targetWorkingCopyFormat) {
+        this.targetWorkingCopyFormat = targetWorkingCopyFormat;
+    }
+
+    public int getTargetWorkingCopyFormat() {
+        return targetWorkingCopyFormat;
     }
 }

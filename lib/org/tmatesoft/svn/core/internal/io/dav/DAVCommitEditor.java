@@ -49,8 +49,7 @@ import org.tmatesoft.svn.util.SVNLogType;
  * @author  TMate Software Ltd.
  */
 class DAVCommitEditor implements ISVNEditor {
-    
-//    private String myLogMessage;
+
     private DAVConnection myConnection;
     private SVNURL myLocation;
 	private DAVRepository myRepository;
@@ -63,7 +62,8 @@ class DAVCommitEditor implements ISVNEditor {
     private Map myFilesMap;
     private String myBaseChecksum;
     private SVNProperties myRevProps;
-    
+    private String myActivityLocation;
+
     public DAVCommitEditor(DAVRepository repository, DAVConnection connection, String message, ISVNWorkspaceMediator mediator, Runnable closeCallback) {
         this(repository, connection, (SVNProperties) null, mediator, closeCallback);
         myRevProps = new SVNProperties();
@@ -94,7 +94,9 @@ class DAVCommitEditor implements ISVNEditor {
 
     public void openRoot(long revision) throws SVNException {
         // make activity
-        myActivity = createActivity();
+        final String[] activityUrls = createActivity();
+        myActivity = activityUrls[0];
+        myActivityLocation = activityUrls[1];
         DAVResource root = new DAVResource(myCommitMediator, myConnection, "", revision);
         root.fetchVersionURL(null, false);
         myDirsStack.push(root);
@@ -158,7 +160,7 @@ class DAVCommitEditor implements ISVNEditor {
                 myConnection.doMakeCollection(newDir.getWorkingURL());
             } catch (SVNException e) {
                 // check if dir already exists.
-                if (!e.getErrorMessage().getErrorCode().isAuthentication() && 
+                if (!e.getErrorMessage().getErrorCode().isAuthentication() &&
                         e.getErrorMessage().getErrorCode() != SVNErrorCode.CANCELLED) {
                     SVNErrorMessage err = null;
                     try {
@@ -264,7 +266,7 @@ class DAVCommitEditor implements ISVNEditor {
             // do "COPY" copyPath to parents working url ?
             wPath = myLocation.setPath(newFile.getWorkingURL(), true).toString();
             myConnection.doCopy(copyPath, wPath, 0);
-        } 
+        }
     }
 
     public void openFile(String path, long revision) throws SVNException {
@@ -282,19 +284,19 @@ class DAVCommitEditor implements ISVNEditor {
         myPathsMap.put(file.getURL(), file.getPath());
         myFilesMap.put(originalPath, file);
     }
-    
+
     public void applyTextDelta(String path, String baseChecksum) throws SVNException {
         myCurrentDelta = null;
         myIsFirstWindow = true;
         myDeltaFile = null;
         myBaseChecksum = baseChecksum;
     }
-    
+
     private OutputStream myCurrentDelta = null;
     private File myDeltaFile;
     private boolean myIsAborted;
     private boolean myIsFirstWindow;
-    
+
     public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
         // save window, create temp file.
         try {
@@ -370,7 +372,7 @@ class DAVCommitEditor implements ISVNEditor {
             myFilesMap.remove(path);
         }
     }
-    
+
     public SVNCommitInfo closeEdit() throws SVNException {
 	    try {
 		    if (!myDirsStack.isEmpty()) {
@@ -383,6 +385,8 @@ class DAVCommitEditor implements ISVNEditor {
 		        resource.dispose();
 		    }
 		    DAVMergeHandler handler = new DAVMergeHandler(myCommitMediator, myPathsMap);
+            patchResourceProperties(myActivityLocation, myRevProps);
+
 		    HTTPStatus status = myConnection.doMerge(myActivity, true, handler);
 		    if (status.getError() != null) {
                 // DELETE shouldn't be called anymore if there is an error or MERGE.
@@ -402,10 +406,10 @@ class DAVCommitEditor implements ISVNEditor {
             }
 
             // always run close callback to 'unlock' SVNRepository.
-            runCloseCallback();            
+            runCloseCallback();
 	    }
     }
-    
+
     public void abortEdit() throws SVNException {
         if (myIsAborted) {
             return;
@@ -438,20 +442,20 @@ class DAVCommitEditor implements ISVNEditor {
             runCloseCallback();
 	    }
     }
-    
+
     private void runCloseCallback() {
         if (myCloseCallback != null) {
             myCloseCallback.run();
             myCloseCallback = null;
         }
     }
-    
-    private String createActivity() throws SVNException {
+
+    private String[] createActivity() throws SVNException {
         String activity = myConnection.doMakeActivity(myCommitMediator);
         // checkout head...
         String path = SVNEncodingUtil.uriEncode(myLocation.getPath());
         String vcc = DAVUtil.getPropertyValue(myConnection, path, null, DAVElement.VERSION_CONTROLLED_CONFIGURATION);
-        
+
         HTTPStatus status = null;
         for (int i = 0; i < 5; i++) {
             String head = DAVUtil.getPropertyValue(myConnection, vcc, null, DAVElement.CHECKED_IN);
@@ -464,24 +468,36 @@ class DAVCommitEditor implements ISVNEditor {
                 }
             }
         }
-        String location = status.getHeader().getFirstHeaderValue(HTTPHeader.LOCATION_HEADER);
+        final String location = status.getHeader().getFirstHeaderValue(HTTPHeader.LOCATION_HEADER);
         if (location == null) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "The CHECKOUT response did not contain a 'Location:' header");
             SVNErrorManager.error(err, SVNLogType.NETWORK);
         }
-        if (myRevProps != null && myRevProps.size() > 0) {
-            StringBuffer request = DAVProppatchHandler.generatePropertyRequest(null, myRevProps);
-            SVNErrorMessage context = null;//SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "applying log message to {0}", path);
+        if (myRevProps != null) {
+            final SVNPropertyValue authorRevisionProperty = myRevProps.remove(SVNRevisionProperty.AUTHOR);
+            patchResourceProperties(location, myRevProps);
+            if (authorRevisionProperty != null) {
+                myRevProps = new SVNProperties();
+                myRevProps.put(SVNRevisionProperty.AUTHOR, authorRevisionProperty);
+            } else {
+                myRevProps = null;
+            }
+        }
+        return new String[] {activity, location};
+    }
+
+    private void patchResourceProperties(String path, SVNProperties properties) throws SVNException {
+        if (properties != null && properties.size() > 0) {
+            final StringBuffer request = DAVProppatchHandler.generatePropertyRequest(null, properties);
             try {
-                myConnection.doProppatch(null, location, request, null, context);
+                myConnection.doProppatch(null, path, request, null, null);
             } catch (SVNException e) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.RA_DAV_REQUEST_FAILED, "applying log message to {0}", path);
                 SVNErrorManager.error(err, SVNLogType.NETWORK);
             }
         }
-        return activity;
     }
-    
+
     private void checkoutResource(DAVResource resource, boolean allow404) throws SVNException {
         if (resource.getWorkingURL() != null) {
             return;
@@ -511,5 +527,5 @@ class DAVCommitEditor implements ISVNEditor {
         }
         resource.setWorkingURL(location);
     }
-    
+
 }

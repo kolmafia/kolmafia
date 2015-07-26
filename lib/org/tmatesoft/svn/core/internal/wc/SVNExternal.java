@@ -339,6 +339,24 @@ public class SVNExternal {
         SVNErrorManager.error(err, SVNLogType.DEFAULT);
     }
 
+    public static List<String> findTargetDuplications(SVNExternal[] externals) {
+        List<String> paths = new ArrayList<String>();
+        for (int i = 0; i < externals.length; i++) {
+            final SVNExternal external = externals[i];
+            String path = external.getPath();
+
+            for (int j = i + 1; j < externals.length; j++) {
+                SVNExternal anotherExternal = externals[j];
+                String anotherPath = anotherExternal.getPath();
+
+                if (path.equals(anotherPath)) {
+                    paths.add(path);
+                }
+            }
+        }
+        return paths;
+    }
+
     private static class ExternalTokenizer implements Iterator {
         
         private String myNextToken;

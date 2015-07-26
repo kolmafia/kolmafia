@@ -60,6 +60,17 @@ public final class SVNNodeKind implements Comparable, Serializable {
     private SVNNodeKind(int id) {
         myID = id;
     }
+
+    public static SVNNodeKind getNodeKindById(int id) {
+        if (id == FILE.getID()) {
+            return FILE;
+        } else if (id == DIR.getID()) {
+            return DIR;
+        } else if (id == NONE.getID()) {
+            return NONE;
+        }
+        return UNKNOWN;
+    }
     
     /**
      * Parses the passed string and finds out the node kind. For instance,
@@ -144,4 +155,7 @@ public final class SVNNodeKind implements Comparable, Serializable {
         return UNKNOWN;
     }
 
+    public int getID() {
+        return myID;
+    }
 }

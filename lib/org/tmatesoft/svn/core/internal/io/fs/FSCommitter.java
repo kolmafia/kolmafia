@@ -33,14 +33,11 @@ import org.tmatesoft.svn.core.SVNProperties;
 import org.tmatesoft.svn.core.SVNProperty;
 import org.tmatesoft.svn.core.SVNPropertyValue;
 import org.tmatesoft.svn.core.SVNRevisionProperty;
-import org.tmatesoft.svn.core.internal.db.SVNSqlJetStatement;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNHashSet;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
-import org.tmatesoft.svn.core.internal.util.SVNSkel;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
-import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbStatements;
 import org.tmatesoft.svn.core.io.ISVNLockHandler;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.util.SVNDebugLog;
@@ -54,14 +51,14 @@ import org.tmatesoft.svn.util.SVNLogType;
 public class FSCommitter {
 
     private static volatile boolean ourAutoUnlock;
-    
+
     private FSFS myFSFS;
     private FSTransactionRoot myTxnRoot;
     private FSTransactionInfo myTxn;
     private Collection<String> myLockTokens;
     private Map<String, String> myAutoUnlockPaths;
     private String myAuthor;
-    
+
     public static synchronized void setAutoUnlock(boolean autoUnlock) {
         ourAutoUnlock = autoUnlock;
     }
@@ -78,7 +75,7 @@ public class FSCommitter {
         myAutoUnlockPaths = new HashMap<String, String>();
         myAuthor = author;
     }
-    
+
     public Map<String, String> getAutoUnlockPaths() {
         return myAutoUnlockPaths;
     }
@@ -290,6 +287,13 @@ public class FSCommitter {
     public long commitTxn(boolean runPreCommitHook, boolean runPostCommitHook, SVNErrorMessage[] postCommitHookError, StringBuffer conflictPath) throws SVNException {
         if (myFSFS.isHooksEnabled() && runPreCommitHook) {
             FSHooks.runPreCommitHook(myFSFS.getRepositoryRoot(), myTxn.getTxnId());
+        }
+
+        final SVNProperties txnProperties = myFSFS.getTransactionProperties(myTxn.getTxnId());
+        for (String propertyName : new HashSet<String>(txnProperties.nameSet())) {
+            if (propertyName.startsWith(SVNRevisionProperty.SVN_TXN_PREFIX)) {
+                myFSFS.setTransactionProperty(myTxn.getTxnId(), propertyName, null);
+            }
         }
 
         long newRevision = SVNRepository.INVALID_REVISION;
@@ -521,33 +525,18 @@ public class FSCommitter {
         }
 
         String commitTime = SVNDate.formatDate(new Date(System.currentTimeMillis()));
-        SVNProperties presetRevisionProperties = myFSFS.getTransactionProperties(myTxn.getTxnId()); 
+        SVNProperties presetRevisionProperties = myFSFS.getTransactionProperties(myTxn.getTxnId());
         if (presetRevisionProperties == null || !presetRevisionProperties.containsName(SVNRevisionProperty.DATE)) {
             myFSFS.setTransactionProperty(myTxn.getTxnId(), SVNRevisionProperty.DATE, SVNPropertyValue.create(commitTime));
         }
 
         File txnPropsFile = myFSFS.getTransactionPropertiesFile(myTxn.getTxnId());
 
-        if (myFSFS.getDBFormat() < FSFS.MIN_PACKED_REVPROP_FORMAT ||
-                newRevision >= myFSFS.getMinUnpackedRevProp()){
+        if (myFSFS.getDBFormat() < FSFS.MIN_PACKED_REVPROP_FORMAT || newRevision >= myFSFS.getMinUnpackedRevProp()){
             File dstRevPropsFile = myFSFS.getNewRevisionPropertiesFile(newRevision);
             SVNFileUtil.rename(txnPropsFile, dstRevPropsFile);
-        }
-        else
-        {
-          /* Read the revprops, and commit them to the permenant sqlite db. */
-          FSFile fsfProps = new FSFile(txnPropsFile);
-          try {
-              final SVNProperties revProperties = fsfProps.readProperties(false, true);
-              final SVNSqlJetStatement stmt = myFSFS.getRevisionProperitesDb().getStatement(SVNWCDbStatements.FSFS_SET_REVPROP);
-              try{
-                  stmt.insert(new Object[] { newRevision, SVNSkel.createPropList(revProperties.asMap()).getData() } );
-              } finally{
-                  stmt.reset();
-              }
-          } finally {
-              fsfProps.close();
-          }
+        } else {
+            // TODO pack property?
         }
 
         try {
@@ -732,7 +721,7 @@ public class FSCommitter {
         final long sourcePredecessorCount = sourceNode.getCount();
         targetNode.setPredecessorId(sourceId);
         targetNode.setCount(sourcePredecessorCount != -1 ? sourcePredecessorCount + 1 : sourcePredecessorCount);
-        
+
         targetNode.setIsFreshTxnRoot(false);
         owner.putTxnRevisionNode(targetId, targetNode);
     }
@@ -773,7 +762,7 @@ public class FSCommitter {
     }
 
     public void allowLockedOperation(FSFS fsfs, String path, final String username, final Collection<String> lockTokens, boolean recursive, boolean haveWriteLock) throws SVNException {
-        
+
         path = SVNPathUtil.canonicalizeAbsolutePath(path);
         if (recursive) {
             ISVNLockHandler handler = new ISVNLockHandler() {
@@ -799,7 +788,7 @@ public class FSCommitter {
             }
         }
     }
-    
+
     private void scheduleForAutoUnlock(final String username, String path, SVNLock lock) {
         myAutoUnlockPaths.put(path, lock.getID());
     }

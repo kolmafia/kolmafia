@@ -139,7 +139,11 @@ public class DefaultSVNSSLTrustManager implements X509TrustManager {
 			// check host name for 4
 			if (authProvider != null) {
 				boolean store = myAuthManager.getHostOptionsProvider().getHostOptions(myURL).isAuthStorageEnabled();
-                boolean trustServer = checkServerTrustedByDefault(certs, algorithm);
+				final CertificateException exception = checkServerTrustedByDefault(certs, algorithm);
+                if (exception != null && exception.getMessage().indexOf("Certificates does not conform to algorithm constraints") >= 0) {
+                    throw new SVNSSLUtil.CertificateDoesNotConformConstraints("svn: Server SSL certificates chain for '" + myRealm + "' does not conform to algorithm constraints", exception);
+                }
+                final boolean trustServer = exception == null;
                 int result;
                 if (trustServer) {
                     result = ISVNAuthenticationProvider.ACCEPTED;
@@ -165,24 +169,20 @@ public class DefaultSVNSSLTrustManager implements X509TrustManager {
         }
 	}
 
-    private boolean checkServerTrustedByDefault(X509Certificate[] certs, String algorithm) {
-        X509TrustManager[] trustManagers = getDefaultTrustManagers();
+    private CertificateException checkServerTrustedByDefault(X509Certificate[] certs, String algorithm) {
+        final X509TrustManager[] trustManagers = getDefaultTrustManagers();
         if (trustManagers == null) {
-            return false;
+            return null;
         }
         for (int i = 0; i < trustManagers.length; i++) {
-            X509TrustManager trustManager = trustManagers[i];
-            boolean trusted = true;
+            final X509TrustManager trustManager = trustManagers[i];
             try {
                 trustManager.checkServerTrusted(certs, algorithm);
             } catch (CertificateException e) {
-                trusted = false;
-            }
-            if (trusted) {
-                return true;
+                return e;
             }
         }
-        return false;
+        return null;
     }
 
     private String getStoredServerCertificate(String realm) {

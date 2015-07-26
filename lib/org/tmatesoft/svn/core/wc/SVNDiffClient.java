@@ -30,14 +30,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
-import org.tmatesoft.svn.core.wc2.SvnDiff;
-import org.tmatesoft.svn.core.wc2.SvnDiffSummarize;
-import org.tmatesoft.svn.core.wc2.SvnGetMergeInfo;
-import org.tmatesoft.svn.core.wc2.SvnLogMergeInfo;
-import org.tmatesoft.svn.core.wc2.SvnMerge;
-import org.tmatesoft.svn.core.wc2.SvnSuggestMergeSources;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -110,8 +103,6 @@ public class SVNDiffClient extends SVNBasicClient {
      */
     public SVNDiffClient(ISVNAuthenticationManager authManager, ISVNOptions options) {
         super(authManager, options);
-        setDiffGenerator(null);
-        setMergeOptions(null);
     }
 
     /**
@@ -137,6 +128,13 @@ public class SVNDiffClient extends SVNBasicClient {
      */
     public SVNDiffClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNDiffClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setDiffGenerator(null);
         setMergeOptions(null);
     }
@@ -3201,8 +3199,24 @@ public class SVNDiffClient extends SVNBasicClient {
     }
 
     public void doPatch(File absPatchPath, File localAbsPath, boolean dryRun, int stripCount) throws SVNException {
-        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE);
-        SVNErrorManager.error(err, SVNLogType.WC);
+        final SvnPatch patch = getOperationsFactory().createPatch();
+        patch.setPatchFile(absPatchPath);
+        patch.setStripCount(stripCount);
+        patch.setDryRun(dryRun);
+        patch.setSingleTarget(SvnTarget.fromFile(localAbsPath));
+        patch.run();
+    }
+
+    public void doPatch(File absPatchPath, File localAbsPath, boolean dryRun, int stripCount, boolean ignoreWhitespace, boolean removeTempFiles, boolean reverse) throws SVNException {
+        final SvnPatch patch = getOperationsFactory().createPatch();
+        patch.setPatchFile(absPatchPath);
+        patch.setStripCount(stripCount);
+        patch.setDryRun(dryRun);
+        patch.setSingleTarget(SvnTarget.fromFile(localAbsPath));
+        patch.setIgnoreWhitespace(ignoreWhitespace);
+        patch.setRemoveTempFiles(removeTempFiles);
+        patch.setReverse(reverse);
+        patch.run();
     }
 
     private void doDiffStatus(SvnTarget source, SVNRevision rN, SVNRevision rM, SVNDepth depth, boolean useAncestry, ISVNDiffStatusHandler handler) throws SVNException {

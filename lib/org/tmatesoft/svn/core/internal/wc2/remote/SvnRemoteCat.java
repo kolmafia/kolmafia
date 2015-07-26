@@ -72,7 +72,8 @@ public class SvnRemoteCat extends SvnRemoteOperationRunner<Void, SvnCat> {
                 String author = properties.getStringValue(SVNProperty.LAST_AUTHOR);
                 Map<String, byte[]> keywordsMap = SVNTranslator.computeKeywords(
                 		keywords, 
-                		getOperation().isExpandKeywords() ? repos.getLocation().toString() : null, 
+                		getOperation().isExpandKeywords() ? repos.getLocation().toString() : null,
+                        getOperation().isExpandKeywords() ? repos.getRepositoryRoot(true).toString() : null,
                 		author, 
                 		cmtDate, 
                 		cmtRev, 

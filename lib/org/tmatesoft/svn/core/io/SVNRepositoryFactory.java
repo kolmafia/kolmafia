@@ -688,7 +688,7 @@ public abstract class SVNRepositoryFactory {
             /* Create the revprops directory. */
             if (fsFormat >= FSFS.MIN_PACKED_REVPROP_FORMAT)
               {
-                File minUnpackedRevPropFile = new File(path, FSFS.DB_DIR + "/" + FSFS.MIN_UNPACKED_REVPROP);
+                File minUnpackedRevPropFile = new File(path, FSFS.DB_DIR + "/" + FSFS.MIN_UNPACKED_REV);
                 SVNFileUtil.writeToFile(minUnpackedRevPropFile, "0\n", "US-ASCII");
                 File revPropFile = new File(path, FSFS.DB_DIR + "/" + FSFS.REVISION_PROPERTIES_DIR + "/" + FSFS.REVISION_PROPERTIES_DB);
                 final SVNSqlJetDb revPropDb = SVNSqlJetDb.open( revPropFile, SVNSqlJetDb.Mode.RWCreate );

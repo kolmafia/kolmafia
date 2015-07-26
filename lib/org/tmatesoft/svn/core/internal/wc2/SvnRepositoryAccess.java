@@ -17,9 +17,13 @@ import org.tmatesoft.svn.core.SVNMergeRange;
 import org.tmatesoft.svn.core.SVNMergeRangeList;
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNMergeDriver;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields;
+import org.tmatesoft.svn.core.internal.wc2.ng.SvnNgRepositoryAccess;
+import org.tmatesoft.svn.core.internal.wc2.old.SvnOldRepositoryAccess;
 import org.tmatesoft.svn.core.io.ISVNLocationSegmentHandler;
 import org.tmatesoft.svn.core.io.SVNLocationEntry;
 import org.tmatesoft.svn.core.io.SVNLocationSegment;
@@ -126,15 +130,47 @@ public abstract class SvnRepositoryAccess {
         SVNURL url = null;
         
         if (path.isFile()) {
-            Structure<UrlInfo> urlInfo = getURLFromPath(path, revision, repository);
-            if (urlInfo.hasValue(UrlInfo.dropRepsitory) && urlInfo.is(UrlInfo.dropRepsitory)) {
-                repository = null;
+            if (revision == SVNRevision.WORKING && getWCContext() != null) {
+                Structure<StructureFields.NodeOriginInfo> nodeOrigin = getWCContext().getNodeOrigin(path.getFile(), false, StructureFields.NodeOriginInfo.isCopy, StructureFields.NodeOriginInfo.revision, StructureFields.NodeOriginInfo.reposRelpath, StructureFields.NodeOriginInfo.reposRootUrl);
+                boolean isCopy = nodeOrigin.is(StructureFields.NodeOriginInfo.isCopy);
+                long pegRevNum = nodeOrigin.lng(StructureFields.NodeOriginInfo.revision);
+                File reposRelPath = nodeOrigin.get(StructureFields.NodeOriginInfo.reposRelpath);
+                SVNURL reposRootUrl = nodeOrigin.get(StructureFields.NodeOriginInfo.reposRootUrl);
+
+                if (reposRelPath != null) {
+                    url = reposRootUrl.appendPath(SVNFileUtil.getFilePath(reposRelPath), false);
+                } else {
+                    url = null;
+                }
+
+                if (url != null && isCopy && repository != null) {
+                    SVNURL sessionUrl = repository.getLocation();
+
+                    if (!sessionUrl.equals(url)) {
+                        repository = null;
+                    }
+                }
+            } else {
+                url = null;
             }
-            url = urlInfo.<SVNURL>get(UrlInfo.url);
-            if (urlInfo.hasValue(UrlInfo.pegRevision)) {
-                pegRevisionNumber = urlInfo.lng(UrlInfo.pegRevision);
+
+            if (url == null) {
+                Structure<UrlInfo> urlInfo = getURLFromPath(path, revision, repository);
+                if (urlInfo.hasValue(UrlInfo.dropRepsitory) && urlInfo.is(UrlInfo.dropRepsitory)) {
+                    repository = null;
+                }
+                url = urlInfo.<SVNURL>get(UrlInfo.url);
+                if (urlInfo.hasValue(UrlInfo.pegRevision)) {
+                    pegRevisionNumber = urlInfo.lng(UrlInfo.pegRevision);
+                }
+                urlInfo.release();
             }
-            urlInfo.release();
+
+            if (url == null) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_MISSING_URL, "''{0}'' has no URL", path.getFile());
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+
         } else {
             url = path.getURL();
         }
@@ -163,14 +199,12 @@ public abstract class SvnRepositoryAccess {
         if (end != SVNRevision.UNDEFINED) {
             result.set(LocationsInfo.startRevision, endRevisionNumber);
         }
-        if (startRevisionNumber == pegRevisionNumber && endRevisionNumber == pegRevisionNumber) {
+        if (startRevisionNumber == pegRevisionNumber && (endRevisionNumber == pegRevisionNumber || !SVNRevision.isValidRevisionNumber(endRevisionNumber))) {
             result.set(LocationsInfo.startUrl, url);
-            if (end != SVNRevision.UNDEFINED) {
-                result.set(LocationsInfo.endUrl, url);
-            }
+            result.set(LocationsInfo.endUrl, url);
             return result;
         }
-        
+
         SVNURL repositoryRootURL = repository.getRepositoryRoot(true);
         long[] revisionsRange = startRevisionNumber == endRevisionNumber ? 
                 new long[] {startRevisionNumber} : new long[] {startRevisionNumber, endRevisionNumber};

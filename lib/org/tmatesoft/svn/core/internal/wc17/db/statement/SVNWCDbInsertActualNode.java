@@ -22,11 +22,8 @@ import org.tmatesoft.svn.core.internal.db.SVNSqlJetInsertStatement;
 /**
  * -- STMT_INSERT_ACTUAL_NODE
  * INSERT OR REPLACE INTO actual_node (
- * wc_id, local_relpath, parent_relpath, properties, conflict_old,
- * conflict_new,
- * conflict_working, prop_reject, changelist, text_mod,
- * tree_conflict_data)
- * VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, NULL, ?10)
+ * wc_id, local_relpath, parent_relpath, properties, changelist, conflict_data)
+ * VALUES (?1, ?2, ?3, ?4, ?5, ?6)
  * @version 1.4
  * @author TMate Software Ltd.
  */
@@ -42,13 +39,8 @@ public class SVNWCDbInsertActualNode extends SVNSqlJetInsertStatement {
         values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.local_relpath.toString(), getBind(2));
         values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.parent_relpath.toString(), getBind(3));
         values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.properties.toString(), getBind(4));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old.toString(), getBind(5));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new.toString(), getBind(6));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working.toString(), getBind(7));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject.toString(), getBind(8));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.changelist.toString(), getBind(9));
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.text_mod.toString(), null);
-        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data.toString(), getBind(10));
+        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.changelist.toString(), getBind(5));
+        values.put(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data.toString(), getBind(6));
         return values;
     }
 

@@ -1,23 +1,49 @@
 package org.tmatesoft.svn.core.internal.wc2.ng;
  
-import org.tmatesoft.sqljet.core.SqlJetException;
-import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
-import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.internal.db.*;
-import org.tmatesoft.svn.core.internal.wc.*;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema;
-import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbStatements;
-import org.tmatesoft.svn.core.internal.wc2.old.SvnOldUpgrade;
-import org.tmatesoft.svn.core.wc.SVNTreeConflictDescription;
-import org.tmatesoft.svn.util.SVNLogType;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.tmatesoft.sqljet.core.SqlJetException;
+import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
+import org.tmatesoft.sqljet.core.table.ISqlJetCursor;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNNodeKind;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetInsertStatement;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectFieldsStatement;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetStatement;
+import org.tmatesoft.svn.core.internal.db.SVNSqlJetUpdateStatement;
+import org.tmatesoft.svn.core.internal.util.SVNSkel;
+import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
+import org.tmatesoft.svn.core.internal.wc.SVNExternal;
+import org.tmatesoft.svn.core.internal.wc.SVNFileListUtil;
+import org.tmatesoft.svn.core.internal.wc.SVNFileType;
+import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.SVNTreeConflictUtil;
+import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
+import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbConflicts;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.ACTUAL_NODE__Fields;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.NODES__Fields;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbStatements;
+import org.tmatesoft.svn.core.internal.wc2.old.SvnOldUpgrade;
+import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.wc.ISVNEventHandler;
+import org.tmatesoft.svn.core.wc.SVNEvent;
+import org.tmatesoft.svn.core.wc.SVNEventAction;
+import org.tmatesoft.svn.core.wc.SVNTreeConflictDescription;
+import org.tmatesoft.svn.util.SVNLogType;
  
 public class SvnNgUpgradeSDb {
 	private static String PRISTINE_STORAGE_EXT = ".svn-base";
@@ -39,10 +65,8 @@ public class SvnNgUpgradeSDb {
       return "(unreleased development version)";
     }
     
-    public static int upgrade(final File wcRootAbsPath, final SVNSqlJetDb sDb, int startFormat) throws SVNException {
+    public static int upgrade(final File wcRootAbsPath, SVNWCDb db, final SVNSqlJetDb sDb, int startFormat, ISVNEventHandler eventHandler) throws SVNException {
         int resultFormat = 0;
-        File bumpWcRootAbsPath = wcRootAbsPath;
-        
         if (startFormat < SVNWCContext.WC_NG_VERSION /* 12 */) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "Working copy ''{0}'' is too old (format {1}, created by Subversion {2})", 
             		wcRootAbsPath, startFormat, versionStringFromFormat(startFormat));
@@ -64,35 +88,41 @@ public class SvnNgUpgradeSDb {
         switch (startFormat)
         {
           case 19:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo20());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo20());
         	  resultFormat = 20;
           case 20:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo21());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo21());
         	  resultFormat = 21;
           case 21:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo22());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo22());
         	  resultFormat = 22;
           case 22:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo23());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo23());
         	  resultFormat = 23;
           case 23:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo24());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo24());
         	  resultFormat = 24;
           case 24:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo25());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo25());
         	  resultFormat = 25;
           case 25:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo26());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo26());
         	  resultFormat = 26;
           case 26:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo27());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo27());
         	  resultFormat = 27;
           case 27:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo28());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo28());
         	  resultFormat = 28;
           case 28:
-        	  runBump(sDb, wcRootAbsPath, new bumpTo29());
+        	  runBump(db, sDb, wcRootAbsPath, new bumpTo29());
         	  resultFormat = 29;
+          case 29:
+              runBump(db, sDb, wcRootAbsPath, new bumpTo30());
+              resultFormat = 30;
+          case 30:
+              runBump(db, sDb, wcRootAbsPath, new bumpTo31());
+              resultFormat = 31;
  
           /* ##future bumps go here.  */
           //#if 0
@@ -120,6 +150,11 @@ public class SvnNgUpgradeSDb {
  
       /* Zap anything that might be remaining or escaped our notice.  */
       SvnOldUpgrade.wipeObsoleteFiles(wcRootAbsPath);
+
+      if (resultFormat != 0 && eventHandler != null) {
+          SVNEvent event = SVNEventFactory.createSVNEvent(wcRootAbsPath, SVNNodeKind.UNKNOWN, null, SVNRepository.INVALID_REVISION, SVNEventAction.UPGRADED_PATH, SVNEventAction.UPGRADED_PATH, null, null);
+          eventHandler.handleEvent(event, ISVNEventHandler.UNKNOWN);
+      }
  
       return resultFormat;
     }
@@ -164,14 +199,12 @@ public class SvnNgUpgradeSDb {
     }
         
     private static void migrateSingleTreeConflictData(SVNSqlJetDb sDb, String treeConflictData, long wcId, File localRelPath) throws SVNException {
-        Map conflicts = SVNTreeConflictUtil.readTreeConflicts(localRelPath, treeConflictData);
-        for (Iterator keys = conflicts.keySet().iterator(); keys.hasNext();) {
-            File entryPath = (File)keys.next();
-            SVNTreeConflictDescription conflict = (SVNTreeConflictDescription) conflicts.get(entryPath);
+        @SuppressWarnings("unchecked")
+        Map<File, SVNTreeConflictDescription> conflicts = SVNTreeConflictUtil.readTreeConflicts(localRelPath, treeConflictData);
+        for (Iterator<File> keys = conflicts.keySet().iterator(); keys.hasNext();) {
+            File entryPath = keys.next();
+            SVNTreeConflictDescription conflict = conflicts.get(entryPath);
             
-            //String conflictRelpath = SVNFileUtil.getFilePath(
-            //      SVNFileUtil.createFilePath(localRelPath, SVNFileUtil.getBasePath(conflict.getPath())));
-                 
             /* See if we need to update or insert an ACTUAL node. */
             SVNSqlJetStatement stmt = sDb.getStatement(SVNWCDbStatements.SELECT_ACTUAL_NODE); 
             stmt.bindf("is", wcId, conflict.getPath());
@@ -204,7 +237,7 @@ public class SvnNgUpgradeSDb {
         }
     }
     
-    private static void setVersion(SVNSqlJetDb sDb, int version) throws SVNException {
+    public static void setVersion(SVNSqlJetDb sDb, int version) throws SVNException {
         try {
             sDb.getDb().pragma("pragma user_version = " + version);
         } catch (SqlJetException e) {
@@ -213,13 +246,13 @@ public class SvnNgUpgradeSDb {
     }
     
     private interface Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException;
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException;
     }
     
-    private static void runBump(SVNSqlJetDb sDb, File wcRootAbsPath, Bumpable bump) throws SVNException {
+    private static void runBump(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath, Bumpable bump) throws SVNException {
     	sDb.beginTransaction(SqlJetTransactionMode.WRITE);
         try {
-        	bump.bumpTo(sDb, wcRootAbsPath);
+        	bump.bumpTo(db, sDb, wcRootAbsPath);
         } catch (SVNException e) {
             sDb.rollback();
             throw e;
@@ -300,7 +333,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo20 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	try {
 	    		sDb.getDb().createTable("CREATE TABLE NODES ( wc_id  INTEGER NOT NULL REFERENCES WCROOT (id), local_relpath  TEXT NOT NULL, op_depth INTEGER NOT NULL, "
 	                + "  parent_relpath  TEXT, repos_id  INTEGER REFERENCES REPOSITORY (id), repos_path  TEXT, revision  INTEGER, presence  TEXT NOT NULL, "
@@ -479,14 +512,14 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo21 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	        setVersion(sDb, (int)21);
 	        migrateTreeConflictData(sDb);
     	}
     }
     
     private static class bumpTo22 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*-- STMT_UPGRADE_TO_22
 	        UPDATE actual_node SET tree_conflict_data = conflict_data;
 	        UPDATE actual_node SET conflict_data = NULL;
@@ -523,7 +556,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo23 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	        //-- STMT_HAS_WORKING_NODES
 	        //SELECT 1 FROM nodes WHERE op_depth > 0
 	        //LIMIT 1
@@ -557,7 +590,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo24 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*-- STMT_UPGRADE_TO_25
 	    	UPDATE pristine SET refcount = (SELECT COUNT(*) FROM nodes WHERE checksum = pristine.checksum /*OR checksum = pristine.md5_checksum/);
 	    	*/
@@ -610,7 +643,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo25 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*-- STMT_UPGRADE_TO_25
 	    	//DROP VIEW IF EXISTS NODES_CURRENT;
 	    	CREATE VIEW NODES_CURRENT AS
@@ -632,7 +665,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo26 implements Bumpable {
-    	public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+    	public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*-- STMT_UPGRADE_TO_26
 	    	* DROP VIEW IF EXISTS NODES_BASE;
 	    	* CREATE VIEW NODES_BASE AS
@@ -654,7 +687,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo27 implements Bumpable {
-	    public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+	    public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*
 	    	-- STMT_HAS_ACTUAL_NODES_CONFLICTS
 	    	SELECT 1 FROM actual_node
@@ -696,7 +729,7 @@ public class SvnNgUpgradeSDb {
     }
     
     private static class bumpTo28 implements Bumpable {
-	    public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+	    public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/*-- STMT_UPGRADE_TO_28
 	    	 * UPDATE NODES SET checksum=(SELECT checksum FROM pristine WHERE md5_checksum=nodes.checksum)
 			 * WHERE EXISTS(SELECT 1 FROM pristine WHERE md5_checksum=nodes.checksum);
@@ -704,12 +737,12 @@ public class SvnNgUpgradeSDb {
 	    	UpdateChecksum uc = new UpdateChecksum(sDb, SVNWCDbSchema.NODES);
 	    	uc.run();
 	    	
-	    	setVersion(sDb, (int)28);
+	    	setVersion(sDb, 28);
 	    }
     }
     
     private static class bumpTo29 implements Bumpable {
-	    public void bumpTo(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+	    public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
 	    	/* Rename all pristine files, adding a ".svn-base" suffix. */
 	    	File pristineDirAbsPath = SVNWCUtils.admChild(wcRootAbsPath, ISVNWCDb.PRISTINE_STORAGE_RELPATH);
 	    	for (File dir: SVNFileListUtil.listFiles(pristineDirAbsPath)) {
@@ -768,8 +801,102 @@ public class SvnNgUpgradeSDb {
  	            SVNSqlJetDb.createSqlJetError(e);
  	        }
 
-         	setVersion(sDb, (int)29);
+         	setVersion(sDb, 29);
 	    }
+    }
+
+    private static class bumpTo30 implements Bumpable {
+
+        public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+            try {
+                if (sDb.getDb().getSchema().getTable("NODES").getColumn("inherited_props") == null) {
+                    sDb.getDb().createIndex("CREATE UNIQUE INDEX IF NOT EXISTS I_NODES_MOVED ON NODES (wc_id, moved_to, op_depth);");
+                    sDb.getDb().createIndex("CREATE INDEX IF NOT EXISTS I_PRISTINE_MD5 ON PRISTINE (md5_checksum);");
+    
+                    final ISqlJetCursor actulaNode = sDb.getDb().getTable("ACTUAL_NODE").open();
+                    while(!actulaNode.eof()) {
+                        final String conflictOld = actulaNode.getString(ACTUAL_NODE__Fields.conflict_old.toString());
+                        final String conflictWorking = actulaNode.getString(ACTUAL_NODE__Fields.conflict_working.toString());
+                        final String conflictNew = actulaNode.getString(ACTUAL_NODE__Fields.conflict_new.toString());
+                        final String propReject = actulaNode.getString(ACTUAL_NODE__Fields.prop_reject.toString());
+                        final byte[] treeConflictData = actulaNode.getBlobAsArray(ACTUAL_NODE__Fields.tree_conflict_data.toString());
+                        
+                        if (conflictOld == null && conflictWorking == null && conflictNew == null && propReject == null && treeConflictData == null) {
+                            actulaNode.next();
+                            continue;
+                        }
+                        final String localRelpath = actulaNode.getString(ACTUAL_NODE__Fields.local_relpath.toString());
+                        final SVNSkel conflictData = SvnWcDbConflicts.convertToConflictSkel(wcRootAbsPath, db, localRelpath, conflictOld, conflictWorking, conflictNew, propReject, treeConflictData);
+                        
+                        final Map<String, Object> newRowValues = new HashMap<String, Object>();
+                        if (conflictData != null) {
+                            newRowValues.put(ACTUAL_NODE__Fields.conflict_data.toString(), conflictData.unparse());
+                        }
+    
+                        newRowValues.put(ACTUAL_NODE__Fields.conflict_old.toString(), null);
+                        newRowValues.put(ACTUAL_NODE__Fields.conflict_working.toString(), null);
+                        newRowValues.put(ACTUAL_NODE__Fields.conflict_new.toString(), null);
+                        newRowValues.put(ACTUAL_NODE__Fields.prop_reject.toString(), null);
+                        newRowValues.put(ACTUAL_NODE__Fields.tree_conflict_data.toString(), null);
+                        actulaNode.updateByFieldNames(newRowValues);
+                        
+                        actulaNode.next();
+                    }
+                }
+            } catch (SqlJetException e) {
+                SVNSqlJetDb.createSqlJetError(e);
+            } 
+            setVersion(sDb, 30);
+        }
+    }
+
+    private static class bumpTo31 implements Bumpable {
+
+        public void bumpTo(SVNWCDb db, SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
+            try {
+                if (sDb.getDb().getSchema().getTable("NODES").getColumn("inherited_props") != null) {
+                    setVersion(sDb, 31);
+                    return;
+                } else {    
+                    if (sDb.getDb().getSchema().getIndex("I_ACTUAL_CHANGELIST") != null) {
+                        sDb.getDb().dropIndex("I_ACTUAL_CHANGELIST");
+                    }
+                    if (sDb.getDb().getSchema().getIndex("I_EXTERNALS_PARENT") != null) {
+                        sDb.getDb().dropIndex("I_EXTERNALS_PARENT");
+                    }
+                    sDb.getDb().alterTable("ALTER TABLE NODES ADD COLUMN inherited_props BLOB;");
+    
+                    sDb.getDb().dropIndex("I_NODES_PARENT");
+                    sDb.getDb().createIndex("CREATE UNIQUE INDEX I_NODES_PARENT ON NODES (wc_id, parent_relpath, local_relpath, op_depth);");
+                    sDb.getDb().dropIndex("I_ACTUAL_PARENT");
+                    sDb.getDb().createIndex("CREATE UNIQUE INDEX I_ACTUAL_PARENT ON ACTUAL_NODE (wc_id, parent_relpath, local_relpath);");
+                }
+            } catch (SqlJetException e) {
+                SVNSqlJetDb.createSqlJetError(e);
+            }
+            
+            final SVNSqlJetStatement stmt = sDb.getStatement(SVNWCDbStatements.SELECT_WCROOT_NODES);
+            final SVNSqlJetStatement markRootStmt = sDb.getStatement(SVNWCDbStatements.UPDATE_IPROPS);
+            final byte[] emptyInheritedProps = SVNSkel.createEmptyList().unparse();
+            try {
+                while(stmt.next()) {
+                    final long wcId = stmt.getColumnLong(NODES__Fields.wc_id);
+                    final String localRelPath = stmt.getColumnString(NODES__Fields.local_relpath);
+                    
+                    try {
+                        markRootStmt.bindf("isb", wcId, localRelPath, emptyInheritedProps);
+                        markRootStmt.done();
+                    } finally {
+                        markRootStmt.reset();
+                    }                    
+                }
+            } finally {
+                stmt.reset();
+            }
+            
+            setVersion(sDb, 31);
+        }
+        
     }
     
     private static void upgradeExternals(SVNSqlJetDb sDb, File wcRootAbsPath) throws SVNException {
@@ -814,19 +941,4 @@ public class SvnNgUpgradeSDb {
             stmt.reset();
         }
     }
-       
-                  
-                
-    
-    
-   
-    
-     
-   
-    
-    
-    
-    
-    
-    
 }

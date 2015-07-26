@@ -82,7 +82,7 @@ public class SVNPlainAuthenticator extends SVNAuthenticator {
                     break;
                     
                 }
-                if (auth.getUserName() == null || auth.getPassword() == null) {
+                if (auth.getUserName() == null || auth.getPasswordValue() == null) {
                     failureReason = SVNErrorMessage.create(SVNErrorCode.RA_NOT_AUTHORIZED, "Can''t get password. Authentication is required for ''{0}''", realm);
                     break;
                 }

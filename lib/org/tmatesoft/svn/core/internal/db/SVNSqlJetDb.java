@@ -45,26 +45,28 @@ public class SVNSqlJetDb {
         /** open/create the database read-write */
         RWCreate
     };
-    
+
     private static final ISqlJetBusyHandler DEFAULT_BUSY_HANDLER = new SqlJetTimeoutBusyHandler(10000);
     private static boolean logTransactions = "true".equalsIgnoreCase(System.getProperty("svnkit.log.transactions", "false"));
-    private static SqlJetPagerJournalMode ourPagerJournalMode = SqlJetPagerJournalMode.DELETE; 
+    private static SqlJetPagerJournalMode ourPagerJournalMode = SqlJetPagerJournalMode.DELETE;
 
     private SqlJetDb db;
     private EnumMap<SVNWCDbStatements, SVNSqlJetStatement> statements;
 
     private int openCount = 0;
     private SVNSqlJetDb temporaryDb;
+    private boolean temporaryDbInMemory;
 
-    private SVNSqlJetDb(SqlJetDb db) {
+    private SVNSqlJetDb(SqlJetDb db, boolean temporaryDbInMemory) {
         this.db = db;
+        this.temporaryDbInMemory = temporaryDbInMemory;
         statements = new EnumMap<SVNWCDbStatements, SVNSqlJetStatement>(SVNWCDbStatements.class);
     }
 
     public SqlJetDb getDb() {
         return db;
     }
-    
+
     public int getOpenCount() {
         return openCount;
     }
@@ -87,8 +89,8 @@ public class SVNSqlJetDb {
             }
         }
     }
-    
-    public static void setJournalMode(SqlJetPagerJournalMode journalMode) { 
+
+    public static void setJournalMode(SqlJetPagerJournalMode journalMode) {
         ourPagerJournalMode = journalMode == null ? SqlJetPagerJournalMode.DELETE : journalMode;
     }
 
@@ -97,10 +99,10 @@ public class SVNSqlJetDb {
     }
 
     public static SVNSqlJetDb open(File sdbAbsPath, Mode mode) throws SVNException {
-        return open(sdbAbsPath, mode, getJournalMode());
+        return open(sdbAbsPath, mode, getJournalMode(), false);
     }
 
-    public static SVNSqlJetDb open(File sdbAbsPath, Mode mode, SqlJetPagerJournalMode journalMode) throws SVNException {
+    public static SVNSqlJetDb open(File sdbAbsPath, Mode mode, SqlJetPagerJournalMode journalMode, boolean temporaryDbInMemory) throws SVNException {
         if (mode != Mode.RWCreate) {
             if (!sdbAbsPath.exists()) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FOUND, "File not found ''{0}''", sdbAbsPath);
@@ -115,19 +117,19 @@ public class SVNSqlJetDb {
             db.setBusyHandler(DEFAULT_BUSY_HANDLER);
             db.setSafetyLevel(SqlJetSafetyLevel.OFF);
             db.setJournalMode(journalMode);
-            
-            return new SVNSqlJetDb(db);
+
+            return new SVNSqlJetDb(db, temporaryDbInMemory);
         } catch (SqlJetException e) {
             SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.SQLITE_ERROR, e);
             SVNErrorManager.error(err, SVNLogType.WC);
             return null;
         }
     }
-    
+
     public SVNSqlJetDb getTemporaryDb() throws SVNException {
         if (temporaryDb == null) {
             try {
-                temporaryDb = new SVNSqlJetDb(getDb().getTemporaryDatabase(false));
+                temporaryDb = new SVNSqlJetDb(getDb().getTemporaryDatabase(temporaryDbInMemory), temporaryDbInMemory);
             } catch (SqlJetException e) {
                 SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.SQLITE_ERROR, e);
                 SVNErrorManager.error(err, SVNLogType.WC);
@@ -158,7 +160,7 @@ public class SVNSqlJetDb {
         if (stmt != null && stmt.isNeedsReset()) {
             stmt.reset();
         }
-        
+
         return stmt;
     }
 
@@ -249,7 +251,7 @@ public class SVNSqlJetDb {
     public void runTransaction(final SVNSqlJetTransaction transaction) throws SVNException {
         runTransaction(transaction, SqlJetTransactionMode.WRITE);
     }
-    
+
     public void runTransaction(final SVNSqlJetTransaction transaction, SqlJetTransactionMode mode) throws SVNException {
         try {
             beginTransaction(mode);
@@ -287,7 +289,7 @@ public class SVNSqlJetDb {
         }
         return false;
     }
-    
+
     private void logCall(String message, int count) {
         if (isLogTransactions()) {
             StackTraceElement[] trace = Thread.currentThread().getStackTrace();

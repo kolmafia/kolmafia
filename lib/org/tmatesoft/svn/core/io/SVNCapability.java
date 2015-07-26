@@ -14,36 +14,36 @@ package org.tmatesoft.svn.core.io;
 /**
  * This class contains enumeration that describes the repository capabilities or,
  * in other words, features that the repository may be capable of.
- * 
+ *
  * @version 1.3
  * @author  TMate Software Ltd.
  * @since   1.2
  */
 public class SVNCapability {
-    
+
     /**
-     * Represents the capability of the repository to understand 
+     * Represents the capability of the repository to understand
      * what the client means when the client describes the
      * depth of a working copy to the server.
      */
 	public static final SVNCapability DEPTH = new SVNCapability("depth");
-	
+
     /**
      * Represents the capability of the repository to support merge-tracking
      * information.
      */
 	public static final SVNCapability MERGE_INFO = new SVNCapability("mergeinfo");
-    
+
 	/**
-     * Represents the capability of retrieving arbitrary revision properties. 
+     * Represents the capability of retrieving arbitrary revision properties.
      */
 	public static final SVNCapability LOG_REVPROPS = new SVNCapability("log-revprops");
-    
+
 	/**
      * Represents the capability of replaying a directory in the repository (partial replay).
      */
 	public static final SVNCapability PARTIAL_REPLAY = new SVNCapability("partial-replay");
-    
+
     /**
      * Represents the capability of committing revision properties modifications along with
      * a normal transaction.
@@ -55,9 +55,14 @@ public class SVNCapability {
      * preexisting values when modifying revprops.
      */
     public static final SVNCapability ATOMIC_REVPROPS = new SVNCapability("atomic-revprops");
-	
+
+    public static final SVNCapability INHERITED_PROPS = new SVNCapability("inherited-props");
+
+	public static final SVNCapability EPHEMERAL_PROPS = new SVNCapability("ephemeral-txnprops");
+
+
 	private String myName;
-	
+
 	private SVNCapability(String name) {
 		myName = name;
 	}

@@ -9,41 +9,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
+import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
+import org.tmatesoft.svn.core.internal.wc.SVNFileType;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc17.SVNStatusEditor17;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.CheckSpecialInfo;
-import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ConflictInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.ISVNWCNodeHandler;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCNodeReposInfo;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
+import org.tmatesoft.svn.core.internal.wc17.db.*;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbKind;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbLock;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbStatus;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo.BaseInfoField;
-import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
-import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbReader;
 import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbReader.ReplaceInfo;
-import org.tmatesoft.svn.core.wc.ISVNEventHandler;
-import org.tmatesoft.svn.core.wc.SVNTreeConflictDescription;
-import org.tmatesoft.svn.core.wc2.ISvnCommitParameters;
-import org.tmatesoft.svn.core.wc2.ISvnCommitParameters.Action;
-import org.tmatesoft.svn.core.wc2.SvnCommitItem;
-import org.tmatesoft.svn.core.wc2.SvnCommitPacket;
+import org.tmatesoft.svn.core.wc.*;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgCommitUtil {
@@ -79,7 +67,7 @@ public class SvnNgCommitUtil {
                 reposInfo.reposRootUrl, 
                 commitRelPath, 
                 true, SVNDepth.INFINITY, 
-                false, null, 
+                false, null, null,
                 false, false, 
                 urlKindCallback,
                 commitParameters,
@@ -91,36 +79,48 @@ public class SvnNgCommitUtil {
     
     public static SvnCommitPacket harvestCommittables(SVNWCContext context, SvnCommitPacket packet, Map<SVNURL, String> lockTokens,
             File baseDirPath,
-            Collection<String> targets,
+            Collection<String> targets, int depthEmptyStart,
             SVNDepth depth, boolean justLocked, Collection<String> changelists, ISvnUrlKindCallback urlKindCallback, ISvnCommitParameters commitParameters, Map<File, String> externalsStorage) throws SVNException {
         
         Map<File, File> danglers = new HashMap<File, File>();
-        
-        
+
+        int i = -1;
+
         for (String target : targets) {
+            i++;
             File targetPath = SVNFileUtil.createFilePath(baseDirPath, target);
             SVNNodeKind kind = context.readKind(targetPath, false);
             if (kind == SVNNodeKind.NONE) {
+                try {
+                    Structure<NodeInfo> nodeInfoStructure = context.getDb().readInfo(targetPath, NodeInfo.status);
+                } catch (SVNException e) {
+                    if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND) {
+                        SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "''{0}'' is not under version control", targetPath);
+                        SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                    } else {
+                        throw e;
+                    }
+                }
                 SVNTreeConflictDescription tc = context.getTreeConflict(targetPath);
                 if (tc != null) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, 
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT,
                             "Aborting commit: ''{0}'' remains in conflict", targetPath);
                     SVNErrorManager.error(err, SVNLogType.WC);
                 } else {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, 
+                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET,
                             "''{0}'' is not under version control", targetPath);
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }
             }
             SVNWCNodeReposInfo reposInfo = context.getNodeReposInfo(targetPath);
             SVNURL repositoryRootUrl = reposInfo.reposRootUrl;
-            
+
             boolean added = context.isNodeAdded(targetPath);
             if (added) {
                 File parentPath = SVNFileUtil.getParentFile(targetPath);
                 try {
                     boolean parentIsAdded = context.isNodeAdded(parentPath);
-                    if (parentIsAdded) {                        
+                    if (parentIsAdded) {
                         Structure<NodeOriginInfo> origin = context.getNodeOrigin(parentPath, false, NodeOriginInfo.copyRootAbsPath, NodeOriginInfo.isCopy);
                         if (origin.is(NodeOriginInfo.isCopy)) {
                             parentPath = origin.get(NodeOriginInfo.copyRootAbsPath);
@@ -130,7 +130,7 @@ public class SvnNgCommitUtil {
                     }
                 } catch (SVNException e) {
                     if (e.getErrorMessage().getErrorCode() == SVNErrorCode.WC_PATH_NOT_FOUND) {
-                        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_CORRUPT, 
+                        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_CORRUPT,
                                 "''{0}'' is scheduled for addition within unversioned parent", targetPath);
                         SVNErrorManager.error(err, SVNLogType.WC);
                     }
@@ -138,7 +138,10 @@ public class SvnNgCommitUtil {
                 }
             }
             bailOnTreeConflictedAncestor(context, targetPath);
-            harvestCommittables(context, targetPath, packet, lockTokens, repositoryRootUrl, null, false, depth, justLocked, changelists, false, false, urlKindCallback, commitParameters, externalsStorage, context.getEventHandler());
+            if (i == depthEmptyStart) {
+                depth = SVNDepth.EMPTY;
+            }
+            harvestCommittables(context, targetPath, packet, lockTokens, repositoryRootUrl, null, false, depth, justLocked, changelists, danglers, false, false, urlKindCallback, commitParameters, externalsStorage, context.getEventHandler());
         }
         for(SVNURL root : packet.getRepositoryRoots()) {
             handleDescendants(context, packet, root, new ArrayList<SvnCommitItem>(packet.getItems(root)), urlKindCallback, context.getEventHandler());
@@ -191,11 +194,29 @@ public class SvnNgCommitUtil {
         }
     }
 
-    public static void harvestCommittables(SVNWCContext context, File localAbsPath, SvnCommitPacket committables, 
-            Map<SVNURL, String> lockTokens, SVNURL repositoryRootUrl, File commitRelPath, boolean copyModeRoot, 
-            SVNDepth depth, boolean justLocked, Collection<String> changelists, boolean skipFiles, boolean skipDirs, 
+    public static void harvestCommittables(SVNWCContext context, File localAbsPath, SvnCommitPacket committables,
+            Map<SVNURL, String> lockTokens, SVNURL repositoryRootUrl, File copyModeRelPath, boolean copyModeRoot,
+            SVNDepth depth, boolean justLocked, Collection<String> changelists, Map<File, File> danglers, boolean skipFiles, boolean skipDirs,
             ISvnUrlKindCallback urlKindCallback, ISvnCommitParameters commitParameters, Map<File, String> externalsStorage, ISVNEventHandler eventHandler) throws SVNException {
-        
+
+        CommitStatusWalker commitStatusWalker = new CommitStatusWalker();
+        commitStatusWalker.rootAbsPath = localAbsPath;
+        commitStatusWalker.committables = committables;
+        commitStatusWalker.lockTokens = lockTokens;
+        commitStatusWalker.commitRelPath = copyModeRelPath;
+        commitStatusWalker.depth = depth;
+        commitStatusWalker.justLocked = justLocked;
+        commitStatusWalker.changeLists = changelists;
+        commitStatusWalker.danglers = danglers;
+        commitStatusWalker.checkUrlCallback = urlKindCallback;
+        commitStatusWalker.context = context;
+        commitStatusWalker.eventHandler = eventHandler;
+        commitStatusWalker.externalsStorage = externalsStorage;
+
+        SVNStatusEditor17 editor = new SVNStatusEditor17(localAbsPath, context, context.getOptions(), false, copyModeRelPath != null, depth, commitStatusWalker);
+        editor.walkStatus(localAbsPath, depth, copyModeRelPath != null, false, false, null);
+
+/*
         if (committables.hasItem(localAbsPath)) {
             return;
         }
@@ -358,7 +379,7 @@ public class SvnNgCommitUtil {
                     if (action == Action.DELETE) {
                         stateFlags |= SvnCommitItem.DELETE;
                         // schedule file or dir for deletion!
-                        SvnNgRemove.delete(context, localAbsPath, false, false, null);
+                        SvnNgRemove.delete(context, localAbsPath, null, false, false, null);
                     } else if (action == Action.ERROR) {
                         SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_NOT_LOCKED, "Working copy {1} ''{0}'' is missing", localAbsPath, nodeKind == SVNNodeKind.DIR ? "directory" : "file");
                         SVNErrorManager.error(err, SVNLogType.WC);
@@ -422,7 +443,286 @@ public class SvnNgCommitUtil {
                         urlKindCallback, commitParameters, externalsStorage, eventHandler);
             }
         }
+        */
+    }
 
+    private static class CommitStatusWalker implements ISvnObjectReceiver<SvnStatus> {
+
+        public File rootAbsPath;
+        public File commitRelPath;
+        public SVNDepth depth;
+        public boolean justLocked;
+        public Collection<String> changeLists;
+        public Map<File, File> danglers;
+        public ISvnUrlKindCallback checkUrlCallback;
+        public ISVNEventHandler eventHandler;
+        public SVNWCContext context;
+        public File skipBelowAbsPath;
+        public Map<SVNURL, String> lockTokens;
+        public Map<File, String> externalsStorage;
+
+        public SvnCommitPacket committables;
+
+        public void receive(SvnTarget target, SvnStatus status) throws SVNException {
+            File localAbsPath = target.getFile();
+
+            int stateFlags = 0;
+
+            boolean isHarvestRoot = rootAbsPath.equals(localAbsPath);
+            boolean copyModeRoot = commitRelPath != null && isHarvestRoot;
+            File movedFromAbsPath = null;
+            File commitRelPath = null;
+
+            if (this.commitRelPath != null) {
+                commitRelPath = SVNFileUtil.createFilePath(this.commitRelPath, SVNFileUtil.skipAncestor(this.rootAbsPath, localAbsPath));
+            }
+            boolean copyMode = commitRelPath != null;
+
+            if (this.skipBelowAbsPath != null && SVNPathUtil.isAncestor(SVNFileUtil.getFilePath(this.skipBelowAbsPath), SVNFileUtil.getFilePath(localAbsPath))) {
+                return;
+            } else {
+                this.skipBelowAbsPath = null;
+            }
+
+            if (SVNStatusType.STATUS_UNVERSIONED.equals(status.getNodeStatus()) ||
+                    SVNStatusType.STATUS_IGNORED.equals(status.getNodeStatus()) ||
+                    SVNStatusType.STATUS_EXTERNAL.equals(status.getNodeStatus()) ||
+                    SVNStatusType.STATUS_NONE.equals(status.getNodeStatus())) {
+                if (isHarvestRoot) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "''{0}'' is not under version control", localAbsPath);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                }
+                return;
+            } else if (SVNStatusType.STATUS_NORMAL.equals(status.getNodeStatus())) {
+                if (!copyMode && !status.isConflicted() && !(this.justLocked && status.getLock() != null)) {
+                    return;
+                }
+            }
+
+            if (committables.hasItem(localAbsPath)) {
+                return;
+            }
+
+            assert (copyMode && commitRelPath != null) || (!copyMode && commitRelPath == null);
+            assert (copyModeRoot && copyMode) || !copyModeRoot;
+
+            boolean matchesChangeLists = (changeLists == null) || (status.getChangelist() != null && changeLists.contains(status.getChangelist()));
+
+            if (status.getKind() != SVNNodeKind.DIR && !matchesChangeLists) {
+                return;
+            }
+
+            if (status.isConflicted() && matchesChangeLists) {
+                if (this.eventHandler != null) {
+                    this.eventHandler.handleEvent(SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.UNKNOWN, null, -1, SVNEventAction.FAILED_CONFLICT, SVNEventAction.FAILED_CONFLICT, null, null), ISVNEventHandler.UNKNOWN);
+                }
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_FOUND_CONFLICT, "Aborting commit: ''{0}'' remains in conflict", localAbsPath);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            } else if (status.getNodeStatus() == SVNStatusType.STATUS_OBSTRUCTED) {
+                if (this.eventHandler != null) {
+                    this.eventHandler.handleEvent(SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.UNKNOWN, null, -1, SVNEventAction.FAILED_OBSTRUCTION, SVNEventAction.FAILED_OBSTRUCTION, null, null), ISVNEventHandler.UNKNOWN);
+                }
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.NODE_UNEXPECTED_KIND, "Node ''{0}'' has unexpectedly changed kind", localAbsPath);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+            if (this.externalsStorage != null && matchesChangeLists) {
+                SVNProperties properties = context.getActualProps(localAbsPath);
+                if (properties != null) {
+                    String externalsProperty = properties.getStringValue(SVNProperty.EXTERNALS);
+                    if (externalsProperty != null) {
+                        externalsStorage.put(localAbsPath, externalsProperty);
+                    }
+                }
+            }
+            if (status.isFileExternal() && !isHarvestRoot) {
+                return;
+            }
+
+            Structure<NodeCommitStatus> nodeCommitStatus = getNodeCommitStatus(context, localAbsPath);
+            boolean isAdded = nodeCommitStatus.is(NodeCommitStatus.added);
+            boolean isDeleted = nodeCommitStatus.is(NodeCommitStatus.deleted);
+            boolean isReplaced = nodeCommitStatus.is(NodeCommitStatus.isReplaceRoot);
+            boolean isOpRoot = nodeCommitStatus.is(NodeCommitStatus.isOpRoot);
+            long nodeRev = nodeCommitStatus.lng(NodeCommitStatus.revision);
+            long originalRev = nodeCommitStatus.lng(NodeCommitStatus.originalRevision);
+            File originalRelPath = nodeCommitStatus.get(NodeCommitStatus.originalReposRelPath);
+
+            if (status.getNodeStatus() == SVNStatusType.STATUS_MISSING && matchesChangeLists) {
+                if (isAdded && isOpRoot) {
+                    if (this.eventHandler != null) {
+                        this.eventHandler.handleEvent(SVNEventFactory.createSVNEvent(localAbsPath, SVNNodeKind.UNKNOWN, null, -1, SVNEventAction.FAILED_MISSING, SVNEventAction.FAILED_MISSING, null, null), ISVNEventHandler.UNKNOWN);
+                    }
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_PATH_NOT_FOUND, "''{0}'' is scheduled for addition, but is missing", localAbsPath);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                }
+                return;
+            }
+
+            if (isDeleted && !isOpRoot) {
+                return;
+            }
+
+            if (isDeleted || isReplaced) {
+                stateFlags |= SvnCommitItem.DELETE;
+            }
+
+            File cfRelPath = null;
+            long cfRev = -1;
+            if (isAdded && isOpRoot) {
+                stateFlags |= SvnCommitItem.ADD;
+                if (originalRelPath != null) {
+                    stateFlags |= SvnCommitItem.COPY;
+                    cfRelPath = originalRelPath;
+                    cfRev = originalRev;
+
+                    if (status.getMovedFromPath() != null && !copyMode) {
+                        stateFlags |= SvnCommitItem.MOVED_HERE;
+                        movedFromAbsPath = status.getMovedFromPath();
+                    }
+                }
+            } else if (copyMode && ((stateFlags & SvnCommitItem.DELETE) == 0)) {
+                long dirRev = -1;
+                if (!copyModeRoot && !status.isSwitched() && !isAdded) {
+                    WCDbBaseInfo nodeBase = context.getNodeBase(SVNFileUtil.getFileDir(localAbsPath), false, false);
+                    dirRev = nodeBase.revision;
+                }
+                if (copyModeRoot || status.isSwitched() || nodeRev != dirRev) {
+                    stateFlags |= SvnCommitItem.ADD;
+                    stateFlags |= SvnCommitItem.COPY;
+                    if (status.isCopied()) {
+                        cfRev = originalRev;
+                        cfRelPath = originalRelPath;
+                    } else {
+                        cfRev = status.getRevision();
+                        cfRelPath = SVNFileUtil.createFilePath(status.getRepositoryRelativePath());
+                    }
+                }
+            }
+
+            if ((((stateFlags & SvnCommitItem.DELETE) == 0) || ((stateFlags & SvnCommitItem.ADD) != 0))) {
+                boolean textMod = false;
+                boolean propMod = false;
+
+                if (status.getKind() == SVNNodeKind.FILE) {
+                    if (((stateFlags & SvnCommitItem.ADD) != 0) && (stateFlags & SvnCommitItem.COPY) == 0) {
+                        textMod = true;
+                    } else {
+                        textMod = status.getTextStatus() != SVNStatusType.STATUS_NORMAL;
+                    }
+                }
+
+                propMod = (status.getPropertiesStatus() != SVNStatusType.STATUS_NORMAL) && (status.getPropertiesStatus() != SVNStatusType.STATUS_NONE);
+
+                if (textMod) {
+                    stateFlags |= SvnCommitItem.TEXT_MODIFIED;
+                }
+                if (propMod) {
+                    stateFlags |= SvnCommitItem.PROPS_MODIFIED;
+                }
+            }
+
+            if (status.getLock() != null && lockTokens != null && (stateFlags != 0 || justLocked)) {
+                stateFlags |= SvnCommitItem.LOCK;
+            }
+
+            if (matchesChangeLists && (stateFlags != 0)) {
+                File reposRelPath = copyMode ? commitRelPath : SVNFileUtil.createFilePath(status.getRepositoryRelativePath());
+                long revision = copyMode ? -1 : nodeRev;
+
+                Map<SVNURL, String> lockTokens = this.lockTokens;
+                SVNLock lock = status.getLock();
+
+                assert status.getRepositoryRootUrl() != null && reposRelPath != null;
+
+                SvnCommitItem item = committables.addItem(localAbsPath, status.getKind(), status.getRepositoryRootUrl(), SVNFileUtil.getFilePath(reposRelPath), revision, SVNFileUtil.getFilePath(cfRelPath), cfRev, movedFromAbsPath, stateFlags);
+                if (lockTokens != null && lock != null && ((stateFlags & SvnCommitItem.LOCK) != 0)) {
+                    lockTokens.put(item.getUrl(), lock.getID());
+                }
+            }
+
+            if (matchesChangeLists && ((stateFlags & SvnCommitItem.DELETE) != 0) && !copyMode && SVNRevision.isValidRevisionNumber(nodeRev) && this.lockTokens != null) {
+                Map<SVNURL, String> localRelPathTokens = context.getDb().getNodeLockTokensRecursive(localAbsPath);
+                for (Map.Entry<SVNURL, String> entry : localRelPathTokens.entrySet()) {
+                    SVNURL key = entry.getKey();
+                    String value = entry.getValue();
+                    if (value != null) {
+                        this.lockTokens.put(key, value);
+                    }
+                }
+            }
+
+            if (matchesChangeLists && (isHarvestRoot || this.changeLists != null) && (stateFlags != 0) && isAdded && this.danglers != null) {
+                Map<File, File> danglers = this.danglers;
+                File parentAbsPath = SVNFileUtil.getParentFile(localAbsPath);
+
+                boolean parentAdded;
+                if (committables.hasItem(parentAbsPath)) {
+                    parentAdded = false;
+                } else {
+                    parentAdded = context.isNodeAdded(parentAbsPath);
+                }
+
+                if (parentAdded) {
+                    Structure<NodeOriginInfo> nodeOrigin = context.getNodeOrigin(parentAbsPath, false, NodeOriginInfo.isCopy, NodeOriginInfo.copyRootAbsPath);
+                    boolean parentIsCopy = nodeOrigin.is(NodeOriginInfo.isCopy);
+                    File copyRootAbsPath = nodeOrigin.get(NodeOriginInfo.copyRootAbsPath);
+
+                    if (parentIsCopy) {
+                        parentAbsPath = copyRootAbsPath;
+                    }
+
+                    if (!danglers.containsKey(parentAbsPath)) {
+                        danglers.put(parentAbsPath, localAbsPath);
+                    }
+                }
+            }
+
+            if (isDeleted && !isAdded) {
+                if (status.getKind() == SVNNodeKind.DIR) {
+                    this.skipBelowAbsPath = localAbsPath;
+                }
+                return;
+            }
+
+            if (copyMode && !isAdded && !isDeleted && status.getKind() == SVNNodeKind.DIR) {
+                harvestNotPresentForCopy(context, localAbsPath, committables, status.getRepositoryRootUrl(), commitRelPath, checkUrlCallback);
+            }
+        }
+    }
+
+    private static void harvestNotPresentForCopy(SVNWCContext context, File localAbsPath, SvnCommitPacket committables, SVNURL reposRootUrl, File commitRelPath, ISvnUrlKindCallback urlKindCallback) throws SVNException {
+        List<File> children = context.getChildrenOfWorkingNode(localAbsPath, true);
+        for (File thisAbsPath : children) {
+            String name = SVNFileUtil.getFileName(thisAbsPath);
+            SVNWCContext.NodePresence nodePresence = context.getNodePresence(thisAbsPath, false);
+            if (!nodePresence.isNotPresent) {
+                continue;
+            }
+            File thisCommitRelPath;
+            if (commitRelPath == null) {
+                thisCommitRelPath = null;
+            } else {
+                thisCommitRelPath = SVNFileUtil.createFilePath(commitRelPath, name);
+            }
+            SVNNodeKind kind;
+            if (urlKindCallback != null) {
+                Structure<NodeOriginInfo> nodeOrigin = context.getNodeOrigin(SVNFileUtil.getParentFile(thisAbsPath), false, NodeOriginInfo.revision, NodeOriginInfo.reposRelpath, NodeOriginInfo.reposRootUrl);
+                long parentRev = nodeOrigin.lng(NodeOriginInfo.revision);
+                File parentReposRelPath = nodeOrigin.get(NodeOriginInfo.reposRelpath);
+                SVNURL parentReposRootUrl = nodeOrigin.get(NodeOriginInfo.reposRootUrl);
+
+                SVNURL nodeUrl = parentReposRootUrl.appendPath(SVNFileUtil.getFilePath(parentReposRelPath), false).appendPath(SVNFileUtil.getFileName(thisAbsPath), false);
+
+                kind = urlKindCallback.getUrlKind(nodeUrl, parentRev);
+                if (kind == SVNNodeKind.NONE) {
+                    continue;
+                }
+            } else {
+                kind = context.readKind(thisAbsPath, true);
+            }
+
+            committables.addItem(thisAbsPath, kind, reposRootUrl, SVNFileUtil.getFilePath(thisCommitRelPath), -1, null, -1, null, SvnCommitItem.DELETE);
+        }
     }
 
     private static Structure<NodeCommitStatus> getNodeCommitStatus(SVNWCContext context, File localAbsPath) throws SVNException {

@@ -49,6 +49,7 @@ import org.tmatesoft.svn.core.internal.wc.SVNNodeEditor;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.ISVNRepositoryPool;
 import org.tmatesoft.svn.core.wc.SVNRevision;
+import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -148,6 +149,10 @@ public class SVNLookClient extends SVNAdminBasicClient {
      */
     public SVNLookClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNLookClient(SvnOperationFactory of) {
+        super(of);
     }
 
     /**
@@ -1046,7 +1051,64 @@ public class SVNLookClient extends SVNAdminBasicClient {
     public SVNProperties doGetRevisionProperties(File repositoryRoot, String transactionName) throws SVNException {
         return getProperties(repositoryRoot, null, null, null, transactionName, false, true);
     }
+
+    /**
+     * Returns the size in bytes for the specified path in given transaction
+     *
+     * @param repositoryRoot  a repository root directory path
+     * @param path            a path to the file inside the repository
+     * @param transactionName a transaction name
+     * @return file size in bytes
+     * @throws SVNException     <ul>
+     *                          <li>no repository is found at
+     *                          <code>repositoryRoot</code>
+     *                          </li>
+     *                          <li>if the specified transaction is not found
+     *                          </li>
+     *                          </ul>
+     */
+    public long doGetFileSize(File repositoryRoot, String path, String transactionName) throws SVNException {
+        if (path == null) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CL_INSUFFICIENT_ARGS, "Missing repository path argument");
+            SVNErrorManager.error(err, SVNLogType.FSFS);
+        }
+
+        FSFS fsfs = open(repositoryRoot, transactionName);
+        try {
+            FSTransactionInfo txn = fsfs.openTxn(transactionName);
+            FSRoot root = fsfs.createTransactionRoot(txn);
+            return getFileSize(root, path);
+        } finally {
+            SVNAdminHelper.closeRepository(fsfs);
+        }
+    }
     
+    /**
+     * Returns the size in bytes for the specified path in given revision
+     *
+     * @param repositoryRoot  a repository root directory path
+     * @param path            a path to the file inside the repository
+     * @param revision        a revision
+     * @return file size in bytes
+     * @throws SVNException     no repository is found at
+     *                          <code>repositoryRoot</code>
+     */
+    public long doGetFileSize(File repositoryRoot, String path, SVNRevision revision) throws SVNException {
+        if (path == null) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.CL_INSUFFICIENT_ARGS, "Missing repository path argument");
+            SVNErrorManager.error(err, SVNLogType.FSFS);
+        }
+
+        FSFS fsfs = open(repositoryRoot, revision);
+        try {
+            long revNum = SVNAdminHelper.getRevisionNumber(revision, fsfs.getYoungestRevision(), fsfs);
+            FSRoot root = fsfs.createRevisionRoot(revNum);
+            return getFileSize(root, path);
+        } finally {
+            SVNAdminHelper.closeRepository(fsfs);
+        }
+    }
+
     /**
      * Sets a diff generator to be used in <code>doGetDiff()</code> methods of this class.
      * 
@@ -1228,6 +1290,15 @@ public class SVNLookClient extends SVNAdminBasicClient {
                 SVNFileUtil.closeFile(contents);
             }
         }
+    }
+
+    private long getFileSize(FSRoot root, String path) throws SVNException {
+        SVNNodeKind kind = verifyPath(root, path);
+        if (kind != SVNNodeKind.FILE) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_NOT_FILE, "Path ''{0}'' is not a file", path);
+            SVNErrorManager.error(err, SVNLogType.FSFS);
+        }
+        return root.getFileSize(path);
     }
 
     private SVNNodeKind verifyPath(FSRoot root, String path) throws SVNException {

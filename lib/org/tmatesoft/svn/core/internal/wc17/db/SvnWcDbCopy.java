@@ -33,7 +33,7 @@ import java.util.*;
 import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.*;
 
 public class SvnWcDbCopy extends SvnWcDbShared {
-    
+
     private enum CopyInfo {
         copyFromId, 
         copyFromRelpath,
@@ -48,7 +48,9 @@ public class SvnWcDbCopy extends SvnWcDbShared {
             SVNProperties props, long changedRev, SVNDate changedDate,
             String changedAuthor, File originalReposRelPath,
             SVNURL originalRootUrl, String originalUuid, long originalRevision,
-            SvnChecksum checksum, SVNSkel conflict, SVNSkel workItems) throws SVNException {
+            SvnChecksum checksum,
+            boolean updateActualProps, SVNProperties newActualProps,
+            SVNSkel conflict, SVNSkel workItems) throws SVNException {
 
         InsertWorking iw = pdh.getWCRoot().getDb().new InsertWorking();
         iw.status = SVNWCDbStatus.Normal;
@@ -69,8 +71,13 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         iw.notPresentOpDepth = depths[1];
         iw.checksum = checksum;
         iw.workItems = workItems;
+        if (updateActualProps) {
+            iw.updateActualProps = true;
+            iw.newActualProps = newActualProps;
+        }
+        iw.conflict = conflict;
 
-        iw.wcId = pdh.getWCRoot().getWcId();
+        iw.wcRoot = pdh.getWCRoot();
         iw.localRelpath = localRelpath;
         
         pdh.getWCRoot().getSDb().runTransaction(iw);
@@ -79,7 +86,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
 
     public static void copyDir(SVNWCDbDir pdh, File localRelpath,
             SVNProperties props, long changedRev, SVNDate changedDate, String changedAuthor, File originalReposRelPath, SVNURL originalRootUrl, String originalUuid,
-            long originalRevision, List<File> children, SVNDepth depth, SVNSkel conflict, SVNSkel workItems) throws SVNException {
+            long originalRevision, List<File> children, boolean isMove, SVNDepth depth, SVNSkel conflict, SVNSkel workItems) throws SVNException {
 
         InsertWorking iw = pdh.getWCRoot().getDb().new InsertWorking();
         iw.status = SVNWCDbStatus.Normal;
@@ -101,8 +108,10 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         iw.children = children;
         iw.depth = depth;
         iw.workItems = workItems;
+        iw.movedHere = isMove && (depths[2] == 0 || iw.opDepth == depths[2]);
+        iw.conflict = conflict;
 
-        iw.wcId = pdh.getWCRoot().getWcId();
+        iw.wcRoot = pdh.getWCRoot();
         iw.localRelpath = localRelpath;
         
         pdh.getWCRoot().getSDb().runTransaction(iw);
@@ -110,7 +119,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
     }
 
     private static void copyShadowedLayer(SVNWCDbDir srcPdh, File srcRelpath, long srcOpDepth, 
-            SVNWCDbDir dstPdh, File dstRelpath, long dstOpDepth, long delOpDepth, long reposId, File reposRelPath, long revision) throws SVNException {
+            SVNWCDbDir dstPdh, File dstRelpath, long dstOpDepth, long delOpDepth, long reposId, File reposRelPath, long revision, int moveOpDepth) throws SVNException {
         Structure<NodeInfo> depthInfo = null;
         try {
             depthInfo = SvnWcDbReader.getDepthInfo(srcPdh.getWCRoot(), srcRelpath, srcOpDepth, 
@@ -153,7 +162,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                 iw.changedRev = -1;
                 iw.depth = SVNDepth.INFINITY;
 
-                iw.wcId = dstPdh.getWCRoot().getWcId();
+                iw.wcRoot = dstPdh.getWCRoot();
                 iw.localRelpath = dstRelpath;
                 
                 dstPdh.getWCRoot().getSDb().runTransaction(iw);
@@ -187,19 +196,19 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         
         if (dstPresence == SVNWCDbStatus.Normal && srcPdh.getWCRoot().getSDb() == dstPdh.getWCRoot().getSDb()) {
             SVNSqlJetStatement stmt;
-            if (srcOpDepth > 0) {
-                stmt = new InsertWorkingNodeCopy(srcPdh.getWCRoot().getSDb(), srcOpDepth);
-            } else {
-                stmt = new InsertWorkingNodeCopy(srcPdh.getWCRoot().getSDb(), 0);                
-            }
+            stmt = new InsertWorkingNodeCopy(srcPdh.getWCRoot().getSDb(), srcOpDepth);
             try {
-                stmt.bindf("issist",
+                stmt.bindf("issisti",
                         srcPdh.getWCRoot().getWcId(),
                         srcRelpath,
                         dstRelpath,
                         dstOpDepth,
                         SVNFileUtil.getFileDir(dstRelpath),
-                        SvnWcDbStatementUtil.getPresenceText(dstPresence));
+                        SvnWcDbStatementUtil.getPresenceText(dstPresence),
+                        srcOpDepth);
+                if (dstOpDepth == moveOpDepth) {
+                    stmt.bindLong(7, 1);
+                }
                 stmt.done();
             } finally {
                 stmt.reset();
@@ -211,7 +220,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
             iw.kind = depthInfo.get(NodeInfo.kind);
             iw.changedRev = -1;
             iw.depth = SVNDepth.INFINITY;
-            iw.wcId = dstPdh.getWCRoot().getWcId();
+            iw.wcRoot = dstPdh.getWCRoot();
             iw.localRelpath = dstRelpath;
             
             dstPdh.getWCRoot().getSDb().runTransaction(iw);
@@ -226,12 +235,12 @@ public class SvnWcDbCopy extends SvnWcDbShared {
             iw.kind = depthInfo.get(NodeInfo.kind);
             iw.changedRev = -1;
             iw.depth = SVNDepth.INFINITY;
-            iw.wcId = dstPdh.getWCRoot().getWcId();
+            iw.wcRoot = dstPdh.getWCRoot();
             iw.localRelpath = dstRelpath;
             
             dstPdh.getWCRoot().getSDb().runTransaction(iw);            
         }
-        List<String> children = srcPdh.getWCRoot().getDb().gatherRepoChildren(srcPdh, srcRelpath, srcOpDepth);
+        List<String> children = srcPdh.getWCRoot().getDb().gatherRepoChildren(srcPdh.getWCRoot(), srcRelpath, srcOpDepth);
         for (String name : children) {
             File srcChildRelpath = SVNFileUtil.createFilePath(srcRelpath, name);
             File dstChildRelpath = SVNFileUtil.createFilePath(dstRelpath, name);
@@ -239,11 +248,11 @@ public class SvnWcDbCopy extends SvnWcDbShared {
             if (reposRelPath != null) {
                 childReposRelPath = SVNFileUtil.createFilePath(reposRelPath, name);
             }
-            copyShadowedLayer(srcPdh, srcChildRelpath, srcOpDepth, dstPdh, dstChildRelpath, dstOpDepth, delOpDepth, reposId, childReposRelPath, revision);
+            copyShadowedLayer(srcPdh, srcChildRelpath, srcOpDepth, dstPdh, dstChildRelpath, dstOpDepth, delOpDepth, reposId, childReposRelPath, revision, moveOpDepth);
         }
     }
 
-    public static void copyShadowedLayer(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath) throws SVNException {
+    public static void copyShadowedLayer(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath, boolean isMove) throws SVNException {
         boolean dstLocked = false;
         begingWriteTransaction(srcPdh.getWCRoot());
         try {
@@ -266,7 +275,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
             }
             reposRelpath = SVNFileUtil.createFilePath(reposRelpath, SVNFileUtil.getFileName(localSrcRelpath));
             copyShadowedLayer(srcPdh, localSrcRelpath, srcOpDepth, dstPdh, localDstRelpath, dstOpDepth, delOpDepth, 
-                    depthInfo.lng(NodeInfo.reposId), reposRelpath, depthInfo.lng(NodeInfo.revision));
+                    depthInfo.lng(NodeInfo.reposId), reposRelpath, depthInfo.lng(NodeInfo.revision), isMove ? (int)dstOpDepth : 0);
             
             depthInfo.release();
         } catch (SVNException e) {
@@ -288,7 +297,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         }
     }
 
-    public static void copy(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath, SVNSkel workItems) throws SVNException {
+    public static void copy(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath, File dstOpRootRelPath, boolean isMove, SVNSkel workItems) throws SVNException {
         boolean dstLocked = false;
         begingWriteTransaction(srcPdh.getWCRoot());
         try {
@@ -296,7 +305,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                 begingWriteTransaction(dstPdh.getWCRoot());
                 dstLocked = true;
             }
-            doCopy(srcPdh, localSrcRelpath, dstPdh, localDstRelpath, workItems);
+            doCopy(srcPdh, localSrcRelpath, dstPdh, localDstRelpath, dstOpRootRelPath, isMove, workItems);
         } catch (SVNException e) {
             try {
                 rollbackTransaction(srcPdh.getWCRoot());
@@ -317,10 +326,18 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         
     }
 
-    private static void doCopy(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath, SVNSkel workItems) throws SVNException {
+    public static SVNNodeKind readKind(ISVNWCDb db, File path, boolean showDeleted, boolean showHidden) throws SVNException {
+        SVNNodeKind kind = db.readKind(path, true, showDeleted, showHidden);
+        return kind == SVNNodeKind.UNKNOWN ? SVNNodeKind.NONE : kind;
+    }
+
+    private static void doCopy(SVNWCDbDir srcPdh, File localSrcRelpath, SVNWCDbDir dstPdh, File localDstRelpath, File dstOpRootRelPath, boolean isMove, SVNSkel workItems) throws SVNException {
+        int moveOpDepth = isMove ? SVNWCUtils.relpathDepth(dstOpRootRelPath) : 0;
+
         Structure<CopyInfo> copyInfo = getCopyInfo(srcPdh.getWCRoot(), localSrcRelpath);
-        long[] dstOpDepths = getOpDepthForCopy(dstPdh.getWCRoot(), localDstRelpath, 
-                copyInfo.lng(CopyInfo.copyFromId), copyInfo.<File>get(CopyInfo.copyFromRelpath), copyInfo.lng(CopyInfo.copyFromRev));
+        File copyFromRelpath = copyInfo.<File>get(CopyInfo.copyFromRelpath);
+        long[] dstOpDepths = getOpDepthForCopy(dstPdh.getWCRoot(), localDstRelpath,
+                copyInfo.lng(CopyInfo.copyFromId), copyFromRelpath, copyInfo.lng(CopyInfo.copyFromRev));
         
         SVNWCDbStatus status = copyInfo.get(CopyInfo.status);
         SVNWCDbStatus dstPresence = null;
@@ -348,7 +365,13 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                         throw e;
                     }
                 }
+            } else {
+                if (copyFromRelpath == null) {
+                    SVNWCDb.addWorkItems(dstPdh.getWCRoot().getSDb(), workItems);
+                    return;
+                }
             }
+            //"break;" is absent by intention
         case NotPresent:
         case Excluded:
             if (dstOpDepths[1] > 0) {
@@ -373,15 +396,44 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         List<String> children = null;
         if (kind == SVNWCDbKind.Dir) {
             long opDepth = getOpDepthOf(srcPdh.getWCRoot(), localSrcRelpath);
-            children = srcPdh.getWCRoot().getDb().gatherRepoChildren(srcPdh, localSrcRelpath, opDepth);
+            children = srcPdh.getWCRoot().getDb().gatherRepoChildren(srcPdh.getWCRoot(), localSrcRelpath, opDepth);
         }
         
         if (srcPdh.getWCRoot() == dstPdh.getWCRoot()) {
             File dstParentRelpath = SVNFileUtil.getFileDir(localDstRelpath);
-            SVNSqlJetStatement stmt = new InsertWorkingNodeCopy(srcPdh.getWCRoot().getSDb(), !copyInfo.is(CopyInfo.haveWork));
+            SVNSqlJetStatement stmt = srcPdh.getWCRoot().getSDb().getStatement(SVNWCDbStatements.INSERT_WORKING_NODE_COPY_FROM);
             try {
                 stmt.bindf("issist", srcPdh.getWCRoot().getWcId(), localSrcRelpath, localDstRelpath, dstOpDepths[0], dstParentRelpath,
                         SvnWcDbStatementUtil.getPresenceText(dstPresence));
+                if (moveOpDepth > 0) {
+                    if (SVNWCUtils.relpathDepth(localDstRelpath) == moveOpDepth) {
+                        if (!(status == SVNWCDbStatus.Added || status == SVNWCDbStatus.Copied && opRoot)) {
+                            stmt.bindLong(7, 1);
+                        }
+                    } else {
+                        SVNSqlJetStatement infoStmt = dstPdh.getWCRoot().getSDb().getStatement(SVNWCDbStatements.SELECT_NODE_INFO);
+                        try {
+                            infoStmt.bindf("is", dstPdh.getWCRoot().getWcId(), dstParentRelpath);
+                            boolean haveRow = infoStmt.next();
+                            assert haveRow;
+                            if (infoStmt.getColumnBoolean(NODES__Fields.moved_here) && dstOpDepths[0] == dstOpDepths[2]) {
+                                stmt.bindLong(7, 1);
+                            } else {
+                                infoStmt.reset();
+
+                                infoStmt = dstPdh.getWCRoot().getSDb().getStatement(SVNWCDbStatements.SELECT_NODE_INFO);
+                                infoStmt.bindf("is", dstPdh.getWCRoot().getWcId(), localSrcRelpath);
+                                haveRow = infoStmt.next();
+                                assert haveRow;
+                                if (infoStmt.getColumnBoolean(NODES__Fields.moved_here)) {
+                                    stmt.bindLong(7, 1);
+                                }
+                            }
+                        } finally {
+                            infoStmt.reset();
+                        }
+                    }
+                }
                 stmt.done();
             } finally {
                 stmt.reset();
@@ -412,8 +464,9 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                 for (String childName : children) {
                     fileChildren.add(new File(childName));
                 }
-                srcPdh.getWCRoot().getDb().insertIncompleteChildren(srcPdh.getWCRoot().getSDb(), srcPdh.getWCRoot().getWcId(), 
-                        localDstRelpath, copyInfo.lng(CopyInfo.copyFromRev), fileChildren, dstOpDepths[0]);
+                srcPdh.getWCRoot().getDb().insertIncompleteChildren(
+                        srcPdh.getWCRoot().getSDb(), srcPdh.getWCRoot().getWcId(),
+                        localDstRelpath, copyInfo.lng(CopyInfo.copyFromId), copyFromRelpath, copyInfo.lng(CopyInfo.copyFromRev), fileChildren, dstOpDepths[0]);
             }
         } else {
             crossDbCopy(srcPdh, localSrcRelpath, dstPdh, localDstRelpath, dstPresence, dstOpDepths[0], dstOpDepths[1], kind, children, 
@@ -455,7 +508,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         iw.originalRevision = copyFromRev;
         iw.originalReposRelPath = copyFromRelpath;
         
-        iw.wcId = dstPdh.getWCRoot().getWcId();
+        iw.wcRoot = dstPdh.getWCRoot();
         iw.localRelpath = localDstRelpath;
         
         dstPdh.getWCRoot().getSDb().runTransaction(iw);
@@ -476,13 +529,11 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                     reset(stmt);
                     stmt = dstPdh.getWCRoot().getSDb().getStatement(SVNWCDbStatements.INSERT_ACTUAL_NODE);
                     try {
-                        stmt.bindf("issbssssss",
+                        stmt.bindf("issbsb",
                                 dstPdh.getWCRoot().getWcId(),
                                 localDstRelpath,
                                 SVNFileUtil.getFileDir(localDstRelpath),
-                                properties,
-                                null, null, null,
-                                null, changelist, null);
+                                properties, changelist, null);
                         stmt.done();
                     } finally {
                         stmt.reset();
@@ -497,6 +548,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
     private static Structure<CopyInfo> getCopyInfo(SVNWCDbRoot wcRoot, File localRelPath) throws SVNException {
         Structure<CopyInfo> result = Structure.obtain(CopyInfo.class);
         result.set(CopyInfo.haveWork, false);
+        result.set(CopyInfo.copyFromRev, -1);
         
         Structure<NodeInfo> nodeInfo = SvnWcDbReader.readInfo(wcRoot, localRelPath, NodeInfo.status, NodeInfo.kind, NodeInfo.revision, NodeInfo.reposRelPath,
                 NodeInfo.reposId, NodeInfo.opRoot, NodeInfo.haveWork);
@@ -526,8 +578,8 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         } else if (status == SVNWCDbStatus.Added) {
             Structure<AdditionInfo> additionInfo = scanAddition(wcRoot, localRelPath, AdditionInfo.opRootRelPath, 
                     AdditionInfo.originalReposRelPath, AdditionInfo.originalReposId, AdditionInfo.originalRevision);
-            additionInfo.from(AdditionInfo.originalReposRelPath, AdditionInfo.originalReposId, AdditionInfo.originalRevision)
-                .into(result, CopyInfo.copyFromRelpath, CopyInfo.copyFromId, CopyInfo.copyFromRev);
+            additionInfo.from(AdditionInfo.originalReposRelPath, AdditionInfo.originalReposId, AdditionInfo.originalRevision, AdditionInfo.status)
+                .into(result, CopyInfo.copyFromRelpath, CopyInfo.copyFromId, CopyInfo.copyFromRev, CopyInfo.status);
             
             if (additionInfo.get(AdditionInfo.originalReposRelPath) != null) {
                 File opRootRelPath = additionInfo.get(AdditionInfo.opRootRelPath);
@@ -569,7 +621,8 @@ public class SvnWcDbCopy extends SvnWcDbShared {
     }
     
     private static long[] getOpDepthForCopy(SVNWCDbRoot wcRoot, File localRelpath, long copyFromReposId, File copyFromRelpath, long copyFromRevision) throws SVNException {
-        long[] result = new long[] {SVNWCUtils.relpathDepth(localRelpath), -1};
+        File parentRelPath = SVNFileUtil.getFileDir(localRelpath);
+        long[] result = new long[] {SVNWCUtils.relpathDepth(localRelpath), -1, SVNWCUtils.relpathDepth(parentRelPath)};
         if (copyFromRelpath == null) {
             return result;
         }
@@ -590,14 +643,19 @@ public class SvnWcDbCopy extends SvnWcDbShared {
         } finally {
             reset(stmt);
         }
-        File parentRelpath = SVNFileUtil.getFileDir(localRelpath);
-        bindf(stmt, "is", wcRoot.getWcId(), parentRelpath);
+        bindf(stmt, "is", wcRoot.getWcId(), parentRelPath);
         if (stmt.next()) {
+            SVNWCDbStatus presence = SvnWcDbStatementUtil.getColumnPresence(stmt, NODES__Fields.presence);
+
             long parentOpDepth = getColumnInt64(stmt, NODES__Fields.op_depth);
+            result[2] = parentOpDepth;
             if (parentOpDepth < minOpDepth) {
                 reset(stmt);
                 return result;
             }
+
+            assert presence == SVNWCDbStatus.Normal;
+
             if (incompleteOpDepth < 0 || incompleteOpDepth == parentOpDepth) {
                 long parentCopyFromReposId = getColumnInt64(stmt, NODES__Fields.repos_id);
                 File parentCopyFromRelpath = getColumnPath(stmt, NODES__Fields.repos_path);
@@ -659,6 +717,7 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                     values.put(NODES__Fields.revision.toString(), select.getColumn(NODES__Fields.revision));
                     values.put(NODES__Fields.presence.toString(), getBind(6));
                     values.put(NODES__Fields.depth.toString(), select.getColumn(NODES__Fields.depth));
+                    values.put(NODES__Fields.moved_here.toString(), getBind(7));
                     values.put(NODES__Fields.kind.toString(), select.getColumn(NODES__Fields.kind));
                     
                     values.put(NODES__Fields.changed_revision.toString(), select.getColumn(NODES__Fields.changed_revision));
@@ -669,12 +728,24 @@ public class SvnWcDbCopy extends SvnWcDbShared {
                     values.put(NODES__Fields.translated_size.toString(), select.getColumn(NODES__Fields.translated_size));
                     values.put(NODES__Fields.last_mod_time.toString(), select.getColumn(NODES__Fields.last_mod_time));
                     values.put(NODES__Fields.symlink_target.toString(), select.getColumn(NODES__Fields.symlink_target));
+                    values.put(NODES__Fields.moved_to.toString(), getMovedTo(sDb));
                     return values;
                 }                
             } finally {
                 select.reset();
             }
             return null;
+        }
+
+        private String getMovedTo(SVNSqlJetDb sDb) throws SVNException {
+            SVNSqlJetStatement stmt = sDb.getStatement(SVNWCDbStatements.SELECT_MOVED_TO);
+            try {
+                stmt.bindf("isi", getBind(1), getBind(3), getBind(4));
+                boolean next = stmt.next();
+                return next ? stmt.getColumnString(NODES__Fields.moved_to) : null;
+            } finally {
+                stmt.reset();
+            }
         }
     }
 

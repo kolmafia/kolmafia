@@ -14,6 +14,7 @@ package org.tmatesoft.svn.core.internal.wc17.db.statement;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetSelectStatement;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.NODES__Fields;
 
 /**
  * SELECT local_relpath FROM nodes WHERE wc_id = ?1 AND parent_relpath = ?2 AND
@@ -30,9 +31,11 @@ public class SVNWCDbSelectBaseNodeChildren extends SVNSqlJetSelectStatement {
     protected String getIndexName() {
         return SVNWCDbSchema.NODES__Indices.I_NODES_PARENT.toString();
     }
-
-    protected Object[] getWhere() throws SVNException {
-        bindLong(3, 0);
-        return super.getWhere();
+    @Override
+    protected boolean isFilterPassed() throws SVNException {
+        if (getColumnLong(NODES__Fields.op_depth) != 0) {
+            return false;
+        }
+        return true;
     }
 }

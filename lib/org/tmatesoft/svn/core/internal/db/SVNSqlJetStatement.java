@@ -27,6 +27,8 @@ import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNSkel;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.InheritedProperties;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc2.SvnChecksum;
 import org.tmatesoft.svn.util.SVNLogType;
@@ -84,8 +86,15 @@ public abstract class SVNSqlJetStatement {
         try {
             if (getCursor() == null) {
                 sDb.beginTransaction(transactionMode);
-                setCursor(openCursor());
-                return !getCursor().eof();
+                try {
+                    setCursor(openCursor());
+                    return !getCursor().eof();
+                } catch (SVNException e) {
+                    if (getCursor() == null) {
+                        sDb.commit();
+                    }
+                    throw e;
+                }
             }
             return getCursor().next();
         } catch (SqlJetException e) {
@@ -203,6 +212,11 @@ public abstract class SVNSqlJetStatement {
     public void bindProperties(int i, SVNProperties props) throws SVNException {
         adjustBinds(i);
         binds.set(i - 1, props != null ? SVNSkel.createPropList(props.asMap()).unparse() : null);
+    }
+
+    public void bindIProperties(int i, Map<String, SVNProperties> iprops) throws SVNException {
+        adjustBinds(i);
+        binds.set(i - 1, iprops != null ? SVNSkel.createInheritedProperties(iprops).unparse() : null);
     }
 
     public void bindChecksum(int i, SvnChecksum checksum) {
@@ -336,12 +350,21 @@ public abstract class SVNSqlJetStatement {
         return hasColumnProperties(f.name());
     }
 
+    public List<Structure<InheritedProperties>> getColumnInheritedProperties(Enum<?> f) throws SVNException {
+        return getColumnInheritedProperties(f.name());
+    }
+    
+    public boolean hasColumnInheritedProperties(Enum<?> f) throws SVNException {
+        return hasColumnInheritedProperties(f.name());
+    }
+
     protected SVNProperties getColumnProperties(String f) throws SVNException {
-        if (isColumnNull(f))
+        if (isColumnNull(f)) {
             return null;
+        }
         final byte[] val = getColumnBlob(f);
 	    return parseProperties(val);
-    }
+    }    
 
     protected boolean hasColumnProperties(String f) throws SVNException {
         if (isColumnNull(f)) {
@@ -350,6 +373,24 @@ public abstract class SVNSqlJetStatement {
         final byte[] val = getColumnBlob(f);
         return val.length > 2;
     }
+    
+
+    public List<Structure<InheritedProperties>> getColumnInheritedProperties(String f) throws SVNException {
+        if (isColumnNull(f)) { 
+            return null;
+        }
+        final byte[] val = getColumnBlob(f);
+        return parseInheritedProperties(val);
+    }
+
+    public boolean hasColumnInheritedProperties(String f) throws SVNException {
+        if (isColumnNull(f)) { 
+            return false;
+        }
+        final byte[] val = getColumnBlob(f);
+        return val.length > 2;
+    }
+
 
     public static SVNProperties parseProperties(byte[] val) throws SVNException {
         if (val == null)
@@ -360,6 +401,18 @@ public abstract class SVNSqlJetStatement {
             SVNErrorManager.error(err, SVNLogType.FSFS);
         }
         return SVNProperties.wrap(skel.parsePropList());
+    }
+
+    public static List<Structure<InheritedProperties>> parseInheritedProperties(byte[] val) throws SVNException {
+        if (val == null) {
+            return null;
+        }
+        final SVNSkel skel = SVNSkel.parse(val);
+        if (!skel.isValidInheritedProperties()) {
+            SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.FS_MALFORMED_SKEL, "inhertied-props");
+            SVNErrorManager.error(err, SVNLogType.FSFS);
+        }
+        return skel.parseInheritedProperties();
     }
 
     public long done() throws SVNException {

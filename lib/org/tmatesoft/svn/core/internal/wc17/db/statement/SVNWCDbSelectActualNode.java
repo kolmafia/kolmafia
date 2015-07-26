@@ -29,13 +29,9 @@ public class SVNWCDbSelectActualNode extends SVNSqlJetSelectFieldsStatement<SVNW
     }
 
     protected void defineFields() {
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject);
         fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.changelist);
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old);
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new);
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working);
-        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data);
         fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.properties);
+        fields.add(SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data);
     }
 
 }

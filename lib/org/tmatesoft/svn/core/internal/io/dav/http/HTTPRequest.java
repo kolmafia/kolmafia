@@ -19,6 +19,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.tmatesoft.svn.core.SVNErrorCode;
 import org.tmatesoft.svn.core.SVNErrorMessage;
@@ -57,8 +60,7 @@ class HTTPRequest {
     private String myCharset;
 
     private long myTimeout;
-
-    private Collection<String> myCookies;
+    private Map<String, List<String>> myCookieHeaders;
 
     public HTTPRequest(String charset) {
         myCharset = charset;
@@ -380,11 +382,12 @@ class HTTPRequest {
             sb.append(header.toString());
         }
 
-        if (myCookies != null) {
-            for (Iterator<String> cookies = myCookies.iterator(); cookies.hasNext();) {
-                String cookie = cookies.next();
-                if (cookie != null) {
-                    sb.append(HTTPHeader.COOKIE);
+        if(myCookieHeaders != null){
+            final Set<Map.Entry<String,List<String>>> entries = myCookieHeaders.entrySet();
+            for(Map.Entry<String,List<String>> entry:entries){
+                final String headerKey = entry.getKey();
+                for (String cookie:entry.getValue()){
+                    sb.append(headerKey); //Cookie or Cookie2
                     sb.append(": ");
                     sb.append(cookie);
                     sb.append(HTTPRequest.CRLF);
@@ -452,8 +455,8 @@ class HTTPRequest {
         myIsKeepAlive = isKeepAlive;
     }
 
-    public void setCookies(Collection<String> cookie) {
-        myCookies = cookie;
+    public void setCookies(Map<String, List<String>> cookieHeader) {
+        myCookieHeaders = cookieHeader;
     }
     
 }

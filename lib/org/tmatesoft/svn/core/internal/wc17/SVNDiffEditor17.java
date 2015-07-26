@@ -720,7 +720,7 @@ public class SVNDiffEditor17 implements ISVNUpdateEditor {
         }
         byte[] eol = SVNTranslator.getEOL(eolStyle, options);
         File tmpFile = createTempFile();
-        Map keywordsMap = SVNTranslator.computeKeywords(keywords, null, null, null, null, null);
+        Map keywordsMap = SVNTranslator.computeKeywords(keywords, null, null, null, null, null, null);
         SVNTranslator.translate(fullPath, tmpFile, charset, eol, keywordsMap, special, false);
         return tmpFile;
     }

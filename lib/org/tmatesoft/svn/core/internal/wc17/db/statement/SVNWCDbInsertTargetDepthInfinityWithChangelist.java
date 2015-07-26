@@ -34,7 +34,17 @@ public class SVNWCDbInsertTargetDepthInfinityWithChangelist extends SVNSqlJetIns
     public SVNWCDbInsertTargetDepthInfinityWithChangelist(SVNSqlJetDb sDb) throws SVNException {
     	super(sDb.getTemporaryDb(), SVNWCDbSchema.TARGETS_LIST);
     	nodeCurrent = new SVNWCDbNodesCurrent(sDb); 
-    	actualNode = new SVNSqlJetSelectStatement(sDb, SVNWCDbSchema.ACTUAL_NODE, SVNWCDbSchema.ACTUAL_NODE__Indices.I_ACTUAL_CHANGELIST);
+    	actualNode = new SVNSqlJetSelectStatement(sDb, SVNWCDbSchema.ACTUAL_NODE) {
+            @Override
+            protected boolean isFilterPassed() throws SVNException {
+                return getBind(1).equals(getColumnString(ACTUAL_NODE__Fields.changelist));
+            }
+
+            @Override
+            protected Object[] getWhere() throws SVNException {
+                return null;
+            }
+        };
     }
 
     @Override

@@ -31,6 +31,7 @@ import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNSkel;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc17.SVNExternalsStore;
+import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbAdditionInfo.AdditionInfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbBaseInfo.BaseInfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbDeletionInfo.DeletionInfoField;
@@ -38,10 +39,7 @@ import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbInfo.InfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.WCDbRepositoryInfo.RepositoryInfoField;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.PristineInfo;
-import org.tmatesoft.svn.core.wc.ISVNEventHandler;
-import org.tmatesoft.svn.core.wc.ISVNOptions;
-import org.tmatesoft.svn.core.wc.SVNConflictDescription;
-import org.tmatesoft.svn.core.wc.SVNTreeConflictDescription;
+import org.tmatesoft.svn.core.wc.*;
 import org.tmatesoft.svn.core.wc2.SvnChecksum;
 import org.tmatesoft.svn.util.SVNLogType;
 
@@ -95,6 +93,7 @@ public interface ISVNWCDb {
 
     // int WC_FORMAT_17 = 23;
     int WC_FORMAT_17 = 29;
+    int WC_FORMAT_18 = 31;
 
     int WC_HAS_WORK_QUEUE = 13;
     long INVALID_FILESIZE = -1;
@@ -104,6 +103,7 @@ public interface ISVNWCDb {
     String PRISTINE_STORAGE_RELPATH = "pristine";
     String PRISTINE_TEMPDIR_RELPATH = "";
     String WCROOT_TEMPDIR_RELPATH = "tmp";
+
 
     /** Enumerated constants for how to open a WC datastore. */
     enum SVNWCDbOpenMode {
@@ -270,8 +270,11 @@ public interface ISVNWCDb {
          * The BASE node has been marked as deleted. Only used as an internal
          * status.
          */
-        BaseDeleted
+        BaseDeleted;
 
+        public boolean isNotPresent() {
+            return this == Excluded || this == ServerExcluded || this == NotPresent;
+        }
     }
 
     /**
@@ -324,6 +327,14 @@ public interface ISVNWCDb {
         public SVNWCDbLock lock;
         public boolean incomplete;
 
+        public File movedToAbsPath;
+        public boolean movedHere;
+
+        public boolean fileExternal;
+        public boolean copied;
+
+        public int format;
+
         public void load(WCDbInfo info) {
             if (info == null) {
                 return;
@@ -355,6 +366,12 @@ public interface ISVNWCDb {
             locked = info.lock != null;
             lock = info.lock;
             incomplete = info.status == SVNWCDbStatus.Incomplete;
+            
+            movedHere = info.movedHere;
+            movedToAbsPath = info.movedToAbsPath;
+
+            fileExternal = false;
+            format = -1;
         }
     }
 
@@ -419,7 +436,7 @@ public interface ISVNWCDb {
      *
      * @throws SqlJetException
      */
-    void init(File localAbsPath, File reposRelPath, SVNURL reposRootUrl, String reposUuid, long initialRev, SVNDepth depth) throws SVNException;
+    void init(File localAbsPath, File reposRelPath, SVNURL reposRootUrl, String reposUuid, long initialRev, SVNDepth depth, int workingCopyFormat) throws SVNException;
 
     /**
      * Compute the LOCAL_RELPATH for the given LOCAL_ABSPATH.
@@ -439,6 +456,7 @@ public interface ISVNWCDb {
      * the basename. it gets interesting in single-db mode
      */
     File toRelPath(File localAbsPath) throws SVNException;
+    File toRelPath(File wriAbsPath, File localAbsPath) throws SVNException;
 
     /**
      * Compute the local abs path for a localRelPath located within the working
@@ -477,7 +495,8 @@ public interface ISVNWCDb {
      * be passed in WORK_ITEMS.
      */
     void addBaseDirectory(File localAbsPath, File reposRelPath, SVNURL reposRootUrl, String reposUuid, long revision, SVNProperties props, long changedRev, SVNDate changedDate, String changedAuthor,
-            List<File> children, SVNDepth depth, SVNProperties davCache, SVNSkel conflict, boolean updateActualProps, SVNProperties actualProps, SVNSkel workItems) throws SVNException;
+            List<File> children, SVNDepth depth, SVNProperties davCache, SVNSkel conflict, boolean updateActualProps, SVNProperties actualProps, 
+            Map<String, SVNProperties> iprops, SVNSkel workItems) throws SVNException;
 
     /**
      * Add or replace a file in the BASE tree.
@@ -507,8 +526,8 @@ public interface ISVNWCDb {
      * @param svnProperties
      */
     public void addBaseFile(File localAbspath, File reposRelpath, SVNURL reposRootUrl, String reposUuid, long revision, SVNProperties props, long changedRev, SVNDate changedDate,
-            String changedAuthor, SvnChecksum checksum, SVNProperties davCache, SVNSkel conflict, boolean updateActualProps, SVNProperties actualProps,
-            boolean keepRecordedInfo, boolean insertBaseDeleted, SVNSkel workItems) throws SVNException;
+                            String changedAuthor, SvnChecksum checksum, SVNProperties davCache, boolean deleteWorking, boolean updateActualProps, SVNProperties actualProps,
+                            boolean keepRecordedInfo, boolean insertBaseDeleted, Map<String, SVNProperties> iprops, SVNSkel conflict, SVNSkel workItems) throws SVNException;
 
     /**
      * Add or replace a symlink in the BASE tree.
@@ -570,6 +589,8 @@ public interface ISVNWCDb {
      * BASE tree, too.
      */
     void removeBase(File localAbsPath) throws SVNException;
+
+    void removeBase(File localAbsPath, boolean keepAsWorking, boolean queueDeletes, boolean removeLocks, long notPresentRevision, SVNSkel conflict, SVNSkel workItems) throws SVNException;
 
     /**
      * Retrieve information about a node in the BASE tree.
@@ -667,7 +688,7 @@ public interface ISVNWCDb {
     class WCDbBaseInfo {
 
         public enum BaseInfoField {
-            status, kind, revision, reposRelPath, reposRootUrl, reposUuid, changedRev, changedDate, changedAuthor, lastModTime, depth, checksum, translatedSize, target, lock, updateRoot, reposId; 
+            status, kind, revision, reposRelPath, reposRootUrl, reposUuid, changedRev, changedDate, changedAuthor, lastModTime, depth, checksum, translatedSize, target, lock, updateRoot, reposId, hadProps, props;
         }
 
         public SVNWCDbStatus status;
@@ -687,6 +708,8 @@ public interface ISVNWCDb {
         public File target;
         public boolean updateRoot;
         public SVNWCDbLock lock;
+        public boolean hadProps;
+        public SVNProperties props;
     }
 
     /**
@@ -708,6 +731,8 @@ public interface ISVNWCDb {
      * {@link SVNErrorCode#WC_NOT_WORKING_COPY} will be thrown.
      */
     Set<String> getBaseChildren(File localAbsPath) throws SVNException;
+
+    Map<String, WCDbBaseInfo> getBaseChildrenMap(File localAbsPath, boolean fetchLocks) throws SVNException;
 
     Map<String, WCDbBaseInfo> getBaseChildrenMap(SVNWCDbRoot root, File localRelPath, boolean fetchLocks) throws SVNException;
 
@@ -795,8 +820,8 @@ public interface ISVNWCDb {
     boolean checkPristine(File wcRootAbsPath, SvnChecksum checksum) throws SVNException;
     
     /** svn cp WCPATH WCPATH ... can copy mixed base/working around */
-    void opCopy(File srcAbsPath, File dstAbspath, SVNSkel workItems) throws SVNException;
-    void opCopyShadowedLayer(File srcAbsPath, File dstAbsPath) throws SVNException;
+    void opCopy(File srcAbsPath, File dstAbsPath, File dstOpRootAbsPath, boolean isMove, SVNSkel workItems) throws SVNException;
+    void opCopyShadowedLayer(File srcAbsPath, File dstAbsPath, boolean isMove) throws SVNException;
 
     /**
      * Record a copy at LOCAL_ABSPATH from a repository directory.
@@ -805,24 +830,26 @@ public interface ISVNWCDb {
      * must be provided, and incomplete nodes will be constructed for them.
      */
     void opCopyDir(File localAbsPath, SVNProperties props, long changedRev, SVNDate changedDate, String changedAuthor, File originalReposRelPath, SVNURL originalRootUrl, String originalUuid,
-            long originalRevision, List<File> children, SVNDepth depth, SVNSkel conflict, SVNSkel workItems) throws SVNException;
+            long originalRevision, List<File> children, boolean isMove, SVNDepth depth, SVNSkel conflict, SVNSkel workItems) throws SVNException;
 
     /** Record a copy at LOCAL_ABSPATH from a repository file. */
     void opCopyFile(File localAbsPath, SVNProperties props, long changedRev, SVNDate changedDate, String changedAuthor, File originalReposRelPath, SVNURL originalRootUrl, String originalUuid,
-            long originalRevision, SvnChecksum checksum, SVNSkel conflict, SVNSkel workItems) throws SVNException;
+                    long originalRevision, SvnChecksum checksum, boolean updateActualProps, SVNProperties newActualProps, SVNSkel conflict, SVNSkel workItems) throws SVNException;
 
     /**
      * Add a new versioned directory. A list of children is NOT passed since
      * they are added in future, distinct calls to opAddDirectory(). Tthis is
      * freshly added, so it has no properties.
      */
-    void opAddDirectory(File localAbsPath, SVNSkel workItems) throws SVNException;
+    void opAddDirectory(File localAbsPath, SVNProperties props, SVNSkel workItems) throws SVNException;
 
     /**
      * As a new file, there are no properties. This file has no "pristine"
      * contents, so a checksum [reference] is not required.
      */
-    void opAddFile(File localAbsPath, SVNSkel workItems) throws SVNException;
+    void opAddFile(File localAbsPath, SVNProperties props, SVNSkel workItems) throws SVNException;
+
+    void opAddSymlink(File localAbsPath, File target, SVNProperties props, SVNSkel workItems) throws SVNException;
 
     /**
      * Set the properties of the node LOCAL_ABSPATH in the ACTUAL tree to PROPS.
@@ -845,7 +872,7 @@ public interface ISVNWCDb {
      */
     void opSetProps(File localAbsPath, SVNProperties props, SVNSkel conflict, boolean clearRecordedInfo, SVNSkel workItems) throws SVNException;
 
-    void opDelete(File localAbsPath, ISVNEventHandler handler) throws SVNException;
+    void opDelete(File localAbsPath, File movedToAbsPath, boolean deleteDirExternals, SVNSkel conflict, SVNSkel workItems, ISVNEventHandler handler) throws SVNException;
 
     /** use NULL to remove from a changelist. */
     void opSetChangelist(File localAbsPath, String changelistName, String[] changeLists, SVNDepth depth,  ISVNEventHandler handler) throws SVNException;
@@ -857,7 +884,9 @@ public interface ISVNWCDb {
      * I'm not sure that these three values are the best way to do this, but
      * they're handy for now.
      */
-    void opMarkResolved(File localAbspath, boolean resolvedText, boolean resolvedProps, boolean resolvedTree) throws SVNException;
+    void opMarkResolved(File localAbspath, boolean resolvedText, boolean resolvedProps, boolean resolvedTree, SVNSkel workItems) throws SVNException;
+
+    void opMarkConflict(File localAbspath, SVNSkel conflictSkel, SVNSkel workItems) throws SVNException;
 
     void opRevert(File localAbspath, SVNDepth depth) throws SVNException;
 
@@ -1092,7 +1121,7 @@ public interface ISVNWCDb {
     class WCDbInfo {
 
         public enum InfoField {
-            status, kind, revision, reposRelPath, reposId, reposRootUrl, reposUuid, changedRev, changedDate, changedAuthor, lastModTime, depth, checksum, translatedSize, target, changelist, originalReposRelpath, originalRootUrl, originalUuid, originalRevision, textMod, propsMod, conflicted, lock, haveBase, haveWork, opRoot, originalReposId, hadProps, haveMoreWork;
+            status, kind, revision, reposRelPath, reposId, reposRootUrl, reposUuid, changedRev, changedDate, changedAuthor, lastModTime, depth, checksum, translatedSize, target, changelist, originalReposRelpath, originalRootUrl, originalUuid, originalRevision, textMod, propsMod, conflicted, lock, haveBase, haveWork, opRoot, originalReposId, hadProps, haveMoreWork, movedHere, movedTo;
         }
 
         /* ### derived */
@@ -1133,7 +1162,9 @@ public interface ISVNWCDb {
         public boolean opRoot;
         public boolean hadProps;
         public boolean haveMoreWork;
-
+        
+        public boolean movedHere;
+        public File movedToAbsPath;
     }
 
     /**
@@ -1185,6 +1216,8 @@ public interface ISVNWCDb {
      */
     List<SVNConflictDescription> readConflicts(File localAbsPath) throws SVNException;
 
+    SVNSkel readConflict(File localAbsPath) throws SVNException;
+
     /**
      * Return the kind of the node in DB at LOCAL_ABSPATH. The WORKING tree will
      * be examined first, then the BASE tree. If the node is not present in
@@ -1193,6 +1226,7 @@ public interface ISVNWCDb {
      * will throw {@link SVNErrorCode#WC_PATH_NOT_FOUND}.
      */
     SVNWCDbKind readKind(File localAbsPath, boolean allowMissing) throws SVNException;
+    SVNNodeKind readKind(File localAbsPath, boolean allowMissing, boolean showDeleted, boolean showHidden) throws SVNException;
 
     /**
      * Return TRUE if LOCAL_ABSPATH in DB "is not present, and I haven't
@@ -1242,7 +1276,7 @@ public interface ISVNWCDb {
      * LAST_MOD_TIME may be 0, which will be recorded as such, implying
      * "unknown last mod time".
      */
-    void globalRecordFileinfo(File local_abspath, long translated_size, SVNDate last_mod_time) throws SVNException;
+    void globalRecordFileinfo(File local_abspath, long translated_size, long last_mod_time) throws SVNException;
 
     /** Add or replace LOCK for LOCAL_ABSPATH to DB. */
     void addLock(File localAbsPath, SVNWCDbLock lock) throws SVNException;
@@ -1328,7 +1362,8 @@ public interface ISVNWCDb {
     class WCDbAdditionInfo {
 
         public enum AdditionInfoField {
-            status, opRootAbsPath, reposRelPath, reposRootUrl, reposUuid, originalReposRelPath, originalRootUrl, originalUuid, originalRevision
+            status, opRootAbsPath, reposRelPath, reposRootUrl, reposUuid, originalReposRelPath, originalReposId, originalRootUrl, originalUuid, originalRevision,
+            movedFromRelPath, movedFromOpRootRelPath;
         }
 
         public SVNWCDbStatus status;
@@ -1340,6 +1375,11 @@ public interface ISVNWCDb {
         public SVNURL originalRootUrl;
         public String originalUuid;
         public long originalRevision;
+        public long originalReposId;
+
+        public File movedFromRelPath;
+        public File movedFromOpRootRelPath;
+        public int movedFromOpDepth;
     }
 
     /**
@@ -1474,13 +1514,14 @@ public interface ISVNWCDb {
     class WCDbDeletionInfo {
 
         public enum DeletionInfoField {
-            baseDelAbsPath, baseReplaced, movedToAbsPath, workDelAbsPath
+            baseDelAbsPath, baseReplaced, movedToAbsPath, workDelAbsPath, movedToOpRootAbsPath
         }
 
         public File baseDelAbsPath;
         public boolean baseReplaced;
         public File movedToAbsPath;
         public File workDelAbsPath;
+        public File movedToOpRootAbsPath;
     }
 
     /**
@@ -1538,7 +1579,7 @@ public interface ISVNWCDb {
 
     void opMakeCopyTemp(File localAbspath, boolean removeBase) throws SVNException;
 
-    void opSetNewDirToIncompleteTemp(File localAbspath, File reposRelpath, SVNURL reposRootURL, String reposUuid, long revision, SVNDepth depth) throws SVNException;
+    void opSetNewDirToIncompleteTemp(File localAbspath, File reposRelpath, SVNURL reposRootURL, String reposUuid, long revision, SVNDepth depth, boolean insertBaseDeleted, boolean deleteWorking, SVNSkel conflict, SVNSkel workItems) throws SVNException;
 
     File getWCRootTempDir(File localAbspath) throws SVNException;
 
@@ -1569,7 +1610,7 @@ public interface ISVNWCDb {
     void opSetPropertyConflictMarkerFileTemp(File localAbspath, String prejBasename) throws SVNException;
 
     void opBumpRevisionPostUpdate(File localAbsPath, SVNDepth depth, File newReposRelPath, SVNURL newReposRootURL, String newReposUUID,
-            long newRevision, Collection<File> excludedPaths) throws SVNException;
+            long newRevision, Collection<File> excludedPaths, Map<File, Map<String, SVNProperties>> inheritableProperties, ISVNEventHandler eventHandler) throws SVNException;
 
     Map<File, File> getExternalsDefinedBelow(File localAbsPath) throws SVNException;
 
@@ -1592,7 +1633,7 @@ public interface ISVNWCDb {
 		public SVNWCDbRoot root; 
 	}
     
-    void upgradeBegin(File localAbspath, SVNWCDbUpgradeData upgradeData, SVNURL repositoryRootUrl, String repositoryUUID) throws SVNException;
+    void upgradeBegin(File localAbspath, SVNWCDbUpgradeData upgradeData, SVNURL repositoryRootUrl, String repositoryUUID, int targetWorkingCopyFormat) throws SVNException;
 
     class SVNWCDbNodeCheckReplaceData {
         public static SVNWCDbNodeCheckReplaceData NO_REPLACE = new SVNWCDbNodeCheckReplaceData(false, false, false);
@@ -1611,4 +1652,61 @@ public interface ISVNWCDb {
     SVNWCDbNodeCheckReplaceData nodeCheckReplace(File localAbspath) throws SVNException;
     
     SVNSqlJetDb getSDb(File dirAbsPath) throws SVNException;
+
+    SVNWCDbBaseMovedToData baseMovedTo(File localAbsPath) throws SVNException;
+
+    class SVNWCDbBaseMovedToData {
+        public File moveDstAbsPath;
+        public File moveDstOpRootAbsPath;
+        public File moveSrcRootAbsPath;
+        public File moveSrcOpRootAbsPath;
+    }
+
+    NodeInstallInfo readNodeInstallInfo(File localAbsPath, File wriAbsPath) throws SVNException;
+
+    static class NodeInstallInfo {
+        public SVNWCDbRoot wcRoot;
+        public SvnChecksum checksum;
+        public SVNProperties properties;
+        public SVNDate changedDate;
+    }
+
+    void resolveBreakMovedAway(File localAbsPath, ISVNEventHandler eventHandler) throws SVNException;
+
+    void resolveDeleteRaiseMovedAway(File localAbsPath, ISVNEventHandler eventHandler) throws SVNException;
+
+    void updateMovedAwayConflictVictim(File victimAbsPath, ISVNEventHandler eventHandler) throws SVNException;
+
+    SwitchedInfo isSwitched(File localAbsPath) throws SVNException;
+
+    static class SwitchedInfo {
+        public boolean isWcRoot;
+        public boolean isSwitched;
+        public SVNWCDbKind kind;
+    }
+
+    List<File> getConflictMarkerFiles(File localAbsPath) throws SVNException;
+
+    long[] minMaxRevisions(File localAbsPath, boolean committed) throws SVNException;
+
+    public boolean opHandleMoveBack(File localAbsPath, File movedFromAbsPath, SVNSkel workItems) throws SVNException;
+
+    File requiredLockForResolve(File localAbsPath) throws SVNException;
+
+    Map<SVNURL, String> getNodeLockTokensRecursive(File localAbsPath) throws SVNException;
+
+    List<SVNWCContext.CommittableExternalInfo> committableExternalsBelow(File localAbsPath, boolean immediatesOnly) throws SVNException;
+
+    Moved scanMoved(File localAbsPath) throws SVNException;
+
+    static class Moved {
+        public File movedFromAbsPath;
+        public File opRootAbsPath;
+        public File opRootMovedFromAbsPath;
+        public File movedFromDeleteAbsPath;
+    }
+
+    void dropRoot(File localAbsPath) throws SVNException;
+
+    void upgradeInsertExternal(File localAbsPath, SVNNodeKind kind, File parentAbsPath, File defLocalAbsPath, File reposRelPath, SVNURL reposRootUrl, String reposUuid, long defPegRevision, long defRevision) throws SVNException;
 }

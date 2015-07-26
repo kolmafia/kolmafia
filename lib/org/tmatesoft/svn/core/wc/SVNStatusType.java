@@ -11,6 +11,9 @@
  */
 package org.tmatesoft.svn.core.wc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <b>SVNStatusType</b> provides information about versioned items' 
  * status type. This class contains a set of predefined constants each of that 
@@ -94,6 +97,20 @@ package org.tmatesoft.svn.core.wc;
  */
 public class SVNStatusType {
 
+    public static SVNStatusType getEventStatusById(int id) {
+        synchronized (eventStatusTypes) {
+            return eventStatusTypes.get(id);
+        }
+    }
+
+    private static SVNStatusType createEventStatusType(int id, String name) {
+        SVNStatusType statusType = new SVNStatusType(id, name);
+        eventStatusTypes.put(id, statusType);
+        return statusType;
+    }
+
+    private static final Map<Integer, SVNStatusType> eventStatusTypes = new HashMap<Integer, SVNStatusType>();
+
     private int myID;
     private String myName;
     private char myCode;
@@ -107,7 +124,7 @@ public class SVNStatusType {
         myName = name;
         myCode = code;
     }
-    
+
     /**
      * Returns this object's identifier as an integer nbumber.
      * Each constant field of the <b>SVNStatusType</b> class is also an 
@@ -157,37 +174,37 @@ public class SVNStatusType {
      * }</pre> 
      *  
      */
-    public static final SVNStatusType INAPPLICABLE = new SVNStatusType(0, "inapplicable");
+    public static final SVNStatusType INAPPLICABLE = createEventStatusType(0, "inapplicable");
     
     /**
      * Denotes that the resultant status of the operation is for some
      * reason unknown.
      */
-    public static final SVNStatusType UNKNOWN = new SVNStatusType(1, "unknown");
+    public static final SVNStatusType UNKNOWN = createEventStatusType(1, "unknown");
     
     /**
      * During an operation denotes that file item contents or file/directory
      * item properties are not changed.  For example, in a Working Copy-to-URL copying.
      */
-    public static final SVNStatusType UNCHANGED = new SVNStatusType(2, "unchanged");
+    public static final SVNStatusType UNCHANGED = createEventStatusType(2, "unchanged");
     
     /**
      * Denotes that the item is versioned but missing (deleted from the 
      * fylesystem).
      */
-    public static final SVNStatusType MISSING = new SVNStatusType(3, "missing");
+    public static final SVNStatusType MISSING = createEventStatusType(3, "missing");
     
     /**
      * Denotes that the item has an unexpected kind or somehow damaged or
      * can not be managed by an operation.
      */
-    public static final SVNStatusType OBSTRUCTED = new SVNStatusType(4, "obstructed");
+    public static final SVNStatusType OBSTRUCTED = createEventStatusType(4, "obstructed");
     
     /**
      * During an operation (like an update) denotes that the item contents
      * or item properties were changed.
      */
-    public static final SVNStatusType CHANGED = new SVNStatusType(5, "changed");
+    public static final SVNStatusType CHANGED = createEventStatusType(5, "changed");
 
     /**
      * During an operation (like an update or merge) denotes that the file 
@@ -195,21 +212,21 @@ public class SVNStatusType {
      * with changes that came from the repository, so that local modifications 
      * and arrived ones do not overlap. 
      */
-    public static final SVNStatusType MERGED = new SVNStatusType(6, "merged");
+    public static final SVNStatusType MERGED = createEventStatusType(6, "merged");
 
     /**
      * During an operation (like an update) denotes that the file item contents 
      * or file/directory item properties are in conflict with those changes that
      * came from the repository. 
      */
-    public static final SVNStatusType CONFLICTED = new SVNStatusType(7, "conflicted");
+    public static final SVNStatusType CONFLICTED = createEventStatusType(7, "conflicted");
     
     /**
      * Denotes that the conflict state on the item is still unresolved.
      * For example, it can be set when trying to merge into a file that is
      * in conflict with the repository.  
      */
-    public static final SVNStatusType CONFLICTED_UNRESOLVED = new SVNStatusType(8, "conflicted_unresolved");
+    public static final SVNStatusType CONFLICTED_UNRESOLVED = createEventStatusType(8, "conflicted_unresolved");
     
     /**
      * During some operations denotes that lock status is inapplicable. 

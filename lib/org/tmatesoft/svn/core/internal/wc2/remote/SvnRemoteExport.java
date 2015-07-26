@@ -68,7 +68,7 @@ public class SvnRemoteExport extends SvnRemoteOperationRunner<Long, SvnExport> {
         
         SVNNodeKind dstKind = repository.checkPath("", revNumber);
         if (dstKind == SVNNodeKind.DIR) {
-            SVNExportEditor editor = new SVNExportEditor(this, repository.getLocation().toString(), dstPath, force, eolStyle, expandKeywords, options);
+            SVNExportEditor editor = new SVNExportEditor(this, repository.getLocation().toString(), dstPath, force, eolStyle, expandKeywords, repository.getRepositoryRoot(true).toString(), options);
             repository.update(revNumber, null, depth, false, new ISVNReporterBaton() {
 
                 public void report(ISVNReporter reporter) throws SVNException {
@@ -87,6 +87,7 @@ public class SvnRemoteExport extends SvnRemoteOperationRunner<Long, SvnExport> {
             }
         } else if (dstKind == SVNNodeKind.FILE) {
             String url = repository.getLocation().toString();
+            String repositoryRoot = expandKeywords ? repository.getRepositoryRoot(true).toString() : null;
             if (dstPath.isDirectory()) {
                 dstPath = new File(dstPath, SVNEncodingUtil.uriDecode(SVNPathUtil.tail(url)));
             }
@@ -117,7 +118,7 @@ public class SvnRemoteExport extends SvnRemoteOperationRunner<Long, SvnExport> {
                 String mimeType = properties.getStringValue(SVNProperty.MIME_TYPE);
                 boolean binary = SVNProperty.isBinaryMimeType(mimeType);
                 String charset = SVNTranslator.getCharset(properties.getStringValue(SVNProperty.CHARSET), mimeType, url, options);
-                Map<String, byte[]> keywords = SVNTranslator.computeKeywords(properties.getStringValue(SVNProperty.KEYWORDS), url, properties.getStringValue(SVNProperty.LAST_AUTHOR), properties
+                Map<String, byte[]> keywords = SVNTranslator.computeKeywords(properties.getStringValue(SVNProperty.KEYWORDS), url, repositoryRoot, properties.getStringValue(SVNProperty.LAST_AUTHOR), properties
                         .getStringValue(SVNProperty.COMMITTED_DATE), properties.getStringValue(SVNProperty.COMMITTED_REVISION), options);
                 byte[] eols = null;
                 if (SVNProperty.EOL_STYLE_NATIVE.equals(properties.getStringValue(SVNProperty.EOL_STYLE))) {

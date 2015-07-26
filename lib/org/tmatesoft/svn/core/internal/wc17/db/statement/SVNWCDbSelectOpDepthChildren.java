@@ -34,29 +34,23 @@ public class SVNWCDbSelectOpDepthChildren extends SVNSqlJetSelectFieldsStatement
     }
 
     protected boolean isFilterPassed() throws SVNException {
-        if (isColumnNull(SVNWCDbSchema.NODES__Fields.wc_id) && getBind(1) != null) {
-            return false;
-        }
-        if (isColumnNull(SVNWCDbSchema.NODES__Fields.parent_relpath) && getBind(2) != null) {
-            return false;
-        }
-        if (isColumnNull(SVNWCDbSchema.NODES__Fields.op_depth) && getBind(3) != null) {
-            return false;
-        }
-        if (getBind(3) instanceof Long && ((Long) getBind(3)) == 0) {
-            if (getColumn(SVNWCDbSchema.NODES__Fields.file_external) != null) {
+        if (getBind(3) != null) {
+            final long opDepth = (Long) getBind(3);
+            if (opDepth != getColumnLong(NODES__Fields.op_depth)) {
                 return false;
             }
         }
-        return getColumn(SVNWCDbSchema.NODES__Fields.wc_id).equals(getBind(1)) && 
-            getColumn(SVNWCDbSchema.NODES__Fields.parent_relpath).equals(getBind(2))
-                && getColumn(SVNWCDbSchema.NODES__Fields.op_depth).equals(getBind(3));
+        if ("base-deleted".equals(getColumn(NODES__Fields.presence))) {
+            return false;
+        }
+        if (getColumn(SVNWCDbSchema.NODES__Fields.file_external) != null) {
+            return false;
+        }
+        return true;
     }
 
     protected Object[] getWhere() throws SVNException {
-        return new Object[] {
-                getBind(1), getBind(2), getBind(3)
-        };
+        return new Object[] {getBind(1), getBind(2)};
     }
 
 }

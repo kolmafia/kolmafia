@@ -10,15 +10,14 @@ import org.tmatesoft.svn.core.internal.util.SVNSkel;
 import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
 import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc.admin.*;
+import org.tmatesoft.svn.core.internal.wc16.SVNStatusClient16;
 import org.tmatesoft.svn.core.internal.wc16.SVNUpdateClient16;
+import org.tmatesoft.svn.core.internal.wc16.SVNWCClient16;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCUtils;
+import org.tmatesoft.svn.core.internal.wc17.db.*;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbOpenMode;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbUpgradeData;
-import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb;
-import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDbRoot;
-import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbPristines;
-import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbProperties;
 import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema;
 import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbStatements;
 import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess;
@@ -30,6 +29,7 @@ import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.core.wc2.SvnChecksum.Kind;
+import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 import java.io.File;
@@ -106,8 +106,36 @@ public class SvnOldUpgrade extends SvnOldRunner<SvnWcGeneration, SvnUpgrade> {
 
 	@Override
 	protected SvnWcGeneration run() throws SVNException {
+        final int targetWorkingCopyFormat = getOperation().getTargetWorkingCopyFormat();
+        final int currentWorkingCopyFormat = readWorkingCopyFormat(getFirstTarget());
 
-		if (getOperation().getFirstTarget().isURL()) {
+        if (targetWorkingCopyFormat == currentWorkingCopyFormat) {
+            //do nothing
+            return SvnWcGeneration.V16;
+        } else if (targetWorkingCopyFormat < currentWorkingCopyFormat) {
+            //1.6->1.5, 1.6.->1.4, 1.5->1.4
+            SVNWCClient16 client =  new SVNWCClient16(getOperation().getRepositoryPool(), getOperation().getOptions());
+            client.setEventHandler(getOperation().getEventHandler());
+            client.setDebugLog(SVNDebugLog.getDefaultLog());
+            client.doSetWCFormat(getFirstTarget(), targetWorkingCopyFormat);
+            return SvnWcGeneration.V16;
+        } else if (targetWorkingCopyFormat >= SVNAdminArea16.WC_FORMAT) {
+            //1.5->1.7, 1.4->1.8, 1.6->1.7, 1.4->1.6 and so on
+            //then upgrade to 1.6
+            if (currentWorkingCopyFormat < SVNAdminArea16.WC_FORMAT) {
+                SVNWCClient16 client =  new SVNWCClient16(getOperation().getRepositoryPool(), getOperation().getOptions());
+                client.setEventHandler(getOperation().getEventHandler());
+                client.setDebugLog(SVNDebugLog.getDefaultLog());
+                client.doSetWCFormat(getFirstTarget(), SVNAdminArea16.WC_FORMAT);
+            }
+            //and continue upgrading only if targetWorkingCopyFormat > 1.6
+            if (targetWorkingCopyFormat == SVNAdminArea16.WC_FORMAT) {
+                return SvnWcGeneration.V16;
+            }
+        }
+
+
+        if (getOperation().getFirstTarget().isURL()) {
 			SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "'{0}' is not a local path", getOperation().getFirstTarget().getURL());
 			SVNErrorManager.error(err, SVNLogType.WC);
 		}
@@ -158,14 +186,22 @@ public class SvnOldUpgrade extends SvnOldRunner<SvnWcGeneration, SvnUpgrade> {
 		return SvnWcGeneration.V17;
 	}
 
-	private void checkIsOldWCRoot(File localAbsPath) throws SVNException {
+    private int readWorkingCopyFormat(File firstTarget) throws SVNException {
+        SVNWCAccess wcAccess = getWCAccess();
+        SVNAdminArea adminArea = wcAccess.probeOpen(firstTarget, false, 0);
+        final int currentWorkingCopyFormat = adminArea.getFormatVersion();
+        wcAccess.close();
+        return currentWorkingCopyFormat;
+    }
+
+    private void checkIsOldWCRoot(File localAbsPath) throws SVNException {
 		SVNWCAccess wcAccess = getWCAccess();
 		
 		try {
 			readEntries(wcAccess, localAbsPath);
 		} catch (SVNException e) {
 			SVNErrorMessage err = SVNErrorMessage.create(
-					SVNErrorCode.WC_INVALID_OP_ON_CWD, "Can''t upgrade ''{0}'' as it is not a pre-1.7 working copy directory", localAbsPath);
+					SVNErrorCode.WC_INVALID_OP_ON_CWD, "Can''t upgrade ''{0}'' as it is not a working copy directory", localAbsPath);
 			SVNErrorManager.error(err, SVNLogType.WC);
 		} 
 		
@@ -210,7 +246,7 @@ public class SvnOldUpgrade extends SvnOldRunner<SvnWcGeneration, SvnUpgrade> {
 			}
 		}
 		SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_INVALID_OP_ON_CWD,
-						"Can''t upgrade ''{0}'' as it is not a pre-1.7 working copy root, the root is ''{1}''", localAbsPath, parentAbsPath);
+						"Can''t upgrade ''{0}'' as it is not a working copy root, the root is ''{1}''", localAbsPath, parentAbsPath);
 		SVNErrorManager.error(err, SVNLogType.WC);
 	}
 
@@ -307,7 +343,7 @@ public class SvnOldUpgrade extends SvnOldRunner<SvnWcGeneration, SvnUpgrade> {
 			/*
 			 * Create an empty sqlite database for this directory and store it in DB.
 			 */
-			db.upgradeBegin(upgradeData.rootAbsPath, upgradeData, getEntryRepositoryRootURL(thisDir), thisDir.getUUID());
+			db.upgradeBegin(upgradeData.rootAbsPath, upgradeData, getEntryRepositoryRootURL(thisDir), thisDir.getUUID(), getOperation().getTargetWorkingCopyFormat());
 
 			/*
 			 * Migrate the entries over to the new database. ### We need to think about atomicity here.
@@ -472,7 +508,7 @@ public class SvnOldUpgrade extends SvnOldRunner<SvnWcGeneration, SvnUpgrade> {
 
 			/***** ENTRIES - WRITE *****/
 			try {
-				dirBaton = SvnOldUpgradeEntries.writeUpgradedEntries(parentDirBaton, db, data, dirAbsPath, entries, textBases);
+				dirBaton = SvnOldUpgradeEntries.writeUpgradedEntries(parentDirBaton, db, data, dirAbsPath, entries, textBases, getOperation().getTargetWorkingCopyFormat());
 			} catch (SVNException ex) {
 				if (ex.getErrorMessage().getErrorCode() == SVNErrorCode.WC_CORRUPT) {
 					SVNErrorMessage err = ex.getErrorMessage().wrap("This working copy is corrupt and cannot be upgraded. Please check out a new working copy.");

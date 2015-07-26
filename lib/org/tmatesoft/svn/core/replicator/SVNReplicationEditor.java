@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import org.tmatesoft.svn.core.ISVNDirEntryHandler;
@@ -41,9 +42,6 @@ import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.util.SVNLogType;
-
-import java.io.OutputStream;
-import java.util.*;
 
 /**
  * The <b>SVNReplicationEditor</b> is an editor implementation used by a 
@@ -554,7 +552,7 @@ public class SVNReplicationEditor implements ISVNEditor {
     }
 
     private SVNLogEntryPath getFileCopyOrigin(String path) throws SVNException {
-        Object[] paths = myCopiedPaths.keySet().toArray();
+        String[] paths = (String[]) myCopiedPaths.keySet().toArray(new String[myCopiedPaths.size()]);
         Arrays.sort(paths, 0, paths.length, SVNPathUtil.PATH_COMPARATOR);
         SVNLogEntryPath realPath = null;
         List candidates = new ArrayList();

@@ -29,13 +29,12 @@ public class SvnRevertActualNodesTrigger implements ISVNSqlJetTrigger {
         Map<String, Object> rowValues = new HashMap<String, Object>();
         rowValues.put(REVERT_LIST__Fields.local_relpath.toString(), cursor.getValue(ACTUAL_NODE__Fields.local_relpath.toString()));
         rowValues.put(REVERT_LIST__Fields.actual.toString(), 1);
-        rowValues.put(REVERT_LIST__Fields.conflict_old.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_old.toString()));
-        rowValues.put(REVERT_LIST__Fields.conflict_new.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_new.toString()));
-        rowValues.put(REVERT_LIST__Fields.conflict_working.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_working.toString()));
-        rowValues.put(REVERT_LIST__Fields.prop_reject.toString(), cursor.getValue(ACTUAL_NODE__Fields.prop_reject.toString()));
-        
+        rowValues.put(REVERT_LIST__Fields.conflict_data.toString(), cursor.getBlobAsArray(ACTUAL_NODE__Fields.conflict_data.toString()));
+
         if (!cursor.isNull(ACTUAL_NODE__Fields.properties.toString()) 
                 || !cursor.isNull(ACTUAL_NODE__Fields.tree_conflict_data.toString())) {
+            rowValues.put(REVERT_LIST__Fields.notify.toString(), 1);
+        } else if (!exists(db.getDb(), cursor.getInteger(ACTUAL_NODE__Fields.wc_id.toString()), cursor.getString(ACTUAL_NODE__Fields.local_relpath.toString()))) {
             rowValues.put(REVERT_LIST__Fields.notify.toString(), 1);
         } else {
             rowValues.put(REVERT_LIST__Fields.notify.toString(), null);
@@ -45,17 +44,16 @@ public class SvnRevertActualNodesTrigger implements ISVNSqlJetTrigger {
 
     public void beforeUpdate(ISqlJetCursor cursor, Map<String, Object> newValues) throws SqlJetException {
         ISqlJetTable table = db.getDb().getTemporaryDatabase().getTable(SVNWCDbSchema.REVERT_LIST.toString());
-        
+
         Map<String, Object> rowValues = new HashMap<String, Object>();
         rowValues.put(REVERT_LIST__Fields.local_relpath.toString(), cursor.getValue(ACTUAL_NODE__Fields.local_relpath.toString()));
         rowValues.put(REVERT_LIST__Fields.actual.toString(), 1);
-        rowValues.put(REVERT_LIST__Fields.conflict_old.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_old.toString()));
-        rowValues.put(REVERT_LIST__Fields.conflict_new.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_new.toString()));
-        rowValues.put(REVERT_LIST__Fields.conflict_working.toString(), cursor.getValue(ACTUAL_NODE__Fields.conflict_working.toString()));
-        rowValues.put(REVERT_LIST__Fields.prop_reject.toString(), cursor.getValue(ACTUAL_NODE__Fields.prop_reject.toString()));
-        
-        if (!cursor.isNull(ACTUAL_NODE__Fields.properties.toString()) 
+        rowValues.put(REVERT_LIST__Fields.conflict_data.toString(), cursor.getBlobAsArray(ACTUAL_NODE__Fields.conflict_data.toString()));
+
+        if (!cursor.isNull(ACTUAL_NODE__Fields.properties.toString())
                 || !cursor.isNull(ACTUAL_NODE__Fields.tree_conflict_data.toString())) {
+            rowValues.put(REVERT_LIST__Fields.notify.toString(), 1);
+        } else if (!exists(db.getDb().getTemporaryDatabase(), cursor.getInteger(ACTUAL_NODE__Fields.wc_id.toString()), cursor.getString(ACTUAL_NODE__Fields.local_relpath.toString()))) {
             rowValues.put(REVERT_LIST__Fields.notify.toString(), 1);
         } else {
             rowValues.put(REVERT_LIST__Fields.notify.toString(), null);
@@ -78,4 +76,13 @@ public class SvnRevertActualNodesTrigger implements ISVNSqlJetTrigger {
         }
     }
 
+    private boolean exists(SqlJetDb db, long wcId, String localRelPath) throws SqlJetException {
+        ISqlJetTable table = db.getTable(SVNWCDbSchema.NODES.name());
+        ISqlJetCursor cursor = table.lookup(null, wcId, localRelPath);
+        try {
+            return !cursor.eof();
+        } finally {
+            cursor.close();
+        }
+    }
 }

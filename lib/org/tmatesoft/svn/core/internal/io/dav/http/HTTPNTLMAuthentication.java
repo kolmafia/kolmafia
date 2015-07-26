@@ -331,7 +331,8 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
         } else {
             myIsNegotiateLocalCall = false;
         }
-        
+        System.out.println("negotiate local calls: " + myIsNegotiateLocalCall);
+
         if ((flags & NEGOTIATE_TARGET_INFO) != 0) {
             int tgtInfoSecurityBufferOffset = containsContext ? 40: 32;
             
@@ -624,8 +625,8 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
                     sublog.append('\n');
                 }
 
-                String password = getPassword();
-                byte[] hash = hashPassword(password != null ? password : ""); 
+                char[] password = getPassword();
+                byte[] hash = hashPassword(password != null ? password : new char[0]); 
                 addBytes(hash);
 
                 sublog.append("Hash: " + new String(hash));
@@ -782,57 +783,69 @@ class HTTPNTLMAuthentication extends HTTPAuthentication {
         return Boolean.valueOf(upperCase).booleanValue();
     }
 
-    private byte[] hashPassword(String password) throws SVNException {
-        byte[] passw = isUpperCase() ? password.toUpperCase().getBytes() : password.getBytes();
-        byte[] lmPw1 = new byte[7];
-        byte[] lmPw2 = new byte[7];
-
-        int len = passw.length;
-        if (len > 7) {
-            len = 7;
+    private byte[] hashPassword(char[] password) throws SVNException {
+        final char[] upperCasePassword = new char[password.length];
+        System.arraycopy(password, 0, upperCasePassword, 0, password.length);
+        if (isUpperCase()) {
+            for (int i = 0; i < upperCasePassword.length; i++) {
+                upperCasePassword[i] = Character.toUpperCase(password[i]);
+            }
         }
-
-        int idx;
-        for (idx = 0; idx < len; idx++) {
-            lmPw1[idx] = passw[idx];
+        final byte[] passw = HTTPAuthentication.getBytes(upperCasePassword, "US-ASCII");
+        try {
+            byte[] lmPw1 = new byte[7];
+            byte[] lmPw2 = new byte[7];
+    
+            int len = passw.length;
+            if (len > 7) {
+                len = 7;
+            }
+    
+            int idx;
+            for (idx = 0; idx < len; idx++) {
+                lmPw1[idx] = passw[idx];
+            }
+            
+            for (; idx < 7; idx++) {
+                lmPw1[idx] = (byte) 0;
+            }
+    
+            len = passw.length;
+            if (len > 14) {
+                len = 14;
+            }
+            for (idx = 7; idx < len; idx++) {
+                lmPw2[idx - 7] = passw[idx];
+            }
+            for (; idx < 14; idx++) {
+                lmPw2[idx - 7] = (byte) 0;
+            }
+    
+            byte[] lmHpw1;
+            lmHpw1 = encrypt(lmPw1, ourMagicBytes);
+    
+            byte[] lmHpw2 = encrypt(lmPw2, ourMagicBytes);
+    
+            byte[] lmHpw = new byte[21];
+            for (int i = 0; i < lmHpw1.length; i++) {
+                lmHpw[i] = lmHpw1[i];
+            }
+            for (int i = 0; i < lmHpw2.length; i++) {
+                lmHpw[i + 8] = lmHpw2[i];
+            }
+            for (int i = 0; i < 5; i++) {
+                lmHpw[i + 16] = (byte) 0;
+            }
+    
+            // Create the responses.
+            byte[] lmResp = new byte[24];
+            calcResp(lmHpw, lmResp);
+    
+            return lmResp;
+        } finally {
+            HTTPAuthentication.clear(upperCasePassword);
+            HTTPAuthentication.clear(passw);
         }
-        
-        for (; idx < 7; idx++) {
-            lmPw1[idx] = (byte) 0;
-        }
-
-        len = passw.length;
-        if (len > 14) {
-            len = 14;
-        }
-        for (idx = 7; idx < len; idx++) {
-            lmPw2[idx - 7] = passw[idx];
-        }
-        for (; idx < 14; idx++) {
-            lmPw2[idx - 7] = (byte) 0;
-        }
-
-        byte[] lmHpw1;
-        lmHpw1 = encrypt(lmPw1, ourMagicBytes);
-
-        byte[] lmHpw2 = encrypt(lmPw2, ourMagicBytes);
-
-        byte[] lmHpw = new byte[21];
-        for (int i = 0; i < lmHpw1.length; i++) {
-            lmHpw[i] = lmHpw1[i];
-        }
-        for (int i = 0; i < lmHpw2.length; i++) {
-            lmHpw[i + 8] = lmHpw2[i];
-        }
-        for (int i = 0; i < 5; i++) {
-            lmHpw[i + 16] = (byte) 0;
-        }
-
-        // Create the responses.
-        byte[] lmResp = new byte[24];
-        calcResp(lmHpw, lmResp);
-
-        return lmResp;
     }
     
     private void calcResp(byte[] keys, byte[] results) throws SVNException {

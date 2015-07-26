@@ -20,10 +20,7 @@ import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
-import org.tmatesoft.svn.core.wc2.SvnGetStatus;
-import org.tmatesoft.svn.core.wc2.SvnStatus;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
 
 /**
  * The <b>SVNStatusClient</b> class provides methods for obtaining information
@@ -86,7 +83,6 @@ public class SVNStatusClient extends SVNBasicClient {
      */
     public SVNStatusClient(ISVNAuthenticationManager authManager, ISVNOptions options) {
         super(authManager, options);
-        setFilesProvider(null);
     }
 
     /**
@@ -113,6 +109,13 @@ public class SVNStatusClient extends SVNBasicClient {
 
     public SVNStatusClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNStatusClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setFilesProvider(null);
     }
 

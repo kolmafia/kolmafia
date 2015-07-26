@@ -210,7 +210,7 @@ public class SVNCommitPacket {
         return result.toString();
     }
 
-    protected SVNCommitItem[] filterSkippedItemsAndLockTokens(Collection items, Map lockTokens) {
+    protected SVNCommitItem[] filterSkippedItemsAndLockTokens(Collection<SVNCommitItem> items, Map<String, ?> lockTokens) {
         for (int i = 0; myCommitItems != null && i < myCommitItems.length; i++) {
             SVNCommitItem commitItem = myCommitItems[i];
             if (!myIsSkipped[i]) {

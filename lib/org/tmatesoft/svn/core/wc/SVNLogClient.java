@@ -26,12 +26,7 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
-import org.tmatesoft.svn.core.wc2.SvnAnnotate;
-import org.tmatesoft.svn.core.wc2.SvnList;
-import org.tmatesoft.svn.core.wc2.SvnLog;
-import org.tmatesoft.svn.core.wc2.SvnRevisionRange;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
 
 /**
  * The <b>SVNLogClient</b> class is intended for such purposes as getting
@@ -94,7 +89,6 @@ public class SVNLogClient extends SVNBasicClient {
      */
     public SVNLogClient(ISVNAuthenticationManager authManager, ISVNOptions options) {
         super(authManager, options);
-        setDiffOptions(null);
     }
 
     /**
@@ -120,6 +114,13 @@ public class SVNLogClient extends SVNBasicClient {
      */
     public SVNLogClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNLogClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setDiffOptions(null);
     }
 
@@ -1157,6 +1158,7 @@ public class SVNLogClient extends SVNBasicClient {
         list.addTarget(SvnTarget.fromFile(path, pegRevision));
         list.setFetchLocks(fetchLocks);
         list.setEntryFields(entryFields);
+        list.setIgnoreExternals(isIgnoreExternals());
         list.setReceiver(new ISvnObjectReceiver<SVNDirEntry>() {            
             public void receive(SvnTarget target, SVNDirEntry object) throws SVNException {
                 handler.handleDirEntry(object);
@@ -1298,6 +1300,7 @@ public class SVNLogClient extends SVNBasicClient {
         list.addTarget(SvnTarget.fromURL(url, pegRevision));
         list.setFetchLocks(fetchLocks);
         list.setEntryFields(entryFields);
+        list.setIgnoreExternals(isIgnoreExternals());
         list.setReceiver(new ISvnObjectReceiver<SVNDirEntry>() {            
             public void receive(SvnTarget target, SVNDirEntry object) throws SVNException {
                 handler.handleDirEntry(object);

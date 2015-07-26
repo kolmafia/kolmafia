@@ -88,9 +88,11 @@ import org.tmatesoft.svn.util.SVNLogType;
 public class SvnCheckout extends AbstractSvnUpdate<Long> {
     
     private SvnTarget source;
+    private int targetWorkingCopyFormat;
 
     protected SvnCheckout(SvnOperationFactory factory) {
         super(factory);
+        targetWorkingCopyFormat = -1;
     }
 
     /**
@@ -148,5 +150,13 @@ public class SvnCheckout extends AbstractSvnUpdate<Long> {
     @Override
     public boolean isChangesWorkingCopy() {
         return true;
+    }
+
+    public void setTargetWorkingCopyFormat(int targetWorkingCopyFormat) {
+        this.targetWorkingCopyFormat = targetWorkingCopyFormat;
+    }
+
+    public int getTargetWorkingCopyFormat() {
+        return targetWorkingCopyFormat;
     }
 }

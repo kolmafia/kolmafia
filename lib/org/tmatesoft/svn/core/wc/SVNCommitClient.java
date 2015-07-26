@@ -29,13 +29,7 @@ import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec;
 import org.tmatesoft.svn.core.internal.wc2.compat.SvnCodec.SVNCommitPacketWrapper;
 import org.tmatesoft.svn.core.io.SVNRepository;
-import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
-import org.tmatesoft.svn.core.wc2.SvnCommit;
-import org.tmatesoft.svn.core.wc2.SvnCommitPacket;
-import org.tmatesoft.svn.core.wc2.SvnImport;
-import org.tmatesoft.svn.core.wc2.SvnRemoteDelete;
-import org.tmatesoft.svn.core.wc2.SvnRemoteMkDir;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
 import org.tmatesoft.svn.util.SVNLogType;
 
 /**
@@ -137,6 +131,13 @@ public class SVNCommitClient extends SVNBasicClient {
      */
     public SVNCommitClient(ISVNRepositoryPool repositoryPool, ISVNOptions options) {
         super(repositoryPool, options);
+    }
+
+    public SVNCommitClient(SvnOperationFactory of) {
+        super(of);
+    }
+
+    protected void initDefaults() {
         setCommitHander(null);
         setCommitParameters(null);
         setCommitHandler(null);
@@ -546,6 +547,97 @@ public class SVNCommitClient extends SVNBasicClient {
      * @since 1.2.0, New in SVN 1.5.0
      */
     public SVNCommitInfo doImport(File path, SVNURL dstURL, String commitMessage, SVNProperties revisionProperties, boolean useGlobalIgnores, boolean ignoreUnknownNodeTypes, SVNDepth depth) throws SVNException {
+        return doImport(path, dstURL, commitMessage, revisionProperties, useGlobalIgnores, ignoreUnknownNodeTypes, depth, true);
+    }
+
+    /**
+     * Imports file or directory <code>path</code> into repository directory
+     * <code>dstURL</code> at HEAD revision. If some components of
+     * <code>dstURL</code> do not exist, then creates parent directories as
+     * necessary.
+     *
+     * <p/>
+     * If <code>path</code> is a directory, the contents of that directory are
+     * imported directly into the directory identified by <code>dstURL</code>.
+     * Note that the directory <code>path</code> itself is not imported -- that
+     * is, the base name of <code>path<code> is not part of the import.
+     *
+     * <p/>
+     * If <code>path</code> is a file, then the parent of <code>dstURL</code> is
+     * the directory receiving the import. The base name of <code>dstURL</code>
+     * is the filename in the repository. In this case if <code>dstURL</code>
+     * already exists, throws {@link SVNException}.
+     *
+     * <p/>
+     * If the caller's {@link ISVNEventHandler event handler} is not <span
+     * class="javakeyword">null</span> it will be called as the import
+     * progresses with {@link SVNEventAction#COMMIT_ADDED} action. If the commit
+     * succeeds, the handler will be called with
+     * {@link SVNEventAction#COMMIT_COMPLETED} event action.
+     *
+     * <p/>
+     * If non-<span class="javakeyword">null</span>,
+     * <code>revisionProperties</code> holds additional, custom revision
+     * properties (<code>String</code> names mapped to {@link SVNPropertyValue}
+     * values) to be set on the new revision. This table cannot contain any
+     * standard Subversion properties.
+     *
+     * <p/>
+     * {@link #getCommitHandler() Commit handler} will be asked for a commit log
+     * message.
+     *
+     * <p/>
+     * If <code>depth</code> is {@link SVNDepth#EMPTY}, imports just
+     * <code>path</code> and nothing below it. If {@link SVNDepth#FILES},
+     * imports <code>path</code> and any file children of <code>path</code>. If
+     * {@link SVNDepth#IMMEDIATES}, imports <code>path</code>, any file
+     * children, and any immediate subdirectories (but nothing underneath those
+     * subdirectories). If {@link SVNDepth#INFINITY}, imports <code>path</code>
+     * and everything under it fully recursively.
+     *
+     * <p/>
+     * If <code>useGlobalIgnores</code> is <span
+     * class="javakeyword">false</span>, doesn't add files or directories that
+     * match ignore patterns.
+     *
+     * <p/>
+     * If <code>ignoreUnknownNodeTypes</code> is <span
+     * class="javakeyword">false</span>, ignores files of which the node type is
+     * unknown, such as device files and pipes.
+     *
+     * @param path
+     *            path to import
+     * @param dstURL
+     *            import destination url
+     * @param commitMessage
+     *            commit log message
+     * @param revisionProperties
+     *            custom revision properties
+     * @param useGlobalIgnores
+     *            whether matching against global ignore patterns should take
+     *            place
+     * @param ignoreUnknownNodeTypes
+     *            whether to ignore files of unknown node types or not
+     * @param depth
+     *            tree depth to process
+     * @param applyAutoProperties
+     *            whether to apply auto-properties
+     * @return information about the new committed revision
+     * @throws SVNException
+     *             in the following cases:
+     *             <ul>
+     *             <li/>exception with {@link SVNErrorCode#ENTRY_NOT_FOUND}
+     *             error code - if <code>path</code> does not exist <li/>
+     *             exception with {@link SVNErrorCode#ENTRY_EXISTS} error code -
+     *             if <code>dstURL</code> already exists and <code>path</code>
+     *             is a file <li/>exception with
+     *             {@link SVNErrorCode#CL_ADM_DIR_RESERVED} error code - if
+     *             trying to import an item with a reserved SVN name (like
+     *             <code>'.svn'</code> or <code>'_svn'</code>)
+     *             </ul>
+     * @since 1.8
+     */
+    public SVNCommitInfo doImport(File path, SVNURL dstURL, String commitMessage, SVNProperties revisionProperties, boolean useGlobalIgnores, boolean ignoreUnknownNodeTypes, SVNDepth depth, boolean applyAutoProperties) throws SVNException {
         SvnImport svnImport = getOperationsFactory().createImport();
         svnImport.setCommitHandler(SvnCodec.commitHandler(getCommitHandler()));
         svnImport.setCommitMessage(commitMessage);
@@ -554,6 +646,7 @@ public class SVNCommitClient extends SVNBasicClient {
         svnImport.setSource(path);
         svnImport.setDepth(depth);
         svnImport.setUseGlobalIgnores(useGlobalIgnores);
+        svnImport.setApplyAutoProperties(applyAutoProperties);
         
         return svnImport.run();
     }
@@ -872,6 +965,8 @@ public class SVNCommitClient extends SVNBasicClient {
         }
         
         SvnCommit commit = sharedOperation;
+        commit.setIncludeDirectoryExternals(!isIgnoreExternals());
+        commit.setIncludeFileExternals(!isIgnoreExternals());
         commit.setCommitMessage(commitMessage);
         commit.setCommitHandler(SvnCodec.commitHandler(getCommitHandler()));
         commit.setCommitParameters(SvnCodec.commitParameters(getCommitParameters()));
@@ -1072,6 +1167,8 @@ public class SVNCommitClient extends SVNBasicClient {
         for (int i = 0; i < paths.length; i++) {
             commit.addTarget(SvnTarget.fromFile(paths[i]));
         }
+        commit.setIncludeFileExternals(!isIgnoreExternals());
+        commit.setIncludeDirectoryExternals(!isIgnoreExternals());
         commit.setKeepLocks(keepLocks);
         commit.setDepth(depth);
         commit.setForce(force);

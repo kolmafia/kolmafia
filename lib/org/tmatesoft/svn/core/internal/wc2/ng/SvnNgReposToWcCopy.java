@@ -3,34 +3,20 @@ package org.tmatesoft.svn.core.internal.wc2.ng;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.tmatesoft.svn.core.SVNCancelException;
-import org.tmatesoft.svn.core.SVNDepth;
-import org.tmatesoft.svn.core.SVNDirEntry;
-import org.tmatesoft.svn.core.SVNErrorCode;
-import org.tmatesoft.svn.core.SVNErrorMessage;
-import org.tmatesoft.svn.core.SVNException;
-import org.tmatesoft.svn.core.SVNMergeInfoInheritance;
-import org.tmatesoft.svn.core.SVNMergeRangeList;
-import org.tmatesoft.svn.core.SVNNodeKind;
-import org.tmatesoft.svn.core.SVNProperties;
-import org.tmatesoft.svn.core.SVNProperty;
-import org.tmatesoft.svn.core.SVNPropertyValue;
-import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.internal.util.SVNDate;
 import org.tmatesoft.svn.core.internal.util.SVNEncodingUtil;
 import org.tmatesoft.svn.core.internal.util.SVNMergeInfoUtil;
 import org.tmatesoft.svn.core.internal.util.SVNPathUtil;
 import org.tmatesoft.svn.core.internal.util.SVNSkel;
 import org.tmatesoft.svn.core.internal.util.SVNURLUtil;
-import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
-import org.tmatesoft.svn.core.internal.wc.SVNEventFactory;
-import org.tmatesoft.svn.core.internal.wc.SVNFileType;
-import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc.*;
 import org.tmatesoft.svn.core.internal.wc.admin.SVNTranslator;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.SVNWCNodeReposInfo;
@@ -43,19 +29,23 @@ import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb.SVNWCDbStatus;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbCopy;
+import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess;
 import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.LocationsInfo;
 import org.tmatesoft.svn.core.internal.wc2.SvnRepositoryAccess.RevisionsPair;
 import org.tmatesoft.svn.core.internal.wc2.SvnWcGeneration;
+import org.tmatesoft.svn.core.io.ISVNEditor;
+import org.tmatesoft.svn.core.io.ISVNReporter;
+import org.tmatesoft.svn.core.io.ISVNReporterBaton;
 import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.io.diff.SVNDeltaProcessor;
+import org.tmatesoft.svn.core.io.diff.SVNDiffWindow;
 import org.tmatesoft.svn.core.wc.ISVNEventHandler;
 import org.tmatesoft.svn.core.wc.SVNEvent;
 import org.tmatesoft.svn.core.wc.SVNEventAction;
 import org.tmatesoft.svn.core.wc.SVNRevision;
-import org.tmatesoft.svn.core.wc2.SvnCheckout;
-import org.tmatesoft.svn.core.wc2.SvnCopy;
-import org.tmatesoft.svn.core.wc2.SvnCopySource;
-import org.tmatesoft.svn.core.wc2.SvnScheduleForAddition;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
+import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
 public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
@@ -296,31 +286,60 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
     
     private Void copy(Collection<SvnCopyPair> copyPairs, File topDst, boolean ignoreExternals, SVNRepository repository) throws SVNException {
         for (SvnCopyPair pair : copyPairs) {
-            SVNNodeKind dstKind  = getWcContext().readKind(pair.dst, false);
-            if (dstKind == SVNNodeKind.NONE) {
-                continue;
-            }
-            Structure<NodeInfo> nodeInfo = getWcContext().getDb().readInfo(pair.dst, NodeInfo.status);
-            ISVNWCDb.SVNWCDbStatus status = nodeInfo.get(NodeInfo.status);
-            nodeInfo.release();
-            if (status == SVNWCDbStatus.Excluded) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, "''{0}'' is already under version control",
-                        pair.dst);
-                SVNErrorManager.error(err, SVNLogType.WC);
-            }
-            if (status == SVNWCDbStatus.ServerExcluded) {
-                SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, "''{0}'' is already under version control",
-                        pair.dst);
-                SVNErrorManager.error(err, SVNLogType.WC);
-            }
-            if (dstKind != SVNNodeKind.DIR) {
-                if ((status != SVNWCDbStatus.Deleted) && (status != SVNWCDbStatus.NotPresent)) {
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Entry for ''{0}'' exists (though the working file is missing)",
-                            pair.dst);
-                    SVNErrorManager.error(err, SVNLogType.WC);
+            SVNNodeKind dstKind  = SvnWcDbCopy.readKind(getWcContext().getDb(), pair.dst, false, true);
+            if (dstKind != SVNNodeKind.NONE) {
+                SVNWCContext.NodePresence nodePresence = getWcContext().getNodePresence(pair.dst, false);
+                boolean isExcluded = nodePresence.isExcluded;
+                boolean isServerExcluded = nodePresence.isServerExcluded;
+
+                if (isExcluded || isServerExcluded) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Path ''{0}'' exists, but is excluded", pair.dst);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                } else {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, "Path ''{0}'' already exists", pair.dst);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
                 }
             }
-            
+            dstKind = SVNFileType.getNodeKind(SVNFileType.getType(pair.dst));
+
+            if (dstKind != SVNNodeKind.NONE) {
+                if (getOperation().isMove() && copyPairs.size() == 1 && SVNFileUtil.getParentFile(pair.sourceFile).equals(SVNFileUtil.getParentFile(pair.dst))) {
+                    try {
+                        boolean caseRenamed = pair.sourceFile.getCanonicalPath().equals(pair.dst.getCanonicalPath());
+                        if (caseRenamed) {
+                            continue;
+                        }
+                    } catch (IOException e) {
+                        SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.IO_ERROR, e);
+                        SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                    }
+                }
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, "Path ''{0}'' already exists as unversioned node", pair.dst);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+
+            File dstParentAbsPath = SVNFileUtil.getParentFile(pair.dst);
+            SVNNodeKind dstParentKind = SvnWcDbCopy.readKind(getWcContext().getDb(), dstParentAbsPath, false, true);
+
+            if (getOperation().isMakeParents() && dstParentKind == SVNNodeKind.NONE) {
+                SvnScheduleForAddition scheduleForAddition = getOperation().getOperationFactory().createScheduleForAddition();
+                scheduleForAddition.setMkDir(true);
+
+                SvnNgAdd svnNgAdd = new SvnNgAdd();
+                svnNgAdd.setWcContext(getWcContext());
+                svnNgAdd.setOperation(scheduleForAddition);
+                svnNgAdd.addFromDisk(dstParentAbsPath, null, true);
+            } else if (dstParentKind != SVNNodeKind.DIR) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_PATH_NOT_FOUND, "Path ''{0}'' is not a directory", dstParentAbsPath);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+
+            dstParentKind = SVNFileType.getNodeKind(SVNFileType.getType(dstParentAbsPath));
+
+            if (dstParentKind != SVNNodeKind.DIR) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_MISSING, "Path ''{0}'' is not a directory", dstParentAbsPath);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
         }
         boolean sameRepositories = false;
         try {
@@ -342,74 +361,84 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
     }
 
     private long copy(final SvnCopyPair pair, boolean sameRepositories, boolean ignoreExternals, SVNRepository repository) throws SVNException {
+        ISVNEventHandler eventHandler = getOperation().getEventHandler();
+
+        if (!sameRepositories && eventHandler != null) {
+            SVNEvent event = SVNEventFactory.createSVNEvent(pair.sourceFile, pair.srcKind, null, -1, SVNEventAction.FOREIGN_COPY_BEGIN, SVNEventAction.FOREIGN_COPY_BEGIN, null, null);
+            event.setURL(pair.source);
+            eventHandler.handleEvent(event, UNKNOWN);
+        }
         long rev = -1;
         SVNURL oldLocation = repository.getLocation();
         repository.setLocation(pair.source, false);
 
         if (pair.srcKind == SVNNodeKind.DIR) {
-            File dstParent = SVNFileUtil.getParentFile(pair.dst);
-            final File dstPath = SVNFileUtil.createUniqueFile(dstParent, pair.dst.getName(), ".tmp", false);
-            SVNFileUtil.deleteFile(dstPath);
-            SVNFileUtil.ensureDirectoryExists(dstPath);
-            try {                
-                SvnCheckout co = getOperation().getOperationFactory().createCheckout();
-                co.setSingleTarget(SvnTarget.fromFile(dstPath));
-                co.setSource(SvnTarget.fromURL(pair.sourceOriginal, pair.sourcePegRevision));
-                co.setRevision(pair.sourceRevision);
-                co.setIgnoreExternals(ignoreExternals);
-                co.setDepth(SVNDepth.INFINITY);
-                co.setAllowUnversionedObstructions(false);
-                co.setSleepForTimestamp(false);
-                final ISVNEventHandler oldHandler = getWcContext().getEventHandler();
-                getWcContext().pushEventHandler(new ISVNEventHandler() {
-                    public void checkCancelled() throws SVNCancelException {
-                        if (oldHandler != null) {
-                            oldHandler.checkCancelled();
-                        }
-                    }
-                    public void handleEvent(SVNEvent event, double progress) throws SVNException {
-                        File path = event.getFile();
-                        if (path != null) {
-                            path = SVNWCUtils.skipAncestor(dstPath, path);
-                            if (path != null) {
-                                path = new File(pair.dst, path.getPath());
-                                event.setFile(path);
-                            } else if (dstPath.equals(event.getFile())) {
-                                event.setFile(pair.dst);
+            if (sameRepositories) {
+                File dstParent = SVNFileUtil.getParentFile(pair.dst);
+                final File dstPath = SVNFileUtil.createUniqueFile(dstParent, pair.dst.getName(), ".tmp", false);
+                try {
+                    SVNFileUtil.deleteFile(dstPath);
+                    SVNFileUtil.ensureDirectoryExists(dstPath);
+                    SvnCheckout co = getOperation().getOperationFactory().createCheckout();
+                    co.setSingleTarget(SvnTarget.fromFile(dstPath));
+                    co.setSource(SvnTarget.fromURL(pair.sourceOriginal, pair.sourcePegRevision));
+                    co.setRevision(pair.sourceRevision);
+                    co.setIgnoreExternals(ignoreExternals);
+                    co.setDepth(SVNDepth.INFINITY);
+                    co.setAllowUnversionedObstructions(false);
+                    co.setSleepForTimestamp(false);
+                    final ISVNEventHandler oldHandler = getWcContext().getEventHandler();
+                    getWcContext().pushEventHandler(new ISVNEventHandler() {
+                        public void checkCancelled() throws SVNCancelException {
+                            if (oldHandler != null) {
+                                oldHandler.checkCancelled();
                             }
                         }
-                        if (oldHandler != null) {
-                            oldHandler.handleEvent(event, progress);
+
+                        public void handleEvent(SVNEvent event, double progress) throws SVNException {
+                            File path = event.getFile();
+                            if (path != null) {
+                                path = SVNWCUtils.skipAncestor(dstPath, path);
+                                if (path != null) {
+                                    path = new File(pair.dst, path.getPath());
+                                    event.setFile(path);
+                                } else if (dstPath.equals(event.getFile())) {
+                                    event.setFile(pair.dst);
+                                }
+                            }
+                            if (oldHandler != null) {
+                                oldHandler.handleEvent(event, progress);
+                            }
                         }
+                    });
+                    try {
+                        rev = co.run();
+                    } finally {
+                        getWcContext().popEventHandler();
                     }
-                });
-                try {
-                    rev = co.run();
-                } finally {
-                    getWcContext().popEventHandler();
-                }
-    
-                if (sameRepositories) {
+
+                    eventHandler = getWcContext().getEventHandler();
+                    getWcContext().setEventHandler(null);
                     new SvnNgWcToWcCopy().copy(getWcContext(), dstPath, pair.dst, true);
+                    getWcContext().setEventHandler(eventHandler);
+
                     File dstLock = getWcContext().acquireWriteLock(dstPath, false, true);
                     try {
                         getWcContext().removeFromRevisionControl(dstPath, false, false);
                     } finally {
                         try {
                             getWcContext().releaseWriteLock(dstLock);
-                        } catch (SVNException e) {}
+                        } catch (SVNException e) {
+                        }
                     }
                     SVNFileUtil.rename(dstPath, pair.dst);
-                } else {
-                    SVNFileUtil.rename(dstPath, pair.dst);
-                    sleepForTimestamp();
-                    
-                    SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.UNSUPPORTED_FEATURE, "Source URL ''{0}'' is from foreign repository; " +
-                    		"leaving it as a disjoint WC", pair.source);
-                    SVNErrorManager.error(err, SVNLogType.WC);
+                } finally {
+                    SVNFileUtil.deleteAll(dstPath, true);
                 }
-            } finally {
-                SVNFileUtil.deleteAll(dstPath, true);
+            } else {
+                copyForeign(pair.source, pair.dst, pair.sourcePegRevision, pair.sourceRevision, SVNDepth.INFINITY, false, true);
+                sleepForTimestamp();
+                return rev;
             }
         } else {
             String relativePath = "";
@@ -423,14 +452,14 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
             }
             InputStream newContents = SVNFileUtil.openFileForReading(ufInfo.path);
             try {
-                addFileToWc(getWcContext(), 
-                        pair.dst, newContents, null, newProperties, null, 
-                        sameRepositories ? pair.source : null, 
+                addFileToWc(getWcContext(),
+                        pair.dst, newContents, null, newProperties, null,
+                        sameRepositories ? pair.source : null,
                         sameRepositories ? pair.revNum : -1);
             } finally {
                 SVNFileUtil.closeFile(newContents);
             }
-            
+
         }
         Map<String, SVNMergeRangeList> mergeInfo = calculateTargetMergeInfo(pair.source, pair.revNum, repository);
         repository.setLocation(oldLocation, false);
@@ -459,6 +488,98 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
         handleEvent(event);
         
         return rev;
+    }
+
+    private void copyForeign(SVNURL url, File dstAbsPath, SVNRevision pegRevision, SVNRevision revision, SVNDepth depth, boolean makeParents, boolean alreadyLocked) throws SVNException {
+        assert SVNFileUtil.isAbsolute(dstAbsPath);
+
+        Structure<SvnRepositoryAccess.RepositoryInfo> repositoryInfoStructure = getRepositoryAccess().createRepositoryFor(SvnTarget.fromURL(url), pegRevision, revision, null);
+        SVNRepository repository = repositoryInfoStructure.get(SvnRepositoryAccess.RepositoryInfo.repository);
+        long locRev = repositoryInfoStructure.lng(SvnRepositoryAccess.RepositoryInfo.revision);
+
+        SVNNodeKind kind = repository.checkPath("", locRev);
+        if (kind != SVNNodeKind.FILE && kind != SVNNodeKind.DIR) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ILLEGAL_TARGET, "''{0}'' is not a valid location inside a repository", url);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+
+        SVNNodeKind wcKind = getWcContext().readKind(dstAbsPath, true);
+        if (wcKind != SVNNodeKind.NONE) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_EXISTS, "''{0}'' is already under version control", dstAbsPath);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+
+        File dirAbsPath = SVNFileUtil.getParentFile(dstAbsPath);
+        wcKind = getWcContext().readKind(dirAbsPath, false);
+
+        if (wcKind == SVNNodeKind.NONE) {
+            if (makeParents) {
+                SvnScheduleForAddition scheduleForAddition = getOperation().getOperationFactory().createScheduleForAddition();
+                scheduleForAddition.setMkDir(true);
+                scheduleForAddition.setAddParents(true);
+                scheduleForAddition.setSingleTarget(SvnTarget.fromFile(dirAbsPath));
+                scheduleForAddition.run();
+            }
+            wcKind = getWcContext().readKind(dirAbsPath, false);
+        }
+
+        if (wcKind != SVNNodeKind.DIR) {
+            SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.ENTRY_NOT_FOUND, "Can't add ''{0}'', because no parent directory is found", dstAbsPath);
+            SVNErrorManager.error(errorMessage, SVNLogType.WC);
+        }
+        if (kind == SVNNodeKind.FILE) {
+            SVNProperties props = new SVNProperties();
+            SVNProperties regularProps = new SVNProperties();
+            OutputStream outputStream = SVNFileUtil.openFileForWriting(dstAbsPath);
+            try {
+                repository.getFile("", locRev, props, outputStream);
+            } finally {
+                SVNFileUtil.closeFile(outputStream);
+            }
+            SvnNgPropertiesManager.categorizeProperties(props, regularProps, null, null);
+            regularProps.remove(SVNProperty.MERGE_INFO);
+
+            if (!alreadyLocked) {
+                final File lockRoot = getWcContext().acquireWriteLock(dirAbsPath, false, true);
+                try {
+                    SvnNgAdd svnNgAdd = new SvnNgAdd();
+                    svnNgAdd.setWcContext(getWcContext());
+                    svnNgAdd.setRepositoryAccess(getRepositoryAccess());
+                    svnNgAdd.addFromDisk(dstAbsPath, regularProps, true);
+                }
+                finally {
+                    getWcContext().releaseWriteLock(lockRoot);
+                }
+            } else {
+                SvnNgAdd svnNgAdd = new SvnNgAdd();
+                svnNgAdd.setWcContext(getWcContext());
+                svnNgAdd.setRepositoryAccess(getRepositoryAccess());
+                svnNgAdd.addFromDisk(dstAbsPath, regularProps, true);
+            }
+        } else {
+            if (!alreadyLocked) {
+                final File lockRoot = getWcContext().acquireWriteLock(dirAbsPath, false, true);
+                try {
+                    copyForeignDir(repository, locRev, dstAbsPath, depth);
+                }
+                finally {
+                    getWcContext().releaseWriteLock(lockRoot);
+                }
+            } else {
+                copyForeignDir(repository, locRev, dstAbsPath, depth);
+            }
+        }
+    }
+
+    private void copyForeignDir(SVNRepository repository, final long locRev, File dstAbsPath, final SVNDepth depth) throws SVNException {
+        ISVNEditor editor = new SVNCopyForeignEditor(dstAbsPath, getWcContext());
+        editor = SVNCancellableEditor.newInstance(editor, getWcContext().getEventHandler(), SVNDebugLog.getDefaultLog());
+        repository.update(locRev, "", SVNDepth.INFINITY, false, new ISVNReporterBaton() {
+            public void report(ISVNReporter reporter) throws SVNException {
+                reporter.setPath("", null, locRev, depth, true);
+                reporter.finishReport();
+            }
+        }, editor);
     }
 
     private SVNURL getCommonCopyAncestor(Collection<SvnCopyPair> copyPairs) {
@@ -600,13 +721,13 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
         SVNSkel wi = context.wqBuildFileInstall(path, sourcePath, false, recordFileInfo);
         wi = context.wqMerge(wi, null);
         if (sourcePath != null) {
-            SVNSkel remove = context.wqBuildFileRemove(sourcePath);
+            SVNSkel remove = context.wqBuildFileRemove(path, sourcePath);
             wi = context.wqMerge(wi, remove);
         }
         
         context.getDb().opCopyFile(path, newBaseProps, changedRev, changedDate, changedAuthor,
                 originalReposPath, originalURL, originalUuid, copyFromRev, 
-                copyFromURL != null ? wbInfo.getSHA1Checksum() : null, null, null);
+                copyFromURL != null ? wbInfo.getSHA1Checksum() : null, false, null, null, null);
         
         context.getDb().opSetProps(path, newProps, null, false, wi);
         context.wqRun(dirPath);
@@ -651,5 +772,172 @@ public class SvnNgReposToWcCopy extends SvnNgOperationRunner<Void, SvnCopy> {
         SVNRevision sourcePegRevision;
         
         File dst;
+    }
+
+    private class SVNCopyForeignEditor implements ISVNEditor {
+
+        private SVNCopyForeignEditor(File anchorAbsPath, SVNWCContext context) {
+            this.anchorAbsPath = anchorAbsPath;
+            this.context = context;
+        }
+
+        private class DirectoryBaton {
+            DirectoryBaton parentBaton;
+            File localAbsPath;
+            boolean created;
+            SVNProperties properties;
+
+            public DirectoryBaton(DirectoryBaton directoryBaton) {
+                parentBaton = directoryBaton;
+            }
+        }
+
+        private class FileBaton {
+            DirectoryBaton parentBaton;
+            File localAbsPath;
+            SVNProperties properties;
+
+            boolean writing;
+            String checksum;
+
+            public FileBaton(DirectoryBaton directoryBaton) {
+                parentBaton = directoryBaton;
+            }
+        }
+
+
+        private final File anchorAbsPath;
+        private DirectoryBaton currentDirectory;
+        private FileBaton currentFile;
+        private final SVNWCContext context;
+        SVNDeltaProcessor svnDeltaProcessor = new SVNDeltaProcessor();
+
+        public void targetRevision(long revision) throws SVNException {
+        }
+
+        public void openRoot(long revision) throws SVNException {
+            currentDirectory = new DirectoryBaton(null);
+            currentDirectory.localAbsPath = anchorAbsPath;
+
+            SVNFileUtil.ensureDirectoryExists(anchorAbsPath);
+        }
+
+        public void deleteEntry(String path, long revision) throws SVNException {
+        }
+
+        public void absentDir(String path) throws SVNException {
+        }
+
+        public void absentFile(String path) throws SVNException {
+        }
+
+        public void addDir(String path, String copyFromPath, long copyFromRevision) throws SVNException {
+            currentDirectory = new DirectoryBaton(currentDirectory);
+            currentDirectory.localAbsPath = SVNFileUtil.createFilePath(anchorAbsPath, path);
+            if (!SVNPathUtil.isAncestor(SVNFileUtil.getFilePath(anchorAbsPath), SVNFileUtil.getFilePath(currentDirectory.localAbsPath))) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Path ''{0}'' is not in the working copy", path);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+            SVNFileUtil.ensureDirectoryExists(currentDirectory.localAbsPath);
+        }
+
+        public void openDir(String path, long revision) throws SVNException {
+        }
+
+        public void changeDirProperty(String name, SVNPropertyValue value) throws SVNException {
+            if (!SVNProperty.isRegularProperty(name) && SVNProperty.MERGE_INFO.equals(name)) {
+                return;
+            }
+            if (!currentDirectory.created) {
+                if (currentDirectory.properties == null) {
+                    currentDirectory.properties = new SVNProperties();
+                }
+                if (value != null) {
+                    currentDirectory.properties.put(name, value);
+                }
+            } else {
+                SvnNgPropertiesManager.setProperty(context, currentDirectory.localAbsPath, name, value, SVNDepth.EMPTY, false, null, null);
+            }
+        }
+
+        public void closeDir() throws SVNException {
+            ensureAdded(currentDirectory);
+        }
+
+        private void ensureAdded(DirectoryBaton currentDirectory) throws SVNException {
+            if (currentDirectory.created) {
+                return;
+            }
+            if (currentDirectory.parentBaton != null) {
+                ensureAdded(currentDirectory.parentBaton);
+            }
+            currentDirectory.created = true;
+
+            SvnNgAdd svnNgAdd = new SvnNgAdd();
+            svnNgAdd.setWcContext(context);
+            svnNgAdd.setOperation(getOperation().getOperationFactory().createScheduleForAddition());
+            svnNgAdd.addFromDisk(currentDirectory.localAbsPath, currentDirectory.properties, true);
+        }
+
+        public void addFile(String path, String copyFromPath, long copyFromRevision) throws SVNException {
+            currentFile = new FileBaton(currentDirectory);
+            currentFile.localAbsPath = SVNFileUtil.createFilePath(anchorAbsPath, path);
+            if (!SVNPathUtil.isAncestor(SVNFileUtil.getFilePath(anchorAbsPath), SVNFileUtil.getFilePath(currentFile.localAbsPath))) {
+                SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.WC_OBSTRUCTED_UPDATE, "Path ''{0}'' is not in the working copy", path);
+                SVNErrorManager.error(errorMessage, SVNLogType.WC);
+            }
+        }
+
+        public void openFile(String path, long revision) throws SVNException {
+        }
+
+        public void changeFileProperty(String path, String propertyName, SVNPropertyValue propertyValue) throws SVNException {
+            if (!SVNProperty.isRegularProperty(propertyName) && SVNProperty.MERGE_INFO.equals(propertyName)) {
+                return;
+            }
+            if (currentFile.properties == null) {
+                currentFile.properties = new SVNProperties();
+            }
+            if (propertyValue != null) {
+                currentFile.properties.put(propertyName, propertyValue);
+            }
+        }
+
+        public void closeFile(String path, String textChecksum) throws SVNException {
+            ensureAdded(currentFile.parentBaton);
+            if (textChecksum != null && currentFile.checksum != null) {
+                if (!textChecksum.equals(currentFile.checksum)) {
+                    SVNErrorMessage errorMessage = SVNErrorMessage.create(SVNErrorCode.CHECKSUM_MISMATCH, "Checksum mismatch for ''{0}''", currentFile.localAbsPath);
+                    SVNErrorManager.error(errorMessage, SVNLogType.WC);
+                }
+            }
+            SvnNgAdd svnNgAdd = new SvnNgAdd();
+            svnNgAdd.setWcContext(context);
+            svnNgAdd.setOperation(getOperation().getOperationFactory().createScheduleForAddition());
+            svnNgAdd.addFromDisk(currentFile.localAbsPath, currentFile.properties, true);
+        }
+
+        public SVNCommitInfo closeEdit() throws SVNException {
+            return null;
+        }
+
+        public void abortEdit() throws SVNException {
+        }
+
+        public void applyTextDelta(String path, String baseChecksum) throws SVNException {
+            assert !currentFile.writing;
+
+            currentFile.writing = true;
+
+            svnDeltaProcessor.applyTextDelta(SVNFileUtil.DUMMY_IN, SVNFileUtil.openFileForWriting(currentFile.localAbsPath), true);
+        }
+
+        public OutputStream textDeltaChunk(String path, SVNDiffWindow diffWindow) throws SVNException {
+            return svnDeltaProcessor.textDeltaChunk(diffWindow);
+        }
+
+        public void textDeltaEnd(String path) throws SVNException {
+            currentFile.checksum = svnDeltaProcessor.textDeltaEnd();
+        }
     }
 }

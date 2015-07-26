@@ -1,11 +1,39 @@
 package org.tmatesoft.svn.core.internal.wc17.db;
 
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnBlob;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnBoolean;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnChecksum;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnDate;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnDepth;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnInt64;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnKind;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnPath;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnPresence;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnRevNum;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getColumnText;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.getLockFromColumns;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.hasColumnProperties;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.isColumnNull;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.parseDepth;
+import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.reset;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.tmatesoft.sqljet.core.SqlJetException;
 import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
 import org.tmatesoft.sqljet.core.table.ISqlJetCursor;
 import org.tmatesoft.sqljet.core.table.ISqlJetTable;
-import org.tmatesoft.svn.core.*;
-import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb;
+import org.tmatesoft.svn.core.SVNDepth;
+import org.tmatesoft.svn.core.SVNErrorCode;
+import org.tmatesoft.svn.core.SVNErrorMessage;
+import org.tmatesoft.svn.core.SVNException;
+import org.tmatesoft.svn.core.SVNProperties;
+import org.tmatesoft.svn.core.SVNProperty;
+import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetDb.Mode;
 import org.tmatesoft.svn.core.internal.db.SVNSqlJetStatement;
 import org.tmatesoft.svn.core.internal.wc.SVNErrorManager;
@@ -20,24 +48,23 @@ import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb.DirParsedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.SVNWCDb.ReposInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.AdditionInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.DeletionInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.MovedFromInfo;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.MovedInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.RepositoryInfo;
-import org.tmatesoft.svn.core.internal.wc17.db.statement.*;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbCollectTargets;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema;
 import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.LOCK__Fields;
 import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbSchema.NODES__Fields;
+import org.tmatesoft.svn.core.internal.wc17.db.statement.SVNWCDbStatements;
 import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
 import org.tmatesoft.svn.core.wc2.SvnTarget;
 import org.tmatesoft.svn.util.SVNLogType;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.tmatesoft.svn.core.internal.wc17.db.SvnWcDbStatementUtil.*;
-
 public class SvnWcDbShared {
     
+    public static final byte[] EMPTY_PROPS_BLOB = {40, 41};
+
     public static void begingReadTransaction(SVNWCDbRoot root) throws SVNException {
         root.getSDb().beginTransaction(SqlJetTransactionMode.READ_ONLY);
     }
@@ -86,33 +113,39 @@ public class SvnWcDbShared {
         SVNErrorManager.error(err, SVNLogType.WC);
     }
     
-    protected static void collectTargets(SVNWCDbRoot root, File relpath, SVNDepth depth, Collection<String> changelists) throws SVNException {
-        SVNSqlJetDb tmpDb = root.getSDb().getTemporaryDb();
+    protected static class Target {
+    	public Target(long wcId, String relpath) {
+    		this.relPath = relpath;
+    		this.wcId = wcId;
+    	}
+    	
+    	public String relPath;
+    	public long wcId;
+    }
+    
+    protected static Collection<Target> collectTargets(SVNWCDbRoot root, File relpath, SVNDepth depth, Collection<String> changelists) throws SVNException {
         SVNSqlJetStatement stmt = null;
+        final Collection<Target> targets = new ArrayList<Target>();
         try {
-            stmt = new SVNWCDbCreateSchema(tmpDb, SVNWCDbCreateSchema.TARGETS_LIST, -1);
-            try {
-                stmt.done();
-            } finally {
-                stmt.reset();
-            }
-            stmt = new SVNWCDbInsertTarget(tmpDb, new SVNWCDbCollectTargets(root.getSDb(), root.getWcId(), relpath, depth, changelists));
-            try {
-                stmt.done();
-            } finally {
-                stmt.reset();
-            }
+        	stmt = new SVNWCDbCollectTargets(root.getSDb(), root.getWcId(), relpath, depth, changelists);
+        	while(stmt.next()) {
+        		final long wcId = getColumnInt64(stmt, NODES__Fields.wc_id);
+        		final String path = getColumnText(stmt, NODES__Fields.local_relpath);
+        		targets.add(new Target(wcId, path));
+        	}
             if (depth == SVNDepth.FILES || depth == SVNDepth.IMMEDIATES) {
-                stmt  = new SVNWCDbInsertTarget(tmpDb, new SVNWCDbCollectTargets(root.getSDb(), root.getWcId(), relpath, SVNDepth.EMPTY, changelists));
-                try {
-                    stmt.done();
-                } finally {
-                    stmt.reset();
-                }
+            	reset(stmt);
+                stmt  = new SVNWCDbCollectTargets(root.getSDb(), root.getWcId(), relpath, SVNDepth.EMPTY, changelists);
+            	while(stmt.next()) {
+            		final long wcId = getColumnInt64(stmt, NODES__Fields.wc_id);
+            		final String path = getColumnText(stmt, NODES__Fields.local_relpath);
+            		targets.add(new Target(wcId, path));
+            	}
             }
         } finally {
-            reset(stmt);
+        	reset(stmt);
         }
+        return targets;
     }
 
     public static Structure<AdditionInfo> scanAddition(SVNWCDb db, File localAbsPath) throws SVNException {
@@ -135,10 +168,36 @@ public class SvnWcDbShared {
         return additionInfo;
     }
     
+    public static Structure<MovedInfo> scanMoved(SVNWCDb db, File localAbsPath) throws SVNException {
+        final Structure<MovedInfo> result = Structure.obtain(MovedInfo.class);
+        final DirParsedInfo parsed = db.parseDir(localAbsPath, Mode.ReadOnly);
+        final SVNWCDbDir pdh = parsed.wcDbDir;
+        final File localRelpath = parsed.localRelPath;
+        final SVNWCDbRoot root = pdh.getWCRoot();
+        
+        final Structure<AdditionInfo> additionInfo = scanAddition(pdh.getWCRoot(), localRelpath, AdditionInfo.values());
+        if (additionInfo.get(AdditionInfo.status) != SVNWCDbStatus.MovedHere || additionInfo.get(AdditionInfo.movedFromRelPath) == null) {
+            final SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_PATH_UNEXPECTED_STATUS, "Path ''{0}'' was not moved here", localAbsPath);
+            SVNErrorManager.error(err, SVNLogType.WC);
+        }
+        result.set(MovedInfo.opRootAbsPath, additionInfo.get(AdditionInfo.opRootAbsPath));
+        result.set(MovedInfo.movedFromAbsPath, root.getAbsPath(additionInfo.<File>get(AdditionInfo.movedFromRelPath)));
+        result.set(MovedInfo.movedFromOpRootAbsPath, root.getAbsPath(additionInfo.<File>get(AdditionInfo.movedFromOpRootRelPath)));
+        
+        long movedFromOpDepth = additionInfo.lng(AdditionInfo.movedFromOpDepth);
+        File tmp = additionInfo.<File>get(AdditionInfo.movedFromOpRootRelPath);
+        while(SVNWCUtils.relpathDepth(tmp) > movedFromOpDepth) {
+            tmp = SVNFileUtil.getFileDir(tmp);
+        }
+        result.set(MovedInfo.movedFromDeleteAbsPath, root.getAbsPath(tmp));
+        return result;
+    }
+    
     protected static Structure<AdditionInfo> scanAddition(SVNWCDbRoot root, File localRelpath, AdditionInfo... fields) throws SVNException {
         Structure<AdditionInfo> info = Structure.obtain(AdditionInfo.class, fields);
         info.set(AdditionInfo.originalRevision, SVNWCDb.INVALID_REVNUM);
         info.set(AdditionInfo.originalReposId, SVNWCDb.INVALID_REPOS_ID);
+        info.set(AdditionInfo.movedFromOpDepth, 0);
         
         begingReadTransaction(root);
         File buildRelpath = SVNFileUtil.createFilePath("");
@@ -181,30 +240,46 @@ public class SvnWcDbShared {
                     || info.hasField(AdditionInfo.originalUuid)
                     || (info.hasField(AdditionInfo.originalRevision) && info.lng(AdditionInfo.originalRevision) == SVNWCDb.INVALID_REVNUM) 
                     || info.hasField(AdditionInfo.status)) {
-                    if (!localRelpath.equals(currentRelpath)) {
+                if (!localRelpath.equals(currentRelpath)) {
+                    reset(stmt);
+                    stmt.bindf("is", root.getWcId(), currentRelpath);
+                    if (!stmt.next()) {
                         reset(stmt);
-                        stmt.bindf("is", root.getWcId(), currentRelpath);
-                        if (!stmt.next()) {
-                            reset(stmt);
-                            nodeNotFound(root, currentRelpath);
-                        }
-
-                        if (info.hasField(AdditionInfo.originalRevision) 
-                                && info.lng(AdditionInfo.originalRevision) == SVNWCDb.INVALID_REVNUM)
-                            info.set(AdditionInfo.originalRevision, getColumnRevNum(stmt, NODES__Fields.revision));
+                        nodeNotFound(root, currentRelpath);
                     }
-                    info.set(AdditionInfo.originalReposRelPath, getColumnPath(stmt, NODES__Fields.repos_path));
 
-                    if (!isColumnNull(stmt, NODES__Fields.repos_id) 
-                            && (info.hasField(AdditionInfo.status) || info.hasField(AdditionInfo.originalReposId))) {
-                        info.set(AdditionInfo.originalReposId, getColumnInt64(stmt, NODES__Fields.repos_id));
-                        if (getColumnBoolean(stmt, NODES__Fields.moved_here)) {
-                            info.set(AdditionInfo.status, SVNWCDbStatus.MovedHere);
-                        } else {
-                            info.set(AdditionInfo.status, SVNWCDbStatus.Copied);
+                    if (info.hasField(AdditionInfo.originalRevision) 
+                            && info.lng(AdditionInfo.originalRevision) == SVNWCDb.INVALID_REVNUM)
+                        info.set(AdditionInfo.originalRevision, getColumnRevNum(stmt, NODES__Fields.revision));
+                }
+                info.set(AdditionInfo.originalReposRelPath, getColumnPath(stmt, NODES__Fields.repos_path));
+
+                if (!isColumnNull(stmt, NODES__Fields.repos_id) 
+                            && (
+                                info.hasField(AdditionInfo.status) || 
+                                info.hasField(AdditionInfo.originalReposId) ||
+                                info.hasField(AdditionInfo.movedFromRelPath) ||
+                                info.hasField(AdditionInfo.movedFromOpRootRelPath))) {
+                        
+                    info.set(AdditionInfo.originalReposId, getColumnInt64(stmt, NODES__Fields.repos_id));
+                    final boolean movedHere = getColumnBoolean(stmt, NODES__Fields.moved_here); 
+                    if (movedHere) {
+                        info.set(AdditionInfo.status, SVNWCDbStatus.MovedHere);
+                    } else {
+                        info.set(AdditionInfo.status, SVNWCDbStatus.Copied);
+                    }
+                    if (movedHere &&
+                            (info.hasField(AdditionInfo.movedFromRelPath) ||
+                            info.hasField(AdditionInfo.movedFromOpRootRelPath))) {
+                        final Structure<MovedFromInfo> movedFromInfo = getMovedFromInfo(root, currentRelpath, localRelpath);
+                        if (movedFromInfo.hasValue(MovedFromInfo.opDepth)) {
+                            info.set(AdditionInfo.movedFromOpDepth, movedFromInfo.lng(MovedFromInfo.opDepth));
                         }
+                        info.set(AdditionInfo.movedFromOpRootRelPath, movedFromInfo.get(MovedFromInfo.movedFromOpRootRelPath));
+                        info.set(AdditionInfo.movedFromRelPath, movedFromInfo.get(MovedFromInfo.movedFromRelPath));
                     }
                 }
+            }
 
             while (true) {
                 reset(stmt);
@@ -236,6 +311,30 @@ public class SvnWcDbShared {
         
         return info;
     }
+    
+    public static Structure<MovedFromInfo> getMovedFromInfo(SVNWCDbRoot root, File movedToOpRootRelPath, File localRelPath) throws SVNException {
+        final Structure<MovedFromInfo> result = Structure.obtain(MovedFromInfo.class);
+        SVNSqlJetStatement stmt = null;
+        try {
+            stmt = root.getSDb().getStatement(root.getFormat() == ISVNWCDb.WC_FORMAT_17 ? SVNWCDbStatements.SELECT_MOVED_FROM_RELPATH_17 : SVNWCDbStatements.SELECT_MOVED_FROM_RELPATH);
+            stmt.bindf("is", root.getWcId(), movedToOpRootRelPath);
+            if (!stmt.next()) {
+                return result;
+            }
+            result.set(MovedFromInfo.opDepth, getColumnInt64(stmt, NODES__Fields.op_depth));
+            final File deleteOpRootReplpath = getColumnPath(stmt, NODES__Fields.local_relpath);
+            result.set(MovedFromInfo.movedFromOpRootRelPath, deleteOpRootReplpath);
+            if (movedToOpRootRelPath.equals(localRelPath)) {
+                result.set(MovedFromInfo.movedFromRelPath, deleteOpRootReplpath);
+            } else {
+                final File childRelPath = SVNWCUtils.skipAncestor(movedToOpRootRelPath, localRelPath);
+                result.set(MovedFromInfo.movedFromRelPath, SVNFileUtil.createFilePath(deleteOpRootReplpath, childRelPath));
+            }
+        } finally {
+            reset(stmt);
+        }
+        return result;
+    }
 
     public static Structure<DeletionInfo> scanDeletion(SVNWCDb db, File localAbsPath) throws SVNException {
         DirParsedInfo parsed = db.parseDir(localAbsPath, Mode.ReadOnly);
@@ -244,89 +343,98 @@ public class SvnWcDbShared {
 
         return scanDeletion(pdh.getWCRoot(), localRelpath);
     }
-    
+
     protected static Structure<DeletionInfo> scanDeletion(SVNWCDbRoot root, File localRelpath) throws SVNException {
-        Structure<DeletionInfo> info = Structure.obtain(DeletionInfo.class);
-        
-        SVNWCDbStatus childPresence = SVNWCDbStatus.BaseDeleted;
-        boolean childHasBase = false;
-        boolean foundMovedTo = false;
-        long opDepth = 0, localOpDepth = 0;
-        File currentRelPath = localRelpath;
-        File childRelpath = null;
-        
-        begingReadTransaction(root);
-        SVNSqlJetStatement stmt = null;
-        try {
-            while (true) {
-                stmt = root.getSDb().getStatement(SVNWCDbStatements.SELECT_DELETION_INFO);
-                stmt.bindf("is", root.getWcId(), SVNFileUtil.getFilePath(currentRelPath));
-                if (!stmt.next()) {
-                    try {
-                        if (currentRelPath == localRelpath) {
-                            nodeNotFound(root, localRelpath);
-                        }
-                        if (childHasBase) {
-                            info.set(DeletionInfo.baseDelRelPath, childRelpath);
-                        }
-                        break;
-                    } finally {
-                        reset(stmt);
-                    }
-                }
-                
-                SVNSqlJetStatement baseStmt = null;
-                try {
-                    SVNWCDbStatus workPresence = getColumnPresence(stmt);
-                    if (currentRelPath.equals(localRelpath) && workPresence != SVNWCDbStatus.NotPresent && workPresence != SVNWCDbStatus.BaseDeleted) {
-                        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_PATH_UNEXPECTED_STATUS, "Expected node ''{0}'' to be deleted.", root.getAbsPath(localRelpath));
-                        SVNErrorManager.error(err, SVNLogType.WC);
-                    }
-                    assert (workPresence == SVNWCDbStatus.Normal || workPresence == SVNWCDbStatus.NotPresent || workPresence == SVNWCDbStatus.BaseDeleted || workPresence == SVNWCDbStatus.Incomplete);
-                    
-                    baseStmt = stmt.getJoinedStatement(SVNWCDbSelectDeletionInfo.NODES_BASE);
-                    boolean haveBase = false;
-                    haveBase = baseStmt != null && baseStmt.next() && !isColumnNull(baseStmt, SVNWCDbSchema.NODES__Fields.presence);
-                    if (haveBase) {
-                        SVNWCDbStatus basePresence = getColumnPresence(baseStmt);
-                        assert (basePresence == SVNWCDbStatus.Normal || basePresence == SVNWCDbStatus.NotPresent || basePresence == SVNWCDbStatus.Incomplete);
-                        if (basePresence == SVNWCDbStatus.Incomplete) {
-                            basePresence = SVNWCDbStatus.Normal;
-                        }
-                    }
-                    
-                    
-                    if (!foundMovedTo && !isColumnNull(stmt, SVNWCDbSchema.NODES__Fields.moved_to)) {
-                        foundMovedTo = true;
-                        info.set(DeletionInfo.baseDelRelPath, currentRelPath);
-                        info.set(DeletionInfo.movedToRelPath, getColumnPath(stmt, SVNWCDbSchema.NODES__Fields.moved_to));
-                    }
-                    
-                    opDepth = getColumnInt64(stmt, NODES__Fields.op_depth);
-                    if (currentRelPath.equals(localRelpath)) {
-                        localOpDepth = opDepth;
-                    }
-                    if (!info.hasValue(DeletionInfo.workDelRelPath) && 
-                            ((opDepth < localOpDepth && opDepth > 0) || childPresence == SVNWCDbStatus.NotPresent)) {
-                        info.set(DeletionInfo.workDelRelPath, childRelpath);
-                        info.set(DeletionInfo.workDelAbsPath, root.getAbsPath(childRelpath));
-                    }
-                    
-                    childRelpath = currentRelPath;
-                    childPresence = workPresence;
-                    childHasBase = haveBase;
-                    
-                    currentRelPath = SVNFileUtil.getFileDir(currentRelPath);                
-                } finally {
-                    reset(stmt);
-                    reset(baseStmt);
-                }
-            }
-        } finally {
-            commitTransaction(root);
-            reset(stmt);
-        }
-        return info;
+        Structure<DeletionInfo> deletionInfoStructure = Structure.obtain(DeletionInfo.class);
+        ISVNWCDb.WCDbDeletionInfo deletionInfo = root.getDb().scanDeletion(SVNFileUtil.createFilePath(root.getAbsPath(), localRelpath), ISVNWCDb.WCDbDeletionInfo.DeletionInfoField.values());
+        deletionInfoStructure.set(DeletionInfo.baseDelRelPath, SVNFileUtil.skipAncestor(root.getAbsPath(), deletionInfo.baseDelAbsPath));
+        deletionInfoStructure.set(DeletionInfo.movedToRelPath, SVNFileUtil.skipAncestor(root.getAbsPath(), deletionInfo.movedToAbsPath));
+        deletionInfoStructure.set(DeletionInfo.movedToOpRootRelPath, SVNFileUtil.skipAncestor(root.getAbsPath(), deletionInfo.movedToOpRootAbsPath));
+        deletionInfoStructure.set(DeletionInfo.workDelAbsPath, deletionInfo.workDelAbsPath);
+        deletionInfoStructure.set(DeletionInfo.workDelRelPath, SVNFileUtil.skipAncestor(root.getAbsPath(), deletionInfo.baseDelAbsPath));
+        return deletionInfoStructure;
+
+//        Structure<DeletionInfo> info = Structure.obtain(DeletionInfo.class);
+//
+//        SVNWCDbStatus childPresence = SVNWCDbStatus.BaseDeleted;
+//        boolean childHasBase = false;
+//        boolean foundMovedTo = false;
+//        long opDepth = 0, localOpDepth = 0;
+//        File currentRelPath = localRelpath;
+//        File childRelpath = null;
+//
+//        begingReadTransaction(root);
+//        SVNSqlJetStatement stmt = null;
+//        try {
+//            while (true) {
+//                stmt = root.getSDb().getStatement(SVNWCDbStatements.SELECT_DELETION_INFO);
+//                stmt.bindf("is", root.getWcId(), SVNFileUtil.getFilePath(currentRelPath));
+//                if (!stmt.next()) {
+//                    try {
+//                        if (currentRelPath == localRelpath) {
+//                            nodeNotFound(root, localRelpath);
+//                        }
+//                        if (childHasBase) {
+//                            info.set(DeletionInfo.baseDelRelPath, childRelpath);
+//                        }
+//                        break;
+//                    } finally {
+//                        reset(stmt);
+//                    }
+//                }
+//
+//                SVNSqlJetStatement baseStmt = null;
+//                try {
+//                    SVNWCDbStatus workPresence = getColumnPresence(stmt);
+//                    if (currentRelPath.equals(localRelpath) && workPresence != SVNWCDbStatus.NotPresent && workPresence != SVNWCDbStatus.BaseDeleted) {
+//                        SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_PATH_UNEXPECTED_STATUS, "Expected node ''{0}'' to be deleted.", root.getAbsPath(localRelpath));
+//                        SVNErrorManager.error(err, SVNLogType.WC);
+//                    }
+//                    assert (workPresence == SVNWCDbStatus.Normal || workPresence == SVNWCDbStatus.NotPresent || workPresence == SVNWCDbStatus.BaseDeleted || workPresence == SVNWCDbStatus.Incomplete);
+//
+//                    baseStmt = stmt.getJoinedStatement(SVN);
+//                    boolean haveBase = false;
+//                    haveBase = baseStmt != null && baseStmt.next() && !isColumnNull(baseStmt, SVNWCDbSchema.NODES__Fields.presence);
+//                    if (haveBase) {
+//                        SVNWCDbStatus basePresence = getColumnPresence(baseStmt);
+//                        assert (basePresence == SVNWCDbStatus.Normal || basePresence == SVNWCDbStatus.NotPresent || basePresence == SVNWCDbStatus.Incomplete);
+//                        if (basePresence == SVNWCDbStatus.Incomplete) {
+//                            basePresence = SVNWCDbStatus.Normal;
+//                        }
+//                    }
+//
+//
+//                    if (!foundMovedTo && !isColumnNull(stmt, SVNWCDbSchema.NODES__Fields.moved_to)) {
+//                        foundMovedTo = true;
+//                        info.set(DeletionInfo.baseDelRelPath, currentRelPath);
+//                        info.set(DeletionInfo.movedToRelPath, getColumnPath(stmt, SVNWCDbSchema.NODES__Fields.moved_to));
+//                    }
+//
+//                    opDepth = getColumnInt64(stmt, NODES__Fields.op_depth);
+//                    if (currentRelPath.equals(localRelpath)) {
+//                        localOpDepth = opDepth;
+//                    }
+//                    if (!info.hasValue(DeletionInfo.workDelRelPath) &&
+//                            ((opDepth < localOpDepth && opDepth > 0) || childPresence == SVNWCDbStatus.NotPresent)) {
+//                        info.set(DeletionInfo.workDelRelPath, childRelpath);
+//                        info.set(DeletionInfo.workDelAbsPath, root.getAbsPath(childRelpath));
+//                    }
+//
+//                    childRelpath = currentRelPath;
+//                    childPresence = workPresence;
+//                    childHasBase = haveBase;
+//
+//                    currentRelPath = SVNFileUtil.getFileDir(currentRelPath);
+//                } finally {
+//                    reset(stmt);
+//                    reset(baseStmt);
+//                }
+//            }
+//        } finally {
+//            commitTransaction(root);
+//            reset(stmt);
+//        }
+//        return info;
     }
 
     public static Structure<NodeInfo> getBaseInfo(SVNWCDbRoot wcroot, File localRelPath, NodeInfo... fields) throws SVNException {
@@ -341,9 +449,9 @@ public class SvnWcDbShared {
         return getDepthInfo(pdh.getWCRoot(), localRelpath, 0, fields);
     }
     
-    protected static Structure<NodeInfo> getDepthInfo(SVNWCDbRoot wcroot, File localRelPath, long opDepth, NodeInfo...fields) throws SVNException {
+    public static Structure<NodeInfo> getDepthInfo(SVNWCDbRoot wcroot, File localRelPath, long opDepth, NodeInfo...fields) throws SVNException {
         Structure<NodeInfo> info = Structure.obtain(NodeInfo.class, fields);
-        SVNSqlJetStatement stmt = wcroot.getSDb().getStatement(info.hasField(NodeInfo.lock) ? SVNWCDbStatements.SELECT_BASE_NODE_WITH_LOCK : SVNWCDbStatements.SELECT_BASE_NODE);
+        SVNSqlJetStatement stmt = wcroot.getSDb().getStatement(SVNWCDbStatements.SELECT_DEPTH_NODE);
         try {
             stmt.bindf("isi", wcroot.getWcId(), SVNFileUtil.getFilePath(localRelPath), opDepth);
             if (stmt.next()) {
@@ -363,11 +471,6 @@ public class SvnWcDbShared {
                 }
                 if (info.hasField(NodeInfo.reposRelPath)) {
                     info.set(NodeInfo.reposRelPath, getColumnPath(stmt, SVNWCDbSchema.NODES__Fields.repos_path));
-                }
-                if (info.hasField(NodeInfo.lock)) {
-                    final SVNSqlJetStatement lockStmt = stmt.getJoinedStatement(SVNWCDbSchema.LOCK);
-                    SVNWCDbLock lock = getLockFromColumns(lockStmt, LOCK__Fields.lock_token, LOCK__Fields.lock_owner, LOCK__Fields.lock_comment, LOCK__Fields.lock_date);
-                    info.set(NodeInfo.lock, lock);
                 }
                 
                 if (info.hasField(NodeInfo.reposRootUrl) || info.hasField(NodeInfo.reposUuid)) {
@@ -544,11 +647,15 @@ public class SvnWcDbShared {
                 }
                 if (info.hasField(NodeInfo.conflicted)) {
                     if (haveActual) {
-                        info.set(NodeInfo.conflicted, !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old) || /* old */
-                            !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new) || /* new */
-                            !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working) || /* working */
-                            !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject) || /* prop_reject */
-                            !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)); /* tree_conflict_data */
+                        if (wcRoot.getFormat() == ISVNWCDb.WC_FORMAT_17) {
+                            info.set(NodeInfo.conflicted, !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data) ||
+                                    !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject) ||
+                                    !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old) ||
+                                    !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new) ||
+                                    !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working));
+                        } else {
+                            info.set(NodeInfo.conflicted, !isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data));
+                        }
                     } else {
                         info.set(NodeInfo.conflicted, false);
                     }
@@ -592,7 +699,12 @@ public class SvnWcDbShared {
                     }
                 }
             } else if (haveActual) {
-                if (isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data)) {
+                if (isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_data) &&
+                        isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.tree_conflict_data) &&
+                        isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.prop_reject) &&
+                        isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_old) &&
+                        isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_new) &&
+                        isColumnNull(stmtActual, SVNWCDbSchema.ACTUAL_NODE__Fields.conflict_working)) {
                     SVNErrorMessage err = SVNErrorMessage.create(SVNErrorCode.WC_CORRUPT, "Corrupt data for ''{0}''", wcRoot.getAbsPath(localRelPath));
                     SVNErrorManager.error(err, SVNLogType.WC);
                 }

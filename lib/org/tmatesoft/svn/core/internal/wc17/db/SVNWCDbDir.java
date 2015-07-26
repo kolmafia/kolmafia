@@ -72,7 +72,10 @@ public class SVNWCDbDir {
     }
 
     public static boolean isUsable(SVNWCDbDir pdh) {
-        return pdh != null && pdh.getWCRoot() != null && pdh.getWCRoot().getFormat() == ISVNWCDb.WC_FORMAT_17;
+        return pdh != null 
+                && pdh.getWCRoot() != null 
+                && pdh.getWCRoot().getFormat() >= ISVNWCDb.WC_FORMAT_17
+                && pdh.getWCRoot().getFormat() <= ISVNWCDb.WC_FORMAT_18;
     }
 
     public File computeRelPath() {

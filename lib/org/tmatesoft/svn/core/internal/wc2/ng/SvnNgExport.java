@@ -9,6 +9,7 @@ import org.tmatesoft.svn.core.internal.wc17.SVNWCContext;
 import org.tmatesoft.svn.core.internal.wc17.SVNWCContext.PristineContentsInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
 import org.tmatesoft.svn.core.internal.wc17.db.Structure;
+import org.tmatesoft.svn.core.internal.wc17.db.StructureFields;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.ExternalNodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeInfo;
 import org.tmatesoft.svn.core.internal.wc17.db.StructureFields.NodeOriginInfo;
@@ -191,16 +192,17 @@ public class SvnNgExport extends SvnNgOperationRunner<Long, SvnExport> {
 
         Map<String, byte[]> keywordsMap = null;
         if (keywords != null) {
-            Structure<NodeInfo> nodeInfo = getWcContext().getDb().readInfo(from, NodeInfo.changedAuthor, NodeInfo.changedRev);
+            Structure<NodeInfo> nodeInfo = getWcContext().getDb().readInfo(from, NodeInfo.changedAuthor, NodeInfo.changedRev, NodeInfo.reposRootUrl);
             String rev = Long.toString(nodeInfo.lng(NodeInfo.changedRev));
             String author = nodeInfo.get(NodeInfo.changedAuthor);
+            SVNURL reposRootUrl = nodeInfo.get(NodeInfo.reposRootUrl);
             nodeInfo.release();
             if (modified) {
                 author = "(local)";
                 rev += "M";
             } 
             SVNURL nodeUrl = getWcContext().getNodeUrl(from);
-            keywordsMap = SVNTranslator.computeKeywords(keywords, nodeUrl.toString(), author, SVNDate.formatDate(committedDate), rev, getOperation().getOptions());
+            keywordsMap = SVNTranslator.computeKeywords(keywords, nodeUrl.toString(), reposRootUrl == null ? null : reposRootUrl.toString(), author, SVNDate.formatDate(committedDate), rev, getOperation().getOptions());
         }
 
         File tmpFile = SVNFileUtil.createUniqueFile(to.getParentFile(), "svnkit", ".tmp", false);
