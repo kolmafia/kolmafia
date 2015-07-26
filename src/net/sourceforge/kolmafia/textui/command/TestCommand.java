@@ -94,6 +94,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
+import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.RumpleManager;
@@ -656,6 +657,13 @@ public class TestCommand
 		if ( command.equals( "equipment" ) )
 		{
 			EquipmentRequest.parseEquipment( "inventory.php?which=2", TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
+		if ( command.equals( "events" ) )
+		{
+			EventManager.checkForNewEvents( TestCommand.contents );
 			TestCommand.contents = null;
 			return;
 		}

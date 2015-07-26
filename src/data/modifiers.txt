@@ -379,7 +379,7 @@ Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 # The Crown of Ed the Undying: Ed's servants will level up faster
 # The Crown of Ed the Undying: Allows you to read thoughts
 Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +25
-Item	The Emperor's new hat	Mysticality: [min(L,100)]
+Item	The Emperor's new hat	Mysticality: [L]
 Item	The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 Item	time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -649,7 +649,7 @@ Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPot
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
-Item	The Emperor's new pants	Moxie: [min(L,100)]
+Item	The Emperor's new pants	Moxie: [L]
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
 Item	The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, cap 18"
@@ -807,7 +807,7 @@ Item	sugar shirt	Experience: +3
 Item	supportive bra	Moxie: +3
 # surgical apron: Makes you look like a gross doctor
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
-Item	The Emperor's new shirt	Muscle: [min(L,100)]
+Item	The Emperor's new shirt	Muscle: [L]
 # Thinknerd T-Shirt	enchantment varies per player?
 Item	turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 Item	tuxedo shirt	Moxie: +7
@@ -3984,6 +3984,7 @@ Effect	Baconstoned	Mysticality Percent: +50, Spell Damage: +11
 # Bad Luck: Uh Oh...
 Effect	Badger Underfoot	Meat Drop: +20
 Effect	Bailando, Fernando	Item Drop: +10
+Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
@@ -4520,7 +4521,7 @@ Effect	Force of Mayo Be With You	Sleaze Damage: +10, Hot Resistance: +2, Cold Re
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
-Effect	Fortunate Resolve	Item Drop: +10, Meat Drop: +10, Spell Damage: +5, Initiative: +10
+Effect	Fortunate Resolve	Item Drop: +5, Meat Drop: +5, Spell Damage: +5, Initiative: +10
 Effect	Fortune of the Wheel	Item Drop: +100
 Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
@@ -6602,7 +6603,7 @@ Item	Zoodriver	Effect: "Rampage!", Effect Duration: 5
 
 # Spleen Toxins section of modifiers.txt
 
-Item	antique bottle of cough syrup	Effect: "Vitamin-Maxed", Effect Duration: 10
+Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
@@ -7008,6 +7009,7 @@ Item	Dweebisol&trade; inhaler	Effect: "Dweeble-Minded", Effect Duration: 50
 Item	eagle feather	Effect: "Eagle Eyes", Effect Duration: 20
 Item	Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Item	ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
+Item	ectoplasmic orbs	Effect: "Balls of Ectoplasm", Effect Duration: 10
 Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
 Item	Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10

@@ -47,7 +47,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -145,52 +148,120 @@ public class SwaggerShopRequest
 
 	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear) season" );
 
-	public static void parseResponse( final String location, final String responseText )
+	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/radio.gif' onclick='descitem(475026869)'></td><td valign=center><b><span onclick='descitem(475026869)'>Huggler Radio<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td><form style="padding:0;margin:0;"><input type="hidden" name="action" value="buy" /><input type="hidden" name="place" value="shop" /><input type="hidden" name="pwd" value="0c6efe5fe0c70235b340073785255041" /><input type="hidden" name="whichitem" value="5656" /><input type="submit" class="button" value="Buy (50 swagger)" /></form></td></tr>
+
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "<tr><td><img.*?onclick='descitem\\((.*?)\\)'.*?<b>(?:<[^>]*>)?([^<]*).*?</b>.*?name=\"whichitem\" value=\"(.*?)\".*?\\((.*?) swagger\\).*?</td></tr>", Pattern.DOTALL );
+
+	private static final AdventureResult BLACK_BARTS_BOOTY = ItemPool.get( ItemPool.BLACK_BARTS_BOOTY, 1 );
+	private static final AdventureResult HOLIDAY_FUN_BOOK = ItemPool.get( ItemPool.HOLIDAY_FUN_BOOK, 1 );
+	private static final AdventureResult ANTAGONISTIC_SNOWMAN_KIT = ItemPool.get( ItemPool.ANTAGONISTIC_SNOWMAN_KIT, 1 );
+	private static final AdventureResult MAP_TO_KOKOMO = ItemPool.get( ItemPool.MAP_TO_KOKOMO, 1 );
+	private static final AdventureResult ESSENCE_OF_BEAR = ItemPool.get( ItemPool.ESSENCE_OF_BEAR, 1 );
+	private static final AdventureResult ESSENCE_OF_ANNOYANCE = ItemPool.get( ItemPool.ESSENCE_OF_ANNOYANCE, 1 );
+
+	public static void parseResponse( final String urlString, final String responseText )
 	{
 		CoinmasterData data = SwaggerShopRequest.SWAGGER_SHOP;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action != null )
 		{
-			// Parse current swagger
-			CoinMasterRequest.parseBalance( data, responseText );
-
-			// Determine how much swagger has been found during a special season
-			Matcher seasonMatcher = SwaggerShopRequest.SEASON_PATTERN.matcher( responseText );
-			if ( seasonMatcher.find() )
-			{
-				int seasonSwagger = StringUtilities.parseInt( seasonMatcher.group( 1 ) );
-				String season = seasonMatcher.group( 2 );
-				if ( season.equals( "pirate" ) )
-				{
-					Preferences.setInteger( "pirateSwagger", seasonSwagger );
-				}
-				else if ( season.equals( "holiday" ) )
-				{
-					Preferences.setInteger( "holidaySwagger", seasonSwagger );
-				}
-				else if ( season.equals( "ice" ) )
-				{
-					Preferences.setInteger( "iceSwagger", seasonSwagger );
-				}
-				else if ( season.equals( "drunken" ) )
-				{
-					Preferences.setInteger( "drunkenSwagger", seasonSwagger );
-				}
-				else if ( season.equals( "bear" ) )
-				{
-					Preferences.setInteger( "bearSwagger", seasonSwagger );
-				}
-				Preferences.setBoolean( "blackBartsBootyAvailable", responseText.contains( "Black Bart's Booty" ) );
-				Preferences.setBoolean( "holidayHalsBookAvailable", responseText.contains( "Holiday Hal's Happy-Time Fun Book!" ) );
-				Preferences.setBoolean( "antagonisticSnowmanKitAvailable", responseText.contains( "Antagonistic Snowman Kit" ) );
-				Preferences.setBoolean( "mapToKokomoAvailable", responseText.contains( "Map to Kokomo" ) );
-				Preferences.setBoolean( "essenceOfBearAvailable", responseText.contains( "Essence of Bear" ) );
-			}
-
+			CoinMasterRequest.parseResponse( data, urlString, responseText );
 			return;
 		}
 
-		CoinMasterRequest.parseResponse( data, location, responseText );
+		// Learn new items by simply visiting the Swagger Shop
+		// Refresh the Coin Master inventory every time we visit.
+
+		LockableListModel<AdventureResult> items = SwaggerShopRequest.buyItems;
+		Map prices = SwaggerShopRequest.buyPrices;
+		items.clear();
+		prices.clear();
+
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			String descId = matcher.group(1);
+			String itemName = matcher.group(2);
+			int itemId = StringUtilities.parseInt( matcher.group(3) );
+			int price = StringUtilities.parseInt( matcher.group(4) );
+
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( itemName ) )
+			{
+				ItemDatabase.registerItem( itemId, itemName, descId );
+			}
+
+			// Add it to the Swagger Shop inventory
+			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
+			items.add( item );
+			prices.put( itemId, price );
+
+			switch ( itemId )
+			{
+			case ItemPool.BLACK_BARTS_BOOTY:
+				Preferences.setInteger( "blackBartsBootyCost", price );
+				break;
+			case ItemPool.HOLIDAY_FUN_BOOK:
+				Preferences.setInteger( "holidayHalsBookCost", price );
+				break;
+			case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+				Preferences.setInteger( "antagonisticSnowmanKitCost", price );
+				break;
+			case ItemPool.MAP_TO_KOKOMO:
+				Preferences.setInteger( "mapToKokomoCost", price );
+				break;
+			case ItemPool.ESSENCE_OF_BEAR:
+				Preferences.setInteger( "essenceOfBearCost", price );
+				break;
+			case ItemPool.ESSENCE_OF_ANNOYANCE:
+				Preferences.setInteger( "essenceOfAnnoyance", price );
+				break;
+			}
+		}
+
+		// Find availability/cost of conditional items
+		Preferences.setBoolean( "blackBartsBootyAvailable", items.contains( SwaggerShopRequest.BLACK_BARTS_BOOTY ) );
+		Preferences.setBoolean( "holidayHalsBookAvailable", items.contains( SwaggerShopRequest.HOLIDAY_FUN_BOOK ) );
+		Preferences.setBoolean( "antagonisticSnowmanKitAvailable", items.contains( SwaggerShopRequest.ANTAGONISTIC_SNOWMAN_KIT ) );
+		Preferences.setBoolean( "mapToKokomoAvailable", items.contains( SwaggerShopRequest.MAP_TO_KOKOMO ) );
+		Preferences.setBoolean( "essenceOfBearAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_BEAR ) );
+		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
+
+		// Register the purchase requests, now that we know what is available
+		data.registerPurchaseRequests();
+
+		// Parse current swagger
+		CoinMasterRequest.parseBalance( data, responseText );
+
+		// If this is a special season, determine how much swagger has been found
+		Matcher seasonMatcher = SwaggerShopRequest.SEASON_PATTERN.matcher( responseText );
+		if ( seasonMatcher.find() )
+		{
+			int seasonSwagger = StringUtilities.parseInt( seasonMatcher.group( 1 ) );
+			String season = seasonMatcher.group( 2 );
+			if ( season.equals( "pirate" ) )
+			{
+				Preferences.setInteger( "pirateSwagger", seasonSwagger );
+			}
+			else if ( season.equals( "holiday" ) )
+			{
+				Preferences.setInteger( "holidaySwagger", seasonSwagger );
+			}
+			else if ( season.equals( "ice" ) )
+			{
+				Preferences.setInteger( "iceSwagger", seasonSwagger );
+			}
+			else if ( season.equals( "drunken" ) )
+			{
+				Preferences.setInteger( "drunkenSwagger", seasonSwagger );
+			}
+			else if ( season.equals( "bear" ) )
+			{
+				Preferences.setInteger( "bearSwagger", seasonSwagger );
+			}
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )

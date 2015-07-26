@@ -58,10 +58,29 @@ public class EventManager
 	private static final LockableListModel<String> eventTexts = new LockableListModel<String>();
 	private static final LockableListModel<String> eventHyperTexts = new LockableListModel<String>();
 
-	public static final Pattern EVENT_PATTERN =
+	public static final Pattern EVENT_PATTERN1 =
 		Pattern.compile( "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
+	public static final Pattern EVENT_PATTERN2 =
+		Pattern.compile( "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>(.*?)</td></tr><tr><td height=4></td></tr></table>" );
+
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
+
+	public static Matcher eventMatcher( final String responseText )
+	{
+		Matcher matcher = EventManager.EVENT_PATTERN1.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return matcher;
+		}
+
+		matcher = EventManager.EVENT_PATTERN2.matcher( responseText );
+		if ( matcher.find() )
+		{
+			return matcher;
+		}
+		return null;
+	}
 
 	public static boolean hasEvents()
 	{
@@ -178,31 +197,35 @@ public class EventManager
 		// Capture the entire new events table in order to display the
 		// appropriate message.
 
-		Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( responseText );
-		if ( !eventMatcher.find() )
+		Matcher eventMatcher = EventManager.eventMatcher( responseText );
+		if ( eventMatcher == null )
 		{
 			return;
 		}
 
 		// Make an array of events
+		String allEvents = eventMatcher.group( 1 );
+		int para = allEvents.indexOf( "<p>" );
+		String normalEvents = para == -1 ? allEvents : allEvents.substring( 0, para );
+		String otherEvents = para == -1 ? "" : allEvents.substring( para );
 
-		String[] events = eventMatcher.group( 1 ).replaceAll( "<br>", "\n" ).split( "\n" );
+		normalEvents = normalEvents.replaceAll( "<br />", "<br>" );
+		normalEvents = normalEvents.replaceAll( "<br>", "\n" );
 
-		for ( int i = 0; i < events.length; ++i )
+		String[] events = normalEvents.split( "\n" );
+
+		for ( String event : events )
 		{
-			if ( events[ i ].indexOf( "/" ) == -1 )
+			if ( !event.contains( "/" ) )
 			{
-				events[ i ] = null;
+				continue;
 			}
-		}
 
-		for ( int i = 0; i < events.length; ++i )
-		{
-			EventManager.addNormalEvent( events[ i ] );
+			EventManager.addNormalEvent( event );
 
 			if ( ChatManager.isRunning() )
 			{
-				ChatManager.broadcastEvent( new EventMessage( events[i], "green" ) );
+				ChatManager.broadcastEvent( new EventMessage( event, "green" ) );
 			}
 		}
 	}

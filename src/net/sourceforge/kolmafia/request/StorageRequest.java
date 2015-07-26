@@ -116,9 +116,11 @@ public class StorageRequest
 				String name = ItemDatabase.getItemDataName( itemId );
 				if ( name == null )
 				{
-					// Fetch descid from api.php?what=item
-					// and register new item.
-					ItemDatabase.registerItem( itemId );
+					// api.php?what=item does not work for
+					// items in storage:
+					// "You don't own that item."
+					// ItemDatabase.registerItem( itemId );
+					continue;
 				}
 
 				AdventureResult item = ItemPool.get( itemId, count );

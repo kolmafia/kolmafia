@@ -683,7 +683,8 @@ public abstract class InventoryManager
 					return "pull";
 				}
 
-				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( itemCount ) ) );
+				int retrieveCount = Math.min( itemCount, missingCount );
+				RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, item.getInstance( retrieveCount ) ) );
 				missingCount = item.getCount() - item.getCount( KoLConstants.inventory );
 
 				if ( missingCount <= 0 )

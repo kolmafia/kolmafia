@@ -1710,6 +1710,11 @@ public class QuestManager
 			break;
 
 		case AdventurePool.ARID_DESERT:
+			// clingy monsters do not increment exploration
+			if ( !responseText.contains( "Desert exploration" ) )
+			{
+				break;
+			}
 			int explored = 1;
 			if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS, EquipmentManager.OFFHAND ) )
 			{

@@ -611,7 +611,7 @@ public class ConsumablesDatabase
 		ConsumablesDatabase.setConsumptionData( itemName, size, level, quality, "1-1", "0", "0", "0", "unknown adventure yield" );
 
 		// Print what goes in fullness.txt
-		String printMe = ConsumablesDatabase.consumableString( itemName, size, level, quality, "1-1", "0", "0", "0", "" );
+		String printMe = ConsumablesDatabase.consumableString( itemName, size, level, quality, "1-1", "0", "0", "0", "Unspaded" );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 	}
@@ -682,7 +682,7 @@ public class ConsumablesDatabase
 		return spleenhit == null ? 0 : spleenhit.intValue();
 	}
 
-	public static final String getQuality( final String name )
+	public static final String getRawQuality( final String name )
 	{
 		if ( name == null )
 		{
@@ -690,6 +690,12 @@ public class ConsumablesDatabase
 		}
 
 		return ConsumablesDatabase.qualityByName.get( name );
+	}
+
+	public static final String getQuality( final String name )
+	{
+		String quality = ConsumablesDatabase.getRawQuality( name );
+		return quality != null ? quality : "";
 	}
 
 	public static final String getNotes( final String name )

@@ -308,7 +308,7 @@ public class DebugDatabase
 
 		// Check level limits, equipment, modifiers
 
-		DebugDatabase.checkLevels( report );
+		DebugDatabase.checkConsumableItems( report );
 		DebugDatabase.checkEquipment( report );
 		DebugDatabase.checkItemModifiers( report );
 
@@ -384,7 +384,7 @@ public class DebugDatabase
 		}
 
 		int attrs = ItemDatabase.getAttributes( itemId );
-		int descAttrs = DebugDatabase.typeToSecondary( descType, descPrimary, false );
+		int descAttrs = DebugDatabase.typeToSecondary( descType, descPrimary, text, false );
 		if ( !DebugDatabase.attributesMatch( attrs, descAttrs ) )
 		{
 			String secondary = ItemDatabase.attrsToSecondaryUsage( attrs );
@@ -649,11 +649,15 @@ public class DebugDatabase
 		return KoLConstants.NO_CONSUME;
 	}
 
-	public static final int typeToSecondary( final String type, final int primary, final boolean multi )
+	public static final int typeToSecondary( final String type, final int primary, final String text, final boolean multi )
 	{
 		int attributes = 0;
-		boolean usable = type.startsWith( "usable" ) || type.contains( " usable" ) || type.contains( "spleen" ) ||
-							type.contains( "potion" ) || type.equals( "gift package" );
+		boolean usable =
+			type.startsWith( "usable" ) ||
+			type.contains( " usable" ) ||
+			type.contains( "spleen" ) ||
+			type.contains( "potion" ) ||
+			type.equals( "gift package" );
 		if ( type.contains( "combat" ) && type.contains( "reusable" ) )
 		{
 			attributes |= ItemDatabase.ATTR_COMBAT_REUSABLE;
@@ -678,7 +682,7 @@ public class DebugDatabase
 		{
 			attributes |= ItemDatabase.ATTR_CURSE;
 		}
-		if ( type.contains( "(Fancy" ) )
+		if ( text.contains( "(Fancy" ) )
 		{
 			attributes |= ItemDatabase.ATTR_FANCY;
 		}
@@ -733,7 +737,7 @@ public class DebugDatabase
 	private static final boolean attributesMatch( final int attrs, final int descAttrs )
 	{
 		// If the description says an item is "combat", "(reusable)" or "(on self or others)",
-		// our database must mark the item as ATTR_COMBAT, ATTR_COMBAT_REUSABLE, or ATTR_CURSE
+		// our database must mark the item as ATTR_COMBAT, ATTR_COMBAT_REUSABLE, ATTR_CURSE, 
 		//
 		// However, there are quite a few items that we mark with those secondary attributes that are
 		// not tagged that way by KoL itself. Assume those are correct.
@@ -753,19 +757,26 @@ public class DebugDatabase
 			return false;
 		}
 
+		// If the item is a (Fancy Cooking ingredient) or (Fancy Cocktailcrafting ingredient)
+		// we must mark the item with ATTR_FANCY
+		if ( ( descAttrs & ItemDatabase.ATTR_FANCY ) != ( attrs & ItemDatabase.ATTR_FANCY ) )
+		{
+			return false;
+		}
+
 		return true;
 	}
 
-	private static final void checkLevels( final PrintStream report )
+	private static final void checkConsumableItems( final PrintStream report )
 	{
 		RequestLogger.printLine( "Checking level requirements..." );
 
-		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
-		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
-		DebugDatabase.checkLevelMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ) );
+		DebugDatabase.checkConsumableMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_EAT ) );
+		DebugDatabase.checkConsumableMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_DRINK ) );
+		DebugDatabase.checkConsumableMap( report, DebugDatabase.findItemMap( KoLConstants.CONSUME_SPLEEN ) );
 	}
 
-	private static final void checkLevelMap( final PrintStream report, final ItemMap imap )
+	private static final void checkConsumableMap( final PrintStream report, final ItemMap imap )
 	{
 		Map<String, String> map = imap.getMap();
 		if ( map.size() == 0 )
@@ -790,11 +801,11 @@ public class DebugDatabase
 		{
 			String name = (String) keys[ i ];
 			String text = map.get( name );
-			DebugDatabase.checkLevelDatum( name, text, report );
+			DebugDatabase.checkConsumableDatum( name, type, text, report );
 		}
 	}
 
-	private static final void checkLevelDatum( final String name, final String text, final PrintStream report )
+	private static final void checkConsumableDatum( final String name, final int type, final String text, final PrintStream report )
 	{
 		Integer requirement = ConsumablesDatabase.getLevelReqByName( name );
 		int level = requirement == null ? 0 : requirement.intValue();
@@ -803,6 +814,28 @@ public class DebugDatabase
 		{
 			report.println( "# *** " + name + " requires level " + level + " but should be " + descLevel + "." );
 		}
+
+		int size =
+			( type == KoLConstants.CONSUME_EAT ) ?
+			ConsumablesDatabase.getFullness( name ) :
+			( type == KoLConstants.CONSUME_DRINK ) ?
+			ConsumablesDatabase.getInebriety( name ) :
+			( type == KoLConstants.CONSUME_SPLEEN ) ?
+			ConsumablesDatabase.getSpleenHit( name ) :
+			1;
+
+		int descSize = DebugDatabase.parseSize( text );
+		if ( size != descSize )
+		{
+			report.println( "# *** " + name + " is size " + size + " but should be " + descSize + "." );
+		}
+
+		String quality = ConsumablesDatabase.getQuality( name );
+		String descQuality = DebugDatabase.parseQuality( text );
+		if ( !quality.equals( descQuality ) )
+		{
+			report.println( "# *** " + name + " is quality " + quality + " but should be " + descQuality + "." );
+		}
 	}
 
 	private static final Pattern LEVEL_PATTERN = Pattern.compile( "Level required: <b>(.*?)</b>" );
@@ -810,6 +843,19 @@ public class DebugDatabase
 	public static final int parseLevel( final String text )
 	{
 		Matcher matcher = DebugDatabase.LEVEL_PATTERN.matcher( text );
+		if ( !matcher.find() )
+		{
+			return 1;
+		}
+
+		return StringUtilities.parseInt( matcher.group( 1 ) );
+	}
+
+	private static final Pattern SIZE_PATTERN = Pattern.compile( "(?:Size|Potency|Toxicity): <b>(.*?)</b>" );
+
+	public static final int parseSize( final String text )
+	{
+		Matcher matcher = DebugDatabase.SIZE_PATTERN.matcher( text );
 		if ( !matcher.find() )
 		{
 			return 1;

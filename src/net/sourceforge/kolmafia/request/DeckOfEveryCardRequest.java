@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -45,6 +46,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+
+import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -64,6 +67,7 @@ public class DeckOfEveryCardRequest
 	private static final TreeMap<Integer,EveryCard> idToCard = new TreeMap<Integer,EveryCard>();
 	private static final TreeMap<String,EveryCard> canonicalNameToCard = new TreeMap<String,EveryCard>();
 	private static final TreeMap<Phylum,EveryCard> phylumToCard = new TreeMap<Phylum,EveryCard>();
+	private static final HashSet<EveryCard> monsterCards = new HashSet<EveryCard>();
 	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<Stat,EveryCard>();
 	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<AdventureResult,EveryCard>();
 
@@ -130,9 +134,9 @@ public class DeckOfEveryCardRequest
 		registerCard( 48, "The Race Card", RACING );			// Gives 20 turns of Racing! (+200% init)
 
 		// The following lead to fights
-		registerCard( 46, "Green Card" );		// Fight a legal alien
-		registerCard( 45, "IV - The Emperor" );		// Fight The Emperor (drops The Emperor's dry cleaning)
-		registerCard( 44, "IX - The Hermit" );		// Fight The Hermit
+		registerMonsterCard( 46, "Green Card" );	// Fight a legal alien
+		registerMonsterCard( 45, "IV - The Emperor" );	// Fight The Emperor (drops The Emperor's dry cleaning)
+		registerMonsterCard( 44, "IX - The Hermit" );	// Fight The Hermit
 
 		registerCard( 15, "Werewolf", Phylum.BEAST );			// Fight a random Beast
 		registerCard( 11, "The Hive", Phylum.BUG );			// Fight a random Bug
@@ -166,9 +170,16 @@ public class DeckOfEveryCardRequest
 		return card;
 	}
 
-	private static void registerCard( int id, String name, Phylum phylum )
+	private static EveryCard registerMonsterCard( int id, String name )
 	{
 		EveryCard card = DeckOfEveryCardRequest.registerCard( id, name );
+		DeckOfEveryCardRequest.monsterCards.add( card );
+		return card;
+	}
+
+	private static void registerCard( int id, String name, Phylum phylum )
+	{
+		EveryCard card = DeckOfEveryCardRequest.registerMonsterCard( id, name );
 		DeckOfEveryCardRequest.phylumToCard.put( phylum, card );
 	}
 
@@ -197,6 +208,11 @@ public class DeckOfEveryCardRequest
 	public static final List<String> getMatchingNames( final String substring )
 	{
 		return StringUtilities.getMatchingNames( DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY, substring );
+	}
+
+	public static boolean isMonsterCard( EveryCard card )
+	{
+		return DeckOfEveryCardRequest.monsterCards.contains( card );
 	}
 
 	public static EveryCard phylumToCard( Phylum phylum )
@@ -245,6 +261,32 @@ public class DeckOfEveryCardRequest
 	}
 
 	@Override
+	public int getAdventuresUsed()
+	{
+		return DeckOfEveryCardRequest.getAdventuresUsed( this.card );
+	}
+
+	public static int getAdventuresUsed( final String urlString )
+	{
+		EveryCard card = DeckOfEveryCardRequest.extractCardFromURL( urlString );
+		return DeckOfEveryCardRequest.getAdventuresUsed( card );
+	}
+
+	public static int getAdventuresUsed( final EveryCard card )
+	{
+		// Only cards that lead to a fight take a turn.
+		
+		// If this is a random draw, it might lead to a fight
+		if ( card == null )
+		{
+			return 1;
+		}
+
+		// Otherwise, only monster cards lead to a fight.
+		return DeckOfEveryCardRequest.isMonsterCard( card ) ? 1 : 0;
+	}
+
+	@Override
 	public void run()
 	{
 		if ( GenericRequest.abortIfInFightOrChoice() )
@@ -279,6 +321,16 @@ public class DeckOfEveryCardRequest
 			useRequest.addFormField( "cheat", "1" );
 		}
 
+		// If we are drawing a card which is known to lead to a fight -
+		// or are drawing a random card - recover first.
+		if ( this.getAdventuresUsed() > 0 )
+		{
+			// set location to "None" for the benefit of
+			// betweenBattleScripts
+			Preferences.setString( "nextAdventure", "None" );
+			RecoveryManager.runBetweenBattleChecks( true );
+		}
+
 		useRequest.run();
 
 		String responseText = useRequest.responseText;
@@ -310,6 +362,13 @@ public class DeckOfEveryCardRequest
 		if ( responseText.contains( "You don't have enough energy left to cheat today" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough draws left to cheat today" );
+			return;
+		}
+
+		// You don't have time to draw a card right now.
+		if ( responseText.contains( "You don't have time to draw a card right now" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have any adventures left" );
 			return;
 		}
 
@@ -421,6 +480,12 @@ public class DeckOfEveryCardRequest
 			this.id = id;
 			this.name = name;
 			this.stringForm = name + " (" + id + ")";
+		}
+
+		@Override
+		public boolean equals( final Object o )
+		{
+			return ( o instanceof EveryCard ) && ( (EveryCard) o ).id == this.id;
 		}
 
 		@Override

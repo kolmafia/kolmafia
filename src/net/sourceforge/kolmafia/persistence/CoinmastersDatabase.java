@@ -277,19 +277,19 @@ public class CoinmastersDatabase
 			return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
 
 		case ItemPool.BLACK_BARTS_BOOTY:
-			return Preferences.getInteger( "pirateSwagger" ) >= 1000;
+			return Preferences.getInteger( "pirateSwagger" ) >= Preferences.getInteger( "blackBartsBootyCost" );
 
 		case ItemPool.HOLIDAY_FUN_BOOK:
-			return Preferences.getInteger( "holidaySwagger" ) >= 1000;
+			return Preferences.getInteger( "holidaySwagger" ) >= Preferences.getInteger( "holidayHalsBookCost" );
 
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-			return Preferences.getInteger( "iceSwagger" ) >= 1000;
+			return Preferences.getInteger( "iceSwagger" ) >= Preferences.getInteger( "antagonisticSnowmanKitCost" );
 
 		case ItemPool.MAP_TO_KOKOMO:
-			return Preferences.getInteger( "drunkenSwagger" ) >= 1234;
+			return Preferences.getInteger( "drunkenSwagger" ) >= Preferences.getInteger( "mapToKokomoCost" );
 
 		case ItemPool.ESSENCE_OF_BEAR:
-			return Preferences.getInteger( "bearSwagger" ) >= 1000;
+			return Preferences.getInteger( "bearSwagger" ) >= Preferences.getInteger( "essenceOfBearCost" );
 		}
 
 		return true;

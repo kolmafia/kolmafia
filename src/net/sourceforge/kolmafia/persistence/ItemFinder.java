@@ -546,15 +546,10 @@ public class ItemFinder
 			matchCount = firstMatch.getCount( sourceList );
 		}
 
-		// In the event that the person wanted all except a certain
-		// quantity, be sure to update the item count.
+		// If the person wants all except a certain quantity, update
+		// the item count.
 
-		if ( sourceList == KoLConstants.storage && InventoryManager.canUseStorage() )
-		{
-			itemCount = matchCount;
-			firstMatch = firstMatch.getInstance( itemCount );
-		}
-		else if ( itemCount <= 0 )
+		if ( itemCount <= 0 )
 		{
 			itemCount = matchCount + itemCount;
 			firstMatch = firstMatch.getInstance( itemCount );
