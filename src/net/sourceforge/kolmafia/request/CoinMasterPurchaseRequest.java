@@ -106,7 +106,7 @@ public class CoinMasterPurchaseRequest
 	{
 		int tokens = this.data.affordableTokens( this.cost );
 		int price = this.price;
-		return tokens / price;
+		return price == 0 ? 0 : tokens / price;
 	}
 
 	@Override
