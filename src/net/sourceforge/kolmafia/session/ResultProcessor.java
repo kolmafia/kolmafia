@@ -1471,36 +1471,6 @@ public class ResultProcessor
 			}
 			break;
 
-		case ItemPool.BJORNS_HAMMER:
-			ResultProcessor.processItem( ItemPool.SEAL_CLUB, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
-		case ItemPool.MACE_OF_THE_TORTOISE:
-			ResultProcessor.processItem( ItemPool.TURTLE_TOTEM, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
-		case ItemPool.PASTA_SPOON_OF_PERIL:
-			ResultProcessor.processItem( ItemPool.PASTA_SPOON, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
-		case ItemPool.FIVE_ALARM_SAUCEPAN:
-			ResultProcessor.processItem( ItemPool.SAUCEPAN, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
-		case ItemPool.DISCO_BANJO:
-			ResultProcessor.processItem( ItemPool.DISCO_BALL, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
-		case ItemPool.ROCK_N_ROLL_LEGEND:
-			ResultProcessor.processItem( ItemPool.STOLEN_ACCORDION, -1 );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			break;
-
 		case ItemPool.VOLCANO_MAP:
 			// A counter was made in case we lost the fight against the
 			// final assassin, but since this dropped we won the fight
