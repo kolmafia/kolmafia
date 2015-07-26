@@ -1089,7 +1089,8 @@ public class ResultProcessor
 
 			return false;
 		}
-		else if ( result.isStatusEffect() )
+
+		if ( result.isStatusEffect() )
 		{
 			switch ( result.getEffectId() )
 			{
@@ -1781,7 +1782,7 @@ public class ResultProcessor
 			Preferences.setInteger( "booPeakProgress", 0 );
 			Preferences.setInteger( "twinPeakProgress", 15 );
 			Preferences.setInteger( "oilPeakProgress", 0 );
-			return;
+			break;
 
 		case ItemPool.HEMP_STRING:
 		case ItemPool.BONERDAGON_VERTEBRA:

@@ -363,6 +363,7 @@ public class CompactSidePane
 			JMenu stat = new JMenu( "statgain" );
 			JMenu item = new JMenu( "itemdrop" );
 			JMenu meat = new JMenu( "meatdrop" );
+			JMenu drops = new JMenu( "drops" );
 			JMenu combat = new JMenu( "combat" );
 			JMenu other = new JMenu( "other" );
 			String custom[] = new String[9];
@@ -420,6 +421,11 @@ public class CompactSidePane
 					meat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+				if ( fam.hasDrop() )
+				{
+					drops.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
 				if ( fam.isCombatFamiliar() )
 				{
 					combat.add( new FamiliarMenuItem( fam ) );
@@ -453,6 +459,10 @@ public class CompactSidePane
 			if ( meat.getMenuComponentCount() > 0 )
 			{
 				famPopup.add( meat );
+			}
+			if ( drops.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( drops );
 			}
 			if ( combat.getMenuComponentCount() > 0 )
 			{
