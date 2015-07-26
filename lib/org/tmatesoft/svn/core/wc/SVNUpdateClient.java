@@ -764,6 +764,10 @@ public class SVNUpdateClient extends SVNBasicClient {
      * @since 1.2, SVN 1.5
      */
     public long doCheckout(SVNURL url, File dstPath, SVNRevision pegRevision, SVNRevision revision, SVNDepth depth, boolean allowUnversionedObstructions) throws SVNException {
+	return doCheckout(url, dstPath, pegRevision, revision, depth, allowUnversionedObstructions, -1);
+    }
+
+    public long doCheckout(SVNURL url, File dstPath, SVNRevision pegRevision, SVNRevision revision, SVNDepth depth, boolean allowUnversionedObstructions, int targetFormat) throws SVNException {
         SvnCheckout co = getOperationsFactory().createCheckout();
         co.setUpdateLocksOnDemand(isUpdateLocksOnDemand());
         co.setSource(SvnTarget.fromURL(url, pegRevision));
@@ -773,6 +777,7 @@ public class SVNUpdateClient extends SVNBasicClient {
         co.setAllowUnversionedObstructions(allowUnversionedObstructions);
         co.setIgnoreExternals(isIgnoreExternals());        
         co.setExternalsHandler(SvnCodec.externalsHandler(getExternalsHandler()));
+        co.setTargetWorkingCopyFormat(targetFormat);
         
         return co.run();
     }

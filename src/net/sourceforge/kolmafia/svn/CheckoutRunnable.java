@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
@@ -82,17 +83,13 @@ public class CheckoutRunnable
 			return;
 		}
 
-		SVNClientManager manager = SVNManager.getClientManager();
-		SVNUpdateClient updateClient = manager.getUpdateClient();
-		updateClient.setIgnoreExternals( false );
-
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		try
 		{
 			SVNManager.SVN_LOCK.lock();
-			updateClient.doCheckout( repo, WCDir, SVNRevision.HEAD, SVNRevision.HEAD, SVNDepth.INFINITY, false );
+			SVNManager.checkout( repo, SVNRevision.HEAD, WCDir, true );
 		}
 		catch ( SVNException e )
 		{
