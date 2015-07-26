@@ -8503,7 +8503,37 @@ public abstract class ChoiceManager
 			// Tomb of the Unknown Your Class Here
 			if ( text.contains( "Also in this room is a ghost" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.MEATSMITH, "step1" );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step1" );
+			}
+			else if ( text.contains( "Bjorn's Hammer" ) )
+			{
+				ResultProcessor.processItem( ItemPool.SEAL_CLUB, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			}
+			else if ( text.contains( "Mace of the Tortoise" ) )
+			{
+				ResultProcessor.processItem( ItemPool.TURTLE_TOTEM, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			}
+			else if ( text.contains( "Pasta Spoon of Peril" ) )
+			{
+				ResultProcessor.processItem( ItemPool.PASTA_SPOON, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			}
+			else if ( text.contains( "5-Alarm Saucepan" ) )
+			{
+				ResultProcessor.processItem( ItemPool.SAUCEPAN, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			}
+			else if ( text.contains( "Disco Banjo" ) )
+			{
+				ResultProcessor.processItem( ItemPool.DISCO_BALL, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
+			}
+			else if ( text.contains( "Rock and Roll Legend" ) )
+			{
+				ResultProcessor.processItem( ItemPool.STOLEN_ACCORDION, -1 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
 			}
 			break;
 

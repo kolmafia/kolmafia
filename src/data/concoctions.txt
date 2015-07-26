@@ -1390,7 +1390,9 @@ evil painful penne pasta	PASTA	evil noodles	jaba&ntilde;ero pepper
 evil ravioli della hippy	PASTA	evil noodles	wad of tofu
 evil spicy noodles	PASTA	evil noodles	spices
 
-
+fusilli marrownarrow	PASTA	dry noodles	succulent marrow
+ghuol guolash	PASTA	dry noodles	ghuol ears
+suggestive strozzapreti	PASTA	dry noodles	salacious crumbs
 
 # Items involved in the famous pastamancer-sauceror lunch creation
 # duo - end items and non-end items.
