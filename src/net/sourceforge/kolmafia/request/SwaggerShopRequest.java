@@ -92,7 +92,29 @@ public class SwaggerShopRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			public final int getBuyPrice( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.BLACK_BARTS_BOOTY:
+					return Preferences.getInteger( "blackBartsBootyCost" );
+				case ItemPool.HOLIDAY_FUN_BOOK:
+					return Preferences.getInteger( "holidayHalsBookCost" );
+				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+					return Preferences.getInteger( "antagonisticSnowmanKitCost" );
+				case ItemPool.MAP_TO_KOKOMO:
+					return Preferences.getInteger( "mapToKokomoCost" );
+				case ItemPool.ESSENCE_OF_BEAR:
+					return Preferences.getInteger( "essenceOfBearCost" );
+				case ItemPool.ESSENCE_OF_ANNOYANCE:
+					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
+				}
+
+				return super.getBuyPrice( itemId );
+			}
+		};
 
 	static
 	{
@@ -216,7 +238,7 @@ public class SwaggerShopRequest
 				Preferences.setInteger( "essenceOfBearCost", price );
 				break;
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
-				Preferences.setInteger( "essenceOfAnnoyance", price );
+				Preferences.setInteger( "essenceOfAnnoyanceCost", price );
 				break;
 			}
 		}
