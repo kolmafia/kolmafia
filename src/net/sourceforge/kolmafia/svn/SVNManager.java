@@ -85,9 +85,12 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNLogEntry;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNURL;
+
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
+import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
+
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
@@ -249,12 +252,14 @@ public class SVNManager
 		throws SVNException
 	{
 
-		if ( ourClientManager == null )
+		int wcFormat = Preferences.getInteger("svnFormat");
+
+		if ( wcFormat == 0 )
 		{
-			setupLibrary();
+			wcFormat = -1;
 		}
 
-		SVNUpdateClient updateClient = ourClientManager.getUpdateClient();
+		SVNUpdateClient updateClient = getClientManager().getUpdateClient();
 		/*
 		 * sets externals not to be ignored during the checkout
 		 */
@@ -262,7 +267,7 @@ public class SVNManager
 		/*
 		 * returns the number of the revision at which the working copy is
 		 */
-		return updateClient.doCheckout( url, destPath, revision, revision, SVNDepth.fromRecurse( isRecursive ), false );
+		return updateClient.doCheckout( url, destPath, revision, revision, SVNDepth.fromRecurse( isRecursive ), false, wcFormat );
 	}
 
 	/*
