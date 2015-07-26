@@ -12,6 +12,7 @@ acceptable bagel	3	1	good	1-1	0	0	0	Unspaded
 acceptable mayolus	1	3	good	3	1-10	1-10	1-10
 accidental mutton	3	24	EPIC	25-29	20-30	20-30	20-30
 actual tapas	1	11	awesome	4-5	30-50	0	0
+agnolotti arboli	5	9	awesome	1-1	0	0	0	Unspaded
 amok pudding	2	4	decent	3-5	5-10	5-10	5-10	20 Puddingface (+20 Sleaze Damage)
 ancient frozen dinner	4	1	decent	4-8	0	8-10	0
 ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
@@ -64,7 +65,7 @@ blue velvet cake	3	1	crappy	3	0	0	0
 blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
-boring spaghetti	3	3	good	6-9	6-8	6-8	6-8
+boring spaghetti	4	5	good	1-1	1-1	1-1	1-1	Unspaded
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
 boss brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 Bouillabaise Coucher Avec Moi	5	1		5-9	0	0	0
@@ -180,6 +181,7 @@ CRIMBCO Reconstituted Gruel	3	1		4-5	0	0	0	lose 10% boredom
 CRIMBCOIDS mints	1	1	good	3	10-20	10-20	10-20
 CRIMBCOLOAF	3	1	decent	4-5	15-20	15-20	15-20
 Crimbo pie	3	7	awesome	8-14	25-45	0	0
+crudles	5	9	awesome	1-1	0	0	0	Unspaded
 cup of lukewarm tea	1	1	crappy	1	0	0	0	20 Jittery (+1-3 MP Regen)
 cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
 cursed black pearl onion	1	1	crappy	1	0	0	0
@@ -241,7 +243,7 @@ Ent cider	2	1	decent	2-5	0	0	30-45	70-80 MP
 enticing mayolus	1	4	awesome	4-5	1-20	1-20	1-20
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
 Every Day is Like This Sundae	2	1	good	4-6	0	4-6	0	100 Smithsness Dinner (+10 Smithsness)
-evil boring spaghetti	3	3	good	6-11	1-15	1-15	1-15	10 A Little Bit Evil (+2 ML)
+evil boring spaghetti	4	3	good	1-1	1-1	1-1	1-1	Unspaded 10 A Little Bit Evil (+2 ML)
 evil delicious noodles	3	3	good	6-11	0	0	1-45	10 A Little Bit Evil (+2 ML)
 evil delicious spicy noodles	3	5	awesome	7-15	0	1-66	0	10 A Little Bit Evil (+2 ML)
 evil painful penne pasta	3	3	awesome	7-13	30-40	0	0	10 A Little Bit Evil (+2 ML)
@@ -256,7 +258,7 @@ fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 FDKOL hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP fights
-fettucini Inconnu	6	6	awesome	22-27	0	0	47-52
+fettucini Inconnu	5	8	awesome	1-17	0	0	1-1	Unspaded
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
@@ -265,6 +267,7 @@ fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
+flask of peppermint oil	0	1	crappy	1-1	0	0	0	Unspaded
 flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
@@ -280,13 +283,14 @@ frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
+fusilli marrownarrow	5	7	good	1-1	0	0	0	Unspaded
 Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
 ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures
 ghuol egg	1	1	crappy	1	-3	0	0
 ghuol egg quiche	3	2	decent	3-9	0	0	0
-ghuol guolash	3	1	decent	3-6	-11-19	-11-19	-11-19
+ghuol guolash	5	1	good	1-1	-1	-1	-1	Unspaded
 ghuol-ear kabob	2	1	decent	2-5	0	0	0
 giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
 giant grain of protein powder	1	7	good	2-3	30-40	0	0
@@ -415,6 +419,7 @@ licorice garrote	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
 limp broccoli	2	5	good	4-6	10-20	10-20	10-20	100 Nutrient-Rich (+4 exp, +50% HP, +25% MP)
+linguini immondizia bianco	5	8	awesome	1-1	0	0	0	Unspaded
 liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experience)
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
@@ -458,6 +463,7 @@ Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
+Mt. McLargeHuge oyster	3	1	decent	1-1	0	0	0	Unspaded
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
@@ -505,6 +511,7 @@ perfect breakfast	5	1	good	14-16	20-30	40-50	0
 perfect chef salad	5	1	good	14-16	10-20	40-50	10-20
 perfect sandwich	5	1	good	14-16	10-20	40-50	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
+pestopiary	2	1	good	1-1	0	0	0	Unspaded
 petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
 petit fortran	2	1	awesome	7-11	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-20 HP regen)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
@@ -518,6 +525,7 @@ pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	1-1	0	0	0	Unspaded
 plain pizza	2	1	decent	2-4	0	0	0
+plate of franks and beans	1	1	decent	1-1	0	0	0	Unspaded
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
@@ -560,6 +568,7 @@ root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
+salacious crumbs	3	1	decent	1-1	0	0	0	Unspaded
 salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
 salty beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
 salty eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
@@ -594,6 +603,7 @@ sea tangelo	1	2	decent	1-3	16	0	0
 seared dino steak	2	3	good	4-5	30-60	0	0
 shadowy cat claw	1	4	awesome	3-5	0	45-75	0	30 Feline Ferocity (+100% weapon dmg)
 sheet cake	15	6	decent	24-28	100-200	100-200	100-200
+shells a la shellfish	5	8	awesome	1-1	0	0	0	Unspaded
 shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
 shoots and leaves	4	1		6-10	7-8	7-8	7-8
 shrapnel jelly donut	1	4	awesome	3-5	40-60	0	0	30 Filled With Magic (+100% spell dmg)
@@ -613,6 +623,7 @@ slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
 slimy sweetbreads	1	6	good	2-3	0	0	0	20 Grimace (+25 ML, slime res)
 slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
+s'more	0	1	crappy	1-1	0	0	0	Unspaded
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
@@ -623,6 +634,7 @@ Soylent Red and Green	3	5		4-5	0	0	0
 space jam toast	1	1	decent	1-3	0	50	0
 spaghetti breakfast	1	1		6	0	0	0
 spaghetti con calaveras	6	6	awesome	23-27	47-52	0	0	10 Eso S&iacute; Que Es
+spaghetti with ghost balls	5	9	awesome	1-1	0	0	0	Unspaded
 Spaghetti with Moonballs	3	2	good	8-10	10-20	0	20-30
 spaghetti with Skullheads	6	6	awesome	22-27	47-52	0	0
 Spam Witch sammich	2	1	decent	2-3	0	4-6	0
@@ -633,6 +645,7 @@ spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
 sponge cake	2	3	decent	3-5	0	0	5-10
+spooky frank	0	1	crappy	1-1	0	0	0	Unspaded
 spooky hi mein	5	7	awesome	23-26	15-20	71-75	30-35	5 Spooky Breath (combat skill)
 spooky lo mein	4	6	awesome	14-22	0	0	33-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
@@ -643,6 +656,7 @@ square CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Square to be Hip (+10% mox)
 squirmy violent party snack	1	1	good	2-4	2-20	2-20	2-20	10 Broken Dancing (Legendary Beat quest)
 stale baguette	3	1	decent	3-6	0	0	0	lose 3 HP
 stalk of asparagus	1	1	crappy	1	0	1-3	0
+standard-issue cupcake	1	1	good	1-1	0	0	0	Unspaded
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
 stinky hi mein	5	7	awesome	23-26	30-35	71-75	15-20	5 Stinky Breath (combat skill)
@@ -658,7 +672,9 @@ stunt nuts	2	1	decent	2-3	8-10	0	0
 sublime deluxe hot dog	6	1	awesome	22-26	10-20	40-50	10-20
 sublime nachos	6	1	awesome	22-26	10-20	40-50	10-20
 sublime stew	6	1	awesome	22-26	0	40-50	20-30
+succulent marrow	3	1	decent	1-1	0	0	0	Unspaded
 suddenly salad!	5	1	EPIC	60-80	0	220-400	0
+suggestive strozzapreti	5	7	awesome	1-1	0	0	0	Unspaded
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	awesome	12-15	30-38	0	0
 super salad	3	11	awesome	13-16	30-50	32-40	31-40
@@ -740,7 +756,7 @@ Turnip and Rutabaga Pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise (8-10 HP
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
 twigs and gravel	3	1		3-6	5-6	5-6	5-6
 Ultimate Breakfast Sandwich	7	1	EPIC	32-38	30-40	50-60	0
-ultra-deluxe cupcake	1	1	awesome	4	4-6	4-6	4-6	
+ultra-deluxe cupcake	1	1	awesome	4	4-6	4-6	4-6
 ultrafondue	3	5	awesome	13-16	15-20	15-20	15-20	30 Fondid (+15 ML)
 unappetizing mayolus	1	1	crappy	1	0	0	0
 uncooked chorizo	1	1	crappy	1	-5	0	0

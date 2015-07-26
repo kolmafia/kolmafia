@@ -365,7 +365,7 @@ Johnringo, the Netdragger	880	merkindragger2.gif	Atk: 1250 Def: 1200 HP: 1500 In
 Junk	181	thejunk.gif	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
 junksprite bender	1437	js_bender.gif	Atk: 32 Def: 33 HP: 25 Init: -10000 P: humanoid	funky junk key (0)	bent scrap metal (0)	Worse Homes and Gardens (c0)
 junksprite melter	1438	js_melter.gif	Atk: 37 Def: 32 HP: 21 Init: -10000 P: humanoid	funky junk key (0)	molten scrap metal (0)	Worse Homes and Gardens (c0)
-junksprite sharpener	1436	js_sharpener.gif	Atk: 37 Def: 30 HP: 22 Init: -10000 P: humanoid	funky junk key (0)	jagged scrap metal (0)	Worse Homes and Gardens (c0)
+junksprite sharpener	1437	js_sharpener.gif	Atk: 37 Def: 30 HP: 22 Init: -10000 P: humanoid	funky junk key (0)	jagged scrap metal (0)	Worse Homes and Gardens (c0)
 Keese	119	keese.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	blue pixel (70)	blue pixel (70)	blue pixel (70)
 killer clownfish	767	clownfish.gif	Atk: 500 Def: 450 HP: 700 Init: 75 E: sleaze Meat: 300 P: horror	high-pressure seltzer bottle (n25)	midget clownfish (c1)	rough fish scale (n5)
 knight (Snake)	398	snaknight.gif	Atk: 115 Def: 103 HP: 130 Init: 50 P: dude	serpentine sword (5)	snake shield (5)
@@ -1886,7 +1886,7 @@ Trollipop	0	trollipop.gif	HP: 150 Def: 90 Atk: 90 Init: 50	grape troll doll (0)	
 The Colollilossus	0	colollilossus.gif	HP: 600 Def: 400 Atk: 400 Init: 0	all-year sucker (100)
 
 # Fudge Mountain (Crimbo 2011)
-fudge monkey	0	fudgemonkey2.gif	HP: 100 Def: 72 Atk: 80 Init: 50 P: beast	fudgecule (c100)
+fudge monkey	1117	fudgemonkey2.gif	HP: 100 Def: 72 Atk: 80 Init: 50 P: beast	fudgecule (c100)
 fudge oyster	1119	fudgeoyster.gif	HP: 130 Def: 90 Atk: 100 Init: 0 P: beast	fudgecule (c100)
 fudge poodle	1120	fudgepoodle.gif	Atk: 120 Def: 108 HP: 150 Init: 80 P: beast	fudgecule (c100)
 fudge vulture	1118	fudgevulture.gif	HP: 100 Def: 72 Atk: 80 Init: 50 P: beast	fudgecule (c100)
@@ -1953,7 +1953,12 @@ giant pumpkin-head	0	headpumpkin.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P:
 large-headed werewolf	0	headwolf.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Moonds (n100)	mimeplasm (c100)
 oddly-proportioned ghost	0	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
 
-# Obsolete Standard Monsters
+# Retired Standard Monsters
+Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation	star chart (100)
+mimic (obsolete)	177	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird
+possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct
+skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead
+
 7-Foot Dwarf	0	miner.gif	HP: 40 Def: 47 Atk: 53 Meat: 34-48 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct	felt (2)	stuffing (2)	googly eye (2)
 # Monster id 391, 399, 406, and 407 for animated nightstand

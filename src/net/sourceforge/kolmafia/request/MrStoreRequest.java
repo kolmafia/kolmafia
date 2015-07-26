@@ -158,10 +158,8 @@ public class MrStoreRequest
 
 		CoinmasterData data = MrStoreRequest.MR_STORE;
 		LockableListModel<AdventureResult> items = MrStoreRequest.buyItems;
-		Map prices = MrStoreRequest.buyPrices;
 		Map costs = MrStoreRequest.buyCosts;
 		items.clear();
-		prices.clear();
 		costs.clear();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );

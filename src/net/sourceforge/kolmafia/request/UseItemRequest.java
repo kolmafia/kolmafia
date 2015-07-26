@@ -221,7 +221,7 @@ public class UseItemRequest
 	{
 		int itemId = item.getItemId();
 
-		// We want to display the result of using certin items
+		// We want to display the result of using certain items
 		switch ( itemId )
 		{
 		case ItemPool.HOBO_CODE_BINDER:
@@ -1202,6 +1202,11 @@ public class UseItemRequest
 
 		switch ( itemId )
 		{
+		case ItemPool.DECK_OF_EVERY_CARD:
+			// Treat a "use" of the deck as "play random"
+			( new DeckOfEveryCardRequest() ).run();
+			return;
+		
 		case ItemPool.BRICKO_SWORD:
 		case ItemPool.BRICKO_HAT:
 		case ItemPool.BRICKO_PANTS:
@@ -6027,7 +6032,10 @@ public class UseItemRequest
 			urlString.contains( "action=chateau_painting" ) ?
 			ChateauRequest.CHATEAU_PAINTING :
 			UseItemRequest.extractItem( urlString );
-		return item == null ? 0 :  UseItemRequest.getAdventuresUsedByItem( item );
+		return item == null ? 0 :
+			item.getItemId() == ItemPool.DECK_OF_EVERY_CARD ?
+			DeckOfEveryCardRequest.getAdventuresUsed( urlString ) :
+			UseItemRequest.getAdventuresUsedByItem( item );
 	}
 
 	public static int getAdventuresUsedByItem( AdventureResult item )
@@ -6041,6 +6049,7 @@ public class UseItemRequest
 		case ItemPool.CHATEAU_WATERCOLOR:
 		case ItemPool.CRUDE_SCULPTURE:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+		case ItemPool.DECK_OF_EVERY_CARD:
 		case ItemPool.DOLPHIN_WHISTLE:
 		case ItemPool.ENVYFISH_EGG:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:

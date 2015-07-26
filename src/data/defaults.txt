@@ -178,6 +178,8 @@ global	_svnUpdated	false
 
 user	addingScrolls	-1
 user	afterAdventureScript
+user	antagonisticSnowmanKitAvailable	true
+user	antagonisticSnowmanKitCost	1000
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	autoAbortThreshold	-0.05
@@ -278,6 +280,7 @@ user	birdformSleaze	0
 user	birdformSpooky	0
 user	birdformStench	0
 user	blackBartsBootyAvailable	true
+user	blackBartsBootyCost	1000
 user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0
@@ -418,7 +421,10 @@ user	edPiece
 user	edPoints	0
 user	edUsedLash	false
 user	envyfishMonster
+user	essenceOfAnnoyanceAvailable	true
+user	essenceOfAnnoyanceCost	5000
 user	essenceOfBearAvailable	true
+user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
@@ -506,6 +512,7 @@ user	hiddenOfficeProgress	0
 user	hiddenTavernUnlock	-1
 user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
+user	holidayHalsBookCost	1000
 user	holidaySwagger	0
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
@@ -670,6 +677,7 @@ user	manaBurningTrigger	-0.05
 user	manorDrawerCount	0
 user	mapToAnemoneMinePurchased	false
 user	mapToKokomoAvailable	true
+user	mapToKokomoCost	1234
 user	mapToMadnessReefPurchased	false
 user	mapToTheDiveBarPurchased	false
 user	mapToTheMarinaraTrenchPurchased	false

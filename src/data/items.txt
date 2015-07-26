@@ -180,8 +180,8 @@
 155	El Sombrero De Lopez	156097981	hat2.gif	hat		0	Los Sombreros De Lopezes
 156	guild application	382799349	guildapp.gif	none		0
 157	Dramatic&trade; range	300557156	oven.gif	usable	t,d	250
-158	Gnollish pie tin	213655637	pietin.gif	none	t,d	15
-159	wad of dough	288162100	dough.gif	usable	t,d	25	wads of dough
+158	Gnollish pie tin	213655637	pietin.gif	none	t,d	10
+159	wad of dough	288162100	dough.gif	usable	t,d	15	wads of dough
 160	pie crust	601030110	piecrust.gif	none	t,d	35
 161	ghuol egg	806730322	egg.gif	food	t,d	16
 162	ghuol egg quiche	480094541	pie.gif	food	t,d	46
@@ -4967,7 +4967,7 @@
 4942	Knob cake	558071478	knobcake.gif	none	q	0
 4943	Knob cake pan	463960866	knobpan.gif	none	q	0
 4944	Knob batter	877296893	knobbatter.gif	none	q	0
-4945	Knob frosting	182960338	frostingcan.gif	none	q	0
+4945	Knob frosting	182960338	frostingcan.gif	none, fancy	q	0
 4946	unfrosted Knob cake	807457433	unfcake.gif	none	q	0
 4947	Cobb's Knob Menagerie key	903767129	srkey3.gif	none	q	0
 4948	GOTO	183062668	goto.gif	none, combat	t,d	50	GOTO statements
@@ -6507,7 +6507,7 @@
 6482	Staff of the Roaring Hearth	467328835	sk_staff.gif	weapon		0	Staves of the Roaring Hearth
 6483	electric Kool-Aid	363523121	sk_koolaid.gif	food	t	0	glasses of electric Kool-Aid
 6484	dread tarragon	575782784	dv_tarragon.gif	none	t	0	bottles of dread tarragon
-6485	bone flour	348000600	disease.gif	none	t	0	piles of bone flour
+6485	bone flour	348000600	disease.gif	none, fancy	t	0	piles of bone flour
 6486	dreadful roast	528470996	dv_meat.gif	none	t	0
 6487	stinking agaricus	759942326	dv_fungus.gif	none	t	0	slices of stinking agaricus
 6488	Dreadsylvanian shepherd's pie	751241762	pie.gif	food		0
@@ -7459,7 +7459,7 @@
 7434	Helvella Haemophilia mushroom	869074721	veinshroom.gif	multiple	t,d	150
 7435	Stemonitis Staticus mushroom	746083452	elecshroom.gif	multiple	t,d	150
 7436	Tremella Tarantella mushroom	983675607	danceshroom.gif	multiple	t,d	200
-7437	Pastaco shell	928119328	pastacoshell.gif	none	t,d	50
+7437	Pastaco shell	928119328	pastacoshell.gif	none, fancy	t,d	50
 7438	Beefy Crunch Pastaco	844110890	pastaco.gif	food	t,d	200
 7439	Brain Food Pastaco	152081837	pastaco.gif	food	t,d	200
 7440	Cool Brunch Pastaco	551540652	pastaco.gif	food	t,d	200
@@ -7513,7 +7513,7 @@
 7488	triple-distilled turpentine	792003365	flask.gif	none	q	0
 7489	detartrated anhydrous sublicalc	277522897	potion1.gif	none	q	0
 7490	triatomaceous dust	237194343	powderpile2.gif	none	q	0
-7491	bottle of Chateau de Vinegar	650950724	wine2.gif	none	q	0
+7491	bottle of Chateau de Vinegar	650950724	wine2.gif	none, fancy	q	0
 7492	blasting soda	508369326	powder.gif	none	q	0
 7493	unstable fulminate	321705934	wine2.gif	offhand	q	0
 7494	wine bomb	152995888	wine2.gif	none	q	0
@@ -8404,44 +8404,44 @@
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120
 8379	miniature power pill	721265969	minipowerpill.gif	multiple	t,d	120
 8380	yellow pixel potion	439717634	yellowpixpotion.gif	usable	t,d	120
-8381	Pack of Every Card	953300668	deckbox.gif	usable	t	0
-8382	Deck of Every Card	857757278	deckdeck.gif	reusable		0
+8381	Pack of Every Card	953300668	deckbox.gif	usable	t	0	Packs of Every Card
+8382	Deck of Every Card	857757278	deckdeck.gif	reusable		0	Decks of Every Card
 8383	popular part	172388652	clwidget.gif	none	q	0
 8384	bubblegum heart	423510142	cartoonheart.gif	multiple	t,d	30
 8385	cubic zirconia	718061077	baconstone.gif	none	t,d	100	hyper-cubic zirconiae
 8386	valuable coin	833463824	goldcoin.gif	none	t,d	500
-8387	white mana	599679299	goldcoin.gif	none	t	0
-8388	black mana	529332102	goldcoin.gif	none	t	0
-8389	red mana	245453940	goldcoin.gif	none	t	0
-8390	green mana	969926039	goldcoin.gif	none	t	0
-8391	blue mana	521152123	goldcoin.gif	none	t	0
+8387	white mana	599679299	goldcoin.gif	none	t	0	white mana
+8388	black mana	529332102	goldcoin.gif	none	t	0	black mana
+8389	red mana	245453940	goldcoin.gif	none	t	0	red mana
+8390	green mana	969926039	goldcoin.gif	none	t	0	green mana
+8391	blue mana	521152123	goldcoin.gif	none	t	0	blue mana
 8392	gift card	132840364	buscard.gif	usable	t	0
 8393	hermit factoid	484177815	guildapp.gif	usable	t,d	37
 8394	The Emperor's dry cleaning	287667995	plainbrown.gif	usable	t	0
 8395	The Emperor's new hat	354942962	blank.gif	hat		0
 8396	The Emperor's new shirt	112751980	blank.gif	shirt		0
-8397	The Emperor's new pants	531322996	blank.gif	pants		0
+8397	The Emperor's new pants	531322996	blank.gif	pants		0	pairs of The Emperor's new pants
 8398	lead pipe	930676579	leadpipe.gif	weapon	q	0
 8399	rope	699436180	lasso.gif	weapon	q	0
 8400	wrench	196043255	monkeywrench.gif	weapon	q	0
-8401	candlestick	707044196	nopic.gif	weapon	q	0
+8401	candlestick	707044196	candlestick.gif	weapon	q	0
 8402	knife	752666911	colaknife.gif	weapon	q	0
 8403	revolver	987227451	sixshooter.gif	weapon	q	0
 8404	1952 Mickey Mantle card	547494119	tradecard.gif	none	t,d	10000
-8405	talking spade	617691448	gardenspade.gif	reusable		0
-8406	savory dry noodles	294214139	pasta.gif	none	t,d	10
-8407
-8408
-8409
-8410
-8411
-8412
-8413
-8414
-8415
-8416
-8417
-8418
-8419
-8420
+8405	talking spade	617691448	gardenspade.gif	message		0
+8406	savory dry noodles	294214139	pasta.gif	none, fancy	t,d	10
+8407	pestopiary	840811554	soupbowl.gif	food	t,d	30
+8408	ectoplasmic orbs	920035013	ghostballs.gif	usable	t,d	30
+8409	crudles	956452991	bowl.gif	food	t,d	60	bowls of crudles
+8410	agnolotti arboli	507173047	ravshurikens.gif	food	t,d	60	plates of agnolotti arboli
+8411	spaghetti with ghost balls	584365029	bowl.gif	food	t,d	60	bowls of spaghetti with ghost balls
+8412	succulent marrow	231302137	gooball.gif	food	t,d	30	globs of succulent marrow
+8413	salacious crumbs	496642087	breadcrumbs.gif	food	t,d	30
+8414	fusilli marrownarrow	988648575	bowl.gif	food	t,d	60	bowls of fusilli marrownarrow
+8415	suggestive strozzapreti	701254913	bowl.gif	food	t,d	60	bowls of suggestive strozzapreti
+8416	Mountain Stream gastrique	405808895	gravy.gif	none	t,d	40	tureens of Mountain Stream gastrique
+8417	Mt. McLargeHuge oyster	729360537	oyster.gif	food	t,d	30
+8418	oyster sauce	255837153	gravy.gif	none	t,d	40	tureens of oyster sauce
+8419	linguini immondizia bianco	357964482	bowl.gif	food	t,d	65	bowls of linguini immondizia bianco
+8420	shells a la shellfish	452359473	bowl.gif	food	t,d	65	bowls of shells a la shellfish
 8421	Jick's autograph	972003195	whitecard.gif	none	t	0

@@ -654,14 +654,13 @@ public class RequestEditorKit
 			}
 		}
 
-		Matcher eventMatcher = EventManager.EVENT_PATTERN.matcher( buffer.toString() );
-		boolean showingEvents = eventMatcher.find();
+		Matcher eventMatcher = EventManager.eventMatcher( buffer.toString() );
 
-		if ( EventManager.hasEvents() && ( showingEvents || location.contains( "main.php" ) ) )
+		if ( EventManager.hasEvents() && ( eventMatcher != null || location.contains( "main.php" ) ) )
 		{
 			int eventTableInsertIndex = 0;
 
-			if ( showingEvents )
+			if ( eventMatcher != null )
 			{
 				eventTableInsertIndex = eventMatcher.start();
 

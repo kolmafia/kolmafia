@@ -537,6 +537,7 @@ Conditional	Holiday Hal's Happy-Time Fun Book!
 Conditional	Antagonistic Snowman Kit
 Conditional	Map to Kokomo
 Conditional	Essence of Bear
+Conditional	Essence of Annoyance
 
 # Things you can buy with topiary nugglets
 
