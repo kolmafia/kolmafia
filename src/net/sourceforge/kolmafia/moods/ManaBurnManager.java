@@ -271,10 +271,10 @@ public class ManaBurnManager
 		// Simulate casting all of the extendable skills in a balanced
 		// manner, to determine the final count of the chosen skill -
 		// rather than making multiple server requests.
-		Iterator i = burns.iterator();
+		Iterator<ManaBurn> i = burns.iterator();
 		while ( i.hasNext() )
 		{
-			ManaBurn b = (ManaBurn) i.next();
+			ManaBurn b = i.next();
 			
 			if ( !b.isCastable( allowedMP ) )
 			{
