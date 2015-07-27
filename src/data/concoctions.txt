@@ -1393,6 +1393,9 @@ evil spicy noodles	PASTA	evil noodles	spices
 fusilli marrownarrow	PASTA	dry noodles	succulent marrow
 ghuol guolash	PASTA	dry noodles	ghuol ears
 suggestive strozzapreti	PASTA	dry noodles	salacious crumbs
+spaghetti with ghost balls	PASTA	dry noodles	ectoplasmic orbs
+agnolotti arboli	PASTA	dry noodles	pestopiary
+crudles	PASTA	dry noodles	bubblin' crude
 
 # Items involved in the famous pastamancer-sauceror lunch creation
 # duo - end items and non-end items.
@@ -1412,6 +1415,13 @@ spaghetti with Skullheads	PASTA	sauce of the ages	dry noodles
 
 cheesy eagle sauce	SAUCE	scrumptious reagent	eagle's milk
 fleetwood mac 'n' cheese	PASTA	cheesy eagle sauce	fleetwood macaroni
+
+Mountain Stream gastrique	SAUCE	scrumptious reagent	Mountain Stream soda
+linguini immondizia bianco	PASTA	Mountain Stream gastrique	dry noodles
+
+oyster sauce	SAUCE	scrumptious reagent	Mt. McLargeHuge oyster
+shells a la shellfish	PASTA	oyster sauce	dry noodles
+
 
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.

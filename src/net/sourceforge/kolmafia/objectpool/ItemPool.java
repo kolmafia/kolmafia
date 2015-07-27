@@ -2070,6 +2070,7 @@ public class ItemPool
 	public static final int TOMMY_AMMO = 7191;
 	public static final int BUDDY_BJORN = 7200;
 	public static final int LYNYRD_SNARE = 7204;
+	public static final int FLEETWOOD_MAC_N_CHEESE = 7215;
 	public static final int FLAMIN_WHATSHISNAME = 7222;
 	public static final int RED_BUTTON = 7243;
 	public static final int GLARK_CABLE = 7246;
@@ -2392,6 +2393,8 @@ public class ItemPool
 	public static final int GREEN_MANA = 8390;
 	public static final int BLUE_MANA = 8391;
 	public static final int GIFT_CARD = 8392;
+	public static final int LINGUINI_IMMONDIZIA_BIANCO = 8419;
+	public static final int SHELLS_A_LA_SHELLFISH = 8420;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

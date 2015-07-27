@@ -821,6 +821,7 @@ public class UseSkillRequest
 		int rainCost = SkillDatabase.getRainCost( skillId );
 		int lightningCost = SkillDatabase.getLightningCost( skillId );
 		int numCosts = 0;
+		int itemCost = 0;
 		StringBuilder costString = new StringBuilder();
 		costString.append( this.skillName );
 		costString.append( " (" );
@@ -848,6 +849,56 @@ public class UseSkillRequest
 			}
 			costString.append( Preferences.getInteger( "summonAnnoyanceCost" ) );
 			costString.append( " swagger" );
+			numCosts++;
+		}
+		if ( this.skillId == SkillPool.HEALING_SALVE )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( "1 white mana" );
+			itemCost++;
+			numCosts++;
+		}
+		else if ( this.skillId == SkillPool.DARK_RITUAL )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( "1 black mana" );
+			itemCost++;
+			numCosts++;
+		}
+		else if ( this.skillId == SkillPool.LIGHTNING_BOLT_CARD )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( "1 red mana" );
+			itemCost++;
+			numCosts++;
+		}
+		else if ( this.skillId == SkillPool.GIANT_GROWTH )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( "1 green mana" );
+			itemCost++;
+			numCosts++;
+		}
+		else if ( this.skillId == SkillPool.ANCESTRAL_RECALL )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( "1 blue mana" );
+			itemCost++;
 			numCosts++;
 		}
 		if ( thunderCost > 0 )
@@ -882,7 +933,7 @@ public class UseSkillRequest
 		}
 		if ( mpCost > 0 || 
 			( advCost == 0 && soulCost == 0 && this.skillId != SkillPool.SUMMON_ANNOYANCE &&
-			thunderCost == 0 && rainCost == 0 && lightningCost == 0 ) )
+			thunderCost == 0 && rainCost == 0 && lightningCost == 0 && itemCost == 0 ) )
 		{
 			if ( numCosts > 0 )
 			{
