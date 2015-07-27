@@ -1737,7 +1737,7 @@ Cookie-baking Thing from Beyond Time	0	crimonster2.gif		evil googly eye (10)	spo
 Gift-wrapping Vampire	0	crimonster5.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 skeletal reindeer	0	crimonster6.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Stocking-stuffing Zombie	0	crimboelf.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Toy-making creature from the Gray Lagoon	0	crimonster1.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+toy-making creature from the Gray Lagoon	0	crimonster1.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 
 # The Crimborg Collective Factory (Crimbo 2006)
 <s>Killer</s> Festive Arc-Welding Elfbot	0	borgelf1.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
