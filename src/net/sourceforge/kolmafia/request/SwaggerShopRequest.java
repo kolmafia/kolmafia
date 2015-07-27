@@ -127,6 +127,11 @@ public class SwaggerShopRequest
 		super( SwaggerShopRequest.SWAGGER_SHOP );
 	}
 
+	public SwaggerShopRequest( final boolean buying, final AdventureResult [] attachments )
+	{
+		super( SwaggerShopRequest.SWAGGER_SHOP, buying, attachments );
+	}
+
 	public SwaggerShopRequest( final boolean buying, final AdventureResult attachment )
 	{
 		super( SwaggerShopRequest.SWAGGER_SHOP, buying, attachment );
