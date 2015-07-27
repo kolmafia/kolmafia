@@ -364,7 +364,17 @@ public class CompactSidePane
 			JMenu item = new JMenu( "itemdrop" );
 			JMenu meat = new JMenu( "meatdrop" );
 			JMenu drops = new JMenu( "drops" );
-			JMenu combat = new JMenu( "combat" );
+
+			// Combat submenus
+			JMenu combat0 = new JMenu( "physical" );
+			JMenu combat1 = new JMenu( "elemental" );
+			JMenu block = new JMenu( "block" );
+			JMenu delevel = new JMenu( "delevel" );
+			JMenu hp0 = new JMenu( "HP during combat" );
+			JMenu hp1 = new JMenu( "HP after combat" );
+			JMenu mp0 = new JMenu( "MP during combat" );
+			JMenu mp1 = new JMenu( "MP after combat" );
+
 			JMenu other = new JMenu( "other" );
 			String custom[] = new String[9];
 			JMenu customMenu[] = new JMenu[9];
@@ -404,6 +414,8 @@ public class CompactSidePane
 				int id = fam.getId();
 				Modifiers mods = Modifiers.getModifiers( "Familiar", fam.getRace() );
 				boolean added = false;
+
+				// Stat Gain
 				if ( FamiliarDatabase.isVolleyType( id ) ||
 				     FamiliarDatabase.isSombreroType( id ) ||
 				     (mods != null && mods.get( Modifiers.VOLLEYBALL_WEIGHT ) != 0.0) )
@@ -411,24 +423,67 @@ public class CompactSidePane
 					stat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+
+				// Item Drop
 				if ( FamiliarDatabase.isFairyType( id ) )
 				{
 					item.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+
+				// Meat Drop
 				if ( FamiliarDatabase.isMeatDropType( id ) )
 				{
 					meat.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+
+				// Special drops
 				if ( fam.hasDrop() )
 				{
 					drops.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				if ( fam.isCombatFamiliar() )
+
+				// Combat submenus
+				if ( FamiliarDatabase.isCombat0Type( id ) )
 				{
-					combat.add( new FamiliarMenuItem( fam ) );
+					combat0.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isCombat1Type( id ) )
+				{
+					combat1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isBlockType( id ) )
+				{
+					block.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isDelevelType( id ) )
+				{
+					delevel.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isHp0Type( id ) )
+				{
+					hp0.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isHp1Type( id ) )
+				{
+					hp1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isMp0Type( id ) )
+				{
+					mp0.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isMp1Type( id ) )
+				{
+					mp1.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
 
@@ -460,12 +515,56 @@ public class CompactSidePane
 			{
 				famPopup.add( meat );
 			}
+
 			if ( drops.getMenuComponentCount() > 0 )
 			{
 				famPopup.add( drops );
 			}
-			if ( combat.getMenuComponentCount() > 0 )
+
+			if ( combat0.getMenuComponentCount() > 0 ||
+			     combat1.getMenuComponentCount() > 0 ||
+			     block.getMenuComponentCount() > 0 ||
+			     delevel.getMenuComponentCount() > 0 ||
+			     hp0.getMenuComponentCount() > 0 ||
+			     hp1.getMenuComponentCount() > 0 ||
+			     mp0.getMenuComponentCount() > 0 ||
+			     mp1.getMenuComponentCount() > 0 )
 			{
+				JMenu combat = new JMenu( "combat" );
+
+				if ( combat0.getMenuComponentCount() > 0 )
+				{
+					combat.add( combat0 );
+				}
+				if ( combat1.getMenuComponentCount() > 0 )
+				{
+					combat.add( combat1 );
+				}
+				if ( block.getMenuComponentCount() > 0 )
+				{
+					combat.add( block );
+				}
+				if ( delevel.getMenuComponentCount() > 0 )
+				{
+					combat.add( delevel );
+				}
+				if ( hp0.getMenuComponentCount() > 0 )
+				{
+					combat.add( hp0 );
+				}
+				if ( hp1.getMenuComponentCount() > 0 )
+				{
+					combat.add( hp1 );
+				}
+				if ( mp0.getMenuComponentCount() > 0 )
+				{
+					combat.add( mp0 );
+				}
+				if ( mp1.getMenuComponentCount() > 0 )
+				{
+					combat.add( mp1 );
+				}
+
 				famPopup.add( combat );
 			}
 

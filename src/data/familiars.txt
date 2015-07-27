@@ -1,203 +1,222 @@
 3
 # Original familiar arena stats from Vladjimir's arena data
 # http://www.therye.org/familiars/
+#
+# Types:
+#
+# item0 - Fairy
+# meat0 - Leprechaun
+# stat0 - Volleyball
+# stat1 - Sombrero
+#
+# combat0 - Physical Damage
+# combat1 - Elemental Damage
+# block - Potato
+# delevel - Barnacle
+# hp0 - restores HP during battle
+# hp1 - restores HP after battle
+# mp0 - restores MP during battle (Starfish)
+# mp1 - restores MP after battle
+#
+# none - does nothing deterministic
+# other - does anything else
 
 # no.	name	image	type	larva	item	CM	SH	OC	H&S
 
-1	Mosquito	familiar1.gif	combat	mosquito larva	hypodermic needle	2	1	3	0
+1	Mosquito	familiar1.gif	combat0,hp0	mosquito larva	hypodermic needle	2	1	3	0
 2	Leprechaun	familiar2.gif	meat0	leprechaun hatchling	Meat detector	1	3	0	2
-3	Levitating Potato	familiar3.gif	none	potato sprout	many-eyed glasses	0	1	2	3
-4	Angry Goat	familiar4.gif	combat	goat	prosthetic forehead	3	0	2	1
-5	Sabre-Toothed Lime	familiar5.gif	combat	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1
-6	Fuzzy Dice	familiar6.gif	combat	fuzzy dice	meatcar model	2	2	2	2
-7	Spooky Pirate Skeleton	familiar7.gif	combat	spooky pirate skeleton	blundarrrbus	2	3	1	0
-8	Barrrnacle	familiar8.gif	none	barrrnacle	sucky decal	0	2	1	3
-9	Howling Balloon Monkey	familiar9.gif	combat	balloon monkey	tiny balloon knife	1	3	2	0
-10	Stab Bat	familiar10.gif	combat	rewinged stab bat	shock collar	3	2	1	0
-11	Grue	familiar11.gif	combat	grue egg	moonglasses	2	0	1	3
+3	Levitating Potato	familiar3.gif	block	potato sprout	many-eyed glasses	0	1	2	3
+4	Angry Goat	familiar4.gif	combat0,combat1	goat	prosthetic forehead	3	0	2	1
+5	Sabre-Toothed Lime	familiar5.gif	combat0	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1
+6	Fuzzy Dice	familiar6.gif	other	fuzzy dice	meatcar model	2	2	2	2
+7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0
+8	Barrrnacle	familiar8.gif	delevel	barrrnacle	sucky decal	0	2	1	3
+9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0
+10	Stab Bat	familiar10.gif	combat0	rewinged stab bat	shock collar	3	2	1	0
+11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3
 12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2
 13
-14	Ghuol Whelp	familiar14.gif	none	fertilized ghuol egg	tiny knife and fork	1	2	0	3
+14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3
 15	Baby Gravy Fairy	familiar15.gif	item0	pregnant mushroom	eye-pod	0	3	1	2
-16	Cocoabo	familiar16.gif	combat	cocoa egg	chocolate spurs	2	3	0	1
-17	Star Starfish	familiar17.gif	combat	star starfish	magnifying glass	2	1	3	0
+16	Cocoabo	familiar16.gif	combat0,delevel,hp0,mp0	cocoa egg	chocolate spurs	2	3	0	1
+17	Star Starfish	familiar17.gif	combat0,mp0	star starfish	magnifying glass	2	1	3	0
 18	Hovering Sombrero	hat2.gif	stat1	hovering sombrero	tiny maracas	0	3	2	1
-19	Ghost Pickle on a Stick	familiar19.gif	combat	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2
-20	Killer Bee	familiar20.gif	combat	baby killer bee	brass stinger	3	1	2	0
-21	Whirling Maple Leaf	familiar21.gif	combat	maple leaf	tiny Mountie hat	3	1	2	0
+19	Ghost Pickle on a Stick	familiar19.gif	combat0,delevel	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2
+20	Killer Bee	familiar20.gif	combat0	baby killer bee	brass stinger	3	1	2	0
+21	Whirling Maple Leaf	familiar21.gif	combat0,mp1	maple leaf	tiny Mountie hat	3	1	2	0
 22	Coffee Pixie	familiar22.gif	item0,meat0	coffee sprite	miniature espresso maker	1	1	3	2
 23	Cheshire Bat	familiar23.gif	stat0,meat0	Cheshire Bitten	smile-sharpening stone	1	2	3	1
-24	Jill-O-Lantern	familiar24.gif	combat,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1
-25	Hand Turkey	familiar25.gif	combat,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1
-26	Crimbo Elf	familiar26.gif	combat,item0	crimbo elfling	dental pliers	1	2	1	3
-27	Hanukkimbo Dreidl	familiar27.gif	combat	Hanukkimbo dreidl	menorette	2	1	3	1
-28	Baby Yeti	familiar28.gif	combat	orphan baby yeti	penguin-smacking club	3	1	1	2
-29	Feather Boa Constrictor	familiar29.gif	combat	silk garter snake	velvet choker	2	3	1	1
-30	Emo Squid	familiar30.gif	none	emo roe	gazing shoes	1	3	1	2
-31	Personal Raincloud	familiar31.gif	combat	personal raindrop	rainbow tie	2	1	3	1
-32	Clockwork Grapefruit	familiar32.gif	combat	unwound clockwork grapefruit	false eyelashes	3	2	0	1
-33	MagiMechTech MicroMechaMech	familiar33.gif	combat	deactivated MicroMechaMech	targeting chip	3	0	1	2
-34	Flaming Gravy Fairy	familiar34.gif	combat,item0	pregnant flaming mushroom	flaming glowsticks	2	3	1	2
-35	Frozen Gravy Fairy	familiar35.gif	combat,item0	pregnant frozen mushroom	iced-out bling	2	3	1	2
-36	Stinky Gravy Fairy	familiar36.gif	combat,item0	pregnant stinky mushroom	limburger biker boots	2	3	1	2
-37	Spooky Gravy Fairy	sgfairy.gif	combat,item0	pregnant gloomy black mushroom	miniature carton of clove cigarettes	3	3	1	2
-38	Inflatable Dodecapede	familiar38.gif	combat	deflated inflatable dodecapede	toy six-seater hovercraft	3	2	2	1
+24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1
+25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1
+26	Crimbo Elf	familiar26.gif	combat0,item0	crimbo elfling	dental pliers	1	2	1	3
+27	Hanukkimbo Dreidl	familiar27.gif	combat0,block,mp0	Hanukkimbo dreidl	menorette	2	1	3	1
+28	Baby Yeti	familiar28.gif	combat1,mp0	orphan baby yeti	penguin-smacking club	3	1	1	2
+29	Feather Boa Constrictor	familiar29.gif	combat1,block	silk garter snake	velvet choker	2	3	1	1
+30	Emo Squid	familiar30.gif	block,delevel	emo roe	gazing shoes	1	3	1	2
+31	Personal Raincloud	familiar31.gif	combat0,delevel,hp0,mp0,other	personal raindrop	rainbow tie	2	1	3	1
+32	Clockwork Grapefruit	familiar32.gif	combat0	unwound clockwork grapefruit	false eyelashes	3	2	0	1
+33	MagiMechTech MicroMechaMech	familiar33.gif	combat0,combat1	deactivated MicroMechaMech	targeting chip	3	0	1	2
+34	Flaming Gravy Fairy	familiar34.gif	combat1,item0	pregnant flaming mushroom	flaming glowsticks	2	3	1	2
+35	Frozen Gravy Fairy	familiar35.gif	combat1,item0	pregnant frozen mushroom	iced-out bling	2	3	1	2
+36	Stinky Gravy Fairy	familiar36.gif	combat1,item0	pregnant stinky mushroom	limburger biker boots	2	3	1	2
+37	Spooky Gravy Fairy	sgfairy.gif	combat1,item0	pregnant gloomy black mushroom	miniature carton of clove cigarettes	3	3	1	2
+38	Inflatable Dodecapede	familiar38.gif	combat0	deflated inflatable dodecapede	toy six-seater hovercraft	3	2	2	1
 39	Pygmy Bugbear Shaman	familiar39.gif	stat0,item0	pygmy bugbear shaman	tiny nose-bone fetish	1	3	1	2
 40	Doppelshifter	familiar40.gif	none	doppelshifter egg	tiny makeup kit	3	3	3	3
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1
-43	Temporal Riftlet	familiar43.gif	none	miniscule temporal rip	1.21 jigawatts	1	3	1	2
-44	Sweet Nutcracker	familiar44.gif	combat	sweet nutcracker	metal mandible	2	3	0	2
+43	Temporal Riftlet	familiar43.gif	block,delevel,other	miniscule temporal rip	1.21 jigawatts	1	3	1	2
+44	Sweet Nutcracker	familiar44.gif	combat0,other	sweet nutcracker	metal mandible	2	3	0	2
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0
-46	Snowy Owl	familiar46.gif	combat	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3
-47	Teddy Bear	familiar47.gif	none	teddy bear	teddy bear sewing kit	3	2	0	1
-48	Ninja Pirate Zombie Robot	npzr.gif	combat	ninja pirate zombie robot	rhesus monkey	3	3	3	3
-49	Sleazy Gravy Fairy	slgfairy.gif	combat,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1
-50	Wild Hare	hare.gif	none	March hat	miniature dormouse	1	3	2	0
-51	Wind-up Chattering Teeth	chatteeth.gif	combat	wind-up chattering teeth	diamond-studded fronts	3	0	2	1
-52	Spirit Hobo	ghobo.gif	combat,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0
-53	Astral Badger	badger.gif	combat	astral badger	badger badge	3	0	2	3
+46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3
+47	Teddy Bear	familiar47.gif	other	teddy bear	teddy bear sewing kit	3	2	0	1
+48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0	ninja pirate zombie robot	rhesus monkey	3	3	3	3
+49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1
+50	Wild Hare	hare.gif	other	March hat	miniature dormouse	1	3	2	0
+51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1
+52	Spirit Hobo	ghobo.gif	stat0,combat0,mp0	homeless hobo spirit	weegee sqouija	2	1	3	0
+53	Astral Badger	badger.gif	combat0	astral badger	badger badge	3	0	2	3
 54	Comma Chameleon	commacha.gif	none	Comma Chameleon egg		0	0	0	2
-55	Misshapen Animal Skeleton	animskel.gif	combat	misshapen animal skeleton	bone collar	3	2	1	2
-56	Scary Death Orb	orb.gif	combat	scary death orb	tuning fork	3	2	1	0
+55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2
+56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2
 58	Nervous Tick	tick.gif	stat0,meat0	nervous tick egg	spoon!	0	3	2	2
 59	Reassembled Blackbird	blackbird2.gif	none	reassembled blackbird	tiny bust of Pallas	0	0	0	0
-60	Origami Towel Crane	crane1.gif	none	makeshift crane	can of starch	3	1	0	2
-61	Ninja Snowflake	snowflake.gif	combat	frigid mote	icicle katana	3	0	3	3
-62	Evil Teddy Bear	teddybear.gif	combat	evil teddy bear	evil teddy bear sewing kit	3	2	0	1
+60	Origami Towel Crane	crane1.gif	block,other	makeshift crane	can of starch	3	1	0	2
+61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3
+62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1
 63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0
 64
-65	Ancient Yuletide Troll	crimbotroll.gif	stat0	yuletide troll chrysalis	giant book of ancient carols	2	3	1	0
-66	Dandy Lion	dandylion.gif	item0	dandy lion cub	woolen cravat	0	3	2	1
+65	Ancient Yuletide Troll	crimbotroll.gif	stat0,hp1,mp1	yuletide troll chrysalis	giant book of ancient carols	2	3	1	0
+66	Dandy Lion	dandylion.gif	item0,hp1,mp1	dandy lion cub	woolen cravat	0	3	2	1
 67	O.A.F.	oaf.gif	none	Deactivated O. A. F.	hardware upgrade	0	0	0	0
-68	Penguin Goodfella	goodfella.gif	stat0	bad penguin egg	tasteful black bow tie	3	2	1	0
+68	Penguin Goodfella	goodfella.gif	stat0,delevel	bad penguin egg	tasteful black bow tie	3	2	1	0
 69	Jumpsuited Hound Dog	hounddog.gif	item0	pompadour'd puppy	blue suede shoes	1	3	3	2
-70	Green Pixie	pictsie.gif	combat,item0	bottled green pixie	green pixie spog	3	2	0	2
-71	Ragamuffin Imp	ragimp.gif	combat	pile of smoking rags		3	3	3	3
-72	Exotic Parrot	parrot.gif	none	exotic parrot egg	cracker	3	3	2	0
-73	Wizard Action Figure	waf.gif	combat,stat0,item0	wizard action figure	mint-condition magic wand	2	3	2	2
-74	Gluttonous Green Ghost	ggg.gif	combat,stat0	class five ecto-larva	plastic bib	2	3	3	1
+70	Green Pixie	pictsie.gif	combat0,item0	bottled green pixie	green pixie spog	3	2	0	2
+71	Ragamuffin Imp	ragimp.gif	combat1	pile of smoking rags		3	3	3	3
+72	Exotic Parrot	parrot.gif	other	exotic parrot egg	cracker	3	3	2	0
+73	Wizard Action Figure	waf.gif	combat1,stat0,item0,delevel,hp0	wizard action figure	mint-condition magic wand	2	3	2	2
+74	Gluttonous Green Ghost	ggg.gif	stat0,combat0,mp0	class five ecto-larva	plastic bib	2	3	3	1
 75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2
 76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2
-77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1
+77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,delevel,block,mp0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1
 78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0
-79	Teddy Borg	teddyborg.gif	none	teddy borg	teddy borg sewing kit	3	2	0	1
-80	RoboGoose	robogoose.gif	combat	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0
+79	Teddy Borg	teddyborg.gif	other	teddy borg	teddy borg sewing kit	3	2	0	1
+80	RoboGoose	robogoose.gif	combat0,delevel,block,mp0	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0
 81	El Vibrato Megadrone	megadrone.gif	none	El Vibrato Megadrone		3	3	3	3
 82	Mad Hatrack	hatrack.gif	none	sane hatrack		3	0	1	2
-83	Adorable Seal Larva	seallarva.gif	combat	adorable seal larva	pretty pink bow	3	2	1	2
-84	Untamed Turtle	untamed.gif	none	untamable turtle	smiley-face sticker	0	0	0	3
-85	Animated Macaroni Duck	macaroniduck.gif	combat	macaroni duck	farfalle bow tie	2	2	2	2
-86	Pet Cheezling	cheezblob.gif	none	friendly cheez blob	jalape&ntilde;o slices	2	2	0	2
-87	Autonomous Disco Ball	discoball.gif	combat	unusual disco ball	stick-on mini solar panels	3	2	1	0
-88	Mariachi Chihuahua	chihuahua.gif	combat	stray chihuahua	tiny sombrero	3	2	1	0
+83	Adorable Seal Larva	seallarva.gif	combat0,hp0	adorable seal larva	pretty pink bow	3	2	1	2
+84	Untamed Turtle	untamed.gif	block	untamable turtle	smiley-face sticker	0	0	0	3
+85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0	macaroni duck	farfalle bow tie	2	2	2	2
+86	Pet Cheezling	cheezblob.gif	hp1,mp1	friendly cheez blob	jalape&ntilde;o slices	2	2	0	2
+87	Autonomous Disco Ball	discoball.gif	combat0,delevel	unusual disco ball	stick-on mini solar panels	3	2	1	0
+88	Mariachi Chihuahua	chihuahua.gif	combat0	stray chihuahua	tiny sombrero	3	2	1	0
 89	Hobo Monkey	hobomonkey.gif	meat0	hobo monkey	tiny bindle	0	3	3	3
-90	Llama Lama	llama.gif	none	llama lama cria	zen motorcycle	1	2	3	2
-91	Cotton Candy Carnie	cccarnie.gif	none	cotton candy cocoon	cotton candy cordial	0	2	2	3
-92	Disembodied Hand	dishand.gif	combat	spooky rattling cigar box		3	2	0	2
+90	Llama Lama	llama.gif	stat0	llama lama cria	zen motorcycle	1	2	3	2
+91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1	cotton candy cocoon	cotton candy cordial	0	2	2	3
+92	Disembodied Hand	dishand.gif	combat0	spooky rattling cigar box		3	2	0	2
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3
 95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1
-96	Baby Mutant Rattlesnake	rattlesnake.gif	combat,stat0	mutant rattlesnake egg	rattlesnake enrager	3	2	1	0
-97	Mutant Fire Ant	fireant.gif	combat,item0	mutant fire ant egg	ant antidepressant	3	2	0	2
-98	Mutant Cactus Bud	cactusbud.gif	combat,meat0	mutant cactus bud	cactus monocle	3	0	2	2
-99	Mutant Gila Monster	gilamonster.gif	combat	mutant gila monster egg	Jawmaster 2000&trade;	3	0	2	2
-100	Cuddlefish	cuddlefish.gif	none	baby cuddlefish	six-armed sweater	0	1	3	3
+96	Baby Mutant Rattlesnake	rattlesnake.gif	combat0,stat0	mutant rattlesnake egg	rattlesnake enrager	3	2	1	0
+97	Mutant Fire Ant	fireant.gif	combat1,item0	mutant fire ant egg	ant antidepressant	3	2	0	2
+98	Mutant Cactus Bud	cactusbud.gif	combat0,meat0	mutant cactus bud	cactus monocle	3	0	2	2
+99	Mutant Gila Monster	gilamonster.gif	combat0,hp1,mp1	mutant gila monster egg	Jawmaster 2000&trade;	3	0	2	2
+100	Cuddlefish	cuddlefish.gif	block,hp1,mp1	baby cuddlefish	six-armed sweater	0	1	3	3
 101	Sugar Fruit Fairy	sugarfairy.gif	stat0,item0	candy cornucopia	tiny ballet slippers	0	3	3	2
-102	Imitation Crab	crab.gif	combat	imitation crab zoea	imitation whetstone	3	1	2	2
-103	Pair of Ragged Claws	raggedclaws.gif	combat	pair of ragged claws	radioactive chew toy	1	1	1	1
-104	Magic Dragonfish	dragonfishfam.gif	none	magic dragonfish fry	fin-bit wax	1	1	2	0
-105	Frumious Bandersnatch	bandersnatch.gif	combat,stat0	Apathargic Bandersnatch	aquaviolet jub-jub bird	3	2	2	0
-106	Midget Clownfish	midgetclownfish.gif	combat	midget clownfish	half-height unicycle	0	1	2	2
+102	Imitation Crab	crab.gif	combat0	imitation crab zoea	imitation whetstone	3	1	2	2
+103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1
+104	Magic Dragonfish	dragonfishfam.gif	other	magic dragonfish fry	fin-bit wax	1	1	2	0
+105	Frumious Bandersnatch	bandersnatch.gif	stat0,other	Apathargic Bandersnatch	aquaviolet jub-jub bird	3	2	2	0
+106	Midget Clownfish	midgetclownfish.gif	combat1,mp0	midget clownfish	half-height unicycle	0	1	2	2
 107	Syncopated Turtle	syncturtle.gif	item0	syncopated turtle	metrognome	0	2	3	2
 108	Grinning Turtle	grinturtle.gif	stat0	grinning turtle	security blankie	1	0	0	3
-109	Purse Rat	purserat.gif	none	designer handbag	tiny cell phone	0	0	0	0
-110	Wereturtle	turtle.gif	combat	sleeping wereturtle	bottle of moontan lotion	3	1	0	2
+109	Purse Rat	purserat.gif	other	designer handbag	tiny cell phone	0	0	0	0
+110	Wereturtle	turtle.gif	combat1	sleeping wereturtle	bottle of moontan lotion	3	1	0	2
 111	Baby Sandworm	babyworm.gif	stat1	infant sandworm	string of dingle balls	1	2	2	3
-112	Slimeling	slimeling.gif	combat,item0	squirming Slime larva	undissolvable contact lenses	3	3	2	2
-113	He-Boulder	heboulder.gif	combat,meat0	floaty stone sphere	quadroculars	3	3	2	1
-114	Rock Lobster	rocklobster.gif	combat	rock lobster	extra-strength rubber bands	3	2	2	1
+112	Slimeling	slimeling.gif	item0,combat0,mp0	squirming Slime larva	undissolvable contact lenses	3	3	2	2
+113	He-Boulder	heboulder.gif	meat0,hp1,mp1,other	floaty stone sphere	quadroculars	3	3	2	1
+114	Rock Lobster	rocklobster.gif	combat1,mp0	rock lobster	extra-strength rubber bands	3	2	2	1
 115	Urchin Urchin	urchin.gif	meat0	urchin roe	pet anemone	3	3	0	2
 116	Grouper Groupie	grouper2.gif	item0	grouper fangirl	gill rings	0	2	3	2
-117	Squamous Gibberer	gibberer.gif	none	squamous polyp	unspeakable lozenges	1	2	2	3
+117	Squamous Gibberer	gibberer.gif	block,hp1,mp1,other	squamous polyp	unspeakable lozenges	1	2	2	3
 118	Dancing Frog	dancfrog.gif	item0,meat0	perfectly ordinary frog	miniature tophat	1	2	2	3
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1
-120	Stocking Mimic	smimic.gif	combat	suspicious stocking	bag of many confections	0	0	0	0
-121	Snow Angel	snowangel.gif	combat	pile of loose snow	snow halo	2	1	3	2
+120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0	suspicious stocking	bag of many confections	0	0	0	0
+121	Snow Angel	snowangel.gif	combat0,mp0	pile of loose snow	snow halo	2	1	3	2
 122	Jack-in-the-Box	jackinthebox.gif	stat0,item0	Jack-in-the-box	brass crank handle	0	0	0	0
-123	BRICKO chick	brickochick.gif	combat	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1
-124	Baby Bugged Bugbear	babybugbug.gif	none	panicked kernel	bugged beanie	0	0	0	0
-125	Money-Making Goblin	mmgoblin.gif	none			0	0	0	0
-126	Floating Eye	lower_e.gif	none			0	0	0	0
-127	Vampire Bat	jubjubbird.gif	none			0	0	0	0
-128	Oyster Bunny	hare2.gif	none			0	0	0	0
-129	Egg Benedict	egg.gif	none			0	0	0	0
-130	Bank Piggy	bankpig.gif	none			0	0	0	0
-131	Worm Doctor	larva.gif	none			0	0	0	0
-132	Snowhitman	snowhitman.gif	none			0	0	0	0
-133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
-134	Underworld Bonsai	uwbonsai.gif	combat	Underworld sapling	miniature pruning shears	3	1	2	0
-135	Rogue Program	tronguy.gif	combat	glowing frisbee	portable motorcycle	3	2	2	0
-136	Mini-Hipster	minihipster.gif	combat	Schmalz's First Prize Beer	ironic moustache	0	3	2	1
-137	Pottery Barn Owl	sp_owl.gif	combat	pottery barn owl figurine	affordable teak perch	3	1	2	0
-138	Hippo Ballerina	hippo.gif	item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0
-139	Knob Goblin Organ Grinder	organgoblin.gif	combat,meat0	organ grinder	microwave stogie	0	3	2	1
+123	BRICKO chick	brickochick.gif	combat0	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1
+124	Baby Bugged Bugbear	babybugbug.gif	block,other	panicked kernel	bugged beanie	0	0	0	0
+125	Money-Making Goblin	mmgoblin.gif	other			0	0	0	0
+126	Floating Eye	lower_e.gif	other			0	0	0	0
+127	Vampire Bat	jubjubbird.gif	other			0	0	0	0
+128	Oyster Bunny	hare2.gif	other			0	0	0	0
+129	Egg Benedict	egg.gif	other			0	0	0	0
+130	Bank Piggy	bankpig.gif	other			0	0	0	0
+131	Worm Doctor	larva.gif	other			0	0	0	0
+132	Snowhitman	snowhitman.gif	other			0	0	0	0
+133	Plastic Grocery Bag	grocbag.gif	other			0	0	0	0
+134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0
+135	Rogue Program	tronguy.gif	combat0,mp0	glowing frisbee	portable motorcycle	3	2	2	0
+136	Mini-Hipster	minihipster.gif	combat0	Schmalz's First Prize Beer	ironic moustache	0	3	2	1
+137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1	pottery barn owl figurine	affordable teak perch	3	1	2	0
+138	Hippo Ballerina	hippo.gif	item0,meat0,combat1,block,delevel	hippo tutu	immense ballet shoes	3	2	3	0
+139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0	organ grinder	microwave stogie	0	3	2	1
 140	Piano Cat	pianocat.gif	item0,meat0	sleeping piano cat	kitty sheet music	2	3	2	0
 141	Dramatic Hedgehog	dramahog.gif	stat0,meat0	rehearsing dramatic hedgehog	tiny prop sword	2	3	0	2
 142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0
-143	Robot Reindeer	roboreindeer.gif	combat	hibernating robot reindeer	S.L.E.I.G.H.B.E.L.L.S.	3	3	3	3
+143	Robot Reindeer	roboreindeer.gif	combat0,hp0	hibernating robot reindeer	S.L.E.I.G.H.B.E.L.L.S.	3	3	3	3
 144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0
 145
-146	Obtuse Angel	obtuseangel.gif	item0	a cute angel	quake of arrows	2	0	3	1
+146	Obtuse Angel	obtuseangel.gif	item0,other	a cute angel	quake of arrows	2	0	3	1
 147	Reconstituted Crow	blackbird1.gif	none	reconstituted crow		0	0	0	0
 148	Li'l Xenomorph	lilxeno.gif	stat0	mysterious chest	tiny top hat and cane	3	2	1	3
-149	Dataspider	dataspider.gif	combat	squirming egg sac	solid state loom	2	1	2	3
-150	Pair of Stomping Boots	stompboots.gif	combat,item0	fairy-worn boots	stomp box	3	0	2	2
-151	Feral Kobold	kobold.gif	combat	newborn kobold	slightly thicker filthy rags	3	1	1	1
+149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3
+150	Pair of Stomping Boots	stompboots.gif	combat0,item0	fairy-worn boots	stomp box	3	0	2	2
+151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1
 152	Fancypants Scarecrow	pantscrow2.gif	none	stuffed-shirt scarecrow		0	0	0	0
 153
 154	Bloovian Groose	groose.gif	stat0,meat0	The Groose in the Hoose	spruce juice	2	2	1	3
 155	Blavious Kloop	kloop.gif	item0,meat0	The Kloop in the Coop	miniscule beatbox	0	3	2	1
 156	Peppermint Rhino	pep_rhino.gif	item0	peppermint rhino baby	licorice boa	1	3	1	0
-157	Tickle-Me Emilio	emiliofam.gif	combat,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0
-158	Steam-Powered Cheerleader	cheerleader.gif	item0	KoLHS Pep Squad Box	school spirit socket set	2	3	2	0
-159	Happy Medium	medium_0.gif	stat0	Small Medium	crystal decanter	0	3	2	2
-160	Artistic Goth Kid	crayongoth.gif	stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3
-161	Flaming Face	flameface.gif	combat	hot egg	flaming nose	3	2	2	1
+157	Tickle-Me Emilio	emiliofam.gif	combat0,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0
+158	Steam-Powered Cheerleader	cheerleader.gif	item0,delevel	KoLHS Pep Squad Box	school spirit socket set	2	3	2	0
+159	Happy Medium	medium_0.gif	stat0,other	Small Medium	crystal decanter	0	3	2	2
+160	Artistic Goth Kid	crayongoth.gif	stat0,other	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3
+161	Flaming Face	flameface.gif	combat1	hot egg	flaming nose	3	2	2	1
 162	Reagnimated Gnome	frankengnome.gif	item0	Unagnimated Gnome		0	0	0	0
-163	Hovering Skull	talkskull.gif	combat,stat0	talkative skull	shiny gold fronts	2	2	3	1
-164	Mini-Skulldozer	minidozer.gif	combat	skulldozer egg	ribcage rollcage	2	1	3	0
+163	Hovering Skull	talkskull.gif	combat0,stat0	talkative skull	shiny gold fronts	2	2	3	1
+164	Mini-Skulldozer	minidozer.gif	combat1,block	skulldozer egg	ribcage rollcage	2	1	3	0
 165	Angry Jung Man	jungman.gif	item0,meat0	dreaming Jung man	Little Red Book	2	2	1	1
 166	Unconscious Collective	uc.gif	stat0,meat0	avatar of the Unconscious Collective	blue canary nightlight	2	1	1	3
-167	Nanorhino	nanorhino.gif	combat	deactivated nanobots	nanorhino credit card	3	1	1	3
-168	Oily Woim	woim.gif	none	woim	woimbook	2	1	3	1
+167	Nanorhino	nanorhino.gif	delevel,other	deactivated nanobots	nanorhino credit card	3	1	1	3
+168	Oily Woim	woim.gif	other	woim	woimbook	2	1	3	1
 169	Homemade Robot	homemadebot.gif	none	homemade robot	homemade robot gear	0	0	0	0
-170	MiniMechaElf	mechaelf.gif	combat	Deactivated MiniMechaElf	MiniMechaElf Laser Punch Missile Launcher	3	2	0	1
-171	Gelatinous Cubeling	gcube.gif	item0	dried gelatinous cube	pile of dungeon junk	2	3	0	1
-172	Adorable Space Buddy	starbuddy.gif	combat	Star Spawn	cute bow from beyond the stars	1	2	3	3
-173	Nosy Nose	nosynose.gif	none	wriggling severed nose	nosy nose ringy ring	1	3	1	2
-174	Mini-Adventurer	miniadv0.gif	none	adventurer clone egg	mini-Mr. Accessory	2	2	2	2
+170	MiniMechaElf	mechaelf.gif	combat0	Deactivated MiniMechaElf	MiniMechaElf Laser Punch Missile Launcher	3	2	0	1
+171	Gelatinous Cubeling	gcube.gif	delevel,item0	dried gelatinous cube	pile of dungeon junk	2	3	0	1
+172	Adorable Space Buddy	starbuddy.gif	combat1,hp1,mp1	Star Spawn	cute bow from beyond the stars	1	2	3	3
+173	Nosy Nose	nosynose.gif	delevel	wriggling severed nose	nosy nose ringy ring	1	3	1	2
+174	Mini-Adventurer	miniadv0.gif	other	adventurer clone egg	mini-Mr. Accessory	2	2	2	2
 175	Mechanical Songbird	mechbird.gif	item0	unwound mechanical songbird	shiny brass tailfeathers	1	2	2	0
-176	Reanimated Reanimator	reanimator.gif	none	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0
-177	Warbear Drone	wbdronefam.gif	combat	warbear drone assembler	warbear drone codes	3	2	2	0
+176	Reanimated Reanimator	reanimator.gif	stat0,other	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0
+177	Warbear Drone	wbdronefam.gif	combat0,combat1	warbear drone assembler	warbear drone codes	3	2	2	0
 178	Grimstone Golem	grimgolem.gif	item0,meat0	hibernating Grimstone Golem	grimstone galoshes	0	2	3	3
 179	Grim Brother	grimbrother.gif	stat0,meat0	praying Grim Brother	Grim Brothers' story book	3	2	0	3
-180	Miniature Sword & Martini Guy	smguy.gif	combat,stat0	Anniversary Miniature Sword & Martini Guy	really tiny cocktail shaker	3	3	2	2
-181	Putty Buddy	puttybuddy.gif	combat	deactivated putty buddy	putty coat	3	1	2	1
-182	Twitching Space Critter	spacebeastlet.gif	combat	twitching space egg	ramekin of space nuts	3	1	1	1
-183	Galloping Grill	galgrill.gif	combat,stat1	still grill	box of hickory chips	3	1	2	0
+180	Miniature Sword & Martini Guy	smguy.gif	combat0,stat0	Anniversary Miniature Sword & Martini Guy	really tiny cocktail shaker	3	3	2	2
+181	Putty Buddy	puttybuddy.gif	combat1,hp0	deactivated putty buddy	putty coat	3	1	2	1
+182	Twitching Space Critter	spacebeastlet.gif	combat1,mp0	twitching space egg	ramekin of space nuts	3	1	1	1
+183	Galloping Grill	galgrill.gif	combat1,stat1,mp0	still grill	box of hickory chips	3	1	2	0
 184
-185	Helix Fossil	foss_amm.gif	combat	strange helix fossil	S.S. Ticket	0	0	0	3
-186	Xiblaxian Holo-Companion	holobuddy.gif	none	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2
-187	Baby Z-Rex	babyzrex.gif	combat	zombie dinosaur egg	french-fry grabber	3	0	0	0
-188	Fist Turkey	fistturkey.gif	combat,item0	fist turkey outline	brass turkey knuckles	3	2	2	3
-189	Crimbo Shrub	crimboshrub.gif	stat0	Crimbo sapling	even more tinsel	1	3	2	0
-190	Mini-Crimbot	minicrimbot.gif	none	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0
-191	Topiary Skunk	topiskunk.gif	combat	topiary skunk	topiary noseplugs	1	2	0	1
+185	Helix Fossil	foss_amm.gif	combat0,delevel	strange helix fossil	S.S. Ticket	0	0	0	3
+186	Xiblaxian Holo-Companion	holobuddy.gif	block,other	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2
+187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0
+188	Fist Turkey	fistturkey.gif	combat0,item0	fist turkey outline	brass turkey knuckles	3	2	2	3
+189	Crimbo Shrub	crimboshrub.gif	combat1,stat0	Crimbo sapling	even more tinsel	1	3	2	0
+190	Mini-Crimbot	minicrimbot.gif	other	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0
+191	Topiary Skunk	topiskunk.gif	combat1,hp1	topiary skunk	topiary noseplugs	1	2	0	1
 192	Golden Monkey	goldmonkey.gif	stat0,meat0	golden monkey statuette	golden banana	1	2	3	0
 193	Adventurous Spelunker	spelunker.gif	item0,meat0	Professor of Spelunkology	Stembridge sidearm	3	3	3	3
-194	Sludgepuppy	sludgepuppy.gif	combat	inert sludgepuppy	lead collar	1	3	3	0
-195	Baby Mayonnaise Wasp	mayowasp.gif	combat	newly-hatched mayonnaise wasp	mayo pump	2	2	3	1
-196	Puck Man	puckman.gif	none	yellow puck	orange boxing gloves	1	2	2	3
-197	Ms. Puck Man	mspuckman.gif	none	yellow puck with a bow on it	blue pumps	1	2	2	3
+194	Sludgepuppy	sludgepuppy.gif	combat1,block	inert sludgepuppy	lead collar	1	3	3	0
+195	Baby Mayonnaise Wasp	mayowasp.gif	combat1	newly-hatched mayonnaise wasp	mayo pump	2	2	3	1
+196	Puck Man	puckman.gif	block,hp1,mp1	yellow puck	orange boxing gloves	1	2	2	3
+197	Ms. Puck Man	mspuckman.gif	block,hp1,mp1	yellow puck with a bow on it	blue pumps	1	2	2	3
