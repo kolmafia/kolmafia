@@ -258,7 +258,7 @@ fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 FDKOL hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP fights
-fettucini Inconnu	5	8	awesome	1-17	0	0	1-1	Unspaded
+fettucini Inconnu	5	8	awesome	17-20	0	25-30	0
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
@@ -290,7 +290,7 @@ ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Da
 ghost pepper	2	1	awesome	8-10	60-100	60-100	60-100	Hot damage for 3 combats then 8-10 adventures
 ghuol egg	1	1	crappy	1	-3	0	0
 ghuol egg quiche	3	2	decent	3-9	0	0	0
-ghuol guolash	5	1	good	1-1	-1	-1	-1	Unspaded
+ghuol guolash	5	1	good	16-19	0	20-30	0
 ghuol-ear kabob	2	1	decent	2-5	0	0	0
 giant dragon roll	3	1		9-14	28-46	0	0	45/55 Fishy
 giant grain of protein powder	1	7	good	2-3	30-40	0	0
