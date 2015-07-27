@@ -80,11 +80,18 @@ public class FamiliarDatabase
 	private static final Map<Integer,String> familiarImageById = new HashMap<Integer,String>();
 	private static final Map<String,Integer> familiarByImage = new HashMap<String,Integer>();
 
-	private static final BooleanArray combatById = new BooleanArray();
 	private static final BooleanArray volleyById = new BooleanArray();
 	private static final BooleanArray sombreroById = new BooleanArray();
 	private static final BooleanArray meatDropById = new BooleanArray();
 	private static final BooleanArray fairyById = new BooleanArray();
+	private static final BooleanArray combat0ById = new BooleanArray();
+	private static final BooleanArray combat1ById = new BooleanArray();
+	private static final BooleanArray blockById = new BooleanArray();
+	private static final BooleanArray delevelById = new BooleanArray();
+	private static final BooleanArray hp0ById = new BooleanArray();
+	private static final BooleanArray hp1ById = new BooleanArray();
+	private static final BooleanArray mp0ById = new BooleanArray();
+	private static final BooleanArray mp1ById = new BooleanArray();
 
 	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
 
@@ -151,11 +158,21 @@ public class FamiliarDatabase
 				FamiliarDatabase.familiarItemById.put( familiarId, familiarItemName );
 				FamiliarDatabase.familiarByItem.put( familiarItemName, familiarId );
 
-				FamiliarDatabase.combatById.set( familiarId.intValue(), familiarType.contains( "combat" ) );
 				FamiliarDatabase.volleyById.set( familiarId.intValue(), familiarType.contains( "stat0" ) );
 				FamiliarDatabase.sombreroById.set( familiarId.intValue(), familiarType.contains( "stat1" ) );
 				FamiliarDatabase.fairyById.set( familiarId.intValue(), familiarType.contains( "item0" ) );
 				FamiliarDatabase.meatDropById.set( familiarId.intValue(), familiarType.contains( "meat0" ) );
+
+				// The following are all "combat" abilities
+				FamiliarDatabase.combat0ById.set( familiarId.intValue(), familiarType.contains( "combat0" ) );
+				FamiliarDatabase.combat1ById.set( familiarId.intValue(), familiarType.contains( "combat1" ) );
+				FamiliarDatabase.blockById.set( familiarId.intValue(), familiarType.contains( "block" ) );
+				FamiliarDatabase.delevelById.set( familiarId.intValue(), familiarType.contains( "delevel" ) );
+				FamiliarDatabase.hp0ById.set( familiarId.intValue(), familiarType.contains( "hp0" ) );
+				FamiliarDatabase.hp1ById.set( familiarId.intValue(), familiarType.contains( "hp1" ) );
+				FamiliarDatabase.mp0ById.set( familiarId.intValue(), familiarType.contains( "mp0" ) );
+				FamiliarDatabase.mp1ById.set( familiarId.intValue(), familiarType.contains( "mp1" ) );
+
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
 				{
@@ -303,11 +320,6 @@ public class FamiliarDatabase
 		return -1;
 	}
 
-	public static final boolean isCombatType( final int familiarId )
-	{
-		return FamiliarDatabase.combatById.get( familiarId );
-	}
-
 	public static final boolean isVolleyType( final int familiarId )
 	{
 		return FamiliarDatabase.volleyById.get( familiarId );
@@ -326,6 +338,58 @@ public class FamiliarDatabase
 	public static final boolean isMeatDropType( final int familiarId )
 	{
 		return FamiliarDatabase.meatDropById.get( familiarId );
+	}
+
+	public static final boolean isCombatType( final int familiarId )
+	{
+		return  FamiliarDatabase.combat0ById.get( familiarId ) ||
+			FamiliarDatabase.combat1ById.get( familiarId ) ||
+			FamiliarDatabase.blockById.get( familiarId ) ||
+			FamiliarDatabase.delevelById.get( familiarId ) ||
+			FamiliarDatabase.hp0ById.get( familiarId ) ||
+			FamiliarDatabase.hp1ById.get( familiarId ) ||
+			FamiliarDatabase.mp0ById.get( familiarId ) ||
+			FamiliarDatabase.mp1ById.get( familiarId );
+	}
+
+	public static final boolean isCombat0Type( final int familiarId )
+	{
+		return  FamiliarDatabase.combat0ById.get( familiarId );
+	}
+
+	public static final boolean isCombat1Type( final int familiarId )
+	{
+		return  FamiliarDatabase.combat1ById.get( familiarId );
+	}
+
+	public static final boolean isBlockType( final int familiarId )
+	{
+		return  FamiliarDatabase.blockById.get( familiarId );
+	}
+
+	public static final boolean isDelevelType( final int familiarId )
+	{
+		return  FamiliarDatabase.delevelById.get( familiarId );
+	}
+
+	public static final boolean isHp0Type( final int familiarId )
+	{
+		return  FamiliarDatabase.hp0ById.get( familiarId );
+	}
+
+	public static final boolean isHp1Type( final int familiarId )
+	{
+		return  FamiliarDatabase.hp1ById.get( familiarId );
+	}
+
+	public static final boolean isMp0Type( final int familiarId )
+	{
+		return  FamiliarDatabase.mp0ById.get( familiarId );
+	}
+
+	public static final boolean isMp1Type( final int familiarId )
+	{
+		return  FamiliarDatabase.mp1ById.get( familiarId );
 	}
 
 	public static final String getFamiliarItem( final int familiarId )
@@ -370,11 +434,53 @@ public class FamiliarDatabase
 	{
 		StringBuilder buffer = new StringBuilder();
 		String sep = "";
-		if ( FamiliarDatabase.combatById.get( familiarId ) )
+		if ( FamiliarDatabase.combat0ById.get( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
-			buffer.append( "combat" );
+			buffer.append( "combat0" );
+		}
+		if ( FamiliarDatabase.combat1ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "combat1" );
+		}
+		if ( FamiliarDatabase.blockById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "block" );
+		}
+		if ( FamiliarDatabase.delevelById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "delevel" );
+		}
+		if ( FamiliarDatabase.hp0ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "hp0" );
+		}
+		if ( FamiliarDatabase.hp1ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "hp1" );
+		}
+		if ( FamiliarDatabase.mp0ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "mp0" );
+		}
+		if ( FamiliarDatabase.mp1ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "mp1" );
 		}
 		if ( FamiliarDatabase.volleyById.get( familiarId ) )
 		{

@@ -1754,9 +1754,9 @@ Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber c
 
 # Halloween XX (Halloween 2008)
 mutant gila monster	728	mutantgila.gif	P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-mutant rattlesnake	726	mutantsnake.gif	Scale: 15 Cap: 500 Init: 75 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
+mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-swarm of mutant fire ants	729	mutantants.gif	P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
+swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin Enforcer	0	pengthug.gif	P: penguin	patent leather shoes (0)
