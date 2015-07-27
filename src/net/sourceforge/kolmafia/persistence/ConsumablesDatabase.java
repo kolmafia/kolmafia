@@ -988,6 +988,9 @@ public class ConsumablesDatabase
 		case ItemPool.SPAGHETTI_WITH_SKULLHEADS:
 		case ItemPool.GNOCCHETTI_DI_NIETZSCHE:
 		case ItemPool.SPAGHETTI_CON_CALAVERAS:
+		case ItemPool.FLEETWOOD_MAC_N_CHEESE:
+		case ItemPool.LINGUINI_IMMONDIZIA_BIANCO:
+		case ItemPool.SHELLS_A_LA_SHELLFISH:
 			return true;
 		}
 		return false;

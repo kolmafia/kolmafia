@@ -656,7 +656,7 @@ Spaghetti Elemental (Volcanic Cave)	884	3_3.gif	BOSS Atk: 185 Def: 166 HP: 260 I
 Spam Witch	143	spamwitch.gif	Atk: 85 Def: 76 HP: 75 Init: 70 EA: sleaze Meat: 30 P: dude	30669 scroll (30)	Spam Witch sammich (50)
 Spawn of Wally	793	wretchedseal.gif	FREE Atk: 10 Def: 9 HP: 15 Init: -10000 P: horror	tainted seal's blood (100)
 Spectral Jellyfish	93	jellyfish.gif	Atk: 70 Def: 63 HP: 60 Init: 60 "Somewhat Poisoned" P: beast	spectral jelly (p1)
-spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)
+spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)	pestopiary (0)
 # Monster ids 552 (no tool), 553 (tool)
 spider gremlin	0	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum pliers (c0)
 spider-legged witch's hut	1580	spiderhut.gif	Atk: 50 Def: 50 HP: 50 Init: 50 P: construct	giant spider leg (c100)
