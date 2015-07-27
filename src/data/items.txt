@@ -3310,7 +3310,7 @@
 3285	C.H.U.M. knife	253069991	chumknife.gif	weapon	t,d	75	C.H.U.M. knives
 3286	Frosty's snowball sack	858648754	knobsack.gif	weapon		0
 3287	quasi-ethereal macaroni fragments	806903125	macfrag.gif	guardian	d	200	lots of quasi-ethereal macaroni fragments
-3288	shimmering tendrils	221770723	tendrils.gif	guardian	d	500
+3288	shimmering tendrils	221770723	tendrils.gif	guardian	d	500	clumps of shimmering tendrils
 3289	scintillating powder	712356699	scpowder.gif	guardian	d	400
 3290	abandoned candy	189526641	punkin.gif	multiple, candy	t,d	150	buckets of abandoned candy
 3291	secret tropical island volcano lair map	844206887	map.gif	reusable	q	0
