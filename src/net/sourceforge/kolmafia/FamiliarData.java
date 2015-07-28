@@ -726,8 +726,7 @@ public class FamiliarData
 
 	public boolean waterBreathing()
 	{
-		Modifiers mods = Modifiers.getModifiers( "Familiar", this.getRace() );
-		return mods != null && mods.getBoolean( Modifiers.UNDERWATER_FAMILIAR );
+		return FamiliarDatabase.isUnderwaterType( this.id );
 	}
 
 	public boolean canCarry()
