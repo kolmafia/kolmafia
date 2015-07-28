@@ -360,10 +360,10 @@ public class CompactSidePane
 
 		private void addFamiliars( JPopupMenu famPopup )
 		{
-			JMenu stat = new JMenu( "statgain" );
-			JMenu item = new JMenu( "itemdrop" );
-			JMenu meat = new JMenu( "meatdrop" );
-			JMenu drops = new JMenu( "drops" );
+			JMenu stat = new JMenu( "stat gain" );
+			JMenu item = new JMenu( "item drop" );
+			JMenu meat = new JMenu( "meat drop" );
+			JMenu drops = new JMenu( "special drops" );
 
 			// Combat submenus
 			JMenu combat0 = new JMenu( "physical only" );
@@ -373,12 +373,18 @@ public class CompactSidePane
 			JMenu delevel = new JMenu( "delevel" );
 			JMenu hp0 = new JMenu( "restore HP" );
 			JMenu mp0 = new JMenu( "restore MP" );
+			JMenu other0 = new JMenu( "anything else" );
 
 			// After Combat submenu
 			JMenu hp1 = new JMenu( "restore HP" );
 			JMenu mp1 = new JMenu( "restore MP" );
+			JMenu other1 = new JMenu( "anything else" );
 
-			JMenu variable = new JMenu( "variable" );
+			JMenu passive = new JMenu( "passive" );
+			JMenu underwater = new JMenu( "underwater" );
+			JMenu variable = new JMenu( "configurable" );
+
+			// None of the above
 			JMenu other = new JMenu( "other" );
 
 			String custom[] = new String[9];
@@ -484,19 +490,39 @@ public class CompactSidePane
 					hp0.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				if ( FamiliarDatabase.isHp1Type( id ) )
-				{
-					hp1.add( new FamiliarMenuItem( fam ) );
-					added = true;
-				}
 				if ( FamiliarDatabase.isMp0Type( id ) )
 				{
 					mp0.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+				if ( FamiliarDatabase.isOther0Type( id ) )
+				{
+					other0.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isHp1Type( id ) )
+				{
+					hp1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
 				if ( FamiliarDatabase.isMp1Type( id ) )
 				{
 					mp1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isOther1Type( id ) )
+				{
+					other1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isPassiveType( id ) )
+				{
+					passive.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isUnderwaterType( id ) )
+				{
+					underwater.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
 				if ( FamiliarDatabase.isVariableType( id ) )
@@ -545,7 +571,8 @@ public class CompactSidePane
 			     block.getMenuComponentCount() > 0 ||
 			     delevel.getMenuComponentCount() > 0 ||
 			     hp0.getMenuComponentCount() > 0 ||
-			     mp0.getMenuComponentCount() > 0 )
+			     mp0.getMenuComponentCount() > 0 ||
+			     other0.getMenuComponentCount() > 0 )
 			{
 				JMenu combat = new JMenu( "combat" );
 
@@ -577,12 +604,17 @@ public class CompactSidePane
 				{
 					combat.add( mp0 );
 				}
+				if ( other0.getMenuComponentCount() > 0 )
+				{
+					combat.add( other0 );
+				}
 
 				famPopup.add( combat );
 			}
 
 			if ( hp1.getMenuComponentCount() > 0 ||
-			     mp1.getMenuComponentCount() > 0 )
+			     mp1.getMenuComponentCount() > 0 ||
+			     other1.getMenuComponentCount() > 0 )
 			{
 				JMenu aftercombat = new JMenu( "after combat" );
 
@@ -594,10 +626,22 @@ public class CompactSidePane
 				{
 					aftercombat.add( mp1 );
 				}
+				if ( other1.getMenuComponentCount() > 0 )
+				{
+					aftercombat.add( other1 );
+				}
 
 				famPopup.add( aftercombat );
 			}
 
+			if ( passive.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( passive );
+			}
+			if ( underwater.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( underwater );
+			}
 			if ( variable.getMenuComponentCount() > 0 )
 			{
 				famPopup.add( variable );

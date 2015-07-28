@@ -457,9 +457,13 @@ public class ProxyRecordValue
 			.add( "block", DataTypes.BOOLEAN_TYPE )
 			.add( "delevel", DataTypes.BOOLEAN_TYPE )
 			.add( "hp_during_combat", DataTypes.BOOLEAN_TYPE )
-			.add( "hp_after_combat", DataTypes.BOOLEAN_TYPE )
 			.add( "mp_during_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "other_action_during_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "hp_after_combat", DataTypes.BOOLEAN_TYPE )
 			.add( "mp_after_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "other_action_after_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "passive", DataTypes.BOOLEAN_TYPE )
+			.add( "underwater", DataTypes.BOOLEAN_TYPE )
 			.add( "variable", DataTypes.BOOLEAN_TYPE )
 			.finish( "familiar proxy" );
 
@@ -542,19 +546,39 @@ public class ProxyRecordValue
 			return FamiliarDatabase.isHp0Type( (int)this.contentLong );
 		}
 
-		public boolean get_hp_after_combat()
-		{
-			return FamiliarDatabase.isHp1Type( (int)this.contentLong );
-		}
-
 		public boolean get_mp_during_combat()
 		{
 			return FamiliarDatabase.isMp0Type( (int)this.contentLong );
 		}
 
+		public boolean get_other_action_during_combat()
+		{
+			return FamiliarDatabase.isOther0Type( (int)this.contentLong );
+		}
+
+		public boolean get_hp_after_combat()
+		{
+			return FamiliarDatabase.isHp1Type( (int)this.contentLong );
+		}
+
 		public boolean get_mp_after_combat()
 		{
 			return FamiliarDatabase.isMp1Type( (int)this.contentLong );
+		}
+
+		public boolean get_other_action_after_combat()
+		{
+			return FamiliarDatabase.isOther1Type( (int)this.contentLong );
+		}
+
+		public boolean get_passive()
+		{
+			return FamiliarDatabase.isPassiveType( (int)this.contentLong );
+		}
+
+		public boolean get_underwater()
+		{
+			return FamiliarDatabase.isUnderwaterType( (int)this.contentLong );
 		}
 
 		public boolean get_variable()
