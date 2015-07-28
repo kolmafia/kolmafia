@@ -143,7 +143,7 @@
 118	Dancing Frog	dancfrog.gif	item0,meat0	perfectly ordinary frog	miniature tophat	1	2	2	3
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1
 120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0	suspicious stocking	bag of many confections	0	0	0	0
-121	Snow Angel	snowangel.gif	combat0,mp0	pile of loose snow	snow halo	2	1	3	2
+121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2
 122	Jack-in-the-Box	jackinthebox.gif	stat0,item0	Jack-in-the-box	brass crank handle	0	0	0	0
 123	BRICKO chick	brickochick.gif	combat0	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1
 124	Baby Bugged Bugbear	babybugbug.gif	block,other	panicked kernel	bugged beanie	0	0	0	0
