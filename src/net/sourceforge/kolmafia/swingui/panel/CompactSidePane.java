@@ -366,8 +366,9 @@ public class CompactSidePane
 			JMenu drops = new JMenu( "drops" );
 
 			// Combat submenus
-			JMenu combat0 = new JMenu( "physical" );
-			JMenu combat1 = new JMenu( "elemental" );
+			JMenu combat0 = new JMenu( "physical only" );
+			JMenu combat1 = new JMenu( "elemental only" );
+			JMenu combat01 = new JMenu( "physical and elemental" );
 			JMenu block = new JMenu( "block" );
 			JMenu delevel = new JMenu( "delevel" );
 			JMenu hp0 = new JMenu( "HP during combat" );
@@ -446,14 +447,22 @@ public class CompactSidePane
 				}
 
 				// Combat submenus
-				if ( FamiliarDatabase.isCombat0Type( id ) )
+				boolean is0 = FamiliarDatabase.isCombat0Type( id );
+				boolean is1 = FamiliarDatabase.isCombat1Type( id );
+				
+				if ( is0 && !is1  )
 				{
 					combat0.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
-				if ( FamiliarDatabase.isCombat1Type( id ) )
+				if ( is1 && !is0 )
 				{
 					combat1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( is0 && is1 )
+				{
+					combat01.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
 				if ( FamiliarDatabase.isBlockType( id ) )
@@ -523,6 +532,7 @@ public class CompactSidePane
 
 			if ( combat0.getMenuComponentCount() > 0 ||
 			     combat1.getMenuComponentCount() > 0 ||
+			     combat01.getMenuComponentCount() > 0 ||
 			     block.getMenuComponentCount() > 0 ||
 			     delevel.getMenuComponentCount() > 0 ||
 			     hp0.getMenuComponentCount() > 0 ||
@@ -539,6 +549,10 @@ public class CompactSidePane
 				if ( combat1.getMenuComponentCount() > 0 )
 				{
 					combat.add( combat1 );
+				}
+				if ( combat01.getMenuComponentCount() > 0 )
+				{
+					combat.add( combat01 );
 				}
 				if ( block.getMenuComponentCount() > 0 )
 				{

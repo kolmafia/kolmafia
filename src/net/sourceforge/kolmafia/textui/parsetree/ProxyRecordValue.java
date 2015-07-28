@@ -443,7 +443,6 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
-			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "hatchling", DataTypes.ITEM_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "name", DataTypes.STRING_TYPE )
@@ -452,16 +451,20 @@ public class ProxyRecordValue
 			.add( "drop_item", DataTypes.ITEM_TYPE )
 			.add( "drops_today", DataTypes.INT_TYPE )
 			.add( "drops_limit", DataTypes.INT_TYPE )
+			.add( "combat", DataTypes.BOOLEAN_TYPE )
+			.add( "physical_damage", DataTypes.BOOLEAN_TYPE )
+			.add( "elemental_damage", DataTypes.BOOLEAN_TYPE )
+			.add( "block", DataTypes.BOOLEAN_TYPE )
+			.add( "delevel", DataTypes.BOOLEAN_TYPE )
+			.add( "hp_during_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "hp_after_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "mp_during_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "mp_after_combat", DataTypes.BOOLEAN_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
 		{
 			super( _type, obj );
-		}
-
-		public boolean get_combat()
-		{
-			return FamiliarDatabase.isCombatType( (int)this.contentLong );
 		}
 
 		public Value get_hatchling()
@@ -506,6 +509,51 @@ public class ProxyRecordValue
 		public int get_drops_limit()
 		{
 			return FamiliarData.dropDailyCap( (int)this.contentLong );
+		}
+
+		public boolean get_combat()
+		{
+			return FamiliarDatabase.isCombatType( (int)this.contentLong );
+		}
+
+		public boolean get_physical_damage()
+		{
+			return FamiliarDatabase.isCombat0Type( (int)this.contentLong );
+		}
+
+		public boolean get_elemental_damage()
+		{
+			return FamiliarDatabase.isCombat1Type( (int)this.contentLong );
+		}
+
+		public boolean get_block()
+		{
+			return FamiliarDatabase.isBlockType( (int)this.contentLong );
+		}
+
+		public boolean get_delevel()
+		{
+			return FamiliarDatabase.isDelevelType( (int)this.contentLong );
+		}
+
+		public boolean get_hp_during_combat()
+		{
+			return FamiliarDatabase.isHp0Type( (int)this.contentLong );
+		}
+
+		public boolean get_hp_after_combat()
+		{
+			return FamiliarDatabase.isHp1Type( (int)this.contentLong );
+		}
+
+		public boolean get_mp_during_combat()
+		{
+			return FamiliarDatabase.isMp0Type( (int)this.contentLong );
+		}
+
+		public boolean get_mp_after_combat()
+		{
+			return FamiliarDatabase.isMp1Type( (int)this.contentLong );
 		}
 	}
 
