@@ -92,6 +92,7 @@ public class FamiliarDatabase
 	private static final BooleanArray hp1ById = new BooleanArray();
 	private static final BooleanArray mp0ById = new BooleanArray();
 	private static final BooleanArray mp1ById = new BooleanArray();
+	private static final BooleanArray variableById = new BooleanArray();
 
 	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
 
@@ -172,6 +173,7 @@ public class FamiliarDatabase
 				FamiliarDatabase.hp1ById.set( familiarId.intValue(), familiarType.contains( "hp1" ) );
 				FamiliarDatabase.mp0ById.set( familiarId.intValue(), familiarType.contains( "mp0" ) );
 				FamiliarDatabase.mp1ById.set( familiarId.intValue(), familiarType.contains( "mp1" ) );
+				FamiliarDatabase.variableById.set( familiarId.intValue(), familiarType.contains( "variable" ) );
 
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
 				for ( int i = 0; i < 4; ++i )
@@ -347,9 +349,7 @@ public class FamiliarDatabase
 			FamiliarDatabase.blockById.get( familiarId ) ||
 			FamiliarDatabase.delevelById.get( familiarId ) ||
 			FamiliarDatabase.hp0ById.get( familiarId ) ||
-			FamiliarDatabase.hp1ById.get( familiarId ) ||
-			FamiliarDatabase.mp0ById.get( familiarId ) ||
-			FamiliarDatabase.mp1ById.get( familiarId );
+			FamiliarDatabase.mp0ById.get( familiarId );
 	}
 
 	public static final boolean isCombat0Type( final int familiarId )
@@ -390,6 +390,11 @@ public class FamiliarDatabase
 	public static final boolean isMp1Type( final int familiarId )
 	{
 		return  FamiliarDatabase.mp1ById.get( familiarId );
+	}
+
+	public static final boolean isVariableType( final int familiarId )
+	{
+		return  FamiliarDatabase.variableById.get( familiarId );
 	}
 
 	public static final String getFamiliarItem( final int familiarId )
@@ -481,6 +486,12 @@ public class FamiliarDatabase
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "mp1" );
+		}
+		if ( FamiliarDatabase.variableById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "variable" );
 		}
 		if ( FamiliarDatabase.volleyById.get( familiarId ) )
 		{

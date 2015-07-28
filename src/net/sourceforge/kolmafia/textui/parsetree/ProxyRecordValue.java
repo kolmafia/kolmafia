@@ -460,6 +460,7 @@ public class ProxyRecordValue
 			.add( "hp_after_combat", DataTypes.BOOLEAN_TYPE )
 			.add( "mp_during_combat", DataTypes.BOOLEAN_TYPE )
 			.add( "mp_after_combat", DataTypes.BOOLEAN_TYPE )
+			.add( "variable", DataTypes.BOOLEAN_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -554,6 +555,11 @@ public class ProxyRecordValue
 		public boolean get_mp_after_combat()
 		{
 			return FamiliarDatabase.isMp1Type( (int)this.contentLong );
+		}
+
+		public boolean get_variable()
+		{
+			return FamiliarDatabase.isVariableType( (int)this.contentLong );
 		}
 	}
 

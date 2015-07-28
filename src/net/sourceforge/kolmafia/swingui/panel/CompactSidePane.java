@@ -371,12 +371,16 @@ public class CompactSidePane
 			JMenu combat01 = new JMenu( "physical and elemental" );
 			JMenu block = new JMenu( "block" );
 			JMenu delevel = new JMenu( "delevel" );
-			JMenu hp0 = new JMenu( "HP during combat" );
-			JMenu hp1 = new JMenu( "HP after combat" );
-			JMenu mp0 = new JMenu( "MP during combat" );
-			JMenu mp1 = new JMenu( "MP after combat" );
+			JMenu hp0 = new JMenu( "restore HP" );
+			JMenu mp0 = new JMenu( "restore MP" );
 
+			// After Combat submenu
+			JMenu hp1 = new JMenu( "restore HP" );
+			JMenu mp1 = new JMenu( "restore MP" );
+
+			JMenu variable = new JMenu( "variable" );
 			JMenu other = new JMenu( "other" );
+
 			String custom[] = new String[9];
 			JMenu customMenu[] = new JMenu[9];
 			for ( int i = 0; i < 9; ++i )
@@ -495,6 +499,11 @@ public class CompactSidePane
 					mp1.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+				if ( FamiliarDatabase.isVariableType( id ) )
+				{
+					variable.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
 
 				String key = "|" + fam.getRace().toLowerCase();
 				for ( int i = 0; i < 9; ++i )
@@ -536,9 +545,7 @@ public class CompactSidePane
 			     block.getMenuComponentCount() > 0 ||
 			     delevel.getMenuComponentCount() > 0 ||
 			     hp0.getMenuComponentCount() > 0 ||
-			     hp1.getMenuComponentCount() > 0 ||
-			     mp0.getMenuComponentCount() > 0 ||
-			     mp1.getMenuComponentCount() > 0 )
+			     mp0.getMenuComponentCount() > 0 )
 			{
 				JMenu combat = new JMenu( "combat" );
 
@@ -566,20 +573,34 @@ public class CompactSidePane
 				{
 					combat.add( hp0 );
 				}
-				if ( hp1.getMenuComponentCount() > 0 )
-				{
-					combat.add( hp1 );
-				}
 				if ( mp0.getMenuComponentCount() > 0 )
 				{
 					combat.add( mp0 );
 				}
-				if ( mp1.getMenuComponentCount() > 0 )
-				{
-					combat.add( mp1 );
-				}
 
 				famPopup.add( combat );
+			}
+
+			if ( hp1.getMenuComponentCount() > 0 ||
+			     mp1.getMenuComponentCount() > 0 )
+			{
+				JMenu aftercombat = new JMenu( "after combat" );
+
+				if ( hp1.getMenuComponentCount() > 0 )
+				{
+					aftercombat.add( hp1 );
+				}
+				if ( mp1.getMenuComponentCount() > 0 )
+				{
+					aftercombat.add( mp1 );
+				}
+
+				famPopup.add( aftercombat );
+			}
+
+			if ( variable.getMenuComponentCount() > 0 )
+			{
+				famPopup.add( variable );
 			}
 
 			for ( int i = 0; i < 9; ++i )
