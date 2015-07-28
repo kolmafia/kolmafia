@@ -62,7 +62,7 @@
 37	Spooky Gravy Fairy	sgfairy.gif	combat1,item0	pregnant gloomy black mushroom	miniature carton of clove cigarettes	3	3	1	2
 38	Inflatable Dodecapede	familiar38.gif	combat0	deflated inflatable dodecapede	toy six-seater hovercraft	3	2	2	1
 39	Pygmy Bugbear Shaman	familiar39.gif	stat0,item0	pygmy bugbear shaman	tiny nose-bone fetish	1	3	1	2
-40	Doppelshifter	familiar40.gif	none	doppelshifter egg	tiny makeup kit	3	3	3	3
+40	Doppelshifter	familiar40.gif	variable	doppelshifter egg	tiny makeup kit	3	3	3	3
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1
 43	Temporal Riftlet	familiar43.gif	block,delevel,other	miniscule temporal rip	1.21 jigawatts	1	3	1	2
@@ -76,7 +76,7 @@
 51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1
 52	Spirit Hobo	ghobo.gif	stat0,combat0,mp0	homeless hobo spirit	weegee sqouija	2	1	3	0
 53	Astral Badger	badger.gif	combat0	astral badger	badger badge	3	0	2	3
-54	Comma Chameleon	commacha.gif	none	Comma Chameleon egg		0	0	0	2
+54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2
 55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2
 56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2
@@ -103,8 +103,8 @@
 78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0
 79	Teddy Borg	teddyborg.gif	other	teddy borg	teddy borg sewing kit	3	2	0	1
 80	RoboGoose	robogoose.gif	combat0,delevel,block,mp0	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0
-81	El Vibrato Megadrone	megadrone.gif	none	El Vibrato Megadrone		3	3	3	3
-82	Mad Hatrack	hatrack.gif	none	sane hatrack		3	0	1	2
+81	El Vibrato Megadrone	megadrone.gif	variable	El Vibrato Megadrone		3	3	3	3
+82	Mad Hatrack	hatrack.gif	variable	sane hatrack		3	0	1	2
 83	Adorable Seal Larva	seallarva.gif	combat0,hp0	adorable seal larva	pretty pink bow	3	2	1	2
 84	Untamed Turtle	untamed.gif	block	untamable turtle	smiley-face sticker	0	0	0	3
 85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0	macaroni duck	farfalle bow tie	2	2	2	2
@@ -115,7 +115,7 @@
 90	Llama Lama	llama.gif	stat0	llama lama cria	zen motorcycle	1	2	3	2
 91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1	cotton candy cocoon	cotton candy cordial	0	2	2	3
 92	Disembodied Hand	dishand.gif	combat0	spooky rattling cigar box		3	2	0	2
-93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0
+93	Black Cat	blackcat.gif	other	black kitten		0	0	0	0
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3
 95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1
 96	Baby Mutant Rattlesnake	rattlesnake.gif	combat0,stat0	mutant rattlesnake egg	rattlesnake enrager	3	2	1	0
@@ -174,7 +174,7 @@
 149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3
 150	Pair of Stomping Boots	stompboots.gif	combat0,item0	fairy-worn boots	stomp box	3	0	2	2
 151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1
-152	Fancypants Scarecrow	pantscrow2.gif	none	stuffed-shirt scarecrow		0	0	0	0
+152	Fancypants Scarecrow	pantscrow2.gif	variable	stuffed-shirt scarecrow		0	0	0	0
 153
 154	Bloovian Groose	groose.gif	stat0,meat0	The Groose in the Hoose	spruce juice	2	2	1	3
 155	Blavious Kloop	kloop.gif	item0,meat0	The Kloop in the Coop	miniscule beatbox	0	3	2	1
@@ -196,7 +196,7 @@
 171	Gelatinous Cubeling	gcube.gif	delevel,item0	dried gelatinous cube	pile of dungeon junk	2	3	0	1
 172	Adorable Space Buddy	starbuddy.gif	combat1,hp1,mp1	Star Spawn	cute bow from beyond the stars	1	2	3	3
 173	Nosy Nose	nosynose.gif	delevel	wriggling severed nose	nosy nose ringy ring	1	3	1	2
-174	Mini-Adventurer	miniadv0.gif	other	adventurer clone egg	mini-Mr. Accessory	2	2	2	2
+174	Mini-Adventurer	miniadv0.gif	variable	adventurer clone egg	mini-Mr. Accessory	2	2	2	2
 175	Mechanical Songbird	mechbird.gif	item0	unwound mechanical songbird	shiny brass tailfeathers	1	2	2	0
 176	Reanimated Reanimator	reanimator.gif	stat0,other	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0
 177	Warbear Drone	wbdronefam.gif	combat0,combat1	warbear drone assembler	warbear drone codes	3	2	2	0
@@ -212,7 +212,7 @@
 187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0
 188	Fist Turkey	fistturkey.gif	combat0,item0	fist turkey outline	brass turkey knuckles	3	2	2	3
 189	Crimbo Shrub	crimboshrub.gif	combat1,stat0	Crimbo sapling	even more tinsel	1	3	2	0
-190	Mini-Crimbot	minicrimbot.gif	other	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0
+190	Mini-Crimbot	minicrimbot.gif	variable	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0
 191	Topiary Skunk	topiskunk.gif	combat1,hp1	topiary skunk	topiary noseplugs	1	2	0	1
 192	Golden Monkey	goldmonkey.gif	stat0,meat0	golden monkey statuette	golden banana	1	2	3	0
 193	Adventurous Spelunker	spelunker.gif	item0,meat0	Professor of Spelunkology	Stembridge sidearm	3	3	3	3
