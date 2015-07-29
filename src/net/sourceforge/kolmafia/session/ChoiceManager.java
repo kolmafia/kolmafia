@@ -8493,7 +8493,7 @@ public abstract class ChoiceManager
 
 		case 1044:
 			// The Gates of Hell
-			if ( ChoiceManager.lastResponseText.contains( "unlock the padlock" ) )
+			if ( text.contains( "unlock the padlock" ) )
 			{
 				SpelunkyRequest.unlock( "Hell", "Hell" );
 			}
@@ -8505,34 +8505,9 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step1" );
 			}
-			else if ( text.contains( "Bjorn's Hammer" ) )
+			else if ( text.contains( "You acquire" ) )
 			{
-				ResultProcessor.processItem( ItemPool.SEAL_CLUB, -1 );
-				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			}
-			else if ( text.contains( "Mace of the Tortoise" ) )
-			{
-				ResultProcessor.processItem( ItemPool.TURTLE_TOTEM, -1 );
-				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			}
-			else if ( text.contains( "Pasta Spoon of Peril" ) )
-			{
-				ResultProcessor.processItem( ItemPool.PASTA_SPOON, -1 );
-				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			}
-			else if ( text.contains( "5-Alarm Saucepan" ) )
-			{
-				ResultProcessor.processItem( ItemPool.SAUCEPAN, -1 );
-				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			}
-			else if ( text.contains( "Disco Banjo" ) )
-			{
-				ResultProcessor.processItem( ItemPool.DISCO_BALL, -1 );
-				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
-			}
-			else if ( text.contains( "Rock and Roll Legend" ) )
-			{
-				ResultProcessor.processItem( ItemPool.STOLEN_ACCORDION, -1 );
+				ResultProcessor.processItem( KoLCharacter.getClassStarterWeapon(), -1 );
 				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step4" );
 			}
 			break;
