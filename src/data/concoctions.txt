@@ -1407,6 +1407,12 @@ fettucini &eacute;pines Inconnu	COOK	fettucini Inconnu	pretty flower
 Hell broth	SAUCE	scrumptious reagent	hellion cube
 Hell ramen	PASTA	Hell broth	dry noodles
 
+Special&trade; Sauce	SAUCE	scrumptious reagent	pink slime
+spagecialetti	PASTA	Special&trade; Sauce	dry noodles
+
+Devil's Elbow Hot Sauce	SAUCE	scrumptious reagent	hot wing
+devil hair pasta	PASTA	Devil's Elbow Hot Sauce	dry noodles
+
 Himalayan Hidalgo sauce	SAUCE	scrumptious reagent	Knob mushroom
 gnocchetti di Nietzsche	PASTA	Himalayan Hidalgo sauce	dry noodles
 
@@ -1469,6 +1475,10 @@ sleazy and sour sauce	SSAUCE	scrumdiddlyumptious solution	sleaze nuggets
 spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky nuggets
 stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench nuggets
 
+good gravy	SSAUCE	scrumdiddlyumptious solution	giant turkey leg
+illicit fish sauce	SSAUCE	scrumdiddlyumptious solution	stolen sushi
+salsa libre	SSAUCE	scrumdiddlyumptious solution	open sauce
+
 
 # Top-end foods made by cooking element-and-sour sauces with savory dry noodles
 
@@ -1477,6 +1487,10 @@ hot hi mein	TNOODLE	hot and sour sauce	savory dry noodles
 sleazy hi mein	TNOODLE	sleazy and sour sauce	savory dry noodles
 spooky hi mein	TNOODLE	spooky and sour sauce	savory dry noodles
 stinky hi mein	TNOODLE	stench and sour sauce	savory dry noodles
+
+turkish mostaccioli	TNOODLE	good gravy	scrumdiddlyumptious solution
+linguini of the sea	TNOODLE	illicit fish sauce	scrumdiddlyumptious solution
+libertagliatelle	TNOODLE	salsa libre	scrumdiddlyumptious solution
 
 
 # Top-end foods made by cooking other things with savory dry noodles

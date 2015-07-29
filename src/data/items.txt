@@ -8445,3 +8445,15 @@
 8419	linguini immondizia bianco	357964482	bowl.gif	food	t,d	65	bowls of linguini immondizia bianco
 8420	shells a la shellfish	452359473	bowl.gif	food	t,d	65	bowls of shells a la shellfish
 8421	Jick's autograph	972003195	whitecard.gif	none	t	0
+# 8422-8425: unknown.
+8526	pink slime	205750761	blankoutglob.gif	food	t,d	35
+8527	Devil's Elbow Hot Sauce	556130307	gravy.gif	none	t,d	45
+8528	Special&trade; Sauce	440267272	gravy.gif	none	t,d	45
+8529	devil hair pasta	269412399	bowl.gif	food	t,d	55
+8530	spagecialetti	700263568	bowl.gif	food	t,d	55
+8531	Salsa Libre	995368441	gravy.gif	none	t,d	55
+8532	good gravy	998762956	gravy.gif	none	t,d	55
+8533	illicit fish sauce	129433575	gravy.gif	none	t,d	55
+8534	libertagliatelle	178454636	bowl.gif	food	t,d	65
+8535	turkish mostaccioli	352002016	bowl.gif	food	t,d	65
+8536	linguini of the sea	136886155	bowl.gif	food	t,d	65
