@@ -1051,6 +1051,18 @@ public abstract class KoLCharacter
 			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
+	public static int getClassStarterWeapon()
+	{
+		return
+			KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ? ItemPool.SEAL_CLUB :
+			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ? ItemPool.TURTLE_TOTEM :
+			KoLCharacter.classtype == KoLCharacter.PASTAMANCER ? ItemPool.PASTA_SPOON :
+			KoLCharacter.classtype == KoLCharacter.SAUCEROR ? ItemPool.SAUCEPAN :
+			KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ? ItemPool.DISCO_BALL :
+			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ? ItemPool.STOLEN_ACCORDION :
+			-1;
+	}
+
 	/**
 	 * Accessor method to retrieve the level of this character.
 	 *
