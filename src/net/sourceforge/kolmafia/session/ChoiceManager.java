@@ -6498,6 +6498,13 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 360:	// Wumpus Cave
+			WumpusManager.preWumpus( ChoiceManager.lastDecision );
+			if ( ChoiceManager.lastDecision > 3 )
+			{
+			}
+			break;
+
 		case 1019:	// Bee Rewarded
 			if ( ChoiceManager.lastDecision == 1 )
 			{
