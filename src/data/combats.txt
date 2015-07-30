@@ -98,7 +98,7 @@ CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hi
 CRIMBCO WC	100	Elf Hobo
 # Crimbo Town Toy Factory	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
 # Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
-Crimbo Town Toy Factory	100	Amateur Elf	Auteur Elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	Provocateur Elf	Raconteur Elf	Saboteur Elf	Wire-Crossin' Elf
+Crimbo Town Toy Factory	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbokutown Toy Factory	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
@@ -190,7 +190,7 @@ South of the Border	50	angry pi&ntilde;ata	handsome mariachi	irate mariachi	mari
 Special Ops	-1	Black Ops Bugbear
 Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
-Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	skeletal reindeer	Stocking-stuffing Zombie	Toy-making creature from the Gray Lagoon
+Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	skeletal reindeer	Stocking-stuffing Zombie	toy-making creature from the Gray Lagoon
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
