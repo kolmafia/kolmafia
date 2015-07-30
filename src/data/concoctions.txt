@@ -1429,8 +1429,7 @@ oyster sauce	SAUCE	scrumptious reagent	Mt. McLargeHuge oyster
 shells a la shellfish	PASTA	oyster sauce	dry noodles
 
 
-# Stir-fry items.  These are the main ingredients or are sub-ingredients
-# of chow mein items.
+# Stir-fries
 
 secret blend of herbs and spices	COOK	herbs	spices
 
@@ -1461,13 +1460,7 @@ ratini	PASTA	rat appendix	dry noodles
 Knob stroganoff	PASTA	Knob mushroom	dry noodles
 menudo ravioli	PASTA	batgut	dry noodles
 
-# savory dry noodles
-savory dry noodles	TNOODLE	dry noodles	MSG
-
-# High-end foods made by cooking with savory dry noodles
-
-unfortunate dumplings	TNOODLE	C.H.U.M. chum	savory dry noodles
-wok lobster	TNOODLE	live lobster	savory dry noodles
+# Food ingredients that use scrumdiddlyumptious solution
 
 cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
 hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets
@@ -1475,12 +1468,20 @@ sleazy and sour sauce	SSAUCE	scrumdiddlyumptious solution	sleaze nuggets
 spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky nuggets
 stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench nuggets
 
-good gravy	SSAUCE	scrumdiddlyumptious solution	giant turkey leg
-illicit fish sauce	SSAUCE	scrumdiddlyumptious solution	stolen sushi
-salsa libre	SSAUCE	scrumdiddlyumptious solution	open sauce
+good gravy	SSAUCE	giant turkey leg	scrumdiddlyumptious solution
+illicit fish sauce	SSAUCE	stolen sushi	scrumdiddlyumptious solution
+Salsa Libre	SSAUCE	open sauce	scrumdiddlyumptious solution
 
+# Advanced noodles
 
-# Top-end foods made by cooking element-and-sour sauces with savory dry noodles
+savory dry noodles	TNOODLE	dry noodles	MSG
+
+# Specialty foods made by cooking with savory dry noodles
+
+unfortunate dumplings	TNOODLE	C.H.U.M. chum	savory dry noodles
+wok lobster	TNOODLE	live lobster	savory dry noodles
+
+# Top-end foods made by cooking with savory dry noodles
 
 cold hi mein	TNOODLE	cold and sour sauce	savory dry noodles
 hot hi mein	TNOODLE	hot and sour sauce	savory dry noodles
@@ -1488,12 +1489,9 @@ sleazy hi mein	TNOODLE	sleazy and sour sauce	savory dry noodles
 spooky hi mein	TNOODLE	spooky and sour sauce	savory dry noodles
 stinky hi mein	TNOODLE	stench and sour sauce	savory dry noodles
 
-turkish mostaccioli	TNOODLE	good gravy	scrumdiddlyumptious solution
-linguini of the sea	TNOODLE	illicit fish sauce	scrumdiddlyumptious solution
-libertagliatelle	TNOODLE	salsa libre	scrumdiddlyumptious solution
-
-
-# Top-end foods made by cooking other things with savory dry noodles
+turkish mostaccioli	TNOODLE	good gravy	savory dry noodles
+linguini of the sea	TNOODLE	illicit fish sauce	savory dry noodles
+libertagliatelle	TNOODLE	Salsa Libre	savory dry noodles
 
 fishy fish lasagna	TNOODLE	fishy fish casserole	savory dry noodles
 gnat lasagna	TNOODLE	gnatloaf casserole	savory dry noodles
