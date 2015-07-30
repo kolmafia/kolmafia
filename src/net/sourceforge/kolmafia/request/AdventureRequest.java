@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
 
@@ -588,8 +589,17 @@ public class AdventureRequest
 
 		// If the monster has random modifiers, remove and save them
 		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
-		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
+		// Adventuring in the Wumpus cave while temporarily blind is
+		// stupid, but since we won't clear the cave after defeating it
+		// if we can't recognize it, allow for it
+		if ( WumpusManager.isWumpus() )
+		{
+			return "wumpus";
+		}
+
+		// Disambiguate via responseText, if possible
+		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 		if ( MonsterDatabase.findMonster( encounter, false ) != null )
 		{
 			return encounter;

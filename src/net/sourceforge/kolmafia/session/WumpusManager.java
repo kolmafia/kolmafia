@@ -33,7 +33,6 @@
 
 package net.sourceforge.kolmafia.session;
 
-import java.util.Iterator;
 import java.util.TreeMap;
 
 import java.util.regex.Matcher;
@@ -130,6 +129,8 @@ public abstract class WumpusManager
 		"possible bats, pit, or Wumpus",
 	};
 
+	private static boolean monsterIsWumpus = false;
+
 	public static String[] ELIMINATE_STRINGS = new String[]
 	{
 		"",
@@ -163,6 +164,9 @@ public abstract class WumpusManager
 		WumpusManager.pit1 = null;
 		WumpusManager.pit2 = null;
 		WumpusManager.wumpus = null;
+
+		// The next monster is not guaranteed to be the wumpus
+		WumpusManager.monsterIsWumpus = false;
 	}
 
 	// Deductions we made from visiting this room
@@ -733,6 +737,7 @@ public abstract class WumpusManager
 		// into 3 rooms.
 		if ( decision > 3 )
 		{
+			WumpusManager.monsterIsWumpus = false;
 			decision -= 3;
 		}
 
@@ -760,12 +765,23 @@ public abstract class WumpusManager
 		// wumpus, it doesn't seem to really know how to react.
 
 		if ( text.contains( "unexpectedly, a wumpus" ) ||
-		     text.contains( "surprised the wumpus" ) )
+		     text.contains( "surprised the wumpus" ) ||
+		     text.contains( "darkness.gif" ) )
 		{
 			WumpusManager.last = WumpusManager.current;
 			WumpusManager.knownWumpus( room, VISIT );
 			return;
 		}
+	}
+
+	public static void preWumpus( int decision )
+	{
+		WumpusManager.monsterIsWumpus = decision > 3;
+	}
+
+	public static boolean isWumpus()
+	{
+		return WumpusManager.monsterIsWumpus;
 	}
 
 	public static String[] dynamicChoiceOptions( String text )

@@ -82,7 +82,7 @@ MONSTER	Trippy Floating Head	.	"Trippy Floating Head (Mona Lisa)"
 MONSTER	Ninja Snowman	ninjarice\.gif	"Ninja Snowman (Chopsticks)"
 MONSTER	Ninja Snowman	.	"Ninja Snowman (Hilt/Mask)"
 
-MONSTER	The Darkness	darkness\.gif	"The Darkness (blind)"
+MONSTER	the darkness	darkness\.gif	"the darkness (blind)"
 
 MONSTER	Ed the Undying	/ed(\d)\.gif	"Ed the Undying ($1)"
 MONSTER	Ed the Undying	.	"Ed the Undying (1)"
