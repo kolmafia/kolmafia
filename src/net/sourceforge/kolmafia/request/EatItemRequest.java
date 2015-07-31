@@ -789,6 +789,12 @@ public class EatItemRequest
 			Preferences.setBoolean( "_spaghettiBreakfastEaten", true );
 			return;
 
+		case ItemPool.SMORE:
+			Preferences.increment( "smoresEaten", 1 );
+			ConsumablesDatabase.setSmoresData();
+			ConsumablesDatabase.calculateAdventureRanges();
+			return;
+
 		}
 	}
 

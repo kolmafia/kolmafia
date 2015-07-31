@@ -1121,6 +1121,20 @@ public class ConsumablesDatabase
 		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
 	}
 
+	public static final void setSmoresData()
+	{
+		// s'more
+		String name = "s'more";
+		int size = Preferences.getInteger( "smoresEaten" ) + 1;
+		String adventures = String.valueOf( (int) Math.ceil( Math.pow( size, 1.75 ) ) );
+		String muscle = "0";
+		String mysticality = "0";
+		String moxie = "0";
+		String note = "";
+		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );				
+		ConsumablesDatabase.fullnessByName.put( name, size );
+	}
+
 	// Support for dusty bottles of wine
 
 	public static final String dustyBottleType( final int itemId )
