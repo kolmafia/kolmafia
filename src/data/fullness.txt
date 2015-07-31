@@ -268,7 +268,7 @@ fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
 flaming mushroom	3	2	decent	3-9	3-5	0	0	lose 3 HP
-flask of peppermint oil	0	1	crappy	1-1	0	0	0	Unspaded
+flask of peppermint oil	0	1	crappy	0	0	0	0
 flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
@@ -529,7 +529,7 @@ pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	1-1	0	0	0	Unspaded
 plain pizza	2	1	decent	2-4	0	0	0
-plate of franks and beans	1	1	decent	1-1	0	0	0	Unspaded
+plate of franks and beans	1	1	decent	2	0	0	0
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
@@ -627,7 +627,7 @@ slick nigiri	2	1		4-8	0	0	8-16	20/30 Fishy
 slimy sweetbreads	1	6	good	2-3	0	0	0	20 Grimace (+25 ML, slime res)
 slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
-s'more	0	1	crappy	1-1	0	0	0	Unspaded
+s'more	0	1	crappy	0	0	0	0
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
@@ -650,7 +650,7 @@ spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
 sponge cake	2	3	decent	3-5	0	0	5-10
-spooky frank	0	1	crappy	1-1	0	0	0	Unspaded
+spooky frank	0	1	crappy	0	0	0	0
 spooky hi mein	5	7	awesome	23-26	15-20	71-75	30-35	5 Spooky Breath (combat skill)
 spooky lo mein	4	6	awesome	14-22	0	0	33-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
