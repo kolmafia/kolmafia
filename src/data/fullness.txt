@@ -466,7 +466,7 @@ Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
-Mt. McLargeHuge oyster	3	1	decent	1-1	0	0	0	Unspaded
+Mt. McLargeHuge oyster	3	1	decent	5-7	15-20	0	0
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
@@ -514,7 +514,7 @@ perfect breakfast	5	1	good	14-16	20-30	40-50	0
 perfect chef salad	5	1	good	14-16	10-20	40-50	10-20
 perfect sandwich	5	1	good	14-16	10-20	40-50	10-20
 personalized birthday cake	3	1	crappy	3	0	0	0
-pestopiary	2	1	good	1-1	0	0	0	Unspaded
+pestopiary	2	1	good	5-7	0	15-20	0
 petit 4.1	2	1	awesome	7-11	0	0	0	20 Petit Force (+100% all stats)
 petit fortran	2	1	awesome	7-11	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-20 HP regen)
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
@@ -572,7 +572,7 @@ root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
-salacious crumbs	3	1	decent	1-1	0	0	0	Unspaded
+salacious crumbs	3	1	decent	5-7	0	0	15-20
 salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
 salty beefy maki	3	1		7-12	8-16	0	0	45/55 Fishy, 10 Salty Dogs
 salty eleven oceans roll	3	1		9-14	20-30	20-30	28-46	45/55 Fishy, 10 Salty Dogs
