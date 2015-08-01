@@ -216,7 +216,7 @@ public class Concoction
 		this.setConsumptionData();
 	}
 
-	private void setConsumptionData()
+	public void setConsumptionData()
 	{
 		this.fullness = ConsumablesDatabase.getFullness( this.name );
 		this.inebriety = ConsumablesDatabase.getInebriety( this.name );
@@ -226,7 +226,6 @@ public class Concoction
 			this.inebriety > 0 || ( this.concoction != null && this.concoction.getItemId() == ItemPool.SCHRODINGERS_THERMOS ) ? BOOZE_PRIORITY :
 			this.spleenhit > 0 ? SPLEEN_PRIORITY :
 			NO_PRIORITY;
-
 		this.setStatGain();
 	}
 
