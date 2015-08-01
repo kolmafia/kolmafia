@@ -88,7 +88,7 @@ public class ConsumablesDatabase
 	public static final Map<String, Integer> spleenHitByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
 	private static final Map<String, String> qualityByName = new HashMap<String, String>();
 	private static final Map<String, String> notesByName = new HashMap<String, String>();
-	
+
 	private static final Map[][][][][] advsByName = new HashMap[ 2 ][ 2 ][ 2 ][ 2 ][ 2 ];
 	private static final Map<String, String> advRangeByName = new HashMap<String, String>();
 	private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
@@ -348,7 +348,7 @@ public class ConsumablesDatabase
 			ConsumablesDatabase.qualityByName.put( name, ConsumablesDatabase.qualityValue( data[ 3 ] ) );
 			ConsumablesDatabase.saveAdventureRange( name, StringUtilities.parseInt( data[ 1 ] ), data[ 4 ] );
 		}
-		
+
 		ConsumablesDatabase.muscleByName.put( name, data[ 5 ] );
 		ConsumablesDatabase.mysticalityByName.put( name, data[ 6 ] );
 		ConsumablesDatabase.moxieByName.put( name, data[ 7 ] );
@@ -437,7 +437,7 @@ public class ConsumablesDatabase
 		int unitCost = ConsumablesDatabase.unitCostByName.get( name ).intValue();
 		int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
 		int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
-		
+
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
 
@@ -473,7 +473,7 @@ public class ConsumablesDatabase
 		{
 			return;
 		}
-		
+
 		// calculate munchies pill effect
 		double munchieBonus;
 		if ( end <= 3 )
@@ -493,7 +493,7 @@ public class ConsumablesDatabase
 			}
 			munchieBonus = (double) munchieTotal / ( end-start + 1 );
 		}
-		
+
 		double gain3 = benefit ? ( average + unitCost * 3.0 ) : 0.0;
 		double gain0a = benefit ? ( average + munchieBonus ) : 0.0;
 		double gain1a = benefit ? ( average + unitCost + munchieBonus ) : 0.0;
@@ -832,7 +832,7 @@ public class ConsumablesDatabase
 			return 0.0;
 		}
 
-		range += ConsumablesDatabase.conditionalExtraAdventures( name, perUnit );			
+		range += ConsumablesDatabase.conditionalExtraAdventures( name, perUnit );
 
 		return range.doubleValue();
 	}
@@ -847,7 +847,7 @@ public class ConsumablesDatabase
 		Integer fullness = ConsumablesDatabase.getRawFullness( name );
 		Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
 		Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
-		
+
 		if ( fullness != null )
 		{
 			unit += fullness.intValue();
@@ -1085,14 +1085,14 @@ public class ConsumablesDatabase
 		moxie = "0";
 		note = "";
 		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
-		
+
 		// spaghetti breakfast
 		//
 		// You gain X Adventures.
 		// (You gain 1 Fullness.)
 		//
 		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
-		
+
 		name = "spaghetti breakfast";
 		size = 1;
 		float sbAdv = ( level + 1 ) / 2;
@@ -1101,15 +1101,15 @@ public class ConsumablesDatabase
 		mysticality = "0";
 		moxie = "0";
 		note = "";
-		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
-		
+		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+
 		// cold one
 		//
 		// You gain X Adventures.
 		// (You gain 1 Fullness.)
 		//
 		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
-		
+
 		name = "cold one";
 		size = 1;
 		float coAdv = ( level + 1 ) / 2;
@@ -1118,7 +1118,7 @@ public class ConsumablesDatabase
 		mysticality = "0";
 		moxie = "0";
 		note = "";
-		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );		
+		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
 	}
 
 	public static final void setSmoresData()
@@ -1131,8 +1131,13 @@ public class ConsumablesDatabase
 		String mysticality = "0";
 		String moxie = "0";
 		String note = "";
-		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );				
+		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
 		ConsumablesDatabase.fullnessByName.put( name, size );
+		Concoction c = ConcoctionPool.get( name );
+		if ( c != null )
+		{
+			c.setConsumptionData();
+		}
 	}
 
 	// Support for dusty bottles of wine
