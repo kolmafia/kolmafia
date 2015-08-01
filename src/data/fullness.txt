@@ -194,7 +194,7 @@ decent brain	1	1	decent	2	3-5	3-5	3-5	Zombie Slayer
 dehydrated caviar	1	2	decent	2	0	0	15
 delicious noodles	3	3	good	6-9	0	0	9-25
 delicious salad	3	1	decent	3-5	0	0	0	25% chance of tattoo
-delicious spicy noodles	3	5	awesome	7-15	0	29-33	0
+delicious spicy noodles	3	5	awesome	9-11	0	29-33	0
 delicious swamp muck	5	4	decent	7-8	20-30	20-30	20-30
 deluxe layer cake	10	10	awesome	42-48	200-400	200-400	200-400
 desiccated apricot	1	2	decent	2	15-17	0	0
@@ -416,13 +416,13 @@ leftover canap&eacute;s	2	2	decent	3-5	3-5	3-5	3-5
 lemon	1	1	crappy	1	0	0	0
 lemon meringue pie	3	2	decent	3-9	8-10	0	0
 lemon popsicle	1	1	decent	2	0	0	0
-libertagliatelle	5	1	awesome	1-1	0	0	0	Unspaded
+libertagliatelle	5	1	awesome	19-22	0	35-40	0
 licorice garrote	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 lihc eye pie	4	2	decent	5-12	0	11-12	0	5 Eye of the Lihc (+1 spooky res)
 lime	1	2	decent	2	0	0	0
 limp broccoli	2	5	good	4-6	10-20	10-20	10-20	100 Nutrient-Rich (+4 exp, +50% HP, +25% MP)
 linguini immondizia bianco	5	8	awesome	17-20	0	0	25-30
-linguini of the sea	5	1	awesome	1-1	0	0	0	Unspaded
+linguini of the sea	5	1	awesome	19-22	0	0	35-40
 liquid bread	1	4	EPIC	5-6	5-10	5-10	5-10	20 Comprehensively Nourished (+2 experience)
 liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
