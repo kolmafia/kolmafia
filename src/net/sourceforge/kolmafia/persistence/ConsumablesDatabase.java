@@ -1125,7 +1125,7 @@ public class ConsumablesDatabase
 	{
 		// s'more
 		String name = "s'more";
-		int size = Preferences.getInteger( "smoresEaten" ) + 1;
+		int size = Preferences.getInteger( "smoresEaten" ) + 1 + ConcoctionDatabase.queuedSmores;
 		String adventures = String.valueOf( (int) Math.ceil( Math.pow( size, 1.75 ) ) );
 		String muscle = "0";
 		String mysticality = "0";
