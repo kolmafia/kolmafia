@@ -8436,7 +8436,7 @@
 8410	agnolotti arboli	507173047	ravshurikens.gif	food	t,d	60	plates of agnolotti arboli
 8411	spaghetti with ghost balls	584365029	bowl.gif	food	t,d	60	bowls of spaghetti with ghost balls
 8412	succulent marrow	231302137	gooball.gif	food	t,d	30	globs of succulent marrow
-8413	salacious crumbs	496642087	breadcrumbs.gif	food	t,d	30
+8413	salacious crumbs	496642087	breadcrumbs.gif	food	t,d	30	piles of salacious crumbs
 8414	fusilli marrownarrow	988648575	bowl.gif	food	t,d	60	bowls of fusilli marrownarrow
 8415	suggestive strozzapreti	701254913	bowl.gif	food	t,d	60	bowls of suggestive strozzapreti
 8416	Mountain Stream gastrique	405808895	gravy.gif	none	t,d	40	tureens of Mountain Stream gastrique
