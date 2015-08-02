@@ -109,6 +109,11 @@ public class CheckedItem
 		if ( c.price > 0 )
 		{
 			this.npcBuyable = maxPrice / c.price;
+			int limit = CheckedItem.limitBuyable( itemId );
+			if ( limit < this.npcBuyable )
+			{
+				this.npcBuyable = limit;
+			}
 		}
 
 		if ( this.getCount() >= 3 || equipLevel < 3 )
@@ -204,6 +209,20 @@ public class CheckedItem
 		{
 			this.mallBuyable = 0;
 		}
+	}
+
+	private static final int limitBuyable( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MIRACLE_WHIP:
+			return Preferences.getBoolean( "_mayoDeviceRented" ) || Preferences.getBoolean( "mayoWhipRented" ) ? 0 : 1;
+		case ItemPool.SPHYGMAYOMANOMETER:
+		case ItemPool.REFLEX_HAMMER:
+		case ItemPool.MAYO_LANCE:
+			return Preferences.getBoolean( "_mayoDeviceRented" ) ? 0 : 1;
+		}
+		return Integer.MAX_VALUE;
 	}
 
 	public static final int TOTAL_MASK = 0xFF;
