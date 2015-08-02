@@ -90,7 +90,7 @@ public class AdventureRequest
 	extends GenericRequest
 {
 	public static final String NOT_IN_A_FIGHT = "Not in a Fight";
-	
+
 	private static final Pattern AREA_PATTERN = Pattern.compile( "(adv|snarfblat)=(\\d*)", Pattern.DOTALL );
 
 	// <img id='monpic' src="http://images.kingdomofloathing.com/adventureimages/ssd_sundae.gif" width=100 height=100>
@@ -678,7 +678,7 @@ public class AdventureRequest
 				image.startsWith( "spookyhobo" ) ? "Spooky Hobo" :
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
-				image.startsWith( "slime" ) ? image.substring( 0, 5 ) :
+				image.startsWith( "slime" ) ? image.substring( 0, 6 ) :
 				// GamePro Bosses
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :
@@ -782,7 +782,7 @@ public class AdventureRequest
 			return DeckOfEveryCardRequest.parseCardEncounter( responseText );
 
 		case 535:	// Deep Inside Ronald, Baby
-		case 536:	// Deep Inside Grimace, Bow Chick-a Bow Bow	
+		case 536:	// Deep Inside Grimace, Bow Chick-a Bow Bow
 		case 585:	// Screwing Around!
 		case 595:	// Fire! I... have made... fire!
 		case 807:	// Breaker Breaker!
@@ -1286,7 +1286,7 @@ public class AdventureRequest
 			StaticEntity.printStackTrace( e );
 			return monsterName;
 		}
-		
+
 		Object[] result;
 		try
 		{
@@ -1296,7 +1296,7 @@ public class AdventureRequest
 		{
 			return monsterName;
 		}
-		
+
 		String text = "";
 		for ( Object result1 : result )
 		{
@@ -1329,7 +1329,7 @@ public class AdventureRequest
 		}
 
 		// Ditto for "a " to recognize the aliases for Your Shadow
-		
+
 		if ( monsterName.startsWith( "a " ) )
 		{
 			monsterName = monsterName.substring( 2 );
