@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -398,6 +399,11 @@ public abstract class ItemManagePanel
 				if ( concoction.speakeasy )
 				{
 					itemCount -= ConcoctionDatabase.queuedSpeakeasyDrink;
+				}
+				// Only queue one S'more at at time
+				if ( concoction.getItemId() == ItemPool.SMORE )
+				{
+					itemCount = 1;
 				}
 			}
 

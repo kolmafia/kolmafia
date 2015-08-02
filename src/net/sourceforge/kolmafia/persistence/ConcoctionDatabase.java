@@ -119,6 +119,7 @@ public class ConcoctionDatabase
 	public static int queuedMeatSpent = 0;
 	public static boolean queuedFancyDog = false;
 	public static int queuedSpeakeasyDrink = 0;
+	public static int queuedSmores = 0;
 	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
@@ -581,6 +582,12 @@ public class ConcoctionDatabase
 		}
 
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
+
+		if ( c.getItemId() == ItemPool.SMORE )
+		{
+			ConcoctionDatabase.queuedSmores++;
+			ConsumablesDatabase.setSmoresData();
+		}
 	}
 
 	public static final QueuedConcoction pop( boolean food, boolean booze, boolean spleen )
@@ -708,6 +715,14 @@ public class ConcoctionDatabase
 					ConcoctionDatabase.queuedInebriety--;
 				}
 			}
+		}
+
+		if ( c.getItemId() == ItemPool.SMORE )
+		{
+			ConcoctionDatabase.queuedSmores--;
+			ConsumablesDatabase.setSmoresData();
+			// The last s'more was smaller than the next one, so adjust queued fullness
+			ConcoctionDatabase.queuedFullness++;
 		}
 
 		return qc;
