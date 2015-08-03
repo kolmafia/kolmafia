@@ -4689,6 +4689,10 @@ public class UseItemRequest
 			Preferences.setBoolean( "_stenchAirportToday", true );
 			return;
 
+		case ItemPool.VOLCANO_CHARTER:
+			Preferences.setBoolean( "hotAirportAlways", true );
+			return;
+
 		case ItemPool.LOVEBUG_PHEROMONES:
 			Preferences.setBoolean( "lovebugsUnlocked", true );
 			if ( !responseText.contains( "have been permanently unlocked" ) )

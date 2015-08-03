@@ -8445,7 +8445,9 @@
 8419	linguini immondizia bianco	357964482	bowl.gif	food	t,d	65	bowls of linguini immondizia bianco
 8420	shells a la shellfish	452359473	bowl.gif	food	t,d	65	bowls of shells a la shellfish
 8421	Jick's autograph	972003195	whitecard.gif	none	t	0
-# 8422-8425: unknown.
+# 8422-8486: unknown.
+8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0
+# 8488-8525: unknown.
 8526	pink slime	205750761	blankoutglob.gif	food	t,d	35
 8527	Devil's Elbow Hot Sauce	556130307	gravy.gif	none	t,d	45
 8528	Special&trade; Sauce	440267272	gravy.gif	none	t,d	45
