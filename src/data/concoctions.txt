@@ -1802,6 +1802,8 @@ SMOOCH bracers	MUSE	superheated metal (5)
 SMOOCH kneepads	MUSE	superheated metal (7)
 SMOOCH spaulders	MUSE	superheated metal (9)
 
+high-temperature mining drill	SUSE	broken high-temperature mining drill	heat-resistant sheet metal
+
 insulated gold wire	COMBINE	thin gold wire	unsmoothed velvet
 
 uncapped red lava bottle	SUSE	red lava globs	full lava bottle
