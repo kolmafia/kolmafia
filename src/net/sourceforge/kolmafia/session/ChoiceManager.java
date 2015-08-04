@@ -3562,6 +3562,25 @@ public abstract class ChoiceManager
 			"Town", "choiceAdventure1084", "Popular Machine",
 			new Object[] { new Option( "make popular tart", 1 ),
 				       new Option( "return to Madness Bakery", 2 ) } ),
+
+		// Choice 1090 is The Towering Inferno Discotheque
+
+		// Choice 1091 is The Floor Is Yours
+		new ChoiceAdventure(
+			"That 70s Volcano", "choiceAdventure1091", "LavaCo Lamp Factory",
+			new Object[] { new Option( "1,970 carat gold -> thin gold wire", 1, "thin gold wire" ),
+				       new Option( "New Age healing crystal -> empty lava bottle", 2, "empty lava bottle" ),
+				       new Option( "empty lava bottle -> full lava bottle", 3, "full lava bottle" ),
+				       new Option( "make colored lava globs", 4 ),
+				       new Option( "glowing New Age healing crystal -> crystalline light bulb", 5, "crystalline light bulb" ),
+				       new Option( "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing", 6, "LavaCo&trade; Lamp housing" )
+				       } ),
+
+		// Choice 1092 is Dyer Maker
+		// Choice 1093 is The WLF Bunker
+		// Choice 1094 is Back Room SMOOCHing
+		// Choice 1096 is Re-Factory Period
+		// Choice 1097 is Who You Gonna Caldera?
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -9781,6 +9800,33 @@ public abstract class ChoiceManager
 			if ( text.contains( "lubricating every inch of the tracks" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, "step2" );
+			}
+			break;
+
+		case 1091:
+			// Choice 1091 is The Floor Is Yours
+			if ( text.contains ( "You acquire" ) )
+			{
+				switch ( ChoiceManager.lastDecision )
+				{
+				case 1:
+					ResultProcessor.processResult( ItemPool.get( ItemPool.GOLD_1970, -1 ) );
+					break;
+				case 2:
+					ResultProcessor.processResult( ItemPool.get( ItemPool.NEW_AGE_HEALING_CRYSTAL, -1 ) );
+					break;
+				case 3:
+					ResultProcessor.processResult( ItemPool.get( ItemPool.EMPTY_LAVA_BOTTLE, -1 ) );
+					break;
+				case 5:
+					ResultProcessor.processResult( ItemPool.get( ItemPool.GLOWING_NEW_AGE_HEALING_CRYSTAL, -1 ) );
+					break;
+				case 6:
+					ResultProcessor.processResult( ItemPool.get( ItemPool.CRYSTALLINE_LIGHT_BULB, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.INSULATED_GOLD_WIRE, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.HEAT_RESISTANT_SHEET_METAL, -1 ) );
+					break;
+				}
 			}
 			break;
 		}
