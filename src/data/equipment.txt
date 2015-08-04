@@ -982,6 +982,7 @@ grass blade	80	Mus: 25	1-handed sword
 grass whistle	90	Mox: 35	1-handed whistle
 grassy cutlass	150	Mus: 60	1-handed sword
 grave robbing shovel	30	Mus: 0	2-handed polearm
+grease cannon	150	Mox: 35	1-handed bazooka
 grease gun	65	Mox: 17	1-handed pistol
 Great Wolf's right paw	300	Mus: 250	1-handed claw
 Great Wolf's rocket launcher	300	Mox: 100	2-handed bazooka
@@ -2419,6 +2420,7 @@ tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 The Lost Glasses	0	Mys: 25
+The One Mood Ring	0	Mys: 60
 The Ring	150	Mys: 60
 Time Bandit Badge of Courage	0	none
 time halo	50	none
