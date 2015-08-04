@@ -273,7 +273,22 @@ public class PlaceRequest
 		boolean turns = false;
 		boolean compact = false;
 
-		if ( place.equals( "airport_sleaze" ) )
+		if ( place.equals( "airport_hot" ) )
+		{
+			if ( action.equals( "airport4_zone1" ) )
+			{
+				// Visiting The Towering Inferno Discotheque
+				// This redirects to a choice.
+				message = "Visiting The Towering Inferno Discotheque";
+			}
+			if ( action.equals( "airport4_questhub" ) )
+			{
+				// Visiting the The WLF Bunker
+				// This redirects to a choice.
+				message = "Visiting The WLF Bunker";
+			}
+		}
+		else if ( place.equals( "airport_sleaze" ) )
 		{
 			if ( action.equals( "airport1_npc1" ) )
 			{
@@ -303,9 +318,20 @@ public class PlaceRequest
 			{
 				return true;
 			}
-			if ( action.equals( "si_shop1locked" ) )
+			if ( action.equals( "si_controlpanel" ) )
 			{
 				message = "Manipulating the Control Panel in the Conspiracy Island bunker";
+			}
+		}
+		else if ( place.equals( "airport_stench" ) )
+		{
+			if ( action.equals( "airport3_tunnels" ) )
+			{
+				message = "Visiting the Maintenance Tunnels";
+			}
+			else if ( action.equals( "airport3_kiosk" ) )
+			{
+				message = "Visiting the Employee Assignment Kiosk";
 			}
 		}
 		else if ( place.equals( "canadia" ) )
