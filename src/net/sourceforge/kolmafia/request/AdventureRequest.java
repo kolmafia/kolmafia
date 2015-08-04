@@ -1365,7 +1365,11 @@ public class AdventureRequest
 
 		if ( leet )
 		{
-			monsterName = MonsterDatabase.translateLeetMonsterName( monsterName );
+			// We have an "encounterKey" which has been munged by
+			// StringUtilities.getEntityEncode().  1337 monsters
+			// don't have character entities, so, decode it again.
+			String decoded = StringUtilities.getEntityDecode( monsterName );
+			monsterName = MonsterDatabase.translateLeetMonsterName( decoded );
 		}
 
 		// Save the modifiers for later use
