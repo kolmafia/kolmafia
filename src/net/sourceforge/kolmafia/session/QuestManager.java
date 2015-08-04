@@ -592,7 +592,7 @@ public class QuestManager
 			     location.contains( AdventurePool.BUBBLIN_CALDERA_ID ) ||
 			     location.contains( "whichplace=airport_hot" ) )
 			{
-				Preferences.setBoolean( "_spookyAirportToday", true );
+				Preferences.setBoolean( "_hotAirportToday", true );
 			}
 			else if ( location.contains( "whichplace=airport" ) )
 			{
