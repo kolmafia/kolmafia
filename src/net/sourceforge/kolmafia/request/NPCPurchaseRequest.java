@@ -686,6 +686,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "infernodisco" ) )
+		{
+			DiscoGiftCoRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "shoeshop" ) )
 		{
 			ShoeRepairRequest.parseResponse( urlString, responseText );
@@ -1030,6 +1036,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "topiary" ) )
 			{
 				return NuggletCraftingRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "infernodisco" ) )
+			{
+				return DiscoGiftCoRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "landfillstore" ) )

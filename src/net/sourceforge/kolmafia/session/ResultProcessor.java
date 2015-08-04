@@ -1319,6 +1319,7 @@ public class ResultProcessor
 		case ItemPool.TOPIARY_NUGGLET:
 		case ItemPool.FUNFUNDS:
 		case ItemPool.TOXIC_GLOBULE:
+		case ItemPool.VOLCOINO:
 		case ItemPool.TWINKLY_WAD:
 			// The Traveling Trader usually wants twinkly wads
 		case ItemPool.GG_TOKEN:
@@ -2799,6 +2800,13 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
 			break;
 
+		case ItemPool.SUPERHEATED_METAL:
+		case ItemPool.SUPERDUPERHEATED_METAL:
+			if ( combatResults )
+			{
+				ResultProcessor.removeItem( ItemPool.HEAT_RESISTANT_SHEET_METAL );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.

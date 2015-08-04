@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
+import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.DreadsylvaniaRequest;
@@ -1018,6 +1019,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof DinseyCompanyStoreRequest || isExternal ) && DinseyCompanyStoreRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof DiscoGiftCoRequest || isExternal ) && DiscoGiftCoRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

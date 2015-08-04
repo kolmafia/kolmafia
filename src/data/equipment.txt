@@ -1072,6 +1072,7 @@ Loathing Legion double prism	100	Mox: 0	1-handed prism
 Loathing Legion flamethrower	100	Mox: 0	2-handed flamethrower
 Loathing Legion hammer	100	Mus: 0	1-handed hammer
 logging hatchet	75	Mus: 22	1-handed axe
+love	150	Mox: 35	1-handed pistol
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
 Mace of the Tortoise	50	Mus: 10	1-handed mace
