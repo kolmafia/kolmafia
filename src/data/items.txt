@@ -8329,7 +8329,7 @@
 8303	pixel beer	365395975	pixelbeer.gif	drink	t,d	150
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0
 8305	blue pumps	731653410	highheels.gif	familiar	t,d	75
-8306
+8306	sludgesicle	420513126	sludgesicle.gif	usable	t,d	25
 8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	usable	t,d	5
 8308	piggy tattoo	377475455	swisspig.gif	usable	t,d	5
 8309	baggie of regular-sized tardigrades	891381897	baggie.gif	usable	t,d	5
@@ -8465,7 +8465,7 @@
 8446	SMOOCH bottlecap	853827346	bottlecap.gif	usable	t	0
 8447	uncapped red lava bottle	127551390	lbottle3.gif	none	t,d	125
 8448	uncapped blue lava bottle	684114659	lbottle3.gif	none	t,d	125
-# 8449: uncapped green lava bottle
+8449	uncapped green lava bottle	934780018	lbottle3.gif	none	t,d	125
 # 8450: capped red lava bottle
 8451	capped blue lava bottle	404493049	lbottle4.gif	none	t,d	150
 # 8452: capped green lava bottle
@@ -8482,7 +8482,8 @@
 8463	smelted roe	907174760	smeltroe.gif	food	t,d	45
 8464	lavawater	358169908	juice.gif	drink	t,d	44
 8465	basaltamander tongue	980923769	saltongue.gif	usable	t,d	78
-# 8466-8467: unknown
+8466	lavalarva	927378000	lavalarva.gif	weapon	t	0
+8467	lava balaclava	722613138	lavaclava.gif	hat	t	0
 8468	basaltamander buckler	640903344	basbuckler.gif	offhand	t	0
 8469	sticky lava globs	172658636	globs2.gif	usable	t,d	62
 8470	gooey lava globs	926336814	globs3.gif	food	t,d	32
@@ -8503,25 +8504,30 @@
 8485	&quot;DEBBIE&quot; tattoo kit	580255360	dtat.gif	usable	t	0
 8486	one-day ticket to That 70s Volcano	166029058	airdaypass.gif	usable	t	0
 8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0
-# 8488-8489: unknown
+# 8488: unknown
+8489	New Age hurting crystal	889435307	nacrystal2.gif	none, combat	t,d	96
 8490	smooth velvet pants	887303272	velvpants.gif	pants	d	250
 8491	smooth velvet shirt	235322153	velvshirt.gif	shirt	d	200
 8492	smooth velvet hat	925547072	velvhat.gif	hat	d	175
 8493	smooth velvet pocket square	584906111	velvsquare.gif	accessory	d	125
 8494	smooth velvet socks	251420056	velvsocks.gif	accessory	d	150
 8495	smooth velvet hanky	665322958	velvhanky.gif	accessory	d	175
-# 8495-8505: unknown
+# 8495-8502: unknown
+8503	signed deuce	950990588	deuce.gif	none	q	0
+8504	Lavalos core	337034963	c13cookie1.gif	none	q	0
 8506	glass ceiling fragments	166305291	glassbits.gif	none	q	0
 # 8407-8515: unknown
+8514	little deuce cape	202354299	deucecape.gif	container		0
+8515	Lavalos's shell	726558682	lavashell.gif	container		0
 8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75
 8517	SMOOCH bracers	952592762	smoochbracer.gif	accessory	d	85
 8518	SMOOCH kneepads	170309346	smoochknee.gif	accessory	d	90
 8519	SMOOCH spaulders	843065832	smoochshoulder.gif	accessory	d	95
-# 8420-8521: unknown
+# 8520-8521: unknown
 8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
 # 8523: unknown
 8524	superheated metal	328432753	ingot.gif	multiple	t,d	50
-# 8525: unknown
+8525	lava cake	983897521	blackcake.gif	food	t,d	104
 8526	pink slime	205750761	blankoutglob.gif	food	t,d	35
 8527	Devil's Elbow Hot Sauce	556130307	gravy.gif	none	t,d	45
 8528	Special&trade; Sauce	440267272	gravy.gif	none	t,d	45

@@ -165,6 +165,7 @@ Knob Goblin harem veil	10	none
 Knob Goblin visor	50	Mox: 10
 knobby helmet turtle	20	none
 KoL Con 3-D Glasses	10	none
+lava balaclava	200	Mox: 40
 leather aviator's cap	50	Mox: 10
 leather mask	60	Mox: 15
 lemon party hat	50	Mox: 10
@@ -1049,6 +1050,7 @@ Knob Goblin scimitar	15	Mus: 0	1-handed sword
 Knob Goblin spatula	30	Mys: 0	1-handed utensil
 Knob Goblin tongs	20	Mys: 0	1-handed utensil
 KoL Con Cinco Pi&ntilde;ata Bat	10	Mus: 0	2-handed club
+lavalarva	10	Mus: 0	1-handed whip
 law-abiding citizen cane	50	Mus: 0	1-handed club
 lawn dart	200	Mus: 200	1-handed club
 lawnmower blade	120	Mus: 45	2-handed sword
@@ -2713,6 +2715,8 @@ giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
 hemp backpack	0	Mys: 75
 jetpack	0	none
+little deuce cape	0	Mus: 75
+Lavalos's shell	0	Mys: 75
 Lord Flameface's cloak	0	Mys: 75
 makeshift cape	100	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250

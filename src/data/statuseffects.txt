@@ -1834,7 +1834,7 @@
 1833	Nigh-Invincible	pixelstar.gif	7077db973135b6c3b5aa1083723bbef1	use 1 pixel star
 1834	Going Ape	pixelbanana.gif	d74c67715fbce3f871e556c62ff2264c	eat 1 pixel banana
 1835	Analog Drunk	pixelbeer.gif	ef22205adcc0399c1a9ea0be0fdec0e4	drink 1 pixel beer
-1836
+1836	Sludgesick	sludgesicle.gif	22c787e5659a38d39eb052a6b2976226	use 1 sludgesicle
 1837	&Uuml;berraschthexengebr&uuml;hten	fancybrew.gif	dbafe534e6cca5803ab3615b6c389f2f	use 1 &Uuml;berraschthexengebr&auml;u
 1838	Pigulated	swisspig.gif	3414a618756ec56a0dd74eb6d45d09ed	use 1 piggy tattoo
 1839	Waterborne	baggie.gif	2a9b59827d3bfaba86f5ea0b706daacd	use 1 baggie of regular-sized tardigrades

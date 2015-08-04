@@ -248,6 +248,7 @@ Item	Knob Goblin harem veil	Stench Resistance: +1, Familiar Effect: "5xLep, cap 
 Item	Knob Goblin visor	Moxie: +3, Familiar Effect: "2xVolley, 1xPotato, cap 12"
 Item	knobby helmet turtle	Weapon Damage: +1, Familiar Effect: "atk, 2xFairy, cap 5"
 Item	KoL Con 3-D Glasses	Familiar Effect: "8xLep, 1xFairy, cap 2"
+Item	lava balaclava	Hot Spell Damage: +50, MP Regen Min: 10, MP Regen Max: 12, Weapon Drop: +50
 # leather aviator's cap: Kill 5% More Skeletons
 Item	leather aviator's cap	Adventures: +5, Damage Reduction: 1, Familiar Effect: "atk, cap 12"
 Item	leather mask	Muscle: +3, Moxie: -3, Familiar Effect: "sleaze atk, 1xBarrr, cap 15"
@@ -1218,6 +1219,7 @@ Item	Knob Goblin scimitar	Muscle: +1
 Item	Knob Goblin spatula	Spell Damage: +4
 Item	Knob Goblin tongs	Spell Damage: +2
 Item	KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
+Item	lavalarva	Hot Damage: +30, Cold Resistance: +4, Monster Level: +10
 Item	law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 Item	lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
 Item	lawnmower blade	Weapon Damage: +15
@@ -3135,6 +3137,8 @@ Item	ghost shawl	Spell Damage: +50, Spell Critical Percent: +5
 Item	giant gym membership card	Weapon Damage: +15
 Item	Great S-Cape	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Item	hemp backpack	Item Drop: +2
+Item	Lavalos's shell	Damage Absorption: +40, Hot Damage: +20, Hot Resistance: +2
+Item	little deuce cape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +25
 # Lord Flameface's cloak: Has Cool Swirling Flames
 Item	Lord Flameface's cloak	Cold Resistance: +2
 Item	makeshift cape	Item Drop: +5
@@ -5374,6 +5378,7 @@ Effect	Slimy Hands	Sleaze Damage: +10
 Effect	Slinking Noodle Glob	Maximum MP: +15
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Effect	Slippery Oiliness	Equalize: "Moxie"
+Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Effect	Smelly Pants	Stench Resistance: +1
 Effect	Smithsness Cheer	Smithsness: +10
@@ -6348,6 +6353,7 @@ Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30
 Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
+Item	lava cake	Effect: "Demonic Flavor", Effect Duration: 60
 Item	licorice garrote	Effect: "Sugar Rush", Effect Duration: 5
 Item	lihc eye pie	Effect: "Eye of the Lihc", Effect Duration: 5
 Item	limp broccoli	Effect: "Nutrient-Rich", Effect Duration: 100
@@ -7738,6 +7744,7 @@ Item	sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 Item	sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
 Item	sleeping piano cat	Free Pull
 Item	sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
+Item	sludgesicle	Effect: "Sludgesick", Effect Duration: 10
 Item	small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 Item	Small Medium	Free Pull
 Item	Smart Bone Dust	Effect: "Boned Up", Effect Duration: 30
