@@ -123,3 +123,4 @@
 122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts
 123	Dinsey's Exoskeleton	wdbraintat.gif	Dinsey's oculus, Dinsey's radar dish, Dinsey's pizza cutter, Dinsey's brain, Dinsey's glove, Dinsey's pants
 124	The Emperor's New Clothes	emperortat.gif	The Emperor's new hat, The Emperor's new shirt, The Emperor's new pants
+125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders

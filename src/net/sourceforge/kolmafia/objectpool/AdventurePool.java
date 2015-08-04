@@ -222,4 +222,12 @@ public class AdventurePool
 	public static final String TOXIC_TEACUPS_ID = "444";
 	public static final int LIQUID_WASTE_SLUICE = 445;
 	public static final String LIQUID_WASTE_SLUICE_ID = "445";
+	public static final int SMOOCH_ARMY_HQ = 448;
+	public static final String SMOOCH_ARMY_HQ_ID = "448";
+	public static final int VELVET_GOLD_MINE = 449;
+	public static final String VELVET_GOLD_MINE_ID = "449";
+	public static final int LAVACO_LAMP_FACTORY = 450;
+	public static final String LAVACO_LAMP_FACTORY_ID = "450";
+	public static final int BUBBLIN_CALDERA = 451;
+	public static final String BUBBLIN_CALDERA_ID = "451";
 }

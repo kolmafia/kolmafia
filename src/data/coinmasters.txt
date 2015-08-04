@@ -755,3 +755,17 @@ Toxic Chemistry	buy	50	isotophat	ROW711
 Toxic Chemistry	buy	50	Three Mile Island shorts	ROW712
 Toxic Chemistry	buy	50	toxic mop	ROW713
 Toxic Chemistry	buy	500	inert sludgepuppy	ROW714
+
+# Things you can buy with Volcoinos
+
+Disco GiftCo	buy	1	liquid rhinestones	ROW744
+Disco GiftCo	buy	1	disco biscuit	ROW745
+Disco GiftCo	buy	1	Quaatorade&trade;	ROW746
+Disco GiftCo	buy	3	one-day ticket to That 70s Volcano	ROW754
+Disco GiftCo	buy	5	biker's hat	ROW747
+Disco GiftCo	buy	5	feathered headdress	ROW748
+Disco GiftCo	buy	5	electrician's hardhat	ROW749
+Disco GiftCo	buy	10	Lava Miner's Daughter	ROW750
+Disco GiftCo	buy	10	Psycho From The Heat	ROW751
+Disco GiftCo	buy	10	The Firegate Tapes	ROW752
+Disco GiftCo	buy	30	&quot;DEBBIE&quot; tattoo kit	ROW753

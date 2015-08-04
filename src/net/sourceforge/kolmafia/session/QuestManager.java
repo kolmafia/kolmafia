@@ -582,6 +582,27 @@ public class QuestManager
 
 	public static final void handleAirportChange( final String location, final String responseText )
 	{
+		// Check Hot settings
+		if ( !Preferences.getBoolean( "hotAirportAlways" ) )
+		{
+			// Detect if Airport is open today
+			if ( location.contains( AdventurePool.SMOOCH_ARMY_HQ_ID ) ||
+			     location.contains( AdventurePool.VELVET_GOLD_MINE_ID ) ||
+			     location.contains( AdventurePool.LAVACO_LAMP_FACTORY_ID ) ||
+			     location.contains( AdventurePool.BUBBLIN_CALDERA_ID ) ||
+			     location.contains( "whichplace=airport_hot" ) )
+			{
+				Preferences.setBoolean( "_spookyAirportToday", true );
+			}
+			else if ( location.contains( "whichplace=airport" ) )
+			{
+				if ( responseText.contains( "whichplace=airport_hot" ) )
+				{
+					Preferences.setBoolean( "_hotAirportToday", true );
+				}
+			}
+		}
+
 		// Check Sleaze settings
 		if ( !Preferences.getBoolean( "sleazeAirportAlways" ) )
 		{

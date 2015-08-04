@@ -1029,6 +1029,23 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.SMOOCH_ARMY_HQ_ID ) ||
+		     this.adventureId.equals( AdventurePool.VELVET_GOLD_MINE_ID ) ||
+		     this.adventureId.equals( AdventurePool.LAVACO_LAMP_FACTORY_ID ) ||
+		     this.adventureId.equals( AdventurePool.BUBBLIN_CALDERA_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "hotAirportAlways" ) || Preferences.getBoolean( "_hotAirportToday" );
+			if ( !unlocked )
+			{
+				// Visit the airport and take a look.
+				RequestThread.postRequest( new PlaceRequest( "airport" ) );
+				unlocked = Preferences.getBoolean( "hotAirportAlways" ) || Preferences.getBoolean( "_hotAirportToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.FUN_GUY_MANSION_ID ) ||
 		     this.adventureId.equals( AdventurePool.SLOPPY_SECONDS_DINER_ID ) ||
 		     this.adventureId.equals( AdventurePool.YACHT_ID ) )

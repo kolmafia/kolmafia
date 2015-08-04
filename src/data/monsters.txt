@@ -1794,8 +1794,8 @@ bolt-cuttin' elf	900	elf_boltcutters.gif	Init: -10000 P: elf	elf resistance butt
 monkey wrenchin' elf	894	elf_wrench.gif	Init: -10000 P: elf	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
 propaganda-spewin' elf	901	elf_propaganda.gif	Init: -10000 P: elf	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 provocateur elf	896	elf_provocateur.gif	Scale: -5 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-raconteur elf	897	elf_raconteur.gif	Scale: -3 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-saboteur elf	895	elf_saboteur.gif	P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
+raconteur elf	897	elf_raconteur.gif	Scale: -5 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
+saboteur elf	895	elf_saboteur.gif	Scale: -5 Cap: 10000 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 wire-crossin' elf	902	elf_wires.gif	P: elf	elf resistance button (100)	handful of wires (c100)	live wire (0)
 Edwing Abbidriel	0	edwing.gif	P: elf	elf resistance button (100)
 
