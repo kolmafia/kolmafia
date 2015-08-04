@@ -1791,6 +1791,31 @@ celestial squid ink	MUSE	Cosmic Calorie (60)
 
 numberwang	MUSE	dubious peppermint (169)
 
+smooth velvet pocket square	MUSE	unsmoothed velvet (5)
+smooth velvet socks	MUSE	unsmoothed velvet (6)
+smooth velvet hat	MUSE	unsmoothed velvet (7)
+smooth velvet shirt	MUSE	unsmoothed velvet (8)
+smooth velvet hanky	MUSE	unsmoothed velvet (9)
+smooth velvet pants	MUSE	unsmoothed velvet (10)
+
+SMOOCH bracers	MUSE	superheated metal (5)
+SMOOCH kneepads	MUSE	superheated metal (7)
+SMOOCH spaulders	MUSE	superheated metal (9)
+
+insulated gold wire	COMBINE	thin gold wire	unsmoothed velvet
+
+uncapped red lava bottle	SUSE	red lava globs	full lava bottle
+uncapped blue lava bottle	SUSE	blue lava globs	full lava bottle
+uncapped green lava bottle	SUSE	green lava globs	full lava bottle
+
+capped red lava bottle	COMBINE	uncapped red lava bottle	SMOOCH bottlecap
+capped blue lava bottle	COMBINE	uncapped blue lava bottle	SMOOCH bottlecap
+capped green lava bottle	COMBINE	uncapped green lava bottle	SMOOCH bottlecap
+
+red LavaCo Lamp&trade;	COMBINE	LavaCo&trade; Lamp housing	capped red lava bottle
+blue LavaCo Lamp&trade;	COMBINE	LavaCo&trade; Lamp housing	capped blue lava bottle
+green LavaCo Lamp&trade;	COMBINE	LavaCo&trade; Lamp housing	capped green lava bottle
+
 Golden Kokomo Resort Chip	SUSE	Kokomo Resort Chip (100)
 
 # Recipes that involve single-using one of the ingredients

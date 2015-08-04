@@ -426,6 +426,12 @@ Dinseylandfill	adventure=443	Env: indoor Stat: 0	Pirates of the Garbage Barges	1
 Dinseylandfill	adventure=444	Env: outdoor Stat: 0	The Toxic Teacups	1 keycard &gamma;
 Dinseylandfill	adventure=445	Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice	1 keycard &delta;
 
+That 70s Volcano	adventure=448	Env: indoor Stat: 0	The SMOOCH Army HQ
+That 70s Volcano	adventure=449	Env: underground Stat: 0	The Velvet / Gold Mine
+That 70s Volcano	adventure=450	Env: indoor Stat: 0	LavaCo Lamp Factory
+That 70s Volcano	adventure=451	Env: outdoor Stat: 0	The Bubblin' Caldera
+That 70s Volcano	mining=6	Env: none Stat: 0	The Velvet / Gold Mine (Mining)
+
 Spelunky Area	adventure=424	Env: none Stat: 0	The Mines
 Spelunky Area	adventure=425	Env: none Stat: 0	The Jungle
 Spelunky Area	adventure=426	Env: none Stat: 0	The Ice Caves

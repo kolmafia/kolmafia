@@ -1913,3 +1913,12 @@
 1912	Strongly Motivated	barbell.gif	dd62de877d5d9821d08cd919ed8ac2cf	play XI - Strength
 1913	Fortune of the Wheel	cavewheel.gif	5a8addcb18cf982371cfed58bfd9eb21	play X - The Wheel of Fortune
 1914	Balls of Ectoplasm	ghostballs.gif	e69fad92f89171ce492e2ada4701d0a9	use 1 ectoplasmic orbs
+# 1915-1920: unknown
+1921	Burning Tongue	saltongue.gif	c24e4978c00cd712e8d18a4bac1b615c	use 1 basaltamander tongue
+# 1922-1925: unknown
+1926	Inner Warmth	batgut.gif	78d990e758e32b3fdb6a9c7f16b20340	eat 1 very hot lunch
+1927	Sparkly!	discoball.gif	7a9db9b3298a26152440f25c8fdc6ad5	use 1 liquid rhinestones
+1928	Buttermilk Boogie	discobiscuit.gif	714ba54120d1f76e20c0ff392c944c50	eat 1 disco biscuit
+1929	Quaaaaaaa	q.gif	76650af1a4ec76ac1347b56b522254c8	drink 1 Quaatorade&trade;
+# 1930-1932: unknown
+1933	Drenched in Lava	gi_chunk.gif	6cabc1305530f76547bc97e55f21666b

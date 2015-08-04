@@ -8445,9 +8445,83 @@
 8419	linguini immondizia bianco	357964482	bowl.gif	food	t,d	65	bowls of linguini immondizia bianco
 8420	shells a la shellfish	452359473	bowl.gif	food	t,d	65	bowls of shells a la shellfish
 8421	Jick's autograph	972003195	whitecard.gif	none	t	0
-# 8422-8486: unknown.
+8422	high-temperature mining drill	815201892	htdrill.gif	weapon		0
+8423	unsmoothed velvet	231537039	rawvelvet.gif	multiple	t,d	25
+8424	1,970 carat gold	372371940	goldnugget.gif	none	t,d	19700
+8425	New Age healing crystal	444874241	nacrystal1.gif	none, combat	t,d	69
+8426	Volcoino	717498018	volcoino.gif	none		0
+# 8427-8434: unknown
+# 8435: red LavaCo Lamp&trade;
+8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0
+# 8437: green LavaCo Lamp&trade;
+8438	thin gold wire	942583408	goldwire.gif	none	t,d	1970
+8439	insulated gold wire	289339200	inswire.gif	none	t,d	197
+8440	empty lava bottle	935989438	lbottle1.gif	none	t,d	125
+8441	full lava bottle	420549408	lbottle2.gif	none	t,d	150
+8442	viscous lava globs	695478815	globs1.gif	none	t,d	75
+8443	red lava globs	701118072	dyeglobs.gif	usable	t,d	100
+8444	blue lava globs	318434762	dyeglobs.gif	usable	t,d	100
+8445	green lava globs	554180865	dyeglobs.gif	usable	t,d	100
+8446	SMOOCH bottlecap	853827346	bottlecap.gif	usable	t	0
+8447	uncapped red lava bottle	127551390	lbottle3.gif	none	t,d	125
+8448	uncapped blue lava bottle	684114659	lbottle3.gif	none	t,d	125
+# 8449: uncapped green lava bottle
+# 8450: capped red lava bottle
+8451	capped blue lava bottle	404493049	lbottle4.gif	none	t,d	150
+# 8452: capped green lava bottle
+8453	heat-resistant sheet metal	606279658	htmetal.gif	none	t,d	72
+8454	LavaCo&trade; Lamp housing	963586728	lavachassis.gif	none	t,d	80
+8455	glowing New Age crystal	685904760	nacrystal3.gif	none, combat	t,d	145
+8456	crystalline light bulb	628690124	crysbulb.gif	none	t,d	66
+8457	broken high-temperature mining drill	127655320	htdrill_broken.gif	usable	t,d	5
+8458	high-temperature mining mask	866988655	minemask.gif	hat	t,d	200
+8459	fireproof megaphone	231680696	megaphone.gif	offhand	t,d	55
+8460	mineapple	982332953	mineapple.gif	food	t,d	23
+8461	Gold Velvet&trade; whiskey	895090431	fancybrew.gif	drink	t,d	37
+8462	SMOOCH soda	506542098	beerbottle.gif	food	t,d	11
+8463	smelted roe	907174760	smeltroe.gif	food	t,d	45
+8464	lavawater	358169908	juice.gif	drink	t,d	44
+8465	basaltamander tongue	980923769	saltongue.gif	usable	t,d	78
+# 8466-8467: unknown
+8468	basaltamander buckler	640903344	basbuckler.gif	offhand	t	0
+8469	sticky lava globs	172658636	globs2.gif	usable	t,d	62
+8470	gooey lava globs	926336814	globs3.gif	food	t,d	32
+8471	lava-proof pants	549036454	htpants.gif	pants	t,d	132
+8472	heat-resistant necktie	968422353	httie.gif	accessory	t,d	111
+8473	heat-resistant gloves	607723149	htgloves.gif	accessory	t,d	122
+8474	very hot lunch	955123249	lunchbox.gif	food	t,d	89
+8475	asbestos thermos	756575071	thermos.gif	drink	t,d	102
+8476	liquid rhinestones	602749668	potion4.gif	usable	t,d	100
+8477	disco biscuit	776471453	discobiscuit.gif	food	t,d	77
+8478	Quaatorade&trade;	687304296	ade.gif	drink	t,d	79
+8479	biker's hat	743659826	bikerhat.gif	hat		0
+8480	feathered headdress	167975840	headdress.gif	hat		0
+8481	electrician's hardhat	601776410	hardhat.gif	hat		0
+8482	Lava Miner's Daughter	751965780	book5.gif	usable	t	0
+8483	Psycho From The Heat	931658303	book3.gif	usable	t	0
+8484	The Firegate Tapes	330000315	book4.gif	usable	t	0
+8485	&quot;DEBBIE&quot; tattoo kit	580255360	dtat.gif	usable	t	0
+8486	one-day ticket to That 70s Volcano	166029058	airdaypass.gif	usable	t	0
 8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0
-# 8488-8525: unknown.
+# 8488-8489: unknown
+8490	smooth velvet pants	887303272	velvpants.gif	pants	d	250
+8491	smooth velvet shirt	235322153	velvshirt.gif	shirt	d	200
+8492	smooth velvet hat	925547072	velvhat.gif	hat	d	175
+8493	smooth velvet pocket square	584906111	velvsquare.gif	accessory	d	125
+8494	smooth velvet socks	251420056	velvsocks.gif	accessory	d	150
+8495	smooth velvet hanky	665322958	velvhanky.gif	accessory	d	175
+# 8495-8505: unknown
+8506	glass ceiling fragments	166305291	glassbits.gif	none	q	0
+# 8407-8515: unknown
+8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75
+8517	SMOOCH bracers	952592762	smoochbracer.gif	accessory	d	85
+8518	SMOOCH kneepads	170309346	smoochknee.gif	accessory	d	90
+8519	SMOOCH spaulders	843065832	smoochshoulder.gif	accessory	d	95
+# 8420-8521: unknown
+8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
+# 8523: unknown
+8524	superheated metal	328432753	ingot.gif	multiple	t,d	50
+# 8525: unknown
 8526	pink slime	205750761	blankoutglob.gif	food	t,d	35
 8527	Devil's Elbow Hot Sauce	556130307	gravy.gif	none	t,d	45
 8528	Special&trade; Sauce	440267272	gravy.gif	none	t,d	45

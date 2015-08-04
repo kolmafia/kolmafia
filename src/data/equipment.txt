@@ -26,6 +26,7 @@ beer helmet	170	Mox: 70
 beholed bedsheet	10	none
 big bad voodoo mask	160	Mox: 65
 Big Candy's tophat	100	none
+biker's hat	200	Mox: 85
 biomechanical crimborg helmet	150	Mox: 60
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
@@ -88,6 +89,7 @@ eelskin hat	200	Mys: 85
 El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
+electrician's hardhat	200	Mus: 85
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
@@ -96,6 +98,7 @@ eyepatch	25	none
 f3d0r4	110	Mox: 40
 fancy ball mask	90	Mox: 15
 fancy tophat	100	Mox: 35
+feathered headdress	200	Mys: 85
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
@@ -139,6 +142,7 @@ hazmat helmet	200	Mox: 85
 Helm of the Scream Emperor	120	none
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
+high-temperature mining mask	100	Mox: 35
 Hodgman's porkpie hat	200	Mox: 200
 Hollandaise helmet	10	none
 honeycap	175	Mox: 72
@@ -258,6 +262,7 @@ sinister demon mask	100	Mox: 35
 skeletortoise	30	none
 sleep mask	150	Mox: 60
 slime-covered helmet	200	Mox: 200
+smooth velvet hat	50	Mox: 10
 snailmail coif	165	Mox: 67
 snorkel	10	none
 snow hat	50	Mox: 10
@@ -444,6 +449,7 @@ Knob Goblin harem pants	10	none
 Knob Goblin pants	25	none
 Knob Goblin Uberpants	45	Mox: 7
 Krakrox's Loincloth	125	Mus: 30
+lava-proof pants	100	Mox: 35
 Leapin' Trousers	12	none
 leather chaps	160	Mox: 65
 Lederhosen of the Night	125	Mox: 30
@@ -507,6 +513,7 @@ sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
 slime-covered greaves	200	Mox: 200
+smooth velvet pants	50	Mox: 10
 snailmail breeches	165	Mox: 67
 snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
@@ -657,6 +664,8 @@ rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
+smooth velvet bra	50	Mus: 10
+smooth velvet shirt	50	Mus: 10
 snailmail hauberk	165	Mus: 67
 Sneaky Pete's leather jacket	100	none
 Sneaky Pete's leather jacket (collar popped)	100	none
@@ -998,6 +1007,7 @@ heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
 high-energy mining laser	50	Mox: 0	2-handed rifle
+high-temperature mining drill	50	Mus: 0	2-handed drill
 hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
@@ -1435,6 +1445,7 @@ ball-in-a-cup	20	none
 balloon shield	50	Mus: 10	shield
 barskin buckler	25	none	shield
 basic meat foon	50	Mys: 10
+basaltamander buckler	0	Mus: 40	shield
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
 beige clambroth marble	207	Mys: 85
@@ -1511,6 +1522,7 @@ eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
 fake washboard	200	Mus: 50	shield
 fancy opera glasses	50	Mys: 10
+fireproof megaphone	0	none
 fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
 flimsy clipboard	50	Mus: 10	shield
@@ -2072,6 +2084,8 @@ hazardous sauce dosimeter	0	none
 head mirror	155	Mys: 62
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
+heat-resistant gloves	0	Mox: 35
+heat-resistant necktie	0	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
 hippy medical kit	175	Mys: 72
@@ -2336,6 +2350,12 @@ slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
 sneakeasies	150	Mox: 60
 Sneaky Pete's breath spray	80	Mys: 25
+SMOOCH bracers	0	Mys: 27
+SMOOCH kneepads	0	Mys: 30
+SMOOCH spaulders	0	Mus: 32
+smooth velvet hanky	50	Mys: 10
+smooth velvet pocket square	50	Mys: 10
+smooth velvet socks	50	Mys: 10
 snow belly	50	Mys: 10
 snow belt	100	none
 sock garters	150	Mys: 60

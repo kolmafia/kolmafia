@@ -1174,6 +1174,7 @@ user	_hoboUnderlingSummons	0
 user	_holidayFunUsed	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
+user	_hotAirportToday	false
 user	_hotAshesDrops	0
 user	_hotTubSoaks	0
 user	_hungerSauceUsed	false
