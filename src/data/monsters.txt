@@ -1564,6 +1564,40 @@ legal alien	1783	illegal_alien.gif	Atk: 50 Def: 50 HP: 100 P: humanoid Init: 50
 The Emperor	1782	nopic.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	The Emperor's dry cleaning (100)
 The Hermit	0	hermit.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	hermit factoid (0)
 
+# Bubblin' Caldera (That 70s Volcano August 2015)
+lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 P: fish E: hot Init: 75
+lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 P: elemental E: hot Init: 25
+basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 P: beast E: hot Init: 50
+Lavalos	1821	lavalos.gif	Atk: 250 Def: 200 HP: 500 P: horror Init: 50
+
+# The SMOOCH Army HQ (That 70s Volcano August 2015)
+SMOOCH private	1794	smoochman1.gif	Scale: 10 P: dude Init: -10000
+SMOOCH sergeant	1795	smoochman2.gif	Scale: 20 P: dude Init: -10000
+SMOOCH general	1796	smoochman3.gif	Scale: 30 P: dude Init: -10000
+Geve Smimmons	1817	smoochboss1.gif	Atk: 200 Def: 240 HP: 300 P: dude Init: 150
+# Raul Stemley
+# (Peter Criss)
+# (Ace Frehley)
+
+# LavaCo&trade; Lamp Factory (That 70s Volcano August 2015)
+factory worker (female)	1789	facworker1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+factory overseer (male)	1790	facworker3.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+factory overseer (female)	1791	facworker4.gif	Atk: 60 Def: 60 HP: 100 P: dude E: hot Init: 60
+factory worker (male)	1792	facworker2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+lava golem	1793	lavagolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70
+Mr. Cheeng	1815	mrcheeng.gif	Atk: 180 Def: 220 HP: 400 P: dude Init: 100
+
+# The Velvet / Gold Mine (That 70s Volcano August 2015)
+mine worker (female)	1784	mineworker1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+mine overseer (male)	1785	mineboss1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+mine worker (male)	1786	mineworker2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
+mine overseer (female)	1787	mineboss2.gif	Atk: 60 Def: 60 HP: 100 P: dude E: hot Init: 60
+healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70
+# (Boss)
+
+# The Flaming Inferno Discotheque (That 70s Volcano August 2015)
+Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
