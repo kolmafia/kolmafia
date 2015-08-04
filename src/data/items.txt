@@ -8450,7 +8450,14 @@
 8424	1,970 carat gold	372371940	goldnugget.gif	none	t,d	19700
 8425	New Age healing crystal	444874241	nacrystal1.gif	none, combat	t,d	69
 8426	Volcoino	717498018	volcoino.gif	none		0
-# 8427-8434: unknown
+8427
+8428
+8429
+8430
+8431
+8432
+8433
+8434
 8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0
 8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0
 8437	green LavaCo Lamp&trade;	699716715	lavalamp.gif	offhand		0
@@ -8462,7 +8469,7 @@
 8443	red lava globs	701118072	dyeglobs.gif	usable	t,d	100
 8444	blue lava globs	318434762	dyeglobs.gif	usable	t,d	100
 8445	green lava globs	554180865	dyeglobs.gif	usable	t,d	100
-8446	SMOOCH bottlecap	853827346	bottlecap.gif	usable	t	0
+8446	SMOOCH bottlecap	853827346	bottlecap.gif	multiple	t	0
 8447	uncapped red lava bottle	127551390	lbottle3.gif	none	t,d	125
 8448	uncapped blue lava bottle	684114659	lbottle3.gif	none	t,d	125
 8449	uncapped green lava bottle	934780018	lbottle3.gif	none	t,d	125
@@ -8504,7 +8511,7 @@
 8485	&quot;DEBBIE&quot; tattoo kit	580255360	dtat.gif	usable	t	0
 8486	one-day ticket to That 70s Volcano	166029058	airdaypass.gif	usable	t	0
 8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0
-# 8488: unknown
+8488
 8489	New Age hurting crystal	889435307	nacrystal2.gif	none, combat	t,d	96
 8490	smooth velvet pants	887303272	velvpants.gif	pants	d	250
 8491	smooth velvet shirt	235322153	velvshirt.gif	shirt	d	200
@@ -8512,20 +8519,23 @@
 8493	smooth velvet pocket square	584906111	velvsquare.gif	accessory	d	125
 8494	smooth velvet socks	251420056	velvsocks.gif	accessory	d	150
 8495	smooth velvet hanky	665322958	velvhanky.gif	accessory	d	175
-# 8495-8497: unknown
+8496	The One Mood Ring	793207976	onemoodring.gif	accessory		0
+8497
 8498	Mr. Cheeng's 'stache	728078955	jackmoustache.gif	none	q	0
-# 8499: unknown
+8499	Saturday Night thermometer	165611295	thermometer.gif	none	q	0
 8500	the tongue of Smimmons	153799783	smimtongue.gif	none	q	0
 8501	Raul's guitar pick	487335191	guitpick.gif	none	q	0
-# 8502: unknown
+8502
 8503	signed deuce	950990588	deuce.gif	none	q	0
 8504	Lavalos core	337034963	c13cookie1.gif	none	q	0
 8506	glass ceiling fragments	166305291	glassbits.gif	none	q	0
-# 8407-8508: unknown
+8507
+8508
 8509	Mr. Cheeng's spectacles	547184035	chongglasses.gif	accessory		0
-# 8410: unknown
+8510	grease cannon	267874466	greasecannon.gif	weapon		0
 8511	demon makeup kit	494615628	demonmakeup.gif	multiple		0
-# 8412-8513: unknown
+8512
+8513
 8514	little deuce cape	202354299	deucecape.gif	container		0
 8515	Lavalos's shell	726558682	lavashell.gif	container		0
 8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75
@@ -8535,7 +8545,7 @@
 8520	SMOOCH codpiece	214182183	smoochcod.gif	pants	d	80
 8521	SMOOCH breastplate	111720430	smoochbreast.gif	shirt	d	105
 8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
-# 8523: unknown
+8523
 8524	superheated metal	328432753	ingot.gif	multiple	t,d	50
 8525	lava cake	983897521	blackcake.gif	food	t,d	104
 8526	pink slime	205750761	blankoutglob.gif	food	t,d	35

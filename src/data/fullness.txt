@@ -634,7 +634,7 @@ sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Da
 s'more	0	1	crappy	0	0	0	0
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 smelted roe	1	4	good	1-1	0	0	0	Unspaded
-SMOOCH soda	1	1	good	1-1	0	0	0	Unspaded Gain 20-30 MP and SMOOCH bottlecap
+SMOOCH soda	1	1	good	3-3	0	0	0	Gain 20-35 MP and SMOOCH bottlecap
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
 snow berries	1	1	good	2-3	3-5	3-5	3-5	30 Berry Berry Cold (+10 Cold Damage, +20 Cold Spell Damage)
