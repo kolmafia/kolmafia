@@ -1246,6 +1246,7 @@ Item	Loathing Legion flamethrower	Hot Damage: +20, Softcore Only
 # Loathing Legion hammer: Gets the job done
 Item	Loathing Legion hammer	Softcore Only
 Item	logging hatchet	Weapon Damage: +5
+Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
 Item	Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"

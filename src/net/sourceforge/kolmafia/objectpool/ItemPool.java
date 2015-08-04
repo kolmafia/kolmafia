@@ -2399,11 +2399,14 @@ public class ItemPool
 	public static final int VOLCANO_CHARTER = 8487;
 	public static final int GOLD_1970 = 8424;
 	public static final int NEW_AGE_HEALING_CRYSTAL = 8425;
+	public static final int VOLCOINO = 8426;
 	public static final int INSULATED_GOLD_WIRE = 8439;
 	public static final int EMPTY_LAVA_BOTTLE = 8440;
 	public static final int HEAT_RESISTANT_SHEET_METAL = 8453;
 	public static final int GLOWING_NEW_AGE_HEALING_CRYSTAL = 8455;
 	public static final int CRYSTALLINE_LIGHT_BULB = 8456;
+	public static final int SUPERDUPERHEATED_METAL = 8522;
+	public static final int SUPERHEATED_METAL = 8524;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

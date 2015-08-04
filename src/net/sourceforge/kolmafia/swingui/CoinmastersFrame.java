@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
+import net.sourceforge.kolmafia.request.DiscoGiftCoRequest;
 import net.sourceforge.kolmafia.request.DollHawkerRequest;
 import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
@@ -194,6 +195,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel armoryPanel = null;
 	private CoinmasterPanel dinseyCompanyStorePanel = null;
 	private CoinmasterPanel toxicChemistryPanel = null;
+	private CoinmasterPanel discoGiftCoPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -372,6 +374,11 @@ public class CoinmastersFrame
 		toxicChemistryPanel = new ToxicChemistryPanel();
 		panel.add( toxicChemistryPanel );
 		this.selectorPanel.addPanel( toxicChemistryPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		discoGiftCoPanel = new DiscoGiftCoPanel();
+		panel.add( discoGiftCoPanel );
+		this.selectorPanel.addPanel( discoGiftCoPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1186,6 +1193,15 @@ public class CoinmastersFrame
 			String title = buffer.toString();
 			buffer.setLength( 0 );
 			buffer.append( StringUtilities.getEntityDecode( title ) );
+		}
+	}
+
+	private class DiscoGiftCoPanel
+		extends CoinmasterPanel
+	{
+		public DiscoGiftCoPanel()
+		{
+			super( DiscoGiftCoRequest.DISCO_GIFTCO );
 		}
 	}
 
