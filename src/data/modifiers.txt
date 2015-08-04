@@ -635,6 +635,8 @@ Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar 
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
 Item	servo-assisted exo-pants	Initiative: -30, Familiar Effect: "cold atk, 1xPotato, cap 12"
 Item	slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "sleaze atk, 0.5xBarrr"
+# Item SMOOCH codpiece: Damages Attacking Opponent
+Item	SMOOCH codpiece	Damage Reduction: 5, Damage Absorption: +20
 Item	snailmail breeches	Maximum HP: +20, Maximum MP: +20, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
 Item	snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
 Item	snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
@@ -799,7 +801,9 @@ Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
 Item	sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
 Item	shark jumper	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
-Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10, Single Equip
+# Item SMOOCH breastplate: Damages Attacking Opponent
+Item	SMOOCH breastplate	Damage Absorption: +40
+<Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10, Single Equip
 Item	snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 # Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
 Item	Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
@@ -1688,6 +1692,8 @@ Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 Item	big bumboozer marble	Spell Damage: +80
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
+# Item blue LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=a570dc794d32c68386f4139800560e3d" >Blue Eyed Devil</a></b> at Rollover
+Item	blue LavaCo Lamp&trade;	Adventures: +5
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 # bone abacus: Helps you track your progress
 Item	borg sock monkey	Moxie: +3
@@ -1797,6 +1803,8 @@ Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reductio
 # golden sausage
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
+# Item green LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=3feb074579bbf255708bf0974529d754" >Green Peace</a></b> at Rollover
+Item	green LavaCo Lamp&trade;	Adventures: +5
 Item	green peawee marble	Stench Spell Damage: +30
 # Grey Guanon: Deals <font color=green>Stench Damage</font> every round
 Item	Grey Guanon	Stench Damage: +5
@@ -1986,6 +1994,8 @@ Item	Rainbow Jello Mould	Moxie Percent: +25
 # red balloon
 Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
+# Item red LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=130015724843d272c093e0d86e16de80" >Red Menace</a></b> at Rollover
+Item	red LavaCo Lamp&trade;	Adventures: +5
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	rice bowl	Food Drop: +20
@@ -2528,6 +2538,8 @@ Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticalit
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
+# Item Mr. Cheeng's spectacles: Find... like...  far out stuff, like everywhere... man...
+Item	Mr. Cheeng's spectacles	Item Drop: +15, Spell Critical Percent: +10, Spell Damage Percent: +30, Single Equip
 Item	Mr. Eh?	Muscle: +14, Mysticality: +14, Moxie: +14, Softcore Only
 # Mr. Exploiter
 Item	Mr. Joe's bangles	Mysticality Percent: +10, Single Equip
@@ -4091,6 +4103,7 @@ Effect	Bloody Hand	Muscle: -1
 Effect	Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 # Bloody-minded: +50% Damage vs. Vampires
 Effect	Blubbered Up	Moxie: +5
+Effect	Blue Eyed Devil	Experience Percent (Mysticality): +50
 Effect	Blue Swayed	Experience (familiar): [ceil(min(T,50)/5)], Familiar Weight: [ceil(min(T,50)/10)]
 Effect	Blue Tongue	Item Drop: +30
 Effect	Boilermade	Cold Resistance: +5, Spooky Resistance: +5
@@ -4348,6 +4361,7 @@ Effect	Deep-Tainted Mind	Mysticality Percent: -50
 Effect	Deeply Ironic	Damage Reduction: 5, HP Regen Min: 5, HP Regen Max: 8
 Effect	Demonic Flavor	Hot Damage: +10, Hot Resistance: +2
 Effect	Demonic Taint	Stench Damage: +30
+Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +80
 Effect	Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Effect	Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Effect	Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
@@ -4637,6 +4651,7 @@ Effect	Greasy Flavor	Weapon Damage: +30
 Effect	Greasy Peasy	Sleaze Damage: +15
 Effect	Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
 Effect	Greedy Resolve	Meat Drop: +30
+Effect	Green Peace	Experience Percent (Moxie): +50
 Effect	Green Tongue	Familiar Weight: +5, Experience (familiar): +2
 Effect	Green, Uneasy	Avatar: "frog"
 Effect	Grilled	Muscle: -10
@@ -5233,6 +5248,7 @@ Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Effect	Red in Tooth	Meat Drop: [min(500,T)]
 Effect	Red Lettered	Monster Level: +15
+Effect	Red Menace	Experience Percent (Muscle): +50
 # Red Misty-Eyed: +10 Damage against Seals
 Effect	Red Misty-Eyed	Damage Reduction: 3, Muscle Percent: +50
 Effect	Red Neck	Muscle: +15, Moxie: -5
@@ -7003,6 +7019,7 @@ Item	deflated inflatable dodecapede	Free Pull
 Item	delicious candy	Effect: "Eyes All Black", Effect Duration: 15
 Item	delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 # delicious shimmering moth: Restore 30-40 MP if you are a bird
+Item	demon makeup kit	Effect: "Demonicity", Effect Duration: 40
 Item	demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
 Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20

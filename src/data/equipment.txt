@@ -514,6 +514,7 @@ sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
 slime-covered greaves	200	Mox: 200
+SMOOCH codpiece	80	Mox: 25
 smooth velvet pants	50	Mox: 10
 snailmail breeches	165	Mox: 67
 snow pants	50	Mox: 10
@@ -665,6 +666,7 @@ rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
+SMOOCH breastplate	105	Mus: 37
 smooth velvet bra	50	Mus: 10
 smooth velvet shirt	50	Mus: 10
 snailmail hauberk	165	Mus: 67
@@ -1454,6 +1456,7 @@ beige clambroth marble	207	Mys: 85
 big bumboozer marble	211	Mys: 85
 black catseye marble	210	Mys: 85
 black shield	160	Mus: 65	shield
+blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
 borg sock monkey	110	Mys: 40
@@ -1524,7 +1527,7 @@ eye of the Tiger-lily	70	Mys: 20
 fake hand	10	none
 fake washboard	200	Mus: 50	shield
 fancy opera glasses	50	Mys: 10
-fireproof megaphone	0	none
+fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
 flimsy clipboard	50	Mus: 10	shield
@@ -1549,6 +1552,7 @@ golden sausage	0	none
 gore bucket	0	none
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
+green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
@@ -1694,6 +1698,7 @@ Rainbow Jello Mould	0	Mus: 10
 red balloon	10	none
 red book	150	Mys: 60
 red China marble	203	Mys: 85
+red LavaCo Lamp&trade;	100	Mus: 35
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 rice bowl	30	none
@@ -2086,8 +2091,8 @@ hazardous sauce dosimeter	0	none
 head mirror	155	Mys: 62
 headhunter necktie	160	Mys: 65
 heart of the volcano	200	Mys: 50
-heat-resistant gloves	0	Mox: 35
-heat-resistant necktie	0	Mys: 35
+heat-resistant gloves	100	Mox: 35
+heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
 hippy medical kit	175	Mys: 72
@@ -2173,6 +2178,7 @@ moon-amber necklace	250	Mys: 200
 moustache sock	100	Mus: 10
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
+Mr. Cheeng's spectacles	150	Mys: 35
 Mr. Eh?	0	none
 Mr. Exploiter	0	none
 Mr. Joe's bangles	200	Mys: 200
@@ -2352,9 +2358,9 @@ slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45
 sneakeasies	150	Mox: 60
 Sneaky Pete's breath spray	80	Mys: 25
-SMOOCH bracers	0	Mys: 27
-SMOOCH kneepads	0	Mys: 30
-SMOOCH spaulders	0	Mus: 32
+SMOOCH bracers	85	Mys: 27
+SMOOCH kneepads	90	Mys: 30
+SMOOCH spaulders	95	Mus: 32
 smooth velvet hanky	50	Mys: 10
 smooth velvet pocket square	50	Mys: 10
 smooth velvet socks	50	Mys: 10

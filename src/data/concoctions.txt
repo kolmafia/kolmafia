@@ -1801,6 +1801,8 @@ smooth velvet pants	MUSE	unsmoothed velvet (10)
 SMOOCH bracers	MUSE	superheated metal (5)
 SMOOCH kneepads	MUSE	superheated metal (7)
 SMOOCH spaulders	MUSE	superheated metal (9)
+SMOOCH codpiece	MUSE	superheated metal (11)
+SMOOCH breastplate	MUSE	superheated metal (13)
 
 high-temperature mining drill	SUSE	broken high-temperature mining drill	heat-resistant sheet metal
 

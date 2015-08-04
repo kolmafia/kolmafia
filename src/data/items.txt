@@ -8451,9 +8451,9 @@
 8425	New Age healing crystal	444874241	nacrystal1.gif	none, combat	t,d	69
 8426	Volcoino	717498018	volcoino.gif	none		0
 # 8427-8434: unknown
-# 8435: red LavaCo Lamp&trade;
+8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0
 8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0
-# 8437: green LavaCo Lamp&trade;
+8437	green LavaCo Lamp&trade;	699716715	lavalamp.gif	offhand		0
 8438	thin gold wire	942583408	goldwire.gif	none	t,d	1970
 8439	insulated gold wire	289339200	inswire.gif	none	t,d	197
 8440	empty lava bottle	935989438	lbottle1.gif	none	t,d	125
@@ -8466,9 +8466,9 @@
 8447	uncapped red lava bottle	127551390	lbottle3.gif	none	t,d	125
 8448	uncapped blue lava bottle	684114659	lbottle3.gif	none	t,d	125
 8449	uncapped green lava bottle	934780018	lbottle3.gif	none	t,d	125
-# 8450: capped red lava bottle
+8450	capped red lava bottle	787445463	lbottle4.gif	none	t,d	150
 8451	capped blue lava bottle	404493049	lbottle4.gif	none	t,d	150
-# 8452: capped green lava bottle
+8452	capped green lava bottle	500764499	lbottle4.gif	none	t,d	150
 8453	heat-resistant sheet metal	606279658	htmetal.gif	none	t,d	72
 8454	LavaCo&trade; Lamp housing	963586728	lavachassis.gif	none	t,d	80
 8455	glowing New Age crystal	685904760	nacrystal3.gif	none, combat	t,d	145
@@ -8512,18 +8512,28 @@
 8493	smooth velvet pocket square	584906111	velvsquare.gif	accessory	d	125
 8494	smooth velvet socks	251420056	velvsocks.gif	accessory	d	150
 8495	smooth velvet hanky	665322958	velvhanky.gif	accessory	d	175
-# 8495-8502: unknown
+# 8495-8497: unknown
+8498	Mr. Cheeng's 'stache	728078955	jackmoustache.gif	none	q	0
+# 8499: unknown
+8500	the tongue of Smimmons	153799783	smimtongue.gif	none	q	0
+8501	Raul's guitar pick	487335191	guitpick.gif	none	q	0
+# 8502: unknown
 8503	signed deuce	950990588	deuce.gif	none	q	0
 8504	Lavalos core	337034963	c13cookie1.gif	none	q	0
 8506	glass ceiling fragments	166305291	glassbits.gif	none	q	0
-# 8407-8515: unknown
+# 8407-8508: unknown
+8509	Mr. Cheeng's spectacles	547184035	chongglasses.gif	accessory		0
+# 8410: unknown
+8511	demon makeup kit	494615628	demonmakeup.gif	multiple		0
+# 8412-8513: unknown
 8514	little deuce cape	202354299	deucecape.gif	container		0
 8515	Lavalos's shell	726558682	lavashell.gif	container		0
 8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75
 8517	SMOOCH bracers	952592762	smoochbracer.gif	accessory	d	85
 8518	SMOOCH kneepads	170309346	smoochknee.gif	accessory	d	90
 8519	SMOOCH spaulders	843065832	smoochshoulder.gif	accessory	d	95
-# 8520-8521: unknown
+8520	SMOOCH codpiece	214182183	smoochcod.gif	pants	d	80
+8521	SMOOCH breastplate	111720430	smoochbreast.gif	shirt	d	105
 8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
 # 8523: unknown
 8524	superheated metal	328432753	ingot.gif	multiple	t,d	50
