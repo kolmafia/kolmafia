@@ -322,7 +322,16 @@ public class Value
 
 		Value it = (Value) o;
 
-		if ( this.type == DataTypes.BOOLEAN_TYPE || this.type == DataTypes.INT_TYPE )
+		if ( this.type == DataTypes.BOOLEAN_TYPE ||
+		     this.type == DataTypes.INT_TYPE ||
+		     this.type == DataTypes.ITEM_TYPE ||
+		     this.type == DataTypes.EFFECT_TYPE ||
+		     this.type == DataTypes.CLASS_TYPE ||
+		     this.type == DataTypes.SKILL_TYPE ||
+		     this.type == DataTypes.FAMILIAR_TYPE ||
+		     this.type == DataTypes.SLOT_TYPE ||
+		     this.type == DataTypes.THRALL_TYPE ||
+		     this.type == DataTypes.SERVANT_TYPE )
 		{
 			return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
 		}
@@ -332,6 +341,16 @@ public class Value
 			return Double.compare(
 				Double.longBitsToDouble( this.contentLong ),
 				Double.longBitsToDouble( it.contentLong ) );
+		}
+
+		if ( this.type == DataTypes.MONSTER_TYPE )
+		{
+			// If we know the monster ID, compare it
+			if ( this.contentLong != 0 )
+			{
+				return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
+			}
+			// Otherwise, must compare names
 		}
 
 		if ( this.contentString != null && it.contentString != null )
