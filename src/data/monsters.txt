@@ -1575,7 +1575,7 @@ SMOOCH private	1794	smoochman1.gif	Scale: 1 Cap: 12345  P: dude Init: -10000
 SMOOCH sergeant	1795	smoochman2.gif	Scale: 15 Cap: 12345  P: dude Init: -10000
 SMOOCH general	1796	smoochman3.gif	Scale: 30 Cap: 12345 P: dude Init: -10000
 Geve Smimmons	1817	smoochboss1.gif	Atk: 200 Def: 240 HP: 300 P: dude Init: 150
-# Raul Stemley
+Raul Stemley	1818	smoochboss2.gif	Atk: 180 Def: 220 HP: 300 P: dude Init: 75
 Pener Crisp	1819	smoochboss3.gif	Atk: 200 Def: 220 HP: 400 P: dude Init: 75
 Deuce Freshly	1820	smoochboss4.gif	Atk: 220 Def: 180 HP: 400 P: dude Init: 125
 
@@ -1800,11 +1800,11 @@ Mob Penguin Psychopath	0	pengpsycho.gif	P: penguin	knuckle sandwich (0)	psycho s
 Mob Penguin Racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
-Mutant Circuit-Soldering Elf	751	antlerelf.gif		elven moonshine (0)	miniature antlers (0)
-Mutant Cookie-Baking Elf	749	elfblob.gif		festive holiday hat (0)
-Mutant Doll-Dressing Elf	748	elflimbs.gif		cheap elven gloves (0)
-Mutant Gift-Wrapping Elf	747	elfclaw.gif		elven socks (0)
-Mutant Whistle-Carving Elf	750	elfhulk.gif		elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
+mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
+mutant cookie-baking elf	749	elfblob.gif		festive holiday hat (0)
+mutant doll-dressing elf	748	elflimbs.gif		cheap elven gloves (0)
+mutant gift-wrapping elf	747	elfclaw.gif		elven socks (0)
+mutant whistle-carving elf	750	elfhulk.gif		elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	HP: [min(240,HP*2/3)] Def: [min(300,MUS+10)] Atk: [min(300,MOX+10)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)

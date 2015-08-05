@@ -8536,7 +8536,6 @@
 8510	grease cannon	267874466	greasecannon.gif	weapon		0
 8511	demon makeup kit	494615628	demonmakeup.gif	multiple		0
 8512	love	138757129	happiness.gif	weapon		0
-8512
 8513	Pener's drumstick	988752890	drumstick.gif	weapon		0
 8514	little deuce cape	202354299	deucecape.gif	container		0
 8515	Lavalos's shell	726558682	lavashell.gif	container		0
