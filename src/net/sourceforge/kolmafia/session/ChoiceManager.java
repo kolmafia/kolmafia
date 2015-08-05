@@ -3798,6 +3798,14 @@ public abstract class ChoiceManager
 			// Like a Bat out of Hell
 			StringUtilities.globalStringReplace( buffer, "Return to the fight!", "UNDYING!" );
 			break;
+
+		case 1094:
+			// Back Room SMOOCHing
+			StringUtilities.globalStringReplace( buffer, "Door #1", "Geve Smimmons" );
+			StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stemley" );
+			StringUtilities.globalStringReplace( buffer, "Door #3", "Pener Crisp" );
+			StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
+			break;
 		}
 	}
 
