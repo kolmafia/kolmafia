@@ -346,7 +346,7 @@ public class Value
 		if ( this.type == DataTypes.MONSTER_TYPE )
 		{
 			// If we know the monster ID, compare it
-			if ( this.contentLong != 0 )
+			if ( this.contentLong != 0 && it.contentLong != 0 )
 			{
 				return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
 			}
