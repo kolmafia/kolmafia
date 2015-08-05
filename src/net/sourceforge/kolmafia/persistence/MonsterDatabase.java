@@ -273,7 +273,15 @@ public class MonsterDatabase
 					}
 					if ( id != 0 )
 					{
-						MonsterDatabase.MONSTER_IDS.put( id, monster );
+						MonsterData old = MonsterDatabase.MONSTER_IDS.get( id );
+						if ( old == null )
+						{
+							MonsterDatabase.MONSTER_IDS.put( id, monster );
+						}
+						else
+						{
+							RequestLogger.printLine( "Duplicate monster ID " + id + " : (" + old.getName() + "," + name + ")" );
+						}
 					}
 				}
 

@@ -345,10 +345,10 @@ public class Value
 
 		if ( this.type == DataTypes.MONSTER_TYPE )
 		{
-			// If we know the monster ID, compare it
-			if ( this.contentLong != 0 && it.contentLong != 0 )
+			// If we know a monster ID, compare it
+			if ( this.contentLong != 0 || it.contentLong != 0 )
 			{
-				// return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
+				return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
 			}
 			// Otherwise, must compare names
 		}
