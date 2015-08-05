@@ -8546,7 +8546,7 @@
 8520	SMOOCH codpiece	214182183	smoochcod.gif	pants	d	80
 8521	SMOOCH breastplate	111720430	smoochbreast.gif	shirt	d	105
 8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
-8523
+8523	fused fuse	980258577	fuse.gif	none	q	0
 8524	superheated metal	328432753	ingot.gif	multiple	t,d	50
 8525	lava cake	983897521	blackcake.gif	food	t,d	104
 8526	pink slime	205750761	blankoutglob.gif	food	t,d	35
