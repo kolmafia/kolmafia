@@ -8520,23 +8520,24 @@
 8494	smooth velvet socks	251420056	velvsocks.gif	accessory	d	150
 8495	smooth velvet hanky	665322958	velvhanky.gif	accessory	d	175
 8496	The One Mood Ring	793207976	onemoodring.gif	accessory		0
-8497
+8497	Mr. Choch's bone	792762825	goodbone.gif	none	q	0
 8498	Mr. Cheeng's 'stache	728078955	jackmoustache.gif	none	q	0
 8499	Saturday Night thermometer	165611295	thermometer.gif	none	q	0
 8500	the tongue of Smimmons	153799783	smimtongue.gif	none	q	0
 8501	Raul's guitar pick	487335191	guitpick.gif	none	q	0
-8502
+8502	Pener's crisps	900919974	bagofchips.gif	none	q	0
 8503	signed deuce	950990588	deuce.gif	none	q	0
 8504	Lavalos core	337034963	c13cookie1.gif	none	q	0
+8505	half-melted hula girl	815808125	huladoll.gif	none	q	0
 8506	glass ceiling fragments	166305291	glassbits.gif	none	q	0
-8507
-8508
+8507	SMOOCH coffee cup	955391707	coffeecup.gif	spleen, usable		0
+8508	labrador cookie	952818808	labradorcookie.gif	usable		0
 8509	Mr. Cheeng's spectacles	547184035	chongglasses.gif	accessory		0
 8510	grease cannon	267874466	greasecannon.gif	weapon		0
 8511	demon makeup kit	494615628	demonmakeup.gif	multiple		0
 8512	love	138757129	happiness.gif	weapon		0
 8512
-8513
+8513	Pener's drumstick	988752890	drumstick.gif	weapon		0
 8514	little deuce cape	202354299	deucecape.gif	container		0
 8515	Lavalos's shell	726558682	lavashell.gif	container		0
 8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75

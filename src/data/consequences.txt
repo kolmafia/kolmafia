@@ -81,7 +81,7 @@ MONSTER	factory overseer	facworker4\.gif	"factory overseer (female)"
 MONSTER	mine worker	mineworker1\.gif	"mine worker (female)"
 MONSTER	mine worker	mineworker2\.gif	"mine worker (male)"
 MONSTER	mine overseer	mineboss1\.gif	"mine overseer (male)"
-# MONSTER	mine overseer	mineboss2\.gif	"mine overseer (female)"
+MONSTER	mine overseer	mineboss2\.gif	"mine overseer (female)"
 
 MONSTER	guard turtle	frenchturtle\.gif	"french guard turtle"
 

@@ -1130,6 +1130,7 @@ parasitic claw	30	Mus: 0	1-handed club
 Pasta Spoon of Peril	50	Mys: 10	1-handed utensil
 pasta spoon	10	Mys: 0	1-handed utensil
 peace accordion	170	Mox: 70	2-handed accordion
+Pener's drumstick	150	Mus: 35	1-handed club
 penguin whip	20	Mus: 0	1-handed whip
 pentatonic accordion	90	Mox: 30	2-handed accordion
 perforated battle paddle	175	Mus: 72	2-handed club

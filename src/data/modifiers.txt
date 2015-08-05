@@ -1317,6 +1317,8 @@ Item	parasitic claw	Weapon Damage: [min(L,15)]
 Item	Pasta Spoon of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 # pasta spoon
 Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 19
+# Item Pener's drumstick: Sets opponents on fire
+Item	Pener's drumstick	Hot Damage: +20, Initiative: +20, Critical Hit Percent: +5
 Item	penguin whip	Meat Drop: +3
 Item	pentatonic accordion	Cold Damage: [9*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 12
 Item	perforated battle paddle	Weapon Damage: +10
@@ -4830,6 +4832,7 @@ Effect	Inner Warmth	Cold Resistance: +5
 # Innuendo Shopping
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
+Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Effect	Insulated Trousers	Cold Resistance: +1
@@ -4885,6 +4888,7 @@ Effect	Just the Brown Ones	Moxie: +15
 Effect	Kernel Panic!	Critical Hit Percent: +5
 Effect	Kindly Resolve	Familiar Weight: +5
 Effect	Kiss of the Black Fairy	Spooky Damage: [+2*D]
+Effect	Kissed By Fire	Maximum HP: +25, Hot Damage: +25, Hot Spell Damage: +25
 Effect	Kitty Littered	Avatar: "Iiti Kitty"
 Effect	Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Knob Goblin Lust Frenzy	Moxie: +2
