@@ -3566,14 +3566,15 @@ public abstract class ChoiceManager
 		// Choice 1090 is The Towering Inferno Discotheque
 
 		// Choice 1091 is The Floor Is Yours
-		new ChoiceAdventure(
+		new ChoiceSpoiler(
 			"That 70s Volcano", "choiceAdventure1091", "LavaCo Lamp Factory",
 			new Object[] { new Option( "1,970 carat gold -> thin gold wire", 1, "thin gold wire" ),
 				       new Option( "New Age healing crystal -> empty lava bottle", 2, "empty lava bottle" ),
 				       new Option( "empty lava bottle -> full lava bottle", 3, "full lava bottle" ),
 				       new Option( "make colored lava globs", 4 ),
 				       new Option( "glowing New Age healing crystal -> crystalline light bulb", 5, "crystalline light bulb" ),
-				       new Option( "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing", 6, "LavaCo&trade; Lamp housing" )
+				       new Option( "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing", 6, "LavaCo&trade; Lamp housing" ),
+				       new Option( "fused fuse", 7, "fused fuse" )
 				       } ),
 
 		// Choice 1092 is Dyer Maker
