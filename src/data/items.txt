@@ -600,7 +600,7 @@
 575	painful penne pasta	175830905	bowl.gif	food	t,d	33	bowls of painful penne pasta
 576	ravioli della hippy	618073477	bowl.gif	food	t,d	33	bowls of ravioli della hippy
 577	pr0n m4nic0tti	914810053	bowl.gif	food	t,d	33	bowls of pr0n m4nic0tti
-578	Hell ramen	388744461	bowl.gif	food	t,d	61	bowls of Hell ramen
+578	Hell ramen	388744461	bowl.gif	food	t,d	55	bowls of Hell ramen
 579	boring spaghetti	960148839	bowl.gif	food	t,d	33	bowls of boring spaghetti
 580	sauce of the ages	307975549	gravy.gif	none	t,d	31	sauces of the ages
 581	fancy schmancy cheese sauce	190776295	gravy.gif	none	t,d	31
