@@ -389,7 +389,10 @@ Yomama's Throne	-1	Yomama: 0
 
 # Areas with no combat data
 
-Icy Peak of the Past	-1
+The Icy Peak in The Recent Past	-1	Emaciated Knott Yeti	Mob Penguin Pasta Chef	Mob Penguin Soprano	Mob Penguin Thug
+Market Square, 28 Days Later	-1	drunken zombie half-orc hobo	fiendish zombie can of asparagus	zombie Gnollish crossdresser	Zombie Knob Goblin Assistant Chef	zombie yeast beast
+The Mall of Loathing, 28 Days Later	-1	white zombie	zombie apathetic lizardman	Zombie Clown	zombie frat boy	zombie hippy	zombie zmobie
+Wrong Side of the Tracks, 28 Days Later	-1	scary pirate	Zombie eXtreme Snowbarding Orc	Zombie Goth Giant	Zombie N00b	Zombie Quiet Healer
 
 # Areas with no combats
 

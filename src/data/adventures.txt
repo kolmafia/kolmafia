@@ -326,10 +326,10 @@ Crimbo06	adventure=117	Env: unknown	Crimborg Collective Factory
 
 Crimbo05	adventure=93	Env: unknown	Crimbo Town Toy Factory
 
-WhiteWed	adventure=88	Env: unknown	Future Market Square
-WhiteWed	adventure=89	Env: unknown	Mall of the Future
-WhiteWed	adventure=90	Env: unknown	Future Wrong Side of the Tracks
-WhiteWed	adventure=59	Env: unknown	Icy Peak of the Past
+WhiteWed	adventure=88	Env: outdoors	Market Square, 28 Days Later
+WhiteWed	adventure=89	Env: indoors	The Mall of Loathing, 28 Days Later
+WhiteWed	adventure=90	Env: outdoors	Wrong Side of the Tracks, 28 Days Later
+WhiteWed	adventure=59	Env: outdoors	The Icy Peak in The Recent Past
 
 Events	adventure=216	Env: unknown	Shivering Timbers
 
