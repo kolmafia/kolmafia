@@ -2823,7 +2823,8 @@ Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, 
 # teflon swim fins: Makes you a better diver
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
-Item	The One Mood Ring	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Monster Level: +20, Single Equip
+# The One Mood Ring: Muscle Percent: VARIABLE, Mysticality Percent: VARIABLE, Moxie Percent: VARIABLE, Monster Level: VARIABLE
+Item	The One Mood Ring	Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
@@ -6379,6 +6380,7 @@ Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30
 Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
+Item	labrador cookie	Effect: "Insatiable Hunger", Effect Duration: 40
 Item	lava cake	Effect: "Demonic Flavor", Effect Duration: 60
 Item	licorice garrote	Effect: "Sugar Rush", Effect Duration: 5
 Item	lihc eye pie	Effect: "Eye of the Lihc", Effect Duration: 5
