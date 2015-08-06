@@ -3039,6 +3039,9 @@ public class UseItemRequest
 		case ItemPool.DINSEY_AN_AFTERLIFE:
 		case ItemPool.MAP_TO_KOKOMO:
 		case ItemPool.ESSENCE_OF_BEAR:
+		case ItemPool.LAVA_MINERS_DAUGHTER:
+		case ItemPool.PSYCHO_FROM_THE_HEAT:
+		case ItemPool.THE_FIREGATE_TAPES:
 		{
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
@@ -5402,6 +5405,12 @@ public class UseItemRequest
 			return "Rotten Memories";
 		case ItemPool.ESSENCE_OF_BEAR:
 			return "Bear Essence";
+		case ItemPool.LAVA_MINERS_DAUGHTER:
+			return "Asbestos Heart";
+		case ItemPool.PSYCHO_FROM_THE_HEAT:
+			return "Pyromania";
+		case ItemPool.THE_FIREGATE_TAPES:
+			return "Firegate";
 		}
 
 		return null;
