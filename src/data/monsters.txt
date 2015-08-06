@@ -1588,7 +1588,7 @@ lava golem	1793	lavagolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 
 Mr. Cheeng	1815	mrcheeng.gif	Atk: 180 Def: 220 HP: 400 P: dude Init: 100
 
 # The Velvet / Gold Mine (That 70s Volcano August 2015)
-healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70  Phys: 50
+healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70 Phys: 50
 mine overseer (female)	1787	mineboss2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
 mine overseer (male)	1785	mineboss1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
 mine worker (female)	1784	mineworker1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50
@@ -1596,7 +1596,7 @@ mine worker (male)	1786	mineworker2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot I
 Mr. Choch	1814	mrchoch.gif	Atk: 200 Def: 200 HP: 400 P: dude Init: 100
 
 # The Flaming Inferno Discotheque (That 70s Volcano August 2015)
-Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75
+Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 Phys: 50
 
 # KoL Con
 
