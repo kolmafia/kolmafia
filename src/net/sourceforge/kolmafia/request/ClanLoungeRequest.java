@@ -1872,7 +1872,8 @@ public class ClanLoungeRequest
 		{
 			// Do nothing if consumption of a speakeasy drink failed
 			// Find failure messages and handle
-			if ( responseText.contains( "We don't serve minors here, kid" ) )
+			if ( responseText.contains( "We don't serve minors here, kid" ) ||
+				responseText.contains( "You can't afford that" ) )
 			{
 				return;
 			}
