@@ -5220,6 +5220,7 @@ Effect	Puzzle Fury	Spell Damage Percent: +25
 Effect	Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
 Effect	Pyramid Power	Weapon Damage Percent: +100, Spell Damage Percent: +100
+Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
 Effect	Quivering with Rage	Muscle Percent: -10
@@ -5880,6 +5881,7 @@ Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Arm Blade	Weapon Damage: +5, Critical Hit Percent: +20
 Skill	Armor Plating	Damage Reduction: 10
 # Armorcraftiness
+Skill	Asbestos Heart	Hot Resistance: +3
 # Audacity of the Otter Critical hits do 3x damage
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster

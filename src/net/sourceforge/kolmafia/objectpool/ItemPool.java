@@ -2407,6 +2407,9 @@ public class ItemPool
 	public static final int CRYSTALLINE_LIGHT_BULB = 8456;
 	public static final int SUPERDUPERHEATED_METAL = 8522;
 	public static final int SUPERHEATED_METAL = 8524;
+	public static final int LAVA_MINERS_DAUGHTER = 8482;
+	public static final int PSYCHO_FROM_THE_HEAT = 8483;
+	public static final int THE_FIREGATE_TAPES = 8484;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

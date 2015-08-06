@@ -1920,7 +1920,7 @@
 1919
 1920
 1921	Burning Tongue	saltongue.gif	c24e4978c00cd712e8d18a4bac1b615c	use 1 basaltamander tongue
-1922
+1922	Pyromania	fire.gif	ddab6cb3d61f20d9294db8f4131735f4	cast 1 Pyromania
 1923	Red Menace	lavalamp.gif	130015724843d272c093e0d86e16de80
 1924	Blue Eyed Devil	lavalamp.gif	a570dc794d32c68386f4139800560e3d
 1925	Green Peace	lavalamp.gif	3feb074579bbf255708bf0974529d754

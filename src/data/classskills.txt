@@ -163,6 +163,9 @@
 138	Lightning Bolt	lightning.gif	5	0	0
 139	Giant Growth	smilerat.gif	5	0	0
 140	Ancestral Recall	raindrop.gif	3	0	0
+141	Asbestos Heart	heart.gif	0	0	0
+142	Pyromania	fire.gif	3	15	10
+143	Firegate	firefoot.gif	5	50	0
 
 # Skills available to Clubbers
 
