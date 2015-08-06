@@ -371,6 +371,7 @@ Sneaky Pete's key lime pie	COOK_FANCY	Sneaky Pete's key lime	pie crust
 star key lime	COOK	Richard's star key	lime
 star key lime pie	COOK_FANCY	star key lime	pie crust
 
+lava cake	COOK	wad of dough	gooey lava globs
 
 # Items which can be created by using a rolling pin.
 
