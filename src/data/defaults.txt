@@ -1343,6 +1343,10 @@ user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
+user	_volcanoItem1	0
+user	_volcanoItem2	0
+user	_volcanoItem3	0
+user	_volcanoItemRedeemed	false
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false

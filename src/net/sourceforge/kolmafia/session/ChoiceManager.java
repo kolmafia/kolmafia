@@ -205,6 +205,7 @@ public abstract class ChoiceManager
 	private static final Pattern DINSEY_TEACUP_PATTERN = Pattern.compile( "'Current Teacup Spin Rate' points to (\\d+),000 RPM" );
 	private static final Pattern DINSEY_SLUICE_PATTERN = Pattern.compile( "'Sluice Swishers' is currently in the (.*?) position" );
 	private static final Pattern MAYO_MINDER_PATTERN = Pattern.compile( "currently loaded up with packets of (.*?)<p>" );
+	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9838,6 +9839,28 @@ public abstract class ChoiceManager
 				}
 			}
 			break;
+
+		case 1093:
+			// The WLF Bunker
+
+			// A woman in an orange denim jumpsuit emerges from a
+			// hidden trap door, smiles, and hands you a coin in
+			// exchange for your efforts.
+
+			if ( text.contains( "hands you a coin" ) )
+			{
+				Preferences.setBoolean( "_volcanoItemRedeemed", true );
+				int itemId = Preferences.getInteger( "_volcanoItem" + String.valueOf( ChoiceManager.lastDecision ) );
+				if ( itemId > 0 )
+				{
+					ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
+					Preferences.setInteger( "_volcanoItem1", 0 );
+					Preferences.setInteger( "_volcanoItem2", 0 );
+					Preferences.setInteger( "_volcanoItem3", 0 );
+				}
+			}
+
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
@@ -10507,6 +10530,52 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 1093:
+		{
+			// The WLF Bunker
+
+			// The following won't work, since visiting the WLF bunker is:
+			//     place.php?whichplace=airport_hot&action=airport4_questhub
+			// which redirects to
+			//     choice.php?forceoption=0
+			// but if there is no "whichchoice" on that page, we won't know
+			// to come here.
+
+			// You enter the bunker, but the speaker is silent. You've already done your day's work, soldier!
+			if ( text.contains( "the speaker is silent" ) )
+			{
+				Preferences.setBoolean( "_volcanoItemRedeemed", true );
+				Preferences.setInteger( "_volcanoItem1", 0 );
+				Preferences.setInteger( "_volcanoItem2", 0 );
+				Preferences.setInteger( "_volcanoItem3", 0 );
+				break;
+			}
+
+			// On the other hand, if there IS a choice on the page,
+			// it will be whichchoice=1093 asking to redeem items
+
+			Preferences.setBoolean( "_volcanoItemRedeemed", false );
+
+			Matcher matcher = ChoiceManager.DESCID_PATTERN.matcher( text );
+			int index = 1;
+			while ( matcher.find() )
+			{
+				String descid = matcher.group( 1 );
+				int itemId = ItemDatabase.getItemIdFromDescription( descid );
+				if ( itemId != -1 )
+				{
+					Preferences.setInteger( "_volcanoItem" + String.valueOf( itemId ), itemId );
+				}
+				if ( ++index > 3 )
+				{
+					break;
+				}
+			}
+
+			break;
+		}
+
 		}
 	}
 
