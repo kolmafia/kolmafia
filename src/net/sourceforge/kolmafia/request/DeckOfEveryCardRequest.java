@@ -351,13 +351,6 @@ public class DeckOfEveryCardRequest
 			return;
 		}
 
-		// You're too drunk to draw.
-		if ( responseText.contains( "You're too drunk to draw" ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You're too drunk to draw a card" );
-			return;
-		}
-
 		// You don't have enough energy left to cheat today.
 		if ( responseText.contains( "You don't have enough energy left to cheat today" ) )
 		{
