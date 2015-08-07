@@ -216,6 +216,22 @@ public class MonsterData
 		this.randomModifiers = new String[0];
 	}
 
+	public void handleMonsterLevel()
+	{
+		// If we tracked nostagger, stunresist, and start-of-combat
+		// elemental damage, this would be the place to put it.
+		int physRes = Math.min( (int) Math.floor( ML() / 2.5 ), 50 );
+		if ( this.scale != null && physRes < 0 )
+		{
+			physRes = 0;
+		}
+		if ( this.physicalResistance == 0 )
+		{
+			this.physicalResistance = physRes;
+		}
+		this.physicalResistance = Math.max( physRes, this.physicalResistance );
+	}
+
 	public MonsterData handleRandomModifiers()
 	{
 		String[] modifiers = MonsterData.lastRandomModifiers;
@@ -384,18 +400,37 @@ public class MonsterData
 		return monster;
 	}
 
-	private static int ML()
+	private int evaluate(Object obj, int value) {
+		if ( obj != null )
+		{
+			if ( obj instanceof Integer )
+			{
+				value = ( (Integer) obj ).intValue();
+			}
+			if ( obj instanceof String )
+			{
+				obj = compile( obj );
+			}
+			if ( obj instanceof MonsterExpression )
+			{
+				value = (int) ( ( (MonsterExpression) obj ).eval() );
+			}
+		}
+		return value;
+	}
+
+	private int ML()
 	{
 		/* For brevity, and to handle the possible future need for
 		   asking for speculative monster stats */
-		return KoLCharacter.getMonsterLevelAdjustment();
+		return KoLCharacter.getMonsterLevelAdjustment() * evaluate( this.mlMult, 1 );
 	}
 
 	private MonsterExpression compile( Object expr )
 	{
 		return MonsterExpression.getInstance( (String) expr, this.getName() );
 	}
- 
+
 	private double getBeeosity()
 	{
 		return 1.0 + ( KoLCharacter.inBeecore() ? ( this.beeCount / 5.0 ) : 0.0 );
@@ -408,55 +443,16 @@ public class MonsterData
 
 	public int getHP()
 	{
-		int mlMult = 1;
-		if ( this.mlMult != null )
-		{
-			if ( this.mlMult instanceof Integer )
-			{
-				mlMult = ((Integer) this.mlMult).intValue();
-			}
-			if ( this.mlMult instanceof String )
-			{
-				this.mlMult = compile( this.mlMult );
-			}
-			if ( this.mlMult instanceof MonsterExpression )
-			{
-				mlMult = (int) (((MonsterExpression) this.mlMult).eval() );
-			}
-		}
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0);
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
-			hp = hp > cap ? cap : hp;
 			int ml = ML();
+
+			hp = hp > cap ? cap : hp;
 			ml = ml < 0 ? 0 : ml;
-			hp = (int) Math.floor( ( hp + ml * mlMult ) * 0.75 * getBeeosity() );
+			hp = (int) Math.floor( ( hp + ml ) * 0.75 * getBeeosity() );
 			hp = hp < this.floor ? this.floor : hp;
 			return (int) Math.max( 1, hp );
 		}
@@ -467,6 +463,7 @@ public class MonsterData
 		if ( this.health instanceof Integer )
 		{
 			int hp = ((Integer) this.health).intValue();
+
 			if ( hp == 0 && ( this.attack == null || ( this.attack instanceof Integer && ((Integer) this.attack).intValue() == 0 ) ) )
 			{
 				// The monster is unknown, so do not apply modifiers
@@ -476,7 +473,7 @@ public class MonsterData
 			{
 				hp += 150;
 			}
-			return (int) Math.floor( Math.max( 1, hp + ML() * mlMult ) * getBeeosity() );
+			return (int) Math.floor( Math.max( 1, hp + ML() ) * getBeeosity() );
 		}
 		if ( this.health instanceof String )
 		{
@@ -489,105 +486,35 @@ public class MonsterData
 	{
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
+
 			hp = hp > cap ? cap : hp < this.floor ? this.floor : hp;
 			return (int) Math.floor( Math.max( 1, ( hp ) * 0.75 ) );
-		}			
+		}
 		if ( this.health == null )
 		{
 			return -1;
 		}
-		if ( this.health instanceof Integer )
-		{
-			return ((Integer) this.health).intValue();
-		}
-		if ( this.health instanceof String )
-		{
-			this.health = compile( this.health );
-		}
-		return Math.max( 1, (int) (((MonsterExpression) this.health).eval() ) );
+		return Math.max( 1, evaluate( this.health, 1 ) );
 	}
 
 	public int getAttack()
 	{
-		int mlMult = 1;
-		if ( this.mlMult != null )
-		{
-			if ( this.mlMult instanceof Integer )
-			{
-				mlMult = ((Integer) this.mlMult).intValue();
-			}
-			if ( this.mlMult instanceof String )
-			{
-				this.mlMult = compile( this.mlMult );
-			}
-			if ( this.mlMult instanceof MonsterExpression )
-			{
-				mlMult = (int) (((MonsterExpression) this.mlMult).eval() );
-			}
-		}
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			attack = attack > cap ? cap : attack;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			attack = (int) Math.floor( ( attack + ml * mlMult ) * getBeeosity() );
+
+			attack = (int) Math.floor( ( attack + ml ) * getBeeosity() );
 			attack = attack < this.floor ? this.floor : attack;
 			return (int) Math.max( 1, attack );
-		}			
+		}
 		if ( this.attack == null )
 		{
 			return 0;
@@ -605,7 +532,7 @@ public class MonsterData
 				// The bonus attack from BIG cannot raise a monster's attack above 300
 				attack = Math.min( attack + 150, Math.max( 300, attack ) );
 			}
-			return (int) Math.floor( Math.max( 1, attack + ML() * mlMult ) *
+			return (int) Math.floor( Math.max( 1, attack + ML() ) *
 			       getBeeosity() );
 		}
 		if ( this.attack instanceof String )
@@ -619,106 +546,36 @@ public class MonsterData
 	{
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			attack = attack > cap ? cap : attack < this.floor ? this.floor : attack;
 			return (int) Math.max( 1, attack );
-		}			
+		}
+
 		if ( this.attack == null )
 		{
 			return -1;
 		}
-		if ( this.attack instanceof Integer )
-		{
-			return ((Integer) this.attack).intValue();
-		}
-		if ( this.attack instanceof String )
-		{
-			this.attack = compile( this.attack );
-		}
-		return Math.max( 1, (int) (((MonsterExpression) this.attack).eval() ) );
+		int attack = evaluate( this.attack, 0 );
+		return Math.max( 1, attack );
 	}
 
 	public int getDefense()
 	{
-		int mlMult = 1;
-		if ( this.mlMult != null )
-		{
-			if ( this.mlMult instanceof Integer )
-			{
-				mlMult = ((Integer) this.mlMult).intValue();
-			}
-			if ( this.mlMult instanceof String )
-			{
-				this.mlMult = compile( this.mlMult );
-			}
-			if ( this.mlMult instanceof MonsterExpression )
-			{
-				mlMult = (int) (((MonsterExpression) this.mlMult).eval() );
-			}
-		}
 		double reduceMonsterDefense = KoLCharacter.currentNumericModifier( Modifiers.REDUCE_ENEMY_DEFENSE ) / 100;
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
 			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			defense = (int) Math.floor( ( defense + ml * mlMult ) * getBeeosity() );
+			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
 			defense = defense < this.floor ? this.floor : defense;
 			return (int) Math.floor( Math.max( 1, defense * ( 1 - reduceMonsterDefense ) ) );
-		}			
+		}
 		if ( this.defense == null )
 		{
 			return 0;
@@ -736,14 +593,14 @@ public class MonsterData
 				// The bonus defense from BIG cannot raise a monster's defense above 300
 				defense = Math.min( defense + 150, Math.max( 300, defense ) );
 			}
-			return (int) Math.floor( Math.max( 1, defense + ML() * mlMult ) *
+			return (int) Math.floor( Math.max( 1, defense + ML() ) *
 			       getBeeosity() * ( 1 - reduceMonsterDefense ) );
 		}
 		if ( this.defense instanceof String )
 		{
 			this.defense = compile( this.defense );
 		}
-		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() * 
+		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() *
 				getBeeosity() * ( 1 - reduceMonsterDefense ) ) );
 	}
 
@@ -751,66 +608,22 @@ public class MonsterData
 	{
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
 			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
 			return (int) Math.floor( Math.max( 1, defense ) );
-		}			
+		}
 		if ( this.defense == null )
 		{
 			return -1;
 		}
-		if ( this.defense instanceof Integer )
-		{
-			return ((Integer) this.defense).intValue();
-		}
-		if ( this.defense instanceof String )
-		{
-			this.defense = compile( this.defense );
-		}
-		return Math.max( 1, (int) (((MonsterExpression) this.defense).eval() ) );
+		return Math.max( 1, evaluate( this.defense, 0 ) );
 	}
 
 	public int getRawInitiative()
 	{
-		if ( this.initiative == null )
-		{
-			return -1;
-		}
-		if ( this.initiative instanceof Integer )
-		{
-			return ((Integer) this.initiative).intValue();
-		}
-		if ( this.initiative instanceof String )
-		{
-			this.initiative = compile( this.initiative );
-		}
-		return (int) ((MonsterExpression) this.initiative).eval();
+		return evaluate( this.initiative, -1 );
 	}
 
 	public int getInitiative()
@@ -1118,69 +931,21 @@ public class MonsterData
 
 	public double getExperience()
 	{
-		int mlMult = 1;
-		if ( this.mlMult != null )
-		{
-			if ( this.mlMult instanceof Integer )
-			{
-				mlMult = ((Integer) this.mlMult).intValue();
-			}
-			if ( this.mlMult instanceof String )
-			{
-				this.mlMult = compile( this.mlMult );
-			}
-			if ( this.mlMult instanceof MonsterExpression )
-			{
-				mlMult = (int) (((MonsterExpression) this.mlMult).eval() );
-			}
-		}
 		if ( this.scale != null )
 		{
-			int scale = 0;
-			if ( this.scale instanceof Integer )
-			{
-				scale = ((Integer) this.scale).intValue();
-			}
-			if ( this.scale instanceof String )
-			{
-				this.scale = compile( this.scale );
-			}
-			if ( this.scale instanceof MonsterExpression )
-			{
-				scale = (int) (((MonsterExpression) this.scale).eval() );
-			}
-			int cap = 0;
-			if ( this.cap instanceof Integer )
-			{
-				cap = ((Integer) this.cap).intValue();
-			}
-			if ( this.cap instanceof String )
-			{
-				this.cap = compile( this.cap );
-			}
-			if ( this.cap instanceof MonsterExpression )
-			{
-				cap = (int) (((MonsterExpression) this.cap).eval() );
-			}
+			int scale = evaluate( this.scale, 0 );
+			int cap = evaluate( this.cap, 0 );
 			int experience = KoLCharacter.getAdjustedMainstat() + scale;
 			experience = experience > cap ? cap : experience < this.floor ? this.floor : experience;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (double) Math.max( 1, ( experience / 8.0 + ml * mlMult / 6.0 ) );
-		}			
+			return (double) Math.max( 1, ( experience / 8.0 + ml / 6.0 ) );
+		}
 		if ( this.experience == null )
 		{
-			return ( this.getAttack() / this.getBeeosity() ) / 8.0 + ML() * mlMult / 6.0;
+			return Math.max( ( this.getAttack() / this.getBeeosity() - ML() ) / 8.0 + ML() / 6.0, 0 );
 		}
-		if ( this.experience instanceof Integer )
-		{
-			return ((Integer) this.experience).intValue() / 2.0;
-		}
-		if ( this.experience instanceof String )
-		{
-			this.experience = compile( this.experience );
-		}
-		return ((MonsterExpression) this.experience).eval() / 2.0;
+		return evaluate( this.experience, 0 ) / 2.0;
 	}
 
 	public boolean willUsuallyMiss()
