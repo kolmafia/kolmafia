@@ -419,7 +419,7 @@ public class MonsterData
 		return value;
 	}
 
-	private int ML()
+	public int ML()
 	{
 		/* For brevity, and to handle the possible future need for
 		   asking for speculative monster stats */
