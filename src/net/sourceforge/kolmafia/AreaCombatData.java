@@ -625,7 +625,8 @@ public class AreaCombatData
 
 			MonsterData monster = this.getMonster( i );
 			double weight = (double) weighting * ( 1 - (double) this.getRejection( i ) / 100 ) / this.totalWeighting();
-			averageExperience += weight * (monster.getExperience() + experienceAdjustment);
+			int ml = monster.ML();
+			averageExperience += weight * ( monster.getExperience() + experienceAdjustment - ml / ( ml > 0 ? 6.0 : 8.0 ) );
 		}
 
 		double averageSuperlikelyExperience = 0.0;
