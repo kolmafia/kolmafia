@@ -10565,7 +10565,7 @@ public abstract class ChoiceManager
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
 				if ( itemId != -1 )
 				{
-					Preferences.setInteger( "_volcanoItem" + String.valueOf( itemId ), itemId );
+					Preferences.setInteger( "_volcanoItem" + String.valueOf( index ), itemId );
 				}
 				if ( ++index > 3 )
 				{
