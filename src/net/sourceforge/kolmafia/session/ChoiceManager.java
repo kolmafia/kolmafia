@@ -3803,7 +3803,7 @@ public abstract class ChoiceManager
 		case 1094:
 			// Back Room SMOOCHing
 			StringUtilities.globalStringReplace( buffer, "Door #1", "Geve Smimmons" );
-			StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stemley" );
+			StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stamley" );
 			StringUtilities.globalStringReplace( buffer, "Door #3", "Pener Crisp" );
 			StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
 			break;
