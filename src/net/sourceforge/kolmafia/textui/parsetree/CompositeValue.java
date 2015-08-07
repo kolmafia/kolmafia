@@ -111,7 +111,7 @@ public class CompositeValue
 		{
 			Value key = keys[ i ];
 			Value value = this.aref( key );
-			String first = prefix + key + "\t";
+			String first = prefix + key.dumpValue() + "\t";
 			value.dump( writer, first, compact );
 		}
 	}

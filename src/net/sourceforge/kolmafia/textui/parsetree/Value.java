@@ -391,14 +391,22 @@ public class Value
 		return hash;
 	}
 
+	public String dumpValue()
+	{
+		int type = this.type.getType();
+		return  type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
+			String.valueOf( this.contentLong ) :
+			this.toString();
+	}
+
 	public void dumpValue( final PrintStream writer )
 	{
-		writer.print( this.toStringValue().toString() );
+		writer.print( this.dumpValue() );
 	}
 
 	public void dump( final PrintStream writer, final String prefix, final boolean compact )
 	{
-		writer.println( prefix + this.toStringValue().toString() );
+		writer.println( prefix + this.dumpValue() );
 	}
 
 	@Override
