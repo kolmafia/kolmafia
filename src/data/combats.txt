@@ -333,7 +333,7 @@ The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urch
 The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
 The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
-The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stemley: 0	Pener Crisp: 0	Deuce Freshly: 0
+The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 The Snake Pit	-1	cobra	snake
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
