@@ -132,6 +132,7 @@ public class MonsterStatusTracker
 
 		// If we saved an array of random modifiers, apply them
 		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
+		MonsterStatusTracker.monsterData.handleMonsterLevel();
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
 		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
