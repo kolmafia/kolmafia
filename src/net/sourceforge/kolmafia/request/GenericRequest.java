@@ -1312,62 +1312,110 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( this.getClass() );
 		}
 
+		if ( !this.prepareForURL( location ) )
+		{
+			return;
+		}
+
+		this.execute();
+
+		// Response is ok or redirect
+		if ( this.responseCode != 200 && this.responseCode != 302 )
+		{
+			return;
+		}
+
+		if ( this.responseText == null )
+		{
+			KoLmafia.updateDisplay(
+				MafiaState.ABORT,
+				"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
+			return;
+		}
+
+		// Call central dispatch method for locations that require
+		// special handling
+
+		QuestManager.handleQuestChange( this );
+
+		this.formatResponse();
+	}
+
+	private boolean prepareForURL( final String location )
+	{
+		// This method returns true is we should proceed to submit the URL
+		// We attempt to do any setup needed.
+
 		if ( location.startsWith( "hermit.php?auto" ) )
 		{
 			// auto-buying chewing gum or permits overrides the
 			// setting that disables NPC purchases, since the user
 			// explicitly requested the purchase.
 			boolean old = Preferences.getBoolean( "autoSatisfyWithNPCs" );
-			if ( !old )
+			try
 			{
-				Preferences.setBoolean( "autoSatisfyWithNPCs", true );
-			}
-
-			// If he wants us to automatically get a worthless item
-			// in the sewer, do it.
-			if ( location.contains( "autoworthless=on" ) )
-			{
-				InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false );
-			}
-
-			// If he wants us to automatically get a hermit permit, if needed, do it.
-			// If he happens to have a hermit script, use it and obviate permits
-			if ( location.contains( "autopermit=on" ) )
-			{
-				if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
+				if ( !old )
 				{
-					RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
+					Preferences.setBoolean( "autoSatisfyWithNPCs", true );
 				}
-				InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
+
+				// If he wants us to automatically get a worthless item
+				// in the sewer, do it.
+				if ( location.contains( "autoworthless=on" ) )
+				{
+					InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false );
+				}
+
+				// If he wants us to automatically get a hermit permit, if needed, do it.
+				// If he happens to have a hermit script, use it and obviate permits
+				if ( location.contains( "autopermit=on" ) )
+				{
+					if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
+					{
+						RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
+					}
+					InventoryManager.retrieveItem( ItemPool.HERMIT_PERMIT, false );
+				}
+			}
+			finally
+			{
+				if ( !old )
+				{
+					Preferences.setBoolean( "autoSatisfyWithNPCs", false );
+				}
 			}
 
-			if ( !old )
-			{
-				Preferences.setBoolean( "autoSatisfyWithNPCs", false );
-			}
+			return true;
 		}
-		else if ( location.equals( "place.php?whichplace=orc_chasm&action=bridge0" ) )
-		{
-			InventoryManager.retrieveItem( ItemPool.BRIDGE );
-		}
-		else if ( location.startsWith( "casino.php" ) )
+
+		if ( location.startsWith( "casino.php" ) )
 		{
 			if ( !KoLCharacter.inZombiecore() )
 			{
 				InventoryManager.retrieveItem( ItemPool.CASINO_PASS );
 			}
+			return true;
 		}
-		else if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
+
+		if ( location.equals( "place.php?whichplace=orc_chasm&action=bridge0" ) )
+		{
+			InventoryManager.retrieveItem( ItemPool.BRIDGE );
+			return true;
+		}
+
+		if ( location.startsWith( "place.php?whichplace=desertbeach&action=db_pyramid1" ) )
 		{
 			// This is the normal one, not the one Ed wields
 			ResultProcessor.autoCreate( ItemPool.STAFF_OF_ED );
+			return true;
 		}
-		else if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
+
+		if ( location.startsWith( "pandamonium.php?action=mourn&whichitem=" ) )
 		{
 			int comedyItemID = GenericRequest.getWhichItem( location );
 			if ( comedyItemID == -1 )
 			{
-				return;
+				return false;
 			}
 
 			String comedy;
@@ -1388,7 +1436,7 @@ public class GenericRequest
 				KoLmafia.updateDisplay(
 					MafiaState.ABORT,
 					"\"" + comedyItemID + "\" is not a comedy item number that Mafia recognizes." );
-				return;
+				return false;
 			}
 
 			AdventureResult comedyItem = ItemPool.get( comedyItemID, 1 );
@@ -1422,32 +1470,11 @@ public class GenericRequest
 			if ( text != null )
 			{
 				this.responseText = text;
-				return;
+				return false;
 			}
 		}
 
-		this.execute();
-
-		// Response is ok or redirect
-		if ( this.responseCode != 200 && this.responseCode != 302 )
-		{
-			return;
-		}
-
-		if ( this.responseText == null )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.ABORT,
-				"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
-			return;
-		}
-
-		// Call central dispatch method for locations that require
-		// special handling
-
-		QuestManager.handleQuestChange( this );
-
-		this.formatResponse();
+		return true;
 	}
 
 	public void execute()
