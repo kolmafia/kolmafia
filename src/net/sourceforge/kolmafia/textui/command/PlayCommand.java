@@ -105,7 +105,7 @@ public class PlayCommand
 
 	public PlayCommand()
 	{
-		this.usage = "random | phylum [PHYLUM] | stat [STAT] | buff [BUFF] | CARDNAME - Play a random or specified card";
+		this.usage = " random | phylum [PHYLUM] | stat [STAT] | buff [BUFF] | CARDNAME - Play a random or specified card";
 	}
 
 	@Override

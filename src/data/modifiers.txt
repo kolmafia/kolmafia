@@ -7313,6 +7313,7 @@ Item	heart necklace	Free Pull
 Item	Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
 Item	henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 Item	henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
+Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	hibernating Grimstone Golem	Free Pull
 Item	hibernating robot reindeer	Free Pull
