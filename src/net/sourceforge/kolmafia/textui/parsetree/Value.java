@@ -395,7 +395,7 @@ public class Value
 	{
 		int type = this.type.getType();
 		return  type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
-			String.valueOf( this.contentLong ) :
+			"[" + String.valueOf( this.contentLong ) + "]" + this.contentString :
 			this.toString();
 	}
 
