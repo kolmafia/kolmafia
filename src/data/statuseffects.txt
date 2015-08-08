@@ -1932,3 +1932,4 @@
 1931	Demonicity	demonmakeup.gif	25421d775e72ea2d9691a3cd3f66fb94	use 1 demon makeup kit
 1932	Kissed By Fire	smoochkiss.gif	537dae21efa4438a38efe96f994b40a1
 1933	Drenched in Lava	gi_chunk.gif	6cabc1305530f76547bc97e55f21666b
+1934	Doing The Hustle	dance3.gif	52284e7299b35e9d392bddaee7a8258f
