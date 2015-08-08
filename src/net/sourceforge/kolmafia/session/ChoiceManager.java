@@ -12559,6 +12559,9 @@ public abstract class ChoiceManager
 			case 1012:	// The Last Temptation
 			case 1013:	// Mazel Tov!
 				return SorceressLairManager.registerChoice( choice, urlString );
+
+			case 1053:	// The Servants' Quarters
+				return EdServantData.registerRequest( urlString );
 			}
 
 			decision = ChoiceManager.extractOptionFromURL( urlString );

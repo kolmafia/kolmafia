@@ -139,6 +139,18 @@ public class EdBaseRequest
 			return true;
 		}
 
+		if ( action.equals( "edbase_book" ) )
+		{
+			RequestLogger.updateSessionLog( "Visiting The Book of the Undying" );
+			return true;
+		}
+
+		if ( action.equals( "edbase_door" ) )
+		{
+			RequestLogger.updateSessionLog( "Visiting The Servants' Quarters" );
+			return true;
+		}
+
 		return false;
 	}
 }
