@@ -233,7 +233,7 @@ eXtreme Orcish snowboarder	1155	fratboard.gif	Atk: 74 Def: 66 HP: 65 Init: 60 Me
 extremely annoyed witch	1581	witchy2.gif	Atk: 36 Def: 32 HP: 32 Init: 25 P: dude Meat: 45-45	wand of pigification (c100)
 eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 E: spooky P: horror	black tear (n50)
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	really thick spine (0)	oversized skullcap (0)	three-legged pants (0)	skeleton bone (0)	loose teeth (0)
-Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 45 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)	heavy-duty bendy straw (c0)
+Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 E: hot Meat: 45 P: demon	demon skin (15)	evil golden arch (30)	infernal insoles (10)	pink slime (0)	heavy-duty bendy straw (c0)
 Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 P: dude Meat: 100	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
 fan slime	804	fanslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of yellow slime (f66)
@@ -1752,7 +1752,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: 
 # The Icy Peak in The Recent Past (November 2005)
 Emaciated Knott Yeti	0	skinyeti.gif	
 Mob Penguin Pasta Chef	0	pengchef.gif	
-Mob Penguin Soprano	0	pengprano.gif	
+Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 P: penguin	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
 Mob Penguin Thug	0	pengthug.gif	
 
 # Market Square, 28 Days Later (November 2005)
@@ -1840,7 +1840,7 @@ Mob Penguin Racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
 mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
-mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Init: 75 P: elf	festive holiday hat (0)
+mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: elf	festive holiday hat (0)
 mutant doll-dressing elf	748	elflimbs.gif		cheap elven gloves (0)
 mutant gift-wrapping elf	747	elfclaw.gif		elven socks (0)
 mutant whistle-carving elf	750	elfhulk.gif		elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
