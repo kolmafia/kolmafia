@@ -44,6 +44,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
@@ -53,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -62,6 +64,13 @@ public class EdServantData
 {
 	public static final AdventureResult CROWN_OF_ED = ItemPool.get( ItemPool.CROWN_OF_ED, 1 );
 	public static final AdventureResult PURR = EffectPool.get( EffectPool.PURR_OF_THE_FELINE );
+
+	public static final Pattern SID_PATTERN = Pattern.compile( "sid=(\\d+)" );
+	public static int extractServantId( final String urlString )
+	{
+		Matcher matcher = EdServantData.SID_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
 
 	public static final Object[][] SERVANTS =
 	{
@@ -549,14 +558,63 @@ public class EdServantData
 			return;
 		}
 
-		String option = request.getFormField( "option" );
-		if ( option == null )
+		int decision = ChoiceManager.extractOptionFromURL( urlString );
+		if ( decision == 0 )
 		{
 			return;
 		}
-
+		
 		// We did ... something. Re-parse servants.
 		EdServantData.inspectServants( responseText );
 		NamedListenerRegistry.fireChange( "(edservants)" );
+
+		// choice.php?whichchoice=1053&option=3&pwd&sid=6
+		// choice.php?whichchoice=1053&option=5&pwd
+		int sid = EdServantData.extractServantId( urlString );
+		Object[] data = idToData( sid );
+		
+		switch ( decision )
+		{
+		case 1: // Changing servant
+		case 3: // Freeing a servant
+		case 5: // Imparting wisdom to current servant
+			RequestLogger.updateSessionLog( "Current servant: " + EdServantData.currentEdServant );
+			break;
+		}
+	}
+
+	public static final boolean registerRequest( final String urlString )
+	{
+		// We know that we are submitting ... something for choice 1053
+		int decision = ChoiceManager.extractOptionFromURL( urlString );
+		if ( decision == 0 )
+		{
+			// Log nothing if not taking a choice.
+			return true;
+		}
+
+		int sid = EdServantData.extractServantId( urlString );
+		Object[] data = idToData( sid );
+		String servant = data == null ? "(unknown servant)" : EdServantData.dataToType( data );
+
+		switch ( decision )
+		{
+		case 1:
+			// Changing servant
+			RequestLogger.updateSessionLog( "Putting your " + servant + " to work" );
+			break;
+		case 3:
+			// Releasing a servant
+			RequestLogger.updateSessionLog( "Releasing your " + servant );
+			break;
+		case 5:
+			// Imparting wisdom to current servant
+			RequestLogger.updateSessionLog( "Imparting wisdom to " + EdServantData.currentEdServant );
+			break;
+		default:
+			return false;
+		}
+
+		return true;
 	}
 }
