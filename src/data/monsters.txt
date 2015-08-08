@@ -1772,7 +1772,7 @@ zombie zmobie	303	zombie2.gif
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
-Zombie eXtreme Snowbarding Orc	310	zomsnow.gif
+Zombie eXtreme Snowboarding Orc	310	zomsnow.gif
 Zombie Goth Giant	312	zomgoth.gif
 Zombie N00b	309	zomnoob.gif
 Zombie Quiet Healer	311	zomhealer.gif
@@ -1783,6 +1783,15 @@ Striking Gift-Wrapper Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly ey
 Striking Middle-Management Elf	0	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
 Striking Pencil-Pusher Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Stocking-Stuffer Elf	0	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
+
+Bashful, the Reindeer	0	reindeer.gif
+Doc, the Reindeer	0	reindeer.gif
+Dopey, the Reindeer	0	reindeer.gif
+Grumpy, the Reindeer	0	reindeer.gif
+Happy, the Reindeer	0	reindeer.gif
+Sleepy, the Reindeer	0	reindeer.gif
+Sneezy, the Reindeer	0	reindeer.gif
+Zeppo, the Reindeer	0	reindeer.gif
 
 # The Grim Grimacite Site (June 2006)
 Mob Penguin Smasher	0	pengsmasher.gif	P: penguin	chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
