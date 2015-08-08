@@ -4395,6 +4395,7 @@ Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
 Effect	Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3, Combat Rate: +5
+Effect	Doing The Hustle	Item Drop: +100
 # Don't Rest Ye, Bold Adventurer: variable Experience
 Effect	Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
