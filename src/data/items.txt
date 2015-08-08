@@ -8560,3 +8560,4 @@
 8534	libertagliatelle	178454636	bowl.gif	food	t,d	65
 8535	turkish mostaccioli	352002016	bowl.gif	food	t,d	65
 8536	linguini of the sea	136886155	bowl.gif	food	t,d	65
+8537	Hersey&trade; SMOOCH	802918114	smoochkiss.gif	usable	t,d	15
