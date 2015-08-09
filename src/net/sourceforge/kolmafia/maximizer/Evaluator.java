@@ -1706,13 +1706,14 @@ public class Evaluator
 			CheckedItem item1 = null;
 			CheckedItem item2 = null;
 
-			// The only times the slots will be wrong for current synergies are 1 handed swords
+			// The only times the slots will be wrong for looking at speculation lists for current synergies are 1 handed swords
 			// They are always item 1
 			int hands = EquipmentDatabase.getHands( itemId1 );
 			WeaponType weaponType = EquipmentDatabase.getWeaponType( itemId1 );
+			int slot1SpecLookup = slot1;
 			if ( hands == 1 && weaponType == WeaponType.MELEE )
 			{
-				slot1 = Evaluator.WEAPON_1H;
+				slot1SpecLookup = Evaluator.WEAPON_1H;
 			}
 
 			if ( slot1 == -1 || slot2 == -1 )
@@ -1720,9 +1721,9 @@ public class Evaluator
 				continue;
 			}
 
-			ListIterator<MaximizerSpeculation> sI = speculationList[ slot1 ].listIterator( speculationList[ slot1 ].size() );
+			ListIterator<MaximizerSpeculation> sI = speculationList[ slot1SpecLookup ].listIterator( speculationList[ slot1SpecLookup ].size() );
 
-			while ( sI.hasPrevious() )
+			while ( sI.hasPrevious() && item1 == null )
 			{
 				CheckedItem checkItem = sI.previous().attachment;
 				checkItem.validate( maxPrice, priceLevel );
@@ -1734,7 +1735,7 @@ public class Evaluator
 
 			sI = speculationList[ slot2 ].listIterator( speculationList[ slot2 ].size() );
 
-			while ( sI.hasPrevious() )
+			while ( sI.hasPrevious()  && item2 == null )
 			{
 				CheckedItem checkItem = sI.previous().attachment;
 				checkItem.validate( maxPrice, priceLevel );
@@ -1756,17 +1757,17 @@ public class Evaluator
 			MaximizerSpeculation compareSpec = new MaximizerSpeculation();
 
 			int newSlot1 = slot1;
-			int compareItemNo = slot1 == EquipmentManager.ACCESSORY1 ? speculationList[ slot1 ].size() - 3 : speculationList[ slot1 ].size() - 1;
+			int compareItemNo = slot1 == EquipmentManager.ACCESSORY1 ? speculationList[ slot1SpecLookup ].size() - 3 : speculationList[ slot1SpecLookup ].size() - 1;
 			do
 			{
-				CheckedItem compareItem = speculationList[ slot1 ].get( compareItemNo ).attachment;
+				CheckedItem compareItem = speculationList[ slot1SpecLookup ].get( compareItemNo ).attachment;
 				if ( compareItem.conditionalFlag )
 				{
 					compareItemNo--;
 				}
 				else
 				{
-					compareSpec.equipment[ newSlot1 ] = speculationList[ slot1 ].get( compareItemNo ).attachment;
+					compareSpec.equipment[ newSlot1 ] = speculationList[ slot1SpecLookup ].get( compareItemNo ).attachment;
 					break;
 				}
 				if ( compareItemNo < 0 )
@@ -1808,7 +1809,7 @@ public class Evaluator
 			if ( synergySpec.compareTo( compareSpec ) <= 0 || synergySpec.failed )
 			{
 				// Not useful, so remove it's automatic flag so it won't be put forward unless it's good enough in it's own right
-				sI = speculationList[ slot1 ].listIterator( speculationList[ slot1 ].size() );
+				sI = speculationList[ slot1SpecLookup ].listIterator( speculationList[ slot1SpecLookup ].size() );
 
 				while ( sI.hasPrevious() )
 				{
@@ -1818,6 +1819,7 @@ public class Evaluator
 					if ( checkItem.getName().equals( itemName1 ) )
 					{
 						spec.attachment.automaticFlag = false;
+						break;
 					}
 				}
 
@@ -1831,6 +1833,7 @@ public class Evaluator
 					if ( checkItem.getName().equals( itemName2 ) )
 					{
 						spec.attachment.automaticFlag = false;
+						break;
 					}
 				}
 			}

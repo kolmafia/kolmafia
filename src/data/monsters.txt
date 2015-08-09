@@ -1780,7 +1780,7 @@ Striking Pencil-Pusher Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly e
 Striking Stocking-Stuffer Elf	0	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 
 Bashful, the Reindeer	0	reindeer.gif
-Doc, the Reindeer	0	reindeer.gif
+Doc, the Reindeer	329	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Dopey, the Reindeer	0	reindeer.gif
 Grumpy, the Reindeer	0	reindeer.gif
 Happy, the Reindeer	0	reindeer.gif
@@ -1836,7 +1836,7 @@ Mob Penguin Racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
 mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
 mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: elf	festive holiday hat (0)
-mutant doll-dressing elf	748	elflimbs.gif		cheap elven gloves (0)
+mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: elf	cheap elven gloves (0)
 mutant gift-wrapping elf	747	elfclaw.gif		elven socks (0)
 mutant whistle-carving elf	750	elfhulk.gif		elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
 

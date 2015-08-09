@@ -306,7 +306,7 @@ knob mushroom wine	3	6	awesome	10-14	0	4-6	0
 knoll mushroom wine	3	6	awesome	10-14	4-6	0	0
 La Fantasma y La Oscuridad	3	1	good	8-10	0	13	0	13 La Oscuridad Adentro (+3 Mys exp, +13 spooky dam, +13 spooky spell dam)
 large tankard of ale	2	4	good	4-6	10-15	10-15	10-15
-lavawater	1	4	good	1-1	0	0	0	Unspaded
+lavawater	1	4	good	3	0	0	10-20
 Le Roi	3	1	good	8-10	0	0	30-40
 legitimate business on the beach	2	5	awesome	6-8	20-30	20-30	20-30
 Lemonade-235	2	5	good	5-7	0	15-20	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
