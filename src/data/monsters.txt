@@ -1752,6 +1752,7 @@ Mob Penguin Thug	0	pengthug.gif
 # Market Square, 28 Days Later (November 2005)
 drunken zombie half-orc hobo	296	zomhobo.gif	
 fiendish zombie can of asparagus	297	asparagus.gif	
+Knob Goblin Elite Zombie	300	zomelite.gif	Atk: 30 Def: 25 HP: 30 Init: 90 P: goblin
 zombie Gnollish crossdresser	301	zomknoll.gif	Atk: 11 Def: 9 HP: 5 Init: 60 P: humanoid	frilly shirt (0)	frilly skirt (0)	maiden wig (0)	zombie pineal gland (0)
 Zombie Knob Goblin Assistant Chef	299	zomchef.gif
 zombie yeast beast	304	zomyeast.gif
