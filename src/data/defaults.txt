@@ -1346,6 +1346,9 @@ user	_vmaskBanisherUsed	false
 user	_volcanoItem1	0
 user	_volcanoItem2	0
 user	_volcanoItem3	0
+user	_volcanoItemCount1	0
+user	_volcanoItemCount2	0
+user	_volcanoItemCount3	0
 user	_volcanoItemRedeemed	false
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false

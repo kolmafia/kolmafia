@@ -206,6 +206,8 @@ public abstract class ChoiceManager
 	private static final Pattern DINSEY_SLUICE_PATTERN = Pattern.compile( "'Sluice Swishers' is currently in the (.*?) position" );
 	private static final Pattern MAYO_MINDER_PATTERN = Pattern.compile( "currently loaded up with packets of (.*?)<p>" );
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
+	private static final Pattern WLF_PATTERN = Pattern.compile( "<form action=choice.php>.*?<b>(.*?)</b>.*?descitem\\((.*?)\\).*?>(.*?)<.*?name=option value=([\\d]*).*?</form>", Pattern.DOTALL );
+	private static final Pattern WLF_COUNT_PATTERN = Pattern.compile( ".*? \\(([\\d]+)\\)$" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9849,21 +9851,20 @@ public abstract class ChoiceManager
 
 			if ( text.contains( "hands you a coin" ) )
 			{
-				Preferences.setBoolean( "_volcanoItemRedeemed", true );
-				int itemId = Preferences.getInteger( "_volcanoItem" + String.valueOf( ChoiceManager.lastDecision ) );
-				int count =
-					itemId <= 0 ? 0 :
-					itemId == ItemPool.NEW_AGE_HEALING_CRYSTAL ? 5 :
-					itemId == ItemPool.GOOEY_LAVA_GLOBS ? 5 :
-					itemId == ItemPool.SMOOCH_BRACERS ? 3 :
-					1;
-				if ( count > 0 )
+				String index = String.valueOf( ChoiceManager.lastDecision );
+				int itemId = Preferences.getInteger( "_volcanoItem" + index );
+				int count = Preferences.getInteger( "_volcanoItemCount" + index );
+				if ( itemId > 0 && count > 0 )
 				{
 					ResultProcessor.processResult( ItemPool.get( itemId, -count ) );
-					Preferences.setInteger( "_volcanoItem1", 0 );
-					Preferences.setInteger( "_volcanoItem2", 0 );
-					Preferences.setInteger( "_volcanoItem3", 0 );
 				}
+				Preferences.setBoolean( "_volcanoItemRedeemed", true );
+				Preferences.setInteger( "_volcanoItem1", 0 );
+				Preferences.setInteger( "_volcanoItem2", 0 );
+				Preferences.setInteger( "_volcanoItem3", 0 );
+				Preferences.setInteger( "_volcanoItemCount1", 0 );
+				Preferences.setInteger( "_volcanoItemCount2", 0 );
+				Preferences.setInteger( "_volcanoItemCount3", 0 );
 			}
 
 			break;
@@ -10555,6 +10556,9 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "_volcanoItem1", 0 );
 				Preferences.setInteger( "_volcanoItem2", 0 );
 				Preferences.setInteger( "_volcanoItem3", 0 );
+				Preferences.setInteger( "_volcanoItemCount1", 0 );
+				Preferences.setInteger( "_volcanoItemCount2", 0 );
+				Preferences.setInteger( "_volcanoItemCount3", 0 );
 				break;
 			}
 
@@ -10563,19 +10567,20 @@ public abstract class ChoiceManager
 
 			Preferences.setBoolean( "_volcanoItemRedeemed", false );
 
-			Matcher matcher = ChoiceManager.DESCID_PATTERN.matcher( text );
-			int index = 1;
+			Matcher matcher = ChoiceManager.WLF_PATTERN.matcher( text );
 			while ( matcher.find() )
 			{
-				String descid = matcher.group( 1 );
+				// String challenge = matcher.group( 1 );
+				String descid = matcher.group( 2 );
 				int itemId = ItemDatabase.getItemIdFromDescription( descid );
 				if ( itemId != -1 )
 				{
-					Preferences.setInteger( "_volcanoItem" + String.valueOf( index ), itemId );
-				}
-				if ( ++index > 3 )
-				{
-					break;
+					String itemName = matcher.group( 3 ).trim();
+					Matcher countMatcher = ChoiceManager.WLF_COUNT_PATTERN.matcher( itemName );
+					int count = countMatcher.find() ? StringUtilities.parseInt( countMatcher.group( 1 ) ) : 1;
+					String index = matcher.group( 4 );
+					Preferences.setInteger( "_volcanoItem" + index, itemId );
+					Preferences.setInteger( "_volcanoItemCount" + index, count );
 				}
 			}
 
