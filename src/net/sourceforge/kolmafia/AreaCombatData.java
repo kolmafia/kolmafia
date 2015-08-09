@@ -259,6 +259,7 @@ public class AreaCombatData
 			String weight = name.substring( colon + 1 ).trim();
 
 			name = name.substring( 0, colon );
+			String flag = null;
 
 			if ( weight.length() == 0 )
 			{
@@ -266,19 +267,34 @@ public class AreaCombatData
 				return false;
 			}
 
-			int numLength = weight.charAt( 0 ) == '-' ? 2 : 1;
+			for ( int i = 0; i < weight.length(); i++ )
+			{
+				char ch = weight.charAt( i );
+				if ( i == 0 && ch == '-' )
+				{
+					continue;
+				}
 
-			if ( !StringUtilities.isNumeric( weight.substring( 0, numLength ) ) )
+				if ( !Character.isDigit( ch ) )
+				{
+					flag = weight.substring( i );
+					weight = weight.substring( 0, i );
+					break;
+				}
+			}
+
+			if ( !StringUtilities.isNumeric( weight ) )
 			{
 				KoLmafia.updateDisplay( "First entry after colon for " + name + " in combats.txt is not numeric." );
 				return false;
 			}
 
-			weighting = StringUtilities.parseInt( weight.substring( 0, numLength ) );
+			weighting = Integer.parseInt( weight );
 
-			if ( weight.length() > numLength )
+			// Only one flag per monster is is supported
+			if ( flag != null )
 			{
-				switch ( weight.charAt( numLength ) )
+				switch ( flag.charAt( 0 ) )
 				{
 				case 'e':
 					flags = ASCENSION_EVEN;
@@ -287,14 +303,14 @@ public class AreaCombatData
 					flags = ASCENSION_ODD;
 					break;
 				case 'r':
-					if ( weight.length() > numLength + 1 )
+					if ( flag.length() > 1 )
 					{
-						if ( !StringUtilities.isNumeric( weight.substring( numLength + 1 ) ) )
+						if ( !StringUtilities.isNumeric( flag.substring( 1 ) ) )
 						{
 							KoLmafia.updateDisplay( "Rejection percentatage specified for " + name + " in combats.txt is not numeric." );
 							return false;
 						}
-						rejection = StringUtilities.parseInt( weight.substring( numLength + 1 ) );
+						rejection = StringUtilities.parseInt( flag.substring( 1 ) );
 					}
 					else
 					{
@@ -303,7 +319,7 @@ public class AreaCombatData
 					}
 					break;
 				default:
-					KoLmafia.updateDisplay( "Unknown flag " + weight.charAt( numLength ) + " specified for " + name + " in combats.txt." );
+					KoLmafia.updateDisplay( "Unknown flag " + flag.charAt( 0 ) + " specified for " + name + " in combats.txt." );
 					return false;
 				}
 			}
@@ -465,7 +481,7 @@ public class AreaCombatData
 
 	public int getWeighting( final int i )
 	{
-		int raw = ( (Integer) this.currentWeightings.get( i ) ).intValue();
+		int raw = ( this.currentWeightings.get( i ) ).intValue();
 		if ( ((raw >> (KoLCharacter.getAscensions() & 1)) & 1) == 0 )
 		{
 			return -2;	// impossible this ascension
