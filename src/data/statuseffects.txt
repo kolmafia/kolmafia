@@ -321,7 +321,7 @@
 320	Can't Smell Nothin'	stench.gif	1711b26207212327de89f2c030dc4089	use 1 Dogsgotnonoz pills
 321	Hyperoffended	sad.gif	cfc7cd0d0bd5dc7d2437bd4027677791	use 1 donkey flipbook
 322
-323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803	#Stream of Sauce splashback
+323	Burning Hands	hand.gif	ff1abd7eea34159903507bb907c56803	use 1 sticky lava globs
 324	Burning Ears	humanears.gif	992e3b84ebe746affc1cf6038cd854ff	#Saucestorm splashback
 325	Burning Soul	fire.gif	c1f2b28c6d4c9b1e2388dde1d5fe44cd	#Wave of Sauce splashback
 326	Frozen Hands	hand.gif	e5ea21c55cab22529647b7437e81532b	#Stream of Sauce splashback

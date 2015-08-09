@@ -4167,7 +4167,7 @@ Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 Effect	Built Body	Avatar: "Mr. Loathing"
 Effect	Bureaucratized	Familiar Weight: +10
 Effect	Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
-Effect	Burning Hands	Hot Damage: +11
+Effect	Burning Hands	Hot Damage: +33, Hot Spell Damage: +33, Cold Resistance: +3
 Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Burning Soul: Sizzle!
 # Effect Burning Tongue: Lets you spit fireballs!
