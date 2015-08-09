@@ -9851,9 +9851,15 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "_volcanoItemRedeemed", true );
 				int itemId = Preferences.getInteger( "_volcanoItem" + String.valueOf( ChoiceManager.lastDecision ) );
-				if ( itemId > 0 )
+				int count =
+					itemId <= 0 ? 0 :
+					itemId == ItemPool.NEW_AGE_HEALING_CRYSTAL ? 5 :
+					itemId == ItemPool.GOOEY_LAVA_GLOBS ? 5 :
+					itemId == ItemPool.SMOOCH_BRACERS ? 3 :
+					1;
+				if ( count > 0 )
 				{
-					ResultProcessor.processResult( ItemPool.get( itemId, -1 ) );
+					ResultProcessor.processResult( ItemPool.get( itemId, -count ) );
 					Preferences.setInteger( "_volcanoItem1", 0 );
 					Preferences.setInteger( "_volcanoItem2", 0 );
 					Preferences.setInteger( "_volcanoItem3", 0 );
