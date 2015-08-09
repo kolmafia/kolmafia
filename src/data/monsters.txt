@@ -1820,6 +1820,20 @@ Decal-applying Elfborg	0	borgelf4.gif		iGoogly (10)	LED block (10)	nanofiber clo
 Ribbon-cutting Elfborg	0	borgelf2.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
+# Sinister Dodecahedron (Crimbo 2007)
+death ray in a pair tree	0	deathray.gif
+turtle mech	0	turtlemech.gif
+Swiss Hen	0	swisshen.gif
+killing bird	0	killingbird.gif
+golden ring	0	goldenring.gif
+goose a-laying	0	goosealaying.gif
+swarm a-swarming	0	swarmers.gif
+blade a-spinning	0	sawblade.gif
+laser lancing	0	laser.gif
+borg a-beeping	0	borgabeeping.gif
+strangler strangling	0	strangler.gif
+stomper stomping	0	stomper.gif
+
 # Halloween XX (Halloween 2008)
 mutant gila monster	728	mutantgila.gif	P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
