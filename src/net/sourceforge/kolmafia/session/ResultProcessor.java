@@ -1541,17 +1541,18 @@ public class ResultProcessor
 			QuestDatabase.setQuestIfBetter( Quest.MANOR, "step2" );
 			if ( Preferences.getBoolean( "autoQuest" ) )
 			{
-				boolean hasSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
-				if ( hasSpecs )
+				boolean equipSpecs = KoLConstants.inventory.contains( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
+				if ( equipSpecs )
 				{
 					SpecialOutfit.createImplicitCheckpoint();
 					RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ), EquipmentManager.ACCESSORY3 ) );
 				}
 				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.MORTAR_DISSOLVING_RECIPE ) );
-				if ( hasSpecs )
+				if ( equipSpecs )
 				{
 					SpecialOutfit.restoreImplicitCheckpoint();
 				}
+				boolean hasSpecs = equipSpecs || KoLCharacter.hasEquipped( ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 ) );
 				KoLmafia.updateDisplay( "Mortar-dissolving recipe used with Lord Spookyraven's spectacles " +
 							    ( hasSpecs ? "" : "NOT " ) +
 								"equipped." );
