@@ -5140,6 +5140,7 @@ public class UseItemRequest
 		case ItemPool.CSA_FIRE_STARTING_KIT:
 			// If this worked, it redirected to choice #595
 			// If it didn't redirect, it was not consumed.
+			Preferences.setBoolean( "_fireStartingKitUsed", true );
 			return;
 		}
 

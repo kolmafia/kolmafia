@@ -305,26 +305,26 @@ Crimbo13	adventure=366	Env: indoor	WarBear Fortress (First Level)
 Crimbo13	adventure=367	Env: indoor	WarBear Fortress (Second Level)
 Crimbo13	adventure=368	Env: indoor	WarBear Fortress (Third Level)
 
-Crimbo12	adventure=300	Env: unknown	Crimbokutown Toy Factory
+Crimbo12	adventure=300	Env: unknown	Crimbo Town Toy Factory (2012)
 
 Crimbo10	adventure=246	Env: underground	Elf Alley
 Crimbo10	adventure=247	Env: unknown	CRIMBCO cubicles
 Crimbo10	crimbo10=bathroom	Env: unknown	CRIMBCO WC
 
-Crimbo09	adventure=222	Env: unknown	Crimbo Town Toy Factory
+Crimbo09	adventure=222	Env: unknown	Crimbo Town Toy Factory (2009)
 Crimbo09	adventure=223	Env: unknown	The Don's Crimbo Compound
 
 Crimbo08	adventure=192	Env: unknown	Atomic Crimbo Toy Factory
 Crimbo08	adventure=193	Env: unknown	Old Crimbo Town Toy Factory
 
 Crimbo07	adventure=161	Env: unknown	Sinister Dodecahedron
-Crimbo07	adventure=162	Env: unknown	Crimbo Town Toy Factory
+Crimbo07	adventure=162	Env: unknown	Crimbo Town Toy Factory (2007)
 
 Crimbo06	adventure=115	Env: unknown	Simple Tool-Making Cave
 Crimbo06	adventure=116	Env: unknown	Spooky Fright Factory
 Crimbo06	adventure=117	Env: unknown	Crimborg Collective Factory
 
-Crimbo05	adventure=93	Env: unknown	Crimbo Town Toy Factory
+Crimbo05	adventure=93	Env: unknown	Crimbo Town Toy Factory (2005)
 
 WhiteWed	adventure=88	Env: outdoors	Market Square, 28 Days Later
 WhiteWed	adventure=89	Env: indoors	The Mall of Loathing, 28 Days Later
