@@ -6992,6 +6992,15 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 595:
+			// Fire! I... have made... fire!
+			if ( text.contains( "rubbing the two stupid sticks together" ) ||
+			     text.contains( "pile the sticks up on top of the briefcase" ) )
+			{
+				ResultProcessor.processItem( ItemPool.CSA_FIRE_STARTING_KIT, -1 );
+			}
+			return;
+
 		case 599:
 			// A Zombie Master's Bait
 			if ( request.getFormField( "quantity" ) == null )

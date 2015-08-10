@@ -3497,6 +3497,19 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.ICE_SCULPTURE:
+
+			Preferences.setBoolean( "_iceSculptureUsed", true );
+
+			// Ice sculptures are a form of entertainment best
+			// served sparingly. You should wait until tomorrow.
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
+
+			return;
+
 		case ItemPool.SHAKING_CAMERA:
 
 			Preferences.setBoolean( "_cameraUsed", true );
@@ -5122,6 +5135,11 @@ public class UseItemRequest
 
 		case ItemPool.COCKTAIL_SHAKER:
 			Preferences.setBoolean( "_cocktailShakerUsed", true );
+			return;
+
+		case ItemPool.CSA_FIRE_STARTING_KIT:
+			// If this worked, it redirected to choice #595
+			// If it didn't redirect, it was not consumed.
 			return;
 		}
 
