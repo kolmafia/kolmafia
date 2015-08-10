@@ -1823,7 +1823,7 @@ Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber c
 # Sinister Dodecahedron (Crimbo 2007)
 death ray in a pair tree	0	deathray.gif
 turtle mech	0	turtlemech.gif
-Swiss Hen	0	swisshen.gif
+Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	oversized fish scaler (0)
 killing bird	0	killingbird.gif
 golden ring	0	goldenring.gif
 goose a-laying	0	goosealaying.gif
