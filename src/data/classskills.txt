@@ -703,6 +703,7 @@
 7250	Tell This Skeleton What To Do	skelring.gif	5	0	0
 7251	Fire Sewage Pistol	sewagepistol.gif	5	0	0
 7252	Propose To Your Opponent	fatrock.gif	5	0	0
+7253	Spit Fireballs	saltongue.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
