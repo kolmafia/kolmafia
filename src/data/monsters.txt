@@ -1774,7 +1774,7 @@ Zombie Quiet Healer	311	zomhealer.gif
 
 # Crimbo Town Toy Factory (Crimbo 2005)
 Striking Factory-Worker Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
-Striking Gift-Wrapper Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
+Striking Gift-Wrapper Elf	322	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Middle-Management Elf	0	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
 Striking Pencil-Pusher Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Stocking-Stuffer Elf	0	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
@@ -1794,7 +1794,7 @@ Mob Penguin Smith	0	hazmatpeng.gif	P: penguin	chunk of depleted Grimacite (0)	ir
 Mob Penguin Supervisor	0	pengphone.gif	P: penguin	chunk of depleted Grimacite (0)	mafia aria (0)	Mob Penguin cellular phone (0)	support cummerbund (0)
 
 # Simple Tool-Making Cave (Crimbo 2006)
-Flint-Scraping Cave Elf	0	caveelf3.gif		rock (15)	stick (10)	stick (5)
+flint-scraping cave elf	427	caveelf3.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	rock (15)	stick (10)	stick (5)
 Hunter-Gatherer Cave Elf	438	caveelf2.gif		tooth (15)	tooth (5)
 Rock-Banging Cave Elf	0	caveelf1.gif		rock (8)	stick (7)	stick (15)
 Sinew-Stretching Cave Elf	0	caveelf4.gif		stringy sinew (20)	stringy sinew (20)	stringy sinew (20)

@@ -324,7 +324,7 @@ goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
 good brain	1	1	good	3	5-7	5-7	5-7	Zombie Slayer
-gooey lava globs	2	6	awesome	7-9	0	10-20	10-20	100 Inner Warmth (+5 Cold resist)
+gooey lava globs	2	6	awesome	7-9	0	20-40	0	100 Inner Warmth (+5 Cold resist)
 government cheese	2	1	decent	2-4	5-10	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
@@ -415,7 +415,7 @@ knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+10
 kumquat	1	2	decent	2	0	0	0
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
 laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
-lava cake	4	6	awesome	1-1	0	0	0	Unspaded 20 Demonic Flavor
+lava cake	4	6	awesome	12-18	20-40	0	0	60 Demonic Flavor
 leftover canap&eacute;s	2	2	decent	3-5	3-5	3-5	3-5
 lemon	1	1	crappy	1	0	0	0
 lemon meringue pie	3	2	decent	3-9	8-10	0	0
@@ -634,7 +634,7 @@ slippery snake roll	3	1		9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
 s'more	0	1	crappy	0	0	0	0
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
-smelted roe	1	4	good	1-1	0	0	0	Unspaded, 50 Sizzling with Fury (+25 Hot Damage, +60 Init)
+smelted roe	1	4	good	3	10-20	0	0	50 Sizzling with Fury (+25 Hot Damage, +60 Init)
 SMOOCH soda	1	1	good	3-3	0	0	0	Gain 20-35 MP and SMOOCH bottlecap
 Sneaky Pete's key lime pie	4	6	awesome	14-16	0	0	28-33	Sneaky Pete's key
 sneaky rabbit roll	3	1		9-14	0	20-30	8-16	45/55 Fishy
