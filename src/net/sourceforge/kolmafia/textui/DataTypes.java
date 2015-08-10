@@ -335,19 +335,13 @@ public class DataTypes
 			return new Value( DataTypes.ITEM_TYPE, itemId, name );
 		}
 		
-		AdventureResult item = ItemFinder.getFirstMatchingItem( name, false );
-
-		if ( item == null )
-		{
-			return returnDefault ? DataTypes.ITEM_INIT : null;
-		}
-
-		int itemId = item.getItemId();
+		// Otherwise, let ItemDatabase parse the name using fuzzy matching.
+		int itemId = ItemDatabase.getItemId( name );
 
 		if ( itemId == -1 && resolveAliases )
 		{
-			item = item.resolveBangPotion();
-			itemId = item.getItemId();
+			AdventureResult item = new AdventureResult( name, itemId, 1, false );
+			itemId = item.resolveBangPotion().getItemId();
 		}
 
 		if ( itemId == -1 )
