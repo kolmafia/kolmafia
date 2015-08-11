@@ -1429,6 +1429,15 @@ linguini immondizia bianco	PASTA	Mountain Stream gastrique	dry noodles
 oyster sauce	SAUCE	scrumptious reagent	Mt. McLargeHuge oyster
 shells a la shellfish	PASTA	oyster sauce	dry noodles
 
+Alexy sauce	SAUCE	scrumdiddlyumptious solution	imitation White Russian
+Fettris	PASTA	Alexy sauce	savory dry noodles
+
+rainbow sauce	SAUCE	scrumdiddlyumptious solution	colorful toad
+fusillocybin	PASTA	rainbow sauce	savory dry noodles
+
+drug cocktail sauce	SAUCE	scrumdiddlyumptious solution	pill cup
+prescription noodles	PASTA	drug cocktail sauce	savory dry noodles
+
 
 # Stir-fries
 

@@ -2412,6 +2412,9 @@ public class ItemPool
 	public static final int PSYCHO_FROM_THE_HEAT = 8483;
 	public static final int THE_FIREGATE_TAPES = 8484;
 	public static final int SMOOCH_BRACERS = 8517;
+	public static final int FETTRIS = 8542;
+	public static final int FUSILLOCYBIN = 8543;
+	public static final int PRESCRIPTION_NOODLES = 8544;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
