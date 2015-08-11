@@ -1981,7 +1981,7 @@ The Abominable Fudgeman	0	fudgeman.gif	HP: 500 Def: 350 Atk: 350 Init: 50	heart 
 four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horror	mime soul fragment (100)
 
 # A Smoldering Fortress (June 2012)
-Servant Of Lord Flameface	1211	fireservant1.gif	Atk: 100 Def: 90 HP: 150 P: demon E: Hot Init: 50 Phys: 100	molten brick (c5)
+Servant Of Lord Flameface	1211	fireservant1.gif	Atk: 100 Def: 90 HP: 150 P: demon E: hot Init: 50 Phys: 100	molten brick (c5)
 
 # Crimbo Town Toy Factory (Crimbo 2012)
 sign-twirling Crimbo elf	1261	tacoelf_sign.gif	Scale: 0 Cap: 150 Init: -10000 P: elf	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)

@@ -1429,15 +1429,6 @@ linguini immondizia bianco	PASTA	Mountain Stream gastrique	dry noodles
 oyster sauce	SAUCE	scrumptious reagent	Mt. McLargeHuge oyster
 shells a la shellfish	PASTA	oyster sauce	dry noodles
 
-Alexy sauce	SAUCE	scrumdiddlyumptious solution	imitation White Russian
-Fettris	PASTA	Alexy sauce	savory dry noodles
-
-rainbow sauce	SAUCE	scrumdiddlyumptious solution	colorful toad
-fusillocybin	PASTA	rainbow sauce	savory dry noodles
-
-drug cocktail sauce	SAUCE	scrumdiddlyumptious solution	pill cup
-prescription noodles	PASTA	drug cocktail sauce	savory dry noodles
-
 
 # Stir-fries
 
@@ -1482,6 +1473,11 @@ good gravy	SSAUCE	giant turkey leg	scrumdiddlyumptious solution
 illicit fish sauce	SSAUCE	stolen sushi	scrumdiddlyumptious solution
 Salsa Libre	SSAUCE	open sauce	scrumdiddlyumptious solution
 
+Alexy sauce	SSAUCE	scrumdiddlyumptious solution	imitation White Russian
+rainbow sauce	SSAUCE	scrumdiddlyumptious solution	colorful toad
+drug cocktail sauce	SSAUCE	scrumdiddlyumptious solution	pill cup
+
+
 # Advanced noodles
 
 savory dry noodles	TNOODLE	dry noodles	MSG
@@ -1502,6 +1498,10 @@ stinky hi mein	TNOODLE	stench and sour sauce	savory dry noodles
 turkish mostaccioli	TNOODLE	good gravy	savory dry noodles
 linguini of the sea	TNOODLE	illicit fish sauce	savory dry noodles
 libertagliatelle	TNOODLE	Salsa Libre	savory dry noodles
+
+Fettris	TNOODLE	Alexy sauce	savory dry noodles
+fusillocybin	TNOODLE	rainbow sauce	savory dry noodles
+prescription noodles	TNOODLE	drug cocktail sauce	savory dry noodles
 
 fishy fish lasagna	TNOODLE	fishy fish casserole	savory dry noodles
 gnat lasagna	TNOODLE	gnatloaf casserole	savory dry noodles
