@@ -1463,11 +1463,11 @@ menudo ravioli	PASTA	batgut	dry noodles
 
 # Food ingredients that use scrumdiddlyumptious solution
 
-cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold nuggets
-hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot nuggets
-sleazy and sour sauce	SSAUCE	scrumdiddlyumptious solution	sleaze nuggets
-spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky nuggets
-stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench nuggets
+cold and sour sauce	SSAUCE	scrumdiddlyumptious solution	cold wad
+hot and sour sauce	SSAUCE	scrumdiddlyumptious solution	hot wad
+sleazy and sour sauce	SSAUCE	scrumdiddlyumptious solution	sleaze wad
+spooky and sour sauce	SSAUCE	scrumdiddlyumptious solution	spooky wad
+stench and sour sauce	SSAUCE	scrumdiddlyumptious solution	stench wad
 
 good gravy	SSAUCE	giant turkey leg	scrumdiddlyumptious solution
 illicit fish sauce	SSAUCE	stolen sushi	scrumdiddlyumptious solution
