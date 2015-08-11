@@ -206,6 +206,7 @@ import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
+import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -1625,6 +1626,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "monster_factoids_available", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "all_monsters_with_id", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE ), params ) );
 
 		// Modifier introspection
 
@@ -7027,6 +7031,21 @@ public abstract class RuntimeLibrary
 	public static Value monster_factoids_available( Interpreter interpreter, final Value arg )
 	{
 		return new Value( MonsterManuelManager.getFactoidsAvailable( (int) arg.intValue() ) );
+	}
+
+	public static Value all_monsters_with_id( Interpreter interpreter )
+	{
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE );
+		MapValue value = new MapValue( type );
+
+		for ( Integer id : MonsterDatabase.idKeySet() )
+		{
+			if ( id == 0 ) continue;
+			Value v = DataTypes.makeMonsterValue( id, false );
+			if ( v != null ) value.aset( v, DataTypes.TRUE_VALUE );
+		}
+
+		return value;
 	}
 
 	private static String getModifierType( final Value arg )
