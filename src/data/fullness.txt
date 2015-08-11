@@ -259,6 +259,7 @@ fancy beef jerky	4	9	EPIC	19-22	0	48-58	0
 fancy canap&eacute;s	2	5	awesome	7-10	25-40	25-40	25-40	French slippers (1 time)
 FDKOL hotcakes	6	1	awesome	23-27	0	0	0	50 Hotcaked
 festive sausage	3	1	good	8-10	10-20	10-20	10-20	Sausage Festive (5-10 MP regen)
+Fettris	5	11	awesome	1-1	0	0	0	Unspaded
 fettucini &eacute;pines Inconnu	3	1	decent	0	0	0	0	+3 PvP fights
 fettucini Inconnu	5	8	awesome	17-20	0	25-30	0
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
@@ -286,6 +287,7 @@ fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
 fusilli marrownarrow	5	7	good	16-19	20-30	0	0
+fusillocybin	5	11	awesome	1-1	0	0	0	Unspaded
 Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15
 ghost dog	3	1	awesome	11-13	0	0	0	30 Scaredy Dog (-5% Combat Rate, +30 Spooky Dam, +3 Cold/Sleaze Res)
@@ -543,6 +545,7 @@ popcorn	1	1	decent	2	0	0	0
 popular tart	2	1	EPIC	10	1-5	1-5	1-5
 poutine	2	1	decent	2-3	2-3	2-3	2-3
 powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 mys exp)
+prescription noodles	5	11	awesome	1-1	0	0	0	Unspaded
 pr0n cocktail	2	1	decent	2-5	8-12	8-12	8-12
 pr0n m4nic0tti	4	3	good	10-12	0	0	28-32
 pr0n stir-fry	2	4	awesome	3-11	7-12	0	8-12

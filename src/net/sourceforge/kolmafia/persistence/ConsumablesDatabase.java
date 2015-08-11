@@ -991,6 +991,9 @@ public class ConsumablesDatabase
 		case ItemPool.FLEETWOOD_MAC_N_CHEESE:
 		case ItemPool.LINGUINI_IMMONDIZIA_BIANCO:
 		case ItemPool.SHELLS_A_LA_SHELLFISH:
+		case ItemPool.FETTRIS:
+		case ItemPool.FUSILLOCYBIN:
+		case ItemPool.PRESCRIPTION_NOODLES:
 			return true;
 		}
 		return false;
