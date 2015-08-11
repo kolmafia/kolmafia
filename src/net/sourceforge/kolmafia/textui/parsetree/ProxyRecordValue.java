@@ -1084,6 +1084,7 @@ public class ProxyRecordValue
 			.add( "attributes", DataTypes.STRING_TYPE )
 			.add( "random_modifiers",
 			      new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
+			.add( "manuel_name", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -1224,6 +1225,11 @@ public class ProxyRecordValue
 				rv.add( new Value( attribute ) );
 			}
 			return new PluralValue( DataTypes.STRING_TYPE, rv );
+		}
+
+		public String get_manuel_name()
+		{
+			return ((MonsterData) this.content).getManuelName();
 		}
 	}
 

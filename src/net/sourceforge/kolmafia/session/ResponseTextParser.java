@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MoneyMakingGameRequest;
+import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -672,6 +673,7 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "questlog.php" ) )
 		{
+			MonsterManuelRequest.parseResponse( location, responseText );
 			QuestLogRequest.registerQuests( true, location, responseText );
 		}
 

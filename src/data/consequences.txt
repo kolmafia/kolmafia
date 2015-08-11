@@ -73,6 +73,9 @@ MONSTER	Orcish Frat Boy	fratskirt\.gif	"Orcish Frat Boy (Pledge)"
 MONSTER	Orcish Frat Boy	rectify	"Orcish Frat Boy (Music Lover)"
 MONSTER	Orcish Frat Boy	.	"Orcish Frat Boy (Paddler)"
 
+MONSTER	clingy pirate	girlpirate\.gif	"clingy pirate (female)"
+MONSTER	clingy pirate	pirate2\.gif	"clingy pirate (male)"
+
 MONSTER	factory worker	facworker1\.gif	"factory worker (female)"
 MONSTER	factory worker	facworker2\.gif	"factory worker (male)"
 MONSTER	factory overseer	facworker3\.gif	"factory overseer (male)"

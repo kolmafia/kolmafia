@@ -5800,7 +5800,7 @@
 5775	shiny gold fronts	728159680	goldfronts.gif	familiar	t,d	75	sets of shiny gold fronts
 5776	Barney's rake	357147342	rake.gif	weapon	d	30
 5777
-5778
+5778	idiot brain	658010345	birdbrain.gif	food	q	0
 5779	keel-haulin' knife	417588957	knife.gif	weapon	t,d	160	keel-haulin' knives
 5780	ancient ice cream scoop	546744324	icscoop.gif	weapon	t,d	180
 5781	soft green echo eyedrop antidote martini	724294866	martini.gif	drink	t,d	130
