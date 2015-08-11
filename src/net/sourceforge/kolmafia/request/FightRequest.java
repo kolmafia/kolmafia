@@ -108,6 +108,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LoginManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -2850,6 +2851,7 @@ public class FightRequest
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
+				MonsterManuelManager.reset( monster );
 			}
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );

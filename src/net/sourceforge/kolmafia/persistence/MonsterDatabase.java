@@ -271,18 +271,7 @@ public class MonsterDatabase
 					{
 						MonsterDatabase.MONSTER_IMAGES.put( image, monster );
 					}
-					if ( id != 0 )
-					{
-						MonsterData old = MonsterDatabase.MONSTER_IDS.get( id );
-						if ( old == null )
-						{
-							MonsterDatabase.MONSTER_IDS.put( id, monster );
-						}
-						else
-						{
-							RequestLogger.printLine( "Duplicate monster ID " + id + " : (" + old.getName() + "," + name + ")" );
-						}
-					}
+					MonsterDatabase.registerMonsterId( id, name, monster );
 				}
 
 				MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
@@ -405,6 +394,31 @@ public class MonsterDatabase
 		return monster;
 	}
 
+	// Register an unknown monster from Manuel
+	public static final MonsterData registerMonster( final String name, final int id, final String image )
+	{
+		String[] images = { image };
+		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, "" );
+		MonsterDatabase.registerMonsterId( id, name, monster );
+		return monster;
+	}
+
+	private static final void registerMonsterId( final int id, final String name, final MonsterData monster )
+	{
+		if ( id != 0 )
+		{
+			MonsterData old = MonsterDatabase.MONSTER_IDS.get( id );
+			if ( old == null )
+			{
+				MonsterDatabase.MONSTER_IDS.put( id, monster );
+			}
+			else
+			{
+				RequestLogger.printLine( "Duplicate monster ID " + id + " : (" + old.getName() + "," + name + ")" );
+			}
+		}
+	}
+
 	public static final Set entrySet()
 	{
 		return MonsterDatabase.MONSTER_DATA.entrySet();
@@ -437,6 +451,7 @@ public class MonsterDatabase
 		boolean dummy = false;
 		EncounterType type = EncounterType.NONE;
 		int physical = 0;
+		String manuelName = null;
 
 		StringTokenizer tokens = new StringTokenizer( attributes, " " );
 		while ( tokens.hasMoreTokens() )
@@ -492,7 +507,6 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						floor = StringUtilities.parseInt( tokens.nextToken() );
-						continue;
 					}
 					continue;
 				}
@@ -508,7 +522,6 @@ public class MonsterDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						physical = StringUtilities.parseInt( tokens.nextToken() );
-						continue;
 					}
 					continue;
 				}
@@ -541,9 +554,9 @@ public class MonsterDatabase
 						{
 							attackElement = element;
 							defenseElement = element;
-							continue;
 						}
 					}
+					continue;
 				}
 
 				else if ( option.equals( "ED:" ) )
@@ -555,9 +568,9 @@ public class MonsterDatabase
 						if ( element != Element.NONE )
 						{
 							defenseElement = element;
-							continue;
 						}
 					}
+					continue;
 				}
 
 				else if ( option.equals( "EA:" ) )
@@ -569,9 +582,9 @@ public class MonsterDatabase
 						if ( element != Element.NONE )
 						{
 							attackElement = element;
-							continue;
 						}
 					}
+					continue;
 				}
 
 				else if ( option.equals( "Meat:" ) )
@@ -590,8 +603,8 @@ public class MonsterDatabase
 						{
 							meat = StringUtilities.parseInt( value );
 						}
-						continue;
 					}
+					continue;
 				}
 
 				else if ( option.equals( "P:" ) )
@@ -603,24 +616,27 @@ public class MonsterDatabase
 						if ( num != Phylum.NONE )
 						{
 							phylum = num;
-							continue;
 						}
 					}
+					continue;
+				}
+
+				else if ( option.equals( "Manuel:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						manuelName = parseString( tokens.nextToken(), tokens );
+					}
+					continue;
 				}
 
 				else if ( option.startsWith( "\"" ) )
 				{
-					StringBuffer temp = new StringBuffer( option );
-					while ( !option.endsWith( "\"" ) && tokens.hasMoreTokens() )
-					{
-						option = tokens.nextToken();
-						temp.append( ' ' );
-						temp.append( option );
-					}
-					poison = EffectDatabase.getPoisonLevel( temp.toString() );
+					String string = parseString( option, tokens );
+					poison = EffectDatabase.getPoisonLevel( string );
 					if ( poison == Integer.MAX_VALUE )
 					{
-						RequestLogger.printLine( "Monster: \"" + name + "\": unknown poison type: " + temp );
+						RequestLogger.printLine( "Monster: \"" + name + "\": unknown poison type: " + string );
 					}
 					continue;
 				}
@@ -688,7 +704,9 @@ public class MonsterDatabase
 					   physical,
 					   meat, phylum, poison,
 					   boss, dummy, type,
-					   images, attributes );
+					   images, manuelName,
+					   attributes );
+
 		return monster;
 	}
 
@@ -713,6 +731,28 @@ public class MonsterDatabase
 			temp.append( value );
 		}
 		return temp.substring( 1, temp.length() - 1 );
+	}
+
+	private static final String parseString( String token, StringTokenizer tokens )
+	{
+		if ( !token.startsWith( "\"" ) )
+		{
+			return "";
+		}
+
+		StringBuffer temp = new StringBuffer( token );
+		while ( !token.endsWith( "\"" ) && tokens.hasMoreTokens() )
+		{
+			token = tokens.nextToken();
+			temp.append( ' ' );
+			temp.append( token );
+		}
+
+		// Remove initial and final quote
+		temp.deleteCharAt( 0 );
+		temp.deleteCharAt( temp.length() - 1 );
+
+		return temp.toString();
 	}
 
 	private static final Element parseElement( final String s )

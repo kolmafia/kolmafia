@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -3032,5 +3033,46 @@ public class DebugDatabase
 			report.print( ", " );
 		}
 		report.println( "" );
+	}
+
+	// Check Monster Manuel
+
+	public static final void checkManuel()
+	{
+		RequestLogger.printLine( "Checking Monster Manuel..." );
+		DebugDatabase.checkManuelPage( "a" );
+		DebugDatabase.checkManuelPage( "b" );
+		DebugDatabase.checkManuelPage( "c" );
+		DebugDatabase.checkManuelPage( "d" );
+		DebugDatabase.checkManuelPage( "e" );
+		DebugDatabase.checkManuelPage( "f" );
+		DebugDatabase.checkManuelPage( "g" );
+		DebugDatabase.checkManuelPage( "h" );
+		DebugDatabase.checkManuelPage( "i" );
+		DebugDatabase.checkManuelPage( "j" );
+		DebugDatabase.checkManuelPage( "k" );
+		DebugDatabase.checkManuelPage( "l" );
+		DebugDatabase.checkManuelPage( "m" );
+		DebugDatabase.checkManuelPage( "n" );
+		DebugDatabase.checkManuelPage( "o" );
+		DebugDatabase.checkManuelPage( "p" );
+		DebugDatabase.checkManuelPage( "q" );
+		DebugDatabase.checkManuelPage( "r" );
+		DebugDatabase.checkManuelPage( "s" );
+		DebugDatabase.checkManuelPage( "t" );
+		DebugDatabase.checkManuelPage( "u" );
+		DebugDatabase.checkManuelPage( "v" );
+		DebugDatabase.checkManuelPage( "w" );
+		DebugDatabase.checkManuelPage( "x" );
+		DebugDatabase.checkManuelPage( "y" );
+		DebugDatabase.checkManuelPage( "z" );
+		DebugDatabase.checkManuelPage( "-" );
+	}
+
+	private static final void checkManuelPage( final String page )
+	{
+		RequestLogger.printLine( "Page " + page.toUpperCase() );
+		MonsterManuelRequest request = new MonsterManuelRequest( page );
+		RequestThread.postRequest( request );
 	}
 }

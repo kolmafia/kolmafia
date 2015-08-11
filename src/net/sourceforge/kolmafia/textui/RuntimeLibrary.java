@@ -183,6 +183,7 @@ import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -1618,6 +1619,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "dad_sea_monkee_weakness", DataTypes.ELEMENT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_manuel_text", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.MONSTER_TYPE };
+		functions.add( new LibraryFunction( "monster_factoids_available", DataTypes.INT_TYPE, params ) );
 
 		// Modifier introspection
 
@@ -7010,6 +7017,16 @@ public abstract class RuntimeLibrary
 			return new Value( DataTypes.ELEMENT_TYPE, "sleaze", element );
 		}
 		return DataTypes.ELEMENT_INIT;
+	}
+
+	public static Value monster_manuel_text( Interpreter interpreter, final Value arg )
+	{
+		return new Value( MonsterManuelManager.getManuelText( (int) arg.intValue() ) );
+	}
+
+	public static Value monster_factoids_available( Interpreter interpreter, final Value arg )
+	{
+		return new Value( MonsterManuelManager.getFactoidsAvailable( (int) arg.intValue() ) );
 	}
 
 	private static String getModifierType( final Value arg )

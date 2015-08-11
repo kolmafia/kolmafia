@@ -660,31 +660,31 @@ public class EffectDatabase
 	public static int getPoisonLevel( String text )
 	{
 		text = text.toLowerCase();
-		if ( text.indexOf( "toad in the hole" ) != -1 )
+		if ( text.contains( "toad in the hole" ) )
 		{
 			return 1;
 		}
-		if ( text.indexOf( "poisoned" ) == -1 )
+		if ( !text.contains( "poisoned" ) )
 		{
 			return Integer.MAX_VALUE;
 		}
-		if ( text.indexOf( "majorly poisoned" ) != -1 )
+		if ( text.contains( "majorly poisoned" ) )
 		{
 			return 2;
 		}
-		if ( text.indexOf( "really quite poisoned" ) != -1 )
+		if ( text.contains( "really quite poisoned" ) )
 		{
 			return 3;
 		}
-		if ( text.indexOf( "somewhat poisoned" ) != -1 )
+		if ( text.contains( "somewhat poisoned" ) )
 		{
 			return 4;
 		}
-		if ( text.indexOf( "a little bit poisoned" ) != -1 )
+		if ( text.contains( "a little bit poisoned" ) )
 		{
 			return 5;
 		}
-		if ( text.indexOf( "hardly poisoned at all" ) != -1 )
+		if ( text.contains( "hardly poisoned at all" ) )
 		{
 			return 6;
 		}

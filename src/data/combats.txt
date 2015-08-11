@@ -96,7 +96,7 @@ Coldest Adventurer Contest	100	Snowbrawler	Ice Cream Conjurer	Iceberglar	Mrs. Fr
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
 CRIMBCO WC	100	Elf Hobo
-Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf	Bashful, the Reindeer	Doc, the Reindeer	Dopey, the Reindeer	Grumpy, the Reindeer	Happy, the Reindeer	Sleepy, the Reindeer	Sneezy, the Reindeer	Zeppo, the Reindeer
+Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf	Bashful, the Reindeer	Doc, the Reindeer	Dopey, the Reindeer	Grumpy, the Reindeer	Happy, the Reindeer	Sleepy, the Reindeer	Sneezy, the Reindeer	Zeppo, the Reindeer	Rudolph the Red
 Crimbo Town Toy Factory (2007)	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
@@ -133,7 +133,7 @@ Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Race
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	Resort Waiter	Brick Mulligan, the Bartender: 0
-Lair of the Ninja Snowmen	100	Ninja Snowman (Hilt/Mask): 2	Ninja Snowman (Chopsticks)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
+Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ninja Snowman (Mask)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male)	factory overseer (female)	factory worker (male)	lava golem	Mr. Cheeng: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
@@ -158,17 +158,17 @@ Moonshiners' Woods	-1	Moonshriner	unstill	banjoccultist
 Morgue	-1	bugbear mortician	bugaboo
 Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	velvet underground dweller	weather underground dweller
 Navigation	100	ancient unspeakable bugbear	N-space Virtual Assistant
-Near an Abandoned Refrigerator	100	A.M.C. gremlin	batwinged gremlin	spider gremlin: 2
+Near an Abandoned Refrigerator	100	A.M.C. gremlin	batwinged gremlin	spider gremlin	spider gremlin (tool)
 Neckback Crick	100	deadly venomtrout	water spider	Unearthed Monstrosity: 0
 Nemesis Cave	100	infernal seal larva	infernal seal spawn	vengeful turtle spectre	haunted soup tureen	slithering hollandaise glob	pernicious puddle of pesto	evil spaghetti cultist	evil spaghetti cult priest	talking head	psychedelic fur	evil vihuela-playing mariachi	evil trumpet-playing mariachi
-Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin: 2	vegetable gremlin
+Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
 Old Crimbo Town Toy Factory	100	Mob Penguin Goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
-Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin: 2
+Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)
 Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
-Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin: 2	spider gremlin
+Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin (tool)	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
@@ -184,7 +184,7 @@ Sinister Dodecahedron	100	death ray in a pair tree: 1	turtle mech: 2	Swiss Hen: 
 Sleaziest Adventurer Contest	100	Grease Trapper	Ham Shaman	Porkpocket	Leonard: 0
 Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
-Smoothest Adventurer Contest	100	Savage Beatnik	Creamweaver	smooth criminal	Seannery the Conman: 0
+Smoothest Adventurer Contest	100	Savage Beatnik	Creamweaver	Smooth Criminal	Seannery the Conman: 0
 Some Scattered Smoking Debris	-1	Government agent	perimeter defense sphere	illegal alien
 Sonar	-1	batbugbear
 Sonofa Beach	10	lobsterfrogman
@@ -252,7 +252,7 @@ The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
-The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate	creamy pirate	crusty pirate	curmudgeonly pirate
+The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
 The Fun-Guy Mansion	100	Fun-Guy Playmate
@@ -280,10 +280,10 @@ The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sh
 The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino
 The Heap	-1	Stench hobo	Oscus: 0
 The Hedge Maze	-1	topiary gopher: 0	topiary chihuahua herd: 0	topiary duck: 0	topiary kiwi: 0
-The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit: 0
-The Hidden Bowling Alley	100	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	ancient protector spirit: 0
-The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy witch nurse	ancient protector spirit: 0
-The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit: 0
+The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit (The Hidden Apartment Building): 0
+The Hidden Bowling Alley	100	pygmy janitor	pygmy orderlies	drunk pygmy	pygmy bowler	ancient protector spirit (The Hidden Bowling Alley): 0
+The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy witch nurse	ancient protector spirit (The Hidden Hospital): 0
+The Hidden Office Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit (The Hidden Office Building): 0
 The Hidden Park	-1	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer	pygmy janitor
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret

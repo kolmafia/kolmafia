@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -79,6 +80,34 @@ public class CheckDataCommand
 			return;
 		}
 
+		if ( command.equals( "checkconsumables" ) )
+		{
+			DebugDatabase.checkConsumables();
+			RequestLogger.printLine( "Consumables checked." );
+			return;
+		}
+
+		if ( command.equals( "checkconsumption" ) )
+		{
+			DebugDatabase.checkConsumptionData();
+			RequestLogger.printLine( "Consumption data checked." );
+			return;
+		}
+
+		if ( command.equals( "checkeffects" ) )
+		{
+			DebugDatabase.checkEffects();
+			RequestLogger.printLine( "Internal status effect data checked." );
+			return;
+		}
+
+		if ( command.equals( "checkfamiliars" ) )
+		{
+			DebugDatabase.checkFamiliars();
+			RequestLogger.printLine( "Familiars checked." );
+			return;
+		}
+
 		if ( command.equals( "checkitems" ) )
 		{
 			int itemId = StringUtilities.parseInt( parameters );
@@ -87,10 +116,17 @@ public class CheckDataCommand
 			return;
 		}
 
-		if ( command.equals( "checkeffects" ) )
+		if ( command.equals( "checkmanuel" ) )
 		{
-			DebugDatabase.checkEffects();
-			RequestLogger.printLine( "Internal status effect data checked." );
+			DebugDatabase.checkManuel();
+			RequestLogger.printLine( "Monster Manuel checked." );
+			return;
+		}
+
+		if ( command.equals( "checkmodifiers" ) )
+		{
+			Modifiers.checkModifiers();
+			RequestLogger.printLine( "Modifiers checked." );
 			return;
 		}
 
@@ -109,27 +145,6 @@ public class CheckDataCommand
 			return;
 		}
 
-		if ( command.equals( "checkmodifiers" ) )
-		{
-			Modifiers.checkModifiers();
-			RequestLogger.printLine( "Modifiers checked." );
-			return;
-		}
-
-		if ( command.equals( "checkconsumption" ) )
-		{
-			DebugDatabase.checkConsumptionData();
-			RequestLogger.printLine( "Consumption data checked." );
-			return;
-		}
-
-		if ( command.equals( "checkconsumables" ) )
-		{
-			DebugDatabase.checkConsumables();
-			RequestLogger.printLine( "Consumables checked." );
-			return;
-		}
-
 		if ( command.equals( "checkpotions" ) )
 		{
 			DebugDatabase.checkPotions();
@@ -141,34 +156,6 @@ public class CheckDataCommand
 		{
 			DebugDatabase.checkPowers( parameters.trim() );
 			RequestLogger.printLine( "Equipment power checked." );
-			return;
-		}
-
-		if ( command.equals( "checkshields" ) )
-		{
-			DebugDatabase.checkShields();
-			RequestLogger.printLine( "Shield power checked." );
-			return;
-		}
-
-		if ( command.equals( "checkfamiliars" ) )
-		{
-			DebugDatabase.checkFamiliars();
-			RequestLogger.printLine( "Familiars checked." );
-			return;
-		}
-
-		if ( command.equals( "checkpulverization" ) )
-		{
-			DebugDatabase.checkPulverizationData();
-			RequestLogger.printLine( "Pulverization data checked." );
-			return;
-		}
-
-		if ( command.equals( "checkzapgroups" ) )
-		{
-			DebugDatabase.checkZapGroups();
-			RequestLogger.printLine( "Zap groups checked." );
 			return;
 		}
 
@@ -198,6 +185,27 @@ public class CheckDataCommand
 			RequestLogger.printLine( "class [" + prof.getClassType() + "]" );
 			RequestLogger.printLine( "clan [" + prof.getClanName() + "]" );
 			RequestLogger.printLine( "restrict [" + prof.getRestriction() + "]" );
+			return;
+		}
+
+		if ( command.equals( "checkpulverization" ) )
+		{
+			DebugDatabase.checkPulverizationData();
+			RequestLogger.printLine( "Pulverization data checked." );
+			return;
+		}
+
+		if ( command.equals( "checkshields" ) )
+		{
+			DebugDatabase.checkShields();
+			RequestLogger.printLine( "Shield power checked." );
+			return;
+		}
+
+		if ( command.equals( "checkzapgroups" ) )
+		{
+			DebugDatabase.checkZapGroups();
+			RequestLogger.printLine( "Zap groups checked." );
 			return;
 		}
 	}

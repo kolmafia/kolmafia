@@ -195,6 +195,7 @@ public class LoginManager
 		CampgroundRequest.reset();
 		ChateauRequest.reset();
 		HermitRequest.reset();
+		MonsterManuelManager.reset();
 		SpecialOutfit.forgetCheckpoints();
 
 		KoLmafia.updateDisplay( "Initializing session for " + username + "..." );

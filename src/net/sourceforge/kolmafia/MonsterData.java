@@ -70,6 +70,7 @@ public class MonsterData
 	private final EncounterType type;
 	private final String image;
 	private final String[] images;
+	private String manuelName = null;
 	private final String attributes;
 	private final int beeCount;
 
@@ -170,7 +171,7 @@ public class MonsterData
 			    final int meat, final Phylum phylum, final int poison,
 			    final boolean boss, final boolean dummy,
 			    final EncounterType type, final String[] images,
-			    final String attributes )
+			    final String manuelName, final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -196,6 +197,7 @@ public class MonsterData
 		this.type = type;
 		this.image = images.length > 0 ? images[ 0 ] : "";
 		this.images = images;
+		this.manuelName = manuelName;
 		this.attributes = attributes;
 
 		int beeCount = 0;
@@ -439,6 +441,16 @@ public class MonsterData
 	public int getId()
 	{
 		return this.id;
+	}
+
+	public String getManuelName()
+	{
+		return this.manuelName == null ? this.name : this.manuelName;
+	}
+
+	public void setManuelName( final String manuelName)
+	{
+		this.manuelName = manuelName;
 	}
 
 	public int getHP()
