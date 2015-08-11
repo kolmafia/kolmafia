@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -267,6 +268,9 @@ public class DailyDeedsPanel
 		{
 			"Special", "Chateau Desk"
 		},
+		{
+			"Special", "Deck of Every Card"
+		},
 	};
 
 	private static final int getVersion( String deed )
@@ -274,7 +278,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Chateau Desk" ) )
+		if ( deed.equals( "Deck of Every Card" ) )
+			return 10;
+		else if ( deed.equals( "Chateau Desk" ) )
 			return 9;
 		else if ( deed.equals( "Ultra Mega Sour Ball" ) )
 			return 8;
@@ -1027,6 +1033,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Chateau Desk" ) )
 		{
 			this.add( new ChateauDeskDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Deck of Every Card" ) )
+		{
+			this.add( new DeckOfEveryCardDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3637,6 +3647,156 @@ public class DailyDeedsPanel
 					this.button.setActionCommand( "ashq visit_url(\"place.php?whichplace=chateau&action=chateau_desk3\",false);" );
 					this.button.setVisible( true );
 					break;
+				}
+			}
+		}
+	}
+
+	private static final Object[][] DECK_COMBO_DATA =
+	{
+		{ "- Draw a card -", "", "" },
+		{ "Random", "play random", "Draw cards randomly" },
+		{ "- Stat Gain -", "", "" },
+		{ "Muscle stat", "play stat muscle", "Gain 500 muscle substats" },
+		{ "Myst stat", "play stat mysticality", "Gain 500 mysticality substats" },
+		{ "Moxie stat", "play stat moxie", "Gain 500 moxie substats" },
+		{ "- Buffs -", "", "" },
+		{ "Muscle buff", "play buff muscle", "Muscle +200% (20 Adventures)" },
+		{ "Myst buff", "play buff mysticality", "Mysticality +200% (20 Adventures)" },
+		{ "Moxie buff", "play buff moxie", "Moxie +200% (20 Adventures)" },
+		{ "Item buff", "play buff items", "+100% Item Drops from Monsters (20 Adventures)" },
+		{ "Init buff", "play buff initiative", "+200% Combat Initiative (20 Adventures)" },
+		{ "- Items -", "", "" },
+		{ "Clubs", "play X of Clubs", "Get X seal-clubbing clubs and 3 PvP fights" },
+		{ "Diamonds", "play X of Diamonds", "Get X cubic zirconia (100 Meat)" },
+		{ "Hearts", "play X of Hearts", "Get X bubblegum hearts (80-100 HP)" },
+		{ "Spades", "play X of Spades", "Get X grave-robbing shovels and spade puzzle clue" },
+		{ "Papayas", "play X of Papayas", "Get X papayas" },
+		{ "Kumquats", "play X of Kumquats", "Get X kumquats" },
+		{ "Salads", "play X of Salads", "Get X delicious salads" },
+		{ "Cups", "play X of Cups", "Get X random booze" },
+		{ "Coins", "play X of Coins", "Get X valuable coins (500 Meat)" },
+		{ "Swords", "play X of Swords", "Get X random swords" },
+		{ "Wands", "play X of Wands", "Get 5 turns of X random buffs" },
+		{ "Tower", "play XVI - The Tower", "Get a hero key" },
+		{ "Plum", "play Professor Plum", "Get 10 plums" },
+		{ "Tire", "play Spare Tire", "Get tires" },
+		{ "Tank", "play Extra Tank", "Get a full meat tank" },
+		{ "Sheep", "play Sheep", "Get 3 stone wool" },
+		{ "Plenty", "play Year of Plenty", "Get 5 random foods" },
+		{ "Mine", "play Mine", "Get one each of asbestos ore, linoleum ore, and chrome ore" },
+		{ "Laboratory", "play Laboratory", "Get 5 random potions" },
+		{ "Gift", "play Gift Card", "Get a gift card" },
+		{ "1952 card", "play 1952 Mickey Mantle", "Get a 1952 Mickey Mantle card (10000 Meat)" },
+		{ "- Weapons -", "", "" },
+		{ "Lead Pipe", "play Lead Pipe", "Club, +100% Muscle, +50 Max HP" },
+		{ "Rope", "play Rope", "Whip, +2 Muscle Stat(s) Per Fight, +10 Familiar Weight" },
+		{ "Wrench", "play Wrench", "Utensil, +100% Spell Damage, +50 Max MP" },
+		{ "Candlestick", "play Candlestick", "Wand, +100% Mysticality, +2 Mysticality Stat(s) Per Fight" },
+		{ "Knife", "play Knife", "Knife, +100% Moxie, +50% Meat" },
+		{ "Revolver", "play Revolver", "Pistol, +2 Moxie Stat(s) Per Fight, +50% Combat Initiative" },
+		{ "- Skills/Mana -", "", "" },
+		{ "Healing Salve", "play Healing Salve", "Learn Healing Salve or get white mana" },
+		{ "Dark Ritual", "play Dark Ritual", "Learn Dark Ritual or get black mana" },
+		{ "Lightning Bolt", "play Lightning Bolt", "Learn Lightning Bolt or get red mana" },
+		{ "Giant Growth", "play Giant Growth", "Learn Giant Growth or get green mana" },
+		{ "Ancestral Recall", "play Ancestral Recall", "Learn Ancestral Recall or get blue mana" },
+		{ "Plains", "play Plains", "Get white mana (Healing Salve)" },
+		{ "Swamp", "play Swamp", "Get black mana (Dark Ritual)" },
+		{ "Mountain", "play Mountain", "Get red mana (Lightning Bolt)" },
+		{ "Forest", "play Forest", "Get green mana (Giant Growth)" },
+		{ "Island", "play Island", "Get blue mana (Ancestral Recall)" },
+		{ "- Special Fights -", "", "" },
+		{ "Fight alien", "play Green Card", "Fight \"legal alien\"" },
+		{ "Fight emperor", "play IV - The Emperor", "Fight \"The Emperor\"" },
+		{ "Fight hermit", "play IX - The Hermit", "Fight \"Hermit\"" },
+		{ "- Phylum Fights -", "", "" },
+	};
+
+	public static class DeckOfEveryCardDaily
+		extends Daily
+	{
+		private static final ArrayList<Object> choices = new ArrayList<Object>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		static
+		{
+			for ( Object[] combodata : DECK_COMBO_DATA )
+			{	
+				choices.add( combodata[0] );
+				commands.add( (String) combodata[1] );
+				tooltips.add( combodata[2] );
+			}
+			for ( String phylum : MonsterDatabase.PHYLUM_ARRAY )
+			{
+				if ( !phylum.equals( "none" ) )
+				{
+					choices.add( "Fight " + phylum );
+					commands.add( "play phylum " + phylum );
+					tooltips.add( "Fight a random \"" + phylum + "\" monster" );
+				}
+			}
+		}
+
+		public DeckOfEveryCardDaily()
+		{
+			this.addItem( ItemPool.DECK_OF_EVERY_CARD );
+			this.addListener( "_deckCardsDrawn" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, "-Draw a card-    " );
+			box.addActionListener( new DeckComboListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Draw");
+			this.addLabel( "X/15 cards" );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = InventoryManager.getCount( ItemPool.DECK_OF_EVERY_CARD ) > 0;
+			boolean nocards = Preferences.getInteger( "_deckCardsDrawn" ) >= 15;
+			boolean allowed = StandardRequest.isAllowed( "Items", "Deck of Every Card" );
+			boolean limited = Limitmode.limitItem( ItemPool.DECK_OF_EVERY_CARD );
+			this.setShown( ( !bm || kf ) && ( have || nocards ) && allowed && !limited );
+			box.setEnabled( !nocards );
+			box.setSelectedIndex( 0 );
+			this.setText( Preferences.getInteger( "_deckCardsDrawn" ) + "/15 cards" );
+		}
+
+		private class DeckComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				int cardsdrawn = Preferences.getInteger( "_deckCardsDrawn" );
+				if ( command.equals( "" ) )
+				{
+					setComboTarget( btn, "" );
+					setEnabled( false );
+				}
+				else
+				{
+					if ( cb.getSelectedIndex() > 1 && cardsdrawn > 10 ) // Can't cheat with less than 5 remaining
+					{
+						setComboTarget( btn, "" );
+						setEnabled( false );
+					}
+					else
+					{
+						setComboTarget(btn, command );
+						setEnabled( true );
+					}
 				}
 			}
 		}
