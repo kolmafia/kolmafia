@@ -248,7 +248,7 @@ glass of bourbon	1	5	EPIC	5-6	10-20	10-20	10-20
 glass of herbal tequila	3	6	awesome	11-13	0	0	25-75	50 Herbal Pert
 gloomy mushroom wine	3	7	awesome	12-17	12-15	13-15	12-15	20 Gothy (+20 Myst, -10 Mus/Mox)
 Go-Wassail	1	1	EPIC	5-6	5-6	5-6	5-6
-Gold Velvet&trade; whiskey	2	1	good	1-1	0	0	0	Unspaded
+Gold Velvet&trade; whiskey	2	1	good	4-6	10-20	10-20	10-20
 Golden Mean	2	4	awesome	6-7	0	20-30	0	10 World's Shortest Giant (+2 Prismatic Res)
 Gordon Bennett	4	6	awesome	14-18	16-20	25-27	0
 Grasshopper	2	1	good	4-5	0	0	10-20	5 Cockroach Scurry (+50 Init)

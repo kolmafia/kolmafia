@@ -1851,7 +1851,7 @@ mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant	beho
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
-Mob Penguin Enforcer	0	pengthug.gif	P: penguin	patent leather shoes (0)
+Mob Penguin Enforcer	752	pengthug.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	patent leather shoes (0)
 Mob Penguin Goon	0	penggoon.gif	P: penguin	penguin thesaurus (0)
 Mob Penguin Hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin Psychopath	0	pengpsycho.gif	P: penguin	knuckle sandwich (0)	psycho sweater (c0)
