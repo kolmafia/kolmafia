@@ -424,6 +424,11 @@ public class MonsterDatabase
 		return MonsterDatabase.MONSTER_DATA.entrySet();
 	}
 
+	public static final Set<Integer> idKeySet()
+	{
+		return MonsterDatabase.MONSTER_IDS.keySet();
+	}
+
 	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( name, false );

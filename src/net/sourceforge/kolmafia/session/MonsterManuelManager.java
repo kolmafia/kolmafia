@@ -59,6 +59,10 @@ public class MonsterManuelManager
 
 	public static void reset()
 	{
+		// Reset Your winged yeti and You the Adventurer
+		MonsterManuelManager.reset( MonsterDatabase.findMonsterById( 1667 ) );
+		MonsterManuelManager.reset( MonsterDatabase.findMonsterById( 1669 ) );
+
 		Iterator<Entry<Integer,Integer>> entryIterator = MonsterManuelManager.manuelFactoidCounts.entrySet().iterator();
 
 		// Remove all entries that have less than 3 factoids, since the
