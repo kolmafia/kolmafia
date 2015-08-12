@@ -466,9 +466,9 @@ Mer-kin teacher	838	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-
 Mer-kin tippler	768	merkintippler.gif	Atk: 600 Def: 360 HP: 750 Init: 25 Meat: 200 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mer-kin trainer	841	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
 mimic	283	lowerm.gif	BOSS Atk: 45 Def: 40 HP: 50 Init: 70 P: weird	dead mimic (n100)
-mimic (Bottom 2 Rows)	287	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
-mimic (Middle 2 Rows)	288	barrel.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird Manuel: "mimic"
-mimic (Top 2 Rows)	289	barrel.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Manuel: "mimic"
+mimic (bottom barrels)	287	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
+mimic (middle barrels)	288	barrel.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird Manuel: "mimic"
+mimic (top barrels)	289	barrel.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Manuel: "mimic"
 mind flayer	222	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer corpse (25)	cornuthaum (15)	large box (20)	flayed mind (c0)
 mine crab	746	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 250 P: fish	live nautical mine (n20)
 Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
@@ -1704,7 +1704,7 @@ All-Hallow's Steve	1451	steve.gif	FREE Scale: 30 Init: 90 P: dude	All-Hallow's S
 Government agent	1585	gov_agent.gif	Scale: -5 Init: 25 P: dude Meat: 75	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)	government-issue identification badge (c0)
 perimeter defense sphere	1586	defense_sphere.gif	Scale: -3 Init: 100 P: construct	space junk (10)	space junk (c15)
 illegal alien	1587	illegal_alien.gif	Scale: -3 Init: 75 P: humanoid Meat: 65	alien drugs (15)	weird space book (c25)	alien hologram projector (c0)
-space beast	1588	spacebeast3.gif	Scale: 5 Init: 50 P: beast Meat: 163-245	space beast fur (100)
+space beast	1588	spacebeast1.gif,spacebeast2.gif,spacebeast3.gif	Scale: 5 Init: 50 P: beast Meat: 163-245	space beast fur (100)
 space beast matriarch	1589	spacebeast3.gif	BOSS Scale: 15 Init: 0 P: beast	twitching space egg (n100)
 
 # Twitch 2 - The Cave Before Time (June 2014)
@@ -1805,9 +1805,9 @@ Mob Penguin Supervisor	0	pengphone.gif	P: penguin	chunk of depleted Grimacite (0
 
 # Simple Tool-Making Cave (Crimbo 2006)
 flint-scraping cave elf	427	caveelf3.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	rock (15)	stick (10)	stick (5)
-Hunter-Gatherer Cave Elf	438	caveelf2.gif		tooth (15)	tooth (5)
-Rock-Banging Cave Elf	0	caveelf1.gif		rock (8)	stick (7)	stick (15)
-Sinew-Stretching Cave Elf	0	caveelf4.gif		stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
+hunter-gatherer cave elf	438	caveelf2.gif		tooth (15)	tooth (5)
+rock-banging cave elf	0	caveelf1.gif		rock (8)	stick (7)	stick (15)
+sinew-stretching cave elf	0	caveelf4.gif		stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
 
 # The Spooky Fright Factory (Crimbo 2006)
 bow-making mummy	0	crimonster3.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -2052,10 +2052,10 @@ skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65
 
 7-Foot Dwarf	0	miner.gif	HP: 40 Def: 47 Atk: 53 Meat: 34-48 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct	felt (2)	stuffing (2)	googly eye (2)
-animated nightstand (White 1)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
-animated nightstand (Mahogany 1)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
-animated nightstand (White 2)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
-animated nightstand (Mahogany 2)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
+animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
+animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)
+animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
+animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
 Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 73-105 P: dude	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8
