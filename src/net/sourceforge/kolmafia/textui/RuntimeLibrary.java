@@ -1621,10 +1621,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "dad_sea_monkee_weakness", DataTypes.ELEMENT_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "flush_monster_manuel_cache", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.MONSTER_TYPE };
 		functions.add( new LibraryFunction( "monster_manuel_text", DataTypes.STRING_TYPE, params ) );
 
-		params = new Type[] { DataTypes.MONSTER_TYPE };
+		params = new Type[] { DataTypes.MONSTER_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "monster_factoids_available", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -7023,14 +7026,20 @@ public abstract class RuntimeLibrary
 		return DataTypes.ELEMENT_INIT;
 	}
 
+	public static Value flush_monster_manuel_cache( Interpreter interpreter )
+	{
+		MonsterManuelManager.flushCache();
+		return DataTypes.TRUE_VALUE;
+	}
+
 	public static Value monster_manuel_text( Interpreter interpreter, final Value arg )
 	{
 		return new Value( MonsterManuelManager.getManuelText( (int) arg.intValue() ) );
 	}
 
-	public static Value monster_factoids_available( Interpreter interpreter, final Value arg )
+	public static Value monster_factoids_available( Interpreter interpreter, final Value arg1, final Value arg2 )
 	{
-		return new Value( MonsterManuelManager.getFactoidsAvailable( (int) arg.intValue() ) );
+		return new Value( MonsterManuelManager.getFactoidsAvailable( (int) arg1.intValue(), arg2.intValue() != 0 ) );
 	}
 
 	public static Value all_monsters_with_id( Interpreter interpreter )
