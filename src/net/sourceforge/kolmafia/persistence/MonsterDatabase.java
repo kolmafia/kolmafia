@@ -395,10 +395,10 @@ public class MonsterDatabase
 	}
 
 	// Register an unknown monster from Manuel
-	public static final MonsterData registerMonster( final String name, final int id, final String image )
+	public static final MonsterData registerMonster( final String name, final int id, final String image, final String attributes )
 	{
 		String[] images = { image };
-		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, "" );
+		MonsterData monster = MonsterDatabase.registerMonster( name, id, images, attributes );
 		MonsterDatabase.registerMonsterId( id, name, monster );
 		return monster;
 	}

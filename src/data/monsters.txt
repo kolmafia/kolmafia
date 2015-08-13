@@ -925,7 +925,7 @@ wall of bones	1708	wallofbones.gif	Atk: 1000 Def: 1000 HP: 20000 Init: -10000 P:
 wall of meat	1706	noart.gif	Atk: 200 Def: 200 HP: 700 Init: -10000 P: elemental
 wall of skin	1707	wallofskin.gif	Atk: 200 Def: 200 HP: 50 Init: -10000 P: construct
 # Manuel name is "(shadow opponent)" with parentheses
-Your Shadow	210	../otherimages/shadows/20.gif	Atk: [150] Def: [89999] HP: [395] Init: 150 Exp: 200 P: dude Manuel: "(shadow opponent)"
+Your Shadow	210	otherimages/shadows/20.gif	Atk: [150] Def: [89999] HP: [395] Init: 150 Exp: 200 P: dude Manuel: "(shadow opponent)"
 
 # Retired Sorceress Lair
 
@@ -999,7 +999,7 @@ slime2	0	slime2_1.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy
 slime3	0	slime3_1.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
 slime4	0	slime4_1.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
 slime5	0	slime5_1.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
-Mother Slime	792	../otherimages/slimetube/stboss.gif	Atk: 1000 Def: 900 HP: 2950 Init: 300 EA: slime P: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
+Mother Slime	792	otherimages/slimetube/stboss.gif	Atk: 1000 Def: 900 HP: 2950 Init: 300 EA: slime P: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
 
 # Dreadsylvania
 #

@@ -52,6 +52,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class MonsterManuelManager
 {
 	private static final Map<Integer, String> manuelEntries = new TreeMap<Integer, String>();
@@ -123,18 +125,26 @@ public class MonsterManuelManager
 		MonsterManuelManager.manuelFactoidCounts.put( id, factoids );
 
 		// Extract some fields from the entry
-		String name = MonsterManuelManager.extractMonsterName( entry );
-		String image = MonsterManuelManager.extractMonsterImage( entry );
 
 		// If we are looking at this entry for the first time, do some checks.
 		if ( old == null )
 		{
 			MonsterData monster = MonsterDatabase.findMonsterById( id );
+			String name = MonsterManuelManager.extractMonsterName( entry );
 			if ( monster == null )
 			{
 				// We don't know a monster with this ID. Add to monster ID map.
-				RequestLogger.printLine( "New monster #" + id + " found in Manuel with name '" + name + "' and image '" + image + "'" );
-				monster = MonsterDatabase.registerMonster( name, id, image );
+				String image = MonsterManuelManager.extractMonsterImage( entry );
+				String attack = MonsterManuelManager.extractMonsterAttack( entry );
+				String defense = MonsterManuelManager.extractMonsterDefense( entry );
+				String hp = MonsterManuelManager.extractMonsterHP( entry );
+				String phylum = MonsterManuelManager.extractMonsterPhylum( entry );
+				String element = MonsterManuelManager.extractMonsterElement( entry );
+				String initiative = MonsterManuelManager.extractMonsterInitiative( entry );
+				String attributes = MonsterManuelManager.buildMonsterAttributes( attack, defense, hp, phylum, element, initiative );
+
+				RequestLogger.printLine( "New monster #" + id + " found in Manuel with name '" + name + "' image '" + image + "' attributes ='" + attributes + "'" );
+				monster = MonsterDatabase.registerMonster( name, id, image, attributes );
 			}
 			else if ( !monster.getManuelName().equals( name ) )
 			{
@@ -143,6 +153,59 @@ public class MonsterManuelManager
 				monster.setManuelName( name );
 			}
 		}
+	}
+
+	public static String buildMonsterAttributes( final String attack, final String defense, final String hp, final String phylum, final String element, final String initiative )
+	{
+		StringBuilder buffer = new StringBuilder();
+		if ( attack.equals( "?" ) )
+		{
+			// Attack/Defense/HP = ? means this is a scaling monster
+			buffer.append( "Scale: 0" );
+		}
+		else
+		{
+			buffer.append( "Atk: " );
+			buffer.append( StringUtilities.parseInt( attack ) );
+			buffer.append( " Def: " );
+			buffer.append( StringUtilities.parseInt( defense ) );
+			buffer.append( " HP: " );
+			buffer.append( StringUtilities.parseInt( hp ) );
+		}
+
+		buffer.append( " Init: " );
+		if ( initiative.startsWith( "Never" ) )
+		{
+			buffer.append( "-10000" );
+		}
+		else if ( initiative.startsWith( "Always" ) )
+		{
+			buffer.append( "10000" );
+		}
+		else
+		{
+			// Initiative +100%
+			buffer.append( initiative.substring( 12, initiative.length() - 1 ) );
+		}
+
+		String e =
+			element.equals( "snowflake" ) ? "cold" :
+			element.equals( "fire" ) ? "hot" :
+			element.equals( "skull" ) ? "spooky" :
+			element.equals( "stench" ) ? "stench" :
+			element.equals( "wink" ) ? "sleaze" :
+			null;
+
+		if ( e != null )
+		{
+			buffer.append( " E: " );
+			buffer.append( e );
+		}
+
+		buffer.append( " P: " );
+		buffer.append( phylum.toLowerCase() );
+
+		return buffer.toString();
 	}
 
 	// <td rowspan=4 valign=top class=small><b><font size=+2>A.M.C. gremlin</font></b>
@@ -154,11 +217,71 @@ public class MonsterManuelManager
 	}
 
 	// <td rowspan=4 valign=top width=100><img src=http://images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td>
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100>.*?adventureimages/(.*?\\.gif).*?</td>" );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100><img src=http://images.kingdomofloathing.com/(?:adventureimages/(?:\\.\\./)?)?(.*?\\.gif).*?</td>" );
 
 	public static String extractMonsterImage( final String text )
 	{
 		Matcher matcher = MonsterManuelManager.IMAGE_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>150</font></b></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>?</font></b></td>
+	private static final Pattern ATTACK_PATTERN = Pattern.compile( "Attack Power \\(approximate\\).*?<font size=\\+2>(.*?)</font>" );
+
+	public static String extractMonsterAttack( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.ATTACK_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/whiteshield.gif width=30 height=30 alt="Defense (approximate)" title="Defense (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>150</font></b></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/whiteshield.gif width=30 height=30 alt="Defense (approximate)" title="Defense (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>?</font></b></td>
+	private static final Pattern DEFENSE_PATTERN = Pattern.compile( "Defense \\(approximate\\).*?<font size=\\+2>(.*?)</font>" );
+
+	public static String extractMonsterDefense( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.DEFENSE_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/hp.gif width=30 height=30 alt="Hit Points (approximate)" title="Hit Points (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>1000</font></b></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/hp.gif width=30 height=30 alt="Hit Points (approximate)" title="Hit Points (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>?</font></b></td>
+	private static final Pattern HP_PATTERN = Pattern.compile( "Hit Points \\(approximate\\).*?<font size=\\+2>(.*?)</font>" );
+
+	public static String extractMonsterHP( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.HP_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/beastflavor.gif alt="This monster is a Beast" title="This monster is a Beast" width=30 height=30></td>
+	private static final Pattern PHYLUM_PATTERN = Pattern.compile( "This monster is (?:a )?(.*?)\"" );
+
+	public static String extractMonsterPhylum( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.PHYLUM_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/stench.gif width=30 height=30 alt="This monster is Stinky.  Stench is weak against Cold and Sleaze." title="This monster is Stinky.  Stench is weak against Cold and Sleaze."></td>
+	private static final Pattern ELEMENT_PATTERN = Pattern.compile( "(circle|snowflake|fire|skull|stench|wink)" );
+
+	public static String extractMonsterElement( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.ELEMENT_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/snail.gif alt="Never wins initiative" title="Never wins initiative" width=30 height=30></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/lightningbolt.gif alt="Always wins initiative" title="Always wins initiative" width=30 height=30></td>
+	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/watch.gif alt="Initiative +100%" title="Initiative +100%" width=30 height=30></td>
+	private static final Pattern INITIATIVE_PATTERN = Pattern.compile( "\"(Never wins initiative|Always wins initiative|Initiative \\+.*?%)\"" );
+
+	public static String extractMonsterInitiative( final String text )
+	{
+		Matcher matcher = MonsterManuelManager.INITIATIVE_PATTERN.matcher( text );
 		return matcher.find() ? matcher.group( 1 ) : "";
 	}
 
