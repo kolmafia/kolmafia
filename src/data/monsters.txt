@@ -2061,7 +2061,7 @@ animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 1
 Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 73-105 P: dude	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8
-Gnollish Sorceress	0	gnollmage.gif	HP: 5 Def: 11 Atk: 11 Meat: 24	gnoll teeth (5)	gnoll lips (5)
+Gnollish Sorceress	17	gnollmage.gif	HP: 5 Def: 9 Atk: 11 Meat: 24 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 P: goblin Init: 90 Meat: 50	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
 The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
 
