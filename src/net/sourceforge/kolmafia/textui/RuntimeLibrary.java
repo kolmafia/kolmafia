@@ -1468,6 +1468,9 @@ public abstract class RuntimeLibrary
 			DataTypes.MONSTER_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
+		functions.add( new LibraryFunction( "get_location_monsters", new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE ), params ) );
+
+		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "appearance_rates", new AggregateType(
 			DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE ), params ) );
 		
@@ -6373,6 +6376,30 @@ public abstract class RuntimeLibrary
 		for ( int i = 0; i < superlikelyMonsterCount; ++i )
 		{
 			value.aset( new Value( i + monsterCount ), DataTypes.parseMonsterValue( data.getSuperlikelyMonster( i ).getName(), true ) );
+		}
+
+		return value;
+
+	}
+
+	public static Value get_location_monsters( Interpreter interpreter, final Value location )
+	{
+		KoLAdventure adventure = (KoLAdventure) location.rawValue();
+		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+
+		AggregateType type = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE );
+		MapValue value = new MapValue( type );
+
+		int monsterCount = data == null ? 0 : data.getMonsterCount();
+		for ( int i = 0; i < monsterCount; ++i )
+		{
+			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), DataTypes.TRUE_VALUE );
+		}
+
+		int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
+		for ( int i = 0; i < superlikelyMonsterCount; ++i )
+		{
+			value.aset( DataTypes.parseMonsterValue( data.getSuperlikelyMonster( i ).getName(), true ), DataTypes.TRUE_VALUE );
 		}
 
 		return value;
