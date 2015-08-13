@@ -57,6 +57,12 @@ public class MonsterManuelManager
 	private static final Map<Integer, String> manuelEntries = new TreeMap<Integer, String>();
 	private static final Map<Integer, Integer> manuelFactoidCounts = new TreeMap<Integer, Integer>();
 
+	public static void flushCache()
+	{
+		MonsterManuelManager.manuelEntries.clear();
+		MonsterManuelManager.manuelFactoidCounts.clear();
+	}
+
 	public static void reset()
 	{
 		// Reset Your winged yeti and You the Adventurer
@@ -197,7 +203,7 @@ public class MonsterManuelManager
 		return text == null ? "" : text;
 	}
 
-	public static int getFactoidsAvailable( final int id)
+	public static int getFactoidsAvailable( final int id, final boolean cachedOnly )
 	{
 		// If we don't know the ID, nothing to be done.
 		if ( id <= 0 )
@@ -207,7 +213,7 @@ public class MonsterManuelManager
 
 		// See if we have it cached
 		Integer factoids = MonsterManuelManager.manuelFactoidCounts.get( id );
-		if ( factoids == null )
+		if ( factoids == null && !cachedOnly )
 		{
 			// No. Attempt to look up the monster in your quest log
 			MonsterManuelRequest request = new MonsterManuelRequest( id );

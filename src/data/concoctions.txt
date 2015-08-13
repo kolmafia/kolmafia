@@ -1801,6 +1801,7 @@ celestial squid ink	MUSE	Cosmic Calorie (60)
 
 numberwang	MUSE	dubious peppermint (169)
 
+smooth velvet bra	MUSE	unsmoothed velvet (3)
 smooth velvet pocket square	MUSE	unsmoothed velvet (5)
 smooth velvet socks	MUSE	unsmoothed velvet (6)
 smooth velvet hat	MUSE	unsmoothed velvet (7)
