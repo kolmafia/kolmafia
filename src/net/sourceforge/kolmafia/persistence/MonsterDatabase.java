@@ -344,9 +344,6 @@ public class MonsterDatabase
 		String keyName = CombatActionManager.encounterKey( name );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
-		// If no monster with that name exists, maybe it's
-		// one of those monsters with an alternate name.
-
 		if ( match != null )
 		{
 			return match;
@@ -357,7 +354,7 @@ public class MonsterDatabase
 			return null;
 		}
 
-		initializeMonsterStrings();
+		MonsterDatabase.initializeMonsterStrings();
 
 		List<String> matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
 

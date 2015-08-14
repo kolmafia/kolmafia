@@ -67,6 +67,9 @@ DESC_EFFECT	Experimental Effect G-9	\+(\d+)%	_g9Effect=$1
 MONSTER	animated nightstand	darkstand\.gif	"animated nightstand (mahogany combat)"
 MONSTER	animated nightstand	nightstand\.gif	"animated nightstand (white combat)"
 
+MONSTER	Mob Penguin goon	pengbook\.gif	"Mob Penguin goon (2008)"
+MONSTER	Mob Penguin Goon	penggoon\.gif	"Mob Penguin Goon (2009)"
+
 # We can't actually tell which mimic it is just from the page text, but
 # we can tell if it is not the Dungeon of Doom mimic
 MONSTER	mimic	barrel\.gif	"mimic (top barrels)"

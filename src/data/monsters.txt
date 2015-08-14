@@ -1852,7 +1852,7 @@ swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: b
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	patent leather shoes (0)
-Mob Penguin goon	753	penggoon.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	penguin thesaurus (0)
+Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin Manuel: "Mob Penguin goon"	penguin thesaurus (0)
 Mob Penguin hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
@@ -1898,7 +1898,7 @@ Mesmerizing Penguin	909	pengmesmer.gif	Scale: 2 Cap: 10000 Floor: 10 Init: -1000
 Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Goon	906	penggoon.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin Manuel: "Mob Penguin Goon"	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Undercover Penguin	910	pengundercover.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Don Crimbo	0	doncrimbo.gif	HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100

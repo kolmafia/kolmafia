@@ -2494,7 +2494,7 @@ public abstract class RuntimeLibrary
 	public static Value image_to_monster( Interpreter interpreter, final Value value )
 	{
 		MonsterData monster = MonsterDatabase.findMonsterByImage( value.toString() );
-		return DataTypes.parseMonsterValue( monster != null ? monster.getName() : "", true );
+		return DataTypes.makeMonsterValue( monster );
 	}
 
 	public static Value to_slot( Interpreter interpreter, final Value item )
@@ -6370,12 +6370,12 @@ public abstract class RuntimeLibrary
 
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( new Value( i ), DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ) );
+			value.aset( new Value( i ), DataTypes.makeMonsterValue( data.getMonster( i ) ) );
 		}
 
 		for ( int i = 0; i < superlikelyMonsterCount; ++i )
 		{
-			value.aset( new Value( i + monsterCount ), DataTypes.parseMonsterValue( data.getSuperlikelyMonster( i ).getName(), true ) );
+			value.aset( new Value( i + monsterCount ), DataTypes.makeMonsterValue( data.getSuperlikelyMonster( i ) ) );
 		}
 
 		return value;
@@ -6393,13 +6393,13 @@ public abstract class RuntimeLibrary
 		int monsterCount = data == null ? 0 : data.getMonsterCount();
 		for ( int i = 0; i < monsterCount; ++i )
 		{
-			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), DataTypes.TRUE_VALUE );
+			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), DataTypes.TRUE_VALUE );
 		}
 
 		int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
 		for ( int i = 0; i < superlikelyMonsterCount; ++i )
 		{
-			value.aset( DataTypes.parseMonsterValue( data.getSuperlikelyMonster( i ).getName(), true ), DataTypes.TRUE_VALUE );
+			value.aset( DataTypes.makeMonsterValue( data.getSuperlikelyMonster( i ) ), DataTypes.TRUE_VALUE );
 		}
 
 		return value;
@@ -6433,7 +6433,7 @@ public abstract class RuntimeLibrary
 			double chance = AreaCombatData.superlikelyChance( name );
 			superlikelyChance += chance;
 			Value toSet = new Value( chance );
-			value.aset( DataTypes.parseMonsterValue( name, true ), toSet );
+			value.aset( DataTypes.makeMonsterValue( monster ), toSet );
 		}
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
@@ -6463,7 +6463,7 @@ public abstract class RuntimeLibrary
 			{
 				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * weight / total );
 			}
-			value.aset( DataTypes.parseMonsterValue( data.getMonster( i ).getName(), true ), toSet );
+			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), toSet );
 		}
 
 		return value;
