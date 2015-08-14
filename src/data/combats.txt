@@ -164,7 +164,7 @@ Nemesis Cave	100	infernal seal larva	infernal seal spawn	vengeful turtle spectre
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
-Old Crimbo Town Toy Factory	100	Mob Penguin goon	Mob Penguin Hitpenguin	Mob Penguin Enforcer	Mob Penguin Psychopath	Mob Penguin Racketeer
+Old Crimbo Town Toy Factory	100	Mob Penguin enforcer	Mob Penguin goon (2008)	Mob Penguin hitpenguin	Mob Penguin psychopath	Mob Penguin racketeer
 Out by that Rusted-Out Car	100	A.M.C. gremlin	erudite gremlin	vegetable gremlin	vegetable gremlin (tool)
 Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
@@ -246,7 +246,7 @@ The Degrassi Knoll Gym	100	Gnollish Crossdresser	Gnollish Bodybuilder	one-eyed G
 The Degrassi Knoll Restroom	100	Gnollish Flyslayer	Gnollish Plungermaster	Guard Bugbear
 The Dire Warren	100	fluffy bunny
 The Dive Bar	100	lounge lizardfish	Mer-kin tippler	nurse shark
-The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
+The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon (2009)	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
