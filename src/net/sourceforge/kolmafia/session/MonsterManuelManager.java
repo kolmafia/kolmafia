@@ -256,7 +256,7 @@ public class MonsterManuelManager
 	}
 
 	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/beastflavor.gif alt="This monster is a Beast" title="This monster is a Beast" width=30 height=30></td>
-	private static final Pattern PHYLUM_PATTERN = Pattern.compile( "This monster is (?:a )?(.*?)\"" );
+	private static final Pattern PHYLUM_PATTERN = Pattern.compile( "This monster is (?:an? )?(.*?)\"" );
 
 	public static String extractMonsterPhylum( final String text )
 	{

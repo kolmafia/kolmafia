@@ -1756,7 +1756,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: 
 Emaciated Knott Yeti	0	skinyeti.gif	
 Mob Penguin Pasta Chef	0	pengchef.gif	
 Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 P: penguin	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
-Mob Penguin Thug	0	pengthug.gif	
+Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 P: penguin	kneecapping stick (0)	penguin skin (0)
 
 # Market Square, 28 Days Later (November 2005)
 drunken zombie half-orc hobo	296	zomhobo.gif	
@@ -1785,18 +1785,18 @@ Zombie Quiet Healer	311	zomhealer.gif
 Striking Factory-Worker Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Gift-Wrapper Elf	322	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Middle-Management Elf	0	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
-Striking Pencil-Pusher Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
+Striking Pencil-Pusher Elf	320	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Stocking-Stuffer Elf	0	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 
-Bashful, the Reindeer	0	reindeer.gif
+Bashful, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Doc, the Reindeer	329	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Dopey, the Reindeer	0	reindeer.gif
-Grumpy, the Reindeer	0	reindeer.gif
-Happy, the Reindeer	0	reindeer.gif
+Dopey, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Grumpy, the Reindeer	328	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Happy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Rudolph the Red	323	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Sleepy, the Reindeer	0	reindeer.gif
-Sneezy, the Reindeer	0	reindeer.gif
-Zeppo, the Reindeer	0	reindeer.gif
+Sleepy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Sneezy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Zeppo, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 
 # The Grim Grimacite Site (June 2006)
 Mob Penguin Smasher	0	pengsmasher.gif	P: penguin	chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
@@ -1826,23 +1826,23 @@ Rudolphus of Crimborg	441	rudolfus.gif		capacitor relay (8)	carbon nanotube fram
 
 # Crimbo Town Toy Factory (Crimbo 2007)
 Arc-welding Elfborg	0	borgelf1.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Decal-applying Elfborg	0	borgelf4.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Decal-applying Elfborg	440	borgelf4.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Ribbon-cutting Elfborg	0	borgelf2.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
 # Sinister Dodecahedron (Crimbo 2007)
-death ray in a pair tree	0	deathray.gif
-turtle mech	0	turtlemech.gif
+death ray in a pair tree	0	deathray.gif		laser-broiled pear (0)
+turtle mech	640	turtlemech.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	polyalloy shield (0)
 Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	oversized fish scaler (0)
-killing bird	0	killingbird.gif
-golden ring	0	goldenring.gif
-goose a-laying	0	goosealaying.gif
-swarm a-swarming	0	swarmers.gif
-blade a-spinning	0	sawblade.gif
-laser lancing	0	laser.gif
-borg a-beeping	0	borgabeeping.gif
-strangler strangling	0	strangler.gif
-stomper stomping	0	stomper.gif
+killing bird	0	killingbird.gif		killing feather (0)	killing feather (0)
+golden ring	0	goldenring.gif		golden ring (0)
+goose a-laying	0	goosealaying.gif		robotronic egg (0)	robotronic egg ( 0)
+swarm a-swarming	645	swarmers.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	rogue swarmer (0)	rogue swarmer (0)
+blade a-spinning	0	sawblade.gif		sawblade fragment (0)	sawblade fragment (0)
+laser lancing	0	laser.gif		unstable laser battery (0)	unstable laser battery (0)
+borg a-beeping	0	borgabeeping.gif		vibrating cyborg knife (0)
+strangler strangling	0	strangler.gif		immense cyborg hand (0)
+stomper stomping	0	stomper.gif		cyborg stompin' boot (0)
 
 # Halloween XX (Halloween 2008)
 mutant gila monster	728	mutantgila.gif	P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
@@ -1851,11 +1851,11 @@ mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant	beho
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
-Mob Penguin Enforcer	752	pengthug.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	patent leather shoes (0)
+Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	patent leather shoes (0)
 Mob Penguin goon	753	penggoon.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	penguin thesaurus (0)
-Mob Penguin Hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
-Mob Penguin Psychopath	0	pengpsycho.gif	P: penguin	knuckle sandwich (0)	psycho sweater (c0)
-Mob Penguin Racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
+Mob Penguin hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
+Mob Penguin psychopath	756	pengpsycho.gif	Scale: 0 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
+Mob Penguin racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
 mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
