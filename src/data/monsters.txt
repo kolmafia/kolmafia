@@ -1805,9 +1805,9 @@ Mob Penguin Supervisor	0	pengphone.gif	P: penguin	chunk of depleted Grimacite (0
 
 # Simple Tool-Making Cave (Crimbo 2006)
 flint-scraping cave elf	427	caveelf3.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	rock (15)	stick (10)	stick (5)
-hunter-gatherer cave elf	438	caveelf2.gif		tooth (15)	tooth (5)
-rock-banging cave elf	0	caveelf1.gif		rock (8)	stick (7)	stick (15)
-sinew-stretching cave elf	0	caveelf4.gif		stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
+hunter-gatherer cave elf	430	caveelf2.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	tooth (15)	tooth (5)
+rock-banging cave elf	428	caveelf1.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	rock (8)	stick (7)	stick (15)
+sinew-stretching cave elf	429	caveelf4.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
 
 # The Spooky Fright Factory (Crimbo 2006)
 bow-making mummy	0	crimonster3.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -1854,7 +1854,7 @@ swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: b
 Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	patent leather shoes (0)
 Mob Penguin goon	753	penggoon.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 75 P: penguin	penguin thesaurus (0)
 Mob Penguin hitpenguin	0	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
-Mob Penguin psychopath	756	pengpsycho.gif	Scale: 0 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
+Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Cap: 10000 Floor: 10 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin racketeer	0	pengracket.gif	P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
