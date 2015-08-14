@@ -242,7 +242,7 @@ public class IslandDecorator
 		}
 	};
 
-	public static final void decorateGremlinFight( final String monster, final StringBuffer buffer )//
+	public static final void decorateGremlinFight( final String monster, final StringBuffer buffer )
 	{
 		// Color the tool in the monster spoiler text
 		int loc = KoLAdventure.lastAdventureId();
@@ -250,7 +250,7 @@ public class IslandDecorator
 		{
 			for ( int i = 0; i < IslandDecorator.TOOL_MONSTERS.length; ++i )
 			{
-				if ( !monster.equals( (String) IslandDecorator.TOOL_MONSTERS[i][0] ) )
+				if ( !monster.startsWith( (String) IslandDecorator.TOOL_MONSTERS[i][0] ) )
 				{
 					continue;
 				}
