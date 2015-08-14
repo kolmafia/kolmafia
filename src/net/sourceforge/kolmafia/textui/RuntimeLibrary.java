@@ -1260,7 +1260,7 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "insert", DataTypes.BUFFER_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "replace", DataTypes.BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "replace", DataTypes.BUFFER_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "delete", DataTypes.BUFFER_TYPE, params ) );
 		params = new Type[] { DataTypes.BUFFER_TYPE, DataTypes.INT_TYPE };

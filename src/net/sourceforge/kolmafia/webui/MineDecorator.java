@@ -142,7 +142,7 @@ public abstract class MineDecorator
 			return;
 		}
 		m = WHICH_PATTERN.matcher( location );
-		if ( !m.find() || ( !responseText.contains( "You acquire" ) && !responseText.contains( "An inexpert swing" ) ) )
+		if ( !m.find() || ( !responseText.contains( "You acquire" ) && !responseText.contains( "/itemimages/hp.gif\" height=30 width=30></td><td valign=center class=effect>" ) ) )
 		{
 			return;
 		}
