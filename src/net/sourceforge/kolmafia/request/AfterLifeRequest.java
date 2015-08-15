@@ -544,6 +544,9 @@ public class AfterLifeRequest
 			case 24:
 				builder.append( "the One Crazy Random Summer" );
 				break;
+			case 25:
+				builder.append( "a Community Service" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

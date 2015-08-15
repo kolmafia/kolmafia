@@ -694,6 +694,10 @@ public class AccountRequest
 		{
 			path = "One Crazy Random Summer";
 		}
+		else if ( path.equals( "25" ) )
+		{
+			path = "Community Service";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

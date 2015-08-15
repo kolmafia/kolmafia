@@ -422,6 +422,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "One Crazy Random Summer " );
 		}
+		else if ( KoLCharacter.isCommunityService() )
+		{
+			sessionStream.print( "Community Service " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard" );
