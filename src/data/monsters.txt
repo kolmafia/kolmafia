@@ -1769,7 +1769,7 @@ zombie yeast beast	304	zomyeast.gif
 # The Mall of Loathing, 28 Days Later (November 2005)
 white zombie	308	zombie2.gif
 zombie apathetic lizardman	298	zomlizard.gif	
-Zombie Clown	302	zomclown.gif
+zombie clown	302	zomclown.gif
 zombie frat boy	305	zomfrat.gif
 zombie hippy	306	zomhippy.gif
 zombie zmobie	303	zombie2.gif
@@ -1786,11 +1786,11 @@ Striking Factory-Worker Elf	0	crimboelf.gif		felt (10)	wooden block (10)	googly 
 Striking Gift-Wrapper Elf	322	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Middle-Management Elf	0	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
 Striking Pencil-Pusher Elf	320	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
-Striking Stocking-Stuffer Elf	0	crimboelf.gif		length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
+Striking Stocking-Stuffer Elf	321	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	length of string (10)	stuffing (10)	wooden block (10)	googly eye (10)	felt (10)	toy wheel (10)
 
 Bashful, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Doc, the Reindeer	329	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Dopey, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Dopey, the Reindeer	324	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Grumpy, the Reindeer	328	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Happy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Rudolph the Red	323	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
@@ -1845,7 +1845,7 @@ strangler strangling	0	strangler.gif		immense cyborg hand (0)
 stomper stomping	0	stomper.gif		cyborg stompin' boot (0)
 
 # Halloween XX (Halloween 2008)
-mutant gila monster	728	mutantgila.gif	P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
+mutant gila monster	728	mutantgila.gif	Scale: 5 Cap: 500 Init: -10000 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
