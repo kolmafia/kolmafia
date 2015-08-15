@@ -12826,6 +12826,7 @@ public abstract class ChoiceManager
 		case 1066: // Employee Assignment Kiosk
 		case 1067: // Maint Misbehavin'
 		case 1076: // Mayo Minder&trade;
+		case 1089: // Community Service
 		case 1090: // The Towering Inferno Discotheque
 		case 1093: // The WLF Bunker
 			return true;
