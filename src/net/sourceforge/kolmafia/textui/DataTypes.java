@@ -667,18 +667,24 @@ public class DataTypes
 		return new Value( DataTypes.SERVANT_TYPE, id, name, data );
 	}
 
-	public static final Value parseBountyValue( final String name, final boolean returnDefault )
+	public static final Value parseBountyValue( String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )
 		{
 			return returnDefault ? DataTypes.BOUNTY_INIT : null;
 		}
 
-		if ( name.equalsIgnoreCase( "none" ) )
+		// All bounties are lower case. If that ever changes, we will
+		// need to set up canonical name searching in BountyDataBase
+		name = name.toLowerCase();
+
+		if ( name.equals( "none" ) )
 		{
 			return DataTypes.BOUNTY_INIT;
 		}
 
+		// This is a funny way to verify that name is valid
+		// Unlike other data types, no fuzzy matching
 		String plural = BountyDatabase.getPlural( name );
 		if ( plural == null )
 		{
