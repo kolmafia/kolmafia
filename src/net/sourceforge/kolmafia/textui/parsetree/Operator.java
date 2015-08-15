@@ -227,7 +227,7 @@ public class Operator
 		// If either side is non-numeric, perform string comparison
 		if ( Operator.isStringLike( ltype ) || Operator.isStringLike( rtype ) )
 		{
-			int c = leftValue.toString().compareToIgnoreCase( rightValue.toString() );
+			int c = leftValue.toString().compareTo( rightValue.toString() );
 			bool = this.operator.equals( "==" ) ? c == 0 :
 			       this.operator.equals( "!=" ) ? c != 0 :
 			       this.operator.equals( ">=" ) ? c >= 0 :

@@ -355,7 +355,7 @@ public class Value
 
 		if ( this.contentString != null && it.contentString != null )
 		{
-			return this.contentString.compareToIgnoreCase( it.contentString );
+			return this.contentString.compareTo( it.contentString );
 		}
 
 		return -1;
