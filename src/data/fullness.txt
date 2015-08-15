@@ -364,7 +364,7 @@ Humpty Dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 ice cream sandwich	2	4	decent	2-4	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)
 ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
-idiot brain	1	1	crappy	1-1	0	0	0	Unspaded
+idiot brain	1	1	crappy	1	0	0	0	Refund spent Zombie Slayer skill points
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 imitation White Russian	2	6	good	4-6	5-10	5-10	5-10
 immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
@@ -434,7 +434,7 @@ liver and let pie	2	1	good	5-7	5-10	5-10	5-10
 liver popsicle	1	1	decent	2	0	0	0
 Loaded Baked Potato	7	1	EPIC	32-38	0	50-60	30-40
 loaf of alien bread	3	4	good	6-9	0	10-20	0
-loaf of soda bread	3	1	decent	1-1	0	0	0	Unspaded
+loaf of soda bread	3	1	decent	5-7	0	0	0	15 Bread Burps (+10 MP, 4-5 MP Regen)
 Lobster <i>qua</i> Grill	2	5	good	4-8	0	0	46-49
 long pork casserole	3	9	awesome	8-15	0	37-51	0
 long pork chop sandwiches	2	8	good	3-9	0	25-35	0
