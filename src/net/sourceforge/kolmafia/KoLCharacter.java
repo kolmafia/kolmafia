@@ -3527,6 +3527,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "One Crazy Random Summer" );
 	}
 
+	public static final boolean isCommunityService()
+	{
+		return KoLCharacter.ascensionPath.equals( "Community Service" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
