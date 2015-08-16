@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 
@@ -131,31 +133,107 @@ public class MonsterManuelManager
 		{
 			MonsterData monster = MonsterDatabase.findMonsterById( id );
 			String name = MonsterManuelManager.extractMonsterName( entry );
+			String image = MonsterManuelManager.extractMonsterImage( entry );
+			String attackString = MonsterManuelManager.extractMonsterAttack( entry );
+			String defenseString = MonsterManuelManager.extractMonsterDefense( entry );
+			String hpString = MonsterManuelManager.extractMonsterHP( entry );
+			String phylumString = MonsterManuelManager.extractMonsterPhylum( entry );
+			Element element = MonsterManuelManager.extractMonsterElement( entry );
+			String initiativeString = MonsterManuelManager.extractMonsterInitiative( entry );
 			if ( monster == null )
 			{
 				// We don't know a monster with this ID. Add to monster ID map.
-				String image = MonsterManuelManager.extractMonsterImage( entry );
-				String attack = MonsterManuelManager.extractMonsterAttack( entry );
-				String defense = MonsterManuelManager.extractMonsterDefense( entry );
-				String hp = MonsterManuelManager.extractMonsterHP( entry );
-				String phylum = MonsterManuelManager.extractMonsterPhylum( entry );
-				String element = MonsterManuelManager.extractMonsterElement( entry );
-				String initiative = MonsterManuelManager.extractMonsterInitiative( entry );
-				String attributes = MonsterManuelManager.buildMonsterAttributes( attack, defense, hp, phylum, element, initiative );
+				String attributes = MonsterManuelManager.buildMonsterAttributes( attackString, defenseString, hpString, phylumString, element, initiativeString );
 
 				RequestLogger.printLine( "New monster #" + id + " found in Manuel with name '" + name + "' image '" + image + "' attributes ='" + attributes + "'" );
 				monster = MonsterDatabase.registerMonster( name, id, image, attributes );
+				return;
 			}
-			else if ( !monster.getManuelName().equals( name ) )
+
+			// Check our data with what Manuel says
+			if ( !monster.getManuelName().equals( name ) )
 			{
 				// We know this monster, but do not have the correct Manuel name
 				RequestLogger.printLine( "Monster #" + id + " has name '" + monster.getManuelName() + "' but Manuel calls it '" + name + "'" );
 				monster.setManuelName( name );
 			}
+
+			if ( !monster.hasImage( image ) )
+			{
+				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'" );
+			}
+
+			if ( attackString.equals( "?" ) )
+			{
+				// Scaling monster: either standard scaling or a formula
+				if ( !( monster.scales() || monster.getBaseAttack() == -1 ) )
+				{
+					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") scales, but KoLmafia doesn't");
+				}
+			}
+			else
+			{
+				// Non-scaling monster
+				int baseAttack = monster.getBaseAttack();
+				int attack = StringUtilities.parseInt( attackString );
+				if ( baseAttack != -1 && baseAttack != attack )
+				{
+					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has attack " + attack + ", but KoLmafia says it is " + baseAttack );
+				}
+				int baseDefense = monster.getBaseDefense();
+				int defense = StringUtilities.parseInt( defenseString );
+				if ( baseDefense != -1 && baseDefense != defense )
+				{
+					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has defense " + defense + ", but KoLmafia says it is " + baseDefense );
+				}
+				int baseHP = monster.getBaseHP();
+				int hp = StringUtilities.parseInt( hpString );
+				if ( baseHP != -1 && baseHP != hp )
+				{
+					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has HP " + hp + ", but KoLmafia says it is " + baseHP );
+				}
+			}
+
+			int baseInitiative = monster.getBaseInitiative();
+			int initiative = MonsterManuelManager.parseInitiative( initiativeString );
+			if ( baseInitiative != -1 && baseInitiative != initiative )
+			{
+				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") '" + initiativeString +  "', but KoLmafia says it is " + baseInitiative );
+			}
+
+			Element attackElement = monster.getAttackElement();
+			Element defenseElement = monster.getDefenseElement();
+			if ( element != defenseElement )
+			{
+				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has element " + element.toString() +  ", but KoLmafia says it has attack element " + attackElement.toString() + " and defense element " + defenseElement );
+			}
+
+			Phylum phylum = MonsterManuelManager.parsePhylum( phylumString );
+			if ( phylum != monster.getPhylum() )
+			{
+				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has phylum " + phylum + ", but KoLmafia says it is " + monster.getPhylum() );
+			}
 		}
 	}
 
-	public static String buildMonsterAttributes( final String attack, final String defense, final String hp, final String phylum, final String element, final String initiative )
+	public static int parseInitiative( final String initiativeString )
+	{
+		return  // Never wins initiative
+			initiativeString.startsWith( "Never" ) ?
+			-10000 :
+			// Always wins initiative
+			initiativeString.startsWith( "Always" ) ?
+			10000 :
+			// Initiative +100%
+			StringUtilities.parseInt( initiativeString.substring( 12, initiativeString.length() - 1 ) );
+	}
+			       
+	public static Phylum parsePhylum( final String phylum )
+	{
+		return MonsterDatabase.parsePhylum( phylum.toLowerCase() );
+	}
+
+	public static String buildMonsterAttributes( final String attack, final String defense, final String hp, final String phylum, final Element element, final String initiative )
 	{
 		StringBuilder buffer = new StringBuilder();
 		if ( attack.equals( "?" ) )
@@ -174,36 +252,16 @@ public class MonsterManuelManager
 		}
 
 		buffer.append( " Init: " );
-		if ( initiative.startsWith( "Never" ) )
-		{
-			buffer.append( "-10000" );
-		}
-		else if ( initiative.startsWith( "Always" ) )
-		{
-			buffer.append( "10000" );
-		}
-		else
-		{
-			// Initiative +100%
-			buffer.append( initiative.substring( 12, initiative.length() - 1 ) );
-		}
+		buffer.append( String.valueOf( MonsterManuelManager.parseInitiative( initiative ) ) );
 
-		String e =
-			element.equals( "snowflake" ) ? "cold" :
-			element.equals( "fire" ) ? "hot" :
-			element.equals( "skull" ) ? "spooky" :
-			element.equals( "stench" ) ? "stench" :
-			element.equals( "wink" ) ? "sleaze" :
-			null;
-
-		if ( e != null )
+		if ( element != Element.NONE )
 		{
 			buffer.append( " E: " );
-			buffer.append( e );
+			buffer.append( element.toString() );
 		}
 
 		buffer.append( " P: " );
-		buffer.append( phylum.toLowerCase() );
+		buffer.append( MonsterManuelManager.parsePhylum( phylum ) );
 
 		return buffer.toString();
 	}
@@ -266,12 +324,22 @@ public class MonsterManuelManager
 
 	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td>
 	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/stench.gif width=30 height=30 alt="This monster is Stinky.  Stench is weak against Cold and Sleaze." title="This monster is Stinky.  Stench is weak against Cold and Sleaze."></td>
-	private static final Pattern ELEMENT_PATTERN = Pattern.compile( "(circle|snowflake|fire|skull|stench|wink)" );
+	private static final Pattern ELEMENT_PATTERN = Pattern.compile( "This monster is (Hot|Cold|Spooky|Stinky|Sleazy)" );
 
-	public static String extractMonsterElement( final String text )
+	public static Element extractMonsterElement( final String text )
 	{
 		Matcher matcher = MonsterManuelManager.ELEMENT_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
+		if ( !matcher.find() )
+		{
+			return Element.NONE;
+		}
+		String element = matcher.group( 1 );
+		return  element.equals( "Hot" ) ? Element.HOT :
+			element.equals( "Cold" ) ? Element.COLD :
+			element.equals( "Spooky" ) ? Element.SPOOKY :
+			element.equals( "Stinky" ) ? Element.STENCH :
+			element.equals( "Sleazy" ) ? Element.SLEAZE :
+			Element.NONE;
 	}
 
 	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/snail.gif alt="Never wins initiative" title="Never wins initiative" width=30 height=30></td>
