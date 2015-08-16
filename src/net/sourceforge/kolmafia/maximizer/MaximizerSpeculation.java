@@ -170,6 +170,13 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				rv = KoLCharacter.getBeeosity( other.attachment.getName() ) -
 					KoLCharacter.getBeeosity( this.attachment.getName() );
 			}
+
+			// prefer items that you have
+			// doesn't consider wanting multiple of the same item and not having enough
+			if ( ( this.attachment.initial > 0 ) != ( other.attachment.initial > 0 ) )
+			{
+				return this.attachment.initial > 0 ? 1 : -1;
+			}
 		}
 		return rv;
 	}
