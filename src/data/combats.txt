@@ -97,7 +97,7 @@ Convention Hall Lobby	100	booth slime	fan slime	vendor slime
 CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
 CRIMBCO WC	100	Elf Hobo
 Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf	Bashful, the Reindeer	Doc, the Reindeer	Dopey, the Reindeer	Grumpy, the Reindeer	Happy, the Reindeer	Sleepy, the Reindeer	Sneezy, the Reindeer	Zeppo, the Reindeer	Rudolph the Red
-Crimbo Town Toy Factory (2007)	100	Arc-welding Elfborg	Decal-applying Elfborg	Ribbon-cutting Elfborg	Weapons-assembly Elfborg
+Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
@@ -180,7 +180,7 @@ Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	cyborg policem
 Shivering Timbers	100	Deadwood Tree	Fur Tree	Hangman's Tree	Pumpkin Tree	toilet-papered tree	Underworld Tree: 0
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf
-Sinister Dodecahedron	100	death ray in a pair tree: 1	turtle mech: 2	Swiss Hen: 3	killing bird: 4	golden ring: 5	goose a-laying: 6	swarm a-swarming: 7	blade a-spinning: 8	laser lancing: 9	borg a-beeping: 10	strangler strangling: 11	stomper stomping: 12
+Sinister Dodecahedron	100	death ray in a pear tree: 1	turtle mech: 2	Swiss Hen: 3	killing bird: 4	golden ring: 5	goose a-laying: 6	swarm a-swarming: 7	blade a-spinning: 8	laser lancing: 9	borg a-beeping: 10	strangler strangling: 11	stomper stomping: 12
 Sleaziest Adventurer Contest	100	Grease Trapper	Ham Shaman	Porkpocket	Leonard: 0
 Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
