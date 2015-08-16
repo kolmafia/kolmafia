@@ -1825,13 +1825,13 @@ toy-making creature from the Gray Lagoon	436	crimonster1.gif	Atk: 0 Def: 0 HP: 5
 Rudolphus of Crimborg	441	rudolfus.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 
 # Crimbo Town Toy Factory (Crimbo 2007)
-Arc-welding Elfborg	0	borgelf1.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Decal-applying Elfborg	440	borgelf4.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Ribbon-cutting Elfborg	0	borgelf2.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Weapons-assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Arc-Welding Elfborg	0	borgelf1.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Decal-Applying Elfborg	440	borgelf4.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Ribbon-Cutting Elfborg	0	borgelf2.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Weapons-Assembly Elfborg	0	borgelf3.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
 # Sinister Dodecahedron (Crimbo 2007)
-death ray in a pair tree	639	deathray.gif		laser-broiled pear (0)
+death ray in a pear tree	639	deathray.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	laser-broiled pear (0)
 turtle mech	640	turtlemech.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	polyalloy shield (0)
 Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	oversized fish scaler (0)
 killing bird	642	killingbird.gif		killing feather (0)	killing feather (0)
