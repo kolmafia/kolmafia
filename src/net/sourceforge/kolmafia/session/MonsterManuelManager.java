@@ -161,7 +161,7 @@ public class MonsterManuelManager
 		if ( attack.equals( "?" ) )
 		{
 			// Attack/Defense/HP = ? means this is a scaling monster
-			buffer.append( "Scale: 0" );
+			buffer.append( "Scale: ? Cap: ? Floor: ?" );
 		}
 		else
 		{

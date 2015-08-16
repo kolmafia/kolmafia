@@ -271,7 +271,7 @@ frog	332	frog.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	squas
 frozen duck	556	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
 Frozen Solid Snake	1514	snakeboss1.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: cold	The First Pizza (n100)
 Fruit Golem	89	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherry (15)	orange (15)	lime (15)
-full-length mirror	1553	bigmirror.gif	SEMIRARE Scale: 0 Init: 50 P: construct
+full-length mirror	1553	bigmirror.gif	SEMIRARE Scale: 0 Cap: ? Init: 50 P: construct
 funk sole brother	719	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Furry Giant	172	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 EA: sleaze P: humanoid	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
 G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
@@ -1346,28 +1346,28 @@ largish blob of gray goo	1249	grayblob2.gif	Atk: [98] Def: [105] HP: [110] Init:
 enormous blob of gray goo	1250	grayblob3.gif	Atk: [230] Def: [240] HP: [250] Init: 150 P: horror
 
 # Black Crayon Monsters (Artistic Goth Kid June 2012)
-Black Crayon Beast	1187	cray_beast.gif	FREE Scale: 0 Init: -10000 P: beast	crayon shavings (100)
-Black Crayon Beetle	1191	cray_bug.gif	FREE Scale: 0 Init: -10000 P: bug	crayon shavings (100)
-Black Crayon Constellation	1206	cray_const.gif	FREE Scale: 0 Init: -10000 P: constellation	crayon shavings (100)
-Black Crayon Crimbo Elf	1201	cray_elf.gif	FREE Scale: 0 Init: -10000 P: elf	crayon shavings (100)
-Black Crayon Demon	1194	cray_demon.gif	FREE Scale: 0 Init: -10000 P: demon	crayon shavings (100)
-Black Crayon Elemental	1205	cray_elemental.gif	FREE Scale: 0 Init: -10000 P: elemental	crayon shavings (100)
-Black Crayon Fish	1196	cray_fish.gif	FREE Scale: 0 Init: -10000 P: fish	crayon shavings (100)
-Black Crayon Flower	1199	cray_plant.gif	FREE Scale: 0 Init: -10000 P: plant	crayon shavings (100)
-Black Crayon Frat Orc	1193	cray_orc.gif	FREE Scale: 0 Init: -10000 P: orc	crayon shavings (100)
-Black Crayon Goblin	1197	cray_goblin.gif	FREE Scale: 0 Init: -10000 P: goblin	crayon shavings (100)
-Black Crayon Golem	1188	cray_construct.gif	FREE Scale: 0 Init: -10000 P: construct	crayon shavings (100)
-Black Crayon Hippy	1192	cray_hippy.gif	FREE Scale: 0 Init: -10000 P: hippy	crayon shavings (100)
-Black Crayon Hobo	1207	cray_hobo.gif	FREE Scale: 0 Init: -10000 P: hobo	crayon shavings (100)
-Black Crayon Man	1186	cray_dude.gif	FREE Scale: 0 Init: -10000 P: dude	crayon shavings (100)
-Black Crayon Manloid	1190	cray_humanoid.gif	FREE Scale: 0 Init: -10000 P: humanoid	crayon shavings (100)
-Black Crayon Mer-kin	1202	cray_merkin.gif	FREE Scale: 0 Init: -10000 P: mer-kin	crayon shavings (100)
-Black Crayon Penguin	1204	cray_penguin.gif	FREE Scale: 0 Init: -10000 P: penguin	crayon shavings (100)
-Black Crayon Pirate	1198	cray_pirate.gif	FREE Scale: 0 Init: -10000 P: pirate	crayon shavings (100)
-Black Crayon Shambling Monstrosity	1195	cray_horror.gif	FREE Scale: 0 Init: -10000 P: horror	crayon shavings (100)
-Black Crayon Slime	1203	cray_slime.gif	FREE Scale: 0 Init: -10000 P: slime	crayon shavings (100)
-Black Crayon Spiraling Shape	1200	cray_weird.gif	FREE Scale: 0 Init: -10000 P: weird	crayon shavings (100)
-Black Crayon Undead Thing	1189	cray_undead.gif	FREE Scale: 0 Init: -10000 P: undead	crayon shavings (100)
+Black Crayon Beast	1187	cray_beast.gif	FREE Scale: 0 Cap: ? Init: -10000 P: beast	crayon shavings (100)
+Black Crayon Beetle	1191	cray_bug.gif	FREE Scale: 0 Cap: ? Init: -10000 P: bug	crayon shavings (100)
+Black Crayon Constellation	1206	cray_const.gif	FREE Scale: 0 Cap: ? Init: -10000 P: constellation	crayon shavings (100)
+Black Crayon Crimbo Elf	1201	cray_elf.gif	FREE Scale: 0 Cap: ? Init: -10000 P: elf	crayon shavings (100)
+Black Crayon Demon	1194	cray_demon.gif	FREE Scale: 0 Cap: ? Init: -10000 P: demon	crayon shavings (100)
+Black Crayon Elemental	1205	cray_elemental.gif	FREE Scale: 0 Cap: ? Init: -10000 P: elemental	crayon shavings (100)
+Black Crayon Fish	1196	cray_fish.gif	FREE Scale: 0 Cap: ? Init: -10000 P: fish	crayon shavings (100)
+Black Crayon Flower	1199	cray_plant.gif	FREE Scale: 0 Cap: ? Init: -10000 P: plant	crayon shavings (100)
+Black Crayon Frat Orc	1193	cray_orc.gif	FREE Scale: 0 Cap: ? Init: -10000 P: orc	crayon shavings (100)
+Black Crayon Goblin	1197	cray_goblin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: goblin	crayon shavings (100)
+Black Crayon Golem	1188	cray_construct.gif	FREE Scale: 0 Cap: ? Init: -10000 P: construct	crayon shavings (100)
+Black Crayon Hippy	1192	cray_hippy.gif	FREE Scale: 0 Cap: ? Init: -10000 P: hippy	crayon shavings (100)
+Black Crayon Hobo	1207	cray_hobo.gif	FREE Scale: 0 Cap: ? Init: -10000 P: hobo	crayon shavings (100)
+Black Crayon Man	1186	cray_dude.gif	FREE Scale: 0 Cap: ? Init: -10000 P: dude	crayon shavings (100)
+Black Crayon Manloid	1190	cray_humanoid.gif	FREE Scale: 0 Cap: ? Init: -10000 P: humanoid	crayon shavings (100)
+Black Crayon Mer-kin	1202	cray_merkin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: mer-kin	crayon shavings (100)
+Black Crayon Penguin	1204	cray_penguin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: penguin	crayon shavings (100)
+Black Crayon Pirate	1198	cray_pirate.gif	FREE Scale: 0 Cap: ? Init: -10000 P: pirate	crayon shavings (100)
+Black Crayon Shambling Monstrosity	1195	cray_horror.gif	FREE Scale: 0 Cap: ? Init: -10000 P: horror	crayon shavings (100)
+Black Crayon Slime	1203	cray_slime.gif	FREE Scale: 0 Cap: ? Init: -10000 P: slime	crayon shavings (100)
+Black Crayon Spiraling Shape	1200	cray_weird.gif	FREE Scale: 0 Cap: ? Init: -10000 P: weird	crayon shavings (100)
+Black Crayon Undead Thing	1189	cray_undead.gif	FREE Scale: 0 Cap: ? Init: -10000 P: undead	crayon shavings (100)
 
 # Psychoses (Angry Yung Man Year 2013)
 work hat	1273	doubt1.gif	Atk: 30 Def: 40 HP: 30 Init: 50 P: construct	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
@@ -1554,9 +1554,9 @@ flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: const
 toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 E: stench P: slime	toxic globule (0)	toxic globule (0)	toxic globule (0)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
-C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 111110 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	jar of swamp honey (0)	backwoods banjo (c0)
-Gurgle the Turgle	1768	animturtle.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 111110 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	turtle voicebox (0)	fake washboard (c0)
-Skeezy the Jug Rat	1767	animrat.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 111110 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	grody jug (0)	ratskin pajama pants (c0)
+C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	jar of swamp honey (0)	backwoods banjo (c0)
+Gurgle the Turgle	1768	animturtle.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	turtle voicebox (0)	fake washboard (c0)
+Skeezy the Jug Rat	1767	animrat.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000	grody jug (0)	ratskin pajama pants (c0)
 nasty bear	1769	nastybear.gif	Atk: 150 Def: 150 HP: 1000 E: stench P: beast Init: -10000
 
 # Dinseylandfill (April 2015)
@@ -1607,9 +1607,9 @@ Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 P
 family of kobolds	1101	kobolds.gif	Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
 
 # Transmissions from planet Xi (Xi Receiver KoL Con XI)
-holographic army	1629	holoarmy.gif	Scale: 30 Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
-They	1631	they.gif	Scale: 20 Init: -10000 P: humanoid	They liver (0)	They liver (0)	BUBBLE GUM (c0)
-Xiblaxian political prisoner	1630	polprisoner.gif	Scale: 40 Init: -10000 P: weird	residual zeal (n100)	little red .epub file (c0)
+holographic army	1629	holoarmy.gif	Scale: 30 Floor: ? Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
+They	1631	they.gif	Scale: 20  Floor: ? Init: -10000 P: humanoid	They liver (0)	They liver (0)	BUBBLE GUM (c0)
+Xiblaxian political prisoner	1630	polprisoner.gif	Scale: 40 Floor: ? Init: -10000 P: weird	residual zeal (n100)	little red .epub file (c0)
 
 # Antique Maps
 
@@ -1665,10 +1665,10 @@ water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug	wet v
 # PVP Maps
 
 # Kokomo Resort (Feb-Apr 2015 PVP reward)
-Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Init: -10000 P: dude Meat: 200	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Init: -10000 P: dude Meat: 250	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Resort Waiter	1773	kok_waiter.gif	Scale: 5 Init: -10000 P: dude Meat: 100	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Brick Mulligan, the Bartender	1774	kok_tender.gif	Scale: 5 Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)
+Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: ? Init: -10000 P: dude Meat: 200	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
+Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: ? Init: -10000 P: dude Meat: 250	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
+Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: ? Init: -10000 P: dude Meat: 100	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
+Brick Mulligan, the Bartender	1774	kok_tender.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)
 
 # Current Events
 
@@ -1858,11 +1858,11 @@ Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin	knuckle 
 Mob Penguin racketeer	754	pengracket.gif	P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
-mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
-mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Init: 75 P: elf	festive holiday hat (0)
-mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Init: 75 P: elf	cheap elven gloves (0)
-mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Init: 75 P: elf	elven socks (0)
-mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Init: 100 P: elf	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
+mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
+mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf	festive holiday hat (0)
+mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf	cheap elven gloves (0)
+mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf	elven socks (0)
+mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	HP: [min(240,HP*2/3)] Def: [min(300,MUS+10)] Atk: [min(300,MOX+10)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
@@ -2017,9 +2017,9 @@ stiff disco dancer	1444	disco_stiff.gif	Scale: 0 Cap: 3000 Init: -10000 P: const
 The Sagittarian	0	sagittarian.gif	Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude	The Sagittarian's leisure pants (100)
 
 # Wandering Accordionists (October 2013)
-depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Init: -10000 P: dude	Bal-musette accordion (a0)
-lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Init: -10000 P: dude	Cajun accordion (a0)
-quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Init: -10000 P: dude	quirky accordion (a0)
+depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	Bal-musette accordion (a0)
+lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	Cajun accordion (a0)
+quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	quirky accordion (a0)
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	0	accboss.gif	WANDERER Scale: 7 Init: -10000 P: dude	Skipper's accordion (n100)
 
 # The Spirit World (November 2013)

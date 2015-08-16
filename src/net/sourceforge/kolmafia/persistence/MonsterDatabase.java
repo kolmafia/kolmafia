@@ -494,21 +494,22 @@ public class MonsterDatabase
 
 				else if ( option.equals( "Scale:" ) )
 				{
-					scale = parseNumeric( tokens );
+					scale = parseDefaultedNumeric( tokens, MonsterData.DEFAULT_SCALE );
 					continue;
 				}
 
 				else if ( option.equals( "Cap:" ) )
 				{
-					cap = parseNumeric( tokens );
+					cap = parseDefaultedNumeric( tokens, MonsterData.DEFAULT_CAP );
 					continue;
 				}
 
 				else if ( option.equals( "Floor:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
+					Object object = parseDefaultedNumeric( tokens, MonsterData.DEFAULT_FLOOR );
+					if ( object instanceof Integer )
 					{
-						floor = StringUtilities.parseInt( tokens.nextToken() );
+						floor = ((Integer)object).intValue();
 					}
 					continue;
 				}
@@ -718,7 +719,25 @@ public class MonsterDatabase
 		{
 			return null;
 		}
+		return parseNumeric( tokens, tokens.nextToken() );
+	}
+
+	private static final Object parseDefaultedNumeric( StringTokenizer tokens, int def )
+	{
+		if ( !tokens.hasMoreTokens() )
+		{
+			return null;
+		}
 		String value = tokens.nextToken();
+		if ( value.equals( "?" ) )
+		{
+			return IntegerPool.get( def );
+		}
+		return parseNumeric( tokens, value );
+	}
+
+	private static final Object parseNumeric( StringTokenizer tokens, String value )
+	{
 		if ( !value.startsWith( "[" ) )
 		{
 			return IntegerPool.get( StringUtilities.parseInt( value ) );
