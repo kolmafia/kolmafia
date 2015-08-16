@@ -776,7 +776,7 @@ public class MonsterDatabase
 		return temp.toString();
 	}
 
-	private static final Element parseElement( final String s )
+	public static final Element parseElement( final String s )
 	{
 		for ( Element elem : Element.values() )
 		{
@@ -788,7 +788,7 @@ public class MonsterDatabase
 		return Element.NONE;
 	}
 
-	private static final Phylum parsePhylum( final String s )
+	public static final Phylum parsePhylum( final String s )
 	{
 		for ( Phylum phylum : Phylum.values() )
 		{

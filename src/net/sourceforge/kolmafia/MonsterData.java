@@ -433,6 +433,11 @@ public class MonsterData
 		return KoLCharacter.getMonsterLevelAdjustment() * evaluate( this.mlMult, 1 );
 	}
 
+	public boolean scales()
+	{
+		return this.scale != null;
+	}
+
 	private MonsterExpression compile( Object expr )
 	{
 		return MonsterExpression.getInstance( (String) expr, this.getName() );
@@ -517,6 +522,14 @@ public class MonsterData
 		return Math.max( 1, evaluate( this.health, 1 ) );
 	}
 
+	public int getBaseHP()
+	{
+		return  this.scale != null ? -1 :
+			this.health == null ? 0 :
+			this.health instanceof Integer ? ((Integer)(this.health)).intValue() :
+			-1;
+	}
+
 	public int getAttack()
 	{
 		if ( this.scale != null )
@@ -576,6 +589,14 @@ public class MonsterData
 		}
 		int attack = evaluate( this.attack, 0 );
 		return Math.max( 1, attack );
+	}
+
+	public int getBaseAttack()
+	{
+		return  this.scale != null ? -1 :
+			this.attack == null ? 0 :
+			this.attack instanceof Integer ? ((Integer)(this.attack)).intValue() :
+			-1;
 	}
 
 	public int getDefense()
@@ -639,9 +660,24 @@ public class MonsterData
 		return Math.max( 1, evaluate( this.defense, 0 ) );
 	}
 
+	public int getBaseDefense()
+	{
+		return  this.scale != null ? -1 :
+			this.defense == null ? 0 :
+			this.defense instanceof Integer ? ((Integer)(this.defense)).intValue() :
+			-1;
+	}
+
 	public int getRawInitiative()
 	{
 		return evaluate( this.initiative, -1 );
+	}
+
+	public int getBaseInitiative()
+	{
+		return  this.initiative == null ? 0 :
+			this.initiative instanceof Integer ? ((Integer)(this.initiative)).intValue() :
+			-1;
 	}
 
 	public int getInitiative()
@@ -766,6 +802,18 @@ public class MonsterData
 	public String[] getImages()
 	{
 		return this.images == null ? new String[0] : this.images;
+	}
+
+	public boolean hasImage( final String test )
+	{
+		for ( String image : this.getImages() )
+		{
+			if ( image.equals( test ) )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getAttributes()
