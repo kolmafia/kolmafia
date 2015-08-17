@@ -8756,16 +8756,22 @@ public abstract class ChoiceManager
 			{
 			case 1:
 				Preferences.setString( "mayoMinderSetting", "Mayonex" );
+				break;
 			case 2:
 				Preferences.setString( "mayoMinderSetting", "Mayodiol" );
+				break;
 			case 3:
 				Preferences.setString( "mayoMinderSetting", "Mayostat" );
+				break;
 			case 4:
 				Preferences.setString( "mayoMinderSetting", "Mayozapine" );
+				break;
 			case 5:
 				Preferences.setString( "mayoMinderSetting", "Mayoflex" );
+				break;
 			case 6:
 				Preferences.setString( "mayoMinderSetting", "" );
+				break;
 			}
 			break;
 

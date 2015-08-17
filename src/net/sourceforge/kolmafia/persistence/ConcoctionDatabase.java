@@ -935,6 +935,22 @@ public class ConcoctionDatabase
 	{
 		AdventureResult item = c.getItem();
 
+		// If it's food we're consuming, we have a MayoMinder set, and we are autostocking it, do so
+		// Don't get Mayostat if it's a 1 fullness food, or it'd be wasted
+		// Don't get Mayodiol if it'd cause you to overdrink
+		String minderSetting = Preferences.getString( "mayoMinderSetting" );
+		if ( item != null && consumptionType == KoLConstants.CONSUME_EAT && !ConcoctionDatabase.isMayo( item.getItemId() ) &&
+			!minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
+			!( minderSetting.equals( "Mayostat" ) && c.getFullness() == 1 ) &&
+			!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) )
+		{
+			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
+			if ( quantity > mayoCount )
+			{
+				InventoryManager.retrieveItem( minderSetting, quantity - mayoCount );
+			}
+		}
+
 		// If there's an actual item, it's not from a store
 		if ( item != null && !c.speakeasy )
 		{
@@ -1004,6 +1020,27 @@ public class ConcoctionDatabase
 			if ( !DrinkItemRequest.askAboutOde( name, inebriety, quantity) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
+				return;
+			}
+		}
+
+		// Check whether player meant to eat if at Drunk limit with Mayodiol in your mouth
+		if ( Preferences.getString( "mayoInMouth" ).equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() )
+		{
+			if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in your mouth, are you sure ?" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
+				return;
+			}
+		}
+
+		// Check whether player meant to eat if at Drunk limit with MayoMinder set to automatically use Mayodiol
+		if ( Preferences.getString( "mayoInMouth" ).equals( "" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() &&
+			Preferences.getString( "mayoMinderSetting" ).equals( "Mayodiol" ) && InventoryManager.hasItem( ItemPool.MAYODIOL ) )
+		{
+			if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in inventory with Mayo Minder&trade; set to use it, are you sure ?" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
 				return;
 			}
 		}
