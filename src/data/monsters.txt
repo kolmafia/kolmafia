@@ -1075,7 +1075,7 @@ buzzerker	1078	buzzerker.gif	WANDERER HP: [ceil((max(min(MUS+20,10000)+ML,10))*.
 Beebee King	1082	beebeeking.gif	WANDERER HP: [ceil((max(min(MUS+40,10000)+ML,10))*15/28)] Def: [ceil((max(min(MUS+40,10000)+ML,10))*5/7)] Atk: [ceil((max(min(MOX+40,10000)+ML,10))*5/7)] Exp: [ceil(5/7*(max(min(STAT+40,10000),10)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 bee thoven	1081	beethoven.gif	WANDERER HP: [ceil((max(min(MUS+40,10000)+ML,10))*.625)] Def: [ceil((max(min(MUS+40,10000)+ML,10))*5/6)] Atk: [ceil((max(min(MOS+40,10000)+ML,10))*5/6)] Exp: [ceil(5/6*(max(min(STAT+40,10000),10)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
 Queen Bee	1083	beequeen.gif	WANDERER HP: [ceil((max(min(MUS+40,10000)+ML,10))*.625)] Def: [ceil((max(min(MUS+40,10000)+ML,10))*5/6)] Atk: [ceil((max(min(MOX+40,10000)+ML,10))*5/6)] Exp: [ceil(5/6*(max(min(STAT+40,10000),10)/4+ML/3))] Init: -10000 Phys: 50 P: bug	handful of honey (0)	handful of honey (0)	handful of honey (0)
-
+<
 # Way of the Stunning Fist
 Wu Tang the Betrayer	1100	susguy.gif	Atk: 200 Def: 89999 HP: 500 Init: 150 P: dude	forged identification documents (100)	can of black paint (100)	black cherry soda (0)	black cherry soda (0)	black cherry soda (0)
 
@@ -1811,7 +1811,7 @@ sinew-stretching cave elf	429	caveelf4.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: 
 
 # The Spooky Fright Factory (Crimbo 2006)
 bow-making mummy	0	crimonster3.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-Cookie-baking Thing from Beyond Time	435	crimonster2.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+Cookie-baking Thing from Beyond Time	435	crimonster2.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: horror	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 gift-wrapping vampire	0	crimonster5.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 skeletal reindeer	431	crimonster6.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 stocking-stuffing zombie	433	crimonster4.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
