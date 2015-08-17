@@ -1782,6 +1782,7 @@ Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
 Zombie Quiet Healer	311	zomhealer.gif
 
 # Crimbo Town Toy Factory (Crimbo 2005)
+Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Striking Factory-Worker Elf	318	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Gift-Wrapper Elf	322	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Middle-Management Elf	319	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
