@@ -83,6 +83,7 @@ public class EatItemRequest
 	private static int askedAboutMilk = 0;
 	private static int askedAboutLunch = 0;
 	private static int askedAboutGarish = 0;
+	private static int askedAboutMayodiol = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 	public static int foodConsumed = 0;
@@ -354,6 +355,11 @@ public class EatItemRequest
 			return false;
 		}
 
+		if ( !askAboutMayodiol( this.itemUsed.getItemId() ) )
+		{
+			return false;
+		}
+
 		if ( !EatItemRequest.askAboutMilk( itemName, this.itemUsed.getCount() ) )
 		{
 			return false;
@@ -537,6 +543,67 @@ public class EatItemRequest
 		}
 
 		EatItemRequest.askedAboutGarish = KoLCharacter.getUserId();
+
+		return true;
+	}
+
+	private static final boolean askAboutMayodiol( final int id )
+	{
+		// If we've already asked about Mayodiol, don't nag
+		if ( EatItemRequest.askedAboutMayodiol == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If we're not at drunk limit, it's ok
+		if ( KoLCharacter.getInebrietyLimit() != KoLCharacter.getInebriety() )
+		{
+			return true;
+		}
+		
+		// If it's Mayo, warning is only needed if Mayodiol
+		if ( ConcoctionDatabase.isMayo( id ) )
+		{
+			if ( id == ItemPool.MAYODIOL )
+			{
+				if ( !InputFieldUtilities.confirm( "Putting this in your mouth will cause you to overdrink with the next food, are you sure ?" ) )
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			// It's food
+			// If we will use MayoMinder to automatically use Mayodiol, warn
+			if ( Preferences.getString( "mayoInMouth" ).equals( "" ) &&	Preferences.getString( "mayoMinderSetting" ).equals( "Mayodiol" ) &&
+				InventoryManager.hasItem( ItemPool.MAYODIOL ) )
+			{
+				if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in inventory with Mayo Minder&trade; set to use it, are you sure ?" ) )
+				{
+					return false;
+				}
+			}
+			// If we already have Mayodiol in our mouth, warn
+			else if ( Preferences.getString( "mayoInMouth" ).equals( "Mayodiol" ) )
+			{
+				if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in your mouth, are you sure ?" ) )
+				{
+					return false;
+				}
+			}
+			// Otherwise no warning needed
+			else
+			{
+				return true;
+			}
+		}
+
+		EatItemRequest.askedAboutMayodiol = KoLCharacter.getUserId();
 
 		return true;
 	}
