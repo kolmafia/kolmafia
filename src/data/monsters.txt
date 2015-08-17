@@ -1822,7 +1822,7 @@ toy-making creature from the Gray Lagoon	436	crimonster1.gif	Atk: 0 Def: 0 HP: 5
 <s>Killer</s> Festive Decal-Applying Elfbot	0	borgelf4.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 <s>Killer</s> Festive Laser-Calibrating Elfbot	0	borgelf2.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 <s>Killer</s> Festive Weapons-Assembly Elfbot	0	borgelf3.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-Rudolphus of Crimborg	441	rudolfus.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+Rudolphus of Crimborg	441	rudolfus.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 
 # Crimbo Town Toy Factory (Crimbo 2007)
 Arc-Welding Elfborg	0	borgelf1.gif		iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
