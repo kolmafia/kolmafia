@@ -1754,7 +1754,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: 
 
 # The Icy Peak in The Recent Past (November 2005)
 Emaciated Knott Yeti	0	skinyeti.gif	
-Mob Penguin Pasta Chef	216	pengchef.gif	
+Mob Penguin Pasta Chef	216	pengchef.gif	Atk: 90 Def: 81 HP: 80 Init: 70 P: penguin	scroll of pasta summoning (0)	delicious noodles (0)	iron pasta spoon (0)
 Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 P: penguin	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
 Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 P: penguin	kneecapping stick (0)	penguin skin (0)
 
@@ -1763,22 +1763,22 @@ drunken zombie half-orc hobo	296	zomhobo.gif
 fiendish zombie can of asparagus	297	asparagus.gif	
 Knob Goblin Elite Zombie	300	zomelite.gif	Atk: 30 Def: 25 HP: 30 Init: 90 E: spooky P: goblin
 zombie Gnollish crossdresser	301	zomknoll.gif	Atk: 11 Def: 9 HP: 5 Init: 60 P: humanoid	frilly shirt (0)	frilly skirt (0)	maiden wig (0)	zombie pineal gland (0)
-Zombie Knob Goblin Assistant Chef	299	zomchef.gif
-zombie yeast beast	304	zomyeast.gif
+Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E: spooky P: goblin
+zombie yeast beast	304	zomyeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 E: spooky P: undead
 
 # The Mall of Loathing, 28 Days Later (November 2005)
 white zombie	308	zombie2.gif
 zombie apathetic lizardman	298	zomlizard.gif	
-zombie clown	302	zomclown.gif
-zombie frat boy	305	zomfrat.gif
-zombie hippy	306	zomhippy.gif
+zombie clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror
+zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc
+zombie hippy	306	zomhippy.gif Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy
 zombie zmobie	303	zombie2.gif
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
 Zombie eXtreme Snowboarding Orc	310	zomsnow.gif
 Zombie Goth Giant	312	zomgoth.gif
-Zombie N00b	309	zomnoob.gif
+Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
 Zombie Quiet Healer	311	zomhealer.gif
 
 # Crimbo Town Toy Factory (Crimbo 2005)
