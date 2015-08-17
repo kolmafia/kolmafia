@@ -205,12 +205,16 @@ public class MonsterData
 		this.attributes = attributes;
 
 		int beeCount = 0;
-		for ( int i = 0; i < name.length(); ++i )
+		// Wandering bees don't have a bee count
+		if ( id < 1075 || id > 1083 )
 		{
-			char c = name.charAt( i );
-			if ( c == 'b' || c == 'B' )
+			for ( int i = 0; i < name.length(); ++i )
 			{
-				beeCount++;
+				char c = name.charAt( i );
+				if ( c == 'b' || c == 'B' )
+				{
+					beeCount++;
+				}
 			}
 		}
 		this.beeCount = beeCount;
