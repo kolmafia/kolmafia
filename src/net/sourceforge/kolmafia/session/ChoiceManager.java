@@ -9782,6 +9782,7 @@ public abstract class ChoiceManager
 
 		case 1054:
 			// Returning the MacGuffin
+			QuestDatabase.setQuestProgress( Quest.WAREHOUSE, QuestDatabase.FINISHED );
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				ResultProcessor.processItem( ItemPool.ED_HOLY_MACGUFFIN, -1 );

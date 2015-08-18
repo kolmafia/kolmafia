@@ -871,6 +871,7 @@ public class EatItemRequest
 		// lab. Man. Teenagers will eat anything.
 		if ( responseText.contains( "You chase it with that salt you made" ) )
 		{
+			RequestLogger.printLine( "You ate grains of salt with your food" );
 			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
 			Preferences.increment( "_saltGrainsConsumed" );
 		}
@@ -879,6 +880,7 @@ public class EatItemRequest
 		// eat it. Mmmmm!
 		if ( responseText.contains( "in swamp honey before you eat it." ) )
 		{
+			RequestLogger.printLine( "You ate a jar of swamp honey with your food" );
 			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -1 );
 		}
 
@@ -901,22 +903,27 @@ public class EatItemRequest
 		{
 			if ( responseText.contains( "feel the Mayonex gurgling" ) )
 			{
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayonex" );
 				ResultProcessor.processItem( ItemPool.MAYONEX, -1 );
 			}
 			else if ( responseText.contains( "Mayodiol kicks in" ) )
 			{
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayodiol" );
 				ResultProcessor.processItem( ItemPool.MAYODIOL, -1 );
 			}
 			else if ( responseText.contains( "Mayostat kicks in" ) )
 			{
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayostat" );
 				ResultProcessor.processItem( ItemPool.MAYOSTAT, -1 );
 			}
 			else if ( responseText.contains( "Mayozapine kicks in" ) )
 			{
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayozapine" );
 				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -1 );
 			}
 			else if ( responseText.contains( "Mayoflex kicks in" ) )
 			{
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayoflex" );
 				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
 			}
 		}
