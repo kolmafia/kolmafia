@@ -1782,7 +1782,6 @@ Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
 Zombie Quiet Healer	311	zomhealer.gif
 
 # Crimbo Town Toy Factory (Crimbo 2005)
-Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Striking Factory-Worker Elf	318	crimboelf.gif		felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Gift-Wrapper Elf	322	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
 Striking Middle-Management Elf	319	crimboelf.gif		felt (10)	wooden block (10)	stuffing (10)	length of string (10)	googly eye (10)	toy wheel (10)
@@ -1796,7 +1795,7 @@ Grumpy, the Reindeer	328	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Happy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Rudolph the Red	323	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Sleepy, the Reindeer	325	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Sneezy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Zeppo, the Reindeer	331	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 
 # The Grim Grimacite Site (June 2006)
@@ -1811,7 +1810,7 @@ rock-banging cave elf	428	caveelf1.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	
 sinew-stretching cave elf	429	caveelf4.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: elf	stringy sinew (20)	stringy sinew (20)	stringy sinew (20)
 
 # The Spooky Fright Factory (Crimbo 2006)
-bow-making mummy	0	crimonster3.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+bow-making mummy	434	crimonster3.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Cookie-baking Thing from Beyond Time	435	crimonster2.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: horror	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 gift-wrapping vampire	0	crimonster5.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 skeletal reindeer	431	crimonster6.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)

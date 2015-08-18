@@ -192,7 +192,7 @@ South of the Border	50	angry pi&ntilde;ata	handsome mariachi	irate mariachi	mari
 Special Ops	-1	Black Ops Bugbear
 Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
-Spooky Fright Factory	100	Bow-making Mummy	Cookie-baking Thing from Beyond Time	Gift-wrapping Vampire	skeletal reindeer	Stocking-stuffing Zombie	toy-making creature from the Gray Lagoon
+Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
