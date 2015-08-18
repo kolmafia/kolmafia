@@ -1568,7 +1568,7 @@ The Emperor	1782	theemperor.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	The 
 The Hermit	0	hermit.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	hermit factoid (0)
 
 # Bubblin' Caldera (That 70s Volcano August 2015)
-basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 P: beast E: hot Init: 50	basaltamander tongue (0)
+basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 P: beast E: hot Init: 50	basaltamander tongue (0)	basaltamander buckler (0)
 lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 P: fish E: hot Init: 75	smelted roe (0)
 lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 P: elemental E: hot Init: 25	lavawater (0)
 Lavalos	1821	lavalos.gif	Atk: 250 Def: 200 HP: 500 P: horror Init: 50	Lavalos core (n100)	Lavalos's shell (n100)

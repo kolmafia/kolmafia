@@ -250,4 +250,6 @@ public class CheckedItem
 	public boolean requiredFlag;
 	public boolean conditionalFlag;
 	public boolean singleFlag;
+	public boolean familiarFlag;
+	public boolean noEquipmentFlag;
 }

@@ -146,10 +146,6 @@ public class Evaluator
 	{
 		switch ( slot )
 		{
-		case EquipmentManager.HAT:
-			return 1 + this.relevantFamiliar( FamiliarPool.HATRACK );
-		case EquipmentManager.PANTS:
-			return 1 + this.relevantFamiliar( FamiliarPool.SCARECROW );
 		case Evaluator.WEAPON_1H:
 			return 1 + relevantSkill( "Double-Fisted Skull Smashing" ) +
 				this.relevantFamiliar( FamiliarPool.HAND );
@@ -1244,6 +1240,15 @@ public class Evaluator
 					mods = new Modifiers();
 				}
 
+				// Modifiers when worn by Hatrack or Scarecrow
+				Modifiers familiarMods = new Modifiers();
+				int familiarId = KoLCharacter.getFamiliar().getId();
+				if ( ( familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT ) ||
+					( familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS ) )
+				{
+					familiarMods.applyFamiliarModifiers( KoLCharacter.getFamiliar(), preItem );
+				}
+
 				boolean wrongClass = false;
 				String classType = mods.getString( Modifiers.CLASS );
 				if ( classType != "" && !classType.equals( KoLCharacter.getClassType() ) )
@@ -1349,12 +1354,22 @@ public class Evaluator
 					mods = newMods;
 				}
 				double delta = this.getScore( mods ) - nullScore;
-				if ( delta < 0.0 ) continue;
-				if ( delta == 0.0 )
+				double familiarDelta = this.getScore( familiarMods ) - nullScore;
+				if ( delta < 0.0 && familiarDelta < 0.0 ) continue;
+				if ( delta == 0.0 && familiarDelta == 0.0 )
 				{
 					if ( KoLCharacter.hasEquipped( item ) && this.current ) break gotItem;
 					if ( item.initial == 0 ) continue;
 					if ( item.automaticFlag ) continue;
+				}
+
+				if ( familiarDelta > 0.0 )
+				{
+					item.familiarFlag = true;
+					if ( delta < 0.0 )
+					{
+						item.noEquipmentFlag = true;
+					}
 				}
 
 				if ( mods.getBoolean( Modifiers.UNARMED ) ||
@@ -1365,8 +1380,15 @@ public class Evaluator
 				}
 			}
 			// "break gotItem" goes here
-			ranked[ slot ].add( item );
-			if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
+			if ( !item.noEquipmentFlag )
+			{
+				ranked[ slot ].add( item );
+				if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
+			}
+			if ( item.familiarFlag )
+			{
+				ranked[ EquipmentManager.FAMILIAR ].add( item );
+			}
 		}
 
 		// Get best Familiars for Crown of Thrones and Buddy Bjorn
