@@ -1344,7 +1344,7 @@ public class RequestEditorKit
 			IslandDecorator.decorateBattlefieldFight( buffer );
 		}
 
-		if ( monsterName.endsWith( "gremlin" ) )
+		if ( monsterName.contains( "gremlin" ) )
 		{
 			IslandDecorator.decorateGremlinFight( monsterName, buffer );
 		}
