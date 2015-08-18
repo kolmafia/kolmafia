@@ -2384,6 +2384,7 @@ public class ItemPool
 	public static final int RESORT_CHIP = 8279;
 	public static final int GOLDEN_RESORT_CHIP = 8280;
 	public static final int COCKTAIL_SHAKER = 8283;
+	public static final int MAYO_MINDER = 8285;
 	public static final int POWER_PILL = 8300;
 	public static final int YELLOW_SUBMARINE = 8376;
 	public static final int DECK_OF_EVERY_CARD = 8382;
