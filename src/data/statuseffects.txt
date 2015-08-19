@@ -1917,7 +1917,7 @@
 1916
 1917
 1918
-1919
+1919	Mushroom Moxiousness	pod_cool.gif	668d53ffacba7dd3cced5365d11b7008	#use cool spore pod in combat
 1920
 1921	Burning Tongue	saltongue.gif	c24e4978c00cd712e8d18a4bac1b615c	use 1 basaltamander tongue
 1922	Pyromania	fire.gif	ddab6cb3d61f20d9294db8f4131735f4	cast 1 Pyromania

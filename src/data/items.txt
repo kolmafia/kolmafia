@@ -8456,7 +8456,7 @@
 8430
 8431
 8432
-8433
+8433	cool spore pod	789174005	pod_cool.gif	none, combat	t,d	50
 8434
 8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0
 8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0

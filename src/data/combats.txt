@@ -255,7 +255,7 @@ The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate 
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
 The Fun-Guy Mansion	100	Fun-Guy Playmate
-The Fungal Nethers	100	angry mushroom guy	freaked-out mushroom guy	muscular mushroom guy: 0	armored mushroom guy: 0	wizardly mushroom guy: 0	fiery mushroom guy: 0	wailing mushroom guy: 0	dancing mushroom guy: 0
+The Fungal Nethers	100	angry mushroom guy	freaked-out mushroom guy	muscular mushroom guy: 0	armored mushroom guy: 0	wizardly mushroom guy: 0	fiery mushroom guy: 0	dancing mushroom guy: 0	wailing mushroom guy: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Goatlet	100	dairy goat	drunk goat	sabre-toothed goat
 The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned goblin conspirator	spider-goblin conspirator	tin spider conspirator	Fnord the Unspeakable: 0
