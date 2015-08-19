@@ -1800,7 +1800,7 @@ Bashful, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Doc, the Reindeer	329	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Dopey, the Reindeer	324	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Grumpy, the Reindeer	328	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
-Happy, the Reindeer	0	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
+Happy, the Reindeer	326	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Rudolph the Red	323	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Sleepy, the Reindeer	325	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
