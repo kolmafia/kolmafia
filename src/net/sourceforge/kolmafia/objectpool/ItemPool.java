@@ -2401,6 +2401,7 @@ public class ItemPool
 	public static final int GOLD_1970 = 8424;
 	public static final int NEW_AGE_HEALING_CRYSTAL = 8425;
 	public static final int VOLCOINO = 8426;
+	public static final int FIZZING_SPORE_POD = 8427;
 	public static final int INSULATED_GOLD_WIRE = 8439;
 	public static final int EMPTY_LAVA_BOTTLE = 8440;
 	public static final int HEAT_RESISTANT_SHEET_METAL = 8453;

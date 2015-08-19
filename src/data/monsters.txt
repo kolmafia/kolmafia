@@ -249,7 +249,7 @@ fan slime	804	fanslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of y
 Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS Atk: 75 Def: 67 HP: 80 Init: 100 E: spooky P: plant
 ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast	bugbear beanie (20)	bugbear bungguard (20)
 fiendish can of asparagus	146	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 E: stench Meat: 5 P: undead	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
-fiery mushroom guy	1805		P: plant	hot spore pod (0)	flaming mushroom (0)
+fiery mushroom guy	1805	mush_flaming.gif	Atk: 30 Def: 25 HP: 20 Init: 50 P: plant	hot spore pod (0)	flaming mushroom (0)
 figure-skating duck	557	duckskate.gif	Atk: 179 Def: 154 HP: 180 Init: 50 Meat: 139-171 E: cold P: beast	frozen feather (10)	duct tape (5)
 filthworm drone	478	filthworm2.gif	Atk: 167 Def: 150 HP: 185 Init: 50 Meat: 70 E: stench P: bug	filthworm drone scent gland (10)
 filthworm royal guard	479	filthworm3.gif	Atk: 169 Def: 152 HP: 190 Init: 50 Meat: 100 E: stench P: bug	filthworm royal guard scent gland (10)

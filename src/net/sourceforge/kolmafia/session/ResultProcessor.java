@@ -1478,7 +1478,7 @@ public class ResultProcessor
 			// final assassin, but since this dropped we won the fight
 			TurnCounter.stopCounting( "Nemesis Assassin window begin" );
 			TurnCounter.stopCounting( "Nemesis Assassin window end" );
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step25" );
 			// Automatically use the map to open zones
 			if ( Preferences.getBoolean( "autoQuest" ) )
 			{
@@ -2030,13 +2030,31 @@ public class ResultProcessor
 			ResultProcessor.removeItem( ItemPool.SPIRALING_SHAPE );
 			break;
 
+		case ItemPool.HAMMER_OF_SMITING:
+		case ItemPool.CHELONIAN_MORNINGSTAR:
+		case ItemPool.GREEK_PASTA_OF_PERIL:
+		case ItemPool.SEVENTEEN_ALARM_SAUCEPAN:
+		case ItemPool.SHAGADELIC_DISCO_BANJO:
+		case ItemPool.SQUEEZEBOX_OF_THE_AGES:
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
+			break;
+
+		case ItemPool.FIZZING_SPORE_POD:
+			if ( InventoryManager.getCount( ItemPool.FIZZING_SPORE_POD ) + count >= 6 &&
+				( QuestDatabase.isQuestStep( Quest.NEMESIS, "step12" ) ||
+				QuestDatabase.isQuestStep( Quest.NEMESIS, "step13" ) ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
+			}
+			break;
+
 		case ItemPool.SCALP_OF_GORGOLOK:
 		case ItemPool.ELDER_TURTLE_SHELL:
 		case ItemPool.COLANDER_OF_EMERIL:
 		case ItemPool.ANCIENT_SAUCEHELM:
 		case ItemPool.DISCO_FRO_PICK:
 		case ItemPool.EL_SOMBRERO_DE_LOPEZ:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
 			break;
 
 		case ItemPool.KRAKROXS_LOINCLOTH:
@@ -2045,7 +2063,7 @@ public class ResultProcessor
 		case ItemPool.NEWMANS_OWN_TROUSERS:
 		case ItemPool.VOLARTTAS_BELLBOTTOMS:
 		case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step20" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step27" );
 			break;
 
 		case ItemPool.HELLSEAL_DISGUISE:

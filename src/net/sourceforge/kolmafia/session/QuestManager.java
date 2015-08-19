@@ -403,19 +403,21 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step5" );
 		}
-		if ( responseText.contains( "have some people searching" ) ||
-			responseText.contains( "As soon as we have located your Nemesis's lair" ) ||
-			responseText.contains( "Err, once we figure out out where he's hiding" ) )
+		if ( responseText.contains( "Meatsmithing hammer" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
 		}
-		if ( responseText.contains( " in the Big Mountains" ) )
+		if ( QuestDatabase.isQuestStep( Quest.NEMESIS, "step8" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step8" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
 		}
-		if ( responseText.contains( "That is not the artifact we're looking for" ) )
+		if ( responseText.contains( "in the Big Mountains" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
+		}
+		if ( QuestDatabase.isQuestStep( Quest.NEMESIS, "step16" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
 		}
 	}
 
@@ -1557,11 +1559,11 @@ public class QuestManager
 		}
 		else if ( monsterName.equals( "menacing thug" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step19" );
 		}
 		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step14" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step21" );
 		}
 		else if ( monsterName.equals( "hunting seal" ) ||
 			  monsterName.equals( "turtle trapper" ) ||
@@ -1570,7 +1572,7 @@ public class QuestManager
 			  monsterName.equals( "flock of seagulls" ) ||
 			  monsterName.equals( "mariachi bandolero" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step23" );
 		}
 		else if ( monsterName.equals( "Gorgolok, the Infernal Seal (Volcanic Cave)" ) ||
 			  monsterName.equals( "Stella, the Turtle Poacher (Volcanic Cave)" ) ||
@@ -1579,7 +1581,7 @@ public class QuestManager
 			  monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
 			  monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step22" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step29" );
 		}
 		else if ( monsterName.equals( "Sloppy Seconds Burger" ) )
 		{
@@ -1915,11 +1917,11 @@ public class QuestManager
 	{
 		if ( monsterName.equals( "menacing thug" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step11" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step18" );
 		}
 		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step13" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step20" );
 		}
 		else if ( monsterName.equals( "hunting seal" ) ||
 			  monsterName.equals( "turtle trapper" ) ||
@@ -1928,7 +1930,7 @@ public class QuestManager
 			  monsterName.equals( "flock of seagulls" ) ||
 			  monsterName.equals( "mariachi bandolero" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step15" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step22" );
 		}
 		else if ( monsterName.equals( "Argarggagarg the Dire Hellseal" ) ||
 			  monsterName.equals( "Safari Jack, Small-Game Hunter" ) ||
@@ -1937,7 +1939,7 @@ public class QuestManager
 			  monsterName.equals( "Jocko Homo" ) ||
 			  monsterName.equals( "The Mariachi With No Name" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step17" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step24" );
 		}
 		else if ( monsterName.equals( "mother hellseal" ) )
 		{
@@ -1958,7 +1960,7 @@ public class QuestManager
 		     monsterName.equals( "Spirit of New Wave (Volcanic Cave)" ) ||
 		     monsterName.equals( "Somerset Lopez, Dread Mariachi (Volcanic Cave)" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step21" );
+			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step28" );
 		}
 		else if ( monsterName.equals( "Cake Lord" ) )
 		{
