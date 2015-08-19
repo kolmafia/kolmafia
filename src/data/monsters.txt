@@ -1775,11 +1775,11 @@ Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E
 zombie yeast beast	304	zomyeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 E: spooky P: undead
 
 # The Mall of Loathing, 28 Days Later (November 2005)
-white zombie	308	zombie2.gif
+white zombie	308	zombie2.gif	Atk: 38 Def: 33 HP: 21 Init: 70 E: spooky P: undead
 zombie apathetic lizardman	298	zomlizard.gif	
-zombie clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror
+Zombie Clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror
 zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc
-zombie hippy	306	zomhippy.gif Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy
+zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy
 zombie zmobie	303	zombie2.gif
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
@@ -1820,7 +1820,7 @@ sinew-stretching cave elf	429	caveelf4.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: 
 # The Spooky Fright Factory (Crimbo 2006)
 bow-making mummy	434	crimonster3.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Cookie-baking Thing from Beyond Time	435	crimonster2.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: horror	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-gift-wrapping vampire	0	crimonster5.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+gift-wrapping vampire	432	crimonster5.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 skeletal reindeer	431	crimonster6.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 stocking-stuffing zombie	433	crimonster4.gif		evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 toy-making creature from the Gray Lagoon	436	crimonster1.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
@@ -1861,7 +1861,7 @@ swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: b
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin	patent leather shoes (0)
 Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Manuel: "Mob Penguin goon"	penguin thesaurus (0)
-Mob Penguin hitpenguin	755	penggun.gif	P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
+Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin racketeer	754	pengracket.gif	P: penguin	gray bow tie (0)
 
@@ -1880,10 +1880,10 @@ rock snake	845	rock_snake.gif	WANDERER HP: 15 Def: 9 Atk: 10	floaty sand (25)
 rockfish	848	rock_fish.gif	WANDERER Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	rockfish stomach (100)
 
 # The Shivering Timbers (Arborween October 2009)
-Deadwood Tree	0	shiv_dead.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
-Fur Tree	0	shiv_fur.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
-Hangman's Tree	0	shiv_hangman.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
-Pumpkin Tree	0	shiv_pumpkin.gif		petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
+deadwood tree	0	shiv_dead.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
+fur tree	0	shiv_fur.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
+hangman's tree	0	shiv_hangman.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
+pumpkin tree	0	shiv_pumpkin.gif		petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
 toilet-papered tree	861	shiv_tp.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Underworld Tree	0	shiv_underworld.gif		Underworld acorn (100)	Underworld trunk (100)
 
