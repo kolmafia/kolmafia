@@ -4601,6 +4601,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
+Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Funky Coal Patina	Moxie: +20
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
@@ -5025,6 +5026,7 @@ Effect	Muffled	Combat Rate: -15
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
 Effect	Muscularrr	Muscle Percent: +10
 Effect	Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
+Effect	Mushroom Magicalness	Mysticality Percent: +200
 Effect	Mushroom Might	Muscle Percent: +200
 Effect	Mushroom Moxiousness	Moxie Percent: +200
 Effect	Musk of the Moose	Combat Rate: +5

@@ -8453,11 +8453,11 @@
 8427	fizzing spore pod	820067817	pod_fizzing.gif	none, combat	t,d	50
 8428	paisley spore pod	828628473	pod_paisley.gif	none, combat	t,d	50
 8429	veiny spore pod	399527385	pod_veiny.gif	none, combat	t,d	50
-8430
-8431
-8432
+8430	hard spore pod	467881540	pod_hard.gif	none, combat	t,d	50
+8431	glowing spore pod	836386173	pod_glowing.gif	none, combat	t,d	50
+8432	hot spore pod	479128056	pod_hot.gif	none, combat	t,d	50
 8433	cool spore pod	789174005	pod_cool.gif	none, combat	t,d	50
-8434
+8434	jingling spore pod	377015104	pod_jingle.gif	none, combat	t,d	50
 8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0
 8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0
 8437	green LavaCo Lamp&trade;	699716715	lavalamp.gif	offhand		0
