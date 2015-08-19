@@ -326,7 +326,7 @@ public class KoLAdventure
 
 		// Nemesis assassins.
 
-		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) && QuestDatabase.isQuestLaterThan( Quest.NEMESIS, "step9" ) )
+		if ( !InventoryManager.hasItem( ItemPool.VOLCANO_MAP ) && QuestDatabase.isQuestLaterThan( Quest.NEMESIS, "step16" ) )
 		{
 			return true;
 		}

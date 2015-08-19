@@ -6583,7 +6583,7 @@ public abstract class ChoiceManager
 			// O Cap'm, My Cap'm
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step19" );
+				QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step26" );
 			}
 			break;
 
@@ -8798,6 +8798,24 @@ public abstract class ChoiceManager
 			// The Deck of Every Card
 			DeckOfEveryCardRequest.postChoice1( text );
 			return;
+
+		case 1087:
+			// The Dark and Dank and Sinister Cave Entrance
+			if ( text.contains( "stumpy-legged mushroom creatures" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step12" );
+			}
+			break;
+
+		case 1088:
+			// Rubble, Rubble, Toil and Trouble
+			if ( text.contains( "BOOOOOOM!" ) )
+			{
+				ResultProcessor.processItem( ItemPool.FIZZING_SPORE_POD, -6 );
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step15" );
+			}
+			break;
+
 		}
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
@@ -10553,6 +10571,16 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 1087:
+			// The Dark and Dank and Sinister Cave Entrance
+			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step11" );
+			break;
+
+		case 1088:
+			// Rubble, Rubble, Toil and Trouble
+			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step13" );
+			break;
 
 		case 1093:
 		{

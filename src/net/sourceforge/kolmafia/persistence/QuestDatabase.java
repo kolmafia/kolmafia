@@ -93,7 +93,6 @@ public class QuestDatabase
 			UNTINKER( "questM01Untinker" ),
 			ARTIST( "questM02Artist" ),
 			BUGBEAR( "questM03Bugbear" ),
-			//GALAKTIK( "questM04Galaktic" ),
 			AZAZEL( "questM10Azazel" ),
 			PIRATE( "questM12Pirate" ),
 			ESCAPE( "questM13Escape" ),
