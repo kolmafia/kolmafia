@@ -36,6 +36,7 @@ Anemone combatant	766	anemone.gif	HP: 600 Def: 585 Atk: 400 Init: 25 Meat: 100 "
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant	meat stack (35)
 angry bugbear	256	angbugbear.gif	Atk: 15 Def: 14 HP: 12 Init: 50 P: beast
 angry pi&ntilde;ata	269	pinata.gif	Atk: 22 Def: 19 HP: 20 Init: 50 P: construct	pile of candy (100)
+angry mushroom guy	1800	mush_angry.gif	Atk: 30 Def: 25 HP: 20 Init: 75 P: plant	fizzing spore pod (0)	Knob mushroom (0)
 animated mahogany nightstand	1541	nightstand2.gif	Atk: 55 Def: 55 HP: 60 Init: -10000 P: construct
 animated ornate nightstand	1542	nightstand4.gif	Atk: 60 Def: 45 HP: 55 Init: -10000 P: construct
 animated rustic nightstand	1543	nightstand3.gif	Atk: 55 Def: 50 HP: 60 Init: -10000 P: construct
@@ -43,6 +44,7 @@ Anime Smiley	139	smiley.gif	Atk: 77 Def: 69 HP: 67 Init: 60 P: horror	334 scroll
 annoying spooky gravy fairy	259	annoyfairy.gif	Atk: 20 Def: 18 HP: 20 Init: 70 E: spooky P: plant	annoying pitchfork (100)
 apathetic lizardman	5	lizardman.gif	Atk: 20 Def: 18 HP: 12 Init: 60 Meat: 17-24 P: humanoid	flavorless gruel (n100)
 Argarggagarg the Dire Hellseal	701	2headseal.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
+armored mushroom guy	1803		P: plant
 Astronomer	184	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation	star chart (100)
 axe handle	227	axehandle.gif	HP: 3 Def: 2 Atk: 3 Init: 40 P: construct	pine tar (20)
 Axe Wound	543	axewound.gif	Atk: 163 Def: 146 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
@@ -174,6 +176,7 @@ Dad Sea Monkee	1379	dad_machine.gif	BOSS Atk: 42000 Def: 42000 HP: 4200 Init: 10
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude
 dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast	glass of goat's milk (20)	goat cheese (40)	Shivering Ch&egrave;vre (c0)
 dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 11-15 P: slime	mana curds (n100)
+dancing mushroom guy	1806		P: plant
 Danglin' Chad	519	chad.gif	Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 297-342 E: sleaze P: orc	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
 decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
@@ -246,6 +249,7 @@ fan slime	804	fanslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime	vial of y
 Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS Atk: 75 Def: 67 HP: 80 Init: 100 E: spooky P: plant
 ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast	bugbear beanie (20)	bugbear bungguard (20)
 fiendish can of asparagus	146	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 E: stench Meat: 5 P: undead	asparagus knife (20)	stalk of asparagus (40)	razor-sharp can lid (40)
+fiery mushroom guy	1805		P: plant
 figure-skating duck	557	duckskate.gif	Atk: 179 Def: 154 HP: 180 Init: 50 Meat: 139-171 E: cold P: beast	frozen feather (10)	duct tape (5)
 filthworm drone	478	filthworm2.gif	Atk: 167 Def: 150 HP: 185 Init: 50 Meat: 70 E: stench P: bug	filthworm drone scent gland (10)
 filthworm royal guard	479	filthworm3.gif	Atk: 169 Def: 152 HP: 190 Init: 50 Meat: 100 E: stench P: bug	filthworm royal guard scent gland (10)
@@ -266,6 +270,7 @@ fluffy bunny	313	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 8 P: beast	bunny l
 Foodie Giant	1334	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 100 P: humanoid	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)	artisanal hand-squeezed wheatgrass juice (c0)
 forest spirit	228	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 E: spooky P: undead	forest tears (30)	forest spirit rattle (c0)
 Frat Warrior drill sergeant	528	warfrata.gif	Atk: 175 Def: 157 HP: 200 Init: 60 E: sleaze P: orc	distressed denim pants (10)	bejeweled pledge pin (10)	beer helmet (10)	flask flops (0)
+freaked-out mushroom guy	1801	mush_freaked.gif	Atk: 25 Def: 25 HP: 20 Init: 75 P: plant	paisley spore pod (0)	Knoll mushroom (0)
 french guard turtle	783	frenchturtle.gif	Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Manuel: "guard turtle"	guard turtle shell (0)	guard turtle collar (0)
 frog	332	frog.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	squashed frog (100)	frog lip-print (c0)
 frozen duck	556	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 125-152 E: cold P: beast	frozen feather (10)	duct tape (5)
@@ -483,6 +488,7 @@ Monty Basingstoke-Pratt, IV	517	monty.gif	Atk: 195 Def: 175 HP: 240 Init: 40 Mea
 mother hellseal	780	motherseal.gif	SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: 150 Exp: [150*1.385^pref(_sealScreeches)/4] Init: [150*1.385^pref(_sealScreeches)] P: demon	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
 mud turtle	1351	swampturtle.gif	Atk: 48 Def: 56 HP: 56 Init: 20 P: beast Meat: 30	fine aged cheddarwurst (0)	muddy pirate hat (0)	turtle mud (c0)
 Muff	536	muff.gif	Atk: 153 Def: 137 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
+muscular mushroom guy	1802	mush_beefy.gif	Atk: 30 Def: 30 HP: 20 Init: 25 P: plant	veiny spore pod (0)	stinky mushroom (0)
 Naughty Sorceress	243	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
 Naughty Sorceress (2)	244	sorcblob.gif	BOSS Atk: 205 Def: 184 HP: 600 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
 Naughty Sorceress (3)	245	bigsaus.gif	BOSS Atk: 9999999 Def: 8999999 HP: 9999999 Init: 10000 Exp: 500 P: dude	Instant Karma (c100)
@@ -775,6 +781,7 @@ vicious gnauga	247	gnauga.gif	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast	gnauga hi
 Victor the Insult Comic Hellhound	983	victor.gif	BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	Victor, the Insult Comic Hellhound Puppet (100)
 W imp	122	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 30 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	630	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
+wailing mushroom guy	1807	mush_shrieking.gif	Atk: 25 Def: 25 HP: 20 Init: -10000 P: plant
 waiter dressed as a ninja	1513	waiterninja.gif	Atk: 142 Def: 142 HP: 140 Init: 25 P: dude Meat: 25	crappy waiter disguise (20)	shuriken salad (15)	breadchucks (10)	ninja eyeblack (c0)
 War Frat 110th Infantryman	498	warfratc.gif	Atk: 172 Def: 154 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (10)	giant foam finger (10)	keg shield (6)
 War Frat 151st Captain	499	warfrata2.gif	Atk: 180 Def: 166 HP: 205 Init: 50 E: sleaze P: orc	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (4)	distressed denim pants (5)	keg shield (5)	PADL Phone (2)	perforated battle paddle (15)	red class ring (31)	flask flops (0)
@@ -827,6 +834,7 @@ white lion	66	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 30 P: beast	catgut 
 whitesnake	65	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (20)
 wild seahorse	778	seahorse.gif	Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100
 witty pirate	629	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	witty rapier (10)	silver tongue charrrm (10)
+wizardly mushroom guy	1804		P: plant
 wolfman	200	werewolf.gif	Atk: 3 Def: 2 HP: 2 Init: 50 Meat: 10 P: dude
 writing desk	405	ravendesk.gif	Atk: 27 Def: 27 HP: 28 Init: 50 P: construct	disintegrating quill pen (15)	inkwell (30)	snifter of thoroughly aged brandy (30)
 XXX pr0n	138	pr0n.gif	Atk: 75 Def: 67 HP: 68 Init: 60 Meat: 30 P: beast	f3d0r4 (15)	lowercase N (30)	pr0n legs (40)

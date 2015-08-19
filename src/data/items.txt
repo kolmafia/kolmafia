@@ -8450,9 +8450,9 @@
 8424	1,970 carat gold	372371940	goldnugget.gif	none	t,d	19700	nuggets of 1,970 carat gold
 8425	New Age healing crystal	444874241	nacrystal1.gif	none, combat	t,d	69
 8426	Volcoino	717498018	volcoino.gif	none		0
-8427
-8428
-8429
+8427	fizzing spore pod	820067817	pod_fizzing.gif	none, combat	t,d	50
+8428	paisley spore pod	828628473	pod_paisley.gif	none, combat	t,d	50
+8429	veiny spore pod	399527385	pod_veiny.gif	none, combat	t,d	50
 8430
 8431
 8432
