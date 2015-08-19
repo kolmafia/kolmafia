@@ -1015,8 +1015,25 @@ public class Evaluator
 			boolean famCanEquip = KoLCharacter.getFamiliar().canEquip( preItem );
 			if ( famCanEquip && slot != EquipmentManager.FAMILIAR )
 			{
+				// Modifiers when worn by Hatrack or Scarecrow
+				Modifiers familiarMods = new Modifiers();
+				int familiarId = KoLCharacter.getFamiliar().getId();
+				if ( ( familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT ) ||
+					( familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS ) )
+				{
+					familiarMods.applyFamiliarModifiers( KoLCharacter.getFamiliar(), preItem );
+				}
+				else
+				// Normal item modifiers when used by Disembodied Hand
+				{
+					familiarMods = Modifiers.getItemModifiers( id );
+					if ( familiarMods == null )	// no enchantments
+					{
+						familiarMods = new Modifiers();
+					}
+				}
 				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
-				if ( item.getCount() != 0 )
+				if ( item.getCount() != 0 && this.getScore( familiarMods ) - nullScore > 0.0 )
 				{
 					ranked[ EquipmentManager.FAMILIAR ].add( item );
 				}
@@ -1240,15 +1257,6 @@ public class Evaluator
 					mods = new Modifiers();
 				}
 
-				// Modifiers when worn by Hatrack or Scarecrow
-				Modifiers familiarMods = new Modifiers();
-				int familiarId = KoLCharacter.getFamiliar().getId();
-				if ( ( familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT ) ||
-					( familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS ) )
-				{
-					familiarMods.applyFamiliarModifiers( KoLCharacter.getFamiliar(), preItem );
-				}
-
 				boolean wrongClass = false;
 				String classType = mods.getString( Modifiers.CLASS );
 				if ( classType != "" && !classType.equals( KoLCharacter.getClassType() ) )
@@ -1354,22 +1362,12 @@ public class Evaluator
 					mods = newMods;
 				}
 				double delta = this.getScore( mods ) - nullScore;
-				double familiarDelta = this.getScore( familiarMods ) - nullScore;
-				if ( delta < 0.0 && familiarDelta < 0.0 ) continue;
-				if ( delta == 0.0 && familiarDelta == 0.0 )
+				if ( delta < 0.0 ) continue;
+				if ( delta == 0.0 )
 				{
 					if ( KoLCharacter.hasEquipped( item ) && this.current ) break gotItem;
 					if ( item.initial == 0 ) continue;
 					if ( item.automaticFlag ) continue;
-				}
-
-				if ( familiarDelta > 0.0 )
-				{
-					item.familiarFlag = true;
-					if ( delta < 0.0 )
-					{
-						item.noEquipmentFlag = true;
-					}
 				}
 
 				if ( mods.getBoolean( Modifiers.UNARMED ) ||
@@ -1380,15 +1378,8 @@ public class Evaluator
 				}
 			}
 			// "break gotItem" goes here
-			if ( !item.noEquipmentFlag )
-			{
-				ranked[ slot ].add( item );
-				if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
-			}
-			if ( item.familiarFlag )
-			{
-				ranked[ EquipmentManager.FAMILIAR ].add( item );
-			}
+			ranked[ slot ].add( item );
+			if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 		}
 
 		// Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -2148,7 +2139,7 @@ public class Evaluator
 						// in this slot's shortlist, since it may turn out to be
 						// advantageous to use up all our allowed beeosity on
 						// other slots.
-						if ( item.automaticFlag )
+						if ( item.automaticFlag && slot != EquipmentManager.FAMILIAR )
 						{
 							if ( !automatic[ slot ].contains( item ) )
 							{
@@ -2168,7 +2159,7 @@ public class Evaluator
 							beeosity += b * item.getCount();
 						}
 					}
-					else if ( item.automaticFlag )
+					else if ( item.automaticFlag && slot != EquipmentManager.FAMILIAR )
 					{
 						if ( !automatic[ slot ].contains( item ) )
 						{

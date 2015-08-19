@@ -666,6 +666,15 @@ public class FamiliarData
 		return mods == null ? 0 : (int) mods.get( Modifiers.FAMILIAR_WEIGHT );
 	}
 
+	public final int getUncappedWeight()
+	{
+		if ( this.id == FamiliarPool.HATRACK || this.id == FamiliarPool.SCARECROW )
+		{
+			return Math.max( Math.min( 20, (int) Math.sqrt( this.experience ) ), 1 );
+		}
+		return this.weight;
+	}
+
 	public String getName()
 	{
 		return this.name;

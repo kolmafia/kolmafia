@@ -2649,7 +2649,7 @@ public class Modifiers
 			return;
 		}
 
-		int weight = familiar.getWeight();
+		int weight = familiar.getUncappedWeight();
 
 		weight += (int) this.get( Modifiers.FAMILIAR_WEIGHT );
 		weight += (int) this.get( Modifiers.HIDDEN_FAMILIAR_WEIGHT );
