@@ -8320,7 +8320,7 @@
 8294	dice-print do-rag	371916226	dicerag.gif	hat		0
 8295	dice sunglasses	483999849	diceglasses.gif	accessory		0	pairs of dice sunglasses
 8296	Thwaitgold caterpillar statuette	681318742	thwaitcat.gif	none		0
-8297	powdered dice	387104784	scpowder.gif	usable	t	0
+8297	powdered dice	387104784	scpowder.gif	usable	t	0	powdered dice
 8298	yellow pixel	512868873	pixel7.gif	none	t,d	5
 8299	pixel coin	818106945	pixelcoin.gif	multiple	t	0
 8300	power pill	515789880	powerpill.gif	usable, combat	t,d	200
