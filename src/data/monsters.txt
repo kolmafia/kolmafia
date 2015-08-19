@@ -176,7 +176,7 @@ Dad Sea Monkee	1379	dad_machine.gif	BOSS Atk: 42000 Def: 42000 HP: 4200 Init: 10
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude
 dairy goat	83	biggoat.gif	Atk: 68 Def: 61 HP: 50 Init: 80 Meat: 50 P: beast	glass of goat's milk (20)	goat cheese (40)	Shivering Ch&egrave;vre (c0)
 dairy ooze	69	ooze.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 11-15 P: slime	mana curds (n100)
-dancing mushroom guy	1806		P: plant
+dancing mushroom guy	1806	mush_dancing.gif	Atk: 20 Def: 35 HP: 20 Init: 100 P: plant	cool spore pod (0)	cool mushroom (0)
 Danglin' Chad	519	chad.gif	Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 297-342 E: sleaze P: orc	Danglin' Chad's loincloth (100)	beer helmet (0)	bejeweled pledge pin (0)	distressed denim pants (0)	kick-ass kicks (0)	white class ring (0)
 decent lumberjack	233	lumberjack.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude	poutine (30)	disbelief suspenders (10)	jack flapper (10)	manly bloomers (p15)
 decent white shark	735	whiteshark.gif	Atk: 425 Def: 337 HP: 600 Init: 150 Meat: 240 P: fish	dull fish scale (n15)	shark cartilage (c10)	shark jumper (c3)	shark tooth (n2)	shark tooth (n1)
