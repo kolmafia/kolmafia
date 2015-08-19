@@ -5025,6 +5025,7 @@ Effect	Muffled	Combat Rate: -15
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
 Effect	Muscularrr	Muscle Percent: +10
 Effect	Mush-Mouth	Muscle: -100, Mysticality: -100, Moxie: -100
+Effect	Mushroom Might	Muscle Percent: +200
 Effect	Musk of the Moose	Combat Rate: +5
 # Musky: You Smell Like a Lynyrd
 Effect	Musky	Stench Damage: +15

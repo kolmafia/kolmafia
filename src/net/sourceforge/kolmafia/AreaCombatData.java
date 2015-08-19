@@ -1231,6 +1231,33 @@ public class AreaCombatData
 				return -4;
 			}
 		}
+		else if ( zone.equals( "The Fungal Nethers" ) )
+		{
+			if ( monster.equals( "muscular mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER ? 1 : 0;
+			}
+			if ( monster.equals( "armored mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ? 1 : 0;
+			}
+			if ( monster.equals( "wizardly mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+			}
+			if ( monster.equals( "fiery mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 1 : 0;
+			}
+			if ( monster.equals( "dancing mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ? 1 : 0;
+			}
+			if ( monster.equals( "wailing mushroom guy" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF ? 1 : 0;
+			}
+		}
 		else if ( zone.equals( "Pirates of the Garbage Barges" ) )
 		{
 			if ( monster.equals( "flashy pirate" ) && !Preferences.getBoolean( "dinseyGarbagePirate" ) )

@@ -1913,7 +1913,7 @@
 1912	Strongly Motivated	barbell.gif	dd62de877d5d9821d08cd919ed8ac2cf	play XI - Strength
 1913	Fortune of the Wheel	cavewheel.gif	5a8addcb18cf982371cfed58bfd9eb21	play X - The Wheel of Fortune
 1914	Balls of Ectoplasm	ghostballs.gif	e69fad92f89171ce492e2ada4701d0a9	use 1 ectoplasmic orbs
-1915
+1915	Mushroom Might	pod_veiny.gif	8fca5611743df3f192a31c6c4ed8e9f8	#use veiny spore pod in combat
 1916
 1917
 1918
