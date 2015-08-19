@@ -151,14 +151,17 @@ public class MonsterManuelManager
 			}
 
 			// Check our data with what Manuel says
-			if ( !monster.getManuelName().equals( name ) )
+
+			// Don't bother checking name for Your winged yeti && You the Adventurer
+			if ( id != 1667 && id != 1669 && !monster.getManuelName().equals( name ) )
 			{
 				// We know this monster, but do not have the correct Manuel name
 				RequestLogger.printLine( "Monster #" + id + " has name '" + monster.getManuelName() + "' but Manuel calls it '" + name + "'" );
 				monster.setManuelName( name );
 			}
 
-			if ( !monster.hasImage( image ) )
+			// Don't bother checking image for (shadow opponent) and You the Adventurer
+			if ( id != 210 && id != 1669 && !monster.hasImage( image ) )
 			{
 				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'" );
 			}
