@@ -1915,8 +1915,8 @@
 1914	Balls of Ectoplasm	ghostballs.gif	e69fad92f89171ce492e2ada4701d0a9	use 1 ectoplasmic orbs
 1915	Mushroom Might	pod_veiny.gif	8fca5611743df3f192a31c6c4ed8e9f8	#use veiny spore pod in combat
 1916
-1917
-1918
+1917	Mushroom Magicalness	pod_glowing.gif	ec6f11814f115d6c9bf6f2c02bba74f4	#use glowing spore pod in combat
+1918	Fungal Flambé	pod_hot.gif	c48b0a26daedd9d432f728c7c2d9c221	#use hot spore pod in combat
 1919	Mushroom Moxiousness	pod_cool.gif	668d53ffacba7dd3cced5365d11b7008	#use cool spore pod in combat
 1920
 1921	Burning Tongue	saltongue.gif	c24e4978c00cd712e8d18a4bac1b615c	use 1 basaltamander tongue
