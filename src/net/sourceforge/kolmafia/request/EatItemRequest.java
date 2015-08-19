@@ -871,17 +871,27 @@ public class EatItemRequest
 		// lab. Man. Teenagers will eat anything.
 		if ( responseText.contains( "You chase it with that salt you made" ) )
 		{
-			RequestLogger.printLine( "You ate grains of salt with your food" );
-			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -1 );
-			Preferences.increment( "_saltGrainsConsumed" );
+			int itemsUsed = Math.min( Math.min( count, InventoryManager.getCount( ItemPool.GRAINS_OF_SALT ) ),
+				3 - Preferences.getInteger( "_saltGrainsConsumed" ) );
+			RequestLogger.printLine( "You ate " + itemsUsed + " grains of salt with your food" );
+			ResultProcessor.processItem( ItemPool.GRAINS_OF_SALT, -itemsUsed );
+			Preferences.increment( "_saltGrainsConsumed", itemsUsed );
 		}
 
 		// You dip the spaghetti breakfast in swamp honey before you
 		// eat it. Mmmmm!
 		if ( responseText.contains( "in swamp honey before you eat it." ) )
 		{
-			RequestLogger.printLine( "You ate a jar of swamp honey with your food" );
-			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -1 );
+			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.JAR_OF_SWAMP_HONEY ) );
+			if ( itemsUsed > 1 )
+			{
+				RequestLogger.printLine( "You ate " + itemsUsed + " jars of swamp honey with your food" );
+			}
+			else
+			{
+				RequestLogger.printLine( "You ate a jar of swamp honey with your food" );
+			}
+			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -itemsUsed );
 		}
 
 		// You feel the canticle take hold, and feel suddenly bloated
@@ -903,28 +913,33 @@ public class EatItemRequest
 		{
 			if ( responseText.contains( "feel the Mayonex gurgling" ) )
 			{
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayonex" );
-				ResultProcessor.processItem( ItemPool.MAYONEX, -1 );
+				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYONEX ) );
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayonex (" + itemsUsed + " times)" );
+				ResultProcessor.processItem( ItemPool.MAYONEX, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayodiol kicks in" ) )
 			{
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayodiol" );
-				ResultProcessor.processItem( ItemPool.MAYODIOL, -1 );
+				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYODIOL ) );
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayodiol (" + itemsUsed + " times)" );
+				ResultProcessor.processItem( ItemPool.MAYODIOL, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayostat kicks in" ) )
 			{
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayostat" );
-				ResultProcessor.processItem( ItemPool.MAYOSTAT, -1 );
+				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOSTAT ) );
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayostat (" + itemsUsed + " times)" );
+				ResultProcessor.processItem( ItemPool.MAYOSTAT, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayozapine kicks in" ) )
 			{
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayozapine" );
-				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -1 );
+				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOZAPINE ) );
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayozapine (" + itemsUsed + " times)" );
+				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -itemsUsed );
 			}
 			else if ( responseText.contains( "Mayoflex kicks in" ) )
 			{
-				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayoflex" );
-				ResultProcessor.processItem( ItemPool.MAYOFLEX, -1 );
+				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOFLEX ) );
+				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayoflex (" + itemsUsed + " times)" );
+				ResultProcessor.processItem( ItemPool.MAYOFLEX, -itemsUsed );
 			}
 		}
 		
@@ -932,7 +947,7 @@ public class EatItemRequest
 		if ( responseText.contains( "feel the Mayonex gurgling" ) )
 		{
 			Matcher mayonexMatcher = EatItemRequest.MAYONEX_PATTERN.matcher( responseText );
-			if ( mayonexMatcher.find() )
+			while ( mayonexMatcher.find() )
 			{
 				Preferences.increment( "mayoLevel", StringUtilities.parseInt( mayonexMatcher.group( 1 ) ) );
 			}
