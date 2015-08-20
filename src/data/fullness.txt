@@ -465,7 +465,7 @@ Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP 
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
 mind flayer corpse	5	1	crappy	5	0	21-25	0
-mineapple	2	1	good	1-1	0	0	0	Unspaded
+mineapple	2	1	good	4-6	10-20	10-20	10-20
 Miserable Pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)
 mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
@@ -530,7 +530,7 @@ pickled egg	1	1	crappy	1	1-2	1-2	1-2
 pie man was not meant to eat	100	15	EPIC	0	0	0	0
 piece of wedding cake	2	1	decent	2-5	0	0	0
 pigeon egg	1	1	decent	2	0	0	0
-pink slime	2	1	decent	1-1	0	0	0	Unspaded
+pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
