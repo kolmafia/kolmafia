@@ -16,6 +16,7 @@ bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
 black polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
 black striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
+blood-drive sticker	10	3	awesome	1-1	0	0	0	Unspaded
 blue paisley oyster egg	1	1	good	0	0	11-15	0	31-35 MP
 blue polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 MP
 blue striped oyster egg	1	1	good	0	11-15	0	0	31-35 MP

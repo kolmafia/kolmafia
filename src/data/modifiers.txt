@@ -3942,6 +3942,7 @@ Effect	A Little Bit Frightening	Spooky Damage: [3*L]
 Effect	A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	A Lovely Day for a Beatnik	Avatar: "Savage Beatnik"
 Effect	A Revolution in Your Mouth	Moxie Percent: -10
+Effect	A Rose by Any Other Material	Combat Rate: -5
 Effect	A Short Trial	Avatar: "pygmy witch lawyer"
 Effect	A Taste for Accounting	Avatar: "pygmy witch accountant"
 # A Taste of Rainbow: Increases stat gains from food
@@ -3975,6 +3976,7 @@ Effect	Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Sp
 Effect	Also Schmeckt Zarathustra	Mysticality: +30
 Effect	Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Always In Motion	Initiative: +100
+Effect	Amazing	Moxie Percent: +200, Hot Resistance: +4
 Effect	Amorous	Moxie: +5, Sleaze Damage: +5
 # Amorous Avarice: Meat Drop: +X
 Effect	Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -4429,6 +4431,7 @@ Effect	Eagle Eyes	Item Drop: +20
 # Earworm: Get them out!  Get them out!
 # Easily Embarrassed: Extra-Vulnerable to Sleaze
 Effect	Easily Embarrassed	Sleaze Vulnerability
+Effect	East of Eaten	Weapon Damage Percent: +200, Hot Resistance: +4
 Effect	Eau D'enmity	Monster Level: +5
 # Eau de Tortue: Helps you tame turtles
 Effect	Ecce Wino	Avatar: "mad wino"
@@ -4607,6 +4610,7 @@ Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Effect	Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
 # Gar-ish: You love lasagna as much as you hate Mondays
+Effect	Gaze of the Gazelle	Spell Damage Percent: +200, Booze Drop: +60
 Effect	Gaze of the Lightning God	Spell Damage Percent: +50, Experience (Mysticality): +3, MP Regen Min: 4, MP Regen Max: 5
 Effect	Gaze of the Trickster God	Ranged Damage: +30, Sleaze Damage: +30, Experience (Moxie): +3, Initiative: +30
 Effect	Gaze of the Volcano God	Weapon Damage Percent: +50, Hot Damage: +25, Experience (Muscle): +3, HP Regen Min: 8, HP Regen Max: 10
@@ -4965,6 +4969,7 @@ Effect	Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(5
 Effect	Man's Worst Enemy	Familiar Weight: +5
 Effect	Manbait	Monster Level: +30
 Effect	Marco Polarity	Experience (Mysticality): [L]
+Effect	Margamergency	Weapon Damage Percent: +200, Spell Damage Percent: +200
 Effect	Margaritish	Moxie Percent: [min(200,5*T)]
 Effect	Mariachi Mood	Maximum HP: +3, Moxie: +1
 Effect	Marinated	Muscle: +15, Mysticality: +15
@@ -5048,6 +5053,7 @@ Effect	Natural 1	Initiative: -100
 Effect	Natural 20	Initiative: +100
 Effect	Nature's Bounty	Maximum HP: +300, HP Regen Min: 80, HP Regen Max: 100
 Effect	Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
+Effect	Nearly All-Natural	Mysticality Percent: +200, Booze Drop: +60
 # Nerd is the Word: +25% Item Drops from Monsters (Chemistry Class only)
 Effect	Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
 # Nerf'd: Less powerful than you were before
@@ -5283,6 +5289,7 @@ Effect	Ripping, Dripping	Weapon Damage Percent: +50
 Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
 # Robocamo: Beep Boop
+Effect	Robot Friends	Familiar Weight: +20
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
 Effect	Roly Poly	Initiative: [min(500,T)]
 Effect	Rootin' Around	Candy Drop: +25
@@ -5411,6 +5418,7 @@ Effect	Slinking Noodle Glob	Maximum MP: +15
 Effect	Slippery Oiliness	Equalize: "Moxie"
 Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
+Effect	Smart Drunk	Maximum HP: +120, Familiar Weight: +20
 Effect	Smelly Pants	Stench Resistance: +1
 Effect	Smithsness Cheer	Smithsness: +10
 Effect	Smithsness Dinner	Smithsness: +10
@@ -5676,6 +5684,7 @@ Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
+Effect	Throwing Some Shade	Muscle Percent: +200, Combat Rate: -5
 Effect	Thuggity Yak	Avatar: "yakuza thug"
 Effect	Thunderheart	Maximum HP Percent: +100
 Effect	Ticking Clock	Initiative: +30
@@ -6420,6 +6429,7 @@ Item	red drunki-bear	Effect: "Gummiheart", Effect Duration: 80
 Item	roasted marshmallow	Effect: "Mallowed Out", Effect Duration: 3
 Item	rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 Item	rook cookie	Effect: "Towering Strength", Effect Duration: 30
+Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
@@ -6467,6 +6477,7 @@ Item	warbear thermoregulator bread	Effect: "Superheated Guts", Effect Duration: 
 Item	warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
 Item	warm war shawarma	Effect: "Shawarma Warm War", Effect Duration: 30
 Item	wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
+Item	weird gazelle steak	Effect: "Gaze of the Gazelle", Effect Duration: 1
 Item	wet dog	Effect: "Hangdog", Effect Duration: 30
 Item	wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 Item	witch's bread	Effect: "Witch Breaded", Effect Duration: 20
@@ -6551,6 +6562,7 @@ Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
 Item	electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 Item	elven cellocello	Effect: "Sugar Rush", Effect Duration: 20
 Item	elven moonshine	Effect: "Drunk With Power", Effect Duration: 20
+Item	emergency margarita	Effect: "Margamergency", Effect Duration: 1
 Item	En Una Fila Tequila	Effect: "Mr. Skullhead's Birthday Happiness", Effect Duration: 20
 Item	evil ducha de oro	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	evil horizontal tango	Effect: "[601]A Little Bit Evil", Effect Duration: 10
@@ -6661,6 +6673,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
+Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
 Item	warbear blizzard mead	Effect: "Warbear Blubber", Effect Duration: 40
 Item	warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40
@@ -6786,6 +6799,7 @@ Item	avatar of the Unconscious Collective	Free Pull
 Item	bacon bath ball	Effect: "Pork Power", Effect Duration: 10
 Item	bad penguin egg	Free Pull
 Item	bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
+Item	bag of grain	Effect: "Nearly All-Natural", Effect Duration: 1
 Item	bag of lard	Effect: "Cuts Like a Buttered Knife", Effect Duration: 10
 # bag of park garbage: Maybe there's something valuable inside?
 # bag of pygmy blood: Restores 30-40 HP
@@ -7613,6 +7627,7 @@ Item	plastic Jefferson wings	Effect: "Jeffersonian", Effect Duration: 50
 Item	PlexiPips	Effect: "Sole Soul", Effect Duration: 1
 Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 # plump juicy grub: Restores 90-100 HP
+Item	pocket maze	Effect: "Amazing", Effect Duration: 1
 # Pok&euml;mann band-aid: Restores 100 HP
 Item	Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Item	Polka Pop	Effect: "Polka Face", Effect Duration: 10
@@ -7752,6 +7767,7 @@ Item	sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 Item	serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
 # sewing kit: Restores up to 1,000 HP
 # sewing kit: (doesn't go away when used)
+Item	shady shades	Effect: "Throwing Some Shade", Effect Duration: 1
 Item	shaking skull	No Pull
 Item	shamanic ham	Effect: "Shahamaniacal", Effect Duration: 50
 Item	shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
@@ -7767,6 +7783,7 @@ Item	siesta-ing Casagnova gnome	Free Pull
 # silk bandages: Restores 40-80 HP
 Item	silk garter snake	Free Pull
 Item	silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
+Item	silver face paint	Effect: "Robot Friends", Effect Duration: 1
 Item	single of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 10
 Item	single of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 10
 Item	sinister-looking cat	Effect: "Catstermind", Effect Duration: 100
@@ -7820,6 +7837,7 @@ Item	spooky sound effects record	Effect: "Permanent Halloween", Effect Duration:
 Item	spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 Item	squamous polyp	Free Pull
 Item	Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
+Item	squeaky toy rose	Effect: "A Rose by Any Other Material", Effect Duration: 1
 Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 Item	Steal This Candy	Effect: "A Revolution in Your Mouth", Effect Duration: 10
 # steam-powered model rocketship: Allows access to the Hole in the Sky
