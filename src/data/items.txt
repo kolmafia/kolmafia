@@ -8568,3 +8568,15 @@
 8542	Fettris	717020128	bowl.gif	food	t,d	85	bowls of Fettris
 8543	fusillocybin	663003490	bowl.gif	food	t,d	85
 8544	prescription noodles	201443024	bowl.gif	food	t,d	85	bowls of prescription noodles
+8545	blood-drive sticker	978088376	plasticball.gif	spleen, usable	t	0
+8546
+8547	pocket maze	683762927	puzzle.gif	usable	t	0
+8548	shady shades	601502664	bigglasses.gif	usable	t	0
+8549	squeaky toy rose	549232387	rose.gif	usable	t	0
+8550	weird gazelle steak	918011282	gnatfilet.gif	food	t	0
+8551	sausage without a cause	710239230	sausage.gif	food	t	0
+8552	silver face paint	375755054	tube.gif	usable	t	0
+8553	emergency margarita	886234063	daquiri.gif	drink	t	0
+8554	vintage smart drink	485189565	waterbottle.gif	drink	t	0
+8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
+8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none	0

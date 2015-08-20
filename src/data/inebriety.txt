@@ -193,6 +193,7 @@ electric snakebite	2	5	good	4-6	0	15-30	0	20 Once Bitten Twice Fried (+25 MP, +2
 elven cellocello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
 elven moonshine	3	5	good	7-10	20-40	20-40	20-40	20 Drunk With Power (+100% spell dmg)
 elven squeeze	3	4	good	5-8	20-30	20-30	20-30
+emergency margarita	10	1	awesome	1-1	0	0	0	Unspaded, 1 Margamergency (+200% weapon dmg, +200% spell dmg)
 En Una Fila Tequila	4	1	good	4-8	0	0	0	20 turns of Mr. Skullhead's Birthday Happiness (Puts a birthday smile on your face)
 especially salty dog	4	4	good	9-13	32-50	32-50	32-50
 Event Horizon	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
@@ -509,6 +510,7 @@ unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	+1 PvP fight
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
+vintage smart drink	10	1	awesome	1-1	0	0	0	Unspaded, 1 Smart Drunk (+120 HP, +20 Familiar Weight)
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
 vodka and tonic	3	3	good	5-10	0	16-20	0
 Vodka Dog	3	1	good	8-10	0	0	30-40

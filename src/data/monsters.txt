@@ -1821,7 +1821,7 @@ sinew-stretching cave elf	429	caveelf4.gif	Atk: 0 Def: 0 HP: 30 Init: -10000 P: 
 bow-making mummy	434	crimonster3.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 Cookie-baking Thing from Beyond Time	435	crimonster2.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: horror	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 gift-wrapping vampire	432	crimonster5.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
-skeletal reindeer	431	crimonster6.gif		Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
+skeletal reindeer	431	crimonster6.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 stocking-stuffing zombie	433	crimonster4.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 toy-making creature from the Gray Lagoon	436	crimonster1.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 

@@ -1933,3 +1933,12 @@
 1932	Kissed By Fire	smoochkiss.gif	537dae21efa4438a38efe96f994b40a1
 1933	Drenched in Lava	gi_chunk.gif	6cabc1305530f76547bc97e55f21666b
 1934	Doing The Hustle	dance3.gif	52284e7299b35e9d392bddaee7a8258f
+1935
+1936	Nearly All-Natural	knobsack.gif	a6708fb7d4ae8200584e8fbdc1a3fb59	use 1 bag of grain
+1937	Amazing	puzzle.gif	713377d5825b78085bfd432dfa61e8c7	use 1 pocket maze
+1938	Throwing Some Shade	bigglasses.gif	c5cff9851dd22e65ea938582e6eabe68	use 1 shady shades
+1939	A Rose by Any Other Material	rose.gif	a045be8e57e7ed0a5fefaec9e1fa70c9	use 1 squeaky toy rose
+1940	Gaze of the Gazelle	nopic.gif	07d1f36bb0141751020c2f5f5cc210ce	eat 1 weird gazelle steak
+1942	Robot Friends	c13cookie1.gif	8fed47f63c86f55d3aa48d1845b8cf94	use 1 silver face paint
+1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
+1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink

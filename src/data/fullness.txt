@@ -598,6 +598,7 @@ salty wise dragon roll	3	1		9-14	20-30	8-16	0	45/55 Fishy, 10 Salty Dogs
 salty wizened master roll	3	1		9-14	20-30	28-46	20-30	45/55 Fishy, 10 Salty Dogs
 sandwich of the gods	5	13	EPIC	32-38	50-100	50-100	50-100
 sausage pizza	3	2	good	3-10	15-18	0	0
+sausage without a cause	10	1	awesome	1-1	0	0	0	Unspaded, 1 East of Eaten (+200% Weapon Damage, +4 Hot res)
 sausage wonton	3	12	EPIC	12-18	50-80	20-30	20-30
 savage macho dog	2	1	awesome	6-8	10-15	0	0	50 Macho, Macho Dog (+50% Mus, +10% Crit, +50 Damage vs Bugbears/Werewolves)
 savoy truffle	2	9	awesome	6-7	15-20	15-20	15-20	lose 10-20 HP
@@ -799,6 +800,7 @@ warm mushroom	2	1	decent	2-3	12-14	0	0
 warm war shawarma	3	7	EPIC	15-18	30-60	0	0	30 Shawarma Warm War (+15 Mus, +50% Mus, +25 Hot Dam, +25 Hot Spell Dam, +3 Cold/Spooky Resist)
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
+weird gazelle steak	10	1	awesome	1-1	0	0	0	Unspaded, 1 Gaze of the Gazelle (+200% Spell Damage, +60 Booze drop)
 wet dog	3	1	awesome	11-13	0	0	0	30 Hangdog (+20 Init, +30 Sleaze Dam, +3 Hot/Stench Res)
 wet stew	6	1	good	12-15	16-19	0	0
 white chocolate and tomato pizza	3	2	decent	3-9	0	0	0
