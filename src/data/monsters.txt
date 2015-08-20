@@ -1882,9 +1882,9 @@ rockfish	848	rock_fish.gif	WANDERER Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	r
 # The Shivering Timbers (Arborween October 2009)
 deadwood tree	0	shiv_dead.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
 fur tree	0	shiv_fur.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
-hangman's tree	0	shiv_hangman.gif		petrified wood (5)	spooky bark (10)	spooky sap (5)
+hangman's tree	865	shiv_hangman.gif	Scale: ? Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
 pumpkin tree	0	shiv_pumpkin.gif		petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
-toilet-papered tree	861	shiv_tp.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
+toilet-papered tree	861	shiv_tp.gif	Scale: ? Cap: 200 Floor: ? Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Underworld Tree	0	shiv_underworld.gif		Underworld acorn (100)	Underworld trunk (100)
 
 # Crimbo Town Toy Factory (Crimbo 2009)
