@@ -677,6 +677,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_shop", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_stash", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3698,6 +3701,31 @@ public abstract class RuntimeLibrary
 			SoldItem item = list.get( i );
 			value.aset( DataTypes.parseItemValue( item.getItemName(), true ),
 				    new Value( item.getQuantity() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_stash( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+
+		if ( !KoLCharacter.hasStore() )
+		{
+			return value;
+		}
+
+		if ( !ClanManager.stashRetrieved )
+		{
+			RequestThread.postRequest( new ClanStashRequest() );
+		}
+
+		LockableListModel<AdventureResult> list = ClanManager.getStash();
+		for ( int i = 0; i < list.size(); ++i )
+		{
+			AdventureResult item = list.get( i );
+			value.aset( DataTypes.makeItemValue( item.getItemId(), true ),
+				    new Value( item.getCount() ) );
 		}
 
 		return value;
