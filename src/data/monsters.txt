@@ -1785,7 +1785,7 @@ zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undea
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
 Zombie eXtreme Snowboarding Orc	310	zomsnow.gif
-Zombie Goth Giant	312	zomgoth.gif
+Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 E: spooky P: undead
 Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
 Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 E: spooky P: undead
 
