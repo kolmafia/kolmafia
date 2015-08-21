@@ -4605,6 +4605,7 @@ Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
 Effect	Fungal Flambé	Hot Spell Damage: +100
+Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15

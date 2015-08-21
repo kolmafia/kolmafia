@@ -44,7 +44,7 @@ Anime Smiley	139	smiley.gif	Atk: 77 Def: 69 HP: 67 Init: 60 P: horror	334 scroll
 annoying spooky gravy fairy	259	annoyfairy.gif	Atk: 20 Def: 18 HP: 20 Init: 70 E: spooky P: plant	annoying pitchfork (100)
 apathetic lizardman	5	lizardman.gif	Atk: 20 Def: 18 HP: 12 Init: 60 Meat: 17-24 P: humanoid	flavorless gruel (n100)
 Argarggagarg the Dire Hellseal	701	2headseal.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
-armored mushroom guy	1803		P: plant	hard spore pod (0)
+armored mushroom guy	1803	mush_armor.gif	Atk: 20 Def: 35 HP: 20 Init: 25 P: plant	hard spore pod (0)	warm mushroom (0)
 Astronomer	184	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation	star chart (100)
 axe handle	227	axehandle.gif	HP: 3 Def: 2 Atk: 3 Init: 40 P: construct	pine tar (20)
 Axe Wound	543	axewound.gif	Atk: 163 Def: 146 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
