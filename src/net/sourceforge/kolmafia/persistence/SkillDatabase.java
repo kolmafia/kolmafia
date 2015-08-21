@@ -515,6 +515,9 @@ public class SkillDatabase
 		case SkillPool.SING:
 			classType = KoLCharacter.ACCORDION_THIEF;
 			break;
+		case SkillPool.MILD_CURSE:
+			classType = KoLCharacter.ED;
+			break;
 
 		case SkillPool.MAGIC_MISSILE:
 			return Math.max(

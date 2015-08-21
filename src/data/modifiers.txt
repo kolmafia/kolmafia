@@ -3942,7 +3942,7 @@ Effect	A Little Bit Frightening	Spooky Damage: [3*L]
 Effect	A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	A Lovely Day for a Beatnik	Avatar: "Savage Beatnik"
 Effect	A Revolution in Your Mouth	Moxie Percent: -10
-Effect	A Rose by Any Other Material	Combat Rate: -5
+Effect	A Rose by Any Other Material	Combat Rate: -20
 Effect	A Short Trial	Avatar: "pygmy witch lawyer"
 Effect	A Taste for Accounting	Avatar: "pygmy witch accountant"
 # A Taste of Rainbow: Increases stat gains from food
@@ -5685,7 +5685,7 @@ Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
-Effect	Throwing Some Shade	Muscle Percent: +200, Combat Rate: -5
+Effect	Throwing Some Shade	Muscle Percent: +200, Combat Rate: -20
 Effect	Thuggity Yak	Avatar: "yakuza thug"
 Effect	Thunderheart	Maximum HP Percent: +100
 Effect	Ticking Clock	Initiative: +30
