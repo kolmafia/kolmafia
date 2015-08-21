@@ -1998,7 +1998,7 @@ The Abominable Fudgeman	0	fudgeman.gif	HP: 500 Def: 350 Atk: 350 Init: 50	heart 
 four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horror	mime soul fragment (100)
 
 # A Smoldering Fortress (June 2012)
-blazing bat	1210	firebat.gif
+blazing bat	1210	firebat.gif	Atk: 200 Def: 200 HP: 500 P: beast E: hot Init: 50 Phys: 100
 snakefire in the grass	1209	firesnake.gif
 Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 P: demon E: hot Init: 50 Phys: 100	molten brick (c5)
 
