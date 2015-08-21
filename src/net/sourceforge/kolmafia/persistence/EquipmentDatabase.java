@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -706,9 +707,14 @@ public class EquipmentDatabase
 		}
 	}
 
+	public static final boolean isAccordion( final int itemId )
+	{
+		return ( EquipmentDatabase.getItemType( itemId ).contains( "accordion" ) );
+	}
+	
 	public static final boolean isSpecialAccordion( final int itemId )
 	{
-		return ( EquipmentDatabase.getItemType( itemId ).contains( "accordion" ) &&
+		return ( EquipmentDatabase.isAccordion( itemId ) &&
 			itemId != ItemPool.TOY_ACCORDION && itemId != ItemPool.ANTIQUE_ACCORDION );
 	}
 	
@@ -759,9 +765,27 @@ public class EquipmentDatabase
 		return EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" );
 	}
 	
+	public static final AdventureResult IRON_PALMS = EffectPool.get( EffectPool.IRON_PALMS );
+
+	public static final boolean isClub( final int itemId )
+	{
+		String type = EquipmentDatabase.getItemType( itemId );
+		return type.equals( "club" ) || ( KoLConstants.activeEffects.contains( EquipmentManager.IRON_PALMS ) && type.equals( "sword" ) );
+	}
+	
 	public static final boolean isKnife( final int itemId )
 	{
 		return EquipmentDatabase.getItemType( itemId ).equals( "knife" );
+	}
+	
+	public static final boolean isUtensil( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "utensil" );
+	}
+	
+	public static final boolean isShield( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "shield" );
 	}
 	
 	public static final boolean isHat( final AdventureResult item)

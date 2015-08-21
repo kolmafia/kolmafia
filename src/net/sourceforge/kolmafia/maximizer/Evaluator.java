@@ -95,7 +95,11 @@ public class Evaluator
 	private int hands = 0;
 	int melee = 0;	// +/-2 or higher: require, +/-1: disallow other type
 	private boolean effective = false;
+	private boolean requireClub = false;
 	private boolean requireShield = false;
+	private boolean requireUtensil = false;
+	private boolean requireKnife = false;
+	private boolean requireAccordion = false;
 	private boolean noTiebreaker = false;
 	private boolean current = !KoLCharacter.canInteract();
 	private HashSet<String> posOutfits, negOutfits;
@@ -291,10 +295,30 @@ public class Evaluator
 				this.weaponType = keyword.substring( 5 ).trim();
 				continue;
 			}
+			else if ( keyword.equals( "club" ) )
+			{
+				this.requireClub = weight > 0.0;
+				continue;
+			}
 			else if ( keyword.equals( "shield" ) )
 			{
 				this.requireShield = weight > 0.0;
 				this.hands = 1;
+				continue;
+			}
+			else if ( keyword.equals( "utensil" ) )
+			{
+				this.requireUtensil = weight > 0.0;
+				continue;
+			}
+			else if ( keyword.equals( "knife" ) )
+			{
+				this.requireKnife = weight > 0.0;
+				continue;
+			}
+			else if ( keyword.equals( "accordion" ) )
+			{
+				this.requireAccordion = weight > 0.0;
 				continue;
 			}
 			else if ( keyword.equals( "melee" ) )
@@ -1091,6 +1115,22 @@ public class Evaluator
 					{
 						continue;
 					}
+					if ( this.requireClub && !EquipmentDatabase.isClub( id ) )
+					{
+						continue;
+					}
+					if ( this.requireUtensil && !EquipmentDatabase.isUtensil( id ) )
+					{
+						continue;
+					}
+					if ( this.requireKnife && !EquipmentDatabase.isKnife( id ) )
+					{
+						continue;
+					}
+					if ( this.requireAccordion && !EquipmentDatabase.isAccordion( id ) )
+					{
+						continue;
+					}
 					if ( this.effective )
 					{
 						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
@@ -1144,8 +1184,7 @@ public class Evaluator
 					break;
 
 				case EquipmentManager.OFFHAND:
-					if ( this.requireShield &&
-						!EquipmentDatabase.getItemType( id ).equals( "shield" ) )
+					if ( this.requireShield && !EquipmentDatabase.isShield( id ) )
 					{
 						continue;
 					}
