@@ -999,5 +999,5 @@
 17044	Elemental Wards	henna.gif	0	0	0
 17045	More Elemental Wards	henna.gif	0	0	0
 17046	Even More Elemental Wards	henna.gif	0	0	0
-17047	Mild Curse	exclam.gif	5	0	0
+17047	Mild Curse	exclam.gif	5	1	0
 17048	More Legs	edlegs.gif	0	0	0
