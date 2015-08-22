@@ -688,7 +688,7 @@ stunt nuts	2	1	decent	2-3	8-10	0	0
 sublime deluxe hot dog	6	1	awesome	22-26	10-20	40-50	10-20
 sublime nachos	6	1	awesome	22-26	10-20	40-50	10-20
 sublime stew	6	1	awesome	22-26	0	40-50	20-30
-succulent marrow	3	1	decent	1-1	0	0	0	Unspaded
+succulent marrow	3	1	decent	5-7	25-30	0	0
 suddenly salad!	5	1	EPIC	60-80	0	220-400	0
 suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
@@ -788,7 +788,7 @@ vampire cake	5	1		9-16	9-10	9-10	9-10	10 Sugar Rush
 vampire chowder	4	4	good	9-11	0	0	90-110
 vanilla-frosted king cake	3	1	crappy	3	0	0	0	pink plastic baby
 Vegas Volcano Lava Roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
-very hot lunch	4	6	awesome	1-1	0	0	0	Unspaded 100 Inner Warmth
+very hot lunch	4	6	awesome	12-18	10-20	10-20	0	100 Inner Warmth (+5 cold res)
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hot Dog (+25 Item Drop, +25 Meat Drop)
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
 walrus ice cream	2	5	good	4-8	37-38	0	0
