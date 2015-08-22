@@ -1065,12 +1065,29 @@ public class Evaluator
 			for ( int f = this.familiars.size() - 1; f >= 0; --f )
 			{
 				FamiliarData fam = this.familiars.get( f );
-				if ( !fam.canEquip( preItem ) ) continue;
+				if ( !fam.canEquip( preItem ) || slot == EquipmentManager.FAMILIAR ) continue;
+				// Modifiers when worn by Hatrack or Scarecrow
+				Modifiers familiarMods = new Modifiers();
+				int familiarId = fam.getId();
+				if ( ( familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT ) ||
+					( familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS ) )
+				{
+					familiarMods.applyFamiliarModifiers( fam, preItem );
+				}
+				else
+				// Normal item modifiers when used by Disembodied Hand
+				{
+					familiarMods = Modifiers.getItemModifiers( id );
+					if ( familiarMods == null )	// no enchantments
+					{
+						familiarMods = new Modifiers();
+					}
+				}
 				if ( item == null )
 				{
 					item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
 				}
-				if ( item.getCount() != 0 )
+				if ( item.getCount() != 0 && this.getScore( familiarMods ) - nullScore > 0.0 )
 				{
 					ranked[ EquipmentManager.ALL_SLOTS + f ].add( item );
 				}
@@ -1742,6 +1759,11 @@ public class Evaluator
 			Collections.sort( speculationList[ slot ] );
 		}
 
+		// Compare sets which improve with the number of items equipped with the best items in the same spots
+		
+		
+		
+		
 		// Compare synergies with best items in the same spots, and remove automatic flag if not better
 		Iterator it = Modifiers.getSynergies();
 		while ( it.hasNext() )
