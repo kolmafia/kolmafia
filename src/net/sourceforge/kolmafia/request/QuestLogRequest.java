@@ -279,7 +279,7 @@ public class QuestLogRequest
 		if ( QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "step1" ) ||
 			QuestDatabase.isQuestFinished( Quest.MEATCAR ) )
 		{
-			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+			KoLCharacter.setDesertBeachAvailable();
 		}
 		if ( QuestDatabase.isQuestLaterThan( Quest.ISLAND_WAR, QuestDatabase.STARTED ) ||
 			QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) )

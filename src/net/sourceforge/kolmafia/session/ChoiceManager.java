@@ -9615,7 +9615,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setString( "peteMotorbikeGasTank", "Large Capacity Tank" );
-				Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+				KoLCharacter.setDesertBeachAvailable();
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -10353,7 +10353,7 @@ public abstract class ChoiceManager
 				Preferences.setString( "peteMotorbikeGasTank", matcher.group( 1 ).trim() );
 				if ( Preferences.getString( "peteMotorbikeGasTank" ).equals( "Large Capacity Tank" ) )
 				{
-					Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+					KoLCharacter.setDesertBeachAvailable();
 				}
 				else if ( Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) )
 				{
