@@ -246,7 +246,7 @@ public abstract class InventoryManager
 		{
 			return 0;
 		}
-		
+	
 		int count = item.getCount( KoLConstants.inventory );
 
 		// Items in closet might be accessible, but if the user has
