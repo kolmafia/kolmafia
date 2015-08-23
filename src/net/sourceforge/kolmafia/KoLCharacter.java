@@ -3867,6 +3867,18 @@ public abstract class KoLCharacter
 				!Limitmode.limitZone( "Beach" );
 	}
 
+	public static final void setDesertBeachAvailable()
+	{
+		if ( Preferences.getInteger( "lastDesertUnlock" ) != KoLCharacter.getAscensions() )
+		{
+			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+			if ( KoLCharacter.gnomadsAvailable() )
+			{
+				MicroBreweryRequest.getMenu();
+			}
+		}
+	}
+
 	public static final boolean mysteriousIslandAccessible()
 	{
 		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag

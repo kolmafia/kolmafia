@@ -1403,7 +1403,7 @@ public class ResultProcessor
 		case ItemPool.PUMPKIN_CARRIAGE:
 		case ItemPool.TIN_LIZZIE:
 			// Desert beach unlocked
-			Preferences.setInteger( "lastDesertUnlock", KoLCharacter.getAscensions() );
+			KoLCharacter.setDesertBeachAvailable();
 			break;
 
 		case ItemPool.RUSTY_SCREWDRIVER:
