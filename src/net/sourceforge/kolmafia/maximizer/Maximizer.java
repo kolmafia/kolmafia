@@ -1372,6 +1372,11 @@ public class Maximizer
 				{
 					cmd = "stash take 1 \u00B6" + item.getItemId() + ";" + cmd;
 				}
+				// Should be only hitting this after Ronin I think
+				else if ( method.equals( "pull" ) ) 
+				{
+					cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+				}
 			}
 			else if ( checkedItem.creatable + checkedItem.initial > count )
 			{
