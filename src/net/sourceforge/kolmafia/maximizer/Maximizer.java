@@ -1376,6 +1376,7 @@ public class Maximizer
 			else if ( checkedItem.creatable + checkedItem.initial > count )
 			{
 				text = "make & " + text;
+				cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
 			}
 			else if ( checkedItem.npcBuyable + checkedItem.initial > count )
 			{
@@ -1399,12 +1400,12 @@ public class Maximizer
 					cmd = "acquire 1 \u00B6" + checkedItem.foldItemId + ";fold \u00B6" + item.getItemId() + ";" + cmd;
 				}
 			}
-			else if ( checkedItem.pullable + checkedItem.foldable + checkedItem.initial > count )
+			else if ( checkedItem.pullable + checkedItem.initial > count )
 			{
 				text = "pull & " + text;
-				cmd = "pull 1 \u00B6" + item.getItemId() + ";" + cmd;
+				cmd = "pull \u00B6" + item.getItemId() + ";" + cmd;
 			}
-			else if ( checkedItem.pullable + checkedItem.foldable + checkedItem.pullfoldable + checkedItem.initial > count )
+			else if ( checkedItem.pullfoldable + checkedItem.initial > count )
 			{
 				// We assume that there is only one available fold item type of the right group.
 				// Not always right, but will do for now.
