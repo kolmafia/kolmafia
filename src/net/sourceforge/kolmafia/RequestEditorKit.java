@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
@@ -1003,6 +1004,14 @@ public class RequestEditorKit
 
 			// Insert the replacements into the buffer
 			StringUtilities.singleStringReplace( buffer, search, replace );
+
+			if ( locname.equals( "The Spooky Forest" ) )
+			{
+				// The Distant Woods must be accessible before The Florist Friar
+				// can be used.  This is the most reliable place to detect that.
+				FloristRequest.reset();
+				RequestThread.postRequest( new FloristRequest() );
+			}
 		}
 	}
 

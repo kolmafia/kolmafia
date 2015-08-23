@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -51,6 +52,7 @@ public class FloristRequest
 	extends GenericRequest
 {
 	private static boolean haveFlorist = true;
+	private static boolean floristChecked = false;
 
 	private static final Pattern FLOWER_PATTERN =
 		Pattern.compile( "<tr><td>([^>]*?)</td><td width.*?plant(\\d+)\\.gif.*?plant(\\d+)?\\.gif.*?plant(\\d+)?\\.gif.*?" );
@@ -197,6 +199,7 @@ public class FloristRequest
 	public static void reset()
 	{
 		FloristRequest.haveFlorist = true;
+		FloristRequest.floristChecked = false;
 		FloristRequest.floristPlants.clear();
 	}
 
@@ -225,10 +228,17 @@ public class FloristRequest
 			return;
 		}
 
-		if ( !FloristRequest.haveFlorist() )
+		if ( KoLCharacter.getLevel() < 2 )
 		{
 			return;
 		}
+
+		if ( FloristRequest.floristChecked && !FloristRequest.haveFlorist() )
+		{
+			return;
+		}
+
+		FloristRequest.floristChecked = true;
 
 		PlaceRequest forestVisit = new PlaceRequest( "forestvillage", "fv_friar", true );
 		RequestThread.postRequest( forestVisit );
@@ -243,11 +253,16 @@ public class FloristRequest
 
 	public static boolean haveFlorist()
 	{
+		if ( !FloristRequest.floristChecked )
+		{
+			return false;
+		}
 		return FloristRequest.haveFlorist;
 	}
 
 	private static final void setHaveFlorist( final boolean haveFlorist )
 	{
+		FloristRequest.floristChecked = true;
 		FloristRequest.haveFlorist = haveFlorist;
 	}
 
@@ -409,7 +424,7 @@ public class FloristRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "choice.php" ) || urlString.indexOf( "whichchoice=720" ) == -1 )
+		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=720" ) )
 		{
 			return false;
 		}
