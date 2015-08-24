@@ -72,10 +72,11 @@ public class ValhallaDecorator
 		// ascend.php
 		// ascend.php?alttext=communityservice
 
-		// *** some of the following depends on text that is not
-		// *** present in the Community Service ascension page.
+		if ( buffer.indexOf("<p>Are you") > -1 )
+		{
+			buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
+		}
 
-		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
 		StringUtilities.singleStringReplace( buffer, "<p>Please", " Please" );
 
 		StringBuffer predictions = new StringBuffer();
