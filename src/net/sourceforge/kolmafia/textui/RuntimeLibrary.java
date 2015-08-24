@@ -4699,7 +4699,7 @@ public abstract class RuntimeLibrary
 			}
 
 			value.aset(
-				DataTypes.parseEffectValue( "" + effect.getEffectId(), true ),
+				DataTypes.makeEffectValue( effect.getEffectId(), true ),
 				new Value ( duration ) );
 		}
 
