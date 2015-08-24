@@ -382,7 +382,7 @@ public class RequestEditorKit
 		}
 		else if ( location.startsWith( "ascend.php" ) )
 		{
-			ValhallaDecorator.decorateGashJump( buffer );
+			ValhallaDecorator.decorateGashJump( location, buffer );
 		}
 		else if ( location.startsWith( "ascensionhistory.php" ) )
 		{

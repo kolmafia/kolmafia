@@ -67,8 +67,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ValhallaDecorator
 {
-	public static final void decorateGashJump( final StringBuffer buffer )
+	public static final void decorateGashJump( final String location, final StringBuffer buffer )
 	{
+		// ascend.php
+		// ascend.php?alttext=communityservice
+
+		// *** some of the following depends on text that is not
+		// *** present in the Community Service ascension page.
+
 		buffer.delete( buffer.indexOf( "<p>Are you" ), buffer.indexOf( "<p><center>" ) );
 		StringUtilities.singleStringReplace( buffer, "<p>Please", " Please" );
 
@@ -83,14 +89,16 @@ public class ValhallaDecorator
 
 		StringUtilities.singleStringReplace( buffer, "</center><p>", predictions.toString() );
 
-		int startPoint = SkillDatabase.classSkillsBase();
+		// We remove the confirmation checkboxes and automatically submit those controls as "on"
+		String oldButtons = "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)";
+		String newButtons = "<input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on>";
 
 		StringBuffer reminders = new StringBuffer();
-
 		reminders.append( "<br><table>" );
-		reminders.append( "<tr><td><input type=submit class=button value=\"Ascend\"><input type=hidden name=confirm value=on><input type=hidden name=confirm2 value=on></td></tr>" );
+		reminders.append( "<tr><td>" );
+		reminders.append( newButtons );
+		reminders.append( "</td></tr>" );
 		reminders.append( "</table>" );
-
 		reminders.append( "<br><table cellspacing=10 cellpadding=10><tr>" );
 
 		ArrayList<String> skillList = new ArrayList<String>();
@@ -110,7 +118,8 @@ public class ValhallaDecorator
 		reminders.append( "</font></td></tr></table></td>" );
 
 		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
-		ValhallaDecorator.listPermanentSkills( reminders, skillList, startPoint );
+
+		ValhallaDecorator.listPermanentSkills( reminders, skillList, SkillDatabase.classSkillsBase() );
 		reminders.append( "</font></td></tr></table></td>" );
 
 		reminders.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
@@ -119,10 +128,7 @@ public class ValhallaDecorator
 
 		reminders.append( "</tr></table><br><br>" );
 
-		StringUtilities.singleStringReplace(
-			buffer,
-			"<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)",
-			reminders.toString() );
+		StringUtilities.singleStringReplace( buffer, oldButtons, reminders.toString() );
 
 		return;
 	}
