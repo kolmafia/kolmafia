@@ -475,6 +475,8 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.LOCATION_TYPE };
 		functions.add( new LibraryFunction( "to_url", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "desc_to_effect", DataTypes.EFFECT_TYPE, params ) );
 		// Functions related to daily information which get
 		// updated usually once per day.
 
@@ -2446,6 +2448,12 @@ public abstract class RuntimeLibrary
 
 		return DataTypes.parseSkillValue( value.toString(), true );
 	}
+
+	public static Value desc_to_effect( Interpreter interpreter, final Value value )
+	{
+		return DataTypes.makeEffectValue( EffectDatabase.getEffectIdFromDescription( value.toString() ), true );
+	}
+
 
 	public static Value to_effect( Interpreter interpreter, final Value value )
 	{
