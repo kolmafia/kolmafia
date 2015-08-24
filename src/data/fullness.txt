@@ -21,7 +21,7 @@ angel-food cake	3	1	crappy	3	0	0	0
 angst burger	5	1	awesome	0	0	0	0	+10 PvP fights
 antique packet of ketchup	1	1	crappy	1	1-2	0	1-3	lose 3 HP
 As Jus Gezund Heit	4	1		4-6	0	0	0
-asparagus lo mein	3	6	awesome	9-16	11-14	14-16	0
+asparagus lo mein	3	6	awesome	11-14	10-14	10-14	0
 asparagus stir-fry	1	3	good	1-5	3-5	2-5	0
 astral hot dog	3	1		6	48-60	48-60	48-60
 babycakes	2	1	crappy	2	0	0	0
@@ -399,7 +399,7 @@ kiwi	1	2	decent	2	0	0	0
 knight cookie	1	13	EPIC	4-6	0	0	45-50	30 Knightlife (+100..200% mox)
 Knob jelly donut	1	1	good	3	3-5	3-5	3-5
 knob ka-bobs	1	10	good	2-4	0	20-30	0
-Knob lo mein	4	6	awesome	14-20	0	31-34	0
+Knob lo mein	4	6	awesome	16-19	0	30-34	0
 Knob mushroom	2	1	crappy	2-3	0	0	0
 Knob nuts	1	4	good	3	1-4	1-4	1-4
 Knob pasty	1	1	EPIC	5-6	5-6	5-6	5-6
@@ -409,7 +409,7 @@ Knob shroomkabob	2	1	decent	2-5	0	6-11	0
 Knob stir-fry	2	3	good	2-10	0	12-18	0
 Knob stroganoff	4	5	good	10-14	0	0	20-25
 Knob stuffed shells	4	5	good	10-14	20-25	0	0
-Knoll lo mein	4	6	awesome	14-21	30-34	0	0
+Knoll lo mein	4	6	awesome	16-19	30-34	0	0
 Knoll mushroom	2	1	crappy	1-3	0	0	0
 Knoll shroomkabob	2	1	decent	2-5	6-11	0	0
 Knoll stir-fry	2	3	good	2-10	14-18	0	0
@@ -491,7 +491,7 @@ nutty organic salad	3	11	awesome	12-15	0	31-40	0
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
 old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 olive	1	1	crappy	1	0	0	0
-olive lo mein	3	6	awesome	9-16	10-14	0	10-14
+olive lo mein	3	6	awesome	11-14	10-14	0	10-14
 olive stir-fry	1	3	good	1-5	3-5	0	2-4
 Omega Sundae	7	1	EPIC	32-38	20-30	50-60	20-30
 one with everything	2	1	awesome	6-8	0	10-15	0	50 Inner Dog (+50% Myst, +10% Spell Crit, +50 Damage vs Zombies/Ghosts)
@@ -663,7 +663,7 @@ spicy noodles	3	4	good	6-12	0	0	0
 sponge cake	2	3	decent	3-5	0	0	5-10
 spooky frank	0	1	crappy	0	0	0	0
 spooky hi mein	5	13	EPIC	24-27	15-20	70-75	30-35	5 Spooky Breath (combat skill)
-spooky lo mein	4	6	awesome	14-22	0	0	33-34
+spooky lo mein	4	6	awesome	16-19	0	0	30-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
 spooky shroomkabob	2	1	decent	2-5	0	0	6-11
 spooky stir-fry	2	3	good	2-10	0	0	14-18
