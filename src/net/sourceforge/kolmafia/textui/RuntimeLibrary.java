@@ -4676,7 +4676,7 @@ public abstract class RuntimeLibrary
 		{
 			return DataTypes.ZERO_VALUE;
 		}
-		int effectId = EffectDatabase.getEffectId( arg.toString() );
+		int effectId = (int) arg.intValue();
 		AdventureResult effect = EffectPool.get( effectId, 0 );
 		return new Value( effect.getCount( KoLConstants.activeEffects ) );
 	}
@@ -4699,7 +4699,7 @@ public abstract class RuntimeLibrary
 			}
 
 			value.aset(
-				DataTypes.parseEffectValue( effect.getName(), true ),
+				DataTypes.parseEffectValue( "" + effect.getEffectId(), true ),
 				new Value ( duration ) );
 		}
 
