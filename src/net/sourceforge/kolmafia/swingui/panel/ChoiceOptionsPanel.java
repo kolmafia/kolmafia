@@ -1396,7 +1396,7 @@ public class ChoiceOptionsPanel
 
 		// Figure out what to do at the bookcases
 
-		index = Preferences.getInteger( "choiceAdventure80" );
+		index = Preferences.getInteger( "choiceAdventure888" );
 		if ( index == 4 )
 		{
 			this.riseSelect.setSelectedIndex( 0 );
@@ -1406,7 +1406,7 @@ public class ChoiceOptionsPanel
 			this.riseSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure88" ) );
 		}
 
-		index = Preferences.getInteger( "choiceAdventure81" );
+		index = Preferences.getInteger( "choiceAdventure889" );
 		if ( index == 4 )
 		{
 			this.fallSelect.setSelectedIndex( 0 );
