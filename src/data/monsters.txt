@@ -1835,7 +1835,7 @@ Rudolphus of Crimborg	441	rudolfus.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: cons
 # Crimbo Town Toy Factory (Crimbo 2007)
 Arc-Welding Elfborg	438	borgelf1.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decal-Applying Elfborg	440	borgelf4.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Ribbon-Cutting Elfborg	0	borgelf2.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Ribbon-Cutting Elfborg	437	borgelf2.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Weapons-Assembly Elfborg	0	borgelf3.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
 # Sinister Dodecahedron (Crimbo 2007)
