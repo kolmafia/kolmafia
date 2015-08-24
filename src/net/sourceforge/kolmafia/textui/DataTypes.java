@@ -501,13 +501,13 @@ public class DataTypes
 			return new Value( DataTypes.EFFECT_TYPE, effectId, name );
 		}
 
-		AdventureResult effect = EffectDatabase.getFirstMatchingEffect( name, false );
-		if ( effect == null )
+		effectId = EffectDatabase.getEffectId( name );
+
+		if ( effectId == -1 )
 		{
 			return returnDefault ? DataTypes.EFFECT_INIT : null;
 		}
 
-		effectId = EffectDatabase.getEffectId( effect.getName() );
 		name = EffectDatabase.getEffectName( effectId );
 		return new Value( DataTypes.EFFECT_TYPE, effectId, name );
 	}
