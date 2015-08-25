@@ -1939,6 +1939,7 @@
 1938	Throwing Some Shade	bigglasses.gif	c5cff9851dd22e65ea938582e6eabe68	use 1 shady shades
 1939	A Rose by Any Other Material	rose.gif	a045be8e57e7ed0a5fefaec9e1fa70c9	use 1 squeaky toy rose
 1940	Gaze of the Gazelle	nopic.gif	07d1f36bb0141751020c2f5f5cc210ce	eat 1 weird gazelle steak
+1941	East of Eaten	sausage.gif	3703664f3aec4fd25a893ad7486154a9	eat 1 sausage without a cause
 1942	Robot Friends	c13cookie1.gif	8fed47f63c86f55d3aa48d1845b8cf94	use 1 silver face paint
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
