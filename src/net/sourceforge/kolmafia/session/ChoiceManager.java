@@ -10582,6 +10582,12 @@ public abstract class ChoiceManager
 			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step13" );
 			break;
 
+		case 1089:
+			if ( ChoiceManager.lastDecision == 30 && text.contains( "fill out all the forms" ) )
+			{
+				KoLCharacter.liberateKing();
+			}
+			break;
 		case 1093:
 		{
 			// The WLF Bunker
