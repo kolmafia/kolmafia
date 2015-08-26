@@ -1918,7 +1918,7 @@
 1917	Mushroom Magicalness	pod_glowing.gif	ec6f11814f115d6c9bf6f2c02bba74f4	#use glowing spore pod in combat
 1918	Fungal Flambé	pod_hot.gif	c48b0a26daedd9d432f728c7c2d9c221	#use hot spore pod in combat
 1919	Mushroom Moxiousness	pod_cool.gif	668d53ffacba7dd3cced5365d11b7008	#use cool spore pod in combat
-1920
+1920	Mushroom Melody	pod_jingle.gif	0b20438832ae902d3044f8a7cf32b36b	#use jingling spore pod in combat
 1921	Burning Tongue	saltongue.gif	c24e4978c00cd712e8d18a4bac1b615c	use 1 basaltamander tongue
 1922	Pyromania	fire.gif	ddab6cb3d61f20d9294db8f4131735f4	cast 1 Pyromania
 1923	Red Menace	lavalamp.gif	130015724843d272c093e0d86e16de80
