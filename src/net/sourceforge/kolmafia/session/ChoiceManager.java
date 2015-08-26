@@ -11404,6 +11404,45 @@ public abstract class ChoiceManager
 			// Again, we should not fail, but cope.
 			return "0";
 		}
+
+		case 1087:
+			// The Dark and Dank and Sinister Cave Entrance
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			if ( choices.size() == 1 )
+			{
+				return "1";
+			}
+
+			String myClass = KoLCharacter.getClassType();
+			String answer =
+				myClass == KoLCharacter.SEAL_CLUBBER ? "Freak the hell out like a wrathful wolverine." :
+				myClass == KoLCharacter.TURTLE_TAMER ? "Sympathize with an amphibian." :
+				myClass == KoLCharacter.PASTAMANCER ? "Entangle the wall with noodles." :
+				myClass == KoLCharacter.SAUCEROR ? "Shoot a stream of sauce at the wall. " :
+				myClass == KoLCharacter.DISCO_BANDIT ? "Focus on your disco state of mind." :
+				myClass == KoLCharacter.ACCORDION_THIEF ? "Bash the wall with your accordion. " :
+				null;
+
+			// Only standard classes can join the guild, so we
+			// should not fail. But, if we do, cope.
+			if ( answer == null )
+			{
+				return "0";
+			}
+
+			// Iterate over the option strings and find the one
+			// that matches the correct answer.
+			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+			{
+				if ( entry.getValue().contains( answer ) )
+				{
+					return String.valueOf( entry.getKey() );
+				}
+			}
+
+			// Again, we should not fail, but cope.
+			return "0";
+
 		}
 
 		return decision;
