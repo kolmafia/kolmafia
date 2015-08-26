@@ -471,9 +471,9 @@ Mer-kin teacher	838	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-
 Mer-kin tippler	768	merkintippler.gif	Atk: 600 Def: 360 HP: 750 Init: 25 Meat: 200 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mer-kin trainer	841	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
 mimic	283	lowerm.gif	BOSS Atk: 45 Def: 40 HP: 50 Init: 70 P: weird	dead mimic (n100)
-mimic (bottom barrels)	287	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
-mimic (middle barrels)	288	barrel.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird Manuel: "mimic"
-mimic (top barrels)	289	barrel.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Manuel: "mimic"
+mimic (bottom barrels)	287	newbarrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
+mimic (middle barrels)	288	newbarrel.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird Manuel: "mimic"
+mimic (top barrels)	289	newbarrel.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Manuel: "mimic"
 mind flayer	222	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer corpse (25)	cornuthaum (15)	large box (20)	flayed mind (c0)
 mine crab	746	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 250 P: fish	live nautical mine (n20)
 Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
@@ -2056,7 +2056,7 @@ oddly-proportioned ghost	0	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -1000
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer"	star chart (100)
-mimic (obsolete)	177	barrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
+mimic (obsolete)	177	newbarrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack"
 skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier"
 
