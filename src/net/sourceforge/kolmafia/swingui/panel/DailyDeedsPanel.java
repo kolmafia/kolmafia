@@ -3654,7 +3654,7 @@ public class DailyDeedsPanel
 
 	private static final Object[][] DECK_COMBO_DATA =
 	{
-		{ "- Draw a card -", "", "" },
+		{ "Deck of Every Card: ", "", "" },
 		{ "Random", "play random", "Draw cards randomly" },
 		{ "- Stat Gain -", "", "" },
 		{ "Muscle stat", "play stat muscle", "Gain 500 muscle substats" },
@@ -3749,7 +3749,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, "-Draw a card-    " );
+			box = this.addComboBox( choices.toArray(), tooltips, "Deck of Every Card: BLAHBLAH" );
 			box.addActionListener( new DeckComboListener() );
 			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Draw");
