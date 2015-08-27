@@ -1754,7 +1754,7 @@
 1729	dense meat staff	141835260	densestaff.gif	weapon	t,d	65	dense meat staves
 1730	dense meat crossbow	572944807	densebow.gif	weapon	t,d	65
 1731	Spirit Precipice	796162603	spiritprec.gif	weapon	t,d	140
-1732	smoldering staff	480169596	smolstaff.gif	weapon	t,d	130
+1732	smoldering staff	480169596	smolstaff.gif	weapon	t,d	130	smoldering staves
 1733	hot cross bow	898064781	hotxbow.gif	weapon	t,d	135
 1734	sword behind inappropriate prepositions	656480531	prepsword.gif	weapon	t,d	135	swords above inappropriate prepositions
 1735	meatspout staff	546755347	vortstaff.gif	weapon	t,d	130	meatspout staves
@@ -2440,7 +2440,7 @@
 2415	discarded pacifier	806968474	pacifier.gif	none, bounty	q	0
 2416	bounty-hunting helmet	968287390	bountyhelmet.gif	hat		0
 2417	bounty-hunting rifle	863257288	bountyrifle.gif	weapon		0
-2418	bounty-hunting pants	241547370	bountypants.gif	pants		0
+2418	bounty-hunting pants	241547370	bountypants.gif	pants		0	pairs of bounty-hunting pants
 2419	bottle of rhinoceros hormones	717528216	bottle.gif	multiple	t	0	bottles of rhinoceros hormones
 2420	teeny-tiny magic scroll	193836767	tinyscroll.gif	multiple	t	0
 2421	bottle of pirate juice	262244349	piratejuice.gif	multiple	t	0	bottles of pirate juice
@@ -2907,7 +2907,7 @@
 2882	tiny plastic The Big Wisniewski	926215010	fig2_11.gif	accessory	t,d	30	tiny plastic The Big Wisniewski
 2883	tiny plastic Felonia	147843406	fig2_12.gif	accessory	t,d	30	tiny plastic Feloniae
 2884	tiny plastic Beelzebozo	463746964	fig2_13.gif	accessory	t,d	30	tiny plastic Beelzebozoz
-2885	tiny plastic conservationist hippy	813778155	fig2_14.gif	accessory	t,d	30	tiny plastic conservationist hippies
+2885	tiny plastic conservationist hippy	813778155	fig2_14.gif	accessory	t,d	30	tiny plastic conservationist hippy
 2886	tiny plastic 7-foot dwarf	603455343	fig2_15.gif	accessory	t,d	30	tiny plastic 7-foot dwarves
 2887	tiny plastic angry bugbear	987461179	fig2_16.gif	accessory	t,d	30
 2888	tiny plastic anime smiley	700046234	fig2_17.gif	accessory	t,d	30
@@ -3053,7 +3053,7 @@
 3028	Corpse Island iced tea	924952398	corpseisland.gif	drink	t,d	50
 3029	red-headed corpse	356963492	corpseshot.gif	drink	t,d	50
 3030	kamicorpse-ee	706044279	corpseshot.gif	drink	t,d	50	kamicorpse-ae
-3031	purple corpsel	365780933	corpseshot.gif	drink	t,d	50
+3031	purple corpsel	365780933	corpseshot.gif	drink	t,d	50	purple corpsel
 3032	corpsebite	316114182	corpseshot.gif	drink	t,d	50
 3033	pirate fledges	642596336	fledges.gif	accessory	q	0
 3034	cursed piece of thirteen	654772088	pieceof13.gif	usable	t	0	cursed pieces of thirteen
@@ -3647,7 +3647,7 @@
 3622	gnashing teeth	378139843	gnashteeth.gif	none	t	0
 3623	chitinous pod	968004822	chitinpod.gif	none	t	0
 3624	parasitic claw	115811576	paraclaw.gif	weapon	t	0
-3625	parasitic tentacles	619513279	tentapants.gif	pants	t	0
+3625	parasitic tentacles	619513279	tentapants.gif	pants	t	0	pairs of parasitic tentacles
 3626	parasitic headgnawer	366474890	headgnawer.gif	hat	t	0
 3627	parasitic strangleworm	495138723	armtentacle.gif	offhand	t	0
 3628	pair of ragged claws	675006664	raggedclaws.gif	grow	t	0	pairs of ragged claws
@@ -3858,7 +3858,7 @@
 3833	fruity girl swill	913726874	fruitym.gif	drink	t,d	105	glasses of fruity girl swill
 3834	blended frozen swill	663681212	daquiri.gif	drink	t,d	105	glasses of blended frozen swill
 3835	tiny costume wardrobe	939924795	wardrobe.gif	familiar	t	0
-3836	Elvish sunglasses	424231419	elvisshades.gif	accessory	t	0
+3836	Elvish sunglasses	424231419	elvisshades.gif	accessory	t	0	pairs of Elvish sunglasses
 3837	anniversary safety glass vest	744630945	glassvest.gif	shirt		0
 3838	anniversary burlap belt	612792894	burlapbelt.gif	accessory		0
 3839	anniversary balsa wood socks	843314870	woodsocks.gif	accessory		0	pairs of anniversary balsa wood socks
@@ -4156,7 +4156,7 @@
 4131
 4132	sham champagne	319658078	chamflute.gif	drink	t,d	133	glasses of sham champagne
 4133	tempura air	647220670	tempuraair.gif	usable	d	75
-4134	pressurized potion of pneumaticity	792712954	airpotion.gif	usable	d	75
+4134	pressurized potion of pneumaticity	792712954	airpotion.gif	usable	d	75	pressurized potions of pneumaticity
 4135	moveable feast	627351191	movfeast.gif	familiar, reusable	t	0
 4136	Bag o' Tricks	173186492	bagotricks.gif	offhand, reusable	t	0
 4137	slime stack	916071890	slimestack.gif	none, combat	t,d	100
@@ -4438,7 +4438,7 @@
 4413	Schr&ouml;dinger's thermos	854118120	schrothermos.gif	drink	t	0	Schr&ouml;dinger's thermoses
 4414	colorful plastic ball	929593771	plasticball.gif	multiple	t	0
 4415	sealhide hood	782912002	sealhood.gif	hat	d	55
-4416	sealhide leggings	484195586	ninjapants.gif	pants	d	60	sealhide leggings
+4416	sealhide leggings	484195586	ninjapants.gif	pants	d	60	pairs of sealhide leggings
 4417	sealhide cloak	254366277	barcloak.gif	container	d	50
 4418	sealhide buckler	590197284	buckler2.gif	offhand	d	45
 4419	sealhide whip	211585957	whip.gif	weapon	d	35
@@ -7482,7 +7482,7 @@
 7457	French bronilla brogurt	166749632	brogurt2.gif	drink	t,d	500	cups of French bronilla brogurt
 7458	History's Most Offensive Jokes, Vol. IX	455187460	book3.gif	usable	t	0	copies of History's Most Offensive Jokes, Vol. IX
 7459	Now You're Cooking With Grease	986944827	book5.gif	usable	t	0	copies of Now You're Cooking With Grease
-7460	Sloppy Seconds Diner Employee Handbook	167862577	book2.gif	usable	t	0	copies of Sloppy Seconds Diner Employee Handbook
+7460	Sloppy Seconds Diner Employee Handbook	167862577	book2.gif	usable	t	0	copies of the Sloppy Seconds Diner Employee Handbo
 7461	industrial strength anti-fungal spray	204345730	bodyspray.gif	usable	t	0	cans of industrial strength anti-fungal spray
 7462	Brogre brorts	136188578	brorts.gif	pants		0	pairs of Brogre brorts
 7463	Brogre brolo shirt	624152936	brolo.gif	shirt		0
@@ -7958,7 +7958,7 @@
 7933
 7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0	rolls of sneaky wrapping paper
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
-7936	picky tweezers	177727115	tweezers.gif	reusable	t	0
+7936	picky tweezers	177727115	tweezers.gif	reusable	t	0	pairs of picky tweezers
 7937	Crimbo Credit	772180382	crimbocredit.gif	none		0	Crimbo Credits
 7938	single atom	904190479	blank.gif	spleen	d	300
 7939	Time Cape	790284934	timecape.gif	container	t	0
@@ -8044,7 +8044,7 @@
 8019	Chateau Mantegna room key	667086316	cmkey.gif	usable	t	0
 8020	Choco-Mint patty	561293201	mintpatty.gif	food	t,d	5	Choco-Mint patties
 8021	hot mint schnocolate	654738040	coffeecup.gif	drink	t,d	5
-8022	homeopathic mint tea	904622324	glasswater.gif	spleen	t,d	5
+8022	homeopathic mint tea	904622324	glasswater.gif	spleen	t,d	5	glasses of homeopathic mint tea
 8023	electric muscle stimulator	791264166	stimulator.gif	none	q	0
 8024	foreign language tapes	401580658	tapedeck.gif	none	q	0
 8025	bowl of potpourri	829322849	potpourri.gif	none	q	0
@@ -8201,7 +8201,7 @@
 8176	premium malt liquor	602053119	good40.gif	drink	t,d	25
 8177	brown paper pants	463340033	paperpants.gif	pants	t,d	25
 8178	brown paper bag mask	476925222	paperbaghat.gif	hat	t,d	25
-8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0
+8179	ring of telling skeletons what to do	897859404	skelring.gif	accessory	t	0	rings of telling skeletons what to do
 8180	breadwand	121809700	breadwand.gif	weapon	t,d	30
 8181	loafers	658560542	loafers.gif	accessory	t,d	25
 8182	Map to Kokomo	734514643	map.gif	usable		0
@@ -8230,22 +8230,22 @@
 8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
 8206	expensive camera	438775690	camera.gif	accessory	t,d	150
-8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150
+8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150	pairs of cheap sunglasses
 8208	How to Avoid Scams	948718713	book2.gif	multiple	t,d	50	copies of How to Avoid Scams
-8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75
-8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25
+8209	filthy child leash	420604890	childleash.gif	familiar	t,d	75	filthy children leashes
+8210	bag of gross foreign snacks	274564300	baggie.gif	none, combat	t,d	25	bags of gross foreign snacks
 8211	bag of park garbage	884529141	parkgarbage.gif	multiple	t,d	10	bags of park garbage
-8212	grogpagne	583183522	champagne.gif	multiple	t,d	36
+8212	grogpagne	583183522	champagne.gif	multiple	t,d	36	bottles of grogpagne
 8213	dirty rigging rope	289454217	stinkrope.gif	offhand	t,d	66
 8214	nasty snuff	716979041	nastysnuff.gif	spleen, usable	t,d	45	tins of nasty snuff
 8215	sewage-clogged pistol	660740541	sewagepistol.gif	weapon	t,d	77
-8216	beard incense	204763905	incense.gif	multiple	t,d	15
+8216	beard incense	204763905	incense.gif	multiple	t,d	15	sticks of beard incense
 8217	perfume-soaked bandana	700681536	perfbandana.gif	accessory	t,d	35
 8218	toxic globule	389466175	toxglob.gif	none	t,d	5
 8219	toxo	879522066	toxo.gif	food	d	22
 8220	Lemonade-235	531649603	toxlemonade.gif	drink	d	22
 8221	isotophat	188051518	toxhat.gif	hat	d	50
-8222	Three Mile Island shorts	696890895	toxshorts.gif	pants	d	50
+8222	Three Mile Island shorts	696890895	toxshorts.gif	pants	d	50	pairs of Three Mile Island shorts
 8223	toxic mop	248150281	mop.gif	weapon	d	90
 8224	inert sludgepuppy	469414689	sludgepup.gif	grow		0
 8225	lead collar	639074313	leadcollar.gif	familiar	t,d	75
@@ -8253,15 +8253,15 @@
 8227	backwoods banjo	257129869	seegerbanjo.gif	weapon	t	0
 8228	grody jug	889553685	jug.gif	none, combat	t,d	25
 8229	ratskin pajama pants	310929511	atpants.gif	pants	t	0
-8230	turtle voicebox	485498068	turtlebox.gif	usable	t,d	35
+8230	turtle voicebox	485498068	turtlebox.gif	usable	t,d	35	turtle voiceboxes
 8231	fake washboard	814903923	washboard.gif	offhand	t	0
-8232	Dinsey's oculus	218999656	dinseyeye.gif	accessory		0
-8233	Dinsey's radar dish	402040908	dinseydish.gif	offhand		0
-8234	Dinsey's pizza cutter	932991337	dinseycutter.gif	weapon		0
-8235	Dinsey's brain	329884447	dinseybrain.gif	hat		0
-8236	Dinsey's glove	531250036	dinseyglove.gif	accessory		0
-8237	Dinsey's pants	699250342	disneypants.gif	pants		0
-8238	brain preservation fluid	602405203	dinseyfluid.gif	usable	t	0
+8232	Dinsey's oculus	218999656	dinseyeye.gif	accessory		0	Dinsey oculi
+8233	Dinsey's radar dish	402040908	dinseydish.gif	offhand		0	Dinsey radar dishes
+8234	Dinsey's pizza cutter	932991337	dinseycutter.gif	weapon		0	Dinsey pizza cutters
+8235	Dinsey's brain	329884447	dinseybrain.gif	hat		0	Dinsey brains
+8236	Dinsey's glove	531250036	dinseyglove.gif	accessory		0	Dinsey gloves
+8237	Dinsey's pants	699250342	disneypants.gif	pants		0	pairs of Dinsey pants
+8238	brain preservation fluid	602405203	dinseyfluid.gif	usable	t	0	jars of brain preservation fluid
 8239	keycard &alpha;	288390491	keycarda.gif	none	q	0
 8240	keycard &beta;	658910692	keycardb.gif	none	q	0
 8241	keycard &gamma;	148032289	keycardc.gif	none	q	0
@@ -8304,7 +8304,7 @@
 8278	Afternoon Delight	449375148	martini.gif	drink	t,d	100
 8279	Kokomo Resort Chip	736517029	circle.gif	reusable	t,d	10
 8280	Golden Kokomo Resort Chip	809938599	circle.gif	none, combat	t,d	1000
-8281	Kokomo Resort Brand Suntan Oil	342279179	lotion.gif	usable	t,d	100
+8281	Kokomo Resort Brand Suntan Oil	342279179	lotion.gif	usable	t,d	100	bottles of Kokomo Resort Brand Suntan Oil
 8282	Kokomo Resort Order Pad	947783783	notebook.gif	none, combat	t,d	100
 8283	The Cocktail Shaker	590266333	theshaker.gif	reusable		0
 8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100	Kokomo Resort Passes
@@ -8334,27 +8334,27 @@
 8308	piggy tattoo	377475455	swisspig.gif	usable	t,d	5
 8309	baggie of regular-sized tardigrades	891381897	baggie.gif	usable	t,d	5
 8310	little red .epub file	640026029	transmission.gif	usable	t,d	5
-8311	BUBBLE GUM	769285817	fishgum.gif	usable	t,d	5
-8312	hustler shades	571679743	bigglasses.gif	usable	t,d	5
+8311	BUBBLE GUM	769285817	fishgum.gif	usable	t,d	5	sticks of BUBBLE GUM
+8312	hustler shades	571679743	bigglasses.gif	usable	t,d	5	pairs of hustler shades
 8313	spicy jerky stick	995309412	owlstix.gif	usable	t,d	5
 8314	costume rental shop	981484328	dollhouse.gif	usable	t,d	5
-8315	muscle oil	270624749	bottle.gif	usable	t,d	5
-8316	bottle of Red-Out	813026026	blankout.gif	usable	t,d	5
+8315	muscle oil	270624749	bottle.gif	usable	t,d	5	bottles of muscle oil
+8316	bottle of Red-Out	813026026	blankout.gif	usable	t,d	5	bottles of Red-Out
 8317	pickpocket protector	936001492	keycard.gif	usable	t,d	5
 8318	sinister-looking cat	992738186	bkitten.gif	usable	t,d	5
 8319	jazzy cigarette holder	390104882	cornholder.gif	usable	t,d	5
-8320	one glove	551582208	glove.gif	usable	t,d	5
+8320	one glove	551582208	glove.gif	usable	t,d	5	one gloves (what?)
 8321	leather glove	138138243	redglove.gif	usable	t,d	5
 8322	handful of fire	268173706	fire.gif	usable	t,d	5
-8323	Cracklin' Oat Bran	511642176	potpourri.gif	usable	t,d	5
+8323	Cracklin' Oat Bran	511642176	potpourri.gif	usable	t,d	5	bowls of Cracklin' Oat Bran
 8324	disposable lighter	735001816	bic.gif	usable	t,d	5
 8325	coal contact lenses	334043819	luckycap.gif	usable	t,d	5
-8326	conjured ice cream	851628805	snowcone.gif	usable	t,d	5
-8327	Iceberglar scarf	211011165	scarf.gif	usable	t,d	5
+8326	conjured ice cream	851628805	snowcone.gif	usable	t,d	5	conjured ice cream cones
+8327	Iceberglar scarf	211011165	scarf.gif	usable	t,d	5	Iceberglar scarves
 8328	icy hairspray	645739975	spraycan.gif	usable	t,d	5
 8329	smellbook	289853477	book4.gif	usable	t,d	5
 8330	assassin's cheese knife	279451446	knife.gif	usable	t,d	5	assassin's cheese knives
-8331	filthy armor	654549341	ironhelmet.gif	usable	t,d	5
+8331	filthy armor	654549341	ironhelmet.gif	usable	t,d	5	suits of filthy armor
 8332	plague pie	726649959	pie.gif	usable	t,d	5
 8333	batarang	362381064	batwing.gif	usable	t,d	5
 8334	spare neck bolts	588076798	bolts.gif	usable	t,d	5
@@ -8364,7 +8364,7 @@
 8338	Leonard's glasses	598174114	obsglasses.gif	usable	t,d	5
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	usable	t,d	5
 8340	janitor's mop	570677877	mop.gif	usable	t,d	5
-8341	warehouse clerk's glasses	468187859	obsglasses.gif	usable	t,d	5
+8341	warehouse clerk's glasses	468187859	obsglasses.gif	usable	t,d	5	pairs of warehouse clerks' glasses
 8342
 8343
 8344
@@ -8417,7 +8417,7 @@
 8391	blue mana	521152123	goldcoin.gif	none	t	0	blue mana
 8392	gift card	132840364	buscard.gif	usable	t	0
 8393	hermit factoid	484177815	guildapp.gif	usable	t,d	37
-8394	The Emperor's dry cleaning	287667995	plainbrown.gif	usable	t	0
+8394	The Emperor's dry cleaning	287667995	plainbrown.gif	usable	t	0	articles of The Emperor's dry cleaning
 8395	The Emperor's new hat	354942962	blank.gif	hat		0
 8396	The Emperor's new shirt	112751980	blank.gif	shirt		0
 8397	The Emperor's new pants	531322996	blank.gif	pants		0	pairs of The Emperor's new pants
@@ -8458,9 +8458,9 @@
 8432	hot spore pod	479128056	pod_hot.gif	none, combat	t,d	50
 8433	cool spore pod	789174005	pod_cool.gif	none, combat	t,d	50
 8434	jingling spore pod	377015104	pod_jingle.gif	none, combat	t,d	50
-8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0
-8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0
-8437	green LavaCo Lamp&trade;	699716715	lavalamp.gif	offhand		0
+8435	red LavaCo Lamp&trade;	409845917	lavalamp.gif	offhand		0	red LavaCo Lamps&trade;
+8436	blue LavaCo Lamp&trade;	455931210	lavalamp.gif	offhand		0	blue LavaCo Lamps&trade;
+8437	green LavaCo Lamp&trade;	699716715	lavalamp.gif	offhand		0	green LavaCo Lamps&trade;
 8438	thin gold wire	942583408	goldwire.gif	none	t,d	1970
 8439	insulated gold wire	289339200	inswire.gif	none	t,d	197
 8440	empty lava bottle	935989438	lbottle1.gif	none	t,d	125
@@ -8484,7 +8484,7 @@
 8458	high-temperature mining mask	866988655	minemask.gif	hat	t,d	200
 8459	fireproof megaphone	231680696	megaphone.gif	offhand	t,d	55
 8460	mineapple	982332953	mineapple.gif	food	t,d	23
-8461	Gold Velvet&trade; whiskey	895090431	fancybrew.gif	drink	t,d	37
+8461	Gold Velvet&trade; whiskey	895090431	fancybrew.gif	drink	t,d	37	bottles of Gold Velvet&trade; whiskey
 8462	SMOOCH soda	506542098	beerbottle.gif	food	t,d	11
 8463	smelted roe	907174760	smeltroe.gif	food	t,d	45
 8464	lavawater	358169908	juice.gif	drink	t,d	44	bottles of lavawater
@@ -8494,7 +8494,7 @@
 8468	basaltamander buckler	640903344	basbuckler.gif	offhand	t	0
 8469	sticky lava globs	172658636	globs2.gif	usable	t,d	62	sticky lava globs
 8470	gooey lava globs	926336814	globs3.gif	food	t,d	32	gooey lava globs
-8471	lava-proof pants	549036454	htpants.gif	pants	t,d	132
+8471	lava-proof pants	549036454	htpants.gif	pants	t,d	132	pairs of lava-proof pants
 8472	heat-resistant necktie	968422353	httie.gif	accessory	t,d	111
 8473	heat-resistant gloves	607723149	htgloves.gif	accessory	t,d	122	pairs of heat-resistant gloves
 8474	very hot lunch	955123249	lunchbox.gif	food	t,d	89	very hot lunches
@@ -8540,12 +8540,12 @@
 8514	little deuce cape	202354299	deucecape.gif	container		0
 8515	Lavalos's shell	726558682	lavashell.gif	container		0
 8516	smooth velvet bra	396968031	bra.gif	shirt	t,d	75
-8517	SMOOCH bracers	952592762	smoochbracer.gif	accessory	d	85
-8518	SMOOCH kneepads	170309346	smoochknee.gif	accessory	d	90
-8519	SMOOCH spaulders	843065832	smoochshoulder.gif	accessory	d	95
+8517	SMOOCH bracers	952592762	smoochbracer.gif	accessory	d	85	pairs of SMOOCH bracers
+8518	SMOOCH kneepads	170309346	smoochknee.gif	accessory	d	90	pairs of SMOOCH kneepads
+8519	SMOOCH spaulders	843065832	smoochshoulder.gif	accessory	d	95	pairs of SMOOCH spaulders
 8520	SMOOCH codpiece	214182183	smoochcod.gif	pants	d	80
 8521	SMOOCH breastplate	111720430	smoochbreast.gif	shirt	d	105
-8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75
+8522	superduperheated metal	927092698	hotingot.gif	none, combat	t,d	75	globs of superduperheated metal
 8523	fused fuse	980258577	fuse.gif	none	q	0
 8524	superheated metal	328432753	ingot.gif	multiple	t,d	50	ingots of superheated metal
 8525	lava cake	983897521	blackcake.gif	food	t,d	104
