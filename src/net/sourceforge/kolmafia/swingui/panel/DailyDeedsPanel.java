@@ -106,6 +106,8 @@ public class DailyDeedsPanel
 	public static final AdventureResult STAFF_OF_STEAK = ItemPool.get( ItemPool.STAFF_OF_STEAK, 1 );
 	public static final AdventureResult STAFF_OF_CREAM = ItemPool.get( ItemPool.STAFF_OF_CREAM, 1 );
 
+	private static final String comboBoxSizeString = "Available Hatter Buffs: BLAH";
+
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
 	 * Type: one of { Command, Item, Skill, Special }
@@ -3246,7 +3248,7 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.DRINK_ME_POTION );
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 
-			box = this.addComboBox( this.effects.toArray(), this.modifiers, "Available Hatter Buffs: BLAH" );
+			box = this.addComboBox( this.effects.toArray(), this.modifiers, comboBoxSizeString );
 			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 
 			// Initialize the GO button to do nothing.
@@ -3749,7 +3751,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, "Deck of Every Card: BLAHBLAH" );
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new DeckComboListener() );
 			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Draw");
