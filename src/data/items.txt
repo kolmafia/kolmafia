@@ -8580,3 +8580,4 @@
 8554	vintage smart drink	485189565	waterbottle.gif	drink	t	0
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
+8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	0
