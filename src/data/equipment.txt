@@ -2422,7 +2422,7 @@ tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
 The Lost Glasses	0	Mys: 25
-The One Mood Ring	0	Mys: 60
+The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60
 Time Bandit Badge of Courage	0	none
 time halo	50	none
