@@ -232,10 +232,10 @@ public class MallSearchRequest
 		}
 
 		// If an exact match, we can think about updating mall_price().
-		if ( this.searchString != null && this.searchString.startsWith( "\"" ) )
+		if ( this.searchString != null && this.searchString.startsWith( "\"" ) && this.results.size() > 0 )
 		{
-			String name = this.getFormField( "pudnuggler" );
-			StoreManager.maybeUpdateMallPrice( AdventureResult.pseudoItem( name ), new ArrayList<PurchaseRequest>( results ) );
+			AdventureResult item = this.results.get(0).getItem();
+			StoreManager.maybeUpdateMallPrice( item, new ArrayList<PurchaseRequest>( this.results ) );
 		}
 
 		KoLmafia.updateDisplay( "Search complete." );
