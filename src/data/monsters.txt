@@ -1582,8 +1582,8 @@ lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 P: elemental E: hot Init: 25
 Lavalos	1821	lavalos.gif	Atk: 250 Def: 200 HP: 500 P: horror Init: 50	Lavalos core (n100)	Lavalos's shell (n100)
 
 # The SMOOCH Army HQ (That 70s Volcano August 2015)
-SMOOCH private	1794	smoochman1.gif	Scale: 1 Cap: 12345  E: hot P: dude Init: -10000	SMOOCH soda (0)	heat-resistant sheet metal (0)
-SMOOCH sergeant	1795	smoochman2.gif	Scale: 15 Cap: 12345  E: hot P: dude Init: -10000	SMOOCH soda (0)	heat-resistant sheet metal (0)	heat-resistant sheet metal (0)
+SMOOCH private	1794	smoochman1.gif	Scale: 1 Cap: 12345 E: hot P: dude Init: -10000	SMOOCH soda (0)	heat-resistant sheet metal (0)
+SMOOCH sergeant	1795	smoochman2.gif	Scale: 15 Cap: 12345 E: hot P: dude Init: -10000	SMOOCH soda (0)	heat-resistant sheet metal (0)	heat-resistant sheet metal (0)
 SMOOCH general	1796	smoochman3.gif	Scale: 30 Cap: 12345 E: hot P: dude Init: -10000	SMOOCH soda (0)	heat-resistant sheet metal (0)	heat-resistant sheet metal (0)	heat-resistant sheet metal (0)
 Geve Smimmons	1817	smoochboss1.gif	Atk: 200 Def: 240 HP: 300 P: dude Init: 150	the tongue of Smimmons (n100)	demon makeup kit (n100)
 Raul Stamley	1818	smoochboss2.gif	Atk: 180 Def: 220 HP: 300 P: dude Init: 75	Raul's guitar pick (n100)	love (n100)
@@ -1836,7 +1836,7 @@ Rudolphus of Crimborg	441	rudolfus.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: cons
 Arc-Welding Elfborg	438	borgelf1.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Decal-Applying Elfborg	440	borgelf4.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 Ribbon-Cutting Elfborg	437	borgelf2.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
-Weapons-Assembly Elfborg	0	borgelf3.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
+Weapons-Assembly Elfborg	439	borgelf3.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	iGoogly (10)	LED block (10)	nanofiber cloth (10)	synthetic stuffing (10)	theoretical string (10)	toy hoverpad (10)
 
 # Sinister Dodecahedron (Crimbo 2007)
 death ray in a pear tree	639	deathray.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	laser-broiled pear (0)
@@ -1844,7 +1844,7 @@ turtle mech	640	turtlemech.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	pol
 Swiss hen	641	swisshen.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	oversized fish scaler (0)
 killing bird	642	killingbird.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	killing feather (0)	killing feather (0)
 golden ring	643	goldenring.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	golden ring (0)
-goose a-laying	644	goosealaying.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	robotronic egg (0)	robotronic egg ( 0)
+goose a-laying	644	goosealaying.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	robotronic egg (0)	robotronic egg (0)
 swarm a-swarming	645	swarmers.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	rogue swarmer (0)	rogue swarmer (0)
 blade a-spinning	646	sawblade.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	sawblade fragment (0)	sawblade fragment (0)
 laser lancing	647	laser.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	unstable laser battery (0)	unstable laser battery (0)
