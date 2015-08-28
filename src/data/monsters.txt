@@ -1920,11 +1920,12 @@ reanimated serpent skeleton	987	foss_serpent.gif	HP: 100 Def: 90 Atk: 100 Init: 
 reanimated wyrm skeleton	989	foss_wyrm.gif	HP: 200 Def: 180 Atk: 200 Init: -10000 Phys: 100 P: undead	fossilized necklace (c100)
 
 # A Skeleton Invasion (October 2010)
-skeleton invader	0	bigskeleton.gif	HP: 10 Def: 9 Atk: 10 Init: 50	bone chips (30)
-two skeleton invaders	0	bigskeleton2.gif	HP: 30 Def: 27 Atk: 30 Init: 50	bone chips (30)	bone chips (20)
-three skeleton invaders	0	bigskeleton3.gif	HP: 80 Def: 72 Atk: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
-four skeleton invaders	0	bigskeleton4.gif	HP: 110 Def: 99 Atk: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
-five skeleton invaders	1005	bigskeleton5.gif	HP: 150 Def: 135 Atk: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
+skeleton invader	1001	bigskeleton.gif	Atk: 10 Def: 9 HP: 10 Init: 50	bone chips (30)
+two skeleton invaders	1002	bigskeleton2.gif	Atk: 30 Def: 27 HP: 30 Init: 50	bone chips (30)	bone chips (20)
+three skeleton invaders	1003	bigskeleton3.gif	Atk: 80 Def: 72 HP: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
+four skeleton invaders	1004	bigskeleton4.gif	Atk: 110 Def: 99 HP: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
+five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
+ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 P: undead	bag of bones (0)
 
 # CRIMBCO cubicles (Crimbo 2010)
 Disorganized Files	0	c10files.gif	Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
