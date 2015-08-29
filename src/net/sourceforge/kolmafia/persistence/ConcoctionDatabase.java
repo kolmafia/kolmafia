@@ -444,6 +444,11 @@ public class ConcoctionDatabase
 		if ( ConcoctionDatabase.isMayo( id ) && ConcoctionDatabase.lastQueuedMayo == 0 &&
 			( !ConcoctionDatabase.queuedFood.isEmpty() || Preferences.getString( "mayoInMouth" ).equals( "" ) ) )
 		{
+			AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+			if ( workshedItem == null || workshedItem.getItemId() != ItemPool.MAYO_CLINIC )
+			{
+				return false;
+			}
 			return true;
 		}
 		return false;
@@ -939,10 +944,12 @@ public class ConcoctionDatabase
 		// Don't get Mayostat if it's a 1 fullness food, or it'd be wasted
 		// Don't get Mayodiol if it'd cause you to overdrink
 		String minderSetting = Preferences.getString( "mayoMinderSetting" );
+		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
 		if ( item != null && consumptionType == KoLConstants.CONSUME_EAT && !ConcoctionDatabase.isMayo( item.getItemId() ) &&
 			!minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
 			!( minderSetting.equals( "Mayostat" ) && c.getFullness() == 1 ) &&
-			!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) )
+			!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
+			workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
 		{
 			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
 			if ( quantity > mayoCount )

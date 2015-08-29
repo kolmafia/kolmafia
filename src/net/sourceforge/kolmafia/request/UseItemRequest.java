@@ -1086,6 +1086,12 @@ public class UseItemRequest
 		case ItemPool.MAYOSTAT:
 		case ItemPool.MAYOZAPINE:
 		case ItemPool.MAYOFLEX:
+			AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+			if ( workshedItem == null || workshedItem.getItemId() != ItemPool.MAYO_CLINIC )
+			{
+				UseItemRequest.limiter = "mayo clinic not installed";
+				return 0;
+			}
 			UseItemRequest.limiter = "mayonaise already in mouth";
 			return Preferences.getString( "mayoInMouth" ).equals( "" ) ? 1 : 0;
 		}

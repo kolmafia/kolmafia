@@ -2823,8 +2823,7 @@ Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, 
 # teflon swim fins: Makes you a better diver
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
-# The One Mood Ring: Muscle Percent: VARIABLE, Mysticality Percent: VARIABLE, Moxie Percent: VARIABLE, Monster Level: VARIABLE
-Item	The One Mood Ring	Single Equip
+Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
