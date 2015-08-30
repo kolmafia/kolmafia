@@ -1063,6 +1063,10 @@ public class CampgroundRequest
 		}
 		CampgroundRequest.currentWorkshedItem = workshedItem;
 		CampgroundRequest.setCampgroundItem( workshedItem );
+		if ( workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
+		{
+			ConcoctionDatabase.refreshConcoctions();
+		}
 	}
 
 	public static boolean isDwelling( final int itemId )
