@@ -584,6 +584,7 @@ public class RelayAgent
 
 				// Load image files locally to reduce bandwidth
 				StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+				StringUtilities.globalStringReplace( responseBuffer, "//images.kingdomofloathing.com", "/images" );
 
 				// Download and link to any Players of Loathing picture pages locally.
 				StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
