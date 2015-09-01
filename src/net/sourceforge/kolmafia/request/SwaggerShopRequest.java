@@ -111,6 +111,8 @@ public class SwaggerShopRequest
 					return Preferences.getInteger( "essenceOfBearCost" );
 				case ItemPool.ESSENCE_OF_ANNOYANCE:
 					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
+				case ItemPool.MANUAL_OF_NUMBEROLOGY:
+					return Preferences.getInteger( "manualOfNumberologyCost" );
 				}
 
 				return super.getBuyPrice( itemId );
@@ -174,7 +176,7 @@ public class SwaggerShopRequest
 	// You've earned 152 swagger during a drunken season!
 	// You've earned 0 swagger during bear season!
 
-	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear) season" );
+	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric) season" );
 
 	// <tr><td><img style='vertical-align: middle' class=hand src='http://images.kingdomofloathing.com/itemimages/radio.gif' onclick='descitem(475026869)'></td><td valign=center><b><span onclick='descitem(475026869)'>Huggler Radio<span>&nbsp;&nbsp;&nbsp;&nbsp;</b></td><td><form style="padding:0;margin:0;"><input type="hidden" name="action" value="buy" /><input type="hidden" name="place" value="shop" /><input type="hidden" name="pwd" value="0c6efe5fe0c70235b340073785255041" /><input type="hidden" name="whichitem" value="5656" /><input type="submit" class="button" value="Buy (50 swagger)" /></form></td></tr>
 
@@ -187,6 +189,7 @@ public class SwaggerShopRequest
 	private static final AdventureResult MAP_TO_KOKOMO = ItemPool.get( ItemPool.MAP_TO_KOKOMO, 1 );
 	private static final AdventureResult ESSENCE_OF_BEAR = ItemPool.get( ItemPool.ESSENCE_OF_BEAR, 1 );
 	private static final AdventureResult ESSENCE_OF_ANNOYANCE = ItemPool.get( ItemPool.ESSENCE_OF_ANNOYANCE, 1 );
+	private static final AdventureResult MANUAL_OF_NUMBEROLOGY = ItemPool.get(ItemPool.MANUAL_OF_NUMBEROLOGY, 1 );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -246,6 +249,9 @@ public class SwaggerShopRequest
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
 				Preferences.setInteger( "essenceOfAnnoyanceCost", price );
 				break;
+			case ItemPool.MANUAL_OF_NUMBEROLOGY:
+				Preferences.setInteger( "manualOfNumberologyCost", price);
+				break;
 			}
 		}
 
@@ -256,6 +262,7 @@ public class SwaggerShopRequest
 		Preferences.setBoolean( "mapToKokomoAvailable", items.contains( SwaggerShopRequest.MAP_TO_KOKOMO ) );
 		Preferences.setBoolean( "essenceOfBearAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_BEAR ) );
 		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
+		Preferences.setBoolean( "manualOfNumberologyAvailable", items.contains( SwaggerShopRequest.MANUAL_OF_NUMBEROLOGY ) );
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
@@ -289,6 +296,10 @@ public class SwaggerShopRequest
 			{
 				Preferences.setInteger( "bearSwagger", seasonSwagger );
 			}
+			else if ( season.equals( "numeric" ) )
+			{
+				Preferences.setInteger( "numericSwagger", seasonSwagger );
+			}
 		}
 	}
 
@@ -300,7 +311,7 @@ public class SwaggerShopRequest
 			return false;
 		}
 
-		if ( urlString.indexOf( "place=shop" ) == -1 && urlString.indexOf( "action=buy" ) == -1 )
+		if ( !urlString.contains( "place=shop" ) && !urlString.contains( "action=buy" ) )
 		{
 			return false;
 		}

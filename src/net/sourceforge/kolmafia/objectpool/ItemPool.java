@@ -2408,6 +2408,7 @@ public class ItemPool
 	public static final int GLOWING_NEW_AGE_HEALING_CRYSTAL = 8455;
 	public static final int CRYSTALLINE_LIGHT_BULB = 8456;
 	public static final int GOOEY_LAVA_GLOBS = 8470;
+	public static final int MANUAL_OF_NUMBEROLOGY = 8488;
 	public static final int SUPERDUPERHEATED_METAL = 8522;
 	public static final int SUPERHEATED_METAL = 8524;
 	public static final int LAVA_MINERS_DAUGHTER = 8482;

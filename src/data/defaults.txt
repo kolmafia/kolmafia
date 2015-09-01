@@ -676,6 +676,8 @@ user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05
 user	manorDrawerCount	0
+user	manualOfNumberologyAvailable	true
+user	manualOfNumberologyCost	1000
 user	mapToAnemoneMinePurchased	false
 user	mapToKokomoAvailable	true
 user	mapToKokomoCost	1234

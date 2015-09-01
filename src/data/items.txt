@@ -8511,7 +8511,7 @@
 8485	&quot;DEBBIE&quot; tattoo kit	580255360	dtat.gif	usable	t	0
 8486	one-day ticket to That 70s Volcano	166029058	airdaypass.gif	usable	t	0	one-day tickets to That 70s Volcano
 8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0	airplane charters: That 70s Volcano
-8488
+8488	Manual of Numberology	350340885	book.gif	usable		0
 8489	New Age hurting crystal	889435307	nacrystal2.gif	none, combat	t,d	96
 8490	smooth velvet pants	887303272	velvpants.gif	pants	d	250	pairs of smooth velvet pants
 8491	smooth velvet shirt	235322153	velvshirt.gif	shirt	d	200
