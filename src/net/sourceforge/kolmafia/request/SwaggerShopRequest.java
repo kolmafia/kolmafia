@@ -109,10 +109,10 @@ public class SwaggerShopRequest
 					return Preferences.getInteger( "mapToKokomoCost" );
 				case ItemPool.ESSENCE_OF_BEAR:
 					return Preferences.getInteger( "essenceOfBearCost" );
-				case ItemPool.ESSENCE_OF_ANNOYANCE:
-					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
 				case ItemPool.MANUAL_OF_NUMBEROLOGY:
 					return Preferences.getInteger( "manualOfNumberologyCost" );
+				case ItemPool.ESSENCE_OF_ANNOYANCE:
+					return Preferences.getInteger( "essenceOfAnnoyanceCost" );
 				}
 
 				return super.getBuyPrice( itemId );
@@ -175,6 +175,7 @@ public class SwaggerShopRequest
 	// You've earned 0 swagger during an ice season, brrrr!
 	// You've earned 152 swagger during a drunken season!
 	// You've earned 0 swagger during bear season!
+	// You've earned 0 swagger during a numeric season!
 
 	private static final Pattern SEASON_PATTERN = Pattern.compile( "You've earned ([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric) season" );
 
@@ -188,8 +189,8 @@ public class SwaggerShopRequest
 	private static final AdventureResult ANTAGONISTIC_SNOWMAN_KIT = ItemPool.get( ItemPool.ANTAGONISTIC_SNOWMAN_KIT, 1 );
 	private static final AdventureResult MAP_TO_KOKOMO = ItemPool.get( ItemPool.MAP_TO_KOKOMO, 1 );
 	private static final AdventureResult ESSENCE_OF_BEAR = ItemPool.get( ItemPool.ESSENCE_OF_BEAR, 1 );
+	private static final AdventureResult MANUAL_OF_NUMBEROLOGY = ItemPool.get( ItemPool.MANUAL_OF_NUMBEROLOGY, 1 );
 	private static final AdventureResult ESSENCE_OF_ANNOYANCE = ItemPool.get( ItemPool.ESSENCE_OF_ANNOYANCE, 1 );
-	private static final AdventureResult MANUAL_OF_NUMBEROLOGY = ItemPool.get(ItemPool.MANUAL_OF_NUMBEROLOGY, 1 );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -246,11 +247,11 @@ public class SwaggerShopRequest
 			case ItemPool.ESSENCE_OF_BEAR:
 				Preferences.setInteger( "essenceOfBearCost", price );
 				break;
+			case ItemPool.MANUAL_OF_NUMBEROLOGY:
+				Preferences.setInteger( "manualOfNumberologyCost", price );
+				break;
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
 				Preferences.setInteger( "essenceOfAnnoyanceCost", price );
-				break;
-			case ItemPool.MANUAL_OF_NUMBEROLOGY:
-				Preferences.setInteger( "manualOfNumberologyCost", price);
 				break;
 			}
 		}
@@ -261,8 +262,8 @@ public class SwaggerShopRequest
 		Preferences.setBoolean( "antagonisticSnowmanKitAvailable", items.contains( SwaggerShopRequest.ANTAGONISTIC_SNOWMAN_KIT ) );
 		Preferences.setBoolean( "mapToKokomoAvailable", items.contains( SwaggerShopRequest.MAP_TO_KOKOMO ) );
 		Preferences.setBoolean( "essenceOfBearAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_BEAR ) );
-		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
 		Preferences.setBoolean( "manualOfNumberologyAvailable", items.contains( SwaggerShopRequest.MANUAL_OF_NUMBEROLOGY ) );
+		Preferences.setBoolean( "essenceOfAnnoyanceAvailable", items.contains( SwaggerShopRequest.ESSENCE_OF_ANNOYANCE ) );
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();

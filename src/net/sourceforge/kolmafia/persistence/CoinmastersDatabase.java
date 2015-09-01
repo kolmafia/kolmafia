@@ -290,6 +290,9 @@ public class CoinmastersDatabase
 
 		case ItemPool.ESSENCE_OF_BEAR:
 			return Preferences.getInteger( "bearSwagger" ) >= Preferences.getInteger( "essenceOfBearCost" );
+
+		case ItemPool.MANUAL_OF_NUMBEROLOGY:
+			return Preferences.getInteger( "numericSwagger" ) >= Preferences.getInteger( "manualOfNumberologyCost" );
 		}
 
 		return true;

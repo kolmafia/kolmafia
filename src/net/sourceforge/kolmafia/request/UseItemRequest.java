@@ -3045,6 +3045,7 @@ public class UseItemRequest
 		case ItemPool.DINSEY_AN_AFTERLIFE:
 		case ItemPool.MAP_TO_KOKOMO:
 		case ItemPool.ESSENCE_OF_BEAR:
+		case ItemPool.MANUAL_OF_NUMBEROLOGY:
 		case ItemPool.LAVA_MINERS_DAUGHTER:
 		case ItemPool.PSYCHO_FROM_THE_HEAT:
 		case ItemPool.THE_FIREGATE_TAPES:
@@ -5436,6 +5437,8 @@ public class UseItemRequest
 			return "Pyromania";
 		case ItemPool.THE_FIREGATE_TAPES:
 			return "Firegate";
+		case ItemPool.MANUAL_OF_NUMBEROLOGY:
+			return null;
 		}
 
 		return null;
