@@ -1354,6 +1354,10 @@ public class ResultProcessor
 		case ItemPool.ESSENCE_OF_BEAR:
 			Preferences.setBoolean( "essenceOfBearAvailable", false );
 			break;
+
+		case ItemPool.MANUAL_OF_NUMBEROLOGY:
+			Preferences.setBoolean( "manualOfNumberologyAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.

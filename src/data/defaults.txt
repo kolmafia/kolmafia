@@ -739,6 +739,7 @@ user	nsContestants1	-1
 user	nsContestants2	-1
 user	nsContestants3	-1
 user	nsTowerDoorKeysUsed
+user	numericSwagger	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
