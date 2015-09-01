@@ -651,6 +651,7 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "mapToKokomoAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfBearAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfAnnoyanceAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "manualOfNumberologyAvailable", this );
 		}
 
 		@Override
@@ -680,6 +681,8 @@ public class CoinmastersFrame
 				return Preferences.getBoolean( "essenceOfBearAvailable" );
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
 				return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
+			case ItemPool.MANUAL_OF_NUMBEROLOGY:
+				return Preferences.getBoolean( "manualOfNumberologyAvailable" );
 			}
 			return true;
 		}
