@@ -458,7 +458,7 @@ public class PlaceRequest
 			if ( action.equals( "manor4_chamberwall" ) ||
 			     action.equals( "manor4_chamberwalllabel" ) )
 			{
-				message = "Inspecting Suspicious Masonry";
+				message = "Inspecting the Suspicious Masonry";
 			}
 		}
 		else if ( place.equals( "mclargehuge" ) )
@@ -477,6 +477,22 @@ public class PlaceRequest
 			if ( action.equals( "mts_melvin" ) )
 			{
 				message = "Talking to Melvign the Gnome";
+			}
+			else if ( action.equals( "mts_caveblocked" ) )
+			{
+				message = "Entering the Nemesis Cave";
+			}
+		}
+		else if ( place.equals( "nemesiscave" ) )
+		{
+			if ( action.equals( "nmcave_rubble" ) )
+			{
+				message = "Examining the rubble in the Nemesis Cave";
+			}
+			else if ( action.equals( "nmcave_boss" ) )
+			{
+				message = "Confronting your Nemesis";
+				turns = true;
 			}
 		}
 		else if ( place.equals( "orc_chasm" ) )
