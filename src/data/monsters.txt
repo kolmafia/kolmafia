@@ -1548,9 +1548,9 @@ yeti	1722	spelunkyeti.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid
 Yomama	1737	yomama.gif	Atk: 100 Def: 100 HP: 300 Init: -10000 P: dude
 
 # Barf Mountain (Dinseylandfill April 2015)
-angry tourist	1758	stenchtourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000	cheap sunglasses (0)	expensive camera (0)	How to Avoid Scams (0)
-garbage tourist	1760	garbagetourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: elemental Init: -10000	bag of park garbage (0)	bag of park garbage (0)	bag of park garbage (0)
-horrible tourist family	1759	stenchfamily.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000	expensive camera (0)	filthy child leash (0)	bag of gross foreign snacks (0)
+angry tourist	1758	stenchtourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000 Meat: 250	cheap sunglasses (0)	expensive camera (0)	How to Avoid Scams (0)
+garbage tourist	1760	garbagetourist.gif	Atk: 100 Def: 100 HP: 100 E: stench P: elemental Init: -10000 Meat: 250	bag of park garbage (0)	bag of park garbage (0)	bag of park garbage (0)
+horrible tourist family	1759	stenchfamily.gif	Atk: 100 Def: 100 HP: 100 E: stench P: dude Init: -10000 Meat: 250	expensive camera (0)	filthy child leash (0)	bag of gross foreign snacks (0)
 
 # Pirates of the Garbage Barges (Dinseylandfill April 2015)
 filthy pirate	1761	stinkpirate1.gif	Atk: 150 Def: 150 HP: 100 E: stench P: pirate Init: -10000	dirty rigging rope (0)	grogpagne (0)
