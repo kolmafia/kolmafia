@@ -12926,6 +12926,7 @@ public abstract class ChoiceManager
 		case 1089: // Community Service
 		case 1090: // The Towering Inferno Discotheque
 		case 1093: // The WLF Bunker
+		case 1100: // Pray to the Barrel God
 			return true;
 
 		default:

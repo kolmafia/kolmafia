@@ -265,6 +265,7 @@ user	banishingShoutMonsters
 user	bankedKarma	0
 user	barrelGoal	1
 user	barrelLayout	?????????
+user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
 user	battleAction	attack with weapon

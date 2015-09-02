@@ -184,12 +184,12 @@ public class ShrineRequest
 	@Override
 	public void processResults()
 	{
-                String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText );
-                if ( error != null )
-                {
+		String error = ShrineRequest.parseResponse( this.getURLString(), this.responseText );
+		if ( error != null )
+		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, error );
 			return;
-                }
+		}
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 
@@ -198,6 +198,11 @@ public class ShrineRequest
 		if ( !urlString.startsWith( "da.php" ) )
 		{
 			return null;
+		}
+
+		if ( responseText.contains( "bgshrine.gif" ) )
+		{
+			Preferences.setBoolean( "barrelShrineUnlocked", true );
 		}
 
 		String action = GenericRequest.getAction( urlString );
@@ -222,9 +227,9 @@ public class ShrineRequest
 
 		String preference = dataSetting( data );
 
-		if ( responseText.indexOf( "You gain" ) == -1 )
+		if ( !responseText.contains( "You gain" ) )
 		{
-			return responseText.indexOf( "That's not enough" ) == -1 ?
+			return !responseText.contains( "That's not enough" ) ?
 				"Donation limit exceeded." :
 				"Donation must be larger.";
 		}
