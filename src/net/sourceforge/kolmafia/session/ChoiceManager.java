@@ -4316,7 +4316,7 @@ public abstract class ChoiceManager
 		case 786:
 			// Working Holiday
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Working Holiday");
-		
+
 		case 787:
 			// Fire when Ready
 			return ChoiceManager.dynamicChoiceSpoilers( choice, "Fire when Ready");
@@ -12667,8 +12667,11 @@ public abstract class ChoiceManager
 			decision = ChoiceManager.extractOptionFromURL( urlString );
 			if ( decision != 0 )
 			{
+				// Figure out which decision we took
+				String desc = null;
+
+				// If we have spoilers for this choice, use that
 				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
-				String desc = "unknown";
 				if ( spoilers != null && spoilers.length > 2 )
 				{
 					Object spoiler = ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] );
@@ -12677,6 +12680,20 @@ public abstract class ChoiceManager
 						desc = spoiler.toString();
 					}
 				}
+
+				// If we didn't find a spoiler, use KoL's label for the option
+				if ( desc == null )
+				{
+					TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( ChoiceManager.lastResponseText );
+					desc = choices.get( decision );
+				}
+
+				// If we still can't find it, throw up our hands
+				if ( desc == null )
+				{
+					desc = "unknown";
+				}
+
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 			}
 		}
