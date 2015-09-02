@@ -352,6 +352,7 @@ astral trousers	50	none
 astronaut pants	175	Mox: 72
 baggy rave pants	150	Mox: 60
 bark boxers	40	Mox: 5
+bankruptcy barrel	100	none
 barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
@@ -1450,6 +1451,7 @@ bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
 ball-in-a-cup	20	none
 balloon shield	50	Mus: 10	shield
+barrel lid	0	none	shield
 barskin buckler	25	none	shield
 basic meat foon	50	Mys: 10
 basaltamander buckler	0	Mus: 40	shield
@@ -1877,6 +1879,7 @@ banjo kazoo mount	50	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
+barrel hoop earring	0	none
 batskin belt	0	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45

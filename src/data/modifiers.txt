@@ -454,6 +454,7 @@ Item	astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop:
 Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
 Item	baggy rave pants	Damage Absorption: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
 Item	bark boxers	Damage Reduction: 5, Familiar Effect: "atk, 3xVolley, cap 10"
+Item	bankruptcy barrel	Moxie Percent: +25, Initiative: +50, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 Item	barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6"
 Item	basic meat kilt	Moxie: +1, Familiar Effect: "3xPotato, 3xFairy, cap 10"
 Item	basic meat pants	Moxie: +1, Familiar Effect: "atk, 2xPotato, cap 10"
@@ -1688,6 +1689,7 @@ Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Ma
 Item	ball-in-a-cup	Experience (Mysticality): +2
 # balloon shield: Deals 2-3 damage to attackers
 Item	balloon shield	Damage Reduction: 3
+Item	barrel lid	Muscle Percent: +25, Monster Level: +50, Maximum HP: +100, Damage Reduction: 9, Lasts Until Rollover
 Item	barskin buckler	Muscle: +2, Damage Reduction: 1
 Item	basaltamander buckler	Experience Percent (Mysticality): +25, Damage Absorption: +50, Hat Drop: +75, Damage Reduction: 15
 Item	basic meat foon	Mysticality: +3, Spell Damage: +3
@@ -2194,6 +2196,7 @@ Item	banjo kazoo mount	Maximum Hooch: +2, Single Equip
 Item	bark bracelet	Damage Reduction: 2, Single Equip
 Item	Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Item	Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40

@@ -8581,3 +8581,13 @@
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	0
+8558
+8559
+8560
+8561
+8562
+8563
+8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0
+8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
+8566	barrel hoop earring	855987487	barrelhoop.gif	accessory	q	0
+8567	bankruptcy barrel	600105073	barrelbank.gif	pants	q	0
