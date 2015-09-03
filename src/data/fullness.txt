@@ -801,6 +801,7 @@ warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to 
 warm mushroom	2	1	decent	2-3	12-14	0	0
 warm war shawarma	3	7	EPIC	15-18	30-60	0	0	30 Shawarma Warm War (+15 Mus, +50% Mus, +25 Hot Dam, +25 Hot Spell Dam, +3 Cold/Spooky Resist)
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
+water log	5	11	EPIC	1-1	0	0	0	Unspaded
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
 weird gazelle steak	10	1	awesome	1-1	0	0	0	Unspaded, 1 Gaze of the Gazelle (+200% Spell Damage, +60 Booze drop)
 wet dog	3	1	awesome	11-13	0	0	0	30 Hangdog (+20 Init, +30 Sleaze Dam, +3 Hot/Stench Res)

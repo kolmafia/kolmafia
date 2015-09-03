@@ -54,6 +54,7 @@ bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 Bone's Farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 Bordeaux Marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg)
+bottle of Amontillado	4	5	good	1-1	0	0	0	Unspaded
 bottle of Bloodweiser	2	1	EPIC	12-13	30-50	30-50	30-50	50 Blood Porter
 bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0

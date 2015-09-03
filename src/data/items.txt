@@ -8592,22 +8592,24 @@
 8566	barrel hoop earring	855987487	barrelhoop.gif	accessory	q	0
 8567	bankruptcy barrel	600105073	barrelbank.gif	pants	q	0
 8568
-8569
-8570
+8569	normal barrel	163611926	barrelnormal.gif	usable		0
+8570	big tun	896918531	barrelbig.gif	usable		0
 8571
-8572
-8573
-8574
-8575
+8572	dusty barrel	219527948	barreldusty.gif	usable		0
+8573	disintegrating barrel	369522171	barreldisint.gif	usable		0
+8574	moist barrel	864957347	barrelmoist.gif	usable		0
+8575	rotting barrel	821226788	barrelrotting.gif	usable		0
 8576
 8577
-8578
+8578	bottle of Amontillado	755818728	beerbottle.gif	drink	t,d	25
 8579	barrel-aged martini	478306933	martini.gif	drink	t,d	20
 8580	barrel pickle	161770786	barrelpickle.gif	food	t,d	15
 8581	barrel cracker	874506924	barrelcracker.gif	food	t,d	5
 8582
-8583
+8583	cute mushroom	979444500	cuteshroom.gif	spleen, usable	t,d	40
 8584
 8585
 8586	barrel gun	376878324	barrelgun1.gif	weapon	t,d	100
 8587	tiny barrel	434062977	barreltiny.gif	grow	t,d	200
+8588
+8589	water log	861189642	cheeselog.gif	food	t,d	500

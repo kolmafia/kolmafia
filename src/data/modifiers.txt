@@ -4149,6 +4149,7 @@ Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zo
 Effect	Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Effect	Bread Burps	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5
 Effect	Breakfast Clubbed	Monster Level: [min(25,T)]
+Effect	Bricked-In	Maximum HP: +50
 Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
@@ -4345,6 +4346,7 @@ Effect	Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
 Effect	Curse of Weakness	Weapon Damage Percent: -50, Spell Damage Percent: -50
 # Cursed by The RNG: ???
 Effect	Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Muscle): +2, Weapon Damage Percent: +10
+Effect	Cute Vision	Familiar Weight: +5
 Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Effect	Cybernetic Muscles	Muscle Percent: +10
@@ -6516,6 +6518,7 @@ Item	blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
 Item	bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
 Item	Bone's Farm &quot;wine&quot;	Effect: "Sticks and Stones", Effect Duration: 30
 Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
+Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
 Item	bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 Item	bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
 Item	bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
@@ -6714,6 +6717,7 @@ Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 10
 Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
+Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
