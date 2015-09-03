@@ -35,6 +35,8 @@ banana	1	1	crappy	1	1	1	1	banana peel
 banana cream pie	3	7	good	6-12	1-100	1-100	1-100
 banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
 banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
+barrel cracker	1	4	good	1-1	0	0	0	Unspaded
+barrel pickle	2	5	good	1-1	0	0	0	Unspaded
 Bash-&#332;s cereal	3	1	crappy	3	0	3-5	0	Bash-&#332;s boxtop
 basic hot dog	1	1	crappy	1	0	0	0
 bat haggis	2	2	decent	2-7	0	10-12	0

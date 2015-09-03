@@ -744,6 +744,7 @@ Bananubis's Staff	30	Mus: 0	1-handed
 bar whip	10	Mus: 0	1-handed whip
 baritone accordion	30	Mox: 0	2-handed accordion
 Barney's rake	25	Mus: 0	2-handed polearm
+barrel gun	100	Mox: 35	1-handed pistol
 basic meat crossbow	20	Mox: 5	2-handed crossbow
 basic meat spork	45	Mys: 7	1-handed utensil
 basic meat staff	20	Mus: 5	2-handed staff

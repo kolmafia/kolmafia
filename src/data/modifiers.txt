@@ -4151,6 +4151,7 @@ Effect	Bright!	Maximum MP: +100
 Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
 Effect	Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Effect	Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
 # Broken Dancing: You Can't Not Dance If You Don't Want To
@@ -4893,6 +4894,7 @@ Effect	Juiced Up	Muscle Percent: -5, Mysticality Percent: -5, Moxie Percent: -5,
 Effect	Juicy Boost	Maximum HP: +30, Maximum MP: +30, Experience Percent (Muscle): +100, Experience Percent (Mysticality): +100, Experience Percent (Moxie): +100
 Effect	Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
+Effect	Just Aged Enough	Moxie: +25
 # Just the Best Anapests: Da da dee, da da dee
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Kernel Panic!	Critical Hit Percent: +5
@@ -5195,6 +5197,7 @@ Effect	Pompadour	Experience: +3
 Effect	Ponderous Potency	Weapon Damage: +20
 Effect	Pop-eyed	Weapon Damage: +30
 # Popping Stomach: Tee-hee!
+Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
 Effect	Powdered	Experience (Mysticality): +10
@@ -5368,6 +5371,7 @@ Effect	Shocking Biology	Avatar: "unholy diver"
 Effect	Shoesauce	Initiative: +30
 Effect	Short of Breath	Avatar: "pygmy blowgunner"
 Effect	Short on Options	Avatar: "pygmy headhunter"
+Effect	Shortened	Sleaze Damage: +25, Sleaze Spell Damage: +50, Sleaze Resistance: +2
 Effect	Shortie Shaman Shurprise	Avatar: "pygmy shaman"
 Effect	Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Shredding, Sweating	Weapon Damage Percent: +25
