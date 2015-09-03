@@ -8591,10 +8591,10 @@
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
 8566	barrel hoop earring	855987487	barrelhoop.gif	accessory	q	0
 8567	bankruptcy barrel	600105073	barrelbank.gif	pants	q	0
-8568
+8568	little firkin	824886430	barrelfirkin.gif	usable		0
 8569	normal barrel	163611926	barrelnormal.gif	usable		0
 8570	big tun	896918531	barrelbig.gif	usable		0
-8571
+8571	weathered barrel	239149132	barrelweathered.gif	usable		0
 8572	dusty barrel	219527948	barreldusty.gif	usable		0
 8573	disintegrating barrel	369522171	barreldisint.gif	usable		0
 8574	moist barrel	864957347	barrelmoist.gif	usable		0
