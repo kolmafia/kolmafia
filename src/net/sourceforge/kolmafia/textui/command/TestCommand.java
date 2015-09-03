@@ -42,6 +42,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -747,10 +749,15 @@ public class TestCommand
 			GenericRequest request = new GenericRequest( "choice.php" );
 			request.addFormField( "forceoption", "0" );
 			request.responseText = TestCommand.contents;
-			TestCommand.contents = null;
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.visitChoice( request );
 			RequestLogger.printLine( "choice = " + ChoiceManager.lastChoice );
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( TestCommand.contents );
+			TestCommand.contents = null;
+			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+			{
+				RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
+			}
 			return;
 		}
 	}

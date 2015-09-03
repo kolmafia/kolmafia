@@ -112,8 +112,11 @@ public class ChoiceCommand
 		ChoiceManager.processChoiceAdventure( decision, true );
 	}
 
-	private static final Pattern OPTION_PATTERN = Pattern.compile( "<form(?=.*?name=option value=(\\d+)).*?class=button.*?value=\"([^\"]+)\".*?</form>", Pattern.DOTALL );
-	private static final Pattern LINK_PATTERN = Pattern.compile( "choice.php\\?whichchoice=\\d+&option=(\\d+)" );
+	private static final Pattern FORM_PATTERN = Pattern.compile( "<form.*?</form>", Pattern.DOTALL );
+
+	private static final Pattern OPTION_PATTERN1 = Pattern.compile( "name=[\"']?option[\"']? value=[\"']?(\\d+)[\"']?" );
+	private static final Pattern OPTION_PATTERN2 = Pattern.compile( "&option=(\\d+)" );
+	private static final Pattern TEXT_PATTERN = Pattern.compile( "class=[\"']?button[\"']?.*?value=[\"']?([^\"'>]*)[\"']?" );
 
 	public static TreeMap<Integer,String> parseChoices( final String responseText )
 	{
@@ -123,29 +126,31 @@ public class ChoiceCommand
 			return rv;
 		}
 
-		Matcher m = OPTION_PATTERN.matcher( responseText );
+		Matcher m = FORM_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
-			int decision = Integer.parseInt( m.group( 1 ) );
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
+			{
+				continue;
+			}
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				optMatcher = OPTION_PATTERN2.matcher( form );
+				if ( !optMatcher.find() )
+				{
+					continue;
+				}
+			}
+			int decision = Integer.parseInt( optMatcher.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
 			if ( rv.get( key ) != null )
 			{
 				continue;
 			}
-			String text = m.group( 2 );
-			rv.put( key, text );
-		}
-
-		m = LINK_PATTERN.matcher( responseText );
-		while ( m.find() )
-		{
-			int decision = Integer.parseInt( m.group( 1 ) );
-			Integer key = IntegerPool.get( decision );
-			if ( rv.get( key ) != null )
-			{
-				continue;
-			}
-			String text = "(secret choice)";
+			Matcher textMatcher = TEXT_PATTERN.matcher( form );
+			String text = textMatcher.find() ? textMatcher.group( 1 ) : "(secret choice)";
 			rv.put( key, text );
 		}
 
@@ -173,35 +178,38 @@ public class ChoiceCommand
 		{
 			possibleDecisions = new Object[][] { null, null, {} };
 		}
+
 		Object[] options = possibleDecisions[ 2 ];
-		
-		Matcher m = OPTION_PATTERN.matcher( responseText );
-		while ( m.find() )
+		if ( options == null )
 		{
-			int decision = Integer.parseInt( m.group( 1 ) );
-			Integer key = IntegerPool.get( decision );
-			String text = m.group( 2 );
-			if ( options != null )
-			{
-				Object option = ChoiceManager.findOption( options, decision );
-				if ( option != null )
-				{
-					text = text + " (" + option.toString() + ")";
-				}
-			}
-			rv.put( key, text );
+			return ChoiceCommand.parseChoices( responseText );
 		}
 
-		m = LINK_PATTERN.matcher( responseText );
+		Matcher m = FORM_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
-			int decision = Integer.parseInt( m.group( 1 ) );
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
+			{
+				continue;
+			}
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				optMatcher = OPTION_PATTERN2.matcher( form );
+				if ( !optMatcher.find() )
+				{
+					continue;
+				}
+			}
+			int decision = Integer.parseInt( optMatcher.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
 			if ( rv.get( key ) != null )
 			{
 				continue;
 			}
-			String text = "(secret choice)";
+			Matcher textMatcher = TEXT_PATTERN.matcher( form );
+			String text = textMatcher.find() ? textMatcher.group( 1 ) : "(secret choice)";
 			Object option = ChoiceManager.findOption( options, decision );
 			if ( option != null )
 			{
@@ -215,19 +223,24 @@ public class ChoiceCommand
 
 	public static boolean optionAvailable( final String decision, final String responseText)
 	{
-		Matcher m = OPTION_PATTERN.matcher( responseText );
+		Matcher m = FORM_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
-			if ( m.group( 1 ).equals( decision ) )
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
 			{
-				return true;
+				continue;
 			}
-		}
-
-		m = LINK_PATTERN.matcher( responseText );
-		while ( m.find() )
-		{
-			if ( m.group( 1 ).equals( decision ) )
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( !optMatcher.find() )
+			{
+				optMatcher = OPTION_PATTERN2.matcher( form );
+				if ( !optMatcher.find() )
+				{
+					continue;
+				}
+			}
+			if ( optMatcher.group( 1 ).equals( decision ) )
 			{
 				return true;
 			}
@@ -238,13 +251,34 @@ public class ChoiceCommand
 
 	public static String actionOption( final String action, final String responseText)
 	{
-		Matcher m = OPTION_PATTERN.matcher( responseText );
+		Matcher m = FORM_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
-			if ( m.group( 2 ).equals( action ) )
+			String form = m.group();
+			if ( !form.contains( "choice.php" ) )
 			{
-				return m.group( 1 );
+				continue;
 			}
+			Matcher textMatcher = TEXT_PATTERN.matcher( form );
+			if ( !textMatcher.find() || !textMatcher.group( 1 ).equals( action ) )
+			{
+				continue;
+			}
+
+			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			if ( optMatcher.find() )
+			{
+				return optMatcher.group( 1 );
+			}
+
+			optMatcher = OPTION_PATTERN2.matcher( form );
+			if ( optMatcher.find() )
+			{
+				return optMatcher.group( 1 );
+			}
+
+			// Found the action but no option !?
+			return null;
 		}
 
 		return null;
