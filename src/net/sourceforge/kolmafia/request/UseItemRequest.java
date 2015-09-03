@@ -2874,40 +2874,49 @@ public class UseItemRequest
 		case ItemPool.OVEN:
 
 			KoLCharacter.setOven( true );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.RANGE:
 
 			KoLCharacter.setRange( true );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
-		case ItemPool.CHEF:
 		case ItemPool.CLOCKWORK_CHEF:
-
+			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.CHEF, 1 ) );
+			// Fall through
+		case ItemPool.CHEF:
 			KoLCharacter.setChef( true );
 			Preferences.setInteger( "chefTurnsUsed", 0 );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.SHAKER:
 
 			KoLCharacter.setShaker( true );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			return;
 
 		case ItemPool.COCKTAIL_KIT:
 
 			KoLCharacter.setCocktailKit( true );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
-		case ItemPool.BARTENDER:
 		case ItemPool.CLOCKWORK_BARTENDER:
-
+			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BARTENDER, 1 ) );
+			// Fall through
+		case ItemPool.BARTENDER:
 			KoLCharacter.setBartender( true );
 			Preferences.setInteger( "bartenderTurnsUsed", 0 );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.SUSHI_ROLLING_MAT:
 
 			KoLCharacter.setSushiMat( true );
+			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 			// Tomes
