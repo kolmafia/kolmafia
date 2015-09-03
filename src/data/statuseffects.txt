@@ -1944,7 +1944,7 @@
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
 1945
-1946
+1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	#use shrine to barrel god as Turtle Tamer
 1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4
 1948
 1949

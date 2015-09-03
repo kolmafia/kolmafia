@@ -4039,6 +4039,8 @@ Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
 # Barfpits: Deals Stench Damage every round
 Effect	Barking Dogs	Muscle Percent: -50, Initiative: -50
 Effect	Barking Mad	Mysticality Percent: +100
+# Effect Barrel of Laughs: Makes food more delicious!
+Effect Barrel of Laughs Maximum HP: +90
 Effect	Bartenderganger	Avatar: "Copperhead Club bartender"
 Effect	Bastard!	Weapon Damage: +12
 Effect	Basted	Sleaze Damage: +10, Damage Reduction: -2
