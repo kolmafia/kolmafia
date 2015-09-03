@@ -8591,3 +8591,23 @@
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
 8566	barrel hoop earring	855987487	barrelhoop.gif	accessory	q	0
 8567	bankruptcy barrel	600105073	barrelbank.gif	pants	q	0
+8568
+8569
+8570
+8571
+8572
+8573
+8574
+8575
+8576
+8577
+8578
+8579	barrel-aged martini	478306933	martini.gif	drink	t,d	20
+8580	barrel pickle	161770786	barrelpickle.gif	food	t,d	15
+8581	barrel cracker	874506924	barrelcracker.gif	food	t,d	5
+8582
+8583
+8584
+8585
+8586	barrel gun	376878324	barrelgun1.gif	weapon	t,d	100
+8587	tiny barrel	434062977	barreltiny.gif	grow	t,d	200

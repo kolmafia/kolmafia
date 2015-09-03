@@ -1943,3 +1943,12 @@
 1942	Robot Friends	c13cookie1.gif	8fed47f63c86f55d3aa48d1845b8cf94	use 1 silver face paint
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
+1945
+1946
+1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4
+1948
+1949
+1950
+1952	Just Aged Enough	martini.gif	1cd5cf433a66697b0c53ef0f3e7031ad	drink 1 barrel-aged martini
+1953	Briny Blood	barrelpickle.gif	39d5792f8df39986bf57053755b4f9d0	eat 1 barrel pickle
+1954	Shortened	barrelcracker.gif	31bea201a498404a310f016ea05281be	eat 1 barrel cracker
