@@ -4052,6 +4052,8 @@ Effect	Batwards Masking	Avatar: "Batburglar"
 Effect	Beastly Flavor	Familiar Weight: +3
 Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
+# Effect Beer Barrel Polka: Makes booze more effective!
+Effect	Beer Barrel Polka	Booze Drop: +45
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
 Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
