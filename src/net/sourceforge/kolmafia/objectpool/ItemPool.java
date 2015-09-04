@@ -2419,6 +2419,16 @@ public class ItemPool
 	public static final int FUSILLOCYBIN = 8543;
 	public static final int PRESCRIPTION_NOODLES = 8544;
 	public static final int SHRINE_BARREL_GOD = 8564;
+	public static final int LITTLE_FIRKIN = 8568;
+	public static final int NORMAL_BARREL = 8569;
+	public static final int BIG_TUN = 8570;
+	public static final int WEATHERED_BARREL = 8571;
+	public static final int DUSTY_BARREL = 8572;
+	public static final int DISINTEGRATING_BARREL = 8573;
+	public static final int MOIST_BARREL = 8574;
+	public static final int ROTTING_BARREL = 8575;
+	public static final int MOULDERING_BARREL = 8576;
+	public static final int BARNACLED_BARREL = 8577;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -167,6 +167,13 @@ public abstract class ChoiceManager
 		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
 	}
 
+	public static final Pattern URL_IID_PATTERN = Pattern.compile( "iid=(\\d+)" );
+	public static int extractIidFromURL( final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_IID_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
 	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -12662,6 +12669,18 @@ public abstract class ChoiceManager
 
 			case 1053:	// The Servants' Quarters
 				return EdServantData.registerRequest( urlString );
+
+			case 1101:	// It's a Barrel Smashing Party!
+			{
+				int itemId = ChoiceManager.extractIidFromURL( urlString );
+				String name = ItemDatabase.getItemName( itemId );
+				if ( name != null )
+				{
+					RequestLogger.updateSessionLog( "smash " + name );
+					return true;
+				}
+				break;
+			}
 			}
 
 			decision = ChoiceManager.extractOptionFromURL( urlString );

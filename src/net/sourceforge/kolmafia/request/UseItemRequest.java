@@ -6062,6 +6062,22 @@ public class UseItemRequest
 				return true;
 			}
 			break;
+
+		case ItemPool.LITTLE_FIRKIN:
+		case ItemPool.NORMAL_BARREL:
+		case ItemPool.BIG_TUN:
+		case ItemPool.WEATHERED_BARREL:
+		case ItemPool.DUSTY_BARREL:
+		case ItemPool.DISINTEGRATING_BARREL:
+		case ItemPool.MOIST_BARREL:
+		case ItemPool.ROTTING_BARREL:
+		case ItemPool.MOULDERING_BARREL:
+		case ItemPool.BARNACLED_BARREL:
+			useString =
+				urlString.contains( "choice=1" ) ?
+				"Throw a barrel smashing party!" :
+				( "smash " + name );
+			break;
 		}
 
 		if ( useString == null )
