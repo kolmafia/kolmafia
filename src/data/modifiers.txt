@@ -3234,6 +3234,8 @@ Item	bottle of Cochon Noir	Familiar Weight: +5
 # bottle of moontan lotion: Makes Familiar More Sensitive to Light
 Item	bottle of perfume	Familiar Weight: +5
 Item	box of hickory chips	Familiar Weight: +5
+# Item brass bung spigot: Lets your Barrel Mimic restore HP and MP after combat.
+Item	brass bung spigot	Equips On: "Lil' Barrel Mimic"
 Item	brass crank handle	Familiar Weight: +5
 Item	brass stinger	Familiar Weight: +5
 Item	brass turkey knuckles	Familiar Weight: +10

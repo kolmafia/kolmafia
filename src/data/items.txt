@@ -8600,7 +8600,7 @@
 8574	moist barrel	864957347	barrelmoist.gif	usable		0
 8575	rotting barrel	821226788	barrelrotting.gif	usable		0
 8576
-8577
+8577	barnacled barrel	394037477	barrelbarnacle.gif	usable		0
 8578	bottle of Amontillado	755818728	beerbottle.gif	drink	t,d	25
 8579	barrel-aged martini	478306933	martini.gif	drink	t,d	20
 8580	barrel pickle	161770786	barrelpickle.gif	food	t,d	15
@@ -8613,3 +8613,7 @@
 8587	tiny barrel	434062977	barreltiny.gif	grow	t,d	200
 8588
 8589	water log	861189642	cheeselog.gif	food	t,d	500
+8590
+8591
+8592
+8593	brass bung spigot	950400441	spigot.gif	familiar	t,d	75
