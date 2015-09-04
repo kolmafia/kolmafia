@@ -1368,6 +1368,7 @@ toy Crimbot power glove	50	Mus: 0	1-handed knuckles
 toy ray gun	175	Mox: 72	1-handed pistol
 toy taijijian	10	Mus: 0	1-handed sword
 trash net	10	Mus: 0	2-handed polearm
+triple barreled barrel gun	200	Mox: 85	3-handed shotgun
 Tropical Crimbo Sword	100	Mus: 35	1-handed sword
 trout fang	160	Mus: 65	1-handed knife
 Trusty	100	Mus: 0	2-handed axe
@@ -1880,6 +1881,7 @@ banjo kazoo mount	50	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
+barrel beryl ring	0	Mys: 30
 barrel hoop earring	0	none
 batskin belt	0	none
 beach glass necklace	70	Mys: 20
