@@ -1944,14 +1944,14 @@
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
 1945
-1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	#use shrine to barrel god as Turtle Tamer
-1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4
+1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	# use shrine to barrel god as Turtle Tamer
+1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4	# use shrine to barrel god as Pastamancer
 1948
 1949
-1950	Beer Barrel Polka	barrelbig.gif	710f32ff5e190840afa4a6064e3c7805
+1950	Beer Barrel Polka	barrelbig.gif	710f32ff5e190840afa4a6064e3c7805	# use shrine to barrel god as Accordion Thief
 1951	Bricked-In	wallshield.gif	19bc1e13945346209902244193bd32ae	drink 1 bottle of Amontillado
 1952	Just Aged Enough	martini.gif	1cd5cf433a66697b0c53ef0f3e7031ad	drink 1 barrel-aged martini
 1953	Briny Blood	barrelpickle.gif	39d5792f8df39986bf57053755b4f9d0	eat 1 barrel pickle
 1954	Shortened	barrelcracker.gif	31bea201a498404a310f016ea05281be	eat 1 barrel cracker
-1955
+1955	Weird Vibrations	vibeshroom.gif	2a23ce6b44f94c137f48435059f917f9	chew 1 vibrating mushroom
 1956	Cute Vision	cuteshroom.gif	01592263b26f5073b0ff2eed00ced9a7	chew 1 cute mushroom

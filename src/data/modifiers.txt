@@ -5826,6 +5826,7 @@ Effect	Weather, Man	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent
 Effect	Webbed	Muscle Percent: [-10*T], Mysticality Percent: [-10*T], Moxie Percent: [-10*T]
 Effect	Weepy, Creepy	Item Drop: +5
 # Weird Flavor: ???
+Effect	Weird Vibrations	Initiative: +25
 Effect	Weirdly Scientific	Avatar: "Sub-Assistant Knob Mad Scientist"
 Effect	Well Excuuuuse Me!	Avatar: "wacky pirate"
 Effect	Well Owl Be!	Mysticality: +10, Spell Damage: +10
@@ -6758,6 +6759,7 @@ Item	stench wad	Effect: "Stenchtastic", Effect Duration: 10
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
 Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 10
+Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30
 Item	watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
 Item	yellow paisley oyster egg	Effect: "Egg-headedness", Effect Duration: 20
 Item	yellow polka-dot oyster egg	Effect: "Egg-cellent Vocabulary", Effect Duration: 20
