@@ -247,30 +247,41 @@ public class ShrineRequest
 			return false;
 		}
 
-		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
-		String action = matcher.find() ? matcher.group(1) : null;
-
-		// We have nothing special to do for simple visits.
-
-		if ( action == null )
+		String message = null;
+		
+		if ( urlString.contains( "barrelshrine=1" ) )
 		{
-			return true;
+			message = "Worshiping at the Shrine to the Barrel God";
+		}
+		else
+		{
+			String action = GenericRequest.getAction( urlString );
+
+			// We have nothing special to do for simple visits.
+			if ( action == null )
+			{
+				return true;
+			}
+
+			String place = ShrineRequest.actionToPlace( action );
+			if ( place == null )
+			{
+				return false;
+			}
+
+			int qty = GenericRequest.getHowMuch( urlString );
+			if ( qty < 0 )
+			{
+				return false;
+			}
+
+			message = "Donating " + qty + " Meat to the " + place;
 		}
 
-		String place = ShrineRequest.actionToPlace( action );
-
-		if ( place == null )
+		if ( message == null )
 		{
 			return false;
 		}
-
-		int qty = GenericRequest.getHowMuch( urlString );
-		if ( qty < 0 )
-		{
-			return false;
-		}
-
-		String message = "Donating " + qty + " Meat to the " + place;
 
 		RequestLogger.printLine( "" );
 		RequestLogger.printLine( message );
