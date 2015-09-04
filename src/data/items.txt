@@ -8492,7 +8492,7 @@
 8466	lavalarva	927378000	lavalarva.gif	weapon	t	0	lavalarvae
 8467	lava balaclava	722613138	lavaclava.gif	hat	t	0
 8468	basaltamander buckler	640903344	basbuckler.gif	offhand	t	0
-8469	sticky lava globs	172658636	globs2.gif	usable	t,d	62	sticky lava globs
+8469	sticky lava globs	172658636	globs2.gif	multiple	t,d	62	sticky lava globs
 8470	gooey lava globs	926336814	globs3.gif	food	t,d	32	gooey lava globs
 8471	lava-proof pants	549036454	htpants.gif	pants	t,d	132	pairs of lava-proof pants
 8472	heat-resistant necktie	968422353	httie.gif	accessory	t,d	111
