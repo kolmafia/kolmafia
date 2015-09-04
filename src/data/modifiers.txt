@@ -1590,6 +1590,7 @@ Item	toy accordion	Song Duration: 5
 Item	toy Crimbot power glove	Weapon Damage: +15, Crimbot Outfit Power: +1
 Item	toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # toy taijijian
+Item	triple barreled barrel gun	Weapon Damage Percent: +100, Critical Hit Percent: +10, Meat Drop: +25
 Item	Tropical Crimbo Sword	Weapon Damage: +5
 # trout fang: 25% chance of poisoning opponent.
 Item	trout fang	Weapon Damage: +15
@@ -2196,6 +2197,7 @@ Item	banjo kazoo mount	Maximum Hooch: +2, Single Equip
 Item	bark bracelet	Damage Reduction: 2, Single Equip
 Item	Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Item	Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+Item	barrel beryl ring	Moxie: +10, Initiative: +20
 Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	beach glass necklace	Muscle: +5
