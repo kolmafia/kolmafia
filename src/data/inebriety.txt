@@ -28,7 +28,7 @@ Aye Aye, Captain	2	4	awesome	6-7	0	0	20-30	10 Arresistible (+50 Mox)
 Aye Aye, Tooth Tooth	2	8	awesome	8-9	0	0	30-40	15 Arresistible (+50 Mox)
 backwoods screwdriver	3	4	good	7-8	20-25	0	0
 banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
-barrel-aged martini	2	5	good	1-1	0	0	0	Unspaded
+barrel-aged martini	2	5	good	5-7	0	5-10	10-20	50 Just Aged Enough (+25 Mox)
 Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
@@ -54,7 +54,7 @@ bone aperitif	2	6	awesome	7-9	12-20	12-20	12-20
 Bone's Farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones (+50 dmg vs. Skeletons)
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 Bordeaux Marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg)
-bottle of Amontillado	4	5	good	1-1	0	0	0	Unspaded
+bottle of Amontillado	4	5	good	11-13	5-15	0	5-15	100 Bricked-In (+50 HP)
 bottle of Bloodweiser	2	1	EPIC	12-13	30-50	30-50	30-50	50 Blood Porter
 bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
