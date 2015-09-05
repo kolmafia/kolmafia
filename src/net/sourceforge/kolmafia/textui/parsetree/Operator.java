@@ -113,6 +113,7 @@ public class Operator
 		}
 
 		if ( this.operator.equals( "==" ) ||
+		     this.operator.equals( Parser.APPROX ) ||
 		     this.operator.equals( "!=" ) )
 		{
 			return 7;
@@ -205,6 +206,7 @@ public class Operator
 	public boolean isComparison()
 	{
 		return  this.operator.equals( "==" ) ||
+			this.operator.equals( Parser.APPROX ) ||
 			this.operator.equals( "!=" ) ||
 			this.operator.equals( "<" ) ||
 			this.operator.equals( ">" ) ||
@@ -227,14 +229,18 @@ public class Operator
 		// If either side is non-numeric, perform string comparison
 		if ( Operator.isStringLike( ltype ) || Operator.isStringLike( rtype ) )
 		{
-			int c = leftValue.toString().compareTo( rightValue.toString() );
-			bool = this.operator.equals( "==" ) ? c == 0 :
-			       this.operator.equals( "!=" ) ? c != 0 :
-			       this.operator.equals( ">=" ) ? c >= 0 :
-			       this.operator.equals( "<=" ) ? c <= 0 :
-			       this.operator.equals( ">" ) ? c > 0 :
-			       this.operator.equals( "<" ) ? c < 0 :
-			       false;
+			String lstring = leftValue.toString();
+			String rstring = rightValue.toString();
+			int c = this.operator.equals( Parser.APPROX ) ?
+				lstring.compareToIgnoreCase( rstring ) :
+				lstring.compareTo( rstring );
+			bool = ( this.operator.equals( "==" ) || this.operator.equals( Parser.APPROX ) ) ? c == 0 :
+				this.operator.equals( "!=" ) ? c != 0 :
+				this.operator.equals( ">=" ) ? c >= 0 :
+				this.operator.equals( "<=" ) ? c <= 0 :
+				this.operator.equals( ">" ) ? c > 0 :
+				this.operator.equals( "<" ) ? c < 0 :
+				false;
 		}
 
 		// If either value is a float, coerce to float and compare.
@@ -243,7 +249,7 @@ public class Operator
 		{
 			double lfloat = leftValue.toFloatValue().floatValue();
 			double rfloat = rightValue.toFloatValue().floatValue();
-			bool = this.operator.equals( "==" ) ? lfloat == rfloat :
+			bool = ( this.operator.equals( "==" ) || this.operator.equals( Parser.APPROX ) ) ? lfloat == rfloat :
 			       this.operator.equals( "!=" ) ? lfloat != rfloat :
 			       this.operator.equals( ">=" ) ? lfloat >= rfloat :
 			       this.operator.equals( "<=" ) ? lfloat <= rfloat :
@@ -257,7 +263,7 @@ public class Operator
 		{
 			long lint = leftValue.intValue();
 			long rint = rightValue.intValue();
-			bool = this.operator.equals( "==" ) ? lint == rint :
+			bool = ( this.operator.equals( "==" ) || this.operator.equals( Parser.APPROX ) ) ? lint == rint :
 			       this.operator.equals( "!=" ) ? lint != rint :
 			       this.operator.equals( ">=" ) ? lint >= rint :
 			       this.operator.equals( "<=" ) ? lint <= rint :

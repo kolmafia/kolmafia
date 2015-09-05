@@ -108,6 +108,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Parser
 {
+	public static String APPROX = "\u2248";
+
 	// Variables used during parsing
 
 	private String fileName;
@@ -3157,6 +3159,7 @@ public class Parser
 			oper.equals( "<=" ) ||
 			oper.equals( ">=" ) ||
 			oper.equals( "==" ) ||
+			oper.equals( Parser.APPROX ) ||
 			oper.equals( "!=" ) ||
 			oper.equals( "||" ) ||
 			oper.equals( "&&" ) ||
