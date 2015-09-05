@@ -35,13 +35,13 @@ banana	1	1	crappy	1	1	1	1	banana peel
 banana cream pie	3	7	good	6-12	1-100	1-100	1-100
 banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
 banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
-barrel cracker	1	4	good	1-1	0	0	0	Unspaded
-barrel pickle	2	5	good	1-1	0	0	0	Unspaded
+barrel cracker	1	4	good	3	0	0	0	40 Shortened (+25 sleaze dmg, +50 sleaze spell dmg, +2 sleaze res)
+barrel pickle	2	5	good	5-7	5-10	10-20	0	50 Briny Blood (+20 spell dmg, +40 MP)
 Bash-&#332;s cereal	3	1	crappy	3	0	3-5	0	Bash-&#332;s boxtop
 basic hot dog	1	1	crappy	1	0	0	0
 bat haggis	2	2	decent	2-7	0	10-12	0
 bat wing kabob	2	1	decent	2-5	0	7-8	0
-bat wing stir-fry	3	4	awesome	6-14	0	27-45	0
+bat wing stir-fry	3	4	awesome	8-12	0	27-31	0
 bat-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
 b&auml;tzle	4	4	good	10-14	0	0	20-30
 bean burrito	3	1	decent	3-8	10-14	0	0
@@ -406,15 +406,15 @@ Knob mushroom	2	1	crappy	2-3	0	0	0
 Knob nuts	1	4	good	3	1-4	1-4	1-4
 Knob pasty	1	1	EPIC	5-6	5-6	5-6	5-6
 Knob sausage	2	1	crappy	2-3	0	0	0
-Knob sausage stir-fry	3	4	awesome	7-14	25-28	0	0
+Knob sausage stir-fry	3	4	awesome	8-12	27-31	0	0
 Knob shroomkabob	2	1	decent	2-5	0	6-11	0
-Knob stir-fry	2	3	good	2-10	0	12-18	0
+Knob stir-fry	2	3	good	4-7	0	14-18	0
 Knob stroganoff	4	5	good	10-14	0	0	20-25
 Knob stuffed shells	4	5	good	10-14	20-25	0	0
 Knoll lo mein	4	6	awesome	15-19	30-34	0	0
 Knoll mushroom	2	1	crappy	1-3	0	0	0
 Knoll shroomkabob	2	1	decent	2-5	6-11	0	0
-Knoll stir-fry	2	3	good	2-10	14-18	0	0
+Knoll stir-fry	2	3	good	4-7	14-18	0	0
 knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% weapon dmg)
 kumquat	1	2	decent	2	0	0	0
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
@@ -550,7 +550,7 @@ powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 mys exp)
 prescription noodles	5	11	awesome	20-23	0	0	40-45
 pr0n cocktail	2	1	decent	2-5	8-12	8-12	8-12
 pr0n m4nic0tti	4	3	good	10-12	0	0	28-32
-pr0n stir-fry	2	4	awesome	3-11	7-12	0	8-12
+pr0n stir-fry	2	4	awesome	5-8	7-12	0	8-12
 pr0n taco	2	1	decent	2-5	0	0	11-33
 protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
@@ -565,7 +565,7 @@ Rainbow Spider Fun Roll	4	1	decent	6-10	0	0	0	3-5 plastic ingots
 raisin	1	1	crappy	1	0	0	0
 raspberry	1	2	decent	2	0	0	0
 rat appendix kabob	2	1	decent	2-5	0	0	6-9
-rat appendix stir-fry	3	4	awesome	7-14	0	0	27-45
+rat appendix stir-fry	3	4	awesome	8-12	0	0	27-31
 rat scrapple	2	2	decent	2-7	0	0	10-12
 ratini	4	4	good	10-14	0	20-30	0
 ravioli della hippy	3	3	good	4-12	0	19-23	0
@@ -668,7 +668,7 @@ spooky hi mein	5	13	EPIC	24-27	15-20	70-75	30-35	5 Spooky Breath (combat skill)
 spooky lo mein	4	6	awesome	15-19	0	0	30-34
 spooky mushroom	2	1	crappy	2-3	0	0	0
 spooky shroomkabob	2	1	decent	2-5	0	0	6-11
-spooky stir-fry	2	3	good	2-10	0	0	14-18
+spooky stir-fry	2	3	good	4-7	0	0	14-18
 Spooky Surprise Egg	1	1	crappy	1	0	0	0	series 2 tiny plastic
 square CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Square to be Hip (+10% mox)
 squirmy violent party snack	1	1	good	2-4	2-20	2-20	2-20	10 Broken Dancing (Legendary Beat quest)
