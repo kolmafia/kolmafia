@@ -1761,7 +1761,7 @@ tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: 
 # White Wednesday (October 26, 2005)
 
 # The Icy Peak in The Recent Past (November 2005)
-Emaciated Knott Yeti	0	skinyeti.gif	
+emaciated Knott Yeti	219	skinyeti.gif	Atk: 60 Def: 72 HP: 50 Init: 60 E: cold P: beast
 Mob Penguin Pasta Chef	216	pengchef.gif	Atk: 90 Def: 81 HP: 80 Init: 70 P: penguin	scroll of pasta summoning (0)	delicious noodles (0)	iron pasta spoon (0)
 Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 P: penguin	support cummerbund (0)	Mob Penguin cellular phone (0)	mafia aria (0)
 Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 P: penguin	kneecapping stick (0)	penguin skin (0)
