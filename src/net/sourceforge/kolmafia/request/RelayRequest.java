@@ -39,8 +39,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import java.net.HttpURLConnection;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -484,14 +482,14 @@ public class RelayRequest
 		this.headers.add( "Date: " + new Date() );
 		this.headers.add( "Server: " + KoLConstants.VERSION_NAME );
 
-		if ( status.indexOf( "302" ) != -1 )
+		if ( status.contains( "302" ) )
 		{
 			this.headers.add( "Location: " + responseText );
 
 			this.responseCode = 302;
 			this.responseText = "";
 		}
-		else if ( status.indexOf( "200" ) != -1 )
+		else if ( status.contains( "200" ) )
 		{
 			this.responseCode = 200;
 
@@ -1459,25 +1457,25 @@ public class RelayRequest
 		}
 		if ( image3 == null )
 		{
-			if ( image2 == "poolcue.gif" )
+			if ( "poolcue.gif".equals( image2 ) )
 			{
 				warning.append( "<br>If you want to wield the cue first, for an extra three skill, click the icon on the right. " );
 			}
-			else if ( image2 == "poolcuef.gif" )
+			else if ( "poolcuef.gif".equals( image2 ) )
 			{
 				warning.append( "<br>If you want to wield the Staff of Fats first, for an extra five skill, click the icon on the right. " );
 				image2 = "poolcue.gif";
 			}
-			else if ( image2 == "staffofed.gif" )
+			else if ( "staffofed.gif".equals( image2 ) )
 			{
 				warning.append( "<br>If you want to wield the Staff of Ed first, for an extra five skill, click the icon on the right. " );
 			}
-			else if ( image2 == "disease.gif" )
+			else if ( "disease.gif".equals( image2 ) )
 			{
 				warning.append( "<br>If you want to use hand chalk first, for an extra three skill, click the icon on the right. " );
 			}
 		}
-		else if ( image3 == "disease.gif" )
+		else if ( "disease.gif".equals( image3 ) )
 		{
 			warning.append( "<br>If you want to wield the cue first, for an extra three skill, click the icon in the middle. " );
 			warning.append( "<br>If you want to use hand chalk first, for an extra three skill, click the icon in the right. " );
@@ -1703,7 +1701,7 @@ public class RelayRequest
 		// Proceed with familiar
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
-		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( !url.contains( "?" ) ? "?" : "&" );
 		warning.append( CONFIRM_FAMILIAR );
 		warning.append( "=on\"><img src=\"/images/");
 
@@ -1779,7 +1777,7 @@ public class RelayRequest
 		// Proceed with your hands full
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
-		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( !url.contains( "?" ) ? "?" : "&" );
 		warning.append( CONFIRM_KUNGFU );
 		warning.append( "=on\"><img src=\"/images/itemimages/kungfu.gif" );
 		warning.append( "\" width=30 height=30 border=0>" );
@@ -2269,7 +2267,7 @@ public class RelayRequest
 					String url = this.getFullURLString();
 					warning.append( "<a href=\"" );
 					warning.append( url );
-					warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+					warning.append( !url.contains( "?" ) ? "?" : "&" );
 					warning.append( confirm );
 					warning.append( "=on" );
 					if ( extra != null )
@@ -2329,7 +2327,7 @@ public class RelayRequest
 			// first image is proceed with adventure
 			warning.append( "<td align=center valign=center><div id=\"proceed\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 			warning.append( url );
-			warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+			warning.append( !url.contains( "?" ) ? "?" : "&" );
 			warning.append( confirm );
 			warning.append( "=on\"><img src=\"" );
 			if ( !image1.startsWith( "/" ) )
@@ -2383,7 +2381,7 @@ public class RelayRequest
 
 	}
 
-	public boolean sendCloverWarning( final String adventureName)
+	public boolean sendCloverWarning( final String adventureName )
 	{
 		if ( adventureName == null )
 		{
@@ -2422,7 +2420,7 @@ public class RelayRequest
 		// Proceed with clover
 		warning.append( "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"" );
 		warning.append( url );
-		warning.append( url.indexOf( "?" ) == -1 ? "?" : "&" );
+		warning.append( !url.contains( "?" ) ? "?" : "&" );
 		warning.append( CONFIRM_CLOVER );
 		warning.append( "=on\"><img src=\"/images/itemimages/clover.gif\" width=30 height=30 border=0>" );
 		warning.append( "</a></div></td>" );
@@ -2936,7 +2934,7 @@ public class RelayRequest
 
 			if ( mainpane != null )
 			{
-				if ( mainpane.indexOf( ".php" ) == -1 )
+				if ( !mainpane.contains( ".php" ) )
 				{
 					mainpane = mainpane + ".php";
 				}
