@@ -1925,7 +1925,7 @@ two skeleton invaders	1002	bigskeleton2.gif	Atk: 30 Def: 27 HP: 30 Init: 50	bone
 three skeleton invaders	1003	bigskeleton3.gif	Atk: 80 Def: 72 HP: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
 four skeleton invaders	1004	bigskeleton4.gif	Atk: 110 Def: 99 HP: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
-ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 P: undead	bag of bones (0)
+ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (0)
 
 # CRIMBCO cubicles (Crimbo 2010)
 Disorganized Files	0	c10files.gif	Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
