@@ -3760,6 +3760,7 @@ public class Parser
 		case '>':
 		case '?':
 		case ':':
+		case '\u2248':
 			return true;
 		}
 		return false;
