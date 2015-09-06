@@ -1024,6 +1024,21 @@ public abstract class UseLinkDecorator
 					new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
 			}
 
+			case ItemPool.LITTLE_FIRKIN:
+			case ItemPool.NORMAL_BARREL:
+			case ItemPool.BIG_TUN:
+			case ItemPool.WEATHERED_BARREL:
+			case ItemPool.DUSTY_BARREL:
+			case ItemPool.DISINTEGRATING_BARREL:
+			case ItemPool.MOIST_BARREL:
+			case ItemPool.ROTTING_BARREL:
+			case ItemPool.MOULDERING_BARREL:
+			case ItemPool.BARNACLED_BARREL:
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( new UseLink( itemId, 1, "use", "inv_use.php?whichitem=" ) );
+				uses.add( new UseLink( itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false ) );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+
 			default:
 
 				return new UseLink( itemId, itemCount, 
