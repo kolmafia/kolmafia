@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
@@ -5993,7 +5994,7 @@ public abstract class ChoiceManager
 			// Tomb of the Unknown Your Class Here
 
 			String responseText = ChoiceManager.lastResponseText;
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			int options = choices.size();
 			if ( options == 1 )
 			{
@@ -6244,7 +6245,7 @@ public abstract class ChoiceManager
 
 			// Make sure that KoL currently allows the chosen choice
 
-			if ( !ChoiceCommand.optionAvailable( decision, request.responseText ) )
+			if ( !ChoiceUtilities.optionAvailable( decision, request.responseText ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Requested choice (" + decision + ") for choice #" + choice + " is not currently available." );
 				ChoiceCommand.printChoices();
@@ -6279,7 +6280,7 @@ public abstract class ChoiceManager
 		decision = ChoiceManager.specialChoiceDecision2( choice, decision, Integer.MAX_VALUE, responseText );
 
 		// Currently unavailable decision, manual choice requested, or unsupported choice
-		if ( decision.equals( "0" ) || decision.equals( "" ) || !ChoiceCommand.optionAvailable( decision, responseText ) )
+		if ( decision.equals( "0" ) || decision.equals( "" ) || !ChoiceUtilities.optionAvailable( decision, responseText ) )
 		{
 			return 0;
 		}
@@ -11372,7 +11373,7 @@ public abstract class ChoiceManager
 
 			// This handles every choice in the "The Unknown Tomb"
 			// Many of them have a single option.
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			if ( choices.size() == 1 )
 			{
 				return "1";
@@ -11414,7 +11415,7 @@ public abstract class ChoiceManager
 
 		case 1087:
 			// The Dark and Dank and Sinister Cave Entrance
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
 			if ( choices.size() == 1 )
 			{
 				return "1";
@@ -12703,7 +12704,7 @@ public abstract class ChoiceManager
 				// If we didn't find a spoiler, use KoL's label for the option
 				if ( desc == null )
 				{
-					TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( ChoiceManager.lastResponseText );
+					TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 					desc = choices.get( decision );
 				}
 

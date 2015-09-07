@@ -54,8 +54,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
-import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
-
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArcadeRequest
@@ -1084,7 +1083,7 @@ public class ArcadeRequest
 		}
 
 		// If you've won this game before, you can finish it automatically
-		String option = ChoiceCommand.actionOption( "Finish from Memory", responseText );
+		String option = ChoiceUtilities.actionOption( "Finish from Memory", responseText );
 		if ( option != null )
 		{
 			return option;
