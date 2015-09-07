@@ -5810,6 +5810,7 @@ Effect	Warbear Hunter	Supercold Resistance: +2
 Effect	Warbear on the Inside	Supercold Resistance: +2
 # Warbear Warlust: +60 WarBear Armor Penetration
 Effect	Warlock Fairy Wizard Sorcerer	Avatar: "spooky gravy fairy warlock"
+Effect	Warlock, Warstock, and Warbarrel	Spell Damage Percent: +150
 # Warm Belly: Makes sushi taste better
 Effect	Warm Belly	Hot Damage: [+3*D]
 # Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
