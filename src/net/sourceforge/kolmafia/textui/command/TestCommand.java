@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -752,7 +753,7 @@ public class TestCommand
 			ChoiceManager.lastChoice = 0;
 			ChoiceManager.visitChoice( request );
 			RequestLogger.printLine( "choice = " + ChoiceManager.lastChoice );
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( TestCommand.contents );
+			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( TestCommand.contents );
 			TestCommand.contents = null;
 			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 			{

@@ -61,8 +61,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
-
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator
@@ -589,7 +588,7 @@ public class StationaryButtonDecorator
 		if ( choice != 0 )
 		{
 			StringBuilder actionBuffer = new StringBuilder();
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( ChoiceManager.lastResponseText );
+			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 			{
 				actionBuffer.setLength( 0 );
