@@ -426,6 +426,12 @@ left bear arm	nosmash
 Jarlsberg's pan	nosmash
 Jarlsberg's pan (Cosmic portal mode)	nosmash
 over-the-shoulder Folder Holder	nosmash
+Pantsgiving	nosmash
+Thor's Pliers	nosmash
+Sneaky Pete's leather jacket	nosmash
+Sneaky Pete's leather jacket (collar popped)	nosmash
+The Crown of Ed the Undying	nosmash
+Buddy Bjorn	nosmash
 
 # Depleted grimacite items.
 depleted Grimacite hammer	chunk of depleted Grimacite
