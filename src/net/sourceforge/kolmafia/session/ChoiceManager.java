@@ -9910,6 +9910,15 @@ public abstract class ChoiceManager
 			}
 
 			break;
+
+		case 1101:	// It's a Barrel Smashing Party!
+			int itemId = ChoiceManager.extractIidFromURL( request.getURLString() );
+			String name = ItemDatabase.getItemName( itemId );
+			if ( name != null )
+			{
+				ResultProcessor.removeItem( itemId );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
