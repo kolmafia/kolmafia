@@ -11425,9 +11425,9 @@ public abstract class ChoiceManager
 				myClass == KoLCharacter.SEAL_CLUBBER ? "Freak the hell out like a wrathful wolverine." :
 				myClass == KoLCharacter.TURTLE_TAMER ? "Sympathize with an amphibian." :
 				myClass == KoLCharacter.PASTAMANCER ? "Entangle the wall with noodles." :
-				myClass == KoLCharacter.SAUCEROR ? "Shoot a stream of sauce at the wall. " :
+				myClass == KoLCharacter.SAUCEROR ? "Shoot a stream of sauce at the wall." :
 				myClass == KoLCharacter.DISCO_BANDIT ? "Focus on your disco state of mind." :
-				myClass == KoLCharacter.ACCORDION_THIEF ? "Bash the wall with your accordion. " :
+				myClass == KoLCharacter.ACCORDION_THIEF ? "Bash the wall with your accordion." :
 				null;
 
 			// Only standard classes can join the guild, so we

@@ -79,7 +79,7 @@ public class ChoiceCommand
 		    parameters = parameters.substring( 0, parameters.length() - 7 ).trim();
 		}
 		int decision = 0;
-		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoicesWithSpoilers();
 		if ( StringUtilities.isNumeric( parameters ) )
 		{
 			decision = StringUtilities.parseInt( parameters );
@@ -113,10 +113,12 @@ public class ChoiceCommand
 	}
 
 	private static final Pattern FORM_PATTERN = Pattern.compile( "<form.*?</form>", Pattern.DOTALL );
-
 	private static final Pattern OPTION_PATTERN1 = Pattern.compile( "name=[\"']?option[\"']? value=[\"']?(\\d+)[\"']?" );
+	private static final Pattern TEXT_PATTERN1 = Pattern.compile( "class=[\"']?button[\"']?.*?value=[\"']?([^\"'>]*)[\"']?" );
+
+	private static final Pattern LINK_PATTERN = Pattern.compile( "<[aA] .*?</[aA]>", Pattern.DOTALL );
 	private static final Pattern OPTION_PATTERN2 = Pattern.compile( "&option=(\\d+)" );
-	private static final Pattern TEXT_PATTERN = Pattern.compile( "class=[\"']?button[\"']?.*?value=[\"']?([^\"'>]*)[\"']?" );
+	private static final Pattern TEXT_PATTERN2 = Pattern.compile( "title=[\"']?([^\"'>]*)[\"']?" );
 
 	public static TreeMap<Integer,String> parseChoices( final String responseText )
 	{
@@ -137,11 +139,7 @@ public class ChoiceCommand
 			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
 			if ( !optMatcher.find() )
 			{
-				optMatcher = OPTION_PATTERN2.matcher( form );
-				if ( !optMatcher.find() )
-				{
-					continue;
-				}
+				continue;
 			}
 			int decision = Integer.parseInt( optMatcher.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
@@ -149,43 +147,12 @@ public class ChoiceCommand
 			{
 				continue;
 			}
-			Matcher textMatcher = TEXT_PATTERN.matcher( form );
+			Matcher textMatcher = TEXT_PATTERN1.matcher( form );
 			String text = textMatcher.find() ? textMatcher.group( 1 ) : "(secret choice)";
 			rv.put( key, text );
 		}
 
-		return rv;
-	}
-
-	public static TreeMap<Integer,String> parseChoices( final boolean spoilers )
-	{
-		TreeMap<Integer,String> rv = new TreeMap<Integer,String>();
-		String responseText = ChoiceManager.lastResponseText;
-
-		if ( !ChoiceManager.handlingChoice || responseText == null )
-		{
-			return rv;
-		}
-
-		if ( !spoilers )
-		{
-			return ChoiceCommand.parseChoices( responseText );
-		}
-
-		int choice = ChoiceManager.currentChoice();
-		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( choice );
-		if ( possibleDecisions == null )
-		{
-			possibleDecisions = new Object[][] { null, null, {} };
-		}
-
-		Object[] options = possibleDecisions[ 2 ];
-		if ( options == null )
-		{
-			return ChoiceCommand.parseChoices( responseText );
-		}
-
-		Matcher m = FORM_PATTERN.matcher( responseText );
+		m = LINK_PATTERN.matcher( responseText );
 		while ( m.find() )
 		{
 			String form = m.group();
@@ -193,14 +160,10 @@ public class ChoiceCommand
 			{
 				continue;
 			}
-			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
+			Matcher optMatcher = OPTION_PATTERN2.matcher( form );
 			if ( !optMatcher.find() )
 			{
-				optMatcher = OPTION_PATTERN2.matcher( form );
-				if ( !optMatcher.find() )
-				{
-					continue;
-				}
+				continue;
 			}
 			int decision = Integer.parseInt( optMatcher.group( 1 ) );
 			Integer key = IntegerPool.get( decision );
@@ -208,14 +171,44 @@ public class ChoiceCommand
 			{
 				continue;
 			}
-			Matcher textMatcher = TEXT_PATTERN.matcher( form );
+			Matcher textMatcher = TEXT_PATTERN2.matcher( form );
 			String text = textMatcher.find() ? textMatcher.group( 1 ) : "(secret choice)";
-			Object option = ChoiceManager.findOption( options, decision );
+			rv.put( key, text );
+		}
+
+		return rv;
+	}
+
+	private static TreeMap<Integer,String> parseChoicesWithSpoilers()
+	{
+		TreeMap<Integer,String> rv = ChoiceCommand.parseChoices( ChoiceManager.lastResponseText );
+
+		if ( !ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null )
+		{
+			return rv;
+		}
+
+		Object[][] possibleDecisions = ChoiceManager.choiceSpoilers( ChoiceManager.lastChoice );
+		if ( possibleDecisions == null )
+		{
+			return rv;
+		}
+
+		Object[] options = possibleDecisions[ 2 ];
+		if ( options == null )
+		{
+			return rv;
+		}
+
+		for ( Map.Entry<Integer,String> entry : rv.entrySet() )
+		{
+			Integer key = entry.getKey();
+			Object option = ChoiceManager.findOption( options, key );
 			if ( option != null )
 			{
-				text = text + " (" + option.toString() + ")";
+				String text = entry.getValue() + " (" + option.toString() + ")";
+				rv.put( key, text );
 			}
-			rv.put( key, text );
 		}
 
 		return rv;
@@ -223,70 +216,26 @@ public class ChoiceCommand
 
 	public static boolean optionAvailable( final String decision, final String responseText)
 	{
-		Matcher m = FORM_PATTERN.matcher( responseText );
-		while ( m.find() )
-		{
-			String form = m.group();
-			if ( !form.contains( "choice.php" ) )
-			{
-				continue;
-			}
-			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
-			if ( !optMatcher.find() )
-			{
-				optMatcher = OPTION_PATTERN2.matcher( form );
-				if ( !optMatcher.find() )
-				{
-					continue;
-				}
-			}
-			if ( optMatcher.group( 1 ).equals( decision ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}	
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+		return choices.containsKey( StringUtilities.parseInt( decision ) );
+	}
 
 	public static String actionOption( final String action, final String responseText)
 	{
-		Matcher m = FORM_PATTERN.matcher( responseText );
-		while ( m.find() )
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( responseText );
+		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
-			String form = m.group();
-			if ( !form.contains( "choice.php" ) )
+			if ( entry.getValue().equals( action ) )
 			{
-				continue;
+				return String.valueOf( entry.getKey() );
 			}
-			Matcher textMatcher = TEXT_PATTERN.matcher( form );
-			if ( !textMatcher.find() || !textMatcher.group( 1 ).equals( action ) )
-			{
-				continue;
-			}
-
-			Matcher optMatcher = OPTION_PATTERN1.matcher( form );
-			if ( optMatcher.find() )
-			{
-				return optMatcher.group( 1 );
-			}
-
-			optMatcher = OPTION_PATTERN2.matcher( form );
-			if ( optMatcher.find() )
-			{
-				return optMatcher.group( 1 );
-			}
-
-			// Found the action but no option !?
-			return null;
 		}
-
 		return null;
-	}	
+	}
 
 	public static void printChoices()
 	{
-		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoicesWithSpoilers();
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
 			RequestLogger.printLine( "<b>choice " + entry.getKey() + "</b>: " + entry.getValue() );
@@ -295,8 +244,8 @@ public class ChoiceCommand
 	
 	public static void logChoices()
 	{
+		TreeMap<Integer,String> choices = ChoiceCommand.parseChoicesWithSpoilers();
 		int choice = ChoiceManager.currentChoice();
-		TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( true );
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
 			RequestLogger.updateSessionLog( "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue() );

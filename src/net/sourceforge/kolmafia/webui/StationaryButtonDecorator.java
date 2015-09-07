@@ -589,7 +589,7 @@ public class StationaryButtonDecorator
 		if ( choice != 0 )
 		{
 			StringBuilder actionBuffer = new StringBuilder();
-			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( false );
+			TreeMap<Integer,String> choices = ChoiceCommand.parseChoices( ChoiceManager.lastResponseText );
 			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 			{
 				actionBuffer.setLength( 0 );
