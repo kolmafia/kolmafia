@@ -78,7 +78,7 @@ public class EquipmentRequest
 	private static final Pattern WEAPON_PATTERN =
 		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon" );
 	private static final Pattern OFFHAND_PATTERN =
-		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>([^<]+)</b> *(<font[^>]*>[^<]*</font>)? *<a[^>]*unequip&type=offhand" );
+		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand" );
 	private static final Pattern CONTAINER_PATTERN =
 		Pattern.compile( "Back</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=container" );
 	private static final Pattern SHIRT_PATTERN =
