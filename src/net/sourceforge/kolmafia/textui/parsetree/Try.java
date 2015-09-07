@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -76,21 +78,22 @@ public class Try
 			if ( this.finalClause != null )
 			{
 				String oldState = interpreter.getState();
-				interpreter.setState( Interpreter.STATE_NORMAL );
+				boolean userAborted = StaticEntity.userAborted;
+				MafiaState continuationState = StaticEntity.getContinuationState();
+
 				KoLmafia.forceContinue();
+
 				if ( interpreter.isTracing() )
 				{
 					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}
-				Value newResult = this.finalClause.execute( interpreter );
-				if ( interpreter.getState() == Interpreter.STATE_NORMAL )
-				{
-					interpreter.setState( oldState );
-				}
-				else
-				{
-					result = newResult;
-				}
+
+				interpreter.setState( Interpreter.STATE_NORMAL );
+				this.finalClause.execute( interpreter );
+				interpreter.setState( oldState );
+
+				StaticEntity.setContinuationState( continuationState );
+				StaticEntity.userAborted = userAborted;
 			}
 		}
 	
