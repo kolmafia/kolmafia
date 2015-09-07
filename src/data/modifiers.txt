@@ -4415,6 +4415,7 @@ Effect	Doing The Hustle	Item Drop: +100
 Effect	Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
 Effect	Donho's Bubbly Ballad	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Double-Barreled	Ranged Damage Percent: +150
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Effect	Down With Chow	Familiar Weight: +10
 Effect	Dragged Through the Coals	Hot Damage: +100

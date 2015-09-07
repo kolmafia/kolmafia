@@ -1784,7 +1784,7 @@ zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undea
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
-Zombie eXtreme Snowboarding Orc	310	zomsnow.gif	Atk: 74 Def: 66 HP: 65 Init: 60 E: spooky P: undead
+Zombie eXtreme Snowboarding Orc	310	zomsnow.gif	Atk: 74 Def: 66 HP: 65 Init: 60 E: spooky P: undead	snowboarder pants (0)	eXtreme mittens (0)	Mountain Stream soda (0)	zombie pineal gland (0)
 Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 E: spooky P: undead
 Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
 Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 E: spooky P: undead
@@ -1920,10 +1920,10 @@ reanimated serpent skeleton	987	foss_serpent.gif	HP: 100 Def: 90 Atk: 100 Init: 
 reanimated wyrm skeleton	989	foss_wyrm.gif	HP: 200 Def: 180 Atk: 200 Init: -10000 Phys: 100 P: undead	fossilized necklace (c100)
 
 # A Skeleton Invasion (October 2010)
-skeleton invader	1001	bigskeleton.gif	Atk: 10 Def: 9 HP: 10 Init: 50	bone chips (30)
-two skeleton invaders	1002	bigskeleton2.gif	Atk: 30 Def: 27 HP: 30 Init: 50	bone chips (30)	bone chips (20)
-three skeleton invaders	1003	bigskeleton3.gif	Atk: 80 Def: 72 HP: 80 Init: 50	bone chips (30)	bone chips (20)	bone chips (10)
-four skeleton invaders	1004	bigskeleton4.gif	Atk: 110 Def: 99 HP: 110 Init: 65	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
+skeleton invader	1001	bigskeleton.gif	Atk: 10 Def: 9 HP: 10 Init: 50 P: undead	bone chips (30)
+two skeleton invaders	1002	bigskeleton2.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: undead	bone chips (30)	bone chips (20)
+three skeleton invaders	1003	bigskeleton3.gif	Atk: 80 Def: 72 HP: 80 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)
+four skeleton invaders	1004	bigskeleton4.gif	Atk: 110 Def: 99 HP: 110 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (0)
 
