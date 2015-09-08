@@ -8466,9 +8466,9 @@
 8440	empty lava bottle	935989438	lbottle1.gif	none	t,d	125
 8441	full lava bottle	420549408	lbottle2.gif	none	t,d	150
 8442	viscous lava globs	695478815	globs1.gif	none	t,d	75	viscous lava globs
-8443	red lava globs	701118072	dyeglobs.gif	usable	t,d	100
-8444	blue lava globs	318434762	dyeglobs.gif	usable	t,d	100
-8445	green lava globs	554180865	dyeglobs.gif	usable	t,d	100
+8443	red lava globs	701118072	dyeglobs.gif	usable	t,d	100	red lava globs
+8444	blue lava globs	318434762	dyeglobs.gif	usable	t,d	100	blue lava globs
+8445	green lava globs	554180865	dyeglobs.gif	usable	t,d	100	green lava globs
 8446	SMOOCH bottlecap	853827346	bottlecap.gif	multiple	t	0
 8447	uncapped red lava bottle	127551390	lbottle3.gif	none	t,d	125
 8448	uncapped blue lava bottle	684114659	lbottle3.gif	none	t,d	125
