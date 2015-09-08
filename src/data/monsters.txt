@@ -350,6 +350,7 @@ hermetic seal	796	hermeticseal.gif	FREE Atk: 110 Def: 180 HP: 150 Init: -10000 P
 Hockey Elemental	274	hockeyelem.gif	ULTRARARE Atk: 55 Def: 49 HP: 80 Init: 100 P: elemental	hockey stick of furious angry rage (100)
 Honey Pot	542	honeypot.gif	Atk: 152 Def: 136 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 Hooded Warrior	183	hooded.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
+huge barrel mimic	289	mimic4.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird
 huge ghuol	191	ghuol_huge.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/3] Init: 60 Meat: 258-344 E: spooky P: undead	ghuol ears (0)	ghuol egg (0)
 huge mosquito	1341	giantmosquito.gif	Atk: 16 Def: 14 HP: 18 Init: 20 P: bug Meat: 10	delicious swamp muck (0)	huge mosquito proboscis (0)
 hulking construct	669	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 Phys: 100 P: construct	El Vibrato punchcard (104 holes) (1)
@@ -444,6 +445,7 @@ mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude	
 mariachi calavera	272	mariachi3.gif	Atk: 22 Def: 19 HP: 30 Init: 50 P: undead	bottle of tequila (30)	marzipan skull (30)	calavera concertina (p5)
 mayonnaise wasp	73	wasp.gif	Atk: 17 Def: 15 HP: 11 Init: 60 "A Little Bit Poisoned" P: bug	glob of spoiled mayo (n100)
 me4t begZ0r	144	beggar.gif	Atk: 87 Def: 78 HP: 77 Init: 50 P: dude	meat vortex (100)
+medium-sized barrel mimic	288	mimic3.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird
 mean drunk duck	567	duckmeandrunk.gif	Atk: 180 Def: 157 HP: 190 Init: 50 Meat: 174-229 P: beast	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
 mega frog	1342	megafrog.gif	Atk: 14 Def: 16 HP: 20 Init: 10 P: beast Meat: 15	delicious swamp muck (0)	swamp lolly (0)
 menacing construct	664	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
@@ -471,9 +473,6 @@ Mer-kin teacher	838	merkinteacher.gif	Atk: 600 Def: 700 HP: 700 Init: 50 P: mer-
 Mer-kin tippler	768	merkintippler.gif	Atk: 600 Def: 360 HP: 750 Init: 25 Meat: 200 P: mer-kin	Alewife&trade; Ale (40)	Mer-kin foodbucket (n5)	Mer-kin pinkslip (n5)	slug of vodka (21)	Mer-kin weaksauce (0)
 Mer-kin trainer	841	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-kin	Mer-kin strongjuice (0)	Mer-kin stopwatch (0)
 mimic	283	lowerm.gif	BOSS Atk: 45 Def: 40 HP: 50 Init: 70 P: weird	dead mimic (n100)
-mimic (bottom barrels)	287	newbarrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
-mimic (middle barrels)	288	newbarrel.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weird Manuel: "mimic"
-mimic (top barrels)	289	newbarrel.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Manuel: "mimic"
 mind flayer	222	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flayer corpse (25)	cornuthaum (15)	large box (20)	flayed mind (c0)
 mine crab	746	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 250 P: fish	live nautical mine (n20)
 Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
@@ -646,6 +645,7 @@ slick lihc	193	lich.gif	Atk: 59 Def: 54 HP: 50 Init: 50 E: spooky P: undead	lihc
 slithering hollandaise glob	658	holglob.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: slime	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	nauseating reagent (0)
 slithering thing	1375	slithering.gif	Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror	grisly shell fragment (0)	grisly shell fragment (0)
 Slow Talkin' Elliot	511	eliot.gif	Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 130-154 E: stench P: hippy	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	Slow Talkin' Elliot's dogtags (100)
+small barrel mimic	287	mimic2.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird
 smarmy pirate	106	pirate1.gif	Atk: 65 Def: 58 HP: 55 Init: 70 E: sleaze Meat: 27 P: pirate	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)
 Smart Skelton	40	smartskel.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undead	smart skull (50)	Smart Bone Dust (c0)
 smell-o-the-wisp	1343	smellothewisp.gif	Atk: 28 Def: 35 HP: 35 Init: 50 P: elemental E: stench	moonberry wine cooler (0)	bottled swamp gas (0)
@@ -745,6 +745,7 @@ The Unknown Accordion Thief	1780	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: unde
 Thinknerd Moving Robot	1537	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: 50 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Packing Robot	1538	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
 Thinknerd Sorting Robot	1536	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct	robot grease (0)	returned Thinknerd package (c0)
+tiny barrel mimic	177	mimic1.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird
 tipsy pirate	618	tipsypirate.gif	Atk: 80 Def: 72 HP: 70 Init: 50 Meat: 45 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 toilet papergeist	390	tpgeist.gif	Atk: 55 Def: 47 HP: 60 Init: -10000 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
 tomb asp	469	tombasp.gif	Atk: 170 Def: 145 HP: 155 Init: 70 Meat: 100 "Really Quite Poisoned" P: beast	unidentified jerky (12)	charming flute (7)
@@ -2057,7 +2058,6 @@ oddly-proportioned ghost	0	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -1000
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer"	star chart (100)
-mimic (obsolete)	177	newbarrel.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Manuel: "mimic"
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack"
 skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier"
 
