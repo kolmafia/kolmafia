@@ -82,18 +82,22 @@ public class Try
 				MafiaState continuationState = StaticEntity.getContinuationState();
 
 				KoLmafia.forceContinue();
+				interpreter.setState( Interpreter.STATE_NORMAL );
 
 				if ( interpreter.isTracing() )
 				{
 					interpreter.trace( "Entering finally, saved state: " + oldState );
 				}
 
-				interpreter.setState( Interpreter.STATE_NORMAL );
 				this.finalClause.execute( interpreter );
-				interpreter.setState( oldState );
 
-				StaticEntity.setContinuationState( continuationState );
-				StaticEntity.userAborted = userAborted;
+				// Unless the finally block aborted, restore previous state
+				if ( !KoLmafia.refusesContinue() )
+				{
+					interpreter.setState( oldState );
+					StaticEntity.setContinuationState( continuationState );
+					StaticEntity.userAborted = userAborted;
+				}
 			}
 		}
 	
@@ -104,15 +108,13 @@ public class Try
 	@Override
 	public boolean assertBarrier()
 	{
-		return this.body.assertBarrier() ||
-			this.finalClause.assertBarrier();
+		return this.body.assertBarrier() || this.finalClause.assertBarrier();
 	}
 	
 	@Override
 	public boolean assertBreakable()
 	{
-		return this.body.assertBreakable() ||
-			this.finalClause.assertBreakable();
+		return this.body.assertBreakable() || this.finalClause.assertBreakable();
 	}
 
 	@Override
