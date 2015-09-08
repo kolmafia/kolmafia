@@ -1057,7 +1057,17 @@ public class Evaluator
 					}
 				}
 				item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
-				if ( item.getCount() != 0 && this.getScore( familiarMods ) - nullScore > 0.0 )
+
+				switch ( this.checkConstraints( familiarMods ) )
+				{
+				case -1:
+					continue;
+				case 1:
+					item.automaticFlag = true;
+				}
+
+				if ( item.getCount() != 0 &&
+					( this.getScore( familiarMods ) - nullScore > 0.0 || item.automaticFlag == true ) )
 				{
 					ranked[ EquipmentManager.FAMILIAR ].add( item );
 				}
@@ -1087,7 +1097,17 @@ public class Evaluator
 				{
 					item = new CheckedItem( id, equipLevel, maxPrice, priceLevel );
 				}
-				if ( item.getCount() != 0 && this.getScore( familiarMods ) - nullScore > 0.0 )
+
+				switch ( this.checkConstraints( familiarMods ) )
+				{
+				case -1:
+					continue;
+				case 1:
+					item.automaticFlag = true;
+				}
+
+				if ( item.getCount() != 0 &&
+					( this.getScore( familiarMods ) - nullScore > 0.0 || item.automaticFlag == true ) )
 				{
 					ranked[ EquipmentManager.ALL_SLOTS + f ].add( item );
 				}
@@ -2200,7 +2220,7 @@ public class Evaluator
 						// in this slot's shortlist, since it may turn out to be
 						// advantageous to use up all our allowed beeosity on
 						// other slots.
-						if ( item.automaticFlag && slot != EquipmentManager.FAMILIAR )
+						if ( item.automaticFlag )
 						{
 							if ( !automatic[ slot ].contains( item ) )
 							{
@@ -2220,7 +2240,7 @@ public class Evaluator
 							beeosity += b * item.getCount();
 						}
 					}
-					else if ( item.automaticFlag && slot != EquipmentManager.FAMILIAR )
+					else if ( item.automaticFlag )
 					{
 						if ( !automatic[ slot ].contains( item ) )
 						{
