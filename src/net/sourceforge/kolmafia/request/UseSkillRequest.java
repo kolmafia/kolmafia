@@ -1561,7 +1561,7 @@ public class UseSkillRequest
 
 		if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 		{
-			MafiaState state = shouldStop ? MafiaState.ABORT : MafiaState.CONTINUE;
+			MafiaState state = shouldStop ? MafiaState.ERROR : MafiaState.CONTINUE;
 			KoLmafia.updateDisplay( state, UseSkillRequest.lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
