@@ -1610,6 +1610,9 @@ Mr. Choch	1814	mrchoch.gif	Atk: 200 Def: 200 HP: 400 P: dude Init: 100	Mr. Choch
 # The Flaming Inferno Discotheque (That 70s Volcano August 2015)
 Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 Phys: 50	Saturday Night thermometer (n100)	grease cannon (n100)
 
+# The Barrelmech (Shrine to the Barrel God September 2015)
+# The Barrelmech of Diogenes
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

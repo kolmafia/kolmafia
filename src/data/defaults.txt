@@ -1901,6 +1901,7 @@ user	choiceAdventure1081	4
 user	choiceAdventure1082	1
 user	choiceAdventure1083	1
 user	choiceAdventure1084	0
+user	choiceAdventure1102	1
 
 user	lockedItem4637	true
 user	lockedItem4638	true
