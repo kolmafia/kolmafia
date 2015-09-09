@@ -894,6 +894,21 @@ public class EatItemRequest
 			ResultProcessor.processItem( ItemPool.JAR_OF_SWAMP_HONEY, -itemsUsed );
 		}
 
+		// You give the barrel cracker a nice dry rubbing before going to work on it...</
+		if ( responseText.contains( "a nice dry rubbing before going to work on it" ) )
+		{
+			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.DRY_RUB ) );
+			if ( itemsUsed > 1 )
+			{
+				RequestLogger.printLine( "You ate " + itemsUsed + " shakers of dry rub with your food" );
+			}
+			else
+			{
+				RequestLogger.printLine( "You ate a shaker of dry rub with your food" );
+			}
+			ResultProcessor.processItem( ItemPool.DRY_RUB, -itemsUsed );
+		}
+
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
