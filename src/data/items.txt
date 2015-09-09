@@ -8622,4 +8622,4 @@
 8596
 8597
 8598	barrel beryl ring	202843665	berylring.gif	accessory	t,d	700
-8599	map to the Biggest Barrel	408797321	map.gif	usable	q	0
+8599	map to the Biggest Barrel	408797321	map.gif	reusable	q	0
