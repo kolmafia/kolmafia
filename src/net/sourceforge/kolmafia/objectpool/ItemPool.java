@@ -2159,6 +2159,7 @@ public class ItemPool
 	public static final int ALIEN_SOURCE_CODE_USED = 7534;
 	public static final int SPACE_HEATER = 7543;
 	public static final int HOT_ASHES = 7548;
+	public static final int DRY_RUB = 7553;
 	public static final int WHITE_PAGE = 7555;
 	public static final int CHRONER = 7567;
 	public static final int GLASS_OF_MILK = 7589;
