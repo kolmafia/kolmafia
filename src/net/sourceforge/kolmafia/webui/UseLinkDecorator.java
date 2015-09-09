@@ -925,6 +925,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.AQUA_BRAIN:
 			case ItemPool.LIGHTNING_MILK:
 			case ItemPool.SNEAKY_WRAPPING_PAPER:
+			case ItemPool.BARREL_MAP:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
