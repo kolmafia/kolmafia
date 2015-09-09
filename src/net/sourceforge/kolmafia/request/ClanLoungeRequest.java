@@ -1755,9 +1755,11 @@ public class ClanLoungeRequest
 			// Don't be fooled!
 			//   You lose some of an effect: Got Milk
 			//   You lose an effect: Got Milk
+			//   The Mayodiol kicks in and converts some of what you just ate into pure ethanol. You lose 1 Fullness.
 			if ( responseText.contains( "You don't feel up to eating that" ) ||
 			     ( !responseText.contains( "You lose some of an effect" ) &&
 				   !responseText.contains( "You lose an effect" ) &&
+				   !responseText.contains( "Mayodiol kicks in" ) &&
 			       responseText.contains( "You lose" ) ) )
 			{
 				return;
