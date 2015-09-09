@@ -3027,6 +3027,10 @@ public class GenericRequest
 			EncounterManager.ignoreSpecialMonsters();
 			break;
 
+		case ItemPool.BARREL_MAP:
+			itemName = "map to the Biggest Barrel";
+			break;
+
 		default:
 			return;
 		}
