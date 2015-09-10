@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 
@@ -704,6 +705,13 @@ public class TestCommand
 			TestCommand.contents = null;
 			RequestEditorKit.addNewLocationLinks( buffer );
 			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "manuel" ) )
+		{
+			MonsterManuelRequest.parseResponse( "questlog.php?which=6", TestCommand.contents );
+			TestCommand.contents = null;
 			return;
 		}
 

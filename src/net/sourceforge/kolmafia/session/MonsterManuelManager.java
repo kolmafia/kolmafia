@@ -278,12 +278,21 @@ public class MonsterManuelManager
 	}
 
 	// <td rowspan=4 valign=top width=100><img src=http://images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td>
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100><img src=http://images.kingdomofloathing.com/(?:adventureimages/(?:\\.\\./)?)?(.*?\\.gif).*?</td>" );
+	// <td rowspan=4 valign=top width=100><img src=/images/otherimages/barrelbeast.gif style="max-width:350;"></td>
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100><img src=(?:http://images.kingdomofloathing.com|/images)/(?:(adventureimages|otherimages)/(?:\\.\\./)?)?(.*?\\.gif).*?</td>" );
 
 	public static String extractMonsterImage( final String text )
 	{
 		Matcher matcher = MonsterManuelManager.IMAGE_PATTERN.matcher( text );
-		return matcher.find() ? matcher.group( 1 ) : "";
+		if ( !matcher.find() )
+		{
+			return "";
+		}
+		String directory = matcher.group( 1 );
+		String file = matcher.group( 2 );
+		return  directory == null || directory.equals( "adventureimages" ) ?
+			file :
+			( directory + "/" + file );
 	}
 
 	// <td width=30><img src=http://images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>150</font></b></td>
