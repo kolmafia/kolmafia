@@ -1040,6 +1040,7 @@ Item	Dinsey's pizza cutter	Spell Damage Percent: +50, Spooky Resistance: +2, Ste
 # disco ball
 Item	Disco Banjo	Moxie: +7, DB Combat Damage: +3, Class: "Disco Bandit"
 Item	dishrag	Stench Damage: +5
+Item	double barreled barrel gun	Weapon Damage Percent: +50, Critical Hit Percent: +5
 Item	double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 Item	doubt cannon	Weakens Monster
 Item	Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
@@ -2197,6 +2198,8 @@ Item	banjo kazoo mount	Maximum Hooch: +2, Single Equip
 Item	bark bracelet	Damage Reduction: 2, Single Equip
 Item	Baron von Ratsworth's money clip	Meat Drop: +15, Single Equip
 Item	Baron von Ratsworth's monocle	Item Drop: +10, Single Equip
+Item	barrel beryl choker	Muscle: +10, Weapon Damage: +10
+Item	barrel beryl nose ring	Mysticality: +10, Spell Damage: +20
 Item	barrel beryl ring	Moxie: +10, Initiative: +20
 Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3

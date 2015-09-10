@@ -887,6 +887,7 @@ Dinsey's pizza cutter	200	Mys: 100	1-handed utensil
 disco ball	10	Mox: 0	1-handed disco ball
 Disco Banjo	50	Mox: 10	2-handed banjo
 dishrag	35	Mus: 2	1-handed whip
+double barreled barrel gun 150 Mox: 60 2-handed shotgun
 double-barreled sling	70	Mox: 20	1-handed sling
 doubt cannon	85	Mox: 30	1-handed forearm replacement
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
@@ -1881,6 +1882,8 @@ banjo kazoo mount	50	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
+barrel beryl choker	0	Mys: 30
+barrel beryl nose ring	0	Mys: 30
 barrel beryl ring	0	Mys: 30
 barrel hoop earring	0	none
 batskin belt	0	none

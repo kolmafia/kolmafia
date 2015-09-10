@@ -8617,9 +8617,9 @@
 8591
 8592
 8593	brass bung spigot	950400441	spigot.gif	familiar	t,d	75
-8594
+8594	double barreled barrel gun	124731940	barrelgun2.gif	weapon	t,d	250
 8595	triple barreled barrel gun	981392442	barrelgun3.gif	weapon	t,d	500
-8596
-8597
+8596	barrel beryl choker	221839857	berylchoker.gif	accessory	t,d	700
+8597	barrel beryl nose ring	989216857	berylnose.gif	accessory	t,d	700
 8598	barrel beryl ring	202843665	berylring.gif	accessory	t,d	700
 8599	map to the Biggest Barrel	408797321	map.gif	reusable	q	0
