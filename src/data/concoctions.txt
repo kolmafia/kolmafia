@@ -2598,3 +2598,11 @@ magical baguette	COOK	wad of dough	magicalness-in-a-can
 standard-issue cupcake	COOK	wad of dough	glob of enchanted icing
 acceptable bagel	COOK	plain bagel	glob of cream cheese
 ultra-deluxe cupcake	COOK	standard-issue cupcake	cherry
+
+# Shrine to the Barrel God
+
+double barreled barrel gun	COMBINE	barrel gun	barrel gun
+triple barreled barrel gun	COMBINE	double barreled barrel gun	barrel gun
+barrel beryl nose ring	JEWEL	barrel beryl	piercing post
+barrel beryl choker	JEWEL	barrel beryl	necklace chain
+barrel beryl ring	JEWEL	barrel beryl	ring setting
