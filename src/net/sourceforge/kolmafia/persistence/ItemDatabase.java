@@ -1240,10 +1240,36 @@ public class ItemDatabase
 		// that case, prefer complete versions containing the substring
 		// over truncated versions which are plurals.
 
-		List possibilities = ItemDatabase.getMatchingNames( canonicalName );
-		if ( possibilities.size() == 1 )
+		List<String> possibilities = ItemDatabase.getMatchingNames( canonicalName );
+		int matches = possibilities.size();
+		if ( matches > 0 )
 		{
-			return (String) possibilities.get( 0 );
+			String first = possibilities.get( 0 );
+			
+			// If only one match, we found it
+			if ( matches == 1 )
+			{
+				return first;
+			}
+
+			// More than one match - but since the canonical name table
+			// contains aliases, they might all be the same item.
+
+			itemId = ItemDatabase.itemIdByName.get( first );
+			for ( int i = 1; i < matches; ++i )
+			{
+				Object id = ItemDatabase.itemIdByName.get( possibilities.get( i ) );
+				if ( !itemId.equals( id ) )
+				{
+					itemId = null;
+					break;
+				}
+			}
+
+			if ( itemId != null )
+			{
+				return first;
+			}
 		}
 
 		// Abort if it's clearly not going to be a plural,
