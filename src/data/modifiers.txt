@@ -586,7 +586,7 @@ Item	muddy skirt	Familiar Effect: "sleaze atk, 1xFairy"
 Item	Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato, cap 31"
 Item	ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, 3xPotato, cap 17"
 # ninjammies: Grants 50 Adventures of Morninja at Rollover
-Item	ninjammies	Adventures: +2, PvP Fights: +2
+Item	ninjammies	Adventures: +2, PvP Fights: +2, Rollover Effect: "Morninja"
 Item	oil slacks	Initiative: +20, Familiar Effect: "1xPotato, cap 30"
 Item	Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato"
 Item	old patched suit-pants	Monster Level: +40, Moxie Percent: +5, Familiar Effect: "1xPotato, 0.5xFairy"
@@ -628,7 +628,7 @@ Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 # ratskin pajama pants: Grants 40 Adventures of Pajama Party at Rollover
-Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4
+Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party"
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
@@ -1702,7 +1702,7 @@ Item	big bumboozer marble	Spell Damage: +80
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
 # Item blue LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=a570dc794d32c68386f4139800560e3d" >Blue Eyed Devil</a></b> at Rollover
-Item	blue LavaCo Lamp&trade;	Adventures: +5
+Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil"
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 # bone abacus: Helps you track your progress
 Item	borg sock monkey	Moxie: +3
@@ -1813,7 +1813,7 @@ Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reductio
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
 # Item green LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=3feb074579bbf255708bf0974529d754" >Green Peace</a></b> at Rollover
-Item	green LavaCo Lamp&trade;	Adventures: +5
+Item	green LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Green Peace"
 Item	green peawee marble	Stench Spell Damage: +30
 # Grey Guanon: Deals <font color=green>Stench Damage</font> every round
 Item	Grey Guanon	Stench Damage: +5
@@ -2004,7 +2004,7 @@ Item	Rainbow Jello Mould	Moxie Percent: +25
 Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
 # Item red LavaCo Lamp&trade;: Grants 50 Adventures of <b><a class=nounder href="desc_effect.php?whicheffect=130015724843d272c093e0d86e16de80" >Red Menace</a></b> at Rollover
-Item	red LavaCo Lamp&trade;	Adventures: +5
+Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Red Menace"
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	rice bowl	Food Drop: +20
@@ -2719,7 +2719,7 @@ Item	rum barrel charrrm bracelet	Booze Drop: +5
 Item	rusty chain necklace	Muscle: +9, Maximum HP: +25
 Item	Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
 # Sasq&trade; watch: Grants 30 Adventures of The Rich Get Richer at Rollover
-Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Single Equip, Nonstackable Watch
+Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect: "The Rich Get Richer", Single Equip, Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Item	Scandalously Skimpy Bikini	Four Songs, Single Equip
 Item	screwing pooch	Item Drop: +3
