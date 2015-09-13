@@ -807,6 +807,36 @@ public class Maximizer
 					duration = 20;
 					usesRemaining = Preferences.getBoolean( "_mayoTankSoaked" ) ? 0 : 1;
 				}
+				else if ( cmd.startsWith( "barrelprayer" ) )
+				{
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( !StandardRequest.isAllowed( "Items", "shrine to the Barrel god" ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitZone( "Dungeon Full of Dungeons" ) )
+					{
+						continue;
+					}
+					else if ( !Preferences.getBoolean( "barrelShrineUnlocked" ) )
+					{
+						if ( includeAll )
+						{
+							text = "( install shrine to the Barrel god )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_barrelPrayer" ) )
+					{
+						cmd = "";
+					}
+					duration = 50;
+					usesRemaining = Preferences.getBoolean( "_barrelPrayer" ) ? 0 : 1;
+				}
 				else if ( cmd.startsWith( "styx " ) )
 				{
 					if ( !KoLCharacter.inBadMoon() )

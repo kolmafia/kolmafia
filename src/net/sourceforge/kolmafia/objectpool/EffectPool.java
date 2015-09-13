@@ -297,6 +297,12 @@ public class EffectPool
 	public static final int MAGICIANSHIP = 1911;
 	public static final int STRONGLY_MOTIVATED = 1912;
 	public static final int FORTUNE_OF_THE_WHEEL = 1913;
+	public static final int BARREL_CHESTED = 1945;
+	public static final int BARREL_OF_LAUGHS = 1946;
+	public static final int PORK_BARREL = 1947;
+	public static final int WARLOCK_WARSTOCK_WARBARREL = 1948;
+	public static final int DOUBLE_BARRELED = 1949;
+	public static final int BEER_BARREL_POLKA = 1950;
 
 	public static final AdventureResult get( final int effectId )
 	{

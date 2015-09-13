@@ -777,6 +777,9 @@ user	plantingScript
 user	poolSharkCount	0
 user	poolSkill	0
 user	postAscensionScript
+user	prayedForGlamour	false
+user	prayedForProtection	false
+user	prayedForVigor	false
 user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
@@ -1083,6 +1086,7 @@ user	_ballastTurtleUsed	false
 user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
+user	_barrelPrayer	false
 user	_bearHugs	0
 user	_beerLensDrops	0
 user	_benettonsCasts	0

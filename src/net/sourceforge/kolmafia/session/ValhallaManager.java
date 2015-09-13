@@ -541,6 +541,9 @@ public class ValhallaManager
 		Preferences.setString( "pastaThrall6", "" );
 		Preferences.setString( "pastaThrall7", "" );
 		Preferences.setString( "pastaThrall8", "" );
+		Preferences.setBoolean( "prayedForGlamour", false );
+		Preferences.setBoolean( "prayedForProtection", false );
+		Preferences.setBoolean( "prayedForVigor", false );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
