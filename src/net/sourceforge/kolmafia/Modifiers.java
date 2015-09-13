@@ -866,6 +866,7 @@ public class Modifiers
 	public static final int NOPULL = 25;
 	public static final int LASTS_ONE_DAY = 26;
 	public static final int ATTACKS_CANT_MISS = 27;
+	public static final int LOOK_LIKE_A_PIRATE = 28;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -980,6 +981,10 @@ public class Modifiers
 		{ "Attacks Can't Miss",
 		  Pattern.compile( "Regular Attacks Can't Miss" ),
 		  Pattern.compile( "Attacks Can't Miss" )
+		},
+		{ "Pirate",
+		  null,
+		  Pattern.compile( "Look like a Pirate" )
 		},
 	};
 

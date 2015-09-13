@@ -782,8 +782,8 @@ public class Evaluator
 	void checkEquipment( Modifiers mods, AdventureResult[] equipment,
 		int beeosity )
 	{
-		boolean outfitSatisfied = false;
-		boolean equipSatisfied = this.posOutfits.isEmpty();
+		boolean outfitSatisfied = this.posOutfits.isEmpty();
+		boolean equipSatisfied = this.posEquip.isEmpty();
 		if ( !this.failed && !this.posEquip.isEmpty() )
 		{
 			equipSatisfied = true;
@@ -807,12 +807,12 @@ public class Evaluator
 			}
 			else
 			{
-				outfitSatisfied = this.posOutfits.contains( outfit );
+				outfitSatisfied = this.posOutfits.contains( outfit ) || this.posOutfits.isEmpty();
 			}
 		}
 		// negEquip is not checked, since enumerateEquipment should make it
 		// impossible for such items to be chosen.
-		if ( !outfitSatisfied && !equipSatisfied )
+		if ( !outfitSatisfied || !equipSatisfied )
 		{
 			this.failed = true;
 		}
@@ -2121,7 +2121,7 @@ public class Evaluator
 					CheckedItem outfitItem = new CheckedItem( outfitItemId, equipLevel, maxPrice, priceLevel );
 					outfitSpec.equipment[ newSlot ] = outfitItem;
 				}
-				if ( outfitSpec.compareTo( compareSpec ) <= 0 || outfitSpec.failed )
+				if ( outfitSpec.compareTo( compareSpec ) <= 0 && !this.posOutfits.contains( outfit.getName() ) )
 				{
 					usefulOutfits.set( i, false );
 				}
