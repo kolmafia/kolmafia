@@ -221,6 +221,12 @@ public class StandardRequest
 			}
 		}
 
+		// Buggy items that should be on the list but aren't.
+		if ( !itemMap.isEmpty() )
+		{
+			itemMap.add( "actual reality goggles" );
+		}
+
 		StandardRequest.initialized = true;
 	}
 
