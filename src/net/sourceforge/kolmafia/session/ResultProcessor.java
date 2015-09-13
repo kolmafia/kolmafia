@@ -2830,6 +2830,18 @@ public class ResultProcessor
 				ResultProcessor.removeItem( ItemPool.HEAT_RESISTANT_SHEET_METAL );
 			}
 			break;
+
+		case ItemPool.BARREL_LID:
+			Preferences.setBoolean( "prayedForProtection", true );
+			break;
+
+		case ItemPool.BARREL_HOOP_EARRING:
+			Preferences.setBoolean( "prayedForGlamour", true );
+			break;
+
+		case ItemPool.BANKRUPTCY_BARREL:
+			Preferences.setBoolean( "prayedForVigor", true );
+			break;
 		}
 
 		// Gaining items can achieve goals.

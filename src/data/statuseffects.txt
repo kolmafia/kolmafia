@@ -1943,12 +1943,12 @@
 1942	Robot Friends	c13cookie1.gif	8fed47f63c86f55d3aa48d1845b8cf94	use 1 silver face paint
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
-1945	Barrel Chested	barrelbig.gif	97c0b6ba0547db3e8804c1d45e70dd19	# use shrine to barrel god as Seal Clubber
-1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	# use shrine to barrel god as Turtle Tamer
-1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4	# use shrine to barrel god as Pastamancer
-1948	Warlock, Warstock, and Warbarrel	barrelbig.gif	d2f6f596031231cd5e34a4fe3daa8cd5	# use shrine to barrel god as Sauceror
-1949	Double-Barreled	barrelbig.gif	bdce829a4e61362e001fa8d1e18c9441	# use shrine to barrel god as Disco Bandit
-1950	Beer Barrel Polka	barrelbig.gif	710f32ff5e190840afa4a6064e3c7805	# use shrine to barrel god as Accordion Thief
+1945	Barrel Chested	barrelbig.gif	97c0b6ba0547db3e8804c1d45e70dd19	barrelprayer buff
+1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	barrelprayer buff
+1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4	barrelprayer buff
+1948	Warlock, Warstock, and Warbarrel	barrelbig.gif	d2f6f596031231cd5e34a4fe3daa8cd5	barrelprayer buff
+1949	Double-Barreled	barrelbig.gif	bdce829a4e61362e001fa8d1e18c9441	barrelprayer buff
+1950	Beer Barrel Polka	barrelbig.gif	710f32ff5e190840afa4a6064e3c7805	barrelprayer buff
 1951	Bricked-In	wallshield.gif	19bc1e13945346209902244193bd32ae	drink 1 bottle of Amontillado
 1952	Just Aged Enough	martini.gif	1cd5cf433a66697b0c53ef0f3e7031ad	drink 1 barrel-aged martini
 1953	Briny Blood	barrelpickle.gif	39d5792f8df39986bf57053755b4f9d0	eat 1 barrel pickle

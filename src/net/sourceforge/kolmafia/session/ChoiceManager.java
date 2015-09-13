@@ -9911,7 +9911,13 @@ public abstract class ChoiceManager
 
 			break;
 
-		case 1101:	// It's a Barrel Smashing Party!
+		case 1100:
+			// Pray to the Barrel God
+			Preferences.setBoolean( "_barrelPrayer", true );
+			break;
+
+		case 1101:
+			// It's a Barrel Smashing Party!
 			int itemId = ChoiceManager.extractIidFromURL( request.getURLString() );
 			String name = ItemDatabase.getItemName( itemId );
 			if ( name != null )
@@ -10605,6 +10611,7 @@ public abstract class ChoiceManager
 				KoLCharacter.liberateKing();
 			}
 			break;
+
 		case 1093:
 		{
 			// The WLF Bunker
@@ -10653,6 +10660,27 @@ public abstract class ChoiceManager
 
 			break;
 		}
+
+		case 1100:
+			// Pray to the Barrel God
+			if ( text.contains( "You already prayed to the Barrel god today" ) )
+			{
+				Preferences.setBoolean( "_barrelPrayer", true );
+				break;
+			}
+			if ( !text.contains( "barrel lid shield" ) )
+			{
+				Preferences.setBoolean( "prayedForProtection", true );
+			}
+			if ( !text.contains( "barrel hoop earring" ) )
+			{
+				Preferences.setBoolean( "prayedForGlamour", true );
+			}
+			if ( !text.contains( "bankruptcy barrel" ) )
+			{
+				Preferences.setBoolean( "prayedForVigor", true );
+			}
+			break;
 
 		}
 	}

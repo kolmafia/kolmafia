@@ -846,6 +846,9 @@ public class Evaluator
 		// Return true if effect cannot be gained due to current other effects or class
 		switch ( effectId )
 		{
+		case EffectPool.BARREL_CHESTED:
+			return KoLCharacter.getClassType() != KoLCharacter.SEAL_CLUBBER;
+
 		case EffectPool.BOON_OF_SHE_WHO_WAS:
 			return KoLCharacter.getBlessingType() != KoLCharacter.SHE_WHO_WAS_BLESSING || KoLCharacter.getBlessingLevel() == 4;
 
@@ -886,7 +889,10 @@ public class Evaluator
 		case EffectPool.DISTAIN_OF_THE_STORM_TORTOISE:
 		case EffectPool.DISTAIN_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
-		
+
+		case EffectPool.BARREL_OF_LAUGHS:
+			return KoLCharacter.getClassType() != KoLCharacter.TURTLE_TAMER;
+
 		case EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD:
 		case EffectPool.BLOODY_POTATO_BITS:
 		case EffectPool.SLINKING_NOODLE_GLOB:
@@ -898,18 +904,26 @@ public class Evaluator
 			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER;
 
 		case EffectPool.SHIELD_OF_THE_PASTALORD:
+		case EffectPool.PORK_BARREL:
 			return KoLCharacter.getClassType() != KoLCharacter.PASTAMANCER;
 
 		case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC:
 		case EffectPool.SOULERSKATES:
+		case EffectPool.WARLOCK_WARSTOCK_WARBARREL:
 			return KoLCharacter.getClassType() != KoLCharacter.SAUCEROR;
-		
+
 		case EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE:
 			return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR;
-		
+
+		case EffectPool.DOUBLE_BARRELED:
+			return KoLCharacter.getClassType() != KoLCharacter.DISCO_BANDIT;
+
+		case EffectPool.BEER_BARREL_POLKA:
+			return KoLCharacter.getClassType() != KoLCharacter.ACCORDION_THIEF;
+
 		case EffectPool.UNMUFFLED:
 			return !Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Loud Muffler" );
-		
+
 		case EffectPool.MUFFLED:
 			return !Preferences.getString( "peteMotorbikeMuffler" ).equals( "Extra-Quiet Muffler" );
 		}

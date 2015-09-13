@@ -2420,6 +2420,9 @@ public class ItemPool
 	public static final int FUSILLOCYBIN = 8543;
 	public static final int PRESCRIPTION_NOODLES = 8544;
 	public static final int SHRINE_BARREL_GOD = 8564;
+	public static final int BARREL_LID = 8565;
+	public static final int BARREL_HOOP_EARRING = 8566;
+	public static final int BANKRUPTCY_BARREL = 8567;
 	public static final int LITTLE_FIRKIN = 8568;
 	public static final int NORMAL_BARREL = 8569;
 	public static final int BIG_TUN = 8570;
