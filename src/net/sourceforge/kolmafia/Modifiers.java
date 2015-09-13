@@ -1007,6 +1007,7 @@ public class Modifiers
 	public static final int EQUALIZE_MYST = 12;
 	public static final int EQUALIZE_MOXIE = 13;
 	public static final int AVATAR = 14;
+	public static final int ROLLOVER_EFFECT = 14;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -1072,6 +1073,10 @@ public class Modifiers
 		        Pattern.compile( "Te hace ver como un (.++)" ),
 		  },
 		  Pattern.compile( "Avatar: \"(.*?)\"" )
+		},
+		{ "Rollover Effect",
+		  Pattern.compile( "Adventures of <b><a.*?>(.*)</a></b> at Rollover" ),
+		  Pattern.compile( "Rollover Effect: \"(.*?)\"" )
 		},
 	};
 
