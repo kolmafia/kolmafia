@@ -69,6 +69,8 @@ public class CheckedItem
 			this.name = "(none)";
 		}
 
+		this.inventory = InventoryManager.getCount( itemId );
+
 		this.initial = InventoryManager.getAccessibleCount( itemId );
 
 		String itemName = this.getName();
@@ -236,6 +238,7 @@ public class CheckedItem
 	public static final int AUTOMATIC_FLAG = 1 << 29;
 	public static final int CONDITIONAL_FLAG = 1 << 30;
 
+	public int inventory;
 	public int initial;
 	public int creatable;
 	public int npcBuyable;

@@ -157,6 +157,31 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( rv != 0 ) return rv;
 		rv = this.simplicity - other.simplicity;
 		if ( rv != 0 ) return rv;
+		// prefer more rollover effects
+		int countThisEffects = 0;
+		int countOtherEffects = 0;
+		for ( int i = this.equipment.length - 1; i >= 0; --i )
+		{
+			if ( this.equipment[ i ] == null ) continue;
+			int itemId = this.equipment[ i ].getItemId();
+			Modifiers mods = Modifiers.getItemModifiers( itemId );
+			if ( mods == null ) continue;
+			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
+			if ( name.length() > 0 ) countThisEffects++;
+		}
+		for ( int i = other.equipment.length - 1; i >= 0; --i )
+		{
+			if ( other.equipment[ i ] == null ) continue;
+			int itemId = other.equipment[ i ].getItemId();
+			Modifiers mods = Modifiers.getItemModifiers( itemId );
+			if ( mods == null ) continue;
+			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
+			if ( name.length() > 0 ) countOtherEffects++;
+		}
+		if ( countThisEffects != countOtherEffects )
+		{
+			return countThisEffects > countOtherEffects ? 1 : -1;
+		}
 		if ( this.attachment != null && other.attachment != null )
 		{
 			// prefer items that you don't have to buy
@@ -164,7 +189,6 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			{
 				 return this.attachment.buyableFlag ? -1 : 1;
 			}
-
 			if ( KoLCharacter.inBeecore() )
 			{	// prefer fewer Bs
 				rv = KoLCharacter.getBeeosity( other.attachment.getName() ) -
@@ -173,6 +197,10 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 
 			// prefer items that you have
 			// doesn't consider wanting multiple of the same item and not having enough
+			if ( ( this.attachment.inventory > 0 ) != ( other.attachment.inventory > 0 ) )
+			{
+				return this.attachment.inventory > 0 ? 1 : -1;
+			}
 			if ( ( this.attachment.initial > 0 ) != ( other.attachment.initial > 0 ) )
 			{
 				return this.attachment.initial > 0 ? 1 : -1;
