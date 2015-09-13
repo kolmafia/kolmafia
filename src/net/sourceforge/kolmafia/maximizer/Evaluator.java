@@ -566,13 +566,11 @@ public class Evaluator
 			}
 			else if ( keyword.startsWith( "adv" ) )
 			{
-				this.noTiebreaker = true;
 				this.beeosity = 999;
 				index = Modifiers.ADVENTURES;
 			}
 			else if ( keyword.startsWith( "fites" ) )
 			{
-				this.noTiebreaker = true;
 				this.beeosity = 999;
 				index = Modifiers.PVP_FIGHTS;
 			}
@@ -747,6 +745,11 @@ public class Evaluator
 			}
 			if ( val < min ) this.failed = true;
 			score += weight * Math.min( val, max );
+		}
+		// Add fudge factor for Rollover Effect
+		if ( mods.getString( Modifiers.ROLLOVER_EFFECT ).length() > 0 )
+		{
+			score += 0.01f;
 		}
 		if ( score < this.totalMin ) this.failed = true;
 		if ( score >= this.totalMax ) this.exceeded = true;
