@@ -3379,6 +3379,11 @@ public class Modifiers
 		Modifiers.currentML = Math.max( 4.0, data == null ? 0.0 : data.getAverageML() );
 	}
 
+	public static double getCurrentML()
+	{
+		return Modifiers.currentML;
+	}
+
 	public static void setFamiliar( FamiliarData fam )
 	{
 		Modifiers.currentFamiliar = fam == null ? "" : fam.getRace();
