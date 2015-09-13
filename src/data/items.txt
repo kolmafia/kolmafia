@@ -8613,9 +8613,9 @@
 8587	tiny barrel	434062977	barreltiny.gif	grow	t,d	200
 8588	barrel beryl	857625706	barrelberyl.gif	none	t,d	500
 8589	water log	861189642	cheeselog.gif	food	t,d	500
-8590
-8591
-8592
+8590	barrelhead	189109016	barrelhead.gif	hat	t	0
+8591	bottoms of the barrel	797627854	barrelpants.gif	pants	t	0
+8592	chest barrel	498477513	barrelnormal.gif	shirt	t	0
 8593	brass bung spigot	950400441	spigot.gif	familiar	t,d	75
 8594	double barreled barrel gun	124731940	barrelgun2.gif	weapon	t,d	250
 8595	triple barreled barrel gun	981392442	barrelgun3.gif	weapon	t,d	500

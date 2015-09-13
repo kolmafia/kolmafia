@@ -1943,7 +1943,7 @@
 1942	Robot Friends	c13cookie1.gif	8fed47f63c86f55d3aa48d1845b8cf94	use 1 silver face paint
 1943	Margamergency	nopic.gif	c72ea0d9451011b604ec1142dfc01914	drink 1 emergency margarita
 1944	Smart Drunk	waterbottle.gif	83fedcd3dde8eee303cb432d4138ffdb	drink 1 vintage smart drink
-1945
+1945	Barrel Chested	barrelbig.gif	97c0b6ba0547db3e8804c1d45e70dd19	# use shrine to barrel god as Seal Clubber
 1946	Barrel of Laughs	barrelbig.gif	5baa6248a6be891c95bece6778b69700	# use shrine to barrel god as Turtle Tamer
 1947	Pork Barrel	barrelbig.gif	647c100623f189500bb561116c8ad8d4	# use shrine to barrel god as Pastamancer
 1948	Warlock, Warstock, and Warbarrel	barrelbig.gif	d2f6f596031231cd5e34a4fe3daa8cd5	# use shrine to barrel god as Sauceror
