@@ -2619,7 +2619,7 @@ Item	Pine-Fresh air freshener	Stench Resistance: +1
 Item	pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 Item	pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
-Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7
+Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7, Look like a Pirate
 Item	plaid pocket square	Meat Drop: +15
 Item	plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts Until Rollover
 Item	plastic spider ring	Mysticality: +3, Single Equip
@@ -6195,7 +6195,7 @@ Outfit	Space Beast Furs	Damage Reduction: 25
 Outfit	Spelunker's Gear	Critical Hit Percent: +15
 Outfit	Star Garb	Muscle: +7, Mysticality: +7, Moxie: +7
 Outfit	Sucker Samurai Suit	Damage Reduction: 10
-Outfit	Swashbuckling Getup	Moxie: +7
+Outfit	Swashbuckling Getup	Moxie: +7, Look like a Pirate
 Outfit	Synthetic Suit	Familiar Weight: +5
 Outfit	Tapered Threads	Initiative: +30
 Outfit	Tawdry Tramp Togs	DB Combat Damage: +20
