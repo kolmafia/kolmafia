@@ -17,6 +17,7 @@ balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
 bark beret	40	Mox: 5
 Baron von Ratsworth's tophat	75	Mox: 22
+barrelhead	50	Mox: 10
 barskin hat	55	Mox: 12
 basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
@@ -364,6 +365,7 @@ bloodied surgical dungarees	155	Mox: 62
 bloody clown pants	50	Mox: 10
 boneana hammock	120	Mox: 45
 Boss Bat britches	65	Mox: 17
+bottoms of the barrel	50	Mox: 10
 bounty-hunting pants	100	Mox: 25
 bowlegged pants	100	Mox: 35
 BRAINS shorts	200	Mox: 200
@@ -605,6 +607,7 @@ bronze breastplate	105	Mus: 37
 camouflage T-shirt	100	Mus: 25
 cane-mail shirt	100	none
 chamoisole	200	Mus: 200
+chest barrel	50	Mus: 10
 Chester's muscle shirt	200	Mus: 200
 clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15

@@ -83,6 +83,7 @@ Item	balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
 Item	balloon helmet	Damage Absorption: +20, Clownosity: +1, Familiar Effect: "3xFairy, cap 12"
 Item	bark beret	Damage Reduction: 4, Familiar Effect: "2xPotato, 2.5xLep, cap 10"
 Item	Baron von Ratsworth's tophat	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
+Item	barrelhead	Maximum MP: +25, MP Regen Min: 3, MP Regen Max: 5
 Item	barskin hat	Muscle: +1, Familiar Effect: "atk, 1xVolley, cap 13"
 Item	basic meat fez	Moxie: +2, Mysticality: +1, Familiar Effect: "3xLep, cap 11"
 Item	basic meat helmet	Muscle: +1, Familiar Effect: "sleaze atk, 2xFairy, cap 10"
@@ -467,6 +468,7 @@ Item	bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5, Surgeonosity:
 Item	bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 Item	boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "sleaze atk, 1xVolley, cap 30"
 Item	Boss Bat britches	Moxie: +5, Familiar Effect: "atk, 3xGhuol, cap 16"
+Item	bottoms of the barrel	Maximum HP: +50, HP Regen Min: 5, HP Regen Max: 10
 Item	bounty-hunting pants	Item Drop: +20, Familiar Effect: "1xPotato, 2xFairy, cap 25"
 Item	bowlegged pants	Moxie: +5, Familiar Effect: "1xGhoul, cap 25"
 Item	BRAINS shorts	Sleaze Damage: +40, Sleaze Spell Damage: +40, Familiar Effect: "sleaze atk, 1.5xGhuol"
@@ -739,6 +741,7 @@ Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 Item	camouflage T-shirt	Mana Cost (combat): -3, Combat Rate: -5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +15
 Item	cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15
 Item	chamoisole	Slime Resistance: +3
+Item	chest barrel	Damage Reduction: 5, Damage Absorption: +50
 Item	Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 Item	clockwork trench coat	Damage Absorption: +15
 Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
@@ -4046,6 +4049,7 @@ Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
 # Barfpits: Deals Stench Damage every round
 Effect	Barking Dogs	Muscle Percent: -50, Initiative: -50
 Effect	Barking Mad	Mysticality Percent: +100
+Effect	Barrel Chested	Weapon Damage Percent: +150
 # Effect Barrel of Laughs: Makes food more delicious!
 Effect Barrel of Laughs Maximum HP: +90
 Effect	Bartenderganger	Avatar: "Copperhead Club bartender"
@@ -6117,6 +6121,7 @@ Outfit	Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clothing of Loathing: ???
 Outfit	Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
 Outfit	Cool Irons	Damage Reduction: 20
+Outfit	Cooper's Couture	Damage Reduction: 10
 Outfit	Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
 Outfit	Crimbo Duds	Item Drop: +5
 Outfit	Crimborg Assault Armor	Ranged Damage: +20
