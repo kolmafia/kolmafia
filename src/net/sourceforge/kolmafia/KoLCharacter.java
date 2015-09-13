@@ -5432,6 +5432,8 @@ public abstract class KoLCharacter
 			}
 		}
 
+		double baseExp = ( newModifiers.getCurrentML() - monsterLevel ) / 4.0f;
+
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 		if ( exp != 0.0f )
 		{
@@ -5441,22 +5443,33 @@ public abstract class KoLCharacter
 			else if ( tuning.equals( "Mysticality" ) ) prime = 1;
 			else if ( tuning.equals( "Moxie" ) ) prime = 2;
 
+			// Experience percentage modifiers
+			double musExpPct = newModifiers.get( Modifiers.MUS_EXPERIENCE_PCT ) / 100.0f;
+			double mysExpPct = newModifiers.get( Modifiers.MYS_EXPERIENCE_PCT ) / 100.0f;
+			double moxExpPct = newModifiers.get( Modifiers.MOX_EXPERIENCE_PCT ) / 100.0f;
+
+			// Additional stat values, not adjusted by prime stat
+			double musExp = baseExp * musExpPct + exp * ( 1 + musExpPct );
+			double mysExp = baseExp * mysExpPct + exp * ( 1 + mysExpPct );
+			double moxExp = baseExp * moxExpPct + exp * ( 1 + moxExpPct );
+
+			// Adjust for prime stat
 			switch ( prime )
 			{
 			case 0:
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
 				break;
 			case 1:
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
 				break;
 			case 2:
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, exp / 2.0f, "Class:EXP/2" );
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, exp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
 				break;
 			}
 		}
