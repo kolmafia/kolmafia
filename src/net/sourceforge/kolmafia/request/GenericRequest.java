@@ -3029,6 +3029,7 @@ public class GenericRequest
 
 		case ItemPool.BARREL_MAP:
 			itemName = "map to the Biggest Barrel";
+			consumed = true;
 			break;
 
 		default:

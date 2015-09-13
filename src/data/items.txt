@@ -8622,4 +8622,4 @@
 8596	barrel beryl choker	221839857	berylchoker.gif	accessory	t,d	700
 8597	barrel beryl nose ring	989216857	berylnose.gif	accessory	t,d	700
 8598	barrel beryl ring	202843665	berylring.gif	accessory	t,d	700
-8599	map to the Biggest Barrel	408797321	map.gif	reusable	q	0
+8599	map to the Biggest Barrel	408797321	map.gif	usable	q	0
