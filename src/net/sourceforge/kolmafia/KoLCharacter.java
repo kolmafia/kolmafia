@@ -2364,6 +2364,11 @@ public abstract class KoLCharacter
 
 	public static final int getMonsterLevelAdjustment()
 	{
+		if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
+		{
+			return 0;
+		}
+
 		return (int) KoLCharacter.currentModifiers.get( Modifiers.MONSTER_LEVEL ) +
 			KoLCharacter.getWaterLevel() * 10;
 	}
