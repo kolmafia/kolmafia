@@ -1017,10 +1017,12 @@ public class SpelunkyRequest
 
 		// Calculate your expected combat damage
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
-		int itemId = weapon.getItemId();
+		AdventureResult offhand = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
+		int weaponItemId = weapon.getItemId();
+		int offhandItemId = offhand.getItemId();
 
 		// Hit stat is MUSCLE, MOXIE, or NONE, if no weapon equipped.
-		Stat stat = EquipmentDatabase.getWeaponStat( itemId );
+		Stat stat = EquipmentDatabase.getWeaponStat( weaponItemId );
 
 		// Damage from your hit stat is the amount that it exceeds the
 		// monster's defense, or 3/4 of that for ranged weapons
@@ -1033,7 +1035,7 @@ public class SpelunkyRequest
 			Math.max( ( muscle / 4 ) - monsterDefense, 0 );
 
 		// Weapon power determines damage range: 10% - 20%
-		int power = EquipmentDatabase.getPower( itemId );
+		int power = EquipmentDatabase.getPower( weaponItemId );
 
 		// (Minimum) Damage from your weapon is one tenth the weapon's power
 		int weaponDamageMin = Math.max( Math.round( power / 10.0f ), 1 );
@@ -1041,9 +1043,10 @@ public class SpelunkyRequest
 
 		// Spelunky weapons can have bonus damage
 
-		int bonusWeaponDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Weapon Damage" );
-		int bonusRangedDamage = (int)Modifiers.getNumericModifier( "Item", itemId, "Ranged Damage" );
-		int bonusDamage = bonusWeaponDamage + ( stat == Stat.MOXIE ? bonusRangedDamage : 0 );
+		int bonusWeaponDamage = (int)Modifiers.getNumericModifier( "Item", weaponItemId, "Weapon Damage" );
+		int bonusOffhandDamage = (int)Modifiers.getNumericModifier( "Item", offhandItemId, "Weapon Damage" );
+		int bonusRangedDamage = (int)Modifiers.getNumericModifier( "Item", weaponItemId, "Ranged Damage" );
+		int bonusDamage = bonusWeaponDamage + ( stat == Stat.MOXIE ? bonusRangedDamage : 0 ) + bonusOffhandDamage;
 
 		buffer.append( "<br />Your damage: " );
 		buffer.append( String.valueOf( statDamage + weaponDamageMin + bonusDamage ) );
