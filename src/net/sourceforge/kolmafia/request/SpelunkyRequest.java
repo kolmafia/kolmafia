@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.CombatUtilities;
@@ -1012,8 +1013,10 @@ public class SpelunkyRequest
 		int moxie = KoLCharacter.getAdjustedMoxie();
 
 		// Monster stats
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		int monsterAttack = MonsterStatusTracker.getMonsterAttack();
 		int monsterDefense = MonsterStatusTracker.getMonsterDefense();
+		int physicalResistance = monster == null ? 0 : monster.getPhysicalResistance();
 
 		// Calculate your expected combat damage
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
@@ -1049,9 +1052,9 @@ public class SpelunkyRequest
 		int bonusDamage = bonusWeaponDamage + ( stat == Stat.MOXIE ? bonusRangedDamage : 0 ) + bonusOffhandDamage;
 
 		buffer.append( "<br />Your damage: " );
-		buffer.append( String.valueOf( statDamage + weaponDamageMin + bonusDamage ) );
+		buffer.append( SpelunkyRequest.adjustedDamageString( statDamage + weaponDamageMin + bonusDamage, physicalResistance ) );
 		buffer.append( "-" );
-		buffer.append( String.valueOf( statDamage + weaponDamageMax + bonusDamage ) );
+		buffer.append( SpelunkyRequest.adjustedDamageString( statDamage + weaponDamageMax + bonusDamage, physicalResistance ) );
 
 		// You have a 9% chance of scoring a critical hit, which
 		// doubles the weapon damage component of combat damage
@@ -1059,9 +1062,9 @@ public class SpelunkyRequest
 		// * You never miss or fumble.
 
 		buffer.append( " (9% critical) = " );
-		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMin * 1.09 ) + bonusDamage ) );
+		buffer.append( SpelunkyRequest.adjustedDamageString( statDamage + (int)Math.floor( weaponDamageMin * 1.09 ) + bonusDamage, physicalResistance ) );
 		buffer.append( "-" );
-		buffer.append( String.valueOf( statDamage + (int)Math.floor( weaponDamageMax * 1.09 ) + bonusDamage ) );
+		buffer.append( SpelunkyRequest.adjustedDamageString( statDamage + (int)Math.floor( weaponDamageMax * 1.09 ) + bonusDamage, physicalResistance ) );
 
 		// Append monster's expected combat damage
 
@@ -1105,6 +1108,21 @@ public class SpelunkyRequest
 		buffer.append( String.valueOf( (int)Math.round( monsterHitChance * monsterDamageMax ) ) );
 
 		*/
+	}
+
+	private static final String adjustedDamageString( int damage, int physicalResistance )
+	{
+		if ( physicalResistance > 0 )
+		{
+			damage = ( damage * ( 100 - physicalResistance) ) / 100;
+		}
+
+		if ( damage == 0)
+		{
+			damage = 1;
+		}
+		
+		return String.valueOf( damage );
 	}
 
 	public static final String spelunkyWarning( final KoLAdventure adventure, final String confirm )
