@@ -7122,7 +7122,7 @@
 7097	ankleweights	828600115	ankleweights.gif	accessory	t,d	20	sets of ankleweights
 7098	sweat socks	384604274	sweatsocks.gif	accessory	t,d	5	pairs of sweat socks
 7099	pint of sweat	733018685	moonshine.gif	none, combat	d	0	pints of sweat
-7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	usable	t,d	12	copies of Jerks' Health&trade; Magazine
+7100	Jerks' Health&trade; Magazine	771214742	jhmagazine.gif	multiple	t,d	12	copies of Jerks' Health&trade; Magazine
 7101	Five Second Energy&trade;	796432016	5secondenergy.gif	spleen	t,d	5	bottles of Five Second Energy&trade;
 7102	pixie axie	782213297	pixieaxie.gif	usable	t	0
 7103	sour powder	862764546	scpowder.gif	multiple	t,d	22	piles of sour powder
