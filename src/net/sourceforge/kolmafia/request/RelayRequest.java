@@ -169,6 +169,7 @@ public class RelayRequest
 	private static String CONFIRM_DIARY = "confirm20";
 	private static String CONFIRM_BORING_DOORS = "confirm21";
 	private static String CONFIRM_SPELUNKY = "confirm22";
+	private static String CONFIRM_ZEPPELIN = "confirm23";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
@@ -1533,6 +1534,42 @@ public class RelayRequest
 			"You are about to adventure without reading the Mortar disolving recipe with glasses equipped. If you are sure you want to do this, click on the image to proceed.";
 
 		this.sendGeneralWarning( "burgerrecipe.gif", message, CONFIRM_CELLAR, "checked=1" );
+
+		return true;
+	}
+
+	private boolean sendZeppelinWarning()
+	{
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_ZEPPELIN ) != null )
+		{
+			return false;
+		}
+
+		// If they aren't in the Zeppelin, no problem
+		if ( !AdventurePool.RED_ZEPPELIN_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// If they have completed the Zeppelin quest, no problem
+		if ( QuestDatabase.isQuestFinished( Quest.RON ) )
+		{
+			return false;
+		}
+
+		// If they have already got the ticket, no problem
+		if ( InventoryManager.hasItem( ItemPool.ZEPPELIN_TICKET ) )
+		{
+			return false;
+		}
+
+		String message;
+
+		message =
+			"You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket, which can be bought at the Black Market. If you are sure you want to do this, click on the image to proceed.";
+
+		this.sendGeneralWarning( "zepticket.gif", message, CONFIRM_ZEPPELIN, "checked=1" );
 
 		return true;
 	}
@@ -3198,6 +3235,11 @@ public class RelayRequest
 		}
 
 		if ( this.sendBoilerWarning() )
+		{
+			return true;
+		}
+
+		if ( this.sendZeppelinWarning() )
 		{
 			return true;
 		}

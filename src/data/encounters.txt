@@ -53,6 +53,7 @@ An Overgrown Shrine (Northeast)	STOP	Air Apparent
 An Overgrown Shrine (Southeast)	STOP	Fire when Ready
 A Massive Ziggurat	STOP	Legend of the Temple in the Hidden City
 A Massive Ziggurat	STOP	Temple of the Legend in the Hidden City
+A Mob of Zeppelin Protesters	STOP	Not So Much With The Humanity
 The Daily Dungeon	STOP	The Final Reward
 Barf Mountain	STOP	The Back Door
 Pirates of the Garbage Barges	STOP	Behind the Scenes

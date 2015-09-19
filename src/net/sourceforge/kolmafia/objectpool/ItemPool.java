@@ -2065,6 +2065,7 @@ public class ItemPool
 	public static final int STANKARA_STONE = 7182;
 	public static final int MURPHYS_FLAG = 7183;
 	public static final int SHIELD_OF_BROOK = 7184;
+	public static final int ZEPPELIN_TICKET = 7185;
 	public static final int COPPERHEAD_CHARM_RAMPANT = 7186;
 	public static final int UNNAMED_COCKTAIL = 7187;
 	public static final int TOMMY_GUN = 7190;
