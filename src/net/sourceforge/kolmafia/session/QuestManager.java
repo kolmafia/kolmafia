@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -1758,8 +1759,9 @@ public class QuestManager
 			Matcher LighterMatcher = QuestManager.LIGHTER_PATTERN.matcher( responseText );
 			if ( LighterMatcher.find() )
 			{
-				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( LighterMatcher.group( 1 ) ) );
-			}
+				int flamingProtesters = StringUtilities.parseInt( LighterMatcher.group( 1 ) );
+				Preferences.increment( "zeppelinProtestors", flamingProtesters );
+				RequestLogger.printLine( "Set fire to " + flamingProtesters + " protesters" );			}
 			else
 			{
 				Preferences.increment( "zeppelinProtestors", 1 );

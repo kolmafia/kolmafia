@@ -9577,7 +9577,9 @@ public abstract class ChoiceManager
 			Matcher lynyrdMatcher = ChoiceManager.LYNYRD_PATTERN.matcher( text );
 			if ( lynyrdMatcher.find() )
 			{
-				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( lynyrdMatcher.group( 1 ) ) );
+				int protestersScared = StringUtilities.parseInt( lynyrdMatcher.group( 1 ) );
+				Preferences.increment( "zeppelinProtestors", protestersScared );
+				RequestLogger.printLine( "Scared off " + protestersScared + " protesters" );
 			}
 			break;
 
@@ -9586,7 +9588,9 @@ public abstract class ChoiceManager
 			Matcher benchWarrantMatcher = ChoiceManager.BENCH_WARRANT_PATTERN.matcher( text );
 			if ( benchWarrantMatcher.find() )
 			{
-				Preferences.increment( "zeppelinProtestors", StringUtilities.parseInt( benchWarrantMatcher.group( 1 ) ) );
+				int protestersCreeped = StringUtilities.parseInt( benchWarrantMatcher.group( 1 ) );
+				Preferences.increment( "zeppelinProtestors", protestersCreeped );
+				RequestLogger.printLine( "Creeped out " + protestersCreeped + " protesters" );
 			}
 			break;
 
@@ -9595,11 +9599,13 @@ public abstract class ChoiceManager
 			if ( text.contains( "three nearest protesters" ) )
 			{
 				Preferences.increment( "zeppelinProtestors", 3 );
+				RequestLogger.printLine( "Soaked 3 protesters" );
 			}
 			else if ( text.contains( "Flamin' Whatshisname" ) )
 			{
 				Preferences.increment( "zeppelinProtestors", 10 );
 				ResultProcessor.processItem( ItemPool.FLAMIN_WHATSHISNAME, -1 );
+				RequestLogger.printLine( "Set fire to 10 protesters" );
 			}
 			break;
 
