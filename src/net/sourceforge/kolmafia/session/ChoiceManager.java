@@ -3593,6 +3593,8 @@ public abstract class ChoiceManager
 		// Choice 1094 is Back Room SMOOCHing
 		// Choice 1096 is Re-Factory Period
 		// Choice 1097 is Who You Gonna Caldera?
+
+		// Choice 1102 is The Biggest Barrel
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
