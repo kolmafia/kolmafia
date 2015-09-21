@@ -792,19 +792,31 @@ public class EquipmentManager
 	{
 		for ( int slot = 0; slot <= EquipmentManager.FAMILIAR; ++slot )
 		{
-			if ( KoLCharacter.hasEquipped( item, slot ) )
+			if ( EquipmentManager.removeEquipment( item, slot ) )
 			{
-				EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
-				// FamiliarData.setItem moved the current familiar item to
-				// inventory when we unequipped it above
-				if ( slot != EquipmentManager.FAMILIAR )
-				{
-					AdventureResult.addResultToList( KoLConstants.inventory, item );
-				}
 				return slot;
 			}
 		}
 		return -1;
+	}
+	
+	public static final boolean removeEquipment( final AdventureResult item, final int slot )
+	{
+		if ( !KoLCharacter.hasEquipped( item, slot ) )
+		{
+			return false;
+		}
+	
+		EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
+
+		// FamiliarData.setItem moved the current familiar item to
+		// inventory when we unequipped it above
+		if ( slot != EquipmentManager.FAMILIAR )
+		{
+			AdventureResult.addResultToList( KoLConstants.inventory, item );
+		}
+		
+		return true;
 	}
 
 	public static final void removeAllEquipment()
@@ -852,6 +864,30 @@ public class EquipmentManager
 			ResultProcessor.processItem( item.getItemId(), -1 );
 		}
 		return slot;
+	}
+	
+	public static final void discardSpelunkyEquipment( final int itemId )
+	{
+		// We only discard Spelunky equipment when we throw it from the offhand slot.
+		// If we kill the monster by doing that and find and autoequip an offhand item
+		// - even the same one - the previous item will be in inventory, not equipped.
+		// Therefore, if the item is in inventory, take it from there.
+		// Otherwise, take it from the offhand slot.
+		
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		
+		if ( InventoryManager.getCount( item ) == 0 )
+		{
+			// Not in inventory. Put it there.
+			if ( !EquipmentManager.removeEquipment( item, EquipmentManager.OFFHAND ) )
+			{
+				// Not equipped. How odd.
+				return;
+			}
+		}
+
+		// Now discard it from inventory
+		ResultProcessor.processItem( item.getItemId(), -1 );
 	}
 	
 	public static final void breakEquipment( int itemId, String msg )

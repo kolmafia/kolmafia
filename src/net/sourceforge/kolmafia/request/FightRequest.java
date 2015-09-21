@@ -7085,19 +7085,19 @@ public class FightRequest
 			break;
 
 		case SkillPool.THROW_SKULL:
-			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_SKULL );
+			EquipmentManager.discardSpelunkyEquipment( ItemPool.SPELUNKY_SKULL );
 			break;
 
 		case SkillPool.THROW_ROCK:
-			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_ROCK );
+			EquipmentManager.discardSpelunkyEquipment( ItemPool.SPELUNKY_ROCK );
 			break;
 
 		case SkillPool.THROW_POT:
-			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_POT );
+			EquipmentManager.discardSpelunkyEquipment( ItemPool.SPELUNKY_POT );
 			break;
 
 		case SkillPool.THROW_TORCH:
-			EquipmentManager.discardEquipment( ItemPool.SPELUNKY_TORCH );
+			EquipmentManager.discardSpelunkyEquipment( ItemPool.SPELUNKY_TORCH );
 			break;
 
 		case SkillPool.LASH_OF_COBRA:
