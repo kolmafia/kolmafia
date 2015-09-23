@@ -1789,7 +1789,7 @@ zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undea
 Zombie eXtreme Snowboarding Orc	310	zomsnow.gif	Atk: 74 Def: 66 HP: 65 Init: 60 E: spooky P: undead	snowboarder pants (0)	eXtreme mittens (0)	Mountain Stream soda (0)	zombie pineal gland (0)
 Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 E: spooky P: undead
 Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
-Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 E: spooky P: undead
+Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 E: spooky P: undead	scroll of drastic healing (0)	amulet of extreme plot significance (0)	soft green echo eyedrop antidote (0)	zombie pineal gland (0)
 
 # Crimbo Town Toy Factory (Crimbo 2005)
 Striking Factory-Worker Elf	318	crimboelf.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: elf	felt (10)	wooden block (10)	googly eye (10)	length of string (10)	stuffing (10)	toy wheel (10)
