@@ -606,6 +606,14 @@ public class EquipmentRequest
 
 	public static final int chooseEquipmentSlot( final int itemId )
 	{
+		switch ( itemId )
+		{
+		case ItemPool.SPELUNKY_SPRING_BOOTS:
+		case ItemPool.SPELUNKY_SPIKED_BOOTS:
+			// Spelunky only has one "accessory" slot
+			return EquipmentManager.ACCESSORY1;
+		}
+
 		int equipmentType = ItemDatabase.getConsumptionType( itemId );
 		switch ( equipmentType )
 		{

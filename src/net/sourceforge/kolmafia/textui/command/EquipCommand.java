@@ -40,6 +40,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -98,6 +100,15 @@ public class EquipCommand
 		}
 
 		int itemId = match.getItemId();
+
+		switch ( itemId )
+		{
+		case ItemPool.SPELUNKY_SPRING_BOOTS:
+		case ItemPool.SPELUNKY_SPIKED_BOOTS:
+			// Spelunky only has one "accessory" slot
+			slot = EquipmentManager.ACCESSORY1;
+			break;
+		}
 
 		// If he didn't specify slot name, decide where this item goes.
 		if ( slot == -1 )
