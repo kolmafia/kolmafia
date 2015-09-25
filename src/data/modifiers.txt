@@ -3664,6 +3664,7 @@ Throne	Killer Bee	Experience (Muscle): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne	Knob Goblin Organ Grinder	Meat Drop: +25
 Throne	Leprechaun	Meat Drop: +20
 Throne	Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Li'l Xenomorph	Item Drop: +15
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
 Throne	Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10

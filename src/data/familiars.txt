@@ -227,4 +227,4 @@
 195	Baby Mayonnaise Wasp	mayowasp.gif	combat1	newly-hatched mayonnaise wasp	mayo pump	2	2	3	1
 196	Puck Man	puckman.gif	block,hp1,mp1	yellow puck	orange boxing gloves	1	2	2	3
 197	Ms. Puck Man	mspuckman.gif	block,hp1,mp1	yellow puck with a bow on it	blue pumps	1	2	2	3
-198	Lil' Barrel Mimic	barrelmimic.gif		tiny barrel	brass bung spigot	1	2	1	3
+198	Lil' Barrel Mimic	barrelmimic.gif	stat0	tiny barrel	brass bung spigot	1	2	1	3
