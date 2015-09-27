@@ -1393,6 +1393,10 @@ public abstract class KoLmafia
 				// You're allowed to trick or treat even when falling down drunk,
 				// so ignore any problems in this case.
 			}
+			else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+			{
+				// You're allowed to Spelunk even while falling down drunk
+			}
 			else if ( !holiday.contains( "St. Sneaky Pete's Day" ) && !holiday.contains( "Drunksgiving" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too drunk to continue." );
@@ -1600,7 +1604,7 @@ public abstract class KoLmafia
 	public static final String getSaveState( final String loginname )
 	{
 		String password = Preferences.getString( loginname, "saveState" );
-		if ( password == null || password.length() == 0 || password.indexOf( "/" ) != -1 )
+		if ( password == null || password.length() == 0 || password.contains( "/" ) )
 		{
 			return null;
 		}
@@ -1856,7 +1860,7 @@ public abstract class KoLmafia
 		// This player is currently online in channel clan.
 		// This player is currently away from KoL in channel trade and listening to clan.
 		String text = KoLmafia.whoisPlayer( player );
-		return text != null && text.indexOf( "This player is currently" ) != -1;
+		return text != null && text.contains( "This player is currently" );
 	}
 
 	private static class UpdateCheckRunnable
@@ -1887,7 +1891,7 @@ public abstract class KoLmafia
 
 				while ( ( line = reader.readLine() ) != null )
 				{
-					if ( line.indexOf( "public static final String VERSION_NAME" ) != -1 )
+					if ( line.contains( "public static final String VERSION_NAME" ) )
 					{
 						int quote1 = line.indexOf( "\"" ) + 1;
 						int quote2 = line.lastIndexOf( "\"" );
