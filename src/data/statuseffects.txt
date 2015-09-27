@@ -1955,3 +1955,40 @@
 1954	Shortened	barrelcracker.gif	31bea201a498404a310f016ea05281be	eat 1 barrel cracker
 1955	Weird Vibrations	vibeshroom.gif	2a23ce6b44f94c137f48435059f917f9	chew 1 vibrating mushroom
 1956	Cute Vision	cuteshroom.gif	01592263b26f5073b0ff2eed00ced9a7	chew 1 cute mushroom
+1957	Flamibili Tea	tea_hot.gif	2c170c9acfc563bebd117e92a6c1bbf1	use 1 cuppa Flamibili tea
+1958	Yet tea	tea_cold.gif	6077b2994c9dd64064fc8dfb6e856ec8	use 1 cuppa Yet tea
+1959	Boo Tea	tea_spooky.gif	62e474378cbcd5c35906475db19aa3a3	use 1 cuppa Boo tea
+1960	Nas Tea	tea_stench.gif	03a3402d5b587e6d961a6ab39635aadb	use 1 cuppa Nas tea
+1961
+1962	Frost Tea	tea_hotp.gif	a5afc3aba79d021d0ffed586a8e93d53	use 1 cuppa Frost tea
+1963	Toast Tea	tea_coldp.gif	410b3bd4ae73757cb8cb3af0dd784b3c	use 1 cuppa Toast tea
+1964	Net Tea	tea_stenchp.gif	a8402f44d1f6b43d6112b3518156ddff	use 1 cuppa Net tea
+1965	Proprie Tea	tea_sleazep.gif	b4df320f9639dc5db9258b3228f853b3	use 1 cuppa Proprie tea
+1966	Morbidi Tea	tea_spookyp.gif	291cfcbd92508c32be55d0ebe60b12b1	use 1 cuppa Morbidi tea
+1967	Chari Tea	tea_meat.gif	8972e90aa44ff9f981e5557be82d58b0	use 1 cuppa Chari tea
+1968	Serendipi Tea	tea_items.gif	0daae57954d5033b45c9765b87b212e4	use 1 cuppa Serendipi tea
+1969	Feroci Tea	tea_str.gif	375388a1b12d540ddfe9fd10bc02687f	use 1 cuppa Feroci tea
+1970	Physicali Tea	tea_strstats.gif	272efc8e807a365aa8b191bc26bdb82b	use 1 cuppa Physicali tea
+1971	Wit Tea	tea_mag.gif	2a9ad3a08b06fec8d391e22f1b9ea35f	use 1 cuppa Wit tea
+1972	Neuroplastici Tea	tea_magstats.gif	35c56853abf9e97b68800ef32f8394ea	use 1 cuppa Neuroplastici tea
+1973	Dexteri Tea	tea_mox.gif	63d30b85b4505e5dc853d4680b8ec5ba	use 1 cuppa Dexteri tea
+1974	Flexibili Tea	tea_moxstats.gif	feba879ea3a7f8d43cb11524baac8d1c	use 1 cuppa Flexibili tea
+1975	Impregnabili Tea	tea_da.gif	2eaef5d4086936d1e01734347ada4a79	use 1 cuppa Impregnabili tea
+1976	Obscuri Tea	tea_plusnc.gif	ebe175109afe784ee81101e22ce03e4a	use 1 cuppa Obscuri tea
+1977	Irritabili Tea	tea_minusnc.gif	4810b1a9cb1500066aa80057e8c30620	use 1 cuppa Irritabili tea
+1978	Mediocri Tea	tea_plusml.gif	9ab806273e2085bfcd56910894bd34b0	use 1 cuppa Mediocri tea
+1979	Loyal Tea	tea_famweight.gif	42e77abaea6e03d5c3d2d7f4ea558295	use 1 cuppa Loyal tea
+1980
+1981
+1982	Alacri Tea	tea_init.gif	692c158cfb9f988f46c3da218c37b444	use 1 cuppa Alacri tea
+1983	Vitali Tea	tea_hp.gif	ec808bf8684e5033e1a28259749e5b6b	use 1 cuppa Vitali tea
+1984	Mana Tea	tea_mp.gif	c772a78df3e76d766f75015f94743878	use 1 cuppa Mana tea
+1985	Monstrosi Tea	tea_minusml.gif	68ae4e85c6927ecd74728c82207a72db	use 1 cuppa Monstrosi tea
+1986	Twen Tea	tea_twenty.gif	e19eae221d66fb69fbcdedbbba96c7b7	use 1 cuppa Twen tea
+1987
+1988
+1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
+1990
+1991
+1992
+1993	Insani Tea	tea_crazy.gif	d25be2dd24b29bfddec85c0de1a82c37	use 1 cuppa Insani tea

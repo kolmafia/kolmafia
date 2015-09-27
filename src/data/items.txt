@@ -8623,3 +8623,41 @@
 8597	barrel beryl nose ring	989216857	berylnose.gif	accessory	t,d	700
 8598	barrel beryl ring	202843665	berylring.gif	accessory	t,d	700
 8599	map to the Biggest Barrel	408797321	map.gif	usable	q	0
+8600	potted tea tree	805191306	teatree.gif	usable	t	0
+8601	cuppa Flamibili tea	256867548	tea_hot.gif	usable	t,d	30
+8602	cuppa Yet tea	817669096	tea_cold.gif	usable	t,d	30
+8603	cuppa Boo tea	876214713	tea_spooky.gif	usable	t,d	30
+8604	cuppa Nas tea	718969056	tea_stench.gif	usable	t,d	30
+
+8606	cuppa Frost tea	569755049	tea_hotp.gif	usable	t,d	30
+8607	cuppa Toast tea	449951144	tea_coldp.gif	usable	t,d	30
+8608	cuppa Net tea	307233434	tea_stenchp.gif	usable	t,d	30
+8609	cuppa Proprie tea	369389071	tea_sleazep.gif	usable	t,d	30
+8610	cuppa Morbidi tea	182917065	tea_spookyp.gif	usable	t,d	30
+8611	cuppa Chari tea	298450620	tea_meat.gif	usable	t,d	30
+8612	cuppa Serendipi tea	470677936	tea_items.gif	usable	t,d	30
+8613	cuppa Feroci tea	940177458	tea_str.gif	usable	t,d	30
+8614	cuppa Physicali tea	681373490	tea_strstats.gif	usable	t,d	30
+8615	cuppa Wit tea	743984594	tea_mag.gif	usable	t,d	30
+8616	cuppa Neuroplastici tea	817475915	tea_magstats.gif	usable	t,d	30
+8617	cuppa Dexteri tea	901674049	tea_mox.gif	usable	t,d	30
+8618	cuppa Flexibili tea	156053924	tea_moxstats.gif	usable	t,d	30
+8619	cuppa Impregnabili tea	257406916	tea_da.gif	usable	t,d	30
+8620	cuppa Obscuri tea	149501912	tea_plusnc.gif	usable	t,d	30
+8621	cuppa Irritabili tea	980158422	tea_minusnc.gif	usable	t,d	30
+8622	cuppa Mediocri tea	726984581	tea_plusml.gif	usable	t,d	30
+8623	cuppa Loyal tea	239140216	tea_famweight.gif	usable	t,d	30
+8624	cuppa Activi tea	371849540	tea_adv.gif	spleen, usable	t,d	30
+8625	cuppa Cruel tea	706676159	tea_pvp.gif	spleen, usable	t,d	30
+8626	cuppa Alacri tea	836326085	tea_init.gif	usable	t,d	30
+8627	cuppa Vitali tea	422873940	tea_hp.gif	usable	t,d	30
+8628	cuppa Mana tea	896037048	tea_mp.gif	usable	t,d	30
+8629	cuppa Monstrosi tea	280082913	tea_minusml.gif	usable	t,d	30
+8630	cuppa Twen tea	307088501	tea_twenty.gif	usable	t,d	30
+8631	cuppa Gill tea	295084932	tea_fishy.gif	usable	t,d	30
+8632	cuppa Uncertain tea	264273302	tea_random.gif	usable	t,d	30
+8633	cuppa Voraci tea	710858711	tea_stomach.gif	usable	t,d	30
+8634	cuppa Sobrie tea	134501105	tea_booze.gif	usable	t,d	30
+
+8636	cuppa Craft tea	935986990	tea_crafty.gif	usable	t,d	30
+8637	cuppa Insani tea	593771882	tea_crazy.gif	usable	t,d	30
