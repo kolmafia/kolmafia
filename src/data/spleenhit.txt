@@ -34,6 +34,8 @@ cold wad	1	6	decent	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10%
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
 Crimbo paste	4	4	good	5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
+cuppa Activi tea	2	1	decent	1-1	0	0	0	Unspaded
+cuppa Cruel tea	4	1	crappy	1-1	0	0	0	Unspaded
 cute mushroom	4	6	decent	1-1	0	0	0	Unspaded
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)

@@ -2967,7 +2967,7 @@ public class Modifiers
 		return null;
 	}
 
-	private static final Pattern EFFECT_DURATION_PATTERN = Pattern.compile( "Duration(?<!Song Duration): <b>([\\d]*) Adventures?</b>" );
+	private static final Pattern EFFECT_DURATION_PATTERN = Pattern.compile( "</a></b> \\(([\\d]*) Adventures?\\)" );
 
 	public static final String parseEffectDuration( final String text )
 	{
@@ -3084,7 +3084,7 @@ public class Modifiers
 		matcher = Modifiers.COMBAT_PATTERN.matcher( enchantment );
 		if ( matcher.find() )
 		{
-			String tag = enchantment.indexOf( "Underwater only" ) == -1 ?
+			String tag = !enchantment.contains( "Underwater only" ) ?
 				Modifiers.modifierTag( Modifiers.doubleModifiers, Modifiers.COMBAT_RATE ) :
 				"Combat Rate (Underwater)";
 			String level = matcher.group( 1 );

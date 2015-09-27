@@ -3972,6 +3972,7 @@ Effect	Afternoon Insight	Mysticality Percent: +20
 Effect	Agent's Shield	Avatar: "Government agent"
 Effect	Aided and Abetted	Damage Reduction: [L]
 Effect	Al Dente Inferno	Maximum MP: +20, MP Regen Min: 18, MP Regen Max: 20
+Effect	Alacri Tea	Initiative: +50
 Effect	Alchemical, Brother	Mysticality Percent: +30
 Effect	Alien Resurrection	Avatar: "illegal alien"
 # All Covered In Whatsit: More likely to fumble
@@ -4142,6 +4143,7 @@ Effect	Boned Up	Avatar: "Smart Skelton"
 Effect	Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Spooky Damage: +25
 # Boner Battalion: BONERS HO!
 Effect	Bony Dancer	Avatar: "tapdancing skeleton"
+Effect	Boo Tea	Spooky Damage: +30
 # Booing Radly: +50 Damage vs. Ghosts
 # Boon of She-Who-Was: Your melee attacks deal <font color=gray>Spooky Damage</font>
 Effect	Boon of She-Who-Was	Weapon Damage: +20
@@ -4231,6 +4233,7 @@ Effect	Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
 Effect	Chalky White Pallor	Mysticality Percent: +50
 Effect	Chapped Legs	Muscle: -4, Moxie: +8
 Effect	Charged Hair	Maximum MP Percent: +100
+Effect	Chari Tea	Meat Drop: +50
 Effect	Charrrming	Moxie Percent: +10
 Effect	Chauve-Souris Merde Fou	Stench Damage: +50
 Effect	Cheezardly	Avatar: "Cheese Wizard"
@@ -4313,7 +4316,8 @@ Effect	Cosmic Flavor	Spell Critical Percent: +10
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 Effect	Cowlick	Meat Drop: +50
-# Coy to the Hurled: variable DR
+# Effect Coy to the Hurled: variable DR
+# Effect Craft Tea: Lets you craft things more quickly
 Effect	Cranberry Cordiality	Meat Drop: +10
 # Crappily Disguised as a Waiter: You almost look sort of like a waiter.
 Effect	Cravin' for a Ravin'	Meat Drop: +100
@@ -4395,6 +4399,7 @@ Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +
 Effect	Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Effect	Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Effect	Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
+Effect	Dexteri Tea	Moxie: +50
 Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
@@ -4540,6 +4545,7 @@ Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
 Effect	Feline Ferocity	Weapon Damage Percent: +100
+Effect	Feroci Tea	Muscle: +50
 Effect	Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
 Effect	Fever From the Flavor	Cold Resistance: +9
 Effect	Fiery Heart	MP Regen Min: [ceil(min(T,20)/2)], MP Regen Max: [ceil(min(T,20)/2)], Mysticality: [min(T,20)]
@@ -4571,6 +4577,7 @@ Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Mi
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
 Effect	Flame-Retardant Trousers	Hot Resistance: +1
+Effect	Flamibili Tea	Hot Damage: +30
 Effect	Flaming Weapon	Hot Damage: +3
 Effect	Flamingly Floral	Hot Damage: +50
 # Flared Nostrils: Extra-Vulnerable to Stench
@@ -4580,6 +4587,7 @@ Effect	Flashy Dance Song	Item Drop: +10
 Effect	Flattened	Muscle Percent: -50
 Effect	Flayer Flavor	Avatar: "mind flayer"
 Effect	Fleet Woodsman, Mac	Avatar: "fleet woodsman"
+Effect	Flexibili Tea	Experience (Moxie): +3
 # Flimsy Shield of the Pastalord: Reduces physical damage taken by 10%
 # Float Like a Butterfly, Smell Like a Bee: Bzzzzzz
 Effect	Flop Sweat	Sleaze Resistance: +7
@@ -4608,6 +4616,7 @@ Effect	Frio Como Helado	Cold Damage: +10
 Effect	Frisky Spirit	Moxie: +15
 Effect	Frog In Your Throat	Muscle: +25
 Effect	From Nantucket	Experience (Moxie): +2
+Effect	Frost Tea	Hot Resistance: +3
 Effect	Frostbitten	Cold Damage: +10, Damage Reduction: -2
 Effect	Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
@@ -4835,6 +4844,7 @@ Effect	Ichorous Eyesight	Item Drop: +10
 Effect	Ichorous Intensity	Spell Damage Percent: +20
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Effect	Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
+Effect	Impregnabili Tea	Damage Reduction: 30
 Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
@@ -4862,6 +4872,7 @@ Effect	Inner Warmth	Cold Resistance: +5
 # Innuendo Shopping
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
 Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
+Effect	Insani Tea	Random Monster Modifiers: +3
 Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
@@ -4872,6 +4883,7 @@ Effect	Into the Friar	Avatar: "black friar"
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
 # Iron Palms: Swords count as clubs
 Effect	Irresistible Resolve	Experience (Moxie): +2
+Effect	Irritabili Tea	Combat Rate: +5
 Effect	Is This Your Card?	Spell Damage Percent: +50
 Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Experience (Moxie): +2, Pickpocket Chance: +10
 Effect	It Didn't Kill You	Muscle Percent: +50
@@ -4970,6 +4982,7 @@ Effect	Looking at Fire	Avatar: "Burnglar"
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
 Effect	Low on the Hog	Meat Drop: +100
+Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Effect	Lucky Cat is Lucky	Item Drop: +5
 Effect	Lustful Heart	Moxie: [min(T,20)]
@@ -4991,6 +5004,7 @@ Effect	Majorly Poisoned	Muscle Percent: -90, Mysticality Percent: -90, Moxie Per
 Effect	Make Meat FA$T!	Meat Drop: +20
 Effect	Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(500,+5*T)], Moxie Percent: [min(500,+5*T)]
 Effect	Man's Worst Enemy	Familiar Weight: +5
+Effect	Mana Tea	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 Effect	Manbait	Monster Level: +30
 Effect	Marco Polarity	Experience (Mysticality): [L]
 Effect	Margamergency	Weapon Damage Percent: +200, Spell Damage Percent: +200
@@ -5007,6 +5021,7 @@ Effect	Meat the Flintstones	Maximum HP Percent: +50
 Effect	Meatwise	Meat Drop: +35
 Effect	Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Effect	Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
+Effect	Mediocri Tea	Monster Level: +30
 Effect	Melancholy Burden	Item Drop: +60
 Effect	Memento Moir&eacute;	Experience: +3
 Effect	Memories of Puppy Love	Moxie: +20
@@ -5037,10 +5052,12 @@ Effect	Mistified	Damage Reduction: 30
 Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
+Effect	Monstrosi Tea	Monster Level: -30
 Effect	Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Effect	Moon'd	Experience: +5
 Effect	Moon-Eyed	Mysticality: +30
 Effect	Moose Wisdom	Mysticality: +20
+Effect	Morbidi Tea	Spooky Resistance: +3
 Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
@@ -5073,6 +5090,7 @@ Effect	Nano-juiced	Muscle Percent: +15
 Effect	Nanoballsy	Moxie Percent: +25, Initiative: +20, Pickpocket Chance: +30
 Effect	Nanobrainy	Mysticality Percent: +50, Spell Damage: +20, MP Regen Min: 2, MP Regen Max: 4
 Effect	Nanobrawny	Muscle Percent: +25, Weapon Damage: +10, HP Regen Min: 4, HP Regen Max: 8
+Effect	Nas Tea	Stench Damage: +30
 Effect	Nasty, Nasty Breath	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Natural 1	Initiative: -100
 Effect	Natural 20	Initiative: +100
@@ -5083,8 +5101,10 @@ Effect	Nearly All-Natural	Mysticality Percent: +200, Booze Drop: +60
 Effect	Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
 # Nerf'd: Less powerful than you were before
 Effect	Net Gain	Muscle Percent: +100
+Effect	Net Tea	Stench Resistance: +3
 Effect	Nettled	Moxie Percent: -300
 Effect	Neuromancy	Mysticality Percent: +10
+Effect	Neuroplastici Tea	Experience (Mysticality): +3
 Effect	Neutered Nostrils	Stench Resistance: +2
 Effect	New and Improved	Initiative: +100, Critical Hit Percent: +25, Spell Critical Percent: +25, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	New Zeal	Maximum HP: +40, Maximum MP: +20
@@ -5109,6 +5129,7 @@ Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent
 Effect	Nuts about Candy	Maximum HP: +50
 # O Hai!: Effect Cat is Not Amused
 Effect	Object Detection	Item Drop: +5
+Effect	Obscuri Tea	Combat Rate: -5
 Effect	Ocelot Eyes	Item Drop: +10
 # Ode to Booze: Booze tastes even more delicious!
 Effect	Odoriffic	Avatar: "Odorous Humongous"
@@ -5194,6 +5215,7 @@ Effect	Phairly Pheromonal	Familiar Weight: +4
 Effect	Pharmaceutically Cool	Experience Percent (Moxie): +20
 Effect	Phoenix, Right?	Experience: +6
 Effect	Phorcefullness	Muscle Percent: +100
+Effect	Physicali Tea	Experience (Muscle): +3
 # Pie in the Face: Hilarious!
 Effect	Pie in the Sky	Experience (Muscle): +2, Experience (Mysticality): +2, Experience (Moxie): +2
 Effect	Pigulated	Avatar: "piggy"
@@ -5235,6 +5257,7 @@ Effect	Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie
 Effect	Prince of Seaside Town	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Proficient Pressure	Experience: +8
 Effect	Pronounced Potency	Weapon Damage: +5
+Effect	Proprie Tea	Sleaze Resistance: +3
 Effect	Pros Only	Avatar: "sensitive poet-type"
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Provocative Perkiness	Initiative: +20
@@ -5363,6 +5386,7 @@ Effect	Seeing Colors	Mysticality Percent: +50
 # Seeing Red: Monsters will always hit you
 Effect	Seeing Red	Weapon Damage: +25, Weapon Damage Percent: +100
 Effect	Sepia Tan	Moxie: +10, Initiative: +20, Experience (Moxie): +2
+Effect	Serendipi Tea	Item Drop: +25
 Effect	Serenity	Moxie Percent: +15
 Effect	Seriously Mutated	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Sewer-Drenched	Stench Damage: +100
@@ -5736,6 +5760,7 @@ Effect	Tingly Wrists	Mysticality: +5
 Effect	Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Effect	To Protect and Servo	Avatar: "cyborg policeman"
 # Toad In The Hole: Continually take damage
+Effect	Toast Tea	Cold Resistance: +3
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 # Top Dog: +50% Damage vs. Vampires
@@ -5764,6 +5789,7 @@ Effect	Turkey-Friendly	Familiar Weight: +5
 Effect	Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Turtle Power	MP Regen Min: 4, MP Regen Max: 5
 Effect	Turtle Titters	Experience: +3
+Effect	Twen Tea	Muscle: +20, Mysticality: +20, Moxie: +20, Maximum HP: +20, Maximum MP: +20, Initiative: +20, Weapon Damage: +20, Spell Damage: +20, Ranged Damage: +20, Familiar Damage: +20
 Effect	Twenty-three Squid, Ew	Mysticality: +30
 Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Twinklebritches	Damage Reduction: 3
@@ -5800,6 +5826,7 @@ Effect	Virgo Rising	Moxie Percent: +50
 Effect	Visibly Goth	Avatar: "Goth Giant"
 Effect	Visions of the Deep Dark Deeps	Spell Damage Percent: +50
 Effect	Vital	Muscle: +5, Mysticality: +5, Moxie: +5
+Effect	Vitali Tea	Maximum HP: +30, HP Regen Min: 3, HP Regen Max: 5
 Effect	Vitamin-Maxed	Muscle Percent: +10
 Effect	Void Between the Stars	Cold Damage: +50
 Effect	Voracious Gorging	Item Drop: [min(40,ceil(F/5)*10)], Food Drop: [min(100,ceil(F/5)*25)]
@@ -5869,6 +5896,7 @@ Effect	Wintry Breath	Cold Damage: +10
 Effect	Wisdom of Thoth	Mysticality: +10, Mysticality Percent: +50
 Effect	Wise Spirit	Mysticality: +15
 Effect	Wistfully Nostalgic	Experience: +3
+Effect	Wit Tea	Mysticality: +50
 Effect	Witch Breaded	Mysticality Percent: +100, Spell Damage Percent: +200, Spell Critical Percent: +20
 Effect	Witch's Brood	Hot Spell Damage: +50, Cold Spell Damage: +50, Stench Spell Damage: +50, Spooky Spell Damage: +50, Sleaze Spell Damage: +50
 Effect	Withered Heart	Item Drop: [min(T,20)], Mysticality: [min(T,20)]
@@ -5885,6 +5913,7 @@ Effect	Wussiness	Muscle: -3
 Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
+Effect	Yet tea	Cold Damage: +30
 Effect	Yiffable You	Avatar: "sexy werewolf"
 Effect	Yoloswagyoloswag	Sleaze Damage: +15, Sleaze Spell Damage: +15, Monster Level: +15
 Effect	You Can Really Taste the Dormouse	Familiar Weight: +5
@@ -6569,6 +6598,37 @@ Item	cranberry schnapps	Effect: "Cranberry Cordiality", Effect Duration: 10
 Item	Crazymaker	Effect: "Void Between the Stars", Effect Duration: 15
 Item	cruelty-free wine	Effect: "Compensatory Cruelness", Effect Duration: 5
 Item	crystal skeleton vodka	Effect: "Aykrophobia", Effect Duration: 20
+Item	cuppa Alacri tea	Effect: "Alacri Tea", Effect Duration: 30
+Item	cuppa Boo tea	Effect: "Boo Tea", Effect Duration: 30
+Item	cuppa Chari tea	Effect: "Chari Tea", Effect Duration: 30
+Item	cuppa Craft tea	Effect: "Craft Tea", Effect Duration: 30
+Item	cuppa Dexteri tea	Effect: "Dexteri Tea", Effect Duration: 30
+Item	cuppa Feroci tea	Effect: "Feroci Tea", Effect Duration: 30
+Item	cuppa Flamibili tea	Effect: "Flamibili Tea", Effect Duration: 30
+Item	cuppa Flexibili tea	Effect: "Flexibili Tea", Effect Duration: 30
+Item	cuppa Frost tea	Effect: "Frost Tea", Effect Duration: 30
+Item	cuppa Gill tea	Effect: "Fishy", Effect Duration: 30
+Item	cuppa Impregnabili tea	Damage Reduction: 30, Effect: "Impregnabili Tea", Effect Duration: 30
+Item	cuppa Insani tea	Effect: "Insani Tea", Effect Duration: 30
+Item	cuppa Irritabili tea	Effect: "Irritabili Tea", Effect Duration: 30
+Item	cuppa Loyal tea	Effect: "Loyal Tea", Effect Duration: 30
+Item	cuppa Mana tea	Effect: "Mana Tea", Effect Duration: 30
+Item	cuppa Mediocri tea	Effect: "Mediocri Tea", Effect Duration: 30
+Item	cuppa Monstrosi tea	Effect: "Monstrosi Tea", Effect Duration: 30
+Item	cuppa Morbidi tea	Effect: "Morbidi Tea", Effect Duration: 30
+Item	cuppa Nas tea	Effect: "Nas Tea", Effect Duration: 30
+Item	cuppa Net tea	Effect: "Net Tea", Effect Duration: 30
+Item	cuppa Neuroplastici tea	Effect: "Neuroplastici Tea", Effect Duration: 30
+Item	cuppa Obscuri tea	Effect: "Obscuri Tea", Effect Duration: 30
+Item	cuppa Physicali tea	Effect: "Physicali Tea", Effect Duration: 30
+Item	cuppa Proprie tea	Effect: "Proprie Tea", Effect Duration: 30
+Item	cuppa Serendipi tea	Effect: "Serendipi Tea", Effect Duration: 30
+# Item cuppa Sobrie tea: Reduces your Drunkenness by 1
+Item	cuppa Toast tea	Effect: "Toast Tea", Effect Duration: 30
+Item	cuppa Twen tea	Effect: "Twen Tea", Effect Duration: 30
+Item	cuppa Vitali tea	Effect: "Vitali Tea", Effect Duration: 30
+Item	cuppa Wit tea	Effect: "Wit Tea", Effect Duration: 30
+Item	cuppa Yet tea	Effect: "Yet tea", Effect Duration: 30
 Item	cursed bottle of black-label rum	Effect: "Curse Magnet", Effect Duration: 10
 Item	dew yoana lei	Effect: "Brined Liver", Effect Duration: 20
 Item	dew yoana salacious lei	Effect: "Brined Liver", Effect Duration: 30
