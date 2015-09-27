@@ -684,6 +684,11 @@ public abstract class KoLCharacter
 			baseFullness++;
 		}
 
+		if ( Preferences.getBoolean( "_voraciTeaUsed" ) )
+		{
+			baseFullness++;
+		}
+
 		// Pantsgiving
 		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
 
@@ -2577,7 +2582,7 @@ public abstract class KoLCharacter
 	public static final boolean hasBeeosity( String name )
 	{
 		// Less resource intensive than a matcher for short-enough names
-		return name.indexOf( "b" ) != -1 || name.indexOf( "B" ) != -1 ;
+		return name.contains( "b" ) || name.contains( "B" ) ;
 	}
 
 	public static final int getRestingHP()
@@ -5219,7 +5224,7 @@ public abstract class KoLCharacter
 						newModifiers.add( Modifiers.INITIATIVE, level * 20, "El Vibrato:SELF" );
 						break;
 					case 8:
-						if ( Modifiers.currentFamiliar.indexOf( "megadrone" ) != -1 )
+						if ( Modifiers.currentFamiliar.contains( "megadrone" ) )
 						{
 							newModifiers.add( Modifiers.FAMILIAR_WEIGHT, level * 10, "El Vibrato:DRONE" );
 						}

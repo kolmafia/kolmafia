@@ -2435,6 +2435,7 @@ public class ItemPool
 	public static final int MOULDERING_BARREL = 8576;
 	public static final int BARNACLED_BARREL = 8577;
 	public static final int BARREL_MAP = 8599;
+	public static final int VORACI_TEA = 8633;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
