@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -673,6 +672,7 @@ public class CampgroundRequest
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
+		findImage( responseText, "teatree.gif", ItemPool.POTTED_TEA_TREE );
 
 		boolean maidFound = false;
 		if ( !maidFound ) maidFound = findImage( responseText, "maid.gif", ItemPool.MAID );
