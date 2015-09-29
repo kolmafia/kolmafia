@@ -1103,7 +1103,8 @@ public class ResultProcessor
 				}
 				break;
 			case EffectPool.INIGOS:
-				// If you gain or lose Inigo's, what you can
+			case EffectPool.CRAFT_TEA:
+				// If you gain or lose Inigo's or Craft Tea, what you can
 				// craft changes
 				ConcoctionDatabase.setRefreshNeeded( true );
 				break;
@@ -1233,8 +1234,9 @@ public class ResultProcessor
 					{
 						KoLConstants.activeEffects.remove( i );
 
-						// If you lose Inigo's, what you can craft changes
-						if ( effect.getEffectId() == EffectPool.INIGOS )
+						// If you lose Inigo's or Craft Tea, what you can craft changes
+						int effectId = effect.getEffectId();
+						if ( effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA )
 						{
 							ConcoctionDatabase.setRefreshNeeded( true );
 						}
