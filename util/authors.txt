@@ -4,6 +4,7 @@ doctorrotelle = DoctorRotelle <doctorrotelle@users.sourceforge.net>
 DoctorRotelle = DoctorRotelle <DoctorRotelle@users.sourceforge.net>
 fewli0 = fewli0 <fewli0@users.sourceforge.net>
 grotfang = grotfang <grotfang@users.sourceforge.net>
+heeheehee = heeheehee <heeheehee@users.sourceforge.net>
 kirchoffjosephp = Rinn <kirchoffjosephp@users.sourceforge.net>
 lostcalpolydude = lostcalpolydude <lostcalpolydude@users.sourceforge.net>
 jaadams5 = fronobulax <jaadams5@users.sourceforge.net>
