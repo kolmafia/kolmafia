@@ -8628,7 +8628,7 @@
 8602	cuppa Yet tea	817669096	tea_cold.gif	usable	t,d	30
 8603	cuppa Boo tea	876214713	tea_spooky.gif	usable	t,d	30
 8604	cuppa Nas tea	718969056	tea_stench.gif	usable	t,d	30
-
+8605	cuppa Improprie tea	610368464	tea_sleaze.gif	multiple	t,d	30
 8606	cuppa Frost tea	569755049	tea_hotp.gif	usable	t,d	30
 8607	cuppa Toast tea	449951144	tea_coldp.gif	usable	t,d	30
 8608	cuppa Net tea	307233434	tea_stenchp.gif	usable	t,d	30
@@ -8658,6 +8658,6 @@
 8632	cuppa Uncertain tea	264273302	tea_random.gif	usable	t,d	30
 8633	cuppa Voraci tea	710858711	tea_stomach.gif	usable	t,d	30
 8634	cuppa Sobrie tea	134501105	tea_booze.gif	usable	t,d	30
-
+8635	cuppa Royal tea	143135963	tea_royal.gif	usable	t,d	30
 8636	cuppa Craft tea	935986990	tea_crafty.gif	usable	t,d	30
 8637	cuppa Insani tea	593771882	tea_crazy.gif	usable	t,d	30
