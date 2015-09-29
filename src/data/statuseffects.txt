@@ -1959,7 +1959,7 @@
 1958	Yet tea	tea_cold.gif	6077b2994c9dd64064fc8dfb6e856ec8	use 1 cuppa Yet tea
 1959	Boo Tea	tea_spooky.gif	62e474378cbcd5c35906475db19aa3a3	use 1 cuppa Boo tea
 1960	Nas Tea	tea_stench.gif	03a3402d5b587e6d961a6ab39635aadb	use 1 cuppa Nas tea
-1961
+1961	Improprie Tea	tea_sleaze.gif	a1d9f4e0f848599cf9b1cb5d1e2d95a1	use 1 cuppa Improprie tea
 1962	Frost Tea	tea_hotp.gif	a5afc3aba79d021d0ffed586a8e93d53	use 1 cuppa Frost tea
 1963	Toast Tea	tea_coldp.gif	410b3bd4ae73757cb8cb3af0dd784b3c	use 1 cuppa Toast tea
 1964	Net Tea	tea_stenchp.gif	a8402f44d1f6b43d6112b3518156ddff	use 1 cuppa Net tea

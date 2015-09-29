@@ -1769,8 +1769,8 @@ Mob Penguin Soprano	218	pengprano.gif	Atk: 95 Def: 85 HP: 90 Init: 80 P: penguin
 Mob Penguin Thug	217	pengthug.gif	Atk: 95 Def: 85 HP: 80 Init: 80 P: penguin	kneecapping stick (0)	penguin skin (0)
 
 # Market Square, 28 Days Later (November 2005)
-drunken zombie half-orc hobo	296	zomhobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: spooky P: undead
-fiendish zombie can of asparagus	297	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 E: spooky P: undead
+drunken zombie half-orc hobo	296	zomhobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: spooky P: undead	Mad Train wine (0)	dirty hobo gloves (0)	moxie weed (0)	zombie pineal gland (0)
+fiendish zombie can of asparagus	297	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 E: spooky P: undead	razor-sharp can lid (0)	asparagus knife (0)	stalk of asparagus (0)	zombie pineal gland (0)
 Knob Goblin Elite Zombie	300	zomelite.gif	Atk: 30 Def: 25 HP: 30 Init: 90 E: spooky P: goblin
 zombie Gnollish crossdresser	301	zomknoll.gif	Atk: 11 Def: 9 HP: 5 Init: 60 P: humanoid	frilly shirt (0)	frilly skirt (0)	maiden wig (0)	zombie pineal gland (0)
 Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E: spooky P: goblin
@@ -1787,8 +1787,8 @@ zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undea
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
 # scary pirate	307	zompirate.gif
 Zombie eXtreme Snowboarding Orc	310	zomsnow.gif	Atk: 74 Def: 66 HP: 65 Init: 60 E: spooky P: undead	snowboarder pants (0)	eXtreme mittens (0)	Mountain Stream soda (0)	zombie pineal gland (0)
-Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 E: spooky P: undead
-Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead
+Zombie Goth Giant	312	zomgoth.gif	Atk: 130 Def: 117 HP: 150 Init: 40 E: spooky P: undead	thin black candle (0)	Warm Subject gift certificate (0)	awful poetry journal (0)	zombie pineal gland (0)
+Zombie N00b	309	zomnoob.gif	Atk: 79 Def: 71 HP: 69 Init: 70 P: undead	draggin' ball hat (0)	33398 scroll (0)	zombie pineal gland (0)
 Zombie Quiet Healer	311	zomhealer.gif	Atk: 95 Def: 85 HP: 90 Init: 80 E: spooky P: undead	scroll of drastic healing (0)	amulet of extreme plot significance (0)	soft green echo eyedrop antidote (0)	zombie pineal gland (0)
 
 # Crimbo Town Toy Factory (Crimbo 2005)
