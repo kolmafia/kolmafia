@@ -1108,7 +1108,8 @@ public abstract class KoLmafia
 			AdventureResult effect = KoLConstants.recentEffects.get( j );
 			AdventureResult.addResultToList( KoLConstants.activeEffects, effect );
 
-			if ( effect.getEffectId() == EffectPool.INIGOS )
+			int effectId = effect.getEffectId();
+			if ( effectId == EffectPool.INIGOS || effectId == EffectPool.CRAFT_TEA )
 			{
 				concoctionRefreshNeeded = true;
 			}

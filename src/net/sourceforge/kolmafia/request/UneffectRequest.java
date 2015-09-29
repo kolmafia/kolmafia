@@ -975,7 +975,7 @@ public class UneffectRequest
 		KoLConstants.activeEffects.remove( this.effect );
 
 		// If you lose Inigo's, what you can craft changes
-		if ( this.effectId == EffectPool.INIGOS )
+		if ( this.effectId == EffectPool.INIGOS || this.effectId == EffectPool.CRAFT_TEA )
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}

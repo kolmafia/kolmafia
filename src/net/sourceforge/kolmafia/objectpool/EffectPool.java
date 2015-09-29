@@ -303,6 +303,7 @@ public class EffectPool
 	public static final int WARLOCK_WARSTOCK_WARBARREL = 1948;
 	public static final int DOUBLE_BARRELED = 1949;
 	public static final int BEER_BARREL_POLKA = 1950;
+	public static final int CRAFT_TEA = 1989;
 
 	public static final AdventureResult get( final int effectId )
 	{

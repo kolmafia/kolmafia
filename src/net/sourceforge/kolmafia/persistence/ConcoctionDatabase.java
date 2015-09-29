@@ -154,6 +154,7 @@ public class ConcoctionDatabase
 	private static final AdventureResult[] NO_INGREDIENTS = new AdventureResult[ 0 ];
 
 	public static final AdventureResult INIGO = EffectPool.get( EffectPool.INIGOS, 0 );
+	public static final AdventureResult CRAFT_TEA = EffectPool.get( EffectPool.CRAFT_TEA, 0 );
 
 	private static final HashMap<Integer,Concoction> chefStaff = new HashMap<Integer,Concoction>();
 	private static final HashMap<Integer,Concoction> singleUse = new HashMap<Integer,Concoction>();
@@ -2240,7 +2241,8 @@ public class ConcoctionDatabase
 	public static int getFreeCraftingTurns()
 	{
 		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 +
-			( KoLCharacter.hasSkill( "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 );
+			( KoLCharacter.hasSkill( "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 ) +
+			ConcoctionDatabase.CRAFT_TEA.getCount( KoLConstants.activeEffects ) / 5;
 	}
 
 	public static int getFreeSmithJewelTurns()
