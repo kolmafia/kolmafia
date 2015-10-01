@@ -1773,12 +1773,12 @@ drunken zombie half-orc hobo	296	zomhobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: spo
 fiendish zombie can of asparagus	297	asparagus.gif	Atk: 2 Def: 0 HP: 1 Init: 50 E: spooky P: undead	razor-sharp can lid (0)	asparagus knife (0)	stalk of asparagus (0)	zombie pineal gland (0)
 Knob Goblin Elite Zombie	300	zomelite.gif	Atk: 30 Def: 25 HP: 30 Init: 90 E: spooky P: goblin
 zombie Gnollish crossdresser	301	zomknoll.gif	Atk: 11 Def: 9 HP: 5 Init: 60 P: humanoid	frilly shirt (0)	frilly skirt (0)	maiden wig (0)	zombie pineal gland (0)
-Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E: spooky P: goblin
+Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E: spooky P: goblin	Knob Goblin tongs (0)	Knob Goblin pants (0)	chef's hat (0)	zombie pineal gland (0)
 zombie yeast beast	304	zomyeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 E: spooky P: undead
 
 # The Mall of Loathing, 28 Days Later (November 2005)
 white zombie	308	zombie2.gif	Atk: 38 Def: 33 HP: 21 Init: 70 E: spooky P: undead
-zombie apathetic lizardman	298	zomlizard.gif	Atk: 20 Def: 18 HP: 12 Init: 60 E: spooky P: undead
+zombie apathetic lizardman	298	zomlizard.gif	Atk: 20 Def: 18 HP: 12 Init: 60 E: spooky P: undead	zombie pineal gland (0)
 Zombie Clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror
 zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc
 zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy
