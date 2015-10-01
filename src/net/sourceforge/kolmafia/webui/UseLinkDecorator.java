@@ -1168,12 +1168,12 @@ public abstract class UseLinkDecorator
 
 			int outfit = EquipmentDatabase.getOutfitWithItem( itemId );
 
+			ArrayList<UseLink> uses = new ArrayList<UseLink>();
+			
 			if ( outfit != -1 && EquipmentManager.hasOutfit( outfit ) )
 			{
-				return new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit );
+				uses.add( new UseLink( itemId, itemCount, "outfit", "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit ) );
 			}
-			
-			ArrayList<UseLink> uses = new ArrayList<UseLink>();
 			
 			if ( consumeMethod == KoLConstants.EQUIP_ACCESSORY &&
 			     !EquipmentManager.getEquipment( EquipmentManager.ACCESSORY1 ).equals( EquipmentRequest.UNEQUIP ) && 
