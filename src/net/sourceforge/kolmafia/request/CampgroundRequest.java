@@ -672,7 +672,12 @@ public class CampgroundRequest
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
+
 		findImage( responseText, "teatree", ItemPool.POTTED_TEA_TREE );
+		if ( responseText.contains( "teatree_used.gif" ) )
+		{
+			Preferences.setBoolean( "_pottedTeaTreeUsed", true );
+		}
 
 		boolean maidFound = false;
 		if ( !maidFound ) maidFound = findImage( responseText, "maid.gif", ItemPool.MAID );
