@@ -9933,6 +9933,22 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( itemId );
 			}
 			break;
+
+		case 1104:
+			// Tree Tea
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_pottedTeaTreeUsed", true );
+			}
+			break;
+
+		case 1105:
+			// Specifici Tea
+			if ( request.getURLString().contains( "itemid" ) )
+			{
+				Preferences.setBoolean( "_pottedTeaTreeUsed", true );
+			}
+			break;
 		}
 
 		if ( text.contains( "choice.php" ) )
@@ -11066,7 +11082,7 @@ public abstract class ChoiceManager
 		int umbrella = InventoryManager.getAccessibleCount( ItemPool.GATORSKIN_UMBRELLA );
 
 		// You steel your nerves and descend into the darkened tunnel.
-		if ( text.indexOf( "You steel your nerves and descend into the darkened tunnel." ) == -1 )
+		if ( !text.contains( "You steel your nerves and descend into the darkened tunnel." ) )
 		{
 			return;
 		}
