@@ -136,6 +136,7 @@ import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PixelRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
+import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
@@ -691,6 +692,13 @@ public class RequestLogger
 
 		// The Florist is an instance of choice.php
 		if ( ( request instanceof FloristRequest || isExternal ) && FloristRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// The Potted Tea Tree is an instance of choice.php
+		if ( ( request instanceof PottedTeaTreeRequest || isExternal ) && PottedTeaTreeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
