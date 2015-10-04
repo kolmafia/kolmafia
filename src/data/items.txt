@@ -8655,7 +8655,7 @@
 8629	cuppa Monstrosi tea	280082913	tea_minusml.gif	multiple	t,d	30
 8630	cuppa Twen tea	307088501	tea_twenty.gif	multiple	t,d	30
 8631	cuppa Gill tea	295084932	tea_fishy.gif	multiple	t,d	30
-8632	cuppa Uncertain tea	264273302	tea_random.gif	multiple	t,d	30
+8632	cuppa Uncertain tea	264273302	tea_random.gif	usable	t,d	30
 8633	cuppa Voraci tea	710858711	tea_stomach.gif	usable	t,d	30
 8634	cuppa Sobrie tea	134501105	tea_booze.gif	usable	t,d	30
 8635	cuppa Royal tea	143135963	tea_royal.gif	multiple	t,d	30
