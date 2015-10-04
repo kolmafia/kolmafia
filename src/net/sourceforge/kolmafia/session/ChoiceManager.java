@@ -13009,6 +13009,8 @@ public abstract class ChoiceManager
 		case 1093: // The WLF Bunker
 		case 1100: // Pray to the Barrel God
 		case 1101: // It's a Barrel Smashing Party!
+		case 1104: // Tree Tea
+		case 1105: // Specifici Tea
 			return true;
 
 		default:

@@ -2436,7 +2436,43 @@ public class ItemPool
 	public static final int BARNACLED_BARREL = 8577;
 	public static final int BARREL_MAP = 8599;
 	public static final int POTTED_TEA_TREE = 8600;
+	public static final int FLAMIBILI_TEA = 8601;
+	public static final int YET_TEA = 8602;
+	public static final int BOO_TEA = 8603;
+	public static final int NAS_TEA = 8604;
+	public static final int IMPROPRIE_TEA = 8605;
+	public static final int FROST_TEA = 8606;
+	public static final int TOAST_TEA = 8607;
+	public static final int NET_TEA = 8608;
+	public static final int PROPRIE_TEA = 8609;
+	public static final int MORBIDI_TEA = 8610;
+	public static final int CHARI_TEA = 8611;
+	public static final int SERENDIPI_TEA = 8612;
+	public static final int FEROCI_TEA = 8613;
+	public static final int PHYSICALI_TEA = 8614;
+	public static final int WIT_TEA = 8615;
+	public static final int NEUROPLASTICI_TEA = 8616;
+	public static final int DEXTERI_TEA = 8617;
+	public static final int FLEXIBILI_TEA = 8618;
+	public static final int IMPREGNABILI_TEA = 8619;
+	public static final int OBSCURI_TEA = 8620;
+	public static final int IRRITABILI_TEA = 8621;
+	public static final int MEDIOCRI_TEA = 8622;
+	public static final int LOYAL_TEA = 8623;
+	public static final int ACTIVI_TEA = 8624;
+	public static final int CRUEL_TEA = 8625;
+	public static final int ALACRI_TEA = 8626;
+	public static final int VITALI_TEA = 8627;
+	public static final int MANA_TEA = 8628;
+	public static final int MONSTROSI_TEA = 8629;
+	public static final int TWEN_TEA = 8630;
+	public static final int GILL_TEA = 8631;
+	public static final int UNCERTAIN_TEA = 8632;
 	public static final int VORACI_TEA = 8633;
+	public static final int SOBRIE_TEA = 8634;
+	public static final int ROYAL_TEA = 8635;
+	public static final int CRAFT_TEA = 8636;
+	public static final int INSANI_TEA = 8637;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
