@@ -3786,6 +3786,7 @@ Edpiece	hyena	Monster Level: +20
 Edpiece	mouse	Item Drop: +10, Meat Drop: +20
 # Edpiece	weasel First attack against you will always miss
 Edpiece	weasel	HP Regen Min: 10, HP Regen Max: 20
+Edpiece	fish	Adventure Underwater
 
 # Bedazzlements section of modifiers.txt
 
