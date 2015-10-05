@@ -3538,7 +3538,8 @@ public abstract class ChoiceManager
 				       "Moxie +20, +2 Moxie Stats Per Fight",
 				       "+20 to Monster Level",
 				       "+10% Item Drops from Monsters, +20% Meat from Monsters",
-				       "The first attack against you will always miss, Regenerate 10-20 HP per Adventure" } ),
+				       "The first attack against you will always miss, Regenerate 10-20 HP per Adventure",
+				       "Lets you breathe underwater" } ),
 
 		// Choice 1065 is Lending a Hand (and a Foot)
 		// Choice 1067 is Maint Misbehavin'
