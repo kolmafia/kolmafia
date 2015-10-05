@@ -1963,7 +1963,7 @@ club necklace	10	none
 Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 compression stocking	160	Mys: 65
-consolation ribbon	0	none
+consolation ribbon	10	none
 continuum transfunctioner	10	none
 Copper Alpha of Sincerity	200	Mys: 85
 copper ha'penny charrrm bracelet	190	Mys: 80
