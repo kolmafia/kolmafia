@@ -65,6 +65,7 @@ public class EdPieceCommand
 		{	"hyena", "4"	},
 		{	"mouse", "5"	},
 		{	"weasel", "6"	},
+		{	"fish", "7"	},
 	};
 
 	public EdPieceCommand()
