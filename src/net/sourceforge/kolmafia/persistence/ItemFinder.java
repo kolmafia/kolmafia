@@ -209,10 +209,12 @@ public class ItemFinder
 			nameList.addAll( restoreList );
 		}
 
-		if ( nameList.size() == 1 )
-		{
-			return;
-		}
+		// Why would we not filter if there is one item? If there is an item that doesn't match the filter
+		// surely we should return 0 ? Commenting it out!
+		// if ( nameList.size() == 1 )
+		// {
+		//		return;
+		//}
 
 		// Check for consumption filters when matching against the
 		// item name.
