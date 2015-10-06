@@ -7280,6 +7280,12 @@ public class FightRequest
 				BanishManager.banishCurrentMonster( "ice house", responseText );
 			}
 			break;
+		case ItemPool.TENNIS_BALL:
+			if ( responseText.contains( "excitedly chases it down" ) )
+			{
+				BanishManager.banishCurrentMonster( "tennis ball", responseText );
+			}
+			break;
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.

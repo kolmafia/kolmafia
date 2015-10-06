@@ -2011,6 +2011,7 @@ Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Red Menace"
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	rice bowl	Food Drop: +20
+Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!"
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 Item	rusty compass	Initiative: +30
 # rusty old lantern
@@ -4893,6 +4894,7 @@ Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Expe
 Effect	It Didn't Kill You	Muscle Percent: +50
 Effect	It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 # It's Electric!: Damages Attacking Opponents
+Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
 Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3

@@ -2473,6 +2473,7 @@ public class ItemPool
 	public static final int ROYAL_TEA = 8635;
 	public static final int CRAFT_TEA = 8636;
 	public static final int INSANI_TEA = 8637;
+	public static final int TENNIS_BALL = 8650;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

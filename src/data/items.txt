@@ -8658,9 +8658,19 @@
 8632	cuppa Uncertain tea	264273302	tea_random.gif	usable	t,d	30
 8633	cuppa Voraci tea	710858711	tea_stomach.gif	usable	t,d	30
 8634	cuppa Sobrie tea	134501105	tea_booze.gif	usable	t,d	30
-8635	cuppa Royal tea	143135963	tea_royal.gif	multiple	t,d	30
+8635	cuppa Royal tea	143135963	tea_royal.gif	usable	t,d	30
 8636	cuppa Craft tea	935986990	tea_crafty.gif	multiple	t,d	30
 8637	cuppa Insani tea	593771882	tea_crazy.gif	multiple	t,d	30
-8638
+8638	Royal scepter	695178500	scepter.gif	offhand		0
 8639	haunted doghouse	694977314	crate.gif	usable	t	0
 8640	Ghost Dog Chow	604634558	cheatos.gif	usable	t,d	20
+8641
+8642
+8643
+8644
+8645
+8646
+8647	Telltale&trade; rubber heart	725172229	rubberheart.gif	none, usable, curse	t,d	5
+8648	wind-up spider	809396455	windupspider.gif	none, usable, curse	t,d	8
+8649	plastic nightmare troll	612714088	nightmaretroll.gif	none, usable, curse	t,d	11
+8650	tennis ball	208715344	tennisball.gif	none, combat	t,d	10
