@@ -3981,7 +3981,7 @@ public abstract class RuntimeLibrary
 	public static Value npc_price( Interpreter interpreter, final Value item )
 	{
 		int itemId = (int) item.intValue();
-		String it = ItemDatabase.getItemName( itemId );
+		String it = ItemDatabase.getCanonicalName( itemId );
 		return new Value(
 			NPCStoreDatabase.contains( itemId, true ) ?
 			NPCStoreDatabase.price( itemId ) :
