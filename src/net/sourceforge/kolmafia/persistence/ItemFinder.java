@@ -275,6 +275,7 @@ public class ItemFinder
 				{
 				case KoLConstants.CONSUME_USE:
 				case KoLConstants.CONSUME_MULTIPLE:
+				case KoLConstants.INFINITE_USES:
 				case KoLConstants.CONSUME_SPHERE:
 					break;
 
@@ -452,7 +453,7 @@ public class ItemFinder
 		{
 			// The entire parameter is a single item
 			matchList = new ArrayList<String>();
-			matchList.add( parameters.trim() );
+			matchList.add( ItemDatabase.getCanonicalName( ItemDatabase.getItemId( parameters, 1 ) ) );
 		}
 		else
 		{
