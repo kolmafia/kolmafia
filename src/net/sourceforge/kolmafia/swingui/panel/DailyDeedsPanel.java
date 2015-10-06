@@ -273,6 +273,9 @@ public class DailyDeedsPanel
 		{
 			"Special", "Deck of Every Card"
 		},
+		{
+			"Special", "Shrine to the Barrel god"
+		},
 	};
 
 	private static final int getVersion( String deed )
@@ -280,7 +283,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Deck of Every Card" ) )
+		if ( deed.equals( "Shrine to the Barrel god" ) )
+			return 11;
+		else if ( deed.equals( "Deck of Every Card" ) )
 			return 10;
 		else if ( deed.equals( "Chateau Desk" ) )
 			return 9;
@@ -1039,6 +1044,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Deck of Every Card" ) )
 		{
 			this.add( new DeckOfEveryCardDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Shrine to the Barrel god" ) )
+		{
+			this.add( new BarrelGodDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -3800,6 +3809,102 @@ public class DailyDeedsPanel
 						setEnabled( true );
 					}
 				}
+			}
+		}
+	}
+
+	public static class BarrelGodDaily
+		extends Daily
+	{
+		JButton btnMus;
+		JButton btnMys;
+		JButton btnMox;
+		JButton btnBuff;
+
+		public BarrelGodDaily()
+		{
+			this.addListener( "barrelShrineUnlocked" );
+			this.addListener( "_barrelPrayer" );
+			this.addListener( "prayedForGlamour" );
+			this.addListener( "prayedForProtection" );
+			this.addListener( "prayedForVigor" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			btnMus = this.addComboButton( "barrelprayer protection", "Protection" );
+			btnMys = this.addComboButton( "barrelprayer glamour", "Glamour" );
+			btnMox = this.addComboButton( "barrelprayer vigor", "Vigor" );
+			btnBuff = this.addComboButton( "barrelprayer buff", "Class buff" );
+			btnMus.setToolTipText( "Shield, +25% Muscle, +50 Monster Level, +100 Max HP" );
+			btnMys.setToolTipText( "Accessory, +25% Mysticality, +50% Item Drops, 5-10 MP regen" );
+			btnMox.setToolTipText( "Pants, +25% Moxie, +50 Combat Initiative, 10-20 HP regen" );
+			this.addLabel( "Pray to the Barrel god" );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = Preferences.getBoolean( "barrelShrineUnlocked" );
+			boolean prayed = Preferences.getBoolean( "_barrelPrayer" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "shrine to the Barrel god" );
+			boolean limited = Limitmode.limitZone( "Dungeon Full of Dungeons" );
+			this.setShown( ( !bm || kf ) && ( have || prayed ) && allowed && !limited );
+
+			boolean hasProtection = !Preferences.getBoolean( "prayedForProtection" );
+			boolean hasGlamour = !Preferences.getBoolean( "prayedForGlamour" );
+			boolean hasVigor = !Preferences.getBoolean( "prayedForVigor" );
+			String myClass = KoLCharacter.getClassType();
+
+			btnMus.setVisible( hasProtection );
+			btnMys.setVisible( hasGlamour );
+			btnMox.setVisible( hasVigor );
+			btnBuff.setVisible( true );
+			if ( prayed )
+			{
+				this.setText( "You have already prayed to the Barrel god today" );
+				btnMus.setVisible( false );
+				btnMys.setVisible( false );
+				btnMox.setVisible( false );
+				btnBuff.setVisible( false );
+			}
+			else
+			{
+				this.setText( "Pray to the Barrel god" );
+			}
+
+			if ( myClass.equals( KoLCharacter.SEAL_CLUBBER ) )
+			{
+				btnBuff.setToolTipText( "Weapon Damage +150%" );
+			}
+			else if ( myClass.equals( KoLCharacter.TURTLE_TAMER ) )
+			{
+				btnBuff.setToolTipText( "Maximum HP +90, Makes food more delicious!" );
+			}
+			else if ( myClass.equals( KoLCharacter.PASTAMANCER ) )
+			{
+				btnBuff.setToolTipText( "+90% Item Drops from Monsters" );
+			}
+			else if ( myClass.equals( KoLCharacter.SAUCEROR ) )
+			{
+				btnBuff.setToolTipText( "Spell Damage +150%" );
+			}
+			else if ( myClass.equals( KoLCharacter.DISCO_BANDIT ) )
+			{
+				btnBuff.setToolTipText( "Ranged Damage +150%" );
+			}
+			else if ( myClass.equals( KoLCharacter.ACCORDION_THIEF ) )
+			{
+				btnBuff.setToolTipText( "+45% Booze Drops from Monsters, Makes booze more effective!" );
+			}
+			else
+			{
+				if ( !( hasProtection || hasGlamour || hasVigor ) && !prayed )
+				{
+					this.setText( "The Barrel god will not answer your prayers" );
+				}
+				btnBuff.setVisible( false );
 			}
 		}
 	}
