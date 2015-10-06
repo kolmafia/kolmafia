@@ -1988,7 +1988,7 @@
 1987
 1988
 1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
-1990
+1990	It's Good To Be Royal!	scepter.gif	649609b239c77507b1b112bc7a6d7ae4
 1991
 1992
 1993	Insani Tea	tea_crazy.gif	d25be2dd24b29bfddec85c0de1a82c37	use 1 cuppa Insani tea

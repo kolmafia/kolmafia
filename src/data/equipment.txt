@@ -1714,6 +1714,7 @@ red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 rice bowl	30	none
 rock	0	none
+Royal scepter	0	none
 rubber ribcage	120	Mus: 45	shield
 rusty compass	60	Mys: 15
 rusty old lantern	200	Mys: 85
