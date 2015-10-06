@@ -867,6 +867,7 @@ public class Modifiers
 	public static final int LASTS_ONE_DAY = 26;
 	public static final int ATTACKS_CANT_MISS = 27;
 	public static final int LOOK_LIKE_A_PIRATE = 28;
+	public static final int BREAKABLE = 29;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -985,6 +986,10 @@ public class Modifiers
 		{ "Pirate",
 		  null,
 		  Pattern.compile( "Look like a Pirate" )
+		},
+		{ "Breakable",
+		  null,
+		  Pattern.compile( "Breakable" )
 		},
 	};
 
