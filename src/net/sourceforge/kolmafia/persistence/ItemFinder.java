@@ -241,7 +241,7 @@ public class ItemFinder
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_SPLEEN );
 				break;
 			case ItemFinder.CREATE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemName ) == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
+				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
 				break;
 			case ItemFinder.UNTINKER_MATCH:
 				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId );
