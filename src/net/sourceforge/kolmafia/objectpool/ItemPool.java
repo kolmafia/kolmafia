@@ -2667,4 +2667,33 @@ public class ItemPool
 				& 0x00FFFFFF ) );
 		}
 	}
+
+	public static final boolean isBangPotion( final String name )
+	{
+		if ( name == null )
+		{
+			return false;
+		}
+		for ( int i = 0; i < 9; i++ )
+		{
+			if ( name.equals( "potion of " + bangPotionStrings[i][0] ) )
+			{
+				return true;
+			}
+		}
+		return false;	
+	}
+
+	public static final boolean isSlimeVial( final String name )
+	{
+		if ( name == null )
+		{
+			return false;
+		}
+		if ( name.startsWith( "vial of slime: " ) )
+		{
+			return true;
+		}
+		return false;	
+	}
 }
