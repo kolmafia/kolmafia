@@ -271,18 +271,7 @@ public class ItemFinder
 
 			case ItemFinder.USE_MATCH:
 
-				switch ( useType )
-				{
-				case KoLConstants.CONSUME_USE:
-				case KoLConstants.CONSUME_MULTIPLE:
-				case KoLConstants.INFINITE_USES:
-				case KoLConstants.CONSUME_SPHERE:
-					break;
-
-				default:
-					nameIterator.remove();
-				}
-
+				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isUsable( itemId ) );
 				break;
 			}
 		}
