@@ -75,7 +75,7 @@ Item	All-Hallow's Steve's fright wig	Sleaze Damage: +20, Spooky Resistance: +2, 
 Item	Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 25"
 Item	ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 8"
 Item	anniversary concrete fedora	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 5xLep, cap 2"
-Item	antique helmet	Initiative: -10, Spooky Resistance: +2, Familiar Effect: "0.5xPotato, 0.5xFairy"
+Item	antique helmet	Initiative: -10, Spooky Resistance: +2, Breakable, Familiar Effect: "0.5xPotato, 0.5xFairy"
 Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFairy, cap 20"
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
@@ -377,7 +377,7 @@ Item	star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 Item	stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
 Item	straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "1xFairy"
 Item	sucker kabuto	Damage Reduction: 5, Familiar Effect: "Atk, cap 12"
-Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
+Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Breakable, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xLep, 1xFairy, cap 2"
 Item	suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Familiar Effect: "atk, 1xFairy, cap 15"
 Item	sweatband	PvP Fights: +2, Damage Reduction: 5, Familiar Effect: "sleaze atk, 1xFairy, cap 25"
@@ -449,7 +449,7 @@ Item	Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle 
 Item	1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "2xPotato, cap 27"
 Item	alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 Item	Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1.5xPotato, 2xGhoul, cap 31"
-Item	antique greaves	Initiative: -10, Familiar Effect: "1xBarrr"
+Item	antique greaves	Initiative: -10, Breakable, Familiar Effect: "1xBarrr"
 Item	astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "1xGhoul, cap 12"
 Item	astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
 Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
@@ -658,7 +658,7 @@ Item	stinky cheese diaper	Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCoun
 Item	studded leather boxer shorts	Familiar Effect: "atk, 4xVolley, cap 5"
 Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPotato, cap 10"
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
-Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Familiar Effect: "2xVolley, 1xLep, cap 25"
+Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 Item	The Emperor's new pants	Moxie: [L]
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
@@ -818,7 +818,7 @@ Item	souvenir ski t-shirt	Moxie: +5
 Item	spangly mariachi vest	Moxie Percent: +10, Initiative: -25
 Item	star shirt	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	Stephen's lab coat	Monster Level: +10, Familiar Weight: +5
-Item	sugar shirt	Experience: +3
+Item	sugar shirt	Experience: +3, Breakable
 Item	supportive bra	Moxie: +3
 # surgical apron: Makes you look like a gross doctor
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
@@ -862,7 +862,7 @@ Item	ancient stone fist	Damage Reduction: 2, Maximum HP: +20
 Item	anger blaster	Hot Damage: +10
 Item	antique accordion	Song Duration: 10
 Item	antique machete	Muscle Percent: +5
-Item	antique spear	Initiative: -30, Weakens Monster
+Item	antique spear	Initiative: -30, Breakable, Weakens Monster
 # archaeologing shovel
 Item	armgun	Weapon Damage: +10, Critical Hit Percent: +5
 Item	arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -1007,9 +1007,9 @@ Item	corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
 Item	corrupt club of corruption	Weapon Damage: +5, Class: "Seal Clubber"
 Item	costume sword	Weapon Damage: -10, Initiative: +30
 # cozy bazooka: Makes you a much better diver
-Item	cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Item	cozy bazooka	Moxie Percent: +15, Meat Drop: +20, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable
 # cozy scimitar: Makes you a much better diver
-Item	cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Item	cozy scimitar	Muscle Percent: +15, Weapon Damage Percent: +50, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable
 Item	crazy bastard sword	Weapon Damage: +30, Critical Hit Percent: +10, PvP Fights: +6
 Item	creepy-ass club	Weapon Damage: +25, Monster Level: +15, Sleaze Damage: +15, Class: "Seal Clubber"
 Item	Crimbo sword	Weapon Damage: +5
@@ -1413,8 +1413,8 @@ Item	savory staff	Mysticality: +4
 Item	savory sword	Muscle: +4
 # scorpion whip: 50% chance of poisoning opponent.
 Item	scorpion whip	Weapon Damage: +13
-Item	scratch 'n' sniff crossbow	none
-Item	scratch 'n' sniff sword	none
+Item	scratch 'n' sniff crossbow	none, Breakable
+Item	scratch 'n' sniff sword	none, Breakable
 # seal-clubbing club
 Item	sealhide whip	Cold Damage: +25
 # Seeger's Unstoppable Banjo: Special Attack:  Funk Bluegrass Fusion
@@ -1496,7 +1496,7 @@ Item	Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy 
 Item	Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Massive Bonus to Item Drops"
 Item	Staff of the Black Kettle	Spell Damage Percent: +75, Mysticality: +10, MP Regen Min: 5, MP Regen Max: 6
 # Staff of the Cozy Fish: Makes you a much better diver
-Item	Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Item	Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150, Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)], Breakable
 # Staff of the Cream of the Cream: (5 charges left today)
 Item	Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Attune to Monster's Essence"
 Item	Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
@@ -1552,10 +1552,10 @@ Item	styrofoam sword	Muscle: +3, Monster Level: +3
 Item	sucker tachi	Weapon Damage: +10
 # suede shortsword
 # sugar shank: On Critical:  Cause Opponent to Bleed
-Item	sugar shank	Weapon Damage Percent: +50
-Item	sugar shillelagh	Weapon Damage Percent: +50
+Item	sugar shank	Weapon Damage Percent: +50, Breakable
+Item	sugar shillelagh	Weapon Damage Percent: +50, Breakable
 # sugar shotgun: On Critical:  Stuns Opponent
-Item	sugar shotgun	Weapon Damage Percent: +50
+Item	sugar shotgun	Weapon Damage Percent: +50, Breakable
 Item	Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: +5
 Item	super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Four Songs
@@ -1652,6 +1652,7 @@ Item	Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initia
 Item	wrench	Maximum MP: +50, Spell Damage Percent: +100, Lasts Until Rollover
 Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 # X-37 gun: Shoots Elemental Blasts
+Item	X-37 gun	Breakable
 Item	yak whip	Weakens Monster
 Item	yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	Zim Merman's guitar	Ranged Damage: +20
@@ -1680,7 +1681,7 @@ Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 2
 Item	ancient stone head	Damage Reduction: 5
 # anniversary balloon
 Item	anniversary chutney sculpture	Muscle: +1, Mysticality: +1, Moxie: +1
-Item	antique shield	Initiative: -10, Damage Reduction: 11
+Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
@@ -3445,7 +3446,7 @@ Item	Stembridge sidearm	Familiar Weight: +5
 Item	stomp box	Familiar Weight: +5
 Item	string of dingle balls	Familiar Weight: +5
 Item	sucky decal	Familiar Weight: +5
-Item	sugar shield	Familiar Weight: +10, Generic
+Item	sugar shield	Familiar Weight: +10, Breakable, Generic
 # targeting chip: More likely to use more powerful attacks
 Item	tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit
