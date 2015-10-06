@@ -8661,3 +8661,6 @@
 8635	cuppa Royal tea	143135963	tea_royal.gif	multiple	t,d	30
 8636	cuppa Craft tea	935986990	tea_crafty.gif	multiple	t,d	30
 8637	cuppa Insani tea	593771882	tea_crazy.gif	multiple	t,d	30
+8638
+8639	haunted doghouse	694977314	crate.gif	usable	t	0
+8640	Ghost Dog Chow	604634558	cheatos.gif	usable	t,d	20
