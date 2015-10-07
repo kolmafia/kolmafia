@@ -59,47 +59,48 @@ public class PottedTeaTreeRequest
 
 	static
 	{
-		PottedTeaTreeRequest.registerTea( "Activi tea", 8624, "Spleen Item" );
-		PottedTeaTreeRequest.registerTea( "Alacri tea", 8626, "Initiative" );
-		PottedTeaTreeRequest.registerTea( "Boo tea", 8603, "Spooky damage" );
-		PottedTeaTreeRequest.registerTea( "Chari tea", 8611, "Meat" );
-		PottedTeaTreeRequest.registerTea( "Craft tea", 8636, "Free crafting" );
-		PottedTeaTreeRequest.registerTea( "Cruel tea", 8625, "Spleen Item" );
-		PottedTeaTreeRequest.registerTea( "Dexteri tea", 8617, "Moxie" );
-		PottedTeaTreeRequest.registerTea( "Feroci tea", 8613, "Muscle" );
-		PottedTeaTreeRequest.registerTea( "Flamibili tea", 8601, "Hot damage" );
-		PottedTeaTreeRequest.registerTea( "Flexibili tea", 8618, "Moxie stats" );
-		PottedTeaTreeRequest.registerTea( "Frost tea", 8606, "Hot resistance" );
-		PottedTeaTreeRequest.registerTea( "Gill tea", 8631, "Underwater" );
-		PottedTeaTreeRequest.registerTea( "Impregnabili tea", 8619, "DR" );
-		PottedTeaTreeRequest.registerTea( "Improprie tea", 8605, "Sleaze damage" );
-		PottedTeaTreeRequest.registerTea( "Insani tea", 8637, "Random Monster Mods" );
-		PottedTeaTreeRequest.registerTea( "Irritabili tea", 8621, "+Combat" );
-		PottedTeaTreeRequest.registerTea( "Loyal tea", 8623, "Familiar weight" );
-		PottedTeaTreeRequest.registerTea( "Mana tea", 8628, "MP" );
-		PottedTeaTreeRequest.registerTea( "Mediocri tea", 8622, "+ML" );
-		PottedTeaTreeRequest.registerTea( "Monstrosi tea", 8629, "-ML" );
-		PottedTeaTreeRequest.registerTea( "Morbidi tea", 8610, "Spooky resist" );
-		PottedTeaTreeRequest.registerTea( "Nas tea", 8604, "Stench damage" );
-		PottedTeaTreeRequest.registerTea( "Net tea", 8608, "Stench resist" );
-		PottedTeaTreeRequest.registerTea( "Neuroplastici tea", 8616, "Myst stats" );
-		PottedTeaTreeRequest.registerTea( "Obscuri tea", 8620, "-Combat" );
-		PottedTeaTreeRequest.registerTea( "Physicali tea", 8614, "Muscle stats" );
-		PottedTeaTreeRequest.registerTea( "Proprie tea", 8609, "Sleaze resist" );
-		PottedTeaTreeRequest.registerTea( "Royal tea", 8635, "Royalty" );
-		PottedTeaTreeRequest.registerTea( "Serendipi tea", 8612, "Item" );
-		PottedTeaTreeRequest.registerTea( "Sobrie tea", 8634, "Drunk reduction" );
-		PottedTeaTreeRequest.registerTea( "Toast tea", 8607, "Cold resist" );
-		PottedTeaTreeRequest.registerTea( "Twen tea", 8630, "Lots of boosts" );
-		PottedTeaTreeRequest.registerTea( "Uncert	ain tea", 8632, "???" );
-		PottedTeaTreeRequest.registerTea( "Vitali tea", 8627, "HP" );
-		PottedTeaTreeRequest.registerTea( "Voraci tea", 8633, "Stomach increase" );
-		PottedTeaTreeRequest.registerTea( "Wit tea", 8615, "Myst" );
-		PottedTeaTreeRequest.registerTea( "Yet tea", 8602, "Cold damage" );
+		PottedTeaTreeRequest.registerTea( ItemPool.ACTIVI_TEA, "Spleen Item" );
+		PottedTeaTreeRequest.registerTea( ItemPool.ALACRI_TEA, "Initiative" );
+		PottedTeaTreeRequest.registerTea( ItemPool.BOO_TEA, "Spooky damage" );
+		PottedTeaTreeRequest.registerTea( ItemPool.CHARI_TEA, "Meat" );
+		PottedTeaTreeRequest.registerTea( ItemPool.CRAFT_TEA, "Free crafting" );
+		PottedTeaTreeRequest.registerTea( ItemPool.CRUEL_TEA, "Spleen Item" );
+		PottedTeaTreeRequest.registerTea( ItemPool.DEXTERI_TEA, "Moxie" );
+		PottedTeaTreeRequest.registerTea( ItemPool.FEROCI_TEA, "Muscle" );
+		PottedTeaTreeRequest.registerTea( ItemPool.FLAMIBILI_TEA, "Hot damage" );
+		PottedTeaTreeRequest.registerTea( ItemPool.FLEXIBILI_TEA, "Moxie stats" );
+		PottedTeaTreeRequest.registerTea( ItemPool.FROST_TEA, "Hot resistance" );
+		PottedTeaTreeRequest.registerTea( ItemPool.GILL_TEA, "Underwater" );
+		PottedTeaTreeRequest.registerTea( ItemPool.IMPREGNABILI_TEA, "DR" );
+		PottedTeaTreeRequest.registerTea( ItemPool.IMPROPRIE_TEA, "Sleaze damage" );
+		PottedTeaTreeRequest.registerTea( ItemPool.INSANI_TEA, "Random Monster Mods" );
+		PottedTeaTreeRequest.registerTea( ItemPool.IRRITABILI_TEA, "+Combat" );
+		PottedTeaTreeRequest.registerTea( ItemPool.LOYAL_TEA, "Familiar weight" );
+		PottedTeaTreeRequest.registerTea( ItemPool.MANA_TEA, "MP" );
+		PottedTeaTreeRequest.registerTea( ItemPool.MEDIOCRI_TEA, "+ML" );
+		PottedTeaTreeRequest.registerTea( ItemPool.MONSTROSI_TEA, "-ML" );
+		PottedTeaTreeRequest.registerTea( ItemPool.MORBIDI_TEA, "Spooky resist" );
+		PottedTeaTreeRequest.registerTea( ItemPool.NAS_TEA, "Stench damage" );
+		PottedTeaTreeRequest.registerTea( ItemPool.NET_TEA, "Stench resist" );
+		PottedTeaTreeRequest.registerTea( ItemPool.NEUROPLASTICI_TEA, "Myst stats" );
+		PottedTeaTreeRequest.registerTea( ItemPool.OBSCURI_TEA, "-Combat" );
+		PottedTeaTreeRequest.registerTea( ItemPool.PHYSICALI_TEA, "Muscle stats" );
+		PottedTeaTreeRequest.registerTea( ItemPool.PROPRIE_TEA, "Sleaze resist" );
+		PottedTeaTreeRequest.registerTea( ItemPool.ROYAL_TEA, "Royalty" );
+		PottedTeaTreeRequest.registerTea( ItemPool.SERENDIPI_TEA, "Item" );
+		PottedTeaTreeRequest.registerTea( ItemPool.SOBRIE_TEA, "Drunk reduction" );
+		PottedTeaTreeRequest.registerTea( ItemPool.TOAST_TEA, "Cold resist" );
+		PottedTeaTreeRequest.registerTea( ItemPool.TWEN_TEA, "Lots of boosts" );
+		PottedTeaTreeRequest.registerTea( ItemPool.UNCERTAIN_TEA, "???" );
+		PottedTeaTreeRequest.registerTea( ItemPool.VITALI_TEA, "HP" );
+		PottedTeaTreeRequest.registerTea( ItemPool.VORACI_TEA, "Stomach increase" );
+		PottedTeaTreeRequest.registerTea( ItemPool.WIT_TEA, "Myst" );
+		PottedTeaTreeRequest.registerTea( ItemPool.YET_TEA, "Cold damage" );
 	};
 
-	private static PottedTea registerTea( String name, int id, String effect )
+	private static PottedTea registerTea( int id, String effect )
 	{
+		String name = ItemPool.get( id, 1 ).getName();
 		PottedTea tea = new PottedTea( name, id, effect );
 		PottedTeaTreeRequest.idToTea.put( id, tea );
 		PottedTeaTreeRequest.canonicalNameToTea.put( StringUtilities.getCanonicalName( name ), tea );
