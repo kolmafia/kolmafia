@@ -418,18 +418,18 @@ Spring Break Beach	adventure=403	Env: indoor Stat: 0	Sloppy Seconds Diner	4 choi
 Spring Break Beach	adventure=404	Env: underwater Stat: 300	The Sunken Party Yacht
 
 Conspiracy Island	adventure=415	Env: indoor Stat: 0	The Mansion of Dr. Weirdeaux
-Conspiracy Island	adventure=416	Env: indoor Stat: 0	The Secret Government Laboratory
+Conspiracy Island	adventure=416	Env: indoor Stat: 180	The Secret Government Laboratory
 Conspiracy Island	adventure=417	Env: outdoor Stat: 0	The Deep Dark Jungle
 
-Dinseylandfill	adventure=442	Env: indoor Stat: 0	Barf Mountain	1 keycard &alpha;
-Dinseylandfill	adventure=443	Env: indoor Stat: 0	Pirates of the Garbage Barges	1 keycard &beta;
+Dinseylandfill	adventure=442	Env: indoor Stat: 90	Barf Mountain	1 keycard &alpha;
+Dinseylandfill	adventure=443	Env: indoor Stat: 140	Pirates of the Garbage Barges	1 keycard &beta;
 Dinseylandfill	adventure=444	Env: outdoor Stat: 0	The Toxic Teacups	1 keycard &gamma;
 Dinseylandfill	adventure=445	Env: indoor Stat: 0	Uncle Gator's Country Fun-Time Liquid Waste Sluice	1 keycard &delta;
 
 That 70s Volcano	adventure=448	Env: indoor Stat: 0	The SMOOCH Army HQ
-That 70s Volcano	adventure=449	Env: underground Stat: 0	The Velvet / Gold Mine
-That 70s Volcano	adventure=450	Env: indoor Stat: 0	LavaCo&trade; Lamp Factory
-That 70s Volcano	adventure=451	Env: outdoor Stat: 0	The Bubblin' Caldera
+That 70s Volcano	adventure=449	Env: underground Stat: 45	The Velvet / Gold Mine
+That 70s Volcano	adventure=450	Env: indoor Stat: 45	LavaCo&trade; Lamp Factory
+That 70s Volcano	adventure=451	Env: outdoor Stat: 90	The Bubblin' Caldera
 That 70s Volcano	mining=6	Env: none Stat: 0	The Velvet / Gold Mine (Mining)
 
 Spelunky Area	adventure=424	Env: none Stat: 0	The Mines
