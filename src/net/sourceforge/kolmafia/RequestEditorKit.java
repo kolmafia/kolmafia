@@ -657,7 +657,7 @@ public class RequestEditorKit
 
 		Matcher eventMatcher = EventManager.eventMatcher( buffer.toString() );
 
-		if ( EventManager.hasEvents() && ( eventMatcher != null || location.contains( "main.php" ) ) )
+		if ( EventManager.hasEvents() && ( eventMatcher != null || location.equals( "main.php" ) ) )
 		{
 			int eventTableInsertIndex = 0;
 
@@ -2501,7 +2501,7 @@ public class RequestEditorKit
 
 			GenericRequest formSubmitter = new GenericRequest( "" );
 
-			if ( action.indexOf( "?" ) != -1 )
+			if ( action.contains( "?" ) )
 			{
 				// For quirky URLs where there's a question mark
 				// in the middle of the URL, just string the data
@@ -2583,7 +2583,7 @@ public class RequestEditorKit
 
 	public static final GenericRequest extractRequest( String location )
 	{
-		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
+		if ( location.contains( "pics.communityofloathing.com" ) )
 		{
 			FileUtilities.downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
