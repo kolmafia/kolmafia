@@ -1978,15 +1978,15 @@
 1977	Irritabili Tea	tea_minusnc.gif	4810b1a9cb1500066aa80057e8c30620	use 1 cuppa Irritabili tea
 1978	Mediocri Tea	tea_plusml.gif	9ab806273e2085bfcd56910894bd34b0	use 1 cuppa Mediocri tea
 1979	Loyal Tea	tea_famweight.gif	42e77abaea6e03d5c3d2d7f4ea558295	use 1 cuppa Loyal tea
-1980
-1981
+1980	Your Eyes are Peeled!	bowl2.gif	b464a1fa9b674eadc85475b947b44abd	eat 1 bowl of eyeballs
+1981	Guts Feeling	bowl3.gif	f6bf69c5c944c2e9cb2d7568600d9929	eat 1 bowl of mummy guts
 1982	Alacri Tea	tea_init.gif	692c158cfb9f988f46c3da218c37b444	use 1 cuppa Alacri tea
 1983	Vitali Tea	tea_hp.gif	ec808bf8684e5033e1a28259749e5b6b	use 1 cuppa Vitali tea
 1984	Mana Tea	tea_mp.gif	c772a78df3e76d766f75015f94743878	use 1 cuppa Mana tea
 1985	Monstrosi Tea	tea_minusml.gif	68ae4e85c6927ecd74728c82207a72db	use 1 cuppa Monstrosi tea
 1986	Twen Tea	tea_twenty.gif	e19eae221d66fb69fbcdedbbba96c7b7	use 1 cuppa Twen tea
-1987
-1988
+1987	Bloodthirsty	bloodtini.gif	a6953e4765a10266102bd639fc58d9af	use 1 blood and blood
+1988	Toothy Grin	familiar24.gif	9846e2b147613c87cce1b1648943c810	drink 1 Jack-O-Lantern beer
 1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
 1990	It's Good To Be Royal!	scepter.gif	649609b239c77507b1b112bc7a6d7ae4
 1991

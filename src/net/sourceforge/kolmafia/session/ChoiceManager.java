@@ -3596,6 +3596,28 @@ public abstract class ChoiceManager
 		// Choice 1097 is Who You Gonna Caldera?
 
 		// Choice 1102 is The Biggest Barrel
+
+		// Choice 1106 is Wooof! Wooooooof!
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1106", "Haunted Doghouse 1",
+			new Object[] { new Option( "gain stats", 1 ),
+				       new Option( "+50% all stats for 30 turns", 2 ),
+				       new Option( "acquire familiar food", 3, "Ghost Dog Chow" ) } ),
+
+		// Choice 1107 is Playing Fetch*
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1107", "Haunted Doghouse 2",
+			new Object[] { new Option( "acquire tennis ball", 1, "tennis ball" ),
+				       new Option( "+50% init for 30 turns", 2 ),
+				       new Option( "acquire ~500 meat", 3 ) } ),
+
+		// Choice 1108 is Your Dog Found Something Again
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1108", "Haunted Doghouse 3",
+			new Object[] { new Option( "acqiore fppd", 1 ),
+				       new Option( "acquire booze", 2 ),
+				       new Option( "acquire cursed thing", 3 ) } ),
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;

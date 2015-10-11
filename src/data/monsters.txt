@@ -1777,11 +1777,11 @@ Zombie Knob Goblin Assistant Chef	299	zomchef.gif	Atk: 2 Def: 0 HP: 1 Init: 40 E
 zombie yeast beast	304	zomyeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 E: spooky P: undead	wad of dough (0)	wad of dough (0)	zombie pineal gland (0)
 
 # The Mall of Loathing, 28 Days Later (November 2005)
-white zombie	308	zombie2.gif	Atk: 38 Def: 33 HP: 21 Init: 70 E: spooky P: undead
+white zombie	308	zombie2.gif	Atk: 38 Def: 33 HP: 21 Init: 70 E: spooky P: undead	cranberries (0)	zombie pineal gland (0)	piece of wedding cake (0)
 zombie apathetic lizardman	298	zomlizard.gif	Atk: 20 Def: 18 HP: 12 Init: 60 E: spooky P: undead	zombie pineal gland (0)
 Zombie Clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror	bloody clown pants (0)	long skinny balloon (0)	big red clown nose (0)	zombie pineal gland (0)
-zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc
-zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy
+zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc	ice-cold Sir Schlitz (0)	bottle of tequila (0)	homoerotic frat-paddle (0)	zombie pineal gland (0)	deodorant (0)
+zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy	filthy corduroys (0)	filthy knitted dread sack (0)	windchimes (0)	reodorant (0)	zombie pineal gland (0)
 zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undead	loose teeth (0)	cranberries (0)	zombie pineal gland (0)
 
 # Wrong Side of the Tracks, 28 Days Later (November 2005)
