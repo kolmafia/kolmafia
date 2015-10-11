@@ -73,8 +73,11 @@ boss brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 Bouillabaise Coucher Avec Moi	5	1		5-9	0	0	0
 bowl of Bounty-Os	3	4	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
 bowl of cottage cheese	2	1	crappy	2	0	0	0
+bowl of eyeballs	2	1	awesome	1-1	0	0	0	Unspaded, 30 Your Eyes are Peeled! (+25% item drop)
 bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70
 bowl of lucky charms	1	1	crappy	1	0	6-9	0	50% chance of leprechaun hatchling
+bowl of maggots	2	1	EPIC	1-1	0	0	0	Unspaded
+bowl of mummy guts	2	1	awesome	1-1	0	0	0	Unspaded, 30 Guts Feeling (+50% meat drop)
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60

@@ -42,6 +42,7 @@ Black and Tan and Red All Over	4	1		10-15	0	0	0
 Black Hole	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 Blackfly Chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
+blood and blood	2	1	awesome	1-1	0	0	0	Unspaded, 30 Bloodthirsty (+30 ML)
 Blood Light	1	6	awesome	3-4	5-10	5-10	5-10	30 Bloody-minded (+50 dmg vs. Vampires)
 blood-red mushroom wine	4	3	EPIC	22-26	50-100	0	0	80 Helvella Health (+100 HP, +10-20 HP Regen)
 bloody beer	1	1	decent	2	0	0	0	3-5 MP
@@ -297,6 +298,7 @@ Infinitesimal IPA	3	1		3-8	0	0	0
 Irish Coffee, English Heart	2	1	good	4-6	0	4-6	0	100 Smithsness Cheer (Smithsness: +10)
 Ish Kabibble	2	1	awesome	6-8	0	0	0	25 Feeling No Pain (+3 All Res, +10 DR, +100 DA)
 Isotope Nog	4	5		6-11	0	0	0
+Jack-O-Lantern beer	2	1	awesome	1-1	0	0	0	Unspaded, 30 Toothy Grin (+5 familiar weight)
 Jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied (+100 DA)
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
@@ -546,4 +548,5 @@ Ye Olde Meade	5	7	good	14-16	20-30	20-30	20-30
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
 zmobie	3	3	good	5-10	0	16-20	0
+zombie	2	1	EPIC	1-1	0	0	0	Unspaded
 Zoodriver	2	1	good	4-5	10-20	0	0	5 Rampage! (+50% Weapon Dam)

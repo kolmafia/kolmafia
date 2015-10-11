@@ -4129,6 +4129,7 @@ Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent
 Effect	Blood-Gorged	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Effect	Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Effect	Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
+Effect	Bloodthirsty	Monster Level: +30
 Effect	Bloody Bloody Bloody!	Spooky Damage: +50
 # Bloody Grin: +500% Physical Damage
 Effect	Bloody Grin	Experience (Muscle): [25*zone(Twitch)]
@@ -4721,6 +4722,7 @@ Effect	Gummiheart	Muscle: +100
 Effect	Gummiskin	Moxie: +100
 Effect	Gunky Dory	Maximum HP: +50, HP Regen Min: 4, HP Regen Max: 10
 Effect	Gutballed	Muscle Percent: -300
+Effect	Guts Feeling	Meat Drop: +50
 Effect	Gutterminded	Sleaze Damage: +50
 Effect	Gyromitra Gymnastics	Moxie: +40
 Effect	Hag-gard	Avatar: "swamp hag"
@@ -5770,6 +5772,7 @@ Effect	To Protect and Servo	Avatar: "cyborg policeman"
 Effect	Toast Tea	Cold Resistance: +3
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
+Effect	Toothy Grin	Familiar Weight: +5
 # Top Dog: +50% Damage vs. Vampires
 # Top Dog: +50% Damage vs. Skeletons
 Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10, Critical Hit Percent: 10
@@ -5941,6 +5944,7 @@ Effect	You're Rubber	Damage Reduction: 20
 Effect	You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
+Effect	Your Eyes are Peeled!	Item Drop: +25
 Effect	Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
 Effect	Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -6371,6 +6375,8 @@ Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
+Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
+Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
@@ -6567,6 +6573,7 @@ Item	Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect
 Item	Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Item	Beignet Milgranet	Effect: "Sugar Rush", Effect Duration: 100
 Item	berry-infused sake	Effect: "Warm Belly", Effect Duration: 1
+Item	blood and blood	Effect: "Bloodthirsty", Effect Duration: 30
 Item	Blood Light	Effect: "Bloody-minded", Effect Duration: 30
 Item	blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
 Item	bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
@@ -6669,6 +6676,7 @@ Item	Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
 Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
+Item	Jack-O-Lantern beer	Effect: "Toothy Grin", Effect Duration: 30
 Item	Jackhammer	Effect: "Mortarfied", Effect Duration: 10
 Item	Jungle Juice	Effect: "Jungle Juiced", Effect Duration: 30
 Item	La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
