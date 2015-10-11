@@ -3614,7 +3614,7 @@ public abstract class ChoiceManager
 		// Choice 1108 is Your Dog Found Something Again
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure1108", "Haunted Doghouse 3",
-			new Object[] { new Option( "acqiore fppd", 1 ),
+			new Object[] { new Option( "acquire food", 1 ),
 				       new Option( "acquire booze", 2 ),
 				       new Option( "acquire cursed thing", 3 ) } ),
 
