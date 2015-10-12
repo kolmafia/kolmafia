@@ -8330,41 +8330,41 @@
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0
 8305	blue pumps	731653410	highheels.gif	familiar	t,d	75
 8306	sludgesicle	420513126	sludgesicle.gif	usable	t,d	25
-8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	usable	t,d	5
-8308	piggy tattoo	377475455	swisspig.gif	usable	t,d	5
-8309	baggie of regular-sized tardigrades	891381897	baggie.gif	usable	t,d	5
-8310	little red .epub file	640026029	transmission.gif	usable	t,d	5
-8311	BUBBLE GUM	769285817	fishgum.gif	usable	t,d	5	sticks of BUBBLE GUM
+8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	multiple	t,d	5	bottles of &Uuml;berraschthexengebr&auml;u
+8308	piggy tattoo	377475455	swisspig.gif	multiple	t,d	5
+8309	baggie of regular-sized tardigrades	891381897	baggie.gif	multiple	t,d	5	baggies of regular-sized tardigrades
+8310	little red .epub file	640026029	transmission.gif	multiple	t,d	5
+8311	BUBBLE GUM	769285817	fishgum.gif	multiple	t,d	5	sticks of BUBBLE GUM
 8312	hustler shades	571679743	bigglasses.gif	multiple	t,d	5	pairs of hustler shades
-8313	spicy jerky stick	995309412	owlstix.gif	usable	t,d	5
-8314	costume rental shop	981484328	dollhouse.gif	usable	t,d	5
-8315	muscle oil	270624749	bottle.gif	usable	t,d	5	bottles of muscle oil
-8316	bottle of Red-Out	813026026	blankout.gif	usable	t,d	5	bottles of Red-Out
+8313	spicy jerky stick	995309412	owlstix.gif	multiple	t,d	5
+8314	costume rental shop	981484328	dollhouse.gif	multiple	t,d	5
+8315	muscle oil	270624749	bottle.gif	multiple	t,d	5	bottles of muscle oil
+8316	bottle of Red-Out	813026026	blankout.gif	multiple	t,d	5	bottles of Red-Out
 8317	pickpocket protector	936001492	keycard.gif	multiple	t,d	5
-8318	sinister-looking cat	992738186	bkitten.gif	usable	t,d	5
-8319	jazzy cigarette holder	390104882	cornholder.gif	usable	t,d	5
-8320	one glove	551582208	glove.gif	usable	t,d	5	one gloves (what?)
+8318	sinister-looking cat	992738186	bkitten.gif	multiple	t,d	5
+8319	jazzy cigarette holder	390104882	cornholder.gif	multiple	t,d	5
+8320	one glove	551582208	glove.gif	multiple	t,d	5	one gloves (what?)
 8321	leather glove	138138243	redglove.gif	usable	t,d	5
-8322	handful of fire	268173706	fire.gif	usable	t,d	5
-8323	Cracklin' Oat Bran	511642176	potpourri.gif	usable	t,d	5	bowls of Cracklin' Oat Bran
-8324	disposable lighter	735001816	bic.gif	usable	t,d	5
-8325	coal contact lenses	334043819	luckycap.gif	usable	t,d	5
-8326	conjured ice cream	851628805	snowcone.gif	usable	t,d	5	conjured ice cream cones
-8327	Iceberglar scarf	211011165	scarf.gif	usable	t,d	5	Iceberglar scarves
-8328	icy hairspray	645739975	spraycan.gif	usable	t,d	5
-8329	smellbook	289853477	book4.gif	usable	t,d	5
-8330	assassin's cheese knife	279451446	knife.gif	usable	t,d	5	assassin's cheese knives
-8331	filthy armor	654549341	ironhelmet.gif	usable	t,d	5	suits of filthy armor
-8332	plague pie	726649959	pie.gif	usable	t,d	5
-8333	batarang	362381064	batwing.gif	usable	t,d	5
-8334	spare neck bolts	588076798	bolts.gif	usable	t,d	5
-8335	grease trap	401979440	chocbox.gif	usable	t,d	5
-8336	shamanic ham	951450474	ham.gif	usable	t,d	5
-8337	porkpocket	129749347	jarl_bagel.gif	usable	t,d	5
-8338	Leonard's glasses	598174114	obsglasses.gif	usable	t,d	5
-8339	warehouse walkie-talkie	373911451	walkietalkie.gif	usable	t,d	5
-8340	janitor's mop	570677877	mop.gif	usable	t,d	5
-8341	warehouse clerk's glasses	468187859	obsglasses.gif	usable	t,d	5	pairs of warehouse clerks' glasses
+8322	handful of fire	268173706	fire.gif	multiple	t,d	5	handfuls of fire
+8323	Cracklin' Oat Bran	511642176	potpourri.gif	multiple	t,d	5	bowls of Cracklin' Oat Bran
+8324	disposable lighter	735001816	bic.gif	multiple	t,d	5
+8325	coal contact lenses	334043819	luckycap.gif	multiple	t,d	5	pairs of coal contact lenses
+8326	conjured ice cream	851628805	snowcone.gif	multiple	t,d	5	conjured ice cream cones
+8327	Iceberglar scarf	211011165	scarf.gif	multiple	t,d	5	Iceberglar scarves
+8328	icy hairspray	645739975	spraycan.gif	multiple	t,d	5	cans of icy hairspray
+8329	smellbook	289853477	book4.gif	multiple	t,d	5
+8330	assassin's cheese knife	279451446	knife.gif	multiple	t,d	5	assassin's cheese knives
+8331	filthy armor	654549341	ironhelmet.gif	multiple	t,d	5	suits of filthy armor
+8332	plague pie	726649959	pie.gif	multiple	t,d	5
+8333	batarang	362381064	batwing.gif	multiple	t,d	5
+8334	spare neck bolts	588076798	bolts.gif	usable	t,d	5	spare neck bolts
+8335	grease trap	401979440	chocbox.gif	multiple	t,d	5
+8336	shamanic ham	951450474	ham.gif	multiple	t,d	5
+8337	porkpocket	129749347	jarl_bagel.gif	multiple	t,d	5
+8338	Leonard's glasses	598174114	obsglasses.gif	multiple	t,d	5
+8339	warehouse walkie-talkie	373911451	walkietalkie.gif	multiple	t,d	5
+8340	janitor's mop	570677877	mop.gif	multiple	t,d	5
+8341	warehouse clerk's glasses	468187859	obsglasses.gif	multiple	t,d	5	pairs of warehouse clerks' glasses
 8342
 8343
 8344
@@ -8511,7 +8511,7 @@
 8485	&quot;DEBBIE&quot; tattoo kit	580255360	dtat.gif	usable	t	0
 8486	one-day ticket to That 70s Volcano	166029058	airdaypass.gif	usable	t	0	one-day tickets to That 70s Volcano
 8487	airplane charter: That 70s Volcano	834704634	aircharter.gif	usable	t	0	airplane charters: That 70s Volcano
-8488	Manual of Numberology	350340885	book.gif	usable		0
+8488	Manual of Numberology	350340885	book.gif	usable	t	0
 8489	New Age hurting crystal	889435307	nacrystal2.gif	none, combat	t,d	96
 8490	smooth velvet pants	887303272	velvpants.gif	pants	d	250	pairs of smooth velvet pants
 8491	smooth velvet shirt	235322153	velvshirt.gif	shirt	d	200
