@@ -161,6 +161,12 @@ public class LogoutManager
 			return;
 		}
 
+		// Shut down the GUI first, after all.
+		if ( !KoLmafia.isSessionEnding() )
+		{
+			LogoutManager.prepare();
+		}
+
 		KoLmafia.updateDisplay( "Preparing for logout..." );
 
 		// Shut down chat-related activity
@@ -181,11 +187,6 @@ public class LogoutManager
 		{
 			KoLmafia.updateDisplay( "Sharing mall price data with other users..." );
 			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
-		}
-
-		if ( !KoLmafia.isSessionEnding() )
-		{
-			LogoutManager.prepare();
 		}
 
 		// Serialize adventure queue data
