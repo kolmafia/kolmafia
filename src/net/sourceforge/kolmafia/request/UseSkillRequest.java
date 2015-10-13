@@ -792,6 +792,10 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_summonResortPassUsed" ) ? 0 : 1;
 			break;
 
+		case SkillPool.CALCULATE_THE_UNIVERSE:
+			maximumCast = Preferences.getBoolean( "_universeCalculated" ) ? 0 : 1;
+			break;
+
 		case SkillPool.ANCESTRAL_RECALL:
 			maximumCast = Math.min( 10 - Preferences.getInteger( "_ancestralRecallCasts" ),
 			              InventoryManager.getCount( ItemPool.BLUE_MANA ) );
@@ -2210,6 +2214,10 @@ public class UseSkillRequest
 
 		case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
 			Preferences.setBoolean( "_summonResortPassUsed", true );
+			break;
+
+		case SkillPool.CALCULATE_THE_UNIVERSE:
+			Preferences.setBoolean( "_universeCalculated", true );
 			break;
 
 		case SkillPool.ANCESTRAL_RECALL:

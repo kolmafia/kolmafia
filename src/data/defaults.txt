@@ -1343,6 +1343,7 @@ user	_trivialAvocationsGame	false
 user	_turkeyBooze	0
 user	_turtlePowerCast	false
 user	_ultraMegaSourBallUsed	false
+user	_universeCalculated	false	
 user	_unknownEasyBountyItem	
 user	_unknownHardBountyItem	
 user	_unknownSpecialBountyItem	
