@@ -1992,3 +1992,8 @@
 1991
 1992
 1993	Insani Tea	tea_crazy.gif	d25be2dd24b29bfddec85c0de1a82c37	use 1 cuppa Insani tea
+1994
+1995
+1996	Oth-Jeal-O	othelloset.gif	da8c89ab17e336c5e4eaa303a586a9c4	use 1 bowl of Jeal-O
+1997	Oh Hamlet Hamlet Hamlet Hamlet	hamsandwich.gif	cceebb2c171b2e7d0df3a70a8f07e0ba	eat 1 hamlet sandwich
+1998	Booooooze	ghostbeer.gif	a0deb9400df1b96b2d588ac851e8b88e	drink 1 ghost beer

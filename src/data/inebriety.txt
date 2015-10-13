@@ -239,6 +239,7 @@ fuzzbump	4	4	good	10-14	34-36	0	0
 Fuzzy Tentacle	2	4	awesome	6-7	0	20-30	0	10 Void Between the Stars (+50 Cold Damage)
 gamma nog	3	1	awesome	9-12	10-20	10-20	10-20
 Gets-You-Drunk	2	1	awesome	8-10	60-100	60-100	60-100	Spooky damage for 3 combats then 8-10 adventures
+ghost beer	1	1	awesome	1-1	0	0	0	Unspaded, 50 Booooooze (+100% Myst, 11 DR)
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20
 gimlet	4	6	awesome	14-18	0	40-47	0

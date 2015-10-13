@@ -349,6 +349,7 @@ haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (
 Halibut Alfredo	4	1	awesome	10-15	0	0	0
 ham steak	3	5	good	8-10	30-50	0	0
 hamburger	2	5	awesome	8	18-22	18-22	18-22
+hamlet sandwich	3	1	awesome	1-1	0	0	0	Unspaded, 50 Oh Hamlet Hamlet Hamlet Hamlet (+50% HP, +50% MP, +50 damage vs Ghosts)
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 Happy Birthday, Claude! cake	3	1	crappy	3	0	0	0

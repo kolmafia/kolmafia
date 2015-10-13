@@ -140,6 +140,7 @@ hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
 hazmat helmet	200	Mox: 85
+heavy crown	110	Mox: 40
 Helm of the Scream Emperor	120	none
 helm of the white knight	60	Mox: 15
 helmet turtle	10	none
@@ -1013,6 +1014,7 @@ hand-carved bow	130	Mox: 30	2-handed bow
 hand-carved staff	130	Mus: 30	2-handed staff
 happiness	165	Mox: 67	1-handed pistol
 haunted paddle-ball	110	Mox: 40	1-handed flail
+hawk	110	Mus: 40	1-handed saw
 heavy leather-bound tome	150	Mus: 60	1-handed club
 heavy metal thunderrr guitarrr	160	Mox: 65	2-handed axe
 heteroerotic frat-paddle	150	Mus: 60	1-handed club
