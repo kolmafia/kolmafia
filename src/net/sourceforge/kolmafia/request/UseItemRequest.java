@@ -5459,7 +5459,7 @@ public class UseItemRequest
 		case ItemPool.THE_FIREGATE_TAPES:
 			return "Firegate";
 		case ItemPool.MANUAL_OF_NUMBEROLOGY:
-			return null;
+			return "Calculate the Universe";
 		}
 
 		return null;
