@@ -3991,6 +3991,7 @@ Effect	Alchemical, Brother	Mysticality Percent: +30
 Effect	Alien Resurrection	Avatar: "illegal alien"
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
+Effect	All Dolled Up	Avatar: "cigarette girl"
 Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
 Effect	All Is Forgiven	Familiar Weight: +10
@@ -4400,6 +4401,7 @@ Effect	Danish Cunning	Pickpocket Chance: +25
 Effect	Dark Orchestral Song	Moxie: +5
 Effect	Dawn of the Goblin	Avatar: "tribal goblin"
 Effect	Dazed, Confused	Avatar: "wastoid"
+Effect	Dead Man's Handoff	Avatar: "gamblin' man"
 Effect	Dead Sexy	Avatar: "sexy zombie"
 # Deadened Palate: Bleah
 Effect	Deadly Flashing Blade	Weapon Damage: +10
@@ -4799,7 +4801,8 @@ Effect	High Blood Chocolate Content	Candy Drop: +30
 Effect	High Colognic	Combat Rate: +5
 Effect	Highland Sheen	Moxie: +10
 Effect	Hip to Be Square Dancin'	Item Drop: +10
-Effect	Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
+Effect	[1701]Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
+Effect	[1872]Hip to the Jive	Avatar: "hep cat"
 Effect	Hippy Flavor	Mysticality: +15
 Effect	Hippy Stench	Combat Rate: +5
 Effect	Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
@@ -5314,6 +5317,7 @@ Effect	QWOPped Up	Initiative: -100
 Effect	Racing!	Initiative: +200
 Effect	Rad-ish	Moxie Percent: +25
 Effect	Radiant Personality	Moxie Percent: +30
+Effect	Radiarius	Avatar: "Radiator"
 Effect	Radiated and Grodiated	Mysticality Percent: +50, Stench Spell Damage: +25, Stench Resistance: +3
 Effect	Radiating Black Body&trade;	Moxie Percent: +10, Mana Cost: +3, Critical Hit Percent: +10
 Effect	Radio Head	Moxie: +20
@@ -5430,7 +5434,9 @@ Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot 
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
+Effect	Shiny and Chrome	Avatar: "T-9000"
 Effect	Shiny Happy Cupcake	Experience: +3
+Effect	Shiny Happy Gladiator	Avatar: "Gladiator"
 Effect	Shiny Happy Weapon	Muscle: +20
 # Shirtless in Seattle: Extra-Vulnerable to Cold and Sleaze
 Effect	Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
@@ -5462,6 +5468,7 @@ Effect	Skeletal Buddy	Experience: +2
 # Skeletal Rogue
 # Skeletal Warrior
 # Skeletal Wizard
+Effect	Skeleton's Day Out	Avatar: "cowskeleton"
 Effect	Ski Ballin'	Avatar: "eXtreme cross-country hippy"
 Effect	Skull Full of Hot Chocolate	Cold Resistance: +2
 Effect	Skulla, Brah	Avatar: "haunted skullabra"
@@ -5733,6 +5740,7 @@ Effect	The Rain In Loathing	Water Level: +2
 Effect	The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Effect	The Rich Get Richer	Meat Drop: +50
 Effect	The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
+Effect	The Saddest Helmet	Avatar: "Sadiator"
 Effect	The Smeezingtons	Muscle Percent: +100
 Effect	The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	The Solution	Weapon Damage: +25
@@ -5819,6 +5827,7 @@ Effect	Twenty-three Squid, Ew	Mysticality: +30
 Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Twinklebritches	Damage Reduction: 3
 Effect	Twinkly Weapon	Weapon Damage: +3
+Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
 # Ultrahydrated: Glug, Glug
 Effect	Unbarking Dogs	Familiar Weight: +10
@@ -6689,7 +6698,7 @@ Item	Herringtini	Effect: "Fishy", Effect Duration: 15
 Item	Highest Bitter	Effect: "Mercenary", Effect Duration: 60
 Item	honey mead	Effect: "Sugar Rush", Effect Duration: 5
 Item	hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25
-Item	Hot Socks	Effect: "Hip to the Jive", Effect Duration: 50
+Item	Hot Socks	Effect: "[1701]Hip to the Jive", Effect Duration: 50
 Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
@@ -6902,6 +6911,7 @@ Item	bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
 Item	baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 Item	baggie of regular-sized tardigrades	Effect: "Waterborne", Effect Duration: 30
 Item	ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
+Item	baloney rotgut	Effect: "[1872]Hip to the Jive", Effect Duration: 100
 Item	banana smoothie	Effect: "Bananas!", Effect Duration: [R]
 # banana spritzer: Restores 40-100 MP
 Item	banana supersucker	Effect: "Bananas!", Effect Duration: 30
@@ -6993,6 +7003,7 @@ Item	BRICKO octopus	Wiki Name: "BRICKO octopus (item)"
 Item	BRICKO stud	Effect: "You're a Brick . . . Ooze", Effect Duration: 30
 Item	brigand brittle	Effect: "Bandananit", Effect Duration: 50
 Item	Bright Water	Effect: "Bright!", Effect Duration: 10
+Item	bronze polish	Effect: "Shiny Happy Gladiator", Effect Duration: 100
 Item	BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Item	Bruno's blessing of Mars	Effect: "The Smeezingtons", Effect Duration: 50
 Item	BUBBLE GUM	Effect: "CONSUME", Effect Duration: 30
@@ -7021,6 +7032,7 @@ Item	candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 Item	candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
 # carbonated soy milk: Restores 70-80 MP
 # carbonated water lily: Restores 60-70 MP
+Item	carton of gaspers	Effect: "All Dolled Up", Effect Duration: 100
 # cartoon heart: Restores 40-60 HP
 Item	cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
 # cast: Restores 15-20 HP
@@ -7106,6 +7118,7 @@ Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
 Item	cream pie	Free Pull
 # creepy ginger ale: Restores 35-45 MP
+Item	crident	Effect: "The Saddest Helmet", Effect Duration: 100
 Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 # Crimbo Credit: Use it to buy gifts in Crimbo Town!
 Item	crimbo elfling	Free Pull
@@ -7164,6 +7177,7 @@ Item	d12	Effect: "Bastard!", Effect Duration: 10
 # d20	Effect: "Natural 1", Effect Duration: 1
 # d20	Effect: "Natural 20", Effect Duration: 1
 Item	Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
+Item	damp bar rag	Effect: "Two Car Bar Rag", Effect Duration: 100
 Item	dancing fan	Effect: "Fan Dancing", Effect Duration: 50
 Item	dandy lion cub	Free Pull
 Item	Dark Jill-O-Lantern	Free Pull
@@ -7443,6 +7457,7 @@ Item	hair oil	Effect: "[1342]Slicked-Back Do", Effect Duration: 10
 Item	hair spray	Effect: "Butt-Rock Hair", Effect Duration: 3
 Item	half-baked potion	Effect Duration: 5
 Item	half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
+Item	hand of cards	Effect: "Dead Man's Handoff", Effect Duration: 100
 Item	hand turkey outline	Free Pull
 Item	handful of crafty noodles	Effect: "Blessing of the Pervy Noodles", Effect Duration: 10
 Item	handful of Crotchety Pine needles	Effect: "Crotchety, Pining", Effect Duration: 100
@@ -7577,6 +7592,7 @@ Item	love song of smoldering passion	Effect: "Fiery Heart", Effect Duration: 5
 Item	love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 Item	love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
+Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
 Item	lynyrd skinner toothblack	Effect: "Lynyrd Prytynder", Effect Duration: 50
@@ -7923,6 +7939,7 @@ Item	sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 Item	skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
 Item	skeletal banana	Effect: "Osseous George", Effect Duration: 30
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
+Item	skeleton beans	Effect: "Skeleton's Day Out", Effect Duration: 100
 Item	Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 Item	sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
 Item	sleaze powder	Effect: "Sleaze-Resistant Trousers", Effect Duration: 5
@@ -7967,6 +7984,7 @@ Item	spooky rattling cigar box	Free Pull
 Item	spooky sap	Effect: "Sugar Rush", Effect Duration: 5
 Item	spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
 Item	spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
+Item	spray chrome	Effect: "Shiny and Chrome", Effect Duration: 100
 Item	squamous polyp	Free Pull
 Item	Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Item	squeaky toy rose	Effect: "A Rose by Any Other Material", Effect Duration: 1
@@ -8031,6 +8049,7 @@ Item	temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 Item	temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
 Item	temporary yak tattoo	Effect: "Thuggity Yak", Effect Duration: 50
 Item	tempura air	Effect: "Pumped Stomach", Effect Duration: 20
+Effect	Tetched by an Angel	Avatar: "tetched prospector"
 Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 # The Art of Slapfighting: <b>Only Seal Clubbers may use this item.</b>
@@ -8068,6 +8087,7 @@ Item	Tome of Sugar Shummoning	Free Pull
 # tonic water: Restores 30-50 MP
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
+Item	totally sweet mohawk helmet	Effect: "Radiarius", Effect Duration: 100
 # toxic globule: Can be scienced into various objects
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
