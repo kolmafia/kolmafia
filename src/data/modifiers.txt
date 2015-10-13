@@ -5072,6 +5072,7 @@ Effect	Mistified	Damage Reduction: 30
 Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
+Effect	Monkeymask	Avatar: "damned dirty ape"
 Effect	Monstrosi Tea	Monster Level: -30
 Effect	Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Effect	Moon'd	Experience: +5
@@ -7293,6 +7294,7 @@ Item	filthworm drone scent gland	Effect: "Filthworm Drone Stench", Effect Durati
 Item	filthworm hatchling scent gland	Effect: "Filthworm Larva Stench", Effect Duration: 10
 Item	filthworm royal guard scent gland	Effect: "Filthworm Guard Stench", Effect Duration: 10
 Item	filthy armor	Effect: "Odoriffic", Effect Duration: 100
+Item	filthy monkey head	Effect: "Monkeymask", Effect Duration: 100
 # filthy poultice: Restores 80-120 HP
 Item	finger exerciser	Effect: "Strong Grip", Effect Duration: 20
 Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10

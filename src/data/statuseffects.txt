@@ -1876,7 +1876,7 @@
 1875
 1876
 1877
-1878
+1878	Monkeymask	monkeyhead.gif	edf84e22c3a6f8aa5b18efb04d19aeb1	use 1 filthy monkey head
 1879
 1880
 1881
