@@ -8378,7 +8378,7 @@
 8352	skeleton beans	696056433	beancan.gif	multiple	t,d	5
 8353
 8354
-8355
+8355	iron torso box	225287311	puzzlebox.gif	multiple	t,d	5
 8356
 8357
 8358

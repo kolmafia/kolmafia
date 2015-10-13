@@ -4385,6 +4385,7 @@ Effect	Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Mu
 Effect	Cute Vision	Familiar Weight: +5
 Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
+Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
 Effect	Cybernetic Muscles	Muscle Percent: +10
 Effect	Daemon Duds	Avatar: "clean room demon"
 Effect	Dance Interpreter	Item Drop: +20
@@ -7514,6 +7515,7 @@ Item	infant sandworm	Free Pull
 # Inigo's Incantation of Inspiration (crumpled): <b>Only Accordion Thieves may use this item.</b>
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
+Item	iron torso box	Effect: "Cyber-Robo-Steam-Whatever Costume", Effect Duration: 30
 Item	ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 Item	irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 Item	irradiated turtle	Effect: "Turtle Power", Effect Duration: 15
