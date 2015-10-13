@@ -732,6 +732,8 @@ public class AdventureRequest
 				// Spelunky
 				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
 				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
+				// Globe Theatre Main Stage
+				image.startsWith( "richardx" ) ? "Richard X" :
 				null;
 		}
 

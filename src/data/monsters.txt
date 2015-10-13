@@ -1758,6 +1758,15 @@ outlaw behind an table	1658	tableoutlaw.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -1
 outlaw leader	1663	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	big bag of money (n100)
 tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
 
+# Twitch 7 - Shakespeare (October 2015)
+ghost actor	1847	ghostactor.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: undead
+Groundling	1842	groundling.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
+Hamlet	1843	hamlet.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: dude
+Othello	1844	othello.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude
+Richard X	1841	richardx.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: dude
+Understudy	1846	understudy.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
+Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
+
 # Old Events
 
 # White Wednesday (October 26, 2005)
