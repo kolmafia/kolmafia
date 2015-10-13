@@ -658,6 +658,7 @@ midriff scrubs	160	Mus: 65
 Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
 origami pasties	100	none
+Othello's military jacket	150	Mus: 40
 pirate shirt	50	Mus: 10
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
@@ -957,6 +958,7 @@ garbage sticker	200	Mus: 85	1-handed spear
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
 ghast iron cleaver	175	Mus: 72	1-handed club
 ghost accordion	140	Mox: 55	2-handed accordion
+ghostly dagger	110	Mus: 40	1-handed knife
 giant artisanal rice peeler	150	Mys: 60	1-handed utensil
 giant cactus quill	160	Mus: 65	1-handed spear
 giant candy cane	100	Mus: 0	2-handed staff
@@ -1127,6 +1129,7 @@ Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 old dry bone	225	Mus: 200	1-handed club
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	120	Mys: 41	1-handed sword
 origami riding crop	100	Mus: 0	1-handed crop
+Othello's dagger	150	Mus: 50	1-handed knife
 out-of-tune biwa	30	Mox: 0	2-handed guitar
 oversized pipe	175	Mus: 72	1-handed club
 oversized pizza cutter	100	Mys: 35	1-handed utensil
@@ -2229,6 +2232,7 @@ orc wrist	95	Mys: 32
 Order of the Silver Wossname	200	Mys: 85
 ornamental sextant	200	Mys: 85
 Oscus's pelt	200	Mys: 200
+Othello's handkerchief	150	Mys: 30
 outlaw bandana	100	Mox: 35
 oven mitts	45	Mys: 7
 over-the-shoulder Folder Holder	100	none

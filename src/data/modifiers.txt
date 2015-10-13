@@ -793,6 +793,7 @@ Item	midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
 Item	Moonthril Cuirass	Monster Level: [10*G], Softcore Only
 Item	Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	origami pasties	Meat Drop: +30, Softcore Only
+Item	Othello's military jacket	Othello Skill: +10
 Item	pirate shirt	Moxie: +3
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
@@ -1118,6 +1119,7 @@ Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapo
 Item	gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 Item	ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 Item	ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
+Item	ghostly dagger	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Damage Reduction: 11, Weapon Damage: -10
 Item	giant artisanal rice peeler	Spell Damage: +15
 Item	giant cactus quill	Critical Hit Percent: +7, Maximum HP: +30
 Item	giant candy cane	Candy Drop: +40
@@ -1312,6 +1314,7 @@ Item	old dry bone	Spooky Damage: +50
 Item	old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
 # origami riding crop: Makes you prone to innuendo (heh heh)
 Item	origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
+Item	Othello's dagger	Othello Skill: +10, Single Equip
 Item	out-of-tune biwa	Ranged Damage: +2
 Item	oversized pipe	Muscle: +6, Mysticality: +6
 Item	oversized pizza cutter	Spell Damage: +13
@@ -2596,6 +2599,7 @@ Item	Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Dr
 Item	Order of the Silver Wossname	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +11, Meat Drop: +11, Single Equip
 Item	ornamental sextant	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Item	Oscus's pelt	Mysticality Percent: +20, Stench Spell Damage: +30, Class: "Pastamancer", Single Equip
+Item	Othello's handkerchief	Othello Skill: +10, Single Equip
 Item	outlaw bandana	Moxie: +10, Initiative: +20, Weapon Drop: +40
 Item	oven mitts	Hot Resistance: +2, Single Equip
 # over-the-shoulder Folder Holder: Softcore Only (Except for High School Students)
@@ -4160,6 +4164,7 @@ Effect	Boo Tea	Spooky Damage: +30
 Effect	Boon of She-Who-Was	Weapon Damage: +20
 # Boon of the Storm Tortoise: Your melee attacks restore some MP
 # Boon of the War Snapper: Your melee attacks restore some HP
+Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
 Effect	BOOsted	Muscle: +30
 Effect	Bootyliciousness	Item Drop: +10
 Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
