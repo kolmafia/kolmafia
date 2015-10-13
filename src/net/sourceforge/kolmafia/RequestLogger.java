@@ -178,6 +178,7 @@ import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -1479,6 +1480,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof WinterGardenRequest || isExternal ) && WinterGardenRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof YeNeweSouvenirShoppeRequest || isExternal ) && YeNeweSouvenirShoppeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

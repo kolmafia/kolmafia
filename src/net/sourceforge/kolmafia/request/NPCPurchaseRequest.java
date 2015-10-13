@@ -710,6 +710,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "shakeshop" ) )
+		{
+			YeNeweSouvenirShoppeRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "topiary" ) )
 		{
 			NuggletCraftingRequest.parseResponse( urlString, responseText );
@@ -1021,6 +1027,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "nina" ) )
 			{
 				return NinjaStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "shakeshop" ) )
+			{
+				return YeNeweSouvenirShoppeRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "arcade" ) )

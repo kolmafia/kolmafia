@@ -124,6 +124,7 @@ import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -175,6 +176,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel shoeRepairPanel = null;
 	private CoinmasterPanel applePanel = null;
 	private CoinmasterPanel ninjaPanel = null;
+	private CoinmasterPanel shakeShopPanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
@@ -413,6 +415,11 @@ public class CoinmastersFrame
 		ninjaPanel = new NinjaPanel();
 		panel.add( ninjaPanel );
 		this.selectorPanel.addPanel( ninjaPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		shakeShopPanel = new ShakeShopPanel();
+		panel.add( shakeShopPanel );
+		this.selectorPanel.addPanel( shakeShopPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		travelerPanel = new TravelingTraderPanel();
@@ -769,6 +776,15 @@ public class CoinmastersFrame
 		public ApplePanel()
 		{
 			super( AppleStoreRequest.APPLE_STORE );
+		}
+	}
+
+	public class ShakeShopPanel
+		extends TwitchPanel
+	{
+		public ShakeShopPanel()
+		{
+			super( YeNeweSouvenirShoppeRequest.SHAKE_SHOP );
 		}
 	}
 

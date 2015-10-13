@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -132,6 +133,7 @@ public abstract class CoinmasterRegistry
 		TravelingTraderRequest.TRAVELER,
 		VendingMachineRequest.VENDING_MACHINE,
 		WarbearBoxRequest.WARBEARBOX,
+		YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];
