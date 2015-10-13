@@ -1883,7 +1883,7 @@
 1882	Skeleton's Day Out	beancan.gif	36a2c2d736fb6f89680a3e2eeca17f10	use 1 skeleton beans
 1883
 1884
-1885
+1885	Cyber-Robo-Steam-Whatever Costume	puzzlebox.gif	6ef9c8c3e25c18ca203e373f4f090383	use 1 iron torso box
 1886
 1887
 1888
