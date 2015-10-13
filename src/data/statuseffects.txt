@@ -1870,17 +1870,17 @@
 1869	Wearing a Guard's Hat	walkietalkie.gif	8b2ef75057d8f1b7703c73799473eb64	use 1 warehouse walkie-talkie
 1870	Janitoriffic	mop.gif	4605a47559bc4f8571d0438ae4906009	use 1 janitor's mop
 1871	Disguised as a Warehouse Clerk	obsglasses.gif	324b84b76ac914e711eb297ec0532032	use 1 warehouse clerk's glasses
-1872
-1873
-1874
-1875
-1876
-1877
+1872	Hip to the Jive	wine2.gif	f92100cb0ebcbc49987a28811e0a31c4	use 1 baloney rotgut
+1873	All Dolled Up	carton.gif	ce6f352fe28b5988f03242a63e91fed5	use 1 carton of gaspers
+1874	Shiny Happy Gladiator	balm.gif	ed728c61d95e4acda43f5ddee6b0244c	use 1 bronze polish
+1875	The Saddest Helmet	pitchfork2.gif	37454fe7752e736be6e7be8ff6d26f94	use 1 crident
+1876	Radiarius	mohawk.gif	77a44dd2804a55b10d4a47c709771e0b	use 1 totally sweet mohawk helmet
+1877	Shiny and Chrome	spraycan.gif	fba9be44b59a0d9ecd12e67a82d1c447	use 1 spray chrome
 1878	Monkeymask	monkeyhead.gif	edf84e22c3a6f8aa5b18efb04d19aeb1	use 1 filthy monkey head
-1879
-1880
-1881
-1882
+1879	Dead Man's Handoff	mrcards.gif	ba158778fdf86b73669ebb12841c5d92	use 1 hand of cards
+1880	Two Car Bar Rag	dishrag.gif	3f421e3dba812fab3d6ffeaf967a61fb	use 1 damp bar rag
+1881	Tetched by an Angel	lore.gif	97182b89a299ebf38f5fc6d40db6e07d	use 1 lump of goofball ore
+1882	Skeleton's Day Out	beancan.gif	36a2c2d736fb6f89680a3e2eeca17f10	use 1 skeleton beans
 1883
 1884
 1885

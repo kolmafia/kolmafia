@@ -8365,17 +8365,17 @@
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	multiple	t,d	5
 8340	janitor's mop	570677877	mop.gif	multiple	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	multiple	t,d	5	pairs of warehouse clerks' glasses
-8342
-8343
-8344
-8345
-8346
-8347
-8348	filthy monkey head	600582917	monkeyhead.gif	usable	t,d	5
-8349
-8350
-8351
-8352
+8342	baloney rotgut	305302518	wine2.gif	multiple	t,d	5
+8343	carton of gaspers	992719966	carton.gif	multiple	t,d	58344
+8344	bronze polish	489505325	balm.gif	multiple	t,d	5
+8345	crident	240727957	pitchfork2.gif	multiple	t,d	5
+8346	totally sweet mohawk helmet	716696471	mohawk.gif	multiple	t,d	5
+8347	spray chrome	545272637	spraycan.gif	multiple	t,d	5
+8348	filthy monkey head	600582917	monkeyhead.gif	multiple	t,d	5
+8349	hand of cards	696329586	mrcards.gif	multiple	t,d	5
+8350	damp bar rag	763997779	dishrag.gif	multiple	t,d	5
+8351	lump of goofball ore	364435812	lore.gif	multiple	t,d	5
+8352	skeleton beans	696056433	beancan.gif	multiple	t,d	5
 8353
 8354
 8355
