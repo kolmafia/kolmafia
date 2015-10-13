@@ -8691,7 +8691,7 @@
 8665	rotten tomato	118234921	rottentomato.gif	none, usable, curse	t,d	5
 8666	Twelve Night Energy	191644904	12night.gif	usable	t,d	12
 8667	Yorick	609411353	yorick.gif	offhand	t	0
-8668	rose	619164426	twitchrose.gif	usable	t,d	5
-8669	white tulip	156741343	twitchtulip.gif	usable	t,d	10
-8670	red tulip	973996072	twitchtulip.gif	usable	t,d	10
-8671	blue tulip	126513532	twitchtulip.gif	usable	t,d	10
+8668	rose	619164426	twitchrose.gif	none	t,d	5
+8669	white tulip	156741343	twitchtulip.gif	none	t,d	10
+8670	red tulip	973996072	twitchtulip.gif	none	t,d	10
+8671	blue tulip	126513532	twitchtulip.gif	none	t,d	10
