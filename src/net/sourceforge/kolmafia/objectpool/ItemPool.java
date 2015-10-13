@@ -2474,6 +2474,10 @@ public class ItemPool
 	public static final int CRAFT_TEA = 8636;
 	public static final int INSANI_TEA = 8637;
 	public static final int TENNIS_BALL = 8650;
+	public static final int ROSE = 8668;
+	public static final int WHITE_TULIP = 8669;
+	public static final int RED_TULIP = 8670;
+	public static final int BLUE_TULIP = 8671;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

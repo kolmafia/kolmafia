@@ -1340,6 +1340,14 @@ public abstract class UseLinkDecorator
 			useLocation = "shop.php?whichshop=toxic";
 			break;
 
+		case ItemPool.ROSE:
+		case ItemPool.WHITE_TULIP:
+		case ItemPool.RED_TULIP:
+		case ItemPool.BLUE_TULIP:
+			useType = "trade in";
+			useLocation = "shop.php?whichshop=flowertradein";
+			break;
+
 		case ItemPool.FAT_LOOT_TOKEN:
 			useType = String.valueOf( InventoryManager.getCount( ItemPool.FAT_LOOT_TOKEN ) );
 			useLocation = "shop.php?whichshop=damachine";
