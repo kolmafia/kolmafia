@@ -219,6 +219,7 @@ Item	Hat O' Nine Tails	Moxie Percent: +9
 # hazmat helmet: 75% Chance of Preventing Negative Status Attacks
 # hazmat helmet: Changes Your Avatar
 Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60
+Item	heavy crown	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Damage: +5, Initiative: +15
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
 Item	helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
 Item	helmet turtle	Muscle: +1, Familiar Effect: "atk, cap 2"
@@ -1183,6 +1184,8 @@ Item	hand-carved bow	Moxie Percent: +10, Ranged Damage: +10, Initiative: +20
 Item	hand-carved staff	Mysticality Percent: +10, Spell Damage: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	happiness	Hot Damage: +12
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
+# Item hawk: +22% Damage vs. Skeletons
+Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
 Item	heavy leather-bound tome	Weakens Monster
 Item	heavy metal thunderrr guitarrr	Weapon Damage: +16
 # heteroerotic frat-paddle
@@ -4159,6 +4162,7 @@ Effect	Boon of She-Who-Was	Weapon Damage: +20
 # Boon of the War Snapper: Your melee attacks restore some HP
 Effect	BOOsted	Muscle: +30
 Effect	Bootyliciousness	Item Drop: +10
+Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
 Effect	Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
@@ -5146,6 +5150,8 @@ Effect	Ocelot Eyes	Item Drop: +10
 Effect	Odoriffic	Avatar: "Odorous Humongous"
 Effect	Of Course It Looks Great	Item Drop: +100
 Effect	Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +1
+# Effect Oh Hamlet Hamlet Hamlet Hamlet: +50 Damage vs. Ghosts
+Effect	Oh Hamlet Hamlet Hamlet Hamlet	Maximum HP Percent: +50, Maximum MP Percent: +50
 Effect	Oh Snap	Experience (Moxie): +10
 Effect	Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
@@ -5182,6 +5188,7 @@ Effect	Orc Chops	Muscle: +50
 Effect	Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
 Effect	Oriental Mysticism	Mysticality Percent: +5
 Effect	Osseous George	Avatar: "skeletal monkey"
+Effect	Oth-Jeal-O	Othello Skill: +20
 Effect	Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Effect	Over the Ocean	Experience: [min(100,T/5)]
 Effect	Over-Familiar With Dactyls	Familiar Weight: +5
@@ -6451,6 +6458,7 @@ Item	green drunki-bear	Effect: "Gummibrain", Effect Duration: 80
 Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Duration: 20
+Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
 Item	holiday cheese log	Effect: "Stands Alone", Effect Duration: 20
@@ -6658,6 +6666,7 @@ Item	French bronilla brogurt	Effect: "French Bronilla Brogueishness", Effect Dur
 Item	Friendly Turkey	Effect: "Turkey-Friendly", Effect Duration: 25
 Item	Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 Item	Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
+Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
 Item	glass of herbal tequila	Effect: "Herbal Pert", Effect Duration: 50
 Item	gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 Item	Golden Mean	Effect: "World's Shortest Giant", Effect Duration: 10
@@ -6965,6 +6974,7 @@ Item	bottle of rhinoceros hormones	Effect: "'Roids of the Rhinoceros", Effect Du
 Item	bottle of Vangoghbitussin	Effect: "The 'Tussin", Effect Duration: 5
 Item	bottled green pixie	Free Pull
 Item	bottled inspiration	Effect: "Inspired!", Effect Duration: 10
+Item	bowl of Jeal-O	Effect: "Oth-Jeal-O", Effect Duration: 30
 Item	bowl of marinade	Effect: "Marinated", Effect Duration: 15
 # bowl of potpourri: Gives some Moxie stats when you rest
 Item	box of Dweebs	Effect: "Dweeby", Effect Duration: 15
@@ -7208,6 +7218,7 @@ Item	dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 Item	Dweebisol&trade; inhaler	Effect: "Dweeble-Minded", Effect Duration: 50
 # Dyspepsi-Cola: Restores 10-14 MP
 Item	eagle feather	Effect: "Eagle Eyes", Effect Duration: 20
+# Item ear poison: Briefly stuns and less briefly poisons your opponent
 Item	Eau de Guaneau	Effect: "Chauve-Souris Merde Fou", Effect Duration: 10
 Item	ectoplasm <i>au jus</i>	Effect: "Groast Out", Effect Duration: 50
 Item	ectoplasmic orbs	Effect: "Balls of Ectoplasm", Effect Duration: 10
@@ -7462,6 +7473,7 @@ Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
 Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 Item	How to Avoid Scams	Effect: "How to Scam Tourists", Effect Duration: 20
+# Item How to Play Othello: Teaches you how to play Othello better
 Item	Huggler Radio	Free Pull
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1

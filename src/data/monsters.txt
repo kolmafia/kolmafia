@@ -1759,13 +1759,13 @@ outlaw leader	1663	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: du
 tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)
 
 # Twitch 7 - Shakespeare (October 2015)
-ghost actor	1847	ghostactor.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: undead
-Groundling	1842	groundling.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
-Hamlet	1843	hamlet.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: dude
-Othello	1844	othello.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude
-Richard X	1841	richardx.gif	Scale: 3 Cap: ? Floor: ? Init: -10000 P: dude
-Understudy	1846	understudy.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
-Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: ? Floor: ? Init: -10000 P: dude
+ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead	ghost beer (0)
+Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	stink-penny (0)
+Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
+Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)
+Richard X	1841	richardx.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	heavy crown (0)	ear poison (0)
+Understudy	1846	understudy.gif	Scale: -2 Cap: 1000 Floor: 2 Init: -10000 P: dude	How to Play Othello (0)
+Ye Olde Key Grippe	1845	keygrip.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	grip key (0)
 
 # Old Events
 

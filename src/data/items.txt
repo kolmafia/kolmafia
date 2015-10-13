@@ -8674,20 +8674,24 @@
 8648	wind-up spider	809396455	windupspider.gif	none, usable, curse	t,d	8
 8649	plastic nightmare troll	612714088	nightmaretroll.gif	none, usable, curse	t,d	11
 8650	tennis ball	208715344	tennisball.gif	none, combat	t,d	10
-8651
-8652
-8653
-8654
-8655
+8651	heavy crown	172327969	heavycrown.gif	hat	t,d	180
+8652	ear poison	549879453	earpoison.gif	none, combat	t,d	25
+8653	stink-penny	736429116	stinkpenny.gif	none, combat	t,d	1
+8654	hawk	743446088	bonesaw.gif	weapon	t,d	140
+8655	hamlet sandwich	172123242	hamsandwich.gif	food	t,d	12
 8656
 8657
 8658
-8659
-8660
-8661
+8659	bowl of Jeal-O	968209814	soupbowl.gif	multiple	t,d	33
+8660	grip key	974200454	gripkey.gif	usable	t,d	99
+8661	How to Play Othello	410373474	book3.gif	usable	t,d	85
 8662
-8663
+8663	ghost beer	642806613	ghostbeer.gif	drink	t,d	44
 8664	portable Othello set	599092817	othelloset.gif	offhand	t,d	75
 8665	rotten tomato	118234921	rottentomato.gif	none, usable, curse	t,d	5
 8666	Twelve Night Energy	191644904	12night.gif	usable	t,d	12
 8667	Yorick	609411353	yorick.gif	offhand	t	0
+8668	rose	619164426	twitchrose.gif	usable	t,d	5	roses
+8669	white tulip	156741343	twitchtulip.gif	usable	t,d	10
+8670	red tulip	973996072	twitchtulip.gif	usable	t,d	10
+8671	blue tulip	126513532	twitchtulip.gif	usable	t,d	10

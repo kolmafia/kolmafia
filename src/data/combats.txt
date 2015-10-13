@@ -119,6 +119,8 @@ Fightin' Fire	100	brushfire
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)	The Frattlesnake: 0
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Galley	100	angry cavebugbear	trendy bugbear chef
+Globe Theatre Main Stage	100	Richard X	Groundling	Hamlet	Othello
+Globe Theatre Backstage	100	Ye Olde Key Grippe	Understudy	ghost actor
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	skullbat	doughbat	vampire bat
 Gumdrop Forest	-1	candied pecan tree	licorice snake	tricksy pixie
