@@ -368,3 +368,8 @@ The Mayo Clinic	mayoclinic	sphygmayomanometer	2500	ROW722
 The Mayo Clinic	mayoclinic	tomayohawk-style reflex hammer	2500	ROW723
 The Mayo Clinic	mayoclinic	mayo lance	2500	ROW724
 The Mayo Clinic	mayoclinic	miracle whip	10000	ROW721
+
+Ye Newe Souvenir Shoppe	buy	25	rotten tomato	ROW756
+Ye Newe Souvenir Shoppe	buy	100	portable Othello set	ROW755
+Ye Newe Souvenir Shoppe	buy	250	Twelve Night Energy	ROW757
+Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758

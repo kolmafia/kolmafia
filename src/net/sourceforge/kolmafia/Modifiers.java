@@ -228,6 +228,7 @@ public class Modifiers
 	public static final int FAMILIAR_TUNING_MOXIE = 117;
 	public static final int RANDOM_MONSTER_MODIFIERS = 118;
 	public static final int LUCK = 119;
+	public static final int OTHELLO_SKILL = 120;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -770,6 +771,10 @@ public class Modifiers
 		{ "Luck",
 		  Pattern.compile( "([+-]\\d+) Luck" ),
 		  Pattern.compile( "Luck: " + EXPR )
+		},
+		{ "Othello Skill",
+		  Pattern.compile( "([+-]\\d+) Othello Skill" ),
+		  Pattern.compile( "Othello Skill: " + EXPR )
 		},
 	};
 

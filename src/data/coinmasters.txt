@@ -662,6 +662,11 @@ Ni&ntilde;a Store	buy	10	invisible potion	ROW690
 Ni&ntilde;a Store	buy	200	time shuriken	ROW691
 Ni&ntilde;a Store	buy	1000	ninjammies	ROW692
 
+Ye Newe Souvenir Shoppe	buy	25	rotten tomato	ROW756
+Ye Newe Souvenir Shoppe	buy	100	portable Othello set	ROW755
+Ye Newe Souvenir Shoppe	buy	250	Twelve Night Energy	ROW757
+Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
+
 # Things you can buy with freshwater fishbones
 
 Freshwater Fishbonery	buy	5	fishbone belt	ROW326

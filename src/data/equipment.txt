@@ -1698,6 +1698,7 @@ polyalloy shield	140	Mus: 55	shield
 polyester pad	50	none	shield
 pool skimmer	10	none
 porcelain pepper mill	120	Mys: 40
+portable Othello set	0	Mys: 15
 pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
@@ -1848,6 +1849,7 @@ wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
+Yorick	0	Mys: 25
 Zombo's shield	240	Mus: 200	shield
 
 # Accessories section of equipment.txt
