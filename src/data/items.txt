@@ -8371,7 +8371,7 @@
 8345
 8346
 8347
-8348
+8348	filthy monkey head	600582917	monkeyhead.gif	usable	t,d	5
 8349
 8350
 8351

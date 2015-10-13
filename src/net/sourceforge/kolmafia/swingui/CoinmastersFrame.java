@@ -744,10 +744,7 @@ public class CoinmastersFrame
 		public final void update()
 		{
 			super.update();
-			if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
-			{
-				this.setEnabled( false );
-			}
+			this.setEnabled( Preferences.getBoolean( "timeTowerAvailable" ) );
 		}
 
 	}
