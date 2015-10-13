@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -365,18 +364,12 @@ public class Maximizer
 						continue;
 					}
 
-					// Exact matches only
 					String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
-					int id = ItemDatabase.getItemId( iName, 1, false );
-					if ( id != -1 )
-					{
-						item = ItemPool.get( id );
-					}
+					item = ItemFinder.getFirstMatchingItem( iName, false );
 
-					if ( ItemPool.isBangPotion( iName ) || ItemPool.isSlimeVial( iName ) )
+					if ( item != null )
 					{
 						// Resolve bang potions and slime vials
-						item = ItemFinder.getFirstMatchingItem( iName, false );
 						int itemId = item.getItemId();
 						if ( itemId == -1 )
 						{
