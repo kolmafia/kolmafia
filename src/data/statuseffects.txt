@@ -1881,29 +1881,29 @@
 1880	Two Car Bar Rag	dishrag.gif	3f421e3dba812fab3d6ffeaf967a61fb	use 1 damp bar rag
 1881	Tetched by an Angel	lore.gif	97182b89a299ebf38f5fc6d40db6e07d	use 1 lump of goofball ore
 1882	Skeleton's Day Out	beancan.gif	36a2c2d736fb6f89680a3e2eeca17f10	use 1 skeleton beans
-1883
-1884
+1883	They Called You Mad at the University	labcoat.gif	1a23b6b4c30d9bc887c49c8cee39bb80	use 1 grimy lab coat
+1884	9/10ths of the Law	music.gif	96c969d7ca09da4fd736490e1b4c69db	use 1 creepy nursery rhyme
 1885	Cyber-Robo-Steam-Whatever Costume	puzzlebox.gif	6ef9c8c3e25c18ca203e373f4f090383	use 1 iron torso box
-1886
-1887
-1888
-1889
-1890
-1891
-1892
-1893
-1894
-1895
-1896
-1897
-1898
-1899
-1900
-1901
-1902
-1903
-1904
-1905
+1886	Ramboner	ww_headband.gif	3f8753eadffaee7b3b2d14cb31bc41ad	use 1 mercenary headband
+1887	Does Whatever a Person Can	ep_mojo.gif	d2f8e08e659b1ed8b950cd5b9e26984c	use 1 radioactive spider venom
+1888	The Visible Adventurer	handmirror.gif	a38d91d52ace7992b899402e9704d86d	use 1 x-ray mirror
+1889	Cavemanipulated	lmask.gif	bd32e5c35f0cd3756b777c8ca912e635	use 1 wrestling mask
+1890	Your Head is That of a Hawk	potion9.gif	ad3dbfcf61c9abdb9ffbd4a280c9cfc5	use 1 hawkface potion
+1891	Kid Dracularp	wtbcloak.gif	929325eda5bf75e11fe64e50a48677f5	use 1 child-sized dracula cloak
+1892	Devil Woman (or Man)	demonhat.gif	d4c280581869b5abab5182060829e071	use 1 devil-summoning hat
+1893	Shopkeeperrific	goatbeard.gif	799ed1d6d3748910d8c74a5c4c1c0781	use 1 shopkeeper beard
+1894	Autopsy-turvy	toolbox.gif	eb431a5c27ce1c1effcb3ea2ed253b80	use 1 alien autoautopsy kit
+1895	Skeleton in a Fruit Hat	strawhat.gif	ffe80ddb77e73860ffc60b7f8512666e	use 1 novelty fruit hat
+1896	Skinvisible	balm.gif	baf85f48264348f7f0eed45f3d5c79d5	use 1 invisibility cream
+1897	Stubblebum	disease.gif	6b5cddbfc160a3a5b7a75d2bebf5b02c	use 1 handful of stubble
+1898	Slurpee-O'ed	sodacup.gif	519e3c78d387a2dbab36a74b4ad3586a	use 1 garbage juice slurpee
+1899	Pediplunger	plunger.gif	e376b027c5a8f79416a180fd4a60016d	use 1 plunge-leg
+1900	Godfather of Soul Patch	eyepatch.gif	fe5acbb2937c19da295d93629129c409	use 1 funky eyepatch
+1901	Beyond the Pail	pail.gif	cc815aba3a57de4287c3efa62f8f73ba	use 1 bucket of fish juice
+1902	Why is the Shampoo Always Gone?	hippywig.gif	e9f648f5b0dbd0209f165f6022fb66de	use 1 flashy pirate dreadlocks
+1903	Bubbles, Tiny Bubbles	baggie.gif	3349b32f3745deb6d410f3f0975ce4c6	use 1 captured boozles
+1904	Whose Drinks Are These?	trayshield.gif	e32df723868cc0d371180fda52926c8e	use 1 drinks tray
+1905	Pained Smirk	grapplinghook.gif	2d62e15881bcd419a1fab0323942e779	use 1 eyebrow lifter
 1906	WAKKA WAKKA WAKKA	puckman.gif	03830365a0602503275dae3707a14277	use 1 yellow pixel potion
 1907	Ready to Snap	gingersnaps.gif	2941e9b9cd23013d28e3b3f9d19e4769	use 1 ginger snaps
 1908	Giant Growth	smilerat.gif	fcc91625e3f8182075304ffb8280b6ec
