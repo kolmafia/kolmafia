@@ -1871,6 +1871,8 @@ public class ItemDatabase
 		case KoLConstants.INFINITE_USES:
 			// Multi-use
 		case KoLConstants.CONSUME_MULTIPLE:
+			// Grow is a type of use
+		case KoLConstants.GROW_FAMILIAR:
 			return true;
 		default:
 			return ( attributes & ( ItemDatabase.ATTR_USABLE | ItemDatabase.ATTR_MULTIPLE | ItemDatabase.ATTR_REUSABLE ) ) != 0;
