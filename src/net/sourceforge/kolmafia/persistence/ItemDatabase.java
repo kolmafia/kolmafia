@@ -367,8 +367,6 @@ public class ItemDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		ItemDatabase.addPseudoItems();
-
 		// Remove per-user item aliases
 		Iterator<String> it = ItemDatabase.itemAliases.iterator();
 		while ( it.hasNext() )
@@ -385,6 +383,8 @@ public class ItemDatabase
 			ItemDatabase.itemIdByPlural.remove( canonical );
 		}
 		ItemDatabase.pluralAliases.clear();
+
+		ItemDatabase.addPseudoItems();
 
 		ItemDatabase.saveCanonicalNames();
 	}
