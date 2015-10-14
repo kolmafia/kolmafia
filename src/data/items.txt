@@ -8376,29 +8376,29 @@
 8350	damp bar rag	763997779	dishrag.gif	multiple	t,d	5
 8351	lump of goofball ore	364435812	lore.gif	multiple	t,d	5
 8352	skeleton beans	696056433	beancan.gif	multiple	t,d	5
-8353
-8354
+8353	grimy lab coat	371317127	labcoat.gif	usable	t,d	5
+8354	creepy nursery rhyme	904115525	music.gif	usable	t,d	5
 8355	iron torso box	225287311	puzzlebox.gif	multiple	t,d	5
-8356
-8357
-8358
-8359
-8360
-8361
-8362
-8363
-8364
-8365
-8366
-8367
-8368
-8369
-8370
-8371
-8372
-8373
-8374
-8375
+8356	mercenary headband	472567947	ww_headband.gif	usable	t,d	5
+8357	radioactive spider venom	890627226	ep_mojo.gif	usable	t,d	5
+8358	x-ray mirror	648914618	handmirror.gif	usable	t,d	5
+8359	wrestling mask	784254553	lmask.gif	usable	t,d	5
+8360	hawkface potion	345142806	potion9.gif	usable	t,d	5
+8361	child-sized dracula cloak	402506459	wtbcloak.gif	usable	t,d	5
+8362	devil-summoning hat	707242976	demonhat.gif	usable	t,d	5
+8363	shopkeeper beard	733886844	goatbeard.gif	usable	t,d	5
+8364	alien autoautopsy kit	274025619	lunchbox.gif	usable	t,d	5
+8365	novelty fruit hat	680204956	strawhat.gif	usable	t,d	5
+8366	invisibility cream	879249656	balm.gif	usable	t,d	5
+8367	handful of stubble	203055435	scpowder.gif	usable	t,d	5
+8368	garbage juice slurpee	747337911	sodacup.gif	usable	t,d	5
+8369	plunge-leg	603511915	plunger.gif	usable	t,d	5
+8370	funky eyepatch	389087225	eyepatch.gif	usable	t,d	5
+8371	bucket of fish juice	724738264	pail.gif	usable	t,d	5
+8372	flashy pirate dreadlocks	655432636	hippywig.gif	usable	t,d	5
+8373	captured boozles	526042733	baggie.gif	usable	t,d	5
+8374	drinks tray	604754615	trayshield.gif	usable	t,d	5
+8375	eyebrow lifter	854797607	grapplinghook.gif	usable	t,d	5
 8376	yellow submarine	812297540	yellowsub.gif	none	q	0
 8377	pixel lemon	649933692	pixellemon.gif	food	t,d	120
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120

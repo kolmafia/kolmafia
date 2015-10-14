@@ -3956,6 +3956,7 @@ Effect	20-20 Second Sight	Maximum MP: +25
 Effect	20/20 Vision	Item Drop: +10
 Effect	5 Pounds Lighter	Initiative: +10, Moxie: +5
 Effect	8-bit Apparition	Avatar: "ancient ghost"
+Effect	9/10ths of the Law	Avatar: "creepy little girl"
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 # A Hole in the World: Time destroys everything
@@ -4044,6 +4045,7 @@ Effect	Aspect of the Twinklefairy	Muscle Percent: +10, Mysticality Percent: +10,
 Effect	Ass Over Teakettle	Initiative: +50
 Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Effect	Autopsy-turvy	Avatar: "factory-irregular skeleton"
 # Avatar of She-Who-Was: You can unleash the Voice of She-Who-Was
 Effect	Avatar of She-Who-Was	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5, Spell Damage Percent: +100
 # Avatar of the Storm Tortoise: You can unleash the Will of the Storm Tortoise
@@ -4094,6 +4096,7 @@ Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
+Effect	Beyond the Pail	Avatar: "fishy pirate"
 Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Punkin'	Moxie: +30
@@ -4168,7 +4171,6 @@ Effect	Boon of She-Who-Was	Weapon Damage: +20
 Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
 Effect	BOOsted	Muscle: +30
 Effect	Bootyliciousness	Item Drop: +10
-Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
 Effect	Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
@@ -4203,6 +4205,7 @@ Effect	Browbeaten	Muscle: +10, Weapon Damage: +5, Experience (Muscle): +2
 # Bruised Jaw: Mruimed Maw
 Effect	Bubble Vision	Item Drop: [max(0,101-T)]
 Effect	Bubble, Bubble	Moxie: -5, Muscle: +5
+Effect	Bubbles, Tiny Bubbles	Avatar: "Drunken Tropical Vacationer"
 Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 # Buggy Flavor: 25% chance of poisoning opponent
@@ -4238,6 +4241,7 @@ Effect	Castaway Physique	Muscle Percent: +25
 Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
 Effect	Catstermind	Avatar: "The Mastermind"
+Effect	Cavemanipulated	Avatar: "caveman"
 Effect	Celestial Camouflage	Combat Rate: -5
 Effect	Celestial Saltiness	Combat Rate: +5
 Effect	Celestial Sheen	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1
@@ -4419,6 +4423,7 @@ Effect	Demonicity	Monster Level: +40, Spooky Damage: +80, Spooky Spell Damage: +
 Effect	Desenfantasmada	Spooky Resistance: +2, Experience (Muscle): +3
 Effect	Destructive Resolve	Weapon Damage: +20, Spell Damage: +20
 Effect	Devil Inside	Hot Damage: +30, Cold Resistance: +3, Spooky Resistance: +3
+Effect	Devil Woman (or Man)	Avatar: "devil"
 Effect	Dexteri Tea	Moxie: +50
 Effect	Digitalis, Dig It	Initiative: +75, Maximum HP: +200
 Effect	Digitally Converted	Monster Level: +30
@@ -4442,6 +4447,7 @@ Effect	Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
 Effect	Dizzy with Rage	Moxie Percent: -10
+Effect	Does Whatever a Person Can	Avatar: "spider"
 Effect	Dog Breath	Stench Damage: +30, Hot Resistance: +3, Spooky Resistance: +3, Combat Rate: +5
 Effect	Doing The Hustle	Item Drop: +100
 # Don't Rest Ye, Bold Adventurer: variable Experience
@@ -4692,6 +4698,7 @@ Effect	Go-Gone	Gear Drop: +100
 Effect	Goat Gotten	Avatar: "dairy goat"
 Effect	Goblin in Black	Avatar: "goblin conspirator"
 Effect	Gobliny Flavor	Damage Reduction: 5
+Effect	Godfather of Soul Patch	Avatar: "funky pirate"
 Effect	Going Ape	Item Drop: +30
 Effect	Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Effect	Good Karma	Mysticality: +5
@@ -4953,6 +4960,7 @@ Effect	Just Aged Enough	Moxie: +25
 # Just the Best Anapests: Da da dee, da da dee
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Kernel Panic!	Critical Hit Percent: +5
+Effect	Kid Dracularp	Avatar: "vampire"
 Effect	Kindly Resolve	Familiar Weight: +5
 Effect	Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Effect	Kissed By Fire	Maximum HP: +25, Hot Damage: +25, Hot Spell Damage: +25
@@ -5206,6 +5214,7 @@ Effect	Overconfident	Monster Level: +30
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
+Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
 Effect	Pajama Party	Familiar Weight: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 Effect	Partially Paralyzed	Moxie Percent: -50
@@ -5220,6 +5229,7 @@ Effect	Patient Smile	Experience (Muscle): +1
 Effect	Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Effect	Peaceful, Easy Feeling	Monster Level: -10
 Effect	Pecan Pied Piper	Candy Drop: +25
+Effect	Pediplunger	Avatar: "filthy pirate"
 Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
 # Pemmican't: +10 Damage against Seals
 Effect	Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
@@ -5328,6 +5338,7 @@ Effect	Raging Animal	Familiar Damage: +30
 Effect	Rain Dancin'	Item Drop: +20
 Effect	Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Cold Damage: +15, Hot Damage: +15, Sleaze Damage: +15, Spooky Damage: +15, Stench Damage: +15
 Effect	Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
+Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
 Effect	Rank Sweat	Stench Resistance: +7
 Effect	Rat-Faced	Moxie Percent: +10
@@ -5443,6 +5454,7 @@ Effect	Shiny Happy Weapon	Muscle: +20
 Effect	Shirtless in Seattle	Stench Resistance: +2, Cold Vulnerability, Sleaze Vulnerability
 Effect	Shocking Biology	Avatar: "unholy diver"
 Effect	Shoesauce	Initiative: +30
+Effect	Shopkeeperrific	Avatar: "shopkeeper"
 Effect	Short of Breath	Avatar: "pygmy blowgunner"
 Effect	Short on Options	Avatar: "pygmy headhunter"
 Effect	Shortened	Sleaze Damage: +25, Sleaze Spell Damage: +50, Sleaze Resistance: +2
@@ -5470,7 +5482,9 @@ Effect	Skeletal Buddy	Experience: +2
 # Skeletal Warrior
 # Skeletal Wizard
 Effect	Skeleton's Day Out	Avatar: "cowskeleton"
+Effect	Skeleton in a Fruit Hat	Avatar: "novelty tropical skeleton"
 Effect	Ski Ballin'	Avatar: "eXtreme cross-country hippy"
+Effect	Skinvisible	Avatar: "former owner of the Skeleton Store"
 Effect	Skull Full of Hot Chocolate	Cold Resistance: +2
 Effect	Skulla, Brah	Avatar: "haunted skullabra"
 # Skunkulated: Take stench damage every round of combat
@@ -5500,6 +5514,7 @@ Effect	Slinking Noodle Glob	Maximum MP: +15
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Effect	Slippery Oiliness	Equalize: "Moxie"
 Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
+Effect	Slurpee-O'ed	Avatar: "angry tourist"
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Effect	Smart Drunk	Maximum HP: +120, Familiar Weight: +20
 Effect	Smelly Pants	Stench Resistance: +1
@@ -5637,6 +5652,7 @@ Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
 Effect	Strong Spirit	Muscle: +15
 Effect	Strongly Motivated	Muscle Percent: +200
+Effect	Stubblebum	Avatar: "cooler wino"
 # Stubbly Legs: <s>Love is a battlefield</s>Legs are a stubble field
 Effect	Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 # Stuck-Up Hair: Damages Attacking Opponents
@@ -5752,11 +5768,13 @@ Effect	The Style... of the Future	Moxie Percent: +50, Moxie: +15, Experience (Mo
 Effect	The Sweats	Stench Resistance: +5
 # The Tunger&trade;: +3 Adventures from the next thing you eat
 Effect	The Two-Prong Crown	Sleaze Damage: +30
+Effect	The Visible Adventurer	Avatar: "skeleton"
 Effect	The Vitus Virus	Item Drop: +50, Experience: -5
 Effect	The Wisdom... of the Future	Mysticality Percent: +50, Mysticality: +15, Experience (Mysticality): +3
 Effect	There Is A Spoon	Mysticality: +20
 # There is No Spoon
 Effect	There Wolf	Weapon Damage Percent: +100
+Effect	They Called You Mad at the University	Avatar: "government scientist"
 Effect	Thick, Sick	Damage Reduction: 5
 Effect	Thick-Skinned	Maximum HP: +50
 Effect	Thicker, Sicker	Damage Reduction: 15
@@ -5923,6 +5941,8 @@ Effect	White-boy Angst	Initiative: +50
 Effect	Whitened Teeth	Moxie Percent: +10
 # Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
+Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
+Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 # Wings: You believe you can fly!
 Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
@@ -5970,6 +5990,7 @@ Effect	You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
 Effect	Your Eyes are Peeled!	Item Drop: +25
+Effect	Your Head is That of a Hawk	Avatar: "cultist"
 Effect	Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
 Effect	Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Yuletide Mutations	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -6870,6 +6891,7 @@ Item	airplane charter: Conspiracy Island	Free Pull
 Item	airplane charter: Dinseylandfill	Free Pull
 Item	airplane charter: Spring Break Beach	Free Pull
 Item	airplane charter: That 70s Volcano	Free Pull
+Item	alien autoautopsy kit	Effect: "Autopsy-turvy", Effect Duration: 30
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 Item	alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 Item	all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
@@ -7009,6 +7031,7 @@ Item	BROS Energy Drink	Effect: "Tapped In", Effect Duration: 20
 Item	Bruno's blessing of Mars	Effect: "The Smeezingtons", Effect Duration: 50
 Item	BUBBLE GUM	Effect: "CONSUME", Effect Duration: 30
 Item	bubblin' chemistry solution	Effect: "Science is Real", Effect Duration: 100
+Item	bucket of fish juice	Effect: "Beyond the Pail", Effect Duration: 30
 Item	buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 Item	Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
 Item	bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
@@ -7031,6 +7054,7 @@ Item	candy cornucopia	Free Pull
 Item	candy crayons	Effect: "A Taste of Rainbow", Effect Duration: 5
 Item	candy skeleton	Effect: "Candied Skeleton", Effect Duration: 10
 Item	candy UFOs	Effect: "Fizzier Than Light", Effect Duration: 10
+Item	captured boozles	Effect: "Bubbles, Tiny Bubbles", Effect Duration: 30
 # carbonated soy milk: Restores 70-80 MP
 # carbonated water lily: Restores 60-70 MP
 Item	carton of gaspers	Effect: "All Dolled Up", Effect Duration: 100
@@ -7052,6 +7076,7 @@ Item	cheap wind-up clock	Effect: "Ticking Clock", Effect Duration: 10
 # Cherry Cloaca Cola: Restores 7-9 MP
 Item	Cheshire Bitten	Free Pull
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
+Item	child-sized dracula cloak	Effect: "Kid Dracularp", Effect Duration: 30
 Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 Item	chocolate bath ball	Effect: "[800]Chocolate Reign", Effect Duration: 10
 Item	chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
@@ -7119,6 +7144,7 @@ Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
 Item	cream pie	Free Pull
 # creepy ginger ale: Restores 35-45 MP
+Item	creepy nursery rhyme	Effect: "9/10ths of the Law", Effect Duration: 30
 Item	crident	Effect: "The Saddest Helmet", Effect Duration: 100
 Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 # Crimbo Credit: Use it to buy gifts in Crimbo Town!
@@ -7199,6 +7225,7 @@ Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 Item	deodorant	Effect: "Fresh Scent", Effect Duration: 10
 # Desert Bus pass: <b>Allows Travel to Desert Beach</b>
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
+Item	devil-summoning hat	Effect: "Devil Woman (or Man)", Effect Duration: 30
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 # Diet Cloaca Cola: Restores 7-9 MP
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
@@ -7232,6 +7259,7 @@ Item	donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 Item	doppelshifter egg	Free Pull
 Item	double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
 Item	dreaming Jung man	Free Pull
+Item	drinks tray	Effect: "Whose Drinks Are These?", Effect Duration: 30
 Item	Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duration: 1
 Item	drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 Item	drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
@@ -7282,6 +7310,7 @@ Item	explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 Item	extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 # extra-strength red potion: Restores 190-210 HP
 Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
+Item	eyebrow lifter	Effect: "Pained Smirk", Effect Duration: 50
 Item	eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
 Item	eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R]
 Item	eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
@@ -7321,6 +7350,7 @@ Item	fist turkey outline	Free Pull
 Item	fitness wristband	Effect: "Fitter, Bitter", Effect Duration: 50
 Item	Fitspiration&trade; poster	Effect: "Fit As a Poster", Effect Duration: 50
 Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
+Item	flashy pirate dreadlocks	Effect: "Why is the Shampoo Always Gone?", Effect Duration: 30
 Item	flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 Item	flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
 Item	flask of mining oil	Effect Duration: 10
@@ -7355,6 +7385,7 @@ Item	fudge-shaped hole in space-time	Effect: "Things Man Was Not Meant to Eat", 
 Item	Fudgie Roll	Effect: "Sugar Rush", Effect Duration: 20
 Item	Fun-Guy spore	Effect: "Mush-Mouth", Effect Duration: 11
 Item	funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
+Item	funky eyepatch	Effect: "Godfather of Soul Patch", Effect Duration: 30
 Item	funny bone	Effect: "Angry Bone", Effect Duration: 30
 Item	fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 Item	future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
@@ -7364,6 +7395,7 @@ Item	Fuzzby	Free Pull
 Item	GameInformPowerDailyPro subscription card	Free Pull
 Item	gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
+Item	garbage juice slurpee	Effect: "Slurpee-O'ed", Effect Duration: 30
 # gauze garter: Restores 80-120 HP
 Item	gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 Item	Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
@@ -7435,6 +7467,7 @@ Item	green-frosted astral cupcake	Effect: "The Cupcake of Wrath", Effect Duratio
 Item	gremlin juice	Effect: "Comic Violence", Effect Duration: 5
 Item	gremlin mutagen	Effect: "Mutated", Effect Duration: 1
 Item	grey cube	Effect: "Square Jaw And Everything Else", Effect Duration: 100
+Item	grimy lab coat	Effect: "They Called You Mad at the University", Effect Duration: 30
 Item	grisly shell fragment	Effect: "Thick, Sick", Effect Duration: 1
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
@@ -7466,10 +7499,12 @@ Item	handful of fire	Effect: "Literally On Fire", Effect Duration: 50
 Item	handful of hand chalk	Effect: "Chalky Hand", Effect Duration: 5
 Item	handful of Laughing Willow bark	Effect: "Barking Mad", Effect Duration: 100
 Item	handful of pine needles	Effect: "Hippy Stench", Effect Duration: 10
+Item	handful of stubble	Effect: "Stubblebum", Effect Duration: 30
 Item	handsomeness potion	Effect: "Mysteriously Handsome", Effect Duration: 5
 Item	handyman &quot;hand soap&quot;	Effect: "Jay Walking", Effect Duration: 50
 Item	hare brush	Effect: "Hare-o-dynamic", Effect Duration: 10
 Item	haunted flame	Effect: "Skulla, Brah", Effect Duration: 50
+Item	hawkface potion	Effect: "Your Head is That of a Hawk", Effect Duration: 30
 Item	Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
@@ -7515,6 +7550,7 @@ Item	infant sandworm	Free Pull
 # Inigo's Incantation of Inspiration (crumpled): <b>Only Accordion Thieves may use this item.</b>
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
+Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	iron torso box	Effect: "Cyber-Robo-Steam-Whatever Costume", Effect Duration: 30
 Item	ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 Item	irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
@@ -7635,6 +7671,7 @@ Item	Mer-kin smartjuice	Effect: "Juiced Newton", Effect Duration: 30
 Item	Mer-kin strongjuice	Effect: "Juiced Out", Effect Duration: 30
 # Merc Core challenge coin: Grants a new tattoo when used
 # Merc Core deployment orders: Contains a one-day ticket to Conspiracy Island
+Item	mercenary headband	Effect: "Ramboner", Effect Duration: 30
 Item	Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 Item	milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
@@ -7685,6 +7722,7 @@ Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 # Notes from the Elfpocalypse, Chapter IV: Restores 30-40 HP and MP
 # Notes from the Elfpocalypse, Chapter V: Restores 30-40 HP and MP
 # Notes from the Elfpocalypse, Chapter VI: Restores 30-40 HP and MP
+Item	novelty fruit hat	Effect: "Skeleton in a Fruit Hat", Effect Duration: 30
 Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Item	Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
 Item	O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
@@ -7776,6 +7814,7 @@ Item	plastic Jefferson wings	Effect: "Jeffersonian", Effect Duration: 50
 Item	PlexiPips	Effect: "Sole Soul", Effect Duration: 1
 Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 # plump juicy grub: Restores 90-100 HP
+Item	plunge-leg	Effect: "Pediplunger", Effect Duration: 30
 Item	pocket maze	Effect: "Amazing", Effect Duration: 1
 # Pok&euml;mann band-aid: Restores 100 HP
 Item	Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
@@ -7837,6 +7876,7 @@ Item	pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 Item	pygmy witchhazel	Effect: "Which Nurse? Witch Nurse!", Effect Duration: 50
 # quasi-ethereal macaroni fragments: <b>Only Pastamancers may use this item.</b>
 Item	R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
+Item	radioactive spider venom	Effect: "Does Whatever a Person Can", Effect Duration: 30
 Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
 Item	Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
 Item	ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
@@ -7925,6 +7965,7 @@ Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 Item	shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
 # shimmering tendrils: <b>Only Pastamancers may use this item.</b>
 Item	Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
+Item	shopkeeper beard	Effect: "Shopkeeperrific", Effect Duration: 30
 Item	short deposition	Effect: "A Short Trial", Effect Duration: 50
 Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
@@ -8178,7 +8219,9 @@ Item	witch's brew	Effect: "Witch's Brood", Effect Duration: 50
 Item	wizard action figure	Free Pull
 # Wolfman Nardz: Restores 200-300 MP
 Item	worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
+Item	wrestling mask	Effect: "Cavemanipulated", Effect Duration: 30
 Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
+Item	x-ray mirror	Effect: "The Visible Adventurer", Effect Duration: 30
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
 Item	yellow pixel potion	Effect: "WAKKA WAKKA WAKKA", Effect Duration: 20
