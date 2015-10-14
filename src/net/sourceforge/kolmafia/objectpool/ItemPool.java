@@ -2579,7 +2579,21 @@ public class ItemPool
 		String testName = name + joiner + effect;
 		String testPlural = ItemDatabase.getPluralName( id ) + joiner + effect;
 		ItemDatabase.registerItemAlias( id, testName, testPlural );
-		
+		// Update generic alias too
+		testName = null;
+		if ( id >= ItemPool.FIRST_BANG_POTION && id <= ItemPool.LAST_BANG_POTION )
+		{
+			testName = "potion of " + effect;
+		}
+		else if ( id >= ItemPool.FIRST_SLIME_VIAL && id <= ItemPool.LAST_SLIME_VIAL )
+		{
+			testName = "vial of slime: " + effect;
+		}
+		if ( testName != null )
+		{
+			ItemDatabase.registerItemAlias( id, testName, null );
+		}
+
 		HashSet<String> possibilities = new HashSet<String>();
 		for ( int i = 0; i < strings.length; ++i )
 		{
@@ -2623,6 +2637,20 @@ public class ItemPool
 		testName = name + joiner + effect;
 		testPlural = ItemDatabase.getPluralName( missing ) +joiner + effect;
 		ItemDatabase.registerItemAlias( missing, testName, testPlural );
+		// Update generic alias too
+		testName = null;
+		if ( id >= ItemPool.FIRST_BANG_POTION && id <= ItemPool.LAST_BANG_POTION )
+		{
+			testName = "potion of " + effect;
+		}
+		else if ( id >= ItemPool.FIRST_SLIME_VIAL && id <= ItemPool.LAST_SLIME_VIAL )
+		{
+			testName = "vial of slime: " + effect;
+		}
+		if ( testName != null )
+		{
+			ItemDatabase.registerItemAlias( id, testName, null );
+		}
 		return true;	
 	}
 	

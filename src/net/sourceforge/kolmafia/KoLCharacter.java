@@ -5757,6 +5757,9 @@ public abstract class KoLCharacter
 				String testName = name + " of " + testProperty;
 				String testPlural = name + "s of " + testProperty;
 				ItemDatabase.registerItemAlias( i, testName, testPlural );
+				// Update generic alias too
+				testName = "potion of " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName, null );
 			}
 		}
 
@@ -5769,6 +5772,9 @@ public abstract class KoLCharacter
 				String testName = name + ": " + testProperty;
 				String testPlural = ItemDatabase.getPluralName( i ) + testProperty;
 				ItemDatabase.registerItemAlias( i, testName, testPlural );
+				// Update generic alias too
+				testName = "vial of slime: " + testProperty;
+				ItemDatabase.registerItemAlias( i, testName, null );
 			}
 		}
 	}
