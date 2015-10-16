@@ -3982,6 +3982,7 @@ Effect	Abyssal Tears	Reduce Enemy Defense: 20
 Effect	Ack! Barred!	Muscle Percent: +30
 Effect	Adorable Lookout	Initiative: +30
 Effect	Adrenaline Rush	Muscle Percent: +100
+Effect	Adventurer's Best Friendship	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Affronted Decency	Moxie: -20
 Effect	Afternoon Insight	Mysticality Percent: +20
 Effect	Agent's Shield	Avatar: "Government agent"
