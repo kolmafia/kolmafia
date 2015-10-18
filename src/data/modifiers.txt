@@ -1235,6 +1235,7 @@ Item	Knob Goblin scimitar	Muscle: +1
 Item	Knob Goblin spatula	Spell Damage: +4
 Item	Knob Goblin tongs	Spell Damage: +2
 Item	KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
+Item	KoL Con 12-gauge	Maximum HP: +12, Maximum MP: +12
 Item	lavalarva	Hot Damage: +30, Cold Resistance: +4, Monster Level: +10
 Item	law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 Item	lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300

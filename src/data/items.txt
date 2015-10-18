@@ -8607,7 +8607,7 @@
 8581	barrel cracker	874506924	barrelcracker.gif	food	t,d	5
 8582	vibrating mushroom	587755665	vibeshroom.gif	spleen, usable	t,d	20
 8583	cute mushroom	979444500	cuteshroom.gif	spleen, usable	t,d	40
-8584
+8584	KoL Con 12-gauge	390474511	shotgun2.gif	weapon		0
 8585
 8586	barrel gun	376878324	barrelgun1.gif	weapon	t,d	100
 8587	tiny barrel	434062977	barreltiny.gif	grow	t,d	200
