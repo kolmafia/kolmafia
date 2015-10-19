@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -320,6 +321,13 @@ public class AdventureQueueDatabase
 		catch ( ClassCastException e )
 		{
 			// Old version of the combat queue handling.  Sorry, have to delete your queue.
+			file.delete();
+			AdventureQueueDatabase.resetQueue();
+			return;
+		}
+		catch ( EOFException e )
+		{
+			// Malformed data. Wipe the bogus file.
 			file.delete();
 			AdventureQueueDatabase.resetQueue();
 			return;
