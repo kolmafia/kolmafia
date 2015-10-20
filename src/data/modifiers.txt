@@ -7841,7 +7841,7 @@ Item	Hodgman's journal #1: The Lean Times	Skill: "Natural Born Scrabbler"
 Item	Hodgman's journal #2: Entrepreneurythmics	Skill: "Thrift and Grift"
 Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
 Item	Hodgman's journal #4: View From The Big Top	Skill: "Marginally Insane"
-Item	Holiday Fun!	Free Pull, Skill: "Summon Holiday Fun!"
+Item	Holiday Hal's Happy-Time Fun Book!	Free Pull, Skill: "Summon Holiday Fun!"
 Item	holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 Item	holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 # holo-bomber: Deals 5,000 Physical Damage
