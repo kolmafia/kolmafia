@@ -1688,6 +1688,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "class_modifier", DataTypes.CLASS_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "skill_modifier", DataTypes.SKILL_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "skill_modifier", DataTypes.SKILL_TYPE, params ) );
+
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "stat_modifier", DataTypes.STAT_TYPE, params ) );
 
@@ -7231,6 +7237,14 @@ public abstract class RuntimeLibrary
 		String name = RuntimeLibrary.getModifierName( arg );
 		String mod = modifier.toString();
 		return new Value( DataTypes.parseClassValue( Modifiers.getStringModifier( type, name, mod ), true ) );
+	}
+
+	public static Value skill_modifier( Interpreter interpreter, final Value arg, final Value modifier )
+	{
+		String type = RuntimeLibrary.getModifierType( arg );
+		String name = RuntimeLibrary.getModifierName( arg );
+		String mod = modifier.toString();
+		return new Value( DataTypes.parseSkillValue( Modifiers.getStringModifier( type, name, mod ), true ) );
 	}
 
 	public static Value stat_modifier( Interpreter interpreter, final Value arg, final Value modifier )

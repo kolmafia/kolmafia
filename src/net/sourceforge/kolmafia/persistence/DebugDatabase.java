@@ -1252,14 +1252,14 @@ public class DebugDatabase
 	{
 		for ( int i = 0; i < unknown.size(); ++i )
 		{
-			Modifiers.writeModifierComment( report, name, unknown.get( i ) );
+			Modifiers.writeModifierComment( report, null, name, unknown.get( i ) );
 		}
 
 		if ( known.size() == 0 )
 		{
 			if ( unknown.size() == 0 )
 			{
-				Modifiers.writeModifierComment( report, type, name );
+				Modifiers.writeModifierComment( report, null, name );
 			}
 		}
 		else
@@ -1300,6 +1300,7 @@ public class DebugDatabase
 			DebugDatabase.appendModifier( known, Modifiers.parseDamageReduction( text ) );
 		}
 
+		DebugDatabase.appendModifier( known, Modifiers.parseSkill( text ) );
 		DebugDatabase.appendModifier( known, Modifiers.parseSingleEquip( text ) );
 		DebugDatabase.appendModifier( known, Modifiers.parseSoftcoreOnly( text ) );
 		DebugDatabase.appendModifier( known, Modifiers.parseLastsOneDay( text ) );
