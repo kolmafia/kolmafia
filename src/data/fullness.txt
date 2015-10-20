@@ -291,7 +291,7 @@ frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
-fusilli marrownarrow	5	7	good	16-19	20-30	0	0
+fusilli marrownarrow	5	7	awesome	16-19	20-30	0	0
 fusillocybin	5	11	awesome	20-23	0	40-45	0
 Genalen&trade; Bottle	1	10	good	2-4	15-30	15-30	0	useless powder
 ghost cucumber	2	2	decent	2-6	5-15	5-15	5-15

@@ -1023,11 +1023,16 @@ public class Modifiers
 	public static final int EQUALIZE_MOXIE = 13;
 	public static final int AVATAR = 14;
 	public static final int ROLLOVER_EFFECT = 15;
+	public static final int SKILL = 16;
 
 	private static final Object[][] stringModifiers =
 	{
 		{ "Class",
-		  null,
+		  new Object[] {
+		        Pattern.compile( "Only (.*?) may use this item" ),
+		        Pattern.compile( "Bonus for (.*?) only" ),
+		        Pattern.compile( "Bonus&nbsp;for&nbsp;(.*?)&nbsp;only" ),
+		  },
 		  Pattern.compile( "Class: \"(.*?)\"" )
 		},
 		{ "Intrinsic Effect",
@@ -1092,6 +1097,10 @@ public class Modifiers
 		{ "Rollover Effect",
 		  Pattern.compile( "Adventures of <b><a.*?>(.*)</a></b> at Rollover" ),
 		  Pattern.compile( "Rollover Effect: \"(.*?)\"" )
+		},
+		{ "Skill",
+		  Pattern.compile( "Grants Skill:.*?<b>(.*?)</b>" ),
+		  Pattern.compile( "Skill: \"(.*?)\"" )
 		},
 	};
 
@@ -2032,12 +2041,68 @@ public class Modifiers
 				continue;
 			}
 
-			newStrings[ i ] = matcher.group( 1 );
+			String key = Modifiers.modifierName( Modifiers.stringModifiers, i );
+			String value = matcher.group( 1 );
+
+			if ( key.equals( "Class" ) )
+			{
+				value = Modifiers.depluralizeClassName( value );
+			}
+
+			newStrings[ i ] = value;
 		}
 
 		newStrings[ Modifiers.MODIFIERS ] = string;
 
 		return newMods;
+	}
+
+	private static final String[][] classStrings =
+	{
+		{
+			KoLCharacter.SEAL_CLUBBER,
+			"Seal Clubbers",
+			"Seal&nbsp;Clubbers",
+		},
+		{
+			KoLCharacter.TURTLE_TAMER,
+			"Turtle Tamers",
+			"Turtle&nbsp;Tamers",
+		},
+		{
+			KoLCharacter.PASTAMANCER,
+			"Pastamancers",
+		},
+		{
+			KoLCharacter.SAUCEROR,
+			"Saucerors",
+		},
+		{
+			KoLCharacter.DISCO_BANDIT,
+			"Disco Bandits",
+			"Disco&nbsp;Bandits",
+		},
+		{
+			KoLCharacter.ACCORDION_THIEF,
+			"Accordion Thieves",
+			"Accordion&nbsp;Thieves",
+		},
+	};
+
+	private final static String depluralizeClassName( final String string )
+	{
+		for ( String [] results : Modifiers.classStrings )
+		{
+			String result = results[ 0 ];
+			for ( String candidate : results )
+			{
+				if ( candidate.equals( string ) )
+				{
+					return result;
+				}
+			}
+		}
+		return string;
 	}
 
 	public static class Modifier
@@ -2888,6 +2953,19 @@ public class Modifiers
 
 	// Parsing item enchantments into KoLmafia modifiers
 
+	private static final Pattern SKILL_PATTERN = Pattern.compile( "Grants Skill:.*?<b>(.*?)</b>" );
+
+	public static final String parseSkill( final String text )
+	{
+		Matcher matcher = Modifiers.SKILL_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierTag( Modifiers.stringModifiers, Modifiers.SKILL ) + ": \"" + matcher.group( 1 ) + "\"";
+		}
+
+		return null;
+	}
+
 	private static final Pattern DR_PATTERN = Pattern.compile( "Damage Reduction: (<b>)?([+-]?\\d+)(</b>)?" );
 
 	public static final String parseDamageReduction( final String text )
@@ -3177,7 +3255,15 @@ public class Modifiers
 						"Slime Hates It: +1" :
 						"Slime Hates It: +2";
 				}
-				return tag + ": " + quote + matcher.group( 1 ) + quote;
+
+				String value = matcher.group( 1 );
+
+				if ( tag.equals( "Class" ) )
+				{
+					value = Modifiers.depluralizeClassName( value );
+				}
+				
+				return tag + ": " + quote + value + quote;
 			}
 		}
 
@@ -3904,7 +3990,7 @@ public class Modifiers
 
 	public static String modifierCommentString( final String type, final String name, final String value )
 	{
-		return "# " + type + " " + name + ": " + value;
+		return "# " + ( type == null ? "" : type + " " ) + name + ": " + value;
 	}
 
 	public static void writeModifierComment( final PrintStream writer, final String type, final String name, final String value )
@@ -3914,7 +4000,7 @@ public class Modifiers
 
 	public static String modifierCommentString( final String type, final String name )
 	{
-		return "# " + type + " " + name;
+		return "# " + ( type == null ? "" : type + " " ) + name;
 	}
 
 	public static void writeModifierComment( final PrintStream writer, final String type, final String name )

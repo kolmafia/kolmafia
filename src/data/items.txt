@@ -8366,7 +8366,7 @@
 8340	janitor's mop	570677877	mop.gif	multiple	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	multiple	t,d	5	pairs of warehouse clerks' glasses
 8342	baloney rotgut	305302518	wine2.gif	multiple	t,d	5
-8343	carton of gaspers	992719966	carton.gif	multiple	t,d	58344
+8343	carton of gaspers	992719966	carton.gif	multiple	t,d	5
 8344	bronze polish	489505325	balm.gif	multiple	t,d	5
 8345	crident	240727957	pitchfork2.gif	multiple	t,d	5
 8346	totally sweet mohawk helmet	716696471	mohawk.gif	multiple	t,d	5
@@ -8580,7 +8580,7 @@
 8554	vintage smart drink	485189565	waterbottle.gif	drink	t	0
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
-8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	0
+8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
 8558
 8559
 8560
