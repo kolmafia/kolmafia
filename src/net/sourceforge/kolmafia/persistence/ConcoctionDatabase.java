@@ -492,7 +492,6 @@ public class ConcoctionDatabase
 		{
 			queue = ConcoctionDatabase.queuedFood;
 			queuedIngredients = ConcoctionDatabase.queuedFoodIngredients;
-			ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
 			if ( ConcoctionDatabase.lastQueuedMayo == ItemPool.MAYODIOL )
 			{
 				ConcoctionDatabase.queuedFullness--;
@@ -504,14 +503,17 @@ public class ConcoctionDatabase
 		{
 			queue = ConcoctionDatabase.queuedBooze;
 			queuedIngredients = ConcoctionDatabase.queuedBoozeIngredients;
-			ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
 		}
 		else
 		{
 			queue = ConcoctionDatabase.queuedSpleen;
 			queuedIngredients = ConcoctionDatabase.queuedSpleenIngredients;
-			ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 		}
+
+		// Handle items that affect more than one organ
+		ConcoctionDatabase.queuedFullness += c.getFullness() * quantity;
+		ConcoctionDatabase.queuedInebriety += c.getInebriety() * quantity;
+		ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 
 		// Get current values of things that a concoction can consume
 		int meat = ConcoctionDatabase.queuedMeatSpent;
