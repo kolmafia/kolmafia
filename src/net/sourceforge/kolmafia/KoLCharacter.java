@@ -1739,6 +1739,23 @@ public abstract class KoLCharacter
 		return freerests;
 	}
 
+
+	// If there are free rests remaining and KoLmafia thinks there are not, update that value
+	// so it will be correct for the next rest at least
+	public static void updateFreeRests( final boolean freeRestsRemain )
+	{
+		int restsUsed = Preferences.getInteger( "timesRested" );
+		int restsAvailable = KoLCharacter.freeRestsAvailable();
+		if ( freeRestsRemain && restsUsed >= restsAvailable )
+		{
+			Preferences.setInteger( "timesRested", restsAvailable - 1 );
+		}
+		if ( !freeRestsRemain && restsUsed < restsAvailable )
+		{
+			Preferences.setInteger( "timesRested", restsAvailable );
+		}
+	}
+
 	/**
 	 * Sets the character's current stat values. Each parameter in the list comes in pairs: the adjusted value (based on
 	 * equipment and spell effects) and the total number of subpoints acquired through adventuring for that statistic.

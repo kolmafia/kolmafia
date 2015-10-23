@@ -150,6 +150,9 @@ public class ChateauRequest
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_PENS );
 		}
 
+		// rests
+		KoLCharacter.updateFreeRests( responseText.contains( "chateau_restlabelfree" ) );
+
 		String action = GenericRequest.getAction( urlString );
 
 		// Nothing more to do for a simple visit
