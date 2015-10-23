@@ -6945,6 +6945,7 @@ Item	a cute angel	Free Pull
 Item	A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 # a ten-percent bonus: Gain 1,000 points in each stat
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
+# adder: Poisons your opponent
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 Item	adventurer clone egg	Free Pull
 Item	Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
@@ -7056,8 +7057,8 @@ Item	Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10
 Item	bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 Item	bitter pill	Effect: "Bitterskin", Effect Duration: 100
 Item	BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
-Item	Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 Item	Black Bart's Booty	Skill: "Pirate Bellow"
+Item	Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 # black BRICKO brick: Stuns your opponent for a few rounds
 # black BRICKO brick: (more effective against BRICKO monsters)
 Item	black candy heart	Effect: "Heart of Black", Effect Duration: 10
@@ -7106,6 +7107,8 @@ Item	booby trap	Effect: "Ravonovichy", Effect Duration: 100
 # book of matches: Deals 40-60 <font color=red>Hot Damage</font>
 Item	Boosty Juice	Effect: "Juicy Boost", Effect Duration: 300
 Item	BOOterfinger	Effect: "BOOsted", Effect Duration: 50
+# boozebomb: Deals 400-500 Physical Damage
+# boozebomb: (super effective against orcs)
 Item	Boss Drops	Effect: "Chief Executive Optimism", Effect Duration: 5
 # bottle of alcohol: Deals 45-60 <font color=red>Hot Damage</font>
 Item	bottle of antifreeze	Effect: "Fever From the Flavor", Effect Duration: 10
@@ -7180,6 +7183,7 @@ Item	can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 Item	Can of Spaghetto	Effect: "Blessing of the Spaghetto", Effect Duration: 20
 Item	can of spinach	Effect: "Pop-eyed", Effect Duration: 10
+# can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	can of V-11	Effect: "It's Ridiculous", Effect Duration: 111
 Item	candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
 Item	candied kobold	Effect: "Sugar Rush", Effect Duration: 3
@@ -7347,7 +7351,7 @@ Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 # crude voodoo doll: Makes an enemy smaller than you
 Item	crumbling rat skull	Class: "Pastamancer"
 # crystal skull: Banishes a monster for a while
-# CSA all-purpose soap: Restores up to 1,000 HP
+# CSA all-purpose soap: Restores up to 1,000 MP
 # CSA all-purpose soap: Removes all harmful Effects
 Item	CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 # CSA obedience grenade: Stuns your opponent for a few rounds and weakens them by 5%
@@ -7365,7 +7369,7 @@ Item	cuppa Flamibili tea	Effect: "Flamibili Tea", Effect Duration: 30
 Item	cuppa Flexibili tea	Effect: "Flexibili Tea", Effect Duration: 30
 Item	cuppa Frost tea	Effect: "Frost Tea", Effect Duration: 30
 Item	cuppa Gill tea	Effect: "Fishy", Effect Duration: 30
-Item	cuppa Impregnabili tea	Damage Reduction: 30, Effect: "Impregnabili Tea", Effect Duration: 30
+Item	cuppa Impregnabili tea	Effect: "Impregnabili Tea", Effect Duration: 30
 Item	cuppa Improprie tea	Effect: "Improprie Tea", Effect Duration: 30
 Item	cuppa Insani tea	Effect: "Insani Tea", Effect Duration: 30
 Item	cuppa Irritabili tea	Effect: "Irritabili Tea", Effect Duration: 30
@@ -7397,7 +7401,9 @@ Item	custom avatar form	Free Pull
 Item	cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 Item	cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
 # d10: Weakens enemies somewhat
+# d12: Deals a bunch of damage of a random element
 Item	d12	Effect: "Bastard!", Effect Duration: 10
+# d20: Deals 1-20 <font color=red>Hot Damage</font> times your Level
 # d20	Effect: "20/20 Vision", Effect Duration: 20d20
 # d20	Effect: "Natural 1", Effect Duration: 1
 # d20	Effect: "Natural 20", Effect Duration: 1
@@ -7841,7 +7847,8 @@ Item	Hodgman's journal #1: The Lean Times	Skill: "Natural Born Scrabbler"
 Item	Hodgman's journal #2: Entrepreneurythmics	Skill: "Thrift and Grift"
 Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
 Item	Hodgman's journal #4: View From The Big Top	Skill: "Marginally Insane"
-Item	Holiday Hal's Happy-Time Fun Book!	Free Pull, Skill: "Summon Holiday Fun!"
+Item	Holiday Fun!	Free Pull
+Item	Holiday Hal's Happy-Time Fun Book!	Skill: "Summon Holiday Fun!"
 Item	holistic headache remedy	Effect: "On the Homeo Path", Effect Duration: 50
 Item	holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1
 # holo-bomber: Deals 5,000 Physical Damage
@@ -7888,6 +7895,7 @@ Item	imbued seal-blubber candle	Class: "Seal Clubber"
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 Item	infant sandworm	Free Pull
+# ingot turtle: Deals 90-110 <font color=red>Hot Damage</font> and changes your opponent's element to Hot
 Item	Inigo's Incantation of Inspiration	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
 Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
 # ink bladder: Lets you escape from combat without spending an Adventure (underwater)
@@ -8396,6 +8404,7 @@ Item	pygmy papers	Effect: "Short on Options", Effect Duration: 30
 Item	pygmy phone number	Effect: "Pygmy Drinking Buddy", Effect Duration: 15
 Item	pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 Item	pygmy witchhazel	Effect: "Which Nurse? Witch Nurse!", Effect Duration: 50
+# quantum nanopolymer spider web: Weakens enemies somewhat and briefly stuns them
 Item	quasi-ethereal macaroni fragments	Class: "Pastamancer"
 Item	R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Item	radioactive spider venom	Effect: "Does Whatever a Person Can", Effect Duration: 30
@@ -8587,8 +8596,8 @@ Item	sleeping piano cat	Free Pull
 Item	sleight-of-hand mushroom	Effect: "Sleight of Mind", Effect Duration: 3
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
 # slime stack: Weakens the monster by 10%
-Item	slime-soaked hypophysis	Skill: "Slimy Sinews"
 Item	slime-soaked brain	Skill: "Slimy Synapses"
+Item	slime-soaked hypophysis	Skill: "Slimy Sinews"
 Item	slime-soaked sweat gland	Skill: "Slimy Shoulders"
 Item	Sloppy Seconds Diner Employee Handbook	Skill: "Sloppy Secrets"
 Item	sludgesicle	Effect: "Sludgesick", Effect Duration: 10
