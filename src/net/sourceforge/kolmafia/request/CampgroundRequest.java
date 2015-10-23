@@ -855,9 +855,7 @@ public class CampgroundRequest
 			CampgroundRequest.setCampgroundItem( ItemPool.TOILET_PAPER, 1 );
 		}
 
-		// TODO: check free rest status (m.group(3)!=null)
-		// against timesRested, adjust it if there appear to
-		// have been rests used outside of KoLmafia.
+		KoLCharacter.updateFreeRests( m.group(3) != null );
 
 		int startIndex = responseText.indexOf( "Your dwelling has the following stuff" );
 		int endIndex = responseText.indexOf( "<b>Your Campsite</b>", startIndex + 1 );
