@@ -1285,8 +1285,22 @@ public class DebugDatabase
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
 		Pattern.compile( "<font color=blue>(.*)(?:<br>)?</font>", Pattern.DOTALL );
 
-	public static final void parseItemEnchantments( final String text, final ModifierList known, final ArrayList<String> unknown, final int type )
+ 	public static final void parseItemEnchantments( String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
+		// KoL now includes the enchantments of the effect in the item
+		// descriptions. Strip them out.
+		int eindex = text.indexOf( "Effect:" );
+		if ( eindex != -1 )
+		{
+			int spanstart = text.indexOf( "<span", eindex );
+			int spanend = text.indexOf( "</span>", eindex );
+			if ( spanstart != -1 && spanend != -1 )
+			{
+				String span = text.substring( spanstart, spanend + 7 );
+				text = StringUtilities.singleStringDelete( text, span );
+			}
+		}
+
 		DebugDatabase.parseStandardEnchantments( text, known, unknown, DebugDatabase.ITEM_ENCHANTMENT_PATTERN );
 
 		// Several modifiers can appear outside the "Enchantments"
