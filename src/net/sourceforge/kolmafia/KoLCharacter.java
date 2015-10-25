@@ -309,6 +309,7 @@ public abstract class KoLCharacter
 
 	private static int ascensions = 0;
 	private static String ascensionSign = NONE;
+	private static int ascensionSignIndex = 0;
 	private static ZodiacType ascensionSignType = ZodiacType.NONE;
 	private static ZodiacZone ascensionSignZone = ZodiacZone.NONE;
 	private static String ascensionPath = NONE;
@@ -523,6 +524,7 @@ public abstract class KoLCharacter
 
 		KoLCharacter.ascensions = 0;
 		KoLCharacter.ascensionSign = NONE;
+		KoLCharacter.ascensionSignIndex = 0;
 		KoLCharacter.ascensionSignType = ZodiacType.NONE;
 		KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		KoLCharacter.ascensionPath = NONE;
@@ -3332,6 +3334,17 @@ public abstract class KoLCharacter
 	}
 
 	/**
+	 * Accessor method for the character's zodiac sign index
+	 *
+	 * @return String
+	 */
+
+	public static final int getSignIndex()
+	{
+		return KoLCharacter.ascensionSignIndex;
+	}
+
+	/**
 	 * Accessor method for the character's zodiac sign stat
 	 *
 	 * @return int
@@ -3394,56 +3407,67 @@ public abstract class KoLCharacter
 
 		if ( ascensionSign.equals( "Mongoose" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 1;
 			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Platypus" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 4;
 			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Wombat" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 7;
 			KoLCharacter.ascensionSignType = ZodiacType.MUSCLE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Wallaby" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 2;
 			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
 			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Opossum" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 5;
 			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
 			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Blender" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 8;
 			KoLCharacter.ascensionSignType = ZodiacType.MYSTICALITY;
 			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Vole" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 3;
 			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.KNOLL;
 		}
 		else if ( ascensionSign.equals( "Marmot" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 6;
 			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.CANADIA;
 		}
 		else if ( ascensionSign.equals( "Packrat" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 9;
 			KoLCharacter.ascensionSignType = ZodiacType.MOXIE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.GNOMADS;
 		}
 		else if ( ascensionSign.equals( "Bad Moon" ) )
 		{
+			KoLCharacter.ascensionSignIndex = 10;
 			KoLCharacter.ascensionSignType = ZodiacType.BAD_MOON;
 			KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		}
 		else
 		{
+			KoLCharacter.ascensionSignIndex = 0;
 			KoLCharacter.ascensionSignType = ZodiacType.NONE;
 			KoLCharacter.ascensionSignZone = ZodiacZone.NONE;
 		}

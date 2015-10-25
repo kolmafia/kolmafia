@@ -809,6 +809,7 @@ public class KoLmafiaCLI
 		new NamespaceListCommand().register( "namespace" );
 		new NemesisCommand().register( "nemesis" );
 		new NewEffectCommand().register( "neweffect" );
+		new NumberologyCommand().register( "numberology" );
 		new NunneryCommand().register( "nuns" );
 		new OlfactionCommand().registerPrefix( "olfact" ).register( "putty" );
 		new OutfitCheckpointCommand().register( "checkpoint" );
