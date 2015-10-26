@@ -146,37 +146,48 @@ public class NumberologyManager
 		"bottle of booze",		// 99
 	};
 
-	public static final String prize( final int result )
+	public static final String numberologyPrize( final int result )
 	{
 		return PRIZES[ result % PRIZES.length ];
 	}
 
-	public static final int rawNumberology( final int seed )
+	public static final int rawNumberology( final int seed, final int delta )
 	{
 		int ascensions = KoLCharacter.getAscensions();
 		int sign = KoLCharacter.getSignIndex();
 		int spleen = KoLCharacter.getSpleenUse();
 		int level =  KoLCharacter.getLevel();
 		int adventures = KoLCharacter.getAdventuresLeft();
-		return ( Math.abs( seed ) + ascensions + sign ) * ( spleen + level ) + adventures;
+		return ( Math.abs( seed ) + ascensions + sign ) * ( spleen + level ) + adventures - delta;
 	}
 
 	public static final int numberology( final int seed )
 	{
-		return NumberologyManager.rawNumberology( seed ) % 100;
+		return NumberologyManager.numberology( seed, 0 );
 	}
 
-	public static final Map<Integer,Integer> numberologyResults()
+	public static final int numberology( final int seed, final int delta )
+	{
+		return NumberologyManager.rawNumberology( seed, delta ) % 100;
+	}
+
+	public static final Map<Integer,Integer> reverseNumberology()
+	{
+		return NumberologyManager.reverseNumberology( 0 );
+	}
+
+	public static final Map<Integer,Integer> reverseNumberology( final int delta )
 	{
 		Map<Integer,Integer> results = new TreeMap<Integer,Integer>();
 
 		for ( int seed = 0; seed < 100; ++seed )
 		{
-			int result = NumberologyManager.numberology( seed );
-			if ( !results.containsKey( result) )
+			int result = NumberologyManager.numberology( seed, delta );
+			if ( results.containsKey( result) )
 			{
-				results.put( result, seed );
+				return results;
 			}
+			results.put( result, seed );
 		}
 
 		return results;
