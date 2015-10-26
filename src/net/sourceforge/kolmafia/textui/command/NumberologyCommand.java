@@ -58,12 +58,21 @@ public class NumberologyCommand
 		if ( !StringUtilities.isNumeric( parameters ) )
 		{
 			Map<Integer,Integer> results = NumberologyManager.numberologyResults();
+			boolean found = false;
 			for ( Map.Entry<Integer,Integer> entry : results.entrySet() )
 			{
 				int result = entry.getKey();
-				int seed = entry.getValue();
 				String prize = NumberologyManager.prize( result );
-				RequestLogger.printLine( "[" + result + "] Enter " + seed + " to get " + prize );
+				if ( prize != NumberologyManager.TRY_AGAIN )
+				{
+					int seed = entry.getValue();
+					RequestLogger.printLine( "[" + result + "] Enter " + seed + " to get " + prize );
+					found = true;
+				}
+			}
+			if ( !found )
+			{
+				RequestLogger.printLine( "No valid results!" );
 			}
 			return;
 		}
