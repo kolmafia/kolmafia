@@ -57,16 +57,16 @@ public class NumberologyCommand
 	{
 		if ( !StringUtilities.isNumeric( parameters ) )
 		{
-			Map<Integer,Integer> results = NumberologyManager.numberologyResults();
+			Map<Integer,Integer> results = NumberologyManager.reverseNumberology();
 			boolean found = false;
 			for ( Map.Entry<Integer,Integer> entry : results.entrySet() )
 			{
 				int result = entry.getKey();
-				String prize = NumberologyManager.prize( result );
+				String prize = NumberologyManager.numberologyPrize( result );
 				if ( prize != NumberologyManager.TRY_AGAIN )
 				{
 					int seed = entry.getValue();
-					RequestLogger.printLine( "[" + result + "] Enter " + seed + " to get " + prize );
+					RequestLogger.printLine( "[" + result + "] Calculate the Universe with " + seed + " to get: " + prize );
 					found = true;
 				}
 			}
@@ -77,17 +77,43 @@ public class NumberologyCommand
 			return;
 		}
 
-		int seed = StringUtilities.parseInt( parameters );
+		int result = Math.abs( StringUtilities.parseInt( parameters ) ) % 100;
 
-		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		Map<Integer,Integer> results = null;
+		int delta = 0;
+		while ( delta < 100 )
 		{
-			int raw = NumberologyManager.rawNumberology( seed );
-			int result = NumberologyManager.numberology( seed );
-			String prize = NumberologyManager.prize( result );
-			RequestLogger.printLine( seed + " -> " + raw + " (" + result + ") = " + prize );
+			results = NumberologyManager.reverseNumberology( delta );
+			if ( results.containsKey( result ) )
+			{
+				break;
+			}
+			delta++;
+		}
+
+		// This is probably not possible, but...
+		if ( delta == 100 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Result " + result + " not found!" );
 			return;
 		}
 
-		RequestLogger.printLine( "Calculate with " + seed + " here" );
+		String prize = NumberologyManager.numberologyPrize( result );
+
+		if ( delta != 0 )
+		{
+			RequestLogger.printLine( "\"numberology " + result + "\" (" + prize + ") is not currently available but will be in " + delta + " turn" + ( delta != 1 ? "s" : "" ) + "." );
+			return;
+		}
+
+		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		{
+			RequestLogger.printLine( "\"numberology " + result + "\" (" + prize + ") is currently available." );
+			return;
+		}
+
+		int seed = results.get( result );
+
+		RequestLogger.printLine( "Calculate the Universe with " + seed + " here" );
 	}
 }
