@@ -37,6 +37,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.request.NumberologyRequest;
 
 public class NumberologyManager
 {
@@ -191,5 +193,12 @@ public class NumberologyManager
 		}
 
 		return results;
+	}
+
+	public static final boolean calculateTheUniverse( final int seed )
+	{
+		NumberologyRequest request = new NumberologyRequest( seed );
+		request.run();
+		return KoLmafia.permitsContinue();
 	}
 }

@@ -78,6 +78,15 @@ public class NumberologyCommand
 		}
 
 		int result = Math.abs( StringUtilities.parseInt( parameters ) ) % 100;
+		String prize = NumberologyManager.numberologyPrize( result );
+		MafiaState error = KoLmafiaCLI.isExecutingCheckOnlyCommand ? MafiaState.CONTINUE : MafiaState.ERROR;
+
+		// If it's "Try Again", don't waste our time
+		if ( prize == NumberologyManager.TRY_AGAIN )
+		{
+			KoLmafia.updateDisplay( error, "Result " + result + " is " + prize );
+			return;
+		}
 
 		Map<Integer,Integer> results = null;
 		int delta = 0;
@@ -94,15 +103,13 @@ public class NumberologyCommand
 		// This is probably not possible, but...
 		if ( delta == 100 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Result " + result + " not found!" );
+			KoLmafia.updateDisplay( error, "Result " + result + " not found!" );
 			return;
 		}
 
-		String prize = NumberologyManager.numberologyPrize( result );
-
 		if ( delta != 0 )
 		{
-			RequestLogger.printLine( "\"numberology " + result + "\" (" + prize + ") is not currently available but will be in " + delta + " turn" + ( delta != 1 ? "s" : "" ) + "." );
+			KoLmafia.updateDisplay( error, "\"numberology " + result + "\" (" + prize + ") is not currently available but will be in " + delta + " turn" + ( delta != 1 ? "s" : "" ) + "." );
 			return;
 		}
 
@@ -114,6 +121,6 @@ public class NumberologyCommand
 
 		int seed = results.get( result );
 
-		RequestLogger.printLine( "Calculate the Universe with " + seed + " here" );
+		NumberologyManager.calculateTheUniverse( seed );
 	}
 }
