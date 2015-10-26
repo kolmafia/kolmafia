@@ -13033,6 +13033,7 @@ public abstract class ChoiceManager
 		case 1099: // The Barrel Full of Barrels
 		case 1100: // Pray to the Barrel God
 		case 1101: // It's a Barrel Smashing Party!
+		case 1103: // Doing the Maths
 		case 1104: // Tree Tea
 		case 1105: // Specifici Tea
 			return true;
