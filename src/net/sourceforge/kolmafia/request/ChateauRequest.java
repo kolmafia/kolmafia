@@ -150,14 +150,12 @@ public class ChateauRequest
 			KoLConstants.chateau.add( ChateauRequest.CHATEAU_PENS );
 		}
 
-		// rests
-		KoLCharacter.updateFreeRests( responseText.contains( "chateau_restlabelfree" ) );
-
 		String action = GenericRequest.getAction( urlString );
 
 		// Nothing more to do for a simple visit
 		if ( action == null )
 		{
+			KoLCharacter.updateFreeRests( responseText.contains( "chateau_restlabelfree" ) );
 			return;
 		}
 
@@ -169,6 +167,7 @@ public class ChateauRequest
 		     action.startsWith( "cheateau_rest" ) )
 		{
 			Preferences.increment( "timesRested" );
+			KoLCharacter.updateFreeRests( responseText.contains( "chateau_restlabelfree" ) );
 			KoLCharacter.updateStatus();
 		}
 		else if ( action.startsWith( "chateau_desk" ) )

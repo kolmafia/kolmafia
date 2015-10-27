@@ -595,6 +595,12 @@ public class CampgroundRequest
 				ResultProcessor.processItem( ItemPool.LOOSE_TEETH, -1 );
 			}
 
+			Matcher m = HOUSING_PATTERN.matcher( responseText );
+			if ( m.find() )
+			{
+				KoLCharacter.updateFreeRests( m.group(3) != null );
+			}
+
 			return;
 		}
 
