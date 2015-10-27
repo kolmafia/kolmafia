@@ -10729,6 +10729,10 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1103:
+			// Doing the Maths
+			Preferences.setBoolean( "_universeCalculated", true );
+			break;
 		}
 	}
 

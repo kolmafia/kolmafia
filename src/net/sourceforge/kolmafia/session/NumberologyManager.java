@@ -58,7 +58,7 @@ public class NumberologyManager
 		"100 Knob Goblin Perfume",	// 09
 		"100 Steroid Boost",		// 10
 		"Drunkenness (-1,+3)",		// 11
-		"figth Gnollish Gearhead",	// 12
+		"fight Gnollish Gearhead",	// 12
 		"Nothing. Maybe.",		// 13
 		"moxie weed",			// 14
 		"15 Meat",			// 15
