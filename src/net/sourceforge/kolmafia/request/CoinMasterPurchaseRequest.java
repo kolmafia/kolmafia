@@ -116,9 +116,15 @@ public class CoinMasterPurchaseRequest
 	}
 
 	@Override
+	public void setCanPurchase( final boolean canPurchase )
+	{
+		super.setCanPurchase( canPurchase && this.data.isAccessible() && this.affordableCount() > 0 );
+	}
+
+	@Override
 	public void setCanPurchase()
 	{
-		this.setCanPurchase( this.data.isAccessible() && this.affordableCount() > 0 );
+		super.setCanPurchase( this.data.isAccessible() && this.affordableCount() > 0 );
 	}
 
 	@Override

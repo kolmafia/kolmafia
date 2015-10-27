@@ -1340,6 +1340,7 @@ public class ConcoctionDatabase
 		// Master item, or anything else.
 
 		boolean useNPCStores = InventoryManager.canUseNPCStores();
+		boolean useCoinmasters = InventoryManager.canUseCoinmasters();
 
 		for ( Concoction item : ConcoctionPool.concoctions() )
 		{
@@ -1389,7 +1390,7 @@ public class ConcoctionDatabase
 			PurchaseRequest purchaseRequest = item.getPurchaseRequest();
 			if ( purchaseRequest != null )
 			{
-				purchaseRequest.setCanPurchase();
+				purchaseRequest.setCanPurchase( useCoinmasters );
 				int acquirable = purchaseRequest.canPurchase() ?
 					purchaseRequest.affordableCount() : 0;
 				item.price = 0;
