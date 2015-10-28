@@ -1345,6 +1345,7 @@ public abstract class KoLCharacter
 	public static final void setAttacksLeft( final int attacksLeft )
 	{
 		KoLCharacter.attacksLeft = attacksLeft;
+		KoLCharacter.updateStatus();
 	}
 
 	/**
