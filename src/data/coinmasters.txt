@@ -578,6 +578,8 @@ The Terrified Eagle Inn	buy	25	Dreadsylvanian skeleton key	ROW147
 The Terrified Eagle Inn	buy	25	folder (tranquil landscape)	ROW157
 The Terrified Eagle Inn	buy	100	brass Dreadsylvanian flask	ROW151
 The Terrified Eagle Inn	buy	100	silver Dreadsylvanian flask	ROW152
+The Terrified Eagle Inn	buy	200	bottle of Bloodweiser	ROW774
+The Terrified Eagle Inn	buy	200	electric Kool-Aid 	ROW775
 The Terrified Eagle Inn	buy	250	Tales of Dread	ROW146
 The Terrified Eagle Inn	buy	500	dreadful fedora	ROW153
 The Terrified Eagle Inn	buy	500	dreadful sweater	ROW154
