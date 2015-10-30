@@ -71,6 +71,7 @@ public class AdventurePool
 	public static final int ROAD_TO_WHITE_CITADEL = 99;
 	public static final String ROAD_TO_WHITE_CITADEL_ID = "99";
 	public static final String WHITEYS_GROVE_ID = "100";
+	public static final String KNOB_SHAFT_ID = "101";
 	public static final String ICY_PEAK_ID = "110";
 	public static final String SLEAZY_BACK_ALLEY_ID = "112";
 	public static final String HAUNTED_PANTRY_ID = "113";
@@ -110,6 +111,7 @@ public class AdventurePool
 	public static final int OUTSIDE_THE_CLUB = 219;
 	public static final int ISLAND_BARRACKS = 220;
 	public static final int BARROOM_BRAWL = 233;
+	public static final String BARROOM_BRAWL_ID = "233";
 	public static final int NOOB_CAVE = 240;
 	public static final int PANDAMONIUM_SLUMS = 248;
 	public static final int COBB_BARRACKS = 257;

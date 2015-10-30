@@ -108,6 +108,7 @@ public class QuestDatabase
 			DOC( "questM24Doc" ),
 			ARMORER( "questM25Armorer" ),
 			GENERATOR( "questF04Elves" ),
+			CLANCY( "questF05Clancy" ),
 			SEA_OLD_GUY( "questS01OldGuy" ),
 			SEA_MONKEES( "questS02Monkees" ),
 			JIMMY_MUSHROOM( "questESlMushStash" ),

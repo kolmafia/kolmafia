@@ -2477,6 +2477,13 @@ public class ResultProcessor
 			break;
 		}
 
+		case ItemPool.CLANCY_LUTE:
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.CLANCY, "step5" );
+			}
+			break;
+
 		case ItemPool.BEER_BATTERED_ACCORDION:
 		case ItemPool.BARITONE_ACCORDION:
 		case ItemPool.MAMAS_SQUEEZEBOX:
