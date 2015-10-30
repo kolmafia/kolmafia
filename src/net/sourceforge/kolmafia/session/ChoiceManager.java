@@ -7008,6 +7008,31 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 571:
+			// Choice 571 is Your Minstrel Vamps
+			QuestDatabase.setQuestProgress( Quest.CLANCY, QuestDatabase.STARTED );
+			break;
+
+		case 572:
+			// Choice 572 is Your Minstrel Clamps
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step2" );
+			break;
+
+		case 573:
+			// Choice 573 is Your Minstrel Stamps
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step4" );
+			break;
+
+		case 576:
+			// Choice 576 is Your Minstrel Camps
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step6" );
+			break;
+
+		case 577:
+			// Choice 577 is Your Minstrel Scamp
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step8" );
+			break;
+
 		case 588:
 			// Machines!
 			if ( text.contains( "The batbugbears around you start acting weird" ) )

@@ -109,9 +109,21 @@ public class QuestManager
 			{
 				handleWhiteysGroveChange( responseText );
 			}
+			else if ( locationId.equals( AdventurePool.BARROOM_BRAWL_ID ) )
+			{
+				handleBarroomBrawlChange( responseText );
+			}
+			else if ( locationId.equals( AdventurePool.KNOB_SHAFT_ID ) )
+			{
+				handleKnobShaftChange( responseText );
+			}
 			else if ( locationId.equals( AdventurePool.EXTREME_SLOPE_ID ) )
 			{
 				handleExtremityChange( responseText );
+			}
+			else if ( locationId.equals( AdventurePool.ICY_PEAK_ID ) )
+			{
+				handleIcyPeakChange( responseText );
 			}
 			else if ( locationId.equals( AdventurePool.AIRSHIP_ID ) ||
 			          locationId.equals( AdventurePool.CASTLE_BASEMENT_ID ) ||
@@ -378,6 +390,30 @@ public class QuestManager
 		}
 	}
 
+	private static void handleBarroomBrawlChange( String responseText )
+	{
+		if ( responseText.contains( "Jackin' the Jukebox" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step1" );
+		}
+	}
+
+	private static void handleKnobShaftChange( String responseText )
+	{
+		if ( responseText.contains( "A Miner Variation" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step3" );
+		}
+	}
+
+	private static void handleIcyPeakChange( String responseText )
+	{
+		if ( responseText.contains( "Mercury Rising" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.CLANCY, "step7" );
+		}
+	}
+
 	private static void handleTownChange( String responseText )
 	{
 		boolean oldTimeTower = Preferences.getBoolean( "timeTowerAvailable" );
@@ -537,6 +573,10 @@ public class QuestManager
 				Preferences.setBoolean( "controlRoomUnlock", true );
 				Preferences.setInteger( "pyramidPosition", 1 );
 				QuestDatabase.setQuestProgress( Quest.PYRAMID, "step3" );
+			}
+			else if ( responseText.contains( "Don't You Know Who I Am?" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.CLANCY, QuestDatabase.FINISHED );
 			}
 			// If here, must have unlocked middle chamber
 			Preferences.setBoolean( "middleChamberUnlock", true );
