@@ -3592,8 +3592,24 @@ public abstract class ChoiceManager
 		// Choice 1092 is Dyer Maker
 		// Choice 1093 is The WLF Bunker
 		// Choice 1094 is Back Room SMOOCHing
+
+		// Choice 1095 is Tin Roof -- Melted
+		new ChoiceSpoiler(
+			"That 70s Volcano", "choiceAdventure1095", "The Velvet / Gold Mine",
+			new Object[] { new Option( "fight Mr. Choch", 1 ),
+				       new Option( "acquire half-melted hula girl", 2, "half-melted hula girl" ) } ),
+
 		// Choice 1096 is Re-Factory Period
+		new ChoiceSpoiler(
+			"That 70s Volcano", "choiceAdventure1096", "LavaCo Lamp Factory",
+			new Object[] { new Option( "fight Mr. Cheeng", 1 ),
+				       new Option( "acquire glass ceiling fragments", 2, "glass ceiling fragments" ) } ),
+
 		// Choice 1097 is Who You Gonna Caldera?
+		new ChoiceSpoiler(
+			"That 70s Volcano", "choiceAdventure1097", "The Bubblin' Caldera",
+			new Object[] { new Option( "acquire The One Mood Ring", 1, "The One Mood Ring" ),
+				       new Option( "fight Lavalos", 2 ) } ),
 
 		// Choice 1102 is The Biggest Barrel
 
