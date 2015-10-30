@@ -328,7 +328,7 @@ grave rober zmobie	195	zomshovel.gif	Atk: 58 Def: 53 HP: 50 Init: 50 E: spooky M
 greasy duck	560	duckgreasy.gif	Atk: 173 Def: 162 HP: 185 Init: 70 Meat: 132-170 E: sleaze P: beast	flirtatious feather (10)	duct tape (5)
 Green Ops Soldier	492	warhipgr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 E: stench "Toad In The Hole" P: hippy	communications windchimes (3)	gas balloon (17)	gas balloon (3)	green clay bead (30)	green smoke bomb (6)	green smoke bomb (3)	henna face paint (8)	round green sunglasses (5)
 gritty pirate	614	gritpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 105	true grit (30)	keel-haulin' knife (0)
-Groar	1157	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
+Groar	1157	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast	Groar's fur (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)
 groovy pirate	613	pirate2.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 100	buoybottoms (10)
 grouper groupie	734	groupie.gif	Atk: 350 Def: 405 HP: 500 Init: 40 P: fish	groupie bra (0)	groupie lipstick (0)	groupie spangles (c0)
 grumpy 7-Foot Dwarf	1151	dwarf_grumpy.gif	Atk: 58 Def: 52 HP: 45 Init: 50 Meat: 40 P: humanoid	7-Foot Dwarven mattock (9)
@@ -882,7 +882,7 @@ The Mastermind	1681	adv_smart4.gif	Atk: [250] Def: [250] HP: [200] Init: -10000 
 
 Savage Beatnik	1682	adv_smooth1.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	jazzy cigarette holder (c0)
 Creamweaver	1683	adv_smooth2.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-Smooth Criminal	1684	adv_smooth3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	one glove (c0)
+smooth criminal	1684	adv_smooth3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	one glove (c0)
 Seannery the Conman	1685	adv_smooth4.gif	Atk: [200] Def: [300] HP: [250] Init: -10000 P: dude	leather glove (c0)
 
 # - Adventurer Crowd 3
@@ -1640,7 +1640,7 @@ loose coalition of yetis, snowmen, and goats	945	coalition.gif	Atk: 80 Def: 72 H
 malevolent magnetic field	941	magfield.gif	Atk: 75 Def: 76 HP: 100 Init: 50 P: weird	bottle of gin (0)
 smooth jazz scabie	948	scabie_jazz.gif	Atk: 95 Def: 85 HP: 140 Init: 50 P: bug	can-you-dig-it? (0)
 Spookyraven Manor	944	manor.gif	HP: 120 Def: 72 Atk: 80 Init: 20 P: construct	collection of tiny spooky objects (0)
-The Whole Kingdom	0	wholekingdom.gif	HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: construct
+The Whole Kingdom	949	wholekingdom.gif	HP: 10000000 Def: 1 Atk: 1 Phys: 100 P: construct
 
 # Kegger in the Woods (antique bottle opener May-June 2010)
 actual orcish frat boy	956	1boy2cups.gif	HP: 100 Def: 63 Atk: 45 Init: 60 E: sleaze P: orc	plastic cup of beer (100)	plastic cup of beer (100)
@@ -1759,7 +1759,7 @@ outlaw leader	1663	outlawboss.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: du
 tetched prospector	1660	tetched.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	minin' dynamite (20)	minin' dynamite (1)	lump of goofball ore (c0)
 
 # Twitch 7 - Shakespeare (October 2015)
-ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: undead	ghost beer (0)	ghostly dagger (0)
+ghost actor	1847	ghostactor.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Phys: 100 P: undead	ghost beer (0)	ghostly dagger (0)
 Groundling	1842	groundling.gif	Scale: 1 Cap: 1000 Floor: 5 Init: -10000 P: dude	stink-penny (0)
 Hamlet	1843	hamlet.gif	Scale: 3 Cap: 1000 Floor: 10 Init: -10000 P: dude	hawk (0)	hamlet sandwich (0)
 Othello	1844	othello.gif	Scale: 5 Cap: 1000 Floor: 15 Init: -10000 P: dude	bowl of Jeal-O (0)
