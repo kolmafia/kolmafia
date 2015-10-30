@@ -882,7 +882,7 @@ The Mastermind	1681	adv_smart4.gif	Atk: [250] Def: [250] HP: [200] Init: -10000 
 
 Savage Beatnik	1682	adv_smooth1.gif	Atk: [300-15*max(pref(nsContestants2)-1,0)] Def: [150-5*max(pref(nsContestants2)-1,0)] HP: [300-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	jazzy cigarette holder (c0)
 Creamweaver	1683	adv_smooth2.gif	Atk: [250-10*max(pref(nsContestants2)-1,0)] Def: [250-10*max(pref(nsContestants2)-1,0)] HP: [200-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude
-smooth criminal	1684	adv_smooth3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	one glove (c0)
+Smooth Criminal	1684	adv_smooth3.gif	Atk: [200-5*max(pref(nsContestants2)-1,0)] Def: [300-15*max(pref(nsContestants2)-1,0)] HP: [250-10*max(pref(nsContestants2)-1,0)] Init: -10000 P: dude	one glove (c0)
 Seannery the Conman	1685	adv_smooth4.gif	Atk: [200] Def: [300] HP: [250] Init: -10000 P: dude	leather glove (c0)
 
 # - Adventurer Crowd 3
