@@ -6183,6 +6183,24 @@ public abstract class ChoiceManager
 		return request.responseText;
 	}
 
+	private static final boolean stillInChoice( final String responseText )
+	{
+		// Doing the Maths has a choice form but, somehow, does not specify choice.php
+
+		// <form method="get" id="">
+		//   <input type="hidden" name="whichchoice" value="1103" />
+		//   <input type="hidden" name="pwd" value="xxxxxx" />
+		//   <input type="hidden" name="option" value="1" />
+		//   <input type="text" name="num" value="" maxlen="6" size="6" />
+		//   <input type="submit" value="Calculate the Universe" class="button" />
+		//   <div style="clear:both"></div>
+		// </form>
+
+		return  responseText.contains( "action=choice.php" ) ||
+			responseText.contains( "href=choice.php" ) ||
+			responseText.contains( "name=\"whichchoice\"" );
+	}
+
 	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, final String responseText )
 	{
 		// You can no longer simply ignore a choice adventure.  One of
@@ -6213,8 +6231,7 @@ public abstract class ChoiceManager
 		}
 
 		for ( int stepCount = 0;
-		      !KoLmafia.refusesContinue() &&
-			      ( request.responseText.contains( "action=choice.php" ) || request.responseText.contains( "href=choice.php" ) );
+		      !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice( request.responseText );
 		      ++stepCount )
 		{
 			request.clearDataFields();
@@ -8923,7 +8940,8 @@ public abstract class ChoiceManager
 		// Things that can or need to be done AFTER processing results.
 
 		String text = request.responseText;
-		ChoiceManager.handlingChoice = text.contains( "choice.php" );
+
+		ChoiceManager.handlingChoice = ChoiceManager.stillInChoice( text );
 
 		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
 		{
@@ -10015,7 +10033,7 @@ public abstract class ChoiceManager
 			break;
 		}
 
-		if ( text.contains( "choice.php" ) )
+		if ( ChoiceManager.stillInChoice( text ) )
 		{
 			ChoiceManager.visitChoice( request );
 			return;
@@ -10083,8 +10101,8 @@ public abstract class ChoiceManager
 
 	public static void visitChoice( final GenericRequest request )
 	{
-		ChoiceManager.lastChoice = ChoiceManager.extractChoice( request.responseText );
 		String text = ChoiceManager.lastResponseText = request.responseText;
+		ChoiceManager.lastChoice = ChoiceManager.extractChoice( text );
 
 		if ( ChoiceManager.lastChoice == 0 )
 		{
