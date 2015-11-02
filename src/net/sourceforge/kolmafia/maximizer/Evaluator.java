@@ -88,6 +88,7 @@ public class Evaluator
 	private int carriedFamiliarsNeeded = 0;
 	private boolean cardNeeded = false;
 	private boolean edPieceNeeded = false;
+	private String edPieceDecided = null;
 	private boolean snowsuitNeeded = false;
 
 	private final int[] slots = new int[ EquipmentManager.ALL_SLOTS ];
@@ -360,6 +361,8 @@ public class Evaluator
 				this.booleanMask |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
 				this.booleanValue |= (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
 				index = -1;
+				// Force Crown of Ed to Fish
+				this.edPieceDecided = "fish";
 				continue;
 			}
 			else if ( keyword.startsWith( "equip " ) )
@@ -1443,6 +1446,11 @@ public class Evaluator
 
 				if ( id == ItemPool.CROWN_OF_ED )
 				{
+					if ( this.edPieceDecided != null )
+					{
+						// Currently this means +sea specified, so meets that requirement
+						item.automaticFlag = true;
+					}
 					break gotItem;
 				}
 
@@ -1614,33 +1622,41 @@ public class Evaluator
 
 		if ( this.edPieceNeeded )
 		{
-			// Assume best is current edPiece
-			MaximizerSpeculation best = new MaximizerSpeculation();
-			CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
-			best.attachment = edPiece;
-			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
-			bestEdPiece = Preferences.getString( "edPiece" );
-			best.equipment[ EquipmentManager.HAT ] = edPiece;
-			best.setEdPiece( bestEdPiece );
-			
-			// Check each animal in Crown of Ed to see if they are worthwhile
-			for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
+			// Is Crown of Ed forced to a particular choice ?
+			if ( this.edPieceDecided != null )
 			{
-				String animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
-				if ( animal.equals( bestEdPiece ) )
+				bestEdPiece = this.edPieceDecided;
+			}
+			else
+			{
+				// Assume best is current edPiece
+				MaximizerSpeculation best = new MaximizerSpeculation();
+				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
+				best.attachment = edPiece;
+				Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
+				bestEdPiece = Preferences.getString( "edPiece" );
+				best.equipment[ EquipmentManager.HAT ] = edPiece;
+				best.setEdPiece( bestEdPiece );
+				
+				// Check each animal in Crown of Ed to see if they are worthwhile
+				for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
 				{
-					// Don't bother if we've already done it for best
-					continue;
-				}
-				MaximizerSpeculation spec = new MaximizerSpeculation();
-				spec.attachment = edPiece;
-				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
-				spec.equipment[ EquipmentManager.HAT ] = edPiece;
-				spec.setEdPiece( animal );
-				if ( spec.compareTo( best ) > 0 )
-				{
-					best = (MaximizerSpeculation) spec.clone();
-					bestEdPiece = animal;
+					String animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
+					if ( animal.equals( bestEdPiece ) )
+					{
+						// Don't bother if we've already done it for best
+						continue;
+					}
+					MaximizerSpeculation spec = new MaximizerSpeculation();
+					spec.attachment = edPiece;
+					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
+					spec.equipment[ EquipmentManager.HAT ] = edPiece;
+					spec.setEdPiece( animal );
+					if ( spec.compareTo( best ) > 0 )
+					{
+						best = (MaximizerSpeculation) spec.clone();
+						bestEdPiece = animal;
+					}
 				}
 			}
 		}
