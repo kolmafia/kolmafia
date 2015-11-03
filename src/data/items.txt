@@ -8697,6 +8697,63 @@
 8671	blue tulip	126513532	twitchtulip.gif	none	t,d	10
 8672
 8673
-8674
 8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
 8675	one-day ticket to The Glaciest	871547416	airdaypass.gif	usable	t	0
+8676
+8677
+8678
+8679
+8680
+8681
+8682
+8683
+8684
+8685
+8686
+8687
+8688
+8689
+8690
+8691
+8692
+8693
+8694
+8695
+8696
+8697
+8698
+8699
+8700
+8701
+8702
+8703
+8704
+8705
+8706
+8707
+8708
+8709
+8710
+8711
+8712
+8713
+8714
+8715
+8716
+8717
+8718
+8719
+8720
+8721
+8722
+8723
+8724
+8725
+8726
+8727
+8728
+8729
+8730
+8731	tin of submardines	815275674	sardinecan.gif	food	t,d	25
+8732	bottle of norwhiskey	808716481	singlebar.gif	drink	t,d	30
+8733	octolus oculus	154693441	eyeball.gif	spleen, usable	t,d	20

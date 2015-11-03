@@ -1997,3 +1997,10 @@
 1996	Oth-Jeal-O	othelloset.gif	da8c89ab17e336c5e4eaa303a586a9c4	use 1 bowl of Jeal-O
 1997	Oh Hamlet Hamlet Hamlet Hamlet	hamsandwich.gif	cceebb2c171b2e7d0df3a70a8f07e0ba	eat 1 hamlet sandwich
 1998	Booooooze	ghostbeer.gif	a0deb9400df1b96b2d588ac851e8b88e	drink 1 ghost beer
+1999
+2000
+2001
+2002
+2003
+2004	Appeteyes	knifefork.gif	7155a6dd9206b3b883f9012f170614cd	eat 1 tin of submardines
+2005	Norwhalloped	liver.gif	11e9381dd9fdf8880e5fc7bcd7236ccb	drink 1 bottle of norwhiskey

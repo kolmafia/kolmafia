@@ -4044,6 +4044,7 @@ Effect	Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie P
 Effect	Anytwo Five Elevenis?	Muscle: +10
 Effect	Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Effect	Apoplectic with Rage	Mysticality Percent: -10
+Effect	Appeteyes	Food Drop: +50
 Effect	Aquarius Rising	Spell Damage: +30
 Effect	Arabian Knighthood	Muscle Percent: +5
 Effect	Arcane in the Brain	Mana Cost (stackable): -3
@@ -5173,6 +5174,7 @@ Effect	No Accounting for... Barbarians	Avatar: "Accountant-Barbarian"
 Effect	No Squealer Healer	Avatar: "Quiet Healer"
 Effect	No Vertigo	Initiative: +20
 Effect	No Worries	Experience: +3
+Effect	Norwhalloped	MP Regen Min: 6, MP Regen Max: 10
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -6604,6 +6606,7 @@ Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
 Item	thyme jelly donut	Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
+Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
 Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
@@ -6660,6 +6663,7 @@ Item	bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 Item	bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
 Item	bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
 Item	bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
+Item	bottle of norwhiskey	Effect: "Norwhalloped", Effect Duration: 50
 Item	bottle of Old Pugilist	Effect: "Fightin' Drunk", Effect Duration: 20
 Item	bottle of Ooze-O	Effect: "Really Quite Poisoned", Effect Duration: 20
 Item	bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 50
