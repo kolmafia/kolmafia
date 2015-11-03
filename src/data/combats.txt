@@ -380,6 +380,7 @@ Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0
+VYKEA	-1	VYKEA viking (female)	VYKEA viking (male)
 WarBear Fortress (First Level)	100	Warbear Foot Soldier
 WarBear Fortress (Second Level)	100	Warbear Officer
 WarBear Fortress (Third Level)	100	High-Ranking Warbear Officer

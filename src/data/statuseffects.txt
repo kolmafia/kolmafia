@@ -2008,6 +2008,6 @@
 2007
 2008
 2009
-2010
+2010	This Is Where You're a Viking	balm.gif	bfd287f0d0282da6f3e4f501a290c30f	use 1 VYKEA woadpaint
 2011	Expert Vacationer	travelbrochure.gif	7a59246c3e406dc71356ab6ed2cb7c99	use 1 exotic travel brochure
 2012	Spiky Frozen Hair	spikyhair.gif	507eb44ad38f5d8e8378a2f63d7e13fc	use 1 frozen shampoo-conditioner
