@@ -177,6 +177,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
+import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
@@ -1476,6 +1477,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof VolcanoIslandRequest || isExternal ) && VolcanoIslandRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof WalMartRequest || isExternal ) && WalMartRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

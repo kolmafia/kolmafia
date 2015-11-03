@@ -734,6 +734,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "glaciest" ) )
+		{
+			WalMartRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "fishbones" ) )
 		{
 			FishboneryRequest.parseResponse( urlString, responseText );
@@ -1057,6 +1063,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "landfillstore" ) )
 			{
 				return DinseyCompanyStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "glaciest" ) )
+			{
+				return WalMartRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "toxic" ) )

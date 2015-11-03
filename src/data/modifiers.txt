@@ -698,6 +698,7 @@ Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, St
 Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, PvP Fights: +3, Smithsness: +5, Maximum HP: [2*K], Familiar Effect: "1.2xFairy, cap 25"
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Item	Voluminous Radio Pants	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "2xGhoul, cap 37"
+Item	Wal-Mart overalls	Moxie Percent: +40, Experience (Moxie): +4, Initiative: +30
 # warbear battle greaves: +20 WarBear Armor Penetration
 Item	warbear battle greaves	Weapon Damage Percent: +25, Spell Damage Percent: +50, Familiar Effect: "atk, 1xBarrr, cap 25"
 # warbear bearserker greaves: +60 WarBear Armor Penetration
@@ -2164,6 +2165,7 @@ Item	Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 Item	vinyl shield	Moxie Percent: +10, Damage Reduction: 24, Monster Level: +25
 Item	voodoo doll	Mysticality: +1
 Item	wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
+Item	Wal-Mart snowglobe	Muscle Percent: +40, Experience (Muscle): +4, Familiar Weight: +5
 # Wand of Oscus: All Spells Cast Are Stinky
 Item	Wand of Oscus	Spell Damage Percent: +100, Stench Spell Damage: +30, Class: "Pastamancer"
 Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Reduction: 10
@@ -3128,6 +3130,7 @@ Item	velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, 
 Item	vial of hot blood	Hot Resistance: +4, Single Equip
 Item	vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 Item	Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
+Item	Wal-Mart nametag	Mysticality Percent: +40, Experience (Mysticality): +4, Spell Critical Percent: +10
 Item	walrus-tusk earring	Maximum HP: +10
 Item	warbear dress bracers	Mysticality: +10, Candy Drop: +25, Single Equip
 Item	warbear electric warscarf	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Single Equip
@@ -4201,6 +4204,7 @@ Effect	Bounty of Renenutet	Item Drop: +50
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Effect	Braaains	Meat Drop: +50, Initiative: -50
+Effect	Brain Freeze	Spell Damage: +25, Moxie Percent: +50, Maximum MP: +100
 Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zone(Twitch)]
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
@@ -4667,6 +4671,7 @@ Effect	Frisky Spirit	Moxie: +15
 Effect	Frog In Your Throat	Muscle: +25
 Effect	From Nantucket	Experience (Moxie): +2
 Effect	Frost Tea	Hot Resistance: +3
+Effect	Frostbeard	Cold Damage: +15
 Effect	Frostbitten	Cold Damage: +10, Damage Reduction: -2
 Effect	Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level: +25
 # Frosty the Hitman: +0-2 <font color=red>Hot Damage</font>
@@ -4795,6 +4800,7 @@ Effect	Hare-o-dynamic	Initiative: +300
 Effect	Haunting Looks	Avatar: "sexy ghost"
 Effect	Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Effect	Head on Fire, Ass Catching	Initiative: +10
+Effect	Headstrong	Weapon Damage: +25, Muscle Percent: +50, Maximum HP: +100
 Effect	Heal Thy Nanoself	HP Regen Min: 10, HP Regen Max: 20
 Effect	Healthy Blue Glow	MP Regen Min: 3, MP Regen Max: 4
 Effect	Healthy Bronze Glow	Moxie Percent: +50
@@ -5930,6 +5936,7 @@ Effect	Warlock Fairy Wizard Sorcerer	Avatar: "spooky gravy fairy warlock"
 Effect	Warlock, Warstock, and Warbarrel	Spell Damage Percent: +150
 # Warm Belly: Makes sushi taste better
 Effect	Warm Belly	Hot Damage: [+3*D]
+Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
 # Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Effect	Wasabi With You	Weapon Damage Percent: +150
@@ -6142,6 +6149,7 @@ Skill	Precision of the Penguin	Critical Hit Percent: [Y]
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting
+Skill	Refusal to Freeze	Cold Resistance: +3
 # Replacement Stomach: +5 stomach capacity
 Skill	Riding Tall	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +50
 Skill	Riding the Lightning	Maximum MP Percent: +100
@@ -6537,6 +6545,7 @@ Item	honey-dew	Effect: "Mmmmmelon", Effect Duration: 10
 Item	hot hi mein	Effect: "Hot Breath", Effect Duration: 5
 Item	ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 Item	ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
+Item	iceberg lettuce	Effect: "Headstrong", Effect Duration: 50
 Item	initiative shawarma	Effect: "Shawarma Initiative", Effect Duration: 30
 Item	irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
 Item	java cookie	Effect: "Updated", Effect Duration: 10
@@ -6762,6 +6771,7 @@ Item	honey mead	Effect: "Sugar Rush", Effect Duration: 5
 Item	hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	Hot Socks	Effect: "[1701]Hip to the Jive", Effect Duration: 50
 Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
+Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Jack-O-Lantern beer	Effect: "Toothy Grin", Effect Duration: 30
@@ -7278,6 +7288,7 @@ Item	coal dust	Effect: "Funky Coal Patina", Effect Duration: 15
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)
+Item	Cold Fang	Skill: "Frost Bite"
 Item	Cold Hots candy	Effect: "Sugar Rush", Effect Duration: 1
 Item	cold nuggets	Effect: "Frigid Weapon", Effect Duration: 5
 Item	cold powder	Effect: "Insulated Trousers", Effect Duration: 5
@@ -8579,6 +8590,7 @@ Item	shopkeeper beard	Effect: "Shopkeeperrific", Effect Duration: 30
 Item	short deposition	Effect: "A Short Trial", Effect Duration: 50
 # short writ of habeas corpus: Lets you get away from pygmies without spending an Adventure
 Item	shot of Sneaky Pete's Mojo	Free Pull
+Item	shoulder-warming lotion	Effect: "Warm Shoulders", Effect Duration: 20
 Item	shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
 Item	shrine to the Barrel god	Free Pull
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%
@@ -8789,6 +8801,7 @@ Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: 
 Item	The Ballad of Richie Thingfinder	Skill: "The Ballad of Richie Thingfinder"
 # The Big Book of Pirate Insults: Use it to insult Pirates
 # The Bomb: Deals 400-500 Physical Damage
+Item	The Chill of the Wild	Skill: "Beardfreeze"
 Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 # The Emperor's new cookie: So delicious!
 Item	The Firegate Tapes	Skill: "Firegate"
@@ -8828,6 +8841,7 @@ Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20
 # tiny goth giant: Makes combat all Gothy
 # tiny goth giant: (doesn't go away when used)
 # tiny house: Restores 20-24 HP and MP and removes negative effects
+Item	To Build an Igloo	Skill: "Refusal to Freeze"
 Item	tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 # Tom's of the Spanish Main Toothpaste: Weakens enemies a little bit
 Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]

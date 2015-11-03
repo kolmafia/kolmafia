@@ -778,3 +778,17 @@ Disco GiftCo	buy	10	Lava Miner's Daughter	ROW750
 Disco GiftCo	buy	10	Psycho From The Heat	ROW751
 Disco GiftCo	buy	10	The Firegate Tapes	ROW752
 Disco GiftCo	buy	30	&quot;DEBBIE&quot; tattoo kit	ROW753
+
+# Things you can buy with Wal-Mart gift certificates
+
+Wal-Mart	buy	5	shoulder-warming lotion	ROW763
+Wal-Mart	buy	15	iceberg lettuce	ROW764
+Wal-Mart	buy	15	ice wine	ROW765
+Wal-Mart	buy	50	one-day ticket to The Glaciest	ROW773
+Wal-Mart	buy	75	Wal-Mart snowglobe	ROW766
+Wal-Mart	buy	75	Wal-Mart nametag	ROW767
+Wal-Mart	buy	75	Wal-Mart overalls	ROW768
+Wal-Mart	buy	150	To Build an Igloo	ROW769
+Wal-Mart	buy	150	The Chill of the Wild	ROW770
+Wal-Mart	buy	150	Cold Fang	ROW772
+Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771

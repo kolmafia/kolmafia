@@ -123,6 +123,7 @@ import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
 import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 
@@ -198,6 +199,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel dinseyCompanyStorePanel = null;
 	private CoinmasterPanel toxicChemistryPanel = null;
 	private CoinmasterPanel discoGiftCoPanel = null;
+	private CoinmasterPanel walmartPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -381,6 +383,11 @@ public class CoinmastersFrame
 		discoGiftCoPanel = new DiscoGiftCoPanel();
 		panel.add( discoGiftCoPanel );
 		this.selectorPanel.addPanel( discoGiftCoPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		walmartPanel = new WalmartPanel();
+		panel.add( walmartPanel );
+		this.selectorPanel.addPanel( walmartPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1218,6 +1225,15 @@ public class CoinmastersFrame
 		public DiscoGiftCoPanel()
 		{
 			super( DiscoGiftCoRequest.DISCO_GIFTCO );
+		}
+	}
+
+	private class WalmartPanel
+		extends CoinmasterPanel
+	{
+		public WalmartPanel()
+		{
+			super( WalMartRequest.WALMART );
 		}
 	}
 
