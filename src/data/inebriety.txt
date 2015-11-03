@@ -385,6 +385,12 @@ papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
 passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
+perfect cosmopolitan	3	5	EPIC	1-1	0	0	0	Unspaded
+perfect dark and stormy	3	5	EPIC	1-1	0	0	0	Unspaded
+perfect mimosa	3	5	EPIC	1-1	0	0	0	Unspaded
+perfect negroni	3	5	EPIC	1-1	0	0	0	Unspaded
+perfect old-fashioned	3	5	EPIC	1-1	0	0	0	Unspaded
+perfect paloma	3	5	EPIC	1-1	0	0	0	Unspaded
 perpendicular hula	4	4	good	10-14	0	0	34-36
 Petite Porter	3	4		3-5	0	0	0
 Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PvP fights
