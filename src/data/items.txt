@@ -8695,20 +8695,20 @@
 8669	white tulip	156741343	twitchtulip.gif	none	t,d	10
 8670	red tulip	973996072	twitchtulip.gif	none	t,d	10
 8671	blue tulip	126513532	twitchtulip.gif	none	t,d	10
-8672
+8672	Walford's bucket	874617975	pail.gif	offhand	q	0
 8673	Wal-Mart gift certificate	882474988	walcert.gif	none		0	Wal-Mart gift certificates
 8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
 8675	one-day ticket to The Glaciest	871547416	airdaypass.gif	usable	t	0
-8676
-8677
-8678
-8679
-8680
-8681
-8682
-8683
-8684
-8685
+8676	shoulder-warming lotion	977832847	handlotion.gif	usable	t,d	25
+8677	iceberg lettuce	160982443	icelettuce.gif	food	t,d	75
+8678	ice wine	987837300	wine.gif	drink	t,d	75
+8679	Wal-Mart snowglobe	675023434	walglobe.gif	offhand		0
+8680	Wal-Mart nametag	876748252	waltag.gif	accessory		0
+8681	Wal-Mart overalls	654491169	walveralls.gif	pants		0
+8682	To Build an Igloo	253562962	book3.gif	usable	t	0
+8683	The Chill of the Wild	332648259	book5.gif	usable	t	0
+8684	Cold Fang	734391994	book4.gif	usable	t	0
+8685	Wal-Mart tattoo kit	547207087	waltat.gif	usable	t	0
 8686	perfect ice cube	627519104	perf_icecube.gif	none	t,d	9
 8687
 8688	bellhop's hat	254146151	bellhophat.gif	hat	t,d	180
@@ -8745,8 +8745,8 @@
 8719	VYKEA meatballs	666514481	vykballs.gif	food	t,d	50
 8720	VYKEA mead	210477648	vykmead.gif	drink	t,d	55
 8721	VYKEA woadpaint	165534547	balm.gif	usable	t,d	20
-8722
-8723
+8722	VYKEA frenzy rune	715122573	vykrune2.gif	none	t,d	22
+8723	VYKEA blood rune	646944996	vykrune1.gif	none	t,d	26
 8724	VYKEA lightning rune	569479825	vykrune3.gif	none	t,d	31
 8725	VYKEA plank	764156127	vykplank.gif	none	t,d	11
 8726	VYKEA rail	286416420	vykrail.gif	none	t,d	15

@@ -566,6 +566,7 @@ Unkillable Skeleton's shinguards	300	Mus: 250
 Vicar's Tutu	100	none
 Volartta's bellbottoms	125	Mox: 30
 Voluminous Radio Pants	150	Mox: 60
+Wal-Mart overalls	200	Mox: 50
 warbear battle greaves	50	Mox: 10
 warbear bearserker greaves	250	Mox: 110
 warbear ceremonial party pants	150	Mox: 60
@@ -1848,6 +1849,8 @@ Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
 voodoo doll	0	none
 wad of Crovacite	0	none
+Wal-Mart snowglobe	0	Mus: 50
+Walford's bucket	0	none
 Wand of Oscus	200	Mys: 200
 washboard shield	160	Mus: 150	shield
 Whatsian Ionic Pliers	110	Mys: 40
@@ -2687,6 +2690,7 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 Voluminous Radio Sneakers	0	Mys: 60
+Wal-Mart nametag	0	Mys: 50
 walrus-tusk earring	50	Mys: 10
 warbear dress bracers	100	Mys: 35
 warbear electric warscarf	250	Mys: 110
