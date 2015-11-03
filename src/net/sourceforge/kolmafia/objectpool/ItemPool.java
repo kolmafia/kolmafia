@@ -2485,6 +2485,8 @@ public class ItemPool
 	public static final int TO_BUILD_AN_IGLOO = 8682;
 	public static final int CHILL_OF_THE_WILD = 8683;
 	public static final int COLD_FANG = 8684;
+	public static final int COLD_WEATHER_BARTENDER_GUIDE = 8687;
+	public static final int VYKEA_INSTRUCTIONS = 8730;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -8805,6 +8805,7 @@ Item	The Chill of the Wild	Skill: "Beardfreeze"
 Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 # The Emperor's new cookie: So delicious!
 Item	The Firegate Tapes	Skill: "Firegate"
+Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
 Item	The Groose in the Hoose	Free Pull
 Item	The Joy of Wassailing	Skill: "Wassail"
 Item	The Joy of Wassailing (used)	Skill: "Wassail"

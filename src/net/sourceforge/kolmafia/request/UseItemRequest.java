@@ -3063,6 +3063,7 @@ public class UseItemRequest
 		case ItemPool.LAVA_MINERS_DAUGHTER:
 		case ItemPool.PSYCHO_FROM_THE_HEAT:
 		case ItemPool.THE_FIREGATE_TAPES:
+		case ItemPool.COLD_WEATHER_BARTENDER_GUIDE:
 		case ItemPool.TO_BUILD_AN_IGLOO:
 		case ItemPool.CHILL_OF_THE_WILD:
 		case ItemPool.COLD_FANG:

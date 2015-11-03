@@ -13099,6 +13099,7 @@ public abstract class ChoiceManager
 		case 1103: // Doing the Maths
 		case 1104: // Tree Tea
 		case 1105: // Specifici Tea
+		case 1114: // Walford Rusley, Bucket Collector
 			return true;
 
 		default:
