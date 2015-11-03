@@ -102,6 +102,7 @@ public class UseSkillRequest
 		"Summon Holiday Fun!",
 		"Summon Carrot",
 		"Summon Kokomo Resort Pass",
+		"Perfect Freeze",
 	};
 
 	// These are skills where someone would not care if they are in-run,
@@ -803,6 +804,10 @@ public class UseSkillRequest
 
 		case SkillPool.DARK_RITUAL:
 			maximumCast = InventoryManager.getCount( ItemPool.BLACK_MANA );
+			break;
+
+		case SkillPool.PERFECT_FREEZE:
+			maximumCast = Preferences.getBoolean( "_perfectFreezeUsed" ) ? 0 : 1;
 			break;
 		}
 
@@ -2227,6 +2232,10 @@ public class UseSkillRequest
 
 		case SkillPool.DARK_RITUAL:
 			ResultProcessor.processResult( ItemPool.get( ItemPool.BLACK_MANA, -count ) );
+			break;
+
+		case SkillPool.PERFECT_FREEZE:
+			Preferences.setBoolean( "_perfectFreezeUsed", true );
 			break;
 
 		}
