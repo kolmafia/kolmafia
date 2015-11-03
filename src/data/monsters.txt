@@ -933,7 +933,7 @@ topiary kiwi	1713	topiarykiwi.gif	Atk: 350 Def: 350 HP: 350 Init: 150 P: plant
 
 wall of bones	1708	wallofbones.gif	Atk: 1000 Def: 1000 HP: 20000 Init: -10000 P: undead
 wall of meat	1706	noart.gif	Atk: 200 Def: 200 HP: 700 Init: -10000 P: elemental
-wall of skin	1707	wallofskin.gif	Atk: 200 Def: 200 HP: 50 Init: -10000 P: construct
+wall of skin	1707	wallofskin.gif	Atk: 200 Def: 200 HP: [50+150*path(BIG!)] Init: -10000 P: construct
 # Manuel name is "(shadow opponent)" with parentheses
 Your Shadow	210	otherimages/shadows/20.gif	Atk: [150] Def: [89999] HP: [395] Init: 150 Exp: 200 P: dude Manuel: "(shadow opponent)"
 
