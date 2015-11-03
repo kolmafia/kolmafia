@@ -328,6 +328,7 @@ user	cinderellaScore	0
 user	grimstoneMaskPath	
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
+user	coldAirportAlways	false
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	counterScript

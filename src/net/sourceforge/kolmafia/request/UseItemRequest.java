@@ -4730,6 +4730,10 @@ public class UseItemRequest
 			Preferences.setBoolean( "hotAirportAlways", true );
 			return;
 
+		case ItemPool.GLACIEST_CHARTER:
+			Preferences.setBoolean( "coldAirportAlways", true );
+			return;
+
 		case ItemPool.LOVEBUG_PHEROMONES:
 			Preferences.setBoolean( "lovebugsUnlocked", true );
 			if ( !responseText.contains( "have been permanently unlocked" ) )

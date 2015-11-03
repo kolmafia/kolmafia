@@ -8695,3 +8695,7 @@
 8669	white tulip	156741343	twitchtulip.gif	none	t,d	10
 8670	red tulip	973996072	twitchtulip.gif	none	t,d	10
 8671	blue tulip	126513532	twitchtulip.gif	none	t,d	10
+8672
+8673
+8674
+8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
