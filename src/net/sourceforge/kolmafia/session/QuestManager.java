@@ -166,7 +166,14 @@ public class QuestManager
 			          locationId.equals( AdventurePool.BARF_MOUNTAIN_ID ) ||
 			          locationId.equals( AdventurePool.GARBAGE_BARGES_ID ) ||
 			          locationId.equals( AdventurePool.TOXIC_TEACUPS_ID ) ||
-			          locationId.equals( AdventurePool.LIQUID_WASTE_SLUICE_ID ) )
+			          locationId.equals( AdventurePool.LIQUID_WASTE_SLUICE_ID ) ||
+			          locationId.equals( AdventurePool.SMOOCH_ARMY_HQ_ID ) ||
+			          locationId.equals( AdventurePool.VELVET_GOLD_MINE_ID ) ||
+			          locationId.equals( AdventurePool.LAVACO_LAMP_FACTORY_ID ) ||
+			          locationId.equals( AdventurePool.BUBBLIN_CALDERA_ID ) ||
+			          locationId.equals( AdventurePool.ICE_HOTEL_ID ) ||
+			          locationId.equals( AdventurePool.VYKEA_ID ) ||
+			          locationId.equals( AdventurePool.ICE_HOLE_ID ) )
 			{
 				handleAirportChange( location, responseText );
 			}
@@ -625,6 +632,26 @@ public class QuestManager
 
 	public static final void handleAirportChange( final String location, final String responseText )
 	{
+		// Check Cold settings
+		if ( !Preferences.getBoolean( "coldAirportAlways" ) )
+		{
+			// Detect if Airport is open today
+			if ( location.contains( AdventurePool.ICE_HOTEL_ID ) ||
+			     location.contains( AdventurePool.VYKEA_ID ) ||
+			     location.contains( AdventurePool.ICE_HOLE_ID ) ||
+			     location.contains( "whichplace=airport_cold" ) )
+			{
+				Preferences.setBoolean( "_coldAirportToday", true );
+			}
+			else if ( location.contains( "whichplace=airport" ) )
+			{
+				if ( responseText.contains( "whichplace=airport_cold" ) )
+				{
+					Preferences.setBoolean( "_coldAirportToday", true );
+				}
+			}
+		}
+
 		// Check Hot settings
 		if ( !Preferences.getBoolean( "hotAirportAlways" ) )
 		{

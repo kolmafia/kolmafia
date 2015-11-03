@@ -2839,7 +2839,7 @@ Item	sticky gloves	Pickpocket Chance: +20, Single Equip
 Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
 # stinky fannypack: +40% Item Drops while on Vacation
 # stinky fannypack: (in any Elemental Airport area)
-Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Item Drop: [40*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano))]
+Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Item Drop: [40*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))]
 Item	stolen necklace	PvP Fights: +1, Spooky Damage: +5
 # strawberyl necklace: (only in the Candy Diorama)
 Item	strawberyl necklace	Spell Damage Percent: [200*zone(The Candy Diorama)], Single Equip
