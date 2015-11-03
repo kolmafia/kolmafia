@@ -91,6 +91,8 @@ Item	bat hat	Mysticality: +9, Item Drop: +5, Familiar Effect: "spooky atk, 1xVol
 Item	battered old top-hat	Maximum HP: +500, Muscle Percent: +5, Familiar Effect: "0.5xVolley, 0.75xFairy"
 Item	beer helmet	Maximum MP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	beholed bedsheet	Familiar Effect: "8xVolley, 8xLep, cap 2"
+# Item bellhop's hat: Helps you blend in at the Ice Hotel
+Item	bellhop's hat	Muscle: +10
 Item	big bad voodoo mask	Mysticality: +7, Spell Damage: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 40"
 Item	Big Candy's tophat	Candy Drop: +25, Damage Reduction: 5, Familiar Effect: "1xGhoul, 1xFairy, cap 25"
 Item	biker's hat	Moxie Percent: +40, Booze Drop: +40, Pickpocket Chance: +20
@@ -4556,6 +4558,8 @@ Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Pe
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
 Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
+# Effect Expert Vacationer: +25% to all stat gains in exotic travel destinations
+Effect	Expert Vacationer	Experience Percent (Muscle): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Mysticality): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Moxie): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))]
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
 Effect	Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
@@ -5597,6 +5601,7 @@ Effect	Spice Haze	Item Drop: +5
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
 Effect	Spicy Mouth	Mysticality: +5, Moxie: -5
 Effect	Spike-and-span	Avatar: "spiny skelelton"
+# Effect Spiky Frozen Hair: Deals 40-60 Cold Damage to attacking foes
 Effect	Spiky Hair	Muscle: +6, Moxie: +6
 # Spiky Shell: Damages attacking opponents
 Effect	Spirit Bubble	Damage Reduction: 10, Spooky Damage: +10, Spooky Spell Damage: +10
@@ -7652,6 +7657,7 @@ Item	frostbite-flavored Hob-O	Effect: "Tundra Mouth", Effect Duration: 1
 # Frosty's iceball: Deals 200-300 <font color=blue>Cold Damage</font>
 # Frosty's iceball: (you can use it 2 times a day without melting it)
 # frozen feather: Deals 80-120 <font color=blue>Cold Damage</font>
+Item	frozen shampoo-conditioner	Effect: "Spiky Frozen Hair", Effect Duration: 20
 Item	fry-oil-flavored Hob-O	Effect: "Cholestoriffic", Effect Duration: 1
 Item	Fu Manchu Wax	Effect: "Super Calloused Agile Mystic", Effect Duration: 30
 Item	Fudge Fiber Armor Plating	Effect: "Armored Innards", Effect Duration: 20

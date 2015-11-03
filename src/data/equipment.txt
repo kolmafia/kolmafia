@@ -25,6 +25,7 @@ bat hat	180	Mox: 75
 battered old top-hat	200	Mox: 200
 beer helmet	170	Mox: 70
 beholed bedsheet	10	none
+bellhop's hat	120	Mox: 35
 big bad voodoo mask	160	Mox: 65
 Big Candy's tophat	100	none
 biker's hat	200	Mox: 85

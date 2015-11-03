@@ -1611,8 +1611,16 @@ Mr. Choch	1814	mrchoch.gif	Atk: 200 Def: 200 HP: 400 P: dude Init: 100	Mr. Choch
 # The Flaming Inferno Discotheque (That 70s Volcano August 2015)
 Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 Phys: 50	Saturday Night thermometer (n100)	grease cannon (n100)
 
+# The Ice Hotel (The Glaciest November 2015)
+ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 E: cold P: dude	perfect ice cube (0)
+ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 E: cold P: dude	ice hotel bell (0)
+ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 E: cold P: dude	exotic travel brochure (0)
+ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 E: cold P: dude	frozen shampoo-conditioner (0)	hotel minibar key (0)
+ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 E: cold P: dude	ice porter (0)	bellhop's hat (0)
+
+# The Ice Hole (The Glaciest November 2015)
 Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bottle of norwhiskey (0)
-Arctic Octolus	1857	octulus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)
+Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)
 Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 P: fish E: cold Init: 25	tin of submardines (0)
 
 # KoL Con

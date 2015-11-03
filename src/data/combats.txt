@@ -292,6 +292,7 @@ The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
 The Ice Caves	-1	alien	alien UFO	caveman	yeti
 The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
+The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi

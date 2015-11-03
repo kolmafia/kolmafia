@@ -8696,7 +8696,7 @@
 8670	red tulip	973996072	twitchtulip.gif	none	t,d	10
 8671	blue tulip	126513532	twitchtulip.gif	none	t,d	10
 8672
-8673
+8673	Wal-Mart gift certificate	882474988	walcert.gif	none		0	Wal-Mart gift certificates
 8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
 8675	one-day ticket to The Glaciest	871547416	airdaypass.gif	usable	t	0
 8676
@@ -8709,15 +8709,15 @@
 8683
 8684
 8685
-8686
+8686	perfect ice cube	627519104	perf_icecube.gif	none	t,d	9
 8687
-8688
-8689
-8690
+8688	bellhop's hat	254146151	bellhophat.gif	hat	t,d	180
+8689	ice porter	405574007	beerbottle.gif	drink	t,d	45
+8690	exotic travel brochure	922037447	travelbrochure.gif	multiple	t,d	25
 8691
-8692
-8693
-8694
+8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59
+8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
+8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
 8695
 8696
 8697
