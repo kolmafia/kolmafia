@@ -8742,18 +8742,18 @@
 8716
 8717
 8718
-8719
-8720
-8721
+8719	VYKEA meatballs	666514481	vykballs.gif	food	t,d	50
+8720	VYKEA mead	210477648	vykmead.gif	drink	t,d	55
+8721	VYKEA woadpaint	165534547	balm.gif	usable	t,d	20
 8722
 8723
-8724
-8725
-8726
-8727
-8728
-8729
-8730
+8724	VYKEA lightning rune	569479825	vykrune3.gif	none	t,d	31
+8725	VYKEA plank	764156127	vykplank.gif	none	t,d	11
+8726	VYKEA rail	286416420	vykrail.gif	none	t,d	15
+8727	VYKEA bracket	779732940	vykbracket.gif	none	t,d	17
+8728	VYKEA dowel	609821681	vykdowel.gif	none	t,d	9
+8729	VYKEA hex key	667635420	hexkey.gif	weapon	t,d	66
+8730	VYKEA instructions	560068358	vykinstructions.gif	usable	t,d	111
 8731	tin of submardines	815275674	sardinecan.gif	food	t,d	25
 8732	bottle of norwhiskey	808716481	singlebar.gif	drink	t,d	30
 8733	octolus oculus	154693441	eyeball.gif	spleen, usable	t,d	20

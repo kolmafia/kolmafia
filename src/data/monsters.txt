@@ -1618,6 +1618,10 @@ ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 E: cold P:
 ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 E: cold P: dude	frozen shampoo-conditioner (0)	hotel minibar key (0)
 ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 E: cold P: dude	ice porter (0)	bellhop's hat (0)
 
+# VYKEA (The Glaciest November 2015)
+VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	Scale: 10 Cap: ? Floor: ? Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)
+VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	Scale: 6 Cap: ? Floor: ? Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
+
 # The Ice Hole (The Glaciest November 2015)
 Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bottle of norwhiskey (0)
 Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)

@@ -1640,6 +1640,7 @@ Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Ac
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
 Item	vorpal blade	Critical Hit Percent: +8
+Item	VYKEA hex key	Muscle: +6, Mysticality: +6, Moxie: +6, HP Regen Min: 6, HP Regen Max: 6, MP Regen Min: 6, MP Regen Max: 6, Weapon Damage: +6
 # Wand of Nagamar
 Item	war tongs	Hot Damage: +10, Hot Spell Damage: +10
 Item	warbear exhaust manifold	Stench Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
@@ -5809,6 +5810,7 @@ Effect	Thickest, Sickest	Damage Reduction: 30
 Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: 25, Item Drop: 20, Meat Drop: 20, Pickpocket Chance: 10, Spell Damage Percent: +100, Weapon Damage Percent: +50
 Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
+Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
@@ -8913,6 +8915,7 @@ Item	violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
 Item	votive candle	Effect: "Clerical Aura", Effect Duration: 100
+Item	VYKEA woadpaint	Effect: "This Is Where You're a Viking", Effect Duration: 30
 Item	wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
 Item	walkie-talkie	Free Pull
 # wand of pigification: Turns your foe into a pig

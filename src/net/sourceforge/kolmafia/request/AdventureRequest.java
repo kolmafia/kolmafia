@@ -635,6 +635,9 @@ public class AdventureRequest
 				image.startsWith( "ssd_cocktail" ) ? "Sloppy Seconds Cocktail" :
 				image.startsWith( "ssd_sundae" ) ? "Sloppy Seconds Sundae" :
 				image.startsWith( "fun-gal" ) ? "Fun-Guy Playmate" :
+				// VYKEA
+				image.startsWith( "vykfemale" ) ? "VYKEA viking (female)" :
+				image.startsWith( "vykmale" ) ? "VYKEA viking (male)" :				
 				// The Old Landfill
 				image.startsWith( "js_bender" ) ? "junksprite bender" :
 				image.startsWith( "js_melter" ) ? "junksprite melter" :
