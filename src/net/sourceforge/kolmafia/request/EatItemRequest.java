@@ -619,6 +619,13 @@ public class EatItemRequest
 			return;
 		}
 
+		if ( item.getItemId() == ItemPool.CARTON_OF_SNAKE_MILK &&
+		     responseText.contains( "cream cheese" ) )
+		{
+			ResultProcessor.processResult( item.getNegation() );
+			return;
+		}
+
 		// You're really, really hungry, but that isn't what you're hungry for.
 		if ( KoLCharacter.inZombiecore() && responseText.contains( "that isn't what you're hungry for" ) )
 		{
@@ -719,7 +726,7 @@ public class EatItemRequest
 				// sizzlicious! The salad fork cools, and you
 				// discard it."
 
-				if ( responseText.indexOf( "The salad fork cools" ) == -1 )
+				if ( !responseText.contains( "The salad fork cools" ) )
 				{
 					success = false;
 				}
@@ -730,7 +737,7 @@ public class EatItemRequest
 				// "You eat the <food> with your fudge spork,
 				// and then you eat your fudge spork. How sweet it is!"
 
-				if ( responseText.indexOf( "you eat your fudge spork" ) == -1 )
+				if ( !responseText.contains( "you eat your fudge spork" ) )
 				{
 					success = false;
 				}
@@ -798,7 +805,7 @@ public class EatItemRequest
 			// pudding. You're not positive that that's a good
 			// thing. Bleah."
 
-			if ( responseText.indexOf( "blood sausage" ) != -1 )
+			if ( responseText.contains( "blood sausage" ) )
 			{
 				return;
 			}
@@ -821,14 +828,14 @@ public class EatItemRequest
 
 			// "You don't have time to properly enjoy a black
 			// pudding right now."
-			if ( responseText.indexOf( "don't have time" ) != -1 )
+			if ( responseText.contains( "don't have time" ) )
 			{
 				UseItemRequest.lastUpdate = "Insufficient adventures left.";
 			}
 
 			// "You're way too beaten up to enjoy a black pudding
 			// right now. Because they're tough to chew. Yeah."
-			else if ( responseText.indexOf( "too beaten up" ) != -1 )
+			else if ( responseText.contains( "too beaten up" ) )
 			{
 				UseItemRequest.lastUpdate = "Too beaten up.";
 			}
@@ -841,7 +848,7 @@ public class EatItemRequest
 			return;
 
 		case ItemPool.STEEL_STOMACH:
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			if ( responseText.contains( "You acquire a skill" ) )
 			{
 				ResponseTextParser.learnSkill( "Stomach of Steel" );
 			}
