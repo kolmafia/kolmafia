@@ -70,6 +70,7 @@ bottle of Jorge Sinsonte	3	2	decent	4-8	0	0	0
 bottle of Lambada Lambic	3	11	EPIC	18-20	40-60	40-60	40-60
 bottle of laundry sherry	2	11	awesome	7-8	0	50-80	0
 bottle of Lieutenant Freeman	3	2	decent	4-8	0	0	0
+bottle of norwhiskey	1	4	awesome	1-1	0	0	0	Unspaded, 50 Norwhalloped (+6-10 MP regen)
 bottle of Old Pugilist	2	6	EPIC	10-12	20-30	20-30	20-30	20 Fightin' Drunk (+50 Mus, +10-20 HP regen)
 bottle of Ooze-O	3	1	crappy	0	0	0	0	20 Really Quite Poisoned, lose 70 HP
 bottle of peppermint schnapps	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)

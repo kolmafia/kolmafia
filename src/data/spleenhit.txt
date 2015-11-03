@@ -90,6 +90,7 @@ mummified fig	1	1	good	3	5-10	5-10	5-10
 mummified loaf of bread	3	1	awesome	11-13	5-10	5-10	5-10
 nasty snuff	1	4	decent	1-2	15-30	15-30	15-30
 not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
+octolus oculus	1	4	decent	1-1	0	0	0	Unspaded
 off-white paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
