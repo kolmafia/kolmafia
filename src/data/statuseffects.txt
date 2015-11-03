@@ -2004,3 +2004,10 @@
 2003
 2004	Appeteyes	knifefork.gif	7155a6dd9206b3b883f9012f170614cd	eat 1 tin of submardines
 2005	Norwhalloped	liver.gif	11e9381dd9fdf8880e5fc7bcd7236ccb	drink 1 bottle of norwhiskey
+2006
+2007
+2008
+2009
+2010
+2011	Expert Vacationer	travelbrochure.gif	7a59246c3e406dc71356ab6ed2cb7c99	use 1 exotic travel brochure
+2012	Spiky Frozen Hair	spikyhair.gif	507eb44ad38f5d8e8378a2f63d7e13fc	use 1 frozen shampoo-conditioner
