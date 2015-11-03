@@ -8710,11 +8710,11 @@
 8684	Cold Fang	734391994	book4.gif	usable	t	0
 8685	Wal-Mart tattoo kit	547207087	waltat.gif	usable	t	0
 8686	perfect ice cube	627519104	perf_icecube.gif	none	t,d	9
-8687
+8687	The Fun-Guy Cold Weather Bartender's Guide	293008569	book3.gif	usable	t	0
 8688	bellhop's hat	254146151	bellhophat.gif	hat	t,d	180
 8689	ice porter	405574007	beerbottle.gif	drink	t,d	45
 8690	exotic travel brochure	922037447	travelbrochure.gif	multiple	t,d	25
-8691
+8691	bag of foreign bribes	597574332	bribebag.gif	multiple	t	0
 8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59
 8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88

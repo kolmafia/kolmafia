@@ -3032,6 +3032,10 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.VYKEA_INSTRUCTIONS:
+			itemName = "VYKEA instructions";
+			break;
+
 		default:
 			return;
 		}
