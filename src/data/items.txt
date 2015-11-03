@@ -8699,3 +8699,4 @@
 8673
 8674
 8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
+8675	one-day ticket to The Glaciest	871547416	airdaypass.gif	usable	t	0

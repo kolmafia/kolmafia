@@ -232,4 +232,10 @@ public class AdventurePool
 	public static final String LAVACO_LAMP_FACTORY_ID = "450";
 	public static final int BUBBLIN_CALDERA = 451;
 	public static final String BUBBLIN_CALDERA_ID = "451";
+	public static final int ICE_HOTEL = 455;
+	public static final String ICE_HOTEL_ID = "455";
+	public static final int VYKEA = 456;
+	public static final String VYKEA_ID = "456";
+	public static final int ICE_HOLE = 457;
+	public static final String ICE_HOLE_ID = "457";
 }

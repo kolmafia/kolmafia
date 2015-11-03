@@ -4730,8 +4730,28 @@ public class UseItemRequest
 			Preferences.setBoolean( "hotAirportAlways", true );
 			return;
 
+		case ItemPool.VOLCANO_TICKET:
+			if ( responseText.contains( "already have access to that place" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+
+			Preferences.setBoolean( "_hotAirportToday", true );
+			return;
+
 		case ItemPool.GLACIEST_CHARTER:
 			Preferences.setBoolean( "coldAirportAlways", true );
+			return;
+
+		case ItemPool.GLACIEST_TICKET:
+			if ( responseText.contains( "already have access to that place" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+
+			Preferences.setBoolean( "_coldAirportToday", true );
 			return;
 
 		case ItemPool.LOVEBUG_PHEROMONES:

@@ -2399,6 +2399,7 @@ public class ItemPool
 	public static final int GIFT_CARD = 8392;
 	public static final int LINGUINI_IMMONDIZIA_BIANCO = 8419;
 	public static final int SHELLS_A_LA_SHELLFISH = 8420;
+	public static final int VOLCANO_TICKET = 8486;
 	public static final int VOLCANO_CHARTER = 8487;
 	public static final int GOLD_1970 = 8424;
 	public static final int NEW_AGE_HEALING_CRYSTAL = 8425;
@@ -2479,6 +2480,7 @@ public class ItemPool
 	public static final int RED_TULIP = 8670;
 	public static final int BLUE_TULIP = 8671;
 	public static final int GLACIEST_CHARTER = 8674;
+	public static final int GLACIEST_TICKET = 8675;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

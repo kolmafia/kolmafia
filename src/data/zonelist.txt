@@ -94,6 +94,7 @@ Spring Break Beach	Elemental International Airport	Spring Break Beach
 Conspiracy Island	Elemental International Airport	Conspiracy Island
 Dinseylandfill	Elemental International Airport	Dinseylandfill
 That 70s Volcano	Elemental International Airport	That 70s Volcano
+The Glaciest	Elemental International Airport	The Glaciest
 
 Spelunky Area	Unsorted	Spelunky Area
 
