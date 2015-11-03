@@ -2478,6 +2478,7 @@ public class ItemPool
 	public static final int WHITE_TULIP = 8669;
 	public static final int RED_TULIP = 8670;
 	public static final int BLUE_TULIP = 8671;
+	public static final int GLACIEST_CHARTER = 8674;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

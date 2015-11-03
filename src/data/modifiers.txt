@@ -6955,6 +6955,7 @@ Item	airplane charter: Conspiracy Island	Free Pull
 Item	airplane charter: Dinseylandfill	Free Pull
 Item	airplane charter: Spring Break Beach	Free Pull
 Item	airplane charter: That 70s Volcano	Free Pull
+Item	airplane charter: The Glaciest Free Pull
 Item	alien autoautopsy kit	Effect: "Autopsy-turvy", Effect Duration: 30
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 Item	alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
