@@ -8757,3 +8757,12 @@
 8731	tin of submardines	815275674	sardinecan.gif	food	t,d	25
 8732	bottle of norwhiskey	808716481	singlebar.gif	drink	t,d	30
 8733	octolus oculus	154693441	eyeball.gif	spleen, usable	t,d	20
+8734
+8735
+8736
+8737	perfect cosmopolitan	175717880	perf_cosmo.gif	drink	t,d	60
+8738	perfect negroni	900523708	perf_negroni.gif	drink	t,d	60
+8739	perfect dark and stormy	724136507	perf_dark.gif	drink	t,d	60
+8740	perfect mimosa	511944154	perf_mimosa.gif	drink	t,d	60
+8741	perfect old-fashioned	187716152	perf_oldf.gif	drink	t,d	60
+8742	perfect paloma	512567833	perf_paloma.gif	drink	t,d	60
