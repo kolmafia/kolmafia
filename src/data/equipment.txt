@@ -212,6 +212,7 @@ mummy costume	10	none
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 neoprene skullcap	65	none
+norwhal helmet	200	Mys: 50
 nurse's hat	200	Mox: 85
 oil cap	115	Mox: 42
 Ol' Scratch's stovepipe hat	200	Mys: 200
@@ -2357,6 +2358,7 @@ rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 Saccharine Maple pendant	75	Mys: 22
+sardine can key	0	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
@@ -2763,6 +2765,7 @@ Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
+octolus-skin cloak	0	Mox: 50
 oil shell	50	Mus: 20
 old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75

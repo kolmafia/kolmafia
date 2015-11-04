@@ -1191,7 +1191,7 @@ public class DebugDatabase
 						continue;
 					}
 
-					if ( key.equals( "Effect" ) )
+					if ( key.equals( "Effect" ) || key.equals( "Rollover Effect" ) )
 					{
 						// Remove initial effect ID
 						String effect = currentValue.substring( 0, lbracket ) + currentValue.substring( rbracket + 1 );

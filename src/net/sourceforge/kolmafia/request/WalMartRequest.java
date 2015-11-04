@@ -88,11 +88,6 @@ public class WalMartRequest
 			true
 			);
 
-	static
-	{
-		WALMART.plural = "al-Mart gift certificates";
-	}
-
 	public WalMartRequest()
 	{
 		super( WalMartRequest.WALMART );
