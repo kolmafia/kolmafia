@@ -2001,7 +2001,7 @@
 2000
 2001
 2002
-2003
+2003	Octolus Gift	eyes.gif	3998113c0b57859135464ee2a591ddc6
 2004	Appeteyes	knifefork.gif	7155a6dd9206b3b883f9012f170614cd	eat 1 tin of submardines
 2005	Norwhalloped	liver.gif	11e9381dd9fdf8880e5fc7bcd7236ccb	drink 1 bottle of norwhiskey
 2006	Warm Shoulders	blanket.gif	5fdfe2b6578a901d5a8f1173211d2e65	use 1 shoulder-warming lotion

@@ -1046,6 +1046,14 @@ public class ItemDatabase
 			EffectDatabase.registerEffect( effectName, effectDescid, command + itemName );
 		}
 
+		// Equipment can have a Rollover Effect. Check for new effect.
+		effectName = Modifiers.getStringModifier( "Item", itemId, "Rollover Effect" );
+		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName, true ) == -1 )
+		{
+			String effectDescid = DebugDatabase.parseEffectDescid( rawText );
+			EffectDatabase.registerEffect( effectName, effectDescid, null );
+		}
+
 		// Familiar larva mature into familiars.
 		if ( type.equals( "familiar" ) )
 		{

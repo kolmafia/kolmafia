@@ -301,6 +301,7 @@ Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
+Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 Item	oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
 Item	Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
@@ -2760,6 +2761,7 @@ Item	rubber gloves	Sleaze Resistance: +2
 Item	rum barrel charrrm bracelet	Booze Drop: +5
 Item	rusty chain necklace	Muscle: +9, Maximum HP: +25
 Item	Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
+Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60
 # Sasq&trade; watch: Grants 30 Adventures of The Rich Get Richer at Rollover
 Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect: "The Rich Get Richer", Single Equip, Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
@@ -3220,6 +3222,7 @@ Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 Item	Mr. Container	Item Drop: +3
 Item	Newbiesport&trade; backpack	Item Drop: +1
+Item	octolus-skin cloak	Adventures: +2, PvP Fights: +4, Rollover Effect: "Octolus Gift"
 Item	oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 Item	old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -5195,6 +5198,7 @@ Effect	Nuts about Candy	Maximum HP: +50
 Effect	Object Detection	Item Drop: +5
 Effect	Obscuri Tea	Combat Rate: -5
 Effect	Ocelot Eyes	Item Drop: +10
+Effect	Octolus Gift	Item Drop: +50
 # Ode to Booze: Booze tastes even more delicious!
 Effect	Odoriffic	Avatar: "Odorous Humongous"
 Effect	Of Course It Looks Great	Item Drop: +100
