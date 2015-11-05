@@ -1007,7 +1007,6 @@ public abstract class ItemManagePanel
 
 					case MIX:
 					case MIX_FANCY:
-					case MIX_PERFECT:
 					case STILL:
 						isVisibleWithFilter = FilterItemField.this.booze;
 						break;

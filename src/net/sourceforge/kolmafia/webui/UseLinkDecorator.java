@@ -488,7 +488,6 @@ public abstract class UseLinkDecorator
 			case ACOMBINE:
 			case MIX:
 			case MIX_FANCY:
-			case MIX_PERFECT:
 			case COOK:
 			case COOK_FANCY:
 			case JEWELRY:
