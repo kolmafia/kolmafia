@@ -570,7 +570,6 @@ public interface KoLConstants
 		PHINEAS,	// Items requiring access to Phineas
 		COOK_FANCY,	// Items created with an Dramatic Range
 		MIX_FANCY,	// Items created with a Cocktailcrafting Kit
-		MIX_PERFECT,	// Items created with a Cocktailcrafting Kit, not taking turns
 		ACOMBINE,	// Un-untinkerable Ideas
 		COINMASTER,	// Coinmaster purchase
 		CLIPART,	// Tome of Clip Art summons

@@ -2609,9 +2609,9 @@ barrel beryl ring	JEWEL	barrel beryl	ring setting
 
 # The Glaciest
 
-perfect negroni	MIX_PERFECT	perfect ice cube	bottle of gin
-perfect dark and stormy	MIX_PERFECT	perfect ice cube	bottle of rum
-perfect paloma	MIX_PERFECT	perfect ice cube	bottle of tequila
-perfect cosmopolitan	MIX_PERFECT	perfect ice cube	bottle of vodka
-perfect old-fashioned	MIX_PERFECT	perfect ice cube	bottle of whiskey
-perfect mimosa	MIX_PERFECT	perfect ice cube	boxed wine
+perfect negroni	MIX	perfect ice cube	bottle of gin
+perfect dark and stormy	MIX	perfect ice cube	bottle of rum
+perfect paloma	MIX	perfect ice cube	bottle of tequila
+perfect cosmopolitan	MIX	perfect ice cube	bottle of vodka
+perfect old-fashioned	MIX	perfect ice cube	bottle of whiskey
+perfect mimosa	MIX	perfect ice cube	boxed wine
