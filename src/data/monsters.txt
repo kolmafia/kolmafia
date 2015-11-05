@@ -1579,7 +1579,7 @@ The Hermit	0	hermit.gif	Atk: 100 Def: 100 HP: 100 P: dude Init: 100	hermit facto
 
 # Bubblin' Caldera (That 70s Volcano August 2015)
 basaltamander	1799	basaltamander.gif	Atk: 100 Def: 100 HP: 180 P: beast E: hot Init: 50	basaltamander tongue (0)	basaltamander buckler (0)
-lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 P: fish E: hot Init: 75	smelted roe (0)	lavalarva (0)
+lava lamprey	1797	lavalamprey.gif	Atk: 110 Def: 90 HP: 150 P: fish E: hot Init: 75	smelted roe (15)	lavalarva (0)
 lavatory	1798	lavatory.gif	Atk: 90 Def: 110 HP: 140 P: elemental E: hot Init: 25	lavawater (0)	lava balaclava (0)
 Lavalos	1821	lavalos.gif	Atk: 250 Def: 200 HP: 500 P: horror Init: 50	Lavalos core (n100)	Lavalos's shell (n100)
 
@@ -1614,7 +1614,7 @@ Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 P
 # The Ice Hotel (The Glaciest November 2015)
 ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 E: cold P: dude Meat: 50	perfect ice cube (0)
 ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 E: cold P: dude	ice hotel bell (0)
-ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 E: cold P: dude Meat: 40	exotic travel brochure (0)
+ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 E: cold P: dude Meat: 40	exotic travel brochure (0)	bag of foreign bribes (0)
 ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 E: cold P: dude	frozen shampoo-conditioner (0)	hotel minibar key (0)
 ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 E: cold P: dude Meat: 25	ice porter (0)	bellhop's hat (0)
 
@@ -1623,9 +1623,9 @@ VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	Scale: 1
 VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	Scale: 6 Cap: ? Floor: ? Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
 
 # The Ice Hole (The Glaciest November 2015)
-Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bottle of norwhiskey (0)
-Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)
-Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 P: fish E: cold Init: 25	tin of submardines (0)
+Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bottle of norwhiskey (0)	norwhal helmet (0)
+Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)	octolus-skin cloak (0)
+Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 P: fish E: cold Init: 25	tin of submardines (0)	sardine can key (0)
 
 # KoL Con
 
