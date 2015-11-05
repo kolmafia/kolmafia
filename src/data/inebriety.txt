@@ -385,12 +385,12 @@ papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
 passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
-perfect cosmopolitan	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
-perfect dark and stormy	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
-perfect mimosa	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
-perfect negroni	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
-perfect old-fashioned	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
-perfect paloma	3	5	EPIC	18-19	0	0	0	Unspaded stat gains
+perfect cosmopolitan	3	5	EPIC	18-19	20-35	10-25	1-15
+perfect dark and stormy	3	5	EPIC	18-19	1-15	20-35	10-25
+perfect mimosa	3	5	EPIC	18-19	10-25	20-35	1-15
+perfect negroni	3	5	EPIC	18-19	1-15	10-25	20-35
+perfect old-fashioned	3	5	EPIC	18-19	20-35	1-15	10-25
+perfect paloma	3	5	EPIC	18-19	10-25	1-15	20-35
 perpendicular hula	4	4	good	10-14	0	0	34-36
 Petite Porter	3	4		3-5	0	0	0
 Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PvP fights

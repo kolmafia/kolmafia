@@ -157,6 +157,7 @@ public class CreateItemRequest
 
 		case MIX:
 		case MIX_FANCY:
+		case MIX_PERFECT:
 			mode = "cocktail";
 			break;
 
@@ -950,6 +951,21 @@ public class CreateItemRequest
 				return true;
 			}
 			break;
+
+		case MIX_PERFECT:
+
+			// We need a cocktail kit installed to mix perfect
+			// drinks.
+			if ( !KoLCharacter.hasCocktailKit() )
+			{
+				// Acquire and use cocktail kit
+				if ( !InventoryManager.retrieveItem( ItemPool.COCKTAIL_KIT ) )
+				{
+					return false;
+				}
+				UseItemRequest.getInstance( ItemPool.get( ItemPool.COCKTAIL_KIT, 1 ) ).run();
+			}
+			return true;
 
 		case SMITH:
 

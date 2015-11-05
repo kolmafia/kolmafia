@@ -1982,6 +1982,23 @@ public class ConcoctionDatabase
 				"You cannot mix fancy drinks without adventures." );
 		}
 
+		// If you don't have a cocktailcrafting kit, you can't mix perfect drinks
+		// We will auto buy & install a cocktailcrafting kit if the character
+		// has at least 1,000 Meat and autoSatisfyWithNPCs = true
+		if ( !KoLCharacter.hasCocktailKit() && !willBuyTool )
+		{
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.MIX_PERFECT, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.MIX_PERFECT, 0 );
+			ConcoctionDatabase.EXCUSE.put( CraftingType.MIX_PERFECT,
+				"You cannot mix perfect drinks without a cocktailcrafting kit." );
+		}
+		else
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.MIX_PERFECT );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.MIX_PERFECT, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.MIX_PERFECT, 0 );
+		}
+
 		// Mixing may require an additional skill.
 
 		if ( KoLCharacter.canSummonShore() || KoLCharacter.hasSkill( "Mixologist" ) )
@@ -2431,6 +2448,10 @@ public class ConcoctionDatabase
 		{
 			result.append( "Mixing (fancy)" );
 		}
+		else if ( mixingMethod == CraftingType.MIX_PERFECT )
+		{
+			result.append( "Mixing (perfect)" );
+		}
 		else if ( mixingMethod == CraftingType.ACOMBINE )
 		{
 			result.append( "Meatpasting (not untinkerable)" );
@@ -2815,6 +2836,10 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "MIX_FANCY" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.MIX_FANCY;
+		}
+		else if ( mix.equals( "MIX_PERFECT" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.MIX_PERFECT;
 		}
 		// Un-untinkerable Meatpasting
 		else if ( mix.equals( "ACOMBINE" ) )
