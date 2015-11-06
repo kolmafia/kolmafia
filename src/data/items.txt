@@ -8566,7 +8566,7 @@
 8540	rainbow sauce	772149264	gravy.gif	none	t,d	65	tureens of rainbow sauce
 8541	drug cocktail sauce	829151476	gravy.gif	none	t,d	65	tureens of drug cocktail sauce
 8542	Fettris	717020128	bowl.gif	food	t,d	85	bowls of Fettris
-8543	fusillocybin	663003490	bowl.gif	food	t,d	85
+8543	fusillocybin	663003490	bowl.gif	food	t,d	85	bowls of fusillocybin
 8544	prescription noodles	201443024	bowl.gif	food	t,d	85	bowls of prescription noodles
 8545	blood-drive sticker	978088376	plasticball.gif	spleen, usable	t	0
 8546	bag of grain	190573127	knobsack.gif	usable	t	0
