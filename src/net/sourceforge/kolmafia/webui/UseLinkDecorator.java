@@ -927,6 +927,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.SNEAKY_WRAPPING_PAPER:
 			case ItemPool.BARREL_MAP:
 			case ItemPool.VYKEA_INSTRUCTIONS:
+			case ItemPool.TONIC_DJINN:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

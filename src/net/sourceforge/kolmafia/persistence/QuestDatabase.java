@@ -136,6 +136,7 @@ public class QuestDatabase
 			SUPER_LUBER( "questEStSuperLuber" ),
 			WORK_WITH_FOOD( "questEStWorkWithFood" ),
 			ZIPPITY_DOO_DAH( "questEStZippityDooDah" ),
+			BUCKET( "questECoBucket" ),
 			;
 
 		private final String pref;

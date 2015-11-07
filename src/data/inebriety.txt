@@ -70,7 +70,7 @@ bottle of Jorge Sinsonte	3	2	decent	4-8	0	0	0
 bottle of Lambada Lambic	3	11	EPIC	18-20	40-60	40-60	40-60
 bottle of laundry sherry	2	11	awesome	7-8	0	50-80	0
 bottle of Lieutenant Freeman	3	2	decent	4-8	0	0	0
-bottle of norwhiskey	1	4	awesome	0	0	0	0	Unspaded, 50 Norwhalloped (+6-10 MP regen)
+bottle of norwhiskey	1	4	awesome	4-5	0	30-40	0	50 Norwhalloped (+6-10 MP regen)
 bottle of Old Pugilist	2	6	EPIC	10-12	20-30	20-30	20-30	20 Fightin' Drunk (+50 Mus, +10-20 HP regen)
 bottle of Ooze-O	3	1	crappy	0	0	0	0	20 Really Quite Poisoned, lose 70 HP
 bottle of peppermint schnapps	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
@@ -290,7 +290,7 @@ hot toady	4	4		6-10	7-8	7-8	7-8
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
 Hundred Headed IPA	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 Ice Island Long Tea	4	1	EPIC	18-22	15-30	15-30	15-30
-ice porter	2	5	good	0	0	0	0	Unspaded
+ice porter	2	5	good	5-7	10-20	0	0
 ice wine	2	6	EPIC	0	0	0	0	Unspaded, 50 Brain Freeze (+25 Spell Damage, +50% Moxie, +100 MP)
 ice stein	6	1		12	0	0	0	24-48 MP
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
@@ -532,7 +532,7 @@ vodka gibson	3	3	good	5-10	0	0	16-20
 vodka martini	3	1	decent	5-6	0	0	8-10
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-VYKEA mead	2	7	awesome	0	0	0	0	Unspaded
+VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration)
 warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance)
 warbear feasting mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Loot Lust (+15% Items from WarBears)

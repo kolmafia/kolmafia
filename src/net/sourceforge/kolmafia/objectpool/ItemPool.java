@@ -1814,6 +1814,7 @@ public class ItemPool
 	public static final int CORRUPTED_STARDUST = 6408;
 	public static final int SHAKING_SKULL = 6412;
 	public static final int TWIST_OF_LIME = 6417;
+	public static final int TONIC_DJINN = 6421;
 	public static final int TALES_OF_DREAD = 6423;
 	public static final int DREADSYLVANIAN_SKELETON_KEY = 6424;
 	public static final int BRASS_DREAD_FLASK = 6428;
@@ -2480,6 +2481,7 @@ public class ItemPool
 	public static final int WHITE_TULIP = 8669;
 	public static final int RED_TULIP = 8670;
 	public static final int BLUE_TULIP = 8671;
+	public static final int WALFORDS_BUCKET = 8672;
 	public static final int WALMART_GIFT_CERTIFICATE = 8673;
 	public static final int GLACIEST_CHARTER = 8674;
 	public static final int GLACIEST_TICKET = 8675;

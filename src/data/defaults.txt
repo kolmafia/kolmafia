@@ -788,6 +788,7 @@ user	prismaticSummons	0
 user	promptAboutCrafting	1
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	questECoBucket	unstarted
 user	questESlAudit	unstarted
 user	questESlBacteria	unstarted
 user	questESlCheeseburger	unstarted
@@ -1061,6 +1062,7 @@ user	volcanoMaze2
 user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
+user	walfordBucketProgress	0
 user	warProgress	unstarted
 user	warehouseProgress	0
 user	waxMonster
@@ -1339,6 +1341,7 @@ user	_thorsPliersCrafting	0
 user	_timeHelmetAdv	0
 user	_toastSummons	0
 user	_tokenDrops	0
+user	_tonicDjinn	false
 user	_transponderDrops	0
 user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
@@ -1795,6 +1798,7 @@ user	choiceAdventure745	0
 user	choiceAdventure749	0
 user	choiceAdventure753	0
 user	choiceAdventure771	1
+user	choiceAdventure778	0
 user	choiceAdventure780	0
 user	choiceAdventure781	0
 user	choiceAdventure783	0
@@ -1918,6 +1922,13 @@ user	choiceAdventure1102	1
 user	choiceAdventure1106	0
 user	choiceAdventure1107	0
 user	choiceAdventure1108	0
+user	choiceAdventure1114	0
+user	choiceAdventure1115	0
+user	choiceAdventure1116	0
+user	choiceAdventure1120	0
+user	choiceAdventure1121	0
+user	choiceAdventure1122	0
+user	choiceAdventure1123	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

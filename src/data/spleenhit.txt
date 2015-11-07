@@ -90,7 +90,7 @@ mummified fig	1	1	good	3	5-10	5-10	5-10
 mummified loaf of bread	3	1	awesome	11-13	5-10	5-10	5-10
 nasty snuff	1	4	decent	1-2	15-30	15-30	15-30
 not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
-octolus oculus	1	4	decent	1-1	0	0	0	Unspaded
+octolus oculus	1	4	decent	2	0	0	15-30
 off-white paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
@@ -129,7 +129,7 @@ tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)
 twinkly wad	1	6	decent	1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
-vibrating mushroom	2	4	decent	1-1	0	0	0	Unspaded
+vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
 voodoo snuff	3	13	good	8	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 yellow paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-headedness (+10% mys)

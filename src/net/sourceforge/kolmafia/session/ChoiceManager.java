@@ -216,6 +216,7 @@ public abstract class ChoiceManager
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern WLF_PATTERN = Pattern.compile( "<form action=choice.php>.*?<b>(.*?)</b>.*?descitem\\((.*?)\\).*?>(.*?)<.*?name=option value=([\\d]*).*?</form>", Pattern.DOTALL );
 	private static final Pattern WLF_COUNT_PATTERN = Pattern.compile( ".*? \\(([\\d]+)\\)$" );
+	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -2831,6 +2832,16 @@ public abstract class ChoiceManager
 		
 		// Choice 772 is Saved by the Bell 
 		// Choice 774 is Opening up the Folder Holder
+
+		// Choice 778 is If You Could Only See
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure788", "Tonic Djinn",
+			new Object[] { new Option( "gain 400-500 meat", 1 ),
+				       new Option( "gain 50-60 muscle stats", 2 ),
+				       new Option( "gain 50-60 mysticality stats", 3 ),
+				       new Option( "gain 50-60 moxie stats", 4 ),
+				       new Option( "don't use it", 6 ) } ),
+
 		// Choice 780 is Action Elevator
 		// Choice 781 is Earthbound and Down
 		// Choice 783 is Water You Dune
@@ -3633,6 +3644,31 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "acquire food", 1 ),
 				       new Option( "acquire booze", 2 ),
 				       new Option( "acquire cursed thing", 3 ) } ),
+
+		// Choice 1114 is Walford Rusley, Bucket Collector
+
+		// Choice 1115 is VYKEA!
+		new ChoiceAdventure(
+			"The Glaciest", "choiceAdventure1115", "VYKEA!",
+			new Object[] { new Option( "acquire VYKEA meatballs and mead (1/day)", 1 ),
+				       new Option( "acquire VYKEA hex key", 2, "VYKEA hex key" ),
+				       new Option( "fill bucket by 10-15%", 3 ),
+				       new Option( "acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate" ),
+				       new Option( "acquire 3 VYKEA rune", 5 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1116 is All They Got Inside is Vacancy (and Ice)
+		new ChoiceAdventure(
+			"The Glaciest", "choiceAdventure1116", "All They Got Inside is Vacancy (and Ice)",
+			new Object[] { new Option( "fill bucket by 10-15%", 3 ),
+				       new Option( "acquire cocktail ingredients", 4 ),
+				       new Option( "acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate" ),
+				       new Option( "leave", 6 ) } ),
+
+	   // Choice 1120 is Some Assembly Required
+	   // Choice 1121 is Some Assembly Required
+	   // Choice 1122 is Some Assembly Required
+	   // Choice 1123 is Some Assembly Required
 
 	};
 
@@ -10031,6 +10067,39 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "_pottedTeaTreeUsed", true );
 			}
 			break;
+
+		case 1114:
+			// Walford Rusley, Bucket Collector
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestProgress( Quest.BUCKET, QuestDatabase.FINISHED );
+				Preferences.setInteger( "walfordBucketProgress", 0 );
+			}
+			else if ( ChoiceManager.lastDecision < 5 )
+			{
+				QuestDatabase.setQuestProgress( Quest.BUCKET, QuestDatabase.STARTED );
+				Preferences.setInteger( "walfordBucketProgress", 0 );
+			}
+			break;
+
+		case 1115:
+		case 1116:
+			// VYKEA!
+			// All They Got Inside is Vacancy (and Ice)
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				Matcher WalfordMatcher = ChoiceManager.WALFORD_PATTERN.matcher( text );
+				if ( WalfordMatcher.find() )
+				{
+					Preferences.increment( "walfordBucketProgress", StringUtilities.parseInt( WalfordMatcher.group( 1 ) ) );
+					if ( Preferences.getInteger( "walfordBucketProgress" ) >= 100 )
+					{
+						QuestDatabase.setQuestProgress( Quest.BUCKET, "step2" );
+					}
+				}
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.stillInChoice( text ) )

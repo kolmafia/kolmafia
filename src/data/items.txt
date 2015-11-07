@@ -8712,10 +8712,10 @@
 8686	perfect ice cube	627519104	perf_icecube.gif	none	t,d	9
 8687	The Fun-Guy Cold Weather Bartender's Guide	293008569	book3.gif	usable	t	0
 8688	bellhop's hat	254146151	bellhophat.gif	hat	t,d	180
-8689	ice porter	405574007	beerbottle.gif	drink	t,d	45
+8689	ice porter	405574007	beerbottle.gif	drink	t,d	45	bottles of ice porter
 8690	exotic travel brochure	922037447	travelbrochure.gif	multiple	t,d	25
 8691	bag of foreign bribes	597574332	bribebag.gif	multiple	t	0
-8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59
+8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59	bottles of frozen shampoo-conditioner
 8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
 8695
@@ -8742,9 +8742,9 @@
 8716
 8717
 8718
-8719	VYKEA meatballs	666514481	vykballs.gif	food	t,d	50
-8720	VYKEA mead	210477648	vykmead.gif	drink	t,d	55
-8721	VYKEA woadpaint	165534547	balm.gif	usable	t,d	20
+8719	VYKEA meatballs	666514481	vykballs.gif	food	t,d	50	plates of VYKEA meatballs
+8720	VYKEA mead	210477648	vykmead.gif	drink	t,d	55	bottles of VYKEA mead
+8721	VYKEA woadpaint	165534547	balm.gif	usable	t,d	20	tins of VYKEA woadpaint
 8722	VYKEA frenzy rune	715122573	vykrune2.gif	none	t,d	22
 8723	VYKEA blood rune	646944996	vykrune1.gif	none	t,d	26
 8724	VYKEA lightning rune	569479825	vykrune3.gif	none	t,d	31
@@ -8753,16 +8753,16 @@
 8727	VYKEA bracket	779732940	vykbracket.gif	none	t,d	17
 8728	VYKEA dowel	609821681	vykdowel.gif	none	t,d	9
 8729	VYKEA hex key	667635420	hexkey.gif	weapon	t,d	66
-8730	VYKEA instructions	560068358	vykinstructions.gif	usable	t,d	111
-8731	tin of submardines	815275674	sardinecan.gif	food	t,d	25
-8732	bottle of norwhiskey	808716481	singlebar.gif	drink	t,d	30
-8733	octolus oculus	154693441	eyeball.gif	spleen, usable	t,d	20
+8730	VYKEA instructions	560068358	vykinstructions.gif	usable	t,d	111	sets of VYKEA instructions
+8731	tin of submardines	815275674	sardinecan.gif	food	t,d	25	tins of submardines
+8732	bottle of norwhiskey	808716481	singlebar.gif	drink	t,d	30	bottles of norwhiskey
+8733	octolus oculus	154693441	eyeball.gif	spleen, usable	t,d	20	octolus oculi
 8734	sardine can key	224335014	sardinekey.gif	accessory	t	0
 8735	norwhal helmet	421476959	vikinghat.gif	hat	t	0
 8736	octolus-skin cloak	700844408	octocloak.gif	container	t	0
 8737	perfect cosmopolitan	175717880	perf_cosmo.gif	drink	t,d	60
 8738	perfect negroni	900523708	perf_negroni.gif	drink	t,d	60
-8739	perfect dark and stormy	724136507	perf_dark.gif	drink	t,d	60
+8739	perfect dark and stormy	724136507	perf_dark.gif	drink	t,d	60	perfect dark and stormies
 8740	perfect mimosa	511944154	perf_mimosa.gif	drink	t,d	60
 8741	perfect old-fashioned	187716152	perf_oldf.gif	drink	t,d	60
 8742	perfect paloma	512567833	perf_paloma.gif	drink	t,d	60

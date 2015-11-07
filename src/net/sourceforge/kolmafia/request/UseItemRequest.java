@@ -1086,6 +1086,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_cocktailShakerUsed" ) ? 0 : 1;
 
+		case ItemPool.TONIC_DJINN:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_tonicDjinn" ) ? 0 : 1;
+
 		case ItemPool.MAYONEX:
 		case ItemPool.MAYODIOL:
 		case ItemPool.MAYOSTAT:
@@ -5188,6 +5192,10 @@ public class UseItemRequest
 
 		case ItemPool.COCKTAIL_SHAKER:
 			Preferences.setBoolean( "_cocktailShakerUsed", true );
+			return;
+
+		case ItemPool.TONIC_DJINN:
+			Preferences.setBoolean( "_tonicDjinn", true );
 			return;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:
