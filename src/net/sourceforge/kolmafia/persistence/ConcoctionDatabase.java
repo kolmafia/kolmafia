@@ -364,7 +364,7 @@ public class ConcoctionDatabase
 
 	private static boolean pseudoItemMixingMethod( final CraftingType mixingMethod )
 	{
-		return mixingMethod == CraftingType.SUSHI;
+		return mixingMethod == CraftingType.SUSHI || mixingMethod == CraftingType.VYKEA;
 	}
 
 	public static final SortedListModel<AdventureResult> getKnownUses( final int itemId )//
@@ -2127,6 +2127,21 @@ public class ConcoctionDatabase
 		}
 		ConcoctionDatabase.EXCUSE.put( CraftingType.FIVE_D, "You do not have a Xiblaxian 5D printer." );
 
+		if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_INSTRUCTIONS, 1 ) ) )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have any VYKEA instructions." );
+		}
+		else if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_HEX_KEY, 1 ) ) )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have a VYKEA hex key." );
+		}
+		else
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.VYKEA );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.VYKEA, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.VYKEA, 0 );
+		}
+
 		// Other creatability flags
 
 		if ( KoLCharacter.isTorsoAware() )
@@ -2470,6 +2485,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.FIVE_D )
 		{
 			result.append( "Xiblaxian 5D printer" );
+		}
+		else if ( mixingMethod == CraftingType.VYKEA )
+		{
+			result.append( "VYKEA" );
 		}
 
 		if ( result.length() == 0 )
@@ -3091,6 +3110,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "5D" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.FIVE_D;
+		}
+
+		else if ( mix.equals( "VYKEA" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

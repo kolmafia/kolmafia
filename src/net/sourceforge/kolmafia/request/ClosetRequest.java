@@ -393,6 +393,14 @@ public class ClosetRequest
 
 		if ( success )
 		{
+			// If we can't use the closet as to get ingredients,
+			// moving items in or out of inventory can affect what
+			// we can make.
+			if ( !InventoryManager.canUseCloset() )
+			{
+				ConcoctionDatabase.refreshConcoctions( true );
+			}
+
 			KoLCharacter.updateStatus();
 		}
 

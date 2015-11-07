@@ -358,6 +358,9 @@ public class CreateItemRequest
 		case FIVE_D:
 			return new FiveDPrinterRequest( conc );
 
+		case VYKEA:
+			return new VYKEARequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

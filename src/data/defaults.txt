@@ -1367,6 +1367,10 @@ user	_volcanoItemCount1	0
 user	_volcanoItemCount2	0
 user	_volcanoItemCount3	0
 user	_volcanoItemRedeemed	false
+user	_VYKEACompanionType
+user	_VYKEACompanionRune
+user	_VYKEACompanionLevel	0
+user	_VYKEACompanionName
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
