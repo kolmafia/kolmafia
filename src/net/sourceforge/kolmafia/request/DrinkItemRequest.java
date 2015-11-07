@@ -462,12 +462,17 @@ public class DrinkItemRequest
 			return true;
 		}
 
+		String note = ConsumablesDatabase.getNotes( itemName );
 		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
 		// If the item doesn't give any adventures, it won't benefit from ode
 		if ( advGain.equals( "0" ) )
 		{
-			return true;
+			if ( note == null || ( note != null && !note.contains( "Unspaded" ) ) )
+			{
+				return true;
+			}
 		}
+
 
 		if ( itemName.equals( "Temps Tempranillo" ) )
 		{

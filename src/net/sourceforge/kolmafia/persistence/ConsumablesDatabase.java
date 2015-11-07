@@ -608,10 +608,10 @@ public class ConsumablesDatabase
 			ConsumablesDatabase.spleenHitByName.put( itemName, size );
 		}
 
-		ConsumablesDatabase.setConsumptionData( itemName, size, level, quality, "1-1", "0", "0", "0", "unknown adventure yield" );
+		ConsumablesDatabase.setConsumptionData( itemName, size, level, quality, "0", "0", "0", "0", "Unspaded" );
 
 		// Print what goes in fullness.txt
-		String printMe = ConsumablesDatabase.consumableString( itemName, size, level, quality, "1-1", "0", "0", "0", "Unspaded" );
+		String printMe = ConsumablesDatabase.consumableString( itemName, size, level, quality, "0", "0", "0", "0", "Unspaded" );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
 	}
