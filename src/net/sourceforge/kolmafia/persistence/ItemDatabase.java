@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
+import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 
@@ -613,6 +614,14 @@ public class ItemDatabase
 		for ( String sushi : SushiRequest.SUSHI )
 		{
 			String name = StringUtilities.getCanonicalName( sushi );
+			ItemDatabase.itemIdByName.put( name, id );
+		}
+
+		// Add names of all the VYKEA companions
+		id = IntegerPool.get( -1 );
+		for ( String VYKEA : VYKEARequest.VYKEA )
+		{
+			String name = StringUtilities.getCanonicalName( VYKEA );
 			ItemDatabase.itemIdByName.put( name, id );
 		}
 
