@@ -89,6 +89,7 @@ public class QuestManager
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
+	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
@@ -1975,6 +1976,20 @@ public class QuestManager
 				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
 			}
 			break;
+
+		case AdventurePool.ICE_HOTEL:
+		case AdventurePool.VYKEA:
+		case AdventurePool.ICE_HOLE:
+			Matcher WalfordMatcher = QuestManager.WALFORD_PATTERN.matcher( responseText );
+			while ( WalfordMatcher.find() )
+			{
+				Preferences.increment( "walfordBucketProgress", StringUtilities.parseInt( WalfordMatcher.group( 1 ) ) );
+				if ( Preferences.getInteger( "walfordBucketProgress" ) >= 100 )
+				{
+					QuestDatabase.setQuestProgress( Quest.BUCKET, "step2" );
+				}
+			}
+			break;
 		}
 	}
 
@@ -2106,6 +2121,10 @@ public class QuestManager
 
 		case ItemPool.MASCOT_MASK:
 			QuestDatabase.setQuestIfBetter( Quest.ZIPPITY_DOO_DAH, "step1" );
+			break;
+
+		case ItemPool.WALFORDS_BUCKET:
+			QuestDatabase.setQuestIfBetter( Quest.BUCKET, "step1" );
 			break;
 		}
 	}

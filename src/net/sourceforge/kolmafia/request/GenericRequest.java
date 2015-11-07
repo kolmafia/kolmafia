@@ -3036,6 +3036,10 @@ public class GenericRequest
 			itemName = "VYKEA instructions";
 			break;
 
+		case ItemPool.TONIC_DJINN:
+			itemName = "tonic djinn";
+			break;
+
 		default:
 			return;
 		}
