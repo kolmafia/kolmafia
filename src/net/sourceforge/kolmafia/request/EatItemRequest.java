@@ -410,12 +410,16 @@ public class EatItemRequest
 		{
 			return true;
 		}
-		
+
 		// If the item doesn't give any adventures, it won't benefit from using milk
+		String note = ConsumablesDatabase.getNotes( name );
 		String advGain = ConsumablesDatabase.getAdvRangeByName( name );
 		if ( advGain.equals( "0" ) )
 		{
-			return true;
+			if ( note == null || ( note != null && !note.contains( "Unspaded" ) ) )
+			{
+				return true;
+			}
 		}
 
 		// If we are not in Axecore, don't even consider Lunch
