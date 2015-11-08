@@ -213,7 +213,7 @@ public class StationaryButtonDecorator
 				// Build the CAB in a new StringBuilder
 
 				StringBuilder CAB = new StringBuilder();
-				boolean choice = buffer.indexOf( "<input" ) != -1;
+				boolean choice = urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", buffer.indexOf( "<body>" ) + 1 ) != -1;
 
 				CAB.append( "<img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='dragged'>" );
 				CAB.append( "<div id='debug'></div>" );
