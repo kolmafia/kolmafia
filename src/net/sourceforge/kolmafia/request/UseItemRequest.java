@@ -5200,11 +5200,11 @@ public class UseItemRequest
 
 		case ItemPool.TONIC_DJINN:
 			Preferences.setBoolean( "_tonicDjinn", true );
-			return;
+			break;
 
 		case ItemPool.TWELVE_NIGHT_ENERGY:
 			Preferences.setBoolean( "_twelveNightEnergyUsed", true );
-			return;
+			break;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:
 			// If this worked, it redirected to choice #595
@@ -5214,7 +5214,16 @@ public class UseItemRequest
 
 		case ItemPool.SHRINE_BARREL_GOD:
 			Preferences.setBoolean( "barrelShrineUnlocked", true );
+			break;
+
+		case ItemPool.HAUNTED_DOGHOUSE:
+			if ( responseText.contains( "You install the doghouse at your campsite" ) )
+			{
+				CampgroundRequest.setCampgroundItem( ItemPool.HAUNTED_DOGHOUSE, 1 );
+				break;
+			}
 			return;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

@@ -408,6 +408,7 @@ user	dinseySocialJusticeIIProgress	0
 user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
+user	doghouseBoarded	false
 user	dolphinItem
 user	dreadScroll1	0
 user	dreadScroll2	0
@@ -1930,6 +1931,7 @@ user	choiceAdventure1102	1
 user	choiceAdventure1106	0
 user	choiceAdventure1107	0
 user	choiceAdventure1108	0
+user	choiceAdventure1110	0
 user	choiceAdventure1114	0
 user	choiceAdventure1115	0
 user	choiceAdventure1116	0

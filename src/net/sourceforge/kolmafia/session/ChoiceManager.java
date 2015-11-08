@@ -3645,6 +3645,7 @@ public abstract class ChoiceManager
 				       new Option( "acquire booze", 2 ),
 				       new Option( "acquire cursed thing", 3 ) } ),
 
+		// Choice 1110 is Spoopy
 		// Choice 1114 is Walford Rusley, Bucket Collector
 
 		// Choice 1115 is VYKEA!
@@ -10078,6 +10079,21 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1110:
+			// Spoopy
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				if ( text.contains( "You board up the doghouse" ) )
+				{
+					Preferences.setBoolean( "doghouseBoarded", true );
+				}
+				else if ( text.contains( "You unboard-up the doghouse" ) )
+				{
+					Preferences.setBoolean( "doghouseBoarded", false );
+				}
+			}
+			break;
+
 		case 1114:
 			// Walford Rusley, Bucket Collector
 			if ( ChoiceManager.lastDecision == 1 )
@@ -10871,6 +10887,12 @@ public abstract class ChoiceManager
 			// Doing the Maths
 			Preferences.setBoolean( "_universeCalculated", true );
 			break;
+
+		case 1110:
+			// Spoopy
+			Preferences.setBoolean( "doghouseBoarded", !text.contains( "Board up the doghouse" ) );
+			break;
+
 		}
 	}
 
@@ -13191,6 +13213,7 @@ public abstract class ChoiceManager
 		case 1103: // Doing the Maths
 		case 1104: // Tree Tea
 		case 1105: // Specifici Tea
+		case 1110: // Spoopy
 		case 1114: // Walford Rusley, Bucket Collector
 			return true;
 
