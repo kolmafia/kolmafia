@@ -84,7 +84,7 @@ public class SingleUseRequest
 			this.addFormField( "whichitem", String.valueOf( use ) );
 			this.addFormField( "ajax", "1" );
 		}
-		else if ( type == KoLConstants.CONSUME_MULTIPLE ||
+		else if ( type == KoLConstants.CONSUME_MULTIPLE || type == KoLConstants.CONSUME_AVATAR ||
 			ItemDatabase.getAttribute( use, ItemDatabase.ATTR_MULTIPLE ) )
 		{
 			this.constructURLString( "multiuse.php" );

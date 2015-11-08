@@ -770,6 +770,7 @@ public abstract class UseLinkDecorator
 			return new UseLink( itemId, 1, "drink with", "inv_use.php?which=1&whichitem=" );
 		
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_AVATAR:
 		{
 			int count = InventoryManager.getCount( itemId );
 			int useCount = Math.min( UseItemRequest.maximumUses( itemId ), count );
