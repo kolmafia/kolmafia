@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -194,15 +195,16 @@ public abstract class ItemManagePanel
 	public void addFilters()
 	{
 		JPanel filterPanel = new JPanel();
-		this.filters = new JCheckBox[ 5 ];
+		this.filters = new JCheckBox[ 6 ];
 
 		this.filters[ 0 ] = new JCheckBox( "food", KoLCharacter.canEat() );
 		this.filters[ 1 ] = new JCheckBox( "booze", KoLCharacter.canDrink() );
 		this.filters[ 2 ] = new JCheckBox( "equip", true );
 		this.filters[ 3 ] = new JCheckBox( "others", true );
 		this.filters[ 4 ] = new JCheckBox( "no-trade", true );
+		this.filters[ 5 ] = new JCheckBox( "in style", true );
 
-		for ( int i = 0; i < 5; ++i )
+		for ( int i = 0; i < 6; ++i )
 		{
 			filterPanel.add( this.filters[ i ] );
 			this.listenToCheckBox( this.filters[ i ] );
@@ -923,7 +925,7 @@ public abstract class ItemManagePanel
 	public class FilterItemField
 		extends AutoFilterTextField
 	{
-		public boolean food, booze, equip, restores, other, notrade;
+		public boolean food, booze, equip, restores, other, notrade, instyle;
 
 		public FilterItemField()
 		{
@@ -935,6 +937,7 @@ public abstract class ItemManagePanel
 			this.restores = true;
 			this.other = true;
 			this.notrade = true;
+			this.instyle = true;
 		}
 
 		@Override
@@ -949,6 +952,7 @@ public abstract class ItemManagePanel
 				this.other = ItemManagePanel.this.filters[ 3 ].isSelected();
 				this.restores = this.other;
 				this.notrade = ItemManagePanel.this.filters[ 4 ].isSelected();
+				this.instyle = ItemManagePanel.this.filters[ 5 ].isSelected();
 			}
 
 			super.update();
@@ -1030,6 +1034,11 @@ public abstract class ItemManagePanel
 						isVisibleWithFilter |= FilterItemField.this.food;
 					}
 				}
+			}
+
+			if ( isVisibleWithFilter && !StandardRequest.isAllowed( "Items", name ) )
+			{
+				isVisibleWithFilter = !FilterItemField.this.instyle;
 			}
 
 			if ( !isVisibleWithFilter )
