@@ -2029,6 +2029,10 @@ public class QuestManager
 		{
 			Preferences.decrement( "_sealScreeches", 1, 0 );
 		}
+		else if ( monsterName.equals( "Travoltron" ) )
+		{
+			Preferences.setBoolean( "_infernoDiscoVisited", false );
+		}
 	}
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
