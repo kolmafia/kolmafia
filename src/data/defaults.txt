@@ -778,6 +778,7 @@ user	plantingLength
 user	plantingScript
 user	poolSharkCount	0
 user	poolSkill	0
+user	popularTartUnlocked	false
 user	postAscensionScript
 user	prayedForGlamour	false
 user	prayedForProtection	false

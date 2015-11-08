@@ -487,6 +487,7 @@ public class ValhallaManager
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );
 		Preferences.setInteger( "guardTurtlesFreed", 0 );
 		Preferences.setInteger( "carboLoading", 0 );
+		Preferences.setBoolean( "popularTartUnlocked", false );
 		Preferences.setInteger( "smoresEaten", 0 );
 		Preferences.setInteger( "sugarCounter4178", 0 );
 		Preferences.setInteger( "sugarCounter4179", 0 );
