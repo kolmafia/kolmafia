@@ -1090,6 +1090,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_tonicDjinn" ) ? 0 : 1;
 
+		case ItemPool.TWELVE_NIGHT_ENERGY:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_twelveNightEnergyUsed" ) ? 0 : 1;
+
 		case ItemPool.MAYONEX:
 		case ItemPool.MAYODIOL:
 		case ItemPool.MAYOSTAT:
@@ -5196,6 +5200,10 @@ public class UseItemRequest
 
 		case ItemPool.TONIC_DJINN:
 			Preferences.setBoolean( "_tonicDjinn", true );
+			return;
+
+		case ItemPool.TWELVE_NIGHT_ENERGY:
+			Preferences.setBoolean( "_twelveNightEnergyUsed", true );
 			return;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:

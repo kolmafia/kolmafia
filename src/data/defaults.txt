@@ -1350,6 +1350,7 @@ user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
 user	_turkeyBooze	0
 user	_turtlePowerCast	false
+user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_universeCalculated	false	
 user	_unknownEasyBountyItem	
