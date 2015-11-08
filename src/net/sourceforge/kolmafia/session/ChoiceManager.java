@@ -9983,6 +9983,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1090:
+			// The Towering Inferno Discotheque
+			if ( ChoiceManager.lastDecision > 1 )
+			{
+				Preferences.setBoolean( "_infernoDiscoVisited", true );
+			}
+			break;
+
 		case 1091:
 			// Choice 1091 is The Floor Is Yours
 			if ( text.contains ( "You acquire" ) )

@@ -1194,6 +1194,7 @@ user	_hungerSauceUsed	false
 user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
 user	_iceSculptureUsed	false
+user	_infernoDiscoVisited	false
 user	_inigosCasts	0
 user	_interviewVlad	false
 user	_interviewIsabella	false
