@@ -2835,7 +2835,7 @@ public abstract class ChoiceManager
 
 		// Choice 778 is If You Could Only See
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure788", "Tonic Djinn",
+			"Item-Driven", "choiceAdventure778", "Tonic Djinn",
 			new Object[] { new Option( "gain 400-500 meat", 1 ),
 				       new Option( "gain 50-60 muscle stats", 2 ),
 				       new Option( "gain 50-60 mysticality stats", 3 ),
@@ -3602,7 +3602,15 @@ public abstract class ChoiceManager
 
 		// Choice 1092 is Dyer Maker
 		// Choice 1093 is The WLF Bunker
+
 		// Choice 1094 is Back Room SMOOCHing
+		new ChoiceSpoiler(
+			"That 70s Volcano", "choiceAdventure1094", "The SMOOCH Army HQ",
+			new Option[] { new Option( "fight Geve Smimmons", 1 ),
+				       new Option( "fight Raul Stamley", 2 ),
+				       new Option( "fight Pener Crisp", 3 ),
+				       new Option( "fight Deuce Freshly", 4 ),
+				       new Option( "acquire SMOOCH coffee cup", 5, "SMOOCH coffee cup" ) } ),
 
 		// Choice 1095 is Tin Roof -- Melted
 		new ChoiceSpoiler(
@@ -3890,10 +3898,7 @@ public abstract class ChoiceManager
 
 		case 1094:
 			// Back Room SMOOCHing
-			StringUtilities.globalStringReplace( buffer, "Door #1", "Geve Smimmons" );
-			StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stamley" );
-			StringUtilities.globalStringReplace( buffer, "Door #3", "Pener Crisp" );
-			StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
+			ChoiceManager.decorateBackRoomSMOOCHing( buffer );
 			break;
 		}
 	}
@@ -3974,6 +3979,21 @@ public abstract class ChoiceManager
 		{
 			StringUtilities.singleStringReplace( buffer, find, replace );
 		}
+	}
+
+	public static final void decorateBackRoomSMOOCHing( final StringBuffer buffer )
+	{
+		int choice = Preferences.getInteger( "choiceAdventure1094" );
+		String find = "smoochdoor" + choice + ".gif";
+		String replace = "smoochdoor" + choice + ".gif style=\"border: 2px solid blue;\"";
+		if ( buffer.toString().contains( find ) )
+		{
+			StringUtilities.singleStringReplace( buffer, find, replace );
+		}
+		StringUtilities.globalStringReplace( buffer, "Door #1", "Geve Smimmons" );
+		StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stamley" );
+		StringUtilities.globalStringReplace( buffer, "Door #3", "Pener Crisp" );
+		StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
 	}
 
 	public static final Object[][] choiceSpoilers( final int choice )
