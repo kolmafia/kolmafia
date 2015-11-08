@@ -529,6 +529,7 @@ public interface KoLConstants
 	public static final int CONSUME_ZAP = 22;
 	public static final int CONSUME_SPHERE = 23;
 	public static final int CONSUME_GUARDIAN = 24;
+	public static final int CONSUME_AVATAR = 25;
 
 	// Familiar "uses"
 	public static final int CONSUME_MIMIC = 96;

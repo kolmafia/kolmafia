@@ -121,6 +121,7 @@ public class UseItemPanel
 			case KoLConstants.MESSAGE_DISPLAY:
 			case KoLConstants.INFINITE_USES:
 			case KoLConstants.CONSUME_MULTIPLE:
+			case KoLConstants.CONSUME_AVATAR:
 			case KoLConstants.GROW_FAMILIAR:
 			case KoLConstants.CONSUME_ZAP:
 				filter = UsableItemFilterField.this.other;

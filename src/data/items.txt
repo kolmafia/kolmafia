@@ -5334,11 +5334,11 @@
 5309	chainsaw chain	268469310	chainsawchain.gif	none, combat	t	0
 5310	silver shotgun shell	253570967	shotgunshell.gif	none	t	0
 5311	funhouse mirror	603294066	funhousemirror.gif	none	t	0
-5312	ghostly body paint	530711589	tube.gif	usable	t	0	tubes of ghostly body paint
-5313	necrotizing body spray	728903824	bodyspray.gif	usable	t	0	bottles of necrotizing body spray
-5314	bite-me-red lipstick	992265372	lipstick.gif	usable	t	0	tubes of bite-me-red lipstick
-5315	whisker pencil	188973115	pencil.gif	usable	t	0
-5316	press-on ribs	206212551	bonechest.gif	usable	t	0	sets of press-on ribs
+5312	ghostly body paint	530711589	tube.gif	avatar	t	0	tubes of ghostly body paint
+5313	necrotizing body spray	728903824	bodyspray.gif	avatar	t	0	bottles of necrotizing body spray
+5314	bite-me-red lipstick	992265372	lipstick.gif	avatar	t	0	tubes of bite-me-red lipstick
+5315	whisker pencil	188973115	pencil.gif	avatar	t	0
+5316	press-on ribs	206212551	bonechest.gif	avatar	t	0	sets of press-on ribs
 5317	Rattlin' Chains	153737276	chainbox.gif	usable, candy	t	0	boxes of Rattlin' Chains
 5318	Gummy Brains	245998893	brainbox.gif	multiple, candy	t	0	boxes of Gummy Brains
 5319	Blood 'n' Plenty	647838494	bloodnplenty.gif	multiple, candy	t	0	Blood 'n' Plenties
@@ -5577,7 +5577,7 @@
 5552	Trusty	846990311	trusty.gif	weapon	q	0
 5553	can of Rain-Doh	572522502	raindoh.gif	usable	t	0	cans of Rain-Doh
 5554	empty Rain-Doh can	817677410	raindohempty.gif	none		0
-5555	fireclutch	348132593	purse.gif	multiple	t,d	5	fireclutches
+5555	fireclutch	348132593	purse.gif	avatar	t,d	5	fireclutches
 5556	Rain-Doh red wings	233745367	raindohwings.gif	container	q	0
 5557	Rain-Doh orange agent	631939931	raindohagent.gif	none, combat reusable	q	0
 5558	Rain-Doh yellow laser gun	964864008	raindohgun.gif	weapon	q	0
@@ -5816,74 +5816,74 @@
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
 5793	Hat O' Nine Tails	748238370	con9hat.gif	hat		0	Hats O' Nine Tails
-5794	Enchanted Plunger	286405091	plunger.gif	multiple	t,d	5
-5795	Enchanted Flyswatter	289657598	swatter.gif	multiple	t,d	5
-5796	Gearhead Goo	791730484	vial.gif	multiple	t,d	5	Tubes of Gearhead Goo
-5797	Missing Eye Simulation Device	127128302	eyepatch.gif	multiple	t,d	5
-5798	Gnollish Crossdress	421957448	skirt.gif	multiple	t,d	5
-5799	eldritch dough	613464615	dough.gif	multiple	t,d	5
-5800	Charity's choker	899043052	choker.gif	multiple	t,d	5
-5801	Smart Bone Dust	635486984	powder.gif	multiple	t,d	5	handfuls of Smart Bone Dust
-5802	perpendicular guano	502945833	perpguano.gif	multiple	t,d	5
-5803	White Chocolate Golem Seeds	741418840	chips.gif	multiple	t,d	5	White Chocolate Golem Seeds
-5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	multiple	t,d	5	slices of Shivering Ch&egrave;vre
-5805	giant breath mint	664766664	lifesaver.gif	multiple	t,d	5
-5806	enchanted muesli	993446035	mueslix.gif	multiple	t,d	5	handfuls of enchanted muesli
-5807	glass of warm milk	734455157	milk.gif	multiple	t,d	5	glasses of warm milk
-5808	glass of gnat milk	352544230	milk.gif	multiple	t,d	5	glasses of gnat milk
-5809	Knob Goblin Mutagen	436545864	lovepotion.gif	multiple	t,d	5	flasks of Knob Goblin Mutagen
-5810	Tears of the Quiet Healer	567473707	vial.gif	multiple	t,d	5
-5811	giant tube of black lipstick	679762287	lipstick.gif	multiple	t,d	5	giant tubes of black lipstick
-5812	skelelton spine	920394324	spine.gif	multiple	t,d	5
-5813	smut orc sunglasses	151874300	bigglasses.gif	multiple	t,d	5	pairs of smut orc sunglasses
-5814	blob of acid	870769832	wad.gif	multiple	t,d	5	blobs of acid
-5815	flayed mind	522146420	realbrain.gif	multiple	t,d	5
-5816	kobold kibble	873527872	float_pebbles.gif	multiple	t,d	5	handfuls of kobold kibble
-5817	forest spirit rattle	147970558	foresthead.gif	multiple	t,d	5
-5818	Stone Golem pebbles	382105723	float_pebbles.gif	multiple	t,d	5	handfuls of Stone Golem pebbles
-5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	multiple	t,d	5
-5820	bull blubber	936998869	wad.gif	multiple	t,d	5	globs of bull blubber
-5821	frog lip-print	682825120	frogkiss.gif	multiple	t,d	5
+5794	Enchanted Plunger	286405091	plunger.gif	avatar	t,d	5
+5795	Enchanted Flyswatter	289657598	swatter.gif	avatar	t,d	5
+5796	Gearhead Goo	791730484	vial.gif	avatar	t,d	5	Tubes of Gearhead Goo
+5797	Missing Eye Simulation Device	127128302	eyepatch.gif	avatar	t,d	5
+5798	Gnollish Crossdress	421957448	skirt.gif	avatar	t,d	5
+5799	eldritch dough	613464615	dough.gif	avatar	t,d	5
+5800	Charity's choker	899043052	choker.gif	avatar	t,d	5
+5801	Smart Bone Dust	635486984	powder.gif	avatar	t,d	5	handfuls of Smart Bone Dust
+5802	perpendicular guano	502945833	perpguano.gif	avatar	t,d	5
+5803	White Chocolate Golem Seeds	741418840	chips.gif	avatar	t,d	5	White Chocolate Golem Seeds
+5804	Shivering Ch&egrave;vre	813874782	goatcheese.gif	avatar	t,d	5	slices of Shivering Ch&egrave;vre
+5805	giant breath mint	664766664	lifesaver.gif	avatar	t,d	5
+5806	enchanted muesli	993446035	mueslix.gif	avatar	t,d	5	handfuls of enchanted muesli
+5807	glass of warm milk	734455157	milk.gif	avatar	t,d	5	glasses of warm milk
+5808	glass of gnat milk	352544230	milk.gif	avatar	t,d	5	glasses of gnat milk
+5809	Knob Goblin Mutagen	436545864	lovepotion.gif	avatar	t,d	5	flasks of Knob Goblin Mutagen
+5810	Tears of the Quiet Healer	567473707	vial.gif	avatar	t,d	5
+5811	giant tube of black lipstick	679762287	lipstick.gif	avatar	t,d	5	giant tubes of black lipstick
+5812	skelelton spine	920394324	spine.gif	avatar	t,d	5
+5813	smut orc sunglasses	151874300	bigglasses.gif	avatar	t,d	5	pairs of smut orc sunglasses
+5814	blob of acid	870769832	wad.gif	avatar	t,d	5	blobs of acid
+5815	flayed mind	522146420	realbrain.gif	avatar	t,d	5
+5816	kobold kibble	873527872	float_pebbles.gif	avatar	t,d	5	handfuls of kobold kibble
+5817	forest spirit rattle	147970558	foresthead.gif	avatar	t,d	5
+5818	Stone Golem pebbles	382105723	float_pebbles.gif	avatar	t,d	5	handfuls of Stone Golem pebbles
+5819	spooky gravy fairy warlock hat	260012099	tinyhat.gif	avatar	t,d	5
+5820	bull blubber	936998869	wad.gif	avatar	t,d	5	globs of bull blubber
+5821	frog lip-print	682825120	frogkiss.gif	avatar	t,d	5
 5822	gazely stare	139782932	gaze.gif	multiple	t,d	5
-5823	tiny canopic jar	641183026	canopicjar.gif	multiple	t,d	5
-5824	clove-flavored lip balm	968477859	balm.gif	multiple	t,d	5
-5825	Skullery Maid's Knee	861447669	fingerbone.gif	multiple	t,d	5
-5826	zombie hollandaise	717455927	gravy.gif	multiple	t,d	5	tureens of zombie hollandaise
-5827	skeletal banana	331313479	bananabone.gif	multiple	t,d	5	bunch of skeletal bananas
-5828	gilt perfume bottle	320032645	jperfume.gif	multiple	t,d	5
-5829	janglin' bones	380726338	bonechips.gif	multiple	t,d	5	janglin' bones
-5830	pygmy papers	185465428	briefcase.gif	multiple	t,d	5	pygmy papers
-5831	pygmy dart	756561090	ancientdart.gif	multiple	t,d	5
-5832	secret mummy herbs and spices	785012152	disease.gif	multiple	t,d	5	secret mummy herbs and spices
-5833	brigand brittle	364101514	pepperbark.gif	multiple	t,d	5	bricks of brigand brittle
-5834	holistic headache remedy	541916407	bark2.gif	multiple	t,d	5	holistic headache remedies
-5835	scrunchie tourniquet	218745388	gauzegarter.gif	multiple	t,d	5
-5836	embezzler's oil	968949884	vial.gif	multiple	t,d	5	vials of embezzler's oil
-5837	Fu Manchu Wax	992259508	balm.gif	multiple	t,d	5	tubes of Fu Manchu Wax
-5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	multiple	t,d	5
-5839	ravenous eye	553037969	hungryeye.gif	multiple	t,d	5
-5840	Rogue Windmill Rouge	653603057	balm.gif	multiple	t,d	5	tubs of Rogue Windmill Rouge
-5841	A muse-bouche	704527194	amusebouche.gif	multiple	t,d	5	muse-bouches
-5842	gold toothbrush	397328678	toothbrush.gif	multiple	t,d	5	gold toothbrushes
-5843	pirate cream pie	438610679	pie.gif	multiple	t,d	5
-5844	una poca de gracia	764928766	music.gif	multiple	t,d	5	unas pocas de gracia
-5845	compressed air canister	564731061	canteen.gif	multiple	t,d	5
-5846	salt water taffy	484100629	taffy.gif	multiple	t,d	5	pieces of salt water taffy
-5847	unholy water	163120400	vial.gif	multiple	t,d	5	vials of unholy water
-5848	Bangyomaman battle juice	291581343	flask.gif	multiple	t,d	5
-5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	multiple	t,d	5	bottles of handyman &quot;hand soap&quot;
-5850	space marine flash grenade	466376984	grenade.gif	multiple	t,d	5
-5851	temporary tribal tattoo	561858084	tribaltat.gif	multiple	t,d	5
-5852	oil-filled donut	465286659	jellydonut.gif	multiple	t,d	5
-5853	stick-on gnome beard	918088506	epicbeard.gif	multiple	t,d	5
-5854	BRICKO stud	678283294	brickonub.gif	multiple	t,d	5
-5855	Osk'r Chow	842211802	float_pebbles.gif	multiple	t,d	5	Osk'r Chow
-5856	Scuba Snack	242148934	scoobysnack.gif	multiple	t,d	5
-5857	grey cube	125608055	cube.gif	multiple	t,d	5
-5858	votive candle	324654941	votive.gif	multiple	t,d	5
-5859	booby trap	623472296	boobytrap.gif	multiple	t,d	5
-5860	Agent Corrigan's cigarette	717767231	cigarette.gif	multiple	t,d	5
-5861	good ash	221914773	disease.gif	multiple	t,d	5	handfuls of good ash
+5823	tiny canopic jar	641183026	canopicjar.gif	avatar	t,d	5
+5824	clove-flavored lip balm	968477859	balm.gif	avatar	t,d	5
+5825	Skullery Maid's Knee	861447669	fingerbone.gif	avatar	t,d	5
+5826	zombie hollandaise	717455927	gravy.gif	avatar	t,d	5	tureens of zombie hollandaise
+5827	skeletal banana	331313479	bananabone.gif	avatar	t,d	5	bunch of skeletal bananas
+5828	gilt perfume bottle	320032645	jperfume.gif	avatar	t,d	5
+5829	janglin' bones	380726338	bonechips.gif	avatar	t,d	5	janglin' bones
+5830	pygmy papers	185465428	briefcase.gif	avatar	t,d	5	pygmy papers
+5831	pygmy dart	756561090	ancientdart.gif	avatar	t,d	5
+5832	secret mummy herbs and spices	785012152	disease.gif	avatar	t,d	5	secret mummy herbs and spices
+5833	brigand brittle	364101514	pepperbark.gif	avatar	t,d	5	bricks of brigand brittle
+5834	holistic headache remedy	541916407	bark2.gif	avatar	t,d	5	holistic headache remedies
+5835	scrunchie tourniquet	218745388	gauzegarter.gif	avatar	t,d	5
+5836	embezzler's oil	968949884	vial.gif	avatar	t,d	5	vials of embezzler's oil
+5837	Fu Manchu Wax	992259508	balm.gif	avatar	t,d	5	tubes of Fu Manchu Wax
+5838	Iiti Kitty Gumdrop	847088897	gumdrop.gif	avatar	t,d	5
+5839	ravenous eye	553037969	hungryeye.gif	avatar	t,d	5
+5840	Rogue Windmill Rouge	653603057	balm.gif	avatar	t,d	5	tubs of Rogue Windmill Rouge
+5841	A muse-bouche	704527194	amusebouche.gif	avatar	t,d	5	muse-bouches
+5842	gold toothbrush	397328678	toothbrush.gif	avatar	t,d	5	gold toothbrushes
+5843	pirate cream pie	438610679	pie.gif	avatar	t,d	5
+5844	una poca de gracia	764928766	music.gif	avatar	t,d	5	unas pocas de gracia
+5845	compressed air canister	564731061	canteen.gif	avatar	t,d	5
+5846	salt water taffy	484100629	taffy.gif	avatar	t,d	5	pieces of salt water taffy
+5847	unholy water	163120400	vial.gif	avatar	t,d	5	vials of unholy water
+5848	Bangyomaman battle juice	291581343	flask.gif	avatar	t,d	5
+5849	handyman &quot;hand soap&quot;	285117650	handsoap.gif	avatar	t,d	5	bottles of handyman &quot;hand soap&quot;
+5850	space marine flash grenade	466376984	grenade.gif	avatar	t,d	5
+5851	temporary tribal tattoo	561858084	tribaltat.gif	avatar	t,d	5
+5852	oil-filled donut	465286659	jellydonut.gif	avatar	t,d	5
+5853	stick-on gnome beard	918088506	epicbeard.gif	avatar	t,d	5
+5854	BRICKO stud	678283294	brickonub.gif	avatar	t,d	5
+5855	Osk'r Chow	842211802	float_pebbles.gif	avatar	t,d	5	Osk'r Chow
+5856	Scuba Snack	242148934	scoobysnack.gif	avatar	t,d	5
+5857	grey cube	125608055	cube.gif	avatar	t,d	5
+5858	votive candle	324654941	votive.gif	avatar	t,d	5
+5859	booby trap	623472296	boobytrap.gif	avatar	t,d	5
+5860	Agent Corrigan's cigarette	717767231	cigarette.gif	avatar	t,d	5
+5861	good ash	221914773	disease.gif	avatar	t,d	5	handfuls of good ash
 5862	Tome of Rad Libs	901132469	radlibtome.gif	usable	t	0
 5863	Rad Lib	968972760	radlib.gif	usable	t,d	5
 5864	papier-m&acirc;ch&eacute; glob	883548079	macheglob.gif	multiple	d	5
@@ -6261,16 +6261,16 @@
 6236	Over Easy Rider	842512102	jarl_overeasy.gif	drink	q	0
 6237	cosmic six-pack	491592616	jarl_sixpack.gif	usable	q	0
 6238	the Jick-o-loser	811583951	bomb.gif	none, combat	t	0
-6239	cube of ectoplasm	299288653	cube.gif	multiple	t,d	5	cubes of ectoplasm
-6240	Illuminati earpiece	431498567	earpiece.gif	multiple	t,d	5
-6241	censored can label	309750078	censlabel.gif	multiple	t,d	5
-6242	ectoplasm <i>au jus</i>	405677549	bottle.gif	multiple	t,d	5	bottles of ectoplasm <i>au jus</i>
-6243	the kindest cold cut	924503514	meat.gif	multiple	t,d	5	kindest cold cuts
-6244	lucky cat's paw	354820670	paw.gif	multiple	t,d	5
-6245	ASCII fu manchu	163394631	braces.gif	multiple	t,d	5
-6246	demonic surgical gloves	450278152	glove.gif	multiple	t,d	5	pairs of demonic surgical gloves
-6247	cheap clip-on ninja tie	671347064	necktie.gif	multiple	t,d	5
-6248	gamer slurry	580884090	soda.gif	multiple	t,d	5	cans of gamer slurry
+6239	cube of ectoplasm	299288653	cube.gif	avatar	t,d	5	cubes of ectoplasm
+6240	Illuminati earpiece	431498567	earpiece.gif	avatar	t,d	5
+6241	censored can label	309750078	censlabel.gif	avatar	t,d	5
+6242	ectoplasm <i>au jus</i>	405677549	bottle.gif	avatar	t,d	5	bottles of ectoplasm <i>au jus</i>
+6243	the kindest cold cut	924503514	meat.gif	avatar	t,d	5	kindest cold cuts
+6244	lucky cat's paw	354820670	paw.gif	avatar	t,d	5
+6245	ASCII fu manchu	163394631	braces.gif	avatar	t,d	5
+6246	demonic surgical gloves	450278152	glove.gif	avatar	t,d	5	pairs of demonic surgical gloves
+6247	cheap clip-on ninja tie	671347064	necktie.gif	avatar	t,d	5
+6248	gamer slurry	580884090	soda.gif	avatar	t,d	5	cans of gamer slurry
 6249	dungeoneering kit	268731940	briefcase.gif	usable	t,d	300
 6250	numberwang	221248307	jicknumbers.gif	accessory		0
 6251	scroll of Protection from Bad Stuff	900109531	scroll1.gif	multiple	t,d	100	scrolls of Protection from Bad Stuff
@@ -7622,40 +7622,40 @@
 7597	Phonus Balonus	846180998	hurricane.gif	drink	t,d	10000	Phonus Balonii
 7598	Flivver	761660391	celloshot.gif	drink	t,d	20000
 7599	Sloppy Jalopy	483402014	fruitym.gif	drink	t,d	100000
-7600	haunted flame	710960621	flame.gif	multiple	t,d	5
-7601	temporary yak tattoo	931696933	yaktat.gif	multiple	t,d	5
-7602	Fitspiration&trade; poster	492584251	fitposter.gif	multiple	t,d	5
-7603	giant neckbeard	158544527	mohawk.gif	multiple	t,d	5
-7604	artisanal hand-squeezed wheatgrass juice	655742075	shot.gif	multiple	t,d	5	shots of artisanal hand-squeezed wheatgrass juice
-7605	punk patch	797442475	punkpatch.gif	multiple	t,d	5	punk patches
-7606	steampunk potion	684247767	bottle.gif	multiple	t,d	5	bottles of steampunk potion
-7607	vial of swamp vapors	283543513	vial.gif	multiple	t,d	5	vials of swamp vapors
-7608	turtle mud	795064257	wad.gif	multiple	t,d	5	handfuls of turtle mud
-7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	multiple	t,d	5	vials of Redeye&trade; Eyedrops
-7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	multiple	t,d	5
-7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	multiple	t,d	5	bottles of Lewd Lemmy Oil
-7612	tomato soup poster	772276186	soupposter.gif	usable	t,d	5
-7613	bubblin' chemistry solution	784444484	beaker.gif	multiple	t,d	5	beakers of bubblin' chemistry solution
-7614	voodoo glowskull	994922193	glowskull.gif	multiple	t,d	5
-7615	pygmy adder oil	363229710	vial.gif	multiple	t,d	5	vials of pygmy adder oil
-7616	pygmy witchhazel	197234374	plant.gif	multiple	t,d	5	sprigs of pygmy witchhazel
-7617	short deposition	629363955	scroll2.gif	multiple	t,d	5
-7618	straw pole	458688992	stick.gif	usable	t,d	5
-7619	electric copperhead potion	175483900	beaker.gif	multiple	t,d	5
-7620	ninja fear powder	352152435	powder.gif	multiple	t,d	5	pouches of ninja fear powder
-7621	ninja eyeblack	287715908	lipstick.gif	multiple	t,d	5	tubes of ninja eyeblack
-7622	button rouge	554636307	rouge.gif	multiple	t,d	5	tins of button rouge
-7623	Red Army camouflage kit	988008706	compact.gif	multiple	t,d	5
-7624	lynyrd skinner toothblack	654913251	balm.gif	multiple	t,d	5	tubs of lynyrd skinner toothblack
-7625	flask of rainwater	517339022	flask.gif	multiple	t,d	5	flasks of rainwater
-7626	blue oyster badge	640439292	badge.gif	multiple	t,d	5
-7627	plastic Jefferson wings	191013836	jwings.gif	multiple	t,d	5	pairs of plastic Jefferson wings
-7628	dancing fan	863695407	combatfan.gif	multiple	t,d	5
-7629	page of the Necrohobocon	439125554	afuescroll.gif	multiple	t,d	5	pages of the Necrohobocon
-7630	black magic powder	916394459	powder.gif	multiple	t,d	5	pouches of black magic powder
-7631	black friar's tonsure	690956141	cueball.gif	multiple	t,d	5
-7632	government-issue identification badge	433047727	badge.gif	multiple	t,d	5
-7633	alien hologram projector	636077233	wbaccpiece.gif	usable	t,d	5
+7600	haunted flame	710960621	flame.gif	avatar	t,d	5
+7601	temporary yak tattoo	931696933	yaktat.gif	avatar	t,d	5
+7602	Fitspiration&trade; poster	492584251	fitposter.gif	avatar	t,d	5
+7603	giant neckbeard	158544527	mohawk.gif	avatar	t,d	5
+7604	artisanal hand-squeezed wheatgrass juice	655742075	shot.gif	avatar	t,d	5	shots of artisanal hand-squeezed wheatgrass juice
+7605	punk patch	797442475	punkpatch.gif	avatar	t,d	5	punk patches
+7606	steampunk potion	684247767	bottle.gif	avatar	t,d	5	bottles of steampunk potion
+7607	vial of swamp vapors	283543513	vial.gif	avatar	t,d	5	vials of swamp vapors
+7608	turtle mud	795064257	wad.gif	avatar	t,d	5	handfuls of turtle mud
+7609	Redeye&trade; Eyedrops	498902837	eyedrops.gif	avatar	t,d	5	vials of Redeye&trade; Eyedrops
+7610	Dweebisol&trade; inhaler	187962943	inhaler.gif	avatar	t,d	5
+7611	Lewd Lemmy Hair Oil	573150138	motoroil.gif	avatar	t,d	5	bottles of Lewd Lemmy Oil
+7612	tomato soup poster	772276186	soupposter.gif	avatar	t,d	5
+7613	bubblin' chemistry solution	784444484	beaker.gif	avatar	t,d	5	beakers of bubblin' chemistry solution
+7614	voodoo glowskull	994922193	glowskull.gif	avatar	t,d	5
+7615	pygmy adder oil	363229710	vial.gif	avatar	t,d	5	vials of pygmy adder oil
+7616	pygmy witchhazel	197234374	plant.gif	avatar	t,d	5	sprigs of pygmy witchhazel
+7617	short deposition	629363955	scroll2.gif	avatar	t,d	5
+7618	straw pole	458688992	stick.gif	avatar	t,d	5
+7619	electric copperhead potion	175483900	beaker.gif	avatar	t,d	5
+7620	ninja fear powder	352152435	powder.gif	avatar	t,d	5	pouches of ninja fear powder
+7621	ninja eyeblack	287715908	lipstick.gif	avatar	t,d	5	tubes of ninja eyeblack
+7622	button rouge	554636307	rouge.gif	avatar	t,d	5	tins of button rouge
+7623	Red Army camouflage kit	988008706	compact.gif	avatar	t,d	5
+7624	lynyrd skinner toothblack	654913251	balm.gif	avatar	t,d	5	tubs of lynyrd skinner toothblack
+7625	flask of rainwater	517339022	flask.gif	avatar	t,d	5	flasks of rainwater
+7626	blue oyster badge	640439292	badge.gif	avatar	t,d	5
+7627	plastic Jefferson wings	191013836	jwings.gif	avatar	t,d	5	pairs of plastic Jefferson wings
+7628	dancing fan	863695407	combatfan.gif	avatar	t,d	5
+7629	page of the Necrohobocon	439125554	afuescroll.gif	avatar	t,d	5	pages of the Necrohobocon
+7630	black magic powder	916394459	powder.gif	avatar	t,d	5	pouches of black magic powder
+7631	black friar's tonsure	690956141	cueball.gif	avatar	t,d	5
+7632	government-issue identification badge	433047727	badge.gif	avatar	t,d	5
+7633	alien hologram projector	636077233	wbaccpiece.gif	avatar	t,d	5
 7634	irradiated turtle	652814452	radturt.gif	usable	t,d	7
 7635	cigar box turtle	889036974	cigarturt.gif	multiple	t,d	11
 7636	shellacked shell	205885786	shellackshell.gif	container	t,d	15
@@ -8330,75 +8330,75 @@
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0
 8305	blue pumps	731653410	highheels.gif	familiar	t,d	75
 8306	sludgesicle	420513126	sludgesicle.gif	usable	t,d	25
-8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	multiple	t,d	5	bottles of &Uuml;berraschthexengebr&auml;u
-8308	piggy tattoo	377475455	swisspig.gif	multiple	t,d	5
-8309	baggie of regular-sized tardigrades	891381897	baggie.gif	multiple	t,d	5	baggies of regular-sized tardigrades
-8310	little red .epub file	640026029	transmission.gif	multiple	t,d	5
-8311	BUBBLE GUM	769285817	fishgum.gif	multiple	t,d	5	sticks of BUBBLE GUM
-8312	hustler shades	571679743	bigglasses.gif	multiple	t,d	5	pairs of hustler shades
-8313	spicy jerky stick	995309412	owlstix.gif	multiple	t,d	5
-8314	costume rental shop	981484328	dollhouse.gif	multiple	t,d	5
-8315	muscle oil	270624749	bottle.gif	multiple	t,d	5	bottles of muscle oil
-8316	bottle of Red-Out	813026026	blankout.gif	multiple	t,d	5	bottles of Red-Out
-8317	pickpocket protector	936001492	keycard.gif	multiple	t,d	5
-8318	sinister-looking cat	992738186	bkitten.gif	multiple	t,d	5
-8319	jazzy cigarette holder	390104882	cornholder.gif	multiple	t,d	5
-8320	one glove	551582208	glove.gif	multiple	t,d	5	one gloves (what?)
-8321	leather glove	138138243	redglove.gif	usable	t,d	5
-8322	handful of fire	268173706	fire.gif	multiple	t,d	5	handfuls of fire
-8323	Cracklin' Oat Bran	511642176	potpourri.gif	multiple	t,d	5	bowls of Cracklin' Oat Bran
-8324	disposable lighter	735001816	bic.gif	multiple	t,d	5
-8325	coal contact lenses	334043819	luckycap.gif	multiple	t,d	5	pairs of coal contact lenses
-8326	conjured ice cream	851628805	snowcone.gif	multiple	t,d	5	conjured ice cream cones
-8327	Iceberglar scarf	211011165	scarf.gif	multiple	t,d	5	Iceberglar scarves
-8328	icy hairspray	645739975	spraycan.gif	multiple	t,d	5	cans of icy hairspray
-8329	smellbook	289853477	book4.gif	multiple	t,d	5
-8330	assassin's cheese knife	279451446	knife.gif	multiple	t,d	5	assassin's cheese knives
-8331	filthy armor	654549341	ironhelmet.gif	multiple	t,d	5	suits of filthy armor
-8332	plague pie	726649959	pie.gif	multiple	t,d	5
-8333	batarang	362381064	batwing.gif	multiple	t,d	5
-8334	spare neck bolts	588076798	bolts.gif	usable	t,d	5	spare neck bolts
-8335	grease trap	401979440	chocbox.gif	multiple	t,d	5
-8336	shamanic ham	951450474	ham.gif	multiple	t,d	5
-8337	porkpocket	129749347	jarl_bagel.gif	multiple	t,d	5
-8338	Leonard's glasses	598174114	obsglasses.gif	multiple	t,d	5
-8339	warehouse walkie-talkie	373911451	walkietalkie.gif	multiple	t,d	5
-8340	janitor's mop	570677877	mop.gif	multiple	t,d	5
-8341	warehouse clerk's glasses	468187859	obsglasses.gif	multiple	t,d	5	pairs of warehouse clerks' glasses
-8342	baloney rotgut	305302518	wine2.gif	multiple	t,d	5
-8343	carton of gaspers	992719966	carton.gif	multiple	t,d	5
-8344	bronze polish	489505325	balm.gif	multiple	t,d	5
-8345	crident	240727957	pitchfork2.gif	multiple	t,d	5
-8346	totally sweet mohawk helmet	716696471	mohawk.gif	multiple	t,d	5
-8347	spray chrome	545272637	spraycan.gif	multiple	t,d	5
-8348	filthy monkey head	600582917	monkeyhead.gif	multiple	t,d	5
-8349	hand of cards	696329586	mrcards.gif	multiple	t,d	5
-8350	damp bar rag	763997779	dishrag.gif	multiple	t,d	5
-8351	lump of goofball ore	364435812	lore.gif	multiple	t,d	5
-8352	skeleton beans	696056433	beancan.gif	multiple	t,d	5
-8353	grimy lab coat	371317127	labcoat.gif	usable	t,d	5
-8354	creepy nursery rhyme	904115525	music.gif	usable	t,d	5
-8355	iron torso box	225287311	puzzlebox.gif	multiple	t,d	5
-8356	mercenary headband	472567947	ww_headband.gif	usable	t,d	5
-8357	radioactive spider venom	890627226	ep_mojo.gif	usable	t,d	5
-8358	x-ray mirror	648914618	handmirror.gif	usable	t,d	5
-8359	wrestling mask	784254553	lmask.gif	usable	t,d	5
-8360	hawkface potion	345142806	potion9.gif	usable	t,d	5
-8361	child-sized dracula cloak	402506459	wtbcloak.gif	usable	t,d	5
-8362	devil-summoning hat	707242976	demonhat.gif	usable	t,d	5
-8363	shopkeeper beard	733886844	goatbeard.gif	usable	t,d	5
-8364	alien autoautopsy kit	274025619	lunchbox.gif	usable	t,d	5
-8365	novelty fruit hat	680204956	strawhat.gif	usable	t,d	5
-8366	invisibility cream	879249656	balm.gif	usable	t,d	5
-8367	handful of stubble	203055435	scpowder.gif	usable	t,d	5
-8368	garbage juice slurpee	747337911	sodacup.gif	usable	t,d	5
-8369	plunge-leg	603511915	plunger.gif	usable	t,d	5
-8370	funky eyepatch	389087225	eyepatch.gif	usable	t,d	5
-8371	bucket of fish juice	724738264	pail.gif	usable	t,d	5
-8372	flashy pirate dreadlocks	655432636	hippywig.gif	usable	t,d	5
-8373	captured boozles	526042733	baggie.gif	usable	t,d	5
-8374	drinks tray	604754615	trayshield.gif	usable	t,d	5
-8375	eyebrow lifter	854797607	grapplinghook.gif	usable	t,d	5
+8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	avatar	t,d	5	bottles of &Uuml;berraschthexengebr&auml;u
+8308	piggy tattoo	377475455	swisspig.gif	avatar	t,d	5
+8309	baggie of regular-sized tardigrades	891381897	baggie.gif	avatar	t,d	5	baggies of regular-sized tardigrades
+8310	little red .epub file	640026029	transmission.gif	avatar	t,d	5
+8311	BUBBLE GUM	769285817	fishgum.gif	avatar	t,d	5	sticks of BUBBLE GUM
+8312	hustler shades	571679743	bigglasses.gif	avatar	t,d	5	pairs of hustler shades
+8313	spicy jerky stick	995309412	owlstix.gif	avatar	t,d	5
+8314	costume rental shop	981484328	dollhouse.gif	avatar	t,d	5
+8315	muscle oil	270624749	bottle.gif	avatar	t,d	5	bottles of muscle oil
+8316	bottle of Red-Out	813026026	blankout.gif	avatar	t,d	5	bottles of Red-Out
+8317	pickpocket protector	936001492	keycard.gif	avatar	t,d	5
+8318	sinister-looking cat	992738186	bkitten.gif	avatar	t,d	5
+8319	jazzy cigarette holder	390104882	cornholder.gif	avatar	t,d	5
+8320	one glove	551582208	glove.gif	avatar	t,d	5	one gloves (what?)
+8321	leather glove	138138243	redglove.gif	avatar	t,d	5
+8322	handful of fire	268173706	fire.gif	avatar	t,d	5	handfuls of fire
+8323	Cracklin' Oat Bran	511642176	potpourri.gif	avatar	t,d	5	bowls of Cracklin' Oat Bran
+8324	disposable lighter	735001816	bic.gif	avatar	t,d	5
+8325	coal contact lenses	334043819	luckycap.gif	avatar	t,d	5	pairs of coal contact lenses
+8326	conjured ice cream	851628805	snowcone.gif	avatar	t,d	5	conjured ice cream cones
+8327	Iceberglar scarf	211011165	scarf.gif	avatar	t,d	5	Iceberglar scarves
+8328	icy hairspray	645739975	spraycan.gif	avatar	t,d	5	cans of icy hairspray
+8329	smellbook	289853477	book4.gif	avatar	t,d	5
+8330	assassin's cheese knife	279451446	knife.gif	avatar	t,d	5	assassin's cheese knives
+8331	filthy armor	654549341	ironhelmet.gif	avatar	t,d	5	suits of filthy armor
+8332	plague pie	726649959	pie.gif	avatar	t,d	5
+8333	batarang	362381064	batwing.gif	avatar	t,d	5
+8334	spare neck bolts	588076798	bolts.gif	avatar	t,d	5	spare neck bolts
+8335	grease trap	401979440	chocbox.gif	avatar	t,d	5
+8336	shamanic ham	951450474	ham.gif	avatar	t,d	5
+8337	porkpocket	129749347	jarl_bagel.gif	avatar	t,d	5
+8338	Leonard's glasses	598174114	obsglasses.gif	avatar	t,d	5
+8339	warehouse walkie-talkie	373911451	walkietalkie.gif	avatar	t,d	5
+8340	janitor's mop	570677877	mop.gif	avatar	t,d	5
+8341	warehouse clerk's glasses	468187859	obsglasses.gif	avatar	t,d	5	pairs of warehouse clerks' glasses
+8342	baloney rotgut	305302518	wine2.gif	avatar	t,d	5
+8343	carton of gaspers	992719966	carton.gif	avatar	t,d	5
+8344	bronze polish	489505325	balm.gif	avatar	t,d	5
+8345	crident	240727957	pitchfork2.gif	avatar	t,d	5
+8346	totally sweet mohawk helmet	716696471	mohawk.gif	avatar	t,d	5
+8347	spray chrome	545272637	spraycan.gif	avatar	t,d	5
+8348	filthy monkey head	600582917	monkeyhead.gif	avatar	t,d	5
+8349	hand of cards	696329586	mrcards.gif	avatar	t,d	5
+8350	damp bar rag	763997779	dishrag.gif	avatar	t,d	5
+8351	lump of goofball ore	364435812	lore.gif	avatar	t,d	5
+8352	skeleton beans	696056433	beancan.gif	avatar	t,d	5
+8353	grimy lab coat	371317127	labcoat.gif	avatar	t,d	5
+8354	creepy nursery rhyme	904115525	music.gif	avatar	t,d	5
+8355	iron torso box	225287311	puzzlebox.gif	avatar	t,d	5
+8356	mercenary headband	472567947	ww_headband.gif	avatar	t,d	5
+8357	radioactive spider venom	890627226	ep_mojo.gif	avatar	t,d	5
+8358	x-ray mirror	648914618	handmirror.gif	avatar	t,d	5
+8359	wrestling mask	784254553	lmask.gif	avatar	t,d	5
+8360	hawkface potion	345142806	potion9.gif	avatar	t,d	5
+8361	child-sized dracula cloak	402506459	wtbcloak.gif	avatar	t,d	5
+8362	devil-summoning hat	707242976	demonhat.gif	avatar	t,d	5
+8363	shopkeeper beard	733886844	goatbeard.gif	avatar	t,d	5
+8364	alien autoautopsy kit	274025619	lunchbox.gif	avatar	t,d	5
+8365	novelty fruit hat	680204956	strawhat.gif	avatar	t,d	5
+8366	invisibility cream	879249656	balm.gif	avatar	t,d	5
+8367	handful of stubble	203055435	scpowder.gif	avatar	t,d	5
+8368	garbage juice slurpee	747337911	sodacup.gif	avatar	t,d	5
+8369	plunge-leg	603511915	plunger.gif	avatar	t,d	5
+8370	funky eyepatch	389087225	eyepatch.gif	avatar	t,d	5
+8371	bucket of fish juice	724738264	pail.gif	avatar	t,d	5
+8372	flashy pirate dreadlocks	655432636	hippywig.gif	avatar	t,d	5
+8373	captured boozles	526042733	baggie.gif	avatar	t,d	5
+8374	drinks tray	604754615	trayshield.gif	avatar	t,d	5
+8375	eyebrow lifter	854797607	grapplinghook.gif	avatar	t,d	5
 8376	yellow submarine	812297540	yellowsub.gif	none	q	0
 8377	pixel lemon	649933692	pixellemon.gif	food	t,d	120
 8378	pixel daiquiri	539937581	pixeldaiq.gif	drink	t,d	120

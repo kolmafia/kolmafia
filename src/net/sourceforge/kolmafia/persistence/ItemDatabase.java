@@ -294,6 +294,7 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "zap", KoLConstants.CONSUME_ZAP );
 		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
+		ItemDatabase.definePrimaryUse( "avatar", KoLConstants.CONSUME_AVATAR );
 
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
 		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );
@@ -982,6 +983,10 @@ public class ItemDatabase
 		// Parse use type, access, and price from description
 		String type = DebugDatabase.parseType( text );
 		int usage = DebugDatabase.typeToPrimary( type, multi );
+		if ( text.contains( "blue\">Makes you look like" ) )
+		{
+			usage = KoLConstants.CONSUME_AVATAR;
+		}
 		ItemDatabase.useTypeById.set( itemId, usage );
 
 		String access = DebugDatabase.parseAccess( text );
@@ -1888,6 +1893,7 @@ public class ItemDatabase
 		case KoLConstants.INFINITE_USES:
 			// Multi-use
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_AVATAR:
 			// Grow is a type of use
 		case KoLConstants.GROW_FAMILIAR:
 			return true;

@@ -715,11 +715,13 @@ public class DebugDatabase
 		case KoLConstants.MESSAGE_DISPLAY:
 		case KoLConstants.CONSUME_USE:
 		case KoLConstants.CONSUME_MULTIPLE:
+		case KoLConstants.CONSUME_AVATAR:
 		case KoLConstants.INFINITE_USES:
 			return descType == KoLConstants.CONSUME_USE ||
 			       descType == KoLConstants.CONSUME_MULTIPLE ||
 			       descType == KoLConstants.CONSUME_EAT ||
 			       descType == KoLConstants.CONSUME_DRINK ||
+			       descType == KoLConstants.CONSUME_AVATAR ||
 			       descType == KoLConstants.NO_CONSUME;
 		case KoLConstants.CONSUME_FOOD_HELPER:
 		case KoLConstants.CONSUME_DRINK_HELPER:
