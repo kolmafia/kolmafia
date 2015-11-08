@@ -8778,7 +8778,8 @@ public abstract class ChoiceManager
 			}
 			if ( text.contains( "place the popular part" ) )
 			{
-				ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
+				ResultProcessor.removeItem( ItemPool.POPULAR_PART );
+				Preferences.setBoolean( "popularTartUnlocked", true );
 			}
 			break;
 
@@ -8787,6 +8788,7 @@ public abstract class ChoiceManager
 			if ( text.contains( "I'm freakin' starving, here" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.ARMORER, QuestDatabase.STARTED );
+				ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
 			}
 			break;
 
@@ -12651,6 +12653,19 @@ public abstract class ChoiceManager
 				return "3";
 			}
 			return decision;
+
+		case 1061:
+			// Heart of Madness
+			if ( decision.equals( "1" ) && QuestDatabase.isQuestLaterThan( Quest.ARMORER, "step4" ) )
+			{
+				// Can only enter office til Cake Lord is defeated
+				return "0";
+			}
+			else if ( decision.equals( "3" ) && QuestDatabase.isQuestStep( Quest.ARMORER, QuestDatabase.FINISHED ) )
+			{
+				// Can only access Popular machine after quest complete
+				return "0";
+			}
 		}
 		return decision;
 	}
