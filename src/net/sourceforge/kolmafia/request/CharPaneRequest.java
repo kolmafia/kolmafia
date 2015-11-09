@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -249,6 +250,8 @@ public class CharPaneRequest
 
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
+
+		CharPaneRequest.checkVYKEACompanion( responseText );
 
 		if ( KoLCharacter.inAxecore() )
 		{
@@ -1135,6 +1138,27 @@ public class CharPaneRequest
 		else
 		{
 			KoLCharacter.setCompanion( null );
+		}
+	}
+
+	// <font size=2><b>VYKEA Companion</b></font><br><font size=2><b>&Aring;VOB&Eacute;</b> the level 5 lamp<br>
+	private static final Pattern VYKEACompanionPattern =
+		Pattern.compile( "<b>VYKEA Companion</b></font><br><font size=2>(.*?)<br>", Pattern.DOTALL );
+
+	private static final void checkVYKEACompanion( final String responseText )
+	{
+		// Since you can't change companions once you have built one,
+		// no need to parse the charpane if we know the companion.
+		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
+		{
+			return;
+		}
+
+		Pattern pattern = CharPaneRequest.VYKEACompanionPattern;
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			VYKEACompanionData.parseCompanion( matcher.group( 1 ) );
 		}
 	}
 

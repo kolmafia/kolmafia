@@ -556,6 +556,7 @@ public abstract class KoLCharacter
 		MoneyMakingGameManager.reset();
 		SpecialOutfit.forgetCheckpoints();
 		VolcanoMazeManager.reset();
+		VYKEACompanionData.initialize( true );
 		WumpusManager.reset();
 
 		CoinmasterRegistry.reset();
@@ -5449,6 +5450,11 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.isEd() && EdServantData.currentServant() != null )
 		{
 			newModifiers.applyServantModifiers( EdServantData.currentServant() );
+		}
+
+		if ( VYKEACompanionData.currentCompanion() != null )
+		{
+			newModifiers.applyCompanionModifiers( VYKEACompanionData.currentCompanion() );
 		}
 
 		// Lastly, experience adjustment also implicitly depends on
