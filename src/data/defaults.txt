@@ -1195,6 +1195,7 @@ user	_hotTubSoaks	0
 user	_hungerSauceUsed	false
 user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
+user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
 user	_infernoDiscoVisited	false
 user	_inigosCasts	0
@@ -1371,10 +1372,12 @@ user	_volcanoItemCount1	0
 user	_volcanoItemCount2	0
 user	_volcanoItemCount3	0
 user	_volcanoItemRedeemed	false
+user	_VYKEACafeteriaRaided	false
 user	_VYKEACompanionType
 user	_VYKEACompanionRune
 user	_VYKEACompanionLevel	0
 user	_VYKEACompanionName
+user	_VYKEALoungeRaided	false
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
