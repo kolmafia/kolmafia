@@ -2950,6 +2950,21 @@ public class Modifiers
 		}
 	}
 
+	public void applyCompanionModifiers( VYKEACompanionData companion )
+	{
+		int type = companion.getType();
+		int level = companion.getLevel();
+		switch ( type )
+		{
+		case VYKEACompanionData.LAMP:
+			this.add( Modifiers.ITEMDROP, level * 10, "VYKEA Companion: Lamp" );
+			break;
+
+		case VYKEACompanionData.COUCH:
+			this.add( Modifiers.MEATDROP, level * 10, "VYKEA Companion: Couch" );
+			break;
+		}
+	}
 
 	// Parsing item enchantments into KoLmafia modifiers
 
