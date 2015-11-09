@@ -2491,6 +2491,13 @@ public class ItemPool
 	public static final int CHILL_OF_THE_WILD = 8683;
 	public static final int COLD_FANG = 8684;
 	public static final int COLD_WEATHER_BARTENDER_GUIDE = 8687;
+	public static final int VYKEA_FRENZY_RUNE = 8722;
+	public static final int VYKEA_BLOOD_RUNE = 8724;
+	public static final int VYKEA_LIGHTNING_RUNE = 8724;
+	public static final int VYKEA_PLANK = 8725;
+	public static final int VYKEA_RAIL = 8726;
+	public static final int VYKEA_BRACKET = 8727;
+	public static final int VYKEA_DOWEL = 8728;
 	public static final int VYKEA_HEX_KEY = 8729;
 	public static final int VYKEA_INSTRUCTIONS = 8730;
 

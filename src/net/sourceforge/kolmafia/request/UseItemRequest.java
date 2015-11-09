@@ -5224,6 +5224,11 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.VYKEA_INSTRUCTIONS:
+			// If "using" the item works, it redirects to choice.php.
+			// If it does not redirect, it gives a message and is
+			// not consumed.
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
