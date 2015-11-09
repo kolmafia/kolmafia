@@ -1980,6 +1980,12 @@ public class QuestManager
 		case AdventurePool.ICE_HOTEL:
 		case AdventurePool.VYKEA:
 		case AdventurePool.ICE_HOLE:
+			if ( responseText.contains( "you should take it back to Walford!" ) )
+			{
+				Preferences.setInteger( "walfordBucketProgress", 100 );
+				QuestDatabase.setQuestProgress( Quest.BUCKET, "step2" );
+				break;
+			}
 			Matcher WalfordMatcher = QuestManager.WALFORD_PATTERN.matcher( responseText );
 			while ( WalfordMatcher.find() )
 			{
