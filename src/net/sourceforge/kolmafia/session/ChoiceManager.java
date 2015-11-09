@@ -10138,8 +10138,30 @@ public abstract class ChoiceManager
 			break;
 
 		case 1115:
-		case 1116:
 			// VYKEA!
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_VYKEACafeteriaRaided", true );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Matcher WalfordMatcher = ChoiceManager.WALFORD_PATTERN.matcher( text );
+				if ( WalfordMatcher.find() )
+				{
+					Preferences.increment( "walfordBucketProgress", StringUtilities.parseInt( WalfordMatcher.group( 1 ) ) );
+					if ( Preferences.getInteger( "walfordBucketProgress" ) >= 100 )
+					{
+						QuestDatabase.setQuestProgress( Quest.BUCKET, "step2" );
+					}
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				Preferences.setBoolean( "_VYKEALoungeRaided", true );
+			}
+			break;
+
+		case 1116:
 			// All They Got Inside is Vacancy (and Ice)
 			if ( ChoiceManager.lastDecision == 3 )
 			{
@@ -10152,6 +10174,10 @@ public abstract class ChoiceManager
 						QuestDatabase.setQuestProgress( Quest.BUCKET, "step2" );
 					}
 				}
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Preferences.setBoolean( "_iceHotelRoomsRaided", true );
 			}
 			break;
 
