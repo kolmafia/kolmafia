@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
@@ -8966,7 +8967,15 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1120:
+		case 1121:
+		case 1122:
+		case 1123:
+			// Some Assembly Required
+			VYKEACompanionData.assembleCompanion( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
+			break;
 		}
+
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
 	}
