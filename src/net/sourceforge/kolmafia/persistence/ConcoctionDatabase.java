@@ -2135,6 +2135,18 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have a VYKEA hex key." );
 		}
+		else if ( InventoryManager.getCount( ItemPool.VYKEA_PLANK ) < 5 )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA planks in inventory." );
+		}
+		else if ( InventoryManager.getCount( ItemPool.VYKEA_RAIL ) < 5 )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA rails in inventory." );
+		}
+		else if ( InventoryManager.getCount( ItemPool.VYKEA_BRACKET ) < 5 )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA brackets in inventory." );
+		}
 		else
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.VYKEA );
