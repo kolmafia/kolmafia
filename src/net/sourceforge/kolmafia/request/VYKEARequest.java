@@ -232,7 +232,7 @@ public class VYKEARequest
 
 		// You need at least 5 planks, 5 rails, and 5 brackets in order
 		// to start construction, even though no companion uses all
-		// three kinds of component
+		// three kinds of components
 		if ( !InventoryManager.retrieveItem( ItemPool.VYKEA_PLANK, 5 ) ||
 		     !InventoryManager.retrieveItem( ItemPool.VYKEA_RAIL, 5 ) ||
 		     !InventoryManager.retrieveItem( ItemPool.VYKEA_BRACKET, 5 ) )
