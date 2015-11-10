@@ -3590,7 +3590,7 @@ public abstract class ChoiceManager
 		// Choice 1090 is The Towering Inferno Discotheque
 
 		// Choice 1091 is The Floor Is Yours
-		new ChoiceSpoiler(
+		new ChoiceAdventure(
 			"That 70s Volcano", "choiceAdventure1091", "LavaCo Lamp Factory",
 			new Object[] { new Option( "1,970 carat gold -> thin gold wire", 1, "thin gold wire" ),
 				       new Option( "New Age healing crystal -> empty lava bottle", 2, "empty lava bottle" ),
@@ -3614,19 +3614,19 @@ public abstract class ChoiceManager
 				       new Option( "acquire SMOOCH coffee cup", 5, "SMOOCH coffee cup" ) } ),
 
 		// Choice 1095 is Tin Roof -- Melted
-		new ChoiceSpoiler(
+		new ChoiceAdventure(
 			"That 70s Volcano", "choiceAdventure1095", "The Velvet / Gold Mine",
 			new Object[] { new Option( "fight Mr. Choch", 1 ),
 				       new Option( "acquire half-melted hula girl", 2, "half-melted hula girl" ) } ),
 
 		// Choice 1096 is Re-Factory Period
-		new ChoiceSpoiler(
+		new ChoiceAdventure(
 			"That 70s Volcano", "choiceAdventure1096", "LavaCo Lamp Factory",
 			new Object[] { new Option( "fight Mr. Cheeng", 1 ),
 				       new Option( "acquire glass ceiling fragments", 2, "glass ceiling fragments" ) } ),
 
 		// Choice 1097 is Who You Gonna Caldera?
-		new ChoiceSpoiler(
+		new ChoiceAdventure(
 			"That 70s Volcano", "choiceAdventure1097", "The Bubblin' Caldera",
 			new Object[] { new Option( "acquire The One Mood Ring", 1, "The One Mood Ring" ),
 				       new Option( "fight Lavalos", 2 ) } ),
