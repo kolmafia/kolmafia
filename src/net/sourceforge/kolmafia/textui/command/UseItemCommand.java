@@ -70,7 +70,7 @@ public class UseItemCommand
 		}
 		else if ( command.equals( "eatsilent" ) )
 		{
-			EatItemRequest.ignoreMilkPrompt();
+			EatItemRequest.ignorePrompt();
 			command = "eat";
 		}
 		SpecialOutfit.createImplicitCheckpoint();

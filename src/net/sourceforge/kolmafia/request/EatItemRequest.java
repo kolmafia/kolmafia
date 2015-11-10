@@ -79,7 +79,7 @@ public class EatItemRequest
 	private static final Pattern MAYONEX_PATTERN =
 		Pattern.compile( "Force of Mayo Be With You</b><br>\\(duration: (\\d+) Adventure" );
 
-	private static int ignoreMilkPrompt = 0;
+	private static int ignorePrompt = 0;
 	private static int askedAboutMilk = 0;
 	private static int askedAboutLunch = 0;
 	private static int askedAboutGarish = 0;
@@ -105,9 +105,9 @@ public class EatItemRequest
 		return 0;
 	}
 
-	public static final void ignoreMilkPrompt()
+	public static final void ignorePrompt()
 	{
-		EatItemRequest.ignoreMilkPrompt = KoLCharacter.getUserId();
+		EatItemRequest.ignorePrompt = KoLCharacter.getUserId();
 	}
 
 	public static final void clearFoodHelper()
@@ -348,6 +348,11 @@ public class EatItemRequest
 			return true;
 		}
 
+		if ( EatItemRequest.ignorePrompt == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
 		String itemName = this.itemUsed.getName();
 
 		if ( !askAboutGarish( itemName ) )
@@ -406,7 +411,7 @@ public class EatItemRequest
 	{
 		// If user specifically said not to worry about milk, don't nag
 		int myUserId = KoLCharacter.getUserId();
-		if ( EatItemRequest.ignoreMilkPrompt == myUserId )
+		if ( EatItemRequest.ignorePrompt == myUserId )
 		{
 			return true;
 		}
