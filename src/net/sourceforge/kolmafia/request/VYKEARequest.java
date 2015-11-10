@@ -217,20 +217,16 @@ public class VYKEARequest
 			return;
 		}
 
-		// All of the following are creation prerequisites, so we
-		// shouldn't be here if you don't have them.
-
-		// Make sure VYKEA instructions are available.
-		if ( !InventoryManager.retrieveItem( ItemPool.VYKEA_INSTRUCTIONS, 1 ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You need a set of VYKEA instructions in order to build a VYKEA companion." );
-			return;
-		}
-
-		// Make sure a VYKEA hex key is in inventory
+		// Make sure your VYKEA hex key is in inventory
 		if ( !InventoryManager.retrieveItem( ItemPool.VYKEA_HEX_KEY, 1 ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You need a VYKEA hex key in order to build a VYKEA companion." );
+			return;
+		}
+
+		// Get the necessary ingredients
+		if ( !this.makeIngredients() )
+		{
 			return;
 		}
 
@@ -245,16 +241,18 @@ public class VYKEARequest
 			return;
 		}
 
-		// Get the necessary ingredients
-		if ( !this.makeIngredients() )
+		// Make a companion!
+
+		Concoction concoction = this.concoction;
+		AdventureResult[] ingredients = concoction.getIngredients();
+
+		if ( ingredients.length < 3 || ingredients[0].getItemId() != ItemPool.VYKEA_INSTRUCTIONS )
 		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "VYKEA companion recipe for '" + concoction.getName() + "' is invalid." );
 			return;
 		}
 
-		// Make a companion!
-
-		AdventureResult[] ingredients = this.concoction.getIngredients();
-		int index = 0;
+		int index = 1;
 
 		// Start by "using" the VYKEA instructions.
 		super.run();
