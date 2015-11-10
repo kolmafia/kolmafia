@@ -36,14 +36,11 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -72,6 +69,7 @@ public class SummoningChamberRequest
 	@Override
 	public void run()
 	{
+		Preferences.setString( "choiceAdventure922", "" );
 		KoLmafia.updateDisplay( "Summoning " + this.demon + "..." );
 
 		// Go to the Summoning Chamber
