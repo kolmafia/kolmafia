@@ -3605,7 +3605,7 @@ public abstract class ChoiceManager
 		// Choice 1093 is The WLF Bunker
 
 		// Choice 1094 is Back Room SMOOCHing
-		new ChoiceSpoiler(
+		new ChoiceAdventure(
 			"That 70s Volcano", "choiceAdventure1094", "The SMOOCH Army HQ",
 			new Option[] { new Option( "fight Geve Smimmons", 1 ),
 				       new Option( "fight Raul Stamley", 2 ),
