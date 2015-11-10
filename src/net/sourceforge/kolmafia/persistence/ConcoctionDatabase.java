@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
@@ -2127,7 +2128,11 @@ public class ConcoctionDatabase
 		}
 		ConcoctionDatabase.EXCUSE.put( CraftingType.FIVE_D, "You do not have a Xiblaxian 5D printer." );
 
-		if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_INSTRUCTIONS, 1 ) ) )
+		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You can only build one VYKEA Companion a day." );
+		}
+		else if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_INSTRUCTIONS, 1 ) ) )
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have any VYKEA instructions." );
 		}
