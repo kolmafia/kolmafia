@@ -1736,9 +1736,9 @@ public class ConcoctionDatabase
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 		if ( InventoryManager.hasItem( ItemPool.JEWELRY_PLIERS ) ||
-			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
-			ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.inventory ) > 0 ||
-			InventoryManager.getEquippedCount( ConcoctionDatabase.THORS_PLIERS ) > 0 )
+		     ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.closet ) > 0 ||
+		     ConcoctionDatabase.THORS_PLIERS.getCount( KoLConstants.inventory ) > 0 ||
+		     InventoryManager.getEquippedCount( ConcoctionDatabase.THORS_PLIERS ) > 0 )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JEWELRY );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.JEWELRY, 0 );
@@ -2087,7 +2087,7 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.BEER, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BEER, 0 );
 
-		// Making stuff with the Junk Magazine is requires the magazine
+		// Making stuff with the Junk Magazine requires the magazine
 		if ( InventoryManager.hasItem( ItemPool.WORSE_HOMES_GARDENS ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.JUNK );
@@ -2132,25 +2132,9 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You can only build one VYKEA Companion a day." );
 		}
-		else if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_INSTRUCTIONS, 1 ) ) )
-		{
-			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have any VYKEA instructions." );
-		}
-		else if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.VYKEA_HEX_KEY, 1 ) ) )
+		else if ( !InventoryManager.hasItem( ItemPool.VYKEA_HEX_KEY ) )
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You do not have a VYKEA hex key." );
-		}
-		else if ( InventoryManager.getCount( ItemPool.VYKEA_PLANK ) < 5 )
-		{
-			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA planks in inventory." );
-		}
-		else if ( InventoryManager.getCount( ItemPool.VYKEA_RAIL ) < 5 )
-		{
-			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA rails in inventory." );
-		}
-		else if ( InventoryManager.getCount( ItemPool.VYKEA_BRACKET ) < 5 )
-		{
-			ConcoctionDatabase.EXCUSE.put( CraftingType.VYKEA, "You must have at least 5 VYKEA brackets in inventory." );
 		}
 		else
 		{
