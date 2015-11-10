@@ -270,11 +270,8 @@ public class VYKEACompanionData
 		int type = VYKEACompanionData.stringToType( Preferences.getString( "_VYKEACompanionType" ) );
 		int rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
 
-		if ( type != NONE )
-		{
-			VYKEACompanionData companion = new VYKEACompanionData( type, level, rune, name);
-			VYKEACompanionData.setVYKEACompanion( companion, false );
-		}
+		VYKEACompanionData companion = type == NONE ? NO_COMPANION : new VYKEACompanionData( type, level, rune, name);
+		VYKEACompanionData.setVYKEACompanion( companion, false );
 	}
 
 	@Override
