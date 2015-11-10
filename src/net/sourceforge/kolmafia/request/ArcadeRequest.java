@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArcadeRequest
@@ -116,7 +117,7 @@ public class ArcadeRequest
 			// play Skee-Ball. But don't feel bad. The Skee-Ball
 			// machine is broken, so you wouldn't have been able to
 			// play Skee-Ball anyway.
-			if ( this.responseText.indexOf( "You don't have any Game Grid tokens" ) != -1 )
+			if ( this.responseText.contains( "You don't have any Game Grid tokens" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have any Game Grid tokens." );
 			}
@@ -157,6 +158,10 @@ public class ArcadeRequest
 		{
 			// We visited Jackass Plumber for the day
 			Preferences.setBoolean( "_defectiveTokenChecked", true );
+			if ( responseText.contains( "defective Game Grid token" ) )
+			{
+				InputFieldUtilities.alert( "You found a defective Game Grid token!" );
+			}
 			return;
 		}
 	}
@@ -397,7 +402,7 @@ public class ArcadeRequest
 			break;
 		case 460:	// Bridge
 		case 462:	// Diagnostics
-                        // Game control navigation
+		            // Game control navigation
 			break;
 
 		case 463:	// Alpha Quadrant
@@ -409,8 +414,8 @@ public class ArcadeRequest
 			{
 				log = true;
 			}
-			else if ( action.indexOf( "Scadian Homeworld" ) != -1  &&
-				  responseText.indexOf( "Protector of Scadia" ) != -1 )
+			else if ( action.contains( "Scadian Homeworld" )  &&
+			          responseText.contains( "Protector of Scadia" ) )
 			{
 				log = true;
 			}
@@ -425,16 +430,16 @@ public class ArcadeRequest
 			break;
 		}
 
-                if ( week )
-                {
-			ArcadeRequest.week++;
-			ArcadeRequest.logText( "Week " + ArcadeRequest.week + ": " + action );
-                }
+		if ( week )
+		{
+		  ArcadeRequest.week++;
+		  ArcadeRequest.logText( "Week " + ArcadeRequest.week + ": " + action );
+		}
 
-                if ( log )
-                {
-                        ArcadeRequest.logText( "Action: " + action );
-                }
+		if ( log )
+		{
+			ArcadeRequest.logText( "Action: " + action );
+		}
 	}
 
 	private final static Pattern SPACE_TRIP_RESOURCE_PATTERN = Pattern.compile( "<tr><td><b>Crew:</b>&nbsp;(\\d*)<br><b>Gas:</b>&nbsp;(\\d*)&nbsp;gal.</td><td width=50></td><td><b>Money:</b>&nbsp;([0123456789,]*)&nbsp;Crabs<br><b>Time&nbsp;Left:</b>&nbsp;(\\d*)&nbsp;weeks</td></tr>", Pattern.DOTALL );
@@ -461,8 +466,8 @@ public class ArcadeRequest
 		//
 		// The biggest parties happen here!
 
-		if ( responseText.indexOf( "come to our big party" ) != -1 ||
-		     responseText.indexOf( "The biggest parties happen here" ) != -1 )
+		if ( responseText.contains( "come to our big party" ) ||
+		     responseText.contains( "The biggest parties happen here" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Slavers" );
 		}
@@ -474,8 +479,8 @@ public class ArcadeRequest
 		// The Murderbots at this colony must be programmed to kill
 		// intruders on sight.
 
-		else if ( responseText.indexOf( "no signs of organic life" ) != -1 ||
-			  responseText.indexOf( "Murderbots at this colony" ) != -1 )
+		else if ( responseText.contains( "no signs of organic life" ) ||
+			    responseText.contains( "Murderbots at this colony" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Murderbot Mining Ship" );
 		}
@@ -484,7 +489,7 @@ public class ArcadeRequest
 		// definitely a Murderbot vessel, but it has no weapons, and is
 		// equipped with a much larger than usual communications array.
 
-		else if ( responseText.indexOf( "much larger than usual communications array" ) != -1 )
+		else if ( responseText.contains( "much larger than usual communications array" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Murderbot Control Ship" );
 		}
@@ -492,7 +497,7 @@ public class ArcadeRequest
 		// Captain, we've been ambushed by another Murderbot
 		// vessel. Get ready for a fight!
 
-		else if ( responseText.indexOf( "ambushed by another Murderbot vessel" ) != -1 )
+		else if ( responseText.contains( "ambushed by another Murderbot vessel" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Murderbot Cruiser" );
 		}
@@ -506,8 +511,8 @@ public class ArcadeRequest
 		// be able to get inside there without getting this ID
 		// Transmitter fixed.
 
-		else if ( responseText.indexOf( "under siege by a Murderbot Dreadnought" ) != -1 || 
-			  responseText.indexOf( "attacked by this Dreadnought" ) != -1 )
+		else if ( responseText.contains( "under siege by a Murderbot Dreadnought" ) ||
+			    responseText.contains( "attacked by this Dreadnought" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Murderbot Dreadnought" );
 		}
@@ -519,7 +524,7 @@ public class ArcadeRequest
 		// fall for the trick, and now we're in some serious, serious
 		// trouble.
 
-		else if ( responseText.indexOf( "the Murderbot Mothership's computers didn't" ) != -1 )
+		else if ( responseText.contains( "the Murderbot Mothership's computers didn't" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Murderbot Mothership" );
 		}
@@ -528,7 +533,7 @@ public class ArcadeRequest
 		// great peril, in search of aid for my Scadian countrymen.
 		// Will you lend me your ear, good wanderer?
 
-		else if ( responseText.indexOf( "aid for my Scadian countrymen" ) != -1 )
+		else if ( responseText.contains( "aid for my Scadian countrymen" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Scadian Ship" );
 			ArcadeRequest.week--;
@@ -536,7 +541,7 @@ public class ArcadeRequest
 
 		// Captain, we're being hailed by a Hipsterian vessel.
 
-		else if ( responseText.indexOf( "being hailed by a Hipsterian vessel" ) != -1 )
+		else if ( responseText.contains( "being hailed by a Hipsterian vessel" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Hipsterian Ship" );
 		}
@@ -544,7 +549,7 @@ public class ArcadeRequest
 		// Ello, sah baldy. Mebbe mi can help yuh wid someting?
 		//
 
-		else if ( responseText.indexOf( "Ello, sah baldy" ) != -1 )
+		else if ( responseText.contains( "Ello, sah baldy" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Astrozorian Trade Vessel" );
 		}
@@ -552,7 +557,7 @@ public class ArcadeRequest
 		// Captain, it's... If... If it wasn't so evil, it would
 		// be... beautiful. They would have should have sent a poet.
 
-		else if ( responseText.indexOf( "They should have sent a poet" ) != -1 )
+		else if ( responseText.contains( "They should have sent a poet" ) )
 		{
 			ArcadeRequest.logText( "Encounter: The Source" );
 		}
@@ -730,20 +735,20 @@ public class ArcadeRequest
 		// space is basically empty, except for a large gray asteroid,
 		// floating serenely in the... well, in the nothing.
 
-		if ( responseText.indexOf( "a large gray asteroid" ) != -1 )
+		if ( responseText.contains( "a large gray asteroid" ) )
 		{
 			ArcadeRequest.logText( "Encounter: an asteroid" );
 		}
 
 		// Also, there's an octagonal flying saucer with a large turret
 		// on the top that quickly swivels to face you.
-                //
+		//
 		// You are interrupted in your chosen task by the nearby
 		// tanklike flying saucer, which swoops toward you, firing red
 		// bursts of energy from its central turre
 
-		if ( responseText.indexOf( "octagonal flying saucer" ) != -1 ||
-		     responseText.indexOf( "nearby tanklike flying saucer" ) != -1 )
+		if ( responseText.contains( "octagonal flying saucer" ) ||
+		     responseText.contains( "nearby tanklike flying saucer" ) )
 		{
 			ArcadeRequest.logText( "Encounter: a warrior" );
 		}
@@ -756,7 +761,7 @@ public class ArcadeRequest
 		// possibly robot? -- which has a large crystal clutched in its
 		// claws and seems to be on its way somewhere.
 
-		if ( responseText.indexOf( "strange red crab-like spaceship" ) != -1 )
+		if ( responseText.contains( "strange red crab-like spaceship" ) )
 		{
 			ArcadeRequest.logText( "Encounter: a worker" );
 		}
@@ -767,7 +772,7 @@ public class ArcadeRequest
 		// front of the massive battle-station they're building. Who
 		// builds a giant space demon head? This is ridiculous.
 
-		if ( responseText.indexOf( "ton of crab-like worker drones" ) != -1 )
+		if ( responseText.contains( "ton of crab-like worker drones" ) )
 		{
 			ArcadeRequest.logText( "Encounter: a worker" );
 			ArcadeRequest.logText( "Encounter: DemonStar under construction" );
@@ -775,19 +780,19 @@ public class ArcadeRequest
 
 		// You're fighting the DemonStar.
 
-		if ( responseText.indexOf( "You're fighting the DemonStar" ) != -1 )
+		if ( responseText.contains( "You're fighting the DemonStar" ) )
 		{
 			ArcadeRequest.logText( "Encounter: the DemonStar" );
 		}
 
-                // BEWARE! I LIVE!
-		if ( responseText.indexOf( "BEWARE! I LIVE!" ) != -1 )
+		// BEWARE! I LIVE!
+		if ( responseText.contains( "BEWARE! I LIVE!" ) )
 		{
 			ArcadeRequest.logText( "The DemonStar awakes." );
 		}
 
 		// Blurstite crystal collected
-		if ( responseText.indexOf( "Blurstite crystal collected" ) != -1 )
+		if ( responseText.contains( "Blurstite crystal collected" ) )
 		{
 			ArcadeRequest.blurstite++;
 			ArcadeRequest.logText( "You acquire a bomb. (" + ArcadeRequest.blurstite + ")" );
@@ -797,7 +802,7 @@ public class ArcadeRequest
 		// blurstium charge has been intercepted by an enemy robot,"
 		// the computer reports.
 
-		if ( responseText.indexOf( "blurstium charge has been intercepted" ) != -1 )
+		if ( responseText.contains( "blurstium charge has been intercepted" ) )
 		{
 			ArcadeRequest.logText( "A bomb has been intercepted." );
 		}
@@ -806,7 +811,7 @@ public class ArcadeRequest
 		// loud metallic roar. <i?>&quot;1 blurstium charge has located
 		// the target and successfully detonated,&quot;</i> says the
 		// shipboard computer.
-		if ( responseText.indexOf( "a loud metallic roar" ) != -1 )
+		if ( responseText.contains( "a loud metallic roar" ) )
 		{
 			ArcadeRequest.wounds++;
 			ArcadeRequest.logText( "A bomb wounds the DemonStar. (" + ArcadeRequest.wounds + ")" );
@@ -817,7 +822,7 @@ public class ArcadeRequest
 		if ( matcher.find() )
 		{
 			String message = "";
-			if ( responseText.indexOf( "YOU HAVE DESTROYED THE DEMONSTAR!" ) != -1 )
+			if ( responseText.contains( "YOU HAVE DESTROYED THE DEMONSTAR!" ) )
 			{
 				message = "YOU HAVE DESTROYED THE DEMONSTAR! ";
 
@@ -899,7 +904,7 @@ public class ArcadeRequest
 
 		// First: look for encounters
 
-		if ( responseText.indexOf( "bright pink" ) != -1 )
+		if ( responseText.contains( "bright pink" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Grunts" );
 		}
@@ -914,21 +919,21 @@ public class ArcadeRequest
 		// Having dealt with the monsters, you decide it's time to deal
 		// with this big stone box-thing.
 
-		else if ( responseText.indexOf( "look thoughtfully at the big stone box" ) != -1 ||
-		     responseText.indexOf( "it's time to deal with this big stone box" ) != -1 ||
-		     responseText.indexOf( "turn to regard the large stone box" ) != -1 )
+		else if ( responseText.contains( "look thoughtfully at the big stone box" ) ||
+		     responseText.contains( "it's time to deal with this big stone box" ) ||
+		     responseText.contains( "turn to regard the large stone box" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Large Stone Boxes" );
 		}
 
-		else if ( responseText.indexOf( "horrible demonic creatures" ) != -1 ||
-		     responseText.indexOf( "fire-breathing demons" ) != -1 )
+		else if ( responseText.contains( "horrible demonic creatures" ) ||
+		     responseText.contains( "fire-breathing demons" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Demons" );
 		}
 
-		else if ( responseText.indexOf( "gray spectres" ) != -1 ||
-		     responseText.indexOf( "angry tormented spirits" ) != -1)
+		else if ( responseText.contains( "gray spectres" ) ||
+		     responseText.contains( "angry tormented spirits" ))
 		{
 			ArcadeRequest.logText( "Encounter: Ghosts" );
 		}
@@ -945,68 +950,68 @@ public class ArcadeRequest
 		// The ghosts are all gone, but the little piles of bones
 		// remain. Probably ought to do something about that.
 
-		else if ( responseText.indexOf( "shouldn't leave those piles of bones" ) != -1 ||
-		     responseText.indexOf( "decide to clean up these piles of bones" ) != -1 ||
-		     responseText.indexOf( "decide to bust up their bones" ) != -1 || 
-		     responseText.indexOf( "the little piles of bones remain" ) != -1 )
+		else if ( responseText.contains( "shouldn't leave those piles of bones" ) ||
+		     responseText.contains( "decide to clean up these piles of bones" ) ||
+		     responseText.contains( "decide to bust up their bones" ) ||
+		     responseText.contains( "the little piles of bones remain" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Bone Piles" );
 		}
 
-		else if ( responseText.indexOf( "A seven-foot tall humanoid figure" ) != -1 )
+		else if ( responseText.contains( "A seven-foot tall humanoid figure" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Death" );
 		}
 
 		// Second: look for items
 
-		if ( responseText.indexOf( "you find a large brass key" ) != -1 )
+		if ( responseText.contains( "you find a large brass key" ) )
 		{
 			ArcadeRequest.logText( "You find a key" );
 		}
 
-		else if ( responseText.indexOf( "A blue potion bottle rests on the floor in the alcove" ) != -1 )
+		else if ( responseText.contains( "A blue potion bottle rests on the floor in the alcove" ) )
 		{
 			ArcadeRequest.logText( "You find a Magic Potion" );
 		}
 
-		else if ( responseText.indexOf( "discover a large blue bottle" ) != -1 )
+		else if ( responseText.contains( "discover a large blue bottle" ) )
 		{
 			ArcadeRequest.logText( "You find a Muscle Potion" );
 		}
 
-		else if ( responseText.indexOf( "you find a large glowing blue bottle" ) != -1 )
+		else if ( responseText.contains( "you find a large glowing blue bottle" ) )
 		{
 			ArcadeRequest.logText( "You find a Combat Potion" );
 		}
 
-		else if ( responseText.indexOf( "SOMEONE SHOT THE FOOD!" ) != -1 )
+		else if ( responseText.contains( "SOMEONE SHOT THE FOOD!" ) )
 		{
 			ArcadeRequest.logText( "You shoot the food" );
 		}
 
-		else if ( responseText.indexOf( "even if it isn't actually food" ) != -1 )
+		else if ( responseText.contains( "even if it isn't actually food" ) )
 		{
 			ArcadeRequest.logText( "You find food" );
 		}
 
 		// Third: look for room features:
 
-		if ( responseText.indexOf( "strange light-blue metal" ) != -1 )
+		if ( responseText.contains( "strange light-blue metal" ) )
 		{
 			ArcadeRequest.logText( "You find a locked door" );
 
-			if ( responseText.indexOf( "the wall is gone" ) != -1 || 
-			     responseText.indexOf( "the wall disappears" ) != -1 )
+			if ( responseText.contains( "the wall is gone" ) ||
+			     responseText.contains( "the wall disappears" ) )
 			{
 				ArcadeRequest.logText( "You unlock the door" );
 
-				if ( responseText.indexOf( "a large wooden treasure chest" ) != -1 )
+				if ( responseText.contains( "a large wooden treasure chest" ) )
 				{
 					ArcadeRequest.logText( "You find treasure" );
 				}
 
-				else if ( responseText.indexOf( "a square black pit" ) != -1 )
+				else if ( responseText.contains( "a square black pit" ) )
 				{
 					ArcadeRequest.logText( "You find the exit" );
 				}
@@ -1018,13 +1023,13 @@ public class ArcadeRequest
 		if ( matcher.find() )
 		{
 			String message = "";
-			if ( responseText.indexOf( "YOU HAVE ESCAPED THE DUNGEON!" ) != -1 )
+			if ( responseText.contains( "YOU HAVE ESCAPED THE DUNGEON!" ) )
 			{
 				message = "YOU HAVE ESCAPED THE DUNGEON! ";
 
 			}
 
-			else if ( responseText.indexOf( "YOU HAVE DIED." ) != -1 )
+			else if ( responseText.contains( "YOU HAVE DIED." ) )
 			{
 				message = "YOU HAVE DIED. ";
 			}
@@ -1242,7 +1247,7 @@ public class ArcadeRequest
 		String [] challenges = THREATS[ opponent ];
 		for ( int i = 0; i < challenges.length; ++i )
 		{
-			if ( challenge.indexOf( challenges[ i ] ) != -1 )
+			if ( challenge.contains( challenges[ i ] ) )
 			{
 				return i;
 			}
@@ -1471,7 +1476,7 @@ public class ArcadeRequest
 			return;
 		}
 
-		if ( text.indexOf( "Game Over!" ) != -1 )
+		if ( text.contains( "Game Over!" ) )
 		{
 			ArcadeRequest.logFinalRound( MSTRING[ move ], text );
 		}
@@ -1677,14 +1682,14 @@ public class ArcadeRequest
 
 		// The room contained a bizarre bird-man statue, seated and
 		// holding a spherical container.
-		else if ( responseText.indexOf( "bizarre bird-man statue") != -1 )
+		else if ( responseText.contains( "bizarre bird-man statue" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Statue" );
 		}
 
 		// The room contained a terminal whose screen displayed what
 		// appeared to be map data about the surrounding environment.
-		else if ( responseText.indexOf( "map data") != -1 )
+		else if ( responseText.contains( "map data" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Map Terminal" );
 		}
@@ -1692,21 +1697,21 @@ public class ArcadeRequest
 		// The room contained a nano-charge station. My cybersuit's
 		// computer beeped, notifying me that I could use the station
 		// to replenish my bombs and missiles
-		else if ( responseText.indexOf( "nano-charge station") != -1 )
+		else if ( responseText.contains( "nano-charge station" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Charge Station" );
 		}
 
 		// The room contained a teleporter keyed to the planetoid's
 		// surface -- I could use it to get back to my ship!
-		else if ( responseText.indexOf( "planetoid's surface") != -1 )
+		else if ( responseText.contains( "planetoid's surface" ) )
 		{
 			ArcadeRequest.logText( "Encounter: Teleporter" );
 		}
 
 		// The intense heat of the room leached 5 energy from my
 		// cybersuit...
-		if ( responseText.indexOf( "leached 5 energy" ) != -1 )
+		if ( responseText.contains( "leached 5 energy" ) )
 		{
 			ArcadeRequest.logText( "You lose 5 energy" );
 		}
