@@ -123,14 +123,22 @@ public class ItemFinder
 
 		// Remove duplicate names that all refer to the same item?
 		Set<Integer> itemIdSet = new HashSet<Integer>();
+		int pseudoItems = 0;
 
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
 			int itemId = ItemDatabase.getItemId( nameList.get( i ) );
-			itemIdSet.add( IntegerPool.get( itemId ) );
+			if ( itemId == -1 )
+			{
+				pseudoItems += 1;
+			}
+			else
+			{
+				itemIdSet.add( IntegerPool.get( itemId ) );
+			}
 		}
 
-		if ( itemIdSet.size() == 1 )
+		if ( ( pseudoItems + itemIdSet.size() ) == 1 )
 		{
 			return ItemDatabase.getCanonicalName( nameList.get( 0 ) );
 		}
@@ -225,6 +233,19 @@ public class ItemFinder
 		{
 			itemName = nameIterator.next();
 			itemId = ItemDatabase.getItemId( itemName );
+			
+			if ( filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
+			{
+				AdventureResult item = new AdventureResult( itemName, itemId, 1, false);
+				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( item );
+				boolean condition =
+					( filterType == ItemFinder.CREATE_MATCH ) ?
+					( mixMethod == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 ) :
+					( mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY );
+				ItemFinder.conditionalRemove( nameIterator, condition );
+				continue;
+			}
+
 			useType = ItemDatabase.getConsumptionType( itemId );
 
 			switch ( filterType )
@@ -239,13 +260,6 @@ public class ItemFinder
 				break;
 			case ItemFinder.SPLEEN_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_SPLEEN );
-				break;
-			case ItemFinder.CREATE_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ConcoctionDatabase.getMixingMethod( itemId ) == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 );
-				break;
-			case ItemFinder.UNTINKER_MATCH:
-				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId );
-				ItemFinder.conditionalRemove( nameIterator, mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY );
 				break;
 			case ItemFinder.EQUIP_MATCH:
 				switch ( useType )
@@ -270,13 +284,12 @@ public class ItemFinder
 				break;
 
 			case ItemFinder.USE_MATCH:
-
 				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isUsable( itemId ) );
 				break;
 			}
 		}
 
-		if ( nameList.size() == 1 )
+		if ( nameList.size() == 1 || filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
 		{
 			return;
 		}
