@@ -5452,7 +5452,7 @@ public abstract class KoLCharacter
 			newModifiers.applyServantModifiers( EdServantData.currentServant() );
 		}
 
-		if ( VYKEACompanionData.currentCompanion() != null )
+		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
 		{
 			newModifiers.applyCompanionModifiers( VYKEACompanionData.currentCompanion() );
 		}
