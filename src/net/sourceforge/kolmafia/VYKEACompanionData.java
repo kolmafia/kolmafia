@@ -82,11 +82,6 @@ public class VYKEACompanionData
 
 	private static void setVYKEACompanion( final VYKEACompanionData companion, final boolean setSettings )
 	{
-		if ( VYKEACompanionData.currentCompanion != VYKEACompanionData.NO_COMPANION )
-		{
-			return;
-		}
-
 		VYKEACompanionData.currentCompanion = companion;
 
 		if ( setSettings )

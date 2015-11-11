@@ -3664,7 +3664,7 @@ public abstract class ChoiceManager
 				       new Option( "acquire VYKEA hex key", 2, "VYKEA hex key" ),
 				       new Option( "fill bucket by 10-15%", 3 ),
 				       new Option( "acquire 3 Wal-Mart gift certificates (1/day)", 4, "Wal-Mart gift certificate" ),
-				       new Option( "acquire 3 VYKEA rune", 5 ),
+				       new Option( "acquire VYKEA rune", 5 ),
 				       new Option( "leave", 6 ) } ),
 
 		// Choice 1116 is All They Got Inside is Vacancy (and Ice)
