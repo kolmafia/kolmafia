@@ -89,7 +89,7 @@ public class QuestManager
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
-	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
+	private static final Pattern WALFORD_PATTERN = Pattern.compile(  "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)"  );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{

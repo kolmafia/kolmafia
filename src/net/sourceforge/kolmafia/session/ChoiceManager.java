@@ -13251,6 +13251,7 @@ public abstract class ChoiceManager
 		case 987: // The Post-Apocalyptic Survivor Encampment
 		case 991: // Build a Crimbot!
 		case 994: // Hide a Gift!
+		case 999: // Shrubberatin'
 		case 1003: // Contest Booth
 		case 1025: // Reconfigure your Mini-Crimbot
 		case 1051: // The Book of the Undying
