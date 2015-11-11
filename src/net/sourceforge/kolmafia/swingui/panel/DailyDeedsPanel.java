@@ -2242,10 +2242,11 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean kf = KoLCharacter.kingLiberated();
+			boolean fqc = QuestDatabase.isQuestFinished( Quest.FRIAR );
 			int lfc = Preferences.getInteger( "lastFriarCeremonyAscension" );
 			int ka = Preferences.getInteger( "knownAscensions" );
 			boolean limited = Limitmode.limitZone( "Friars" );
-			this.setShown( ( kf || lfc == ka ) && !limited );
+			this.setShown( ( kf || lfc == ka ) && !limited && fqc );
 			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
 		}
 	}
