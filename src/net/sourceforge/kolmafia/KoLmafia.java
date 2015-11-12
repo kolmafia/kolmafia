@@ -684,6 +684,7 @@ public abstract class KoLmafia
 		}
 		
 		Preferences.resetDailies();
+		VYKEACompanionData.initialize( false );
 		ConsequenceManager.updateOneDesc();
 		BanishManager.resetRollover();
 
