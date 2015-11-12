@@ -10127,13 +10127,51 @@ public abstract class ChoiceManager
 			// Walford Rusley, Bucket Collector
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				QuestDatabase.setQuestProgress( Quest.BUCKET, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.BUCKET, QuestDatabase.UNSTARTED );
 				Preferences.setInteger( "walfordBucketProgress", 0 );
+				Preferences.setString( "walfordBucketItem", "" );
 			}
 			else if ( ChoiceManager.lastDecision < 5 )
 			{
 				QuestDatabase.setQuestProgress( Quest.BUCKET, QuestDatabase.STARTED );
 				Preferences.setInteger( "walfordBucketProgress", 0 );
+				Preferences.setBoolean( "_walfordQuestStartedToday", true );
+				if ( text.contains( "Bucket of balls" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "balls" );
+				}
+				else if ( text.contains( "bucket with blood" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "blood" );
+				}
+				else if ( text.contains( "Bolts, mainly" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "bolts" );
+				}
+				else if ( text.contains( "bucket of chicken" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "chicken" );
+				}
+				else if ( text.contains( "Here y'go -- chum" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "chum" );
+				}
+				else if ( text.contains( "fill that with ice" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "ice" );
+				}
+				else if ( text.contains( "fill it up with milk" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "milk" );
+				}
+				else if ( text.contains( "bucket of moonbeams" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "moonbeams" );
+				}
+				else if ( text.contains( "bucket with rain" ) )
+				{
+					Preferences.setString( "walfordBucketItem", "rain" );
+				}
 			}
 			break;
 
