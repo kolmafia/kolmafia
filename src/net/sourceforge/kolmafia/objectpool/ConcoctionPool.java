@@ -94,10 +94,14 @@ public class ConcoctionPool
 		return ConcoctionPool.names.get( cname );
 	}
 
+	public static Concoction get( final int itemId, final String name )
+	{
+		return itemId > 0 ? ConcoctionPool.items.get( itemId ) : ConcoctionPool.nonitems.get( name );
+	}
+
 	public static Concoction get( final AdventureResult ar )
 	{
-		int itemId = ar.getItemId();
-		return itemId > 0 ? ConcoctionPool.items.get( itemId ) : ConcoctionPool.nonitems.get( ar.getName() );
+		return ConcoctionPool.get( ar.getItemId(), ar.getName() );
 	}
 
 	public static void set( final Concoction c )
@@ -118,6 +122,12 @@ public class ConcoctionPool
 		else
 		{
 			ConcoctionPool.nonitems.put( name, c );
+			// Put canonical name in the map, too, since that is
+			// what we use for user input
+			if ( !name.equals( cname ) )
+			{
+				ConcoctionPool.nonitems.put( cname, c );
+			}
 		}
 
 		int row = c.getRow();

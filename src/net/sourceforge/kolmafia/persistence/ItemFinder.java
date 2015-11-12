@@ -236,8 +236,7 @@ public class ItemFinder
 			
 			if ( filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
 			{
-				AdventureResult item = new AdventureResult( itemName, itemId, 1, false);
-				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( item );
+				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId, itemName );
 				boolean condition =
 					( filterType == ItemFinder.CREATE_MATCH ) ?
 					( mixMethod == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 ) :
