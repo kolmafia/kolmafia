@@ -208,6 +208,13 @@ public class VYKEARequest
 	}
 
 	@Override
+	public int getQuantityPossible()
+	{
+		// You can't create more than one VYKEA companion
+		return Math.min( this.quantityPossible, 1 );
+	}
+
+	@Override
 	public void run()
 	{
 		// Make sure you don't already have a companion
