@@ -2296,22 +2296,29 @@ public class ConcoctionDatabase
 	 * Returns the mixing method for the item with the given Id.
 	 */
 
+	public static final CraftingType getMixingMethod( final Concoction item )
+	{
+		return item == null ? CraftingType.NOCREATE : item.getMixingMethod();
+	}
+
 	public static final CraftingType getMixingMethod( final int itemId )
 	{
-		Concoction item = ConcoctionPool.get( itemId );
-		return item == null ? CraftingType.NOCREATE : item.getMixingMethod();
+		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( itemId ) );
 	}
 
 	public static final CraftingType getMixingMethod( final String name )
 	{
-		Concoction item = ConcoctionPool.get( name );
-		return item == null ? CraftingType.NOCREATE : item.getMixingMethod();
+		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( name ) );
+	}
+
+	public static final CraftingType getMixingMethod( final int itemId, final String name )
+	{
+		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( itemId, name ) );
 	}
 
 	public static final CraftingType getMixingMethod( final AdventureResult ar )
 	{
-		Concoction item = ConcoctionPool.get( ar );
-		return item == null ? CraftingType.NOCREATE : item.getMixingMethod();
+		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( ar ) );
 	}
 
 	public static final EnumSet<CraftingRequirements> getRequirements( final int itemId )
