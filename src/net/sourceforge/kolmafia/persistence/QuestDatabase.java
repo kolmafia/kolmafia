@@ -595,6 +595,8 @@ public class QuestDatabase
 		Preferences.resetToDefault( "dinseySocialJusticeIIProgress" );
 		Preferences.resetToDefault( "dinseyTouristsFed" );
 		Preferences.resetToDefault( "dinseyToxicMultiplier" );
+		Preferences.resetToDefault( "walfordBucketItem" );
+		Preferences.resetToDefault( "walfordBucketProgress" );
 	}
 
 	public static void handleCouncilText( String responseText )

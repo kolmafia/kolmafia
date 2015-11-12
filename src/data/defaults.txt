@@ -1064,6 +1064,7 @@ user	volcanoMaze2
 user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
+user	walfordBucketItem	
 user	walfordBucketProgress	0
 user	warProgress	unstarted
 user	warehouseProgress	0
@@ -1378,6 +1379,7 @@ user	_VYKEACompanionRune
 user	_VYKEACompanionLevel	0
 user	_VYKEACompanionName
 user	_VYKEALoungeRaided	false
+user	_walfordQuestStartedToday	false
 user	_warbearAutoAnvilCrafting	0
 user	_warbearBankUsed	false
 user	_warbearBreakfastMachineUsed	false
