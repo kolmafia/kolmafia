@@ -60,6 +60,7 @@ public class ConcoctionPool
 
 	// Name -> Concoction
 	private static final Map<String, Concoction> nonitems = new TreeMap<String, Concoction>();
+	private static final Map<String, Concoction> nonitemsCanonical = new TreeMap<String, Concoction>();
 
 	// All concoctions
 	private static Collection<Concoction> values = null;
@@ -96,7 +97,12 @@ public class ConcoctionPool
 
 	public static Concoction get( final int itemId, final String name )
 	{
-		return itemId > 0 ? ConcoctionPool.items.get( itemId ) : ConcoctionPool.nonitems.get( name );
+		if ( itemId > 0 )
+		{
+			return ConcoctionPool.items.get( itemId );
+		}
+		Concoction c = ConcoctionPool.nonitems.get( name );
+		return c != null ? c : ConcoctionPool.nonitemsCanonical.get( name );
 	}
 
 	public static Concoction get( final AdventureResult ar )
@@ -122,11 +128,9 @@ public class ConcoctionPool
 		else
 		{
 			ConcoctionPool.nonitems.put( name, c );
-			// Put canonical name in the map, too, since that is
-			// what we use for user input
 			if ( !name.equals( cname ) )
 			{
-				ConcoctionPool.nonitems.put( cname, c );
+				ConcoctionPool.nonitemsCanonical.put( cname, c );
 			}
 		}
 
