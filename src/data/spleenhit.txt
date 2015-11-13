@@ -34,7 +34,7 @@ cold wad	1	6	decent	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10%
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
 Crimbo paste	4	4	good	5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
-cuppa Activi tea	2	1	decent	0	0	0	0	Unspaded
+cuppa Activi tea	2	1	decent	3-5	8-10	8-10	8-10
 cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
@@ -114,7 +114,7 @@ single atom	1	1	decent	1	0	0	0
 sleaze wad	1	6	decent	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
 slimy alveolus	1	5	decent	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
 slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
-SMOOCH coffee cup	2	6	good	0	0	0	0	Unspaded
+SMOOCH coffee cup	2	6	good	4-5	0	0	13-14	Unspaded - values uncertain
 spooky wad	1	6	decent	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
 stench wad	1	6	decent	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
