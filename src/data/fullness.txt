@@ -370,7 +370,7 @@ Humpty Dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 ice cream sandwich	2	4	decent	2-4	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)
 ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
-iceberg lettuce	2	6	EPIC	0	0	0	0	Unspaded, 50 Headstrong(+25 Weapon Damage, +50% Muscle, +100 HP)
+iceberg lettuce	2	6	EPIC	11-13	20-30	0	0	50 Headstrong(+25 Weapon Damage, +50% Muscle, +100 HP)
 idiot brain	1	1	crappy	1	0	0	0	Refund spent Zombie Slayer skill points
 igloo pie	2	2	awesome	7-9	15-20	15-20	5-10
 imitation White Russian	2	6	good	4-6	5-10	5-10	5-10
@@ -808,7 +808,7 @@ warbear warrior bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Warriors, Come out to 
 warm mushroom	2	1	decent	2-3	12-14	0	0
 warm war shawarma	3	7	EPIC	15-18	30-60	0	0	30 Shawarma Warm War (+15 Mus, +50% Mus, +25 Hot Dam, +25 Hot Spell Dam, +3 Cold/Spooky Resist)
 wasabi pocky	3	1	good	6-8	6-8	8-8	6-8	30 Wasabi With You (+150% weapon dmg)
-water log	5	11	EPIC	0	0	0	0	Unspaded
+water log	5	11	EPIC	31-35	30-60	30-60	30-60	Unspaded, adv range uncertain
 wedge of gray cheese	2	9	EPIC	7-13	50-69	50-69	50-69
 weird gazelle steak	10	1	awesome	40	0	0	0	1 Gaze of the Gazelle (+200% Spell Damage, +60 Booze drop)
 wet dog	3	1	awesome	11-13	0	0	0	30 Hangdog (+20 Init, +30 Sleaze Dam, +3 Hot/Stench Res)
