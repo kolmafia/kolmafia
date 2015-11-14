@@ -2892,15 +2892,22 @@ public class FightRequest
 			case FamiliarPool.GIBBERER:
 				// <name> mutters dark secrets under his breath, and
 				// you feel time slow down.
+				boolean underwater = KoLAdventure.lastVisitedLocation().getEnvironment().equals( "underwater" );
+				Preferences.increment( "_gibbererCharge", underwater ? 2 : 1, 15, true );
 				if ( responseText.contains( "you feel time slow down" ) )
 				{
 					Preferences.increment( "extraRolloverAdventures", 1 );
 					Preferences.increment( "_gibbererAdv", 1 );
-					Preferences.setInteger( "_gibbererCharge", 0 );
-				}
-				else
-				{
-					Preferences.increment( "_gibbererCharge", 1 );
+					// Normally the updating below is wasted, but it allows things
+					// to get in sync if progress is missed for some reason
+					if ( underwater )
+					{
+						Preferences.setInteger( "_gibbererCharge", Math.min( 1, Preferences.getInteger( "_gibbererCharge" ) ) );
+					}
+					else
+					{
+						Preferences.setInteger( "_gibbererCharge", 0 );
+					}
 				}
 				break;
 
