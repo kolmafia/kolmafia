@@ -4595,6 +4595,7 @@ public class FightRequest
 		public boolean mayowasp;
 		public boolean dolphin;
 		public String limitmode;
+		public String VYKEACompanion;
 
 		public TagStatus()
 		{
@@ -4617,6 +4618,9 @@ public class FightRequest
 			String bjornedName = bjorned.getName();
 			this.bjorned = bjorned.getImageLocation();
 			this.bjornedName = ( bjornedName == null || bjornedName.equals( "" ) ) ? null : bjornedName;
+
+			String VYKEAName = Preferences.getString( "_VYKEACompanionName" );
+			this.VYKEACompanion = ( VYKEAName == null || VYKEAName.equals( "" ) ) ? null : VYKEAName;
 
 			this.logFamiliar = Preferences.getBoolean( "logFamiliarActions" );
 			this.logMonsterHealth = Preferences.getBoolean( "logMonsterHealth" );
@@ -5031,6 +5035,13 @@ public class FightRequest
 				return;
 			}
 
+			boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
+			if ( VYKEAaction && status.logFamiliar )
+			{
+				// VYKEA companion action
+				FightRequest.logText( text, status );
+			}
+
 			boolean ghostAction = status.ghost != null && str.contains( status.ghost );
 			if ( ghostAction && status.logFamiliar )
 			{
@@ -5047,7 +5058,7 @@ public class FightRequest
 				return;
 			}
 
-			if ( ghostAction )
+			if ( ghostAction || VYKEAaction )
 			{
 				return;
 			}
@@ -5103,6 +5114,13 @@ public class FightRequest
 						FightRequest.logText( "A freed guard turtle returns.", status );
 					}
 					continue;
+				}
+
+				boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
+				if ( VYKEAaction && status.logFamiliar )
+				{
+					// VYKEA companion action
+					FightRequest.logText( str, status );
 				}
 
 				boolean ghostAction = status.ghost != null && str.contains( status.ghost);
@@ -5212,6 +5230,13 @@ public class FightRequest
 		if ( inode == null )
 		{
 			FightRequest.handleRaver( str, status );
+
+			boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
+			if ( VYKEAaction && status.logFamiliar )
+			{
+				// VYKEA companion action
+				FightRequest.logText( str, status );
+			}
 
 			int damage = ( FightRequest.haiku || FightRequest.anapest ) ?
 				FightRequest.parseHaikuDamage( str ) :
