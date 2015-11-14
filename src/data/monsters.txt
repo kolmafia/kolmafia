@@ -695,7 +695,7 @@ Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS Atk: 185 Def: 166 HP
 Stephen Spookyraven	1565	steven.gif	Scale: 5 Cap: 300 Init: 100 P: undead	Stephen's secret formula (100)	Stephen's lab coat (100)
 sticky mummy	1583	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead
 stone temple pirate	1159	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct	ancient poisoned dart (35)	eyepatch (15)
-stranglin' algae	741	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant	glob of green slime (n30)
+stranglin' algae	741	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant	glob of green slime (n30)	sea lace (n30)
 stuffed moose head	1552	moosehead.gif	Atk: 86 Def: 79 HP: 80 Init: -10000 P: beast E: spooky	moose antlers (5)	moose chocolate (15)	moose thought (15)
 Sub-Assistant Knob Mad Scientist	154	kg_madsci.gif	Atk: 1 Def: 1 HP: 1 Init: 60 Meat: 6 P: goblin	Knob Goblin firecracker (100)	Knob Goblin pants (9)	strongness elixir (30)	folder (cyan) (c0)	Knob Goblin Mutagen (c0)
 suckubus	977	suckubus.gif	Atk: 55 Def: 49 HP: 55 Init: 30 E: hot Meat: 40 P: demon	bus pass (20)	folder (rainbow unicorn) (c0)
