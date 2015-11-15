@@ -1708,7 +1708,7 @@ polyalloy shield	140	Mus: 55	shield
 polyester pad	50	none	shield
 pool skimmer	10	none
 porcelain pepper mill	120	Mys: 40
-portable Othello set	0	Mys: 15
+portable Othello set	75	Mys: 15
 pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
@@ -1850,8 +1850,8 @@ Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
 voodoo doll	0	none
 wad of Crovacite	0	none
-Wal-Mart snowglobe	0	Mus: 50
-Walford's bucket	0	none
+Wal-Mart snowglobe	200	Mus: 50
+Walford's bucket	10	none
 Wand of Oscus	200	Mys: 200
 washboard shield	160	Mus: 150	shield
 Whatsian Ionic Pliers	110	Mys: 40
@@ -1861,7 +1861,7 @@ wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
-Yorick	0	Mys: 25
+Yorick	150	Mys: 25
 Zombo's shield	240	Mus: 200	shield
 
 # Accessories section of equipment.txt
@@ -1900,9 +1900,9 @@ banjo kazoo mount	50	none
 bark bracelet	40	Mys: 5
 Baron von Ratsworth's money clip	50	Mys: 10
 Baron von Ratsworth's monocle	50	Mys: 10
-barrel beryl choker	0	Mys: 30
-barrel beryl nose ring	0	Mys: 30
-barrel beryl ring	0	Mys: 30
+barrel beryl choker	125	Mys: 30
+barrel beryl nose ring	125	Mys: 30
+barrel beryl ring	125	Mys: 30
 barrel hoop earring	0	none
 batskin belt	0	none
 beach glass necklace	70	Mys: 20
@@ -2692,7 +2692,7 @@ velcro boots	200	Mys: 85
 vial of hot blood	225	Mys: 200
 vinyl boots	200	Mox: 85
 Voluminous Radio Sneakers	0	Mys: 60
-Wal-Mart nametag	0	Mys: 50
+Wal-Mart nametag	200	Mys: 50
 walrus-tusk earring	50	Mys: 10
 warbear dress bracers	100	Mys: 35
 warbear electric warscarf	250	Mys: 110
