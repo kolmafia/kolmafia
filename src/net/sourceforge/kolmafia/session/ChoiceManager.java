@@ -93,7 +93,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -110,7 +109,7 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 
 public abstract class ChoiceManager
 {
-	public static final GenericRequest CHOICE_HANDLER = new PasswordHashRequest( "choice.php" );
+	public static final GenericRequest CHOICE_HANDLER = new GenericRequest( "choice.php" );
 
 	public static boolean handlingChoice = false;
 	public static int lastChoice = 0;

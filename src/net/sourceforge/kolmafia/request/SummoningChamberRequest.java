@@ -69,11 +69,10 @@ public class SummoningChamberRequest
 	@Override
 	public void run()
 	{
-		Preferences.setString( "choiceAdventure922", "" );
 		KoLmafia.updateDisplay( "Summoning " + this.demon + "..." );
 
 		// Go to the Summoning Chamber
-		RequestThread.postRequest( new PlaceRequest( "manor4", "manor4_chamber" ) );
+		RequestThread.postRequest( new PlaceRequest( "manor4", "manor4_chamber", true ) );
 
 		// Submit the choice adventure
 		super.run();
