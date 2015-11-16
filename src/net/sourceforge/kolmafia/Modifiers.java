@@ -229,6 +229,8 @@ public class Modifiers
 	public static final int RANDOM_MONSTER_MODIFIERS = 118;
 	public static final int LUCK = 119;
 	public static final int OTHELLO_SKILL = 120;
+	public static final int DISCO_STYLE = 121;
+	public static final int ROLLOVER_EFFECT_DURATION = 122;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -775,6 +777,14 @@ public class Modifiers
 		{ "Othello Skill",
 		  Pattern.compile( "([+-]\\d+) Othello Skill" ),
 		  Pattern.compile( "Othello Skill: " + EXPR )
+		},
+		{ "Disco Style",
+		  Pattern.compile( "([+-]\\d+) Disco Style" ),
+		  Pattern.compile( "Disco Style: " + EXPR )
+		},
+		{ "Rollover Effect Duration",
+		  Pattern.compile( "Grants (\\d+) Adventures of <b>.*?</b> at Rollover" ),
+		  Pattern.compile( "Rollover Effect Duration: " + EXPR )
 		},
 	};
 
