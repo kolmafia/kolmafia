@@ -172,3 +172,4 @@ warbear auto-anvil, warbear chemistry lab, warbear high-efficiency still, warbea
 warbear beeping telegram, warbear procedural hilarity drone, warbear sequential gaiety distribution system
 radiation-resistant helmet, servo-assisted exo-pants, high-energy mining laser
 yellow puck, yellow puck with a bow on it
+barrelhead, bottoms of the barrel, chest barrel
