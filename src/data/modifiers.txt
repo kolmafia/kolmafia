@@ -3802,7 +3802,7 @@ Motorbike	Sweepy Red Light	Experience: +5
 
 Snowsuit	goatee	HP Regen Min: 1, HP Regen Max: 20
 Snowsuit	hat	MP Regen Min: 1, MP Regen Max: 10
-Snowsuit	nose	Item Drop: 10
+Snowsuit	nose	Item Drop: +10
 
 # Edpiece section
 
@@ -5808,7 +5808,7 @@ Effect	Thick-Skinned	Maximum HP: +50
 Effect	Thicker, Sicker	Damage Reduction: 15
 Effect	Thickest, Sickest	Damage Reduction: 30
 # Things Man Was Not Meant to Eat: Full of Loathing
-Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: 25, Item Drop: 20, Meat Drop: 20, Pickpocket Chance: 10, Spell Damage Percent: +100, Weapon Damage Percent: +50
+Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: +25, Item Drop: +20, Meat Drop: +20, Pickpocket Chance: +10, Spell Damage Percent: +100, Weapon Damage Percent: +50
 Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
@@ -5901,7 +5901,7 @@ Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 # Video... Games?: +5% Damage vs. Vampires
 # Video... Games?: +5% Damage vs. Skeletons
 # Video... Games?: +5 Damage vs. Undead
-Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: 5, Hat Drop: 5, Offhand Drop: 5, Pants Drop: 5, Shirt Drop: 5, Weapon Drop: 5
+Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: +5, Hat Drop: +5, Offhand Drop: +5, Pants Drop: +5, Shirt Drop: +5, Weapon Drop: +5
 Effect	Vinegavotte	Item Drop: +20
 Effect	Violent Night	Critical Hit Percent: +5
 Effect	Virgo Rising	Moxie Percent: +50
@@ -6428,8 +6428,8 @@ MutexI	shining halo/furry halo/frosty halo/time halo	none
 # possibilities even if their direct benefits wouldn't qualify them.
 # The exact values don't really matter, just their sign.
 
-MaxCat	_brimstone	Item Drop: 1, Meat Drop: 1, Monster Level: 1
-MaxCat	_cloathing	Item Drop: 1, Meat Drop: 1, Moxie: 1, Mysticality: 1, Muscle: 1
+MaxCat	_brimstone	Item Drop: +1, Meat Drop: +1, Monster Level: +1
+MaxCat	_cloathing	Item Drop: +1, Meat Drop: +1, Moxie: +1, Mysticality: +1, Muscle: +1
 MaxCat	_hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
 MaxCat	_slimeHate	Monster Level: [zone(The Slime Tube)]
 MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent: +2, Muscle Percent: +2, Weapon Damage: +1, Monster Level: +1, Spell Damage: +2, Initiative: +1, Maximum MP: +2, Maximum HP: +2
