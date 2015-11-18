@@ -33,14 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
-
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -52,20 +46,18 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class EdPieceCommand
 	extends AbstractCommand
 {
 	public static final String[][] ANIMAL =
 	{
-		{	"bear", "1"	},
-		{	"owl", "2"	},
-		{	"puma", "3"	},
-		{	"hyena", "4"	},
-		{	"mouse", "5"	},
-		{	"weasel", "6"	},
-		{	"fish", "7"	},
+		{ "bear", "muscle", "1" },
+		{ "owl", "mysticality", "2" },
+		{ "puma", "moxie", "3" },
+		{ "hyena", "monster level", "4" },
+		{ "mouse", "item/meat", "5" },
+		{ "weasel", "block/HP regen", "6" },
+		{ "fish", "sea", "7" },
 	};
 
 	public EdPieceCommand()
@@ -80,19 +72,19 @@ public class EdPieceCommand
 
 		if ( parameters.length() == 0 )
 		{
-			KoLmafia.updateDisplay( "Current decoration on EdPiece is a golden " + currentAnimal );			
+			KoLmafia.updateDisplay( "Current decoration on EdPiece is a golden " + currentAnimal );
 			return;
 		}
 
 		String animal = parameters;
 		String choice = "0";
 
-		for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
+		for ( String[] it : EdPieceCommand.ANIMAL )
 		{
-			if ( animal.equalsIgnoreCase( EdPieceCommand.ANIMAL[ i ][ 0 ] ) )
+			if ( animal.equalsIgnoreCase( it[0] ) || it[1].contains( animal ) )
 			{
-				choice = EdPieceCommand.ANIMAL[ i ][ 1 ];
-				animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
+				choice = it[2];
+				animal = it[0];
 				break;
 			}
 		}
