@@ -36,7 +36,9 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -63,6 +65,9 @@ public class BountyDatabase
 	private static final Map<String, String> nameByMonster = new HashMap<String, String>();
 	private static final Map<String, String> locationByName = new HashMap<String, String>();
 
+	public static String [] canonicalNames;
+	private static final Map<String, String> canonicalToName = new HashMap<String, String>();
+
 	static
 	{
 		BountyDatabase.reset();
@@ -81,6 +86,7 @@ public class BountyDatabase
 		BountyDatabase.locationByName.clear();
 
 		BountyDatabase.readData();
+		BountyDatabase.buildCanonicalNames();
 	}
 
 	private static void readData()
@@ -118,6 +124,30 @@ public class BountyDatabase
 		}
 	}
 
+	private static void buildCanonicalNames()
+	{
+		BountyDatabase.canonicalNames = new String[ BountyDatabase.bountyNames.size() ];
+		for ( int i = 0; i < BountyDatabase.canonicalNames.length; ++i )
+		{
+			String name = BountyDatabase.bountyNames.get( i );
+			String canonical = StringUtilities.getCanonicalName( name );
+			BountyDatabase.canonicalNames[ i ] = canonical;
+			BountyDatabase.canonicalToName.put( canonical, name );
+		}
+		Arrays.sort( BountyDatabase.canonicalNames );
+	}
+
+	public static final List<String> getMatchingNames( final String substring )
+	{
+		return StringUtilities.getMatchingNames( BountyDatabase.canonicalNames, substring );
+	}
+
+	public static final String canonicalToName( final String canonical )
+	{
+		String name = BountyDatabase.canonicalToName.get( canonical );
+		return name == null ? "" : name;
+	}
+
 	public static final void setValue( String name, String plural, String type, String image, int number, String monster, String location )
 	{
 		BountyDatabase.bountyNames.add( name );
@@ -132,6 +162,8 @@ public class BountyDatabase
 		{
 			BountyDatabase.locationByName.put( name, location );
 		}
+		BountyDatabase.buildCanonicalNames();
+
 		String printMe = "Unknown bounty:";
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );

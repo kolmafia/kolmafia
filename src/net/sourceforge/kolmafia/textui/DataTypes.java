@@ -459,14 +459,14 @@ public class DataTypes
 			return DataTypes.SKILL_INIT;
 		}
 
-		List skills = SkillDatabase.getMatchingNames( name );
+		List<String> skills = SkillDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
 		{
 			return returnDefault ? DataTypes.SKILL_INIT : null;
 		}
 
-		int num = SkillDatabase.getSkillId( (String) skills.get( 0 ) );
+		int num = SkillDatabase.getSkillId( skills.get( 0 ) );
 		name = SkillDatabase.getSkillDataName( num );
 		return new Value( DataTypes.SKILL_TYPE, num, name );
 	}
@@ -674,24 +674,21 @@ public class DataTypes
 			return returnDefault ? DataTypes.BOUNTY_INIT : null;
 		}
 
-		// All bounties are lower case. If that ever changes, we will
-		// need to set up canonical name searching in BountyDataBase
-		name = name.toLowerCase();
-
 		if ( name.equals( "none" ) )
 		{
 			return DataTypes.BOUNTY_INIT;
 		}
 
-		// This is a funny way to verify that name is valid
-		// Unlike other data types, no fuzzy matching
-		String plural = BountyDatabase.getPlural( name );
-		if ( plural == null )
+		List<String> bounties = BountyDatabase.getMatchingNames( name );
+
+		if ( bounties.size() != 1 )
 		{
 			return returnDefault ? DataTypes.BOUNTY_INIT : null;
 		}
 
-		return new Value( DataTypes.BOUNTY_TYPE, name );
+		String canonical = bounties.get( 0 );
+
+		return new Value( DataTypes.BOUNTY_TYPE, BountyDatabase.canonicalToName( canonical ) );
 	}
 
 	public static final Value parseCoinmasterValue( String name, final boolean returnDefault )
