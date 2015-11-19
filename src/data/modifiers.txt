@@ -4651,7 +4651,7 @@ Effect	Force of Mayo Be With You	Sleaze Damage: +10, Hot Resistance: +2, Cold Re
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
-Effect	Fortunate Resolve	Item Drop: +5, Meat Drop: +5, Spell Damage: +5, Initiative: +10
+Effect	Fortunate Resolve	Item Drop: +10, Meat Drop: +10, Spell Damage: +10, Initiative: +10
 Effect	Fortune of the Wheel	Item Drop: +100
 Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
