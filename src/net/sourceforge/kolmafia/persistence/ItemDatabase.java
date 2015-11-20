@@ -1919,6 +1919,7 @@ public class ItemDatabase
 		{
 		case KoLConstants.CONSUME_MULTIPLE:
 			return true;
+		case KoLConstants.CONSUME_AVATAR:
 		case KoLConstants.CONSUME_SPLEEN:
 			return ( attributes & ItemDatabase.ATTR_USABLE ) == 0;
 		default:

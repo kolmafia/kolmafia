@@ -205,7 +205,7 @@ public class ResultProcessor
 			if ( multi != ourMulti )
 			{
 				String message =
-					(multi ) ?
+					( multi ) ?
 					itemName + " is multiusable, but KoLmafia thought it was not" :
 					itemName + " is not multiusable, but KoLmafia thought it was";
 
