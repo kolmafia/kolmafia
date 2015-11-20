@@ -1094,6 +1094,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_twelveNightEnergyUsed" ) ? 0 : 1;
 
+		case ItemPool.FUDGE_SPORK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_fudgeSporkUsed" ) ? 0 : 1;
+
 		case ItemPool.MAYONEX:
 		case ItemPool.MAYODIOL:
 		case ItemPool.MAYOSTAT:
@@ -5204,6 +5208,10 @@ public class UseItemRequest
 
 		case ItemPool.TWELVE_NIGHT_ENERGY:
 			Preferences.setBoolean( "_twelveNightEnergyUsed", true );
+			break;
+
+		case ItemPool.FUDGE_SPORK:
+			Preferences.setBoolean( "_fudgeSporkUsed", true );
 			break;
 
 		case ItemPool.CSA_FIRE_STARTING_KIT:
