@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.chat.ChatMessage;
 import net.sourceforge.kolmafia.chat.ChatPoller;
@@ -385,6 +386,8 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 		params = new Type[] { DataTypes.SERVANT_TYPE };
 		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
+		params = new Type[] { DataTypes.VYKEA_TYPE };
+		functions.add( new LibraryFunction( "to_int", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_float", DataTypes.FLOAT_TYPE, params ) );
@@ -468,6 +471,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_servant", DataTypes.SERVANT_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_servant", DataTypes.SERVANT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_vykea", DataTypes.VYKEA_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "to_plural", DataTypes.STRING_TYPE, params ) );
@@ -1180,6 +1186,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.SERVANT_TYPE };
 		functions.add( new LibraryFunction( "use_servant", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_vykea_companion", DataTypes.VYKEA_TYPE, params ) );
 
 		// Random other functions related to current in-game
 		// state, not directly tied to the character.
@@ -2584,6 +2593,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.parseServantValue( value.toString(), true );
+	}
+
+	public static Value to_vykea( Interpreter interpreter, final Value value )
+	{
+		return DataTypes.parseVykeaValue( value.toString(), true );
 	}
 
 	public static Value to_plural( Interpreter interpreter, final Value item ) {
@@ -5260,6 +5274,11 @@ public abstract class RuntimeLibrary
 	public static Value my_servant( Interpreter interpreter )
 	{
 		return DataTypes.makeServantValue( EdServantData.currentServant(), true );
+	}
+
+	public static Value my_vykea_companion( Interpreter interpreter )
+	{
+		return DataTypes.makeVykeaValue( VYKEACompanionData.currentCompanion(), true );
 	}
 
 	// Random other functions related to current in-game

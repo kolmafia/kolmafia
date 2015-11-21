@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import net.sourceforge.kolmafia.VYKEACompanionData;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
@@ -256,6 +258,21 @@ public class Operator
 			       this.operator.equals( ">" ) ? lfloat > rfloat :
 			       this.operator.equals( "<" ) ? lfloat < rfloat :
 			       false;
+		}
+
+		// VYKEA companions have a "name" component which should not be compared
+		else if ( ltype.equals( DataTypes.TYPE_VYKEA ) || rtype.equals( DataTypes.TYPE_VYKEA ) )
+		{
+			VYKEACompanionData v1 = (VYKEACompanionData)( leftValue.content );
+			VYKEACompanionData v2 = (VYKEACompanionData)( rightValue.content );
+			int c = v1.compareTo( v2 );
+			bool = ( this.operator.equals( "==" ) || this.operator.equals( Parser.APPROX ) ) ? c == 0 :
+				this.operator.equals( "!=" ) ? c != 0 :
+				this.operator.equals( ">=" ) ? c >= 0 :
+				this.operator.equals( "<=" ) ? c <= 0 :
+				this.operator.equals( ">" ) ? c > 0 :
+				this.operator.equals( "<" ) ? c < 0 :
+				false;
 		}
 
 		// Otherwise, compare integers

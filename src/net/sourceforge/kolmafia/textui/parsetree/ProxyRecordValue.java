@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
@@ -785,6 +786,73 @@ public class ProxyRecordValue
 		{
 			Object [] data = (Object [])this.content;
 			return data == null ? "" : EdServantData.dataToLevel21Ability( data );
+		}
+	}
+
+	public static class VykeaProxy
+		extends ProxyRecordValue
+	{
+		public static RecordType _type = new RecordBuilder()
+			.add( "id", DataTypes.INT_TYPE )
+			.add( "name", DataTypes.STRING_TYPE )
+			.add( "type", DataTypes.INT_TYPE )
+			.add( "rune", DataTypes.ITEM_TYPE )
+			.add( "level", DataTypes.INT_TYPE )
+			.add( "image", DataTypes.STRING_TYPE )
+			.add( "modifiers", DataTypes.STRING_TYPE )
+			.add( "attack_element", DataTypes.ELEMENT_TYPE )
+			.finish( "vykea proxy" );
+
+		public VykeaProxy( Value obj )
+		{
+			super( _type, obj );
+		}
+
+		public int get_id()
+		{
+			return (int) this.contentLong;
+		}
+
+		public String get_name()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? "" : companion.getName();
+		}
+
+		public String get_type()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? "" : companion.typeToString();
+		}
+
+		public Value get_rune()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return DataTypes.makeItemValue( companion == null ? -1 : companion.getRune().getItemId(), true );
+		}
+
+		public int get_level()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? 0 : companion.getLevel();
+		}
+
+		public String get_image()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? "" : companion.getImage();
+		}
+
+		public String get_modifiers()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? "" : companion.getModifiers();
+		}
+
+		public Value get_attack_element()
+		{
+			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			return companion == null ? DataTypes.ELEMENT_INIT : DataTypes.makeElementValue( companion.getAttackElement(), true );
 		}
 	}
 
