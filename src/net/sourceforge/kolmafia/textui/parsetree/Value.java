@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -292,6 +293,10 @@ public class Value
 		{
 			return new ProxyRecordValue.ServantProxy( this );
 		}
+		if ( this.type == DataTypes.VYKEA_TYPE )
+		{
+			return new ProxyRecordValue.VykeaProxy( this );
+		}
 		if ( this.type == DataTypes.ELEMENT_TYPE )
 		{
 			return new ProxyRecordValue.ElementProxy( this );
@@ -334,6 +339,14 @@ public class Value
 		     this.type == DataTypes.SERVANT_TYPE )
 		{
 			return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
+		}
+
+		if ( this.type == DataTypes.VYKEA_TYPE )
+		{
+			// Let the underlying data type itself decide
+			VYKEACompanionData v1 = (VYKEACompanionData)( this.content );
+			VYKEACompanionData v2 = (VYKEACompanionData)( it.content );
+			return v1.compareTo( v2 );
 		}
 
 		if ( this.type == DataTypes.FLOAT_TYPE )

@@ -4861,12 +4861,8 @@ public abstract class KoLCharacter
 			return null;
 		}
 
-		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
-		KoLCharacter.pastaThralls.toArray( thrallArray );
-
-		for ( int i = 0; i < thrallArray.length; ++i )
+		for ( PastaThrallData thrall : KoLCharacter.pastaThralls )
 		{
-			PastaThrallData thrall = thrallArray[ i ];
 			if ( thrall.getType().equals( type ) )
 			{
 				return thrall;
@@ -4894,12 +4890,8 @@ public abstract class KoLCharacter
 			return null;
 		}
 
-		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
-		KoLCharacter.pastaThralls.toArray( thrallArray );
-
-		for ( int i = 0; i < thrallArray.length; ++i )
+		for ( PastaThrallData thrall : KoLCharacter.pastaThralls )
 		{
-			PastaThrallData thrall = thrallArray[ i ];
 			if ( thrall.getId() == thrallId )
 			{
 				return thrall;

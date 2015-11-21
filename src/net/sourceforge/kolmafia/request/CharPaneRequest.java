@@ -1158,7 +1158,7 @@ public class CharPaneRequest
 		Matcher matcher = pattern.matcher( responseText );
 		if ( matcher.find() )
 		{
-			VYKEACompanionData.parseCompanion( matcher.group( 1 ) );
+			VYKEACompanionData.parseCharpaneCompanion( matcher.group( 1 ) );
 		}
 	}
 

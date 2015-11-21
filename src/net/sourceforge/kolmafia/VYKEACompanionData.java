@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -49,24 +51,31 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class VYKEACompanionData
+	implements Comparable<VYKEACompanionData>
 {
 	public final static int NONE = 0;
 
 	public final static int BOOKSHELF = 1;
-	public final static int CEILING_FAN = 2;
-	public final static int COUCH = 3;
-	public final static int DISHRACK = 4;
-	public final static int DRESSER = 5;
-	public final static int LAMP = 6;
+	public final static int DRESSER = 2;
+	public final static int CEILING_FAN = 3;
+	public final static int COUCH = 4;
+	public final static int LAMP = 5;
+	public final static int DISHRACK = 6;
 
-	public final static int FRENZY = 1;
-	public final static int BLOOD = 2;
-	public final static int LIGHTNING = 3;
+	public final static AdventureResult NO_RUNE = ItemPool.get( "(none)", 1 );
+	public final static AdventureResult FRENZY_RUNE = ItemPool.get( ItemPool.VYKEA_FRENZY_RUNE, 1 );
+	public final static AdventureResult BLOOD_RUNE = ItemPool.get( ItemPool.VYKEA_BLOOD_RUNE, 1 );
+	public final static AdventureResult LIGHTNING_RUNE = ItemPool.get( ItemPool.VYKEA_LIGHTNING_RUNE, 1 );
 
 	private int type;
 	private int level;
-	private int rune;
+	private AdventureResult rune;
 	private String name;
+
+	// Derived fields
+	private String image;
+	private Element attackElement;
+	private String modifiers;
 
 	public static final VYKEACompanionData NO_COMPANION = new VYKEACompanionData();
 	public static VYKEACompanionData currentCompanion = VYKEACompanionData.NO_COMPANION;
@@ -101,18 +110,48 @@ public class VYKEACompanionData
 
 	public VYKEACompanionData()
 	{
-		this.type = NONE;
-		this.level = 0;
-		this.rune = NONE;
-		this.name = "";
+		this( NONE, 0, NO_RUNE, "" );
 	}
 
-	public VYKEACompanionData( final int type, final int level, final int rune, final String name)
+	public VYKEACompanionData( final int type, final int level, final AdventureResult rune, final String name)
 	{
 		this.type = type;
 		this.level = level;
 		this.rune = rune;
-		this.name = name;
+		this.name = name == null ? "" : name;
+		// Derived fields
+		this.image = ( type < 1 || type > 6 ) ? "" : ( "vykfurn" + String.valueOf( type ) + ".gif" );
+		switch ( this.type )
+		{
+		case BOOKSHELF:
+			this.attackElement = Element.SPOOKY;
+			this.modifiers = "";
+			break;
+		case DRESSER:
+			this.attackElement = Element.SLEAZE;
+			this.modifiers = "";
+			break;
+		case CEILING_FAN:
+			this.attackElement = Element.COLD;
+			this.modifiers = "";
+			break;
+		case COUCH:
+			this.attackElement = Element.NONE;
+			this.modifiers = "Meat Drop: +" + String.valueOf( this.level * 10 ) ;
+			break;
+		case LAMP:
+			this.attackElement = Element.HOT;
+			this.modifiers = "Item Drop: +" + String.valueOf( this.level * 10 ) ;
+			break;
+		case DISHRACK:
+			this.attackElement = Element.STENCH;
+			this.modifiers = "";
+			break;
+		default:
+			this.attackElement = Element.NONE;
+			this.modifiers = "";
+			break;
+		}
 	}
 
 	public int getType()
@@ -135,14 +174,14 @@ public class VYKEACompanionData
 		this.level = ( level >= 1 && level <= 5 ) ? level : 0;
 	}
 
-	public int getRune()
+	public AdventureResult getRune()
 	{
 		return this.rune;
 	}
 
-	public void setRune( final int rune )
+	public void setRune( final AdventureResult rune )
 	{
-		this.rune = ( rune >= BLOOD && rune <= LIGHTNING ) ? rune : NONE;
+		this.rune = rune;
 	}
 
 	public String getName()
@@ -153,6 +192,21 @@ public class VYKEACompanionData
 	public void setName( final String name )
 	{
 		this.name = name;
+	}
+
+	public String getImage()
+	{
+		return this.image;
+	}
+
+	public String getModifiers()
+	{
+		return this.modifiers;
+	}
+
+	public Element getAttackElement()
+	{
+		return this.attackElement;
 	}
 
 	public static String typeToString( final int type )
@@ -199,15 +253,15 @@ public class VYKEACompanionData
 			NONE;
 	}
 
-	public static String runeToString( final int rune )
+	public static String runeToString( final AdventureResult rune )
 	{
-		switch( rune )
+		switch( rune.getItemId() )
 		{
-		case BLOOD:
-			return "blood";
-		case FRENZY:
+		case ItemPool.VYKEA_FRENZY_RUNE:
 			return "frenzy";
-		case LIGHTNING:
+		case ItemPool.VYKEA_BLOOD_RUNE:
+			return "blood";
+		case ItemPool.VYKEA_LIGHTNING_RUNE:
 			return "lightning";
 		}
 		return "";
@@ -218,23 +272,23 @@ public class VYKEACompanionData
 		return VYKEACompanionData.runeToString( this.rune );
 	}
 
-	public static int stringToRune( final String rune )
+	public static AdventureResult stringToRune( final String rune )
 	{
 		return  rune == null ?
-			NONE :
-			rune.equals( "blood" ) ?
-			BLOOD :
+			NO_RUNE :
 			rune.equals( "frenzy" ) ?
-			FRENZY :
+			FRENZY_RUNE :
+			rune.equals( "blood" ) ?
+			BLOOD_RUNE :
 			rune.equals( "lightning" ) ?
-			LIGHTNING :
-			NONE;
+			LIGHTNING_RUNE :
+			NO_RUNE;
 	}
 
 	// CHEBLI the level 5 lamp
-	private final static Pattern COMPANION_PATTERN = Pattern.compile( "<b>(.*?)</b> the level (\\d).*(bookshelf|ceiling fan|couch|dishrack|dresser|lamp)" );
+	private final static Pattern COMPANION_CHARPANE_PATTERN = Pattern.compile( "<b>(.*?)</b> the level (\\d).*(bookshelf|ceiling fan|couch|dishrack|dresser|lamp)" );
 
-	public static void parseCompanion( final String string )
+	public static void parseCharpaneCompanion( final String string )
 	{
 		// Once you have created a companion today, you can't change it.
 		// Don't waste time parsing it.
@@ -243,7 +297,7 @@ public class VYKEACompanionData
 			return;
 		}
 
-		Matcher matcher = COMPANION_PATTERN.matcher( string );
+		Matcher matcher = COMPANION_CHARPANE_PATTERN.matcher( string );
 		if ( matcher.find() )
 		{
 			String name = matcher.group( 1 );
@@ -251,7 +305,7 @@ public class VYKEACompanionData
 			String typeString = matcher.group( 3 );
 			int type = VYKEACompanionData.stringToType( typeString );
 			// Use last saved rune
-			int rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
+			AdventureResult rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
 
 			VYKEACompanionData companion = new VYKEACompanionData( type, level, rune, name );
 			VYKEACompanionData.setVYKEACompanion( companion, true );
@@ -263,7 +317,7 @@ public class VYKEACompanionData
 		String name = Preferences.getString( "_VYKEACompanionName" );
 		int level = Preferences.getInteger( "_VYKEACompanionLevel" );
 		int type = VYKEACompanionData.stringToType( Preferences.getString( "_VYKEACompanionType" ) );
-		int rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
+		AdventureResult rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
 
 		VYKEACompanionData companion = type == NONE ? NO_COMPANION : new VYKEACompanionData( type, level, rune, name);
 		VYKEACompanionData.setVYKEACompanion( companion, false );
@@ -280,7 +334,7 @@ public class VYKEACompanionData
 		}
 		buffer.append( "level " );
 		buffer.append( String.valueOf( this.level ) );
-		if ( this.rune != VYKEACompanionData.NONE )
+		if ( this.rune != VYKEACompanionData.NO_RUNE )
 		{
 			buffer.append( " " );
 			buffer.append( this.runeToString() );
@@ -288,6 +342,26 @@ public class VYKEACompanionData
 		buffer.append( " " );
 		buffer.append( this.typeToString() );
 		return buffer.toString();
+	}
+
+	// CHEBLI, the level 5 blood lamp
+	private final static Pattern COMPANION_PATTERN = Pattern.compile( " *(?:(.*?), the )?level ([12345])(?: (blood|frenzy|lightning))? (bookshelf|ceiling fan|couch|dishrack|dresser|lamp) *" );
+
+	public static VYKEACompanionData fromString( final String string )
+	{
+		Matcher matcher = COMPANION_PATTERN.matcher( string );
+		if ( matcher.find() )
+		{
+			String name = matcher.group( 1 );
+			int level = StringUtilities.parseInt( matcher.group( 2 ) );
+			String runeString = matcher.group( 3 );
+			AdventureResult rune = VYKEACompanionData.stringToRune( runeString );
+			String typeString = matcher.group( 4 );
+			int type = VYKEACompanionData.stringToType( typeString );
+
+			return new VYKEACompanionData( type, level, rune, name );
+		}
+		return null;
 	}
 
 	// <span class='guts'>You bolt 5 more rails onto the piece of furniture and take a step back to admire your new... lamp.  It's a lamp!<p>You decide to name it... <b>&Aring;VOB&Eacute;</b></span>
@@ -340,22 +414,18 @@ public class VYKEACompanionData
 
 		if ( choice == 1121 )
 		{
-			int rune = NONE;
-			int itemId = -1;
+			AdventureResult rune = NO_RUNE;
 
 			switch ( decision )
 			{
 			case 1:
-				rune = FRENZY;
-				itemId = ItemPool.VYKEA_FRENZY_RUNE;
+				rune = FRENZY_RUNE;
 				break;
 			case 2:
-				rune = BLOOD;
-				itemId = ItemPool.VYKEA_BLOOD_RUNE;
+				rune = BLOOD_RUNE;
 				break;
 			case 3:
-				rune = LIGHTNING;
-				itemId = ItemPool.VYKEA_LIGHTNING_RUNE;
+				rune = LIGHTNING_RUNE;
 				break;
 			case 6:
 				// Don't add any runes
@@ -369,9 +439,9 @@ public class VYKEACompanionData
 			Preferences.setString( "_VYKEACompanionRune", VYKEACompanionData.runeToString( rune ) );
 
 			// Remove the rune from inventory
-			if ( rune != NONE )
+			if ( rune != NO_RUNE )
 			{
-				ResultProcessor.processItem( itemId, -1 );
+				ResultProcessor.processItem( rune.getItemId(), -1 );
 			}
 
 			return;
@@ -469,7 +539,7 @@ public class VYKEACompanionData
 			Preferences.setString( "_VYKEACompanionType", typeString );
 
 			int level = Preferences.getInteger( "_VYKEACompanionLevel" );
-			int rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
+			AdventureResult rune = VYKEACompanionData.stringToRune( Preferences.getString( "_VYKEACompanionRune" ) );
 
 			// Create the companion
 			VYKEACompanionData companion = new VYKEACompanionData( type, level, rune, name);
@@ -479,5 +549,35 @@ public class VYKEACompanionData
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();
 		}
+	}
+
+	public int compareTo( final VYKEACompanionData o )
+	{
+		if ( o == null )
+		{
+			throw new NullPointerException();
+		}
+
+		if ( o == this )
+		{
+			return 0;
+		}
+
+		if ( this.type != o.type )
+		{
+			return this.type - o.type;
+		}
+
+		if ( this.rune != o.rune )
+		{
+			return this.rune.getItemId() - o.rune.getItemId();
+		}
+
+		if ( this.level != o.level )
+		{
+			return this.level - o.level;
+		}
+
+		return 0;
 	}
 }

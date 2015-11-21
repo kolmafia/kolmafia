@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -63,6 +64,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -98,6 +100,7 @@ public class DataTypes
 	public static final int TYPE_THRALL = 112;
 	public static final int TYPE_BOUNTY = 113;
 	public static final int TYPE_SERVANT = 114;
+	public static final int TYPE_VYKEA = 115;
 
 	public static final int TYPE_STRICT_STRING = 1000;
 	public static final int TYPE_AGGREGATE = 1001;
@@ -150,6 +153,7 @@ public class DataTypes
 	public static final Type BOUNTY_TYPE = new Type( "bounty", DataTypes.TYPE_BOUNTY );
 	public static final Type THRALL_TYPE = new Type( "thrall", DataTypes.TYPE_THRALL );
 	public static final Type SERVANT_TYPE = new Type( "servant", DataTypes.TYPE_SERVANT );
+	public static final Type VYKEA_TYPE = new Type( "vykea", DataTypes.TYPE_VYKEA );
 
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
@@ -220,6 +224,7 @@ public class DataTypes
 	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
 	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
 	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", (Object) null );
+	public static final Value VYKEA_INIT = new Value( DataTypes.VYKEA_TYPE, 0, "none", (Object) null );
 
 	public static final TypeList simpleTypes = new TypeList();
 
@@ -249,6 +254,7 @@ public class DataTypes
 		simpleTypes.add( DataTypes.BOUNTY_TYPE );
 		simpleTypes.add( DataTypes.THRALL_TYPE );
 		simpleTypes.add( DataTypes.SERVANT_TYPE );
+		simpleTypes.add( DataTypes.VYKEA_TYPE );
 	}
 
 	// For each simple data type X, we supply:
@@ -667,6 +673,29 @@ public class DataTypes
 		return new Value( DataTypes.SERVANT_TYPE, id, name, data );
 	}
 
+
+	public static final Value parseVykeaValue( String name, final boolean returnDefault )
+	{
+		if ( name == null || name.equals( "" ) )
+		{
+			return returnDefault ? DataTypes.VYKEA_INIT : null;
+		}
+
+		if ( name.equalsIgnoreCase( "none" ) )
+		{
+			return DataTypes.VYKEA_INIT;
+		}
+
+		VYKEACompanionData companion = VYKEACompanionData.fromString( name );
+
+		if ( companion == null )
+		{
+			return returnDefault ? DataTypes.VYKEA_INIT : null;
+		}
+
+		return new Value( DataTypes.VYKEA_TYPE, companion.getType(), name, companion );
+	}
+
 	public static final Value parseBountyValue( String name, final boolean returnDefault )
 	{
 		if ( name == null || name.equals( "" ) )
@@ -840,6 +869,16 @@ public class DataTypes
 		return new Value( DataTypes.MONSTER_TYPE, monster.getId(), monster.getName(), monster );
 	}
 
+	public static final Value makeElementValue( Element elem, final boolean returnDefault )
+	{
+		if ( elem == Element.NONE )
+		{
+			return returnDefault ? DataTypes.ELEMENT_INIT : null;
+		}
+
+		return new Value( DataTypes.ELEMENT_TYPE, elem.toString(), elem );
+	}
+
 	public static final Value makeThrallValue( final PastaThrallData thrall, final boolean returnDefault )
 	{
 		if ( thrall == null || thrall == PastaThrallData.NO_THRALL )
@@ -880,6 +919,15 @@ public class DataTypes
 
 		String name = EdServantData.dataToType( data );
 		return new Value( DataTypes.SERVANT_TYPE, num, name, data );
+	}
+
+	public static final Value makeVykeaValue( final VYKEACompanionData companion, final boolean returnDefault )
+	{
+		if ( companion == null || companion == VYKEACompanionData.NO_COMPANION )
+		{
+			return returnDefault ? DataTypes.VYKEA_INIT : null;
+		}
+		return new Value( DataTypes.VYKEA_TYPE, companion.getType(), companion.toString(), companion );
 	}
 
 	public static final Value makeMonsterValue( final MonsterData monster )
@@ -944,6 +992,9 @@ public class DataTypes
 
 		case TYPE_SERVANT:
 			return (String) InputFieldUtilities.input( message, EdServantData.SERVANT_ARRAY );
+
+		case TYPE_VYKEA:
+			return (String) InputFieldUtilities.input( message, VYKEARequest.VYKEA );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );

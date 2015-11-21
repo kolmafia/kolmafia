@@ -65,13 +65,8 @@ public class PastaThrallCommand
 		output.append( "<th>Ability at Level 10</th>" );
 		output.append( "</tr>" );
 
-		PastaThrallData[] thrallArray = new PastaThrallData[ KoLCharacter.pastaThralls.size() ];
-		KoLCharacter.pastaThralls.toArray( thrallArray );
-
-		for ( int i = 0; i < thrallArray.length; ++i )
+		for ( PastaThrallData thrall : KoLCharacter.pastaThralls )
 		{
-			PastaThrallData thrall = thrallArray[ i ];
-
 			if ( thrall.equals( PastaThrallData.NO_THRALL ) )
 			{
 				continue;

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -56,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -156,6 +158,10 @@ public class Type
 		{
 			return ProxyRecordValue.ServantProxy._type;
 		}
+		if ( this == DataTypes.VYKEA_TYPE )
+		{
+			return ProxyRecordValue.VykeaProxy._type;
+		}
 		if ( this == DataTypes.ELEMENT_TYPE )
 		{
 			return ProxyRecordValue.ElementProxy._type;
@@ -215,6 +221,8 @@ public class Type
 			return DataTypes.THRALL_INIT;
 		case DataTypes.TYPE_SERVANT:
 			return DataTypes.SERVANT_INIT;
+		case DataTypes.TYPE_VYKEA:
+			return DataTypes.VYKEA_INIT;
 		}
 		return null;
 	}
@@ -261,6 +269,8 @@ public class Type
 			return DataTypes.parseThrallValue( name, returnDefault );
 		case DataTypes.TYPE_SERVANT:
 			return DataTypes.parseServantValue( name, returnDefault );
+		case DataTypes.TYPE_VYKEA:
+			return DataTypes.parseVykeaValue( name, returnDefault );
 		}
 		return null;
 	}
@@ -428,6 +438,9 @@ public class Type
 			break;
 		case DataTypes.TYPE_SERVANT:
 			this.addValues( list, EdServantData.SERVANT_ARRAY );
+			break;
+		case DataTypes.TYPE_VYKEA:
+			this.addValues( list, VYKEARequest.VYKEA );
 			break;
 		default:
 			return null;
