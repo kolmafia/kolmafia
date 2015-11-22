@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -994,7 +993,7 @@ public class DataTypes
 			return (String) InputFieldUtilities.input( message, EdServantData.SERVANT_ARRAY );
 
 		case TYPE_VYKEA:
-			return (String) InputFieldUtilities.input( message, VYKEARequest.VYKEA );
+			return (String) InputFieldUtilities.input( message, VYKEACompanionData.VYKEA );
 
 		case TYPE_CLASS:
 			return (String) InputFieldUtilities.input( message, DataTypes.CLASSES );
