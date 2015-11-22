@@ -828,7 +828,7 @@ public class ProxyRecordValue
 		public Value get_rune()
 		{
 			VYKEACompanionData companion = (VYKEACompanionData)this.content;
-			return DataTypes.makeItemValue( companion == null ? -1 : companion.getRune().getItemId(), true );
+			return companion == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( companion.getRune().getItemId(), true );
 		}
 
 		public int get_level()

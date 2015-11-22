@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -74,7 +75,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
-import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 
@@ -620,7 +620,7 @@ public class ItemDatabase
 
 		// Add names of all the VYKEA companions
 		id = IntegerPool.get( -1 );
-		for ( String VYKEA : VYKEARequest.VYKEA )
+		for ( String VYKEA : VYKEACompanionData.VYKEA )
 		{
 			String name = StringUtilities.getCanonicalName( VYKEA );
 			ItemDatabase.itemIdByName.put( name, id );

@@ -57,7 +57,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.VYKEARequest;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -440,7 +439,7 @@ public class Type
 			this.addValues( list, EdServantData.SERVANT_ARRAY );
 			break;
 		case DataTypes.TYPE_VYKEA:
-			this.addValues( list, VYKEARequest.VYKEA );
+			this.addValues( list, VYKEACompanionData.VYKEA );
 			break;
 		default:
 			return null;
