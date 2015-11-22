@@ -224,7 +224,7 @@ public class DataTypes
 	public static final Value BOUNTY_INIT = new Value( DataTypes.BOUNTY_TYPE, "none", (Object) null );
 	public static final Value THRALL_INIT = new Value( DataTypes.THRALL_TYPE, 0, "none", (Object) null );
 	public static final Value SERVANT_INIT = new Value( DataTypes.SERVANT_TYPE, 0, "none", (Object) null );
-	public static final Value VYKEA_INIT = new Value( DataTypes.VYKEA_TYPE, 0, "none", (Object) null );
+	public static final Value VYKEA_INIT = new Value( DataTypes.VYKEA_TYPE, 0, "none", VYKEACompanionData.NO_COMPANION );
 
 	public static final TypeList simpleTypes = new TypeList();
 
