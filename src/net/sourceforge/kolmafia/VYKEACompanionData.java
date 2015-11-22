@@ -196,15 +196,15 @@ public class VYKEACompanionData
 	public final static AdventureResult BLOOD_RUNE = ItemPool.get( ItemPool.VYKEA_BLOOD_RUNE, 1 );
 	public final static AdventureResult LIGHTNING_RUNE = ItemPool.get( ItemPool.VYKEA_LIGHTNING_RUNE, 1 );
 
-	private int type;
-	private int level;
-	private AdventureResult rune;
-	private String name;
+	private final int type;
+	private final int level;
+	private final AdventureResult rune;
+	private final String name;
 
 	// Derived fields
-	private String image;
-	private Element attackElement;
-	private String modifiers;
+	private final String image;
+	private final Element attackElement;
+	private final String modifiers;
 
 	public static final VYKEACompanionData NO_COMPANION = new VYKEACompanionData();
 	public static VYKEACompanionData currentCompanion = VYKEACompanionData.NO_COMPANION;
@@ -288,19 +288,9 @@ public class VYKEACompanionData
 		return this.type;
 	}
 
-	public void setType( final int type )
-	{
-		this.type = ( type >= BOOKSHELF && type <= LAMP ) ? type : NONE;
-	}
-
 	public int getLevel()
 	{
 		return this.level;
-	}
-
-	public void setLevel( final int level )
-	{
-		this.level = ( level >= 1 && level <= 5 ) ? level : 0;
 	}
 
 	public AdventureResult getRune()
@@ -308,19 +298,9 @@ public class VYKEACompanionData
 		return this.rune;
 	}
 
-	public void setRune( final AdventureResult rune )
-	{
-		this.rune = rune;
-	}
-
 	public String getName()
 	{
 		return this.name;
-	}
-
-	public void setName( final String name )
-	{
-		this.name = name;
 	}
 
 	public String getImage()
@@ -655,7 +635,6 @@ public class VYKEACompanionData
 			if ( !matcher.find() )
 			{
 				// Unexpected. We'll pick it up from the charpane.
-				System.out.println( "creation parse failed" );
 				return;
 			}
 
