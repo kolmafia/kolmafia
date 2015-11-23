@@ -795,7 +795,10 @@ public class Modifiers
 	{
 		for ( Object[] modifier : Modifiers.doubleModifiers )
 		{
-			Modifiers.numericModifiers.add( (String) modifier[ 0 ] );
+			String tag = modifier.length > 3 ?
+				(String) modifier[ 3 ] :
+				(String) modifier[ 0 ];
+			Modifiers.numericModifiers.add( tag );
 		}
 	};
 
