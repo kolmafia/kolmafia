@@ -96,7 +96,8 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkeffects" ) )
 		{
-			DebugDatabase.checkEffects();
+			int effectId = StringUtilities.parseInt( parameters );
+			DebugDatabase.checkEffects( effectId );
 			RequestLogger.printLine( "Internal status effect data checked." );
 			return;
 		}

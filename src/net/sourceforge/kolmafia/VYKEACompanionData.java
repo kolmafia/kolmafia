@@ -205,6 +205,7 @@ public class VYKEACompanionData
 	private final String image;
 	private final Element attackElement;
 	private final String modifiers;
+	private String stringForm;
 
 	public static final VYKEACompanionData NO_COMPANION = new VYKEACompanionData();
 	public static VYKEACompanionData currentCompanion = VYKEACompanionData.NO_COMPANION;
@@ -248,6 +249,7 @@ public class VYKEACompanionData
 		this.level = level;
 		this.rune = rune;
 		this.name = name == null ? "" : name;
+
 		// Derived fields
 		this.image = ( type < 1 || type > 6 ) ? "" : ( "vykfurn" + String.valueOf( type ) + ".gif" );
 		switch ( this.type )
@@ -281,6 +283,9 @@ public class VYKEACompanionData
 			this.modifiers = "";
 			break;
 		}
+
+		// Build this on demand
+		this.stringForm = null;
 	}
 
 	public int getType()
@@ -435,22 +440,26 @@ public class VYKEACompanionData
 	@Override
 	public String toString()
 	{
-		StringBuilder buffer = new StringBuilder();
-		if ( this.name != null && !this.name.equals( "" ) )
+		if ( this.stringForm == null )
 		{
-			buffer.append( this.name );
-			buffer.append( ", the " );
-		}
-		buffer.append( "level " );
-		buffer.append( String.valueOf( this.level ) );
-		if ( this.rune != VYKEACompanionData.NO_RUNE )
-		{
+			StringBuilder buffer = new StringBuilder();
+			if ( this.name != null && !this.name.equals( "" ) )
+			{
+				buffer.append( this.name );
+				buffer.append( ", the " );
+			}
+			buffer.append( "level " );
+			buffer.append( String.valueOf( this.level ) );
+			if ( this.rune != VYKEACompanionData.NO_RUNE )
+			{
+				buffer.append( " " );
+				buffer.append( this.runeToString() );
+			}
 			buffer.append( " " );
-			buffer.append( this.runeToString() );
+			buffer.append( this.typeToString() );
+			this.stringForm = buffer.toString();
 		}
-		buffer.append( " " );
-		buffer.append( this.typeToString() );
-		return buffer.toString();
+		return this.stringForm;
 	}
 
 	// CHEBLI, the level 5 blood lamp

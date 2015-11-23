@@ -1693,7 +1693,7 @@ public class DebugDatabase
 	private static final StringArray rawEffects = new StringArray();
 	private static final ItemMap effects = new ItemMap( "Status Effects", 0 );
 
-	public static final void checkEffects()
+	public static final void checkEffects( final int effectId )
 	{
 		RequestLogger.printLine( "Loading previous data..." );
 		DebugDatabase.loadScrapeData( rawEffects, EFFECT_HTML );
@@ -1703,7 +1703,16 @@ public class DebugDatabase
 		PrintStream report = DebugDatabase.openReport( EFFECT_DATA );
 
 		DebugDatabase.effects.clear();
-		DebugDatabase.checkEffects( report );
+
+		if ( effectId == 0 )
+		{
+			DebugDatabase.checkEffects( report );
+		}
+		else
+		{
+			DebugDatabase.checkEffect( effectId, report );
+		}
+
 		DebugDatabase.checkEffectModifiers( report );
 
 		report.close();
