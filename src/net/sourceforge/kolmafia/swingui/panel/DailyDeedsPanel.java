@@ -69,7 +69,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
-import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -78,9 +77,10 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
+import net.sourceforge.kolmafia.request.PottedTeaTreeRequest.PottedTea;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -276,6 +276,9 @@ public class DailyDeedsPanel
 		{
 			"Special", "Shrine to the Barrel god"
 		},
+		{
+			"Special", "Potted Tea Tree"
+		}
 	};
 
 	private static final int getVersion( String deed )
@@ -283,7 +286,9 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Shrine to the Barrel god" ) )
+		if ( deed.equals( "Potted Tea Tree" ) )
+			return 12;
+		else if ( deed.equals( "Shrine to the Barrel god" ) )
 			return 11;
 		else if ( deed.equals( "Deck of Every Card" ) )
 			return 10;
@@ -1044,6 +1049,10 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Deck of Every Card" ) )
 		{
 			this.add( new DeckOfEveryCardDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Potted Tea Tree" ) )
+		{
+			this.add( new TeaTreeDaily() );
 		}
 		else if ( deedsString[ 1 ].equals( "Shrine to the Barrel god" ) )
 		{
@@ -3810,6 +3819,76 @@ public class DailyDeedsPanel
 						setEnabled( true );
 					}
 				}
+			}
+		}
+	}
+
+	public static class TeaTreeDaily
+		extends Daily
+	{
+
+		private static final ArrayList<String> choices = new ArrayList<String>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		static
+		{
+			choices.add( "Potted Tea Tree:" );
+			commands.add( "" );
+			tooltips.add( "" );
+
+			choices.add( "shake" );
+			commands.add( "teatree shake" );
+			tooltips.add( "3 random teas" );
+
+			for ( PottedTea tea : PottedTeaTreeRequest.teas )
+			{
+				choices.add( tea.toString() );
+				commands.add( "teatree " + tea.toString() );
+				tooltips.add( tea.effect() );
+			}
+		}
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		public TeaTreeDaily()
+		{
+			this.addItem( ItemPool.DECK_OF_EVERY_CARD );
+			this.addListener( "_deckCardsDrawn" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box.addActionListener( new TeaTreeListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Pick" );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = KoLConstants.campground.contains( ItemPool.get( ItemPool.POTTED_TEA_TREE, 1 ) );
+			boolean available = !Preferences.getBoolean( "_pottedTeaTreeUsed" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "potted tea tree" );
+			boolean limited = Limitmode.limitItem( ItemPool.POTTED_TEA_TREE );
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			box.setEnabled( available );
+			box.setSelectedIndex( 0 );
+		}
+
+		private class TeaTreeListener
+			implements ActionListener
+		{
+			@Override
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				setComboTarget( btn, command );
+				setEnabled( cb.getSelectedIndex() > 0 && !Preferences.getBoolean( "_pottedTeaTreeUsed" ) );
 			}
 		}
 	}

@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -56,6 +57,7 @@ public class PottedTeaTreeRequest
 {
 	private static final TreeMap<Integer,PottedTea> idToTea = new TreeMap<Integer,PottedTea>();
 	private static final TreeMap<String,PottedTea> canonicalNameToTea = new TreeMap<String,PottedTea>();
+	public static final List<PottedTea> teas = new ArrayList<PottedTea>();
 
 	static
 	{
@@ -98,13 +100,13 @@ public class PottedTeaTreeRequest
 		PottedTeaTreeRequest.registerTea( ItemPool.YET_TEA, "Cold damage" );
 	};
 
-	private static PottedTea registerTea( int id, String effect )
+	private static void registerTea( int id, String effect )
 	{
 		String name = ItemPool.get( id, 1 ).getName();
 		PottedTea tea = new PottedTea( name, id, effect );
 		PottedTeaTreeRequest.idToTea.put( id, tea );
 		PottedTeaTreeRequest.canonicalNameToTea.put( StringUtilities.getCanonicalName( name ), tea );
-		return tea;
+		PottedTeaTreeRequest.teas.add( tea );
 	}
 
 	private static String [] CANONICAL_TEA_ARRAY;
@@ -205,6 +207,11 @@ public class PottedTeaTreeRequest
 		public String toString()
 		{
 			return this.name;
+		}
+
+		public String effect()
+		{
+			return this.effect;
 		}
 	}
 	public static final Pattern URL_TEA_PATTERN = Pattern.compile( "itemid=(\\d+)" );
