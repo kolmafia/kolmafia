@@ -1467,7 +1467,7 @@ bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
 ball-in-a-cup	20	none
 balloon shield	50	Mus: 10	shield
-barrel lid	0	none	shield
+barrel lid	150	none	shield
 barskin buckler	25	none	shield
 basic meat foon	50	Mys: 10
 basaltamander buckler	0	Mus: 40	shield
@@ -1903,7 +1903,7 @@ Baron von Ratsworth's monocle	50	Mys: 10
 barrel beryl choker	125	Mys: 30
 barrel beryl nose ring	125	Mys: 30
 barrel beryl ring	125	Mys: 30
-barrel hoop earring	0	none
+barrel hoop earring	100	none
 batskin belt	0	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
@@ -2358,7 +2358,7 @@ rubber WWtNSD? bracelet	10	none
 rum barrel charrrm bracelet	110	Mys: 40
 rusty chain necklace	180	Mys: 75
 Saccharine Maple pendant	75	Mys: 22
-sardine can key	0	Mus: 50
+sardine can key	200	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
