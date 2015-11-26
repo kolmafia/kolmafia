@@ -93,7 +93,7 @@ Medicinal Herb's medicinal herbs	item	[HP]	[HP]	0	0	0
 Mer-kin fitbrine	item	300	400	300	400	0
 Monstar energy beverage	item	0	0	70	80	0
 Mountain Stream Code Black Alert	item	0	0	15	20	0
-Mountain Stream soda	item	0	0	6	9	0
+Mountain Stream soda	item	0	0	30	40	0
 myrrh-soaked, chocolate-covered bacon bath ball	item	0	0	30	45	0
 Nardz energy beverage	item	0	0	50	70	0
 natural fennel soda	item	0	0	80	120	0
