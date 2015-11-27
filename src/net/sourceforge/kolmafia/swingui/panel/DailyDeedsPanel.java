@@ -3826,7 +3826,6 @@ public class DailyDeedsPanel
 	public static class TeaTreeDaily
 		extends Daily
 	{
-
 		private static final ArrayList<String> choices = new ArrayList<String>();
 		private static final ArrayList<String> commands = new ArrayList<String>();
 		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
@@ -3853,14 +3852,13 @@ public class DailyDeedsPanel
 
 		public TeaTreeDaily()
 		{
-			this.addItem( ItemPool.DECK_OF_EVERY_CARD );
-			this.addListener( "_deckCardsDrawn" );
+			this.addListener( "_pottedTeaTreeUsed" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
 			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new TeaTreeListener() );
-			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Pick" );
 			this.setEnabled( false );
 		}
