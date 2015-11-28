@@ -1054,7 +1054,7 @@ public abstract class SorceressLairManager
 		// Is the Hedge maze open? Go look at the tower.
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
-		String status = Preferences.getString( Quest.FINAL.getPref() );
+		String status = Quest.FINAL.getStatus();
 		if ( !status.equals( "step4" ) )
 		{
 			String message =
@@ -1219,10 +1219,17 @@ public abstract class SorceressLairManager
 				return;
 			}
 
-			status = Preferences.getString( Quest.FINAL.getPref() );
+			status = Quest.FINAL.getStatus();
 		}
 
-		KoLmafia.updateDisplay( "Hedge Maze cleared!" );
+		if ( status.equals( "step5" ) )
+		{
+			KoLmafia.updateDisplay( "Hedge Maze cleared!" );
+		}
+		else
+		{
+			KoLmafia.updateDisplay( "Hedge Maze not complete. Unexpected quest status: " + Quest.FINAL.getPref() + " = " + status );
+		}
 	}
 
 	public static final void towerDoorScript()
@@ -1230,7 +1237,7 @@ public abstract class SorceressLairManager
 		// Is the Tower Door open? Go look at the tower.
 		RequestThread.postRequest( new PlaceRequest( "nstower" ) );
 
-		String status = Preferences.getString( Quest.FINAL.getPref() );
+		String status = Quest.FINAL.getStatus();
 		if ( !status.equals( "step5" ) )
 		{
 			String message =
@@ -1292,7 +1299,7 @@ public abstract class SorceressLairManager
 		// Now turn the doorknob
 		RequestThread.postRequest( new PlaceRequest( "nstower_door", "ns_doorknob", true ) );
 
-		status = Preferences.getString( Quest.FINAL.getPref() );
+		status = Quest.FINAL.getStatus();
 		if ( status.equals( "step6" ) )
 		{
 			KoLmafia.updateDisplay( "Tower Door open!" );

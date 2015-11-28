@@ -8663,7 +8663,7 @@
 8637	cuppa Insani tea	593771882	tea_crazy.gif	multiple	t,d	30
 8638	Royal scepter	695178500	scepter.gif	offhand		0
 8639	haunted doghouse	694977314	crate.gif	usable	t	0
-8640	Ghost Dog Chow	604634558	cheatos.gif	usable	t,d	20
+8640	Ghost Dog Chow	604634558	cheatos.gif	usable	t,d	20	sacks of Ghost Dog Chow
 8641	bowl of eyeballs	293756347	bowl2.gif	food	t,d	8	bowls of eyeballs
 8642	bowl of mummy guts	624891569	bowl3.gif	food	t,d	6	bowls of mummy guts
 8643	bowl of maggots	736231459	bowl4.gif	food	t,d	4	bowls of maggots
