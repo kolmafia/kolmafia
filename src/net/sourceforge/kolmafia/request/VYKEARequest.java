@@ -102,6 +102,15 @@ public class VYKEARequest
 			return;
 		}
 
+		Concoction concoction = this.concoction;
+		AdventureResult[] ingredients = concoction.getIngredients();
+
+		if ( ingredients.length < 3 || ingredients[0].getItemId() != ItemPool.VYKEA_INSTRUCTIONS )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "VYKEA companion recipe for '" + concoction.getName() + "' is invalid." );
+			return;
+		}
+
 		// Get the necessary ingredients
 		if ( !this.makeIngredients() )
 		{
@@ -121,15 +130,6 @@ public class VYKEARequest
 
 		// Make a companion!
 
-		Concoction concoction = this.concoction;
-		AdventureResult[] ingredients = concoction.getIngredients();
-
-		if ( ingredients.length < 3 || ingredients[0].getItemId() != ItemPool.VYKEA_INSTRUCTIONS )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "VYKEA companion recipe for '" + concoction.getName() + "' is invalid." );
-			return;
-		}
-
 		int index = 1;
 
 		// Start by "using" the VYKEA instructions.
@@ -143,7 +143,7 @@ public class VYKEARequest
 
 			if ( choice == 0 )
 			{
-				// If this are not in choice.php, it failed for some reason.
+				// If we are not in choice.php, it failed for some reason.
 				// Perhaps we could figure out why and give a more informative error.
 				KoLmafia.updateDisplay( MafiaState.ERROR, "VYKEA companion creation failed." );
 				return;
@@ -244,5 +244,7 @@ public class VYKEARequest
 			choiceRequest.addFormField( "option", String.valueOf( option ) );
 			choiceRequest.run();
 		}
+
+		KoLmafia.updateDisplay( "Successfully created " + this.getName() );
 	}
 }

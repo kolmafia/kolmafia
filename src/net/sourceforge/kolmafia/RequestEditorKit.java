@@ -1043,7 +1043,8 @@ public class RequestEditorKit
 
 	private static final void suppressPotentialMalware( final StringBuffer buffer )
 	{
-		if ( !Preferences.getBoolean( "suppressPotentialMalware" ) )
+		// Always remove lag-inducing Javascript
+		if ( false && !Preferences.getBoolean( "suppressPotentialMalware" ) )
 		{
 			return;
 		}

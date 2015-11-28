@@ -148,7 +148,12 @@ public class QuestDatabase
 
 		public String getPref()
 		{
-			return pref;
+			return this.pref;
+		}
+
+		public String getStatus()
+		{
+			return Preferences.getString( this.pref );
 		}
 	}
 
