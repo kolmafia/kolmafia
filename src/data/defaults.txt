@@ -1234,8 +1234,9 @@ user	_kolhsSchoolSpirited	false
 user	_kolhsPoeticallyLicenced	false
 user	_kolhsCutButNotDried	false
 user	_kolhsIsskayLikeAnAshtray	false
-user	_lastZomboEye	0
+user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
+user	_lastZomboEye	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
