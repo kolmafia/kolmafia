@@ -4089,7 +4089,7 @@ Effect	Barking Dogs	Muscle Percent: -50, Initiative: -50
 Effect	Barking Mad	Mysticality Percent: +100
 Effect	Barrel Chested	Weapon Damage Percent: +150
 # Effect Barrel of Laughs: Makes food more delicious!
-Effect Barrel of Laughs	Maximum HP: +90
+Effect	Barrel of Laughs	Maximum HP: +90
 Effect	Bartenderganger	Avatar: "Copperhead Club bartender"
 Effect	Bastard!	Weapon Damage: +12
 Effect	Basted	Sleaze Damage: +10, Damage Reduction: -2
@@ -5891,6 +5891,7 @@ Effect	Using Protection	Mana Cost: -2
 Effect	Vampin'	Avatar: "sexy vampire"
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
 Effect	Vented Item	Weapon Damage: +25
+Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
@@ -5901,7 +5902,7 @@ Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 # Video... Games?: +5% Damage vs. Vampires
 # Video... Games?: +5% Damage vs. Skeletons
 # Video... Games?: +5 Damage vs. Undead
-Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: +5, Hat Drop: +5, Offhand Drop: +5, Pants Drop: +5, Shirt Drop: +5, Weapon Drop: +5
+Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Accessory Drop: +5, Hat Drop: +5, Offhand Drop: +5, Pants Drop: +5, Shirt Drop: +5, Weapon Drop: +5
 Effect	Vinegavotte	Item Drop: +20
 Effect	Violent Night	Critical Hit Percent: +5
 Effect	Virgo Rising	Moxie Percent: +50
