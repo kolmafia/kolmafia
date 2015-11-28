@@ -35,12 +35,17 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -376,6 +381,12 @@ public class FightRequest
 			"cyrptNookEvilness",
 		},
 	};
+
+	private static final SimpleDateFormat COMBAT_START = new SimpleDateFormat( "yyyyMMddHHmmss" );
+	static
+	{
+		FightRequest.COMBAT_START.setTimeZone( TimeZone.getTimeZone( "GMT" ) );
+	}
 
 	// Make an HTML cleaner
 	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
@@ -1869,6 +1880,7 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 0 )
 		{
+			Preferences.setString( "_lastCombatStarted", FightRequest.COMBAT_START.format( new Date() ) );
 			int adventure = KoLAdventure.lastAdventureId();
 
 			// Adventuring in the Haiku Dungeon
@@ -6639,7 +6651,7 @@ public class FightRequest
 		     // If we have Cunctatitis and decide to procrastinate,
 		     // we did nothing
 		     ( KoLConstants.activeEffects.contains( FightRequest.CUNCTATITIS ) &&
-		       responseText.indexOf( "You decide to" ) != -1 )
+			 responseText.contains( "You decide to" ) )
 		     )
 		{
 			return;
@@ -7605,7 +7617,7 @@ public class FightRequest
 				action.append( "executes a macro!" );
 			}
 		}
-		else if ( urlString.indexOf( "runaway" ) != -1 )
+		else if ( urlString.contains( "runaway" ) )
 		{
 			FightRequest.nextAction = "runaway";
 			if ( shouldLogAction )
@@ -7613,7 +7625,7 @@ public class FightRequest
 				action.append( "casts RETURN!" );
 			}
 		}
-		else if ( urlString.indexOf( "steal" ) != -1 )
+		else if ( urlString.contains( "steal" ) )
 		{
 			FightRequest.nextAction = "steal";
 			if ( shouldLogAction )
@@ -7621,7 +7633,7 @@ public class FightRequest
 				action.append( "tries to steal an item!" );
 			}
 		}
-		else if ( urlString.indexOf( "attack" ) != -1 )
+		else if ( urlString.contains( "attack" ) )
 		{
 			FightRequest.nextAction = "attack";
 			if ( shouldLogAction )
@@ -7629,7 +7641,7 @@ public class FightRequest
 				action.append( "attacks!" );
 			}
 		}
-		else if ( urlString.indexOf( "chefstaff" ) != -1 )
+		else if ( urlString.contains( "chefstaff" ) )
 		{
 			FightRequest.nextAction = "jiggle";
 			if ( shouldLogAction )
