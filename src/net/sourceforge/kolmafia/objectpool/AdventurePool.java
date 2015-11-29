@@ -68,8 +68,6 @@ public class AdventurePool
 	public static final String BAD_TRIP_ID = "96";
 	public static final String GREAT_TRIP_ID = "97";
 	public static final String MEDIOCRE_TRIP_ID = "98";
-	public static final int ROAD_TO_WHITE_CITADEL = 99;
-	public static final String ROAD_TO_WHITE_CITADEL_ID = "99";
 	public static final String WHITEYS_GROVE_ID = "100";
 	public static final String KNOB_SHAFT_ID = "101";
 	public static final String ICY_PEAK_ID = "110";
@@ -199,6 +197,8 @@ public class AdventurePool
 	public static final String MIDDLE_CHAMBER_ID = "407";
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
+	public static final int ROAD_TO_WHITE_CITADEL = 413;
+	public static final String ROAD_TO_WHITE_CITADEL_ID = "413";
 	public static final int DR_WEIRDEAUX = 415;
 	public static final String DR_WEIRDEAUX_ID = "415";
 	public static final int SECRET_GOVERNMENT_LAB = 416;
