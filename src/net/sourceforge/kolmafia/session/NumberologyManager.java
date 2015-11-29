@@ -153,38 +153,38 @@ public class NumberologyManager
 		return PRIZES[ result % PRIZES.length ];
 	}
 
-	public static final int rawNumberology( final int seed, final int delta )
+	public static final int rawNumberology( final int seed, final int adventureDelta, final int spleenDelta )
 	{
 		int ascensions = KoLCharacter.getAscensions();
 		int sign = KoLCharacter.getSignIndex();
 		int spleen = KoLCharacter.getSpleenUse();
 		int level =  KoLCharacter.getLevel();
 		int adventures = KoLCharacter.getAdventuresLeft();
-		return ( Math.abs( seed ) + ascensions + sign ) * ( spleen + level ) + adventures - delta;
+		return ( Math.abs( seed ) + ascensions + sign ) * ( spleen + spleenDelta + level ) + ( adventures - adventureDelta );
 	}
 
 	public static final int numberology( final int seed )
 	{
-		return NumberologyManager.numberology( seed, 0 );
+		return NumberologyManager.numberology( seed, 0, 0 );
 	}
 
-	public static final int numberology( final int seed, final int delta )
+	public static final int numberology( final int seed, final int adventureDelta, final int spleenDelta )
 	{
-		return NumberologyManager.rawNumberology( seed, delta ) % 100;
+		return NumberologyManager.rawNumberology( seed, adventureDelta, spleenDelta ) % 100;
 	}
 
 	public static final Map<Integer,Integer> reverseNumberology()
 	{
-		return NumberologyManager.reverseNumberology( 0 );
+		return NumberologyManager.reverseNumberology( 0, 0 );
 	}
 
-	public static final Map<Integer,Integer> reverseNumberology( final int delta )
+	public static final Map<Integer,Integer> reverseNumberology( final int adventureDelta, final int spleenDelta )
 	{
 		Map<Integer,Integer> results = new TreeMap<Integer,Integer>();
 
 		for ( int seed = 0; seed < 100; ++seed )
 		{
-			int result = NumberologyManager.numberology( seed, delta );
+			int result = NumberologyManager.numberology( seed, adventureDelta, spleenDelta );
 			if ( results.containsKey( result) )
 			{
 				return results;
