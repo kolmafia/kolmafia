@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -89,38 +90,82 @@ public class NumberologyCommand
 		}
 
 		Map<Integer,Integer> results = null;
-		int delta = 0;
-		while ( delta < 100 )
+		int adventureDelta = 0;
+		while ( adventureDelta < 100 )
 		{
-			results = NumberologyManager.reverseNumberology( delta );
+			results = NumberologyManager.reverseNumberology( adventureDelta, 0 );
 			if ( results.containsKey( result ) )
 			{
 				break;
 			}
-			delta++;
+			adventureDelta++;
+		}
+
+		// If the prize is available with current adventures and spleen, do it.
+		if ( adventureDelta == 0 )
+		{
+			if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+			{
+				RequestLogger.printLine( "\"numberology " + result + "\" (" + prize + ") is currently available." );
+				return;
+			}
+
+			int seed = results.get( result );
+
+			NumberologyManager.calculateTheUniverse( seed );
+			return;
+		}
+
+		int spleenMin = KoLCharacter.getSpleenUse();
+		int spleenMax = KoLCharacter.getSpleenLimit();
+		int spleenDelta = spleenMin + 1;
+		while ( spleenDelta <= spleenMax )
+		{
+			results = NumberologyManager.reverseNumberology( 0, spleenDelta - spleenMin );
+			if ( results.containsKey( result ) )
+			{
+				break;
+			}
+			spleenDelta++;
 		}
 
 		// This is probably not possible, but...
-		if ( delta == 100 )
+		if ( adventureDelta == 100 && spleenDelta >= spleenMax )
 		{
 			KoLmafia.updateDisplay( error, "Result " + result + " not found!" );
 			return;
 		}
 
-		if ( delta != 0 )
+		// Give forecast
+		StringBuilder buffer = new StringBuilder( "\"numberology " );
+		buffer.append( String.valueOf( result ) );
+		buffer.append( "\" (" );
+		buffer.append( prize );
+		buffer.append( ") is not currently available but will be in" );
+
+		if ( adventureDelta != 100 )
 		{
-			KoLmafia.updateDisplay( error, "\"numberology " + result + "\" (" + prize + ") is not currently available but will be in " + delta + " turn" + ( delta != 1 ? "s" : "" ) + "." );
-			return;
+			buffer.append( " " );
+			buffer.append( String.valueOf( adventureDelta ) );
+			buffer.append( " turn" );
+			if ( adventureDelta != 1 )
+			{
+				buffer.append( "s" );
+			}
 		}
 
-		if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+		if ( spleenDelta <= spleenMax )
 		{
-			RequestLogger.printLine( "\"numberology " + result + "\" (" + prize + ") is currently available." );
-			return;
+			if ( adventureDelta != 100 )
+			{
+				buffer.append( " or" );
+			}
+			buffer.append( " " );
+			buffer.append( String.valueOf( spleenDelta - spleenMin ) );
+			buffer.append( " spleen" );
 		}
 
-		int seed = results.get( result );
-
-		NumberologyManager.calculateTheUniverse( seed );
+		buffer.append( "." );
+		KoLmafia.updateDisplay( error, buffer.toString() );
 	}
 }

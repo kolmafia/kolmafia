@@ -827,7 +827,12 @@ public abstract class KoLCharacter
 
 	public static final void setSpleenUse( int spleenUse )
 	{
-		KoLCharacter.spleenUse = Math.max( 0, spleenUse );
+		int value = Math.max( 0, spleenUse );
+		if ( KoLCharacter.spleenUse != value )
+		{
+			KoLCharacter.spleenUse = value;
+			KoLCharacter.updateStatus();
+		}
 	}
 
 	public static final int getSpleenUse()

@@ -440,6 +440,19 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "spleen" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test spleen value" );
+				return;
+			}
+
+			int spleen = StringUtilities.parseInt( split[ 1 ].trim() );
+			KoLCharacter.setSpleenUse( spleen );
+			return;
+		}
+
 		if ( command.equals( "state" ) )
 		{
 			if ( split.length >= 2 )
