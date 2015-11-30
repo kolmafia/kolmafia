@@ -125,6 +125,7 @@ public class BanishManager
 		new Banisher( "harold's bell", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "howl of the alpha", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "ice house", -1, 1, false, Reset.NEVER_RESET ),
+		new Banisher( "ice hotel bell", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "louder than bomb", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "nanorhino", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "pantsgiving", 30, 1, false, Reset.TURN_RESET ),
@@ -312,7 +313,7 @@ public class BanishManager
 		return null;
 	}
 
-	public static final void banishCurrentMonster( final String banishName, final String responseText )
+	public static final void banishCurrentMonster( final String banishName )
 	{
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		if ( monster == null )

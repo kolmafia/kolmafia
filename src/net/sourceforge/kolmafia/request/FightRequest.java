@@ -6688,7 +6688,7 @@ public class FightRequest
 				if ( responseText.contains( "turns tail and runs" ) || jiggleSuccess )
 				{
 					Preferences.increment( "_jiggleCheese", 1 );
-					BanishManager.banishCurrentMonster( "staff of the standalone cheese", responseText );
+					BanishManager.banishCurrentMonster( "staff of the standalone cheese" );
 				}
 				break;
 
@@ -7252,67 +7252,67 @@ public class FightRequest
 		case ItemPool.CRYSTAL_SKULL:
 			if ( responseText.contains( "skull explodes into a million worthless shards of glass" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "crystal skull", responseText );
+				BanishManager.banishCurrentMonster( "crystal skull" );
 			}
 			break;
 		case ItemPool.DIVINE_CHAMPAGNE_POPPER:
 			if ( responseText.contains( "surprisingly loud bang, and your opponent" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "divine champagne popper", responseText );
+				BanishManager.banishCurrentMonster( "divine champagne popper" );
 			}
 			break;
 		case ItemPool.HAROLDS_HAMMER:
 			if ( responseText.contains( "throw the bell away" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "harold's bell", responseText );
+				BanishManager.banishCurrentMonster( "harold's bell" );
 			}
 			break;
 		case ItemPool.INDIGO_TAFFY:
 			if ( responseText.contains( "nowhere to be found" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "pulled indigo taffy", responseText );
+				BanishManager.banishCurrentMonster( "pulled indigo taffy" );
 			}
 			break;
 		case ItemPool.CLASSY_MONKEY:
 			if ( responseText.contains( "EEEEEEEEEEEEEEEEEEEEEEEEK!" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "classy monkey", responseText );
+				BanishManager.banishCurrentMonster( "classy monkey" );
 			}
 			break;
 		case ItemPool.DIRTY_STINKBOMB:
 			if ( responseText.contains( "don't expect to see" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "dirty stinkbomb", responseText );
+				BanishManager.banishCurrentMonster( "dirty stinkbomb" );
 			}
 			break;
 		case ItemPool.DEATHCHUCKS:
 			if ( responseText.contains( "far enough away from you" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "deathchucks", responseText );
+				BanishManager.banishCurrentMonster( "deathchucks" );
 			}
 			break;
 		case ItemPool.COCKTAIL_NAPKIN:
 			if ( responseText.contains( "random phone number onto the napkin and hand it to the clingy pirate" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "cocktail napkin", responseText );
+				BanishManager.banishCurrentMonster( "cocktail napkin" );
 			}
 			break;
 		case ItemPool.LOUDER_THAN_BOMB:
 			if ( responseText.contains( "nowhere to be seen" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "louder than bomb", responseText );
+				BanishManager.banishCurrentMonster( "louder than bomb" );
 			}
 			break;
 		case ItemPool.SMOKE_GRENADE:
 			if ( responseText.contains( "flee in the ensuing confusion" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "smoke grenade", responseText );
+				BanishManager.banishCurrentMonster( "smoke grenade" );
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
 			if ( responseText.contains( "A wistful expression" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "spooky music box mechanism", responseText );
+				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
 			}
 			break;
 		case ItemPool.ICE_HOUSE:
@@ -7321,13 +7321,19 @@ public class FightRequest
 			// the house on display with it still inside it.
 			if ( responseText.contains( "toss the ice house" ) || itemRunawaySuccess )
 			{
-				BanishManager.banishCurrentMonster( "ice house", responseText );
+				BanishManager.banishCurrentMonster( "ice house" );
 			}
 			break;
 		case ItemPool.TENNIS_BALL:
 			if ( responseText.contains( "excitedly chases it down" ) )
 			{
-				BanishManager.banishCurrentMonster( "tennis ball", responseText );
+				BanishManager.banishCurrentMonster( "tennis ball" );
+			}
+			break;
+		case ItemPool.ICE_HOTEL_BELL:
+			if ( responseText.contains( "a nearby door" ) )
+			{
+				BanishManager.banishCurrentMonster( "ice hotel bell" );
 			}
 			break;
 		case ItemPool.ROCK_BAND_FLYERS:
