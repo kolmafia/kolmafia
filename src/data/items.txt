@@ -8658,7 +8658,7 @@
 8632	cuppa Uncertain tea	264273302	tea_random.gif	usable	t,d	30
 8633	cuppa Voraci tea	710858711	tea_stomach.gif	usable	t,d	30
 8634	cuppa Sobrie tea	134501105	tea_booze.gif	usable	t,d	30
-8635	cuppa Royal tea	143135963	tea_royal.gif	usable	t,d	30
+8635	cuppa Royal tea	143135963	tea_royal.gif	usable	t,d	30	cupsa Royal tea
 8636	cuppa Craft tea	935986990	tea_crafty.gif	multiple	t,d	30
 8637	cuppa Insani tea	593771882	tea_crazy.gif	multiple	t,d	30
 8638	Royal scepter	695178500	scepter.gif	offhand		0
@@ -8729,7 +8729,7 @@
 8703
 8704
 8705
-8706
+8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707
 8708
 8709
@@ -8775,3 +8775,16 @@
 8749
 8750	hemp candy necklace	940456173	candynecklace.gif	multiple	t	0
 8751	communal gobstopper	582565826	jawbreaker.gif	multiple	t	0
+8752
+8753
+8754
+8755
+8756
+8757
+8758
+8759
+8760
+8761
+8762
+8763
+8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0

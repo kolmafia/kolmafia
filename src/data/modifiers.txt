@@ -8046,6 +8046,7 @@ Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration:
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
 Item	lynyrd skinner toothblack	Effect: "Lynyrd Prytynder", Effect Duration: 50
 Item	M-242	Effect: "Adrenaline Rush", Effect Duration: 50
+Item	machine elf capsule	Free Pull
 # macrame net: Deals 90-100 Physical Damage
 # macrame net: Weakens Enemies Somewhat
 Item	mafia aria	Effect: "Macho Profundo", Effect Duration: 5
