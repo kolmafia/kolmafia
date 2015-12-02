@@ -1627,6 +1627,11 @@ Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bott
 Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 25	octolus oculus (0)	octolus-skin cloak (0)
 Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 P: fish E: cold Init: 25	tin of submardines (0)	sardine can key (0)
 
+# Deep Machine Tunnels (Machine Elf Capsule December 2015)
+Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
+Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
+Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
