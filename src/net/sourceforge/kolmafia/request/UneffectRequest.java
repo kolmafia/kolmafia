@@ -331,6 +331,10 @@ public class UneffectRequest
 			"Ruthlessly Efficient",
 			"Ruthless Efficiency",
 		},
+		{
+			"Beardfreeze",
+			"Frostbeard",
+		},
 	};
 
 	public UneffectRequest( final AdventureResult effect )
