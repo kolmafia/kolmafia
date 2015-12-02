@@ -2018,10 +2018,10 @@
 2017
 2018	Purpose	abs4.gif	008371e785b3193f6b20a7f03f1dc063	chew 1 abstraction: purpose
 2019	Category	abs5.gif	2f79e19fb1a4f3f9652747fc1b9ea6bb	chew 1 abstraction: category
-2020
-2021
-2022
-2023
+2020	Perception	abs6.gif	4f8d16338f3261265f0233b094978e30	chew 1 abstraction: perception
+2021	Motion	abs7.gif	79d1ae432737050d345689eef9d63488	chew 1 abstraction: motion
+2022	Joy	abs8.gif	1610c38cc59444b05760791cf7544933	chew 1 abstraction: joy
+2023	Certainty	abs9.gif	f9beaa40b81d459e23c1b7467dc36d36	chew 1 abstraction: certainty
 2024
 2025	You Ate Some Hemp Candy	candynecklace.gif	872fe1af62ca2810f488d3892e7edcd7	use 1 hemp candy necklace
 2026	The Magic of Sharing	jawbreaker.gif	c6663c3f2761179a5acbe4f0505f418b	use 1 communal gobstopper
