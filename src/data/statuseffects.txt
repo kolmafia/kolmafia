@@ -1989,7 +1989,7 @@
 1988	Toothy Grin	familiar24.gif	9846e2b147613c87cce1b1648943c810	drink 1 Jack-O-Lantern beer
 1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
 1990	It's Good To Be Royal!	scepter.gif	649609b239c77507b1b112bc7a6d7ae4
-1991
+1991	Inner Elf	machelf.gif	b7ee0a7bd6da403858b2d3baacd3c4b4
 1992
 1993	Insani Tea	tea_crazy.gif	d25be2dd24b29bfddec85c0de1a82c37	use 1 cuppa Insani tea
 1994	Adventurer's Best Friendship	hotdog_spooky.gif	e8e5580eafade2ad9bb6452c96e3d912
@@ -1998,9 +1998,9 @@
 1997	Oh Hamlet Hamlet Hamlet Hamlet	hamsandwich.gif	cceebb2c171b2e7d0df3a70a8f07e0ba	eat 1 hamlet sandwich
 1998	Booooooze	ghostbeer.gif	a0deb9400df1b96b2d588ac851e8b88e	drink 1 ghost beer
 1999
-2000
-2001
-2002
+2000	Action	abs1.gif	efae03dd22f8a2b728bea28c8b76360b	chew 1 abstraction: action
+2001	Thought	abs2.gif	acf3c65fb121508439ee04ad2490efcb	chew 1 abstraction: thought
+2002	Sensation	abs3.gif	ae9a75b7352efa11702d9822ace85b3b	chew 1 abstraction: sensation
 2003	Octolus Gift	eyes.gif	3998113c0b57859135464ee2a591ddc6
 2004	Appeteyes	knifefork.gif	7155a6dd9206b3b883f9012f170614cd	eat 1 tin of submardines
 2005	Norwhalloped	liver.gif	11e9381dd9fdf8880e5fc7bcd7236ccb	drink 1 bottle of norwhiskey
@@ -2016,8 +2016,8 @@
 2015
 2016
 2017
-2018
-2019
+2018	Purpose	abs4.gif	008371e785b3193f6b20a7f03f1dc063	chew 1 abstraction: purpose
+2019	Category	abs5.gif	2f79e19fb1a4f3f9652747fc1b9ea6bb	chew 1 abstraction: category
 2020
 2021
 2022

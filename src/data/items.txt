@@ -8730,12 +8730,12 @@
 8704
 8705
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
-8707
-8708
-8709
-8710
-8711
-8712
+8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75
+8708	abstraction: action	745245103	abs1.gif	spleen, usable	t,d	5
+8709	abstraction: thought	693096669	abs2.gif	spleen, usable	t,d	6
+8710	abstraction: sensation	315015395	abs3.gif	spleen, usable	t,d	7
+8711	abstraction: purpose	265221812	abs4.gif	spleen, usable	t,d	8
+8712	abstraction: category	939859073	abs5.gif	spleen, usable	t,d	9
 8713
 8714
 8715
@@ -8788,3 +8788,7 @@
 8762
 8763
 8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0
+8765	Gratitude chocolate (thyme-filled)	158122731	gratchoc1.gif	usable	t	0	Gratitude chocolates (thyme-filled)
+8766	Gratitude chocolate (bourbon-filled)	376915396	gratchoc2.gif	drink	t	0	Gratitude chocolates (bourbon-filled)
+8767	Gratitude chocolate (Meat-filled)	755340868	gratchoc3.gif	usable	t	0	Gratitude chocolates (Meat-filled)
+8768	Gratitude chocolate (octopus-filled)	167557279	gratchoc4.gif	grow	t	0

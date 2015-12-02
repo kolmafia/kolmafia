@@ -4,6 +4,11 @@
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 
+abstraction: action	1	1	decent	0	0	0	0	Unspaded
+abstraction: category	1	1	decent	0	0	0	0	Unspaded
+abstraction: purpose	1	1	decent	0	0	0	0	Unspaded
+abstraction: sensation	1	1	decent	0	0	0	0	Unspaded
+abstraction: thought	1	1	decent	0	0	0	0	Unspaded
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
 alien protein powder	3	4	awesome	8-10	0	0	0
 ancient protein powder	1	1	good	0	12-14	0	0

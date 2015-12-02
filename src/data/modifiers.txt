@@ -3448,6 +3448,7 @@ Item	S.L.E.I.G.H.B.E.L.L.S.	Familiar Weight: +5
 Item	S.S. Ticket	Familiar Weight: +5
 # school spirit socket set: Keeps more steam in
 Item	security blankie	Familiar Weight: +5
+Item	self-dribbling basketball	Familiar Weight: +10
 Item	serrated proboscis extension	Familiar Weight: +20
 Item	shiny brass tailfeathers	Familiar Weight: +5
 Item	shiny gold fronts	Familiar Weight: +5
@@ -3997,6 +3998,7 @@ Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min:
 # Abyssal Sweat: The first attack against you will always miss
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
 Effect	Ack! Barred!	Muscle Percent: +30
+Effect	Action	Muscle Percent: +100
 Effect	Adorable Lookout	Initiative: +30
 Effect	Adrenaline Rush	Muscle Percent: +100
 Effect	Adventurer's Best Friendship	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -4260,6 +4262,7 @@ Effect	Carrrsmic	Mysticality Percent: +10
 Effect	Castaway Physique	Muscle Percent: +25
 Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
+Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
 Effect	Cavemanipulated	Avatar: "caveman"
 Effect	Celestial Camouflage	Combat Rate: -5
@@ -4922,6 +4925,7 @@ Effect	Inky Camouflage	Combat Rate: -5
 # Inner Dog: +50% Damage vs. Zombies
 # Inner Dog: +50 Damage vs. Ghosts
 Effect	Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
+Effect	Inner Elf	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Inner Warmth	Cold Resistance: +5
 # Innuendo Shopping
 # Inocente, In a Sense: Te hace ver como un Persona Inocente Cadáver
@@ -5339,6 +5343,7 @@ Effect	Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie P
 Effect	Purple Reign	Mysticality: [ceil(min(T,50)/2)], Experience (Mysticality): [ceil(min(T,50)/10)]
 # Purple Tongue: Recover HP and MP after battle
 Effect	Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
+Effect	Purpose	Experience Percent (Muscle): +25
 # Purr of the Feline: Makes Ed's Servants Stronger
 Effect	Putting the Orc in Porcine	Avatar: "smut orc pervert"
 Effect	Puzzle Fury	Spell Damage Percent: +25
@@ -5451,6 +5456,7 @@ Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent
 Effect	Seeing Colors	Mysticality Percent: +50
 # Seeing Red: Monsters will always hit you
 Effect	Seeing Red	Weapon Damage: +25, Weapon Damage Percent: +100
+Effect	Sensation	Moxie Percent: +100
 Effect	Sepia Tan	Moxie: +10, Initiative: +20, Experience (Moxie): +2
 Effect	Serendipi Tea	Item Drop: +25
 Effect	Serenity	Moxie Percent: +15
@@ -5813,6 +5819,7 @@ Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: +25, It
 Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
+Effect	Thought	Mysticality Percent: +100
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
@@ -6964,6 +6971,11 @@ Item	a cute angel	Free Pull
 Item	A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 # a ten-percent bonus: Gain 1,000 points in each stat
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
+Item	abstraction: action	Effect: "Action", Effect Duration: 50
+Item	abstraction: category	Effect: "Category", Effect Duration: 50
+Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
+Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
+Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
 # adder: Poisons your opponent
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 Item	adventurer clone egg	Free Pull
