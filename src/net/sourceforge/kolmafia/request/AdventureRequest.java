@@ -755,6 +755,20 @@ public class AdventureRequest
 			case 321:
 				override = "Video Game Minion (strong)";
 				break;
+			case 458:
+				if ( responseText.contains( "dmtmonster_part1.png" ) )
+				{
+					override = "Performer of Actions";
+				}
+				else if ( responseText.contains( "dmtmonster_part4.png" ) )
+				{
+					override = "Thinker of Thoughts";
+				}
+				else if ( responseText.contains( "dmtmonster_part6.png" ) )
+				{
+					override = "Perceiver of Sensations";
+				}
+				break;
 			}
 		}
 

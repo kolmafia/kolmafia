@@ -8772,7 +8772,7 @@
 8746
 8747
 8748
-8749
+8749	Deep Machine Tunnels snowglobe	277811366	dmtglobe.gif	usable	t,d	57
 8750	hemp candy necklace	940456173	candynecklace.gif	multiple	t	0
 8751	communal gobstopper	582565826	jawbreaker.gif	multiple	t	0
 8752

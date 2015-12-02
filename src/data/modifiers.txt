@@ -4934,6 +4934,7 @@ Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Effect	Insani Tea	Random Monster Modifiers: +3
 Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
+# Effect Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Effect	Insulated Trousers	Cold Resistance: +1
 Effect	Intimidating Mien	Spooky Damage: +15
@@ -7466,6 +7467,7 @@ Item	deanimated reanimator's coffin	Free Pull
 # Deck of Every Card: Who knows what will happen when you draw from it!
 Item	decoded cult documents	Skill: "Bind Spaghetti Elemental"
 Item	decorative fountain	Effect: "Sleepy", Effect Duration: 1
+Item	Deep Machine Tunnels snowglobe	Effect: "Inside The Snowglobe", Effect Duration: 57
 Item	defective Game Grid token	Effect: "Video... Games?", Effect Duration: 5
 Item	deflated inflatable dodecapede	Free Pull
 Item	delicious candy	Effect: "Eyes All Black", Effect Duration: 15
