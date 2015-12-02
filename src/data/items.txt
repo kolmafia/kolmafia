@@ -8736,12 +8736,12 @@
 8710	abstraction: sensation	315015395	abs3.gif	spleen, usable	t,d	7
 8711	abstraction: purpose	265221812	abs4.gif	spleen, usable	t,d	8
 8712	abstraction: category	939859073	abs5.gif	spleen, usable	t,d	9
-8713
-8714
-8715
-8716
-8717
-8718
+8713	abstraction: perception	682952437	abs6.gif	spleen, usable	t,d	10
+8714	abstraction: motion	459927289	abs7.gif	spleen, usable	t,d	11
+8715	abstraction: joy	712803763	abs8.gif	spleen, usable	t,d	12
+8716	abstraction: certainty	700317479	abs9.gif	spleen, usable	t,d	13
+8717	abstraction: comprehension	525612799	abs10.gif	spleen, usable	t,d	14
+8718	modern picture frame	266516661	modernframe.gif	usable	t	0
 8719	VYKEA meatballs	666514481	vykballs.gif	food	t,d	50	plates of VYKEA meatballs
 8720	VYKEA mead	210477648	vykmead.gif	drink	t,d	55	bottles of VYKEA mead
 8721	VYKEA woadpaint	165534547	balm.gif	usable	t,d	20	tins of VYKEA woadpaint
@@ -8791,4 +8791,4 @@
 8765	Gratitude chocolate (thyme-filled)	158122731	gratchoc1.gif	usable	t	0	Gratitude chocolates (thyme-filled)
 8766	Gratitude chocolate (bourbon-filled)	376915396	gratchoc2.gif	drink	t	0	Gratitude chocolates (bourbon-filled)
 8767	Gratitude chocolate (Meat-filled)	755340868	gratchoc3.gif	usable	t	0	Gratitude chocolates (Meat-filled)
-8768	Gratitude chocolate (octopus-filled)	167557279	gratchoc4.gif	grow	t	0
+8768	Gratitude chocolate (octopus-filled)	167557279	gratchoc4.gif	grow	t	0	Gratitude chocolates (octopus-filled)

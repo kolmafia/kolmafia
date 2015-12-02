@@ -4271,6 +4271,7 @@ Effect	Celestial Sheen	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistanc
 Effect	Celestial Vision	Item Drop: +30
 Effect	Censored Can	Avatar: "tin can conspirator"
 Effect	Cereal Killer	Experience: +200
+Effect	Certainty	Item Drop: +100
 Effect	Chain Chain Chains	Spooky Damage: +10
 # Chalk Outline: Your Spookiness is Spookier
 Effect	Chalked Weapon	Pool Skill: +5, Attacks Can't Miss
@@ -4974,6 +4975,7 @@ Effect	Jiggu... What?	Mana Cost: +100
 Effect	Jinkies!	Avatar: "Norville Rogers"
 Effect	Jittery	MP Regen Min: 1, MP Regen Max: 3
 Effect	Jokin' Drunk	Moxie: +50, Pickpocket Chance: +20
+Effect	Joy	Familiar Weight: +10
 Effect	Joyful Resolve	Item Drop: +15
 Effect	Juiced	Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: +200
 Effect	Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
@@ -5122,6 +5124,7 @@ Effect	Morbidi Tea	Spooky Resistance: +3
 Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
+Effect	Motion	Initiative: +100
 Effect	Motorhair	Avatar: "motorhead"
 # Mr. Skullhead's Birthday Happiness: Puts a birthday smile on your face.
 Effect	Mrs. Frozen	Avatar: "Mrs. Freeze"
@@ -5268,6 +5271,7 @@ Effect	Peppermint Bite	Muscle: +5
 Effect	Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Effect	PERL of Great Price	Meat Drop: +25
 Effect	Perceptive Pressure	Item Drop: +50
+Effect	Perception	Experience Percent (Moxie): +25
 Effect	Perfect Hair	Experience Percent (Moxie): +15
 Effect	Permafrosty	Cold Damage: +50
 # Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
@@ -6869,6 +6873,15 @@ Item	Zoodriver	Effect: "Rampage!", Effect Duration: 5
 
 # Spleen Toxins section of modifiers.txt
 
+Item	abstraction: action	Effect: "Action", Effect Duration: 50
+Item	abstraction: category	Effect: "Category", Effect Duration: 50
+Item	abstraction: certainty	Effect: "Certainty", Effect Duration: 50
+Item	abstraction: joy	Effect: "Joy", Effect Duration: 50
+Item	abstraction: motion	Effect: "Motion", Effect Duration: 50
+Item	abstraction: perception	Effect: "Perception", Effect Duration: 50
+Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
+Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
+Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
@@ -6971,11 +6984,6 @@ Item	a cute angel	Free Pull
 Item	A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 # a ten-percent bonus: Gain 1,000 points in each stat
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
-Item	abstraction: action	Effect: "Action", Effect Duration: 50
-Item	abstraction: category	Effect: "Category", Effect Duration: 50
-Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
-Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
-Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
 # adder: Poisons your opponent
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 Item	adventurer clone egg	Free Pull
