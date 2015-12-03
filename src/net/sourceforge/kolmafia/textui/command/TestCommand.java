@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
+import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.RumpleManager;
@@ -341,6 +342,41 @@ public class TestCommand
 
 			String descId = split[ 1 ].trim();
 			ItemDatabase.registerItem( descId );
+			return;
+		}
+
+		if ( command.equals( "numberology" ) )
+		{
+			if ( split.length < 3 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test numberology adventures spleen" );
+				return;
+			}
+
+			int adventureDelta = StringUtilities.parseInt( split[ 1 ].trim() );
+			int spleenDelta = StringUtilities.parseInt( split[ 2 ].trim() );
+
+			int ascensions = KoLCharacter.getAscensions();
+			int sign = KoLCharacter.getSignIndex();
+			int spleen = KoLCharacter.getSpleenUse();
+			int level =  KoLCharacter.getLevel();
+			int adventures = KoLCharacter.getAdventuresLeft();
+
+			RequestLogger.printLine( "ascensions = " + ascensions );
+			RequestLogger.printLine( "sign = " + sign );
+			RequestLogger.printLine( "spleen = " + spleen );
+			RequestLogger.printLine( "level = " + level );
+			RequestLogger.printLine( "adventures = " + adventures );
+
+			Map<Integer,Integer> results = NumberologyManager.reverseNumberology( adventureDelta, spleenDelta );
+			for ( Map.Entry<Integer,Integer> entry : results.entrySet() )
+			{
+				int result = entry.getKey();
+				String prize = NumberologyManager.numberologyPrize( result );
+				int seed = entry.getValue();
+				RequestLogger.printLine( "[" + result + "] Calculate the Universe with " + seed + " to get: " + prize );
+			}
+			
 			return;
 		}
 
