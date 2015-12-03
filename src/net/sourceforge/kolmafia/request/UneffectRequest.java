@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -87,255 +88,7 @@ public class UneffectRequest
 	private static final Pattern ID1_PATTERN = Pattern.compile( "whicheffect=(\\d+)" );
 	private static final Pattern ID2_PATTERN = Pattern.compile( "whichbuff=(\\d+)" );
 
-	public static final String[][] EFFECT_SKILL =
-	{
-		// Effect Name
-		// Skill Name
-		{
-			"Polka of Plenty",
-			"The Polka of Plenty",
-		},
-		{
-			"Power Ballad of the Arrowsmith",
-			"The Power Ballad of the Arrowsmith",
-		},
-		{
-			"Psalm of Pointiness",
-			"The Psalm of Pointiness",
-		},
-		{
-			"Ode to Booze",
-			"The Ode to Booze",
-		},
-		{
-			"Empathy",
-			"Empathy of the Newt",
-		},
-		{
-			"Smooth Movements",
-			"Smooth Movement",
-		},
-		{
-			"Pasta Oneness",
-			"Manicotti Meditation",
-		},
-		{
-			"Saucemastery",
-			"Sauce Contemplation",
-		},
-		{
-			"Disco State of Mind",
-			"Disco Aerobics",
-		},
-		{
-			"Mariachi Mood",
-			"Moxie of the Mariachi",
-		},
-		{
-			"A Few Extra Pounds",
-			"Holiday Weight Gain",
-		},
-		{
-			"Jingle Jangle Jingle",
-			"Jingle Bells",
-		},
-		{
-			"Iron Palms",
-			"Iron Palm Technique",
-		},
-		{
-			"Salamanderenity",
-			"Salamander Kata",
-		},
-		{
-			"Retrograde Relaxation",
-			"Miyagi Massage",
-		},
-		{
-			"Earthen Fist",
-			"Worldpunch",
-		},
-		{
-			"Boner Battalion",
-			"Summon &quot;Boner Battalion&quot;",
-		},
-		{
-			"Overconfident",
-			"Pep Talk",
-		},
-		{
-			"Chow Downed",
-			"Zombie Chow",
-		},
-		{
-			"Scavengers Scavenging",
-			"Scavenge",
-		},
-		{
-			"Zomg WTF",
-			"Ag-grave-ation",
-		},
-		{
-			"Well-Rested",
-			"Hibernate",
-		},
-		{
-			"Blubbered Up",
-			"Blubber Up",
-		},
-		{
-			"Spirit Souvenirs",
-			"Spirit Vacation",
-		},
-		{
-			"Al Dente Inferno",
-			"Transcendent Al Dente",
-		},
-		{
-			"Bloody Potato Bits",
-			"Bind Vampieroghi",
-		},
-		{
-			"Slinking Noodle Glob",
-			"Bind Vermincelli",
-		},
-		{
-			"Whispering Strands",
-			"Bind Angel Hair Wisp",
-		},
-		{
-			"Macaroni Coating",
-			"Bind Undead Elbow Macaroni",
-		},
-		{
-			"Penne Fedora",
-			"Bind Penne Dreadful",
-		},
-		{
-			"Pasta Eyeball",
-			"Bind Lasagmbie",
-		},
-		{
-			"Spice Haze",
-			"Bind Spice Ghost",
-		},
-		{
-			"Simmering",
-			"Simmer",
-		},
-		{
-			"Soulerskates",
-			"Soul Rotation",
-		},
-		{
-			"Disdain of the War Snapper",
-			"Blessing of the War Snapper",
-		},
-		{
-			"Disdain of She-Who-Was",
-			"Blessing of She-Who-Was",
-		},
-		{
-			"Disdain of the Storm Tortoise",
-			"Blessing of the Storm Tortoise",
-		},
-		{
-			"Avatar of the War Snapper",
-			"Turtle Power",
-		},
-		{
-			"Avatar of She-Who-Was",
-			"Turtle Power",
-		},
-		{
-			"Avatar of the Storm Tortoise",
-			"Turtle Power",
-		},
-		{
-			"Boon of the War Snapper",
-			"Spirit Boon",
-		},
-		{
-			"Boon of She-Who-Was",
-			"Spirit Boon",
-		},
-		{
-			"Boon of the Storm Tortoise",
-			"Spirit Boon",
-		},
-		{
-			"Flimsy Shield of the Pastalord",
-			"Shield of the Pastalord",
-		},
-		{
-			"Visions of the Deep Dark Deeps",
-			"Deep Dark Visions",
-		},
-		{
-			"Sticky Fingers",
-			"",
-		},
-		{
-			"Of Course It Looks Great",
-			"Check Hair",
-		},
-		{
-			"All Revved Up",
-			"Rev Engine",
-		},
-		{
-			"Living Fast",
-			"Live Fast",
-		},
-		{
-			"Brooding",
-			"Brood",
-		},
-		{
-			"Unmuffled",
-			"Rev Engine",
-		},
-		{
-			"Muffled",
-			"Rev Engine",
-		},
-		{
-			"Takin' It Greasy",
-			"Grease Up",
-		},
-		{
-			"Personal Thundercloud",
-			"Thundercloud",
-		},
-		{
-			"The Rain In Loathing",
-			"Rainy Day",
-		},
-		{
-			"Charged Hair",
-			"Clean-Hair Lightning",
-		},
-		{
-			"Stormswaddled",
-			"Sheet Lightning",
-		},
-		{
-			"Rain Dancin'",
-			"Rain Dance",
-		},
-		{
-			"Mathematically Precise",
-			"Mathematical Precision",
-		},
-		{
-			"Ruthlessly Efficient",
-			"Ruthless Efficiency",
-		},
-		{
-			"Beardfreeze",
-			"Frostbeard",
-		},
-	};
+	public static final HashMap<String,String> EFFECT_SKILL = new HashMap<String,String>();
 
 	public UneffectRequest( final AdventureResult effect )
 	{
@@ -473,13 +226,11 @@ public class UneffectRequest
 
 	public static final String effectToSkill( final String effectName )
 	{
-		// Handle effects where skill name and effect name don't match with a lookup
-		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
+		for ( Entry<String,String> entry : UneffectRequest.EFFECT_SKILL.entrySet() )
 		{
-			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
-			if ( effectName.equalsIgnoreCase( data[ 0 ] ) )
+			if ( entry.getKey().equals( effectName ) )
 			{
-				return data[ 1 ];
+				return entry.getValue();
 			}
 		}
 
@@ -538,15 +289,15 @@ public class UneffectRequest
 		}
 
 		// Handle remaining skills where skill name and effect name don't match with a lookup
-		for ( int i = 0; i < UneffectRequest.EFFECT_SKILL.length; ++i )
+
+		for ( Entry<String,String> entry : UneffectRequest.EFFECT_SKILL.entrySet() )
 		{
-			String [] data = UneffectRequest.EFFECT_SKILL[ i ];
-			if ( skillName.equalsIgnoreCase( data[ 1 ] ) )
+			if ( entry.getValue().equals( skillName ) )
 			{
-				return data[ 0 ];
+				return entry.getKey();
 			}
 		}
-		
+
 		return skillName;
 	}
 
