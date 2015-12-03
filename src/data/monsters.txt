@@ -1619,8 +1619,8 @@ ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 E: cold P: du
 ice porter	1851	iceporter.gif	Atk: 90 Def: 100 HP: 160 Init: 10 E: cold P: dude Meat: 25	ice porter (0)	bellhop's hat (0)
 
 # VYKEA (The Glaciest November 2015)
-VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	Scale: 10 Cap: ? Floor: ? Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
-VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	Scale: 6 Cap: ? Floor: ? Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
+VYKEA viking (female)	1849	vykfemale1.gif,vykfemale2.gif,vykfemale3.gif	Scale: 10 Cap: 12500 Floor: 85 Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
+VYKEA viking (male)	1848	vykmale1.gif,vykmale2.gif,vykmale3.gif	Scale: 6 Cap: 12000 Floor: 85 Init: -10000 E: cold P: dude	VYKEA instructions (0)	VYKEA woadpaint (0)	VYKEA hex key (0)
 
 # The Ice Hole (The Glaciest November 2015)
 Norwhal	1856	norwhal.gif	Atk: 250 Def: 200 HP: 225 P: fish E: cold Init: 25	bottle of norwhiskey (0)	norwhal helmet (0)
