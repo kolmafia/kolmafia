@@ -4028,7 +4028,8 @@ Effect	Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, S
 Effect	Always In Motion	Initiative: +100
 Effect	Amazing	Moxie Percent: +200, Hot Resistance: +4
 Effect	Amorous	Moxie: +5, Sleaze Damage: +5
-# Amorous Avarice: Meat Drop: +X
+# Amorous Avarice: Meat Drop: +X, bonus is 0%-100% depending on current drunk
+Effect	Amorous Avarice	Meat Drop: [min(100,ceil(D/5)*25)]
 Effect	Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Ancestral Disapproval	Mysticality Percent: +10
 Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
@@ -4040,8 +4041,8 @@ Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 # Antarctic Memories: Recover HP and MP after battle
 Effect	Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Effect	Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
-# Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7))
-Effect	Antihangover	Muscle: +5, Mysticality: +5, Moxie: +5
+# Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7)), we assume 5 but viewing effect updates
+Effect	Antihangover	Muscle: [pref(_antihangoverBonus)], Mysticality: [pref(_antihangoverBonus)], Moxie: [pref(_antihangoverBonus)]
 Effect	Antsy in your Pantsy	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Effect	Anytwo Five Elevenis?	Muscle: +10
 Effect	Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
@@ -4917,7 +4918,7 @@ Effect	Incensed	Mysticality: +10
 Effect	Incredibly Hulking	Muscle Percent: +200
 Effect	Indescribable Flavor	Spell Damage: +30
 Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
-# Inebriate Pride: Experience: +X
+Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
 Effect	Influence of Sphere	Pool Skill: +5
@@ -5434,7 +5435,7 @@ Effect	Salty Dogs	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [
 # Salty Mouth: You really need a beer...
 Effect	Sangre Brillante	Experience (Moxie): +3, MP Regen Min: 5, MP Regen Max: 6
 Effect	Sappy Blood	Spooky Resistance: +3
-# Sated and Furious: Weapon Damage: +X, Spell Damage: +X
+Effect	Sated and Furious	Weapon Damage: [min(50,ceil(F/5))], Spell Damage: [min(50,ceil(F/5))]
 Effect	Sauce Monocle	Spell Critical Percent: [5+10*class(Sauceror)]
 Effect	Saucefingers	Spell Damage Percent: +50
 Effect	Saucegoggles	MP Regen Min: 8, MP Regen Max: 10
