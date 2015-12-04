@@ -8792,3 +8792,4 @@
 8766	Gratitude chocolate (bourbon-filled)	376915396	gratchoc2.gif	drink	t	0	Gratitude chocolates (bourbon-filled)
 8767	Gratitude chocolate (Meat-filled)	755340868	gratchoc3.gif	usable	t	0	Gratitude chocolates (Meat-filled)
 8768	Gratitude chocolate (octopus-filled)	167557279	gratchoc4.gif	grow	t	0	Gratitude chocolates (octopus-filled)
+8769	chocolate bowtie	950198120	bowtie.gif	familiar	t,d	75
