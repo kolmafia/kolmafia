@@ -72,7 +72,7 @@ public class EffectDatabase
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
 	private static final Map<String, Integer> effectIdByName = new TreeMap<String, Integer>();
-	private static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
+	public static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
 
 	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
 	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
@@ -107,15 +107,6 @@ public class EffectDatabase
 				String image = data[ 2 ];
 				String descId = data.length > 3 ? data[ 3 ] : null;
 				String defaultAction = data.length > 4 ? data[ 4 ] : null;
-				/*if ( defaultAction != null && defaultAction.startsWith( "cast 1" ) )
-				{
-					String skillName = defaultAction.substring( 7 );
-					if ( skillName.contains( "|" ) )
-					{
-						skillName = skillName.substring( 0, skillName.indexOf( "|" ) );
-					}
-					UneffectRequest.EFFECT_SKILL.put( name, new String( skillName ) );
-				}*/
 
 				EffectDatabase.addToDatabase( effectId, name, image, descId, defaultAction );
 			}
