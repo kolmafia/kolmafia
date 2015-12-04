@@ -90,6 +90,23 @@ public class UneffectRequest
 
 	public static final HashMap<String,String> EFFECT_SKILL = new HashMap<String,String>();
 
+	static
+	{
+		for ( Entry<Integer,String> entry : EffectDatabase.defaultActions.entrySet() )
+		{
+			if ( entry.getValue().startsWith( "cast 1" ) )
+			{
+				String effectName = EffectDatabase.getEffectName( entry.getKey() );
+				String skillName = entry.getValue().substring( 7 );
+				if ( skillName.contains( "|" ) )
+				{
+					skillName = skillName.substring( 0, skillName.indexOf( "|" ) );
+				}
+				UneffectRequest.EFFECT_SKILL.put( effectName, skillName );
+			}
+		}
+	}
+
 	public UneffectRequest( final AdventureResult effect )
 	{
 		super( UneffectRequest.isShruggable( effect.getEffectId() ) ? "charsheet.php" : "uneffect.php" );
@@ -228,7 +245,7 @@ public class UneffectRequest
 	{
 		for ( Entry<String,String> entry : UneffectRequest.EFFECT_SKILL.entrySet() )
 		{
-			if ( entry.getKey().equals( effectName ) )
+			if ( entry.getKey().equalsIgnoreCase( effectName ) )
 			{
 				return entry.getValue();
 			}
@@ -292,7 +309,7 @@ public class UneffectRequest
 
 		for ( Entry<String,String> entry : UneffectRequest.EFFECT_SKILL.entrySet() )
 		{
-			if ( entry.getValue().equals( skillName ) )
+			if ( entry.getValue().equalsIgnoreCase( skillName ) )
 			{
 				return entry.getKey();
 			}
