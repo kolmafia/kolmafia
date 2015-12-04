@@ -6404,6 +6404,8 @@ Loc	The Marinara Trench	Initiative Penalty: -100, Item Drop Penalty: -100, Meat 
 
 Loc	The Sunken Party Yacht	Initiative Penalty: -50, Item Drop Penalty: -50, Meat Drop Penalty: -50
 
+Loc	The Ice Hole	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+
 # Synergies section of modifiers.txt
 # Synergies are triggered when an arbitrary combination of two or more
 # equipment items, passive skills, active effects, campground items, or
