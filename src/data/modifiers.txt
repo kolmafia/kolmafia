@@ -3292,6 +3292,7 @@ Item	cactus monocle	Familiar Weight: +5
 Item	candied yam pinky ring	Familiar Weight: +5
 Item	charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning (Moxie): 100, Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
 Item	chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
+Item	chocolate bowtie	Familiar Weight: +5
 Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
 Item	cotton candy cordial	Familiar Weight: +5
