@@ -438,6 +438,7 @@ public class RequestEditorKit
 			RequestEditorKit.fixTavernCellar( buffer );
 			StationaryButtonDecorator.decorate( location, buffer );
 			RequestEditorKit.addChoiceSpoilers( location, buffer );
+			RequestEditorKit.addBarrelSounds( buffer );
 		}
 		else if ( location.startsWith( "clan_hobopolis.php" ) )
 		{
@@ -1990,6 +1991,19 @@ public class RequestEditorKit
 		}
 
 		buffer.append( text.substring( index1 ) );
+	}
+
+	private static final void addBarrelSounds( final StringBuffer buffer )
+	{
+		if ( !Preferences.getBoolean( "relayAddSounds" ) )
+		{
+			return;
+		}
+
+		if ( buffer.indexOf( "barrelpart" ) != -1 )
+		{
+			StringUtilities.insertBefore( buffer, "</html>", "<script src=\"/" + KoLConstants.BARREL_SOUNDS_JS + "\"></script>" );
+		}
 	}
 
 	private static final void decorateChoiceResponse( final String location, final StringBuffer buffer )
