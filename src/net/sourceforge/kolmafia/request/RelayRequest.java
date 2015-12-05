@@ -237,7 +237,11 @@ public class RelayRequest
 		{
 			this.contentType = "image/x-icon";
 		}
-		else if ( path.endsWith( ".php" ) || path.endsWith( ".html" ) || path.endsWith( ".ash" ) )
+        else if ( path.endsWith( ".mp3" ) )
+        {
+            this.contentType = "audio/mpeg";
+        }
+        else if ( path.endsWith( ".php" ) || path.endsWith( ".html" ) || path.endsWith( ".ash" ) )
 		{
 			this.contentType = "text/html";
 		}

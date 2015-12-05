@@ -108,6 +108,7 @@ global	previousUpdateVersion
 global	previousUpdateRevision	0
 global	protectAgainstOverdrink	true
 global	proxySet	false
+global	relayAddSounds	false
 global	relayAddsCustomCombat	true
 global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false

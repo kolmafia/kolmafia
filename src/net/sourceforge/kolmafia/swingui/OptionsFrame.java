@@ -232,6 +232,7 @@ public class OptionsFrame
 				{},
 				{ "relayAllowRemoteAccess", "Allow network devices to access relay browser (requires restart)" },
 				{ "relayOverridesImages", "Override certain KoL images" },
+				{ "relayAddSounds", "Add sounds to certain events" },
 				{},
 				{ "relayAddsWikiLinks", "Check wiki for item descriptions (fails for unknowns)" },
 				{ "relayAddsQuickScripts", "Add quick script links to menu bar (see Links tab)" },
