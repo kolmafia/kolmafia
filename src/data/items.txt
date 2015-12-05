@@ -8731,9 +8731,9 @@
 8705
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75
-8708	abstraction: action	745245103	abs1.gif	spleen, usable	t,d	5
-8709	abstraction: thought	693096669	abs2.gif	spleen, usable	t,d	6
-8710	abstraction: sensation	315015395	abs3.gif	spleen, usable	t,d	7
+8708	abstraction: action	745245103	abs1.gif	spleen, usable, combat	t,d	5
+8709	abstraction: thought	693096669	abs2.gif	spleen, usable, combat	t,d	6
+8710	abstraction: sensation	315015395	abs3.gif	spleen, usable, combat	t,d	7
 8711	abstraction: purpose	265221812	abs4.gif	spleen, usable	t,d	8
 8712	abstraction: category	939859073	abs5.gif	spleen, usable	t,d	9
 8713	abstraction: perception	682952437	abs6.gif	spleen, usable	t,d	10
