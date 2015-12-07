@@ -7,7 +7,7 @@
 abstraction: action	1	1	decent	0	0	0	0	50 Action (+100% mus)
 abstraction: category	1	1	decent	0	0	0	0	50 Category (+25% mys experience)
 abstraction: certainty	1	1	good	0	0	0	0	50 Certainty (+100% item drop)
-abstraction: comprehension	1	1	awesome	0	0	0	0	Unspaded
+abstraction: comprehension	1	1	awesome	0	200-300	200-300	200-300
 abstraction: joy	1	1	good	0	0	0	0	50 Joy (+10 familiar weight)
 abstraction: motion	1	1	good	0	0	0	0	50 Motion (+100 init)
 abstraction: perception	1	1	decent	0	0	0	0	50 Perception (+25% mox experience)
