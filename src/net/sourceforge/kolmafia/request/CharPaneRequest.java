@@ -494,6 +494,7 @@ public class CharPaneRequest
 		}
 
 		int[] modified = new int[ 3 ];
+		int[] unmodified = new int[ 3 ];
 		for ( int i = 0; i < 3; ++i )
 		{
 			Matcher modifiedMatcher = modifiedPattern.matcher( statMatcher.group( i + 1 ) );
@@ -501,21 +502,35 @@ public class CharPaneRequest
 			if ( modifiedMatcher.find() )
 			{
 				modified[ i ] = StringUtilities.parseInt( modifiedMatcher.group( 1 ) );
+				unmodified[ i ] = StringUtilities.parseInt( modifiedMatcher.group( 2 ) );
 			}
 			else
 			{
-				modified[ i ] =
+				modified[ i ] = unmodified[ i ] =
 					StringUtilities.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll(
 									  "[^\\d]+", "" ) );
 			}
 		}
 
 		KoLCharacter.setStatPoints( modified[ 0 ],
-					    KoLCharacter.getTotalMuscle(),
-					    modified[ 1 ],
-					    KoLCharacter.getTotalMysticality(),
-					    modified[ 2 ],
-					    KoLCharacter.getTotalMoxie() );
+		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMuscle(), unmodified[ 0 ] ),
+		                            modified[ 1 ],
+		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMysticality(), unmodified[ 1 ] ),
+		                            modified[ 2 ],
+		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMoxie(), unmodified[ 2 ] ) );
+	}
+
+	private static final long checkStat( long currentSubstat, final int baseStat )
+	{
+		if ( currentSubstat < KoLCharacter.calculateBasePoints( baseStat ) )
+		{
+			currentSubstat = KoLCharacter.calculateBasePoints( baseStat );
+		}
+		else if ( currentSubstat >= KoLCharacter.calculateBasePoints( baseStat + 1 ) )
+		{
+			currentSubstat = KoLCharacter.calculateBasePoints( baseStat + 1 ) - 1;
+		}
+		return currentSubstat;
 	}
 
 	private static final Pattern [][] MISC_PATTERNS =

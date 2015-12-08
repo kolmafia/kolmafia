@@ -499,7 +499,25 @@ public class TestCommand
 			}
 			return;
 		}
-		
+
+		if ( command.equals( "stats" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Set stats to what?" );
+				return;
+			}
+			int stat = StringUtilities.parseInt( split[ 1 ] );
+			if ( stat > 0 )
+			{
+				KoLCharacter.setStatPoints( KoLCharacter.getAdjustedMuscle(), stat,
+				                            KoLCharacter.getAdjustedMysticality(), stat,
+				                            KoLCharacter.getAdjustedMoxie(), stat );
+				KoLCharacter.updateStatus();
+			}
+			return;
+		}
+
 		if ( command.equals( "xpath" ) )
 		{
 			File htmlFile;
