@@ -522,13 +522,13 @@ public class CharPaneRequest
 
 	private static final long checkStat( long currentSubstat, final int baseStat )
 	{
-		if ( currentSubstat < KoLCharacter.calculateBasePoints( baseStat ) )
+		if ( currentSubstat < KoLCharacter.calculatePointSubpoints( baseStat ) )
 		{
-			currentSubstat = KoLCharacter.calculateBasePoints( baseStat );
+			currentSubstat = KoLCharacter.calculatePointSubpoints( baseStat );
 		}
-		else if ( currentSubstat >= KoLCharacter.calculateBasePoints( baseStat + 1 ) )
+		else if ( currentSubstat >= KoLCharacter.calculatePointSubpoints( baseStat + 1 ) )
 		{
-			currentSubstat = KoLCharacter.calculateBasePoints( baseStat + 1 ) - 1;
+			currentSubstat = KoLCharacter.calculatePointSubpoints( baseStat + 1 ) - 1;
 		}
 		return currentSubstat;
 	}
