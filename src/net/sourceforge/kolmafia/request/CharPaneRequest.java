@@ -513,11 +513,11 @@ public class CharPaneRequest
 		}
 
 		KoLCharacter.setStatPoints( modified[ 0 ],
-		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMuscle(), unmodified[ 0 ] ),
+		                            KoLCharacter.getTotalMuscle(),
 		                            modified[ 1 ],
-		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMysticality(), unmodified[ 1 ] ),
+		                            KoLCharacter.getTotalMysticality(),
 		                            modified[ 2 ],
-		                            CharPaneRequest.checkStat( KoLCharacter.getTotalMoxie(), unmodified[ 2 ] ) );
+		                            KoLCharacter.getTotalMoxie() );
 	}
 
 	private static final long checkStat( long currentSubstat, final int baseStat )
