@@ -1470,7 +1470,7 @@ balloon shield	50	Mus: 10	shield
 barrel lid	150	none	shield
 barskin buckler	25	none	shield
 basic meat foon	50	Mys: 10
-basaltamander buckler	0	Mus: 40	shield
+basaltamander buckler	240	Mus: 40	shield
 battered hubcap	220	Mus: 65	shield
 beach ball marble	209	Mys: 85
 beige clambroth marble	207	Mys: 85
@@ -2720,7 +2720,7 @@ white collar	20	none
 white earbuds	100	Mys: 35
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
-World's Best Adventurer sash	0	none
+World's Best Adventurer sash	100	none
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 wristwatch of the white knight	60	Mys: 15
@@ -2765,7 +2765,7 @@ Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
-octolus-skin cloak	0	Mox: 50
+octolus-skin cloak	200	Mox: 50
 oil shell	50	Mus: 20
 old SCUBA tank	0	Mys: 75
 palm-frond cloak	140	Mys: 75
