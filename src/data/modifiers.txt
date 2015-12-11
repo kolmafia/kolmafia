@@ -5428,6 +5428,7 @@ Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Perc
 Effect	Rushin' Hands	Weapon Damage: +3
 # Ruthlessly Efficient: Deleveling is 50% more effective
 Effect	Sagittarius Rising	Ranged Damage: +30
+Effect	Salad Days	Maximum HP: +50, Experience (Muscle): +2
 Effect	Salamander In Your Stomach	Mysticality: +25
 Effect	Salamanderenity	MP Regen Min: 3, MP Regen Max: 4
 Effect	Salsa Satanica	Item Drop: +50

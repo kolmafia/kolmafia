@@ -1427,15 +1427,15 @@
 1426	Disdain of She-Who-Was	shewhowas.gif	eeb18022ca70afef97ebb9666f5a30a0	cast 1 blessing of she-who-was
 1427	Disdain of the Storm Tortoise	stormtort.gif	d85a509d245b74877cb94d1398690a79	cast 1 blessing of the storm tortoise
 1428	Stiff Upper Lip	stiffupperlip.gif	7540194a1a1adc6bea1c1b1c13fba303	cast 1 stiff upper lip
-1429	Patient Smile	patientsmile.gif	61fa55a3bc2562c6e84fbd6708913496	cast 1 patient smile
-1430	Spiky Shell	spikyshell.gif	3f7fc667ad1ef70249262b5d1990a43f	cast 1 spiky shell
+1429	Patient Smile	patientsmile.gif	61fa55a3bc2562c6e84fbd6708913496	cast 1 Patient Smile
+1430	Spiky Shell	spikyshell.gif	3f7fc667ad1ef70249262b5d1990a43f	cast 1 Spiky Shell
 1431	Spirit Pariah	spirit.gif	ebb5d19ac49df70d177b883534214cc1
-1432	Avatar of the War Snapper	warsnapper.gif	d7b0d7a56d0042e1580ca2ff6552bd76	cast 1 turtle power
-1433	Avatar of She-Who-Was	shewhowas.gif	68262434e21355f4b543a125ed49271d	cast 1 turtle power
-1434	Avatar of the Storm Tortoise	stormtort.gif	a21d9d0069c6a5fd027e48cf928dea65	cast 1 turtle power
-1435	Boon of the War Snapper	warsnapper.gif	f8a9c0246239721f7d2c8dfd15a78a06	cast 1 spirit boon
-1436	Boon of She-Who-Was	shewhowas.gif	6d96a6c7101b7996eecb51d68cfff305	cast 1 spirit boon
-1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e	cast 1 spirit boon
+1432	Avatar of the War Snapper	warsnapper.gif	d7b0d7a56d0042e1580ca2ff6552bd76	cast 1 Turtle Power
+1433	Avatar of She-Who-Was	shewhowas.gif	68262434e21355f4b543a125ed49271d	cast 1 Turtle Power
+1434	Avatar of the Storm Tortoise	stormtort.gif	a21d9d0069c6a5fd027e48cf928dea65	cast 1 Turtle Power
+1435	Boon of the War Snapper	warsnapper.gif	f8a9c0246239721f7d2c8dfd15a78a06	cast 1 Spirit Boon
+1436	Boon of She-Who-Was	shewhowas.gif	6d96a6c7101b7996eecb51d68cfff305	cast 1 Spirit Boon
+1437	Boon of the Storm Tortoise	stormtort.gif	3c2bc7d4cf1847ab2d309c175e6ed14e	cast 1 Spirit Boon
 1438	Spirit Bubble	sphere.gif	e0175cc5f83e7d239a7535bde4154ef3	use 1 spirit gum
 1439	Spirit Schooled	spiritbed.gif	72f14039f806484867a6db8ee483dfab
 1440	Al Dente Inferno	aldente.gif	82312722d436aa645de6fae8bb46248d	cast 1 Transcendent Al Dente
@@ -2026,4 +2026,3 @@
 2025	You Ate Some Hemp Candy	candynecklace.gif	872fe1af62ca2810f488d3892e7edcd7	use 1 hemp candy necklace
 2026	The Magic of Sharing	jawbreaker.gif	c6663c3f2761179a5acbe4f0505f418b	use 1 communal gobstopper
 2027	Salad Days	salad.gif	533a316fea4bba2c86aaa49b68f4d4e0
-Effect	Salad Days	Maximum HP: +50, Experience (Muscle): +2
