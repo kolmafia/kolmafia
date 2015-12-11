@@ -4089,6 +4089,7 @@ Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
 # Barfpits: Deals Stench Damage every round
+Effect	Bark of the Dog	Initiative: +50, Experience (Moxie): +2
 Effect	Barking Dogs	Muscle Percent: -50, Initiative: -50
 Effect	Barking Mad	Mysticality Percent: +100
 Effect	Barrel Chested	Weapon Damage Percent: +150
@@ -4208,6 +4209,7 @@ Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zo
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Effect	Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
 Effect	Bread Burps	Maximum MP: +10, MP Regen Min: 4, MP Regen Max: 5
+Effect	Bread-Lined	Muscle Percent: +50, Weapon Damage: +25
 Effect	Breakfast Clubbed	Monster Level: [min(25,T)]
 Effect	Bricked-In	Maximum HP: +50
 Effect	Bright!	Maximum MP: +100
@@ -5354,6 +5356,7 @@ Effect	Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Re
 Effect	Purpose	Experience Percent (Muscle): +25
 # Purr of the Feline: Makes Ed's Servants Stronger
 Effect	Putting the Orc in Porcine	Avatar: "smut orc pervert"
+Effect	Putting the Pro in Proletariat	Moxie Percent: +50, Ranged Damage: +25
 Effect	Puzzle Fury	Spell Damage Percent: +25
 Effect	Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
@@ -6479,6 +6482,7 @@ Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
+Item	bread line	Effect: "Bread-Lined", Effect Duration: 40
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
@@ -6503,6 +6507,7 @@ Item	cookie cookie	Effect: "Cookie Backup", Effect Duration: 10
 Item	Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 Item	cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	cool jelly donut	Effect: "Filled with Magic", Effect Duration: 30
+Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
@@ -6680,6 +6685,7 @@ Item	Aura Libre	Effect: "Transcendental Wind", Effect Duration: 15
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
+Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50
 Item	Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect Duration: 30
 Item	Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
@@ -6823,6 +6829,7 @@ Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100
+Item	red ale	Effect: "Putting the Pro in Proletariat", Effect Duration: 40
 Item	Red Dwarf	Effect: "World's Shortest Giant", Effect Duration: 5
 Item	red hot boilermaker	Effect: "Boilermade", Effect Duration: 50
 Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13

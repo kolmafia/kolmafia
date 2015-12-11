@@ -8775,10 +8775,10 @@
 8749	Deep Machine Tunnels snowglobe	277811366	dmtglobe.gif	usable	t,d	57
 8750	hemp candy necklace	940456173	candynecklace.gif	multiple	t	0
 8751	communal gobstopper	582565826	jawbreaker.gif	multiple	t	0
-8752
-8753
-8754
-8755
+8752	Crimbo salad	239783949	salad.gif	food	t	0
+8753	bread line	579918982	baguette.gif	food	t	0
+8754	bark rootbeer	960615595	beerbottle.gif	drink	t	0
+8755	red ale	629634528	beerbottle.gif	drink	t	0
 8756
 8757
 8758

@@ -85,6 +85,7 @@ bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
+bread line	2	1	good	0	0	0	0	Unspaded, 40 Bread-Lined (+50% Muscle, +25 Weapon damage)
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
 Brimstone Chicken Sandwich	3	1	decent	4-6	-15-20	0	15-20
@@ -186,6 +187,7 @@ CRIMBCO Reconstituted Gruel	3	1		4-5	0	0	0	lose 10% boredom
 CRIMBCOIDS mints	1	1	good	3	10-20	10-20	10-20
 CRIMBCOLOAF	3	1	decent	4-5	15-20	15-20	15-20
 Crimbo pie	3	7	awesome	8-14	25-45	0	0
+Crimbo salad	2	1	good	0	0	0	0	Unspaded, 40 Salad Days (+50 HP, +2 muscle stats/fight)
 crudles	5	9	awesome	18-22	25-30	0	0
 cup of lukewarm tea	1	1	crappy	1	0	0	0	20 Jittery (+1-3 MP Regen)
 cupcake-in-a-cup	2	7	awesome	4-9	5-10	15-20	5-10	10 Cake Caked (+50% mys)
