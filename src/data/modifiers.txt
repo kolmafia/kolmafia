@@ -5014,6 +5014,7 @@ Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
+Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Leo Rising	Meat Drop: +10
 Effect	Leonarded	Avatar: "Leonard"
 Effect	Less Pervious	Damage Reduction: 3
@@ -5756,6 +5757,7 @@ Effect	Techno Bliss	Item Drop: +10
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
 Effect	Tenacity of the Snapper	Weapon Damage: +8
+Effect	Tennis Elbow-wow	Initiative: +50
 Effect	Tenuous Grip on Reality	Moxie Percent: -95
 Effect	Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Tetched by an Angel	Avatar: "tetched prospector"
