@@ -2025,4 +2025,7 @@
 2024
 2025	You Ate Some Hemp Candy	candynecklace.gif	872fe1af62ca2810f488d3892e7edcd7	use 1 hemp candy necklace
 2026	The Magic of Sharing	jawbreaker.gif	c6663c3f2761179a5acbe4f0505f418b	use 1 communal gobstopper
-2027	Salad Days	salad.gif	533a316fea4bba2c86aaa49b68f4d4e0
+2027	Salad Days	salad.gif	533a316fea4bba2c86aaa49b68f4d4e0	eat 1 Crimbo salad
+2028	Bread-Lined	baguette.gif	1939956d106e66bea7176865c2861be1	eat 1 bread line
+2029	Bark of the Dog	beerbottle.gif	1d354189ab0be574ca34ce3fa248afce	drink 1 bark rootbeer
+2030	Putting the Pro in Proletariat	beerbottle.gif	7ed8e54bf9b1c09eeef2dfd9cd09fbb7	drink 1 red ale
