@@ -1612,7 +1612,7 @@ Mr. Choch	1814	mrchoch.gif	Atk: 200 Def: 200 HP: 400 P: dude Init: 100	Mr. Choch
 Travoltron	1816	travoltron.gif	Atk: 240 Def: 180 HP: 500 P: construct Init: 75 Phys: 50	Saturday Night thermometer (n100)	grease cannon (n100)
 
 # The Ice Hotel (The Glaciest November 2015)
-ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 E: cold P: dude Meat: 50	perfect ice cube (0)
+ice bartender	1850	icetender.gif	Atk: 100 Def: 90 HP: 110 Init: 40 E: cold P: dude Meat: 50	perfect ice cube (30)
 ice clerk	1854	iceclerk.gif	Atk: 100 Def: 80 HP: 120 Init: 40 E: cold P: dude	ice hotel bell (0)
 ice concierge	1852	iceconcierge.gif	Atk: 110 Def: 90 HP: 150 Init: 50 E: cold P: dude Meat: 40	exotic travel brochure (0)	bag of foreign bribes (0)
 ice housekeeper	1853	icemaid.gif	Atk: 90 Def: 100 HP: 120 Init: 20 E: cold P: dude	frozen shampoo-conditioner (0)	hotel minibar key (0)
