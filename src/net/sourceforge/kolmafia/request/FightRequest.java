@@ -7325,7 +7325,7 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.TENNIS_BALL:
-			if ( responseText.contains( "excitedly chases it down" ) )
+			if ( responseText.contains( "You won't be seeing" ) )
 			{
 				BanishManager.banishCurrentMonster( "tennis ball" );
 			}
