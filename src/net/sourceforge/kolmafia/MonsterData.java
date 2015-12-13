@@ -226,20 +226,34 @@ public class MonsterData
 		this.randomModifiers = new String[0];
 	}
 
-	public void handleMonsterLevel()
+	public MonsterData handleMonsterLevel()
 	{
 		// If we tracked nostagger, stunresist, and start-of-combat
-		// elemental damage, this would be the place to put it.
 		int physRes = Math.min( (int) Math.floor( ML() / 2.5 ), 50 );
 		if ( this.scale != null && physRes < 0 )
 		{
 			physRes = 0;
 		}
-		if ( this.physicalResistance == 0 )
+
+		if ( physRes <= this.physicalResistance )
 		{
-			this.physicalResistance = physRes;
+			return this;
 		}
-		this.physicalResistance = Math.max( physRes, this.physicalResistance );
+		// elemental damage, this would be the place to put it.
+		try
+		{
+			monster = (MonsterData)this.clone();
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			// This should not happen. Hope for the best.
+			return this;
+		}
+		if ( monster.physicalResistance == 0 )
+		{
+			monster.physicalResistance = physRes;
+		}
+		     monster.physicalResistance = Math.max( physRes, monster.physicalResistance );
 	}
 
 	public MonsterData handleRandomModifiers()
