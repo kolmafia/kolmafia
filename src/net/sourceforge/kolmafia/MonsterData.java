@@ -242,18 +242,22 @@ public class MonsterData
 		// elemental damage, this would be the place to put it.
 		try
 		{
-			monster = (MonsterData)this.clone();
+			MonsterData monster = (MonsterData)this.clone();
+			if ( monster.physicalResistance == 0 )
+			{
+				monster.physicalResistance = physRes;
+			}
+			else
+			{
+				monster.physicalResistance = Math.max( physRes, monster.physicalResistance );
+			}
+			return monster;
 		}
 		catch ( CloneNotSupportedException e )
 		{
 			// This should not happen. Hope for the best.
 			return this;
 		}
-		if ( monster.physicalResistance == 0 )
-		{
-			monster.physicalResistance = physRes;
-		}
-		     monster.physicalResistance = Math.max( physRes, monster.physicalResistance );
 	}
 
 	public MonsterData handleRandomModifiers()
