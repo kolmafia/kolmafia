@@ -7325,13 +7325,13 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.TENNIS_BALL:
-			if ( responseText.contains( "You won't be seeing" ) )
+			if ( responseText.contains( "You won't be seeing" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "tennis ball" );
 			}
 			break;
 		case ItemPool.ICE_HOTEL_BELL:
-			if ( responseText.contains( "a nearby door" ) )
+			if ( responseText.contains( "a nearby door" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "ice hotel bell" );
 			}
@@ -7373,7 +7373,7 @@ public class FightRequest
 			break;
 		case ItemPool.DNA_SYRINGE:
 			// "Your opponent is shocked into inaction as you plunge the syringe into it and extract a sample of its DNA."
-			if ( responseText.contains( "plunge the syringe" ) )
+			if ( responseText.contains( "plunge the syringe" ) || itemSuccess )
 			{
 				MonsterData monster = MonsterStatusTracker.getLastMonster();
 				Phylum dna = monster != null ? monster.getPhylum() : Phylum.NONE;
@@ -7382,7 +7382,7 @@ public class FightRequest
 			break;
 
 		case ItemPool.POWER_PILL:
-			if ( responseText.contains( "devours your foe" ) )
+			if ( responseText.contains( "devours your foe" ) || itemSuccess )
 			{
 				Preferences.increment( "_powerPillUses" );
 			}
@@ -7393,7 +7393,7 @@ public class FightRequest
 			break;
 
 		case ItemPool.GLARK_CABLE:
-			if ( responseText.contains( "neatly vaporized" ) )
+			if ( responseText.contains( "neatly vaporized" ) || itemSuccess )
 			{
 				Preferences.increment( "_glarkCableUses", 1, 5, false );
 			}
