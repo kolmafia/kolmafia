@@ -1118,6 +1118,7 @@ user	_carrotNoseDrops	0
 user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
+user	_chilledToTheBone	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0

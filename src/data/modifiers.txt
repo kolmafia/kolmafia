@@ -4293,8 +4293,8 @@ Effect	Chief Executive Optimism	Item Drop: +15
 Effect	Chihuahua Underfoot	Monster Level: +20
 Effect	Chilblains of the Corn	Spooky Damage: +5
 Effect	Chill Out, Dog	Cold Damage: +30, Stench Resistance: +3, Sleaze Resistance: +3, Monster Level: +10
-# Chilled to the Bone: Enemies get 1 extra attack(s) against you per round
-Effect	Chilled to the Bone	Mana Cost: +3
+# Chilled to the Bone: Enemies get N extra attack(s) against you per round
+Effect	Chilled to the Bone	Mana Cost: [pref(_chilledToTheBone)]
 Effect	Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
 Effect	Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Effect	[800]Chocolate Reign	Moxie: +10
