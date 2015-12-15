@@ -37,7 +37,6 @@ bonedanna	120	Mox: 45
 Boris's Helm	100	none
 Boris's Helm (askew)	100	none
 bounty-hunting helmet	100	Mox: 25
-bouquet of all-natural free-range flowers	0	none
 bowler	100	Mox: 35
 brainwave-controlled unicorn horn	10	none
 BRICKO hat	30	none
@@ -1483,6 +1482,7 @@ bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
 borg sock monkey	110	Mys: 40
 bottle of Goldschn&ouml;ckered	75	Mox: 22
+bouquet of all-natural free-range flowers	10	none
 bowl of petunias	100	Mys: 44
 box	10	none
 box turtle	50	Mus: 10	shield
@@ -1770,6 +1770,7 @@ spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
 spooky little girl	0	none
 sprinkle shaker	10	none
+stack of communist leaflets	10	none
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75
@@ -2420,7 +2421,6 @@ spiky turtle shoulderpads	130	Mus: 50
 spirit bell	0	none
 spooky glove	60	Mys: 15
 spring boots	0	none
-stack of communist leaflets	0	none
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30

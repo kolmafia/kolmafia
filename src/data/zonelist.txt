@@ -104,12 +104,12 @@ Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
 
 Holiday	Unsorted	Holiday Zones
+Crimbo15	Holiday	Christmas 2015
 
 Override	Unsorted	Discoveries
 
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
-Crimbo15	Mountain	The Ruins of the Fully Automated Crimbo Factory
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
