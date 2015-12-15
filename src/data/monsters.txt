@@ -2088,9 +2088,9 @@ large-headed werewolf	0	headwolf.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P:
 oddly-proportioned ghost	0	headghost.gif	Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
 
 # # The Ruins of the Fully Automated Crimbo Factory (Crimbo 2015)
-armored Crimbot	1862	crimbot2.gif	Scale: 11 Floor: 10 Init: -10000 P: construct	pitted sheet metal (0)
-sparking Crimbot	1863	crimbot1.gif	Scale: 11 Floor: 10 Init: -10000 P: construct	sparking robo-battery (0)
-unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 11 Floor: 10 Init: -10000 P: construct	overloaded micro-reactor (0)
+armored Crimbot	1862	crimbot2.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	pitted sheet metal (0)
+sparking Crimbot	1863	crimbot1.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	sparking robo-battery (0)
+unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	overloaded micro-reactor (0)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer"	star chart (100)
