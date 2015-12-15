@@ -257,6 +257,7 @@ The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowbo
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
+The Ruins of the Fully Automated Crimbo Factory	100	armored Crimbot	sparking Crimbot	unstable nuclear Crimbot
 The Fun-Guy Mansion	100	Fun-Guy Playmate
 The Fungal Nethers	100	angry mushroom guy	freaked-out mushroom guy	muscular mushroom guy: 0	armored mushroom guy: 0	wizardly mushroom guy: 0	fiery mushroom guy: 0	dancing mushroom guy: 0	wailing mushroom guy: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0

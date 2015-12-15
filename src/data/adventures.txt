@@ -299,6 +299,7 @@ Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
+Crimbo15	adventure=459	Env: outdoor Stat: 0	The Ruins of the Fully Automated Crimbo Factory
 Crimbo14	adventure=419	Env: outdoor Stat: 0	The Crimbonium Mining Camp
 Crimbo14	mining=5	Env: none Stat: 0	The Crimbonium Mine
 

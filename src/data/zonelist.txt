@@ -84,7 +84,7 @@ Ellsbury's Claim	Antique Maps	Ellsbury's Claim
 
 Psychoses	Psychoses	Psychoses
 
-Skid Row	Mountain	Skid Row
+Skid Row	Woods	Skid Row
 The Prince's Ball	Woods	The Prince's Ball
 Rumpelstiltskin's Home For Children	Woods	Rumpelstiltskin's Home For Children
 The Candy Witch and the Relentless Child Thieves	Woods	The Candy Witch and the Relentless Child Thieves
@@ -109,6 +109,7 @@ Override	Unsorted	Discoveries
 
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
+Crimbo15	Mountain	The Ruins of the Fully Automated Crimbo Factory
 
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005

@@ -4945,6 +4945,7 @@ Effect	Intimidating Mien	Spooky Damage: +15
 Effect	Into the Friar	Avatar: "black friar"
 # Invisible (20 Minutes Ago): Makes You Invisible In The Past
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
+Effect	Ironclad	Damage Absorption: +50, Damage Reduction: 10
 # Iron Palms: Swords count as clubs
 Effect	Irresistible Resolve	Experience (Moxie): +2
 Effect	Irritabili Tea	Combat Rate: +5
