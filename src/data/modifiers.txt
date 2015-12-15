@@ -8343,6 +8343,7 @@ Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 Item	pirate tract	Effect: "Carrrsmic", Effect Duration: 10
+Item	pitted sheet metal	Effect: "Ironclad", Effect Duration: 20
 # pixel coin: Sell it for 2,000 Meat
 # pixel cross: Deals 80-100 Physical Damage
 # pixel cross: (does it again the next round)
