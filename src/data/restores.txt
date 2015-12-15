@@ -134,6 +134,7 @@ Shake it off	skill	[HP]	[HP]	0	0	0
 silk bandages	item	40	80	0	0	0
 soda water	item	0	0	3	5	0
 Soul Food	skill	0	0	15	15	0
+sparking robo-battery	item	0	0	80	100	0
 spirit beer	item	0	0	40	50	0
 Spirit Vacation	skill	[HP]	[HP]	0	0	1
 sugar shard	item	10	20	5	10	0
