@@ -37,6 +37,7 @@ bonedanna	120	Mox: 45
 Boris's Helm	100	none
 Boris's Helm (askew)	100	none
 bounty-hunting helmet	100	Mox: 25
+bouquet of all-natural free-range flowers	0	none
 bowler	100	Mox: 35
 brainwave-controlled unicorn horn	10	none
 BRICKO hat	30	none
@@ -2419,6 +2420,7 @@ spiky turtle shoulderpads	130	Mus: 50
 spirit bell	0	none
 spooky glove	60	Mys: 15
 spring boots	0	none
+stack of communist leaflets	0	none
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30

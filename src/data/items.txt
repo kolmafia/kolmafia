@@ -8784,8 +8784,8 @@
 8758
 8759
 8760
-8761
-8762
+8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
+8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
 8763
 8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0
 8765	Gratitude chocolate (thyme-filled)	158122731	gratchoc1.gif	usable	t	0	Gratitude chocolates (thyme-filled)
