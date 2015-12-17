@@ -2481,6 +2481,16 @@ public class Modifiers
 			return true;
 		}
 
+		// Remove coarse hemp socks and red armband in 2016
+		case ItemPool.COARSE_HEMP_SOCKS:
+		case ItemPool.RED_ARMBAND:
+		{
+			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+			double adventures = date.get( Calendar.YEAR ) == 2015 ? 11.0 : 0.0;
+			this.set( Modifiers.ADVENTURES, adventures );
+			return true;
+		}
+
 		case ItemPool.UNCLE_HOBO_BEARD:
 		{
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
