@@ -2501,6 +2501,8 @@ public class ItemPool
 	public static final int VYKEA_DOWEL = 8728;
 	public static final int VYKEA_HEX_KEY = 8729;
 	public static final int VYKEA_INSTRUCTIONS = 8730;
+	public static final int COARSE_HEMP_SOCKS = 8775;
+	public static final int RED_ARMBAND = 8776;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

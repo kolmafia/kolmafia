@@ -1977,6 +1977,7 @@ clingfilm slippers	150	Mys: 60
 clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
+coarse hemp socks	0	none
 Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 compression stocking	160	Mys: 65
@@ -2320,6 +2321,7 @@ rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
+red armband	0	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
 Red Fox glove	200	Mys: 50
