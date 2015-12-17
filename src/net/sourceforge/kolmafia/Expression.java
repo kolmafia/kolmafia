@@ -35,6 +35,9 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -382,6 +385,16 @@ public class Expression
 				break;
 			case 'z':
 				v = Modifiers.currentZone.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'v':
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+				String event = (String) this.literals.get( (int) s[ --sp ] );
+				if ( event.equals( "Crimbo2015" ) )
+				{
+					// Assume event ends just after rollover on 1st January 2016
+					Calendar eventEnd = new GregorianCalendar( 2016, 1, 1, 20, 30);
+					v = date.before( eventEnd ) ? 1 : 0;
+				}
 				break;
 			case '\u0092':
 				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;

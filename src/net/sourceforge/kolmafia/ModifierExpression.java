@@ -89,6 +89,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ), 'z' );
 		}
+		if ( this.optional( "event(" ) )
+		{
+			return this.literal( this.until( ")" ), 'v' );
+		}
 		if ( this.optional( "fam(" ) )
 		{
 			return this.literal( this.until( ")" ), 'w' );
