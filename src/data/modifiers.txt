@@ -2309,6 +2309,7 @@ Item	clown shoes	Maximum MP: +7, Clownosity: +1
 Item	clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 # Item coarse hemp socks: (+11 Adventures, During Crimbo 2015 event only)
+Item	coarse hemp socks	Single Equip
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
@@ -2714,6 +2715,7 @@ Item	rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Dam
 Item	rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 Item	ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
 # Item red armband: (+11 Adventures, During Crimbo 2015 event only)
+Item	red armband	Single Equip
 Item	red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
 Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 Item	Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
