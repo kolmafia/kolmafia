@@ -1272,6 +1272,186 @@ public class AreaCombatData
 				return 1;
 			}
 		}
+		else if ( zone.equals( "Oil Peak" ) )
+		{
+			int monsterLevel = (int) KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL );
+			if ( monster.equals( "oil slick" ) )
+			{
+				return monsterLevel < 20 ? 1 : 0;
+			}
+			else if ( monster.equals( "oil tycoon" ) )
+			{
+				return monsterLevel >= 20 && monsterLevel < 50 ? 1 : 0;
+			}
+			else if ( monster.equals( "oil baron" ) )
+			{
+				return monsterLevel >= 50 && monsterLevel < 100 ? 1 : 0;
+			}
+			else if ( monster.equals( "oil cartel" ) )
+			{
+				return monsterLevel >= 100 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Fastest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getInteger( "nsContestants1" );
+			if ( monster.equals( "Tasmanian Dervish" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Strongest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge1" ).equals( "Muscle" ) ? Preferences.getInteger( "nsContestants2" ) : 0;
+			if ( monster.equals( "Mr. Loathing" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Smartest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge1" ).equals( "Mysticality" ) ? Preferences.getInteger( "nsContestants2" ) : 0;
+			if ( monster.equals( "The Mastermind" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Smoothest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge1" ).equals( "Muscle" ) ? Preferences.getInteger( "nsContestants2" ) : 0;
+			if ( monster.equals( "Seannery the Conman" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Coldest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge2" ).equals( "cold" ) ? Preferences.getInteger( "nsContestants3" ) : 0;
+			if ( monster.equals( "Mrs. Freeze" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Hottest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge2" ).equals( "hot" ) ? Preferences.getInteger( "nsContestants3" ) : 0;
+			if ( monster.equals( "Mrs. Freeze" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Sleaziest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge2" ).equals( "sleaze" ) ? Preferences.getInteger( "nsContestants3" ) : 0;
+			if ( monster.equals( "Leonard" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Spookiest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge2" ).equals( "spooky" ) ? Preferences.getInteger( "nsContestants3" ) : 0;
+			if ( monster.equals( "Arthur Frankenstein" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Stinkiest Adventurer Contest" ) )
+		{
+			int opponentsLeft = Preferences.getString( "nsChallenge2" ).equals( "stinky" ) ? Preferences.getInteger( "nsContestants3" ) : 0;
+			if ( monster.equals( "Odorous Humongous" ) )
+			{
+				return opponentsLeft == 1 ? 1 : 0;
+			}
+			else
+			{
+				return opponentsLeft > 1 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "The Nemesis' Lair" ) )
+		{
+			int lairTurns = AdventureSpentDatabase.getTurns( zone );
+			if ( monster.equals( "hellseal guardian" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER ? 1 : 0;
+			}
+			else if ( monster.equals( "Gorgolok, the Infernal Seal (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER && lairTurns >= 4 ? 1 : 0;
+			}
+			else if ( monster.equals( "warehouse worker" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ? 1 : 0;
+			}
+			else if ( monster.equals( "Stella, the Turtle Poacher (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER && lairTurns >= 4 ? 1 : 0;
+			}
+			else if ( monster.equals( "evil spaghetti cult zealot" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
+			}
+			else if ( monster.equals( "Spaghetti Elemental (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER && lairTurns >= 4 ? 1 : 0;
+			}
+			else if ( monster.equals( "security slime" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ? 1 : 0;
+			}
+			else if ( monster.equals( "Lumpy, the Sinister Sauceblob (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.SAUCEROR && lairTurns >= 4 ? 1 : 0;
+			}
+			else if ( monster.equals( "daft punk" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT ? 1 : 0;
+			}
+			else if ( monster.equals( "Spirit of New Wave (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT && lairTurns >= 4 ? 1 : 0;
+			}
+			else if ( monster.equals( "mariachi bruiser" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF ? 1 : 0;
+			}
+			else if ( monster.equals( "Somerset Lopez, Dread Mariachi (Inner Sanctum)" ) )
+			{
+				return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && lairTurns >= 4 ? 1 : 0;
+			}
+		}
 		else if ( zone.equals( "The Post-Mall" ) )
 		{
 			int mallTurns = AdventureSpentDatabase.getTurns( zone );
