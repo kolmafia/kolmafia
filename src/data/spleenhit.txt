@@ -128,7 +128,7 @@ SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
 spooky wad	1	6	decent	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
 stench wad	1	6	decent	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
-strange paste	4	4	good	5-10	18-22	18-22	18-22
+strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
 synthetic marrow	1	1	EPIC	0	30-40	0	0
