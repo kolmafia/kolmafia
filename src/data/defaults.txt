@@ -1165,6 +1165,7 @@ user	_fingertrapArrows	0
 user	_fireStartingKitUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
+user	_fragrantHerbsUsed	0
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
@@ -1258,6 +1259,7 @@ user	_momFoodReceived	false
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
+user	_nuclearStockpileUsed	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_pantsgivingFullness	0

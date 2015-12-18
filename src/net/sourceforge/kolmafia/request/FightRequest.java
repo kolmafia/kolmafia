@@ -7336,6 +7336,19 @@ public class FightRequest
 				BanishManager.banishCurrentMonster( "ice hotel bell" );
 			}
 			break;
+		case ItemPool.BUNDLE_OF_FRAGRANT_HERBS:
+			if ( responseText.contains( "chokes and sputters and leave" ) || itemRunawaySuccess )
+			{
+				Preferences.increment( "_fragrantHerbsUsed", 1, 10, false );
+				BanishManager.banishCurrentMonster( "bundle of &quot;fragrant&quot; herbs" );
+			}
+			break;
+		case ItemPool.NUCLEAR_STOCKPILE:
+			if ( responseText.contains( "pull a nuclear bomb out of the stockpile" ) || itemRunawaySuccess )
+			{
+				Preferences.increment( "_nuclearStockpileUsed", 1, 10, false );
+			}
+			break;
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.
