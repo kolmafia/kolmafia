@@ -8800,3 +8800,5 @@
 8774
 8775	coarse hemp socks	493445986	hempsocks.gif	accessory	t	0
 8776	red armband	737214563	blackcheck.gif	accessory	t	0
+8777	bundle of &quot;fragrant&quot; herbs	405043719	smudgestick.gif	none, combat reusable	t	0
+8778	nuclear stockpile	346668769	crate.gif	none, combat reusable	t	0

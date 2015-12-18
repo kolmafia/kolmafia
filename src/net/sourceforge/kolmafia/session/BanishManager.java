@@ -114,6 +114,7 @@ public class BanishManager
 	{
 		new Banisher( "banishing shout", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "batter up!", -1, 1, false, Reset.ROLLOVER_RESET ),
+		new Banisher( "bundle of &quot;fragrant&quot; herbs", -1, 10, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "chatterboxing", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "classy monkey", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "cocktail napkin", 20, 1, true, Reset.TURN_RESET ),
