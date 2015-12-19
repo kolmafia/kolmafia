@@ -8802,3 +8802,6 @@
 8776	red armband	737214563	blackcheck.gif	accessory	t	0
 8777	bundle of &quot;fragrant&quot; herbs	405043719	smudgestick.gif	none, combat reusable	t	0
 8778	nuclear stockpile	346668769	crate.gif	none, combat reusable	t	0
+8779	pine cone	166034519	pinecone.gif	none	t	0
+8780	iron chain	700707431	fancychain.gif	none	t	0
+8781	pine cone necklace	351680723	pineconeneck.gif	accessory	t	0

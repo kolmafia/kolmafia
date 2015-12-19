@@ -2743,3 +2743,6 @@ level 5 lamp	VYKEA	VYKEA instructions (1)	VYKEA rail (5)	VYKEA dowel (37)	VYKEA 
 level 5 frenzy lamp	VYKEA	VYKEA instructions (1)	VYKEA rail (5)	VYKEA frenzy rune (1)	VYKEA dowel (37)	VYKEA rail (5)
 level 5 blood lamp	VYKEA	VYKEA instructions (1)	VYKEA rail (5)	VYKEA blood rune (1)	VYKEA dowel (37)	VYKEA rail (5)
 level 5 lightning lamp	VYKEA	VYKEA instructions (1)	VYKEA rail (5)	VYKEA lightning rune (1)	VYKEA dowel (37)	VYKEA rail (5)
+
+# Crimbo 2015
+pine cone necklace	COMBINE	pine cone	iron chain
