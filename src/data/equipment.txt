@@ -2263,6 +2263,7 @@ Personal Ventilation Unit	100	none
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
+pine cone necklace	100	none
 Pine-Fresh air freshener	50	Mys: 10
 pink glowstick	20	none
 Pink Heart of Spirit	200	Mys: 85

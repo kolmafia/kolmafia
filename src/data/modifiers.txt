@@ -2649,6 +2649,7 @@ Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie 
 Item	phase-tuned shield generator belt	Single Equip
 Item	phat turquoise bracelet	Mysticality: +5
 Item	pig-iron bracers	Mysticality: +8, Spell Damage: +10, Single Equip
+Item	pine cone necklace	Monster Level: -50
 Item	Pine-Fresh air freshener	Stench Resistance: +1
 Item	pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
