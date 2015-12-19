@@ -6476,12 +6476,13 @@ public abstract class RuntimeLibrary
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
-		data.recalculate();
 
 		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE );
 		MapValue value = new MapValue( type );
 		if ( data == null )
 			return value;
+
+		data.recalculate();
 
 		double combatFactor = data.areaCombatPercent();
 		value.aset( DataTypes.MONSTER_INIT, new Value( data.combats() < 0 ? -1.0F : 100.0f - combatFactor ) );
