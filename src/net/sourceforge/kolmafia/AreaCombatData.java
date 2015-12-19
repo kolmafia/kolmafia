@@ -113,7 +113,7 @@ public class AreaCombatData
 		this.jumpChance = Integer.MAX_VALUE;
 	}
 
-	private void recalculate()
+	public void recalculate()
 	{
 		this.minHit = Integer.MAX_VALUE;
 		this.maxHit = 0;
@@ -307,14 +307,14 @@ public class AreaCombatData
 					{
 						if ( !StringUtilities.isNumeric( flag.substring( 1 ) ) )
 						{
-							KoLmafia.updateDisplay( "Rejection percentatage specified for " + name + " in combats.txt is not numeric." );
+							KoLmafia.updateDisplay( "Rejection percentage specified for " + name + " in combats.txt is not numeric." );
 							return false;
 						}
 						rejection = StringUtilities.parseInt( flag.substring( 1 ) );
 					}
 					else
 					{
-						KoLmafia.updateDisplay( "No rejection percentatage specified for " + name + " in combats.txt." );
+						KoLmafia.updateDisplay( "No rejection percentage specified for " + name + " in combats.txt." );
 						return false;
 					}
 					break;
