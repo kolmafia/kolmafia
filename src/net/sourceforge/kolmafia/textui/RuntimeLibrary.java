@@ -6476,6 +6476,7 @@ public abstract class RuntimeLibrary
 	{
 		KoLAdventure adventure = (KoLAdventure) location.rawValue();
 		AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+		data.recalculate();
 
 		AggregateType type = new AggregateType( DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE );
 		MapValue value = new MapValue( type );
@@ -6499,7 +6500,7 @@ public abstract class RuntimeLibrary
 		for ( int i = data.getMonsterCount() - 1; i >= 0; --i )
 		{
 			int weight = data.getWeighting( i );
-			int rejection = data.getRejection( i );
+			double rejection = data.getRejection( i );
 			if ( weight == -2 )
 				continue; // impossible this ascension
 
@@ -6522,7 +6523,7 @@ public abstract class RuntimeLibrary
 			}
 			else
 			{
-				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * weight / total );
+				toSet = new Value( combatFactor * ( 1 - superlikelyChance / 100 ) * ( 1 - rejection / 100 ) * weight / total );
 			}
 			value.aset( DataTypes.makeMonsterValue( data.getMonster( i ) ), toSet );
 		}
