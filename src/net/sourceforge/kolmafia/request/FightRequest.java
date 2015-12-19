@@ -256,6 +256,8 @@ public class FightRequest
 	
 	private static final Pattern RED_BUTTON_PATTERN = 
 		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
+	private static final Pattern PROSELYTIZATION_PATTERN =
+		Pattern.compile( "^\\+1 ([^<]+) Proselytization$" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -4917,6 +4919,14 @@ public class FightRequest
 			return;
 		}
 
+		if ( name.equals( "b" ))
+		{
+			if ( FightRequest.handleProselytization( node, status ) )
+			{
+				return;
+			}
+		}
+
 		if ( name.equals( "table" ) )
 		{
 			String id = node.getAttributeByName( "id" );
@@ -5645,6 +5655,26 @@ public class FightRequest
 		}
 
 		FightRequest.logText( str, status );
+
+		return true;
+	}
+
+	private static boolean handleProselytization( TagNode node, TagStatus status )
+	{
+		StringBuffer text = node.getText();
+
+		Matcher matcher = FightRequest.PROSELYTIZATION_PATTERN.matcher( text.toString() );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		StringBuffer action = new StringBuffer( status.monsterName );
+		action.append( " proselytized for the " );
+		action.append( matcher.group(1) );
+		action.append( " faction." );
+
+		FightRequest.logText( action, status );
 
 		return true;
 	}
