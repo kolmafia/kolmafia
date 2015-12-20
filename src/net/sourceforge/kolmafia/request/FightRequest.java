@@ -2865,7 +2865,7 @@ public class FightRequest
 			// When/if KoL fixes its bug, this will go outside the if/else block.
 			if ( adventure == AdventurePool.DEEP_MACHINE_TUNNELS )
 			{
-				Preferences.increment( "_machineTunnelsAdv", 1 );
+				Preferences.increment( "_machineTunnelsAdv", 1, 5, false );
 			}
 
 			if ( responseText.contains( "monstermanuel.gif" ) )
