@@ -2862,6 +2862,12 @@ public class FightRequest
 		}
 		else
 		{
+			// When/if KoL fixes its bug, this will go outside the if/else block.
+			if ( adventure == AdventurePool.DEEP_MACHINE_TUNNELS )
+			{
+				Preferences.increment( "_machineTunnelsAdv", 1 );
+			}
+
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
