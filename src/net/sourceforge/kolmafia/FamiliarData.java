@@ -806,6 +806,7 @@ public class FamiliarData
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MS_PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MACHINE_ELF, -1, "free fights", "_machineTunnelsAdv", 5 ) );
 	}
 
 	public static DropInfo getDropInfo( int id )
