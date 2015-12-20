@@ -8778,7 +8778,7 @@
 8752	Crimbo salad	239783949	salad.gif	food	t	0
 8753	bread line	579918982	baguette.gif	food	t	0
 8754	bark rootbeer	960615595	beerbottle.gif	drink	t	0
-8755	red ale	629634528	beerbottle.gif	drink	t	0
+8755	red ale	629634528	beerbottle.gif	drink	t	0	bottles of red ale
 8756
 8757
 8758
