@@ -5243,6 +5243,15 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.CIRCLE_DRUM:
+			// You join the 1,427 other people sitting in a drum circle in Seaside Town.
+			Pattern RHYTHM = Pattern.compile( "You join the (.*?) other people" );
+			Matcher rhythmMatcher = RHYTHM.matcher( responseText );
+			if ( rhythmMatcher.find() )
+			{
+				int boost = StringUtilities.parseIntInternal2( rhythmMatcher.group( 1 ) );
+				int bonus = ( boost - 1 ) / 10 + 1;
+				Preferences.setInteger( "_feelinTheRhythm", bonus );
+			}
 			Preferences.setBoolean( "_circleDrumUsed", true );
 			return;
 		}
