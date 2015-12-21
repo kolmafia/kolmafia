@@ -916,6 +916,7 @@ electric crutch	30	Mus: 0	1-handed staff
 elegant nightstick	90	Mus: 30	1-handed club
 elephant stinger	75	Mus: 22	2-handed spear
 elevenderizing hammer	115	Mus: 11	1-handed club
+elf ploughshare	100	Mus: 0	1-handed sword
 elven whittling knife	100	Mus: 35	1-handed knife
 especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
@@ -1196,6 +1197,7 @@ rave whistle	135	Mox: 52	1-handed whistle
 red hot poker	165	Mus: 67	1-handed club
 Red Rover BB gun	50	Mox: 10	2-handed gun
 regret hose	85	Mox: 30	1-handed forearm replacement
+reindeer hammer	100	Mus: 0	1-handed club
 remaindered axe	20	Mus: 0	1-handed club
 remorseless knife	225	Mus: 200	1-handed knife
 repeating crossbow	65	Mox: 17	2-handed crossbow

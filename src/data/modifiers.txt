@@ -168,6 +168,7 @@ Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Item	electrician's hardhat	Muscle Percent: +40, Weapon Damage: +40, HP Regen Min: 20, HP Regen Max: 40
+Item	elf ploughshare	Maximum HP: +30, Maximum MP: +30
 Item	enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 Item	enchantlers	Hot Spell Damage: +10, Familiar Effect: "hot atk, 1xLep, cap 28"
 Item	extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
@@ -345,6 +346,7 @@ Item	raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 
 Item	rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
 Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
+Item	reindeer hammer	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Familiar Effect: "0.5xPotato"
 # safarrri hat: +10 Damage vs. Lions
