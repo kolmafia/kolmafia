@@ -794,6 +794,11 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.CALCULATE_THE_UNIVERSE:
+			if ( KoLCharacter.getAdventuresLeft() == 0 )
+			{
+				maximumCast = 0;
+				break;
+			}
 			maximumCast = Preferences.getBoolean( "_universeCalculated" ) ? 0 : 1;
 			break;
 
@@ -808,6 +813,10 @@ public class UseSkillRequest
 
 		case SkillPool.PERFECT_FREEZE:
 			maximumCast = Preferences.getBoolean( "_perfectFreezeUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.COMMUNISM:
+			maximumCast = Preferences.getBoolean( "_communismUsed" ) ? 0 : 1;
 			break;
 		}
 
@@ -2236,6 +2245,10 @@ public class UseSkillRequest
 
 		case SkillPool.PERFECT_FREEZE:
 			Preferences.setBoolean( "_perfectFreezeUsed", true );
+			break;
+
+		case SkillPool.COMMUNISM:
+			Preferences.setBoolean( "_communismUsed", true );
 			break;
 
 		}
