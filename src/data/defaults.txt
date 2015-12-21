@@ -1129,6 +1129,7 @@ user	_coalPaperweightUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
 user	_coldOne	false
+user	_communismUsed	false
 user	_companionshipCasts	0
 user	_controlPanelUsed	false
 user	_corruptedStardustUsed	false
