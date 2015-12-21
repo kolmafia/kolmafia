@@ -2503,6 +2503,7 @@ public class ItemPool
 	public static final int VYKEA_INSTRUCTIONS = 8730;
 	public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
 	public static final int NUCLEAR_STOCKPILE = 8778;
+	public static final int CIRCLE_DRUM = 8784;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
