@@ -3076,6 +3076,7 @@ Item	tiny plastic Susie	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	tiny plastic sweet nutcracker	Familiar Weight: +1
 Item	tiny plastic taco cat	Monster Level: +1
 Item	tiny plastic taco-clad Crimbo elf	Muscle: +1, Mysticality: +1, Moxie: +1
+Item	tiny plastic Tammy the Tambourine Elf	Cold Resistance: +2
 Item	tiny plastic The Big Wisniewski	Food Drop: +3
 Item	tiny plastic the Free Man	Mysticality: +5
 Item	tiny plastic The Man	Meat Drop: +3
@@ -4600,6 +4601,7 @@ Effect	Fat Leon's Phat Loot Lyric	Item Drop: +20
 Effect	Fauxhawk	Initiative: +50
 Effect	Fearless	Monster Level: -10
 Effect	Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
+Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(_feelinTheRhythm)], Moxie: [pref(_feelinTheRhythm)]
 Effect	Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
@@ -8850,6 +8852,8 @@ Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
 Item	The Ballad of Richie Thingfinder	Skill: "The Ballad of Richie Thingfinder"
+Item	The Big Book of Communism	Skill: "Communism!"
+Item	The Big Book of Communism (used)	Skill: "Communism!"
 # The Big Book of Pirate Insults: Use it to insult Pirates
 # The Bomb: Deals 400-500 Physical Damage
 Item	The Chill of the Wild	Skill: "Beardfreeze"
