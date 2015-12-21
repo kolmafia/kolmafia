@@ -2030,3 +2030,14 @@
 2029	Bark of the Dog	beerbottle.gif	1d354189ab0be574ca34ce3fa248afce	drink 1 bark rootbeer
 2030	Putting the Pro in Proletariat	beerbottle.gif	7ed8e54bf9b1c09eeef2dfd9cd09fbb7	drink 1 red ale
 2031	Ironclad	pittedmetal.gif	27286a50c008bea7dff72220edfe6b05	use 1 pitted sheet metal
+2032
+2033
+2034
+2035
+2036
+2037
+2038
+2039
+2040
+2041
+2042	Feelin' the Rhythm!	circledrum.gif	4952bd4b5e5059e208376de450e545bf	use 1 circle drum

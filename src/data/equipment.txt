@@ -2655,6 +2655,7 @@ tiny plastic Susie	40	Mys: 5
 tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
 tiny plastic taco-clad Crimbo elf	0	none
+tiny plastic Tammy the Tambourine Elf	0	none
 tiny plastic The Big Wisniewski	30	none
 tiny plastic the Free Man	30	none
 tiny plastic The Man	30	none

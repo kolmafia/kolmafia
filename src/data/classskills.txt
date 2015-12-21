@@ -171,6 +171,10 @@
 146	Refusal to Freeze	snowflake.gif	0	0	0
 147	Beardfreeze	epicbeard.gif	3	15	10
 148	Frost Bite	teeth.gif	5	50	0
+149
+150
+151
+152	Communism!	commiesickle.gif	1	0	0
 
 # Skills available to Clubbers
 

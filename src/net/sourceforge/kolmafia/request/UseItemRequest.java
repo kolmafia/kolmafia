@@ -1111,6 +1111,10 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "mayonaise already in mouth";
 			return Preferences.getString( "mayoInMouth" ).equals( "" ) ? 1 : 0;
+
+		case ItemPool.CIRCLE_DRUM:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_circleDrumUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5236,6 +5240,10 @@ public class UseItemRequest
 			// If "using" the item works, it redirects to choice.php.
 			// If it does not redirect, it gives a message and is
 			// not consumed.
+			return;
+
+		case ItemPool.CIRCLE_DRUM:
+			Preferences.setBoolean( "_circleDrumUsed", true );
 			return;
 		}
 
