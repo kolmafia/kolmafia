@@ -1548,6 +1548,7 @@ enchanted fire extinguisher	0	Mys: 200
 encrypted micro-cassette recorder	10	none
 Engorged Sausages and You	100	Mys: 35
 eye of the Tiger-lily	70	Mys: 20
+faded green protest sign	10	none
 fake hand	10	none
 fake washboard	200	Mus: 50	shield
 fancy opera glasses	50	Mys: 10
