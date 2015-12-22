@@ -8817,4 +8817,4 @@
 8791
 8792
 8793
-8794	The Big Book of Communism (used)	729555641	book4.gif	usable	0
+8794	The Big Book of Communism (used)	729555641	book4.gif	usable		0
