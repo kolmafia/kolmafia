@@ -3051,6 +3051,7 @@ Item	tiny plastic Protagonist	Monster Level: +1
 Item	tiny plastic protector spectre	Spooky Damage: +10
 Item	tiny plastic Queen Bee	Maximum HP: +10
 Item	tiny plastic Rene C. Corman	Mysticality Percent: +5, Spell Damage Percent: +25, Single Equip
+Item	tiny plastic Rudolph the Red	Hot Resistance: +2
 Item	tiny plastic sabre-toothed lime	Familiar Weight: +1
 Item	tiny plastic sauceror	Mysticality: +2, Moxie: +1
 Item	tiny plastic scary clown	Monster Level: +1
