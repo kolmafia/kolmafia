@@ -8809,8 +8809,8 @@
 8783	elf ploughshare	940235960	beatsword.gif	weapon	t	0
 8784	circle drum	673178120	circledrum.gif	reusable	t	0
 8785	The Big Book of Communism	212751090	book4.gif	usable	t	0
-8786
-8787
+8786	faded green protest sign	297143619	protsign1.gif	offhand	t	0
+8787	faded red protest sign	938551639	protsign2.gif	none, combat	t	0
 8788
 8789
 8790
