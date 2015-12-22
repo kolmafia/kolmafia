@@ -277,7 +277,7 @@ The Haunted Laboratory	-1	Jacob's adder	model skeleton	the gunk	Stephen Spookyra
 The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
 The Haunted Library	75	banshee librarian	bookbat	writing desk
 The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
-The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: 1o	overdone flame-broiled meat blob: 1e	undead elbow macaroni
+The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: 1e	overdone flame-broiled meat blob: 1o	undead elbow macaroni
 The Haunted Sorority House	-1	sexy sorority ghost	sexy sorority skeleton	sexy sorority vampire	sexy sorority werewolf	sexy sorority zombie
 The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sheet ghost	full-length mirror: 0
 The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino
