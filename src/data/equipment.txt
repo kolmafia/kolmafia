@@ -1840,7 +1840,7 @@ tip jar	135	Mys: 52
 torch	0	none
 tortoboggan shield	100	Mus: 35	shield
 toy Crimbot super fist	50	none
-trench lighter	0	Mus: 200
+trench lighter	200	Mus: 200
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
@@ -1980,7 +1980,7 @@ clingfilm slippers	150	Mys: 60
 clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
-coarse hemp socks	0	none
+coarse hemp socks	10	none
 Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 compression stocking	160	Mys: 65
@@ -2325,7 +2325,7 @@ rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
-red armband	0	none
+red armband	10	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
 Red Fox glove	200	Mys: 50
@@ -2631,6 +2631,7 @@ tiny plastic Protagonist	10	none
 tiny plastic protector spectre	50	Mys: 10
 tiny plastic Queen Bee	30	none
 tiny plastic Rene C. Corman	50	Mys: 10
+tiny plastic Rudolph the Red	10	none
 tiny plastic sabre-toothed lime	10	none
 tiny plastic sauceror	20	none
 tiny plastic scary clown	10	none
@@ -2656,7 +2657,7 @@ tiny plastic Susie	40	Mys: 5
 tiny plastic sweet nutcracker	10	none
 tiny plastic taco cat	10	none
 tiny plastic taco-clad Crimbo elf	0	none
-tiny plastic Tammy the Tambourine Elf	0	none
+tiny plastic Tammy the Tambourine Elf	10	none
 tiny plastic The Big Wisniewski	30	none
 tiny plastic the Free Man	30	none
 tiny plastic The Man	30	none
