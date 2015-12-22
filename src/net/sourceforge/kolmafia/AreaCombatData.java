@@ -1272,6 +1272,80 @@ public class AreaCombatData
 				return 1;
 			}
 		}
+		else if ( zone.equals( "Throne Room" ) )
+		{
+			if ( monster.equals( "Knob Goblin King" ) && QuestDatabase.isQuestFinished( Quest.GOBLIN ) )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "The F'c'le" ) )
+		{
+			if ( monster.equals( "clingy pirate (female)" ) )
+			{
+				return KoLCharacter.getGender() == KoLCharacter.MALE ? 1 : 0;
+			}
+			else if ( monster.equals( "clingy pirate (male)" ) )
+			{
+				return KoLCharacter.getGender() == KoLCharacter.FEMALE ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Summoning Chamber" ) )
+		{
+			if ( monster.equals( "Lord Spookyraven" ) && QuestDatabase.isQuestFinished( Quest.MANOR ) )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "An Overgrown Shrine (Northeast)" ) )
+		{
+			// Assume lianas are dealt with once Apartment opened. Player may leave without doing so, but that's
+			// abit niche for me to care!
+			if ( monster.equals( "dense liana" ) && Preferences.getInteger( "hiddenApartmentProgress" ) > 0 )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "An Overgrown Shrine (Northwest)" ) )
+		{
+			// Assume lianas are dealt with once Office opened. Player may leave without doing so, but that's
+			// abit niche for me to care!
+			if ( monster.equals( "dense liana" ) && Preferences.getInteger( "hiddenOfficeProgress" ) > 0 )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "An Overgrown Shrine (Southeast)" ) )
+		{
+			// Assume lianas are dealt with once Hospital opened. Player may leave without doing so, but that's
+			// abit niche for me to care!
+			if ( monster.equals( "dense liana" ) && Preferences.getInteger( "hiddenHospitalProgress" ) > 0 )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "An Overgrown Shrine (Southwest)" ) )
+		{
+			// Assume lianas are dealt with once Bowling Alley opened. Player may leave without doing so, but that's
+			// abit niche for me to care!
+			if ( monster.equals( "dense liana" ) && Preferences.getInteger( "hiddenBowlingAlleyProgress" ) > 0 )
+			{
+				return 0;
+			}
+		}
+		else if ( zone.equals( "A Massive Ziggurat" ) )
+		{
+			// Assume lianas dealt with after 3 turns, won't always be right, but this is a bit niche for special tracking
+			int zoneTurns = AdventureSpentDatabase.getTurns( zone );
+			if ( monster.equals( "dense liana" ) && ( zoneTurns >= 3 || QuestDatabase.isQuestFinished( Quest.WORSHIP ) ) )
+			{
+				return 0;
+			}
+			else if ( monster.equals( "Protector Spectre" ) && QuestDatabase.isQuestStep( Quest.WORSHIP, "step4" ) )
+			{
+				return 1;
+			}
+		}
 		else if ( zone.equals( "Oil Peak" ) )
 		{
 			int monsterLevel = (int) KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL );
