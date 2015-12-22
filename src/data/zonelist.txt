@@ -23,7 +23,6 @@ Fernswarthy's Tower	Plains	Fernswarthy's Tower
 Beanstalk	Beanstalk	Above the Beanstalk
 RabbitHole	Plains	Down the Rabbit Hole
 Suburbs	Suburbs	The Suburbs of Dis
-Landscaper	Landscaper	The Landscaper's Lair
 Mothership	Mothership	The Bugbear Mothership
 
 BatHole	BatHole	Bat Hole
@@ -76,6 +75,7 @@ Spaaace	Spaaace	Outer Space
 Portal	Portal	El Vibrato Island
 
 Antique Maps	Antique Maps	Antique Maps
+Landscaper	Antique Maps	The Landscaper's Lair
 Jacking	Antique Maps	Prof. Jacking's Lab
 Kegger	Antique Maps	Kegger in the Woods
 Vanya's Castle	Antique Maps	Vanya's Castle
