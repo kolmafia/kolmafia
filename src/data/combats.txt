@@ -64,10 +64,10 @@ An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating
 An Incredibly Strange Place (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
 An Incredibly Strange Place (Mediocre Trip)	100	Feeling That You're Being Watched	Really Interesting Wallpaper	Best Carpet Ever	Urge to Stare at Your Hands	Visible Music
 An Octopus's Garden	95	Neptune flytrap	octopus gardener	sponge	stranglin' algae	moister oyster: 0
-An Overgrown Shrine (Northeast)	-1	dense liana
-An Overgrown Shrine (Northwest)	-1	dense liana
-An Overgrown Shrine (Southeast)	-1	dense liana
-An Overgrown Shrine (Southwest)	-1	dense liana
+An Overgrown Shrine (Northeast)	100	dense liana
+An Overgrown Shrine (Northwest)	100	dense liana
+An Overgrown Shrine (Southeast)	100	dense liana
+An Overgrown Shrine (Southwest)	100	dense liana
 An Unsettling Abyssal Portal	100	bulwark bull seal
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
