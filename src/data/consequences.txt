@@ -64,7 +64,7 @@ DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
 DESC_EFFECT	Experimental Effect G-9	\+(\d+)%	_g9Effect=$1
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	_chilledToTheBone=$1
-DESC_EFFECT	Feelin' The Rhythm!	Muscle \+(\d+)	_feelinTheRhythm
+DESC_EFFECT	Feelin' The Rhythm!	Muscle \+(\d+)	_feelinTheRhythm=$1
 
 # Monster disambiguation:
 
