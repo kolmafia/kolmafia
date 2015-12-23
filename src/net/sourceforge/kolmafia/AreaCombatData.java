@@ -838,6 +838,23 @@ public class AreaCombatData
 			return Preferences.getBoolean( "dinseyRollercoasterNext" ) ? 0 : 100;
 		}
 
+		if ( this.zone.equals( "The Defiled Alcove" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) <= 25 )
+		{
+			return 100;
+		}
+		if ( this.zone.equals( "The Defiled Cranny" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) <= 25 )
+		{
+			return 100;
+		}
+		if ( this.zone.equals( "The Defiled Niche" ) && Preferences.getInteger( "cyrptNicheEvilness" ) <= 25 )
+		{
+			return 100;
+		}
+		if ( this.zone.equals( "The Defiled Nook" ) && Preferences.getInteger( "cyrptNookEvilness" ) <= 25 )
+		{
+			return 100;
+		}
+
 		// If we don't have the data, pretend it's all combat
 		if ( this.combats < 0 )
 		{
@@ -1279,6 +1296,61 @@ public class AreaCombatData
 				return 0;
 			}
 		}
+		else if ( zone.equals( "The Defiled Alcove" ) )
+		{
+			int evilness = Preferences.getInteger( "cyrptAlcoveEvilness" );
+			if ( monster.equals( "conjoined zmombie" ) )
+			{
+				return evilness > 0 && evilness <= 25 ? 1 : 0;
+			}
+			else if ( !monster.equals( "modern zmobie" ) )
+			{
+				return evilness > 25 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "The Defiled Cranny" ) )
+		{
+			int evilness = Preferences.getInteger( "cyrptCrannyEvilness" );
+			if ( monster.equals( "huge ghuol" ) )
+			{
+				return evilness > 0 && evilness <= 25 ? 1 : 0;
+			}
+			else if ( monster.equals( "gaunt ghuol" ) || monster.equals( "gluttonous ghuol" ) )
+			{
+				return evilness > 25 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "The Defiled Niche" ) )
+		{
+			int evilness = Preferences.getInteger( "cyrptNicheEvilness" );
+			if ( monster.equals( "gargantulihc" ) )
+			{
+				return evilness > 0 && evilness <= 25 ? 1 : 0;
+			}
+			else
+			{
+				return evilness > 25 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "The Defiled Nook" ) )
+		{
+			int evilness = Preferences.getInteger( "cyrptNookEvilness" );
+			if ( monster.equals( "giant skeelton" ) )
+			{
+				return evilness > 0 && evilness <= 25 ? 1 : 0;
+			}
+			else
+			{
+				return evilness > 25 ? 1 : 0;
+			}
+		}
+		else if ( zone.equals( "Haert of the Cyrpt" ) )
+		{
+			if ( monster.equals( "Bonerdagon" ) && QuestDatabase.isQuestLaterThan( Quest.CYRPT, QuestDatabase.STARTED ) )
+			{
+				return 0;
+			}
+		}
 		else if ( zone.equals( "The F'c'le" ) )
 		{
 			if ( monster.equals( "clingy pirate (female)" ) )
@@ -1526,6 +1598,30 @@ public class AreaCombatData
 				return KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && lairTurns >= 4 ? 1 : 0;
 			}
 		}
+		else if ( zone.equals( "The Slime Tube" ) )
+		{
+			int monsterLevel = (int) KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL );
+			if ( monster.equals( "slime1" ) )
+			{
+				return monsterLevel <= 100 ? 1 : 0;
+			}
+			else if ( monster.equals( "slime2" ) )
+			{
+				return monsterLevel > 100 && monsterLevel <= 300 ? 1 : 0;
+			}
+			else if ( monster.equals( "slime3" ) )
+			{
+				return monsterLevel > 300 && monsterLevel <= 600 ? 1 : 0;
+			}
+			else if ( monster.equals( "slime4" ) )
+			{
+				return monsterLevel > 600 && monsterLevel <= 1000 ? 1 : 0;
+			}
+			else if ( monster.equals( "slime5" ) )
+			{
+				return monsterLevel > 1000 ? 1 : 0;
+			}
+		}
 		else if ( zone.equals( "The Post-Mall" ) )
 		{
 			int mallTurns = AdventureSpentDatabase.getTurns( zone );
@@ -1551,7 +1647,7 @@ public class AreaCombatData
 			// Appears every 8 turns in relevant zones
 			return turns > 0 && ( turns % 8 ) == 0 ? 100.0 : 0.0;
 		}
-		if ( monster.equals( "modern zmobie" ) )
+		if ( monster.equals( "modern zmobie" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
 		{
 			// Chance based on initiative
 			double chance =  15 + KoLCharacter.getInitiativeAdjustment() / 10;

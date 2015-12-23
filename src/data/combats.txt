@@ -239,7 +239,7 @@ The Dark Neck of the Woods	95	Hellion	P imp	W imp
 The Deep Dark Jungle	100	bigface	Mercenary of Fortune	smoke monster	Venus mantrap
 The Deep Machine Tunnels	-1	Performer of Actions	Thinker of Thoughts	Perceiver of Sensations
 The Defiled Alcove	85	corpulent zobmie	grave rober zmobie	modern zmobie: 0	conjoined zmombie: 0
-The Defiled Cranny	85	gaunt ghuol	gluttonous ghuol	swarm of ghuol whelps	big swarm of ghuol whelps: 0	giant swarm of ghuol whelps: 0	huge ghuol: 0
+The Defiled Cranny	85	gaunt ghuol	gluttonous ghuol	swarm of ghuol whelps: 0	big swarm of ghuol whelps: 0	giant swarm of ghuol whelps: 0	huge ghuol: 0
 The Defiled Niche	85	dirty old lihc	senile lihc	slick lihc	gargantulihc: 0
 The Defiled Nook	85	spiny skelelton	toothy sklelton	giant skeelton: 0
 The Degrassi Knoll Bakery	100	Gnollish Piebaker	Gnollish War Chef	Guard Bugbear
