@@ -5916,7 +5916,7 @@
 5891	ribcage rollcage	726852767	rollcage.gif	familiar	t,d	75
 5892	that gum you like	554400519	fishgum.gif	multiple	t,d	15	packs of that gum you like
 5893	dreaming Jung man	617197455	jungmanlarva.gif	grow	t	0	dreaming Jung men
-5894	Little Red Book	591593094	redbook.gif	familiar	t,d	75
+5894	Little Crimson Book	591593094	redbook.gif	familiar	t,d	75
 5895	avatar of the Unconscious Collective	811180643	uclarva.gif	grow	t	0	avatars of the Unconscious Collective
 5896	blue canary nightlight	510070934	canarylight.gif	familiar	t,d	75
 5897	Unconscious Collective Dream Jar	141587766	dreamjar.gif	spleen	t	0
@@ -8781,7 +8781,7 @@
 8755	red ale	629634528	beerbottle.gif	drink	t	0	bottles of red ale
 8756	tiny plastic Tammy the Tambourine Elf	906904061	tptammy.gif	accessory	t	0
 8757	tiny plastic Rudolph the Red	652714901	tpdolf.gif	accessory	t	0
-8758
+8758	tiny plastic spoiler	400035344	tpspoiler.gif	accessory	t	0
 8759
 8760
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
@@ -8810,9 +8810,9 @@
 8784	circle drum	673178120	circledrum.gif	reusable	t	0
 8785	The Big Book of Communism	212751090	book4.gif	usable	t	0
 8786	faded green protest sign	297143619	protsign1.gif	offhand	t	0
-8787	faded red protest sign	938551639	protsign2.gif	none, combat	t	0
-8788
-8789
+8787	faded red protest sign	938551639	protsign2.gif	offhand	t	0
+8788	nasty-smelling moss	689521483	moss.gif	none, combat reusable	t	0
+8789	little red book	470625910	book4.gif	none, combat reusable	t	0
 8790
 8791
 8792

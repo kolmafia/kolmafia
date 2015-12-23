@@ -3066,6 +3066,7 @@ Item	tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
 Item	tiny plastic Spam Witch	Monster Level: +1
 Item	tiny plastic spiderbugbear	Spooky Damage: +5
 Item	tiny plastic spiny skelelton	Monster Level: +1
+Item	tiny plastic spoiler	Spooky Resistance: +2
 Item	tiny plastic spooky pirate skeleton	Familiar Weight: +1
 Item	tiny plastic spooky vampire	Monster Level: +1
 Item	tiny plastic Spunky Princess	Monster Level: +1
@@ -3377,7 +3378,7 @@ Item	licorice boa	Familiar Weight: +5
 Item	limburger biker boots	Familiar Weight: +5
 Item	little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Generic, Familiar Effect: "adventure underwater"
 Item	little box of fireworks	Familiar Weight: +5, Softcore Only, Generic, Experience: +1.5, Item Drop (sporadic): +12.5
-Item	Little Red Book	Familiar Weight: +5
+Item	Little Crimson Book	Familiar Weight: +5
 # little wooden mannequin: Makes Kid Better at Drawing Other Players
 Item	little wooden mannequin	Familiar Weight: +5
 # Loathing Legion helicopter: Familiar will act more often
