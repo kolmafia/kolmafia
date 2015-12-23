@@ -2647,7 +2647,7 @@ tiny plastic Sneaky Pete	30	none
 tiny plastic Spam Witch	10	none
 tiny plastic spiderbugbear	30	none
 tiny plastic spiny skelelton	10	none
-tiny plastic spoiler	0	none
+tiny plastic spoiler	10	none
 tiny plastic spooky pirate skeleton	10	none
 tiny plastic spooky vampire	10	none
 tiny plastic Spunky Princess	10	none

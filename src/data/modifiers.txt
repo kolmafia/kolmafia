@@ -8063,6 +8063,8 @@ Item	liquid rhinestones	Effect: "Sparkly!", Effect Duration: 40
 Item	liquid smoke	Effect: "Liquidy Smoky", Effect Duration: 15
 # little parachute guy: Eventually restores 10-20 HP and MP
 Item	little red .epub file	Effect: "Xiblaxian Sympathizer", Effect Duration: 50
+# Item little red book: Weakens enemies by 5% and briefly stuns them.
+# Item little red book: Doesn't go away when used.
 Item	little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 # live nautical mine: Deals a bunch of Physical Damage
 # live nautical mine: Is unsafe on land
@@ -8214,6 +8216,8 @@ Item	mysterious chest	Free Pull
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty gum	Effect: "Nasty, Nasty Breath", Effect Duration: 5
+# Item nasty-smelling moss: Restores 20-30 HP and briefly stuns opponents.
+# Item nasty-smelling moss: Doesn't go away when used.
 # nastygeist: Deals <font color=blueviolet>Sleaze Damage</font> each round for the rest of the fight
 Item	natto marble soda	Effect: "Ninja, Please", Effect Duration: 15
 # natural fennel soda: Restores 80-120 MP
