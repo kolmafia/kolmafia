@@ -346,7 +346,6 @@ Item	raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 
 Item	rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
 Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
-Item	reindeer hammer	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Familiar Effect: "0.5xPotato"
 # safarrri hat: +10 Damage vs. Lions
@@ -1080,6 +1079,7 @@ Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
 # elephant stinger: 50% chance of poisoning opponent.
 Item	elephant stinger	Muscle: +3
 Item	elevenderizing hammer	Muscle: +11, Mysticality: +11, Moxie: +11, Weapon Damage: +11
+Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # elven whittling knife: On Critical:  Whittles enemy down
 Item	evil paper umbrella	Monster Level: +1
 Item	evil-ass club	Weapon Damage: +25, Monster Level: +15, Spooky Damage: +15, Class: "Seal Clubber"
@@ -1396,6 +1396,8 @@ Item	red hot poker	Hot Damage: +15
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
 Item	regret hose	Cold Damage: +10
+Item	reindeer hammer	Muscle: +10, Mysticality: +10, Moxie: +10
+# Item reindeer sickle: Successful hit causes bleeding.
 Item	remaindered axe	Muscle: +2, Weapon Damage: +2
 # remorseless knife: Successful hit causes bleeding.
 Item	repeating crossbow	Moxie: +2, Critical Hit Percent: +15
@@ -2920,6 +2922,7 @@ Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
+Item	tiny plastic also a spoiler	Sleaze Resistance: +2
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
 Item	tiny plastic ancient yuletide troll	Familiar Weight: +1
