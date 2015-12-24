@@ -8782,7 +8782,7 @@
 8756	tiny plastic Tammy the Tambourine Elf	906904061	tptammy.gif	accessory	t	0
 8757	tiny plastic Rudolph the Red	652714901	tpdolf.gif	accessory	t	0
 8758	tiny plastic spoiler	400035344	tpspoiler.gif	accessory	t	0
-8759
+8759	tiny plastic also a spoiler	544902463	tpspoiler.gif	accessory	t	0
 8760
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
 8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
@@ -8813,8 +8813,8 @@
 8787	faded red protest sign	938551639	protsign2.gif	offhand	t	0
 8788	nasty-smelling moss	689521483	moss.gif	none, combat reusable	t	0
 8789	little red book	470625910	book4.gif	none, combat reusable	t	0
-8790
-8791
+8790	elven tambourine	291874921	tambo.gif	weapon	t	0
+8791	reindeer sickle	509476173	commiesickle.gif	weapon	t	0
 8792
 8793
 8794	The Big Book of Communism (used)	729555641	book4.gif	usable		0
