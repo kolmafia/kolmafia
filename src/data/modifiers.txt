@@ -3099,6 +3099,7 @@ Item	tiny plastic warwelf	Monster Level: +1
 Item	tiny plastic whitesnake	Monster Level: +1
 Item	tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 Item	tiny plastic XXX pr0n	Monster Level: +1
+Item	tiny plastic yes also a spoiler	Stench Resistance: +2
 Item	tiny plastic zmobie	Monster Level: +1
 Item	tonguebone	Sleaze Resistance: +4, Single Equip
 Item	topiary necktie	Sleaze Resistance: +3
@@ -7836,6 +7837,7 @@ Item	grease trap	Effect: "Grease Trappings", Effect Duration: 50
 # green BRICKO brick: Deals a percentage of a monster's current Hit Points in Physical Damage
 # green BRICKO brick: (more effective against BRICKO monsters)
 Item	green candy heart	Effect: "Heart of Green", Effect Duration: 10
+# Item green face paint: Makes you green with holiday cheer!
 # green pixel potion: Restores 40-60 HP and 30-40 MP
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
@@ -8550,6 +8552,7 @@ Item	Red Army camouflage kit	Effect: "Red, Red Skeleton", Effect Duration: 50
 Item	red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
 # red button: Deals Physical Damage based on how many of them you have
 Item	red eye	Effect: "Seeing Red", Effect Duration: 20
+# Item red face paint: Makes you red with holiday cheer!
 Item	red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 Item	red letter	Effect: "Red Lettered", Effect Duration: 20
 Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5

@@ -2680,6 +2680,7 @@ tiny plastic warwelf	10	none
 tiny plastic whitesnake	10	none
 tiny plastic Wu Tang the Betrayer	30	none
 tiny plastic XXX pr0n	10	none
+tiny plastic yes also a spoiler	10	none
 tiny plastic zmobie	10	none
 tonguebone	225	Mys: 200
 topiary necktie	50	none
