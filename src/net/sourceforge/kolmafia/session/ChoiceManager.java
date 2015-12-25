@@ -3678,6 +3678,12 @@ public abstract class ChoiceManager
 	   // Choice 1121 is Some Assembly Required
 	   // Choice 1122 is Some Assembly Required
 	   // Choice 1123 is Some Assembly Required
+	   // Choice 1127 is The Crimbo Elf Commune
+	   // Choice 1128 is Reindeer Commune
+	   // Choise 1129 is The Crimbulmination
+	   // Choise 1130 is The Crimbulmination
+	   // Choise 1131 is The Crimbulmination
+	   // Choise 1132 is The Crimbulmination
 
 	};
 
