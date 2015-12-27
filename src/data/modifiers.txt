@@ -2922,7 +2922,6 @@ Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
-Item	tiny plastic also a spoiler	Sleaze Resistance: +2
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
 Item	tiny plastic ancient yuletide troll	Familiar Weight: +1
@@ -2977,8 +2976,10 @@ Item	tiny plastic Crimbo Casino	Meat Drop: +4
 Item	tiny plastic Crimbo elf	Familiar Weight: +1
 Item	tiny plastic Crimbo reindeer	Adventures: +1, Single Equip
 Item	tiny plastic Crimbo wreath	MP Regen Min: 1, MP Regen Max: 2, Single Equip
+Item	tiny plastic Crimbodhisattva	Stench Resistance: +2
 Item	tiny plastic Crimbomega	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	tiny plastic Crimbomination	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+Item	tiny plastic Crimborgatron	Sleaze Resistance: +2
 Item	tiny plastic Crimbot	Monster Level: +1
 Item	tiny plastic Crimboween pentagram	MP Regen Min: 1, MP Regen Max: 2, Single Equip
 Item	tiny plastic cubist bull	Monster Level: +1
@@ -3003,6 +3004,7 @@ Item	tiny plastic fruit golem	Monster Level: +1
 Item	tiny plastic Fudge Wizard	Spell Damage: +10
 Item	tiny plastic fuzzy dice	Familiar Weight: +1
 Item	tiny plastic G Imp	Monster Level: +1
+Item	tiny plastic Gaia'ajh-dsli Ak'lwej	Spooky Resistance: +2
 Item	tiny plastic Gary Claybender	Monster Level: +1
 Item	tiny plastic ghost pickle on a stick	Familiar Weight: +1
 Item	tiny plastic ghuol whelp	Familiar Weight: +1
@@ -3069,7 +3071,6 @@ Item	tiny plastic Sneaky Pete	Moxie: +5, Muscle: +3, Mysticality: +3
 Item	tiny plastic Spam Witch	Monster Level: +1
 Item	tiny plastic spiderbugbear	Spooky Damage: +5
 Item	tiny plastic spiny skelelton	Monster Level: +1
-Item	tiny plastic spoiler	Spooky Resistance: +2
 Item	tiny plastic spooky pirate skeleton	Familiar Weight: +1
 Item	tiny plastic spooky vampire	Monster Level: +1
 Item	tiny plastic Spunky Princess	Monster Level: +1
@@ -3099,7 +3100,6 @@ Item	tiny plastic warwelf	Monster Level: +1
 Item	tiny plastic whitesnake	Monster Level: +1
 Item	tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 Item	tiny plastic XXX pr0n	Monster Level: +1
-Item	tiny plastic yes also a spoiler	Stench Resistance: +2
 Item	tiny plastic zmobie	Monster Level: +1
 Item	tonguebone	Sleaze Resistance: +4, Single Equip
 Item	topiary necktie	Sleaze Resistance: +3

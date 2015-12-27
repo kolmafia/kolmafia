@@ -8781,9 +8781,9 @@
 8755	red ale	629634528	beerbottle.gif	drink	t	0	bottles of red ale
 8756	tiny plastic Tammy the Tambourine Elf	906904061	tptammy.gif	accessory	t	0
 8757	tiny plastic Rudolph the Red	652714901	tpdolf.gif	accessory	t	0
-8758	tiny plastic spoiler	400035344	tpspoiler.gif	accessory	t	0
-8759	tiny plastic also a spoiler	544902463	tpspoiler.gif	accessory	t	0
-8760	tiny plastic yes also a spoiler	245710520	tpspoiler.gif	accessory	t	0
+8758	tiny plastic Gaia'ajh-dsli Ak'lwej	400035344	tpspoiler.gif	accessory	t	0
+8759	tiny plastic Crimborgatron	544902463	tpspoiler.gif	accessory	t	0
+8760	tiny plastic Crimbodhisattva	245710520	tpspoiler.gif	accessory	t	0
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
 8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
 8763
