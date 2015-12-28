@@ -1730,6 +1730,7 @@ red China marble	203	Mys: 85
 red LavaCo Lamp&trade;	100	Mus: 35
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
+reusable shopping bag	0	none
 rice bowl	30	none
 rock	0	none
 Royal scepter	0	none
