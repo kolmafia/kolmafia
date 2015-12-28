@@ -8796,7 +8796,7 @@
 8770	pitted sheet metal	195139452	pittedmetal.gif	usable	t,d	25
 8771	sparking robo-battery	657116244	sparkbattery.gif	usable	t,d	25
 8772	overloaded micro-reactor	467410887	reactor.gif	none, combat	t,d	0
-8773
+8773	reusable shopping bag	347233453	reusebag.gif	offhand	t	0
 8774
 8775	coarse hemp socks	493445986	hempsocks.gif	accessory	t	0
 8776	red armband	737214563	blackcheck.gif	accessory	t	0

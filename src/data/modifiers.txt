@@ -2029,6 +2029,7 @@ Item	red China marble	Hot Spell Damage: +40
 Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect Duration: 50, Rollover Effect: "Red Menace"
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
+Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
 Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect Duration: 5, Rollover Effect: "It's Good To Be Royal!"
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
