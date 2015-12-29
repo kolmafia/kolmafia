@@ -7956,7 +7956,7 @@
 7931
 7932
 7933
-7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable		0	rolls of sneaky wrapping paper
+7934	sneaky wrapping paper	926150223	sneakypaper.gif	reusable	d	5	rolls of sneaky wrapping paper
 7935	Thwaitgold nit statuette	908813854	thwaitnit.gif	none		0
 7936	picky tweezers	177727115	tweezers.gif	reusable	t	0	pairs of picky tweezers
 7937	Crimbo Credit	772180382	crimbocredit.gif	none		0	Crimbo Credits
@@ -8781,9 +8781,9 @@
 8755	red ale	629634528	beerbottle.gif	drink	t	0	bottles of red ale
 8756	tiny plastic Tammy the Tambourine Elf	906904061	tptammy.gif	accessory	t	0
 8757	tiny plastic Rudolph the Red	652714901	tpdolf.gif	accessory	t	0
-8758	tiny plastic Gaia'ajh-dsli Ak'lwej	400035344	tpspoiler.gif	accessory	t	0
-8759	tiny plastic Crimborgatron	544902463	tpspoiler.gif	accessory	t	0
-8760	tiny plastic Crimbodhisattva	245710520	tpspoiler.gif	accessory	t	0
+8758	tiny plastic Gaia'ajh-dsli Ak'lwej	400035344	tpelfboss.gif	accessory	t	0
+8759	tiny plastic Crimborgatron	544902463	tpdeerboss.gif	accessory	t	0
+8760	tiny plastic Crimbodhisattva	245710520	tpcrimbuddha.gif	accessory	t	0
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
 8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
 8763
@@ -8795,7 +8795,7 @@
 8769	chocolate bowtie	950198120	bowtie.gif	familiar	t,d	75
 8770	pitted sheet metal	195139452	pittedmetal.gif	usable	t,d	25
 8771	sparking robo-battery	657116244	sparkbattery.gif	usable	t,d	25
-8772	overloaded micro-reactor	467410887	reactor.gif	none, combat	t,d	0
+8772	overloaded micro-reactor	467410887	reactor.gif	none, combat	t,d	25
 8773	reusable shopping bag	347233453	reusebag.gif	offhand	t	0
 8774
 8775	coarse hemp socks	493445986	hempsocks.gif	accessory	t	0
