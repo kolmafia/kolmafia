@@ -110,6 +110,7 @@ public class UseSkillRequest
 	public static final String[] BREAKFAST_ALWAYS_SKILLS =
 	{
 		"Summon Annoyance",
+		"Communism!",
 	};
 
 	public static final String[] TOME_SKILLS =
