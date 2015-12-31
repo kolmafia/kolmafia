@@ -359,6 +359,7 @@ public class RequestEditorKit
 
 		if ( location.startsWith( "account.php" ) )
 		{
+			StringUtilities.singleStringReplace( buffer, "Manage Subscriptions", "Manage Subscriptions (this will not work in KoLmafia)" );
 			StringUtilities.singleStringReplace( buffer, "account_subscription.php\"", "#\" title='This will not work in KoLmafia'" );
 		}
 		else if ( location.startsWith( "account_combatmacros.php" ) )
@@ -509,6 +510,7 @@ public class RequestEditorKit
 		else if ( location.startsWith( "mrstore.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, "account_subscription.php", "# title='This will not work in KoLmafia'" );
+			StringUtilities.singleStringReplace( buffer, "subscribing</a>", "subscribing (does not work in KoLmafia)</a>" );
 		}
 		else if ( location.startsWith( "multiuse.php" ) )
 		{
