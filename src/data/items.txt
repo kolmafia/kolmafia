@@ -8006,7 +8006,7 @@
 7981	talisman of Thoth	311479589	tal_t.gif	usable	q,d	25
 7982	ancient cure-all	323441002	ancientcureall.gif	usable	q,d	25
 7983	Sister Accessory	484621525	sisteracc.gif	accessory	t	0	Sister Accessories
-7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0
+7984	Boosty Juice	559310939	boostyjuice.gif	usable	t	0	cans of Boosty Juice
 7985	polyester parachute	973760204	polyparachute.gif	container		0
 7986	polyester pad	785194437	polypad.gif	offhand		0
 7987	polyester peeler	752785902	polypeeler.gif	weapon		0
