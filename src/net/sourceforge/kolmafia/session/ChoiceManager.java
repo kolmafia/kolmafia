@@ -217,6 +217,7 @@ public abstract class ChoiceManager
 	private static final Pattern WLF_PATTERN = Pattern.compile( "<form action=choice.php>.*?<b>(.*?)</b>.*?descitem\\((.*?)\\).*?>(.*?)<.*?name=option value=([\\d]*).*?</form>", Pattern.DOTALL );
 	private static final Pattern WLF_COUNT_PATTERN = Pattern.compile( ".*? \\(([\\d]+)\\)$" );
 	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
+	private static final Pattern SNOJO_CONSOLE_PATTERN = Pattern.compile( "<b>(.*?) MODE</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -3673,6 +3674,15 @@ public abstract class ChoiceManager
 				       new Option( "acquire cocktail ingredients", 4 ),
 				       new Option( "acquire 3 Wal-Mart gift certificates (1/day)", 5, "Wal-Mart gift certificate" ),
 				       new Option( "leave", 6 ) } ),
+
+		// Choice 1118 is X-32-F Combat Training Snowman Control Console
+		new ChoiceAdventure(
+			"The Snojo", "choiceAdventure1118", "Control Console",
+			new Object[] { new Option( "muscle training", 1 ),
+				       new Option( "mysticality training", 2 ),
+				       new Option( "moxie training", 3 ),
+				       new Option( "tournament", 4 ),
+				       new Option( "tleave", 6 ) } ),
 
 	   // Choice 1120 is Some Assembly Required
 	   // Choice 1121 is Some Assembly Required
@@ -8972,6 +8982,25 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1118:
+			// X-32-F Combat Training Snowman Control Console
+			switch ( ChoiceManager.lastDecision )
+			{
+			case 1:
+				Preferences.setString( "snojoSetting", "MUSCLE" );
+				break;
+			case 2:
+				Preferences.setString( "snojoSetting", "MYSTICALITY" );
+				break;
+			case 3:
+				Preferences.setString( "snojoSetting", "MOXIE" );
+				break;
+			case 4:
+				Preferences.setString( "snojoSetting", "TOURNAMENT" );
+				break;
+			}
+			break;
+
 		case 1120:
 		case 1121:
 		case 1122:
@@ -10990,6 +11019,21 @@ public abstract class ChoiceManager
 			// Spoopy
 			Preferences.setBoolean( "doghouseBoarded", !text.contains( "Board up the doghouse" ) );
 			break;
+
+		case 1118:
+		{
+			// X-32-F Combat Training Snowman Control Console
+			Matcher matcher = ChoiceManager.SNOJO_CONSOLE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "snojoSetting", matcher.group( 1 ).trim() );
+			}
+			else
+			{
+				Preferences.setString( "snojoSetting", "" );
+			}
+			break;
+		}
 
 		}
 	}
@@ -13314,6 +13358,7 @@ public abstract class ChoiceManager
 		case 1105: // Specifici Tea
 		case 1110: // Spoopy
 		case 1114: // Walford Rusley, Bucket Collector
+		case 1118: // X-32-F Combat Training Snowman Control Console
 			return true;
 
 		default:

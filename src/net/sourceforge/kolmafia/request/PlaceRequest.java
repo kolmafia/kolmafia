@@ -208,6 +208,10 @@ public class PlaceRequest
 			{
 				Preferences.setBoolean( "chateauAvailable", true );
 			}
+			if ( responseText.contains( "snojo" ) )
+			{
+				Preferences.setBoolean( "snojoAvailable", true );
+			}
 		}
 		else if ( place.equals( "nstower" ) )
 		{

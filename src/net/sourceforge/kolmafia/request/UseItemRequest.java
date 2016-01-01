@@ -5254,6 +5254,10 @@ public class UseItemRequest
 			}
 			Preferences.setBoolean( "_circleDrumUsed", true );
 			return;
+
+		case ItemPool.SNOWMAN_CRATE:
+			Preferences.setBoolean( "snojoAvailable", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
