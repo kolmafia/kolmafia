@@ -1029,7 +1029,7 @@ public class RequestEditorKit
 	//
 	//</script>
 
-	private static final Pattern MALWARE1_PATTERN = Pattern.compile( "<script>.*?GoogleAnalyticsObject.*?</script>", Pattern.DOTALL );
+	private static final Pattern MALWARE1_PATTERN = Pattern.compile( "<script>[\\s]*\\(function\\(i,s,o,g,r,a,m\\).*?GoogleAnalyticsObject.*?</script>", Pattern.DOTALL );
 
 	// <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	// <!-- ROS_728x90 -->
