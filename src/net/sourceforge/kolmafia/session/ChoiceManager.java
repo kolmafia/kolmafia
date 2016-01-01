@@ -3598,7 +3598,8 @@ public abstract class ChoiceManager
 				       new Option( "make colored lava globs", 4 ),
 				       new Option( "glowing New Age healing crystal -> crystalline light bulb", 5, "crystalline light bulb" ),
 				       new Option( "crystalline light bulb + insulated wire + heat-resistant sheet metal -> LavaCo&trade; Lamp housing", 6, "LavaCo&trade; Lamp housing" ),
-				       new Option( "fused fuse", 7, "fused fuse" )
+				       new Option( "fused fuse", 7, "fused fuse" ),
+				       new Option( "leave", 9 )
 				       } ),
 
 		// Choice 1092 is Dyer Maker
