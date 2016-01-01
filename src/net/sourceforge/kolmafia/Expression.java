@@ -391,8 +391,8 @@ public class Expression
 				String event = (String) this.literals.get( (int) s[ --sp ] );
 				if ( event.equals( "Crimbo2015" ) )
 				{
-					// Assume event ends just after rollover on 1st January 2016
-					Calendar eventEnd = new GregorianCalendar( 2016, 1, 1, 20, 30);
+					// Event ends just after rollover on 3rd January 2016
+					Calendar eventEnd = new GregorianCalendar( 2016, 1, 3, 20, 30);
 					v = date.before( eventEnd ) ? 1 : 0;
 				}
 				break;

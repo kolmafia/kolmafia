@@ -970,6 +970,8 @@ user	slimelingStacksDropped	0
 user	slimelingStacksDue	0
 user	smoresEaten	0
 user	sneakyPetePoints	0
+user	snojoAvailable	false
+user	snojoSetting
 user	snowsuit	
 user	sortByRoom	true
 user	spadingData
