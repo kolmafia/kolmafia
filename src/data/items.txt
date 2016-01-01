@@ -8720,8 +8720,8 @@
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
 8695
 8696
-8697
-8698
+8697	ice rice	879699146	icerice.gif	food	t,d	5
+8698	iced plum wine	690208428	icewine.gif	drink	t,d	5
 8699
 8700
 8701

@@ -298,6 +298,7 @@ ice stein	6	1		12	0	0	0	24-48 MP
 ice-cold fotie	3	1	crappy	3	0	0	0	9-12 MP
 ice-cold Sir Schlitz	1	1	crappy	1	0	0	0	2-4 MP
 ice-cold Willer	1	1	crappy	1	0	0	0	3-4 MP
+iced plum wine	1	1	EPIC	0	0	0	0	Unspaded
 icy mushroom wine	3	6	awesome	10-14	0	12-15	0
 Imp Ale	1	1	crappy	1	7-8	0	-5	8-10 MP
 Infinitesimal IPA	3	1		3-8	0	0	0
