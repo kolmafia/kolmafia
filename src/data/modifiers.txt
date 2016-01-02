@@ -463,6 +463,8 @@ Item	astral shorts	Moxie Percent: +25, Initiative: +20, HP Regen Min: 2, HP Rege
 Item	astral trousers	Muscle Percent: +25, Weapon Damage Percent: +50, Meat Drop: +20, Familiar Effect: "1xPotato, cap 12"
 Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effect: "1xVolley, 1.5xPotato, cap 43"
 Item	baggy rave pants	Damage Absorption: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
+# Item bakelite breeches: Doubles the damage of Disco Inferno
+Item	bakelite breeches	Hot Resistance: +5, Moxie Percent: +20
 Item	bankruptcy barrel	Moxie Percent: +25, Initiative: +50, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 Item	bark boxers	Damage Reduction: 5, Familiar Effect: "atk, 3xVolley, cap 10"
 Item	barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6"
@@ -723,6 +725,8 @@ Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Single Equip, Famil
 Item	weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
 Item	white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
 Item	Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
+# Item wicker knickers: Increases the effectiveness of Shield of the Pastalord
+Item	wicker knickers	Experience (Mysticality): +2, Adventures: +2
 Item	wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "atk, 1xVolley, cap 27"
 Item	wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 Item	Xiblaxian stealth trousers	Combat Rate: -5, Moxie Percent: +20
@@ -1656,6 +1660,8 @@ Item	White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percen
 Item	white sword	Muscle: +2
 Item	white whip	Experience: +1
 Item	wholeberd	Weapon Damage: +6
+# Item wicker sticker: Is a sweet, sweet knife
+Item	wicker sticker	Weapon Damage Percent: +20, PvP Fights: +4
 Item	wiffle-flail	Mysticality: +3, Muscle: +2, Initiative: +20
 # Windsor Pan of the Source: Special Attack:  Saucemageddon
 Item	Windsor Pan of the Source	Mysticality: +15, Spell Damage: +23, Spell Critical Percent: +11, Class: "Sauceror"
@@ -1714,6 +1720,8 @@ Item	Bag o' Tricks	Item Drop: +10, Meat Drop: +15, MP Regen Min: 10, MP Regen Ma
 # bag of Crotchety Pine saplings
 # bag of Laughing Willow saplings
 # bag of Saccharine Maple saplings
+# Item bakelite bowl: Increase the number of Ravioli Shurikens you can conjure
+Item	bakelite bowl	Maximum MP: +20, Spell Damage: +20
 Item	ball-in-a-cup	Experience (Mysticality): +2
 # balloon shield: Deals 2-3 damage to attackers
 Item	balloon shield	Damage Reduction: 3
@@ -2174,6 +2182,8 @@ Item	washboard shield	Damage Absorption: +50, Class: "Turtle Tamer", Damage Redu
 Item	Whatsian Ionic Pliers	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 # white balloon
 Item	white satin shield	Moxie: +2, Damage Reduction: 5
+# Item wicker clicker: Cadenza will briefly stun opponents
+Item	wicker clicker	Experience (Moxie): +2, MP Regen Min: 2, MP Regen Max: 4
 Item	wicker shield	Moxie: +6, Damage Reduction: 11
 Item	wonderwall shield	Maximum HP: +50, Damage Reduction: 12
 Item	yakskin buckler	Mysticality: +5, Damage Reduction: 5
@@ -2217,6 +2227,12 @@ Item	baconstone pendant	Mysticality: +4, Spell Damage: +10
 Item	baconstone ring	Mysticality: +5, Maximum MP: +10, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	badass belt	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	badge of authority	Monster Level: +10, Single Equip
+# Item bakelite badge: Gain the favor of the Great Turtle Spirits more quickly
+Item	bakelite badge	Familiar Weight: +5, Muscle Percent: +20, Single Equip
+# Item bakelite belt: Makes Cavalcade of Fury consume less Fury
+Item	bakelite belt	Critical Hit Percent: +5, Damage Reduction: 10, Single Equip
+# Item bakelite brooch: Active Saucespheres increase your spell damage
+Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Single Equip
 # bananarama bangle: (only in the Candy Diorama)
 Item	bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
 Item	Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
@@ -3176,6 +3192,10 @@ Item	wheel	Initiative: +10
 Item	white belt	Muscle: +3, Weapon Damage: +3, Single Equip
 Item	white collar	Meat Drop: +3, Moxie: +1
 Item	white earbuds	Spooky Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Monster Level: -11, Single Equip
+# Item wicker kickers: Add a stomp attack to every Smack
+Item	wicker kickers	Initiative: +20, Maximum HP: +20, Single Equip
+# Item wicker ticker: Collecting Soul Sauce restores HP
+Item	wicker ticker	HP Regen Min: 4, HP Regen Max: 8, Spell Damage Percent: +20, Single Equip
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
@@ -3200,6 +3220,8 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	auxiliary backbone	PvP Fights: +3
+# Item bakelite backpack: Makes Accordion Bash knock loose some Meat
+Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
 Item	barskin cloak	Muscle: +7
 Item	black cloak	Spell Damage: +10
 # Buddy Bjorn: Put a Familiar In It!
@@ -3258,6 +3280,8 @@ Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
+# Item wicker slicker: Lets you use Shell Up multiple times per fight
+Item	wicker slicker	Experience (Muscle): +2, Sleaze Resistance: +3
 Item	wings of fire	Hot Damage: +25, Hot Spell Damage: +25
 
 # Familiar Items section of modifiers.txt
@@ -6273,6 +6297,7 @@ Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Reg
 Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Outfit	Arboreal Raiment	Stench Resistance: +3
 Outfit	Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
+Outfit	Bakelite Brigandine	Item Drop: +20
 Outfit	Bits o' Honey	Item Drop: +5
 Outfit	Black Armaments	Muscle: +6
 Outfit	Blasphemous Bedizenment	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30
@@ -6380,6 +6405,7 @@ Outfit	Violent Vestments	Muscle Percent: +15, Mysticality Percent: +15, Moxie Pe
 Outfit	War Hippy Fatigues	Stench Damage: +15
 Outfit	Warbear Dress Armor	Item Drop: +10
 Outfit	Wax Wardrobe	Moxie: +7
+Outfit	Wicker Wear	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	Workoutfit	PvP Fights: +2
 Outfit	Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 Outfit	Xiblaxian Stealth Suit	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
