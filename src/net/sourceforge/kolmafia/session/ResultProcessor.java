@@ -1365,6 +1365,10 @@ public class ResultProcessor
 		case ItemPool.MANUAL_OF_NUMBEROLOGY:
 			Preferences.setBoolean( "manualOfNumberologyAvailable", false );
 			break;
+
+		case ItemPool.ROM_OF_OPTIMALITY:
+			Preferences.setBoolean( "ROMOfOptimalityAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.
