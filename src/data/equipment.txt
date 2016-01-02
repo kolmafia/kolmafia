@@ -357,8 +357,8 @@ astral trousers	50	none
 astronaut pants	175	Mox: 72
 baggy rave pants	150	Mox: 60
 bakelite breeches	120	Mox: 40
-bark boxers	40	Mox: 5
 bankruptcy barrel	100	none
+bark boxers	40	Mox: 5
 barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
