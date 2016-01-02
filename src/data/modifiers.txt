@@ -402,6 +402,7 @@ Item	tope&eacute;	Stench Resistance: +3, Hot Resistance: +3
 Item	toy Crimbot mega face	Item Drop: +10, Crimbot Outfit Power: +1
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 Item	toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
+Item	training helmet	Initiative: -50, Item Drop: +25, Moxie Percent: +25
 Item	Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
@@ -3111,6 +3112,7 @@ Item	tourmalime tourniquet	Single Equip
 Item	toy crazy train	Meat Drop: +10, Single Equip
 Item	toy maglev monorail	Meat Drop: +10, Single Equip
 Item	toy train	Meat Drop: +10, Single Equip
+Item	training legwarmers	Spell Damage Percent: -50, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Mysticality Percent: +25, Single Equip
 Item	Treads of Loathing	Adventures: +6, PvP Fights: +6, Sleaze Resistance: +5, Single Equip, Cloathing
 Item	tube sock	Moxie: +20, Single Equip
 Item	Uncle Buck	Maximum HP: +15, Softcore Only
@@ -4047,6 +4049,8 @@ Effect	Amorous Avarice	Meat Drop: [min(100,ceil(D/5)*25)]
 Effect	Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Ancestral Disapproval	Mysticality Percent: +10
 Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
+# Ancient Fortitude: You are impervious to negative effects
+Effect	Ancient Fortitude	Maximum HP: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
 # Angry Bone: +40 Damage vs. Undead
@@ -4093,6 +4097,7 @@ Effect	Axe Wound	Muscle: -5
 Effect	Aykrophobia	Item Drop: +25, Spooky Damage: +20, Monster Level: +15
 # B-b-brr!
 Effect	Baconstoned	Mysticality Percent: +50, Spell Damage: +11
+Effect	Bad Haircut	Moxie Percent: -50
 # Bad Luck: Uh Oh...
 Effect	Badger Underfoot	Meat Drop: +20
 Effect	Bailando, Fernando	Item Drop: +10
@@ -4241,6 +4246,7 @@ Effect	Brother Corsican's Blessing	Experience (familiar): +2
 Effect	Brother Flying Burrito's Blessing	Food Drop: +30
 Effect	Brother Smothers's Blessing	Booze Drop: +30
 Effect	Browbeaten	Muscle: +10, Weapon Damage: +5, Experience (Muscle): +2
+Effect	Bruised	Muscle: -100, Mysticality: -100, Moxie: -100
 # Bruised Jaw: Mruimed Maw
 Effect	Bubble Vision	Item Drop: [max(0,101-T)]
 Effect	Bubble, Bubble	Moxie: -5, Muscle: +5
@@ -4799,6 +4805,8 @@ Effect	Hair on Your Chest	Maximum MP Percent: +50
 Effect	Hairless and Airless	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Hairy Palms	Never Fumble, MP Regen Min: 3, MP Regen Max: 4, HP Regen Min: 6, HP Regen Max: 8
 # Half-Astral: Like, Wow, Man
+Effect	Half-Blooded	Maximum HP Percent: -50
+Effect	Half-Drained	Maximum MP Percent: -50
 Effect	Half-Eaten Brain	Mysticality Percent: -20
 Effect	Halloweeny	Spooky Damage: +25
 Effect	Ham(ster)-Handed	Avatar: "skeletal hamster"
@@ -4911,6 +4919,7 @@ Effect	Hyperbolic Hypothermia	Cold Damage: +20
 Effect	Hypercubed	Maximum MP: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Hyperoffended	Sleaze Resistance: +9
 Effect	Hyphemariffic	Spooky Resistance: +9
+Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
@@ -5425,6 +5434,7 @@ Effect	Red, Red Skeleton	Avatar: "red skeleton"
 Effect	Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Effect	Refuse Reflux	Stench Damage: [min(100,T)]
+Effect	Relaxed Muscles	Muscle Percent: -50
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
@@ -6912,6 +6922,7 @@ Item	abstraction: perception	Effect: "Perception", Effect Duration: 50
 Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
 Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
 Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
+Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20

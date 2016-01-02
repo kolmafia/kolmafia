@@ -16,6 +16,7 @@ abstraction: sensation	1	1	decent	0	0	0	0	50 Sensation (+100% mox)
 abstraction: thought	1	1	decent	0	0	0	0	50 Thought (+100% mys)
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
 alien protein powder	3	4	awesome	8-10	0	0	0
+ancient medicinal herbs	1	1	awesome	0	0	0	0	Unspaded, 50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient protein powder	1	1	good	0	12-14	0	0
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
