@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -236,6 +237,12 @@ public class RestaurantCommand
 			return false;
 		}
 
+		if ( !StandardRequest.isAllowed( "Clan Items", "Clan hot dog stand" ) || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() )
+		{
+			KoLmafia.updateDisplay( "The clan hot dog stand is not available on your current path." );
+			return true;
+		}
+
 		if ( !ClanLoungeRequest.canVisitLounge() )
 		{
 			KoLmafia.updateDisplay( "Since you have no access to the Clan VIP lounge, you may not visit the Hot Dog Stand." );
@@ -302,6 +309,12 @@ public class RestaurantCommand
 		if ( speakeasyDrink == null )
 		{
 			return false;
+		}
+
+		if ( !StandardRequest.isAllowed( "Clan Items", "Clan speakeasy" ) || KoLCharacter.isJarlsberg() || KoLCharacter.inHighschool() )
+		{
+			KoLmafia.updateDisplay( "The clan speakeasy is not available on your current path." );
+			return true;
 		}
 
 		if ( !ClanLoungeRequest.canVisitLounge() )
