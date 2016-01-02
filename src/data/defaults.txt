@@ -750,6 +750,7 @@ user	oceanAction	savecontinue
 user	oceanDestination	manual
 user	oilPeakProgress	310.66
 user	olfactedMonster	unknown
+user	optimalSwagger	0
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	palindomeDudesDefeated	0
@@ -791,6 +792,8 @@ user	prismaticSummons	0
 user	promptAboutCrafting	1
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	ROMOfOptimalityAvailable	true
+user	ROMOfOptimalityCost	1000
 user	questECoBucket	unstarted
 user	questESlAudit	unstarted
 user	questESlBacteria	unstarted

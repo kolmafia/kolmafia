@@ -8818,3 +8818,9 @@
 8792	green face paint	315697628	balm.gif	reusable		0
 8793	red face paint	503242930	balm.gif	reusable		0
 8794	The Big Book of Communism (used)	729555641	book4.gif	usable		0
+8795
+8796
+8797
+8798
+8799
+8800	ROM of Optimality	499948583	cd.gif	usable		0
