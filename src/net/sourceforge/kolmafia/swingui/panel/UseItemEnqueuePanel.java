@@ -665,6 +665,16 @@ public class UseItemEnqueuePanel
 				return false;
 			}
 
+			if ( creation.hotdog && !StandardRequest.isAllowed( "Clan Items", "Clan hot dog stand" ) )
+			{
+				return false;
+			}
+
+			if ( creation.speakeasy && !StandardRequest.isAllowed( "Clan Items", "Clan speakeasy" ) )
+			{
+				return false;
+			}
+
 			if ( KoLCharacter.inBeecore() )
 			{
 				// If you have a GGG or Spirit Hobo equipped,
