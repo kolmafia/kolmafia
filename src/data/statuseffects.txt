@@ -1764,8 +1764,8 @@
 1763	Petit Forbearance	fortran.gif	14960b4b03e57f90e0d3e3eaaebd2d2a	eat 1 petit fortran
 1764	Updated	javacookie.gif	380dfcf8f0a3aaf32b63ec48b35827e0	eat 1 java cookie
 1765	Cookie Backup	cookie.gif	054b73678da2ad536cbcebebb024f5fe	eat 1 cookie cookie
-1766
-1767
+1766	Half-Blooded	moon3.gif	cdfa42736c8d286116cb695d98278a41	#snojo debuff
+1767	Half-Drained	lightning.gif	d08b92c0f0b06f462a27f043859a4cb0	#snojo debuff
 1768	Vented Spleen	liver.gif	1958208e342cd07f9f69ee796dfdd4ce	use 1 Bit O' Quail Spleen
 1769	BOOsted	bar_boo.gif	788f68b7dedc246980ebf120973b99c4	use 1 BOOterfinger
 1770	Moon-Eyed	bar_moon.gif	b4b19e7da7326c315905e0fc5f4be4cf	use 1 Moonds
@@ -1990,7 +1990,7 @@
 1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
 1990	It's Good To Be Royal!	scepter.gif	649609b239c77507b1b112bc7a6d7ae4
 1991	Inner Elf	machelf.gif	b7ee0a7bd6da403858b2d3baacd3c4b4
-1992
+1992	Bruised	boxinggloves.gif	c535991f2b389b9e91c3ea415ddaa114	#snojo debuff
 1993	Insani Tea	tea_crazy.gif	d25be2dd24b29bfddec85c0de1a82c37	use 1 cuppa Insani tea
 1994	Adventurer's Best Friendship	hotdog_spooky.gif	e8e5580eafade2ad9bb6452c96e3d912
 1995	Tennis Elbow-wow	tennisball.gif	68c7353e053b979e3ad45c8757923223
@@ -2022,7 +2022,7 @@
 2021	Motion	abs7.gif	79d1ae432737050d345689eef9d63488	chew 1 abstraction: motion
 2022	Joy	abs8.gif	1610c38cc59444b05760791cf7544933	chew 1 abstraction: joy
 2023	Certainty	abs9.gif	f9beaa40b81d459e23c1b7467dc36d36	chew 1 abstraction: certainty
-2024
+2024	Relaxed Muscles	notes.gif	7aaa46cc98e6af82f4d6437b1192cd36	#snojo debuff
 2025	You Ate Some Hemp Candy	candynecklace.gif	872fe1af62ca2810f488d3892e7edcd7	use 1 hemp candy necklace
 2026	The Magic of Sharing	jawbreaker.gif	c6663c3f2761179a5acbe4f0505f418b	use 1 communal gobstopper
 2027	Salad Days	salad.gif	533a316fea4bba2c86aaa49b68f4d4e0	eat 1 Crimbo salad
@@ -2030,8 +2030,8 @@
 2029	Bark of the Dog	beerbottle.gif	1d354189ab0be574ca34ce3fa248afce	drink 1 bark rootbeer
 2030	Putting the Pro in Proletariat	beerbottle.gif	7ed8e54bf9b1c09eeef2dfd9cd09fbb7	drink 1 red ale
 2031	Ironclad	pittedmetal.gif	27286a50c008bea7dff72220edfe6b05	use 1 pitted sheet metal
-2032
-2033
+2032	Hypnotized	spiral.gif	cfbc5824bd4c6d04b114aeb3ebb194b7	#snojo debuff
+2033	Bad Haircut	comb.gif	a9a379fdd526c1726e6aa306d3a4fc50	#snojo debuff
 2034
 2035
 2036
@@ -2041,3 +2041,4 @@
 2040
 2041
 2042	Feelin' the Rhythm!	circledrum.gif	4952bd4b5e5059e208376de450e545bf	use 1 circle drum
+#0	Ancient Fortitude		69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs

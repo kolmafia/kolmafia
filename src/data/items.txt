@@ -8719,12 +8719,12 @@
 8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
 8695
-8696
+8696	ancient medicinal herbs	613750539	iceherbs.gif	spleen, usable	t,d	5
 8697	ice rice	879699146	icerice.gif	food	t,d	5
 8698	iced plum wine	690208428	icewine.gif	drink	t,d	5
 8699
-8700
-8701
+8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
+8701	training helmet	689206959	traininghelmet.gif	hat	q	0
 8702
 8703
 8704
