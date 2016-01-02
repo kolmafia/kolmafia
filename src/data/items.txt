@@ -8114,19 +8114,19 @@
 8089	headless sparrow	494470945	headlessbird.gif	none	t,d	34
 8090	mangled squirrel	342596763	mangled.gif	none	t,d	44
 8091	rat carcass	530591444	ratcorpse.gif	none	t,d	54
-8092
-8093
-8094
-8095
-8096
-8097
+8092	wicker kickers	720731530	wickerkickers.gif	accessory		0
+8093	wicker slicker	331870224	wickerslicker.gif	container		0
+8094	wicker knickers	442509013	wickerknickers.gif	pants		0
+8095	wicker ticker	842592807	wickerticker.gif	accessory		0
+8096	wicker sticker	376823657	wickersticker.gif	weapon		0
+8097	wicker clicker	695358450	wickerclicker.gif	offhand		0
 8098
-8099
-8100
-8101
-8102
-8103
-8104
+8099	bakelite belt	159908069	bakebelt.gif	accessory		0
+8100	bakelite badge	988721351	bakebadge.gif	accessory		0
+8101	bakelite bowl	751103456	bakebowl.gif	offhand		0
+8102	bakelite brooch	821327650	bakebrooch.gif	accessory		0
+8103	bakelite breeches	960476220	bakebreeches.gif	pants		0
+8104	bakelite backpack	393280436	bakepack.gif	container		0
 8105
 8106
 8107
@@ -8824,3 +8824,4 @@
 8798
 8799
 8800	ROM of Optimality	499948583	cd.gif	usable		0
+

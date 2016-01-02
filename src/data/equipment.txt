@@ -356,6 +356,7 @@ astral shorts	50	none
 astral trousers	50	none
 astronaut pants	175	Mox: 72
 baggy rave pants	150	Mox: 60
+bakelite breeches	120	Mox: 40
 bark boxers	40	Mox: 5
 bankruptcy barrel	100	none
 barskin loincloth	25	none
@@ -585,6 +586,7 @@ weasel stomping pants	80	Mys: 25
 weedy skirt	250	Mox: 200
 white satin pants	40	Mox: 5
 Whoompa Fur Pants	110	Mox: 40
+wicker knickers	50	none
 wooly loincloth	110	Mox: 40
 wumpus-hair loincloth	100	Mox: 35
 Xiblaxian stealth trousers	100	none
@@ -1420,6 +1422,7 @@ White Dragon Fang	200	Mus: 200	1-handed sword
 white sword	40	Mus: 5	1-handed sword
 white whip	10	Mus: 0	1-handed whip
 wholeberd	80	Mus: 25	2-handed polearm
+wicker sticker	110	Mus: 0	1-handed knife
 wiffle-flail	75	Mus: 22	2-handed flail
 Windsor Pan of the Source	200	Mys: 60	1-handed saucepan
 witty rapier	150	Mus: 60	1-handed sword
@@ -1470,6 +1473,7 @@ Bag o' Tricks	0	none
 bag of Crotchety Pine saplings	10	none
 bag of Laughing Willow saplings	10	none
 bag of Saccharine Maple saplings	10	none
+bakelite bowl	0	Mus: 40
 ball-in-a-cup	20	none
 balloon shield	50	Mus: 10	shield
 barrel lid	150	none	shield
@@ -1867,6 +1871,7 @@ washboard shield	160	Mus: 150	shield
 Whatsian Ionic Pliers	110	Mys: 40
 white balloon	10	none
 white satin shield	80	Mus: 25	shield
+wicker clicker	0	none
 wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
 yakskin buckler	90	Mus: 30	shield
@@ -1903,6 +1908,9 @@ baconstone pendant	50	Mys: 10
 baconstone ring	50	Mys: 10
 badass belt	100	Mys: 35
 badge of authority	110	Mys: 40
+bakelite badge	0	Mys: 40
+bakelite belt	0	Mys: 40
+bakelite brooch	0	Mys: 40
 bananarama bangle	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
 baneful bandolier	200	Mus: 150
@@ -2737,6 +2745,8 @@ wheel	30	none
 white belt	40	Mys: 5
 white collar	20	none
 white earbuds	100	Mys: 35
+wicker kickers	0	none
+wicker ticker	0	none
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
 World's Best Adventurer sash	100	none
@@ -2759,6 +2769,7 @@ Zombo's skull ring	200	Mys: 200
 
 anniversary pewter cape	10	none
 auxiliary backbone	0	Mus: 75
+bakelite backpack	0	Mus: 40
 barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
 Buddy Bjorn	100	none
@@ -2810,5 +2821,6 @@ Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
 whatsit-covered turtle shell	50	Mus: 20
+wicker slicker	0	none
 wings of fire	100	Mys: 100
 yellow cape	0	none
