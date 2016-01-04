@@ -1469,8 +1469,8 @@ public class QuestManager
 				Preferences.setInteger( counter, crowd - 1 );
 			}
 			if ( Preferences.getInteger( "nsContestants1" ) == 0 &&
-				Preferences.getInteger( "nsContestants2" ) == 0 &&
-				Preferences.getInteger( "nsContestants3" ) == 0 )
+			     Preferences.getInteger( "nsContestants2" ) == 0 &&
+			     Preferences.getInteger( "nsContestants3" ) == 0 )
 			{
 				QuestDatabase.setQuestProgress( Quest.FINAL, "step2" );
 			}

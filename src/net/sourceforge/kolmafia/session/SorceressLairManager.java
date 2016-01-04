@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -885,6 +886,8 @@ public abstract class SorceressLairManager
 		case 1011:	// Of Mouseholes and Manholes
 		case 1012:	// The Last Temptation
 		case 1013:	// Mazel Tov!
+			KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( "The Hedge Maze" ) );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step4" );
 			Preferences.setInteger( "currentHedgeMazeRoom", choice - 1004 );
 			break;
 		}
