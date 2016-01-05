@@ -2033,7 +2033,7 @@
 2032	Hypnotized	spiral.gif	cfbc5824bd4c6d04b114aeb3ebb194b7	#snojo debuff
 2033	Bad Haircut	comb.gif	a9a379fdd526c1726e6aa306d3a4fc50	#snojo debuff
 2034
-2035
+2035	Ancient Fortitude		69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs
 2036
 2037
 2038
@@ -2041,4 +2041,3 @@
 2040
 2041
 2042	Feelin' the Rhythm!	circledrum.gif	4952bd4b5e5059e208376de450e545bf	use 1 circle drum
-#0	Ancient Fortitude		69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs
