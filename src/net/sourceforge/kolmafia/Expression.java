@@ -392,7 +392,8 @@ public class Expression
 				if ( event.equals( "Crimbo2015" ) )
 				{
 					// Event ends just after rollover on 3rd January 2016
-					Calendar eventEnd = new GregorianCalendar( 2016, 1, 3, 20, 30);
+					GregorianCalendar eventEnd = new GregorianCalendar( 2016, Calendar.JANUARY, 3, 20, 30 );
+					eventEnd.setTimeZone( TimeZone.getTimeZone( "GMT-0700" ) );
 					v = date.before( eventEnd ) ? 1 : 0;
 				}
 				break;
