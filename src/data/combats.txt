@@ -366,6 +366,7 @@ The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slic
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
+The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King
 Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	gnu jack gnome	vicious gnauga
 Tower Level 1	100	wall of skin

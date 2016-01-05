@@ -1287,7 +1287,7 @@ public class AdventureRequest
 
 	private static String handleRandomModifiers( String monsterName, String responseText )
 	{
-		if ( KoLCharacter.getRandomMonsterModifiers() < 1 )
+		if ( !responseText.contains( "var ocrs" ) )
 		{
 			MonsterData.lastRandomModifiers = null;
 			return monsterName;
