@@ -4888,8 +4888,7 @@ public class FightRequest
 		StringBuffer action = status.action;
 
 		// Skip html links
-		if ( name.equals( "a" ) ||
-		     name.equals( "div" ) )
+		if ( name.equals( "a" ) )
 		{
 			return;
 		}
