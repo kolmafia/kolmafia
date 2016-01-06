@@ -1029,6 +1029,10 @@ public class ResponseTextParser
 		{
 			Preferences.increment( "skillLevel117", 1, 11, false );
 		}
+		else if ( skillName.equals( "Toggle Optimality" ) )
+		{
+			Preferences.increment( "skillLevel7254", 1 );
+		}
 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );

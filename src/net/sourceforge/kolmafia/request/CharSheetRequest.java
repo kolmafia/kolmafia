@@ -414,6 +414,13 @@ public class CharSheetRequest
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "The Smile of Mr. A." );
 			newSkillSet.add( skill );
 		}
+
+		// Toggle Optimality does not appear on the char sheet
+		if ( Preferences.getInteger( "skillLevel7254" ) > 0 )
+		{
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Toggle Optimality" );
+			newSkillSet.add( skill );
+		}
 		
 		// Set the skills that we saw
 		KoLCharacter.setAvailableSkills( newSkillSet );

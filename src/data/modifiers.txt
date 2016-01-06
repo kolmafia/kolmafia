@@ -8623,6 +8623,7 @@ Item	Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 Item	roll of toilet paper	Free Pull
 # roller skate decoy: Put it down, and monsters will attack it instead of you
+Item	ROM of Optimality	Skill: "Toggle Optimality"
 # roofie: Stops Enemy From Attacking and Weakens it Slightly
 Item	roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 # rotten tomato: Throw it at somebody to grant extra PvP fights

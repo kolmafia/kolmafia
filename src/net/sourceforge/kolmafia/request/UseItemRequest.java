@@ -3101,6 +3101,18 @@ public class UseItemRequest
 			break;
 		}
 
+		case ItemPool.ROM_OF_OPTIMALITY:
+		{
+			// No message about learning a skill
+			String skill = UseItemRequest.itemToSkill( itemId );
+			if ( skill != null )
+			{
+				ResponseTextParser.learnSkill( skill );
+			}
+
+			break;
+		}
+
 		case ItemPool.CHATEAU_ROOM_KEY:
 
 			Preferences.setBoolean( "chateauAvailable", true );
