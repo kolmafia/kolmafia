@@ -33,14 +33,11 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
-
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -89,6 +86,12 @@ public class NumberologyRequest
 		if ( Preferences.getBoolean( "_universeCalculated" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You already Calculated the Universe today." );
+			return;
+		}
+
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have time to Calculate the Universe right now." );
 			return;
 		}
 
