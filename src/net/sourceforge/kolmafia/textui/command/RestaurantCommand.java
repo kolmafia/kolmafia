@@ -323,6 +323,14 @@ public class RestaurantCommand
 			return true;
 		}
 
+		// Check if you're already drunk three first, as drinks are never available in ConcoctionDatabase when you've had all three.
+		int drunkCount = Preferences.getInteger( "_speakeasyDrinksDrunk" );
+		if ( drunkCount >= 3 )
+		{
+			KoLmafia.updateDisplay( "You've already drunk three speakeasy drinks today." );
+			return true;
+		}
+
 		if ( !ClanLoungeRequest.availableSpeakeasyDrink( speakeasyDrink ) )
 		{
 			KoLmafia.updateDisplay( "The '" + speakeasyDrink + "' is not currently available in your clan" );
@@ -332,12 +340,6 @@ public class RestaurantCommand
 		String countString = splitParameters[ 0 ];
 		int count = countString == null ? 1 : StringUtilities.parseInt( countString );
 
-		int drunkCount = Preferences.getInteger( "_speakeasyDrinksDrunk" );
-		if ( drunkCount >= 3 )
-		{
-			KoLmafia.updateDisplay( "You've already drunk three speakeasy drinks today." );
-			return true;
-		}
 		if ( count + drunkCount > 3 )
 		{
 			KoLmafia.updateDisplay( "(You can only drink 3 speakeasy drinks per day; reducing count to " + ( 3 - drunkCount ) + ".)" );
