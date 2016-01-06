@@ -8722,7 +8722,7 @@
 8696	ancient medicinal herbs	613750539	iceherbs.gif	spleen, usable	t,d	5
 8697	ice rice	879699146	icerice.gif	food	t,d	5
 8698	iced plum wine	690208428	icewine.gif	drink	t,d	5
-8699
+8699	training belt	224153440	trainingbelt.gif	accessory	q	0
 8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
 8701	training helmet	689206959	traininghelmet.gif	hat	q	0
 8702

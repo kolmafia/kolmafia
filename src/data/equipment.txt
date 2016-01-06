@@ -2700,6 +2700,7 @@ tourmalime tourniquet	0	none
 toy crazy train	60	Mys: 15
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
+training belt	100	Mus: 10
 training legwarmers	0	Mys: 10
 Treads of Loathing	200	Mus: 150
 tube sock	200	Mys: 45
