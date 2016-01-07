@@ -172,7 +172,7 @@
 147	Beardfreeze	epicbeard.gif	3	15	10
 148	Frost Bite	teeth.gif	5	50	0
 149	Shattering Punch	shatter.gif	5	30	0
-150	Snoke Bomb	snokebomb.gif	5	50	0
+150	Snokebomb	snokebomb.gif	5	50	0
 151	Shivering Monkey Technique	vibrate.gif	0	0	0
 152	Communism!	commiesickle.gif	1	0	0
 
