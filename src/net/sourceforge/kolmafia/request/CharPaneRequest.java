@@ -46,7 +46,9 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -512,12 +514,29 @@ public class CharPaneRequest
 			}
 		}
 
+		Modifiers mods = KoLCharacter.getCurrentModifiers();
+		boolean equalize = mods.getString( Modifiers.EQUALIZE ).length() != 0;
+		boolean mus_equalize = mods.getString( Modifiers.EQUALIZE_MUSCLE ).length() != 0;
+		boolean mys_equalize  = mods.getString( Modifiers.EQUALIZE_MYST ).length() != 0;
+		boolean mox_equalize = mods.getString( Modifiers.EQUALIZE_MOXIE ).length() != 0;
+		boolean mus_limit = (int) mods.get( Modifiers.MUS_LIMIT ) != 0;
+		boolean mys_limit = (int) mods.get( Modifiers.MYS_LIMIT ) != 0;
+		boolean mox_limit = (int) mods.get( Modifiers.MOX_LIMIT ) != 0;
+
+		boolean checkMus = !equalize && !mus_equalize && !mus_limit;
+		boolean checkMys = !equalize && !mys_equalize && !mys_limit;
+		boolean checkMox = !equalize && !mox_equalize && !mox_limit;
+
+		long baseMus = checkMus ? CharPaneRequest.checkStat( KoLCharacter.getTotalMuscle(), unmodified[ 0 ] ) : KoLCharacter.getTotalMuscle();
+		long baseMys = checkMys ? CharPaneRequest.checkStat( KoLCharacter.getTotalMysticality(), unmodified[ 1 ] ) : KoLCharacter.getTotalMysticality();
+		long baseMox = checkMox ? CharPaneRequest.checkStat( KoLCharacter.getTotalMoxie(), unmodified[ 2 ] ) : KoLCharacter.getTotalMoxie();
+
 		KoLCharacter.setStatPoints( modified[ 0 ],
-		                            KoLCharacter.getTotalMuscle(),
+		                            baseMus,
 		                            modified[ 1 ],
-		                            KoLCharacter.getTotalMysticality(),
+		                            baseMys,
 		                            modified[ 2 ],
-		                            KoLCharacter.getTotalMoxie() );
+		                            baseMox );
 	}
 
 	private static final long checkStat( long currentSubstat, final int baseStat )
