@@ -2505,6 +2505,15 @@ public class ItemPool
 	public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
 	public static final int NUCLEAR_STOCKPILE = 8778;
 	public static final int CIRCLE_DRUM = 8784;
+	public static final int ANCIENT_MEDICINAL_HERBS = 8696;
+	public static final int ICE_RICE = 8697;
+	public static final int ICED_PLUM_WINE = 8698;
+	public static final int TRAINING_BELT = 8699;
+	public static final int TRAINING_LEGWARMERS = 8700;
+	public static final int TRAINING_HELMET = 8701;
+	public static final int SCROLL_SHATTERING_PUNCH = 8702;
+	public static final int SCROLL_SNOKEBOMB = 8703;
+	public static final int SCROLL_SHIVERING_MONKEY = 8704;
 	public static final int ROM_OF_OPTIMALITY = 8800;
 
 	public static final AdventureResult get( String itemName, int count )

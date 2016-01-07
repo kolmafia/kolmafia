@@ -8725,9 +8725,9 @@
 8699	training belt	224153440	trainingbelt.gif	accessory	q	0
 8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
 8701	training helmet	689206959	traininghelmet.gif	hat	q	0
-8702
-8703
-8704
+8702	training scroll: Shattering Punch	568969372	wosp_scroll.gif	usable	t	0
+8703	training scroll: Snokebomb	696042206	wosp_scroll.gif	usable	t	0
+8704	training scroll: Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0
 8705	X-32-F snowman crate	532803965	crate.gif	usable	t	0
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75

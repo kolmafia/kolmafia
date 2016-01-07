@@ -2860,6 +2860,85 @@ public class ResultProcessor
 		case ItemPool.BANKRUPTCY_BARREL:
 			Preferences.setBoolean( "prayedForVigor", true );
 			break;
+
+		// Correct Snojo progress based on drops - note that it increments after the fight!
+		case ItemPool.ANCIENT_MEDICINAL_HERBS:
+			if ( combatResults )
+			{
+				int progress = Preferences.getInteger( "snojoMuscleWins" );
+				// Always should be a multiple of 7 for this drop, after the counter increments later!
+				if ( progress % 7 != 6 )
+				{
+					Preferences.setInteger( "snojoMuscleWins", (int) Math.floor( progress / 7 ) * 7 + 6 );
+				}
+			}
+			break;
+
+		case ItemPool.ICE_RICE:
+			if ( combatResults )
+			{
+				int progress = Preferences.getInteger( "snojoMysticalityWins" );
+				// Always should be a multiple of 7 for this drop, after the counter increments later!
+				if ( progress % 7 != 6 )
+				{
+					Preferences.setInteger( "snojoMysticalityWins", (int) Math.floor( progress / 7 ) * 7 + 6 );
+				}
+			}
+			break;
+
+		case ItemPool.ICED_PLUM_WINE:
+			if ( combatResults )
+			{
+				int progress = Preferences.getInteger( "snojoMoxieWins" );
+				// Always should be a multiple of 7 for this drop, after the counter increments later!
+				if ( progress % 7 != 6 )
+				{
+					Preferences.setInteger( "snojoMoxieWins", (int) Math.floor( progress / 7 ) * 7 + 6 );
+				}
+			}
+			break;
+
+		case ItemPool.TRAINING_BELT:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMuscleWins", 10 );
+			}
+			break;
+
+		case ItemPool.TRAINING_LEGWARMERS:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMysticalityWins", 10 );
+			}
+			break;
+
+		case ItemPool.TRAINING_HELMET:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMoxieWins", 10 );
+			}
+			break;
+
+		case ItemPool.SCROLL_SHATTERING_PUNCH:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMuscleWins", 49 );
+			}
+			break;
+
+		case ItemPool.SCROLL_SNOKEBOMB:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMysticalityWins", 49 );
+			}
+			break;
+
+		case ItemPool.SCROLL_SHIVERING_MONKEY:
+			if ( combatResults )
+			{
+				Preferences.setInteger( "snojoMoxieWins", 49 );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
