@@ -1326,6 +1326,17 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Snokebomb" ) )
+		{
+			// You can only jump the shark 3 times per day
+
+			if ( Preferences.getInteger( "_snokebombUsed" ) >= 3 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 		if ( skillName.equals( "Walk Away From Explosion" ) )
 		{
 			// You can't walk away from explosions whilst bored of them
@@ -7094,6 +7105,14 @@ public class FightRequest
 			if ( responseText.contains( "shark" ) || skillSuccess )
 			{
 				Preferences.increment( "_peteJumpedShark" );
+			}
+			break;
+
+		case SkillPool.SNOKEBOMB:
+			if ( responseText.contains( "throw the smokebomb at your feet" ) || skillRunawaySuccess )
+			{
+				BanishManager.banishMonster( monsterName, "snokebomb" );
+				Preferences.increment( "_snokebombUsed" );
 			}
 			break;
 
