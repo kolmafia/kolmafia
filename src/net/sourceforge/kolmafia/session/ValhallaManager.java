@@ -260,6 +260,9 @@ public class ValhallaManager
 
 		ValhallaManager.logNewAscension();
 
+		// Snojo resets to mainstat
+		Preferences.setString( "snojoSetting", KoLCharacter.mainStat().toString().toUpperCase() );
+
 		// The semirare counter is set in Valhalla.
 		TurnCounter.startCounting( 70, "Semirare window begin", "lparen.gif" );
 		TurnCounter.startCounting( 80, "Semirare window end loc=*", "rparen.gif" );
@@ -489,6 +492,9 @@ public class ValhallaManager
 		Preferences.setInteger( "carboLoading", 0 );
 		Preferences.setBoolean( "popularTartUnlocked", false );
 		Preferences.setInteger( "smoresEaten", 0 );
+		Preferences.setInteger( "snojoMoxieWins", 0 );
+		Preferences.setInteger( "snojoMuscleWins", 0 );
+		Preferences.setInteger( "snojoMysticalityWins", 0 );
 		Preferences.setInteger( "sugarCounter4178", 0 );
 		Preferences.setInteger( "sugarCounter4179", 0 );
 		Preferences.setInteger( "sugarCounter4180", 0 );

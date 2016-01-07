@@ -975,6 +975,9 @@ user	slimelingStacksDue	0
 user	smoresEaten	0
 user	sneakyPetePoints	0
 user	snojoAvailable	false
+user	snojoMoxieWins	0
+user	snojoMuscleWins	0
+user	snojoMysticalityWins	0
 user	snojoSetting
 user	snowsuit	
 user	sortByRoom	true
@@ -1325,6 +1328,7 @@ user	_sleazeAirportToday	false
 user	_sloppyDinerBeachBucks	0
 user	_smilesOfMrA	0
 user	_smithsnessSummons	0
+user	_snojoFreeFights	0
 user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false

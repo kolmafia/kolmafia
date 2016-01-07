@@ -8972,6 +8972,9 @@ Item	totally sweet mohawk helmet	Effect: "Radiarius", Effect Duration: 100
 # toy mercenary: Charges Meat to Attack Foes
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
+Item	training scroll: Shattering Punch	Skill: "Shattering Punch"
+Item	training scroll: Shivering Monkey Technique	Skill: "Shivering Monkey Technique"
+Item	training scroll: Snokebomb	Skill: "Snokebomb"
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Trash, a Memoir	Skill: "Garbage Nova"
 Item	Travels with Jerry	Skill: "Mudbath"

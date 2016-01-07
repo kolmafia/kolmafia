@@ -3375,7 +3375,7 @@ public class FightRequest
 				Preferences.increment( "boneAbacusVictories", 1 );
 			}
 
-			QuestManager.updateQuestData( responseText, monsterName );
+			QuestManager.updateQuestData( FightRequest.lastResponseText, monsterName );
 		}
 
 		if ( KoLCharacter.isEd() )

@@ -89,7 +89,8 @@ public class QuestManager
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
-	private static final Pattern WALFORD_PATTERN = Pattern.compile(  "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)"  );
+	private static final Pattern WALFORD_PATTERN = Pattern.compile(  "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)" );
+	private static final Pattern SNOWMAN_PATTERN = Pattern.compile(  "otherimages/combatsnowman/" );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
@@ -1776,6 +1777,33 @@ public class QuestManager
 		else if ( monsterName.equals( "Cake Lord" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.ARMORER, "step3" );
+		}
+		else if ( monsterName.equals( "X-32-F Combat Training Snowman" ) )
+		{
+			int snowParts = -2;
+			Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher( responseText );
+			while ( snowmanMatcher.find() )
+			{
+				snowParts++;
+			}
+			if ( snowParts > 10 )
+			{
+				snowParts = 10;
+			}
+			Preferences.setInteger( "_snojoFreeFights", snowParts );
+			String snojoSetting = Preferences.getString( "snojoSetting" );
+			if ( snojoSetting.equals( "MUSCLE" ) )
+			{
+				Preferences.increment( "snojoMuscleWins" );
+			}
+			else if ( snojoSetting.equals( "MYSTICALITY" ) )
+			{
+				Preferences.increment( "snojoMysticalityWins" );
+			}
+			else if ( snojoSetting.equals( "MOXIE" ) )
+			{
+				Preferences.increment( "snojoMoxieWins" );
+			}
 		}
 
 		int adventure = KoLAdventure.lastAdventureId();
