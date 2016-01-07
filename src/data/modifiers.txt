@@ -7877,7 +7877,9 @@ Item	grease trap	Effect: "Grease Trappings", Effect Duration: 50
 # green BRICKO brick: Deals a percentage of a monster's current Hit Points in Physical Damage
 # green BRICKO brick: (more effective against BRICKO monsters)
 Item	green candy heart	Effect: "Heart of Green", Effect Duration: 10
-# Item green face paint: Makes you green with holiday cheer!
+# green face paint: Makes you green with holiday cheer!
+# green face paint: Does not go away when used.
+Item	green face paint	Free Pull
 # green pixel potion: Restores 40-60 HP and 30-40 MP
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
@@ -8592,7 +8594,9 @@ Item	Red Army camouflage kit	Effect: "Red, Red Skeleton", Effect Duration: 50
 Item	red blood cells	Effect: "Extra-Thick Blood", Effect Duration: 100
 # red button: Deals Physical Damage based on how many of them you have
 Item	red eye	Effect: "Seeing Red", Effect Duration: 20
-# Item red face paint: Makes you red with holiday cheer!
+# red face paint: Makes you red with holiday cheer!
+# red face paint: Does not go away when used.
+Item	red face paint	Free Pull
 Item	red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 Item	red letter	Effect: "Red Lettered", Effect Duration: 20
 Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5
@@ -9104,6 +9108,8 @@ Item	wrestling mask	Effect: "Cavemanipulated", Effect Duration: 30
 # wumpus-hair net: Weakens enemies somewhat
 # wussiness potion: Weakens enemies a little bit
 Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
+# X-32-F snowman crate: Installs a Combat Training Snowman the Big Mountains
+Item	X-32-F snowman crate	Free Pull
 Item	x-ray mirror	Effect: "The Visible Adventurer", Effect Duration: 30
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
