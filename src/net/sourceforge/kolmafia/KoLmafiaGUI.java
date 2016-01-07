@@ -225,7 +225,10 @@ public class KoLmafiaGUI
 
 		if ( frameName.equals( "LocalRelayServer" ) )
 		{
-			RelayLoader.openRelayBrowser();
+			if ( StaticEntity.isGUIRequired() )
+			{
+				RelayLoader.openRelayBrowser();
+			}
 			return;
 		}
 
