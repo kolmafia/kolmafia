@@ -5270,6 +5270,10 @@ public class UseItemRequest
 		case ItemPool.SNOWMAN_CRATE:
 			Preferences.setBoolean( "snojoAvailable", true );
 			break;
+
+		case ItemPool.ROYAL_TEA:
+			Preferences.increment( "royalty", 1 );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
