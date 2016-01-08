@@ -978,7 +978,7 @@ user	snojoAvailable	false
 user	snojoMoxieWins	0
 user	snojoMuscleWins	0
 user	snojoMysticalityWins	0
-user	snojoSetting
+user	snojoSetting	NONE
 user	snowsuit	
 user	sortByRoom	true
 user	spadingData
