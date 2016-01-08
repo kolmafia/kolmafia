@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -331,27 +333,11 @@ public class BanishManager
 		{
 			BanishManager.removeOldestBanish( banishName );
 		}
-		// Banishes fail in some areas
-		int adventure = KoLAdventure.lastAdventureId();
-		switch ( adventure )
+		// Banishes fail in some areas, monsters in them cannot be banished
+		MonsterData monster = MonsterDatabase.findMonster( monsterName, false );
+		if ( monster.isNoBanish() )
 		{
-		// Main quest
-		case AdventurePool.BOSSBAT:
-		// Nemesis quest
-		case AdventurePool.BROODLING_GROUNDS:
-		case AdventurePool.OUTER_COMPOUND:
-		case AdventurePool.TEMPLE_PORTICO:
-		case AdventurePool.CONVENTION_HALL_LOBBY:
-		case AdventurePool.OUTSIDE_THE_CLUB:
-		case AdventurePool.ISLAND_BARRACKS:
-		// Elemental zones
-		case AdventurePool.SLOPPY_SECONDS_DINER:
-		case AdventurePool.SECRET_GOVERNMENT_LAB:
-		case AdventurePool.BARF_MOUNTAIN:
-		case AdventurePool.GARBAGE_BARGES:
-		case AdventurePool.TOXIC_TEACUPS:
-		case AdventurePool.LIQUID_WASTE_SLUICE:
-			KoLmafia.updateDisplay( "Banish " + banishName + " failed." );
+			KoLmafia.updateDisplay( "Banish of " + monsterName + " by " + banishName + " failed, as monsters from this area cannot be banished." );
 			return;
 		}
 		KoLmafia.updateDisplay( monsterName + " banished by " + banishName + "." );

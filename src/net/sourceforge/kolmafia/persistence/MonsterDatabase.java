@@ -450,6 +450,7 @@ public class MonsterDatabase
 		Phylum phylum = Phylum.NONE;
 		int poison = Integer.MAX_VALUE;
 		boolean boss = false;
+		boolean noBanish = false;
 		boolean dummy = false;
 		EncounterType type = EncounterType.NONE;
 		int physical = 0;
@@ -650,6 +651,12 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "NOBANISH" ) )
+				{
+					noBanish = true;
+					continue;
+				}
+
 				else if ( option.equals( "WANDERER" ) )
 				{
 					type = EncounterType.WANDERER;
@@ -706,7 +713,7 @@ public class MonsterDatabase
 					   attackElement, defenseElement,
 					   physical,
 					   meat, phylum, poison,
-					   boss, dummy, type,
+					   boss, noBanish, dummy, type,
 					   images, manuelName,
 					   attributes );
 
