@@ -66,6 +66,7 @@ public class MonsterData
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
+	private final boolean noBanish;
 	private final boolean dummy;
 	private final EncounterType type;
 	private final String image;
@@ -173,7 +174,7 @@ public class MonsterData
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
 			    final int meat, final Phylum phylum, final int poison,
-			    final boolean boss, final boolean dummy,
+			    final boolean boss, final boolean noBanish, final boolean dummy,
 			    final EncounterType type, final String[] images,
 			    final String manuelName, final String attributes )
 	{
@@ -197,6 +198,7 @@ public class MonsterData
 		this.phylum = phylum;
 		this.poison = poison;
 		this.boss = boss;
+		this.noBanish = noBanish;
 		this.dummy = dummy;
 		this.type = type;
 		this.image = images.length > 0 ? images[ 0 ] : "";
@@ -804,6 +806,11 @@ public class MonsterData
 	public boolean isBoss()
 	{
 		return this.boss;
+	}
+
+	public boolean isNoBanish()
+	{
+		return this.noBanish;
 	}
 
 	public boolean isDummy()
