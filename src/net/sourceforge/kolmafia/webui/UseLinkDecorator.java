@@ -613,9 +613,11 @@ public abstract class UseLinkDecorator
 			return new UseLink( itemId, itemCount, "combine", "craft.php?mode=combine&a=" );
 
 		case MIX:
+		case MIX_FANCY:
 			return new UseLink( itemId, itemCount, "mix", "craft.php?mode=cocktail&a=" );
 
 		case COOK:
+		case COOK_FANCY:
 			return new UseLink( itemId, itemCount, "cook", "craft.php?mode=cook&a=" );
 		}
 

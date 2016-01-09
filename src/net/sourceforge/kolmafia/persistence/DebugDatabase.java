@@ -1285,7 +1285,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
-		Pattern.compile( "<font color=blue>(.*)(?:<br>)?</font>", Pattern.DOTALL );
+		Pattern.compile( "<font color=blue>(?!\\(awesome\\))(.*)(?:<br>)?</font>", Pattern.DOTALL );
 
  	public static final void parseItemEnchantments( String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
