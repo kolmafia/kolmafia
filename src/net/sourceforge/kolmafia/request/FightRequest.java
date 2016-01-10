@@ -205,8 +205,6 @@ public class FightRequest
 		Pattern.compile( "^.*$", Pattern.DOTALL );
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
-	private static final Pattern MANUEL_PATTERN =
-		Pattern.compile( "var monsterstats = \\{\"hp\":\"([\\d,]+)\",\"def\":\"(-)?([\\d,]+)\",\"off\":\"(-)?([\\d,]+)");
 
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
@@ -4915,23 +4913,6 @@ public class FightRequest
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
-			m = MANUEL_PATTERN.matcher( node.getText() );
-			if ( m.find() )
-			{
-				int hp = StringUtilities.parseInt( m.group( 1 ) );
-				int defense = StringUtilities.parseInt( m.group( 3 ) );
-				if ( m.group( 2 ) != null )
-				{
-					defense *= -1;
-				}
-				int attack = StringUtilities.parseInt( m.group( 5 ) );
-				if ( m.group( 4 ) != null )
-				{
-					attack *= -1;
-				}
-				MonsterStatusTracker.setManuelStats( attack, defense, hp );
-			}
-
 			return;
 		}
 
@@ -5221,9 +5202,26 @@ public class FightRequest
 		if ( inode != null )
 		{
 			String alt = inode.getAttributeByName( "alt" );
-			if ( alt != null && alt.equals( "Enemy's Hit Points" ) )
+			if ( alt != null && alt.startsWith( "Enemy's" ) )
 			{
-				// Don't process Monster Manuel
+				// This is Monster Manuel stuff
+				int attack = 0, defense = 0, hp = 0;
+				TagNode[] cells = node.getElementsByName( "td", true );
+				for ( int i = 0; i < cells.length; i++ )
+				{
+					TagNode cell = cells[i];
+					TagNode img = cell.findElementByName( "img", false );
+					if ( img == null ) continue;
+					String stat = img.getAttributeByName( "alt" );
+					if ( stat == null || !stat.startsWith( "Enemy's" ) ) continue;
+					i++;
+					cell = cells[i];
+					int value = StringUtilities.parseInt( cell.getText().toString() );
+					if ( stat.equals( "Enemy's Attack Power" ) ) attack = value;
+					else if ( stat.equals( "Enemy's Defense" ) ) defense = value;
+					else if ( stat.equals( "Enemy's Hit Points" ) ) hp = value;
+				}
+				MonsterStatusTracker.setManuelStats( attack, defense, hp );
 				return false;
 			}
 
@@ -5369,7 +5367,7 @@ public class FightRequest
 				{
 					return false;
 				}
-				AdventureResult result = EffectPool.get( effectId );				
+				AdventureResult result = EffectPool.get( effectId );
 				if ( str.startsWith( "You lose" ) )
 				{
 					ResultProcessor.processEffect( true, "You lose an effect:", result, (List<AdventureResult>) null );
