@@ -3083,27 +3083,24 @@ public class UseItemRequest
 		case ItemPool.TO_BUILD_AN_IGLOO:
 		case ItemPool.CHILL_OF_THE_WILD:
 		case ItemPool.COLD_FANG:
+		case ItemPool.SCROLL_SHATTERING_PUNCH:
+		case ItemPool.SCROLL_SNOKEBOMB:
+		case ItemPool.SCROLL_SHIVERING_MONKEY:
+		case ItemPool.ROM_OF_OPTIMALITY:
 		{
+			// You insert the ROM in to your... ROM receptacle and
+			// absorb the knowledge of optimality. You suspect you
+			// can now toggle your optimality at will (from the
+			// skills page)!
 			if ( !responseText.contains( "You acquire a skill" ) &&
-			     !responseText.contains( "place the Grimoire on the bookshelf" ) )
+			     !responseText.contains( "place the Grimoire on the bookshelf" ) &&
+			     !responseText.contains( "absorb the knowledge of optimality" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 				return;
 			}
 
-			String skill = UseItemRequest.itemToSkill( itemId );
-			if ( skill != null )
-			{
-				ResponseTextParser.learnSkill( skill );
-			}
-
-			break;
-		}
-
-		case ItemPool.ROM_OF_OPTIMALITY:
-		{
-			// No message about learning a skill
 			String skill = UseItemRequest.itemToSkill( itemId );
 			if ( skill != null )
 			{
