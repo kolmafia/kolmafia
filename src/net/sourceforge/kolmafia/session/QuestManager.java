@@ -1793,23 +1793,22 @@ public class QuestManager
 			{
 				snowParts++;
 			}
-			if ( snowParts > 10 )
+			if ( snowParts <= 10 )
 			{
-				snowParts = 10;
-			}
-			Preferences.setInteger( "_snojoFreeFights", snowParts );
-			String snojoSetting = Preferences.getString( "snojoSetting" );
-			if ( snojoSetting.equals( "MUSCLE" ) )
-			{
-				Preferences.increment( "snojoMuscleWins" );
-			}
-			else if ( snojoSetting.equals( "MYSTICALITY" ) )
-			{
-				Preferences.increment( "snojoMysticalityWins" );
-			}
-			else if ( snojoSetting.equals( "MOXIE" ) )
-			{
-				Preferences.increment( "snojoMoxieWins" );
+				Preferences.setInteger( "_snojoFreeFights", snowParts );
+				String snojoSetting = Preferences.getString( "snojoSetting" );
+				if ( snojoSetting.equals( "MUSCLE" ) )
+				{
+					Preferences.increment( "snojoMuscleWins" );
+				}
+				else if ( snojoSetting.equals( "MYSTICALITY" ) )
+				{
+					Preferences.increment( "snojoMysticalityWins" );
+				}
+				else if ( snojoSetting.equals( "MOXIE" ) )
+				{
+					Preferences.increment( "snojoMoxieWins" );
+				}
 			}
 		}
 

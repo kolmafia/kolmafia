@@ -152,8 +152,6 @@ public class UseItemRequest
 		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ASTRAL_MUSHROOM ), EffectPool.get( EffectPool.HALF_ASTRAL ) );
 
 		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.ABSINTHE ), EffectPool.get( EffectPool.ABSINTHE ) );
-
-		UseItemRequest.LIMITED_USES.put( IntegerPool.get( ItemPool.TURTLE_PHEROMONES ), EffectPool.get( EffectPool.EAU_DE_TORTUE ) );
 	}
 
 	public static String lastUpdate = "";
