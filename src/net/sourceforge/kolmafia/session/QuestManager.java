@@ -245,7 +245,7 @@ public class QuestManager
 		}
 		else if ( location.startsWith( "manor" ) )
 		{
-			handleManorFirstFloorChange( responseText );
+			handleManorFirstFloorChange( location, responseText );
 		}
 		else if ( location.startsWith( "monkeycastle" ) )
 		{
@@ -279,7 +279,7 @@ public class QuestManager
 			}
 			else if ( location.contains( "whichplace=manor1" ) )
 			{
-				handleManorFirstFloorChange( responseText );
+				handleManorFirstFloorChange( location, responseText );
 			}
 			else if ( location.contains( "whichplace=manor2" ) )
 			{
@@ -495,8 +495,15 @@ public class QuestManager
 		}
 	}
 
-	private static void handleManorFirstFloorChange( final String responseText )
+	private static void handleManorFirstFloorChange( final String location, final String responseText )
 	{
+		if ( location.contains( "action=manor1_ladys" ) )
+		{
+			if ( responseText.contains( "ghostly copy of the necklace" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
+			}
+		}
 		// Derive quest status from available rooms
 		if ( responseText.contains( "snarfblat=" + AdventurePool.HAUNTED_KITCHEN_ID ) )
 		{
