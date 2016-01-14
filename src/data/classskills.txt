@@ -621,7 +621,7 @@
 7159	Hide Behind a Tree	bansai.gif	5	0	0
 7160	Dive Into a Puddle	waves.gif	5	0	0
 7161	Hide Under a Rock	bigrock.gif	5	0	0
-7162
+7162	Throw a Mr. Card	mrcards.gif	5	0	0
 7163	Hammer Ghost	nopic.gif	5	0	0
 7164	Fire Rocket	nopic.gif	5	0	0
 7165	Great Slash	nopic.gif	5	0	0
@@ -696,7 +696,7 @@
 7234	ZAP	jigawatts.gif	5	0	0
 7235	POW	explosion.gif	5	0	0
 7236	BURN	fireball.gif	5	0	0
-7237
+7237	LUBE	gooball.gif	5	0	0
 7238	Throw Skull	spelskull.gif	5	0	0
 7239	Throw Rock	spelrock.gif	5	0	0
 7240	Use Rope	spelrope.gif	5	0	0
