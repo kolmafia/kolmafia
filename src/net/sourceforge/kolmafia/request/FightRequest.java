@@ -7467,6 +7467,14 @@ public class FightRequest
 				Preferences.setInteger( "_glarkCableUses", 5 );
 			}
 			break;
+
+		case ItemPool.MAYO_LANCE:
+			if ( responseText.contains( "Everything Looks Yellow" ) )
+			{
+				int mayo = Math.max( Preferences.getInteger( "mayoLevel" ) - 30, 0 );
+				Preferences.setInteger( "mayoLevel", mayo );
+			}
+			break;
 		}
 
 		// May update a quest, handle in QuestManager

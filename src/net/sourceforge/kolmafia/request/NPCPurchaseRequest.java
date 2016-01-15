@@ -542,6 +542,10 @@ public class NPCPurchaseRequest
 				refreshConcoctions = true;
 			}
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.MAYO_CLINIC );
+			if ( urlString.contains( "ajax=1" ) )
+			{
+				return;
+			}
 			Matcher mayoMatcher = BLOOD_MAYO_PATTERN.matcher( responseText );
 			if ( mayoMatcher.find() )
 			{
