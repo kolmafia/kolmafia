@@ -70,7 +70,7 @@ public class FightDecorator
 		// Find the desired skill
 		String oldForm = matcher.group( 0 );
 		String search = ">" + skill;
-		if ( oldForm.indexOf( search ) == -1 )
+		if ( !oldForm.contains( search ) )
 		{
 			return;
 		}
@@ -155,6 +155,10 @@ public class FightDecorator
 		{
 		case AdventurePool.HAUNTED_KITCHEN:
 			FightDecorator.decorateHauntedKitchen( buffer );
+			break;
+
+		case AdventurePool.TRAINING_SNOWMAN:
+			FightDecorator.decorateSnojo( buffer );
 			break;
 		}
 	}
@@ -335,6 +339,20 @@ public class FightDecorator
 		}
 		insertBuffer.append( ")" );
 
+		buffer.insert( index, insertBuffer );
+	}
+
+	private static final void decorateSnojo( final StringBuffer buffer )
+	{
+		String indexString = "Adventure Again (The X-32-F Combat Training Snowman)";
+		int index = buffer.indexOf( indexString );
+		if ( index == -1 ) return;
+
+		index += indexString.length();
+
+		int turns = Preferences.getInteger( "_snojoFreeFights" );
+		StringBuilder insertBuffer = new StringBuilder();
+		insertBuffer.append( " (" ).append( turns ).append( " free fights used)" );
 		buffer.insert( index, insertBuffer );
 	}
 }
