@@ -98,6 +98,7 @@ public class SkillPool
 	public static final int ANCESTRAL_RECALL = 140;
 	public static final int CALCULATE_THE_UNIVERSE = 144;
 	public static final int PERFECT_FREEZE = 145;
+	public static final int SHATTERING_PUNCH = 149;
 	public static final int SNOKEBOMB = 150;
 	public static final int COMMUNISM = 152;
 	public static final int WALRUS_TONGUE = 1010;
