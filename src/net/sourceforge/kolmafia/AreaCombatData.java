@@ -1677,6 +1677,12 @@ public class AreaCombatData
 			double chance = Preferences.getInteger( "_sealScreeches" ) * 10;
 			return chance < 0 ? 0.0 : chance > 100 ? 100.0 : chance;
 		}
+		if ( monster.equals( "Brick Mulligan, the Bartender" ) )
+		{
+			int kokomoTurns = AdventureSpentDatabase.getTurns( "Kokomo Resort" );
+			// Appears every 25 turns
+			return kokomoTurns > 0 && ( kokomoTurns % 25 ) == 0 ? 100.0 : 0.0;
+		}
 		return 0;
 	}
 }
