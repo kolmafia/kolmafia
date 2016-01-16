@@ -1326,9 +1326,18 @@ public class FightRequest
 		}
 		else if ( skillName.equals( "Snokebomb" ) )
 		{
-			// You can only jump the shark 3 times per day
+			// You can only snokebomb 3 times per day
 
 			if ( Preferences.getInteger( "_snokebombUsed" ) >= 3 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Shattering Punch" ) )
+		{
+			if ( Preferences.getInteger( "_shatteringPunchUsed" ) >= 3 )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -7111,6 +7120,13 @@ public class FightRequest
 			{
 				BanishManager.banishMonster( monsterName, "snokebomb" );
 				Preferences.increment( "_snokebombUsed" );
+			}
+			break;
+
+		case SkillPool.SHATTERING_PUNCH:
+			if ( responseText.contains( "punch" ) || skillSuccess )
+			{
+				Preferences.increment( "_shatteringPunchUsed" );
 			}
 			break;
 
