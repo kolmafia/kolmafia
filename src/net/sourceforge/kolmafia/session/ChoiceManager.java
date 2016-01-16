@@ -10127,6 +10127,11 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1103:
+			// Doing the Maths
+			Preferences.setBoolean( "_universeCalculated", !text.contains( "Try again" ) );
+			break;
+
 		case 1104:
 			// Tree Tea
 			if ( ChoiceManager.lastDecision == 1 )
@@ -11009,11 +11014,6 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "prayedForVigor", true );
 			}
-			break;
-
-		case 1103:
-			// Doing the Maths
-			Preferences.setBoolean( "_universeCalculated", true );
 			break;
 
 		case 1110:
