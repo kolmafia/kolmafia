@@ -142,9 +142,6 @@ public class NumberologyRequest
 			return;
 		}
 
-		// You can only cast the skill once per day
-		Preferences.setBoolean( "_universeCalculated", true );
-
 		// Doing the Maths
 		super.run();
 	}
