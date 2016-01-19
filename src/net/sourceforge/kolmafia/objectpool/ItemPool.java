@@ -2477,6 +2477,7 @@ public class ItemPool
 	public static final int CRAFT_TEA = 8636;
 	public static final int INSANI_TEA = 8637;
 	public static final int HAUNTED_DOGHOUSE = 8639;
+	public static final int GHOST_DOG_CHOW = 8640;
 	public static final int TENNIS_BALL = 8650;
 	public static final int TWELVE_NIGHT_ENERGY = 8666;
 	public static final int ROSE = 8668;
