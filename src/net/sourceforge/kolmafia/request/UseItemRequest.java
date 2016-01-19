@@ -5243,6 +5243,14 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.GHOST_DOG_CHOW:
+			if ( responseText.contains( "familiar doesn't seem interested" ) )
+			{
+				// Not used up
+				return;
+			}
+			break;
+
 		case ItemPool.VYKEA_INSTRUCTIONS:
 			// If "using" the item works, it redirects to choice.php.
 			// If it does not redirect, it gives a message and is
