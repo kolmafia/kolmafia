@@ -451,13 +451,13 @@ public class QuestManager
 		}
 		if ( responseText.contains( "Meatsmithing hammer" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step7" );
+			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step7" );
 		}
 		if ( QuestDatabase.isQuestStep( Quest.NEMESIS, "step8" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
 		}
-		if ( responseText.contains( "in the Big Mountains" ) )
+		if ( responseText.contains( "in the Big Mountains" ) && !responseText.contains( "not the required mettle to defeat him" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
 		}
