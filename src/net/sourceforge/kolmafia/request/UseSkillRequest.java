@@ -2231,10 +2231,6 @@ public class UseSkillRequest
 			Preferences.setBoolean( "_summonResortPassUsed", true );
 			break;
 
-		case SkillPool.CALCULATE_THE_UNIVERSE:
-			Preferences.setBoolean( "_universeCalculated", true );
-			break;
-
 		case SkillPool.ANCESTRAL_RECALL:
 			Preferences.increment( "_ancestralRecallCasts", count );
 			ResultProcessor.processResult( ItemPool.get( ItemPool.BLUE_MANA, -count ) );
