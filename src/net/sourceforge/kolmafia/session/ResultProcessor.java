@@ -2270,6 +2270,13 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.MACHINE_SNOWGLOBE:
+			if ( combatResults )
+			{
+				Preferences.increment( "_snowglobeDrops", 1 );
+			}
+			break;
+
 		case ItemPool.LIVER_PIE:
 		case ItemPool.BADASS_PIE:
 		case ItemPool.FISH_PIE:
