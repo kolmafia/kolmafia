@@ -130,12 +130,12 @@ public class ProxyRecordValue
 
 		if ( rv instanceof Integer )
 		{
-			return DataTypes.makeIntValue( ((Integer) rv).intValue() );
+			return DataTypes.makeIntValue( ( (Integer) rv ).intValue() );
 		}
 
 		if ( rv instanceof Double )
 		{
-			return DataTypes.makeFloatValue( ((Double) rv).doubleValue() );
+			return DataTypes.makeFloatValue( ( (Double) rv ).doubleValue() );
 		}
 
 		if ( rv instanceof String )
@@ -145,7 +145,7 @@ public class ProxyRecordValue
 
 		if ( rv instanceof Boolean )
 		{
-			return DataTypes.makeBooleanValue( ((Boolean) rv).booleanValue() );
+			return DataTypes.makeBooleanValue( ( (Boolean) rv ).booleanValue() );
 		}
 
 		if ( rv instanceof CoinmasterData )
@@ -426,7 +426,7 @@ public class ProxyRecordValue
 
 		public CoinmasterData get_seller()
 		{
-			return CoinmasterRegistry.findSeller( (int) this.contentLong);
+			return CoinmasterRegistry.findSeller( (int) this.contentLong );
 		}
 
 		public CoinmasterData get_buyer()
@@ -452,6 +452,8 @@ public class ProxyRecordValue
 			.add( "drop_item", DataTypes.ITEM_TYPE )
 			.add( "drops_today", DataTypes.INT_TYPE )
 			.add( "drops_limit", DataTypes.INT_TYPE )
+			.add( "fights_today", DataTypes.INT_TYPE )
+			.add( "fights_limit", DataTypes.INT_TYPE )
 			.add( "combat", DataTypes.BOOLEAN_TYPE )
 			.add( "physical_damage", DataTypes.BOOLEAN_TYPE )
 			.add( "elemental_damage", DataTypes.BOOLEAN_TYPE )
@@ -475,12 +477,12 @@ public class ProxyRecordValue
 
 		public Value get_hatchling()
 		{
-			return DataTypes.makeItemValue( FamiliarDatabase.getFamiliarLarva( (int)this.contentLong ), true );
+			return DataTypes.makeItemValue( FamiliarDatabase.getFamiliarLarva( (int) this.contentLong ), true );
 		}
 
 		public String get_image()
 		{
-			return FamiliarDatabase.getFamiliarImageLocation( (int)this.contentLong );
+			return FamiliarDatabase.getFamiliarImageLocation( (int) this.contentLong );
 		}
 
 		public String get_name()
@@ -488,103 +490,113 @@ public class ProxyRecordValue
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? "" : fam.getName();
 		}
-		
+
 		public int get_charges()
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? 0 : fam.getCharges();
 		}
-		
+
 		public String get_drop_name()
 		{
-			String dropName = FamiliarData.dropName( (int)this.contentLong );
+			String dropName = FamiliarData.dropName( (int) this.contentLong );
 			return dropName == null ? "" : dropName;
 		}
-		
+
 		public Value get_drop_item()
 		{
-			AdventureResult item = FamiliarData.dropItem( (int)this.contentLong );
+			AdventureResult item = FamiliarData.dropItem( (int) this.contentLong );
 			return DataTypes.makeItemValue( item == null ? -1 : item.getItemId(), true );
 		}
-		
+
 		public int get_drops_today()
 		{
-			return FamiliarData.dropsToday( (int)this.contentLong );
+			return FamiliarData.dropsToday( (int) this.contentLong );
 		}
-		
+
 		public int get_drops_limit()
 		{
-			return FamiliarData.dropDailyCap( (int)this.contentLong );
+			return FamiliarData.dropDailyCap( (int) this.contentLong );
+		}
+
+		public int get_fights_today()
+		{
+			return FamiliarData.fightsToday( (int) this.contentLong );
+		}
+
+		public int get_fights_limit()
+		{
+			return FamiliarData.fightDailyCap( (int) this.contentLong );
 		}
 
 		public boolean get_combat()
 		{
-			return FamiliarDatabase.isCombatType( (int)this.contentLong );
+			return FamiliarDatabase.isCombatType( (int) this.contentLong );
 		}
 
 		public boolean get_physical_damage()
 		{
-			return FamiliarDatabase.isCombat0Type( (int)this.contentLong );
+			return FamiliarDatabase.isCombat0Type( (int) this.contentLong );
 		}
 
 		public boolean get_elemental_damage()
 		{
-			return FamiliarDatabase.isCombat1Type( (int)this.contentLong );
+			return FamiliarDatabase.isCombat1Type( (int) this.contentLong );
 		}
 
 		public boolean get_block()
 		{
-			return FamiliarDatabase.isBlockType( (int)this.contentLong );
+			return FamiliarDatabase.isBlockType( (int) this.contentLong );
 		}
 
 		public boolean get_delevel()
 		{
-			return FamiliarDatabase.isDelevelType( (int)this.contentLong );
+			return FamiliarDatabase.isDelevelType( (int) this.contentLong );
 		}
 
 		public boolean get_hp_during_combat()
 		{
-			return FamiliarDatabase.isHp0Type( (int)this.contentLong );
+			return FamiliarDatabase.isHp0Type( (int) this.contentLong );
 		}
 
 		public boolean get_mp_during_combat()
 		{
-			return FamiliarDatabase.isMp0Type( (int)this.contentLong );
+			return FamiliarDatabase.isMp0Type( (int) this.contentLong );
 		}
 
 		public boolean get_other_action_during_combat()
 		{
-			return FamiliarDatabase.isOther0Type( (int)this.contentLong );
+			return FamiliarDatabase.isOther0Type( (int) this.contentLong );
 		}
 
 		public boolean get_hp_after_combat()
 		{
-			return FamiliarDatabase.isHp1Type( (int)this.contentLong );
+			return FamiliarDatabase.isHp1Type( (int) this.contentLong );
 		}
 
 		public boolean get_mp_after_combat()
 		{
-			return FamiliarDatabase.isMp1Type( (int)this.contentLong );
+			return FamiliarDatabase.isMp1Type( (int) this.contentLong );
 		}
 
 		public boolean get_other_action_after_combat()
 		{
-			return FamiliarDatabase.isOther1Type( (int)this.contentLong );
+			return FamiliarDatabase.isOther1Type( (int) this.contentLong );
 		}
 
 		public boolean get_passive()
 		{
-			return FamiliarDatabase.isPassiveType( (int)this.contentLong );
+			return FamiliarDatabase.isPassiveType( (int) this.contentLong );
 		}
 
 		public boolean get_underwater()
 		{
-			return FamiliarDatabase.isUnderwaterType( (int)this.contentLong );
+			return FamiliarDatabase.isUnderwaterType( (int) this.contentLong );
 		}
 
 		public boolean get_variable()
 		{
-			return FamiliarDatabase.isVariableType( (int)this.contentLong );
+			return FamiliarDatabase.isVariableType( (int) this.contentLong );
 		}
 	}
 
@@ -673,7 +685,7 @@ public class ProxyRecordValue
 
 		public int get_id()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? 0 : PastaThrallData.dataToId( data );
 		}
 
@@ -691,19 +703,19 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : PastaThrallData.dataToImage( data );
 		}
 
 		public String get_tinyimage()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : PastaThrallData.dataToTinyImage( data );
 		}
 
 		public Value get_skill()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return DataTypes.makeSkillValue( data == null ? 0 : PastaThrallData.dataToSkillId( data ), true );
 		}
 
@@ -736,7 +748,7 @@ public class ProxyRecordValue
 
 		public int get_id()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? 0 : EdServantData.dataToId( data );
 		}
 
@@ -760,31 +772,31 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : EdServantData.dataToImage( data );
 		}
 
 		public String get_level1_ability()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : EdServantData.dataToLevel1Ability( data );
 		}
 
 		public String get_level7_ability()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : EdServantData.dataToLevel7Ability( data );
 		}
 
 		public String get_level14_ability()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : EdServantData.dataToLevel14Ability( data );
 		}
 
 		public String get_level21_ability()
 		{
-			Object [] data = (Object [])this.content;
+			Object[] data = (Object[]) this.content;
 			return data == null ? "" : EdServantData.dataToLevel21Ability( data );
 		}
 	}
@@ -815,43 +827,43 @@ public class ProxyRecordValue
 
 		public String get_name()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? "" : companion.getName();
 		}
 
 		public String get_type()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? "" : companion.typeToString();
 		}
 
 		public Value get_rune()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( companion.getRune().getItemId(), true );
 		}
 
 		public int get_level()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? 0 : companion.getLevel();
 		}
 
 		public String get_image()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? "" : companion.getImage();
 		}
 
 		public String get_modifiers()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? "" : companion.getModifiers();
 		}
 
 		public Value get_attack_element()
 		{
-			VYKEACompanionData companion = (VYKEACompanionData)this.content;
+			VYKEACompanionData companion = (VYKEACompanionData) this.content;
 			return companion == null ? DataTypes.ELEMENT_INIT : DataTypes.makeElementValue( companion.getAttackElement(), true );
 		}
 	}
@@ -883,71 +895,73 @@ public class ProxyRecordValue
 
 		public int get_level()
 		{
-			return SkillDatabase.getSkillLevel( (int)this.contentLong );
+			return SkillDatabase.getSkillLevel( (int) this.contentLong );
 		}
 
 		public String get_image()
 		{
-			return SkillDatabase.getSkillImage( (int)this.contentLong );
+			return SkillDatabase.getSkillImage( (int) this.contentLong );
 		}
 
 		public int get_traincost()
 		{
-			return SkillDatabase.getSkillPurchaseCost( (int)this.contentLong );
+			return SkillDatabase.getSkillPurchaseCost( (int) this.contentLong );
 		}
 
 		public Value get_class()
 		{
 			return DataTypes.parseClassValue(
-				SkillDatabase.getSkillCategory( (int)this.contentLong ), true );
+				SkillDatabase.getSkillCategory( (int) this.contentLong ), true );
 		}
 
 		public boolean get_libram()
 		{
-			return SkillDatabase.isLibramSkill( (int)this.contentLong );
+			return SkillDatabase.isLibramSkill( (int) this.contentLong );
 		}
 
 		public boolean get_passive()
 		{
-			return SkillDatabase.isPassive( (int)this.contentLong );
+			return SkillDatabase.isPassive( (int) this.contentLong );
 		}
 
 		public boolean get_buff()
 		{
-			return SkillDatabase.isBuff( (int)this.contentLong );
+			return SkillDatabase.isBuff( (int) this.contentLong );
 		}
 
 		public boolean get_combat()
 		{
-			return SkillDatabase.isCombat( (int)this.contentLong );
+			return SkillDatabase.isCombat( (int) this.contentLong );
 		}
 
 		public boolean get_song()
 		{
-			return SkillDatabase.isSong( (int)this.contentLong );
+			return SkillDatabase.isSong( (int) this.contentLong );
 		}
 
 		public boolean get_expression()
 		{
-			return SkillDatabase.isExpression( (int)this.contentLong );
+			return SkillDatabase.isExpression( (int) this.contentLong );
 		}
 
 		public boolean get_summon()
 		{
-			return SkillDatabase.isSummon( (int)this.contentLong );
+			return SkillDatabase.isSummon( (int) this.contentLong );
 		}
 
 		public boolean get_permable()
 		{
-			return SkillDatabase.isPermable( (int)this.contentLong );
+			return SkillDatabase.isPermable( (int) this.contentLong );
 		}
+
 		public int get_dailylimit()
 		{
-			return SkillDatabase.getMaxCasts( (int)this.contentLong );
+			return SkillDatabase.getMaxCasts( (int) this.contentLong );
 		}
+
 		public int get_timescast()
 		{
-			return SkillDatabase.getCasts( (int)this.contentLong );
+			return SkillDatabase.getCasts( (int) this.contentLong );
 		}
 	}
 
@@ -970,18 +984,18 @@ public class ProxyRecordValue
 
 		public String get_default()
 		{
-			return EffectDatabase.getDefaultAction( (int)this.contentLong );
+			return EffectDatabase.getDefaultAction( (int) this.contentLong );
 		}
 
 		public String get_note()
 		{
-			return EffectDatabase.getActionNote( (int)this.contentLong );
+			return EffectDatabase.getActionNote( (int) this.contentLong );
 		}
 
 		public Value get_all()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			Iterator i = EffectDatabase.getAllActions( (int)this.contentLong );
+			Iterator i = EffectDatabase.getAllActions( (int) this.contentLong );
 			while ( i.hasNext() )
 			{
 				rv.add( new Value( (String) i.next() ) );
@@ -991,12 +1005,12 @@ public class ProxyRecordValue
 
 		public String get_image()
 		{
-			return EffectDatabase.getImage( (int)this.contentLong );
+			return EffectDatabase.getImage( (int) this.contentLong );
 		}
 
 		public String get_descid()
 		{
-			return EffectDatabase.getDescriptionId( (int)this.contentLong );
+			return EffectDatabase.getDescriptionId( (int) this.contentLong );
 		}
 	}
 
@@ -1025,35 +1039,35 @@ public class ProxyRecordValue
 
 		public boolean get_nocombats()
 		{
-			return ((KoLAdventure) this.content).isNonCombatsOnly();
+			return ( (KoLAdventure) this.content ).isNonCombatsOnly();
 		}
 
 		public String get_zone()
 		{
-			return ((KoLAdventure) this.content).getZone();
+			return ( (KoLAdventure) this.content ).getZone();
 		}
 
 		public String get_parent()
 		{
-			return ((KoLAdventure) this.content).getParentZone();
+			return ( (KoLAdventure) this.content ).getParentZone();
 		}
 
 		public String get_parentdesc()
 		{
-			return ((KoLAdventure) this.content).getParentZoneDescription();
+			return ( (KoLAdventure) this.content ).getParentZoneDescription();
 		}
 
 		public String get_environment()
 		{
-			return ((KoLAdventure) this.content).getEnvironment();
+			return ( (KoLAdventure) this.content ).getEnvironment();
 		}
 
 		public Value get_bounty()
 		{
 			AdventureResult bounty = AdventureDatabase.getBounty( (KoLAdventure) this.content );
 			return bounty == null ?
-			       DataTypes.BOUNTY_INIT :
-			       DataTypes.parseBountyValue( bounty.getName(), true );
+				DataTypes.BOUNTY_INIT :
+				DataTypes.parseBountyValue( bounty.getName(), true );
 		}
 
 		public String get_combat_queue()
@@ -1078,7 +1092,7 @@ public class ProxyRecordValue
 
 			return builder.toString();
 		}
-		
+
 		public String get_noncombat_queue()
 		{
 			List<?> zoneQueue = AdventureQueueDatabase.getZoneNoncombatQueue( (KoLAdventure) this.content );
@@ -1109,17 +1123,17 @@ public class ProxyRecordValue
 
 		public int get_kisses()
 		{
-			return FightRequest.dreadKisses( (KoLAdventure)this.content );
+			return FightRequest.dreadKisses( (KoLAdventure) this.content );
 		}
 
 		public int get_recommended_stat()
 		{
-			return ((KoLAdventure) this.content).getRecommendedStat();
+			return ( (KoLAdventure) this.content ).getRecommendedStat();
 		}
 
 		public int get_water_level()
 		{
-			return KoLCharacter.inRaincore() ? ((KoLAdventure) this.content).getWaterLevel() : 0;
+			return KoLCharacter.inRaincore() ? ( (KoLAdventure) this.content ).getWaterLevel() : 0;
 		}
 	}
 
@@ -1151,7 +1165,7 @@ public class ProxyRecordValue
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "attributes", DataTypes.STRING_TYPE )
 			.add( "random_modifiers",
-			      new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
+				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "manuel_name", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
@@ -1162,93 +1176,93 @@ public class ProxyRecordValue
 
 		public int get_id()
 		{
-			return ((MonsterData) this.content).getId();
+			return ( (MonsterData) this.content ).getId();
 		}
 
 		public int get_base_hp()
 		{
-			return ((MonsterData) this.content).getHP();
+			return ( (MonsterData) this.content ).getHP();
 		}
 
 		public int get_base_attack()
 		{
-			return ((MonsterData) this.content).getAttack();
+			return ( (MonsterData) this.content ).getAttack();
 		}
 
 		public int get_raw_hp()
 		{
-			return ((MonsterData) this.content).getRawHP();
+			return ( (MonsterData) this.content ).getRawHP();
 		}
 
 		public int get_raw_attack()
 		{
-			return ((MonsterData) this.content).getRawAttack();
+			return ( (MonsterData) this.content ).getRawAttack();
 		}
 
 		public int get_raw_defense()
 		{
-			return ((MonsterData) this.content).getRawDefense();
+			return ( (MonsterData) this.content ).getRawDefense();
 		}
 
 		public int get_base_defense()
 		{
-			return ((MonsterData) this.content).getDefense();
+			return ( (MonsterData) this.content ).getDefense();
 		}
 
 		public int get_base_initiative()
 		{
-			return ((MonsterData) this.content).getInitiative();
+			return ( (MonsterData) this.content ).getInitiative();
 		}
 
 		public int get_raw_initiative()
 		{
-			return ((MonsterData) this.content).getRawInitiative();
+			return ( (MonsterData) this.content ).getRawInitiative();
 		}
 
 		public Value get_attack_element()
 		{
 			return DataTypes.parseElementValue(
-				((MonsterData) this.content).getAttackElement().toString(),
+				( (MonsterData) this.content ).getAttackElement().toString(),
 				true );
 		}
 
 		public Value get_defense_element()
 		{
 			return DataTypes.parseElementValue(
-				((MonsterData) this.content).getDefenseElement().toString(),
+				( (MonsterData) this.content ).getDefenseElement().toString(),
 				true );
 		}
 
 		public int get_physical_resistance()
 		{
-			return ((MonsterData) this.content).getPhysicalResistance();
+			return ( (MonsterData) this.content ).getPhysicalResistance();
 		}
 
 		public int get_min_meat()
 		{
-			return ((MonsterData) this.content).getMinMeat();
+			return ( (MonsterData) this.content ).getMinMeat();
 		}
 
 		public int get_max_meat()
 		{
-			return ((MonsterData) this.content).getMaxMeat();
+			return ( (MonsterData) this.content ).getMaxMeat();
 		}
 
 		public double get_base_mainstat_exp()
 		{
-			return ((MonsterData) this.content).getExperience();
+			return ( (MonsterData) this.content ).getExperience();
 		}
 
 		public Value get_phylum()
 		{
 			return DataTypes.parsePhylumValue(
-				((MonsterData) this.content).getPhylum().toString(),
+				( (MonsterData) this.content ).getPhylum().toString(),
 				true );
 		}
 
 		public Value get_poison()
 		{
-			int poisonLevel = ((MonsterData) this.content).getPoison();
+			int poisonLevel = ( (MonsterData) this.content ).getPoison();
 			String poisonName = poisonLevel == Integer.MAX_VALUE ?
 				"none" :
 				EffectDatabase.getEffectName( EffectDatabase.POISON_ID[ poisonLevel ] );
@@ -1257,23 +1271,23 @@ public class ProxyRecordValue
 
 		public boolean get_boss()
 		{
-			return ((MonsterData) this.content).isBoss();
+			return ( (MonsterData) this.content ).isBoss();
 		}
 
 		public boolean get_dummy()
 		{
-			return ((MonsterData) this.content).isDummy();
+			return ( (MonsterData) this.content ).isDummy();
 		}
 
 		public String get_image()
 		{
-			return ((MonsterData) this.content).getImage();
+			return ( (MonsterData) this.content ).getImage();
 		}
 
 		public Value get_images()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			for ( String image : ((MonsterData) this.content).getImages() )
+			for ( String image : ( (MonsterData) this.content ).getImages() )
 			{
 				rv.add( new Value( image ) );
 			}
@@ -1282,13 +1296,13 @@ public class ProxyRecordValue
 
 		public String get_attributes()
 		{
-			return ((MonsterData) this.content).getAttributes();
+			return ( (MonsterData) this.content ).getAttributes();
 		}
 
 		public Value get_random_modifiers()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
-			for ( String attribute : ((MonsterData) this.content).getRandomModifiers() )
+			for ( String attribute : ( (MonsterData) this.content ).getRandomModifiers() )
 			{
 				rv.add( new Value( attribute ) );
 			}
@@ -1297,7 +1311,7 @@ public class ProxyRecordValue
 
 		public String get_manuel_name()
 		{
-			return ((MonsterData) this.content).getManuelName();
+			return ( (MonsterData) this.content ).getManuelName();
 		}
 	}
 
@@ -1320,36 +1334,36 @@ public class ProxyRecordValue
 
 		public String get_token()
 		{
-			return ((CoinmasterData) this.content).getToken();
+			return ( (CoinmasterData) this.content ).getToken();
 		}
 
 		public Value get_item()
 		{
-			CoinmasterData data = ((CoinmasterData) this.content);
+			CoinmasterData data = ( (CoinmasterData) this.content );
 			AdventureResult item = data.getItem();
 			return item == null ?
-			       DataTypes.ITEM_INIT :
-			       DataTypes.parseItemValue( item.getName(), true );
+				DataTypes.ITEM_INIT :
+				DataTypes.parseItemValue( item.getName(), true );
 		}
 
 		public String get_property()
 		{
-			return ((CoinmasterData) this.content).getProperty();
+			return ( (CoinmasterData) this.content ).getProperty();
 		}
 
 		public int get_available_tokens()
 		{
-			return ((CoinmasterData) this.content).availableTokens();
+			return ( (CoinmasterData) this.content ).availableTokens();
 		}
 
 		public boolean get_buys()
 		{
-			return ((CoinmasterData) this.content).getSellAction() != null;
+			return ( (CoinmasterData) this.content ).getSellAction() != null;
 		}
 
 		public boolean get_sells()
 		{
-			return ((CoinmasterData) this.content).getBuyAction() != null;
+			return ( (CoinmasterData) this.content ).getBuyAction() != null;
 		}
 	}
 
@@ -1390,6 +1404,7 @@ public class ProxyRecordValue
 			return "";
 		}
 	}
+
 	public static class PhylumProxy
 		extends ProxyRecordValue
 	{

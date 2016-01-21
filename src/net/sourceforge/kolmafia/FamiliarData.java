@@ -101,6 +101,9 @@ public class FamiliarData
 	public static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
 	public static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
 
+	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
+	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
+
 	private final int id;
 	private final String race;
 	private boolean beeware;
@@ -156,6 +159,7 @@ public class FamiliarData
 	public static final void reset()
 	{
 		FamiliarData.loadDropFamiliars();
+		FamiliarData.loadFightFamiliars();
 		FamiliarData.checkShrub();
 	}
 
@@ -189,7 +193,7 @@ public class FamiliarData
 
 	public final void addCombatExperience( String responseText )
 	{
-		if ( this.id == FamiliarPool.STOCKING_MIMIC ) 
+		if ( this.id == FamiliarPool.STOCKING_MIMIC )
 		{
 			// Doesn't automatically gain experience from winning a combat
 			return;
@@ -212,7 +216,7 @@ public class FamiliarData
 		}
 
 		this.experience += 1 + experienceModifier;
-		
+
 		if ( KoLCharacter.hasSkill( "Testudinal Teachings" ) )
 		{
 			this.addTestTeachExperience();
@@ -234,7 +238,7 @@ public class FamiliarData
 		String[] splitTTPref = rawTTPref.split( "\\|" );
 
 		// Check Familiar Testudinal Teachings experience	
-		for ( int i = 0 ; i < splitTTPref.length ; ++i )
+		for ( int i = 0; i < splitTTPref.length; ++i )
 		{
 			String[] it = splitTTPref[ i ].split( ":" );
 			if ( it.length == 2 )
@@ -244,7 +248,7 @@ public class FamiliarData
 					int newCount = Integer.parseInt( it[ 1 ] ) + 1;
 					if ( newCount >= 6 )
 					{
-						this.experience++;
+						this.experience++ ;
 						newCount = 0;
 					}
 					String newTTProperty = it[ 0 ] + ":" + String.valueOf( newCount );
@@ -252,10 +256,10 @@ public class FamiliarData
 						splitTTPref[ i ], newTTProperty );
 					Preferences.setString( "testudinalTeachings", newTTPref );
 					return;
-				}					
+				}
 			}
 		}
-		
+
 		// Familiar not found, so add it
 		String delimiter = "";
 		if ( rawTTPref.length() > 0 )
@@ -395,7 +399,7 @@ public class FamiliarData
 			}
 		}
 
-		Matcher frowMatcher  = FamiliarData.FROW_PATTERN.matcher( responseText );
+		Matcher frowMatcher = FamiliarData.FROW_PATTERN.matcher( responseText );
 		while ( frowMatcher.find() )
 		{
 			String frow = frowMatcher.group();
@@ -478,7 +482,7 @@ public class FamiliarData
 	public static final void checkLockedItem( final String responseText )
 	{
 		Matcher lockMatcher = FamiliarData.LOCK_PATTERN.matcher( responseText );
-		boolean locked = lockMatcher.find() && lockMatcher.group(1).equals( "Locked" );
+		boolean locked = lockMatcher.find() && lockMatcher.group( 1 ).equals( "Locked" );
 
 		EquipmentManager.lockFamiliarItem( locked );
 	}
@@ -578,7 +582,7 @@ public class FamiliarData
 		return this.getModifiedWeight( true, true );
 	}
 
-	public int getModifiedWeight( final boolean includeEquipment)
+	public int getModifiedWeight( final boolean includeEquipment )
 	{
 		return this.getModifiedWeight( true, includeEquipment );
 	}
@@ -644,7 +648,7 @@ public class FamiliarData
 		// Adjust by percent modifiers
 		if ( percent != 0.0f )
 		{
-			weight = (int) Math.floor( weight + weight * (percent / 100.0f) );
+			weight = (int) Math.floor( weight + weight * ( percent / 100.0f ) );
 		}
 
 		// If the familiar is well-fed, it's 10 lbs. heavier
@@ -759,7 +763,7 @@ public class FamiliarData
 		public final String dropName;
 		public final String dropTracker;
 		public final int dailyCap;
-		
+
 		public DropInfo( int id, int dropId, String dropName, String dropTracker, int dailyCap )
 		{
 			this.id = id;
@@ -768,19 +772,49 @@ public class FamiliarData
 			this.dropTracker = dropTracker;
 			this.dailyCap = dailyCap;
 		}
-		
+
 		public int dropsToday()
 		{
 			return Preferences.getInteger( this.dropTracker );
 		}
-		
+
 		public boolean hasDropsLeft()
 		{
 			return this.dropsToday() < this.dailyCap;
 		}
 	}
 
-	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
+	// TODO: (philosophical) Decide whether free fights count as
+	// meta-drops, or if these should both extend from a base abstract
+	// class for familiar counters.
+
+	public static class FightInfo
+		extends DropInfo
+	{
+		public FightInfo( int id, String dropTracker, int dailyCap )
+		{
+			super( id, -1, "free fights", dropTracker, dailyCap );
+		}
+
+		public int fightsToday()
+		{
+			return this.dropsToday();
+		}
+
+		public int hasFightsLeft()
+		{
+			return this.dropsToday();
+		}
+	}
+
+	private static final void loadFightFamiliars()
+	{
+		FIGHT_FAMILIARS.clear();
+
+		FIGHT_FAMILIARS.add( new FightInfo( FamiliarPool.HIPSTER, "_hipsterAdv", 7 ) );
+		FIGHT_FAMILIARS.add( new FightInfo( FamiliarPool.ARTISTIC_GOTH_KID, "_hipsterAdv", 7 ) );
+		FIGHT_FAMILIARS.add( new FightInfo( FamiliarPool.MACHINE_ELF, "_machineTunnelsAdv", 5 ) );
+	}
 
 	private static final void loadDropFamiliars()
 	{
@@ -806,17 +840,17 @@ public class FamiliarData
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MS_PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );
-		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MACHINE_ELF, -1, "free fights", "_machineTunnelsAdv", 5 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.MACHINE_ELF, ItemPool.MACHINE_SNOWGLOBE, "snowglobe", "_snowglobeDrops", 1 ) );
 	}
 
 	public static DropInfo getDropInfo( int id )
 	{
-		for( DropInfo info : DROP_FAMILIARS )
+		for ( DropInfo info : DROP_FAMILIARS )
 		{
 			if ( info.id == id )
 				return info;
 		}
-		
+
 		return null;
 	}
 
@@ -831,7 +865,7 @@ public class FamiliarData
 		return drops == null ? null : drops.dropName;
 	}
 
-	public String dropName()
+	public String dropName( )
 	{
 		return FamiliarData.dropName( this.id );
 	}
@@ -877,6 +911,44 @@ public class FamiliarData
 	public boolean hasDrop()
 	{
 		return FamiliarData.hasDrop( this.id );
+	}
+
+	public static FightInfo getFightInfo( int id )
+	{
+		for ( FightInfo info : FIGHT_FAMILIARS )
+		{
+			if ( info.id == id )
+				return info;
+		}
+
+		return null;
+	}
+
+	public FightInfo getFightInfo()
+	{
+		return FamiliarData.getFightInfo( this.id );
+	}
+
+	public static int fightsToday( int id )
+	{
+		FightInfo fights = FamiliarData.getFightInfo( id );
+		return fights == null ? 0 : fights.fightsToday();
+	}
+
+	public int fightsToday()
+	{
+		return FamiliarData.fightsToday( this.id );
+	}
+
+	public static int fightDailyCap( int id )
+	{
+		FightInfo fights = FamiliarData.getFightInfo( id );
+		return fights == null ? 0 : fights.dailyCap;
+	}
+
+	public int fightDailyCap()
+	{
+		return FamiliarData.fightDailyCap( this.id );
 	}
 
 	@Override
@@ -1115,6 +1187,7 @@ public class FamiliarData
 	/**
 	 * Calculates the number of combats with a Slimeling required for the
 	 * nth slime stack in an ascension to drop.
+	 *
 	 * @param n the number of the slime stack (reset to zero on ascension)
 	 * @return the number of combats
 	 */
@@ -1142,7 +1215,7 @@ public class FamiliarData
 		Matcher topperMatcher = SHRUB_TOPPER_PATTERN.matcher( response );
 		if ( topperMatcher.find() )
 		{
-			Preferences.setString( "shrubTopper", topperMatcher.group(1) );
+			Preferences.setString( "shrubTopper", topperMatcher.group( 1 ) );
 		}
 		else
 		{
@@ -1158,7 +1231,7 @@ public class FamiliarData
 		Matcher lightsMatcher = SHRUB_LIGHT_PATTERN.matcher( response );
 		if ( lightsMatcher.find() )
 		{
-			Preferences.setString( "shrubLights", lightsMatcher.group(1) );
+			Preferences.setString( "shrubLights", lightsMatcher.group( 1 ) );
 		}
 
 		if ( response.contains( "Restores Hit Points" ) )
@@ -1210,7 +1283,8 @@ public class FamiliarData
 
 			FamiliarData familiar = (FamiliarData) value;
 			defaultComponent.setIcon( FamiliarDatabase.getFamiliarImage( familiar.id ) );
-			defaultComponent.setText( familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace() );
+			defaultComponent.setText(
+				familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace() );
 
 			defaultComponent.setVerticalTextPosition( SwingConstants.CENTER );
 			defaultComponent.setHorizontalTextPosition( SwingConstants.RIGHT );

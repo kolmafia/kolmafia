@@ -2503,6 +2503,7 @@ public class ItemPool
 	public static final int VYKEA_DOWEL = 8728;
 	public static final int VYKEA_HEX_KEY = 8729;
 	public static final int VYKEA_INSTRUCTIONS = 8730;
+	public static final int MACHINE_SNOWGLOBE = 8749;
 	public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
 	public static final int NUCLEAR_STOCKPILE = 8778;
 	public static final int CIRCLE_DRUM = 8784;
