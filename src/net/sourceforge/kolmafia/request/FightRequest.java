@@ -250,7 +250,7 @@ public class FightRequest
 	private static final Pattern NANORHINO_CHARGE2_PATTERN = 
 		Pattern.compile( "charge to (\\d+)%" );
 	private static final Pattern NANORHINO_BUFF_PATTERN = 
-		Pattern.compile( "<b>Nano(?:brawny|brainy|ballsy)</b><br>\\(duration: 50" );
+		Pattern.compile( "title=\\\"Nano(?:brawny|brainy|ballsy)\\\"");
 	
 	private static final Pattern RED_BUTTON_PATTERN = 
 		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
@@ -295,6 +295,7 @@ public class FightRequest
 	private static boolean canStomp = false;
 	public static boolean haiku = false;
 	public static boolean anapest = false;
+	public static boolean machineElf = false;
 	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
@@ -587,6 +588,13 @@ public class FightRequest
 		//    Nice and sportsmanlike.
 
 		if ( text.contains( "Nice and sportsmanlike." ) )
+			return true;
+
+		// The Deep Machine Tunnels
+
+		//    It hesitates. It <vocalizes>. It <moves>.
+
+		if ( text.contains( "It hesitates." ) )
 			return true;
 
 		return false;
@@ -1918,6 +1926,9 @@ public class FightRequest
 				adventure == AdventurePool.MAELSTROM_OF_LOVERS ||
 				adventure == AdventurePool.GLACIER_OF_JERKS ||
 				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
+
+			// Adventuring in the Deep Machine Tunnels
+			FightRequest.machineElf = adventure == AdventurePool.DEEP_MACHINE_TUNNELS;
 
 			// Adventuring in the Mer-kin Colosseum
 			if ( adventure == AdventurePool.MERKIN_COLOSSEUM )
@@ -4374,9 +4385,64 @@ public class FightRequest
 		}
 	}
 
+	private static final void processMachineElfResult( final TagNode node, final TagNode inode, final String image, final TagStatus status )
+	{
+		if ( image.equals( status.familiar ) || image.equals( status.enthroned ) || image.equals( status.bjorned ) )
+		{
+			FightRequest.processFamiliarAction( node, inode, status );
+			return;
+		}
+
+		StringBuffer action = status.action;
+		action.setLength( 0 );
+
+		boolean hasBold = FightRequest.extractVerse( node, action, "b" );
+		String machineElf = action.toString();
+
+		Matcher m = INT_PATTERN.matcher( machineElf );
+		if ( !m.find() )
+		{
+			if ( image.equals( "strboost.gif" ) && machineElf.contains( "feel as though" ) )
+			{
+				String message = "You gain a Muscle point!";
+				FightRequest.logPlayerAttribute( status, message );
+			}
+
+			if ( image.equals( "snowflakes.gif" ) && machineElf.contains( "feel as though" ) )
+			{
+				String message = "You gain a Mysticality point!";
+				FightRequest.logPlayerAttribute( status, message );
+			}
+
+			if ( image.equals( "wink.gif" ) && machineElf.contains( "feel as though" ) )
+			{
+				String message = "You gain a Moxie point!";
+				FightRequest.logPlayerAttribute( status, message );
+			}
+			return;
+		}
+
+		String points = m.group();
+
+		if ( image.equals( "meat.gif" ) )
+		{
+			String message = "You gain " + points + " Meat";
+			ResultProcessor.processMeat( message, status.won, status.nunnery );
+			status.won = false;
+			status.shouldRefresh = true;
+			return;
+		}
+	}
+
 	private static final int parseVerseDamage( final TagNode inode )
 	{
 		if ( inode == null )
+		{
+			return 0;
+		}
+
+		// Don't return damage value in Machine Elf tunnels, as only familiar attacks have it.
+		if ( FightRequest.machineElf )
 		{
 			return 0;
 		}
@@ -5466,6 +5532,12 @@ public class FightRequest
 			return false;
 		}
 
+		if ( FightRequest.machineElf )
+		{
+			FightRequest.processMachineElfResult( node, inode, image, status );
+			return false;
+		}
+
 		if ( image.equals( "nun.gif" ) )
 		{
 			// A nun announces that she is taking the Meat. Subsequent Meat gains are not taken.
@@ -5792,7 +5864,8 @@ public class FightRequest
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
 		{
 			// Familiar combat action?
-			if ( status.logFamiliar )
+			// Don't log in Machine Elf Tunnels
+			if ( status.logFamiliar && !FightRequest.machineElf )
 			{
 				FightRequest.logText( text, status );
 			}
