@@ -91,7 +91,7 @@ public class EdPieceCommand
 
 		if ( choice.equals( "0" ) )
 		{
-			KoLmafia.updateDisplay( "Animal " + animal + " not recognised. Valid values are bear, owl, puma, hyena, mouse and weasel." );
+			KoLmafia.updateDisplay( "Animal " + animal + " not recognised. Valid values are bear, owl, puma, hyena, mouse, weasel and fish." );
 			return;
 		}
 
