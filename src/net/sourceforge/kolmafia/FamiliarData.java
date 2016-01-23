@@ -835,7 +835,7 @@ public class FamiliarData
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GALLOPING_GRILL, ItemPool.HOT_ASHES, "hot ashes", "_hotAshesDrops", 5 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.FIST_TURKEY, -1, "turkey booze", "_turkeyBooze", 5 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.GOLDEN_MONKEY, ItemPool.POWDERED_GOLD, "powdered gold", "_powderedGoldDrops", 5 ) );
-		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales of spelunking", "_spelunkingTalesDrops", 1 ) );
+		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.ADVENTUROUS_SPELUNKER, ItemPool.TALES_OF_SPELUNKING, "tales", "_spelunkingTalesDrops", 1 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.CARNIE, -1, "cotton candy", "_carnieCandyDrops", 10 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.SWORD_AND_MARTINI_GUY, ItemPool.MINI_MARTINI, "mini-martini", "_miniMartiniDrops", 6 ) );
 		DROP_FAMILIARS.add( new DropInfo( FamiliarPool.PUCK_MAN, ItemPool.POWER_PILL, "power pill", "_powerPillDrops", Math.min( 1 + KoLCharacter.getCurrentDays(), 11 ) ) );

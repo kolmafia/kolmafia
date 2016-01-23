@@ -1172,7 +1172,7 @@ public class CompactSidePane
 				int weight = current.getModifiedWeight();
 				this.familiarLabel.setText( "<HTML><center>" + weight +
 								( weight == 1 ? " lb." : " lbs." ) +
-								( anno == null ? "" : ", " + anno.toString() ) + "</center></HTML>" );
+								( anno == null ? "" : "<br>" + anno.toString() ) + "</center></HTML>" );
 			}
 		}
 
