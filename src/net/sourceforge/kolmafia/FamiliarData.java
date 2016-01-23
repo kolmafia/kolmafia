@@ -793,7 +793,7 @@ public class FamiliarData
 	{
 		public FightInfo( int id, String dropTracker, int dailyCap )
 		{
-			super( id, -1, "free fights", dropTracker, dailyCap );
+			super( id, -1, "combats", dropTracker, dailyCap );
 		}
 
 		public int fightsToday()
