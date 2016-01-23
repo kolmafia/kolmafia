@@ -420,6 +420,17 @@ public class CharPaneDecorator
 		}
 
 		StringBuffer buffer = new StringBuffer();
+		if ( familiar.hasFights() )
+		{
+			buffer.append( familiar.fightsToday() );
+			if ( familiar.fightDailyCap() != -1 )
+			{
+				buffer.append( "/" );
+				buffer.append( familiar.fightDailyCap() );
+				buffer.append( " fights" );
+			}
+		}
+
 		switch ( familiar.getId() )
 		{
 
@@ -499,14 +510,7 @@ public class CharPaneDecorator
 			return buffer;
 		}
 
-		case FamiliarPool.HIPSTER:
-			buffer.append( Preferences.getString( "_hipsterAdv" ) );
-			buffer.append( "/7" );
-			return buffer;
-
 		case FamiliarPool.ARTISTIC_GOTH_KID:
-			buffer.append( Preferences.getString( "_hipsterAdv" ) );
-			buffer.append( "/7 fights" );
 			if ( KoLCharacter.getHippyStoneBroken() )
 			{
 				buffer.append( "<br>" );
@@ -620,16 +624,23 @@ public class CharPaneDecorator
 		
 		if( familiar.hasDrop() )
 		{
+			if ( buffer.length() != 0 )
+			{
+				buffer.append( "<br>" );
+			}
+
 			buffer.append( familiar.dropsToday() );
 			if( familiar.dropDailyCap() != -1 )
 			{
 				buffer.append( "/" );
 				buffer.append( familiar.dropDailyCap() );
+				buffer.append( " " );
+				buffer.append( familiar.dropName() );
 			}
 			return buffer;
 		}
 
-		return null;
+		return buffer.length() > 0 ? buffer : null;
 	}
 
 	private static int gothKidChargesNeeded()
