@@ -8718,16 +8718,16 @@
 8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59	bottles of frozen shampoo-conditioner
 8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
-8695
+8695	Martialest Arts trophy	274423152	karatetrophy.gif	none		0
 8696	ancient medicinal herbs	613750539	iceherbs.gif	spleen, usable	t,d	5
 8697	ice rice	879699146	icerice.gif	food	t,d	5
 8698	iced plum wine	690208428	icewine.gif	drink	t,d	5
 8699	training belt	224153440	trainingbelt.gif	accessory	q	0
 8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
 8701	training helmet	689206959	traininghelmet.gif	hat	q	0
-8702	training scroll: Shattering Punch	568969372	wosp_scroll.gif	usable	t	0
-8703	training scroll: Snokebomb	696042206	wosp_scroll.gif	usable	t	0
-8704	training scroll: Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0
+8702	training scroll:  Shattering Punch	568969372	wosp_scroll.gif	usable	t	0
+8703	training scroll:  Snokebomb	696042206	wosp_scroll.gif	usable	t	0
+8704	training scroll:  Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0
 8705	X-32-F snowman crate	532803965	crate.gif	usable	t	0
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75
