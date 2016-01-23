@@ -427,7 +427,7 @@ public class CharPaneDecorator
 			{
 				buffer.append( "/" );
 				buffer.append( familiar.fightDailyCap() );
-				buffer.append( " fights" );
+				buffer.append( " combats" );
 			}
 		}
 
