@@ -913,6 +913,16 @@ public class FamiliarData
 		return FamiliarData.hasDrop( this.id );
 	}
 
+	public static boolean hasFights( int id )
+	{
+		return FamiliarData.getFightInfo( id ) != null;
+	}
+
+	public boolean hasFights()
+	{
+		return FamiliarData.hasFights( this.id );
+	}
+
 	public static FightInfo getFightInfo( int id )
 	{
 		for ( FightInfo info : FIGHT_FAMILIARS )
@@ -920,7 +930,6 @@ public class FamiliarData
 			if ( info.id == id )
 				return info;
 		}
-
 		return null;
 	}
 
