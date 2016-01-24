@@ -4399,38 +4399,75 @@ public class FightRequest
 		boolean hasBold = FightRequest.extractVerse( node, action, "b" );
 		String machineElf = action.toString();
 
-		Matcher m = INT_PATTERN.matcher( machineElf );
-		if ( !m.find() )
+		if ( image.equals( "strboost.gif" ) && machineElf.contains( "feel as though" ) )
 		{
-			if ( image.equals( "strboost.gif" ) && machineElf.contains( "feel as though" ) )
-			{
-				String message = "You gain a Muscle point!";
-				FightRequest.logPlayerAttribute( status, message );
-			}
-
-			if ( image.equals( "snowflakes.gif" ) && machineElf.contains( "feel as though" ) )
-			{
-				String message = "You gain a Mysticality point!";
-				FightRequest.logPlayerAttribute( status, message );
-			}
-
-			if ( image.equals( "wink.gif" ) && machineElf.contains( "feel as though" ) )
-			{
-				String message = "You gain a Moxie point!";
-				FightRequest.logPlayerAttribute( status, message );
-			}
+			String message = "You gain a Muscle point!";
+			FightRequest.logPlayerAttribute( status, message );
 			return;
 		}
 
-		String points = m.group();
-
-		if ( image.equals( "meat.gif" ) )
+		if ( image.equals( "snowflakes.gif" ) && machineElf.contains( "feel as though" ) )
 		{
-			String message = "You gain " + points + " Meat";
-			ResultProcessor.processMeat( message, status.won, status.nunnery );
-			status.won = false;
-			status.shouldRefresh = true;
+			String message = "You gain a Mysticality point!";
+			FightRequest.logPlayerAttribute( status, message );
 			return;
+		}
+
+		if ( image.equals( "wink.gif" ) && machineElf.contains( "feel as though" ) )
+		{
+			String message = "You gain a Moxie point!";
+			FightRequest.logPlayerAttribute( status, message );
+			return;
+		}
+
+		if ( image.equals( "hp.gif" ) )
+		{
+			// Gained or lost HP
+
+			String gain = "lose";
+
+			// Your mind sings a piercing lullaby as you are healed.
+
+			if ( machineElf.contains( "you are healed" ) )
+			{
+				gain = "gain";
+			}
+
+			String message = "You " + gain + " 1 or more hit points";
+			FightRequest.logPlayerAttribute( status, message );
+			return;
+		}
+
+		if ( image.equals( "mp.gif" ) )
+		{
+			// Gained or lost MP
+
+			String gain = "lose";
+
+			// A bracing salmon prophecy echoes through your thoughts, revitalizing you.
+
+			if ( machineElf.contains( "revitalizing you" ) )
+			{
+				gain = "gain";
+			}
+			String message = "You " + gain + " 1 or more Mojo points";
+			FightRequest.logPlayerAttribute( status, message );
+			return;
+		}
+
+		Matcher m = INT_PATTERN.matcher( machineElf );
+		if ( m.find() )
+		{
+			String points = m.group();
+
+			if ( image.equals( "meat.gif" ) )
+			{
+				String message = "You gain " + points + " Meat";
+				ResultProcessor.processMeat( message, status.won, status.nunnery );
+				status.won = false;
+				status.shouldRefresh = true;
+				return;
+			}
 		}
 	}
 
@@ -6788,7 +6825,8 @@ public class FightRequest
 			FightRequest.jiggledChefstaff = true;
 
 			boolean jiggleSuccess = ( FightRequest.anapest && responseText.contains( "hold up your staff" ) ) ||
-									( FightRequest.haiku && responseText.contains( "jiggle a stick" ) );
+									( FightRequest.haiku && responseText.contains( "jiggle a stick" ) ) ||
+									( FightRequest.machineElf && responseText.contains( "line of power" ) );
 
 			int staffId = EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId();
 			switch ( staffId )
@@ -6851,7 +6889,8 @@ public class FightRequest
 		boolean skillSuccess =
 			( FightRequest.anapest &&
 			  responseText.contains( "skills don't have to cause pain" ) ) ||
-			( FightRequest.haiku && responseText.contains( "accomplish something" ) );
+			( FightRequest.haiku && responseText.contains( "accomplish something" ) ) ||
+			( FightRequest.machineElf && responseText.contains( "You reveal your" ) );
 		boolean familiarSkillSuccess =
 			( FightRequest.anapest &&
 			  ( responseText.contains( "familiar did something" ) ||
@@ -6861,13 +6900,15 @@ public class FightRequest
 			    responseText.contains( "what did your familiar do" ) ||
 			    responseText.contains( "familiar does something" ) ||
 			    responseText.contains( "you don't see what it does" ) ||
-			    responseText.contains( "you missed what it did" ) ) );
+			    responseText.contains( "you missed what it did" ) ) ) ||
+			( FightRequest.machineElf && responseText.contains( "You reveal your" ) );
 		boolean skillRunawaySuccess =
 			( FightRequest.anapest &&
 				responseText.contains( "wings on your heels" ) ) ||
 			( FightRequest.haiku && 
 			  ( responseText.contains( "burps taste like pride" ) ||
-				responseText.contains( "beat a retreat" ) ) );
+				responseText.contains( "beat a retreat" ) ) ) ||
+			( FightRequest.machineElf && responseText.contains( "you are no longer anywhere" ) );
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
 		{
@@ -7345,13 +7386,15 @@ public class FightRequest
 			    responseText.contains( "item caused something to happen" ) ) ) ||
 			( FightRequest.haiku &&
 			  ( responseText.contains( "do some stuff with a thing" ) ||
-			    responseText.contains( "some inscrutable end" ) ) );
+			    responseText.contains( "some inscrutable end" ) ) ) ||
+			( FightRequest.machineElf && responseText.contains( "performs its function" ) );
 		boolean itemRunawaySuccess =
 			( FightRequest.anapest &&
 			  responseText.contains( "wings on your heels" ) ) ||
 			( FightRequest.haiku &&
 			  ( responseText.contains( "burps taste like pride" ) ||
-			    responseText.contains( "beat a retreat" ) ) );
+			    responseText.contains( "beat a retreat" ) ) ) ||
+			( FightRequest.machineElf && responseText.contains( "are no longer anywhere" ) );
 
 		switch ( itemId )
 		{
