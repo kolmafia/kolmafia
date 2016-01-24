@@ -5277,6 +5277,14 @@ public class UseItemRequest
 		case ItemPool.ROYAL_TEA:
 			Preferences.increment( "royalty", 1 );
 			break;
+
+		case ItemPool.BOO_CLUE:
+			if ( responseText.contains( "already in the process of investigating" ) )
+			{
+				// Not used up
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
