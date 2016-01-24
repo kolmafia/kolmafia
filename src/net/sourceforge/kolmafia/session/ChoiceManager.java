@@ -3683,7 +3683,16 @@ public abstract class ChoiceManager
 				       new Option( "mysticality training", 2 ),
 				       new Option( "moxie training", 3 ),
 				       new Option( "tournament", 4 ),
-				       new Option( "tleave", 6 ) } ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1119 is Shining Mauve Backwards In Time
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1119", "Deep Machine Tunnels",
+			new Object[] { new Option( "acquire some abstractions", 1 ),
+				       new Option( "acquire abstraction: comprehension", 2, "abstraction: comprehension" ),
+				       new Option( "acquire modern picture frame", 3, "modern picture frame" ),
+				       new Option( "duplicate one food, booze, spleen or potion", 4 ),
+				       new Option( "leave", 6 ) } ),
 
 	   // Choice 1120 is Some Assembly Required
 	   // Choice 1121 is Some Assembly Required
