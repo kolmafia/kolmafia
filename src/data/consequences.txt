@@ -24,10 +24,8 @@
 #		See modifiers.txt for full details, although only the basic math
 #		operators are expected to be useful here.
 
-DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
-DESC_ITEM	Spooky Putty monster	a picture of (a|an|something totally unrecognizable|)\s*(.*?)!	spookyPuttyMonster=$2
-DESC_ITEM	shaking 4-d camera	an angry (monster)?(.*?) or something	cameraMonster=$2
-DESC_ITEM	photocopied monster	likeness of (a|an) (.*?) on it	photocopyMonster=$2
+DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
 DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something totally unrecognizable|)\s*(.*?)\.	crudeMonster=$2
 DESC_ITEM	experimental serum G-9	\+(\d+)%	_g9Effect=$1
 DESC_ITEM	fossilized necklace	(\d+) bat	fossilB=[min(5,$1)]
@@ -36,35 +34,43 @@ DESC_ITEM	fossilized necklace	(\d+) baboon	fossilN=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) wyrm	fossilW=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) demon	fossilD=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) spider	fossilP=[min(5,$1)]
-DESC_ITEM	Staff of the Staff of Life	(\d+) charge	_jiggleLife=[5-$1]
-DESC_ITEM	Staff of the Staff of Life	No charges	_jiggleLife=5
-DESC_ITEM	Staff of the Standalone Cheese	(\d+) charge	_jiggleCheese=[5-$1]
-DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
-DESC_ITEM	Staff of the Standalone Cheese	curently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
+DESC_ITEM	hair of the fish	Moxie \+(\d+)	_antihangoverBonus=$1
+DESC_ITEM	king cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	knight cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	photocopied monster	likeness of (a|an) (.*?) on it	photocopyMonster=$2
+DESC_ITEM	queen cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	rook cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	shaking 4-d camera	an angry (monster)?(.*?) or something	cameraMonster=$2
+DESC_ITEM	Spooky Putty monster	a picture of (a|an|something totally unrecognizable|)\s*(.*?)!	spookyPuttyMonster=$2
 DESC_ITEM	Staff of the All-Steak	(\d+) charge	_jiggleSteak=[5-$1]
 DESC_ITEM	Staff of the All-Steak	No charges	_jiggleSteak=5
 DESC_ITEM	Staff of the Cream of the Cream	(\d+) charge	_jiggleCream=[5-$1]
 DESC_ITEM	Staff of the Cream of the Cream	No charges	_jiggleCream=5
 DESC_ITEM	Staff of the Cream of the Cream	last used this staff on <b>(a|an|something totally unrecognizable|)\s*([^>]*)</b>	_jiggleCreamedMonster=$2
-DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
+DESC_ITEM	Staff of the Staff of Life	(\d+) charge	_jiggleLife=[5-$1]
+DESC_ITEM	Staff of the Staff of Life	No charges	_jiggleLife=5
+DESC_ITEM	Staff of the Standalone Cheese	(\d+) charge	_jiggleCheese=[5-$1]
+DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
+DESC_ITEM	Staff of the Standalone Cheese	curently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
+DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
 DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookCameraTarget=$1
 
+DESC_SKILL	Banishing Shout	curently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
+DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
-DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
-DESC_SKILL	Banishing Shout	curently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Summon Annoyance	Cost:</b> (\d+)	summonAnnoyanceCost=$1
 
-DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
-DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]
-DESC_EFFECT	Knightlife	\+(\d+)%	chessboardsCleared=[($1-100)/2]
-DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
-DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
-DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
-DESC_EFFECT	Experimental Effect G-9	\+(\d+)%	_g9Effect=$1
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	_chilledToTheBone=$1
+DESC_EFFECT	Experimental Effect G-9	\+(\d+)%	_g9Effect=$1
 DESC_EFFECT	Feelin' The Rhythm!	Muscle \+(\d+)	_feelinTheRhythm=$1
+DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
+DESC_EFFECT	Knightlife	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
+DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
+DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 
 # Monster disambiguation:
 
