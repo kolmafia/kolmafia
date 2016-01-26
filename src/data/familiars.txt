@@ -230,3 +230,4 @@
 198	Lil' Barrel Mimic	barrelmimic.gif	stat0	tiny barrel	brass bung spigot	1	2	1	3
 199	Machine Elf	machelf.gif	none	machine elf capsule	self-dribbling basketball	1	2	3	1
 200	Choctopus	choctopus.gif	item0,hp1,mp1	Gratitude chocolate (octopus-filled)	chocolate bowtie	0	0	0	0
+201	Rockin' Robin	rockinrobin.gif	item0,stat0	basking robin	tiny domino mask	0	0	0	0
