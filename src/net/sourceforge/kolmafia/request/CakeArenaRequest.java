@@ -56,6 +56,7 @@ public class CakeArenaRequest
 {
 	private boolean isCompetition;
 	private int eventId;
+	private boolean ignoreCounters;
 
 	private String [] results;
 	private String suckage;
@@ -66,7 +67,7 @@ public class CakeArenaRequest
 		this.isCompetition = false;
 	}
 
-	public CakeArenaRequest( final int opponentId, final int eventId )
+	public CakeArenaRequest( final int opponentId, final int eventId, final boolean ignoreCounters )
 	{
 		super( "arena.php" );
 		this.addFormField( "action", "go" );
@@ -75,12 +76,24 @@ public class CakeArenaRequest
 
 		this.isCompetition = true;
 		this.eventId = eventId;
+		this.ignoreCounters = ignoreCounters;
+	}
+
+	public CakeArenaRequest( final int opponentId, final int eventId )
+	{
+		this( opponentId, eventId, false );
 	}
 
 	@Override
 	public String toString()
 	{
 		return "Arena Battle";
+	}
+
+	@Override
+	public boolean stopForCounters()
+	{
+		return !this.ignoreCounters && super.stopForCounters();
 	}
 
 	@Override

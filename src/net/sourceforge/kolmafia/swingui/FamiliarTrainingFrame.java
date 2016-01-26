@@ -851,7 +851,7 @@ public class FamiliarTrainingFrame
 			}
 
 			// Enter the contest
-			if ( FamiliarTrainingFrame.fightMatch( status, tool, opponent ) <= 0 )
+			if ( FamiliarTrainingFrame.fightMatch( status, tool, opponent, tool.bestMatch(), false ) <= 0 )
 			{
 				++FamiliarTrainingFrame.losses;
 			}
@@ -1044,7 +1044,7 @@ public class FamiliarTrainingFrame
 				}
 
 				// Enter the contest
-				int trialXP = FamiliarTrainingFrame.fightMatch( status, tool, opponent, match );
+				int trialXP = FamiliarTrainingFrame.fightMatch( status, tool, opponent, match, true );
 
 				if ( trialXP < 0 )
 				{
@@ -1366,14 +1366,8 @@ public class FamiliarTrainingFrame
 		KoLmafia.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static final int fightMatch( final FamiliarStatus status, final FamiliarTool tool,
-		final ArenaOpponent opponent )
-	{
-		return FamiliarTrainingFrame.fightMatch( status, tool, opponent, tool.bestMatch() );
-	}
-
-	private static final int fightMatch( final FamiliarStatus status, final FamiliarTool tool,
-		final ArenaOpponent opponent, final int match )
+	private static final int fightMatch( final FamiliarStatus status, final FamiliarTool tool, final ArenaOpponent opponent,
+					     final int match, final boolean ignoreCounters )
 	{
 		// If user aborted, bail now
 		if ( KoLmafia.refusesContinue() )
@@ -1385,7 +1379,7 @@ public class FamiliarTrainingFrame
 		FamiliarTrainingFrame.printMatch( status, opponent, tool, match );
 
 		// Run the match
-		CakeArenaRequest request = new CakeArenaRequest( opponent.getId(), match );
+		CakeArenaRequest request = new CakeArenaRequest( opponent.getId(), match, ignoreCounters );
 		RequestThread.postRequest( request );
 		
 		// If the request failed to produce responseText, bail
