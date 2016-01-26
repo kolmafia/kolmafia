@@ -2746,3 +2746,8 @@ level 5 lightning lamp	VYKEA	VYKEA instructions (1)	VYKEA rail (5)	VYKEA lightni
 
 # Crimbo 2015
 pine cone necklace	COMBINE	pine cone	iron chain
+
+# Rockin' Robin
+
+robin nog	MIX	Robin's egg	fermenting powder
+robin flan	COOK	Robin's egg	Gnollish pie tin
