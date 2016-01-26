@@ -894,6 +894,7 @@ Item	autocalliope	Spooky Damage: [2*(1+skill(Accordion Appreciation))], Stench D
 # Ax of L'rose
 Item	backwoods banjo	Experience Percent (Moxie): +20, Ranged Damage: +40, Maximum HP: +200, Maximum MP: +200
 Item	bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
+Item	bag of random words	Effect: "Madly Liberated", Effect Duration: 50
 Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 Item	Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Item	balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
@@ -906,9 +907,12 @@ Item	basic meat crossbow	Moxie: +1
 Item	basic meat spork	Muscle: +3, Weapon Damage: +3
 Item	basic meat staff	Mysticality: +1
 Item	basic meat sword	Muscle: +1
+Item	basking robin	Free Pull
 Item	bastard baster	Spell Damage Percent: +20
 Item	bat whip	Spell Damage: +10, Monster Level: +5
 Item	batblade	Weapon Damage: +15
+# Item Batfellow comic: Lets you have have a fun adventure as a dark, brooding, bat-themed superhero.
+Item	Batfellow comic	Free Pull
 Item	battery-powered drill	Spell Damage Percent: +100, Maximum HP: +50, Maximum MP: +50, Monster Level: +10, Meat Drop: +10
 Item	beaver spear	Muscle: +5, Weapon Damage: +10
 Item	beer bong	Stench Damage: +15, Monster Level: +5
@@ -1061,6 +1065,7 @@ Item	Dinsey's pizza cutter	Spell Damage Percent: +50, Spooky Resistance: +2, Ste
 # disco ball
 Item	Disco Banjo	Moxie: +7, DB Combat Damage: +3, Class: "Disco Bandit"
 Item	dishrag	Stench Damage: +5
+# Item Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	double barreled barrel gun	Weapon Damage Percent: +50, Critical Hit Percent: +5
 Item	double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 Item	doubt cannon	Weakens Monster
@@ -1252,6 +1257,7 @@ Item	Knob Goblin spatula	Spell Damage: +4
 Item	Knob Goblin tongs	Spell Damage: +2
 Item	KoL Con 12-gauge	Maximum HP: +12, Maximum MP: +12
 Item	KoL Con Cinco Pi&ntilde;ata Bat	Maximum HP: +10, Maximum MP: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3, Softcore Only
+Item	Kudzu slaw	Effect: "Slawdered", Effect Duration: 50
 Item	lavalarva	Hot Damage: +30, Cold Resistance: +4, Monster Level: +10
 Item	law-abiding citizen cane	Maximum Hooch: +5, Single Equip
 Item	lawn dart	Muscle Percent: +15, Weapon Damage Percent: +20, Maximum HP: +300
@@ -1285,6 +1291,7 @@ Item	magic whistle	Monster Level: +4, Familiar Weight: +1
 Item	magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 Item	mama's squeezebox	Moxie: [3*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 8
 Item	mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
+Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 Item	massive sitar	Mysticality: +12, Spell Damage: +20
 Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: +50 Damage vs. Ghosts
@@ -1959,6 +1966,7 @@ Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5
 Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
+# Item Mr. Burnsger: Reduces your Drunkenness by 2
 # Mr. Haggis: Haggis!
 # Mylar balloon
 # naughty fortune teller: + Some Stats Per Fight
@@ -5111,6 +5119,7 @@ Effect	Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 # Macho, Macho Dog: +50% Damage vs. Werewolves
 Effect	Macho, Macho Dog	Muscle Percent: +50, Critical Hit Percent: +10
 Effect	Mad at Science	Muscle: +3
+Effect	Madly Liberated	Avatar: "The Mad Libber"
 # Magic Tongue: Everything tastes weird
 Effect	Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
 Effect	Magicianship	Mysticality Percent: +200
@@ -6090,6 +6099,7 @@ Effect	You're Not Cooking	Hot Spell Damage: +50, Spell Damage Percent: +100
 Effect	You're Rubber	Damage Reduction: 20
 # You've Got a Stew Going!: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
+Effect	You've Got Questions	Avatar: "The Inquisitor"
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
 Effect	Your Eyes are Peeled!	Item Drop: +25
@@ -8536,6 +8546,7 @@ Item	pygmy pygment	Effect: "Woad Warrior", Effect Duration: 10
 Item	pygmy witchhazel	Effect: "Which Nurse? Witch Nurse!", Effect Duration: 50
 # quantum nanopolymer spider web: Weakens enemies somewhat and briefly stuns them
 Item	quasi-ethereal macaroni fragments	Class: "Pastamancer"
+Item	question juice	Effect: "You've Got Questions", Effect Duration: 50
 Item	R&uuml;mpelstiltz	Effect: "Rumpel-pumped", Effect Duration: 5
 Item	radioactive spider venom	Effect: "Does Whatever a Person Can", Effect Duration: 30
 Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 10
@@ -8618,6 +8629,9 @@ Item	resolution: be smarter	Effect: "Brilliant Resolve", Effect Duration: 20
 Item	resolution: be stronger	Effect: "Strong Resolve", Effect Duration: 20
 Item	resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 Item	ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
+# Item robin's egg: When used in combat: weakens enemies by 50% and briefly stuns them
+Item	robin's egg	Effect: "Egged On", Effect Duration: 10
+# Item robin nog
 Item	robot grease	Effect: "Greasy Peasy", Effect Duration: 30
 # robotronic egg: Crazy robotronic action!
 # rock band flyers: Advertise!
@@ -8907,6 +8921,7 @@ Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
+Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
 Item	The Ballad of Richie Thingfinder	Skill: "The Ballad of Richie Thingfinder"
 Item	The Big Book of Communism	Skill: "Communism!"
@@ -8925,9 +8940,11 @@ Item	the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 Item	The Kloop in the Coop	Free Pull
 Item	The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
 # The Lost Comb: Stuns your opponent for a few rounds
+# Item The Mad Liquor: Reduces your Fullness by 1
 Item	the most dangerous bait	Effect: "Manbait", Effect Duration: 20
 Item	The Necbronomicon	Skill: "Summon &quot;Boner Battalion&quot;"
 Item	The Necbronomicon (used)	Skill: "Summon &quot;Boner Battalion&quot;"
+# Item The Plumber's mushroom stew: Reduces your Drunkenness by 1
 # The Six-Pack of Pain: Deals Physical Damage based on your Muscle
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
@@ -8951,6 +8968,7 @@ Item	tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 Item	tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 Item	tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
 Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20
+Item	tiny domino mask	Familiar Weight: +5
 # tiny goth giant: Makes combat all Gothy
 # tiny goth giant: (doesn't go away when used)
 # tiny house: Restores 20-24 HP and MP and removes negative effects
