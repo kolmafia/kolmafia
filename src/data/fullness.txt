@@ -483,6 +483,7 @@ Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
+Mr. Burnsger	4	8	EPIC	0	0	0	0	Unspaded
 Mt. McLargeHuge oyster	3	1	decent	5-7	15-20	0	0
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
@@ -748,6 +749,7 @@ tempura radish bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
 tempura radish bento box with inky squid sauce	5	1	EPIC	24-32	5-15	75-95	5-15	80 Fishy
 tempura radish bento box with mer-kin weaksauce	5	1	EPIC	24-32	5-15	5-15	75-95	80 Fishy
 tempura radish bento box with peanut sauce	5	1	EPIC	24-32	5-15	5-15	5-15	80 Fishy
+The Plumber's mushroom stew	3	6	EPIC	0	0	0	0	Unspaded
 They liver popsicle	1	4	awesome	4-5	10-20	10-20	10-20	100 You Liver
 This Charming Flan	2	1	EPIC	10-12	10-12	0	0
 three-tiered wedding cake	35	1	crappy	34-39	0	0	0

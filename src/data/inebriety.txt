@@ -426,6 +426,7 @@ red-headed corpse	3	1	good	6-10	0	31-35	0
 redrum	3	1	decent	5-6	0	15-30	0
 regular-size brogurt	1	5	good	2-3	15-30	0	15-30
 ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
+robin nog	2	1	awesome	0	0	0	0	Unspaded
 rocket fuel	3	4	good	7-11	0	0	10-20
 rockin' wagon	4	4	good	10-14	0	0	34-36
 roll in the hay	4	4	good	10-14	0	34-36	0
@@ -513,6 +514,7 @@ tequila sunrise	3	1	decent	5-6	8-10	0	0
 tequila sunset	3	3	good	5-10	0	16-20	0
 tequila with training wheels	3	3	good	5-10	8-9	0	0
 The Cooler Out of Space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the Darkness (+9 Spooky Res, +100 Spooky Dam)
+The Mad Liquor	3	6	EPIC	0	0	0	0	Unspaded
 thermos full of Knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thermos of &quot;whiskey&quot;	1	1	good	2-3	0	0	75-100
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP
