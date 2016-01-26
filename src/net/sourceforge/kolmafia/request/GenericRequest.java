@@ -1044,7 +1044,7 @@ public class GenericRequest
 		return RequestLogger.isDebugging() && ( !this.isChatRequest || Preferences.getBoolean( "logChatRequests" ) );
 	}
 
-	private boolean stopForCounters()
+	public boolean stopForCounters()
 	{
 		while ( true )
 		{
