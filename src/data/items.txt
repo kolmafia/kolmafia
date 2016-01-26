@@ -8857,7 +8857,7 @@
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
 8832	tiny domino mask	832460823	robinmask.gif	familiar	t,d	75
 8833	robin's egg	666856428	jarl_egg.gif	usable	t,d	5
-8834
+8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5
 8836
 8837
