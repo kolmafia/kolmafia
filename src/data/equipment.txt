@@ -296,6 +296,7 @@ tattered paper crown	60	Mus: 15
 The Clown Crown	0	none
 The Crown of Ed the Undying	100	none
 The Emperor's new hat	10	none
+The Jokester's wig	200	Mox: 50
 The Necbromancer's Hat	200	Mox: 200
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
@@ -545,6 +546,7 @@ sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 The Emperor's new pants	10	none
+The Jokester's pants	200	Mox: 50
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
 Three Mile Island shorts	100	Mox: 35
@@ -1367,6 +1369,7 @@ tail o' nine cats	30	Mus: 0	1-handed whip
 Tales of the Word Realms	0	Mus: 0	2-handed book
 tambourine	50	Mox: 10	1-handed drum
 teflon spatula	200	Mys: 85	1-handed utensil
+The Jokester's gun	200	Mox: 50	1-handed pistol
 The Landscaper's leafblower	100	Mox: 35	2-handed leafblower
 The Necbromancer's Wizard Staff	10	Mys: 200	1-handed chefstaff
 The Nuge's favorite crossbow	160	Mox: 30	1-handed crossbow
