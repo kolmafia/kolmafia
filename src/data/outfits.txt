@@ -125,3 +125,4 @@
 124	The Emperor's New Clothes	emperortat.gif	The Emperor's new hat, The Emperor's new shirt, The Emperor's new pants
 125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH breastplate, SMOOCH codpiece, SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders
 126	Cooper's Couture	barreltat.gif	barrelhead, chest barrel, bottoms of the barrel
+127	The Jokester's Costume	jokestertat.gif	The Jokester's wig, The Jokester's gun, The Jokester's pants

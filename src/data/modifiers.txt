@@ -393,6 +393,7 @@ Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
 # The Crown of Ed the Undying: Allows you to read thoughts
 Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +25
 Item	The Emperor's new hat	Mysticality: [L]
+Item	The Jokester's wig	MP Regen Min: 6, MP Regen Max: 8, Monster Level: +10, Spooky Damage: +25
 Item	The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 Item	time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
@@ -671,6 +672,7 @@ Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 Item	The Emperor's new pants	Moxie: [L]
+Item	The Jokester's pants	HP Regen Min: 6, HP Regen Max: 8, Moxie Percent: +20, Never Fumble
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
 Item	The Sagittarian's leisure pants	DB Combat Damage: +13, Familiar Effect: "atk, cap 18"
@@ -1600,6 +1602,8 @@ Item	tail o' nine cats	Initiative: +15, Monster Level: +5
 # Tales of the Word Realms: Lends Power to Your Words
 Item	tambourine	Maximum HP: +20, Maximum MP: +20
 Item	teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
+# Item The Jokester's gun: Can be fired in a weird way once per day to instantly defeat an opponent
+Item	The Jokester's gun	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Initiative: +25, Pants Drop: +50
 Item	The Landscaper's leafblower	Monster Level: [pref(_leafblowerML)]
 Item	The Necbromancer's Wizard Staff	Spell Damage Percent: +200, Sleaze Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 Item	The Nuge's favorite crossbow	Ranged Damage: +30, Initiative: +100, Adventures: +5
@@ -6054,6 +6058,7 @@ Effect	Whitened Teeth	Moxie Percent: +10
 Effect	Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
+Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
 # Wings: You believe you can fly!
 Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
@@ -6404,6 +6409,7 @@ Outfit	Tapered Threads	Initiative: +30
 Outfit	Tawdry Tramp Togs	DB Combat Damage: +20
 Outfit	Terrifying Clown Suit	Spooky Damage: +5
 Outfit	Terrycloth Tackle	Damage Absorption: +30
+Outfit	The Jokester's Costume	Item Drop: +25, Meat Drop: +50
 Outfit	Time Trappings	Adventures: +3
 Outfit	Topiaria	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Toxic Togs	Stench Damage: +20, Stench Spell Damage: +20
@@ -8061,6 +8067,7 @@ Item	jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
 # jigsaw blade: Deals 10-20 Physical Damage, causes a brief stun and less brief bleeding
 # jingling spore pod: Briefly improves your Ranged damage
 Item	jitterbug larva	Free Pull
+Item	Jokester makeup	Effect: "Why So Serious?", Effect Duration: 25
 Item	jug of &quot;wine&quot;	Effect: "Grape Expectations", Effect Duration: 40
 Item	jug of baconstone juice	Effect: "Baconstoned", Effect Duration: 50
 Item	jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50

@@ -8841,17 +8841,17 @@
 8815
 8816
 8817	Mansquito Serum	182419012	syringe.gif	spleen, usable	t	0
-8818
+8818	Miss Graves' vermouth	946150874	wine2.gif	drink	t	0
 8819	The Plumber's mushroom stew	395178184	soupbowl.gif	food	t	0
 8820	The Author's ink	227327683	inkwell.gif	spleen, usable	t	0
 8821	The Mad Liquor	668528845	blackrum.gif	drink	t	0
 8822	Doc Clock's thyme cocktail	882675326	plasticcup.gif	drink	t	0
 8823	Mr. Burnsger	114775794	hamburger.gif	food	t	0
 8824
-8825
-8826
-8827
-8828
+8825	The Jokester's gun	875827615	sixshooter.gif	weapon	t	0
+8826	The Jokester's wig	267613824	jokerwig.gif	hat	t	0
+8827	The Jokester's pants	475776756	tuxpants.gif	pants	t	0
+8828	Jokester makeup	848244938	smallcase.gif	usable	t	0
 8829
 8830
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
