@@ -8847,7 +8847,7 @@
 8821	The Mad Liquor	668528845	blackrum.gif	drink	t	0
 8822	Doc Clock's thyme cocktail	882675326	plasticcup.gif	drink	t	0
 8823	Mr. Burnsger	114775794	hamburger.gif	food	t	0
-8824
+8824	The Inquisitor's unidentifiable object	357482792	confused.gif	spleen, usable	t	0
 8825	The Jokester's gun	875827615	sixshooter.gif	weapon	t	0
 8826	The Jokester's wig	267613824	jokerwig.gif	hat	t	0
 8827	The Jokester's pants	475776756	tuxpants.gif	pants	t	0
@@ -8867,8 +8867,9 @@
 8841
 8842
 8843
-8844
+8844	The Author's inkwell	987845246	inkwell.gif	avatar, usable	t,d	5
 8845	bag of random words	401499176	nopic.gif	avatar, usable	t,d	5
 8846
-8847
+8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, usable	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5
+8849	tube of villain white	586731454	tube.gif	avatar, usable	t,d	5
