@@ -714,6 +714,19 @@
 7252	Propose To Your Opponent	fatrock.gif	5	0	0
 7253	Spit Fireballs	saltongue.gif	5	0	0
 7254	Toggle Optimality	bigredbutton.gif	3	0	0
+7255	Bat-Punch	krakfist.gif	5	0	0
+7256	Bat-Kick	oldboot.gif	5	0	0
+7257	Bat-oomerang	batarang.gif	5	0	0
+7258	Bat-Jute	lasso.gif	5	0	0
+7259	Bat-o-mite	minamite.gif	5	0	0
+7260	Ultracoagulator	syringe.gif	5	0	0
+7261	Kickball	kickball.gif	5	0	0
+7262	Bat-Glue	glueglob.gif	5	0	0
+7263	Bat-Bearing	bearing.gif	5	0	0
+7264	Use Bat-Aid	bandaid.gif	5	0	0
+7265	Fire the Jokester's Gun	sixshooter.gif	5	0	0
+7266	Adjust the Jokester's Wig	jokerwig.gif	5	0	0
+7267	Adjust the Jokester's Pants	tuxpants.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
