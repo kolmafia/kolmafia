@@ -4299,6 +4299,7 @@ Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Burning Soul: Sizzle!
 # Effect Burning Tongue: Lets you spit fireballs!
 # Burning, Man: Sizzle!
+Effect	Burns Effect	Avatar: "Mr. Burns"
 # Busker Do
 Effect	Busy Bein' Delicious	Moxie: +5
 Effect	Butt-Rock Hair	Moxie Percent: +15
@@ -5260,6 +5261,7 @@ Effect	Nothing Is Impossible	Spell Damage Percent: +100
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
+Effect	Nyah-ha-ha-haaa	Avatar: "The Jokester"
 # O Hai!: Effect Cat is Not Amused
 Effect	Object Detection	Item Drop: +5
 Effect	Obscuri Tea	Combat Rate: -5
@@ -5854,10 +5856,12 @@ Effect	The Halls of Moxiousness	Experience (Moxie): +3
 Effect	The Halls of Muscularity	Experience (Muscle): +3
 Effect	The Halls of Mysticality	Experience (Mysticality): +3
 Effect	The HeyDezebound Heart	Experience: [min(100,floor(T/5))], Item Drop: [min(300,T)], Muscle Percent: [max(-1000,-T)], Mysticality Percent: [max(-1000,-T)], Moxie Percent: [max(-1000,-T)]
+Effect	The Inquisitor's Unknown Effect	Familiar Weight: +10, Damage Reduction: 25, Initiative: +100, Meat Drop: +100, Item Drop: +100, Maximum MP Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +200
 Effect	The Kobold and the Kobeautiful	Avatar: "large kobold"
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
 Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moxious Madrigal	Moxie: +10
+Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
 Effect	The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)]
 Effect	The Q Is Talking To You	Mysticality Percent: +10
@@ -8623,6 +8627,7 @@ Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 # red potion: Restores 90-110 HP
 Item	red potion	Effect: "Healthy Red Glow", Effect Duration: 20
 Item	red snowcone	Effect: "Red Tongue", Effect Duration: 20
+Item	red-hot jawbreaker	Effect: "Burns Effect", Effect Duration: 50
 Item	Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 # Regular Cloaca Cola: Restores 7-9 MP
 Item	rehearsing dramatic hedgehog	Free Pull
@@ -8929,6 +8934,7 @@ Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
+Item	The Author's inkwell	Effect: "The Other", Effect Duration: 50
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
 Item	The Ballad of Richie Thingfinder	Skill: "The Ballad of Richie Thingfinder"
 Item	The Big Book of Communism	Skill: "Communism!"
@@ -8941,6 +8947,7 @@ Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
 Item	The Groose in the Hoose	Free Pull
+Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	The Joy of Wassailing	Skill: "Wassail"
 Item	The Joy of Wassailing (used)	Skill: "Wassail"
 Item	the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
@@ -9013,6 +9020,7 @@ Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 1
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP
+Item	tube of villain white	Effect: "Nyah-ha-ha-haaa", Effect Duration: 100
 Item	turtle mud	Effect: "Muddy Buddy", Effect Duration: 50
 Item	turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
 Item	turtle voicebox	Effect: "Song of the Southern Turtle", Effect Duration: 15
