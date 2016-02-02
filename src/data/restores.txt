@@ -55,7 +55,7 @@ delicious shimmering moth	item	0	0	[30*effect(form of...bird!)]	[40*effect(form 
 Devour Minions	skill	[max(floor(HP*0.5),20)]	[max(floor(HP*0.5),20)]	0	0	0
 Diet Cloaca Cola	item	0	0	7	9	0
 Disco Nap	skill	[20*(1+skill(Adventurer of Leisure))]	[20*(1+skill(Adventurer of Leisure))]	0	0	0
-Doc Galaktik's Ailment Ointment	item	8	10	0	0	0
+Doc Galaktik's Ailment Ointment	item	35	45	0	0	0
 Doc Galaktik's Homeopathic Elixir	item	18	20	0	0	0
 Doc Galaktik's Invigorating Tonic	item	0	0	9	11	0
 Doc Galaktik's Pungent Unguent	item	3	5	0	0	0
@@ -142,6 +142,7 @@ tiny house	item	20	24	20	24	0
 Tongue of the Walrus	skill	30	40	0	0	0
 tonic water	item	0	0	30	50	0
 tube of herbal ointment	item	14	16	0	0	0
+ultracoagulator	item	0	0	0	0	0
 unrefined Mountain Stream syrup	item	0	0	50	60	0
 warm El Vibrato drone	item	[HP]	[HP]	0	0	0
 wasabi marble soda	item	0	0	5	10	0

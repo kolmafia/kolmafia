@@ -8820,26 +8820,26 @@
 8794	The Big Book of Communism (used)	729555641	book4.gif	usable		0
 8795	Batfellow comic	610063693	batfellowbook.gif	usable	t	0
 8796
-8797
-8798
-8799
+8797	bat-oomerang	872551869	batarang.gif	none	q	0
+8798	bat-jute	117347429	lasso.gif	none	q	0
+8799	bat-o-mite	970970954	minamite.gif	none	q	0
 8800	ROM of Optimality	499948583	cd.gif	usable		0
-8801
-8802
-8803
-8804
-8805
-8806
-8807
-8808
-8809
-8810
-8811
-8812
-8813
-8814
-8815
-8816
+8801	incriminating evidence	949606286	documents.gif	none	q	0
+8802	dangerous chemicals	918942621	wbchemset.gif	none	q	0	units of dangerous chemicals
+8803	kidnapped orphan	804600614	orphan.gif	none	q	0
+8804	high-grade metal	247023626	scrapmetal.gif	none	q	0
+8805	high-tensile-strength fibers	768499725	felt.gif	none	q	0
+8806	high-grade explosives	923060960	potion15.gif	none	q	0
+8807	experimental gene therapy	358294636	dna.gif	none	q	0
+8808	ultracoagulator	818334177	syringe.gif	none	q	0
+8809	self-defense training	442949364	book3.gif	none	q	0
+8810	fingerprint dusting kit	814392612	briefcase.gif	none	q	0
+8811	confidence-building hug	810881141	candyheart.gif	none	q	0
+8812	exploding kickball	915067079	kickball.gif	none	q	0
+8813	glob of Bat-Glue	812658807	glueglob.gif	none	q	0
+8814	Bat-Aid&trade; bandage	949218552	bandaid.gif	none	q	0
+8815	bat-bearing	312763637	bearing.gif	none	q	0
+8816	Kudzu salad	944906074	salad.gif	food	t	0
 8817	Mansquito Serum	182419012	syringe.gif	spleen, usable	t	0
 8818	Miss Graves' vermouth	946150874	wine2.gif	drink	t	0
 8819	The Plumber's mushroom stew	395178184	soupbowl.gif	food	t	0
@@ -8864,12 +8864,12 @@
 8838
 8839
 8840	Kudzu slaw	649517887	salad.gif	avatar, usable	t,d	5
-8841
-8842
-8843
+8841	Mansquito's blood	828225858	fancybrew.gif	avatar, usable	t,d	5
+8842	infrablack lipstick	279755220	lipstick.gif	avatar, usable	t,d	5
+8843	can of drain cleaner	424335738	starchcan.gif	avatar, usable	t,d	5
 8844	The Author's inkwell	987845246	inkwell.gif	avatar, usable	t,d	5
 8845	bag of random words	401499176	nopic.gif	avatar, usable	t,d	5
-8846
+8846	tube of pendulum lube	850102320	tube.gif	avatar, usable	t,d	5
 8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, usable	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5
 8849	tube of villain white	586731454	tube.gif	avatar, usable	t,d	5

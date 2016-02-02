@@ -4216,6 +4216,7 @@ Effect	Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky
 Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Block-Rockin' Beet	Damage Reduction: 15
+Effect	Blood of the Jerk that Bit You	Avatar: "Mansquito"
 # Blood Porter
 Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent: +10
 Effect	[1458]Blood Sugar Sauce Magic	Maximum HP Percent: -30, Maximum MP Percent: +30
@@ -4441,6 +4442,7 @@ Effect	Crud&eacute;	Sleaze Damage: +5
 Effect	Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Effect	Crusty Head	Damage Reduction: 10
 Effect	Crying, Dying	Item Drop: +60
+Effect	Crystalleyesd	Avatar: "The Plumber"
 Effect	Cult Fiction	Avatar: "Blue Oyster cultist"
 # Cunctatitis: Eh.  You'll figure out what this effect does later...
 Effect	Cunctatitis	Initiative: -1000
@@ -5297,6 +5299,7 @@ Effect	Once Bitten Twice Fried	Maximum MP: +25, MP Regen Min: 2, MP Regen Max: 5
 Effect	Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Effect	Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
 Effect	One For Tea	MP Regen Min: 10, MP Regen Max: 15
+Effect	One Lip in the Grave	Avatar: "Miss Graves"
 Effect	One Very Clear Eye	Item Drop: +100
 Effect	Ooh, Bitter!	Spooky Damage: +5
 Effect	Ooh, Salty!	Cold Damage: +5
@@ -5806,6 +5809,7 @@ Effect	Swimming Head	Item Drop: [25*env(underwater)]
 # Swimming with Sharks: Makes you a better diver
 Effect	Swimming with Sharks	Meat Drop: +20, Pool Skill: +3, Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Swordholder	Weapon Damage Percent: +50
+Effect	Swung Step	Avatar: "Doc Clock"
 Effect	Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Effect	Takin' It Greasy	Sleaze Damage: +15
 Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
@@ -6652,6 +6656,7 @@ Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30
 Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
+# Item Kudzu salad
 Item	lava cake	Effect: "Demonic Flavor", Effect Duration: 60
 # licorice garrote: Weakens enemies based on how sugared-up you are
 Item	licorice garrote	Effect: "Sugar Rush", Effect Duration: 5
@@ -7160,6 +7165,11 @@ Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
 Item	basaltamander tongue	Effect: "Burning Tongue", Effect Duration: 10
 # baseball: Deals a 6-8 Physical Damage
 Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
+# Item Bat-Aid&trade; bandage: Quickly restores 20 Bat-Health
+# Item bat-bearing: Deals 15 damage and briefly stuns foes
+# Item bat-jute: Lets you tie up and interrogate a weakened foe
+# Item bat-o-mite: Defeats most foes in one shot
+# Item bat-oomerang: Deals 20 damage and disarms foes
 Item	batarang	Effect: "Batwards Masking", Effect Duration: 50
 # Battlie Light Saver: Deals 30-50 Physical Damage and briefly stuns your foe
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
@@ -7313,6 +7323,7 @@ Item	calm attention-deficit demon	Free Pull
 # Camp Scout pup tent: Restores up to 1,000 HP
 Item	can of Binarrrca	Free Pull, Effect: "Talking Like a Pirate", Effect Duration: 50
 Item	can of black paint	Effect: "Red Door Syndrome", Effect Duration: 10
+Item	can of drain cleaner	Effect: "Crystalleyesd", Effect Duration: 50
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 Item	Can of Spaghetto	Effect: "Blessing of the Spaghetto", Effect Duration: 20
 Item	can of spinach	Effect: "Pop-eyed", Effect Duration: 10
@@ -7420,6 +7431,7 @@ Item	communal gobstopper	Effect: "The Magic of Sharing", Effect Duration: 20
 Item	concentrated cordial of concentration	Effect: "Concentrated Concentration", Effect Duration: [R]
 Item	concentrated garbage juice	Effect: "Drenched With Filth", Effect Duration: 20
 Item	concoction of clumsiness	Effect: "Clumsy", Effect Duration: [R]
+# Item confidence-building hug: Increases the damage of your bat-punches and bat-kicks
 Item	confiscated cell phone	Effect: "OMG WTF", Effect Duration: 20
 Item	confiscated comic book	Effect: "Superheroic", Effect Duration: 20
 Item	confiscated love note	Effect: "Notably Lovely", Effect Duration: 20
@@ -7549,6 +7561,7 @@ Item	Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
 Item	damp bar rag	Effect: "Two Car Bar Rag", Effect Duration: 100
 Item	dancing fan	Effect: "Fan Dancing", Effect Duration: 50
 Item	dandy lion cub	Free Pull
+# Item dangerous chemicals: Take it to ChemiCorp's downtown office
 # dangerous jerkcicle: Deals 20-40 <font color=blue>Cold Damage</font>
 Item	Dark Jill-O-Lantern	Free Pull
 Item	daub-breaker	Effect: "Hot Breath", Effect Duration: 1
@@ -7684,9 +7697,11 @@ Item	evil tomato juice of powerful power	Effect: "Tomato Power", Effect Duration
 Item	evil vihuela	Effect: "El Tango de la Maldita Suegra", Effect Duration: 10
 Item	exotic travel brochure	Effect: "Expert Vacationer", Effect Duration: 20
 Item	experimental carbon fiber pasta additive	Class: "Pastamancer"
+# Item experimental gene therapy: Increases your maximum Bat-Health
 Item	experimental serum G-9	Effect: "Experimental Effect G-9", Effect Duration: 40
 Item	experimental serum P-00	Effect: "Schroedinger's Butt", Effect Duration: 20
 # exploding hacky-sack: Deals 75-100 Physical Damage
+# Item exploding kickball: Instantly ends a fight
 Item	explosion-flavored chewing gum	Effect: "Beaten Up", Effect Duration: 10
 Item	extra-potent gremlin mutagen	Effect: "Seriously Mutated", Effect Duration: 1
 # extra-strength red potion: Restores 190-210 HP
@@ -7734,6 +7749,7 @@ Item	filthy monkey head	Effect: "Monkeymask", Effect Duration: 100
 # filthy poultice: Restores 80-120 HP
 # finger cuffs: Stuns your opponent for a few rounds
 Item	finger exerciser	Effect: "Strong Grip", Effect Duration: 20
+# Item fingerprint dusting kit: Helps you find villains faster
 Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 # fire of unknown origin: Deals 35-45 <font color=red>Hot Damage</font> and 35-45 <font color=gray>Spooky Damage</font>
 # fireball: Deals 190-210 <font color=red>Hot Damage</font>
@@ -7855,6 +7871,7 @@ Item	glass of warm water	Free Pull
 Item	glass slipper	Effect: "Don't Step to Your Stepmother", Effect Duration: 10
 Item	glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
+# Item glob of Bat-Glue: Stuns foes for a few rounds
 # glob of Blank-Out: Lets you escape from combat without spending an Adventure
 # glob of Blank-Out: (usable a few times before it goes away)
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
@@ -7978,6 +7995,9 @@ Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	hibernating Grimstone Golem	Free Pull
 Item	hibernating robot reindeer	Free Pull
+# Item high-grade explosives: Can be used in the Bat-Cavern's Bat-Fab to make Bat-o-mite
+# Item high-grade metal: Can be used in the Bat-Cavern's Bat-Fab to make Bat-oomerangs
+# Item high-tensile-strength fibers: Can be used in the Bat-Cavern's Bat-Fab to make Bat-jute
 # high-pressure seltzer bottle: Restores 150-200 MP
 Item	History's Most Offensive Jokes, Vol. IX	Skill: "Unoffendable"
 Item	Hjodor's Guide to Arctic Dalmatians	Skill: "Frigidalmatian"
@@ -8035,8 +8055,10 @@ Item	imbued seal-blubber candle	Class: "Seal Clubber"
 # imitation crab meat: (will backfire if used on land)
 # imp air: Deals 35-40 <font color=red>Hot Damage</font>
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
+# Item incriminating evidence: Take it downtown to Gotpork P. D.
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 Item	infant sandworm	Free Pull
+Item	infrablack lipstick	Effect: "One Lip in the Grave", Effect Duration: 50
 # ingot turtle: Deals 90-110 <font color=red>Hot Damage</font> and changes your opponent's element to Hot
 Item	Inigo's Incantation of Inspiration	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
 Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
@@ -8081,6 +8103,7 @@ Item	jug of Sneaky Pete's Mojo	Free Pull
 # Junk-Bond: Weakens enemies somewhat and briefly stuns them
 # killing feather: Deals 100-120 Physical Damage
 # killing jar: Weakens enemies somewhat and briefly stuns them
+# Item kidnapped orphan: Take it downtown to Gotpork Orphanage
 Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
 Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
@@ -8174,6 +8197,7 @@ Item	mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 # magnolia blossom: Restores 15-30 HP and MP
 Item	mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
+Item	Mansquito's blood	Effect: "Blood of the Jerk that Bit You", Effect Duration: 50
 Item	Manual of Numberology	Skill: "Calculate the Universe"
 Item	Manual of Transcendent Olfaction	Skill: "Transcendent Olfaction"
 Item	Map to Kokomo	Free Pull, Skill: "Summon Kokomo Resort Pass"
@@ -8704,6 +8728,7 @@ Item	sealhide seal doll	Effect: "Red Misty-Eyed", Effect Duration: 10
 # sealhide snare: Stuns your opponent for a few rounds
 Item	secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
 Item	seegar butt	Effect: "Stinking Cloud", Effect Duration: 10
+# Item self-defense training: Increases your Bat-Armor
 Item	Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Item	sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
@@ -9021,6 +9046,7 @@ Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 1
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP
+Item	tube of pendulum lube	Effect: "Swung Step", Effect Duration: 50
 Item	tube of villain white	Effect: "Nyah-ha-ha-haaa", Effect Duration: 100
 Item	turtle mud	Effect: "Muddy Buddy", Effect Duration: 50
 Item	turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
@@ -9032,6 +9058,7 @@ Item	twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 Item	twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 # twisted piece of wire: Stuns your opponent for a couple of rounds
 Item	twitching trigger finger	Class: "Pastamancer"
+# Item ultracoagulator: Restores all of your Bat-Health during a fight
 Item	Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Item	una poca de gracia	Effect: "Inocente, In a Sense", Effect Duration: 100
 Item	Unagnimated Gnome	Free Pull
