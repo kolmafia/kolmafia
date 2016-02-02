@@ -1397,7 +1397,8 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( location.equals( "place.php?whichplace=orc_chasm&action=bridge0" ) )
+		if ( location.equals( "place.php?whichplace=orc_chasm&action=bridge0" ) ||
+		     location.equals( "place.php?whichplace=orc_chasm&action=label1" ))
 		{
 			InventoryManager.retrieveItem( ItemPool.BRIDGE );
 			return true;
