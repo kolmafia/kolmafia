@@ -2050,12 +2050,12 @@
 2049	Why So Serious?	nopic.gif	c7514c82b93e3ca90cc2599bbc95adaa	use 1 Jokester makeup
 2050	Egged On	nopic.gif	5d925cd298bcbfa32135fcb42f210a25	use 1 robin's egg
 2051
-2052
-2053
-2054
+2052	Blood of the Jerk that Bit You	fancybrew.gif	4ec6d342bde5b55d838cc5200b4fc9eb	use 1 Mansquito's blood
+2053	One Lip in the Grave	lipstick.gif	b5827befdc6dbd154335ea7e339a8c1b	use 1 infrablack lipstick
+2054	Crystalleyesd	starchcan.gif	8200edfccacae3e32536b6f1853a5a53	use 1 can of drain cleaner
 2055	The Other	inkwell.gif	8a6d0aa6786670e59245dd2a54a26099	use 1 The Author's inkwell
 2056	Madly Liberated	knobsack.gif	c5adef87cf5e2d007eb4df41bed97341	use 1 bag of random words
-2057
+2057	Swung Step	tube.gif	34694fda7ed856540ee22bc4b646b95c	use 1 tube of pendulum lube
 2058	Burns Effect	jawbreaker.gif	e942ea4377b001bfcc363a05bdb25884	use 1 red-hot jawbreaker
 2059	You've Got Questions	nopic.gif	7119605d0484ca49b39b2cdc152a8855	use 1 question juice
 2060	Nyah-ha-ha-haaa	tube.gif	8fc1aa41305ab506067c31ee74c23e08	use 1 tube of villain white
