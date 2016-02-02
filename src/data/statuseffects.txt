@@ -2046,7 +2046,7 @@
 2045	More Mansquito Than Man	familiar1.gif	5b28dc6aeb5933421c6cc37bcd192e65	chew 1 Mansquito Serum
 2046
 2047	The Inquisitor's Unknown Effect	confused.gif	bac1d296cb2f49ed62224999f04ec66c	chew 1 The Inquisitor's unidentifiable object
-2048
+2048	Behind the Green Curtain	jokerwig.gif	3237f73fe0b1ea3edab83baf14de258f
 2049	Why So Serious?	nopic.gif	c7514c82b93e3ca90cc2599bbc95adaa	use 1 Jokester makeup
 2050	Egged On	nopic.gif	5d925cd298bcbfa32135fcb42f210a25	use 1 robin's egg
 2051

@@ -4168,6 +4168,7 @@ Effect	Beer Barrel Polka	Booze Drop: +45
 # Beer in Your Shoes: More likely to fumble
 # Beer in Your Shoes: Continually take damage
 Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
+Effect	Behind the Green Curtain	Spooky Resistance: +9
 Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Effect	Bells in the Batfry	Moxie Percent: +10
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
