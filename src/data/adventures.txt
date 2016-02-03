@@ -454,4 +454,18 @@ Spelunky Area	adventure=434	Env: none Stat: 0	The City of Goooold
 Spelunky Area	adventure=435	Env: none Stat: 0	LOLmec's Lair
 Spelunky Area	adventure=436	Env: none Stat: 0	Yomama's Throne
 
+Center Park (Low Crime)	adventure=461	Env: none Stat: 0	Center Park After Dark
+Slums (Moderate Crime)	adventure=462	Env: none Stat: 0	The Mean Streets
+Industrial District (High Crime)	adventure=463	Env: none Stat: 0	Warehouse Row
+Center Park (Low Crime)	adventure=464	Env: none Stat: 0	Gotpork Conservatory of Flowers
+Center Park (Low Crime)	adventure=465	Env: none Stat: 0	Gotpork Municipal Reservoir
+Center Park (Low Crime)	adventure=466	Env: none Stat: 0	Gotpork Gardens Cemetery
+Slums (Moderate Crime)	adventure=467	Env: none Stat: 0	Gotpork City Sewers
+Slums (Moderate Crime)	adventure=468	Env: none Stat: 0	Porkham Asylum
+Slums (Moderate Crime)	adventure=469	Env: none Stat: 0	The Old Gotpork Library
+Industrial District (High Crime)	adventure=470	Env: none Stat: 0	Gotpork Clock, Inc.
+Industrial District (High Crime)	adventure=471	Env: none Stat: 0	Gotpork Foundry
+Industrial District (High Crime)	adventure=472	Env: none Stat: 0	Trivial Pursuits, LLC
+Downtown	adventure=473	Env: none Stat: 0	JokesterCo
+
 The Snojo	adventure=460	Env: indoor	The X-32-F Combat Training Snowman

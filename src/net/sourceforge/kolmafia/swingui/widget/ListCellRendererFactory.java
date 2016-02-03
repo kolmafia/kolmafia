@@ -490,19 +490,26 @@ public class ListCellRendererFactory
 				Integer fullness = ConsumablesDatabase.getRawFullness( name );
 				Integer inebriety = ConsumablesDatabase.getRawInebriety( name );
 				Integer spleenhit = ConsumablesDatabase.getRawSpleenHit( name );
+				String spacer = "";
 	
 				if ( fullness != null )
 				{
+					stringForm.append( spacer );
+					spacer = " ";
 					stringForm.append( fullness );
 					stringForm.append( " full" );
 				}
 				if ( inebriety != null )
 				{
+					stringForm.append( spacer );
+					spacer = " ";
 					stringForm.append( inebriety );
 					stringForm.append( " drunk" );
 				}
 				if ( spleenhit != null )
 				{
+					stringForm.append( spacer );
+					spacer = " ";
 					stringForm.append( spleenhit );
 					stringForm.append( " spleen" );
 				}
