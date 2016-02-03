@@ -1024,6 +1024,7 @@ user	suppressPotentialMalware	false
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
 user	tavernLayout	0000000000000000000000000
+user	telegraphOfficeAvailable	false
 user	telescope1
 user	telescope2
 user	telescope3

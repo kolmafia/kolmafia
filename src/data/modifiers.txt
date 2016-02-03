@@ -8183,6 +8183,7 @@ Item	love song of smoldering passion	Effect: "Fiery Heart", Effect Duration: 5
 Item	love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 # love song of vague ambiguity: Deals Physical Damage based on your Muscle
 Item	love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
+# Item LT&T telegraph office deed: Opens a LT&T telegraph office in Seaside Town
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100

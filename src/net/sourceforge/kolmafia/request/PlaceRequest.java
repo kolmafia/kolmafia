@@ -233,6 +233,13 @@ public class PlaceRequest
 		{
 			SpelunkyRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "town_right" ) )
+		{
+			if ( responseText.contains( "townright_ltt" ) )
+			{
+				Preferences.setBoolean( "telegraphOfficeAvailable", true );
+			}
+		}
 		else if ( place.equals( "town_wrong" ) )
 		{
 			if ( action.equals( "townwrong_artist_quest" ) )
