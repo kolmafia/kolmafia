@@ -176,7 +176,7 @@ public abstract class ClanManager
 		ClanManager.clanName = clanName;
 
 		// Visit lounge and rumpus room to see what is there
-		if ( clanName != null )
+		if ( clanName != null && !clanName.equals( "" ) )
 		{
 			RequestLogger.printLine( "You are currently a member of " + clanName );
 
