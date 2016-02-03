@@ -133,7 +133,7 @@ public class ProfileRequest
 			return;
 		}
 
-		this.isHardcore = this.responseText.indexOf( "<b>(Hardcore)</b></td>" ) != -1;
+		this.isHardcore = this.responseText.contains( "<b>(Hardcore)</b></td>" );
 
 		// This is a massive replace which makes the profile easier to
 		// parse and re-represent inside of editor panes.
@@ -154,7 +154,7 @@ public class ProfileRequest
 		this.drink = "none";
 		this.pvpRank = IntegerPool.get( 0 );
 
-		if ( cleanHTML.indexOf( "\nClass:" ) != -1 )
+		if ( cleanHTML.contains( "\nClass:" ) )
 		{	// has custom title
 			while ( !st.nextToken().startsWith( " (#" ) )
 			{
@@ -190,12 +190,12 @@ public class ProfileRequest
 		}
 		else
 		{	// no custom title
-			if ( cleanHTML.indexOf( "Level" ) == -1 )
+			if ( !cleanHTML.contains( "Level" ) )
 			{
 				return;
 			}
 	
-			while ( token.indexOf( "Level" ) == -1 )
+			while ( !token.contains( "Level" ) )
 			{
 				token = st.nextToken();
 			}
@@ -205,7 +205,7 @@ public class ProfileRequest
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 		}
 		
-		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
+		if ( cleanHTML.contains( "\nAscensions" ) && cleanHTML.contains( "\nPath" ) )
 		{
 			while ( !st.nextToken().startsWith( "Path" ) )
 			{
@@ -218,7 +218,7 @@ public class ProfileRequest
 			this.restriction = "No-Path";
 		}
 
-		if ( cleanHTML.indexOf( "\nMeat:" ) != -1 )
+		if ( cleanHTML.contains( "\nMeat:" ) )
 		{
 			while ( !st.nextToken().startsWith( "Meat" ) )
 			{
@@ -227,7 +227,7 @@ public class ProfileRequest
 			this.currentMeat = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 		}
 
-		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+		if ( cleanHTML.contains( "\nAscensions" ) )
 		{
 			while ( !st.nextToken().startsWith( "Ascensions" ) )
 			{
@@ -247,7 +247,7 @@ public class ProfileRequest
 		}
 		this.turnsPlayed = IntegerPool.get( StringUtilities.parseInt( st.nextToken().trim() ) );
 
-		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+		if ( cleanHTML.contains( "\nAscensions" ) )
 		{
 			while ( !st.nextToken().startsWith( "Turns" ) )
 			{
@@ -292,7 +292,7 @@ public class ProfileRequest
 			this.lastLogin = this.created;
 		}
 
-		if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
+		if ( cleanHTML.contains( "\nFavorite Food" ) )
 		{
 			while ( !st.nextToken().startsWith( "Favorite" ) )
 			{
@@ -305,7 +305,7 @@ public class ProfileRequest
 			this.food = "none";
 		}
 
-		if ( cleanHTML.indexOf( "\nFavorite Booze" ) != -1 )
+		if ( cleanHTML.contains( "\nFavorite Booze" ) )
 		{
 			while ( !st.nextToken().startsWith( "Favorite" ) )
 			{
@@ -318,7 +318,7 @@ public class ProfileRequest
 			this.drink = "none";
 		}
 
-		if ( cleanHTML.indexOf( "\nFame" ) != -1 )
+		if ( cleanHTML.contains( "\nFame" ) )
 		{
 			while ( !st.nextToken().startsWith( "Fame" ) )
 			{
@@ -332,7 +332,7 @@ public class ProfileRequest
 		}
 
 		this.equipmentPower = 0;
-		if ( cleanHTML.indexOf( "\nEquipment" ) != -1 )
+		if ( cleanHTML.contains( "\nEquipment" ) )
 		{
 			while ( !st.nextToken().startsWith( "Equipment" ) )
 			{
@@ -354,7 +354,7 @@ public class ProfileRequest
 			}
 		}
 
-		if ( cleanHTML.indexOf( "\nClan" ) != -1 )
+		if ( cleanHTML.contains( "\nClan" ) )
 		{
 			Matcher m = CLAN_ID_PATTERN.matcher( this.responseText );
 			if ( m.find() )
@@ -365,8 +365,8 @@ public class ProfileRequest
 		}
 		else
 		{
-			this.clanId = 0;
-			this.clanName = null;
+			this.clanId = -1;
+			this.clanName = "";
 		}
 		
 		// If we're looking at our own profile, update ClanManager
@@ -376,7 +376,7 @@ public class ProfileRequest
 			ClanManager.setClanName( this.clanName );
 		}
 
-		if ( cleanHTML.indexOf( "\nTitle" ) != -1 )
+		if ( cleanHTML.contains( "\nTitle" ) )
 		{
 			while ( !token.startsWith( "Title" ) )
 			{
