@@ -3111,6 +3111,39 @@ public class UseItemRequest
 		case ItemPool.CHATEAU_ROOM_KEY:
 
 			Preferences.setBoolean( "chateauAvailable", true );
+
+			// You hike up the mountain to Chateau Mantegna and try
+			// the key in various doors until you find the one it
+			// unlocks. It's quite a nice room!
+
+			if ( !responseText.contains( "you find the one it unlocks" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already have a room at the Chateau Mantegna.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			break;
+
+		case ItemPool.TELEGRAPH_OFFICE_DEED:
+
+			Preferences.setBoolean( "telegraphOfficeAvailable", true );
+
+			// You find a vacant lot on the Right Side of the
+			// Tracks and a loophole in the local tax code that
+			// lets you purchase it for negative 19 Meat. Then you
+			// build a telegraph office out of reclaimed materials
+			// from the city dump, spend 19 Meat on a can of paint,
+			// and before you know it you're in the telegraph
+			// business!
+
+			if ( !responseText.contains( "You find a vacant lot" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already opened a telegraph office.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+
 			break;
 
 		case ItemPool.BEAUTIFUL_RAINBOW:

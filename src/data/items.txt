@@ -8859,7 +8859,7 @@
 8833	robin's egg	666856428	jarl_egg.gif	usable	t,d	5
 8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5
-8836
+8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
 8837
 8838
 8839
