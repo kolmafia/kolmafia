@@ -267,6 +267,11 @@ public class PlaceRequest
 			return SpelunkyRequest.registerRequest( urlString );
 		}
 
+		if ( place.startsWith( "batman" ) )
+		{
+			return BatFellowRequest.registerRequest( urlString );
+		}
+
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
@@ -501,7 +506,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "orc_chasm" ) )
 		{
-			if ( action.startsWith( "bridge" ) || action.equals( "label2" ) )
+			if ( action.startsWith( "bridge" ) || action.equals( "label1" ) || action.equals( "label2" ) )
 			{
 				// Building the bridge. Do we need to log anything?
 				return true;

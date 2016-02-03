@@ -97,9 +97,16 @@ Dinseylandfill	Elemental International Airport	Dinseylandfill
 That 70s Volcano	Elemental International Airport	That 70s Volcano
 The Glaciest	Elemental International Airport	The Glaciest
 
-Spelunky Area	Unsorted	Spelunky Area
-
 Item-Driven	Item-Driven	Item-Driven Zones
+
+Spelunky Area	Item-Driven	Spelunky Area
+
+Batfellow Area	Item-Driven	Batfellow Area
+Bat-Cavern	Batfellow Area	Bat-Cavern
+Center Park (Low Crime)	Batfellow Area	Center Park (Low Crime)
+Slums (Moderate Crime)	Batfellow Area	Slums (Moderate Crime)
+Industrial District (High Crime)	Batfellow Area	Industrial District (High Crime)
+Downtown	Batfellow Area	Downtown
 
 Unsorted	Unsorted	No Category
 Sorceress	Unsorted	Sorceress Lair
