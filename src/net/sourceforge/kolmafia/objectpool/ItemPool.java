@@ -2521,6 +2521,12 @@ public class ItemPool
 	public static final int PLAINTIVE_TELEGRAM = 8837;
 	public static final int CLARA_BELL = 8893;
 	public static final int BUFFALO_DIME = 8895;
+	public static final int STRANGE_DISC_WHITE = 8923;
+	public static final int STRANGE_DISC_BLACK = 8924;
+	public static final int STRANGE_DISC_RED = 8925;
+	public static final int STRANGE_DISC_GREEN = 8926;
+	public static final int STRANGE_DISC_BLUE = 8927;
+	public static final int STRANGE_DISC_YELLOW = 8928;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

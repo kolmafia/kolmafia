@@ -140,6 +140,10 @@ public class FightDecorator
 			FightDecorator.decorateWritingDesk( buffer );
 			return;
 		}
+		if ( name.equals( "unusual construct" ) )
+		{
+			FightDecorator.decorateUnusualConstruct( buffer );
+		}
 	}
 
 	public static final void decorateLocation( final StringBuffer buffer )
@@ -352,7 +356,62 @@ public class FightDecorator
 
 		int turns = Preferences.getInteger( "_snojoFreeFights" );
 		StringBuilder insertBuffer = new StringBuilder();
-		insertBuffer.append( " (" ).append( turns ).append( " free fights used)" );
+		insertBuffer.append( " (" ).append( turns ).append( " free fight" ).append( turns == 1 ? "" : "s" ).append( " used)" );
 		buffer.insert( index, insertBuffer );
+	}
+
+	private static final void decorateUnusualConstruct( final StringBuffer buffer )
+	{
+		if ( buffer.indexOf( "CANARY" ) != -1
+		  || buffer.indexOf( "CITRINE" ) != -1
+		  || buffer.indexOf( "GOLD" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_YELLOW ) );
+			return;
+		}
+
+		if ( buffer.indexOf( "CRIMSON" ) != -1
+		  || buffer.indexOf( "RUBY" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_RED ) );
+			return;
+		}
+
+		if ( buffer.indexOf( "OBSIDIAN" ) != -1
+		  || buffer.indexOf( "EBONY" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLACK ) );
+			return;
+		}
+
+		if ( buffer.indexOf( "JADE" ) != -1
+		  || buffer.indexOf( "VERDIGRIS" ) != -1
+		  || buffer.indexOf( "EMERALD" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_GREEN ) );
+			return;
+		}
+
+		if ( buffer.indexOf( "ULTRAMARINE" ) != -1
+		  || buffer.indexOf( "SAPPHIRE" ) != -1
+		  || buffer.indexOf( "COBALT" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLUE ) );
+			return;
+		}
+
+		if ( buffer.indexOf( "IVORY" ) != -1
+		  || buffer.indexOf( "ALABASTER" ) != -1
+		  || buffer.indexOf( "PEARL" ) != -1
+		   )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_WHITE ) );
+			return;
+		}
 	}
 }
