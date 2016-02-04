@@ -362,52 +362,86 @@ public class FightDecorator
 
 	private static final void decorateUnusualConstruct( final StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "CANARY" ) != -1
-		  || buffer.indexOf( "CITRINE" ) != -1
-		  || buffer.indexOf( "GOLD" ) != -1
+		Pattern COLOR_PATTERN = Pattern.compile( "(?:LANO|ROUTING) ([a-zA-Z]*)" );
+		Matcher matcher = COLOR_PATTERN.matcher( buffer );
+		String colorWord = null;
+		if ( matcher.find() )
+		{
+			colorWord = matcher.group( 1 );
+		}
+		else
+		{
+			// Something went wrong
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.SEAL_TOOTH ) );
+			return;
+		}
+		if ( colorWord.equals( "CHO" )
+		  || colorWord.equals( "FUNI" )
+		  || colorWord.equals( "TAZAK" )
+		  || colorWord.equals( "CANARY" )
+		  || colorWord.equals( "CITRINE" )
+		  || colorWord.equals( "GOLD" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_YELLOW ) );
 			return;
 		}
 
-		if ( buffer.indexOf( "CRIMSON" ) != -1
-		  || buffer.indexOf( "RUBY" ) != -1
+		if ( colorWord.equals( "CHAKRO" )
+		  || colorWord.equals( "ZEVE" )
+		  || colorWord.equals( "ZEVESTANO" )
+		  || colorWord.equals( "CRIMSON" )
+		  || colorWord.equals( "RUBY" )
+		  || colorWord.equals( "VERMILLION" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_RED ) );
 			return;
 		}
 
-		if ( buffer.indexOf( "OBSIDIAN" ) != -1
-		  || buffer.indexOf( "EBONY" ) != -1
+		if ( colorWord.equals( "BUPABU" )
+		  || colorWord.equals( "PATA" )
+		  || colorWord.equals( "SOM" )
+		  || colorWord.equals( "OBSIDIAN" )
+		  || colorWord.equals( "EBONY" )
+		  || colorWord.equals( "JET" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLACK ) );
 			return;
 		}
 
-		if ( buffer.indexOf( "JADE" ) != -1
-		  || buffer.indexOf( "VERDIGRIS" ) != -1
-		  || buffer.indexOf( "EMERALD" ) != -1
+		if ( colorWord.equals( "BE" )
+		  || colorWord.equals( "ZAKSOM" )
+		  || colorWord.equals( "ZEVEBENI" )
+		  || colorWord.equals( "JADE" )
+		  || colorWord.equals( "VERDIGRIS" )
+		  || colorWord.equals( "EMERALD" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_GREEN ) );
 			return;
 		}
 
-		if ( buffer.indexOf( "ULTRAMARINE" ) != -1
-		  || buffer.indexOf( "SAPPHIRE" ) != -1
-		  || buffer.indexOf( "COBALT" ) != -1
+		if ( colorWord.equals( "BELA" )
+		  || colorWord.equals( "BULAZAK" )
+		  || colorWord.equals( "BU" )
+		  || colorWord.equals( "FUFUGAKRO" )
+		  || colorWord.equals( "ULTRAMARINE" )
+		  || colorWord.equals( "SAPPHIRE" )
+		  || colorWord.equals( "COBALT" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_BLUE ) );
 			return;
 		}
 
-		if ( buffer.indexOf( "IVORY" ) != -1
-		  || buffer.indexOf( "ALABASTER" ) != -1
-		  || buffer.indexOf( "PEARL" ) != -1
+		if ( colorWord.equals( "NIPA" )
+		  || colorWord.equals( "PACHA" )
+		  || colorWord.equals( "SOMPAPA" )
+		  || colorWord.equals( "IVORY" )
+		  || colorWord.equals( "ALABASTER" )
+		  || colorWord.equals( "PEARL" )
 		   )
 		{
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_WHITE ) );
