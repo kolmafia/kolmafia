@@ -413,5 +413,10 @@ public class FightDecorator
 			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.STRANGE_DISC_WHITE ) );
 			return;
 		}
+
+		// If we made it this far, then we don't recognize the word yet.  Change to a bogus result to avoid
+		// being misleading, until full support is added.
+
+		RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.SEAL_TOOTH ) );
 	}
 }
