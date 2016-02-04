@@ -37,11 +37,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
+
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -49,6 +52,11 @@ public abstract class TopMenuDecorator
 {
 	public static final void decorate( final StringBuffer buffer, final String location )
 	{
+		if ( KoLCharacter.getLimitmode() == Limitmode.BATMAN )
+		{
+			return;
+		}
+
 		switch ( GenericRequest.topMenuStyle )
 		{
 		case GenericRequest.MENU_NORMAL:

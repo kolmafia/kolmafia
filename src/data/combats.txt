@@ -37,6 +37,19 @@
 # The weight can be followed by an "r" to indicate a rejection condition,
 # and then the % chance of rejection following
 
+Center Park After Dark	100	common criminal
+The Mean Streets
+Warehouse Row
+Gotpork Conservatory of Flowers	100	low-level mook	vicious plant creature	vine-controlled botanist	Kudzu: 0
+Gotpork Municipal Reservoir	100	low-level mook	giant leech	giant mosquito	Mansquito: 0
+Gotpork Gardens Cemetery	100	low-level mook	lovestruck goth dude	walking skeleton	Miss Graves: 0
+Gotpork City Sewers	100	mid-level mook	liquid plumber	plumber's helper	The Plumber: 0
+Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
+The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman
+Gotpork Clock, Inc.	100
+Gotpork Foundry	100
+Trivial Pursuits, LLC	100
+
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard

@@ -46,15 +46,18 @@ public class Limitmode
 {
 	// Limitmode
 	public static final String SPELUNKY = "spelunky";
+	public static final String BATMAN = "batman";
 	public static final String ED = "edunder";
 
 	public static final boolean limitSkill( final int skillId )
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY )
 		{
 			// Return false for Spelunky skills, FIND limits!
 			if ( skillId >= 7238 && skillId <= 7244 )
@@ -63,6 +66,12 @@ public class Limitmode
 			}
 			return true;
 		}
+
+		if ( limitmode == Limitmode.BATMAN )
+		{
+			return true;
+		}
+
 		// Should only hit this when a new limitmode is added, default to none
 		return false;
 	}
@@ -81,11 +90,13 @@ public class Limitmode
 
 	public static final boolean limitItem( final int itemId )
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY )
 		{
 			// Return false for Spelunky items, add them here
 			if ( itemId >= 8040 && itemId <= 8062 )
@@ -94,10 +105,17 @@ public class Limitmode
 			}
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
+		if ( limitmode.equals( Limitmode.ED ) )
+		{
+			return true;
+		}
+
 		// Should only hit this when a new limitmode is added, default to none
 		return false;
 	}
@@ -116,11 +134,13 @@ public class Limitmode
 
 	public static final boolean limitSlot( final int slot )
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY )
 		{
 			switch ( slot )
 			{
@@ -133,94 +153,115 @@ public class Limitmode
 			}
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
+		if ( limitmode.equals( Limitmode.ED ) )
+		{
+			return true;
+		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitOutfits()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitFamiliars()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitAdventure( KoLAdventure adventure )
 	{
-		return Limitmode.limitZone( adventure.getZone() );
+		String parent = adventure.getParentZone();
+		String zone = parent.equals( "Batfellow Area" ) ? parent : adventure.getZone();
+		return Limitmode.limitZone( zone );
 	}
 
 	public static final boolean limitZone( final String zoneName )
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
-			if ( zoneName.equals( "Spelunky Area" ) )
-			{
-				return true;
-			}
-			return false;
+			return zoneName.equals( "Spelunky Area" ) || zoneName.equals( "Batfellow Area" );
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY )
 		{
-			if ( zoneName.equals( "Spelunky Area" ) )
-			{
-				return false;
-			}
+			return !zoneName.equals( "Spelunky Area" );
+		}
+
+		if ( limitmode == Limitmode.BATMAN )
+		{
+			return !zoneName.equals( "Batfellow Area" );
+		}
+
+		if ( limitmode.equals( Limitmode.ED ) )
+		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
-		{
-			return true;
-		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitMeat()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitMall()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
@@ -230,93 +271,113 @@ public class Limitmode
 
 	public static final boolean limitNPCStores()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitCoinmasters()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitClan()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitCampground()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitStorage()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitEating()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
@@ -326,36 +387,44 @@ public class Limitmode
 
 	public static final boolean limitDrinking()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}
 
 	public static final boolean limitSpleening()
 	{
-		if ( KoLCharacter.getLimitmode() == null )
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
 		{
 			return false;
 		}
-		else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+
+		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}

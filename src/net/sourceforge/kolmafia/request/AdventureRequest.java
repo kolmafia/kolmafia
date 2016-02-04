@@ -737,6 +737,9 @@ public class AdventureRequest
 				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
 				// Globe Theatre Main Stage
 				image.startsWith( "richardx" ) ? "Richard X" :
+				// BatFellow
+				image.startsWith( "henchman" ) ? "very [adjective] henchman" :
+				image.startsWith( "henchwoman" ) ? "very [adjective] henchwoman" :
 				null;
 		}
 
