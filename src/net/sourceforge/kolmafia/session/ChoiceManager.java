@@ -9018,6 +9018,19 @@ public abstract class ChoiceManager
 			// Some Assembly Required
 			VYKEACompanionData.assembleCompanion( ChoiceManager.lastChoice, ChoiceManager.lastDecision, text );
 			break;
+
+		case 1133:
+			// Batfellow Begins
+			if ( lastDecision == 1 )
+			{
+				KoLCharacter.enterLimitmode( Limitmode.BATMAN );
+			}
+			break;
+
+		case 1161:
+			// Encounter: Batfellow Ends
+			KoLCharacter.setLimitmode( null );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected

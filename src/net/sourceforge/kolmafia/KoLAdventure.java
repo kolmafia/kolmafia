@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
+import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -2451,10 +2452,15 @@ public class KoLAdventure
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
 		EncounterManager.registerAdventure( location );
 
+		String limitmode = KoLCharacter.getLimitmode();
 		String message = null;
-		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+		if ( limitmode == Limitmode.SPELUNKY )
 		{
 			message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
+		}
+		else if ( limitmode == Limitmode.BATMAN )
+		{
+			message = "{" + BatFellowRequest.getTimeLeftString() + "} " + location;
 		}
 		else
 		{

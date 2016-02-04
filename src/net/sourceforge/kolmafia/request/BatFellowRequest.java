@@ -54,6 +54,11 @@ public class BatFellowRequest
 	{
 	};
 
+	public static void reset()
+	{
+		BatFellowRequest.resetItems();
+	}
+
 	public static void resetItems()
 	{
 		for ( AdventureResult item : BatFellowRequest.ITEMS )
@@ -65,6 +70,13 @@ public class BatFellowRequest
 				AdventureResult.addResultToList( KoLConstants.inventory, result );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
 			}
+		}
+	}
+	public static void parseCharpane( final String responseText )
+	{
+		if ( !responseText.contains( "You're Batfellow" ) )
+		{
+			return;
 		}
 	}
 
@@ -80,6 +92,22 @@ public class BatFellowRequest
 	{
 		// Return minutes left: 0 - 600
 		return 600;
+	}
+
+	public static String getTimeLeftString()
+	{
+		int minutes = BatFellowRequest.getTimeLeft();
+		StringBuilder buffer = new StringBuilder();
+		int hours = minutes / 60;
+		if ( hours > 0 )
+		{
+			buffer.append( String.valueOf( hours ) );
+			buffer.append( " h. " );
+			minutes = minutes % 60;
+		}
+		buffer.append( String.valueOf( minutes ) );
+		buffer.append( " m." );
+		return buffer.toString();
 	}
 
 	public static boolean registerRequest( final String urlString )
@@ -142,7 +170,7 @@ public class BatFellowRequest
 			return false;
 		}
 
-		String message = message = "{" + BatFellowRequest.getTimeLeft() + "} " + location;
+		String message = message = "{" + BatFellowRequest.getTimeLeftString() + "} " + location;
 
 		RequestLogger.printLine();
 		RequestLogger.printLine( message );

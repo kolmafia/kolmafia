@@ -1635,6 +1635,42 @@ Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -1000
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	0	xxx.gif	Atk: 1 Def: 1 HP: 1 E: cold P: construct
 
+# Batfellow Area (Batfellow comic IOTY 2016)
+
+common criminal	1865	blankmook.gif	Init: -10000 P: dude
+low-level mook	1868	blankmook.gif	Init: -10000 P: dude
+mid-level mook	1869	blankmook.gif	Init: -10000 P: dude
+
+Kudzu	1871	batboss_kudzu.gif	Init: -10000 P: plant
+Mansquito	1872	batboss_mansq.gif	Init: -10000 P: dude
+Miss Graves	1873	batboss_mansq.gif	Init: -10000 P: dude
+The Plumber	1874	batboss_plumber.gif	Init: -10000 P: dude
+The Author	1875	batboss_author.gif	Init: -10000 P: dude
+
+# Gotpork Conservatory of Flowers
+vine-controlled botanist	1880	botanist.gif	Init: -10000 P: plant
+vicious plant creature	1881	plantmonster.gif	Init: -10000 P: plant
+
+# Gotpork Municipal Reservoir
+giant leech	1882	giantleech.gif	Init: -10000 P: bug
+giant mosquito	1883	giantskeeter.gif	Init: -10000 P: bug
+
+# Gotpork Gardens Cemetery
+lovestruck goth dude	1884	lovestruckgoth.gif	Init: -10000 P: dude
+walking skeleton	1885	gothskeleton.gif	Init: -10000 P: undead
+
+# Gotpork City Sewers
+liquid plumber	1886	liquidplumber.gif	Init: -10000 P: construct
+plumber's helper	1887	plumberhelper.gif	Init: -10000 P: dude
+
+# Porkham Asylum
+former inmate	1888	blankmook.gif	Init: -10000 P: dude
+former guard	1889	blankmook.gif	Init: -10000 P: dude
+
+# The Old Gotpork Library
+very [adjective] henchwoman	1890	henchwoman.gif	Init: -10000 P: dude
+very [adjective] henchman	1891	henchman.gif	Init: -10000 P: dude
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

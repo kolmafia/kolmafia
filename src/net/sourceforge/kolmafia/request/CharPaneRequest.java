@@ -182,7 +182,15 @@ public class CharPaneRequest
 			SpelunkyRequest.parseCharpane( responseText );
 			return true;
 		}
-		else if ( KoLCharacter.getLimitmode() != null && KoLCharacter.getLimitmode().equals( Limitmode.SPELUNKY ) )
+
+		if ( responseText.contains( "You're Batfellow" ) )
+		{
+			KoLCharacter.setLimitmode( Limitmode.BATMAN );
+			BatFellowRequest.parseCharpane( responseText );
+			return true;
+		}
+
+		if ( KoLCharacter.getLimitmode() != null && KoLCharacter.getLimitmode().equals( Limitmode.SPELUNKY ) )
 		{
 			KoLCharacter.setLimitmode( null );
 		}

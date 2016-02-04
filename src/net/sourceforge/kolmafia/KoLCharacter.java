@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -1506,7 +1507,8 @@ public abstract class KoLCharacter
 
 		if ( limitmode == null )
 		{
-			boolean reset = KoLCharacter.limitmode == Limitmode.SPELUNKY && !GenericRequest.abortIfInFightOrChoice( true );
+			String old = KoLCharacter.limitmode;
+			boolean reset = ( old == Limitmode.SPELUNKY || old == Limitmode.BATMAN ) && !GenericRequest.abortIfInFightOrChoice( true );
 			KoLCharacter.limitmode = null;
 			if ( reset )
 			{
@@ -1516,6 +1518,10 @@ public abstract class KoLCharacter
 		else if ( limitmode.equals( Limitmode.SPELUNKY ) )
 		{
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
+		}
+		else if ( limitmode.equals( Limitmode.BATMAN ) )
+		{
+			KoLCharacter.limitmode = Limitmode.BATMAN;
 		}
 		else
 		{
@@ -1535,31 +1541,41 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.limitmode = Limitmode.SPELUNKY;
 			SpelunkyRequest.reset();
-			KoLCharacter.resetSkills();
-			EquipmentManager.removeAllEquipment();
-			KoLCharacter.familiars.clear();
-			KoLCharacter.familiars.add( FamiliarData.NO_FAMILIAR );
-			KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
-			KoLCharacter.effectiveFamiliar = FamiliarData.NO_FAMILIAR;
-			KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
-			KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
-			KoLCharacter.isUsingStabBat = false;
-			KoLCharacter.companion = null;
-			KoLCharacter.currentPastaThrall = PastaThrallData.NO_THRALL;
-			KoLCharacter.pastaThralls.clear();
-			KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
-			KoLCharacter.stillsAvailable = -1;
-			KoLCharacter.mindControlLevel = 0;
-			KoLConstants.recentEffects.clear();
-			KoLConstants.activeEffects.clear();
-			ChezSnooteeRequest.reset();
-			MicroBreweryRequest.reset();
-			HellKitchenRequest.reset();
-			GearChangeFrame.clearFamiliarList();
-			InventoryManager.refresh();
-			EquipmentManager.resetCustomOutfits();
-			SkillBuffFrame.update();
 		}
+		else if ( limitmode == Limitmode.BATMAN )
+		{
+			KoLCharacter.limitmode = Limitmode.BATMAN;
+			BatFellowRequest.reset();
+		}
+		else
+		{
+			return;
+		}
+
+		KoLCharacter.resetSkills();
+		EquipmentManager.removeAllEquipment();
+		KoLCharacter.familiars.clear();
+		KoLCharacter.familiars.add( FamiliarData.NO_FAMILIAR );
+		KoLCharacter.currentFamiliar = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.effectiveFamiliar = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
+		KoLCharacter.isUsingStabBat = false;
+		KoLCharacter.companion = null;
+		KoLCharacter.currentPastaThrall = PastaThrallData.NO_THRALL;
+		KoLCharacter.pastaThralls.clear();
+		KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
+		KoLCharacter.stillsAvailable = -1;
+		KoLCharacter.mindControlLevel = 0;
+		KoLConstants.recentEffects.clear();
+		KoLConstants.activeEffects.clear();
+		ChezSnooteeRequest.reset();
+		MicroBreweryRequest.reset();
+		HellKitchenRequest.reset();
+		GearChangeFrame.clearFamiliarList();
+		InventoryManager.refresh();
+		EquipmentManager.resetCustomOutfits();
+		SkillBuffFrame.update();
 	}
 
 	/**
