@@ -8946,12 +8946,12 @@
 8920
 8921
 8922
-8923
-8924
-8925
-8926
-8927
-8928
+8923	strange disc (white)	984618205	powerball.gif	none, combat reusable	q	0
+8924	strange disc (black)	477735521	powerball.gif	none, combat reusable	q	0
+8925	strange disc (red)	439434832	powerball.gif	none, combat reusable	q	0
+8926	strange disc (green)	533508074	powerball.gif	none, combat reusable	q	0
+8927	strange disc (blue)	155330801	powerball.gif	none, combat reusable	q	0
+8928	strange disc (yellow)	148455337	powerball.gif	none, combat reusable	q	0
 8929	red-hot knucklebone	361988548	knuckbone.gif	none	t	0
 8930
 8931	rinky-dink sixgun	920378151	sixgun1.gif	none, combat reusable	t,d	75
