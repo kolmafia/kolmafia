@@ -1115,6 +1115,7 @@ user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
+user	_bowleggedSwaggerUsed	false
 user	_boxingGloveArrows	0
 user	_boxOfHammersUsed	false
 user	_brainPreservationFluidUsed	false
@@ -1135,6 +1136,7 @@ user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
+user	_claraBellUsed	false
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
 user	_cocktailShakerUsed	false

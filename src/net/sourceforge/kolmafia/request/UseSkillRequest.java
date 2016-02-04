@@ -819,6 +819,19 @@ public class UseSkillRequest
 		case SkillPool.COMMUNISM:
 			maximumCast = Preferences.getBoolean( "_communismUsed" ) ? 0 : 1;
 			break;
+
+		case SkillPool.BOW_LEGGED_SWAGGER:
+			maximumCast = Preferences.getBoolean( "_bowleggedSwaggerUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.BEND_HELL:
+			maximumCast = Preferences.getBoolean( "_bendHellUsed" ) ? 0 : 1;
+			break;
+
+		case SkillPool.STEELY_EYED_SQUINT:
+			maximumCast = Preferences.getBoolean( "_steelyEyedSquintUsed" ) ? 0 : 1;
+			break;
+
 		}
 
 		return maximumCast;
@@ -2246,6 +2259,18 @@ public class UseSkillRequest
 
 		case SkillPool.COMMUNISM:
 			Preferences.setBoolean( "_communismUsed", true );
+			break;
+
+		case SkillPool.BOW_LEGGED_SWAGGER:
+			Preferences.setBoolean( "_bowleggedSwaggerUsed", true );
+			break;
+
+		case SkillPool.BEND_HELL:
+			Preferences.setBoolean( "_bendHellUsed", true );
+			break;
+
+		case SkillPool.STEELY_EYED_SQUINT:
+			Preferences.setBoolean( "_steelyEyedSquintUsed", true );
 			break;
 
 		}

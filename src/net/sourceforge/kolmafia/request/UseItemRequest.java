@@ -1113,6 +1113,10 @@ public class UseItemRequest
 		case ItemPool.CIRCLE_DRUM:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_circleDrumUsed" ) ? 0 : 1;
+
+		case ItemPool.CLARA_BELL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_claraBellUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5301,6 +5305,10 @@ public class UseItemRequest
 				Preferences.setInteger( "_feelinTheRhythm", bonus );
 			}
 			Preferences.setBoolean( "_circleDrumUsed", true );
+			return;
+
+		case ItemPool.CLARA_BELL:
+			Preferences.setBoolean( "_claraBellUsed", true );
 			return;
 
 		case ItemPool.SNOWMAN_CRATE:

@@ -2059,3 +2059,18 @@
 2058	Burns Effect	jawbreaker.gif	e942ea4377b001bfcc363a05bdb25884	use 1 red-hot jawbreaker
 2059	You've Got Questions	nopic.gif	7119605d0484ca49b39b2cdc152a8855	use 1 question juice
 2060	Nyah-ha-ha-haaa	tube.gif	8fc1aa41305ab506067c31ee74c23e08	use 1 tube of villain white
+2061
+2062
+2063
+2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2
+2065
+2066
+2067
+2068
+2069
+2070
+2071	Coal-Powered	evil.gif	ff6973e86961cafe7ca93cbd337d71df	use 1 half-digested coal
+2072	Spidercow Vision	spidereyes.gif	0281add44e0d1e9796120bee2e111ca5	use 1 spidercow eye-cluster
+2073	Bow-Legged Swagger	legs.gif	24099da1e8eb2af203e4b91c4c4a7af3
+2074	Bendin' Hell	junkbent.gif	321a078c82f870ee30404c2512e576eb	cast 1 Bend Hell
+2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83

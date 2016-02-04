@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
@@ -200,6 +201,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel toxicChemistryPanel = null;
 	private CoinmasterPanel discoGiftCoPanel = null;
 	private CoinmasterPanel walmartPanel = null;
+	private CoinmasterPanel lttPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -388,6 +390,11 @@ public class CoinmastersFrame
 		walmartPanel = new WalmartPanel();
 		panel.add( walmartPanel );
 		this.selectorPanel.addPanel( walmartPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		lttPanel = new LTTPanel();
+		panel.add( lttPanel );
+		this.selectorPanel.addPanel( lttPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1237,6 +1244,15 @@ public class CoinmastersFrame
 		public WalmartPanel()
 		{
 			super( WalMartRequest.WALMART );
+		}
+	}
+
+	private class LTTPanel
+		extends CoinmasterPanel
+	{
+		public LTTPanel()
+		{
+			super( LTTRequest.LTT );
 		}
 	}
 

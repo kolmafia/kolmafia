@@ -957,6 +957,11 @@ public abstract class UseLinkDecorator
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
 
+			case ItemPool.PLAINTIVE_TELEGRAM:
+
+				// Not inline, since the redirection to an
+				// adventure doesn't work ajaxified.
+
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
 
 			case ItemPool.DRUM_MACHINE:

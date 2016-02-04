@@ -1174,6 +1174,7 @@ Item	goblin autoblowgun	Ranged Damage: +5
 # goblin hunting spear: +15 Damage vs. Jungle Beasts
 Item	goblin hunting spear	Weapon Damage: [5+15*loc(jungle)]
 Item	goulauncher	Moxie: +4, Spooky Damage: +5
+Item	Granny Hackleton's Gatling gun	Moxie Percent: +25, Critical Hit Percent: +10, Ranged Damage Percent: +200
 Item	grass blade	Weapon Damage: +5
 Item	grass whistle	Moxie: +6, MP Regen Min: 4, MP Regen Max: 6
 Item	grassy cutlass	Weapon Damage: +11
@@ -1667,6 +1668,7 @@ Item	warbear exhaust manifold	Stench Damage: [10*(1+skill(Accordion Appreciation
 # warbear oil pan: Lets you sling hot grease!
 Item	warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sauceror"
 Item	weighted paperclip chain	Weapon Damage: +12
+Item	western-style skinning knife	Weapon Damage: +5, Hat Drop: +10
 Item	White Dragon Fang	Muscle Percent: +9, Mysticality Percent: +9, Moxie Percent: +9, Spooky Damage: +9, Stench Damage: +9, Hot Damage: +9, Cold Damage: +9, Sleaze Damage: +9, MP Regen Min: 9, MP Regen Max: 9
 Item	white sword	Muscle: +2
 Item	white whip	Experience: +1
@@ -1870,6 +1872,7 @@ Item	handmade hobby horse	Experience (Muscle): +2
 # heavy duty umbrella: Reduces the level of nearby water.  Somehow.
 Item	heavy duty umbrella	Water Level: -2
 Item	heavy-duty clipboard	Mysticality: +10, Spell Critical Percent: +10, Spooky Resistance: +5, Damage Reduction: 8
+Item	Hellfire Spicy Beans	Hot Spell Damage: +15
 Item	hippo skin buckler	Muscle: +5, Damage Reduction: 5
 Item	HOA regulation book	Reduce Enemy Defense: 20, Monster Level: -100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 23
 Item	hobo code binder	Free Pull
@@ -2070,6 +2073,7 @@ Item	Seven Loco	Booze Drop: +5, Candy Drop: +5
 Item	sewer turtle	Stench Damage: +1, Damage Reduction: 1
 Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7
+Item	Shrub's Premium Baked Beans	Maximum MP: +25, Spell Damage Percent: +25, Spell Critical Percent: +5
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 # Sinful Desires: All Spells Cast Are Sleazy
@@ -2169,6 +2173,7 @@ Item	tip jar	Meat Drop: +5
 Item	tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
 # toy Crimbot super fist: Allows use of POW in combat
 Item	toy Crimbot super fist	Damage Reduction: 10, Crimbot Outfit Power: +1
+Item	Trader Olaf's Exotic Stinkbeans	Stench Spell Damage: +15
 Item	trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Item	tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby has day-dependent effects which are hard-coded
@@ -2869,6 +2874,7 @@ Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Pe
 Item	stainless steel solitaire	Mana Cost: -2, Adventures: +2, Mysticality Percent: +15, Single Equip
 Item	stainless steel suspenders	Damage Absorption: +60, Maximum MP: +40, Moxie Percent: +15, Single Equip
 Item	Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
+# Item steel knuckles: +30 Damage to Unarmed Attacks
 Item	stick-on eyebrow piercing	Muscle: +1
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip
 Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
@@ -3225,6 +3231,8 @@ Item	ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 Item	Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)]
 Item	yellow glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Yellow Moon of Compassion	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
+# Item your cowboy boots: Lets you engage in Cowboy Kicking, can be further upgraded with skins and spurs
+Item	your cowboy boots	Maximum HP: +25, Maximum MP: +25
 Item	Zinc Delta of Tranquility	Muscle: +8, Mysticality: +8, Moxie: +8, Item Drop: +8, Single Equip
 Item	zombie monkey necklace	Spooky Damage: +11, Stench Damage: +11
 Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
@@ -4159,6 +4167,7 @@ Effect	Bats in the Belfry	Mysticality Percent: +10
 Effect	Batted Around	Avatar: "perpendicular bat"
 Effect	Batteries Included	Crimbot Outfit Power: +4
 Effect	Batwards Masking	Avatar: "Batburglar"
+Effect	Bear Clawed	Weapon Damage Percent: +100
 # Bearserker Bearrage: +20 WarBear Armor Penetration
 Effect	Beastly Flavor	Familiar Weight: +3
 Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -4171,6 +4180,7 @@ Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
 Effect	Behind the Green Curtain	Spooky Resistance: +9
 Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Effect	Bells in the Batfry	Moxie Percent: +10
+# Effect Bendin' Hell: Your Elemental (and Elemental Spell) damage bonuses are doubled
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Bestial Sympathy	Familiar Weight: +3
@@ -4257,6 +4267,7 @@ Effect	Bored Stiff	Spooky Damage: +100
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Effect	Bottle in front of Me	Spell Damage: +15
 Effect	Bounty of Renenutet	Item Drop: +50
+# Effect Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Effect	Braaains	Meat Drop: +50, Initiative: -50
@@ -4375,6 +4386,7 @@ Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 # Clumsy: Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
+# Effect Coal-Powered: Deal 20-30 <font color=red>Hot Damage</font> to foes each round
 Effect	Coated Arms	Weapon Damage: +15
 # Coated in Slime: It Burns!  It Burns!
 Effect	Cock of the Walk	Moxie Percent: +200
@@ -4425,6 +4437,7 @@ Effect	Cosmic Flavor	Spell Critical Percent: +10
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 Effect	Cowlick	Meat Drop: +50
+Effect	Cowrruption	Muscle Limit: 30, Moxie Limit: 30, Weapon Damage Percent: +200, Spell Damage Percent: +200
 # Effect Coy to the Hurled: variable DR
 # Effect Craft Tea: Lets you craft things more quickly
 Effect	Cranberry Cordiality	Meat Drop: +10
@@ -5022,6 +5035,7 @@ Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, M
 Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
+Effect	Itchy Trigger Finger	Ranged Damage: +30
 Effect	Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Effect	Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
@@ -5093,6 +5107,7 @@ Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Exper
 Effect	Light-Headed	Mysticality Percent: -30
 Effect	Like an Egyptian	Avatar: "tomb servant"
 Effect	Limber as Mortimer	Gear Drop: +100
+# Effect Lion in Ambush: Makes you significantly more attractive to monsters
 Effect	Liquid Courage	Experience: +3
 Effect	Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Liquidy Smoky	Mysticality: +15, Moxie: +15
@@ -5324,6 +5339,7 @@ Effect	Oxygenated Blood	Adventure Underwater
 Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
 Effect	Pajama Party	Familiar Weight: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
+# Effect Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
 Effect	Pasta Eyeball	Meat Drop: +10
 Effect	Pasta Oneness	Mysticality: +2
@@ -5689,6 +5705,7 @@ Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
 Effect	Spicy Mouth	Mysticality: +5, Moxie: -5
+Effect	Spidercow Vision	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Item Drop: +25
 Effect	Spike-and-span	Avatar: "spiny skelelton"
 # Effect Spiky Frozen Hair: Deals 40-60 Cold Damage to attacking foes
 Effect	Spiky Hair	Muscle: +6, Moxie: +6
@@ -5736,6 +5753,7 @@ Effect	Stands Alone	Stench Damage: +10
 Effect	Stark Raven Mad	Avatar: "raven"
 Effect	Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 Effect	Staying Frosty	Cold Damage: +100
+# Effect Steely-Eyed Squint: Your Item Drop bonuses are doubled
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
 Effect	Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
@@ -5983,6 +6001,7 @@ Effect	Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Effect	Using Protection	Mana Cost: -2
 Effect	Vampin'	Avatar: "sexy vampire"
 # Vanity Rage: Weapon Damage: +X, Spell Damage: +X
+# Effect Venomous Weapon: Causes your regular attacks to poison foes
 Effect	Vented Item	Weapon Damage: +25
 Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Clean Guns	Ranged Damage: +20
@@ -7173,6 +7192,7 @@ Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 Item	batarang	Effect: "Batwards Masking", Effect Duration: 50
 # Battlie Light Saver: Deals 30-50 Physical Damage and briefly stuns your foe
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
+Item	bear claw	Effect: "Bear Clawed", Effect Duration: 30
 Item	beard incense	Effect: "Stinkybeard", Effect Duration: 20
 Item	beautiful rainbow	Skill: "Belch The Rainbow"
 # beehive: Full of bees!
@@ -7755,6 +7775,7 @@ Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 # fireball: Deals 190-210 <font color=red>Hot Damage</font>
 # firebomb: Deals 40-50 <font color=red>Hot Damage</font>
 Item	fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
+Item	firemilk	Effect: "Cowrruption", Effect Duration: 30
 Item	fish juice box	Effect: "Fishy", Effect Duration: 20
 Item	fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 # fish-oil smoke bomb: Lets you escape from combat without spending an Adventure
@@ -7849,6 +7870,7 @@ Item	Gene Tonic: Weird	Effect: "Human-Weird Thing Hybrid", Effect Duration: 30
 # generic healing potion: Restores HP based on your level
 # generic mana potion: Restores MP based on your level
 # generic restorative potion: Restores 4-5 HP and 2-3 MP
+Item	ghost bit	Effect: "Partially Ghosted", Effect Duration: 30
 # Ghost Dog Chow: Grants 20 Familiar XP
 Item	Ghost Pinching Quarterly	Skill: "Pinch Ghost"
 # ghost protocol: Makes you nearly impervious to damage for the duration of the fight
@@ -7955,6 +7977,7 @@ Item	hair oil	Effect: "[1342]Slicked-Back Do", Effect Duration: 10
 Item	hair spray	Effect: "Butt-Rock Hair", Effect Duration: 3
 # half of a gold tooth: It's gross.  Just sell it.
 Item	half-baked potion	Effect Duration: 5
+Item	half-digested coal	Effect: "Coal-Powered", Effect Duration: 20
 # half-empty carton of milk: Deals 50-100 <font color=green>Stench Damage</font>
 Item	half-orchid	Effect: "Bestial Sympathy", Effect Duration: 10
 # half-rotten brain: Disappoints Zombies
@@ -7987,6 +8010,7 @@ Item	heart necklace	Free Pull
 # heart of dark chocolate: (doesn't go away when used)
 # hedgeturtle: Deals 30-60 Physical Damage
 # hedgeturtle: Causes Bleeding
+Item	Hell and How I Bent It	Skill: "Bend Hell"
 Item	Helvella Haemophilia mushroom	Effect: "Helvella Health", Effect Duration: 10
 Item	hemp candy necklace	Effect: "You Ate Some Hemp Candy", Effect Duration: 20
 Item	henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
@@ -8149,6 +8173,7 @@ Item	licorice root	Effect: "Rootin' Around", Effect Duration: 20
 Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 # linen bandages: Restores 10-20 HP
+Item	lion musk	Effect: "Lion in Ambush", Effect Duration: 20
 Item	liquid ice	Effect: "Cold as Ice", Effect Duration: 50
 Item	liquid ice pack	Effect: "Ice Packed", Effect Duration: 30
 Item	liquid rhinestones	Effect: "Sparkly!", Effect Duration: 40
@@ -8288,6 +8313,7 @@ Item	monkey barf	Effect: "Barfpits", Effect Duration: 1
 # monomolecular yo-yo: Deals 35-45 Physical Damage
 # Monstar energy beverage: Restores 70-80 MP
 Item	Monster Manuel	Free Pull
+Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
 Item	Moonds	Effect: "Moon-Eyed", Effect Duration: 50
 Item	moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Item	Moping Artistic Goth Kid	Free Pull
@@ -8596,6 +8622,7 @@ Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 
 # Rain-Doh orange agent: (doesn't go away when used)
 # rainbow bomb: Deals 20-30 Physical Damage and 20-30 Prismatic Damage
 Item	Rainbow's Gravity	Skill: "Rainbow Gravitation"
+Item	rattler gland	Effect: "Venomous Weapon", Effect Duration: 20
 # rattler rattle: Weakens enemies by 25%
 # rattler rattle: (75% for beasts)
 Item	Rattlin' Chains	Effect: "The Chains Down In The Belly-O", Effect Duration: 20
@@ -8683,6 +8710,7 @@ Item	ROM of Optimality	Skill: "Toggle Optimality"
 # roofie: Stops Enemy From Attacking and Weakens it Slightly
 Item	roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 # rotten tomato: Throw it at somebody to grant extra PvP fights
+Item	rotting beefsteak	Effect: "Cowrruption", Effect Duration: 30
 # rough stone sphere: Mysterious, Deprecated
 # round blue bomb: Deals 90-110 <font color=red>Hot Damage</font>
 Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
@@ -8842,6 +8870,7 @@ Item	Spelunker of Fortune (used)	Skill: "Speluck"
 Item	SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
 # spices: Deals 1 Physical Damage
 Item	spicy jerky stick	Effect: "SNAPPED INTO IT", Effect Duration: 50
+Item	spidercow eye-cluster	Effect: "Spidercow Vision", Effect Duration: 10
 # spider web: Weakens enemies very slightly
 # spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
@@ -8926,6 +8955,7 @@ Item	Swizzler	Effect: "Sugar Rush", Effect Duration: 5
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
 Item	Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
+Item	tainted milk	Effect: "Cowrruption", Effect Duration: 30
 Item	tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 Item	Take Eleven Bar	Effect: "Took Eleven", Effect Duration: 20
 Item	Tales from the Fireside	Skill: "Conjure Relaxing Campfire"
@@ -8933,6 +8963,7 @@ Item	Tales of a Kansas Toymaker	Skill: "Toynado"
 Item	Tales of a Kansas Toymaker (used)	Skill: "Toynado"
 Item	Tales of Dread	Free Pull
 # Tales of Spelunking: Begins a Spelunking Adventure!
+Item	Tales of Western Braggadoccio	Skill: "Bow-Legged Swagger"
 # talisman of Horus: Attracts the attention of monsters
 Item	talisman of Horus	Effect: "Taunt of Horus", Effect Duration: 10
 # talisman of Renenutet: Massive boost to Item Drops from Monsters (for one fight)
@@ -8991,6 +9022,7 @@ Item	The Necbronomicon (used)	Skill: "Summon &quot;Boner Battalion&quot;"
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
 Item	The Snitch's Manifesto	Skill: "Tattle"
 Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
+Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
 Item	thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Skill: "Summon Geeky Gifts"
@@ -9043,6 +9075,7 @@ Item	Trash, a Memoir	Skill: "Garbage Nova"
 Item	Travels with Jerry	Skill: "Mudbath"
 # tree-eating kite: Deals 20-25 Physical Damage
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
+Item	triggerfingerbone	Effect: "Itchy Trigger Finger", Effect Duration: 20
 # tropical orchid: Weakens enemies a little bit
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10

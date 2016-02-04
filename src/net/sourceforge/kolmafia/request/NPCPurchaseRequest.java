@@ -762,6 +762,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "ltt" ) )
+		{
+			LTTRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )
@@ -1087,6 +1093,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "edunder_shopshop" ) )
 			{
 				return EdShopRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "ltt" ) )
+			{
+				return LTTRequest.registerRequest( urlString );
 			}
 
 			return false;
