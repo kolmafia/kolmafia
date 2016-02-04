@@ -1664,7 +1664,7 @@ liquid plumber	1886	liquidplumber.gif	Init: -10000 P: construct
 plumber's helper	1887	plumberhelper.gif	Init: -10000 P: dude
 
 # Porkham Asylum
-former inmate	1888	blankmook.gif	Init: -10000 P: dude
+former inmate	1888	psychpatient.gif	Init: -10000 P: dude
 former guard	1889	blankmook.gif	Init: -10000 P: dude
 
 # The Old Gotpork Library
