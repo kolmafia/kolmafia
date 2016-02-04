@@ -468,6 +468,10 @@ public class NPCStoreDatabase
 			{
 				return !KoLCharacter.desertBeachAccessible();
 			}
+			else if ( itemId == ItemPool.DIGITAL_KEY )
+			{
+				return !InventoryManager.hasItem( ItemPool.DIGITAL_KEY );
+			}
 		}
 
 		// If it gets this far, then the item is definitely available

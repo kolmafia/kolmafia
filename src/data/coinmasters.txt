@@ -792,3 +792,13 @@ Wal-Mart	buy	150	To Build an Igloo	ROW769
 Wal-Mart	buy	150	The Chill of the Wild	ROW770
 Wal-Mart	buy	150	Cold Fang	ROW772
 Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771
+
+LT&T Gift Shop	buy	3	steel knuckles	ROW795
+LT&T Gift Shop	buy	3	Shrub's Premium Baked Beans	ROW793
+LT&T Gift Shop	buy	3	reliable sixgun	ROW794
+LT&T Gift Shop	buy	10	western-style skinning knife	ROW792
+LT&T Gift Shop	buy	10	inflatable LT&T telegraph office	ROW803
+LT&T Gift Shop	buy	20	Hell and How I Bent It	ROW797
+LT&T Gift Shop	buy	40	Tales of Western Braggadoccio	ROW796
+LT&T Gift Shop	buy	60	The Western Look	ROW798
+LT&T Gift Shop	buy	100	LT&T tattoo kit	ROW799

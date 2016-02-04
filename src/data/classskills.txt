@@ -175,6 +175,9 @@
 150	Snokebomb	snokebomb.gif	5	50	0
 151	Shivering Monkey Technique	vibrate.gif	0	0	0
 152	Communism!	commiesickle.gif	1	0	0
+153	Bow-Legged Swagger	legs.gif	3	100	1
+154	Bend Hell	junkbent.gif	3	100	1
+155	Steely-Eyed Squint	susgaze.gif	3	100	1
 
 # Skills available to Clubbers
 

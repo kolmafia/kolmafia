@@ -2518,6 +2518,9 @@ public class ItemPool
 	public static final int SCROLL_SHIVERING_MONKEY = 8704;
 	public static final int ROM_OF_OPTIMALITY = 8800;
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;
+	public static final int PLAINTIVE_TELEGRAM = 8837;
+	public static final int CLARA_BELL = 8893;
+	public static final int BUFFALO_DIME = 8895;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

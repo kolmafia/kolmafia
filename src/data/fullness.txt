@@ -45,6 +45,7 @@ bat wing stir-fry	3	4	awesome	8-12	0	27-31	0
 bat-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
 b&auml;tzle	4	4	good	10-14	0	0	20-30
 bean burrito	3	1	decent	3-8	10-14	0	0
+bear claw	2	1	good	0	0	0	0	Unspaded
 beautiful soup	2	5	good	4-8	34-49	0	0
 Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus)
 beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
@@ -273,6 +274,7 @@ fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
+firemilk	3	1	awesome	0	0	0	0	Unspaded
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
@@ -480,6 +482,7 @@ mineapple	2	1	good	4-6	10-20	10-20	10-20
 Miserable Pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)
 mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
+moomy dust	1	1	decent	0	0	0	0	Unspaded
 Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
@@ -549,6 +552,9 @@ pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0
 plain pizza	2	1	decent	2-4	0	0	0
 plate of franks and beans	1	1	decent	2	0	0	0
+plate of Heimz Fortified Kidney Beans	1	2	good	0	0	0	0	Unspaded
+plate of Mixed Garbanzos and Chickpeas	1	2	good	0	0	0	0	Unspaded
+plate of Tesla's Electroplated Beans	1	4	good	0	0	0	0	Unspaded
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
 pointy mushroom	2	1	decent	2-3	0	0	12-14	lose 1 HP
@@ -590,6 +596,7 @@ robin flan	2	1	awesome	0	0	0	0	Unspaded
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all stats)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)
 root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
+rotting beefsteak	3	1	awesome	0	0	0	0	Unspaded
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
@@ -712,6 +719,7 @@ t8r tots	1	1	crappy	1-2	0	0	0
 Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20
 Taco Dan's Taco Fish Fish Taco	2	3	awesome	7-9	40-60	40-60	40-60
 Taco Dan's Taco Stand Taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
+tainted milk	1	1	good	0	0	0	0	Unspaded
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
 tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)

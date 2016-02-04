@@ -8860,7 +8860,7 @@
 8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5
 8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
-8837
+8837	plaintive telegram	819771344	lttgram.gif	usable	q	0
 8838
 8839
 8840	Kudzu slaw	649517887	salad.gif	avatar, usable	t,d	5
@@ -8873,3 +8873,99 @@
 8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, usable	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5
 8849	tube of villain white	586731454	tube.gif	avatar, usable	t,d	5
+8850	your cowboy boots	529185925	cowboyboots.gif	accessory	q	0
+8851	inflatable LT&T telegraph office	940920959	inflatltt.gif	usable	t	0
+8852
+8853	nugget of thicksilver	349439669	crimnugget.gif	none	t,d	150
+8854	nugget of wicksilver	424655973	crimnugget.gif	none	t,d	150
+8855
+8856
+8857
+8858
+8859
+8860
+8861
+8862
+8863
+8864
+8865
+8866
+8867
+8868
+8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand	t,d	10
+8870
+8871
+8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand	t,d	10
+8873
+8874
+8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand	t,d	25
+8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
+8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5
+8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5
+8879
+8880
+8881
+8882
+8883
+8884
+8885
+8886
+8887
+8888
+8889
+8890
+8891
+8892	El Vibrato restraints	928444655	lvcuff.gif	none, combat reusable	d	1500
+8893	Clara's bell	667617483	clarabell.gif	usable	d	1500
+8894	Granny Hackleton's Gatling gun	674447022	grannygat.gif	weapon		0
+8895	buffalo dime	957218049	buffdime.gif	none		0
+8896	cow poker	598945063	spine.gif	none, combat	t,d	35
+8897
+8898
+8899	tainted milk	360141428	milk.gif	food	t,d	18
+8900	gun parts	188246979	gunparts.gif	multiple	t,d	15
+8901	triggerfingerbone	306575995	gunbone.gif	usable	t,d	8
+8902	ghost bit	395021532	ghostbit.gif	usable	t,d	17
+8903
+8904	lion musk	655258040	lightvial.gif	usable	t,d	29
+8905	bear claw	355563460	catclaw.gif	food	t,d	14
+8906	rattler gland	993787330	pineal.gif	usable	t,d	12
+8907	half-digested coal	287234360	evil.gif	usable	t,d	21
+8908
+8909	rotting beefsteak	217124698	gnatfilet.gif	food	t,d	4
+8910	firemilk	627877078	milkbottle.gif	drink	t,d	32
+8911	spidercow eye-cluster	763991554	spidereyes.gif	usable	t,d	38
+8912	moomy dust	544632353	disease.gif	spleen, usable	t,d	25
+8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat	t,d	77
+8914	reliable sixgun	630007259	sixgun4.gif	none, combat reusable	t	0
+8915	steel knuckles	321514802	knuckles.gif	accessory	t,d	45
+8916	Tales of Western Braggadoccio	171555336	book3.gif	usable	t	0
+8917	Hell and How I Bent It	339356359	book4.gif	usable	t	0
+8918	The Western Look	660540030	book5.gif	usable	t	0
+8919	LT&T tattoo kit	894752161	ltttatkit.gif	usable	t	0
+8920
+8921
+8922
+8923
+8924
+8925
+8926
+8927
+8928
+8929	red-hot knucklebone	361988548	knuckbone.gif	none	t	0
+8930
+8931	rinky-dink sixgun	920378151	sixgun1.gif	none, combat reusable	t,d	75
+8932
+8933
+8934
+8935
+8936
+8937
+8938
+8939
+8940
+8941
+8942
+8943
+8944
+8945	silver cow skull	989941067	silvcowskull.gif	none	t,d	10000
