@@ -1635,6 +1635,30 @@ Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -1000
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	0	xxx.gif	Atk: 1 Def: 1 HP: 1 E: cold P: construct
 
+# Investigating a Plaintive Telegram
+buzzard	1907	vulture.gif	Init: 100 E: stench P: beast
+camp cook	1904	campcook.gif	Init: 50 P: dude
+caugr	1913	caugr.gif	Init: -10000 P: demon
+Clara	1924	clara.gif	Init: 300 P: demon
+coal snake	1911	coalsnake.gif	Init: 50 P: beast
+cow cultist	1902	cowcultist.gif	Init: 50 P: dude
+diamondback rattler	1910	diamondback.gif	Init: 75 P: beast
+drunk cowpoke	1899	drunkpoke.gif	Init: -10000 P: dude
+frontwinder	1912	frontwinder.gif	Init: 100 P: beast
+Granny Hackleton	1925	grannyhack.gif	Init: -10000 P: dude
+grizzled bear	1909	grizzlebear.gif	Init: -10000 P: beast
+hired gun	1903	outlawboss.gif	Init: 75 P: dude
+moomy	1916	moomy.gif	Init: -10000 E: spooky P: demon
+mountain lion	1908	mtlion.gif	Init: 100 P: beast
+Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	Init: 10000 P: demon
+pyrobove	1914	pyrobove.gif	Init: 100 E: hot P: demon
+restless ghost	1906	elizabeth.gif	Init: 50 E: spooky P: undead
+skeletal gunslinger	1905	cowskeleton.gif	Init: 75 E: spooky P: undead
+spidercow	1915	cowspider.gif	Init: 50 E: spooky P: demon
+surly gambler	1900	gamblinman.gif	P: dude
+unusual construct	1923	vib6.gif	Init: 10000 P: construct
+wannabe gunslinger	1901	wannabecowboy.gif	Init: 50 P: dude
+
 # Batfellow Area (Batfellow comic IOTY 2016)
 
 common criminal	1865	blankmook.gif	Init: -10000 P: dude

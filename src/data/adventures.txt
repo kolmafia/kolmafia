@@ -64,6 +64,7 @@ Town	adventure=439	Env: indoor Stat: 0	The Skeleton Store	1 Skeleton Store offic
 Town	adventure=440	Env: indoor Stat: 0	Madness Bakery
 Town	adventure=441	Env: outdoor Stat: 0	The Overgrown Lot	3 Fraudwort, 3 Shysterweed, 3 Swindleblossom|The Lot's engagement ring
 Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
+Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
 Manor1	adventure=113	Env: indoor Stat: 0	The Haunted Pantry	pretentious palette|+3 tasty tart
 Manor1	adventure=388	Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	Env: indoor Stat: 20	The Haunted Conservatory
