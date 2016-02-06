@@ -13382,7 +13382,8 @@ public abstract class ChoiceManager
 		case 1110: // Spoopy
 		case 1114: // Walford Rusley, Bucket Collector
 		case 1118: // X-32-F Combat Training Snowman Control Console
-			return true;
+		case 1171: // LT&T Office
+		return true;
 
 		default:
 			return false;
