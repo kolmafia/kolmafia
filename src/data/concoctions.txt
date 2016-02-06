@@ -1664,7 +1664,10 @@ rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 # Silver Jewellery
 
 nicksilver ring	COMBINE	red-hot knucklebone	nugget of nicksilver
+sicksilver ring	COMBINE	red-hot knucklebone	nugget of sicksilver
+thicksilver ring	COMBINE	red-hot knucklebone	nugget of thicksilver
 ticksilver ring	COMBINE	red-hot knucklebone	nugget of ticksilver
+wicksilver ring	COMBINE	red-hot knucklebone	nugget of wicksilver
 
 # Chef staves made by Rodoric
 
