@@ -6,6 +6,7 @@
 Admiral's hat	200	Mox: 85
 aerated diving helmet	200	Mox: 85
 All-Hallow's Steve's fright wig	100	Mox: 35
+Amoon-Ra Cowtep's nemes	225	Mox: 50
 Ancient Saucehelm	100	Mys: 15
 ancient turtle shell helmet	35	Mox: 2
 anniversary concrete fedora	10	none
@@ -396,6 +397,7 @@ crappy Mer-kin tailpiece	200	Mox: 85
 Crimbo pants	100	Mox: 35
 crotchety pants	75	Mox: 22
 cursed breeches	200	Mox: 85
+Daisy's unclean bloomers	150	Mox: 30
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
@@ -1575,6 +1577,7 @@ foon of fleshiness	50	Mys: 10
 foon of foulness	50	Mys: 10
 foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
+Frigid Northern Beans	30	none
 Gazpacho's Glacial Grimoire	30	none
 ghast iron heater shield	180	Mus: 75	shield
 giant clay ashtray	60	none	shield
@@ -1726,6 +1729,7 @@ polyalloy shield	140	Mus: 55	shield
 polyester pad	50	none	shield
 pool skimmer	10	none
 porcelain pepper mill	120	Mys: 40
+Pork 'n' Pork 'n' Pork 'n' Beans	30	none
 portable Othello set	75	Mys: 15
 pot	0	none
 pottery shield	50	none	shield
@@ -1882,6 +1886,7 @@ white satin shield	80	Mus: 25	shield
 wicker clicker	0	none
 wicker shield	170	Mus: 70	shield
 wonderwall shield	190	Mus: 70	shield
+World's Blackest-Eyed Peas	30	none
 yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
 Yorick	150	Mys: 25
@@ -2068,6 +2073,7 @@ expensive camera	100	Mys: 30
 eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
+Fancy Jeff's fancy pocket square	150	Mox: 30
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
@@ -2082,6 +2088,7 @@ flashing novelty button	20	none
 flask flops	10	none
 floaty rock necklace	100	Mys: 35
 foam noodle	10	none
+Former Sheriff Dan's tin star	225	Mus: 50
 fossilized necklace	50	none
 frayed rope belt	200	Mys: 200
 French slippers	10	none
@@ -2248,6 +2255,7 @@ mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
 Nickel Gamma of Frugality	200	Mys: 85
+nicksilver ring	100	Mys: 10
 night-vision goggles	50	Mox: 10
 Nose Ring of Putrescence	150	Mys: 60
 Novelty Belt Buckle of Violence	200	Mys: 125
@@ -2408,6 +2416,7 @@ shiny hood ornament	190	Mys: 80
 shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
+sicksilver ring	100	Mys: 10
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
 sk8board	70	Mys: 20
@@ -2483,6 +2492,8 @@ teflon swim fins	200	Mus: 85
 The Lost Glasses	0	Mys: 25
 The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60
+thicksilver ring	100	Mys: 10
+ticksilver ring	100	Mys: 10
 Time Bandit Badge of Courage	0	none
 time halo	50	none
 Time Lord Badge of Honor	0	none
@@ -2757,6 +2768,7 @@ white collar	20	none
 white earbuds	100	Mys: 35
 wicker kickers	0	none
 wicker ticker	0	none
+wicksilver ring	100	Mys: 10
 witch wart	125	Mys: 47
 wool sock	100	Mox: 10
 World's Best Adventurer sash	100	none
