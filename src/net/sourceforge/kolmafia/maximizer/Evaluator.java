@@ -343,12 +343,28 @@ public class Evaluator
 			}
 			else if ( keyword.equals( "clownosity" ) )
 			{
-				this.clownosity = (int) weight;
+				if ( m.end( 2 ) == m.start( 2 ) )
+				{
+					// No weight specified, so assume 4
+					this.clownosity = 4;
+				}
+				else
+				{
+					this.clownosity = (int) weight;
+				}
 				continue;
 			}
 			else if ( keyword.equals( "raveosity" ) )
 			{
-				this.raveosity = (int) weight;
+				if ( m.end( 2 ) == m.start( 2 ) )
+				{
+					// No weight specified, so assume 7
+					this.raveosity = 7;
+				}
+				else
+				{
+					this.raveosity = (int) weight;
+				}
 				continue;
 			}
 			else if ( keyword.equals( "beeosity" ) )
