@@ -2032,7 +2032,7 @@
 2031	Ironclad	pittedmetal.gif	27286a50c008bea7dff72220edfe6b05	use 1 pitted sheet metal
 2032	Hypnotized	spiral.gif	cfbc5824bd4c6d04b114aeb3ebb194b7	#snojo debuff
 2033	Bad Haircut	comb.gif	a9a379fdd526c1726e6aa306d3a4fc50	#snojo debuff
-2034
+2034	Snowballed	snowball.gif	2d1c8621e98ad4df1d4fa8d0fc26f977	#snojo debuff
 2035	Ancient Fortitude		69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs
 2036
 2037
