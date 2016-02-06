@@ -5661,6 +5661,7 @@ Effect	Sneaky Serpentine Subtlety	Moxie Percent: +100
 Effect	Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Snow Fortified	Item Drop: +25, Meat Drop: +50, Maximum MP: +50, Maximum HP: +100
 Effect	Snow Shoes	Combat Rate: -5
+Effect	Snowballed	Muscle Limit: 200, Mysticality Limit: 200, Moxie Limit: 200
 Effect	So Fresh and So Clean	Experience Percent (Moxie): +5
 # So Much Holiday Fun!: You Feel Fantastic!
 Effect	So You Can Work More...	Meat Drop: +10
