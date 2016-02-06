@@ -397,8 +397,8 @@
 5023	Stealth Mistletoe	mistletoe.gif	5	5	0
 5024	Kung Fu Hustler	kungfu.gif	0	0	0
 5025	Deft Hands	glove.gif	0	0	0	1
-5026	Disco State of Mind	moxman.gif	5	0	0	3
-5027	Frantic Gyrations	spiral.gif	5	0	0	4
+5026	Disco State of Mind	moxman.gif	0	0	0	3
+5027	Frantic Gyrations	spiral.gif	0	0	0	4
 5028	That's Not a Knife	knife.gif	1	0	0	5
 5029	Tricky Knifework	dv_remknife.gif	0	0	0	7
 5030	Flashy Dancer	flashydancer.gif	0	0	0	7
