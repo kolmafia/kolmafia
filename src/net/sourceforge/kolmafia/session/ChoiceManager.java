@@ -9027,8 +9027,18 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1161:
-			// Encounter: Batfellow Ends
+		case 1134:
+			// Batfellow Ends
+			// (choosing to exit)
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				KoLCharacter.setLimitmode( null );
+			}
+			break;
+
+		case 1168:
+			// Batfellow Ends
+			// (from running out of time)
 			KoLCharacter.setLimitmode( null );
 			break;
 		}
