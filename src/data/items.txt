@@ -8853,7 +8853,7 @@
 8827	The Jokester's pants	475776756	tuxpants.gif	pants	t	0
 8828	Jokester makeup	848244938	smallcase.gif	usable	t	0
 8829
-8830
+8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
 8832	tiny domino mask	832460823	robinmask.gif	familiar	t,d	75
 8833	robin's egg	666856428	jarl_egg.gif	usable	t,d	5
@@ -8879,24 +8879,24 @@
 8853	nugget of thicksilver	349439669	crimnugget.gif	none	t,d	150
 8854	nugget of wicksilver	424655973	crimnugget.gif	none	t,d	150
 8855
-8856
-8857
-8858
+8856	nugget of sicksilver	877698101	crimnugget.gif	none	t,d	150
+8857	nugget of nicksilver	996995139	crimnugget.gif	none	t,d	150
+8858	nugget of ticksilver	843632518	crimnugget.gif	none	t,d	150
 8859
-8860
-8861
+8860	thicksilver ring	396899905	weddingring.gif	accessory		0
+8861	wicksilver ring	164059347	weddingring.gif	accessory		0
 8862
-8863
-8864
-8865
+8863	sicksilver ring	967563357	weddingring.gif	accessory		0
+8864	nicksilver ring	674028369	weddingring.gif	accessory		0
+8865	ticksilver ring	485357896	weddingring.gif	accessory		0
 8866
 8867
 8868
 8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand	t,d	10
-8870
-8871
+8870	Frigid Northern Beans	673710091	beanscan.gif	offhand	t,d	10
+8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand	t,d	10
 8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand	t,d	10
-8873
+8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand	t,d	10
 8874
 8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand	t,d	25
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
@@ -8909,29 +8909,29 @@
 8883
 8884
 8885
-8886
-8887
+8886	Fancy Jeff's fancy pocket square	723090130	fancysquare.gif	accessory		0
+8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0
 8888
-8889
-8890
-8891
+8889	Amoon-Ra Cowtep's nemes	819147479	nemes.gif	hat		0
+8890	Glenn's golden dice	465662384	golddice.gif	usable	d	1500
+8891	Former Sheriff Dan's tin star	672557731	danstar.gif	accessory		0
 8892	El Vibrato restraints	928444655	lvcuff.gif	none, combat reusable	d	1500
 8893	Clara's bell	667617483	clarabell.gif	usable	d	1500
 8894	Granny Hackleton's Gatling gun	674447022	grannygat.gif	weapon		0
 8895	buffalo dime	957218049	buffdime.gif	none		0
 8896	cow poker	598945063	spine.gif	none, combat	t,d	35
-8897
-8898
+8897	poker face paint	563214513	balm.gif	usable	t,d	24
+8898	realistic cap gun	459373479	sixshooter.gif	none, combat	t,d	28
 8899	tainted milk	360141428	milk.gif	food	t,d	18
 8900	gun parts	188246979	gunparts.gif	multiple	t,d	15
 8901	triggerfingerbone	306575995	gunbone.gif	usable	t,d	8
 8902	ghost bit	395021532	ghostbit.gif	usable	t,d	17
-8903
+8903	buzzard feather	723857149	feather.gif	usable	t,d	6
 8904	lion musk	655258040	lightvial.gif	usable	t,d	29
 8905	bear claw	355563460	catclaw.gif	food	t,d	14
 8906	rattler gland	993787330	pineal.gif	usable	t,d	12
 8907	half-digested coal	287234360	evil.gif	usable	t,d	21
-8908
+8908	tightly-wound spine	444616225	clspine.gif	usable	t,d	21
 8909	rotting beefsteak	217124698	gnatfilet.gif	food	t,d	4
 8910	firemilk	627877078	milkbottle.gif	drink	t,d	32
 8911	spidercow eye-cluster	763991554	spidereyes.gif	usable	t,d	38
@@ -8960,12 +8960,12 @@
 8934
 8935
 8936
-8937
-8938
-8939
-8940
-8941
-8942
+8937	mountain lion skin	132547662	mtlionskin.gif	usable	t,d	300
+8938	grizzled bearskin	302654757	grizbearskin.gif	usable	t,d	300
+8939	diamondback skin	885630248	diamondskin.gif	usable	t,d	300
+8940	coal snakeskin	219623277	blacksnakeskin.gif	usable	t,d	300
+8941	frontwinder skin	975742491	frontskin.gif	usable	t,d	300
+8942	rotting cowskin	149029249	zomcowskin.gif	usable	t,d	300
 8943
 8944
 8945	silver cow skull	989941067	silvcowskull.gif	none	t,d	10000

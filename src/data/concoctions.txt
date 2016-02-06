@@ -1661,6 +1661,11 @@ rainbow pearl earring	EJEWEL	rainbow pearl	precious piercing post
 rainbow pearl necklace	EJEWEL	rainbow pearl	heavy necklace chain
 rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 
+# Silver Jewellery
+
+nicksilver ring	COMBINE	red-hot knucklebone	nugget of nicksilver
+ticksilver ring	COMBINE	red-hot knucklebone	nugget of ticksilver
+
 # Chef staves made by Rodoric
 
 Staff of Blood and Pudding	STAFF	dripping meat staff	mugcake	bloody mary	twinkly nuggets	bottle of used blood

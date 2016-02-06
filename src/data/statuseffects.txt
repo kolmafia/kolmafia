@@ -2061,11 +2061,11 @@
 2060	Nyah-ha-ha-haaa	tube.gif	8fc1aa41305ab506067c31ee74c23e08	use 1 tube of villain white
 2061
 2062
-2063
-2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2
+2063	Poker Faced	deuce.gif	cb201992ac7589203e0bc582d844f1a4	use 1 poker face paint
+2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	use 1 demonic cow's blood
 2065
 2066
-2067
+2067	Buzzard Breath	skull.gif	b38a499ed169fd92bc330c1c4a8188cc	use 1 buzzard feather
 2068
 2069
 2070
@@ -2074,3 +2074,4 @@
 2073	Bow-Legged Swagger	legs.gif	24099da1e8eb2af203e4b91c4c4a7af3
 2074	Bendin' Hell	junkbent.gif	321a078c82f870ee30404c2512e576eb	cast 1 Bend Hell
 2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83
+2076	Tightly-Wound Spine	clspine.gif	e85983ba9472ce64d308d0ca6d508f2b	use 1 tightly-wound spine

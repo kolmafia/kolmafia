@@ -72,6 +72,7 @@ Item	8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: 
 Item	Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
 Item	aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
 Item	All-Hallow's Steve's fright wig	Sleaze Damage: +20, Spooky Resistance: +2, Candy Drop: +20, Familiar Effect: "0.5xVolley, 1xPotato, cap 13"
+Item	Amoon-Ra Cowtep's nemes	Mysticality Percent: +35, Spell Damage: +25, Spell Critical Percent: +15
 Item	Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 25"
 Item	ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 8"
 Item	anniversary concrete fedora	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 5xLep, cap 2"
@@ -505,6 +506,7 @@ Item	crappy Mer-kin tailpiece	Initiative: -25, Mana Cost: +2, Familiar Effect: "
 Item	Crimbo pants	Initiative: +30, Familiar Effect: "atk, cap 25"
 Item	crotchety pants	Maximum HP: +40, Familiar Effect: "3xPotato, 2xGhuol, cap 18"
 Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
+Item	Daisy's unclean bloomers	Stench Damage: +30, Stench Spell Damage: +30, Monster Level: +15
 Item	Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato, cap 17"
 Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
@@ -2203,6 +2205,7 @@ Item	white satin shield	Moxie: +2, Damage Reduction: 5
 Item	wicker clicker	Experience (Moxie): +2, MP Regen Min: 2, MP Regen Max: 4
 Item	wicker shield	Moxie: +6, Damage Reduction: 11
 Item	wonderwall shield	Maximum HP: +50, Damage Reduction: 12
+Item	World's Blackest-Eyed Peas	Spooky Spell Damage: +15
 Item	yakskin buckler	Mysticality: +5, Damage Reduction: 5
 Item	yield shield	Damage Absorption: +10, Damage Reduction: 6
 Item	Yorick	Experience: +2, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Item Drop: +15
@@ -2427,6 +2430,7 @@ Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
+Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: +5
 Item	filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 Item	filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
@@ -2446,10 +2450,12 @@ Item	flashing novelty button	Maximum HP: +5, Moxie: -2
 Item	flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
 Item	floaty rock necklace	Spell Critical Percent: +10, Single Equip
 # foam noodle
+Item	Former Sheriff Dan's tin star	Muscle Percent: +25, Maximum HP: +50, HP Regen Min: 5, HP Regen Max: 10, Weapon Damage Percent: +25, Critical Hit Percent: +5
 Item	fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB)], Moxie: [2*pref(fossilB)], Spell Damage: [2*pref(fossilS)], Weapon Damage: [3*pref(fossilN)], Muscle Percent: [3*pref(fossilW)], Mysticality Percent: [3*pref(fossilW)], Moxie Percent: [3*pref(fossilW)], Hot Damage: [3*pref(fossilD)], Spooky Damage: [3*pref(fossilP)]
 Item	frayed rope belt	Moxie Percent: +10, Single Equip
 # French slippers
 Item	freshwater pearl necklace	Spell Critical Percent: +5
+Item	Frigid Northern Beans	Cold Spell Damage: +15
 Item	frosty halo	Item Drop: +25, Unarmed, Single Equip
 Item	Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Item	Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip
@@ -2638,6 +2644,7 @@ Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5
 Item	natty blue ascot	Meat Drop: +20
 Item	navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25
 Item	Nickel Gamma of Frugality	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
+Item	nicksilver ring	Pickpocket Chance: +15, Item Drop: +15, Weapon Drop: +30, Single Equip
 Item	night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 Item	Nose Ring of Putrescence	Hot Resistance: +3, Spooky Resistance: +3, Single Equip
 # Novelty Belt Buckle of Violence: Casts reflections of your spells
@@ -2724,6 +2731,7 @@ Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
 # porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
 Item	porcelain phantom mask	Accessory Drop: +20, Moxie Percent: +20, Single Equip
+Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: +15
 Item	porquoise bracelet	Moxie: +4, Never Fumble
 Item	porquoise eyebrow ring	Moxie: +4, Never Fumble
 Item	porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip
@@ -2821,6 +2829,7 @@ Item	shiny ring	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 Item	shock belt	Single Equip
+Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, Single Equip
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 # Sister Accessory: (minimum of +20 Meat)
 Item	Sister Accessory	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +25, Softcore Only
@@ -2914,6 +2923,8 @@ Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiati
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
+Item	thicksilver ring	Damage Reduction: 60, Damage Absorption: +30, Damage Reduction: 60, Single Equip
+Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Item	time halo	Adventures: +5, Unarmed, Single Equip
@@ -3215,6 +3226,7 @@ Item	white earbuds	Spooky Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, MP 
 Item	wicker kickers	Initiative: +20, Maximum HP: +20, Single Equip
 # Item wicker ticker: Collecting Soul Sauce restores HP
 Item	wicker ticker	HP Regen Min: 4, HP Regen Max: 8, Spell Damage Percent: +20, Single Equip
+Item	wicksilver ring	Hot Damage: +20, Hot Spell Damage: +40, Mysticality: +10, Single Equip
 Item	witch wart	Mysticality: +5, MP Regen Min: 6, MP Regen Max: 8
 Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +40, Single Equip
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
@@ -4319,6 +4331,7 @@ Effect	Butt-Rock Hair	Moxie Percent: +15
 Effect	Buttermilk Boogie	Moxie Percent: +50, Initiative: +50, HP Regen Min: 20, HP Regen Max: 40
 Effect	Buttons Rouged, Louisiana	Avatar: "man with the red buttons"
 Effect	Buy!  Sell!  Buy!  Sell!	Meat Drop: [max(0,202-2*T)]
+Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
 Effect	Can Has Cyborger	Moxie Percent: +10
@@ -5391,6 +5404,7 @@ Effect	Pla-see-bo	Item Drop: +10
 Effect	Pneumatic	Adventure Underwater
 Effect	Pockets of Fire	Hot Damage: +10
 Effect	Poetically Licensed	Mysticality Percent: +20, Muscle Percent: -20, Experience (Mysticality): +2, Spell Damage Percent: +10
+Effect	Poker Faced	Moxie: +25
 Effect	Polar Express	MP Regen Min: 10, MP Regen Max: 20
 Effect	Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Effect	Polka of Plenty	Meat Drop: +50
@@ -5932,6 +5946,7 @@ Effect	Thuggity Yak	Avatar: "yakuza thug"
 Effect	Thunderheart	Maximum HP Percent: +100
 Effect	Ticking Clock	Initiative: +30
 Effect	Tiffany's Breakfast	Item Drop: [min(40,T)]
+Effect	Tightly-Wound Spine	Initiative: +25
 # Timer 1
 # Timer 10
 # Timer 2
@@ -7339,6 +7354,7 @@ Item	bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 Item	Burt's blessing of Bacchus	Effect: "Smoking like a Bandit", Effect Duration: 50
 # bus pass: Deals 45-50 Physical Damage
 Item	button rouge	Effect: "Buttons Rouged, Louisiana", Effect Duration: 50
+Item	buzzard feather	Effect: "Buzzard Breath", Effect Duration: 30
 Item	cabbage-flavored Mr. Mediocrebar	Effect: "I Am the Slaw!", Effect Duration: 30
 Item	calm attention-deficit demon	Free Pull
 # Camp Scout pup tent: Restores up to 1,000 HP
@@ -7427,6 +7443,7 @@ Item	clove-flavored lip balm	Effect: "The Great White Mope", Effect Duration: 30
 # clutch of dodecapede eggs: Weakens enemies somewhat as it poisons them
 Item	coal contact lenses	Effect: "The Perfect Snowman Disguise", Effect Duration: 50
 Item	coal dust	Effect: "Funky Coal Patina", Effect Duration: 15
+# Item coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 # cocktail napkin: Deals 20-40 <font color=red>Hot Damage</font>
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
@@ -7600,6 +7617,7 @@ Item	delicious candy	Effect: "Eyes All Black", Effect Duration: 15
 Item	delicious comfit?	Effect: "Discomfited", Effect Duration: 10
 # delicious shimmering moth: Restore 30-40 MP if you are a bird
 Item	demon makeup kit	Effect: "Demonicity", Effect Duration: 40
+Item	demonic cow's blood	Effect: "Cowrruption", Effect Duration: 20
 Item	demonic surgical gloves	Effect: "Daemon Duds", Effect Duration: 50
 Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
@@ -7609,6 +7627,7 @@ Item	deodorant	Effect: "Fresh Scent", Effect Duration: 10
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 Item	devil-summoning hat	Effect: "Devil Woman (or Man)", Effect Duration: 30
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
+# Item diamondback skin: Adds +20 Monster Level to your cowboy boots
 # dictionary: Most Enemies Don't Care About It
 # Diet Cloaca Cola: Restores 7-9 MP
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
@@ -7816,6 +7835,7 @@ Item	Friendliness Beverage	Effect: "Over-Familiar With Dactyls", Effect Duration
 # frigid ninja stars: Deals 20-25 <font color=blue>Cold Damage</font>
 Item	frog lip-print	Effect: "Green, Uneasy", Effect Duration: 30
 Item	Frogade	Effect: "Frog In Your Throat", Effect Duration: [R]
+# Item frontwinder skin: Adds +50% Mysticality to your cowboy boots
 Item	frost flower	Effect: "Frosty", Effect Duration: 50
 Item	frost-rimed seal hide	Effect: "Cold Hard Skin", Effect Duration: 10
 Item	frostbite-flavored Hob-O	Effect: "Tundra Mouth", Effect Duration: 1
@@ -7892,6 +7912,7 @@ Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 Item	glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 Item	glass of warm water	Free Pull
 Item	glass slipper	Effect: "Don't Step to Your Stepmother", Effect Duration: 10
+# Item Glenn's golden dice: Grants you some random beneficial effects
 Item	glittery mascara	Effect: "Glittering Eyelashes", Effect Duration: 3
 Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
 # Item glob of Bat-Glue: Stuns foes for a few rounds
@@ -7951,6 +7972,7 @@ Item	gremlin mutagen	Effect: "Mutated", Effect Duration: 1
 Item	grey cube	Effect: "Square Jaw And Everything Else", Effect Duration: 100
 Item	grimy lab coat	Effect: "They Called You Mad at the University", Effect Duration: 30
 Item	grisly shell fragment	Effect: "Thick, Sick", Effect Duration: 1
+# Item grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
 # grouchy restless spirit: Deals 40-45 <font color=gray>Spooky Damage</font>
@@ -8323,6 +8345,7 @@ Item	Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
 Item	mostly-broken sunglasses	Effect: "Almost Cool", Effect Duration: 15
 Item	mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
+# Item mountain lion skin: Adds +50% Moxie to your cowboy boots
 # Mountain Stream Code Black Alert: Restores 15-20 MP
 # Mountain Stream soda: Restores 30-40 MP
 Item	mouse skull	Effect: "Little Mouse Skull Buddy", Effect Duration: 20
@@ -8518,6 +8541,7 @@ Item	pocket maze	Effect: "Amazing", Effect Duration: 1
 # pog #11 (Naughty Sorceress): Does all sorts of crazy things
 # Pok&euml;mann band-aid: Restores 100 HP
 Item	Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
+Item	poker face paint	Effect: "Poker Faced", Effect Duration: 10
 Item	Polka Pop	Effect: "Polka Face", Effect Duration: 10
 Item	polo trophy	Effect: "Polonoia", Effect Duration: 15
 # poltergeist-in-the-jar-o: Deals 200-250 Physical Damage
@@ -8712,6 +8736,7 @@ Item	ROM of Optimality	Skill: "Toggle Optimality"
 Item	roofie	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
 # rotten tomato: Throw it at somebody to grant extra PvP fights
 Item	rotting beefsteak	Effect: "Cowrruption", Effect Duration: 30
+# Item rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
 # rough stone sphere: Mysterious, Deprecated
 # round blue bomb: Deals 90-110 <font color=red>Hot Damage</font>
 Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
@@ -9032,6 +9057,7 @@ Item	throbbing rage gland	Skill: "Vent Rage Gland"
 # throwing fork: Deals 20-30 Physical Damage with each of its three tines
 # throwing knife: Causes bleeding
 # throwing spoon: Deals 50-60 Physical Damage and weakens enemies somewhat
+Item	tightly-wound spine	Effect: "Tightly-Wound Spine", Effect Duration: 20
 # time shuriken: (does not go away when used)
 Item	time sleigh	Free Pull
 Item	time's arrow	Free Pull
