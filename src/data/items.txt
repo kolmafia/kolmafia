@@ -7991,8 +7991,8 @@
 7966	Ka coin	826932303	kacoin.gif	none	q	0
 7967	World's Best Adventurer sash	584125368	bestsash.gif	accessory	q	0
 7968	topiary nugglet	491943392	nugglet.gif	none	t	0
-7969	beehive	905003610	beehive.gif	none, combat	q	0
-7970	electric boning knife	580217520	elecbone.gif	none, combat	q	0
+7969	beehive	905003610	beehive.gif	none, combat reusable	q	0
+7970	electric boning knife	580217520	elecbone.gif	none, combat reusable	q	0
 7971	Aggressive Carrot	839021006	carrot.gif	none, curse	t	0
 7972	mummified fig	530883912	mumfig.gif	spleen	q	0
 7973	mummified loaf of bread	134806194	mumbread.gif	spleen	q	0	mummified loaves of bread
