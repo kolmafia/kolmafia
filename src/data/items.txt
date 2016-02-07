@@ -8878,7 +8878,7 @@
 8852	nugget of quicksilver	972949009	crimnugget.gif	none	t,d	150
 8853	nugget of thicksilver	349439669	crimnugget.gif	none	t,d	150
 8854	nugget of wicksilver	424655973	crimnugget.gif	none	t,d	150
-8855
+8855	nugget of slicksilver	375060654	crimnugget.gif	none	t,d	150
 8856	nugget of sicksilver	877698101	crimnugget.gif	none	t,d	150
 8857	nugget of nicksilver	996995139	crimnugget.gif	none	t,d	150
 8858	nugget of ticksilver	843632518	crimnugget.gif	none	t,d	150
@@ -8902,13 +8902,13 @@
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
 8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5
 8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5
-8879
-8880
-8881
-8882
-8883
+8879	plate of Hellfire Spicy Beans	806250063	franksbeans.gif	food	t,d	10
+8880	plate of Frigid Northern Beans	706679368	franksbeans.gif	food	t,d	10
+8881	plate of World's Blackest-Eyed Peas	244199210	darkness.gif	food	t,d	10
+8882	plate of Trader Olaf's Exotic Stinkbeans	806567626	franksbeans.gif	food	t,d	10
+8883	plate of Pork 'n' Pork 'n' Pork 'n' Beans	478142623	franksbeans.gif	food	t,d	10
 8884
-8885
+8885	plate of Shrub's Premium Baked Beans	476831047	franksbeans.gif	food	t,d	25
 8886	Fancy Jeff's fancy pocket square	723090130	fancysquare.gif	accessory		0
 8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0
 8888	Pecos Dave's sixgun	305060180	davesixgun.gif	none, combat reusable		0
