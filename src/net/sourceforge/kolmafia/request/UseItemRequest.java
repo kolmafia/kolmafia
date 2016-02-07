@@ -3089,6 +3089,9 @@ public class UseItemRequest
 		case ItemPool.SCROLL_SNOKEBOMB:
 		case ItemPool.SCROLL_SHIVERING_MONKEY:
 		case ItemPool.ROM_OF_OPTIMALITY:
+		case ItemPool.WESTERN_BOOK_BRAGGADOCCIO:
+		case ItemPool.WESTERN_BOOK_HELL:
+		case ItemPool.WESTERN_BOOK_LOOK:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you

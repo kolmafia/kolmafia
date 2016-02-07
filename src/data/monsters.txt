@@ -1648,14 +1648,16 @@ frontwinder	1912	frontwinder.gif	Init: 100 P: beast
 Granny Hackleton	1925	grannyhack.gif	Init: -10000 P: dude
 grizzled bear	1909	grizzlebear.gif	Init: -10000 P: beast
 hired gun	1903	outlawboss.gif	Init: 75 P: dude
+Jeff the Fancy Skeleton	1917	fancyjeff.gif	Atk: 180 Def: 200 HP: 300 Init: 100 E: spooky P: undead
 moomy	1916	moomy.gif	Init: -10000 E: spooky P: demon
 mountain lion	1908	mtlion.gif	Init: 100 P: beast
+Pecos Dave	1919	pecosdave.gif	Atk: 200 Def: 180 HP: 300 Init: 10000 P: dude
 Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	Init: 10000 P: demon
 pyrobove	1914	pyrobove.gif	Init: 100 E: hot P: demon
 restless ghost	1906	elizabeth.gif	Init: 50 E: spooky P: undead
 skeletal gunslinger	1905	cowskeleton.gif	Init: 75 E: spooky P: undead
 spidercow	1915	cowspider.gif	Init: 50 E: spooky P: demon
-surly gambler	1900	gamblinman.gif	P: dude
+surly gambler	1900	gamblinman.gif	Init: -10000 P: dude
 unusual construct	1923	vib6.gif	Init: 10000 P: construct
 wannabe gunslinger	1901	wannabecowboy.gif	Init: 50 P: dude
 
@@ -1667,7 +1669,7 @@ mid-level mook	1869	blankmook.gif	Init: -10000 P: dude
 
 Kudzu	1871	batboss_kudzu.gif	Init: -10000 P: plant
 Mansquito	1872	batboss_mansq.gif	Init: -10000 P: dude
-Miss Graves	1873	batboss_mansq.gif	Init: -10000 P: dude
+Miss Graves	1873	batboss_graves.gif	Init: -10000 P: dude
 The Plumber	1874	batboss_plumber.gif	Init: -10000 P: dude
 The Author	1875	batboss_author.gif	Init: -10000 P: dude
 
