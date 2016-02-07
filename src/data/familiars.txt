@@ -9,7 +9,7 @@
 # stat0 - Volleyball
 # stat1 - Sombrero
 #
-# passive - has a [assive effect (initiative, elemental resistance)
+# passive - has a passive effect (initiative, elemental resistance)
 #
 # combat0 - Physical Damage
 # combat1 - Elemental Damage
@@ -231,3 +231,4 @@
 199	Machine Elf	machelf.gif	none	machine elf capsule	self-dribbling basketball	1	2	3	1
 200	Choctopus	choctopus.gif	item0,hp1,mp1	Gratitude chocolate (octopus-filled)	chocolate bowtie	0	0	0	0
 201	Rockin' Robin	rockinrobin.gif	item0,stat0	basking robin	tiny domino mask	3	3	3	3
+202	Restless Cow Skull	cowskull.gif	block,combat1	shuddering cow skull	rhinestone cowhorn	0	0	0	0

@@ -2885,6 +2885,16 @@ public class FightRequest
 			Preferences.increment( "rumpelstiltskinTurnsUsed", 1 );
 		}
 
+		if ( monsterName.equals( "unusual construct" ) )
+		{
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_WHITE );
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_BLACK );
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_RED );
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_GREEN );
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_BLUE );
+			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_YELLOW );
+		}
+
 		if ( !won )
 		{
 			QuestManager.updateQuestFightLost( responseText, monsterName );
