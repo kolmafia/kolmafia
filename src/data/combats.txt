@@ -37,19 +37,6 @@
 # The weight can be followed by an "r" to indicate a rejection condition,
 # and then the % chance of rejection following
 
-Center Park After Dark	100	common criminal
-The Mean Streets
-Warehouse Row
-Gotpork Conservatory of Flowers	100	low-level mook	vicious plant creature	vine-controlled botanist	Kudzu: 0
-Gotpork Municipal Reservoir	100	low-level mook	giant leech	giant mosquito	Mansquito: 0
-Gotpork Gardens Cemetery	100	low-level mook	lovestruck goth dude	walking skeleton	Miss Graves: 0
-Gotpork City Sewers	100	mid-level mook	liquid plumber	plumber's helper	The Plumber: 0
-Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
-The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman
-Gotpork Clock, Inc.	100
-Gotpork Foundry	100
-Trivial Pursuits, LLC	100
-
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
@@ -94,6 +81,7 @@ Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pirate
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
 Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	Hockey Elemental: -1
+Center Park After Dark	100	common criminal
 Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
@@ -134,6 +122,12 @@ Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poo
 Galley	100	angry cavebugbear	trendy bugbear chef
 Globe Theatre Main Stage	100	Richard X	Groundling	Hamlet	Othello
 Globe Theatre Backstage	100	Ye Olde Key Grippe	Understudy	ghost actor
+Gotpork City Sewers	100	mid-level mook	liquid plumber	plumber's helper	The Plumber: 0
+Gotpork Clock, Inc.	100	high-level mook	time bandit	clockwork man	Doc Clock: 0
+Gotpork Conservatory of Flowers	100	low-level mook	vicious plant creature	vine-controlled botanist	Kudzu: 0
+Gotpork Foundry	100	high-level mook	serial arsonist	burner	Mr. Burns: 0
+Gotpork Gardens Cemetery	100	low-level mook	lovestruck goth dude	walking skeleton	Miss Graves: 0
+Gotpork Municipal Reservoir	100	low-level mook	giant leech	giant mosquito	Mansquito: 0
 Grim Grimacite Site	100	Mob Penguin Smasher	Mob Penguin Smith	Mob Penguin Supervisor
 Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	skullbat	doughbat	vampire bat
 Gumdrop Forest	-1	candied pecan tree	licorice snake	tricksy pixie
@@ -147,6 +141,7 @@ Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
 Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
 Investigating a Plaintive Telegram	100	buzzard	camp cook	caugr	Clara: 0	coal snake	cow cultist	diamondback rattler	drunk cowpoke	frontwinder	Granny Hackleton: 0	grizzled bear	hired gun	moomy	mountain lion	Pharaoh Amoon-Ra Cowtep: 0	pyrobove	restless ghost	skeletal gunslinger	spidercow	surly gambler	unusual construct: 0	wannabe gunslinger
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
+JokesterCo	100	The Jokester: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	Resort Waiter	Brick Mulligan, the Bartender: 0
 Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ninja Snowman (Mask)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
@@ -186,6 +181,7 @@ Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	pouti
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin (tool)	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
+Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
 Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
@@ -319,6 +315,7 @@ The Laugh Floor	100	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of 
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
 The Mansion of Dr. Weirdeaux	100	one of Doctor Weirdeaux's creations
 The Marinara Trench	95	diving belle	fisherfish	giant squid	Mer-kin diver
+The Mean Streets	100	uncommon criminal
 The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
 The Middle Chamber	100	tomb asp	tomb rat	tomb servant
 The Mines	-1	bat	cobra	snake	spider
@@ -328,6 +325,7 @@ The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanct
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
 The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
 The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty pirate	swarthy pirate
+The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman	The Mad Libber: 0
 The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
@@ -390,6 +388,7 @@ Tower Level 5	100	Your Shadow
 Tower Ruins	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
 Triad Factory	100	clean-room daemon	fabricator gu&agrave;i	triad code wizard	The Sierpinski brothers: 0
 Trick-or-Treating	100	vandal kid	suburban security civilian	kid who is too old to be Trick-or-Treating	All-Hallow's Steve: 0
+Trivial Pursuits, LLC	100	high-level mook	inquisitee	trivia researcher	The Inquisitor: 0
 Twin Peak	80	bearpig topiary animal	Big Wheelin' Twins	Bubblemint Twins	Creepy Ginger Twin	elephant (meatcar?) topiary animal	Mismatched Twins	spider (duck?) topiary animal	Troll Twins
 Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly Bear	Gurgle the Turgle	Skeezy the Jug Rat	nasty bear: 0
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
@@ -401,6 +400,7 @@ VYKEA	-1	VYKEA viking (female)	VYKEA viking (male)
 WarBear Fortress (First Level)	100	Warbear Foot Soldier
 WarBear Fortress (Second Level)	100	Warbear Officer
 WarBear Fortress (Third Level)	100	High-Ranking Warbear Officer
+Warehouse Row	100	rare criminal
 Wartime Frat House	0	War Hippy Spy
 Wartime Frat House (Hippy Disguise)	80	War Pledge	Frat Warrior drill sergeant
 Wartime Hippy Camp	0	Orcish Frat Boy Spy

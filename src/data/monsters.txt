@@ -1679,6 +1679,7 @@ Granny Hackleton	1925	grannyhack.gif	Init: -10000 P: dude
 common criminal	1865	blankmook.gif	Init: -10000 P: dude
 uncommon criminal	1866	blankmook.gif	Init: -10000 P: dude
 rare criminal	1867	blankmook.gif	Init: -10000 P: dude
+
 low-level mook	1868	blankmook.gif	Init: -10000 P: dude
 mid-level mook	1869	blankmook.gif	Init: -10000 P: dude
 high-level mook	1870	blankmook.gif	Init: -10000 P: dude
@@ -1717,15 +1718,19 @@ former guard	1889	blankmook.gif	Init: -10000 P: dude
 very [adjective] henchwoman	1890	henchwoman.gif	Init: -10000 P: dude
 very [adjective] henchman	1891	henchman.gif	Init: -10000 P: dude
 
+# Gotpork Clock, Inc.
 time bandit	1892	blankmook.gif	Init: -10000 P: dude
 clockwork man	1893	clockworkman.gif	Init: -10000 P: dude
 
+# Gotpork Foundry
 serial arsonist	1894	burnerman.gif	Init: -10000 P: dude
 burner	1895	blankmook.gif	Init: -10000 P: dude
 
+# Trivial Pursuits, LLC
 inquisitee	1896	inquisitee.gif	Init: -10000 P: dude
 trivia researcher	1897	researcher.gif	Init: -10000 P: dude
 
+# JokesterCo
 The Jokester	1898	jokester.gif	Init: -10000 P: dude
 
 # KoL Con
