@@ -318,7 +318,7 @@ public class StationaryButtonDecorator
 		}
 
 		buffer.insert( insertionPoint, "<link rel=\"stylesheet\" type=\"text/css\" href=\"/" + KoLConstants.STATIONARYBUTTONS_CSS + "\">" );
-		buffer.insert( insertionPoint, "<script src=\"/images/jquery-1.3.1.min.js\"></script><script src=\"/" + KoLConstants.STATIONARYBUTTONS_JS + "\"></script>" );
+		buffer.insert( insertionPoint, "<script src=\"/images/jquery-1.9.1.js\"></script><script src=\"/" + KoLConstants.STATIONARYBUTTONS_JS + "\"></script>" );
 		
 		insertionPoint = buffer.indexOf( "<body" );
 		if ( insertionPoint == -1 )
