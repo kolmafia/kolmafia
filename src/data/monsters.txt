@@ -1663,11 +1663,13 @@ moomy	1916	moomy.gif	Init: -10000 E: spooky P: demon
 
 # Bosses
 Jeff the Fancy Skeleton	1917	fancyjeff.gif	Atk: 180 Def: 200 HP: 300 Init: 100 E: spooky P: undead
-# 1918
+Daisy the Unclean	1918	daisy.gif	Atk: 200 Def: 180 HP: 400 Init: 100 E: stench P: demon
 Pecos Dave	1919	pecosdave.gif	Atk: 200 Def: 180 HP: 300 Init: 10000 P: dude
+
 Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	Init: 10000 P: demon
 Snake-Eyes Glenn	1921	snakeglenn.gif	Init: 10000 P: dude
 Former Sheriff Dan Driscoll	1922	sheriffdan.gif	Init: -10000 P: dude
+
 unusual construct	1923	vib6.gif	Init: 10000 P: construct
 Clara	1924	clara.gif	Init: 300 P: demon
 Granny Hackleton	1925	grannyhack.gif	Init: -10000 P: dude
