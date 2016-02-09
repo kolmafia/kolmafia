@@ -762,6 +762,30 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "batman_cave" ) )
+		{
+			BatFabricatorRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "batman_chemicorp" ) )
+		{
+			ChemiCorpRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "batman_orphanage" ) )
+		{
+			GotporkOrphanageRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "batman_pd" ) )
+		{
+			GotporkPDRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "ltt" ) )
 		{
 			LTTRequest.parseResponse( urlString, responseText );
@@ -1093,6 +1117,26 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "edunder_shopshop" ) )
 			{
 				return EdShopRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "batman_cave" ) )
+			{
+				return BatFabricatorRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "batman_chemicorp" ) )
+			{
+				return ChemiCorpRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "batman_orphanage" ) )
+			{
+				return GotporkOrphanageRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "batman_pd" ) )
+			{
+				return GotporkPDRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "ltt" ) )

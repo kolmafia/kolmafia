@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ResultProcessor;
+
 public class BatFellowRequest
 	extends GenericRequest
 {
@@ -52,14 +54,60 @@ public class BatFellowRequest
 
 	private static final AdventureResult[] ITEMS =
 	{
+		// Raw materials for Bat-Fabricator
+		ItemPool.get( ItemPool.HIGH_GRADE_METAL, 1 ),
+		ItemPool.get( ItemPool.HIGH_TENSILE_STRENGTH_FIBERS, 1 ),
+		ItemPool.get( ItemPool.HIGH_GRADE_EXPLOSIVES, 1 ),
+
+		// Items from Bat-Fabricator
+		ItemPool.get( ItemPool.BAT_OOMERANG, 1 ),
+		ItemPool.get( ItemPool.BAT_JUTE, 1 ),
+		ItemPool.get( ItemPool.BAT_O_MITE, 1 ),
+
+		// Currency & items from Orphanage
+		ItemPool.get( ItemPool.KIDNAPPED_ORPHAN, 1 ),
+		ItemPool.get( ItemPool.CONFIDENCE_BUILDING_HUG, 1 ),
+		ItemPool.get( ItemPool.EXPLODING_KICKBALL, 1 ),
+
+		// Currency & items from ChemiCorp
+		ItemPool.get( ItemPool.DANGEROUS_CHEMICALS, 1 ),
+		ItemPool.get( ItemPool.EXPERIMENTAL_GENE_THERAPY, 1 ),
+		ItemPool.get( ItemPool.ULTRACOAGULATOR, 1 ),
+
+		// Currency & items from GotPork P.D.
+		ItemPool.get( ItemPool.INCRIMINATING_EVIDENCE, 1 ),
+		ItemPool.get( ItemPool.SELF_DEFENSE_TRAINING, 1 ),
+		ItemPool.get( ItemPool.FINGERPRINT_DUSTING_KIT, 1 ),
+
+		// Bat-Suit upgrade
+		ItemPool.get( ItemPool.BAT_AID_BANDAGE, 1 ),
+
+		// Bat-Sedan upgrade
+		ItemPool.get( ItemPool.BAT_BEARING, 1 ),
+
+		// Bat-Cavern upgrade
+		ItemPool.get( ItemPool.GLOB_OF_BAT_GLUE, 1 ),
 	};
 
-	public static void reset()
+	public static void begin()
+	{
+		// Preferences.resetToDefault( "batFellowStatus" );
+
+		// Clean up inventory
+		BatFellowRequest.resetItems();
+
+		// Add items that you begin with
+		ResultProcessor.processItem( ItemPool.BAT_OOMERANG, 1 );
+		ResultProcessor.processItem( ItemPool.BAT_JUTE, 1 );
+		ResultProcessor.processItem( ItemPool.BAT_O_MITE, 1 );
+	}
+
+	public static void end()
 	{
 		BatFellowRequest.resetItems();
 	}
 
-	public static void resetItems()
+	private static void resetItems()
 	{
 		for ( AdventureResult item : BatFellowRequest.ITEMS )
 		{

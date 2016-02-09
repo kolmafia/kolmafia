@@ -1545,7 +1545,7 @@ public abstract class KoLCharacter
 		else if ( limitmode == Limitmode.BATMAN )
 		{
 			KoLCharacter.limitmode = Limitmode.BATMAN;
-			BatFellowRequest.reset();
+			BatFellowRequest.begin();
 		}
 		else
 		{

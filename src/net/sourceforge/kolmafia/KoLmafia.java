@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -991,6 +992,9 @@ public abstract class KoLmafia
 
 		// Clear Spelunky preferences & items
 		SpelunkyRequest.reset();
+
+		// Clear Batfellow preferences & items
+		BatFellowRequest.end();
 
 		// Set this first to prevent duplicate skill refreshing
 		KoLCharacter.setRestricted( false );
