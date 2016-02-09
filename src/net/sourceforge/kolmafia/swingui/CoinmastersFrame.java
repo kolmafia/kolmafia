@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArmoryRequest;
+import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
@@ -85,8 +86,9 @@ import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
-import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
+import net.sourceforge.kolmafia.request.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
@@ -101,6 +103,8 @@ import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
@@ -201,6 +205,10 @@ public class CoinmastersFrame
 	private CoinmasterPanel toxicChemistryPanel = null;
 	private CoinmasterPanel discoGiftCoPanel = null;
 	private CoinmasterPanel walmartPanel = null;
+	private CoinmasterPanel batFabricatorPanel = null;
+	private CoinmasterPanel chemCorpPanel = null;
+	private CoinmasterPanel gotporkOrphanagePanel = null;
+	private CoinmasterPanel gotporkPDPanel = null;
 	private CoinmasterPanel lttPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
@@ -390,6 +398,26 @@ public class CoinmastersFrame
 		walmartPanel = new WalmartPanel();
 		panel.add( walmartPanel );
 		this.selectorPanel.addPanel( walmartPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		batFabricatorPanel = new BatFabricatorPanel();
+		panel.add( batFabricatorPanel );
+		this.selectorPanel.addPanel( batFabricatorPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		chemCorpPanel = new ChemiCorpPanel();
+		panel.add( chemCorpPanel );
+		this.selectorPanel.addPanel( chemCorpPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		gotporkOrphanagePanel = new GotporkOrphanagePanel();
+		panel.add( gotporkOrphanagePanel );
+		this.selectorPanel.addPanel( gotporkOrphanagePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		gotporkPDPanel = new GotporkPDPanel();
+		panel.add( gotporkPDPanel );
+		this.selectorPanel.addPanel( gotporkPDPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		lttPanel = new LTTPanel();
@@ -1244,6 +1272,72 @@ public class CoinmastersFrame
 		public WalmartPanel()
 		{
 			super( WalMartRequest.WALMART );
+		}
+	}
+
+	private class BatFabricatorPanel
+		extends CoinmasterPanel
+	{
+		private int metal = 0;
+		private int fibers = 0;
+		private int explosives = 0;
+
+		public BatFabricatorPanel()
+		{
+			super( BatFabricatorRequest.BAT_FABRICATOR );
+			this.update();
+		}
+
+		@Override
+		public final void update()
+		{
+			this.metal = BatFabricatorRequest.METAL.getCount( KoLConstants.inventory );
+			this.fibers = BatFabricatorRequest.FIBERS.getCount( KoLConstants.inventory );
+			this.explosives = BatFabricatorRequest.EXPLOSIVES.getCount( KoLConstants.inventory );
+			super.update();
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			buffer.append( String.valueOf( this.metal ) );
+			buffer.append( " " );
+			buffer.append( BatFabricatorRequest.METAL.getName() );
+			buffer.append( ", " );
+			buffer.append( String.valueOf( this.fibers ) );
+			buffer.append( " " );
+			buffer.append( BatFabricatorRequest.FIBERS.getName() );
+			buffer.append( ", " );
+			buffer.append( String.valueOf( this.explosives ) );
+			buffer.append( " " );
+			buffer.append( BatFabricatorRequest.EXPLOSIVES.getName() );
+		}
+	}
+
+	private class ChemiCorpPanel
+		extends CoinmasterPanel
+	{
+		public ChemiCorpPanel()
+		{
+			super( ChemiCorpRequest.CHEMICORP );
+		}
+	}
+
+	private class GotporkOrphanagePanel
+		extends CoinmasterPanel
+	{
+		public GotporkOrphanagePanel()
+		{
+			super( GotporkOrphanageRequest.GOTPORK_ORPHANAGE );
+		}
+	}
+
+	private class GotporkPDPanel
+		extends CoinmasterPanel
+	{
+		public GotporkPDPanel()
+		{
+			super( GotporkPDRequest.GOTPORK_PD );
 		}
 	}
 

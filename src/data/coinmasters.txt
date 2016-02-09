@@ -793,6 +793,29 @@ Wal-Mart	buy	150	The Chill of the Wild	ROW770
 Wal-Mart	buy	150	Cold Fang	ROW772
 Wal-Mart	buy	250	Wal-Mart tattoo kit	ROW771
 
+# Things you can Bat-Fabricate
+
+Bat-Fabricator	buy	3	bat-oomerang	ROW782
+Bat-Fabricator	buy	3	bat-jute	ROW783
+Bat-Fabricator	buy	3	bat-o-mite	ROW784
+
+# Things you can buy with dangerous chemicals
+
+ChemiCorp	buy	3	experimental gene therapy	ROW785
+ChemiCorp	buy	1	ultracoagulator	ROW787
+
+# Things you can buy with incriminating evidence
+
+Gotpork P. D.	buy	3	self-defense training	ROW788
+Gotpork P. D.	buy	1	fingerprint dusting kit	ROW789
+
+# Things you can buy with kidnapped orphans
+
+Gotpork Orphanage	buy	3	confidence-building hug	ROW790
+Gotpork Orphanage	buy	1	exploding kickball	ROW791
+
+# Things you can buy with buffalo dimes
+
 LT&T Gift Shop	buy	3	steel knuckles	ROW795
 LT&T Gift Shop	buy	3	Shrub's Premium Baked Beans	ROW793
 LT&T Gift Shop	buy	3	reliable sixgun	ROW794

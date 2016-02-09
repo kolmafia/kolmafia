@@ -1327,12 +1327,19 @@ public class ResultProcessor
 		case ItemPool.FUNFUNDS:
 		case ItemPool.TOXIC_GLOBULE:
 		case ItemPool.VOLCOINO:
-		case ItemPool.TWINKLY_WAD:
+			// BatFellow currencies
+		case ItemPool.INCRIMINATING_EVIDENCE:
+		case ItemPool.DANGEROUS_CHEMICALS:
+		case ItemPool.KIDNAPPED_ORPHAN:
+		case ItemPool.HIGH_GRADE_METAL:
+		case ItemPool.HIGH_TENSILE_STRENGTH_FIBERS:
+		case ItemPool.HIGH_GRADE_EXPLOSIVES:
 			// The Traveling Trader usually wants twinkly wads
-		case ItemPool.GG_TOKEN:
+		case ItemPool.TWINKLY_WAD:
 			// You can trade tokens for tickets
-		case ItemPool.TRANSPORTER_TRANSPONDER:
+		case ItemPool.GG_TOKEN:
 			// You can go to spaaace with a transponder
+		case ItemPool.TRANSPORTER_TRANSPONDER:
 			NamedListenerRegistry.fireChange( "(coinmaster)" );
 			break;
 

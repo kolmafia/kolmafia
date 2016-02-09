@@ -8824,19 +8824,19 @@
 8798	bat-jute	117347429	lasso.gif	none	q	0
 8799	bat-o-mite	970970954	minamite.gif	none	q	0
 8800	ROM of Optimality	499948583	cd.gif	usable		0
-8801	incriminating evidence	949606286	documents.gif	none	q	0
+8801	incriminating evidence	949606286	documents.gif	none	q	0	pieces of incriminating evidence
 8802	dangerous chemicals	918942621	wbchemset.gif	none	q	0	units of dangerous chemicals
 8803	kidnapped orphan	804600614	orphan.gif	none	q	0
-8804	high-grade metal	247023626	scrapmetal.gif	none	q	0
-8805	high-tensile-strength fibers	768499725	felt.gif	none	q	0
-8806	high-grade explosives	923060960	potion15.gif	none	q	0
-8807	experimental gene therapy	358294636	dna.gif	none	q	0
+8804	high-grade metal	247023626	scrapmetal.gif	none	q	0	pieces of high-grade metal
+8805	high-tensile-strength fibers	768499725	felt.gif	none	q	0	sheets of high-tensile-strength fibers
+8806	high-grade explosives	923060960	potion15.gif	none	q	0	vials of high-grade explosives
+8807	experimental gene therapy	358294636	dna.gif	none	q	0	experimental gene therapies
 8808	ultracoagulator	818334177	syringe.gif	none	q	0
-8809	self-defense training	442949364	book3.gif	none	q	0
+8809	self-defense training	442949364	book3.gif	none	q	0	self-defense training sessions
 8810	fingerprint dusting kit	814392612	briefcase.gif	none	q	0
 8811	confidence-building hug	810881141	candyheart.gif	none	q	0
 8812	exploding kickball	915067079	kickball.gif	none	q	0
-8813	glob of Bat-Glue	812658807	glueglob.gif	none	q	0
+8813	glob of Bat-Glue	812658807	glueglob.gif	none	q	0	globs of Bat-Glue
 8814	Bat-Aid&trade; bandage	949218552	bandaid.gif	none	q	0
 8815	bat-bearing	312763637	bearing.gif	none	q	0
 8816	Kudzu salad	944906074	salad.gif	food	t	0

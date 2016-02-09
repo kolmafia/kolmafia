@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArmoryRequest;
+import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
@@ -46,6 +47,7 @@ import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
+import net.sourceforge.kolmafia.request.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
@@ -60,6 +62,8 @@ import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
@@ -94,6 +98,7 @@ public abstract class CoinmasterRegistry
 		AppleStoreRequest.APPLE_STORE,
 		ArmoryRequest.ARMORY,
 		AWOLQuartermasterRequest.AWOL,
+		BatFabricatorRequest.BAT_FABRICATOR,
 		BigBrotherRequest.BIG_BROTHER,
 		BountyHunterHunterRequest.BHH,
 		BoutiqueRequest.BOUTIQUE,
@@ -101,6 +106,7 @@ public abstract class CoinmasterRegistry
 		BuffJimmyRequest.BUFF_JIMMY,
 		BURTRequest.BURT,
 		CanteenRequest.CANTEEN,
+		ChemiCorpRequest.CHEMICORP,
 		CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP,
 		Crimbo11Request.CRIMBO11,
 		Crimbo14Request.CRIMBO14,
@@ -115,6 +121,8 @@ public abstract class CoinmasterRegistry
 		FreeSnackRequest.FREESNACKS,
 		FudgeWandRequest.FUDGEWAND,
 		GameShoppeRequest.GAMESHOPPE,
+		GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
+		GotporkPDRequest.GOTPORK_PD,
 		HermitRequest.HERMIT,
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
 		LTTRequest.LTT,
