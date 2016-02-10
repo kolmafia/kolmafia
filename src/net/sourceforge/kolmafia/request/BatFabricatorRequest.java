@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
 public class BatFabricatorRequest
@@ -204,8 +205,7 @@ public class BatFabricatorRequest
 		@Override
 		public AdventureResult itemBuyPrice( final int itemId )
 		{
-			// *** cost is 3 by default or 2 with Improved 3-D Bat-Printer
-			int cost = 3;
+			int cost = BatManager.hasUpgrade( BatManager.IMPROVED_3D_BAT_PRINTER ) ? 2 : 3;
 			switch ( itemId )
 			{
 			case ItemPool.BAT_OOMERANG:

@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.TreeSet;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -45,6 +47,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class BatManager
 {
+	private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
+
 	private static final AdventureResult[] ITEMS =
 	{
 		// Raw materials for Bat-Fabricator
@@ -82,9 +86,122 @@ public class BatManager
 		ItemPool.get( ItemPool.GLOB_OF_BAT_GLUE, 1 ),
 	};
 
+	// Bat-Suit Upgrades: whichchoice = 1137
+	private static final BatUpgrade[] BAT_SUIT_UPGRADES =
+	{
+		new BatUpgrade( 1, "Hardened Knuckles", "Doubles the damage of Bat-Punches" ),
+		new BatUpgrade( 2, "Steel-Toed Bat-Boots", "Doubles the damage of Bat-Kicks" ),
+		new BatUpgrade( 3, "Extra-Swishy Cloak", "Lets you strike first in combats" ),
+		new BatUpgrade( 4, "Pec-Guards", "Reduces the damage you take from melee attacks" ),
+		new BatUpgrade( 5, "Kevlar Undergarments", "Reduces the damage you take from gunshots" ),
+		new BatUpgrade( 6, "Improved Cowl Optics", "Lets you find more items and hidden things" ),
+		new BatUpgrade( 7, "Asbestos Lining", "Provides resistance to Hot damage" ),
+		new BatUpgrade( 8, "Utility Belt First Aid Kit", "Contains bandages (in theory)" ),
+	};
+
+	// Bat-Sedan Upgrades: whichchoice = 1138
+	private static final BatUpgrade[] BAT_SEDAN_UPGRADES =
+	{
+		new BatUpgrade( 1, "Rocket Booster", "Reduce travel time by 5 minutes" ),
+		new BatUpgrade( 2, "Glove Compartment First-Aid Kit", "Restore your health on the go!" ),
+		new BatUpgrade( 3, "Street Sweeper", "Gather evidence as you drive around" ),
+		new BatUpgrade( 4, "Advanced Air Filter", "Gather dangerous chemicals as you drive around" ),
+		new BatUpgrade( 5, "Orphan Scoop", "Rescue loose orphans as you drive around" ),
+		new BatUpgrade( 6, "Spotlight", "Helps you find your way through villains' lairs" ),
+		new BatUpgrade( 7, "Bat-Freshener", "Provides resistance to Stench damage" ),
+		new BatUpgrade( 8, "Loose Bearings", "Bearings will periodically fall out of the car." ),
+	};
+
+	// Bat-Cavern Upgrades: whichchoice = 1139
+	private static final BatUpgrade[] BAT_CAVERN_UPGRADES =
+	{
+		new BatUpgrade( 1, "Really Long Winch", "Traveling to the Bat-Cavern is instantaneous" ),
+		new BatUpgrade( 2, "Improved 3-D Bat-Printer", "Reduce materials cost in the Bat-Fabricator" ),
+		new BatUpgrade( 3, "Transfusion Satellite", "Remotely restore some of your HP after fights" ),
+		new BatUpgrade( 4, "Surveillance Network", "Fights take 1 minute less" ),
+		new BatUpgrade( 5, "Blueprints Database", "Make faster progress through villain lairs" ),
+		new BatUpgrade( 7, "Snugglybear Nightlight", "Provides resistance to Spooky damage" ),
+		new BatUpgrade( 8, "Glue Factory", "An automated mail-order glue factory" ),
+	};
+
+	private static BatUpgrade findOption( final BatUpgrade[] upgrades, final int option )
+	{
+		for ( BatUpgrade upgrade : upgrades )
+		{
+			if ( upgrade.option == option )
+			{
+				return upgrade;
+			}
+		}
+		return null;
+	}
+
+	private static BatUpgrade findOption( final BatUpgrade[] upgrades, final String name )
+	{
+		for ( BatUpgrade upgrade : upgrades )
+		{
+			if ( upgrade.name.equals( name ) )
+			{
+				return upgrade;
+			}
+		}
+		return null;
+	}
+
+	private static void addUpgrade( final BatUpgrade newUpgrade )
+	{
+		BatManager.upgrades.add( newUpgrade );
+
+		StringBuilder buffer = new StringBuilder();
+		String separator = "";
+		for ( BatUpgrade upgrade : BatManager.upgrades )
+		{
+			buffer.append( separator );
+			buffer.append( upgrade.name );
+			separator = ";";
+		}
+		Preferences.setString( "batmanUpgrades", buffer.toString() );
+	}
+
+	public static void batSuitUpgrade( final int option, final String text )
+	{
+		BatUpgrade upgrade = BatManager.findOption( BAT_SUIT_UPGRADES, option );
+		if ( upgrade != null )
+		{
+			BatManager.addUpgrade( upgrade );
+		}
+	}
+
+	public static void batSedanUpgrade( final int option, final String text )
+	{
+		BatUpgrade upgrade = BatManager.findOption( BAT_SEDAN_UPGRADES, option );
+		if ( upgrade != null )
+		{
+			BatManager.addUpgrade( upgrade );
+		}
+	}
+
+	public static void batCavernUpgrade( final int option, final String text )
+	{
+		BatUpgrade upgrade = BatManager.findOption( BAT_CAVERN_UPGRADES, option );
+		if ( upgrade != null )
+		{
+			BatManager.addUpgrade( upgrade );
+		}
+	}
+
+	public static final BatUpgrade IMPROVED_3D_BAT_PRINTER = BatManager.findOption( BAT_CAVERN_UPGRADES, "Improved 3-D Bat-Printer" );
+
+	public static boolean hasUpgrade( final BatUpgrade upgrade )
+	{
+		return BatManager.upgrades.contains( upgrade );
+	}
+
 	public static void begin()
 	{
 		// Preferences.resetToDefault( "batFellowStatus" );
+		BatManager.upgrades.clear();
+		Preferences.setString( "batmanUpgrades", "" );
 
 		// Clean up inventory
 		BatManager.resetItems();
@@ -97,6 +214,8 @@ public class BatManager
 
 	public static void end()
 	{
+		BatManager.upgrades.clear();
+		Preferences.setString( "batmanUpgrades", "" );
 		BatManager.resetItems();
 	}
 
@@ -141,5 +260,30 @@ public class BatManager
 		buffer.append( String.valueOf( minutes ) );
 		buffer.append( " m." );
 		return buffer.toString();
+	}
+
+	private static class BatUpgrade
+		implements Comparable<BatUpgrade>
+	{
+		public final int option;
+		public final String name;
+		public final String description;
+
+		public BatUpgrade( final int option, final String name, final String description )
+		{
+			this.option = option;
+			this.name = name;
+			this.description = description;
+		}
+
+		public int compareTo( final BatUpgrade that )
+		{
+			return this.name.compareTo( that.name );
+		}
+
+		public String toString()
+		{
+			return this.name;
+		}
 	}
 }
