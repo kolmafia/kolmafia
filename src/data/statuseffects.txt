@@ -2059,16 +2059,16 @@
 2058	Burns Effect	jawbreaker.gif	e942ea4377b001bfcc363a05bdb25884	use 1 red-hot jawbreaker
 2059	You've Got Questions	nopic.gif	7119605d0484ca49b39b2cdc152a8855	use 1 question juice
 2060	Nyah-ha-ha-haaa	tube.gif	8fc1aa41305ab506067c31ee74c23e08	use 1 tube of villain white
-2061
-2062
+2061	Milk is Blood is Milk	blooddrops.gif	00662ad268709d76800df67f0daec5be
+2062	The Moomy's Curse	scarab.gif	0e125f8b36ad36e4959ad5b5d382289a
 2063	Poker Faced	deuce.gif	cb201992ac7589203e0bc582d844f1a4	use 1 poker face paint
 2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	use 1 demonic cow's blood
-2065
-2066
+2065	Itchy Trigger Finger	gunbone.gif	d8384b7c33340bbd87765cf79f0ed9a5	use 1 triggerfingerbone
+2066	Partially Ghosted	ghostbit.gif	487f468a1e6674254309a9ecf8bd3823	use 1 ghost bit
 2067	Buzzard Breath	skull.gif	b38a499ed169fd92bc330c1c4a8188cc	use 1 buzzard feather
-2068
-2069
-2070
+2068	Lion in Ambush	3claws.gif	f114b2c1531448d2649fd705fb626aa0	use 1 lion musk
+2069	Bear Clawed	3claws.gif	9f76dc8caece84722921e2c835a6cd01	eat 1 bear claw
+2070	Venomous Weapon	blooddrops.gif	b3b8722c7cba18094401780ca69e5463	use 1 rattler gland
 2071	Coal-Powered	evil.gif	ff6973e86961cafe7ca93cbd337d71df	use 1 half-digested coal
 2072	Spidercow Vision	spidereyes.gif	0281add44e0d1e9796120bee2e111ca5	use 1 spidercow eye-cluster
 2073	Bow-Legged Swagger	legs.gif	24099da1e8eb2af203e4b91c4c4a7af3

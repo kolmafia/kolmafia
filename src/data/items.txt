@@ -8852,8 +8852,8 @@
 8826	The Jokester's wig	267613824	jokerwig.gif	hat	t	0
 8827	The Jokester's pants	475776756	tuxpants.gif	pants	t	0
 8828	Jokester makeup	848244938	smallcase.gif	usable	t	0
-8829
-8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19
+8829	replica bat-oomerang	619353451	batarang.gif	none, combat reusable		0
+8830	battoo kit	623721699	battookit.gif	usable	0
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
 8832	tiny domino mask	832460823	robinmask.gif	familiar	t,d	75
 8833	robin's egg	666856428	jarl_egg.gif	usable	t,d	5
@@ -8953,7 +8953,7 @@
 8927	strange disc (blue)	155330801	powerball.gif	none, combat reusable	q	0
 8928	strange disc (yellow)	148455337	powerball.gif	none, combat reusable	q	0
 8929	red-hot knucklebone	361988548	knuckbone.gif	none	t	0
-8930
+8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19
 8931	rinky-dink sixgun	920378151	sixgun1.gif	none, combat reusable	t,d	75
 8932	makeshift sixgun	877959676	sixgun2.gif	none, combat reusable	t,d	120
 8933	custom sixgun	381338216	sixgun3.gif	none, combat reusable	t,d	180
@@ -8977,3 +8977,4 @@
 8951	sicksilver spurs	460186467	sspurs.gif	usable	t,d	500
 8952	nicksilver spurs	535150151	sspurs.gif	usable	t,d	500
 8953	ticksilver spurs	565102329	sspurs.gif	usable	t,d	500
+8954	special edition Batfellow comic	608798216	batfellowbook.gif	usable		0
