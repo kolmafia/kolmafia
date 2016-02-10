@@ -730,6 +730,7 @@
 7265	Fire the Jokester's Gun	sixshooter.gif	5	0	0
 7266	Adjust the Jokester's Wig	jokerwig.gif	5	0	0
 7267	Adjust the Jokester's Pants	tuxpants.gif	5	0	0
+7268	Cowboy Kick	cowboyboots.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
