@@ -7380,6 +7380,39 @@ public class FightRequest
 		case SkillPool.GIANT_GROWTH:
 			ResultProcessor.removeItem( ItemPool.GREEN_MANA );
 			break;
+
+
+		case SkillPool.BAT_OOMERANG:
+			ResultProcessor.removeItem( ItemPool.BAT_OOMERANG );
+			break;
+
+		case SkillPool.BAT_JUTE:
+			ResultProcessor.removeItem( ItemPool.BAT_JUTE );
+			break;
+
+		case SkillPool.BAT_O_MITE:
+			ResultProcessor.removeItem( ItemPool.BAT_O_MITE );
+			break;
+
+		case SkillPool.ULTRACOAGULATOR:
+			ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
+			break;
+
+		case SkillPool.KICKBALL:
+			ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
+			break;
+
+		case SkillPool.BAT_GLUE:
+			ResultProcessor.removeItem( ItemPool.GLOB_OF_BAT_GLUE );
+			break;
+
+		case SkillPool.BAT_BEARING:
+			ResultProcessor.removeItem( ItemPool.BAT_BEARING );
+			break;
+
+		case SkillPool.USE_BAT_AID:
+			ResultProcessor.removeItem( ItemPool.BAT_AID_BANDAGE );
+			break;
 		}
 	}
 

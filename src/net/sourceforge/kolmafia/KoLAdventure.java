@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
-import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -68,6 +67,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -2460,7 +2460,7 @@ public class KoLAdventure
 		}
 		else if ( limitmode == Limitmode.BATMAN )
 		{
-			message = "{" + BatFellowRequest.getTimeLeftString() + "} " + location;
+			message = "{" + BatManager.getTimeLeftString() + "} " + location;
 		}
 		else
 		{
