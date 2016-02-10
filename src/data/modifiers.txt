@@ -5220,6 +5220,7 @@ Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Milk Studly	Muscle: +15
+Effect	Milk is Blood is Milk	Muscle: [-5T], Mysticality: [-5T], Moxie: [-5T], Muscle Percent: [-50T], Mysticality Percent: [-50T], Moxie Percent: [-50T]
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Effect	Minty Freshness	Moxie Percent: +10
@@ -5915,6 +5916,7 @@ Effect	The Inquisitor's Unknown Effect	Familiar Weight: +10, Damage Reduction: 2
 Effect	The Kobold and the Kobeautiful	Avatar: "large kobold"
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
 Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
+Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
 Effect	The Moxious Madrigal	Moxie: +10
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
