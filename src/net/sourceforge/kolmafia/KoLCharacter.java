@@ -76,7 +76,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -99,6 +98,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
@@ -1545,7 +1545,7 @@ public abstract class KoLCharacter
 		else if ( limitmode == Limitmode.BATMAN )
 		{
 			KoLCharacter.limitmode = Limitmode.BATMAN;
-			BatFellowRequest.begin();
+			BatManager.begin();
 		}
 		else
 		{

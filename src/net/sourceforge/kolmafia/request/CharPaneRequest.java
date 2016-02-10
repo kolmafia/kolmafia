@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -186,7 +187,7 @@ public class CharPaneRequest
 		if ( responseText.contains( "You're Batfellow" ) )
 		{
 			KoLCharacter.setLimitmode( Limitmode.BATMAN );
-			BatFellowRequest.parseCharpane( responseText );
+			BatManager.parseCharpane( responseText );
 			return true;
 		}
 

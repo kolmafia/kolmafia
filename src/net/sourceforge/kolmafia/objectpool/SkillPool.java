@@ -236,6 +236,16 @@ public class SkillPool
 	public static final int THROW_ROCK = 7239;
 	public static final int THROW_POT = 7242;
 	public static final int THROW_TORCH = 7244;
+	public static final int BAT_PUNCH = 7255;
+	public static final int BAT_KICK = 7256;
+	public static final int BAT_OOMERANG = 7257;
+	public static final int BAT_JUTE = 7258;
+	public static final int BAT_O_MITE = 7259;
+	public static final int ULTRACOAGULATOR = 7260;
+	public static final int KICKBALL = 7261;
+	public static final int BAT_GLUE = 7262;
+	public static final int BAT_BEARING = 7263;
+	public static final int USE_BAT_AID = 7264;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

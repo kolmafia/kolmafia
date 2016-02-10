@@ -86,7 +86,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.BatFellowRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -117,6 +116,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ActionBarManager;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -994,7 +994,7 @@ public abstract class KoLmafia
 		SpelunkyRequest.reset();
 
 		// Clear Batfellow preferences & items
-		BatFellowRequest.end();
+		BatManager.end();
 
 		// Set this first to prevent duplicate skill refreshing
 		KoLCharacter.setRestricted( false );
