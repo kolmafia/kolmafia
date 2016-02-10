@@ -137,6 +137,7 @@ public class QuestDatabase
 			WORK_WITH_FOOD( "questEStWorkWithFood" ),
 			ZIPPITY_DOO_DAH( "questEStZippityDooDah" ),
 			BUCKET( "questECoBucket" ),
+			TELEGRAM( "questLTTQuestByWire" ),
 			;
 
 		private final String pref;

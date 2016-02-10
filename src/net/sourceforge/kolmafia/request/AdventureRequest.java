@@ -730,8 +730,6 @@ public class AdventureRequest
 				image.startsWith( "madiator" ) ? "Madiator" :
 				image.startsWith( "radiator" ) ? "Radiator" :
 				image.startsWith( "sadiator" ) ? "Sadiator" :
-				// The Spooky Old Abandoned Mine
-				image.startsWith( "outlawboss" ) ? "outlaw leader" :
 				// Spelunky
 				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
 				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
@@ -773,6 +771,11 @@ public class AdventureRequest
 				}
 				break;
 			}
+
+			// LT&T monsters can have different names
+			override = encounter.equals( "professional gunman" ) || encounter.contains( "trained mercenary" ) ? "hired gun" :
+				encounter.equals( "vengeful ghost" ) || encounter.contains( "shrieking ghost" ) ? "restless ghost" :
+				null;
 		}
 
 		if ( override != null )

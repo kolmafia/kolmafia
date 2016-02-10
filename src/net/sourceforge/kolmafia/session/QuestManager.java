@@ -1811,6 +1811,42 @@ public class QuestManager
 				}
 			}
 		}
+		else if ( monsterName.equals( "drunk cowpoke" ) ||
+				monsterName.equals( "surly gambler" ) ||
+				monsterName.equals( "wannabe gunslinger" ) ||
+				monsterName.equals( "cow cultist" ) ||
+				monsterName.equals( "hired gun" ) ||
+				monsterName.equals( "camp cook" ) ||
+				monsterName.equals( "skeletal gunslinger" ) ||
+				monsterName.equals( "restless ghost" ) ||
+				monsterName.equals( "buzzard" ) ||
+				monsterName.equals( "mountain lion" ) ||
+				monsterName.equals( "grizzled bear" ) ||
+				monsterName.equals( "diamondback rattler" ) ||
+				monsterName.equals( "coal snake" ) ||
+				monsterName.equals( "frontwinder" ) ||
+				monsterName.equals( "caugr" ) ||
+				monsterName.equals( "pyrobove" ) ||
+				monsterName.equals( "spidercow" ) ||
+				monsterName.equals( "moomy" ) )
+		{
+			Preferences.increment( "lttQuestStageCount", 1 );
+		}
+		else if ( monsterName.equals( "Jeff the Fancy Skeleton" ) ||
+				monsterName.equals( "Daisy the Unclean" ) ||
+				monsterName.equals( "Pecos Dave" ) ||
+				monsterName.equals( "Pharaoh Amoon-Ra Cowtep" ) ||
+				monsterName.equals( "Snake-Eyes Glenn" ) ||
+				monsterName.equals( "Former Sheriff Dan Driscoll" ) ||
+				monsterName.equals( "unusual construct" ) ||
+				monsterName.equals( "Clara" ) ||
+				monsterName.equals( "Granny Hackleton" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.TELEGRAM, QuestDatabase.UNSTARTED );
+			Preferences.setInteger( "lttQuestDifficulty", 0 );
+			Preferences.setInteger( "lttQuestStageCount", 0 );
+			Preferences.setString( "lttQuestName", "" );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
