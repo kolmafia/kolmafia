@@ -1117,6 +1117,10 @@ public class UseItemRequest
 		case ItemPool.CLARA_BELL:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_claraBellUsed" ) ? 0 : 1;
+
+		case ItemPool.GLENN_DICE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_glennGoldenDiceUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -3502,7 +3506,7 @@ public class UseItemRequest
 		case ItemPool.D20:
 
 			// You already rolled for initiative.
-			if ( responseText.indexOf( "You already rolled for initiative" ) != -1 )
+			if ( responseText.contains( "You already rolled for initiative" ) )
 			{
 				UseItemRequest.lastUpdate = "You already rolled for initiative";
 			}
@@ -5312,6 +5316,10 @@ public class UseItemRequest
 
 		case ItemPool.CLARA_BELL:
 			Preferences.setBoolean( "_claraBellUsed", true );
+			return;
+
+		case ItemPool.GLENN_DICE:
+			Preferences.setBoolean( "_glennGoldenDiceUsed", true );
 			return;
 
 		case ItemPool.SNOWMAN_CRATE:

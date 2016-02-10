@@ -2540,6 +2540,7 @@ public class ItemPool
 	public static final int BAT_BEARING = 8815;
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;
 	public static final int PLAINTIVE_TELEGRAM = 8837;
+	public static final int GLENN_DICE = 8890;
 	public static final int CLARA_BELL = 8893;
 	public static final int BUFFALO_DIME = 8895;
 	public static final int STRANGE_DISC_WHITE = 8923;
