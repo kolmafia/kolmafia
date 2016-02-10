@@ -9055,6 +9055,21 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1137:
+			// Bat-Suit Upgrades
+			BatManager.batSuitUpgrade( ChoiceManager.lastDecision, text );
+			break;
+
+		case 1138:
+			// Bat-Sedan Upgrades
+			BatManager.batSedanUpgrade( ChoiceManager.lastDecision, text );
+			break;
+
+		case 1139:
+			// Bat-Cavern Upgrades
+			BatManager.batCavernUpgrade( ChoiceManager.lastDecision, text );
+			break;
+
 		case 1168:
 			// Batfellow Ends
 			// (from running out of time)
