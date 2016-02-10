@@ -675,6 +675,9 @@ user	louvreGoal	0
 user	louvreOverride
 user	lovebugsUnlocked	false
 user	lowerChamberUnlock	false
+user	lttQuestDifficulty	0
+user	lttQuestName	
+user	lttQuestStageCount	0
 user	makeFriendsMonster	
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
@@ -861,6 +864,7 @@ user	questL11Worship	unstarted
 user	questL12War	unstarted
 user	questL13Final	unstarted
 user	questL13Warehouse	unstarted
+user	questLTTQuestByWire	unstarted
 user	questM01Untinker	unstarted
 user	questM02Artist	unstarted
 user	questM03Bugbear	unstarted
@@ -1977,6 +1981,11 @@ user	choiceAdventure1120	0
 user	choiceAdventure1121	0
 user	choiceAdventure1122	0
 user	choiceAdventure1123	0
+user	choiceAdventure1171	0
+user	choiceAdventure1172	1
+user	choiceAdventure1173	1
+user	choiceAdventure1174	1
+user	choiceAdventure1175	1
 
 user	lockedItem4637	true
 user	lockedItem4638	true
