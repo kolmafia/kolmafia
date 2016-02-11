@@ -353,7 +353,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CHATEAU && !Limitmode.limitZone( "Mountain" ) )
+			if ( this == MPRestoreItemList.CHATEAU && ChateauRequest.chateauRestUsable() )
 			{
 				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 				return;
@@ -369,8 +369,7 @@ public abstract class MPRestoreItemList
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
-					if ( Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) &&
-						!Limitmode.limitZone( "Mountain" ) )
+					if ( ChateauRequest.chateauRestUsable() )
 					{
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 						return;

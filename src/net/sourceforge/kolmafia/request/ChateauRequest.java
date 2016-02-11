@@ -41,9 +41,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.EncounterManager;
+
+import net.sourceforge.kolmafia.session.Limitmode;
 
 public class ChateauRequest
 	extends PlaceRequest
@@ -311,5 +314,13 @@ public class ChateauRequest
 		RequestLogger.updateSessionLog( message );
 
 		return true;
+	}
+
+	public static boolean chateauRestUsable()
+	{	return Preferences.getBoolean( "restUsingChateau" ) &&
+		       Preferences.getBoolean( "chateauAvailable" ) &&
+		       StandardRequest.isAllowed( "Items", "Chateau Mantegna room key" ) &&
+		       !Limitmode.limitZone( "Mountain" ) &&
+		       !KoLCharacter.inBadMoon();
 	}
 }
