@@ -1536,21 +1536,13 @@ public abstract class KoLCharacter
 
 	public static final void enterLimitmode( final String limitmode )
 	{
-		// Entering Spelunky
-		if ( limitmode == Limitmode.SPELUNKY )
-		{
-			KoLCharacter.limitmode = Limitmode.SPELUNKY;
-			SpelunkyRequest.reset();
-		}
-		else if ( limitmode == Limitmode.BATMAN )
-		{
-			KoLCharacter.limitmode = Limitmode.BATMAN;
-			BatManager.begin();
-		}
-		else
+		// Entering Spelunky or Batman
+		if ( limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN )
 		{
 			return;
 		}
+
+		KoLCharacter.limitmode = limitmode;
 
 		KoLCharacter.resetSkills();
 		EquipmentManager.removeAllEquipment();
@@ -1576,6 +1568,15 @@ public abstract class KoLCharacter
 		InventoryManager.refresh();
 		EquipmentManager.resetCustomOutfits();
 		SkillBuffFrame.update();
+
+		if ( limitmode == Limitmode.SPELUNKY )
+		{
+			SpelunkyRequest.reset();
+		}
+		else if ( limitmode == Limitmode.BATMAN )
+		{
+			BatManager.begin();
+		}
 	}
 
 	/**
