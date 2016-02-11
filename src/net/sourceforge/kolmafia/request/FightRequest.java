@@ -101,6 +101,7 @@ import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
@@ -3305,7 +3306,8 @@ public class FightRequest
 				}
 			}
 
-			if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+			String limitmode = KoLCharacter.getLimitmode();
+			if ( limitmode == Limitmode.SPELUNKY )
 			{
 				// Check for unlocks
 				if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
@@ -3335,6 +3337,10 @@ public class FightRequest
 				{
 					SpelunkyRequest.incrementWinCount();
 				}
+			}
+			else if ( limitmode == Limitmode.BATMAN )
+			{
+				BatManager.wonFight( monsterName, responseText );
 			}
 
 			// You see a strange cartouche painted on a nearby wall.
