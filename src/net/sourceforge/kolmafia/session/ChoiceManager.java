@@ -9046,15 +9046,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1134:
-			// Batfellow Ends
-			// (choosing to exit)
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				KoLCharacter.setLimitmode( null );
-			}
-			break;
-
 		case 1137:
 			// Bat-Suit Upgrades
 			BatManager.batSuitUpgrade( ChoiceManager.lastDecision, text );
@@ -9069,13 +9060,6 @@ public abstract class ChoiceManager
 			// Bat-Cavern Upgrades
 			BatManager.batCavernUpgrade( ChoiceManager.lastDecision, text );
 			break;
-
-		case 1168:
-			// Batfellow Ends
-			// (from running out of time)
-			KoLCharacter.setLimitmode( null );
-			break;
-
 		}
 
 		// Certain choices cost meat or items when selected
@@ -10324,6 +10308,21 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "_iceHotelRoomsRaided", true );
 			}
+			break;
+
+		case 1134:
+			// Batfellow Ends
+			// (choosing to exit)
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				KoLCharacter.setLimitmode( null );
+			}
+			break;
+
+		case 1168:
+			// Batfellow Ends
+			// (from running out of time)
+			KoLCharacter.setLimitmode( null );
 			break;
 
 		case 1171: // LT&T Office
