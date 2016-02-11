@@ -62,9 +62,7 @@ public class CampgroundCommand
 		String command = parameterList[ 0 ];
 		GenericRequest request = null;
 
-		if ( command.equals( "rest" ) &&
-		     Preferences.getBoolean( "restUsingChateau" ) &&
-		     Preferences.getBoolean( "chateauAvailable" ) )
+		if ( command.equals( "rest" ) && ChateauRequest.chateauRestUsable() )
 		{
 			request = new ChateauRequest( "chateau_restbox" );
 		}

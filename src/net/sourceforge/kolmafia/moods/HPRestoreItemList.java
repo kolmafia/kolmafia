@@ -346,7 +346,7 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			if ( this == HPRestoreItemList.CHATEAU )
+			if ( this == HPRestoreItemList.CHATEAU && ChateauRequest.chateauRestUsable() )
 			{
 				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 				return;
@@ -362,8 +362,7 @@ public abstract class HPRestoreItemList
 			{
 				if ( Preferences.getInteger( "timesRested" ) < KoLCharacter.freeRestsAvailable() )
 				{
-					if ( Preferences.getBoolean( "restUsingChateau" ) && Preferences.getBoolean( "chateauAvailable" ) &&
-						!Limitmode.limitZone( "Mountain" ) )
+					if ( ChateauRequest.chateauRestUsable() )
 					{
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 						return;
