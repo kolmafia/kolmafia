@@ -2949,6 +2949,12 @@ public class ResultProcessor
 				Preferences.setInteger( "snojoMoxieWins", 49 );
 			}
 			break;
+
+		case ItemPool.EXPERIMENTAL_GENE_THERAPY:
+		case ItemPool.SELF_DEFENSE_TRAINING:
+		case ItemPool.CONFIDENCE_BUILDING_HUG:
+			BatManager.gainItem( result );
+			break;
 		}
 
 		// Gaining items can achieve goals.
