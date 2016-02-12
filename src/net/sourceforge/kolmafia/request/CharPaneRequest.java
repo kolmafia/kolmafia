@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PastaThrallData;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -241,6 +240,14 @@ public class CharPaneRequest
 		// Since we believe this update, synchronize with it
 		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 
+		CharPaneRequest.setLastAdventure( responseText );
+		CharPaneRequest.refreshEffects( responseText );
+		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
+
+		// Refresh effects and modifiers before updating stats, since new effects
+		// can mean that we should not check for incorrect substat values
+		KoLCharacter.recalculateAdjustments();
+
 		// The easiest way to retrieve the character pane data is to
 		// use regular expressions. But, the only data that requires
 		// synchronization is the modified stat values, health and
@@ -255,11 +262,6 @@ public class CharPaneRequest
 			CharPaneRequest.handleExpandedMode( responseText );
 		}
 
-		CharPaneRequest.setLastAdventure( responseText );
-		CharPaneRequest.refreshEffects( responseText );
-		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
-
-		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 
 		CharPaneRequest.checkVYKEACompanion( responseText );
