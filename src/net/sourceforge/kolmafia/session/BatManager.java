@@ -60,6 +60,7 @@ public class BatManager
 	public static final int BASE_BAT_SPOOKY_RESISTANCE = 0;
 	public static final int BASE_BAT_HEAT_RESISTANCE = 0;
 	public static final int BASE_BAT_STENCH_RESISTANCE = 0;
+	public static final int BASE_BAT_INVESTIGATION_PROGRESS = 3;
 
 	private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
 	private static final BatStats stats = new BatStats();
@@ -231,6 +232,10 @@ public class BatManager
 			{
 				BatManager.stats.increment( "Bat-Spooky Resistance", 10 );
 			}
+			else if ( text.equals( "Blueprints Database" ) )
+			{
+				BatManager.stats.increment( "Bat-Investigation Progress", 1 );
+			}
 		}
 	}
 
@@ -350,53 +355,57 @@ public class BatManager
 
 	public static void wonFight( final String monsterName, final String responseText )
 	{
-		if ( monsterName.equals( "giant mosquito" ) )
-		{
-			if ( responseText.contains( "(+3 Maximum Bat-Health)" ) )
-			{
-				BatManager.stats.increment( "Maximum Bat-Health", 3 );
-			}
-			return;
-		}
+		// Low Crime zones
 		if ( monsterName.equals( "vicious plant creature" ) )
 		{
 			if ( responseText.contains( "(+1 Bat-Health regeneration per fight)" ) )
 			{
 				BatManager.stats.increment( "Bat-Health Regeneration", 1 );
 			}
-			return;
 		}
-		if ( monsterName.equals( "walking skeleton" ) )
+		else if ( monsterName.equals( "giant mosquito" ) )
+		{
+			if ( responseText.contains( "(+3 Maximum Bat-Health)" ) )
+			{
+				BatManager.stats.increment( "Maximum Bat-Health", 3 );
+			}
+		}
+		else if ( monsterName.equals( "walking skeleton" ) )
 		{
 			if ( responseText.contains( "(+1 Bat-Armor)" ) )
 			{
 				BatManager.stats.increment( "Bat-Armor", 1 );
 			}
-			return;
 		}
-		if ( monsterName.equals( "former guard" ) )
+		// Medium Crime zones
+		else if ( monsterName.equals( "former guard" ) )
 		{
 			if ( responseText.contains( "(+1 Bat-Bulletproofing)" ) )
 			{
 				BatManager.stats.increment( "Bat-Bulletproofing", 1 );
 			}
-			return;
 		}
-		if ( monsterName.equals( "plumber's helper" ) )
+		else if ( monsterName.equals( "plumber's helper" ) )
 		{
 			if ( responseText.contains( "(+10% Bat-Stench Resistance)" ) )
 			{
 				BatManager.stats.increment( "Bat-Stench Resistance", 10 );
 			}
-			return;
 		}
-		if ( monsterName.equals( "very [adjective] henchman" ) )
+		else if ( monsterName.equals( "very [adjective] henchman" ) )
 		{
 			if ( responseText.contains( "(+10% Bat-Spooky Resistance)" ) )
 			{
 				BatManager.stats.increment( "Bat-Spooky Resistance", 10 );
 			}
-			return;
+		}
+		// High Crime zones
+		if ( monsterName.equals( "time bandit" ) )
+		{
+			if ( responseText.contains( "(+10 Bat-Minutes)" ) )
+			{
+				BatManager.BatMinutes += 10;
+			}
 		}
 		if ( monsterName.equals( "burner" ) )
 		{
@@ -404,11 +413,16 @@ public class BatManager
 			{
 				BatManager.stats.increment( "Bat-Heat Resistance", 10 );
 			}
-			return;
+		}
+		if ( monsterName.equals( "inquisitee" ) )
+		{
+			if ( responseText.contains( "(+1% Investigation Progress per fight)" ) )
+			{
+				BatManager.stats.increment( "Bat-Investigation Progress", 1 );
+			}
 		}
 
-		// (+3% Bat-Progress)
-		// (+10 Bat-Minutes)
+		// (+3% Bat-Progress) or (+4% Bat-Progress)
 	}
 
 	public static int getTimeLeft()
@@ -456,14 +470,17 @@ public class BatManager
 		// Bat-Bulletproofing
 		public int BatBulletproofing = BASE_BAT_BULLETPROOFING;
 
-		// Bat-Spooky resistance
+		// Bat-Spooky Resistance
 		public int BatSpookyResistance = BASE_BAT_SPOOKY_RESISTANCE;
 
-		// Bat-Heat resistance
+		// Bat-Heat Resistance
 		public int BatHeatResistance = BASE_BAT_HEAT_RESISTANCE;
 
-		// Bat-Stench resistance
+		// Bat-Stench Resistance
 		public int BatStenchResistance = BASE_BAT_STENCH_RESISTANCE;
+
+		// Bat-Investigation Progress
+		public int BatInvestigationProgress = BASE_BAT_INVESTIGATION_PROGRESS;
 
 		public String stringform = "";
 
@@ -488,6 +505,7 @@ public class BatManager
 			this.BatSpookyResistance = BASE_BAT_SPOOKY_RESISTANCE;
 			this.BatHeatResistance = BASE_BAT_HEAT_RESISTANCE;
 			this.BatStenchResistance = BASE_BAT_STENCH_RESISTANCE;
+			this.BatInvestigationProgress = BASE_BAT_INVESTIGATION_PROGRESS;
 			this.calculateStringform( active );
 		}
 
@@ -548,6 +566,10 @@ public class BatManager
 			if ( name.equals( "Bat-Stench Resistance" ) )
 			{
 				return this.BatStenchResistance;
+			}
+			if ( name.equals( "Bat-Investigation Progress" ) )
+			{
+				return this.BatInvestigationProgress;
 			}
 			return 0;
 		}
@@ -611,6 +633,10 @@ public class BatManager
 			{
 				retval = this.BatStenchResistance = value;
 			}
+			else if ( name.equals( "Bat-Investigation Progress" ) )
+			{
+				retval = this.BatInvestigationProgress = value;
+			}
 			this.calculateStringform( true );
 			return retval;
 		}
@@ -649,6 +675,7 @@ public class BatManager
 			this.appendStat( buffer, "Bat-Spooky Resistance", this.BatSpookyResistance );
 			this.appendStat( buffer, "Bat-Heat Resistance", this.BatHeatResistance );
 			this.appendStat( buffer, "Bat-Stench Resistance", this.BatStenchResistance );
+			this.appendStat( buffer, "Bat-Investigation Progress", this.BatInvestigationProgress );
 
 			this.stringform = buffer.toString();
 
