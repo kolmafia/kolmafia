@@ -2343,6 +2343,7 @@ purple glowstick	20	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 pygmy nose-bone	155	Mys: 62
+quicksilver ring	100	Mys: 10
 Quiets-Your-Steps	300	Mox: 100
 Radio KoL Antenna Ball	0	none
 Radio KoL Bottle Opener	0	none
@@ -2424,6 +2425,7 @@ sk8board	70	Mys: 20
 skeletal scabbard	100	none
 skeleton skis	100	none
 Sketcherz&trade;	150	Mys: 60
+slicksilver ring	100	Mys: 10
 slime convention pin	10	none
 slime-covered necklace	200	Mys: 200
 Slow Talkin' Elliot's dogtags	200	Mys: 45

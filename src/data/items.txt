@@ -8882,10 +8882,10 @@
 8856	nugget of sicksilver	877698101	crimnugget.gif	none	t,d	150
 8857	nugget of nicksilver	996995139	crimnugget.gif	none	t,d	150
 8858	nugget of ticksilver	843632518	crimnugget.gif	none	t,d	150
-8859
+8859	quicksilver ring	535136555	weddingring.gif	accessory		0
 8860	thicksilver ring	396899905	weddingring.gif	accessory		0
 8861	wicksilver ring	164059347	weddingring.gif	accessory		0
-8862
+8862	slicksilver ring	417664517	weddingring.gif	accessory		0
 8863	sicksilver ring	967563357	weddingring.gif	accessory		0
 8864	nicksilver ring	674028369	weddingring.gif	accessory		0
 8865	ticksilver ring	485357896	weddingring.gif	accessory		0

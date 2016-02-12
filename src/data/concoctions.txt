@@ -1664,7 +1664,9 @@ rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 # Silver Jewellery
 
 nicksilver ring	COMBINE	red-hot knucklebone	nugget of nicksilver
+quicksilver ring	COMBINE	red-hot knucklebone	nugget of quicksilver
 sicksilver ring	COMBINE	red-hot knucklebone	nugget of sicksilver
+slicksilver ring	COMBINE	red-hot knucklebone	nugget of slicksilver
 thicksilver ring	COMBINE	red-hot knucklebone	nugget of thicksilver
 ticksilver ring	COMBINE	red-hot knucklebone	nugget of ticksilver
 wicksilver ring	COMBINE	red-hot knucklebone	nugget of wicksilver

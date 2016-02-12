@@ -1666,7 +1666,7 @@ Snake-Eyes Glenn	1921	snakeglenn.gif	HP: 1000 Init: 10000 P: dude	Glenn's golden
 Former Sheriff Dan Driscoll	1922	sheriffdan.gif	HP: 800 Init: -10000 P: dude	Former Sheriff Dan's tin star (n100)
 
 unusual construct	1923	vib6.gif	HP: 5000 Init: 10000 P: construct	El Vibrato restraints (n100)
-Clara	1924	clara.gif	HP: 3000 Init: 300 P: demon	Clara's bell (n100)
+Clara	1924	clara.gif	HP: 5000 Init: 300 P: demon	Clara's bell (n100)
 Granny Hackleton	1925	grannyhack.gif	HP: 3000 Init: -10000 P: dude	Granny Hackleton's Gatling gun (n100)
 
 # Batfellow Area (Batfellow comic IOTY 2016)
