@@ -8978,3 +8978,24 @@
 8952	nicksilver spurs	535150151	sspurs.gif	usable	t,d	500
 8953	ticksilver spurs	565102329	sspurs.gif	usable	t,d	500
 8954	special edition Batfellow comic	608798216	batfellowbook.gif	usable		0
+8955
+8956
+8957
+8958
+8959
+8960
+8961
+8962
+8963
+8964
+8965
+8966
+8967
+8968
+8969
+8970
+8971
+8972
+8973
+8974
+8975	exclusive club	812957838	exclusiveclub.gif	weapon	t	0
