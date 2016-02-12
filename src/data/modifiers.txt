@@ -2749,6 +2749,7 @@ Item	purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
 Item	pygmy nose-bone	Moxie: +7, Single Equip
+Item	quicksilver ring	Initiative: +40, Single Equip
 Item	Quiets-Your-Steps	Combat Rate: -5, Pickpocket Chance: +50, Initiative: -50, Single Equip
 Item	Radio KoL Antenna Ball	Experience: +1
 Item	Radio KoL Bottle Opener	Meat Drop: +15
@@ -2838,6 +2839,7 @@ Item	sk8board	Initiative: +15
 Item	skeletal scabbard	Single Equip
 Item	skeleton skis	Initiative: +25, Cold Damage: +5, Spooky Damage: +5, Single Equip
 Item	Sketcherz&trade;	Sleaze Damage: +20, Sleaze Spell Damage: +25, Spell Damage Percent: +30
+Item	slicksilver ring	Sleaze Damage: +20, Sleaze Spell Damage: +40, Moxie: +10, Single Equip
 Item	slime convention pin	Moxie: -1
 # slime-covered necklace: +50 Damage against Slimes
 Item	slime-covered necklace	Muscle: +6, Mysticality: +6, Moxie: +6, Maximum HP: +200, Weapon Damage: [50*zone(The Slime Tube)]
@@ -6524,7 +6526,7 @@ StatDay	Mysticality Day	Experience Percent (Mysticality): +25
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
-	
+
 Zone	Zone:The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
 # Location-specific section of modifiers.txt
