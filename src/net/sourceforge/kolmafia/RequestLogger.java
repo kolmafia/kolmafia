@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
+import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BeerGardenRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
@@ -65,6 +66,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CanteenRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
+import net.sourceforge.kolmafia.request.ChemiCorpRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
@@ -105,6 +107,8 @@ import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GrandmaRequest;
 import net.sourceforge.kolmafia.request.GrandpaRequest;
@@ -883,6 +887,12 @@ public class RequestLogger
 			return;
 		}
 
+		if ( ( request instanceof BatFabricatorRequest || isExternal ) && BatFabricatorRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( ( request instanceof BeerGardenRequest || isExternal ) && BeerGardenRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
@@ -944,6 +954,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ChateauRequest || isExternal ) && ChateauRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ChemiCorpRequest || isExternal ) && ChemiCorpRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
@@ -1142,6 +1158,18 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof GourdRequest || isExternal ) && GourdRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof GotporkOrphanageRequest || isExternal ) && GotporkOrphanageRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof GotporkPDRequest || isExternal ) && GotporkPDRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

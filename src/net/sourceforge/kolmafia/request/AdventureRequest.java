@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
@@ -819,6 +820,9 @@ public class AdventureRequest
 		case 1003:	// Test Your Might And Also Test Other Things
 		case 1086:	// Pick a Card
 			return null;
+
+		case 1135:	// The Bat-Sedan
+			return BatManager.parseBatSedan( responseText );
 		}
 
 		// No "encounter" for certain arcade games

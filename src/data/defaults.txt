@@ -269,8 +269,11 @@ user	barrelLayout	?????????
 user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
 user	basementMallPrices	1
+user	batmanFundsAvailable	0
+user	batmanBonusInitialFunds	0
 user	batmanStats
 user	batmanTimeLeft	0
+user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
 user	bearSwagger	0
