@@ -771,7 +771,10 @@ public class AdventureRequest
 				}
 				break;
 			}
+		}
 
+		if ( override == null )
+		{
 			// LT&T monsters can have different names
 			override = encounter.equals( "professional gunman" ) || encounter.contains( "trained mercenary" ) ? "hired gun" :
 				encounter.equals( "vengeful ghost" ) || encounter.contains( "shrieking ghost" ) ? "restless ghost" :
