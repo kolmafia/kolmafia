@@ -854,6 +854,10 @@ public class AreaCombatData
 		{
 			return 100;
 		}
+		if ( this.zone.equals( "Investigating a Plaintive Telegram" ) )
+		{
+			return Preferences.getInteger( "lttQuestStageCount" ) == 9 || QuestDatabase.isQuestStep( Quest.TELEGRAM, QuestDatabase.STARTED ) ? 0 : 100;
+		}
 
 		// If we don't have the data, pretend it's all combat
 		if ( this.combats < 0 )
@@ -1632,6 +1636,170 @@ public class AreaCombatData
 			else
 			{
 				return mallTurns == 11 ? -4 : 1;
+			}
+		}
+		else if ( zone.equals( "Investigating a Plaintive Telegram" ) )
+		{
+			String quest = Preferences.getString( "lttQuestName" );
+			String questStep = Preferences.getString( "questLTTQuestByWire" );
+			if ( monster.equals( "drunk cowpoke" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "surly gambler" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "wannabe gunslinger" ) )
+			{
+				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step3" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "cow cultist" ) )
+			{
+				return ( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "hired gun" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step3" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "camp cook" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step3" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "skeletal gunslinger" ) )
+			{
+				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step2" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "restless ghost" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step2" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "buzzard" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "mountain lion" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "grizzled bear" ) )
+			{
+				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "diamondback rattler" ) )
+			{
+				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "coal snake" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "frontwinder" ) )
+			{
+				return ( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step2" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "caugr" ) )
+			{
+				return ( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step3" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "pyrobove" ) )
+			{
+				return ( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step2" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "spidercow" ) )
+			{
+				return ( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step1" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "moomy" ) )
+			{
+				return ( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step3" ) ) ||
+					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Missing: Many Children" ) && questStep.equals( "step3" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Jeff the Fancy Skeleton" ) )
+			{
+				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Daisy the Unclean" ) )
+			{
+				return ( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Pecos Dave" ) )
+			{
+				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Pharaoh Amoon-Ra Cowtep" ) )
+			{
+				return ( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Snake-Eyes Glenn" ) )
+			{
+				return ( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Former Sheriff Dan Driscoll" ) )
+			{
+				return ( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "unusual construct" ) )
+			{
+				return ( quest.equals( "Madness at the Mine" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Clara" ) )
+			{
+				return ( quest.equals( "Missing: Many Children" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+			}
+			else if ( monster.equals( "Granny Hackleton" ) )
+			{
+				return ( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step4" ) ) ? 1 : 0;
 			}
 		}
 		return weighting;
