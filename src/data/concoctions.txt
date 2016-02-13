@@ -1661,7 +1661,7 @@ rainbow pearl earring	EJEWEL	rainbow pearl	precious piercing post
 rainbow pearl necklace	EJEWEL	rainbow pearl	heavy necklace chain
 rainbow pearl ring	EJEWEL	rainbow pearl	extra-fancy ring setting
 
-# Silver Jewellery
+# Silver Items
 
 nicksilver ring	COMBINE	red-hot knucklebone	nugget of nicksilver
 quicksilver ring	COMBINE	red-hot knucklebone	nugget of quicksilver
@@ -1670,6 +1670,14 @@ slicksilver ring	COMBINE	red-hot knucklebone	nugget of slicksilver
 thicksilver ring	COMBINE	red-hot knucklebone	nugget of thicksilver
 ticksilver ring	COMBINE	red-hot knucklebone	nugget of ticksilver
 wicksilver ring	COMBINE	red-hot knucklebone	nugget of wicksilver
+
+nicksilver spurs	SMITH	jangly spurs	nugget of nicksilver
+quickssilver spurs	SMITH	jangly spurs	nugget of quickssilver
+sicksilver spurs	SMITH	jangly spurs	nugget of sicksilver
+slicksilver spurs	SMITH	jangly spurs	nugget of slicksilver
+thicksilver spurs	SMITH	jangly spurs	nugget of thicksilver
+ticksilver spurs	SMITH	jangly spurs	nugget of ticksilver
+wicksilver spurs	SMITH	jangly spurs	nugget of wicksilver
 
 # Chef staves made by Rodoric
 
