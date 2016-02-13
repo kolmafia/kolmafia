@@ -276,7 +276,7 @@ public class PlaceRequest
 
 		if ( place.startsWith( "batman" ) )
 		{
-			return BatFellowRequest.registerRequest( urlString );
+			return BatFellowRequest.registerRequest( place, urlString );
 		}
 
 		String action = GenericRequest.getAction( urlString );

@@ -165,6 +165,9 @@ public class FightRequest
 	private static String wonInitiativeMessage = "";
 	public static String lastMacroUsed = "";
 
+	private static final String lostBatfellowInitiativeMessage =  "Round 0: Batfellow loses initiative!";
+	private static final String wonBatfellowInitiativeMessage = "Round 0: Batfellow wins initiative!";
+
 	private static int preparatoryRounds = 0;
 	private static String consultScriptThatDidNothing = null;
 	public static boolean waitingForSpecial;
@@ -1837,6 +1840,8 @@ public class FightRequest
 		}
 
 		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
+		String limitmode = KoLCharacter.getLimitmode();
+		boolean isBatfellow = ( limitmode == Limitmode.BATMAN );
 
 		// The response tells you if you won initiative.
 
@@ -1847,8 +1852,9 @@ public class FightRequest
 
 			if ( shouldLogAction )
 			{
-				RequestLogger.printLine( FightRequest.lostInitiativeMessage );
-				RequestLogger.updateSessionLog( FightRequest.lostInitiativeMessage );
+				String message = isBatfellow ? FightRequest.lostBatfellowInitiativeMessage : FightRequest.lostInitiativeMessage;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 
 			return false;
@@ -1859,8 +1865,9 @@ public class FightRequest
 
 		if ( shouldLogAction )
 		{
-			RequestLogger.printLine( FightRequest.wonInitiativeMessage );
-			RequestLogger.updateSessionLog( FightRequest.wonInitiativeMessage );
+			String message = isBatfellow ? FightRequest.wonBatfellowInitiativeMessage : FightRequest.wonInitiativeMessage;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		int autoAttackAction = KoLCharacter.getAutoAttackAction();
@@ -3309,34 +3316,7 @@ public class FightRequest
 			String limitmode = KoLCharacter.getLimitmode();
 			if ( limitmode == Limitmode.SPELUNKY )
 			{
-				// Check for unlocks
-				if ( FightRequest.lastResponseText.contains( "New Area Unlocked" ) )
-				{
-					if ( FightRequest.lastResponseText.contains( "The Jungle" ) )
-					{
-						SpelunkyRequest.unlock( "The Jungle", "Jungle" );
-					}
-					if ( FightRequest.lastResponseText.contains( "The Ice Caves" ) )
-					{
-						SpelunkyRequest.unlock( "The Ice Caves", "Ice Caves" );
-					}
-					if ( FightRequest.lastResponseText.contains( "The Temple Ruins" ) )
-					{
-						SpelunkyRequest.unlock( "The Temple Ruins", "Temple Ruins" );
-					}
-					if ( FightRequest.lastResponseText.contains( "LOLmec's Lair" ) )
-					{
-						SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
-					}
-				}
-				if ( monsterName.equals( "spider queen" ) )
-				{
-					SpelunkyRequest.spiderQueenDefeated();
-				}
-				if ( !monsterName.equals( "shopkeeper" ) && !monsterName.equals( "ghost (spelunky)" ) )
-				{
-					SpelunkyRequest.incrementWinCount();
-				}
+				SpelunkyRequest.wonFight( monsterName, responseText );
 			}
 			else if ( limitmode == Limitmode.BATMAN )
 			{
@@ -4002,6 +3982,14 @@ public class FightRequest
 				action.append( " attack vs. " );
 				action.append( String.valueOf( KoLCharacter.getAdjustedMoxie() ) );
 				action.append( " moxie)" );
+			}
+		}
+		else if ( status.limitmode == Limitmode.BATMAN )
+		{
+			// If we gain or lose HP in battle, track it
+			if ( result.getName().equals( AdventureResult.HP ) )
+			{
+				BatManager.changeBatHealth( result );
 			}
 		}
 
@@ -4725,6 +4713,7 @@ public class FightRequest
 
 	public static class TagStatus
 	{
+		public String name;
 		public String familiar;
 		public String enthroned;
 		public String enthronedName;
@@ -4804,6 +4793,8 @@ public class FightRequest
 
 			// Save limitmode so we can log appropriately
 			this.limitmode = KoLCharacter.getLimitmode();
+			boolean isBatfellow = ( this.limitmode == Limitmode.BATMAN );
+			this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
 		}
 
 		public void setFamiliar( final String image )
@@ -5852,7 +5843,7 @@ public class FightRequest
 		}
 		else if ( content.equals( "WINWINWIN" ) )
 		{
-			FightRequest.logText( KoLCharacter.getUserName() + " wins the fight!", status );
+			FightRequest.logText( status.name + " wins the fight!", status );
 			status.won = true;
 			FightRequest.currentRound = 0;
 		}
@@ -7855,12 +7846,16 @@ public class FightRequest
 		// Begin logging all the different combat actions and storing
 		// relevant data for post-processing.
 
+		String limitmode = KoLCharacter.getLimitmode();
+		boolean isBatfellow = ( limitmode == Limitmode.BATMAN );
+		String name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
+
 		if ( shouldLogAction )
 		{
 			action.append( "Round " );
 			action.append( FightRequest.currentRound );
 			action.append( ": " );
-			action.append( KoLCharacter.getUserName() );
+			action.append( name );
 			action.append( " " );
 		}
 
@@ -7935,7 +7930,34 @@ public class FightRequest
 					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
 					if ( shouldLogAction )
 					{
-						action.append( "casts " ).append( skill.toUpperCase() ).append( "!" );
+						if ( isBatfellow )
+						{
+							String verb = "uses ";
+							switch ( skillNumber )
+							{
+							case SkillPool.BAT_PUNCH:
+								verb = "throws a ";
+								break;
+							case SkillPool.BAT_KICK:
+								verb = "does a ";
+								break;
+							case SkillPool.BAT_OOMERANG:
+							case SkillPool.BAT_JUTE:
+							case SkillPool.BAT_O_MITE:
+							case SkillPool.ULTRACOAGULATOR:
+							case SkillPool.KICKBALL:
+							case SkillPool.BAT_GLUE:
+							case SkillPool.BAT_BEARING:
+							case SkillPool.USE_BAT_AID:
+								break;
+							}
+							action.append( verb );
+						}
+						else
+						{
+							action.append( "casts " );
+						}
+						action.append( skill.toUpperCase() ).append( "!" );
 					}
 				}
 			}

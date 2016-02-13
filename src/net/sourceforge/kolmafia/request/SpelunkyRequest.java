@@ -640,6 +640,38 @@ public class SpelunkyRequest
 		}
 	}
 
+	public static void wonFight( final String monsterName, final String responseText )
+	{
+		// Check for unlocks
+		if ( responseText.contains( "New Area Unlocked" ) )
+		{
+			if ( responseText.contains( "The Jungle" ) )
+			{
+				SpelunkyRequest.unlock( "The Jungle", "Jungle" );
+			}
+			if ( responseText.contains( "The Ice Caves" ) )
+			{
+				SpelunkyRequest.unlock( "The Ice Caves", "Ice Caves" );
+			}
+			if ( responseText.contains( "The Temple Ruins" ) )
+			{
+				SpelunkyRequest.unlock( "The Temple Ruins", "Temple Ruins" );
+			}
+			if ( responseText.contains( "LOLmec's Lair" ) )
+			{
+				SpelunkyRequest.unlock( "LOLmec's Lair", "LOLmec's Lair" );
+			}
+		}
+		if ( monsterName.equals( "spider queen" ) )
+		{
+			SpelunkyRequest.spiderQueenDefeated();
+		}
+		if ( !monsterName.equals( "shopkeeper" ) && !monsterName.equals( "ghost (spelunky)" ) )
+		{
+			SpelunkyRequest.incrementWinCount();
+		}
+	}
+
 	public static void spiderQueenDefeated()
 	{
 		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );

@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -62,9 +63,19 @@ public class BatManager
 	public static final int BASE_BAT_STENCH_RESISTANCE = 0;
 	public static final int BASE_BAT_INVESTIGATION_PROGRESS = 3;
 
+	public static final String GOTPORK_CITY = "Somewhere in Gotpork City";
+	public static final String BAT_CAVERN = "Bat-Cavern";
+	public static final String CENTER_PARK = "Center Park (Low Crime)";
+	public static final String SLUMS = "Slums (Moderate Crime)";
+	public static final String INDUSTRIAL_DISTRICT = "Industrial District (High Crime)";
+	public static final String DOWNTOWN = "Downtown";
+
 	private static final TreeSet<BatUpgrade> upgrades = new TreeSet<BatUpgrade>();
 	private static final BatStats stats = new BatStats();
+	private static int DwayneCoFunds = 0;
+	private static int DwayneCoBonusFunds = 0;
 	private static int BatMinutes = 0;
+	private static String zone = BatManager.GOTPORK_CITY;
 
 	private static final AdventureResult[] ITEMS =
 	{
@@ -116,6 +127,12 @@ public class BatManager
 		new BatUpgrade( 8, "Utility Belt First Aid Kit", "Contains bandages (in theory)" ),
 	};
 
+	public static final BatUpgrade HARDENED_KNUCKLES = BatManager.findOption( BAT_SUIT_UPGRADES, "Hardened Knuckles" );
+	public static final BatUpgrade STEEL_TOED_BAT_BOOTS = BatManager.findOption( BAT_SUIT_UPGRADES, "Steel-Toed Bat-Boots" );
+	public static final BatUpgrade PEC_GUARDS = BatManager.findOption( BAT_SUIT_UPGRADES, "Pec-Guards" );
+	public static final BatUpgrade KEVLAR_UNDERGARMENTS = BatManager.findOption( BAT_SUIT_UPGRADES, "Kevlar Undergarments" );
+	public static final BatUpgrade ASBESTOS_LINING = BatManager.findOption( BAT_SUIT_UPGRADES, "Asbestos Lining" );
+
 	// Bat-Sedan Upgrades: whichchoice = 1138
 	private static final BatUpgrade[] BAT_SEDAN_UPGRADES =
 	{
@@ -129,6 +146,9 @@ public class BatManager
 		new BatUpgrade( 8, "Loose Bearings", "Bearings will periodically fall out of the car." ),
 	};
 
+	public static final BatUpgrade SPOTLIGHT = BatManager.findOption( BAT_SEDAN_UPGRADES, "Spotlight" );
+	public static final BatUpgrade BAT_FRESHENER = BatManager.findOption( BAT_SEDAN_UPGRADES, "Bat-Freshener" );
+
 	// Bat-Cavern Upgrades: whichchoice = 1139
 	private static final BatUpgrade[] BAT_CAVERN_UPGRADES =
 	{
@@ -140,6 +160,10 @@ public class BatManager
 		new BatUpgrade( 7, "Snugglybear Nightlight", "Provides resistance to Spooky damage" ),
 		new BatUpgrade( 8, "Glue Factory", "An automated mail-order glue factory" ),
 	};
+
+	public static final BatUpgrade IMPROVED_3D_BAT_PRINTER = BatManager.findOption( BAT_CAVERN_UPGRADES, "Improved 3-D Bat-Printer" );
+	public static final BatUpgrade BLUEPRINTS_DATABASE = BatManager.findOption( BAT_CAVERN_UPGRADES, "Blueprints Database" );
+	public static final BatUpgrade SNUGGLYBEAR_NIGHTLIGHT = BatManager.findOption( BAT_CAVERN_UPGRADES, "Snugglybear Nightlight" );
 
 	private static BatUpgrade findOption( final BatUpgrade[] upgrades, final int option )
 	{
@@ -167,6 +191,11 @@ public class BatManager
 
 	private static void addUpgrade( final BatUpgrade newUpgrade )
 	{
+		if ( BatManager.hasUpgrade( newUpgrade) )
+		{
+			return;
+		}
+
 		BatManager.upgrades.add( newUpgrade );
 
 		StringBuilder buffer = new StringBuilder();
@@ -178,31 +207,36 @@ public class BatManager
 			separator = ";";
 		}
 		Preferences.setString( "batmanUpgrades", buffer.toString() );
+
+		if ( BatManager.DwayneCoFunds > 0 )
+		{
+			Preferences.setInteger( "batmanFundsAvailable", --BatManager.DwayneCoFunds );
+		}
 	}
 
 	public static void batSuitUpgrade( final int option, final String text )
 	{
 		BatUpgrade upgrade = BatManager.findOption( BAT_SUIT_UPGRADES, option );
-		if ( upgrade != null )
+		if ( upgrade != null && !BatManager.hasUpgrade( upgrade ) )
 		{
 			BatManager.addUpgrade( upgrade );
-			if ( text.equals( "Hardened Knuckles" ) )
+			if ( upgrade == BatManager.HARDENED_KNUCKLES )
 			{
 				BatManager.stats.set( "Bat-Punch Multiplier", 2 );
 			}
-			else if ( text.equals( "Steel-Toed Bat-Boots" ) )
+			else if ( upgrade == BatManager.STEEL_TOED_BAT_BOOTS )
 			{
 				BatManager.stats.set( "Bat-Kick Multiplier", 2 );
 			}
-			else if ( text.equals( "Pec-Guards" ) )
+			else if ( upgrade == BatManager.PEC_GUARDS )
 			{
 				BatManager.stats.increment( "Bat-Armor", 3 );
 			}
-			else if ( text.equals( "Kevlar Undergarments" ) )
+			else if ( upgrade == BatManager.KEVLAR_UNDERGARMENTS )
 			{
 				BatManager.stats.increment( "Bat-Bulletproofing", 3 );
 			}
-			else if ( text.equals( "Asbestos Lining" ) )
+			else if ( upgrade == BatManager.ASBESTOS_LINING )
 			{
 				BatManager.stats.increment( "Bat-Heat Resistance", 10 );
 			}
@@ -212,10 +246,14 @@ public class BatManager
 	public static void batSedanUpgrade( final int option, final String text )
 	{
 		BatUpgrade upgrade = BatManager.findOption( BAT_SEDAN_UPGRADES, option );
-		if ( upgrade != null )
+		if ( upgrade != null && !BatManager.hasUpgrade( upgrade ) )
 		{
 			BatManager.addUpgrade( upgrade );
-			if ( text.equals( "Bat-Freshener" ) )
+			if ( upgrade == BatManager.SPOTLIGHT )
+			{
+				BatManager.stats.increment( "Bat-Investigation Progress", 1 );
+			}
+			else if ( upgrade == BatManager.BAT_FRESHENER )
 			{
 				BatManager.stats.increment( "Bat-Stench Resistance", 10 );
 			}
@@ -225,21 +263,19 @@ public class BatManager
 	public static void batCavernUpgrade( final int option, final String text )
 	{
 		BatUpgrade upgrade = BatManager.findOption( BAT_CAVERN_UPGRADES, option );
-		if ( upgrade != null )
+		if ( upgrade != null && !BatManager.hasUpgrade( upgrade ) )
 		{
 			BatManager.addUpgrade( upgrade );
-			if ( text.equals( "Snugglybear Nightlight" ) )
+			if ( upgrade == BatManager.SNUGGLYBEAR_NIGHTLIGHT )
 			{
 				BatManager.stats.increment( "Bat-Spooky Resistance", 10 );
 			}
-			else if ( text.equals( "Blueprints Database" ) )
+			else if ( upgrade == BatManager.BLUEPRINTS_DATABASE )
 			{
 				BatManager.stats.increment( "Bat-Investigation Progress", 1 );
 			}
 		}
 	}
-
-	public static final BatUpgrade IMPROVED_3D_BAT_PRINTER = BatManager.findOption( BAT_CAVERN_UPGRADES, "Improved 3-D Bat-Printer" );
 
 	public static boolean hasUpgrade( final BatUpgrade upgrade )
 	{
@@ -252,6 +288,12 @@ public class BatManager
 		Preferences.setInteger( "batmanTimeLeft", 0 );
 		BatManager.BatMinutes = 0;
 
+		// Zero out DwayneCo funds
+		Preferences.setInteger( "batmanFundsAvailable", 0 );
+		BatManager.DwayneCoFunds = 0;
+		// (haven't seen the charpane yet, so assume it is what we saw last time we started.)
+		BatManager.DwayneCoBonusFunds = Preferences.getInteger( "batmanBonusInitialFunds" );
+
 		// Reset Bat-Stats
 		Preferences.setString( "batmanStats", "" );
 		BatManager.stats.reset( active );
@@ -262,6 +304,9 @@ public class BatManager
 
 		// Clean up inventory
 		BatManager.resetItems();
+
+		// You are somewhere in Gotpork City
+		BatManager.setBatZone( BatManager.GOTPORK_CITY );
 	}
 
 	public static void begin()
@@ -276,6 +321,12 @@ public class BatManager
 		// You start with 10 h. 0 m.
 		Preferences.setInteger( "batmanTimeLeft", 600 );
 		BatManager.BatMinutes = 600;
+
+		// You start with 3 billions + 1 billion per run
+		BatManager.DwayneCoFunds = 3 + BatManager.DwayneCoBonusFunds;
+
+		// You start in the Bat-Cavern
+		BatManager.setBatZone( BatManager.BAT_CAVERN );
 	}
 
 	public static void end()
@@ -299,7 +350,13 @@ public class BatManager
 
 	// <td><img src=http://images.kingdomofloathing.com/itemimages/watch.gif alt='Time until Gotpork City explodes' title='Time until Gotpork City explodes'></td><td valign=center><font face=arial>10 h. 0 m.</td>
 	// <td><img src=http://images.kingdomofloathing.com/itemimages/watch.gif alt='Time until Gotpork City explodes' title='Time until Gotpork City explodes'></td><td valign=center><font face=arial>8 m.</td>
-	public static final Pattern TIME_PATTERN = Pattern.compile( "Time until Gotpork City explodes.*?<font face=arial>(?:<font color=red>)?(?:([\\d]+) h. )?([\\d]+) m.<" );
+	public static final Pattern TIME_PATTERN = Pattern.compile( "Time until Gotpork City explodes.*?<font face=arial>(?:<font color=red>)?(?:(\\d+) h. )?(\\d+) m.<" );
+
+	// <td><img src=http://images.kingdomofloathing.com/itemimages/dollarsign.gif alt='DwayneCo funds' title='DwayneCo funds'></td><td valign=center><font face=arial>4 bn.</font></td>
+	public static final Pattern FUNDS_PATTERN = Pattern.compile( "DwayneCo funds.*?<font face=arial>(\\d+) bn.<" );
+
+	// <td><img src=http://images.kingdomofloathing.com/itemimages/hp.gif alt='Bat-Health' title='Bat-Health'></td><td valign=center><font face=arial>30 / 30</font></td>
+	private static final Pattern HP_PATTERN = Pattern.compile( "Bat-Health.*?<font face=arial>(\\d+) / (\\d+)<" );
 
 	public static void parseCharpane( final String responseText )
 	{
@@ -308,16 +365,43 @@ public class BatManager
 			return;
 		}
 
-		Matcher timeMatcher = BatManager.TIME_PATTERN.matcher( responseText );
-		if ( timeMatcher.find() )
+		Matcher matcher = BatManager.TIME_PATTERN.matcher( responseText );
+		if ( matcher.find() )
 		{
-			String hourString = timeMatcher.group( 1 );
-			String minuteString = timeMatcher.group( 2 );
+			String hourString = matcher.group( 1 );
+			String minuteString = matcher.group( 2 );
 			int hours = hourString == null ? 0 : StringUtilities.parseInt( hourString );
 			int minutes = StringUtilities.parseInt( minuteString );
 			BatManager.BatMinutes = ( hours * 60 ) + minutes;
 			Preferences.setInteger( "batmanTimeLeft", BatManager.BatMinutes );
 		}
+
+		matcher = BatManager.HP_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			int currentHP = StringUtilities.parseInt( matcher.group( 1 ) );
+			int maximumHP = StringUtilities.parseInt( matcher.group( 2 ) );
+			KoLCharacter.setHP( currentHP, maximumHP, maximumHP );
+			BatManager.stats.set( "Bat-Health", currentHP );
+			BatManager.stats.set( "Maximum Bat-Health", maximumHP );
+		}		
+
+		matcher = BatManager.FUNDS_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			int funds = StringUtilities.parseInt( matcher.group( 1 ) );
+			BatManager.DwayneCoFunds = funds;
+			Preferences.setInteger( "batmanFundsAvailable", funds );
+
+			// possibly learn bonus fund amount
+			int bonus = funds - 3;
+			if ( bonus > BatManager.DwayneCoBonusFunds )
+			{
+				BatManager.DwayneCoBonusFunds = bonus;
+				Preferences.setInteger( "batmanBonusInitialFunds", bonus );
+			}
+		}		
+
 		// Current Bat-Tasks:
 		// 
 		// Learn the Jokester's access code:<br>&nbsp;&nbsp;&nbsp;<font size=+2><b>*********</b></font>
@@ -334,6 +418,95 @@ public class BatManager
 		// Defeat Kudzu
 	}
 
+	public static String currentBatZone()
+	{
+		return BatManager.zone;
+	}
+
+	public static String placeToBatZone( final String place )
+	{
+		return  place.equals( "batman_cave" ) ?
+			BatManager.BAT_CAVERN :
+			place.equals( "batman_downtown" ) ?
+			BatManager.DOWNTOWN :
+			place.equals( "batman_park" ) ?
+			BatManager.CENTER_PARK :
+			place.equals( "batman_slums" ) ?
+			BatManager.SLUMS :
+			place.equals( "batman_industrial" ) ?
+			BatManager.INDUSTRIAL_DISTRICT :
+			null;
+	}
+
+	// choice.php?whichchoice=1135&option=1
+	public static final Pattern MAP_PATTERN = Pattern.compile( "choice.php\\?whichchoice=1135&option=(\\d+)" );
+
+	public static String parseBatSedan( final String responseText )
+	{
+		// We can tell where we are by looking at the map
+		boolean cavern = false;
+		boolean park = false;
+		boolean slums = false;
+		boolean industrial = false;
+		boolean downtown = false;
+
+		Matcher matcher = BatManager.MAP_PATTERN.matcher( responseText );
+		while ( matcher.find() )
+		{
+			int zone = StringUtilities.parseInt( matcher.group( 1 ) );
+			switch ( zone )
+			{
+			case 1:
+				cavern = true;
+				break;
+			case 2:
+				downtown = true;
+				break;
+			case 3:
+				slums = true;
+				break;
+			case 4:
+				industrial = true;
+				break;
+			case 5:
+				park = true;
+				break;
+			case 9:
+				// Eject
+				break;
+			}
+		}
+
+		String zone =
+			!cavern ? BatManager.BAT_CAVERN :
+			!downtown ? BatManager.DOWNTOWN :
+			!park ? BatManager.CENTER_PARK :
+			!slums ? BatManager.SLUMS :
+			!industrial ? BatManager.INDUSTRIAL_DISTRICT :
+			GOTPORK_CITY;
+		BatManager.setBatZone( zone );
+
+		return null;
+	}
+
+	private static void setBatZone( final String zone )
+	{
+		BatManager.zone = zone;
+		Preferences.setString( "batmanZone", zone );
+	}
+
+	public static void setBatZone( final String urlString, final String responseText )
+	{
+		String zone =
+			urlString.contains( "batman_cave" ) ? BatManager.BAT_CAVERN :
+			urlString.contains( "batman_downtown" ) ? BatManager.DOWNTOWN :
+			urlString.contains( "batman_park" ) ? BatManager.CENTER_PARK :
+			urlString.contains( "batman_slums" ) ? BatManager.SLUMS :
+			urlString.contains( "batman_industrial" ) ? BatManager.INDUSTRIAL_DISTRICT :
+			GOTPORK_CITY;
+		BatManager.setBatZone( zone );
+	}
+	
 	public static void gainItem( final AdventureResult item )
 	{
 		switch ( item.getItemId() )
@@ -351,6 +524,11 @@ public class BatManager
 			BatManager.stats.increment( "Bat-Kick Modifier", 1 );
 			break;
 		}
+	}
+
+	public static void changeBatHealth( AdventureResult result )
+	{
+		BatManager.stats.increment( "Bat-Health", result.getCount() );
 	}
 
 	public static void wonFight( final String monsterName, final String responseText )
@@ -576,74 +754,99 @@ public class BatManager
 
 		public int set( final String name, final int value )
 		{
-			int retval = 0;
+			int current = 0;
 			if ( name.equals( "Bat-Health" ) )
 			{
-				retval = this.BatHealth = value;
+				current = this.BatHealth;
+				this.BatHealth = value;
 			}
 			else if ( name.equals( "Maximum Bat-Health" ) )
 			{
-				retval = this.MaximumBatHealth = value;
+				current = this.MaximumBatHealth;
+				this.MaximumBatHealth = value;
 			}
 			else if ( name.equals( "Bat-Health Regeneration" ) )
 			{
-				retval = this.BatHealthRegeneration = value;
+				current = this.BatHealthRegeneration;
+				this.BatHealthRegeneration = value;
 			}
 			else if ( name.equals( "Bat-Punch" ) )
 			{
-				retval = this.BatPunch = value;
+				current = this.BatPunch;
+				this.BatPunch = value;
 			}
 			else if ( name.equals( "Bat-Punch Modifier" ) )
 			{
-				retval = this.BatPunchModifier = value;
+				current = this.BatPunchModifier;
+				this.BatPunchModifier = value;
 			}
 			else if ( name.equals( "Bat-Punch Multiplier" ) )
 			{
-				retval = this.BatPunchMultiplier = value;
+				current = this.BatPunchMultiplier;
+				this.BatPunchMultiplier = value;
 			}
 			else if ( name.equals( "Bat-Kick" ) )
 			{
-				retval = this.BatKick = value;
+				current = this.BatKick;
+				this.BatKick = value;
 			}
 			else if ( name.equals( "Bat-Kick Modifier" ) )
 			{
-				retval = this.BatKickModifier = value;
+				current = this.BatKickModifier;
+				this.BatKickModifier = value;
 			}
 			else if ( name.equals( "Bat-Kick Multiplier" ) )
 			{
-				retval = this.BatKickMultiplier = value;
+				current = this.BatKickMultiplier;
+				this.BatKickMultiplier = value;
 			}
 			else if ( name.equals( "Bat-Armor" ) )
 			{
-				retval = this.BatArmor = value;
+				current = this.BatArmor;
+				this.BatArmor = value;
 			}
 			else if ( name.equals( "Bat-Bulletproofing" ) )
 			{
-				retval = this.BatBulletproofing = value;
+				current = this.BatBulletproofing;
+				this.BatBulletproofing = value;
 			}
 			else if ( name.equals( "Bat-Spooky Resistance" ) )
 			{
-				retval = this.BatSpookyResistance = value;
+				current = this.BatSpookyResistance;
+				this.BatSpookyResistance = value;
 			}
 			else if ( name.equals( "Bat-Heat Resistance" ) )
 			{
-				retval = this.BatHeatResistance = value;
+				current = this.BatHeatResistance;
+				this.BatHeatResistance = value;
 			}
 			else if ( name.equals( "Bat-Stench Resistance" ) )
 			{
-				retval = this.BatStenchResistance = value;
+				current = this.BatStenchResistance;
+				this.BatStenchResistance = value;
 			}
 			else if ( name.equals( "Bat-Investigation Progress" ) )
 			{
-				retval = this.BatInvestigationProgress = value;
+				current = this.BatInvestigationProgress;
+				this.BatInvestigationProgress = value;
 			}
-			this.calculateStringform( true );
-			return retval;
+			else
+			{
+				return 0;
+			}
+
+			if ( current != value )
+			{
+				this.calculateStringform( true );
+			}
+
+			return value;
 		}
 
 		public int increment( final String name, final int delta )
 		{
-			return this.set( name, this.get( name ) + delta );
+			int current = this.get( name );
+			return delta == 0 ? current :  this.set( name, current + delta );
 		}
 
 		private void appendStat( StringBuilder buffer, String tag, int stat )

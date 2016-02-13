@@ -48,21 +48,26 @@ public class BatFellowRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.contains( "whichplace=batman" ) )
-		{
-			return;
-		}
+		BatManager.setBatZone( urlString, responseText );
 	}
 
-
-	public static boolean registerRequest( final String urlString )
+	public static boolean registerRequest( final String place, final String urlString )
 	{
 		// place.php?whichplace=batman_xxx
 
 		String action = GenericRequest.getAction( urlString );
+
 		if ( action == null )
 		{
-			return true;
+			String zone = BatManager.placeToBatZone( place );
+			if ( zone != null && zone != BatManager.currentBatZone() )
+			{
+				String message = "Drive to " + zone;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				return true;
+			}
+			return false;
 		}
 
 		String location = null;
@@ -82,8 +87,9 @@ public class BatFellowRequest
 
 		else if ( action.equals( "batman_downtown_hospital" ) )
 		{
-			location = "The Bat-Sedan";
+			location = "Gotpork Memorial Hospital";
 		}
+
 		else if ( action.equals( "batman_downtown_car" ) )
 		{
 			location = "The Bat-Sedan";
