@@ -107,3 +107,6 @@ questEStSuperLuber	Super Luber	Equip the lube shoes and ride the Barf Mountain r
 questEStWorkWithFood	Will Work With Food	Feed guests in line for Barf Mountain.	Return to the Kiosk to collect your wages.	(no completion message)
 questEStZippityDooDah	Whistling Zippity-Doo-Dah	Equip the mascot mask and "have fun" on the Toxic Teacups.	Have some "fun" on the Toxic Teacups ride.	Return to the Kiosk to collect your wages.	(no completion message)
 questECoBucket	Filled to the Brim	Equip Walford's bucket	Walford wants you to fill his bucket	Take Walford's bucket back to his shack	(no completion message)
+
+# LT&T Quests
+questLTTQuestByWire	Send Me a Quest By Wire	Read the plaintive telegram in your inventory	(various messages)	(various messages)	(various messages)	(various messages)	(no completion message)

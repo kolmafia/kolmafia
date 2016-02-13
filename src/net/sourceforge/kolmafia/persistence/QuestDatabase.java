@@ -308,6 +308,11 @@ public class QuestDatabase
 		{
 			handleCompetitionStatus( details );
 		}
+			// Special handling as there are nine sets of descriptions for the one quest
+		if ( pref.equals( Quest.TELEGRAM.getPref() ) )
+		{
+			return handleTelegramStatus( details );
+		}
 
 		// First thing to do is find which quest we're talking about.
 		int index = prefToIndex( pref );
@@ -500,6 +505,237 @@ public class QuestDatabase
 		}
 	}
 
+	private static String handleTelegramStatus( String details )
+	{
+		// It's kludgy, but there are nine different texts for the one quest title, so the existing code can't handle it
+		// Missing: Fancy Man
+		if ( details.contains( "Ask around the Rough Diamond Saloon to see if anybody has seen Jeff the Fancy Dude." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Fancy Man" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step1";
+		}
+		if ( details.contains( "Trek across the desert to Jeff's mining claim." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Fancy Man" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step2";
+		}
+		if ( details.contains( "Delve deeper into Jeff's Fancy Mine." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Fancy Man" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Jeff the Fancy Skeleton." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Fancy Man" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step4";
+		}
+		// Missing: Pioneer Daughter
+		if ( details.contains( "Search for Daisy's homestead." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Pioneer Daughter" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step1";
+		}
+		if ( details.contains( "Question the cultists in Bloodmilk Cave." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Pioneer Daughter" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step2";
+		}
+		if ( details.contains( "Fight your way through Daisy's Fortress." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Pioneer Daughter" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Daisy the Unclean." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Pioneer Daughter" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step4";
+		}
+		// Help! Desperados!
+		if ( details.contains( "Clear some of the criminals out of Spitback." ) )
+		{
+			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step1";
+		}
+		if ( details.contains( "Find your way to Pecos Dave's hideout." ) )
+		{
+			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step2";
+		}
+		if ( details.contains( "Find Pecos Dave in his mine hideout." ) )
+		{
+			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Pecos Dave." ) )
+		{
+			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setInteger( "lttQuestDifficulty", 1 );
+			return "step4";
+		}
+		// Haunted Boneyard
+		if ( details.contains( "Find the pastor in his church." ) )
+		{
+			Preferences.setString( "lttQuestName", "Haunted Boneyard" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step1";
+		}
+		if ( details.contains( "Investigate the local cemetery." ) )
+		{
+			Preferences.setString( "lttQuestName", "Haunted Boneyard" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step2";
+		}
+		if ( details.contains( "Clear out the ancient cow burial ground." ) )
+		{
+			Preferences.setString( "lttQuestName", "Haunted Boneyard" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Amoon-Ra Cowtep." ) )
+		{
+			Preferences.setString( "lttQuestName", "Haunted Boneyard" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step4";
+		}
+		// Big Gambling Tournament Announced
+		if ( details.contains( "Fight your way through the crowd at the gambling tournament." ) )
+		{
+			Preferences.setString( "lttQuestName", "Big Gambling Tournament Announced" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step1";
+		}
+		if ( details.contains( "Escape from the snake pit!" ) )
+		{
+			Preferences.setString( "lttQuestName", "Big Gambling Tournament Announced" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step2";
+		}
+		if ( details.contains( "Track down Snakeye Glenn at the Great Western hotel." ) )
+		{
+			Preferences.setString( "lttQuestName", "Big Gambling Tournament Announced" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Snakeeye Glenn." ) )
+		{
+			Preferences.setString( "lttQuestName", "Big Gambling Tournament Announced" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step4";
+		}
+		// Sherriff Wanted
+		if ( details.contains( "Fight your way to the sheriff's office and apply for the job." ) )
+		{
+			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step1";
+		}
+		if ( details.contains( "Head up river to the Placid Lake Gang's hideout." ) )
+		{
+			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step2";
+		}
+		if ( details.contains( "Search the hideout for the gang's leader." ) )
+		{
+			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Former Sheriff Dan Driscoll." ) )
+		{
+			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 2 );
+			return "step4";
+		}
+		// Madness at the Mine
+		if ( details.contains( "Figure out what's going wrong at the mine." ) )
+		{
+			Preferences.setString( "lttQuestName", "Madness at the Mine" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step1";
+		}
+		if ( details.contains( "Search the desert for the missing foreman." ) )
+		{
+			Preferences.setString( "lttQuestName", "Madness at the Mine" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step2";
+		}
+		if ( details.contains( "Find that door in the mine again." ) )
+		{
+			Preferences.setString( "lttQuestName", "Madness at the Mine" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat the unusual construct." ) )
+		{
+			Preferences.setString( "lttQuestName", "Madness at the Mine" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step4";
+		}
+		// Missing: Many Children
+		if ( details.contains( "Find out why the children are going missing." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Many Children" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step1";
+		}
+		if ( details.contains( "Ride the ghost train." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Many Children" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step2";
+		}
+		if ( details.contains( "Search Cowtown for the missing children." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Many Children" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Clara." ) )
+		{
+			Preferences.setString( "lttQuestName", "Missing: Many Children" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step4";
+		}
+		// Wagon Train Escort Wanted
+		if ( details.contains( "Escort the Hackleton wagon train across the desert." ) )
+		{
+			Preferences.setString( "lttQuestName", "Wagon Train Escort Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step1";
+		}
+		if ( details.contains( "Defend the Hackleton wagon train!" ) )
+		{
+			Preferences.setString( "lttQuestName", "Wagon Train Escort Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step2";
+		}
+		if ( details.contains( "Defeat the Hackletons." ) )
+		{
+			Preferences.setString( "lttQuestName", "Wagon Train Escort Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step3";
+		}
+		if ( details.contains( "Defeat Granny Hackleton." ) ) // Check this works!
+		{
+			Preferences.setString( "lttQuestName", "Wagon Train Escort Wanted" );
+			Preferences.setInteger( "lttQuestDifficulty", 3 );
+			return "step4";
+		}
+		return "";
+	}
+
 	public static void setQuestProgress( Quest quest, String progress )
 	{
 		if ( quest == null )
@@ -603,6 +839,9 @@ public class QuestDatabase
 		Preferences.resetToDefault( "dinseyToxicMultiplier" );
 		Preferences.resetToDefault( "walfordBucketItem" );
 		Preferences.resetToDefault( "walfordBucketProgress" );
+		Preferences.resetToDefault( "lttQuestDifficulty" );
+		Preferences.resetToDefault( "lttQuestName" );
+		Preferences.resetToDefault( "lttQuestStageCount" );
 	}
 
 	public static void handleCouncilText( String responseText )
