@@ -779,7 +779,7 @@ public class AdventureRequest
 			override = encounter.equals( "professional gunman" ) || encounter.contains( "trained mercenary" ) ? "hired gun" :
 				encounter.equals( "vengeful ghost" ) || encounter.contains( "shrieking ghost" ) ? "restless ghost" :
 				// This is twitch content, but shares image with hired gun, so detection moved here
-				image.startsWith( "outlawboss" ) ? "outlaw leader" :
+				image != null && image.startsWith( "outlawboss" ) ? "outlaw leader" :
 				null;
 		}
 
