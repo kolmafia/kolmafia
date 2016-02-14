@@ -3977,20 +3977,20 @@ Item	folder (Yedi)	Spell Damage Percent: +50
 Item	folder (yellow)	Muscle: +15, Moxie: +15
 
 # Cowboy boot decorations
-# Item coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
-Item	diamondback skin	Monster Level: +20
-Item	frontwinder skin	Mysticality Percent: +50
-Item	grizzled bearskin	Muscle Percent: +50
-Item	mountain lion skin	Moxie Percent: +50
-# Item rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
+# Boots coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
+Boots	diamondback skin	Monster Level: +20
+Boots	frontwinder skin	Mysticality Percent: +50
+Boots	grizzled bearskin	Muscle Percent: +50
+Boots	mountain lion skin	Moxie Percent: +50
+# Boots rotting cowskin: Adds Demonic Bovine Taint to your cowboy boots
 
-Item	nicksilver spurs	Item Drop: +20
-Item	quicksilver spurs	Initiative: +30
-# Item sicksilver spurs: Adds Stench Damage to kicks with your cowboy boots
-# Item slicksilver spurs: Adds Sleaze Damage to kicks with your cowboy boots
-Item	thicksilver spurs	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
-Item	ticksilver spurs	Adventures: +5
-# Item wicksilver spurs: Adds Hot Damage to kicks with your cowboy boots
+Boots	nicksilver spurs	Item Drop: +20
+Boots	quicksilver spurs	Initiative: +30
+# Boots sicksilver spurs: Adds Stench Damage to kicks with your cowboy boots
+# Boots slicksilver spurs: Adds Sleaze Damage to kicks with your cowboy boots
+Boots	thicksilver spurs	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
+Boots	ticksilver spurs	Adventures: +5
+# Boots wicksilver spurs: Adds Hot Damage to kicks with your cowboy boots
 
 # Campground equipment section of modifiers.txt
 

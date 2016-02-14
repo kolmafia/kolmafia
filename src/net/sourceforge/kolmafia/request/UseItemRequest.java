@@ -5337,6 +5337,25 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.MOUNTAIN_SKIN:
+		case ItemPool.GRIZZLED_SKIN:
+		case ItemPool.DIAMONDBACK_SKIN:
+		case ItemPool.COAL_SKIN:
+		case ItemPool.FRONTWINDER_SKIN:
+		case ItemPool.ROTTING_SKIN:
+			EquipmentManager.cowboyBootSkin = item.getName();
+			break;
+
+		case ItemPool.QUICKSILVER_SPURS:
+		case ItemPool.THICKSILVER_SPURS:
+		case ItemPool.WICKSILVER_SPURS:
+		case ItemPool.SLICKSILVER_SPURS:
+		case ItemPool.SICKSILVER_SPURS:
+		case ItemPool.NICKSILVER_SPURS:
+		case ItemPool.TICKSILVER_SPURS:
+			EquipmentManager.cowboyBootSpur = item.getName();
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

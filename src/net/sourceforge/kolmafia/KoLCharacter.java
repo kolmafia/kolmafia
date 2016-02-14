@@ -5666,6 +5666,18 @@ public abstract class KoLCharacter
 		case ItemPool.SNOW_SUIT:
 			newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );
 			break;
+
+		case ItemPool.COWBOY_BOOTS:
+			if ( EquipmentManager.cowboyBootSkin != null )
+			{
+				newModifiers.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSkin ) );
+			}
+			if ( EquipmentManager.cowboyBootSpur != null )
+			{
+				newModifiers.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSpur ) );
+			}
+			break;
+
 		}
 
 		// Add modifiers that depend on equipment power

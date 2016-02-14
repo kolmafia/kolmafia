@@ -130,6 +130,9 @@ public class EquipmentManager
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
 
+	public static String cowboyBootSpur = null;
+	public static String cowboyBootSkin = null;
+
 	private static final LockableListModel<SpecialOutfit> normalOutfits = new LockableListModel<SpecialOutfit>();
 	private static final LockableListModel<SpecialOutfit> customOutfits = new LockableListModel<SpecialOutfit>();
 
@@ -142,6 +145,7 @@ public class EquipmentManager
 	public final static AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
 	public final static AdventureResult BUDDY_BJORN = ItemPool.get( ItemPool.BUDDY_BJORN, 1 );
 	public final static AdventureResult FOLDER_HOLDER = ItemPool.get( ItemPool.FOLDER_HOLDER, 1 );
+	public final static AdventureResult COWBOY_BOOTS = ItemPool.get( ItemPool.COWBOY_BOOTS, 1 );
 
 	static
 	{
@@ -187,6 +191,9 @@ public class EquipmentManager
 		EquipmentManager.stinkyCheeseLevel = 0;
 		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 		EquipmentManager.normalOutfits.clear();
+
+		EquipmentManager.cowboyBootSpur = null;
+		EquipmentManager.cowboyBootSkin = null;
 	}
 
 	public static void resetCustomOutfits()

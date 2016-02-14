@@ -325,7 +325,7 @@ public class Maximizer
 				{
 					if ( includeAll )
 					{
-						if ( cmd.indexOf( "BM" ) != -1 &&
+						if ( cmd.contains( "BM" ) &&
 							!KoLCharacter.inBadMoon() )
 						{
 							continue;	// no use displaying this in non-BM
@@ -339,7 +339,7 @@ public class Maximizer
 				}
 
 				if ( hasEffect &&
-					cmd.toLowerCase().indexOf( name.toLowerCase() ) == -1 )
+					!cmd.toLowerCase().contains( name.toLowerCase() ) )
 				{
 					text = text + " (to remove " + name + ")";
 				}
@@ -604,15 +604,15 @@ public class Maximizer
 					}
 					else if ( side.equals( "fratboy" ) )
 					{
-						available = cmd.indexOf( "Elvish" ) != -1 ||
-						            cmd.indexOf( "Winklered" ) != -1 ||
-						            cmd.indexOf( "White-boy Angst" ) != -1;
+						available = cmd.contains( "Elvish" ) ||
+								cmd.contains( "Winklered" ) ||
+								cmd.contains( "White-boy Angst" );
 					}
 					else if ( side.equals( "hippy" ) )
 					{
-						available = cmd.indexOf( "Moon" ) != -1 ||
-						            cmd.indexOf( "Dilated" ) != -1 ||
-						            cmd.indexOf( "Optimist" ) != -1;
+						available = cmd.contains( "Moon" ) ||
+								cmd.contains( "Dilated" ) ||
+								cmd.contains( "Optimist" );
 					}
 
 					if ( !available )
@@ -877,7 +877,7 @@ public class Maximizer
 					duration = 30;
 					usesRemaining = Preferences.getBoolean( buffPref ) ? 0 : 1;
 				}
-				else if ( cmd.startsWith( "gap" ) )
+				else if ( cmd.startsWith( "gap " ) )
 				{
 					AdventureResult pants = EquipmentManager.getEquipment( EquipmentManager.PANTS );
 					if ( InventoryManager.getAccessibleCount( ItemPool.GREAT_PANTS ) == 0 )
@@ -991,7 +991,7 @@ public class Maximizer
 						cmd = "";
 					}
 					full = ConsumablesDatabase.getSpleenHit( iname );
-					if ( full > 0 && cmd.indexOf( "chew" ) == -1 )
+					if ( full > 0 && !cmd.contains( "chew" ) )
 					{
 						RequestLogger.printLine( "(Note: extender for " +
 							name + " is a spleen item that doesn't use 'chew')" );

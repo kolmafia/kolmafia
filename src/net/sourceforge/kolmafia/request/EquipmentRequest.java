@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -2146,6 +2147,49 @@ public class EquipmentRequest
 			if ( slot > 0 )
 			{
 				RequestLogger.updateSessionLog( "stuck " + itemName + " in slot " + slot );
+			}
+		}
+	}
+
+	public static void checkCowboyBoots()
+	{
+		if ( !InventoryManager.hasItem( EquipmentManager.COWBOY_BOOTS ) )
+		{
+			EquipmentManager.cowboyBootSkin = null;
+			EquipmentManager.cowboyBootSpur = null;
+			return;
+		}
+
+		String text = DebugDatabase.itemDescriptionText( ItemPool.COWBOY_BOOTS, true );
+
+		// This is your favorite old pair of trail-worn cowboy boots,
+		// made of diamondback skin and all gussied up with nicksilver spurs.
+
+		// This is your favorite old pair of trail-worn cowboy boots,
+		// made of fine Corinthian leather and all gussied up with invisible spurs (which might, I admit, not be real).
+
+		Pattern BOOT_PATTERN = Pattern.compile( "made of (.*?) and all gussied up with (.* spurs)" );
+		Matcher matcher = BOOT_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			String skin = matcher.group(1);
+			if ( skin.equals( "fine Corinthian leather" ) )
+			{
+				EquipmentManager.cowboyBootSkin = null;
+			}
+			else
+			{
+				EquipmentManager.cowboyBootSkin = skin;
+			}
+
+			String spur = matcher.group(2);
+			if ( spur.equals( "invisible spurs" ) )
+			{
+				EquipmentManager.cowboyBootSpur = null;
+			}
+			else
+			{
+				EquipmentManager.cowboyBootSpur = spur;
 			}
 		}
 	}
