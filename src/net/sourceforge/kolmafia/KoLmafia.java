@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -909,6 +910,9 @@ public abstract class KoLmafia
 		// Check the Florist to see what is planted
 		FloristRequest.reset();
 		RequestThread.postRequest( new FloristRequest() );
+
+		// See what's loaded on your cowboy boots
+		EquipmentRequest.checkCowboyBoots();
 	}
 
 	public static final boolean isRefreshing()

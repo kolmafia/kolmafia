@@ -246,6 +246,16 @@ public class GearChangeFrame
 					mods = newMods;
 					break;
 				}
+				case ItemPool.COWBOY_BOOTS:
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					newMods.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSkin ) );
+					newMods.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSpur ) );
+					mods = newMods;
+					break;
+				}
+
 				}
 			}
 		}

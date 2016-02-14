@@ -2540,6 +2540,7 @@ public class ItemPool
 	public static final int BAT_BEARING = 8815;
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;
 	public static final int PLAINTIVE_TELEGRAM = 8837;
+	public static final int COWBOY_BOOTS = 8850;
 	public static final int GLENN_DICE = 8890;
 	public static final int CLARA_BELL = 8893;
 	public static final int BUFFALO_DIME = 8895;
@@ -2549,6 +2550,19 @@ public class ItemPool
 	public static final int STRANGE_DISC_GREEN = 8926;
 	public static final int STRANGE_DISC_BLUE = 8927;
 	public static final int STRANGE_DISC_YELLOW = 8928;
+	public static final int MOUNTAIN_SKIN = 8937;
+	public static final int GRIZZLED_SKIN = 8938;
+	public static final int DIAMONDBACK_SKIN = 8939;
+	public static final int COAL_SKIN = 8940;
+	public static final int FRONTWINDER_SKIN = 8941;
+	public static final int ROTTING_SKIN = 8942;
+	public static final int QUICKSILVER_SPURS = 8947;
+	public static final int THICKSILVER_SPURS = 8948;
+	public static final int WICKSILVER_SPURS = 8949;
+	public static final int SLICKSILVER_SPURS = 8950;
+	public static final int SICKSILVER_SPURS = 8951;
+	public static final int NICKSILVER_SPURS = 8952;
+	public static final int TICKSILVER_SPURS = 8953;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
