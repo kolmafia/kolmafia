@@ -82,6 +82,7 @@ public class MindControlRequest
 		{
 			this.addFormField( "whichitem", String.valueOf( ItemPool.DETUNED_RADIO ) );
 			this.addFormField( "tuneradio", String.valueOf( level ) );
+			this.addFormField( "ajax", "1" );
 		}
 
 		this.level = level;
