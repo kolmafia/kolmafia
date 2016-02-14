@@ -1672,7 +1672,7 @@ ticksilver ring	COMBINE	red-hot knucklebone	nugget of ticksilver
 wicksilver ring	COMBINE	red-hot knucklebone	nugget of wicksilver
 
 nicksilver spurs	SMITH	jangly spurs	nugget of nicksilver
-quickssilver spurs	SMITH	jangly spurs	nugget of quickssilver
+quicksilver spurs	SMITH	jangly spurs	nugget of quicksilver
 sicksilver spurs	SMITH	jangly spurs	nugget of sicksilver
 slicksilver spurs	SMITH	jangly spurs	nugget of slicksilver
 thicksilver spurs	SMITH	jangly spurs	nugget of thicksilver

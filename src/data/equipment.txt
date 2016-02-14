@@ -2786,7 +2786,7 @@ ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none
 yellow glowstick	20	none
 Yellow Moon of Compassion	200	Mys: 85
-your cowboy boots	0	none
+your cowboy boots	50	none
 Zinc Delta of Tranquility	200	Mys: 85
 zombie monkey necklace	0	none
 Zombo's skull ring	200	Mys: 200
