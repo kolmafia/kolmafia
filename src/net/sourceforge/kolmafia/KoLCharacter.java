@@ -145,10 +145,14 @@ public abstract class KoLCharacter
 	public static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
 	public static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
 	public static final String ED = "Ed";
+	public static final String COWPUNCHER = "Cow Puncher";
+	public static final String BEANSLINGER = "Beanslinger";
+	public static final String SNAKE_OILER = "Snake Oiler";
 
 	// Paths
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 	public static final String ACTUALLY_ED_THE_UNDYING = "Actually Ed the Undying";
+	public static final String WEST_OF_LOATHING = "Avatar of West of Loathing";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -1026,7 +1030,8 @@ public abstract class KoLCharacter
 		if ( classType.equals( KoLCharacter.SEAL_CLUBBER ) ||
 		     classType.equals( KoLCharacter.TURTLE_TAMER ) ||
 		     classType.equals( KoLCharacter.AVATAR_OF_BORIS ) ||
-		     classType.equals( KoLCharacter.ZOMBIE_MASTER ) )
+		     classType.equals( KoLCharacter.ZOMBIE_MASTER ) ||
+		     classType.equals( KoLCharacter.COWPUNCHER ) )
 		{
 			return 0;
 		}
@@ -1034,14 +1039,16 @@ public abstract class KoLCharacter
 		if ( classType.equals( KoLCharacter.SAUCEROR ) ||
 		     classType.equals( KoLCharacter.PASTAMANCER ) ||
 		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ||
-		     classType.equals( KoLCharacter.ED ) )
+		     classType.equals( KoLCharacter.ED ) ||
+		     classType.equals( KoLCharacter.BEANSLINGER ) )
 		{
 			return 1;
 		}
 
 		if ( classType.equals( KoLCharacter.DISCO_BANDIT ) ||
 		     classType.equals( KoLCharacter.ACCORDION_THIEF ) ||
-		     classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) )
+		     classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ||
+		     classType.equals( KoLCharacter.SNAKE_OILER ) )
 		{
 			return 2;
 		}
@@ -1375,6 +1382,9 @@ public abstract class KoLCharacter
 			classtype == 14 ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			classtype == 15 ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
 			classtype == 17 ? KoLCharacter.ED :
+			classtype == 18 ? KoLCharacter.COWPUNCHER :
+			classtype == 19 ? KoLCharacter.BEANSLINGER :
+			classtype == 20 ? KoLCharacter.SNAKE_OILER :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1448,6 +1458,9 @@ public abstract class KoLCharacter
 			classname.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ? KoLCharacter.AVATAR_OF_JARLSBERG :
 			classname.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ? KoLCharacter.AVATAR_OF_SNEAKY_PETE :
 			classname.equals( KoLCharacter.ED ) ? KoLCharacter.ED :
+			classname.equals( KoLCharacter.COWPUNCHER ) ? KoLCharacter.COWPUNCHER :
+			classname.equals( KoLCharacter.BEANSLINGER ) ? KoLCharacter.BEANSLINGER :
+			classname.equals( KoLCharacter.SNAKE_OILER ) ? KoLCharacter.SNAKE_OILER :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1462,7 +1475,8 @@ public abstract class KoLCharacter
 		return	KoLCharacter.classtype == KoLCharacter.SEAL_CLUBBER ||
 			KoLCharacter.classtype == KoLCharacter.TURTLE_TAMER ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_BORIS ||
-			KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER;
+			KoLCharacter.classtype == KoLCharacter.ZOMBIE_MASTER ||
+			KoLCharacter.classtype == KoLCharacter.COWPUNCHER;
 	}
 
 	public static final boolean isAvatarOfBoris()
@@ -1480,14 +1494,16 @@ public abstract class KoLCharacter
 		return	KoLCharacter.classtype == KoLCharacter.PASTAMANCER ||
 			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG ||
-			KoLCharacter.classtype == KoLCharacter.ED;
+			KoLCharacter.classtype == KoLCharacter.ED ||
+			KoLCharacter.classtype == KoLCharacter.BEANSLINGER;
 	}
 
 	public static final boolean isMoxieClass()
 	{
 		return	KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
 			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
-			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE;
+			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
+			KoLCharacter.classtype == KoLCharacter.SNAKE_OILER;
 	}
 
 	public static final Stat mainStat()
@@ -3605,6 +3621,11 @@ public abstract class KoLCharacter
 	public static final boolean isCommunityService()
 	{
 		return KoLCharacter.ascensionPath.equals( "Community Service" );
+	}
+
+	public static final boolean isWestOfLoathing()
+	{
+		return KoLCharacter.ascensionPath.equals( "Avatar of West of Loathing" );
 	}
 
 	public static final boolean isUnarmed()
