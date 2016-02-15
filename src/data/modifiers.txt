@@ -4629,6 +4629,7 @@ Effect	Egg-cellent Vocabulary	Moxie Percent: +10
 Effect	Egg-headedness	Mysticality Percent: +10
 Effect	Egg-stortionary Tactics	Meat Drop: +50
 Effect	Egg-stra Arm	Muscle Percent: +10
+Effect	Egged On	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10
 Effect	Eggs-tra Sensory Perception	Item Drop: +10
 Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
