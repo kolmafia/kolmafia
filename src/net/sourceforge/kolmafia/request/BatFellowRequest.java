@@ -59,14 +59,6 @@ public class BatFellowRequest
 
 		if ( action == null )
 		{
-			String zone = BatManager.placeToBatZone( place );
-			if ( zone != null && zone != BatManager.currentBatZone() )
-			{
-				String message = "Drive to " + zone;
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-				return true;
-			}
 			return false;
 		}
 

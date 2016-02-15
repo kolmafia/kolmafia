@@ -2352,8 +2352,36 @@ public class FightRequest
 			return;
 		}
 
+		// Spend MP and consume items
+		FightRequest.payActionCost( responseText );
+
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : "";
+
+		String limitmode = KoLCharacter.getLimitmode();
+		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
+		boolean won = finalRound && responseText.contains( "<!--WINWINWIN-->" );
+
+		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.SPELUNKY )
+		{
+			if ( !won )
+			{
+				MonsterStatusTracker.applyManuelStats();
+				return;
+			}
+			if ( limitmode == Limitmode.BATMAN )
+			{
+				BatManager.wonFight( monsterName, responseText );
+			}
+			else
+			{
+				SpelunkyRequest.wonFight( monsterName, responseText );
+			}
+			FightRequest.clearInstanceData();
+			FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
+			FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+			return;
+		}
 
 		// First round quest update
 		if ( FightRequest.currentRound == 1 )
@@ -2363,9 +2391,6 @@ public class FightRequest
 		
 		// Look for special effects
 		FightRequest.updateMonsterHealth( responseText );
-
-		// Spend MP and consume items
-		FightRequest.payActionCost( responseText );
 
 		// Look for Mer-kin clues
 		DreadScrollManager.handleKillscroll( responseText );
@@ -2448,10 +2473,10 @@ public class FightRequest
 		}
 
 		if ( responseText.contains( "Axel screams, and lets go of your hand" ) || 
-			responseText.contains( "Axel Ottal wanders off" ) )
+		     responseText.contains( "Axel Ottal wanders off" ) )
 		{
 			EquipmentManager.discardEquipment( ItemPool.SPOOKY_LITTLE_GIRL );
-			KoLmafia.updateDisplay( MafiaState.PENDING, "Your Spooky little girl ran off." );
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Your spooky little girl ran off." );
 		}
 
 		// He flicks his oiled switchblade at you and wrenches your weapon out of your hand.
@@ -2584,7 +2609,6 @@ public class FightRequest
 		}
 
 		// Reset round information if the battle is complete.
-		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
 		if ( !finalRound )
 		{
 			return;
@@ -2592,8 +2616,6 @@ public class FightRequest
 
 		// If this was an item-generated monster, reset
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
-
-		boolean won = responseText.contains( "<!--WINWINWIN-->" );
 
 		// If we won, the fight is over for sure. It might be over
 		// anyway. We can detect this in one of two ways: if you have
@@ -2782,14 +2804,14 @@ public class FightRequest
 
 		// Check for runaways. Only a free runaway decreases chance
 		if ( ( responseText.contains( "shimmers as you quickly float away" ) ||
-			 responseText.contains( "your pants suddenly activate" ) )
+		       responseText.contains( "your pants suddenly activate" ) )
 		       && !KoLCharacter.inBigcore() )
 		{
 			Preferences.increment( "_navelRunaways", 1 );
 		}
 
 		else if ( ( responseText.contains( "his back, and flooms away" ) ||
-				responseText.contains( "speed your escape.  Thanks" ) )
+			    responseText.contains( "speed your escape.  Thanks" ) )
 		            && !KoLCharacter.inBigcore() )
 		{
 			Preferences.increment( "_banderRunaways", 1 );
@@ -3311,16 +3333,6 @@ public class FightRequest
 					RequestLogger.updateSessionLog( updateMessage );
 					KoLmafia.updateDisplay( updateMessage );
 				}
-			}
-
-			String limitmode = KoLCharacter.getLimitmode();
-			if ( limitmode == Limitmode.SPELUNKY )
-			{
-				SpelunkyRequest.wonFight( monsterName, responseText );
-			}
-			else if ( limitmode == Limitmode.BATMAN )
-			{
-				BatManager.wonFight( monsterName, responseText );
 			}
 
 			// You see a strange cartouche painted on a nearby wall.
