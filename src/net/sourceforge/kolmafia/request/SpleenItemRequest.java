@@ -84,6 +84,11 @@ public class SpleenItemRequest
 	@Override
 	public void run()
 	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
 		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
