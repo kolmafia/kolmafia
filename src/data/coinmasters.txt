@@ -825,3 +825,6 @@ LT&T Gift Shop	buy	20	Hell and How I Bent It	ROW797
 LT&T Gift Shop	buy	40	Tales of Western Braggadoccio	ROW796
 LT&T Gift Shop	buy	60	The Western Look	ROW798
 LT&T Gift Shop	buy	100	LT&T tattoo kit	ROW799
+LT&T Gift Shop	buy	15	Western Slang Vol. 1: Violence	ROW800
+LT&T Gift Shop	buy	15	Western Slang Vol. 2: Cooking	ROW801
+LT&T Gift Shop	buy	15	Western Slang Vol. 3: Fraud	ROW802

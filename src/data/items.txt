@@ -8943,9 +8943,9 @@
 8917	Hell and How I Bent It	339356359	book4.gif	usable	t	0
 8918	The Western Look	660540030	book5.gif	usable	t	0
 8919	LT&T tattoo kit	894752161	ltttatkit.gif	usable	t	0
-8920
-8921
-8922
+8920	Western Slang Vol. 1: Violence	789980361	book3.gif	usable	t	0
+8921	Western Slang Vol. 2: Cooking	241402130	book3.gif	usable	t	0
+8922	Western Slang Vol. 3: Fraud	966768407	book3.gif	usable	t	0
 8923	strange disc (white)	984618205	powerball.gif	none, combat reusable	q	0
 8924	strange disc (black)	477735521	powerball.gif	none, combat reusable	q	0
 8925	strange disc (red)	439434832	powerball.gif	none, combat reusable	q	0
