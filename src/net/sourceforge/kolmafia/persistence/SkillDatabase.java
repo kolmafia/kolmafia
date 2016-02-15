@@ -108,6 +108,9 @@ public class SkillDatabase
 	private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
 	private static final String HEAVY_RAINS = "Heavy Rains";
 	private static final String ED = "Ed the Undying";
+	private static final String COWPUNCHER = "Cow Puncher";
+	private static final String BEANSLINGER = "Beanslinger";
+	private static final String SNAKE_OILER = "Snake Oiler";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -129,6 +132,9 @@ public class SkillDatabase
 		SkillDatabase.AVATAR_OF_SNEAKY_PETE,	// 15xxx
 		SkillDatabase.HEAVY_RAINS,	// 16xxx
 		SkillDatabase.ED,	// 17xxx
+		SkillDatabase.COWPUNCHER,	// 18xxx
+		SkillDatabase.BEANSLINGER,	// 19xxx
+		SkillDatabase.SNAKE_OILER,	// 20xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
@@ -426,6 +432,18 @@ public class SkillDatabase
 		if ( name == KoLCharacter.ED )
 		{
 			return 17000;
+		}
+		if ( name == KoLCharacter.COWPUNCHER )
+		{
+			return 18000;
+		}
+		if ( name == KoLCharacter.BEANSLINGER )
+		{
+			return 19000;
+		}
+		if ( name == KoLCharacter.SNAKE_OILER )
+		{
+			return 20000;
 		}
 
 		return 0;
@@ -1461,7 +1479,7 @@ public class SkillDatabase
 		for ( int i = 0; i < skills.length; ++i )
 		{
 			String skill = skills[ i ].getSkillName();
-			if ( skill.toLowerCase().indexOf( name ) != -1 )
+			if ( skill.toLowerCase().contains( name ) )
 			{
 				if ( ambiguous )
 				{

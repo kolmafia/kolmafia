@@ -434,6 +434,15 @@ public class AfterLifeRequest
 			case 17:
 				builder.append( "Ed" );
 				break;
+			case 18:
+				builder.append( "Cow Puncher" );
+				break;
+			case 19:
+				builder.append( "Beanslinger" );
+				break;
+			case 20:
+				builder.append( "Snake Oiler" );
+				break;
 			default:
 				builder.append( "(Class " );
 				builder.append( String.valueOf( pclass ) );
@@ -546,6 +555,9 @@ public class AfterLifeRequest
 				break;
 			case 25:
 				builder.append( "a Community Service" );
+				break;
+			case 26:
+				builder.append( "an Avatar of West of Loathing" );
 				break;
 			default:
 				builder.append( "(Path " );

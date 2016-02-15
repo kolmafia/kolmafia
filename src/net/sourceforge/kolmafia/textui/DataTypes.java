@@ -126,6 +126,9 @@ public class DataTypes
 		KoLCharacter.AVATAR_OF_SNEAKY_PETE,
 		"",
 		KoLCharacter.ED,
+		KoLCharacter.COWPUNCHER,
+		KoLCharacter.BEANSLINGER,
+		KoLCharacter.SNAKE_OILER,
 	};
 
 	public static final Type ANY_TYPE = new Type( null, DataTypes.TYPE_ANY );
