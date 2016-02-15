@@ -218,7 +218,7 @@ public abstract class ChoiceManager
 	private static final Pattern WLF_COUNT_PATTERN = Pattern.compile( ".*? \\(([\\d]+)\\)$" );
 	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
 	private static final Pattern SNOJO_CONSOLE_PATTERN = Pattern.compile( "<b>(.*?) MODE</b>" );
-	private static final Pattern TELEGRAM_PATTERN = Pattern.compile( "value=\"RE: (.*?)\\\"" );
+	private static final Pattern TELEGRAM_PATTERN = Pattern.compile( "value=\"RE: (.*?)\"" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -6656,17 +6656,14 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "lttQuestDifficulty", ChoiceManager.lastDecision );
 				Preferences.setInteger( "lttQuestStageCount", 0 );
 				Matcher matcher = TELEGRAM_PATTERN.matcher( ChoiceManager.lastResponseText );
-				if ( matcher.matches() )
+				for ( int i = 0; i < ChoiceManager.lastDecision ; i++ )
 				{
-					for ( int i = 0; i < ChoiceManager.lastDecision ; i++ )
+					if ( !matcher.find() )
 					{
-						if ( !matcher.find() )
-						{
-							break;
-						}
+						break;
 					}
-					Preferences.setString( "lttQuestName", matcher.group(1) );
 				}
+				Preferences.setString( "lttQuestName", matcher.group(1) );
 			}
 			break;
 		}
