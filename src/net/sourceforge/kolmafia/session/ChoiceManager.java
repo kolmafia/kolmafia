@@ -6656,14 +6656,17 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "lttQuestDifficulty", ChoiceManager.lastDecision );
 				Preferences.setInteger( "lttQuestStageCount", 0 );
 				Matcher matcher = TELEGRAM_PATTERN.matcher( ChoiceManager.lastResponseText );
-				for ( int i = 0; i < ChoiceManager.lastDecision ; i++ )
+				if ( matcher.matches() )
 				{
-					if ( !matcher.find() )
+					for ( int i = 0; i < ChoiceManager.lastDecision ; i++ )
 					{
-						break;
+						if ( !matcher.find() )
+						{
+							break;
+						}
 					}
+					Preferences.setString( "lttQuestName", matcher.group(1) );
 				}
-				Preferences.setString( "lttQuestName", matcher.group(1) );
 			}
 			break;
 		}
