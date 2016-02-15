@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -344,6 +345,26 @@ public class BatManager
 				AdventureResult result = item.getInstance( -count );
 				AdventureResult.addResultToList( KoLConstants.inventory, result );
 				AdventureResult.addResultToList( KoLConstants.tally, result );
+			}
+		}
+	}
+
+	// <a target=mainpane href=place.php?whichplace=batman_cave>
+	public static final Pattern ZONE_PATTERN = Pattern.compile( "whichplace=(.*?.php)" );
+
+	public static void parseTopMenu( final String responseText )
+	{
+		Matcher matcher = BatManager.ZONE_PATTERN.matcher( responseText );
+		if ( matcher.find() )
+		{
+			String place = matcher.group( 1 );
+			String zone = BatManager.placeToBatZone( place );
+			if ( zone != BatManager.currentBatZone() )
+			{
+				String message = "Drive to " + zone;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				BatManager.setBatZone( zone );
 			}
 		}
 	}
