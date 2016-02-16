@@ -9060,6 +9060,96 @@ public abstract class ChoiceManager
 			// Bat-Cavern Upgrades
 			BatManager.batCavernUpgrade( ChoiceManager.lastDecision, text );
 			break;
+
+		case 1140:
+			// Casing the Conservatory
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.GLOB_OF_BAT_GLUE );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
+				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
+				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
+			}
+			break;
+
+		case 1141:
+			// Researching the Reservoir
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.BAT_AID_BANDAGE );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
+				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
+				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
+			}
+			break;
+
+		case 1142:
+			// Combing the Cemetery
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.BAT_BEARING );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
+				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
+				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
+			}
+			break;
+
+		case 1143:
+			// Searching the Sewers
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.BAT_OOMERANG );
+			}
+			break;
+
+		case 1144:
+			// Assessing the Asylum
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.BAT_O_MITE );
+			}
+			break;
+
+		case 1145:
+			// Looking over the Library
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.BAT_JUTE );
+			}
+			break;
+
+		case 1146:
+			// Considering the Clock Factory
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
+			}
+			break;
+
+		case 1147:
+			// Frisking the Foundry
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
+			}
+			break;
+
+		case 1148:
+			// Taking Stock of the Trivia Company
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
