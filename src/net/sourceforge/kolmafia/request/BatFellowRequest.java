@@ -48,7 +48,7 @@ public class BatFellowRequest
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		BatManager.setBatZone( urlString, responseText );
+		BatManager.parsePlaceResponse( urlString, responseText );
 	}
 
 	public static boolean registerRequest( final String place, final String urlString )

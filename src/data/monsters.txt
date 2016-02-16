@@ -1675,19 +1675,19 @@ common criminal	1865	blankmook.gif	Init: -10000 P: dude
 uncommon criminal	1866	blankmook.gif	Init: -10000 P: dude
 rare criminal	1867	blankmook.gif	Init: -10000 P: dude
 
-low-level mook	1868	blankmook.gif	Init: -10000 P: dude
-mid-level mook	1869	blankmook.gif	Init: -10000 P: dude
-high-level mook	1870	blankmook.gif	Init: -10000 P: dude
+low-level mook	1868	blankmook.gif	HP: 10 Init: -10000 P: dude
+mid-level mook	1869	blankmook.gif	HP: 20 Init: -10000 P: dude
+high-level mook	1870	blankmook.gif	HP: 40 Init: -10000 P: dude
 
-Kudzu	1871	batboss_kudzu.gif	Init: -10000 P: plant
-Mansquito	1872	batboss_mansq.gif	Init: -10000 P: dude
-Miss Graves	1873	batboss_graves.gif	Init: -10000 P: dude
-The Plumber	1874	batboss_plumber.gif	Init: -10000 P: dude
-The Author	1875	batboss_author.gif	Init: -10000 P: dude
-The Mad Libber	1876	batboss_libber.gif	Init: -10000 P: dude
-Doc Clock	1877	batboss_docclock.gif	Init: -10000 P: dude
-Mr. Burns	1878	batboss_mrburns.gif	Init: -10000 P: dude
-The Inquisitor	1879	batboss_inquis.gif	Init: -10000 P: dude
+Kudzu	1871	batboss_kudzu.gif	HP: 20 Init: -10000 P: plant	Kudzu slaw (c100)
+Mansquito	1872	batboss_mansq.gif	HP: 20 Init: -10000 P: dude	Mansquito's blood (c100)
+Miss Graves	1873	batboss_graves.gif	HP: 20 Init: -10000 P: dude	infrablack lipstick (c100)
+The Plumber	1874	batboss_plumber.gif	HP: 75 Init: -10000 P: dude	can of drain cleaner (c100)
+The Author	1875	batboss_author.gif	HP: 75 Init: -10000 P: dude	The Author's inkwell (c100)
+The Mad Libber	1876	batboss_libber.gif	HP: 75 Init: -10000 P: dude	bag of random words (c100)
+Doc Clock	1877	batboss_docclock.gif	HP: 100 Init: -10000 P: dude	tube of pendulum lube (c100)
+Mr. Burns	1878	batboss_mrburns.gif	HP: 100 Init: -10000 P: dude	red-hot jawbreaker (c100)
+The Inquisitor	1879	batboss_inquis.gif	HP: 100 Init: -10000 P: dude	question juice (c100)
 
 # Gotpork Conservatory of Flowers
 vine-controlled botanist	1880	botanist.gif	Init: -10000 P: plant
@@ -1726,7 +1726,7 @@ inquisitee	1896	inquisitee.gif	Init: -10000 P: dude
 trivia researcher	1897	researcher.gif	Init: -10000 P: dude
 
 # JokesterCo
-The Jokester	1898	jokester.gif	Init: -10000 P: dude
+The Jokester	1898	jokester.gif	HP: 200 Init: -10000 P: dude	tube of villain white (c100)
 
 # KoL Con
 

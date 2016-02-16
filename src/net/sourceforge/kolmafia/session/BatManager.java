@@ -239,7 +239,7 @@ public class BatManager
 			}
 			else if ( upgrade == BatManager.ASBESTOS_LINING )
 			{
-				BatManager.stats.increment( "Bat-Heat Resistance", 10 );
+				BatManager.stats.increment( "Bat-Heat Resistance", 50 );
 			}
 		}
 	}
@@ -256,7 +256,7 @@ public class BatManager
 			}
 			else if ( upgrade == BatManager.BAT_FRESHENER )
 			{
-				BatManager.stats.increment( "Bat-Stench Resistance", 10 );
+				BatManager.stats.increment( "Bat-Stench Resistance", 50 );
 			}
 		}
 	}
@@ -269,7 +269,7 @@ public class BatManager
 			BatManager.addUpgrade( upgrade );
 			if ( upgrade == BatManager.SNUGGLYBEAR_NIGHTLIGHT )
 			{
-				BatManager.stats.increment( "Bat-Spooky Resistance", 10 );
+				BatManager.stats.increment( "Bat-Spooky Resistance", 50 );
 			}
 			else if ( upgrade == BatManager.BLUEPRINTS_DATABASE )
 			{
@@ -357,16 +357,20 @@ public class BatManager
 		Matcher matcher = BatManager.ZONE_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			String place = matcher.group( 1 );
-			String zone = BatManager.placeToBatZone( place );
-			if ( zone != BatManager.currentBatZone() )
-			{
-				String message = "Drive to " + zone;
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-				BatManager.setBatZone( zone );
-			}
+			BatManager.newBatZone( BatManager.placeToBatZone( matcher.group( 1 ) ) );
 		}
+	}
+
+	public static void parsePlaceResponse( final String urlString, final String responseText )
+	{
+		String zone =
+			urlString.contains( "batman_cave" ) ? BatManager.BAT_CAVERN :
+			urlString.contains( "batman_downtown" ) ? BatManager.DOWNTOWN :
+			urlString.contains( "batman_park" ) ? BatManager.CENTER_PARK :
+			urlString.contains( "batman_slums" ) ? BatManager.SLUMS :
+			urlString.contains( "batman_industrial" ) ? BatManager.INDUSTRIAL_DISTRICT :
+			GOTPORK_CITY;
+		BatManager.newBatZone( zone );
 	}
 
 	// <td><img src=http://images.kingdomofloathing.com/itemimages/watch.gif alt='Time until Gotpork City explodes' title='Time until Gotpork City explodes'></td><td valign=center><font face=arial>10 h. 0 m.</td>
@@ -516,16 +520,15 @@ public class BatManager
 		Preferences.setString( "batmanZone", zone );
 	}
 
-	public static void setBatZone( final String urlString, final String responseText )
+	public static void newBatZone( final String zone )
 	{
-		String zone =
-			urlString.contains( "batman_cave" ) ? BatManager.BAT_CAVERN :
-			urlString.contains( "batman_downtown" ) ? BatManager.DOWNTOWN :
-			urlString.contains( "batman_park" ) ? BatManager.CENTER_PARK :
-			urlString.contains( "batman_slums" ) ? BatManager.SLUMS :
-			urlString.contains( "batman_industrial" ) ? BatManager.INDUSTRIAL_DISTRICT :
-			GOTPORK_CITY;
-		BatManager.setBatZone( zone );
+		if ( zone != BatManager.currentBatZone() )
+		{
+			String message = "Drive to " + zone;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			BatManager.setBatZone( zone );
+		}
 	}
 	
 	public static void gainItem( final AdventureResult item )

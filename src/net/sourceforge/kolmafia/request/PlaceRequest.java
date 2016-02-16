@@ -114,6 +114,10 @@ public class PlaceRequest
 		{
 			ArcadeRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.startsWith( "batman" ) )
+		{
+			BatFellowRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "chateau" ) )
 		{
 			ChateauRequest.parseResponse( urlString, responseText );
