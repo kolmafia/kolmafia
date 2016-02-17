@@ -1881,6 +1881,7 @@ Item	handmade hobby horse	Experience (Muscle): +2
 # heavy duty umbrella: Reduces the level of nearby water.  Somehow.
 Item	heavy duty umbrella	Water Level: -2
 Item	heavy-duty clipboard	Mysticality: +10, Spell Critical Percent: +10, Spooky Resistance: +5, Damage Reduction: 8
+Item	Heimz Fortified Kidney Beans	Maximum HP: +15, Spell Damage: +10, HP Regen Min: 4, HP Regen Max: 5
 Item	Hellfire Spicy Beans	Hot Spell Damage: +15
 Item	hippo skin buckler	Muscle: +5, Damage Reduction: 5
 Item	HOA regulation book	Reduce Enemy Defense: 20, Monster Level: -100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 23
