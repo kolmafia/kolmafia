@@ -430,6 +430,7 @@ ridiculous cocktail	3	1	awesome	11	10-12	10-12	10-12
 robin nog	2	1	awesome	0	0	0	0	Unspaded
 rocket fuel	3	4	good	7-11	0	0	10-20
 rockin' wagon	4	4	good	10-14	0	0	34-36
+rodeo whiskey	3	3	good	0	0	0	0	Unspaded
 roll in the hay	4	4	good	10-14	0	34-36	0
 Rompedores de Fantasmas	3	1	good	8-10	13	0	0	13 Desenfantasmada (+3 Mus exp, +2 spooky res)
 rum and cola	3	1	decent	5-6	0	0	10-12	14-16 MP

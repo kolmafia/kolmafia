@@ -2075,3 +2075,15 @@
 2074	Bendin' Hell	junkbent.gif	321a078c82f870ee30404c2512e576eb	cast 1 Bend Hell
 2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83
 2076	Tightly-Wound Spine	clspine.gif	e85983ba9472ce64d308d0ca6d508f2b	use 1 tightly-wound spine
+2077
+2078
+2079
+2080	Oiled Skin	potion20.gif	eeef2ac74abc260a8f16c13833dbf822	use 1 skin oil
+2081	Unusual Perspective	eyes.gif	e71379b5d689b243614234e5a33339f8	use 1 unusual oil
+2082	Uncanny Shot	darkvial.gif	178247608d9b1a308d130bfe96cad392	use 1 eldritch oil
+2083	Patent Prevention	coughsyrup.gif	57ba10577b97150ee994aaf20bc5413d	use 1 patent preventative tonic
+2084	Patent Invisiblity	wine2.gif	165cda228baf3a55c3c3602eef5ddf3a	use 1 patent invisibility tonic
+2085	Patent Aggression	champagne.gif	958a29935f381784254ff685a3c2ce32	use 1 patent aggression tonic
+2086	Patent Sallowness	inkbottle.gif	e0b65633dff6c0559236a7c0c14587e5	use 1 patent sallowness tonic
+2087	Patent Avarice	fancybrew.gif	d93c471214c5a76619d277d4071f18fa	use 1 patent avarice tonic
+2088	Patent Alacrity	magicshell.gif	71bb908a3e113705d27377cc1b1f3441	use 1 patent alacrity tonic

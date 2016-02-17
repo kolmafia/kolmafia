@@ -1687,6 +1687,7 @@ miniature stuffed Goth Giant	10	none
 misfit dolly	0	none
 misfit hobby horse	0	none
 misfit teddy bear	0	none
+Mixed Garbanzos and Chickpeas	0	Mys: 5
 mole skin notebook	40	none
 moxie magnet	30	none
 Mr. Balloon	20	none
@@ -1848,6 +1849,7 @@ Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 tailbone shield	250	Mus: 200	shield
 teflon shield	220	Mus: 85	shield
 Temporal Tempera Tube	0	none
+Tesla's Electroplated Beans	0	Mys: 5
 The Joke Book of the Dead	0	none
 The Lot's engagement ring	0	none
 The Necbromancer's Stein	200	Mys: 200
