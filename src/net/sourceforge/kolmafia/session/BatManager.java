@@ -163,6 +163,7 @@ public class BatManager
 	};
 
 	public static final BatUpgrade IMPROVED_3D_BAT_PRINTER = BatManager.findOption( BAT_CAVERN_UPGRADES, "Improved 3-D Bat-Printer" );
+	public static final BatUpgrade TRANSFUSION_SATELLITE = BatManager.findOption( BAT_CAVERN_UPGRADES, "Transfusion Satellite" );
 	public static final BatUpgrade BLUEPRINTS_DATABASE = BatManager.findOption( BAT_CAVERN_UPGRADES, "Blueprints Database" );
 	public static final BatUpgrade SNUGGLYBEAR_NIGHTLIGHT = BatManager.findOption( BAT_CAVERN_UPGRADES, "Snugglybear Nightlight" );
 
@@ -274,6 +275,10 @@ public class BatManager
 			else if ( upgrade == BatManager.BLUEPRINTS_DATABASE )
 			{
 				BatManager.stats.increment( "Bat-Investigation Progress", 1 );
+			}
+			else if ( upgrade == BatManager.TRANSFUSION_SATELLITE )
+			{
+				BatManager.stats.increment( "Bat-Health Regeneration", 5 );
 			}
 		}
 	}

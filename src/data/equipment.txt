@@ -107,10 +107,12 @@ fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
 fireman's helmet	150	Mus: 60
+five-gallon hat	100	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
 football helmet	150	Mox: 60
+four-gallon hat	80	none
 Frosty's old silk hat	200	Mus: 200
 funny paper hat	10	none
 furry green turtle	45	Mox: 7
@@ -217,6 +219,7 @@ norwhal helmet	200	Mys: 50
 nurse's hat	200	Mox: 85
 oil cap	115	Mox: 42
 Ol' Scratch's stovepipe hat	200	Mys: 200
+one-gallon hat	20	none
 opera mask	10	none
 orange peel hat	200	Mox: 85
 orange traffic cone	60	Mox: 15
@@ -262,9 +265,11 @@ seal-skull helmet	10	none
 sealhide hood	160	Mox: 65
 Seasonal Beret	100	Mys: 35
 sequined fez	80	Mox: 25
+seven-gallon hat	140	none
 shapeless wide-brimmed hat	200	Mox: 200
 silent beret	13	none
 sinister demon mask	100	Mox: 35
+six-gallon hat	120	none
 skeletortoise	30	none
 sleep mask	150	Mox: 60
 slime-covered helmet	200	Mox: 200
@@ -299,6 +304,7 @@ The Crown of Ed the Undying	100	none
 The Emperor's new hat	10	none
 The Jokester's wig	200	Mox: 50
 The Necbromancer's Hat	200	Mox: 200
+three-gallon hat	60	none
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
 tin tam	100	none
@@ -309,6 +315,7 @@ training helmet	100	Mox: 10
 Tropical Crimbo Hat	100	Mox: 35
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
+two-gallon hat	40	none
 Uncle Hobo's stocking cap	200	Mox: 200
 Unkillable Skeleton's skullcap	300	Mus: 250
 Van der Graaf helmet	30	none

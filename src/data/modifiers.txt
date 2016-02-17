@@ -185,10 +185,12 @@ Item	filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1x
 Item	fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 # fireman's helmet: +1 FDKOL Commendation per Fire
 Item	fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
+Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
 Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
 Item	football helmet	Familiar Effect: "atk, cap 37"
+Item	four-gallon hat	Muscle: +4, Mysticality: +4, Moxie: +4, Experience: +3
 Item	Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
 Item	funny paper hat	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "1xVolley, 1xLep, cap 2"
 Item	furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
@@ -307,6 +309,7 @@ Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Boo
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 Item	oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
 Item	Ol' Scratch's stovepipe hat	Mysticality Percent: +20, Hot Spell Damage: +30, Class: "Sauceror", Familiar Effect: "hot atk"
+Item	one-gallon hat	Muscle: +1, Mysticality: +1, Moxie: +1, Experience: +1
 Item	opera mask	Moxie: -5, Familiar Effect: "spooky atk, 1xBarrr, cap 2"
 Item	orange peel hat	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Familiar Effect: "atk, 1xVolley"
 Item	orange traffic cone	Moxie: +3, Spooky Resistance: +2, Familiar Effect: "cap 15"
@@ -358,9 +361,11 @@ Item	seal-skull helmet	Weapon Damage: +1, Familiar Effect: "atk, cap 2"
 Item	sealhide hood	Initiative: +20, Familiar Effect: "atk, 1xBarrr, cap 40"
 Item	Seasonal Beret	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Familiar Effect: "1xPotato, 1xFairy, cap 25"
 Item	sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
+Item	seven-gallon hat	Muscle: +7, Mysticality: +7, Moxie: +7, Experience: +3
 Item	shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
 Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Initiative: -50, Combat Rate: -5, Familiar Effect: "1xVolley, cap 3"
 Item	sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25, Familiar Effect: "atk, cap 25"
+Item	six-gallon hat	Muscle: +6, Mysticality: +6, Moxie: +6, Experience: +3
 Item	skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 # sleep mask: Can't see nothin'
 Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37"
@@ -396,6 +401,7 @@ Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +
 Item	The Emperor's new hat	Mysticality: [L]
 Item	The Jokester's wig	MP Regen Min: 6, MP Regen Max: 8, Monster Level: +10, Spooky Damage: +25
 Item	The Necbromancer's Hat	Mysticality Percent: +20, Spooky Spell Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
+Item	three-gallon hat	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +3
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 Item	time helmet	Adventures: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
 Item	tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Familiar Effect: "MP regen, cap 25"
@@ -408,6 +414,7 @@ Item	training helmet	Initiative: -50, Item Drop: +25, Moxie Percent: +25
 Item	Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
+Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
@@ -9032,6 +9039,7 @@ Item	Tales of a Kansas Toymaker	Skill: "Toynado"
 Item	Tales of a Kansas Toymaker (used)	Skill: "Toynado"
 Item	Tales of Dread	Free Pull
 # Tales of Spelunking: Begins a Spelunking Adventure!
+# Item Tales of the West: Cow Punching: Teaches you Cow Puncher skills
 Item	Tales of Western Braggadoccio	Skill: "Bow-Legged Swagger"
 # talisman of Horus: Attracts the attention of monsters
 Item	talisman of Horus	Effect: "Taunt of Horus", Effect Duration: 10
@@ -9135,6 +9143,7 @@ Item	totally sweet mohawk helmet	Effect: "Radiarius", Effect Duration: 100
 # toxic globule: Can be scienced into various objects
 # toy deathbot: Deals damage in exchange for some of your blood
 # toy mercenary: Charges Meat to Attack Foes
+# Item toy sixgun: Bang!
 # toy soldier: Deals 30-35 Damage (Requires Tequila)
 # toy soldier: (Not consumed when used)
 Item	training scroll: Shattering Punch	Skill: "Shattering Punch"
