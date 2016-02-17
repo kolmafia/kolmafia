@@ -1612,6 +1612,7 @@ heart-shaped balloon	10	none
 heavy duty umbrella	10	none
 heavy pickaxe	0	none
 heavy-duty clipboard	125	Mus: 47	shield
+Heimz Fortified Kidney Beans	0	Mys: 5
 Hellfire Spicy Beans	30	none
 hippo skin buckler	90	Mus: 30	shield
 HOA regulation book	350	Mus: 100	shield

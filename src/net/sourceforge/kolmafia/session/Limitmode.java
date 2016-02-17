@@ -381,6 +381,7 @@ public class Limitmode
 		{
 			return true;
 		}
+
 		// Should only hit this when a new limitmode is added, default to allow
 		return false;
 	}

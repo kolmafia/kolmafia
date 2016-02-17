@@ -661,111 +661,123 @@ public abstract class KoLCharacter
 			return 0;
 		}
 
-		int baseFullness = 15;
+		// Default stomach size, overridden below for various paths
+		int limit = 15;
 
-		if ( KoLCharacter.isSneakyPete() )
+		if ( KoLCharacter.isWestOfLoathing() )
 		{
-			baseFullness -= 10;
+			limit = 10;
+			if ( KoLCharacter.hasSkill( "Prodigious Appetite" ) )
+			{
+				limit += 5;
+			}
 		}
 
 		else if ( KoLCharacter.isEd() )
 		{
-			baseFullness = 0;
+			limit = 0;
 			if ( KoLCharacter.hasSkill( "Replacement Stomach" ) )
 			{
-				baseFullness += 5;
+				limit += 5;
 			}
 		}
 
-		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
+		else if ( KoLCharacter.inZombiecore() )
 		{
-			baseFullness++;
+			if ( KoLCharacter.hasSkill( "Insatiable Hunger" ) )
+			{
+				limit += 5;
+			}
+
+			if ( KoLCharacter.hasSkill( "Ravenous Pounce" ) )
+			{
+				limit += 5;
+			}
 		}
 
-		if ( Preferences.getBoolean( "_lupineHormonesUsed" ) )
+		// If you are an Avatar of Boris, you are a hearty eater
+		else if ( KoLCharacter.inAxecore() )
 		{
-			baseFullness += 3;
+			limit = 20;
+
+			if ( KoLCharacter.hasSkill( "Legendary Appetite" ) )
+			{
+				limit += 5;
+			}
 		}
 
-		if ( Preferences.getBoolean( "_sweetToothUsed" ) )
+		else if ( KoLCharacter.isJarlsberg() )
 		{
-			baseFullness++;
+			limit = 10;
+			
+			if (  KoLCharacter.hasSkill( "Lunch Like a King" ) )
+			{
+				limit += 5;
+			}
 		}
 
-		if ( Preferences.getBoolean( "_voraciTeaUsed" ) )
+		else if ( KoLCharacter.isSneakyPete() )
 		{
-			baseFullness++;
+			limit = 5;
 		}
 
-		// Pantsgiving
-		baseFullness += Preferences.getInteger( "_pantsgivingFullness" );
-
-		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
-		     KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
-		{
-			// No bonus fullness is available in these paths
-			return baseFullness;
-		}
-
-		if ( KoLCharacter.inBadMoon() )
+		else if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
 			{
-				baseFullness -= 1;
+				limit -= 1;
 			}
 			if ( KoLCharacter.hasSkill( "Gluttony" ) )
 			{
-				baseFullness += 2;
+				limit += 2;
 			}
 		}
 
 		if ( KoLCharacter.hasSkill( "Stomach of Steel" ) )
 		{
-			baseFullness += 5;
+			limit += 5;
 		}
 
-		if ( KoLCharacter.inZombiecore() )
+		if ( Preferences.getBoolean( "_distentionPillUsed" ) )
 		{
-			if ( KoLCharacter.hasSkill( "Insatiable Hunger" ) )
-			{
-				baseFullness += 5;
-			}
-
-			if ( KoLCharacter.hasSkill( "Ravenous Pounce" ) )
-			{
-				baseFullness += 5;
-			}
-
-			return baseFullness;
+			limit += 1;
 		}
 
-		// If you are an Avatar of Boris, you are a hearty eater
-		if ( KoLCharacter.inAxecore() )
+		if ( Preferences.getBoolean( "_lupineHormonesUsed" ) )
 		{
-			baseFullness += 5;
-
-			if ( KoLCharacter.hasSkill( "Legendary Appetite" ) )
-			{
-				baseFullness += 5;
-			}
-
-			return baseFullness;
+			limit += 3;
 		}
 
-		if ( KoLCharacter.isJarlsberg() && !KoLCharacter.hasSkill( "Lunch Like a King" ) )
+		if ( Preferences.getBoolean( "_sweetToothUsed" ) )
 		{
-			baseFullness -= 5;
+			limit += 1;
 		}
 
-		if ( KoLCharacter.isFullnessIncreased && ( KoLCharacter.getPath().equals( "None" ) || 
-			 KoLCharacter.getPath().equals( "Teetotaler" ) ) )
+		if ( Preferences.getBoolean( "_voraciTeaUsed" ) )
+		{
+			limit += 1;
+		}
+
+		// Pantsgiving
+		limit += Preferences.getInteger( "_pantsgivingFullness" );
+
+		if ( KoLCharacter.inBeecore() || KoLCharacter.isTrendy() ||
+		     KoLCharacter.inBugcore() || KoLCharacter.inClasscore() )
+		{
+			// No bonus fullness is available in these paths
+			return limit;
+		}
+
+		if ( KoLCharacter.isFullnessIncreased &&
+		     ( KoLCharacter.getPath().equals( "None" ) || 
+		       KoLCharacter.getPath().equals( "Teetotaler" ) ) )
 		{
 			// Challenge paths do not give bonus fullness for Feast of Boris.
 			// Check for paths that give bonus fullness instead of excluding all other paths.
-			baseFullness += 15;
+			limit += 15;
 		}
 
-		return baseFullness;
+		return limit;
 	}
 
 	public static final void setInebriety( final int inebriety )
@@ -788,7 +800,16 @@ public abstract class KoLCharacter
 		// Default liver size, overridden below for various paths
 		int limit = 14;
 
-		if ( KoLCharacter.isJarlsberg() )
+		if ( KoLCharacter.isWestOfLoathing() )
+		{
+			limit = 9;
+			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
+			{
+				limit += 5;
+			}
+		}
+
+		else if ( KoLCharacter.isJarlsberg() )
 		{
 			limit = 9;
 			if ( KoLCharacter.hasSkill( "Nightcap" ) )
@@ -820,8 +841,16 @@ public abstract class KoLCharacter
 			limit = 4;
 		}
 
-		if ( KoLCharacter.hasSkill( "Liver of Steel" ) ) limit += 5;
-		if ( KoLCharacter.hasSkill( "Hollow Leg" ) ) limit += 1;
+		if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
+		{
+			limit += 5;
+		}
+		
+		if ( KoLCharacter.hasSkill( "Hollow Leg" ) )
+		{
+			limit += 1;
+		}
+		
 		return limit;
 	}
 
@@ -847,12 +876,24 @@ public abstract class KoLCharacter
 
 	public static final int getSpleenLimit()
 	{
-		int limit = 15;
-		if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
+		if ( Limitmode.limitSpleening() )
 		{
 			return 0;
 		}
-		if ( KoLCharacter.isEd() )
+
+		// Default spleen size, overridden below for various paths
+		int limit = 15;
+
+		if ( KoLCharacter.isWestOfLoathing() )
+		{
+			limit = 10;
+			if ( KoLCharacter.hasSkill( "Tolerant Constitution" ) )
+			{
+				limit += 5;
+			}
+		}
+
+		else if ( KoLCharacter.isEd() )
 		{
 			limit = 5;
 			if ( KoLCharacter.hasSkill( "Okay Seriously, This is the Last Spleen" ) )
@@ -880,8 +921,17 @@ public abstract class KoLCharacter
 				limit += 5;
 			}
 		}
-		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) ) limit += 5;
-		if ( Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() ) limit++;
+
+		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) )
+		{
+			limit += 5;
+		}
+
+		if ( Preferences.getInteger( "lastStillBeatingSpleen" ) == KoLCharacter.getAscensions() )
+		{
+			limit += 1;
+		}
+
 		return limit;
 	}
 
@@ -3679,7 +3729,18 @@ public abstract class KoLCharacter
 
 	public static final boolean canEat()
 	{
-		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER ) && !Limitmode.limitEating();
+		if ( Limitmode.limitEating() )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Stomach" ) )
+		{
+			return false;
+		}
+
+		return  KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH ||
+			KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
 	}
 
 	public static final boolean canDrink()
@@ -3688,11 +3749,14 @@ public abstract class KoLCharacter
 		{
 			return false;
 		}
+
 		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Liver" ) )
 		{
 			return false;
 		}
-		return ( KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH || KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN );
+
+		return  KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH ||
+			KoLCharacter.consumptionRestriction == AscensionSnapshot.BOOZETAFARIAN;
 	}
 
 	/**

@@ -8889,7 +8889,7 @@
 8863	sicksilver ring	967563357	weddingring.gif	accessory		0
 8864	nicksilver ring	674028369	weddingring.gif	accessory		0
 8865	ticksilver ring	485357896	weddingring.gif	accessory		0
-8866
+8866	Heimz Fortified Kidney Beans	771486835	beanscan.gif	offhand	t,d	5
 8867	Tesla's Electroplated Beans	865375055	beanscan.gif	offhand	t,d	5
 8868	Mixed Garbanzos and Chickpeas	902779017	beanscan.gif	offhand	t,d	5
 8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand	t,d	10
