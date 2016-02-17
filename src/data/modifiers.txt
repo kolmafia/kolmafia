@@ -1972,6 +1972,7 @@ Item	Microplushie: Sororitrate	Sleaze Damage: +2
 Item	misfit dolly	Moxie: +5, Spooky Damage: +5
 Item	misfit hobby horse	Muscle: +5, Stench Damage: +5
 Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5
+Item	Mixed Garbanzos and Chickpeas	Maximum HP: +5, Maximum MP: +5, Spell Damage: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3
 Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -2160,6 +2161,7 @@ Item	Sword of the Brouhaha Prince	Muscle Percent: +12
 Item	tailbone shield	Stench Damage: +40, Damage Reduction: 16
 Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
+Item	Tesla's Electroplated Beans	Maximum MP: +15, Spell Damage: +10, MP Regen Min: 4, MP Regen Max: 5
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3
 # The Necbromancer's Stein: All Spells Cast Are Spooky
@@ -5327,6 +5329,7 @@ Effect	Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +
 Effect	Oh Hamlet Hamlet Hamlet Hamlet	Maximum HP Percent: +50, Maximum MP Percent: +50
 Effect	Oh Snap	Experience (Moxie): +10
 Effect	Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
+Effect	Oiled Skin	Moxie Percent: +100
 Effect	Oilsphere	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Effect	Oily Flavor	Muscle: +15
 # Oily Legs: Lets you mine Crimbonium faster
@@ -5380,6 +5383,12 @@ Effect	Pasta Oneness	Mysticality: +2
 Effect	Pasty	Muscle Percent: +50
 Effect	Patched In	Mysticality Percent: +20
 Effect	Patchy Punk	Avatar: "Punk Rock Giant"
+# Effect Patent Aggression: Makes you significantly more attractive to monsters
+Effect	Patent Alacrity	Initiative: +100
+Effect	Patent Avarice	Meat Drop: +50
+# Effect Patent Invisiblity: Makes you significantly less attractive to monsters
+Effect	Patent Prevention	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
+Effect	Patent Sallowness	Monster Level: +30
 Effect	Patience of the Tortoise	Maximum HP: +3, Muscle: +1
 Effect	Patient Smile	Experience (Muscle): +1
 # Paw swap: Extra-Vulnerable to Hot and Spooky
@@ -6029,11 +6038,13 @@ Effect	Two Left Feet	Moxie: -5
 # Ultrahydrated: Glug, Glug
 Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
+Effect	Uncanny Shot	Ranged Damage: +30
 # Uncertain: Muscle and Moxie +/- ???
 # Unmotivated: You're feeling really unmotivated. 
 Effect	Unmuffled	Combat Rate: +15
 Effect	Unpopular	Monster Level: +30
 Effect	Unusual Fashion Sense	Damage Absorption: +50
+Effect	Unusual Perspective	Item Drop: +50
 Effect	Updated	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Ur-Kel's Aria of Annoyance	Monster Level: [min(60,2*L)]
 Effect	Using Protection	Mana Cost: -2
@@ -7504,6 +7515,7 @@ Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
+Item	corrupted marrow	Effect: "Cowrruption", Effect Duration: 30
 Item	cosmic bucket	Free Pull
 Item	cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 Item	costume rental shop	Effect: "Rented Costume", Effect Duration: 50
@@ -7724,6 +7736,7 @@ Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
 Item	Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 Item	eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
+Item	eldritch oil	Effect: "Uncanny Shot", Effect Duration: 30
 # electric boning knife: Deals Physical Damage each round for the rest of the fight
 Item	electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
 # electric muscle stimulator: Gives some Muscle stats when you rest
@@ -8482,6 +8495,12 @@ Item	passed-out psychedelic bear	Free Pull
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5
 # patchouli oil bomb: Deals 65-80 <font color=green>Stench Damage</font>
+Item	patent aggression tonic	Effect: "Patent Aggression", Effect Duration: 30
+Item	patent alacrity tonic	Effect: "Patent Alacrity", Effect Duration: 20
+Item	patent avarice tonic	Effect: "Patent Avarice", Effect Duration: 30
+Item	patent invisibility tonic	Effect: "Patent Invisiblity", Effect Duration: 30
+Item	patent preventative tonic	Effect: "Patent Prevention", Effect Duration: 30
+Item	patent sallowness tonic	Effect: "Patent Sallowness", Effect Duration: 50
 Item	peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 Item	pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
@@ -8849,6 +8868,7 @@ Item	skelelton spine	Effect: "Spike-and-span", Effect Duration: 30
 Item	skeletal banana	Effect: "Osseous George", Effect Duration: 30
 # skeletal skiff: <b>Allows Travel to The Mysterious Island of Mystery</b>
 Item	skeleton beans	Effect: "Skeleton's Day Out", Effect Duration: 100
+Item	skin oil	Effect: "Oiled Skin", Effect Duration: 20
 # skull with a fuse in it: Deals 400-500 Physical Damage
 Item	Skullery Maid's Knee	Effect: "Clean to the Bone", Effect Duration: 30
 # Skullhead's Screw: Deals 10-20 <font color=blueviolet>Sleaze Damage</font>
@@ -8879,6 +8899,7 @@ Item	smoking talon	Class: "Pastamancer"
 Item	smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 Item	smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 Item	snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+# Item snake oil: Increase the venom and medicine level of your briefcase full of snakes
 # sneaky wrapping paper: Hide gifts for other players in various locations
 # snow boards: Useful for Bridge-Building
 Item	snow cleats	Effect: "Snow Shoes", Effect Duration: 30
@@ -9167,6 +9188,7 @@ Item	unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 # unstable laser battery: Deals 200-250 <font color=red>Hot Damage</font>
 # unstable laser battery: Briefly stuns enemies
 Item	unused walkie-talkie	Free Pull
+Item	unusual oil	Effect: "Unusual Perspective", Effect Duration: 20
 Item	unwound cymbal-playing monkey	Free Pull
 Item	upsy daisy	Effect: "Ass Over Teakettle", Effect Duration: 10
 Item	Valentine	Free Pull

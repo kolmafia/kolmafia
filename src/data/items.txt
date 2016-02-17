@@ -8890,8 +8890,8 @@
 8864	nicksilver ring	674028369	weddingring.gif	accessory		0
 8865	ticksilver ring	485357896	weddingring.gif	accessory		0
 8866
-8867
-8868
+8867	Tesla's Electroplated Beans	865375055	beanscan.gif	offhand	t,d	5
+8868	Mixed Garbanzos and Chickpeas	902779017	beanscan.gif	offhand	t,d	5
 8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand	t,d	10
 8870	Frigid Northern Beans	673710091	beanscan.gif	offhand	t,d	10
 8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand	t,d	10
@@ -8994,8 +8994,16 @@
 8968
 8969
 8970
-8971
-8972
-8973
-8974
+8971	snake oil	184616243	potion15.gif	usable	t,d	50
+8972	skin oil	250097471	potion20.gif	usable	t,d	50
+8973	unusual oil	811848807	lightvial.gif	usable	t,d	50
+8974	eldritch oil	650209099	darkvial.gif	usable	t,d	50
 8975	exclusive club	812957838	exclusiveclub.gif	weapon	t	0
+8976	patent preventative tonic	994670440	coughsyrup.gif	usable	t,d	100
+8977	patent invisibility tonic	837072744	wine2.gif	usable	t,d	100
+8978	patent aggression tonic	740807150	champagne.gif	usable	t,d	100
+8979	patent sallowness tonic	525068963	inkbottle.gif	usable	t,d	100
+8980	patent avarice tonic	645800628	fancybrew.gif	usable	t,d	100
+8981	patent alacrity tonic	205270181	magicshell.gif	usable	t,d	100
+8982	corrupted marrow	714979235	gooball.gif	usable	t,d	40
+8983	rodeo whiskey	762206613	fancybrew.gif	drink	t,d	40
