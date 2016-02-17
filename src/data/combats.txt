@@ -139,7 +139,7 @@ Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
 Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
-Investigating a Plaintive Telegram	100	buzzard	camp cook	caugr	Clara: 0	coal snake	cow cultist	diamondback rattler	drunk cowpoke	frontwinder	Granny Hackleton: 0	grizzled bear	hired gun	moomy	mountain lion	Pharaoh Amoon-Ra Cowtep: 0	pyrobove	restless ghost	skeletal gunslinger	spidercow	surly gambler	unusual construct: 0	wannabe gunslinger
+Investigating a Plaintive Telegram	100	buzzard	camp cook	caugr	Clara: 0	coal snake	cow cultist	diamondback rattler	Daisy the Unclean: 0	drunk cowpoke	Former Sheriff Dan Driscoll: 0	frontwinder	Granny Hackleton: 0	grizzled bear	hired gun	Jeff the Fancy Skeleton: 0	moomy	mountain lion	Pecos Dave: 0	Pharaoh Amoon-Ra Cowtep: 0	pyrobove	restless ghost	skeletal gunslinger	Snake-Eyes Glenn: 0	spidercow	surly gambler	unusual construct: 0	wannabe gunslinger
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 JokesterCo	100	The Jokester: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
