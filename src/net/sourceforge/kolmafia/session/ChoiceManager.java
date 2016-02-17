@@ -8978,6 +8978,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1081:
+			// Assault and Baguettery
+			if ( ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2 || ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.MAGICAL_BAGUETTE );
+			}
+			break;
+
 		case 1084:
 			// The Popular Machine
 			if ( text.contains( "popular tart springs" ) )

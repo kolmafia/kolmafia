@@ -2348,6 +2348,7 @@ public class ItemPool
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;
 	public static final int MEATSMITH_CHECK = 8156;
+	public static final int MAGICAL_BAGUETTE = 8168;
 	public static final int ENCHANTED_ICING = 8168;
 	public static final int CARTON_OF_SNAKE_MILK = 8172;
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
