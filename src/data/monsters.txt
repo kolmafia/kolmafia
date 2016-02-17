@@ -1677,7 +1677,7 @@ rare criminal	1867	blankmook.gif	Init: -10000 P: dude
 
 low-level mook	1868	blankmook.gif	HP: 10 Init: -10000 P: dude
 mid-level mook	1869	blankmook.gif	HP: 20 Init: -10000 P: dude
-high-level mook	1870	blankmook.gif	HP: 40 Init: -10000 P: dude
+high-level mook	1870	blankmook.gif	HP: 35 Init: -10000 P: dude
 
 Kudzu	1871	batboss_kudzu.gif	HP: 20 Init: -10000 P: plant	Kudzu slaw (c100)
 Mansquito	1872	batboss_mansq.gif	HP: 20 Init: -10000 P: dude	Mansquito's blood (c100)
@@ -1690,40 +1690,40 @@ Mr. Burns	1878	batboss_mrburns.gif	HP: 100 Init: -10000 P: dude	red-hot jawbreak
 The Inquisitor	1879	batboss_inquis.gif	HP: 100 Init: -10000 P: dude	question juice (c100)
 
 # Gotpork Conservatory of Flowers
-vine-controlled botanist	1880	botanist.gif	Init: -10000 P: plant
-vicious plant creature	1881	plantmonster.gif	Init: -10000 P: plant
+vine-controlled botanist	1880	botanist.gif	HP: 11 Init: -10000 P: plant
+vicious plant creature	1881	plantmonster.gif	HP: 11 Init: -10000 P: plant
 
 # Gotpork Municipal Reservoir
-giant leech	1882	giantleech.gif	Init: -10000 P: bug
-giant mosquito	1883	giantskeeter.gif	Init: -10000 P: bug
+giant leech	1882	giantleech.gif	HP: 11 Init: -10000 P: bug
+giant mosquito	1883	giantskeeter.gif	HP: 11 Init: -10000 P: bug
 
 # Gotpork Gardens Cemetery
-lovestruck goth dude	1884	lovestruckgoth.gif	Init: -10000 P: dude
-walking skeleton	1885	gothskeleton.gif	Init: -10000 P: undead
+lovestruck goth dude	1884	lovestruckgoth.gif	HP: 11 Init: -10000 P: dude
+walking skeleton	1885	gothskeleton.gif	HP: 11 Init: -10000 P: undead
 
 # Gotpork City Sewers
-liquid plumber	1886	liquidplumber.gif	Init: -10000 P: construct
-plumber's helper	1887	plumberhelper.gif	Init: -10000 P: dude
+liquid plumber	1886	liquidplumber.gif	HP: 25 Init: -10000 P: construct
+plumber's helper	1887	plumberhelper.gif	HP: 25 Init: -10000 P: dude
 
 # Porkham Asylum
-former inmate	1888	psychpatient.gif	Init: -10000 P: dude
-former guard	1889	blankmook.gif	Init: -10000 P: dude
+former inmate	1888	psychpatient.gif	HP: 25 Init: -10000 P: dude
+former guard	1889	blankmook.gif	HP: 25 Init: -10000 P: dude
 
 # The Old Gotpork Library
-very [adjective] henchwoman	1890	henchwoman.gif	Init: -10000 P: dude
-very [adjective] henchman	1891	henchman.gif	Init: -10000 P: dude
+very [adjective] henchwoman	1890	henchwoman.gif	HP: 25 Init: -10000 P: dude
+very [adjective] henchman	1891	henchman.gif	HP: 25 Init: -10000 P: dude
 
 # Gotpork Clock, Inc.
-time bandit	1892	blankmook.gif	Init: -10000 P: dude
-clockwork man	1893	clockworkman.gif	Init: -10000 P: dude
+time bandit	1892	blankmook.gif	HP: 40 Init: -10000 P: dude
+clockwork man	1893	clockworkman.gif	HP: 40 Init: -10000 P: dude
 
 # Gotpork Foundry
-serial arsonist	1894	burnerman.gif	Init: -10000 P: dude
-burner	1895	blankmook.gif	Init: -10000 P: dude
+serial arsonist	1894	burnerman.gif	HP: 40 Init: -10000 P: dude
+burner	1895	blankmook.gif	HP: 40 Init: -10000 P: dude
 
 # Trivial Pursuits, LLC
-inquisitee	1896	inquisitee.gif	Init: -10000 P: dude
-trivia researcher	1897	researcher.gif	Init: -10000 P: dude
+inquisitee	1896	inquisitee.gif	HP: 40 Init: -10000 P: dude
+trivia researcher	1897	researcher.gif	HP: 40 Init: -10000 P: dude
 
 # JokesterCo
 The Jokester	1898	jokester.gif	HP: 200 Init: -10000 P: dude	tube of villain white (c100)
