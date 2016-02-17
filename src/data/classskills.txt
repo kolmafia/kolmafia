@@ -1028,3 +1028,39 @@
 17046	Even More Elemental Wards	henna.gif	0	0	0
 17047	Mild Curse	exclam.gif	5	1	0
 17048	More Legs	edlegs.gif	0	0	0
+
+# Cow Puncher
+18000	One-Two Punch	onetwopunch.gif	5	3	0
+18001	Cowcall	cowcall.gif	5	10	0
+18002	Pistolwhip	sixgun2.gif	5	3	0
+18003	Hogtie	lasso.gif	5	10	0
+18004	True Outdoorsperson	outdoors.gif	0	0	0
+18005	Rugged Survivalist	hobohead.gif	0	0	0
+18006	Larger Than Life	larger.gif	0	0	0
+18007	Unleash Cowrruption	darkcow.gif	5	0	0
+18008	Hard Drinker	tankard.gif	0	0	0
+18009	Walk: Cautious Prowl	walkprowl.gif	3	40	20
+
+# Beanslinger
+19000	Lavafava	lavafava.gif	5	3	0
+19001	Pungent Mung	stinkbean.gif	5	5	0
+19002	Canhandle	beanscan.gif	5	0	0
+19003	Bean Screen	beanscreen.gif	5	10	0
+19004	Bean Runner	fastbean.gif	0	0	0
+19005	Bean Weaver	beanweaver.gif	0	0	0
+19006	Beanstorm	beanstorm.gif	5	15	0
+19007	Beancannon	sidecan.gif	5	15	0
+19008	Prodigious Appetite	stomach.gif	0	0	0
+19009	Walk: Prideful Strut	walkstrut.gif	3	40	20
+
+# Snake Oiler
+20000	Snakewhip	tinysnake.gif	5	3	0
+20001	Fan Hammer	sixgunbac.gif	5	10	0
+20002	Extract Oil	syringe2.gif	5	10	0
+20003	Bad Medicine	syringe.gif	5	5	0
+20004	Patent Medicine	coughsyrup.gif	0	0	0
+20005	Well-Oiled Guns	sixgunham.gif	0	0	0
+20006	Good Medicine	goodmedicine.gif	5	5	0
+20007	Long Con	calendar.gif	5	30	0
+20008	Tolerant Constitution	kidney.gif	0	0	0
+20009	Walk: Leasurely Amble	walkamble.gif	3	40	20
