@@ -191,7 +191,7 @@ public class MonsterManuelManager
 				}
 				int baseHP = monster.getBaseHP();
 				int hp = StringUtilities.parseInt( hpString );
-				if ( baseHP != -1 && baseHP != hp )
+				if ( baseHP != -1 && hp != 0 && baseHP != hp )
 				{
 					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has HP " + hp + ", but KoLmafia says it is " + baseHP );
 				}
