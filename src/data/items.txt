@@ -8979,8 +8979,8 @@
 8953	ticksilver spurs	565102329	sspurs.gif	usable	t,d	500
 8954	special edition Batfellow comic	608798216	batfellowbook.gif	usable		0
 8955	Tales of the West: Cow Punching	220432527	book3.gif	usable	q	0
-8956
-8957
+8956	Tales of the West: Beanslinging	798701830	book4.gif	usable	q	0
+8957	Tales of the West: Snake Oiling	965929241	book5.gif	usable	q	0
 8958
 8959	one-gallon hat	833660429	cowboyhat.gif	hat	q	0
 8960	two-gallon hat	678445035	cowboyhat.gif	hat	q	0
@@ -8991,8 +8991,8 @@
 8965	seven-gallon hat	832743385	cowboyhat.gif	hat	q	0
 8966	eight-gallon hat	721980553	cowboyhat.gif	hat	q	0
 8967	nine-gallon hat	612539870	cowboyhat.gif	hat	q	0
-8968
-8969
+8968	ten-gallon hat	868447072	cowboyhat.gif	hat	q	0
+8969	eleven-gallon hat	348093099	cowboyhat.gif	hat	q	0
 8970	toy sixgun	854153791	sixgun0.gif	none, combat reusable		0
 8971	snake oil	184616243	potion15.gif	usable	t,d	50
 8972	skin oil	250097471	potion20.gif	usable	t,d	50

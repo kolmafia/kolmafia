@@ -2075,9 +2075,9 @@
 2074	Bendin' Hell	junkbent.gif	321a078c82f870ee30404c2512e576eb	cast 1 Bend Hell
 2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83
 2076	Tightly-Wound Spine	clspine.gif	e85983ba9472ce64d308d0ca6d508f2b	use 1 tightly-wound spine
-2077
-2078
-2079
+2077	Cautious Prowl	walkprowl.gif	ed11574c3313265d7ec71d95b73ec223	cast 1 Walk: Cautious Prowl
+2078	Prideful Strut	walkstrut.gif	5f21c2d6be7ee8d5a9021ac2ef6bbf4f	cast 1 Walk: Prideful Strut
+2079	Leisurely Amblin'	walkamble.gif	407e14df87a0761b51fdd5b513c6a468	cast 1 Walk: Leasurely Amble
 2080	Oiled Skin	potion20.gif	eeef2ac74abc260a8f16c13833dbf822	use 1 skin oil
 2081	Unusual Perspective	eyes.gif	e71379b5d689b243614234e5a33339f8	use 1 unusual oil
 2082	Uncanny Shot	darkvial.gif	178247608d9b1a308d130bfe96cad392	use 1 eldritch oil

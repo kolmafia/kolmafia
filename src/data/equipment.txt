@@ -94,6 +94,7 @@ El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
 electrician's hardhat	200	Mus: 85
+eleven-gallon hat	220	none
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
@@ -301,6 +302,7 @@ superhero mask	10	none
 suspicious-looking fedora	60	Mox: 15
 sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
+ten-gallon hat	200	none
 The Clown Crown	0	none
 The Crown of Ed the Undying	100	none
 The Emperor's new hat	10	none
