@@ -5625,6 +5625,7 @@ Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 Effect	Sharin' Stone	Avatar: "Stone Golem"
 # Sharp Weapon: +3-5 Weapon Damage
 # Sheepskinned: Your regular attacks deal Sleaze damage
+Effect	Slawdered	Avatar: "Kudzu"
 Effect	Smoothly Criminal...ing	Avatar: "Smooth Criminal"
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 # Stormswaddled: Damages attacking opponents
