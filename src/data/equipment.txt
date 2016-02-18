@@ -89,6 +89,7 @@ duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 Dyspepsi-Cola helmet	30	none
 eelskin hat	200	Mys: 85
+eight-gallon hat	160	none
 El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
@@ -215,6 +216,7 @@ mummy costume	10	none
 mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 neoprene skullcap	65	none
+nine-gallon hat	180	none
 norwhal helmet	200	Mys: 50
 nurse's hat	200	Mox: 85
 oil cap	115	Mox: 42
