@@ -8397,7 +8397,6 @@ Item	monkey barf	Effect: "Barfpits", Effect Duration: 1
 # monomolecular yo-yo: Deals 35-45 Physical Damage
 # Monstar energy beverage: Restores 70-80 MP
 Item	Monster Manuel	Free Pull
-Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
 Item	Moonds	Effect: "Moon-Eyed", Effect Duration: 50
 Item	moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Item	Moping Artistic Goth Kid	Free Pull
