@@ -3871,7 +3871,7 @@ Throne	Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen
 # Sneaky Pete's Motorbike section
 
 # Motorbike	Blacklight Bulb gives +2% desert exploration after every combat in the desert
-# Motorbike	Deep-Seat Cushions means you find extra Meat after combat 
+# Motorbike	Deep-Seat Cushions means you find extra Meat after combat
 # Motorbike	Extra-Buoyant Tank allows access to Mysterious Island of Mystery
 # Motorbike	Extra-Loud Muffler means Rev Engine also grants: Unmuffled
 # Motorbike	Extra-Quiet Muffler means Rev Engine also grants: Muffled
@@ -3882,7 +3882,7 @@ Motorbike	Massage Seat	HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 5, MP Reg
 Motorbike	Nitro-Burnin' Funny Tank	Initiative: +50
 # Motorbike	Party Bulb makes Flash Headlight deal prismatic damage
 # Motorbike	Racing Slicks allows you to Peel Out 20 times more per day
-# Motorbike	Rocket Launcher constantly fires military-grade rockets 
+# Motorbike	Rocket Launcher constantly fires military-grade rockets
 Motorbike	Sissy Bar	Monster Level: -30
 # Motorbike	Snow Tires allows you to ascend The Mist-Shrouded Peak
 # Motorbike	Spiky Tires Pop Wheelie deals more damage
@@ -5156,7 +5156,7 @@ Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Exper
 Effect	Light-Headed	Mysticality Percent: -30
 Effect	Like an Egyptian	Avatar: "tomb servant"
 Effect	Limber as Mortimer	Gear Drop: +100
-# Effect Lion in Ambush: Makes you significantly more attractive to monsters
+Effect	Lion in Ambush	Combat Rate: +15
 Effect	Liquid Courage	Experience: +3
 Effect	Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Liquidy Smoky	Mysticality: +15, Moxie: +15
@@ -5398,9 +5398,11 @@ Effect	Pasty	Muscle Percent: +50
 Effect	Patched In	Mysticality Percent: +20
 Effect	Patchy Punk	Avatar: "Punk Rock Giant"
 # Effect Patent Aggression: Makes you significantly more attractive to monsters
+Effect	Patent Aggression	Combat Rate: +15
 Effect	Patent Alacrity	Initiative: +100
 Effect	Patent Avarice	Meat Drop: +50
 # Effect Patent Invisiblity: Makes you significantly less attractive to monsters
+Effect	Patent Invisiblity	Combat Rate: -15
 Effect	Patent Prevention	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Patent Sallowness	Monster Level: +30
 Effect	Patience of the Tortoise	Maximum HP: +3, Muscle: +1
@@ -5422,7 +5424,7 @@ Effect	Perception	Experience Percent (Moxie): +25
 Effect	Perfect Hair	Experience Percent (Moxie): +15
 Effect	Permafrosty	Cold Damage: +50
 # Permanent Halloween: Deals <font color=gray>Spooky damage</font> every round
-# Personal Thundercloud: Makes the water around you even deeper 
+# Personal Thundercloud: Makes the water around you even deeper
 Effect	Personal Thundercloud	Water Level: +2
 Effect	Perspicacious Pressure	Mysticality Percent: +300
 Effect	Pet Shop Song	Initiative: +10
@@ -6056,7 +6058,7 @@ Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 Effect	Uncanny Shot	Ranged Damage: +30
 # Uncertain: Muscle and Moxie +/- ???
-# Unmotivated: You're feeling really unmotivated. 
+# Unmotivated: You're feeling really unmotivated.
 Effect	Unmuffled	Combat Rate: +15
 Effect	Unpopular	Monster Level: +30
 Effect	Unusual Fashion Sense	Damage Absorption: +50
@@ -6383,7 +6385,7 @@ Skill	Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 Skill	Wrath of the Wolverine	Weapon Damage: [Y]
 # Yet Another Extra Spleen: +5 spleen capacity
 Skill	Zombie Maestro	Mana Cost: -1
-Skill	
+Skill
 # Bad Moon passive skills: the Seven Deadly Sins.
 # The skills positively or negatively modify seven aspects of gameplay
 # Each skill has one positive modifier and one negative modifier.
