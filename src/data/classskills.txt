@@ -178,7 +178,7 @@
 153	Bow-Legged Swagger	legs.gif	3	100	1
 154	Bend Hell	junkbent.gif	3	100	1
 155	Steely-Eyed Squint	susgaze.gif	3	100	1
-156	Shoot	sixgun0.gif	3	0	0
+156	Shoot	sixgun0.gif	5	0	0
 
 # Skills available to Clubbers
 
