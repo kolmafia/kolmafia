@@ -8989,8 +8989,8 @@
 8963	five-gallon hat	480773582	cowboyhat.gif	hat	q	0
 8964	six-gallon hat	199786614	cowboyhat.gif	hat	q	0
 8965	seven-gallon hat	832743385	cowboyhat.gif	hat	q	0
-8966
-8967
+8966	eight-gallon hat	721980553	cowboyhat.gif	hat	q	0
+8967	nine-gallon hat	612539870	cowboyhat.gif	hat	q	0
 8968
 8969
 8970	toy sixgun	854153791	sixgun0.gif	none, combat reusable		0

@@ -165,6 +165,7 @@ Item	dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
 Item	Dyspepsi-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
 # eelskin hat: Damages Attacking Opponent (Underwater Only)
 Item	eelskin hat	Spell Damage Percent: +15, Familiar Effect: "atk"
+Item	eight-gallon hat	Muscle: +8, Mysticality: +8, Moxie: +8, Experience: +3
 Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 25"
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
@@ -305,6 +306,7 @@ Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
+Item	nine-gallon hat	Muscle: +9, Mysticality: +9, Moxie: +9, Experience: +3
 Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 Item	oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
