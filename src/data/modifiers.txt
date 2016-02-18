@@ -7266,6 +7266,7 @@ Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 # Item bat-oomerang: Deals 20 damage and disarms foes
 Item	batarang	Effect: "Batwards Masking", Effect Duration: 50
 # Battlie Light Saver: Deals 30-50 Physical Damage and briefly stuns your foe
+# Item battoo kit: Unlocks a sweet Batfellow tattoo
 Item	bazookafish bubble gum	Effect: "Fishbreath", Effect Duration: 5
 Item	bear claw	Effect: "Bear Clawed", Effect Duration: 30
 Item	beard incense	Effect: "Stinkybeard", Effect Duration: 20
