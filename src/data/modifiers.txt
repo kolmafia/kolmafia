@@ -1080,7 +1080,6 @@ Item	Dinsey's pizza cutter	Spell Damage Percent: +50, Spooky Resistance: +2, Ste
 # disco ball
 Item	Disco Banjo	Moxie: +7, DB Combat Damage: +3, Class: "Disco Bandit"
 Item	dishrag	Stench Damage: +5
-# Item Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	double barreled barrel gun	Weapon Damage Percent: +50, Critical Hit Percent: +5
 Item	double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 Item	doubt cannon	Weakens Monster
@@ -1307,7 +1306,6 @@ Item	magic whistle	Monster Level: +4, Familiar Weight: +1
 Item	magilaser blastercannon	Ranged Damage: +15, Hot Damage: +5
 Item	mama's squeezebox	Moxie: [3*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 8
 Item	mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
-Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 Item	massive sitar	Mysticality: +12, Spell Damage: +20
 Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: +50 Damage vs. Ghosts
@@ -1988,7 +1986,6 @@ Item	Mixed Garbanzos and Chickpeas	Maximum HP: +5, Maximum MP: +5, Spell Damage:
 Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
-# Item Mr. Burnsger: Reduces your Drunkenness by 2
 # Mr. Haggis: Haggis!
 # Mylar balloon
 # naughty fortune teller: + Some Stats Per Fight
@@ -4140,7 +4137,7 @@ Effect	Amorphous Cheer	Muscle Percent: +50, Mysticality Percent: +50, Moxie Perc
 Effect	Ancestral Disapproval	Mysticality Percent: +10
 Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 # Ancient Fortitude: You are impervious to negative effects
-Effect	Ancient Fortitude	Maximum HP: +100, HP Regen Min: 90, HP Regen Max: 100
+Effect	Ancient Fortitude	Maximum HP Percent: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
 # Angry Bone: +40 Damage vs. Undead
@@ -5078,6 +5075,7 @@ Effect	Is This Your Card?	Spell Damage Percent: +50
 Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Experience (Moxie): +2, Pickpocket Chance: +10
 Effect	It Didn't Kill You	Muscle Percent: +50
 Effect	It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
+Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 # It's Electric!: Damages Attacking Opponents
 Effect	It's Good To Be Royal!	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Maximum HP Percent: +200, Maximum MP Percent: +200, Weapon Damage Percent: +200, Spell Damage Percent: +200
 Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
@@ -5259,6 +5257,7 @@ Effect	Moon-Eyed	Mysticality: +30
 Effect	Moose Wisdom	Mysticality: +20
 Effect	Morbidi Tea	Spooky Resistance: +3
 Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
+Effect	More Mansquito Than Man	Maximum HP: +100, Maximum HP Percent: +100, HP Regen Min: 20, HP Regen Max: 40
 Effect	Morninja	Initiative: +100
 Effect	Mortarfied	Damage Absorption: +100
 Effect	Motion	Initiative: +100
@@ -6755,6 +6754,7 @@ Item	Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
+# Item Mr. Burnsger: Reduces your Drunkenness by 2
 Item	nachos of the night	Effect: "Night of the Nachos", Effect Duration: 20
 Item	nanite-infested candy cane	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	nanite-infested fruitcake	Effect: "Chock Full o' Nanites", Effect Duration: 20
@@ -6806,6 +6806,7 @@ Item	Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
 Item	tea for one	Effect: "One For Tea", Effect Duration: 40
 Item	tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
+# Item The Plumber's mushroom stew: Reduces your Drunkenness by 1
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
 Item	thyme jelly donut	Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
@@ -6901,6 +6902,7 @@ Item	dew yoana lei	Effect: "Brined Liver", Effect Duration: 20
 Item	dew yoana salacious lei	Effect: "Brined Liver", Effect Duration: 30
 Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
+# Item Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
 Item	Drac & Tan	Effect: "Creepypasted ", Effect Duration: 5
 Item	Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
@@ -6929,6 +6931,7 @@ Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Du
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Item	Fauna Libre	Effect: "Transcendental Wind", Effect Duration: 5
+Item	firemilk	Effect: "Cowrruption", Effect Duration: 30
 Item	Firewater	Effect: "Elemental Mastery", Effect Duration: 5
 Item	Flaming Caipiranha	Effect: "Fishy", Effect Duration: 15
 Item	Flaming Knob	Effect: "Gutterminded", Effect Duration: 15
@@ -7034,6 +7037,7 @@ Item	swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80
 Item	Taco Dan's Taco Stand Chimichangarita	Effect: "Margaritish", Effect Duration: 10
 Item	Temps Tempranillo	Effect Duration: 5
 Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Duration: 30
+# Item The Mad Liquor: Reduces your Fullness by 1
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
@@ -7101,8 +7105,10 @@ Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 10
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
+Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
+Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
 Item	off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
@@ -7120,6 +7126,8 @@ Item	slimy paste	Effect: "Slimy Flavor", Effect Duration: 10
 Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 10
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
+Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
+Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
 Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 10
 Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30
@@ -7848,7 +7856,6 @@ Item	fire flower	Effect: "Flamingly Floral", Effect Duration: 10
 # fireball: Deals 190-210 <font color=red>Hot Damage</font>
 # firebomb: Deals 40-50 <font color=red>Hot Damage</font>
 Item	fireclutch	Effect: "Ginger Fightis", Effect Duration: 50
-Item	firemilk	Effect: "Cowrruption", Effect Duration: 30
 Item	fish juice box	Effect: "Fishy", Effect Duration: 20
 Item	fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 # fish-oil smoke bomb: Lets you escape from combat without spending an Adventure
@@ -8947,6 +8954,8 @@ Item	Spechunky bar	Effect: "Chunky", Effect Duration: 10
 # special clip: squelchers: Deals <font color=blueviolet>Sleaze Damage</font> based on your Moxie
 # special clip: tracers: Deals <font color=red>Hot Damage</font> based on your Moxie
 # special clip: wailers: Deals <font color=gray>Spooky Damage</font> based on your Moxie
+# special edition Batfellow comic: Lets you have a fun adventure (once a week) as a dark, brooding, bat-themed superhero.
+Item	special edition Batfellow comic	Free Pull
 # spectral jelly: Makes you nearly impervious to damage for the duration of the fight
 # spectre scepter: Invoke the Ancient Gods!
 Item	Spellbook: Drescher's Annoying Noise	Skill: "Drescher's Annoying Noise"
@@ -9081,7 +9090,6 @@ Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
 Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
-Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Author's inkwell	Effect: "The Other", Effect Duration: 50
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
 Item	The Ballad of Richie Thingfinder	Skill: "The Ballad of Richie Thingfinder"
@@ -9095,18 +9103,15 @@ Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
 Item	The Groose in the Hoose	Free Pull
-Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	The Joy of Wassailing	Skill: "Wassail"
 Item	The Joy of Wassailing (used)	Skill: "Wassail"
 Item	the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
 Item	The Kloop in the Coop	Free Pull
 Item	The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
 # The Lost Comb: Stuns your opponent for a few rounds
-# Item The Mad Liquor: Reduces your Fullness by 1
 Item	the most dangerous bait	Effect: "Manbait", Effect Duration: 20
 Item	The Necbronomicon	Skill: "Summon &quot;Boner Battalion&quot;"
 Item	The Necbronomicon (used)	Skill: "Summon &quot;Boner Battalion&quot;"
-# Item The Plumber's mushroom stew: Reduces your Drunkenness by 1
 # The Six-Pack of Pain: Deals Physical Damage based on your Muscle
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"

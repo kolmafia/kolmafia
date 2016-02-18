@@ -3665,7 +3665,7 @@
 3640	seaweed	440608325	seaweed.gif	none	t,d	40	sheets of seaweed
 3641	jamfish jam	903837198	jamglob.gif	multiple	t,d	30	bits of jamfish jam
 3642	dragonfish caviar	271341113	caviar.gif	none	t,d	90	ounces of dragonfish caviar
-3643	pufferfish spine	282340653	spine.gif	none, combat	t,d	25
+3643	pufferfish spine	282340653	spine.gif	none, combat	t	0
 3644	depleted Grimacite kneecapping stick	409887850	grimstick.gif	weapon	t,d	400
 3645	canteen of wine	880677333	canteen.gif	drink	t	0	canteens of wine
 3646	elven <i>limbos</i> gingerbread	970160730	limboswafer.gif	food	t	0	wafers of <i>limbos</i> gingerbread
@@ -5435,7 +5435,7 @@
 5410	Mint Yulep	225646375	pep_drink2.gif	drink	t	0
 5411	Crimbojito	410538513	pep_drink2.gif	drink	t	0
 5412	Sangria de Menthe	520908403	pep_drink3.gif	drink	t	0
-5413	candycaine powder	136515861	powder.gif	none, combat	t,d	25	pouches of candycaine powder
+5413	candycaine powder	136515861	powder.gif	none, combat	t	0	pouches of candycaine powder
 5414	licorice boa	331298512	pep_boa.gif	familiar, candy	t,d	75
 5415	licorice root	550695829	licoriceroot.gif	multiple, candy	t	0
 5416	banana supersucker	274700194	supersucker.gif	usable, candy	t	0
@@ -7570,7 +7570,7 @@
 7545	space port	812670303	potion4.gif	drink	t,d	75	space bottles of space port
 7546	space needle	115033185	spaceneedle.gif	weapon	t,d	275
 7547	buffed alien drugs	598621514	pill.gif	multiple	t,d	150	different buffed alien drugs
-7548	hot ashes	725847769	hotashes.gif	none, combat	t,d	10	handfuls of hot ashes
+7548	hot ashes	725847769	hotashes.gif	none, combat	t	0	handfuls of hot ashes
 7549	ash soda	551667583	beerbottle.gif	multiple	t,d	20	bottles of ash soda
 7550	liquid smoke	777197250	blooddrops.gif	multiple	t,d	10	droplets of liquid smoke
 7551	dollop of barbecue sauce	205083667	gooball.gif	multiple	t,d	10	dollops of barbecue sauce
@@ -7861,12 +7861,12 @@
 7836	GPS-tracking wristwatch	117030063	calcwatch.gif	accessory	q	0
 7837	Project T. L. B.	533573064	sammich.gif	none	q	0
 7838	Agent Mauve	399530932	grenade.gif	usable		0	Agents Mauve
-7839	special clip: tracers	225542432	ammo.gif	none, combat	t,d	30	special clips: tracers
-7840	special clip: wailers	140406010	ammo.gif	none, combat	t,d	30	special clips: wailers
-7841	special clip: squelchers	227886164	ammo.gif	none, combat	t,d	30	special clips: squelchers
-7842	special clip: splatterers	276409873	ammo.gif	none, combat	t,d	50	special clips: splatterers
-7843	special clip: boneburners	371114156	ammo.gif	none, combat	t,d	50	special clips: boneburners
-7844	special clip: graveburpers	766390687	ammo.gif	none, combat	t,d	50	special clips: graveburpers
+7839	special clip: tracers	225542432	ammo.gif	none, combat	t	0	special clips: tracers
+7840	special clip: wailers	140406010	ammo.gif	none, combat	t	0	special clips: wailers
+7841	special clip: squelchers	227886164	ammo.gif	none, combat	t	0	special clips: squelchers
+7842	special clip: splatterers	276409873	ammo.gif	none, combat	t	0	special clips: splatterers
+7843	special clip: boneburners	371114156	ammo.gif	none, combat	t	0	special clips: boneburners
+7844	special clip: graveburpers	766390687	ammo.gif	none, combat	t	0	special clips: graveburpers
 7845	perl necklace	659747022	perlneck.gif	usable	t,d	15
 7846	Fudge Fiber Armor Plating	306244770	chocfibre.gif	usable	t,d	15	chunks of Chocolate Fiber Armor Plating
 7847	ruby on canes	987976517	candycane.gif	usable	t,d	15	sticks of ruby on canes
@@ -8868,7 +8868,7 @@
 8842	infrablack lipstick	279755220	lipstick.gif	avatar, usable	t,d	5
 8843	can of drain cleaner	424335738	starchcan.gif	avatar, usable	t,d	5
 8844	The Author's inkwell	987845246	inkwell.gif	avatar, usable	t,d	5
-8845	bag of random words	401499176	nopic.gif	avatar, usable	t,d	5
+8845	bag of random words	401499176	knobsack.gif	avatar, usable	t,d	5
 8846	tube of pendulum lube	850102320	tube.gif	avatar, usable	t,d	5
 8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, usable	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5
@@ -8898,7 +8898,7 @@
 8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand	t,d	10
 8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand	t,d	10
 8874
-8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand	t,d	25
+8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand	d	25
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
 8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5
 8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5
@@ -8936,9 +8936,9 @@
 8910	firemilk	627877078	milkbottle.gif	drink	t,d	32
 8911	spidercow eye-cluster	763991554	spidereyes.gif	usable	t,d	38
 8912	moomy dust	544632353	disease.gif	spleen, usable	t,d	25
-8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat	t,d	77
-8914	reliable sixgun	630007259	sixgun4.gif	none, combat reusable	t	0
-8915	steel knuckles	321514802	knuckles.gif	accessory	t,d	45
+8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat	d	77
+8914	reliable sixgun	630007259	sixgun4.gif	none, combat reusable		0
+8915	steel knuckles	321514802	knuckles.gif	accessory	d	45
 8916	Tales of Western Braggadoccio	171555336	book3.gif	usable	t	0
 8917	Hell and How I Bent It	339356359	book4.gif	usable	t	0
 8918	The Western Look	660540030	book5.gif	usable	t	0
