@@ -170,6 +170,7 @@ Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
 Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Item	electrician's hardhat	Muscle Percent: +40, Weapon Damage: +40, HP Regen Min: 20, HP Regen Max: 40
+Item	eleven-gallon hat	Muscle: +11, Mysticality: +11, Moxie: +11, Experience: +3
 Item	elf ploughshare	Maximum HP: +30, Maximum MP: +30
 Item	enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 Item	enchantlers	Hot Spell Damage: +10, Familiar Effect: "hot atk, 1xLep, cap 28"
@@ -397,6 +398,7 @@ Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Famil
 Item	suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Familiar Effect: "atk, 1xFairy, cap 15"
 Item	sweatband	PvP Fights: +2, Damage Reduction: 5, Familiar Effect: "sleaze atk, 1xFairy, cap 25"
 Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
+Item	ten-gallon hat	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
 # The Crown of Ed the Undying: Ed's servants will level up faster
 # The Crown of Ed the Undying: Allows you to read thoughts
 Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +25
@@ -4382,6 +4384,7 @@ Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
 Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
+Effect	Cautious Prowl	Item Drop: +50
 Effect	Cavemanipulated	Avatar: "caveman"
 Effect	Celestial Camouflage	Combat Rate: -5
 Effect	Celestial Saltiness	Combat Rate: +5
@@ -5139,6 +5142,7 @@ Effect	La Oscuridad Adentro	Spooky Spell Damage: +13, Spooky Damage: +13, Experi
 Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Leash of Linguini	Familiar Weight: +5
+Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Leo Rising	Meat Drop: +10
@@ -5470,6 +5474,7 @@ Effect	Pretending to Pretend	Weapon Damage Percent: +100
 Effect	Preternatural Greed	Meat Drop: +100
 Effect	Pride of the Puffin	Monster Level: +10
 Effect	Pride of the Vampire	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Effect	Prideful Strut	Experience: +10
 Effect	Prince of Seaside Town	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Proficient Pressure	Experience: +8
 Effect	Pronounced Potency	Weapon Damage: +5
@@ -9042,7 +9047,9 @@ Item	Tales of a Kansas Toymaker	Skill: "Toynado"
 Item	Tales of a Kansas Toymaker (used)	Skill: "Toynado"
 Item	Tales of Dread	Free Pull
 # Tales of Spelunking: Begins a Spelunking Adventure!
+# Item Tales of the West: Beanslinging: Teaches you Beanslinger skills
 # Item Tales of the West: Cow Punching: Teaches you Cow Puncher skills
+# Item Tales of the West: Snake Oiling: Teaches you Snake Oiler skills
 Item	Tales of Western Braggadoccio	Skill: "Bow-Legged Swagger"
 # talisman of Horus: Attracts the attention of monsters
 Item	talisman of Horus	Effect: "Taunt of Horus", Effect Duration: 10
