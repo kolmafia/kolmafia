@@ -2033,7 +2033,7 @@
 2032	Hypnotized	spiral.gif	cfbc5824bd4c6d04b114aeb3ebb194b7	#snojo debuff
 2033	Bad Haircut	comb.gif	a9a379fdd526c1726e6aa306d3a4fc50	#snojo debuff
 2034	Snowballed	snowball.gif	2d1c8621e98ad4df1d4fa8d0fc26f977	#snojo debuff
-2035	Ancient Fortitude		69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs
+2035	Ancient Fortitude	candyheart.gif	69b60ccafc392b566a3912e940d62c6f	chew 1 ancient medicinal herbs
 2036
 2037
 2038
@@ -2044,9 +2044,9 @@
 2043
 2044
 2045	More Mansquito Than Man	familiar1.gif	5b28dc6aeb5933421c6cc37bcd192e65	chew 1 Mansquito Serum
-2046
+2046	It's a Good Life!	inkwell.gif	c8e5625a3588796179a6f3a5dab1fc7f	chew 1 The Author's ink
 2047	The Inquisitor's Unknown Effect	confused.gif	bac1d296cb2f49ed62224999f04ec66c	chew 1 The Inquisitor's unidentifiable object
-2048	Behind the Green Curtain	jokerwig.gif	3237f73fe0b1ea3edab83baf14de258f
+2048	Behind the Green Curtain	jokerwig.gif	3237f73fe0b1ea3edab83baf14de258f	cast 1 Adjust the Jokester's Wig
 2049	Why So Serious?	jokerface.gif	c7514c82b93e3ca90cc2599bbc95adaa	use 1 Jokester makeup
 2050	Egged On	egg.gif	5d925cd298bcbfa32135fcb42f210a25	use 1 robin's egg
 2051	Slawdered	salad.gif	1c71dcf45c34cd0a714d5ee8cdaac83f	use 1 Kudzu slaw
@@ -2071,9 +2071,9 @@
 2070	Venomous Weapon	blooddrops.gif	b3b8722c7cba18094401780ca69e5463	use 1 rattler gland
 2071	Coal-Powered	evil.gif	ff6973e86961cafe7ca93cbd337d71df	use 1 half-digested coal
 2072	Spidercow Vision	spidereyes.gif	0281add44e0d1e9796120bee2e111ca5	use 1 spidercow eye-cluster
-2073	Bow-Legged Swagger	legs.gif	24099da1e8eb2af203e4b91c4c4a7af3
+2073	Bow-Legged Swagger	legs.gif	24099da1e8eb2af203e4b91c4c4a7af3	cast 1 Bow-Legged Swagger
 2074	Bendin' Hell	junkbent.gif	321a078c82f870ee30404c2512e576eb	cast 1 Bend Hell
-2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83
+2075	Steely-Eyed Squint	susgaze.gif	034f1d45e152c9516a9f760535b0fe83	cast 1 Steely-Eyed Squint
 2076	Tightly-Wound Spine	clspine.gif	e85983ba9472ce64d308d0ca6d508f2b	use 1 tightly-wound spine
 2077	Cautious Prowl	walkprowl.gif	ed11574c3313265d7ec71d95b73ec223	cast 1 Walk: Cautious Prowl
 2078	Prideful Strut	walkstrut.gif	5f21c2d6be7ee8d5a9021ac2ef6bbf4f	cast 1 Walk: Prideful Strut
