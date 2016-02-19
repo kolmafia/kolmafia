@@ -598,7 +598,7 @@ Retenez L'Herbe Pat&eacute;	3	13	EPIC	13-20	40-50	40-50	40-50
 ridiculous sandwich	3	1	awesome	11	10-12	10-12	10-12
 roasted duck	2	4	decent	3-4	0	7-12	0
 roasted marshmallow	1	1	crappy	1	0	0	0	3 Mallowed Out (+all stats)
-robin flan	2	1	awesome	0	0	0	0	Unspaded
+robin flan	2	1	awesome	7-9	10-20	10-20	10-20
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all stats)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)
 root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP

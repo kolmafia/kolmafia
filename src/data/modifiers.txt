@@ -3987,7 +3987,8 @@ Item	folder (wizard)	Experience (Mysticality): +2
 Item	folder (Yedi)	Spell Damage Percent: +50
 Item	folder (yellow)	Muscle: +15, Moxie: +15
 
-# Cowboy boot decorations
+# Cowboy boot decorations section of modifiers.txt
+
 # Boots coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 Boots	diamondback skin	Monster Level: +20
 Boots	frontwinder skin	Mysticality Percent: +50
