@@ -9007,3 +9007,4 @@
 8981	patent alacrity tonic	205270181	magicshell.gif	usable	t,d	100
 8982	corrupted marrow	714979235	gooball.gif	usable	t,d	40
 8983	rodeo whiskey	762206613	fancybrew.gif	drink	t,d	40
+8984	Thwaitgold scorpion statuette	296698569	thwaitscorp.gif	none		0

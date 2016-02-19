@@ -664,7 +664,9 @@ public abstract class KoLCharacter
 		// Default stomach size, overridden below for various paths
 		int limit = 15;
 
-		if ( KoLCharacter.isWestOfLoathing() )
+		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
+		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
+		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
 		{
 			limit = 10;
 			if ( KoLCharacter.hasSkill( "Prodigious Appetite" ) )
@@ -800,7 +802,9 @@ public abstract class KoLCharacter
 		// Default liver size, overridden below for various paths
 		int limit = 14;
 
-		if ( KoLCharacter.isWestOfLoathing() )
+		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
+		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
+		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
 		{
 			limit = 9;
 			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
@@ -884,7 +888,9 @@ public abstract class KoLCharacter
 		// Default spleen size, overridden below for various paths
 		int limit = 15;
 
-		if ( KoLCharacter.isWestOfLoathing() )
+		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
+		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
+		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
 		{
 			limit = 10;
 			if ( KoLCharacter.hasSkill( "Tolerant Constitution" ) )
