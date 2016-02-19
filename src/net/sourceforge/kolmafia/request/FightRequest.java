@@ -2981,7 +2981,8 @@ public class FightRequest
 			case FamiliarPool.GIBBERER:
 				// <name> mutters dark secrets under his breath, and
 				// you feel time slow down.
-				boolean underwater = KoLAdventure.lastVisitedLocation().getEnvironment().equals( "underwater" );
+				KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+				boolean underwater = lastLocation != null && lastLocation.getEnvironment().equals( "underwater" );
 				Preferences.increment( "_gibbererCharge", underwater ? 2 : 1, 15, true );
 				if ( responseText.contains( "you feel time slow down" ) )
 				{
