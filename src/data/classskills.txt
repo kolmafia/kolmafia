@@ -1064,4 +1064,4 @@
 20006	Good Medicine	goodmedicine.gif	5	5	0
 20007	Long Con	calendar.gif	5	30	0
 20008	Tolerant Constitution	kidney.gif	0	0	0
-20009	Walk: Leasurely Amble	walkamble.gif	3	40	20
+20009	Walk: Leisurely Amble	walkamble.gif	3	40	20
