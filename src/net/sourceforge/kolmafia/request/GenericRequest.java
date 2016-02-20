@@ -2371,7 +2371,7 @@ public class GenericRequest
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
 
-		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
+		if ( urlString.startsWith( "choice.php" ) && ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
 		{
 			// Handle choices BEFORE result processing
 			ChoiceManager.postChoice1( this );
