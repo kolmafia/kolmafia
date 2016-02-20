@@ -1194,6 +1194,17 @@ warehouse guard	1740	warehouseguard.gif	Atk: 210 Def: 230 HP: 250 Init: 50 P: du
 warehouse janitor	1741	warehousejanitor.gif	Atk: 230 Def: 230 HP: 230 Init: 150 P: dude	janitor sponge (0)	janitor's mop (c0)
 warehouse clerk	1742	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 P: dude	warehouse inventory page (0)	warehouse clerk's glasses (c0)
 
+# Avatar of West of Loathing
+aggressive grass snake	1928	awolsnake1.gif	WANDERER Init: -10000 P: beast
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Init: -10000 P: horror
+furious cow	1926	awolcow1.gif	WANDERER Init: -10000 P: demon
+furious giant cow	1929	awolcow2.gif	WANDERER Init: -10000 P: demon
+grizzled rodeo clown	1933	awolclown3.gif	WANDERER Init: -10000 P: horror
+king snake	1934	awolsnake3.gif	WANDERER Init: -10000 P: beast
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Init: -10000 P: horror
+prince snake	1931	awolsnake2.gif	WANDERER Init: -10000 E: sleaze P: beast
+ungulith	1932	awolcow3.gif	WANDERER Init: -10000 P: demon
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)

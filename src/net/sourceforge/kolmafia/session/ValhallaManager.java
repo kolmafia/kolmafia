@@ -271,6 +271,13 @@ public class ValhallaManager
 			TurnCounter.startCounting( 10, "Rain Monster window end loc=*", "rparen.gif" );
 		}
 
+		// First West of Loathing monster expected on turns 6-11
+		else if ( KoLCharacter.isWestOfLoathing() )
+		{
+			TurnCounter.startCounting( 5, "WoL Monster window begin loc=*", "lparen.gif" );
+			TurnCounter.startCounting( 10, "WoL Monster window end loc=*", "rparen.gif" );
+		}
+
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
 
