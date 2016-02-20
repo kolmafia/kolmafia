@@ -5935,6 +5935,16 @@ public class FightRequest
 			return;
 		}
 
+		if ( str.equals( "Your hat gets bigger!" ) )
+		{
+			// Upgraded hat in Avatar of West of Loathing
+			AdventureResult oldHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
+			// The hats are in sequential item id order, and you can only upgrade 1 level per combat
+			AdventureResult newHat = ItemPool.get( oldHat.getItemId() + 1, 1 );
+			EquipmentManager.transformEquipment( oldHat, newHat );
+			return;
+		}
+
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
 		{
 			// Familiar combat action?
