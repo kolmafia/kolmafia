@@ -73,8 +73,9 @@ public class AutoSellRequest
 
 	public AutoSellRequest( final AdventureResult[] items )
 	{
-		super( AutoSellRequest.getSellPage(), items );
+		super( "sellstuff.php", items );
 		this.addFormField( "action", "sell" );
+		this.addFormField( "ajax", "1" );
 	}
 
 	@Override
@@ -95,57 +96,10 @@ public class AutoSellRequest
 		return "";
 	}
 
-	private static final String getSellPage()
-	{
-		// Get the autosell mode the first time we need it
-		if ( KoLCharacter.getAutosellMode().equals( "" ) )
-		{
-			RequestThread.postRequest( new AccountRequest( Tab.INVENTORY ) );
-		}
-
-		return KoLCharacter.getAutosellMode().equals( "detailed" ) ?
-			"sellstuff_ugly.php" : "sellstuff.php";
-	}
-
 	@Override
 	public void attachItem( final AdventureResult item, final int index )
 	{
-		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
-		{
-			this.attachDetailedItem( item );
-		}
-		else
-		{
-			this.attachCompactItem( item );
-		}
-	}
-
-	public void attachDetailedItem( final AdventureResult item )
-	{
-		if ( !this.setMode )
-		{
-			int count = item.getCount();
-			int icount = item.getCount( KoLConstants.inventory );
-
-			if ( count == icount )
-			{
-				this.addFormField( "mode", "1" );
-			}
-			else if ( count == icount - 1 )
-			{
-				this.addFormField( "mode", "2" );
-			}
-			else
-			{
-				this.addFormField( "mode", "3" );
-				this.addFormField( "quantity", String.valueOf( count ) );
-			}
-
-			this.setMode = true;
-		}
-
-		String itemId = String.valueOf( item.getItemId() );
-		this.addFormField( "item" + itemId, itemId );
+		this.attachCompactItem( item );
 	}
 
 	public void attachCompactItem( final AdventureResult item )
