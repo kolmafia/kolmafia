@@ -1372,7 +1372,7 @@
 1371	Flyin' Drunk	wings.gif	e25fcfcce0a9b70f094f65daef95a6d6	drink 1 bottle of Race Car Red
 1372	Covetin' Drunk	dollarsign.gif	e0ef3fd85372e5a92b55f34cf067e56e	drink 1 bottle of Greedy Dog
 1373	Dancin' Drunk	dance2.gif	6f3566f9e7fd09ffaaf9bd160d0d2a2d	drink 1 bottle of Lambada Lambic
-1374	Comprehensively Nourished	juice.gif	b14645c381a93b2d74e8c097979c8ec3	drink 1 liquid bread
+1374	Comprehensively Nourished	juice.gif	b14645c381a93b2d74e8c097979c8ec3	eat 1 liquid bread
 1375	Tingling Feeling	tincup1.gif	91b2830c561b74bcbcca410423a21ad3	use 1 tin cup
 1376	Abyssal Tears	teardrop.gif	7064312e83978ab454e3bcfeb2e6c3d5	use 1 foetid seal tear
 1377	Abyssal Sweat	teardrop.gif	2d5d270c8cb8017c1d33b5a6327d7ffd	use 1 cold seal sweat
@@ -1985,7 +1985,7 @@
 1984	Mana Tea	tea_mp.gif	c772a78df3e76d766f75015f94743878	use 1 cuppa Mana tea
 1985	Monstrosi Tea	tea_minusml.gif	68ae4e85c6927ecd74728c82207a72db	use 1 cuppa Monstrosi tea
 1986	Twen Tea	tea_twenty.gif	e19eae221d66fb69fbcdedbbba96c7b7	use 1 cuppa Twen tea
-1987	Bloodthirsty	bloodtini.gif	a6953e4765a10266102bd639fc58d9af	use 1 blood and blood
+1987	Bloodthirsty	bloodtini.gif	a6953e4765a10266102bd639fc58d9af	drink 1 blood and blood
 1988	Toothy Grin	familiar24.gif	9846e2b147613c87cce1b1648943c810	drink 1 Jack-O-Lantern beer
 1989	Craft Tea	tea_crafty.gif	5b0e09a1f70166801bef5436b5abd745	use 1 cuppa Craft tea
 1990	It's Good To Be Royal!	scepter.gif	649609b239c77507b1b112bc7a6d7ae4
