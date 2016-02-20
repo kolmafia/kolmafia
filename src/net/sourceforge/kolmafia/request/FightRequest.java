@@ -2241,6 +2241,23 @@ public class FightRequest
 				TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 45, "Rain Monster window end loc=*", "rparen.gif" );
 			}
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
+				  ( encounter.equals( "aggressive grass snake" ) ||
+				    encounter.equals( "emaciated rodeo clown" ) ||
+				    encounter.equals( "furious cow" ) ||
+				    encounter.equals( "furious giant cow" ) ||
+				    encounter.equals( "grizzled rodeo clown" ) ||
+				    encounter.equals( "king snake" ) ||
+				    encounter.equals( "menacing rodeo clown" ) ||
+				    encounter.equals( "prince snake" ) ||
+				    encounter.equals( "ungulith" )
+				  ) )
+			{
+				TurnCounter.stopCounting( "WoL Monster window begin" );
+				TurnCounter.stopCounting( "WoL Monster window end" );
+				TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 20, "WoL Monster window end loc=*", "rparen.gif" );
+			}
 
 			// In Ed we'll only set the monster name when we have won or abandoned the fight
 			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )

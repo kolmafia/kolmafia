@@ -3336,6 +3336,11 @@ public abstract class KoLCharacter
 				TurnCounter.stopCounting( "Rain Monster window begin" );
 				TurnCounter.stopCounting( "Rain Monster window end" );
 			}
+			else if ( oldPath.equals( "Avatar of West of Loathing" ) )
+			{
+				TurnCounter.stopCounting( "WoL Monster window begin" );
+				TurnCounter.stopCounting( "WoL Monster window end" );
+			}
 
 			// If leaving a path with a unique class, wait until player picks a new class.
 			if ( !oldPath.equals( AVATAR_OF_BORIS ) &&

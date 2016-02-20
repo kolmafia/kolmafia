@@ -8981,7 +8981,7 @@
 8955	Tales of the West: Cow Punching	220432527	book3.gif	usable	q	0
 8956	Tales of the West: Beanslinging	798701830	book4.gif	usable	q	0
 8957	Tales of the West: Snake Oiling	965929241	book5.gif	usable	q	0
-8958
+8958	briefcase full of snakes	153699809	briefcase.gif	none	q	0
 8959	one-gallon hat	833660429	cowboyhat.gif	hat	q	0
 8960	two-gallon hat	678445035	cowboyhat.gif	hat	q	0
 8961	three-gallon hat	910261389	cowboyhat.gif	hat	q	0
