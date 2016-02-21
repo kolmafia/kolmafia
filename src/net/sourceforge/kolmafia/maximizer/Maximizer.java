@@ -394,7 +394,7 @@ public class Maximizer
 						{
 							continue;
 						}
-						else if ( !StandardRequest.isAllowed( "Clan Item", "Hot Dog Stand" ) )
+						else if ( !StandardRequest.isAllowed( "Clan Item", "Clan Hot Dog Stand" ) )
 						{
 							continue;
 						}
