@@ -6228,6 +6228,7 @@ Skill	Asbestos Heart	Hot Resistance: +3
 # Audacity of the Otter Critical hits do 3x damage
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
+Skill	Bean Runner	Initiative: +75
 # Bear Essence +20% Picnic Basket Drops from monsters
 # Best Dressed You are aware of your torso.  It is awesome.
 Skill	Best Dressed	Experience (Moxie): +1
@@ -6294,6 +6295,7 @@ Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
 # Itchy Curse Finger Your curses take hold too quickly for your opponents to react
 # Just One More Extra Spleen Good grief, another +5 spleen capacity
+Skill	Larger Than Life	Maximum HP Percent: +100, Maximum MP Percent: +100
 # Legendary Appetite: Increase stomach capacity by 5
 Skill	Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
@@ -6369,6 +6371,7 @@ Skill	Tolerance of the Kitchen	Hot Resistance: +2
 Skill	Tougher Skin	Damage Absorption: +100
 # Transcendental Noodlecraft
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
+Skill	True Outdoorsperson	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Skill	Undying Greed	Meat Drop: +25
 Skill	Unrepentant Thief	Pickpocket Chance: +50
 Skill	Unoffendable	Sleaze Resistance: +3
