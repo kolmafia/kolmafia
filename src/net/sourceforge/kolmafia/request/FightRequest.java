@@ -7291,6 +7291,15 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.BEANCANNON:
+			if ( responseText.contains( "tide of beans" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "Beancannon" );
+				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
+			}
+			break;
+
+
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:
 			if ( responseText.contains( "You toss a bundle" ) || skillSuccess )
