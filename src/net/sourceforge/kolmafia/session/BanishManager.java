@@ -37,14 +37,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
-
-import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
@@ -116,6 +113,7 @@ public class BanishManager
 	{
 		new Banisher( "banishing shout", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "batter up!", -1, 1, false, Reset.ROLLOVER_RESET ),
+		new Banisher( "beancannon", -1, 5, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "bundle of &quot;fragrant&quot; herbs", -1, 3, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "chatterboxing", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "classy monkey", 20, 1, false, Reset.TURN_RESET ),

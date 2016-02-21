@@ -301,4 +301,5 @@ public class SkillPool
 	public static final int CURSE_OF_VACATION = 17019;
 	public static final int CURSE_OF_STENCH = 17020;
 	public static final int MILD_CURSE = 17047;
+	public static final int BEANCANNON = 19007;
 }
