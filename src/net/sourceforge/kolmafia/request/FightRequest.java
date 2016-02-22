@@ -7294,7 +7294,7 @@ public class FightRequest
 		case SkillPool.BEANCANNON:
 			if ( responseText.contains( "tide of beans" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "Beancannon" );
+				BanishManager.banishMonster( monsterName, "beancannon" );
 				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
 			}
 			break;
