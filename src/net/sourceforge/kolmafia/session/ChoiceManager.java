@@ -6445,15 +6445,16 @@ public abstract class ChoiceManager
 		FightRequest.choiceFollowsFight = false;
 		ChoiceManager.handlingChoice = true;
 
+		ChoiceManager.lastChoice = 0;
+		ChoiceManager.lastDecision = 0;
+		ChoiceManager.lastResponseText = null;
+
 		String choice = request.getFormField( "whichchoice" );
 		String option = request.getFormField( "option" );
 
 		if ( choice == null || option == null )
 		{
 			// Visiting a choice page but not yet making a decision
-			ChoiceManager.lastChoice = 0;
-			ChoiceManager.lastDecision = 0;
-			ChoiceManager.lastResponseText = null;
 			return;
 		}
 
@@ -6669,8 +6670,20 @@ public abstract class ChoiceManager
 		}
 	}
 
-	public static void postChoice0( final GenericRequest request )
+	public static void postChoice0( final String urlString, final GenericRequest request )
 	{
+		// chat and desc_ requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest )
+		{
+			return;
+		}
+
+		// If this is not actually a choice page, nothing to do here.
+		if ( !urlString.startsWith( "choice.php" ) )
+		{
+			return;
+		}
+
 		// Things that have to be done before we register the encounter.
 		
 		String text = request.responseText;
@@ -6715,8 +6728,20 @@ public abstract class ChoiceManager
 	private static final Pattern SKELETON_PATTERN = Pattern.compile( "You defeated <b>(\\d+)</b> skeletons" );
 	private static final Pattern FOG_PATTERN = Pattern.compile( "<font.*?><b>(.*?)</b></font>" );
 
-	public static void postChoice1( final GenericRequest request )
+	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
+		// chat and desc_ requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest )
+		{
+			return;
+		}
+
+		// If you walked away from the choice, this is not the result of a choice.
+		if ( !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
+		{
+			return;
+		}
+
 		// Things that can or need to be done BEFORE processing results.
 		// Remove spent items or meat here.
 
@@ -6727,7 +6752,6 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		String urlString = request.getURLString();
 		String text = ChoiceManager.lastResponseText = request.responseText;
 
 		switch ( ChoiceManager.lastChoice )
@@ -9187,8 +9211,21 @@ public abstract class ChoiceManager
 		return null;
 	}
 
-	public static void postChoice2( final GenericRequest request )
+	public static void postChoice2( final String urlString, final GenericRequest request )
 	{
+		// chat and desc_ requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest )
+		{
+			return;
+		}
+
+		// If you walked away from the choice, this is not a choice page
+		if ( !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
+		{
+			ChoiceManager.handlingChoice = false;
+			return;
+		}
+
 		// Things that can or need to be done AFTER processing results.
 
 		String text = request.responseText;
@@ -9834,7 +9871,7 @@ public abstract class ChoiceManager
 			{
 				Preferences.decrement( "cinderellaMinutesToMidnight" );
 			}
-			Matcher matcher = ChoiceManager.CINDERELLA_SCORE_PATTERN.matcher( ChoiceManager.lastResponseText );
+			Matcher matcher = ChoiceManager.CINDERELLA_SCORE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
 				int score = StringUtilities.parseInt( matcher.group( 1 ) );
@@ -10452,7 +10489,7 @@ public abstract class ChoiceManager
 
 		}
 
-		if ( ChoiceManager.stillInChoice( text ) )
+		if ( ChoiceManager.handlingChoice )
 		{
 			ChoiceManager.visitChoice( request );
 			return;

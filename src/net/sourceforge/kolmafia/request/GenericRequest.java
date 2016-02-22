@@ -2358,10 +2358,10 @@ public class GenericRequest
 			GenericRequest.isRatQuest = false;
 		}
 
-		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
+		if ( ChoiceManager.handlingChoice )
 		{
 			// Handle choices BEFORE registering Encounter
-			ChoiceManager.postChoice0( this );
+			ChoiceManager.postChoice0( urlString, this );
 		}
 
 		this.encounter = AdventureRequest.registerEncounter( this );
@@ -2371,10 +2371,10 @@ public class GenericRequest
 			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
 		}
 
-		if ( urlString.startsWith( "choice.php" ) && ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
+		if ( ChoiceManager.handlingChoice )
 		{
 			// Handle choices BEFORE result processing
-			ChoiceManager.postChoice1( this );
+			ChoiceManager.postChoice1( urlString, this );
 		}
 
 		if ( this.hasResult )
@@ -2407,10 +2407,10 @@ public class GenericRequest
 
 		this.processResults();
 
-		if ( ChoiceManager.handlingChoice && !this.isChatRequest && !this.isDescRequest )
+		if ( ChoiceManager.handlingChoice )
 		{
 			// Handle choices AFTER result processing
-			ChoiceManager.postChoice2( this );
+			ChoiceManager.postChoice2( urlString, this );
 		}
 
 		// Let clover protection kick in if needed
