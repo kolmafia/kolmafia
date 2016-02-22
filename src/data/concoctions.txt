@@ -18,7 +18,7 @@
 # GRIMACITE (requires a depleted Grimacite hammer)
 # TORSO, WEAPON, ARMOR (smithing-related skills)
 # EXPENSIVE (jewelrymaking skill)
-# REAGENT, WAY, DEEP, PASTAMASTERY, TRANSNOODLE, TEMPURAMANCY (cooking)
+# REAGENT, WAY, DEEP, PASTAMASTERY, TRANSNOODLE, TEMPURAMANCY, PATENT (cooking)
 # AC, SHC, SALACIOUS (cocktailcrafting skills)
 # NOBEE (cannot be make in Beecore)
 #
@@ -2769,3 +2769,12 @@ pine cone necklace	COMBINE	pine cone	iron chain
 
 robin nog	MIX	Robin's egg	fermenting powder
 robin flan	COOK	Robin's egg	Gnollish pie tin
+
+# Avatar of West of Loathing
+
+patent preventative tonic	COOK, PATENT	skin oil	snake oil
+patent invisibility tonic	COOK, PATENT	eldritch oil	snake oil
+patent aggression tonic	COOK, PATENT	unusual oil	snake oil
+patent sallowness tonic	COOK, PATENT	eldritch oil	skin oil
+patent avarice tonic	COOK, PATENT	unusual oil	skin oil
+patent alacrity tonic	COOK, PATENT	eldritch oil	unusual oil
