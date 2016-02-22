@@ -4482,7 +4482,7 @@ Effect	Cosmic Flavor	Spell Critical Percent: +10
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
 Effect	Cowlick	Meat Drop: +50
-Effect	Cowrruption	Muscle Limit: 30, Moxie Limit: 30, Weapon Damage Percent: +200, Spell Damage Percent: +200
+Effect	Cowrruption	Muscle Limit: [30-30*class(Cow Puncher)], Moxie Limit: [30-30*class(Cow Puncher)], Weapon Damage Percent: +200, Spell Damage Percent: +200
 # Effect Coy to the Hurled: variable DR
 # Effect Craft Tea: Lets you craft things more quickly
 Effect	Cranberry Cordiality	Meat Drop: +10
