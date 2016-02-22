@@ -1595,6 +1595,10 @@ public abstract class KoLCharacter
 		{
 			KoLCharacter.limitmode = Limitmode.BATMAN;
 		}
+		else if ( limitmode.equals( Limitmode.ED ) )
+		{
+			KoLCharacter.limitmode = Limitmode.ED;
+		}
 		else
 		{
 			KoLCharacter.limitmode = limitmode;
@@ -1649,6 +1653,9 @@ public abstract class KoLCharacter
 		{
 			BatManager.begin();
 		}
+
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 	}
 
 	/**
@@ -2484,7 +2491,7 @@ public abstract class KoLCharacter
 
 	public static final int getMonsterLevelAdjustment()
 	{
-		if ( KoLCharacter.limitmode == Limitmode.SPELUNKY )
+		if ( Limitmode.limitMCD() )
 		{
 			return 0;
 		}
@@ -4703,12 +4710,14 @@ public abstract class KoLCharacter
 
 	public static final boolean canUseMalus()
 	{
-		return KoLCharacter.hasSkill( "Pulverize" ) && KoLCharacter.isMuscleClass() && !KoLCharacter.isAvatarOfBoris();
+		return  KoLCharacter.hasSkill( "Pulverize" ) &&
+			KoLCharacter.isMuscleClass() &&
+			KoLCharacter.getGuildStoreOpen();
 	}
 
 	public static final boolean canPickpocket()
 	{
-		return 	KoLCharacter.limitmode != Limitmode.SPELUNKY &&
+		return 	!Limitmode.limitPickpocket() &&
 			( KoLCharacter.isMoxieClass() ||
 			  KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) );
