@@ -1910,6 +1910,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TEMPURAMANCY );
 		}
 
+		if ( KoLCharacter.hasSkill( "Patent Medicine" ) )
+		{
+			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.PATENT );
+		}
+
 		// Mixing is permitted, so long as the person has a shaker or a
 		// cocktailcrafting kit installed in their kitchen
 
@@ -2549,6 +2554,9 @@ public class ConcoctionDatabase
 		if ( mixingRequirements.contains( CraftingRequirements.TEMPURAMANCY ) )
 			result.append( " (Tempuramancy)" );
 
+		if ( mixingRequirements.contains( CraftingRequirements.PATENT ) )
+			result.append( " (Patent Medicine)" );
+
 		if ( mixingRequirements.contains( CraftingRequirements.AC ) )
 			result.append( " (Advanced Cocktailcrafting)" );
 
@@ -2921,6 +2929,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "TEMPURAMANCY" ) )
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.TEMPURAMANCY );
+		}
+		// Requires Patent Medicine
+		else if ( mix.equals( "PATENT" ) )
+		{
+			ConcoctionDatabase.requirements.add( CraftingRequirements.PATENT );
 		}
 		// Requires Advanced Cocktailcrafting
 		else if ( mix.equals( "AC" ) )

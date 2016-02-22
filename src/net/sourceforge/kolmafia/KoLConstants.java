@@ -593,39 +593,40 @@ public interface KoLConstants
 	{
 		MALE,
 		FEMALE,
-		SSPD, // Requires SSPD
-		HAMMER, // Requires tenderizing hammer (implied for SMITH & SSMITH)
-		GRIMACITE, // Requires depleted Grimacite hammer
+		SSPD,		// Requires SSPD
+		HAMMER,		// Requires tenderizing hammer (implied for SMITH & SSMITH)
+		GRIMACITE,	// Requires depleted Grimacite hammer
 		TORSO,
 		SUPER_MEATSMITHING,
 		ARMORCRAFTINESS,
-		EXPENSIVE, // Requires Really Expensive Jewerlycrafting
-		REAGENT, // Requires Advanced Saucecrafting
-		WAY, // Requires The Way of Sauce
+		EXPENSIVE,	// Requires Really Expensive Jewerlycrafting
+		REAGENT,	// Requires Advanced Saucecrafting
+		WAY,		 // Requires The Way of Sauce
 		DEEP_SAUCERY,
 		PASTA,
-		TRANSNOODLE, // Requires Transcendental Noodlecraft
-		TEMPURAMANCY, // Requires Tempuramancy
-		AC, // Requires Advanced Cocktailcrafting
-		SHC, // Requires Superhuman Cocktailcrafting
-		SALACIOUS, // Requires Salacious Cocktailcrafting
-		NOBEE, // Not on Bees Hate You path
-		BAKE, // Requires Avatar of Jarlsberg skill Bake
-		BLEND, // Requires Avatar of Jarlsberg skill Blend
-		BOIL, // Requires Avatar of Jarlsberg skill Boil
-		CHOP, // Requires Avatar of Jarlsberg skill Chop
-		CURDLE, // Requires Avatar of Jarlsberg skill Curdle
-		FREEZE, // Requires Avatar of Jarlsberg skill Freeze
-		FRY, // Requires Avatar of Jarlsberg skill Fry
-		GRILL, // Requires Avatar of Jarlsberg skill Grill
-		SLICE, // Requires Avatar of Jarlsberg skill Slice
+		TRANSNOODLE,	// Requires Transcendental Noodlecraft
+		TEMPURAMANCY,	// Requires Tempuramancy
+		PATENT,		// Requires Patent Medicine
+		AC,		// Requires Advanced Cocktailcrafting
+		SHC,		// Requires Superhuman Cocktailcrafting
+		SALACIOUS,	// Requires Salacious Cocktailcrafting
+		NOBEE,		// Not on Bees Hate You path
+		BAKE,		// Requires Avatar of Jarlsberg skill Bake
+		BLEND,		// Requires Avatar of Jarlsberg skill Blend
+		BOIL,		// Requires Avatar of Jarlsberg skill Boil
+		CHOP,		// Requires Avatar of Jarlsberg skill Chop
+		CURDLE,		// Requires Avatar of Jarlsberg skill Curdle
+		FREEZE,		// Requires Avatar of Jarlsberg skill Freeze
+		FRY,		// Requires Avatar of Jarlsberg skill Fry
+		GRILL,		// Requires Avatar of Jarlsberg skill Grill
+		SLICE,		// Requires Avatar of Jarlsberg skill Slice
 	}
 
 	public enum CraftingMisc
 	{
-		TRIPLE_SAUCE, // Saucerors make 3 of this item at a time
-		NODISCOVERY, // Recipe unexpectedly does not appear in Discoveries
-		MANUAL, // Recipe should never be used automatically
+		TRIPLE_SAUCE,	// Saucerors make 3 of this item at a time
+		NODISCOVERY,	// Recipe unexpectedly does not appear in Discoveries
+		MANUAL,		// Recipe should never be used automatically
 	}
 
 	// Colors which are used to handle the various KoLmafia states.
