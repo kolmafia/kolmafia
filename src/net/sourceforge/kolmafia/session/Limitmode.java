@@ -106,12 +106,7 @@ public class Limitmode
 			return true;
 		}
 
-		if ( limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( limitmode.equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -154,12 +149,7 @@ public class Limitmode
 			return true;
 		}
 
-		if ( limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( limitmode.equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -227,7 +217,7 @@ public class Limitmode
 			return !zoneName.equals( "Batfellow Area" );
 		}
 
-		if ( limitmode.equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -277,12 +267,7 @@ public class Limitmode
 			return false;
 		}
 
-		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -316,12 +301,7 @@ public class Limitmode
 			return false;
 		}
 
-		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -338,7 +318,7 @@ public class Limitmode
 			return false;
 		}
 
-		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -372,12 +352,7 @@ public class Limitmode
 			return false;
 		}
 
-		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -394,12 +369,7 @@ public class Limitmode
 			return false;
 		}
 
-		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
-		{
-			return true;
-		}
-
-		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
 		{
 			return true;
 		}
@@ -416,12 +386,41 @@ public class Limitmode
 			return false;
 		}
 
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
+		{
+			return true;
+		}
+
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitPickpocket()
+	{
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
+		{
+			return false;
+		}
+
 		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
 
-		if ( KoLCharacter.getLimitmode().equals( Limitmode.ED ) )
+		// Should only hit this when a new limitmode is added, default to allow
+		return false;
+	}
+
+	public static final boolean limitMCD()
+	{
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode == null )
+		{
+			return false;
+		}
+
+		if ( limitmode == Limitmode.SPELUNKY || limitmode == Limitmode.BATMAN )
 		{
 			return true;
 		}
