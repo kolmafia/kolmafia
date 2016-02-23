@@ -1764,7 +1764,8 @@ public class Modifiers
 		case MYS_LIMIT:
 		case MOX_LIMIT:
 			// Only the lowest limiter applies
-			if ( this.doubles[ index ] == 0.0 || this.doubles[ index ] > mod )
+			if ( ( this.doubles[ index ] == 0.0 || this.doubles[ index ] > mod )
+				 && mod > 0.0 )
 			{
 				this.doubles[ index ] = mod;
 			}
@@ -3223,12 +3224,12 @@ public class Modifiers
 			return Modifiers.HP_TAG + mod + ", " + Modifiers.MP_TAG + mod;
 		}
 
-		if ( enchantment.indexOf( "Regenerate" ) != -1 )
+		if ( enchantment.contains( "Regenerate" ) )
 		{
 			return Modifiers.parseRegeneration( enchantment );
 		}
 
-		if ( enchantment.indexOf( "Resistance" ) != -1 )
+		if ( enchantment.contains( "Resistance" ) )
 		{
 			return Modifiers.parseResistance( enchantment );
 		}
@@ -3344,71 +3345,71 @@ public class Modifiers
 		{
 			level = matcher.group( 1 );
 		}
-		else if ( enchantment.indexOf( "Slight" ) != -1 )
+		else if ( enchantment.contains( "Slight" ) )
 		{
 			level = "+1";
 		}
-		else if ( enchantment.indexOf( "So-So" ) != -1 )
+		else if ( enchantment.contains( "So-So" ) )
 		{
 			level = "+2";
 		}
-		else if ( enchantment.indexOf( "Serious" ) != -1 )
+		else if ( enchantment.contains( "Serious" ) )
 		{
 			level = "+3";
 		}
-		else if ( enchantment.indexOf( "Stupendous" ) != -1 )
+		else if ( enchantment.contains( "Stupendous" ) )
 		{
 			level = "+4";
 		}
-		else if ( enchantment.indexOf( "Superhuman" ) != -1 )
+		else if ( enchantment.contains( "Superhuman" ) )
 		{
 			level = "+5";
 		}
-		else if ( enchantment.indexOf( "Stunning" ) != -1 )
+		else if ( enchantment.contains( "Stunning" ) )
 		{
 			level = "+7";
 		}
-		else if ( enchantment.indexOf( "Sublime" ) != -1 )
+		else if ( enchantment.contains( "Sublime" ) )
 		{
 			level = "+9";
 		}
 
-		if ( enchantment.indexOf( "All Elements" ) != -1 )
+		if ( enchantment.contains( "All Elements" ) )
 		{
 			return Modifiers.SPOOKY + level + ", " + Modifiers.STENCH + level + ", " + Modifiers.HOT + level + ", " + Modifiers.COLD + level + ", " + Modifiers.SLEAZE + level;
 		}
 
-		if ( enchantment.indexOf( "Spooky" ) != -1 )
+		if ( enchantment.contains( "Spooky" ) )
 		{
 			return Modifiers.SPOOKY + level;
 		}
 
-		if ( enchantment.indexOf( "Stench" ) != -1 )
+		if ( enchantment.contains( "Stench" ) )
 		{
 			return Modifiers.STENCH + level;
 		}
 
-		if ( enchantment.indexOf( "Hot" ) != -1 )
+		if ( enchantment.contains( "Hot" ) )
 		{
 			return Modifiers.HOT + level;
 		}
 
-		if ( enchantment.indexOf( "Cold" ) != -1 )
+		if ( enchantment.contains( "Cold" ) )
 		{
 			return Modifiers.COLD + level;
 		}
 
-		if ( enchantment.indexOf( "Sleaze" ) != -1 )
+		if ( enchantment.contains( "Sleaze" ) )
 		{
 			return Modifiers.SLEAZE + level;
 		}
 
-		if ( enchantment.indexOf( "Slime" ) != -1 )
+		if ( enchantment.contains( "Slime" ) )
 		{
 			return Modifiers.SLIME + level;
 		}
 
-		if ( enchantment.indexOf( "Supercold" ) != -1 )
+		if ( enchantment.contains( "Supercold" ) )
 		{
 			return Modifiers.SUPERCOLD + level;
 		}
