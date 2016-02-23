@@ -4718,7 +4718,9 @@ public abstract class KoLCharacter
 	public static final boolean canPickpocket()
 	{
 		return 	!Limitmode.limitPickpocket() &&
-			( KoLCharacter.isMoxieClass() ||
+			( KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
+			  KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
+			  KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
 			  KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) );
 	}
