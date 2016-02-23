@@ -686,6 +686,7 @@ Professor What T-Shirt	10	none
 psycho sweater	100	Mus: 35
 punk rock jacket	145	Mus: 57
 Radio Free Jersey	0	none
+real cowboy hat	50	none
 red coat	160	Mus: 65
 red shirt	150	Mus: 60
 red-and-green sweater	50	Mox: 35

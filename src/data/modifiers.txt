@@ -352,6 +352,7 @@ Item	Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 3
 Item	raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 Item	rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
 Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
+Item	real cowboy hat	PvP Fights: +3
 Item	red traffic cone	Moxie: +3, Cold Resistance: +2, Familiar Effect: "2xVolley, 2xLep, cap 15"
 Item	reinforced beaded headband	Maximum HP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	rusty diving helmet	Stench Resistance: +1, Item Drop: -50, Initiative: -50, Familiar Effect: "0.5xPotato"
@@ -6213,6 +6214,7 @@ Effect	Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
 
+Skill	20/20 Vision	Item Drop: +10
 Skill	Abs of Tin	Maximum HP Percent: +10
 # Accordion Appreciation Double-strength enchantments on accordions
 # Adventurer of Leisure +2 Free Rests/day
@@ -6238,6 +6240,7 @@ Skill	Big Lungs	HP Regen Min: 8, HP Regen Max: 10
 # Bone Spikes: +10 physical damage and injures attackers
 Skill	Bone Spikes	Weapon Damage: +10
 Skill	Born Showman	Moxie: [abs(ceil(N/2))]
+Skill	Brain Games	Adventures: +3
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Skill	Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 # Butts of Steel Improves the accuracy and damage of your Butt skills
@@ -7736,6 +7739,7 @@ Item	disposable lighter	Effect: "Looking at Fire", Effect Duration: 50
 # Doc Galaktik's Invigorating Tonic: Restores 9-11 MP
 # Doc Galaktik's Pungent Unguent: Heals 3-5 Hit Points
 # Doc Galaktik's Restorative Balm: Heals 13-15 Hit Points
+Item	do-it-yourself laser eye surgery kit	Skill: "20/20 Vision"
 Item	Doc Galaktik's Vitality Serum	Effect: "Vital", Effect Duration: 20
 Item	dog ointment	Effect: "Unbarking Dogs", Effect Duration: 20
 Item	Dogsgotnonoz pills	Effect: "Can't Smell Nothin'", Effect Duration: 10
@@ -7769,6 +7773,7 @@ Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 Item	eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 Item	eldritch oil	Effect: "Uncanny Shot", Effect Duration: 30
 # electric boning knife: Deals Physical Damage each round for the rest of the fight
+Item	electronic Brain Trainer game	Skill: "Brain Games"
 Item	electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
 # electric muscle stimulator: Gives some Muscle stats when you rest
 # eleven-foot pole: You know...  For traps.
