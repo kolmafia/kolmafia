@@ -9008,3 +9008,10 @@
 8982	corrupted marrow	714979235	gooball.gif	usable	t,d	40
 8983	rodeo whiskey	762206613	fancybrew.gif	drink	t,d	40
 8984	Thwaitgold scorpion statuette	296698569	thwaitscorp.gif	none		0
+8985	real cowboy hat	243861084	cowmanbobhat.gif	hat		0
+8986
+8987
+8988
+8989
+8990	electronic Brain Trainer game	146911854	lcdgame.gif	usable	t	0
+8991	do-it-yourself laser eye surgery kit	207701211	wbdrillpress.gif	usable	t	0

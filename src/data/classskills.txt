@@ -179,6 +179,8 @@
 154	Bend Hell	junkbent.gif	3	100	1
 155	Steely-Eyed Squint	susgaze.gif	3	100	1
 156	Shoot	sixgun0.gif	5	0	0
+157	Brain Games	watch.gif	0	0	0
+158	20/20 Vision	eyes.gif	0	0	0
 
 # Skills available to Clubbers
 
