@@ -8575,7 +8575,7 @@
 8549	squeaky toy rose	549232387	rose.gif	usable	t	0
 8550	weird gazelle steak	918011282	gnatfilet.gif	food	t	0
 8551	sausage without a cause	710239230	sausage.gif	food	t	0
-8552	silver face paint	375755054	tube.gif	usable	t	0
+8552	silver face paint	375755054	tube.gif	usable	t	0	tubes of silver face paint
 8553	emergency margarita	886234063	daquiri.gif	drink	t	0
 8554	vintage smart drink	485189565	waterbottle.gif	drink	t	0
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
@@ -8777,7 +8777,7 @@
 8751	communal gobstopper	582565826	jawbreaker.gif	multiple	t	0
 8752	Crimbo salad	239783949	salad.gif	food	t	0
 8753	bread line	579918982	baguette.gif	food	t	0
-8754	bark rootbeer	960615595	beerbottle.gif	drink	t	0
+8754	bark rootbeer	960615595	beerbottle.gif	drink	t	0	bottles of bark rootbeer
 8755	red ale	629634528	beerbottle.gif	drink	t	0	bottles of red ale
 8756	tiny plastic Tammy the Tambourine Elf	906904061	tptammy.gif	accessory	t	0
 8757	tiny plastic Rudolph the Red	652714901	tpdolf.gif	accessory	t	0
