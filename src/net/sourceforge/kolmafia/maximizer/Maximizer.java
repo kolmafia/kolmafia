@@ -365,7 +365,22 @@ public class Maximizer
 					}
 
 					String iName = cmd.substring( cmd.indexOf( " " ) + 3 ).trim();
-					item = ItemFinder.getFirstMatchingItem( iName, false );
+					if ( cmd.startsWith( "use " ) )
+					{
+						item = ItemFinder.getFirstMatchingItem( iName, false );
+					}
+					else if ( cmd.startsWith( "chew " ) )
+					{
+						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.SPLEEN_MATCH );
+					}
+					else if ( cmd.startsWith( "drink " ) )
+					{
+						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.BOOZE_MATCH );
+					}
+					else if ( cmd.startsWith( "eat " ) )
+					{
+						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.FOOD_MATCH );
+					}
 
 					if ( item != null )
 					{
