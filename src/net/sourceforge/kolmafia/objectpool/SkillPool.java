@@ -104,6 +104,7 @@ public class SkillPool
 	public static final int BOW_LEGGED_SWAGGER = 153;
 	public static final int BEND_HELL = 154;
 	public static final int STEELY_EYED_SQUINT = 155;
+	public static final int SHOOT = 156;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;

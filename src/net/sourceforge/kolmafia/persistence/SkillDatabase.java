@@ -1158,6 +1158,10 @@ public class SkillDatabase
 		case SkillPool.MILD_CURSE:
 			// Other skills from this class are not permable
 			return true;
+
+		case SkillPool.SHOOT:
+			// Avatar of West of Loathing skills
+			return false;
 		}
 
 		switch ( skillId / 1000 )
@@ -1170,6 +1174,9 @@ public class SkillDatabase
 		case 15:			// Avatar of Sneaky Pete skills
 		case 16:			// Heavy Rains skills
 		case 17:			// Ed skills
+		case 18:			// Cow Puncher skills
+		case 19:			// Bean Slinger skills
+		case 20:			// Snake Oiler skills
 			return false;
 		}
 
