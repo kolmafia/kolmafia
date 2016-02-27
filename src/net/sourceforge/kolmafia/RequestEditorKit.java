@@ -815,8 +815,8 @@ public class RequestEditorKit
 		}
 
 		// Otherwise, if we are level 15 or less, the guild might have a skill for us
-		// Zombie Masters don't get access to new skills by gaining a level
-		else if ( newLevel <= 15 && !KoLCharacter.inZombiecore() )
+		// Only give a link if we have opened the guild
+		else if ( newLevel <= 15 && KoLCharacter.getGuildStoreOpen() )
 		{
 			links.append( " [<a href=\"guild.php\">guild</a>]" );
 			haveLinks = true;
