@@ -2955,6 +2955,10 @@ public class ResultProcessor
 		case ItemPool.CONFIDENCE_BUILDING_HUG:
 			BatManager.gainItem( result );
 			break;
+
+		case ItemPool.COWBOY_BOOTS:
+			EquipmentRequest.checkCowboyBoots();
+			break;
 		}
 
 		// Gaining items can achieve goals.

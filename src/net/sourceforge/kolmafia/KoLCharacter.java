@@ -584,6 +584,7 @@ public abstract class KoLCharacter
 			ChatManager.resetChatLiteracy();
 			ClanManager.clearCache();
 			StoreManager.clearCache();
+			EquipmentRequest.checkCowboyBoots();
 		}
 	}
 
