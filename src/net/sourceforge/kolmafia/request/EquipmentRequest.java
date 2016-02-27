@@ -2153,7 +2153,8 @@ public class EquipmentRequest
 
 	public static void checkCowboyBoots()
 	{
-		if ( !InventoryManager.hasItem( EquipmentManager.COWBOY_BOOTS ) )
+		if ( !InventoryManager.hasItem( EquipmentManager.COWBOY_BOOTS ) &&
+		     !KoLCharacter.hasEquipped( EquipmentManager.COWBOY_BOOTS ) )
 		{
 			EquipmentManager.cowboyBootSkin = null;
 			EquipmentManager.cowboyBootSpur = null;
