@@ -13588,6 +13588,9 @@ public abstract class ChoiceManager
 		case 1114: // Walford Rusley, Bucket Collector
 		case 1118: // X-32-F Combat Training Snowman Control Console
 		case 1171: // LT&T Office
+		case 1177: // Book of the West: Cow Punching
+		case 1178: // Book of the West: Beanslinging
+		case 1179: // Book of the West: Snake Oiling
 		return true;
 
 		default:
