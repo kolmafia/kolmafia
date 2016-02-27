@@ -1048,7 +1048,7 @@ public abstract class KoLCharacter
 		if ( req.responseText != null )
 		{
 			KoLCharacter.gender =
-				req.responseText.indexOf( "+15%" ) != -1 ?
+				req.responseText.contains( "+15%" ) ?
 				KoLCharacter.FEMALE : KoLCharacter.MALE;
 		}
 
@@ -3258,6 +3258,21 @@ public abstract class KoLCharacter
 			{
 				int zombiePoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "zombiePoints", zombiePoints );
+			}
+			else if ( oldPath.equals( WEST_OF_LOATHING ) )
+			{
+				if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
+				{
+					Preferences.increment( "awolPointsBeanslinger", 1, 10, false );
+				}
+				else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
+				{
+					Preferences.increment( "awolPointsCowpuncher", 1, 10, false );
+				}
+				else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
+				{
+					Preferences.increment( "awolPointsSnakeoiler", 1, 10, false );
+				}
 			}
 			else if ( oldPath.equals( "Heavy Rains" ) )
 			{
@@ -5611,7 +5626,7 @@ public abstract class KoLCharacter
 			}
 		}
 
-		double baseExp = ( newModifiers.getCurrentML() - monsterLevel ) / 4.0f;
+		double baseExp = ( Modifiers.getCurrentML() - monsterLevel ) / 4.0f;
 
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
 		if ( exp != 0.0f )
