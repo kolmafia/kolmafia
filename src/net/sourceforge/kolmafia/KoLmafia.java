@@ -910,9 +910,6 @@ public abstract class KoLmafia
 		// Check the Florist to see what is planted
 		FloristRequest.reset();
 		RequestThread.postRequest( new FloristRequest() );
-
-		// See what's loaded on your cowboy boots
-		EquipmentRequest.checkCowboyBoots();
 	}
 
 	public static final boolean isRefreshing()
