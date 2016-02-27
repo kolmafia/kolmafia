@@ -3261,17 +3261,18 @@ public abstract class KoLCharacter
 			}
 			else if ( oldPath.equals( WEST_OF_LOATHING ) )
 			{
+				int points = wasInHardcore ? 2 : 1;
 				if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
 				{
-					Preferences.increment( "awolPointsBeanslinger", 1, 10, false );
+					Preferences.increment( "awolPointsBeanslinger", points, 10, false );
 				}
 				else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
 				{
-					Preferences.increment( "awolPointsCowpuncher", 1, 10, false );
+					Preferences.increment( "awolPointsCowpuncher", points, 10, false );
 				}
 				else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
 				{
-					Preferences.increment( "awolPointsSnakeoiler", 1, 10, false );
+					Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
 				}
 			}
 			else if ( oldPath.equals( "Heavy Rains" ) )
