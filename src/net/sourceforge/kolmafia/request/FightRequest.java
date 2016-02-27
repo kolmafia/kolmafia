@@ -2379,21 +2379,44 @@ public class FightRequest
 		boolean finalRound = macroMatcher.end() == FightRequest.lastResponseText.length();
 		boolean won = finalRound && responseText.contains( "<!--WINWINWIN-->" );
 
+		// If we won, the fight is over for sure. It might be over
+		// anyway. We can detect this in one of two ways: if you have
+		// the CAB enabled, there will be no link to the old combat
+		// form. Otherwise, a link to fight.php indicates that the
+		// fight is continuing.
+
+		boolean stillInBattle = finalRound && !won &&
+			( limitmode == Limitmode.BATMAN ?
+			  responseText.contains( "action=\"fight.php\"" ) :
+			  Preferences.getBoolean( "serverAddsCustomCombat" ) ?
+			  responseText.contains( "(show old combat form)" ) :
+			  responseText.contains( "action=fight.php" ) );
+
 		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.SPELUNKY )
 		{
-			if ( !won )
+			if ( !finalRound )
+			{
+				return;
+			}
+
+			if ( stillInBattle )
 			{
 				MonsterStatusTracker.applyManuelStats();
 				return;
 			}
-			if ( limitmode == Limitmode.BATMAN )
+
+			if ( won )
 			{
-				BatManager.wonFight( monsterName, responseText );
+				if ( limitmode == Limitmode.BATMAN )
+				{
+					BatManager.wonFight( monsterName, responseText );
+				}
+				else
+				{
+					SpelunkyRequest.wonFight( monsterName, responseText );
+				}
 			}
-			else
-			{
-				SpelunkyRequest.wonFight( monsterName, responseText );
-			}
+
 			FightRequest.clearInstanceData();
 			FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 			FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
@@ -2634,16 +2657,7 @@ public class FightRequest
 		// If this was an item-generated monster, reset
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
 
-		// If we won, the fight is over for sure. It might be over
-		// anyway. We can detect this in one of two ways: if you have
-		// the CAB enabled, there will be no link to the old combat
-		// form. Otherwise, a link to fight.php indicates that the
-		// fight is continuing
-
-		if ( !won &&
-		     responseText.contains( Preferences.getBoolean( "serverAddsCustomCombat" ) ?
-					    "(show old combat form)" :
-					    "action=fight.php" ) )
+		if ( stillInBattle )
 		{
 			// The fight is not over, none of the stuff below needs to be checked
 			MonsterStatusTracker.applyManuelStats();
