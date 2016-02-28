@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -114,29 +115,36 @@ public class CharPaneDecorator
 
 	public static final void decorate( final StringBuffer buffer )
 	{
-		// We are interested in the following sections of the CharPane:
-		//
-		// Status (HP/MP)
-		// Last Adventure
-		// Familiar or Minstrel
-		// Effects
-		// Intrinsics
-		//
-		// Two interface settings affect the appearance and/or order of
-		// these sections:
-		//
-		// CharPaneRequest.compactCharacterPane
-		// CharPaneRequest.familiarBelowEffects
+		// If you are playing Spelunky or Batfellow, the charpane is
+		// entirely different.
 
-		// Decorate the various sections
-		CharPaneDecorator.decorateStatus( buffer );
-		CharPaneDecorator.decorateLastAdventure( buffer );
-		CharPaneDecorator.decorateFamiliar( buffer );
-		CharPaneDecorator.decorateEffects( buffer );
-		CharPaneDecorator.decorateIntrinsics( buffer );
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode != Limitmode.SPELUNKY && limitmode != Limitmode.BATMAN )
+		{
+			// We are interested in the following sections of the CharPane:
+			//
+			// Status (HP/MP)
+			// Last Adventure
+			// Familiar or Minstrel
+			// Effects
+			// Intrinsics
+			//
+			// Two interface settings affect the appearance and/or order of
+			// these sections:
+			//
+			// CharPaneRequest.compactCharacterPane
+			// CharPaneRequest.familiarBelowEffects
 
-		// Update the safety text every time we load the charpane
-		StringUtilities.singleStringReplace( buffer, "onload='startup();'", "onload='startup();updateSafetyText();'" );
+			// Decorate the various sections
+			CharPaneDecorator.decorateStatus( buffer );
+			CharPaneDecorator.decorateLastAdventure( buffer );
+			CharPaneDecorator.decorateFamiliar( buffer );
+			CharPaneDecorator.decorateEffects( buffer );
+			CharPaneDecorator.decorateIntrinsics( buffer );
+
+			// Update the safety text every time we load the charpane
+			StringUtilities.singleStringReplace( buffer, "onload='startup();'", "onload='startup();updateSafetyText();'" );
+		}
 
 		// Add a "refresh" link at the end
 		StringUtilities.singleStringReplace( buffer, "</body>",
