@@ -3423,6 +3423,7 @@ public class FightRequest
 				if ( responseText.contains( "notices the Bowl of Scorpions" ) )
 				{
 					ResultProcessor.removeItem( ItemPool.BOWL_OF_SCORPIONS );
+					Preferences.increment( "_drunkPygmyBanishes" );
 				}
 			}
 			else if ( monsterName.equals( "bugbear robo-surgeon" ) )
