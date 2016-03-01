@@ -1251,6 +1251,10 @@ public class AreaCombatData
 			{
 				return -4;
 			}
+			if ( monster.equals( "drunk pygmy" ) && Preferences.getInteger( "_drunkPygmyBanishes" ) >= 11 )
+			{
+				return -4;
+			}
 		}
 		else if ( zone.equals( "The Fungal Nethers" ) )
 		{
