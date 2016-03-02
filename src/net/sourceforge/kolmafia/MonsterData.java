@@ -489,7 +489,7 @@ public class MonsterData
 
 	public int getHP()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.health == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
@@ -531,7 +531,7 @@ public class MonsterData
 
 	public int getRawHP()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.health == null)
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
@@ -558,7 +558,7 @@ public class MonsterData
 
 	public int getAttack()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.attack == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
@@ -601,7 +601,7 @@ public class MonsterData
 
 	public int getRawAttack()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.attack == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
@@ -630,7 +630,7 @@ public class MonsterData
 	public int getDefense()
 	{
 		double reduceMonsterDefense = KoLCharacter.currentNumericModifier( Modifiers.REDUCE_ENEMY_DEFENSE ) / 100;
-		if ( this.scale != null )
+		if ( this.scale != null && this.defense == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
@@ -674,7 +674,7 @@ public class MonsterData
 
 	public int getRawDefense()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.defense == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
@@ -1032,7 +1032,7 @@ public class MonsterData
 
 	public double getExperience()
 	{
-		if ( this.scale != null )
+		if ( this.scale != null && this.experience == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int experience = KoLCharacter.getAdjustedMainstat() + scale;
