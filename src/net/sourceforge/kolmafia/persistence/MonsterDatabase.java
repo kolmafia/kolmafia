@@ -442,7 +442,7 @@ public class MonsterDatabase
 		Object experience = null;
 		Object scale = null;
 		Object cap = null;
-		int floor = Integer.MIN_VALUE;
+		Object floor = null;
 		Object mlMult = null;
 		int meat = 0;
 		Element attackElement = Element.NONE;
@@ -507,11 +507,7 @@ public class MonsterDatabase
 
 				else if ( option.equals( "Floor:" ) )
 				{
-					Object object = parseDefaultedNumeric( tokens, MonsterData.DEFAULT_FLOOR );
-					if ( object instanceof Integer )
-					{
-						floor = ((Integer)object).intValue();
-					}
+					floor = parseDefaultedNumeric( tokens, MonsterData.DEFAULT_FLOOR );
 					continue;
 				}
 

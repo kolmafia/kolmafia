@@ -57,7 +57,7 @@ public class MonsterData
 	private Object experience;
 	private Object scale;
 	private Object cap;
-	private final int floor;
+	private Object floor;
 	private Object mlMult;
 	private Element attackElement;
 	private Element defenseElement;
@@ -170,7 +170,7 @@ public class MonsterData
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
-			    final Object scale, final Object cap, final int floor, final Object mlMult,
+			    final Object scale, final Object cap, final Object floor, final Object mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
 			    final int meat, final Phylum phylum, final int poison,
@@ -189,7 +189,7 @@ public class MonsterData
 		this.experience = experience;
 		this.scale = scale;
 		this.cap = cap;
-		this.floor = floor == Integer.MIN_VALUE ? MonsterData.DEFAULT_FLOOR : floor;
+		this.floor = floor;
 		this.mlMult = mlMult;
 		this.attackElement = attackElement;
 		this.defenseElement = defenseElement;
@@ -494,12 +494,13 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP);
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 			int ml = ML();
 
 			hp = hp > cap ? cap : hp;
 			ml = ml < 0 ? 0 : ml;
 			hp = (int) Math.floor( ( hp + ml ) * 0.75 * getBeeosity() );
-			hp = hp < this.floor ? this.floor : hp;
+			hp = hp < floor ? floor : hp;
 			return (int) Math.max( 1, hp );
 		}
 		if ( this.health == null )
@@ -535,8 +536,9 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 
-			hp = hp > cap ? cap : hp < this.floor ? this.floor : hp;
+			hp = hp > cap ? cap : hp < floor ? floor : hp;
 			return (int) Math.floor( Math.max( 1, ( hp ) * 0.75 ) );
 		}
 		if ( this.health == null )
@@ -561,12 +563,13 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 			attack = attack > cap ? cap : attack;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 
 			attack = (int) Math.floor( ( attack + ml ) * getBeeosity() );
-			attack = attack < this.floor ? this.floor : attack;
+			attack = attack < floor ? floor : attack;
 			return (int) Math.max( 1, attack );
 		}
 		if ( this.attack == null )
@@ -603,7 +606,8 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int attack = KoLCharacter.getAdjustedMoxie() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-			attack = attack > cap ? cap : attack < this.floor ? this.floor : attack;
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+			attack = attack > cap ? cap : attack < floor ? floor : attack;
 			return (int) Math.max( 1, attack );
 		}
 
@@ -631,12 +635,13 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 
-			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
+			defense = defense > cap ? cap : defense < floor ? floor : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
-			defense = defense < this.floor ? this.floor : defense;
+			defense = defense < floor ? floor : defense;
 			return (int) Math.floor( Math.max( 1, defense * ( 1 - reduceMonsterDefense ) ) );
 		}
 		if ( this.defense == null )
@@ -674,7 +679,8 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int defense = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-			defense = defense > cap ? cap : defense < this.floor ? this.floor : defense;
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+			defense = defense > cap ? cap : defense < floor ? floor : defense;
 			return (int) Math.floor( Math.max( 1, defense ) );
 		}
 		if ( this.defense == null )
@@ -1031,7 +1037,8 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int experience = KoLCharacter.getAdjustedMainstat() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-			experience = experience > cap ? cap : experience < this.floor ? this.floor : experience;
+			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+			experience = experience > cap ? cap : experience < floor ? floor : experience;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			return (double) Math.max( 1, ( experience / 8.0 + ml / 6.0 ) );
