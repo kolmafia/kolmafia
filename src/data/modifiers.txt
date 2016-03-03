@@ -5402,8 +5402,8 @@ Effect	Patchy Punk	Avatar: "Punk Rock Giant"
 Effect	Patent Aggression	Combat Rate: +15
 Effect	Patent Alacrity	Initiative: +100
 Effect	Patent Avarice	Meat Drop: +50
-# Effect Patent Invisiblity: Makes you significantly less attractive to monsters
-Effect	Patent Invisiblity	Combat Rate: -15
+# Effect Patent Invisibility: Makes you significantly less attractive to monsters
+Effect	Patent Invisibility	Combat Rate: -15
 Effect	Patent Prevention	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Patent Sallowness	Monster Level: +30
 Effect	Patience of the Tortoise	Maximum HP: +3, Muscle: +1
@@ -8532,7 +8532,7 @@ Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Du
 Item	patent aggression tonic	Effect: "Patent Aggression", Effect Duration: 30
 Item	patent alacrity tonic	Effect: "Patent Alacrity", Effect Duration: 20
 Item	patent avarice tonic	Effect: "Patent Avarice", Effect Duration: 30
-Item	patent invisibility tonic	Effect: "Patent Invisiblity", Effect Duration: 30
+Item	patent invisibility tonic	Effect: "Patent Invisibility", Effect Duration: 30
 Item	patent preventative tonic	Effect: "Patent Prevention", Effect Duration: 30
 Item	patent sallowness tonic	Effect: "Patent Sallowness", Effect Duration: 50
 Item	peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]

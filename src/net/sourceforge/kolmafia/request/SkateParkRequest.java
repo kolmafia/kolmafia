@@ -35,16 +35,23 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SkateParkRequest
 	extends GenericRequest
@@ -104,6 +111,20 @@ public class SkateParkRequest
 		},
 	};
 
+	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
+	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
+	public static final AdventureResult BATHYSPHERE = ItemPool.get( ItemPool.BATHYSPHERE, 1 );
+	public static final AdventureResult DAS_BOOT = ItemPool.get( ItemPool.DAS_BOOT, 1 );
+	public static final AdventureResult AMPHIBIOUS_TOPHAT = ItemPool.get( ItemPool.AMPHIBIOUS_TOPHAT, 1 );
+	public static final AdventureResult BUBBLIN_STONE = ItemPool.get( ItemPool.BUBBLIN_STONE, 1 );
+	public static final AdventureResult OLD_SCUBA_TANK = ItemPool.get( ItemPool.OLD_SCUBA_TANK, 1 );
+	public static final AdventureResult SCHOLAR_MASK = ItemPool.get( ItemPool.SCHOLAR_MASK, 1 );
+	public static final AdventureResult GLADIATOR_MASK = ItemPool.get( ItemPool.GLADIATOR_MASK, 1 );
+	public static final AdventureResult CRAPPY_MASK = ItemPool.get( ItemPool.CRAPPY_MASK, 1 );
+
+	private static AdventureResult self = null;
+	private static AdventureResult familiar = null;
+
 	public SkateParkRequest()
 	{
 		super( "sea_skatepark.php" );
@@ -116,6 +137,83 @@ public class SkateParkRequest
 		if ( action != null )
 		{
 			this.addFormField( "action", action );
+		}
+	}
+
+	@Override
+	public void run()
+	{
+		// Equip for underwater adventuring if not
+		try
+		{
+			SpecialOutfit.createImplicitCheckpoint();
+			SkateParkRequest.equip();
+			super.run();
+		}
+		finally
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
+	}
+
+	private static void update()
+	{
+		if ( InventoryManager.getAccessibleCount( SkateParkRequest.AERATED_DIVING_HELMET ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.AERATED_DIVING_HELMET;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.SCHOLAR_MASK ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.SCHOLAR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.GLADIATOR_MASK ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.GLADIATOR_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.CRAPPY_MASK ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.CRAPPY_MASK;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.SCUBA_GEAR ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.SCUBA_GEAR;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.OLD_SCUBA_TANK ) > 0 )
+		{
+			SkateParkRequest.self = SkateParkRequest.OLD_SCUBA_TANK;
+		}
+
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		// For the dancing frog, the amphibious tophat is the best familiar equipment
+		if ( familiar.getId() == FamiliarPool.DANCING_FROG &&
+		     InventoryManager.getAccessibleCount( SkateParkRequest.AMPHIBIOUS_TOPHAT ) > 0 )
+		{
+			SkateParkRequest.familiar = SkateParkRequest.AMPHIBIOUS_TOPHAT;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.DAS_BOOT ) > 0 )
+		{
+			SkateParkRequest.familiar = SkateParkRequest.DAS_BOOT;
+		}
+		else if ( InventoryManager.getAccessibleCount( SkateParkRequest.BATHYSPHERE ) > 0 )
+		{
+			SkateParkRequest.familiar = SkateParkRequest.BATHYSPHERE;
+		}
+	}
+
+	private static void equip()
+	{
+		SkateParkRequest.update();
+		if ( !KoLCharacter.currentBooleanModifier( "Adventure Underwater" ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( SkateParkRequest.self );
+			RequestThread.postRequest( request );
+		}
+
+		if ( !KoLCharacter.currentBooleanModifier( "Underwater Familiar" ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( SkateParkRequest.familiar );
+			RequestThread.postRequest( request );
 		}
 	}
 
