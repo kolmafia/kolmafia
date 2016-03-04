@@ -1121,6 +1121,17 @@ public abstract class KoLmafia
 			{
 				concoctionRefreshNeeded = true;
 			}
+			else if ( effectId == EffectPool.COWRRUPTION )
+			{
+				if ( KoLConstants.activeEffects.contains( effect ) )
+				{
+					KoLCharacter.addAvailableSkill( "Absorb Cowrruption" );
+				}
+				else
+				{
+					KoLCharacter.removeAvailableSkill( "Absorb Cowrruption" );
+				}
+			}
 		}
 
 		KoLConstants.recentEffects.clear();
