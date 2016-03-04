@@ -437,6 +437,7 @@ roll in the hay	4	4	good	10-14	0	34-36	0
 Rompedores de Fantasmas	3	1	good	8-10	13	0	0	13 Desenfantasmada (+3 Mus exp, +2 spooky res)
 rum and cola	3	1	decent	5-6	0	0	10-12	14-16 MP
 Russian Ice	1	2	good	2-3	30-60	0	-5-10
+Sacramento wine	1	1	EPIC	0	0	0	0	Unspaded, 50 Sacré Mental (+50 Item drop)
 Saison du Lune	3	2	good	8-10	0	10-20	25-35
 salacious lychee chuhai	4	8	good	11-14	0	0	60-115	30 Brined Liver
 salacious screwdiver	4	8	good	11-14	60-115	0	0	30 Brined Liver

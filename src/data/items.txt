@@ -9012,6 +9012,14 @@
 8986
 8987
 8988
-8989
+8989	Witchess Set	301914635	chessset.gif	usable	t	0
 8990	electronic Brain Trainer game	146911854	lcdgame.gif	usable	t	0
 8991	do-it-yourself laser eye surgery kit	207701211	wbdrillpress.gif	usable	t	0
+8992	armored prawn	868825613	armorprawn.gif	spleen, usable	t,d	5
+8993	jumping horseradish	586850870	horseradish.gif	food	t,d	5
+8994	Sacramento wine	111757769	wine2.gif	drink	t,d	5
+8995	Greek fire	889869567	potion4.gif	multiple	t,d	5
+8996	ox-head shield	959124564	oxshield.gif	offhand	q	0
+8997
+8998	very pointy crown	987470212	wqueencrown.gif	hat	q	0
+8999	battle broom	199500631	battlebroom.gif	accessory	q	0

@@ -423,6 +423,8 @@ Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
 Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Familiar Effect: "3xPotato, cap 7"
+# Item very pointy crown: Weakens Monster on Critical Hit
+Item	very pointy crown	Experience (Moxie): +5, Adventures: +5, Moxie Percent: +50, Combat Rate: -5, Lasts Until Rollover
 Item	viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 Item	Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6, Familiar Effect: "1xPotato, 1xGhoul, cap 37"
 Item	warbear dress helmet	Moxie: +10, Booze Drop: +25, Familiar Effect: "cold atk, 1xVolley, cap 25"
@@ -2024,6 +2026,7 @@ Item	Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15
 # Ouija Board, Ouija Board: (+% to Muscle Based on Smithsness)
 # Ouija Board, Ouija Board: Gain the favor of the Turtle Spirits more quickly
 Item	Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Class: "Turtle Tamer", Damage Reduction: 7, Muscle Percent: [2*K]
+Item	ox-head shield	Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 26, PvP Fights: +8, Never Fumble, Lasts Until Rollover
 # oyster basket
 Item	oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
@@ -2278,6 +2281,7 @@ Item	barrel beryl nose ring	Mysticality: +10, Spell Damage: +20
 Item	barrel beryl ring	Moxie: +10, Initiative: +20
 Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
+Item	battle broom	Experience (Mysticality): +5, MP Regen Min: 5, MP Regen Max: 10, Mysticality Percent: +50, Spell Damage Percent: +100, Spell Critical Percent: +10, Single Equip, Lasts Until Rollover
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -5122,6 +5126,7 @@ Effect	Just Aged Enough	Moxie: +25
 # Just the Best Anapests: Da da dee, da da dee
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Kernel Panic!	Critical Hit Percent: +5
+Effect	Kicked in the Sinuses	Meat Drop: +100
 Effect	Kid Dracularp	Avatar: "vampire"
 Effect	Kindly Resolve	Familiar Weight: +5
 Effect	Kiss of the Black Fairy	Spooky Damage: [+2*D]
@@ -5503,6 +5508,7 @@ Effect	Purpose	Experience Percent (Muscle): +25
 # Purr of the Feline: Makes Ed's Servants Stronger
 Effect	Putting the Orc in Porcine	Avatar: "smut orc pervert"
 Effect	Putting the Pro in Proletariat	Moxie Percent: +50, Ranged Damage: +25
+Effect	Puzzle Champ	Familiar Weight: +5
 Effect	Puzzle Fury	Spell Damage Percent: +25
 Effect	Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
@@ -5576,7 +5582,9 @@ Effect	Rotten Memories	Stench Damage: +15
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Rushin' Hands	Weapon Damage: +3
+Effect	Rushtacean'	Initiative: +50
 # Ruthlessly Efficient: Deleveling is 50% more effective
+Effect	Sacré Mental	Item Drop: +50
 Effect	Sagittarius Rising	Ranged Damage: +30
 Effect	Salad Days	Maximum HP: +50, Experience (Muscle): +2
 Effect	Salamander In Your Stomach	Mysticality: +25
@@ -5886,6 +5894,7 @@ Effect	Sweet Nostalgia	Candy Drop: +20
 Effect	Sweet Taste	Candy Drop: +10
 Effect	Sweet Tooth	Candy Drop: +40
 Effect	Sweet, Nuts	Mysticality: +5
+Effect	Sweetbreads Flambé	Monster Level: +25, Experience: +10
 # Swimming Head: +25% Item Drops from Monsters (Underwater only)
 Effect	Swimming Head	Item Drop: [25*env(underwater)]
 # Swimming with Sharks: Makes you a better diver
@@ -6743,6 +6752,7 @@ Item	irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10
 Item	java cookie	Effect: "Updated", Effect Duration: 10
 Item	jawbruiser	Effect: "Sugar Rush", Effect Duration: 5
 Item	jive turkey leg	Effect: "Hollow Inside", Effect Duration: 50
+Item	jumping horseradish	Effect: "Kicked in the Sinuses", Effect Duration: 50
 Item	jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30
@@ -7009,6 +7019,7 @@ Item	Red Dwarf	Effect: "World's Shortest Giant", Effect Duration: 5
 Item	red hot boilermaker	Effect: "Boilermade", Effect Duration: 50
 Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 # Russian Ice: Weakens enemies somewhat when used as a combat item
+Item	Sacramento wine	Effect: "Sacré Mental", Effect Duration: 50
 Item	salacious lychee chuhai	Effect: "Brined Liver", Effect Duration: 30
 Item	salacious screwdiver	Effect: "Brined Liver", Effect Duration: 30
 Item	salinated mint julep	Effect: "Brined Liver", Effect Duration: 10
@@ -7075,6 +7086,7 @@ Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
 Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
 Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
+Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
@@ -8026,6 +8038,7 @@ Item	grease trap	Effect: "Grease Trappings", Effect Duration: 50
 # Great Wolf's lice: Weakens enemies a lot
 # Great Wolf's lice: (by 30% if they are beasts)
 # Great Wolf's lice: (doesn't go away when used)
+Item	Greek fire	Effect: "Sweetbreads Flambé", Effect Duration: 25
 # green BRICKO brick: Deals a percentage of a monster's current Hit Points in Physical Damage
 # green BRICKO brick: (more effective against BRICKO monsters)
 Item	green candy heart	Effect: "Heart of Green", Effect Duration: 10
