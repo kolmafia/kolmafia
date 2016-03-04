@@ -41,9 +41,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
+
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -419,6 +422,13 @@ public class CharSheetRequest
 		if ( Preferences.getInteger( "skillLevel7254" ) > 0 )
 		{
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Toggle Optimality" );
+			newSkillSet.add( skill );
+		}
+
+		// If you have the Cowrruption effect, you can Absorb Cowrruption
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.COWRRUPTION ) ) )
+		{
+			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Absorb Cowrruption" );
 			newSkillSet.add( skill );
 		}
 		

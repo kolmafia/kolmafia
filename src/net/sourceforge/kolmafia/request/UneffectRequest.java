@@ -471,6 +471,10 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.IRON_PALMS ) );
 
+		removableEffects = new HashSet<Integer>();
+		removeWithSkillMap.put( "Absorb Cowrruption", removableEffects );
+		removableEffects.add( IntegerPool.get( EffectPool.COWRRUPTION ) );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
 
