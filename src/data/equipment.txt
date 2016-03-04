@@ -323,6 +323,7 @@ two-gallon hat	40	none
 Uncle Hobo's stocking cap	200	Mox: 200
 Unkillable Skeleton's skullcap	300	Mus: 250
 Van der Graaf helmet	30	none
+very pointy crown	200	Mox: 10
 viking helmet	20	none
 Voluminous Radio Hat	150	Mox: 60
 warbear dress helmet	100	Mox: 35
@@ -1719,6 +1720,7 @@ orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
+ox-head shield	0	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
@@ -1952,6 +1954,7 @@ barrel beryl nose ring	125	Mys: 30
 barrel beryl ring	125	Mys: 30
 barrel hoop earring	100	none
 batskin belt	0	none
+battle broom	200	Mys: 10
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
 beer goggles	10	none

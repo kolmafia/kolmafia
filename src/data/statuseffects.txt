@@ -2087,3 +2087,8 @@
 2086	Patent Sallowness	inkbottle.gif	e0b65633dff6c0559236a7c0c14587e5	use 1 patent sallowness tonic
 2087	Patent Avarice	fancybrew.gif	d93c471214c5a76619d277d4071f18fa	use 1 patent avarice tonic
 2088	Patent Alacrity	magicshell.gif	71bb908a3e113705d27377cc1b1f3441	use 1 patent alacrity tonic
+2089	Rushtacean'	armorprawn.gif	4c04ea5ac2b123c90db8778d1fb2ad87	chew 1 armored prawn
+2090	Kicked in the Sinuses	horseradish.gif	a8b9e71de7ccf5a87e20ac8f29289238	eat 1 jumping horseradish
+2091	Sacré Mental	wine2.gif	8b5af0a2980a1144c725e3410b5e53e2	drink 1 Sacramento wine
+2092	Sweetbreads Flambé	potion4.gif	b3f3d7e5c72a045fff556e01f287f42d	use 1 Greek fire
+2093	Puzzle Champ	chessset.gif	c359f03413fa5582269a860f664cc7fe

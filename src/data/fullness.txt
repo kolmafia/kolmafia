@@ -400,6 +400,7 @@ Jumbo Dr. Lucifer	1	1	good	2-3	0	0	0	converts all HP to 9-10x MP
 jumbo olive	1	2	decent	2	0	0	2-5
 jumping bean burrito	3	1	decent	3-8	0	0	11-14
 jumping bean taco	1	1	decent	2	0	0	4-20
+jumping horseradish	1	1	EPIC	0	0	0	0	Unspaded, 50 Kicked in the Sinuses (+100 Meat drop)
 jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes (+15 Mox, +25 Init)
 juniper berries	1	2	crappy	1	0	0	10-15
 junk food	2	1	good	4-5	4-5	4-5	4-5
