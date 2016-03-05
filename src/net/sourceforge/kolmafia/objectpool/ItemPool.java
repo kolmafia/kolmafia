@@ -2564,6 +2564,7 @@ public class ItemPool
 	public static final int SICKSILVER_SPURS = 8951;
 	public static final int NICKSILVER_SPURS = 8952;
 	public static final int TICKSILVER_SPURS = 8953;
+	public static final int WITCHESS_SET = 8989;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
