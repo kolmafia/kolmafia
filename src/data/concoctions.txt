@@ -2770,6 +2770,12 @@ pine cone necklace	COMBINE	pine cone	iron chain
 robin nog	MIX	Robin's egg	fermenting powder
 robin flan	COOK	Robin's egg	Gnollish pie tin
 
+# LT&T Telegraph office
+
+rinky-dink sixgun	MUSE	gun parts (4)
+makeshift sixgun	MUSE	gun parts (7)
+custom sixgun	MUSE	gun parts (11)
+
 # Avatar of West of Loathing
 
 patent preventative tonic	COOK, PATENT	skin oil	snake oil

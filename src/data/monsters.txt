@@ -1200,9 +1200,9 @@ emaciated rodeo clown	1927	awolclown1.gif	WANDERER Init: -10000 P: horror
 furious cow	1926	awolcow1.gif	WANDERER Init: -10000 P: demon
 furious giant cow	1929	awolcow2.gif	WANDERER Init: -10000 P: demon
 grizzled rodeo clown	1933	awolclown3.gif	WANDERER Init: -10000 P: horror
-king snake	1934	awolsnake3.gif	WANDERER Init: -10000 P: beast
+king snake	1934	awolsnake3.gif	WANDERER Init: -10000 P: beast	snake oil (100)	snake oil (100)	snake oil (100)
 menacing rodeo clown	1930	awolclown2.gif	WANDERER Init: -10000 P: horror
-prince snake	1931	awolsnake2.gif	WANDERER Init: -10000 E: sleaze P: beast
+prince snake	1931	awolsnake2.gif	WANDERER Init: -10000 E: sleaze P: beast	snake oil (100)	snake oil (100)
 ungulith	1932	awolcow3.gif	WANDERER Init: -10000 P: demon
 
 # Items of the Month
