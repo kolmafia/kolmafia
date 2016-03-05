@@ -1235,6 +1235,11 @@ public class ResultProcessor
 					{
 						// Intrinsic effect
 					}
+					else if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER &&
+						  effect.getEffectId() == EffectPool.COWRRUPTION )
+					{
+						// Does not decrement
+					}
 					else if ( duration + result.getCount() <= 0 )
 					{
 						KoLConstants.activeEffects.remove( i );
