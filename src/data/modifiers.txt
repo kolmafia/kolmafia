@@ -9292,6 +9292,9 @@ Item	Wax Flask	Effect: "Over the Ocean", Effect Duration: 1
 # Way More Tears&trade; pepper spray: Deals 12-15 <font color=red>Hot Damage</font> and weakens enemies somewhat
 # Way More Tears&trade; pepper spray: (can be used 8-10 times before the can is empty)
 Item	weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
+Item	Western Slang Vol. 1: Violence	Free Pull
+Item	Western Slang Vol. 2: Cooking	Free Pull
+Item	Western Slang Vol. 3: Fraud	Free Pull
 Item	wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10
 Item	Whenchamacallit bar	Effect: "Spooky Blur", Effect Duration: 20
 # whimpering willow bark: Restores up to 25% of your Maximum HP
