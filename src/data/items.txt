@@ -8923,7 +8923,7 @@
 8897	poker face paint	563214513	balm.gif	usable	t,d	24
 8898	realistic cap gun	459373479	sixshooter.gif	none, combat	t,d	28
 8899	tainted milk	360141428	milk.gif	food	t,d	18
-8900	gun parts	188246979	gunparts.gif	multiple	t,d	15
+8900	gun parts	188246979	gunparts.gif	multiple	t,d	15	piles of gun parts
 8901	triggerfingerbone	306575995	gunbone.gif	usable	t,d	8
 8902	ghost bit	395021532	ghostbit.gif	usable	t,d	17
 8903	buzzard feather	723857149	feather.gif	usable	t,d	6
