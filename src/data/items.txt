@@ -9020,6 +9020,6 @@
 8994	Sacramento wine	111757769	wine2.gif	drink	t,d	5
 8995	Greek fire	889869567	potion4.gif	multiple	t,d	5
 8996	ox-head shield	959124564	oxshield.gif	offhand	q	0
-8997
+8997	dented scepter	255792327	dentscepter.gif	weapon	q	0
 8998	very pointy crown	987470212	wqueencrown.gif	hat	q	0
 8999	battle broom	199500631	battlebroom.gif	accessory	q	0
