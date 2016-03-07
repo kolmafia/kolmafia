@@ -274,7 +274,6 @@ fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
-firemilk	3	1	awesome	0	0	0	0	Unspaded
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55
@@ -483,7 +482,6 @@ mineapple	2	1	good	4-6	10-20	10-20	10-20
 Miserable Pie	2	1	awesome	7-9	0	0	7-9	50 Smithsness Dinner (+10 Smithsness)
 mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
-moomy dust	1	1	decent	0	0	0	0	Unspaded
 Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
