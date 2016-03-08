@@ -1747,7 +1747,7 @@ Witchess Rook	1938	chess_brook.gif	Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: c
 Witchess Queen	1939	chess_bqueen.gif	HP: 4000 Init: -10000 P: dude	very pointy crown (n100)
 Witchess King	1940	chess_bking.gif	Scale: 20 Cap: 6000 Floor: 100 HP: 2000 Init: -1000 P: dude	dented scepter (n100)
 Witchess Witch	1941	chess_bwitch.gif	HP: 3000 Init: -10000 P: dude	battle broom (n100)
-Witchess Bishop	1942	chess_bbishop.gif	Scale: 7 Cap: 600 Floor: 25 Init: -1000 P: dude	Sacramento wine (n100)
+Witchess Bishop	1942	chess_bbishop.gif	Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude	Sacramento wine (n100)
 
 # KoL Con
 
