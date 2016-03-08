@@ -1619,7 +1619,7 @@ heart-shaped balloon	10	none
 heavy duty umbrella	10	none
 heavy pickaxe	0	none
 heavy-duty clipboard	125	Mus: 47	shield
-Heimz Fortified Kidney Beans 40 Mys: 5
+Heimz Fortified Kidney Beans	40	Mys: 5
 Hellfire Spicy Beans	30	none
 hippo skin buckler	90	Mus: 30	shield
 HOA regulation book	350	Mus: 100	shield
@@ -1721,7 +1721,7 @@ orcish stud-finder	85	Mys: 27
 ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
-ox-head shield 250 Mus: 10 shield
+ox-head shield	250	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
@@ -1941,7 +1941,7 @@ baconstone ring	50	Mys: 10
 badass belt	100	Mys: 35
 badge of authority	110	Mys: 40
 bakelite badge	0	Mys: 40
-bakelite belt 120 Mys: 40
+bakelite belt	120	Mys: 40
 bakelite brooch	0	Mys: 40
 bananarama bangle	0	none
 Bandolier of the Spaghetti Elemental	150	Mys: 45
@@ -2483,7 +2483,7 @@ stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
 stainless steel suspenders	90	Mys: 30
 Star of Bravery	200	none
-steel knuckles 50 Mus: 10
+steel knuckles	50	Mus: 10
 stick-on eyebrow piercing	10	none
 sticky gloves	70	none
 stinky cheese eye	0	none
