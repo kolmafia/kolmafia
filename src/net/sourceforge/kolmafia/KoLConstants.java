@@ -724,6 +724,7 @@ public interface KoLConstants
 	public static final LockableListModel<UseSkillRequest> buffSkills = new LockableListModel<UseSkillRequest>();
 	public static final LockableListModel<UseSkillRequest> songSkills = new LockableListModel<UseSkillRequest>();
 	public static final LockableListModel<UseSkillRequest> expressionSkills = new LockableListModel<UseSkillRequest>();
+	public static final LockableListModel<UseSkillRequest> walkSkills = new LockableListModel<UseSkillRequest>();
 	public static final LockableListModel<UseSkillRequest> availableSkills = new LockableListModel<UseSkillRequest>();
 	public static final IdentityHashMap<UseSkillRequest,Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest,Object>();
 	public static final LockableListModel<UseSkillRequest> availableCombatSkills = new LockableListModel<UseSkillRequest>();

@@ -96,6 +96,7 @@ public class SkillDatabase
 	public static final int COMBAT_NONCOMBAT_REMEDY = 7;
 	public static final int COMBAT_PASSIVE = 8;
 	public static final int EXPRESSION = 9;
+	public static final int WALK = 10;
 
 	private static final String UNCATEGORIZED = "uncategorized";
 	private static final String CONDITIONAL = "conditional";
@@ -934,6 +935,17 @@ public class SkillDatabase
 	public static final boolean isExpression( final int skillId )
 	{
 		return SkillDatabase.isType( skillId, SkillDatabase.EXPRESSION );
+	}
+
+	/**
+	 * Returns whether or not the skill is a walk
+	 *
+	 * @return <code>true</code> if the skill is a walk
+	 */
+
+	public static final boolean isWalk( final int skillId )
+	{
+		return SkillDatabase.isType( skillId, SkillDatabase.WALK );
 	}
 
 	/**

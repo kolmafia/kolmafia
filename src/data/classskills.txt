@@ -12,6 +12,7 @@
 #     7 (Combat/Noncombat healing)
 #     8 (Combat/Passive)
 #     9 (One-at-a-time Noncombat Expression)
+#    10 (One-at-a-time Noncombat Walk)
 
 1	Liver of Steel	liver.gif	0	0	0
 2	Chronic Indigestion	fireball.gif	5	5	0
@@ -1043,7 +1044,7 @@
 18006	Larger Than Life	larger.gif	0	0	0
 18007	Unleash Cowrruption	darkcow.gif	5	0	0
 18008	Hard Drinker	tankard.gif	0	0	0
-18009	Walk: Cautious Prowl	walkprowl.gif	3	40	20
+18009	Walk: Cautious Prowl	walkprowl.gif	10	40	20
 
 # Beanslinger
 19000	Lavafava	lavafava.gif	5	3	0
@@ -1055,7 +1056,7 @@
 19006	Beanstorm	beanstorm.gif	5	15	0
 19007	Beancannon	sidecan.gif	5	15	0
 19008	Prodigious Appetite	stomach.gif	0	0	0
-19009	Walk: Prideful Strut	walkstrut.gif	3	40	20
+19009	Walk: Prideful Strut	walkstrut.gif	10	40	20
 
 # Snake Oiler
 20000	Snakewhip	tinysnake.gif	5	3	0
@@ -1067,4 +1068,4 @@
 20006	Good Medicine	goodmedicine.gif	5	5	0
 20007	Long Con	calendar.gif	5	30	0
 20008	Tolerant Constitution	kidney.gif	0	0	0
-20009	Walk: Leisurely Amble	walkamble.gif	3	40	20
+20009	Walk: Leisurely Amble	walkamble.gif	10	40	20

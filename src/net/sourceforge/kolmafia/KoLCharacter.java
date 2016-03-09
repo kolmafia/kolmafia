@@ -596,6 +596,7 @@ public abstract class KoLCharacter
 		KoLConstants.buffSkills.clear();
 		KoLConstants.songSkills.clear();
 		KoLConstants.expressionSkills.clear();
+		KoLConstants.walkSkills.clear();
 		KoLConstants.availableSkills.clear();
 		KoLConstants.availableSkillsMap.clear();
 		KoLConstants.availableCombatSkills.clear();
@@ -4272,6 +4273,13 @@ public abstract class KoLCharacter
 			KoLConstants.expressionSkills.add( skill );
 			KoLConstants.expressionSkills.sort();
 			break;
+
+		case SkillDatabase.WALK:
+			KoLConstants.usableSkills.add( skill );
+			KoLConstants.usableSkills.sort();
+			KoLConstants.walkSkills.add( skill );
+			KoLConstants.walkSkills.sort();
+			break;
 		}
 	}
 
@@ -4327,6 +4335,7 @@ public abstract class KoLCharacter
 		KoLConstants.buffSkills.remove( skill );
 		KoLConstants.songSkills.remove( skill );
 		KoLConstants.expressionSkills.remove( skill );
+		KoLConstants.walkSkills.remove( skill );
 		KoLCharacter.battleSkillNames.remove( "skill " + name.toLowerCase() );
 		KoLCharacter.updateStatus();
 		ConcoctionDatabase.setRefreshNeeded( true );
