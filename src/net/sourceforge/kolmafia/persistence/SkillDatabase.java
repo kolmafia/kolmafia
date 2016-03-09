@@ -1283,7 +1283,7 @@ public class SkillDatabase
 			{
 				shouldAdd = skillType == SUMMON || skillType == REMEDY || skillType == SELF_ONLY || 
 							skillType == BUFF || skillType == SONG || skillType == COMBAT_NONCOMBAT_REMEDY ||
-							skillType == EXPRESSION;
+							skillType == EXPRESSION || skillType == WALK;
 			}
 			else if ( type == SkillDatabase.COMBAT )
 			{
