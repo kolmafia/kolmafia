@@ -424,6 +424,16 @@ public class ShowDataCommand
 				mainList.retainAll( intersect );
 				filter = "";
 			}
+
+			if ( filter.startsWith( "walk" ) )
+			{
+				mainList = new ArrayList();
+				mainList.addAll( KoLConstants.availableSkills );
+
+				List intersect = SkillDatabase.getSkillsByType( SkillDatabase.WALK );
+				mainList.retainAll( intersect );
+				filter = "";
+			}
 		}
 
 		if ( filter.equals( "" ) )

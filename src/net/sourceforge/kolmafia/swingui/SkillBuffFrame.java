@@ -489,6 +489,7 @@ public class SkillBuffFrame
 			addItem( "Buffs" );
 			addItem( "Songs" );
 			addItem( "Expressions" );
+			addItem( "Walks" );
 			addActionListener( new SkillTypeListener() );
 		}
 
@@ -528,6 +529,10 @@ public class SkillBuffFrame
 				case 6:
 					// Expression skills
 					newModel = KoLConstants.expressionSkills;
+					break;
+				case 7:
+					// Walk skills
+					newModel = KoLConstants.walkSkills;
 					break;
 				}
 				if ( newModel != oldModel )
