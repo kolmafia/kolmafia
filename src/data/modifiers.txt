@@ -3713,6 +3713,7 @@ Throne	Attention-Deficit Demon	Meat Drop: +20
 Throne	Autonomous Disco Ball	Familiar Weight: +5
 Throne	Baby Bugged Bugbear	Muscle: -10, Mysticality: -10, Moxie: -10, Experience: +2
 Throne	Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
+Throne	Baby Mayonnaise Wasp	Mysticality Percent: +15
 Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
 Throne	Baby Sandworm	Maximum HP: +10, Maximum MP: +10
 Throne	Baby Yeti	Spell Damage Percent: +10
@@ -3727,6 +3728,7 @@ Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistanc
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Chauvinist Pig	Experience (Muscle): +2
 Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
@@ -3788,6 +3790,7 @@ Throne	Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP R
 Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Li'l Xenomorph	Item Drop: +15
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
+Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7
 Throne	Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
 Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
@@ -3800,6 +3803,7 @@ Throne	Mini-Skulldozer	Initiative: +20
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5
 Throne	Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne	Ms. Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Mutant Cactus Bud	Meat Drop: +20
 Throne	Mutant Fire Ant	Hot Damage: +20
 Throne	Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
@@ -3822,6 +3826,7 @@ Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, 
 Throne	Piano Cat	Meat Drop: +20
 Throne	Pottery Barn Owl	Hot Damage: +10
 Throne	Psychedelic Bear	Meat Drop: +20
+Throne	Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Purse Rat	Experience: +2
 Throne	Putty Buddy	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
@@ -3830,14 +3835,17 @@ Throne	Reagnimated Gnome	Spooky Damage: +15
 Throne	Reanimated Reanimator	Experience (Mysticality): +2
 Throne	Reassembled Blackbird	Item Drop: +10
 Throne	Reconstituted Crow	Item Drop: +10
+Throne	Restless Cow Skull	Spooky Damage: +15
 Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
+Throne	Rockin' Robin	Item Drop: +15
 Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20
 Throne	Slimeling	Weapon Drop: +15
+Throne	Sludgepuppy	Stench Damage: +15
 Throne	Smiling Rat	Experience: +3
 Throne	Snow Angel	Spell Damage Percent: +10
 Throne	Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
@@ -3858,6 +3866,7 @@ Throne	Teddy Borg	Initiative: +20
 Throne	Temporal Riftlet	Initiative: +20
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Topiary Skunk	Stench Damage: +15
 Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
