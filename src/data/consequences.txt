@@ -69,6 +69,7 @@ DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
 DESC_EFFECT	Knightlife	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	Mitre Cut	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_EFFECT	On the Trail	I mean "(.*?)\."<	olfactedMonster=$1
+DESC_EFFECT	Puzzle Champ	\+(\d+) to Familiar Weight	puzzleChampBonus=$1
 DESC_EFFECT	Starry-Eyed	All Attributes \+(\d+)%	telescopeUpgrades=[$1/5]
 DESC_EFFECT	Towering Strength	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 
