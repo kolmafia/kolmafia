@@ -5518,7 +5518,7 @@ Effect	Purpose	Experience Percent (Muscle): +25
 # Purr of the Feline: Makes Ed's Servants Stronger
 Effect	Putting the Orc in Porcine	Avatar: "smut orc pervert"
 Effect	Putting the Pro in Proletariat	Moxie Percent: +50, Ranged Damage: +25
-Effect	Puzzle Champ	Familiar Weight: +5
+Effect	Puzzle Champ	Familiar Weight: [pref(puzzleChampBonus)]
 Effect	Puzzle Fury	Spell Damage Percent: +25
 Effect	Pwnd	Muscle: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Mysticality: [max(1,floor(min(50,pref(chessboardsCleared))/5))], Moxie: [max(1,floor(min(50,pref(chessboardsCleared))/5))]
 # Pygmy Drinking Buddy: He is violent and unpredictable!
