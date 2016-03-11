@@ -524,14 +524,16 @@ public interface KoLConstants
 	public static final int CONSUME_STICKER = 17;
 	public static final int CONSUME_CARD = 18;
 	public static final int CONSUME_FOLDER = 19;
+	public static final int CONSUME_BOOTSKIN = 20;
+	public static final int CONSUME_BOOTSPUR = 21;
 
 	// Special "uses"
-	public static final int CONSUME_FOOD_HELPER = 20;
-	public static final int CONSUME_DRINK_HELPER = 21;
-	public static final int CONSUME_ZAP = 22;
-	public static final int CONSUME_SPHERE = 23;
-	public static final int CONSUME_GUARDIAN = 24;
-	public static final int CONSUME_AVATAR = 25;
+	public static final int CONSUME_FOOD_HELPER = 30;
+	public static final int CONSUME_DRINK_HELPER = 31;
+	public static final int CONSUME_ZAP = 32;
+	public static final int CONSUME_SPHERE = 33;
+	public static final int CONSUME_GUARDIAN = 34;
+	public static final int CONSUME_AVATAR = 35;
 
 	// Familiar "uses"
 	public static final int CONSUME_MIMIC = 96;

@@ -37,11 +37,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -52,8 +48,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -124,6 +118,8 @@ public class GearChangeFrame
 	private final SortedListModel familiars = new SortedListModel();
 	private final SortedListModel crownFamiliars = new SortedListModel();
 	private final SortedListModel bjornFamiliars = new SortedListModel();
+	private final SortedListModel bootskins = new SortedListModel();
+	private final SortedListModel bootspurs = new SortedListModel();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -175,6 +171,12 @@ public class GearChangeFrame
 				break;
 			case EquipmentManager.ACCESSORY3:
 				list = this.accessories3;
+				break;
+			case EquipmentManager.BOOTSKIN:
+				list = this.bootskins;
+				break;
+			case EquipmentManager.BOOTSPUR:
+				list = this.bootspurs;
 				break;
 			default:
 				list = lists[ i ];
@@ -243,15 +245,6 @@ public class GearChangeFrame
 					Modifiers newMods = new Modifiers();
 					newMods.add( mods );
 					newMods.add( Modifiers.getModifiers( "Snowsuit", Preferences.getString( "snowsuit" ) ) );
-					mods = newMods;
-					break;
-				}
-				case ItemPool.COWBOY_BOOTS:
-				{
-					Modifiers newMods = new Modifiers();
-					newMods.add( mods );
-					newMods.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSkin ) );
-					newMods.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSpur ) );
 					mods = newMods;
 					break;
 				}
@@ -612,6 +605,10 @@ public class GearChangeFrame
 			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ] ) );
 			rows.add( new VerifiableElement( "Folder:", GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ] ) );
 
+			rows.add( new VerifiableElement() );
+			rows.add( new VerifiableElement( "Boot Skin:", GearChangeFrame.this.equipment[ EquipmentManager.BOOTSKIN ] ) );
+			rows.add( new VerifiableElement( "Boot Spur:", GearChangeFrame.this.equipment[ EquipmentManager.BOOTSPUR ] ) );
+
 			VerifiableElement[] elements = new VerifiableElement[ rows.size() ];
 			elements = (VerifiableElement[])rows.toArray( elements );
 
@@ -650,6 +647,11 @@ public class GearChangeFrame
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER3 ].setEnabled( isEnabled && hasFolderHolder );
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER4 ].setEnabled( isEnabled && hasFolderHolder && inHighSchool );
 			GearChangeFrame.this.equipment[ EquipmentManager.FOLDER5 ].setEnabled( isEnabled && hasFolderHolder && inHighSchool );
+
+			boolean hasBoots = EquipmentManager.COWBOY_BOOTS.getCount( KoLConstants.inventory ) > 0 ||
+				KoLCharacter.hasEquipped( EquipmentManager.COWBOY_BOOTS );
+			GearChangeFrame.this.equipment[ EquipmentManager.BOOTSKIN ].setEnabled( isEnabled && hasBoots );
+			GearChangeFrame.this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( isEnabled && hasBoots );
 		}
 
 		@Override
@@ -725,6 +727,22 @@ public class GearChangeFrame
 			if ( !EquipmentManager.getEquipment( slot ).equals( folder ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( folder, slot, true ) );
+			}
+		}
+
+		// Cowboy Boots
+		AdventureResult[] bootDecorations = new AdventureResult[] {
+			(AdventureResult) this.equipment[ EquipmentManager.BOOTSKIN ].getSelectedItem(),
+			(AdventureResult) this.equipment[ EquipmentManager.BOOTSPUR ].getSelectedItem(),
+		};
+
+		for ( int i = 0; i < bootDecorations.length; ++i )
+		{
+			AdventureResult decoration = bootDecorations[ i ];
+			int slot = EquipmentManager.BOOTSKIN + i;
+			if ( !EquipmentManager.getEquipment( slot ).equals( decoration ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( decoration, slot, true ) );
 			}
 		}
 
@@ -852,6 +870,30 @@ public class GearChangeFrame
 		}
 
 		GearChangeFrame.INSTANCE.accessories3.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ) );
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void updateBootskins()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.bootskins.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN ) );
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void updateBootspurs()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.bootspurs.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
@@ -1245,6 +1287,26 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
 		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
 
+		AdventureResult bootskinItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSKIN ].getSelectedItem();
+		AdventureResult currentBootskin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
+		if ( bootskinItem == null )
+		{
+			bootskinItem = currentBootskin;
+		}
+		List bootskinItems = this.validBootskinItems( currentBootskin );
+		this.updateEquipmentList( this.bootskins, bootskinItems, bootskinItem );
+		this.equipment[ EquipmentManager.BOOTSKIN ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSKIN ) );
+
+		AdventureResult bootspurItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSPUR ].getSelectedItem();
+		AdventureResult currentBootspur = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
+		if ( bootspurItem == null )
+		{
+			bootspurItem = currentBootspur;
+		}
+		List bootspurItems = this.validBootspurItems( currentBootspur );
+		this.updateEquipmentList( this.bootspurs, bootspurItems, bootspurItem );
+		this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSPUR ) );
+
 		this.outfitSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 	}
@@ -1362,7 +1424,7 @@ public class GearChangeFrame
 		items.add( item );
 	}
 
-	private List validContainerItems( final AdventureResult currentContainer )
+	private List<AdventureResult> validContainerItems( final AdventureResult currentContainer )
 	{
 		List<AdventureResult> items = new ArrayList<AdventureResult>();
 
@@ -1663,13 +1725,8 @@ public class GearChangeFrame
 	{
 		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
 
-		// Look at terrarium
-
-		Iterator it = KoLCharacter.getFamiliarList().iterator();
-		while ( it.hasNext() )
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 		{
-			FamiliarData fam = (FamiliarData) it.next();
-
 			// Only add it once
 			if ( familiars.contains( fam ) )
 			{
@@ -1708,13 +1765,8 @@ public class GearChangeFrame
 	{
 		List<FamiliarData> familiars = new ArrayList<FamiliarData>();
 
-		// Look at terrarium
-
-		Iterator it = KoLCharacter.getFamiliarList().iterator();
-		while ( it.hasNext() )
+		for ( FamiliarData fam : KoLCharacter.getFamiliarList() )
 		{
-			FamiliarData fam = (FamiliarData) it.next();
-
 			// Cannot carry a familiar if it is current familiar or is carried elsewhere
 			if ( fam == exclude1 || fam == exclude2 )
 			{
@@ -1749,6 +1801,64 @@ public class GearChangeFrame
 		}
 
 		return familiars;
+	}
+
+	private List<AdventureResult> validBootskinItems( final AdventureResult currentBootskin )
+	{
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+
+		// Search inventory for containers
+		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			addBootskins( items, currentItem );
+		}
+
+		// Add the current skin
+		addBootskins( items, currentBootskin );
+
+		// Do not add "(none)" because there is no way to remove skins
+
+		return items;
+	}
+
+	private void addBootskins( final List<AdventureResult> items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.CONSUME_BOOTSKIN ) )
+		{
+			return;
+		}
+
+		items.add( item );
+	}
+
+	private List<AdventureResult> validBootspurItems( final AdventureResult currentBootspur )
+	{
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+
+		// Search inventory for containers
+		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			addBootspurs( items, currentItem );
+		}
+
+		// Add the current container
+		addBootspurs( items, currentBootspur );
+
+		// Do not add "(none)" because there is no way to remove spurs
+
+		return items;
+	}
+
+	private void addBootspurs( final List<AdventureResult> items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.CONSUME_BOOTSPUR ) )
+		{
+			return;
+		}
+
+		items.add( item );
 	}
 
 	private void updateEquipmentList( final LockableListModel currentItems, final List newItems, final Object equippedItem )

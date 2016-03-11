@@ -288,6 +288,8 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "sticker", KoLConstants.CONSUME_STICKER );
 		ItemDatabase.definePrimaryUse( "card", KoLConstants.CONSUME_CARD );
 		ItemDatabase.definePrimaryUse( "folder", KoLConstants.CONSUME_FOLDER );
+		ItemDatabase.definePrimaryUse( "bootskin", KoLConstants.CONSUME_BOOTSKIN );
+		ItemDatabase.definePrimaryUse( "bootspur", KoLConstants.CONSUME_BOOTSPUR );
 
 		ItemDatabase.definePrimaryUse( "food helper", KoLConstants.CONSUME_FOOD_HELPER );
 		ItemDatabase.definePrimaryUse( "drink helper", KoLConstants.CONSUME_DRINK_HELPER );

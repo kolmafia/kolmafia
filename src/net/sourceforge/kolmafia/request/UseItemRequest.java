@@ -1384,6 +1384,8 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_STICKER:
 		case KoLConstants.CONSUME_CARD:
 		case KoLConstants.CONSUME_FOLDER:
+		case KoLConstants.CONSUME_BOOTSKIN:
+		case KoLConstants.CONSUME_BOOTSPUR:
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
@@ -5344,7 +5346,7 @@ public class UseItemRequest
 		case ItemPool.COAL_SKIN:
 		case ItemPool.FRONTWINDER_SKIN:
 		case ItemPool.ROTTING_SKIN:
-			EquipmentManager.cowboyBootSkin = item.getName();
+			EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, item );
 			break;
 
 		case ItemPool.QUICKSILVER_SPURS:
@@ -5354,7 +5356,7 @@ public class UseItemRequest
 		case ItemPool.SICKSILVER_SPURS:
 		case ItemPool.NICKSILVER_SPURS:
 		case ItemPool.TICKSILVER_SPURS:
-			EquipmentManager.cowboyBootSpur = item.getName();
+			EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, item );
 			break;
 		}
 

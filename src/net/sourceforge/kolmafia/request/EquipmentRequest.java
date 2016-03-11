@@ -114,7 +114,6 @@ public class EquipmentRequest
 
 	public static final AdventureResult UNEQUIP = ItemPool.get( "(none)", 1 );
 	public static final AdventureResult TRUSTY = ItemPool.get( ItemPool.TRUSTY, 1 );
-	private static final AdventureResult SPECTACLES = ItemPool.get( ItemPool.SPOOKYRAVEN_SPECTACLES, 1 );
 
 	public static final int REFRESH = 0;
 	public static final int EQUIPMENT = 1;
@@ -157,6 +156,8 @@ public class EquipmentRequest
 		"folder4",
 		"folder5",
 		"buddy-bjorn",
+		"bootskin",
+		"bootspur",
 		"fakehand"
 	};
 
@@ -184,6 +185,8 @@ public class EquipmentRequest
 		"folder4",
 		"folder5",
 		"buddybjorn",
+		"bootskin",
+		"bootspur",
 		"fakehand"
 	};
 
@@ -292,6 +295,10 @@ public class EquipmentRequest
 		case EquipmentManager.FOLDER5:
 			this.initializeFolderData( changeItem, equipmentSlot );
 			break;
+		case EquipmentManager.BOOTSKIN:
+		case EquipmentManager.BOOTSPUR:
+			this.initializeBootData( changeItem, equipmentSlot );
+			break;
 		default:
 			this.initializeChangeData( changeItem, equipmentSlot, force );
 		}
@@ -322,6 +329,7 @@ public class EquipmentRequest
 			slot == EquipmentManager.CARDSLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
 			( slot >= EquipmentManager.FOLDER1 && slot <= EquipmentManager.FOLDER5 ) ? "choice.php" :
+			( slot == EquipmentManager.BOOTSKIN || slot == EquipmentManager.BOOTSPUR ) ? "inv_use.php" :
 			"bogus.php";
 	}
 
@@ -496,6 +504,45 @@ public class EquipmentRequest
 		this.changeItem = folder;
 		this.addFormField( "option", "1" );
 		this.addFormField( "folder", String.valueOf( this.itemId - ItemPool.FOLDER_01 + 1 ) );
+	}
+
+	private void initializeBootData( final AdventureResult decoration, final int slot )
+	{
+		this.equipmentSlot = slot;
+
+		if ( decoration.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			this.error = "You can't undecorate your cowboy boots.";
+			return;
+		}
+
+		// Find out what item is being equipped
+		this.itemId = decoration.getItemId();
+
+		// Find out what kind of item it is
+		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
+
+		if ( this.equipmentType != KoLConstants.CONSUME_BOOTSKIN && this.equipmentType != KoLConstants.CONSUME_BOOTSPUR )
+		{
+			this.error = "You can't equip a " + ItemDatabase.getItemName( this.itemId ) + " on your cowboy boots.";
+			return;
+		}
+
+		if ( this.equipmentSlot == EquipmentManager.BOOTSKIN && this.equipmentType == KoLConstants.CONSUME_BOOTSPUR )
+		{
+			this.error = ItemDatabase.getItemName( this.itemId ) + " is a spur, not a skin.";
+			return;
+		}
+
+		if ( this.equipmentSlot == EquipmentManager.BOOTSPUR && this.equipmentType == KoLConstants.CONSUME_BOOTSKIN )
+		{
+			this.error = ItemDatabase.getItemName( this.itemId ) + " is a skin, not a spur.";
+			return;
+		}
+
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = decoration;
+		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
 	}
 
 	private String getAction( final boolean force )
@@ -1086,7 +1133,8 @@ public class EquipmentRequest
 				     !result.contains( "as you put it on" ) &&
 				     !result.contains( "You take the existing card out of the sleeve to make room" ) &&
 				     !result.contains( "You apply the shiny sticker" ) &&
-				     !result.contains( "fold it into an impromptu sword" ) )
+				     !result.contains( "fold it into an impromptu sword" ) &&
+				     !result.contains( "You replace" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, result );
 					return;
@@ -2156,8 +2204,8 @@ public class EquipmentRequest
 		if ( !InventoryManager.hasItem( EquipmentManager.COWBOY_BOOTS ) &&
 		     !KoLCharacter.hasEquipped( EquipmentManager.COWBOY_BOOTS ) )
 		{
-			EquipmentManager.cowboyBootSkin = null;
-			EquipmentManager.cowboyBootSpur = null;
+			EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, EquipmentRequest.UNEQUIP );
 			return;
 		}
 
@@ -2176,21 +2224,21 @@ public class EquipmentRequest
 			String skin = matcher.group(1);
 			if ( skin.equals( "fine Corinthian leather" ) )
 			{
-				EquipmentManager.cowboyBootSkin = null;
+				EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, EquipmentRequest.UNEQUIP );
 			}
 			else
 			{
-				EquipmentManager.cowboyBootSkin = skin;
+				EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, new AdventureResult( skin ) );
 			}
 
 			String spur = matcher.group(2);
 			if ( spur.equals( "invisible spurs" ) )
 			{
-				EquipmentManager.cowboyBootSpur = null;
+				EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, EquipmentRequest.UNEQUIP );
 			}
 			else
 			{
-				EquipmentManager.cowboyBootSpur = spur;
+				EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, new AdventureResult( spur ) );
 			}
 		}
 	}

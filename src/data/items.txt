@@ -7,7 +7,7 @@
 #       usable, multiple, reusable, message,
 #       grow,
 #       hat, weapon, offhand, container, shirt, pants, accessory, familiar,
-#	sticker, card, folder,
+#	sticker, card, folder, bootspur, bootskin
 #	food helper, drink helper, zap, sphere, guardian
 #
 #	SECONDARY_USE:
@@ -8960,23 +8960,23 @@
 8934	baconstone-handled sixgun	198901214	sixgunbac.gif	none, combat reusable	d	1500
 8935	porquoise-handled sixgun	278462466	sixgunpor.gif	none, combat reusable	d	1500
 8936	hamethyst-handled sixgun	994402430	sixgunham.gif	none, combat reusable	d	1500
-8937	mountain lion skin	132547662	mtlionskin.gif	usable	t,d	300
-8938	grizzled bearskin	302654757	grizbearskin.gif	usable	t,d	300
-8939	diamondback skin	885630248	diamondskin.gif	usable	t,d	300
-8940	coal snakeskin	219623277	blacksnakeskin.gif	usable	t,d	300
-8941	frontwinder skin	975742491	frontskin.gif	usable	t,d	300
-8942	rotting cowskin	149029249	zomcowskin.gif	usable	t,d	300
+8937	mountain lion skin	132547662	mtlionskin.gif	bootskin, usable	t,d	300
+8938	grizzled bearskin	302654757	grizbearskin.gif	bootskin, usable	t,d	300
+8939	diamondback skin	885630248	diamondskin.gif	bootskin, usable	t,d	300
+8940	coal snakeskin	219623277	blacksnakeskin.gif	bootskin, usable	t,d	300
+8941	frontwinder skin	975742491	frontskin.gif	bootskin, usable	t,d	300
+8942	rotting cowskin	149029249	zomcowskin.gif	bootskin, usable	t,d	300
 8943	shuddering cow skull	331211422	cowskull.gif	grow	t	0
 8944	rhinestone cowhorn	982372108	rhinehorn.gif	familiar	t,d	75
 8945	silver cow skull	989941067	silvcowskull.gif	none	t,d	10000
 8946	jangly spurs	264681826	dullspurs.gif	usable	t,d	10
-8947	quicksilver spurs	576074050	sspurs.gif	usable	t,d	500
-8948	thicksilver spurs	444876324	sspurs.gif	usable	t,d	500
-8949	wicksilver spurs	713029772	sspurs.gif	usable	t,d	500
-8950	slicksilver spurs	750695180	sspurs.gif	usable	t,d	500
-8951	sicksilver spurs	460186467	sspurs.gif	usable	t,d	500
-8952	nicksilver spurs	535150151	sspurs.gif	usable	t,d	500
-8953	ticksilver spurs	565102329	sspurs.gif	usable	t,d	500
+8947	quicksilver spurs	576074050	sspurs.gif	bootspur, usable	t,d	500
+8948	thicksilver spurs	444876324	sspurs.gif	bootspur, usable	t,d	500
+8949	wicksilver spurs	713029772	sspurs.gif	bootspur, usable	t,d	500
+8950	slicksilver spurs	750695180	sspurs.gif	bootspur, usable	t,d	500
+8951	sicksilver spurs	460186467	sspurs.gif	bootspur, usable	t,d	500
+8952	nicksilver spurs	535150151	sspurs.gif	bootspur, usable	t,d	500
+8953	ticksilver spurs	565102329	sspurs.gif	bootspur, usable	t,d	500
 8954	special edition Batfellow comic	608798216	batfellowbook.gif	usable		0
 8955	Tales of the West: Cow Punching	220432527	book3.gif	usable	q	0
 8956	Tales of the West: Beanslinging	798701830	book4.gif	usable	q	0

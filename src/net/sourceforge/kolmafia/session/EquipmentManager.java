@@ -117,10 +117,13 @@ public class EquipmentManager
 
 	public static final int BUDDYBJORN = 20;
 
-	// Count of all equipment slots: HAT to FOLDER5
-	public static final int ALL_SLOTS = 21;
+	public static final int BOOTSKIN = 21;
+	public static final int BOOTSPUR = 22;
 
-	public static final int FAKEHAND = 21;
+	// Count of all equipment slots: HAT to BOOTSPUR
+	public static final int ALL_SLOTS = 23;
+
+	public static final int FAKEHAND = 23;
 
 	private static LockableListModel<AdventureResult> equipment = new LockableListModel<AdventureResult>();
 	private static final LockableListModel<AdventureResult> accessories = new SortedListModel<AdventureResult>();
@@ -129,9 +132,6 @@ public class EquipmentManager
 
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
-
-	public static String cowboyBootSpur = null;
-	public static String cowboyBootSkin = null;
 
 	private static final LockableListModel<SpecialOutfit> normalOutfits = new LockableListModel<SpecialOutfit>();
 	private static final LockableListModel<SpecialOutfit> customOutfits = new LockableListModel<SpecialOutfit>();
@@ -191,9 +191,6 @@ public class EquipmentManager
 		EquipmentManager.stinkyCheeseLevel = 0;
 		EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
 		EquipmentManager.normalOutfits.clear();
-
-		EquipmentManager.cowboyBootSpur = null;
-		EquipmentManager.cowboyBootSkin = null;
 	}
 
 	public static void resetCustomOutfits()
@@ -345,6 +342,12 @@ public class EquipmentManager
 			case EquipmentManager.ACCESSORY3:
 				GearChangeFrame.updateAccessories3();
 				break;
+			case EquipmentManager.BOOTSKIN:
+				GearChangeFrame.updateBootskins();
+				break;
+			case EquipmentManager.BOOTSPUR:
+				GearChangeFrame.updateBootspurs();
+				break;
 			}
 		}
 
@@ -474,6 +477,14 @@ public class EquipmentManager
 		case EquipmentManager.FAMILIAR:
 			EquipmentManager.checkFamiliar( slot );
 			KoLCharacter.currentFamiliar.setItem( item );
+			break;
+
+		case EquipmentManager.BOOTSKIN:
+			GearChangeFrame.updateBootskins();
+			break;
+
+		case EquipmentManager.BOOTSPUR:
+			GearChangeFrame.updateBootspurs();
 			break;
 		}
 
@@ -763,7 +774,7 @@ public class EquipmentManager
 		if  ( !Preferences.getBoolean( "autoTuxedo" ) &&
 			( old.getItemId() == ItemPool.TUXEDO_SHIRT || item.getItemId() == ItemPool.TUXEDO_SHIRT ) )
 		{
-			ConcoctionDatabase.setRefreshNeeded( true );		
+			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
 	
@@ -872,7 +883,7 @@ public class EquipmentManager
 		}
 		return slot;
 	}
-	
+
 	public static final void discardSpelunkyEquipment( final int itemId )
 	{
 		// We only discard Spelunky equipment when we throw it from the offhand slot.
@@ -896,7 +907,7 @@ public class EquipmentManager
 		// Now discard it from inventory
 		ResultProcessor.processItem( item.getItemId(), -1 );
 	}
-	
+
 	public static final void breakEquipment( int itemId, String msg )
 	{
 		switch ( itemId )
@@ -1578,7 +1589,7 @@ public class EquipmentManager
 		case KoLConstants.CONSUME_CARD:
 			return EquipmentManager.CARDSLEEVE;
 		case KoLConstants.CONSUME_FOLDER:
-			return EquipmentManager.STICKER1;
+			return EquipmentManager.FOLDER1;
 		default:
 			return -1;
 		}
@@ -2118,6 +2129,10 @@ public class EquipmentManager
 			AdventureResult item = folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get( ItemPool.FOLDER_01 - 1 + folder, 1 );
 			equipment[ EquipmentManager.FOLDER1 + i ] = item;
 		}
+
+		// We can't read these from api.php (yet?)
+		equipment[ EquipmentManager.BOOTSKIN ] = null;
+		equipment[ EquipmentManager.BOOTSPUR ] = null;
 
 		// Set all regular equipment slots
 		EquipmentManager.setEquipment( equipment );
