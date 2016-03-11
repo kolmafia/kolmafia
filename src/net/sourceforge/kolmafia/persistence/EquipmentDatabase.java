@@ -674,6 +674,10 @@ public class EquipmentDatabase
 			return "card";
 		case KoLConstants.CONSUME_FOLDER:
 			return "folder";
+		case KoLConstants.CONSUME_BOOTSKIN:
+			return "bootskin";
+		case KoLConstants.CONSUME_BOOTSPUR:
+			return "bootspur";
 		case KoLConstants.CONSUME_AVATAR:
 			return "avatar potion";
 		case KoLConstants.GROW_FAMILIAR:

@@ -5781,6 +5781,19 @@ public abstract class KoLCharacter
 			}
 			break;
 
+		case ItemPool.COWBOY_BOOTS:
+			AdventureResult skin = equipment[ EquipmentManager.BOOTSKIN ];
+			AdventureResult spur = equipment[ EquipmentManager.BOOTSPUR ];
+			if ( skin != null && skin != EquipmentRequest.UNEQUIP )
+			{
+				newModifiers.add( Modifiers.getItemModifiers( skin.getItemId() ) );
+			}
+			if ( spur != null && spur != EquipmentRequest.UNEQUIP )
+			{
+				newModifiers.add( Modifiers.getItemModifiers( spur.getItemId() ) );
+			}
+			break;
+
 		case ItemPool.HATSEAT:
 			// Apply enthroned familiar
 			newModifiers.add( Modifiers.getModifiers( "Throne", enthroned.getRace() ) );
@@ -5797,17 +5810,6 @@ public abstract class KoLCharacter
 
 		case ItemPool.SNOW_SUIT:
 			newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );
-			break;
-
-		case ItemPool.COWBOY_BOOTS:
-			if ( EquipmentManager.cowboyBootSkin != null )
-			{
-				newModifiers.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSkin ) );
-			}
-			if ( EquipmentManager.cowboyBootSpur != null )
-			{
-				newModifiers.add( Modifiers.getModifiers( "Boots", EquipmentManager.cowboyBootSpur ) );
-			}
 			break;
 
 		}
