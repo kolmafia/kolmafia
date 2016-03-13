@@ -678,6 +678,8 @@ public class EquipmentDatabase
 			return "bootskin";
 		case KoLConstants.CONSUME_BOOTSPUR:
 			return "bootspur";
+		case KoLConstants.CONSUME_SIXGUN:
+			return "sixgun";
 		case KoLConstants.CONSUME_AVATAR:
 			return "avatar potion";
 		case KoLConstants.GROW_FAMILIAR:

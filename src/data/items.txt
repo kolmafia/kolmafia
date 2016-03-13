@@ -6,7 +6,7 @@
 #	food, drink, spleen,
 #       usable, multiple, reusable, message,
 #       grow,
-#       hat, weapon, offhand, container, shirt, pants, accessory, familiar,
+#       hat, weapon, sixgun, offhand, container, shirt, pants, accessory, familiar,
 #	sticker, card, folder, bootspur, bootskin
 #	food helper, drink helper, zap, sphere, guardian
 #
@@ -8911,7 +8911,7 @@
 8885	plate of Shrub's Premium Baked Beans	476831047	franksbeans.gif	food	t,d	25
 8886	Fancy Jeff's fancy pocket square	723090130	fancysquare.gif	accessory		0
 8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0
-8888	Pecos Dave's sixgun	305060180	davesixgun.gif	none, combat reusable		0
+8888	Pecos Dave's sixgun	305060180	davesixgun.gif	sixgun, combat reusable		0
 8889	Amoon-Ra Cowtep's nemes	819147479	nemes.gif	hat		0
 8890	Glenn's golden dice	465662384	golddice.gif	usable	d	1500
 8891	Former Sheriff Dan's tin star	672557731	danstar.gif	accessory		0
@@ -8937,7 +8937,7 @@
 8911	spidercow eye-cluster	763991554	spidereyes.gif	usable	t,d	38
 8912	moomy dust	544632353	disease.gif	spleen, usable	t,d	25
 8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat	d	77
-8914	reliable sixgun	630007259	sixgun4.gif	none, combat reusable		0
+8914	reliable sixgun	630007259	sixgun4.gif	sixgun, combat reusable		0
 8915	steel knuckles	321514802	knuckles.gif	accessory	d	45
 8916	Tales of Western Braggadoccio	171555336	book3.gif	usable	t	0
 8917	Hell and How I Bent It	339356359	book4.gif	usable	t	0
@@ -8954,12 +8954,12 @@
 8928	strange disc (yellow)	148455337	powerball.gif	none, combat reusable	q	0
 8929	red-hot knucklebone	361988548	knuckbone.gif	none	t	0
 8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19
-8931	rinky-dink sixgun	920378151	sixgun1.gif	none, combat reusable	t,d	75
-8932	makeshift sixgun	877959676	sixgun2.gif	none, combat reusable	t,d	120
-8933	custom sixgun	381338216	sixgun3.gif	none, combat reusable	t,d	180
-8934	baconstone-handled sixgun	198901214	sixgunbac.gif	none, combat reusable	d	1500
-8935	porquoise-handled sixgun	278462466	sixgunpor.gif	none, combat reusable	d	1500
-8936	hamethyst-handled sixgun	994402430	sixgunham.gif	none, combat reusable	d	1500
+8931	rinky-dink sixgun	920378151	sixgun1.gif	sixgun, combat reusable	t,d	75
+8932	makeshift sixgun	877959676	sixgun2.gif	sixgun, combat reusable	t,d	120
+8933	custom sixgun	381338216	sixgun3.gif	sixgun, combat reusable	t,d	180
+8934	baconstone-handled sixgun	198901214	sixgunbac.gif	sixgun, combat reusable	d	1500
+8935	porquoise-handled sixgun	278462466	sixgunpor.gif	sixgun, combat reusable	d	1500
+8936	hamethyst-handled sixgun	994402430	sixgunham.gif	sixgun, combat reusable	d	1500
 8937	mountain lion skin	132547662	mtlionskin.gif	bootskin, usable	t,d	300
 8938	grizzled bearskin	302654757	grizbearskin.gif	bootskin, usable	t,d	300
 8939	diamondback skin	885630248	diamondskin.gif	bootskin, usable	t,d	300
@@ -8993,7 +8993,7 @@
 8967	nine-gallon hat	612539870	cowboyhat.gif	hat	q	0
 8968	ten-gallon hat	868447072	cowboyhat.gif	hat	q	0
 8969	eleven-gallon hat	348093099	cowboyhat.gif	hat	q	0
-8970	toy sixgun	854153791	sixgun0.gif	none, combat reusable		0
+8970	toy sixgun	854153791	sixgun0.gif	sixgun, combat reusable		0
 8971	snake oil	184616243	potion15.gif	usable	t,d	50
 8972	skin oil	250097471	potion20.gif	usable	t,d	50
 8973	unusual oil	811848807	lightvial.gif	usable	t,d	50

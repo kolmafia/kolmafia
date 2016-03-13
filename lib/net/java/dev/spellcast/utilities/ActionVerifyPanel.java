@@ -39,6 +39,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
@@ -55,6 +56,8 @@ import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
+import org.jdesktop.swingx.JXCollapsiblePane;
+
 import com.sun.java.forums.SpringUtilities;
 
 public abstract class ActionVerifyPanel
@@ -63,6 +66,7 @@ public abstract class ActionVerifyPanel
 	protected VerifiableElement[] elements;
 
 	protected JPanel container;
+	protected JPanel mainContainer;
 	protected JPanel eastContainer;
 
 	private String confirmedText, cancelledText1, cancelledText2;
@@ -241,104 +245,119 @@ public abstract class ActionVerifyPanel
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if ( elements[ i ].isInputPreceding() &&
-			     ( elements[ i ].getInputField() instanceof JCheckBox || elements[ i ].getInputField() instanceof JRadioButton ) )
+			VerifiableElement element = elements[ i ];
+			boolean hideable = element instanceof HideableVerifiableElement;
+			boolean isInputPreceding = element.isInputPreceding();
+			JLabel label = element.getLabel();
+			JComponent inputField = element.getInputField();
+			boolean shouldResize = element.shouldResize();
+
+			if ( isInputPreceding &&
+			     ( inputField instanceof JCheckBox || inputField instanceof JRadioButton ) )
 			{
-				if ( currentContainer == null )
-				{
-					currentContainer = new JPanel();
-					currentContainer.setLayout( new BoxLayout( currentContainer, BoxLayout.Y_AXIS ) );
-					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
-				}
-				else if ( springCount > 0 )
+				if ( springCount > 0 )
 				{
 					SpringUtilities.makeCompactGrid( currentContainer, springCount, 2, 5, 5, 5, 5 );
 					springCount = 0;
 					mainContainer.add( currentContainer );
+					currentContainer = null;
+				}
 
+				if ( currentContainer == null )
+				{
 					currentContainer = new JPanel();
 					currentContainer.setLayout( new BoxLayout( currentContainer, BoxLayout.Y_AXIS ) );
 					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
 				}
 
-				if ( elements[ i ].getInputField() instanceof JCheckBox )
+				if ( inputField instanceof JCheckBox )
 				{
-					( (JCheckBox) elements[ i ].getInputField() ).setText( elements[ i ].getLabel().getText() );
+					( (JCheckBox) inputField ).setText( label.getText() );
 				}
-				else if ( elements[ i ].getInputField() instanceof JRadioButton )
+				else if ( inputField instanceof JRadioButton )
 				{
-					( (JRadioButton) elements[ i ].getInputField() ).setText( elements[ i ].getLabel().getText() );
+					( (JRadioButton) inputField ).setText( label.getText() );
 				}
 
-				currentContainer.add( elements[ i ].getInputField() );
+				currentContainer.add( inputField );
 				currentContainer.add( Box.createVerticalStrut( 5 ) );
 			}
-			else if ( elements[ i ].getInputField() instanceof JLabel &&
-				  elements[ i ].getLabel().getText().equals( "" ) )
+			else if ( inputField instanceof JLabel &&
+				  label.getText().equals( "" ) )
 			{
 				if ( currentContainer == null )
 				{
-					currentContainer = new JPanel( new GridLayout( 0, 1, 5, 5 ) );
+					GridLayout layout = new GridLayout( 0, 1, 5, 5 );
+					currentContainer = new JPanel( layout );
 					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
-					currentContainer.add( elements[ i ].getInputField() );
 				}
-				else if ( springCount == 0 )
-				{
-					currentContainer.add( elements[ i ].getInputField() );
-				}
-				else if ( elements[ i ].isInputPreceding() )
-				{
-					JComponentUtilities.setComponentSize( elements[ i ].getLabel(), this.right );
-					JComponentUtilities.setComponentSize( elements[ i ].getInputField(), this.left );
 
-					currentContainer.add( elements[ i ].getInputField() );
-					currentContainer.add( elements[ i ].getLabel() );
-					++springCount;
+				if ( springCount == 0 )
+				{
+					currentContainer.add( inputField );
 				}
 				else
 				{
-					JComponentUtilities.setComponentSize( elements[ i ].getLabel(), this.left );
-					JComponentUtilities.setComponentSize( elements[ i ].getInputField(), this.right );
+					JComponentUtilities.setComponentSize( label, isInputPreceding ? this.right : this.left );
+					JComponentUtilities.setComponentSize( inputField, isInputPreceding ? this.left : this.right );
 
-					currentContainer.add( elements[ i ].getLabel() );
-					currentContainer.add( elements[ i ].getInputField() );
+					currentContainer.add( isInputPreceding ? inputField : label );
+					currentContainer.add( isInputPreceding ? label : inputField );
 					++springCount;
 				}
 			}
 			else
 			{
-				if ( currentContainer == null )
+				if ( shouldResize )
 				{
-					currentContainer = new JPanel( new SpringLayout() );
-					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
-				}
-				else if ( springCount == 0 )
-				{
-					mainContainer.add( currentContainer );
-					currentContainer = new JPanel( new SpringLayout() );
-					currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+					JComponentUtilities.setComponentSize( label, isInputPreceding ? this.right : this.left );
+					JComponentUtilities.setComponentSize( inputField, isInputPreceding ? this.left : this.right );
 				}
 
-				++springCount;
 
-				if ( elements[ i ].shouldResize() )
+				if ( hideable )
 				{
-					JComponentUtilities.setComponentSize(
-						elements[ i ].getLabel(), elements[ i ].isInputPreceding() ? this.right : this.left );
+					if ( springCount > 0 )
+					{
+						SpringUtilities.makeCompactGrid( currentContainer, springCount, 2, 5, 5, 5, 5 );
+						springCount = 0;
+					}
 
-					JComponentUtilities.setComponentSize(
-						elements[ i ].getInputField(), elements[ i ].isInputPreceding() ? this.left : this.right );
-				}
+					if ( currentContainer != null )
+					{
+						mainContainer.add( currentContainer );
+						currentContainer = null;
+					}
 
-				if ( elements[ i ].isInputPreceding() )
-				{
-					currentContainer.add( elements[ i ].getInputField() );
-					currentContainer.add( elements[ i ].getLabel() );
+					HideablePanel container = new HideablePanel( new SpringLayout() );
+					container.setAlignmentX( Component.LEFT_ALIGNMENT );
+
+					container.add( isInputPreceding ? inputField : label );
+					container.add( isInputPreceding ? label : inputField );
+
+					SpringUtilities.makeCompactGrid( container.getContentPane(), 1, 2, 5, 5, 5, 5 );
+
+					mainContainer.add( container );
 				}
 				else
 				{
-					currentContainer.add( elements[ i ].getLabel() );
-					currentContainer.add( elements[ i ].getInputField() );
+					if ( currentContainer == null )
+					{
+						currentContainer = new JPanel( new SpringLayout() );
+						currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+					}
+					else if ( springCount == 0 )
+					{
+						mainContainer.add( currentContainer );
+
+						currentContainer = new JPanel( new SpringLayout() );
+						currentContainer.setAlignmentX( Component.LEFT_ALIGNMENT );
+					}
+
+					++springCount;
+
+					currentContainer.add( isInputPreceding ? inputField : label );
+					currentContainer.add( isInputPreceding ? label : inputField );
 				}
 			}
 		}
@@ -353,10 +372,45 @@ public abstract class ActionVerifyPanel
 			mainContainer.add( currentContainer );
 		}
 
+		this.mainContainer = mainContainer;
+
 		JPanel holder = new JPanel( new BorderLayout() );
 		holder.add( mainContainer, BorderLayout.NORTH );
 
 		return holder;
+	}
+
+	public void hideOrShowElements()
+	{
+		if ( this.elements == null )
+		{
+			return;
+		}
+		
+		Component[] components = this.mainContainer.getComponents();
+		int componentIndex = 0;
+
+		for ( VerifiableElement element : this.elements )
+		{
+			if ( element instanceof HideableVerifiableElement )
+			{
+				HideableVerifiableElement hideableElement = (HideableVerifiableElement) element;
+				boolean shouldBeHidden = hideableElement.isHidden();
+				while ( componentIndex < components.length )
+				{
+					Component component = components[ componentIndex++ ];
+					if ( component instanceof HideablePanel )
+					{
+						HideablePanel hideablePanel = (HideablePanel) component;
+						boolean isHidden = hideablePanel.isCollapsed();
+						if ( shouldBeHidden != isHidden )
+						{
+							hideablePanel.setCollapsed( shouldBeHidden );
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -392,7 +446,30 @@ public abstract class ActionVerifyPanel
 		}
 	}
 
-	protected final class VerifiableElement
+	protected class HideablePanel
+		extends JXCollapsiblePane
+	{
+		public HideablePanel()
+		{
+			super();
+			this.initialize();
+		}
+
+		public HideablePanel( LayoutManager layout)
+		{
+			super();
+			this.setLayout( layout );
+			this.initialize();
+		}
+
+		private void initialize()
+		{
+			this.setMinimumSize( new Dimension( 0, 0 ) ); // collapse all the way when hidden
+			this.setAnimated( false );
+		}
+	}
+
+	protected class VerifiableElement
 		implements Comparable
 	{
 		private final JLabel label;
@@ -544,5 +621,16 @@ public abstract class ActionVerifyPanel
 			return o == null || !( o instanceof VerifiableElement ) ? -1 : this.label.getText().compareTo(
 				( (VerifiableElement) o ).label.getText() );
 		}
+	}
+
+	public abstract class HideableVerifiableElement
+		extends VerifiableElement
+	{
+		public HideableVerifiableElement( final String label, final JComponent inputField )
+		{
+			super( label, inputField );
+		}
+
+		public abstract boolean isHidden();
 	}
 }

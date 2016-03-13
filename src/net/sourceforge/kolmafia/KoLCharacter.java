@@ -665,9 +665,7 @@ public abstract class KoLCharacter
 		// Default stomach size, overridden below for various paths
 		int limit = 15;
 
-		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
-		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
-		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
+		if ( KoLCharacter.isAWoLClass() )
 		{
 			limit = 10;
 			if ( KoLCharacter.hasSkill( "Prodigious Appetite" ) )
@@ -803,9 +801,7 @@ public abstract class KoLCharacter
 		// Default liver size, overridden below for various paths
 		int limit = 14;
 
-		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
-		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
-		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
+		if ( KoLCharacter.isAWoLClass() )
 		{
 			limit = 9;
 			if ( KoLCharacter.hasSkill( "Hard Drinker" ) )
@@ -889,9 +885,7 @@ public abstract class KoLCharacter
 		// Default spleen size, overridden below for various paths
 		int limit = 15;
 
-		if ( KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
-		     KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
-		     KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
+		if ( KoLCharacter.isAWoLClass() )
 		{
 			limit = 10;
 			if ( KoLCharacter.hasSkill( "Tolerant Constitution" ) )
@@ -1561,6 +1555,13 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
 			KoLCharacter.classtype == KoLCharacter.SNAKE_OILER;
+	}
+
+	public static final boolean isAWoLClass()
+	{
+		return  KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER ||
+			KoLCharacter.getClassType() == KoLCharacter.BEANSLINGER ||
+			KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER;
 	}
 
 	public static final Stat mainStat()

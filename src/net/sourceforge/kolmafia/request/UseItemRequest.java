@@ -1386,6 +1386,7 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_FOLDER:
 		case KoLConstants.CONSUME_BOOTSKIN:
 		case KoLConstants.CONSUME_BOOTSPUR:
+		case KoLConstants.CONSUME_SIXGUN:
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
 		case KoLConstants.EQUIP_OFFHAND:
