@@ -911,7 +911,9 @@ public abstract class KoLmafia
 		FloristRequest.reset();
 		RequestThread.postRequest( new FloristRequest() );
 
+		// Check some things that are not (yet) in api.php
 		EquipmentRequest.checkCowboyBoots();
+		EquipmentRequest.checkHolster();
 	}
 
 	public static final boolean isRefreshing()

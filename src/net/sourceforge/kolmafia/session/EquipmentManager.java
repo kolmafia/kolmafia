@@ -88,40 +88,40 @@ public class EquipmentManager
 	// Mutable equipment slots
 	public static final int HAT = 0;
 	public static final int WEAPON = 1;
-	public static final int OFFHAND = 2;
-	public static final int CONTAINER = 3;
-	public static final int SHIRT = 4;
-	public static final int PANTS = 5;
-	public static final int ACCESSORY1 = 6;
-	public static final int ACCESSORY2 = 7;
-	public static final int ACCESSORY3 = 8;
-	public static final int FAMILIAR = 9;
+	public static final int HOLSTER = 2;
+	public static final int OFFHAND = 3;
+	public static final int CONTAINER = 4;
+	public static final int SHIRT = 5;
+	public static final int PANTS = 6;
+	public static final int ACCESSORY1 = 7;
+	public static final int ACCESSORY2 = 8;
+	public static final int ACCESSORY3 = 9;
+	public static final int FAMILIAR = 10;
 
-	// Count of real equipment slots: HAT to FAMILIAR
-	public static final int SLOTS = 10;
+	// Count of slots visible on equipment page: HAT to FAMILIAR
+	public static final int SLOTS = 11;
 
 	// Pseudo-equipment slots
-	public static final int CROWNOFTHRONES = 10;
+	public static final int CROWNOFTHRONES = 11;
 
-	public static final int STICKER1 = 11;
-	public static final int STICKER2 = 12;
-	public static final int STICKER3 = 13;
+	public static final int STICKER1 = 12;
+	public static final int STICKER2 = 13;
+	public static final int STICKER3 = 14;
 
-	public static final int CARDSLEEVE = 14;
+	public static final int CARDSLEEVE = 15;
 
-	public static final int FOLDER1 = 15;
-	public static final int FOLDER2 = 16;
-	public static final int FOLDER3 = 17;
-	public static final int FOLDER4 = 18;
-	public static final int FOLDER5 = 19;
+	public static final int FOLDER1 = 16;
+	public static final int FOLDER2 = 17;
+	public static final int FOLDER3 = 18;
+	public static final int FOLDER4 = 19;
+	public static final int FOLDER5 = 20;
 
-	public static final int BUDDYBJORN = 20;
+	public static final int BUDDYBJORN = 21;
 
-	public static final int BOOTSKIN = 21;
-	public static final int BOOTSPUR = 22;
-	public static final int SIXGUN = 23;
+	public static final int BOOTSKIN = 22;
+	public static final int BOOTSPUR = 23;
 
-	// Count of all equipment slots: HAT to SIXGUN
+	// Count of all equipment slots: HAT to BOOTSPUR
 	public static final int ALL_SLOTS = 24;
 
 	public static final int FAKEHAND = 24;
@@ -349,7 +349,7 @@ public class EquipmentManager
 			case EquipmentManager.BOOTSPUR:
 				GearChangeFrame.updateBootspurs();
 				break;
-			case EquipmentManager.SIXGUN:
+			case EquipmentManager.HOLSTER:
 				GearChangeFrame.updateSixguns();
 				break;
 			}
@@ -491,7 +491,7 @@ public class EquipmentManager
 			GearChangeFrame.updateBootspurs();
 			break;
 
-		case EquipmentManager.SIXGUN:
+		case EquipmentManager.HOLSTER:
 			GearChangeFrame.updateSixguns();
 			break;
 		}
@@ -1571,7 +1571,7 @@ public class EquipmentManager
 			return KoLConstants.CONSUME_BOOTSKIN;
 		case EquipmentManager.BOOTSPUR:
 			return KoLConstants.CONSUME_BOOTSPUR;
-		case EquipmentManager.SIXGUN:
+		case EquipmentManager.HOLSTER:
 			return KoLConstants.CONSUME_SIXGUN;
 		default:
 			return -1;
@@ -1609,7 +1609,7 @@ public class EquipmentManager
 		case KoLConstants.CONSUME_BOOTSPUR:
 			return EquipmentManager.BOOTSPUR;
 		case KoLConstants.CONSUME_SIXGUN:
-			return EquipmentManager.SIXGUN;
+			return EquipmentManager.HOLSTER;
 		default:
 			return -1;
 		}
@@ -2156,9 +2156,9 @@ public class EquipmentManager
 		}
 
 		// We can't read these from api.php (yet?)
-		equipment[ EquipmentManager.BOOTSKIN ] = null;
-		equipment[ EquipmentManager.BOOTSPUR ] = null;
-		equipment[ EquipmentManager.SIXGUN ] = null;
+		equipment[ EquipmentManager.BOOTSKIN ] = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
+		equipment[ EquipmentManager.BOOTSPUR ] = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
+		equipment[ EquipmentManager.HOLSTER ] = EquipmentManager.getEquipment( EquipmentManager.HOLSTER );
 
 		// Set all regular equipment slots
 		EquipmentManager.setEquipment( equipment );
