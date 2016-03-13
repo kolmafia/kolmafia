@@ -274,6 +274,9 @@ public class ItemFinder
 				case KoLConstants.CONSUME_STICKER:
 				case KoLConstants.CONSUME_CARD:
 				case KoLConstants.CONSUME_FOLDER:
+				case KoLConstants.CONSUME_BOOTSKIN:
+				case KoLConstants.CONSUME_BOOTSPUR:
+				case KoLConstants.CONSUME_SIXGUN:
 					break;
 
 				default:

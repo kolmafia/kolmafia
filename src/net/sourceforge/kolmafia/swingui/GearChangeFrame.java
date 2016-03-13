@@ -184,7 +184,7 @@ public class GearChangeFrame
 			case EquipmentManager.BOOTSPUR:
 				list = this.bootspurs;
 				break;
-			case EquipmentManager.SIXGUN:
+			case EquipmentManager.HOLSTER:
 				list = this.sixguns;
 				break;
 			default:
@@ -421,7 +421,7 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement( "", radioPanel1 ) );
 
-			rows.add( new AWoLClassVerifiableElement( "Holstered:", GearChangeFrame.this.equipment[ EquipmentManager.SIXGUN ] ) );
+			rows.add( new AWoLClassVerifiableElement( "Holstered:", GearChangeFrame.this.equipment[ EquipmentManager.HOLSTER ] ) );
 
 			rows.add( new VerifiableElement( "Off-Hand:", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] ) );
 
@@ -932,7 +932,7 @@ public class GearChangeFrame
 			return;
 		}
 
-		GearChangeFrame.INSTANCE.sixguns.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.SIXGUN ) );
+		GearChangeFrame.INSTANCE.sixguns.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.HOLSTER ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
@@ -1346,15 +1346,15 @@ public class GearChangeFrame
 		this.updateEquipmentList( this.bootspurs, bootspurItems, bootspurItem );
 		this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSPUR ) );
 
-		AdventureResult sixgunItem = (AdventureResult) this.equipment[ EquipmentManager.SIXGUN ].getSelectedItem();
-		AdventureResult currentSixgun = EquipmentManager.getEquipment( EquipmentManager.SIXGUN );
+		AdventureResult sixgunItem = (AdventureResult) this.equipment[ EquipmentManager.HOLSTER ].getSelectedItem();
+		AdventureResult currentSixgun = EquipmentManager.getEquipment( EquipmentManager.HOLSTER );
 		if ( sixgunItem == null )
 		{
 			sixgunItem = currentSixgun;
 		}
 		List sixgunItems = this.validSixgunItems( currentSixgun );
 		this.updateEquipmentList( this.sixguns, sixgunItems, sixgunItem );
-		this.equipment[ EquipmentManager.SIXGUN ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.SIXGUN ) );
+		this.equipment[ EquipmentManager.HOLSTER ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.HOLSTER ) );
 
 		this.outfitSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
@@ -1918,7 +1918,7 @@ public class GearChangeFrame
 		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
 		{
 			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
-			addBootspurs( items, currentItem );
+			addSixgun( items, currentItem );
 		}
 
 		// The current sixgun is still in inventory

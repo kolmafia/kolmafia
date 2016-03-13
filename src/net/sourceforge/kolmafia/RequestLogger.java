@@ -771,6 +771,14 @@ public class RequestLogger
 			return;
 		}
 
+		// This might be on inventory.php
+
+		if ( ( request instanceof EquipmentRequest || isExternal ) && EquipmentRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
 		if ( urlString.startsWith( "campground" ) ||
 		     urlString.startsWith( "doc.php" ) ||
 		     urlString.startsWith( "inventory.php?ajax" ) ||
@@ -1104,12 +1112,6 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof EdShopRequest || isExternal ) && EdShopRequest.registerRequest( urlString ) )
-		{
-			RequestLogger.wasLastRequestSimple = false;
-			return;
-		}
-
-		if ( ( request instanceof EquipmentRequest || isExternal ) && EquipmentRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

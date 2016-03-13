@@ -78,6 +78,8 @@ public class EquipmentRequest
 		Pattern.compile( "Hat</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=hat" );
 	private static final Pattern WEAPON_PATTERN =
 		Pattern.compile( "Weapon</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=weapon" );
+	private static final Pattern HOLSTER_PATTERN =
+		Pattern.compile( "Holstered</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?action=holster&holster=0" );
 	private static final Pattern OFFHAND_PATTERN =
 		Pattern.compile( "Off-Hand</a>:</td>(<td><img[^']*'descitem\\(([\\d]+)[^>]*></td>)?<td><b[^>]*>(.*?)</b>.*?unequip&type=offhand" );
 	private static final Pattern CONTAINER_PATTERN =
@@ -111,6 +113,7 @@ public class EquipmentRequest
 
 	private static final Pattern EQUIPPED_PATTERN = Pattern.compile( "(?:Item equipped|equip an item):</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>" );
 	private static final Pattern UNEQUIPPED_PATTERN = Pattern.compile(  "Item unequipped:</td><td>.*?descitem\\((.*?)\\)'> <b>(.*?)</b></td>"  );
+	private static final Pattern HOLSTER_URL_PATTERN = Pattern.compile( "holster=(\\d+)" );
 
 	public static final AdventureResult UNEQUIP = ItemPool.get( "(none)", 1 );
 	public static final AdventureResult TRUSTY = ItemPool.get( ItemPool.TRUSTY, 1 );
@@ -137,6 +140,7 @@ public class EquipmentRequest
 	{
 		"hat",
 		"weapon",
+		"holster",
 		"off-hand",
 		"back",
 		"shirt",
@@ -158,7 +162,6 @@ public class EquipmentRequest
 		"buddy-bjorn",
 		"bootskin",
 		"bootspur",
-		"sixgun",
 		"fakehand"
 	};
 
@@ -167,6 +170,7 @@ public class EquipmentRequest
 	{
 		"hat",
 		"weapon",
+		"holster",
 		"offhand",
 		"container",
 		"shirt",
@@ -188,7 +192,6 @@ public class EquipmentRequest
 		"buddybjorn",
 		"bootskin",
 		"bootspur",
-		"sixgun",
 		"fakehand"
 	};
 
@@ -301,7 +304,7 @@ public class EquipmentRequest
 		case EquipmentManager.BOOTSPUR:
 			this.initializeBootData( changeItem, equipmentSlot );
 			break;
-		case EquipmentManager.SIXGUN:
+		case EquipmentManager.HOLSTER:
 			this.initializeSixgunData( changeItem, equipmentSlot );
 			break;
 		default:
@@ -328,14 +331,14 @@ public class EquipmentRequest
 
 	private static final String chooseEquipmentLocation( final int slot )
 	{
-		return	slot < EquipmentManager.SLOTS ? "inv_equip.php" :
+		return  slot == EquipmentManager.HOLSTER ? "inventory.php" :
+			slot < EquipmentManager.SLOTS ? "inv_equip.php" :
 			slot == EquipmentManager.CROWNOFTHRONES || slot == EquipmentManager.BUDDYBJORN ? "bogus.php" :
 			( slot >= EquipmentManager.STICKER1 && slot <= EquipmentManager.STICKER3 ) ? "bedazzle.php" :
 			slot == EquipmentManager.CARDSLEEVE ? "inv_use.php" :
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
 			( slot >= EquipmentManager.FOLDER1 && slot <= EquipmentManager.FOLDER5 ) ? "choice.php" :
 			( slot == EquipmentManager.BOOTSKIN || slot == EquipmentManager.BOOTSPUR ) ? "inv_use.php" :
-			slot == EquipmentManager.SIXGUN ? "inventory.php" :
 			"bogus.php";
 	}
 
@@ -555,14 +558,13 @@ public class EquipmentRequest
 	{
 		this.equipmentSlot = slot;
 
-		this.addFormField( "which", "2" );
-		this.addFormField( "action", "holster" );
-		this.addFormField( "ajax", "1" );
-
 		if ( sixgun.equals( EquipmentRequest.UNEQUIP ) )
 		{
 			this.requestType = EquipmentRequest.REMOVE_ITEM;
+			this.addFormField( "which", "2h" );
+			this.addFormField( "action", "holster" );
 			this.addFormField( "holster", "0" );
+			this.addFormField( "ajax", "1" );
 			return;
 		}
 
@@ -584,6 +586,7 @@ public class EquipmentRequest
 		this.addFormField( "which", "2" );
 		this.addFormField( "action", "holster" );
 		this.addFormField( "holster", String.valueOf( this.itemId ) );
+		this.addFormField( "ajax", "1" );
 	}
 
 	private String getAction( final boolean force )
@@ -1046,12 +1049,14 @@ public class EquipmentRequest
 				( this.equipmentSlot == EquipmentManager.WEAPON ? "Wielding " :
 				  this.equipmentSlot == EquipmentManager.OFFHAND ? "Holding " :
 				  this.equipmentSlot == EquipmentManager.CARDSLEEVE ? "Sliding in " :
+				  this.equipmentSlot == EquipmentManager.HOLSTER ? "Holstering " :
 				  "Putting on " ) +
 				ItemDatabase.getItemName( this.itemId ) + "..." );
 			break;
 
 		case EquipmentRequest.REMOVE_ITEM:
 			KoLmafia.updateDisplay( ( this.equipmentSlot == EquipmentManager.CARDSLEEVE ? "Sliding out " :
+						  this.equipmentSlot == EquipmentManager.HOLSTER ? "Unholstering " :
 						  "Taking off " ) + 
 						( this.equipmentSlot == EquipmentManager.FAKEHAND ?
 						  "fake hands" :
@@ -1167,7 +1172,8 @@ public class EquipmentRequest
 					return;
 				}
 
-				if ( !result.contains( "You put" ) &&
+				if ( this.equipmentSlot != EquipmentManager.HOLSTER &&
+				     !result.contains( "You put" ) &&
 				     !result.contains( "You equip" ) &&
 				     !result.contains( "Item equipped" ) &&
 				     !result.contains( "equips an item" ) &&
@@ -1182,7 +1188,22 @@ public class EquipmentRequest
 				}
 			}
 
-			// Fall through
+			if ( this.equipmentSlot == EquipmentManager.CARDSLEEVE )
+			{
+				EquipmentRequest.parseCardSleeve( responseText );
+			}
+			else if ( this.getURLString().contains( "ajax=1" ) )
+			{
+				EquipmentRequest.parseEquipmentChange( urlString, responseText );
+			}
+			else if ( this.equipmentSlot == EquipmentManager.HOLSTER )
+			{
+				// This redirects to equipment.php?action=message
+				EquipmentRequest.parseEquipment( urlString, responseText );
+			}
+
+			return;
+
 		case EquipmentRequest.SAVE_OUTFIT:
 		case EquipmentRequest.REMOVE_ITEM:
 		case EquipmentRequest.UNEQUIP_ALL:
@@ -1193,6 +1214,13 @@ public class EquipmentRequest
 			else if ( this.getURLString().contains( "ajax=1" ) )
 			{
 				EquipmentRequest.parseEquipmentChange( urlString, responseText );
+			}
+			else if ( this.equipmentSlot == EquipmentManager.HOLSTER )
+			{
+				// This redirects to equipment.php?action=message
+				// with the previous equipment page of the inventory.
+				// I.e., with a sixgun holstered.
+				EquipmentManager.setEquipment( EquipmentManager.HOLSTER, EquipmentRequest.UNEQUIP );
 			}
 
 			return;
@@ -1384,6 +1412,9 @@ public class EquipmentRequest
 						 "unequip&type=weapon", EquipmentRequest.WEAPON_PATTERN,
 						 "Weapon: ", EquipmentManager.WEAPON );
 		EquipmentRequest.parseEquipment( responseText, equipment,
+						 "action=holster&holster=0", EquipmentRequest.HOLSTER_PATTERN,
+						 "Holstered: ", EquipmentManager.HOLSTER );
+		EquipmentRequest.parseEquipment( responseText, equipment,
 						 "unequip&type=offhand", EquipmentRequest.OFFHAND_PATTERN,
 						 "Offhand: ", EquipmentManager.OFFHAND );
 		EquipmentRequest.parseEquipment( responseText, equipment,
@@ -1470,7 +1501,7 @@ public class EquipmentRequest
 		String name = matcher.group( 3 ).trim();
 		int itemId = ItemDatabase.getItemIdFromDescription( descId );
 		AdventureResult item;
-		if ( EquipmentDatabase.contains( itemId ) )
+		if ( slot == EquipmentManager.HOLSTER || EquipmentDatabase.contains( itemId ) )
 		{
 			item = ItemPool.get( itemId );
 		}
@@ -1502,10 +1533,14 @@ public class EquipmentRequest
 		{
 			for ( int i = 0; i < EquipmentManager.SLOTS; ++i )
 			{
-				if ( i == EquipmentManager.FAMILIAR )
+				switch ( i )
 				{
+				case EquipmentManager.FAMILIAR:
 					// Omit familiar items, since inventory
 					// is handled by familiar.setItem()
+					continue;
+				case EquipmentManager.HOLSTER:
+					// No inventory swapping for holstered sixguns
 					continue;
 				}
 
@@ -1532,6 +1567,10 @@ public class EquipmentRequest
 		{
 		case EquipmentManager.FAMILIAR:
 			// Inventory is handled by familiar.setItem()
+			break;
+
+		case EquipmentManager.HOLSTER:
+			// Does not change inventory
 			break;
 
 		case EquipmentManager.WEAPON:
@@ -1631,7 +1670,7 @@ public class EquipmentRequest
 			return;
 		}
 
-		// inv_equip.php?action=unequipall&ajax=1&
+		// inv_equip.php?action=unequipall&ajax=1
 		if ( action.equals( "unequipall" ) )
 		{
 			// We unequipped everything
@@ -1720,6 +1759,28 @@ public class EquipmentRequest
 			if ( EquipmentRequest.switchItem( EquipmentManager.FAMILIAR, ItemPool.get( itemId, 1 ) ) )
 			{
 				ConcoctionDatabase.setRefreshNeeded( false );
+			}
+
+			return;
+		}
+
+		// inventory.php?action=holster&holster=8970&ajax=1
+		if ( action.equals( "holster" ) )
+		{
+			// We equipped an item.
+			int itemId = EquipmentRequest.parseHolster( location );
+			if ( itemId < 0 )
+			{
+				return;
+			}
+
+			if ( itemId == 0 )
+			{
+				EquipmentManager.setEquipment( EquipmentManager.HOLSTER, EquipmentRequest.UNEQUIP );
+			}
+			else
+			{
+				EquipmentRequest.switchItem( EquipmentManager.HOLSTER, ItemPool.get( itemId, 1 ) );
 			}
 
 			return;
@@ -2013,6 +2074,12 @@ public class EquipmentRequest
 		return matcher.find() ? matcher.group( 1 ) : null;
 	}
 
+	private static int parseHolster( final String location )
+	{
+		Matcher matcher = HOLSTER_URL_PATTERN.matcher( location );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
 	public static final int slotNumber( final String name )
 	{
 		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
@@ -2245,16 +2312,15 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final Pattern HOLSTER_PATTERN = Pattern.compile( "holster=(\\d+)" );
 	public static final boolean registerHolster( final String urlString )
 	{
-		Matcher m = HOLSTER_PATTERN.matcher( urlString );
+		Matcher m = HOLSTER_URL_PATTERN.matcher( urlString );
 		int itemId = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : -1;
 		String message =
 			itemId > 0 ?
-			"equip sixgun " + ItemDatabase.getItemName( itemId ) :
+			"equip holster " + ItemDatabase.getItemName( itemId ) :
 			itemId == 0 ?
-			"unequip sixgun" :
+			"unequip holster" :
 			null;
 
 		if ( message != null )
@@ -2310,7 +2376,7 @@ public class EquipmentRequest
 		}
 	}
 
-	public static void checkSixgun()
+	public static void checkHolster()
 	{
 		if ( !KoLCharacter.isAWoLClass() )
 		{
@@ -2319,5 +2385,6 @@ public class EquipmentRequest
 		}
 
 		// Have to get it from the Equipment page of the Inventory
+		RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
 	}
 }
