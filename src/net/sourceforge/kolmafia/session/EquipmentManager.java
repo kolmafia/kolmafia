@@ -119,11 +119,12 @@ public class EquipmentManager
 
 	public static final int BOOTSKIN = 21;
 	public static final int BOOTSPUR = 22;
+	public static final int SIXGUN = 23;
 
-	// Count of all equipment slots: HAT to BOOTSPUR
-	public static final int ALL_SLOTS = 23;
+	// Count of all equipment slots: HAT to SIXGUN
+	public static final int ALL_SLOTS = 24;
 
-	public static final int FAKEHAND = 23;
+	public static final int FAKEHAND = 24;
 
 	private static LockableListModel<AdventureResult> equipment = new LockableListModel<AdventureResult>();
 	private static final LockableListModel<AdventureResult> accessories = new SortedListModel<AdventureResult>();
@@ -348,6 +349,9 @@ public class EquipmentManager
 			case EquipmentManager.BOOTSPUR:
 				GearChangeFrame.updateBootspurs();
 				break;
+			case EquipmentManager.SIXGUN:
+				GearChangeFrame.updateSixguns();
+				break;
 			}
 		}
 
@@ -485,6 +489,10 @@ public class EquipmentManager
 
 		case EquipmentManager.BOOTSPUR:
 			GearChangeFrame.updateBootspurs();
+			break;
+
+		case EquipmentManager.SIXGUN:
+			GearChangeFrame.updateSixguns();
 			break;
 		}
 
@@ -1559,6 +1567,12 @@ public class EquipmentManager
 		case EquipmentManager.FOLDER4:
 		case EquipmentManager.FOLDER5:
 			return KoLConstants.CONSUME_FOLDER;
+		case EquipmentManager.BOOTSKIN:
+			return KoLConstants.CONSUME_BOOTSKIN;
+		case EquipmentManager.BOOTSPUR:
+			return KoLConstants.CONSUME_BOOTSPUR;
+		case EquipmentManager.SIXGUN:
+			return KoLConstants.CONSUME_SIXGUN;
 		default:
 			return -1;
 		}
@@ -1590,6 +1604,12 @@ public class EquipmentManager
 			return EquipmentManager.CARDSLEEVE;
 		case KoLConstants.CONSUME_FOLDER:
 			return EquipmentManager.FOLDER1;
+		case KoLConstants.CONSUME_BOOTSKIN:
+			return EquipmentManager.BOOTSKIN;
+		case KoLConstants.CONSUME_BOOTSPUR:
+			return EquipmentManager.BOOTSPUR;
+		case KoLConstants.CONSUME_SIXGUN:
+			return EquipmentManager.SIXGUN;
 		default:
 			return -1;
 		}
@@ -1920,6 +1940,11 @@ public class EquipmentManager
 
 		int type = ItemDatabase.getConsumptionType( itemId );
 
+		if ( type == KoLConstants.CONSUME_SIXGUN )
+		{
+			return KoLCharacter.isAWoLClass();
+		}
+
 		if ( type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.isTorsoAware() )
 		{
 			return false;
@@ -2133,6 +2158,7 @@ public class EquipmentManager
 		// We can't read these from api.php (yet?)
 		equipment[ EquipmentManager.BOOTSKIN ] = null;
 		equipment[ EquipmentManager.BOOTSPUR ] = null;
+		equipment[ EquipmentManager.SIXGUN ] = null;
 
 		// Set all regular equipment slots
 		EquipmentManager.setEquipment( equipment );

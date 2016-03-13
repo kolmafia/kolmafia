@@ -45,6 +45,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -52,6 +53,10 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jdesktop.swingx.JXCollapsiblePane;
+
+import net.java.dev.spellcast.utilities.ActionVerifyPanel;
+import net.java.dev.spellcast.utilities.ActionVerifyPanel.HideableVerifiableElement;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
@@ -120,6 +125,7 @@ public class GearChangeFrame
 	private final SortedListModel bjornFamiliars = new SortedListModel();
 	private final SortedListModel bootskins = new SortedListModel();
 	private final SortedListModel bootspurs = new SortedListModel();
+	private final SortedListModel sixguns = new SortedListModel();
 
 	private final EquipmentPanel equipmentPanel;
 	private final CustomizablePanel customizablePanel;
@@ -177,6 +183,9 @@ public class GearChangeFrame
 				break;
 			case EquipmentManager.BOOTSPUR:
 				list = this.bootspurs;
+				break;
+			case EquipmentManager.SIXGUN:
+				list = this.sixguns;
 				break;
 			default:
 				list = lists[ i ];
@@ -412,6 +421,8 @@ public class GearChangeFrame
 
 			rows.add( new VerifiableElement( "", radioPanel1 ) );
 
+			rows.add( new AWoLClassVerifiableElement( "Holstered:", GearChangeFrame.this.equipment[ EquipmentManager.SIXGUN ] ) );
+
 			rows.add( new VerifiableElement( "Off-Hand:", GearChangeFrame.this.equipment[ EquipmentManager.OFFHAND ] ) );
 
 			JPanel radioPanel2 = new JPanel( new GridLayout( 1, 4 ) );
@@ -510,6 +521,21 @@ public class GearChangeFrame
 				RequestThread.postRequest( new EquipmentRequest( currentValue ) );
 			}
 
+		}
+
+		private class AWoLClassVerifiableElement
+			extends HideableVerifiableElement
+		{
+			public AWoLClassVerifiableElement( final String label, final JComponent inputField )
+			{
+				super( label, inputField );
+			}
+
+			@Override
+			public boolean isHidden()
+			{
+				return !KoLCharacter.isAWoLClass();
+			}
 		}
 	}
 
@@ -775,6 +801,7 @@ public class GearChangeFrame
 		}
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
+		GearChangeFrame.INSTANCE.equipmentPanel.hideOrShowElements();
 	}
 
 	public static final void updateHats()
@@ -894,6 +921,18 @@ public class GearChangeFrame
 		}
 
 		GearChangeFrame.INSTANCE.bootspurs.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR ) );
+
+		GearChangeFrame.INSTANCE.ensureValidSelections();
+	}
+
+	public static final void updateSixguns()
+	{
+		if ( GearChangeFrame.INSTANCE == null )
+		{
+			return;
+		}
+
+		GearChangeFrame.INSTANCE.sixguns.setSelectedItem( EquipmentManager.getEquipment( EquipmentManager.SIXGUN ) );
 
 		GearChangeFrame.INSTANCE.ensureValidSelections();
 	}
@@ -1306,6 +1345,16 @@ public class GearChangeFrame
 		List bootspurItems = this.validBootspurItems( currentBootspur );
 		this.updateEquipmentList( this.bootspurs, bootspurItems, bootspurItem );
 		this.equipment[ EquipmentManager.BOOTSPUR ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.BOOTSPUR ) );
+
+		AdventureResult sixgunItem = (AdventureResult) this.equipment[ EquipmentManager.SIXGUN ].getSelectedItem();
+		AdventureResult currentSixgun = EquipmentManager.getEquipment( EquipmentManager.SIXGUN );
+		if ( sixgunItem == null )
+		{
+			sixgunItem = currentSixgun;
+		}
+		List sixgunItems = this.validSixgunItems( currentSixgun );
+		this.updateEquipmentList( this.sixguns, sixgunItems, sixgunItem );
+		this.equipment[ EquipmentManager.SIXGUN ].setEnabled( this.isEnabled && !Limitmode.limitSlot( EquipmentManager.SIXGUN ) );
 
 		this.outfitSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
 		this.customSelect.setEnabled( this.isEnabled && !Limitmode.limitOutfits() );
@@ -1854,6 +1903,38 @@ public class GearChangeFrame
 	private void addBootspurs( final List<AdventureResult> items, final AdventureResult item )
 	{
 		if ( !addItem( items, item, KoLConstants.CONSUME_BOOTSPUR ) )
+		{
+			return;
+		}
+
+		items.add( item );
+	}
+
+	private List<AdventureResult> validSixgunItems( final AdventureResult currentSixgun )
+	{
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+
+		// Search inventory for sixguns
+		for ( int i = 0; i < KoLConstants.inventory.size(); ++i )
+		{
+			AdventureResult currentItem = (AdventureResult) KoLConstants.inventory.get( i );
+			addBootspurs( items, currentItem );
+		}
+
+		// The current sixgun is still in inventory
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
+
+		return items;
+	}
+
+	private void addSixgun( final List<AdventureResult> items, final AdventureResult item )
+	{
+		if ( !addItem( items, item, KoLConstants.CONSUME_SIXGUN ) )
 		{
 			return;
 		}

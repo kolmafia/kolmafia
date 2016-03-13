@@ -526,6 +526,7 @@ public interface KoLConstants
 	public static final int CONSUME_FOLDER = 19;
 	public static final int CONSUME_BOOTSKIN = 20;
 	public static final int CONSUME_BOOTSPUR = 21;
+	public static final int CONSUME_SIXGUN = 22;
 
 	// Special "uses"
 	public static final int CONSUME_FOOD_HELPER = 30;

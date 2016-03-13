@@ -158,6 +158,7 @@ public class EquipmentRequest
 		"buddy-bjorn",
 		"bootskin",
 		"bootspur",
+		"sixgun",
 		"fakehand"
 	};
 
@@ -187,6 +188,7 @@ public class EquipmentRequest
 		"buddybjorn",
 		"bootskin",
 		"bootspur",
+		"sixgun",
 		"fakehand"
 	};
 
@@ -299,6 +301,9 @@ public class EquipmentRequest
 		case EquipmentManager.BOOTSPUR:
 			this.initializeBootData( changeItem, equipmentSlot );
 			break;
+		case EquipmentManager.SIXGUN:
+			this.initializeSixgunData( changeItem, equipmentSlot );
+			break;
 		default:
 			this.initializeChangeData( changeItem, equipmentSlot, force );
 		}
@@ -330,6 +335,7 @@ public class EquipmentRequest
 			slot == EquipmentManager.FAKEHAND ? "inv_equip.php" :
 			( slot >= EquipmentManager.FOLDER1 && slot <= EquipmentManager.FOLDER5 ) ? "choice.php" :
 			( slot == EquipmentManager.BOOTSKIN || slot == EquipmentManager.BOOTSPUR ) ? "inv_use.php" :
+			slot == EquipmentManager.SIXGUN ? "inventory.php" :
 			"bogus.php";
 	}
 
@@ -543,6 +549,41 @@ public class EquipmentRequest
 		this.requestType = EquipmentRequest.CHANGE_ITEM;
 		this.changeItem = decoration;
 		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
+	}
+
+	private void initializeSixgunData( final AdventureResult sixgun, final int slot )
+	{
+		this.equipmentSlot = slot;
+
+		this.addFormField( "which", "2" );
+		this.addFormField( "action", "holster" );
+		this.addFormField( "ajax", "1" );
+
+		if ( sixgun.equals( EquipmentRequest.UNEQUIP ) )
+		{
+			this.requestType = EquipmentRequest.REMOVE_ITEM;
+			this.addFormField( "holster", "0" );
+			return;
+		}
+
+		// Find out what item is being equipped
+		this.itemId = sixgun.getItemId();
+
+		// Find out what kind of item it is
+		this.equipmentType = ItemDatabase.getConsumptionType( this.itemId );
+
+		if ( this.equipmentType != KoLConstants.CONSUME_SIXGUN )
+		{
+			this.error = "You can't holster a " + ItemDatabase.getItemName( this.itemId );
+			return;
+		}
+
+		this.requestType = EquipmentRequest.CHANGE_ITEM;
+		this.changeItem = sixgun;
+
+		this.addFormField( "which", "2" );
+		this.addFormField( "action", "holster" );
+		this.addFormField( "holster", String.valueOf( this.itemId ) );
 	}
 
 	private String getAction( final boolean force )
@@ -2036,6 +2077,11 @@ public class EquipmentRequest
 			return EquipmentRequest.registerCardSleeve( urlString );
 		}
 
+		if ( urlString.startsWith( "inventory.php" ) && urlString.contains( "action=holster" ) )
+		{
+			return EquipmentRequest.registerHolster( urlString );
+		}
+
 		if ( !urlString.startsWith( "inv_equip.php" ) )
 		{
 			return false;
@@ -2199,6 +2245,27 @@ public class EquipmentRequest
 		}
 	}
 
+	private static final Pattern HOLSTER_PATTERN = Pattern.compile( "holster=(\\d+)" );
+	public static final boolean registerHolster( final String urlString )
+	{
+		Matcher m = HOLSTER_PATTERN.matcher( urlString );
+		int itemId = m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : -1;
+		String message =
+			itemId > 0 ?
+			"equip sixgun " + ItemDatabase.getItemName( itemId ) :
+			itemId == 0 ?
+			"unequip sixgun" :
+			null;
+
+		if ( message != null )
+		{
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+		}
+
+		return true;
+	}
+
 	public static void checkCowboyBoots()
 	{
 		if ( !InventoryManager.hasItem( EquipmentManager.COWBOY_BOOTS ) &&
@@ -2241,5 +2308,16 @@ public class EquipmentRequest
 				EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, new AdventureResult( spur ) );
 			}
 		}
+	}
+
+	public static void checkSixgun()
+	{
+		if ( !KoLCharacter.isAWoLClass() )
+		{
+			EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, EquipmentRequest.UNEQUIP );
+			return;
+		}
+
+		// Have to get it from the Equipment page of the Inventory
 	}
 }
