@@ -13591,6 +13591,7 @@ public abstract class ChoiceManager
 		case 1177: // Book of the West: Cow Punching
 		case 1178: // Book of the West: Beanslinging
 		case 1179: // Book of the West: Snake Oiling
+		case 1181: // Witchess Set
 		return true;
 
 		default:
