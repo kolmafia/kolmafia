@@ -5359,6 +5359,11 @@ public class UseItemRequest
 		case ItemPool.TICKSILVER_SPURS:
 			EquipmentManager.setEquipment( EquipmentManager.BOOTSPUR, item );
 			break;
+
+		case ItemPool.SNAKE_OIL:
+			Preferences.increment( "awolMedicine", 3 );
+			Preferences.increment( "awolVenom", 3 );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

@@ -9181,6 +9181,16 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
 			}
 			break;
+
+		case 1176:
+			// Go West, Young Adventurer!
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Snake Oilers start with extra
+				Preferences.setInteger( "awolMedicine", 3 );
+				Preferences.setInteger( "awolVenom", 3 );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected

@@ -561,6 +561,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "prayedForProtection", false );
 		Preferences.setBoolean( "prayedForVigor", false );
 		Preferences.setInteger( "rockinRobinProgress", 25 );
+		Preferences.setInteger( "awolMedicine", 0 );
+		Preferences.setInteger( "awolVenom", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );

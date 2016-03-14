@@ -26,6 +26,7 @@
 
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
+DESC_ITEM	briefcase full of snakes	Venom Level: (\d+)<br>Medicine Level: (\d+)	awolVenom=$1	awolMedicine=$2
 DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something totally unrecognizable|)\s*(.*?)\.	crudeMonster=$2
 DESC_ITEM	experimental serum G-9	\+(\d+)%	_g9Effect=$1
 DESC_ITEM	fossilized necklace	(\d+) bat	fossilB=[min(5,$1)]
