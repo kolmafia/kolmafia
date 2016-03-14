@@ -3456,6 +3456,18 @@ public class FightRequest
 				Preferences.increment( "boneAbacusVictories", 1 );
 			}
 
+			if ( KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
+			{
+				if ( responseText.contains( "+1 Venom" ) )
+				{
+					Preferences.increment( "awolVenom" );
+				}
+				else if ( responseText.contains( "+1 Medicine" ) )
+				{
+					Preferences.increment( "awolMedicine" );
+				}
+			}
+
 			QuestManager.updateQuestData( FightRequest.lastResponseText, monsterName );
 		}
 
