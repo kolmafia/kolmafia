@@ -117,4 +117,5 @@ public class FamiliarPool
 	public static final int PUCK_MAN = 196;
 	public static final int MS_PUCK_MAN = 197;
 	public static final int MACHINE_ELF = 199;
+	public static final int ROCKIN_ROBIN = 201;
 }
