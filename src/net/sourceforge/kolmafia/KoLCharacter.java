@@ -769,6 +769,12 @@ public abstract class KoLCharacter
 			return limit;
 		}
 
+		if ( KoLCharacter.isAWoLClass() )
+		{
+			// No bonus fullness even in aftercore for these classes
+			return limit;
+		}
+
 		if ( KoLCharacter.isFullnessIncreased &&
 		     ( KoLCharacter.getPath().equals( "None" ) || 
 		       KoLCharacter.getPath().equals( "Teetotaler" ) ) )
