@@ -9009,9 +9009,9 @@
 8983	rodeo whiskey	762206613	fancybrew.gif	drink	t,d	40
 8984	Thwaitgold scorpion statuette	296698569	thwaitscorp.gif	none		0
 8985	real cowboy hat	243861084	cowmanbobhat.gif	hat		0
-8986
-8987
-8988
+8986	Memories of Cow Punching	854594023	pamphlet.gif	usable	t	0
+8987	Memories of Beanslinging	239656627	pamphlet.gif	usable	t	0
+8988	Memories of Snake Oiling	613587003	pamphlet.gif	usable	t	0
 8989	Witchess Set	301914635	chessset.gif	usable	t	0
 8990	electronic Brain Trainer game	146911854	lcdgame.gif	usable	t	0
 8991	do-it-yourself laser eye surgery kit	207701211	wbdrillpress.gif	usable	t	0
