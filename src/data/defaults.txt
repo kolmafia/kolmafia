@@ -805,6 +805,7 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
+user	rockinRobinProgress	0
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
 user	questECoBucket	unstarted

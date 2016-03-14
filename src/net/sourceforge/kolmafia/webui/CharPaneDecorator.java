@@ -628,6 +628,13 @@ public class CharPaneDecorator
 				return buffer;
 			}
 			return null;
+
+		case FamiliarPool.ROCKIN_ROBIN:
+			{
+				buffer.append( Preferences.getString( "rockinRobinProgress" ) );
+				buffer.append( "/30 charges" );
+				return buffer;
+			}
 		}
 		
 		if( familiar.hasDrop() )

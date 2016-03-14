@@ -3331,6 +3331,17 @@ public class FightRequest
 					Preferences.increment( "reanimatorWings", 1 );
 				}
 				break;
+
+			case FamiliarPool.ROCKIN_ROBIN:
+				if ( responseText.contains( "robin's egg" ) )
+				{
+					Preferences.setInteger( "rockinRobinProgress", 0 );
+				}
+				else
+				{
+					Preferences.increment( "rockinRobinProgress" );
+				}
+				break;
 			}
 
 			if ( KoLCharacter.inRaincore() )
