@@ -2542,6 +2542,14 @@ public class ItemPool
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;
 	public static final int PLAINTIVE_TELEGRAM = 8837;
 	public static final int COWBOY_BOOTS = 8850;
+	public static final int HEIMZ_BEANS = 8866;
+	public static final int TESLA_BEANS = 8867;
+	public static final int MIXED_BEANS = 8868;
+	public static final int HELLFIRE_BEANS = 8869;
+	public static final int FRIGID_BEANS = 8870;
+	public static final int BLACKEST_EYED_PEAS = 8871;
+	public static final int STINKBEANS = 8872;
+	public static final int PORK_N_BEANS = 8873;
 	public static final int GLENN_DICE = 8890;
 	public static final int CLARA_BELL = 8893;
 	public static final int BUFFALO_DIME = 8895;
