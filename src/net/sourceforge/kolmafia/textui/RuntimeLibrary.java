@@ -186,6 +186,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MoneyMakingGameManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.PvpManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -238,6 +239,8 @@ public abstract class RuntimeLibrary
 		"{string url; int revision; string last_changed_author; int last_changed_rev; string last_changed_date;}",
 		new String[] { "url", "revision", "last_changed_author", "last_changed_rev", "last_changed_date"}, 
 		new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE} );
+
+	private static final AggregateType NumberologyType = new AggregateType( DataTypes.INT_TYPE, DataTypes.INT_TYPE );
 
 	public static final FunctionList functions = new FunctionList();
 
@@ -1061,7 +1064,13 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "stun_skill", DataTypes.SKILL_TYPE, params ) );
-		
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "reverse_numberology", NumberologyType, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "reverse_numberology", NumberologyType, params ) );
+
 		// Equipment functions.
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -4955,6 +4964,26 @@ public abstract class RuntimeLibrary
 		}
 
 		return DataTypes.makeSkillValue( skill, true );
+	}
+
+	public static Value reverse_numberology( Interpreter interpreter )
+	{
+		return reverse_numberology( interpreter, new Value( 0 ), new Value( 0 ) );
+	}
+
+	public static Value reverse_numberology( Interpreter interpreter, final Value advDelta, final Value spleenDelta )
+	{
+		MapValue value = new MapValue( NumberologyType );
+
+		Map<Integer, Integer> map = NumberologyManager.reverseNumberology( (int) advDelta.intValue(), (int) spleenDelta.intValue() );
+
+
+		for ( Map.Entry<Integer, Integer> e : map.entrySet() )
+		{
+			value.aset( new Value( e.getKey() ), new Value( e.getValue() ) );
+		}
+
+		return value;
 	}
 
 	// Equipment functions.
