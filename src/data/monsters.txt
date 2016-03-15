@@ -1195,16 +1195,16 @@ warehouse janitor	1741	warehousejanitor.gif	Atk: 230 Def: 230 HP: 230 Init: 150 
 warehouse clerk	1742	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 P: dude	warehouse inventory page (0)	warehouse clerk's glasses (c0)
 
 # Avatar of West of Loathing
-furious cow	1926	awolcow1.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 P: demon
-furious giant cow	1929	awolcow2.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 P: demon
+furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: demon
+furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: demon
 ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: demon
 
-emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 P: horror
-menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 P: horror
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: horror
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: horror
 grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: horror
 
-aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
-prince snake	1931	awolsnake2.gif	WANDERER Scale: ? Cap: ? Floor: ? Init: -10000 E: sleaze P: beast	snake oil (100)	snake oil (100)
+aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: beast
+prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 E: sleaze P: beast	snake oil (100)	snake oil (100)
 king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast	snake oil (100)	snake oil (100)	snake oil (100)
 
 # Items of the Month

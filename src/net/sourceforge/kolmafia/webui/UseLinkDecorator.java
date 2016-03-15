@@ -1166,6 +1166,28 @@ public abstract class UseLinkDecorator
 				// Spelunky "accessories" need a single "equip"
 				// link which goes to slot 1
 				return new UseLink( itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&slot=1&whichitem=" );
+
+			case ItemPool.HEIMZ_BEANS:
+			case ItemPool.TESLA_BEANS:
+			case ItemPool.MIXED_BEANS:
+			case ItemPool.HELLFIRE_BEANS:
+			case ItemPool.FRIGID_BEANS:
+			case ItemPool.BLACKEST_EYED_PEAS:
+			case ItemPool.STINKBEANS:
+			case ItemPool.PORK_N_BEANS:
+			{
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
+				// inv_use.php?pwd&which=f-1&whichitem=xxx
+				UseLink plateLink = new UseLink( itemId, itemCount,
+								 "plate",
+								 "inv_use.php?which=f-1&whichitem=" );
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( equipLink );
+				uses.add( plateLink );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 			}
 
 			// Don't offer an "equip" link for weapons or offhands
