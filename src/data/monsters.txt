@@ -1610,7 +1610,7 @@ factory overseer (female)	1791	facworker4.gif	Atk: 60 Def: 60 HP: 100 P: dude E:
 factory overseer (male)	1790	facworker3.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "factory overseer"	asbestos thermos (0)	heat-resistant necktie (0)
 factory worker (female)	1789	facworker1.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "factory worker"	heat-resistant gloves (0)	lava-proof pants (0)	very hot lunch (0)
 factory worker (male)	1792	facworker2.gif	Atk: 50 Def: 50 HP: 100 P: dude E: hot Init: 50 Manuel: "factory worker"	heat-resistant gloves (0)	lava-proof pants (0)	very hot lunch (0)
-lava golem	1793	lavagolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70 Phys: 75	gooey lava globs (0)	sticky lava globs (0)	viscous lava globs (0)
+lava golem	1793	lavagolem.gif	Atk: 70 Def: 70 HP: 150 P: construct E: hot Init: 70 Phys: 75	gooey lava globs (16)	sticky lava globs (16)	viscous lava globs (0)
 Mr. Cheeng	1815	mrcheeng.gif	Atk: 180 Def: 220 HP: 400 P: dude Init: 100	Mr. Cheeng's 'stache (n100)	Mr. Cheeng's spectacles (n100)
 
 # The Velvet / Gold Mine (That 70s Volcano August 2015)
