@@ -257,6 +257,66 @@ public class GearChangeFrame
 					mods = newMods;
 					break;
 				}
+				case ItemPool.COWBOY_BOOTS:
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					AdventureResult skin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
+					AdventureResult spur = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
+					if ( skin != null && skin != EquipmentRequest.UNEQUIP )
+					{
+						newMods.add( Modifiers.getItemModifiers( skin.getItemId() ) );
+					}
+					if ( spur != null && spur != EquipmentRequest.UNEQUIP )
+					{
+						newMods.add( Modifiers.getItemModifiers( spur.getItemId() ) );
+					}
+					mods = newMods;
+					break;
+				}
+				case ItemPool.FOLDER_HOLDER:
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
+					{
+						AdventureResult folder = EquipmentManager.getEquipment( i );
+						if ( folder != null && folder != EquipmentRequest.UNEQUIP )
+						{
+							newMods.add( Modifiers.getItemModifiers( folder.getItemId() ) );
+						}
+					}
+					mods = newMods;
+					break;
+				}
+				case ItemPool.STICKER_CROSSBOW:
+				case ItemPool.STICKER_SWORD:
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
+					{
+						AdventureResult sticker = EquipmentManager.getEquipment( i );
+						if ( sticker != null && sticker != EquipmentRequest.UNEQUIP )
+						{
+							newMods.add( Modifiers.getItemModifiers( sticker.getItemId() ) );
+						}
+					}
+					mods = newMods;
+					break;
+				}
+				case ItemPool.CARD_SLEEVE:
+				{
+					Modifiers newMods = new Modifiers();
+					newMods.add( mods );
+					AdventureResult card = EquipmentManager.getEquipment( EquipmentManager.CARDSLEEVE );
+					if ( card != null && card != EquipmentRequest.UNEQUIP )
+					{
+						newMods.add( Modifiers.getItemModifiers( card.getItemId() ) );
+					}
+					mods = newMods;
+					break;
+				}
 
 				}
 			}
@@ -1866,7 +1926,12 @@ public class GearChangeFrame
 		// Add the current skin
 		addBootskins( items, currentBootskin );
 
-		// Do not add "(none)" because there is no way to remove skins
+		// There is no way to remove skins, but if there isn't currently a skin applied then
+		// that state needs to be represented
+		if ( EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN ).equals( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
 
 		return items;
 	}
@@ -1895,7 +1960,12 @@ public class GearChangeFrame
 		// Add the current container
 		addBootspurs( items, currentBootspur );
 
-		// Do not add "(none)" because there is no way to remove spurs
+		// There is no way to remove spurs, but if there isn't currently a spur applied then
+		// that state needs to be represented
+		if ( EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR ).equals( EquipmentRequest.UNEQUIP ) )
+		{
+			items.add( EquipmentRequest.UNEQUIP );
+		}
 
 		return items;
 	}

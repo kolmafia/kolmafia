@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1655,9 +1654,9 @@ public class Evaluator
 				best.setEdPiece( bestEdPiece );
 				
 				// Check each animal in Crown of Ed to see if they are worthwhile
-				for ( int i = 0; i < EdPieceCommand.ANIMAL.length; i++ )
+				for ( String[] ANIMAL : EdPieceCommand.ANIMAL )
 				{
-					String animal = EdPieceCommand.ANIMAL[ i ][ 0 ];
+					String animal = ANIMAL[0];
 					if ( animal.equals( bestEdPiece ) )
 					{
 						// Don't bother if we've already done it for best
@@ -1818,9 +1817,15 @@ public class Evaluator
 						spec.setSnowsuit( bestSnowsuit );
 					}
 				}
+				else if ( itemId == ItemPool.COWBOY_BOOTS )
+				{
+					MaximizerSpeculation current = new MaximizerSpeculation();
+					spec.equipment[ EquipmentManager.BOOTSKIN ] = current.equipment[ EquipmentManager.BOOTSKIN ];
+					spec.equipment[ EquipmentManager.BOOTSPUR ] = current.equipment[ EquipmentManager.BOOTSPUR ];
+				}
 				spec.getScore();	// force evaluation
 				spec.failed = false;	// individual items are not expected
-										// to fulfill all requirements
+				                    	// to fulfill all requirements
 
 				speculationList[ slot ].add( spec );
 			}
@@ -2096,7 +2101,7 @@ public class Evaluator
 
 		// Compare outfits with best item in the same spot, and remove if not better
 		// Compare the accessories to the worst ones, not the best
-		StringBuffer outfitSummary = new StringBuffer();
+		StringBuilder outfitSummary = new StringBuilder();
 		outfitSummary.append( "Outfits [" );
 		int outfitCount = 0;
 		for ( int i = 0 ; i < usefulOutfits.size() ; i++ )
