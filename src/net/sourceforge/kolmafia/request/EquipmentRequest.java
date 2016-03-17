@@ -2380,7 +2380,7 @@ public class EquipmentRequest
 	{
 		if ( !KoLCharacter.isAWoLClass() )
 		{
-			EquipmentManager.setEquipment( EquipmentManager.BOOTSKIN, EquipmentRequest.UNEQUIP );
+			EquipmentManager.setEquipment( EquipmentManager.HOLSTER, EquipmentRequest.UNEQUIP );
 			return;
 		}
 
