@@ -20,7 +20,7 @@ ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-
 ancient protein powder	1	1	good	0	12-14	0	0
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
-armored prawn	1	1	decent	0	0	0	0	Unspaded, 50 Rushtacean' (+50 Init)
+armored prawn	1	1	decent	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 astral energy drink	8	1	awesome	29-35	0	0	0
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
@@ -90,14 +90,14 @@ lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
 liquid shifting time weirdness	2	6	good	4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
 magicalness-in-a-can	1	1	crappy	0	0	1-3	0
 Mariner's Friend cough drops	1	1	good	0	10-12	0	0
-Mansquito Serum	1	2	awesome	0	0	0	0	Unspaded
+Mansquito Serum	1	2	awesome	0	0	0	0	Unspaded, 400 More Mansquito Than Man (+100 HP, +100% HP, 20-40 HP regen)
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
 mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
 Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
 Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
 molotov soda	3	2	good	8-10	0	0	0
-moomy dust	1	1	decent	0	0	0	0	Unspaded
+moomy dust	1	1	decent	0	15-20	15-20	15-20	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 moxie weed	1	1	crappy	0	0	0	1-3
 mummified beef haunch	5	1	awesome	23-27	5-10	5-10	5-10
 mummified fig	1	1	good	3	5-10	5-10	5-10
@@ -136,8 +136,8 @@ strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
 synthetic marrow	1	1	EPIC	0	30-40	0	0
-The Author's ink	1	4	awesome	0	0	0	0	Unspaded
-The Inquisitor's unidentifiable object	1	6	EPIC	0	0	0	0	Unspaded
+The Author's ink	1	4	awesome	0	0	0	0	Unspaded, 200 It's a Good Life! (+10 stat gain, +200% all)
+The Inquisitor's unidentifiable object	1	6	EPIC	0	0	0	0	Unspaded, 100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 the funk	1	1	EPIC	0	0	0	30-40
 thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
 transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
