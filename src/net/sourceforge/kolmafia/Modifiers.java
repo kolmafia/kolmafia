@@ -231,6 +231,7 @@ public class Modifiers
 	public static final int OTHELLO_SKILL = 120;
 	public static final int DISCO_STYLE = 121;
 	public static final int ROLLOVER_EFFECT_DURATION = 122;
+	public static final int SIXGUN_DAMAGE = 123;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -785,6 +786,10 @@ public class Modifiers
 		{ "Rollover Effect Duration",
 		  Pattern.compile( "Grants (\\d+) Adventures of <b>.*?</b> at Rollover" ),
 		  Pattern.compile( "Rollover Effect Duration: " + EXPR )
+		},
+		{ "Sixgun Damage",
+		  null,
+		  Pattern.compile( "Sixgun Damage: " + EXPR )
 		},
 	};
 
@@ -3687,6 +3692,7 @@ public class Modifiers
 		Map accessories = new TreeMap();
 		Map containers = new TreeMap();
 		Map famitems = new TreeMap();
+		Map sixguns = new TreeMap();
 		Map bedazzlements = new TreeMap();
 		Map cards = new TreeMap();
 		Map folders = new TreeMap();
@@ -3728,6 +3734,9 @@ public class Modifiers
 				break;
 			case KoLConstants.EQUIP_FAMILIAR:
 				famitems.put( name, null );
+				break;
+			case KoLConstants.CONSUME_SIXGUN:
+				sixguns.put( name, null );
 				break;
 			case KoLConstants.CONSUME_STICKER:
 				bedazzlements.put( name, null );
@@ -3933,6 +3942,8 @@ public class Modifiers
 		Modifiers.writeModifierCategory( writer, containers, "Item", "Containers" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, famitems, "Item", "Familiar Items" );
+		writer.println();
+		Modifiers.writeModifierCategory( writer, sixguns, "Item", "Sixguns" );
 		writer.println();
 		Modifiers.writeModifierCategory( writer, familiars, "Familiar", "Familiars" );
 		writer.println();
