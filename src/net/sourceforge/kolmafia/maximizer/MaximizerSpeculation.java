@@ -710,13 +710,40 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				}	
 				if ( count <= 0 ) continue;
 				this.equipment[ EquipmentManager.PANTS ] = item;
-				this.tryWeapons( possibles, bestCard );
+				this.trySixguns( possibles, bestCard );
 				any = true;
 				this.restore( mark );
 			}
 
 			if ( any ) return;
 			this.equipment[ EquipmentManager.PANTS ] = EquipmentRequest.UNEQUIP;
+		}
+
+		this.trySixguns( possibles, bestCard );
+		this.restore( mark );
+	}
+
+	public void trySixguns( ArrayList[] possibles, AdventureResult bestCard )
+		throws MaximizerInterruptedException
+	{
+		Object mark = this.mark();
+		if ( this.equipment[ EquipmentManager.HOLSTER ] == null )
+		{
+			ArrayList possible = possibles[ EquipmentManager.HOLSTER ];
+			boolean any = false;
+			for ( int pos = 0; pos < possible.size(); ++pos )
+			{
+				AdventureResult item = (AdventureResult) possible.get( pos );
+				int count = item.getCount();
+				if ( count <= 0 ) continue;
+				this.equipment[ EquipmentManager.HOLSTER ] = item;
+				this.tryWeapons( possibles, bestCard );
+				any = true;
+				this.restore( mark );
+			}
+
+			if ( any ) return;
+			this.equipment[ EquipmentManager.HOLSTER ] = EquipmentRequest.UNEQUIP;
 		}
 
 		this.tryWeapons( possibles, bestCard );

@@ -742,6 +742,9 @@ public class EquipmentRequest
 		case KoLConstants.CONSUME_FOLDER:
 			return EquipmentRequest.availableFolder();
 
+		case KoLConstants.CONSUME_SIXGUN:
+			return EquipmentManager.HOLSTER;
+
 		default:
 			return -1;
 		}

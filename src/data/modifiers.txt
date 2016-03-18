@@ -7165,6 +7165,18 @@ Item	yellow paisley oyster egg	Effect: "Egg-headedness", Effect Duration: 20
 Item	yellow polka-dot oyster egg	Effect: "Egg-cellent Vocabulary", Effect Duration: 20
 Item	yellow striped oyster egg	Effect: "Egg-stra Arm", Effect Duration: 20
 
+# Sixguns section of modifiers.txt
+
+Item	baconstone-handled sixgun	Sixgun Damage: 35
+Item	custom sixgun	Sixgun Damage: 35
+Item	hamethyst-handled sixgun	Sixgun Damage: 35
+Item	makeshift sixgun	Sixgun Damage: 25
+Item	Pecos Dave's sixgun	Sixgun Damage: 50
+Item	porquoise-handled sixgun	Sixgun Damage: 35
+Item	reliable sixgun	Sixgun Damage: 20
+Item	rinky-dink sixgun	Sixgun Damage: 15
+Item	toy sixgun	Sixgun Damage: 5
+
 # Everything Else section of modifiers.txt
 
 Item	&quot;DRINK ME&quot; potion	Effect: "Down the Rabbit Hole", Effect Duration: 20

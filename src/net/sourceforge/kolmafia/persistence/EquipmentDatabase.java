@@ -572,7 +572,8 @@ public class EquipmentDatabase
 		{
 			String req = EquipmentDatabase.statRequirements.get( prevId );
 			if ( (req != null && req.length() > 0) ||
-				ItemDatabase.getConsumptionType( prevId ) == KoLConstants.EQUIP_FAMILIAR )
+				ItemDatabase.getConsumptionType( prevId ) == KoLConstants.EQUIP_FAMILIAR  ||
+				ItemDatabase.getConsumptionType( prevId ) == KoLConstants.CONSUME_SIXGUN )
 			{
 				return prevId;
 			}
