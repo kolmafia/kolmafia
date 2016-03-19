@@ -4069,7 +4069,7 @@ public class UseItemRequest
 			// helmet that you acquired earlier from the Sinister
 			// Dodecahedron.
 
-			else if ( responseText.contains( "carrying the  carbonite visor" ) )
+			else if ( responseText.contains( "carrying the carbonite visor" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CARBONITE_VISOR, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CHIN_STRAP, -1 ) );
@@ -5364,6 +5364,23 @@ public class UseItemRequest
 			Preferences.increment( "awolMedicine", 3 );
 			Preferences.increment( "awolVenom", 3 );
 			break;
+
+		case ItemPool.HEIMZ_BEANS:
+		case ItemPool.TESLA_BEANS:
+		case ItemPool.MIXED_BEANS:
+		case ItemPool.HELLFIRE_BEANS:
+		case ItemPool.FRIGID_BEANS:
+		case ItemPool.BLACKEST_EYED_PEAS:
+		case ItemPool.STINKBEANS:
+		case ItemPool.PORK_N_BEANS:
+			// Cans of Beans are off-hand items which can be
+			// "plated" Since they are equipment, they will not be
+			// removed from inventory below. Do it here.
+			if ( responseText.contains( "You acquire" ) )
+			{
+				ResultProcessor.processResult( item.getNegation() );
+			}
+			return;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
@@ -6005,6 +6022,17 @@ public class UseItemRequest
 				urlString.contains( "choice=1" ) ?
 				"Throw a barrel smashing party!" :
 				( "smash " + name );
+			break;
+
+		case ItemPool.HEIMZ_BEANS:
+		case ItemPool.TESLA_BEANS:
+		case ItemPool.MIXED_BEANS:
+		case ItemPool.HELLFIRE_BEANS:
+		case ItemPool.FRIGID_BEANS:
+		case ItemPool.BLACKEST_EYED_PEAS:
+		case ItemPool.STINKBEANS:
+		case ItemPool.PORK_N_BEANS:
+			useString = "plate " + name;
 			break;
 		}
 

@@ -2041,8 +2041,8 @@
 2040
 2041
 2042	Feelin' the Rhythm!	circledrum.gif	4952bd4b5e5059e208376de450e545bf	use 1 circle drum
-2043
-2044
+2043	Weally Satisfied	wickerbar.gif	d6a9b0c70c875a8859f041e998d0b42f	use 1 Wickers bar
+2044	Litely Baked	bakebacon.gif	83dd9ef3a91b2217945b5cd160136dd0	use 1 bakelite-covered bacon
 2045	More Mansquito Than Man	familiar1.gif	5b28dc6aeb5933421c6cc37bcd192e65	chew 1 Mansquito Serum
 2046	It's a Good Life!	inkwell.gif	c8e5625a3588796179a6f3a5dab1fc7f	chew 1 The Author's ink
 2047	The Inquisitor's Unknown Effect	confused.gif	bac1d296cb2f49ed62224999f04ec66c	chew 1 The Inquisitor's unidentifiable object

@@ -7285,6 +7285,7 @@ Item	bag of pygmy blood	Effect: "Blood-Rich", Effect Duration: 20
 Item	bag of W&Ws	Effect: "Just the Brown Ones", Effect Duration: 15
 Item	baggie of powdered sugar	Effect: "So You Can Work More...", Effect Duration: 10
 Item	baggie of regular-sized tardigrades	Effect: "Waterborne", Effect Duration: 30
+Item	bakelite-covered bacon	Effect: "Litely Baked", Effect Duration: 10
 # ball: Lets You Escape From Combat
 Item	ballast turtle	Effect: "Oxygenated Blood", Effect Duration: 20
 # ballpark hot daub: Deals 450-500 <font color=red>Hot Damage</font>, also briefly stuns enemies and weakens them a lot
@@ -9325,6 +9326,7 @@ Item	white blood cells	Effect: "White Blooded", Effect Duration: 50
 Item	white candy heart	Effect: "Heart of White", Effect Duration: 10
 Item	White Chocolate Golem Seeds	Effect: "[1060]Chocolate Reign", Effect Duration: 30
 # white picket fence: Stops Enemy From Attacking and Restores 14-15 Hit Points
+Item	Wickers bar	Effect: "Weally Satisfied", Effect Duration: 10
 Item	willyweed	Effect: "Wet Willied", Effect Duration: 30
 Item	wind-up ensign	Effect: "Red-Shirted Escort", Effect Duration: 20
 Item	wind-up meatcar	Effect: "All Wound Up", Effect Duration: 100
