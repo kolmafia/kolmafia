@@ -8581,8 +8581,8 @@
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
-8558
-8559
+8558	Wickers bar	951050553	wickerbar.gif	usable	t	0
+8559	bakelite-covered bacon	113363781	bakebacon.gif	usable	t	0
 8560
 8561
 8562
@@ -8861,8 +8861,8 @@
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5	cups of robin nog
 8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
 8837	plaintive telegram	819771344	lttgram.gif	usable	q	0
-8838
-8839
+8838	exploding gum	208323168	gumstick.gif	none, combat	t,d	5
+8839	root beer barrel	364849592	barrelnormal.gif	usable	t,d	5
 8840	Kudzu slaw	649517887	salad.gif	avatar, usable	t,d	5
 8841	Mansquito's blood	828225858	fancybrew.gif	avatar, usable	t,d	5
 8842	infrablack lipstick	279755220	lipstick.gif	avatar, usable	t,d	5
