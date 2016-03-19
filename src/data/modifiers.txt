@@ -5176,6 +5176,7 @@ Effect	Liquid Courage	Experience: +3
 Effect	Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Liquidy Smoky	Mysticality: +15, Moxie: +15
 Effect	Lit Up	Hot Damage: +20, Hot Spell Damage: +20
+Effect	Litely Baked	MP Regen Min: 1, MP Regen Max: 2
 # Literally Insane: Insane in the BRAIN!
 Effect	Literally On Fire	Avatar: "Fire Fighter"
 Effect	Litterboxing	Stench Damage: +30, Item Drop: +15
@@ -6140,6 +6141,7 @@ Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
+Effect	Weally Satisfied	HP Regen Min: 1, HP Regen Max: 2
 Effect	Weapon of Mass Destruction	Weapon Damage Percent: +30
 Effect	Wearing a Guard's Hat	Avatar: "warehouse guard"
 Effect	Wearing Assassin Robes	Avatar: "Assassin"
