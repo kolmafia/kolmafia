@@ -1654,6 +1654,17 @@ public class EquipmentManager
 	}
 
 	/**
+	 * Accessor method to determine if character's off-hand is a bean can
+	 *
+	 * @return boolean true if off-hand is a bean can
+	 */
+
+	public static final boolean usingCanOfBeans()
+	{
+		return EquipmentDatabase.isCanOfBeans( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
+	}
+
+	/**
 	 * Accessor method to determine if character's weapon's is a club
 	 *
 	 * @return boolean true if weapon is a club
