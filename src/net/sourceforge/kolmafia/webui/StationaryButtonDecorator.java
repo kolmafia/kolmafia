@@ -449,6 +449,11 @@ public class StationaryButtonDecorator
 			StationaryButtonDecorator.addFightButton( actionBuffer, "jiggle", enabled );
 		}
 
+		if ( FightRequest.canHandleCan() )
+		{
+			StationaryButtonDecorator.addFightButton( actionBuffer, "shake", !FightRequest.handledCan() );
+		}
+
 		String classStun = KoLCharacter.getClassStun();
 		// Some skills can be available in combat but aren't always stuns. Disable if so or change to Shadow Noodles if appropriate.
 		if ( classStun.equals( "Shell Up" ) && KoLCharacter.getBlessingType() != KoLCharacter.STORM_BLESSING )
@@ -649,6 +654,11 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "chefstaff" );
 			isEnabled &= !FightRequest.alreadyJiggled();
 		}
+		else if ( action.equals( "shake" ) )
+		{
+			actionBuffer.append( "skill&whichskill=" );
+			actionBuffer.append( String.valueOf( SkillPool.CANHANDLE ) );
+		}
 		else if ( action.equals( "insult" ) )
 		{
 			int itemId =
@@ -798,7 +808,7 @@ public class StationaryButtonDecorator
 			return "pirate insult";
 		}
 		
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) ||
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "shake" ) ||
 		     action.equals( "script" ) ||
 		     action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
 		{

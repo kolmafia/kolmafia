@@ -294,6 +294,7 @@ public class FightRequest
 	private static boolean insultedPirate = false;
 	private static boolean usedFlyer = false;
 	private static boolean jiggledChefstaff = false;
+	private static boolean handledCan = false;
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
 	private static boolean canStomp = false;
@@ -6381,6 +6382,7 @@ public class FightRequest
 		FightRequest.usedFlyer = false;
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
+		FightRequest.handledCan = false;
 		FightRequest.squeezedStressBall = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
@@ -7465,6 +7467,12 @@ public class FightRequest
 			ResultProcessor.removeItem( ItemPool.GREEN_MANA );
 			break;
 
+		case SkillPool.CANHANDLE:
+			if ( responseText.contains( "You shake the can" ) || skillSuccess )
+			{
+				FightRequest.handledCan = true;
+			}
+			break;
 
 		case SkillPool.BAT_OOMERANG:
 			ResultProcessor.removeItem( ItemPool.BAT_OOMERANG );
@@ -7793,6 +7801,17 @@ public class FightRequest
 	public static final boolean alreadyJiggled()
 	{
 		return FightRequest.jiggledChefstaff;
+	}
+
+	public static final boolean handledCan()
+	{
+		return FightRequest.handledCan;
+	}
+
+	public static final boolean canHandleCan()
+	{
+		return EquipmentManager.usingCanOfBeans() &&
+		       KoLCharacter.hasSkill( "Canhandle" );
 	}
 
 	public static final void beginTrackingFights()

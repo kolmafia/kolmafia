@@ -773,6 +773,16 @@ public class EquipmentDatabase
 	{
 		return EquipmentDatabase.getItemType( itemId ).equals( "chefstaff" );
 	}
+
+	public static final boolean isCanOfBeans( final AdventureResult item )
+	{
+		return EquipmentDatabase.isCanOfBeans( item.getItemId() );
+	}
+	
+	public static final boolean isCanOfBeans( final int itemId )
+	{
+		return EquipmentDatabase.getItemType( itemId ).equals( "can of beans" );
+	}
 	
 	public static final AdventureResult IRON_PALMS = EffectPool.get( EffectPool.IRON_PALMS );
 
