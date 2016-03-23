@@ -9191,6 +9191,19 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "awolVenom", 3 );
 			}
 			break;
+
+		case 1182:
+			// Play against the Witchess Pieces
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setNextAdventure( "None" );
+				GenericRequest.itemMonster = "Your Witchess Set";
+			}
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
