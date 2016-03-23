@@ -2891,7 +2891,17 @@ public class Parser
 			ch = this.currentLine.charAt( i );
 			if ( ch == '\\' )
 			{
-				ch = this.currentLine.charAt( ++i );
+				if ( i == this.currentLine.length() - 1 )
+				{
+					i = -1;
+					ch = '\n';
+					this.currentLine = this.nextLine;
+					this.nextLine = this.getNextLine();
+				}
+				else
+				{
+					ch = this.currentLine.charAt( ++i );
+				}
 
 				switch ( ch )
 				{
