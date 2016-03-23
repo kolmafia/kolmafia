@@ -552,6 +552,9 @@ public class EquipmentRequest
 		this.requestType = EquipmentRequest.CHANGE_ITEM;
 		this.changeItem = decoration;
 		this.addFormField( "whichitem", String.valueOf( this.itemId ) );
+		this.addFormField( "ajax", "1" );
+
+		UseItemRequest.setLastItemUsed( decoration );
 	}
 
 	private void initializeSixgunData( final AdventureResult sixgun, final int slot )
@@ -1133,6 +1136,12 @@ public class EquipmentRequest
 			return;
 		}
 
+		if ( this.equipmentSlot == EquipmentManager.BOOTSKIN || this.equipmentSlot == EquipmentManager.BOOTSPUR )
+		{
+			UseItemRequest.parseConsumption( "", false );
+			return;
+		}
+
 		switch ( this.requestType )
 		{
 		case EquipmentRequest.REFRESH:
@@ -1183,8 +1192,7 @@ public class EquipmentRequest
 				     !result.contains( "as you put it on" ) &&
 				     !result.contains( "You take the existing card out of the sleeve to make room" ) &&
 				     !result.contains( "You apply the shiny sticker" ) &&
-				     !result.contains( "fold it into an impromptu sword" ) &&
-				     !result.contains( "You replace" ) )
+				     !result.contains( "fold it into an impromptu sword" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, result );
 					return;
