@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -2219,6 +2220,10 @@ public abstract class RuntimeLibrary
 				break;
 			}
 			relayRequest.constructURLString( relayRequest.redirectLocation, false, false );
+			if ( KoLmafiaASH.getClientHTML( relayRequest ) )
+			{
+				break;
+			}
 		}
 
 		StringBuffer buffer = new StringBuffer();
@@ -2285,6 +2290,10 @@ public abstract class RuntimeLibrary
 				break;
 			}
 			request.constructURLString( request.redirectLocation, false, false );
+			if ( KoLmafiaASH.getClientHTML( (RelayRequest)request ) )
+			{
+				break;
+			}
 		}
 
 		if ( request.responseText != null )
