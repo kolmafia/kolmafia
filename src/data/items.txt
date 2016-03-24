@@ -8889,16 +8889,16 @@
 8863	sicksilver ring	967563357	weddingring.gif	accessory		0
 8864	nicksilver ring	674028369	weddingring.gif	accessory		0
 8865	ticksilver ring	485357896	weddingring.gif	accessory		0
-8866	Heimz Fortified Kidney Beans	771486835	beanscan.gif	offhand	t,d	5
-8867	Tesla's Electroplated Beans	865375055	beanscan.gif	offhand	t,d	5
-8868	Mixed Garbanzos and Chickpeas	902779017	beanscan.gif	offhand	t,d	5
-8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand	t,d	10
-8870	Frigid Northern Beans	673710091	beanscan.gif	offhand	t,d	10
-8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand	t,d	10
-8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand	t,d	10
-8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand	t,d	10
+8866	Heimz Fortified Kidney Beans	771486835	beanscan.gif	offhand, usable	t,d	5
+8867	Tesla's Electroplated Beans	865375055	beanscan.gif	offhand, usable	t,d	5
+8868	Mixed Garbanzos and Chickpeas	902779017	beanscan.gif	offhand, usable	t,d	5
+8869	Hellfire Spicy Beans	358366731	beanscan.gif	offhand, usable	t,d	10
+8870	Frigid Northern Beans	673710091	beanscan.gif	offhand, usable	t,d	10
+8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand, usable	t,d	10
+8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand, usable	t,d	10
+8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand, usable	t,d	10
 8874
-8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand	d	25
+8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand, usable	d	25
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
 8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5
 8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5

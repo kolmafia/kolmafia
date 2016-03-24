@@ -541,7 +541,7 @@ public class ConsumablesDatabase
 		return ConsumablesDatabase.advsByName[ perUnit ? 1 : 0 ][ gainEffect1 ? 1 : 0 ][ gainEffect2 ? 1 : 0 ][ gainEffect3 ? 1 : 0 ][ gainEffect4 ? 1 : 0 ];
 	}
 
-	private static final String extractStatRange( String range, double statFactor, int statUnit )
+	private static final String extractStatRange( String range, double statFactor, int statUnit, int statBonus )
 	{
 		if ( range == null )
 		{
@@ -561,12 +561,12 @@ public class ConsumablesDatabase
 
 		if ( dashIndex == -1 )
 		{
-			double num = isNegative ? 0 - start : start;
+			double num = ( isNegative ? 0 - start : start ) + statBonus;
 			return KoLConstants.SINGLE_PRECISION_FORMAT.format( statFactor * num / statUnit );
 		}
 
 		int end = StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
-		double num = ( start + end ) / ( isNegative ? -2.0 : 2.0 );
+		double num = ( start + end ) / ( isNegative ? -2.0 : 2.0 ) + statBonus;
 		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num / statUnit );
 	}
 
@@ -762,6 +762,10 @@ public class ConsumablesDatabase
 		{
 			return perUnit ? 1.0 : fullness;
 		}
+		if ( ConsumablesDatabase.isBeans( itemId ) && KoLCharacter.hasSkill( SkillPool.BEANWEAVER ) )
+		{
+			return 2.0;
+		}
 		if ( ConsumablesDatabase.isSaucy( itemId ) && KoLCharacter.hasSkill( SkillPool.SAUCEMAVEN ) )
 		{
 			if ( KoLCharacter.isMysticalityClass() )
@@ -774,6 +778,16 @@ public class ConsumablesDatabase
 			}
 		}
 		return 0.0;
+	}
+
+	private static final int conditionalExtraStats( final String name )
+	{
+		int itemId = ItemDatabase.getItemId( name );
+		if ( ConsumablesDatabase.isBeans( itemId ) && KoLCharacter.hasSkill( SkillPool.BEANWEAVER ) )
+		{
+			return 25;
+		}
+		return 0;
 	}
 
 	private static final double conditionalStatMultiplier( final String name )
@@ -889,7 +903,8 @@ public class ConsumablesDatabase
 		double muscleFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MUS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		muscleFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( muscle, muscleFactor, statUnit );
+		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
+		String range = (String) ConsumablesDatabase.extractStatRange( muscle, muscleFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -915,7 +930,8 @@ public class ConsumablesDatabase
 		double mysticalityFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MYS_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		mysticalityFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit );
+		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
+		String range = (String) ConsumablesDatabase.extractStatRange( mysticality, mysticalityFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -941,7 +957,8 @@ public class ConsumablesDatabase
 		double moxieFactor = ( KoLCharacter.currentNumericModifier( Modifiers.MOX_EXPERIENCE_PCT ) + 100.0 ) / 100.0;
 		moxieFactor *= ConsumablesDatabase.conditionalStatMultiplier( name );
 		int statUnit = ConsumablesDatabase.getStatUnit( name );
-		String range = (String) ConsumablesDatabase.extractStatRange( moxie, moxieFactor, statUnit );
+		int statBonus = ConsumablesDatabase.conditionalExtraStats( name );
+		String range = (String) ConsumablesDatabase.extractStatRange( moxie, moxieFactor, statUnit, statBonus );
 		return range == null ? "+0.0" : range;
 	}
 
@@ -1011,6 +1028,24 @@ public class ConsumablesDatabase
 		case ItemPool.WHITE_CHOCOLATE_AND_TOMATO_PIZZA:
 		case ItemPool.SLICE_OF_PIZZA:
 		case ItemPool.INCREDIBLE_PIZZA:
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean isBeans( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.MUS_BEANS_PLATE:
+		case ItemPool.MYS_BEANS_PLATE:
+		case ItemPool.MOX_BEANS_PLATE:
+		case ItemPool.HOT_BEANS_PLATE:
+		case ItemPool.COLD_BEANS_PLATE:
+		case ItemPool.SPOOKY_BEANS_PLATE:
+		case ItemPool.STENCH_BEANS_PLATE:
+		case ItemPool.SLEAZE_BEANS_PLATE:
+		case ItemPool.PREMIUM_BEANS_PLATE:
 			return true;
 		}
 		return false;
