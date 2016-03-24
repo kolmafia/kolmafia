@@ -558,28 +558,28 @@ public class QuestDatabase
 			Preferences.setInteger( "lttQuestDifficulty", 1 );
 			return "step4";
 		}
-		// Help! Desperados!
+		// Help!  Desperados!
 		if ( details.contains( "Clear some of the criminals out of Spitback." ) )
 		{
-			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setString( "lttQuestName", "Help!  Desperados!" );
 			Preferences.setInteger( "lttQuestDifficulty", 1 );
 			return "step1";
 		}
 		if ( details.contains( "Find your way to Pecos Dave's hideout." ) )
 		{
-			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setString( "lttQuestName", "Help!  Desperados!" );
 			Preferences.setInteger( "lttQuestDifficulty", 1 );
 			return "step2";
 		}
 		if ( details.contains( "Find Pecos Dave in his mine hideout." ) )
 		{
-			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setString( "lttQuestName", "Help!  Desperados!" );
 			Preferences.setInteger( "lttQuestDifficulty", 1 );
 			return "step3";
 		}
 		if ( details.contains( "Defeat Pecos Dave." ) )
 		{
-			Preferences.setString( "lttQuestName", "Help! Desperados!" );
+			Preferences.setString( "lttQuestName", "Help!  Desperados!" );
 			Preferences.setInteger( "lttQuestDifficulty", 1 );
 			return "step4";
 		}

@@ -1649,7 +1649,7 @@ public class AreaCombatData
 			if ( monster.equals( "drunk cowpoke" ) )
 			{
 				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step1" ) ) ||
-					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step1" ) ) ? 1 : 0;
@@ -1662,7 +1662,7 @@ public class AreaCombatData
 			}
 			else if ( monster.equals( "wannabe gunslinger" ) )
 			{
-				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+				return ( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step3" ) ) ? 1 : 0;
@@ -1677,7 +1677,7 @@ public class AreaCombatData
 			else if ( monster.equals( "hired gun" ) )
 			{
 				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step1" ) ) ||
-					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step1" ) ) ||
+					( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Missing: Pioneer Daughter" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step3" ) ) ||
 					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step3" ) ) ||
@@ -1693,7 +1693,7 @@ public class AreaCombatData
 			}
 			else if ( monster.equals( "skeletal gunslinger" ) )
 			{
-				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step3" ) ) ||
+				return ( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step3" ) ) ||
 					( quest.equals( "Haunted Boneyard" ) && questStep.equals( "step1" ) ) ||
 					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step3" ) ) ||
 					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step2" ) ) ? 1 : 0;
@@ -1717,20 +1717,20 @@ public class AreaCombatData
 			else if ( monster.equals( "mountain lion" ) )
 			{
 				return ( quest.equals( "Missing: Fancy Man" ) && questStep.equals( "step2" ) ) ||
-					( quest.equals( "Help! Desperados|" ) && questStep.equals( "step2" ) ) ||
+					( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Sheriff Wanted" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
 			}
 			else if ( monster.equals( "grizzled bear" ) )
 			{
-				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step3" ) ) ||
+				return ( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step3" ) ) ||
 					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step3" ) ) ||
 					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
 			}
 			else if ( monster.equals( "diamondback rattler" ) )
 			{
-				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step2" ) ) ||
+				return ( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Big Gambling Tournament Announced" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Madness at the Mine" ) && questStep.equals( "step2" ) ) ||
 					( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step1" ) ) ? 1 : 0;
@@ -1779,7 +1779,7 @@ public class AreaCombatData
 			}
 			else if ( monster.equals( "Pecos Dave" ) )
 			{
-				return ( quest.equals( "Help! Desperados|" ) && questStep.equals( "step4" ) ) ? 1 : 0;
+				return ( quest.equals( "Help!  Desperados|" ) && questStep.equals( "step4" ) ) ? 1 : 0;
 			}
 			else if ( monster.equals( "Pharaoh Amoon-Ra Cowtep" ) )
 			{
