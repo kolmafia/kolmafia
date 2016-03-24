@@ -80,6 +80,11 @@ public class StationaryButtonDecorator
 			return true;
 		}
 
+		if ( skillId.equals( String.valueOf( SkillPool.CANHANDLE ) ) )
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -542,6 +547,7 @@ public class StationaryButtonDecorator
 			{
 				remove = true;
 			}
+			// We tie this skill to the "shake" button
 
 			if ( remove )
 			{
