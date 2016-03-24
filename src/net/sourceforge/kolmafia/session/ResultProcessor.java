@@ -515,6 +515,12 @@ public class ResultProcessor
 			return;
 		}
 
+		if ( item.equals( "Tales of the West:  Cow Punching" ) )
+		{
+			// Accommodate KoL bug: extra space in name
+			item = "Tales of the West: Cow Punching";
+		}
+
 		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = items.size() == 0 ? null : items.getFirst();
