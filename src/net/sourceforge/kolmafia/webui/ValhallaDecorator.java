@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -118,10 +119,15 @@ public class ValhallaDecorator
 		ValhallaDecorator.listPermableSkills( reminders, unpermedSkills );
 		reminders.append( "</font></td></tr></table></td>" );
 
-		reminders.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
-
-		ValhallaDecorator.listPermanentSkills( reminders, skillList, SkillDatabase.classSkillsBase() );
-		reminders.append( "</font></td></tr></table></td>" );
+		StringBuffer buySkills = new StringBuffer();
+		buySkills.append( "<td bgcolor=\"#eeffee\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Skills You Didn't Buy</th></tr><tr><td align=center><font size=\"-1\">" );
+		int count = ValhallaDecorator.listPermanentSkills( buySkills, skillList, SkillDatabase.classSkillsBase() );
+		buySkills.append( "</font></td></tr></table></td>" );
+		// Don't show not purchasable skill list if nothing to show
+		if ( count != 0 )
+		{
+			reminders.append( buySkills );
+		}
 
 		reminders.append( "<td bgcolor=\"#eeeeff\" valign=top><table><tr><th style=\"text-decoration: underline\" align=center>Common Stuff You Didn't Do</th></tr><tr><td align=center><font size=\"-1\">" );
 		ValhallaDecorator.listCommonTasks( reminders );
@@ -158,8 +164,9 @@ public class ValhallaDecorator
 		}
 	}
 
-	private static final void listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )
+	private static final int listPermanentSkills( final StringBuffer buffer, final ArrayList skillList, final int startingPoint )
 	{
+		int count = 0;
 		for ( int i = 0; i < 100; ++i )
 		{
 			int skillId = startingPoint + i;
@@ -194,7 +201,9 @@ public class ValhallaDecorator
 			}
 
 			buffer.append( "</nobr><br>" );
+			count++;
 		}
+		return count;
 	}
 
 	private static final void listCommonTasks( final StringBuffer buffer )
@@ -298,6 +307,8 @@ public class ValhallaDecorator
 		ValhallaDecorator.checkIceHouse( buffer );
 
 		ValhallaDecorator.switchChateau( buffer );
+
+		ValhallaDecorator.switchCowboyBoots( buffer );
 	}
 
 	private static void checkForKeyLime( StringBuffer buffer, int itemId, String keyType )
@@ -722,8 +733,141 @@ public class ValhallaDecorator
 			chateauBuffer.append( monster );
 			chateauBuffer.append( " (currently)" );
 		}
-		chateauBuffer.append( "</a></nobr> " );
+		chateauBuffer.append( "</a></nobr><br>" );
 
 		buffer.append( chateauBuffer );
+	}
+
+	private static final void switchCowboyBoots( StringBuffer buffer )
+	{
+		if ( InventoryManager.getCount( ItemPool.COWBOY_BOOTS ) + InventoryManager.getEquippedCount( ItemPool.COWBOY_BOOTS ) == 0 )
+		{
+			return;
+		}
+
+		StringBuilder cowboyBootsBuffer = new StringBuilder();
+
+		AdventureResult skin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
+		AdventureResult spurs = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
+
+		cowboyBootsBuffer.append( "<nobr>Cowboy Boot skin: " );
+
+		cowboyBootsBuffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_skin\" onchange=\"if (this.value) window.location.href=this.value\">" );
+		cowboyBootsBuffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>" );
+
+		for ( int i = ItemPool.MOUNTAIN_SKIN; i <= ItemPool.ROTTING_SKIN; i++ )
+		{
+			if ( InventoryManager.hasItem( i ) && !( skin != null && skin.getItemId() == i ) )
+			{
+				cowboyBootsBuffer.append( "<option style=\"background-color: #eeeeff\" " );
+				cowboyBootsBuffer.append( "title=\"" );
+				cowboyBootsBuffer.append( ValhallaDecorator.tooltip( i ) );
+				cowboyBootsBuffer.append( "\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
+				String name = ItemDatabase.getItemName( i );
+				cowboyBootsBuffer.append( name.replaceAll( " ", "+" ) );
+				cowboyBootsBuffer.append( ";+use+" );
+				cowboyBootsBuffer.append( name.replaceAll( " ", "+" ) );
+				cowboyBootsBuffer.append( "&pwd=" );
+				cowboyBootsBuffer.append( GenericRequest.passwordHash );
+				cowboyBootsBuffer.append( "\">" );
+				cowboyBootsBuffer.append( name );
+				cowboyBootsBuffer.append( "</option>" );
+			}
+		}
+		cowboyBootsBuffer.append( "</select></form>" );
+		
+		if ( skin != null && skin != EquipmentRequest.UNEQUIP )
+		{
+			cowboyBootsBuffer.append( "</nobr><br><nobr>" );
+			cowboyBootsBuffer.append( "(currently <span title=\"" );
+			cowboyBootsBuffer.append( ValhallaDecorator.tooltip( skin.getItemId() ) );
+			cowboyBootsBuffer.append( "\">" );
+			cowboyBootsBuffer.append( skin.getName() );
+			cowboyBootsBuffer.append( "</span>)" );
+		}
+		else
+		{
+			cowboyBootsBuffer.append( "(none currently)" );
+		}
+
+		cowboyBootsBuffer.append( "</a></nobr><br>" );
+
+		cowboyBootsBuffer.append( "<nobr>Cowboy Boot spurs: " );
+
+		cowboyBootsBuffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select id=\"cowboy_boots_spurs\" onchange=\"if (this.value) window.location.href=this.value\">" );
+		cowboyBootsBuffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Apply one</option>" );
+
+		for ( int i = ItemPool.QUICKSILVER_SPURS; i <= ItemPool.TICKSILVER_SPURS; i++ )
+		{
+			if ( InventoryManager.hasItem( i ) && !( spurs != null && spurs.getItemId() == i ) )
+			{
+				cowboyBootsBuffer.append( "<option style=\"background-color: #eeeeff\" " );
+				cowboyBootsBuffer.append( "title=\"" );
+				cowboyBootsBuffer.append( ValhallaDecorator.tooltip( i ) );
+				cowboyBootsBuffer.append( "\" value=\"/KoLmafia/redirectedCommand?cmd=acquire+" );
+				String name = ItemDatabase.getItemName( i );
+				cowboyBootsBuffer.append( name.replaceAll( " ", "+" ) );
+				cowboyBootsBuffer.append( ";+use+" );
+				cowboyBootsBuffer.append( name.replaceAll( " ", "+" ) );
+				cowboyBootsBuffer.append( "&pwd=" );
+				cowboyBootsBuffer.append( GenericRequest.passwordHash );
+				cowboyBootsBuffer.append( "\">" );
+				cowboyBootsBuffer.append( name );
+				cowboyBootsBuffer.append( "</option>" );
+			}
+		}
+		cowboyBootsBuffer.append( "</select></form>" );
+		
+		if ( spurs != null && spurs != EquipmentRequest.UNEQUIP )
+		{
+			cowboyBootsBuffer.append( "</nobr><br><nobr>" );
+			cowboyBootsBuffer.append( "(currently <span title=\"" );
+			cowboyBootsBuffer.append( ValhallaDecorator.tooltip( spurs.getItemId() ) );
+			cowboyBootsBuffer.append( "\">" );
+			cowboyBootsBuffer.append( spurs.getName() );
+			cowboyBootsBuffer.append( "</span>)" );
+		}
+		else
+		{
+			cowboyBootsBuffer.append( "(none currently)" );
+		}
+
+		cowboyBootsBuffer.append( "</a></nobr><br>" );
+		
+		buffer.append( cowboyBootsBuffer );
+	}
+
+	private static final String tooltip( int itemId )
+	{
+		switch( itemId )
+		{
+		case ItemPool.MOUNTAIN_SKIN:
+			return "+50% Moxie";
+		case ItemPool.GRIZZLED_SKIN:
+			return "+50% Muscle";
+		case ItemPool.DIAMONDBACK_SKIN:
+			return "+20 Monster Level";
+		case ItemPool.COAL_SKIN:
+			return "Cowboy Kick does Spooky Damage";
+		case ItemPool.FRONTWINDER_SKIN:
+			return "+50% Mysticality";
+		case ItemPool.ROTTING_SKIN:
+			return "Cowboy Kick does 15% delevel, plus damage from Cowrruption";
+		case ItemPool.QUICKSILVER_SPURS:
+			return "+30% Initiative";
+		case ItemPool.THICKSILVER_SPURS:
+			return "+2 All Elemental Resistance";
+		case ItemPool.WICKSILVER_SPURS:
+			return "Cowboy Kick does Hot Damage";
+		case ItemPool.SLICKSILVER_SPURS:
+			return "Cowboy Kick does Sleaze Damage";
+		case ItemPool.SICKSILVER_SPURS:
+			return "Cowboy Kick does Stench Damage";
+		case ItemPool.NICKSILVER_SPURS:
+			return "+20% Item Drop";
+		case ItemPool.TICKSILVER_SPURS:
+			return "+5 Adventures";
+		}
+		return "";
 	}
 }
