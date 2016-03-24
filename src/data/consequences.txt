@@ -52,11 +52,11 @@ DESC_ITEM	Staff of the Staff of Life	(\d+) charge	_jiggleLife=[5-$1]
 DESC_ITEM	Staff of the Staff of Life	No charges	_jiggleLife=5
 DESC_ITEM	Staff of the Standalone Cheese	(\d+) charge	_jiggleCheese=[5-$1]
 DESC_ITEM	Staff of the Standalone Cheese	No charges	_jiggleCheese=5
-DESC_ITEM	Staff of the Standalone Cheese	curently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
+DESC_ITEM	Staff of the Standalone Cheese	currently banished:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;(?:([^<]+)<br>&nbsp;&nbsp;(?:<br>&nbsp;&nbsp;([^<]+)<br>&nbsp;&nbsp;))))	_jiggleCheesedMonsters=$1|$2|$3|$4|$5
 DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
 DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookCameraTarget=$1
 
-DESC_SKILL	Banishing Shout	curently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
+DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
@@ -243,6 +243,9 @@ MONSTER	Shadow Avatar of Boris	.	"Your Shadow"
 MONSTER	Shadow Zombie Master	.	"Your Shadow"
 MONSTER	Shadow Avatar of Jarlsberg	.	"Your Shadow"
 MONSTER	Shadow Avatar of Sneaky Pete	.	"Your Shadow"
+MONSTER	Shadow Cow Puncher	.	"Your Shadow"
+MONSTER	Shadow Beanslinger	.	"Your Shadow"
+MONSTER	Shadow Snake Oiler	.	"Your Shadow"
 
 # Monsters from Investigating a Plaintive Telegram
 MONSTER	smelly buzzard	.	"buzzard"

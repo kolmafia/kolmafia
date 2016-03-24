@@ -355,8 +355,10 @@ public class FileUtilities
 				String signature = new String( bytes, 0, 3 );
 				// Certain firewalls return garbage if they
 				// prevent you from getting to the image
-				// server. Don't cache that.
-				if ( signature.equals( "GIF" ) )
+				// server. Don't cache that. Additionally,
+				// don't cache KoL's blank image that seems
+				// to be a standin for a 404 these days..
+				if ( signature.equals( "GIF" ) && bytes.length != 61 )
 				{
 					ostream.write( bytes, 0, bytes.length );
 				}
