@@ -6665,6 +6665,13 @@ public abstract class ChoiceManager
 				}
 				Preferences.setString( "lttQuestName", matcher.group(1) );
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				QuestDatabase.setQuestProgress( Quest.TELEGRAM, QuestDatabase.UNSTARTED );
+				Preferences.setInteger( "lttQuestDifficulty", 0 );
+				Preferences.setInteger( "lttQuestStageCount", 0 );
+				Preferences.setString( "lttQuestName", "" );
+			}
 			break;
 		}
 	}
