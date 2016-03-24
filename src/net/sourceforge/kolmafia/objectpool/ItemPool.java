@@ -2550,6 +2550,15 @@ public class ItemPool
 	public static final int BLACKEST_EYED_PEAS = 8871;
 	public static final int STINKBEANS = 8872;
 	public static final int PORK_N_BEANS = 8873;
+	public static final int MUS_BEANS_PLATE = 8876;
+	public static final int MYS_BEANS_PLATE = 8877;
+	public static final int MOX_BEANS_PLATE = 8878;
+	public static final int HOT_BEANS_PLATE = 8879;
+	public static final int COLD_BEANS_PLATE = 8880;
+	public static final int SPOOKY_BEANS_PLATE = 8881;
+	public static final int STENCH_BEANS_PLATE = 8882;
+	public static final int SLEAZE_BEANS_PLATE = 8883;
+	public static final int PREMIUM_BEANS_PLATE = 8885;
 	public static final int GLENN_DICE = 8890;
 	public static final int CLARA_BELL = 8893;
 	public static final int BUFFALO_DIME = 8895;

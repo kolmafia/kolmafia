@@ -556,7 +556,7 @@ plate of Heimz Fortified Kidney Beans	1	2	good	2-4	12-25	0	0	+100 HP
 plate of Hellfire Spicy Beans	1	3	awesome	3-4	0	0	0
 plate of Mixed Garbanzos and Chickpeas	1	2	good	2-4	0	0	12-25	+50 HP, +50 MP
 plate of Pork 'n' Pork 'n' Pork 'n' Beans	1	3	awesome	3-4	0	0	0
-plate of Shrub's Premium Baked Beans	1	5	awesome	3-4	0	0	0
+plate of Shrub's Premium Baked Beans	1	5	awesome	3-5	5-10	5-10	5-10
 plate of Tesla's Electroplated Beans	1	4	good	2-4	0	12-25	0	+100 MP
 plate of Trader Olaf's Exotic Stinkbeans	1	3	awesome	3-4	0	0	0
 plate of World's Blackest-Eyed Peas	1	3	awesome	3-4	0	0	0

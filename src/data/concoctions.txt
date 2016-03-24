@@ -54,6 +54,16 @@ tropical orchid (6)	SUSE	packet of orchid seeds
 
 ancient calendar	SUSE	ancient calendar fragment (8)
 
+plate of Heimz Fortified Kidney Beans	SUSE	Heimz Fortified Kidney Beans
+plate of Tesla's Electroplated Beans	SUSE	Tesla's Electroplated Beans
+plate of Mixed Garbanzos and Chickpeas	SUSE	Mixed Garbanzos and Chickpeas
+plate of Hellfire Spicy Beans	SUSE	Hellfire Spicy Beans
+plate of Frigid Northern Beans	SUSE	Frigid Northern Beans
+plate of World's Blackest-Eyed Peas	SUSE	World's Blackest-Eyed Peas
+plate of Trader Olaf's Exotic Stinkbeans	SUSE	Trader Olaf's Exotic Stinkbeans
+plate of Pork 'n' Pork 'n' Pork 'n' Beans	SUSE	Pork 'n' Pork 'n' Pork 'n' Beans
+plate of Shrub's Premium Baked Beans	SUSE	Shrub's Premium Baked Beans
+
 # Christmas-specific items which can be created through combination or
 # smithing.
 

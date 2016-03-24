@@ -303,5 +303,6 @@ public class SkillPool
 	public static final int CURSE_OF_STENCH = 17020;
 	public static final int MILD_CURSE = 17047;
 	public static final int CANHANDLE = 19002;
+	public static final int BEANWEAVER = 19005;
 	public static final int BEANCANNON = 19007;
 }
