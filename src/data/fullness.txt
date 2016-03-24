@@ -45,7 +45,7 @@ bat wing stir-fry	3	4	awesome	8-12	0	27-31	0
 bat-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+10% mox)
 b&auml;tzle	4	4	good	10-14	0	0	20-30
 bean burrito	3	1	decent	3-8	10-14	0	0
-bear claw	2	1	good	5-8	20-30	0	0	30 Bear Clawed (+100% weapon dmg)
+bear claw	2	1	good	4-8	20-30	0	0	30 Bear Clawed (+100% weapon dmg)
 beautiful soup	2	5	good	4-8	34-49	0	0
 Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus)
 beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
@@ -724,7 +724,7 @@ t8r tots	1	1	crappy	1-2	0	0	0
 Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20
 Taco Dan's Taco Fish Fish Taco	2	3	awesome	7-9	40-60	40-60	40-60
 Taco Dan's Taco Stand Taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
-tainted milk	1	1	good	3	0	0	0	Unspaded, 30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
+tainted milk	1	1	good	3	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
 tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)
