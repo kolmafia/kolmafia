@@ -1887,8 +1887,8 @@ Item	handmade hobby horse	Experience (Muscle): +2
 # heavy duty umbrella: Reduces the level of nearby water.  Somehow.
 Item	heavy duty umbrella	Water Level: -2
 Item	heavy-duty clipboard	Mysticality: +10, Spell Critical Percent: +10, Spooky Resistance: +5, Damage Reduction: 8
-Item	Heimz Fortified Kidney Beans	Maximum HP: +15, Spell Damage: +10, HP Regen Min: 4, HP Regen Max: 5
-Item	Hellfire Spicy Beans	Hot Spell Damage: +15
+Item	Heimz Fortified Kidney Beans	Maximum HP: [15*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], HP Regen Min: [4*(1+skill(Beanweaver))], HP Regen Max: [5*(1+skill(Beanweaver))]
+Item	Hellfire Spicy Beans	Hot Spell Damage: [15*(1+skill(Beanweaver))]
 Item	hippo skin buckler	Muscle: +5, Damage Reduction: 5
 Item	HOA regulation book	Reduce Enemy Defense: 20, Monster Level: -100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 23
 Item	hobo code binder	Free Pull
@@ -1986,7 +1986,7 @@ Item	Microplushie: Sororitrate	Sleaze Damage: +2
 Item	misfit dolly	Moxie: +5, Spooky Damage: +5
 Item	misfit hobby horse	Muscle: +5, Stench Damage: +5
 Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5
-Item	Mixed Garbanzos and Chickpeas	Maximum HP: +5, Maximum MP: +5, Spell Damage: +10, HP Regen Min: 1, HP Regen Max: 3, MP Regen Min: 1, MP Regen Max: 3
+Item	Mixed Garbanzos and Chickpeas	Maximum HP: [5*(1+skill(Beanweaver))], Maximum MP: [5*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], HP Regen Min: [(1+skill(Beanweaver))], HP Regen Max: [3*(1+skill(Beanweaver))], MP Regen Min: [(1+skill(Beanweaver))], MP Regen Max: [3*(1+skill(Beanweaver))]
 Item	mole skin notebook	Moxie: +1
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
@@ -2090,7 +2090,7 @@ Item	Seven Loco	Booze Drop: +5, Candy Drop: +5
 Item	sewer turtle	Stench Damage: +1, Damage Reduction: 1
 Item	shadowy seal eye	Spooky Damage: +20, Monster Level: +15, Class: "Seal Clubber"
 Item	Shield of Icy Fate	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Weapon Damage Percent: +25, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Reduction: 7
-Item	Shrub's Premium Baked Beans	Maximum MP: +25, Spell Damage Percent: +25, Spell Critical Percent: +5
+Item	Shrub's Premium Baked Beans	Maximum MP: [25*(1+skill(Beanweaver))], Spell Damage Percent: [25*(1+skill(Beanweaver))], Spell Critical Percent: [5*(1+skill(Beanweaver))]
 Item	silver cow creamer	Adventures: +3, PvP Fights: +3, Meat Drop: +30
 # silver sausage
 # Sinful Desires: All Spells Cast Are Sleazy
@@ -2175,7 +2175,7 @@ Item	Sword of the Brouhaha Prince	Muscle Percent: +12
 Item	tailbone shield	Stench Damage: +40, Damage Reduction: 16
 Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
-Item	Tesla's Electroplated Beans	Maximum MP: +15, Spell Damage: +10, MP Regen Min: 4, MP Regen Max: 5
+Item	Tesla's Electroplated Beans	Maximum MP: [15*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], MP Regen Min: [4*(1+skill(Beanweaver))], MP Regen Max: [5*(1+skill(Beanweaver))]
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3
 # The Necbromancer's Stein: All Spells Cast Are Spooky
@@ -2191,7 +2191,7 @@ Item	tip jar	Meat Drop: +5
 Item	tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 6
 # toy Crimbot super fist: Allows use of POW in combat
 Item	toy Crimbot super fist	Damage Reduction: 10, Crimbot Outfit Power: +1
-Item	Trader Olaf's Exotic Stinkbeans	Stench Spell Damage: +15
+Item	Trader Olaf's Exotic Stinkbeans	Stench Spell Damage: [15*(1+skill(Beanweaver))]
 Item	trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Item	tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby has day-dependent effects which are hard-coded
@@ -2221,7 +2221,7 @@ Item	white satin shield	Moxie: +2, Damage Reduction: 5
 Item	wicker clicker	Experience (Moxie): +2, MP Regen Min: 2, MP Regen Max: 4
 Item	wicker shield	Moxie: +6, Damage Reduction: 11
 Item	wonderwall shield	Maximum HP: +50, Damage Reduction: 12
-Item	World's Blackest-Eyed Peas	Spooky Spell Damage: +15
+Item	World's Blackest-Eyed Peas	Spooky Spell Damage: [15*(1+skill(Beanweaver))]
 Item	yakskin buckler	Mysticality: +5, Damage Reduction: 5
 Item	yield shield	Damage Absorption: +10, Damage Reduction: 6
 Item	Yorick	Experience: +2, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Item Drop: +15
@@ -2472,7 +2472,7 @@ Item	fossilized necklace	Muscle: [2*pref(fossilB)], Mysticality: [2*pref(fossilB
 Item	frayed rope belt	Moxie Percent: +10, Single Equip
 # French slippers
 Item	freshwater pearl necklace	Spell Critical Percent: +5
-Item	Frigid Northern Beans	Cold Spell Damage: +15
+Item	Frigid Northern Beans	Cold Spell Damage: [15*(1+skill(Beanweaver))]
 Item	frosty halo	Item Drop: +25, Unarmed, Single Equip
 Item	Frosty's carrot	Stench Resistance: +3, Sleaze Resistance: +3, Class: "Seal Clubber", Single Equip
 Item	Frown Exerciser	Monster Level: [5*G], Moxie: -5, Single Equip
@@ -2748,7 +2748,7 @@ Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
 # porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
 Item	porcelain phantom mask	Accessory Drop: +20, Moxie Percent: +20, Single Equip
-Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: +15
+Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweaver))]
 Item	porquoise bracelet	Moxie: +4, Never Fumble
 Item	porquoise eyebrow ring	Moxie: +4, Never Fumble
 Item	porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip

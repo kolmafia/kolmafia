@@ -1665,6 +1665,17 @@ public class EquipmentManager
 	}
 
 	/**
+	 * Accessor method to determine if character has a sixgun holstered
+	 *
+	 * @return boolean true if off-hand is a bean can
+	 */
+
+	public static final boolean holsteredSixgun()
+	{
+		return EquipmentManager.getEquipment( EquipmentManager.HOLSTER ) != EquipmentRequest.UNEQUIP;
+	}
+
+	/**
 	 * Accessor method to determine if character's weapon's is a club
 	 *
 	 * @return boolean true if weapon is a club

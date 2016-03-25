@@ -681,6 +681,7 @@ user	libraryCardUsed	false
 user	lightsOutAutomation	1
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
+user	longConMonster	
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
@@ -1278,6 +1279,7 @@ user	_lastZomboEye	0
 user	_leafblowerML	1
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
+user	_longConUsed	0
 user	_lookingGlass	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false

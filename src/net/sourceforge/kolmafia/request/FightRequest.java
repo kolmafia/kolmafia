@@ -148,6 +148,7 @@ public class FightRequest
 	public static final AdventureResult BIRDFORM = EffectPool.get( EffectPool.FORM_OF_BIRD );
 	public static final AdventureResult MOLEFORM = EffectPool.get( EffectPool.SHAPE_OF_MOLE );
 	public static final AdventureResult INFERNO = EffectPool.get( EffectPool.TASTE_THE_INFERNO );
+	public static final AdventureResult COWRRUPTION = EffectPool.get( EffectPool.COWRRUPTION, 0 );
 
 	public static final AdventureResult DICTIONARY1 = ItemPool.get( ItemPool.DICTIONARY, 1 );
 	public static final AdventureResult DICTIONARY2 = ItemPool.get( ItemPool.FACSIMILE_DICTIONARY, 1 );
@@ -1429,6 +1430,71 @@ public class FightRequest
 			// You can only use this skill if you have ka coins
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.KA_COIN, 1 ) ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "One-Two Punch" ) )
+		{
+			// You can only use One-Two Punch unarmed
+
+			if ( !KoLCharacter.isUnarmed() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Pistolwhip" ) )
+		{
+			// You can only use Pistolwhip with a Holstered Pistol
+
+			if ( !EquipmentManager.holsteredSixgun() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Unleash Cowrruption" ) )
+		{
+			// You can only use Unleash Cowrruption with 30 or more Cowrruption
+			if ( FightRequest.COWRRUPTION.getCount( KoLConstants.activeEffects ) < 30 )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Beancannon" ) )
+		{
+			// You can only use Beancannon with an offhand Can of Beans
+
+			if ( !EquipmentManager.usingCanOfBeans() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Fan Hammer" ) )
+		{
+			// You can only use Fan Hammer with a Holstered Pistol
+
+			if ( !EquipmentManager.holsteredSixgun() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Long Con" ) )
+		{
+			// You can only use Long Con 5 times per day
+
+			if ( Preferences.getInteger( "_longConUsed" ) >= 5 )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -7214,6 +7280,14 @@ public class FightRequest
 				Preferences.setString( "olfactedMonster", monsterName );
 				Preferences.setString( "autoOlfact", "" );
 				FightRequest.canOlfact = false;
+			}
+			break;
+
+		case SkillPool.LONG_CON:
+			if ( responseText.contains( "memorize some important details" ) || skillSuccess )
+			{
+				Preferences.setString( "longConMonster", monsterName );
+				Preferences.increment( "_longConUsed" );
 			}
 			break;
 

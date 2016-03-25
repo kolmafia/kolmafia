@@ -165,6 +165,11 @@ public class AreaCombatData
 			{
 				currentWeighting += 3 * baseWeighting;
 			}
+			// If Long Con used, add three to encounter pool
+			if ( Preferences.getString( "longConMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += 3 * baseWeighting;
+			}
 
 			if ( BanishManager.isBanished( monsterName ) )
 			{
