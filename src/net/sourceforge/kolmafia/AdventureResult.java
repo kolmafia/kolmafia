@@ -97,6 +97,9 @@ public class AdventureResult
 	public static final String PVP = "PvP";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
+	public static final String PIRATE_INSULT = "pirate insult";
+	public static final String ARENA_ML = "Arena flyer ML";
+	public static final String CHASM_BRIDGE = "Chasm Bridge Progress";
 
 	// Sub/full stats have multiple values and should be delegated
 	// to AdventureMultiResult.
@@ -852,6 +855,11 @@ public class AdventureResult
 			return this.name.toLowerCase();
 		}
 
+		if ( this.priority == AdventureResult.SUBSTAT_PRIORITY || this.priority == AdventureResult.FULLSTAT_PRIORITY )
+		{
+			return "substats";
+		}
+
 		if ( this.name.equals( AdventureResult.ADV ) || this.name.equals( AdventureResult.CHOICE ) )
 		{
 			return "choiceadv";
@@ -876,9 +884,25 @@ public class AdventureResult
 		{
 			return "mana";
 		}
+
 		if ( this.name.equals( AdventureResult.FACTOID ) )
 		{
 			return "factoid";
+		}
+
+		if ( this.name.equals( AdventureResult.PIRATE_INSULT ) )
+		{
+			return "pirate insult";
+		}
+
+		if ( this.name.equals( AdventureResult.ARENA_ML ) )
+		{
+			return "Arena flyer ML";
+		}
+
+		if ( this.name.equals( AdventureResult.CHASM_BRIDGE ) )
+		{
+			return "Chasm Bridge Progress";
 		}
 
 		return "item";
