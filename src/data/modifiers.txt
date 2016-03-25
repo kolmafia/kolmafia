@@ -7489,7 +7489,7 @@ Item	carton of gaspers	Effect: "All Dolled Up", Effect Duration: 100
 # carton of rotten eggs: (can be used 8-10 times before the carton is empty)
 # cartoon heart: Restores 40-60 HP
 Item	cartoon heart	Effect: "Healthy Red Glow", Effect Duration: 10
-# cast: Restores 25-35 HP
+# cast: Restores 25-35 HP in combat, and 15-20 out of combat
 Item	catfish whiskers	Effect: "Fishy Whiskers", Effect Duration: 40
 # ceiling fan: Rest 5 times per day without using an Adventure
 Item	celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
