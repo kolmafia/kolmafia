@@ -151,7 +151,7 @@ public class RaffleRequest
 		}
 
 		int quantity = StringUtilities.parseInt( matcher.group(1) );
-		int cost = 1000 * quantity;
+		int cost = 10000 * quantity;
 
 		if ( where.equals( RaffleSource.STORAGE.toString() ) )
 		{
