@@ -229,7 +229,7 @@ The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Bubblin' Caldera	100	basaltamander	lava lamprey	lavatory	Lavalos: 0
 The Bugbear Pen	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bugbear: 3	Revolving Bugbear: 3	Annoying Spooky Gravy Fairy: 2
 The Caliginous Abyss	100	Eye in the Darkness	Peanut: 0	School of Many	Slithering Thing
-The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons	Rene C. Corman
+The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
