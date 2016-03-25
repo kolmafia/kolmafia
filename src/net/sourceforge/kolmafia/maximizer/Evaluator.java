@@ -475,6 +475,10 @@ public class Evaluator
 				{
 					keyword = keyword.substring( 0, keyword.length() - 3 ) + "damage";
 				}
+				else if ( keyword.endsWith( " dmg percent" ) )
+				{
+					keyword = keyword.substring( 0, keyword.length() - 11 ) + "damage percent";
+				}
 				else if ( keyword.endsWith( " exp" ) )
 				{
 					keyword = keyword.substring( 0, keyword.length() - 3 ) + "experience";
