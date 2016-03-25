@@ -2596,6 +2596,9 @@ public class DailyDeedsPanel
 			this.addListener( "_brickoFights" );
 			this.addListener( "_hipsterAdv" );
 			this.addListener( "_sealsSummoned" );
+			this.addListener( "_machineTunnelsAdv" );
+			this.addListener( "_snojoFreeFights" );
+			this.addListener( "_witchessFights" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
@@ -2608,6 +2611,7 @@ public class DailyDeedsPanel
 				KoLCharacter.hasSkill( "Summon BRICKOs" );
 			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
 			FamiliarData goth = KoLCharacter.findFamiliar( FamiliarPool.ARTISTIC_GOTH_KID );
+			FamiliarData machineElf = KoLCharacter.findFamiliar( FamiliarPool.MACHINE_ELF );
 			boolean hh = hipster != null && hipster.canEquip() ;
 			boolean hg = goth != null && goth.canEquip() ;
 			boolean hf = hh || hg;
@@ -2616,8 +2620,14 @@ public class DailyDeedsPanel
 			else if ( hh ) ff = "hipster";
 			else if ( hg ) ff = "goth";
 			boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
+			boolean me = machineElf != null && machineElf.canEquip();
+			boolean sj = Preferences.getBoolean( "snojoAvailable" ) && StandardRequest.isAllowed( "Items", "X-32-F snowman crate" ) &&
+				!Limitmode.limitZone( "The Snojo" ) && !KoLCharacter.inBadMoon();
+			boolean wc = KoLConstants.campground.contains( ItemPool.get( ItemPool.WITCHESS_SET, 1 ) ) &&
+				StandardRequest.isAllowed( "Items", "Witchess Set" ) && !Limitmode.limitCampground() &&
+				!KoLCharacter.inBadMoon();
 
-			this.setShown( bf || hf || sc );
+			this.setShown( bf || hf || sc || me || sj || wc );
 			int maxSummons = 5;
 			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
 			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
@@ -2626,10 +2636,16 @@ public class DailyDeedsPanel
 			}
 			String text = "Fights: ";
 			if ( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
-			if ( bf && ( hf || sc ) ) text = text + ", ";
+			if ( bf && ( hf || sc || me || sj || wc ) ) text = text + ", ";
 			if ( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
-			if ( hf && sc ) text = text + ", ";
+			if ( hf && ( sc || me || sj || wc )  ) text = text + ", ";
 			if ( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
+			if ( sc && ( me || sj || wc ) ) text = text + ", ";
+			if ( me ) text = text + Preferences.getInteger( "_machineTunnelsAdv" ) + "/5" + " machine elf";
+			if ( me && ( sj || wc ) ) text = text + ", ";
+			if ( sj ) text = text + Preferences.getInteger( "_snojoFreeFights" ) + "/10" + " snojo";
+			if ( sj && wc ) text = text + ", ";
+			if ( wc ) text = text + Preferences.getInteger( "_witchessFights" ) + "/5" + " witchess";
 			this.setText( text );
 		}
 	}

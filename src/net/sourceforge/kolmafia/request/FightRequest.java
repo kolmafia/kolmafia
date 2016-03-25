@@ -2190,6 +2190,18 @@ public class FightRequest
 				Preferences.increment( "_hipsterAdv", 1 );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
+				  ( encounter.equalsIgnoreCase( "Witchess Pawn" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Knight" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Ox" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Rook" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Queen" ) ||
+				    encounter.equalsIgnoreCase( "Witchess King" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Witch" ) ||
+				    encounter.equalsIgnoreCase( "Witchess Bishop" ) ) )
+			{
+				Preferences.increment( "_witchessFights", 1 );
+			}
+			else if ( !EncounterManager.ignoreSpecialMonsters &&
 				  KoLCharacter.inBeecore() &&
 				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
 				    encounter.equalsIgnoreCase( "moneybee" ) ||
@@ -3029,12 +3041,6 @@ public class FightRequest
 		}
 		else
 		{
-			// When/if KoL fixes its bug, this will go outside the if/else block.
-			if ( adventure == AdventurePool.DEEP_MACHINE_TUNNELS )
-			{
-				Preferences.increment( "_machineTunnelsAdv", 1, 5, false );
-			}
-
 			if ( responseText.contains( "monstermanuel.gif" ) )
 			{
 				GoalManager.updateProgress( GoalManager.GOAL_FACTOID );
@@ -3396,6 +3402,13 @@ public class FightRequest
 					|| responseText.contains( "wing is aerodynamically perfect" ) )
 				{
 					Preferences.increment( "reanimatorWings", 1 );
+				}
+				break;
+
+			case FamiliarPool.MACHINE_ELF:
+				if ( responseText.contains( "time starts passing again" ) )
+				{
+					Preferences.increment( "_machineTunnelsAdv", 1, 5, false );
 				}
 				break;
 
