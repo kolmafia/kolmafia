@@ -1744,11 +1744,11 @@ The Jokester	1898	jokester.gif	HP: 200 Init: -10000 P: dude	tube of villain whit
 # Witchess set (March 2016)
 Witchess Pawn	1935	chess_bpawn.gif	Scale: 2 Cap: 200 Floor: 10 Init: -10000 P: dude	armored prawn (n100)
 Witchess Knight	1936	chess_bknight.gif	Scale: 5 Cap: 400 Floor: 20 Init: -10000 P: dude	jumping horseradish (n100)
-Witchess Ox	1937	chess_box.gif	Atk: 1 Scale: 0 Cap: 5000 Floor: 10 Init: -10000 P: beast	ox-head shield (n100)
+Witchess Ox	1937	chess_box.gif	Atk: 1 Scale: 0 Cap: 5000 Floor: 10 HP: [max(2500,(MUS/4+ML/3)*45)] Init: -10000 P: beast	ox-head shield (n100)
 Witchess Rook	1938	chess_brook.gif	Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: construct	Greek Fire (n100)
-Witchess Queen	1939	chess_bqueen.gif	HP: 4000 Init: -10000 P: dude	very pointy crown (n100)
+Witchess Queen	1939	chess_bqueen.gif	Scale: 40 Cap: 8000 Floor: 200 HP: 4000 Init: -10000 P: dude	very pointy crown (n100)
 Witchess King	1940	chess_bking.gif	Scale: 20 Cap: 6000 Floor: 100 HP: 2000 Init: -10000 P: dude	dented scepter (n100)
-Witchess Witch	1941	chess_bwitch.gif	HP: 3000 Init: -10000 P: dude	battle broom (n100)
+Witchess Witch	1941	chess_bwitch.gif	Scale: 30 Cap: 7000 Floor: 150 HP: 3000 Init: -10000 P: dude	battle broom (n100)
 Witchess Bishop	1942	chess_bbishop.gif	Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude	Sacramento wine (n100)
 
 # KoL Con
