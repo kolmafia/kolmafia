@@ -5373,6 +5373,7 @@ public class UseItemRequest
 		case ItemPool.BLACKEST_EYED_PEAS:
 		case ItemPool.STINKBEANS:
 		case ItemPool.PORK_N_BEANS:
+		case ItemPool.PREMIUM_BEANS:
 			// Cans of Beans are off-hand items which can be
 			// "plated" Since they are equipment, they will not be
 			// removed from inventory below. Do it here.

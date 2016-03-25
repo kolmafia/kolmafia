@@ -1175,6 +1175,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.BLACKEST_EYED_PEAS:
 			case ItemPool.STINKBEANS:
 			case ItemPool.PORK_N_BEANS:
+			case ItemPool.PREMIUM_BEANS:
 			{
 				UseLink equipLink = new UseLink( itemId, itemCount,
 								 getEquipmentSpeculation( "equip", itemId, -1 ),

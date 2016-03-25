@@ -360,7 +360,7 @@ public class AdventureQueueDatabase
 		// Ignore monsters in the queue that aren't actually part of the zone's normal monster list
 		// This includes monsters that have special conditions to find and wandering monsters
 		// that are not part of the location at all
-		// Ignore olfacted monsters, as these are never rejected
+		// Ignore olfacted or long conned monsters, as these are never rejected
 		int queueWeight = 0;
 		for ( String mon : zoneSet )
 		{
@@ -368,16 +368,18 @@ public class AdventureQueueDatabase
 			int index = data.getMonsterIndex( queueMonster );
 			boolean olfacted =
 				queueMonster != null &&
-				Preferences.getString( "olfactedMonster" ).equals( queueMonster.getName() ) && 
-				KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+				( ( Preferences.getString( "olfactedMonster" ).equals( queueMonster.getName() ) && 
+				KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) ) ||
+				Preferences.getString( "longConMonster" ).equals( queueMonster.getName() ) );
 			if ( index != -1 && data.getWeighting( index ) > 0 && !olfacted )
 			{
 				queueWeight += data.getWeighting( index );
 			}
 		}
 
-		boolean olfacted = Preferences.getString( "olfactedMonster" ).equals( monster.getName() ) && 
-							KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+		boolean olfacted = ( Preferences.getString( "olfactedMonster" ).equals( monster.getName() ) && 
+							KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL ) ) || 
+							Preferences.getString( "longConMonster" ).equals( monster.getName() );
 		double newNumerator = numerator * ( zoneQueue.contains( monster.getName() ) && !olfacted ? 1 : 4 );
 		double newDenominator = ( 4 * denominator - 3 * queueWeight );
 
