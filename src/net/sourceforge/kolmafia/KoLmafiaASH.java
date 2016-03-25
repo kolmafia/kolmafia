@@ -152,6 +152,17 @@ public abstract class KoLmafiaASH
 
 		synchronized ( relayScript )
 		{
+			// We are synchronized, so no other thread is in this
+			// relay script, but this thread could be inside it: if
+			// KoL redirects to the same page (but with different
+			// arguments), the same script will want to handle the
+			// redirection.
+
+			if ( relayScript.getRelayRequest() != null )
+			{
+				return false;
+			}
+
 			KoLmafiaASH.logScriptExecution( "Starting relay script: ", toExecute.getName(), relayScript );
 
 			RelayRequest relayRequest = new RelayRequest( false );
