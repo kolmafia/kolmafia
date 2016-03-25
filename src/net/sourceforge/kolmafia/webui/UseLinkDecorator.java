@@ -269,6 +269,12 @@ public abstract class UseLinkDecorator
 				int itemCount = 1;
 				String itemName = useLinkMatcher.group( 3 );
 
+				if ( itemName.equals( "Tales of the West:  Cow Punching" ) )
+				{
+					// Accommodate KoL bug: extra space in name
+					itemName = "Tales of the West: Cow Punching";
+				}
+
 				int spaceIndex = itemName.indexOf( " " );
 				if ( spaceIndex != -1 && !type.contains( ":" ) )
 				{
