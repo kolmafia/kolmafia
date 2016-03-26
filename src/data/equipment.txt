@@ -2075,7 +2075,7 @@ Dyspepsi-Cola-issue canteen	30	none
 E.M.U. Unit	0	none
 Earring of Fire	150	Mys: 60
 eerie fetish	225	Mys: 200
-El Vibrato translator	200	Mys: 200
+El Vibrato translator	200	none
 elevennis shoes	111	Mys: 11
 Elmley shades	180	Mys: 75
 elven socks	30	none
