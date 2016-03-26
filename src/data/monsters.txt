@@ -1657,7 +1657,7 @@ cow cultist	1902	cowcultist.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] F
 hired gun	1903	outlawboss.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 75 P: dude	gun parts (0)
 camp cook	1904	campcook.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 P: dude	plate of Heimz Fortified Kidney Beans (0)	plate of Mixed Garbanzos and Chickpeas (0)	plate of Tesla's Electroplated Beans (0)
 skeletal gunslinger	1905	cowskeleton.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 75 E: spooky P: undead	triggerfingerbone (0)
-restless ghost	1906	elizabeth.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 E: spooky P: undead	ghost bit (0)
+restless ghost	1906	elizabeth.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 E: spooky P: undead Phys: 100	ghost bit (0)
 buzzard	1907	vulture.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 E: stench P: beast	buzzard feather (0)
 mountain lion	1908	mtlion.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 P: beast	lion musk (0)
 grizzled bear	1909	grizzlebear.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: -10000 P: beast	bear claw (0)
