@@ -2369,12 +2369,12 @@ public class Evaluator
 			}
 		}
 
-		if ( spec.equipment[ EquipmentManager.HAT ] != null )
+		if ( spec.equipment[ EquipmentManager.HAT ] == null )
 		{
 			spec.setEdPiece( bestEdPiece );
 		}
 
-		if ( spec.equipment[ EquipmentManager.FAMILIAR ] != null )
+		if ( spec.equipment[ EquipmentManager.FAMILIAR ] == null )
 		{
 			spec.setSnowsuit( bestSnowsuit );
 		}
