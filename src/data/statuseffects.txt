@@ -2062,7 +2062,7 @@
 2061	Milk is Blood is Milk	blooddrops.gif	00662ad268709d76800df67f0daec5be
 2062	The Moomy's Curse	scarab.gif	0e125f8b36ad36e4959ad5b5d382289a
 2063	Poker Faced	deuce.gif	cb201992ac7589203e0bc582d844f1a4	use 1 poker face paint
-2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	use 1 demonic cow's blood
+2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	use either 1 demonic cow's blood, 1 corrupted marrow
 2065	Itchy Trigger Finger	gunbone.gif	d8384b7c33340bbd87765cf79f0ed9a5	use 1 triggerfingerbone
 2066	Partially Ghosted	ghostbit.gif	487f468a1e6674254309a9ecf8bd3823	use 1 ghost bit
 2067	Buzzard Breath	skull.gif	b38a499ed169fd92bc330c1c4a8188cc	use 1 buzzard feather
