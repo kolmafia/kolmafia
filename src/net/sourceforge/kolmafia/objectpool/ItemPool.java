@@ -2582,6 +2582,9 @@ public class ItemPool
 	public static final int SICKSILVER_SPURS = 8951;
 	public static final int NICKSILVER_SPURS = 8952;
 	public static final int TICKSILVER_SPURS = 8953;
+	public static final int COW_PUNCHING_TALES = 8955;
+	public static final int BEAN_SLINGING_TALES = 8956;
+	public static final int SNAKE_OILING_TALES = 8957;
 	public static final int SNAKE_OIL = 8971;
 	public static final int WITCHESS_SET = 8989;
 
