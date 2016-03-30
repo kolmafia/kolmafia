@@ -1784,7 +1784,7 @@ Seven Loco	0	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
 Shield of Icy Fate	120	none	shield
-Shrub's Premium Baked Beans 50 none	can of beans
+Shrub's Premium Baked Beans	50	none	can of beans
 silver cow creamer	200	Mys: 85
 silver sausage	0	none
 Sinful Desires	30	none
