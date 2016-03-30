@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -188,7 +189,10 @@ public class StationaryButtonDecorator
 
 		if ( Preferences.getBoolean( "serverAddsCustomCombat" ) )
 		{
-			int imageIndex = buffer.indexOf( "<td><img src='http://images.kingdomofloathing.com/itemimages/book3.gif' id='skills'>" );
+			String bufferString = KoLmafia.useAmazonImages ?
+				  "<td><img src='https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/book3.gif' id='skills'>" :
+				  "<td><img src='http://images.kingdomofloathing.com/itemimages/book3.gif' id='skills'>";
+			int imageIndex = buffer.indexOf( bufferString );
 			if ( imageIndex != -1 )
 			{
 				boolean again = FightRequest.getCurrentRound() == 0;

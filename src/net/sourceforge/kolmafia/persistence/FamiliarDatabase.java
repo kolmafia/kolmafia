@@ -39,7 +39,6 @@ import java.io.PrintStream;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -54,6 +53,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLDatabase;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -607,7 +607,16 @@ public class FamiliarDatabase
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + location );
+		String url;
+		if ( KoLmafia.useAmazonImages )
+		{
+			url = "https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/" + location;
+		}
+		else
+		{
+			url = "http://images.kingdomofloathing.com/itemimages/" + location;
+		}
+		File file = FileUtilities.downloadImage( url );
 		if ( file == null )
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
