@@ -231,6 +231,7 @@ public class GenericRequest
 		boolean useDevProxyServer = Preferences.getBoolean( "useDevProxyServer" );
 
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ useDevProxyServer ? 0 : 1 ] );
+		KoLmafia.useAmazonImages = useDevProxyServer;
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) )
 		{
@@ -2780,7 +2781,7 @@ public class GenericRequest
 			break;
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
-			itemName = "Orcish Frathouse Blueprints";
+			itemName = "Orcish Frat House blueprints";
 			nextAdventure = "Frat House";
 			break;
 

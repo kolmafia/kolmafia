@@ -187,6 +187,10 @@ public abstract class KoLmafia
 	public static KoLAdventure currentAdventure;
 	public static String statDay = "None";
 
+	// Currently this setting is only meaningful when logging in to the
+	// dev server.  More code changes will possibly be needed later
+	public static boolean useAmazonImages = false;
+
 	private static final boolean acquireFileLock( final String suffix )
 	{
 		try
