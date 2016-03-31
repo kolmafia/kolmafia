@@ -106,7 +106,17 @@ public class Limitmode
 			return true;
 		}
 
-		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.ED )
+		if ( limitmode == Limitmode.BATMAN )
+		{
+			// Return false for Batman items, add them here
+			if ( itemId >= 8797 && itemId <= 8815 && itemId != 8800 )
+			{
+				return false;
+			}
+			return true;
+		}
+
+		if ( limitmode == Limitmode.ED )
 		{
 			return true;
 		}

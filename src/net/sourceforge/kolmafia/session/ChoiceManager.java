@@ -9143,7 +9143,7 @@ public abstract class ChoiceManager
 
 		case 1143:
 			// Searching the Sewers
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.BAT_OOMERANG );
 			}
@@ -9151,7 +9151,7 @@ public abstract class ChoiceManager
 
 		case 1144:
 			// Assessing the Asylum
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.BAT_O_MITE );
 			}
@@ -9159,7 +9159,7 @@ public abstract class ChoiceManager
 
 		case 1145:
 			// Looking over the Library
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.BAT_JUTE );
 			}
@@ -9167,7 +9167,7 @@ public abstract class ChoiceManager
 
 		case 1146:
 			// Considering the Clock Factory
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
 			}
@@ -9175,7 +9175,7 @@ public abstract class ChoiceManager
 
 		case 1147:
 			// Frisking the Foundry
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
 			}
@@ -9183,7 +9183,7 @@ public abstract class ChoiceManager
 
 		case 1148:
 			// Taking Stock of the Trivia Company
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
 			}
