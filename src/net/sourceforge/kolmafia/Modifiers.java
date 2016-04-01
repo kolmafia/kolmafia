@@ -2519,7 +2519,9 @@ public class Modifiers
 
 			// Set modifiers depending on Character class
 			String classType = KoLCharacter.getClassType();
-			if ( classType == KoLCharacter.SEAL_CLUBBER || classType == KoLCharacter.ZOMBIE_MASTER )
+			if ( classType == KoLCharacter.SEAL_CLUBBER || classType == KoLCharacter.ZOMBIE_MASTER || 
+				classType == KoLCharacter.ED || classType == KoLCharacter.COWPUNCHER ||
+				classType == KoLCharacter.BEANSLINGER || classType == KoLCharacter.SNAKE_OILER )
 			{
 				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
 				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
@@ -2532,7 +2534,7 @@ public class Modifiers
 				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
 				this.set( Modifiers.FAMILIAR_WEIGHT, 5.0 );
 			}
-			else if ( classType == KoLCharacter.DISCO_BANDIT )
+			else if ( classType == KoLCharacter.DISCO_BANDIT || classType == KoLCharacter.AVATAR_OF_SNEAKY_PETE )
 			{
 				this.set( Modifiers.RANGED_DAMAGE, 20.0 );
 			}
