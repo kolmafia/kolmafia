@@ -161,6 +161,7 @@ The General Store	generalstore	water wings	300	ROW661
 The General Store	generalstore	sweet rims	300	ROW653
 The General Store	generalstore	dingy planks	400	ROW655
 The General Store	generalstore	Familiar-Gro&trade; Terrarium	500	ROW656
+The General Store	generalstore	high-test fishing line	2500	ROW817
 The General Store	generalstore	Desert Bus pass	5000	ROW657
 
 # Only with an over-the-shoulder folder holder
@@ -276,6 +277,7 @@ Armory and Leggery	armory	union scalemail pants	375	ROW482
 Armory and Leggery	armory	paper-plate-mail pants	600	ROW483
 Armory and Leggery	armory	troutpiece	825	ROW484
 Armory and Leggery	armory	alpha-mail pants	1050	ROW485
+Armory and Leggery	armory	fishin' hat	10000	ROW818
 
 Doc Galaktik's Medicine Show	doc	anti-anti-antidote	30	ROW694
 Doc Galaktik's Medicine Show	doc	Doc Galaktik's Pungent Unguent	30	ROW695

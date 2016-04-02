@@ -791,6 +791,10 @@ public class Modifiers
 		  null,
 		  Pattern.compile( "Sixgun Damage: " + EXPR )
 		},
+		{ "Fishing Skill",
+		  Pattern.compile( "([+-]\\d+) Fishing Skill" ),
+		  Pattern.compile( "Fishing Skill: " + EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;

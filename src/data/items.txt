@@ -9023,3 +9023,15 @@
 8997	dented scepter	255792327	dentscepter.gif	weapon	q	0
 8998	very pointy crown	987470212	wqueencrown.gif	hat	q	0
 8999	battle broom	199500631	battlebroom.gif	accessory	q	0
+9000	Clan Floundry	253258490	crate.gif	usable	t	0
+9001	carpe	992687760	carpe.gif	container		0
+9002	codpiece	389692330	codcodpiece.gif	accessory		0
+9003	troutsers	844107072	troutsers.gif	pants		0
+9004	bass clarinet	942840719	bassclarinet.gif	weapon		0
+9005	fish hatchet	995098087	fishhatchet.gif	weapon		0
+9006	tunac	667722866	tunac.gif	shirt		0
+9007	fishin' pole	474556284	fishinpole.gif	none	q	0
+9008
+9009
+9010	high-test fishing line	998952743	fishingline.gif	usable	t,d	5
+9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50
