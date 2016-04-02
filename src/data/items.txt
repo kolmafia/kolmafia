@@ -8936,7 +8936,7 @@
 8910	firemilk	627877078	milkbottle.gif	drink	t,d	32
 8911	spidercow eye-cluster	763991554	spidereyes.gif	usable	t,d	38
 8912	moomy dust	544632353	disease.gif	spleen, usable	t,d	25
-8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat	d	77
+8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat reusable	d	77
 8914	reliable sixgun	630007259	sixgun4.gif	sixgun, combat reusable		0
 8915	steel knuckles	321514802	knuckles.gif	accessory	d	45
 8916	Tales of Western Braggadoccio	171555336	book3.gif	usable	t	0
