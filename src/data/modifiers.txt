@@ -187,6 +187,7 @@ Item	filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1x
 Item	fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 # fireman's helmet: +1 FDKOL Commendation per Fire
 Item	fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
+Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
@@ -710,6 +711,7 @@ Item	troll britches	Monster Level: +5, Experience: +1, Familiar Effect: "1.5xPot
 Item	Tropical Crimbo Shorts	Initiative: +30, Familiar Effect: "1xPotato, 1xGhoul"
 Item	trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15, Familiar Effect: "atk, 2.5xPotato, 2xLep, cap 15"
 Item	troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
+Item	troutsers	Moxie Percent: +50, Picpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover
 Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
@@ -857,6 +859,7 @@ Item	supportive bra	Moxie: +3
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
 Item	The Emperor's new shirt	Muscle: [L]
 # Thinknerd T-Shirt	enchantment varies per player?
+Item	tunac	Muscle Percent: +50, Monster Level: +25, Item Drop: +25, Combat Rate: +5, Lasts Until Rollover
 Item	turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 Item	tuxedo shirt	Moxie: +7
 Item	Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
@@ -925,7 +928,7 @@ Item	basic meat crossbow	Moxie: +1
 Item	basic meat spork	Muscle: +3, Weapon Damage: +3
 Item	basic meat staff	Mysticality: +1
 Item	basic meat sword	Muscle: +1
-Item	basking robin	Free Pull
+Item	bass clarinet	Moxie Percent: +100, Ranged Damage: +50, Mana Cost: -3, Combat Rate: -5, Lasts Until Rollover
 Item	bastard baster	Spell Damage Percent: +20
 Item	bat whip	Spell Damage: +10, Monster Level: +5
 Item	batblade	Weapon Damage: +15
@@ -1122,6 +1125,7 @@ Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
+Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -5, Lasts Until Rollover
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
@@ -2368,6 +2372,7 @@ Item	clown shoes	Maximum MP: +7, Clownosity: +1
 Item	clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 Item	coarse hemp socks	Adventures: [1+10*event(Crimbo2015)], Single Equip
+Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Combat Rate: -5, Lasts Until Rollover
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
@@ -3281,6 +3286,7 @@ Item	black cloak	Spell Damage: +10
 Item	Buddy Bjorn	Softcore Only
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only
+Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat: +50, Combat Rate: +5, Lasts Until Rollover
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
@@ -4976,6 +4982,7 @@ Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance
 Effect	Hiding in Plain Sight	Initiative: +100
 Effect	High Blood Chocolate Content	Candy Drop: +30
 Effect	High Colognic	Combat Rate: +5
+Effect	High-Test Fishing Line	Fishing Skill: +5
 Effect	Highland Sheen	Moxie: +10
 Effect	Hip to Be Square Dancin'	Item Drop: +10
 Effect	[1701]Hip to the Jive	Experience (familiar): +2, Familiar Weight: +10, Familiar Damage: +20
@@ -7303,6 +7310,7 @@ Item	baobab sap	Effect: "Buff as a Baobab", Effect Duration: 10
 Item	basaltamander tongue	Effect: "Burning Tongue", Effect Duration: 10
 # baseball: Deals a 6-8 Physical Damage
 Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
+Item	basking robin	Free Pull
 # Item Bat-Aid&trade; bandage: Quickly restores 20 Bat-Health
 # Item bat-bearing: Deals 15 damage and briefly stuns foes
 # Item bat-jute: Lets you tie up and interrogate a weakened foe
@@ -7526,6 +7534,7 @@ Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
 # cigarette lighter: Deals 50-60 <font color=red>Hot Damage</font>
 # cinnamon troll doll: Deals 3-5 <font color=red>Hot Damage</font>
 # cinnamon troll doll: (doesn't go away when used)
+Item	Clan Floundry	Free Pull
 Item	Clan hot dog stand	Free Pull
 Item	Clan looking glass	Free Pull
 Item	Clan pool table	Free Pull
@@ -8154,6 +8163,7 @@ Item	hibernating robot reindeer	Free Pull
 # Item high-grade metal: Can be used in the Bat-Cavern's Bat-Fab to make Bat-oomerangs
 # Item high-tensile-strength fibers: Can be used in the Bat-Cavern's Bat-Fab to make Bat-jute
 # high-pressure seltzer bottle: Restores 150-200 MP
+Item	high-test fishing line	Effect: "High-Test Fishing Line", Effect Duration: 20
 Item	History's Most Offensive Jokes, Vol. IX	Skill: "Unoffendable"
 Item	Hjodor's Guide to Arctic Dalmatians	Skill: "Frigidalmatian"
 Item	Hjodor's Guide to Arctic Dalmatians (used)	Skill: "Frigidalmatian"

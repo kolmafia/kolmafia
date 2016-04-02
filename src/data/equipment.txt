@@ -109,6 +109,7 @@ fez of etymology	120	Mox: 45
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
 fireman's helmet	150	Mus: 60
+fishin' hat	10	none
 five-gallon hat	100	none
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
@@ -577,6 +578,7 @@ troll britches	115	Mox: 42
 Tropical Crimbo Shorts	100	Mox: 35
 trousers of the white knight	60	Mox: 15
 troutpiece	110	Mox: 40
+troutsers	200	none
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
 Uncle Hobo's gift baggy pants	200	Mox: 200
@@ -711,6 +713,7 @@ supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
 The Emperor's new shirt	10	none
 Thinknerd T-Shirt	10	none
+tunac	100	none
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
 Ultracolor&trade; shirt	100	Mus: 35
@@ -777,6 +780,7 @@ basic meat crossbow	20	Mox: 5	2-handed crossbow
 basic meat spork	45	Mys: 7	1-handed utensil
 basic meat staff	20	Mus: 5	2-handed staff
 basic meat sword	20	Mus: 5	2-handed sword
+bass clarinet	200	none	1-handed horn
 bastard baster	125	Mys: 47	1-handed utensil
 bat whip	30	Mus: 0	1-handed whip
 batblade	145	Mus: 57	1-handed knife
@@ -955,6 +959,7 @@ finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
 fire poi	190	Mox: 80	2-handed flail
 fish bazooka	200	Mox: 85	2-handed bazooka
+fish hatchet	200	none	1-handed axe
 fish scimitar	200	Mus: 85	1-handed sword
 fish stick	200	Mus: 85	2-handed staff
 Flail of the Seven Aspects	200	Mus: 60	1-handed flail
@@ -2027,6 +2032,7 @@ clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
 coarse hemp socks	10	none
+codpiece	0	none
 Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 compression stocking	160	Mys: 65
@@ -2819,6 +2825,7 @@ barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
 Buddy Bjorn	100	none
 Camp Scout backpack	0	none
+carpe	0	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
 dice-shaped backpack	10	none
