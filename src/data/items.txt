@@ -9025,10 +9025,10 @@
 8999	battle broom	199500631	battlebroom.gif	accessory	q	0
 9000	Clan Floundry	253258490	crate.gif	usable	t	0
 9001	carpe	992687760	carpe.gif	container		0
-9002	codpiece	389692330	codcodpiece.gif	accessory		0
+9002	codpiece	389692330	codcodpiece.gif	accessory, reusable		0
 9003	troutsers	844107072	troutsers.gif	pants		0
-9004	bass clarinet	942840719	bassclarinet.gif	weapon		0
-9005	fish hatchet	995098087	fishhatchet.gif	weapon		0
+9004	bass clarinet	942840719	bassclarinet.gif	weapon, reusable		0
+9005	fish hatchet	995098087	fishhatchet.gif	weapon, reusable		0
 9006	tunac	667722866	tunac.gif	shirt		0
 9007	fishin' pole	474556284	fishinpole.gif	none	q	0
 9008
