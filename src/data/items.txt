@@ -9031,7 +9031,7 @@
 9005	fish hatchet	995098087	fishhatchet.gif	weapon, reusable		0
 9006	tunac	667722866	tunac.gif	shirt		0
 9007	fishin' pole	474556284	fishinpole.gif	none	q	0
-9008
+9008	wriggling worm	952633988	wiggleworm.gif	usable		0
 9009
 9010	high-test fishing line	998952743	fishingline.gif	usable	t,d	5
 9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50

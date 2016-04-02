@@ -4211,6 +4211,7 @@ Effect	Bad Haircut	Moxie Percent: -50
 Effect	Badger Underfoot	Meat Drop: +20
 Effect	Bailando, Fernando	Item Drop: +10
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
+Effect	Baited Hook	Fishing Skill: +5
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
@@ -9357,6 +9358,7 @@ Item	wizard action figure	Free Pull
 # world's most dangerous birdhouse: Instantly defeats most monsters
 Item	worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 Item	wrestling mask	Effect: "Cavemanipulated", Effect Duration: 30
+Item	wriggling worm	Effect: "Baited Hook", Effect Duration: 100
 # wumpus-hair bolo: Lets you escape from combat without spending an Adventure
 # wumpus-hair bolo: (Maybe)
 # wumpus-hair net: Weakens enemies somewhat
