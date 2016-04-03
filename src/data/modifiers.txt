@@ -6256,6 +6256,7 @@ Skill	Arm Blade	Weapon Damage: +5, Critical Hit Percent: +20
 Skill	Armor Plating	Damage Reduction: 10
 # Armorcraftiness
 Skill	Asbestos Heart	Hot Resistance: +3
+Skill	Astute Angler	Fishing Skill: +10
 # Audacity of the Otter Critical hits do 3x damage
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
@@ -9240,6 +9241,7 @@ Item	Travels with Jerry	Skill: "Mudbath"
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
 Item	triggerfingerbone	Effect: "Itchy Trigger Finger", Effect Duration: 20
 # tropical orchid: Weakens enemies a little bit
+Item	Trout Fishing in Loathing	Skill: "Astute Angler"
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP

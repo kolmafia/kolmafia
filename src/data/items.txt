@@ -9035,3 +9035,4 @@
 9009
 9010	high-test fishing line	998952743	fishingline.gif	usable	t,d	5
 9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50
+9012	Trout Fishing in Loathing	339113101	book3.gif	usable	t	0
