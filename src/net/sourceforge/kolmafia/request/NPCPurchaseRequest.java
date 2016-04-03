@@ -551,19 +551,22 @@ public class NPCPurchaseRequest
 			{
 				Preferences.setString( "mayoLevel", mayoMatcher.group( 1 ) );
 			}
-			if ( responseText.contains( "miracle whip" ) )
+			if ( !urlString.contains( "buyitem" ) )
 			{
-				Preferences.setBoolean( "_mayoDeviceRented", false );
-				Preferences.setBoolean( "mayoWhipRented", false );
-			}
-			else if ( responseText.contains( "mayo lance" ) )
-			{
-				Preferences.setBoolean( "_mayoDeviceRented", false );
-				Preferences.setBoolean( "mayoWhipRented", true );
-			}
-			else
-			{
-				Preferences.setBoolean( "_mayoDeviceRented", true );
+				if ( responseText.contains( "miracle whip" ) )
+				{
+					Preferences.setBoolean( "_mayoDeviceRented", false );
+					Preferences.setBoolean( "mayoWhipRented", false );
+				}
+				else if ( responseText.contains( "mayo lance" ) )
+				{
+					Preferences.setBoolean( "_mayoDeviceRented", false );
+					Preferences.setBoolean( "mayoWhipRented", true );
+				}
+				else
+				{
+					Preferences.setBoolean( "_mayoDeviceRented", true );
+				}
 			}
 			Preferences.setBoolean( "_mayoTankSoaked", !responseText.contains( "Soak in the Mayo Tank" ) );
 			if ( refreshConcoctions )
