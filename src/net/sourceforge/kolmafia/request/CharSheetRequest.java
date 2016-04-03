@@ -425,8 +425,8 @@ public class CharSheetRequest
 			newSkillSet.add( skill );
 		}
 
-		// If you have the Cowrruption effect, you can Absorb Cowrruption
-		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.COWRRUPTION ) ) )
+		// If you have the Cowrruption effect, you can Absorb Cowrruption if a Cow Puncher
+		if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.COWRRUPTION ) ) && KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER )
 		{
 			UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( "Absorb Cowrruption" );
 			newSkillSet.add( skill );

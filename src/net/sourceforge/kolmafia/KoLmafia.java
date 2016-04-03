@@ -1129,7 +1129,7 @@ public abstract class KoLmafia
 			}
 			else if ( effectId == EffectPool.COWRRUPTION )
 			{
-				if ( KoLConstants.activeEffects.contains( effect ) )
+				if ( KoLConstants.activeEffects.contains( effect ) && KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER )
 				{
 					KoLCharacter.addAvailableSkill( "Absorb Cowrruption" );
 				}
