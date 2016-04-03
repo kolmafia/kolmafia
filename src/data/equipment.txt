@@ -1707,7 +1707,7 @@ miniature stuffed Goth Giant	10	none
 misfit dolly	0	none
 misfit hobby horse	0	none
 misfit teddy bear	0	none
-Mixed Garbanzos and Chickpeas	0	Mys: 5	can of beans
+Mixed Garbanzos and Chickpeas	40	Mys: 5	can of beans
 mole skin notebook	40	none
 moxie magnet	30	none
 Mr. Balloon	20	none
