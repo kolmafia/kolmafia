@@ -673,7 +673,7 @@ public class CampgroundRequest
 
 	private static final void parseCampground( final String responseText )
 	{
-		KoLCharacter.setTelescope( responseText.contains( "action=telescope" ) );
+		KoLCharacter.setTelescope( findImage( responseText, "telescope.gif", ItemPool.TELESCOPE ) );
 		KoLCharacter.setBookshelf( responseText.contains( "action=bookshelf" ) );
 		KoLCharacter.setHippyStoneBroken( responseText.contains( "smashstone.gif" ) );
 
