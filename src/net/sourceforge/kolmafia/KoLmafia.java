@@ -191,6 +191,16 @@ public abstract class KoLmafia
 	// dev server.  More code changes will possibly be needed later
 	public static boolean useAmazonImages = false;
 
+	public static final String AMAZON_IMAGE_SERVER = "https://s3.amazonaws.com/images.kingdomofloathing.com/";
+	public static final String KOL_IMAGE_SERVER = "http://images.kingdomofloathing.com/";
+
+	public static String imageServerPath()
+	{
+		return  KoLmafia.useAmazonImages ?
+			AMAZON_IMAGE_SERVER :
+			KOL_IMAGE_SERVER;
+	}
+
 	private static final boolean acquireFileLock( final String suffix )
 	{
 		try

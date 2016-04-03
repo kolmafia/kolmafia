@@ -49,6 +49,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -123,9 +124,9 @@ public class AscensionHistoryRequest
 	public void processResults()
 	{
 		this.responseText =
-			this.responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll(
-				"<td></td>",
-				"<td><img src=\"http://images.kingdomofloathing.com/itemimages/confused.gif\" height=30 width=30></td>" );
+			this.responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" )
+			.replaceAll( "<td></td>",
+				     "<td><img src=\"" + KoLmafia.imageServerPath() + "itemimages/confused.gif\" height=30 width=30></td>" );
 
 		this.refreshFields();
 	}

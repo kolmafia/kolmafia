@@ -64,6 +64,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.chat.ChatPoller;
@@ -1565,55 +1566,6 @@ public class RequestEditorKit
 		RequestEditorKit.changePotionNames( buffer );
 	}
 
-	public static final void add2ndFloorSpoilers( final StringBuffer buffer )
-	{
-		if ( !Preferences.getBoolean( "relayShowSpoilers" ) )
-		{
-			return;
-		}
-		// Insert GMoB/Ballroom song spoilers
-		StringBuilder spoiler = new StringBuilder();
-		if ( Preferences.getBoolean( "guyMadeOfBeesDefeated" ) )
-		{
-			spoiler.append( "GMoB: dead<br>" );
-		}
-		else
-		{
-			int count = Preferences.getInteger( "guyMadeOfBeesCount" );
-			if ( count > 0 )
-			{
-				spoiler.append( "GMoB: " );
-				spoiler.append( count );
-				spoiler.append( "<br>" );
-			}
-		}
-
-		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastQuartetAscension" ) )
-		{
-			switch ( Preferences.getInteger( "lastQuartetRequest" ) )
-			{
-			case 1:
-				spoiler.append( "Song: +ML<br>" );
-				break;
-			case 2:
-				spoiler.append( "Song: -combat<br>" );
-				break;
-			case 3:
-				spoiler.append( "Song: +items<br>" );
-				break;
-			}
-		}
-
-		if ( spoiler.length() > 0 )
-		{
-			spoiler.insert( 0, "<small><center>" );
-			spoiler.append( "</center></small>" );
-			StringUtilities.singleStringReplace( buffer,
-				"<img src=\"http://images.kingdomofloathing.com/otherimages/manor/sm2_3.gif\" width=100 height=100 border=0 alt=\"\" title=\"\">",
-				spoiler.toString() );
-		}
-	}
-
 	private static final void changePotionImages( final StringBuffer buffer )
 	{
 		if ( buffer.indexOf( "exclam.gif" ) == -1 &&
@@ -2160,8 +2112,12 @@ public class RequestEditorKit
 		StringBuilder evilometer = new StringBuilder();
 
 		evilometer.append( "<table cellpadding=0 cellspacing=0><tr><td colspan=3>" );
-		evilometer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_top.gif\">" );
-		evilometer.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_left.gif\">" );
+		evilometer.append( "<img src=\"" );
+		evilometer.append( KoLmafia.imageServerPath() );
+		evilometer.append( "otherimages/cyrpt/eo_top.gif\">" );
+		evilometer.append( "<tr><td><img src=\"" );
+		evilometer.append( KoLmafia.imageServerPath() );
+		evilometer.append( "otherimages/cyrpt/eo_left.gif\">" );
 		evilometer.append( "<td width=150><center>" );
 
 		if ( nookEvil > 0 )
@@ -2208,8 +2164,12 @@ public class RequestEditorKit
 			evilometer.append( "<br></font></font>" );
 		}
 
-		evilometer.append( "<td><img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_right.gif\"><tr><td colspan=3>" );
-		evilometer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/cyrpt/eo_bottom.gif\"></table>" );
+		evilometer.append( "<td><img src=\"" );
+		evilometer.append( KoLmafia.imageServerPath() );
+		evilometer.append( "otherimages/cyrpt/eo_right.gif\"><tr><td colspan=3>" );
+		evilometer.append( "<img src=\"" );
+		evilometer.append( KoLmafia.imageServerPath() );
+		evilometer.append( "otherimages/cyrpt/eo_bottom.gif\"></table>" );
 
 		String selector = "</map><table";
 		int index = buffer.indexOf( selector );

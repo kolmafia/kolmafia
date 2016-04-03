@@ -45,7 +45,7 @@ public class TrophyRequest
 	extends GenericRequest
 {
 	private static final Pattern TROPHY_PATTERN = Pattern.compile(
-		"<td><img[^>]*? src=\"http://images.kingdomofloathing.com/(.+?)\".*?<td[^>]*?>(.+?)<.*?name=public(\\d+)\\s*(checked)?\\s*>",
+		"<td><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/(.+?)\".*?<td[^>]*?>(.+?)<.*?name=public(\\d+)\\s*(checked)?\\s*>",
 		Pattern.DOTALL );
 	private ArrayList trophies;
 

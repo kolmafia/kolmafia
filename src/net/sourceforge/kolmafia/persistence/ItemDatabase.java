@@ -1559,7 +1559,7 @@ public class ItemDatabase
 
 	private static final void downloadItemImage( final String path )
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + path );
+		FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
 	}
 
 	public static final ImageIcon getItemImage( final int itemId )

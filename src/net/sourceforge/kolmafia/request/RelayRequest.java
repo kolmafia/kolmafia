@@ -596,7 +596,7 @@ public class RelayRequest
 
 		for ( String filename : IMAGES )
 		{
-			String find = "http://images.kingdomofloathing.com/" + filename;
+			String find = KoLmafia.imageServerPath() + filename;
 			String replace = "/images/" + filename;
 			StringUtilities.globalStringReplace( buffer, find, replace );
 		}
@@ -637,7 +637,7 @@ public class RelayRequest
 		return	filename.endsWith( "favicon.ico" ) ?
 			"http://www.kingdomofloathing.com/favicon.ico" :
 			filename.startsWith( "images" ) ?
-			"http://images.kingdomofloathing.com" + filename.substring( 6 ) :
+			KoLmafia.imageServerPath() + filename.substring( 6 ) :
 			filename;
 	}
 

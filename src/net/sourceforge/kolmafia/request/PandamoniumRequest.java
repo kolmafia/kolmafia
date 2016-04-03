@@ -454,7 +454,9 @@ public class PandamoniumRequest
 		PandamoniumRequest.addItem( form, item1 );
 		PandamoniumRequest.addItem( form, item2 );
 		form.append( "</select>" );
-		form.append( "<img src='http://images.kingdomofloathing.com/itemimages/magnify.gif' style='vertical-align: middle; cursor: pointer' onClick='describe(document.bandcamp." );
+		form.append( "<img src='" );
+		form.append( KoLmafia.imageServerPath() );
+		form.append( "itemimages/magnify.gif' style='vertical-align: middle; cursor: pointer' onClick='describe(document.bandcamp." );
 		form.append( name );
 		form.append( ");' title='View Item Description' alt='View Item Description'>" );
 		form.append( "</td></tr>" );

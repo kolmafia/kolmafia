@@ -58,6 +58,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -465,7 +466,7 @@ public class FileUtilities
 			image :
 			container + "/" + image;
 
-		File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" + path );
+		File file = FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
 		if ( file == null )
 		{
 			return JComponentUtilities.getImage( defaultImage );

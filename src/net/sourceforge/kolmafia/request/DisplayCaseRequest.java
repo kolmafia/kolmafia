@@ -254,7 +254,7 @@ public class DisplayCaseRequest
 	}
 
 	// <table><tr><td valign=center><img src="http://images.kingdomofloathing.com/otherimages/museum/displaycase.gif" width=100 height=100></td><td valign=center>...txt...</td></tr></table>
-	public static final Pattern ANNOUNCEMENT_PATTERN = Pattern.compile( "<table><tr><td valign=center><img src=\"http://images.kingdomofloathing.com/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>" );
+	public static final Pattern ANNOUNCEMENT_PATTERN = Pattern.compile( "<table><tr><td valign=center><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>" );
 
 	public static final boolean parseDisplayCase( final String urlString, String responseText )
 	{

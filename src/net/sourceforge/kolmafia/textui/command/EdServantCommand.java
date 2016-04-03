@@ -124,8 +124,8 @@ public class EdServantCommand
 		for ( Object[] data : EdServantData.SERVANTS )
 		{
 			// Download the image
-			String image = EdServantData.dataToImage( data );
-			File file = FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
+			String image = "itemimages/" + EdServantData.dataToImage( data );
+			File file = FileUtilities.downloadImage( KoLmafia.imageServerPath() + image );
 
 			String type = EdServantData.dataToType( data );
 			EdServantData servant = EdServantData.findEdServant( type );
@@ -139,7 +139,7 @@ public class EdServantCommand
 			output.append( "<td>" );
 			if ( file != null )
 			{
-				output.append( "<img src=\"/images/itemimages/" );
+				output.append( "<img src=\"/images/" );
 				output.append( image );
 				output.append( "\" alt = \"" );
 				output.append( type );

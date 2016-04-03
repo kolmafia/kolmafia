@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -58,8 +59,8 @@ public abstract class MineDecorator
 	{
 		// Replace difficult to see sparkles with more obvious images
 		StringUtilities.globalStringReplace( buffer,
-			"http://images.kingdomofloathing.com/otherimages/mine/wallsparkle",
-			"/images/otherimages/mine/wallsparkle" );
+						     KoLmafia.imageServerPath() + "otherimages/mine/wallsparkle",
+						     "/images/otherimages/mine/wallsparkle" );
 
 		if ( buffer.indexOf( "<div id='postload'" ) == -1 )
 		{

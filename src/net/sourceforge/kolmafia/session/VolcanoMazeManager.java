@@ -117,9 +117,10 @@ public abstract class VolcanoMazeManager
 
 	static
 	{
+		String base = KoLmafia.imageServerPath() + "itemimages/";
 		for ( int i = 0; i < VolcanoMazeManager.IMAGES.length; ++i )
 		{
-			FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + VolcanoMazeManager.IMAGES[i] );
+			FileUtilities.downloadImage( base + VolcanoMazeManager.IMAGES[i] );
 		}
 	}
 
@@ -1036,7 +1037,9 @@ public abstract class VolcanoMazeManager
 				for ( int col = 0; col < NCOLS; ++col )
 				{
 					buffer.append( "<td>" );
-					buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
+					buffer.append( "<img src=\"" );
+					buffer.append( KoLmafia.imageServerPath() );
+					buffer.append( "itemimages/" );
 					if ( row == prow && col == pcol )
 					{
 						buffer.append( "platformupyou" );

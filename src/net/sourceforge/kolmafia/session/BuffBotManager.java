@@ -103,7 +103,7 @@ public abstract class BuffBotManager
 	private static final SortedListModel<Offering> buffCostTable = new SortedListModel<Offering>();
 
 	public static final Pattern MEAT_PATTERN =
-		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
+		Pattern.compile( "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
 	public static final Pattern GIFT1_PATTERN =
 		Pattern.compile( "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>" );
 	public static final Pattern GIFT2_PATTERN = Pattern.compile( "&gt;&gt;([^<]+)" );

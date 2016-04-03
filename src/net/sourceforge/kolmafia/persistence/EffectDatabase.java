@@ -357,7 +357,9 @@ public class EffectDatabase
 	public static final String getImage( final int effectId )
 	{
 		String imageName = EffectDatabase.getImageName( effectId );
-		return imageName.equals( "" ) ? "/images/debug.gif" : "http://images.kingdomofloathing.com/itemimages/" + imageName;
+		return  imageName.equals( "" ) ?
+			"/images/debug.gif" :
+			KoLmafia.imageServerPath() + "itemimages/" + imageName;
 	}
 
 	/**

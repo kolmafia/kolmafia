@@ -607,15 +607,7 @@ public class FamiliarDatabase
 		{
 			return FamiliarDatabase.getNoFamiliarImage();
 		}
-		String url;
-		if ( KoLmafia.useAmazonImages )
-		{
-			url = "https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/" + location;
-		}
-		else
-		{
-			url = "http://images.kingdomofloathing.com/itemimages/" + location;
-		}
+		String url = KoLmafia.imageServerPath() + "itemimages/" + location;
 		File file = FileUtilities.downloadImage( url );
 		if ( file == null )
 		{

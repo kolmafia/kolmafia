@@ -263,9 +263,10 @@ public abstract class RabbitHoleManager
 
 	static
 	{
+		String base = KoLmafia.imageServerPath() + "otherimages/chess/";
 		for ( int i = 0; i < RabbitHoleManager.IMAGES.length; ++i )
 		{
-			FileUtilities.downloadImage( "http://images.kingdomofloathing.com/otherimages/chess/" + RabbitHoleManager.IMAGES[i] );
+			FileUtilities.downloadImage( base + RabbitHoleManager.IMAGES[i] );
 		}
 	}
 
@@ -511,7 +512,9 @@ public abstract class RabbitHoleManager
 				buffer.append( "<td " );
 				buffer.append( this.color == Square.WHITE ? whiteSquare : blackSquare );
 				buffer.append( ">" );
-				buffer.append( "<img src=\"http://images.kingdomofloathing.com/otherimages/chess/" );
+				buffer.append( "<img src=\"" );
+				buffer.append( KoLmafia.imageServerPath() );
+				buffer.append( "otherimages/chess/" );
 				buffer.append( this.getImage() );
 				buffer.append( "\" height=50 width=50/>" );
 				buffer.append( "</td>" );
