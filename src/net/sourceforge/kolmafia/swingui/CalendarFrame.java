@@ -58,6 +58,7 @@ import javax.swing.table.TableCellRenderer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -255,7 +256,11 @@ public class CalendarFrame
 		}
 
 		displayHTML.append( "<a href=\"" + artistURL + "\">" + artistName + "</a></b></td></tr>" );
-		displayHTML.append( "<tr><td><img src=\"http://images.kingdomofloathing.com/otherimages/" + artDirectory + "/" );
+		displayHTML.append( "<tr><td><img src=\"" );
+		displayHTML.append( KoLmafia.imageServerPath() );
+		displayHTML.append( "otherimages/" );
+		displayHTML.append( artDirectory );
+		displayHTML.append( "/" );
 		displayHTML.append( CalendarFrame.CALENDARS[ HolidayDatabase.getCalendarMonth( CalendarFrame.selectedDate.getTime() ) ] );
 		displayHTML.append( ".gif\"></td></tr><tr><td align=center>" );
 		displayHTML.append( CalendarFrame.LONG_FORMAT.format( CalendarFrame.selectedDate.getTime() ) );
@@ -284,7 +289,9 @@ public class CalendarFrame
 
 		if ( CalendarFrame.hamburglarPosition == 7 )
 		{
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			displayHTML.append( "<img src=\"" );
+			displayHTML.append( KoLmafia.imageServerPath() );
+			displayHTML.append( "itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
 			{
 				displayHTML.append( "2" );
@@ -292,7 +299,9 @@ public class CalendarFrame
 			displayHTML.append( ".gif\">" );
 		}
 
-		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
+		displayHTML.append( "<img src=\"" );
+		displayHTML.append( KoLmafia.imageServerPath() );
+		displayHTML.append( "itemimages/smoon" );
 		displayHTML.append( CalendarFrame.ronaldPhase + 1 );
 
 		if ( CalendarFrame.hamburglarPosition == 8 || CalendarFrame.hamburglarPosition == 9 )
@@ -304,7 +313,9 @@ public class CalendarFrame
 
 		if ( CalendarFrame.hamburglarPosition == 4 || CalendarFrame.hamburglarPosition == 5 || CalendarFrame.hamburglarPosition == 10 )
 		{
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			displayHTML.append( "<img src=\"" );
+			displayHTML.append( KoLmafia.imageServerPath() );
+			displayHTML.append( "itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
 			{
 				displayHTML.append( "2" );
@@ -312,7 +323,9 @@ public class CalendarFrame
 			displayHTML.append( ".gif\">" );
 		}
 
-		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
+		displayHTML.append( "<img src=\"" );
+		displayHTML.append( KoLmafia.imageServerPath() );
+		displayHTML.append( "itemimages/smoon" );
 		displayHTML.append( CalendarFrame.grimacePhase + 1 );
 
 		if ( CalendarFrame.hamburglarPosition == 0 || CalendarFrame.hamburglarPosition == 1 )
@@ -324,7 +337,9 @@ public class CalendarFrame
 
 		if ( CalendarFrame.hamburglarPosition == 2 )
 		{
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			displayHTML.append( "<img src=\"" );
+			displayHTML.append( KoLmafia.imageServerPath() );
+			displayHTML.append( "itemimages/minimoon" );
 			if ( hamburglarLight == 0 )
 			{
 				displayHTML.append( "2" );

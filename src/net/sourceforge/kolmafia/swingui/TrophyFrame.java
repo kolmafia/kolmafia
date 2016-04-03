@@ -75,6 +75,7 @@ import javax.swing.JSplitPane;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -140,8 +141,7 @@ public class TrophyFrame
 			while ( i.hasNext() )
 			{
 				Trophy t = (Trophy) i.next();
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/" +
-					t.filename );
+				FileUtilities.downloadImage( KoLmafia.imageServerPath() + t.filename );
 				(t.visible ? this.shownList : this.hiddenList).add(
 					new DraggableTrophy( t ) );
 			}

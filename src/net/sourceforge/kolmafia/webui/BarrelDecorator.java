@@ -134,7 +134,7 @@ public abstract class BarrelDecorator
 		return possibles;
 	}
 
-	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'><img src='http://images.kingdomofloathing.com/otherimages/mountains/smallbarrel.gif'.*?>" );
+	private static final Pattern UNSMASHED = Pattern.compile( "smash=(\\d+)&pwd=(\\w+)'><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/otherimages/mountains/smallbarrel.gif'.*?>" );
 
 	public static final void decorate( final StringBuffer buffer )
 	{

@@ -281,12 +281,12 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == CalendarFrame.class )
 		{
-			String base = "http://images.kingdomofloathing.com/otherimages/bikini/";
+			String base = KoLmafia.imageServerPath() + "otherimages/bikini/";
 			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 			{
 				FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
 			}
-			base = "http://images.kingdomofloathing.com/otherimages/beefcake/";
+			base = KoLmafia.imageServerPath() + "otherimages/beefcake/";
 			for ( int i = 1; i < CalendarFrame.CALENDARS.length; ++i )
 			{
 				FileUtilities.downloadImage( base + CalendarFrame.CALENDARS[ i ] + ".gif" );
@@ -388,9 +388,10 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == MushroomFrame.class )
 		{
+			String base = KoLmafia.imageServerPath() + "itemimages/";
 			for ( int i = 0; i < MushroomManager.MUSHROOMS.length; ++i )
 			{
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomManager.MUSHROOMS[ i ][ 1 ] );
+				FileUtilities.downloadImage( base + MushroomManager.MUSHROOMS[ i ][ 1 ] );
 			}
 		}
 		else if ( frameClass == SendMessageFrame.class )

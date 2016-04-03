@@ -74,6 +74,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -212,8 +213,9 @@ public class CustomCombatPanel
 
 	private static ImageIcon getImage( final String filename )
 	{
-		FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + filename );
-		return JComponentUtilities.getImage( "itemimages/" + filename );
+		String path = "itemimages/" + filename;
+		FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+		return JComponentUtilities.getImage( path );
 	}
 
 	private class SpecialActionsPanel

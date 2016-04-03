@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -188,7 +189,8 @@ public class StationaryButtonDecorator
 
 		if ( Preferences.getBoolean( "serverAddsCustomCombat" ) )
 		{
-			String bufferString = "<td><img src='https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/book3.gif' id='skills'>";
+			// Apparently KoL is always using the Amazon server for the CAB
+			String bufferString = "<td><img src='" + KoLmafia.AMAZON_IMAGE_SERVER + "itemimages/book3.gif' id='skills'>";
 			int imageIndex = buffer.indexOf( bufferString );
 			if ( imageIndex != -1 )
 			{
@@ -197,7 +199,8 @@ public class StationaryButtonDecorator
 
 				// Add a "script" button to the left
 
-				buffer.insert( imageIndex, "<td><a href='" + location + "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td><td class=spacer></td>" );
+				String script = "<td><a href='" + location + "'><img src='" + KoLmafia.imageServerPath() + "itemimages/plexpock.gif'></td><td class=spacer></td>";
+				buffer.insert( imageIndex, script );
 
 				// Give it either the "script" or "again" label
 				int labelIndex = buffer.indexOf( "<tr class=label>", imageIndex ) + 16;
@@ -214,14 +217,18 @@ public class StationaryButtonDecorator
 			int insertIndex = buffer.indexOf( "</head>" );
 			if ( insertIndex != -1 )
 			{
-				buffer.insert( insertIndex, "<link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='http://images.kingdomofloathing.com/actionbar.ie.4.css'><![endif]-->" );
+				String css1 = KoLmafia.imageServerPath() + "actionbar.6.css";
+				String css2 = KoLmafia.imageServerPath() + "actionbar.ie.4.css";
+				buffer.insert( insertIndex, "<link rel='stylesheet' type='text/css' href='" + css1 + "'><!--[if IE]><link rel='stylesheet' type='text/css' href='" + css2 + "'><![endif]-->" );
 
 				// Build the CAB in a new StringBuilder
 
 				StringBuilder CAB = new StringBuilder();
 				boolean choice = urlString.startsWith( "choice.php" ) && buffer.indexOf( "choice.php", buffer.indexOf( "<body>" ) + 1 ) != -1;
 
-				CAB.append( "<img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='dragged'>" );
+				CAB.append( "<img src='" );
+				CAB.append( KoLmafia.imageServerPath() );
+				CAB.append( "itemimages/blank.gif' id='dragged'>" );
 				CAB.append( "<div id='debug'></div>" );
 				CAB.append( "<div class=contextmenu id='skillmenu'></div>" );
 				CAB.append( "<div class=contextmenu id='itemsmenu'></div>" );
@@ -246,24 +253,32 @@ public class StationaryButtonDecorator
 				//     Column 1
 				CAB.append( "<td><a href='" );
 				CAB.append( choice ? "choice.php?action=auto" : getAdventureAgainLocation( buffer ) );
-				CAB.append( "'><img src='http://images.kingdomofloathing.com/itemimages/plexpock.gif'></td>" );
+				CAB.append( "'><img src='" );
+				CAB.append( KoLmafia.imageServerPath() );
+				CAB.append( "itemimages/plexpock.gif'></td>" );
 				//     Column 2
 				CAB.append( "<td class=spacer></td>" );
 				//     Column 3
-				CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif' id='skills'></td>" );
+				CAB.append( "<td><img src='" );
+				CAB.append( KoLmafia.imageServerPath() );
+				CAB.append( "itemimages/blank.gif' id='skills'></td>" );
 				//     Column 4
 				CAB.append( "<td class=spacer></td>" );
 				//     Column 5-16
 				for ( int i = 5; i <= 16; ++i )
 				{
-					CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif'></td>" );
+					CAB.append( "<td><img src='" );
+					CAB.append( KoLmafia.imageServerPath() );
+					CAB.append( "itemimages/blank.gif'></td>" );
 				}
 				//     Column 17
 				CAB.append( "<td class=spacer></td>" );
 				//     Column 18
 				CAB.append( "<td class=spacer></td>" );
 				//     Column 19
-				CAB.append( "<td><img src='http://images.kingdomofloathing.com/itemimages/blank.gif'></td>" );
+				CAB.append( "<td><img src='" );
+				CAB.append( KoLmafia.imageServerPath() );
+				CAB.append( "itemimages/blank.gif'></td>" );
 				CAB.append( "</tr>" );
 
 				// *** Row 3 of table: class=label cols=19

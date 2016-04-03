@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.webui;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -69,7 +70,7 @@ public class IslandDecorator
 	//
 	//	http://userscripts.org/scripts/show/11720
 
-	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/otherimages/bigisland/";
+	private static final String IMAGE_ROOT = KoLmafia.imageServerPath() + "otherimages/bigisland/";
 	private static final String LOCAL_ROOT = "/images/otherimages/bigisland/";
 
 	private static final Object[][] IMAGES =

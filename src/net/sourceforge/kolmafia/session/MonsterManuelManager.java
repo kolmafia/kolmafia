@@ -280,7 +280,7 @@ public class MonsterManuelManager
 	// <td rowspan=4 valign=top width=100><img src=http://images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td>
 	// <td rowspan=4 valign=top width=100><img src=/images/otherimages/barrelbeast.gif style="max-width:350;"></td>
 	// <td rowspan=4 valign=top width=100><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/adventureimages/stone_serpent.gif width=100></td>
-	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100><img src=(?:https?://(?:s3.amazonaws.com/)?images.kingdomofloathing.com|/images)/(?:(adventureimages|otherimages)/(?:\\.\\./)?)?(.*?\\.gif).*?</td>" );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<td rowspan=4 valign=top width=100><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/(?:(adventureimages|otherimages)/(?:\\.\\./)?)?(.*?\\.gif).*?</td>" );
 
 	public static String extractMonsterImage( final String text )
 	{

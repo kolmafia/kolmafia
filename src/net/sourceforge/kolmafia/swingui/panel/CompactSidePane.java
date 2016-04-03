@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -1074,8 +1075,9 @@ public class CompactSidePane
 			}
 			else
 			{
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/otherimages/" + imageName );
-				ImageIcon icon = JComponentUtilities.getImage( "otherimages/" + imageName );
+				String path = "otherimages/" + imageName;
+				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+				ImageIcon icon = JComponentUtilities.getImage( path );
 				this.familiarLabel.setIcon( icon );
 				icon.setImageObserver( this );
 				String buddy = SpelunkyRequest.getBuddyName();
@@ -1108,16 +1110,18 @@ public class CompactSidePane
 			}
 			else
 			{
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + KoLCharacter.getCompanion().imageName() );
-				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + KoLCharacter.getCompanion().imageName() );
+				String path = "itemimages/" + KoLCharacter.getCompanion().imageName();
+				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+				ImageIcon icon = JComponentUtilities.getImage( path );
 				this.familiarLabel.setIcon( icon );
 				icon.setImageObserver( this );
 			}
 		}
 		else if ( KoLCharacter.isSneakyPete() )
 		{
-			FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/motorbike.gif" );
-			ImageIcon icon = JComponentUtilities.getImage( "itemimages/motorbike.gif" );
+			String path = "itemimages/motorbike.gif";
+			FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+			ImageIcon icon = JComponentUtilities.getImage( path );
 			this.familiarLabel.setIcon( icon );
 			icon.setImageObserver( this );
 
@@ -1142,9 +1146,9 @@ public class CompactSidePane
 			}
 			else
 			{
-				String image = servant.getImage();
-				FileUtilities.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + image );
-				ImageIcon icon = JComponentUtilities.getImage( "itemimages/" + image );
+				String path = "itemimages/" + servant.getImage();
+				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+				ImageIcon icon = JComponentUtilities.getImage( path );
 				this.familiarLabel.setIcon( icon );
 				icon.setImageObserver( this );
 				int level = servant.getLevel();

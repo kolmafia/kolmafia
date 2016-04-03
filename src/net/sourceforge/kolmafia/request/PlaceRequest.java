@@ -755,10 +755,5 @@ public class PlaceRequest
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
 		}
-		else if ( place.equals( "spookyraven2" ) )
-		{
-			// This is dead now
-			RequestEditorKit.add2ndFloorSpoilers( buffer );
-		}
 	}
 }

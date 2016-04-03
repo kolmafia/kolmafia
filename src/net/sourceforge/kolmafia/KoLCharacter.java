@@ -1004,7 +1004,7 @@ public abstract class KoLCharacter
 		KoLCharacter.avatar = avatar;
 		if ( !avatar.equals( "" ) )
 		{
-			String prefix = "http://images.kingdomofloathing.com/";
+			String prefix = KoLmafia.imageServerPath();
 			FileUtilities.downloadImage( prefix + KoLCharacter.avatar );
 		}
 		if ( avatar.endsWith( "_f.gif" ) )

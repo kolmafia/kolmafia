@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -665,12 +666,6 @@ public class SpaaaceRequest
 		}
 	}
 
-	private static final String IMAGE_ROOT = "http://images.kingdomofloathing.com/itemimages/";
-	private static final String LOCAL_ROOT = "/images/itemimages/";
-
-	private static final String ARROW = IMAGE_ROOT + "porko_arrowa.gif";
-	private static final String GREEN_ARROW = LOCAL_ROOT + "porko_green_arrowa.gif";
-
 	private static final Pattern DIV_PATTERN = Pattern.compile( "<div.*?class=\"(.*?)\".*?</div>", Pattern.DOTALL );
 
 	private static final String decoratePorkoBoard( final String board )
@@ -690,6 +685,13 @@ public class SpaaaceRequest
 		Matcher matcher = DIV_PATTERN.matcher( board );
 		int col = 0;
 		int row = 0;
+
+		String IMAGE_ROOT = KoLmafia.imageServerPath() + "itemimages/";
+		String LOCAL_ROOT = "/images/itemimages/";
+
+		String ARROW = IMAGE_ROOT + "porko_arrowa.gif";
+		String GREEN_ARROW = LOCAL_ROOT + "porko_green_arrowa.gif";
+
 		while ( matcher.find() )
 		{
 			String div = matcher.group( 0 );

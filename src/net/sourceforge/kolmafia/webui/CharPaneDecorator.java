@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.maximizer.Evaluator;
 
@@ -1355,7 +1356,9 @@ public class CharPaneDecorator
 				buffer.append( url );
 				buffer.append( "\" target=\"mainpane\">" );
 			}
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( "<img src=\"" );
+			buffer.append( KoLmafia.imageServerPath() );
+			buffer.append( "itemimages/" );
 			buffer.append( current.getImage() );
 			buffer.append( "\" title=\"" );
 			buffer.append( m.group( 2 ) );
@@ -1387,7 +1390,9 @@ public class CharPaneDecorator
 				buffer.append( url );
 				buffer.append( "\" target=\"mainpane\">" );
 			}
-			buffer.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/" );
+			buffer.append( "<img src=\"" );
+			buffer.append( KoLmafia.imageServerPath() );
+			buffer.append( "itemimages/" );
 			buffer.append( current.getImage() );
 			buffer.append( "\">" );
 			if ( url != null )
