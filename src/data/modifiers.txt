@@ -711,7 +711,7 @@ Item	troll britches	Monster Level: +5, Experience: +1, Familiar Effect: "1.5xPot
 Item	Tropical Crimbo Shorts	Initiative: +30, Familiar Effect: "1xPotato, 1xGhoul"
 Item	trousers of the white knight	Muscle: +3, Mysticality: +3, Moxie: +3, Maximum HP: +15, Maximum MP: +15, Familiar Effect: "atk, 2.5xPotato, 2xLep, cap 15"
 Item	troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
-Item	troutsers	Moxie Percent: +50, Picpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover
+Item	troutsers	Moxie Percent: +50, Pickpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover
 Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
@@ -3286,7 +3286,7 @@ Item	black cloak	Spell Damage: +10
 Item	Buddy Bjorn	Softcore Only
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only
-Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat: +50, Combat Rate: +5, Lasts Until Rollover
+Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +5, Lasts Until Rollover
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
@@ -7409,6 +7409,7 @@ Item	bottle of goofballs	Effect: "Hopped Up on Goofballs", Effect Duration: 10
 Item	bottle of lighter fluid	Effect: "Lit Up", Effect Duration: 10
 Item	bottle of limeade	Effect: "Sugar Rush", Effect Duration: 20
 # bottle of lovebug pheromones: Unlocks lovebug abilities and encounters
+Item	bottle of lovebug pheromones	Free Pull
 # bottle of Monsieur Bubble: Restores 45-65 MP
 Item	bottle of Mystic Shell	Effect: "Impregnably Delicious", Effect Duration: 10
 Item	bottle of pirate juice	Effect: "Piratastic", Effect Duration: 10
@@ -8351,6 +8352,7 @@ Item	love song of sugary cuteness	Effect: "Sweet Heart", Effect Duration: 5
 # love song of vague ambiguity: Deals Physical Damage based on your Muscle
 Item	love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 # Item LT&T telegraph office deed: Opens a LT&T telegraph office in Seaside Town
+Item	LT&T telegraph office deed	Free Pull
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
@@ -8394,6 +8396,12 @@ Item	McPhee's Grimoire of Hilarious Object Summoning	Skill: "Summon Hilarious Ob
 # meat vortex: Steals Some Meat From an Enemy
 Item	Meat-inflating powder	Effect: "Big Meat Big Prizes", Effect Duration: 20
 Item	Meleegra&trade; pills	Effect: "Engorged Weapon", Effect Duration: 5
+# Memories of Beanslinging: Grants one AWOL "skill point" as a Beanslinger (In future ascensions)
+Item	Memories of Beanslinging	Free Pull
+# Memories of Cow Punching: Grants one AWOL "skill point" as a Cow Puncher (In future ascensions)
+Item	Memories of Cow Punching	Free Pull
+# Memories of Snake Oiling: Grants one AWOL "skill point" as a Snake Oiler (In future ascensions)
+Item	Memories of Snake Oiling	Free Pull
 # memory of a CA base pair: Causes a memory of evolution
 # memory of a CG base pair: Causes a memory of evolution
 # memory of a CT base pair: Causes a memory of evolution
@@ -9352,6 +9360,7 @@ Item	wine-soaked bone chips	Class: "Pastamancer"
 Item	Wint-O-Fresh mint	Effect: "Sugar Rush", Effect Duration: 3
 Item	wintergreen-flavored potato chips	Effect: "Wintergreen Warmongery", Effect Duration: 10
 Item	witch's brew	Effect: "Witch's Brood", Effect Duration: 50
+Item	Witchess Set	Free Pull
 Item	wizard action figure	Free Pull
 # Wolfman Nardz: Restores 200-300 MP
 # wood screw: Deals 20-30 Physical Damage and briefly stuns your opponent
