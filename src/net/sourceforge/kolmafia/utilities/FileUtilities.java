@@ -407,7 +407,10 @@ public class FileUtilities
 		{
 			return null;
 		}
-		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
+		String images = "images.kingdomofloathing.com";
+		int index = filename.indexOf( images );
+		int offset = index == -1 ? 0 : ( index + images.length() + 1 );
+		String localname = offset > 0 ? filename.substring( offset ) : filename;
 		if ( localname.startsWith( "albums/" ) )
 		{
 			localname = localname.substring( 7 );

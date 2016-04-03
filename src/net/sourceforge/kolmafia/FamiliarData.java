@@ -81,9 +81,7 @@ public class FamiliarData
 		Pattern.compile( "<tr class=\"frow .*?</tr>" );
 
 	private static final Pattern FAMILIAR_PATTERN =
-		Pattern.compile( ".*?<img src=\"http://images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
-
-	private static final Pattern FAMILIAR_NEW_PATTERN = Pattern.compile( ".*?<img src=\"https://s3\\.amazonaws\\.com/images\\.kingdomofloathing\\.com/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
+		Pattern.compile( ".*?<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/([^\"]*?)\" class=(?:\"hand fam\"|hand) onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, .*? kills?\\)(.*?)<(?:/tr|form)" );
 
 	private static final Pattern DESCID_PATTERN = Pattern.compile( "descitem\\((.*?)\\)" );
 	private static final Pattern SHRUB_TOPPER_PATTERN = Pattern.compile( "span title=\"(.*?)-heavy" );
@@ -384,22 +382,13 @@ public class FamiliarData
 	{
 		// Assume he has no familiar
 		FamiliarData current = FamiliarData.NO_FAMILIAR;
-		Pattern familiarPattern;
-		if ( KoLmafia.useAmazonImages )
-		{
-			familiarPattern = FamiliarData.FAMILIAR_NEW_PATTERN;
-		}
-		else
-		{
-			familiarPattern = FamiliarData.FAMILIAR_PATTERN;
-		}
 
 		if ( !responseText.contains( "You do not currently have a familiar" ) )
 		{
 			Matcher currentMatcher = FamiliarData.CURRENT_PATTERN.matcher( responseText );
 			if ( currentMatcher.find() )
 			{
-				Matcher familiarMatcher = familiarPattern.matcher( currentMatcher.group() );
+				Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( currentMatcher.group() );
 				if ( familiarMatcher.find() )
 				{
 					current = FamiliarData.registerFamiliar( familiarMatcher );
@@ -419,7 +408,7 @@ public class FamiliarData
 				continue;
 			}
 
-			Matcher familiarMatcher = familiarPattern.matcher( frow );
+			Matcher familiarMatcher = FamiliarData.FAMILIAR_PATTERN.matcher( frow );
 			if ( !familiarMatcher.find() )
 			{
 				continue;

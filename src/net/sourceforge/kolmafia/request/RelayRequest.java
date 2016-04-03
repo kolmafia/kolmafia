@@ -637,7 +637,7 @@ public class RelayRequest
 		return	filename.endsWith( "favicon.ico" ) ?
 			"http://www.kingdomofloathing.com/favicon.ico" :
 			filename.startsWith( "images" ) ?
-			KoLmafia.imageServerPath() + filename.substring( 6 ) :
+			KoLmafia.imageServerPrefix() + filename.substring( 6 ) :
 			filename;
 	}
 

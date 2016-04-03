@@ -2416,7 +2416,7 @@ public class DebugDatabase
 		FamiliarDatabase.saveDataOverride();
 	}
 
-	private static final Pattern FAMILIAR_IMAGE_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)" );
+	private static final Pattern FAMILIAR_IMAGE_PATTERN = Pattern.compile( "images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)" );
 	private static final void checkFamiliar( final int id )
 	{
 		String file = "desc_familiar.php?which=" + String.valueOf( id );
