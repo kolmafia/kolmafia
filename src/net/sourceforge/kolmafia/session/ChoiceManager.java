@@ -10329,7 +10329,10 @@ public abstract class ChoiceManager
 
 		case 1100:
 			// Pray to the Barrel God
-			Preferences.setBoolean( "_barrelPrayer", true );
+			if ( ChoiceManager.lastDecision <= 4 )
+			{
+				Preferences.setBoolean( "_barrelPrayer", true );
+			}
 			break;
 
 		case 1101:
