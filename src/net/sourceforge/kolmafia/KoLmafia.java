@@ -187,9 +187,7 @@ public abstract class KoLmafia
 	public static KoLAdventure currentAdventure;
 	public static String statDay = "None";
 
-	// Currently this setting is only meaningful when logging in to the
-	// dev server.  More code changes will possibly be needed later
-	public static boolean useAmazonImages = false;
+	public static boolean useAmazonImages = true;
 
 	public static final String AMAZON_IMAGE_SERVER = "https://s3.amazonaws.com/images.kingdomofloathing.com";
 	public static final String AMAZON_IMAGE_SERVER_PATH = AMAZON_IMAGE_SERVER + "/";
