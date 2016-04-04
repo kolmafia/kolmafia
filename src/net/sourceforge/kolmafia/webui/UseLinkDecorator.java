@@ -1076,6 +1076,7 @@ public abstract class UseLinkDecorator
 
 		case KoLConstants.EQUIP_HAT:
 		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.CONSUME_SIXGUN:
 		case KoLConstants.EQUIP_OFFHAND:
 		case KoLConstants.EQUIP_SHIRT:
 		case KoLConstants.EQUIP_PANTS:
@@ -1231,6 +1232,18 @@ public abstract class UseLinkDecorator
 				uses.add( new UseLink( itemId, itemCount,
 					getEquipmentSpeculation( "acc3", itemId,  EquipmentManager.ACCESSORY3 ),
 					 "inv_equip.php?which=2&action=equip&slot=3&whichitem=" ) );
+			}
+			else if ( consumeMethod == KoLConstants.CONSUME_SIXGUN )
+			{
+				// Only as WOL class
+				if ( KoLCharacter.getClassType() != KoLCharacter.COWPUNCHER && KoLCharacter.getClassType() != KoLCharacter.BEANSLINGER &&
+					KoLCharacter.getClassType() != KoLCharacter.SNAKE_OILER )
+				{
+					return null;
+				}
+				uses.add( new UseLink( itemId, itemCount,
+					getEquipmentSpeculation( "holster", itemId, -1 ),
+					"inv_equip.php?which=2&action=holster&whichitem=" ) );
 			}
 			else
 			{
