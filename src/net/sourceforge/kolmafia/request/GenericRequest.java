@@ -231,7 +231,6 @@ public class GenericRequest
 		boolean useDevProxyServer = Preferences.getBoolean( "useDevProxyServer" );
 
 		GenericRequest.setLoginServer( GenericRequest.SERVERS[ useDevProxyServer ? 0 : 1 ] );
-		KoLmafia.useAmazonImages = useDevProxyServer;
 
 		if ( Preferences.getBoolean( "allowSocketTimeout" ) )
 		{
