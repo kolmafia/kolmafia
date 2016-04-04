@@ -583,8 +583,8 @@ public class RelayAgent
 				StringBuffer responseBuffer = new StringBuffer( this.request.responseText );
 
 				// Load image files locally to reduce bandwidth
-				StringUtilities.globalStringReplace( responseBuffer, "https://s3.amazonaws.com/images.kingdomofloathing.com", "/images" );
-				StringUtilities.globalStringReplace( responseBuffer, "http://images.kingdomofloathing.com", "/images" );
+				StringUtilities.globalStringReplace( responseBuffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images" );
+				StringUtilities.globalStringReplace( responseBuffer, KoLmafia.KOL_IMAGE_SERVER, "/images" );
 				StringUtilities.globalStringReplace( responseBuffer, "//images.kingdomofloathing.com", "/images" );
 
 				// Download and link to any Players of Loathing picture pages locally.

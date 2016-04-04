@@ -70,44 +70,43 @@ public class IslandDecorator
 	//
 	//	http://userscripts.org/scripts/show/11720
 
-	private static final String IMAGE_ROOT = KoLmafia.imageServerPath() + "otherimages/bigisland/";
 	private static final String LOCAL_ROOT = "/images/otherimages/bigisland/";
 
 	private static final Object[][] IMAGES =
 	{
 		{
 			Quest.JUNKYARD,
-			IslandDecorator.IMAGE_ROOT + "2.gif",
+			IslandDecorator.LOCAL_ROOT + "2.gif",
 			IslandDecorator.LOCAL_ROOT + "2F.gif",
 			IslandDecorator.LOCAL_ROOT + "2H.gif",
 		},
 		{
 			Quest.ORCHARD,
-			IslandDecorator.IMAGE_ROOT + "3.gif",
+			IslandDecorator.LOCAL_ROOT + "3.gif",
 			IslandDecorator.LOCAL_ROOT + "3F.gif",
 			IslandDecorator.LOCAL_ROOT + "3H.gif",
 		},
 		{
 			Quest.ARENA,
-			IslandDecorator.IMAGE_ROOT + "6.gif",
+			IslandDecorator.LOCAL_ROOT + "6.gif",
 			IslandDecorator.LOCAL_ROOT + "6F.gif",
 			IslandDecorator.LOCAL_ROOT + "6H.gif",
 		},
 		{
 			Quest.FARM,
-			IslandDecorator.IMAGE_ROOT + "15.gif",
+			IslandDecorator.LOCAL_ROOT + "15.gif",
 			IslandDecorator.LOCAL_ROOT + "15F.gif",
 			IslandDecorator.LOCAL_ROOT + "15H.gif",
 		},
 		{
 			Quest.LIGHTHOUSE,
-			IslandDecorator.IMAGE_ROOT + "17.gif",
+			IslandDecorator.LOCAL_ROOT + "17.gif",
 			IslandDecorator.LOCAL_ROOT + "17F.gif",
 			IslandDecorator.LOCAL_ROOT + "17H.gif",
 		},
 		{
 			Quest.NUNS,
-			IslandDecorator.IMAGE_ROOT + "19.gif",
+			IslandDecorator.LOCAL_ROOT + "19.gif",
 			IslandDecorator.LOCAL_ROOT + "19F.gif",
 			IslandDecorator.LOCAL_ROOT + "19H.gif",
 		},
@@ -405,7 +404,11 @@ public class IslandDecorator
 			buffer.insert( tableIndex, row );
 		}
 
-		// Now replace sidequest location images for completed quests
+		// Replace all KoL image servers with KoLmafia image cache locations
+		StringUtilities.globalStringReplace( buffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images" );
+		StringUtilities.globalStringReplace( buffer, KoLmafia.KOL_IMAGE_SERVER, "/images" );
+
+		// Replace sidequest location images for completed quests
 		IslandDecorator.sidequestImage( buffer, "sidequestArenaCompleted", Quest.ARENA );
 		IslandDecorator.sidequestImage( buffer, "sidequestFarmCompleted", Quest.FARM );
 		IslandDecorator.sidequestImage( buffer, "sidequestJunkyardCompleted", Quest.JUNKYARD );
