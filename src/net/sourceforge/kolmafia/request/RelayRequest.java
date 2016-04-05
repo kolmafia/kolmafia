@@ -596,9 +596,11 @@ public class RelayRequest
 
 		for ( String filename : IMAGES )
 		{
-			String find = KoLmafia.imageServerPath() + filename;
+			String find1 = KoLmafia.KOL_IMAGE_SERVER_PATH + filename;
+			String find2 = KoLmafia.AMAZON_IMAGE_SERVER_PATH + filename;
 			String replace = "/images/" + filename;
-			StringUtilities.globalStringReplace( buffer, find, replace );
+			StringUtilities.globalStringReplace( buffer, find1, replace );
+			StringUtilities.globalStringReplace( buffer, find2, replace );
 		}
 	}
 
