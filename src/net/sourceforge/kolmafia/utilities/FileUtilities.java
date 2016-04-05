@@ -52,6 +52,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.zip.GZIPInputStream;
+
 import javax.swing.ImageIcon;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -303,6 +305,10 @@ public class FileUtilities
 			switch ( responseCode ) {
 			case 200:
 				istream = connection.getInputStream();
+				if ( "gzip".equals( connection.getContentEncoding() ) )
+				{
+					istream = new GZIPInputStream( istream );
+				}
 				break;
 			case 304:
 				//Requested variant not modified, fall through.
