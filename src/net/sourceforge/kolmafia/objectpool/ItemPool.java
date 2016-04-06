@@ -2517,6 +2517,9 @@ public class ItemPool
 	public static final int SCROLL_SHATTERING_PUNCH = 8702;
 	public static final int SCROLL_SNOKEBOMB = 8703;
 	public static final int SCROLL_SHIVERING_MONKEY = 8704;
+	public static final int ABSTRACTION_ACTION = 8708;
+	public static final int ABSTRACTION_THOUGHT = 8709;
+	public static final int ABSTRACTION_SENSATION = 8710;
 	public static final int WESTERN_BOOK_BRAGGADOCCIO = 8716;
 	public static final int WESTERN_BOOK_HELL = 8717;
 	public static final int WESTERN_BOOK_LOOK = 8718;

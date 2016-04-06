@@ -144,6 +144,11 @@ public class FightDecorator
 		{
 			FightDecorator.decorateUnusualConstruct( buffer );
 		}
+		if ( name.equals( "performer of actions" ) || name.equals( "thinker of thoughts" ) || name.equals( "perceiver of sensations" ) )
+		{
+			FightDecorator.decorateMachineTunnelFight( name, buffer );
+			return;
+		}
 	}
 
 	public static final void decorateLocation( final StringBuffer buffer )
@@ -190,6 +195,21 @@ public class FightDecorator
 		FightDecorator.selectSkill( buffer, spell );
 	}
 
+	public static final void decorateMachineTunnelFight( final String monster, final StringBuffer buffer )
+	{
+		if ( monster.equals( "thinker of thoughts" ) )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ABSTRACTION_ACTION ) );
+		}
+		else if ( monster.equals( "performer of actions" ) )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ABSTRACTION_SENSATION ) );
+		}
+		else if ( monster.equals( "perceiver of sensations" ) )
+		{
+			RequestEditorKit.selectOption( buffer, "whichitem", String.valueOf( ItemPool.ABSTRACTION_THOUGHT ) );
+		}
+	}
 	private static final void decorateBallDodger( final StringBuffer buffer )
 	{
 		// Looks like he's trying to gain an advantage over you...
