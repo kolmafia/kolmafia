@@ -23,6 +23,7 @@ antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 astral energy drink	8	1	awesome	29-35	0	0	0
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
+bakelite bits	3	12	awesome	0	0	0	0	Unspaded
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
@@ -148,6 +149,7 @@ Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
 vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
 voodoo snuff	3	13	good	8	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
+wickerbits	2	12	good	0	0	0	0	Unspaded
 yellow paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-headedness (+10% mys)
 yellow polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
 yellow striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stra Arm (+10% mus)

@@ -472,6 +472,14 @@ Saucepanic	handful of Smithereens
 Frankly Mr. Shank	handful of Smithereens
 Shakespeare's Sister's Accordion	handful of Smithereens
 
+# Bakelite items
+bakelite belt	bakelite bits
+bakelite badge	bakelite bits
+bakelite bowl	bakelite bits
+bakelite brooch	bakelite bits
+bakelite breeches	bakelite bits
+bakelite backpack	bakelite bits
+
 # Polyester items
 polyester parachute	polyesterene powder
 polyester pad	polyesterene powder
@@ -487,6 +495,14 @@ porcelain porkpie	porcelain powder
 porcelain pepper mill	porcelain powder
 porcelain pelerine	porcelain powder
 porcelain phantom mask	porcelain powder
+
+# Wicker items
+wicker kickers	wickerbits
+wicker slicker	wickerbits
+wicker knickers	wickerbits
+wicker ticker	wickerbits
+wicker sticker	wickerbits
+wicker clicker	wickerbits
 
 # Dice items
 dice ring	powdered dice

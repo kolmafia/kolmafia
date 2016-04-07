@@ -8120,14 +8120,14 @@
 8095	wicker ticker	842592807	wickerticker.gif	accessory		0
 8096	wicker sticker	376823657	wickersticker.gif	weapon		0
 8097	wicker clicker	695358450	wickerclicker.gif	offhand		0
-8098
+8098	wickerbits	134381888	wickerbits.gif	spleen, usable		0
 8099	bakelite belt	159908069	bakebelt.gif	accessory		0
 8100	bakelite badge	988721351	bakebadge.gif	accessory		0
 8101	bakelite bowl	751103456	bakebowl.gif	offhand		0
 8102	bakelite brooch	821327650	bakebrooch.gif	accessory		0
 8103	bakelite breeches	960476220	bakebreeches.gif	pants		0
 8104	bakelite backpack	393280436	bakepack.gif	container		0
-8105
+8105	bakelite bits	168333481	bakebits.gif	spleen, usable		0
 8106
 8107
 8108
