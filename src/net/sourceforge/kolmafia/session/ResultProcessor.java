@@ -2970,6 +2970,14 @@ public class ResultProcessor
 		case ItemPool.COWBOY_BOOTS:
 			EquipmentRequest.checkCowboyBoots();
 			break;
+
+		case ItemPool.ROBIN_EGG:
+			if ( combatResults )
+			{
+				// This will be updated to 0 in FightRequest later
+				Preferences.setInteger( "rockinRobinProgress", -1 );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
