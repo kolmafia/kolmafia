@@ -413,8 +413,8 @@ public class FileUtilities
 		{
 			return null;
 		}
-		String images = "images.kingdomofloathing.com";
-		int index = filename.indexOf( images );
+		String images = ".com";
+		int index = filename.lastIndexOf( images );
 		int offset = index == -1 ? 0 : ( index + images.length() + 1 );
 		String localname = offset > 0 ? filename.substring( offset ) : filename;
 		if ( localname.startsWith( "albums/" ) )
