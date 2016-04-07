@@ -863,6 +863,8 @@ public abstract class KoLmafia
 			}
 		}
 
+		ChateauRequest.refresh();
+
 		if ( KoLCharacter.isEd() )
 		{
 			// Inspect your servants
@@ -914,8 +916,6 @@ public abstract class KoLmafia
 
 		// Make sure that we know about the easy to see Golden Mr. A's, at least
 		InventoryManager.countGoldenMrAccesories();
-
-		ChateauRequest.refresh();
 
 		// Look up the current clan
 		ClanManager.resetClanId();
