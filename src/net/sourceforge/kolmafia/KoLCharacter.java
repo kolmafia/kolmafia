@@ -1861,7 +1861,15 @@ public abstract class KoLCharacter
 		int restsAvailable = KoLCharacter.freeRestsAvailable();
 		if ( freeRestsRemain && restsUsed >= restsAvailable )
 		{
-			Preferences.setInteger( "timesRested", restsAvailable - 1 );
+			if ( restsAvailable == 0 )
+			{
+				RequestLogger.updateSessionLog( "You have free rests available but KoLmafia thought you had none." );
+				RequestLogger.printLine( "You have free rests available but KoLmafia thought you had none." );
+			}
+			else
+			{
+				Preferences.setInteger( "timesRested", restsAvailable - 1 );
+			}
 		}
 		if ( !freeRestsRemain && restsUsed < restsAvailable )
 		{
@@ -3440,6 +3448,11 @@ public abstract class KoLCharacter
 
 	public static final void setRonin( final boolean inRonin )
 	{
+		boolean oldRonin = KoLCharacter.inRonin;
+		if ( !KoLCharacter.isHardcore() && oldRonin && !inRonin )
+		{
+			// end standard
+		}
 		KoLCharacter.inRonin = inRonin;
 	}
 
