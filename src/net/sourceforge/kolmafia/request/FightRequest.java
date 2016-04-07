@@ -3413,14 +3413,7 @@ public class FightRequest
 				break;
 
 			case FamiliarPool.ROCKIN_ROBIN:
-				if ( responseText.contains( "robin's egg" ) )
-				{
-					Preferences.setInteger( "rockinRobinProgress", 0 );
-				}
-				else
-				{
-					Preferences.increment( "rockinRobinProgress" );
-				}
+				Preferences.increment( "rockinRobinProgress" );
 				break;
 			}
 
