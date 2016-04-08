@@ -11381,7 +11381,7 @@ public abstract class ChoiceManager
 		else if ( decisionText.equals( "Hurl Some Spells of Your Own" ) || decisionText.equals( "Take Command" ) ||
 			decisionText.equals( "Lose Your Patience" ) || decisionText.equals( "Fail to Stifle a Sneeze" ) ||
 			decisionText.equals( "Ask for Help" ) ||
-			decisionText.equals( "Ask How Duskwalker Basketball Is Played, Against Your Better Judgement" ) ||
+			decisionText.equals( "Ask How Duskwalker Basketball Is Played, Against Your Better Judgment" ) ||
 			decisionText.equals( "Knights in White Armor, Never Reaching an End" ) ||
 			decisionText.equals( "Own up to It" ) || decisionText.equals( "Approach the Poor Waifs" ) ||
 			decisionText.equals( "Look Behind You" ) )
@@ -13086,7 +13086,7 @@ public abstract class ChoiceManager
 				// Can only enter office til Cake Lord is defeated
 				return "0";
 			}
-			else if ( decision.equals( "3" ) && QuestDatabase.isQuestStep( Quest.ARMORER, QuestDatabase.FINISHED ) )
+			else if ( decision.equals( "3" ) && !QuestDatabase.isQuestFinished( Quest.ARMORER ) )
 			{
 				// Can only access Popular machine after quest complete
 				return "0";
