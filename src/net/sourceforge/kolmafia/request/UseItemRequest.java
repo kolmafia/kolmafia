@@ -5274,10 +5274,6 @@ public class UseItemRequest
 			Preferences.setBoolean( "_twelveNightEnergyUsed", true );
 			break;
 
-		case ItemPool.FUDGE_SPORK:
-			Preferences.setBoolean( "_fudgeSporkUsed", true );
-			break;
-
 		case ItemPool.CSA_FIRE_STARTING_KIT:
 			// If this worked, it redirected to choice #595
 			// If it didn't redirect, it was not consumed.

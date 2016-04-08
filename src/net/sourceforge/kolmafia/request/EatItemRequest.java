@@ -746,7 +746,11 @@ public class EatItemRequest
 				// "You eat the <food> with your fudge spork,
 				// and then you eat your fudge spork. How sweet it is!"
 
-				if ( !responseText.contains( "you eat your fudge spork" ) )
+				if ( responseText.contains( "you eat your fudge spork" ) )
+				{
+					Preferences.setBoolean( "_fudgeSporkUsed", true );
+				}
+				else
 				{
 					success = false;
 				}
