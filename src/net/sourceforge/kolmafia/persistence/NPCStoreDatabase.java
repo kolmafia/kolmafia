@@ -359,6 +359,10 @@ public class NPCStoreDatabase
 			{
 				return KoLCharacter.inRaincore();
 			}
+			else if ( itemId == ItemPool.FISHING_LINE )
+			{
+				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
+			}
 			return true;
 		}
 		else if ( storeId.equals( "gnomart" ) )
@@ -441,6 +445,11 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "armory" ) )
 		{
 			// Armory and Leggery
+			if ( itemId == ItemPool.FISHING_HAT && !KoLCharacter.inZombiecore() )
+			{
+				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
+			}
+
 			return !KoLCharacter.inZombiecore();
 		}
 		else if ( storeId.equals( "fdkol" ) )
