@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
+import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
@@ -525,8 +527,17 @@ public class Parser
 				continue;
 			}
 
-			//Found a type but no function or variable to tie it to
-			throw this.parseException( "Type given but not used to declare anything" );
+			if ( (t instanceof AggregateType) && "{".equals( this.currentToken() ) )
+			{
+
+				this.readToken();
+
+				result.addCommand( this.parseAggregateLiteral( result, (AggregateType) t ), this );
+			}
+			else {
+				//Found a type but no function or variable to tie it to
+				throw this.parseException( "Type given but not used to declare anything" );
+			}
 		}
 
 		return result;
@@ -549,7 +560,7 @@ public class Parser
 		// Allow anonymous records
 		String recordName = null;
 
-		if ( !this.currentToken().equals( "{" ) )
+		if ( !"{".equals( this.currentToken() ) )
 		{
 			// Named record
 			recordName = this.currentToken();
@@ -863,6 +874,7 @@ public class Parser
 		scope.addVariable( result );
 		VariableReference lhs = new VariableReference( variableName, scope );
 		scope.addCommand( new Assignment( lhs, rhs ), this );
+
 		return result;
 	}
 
@@ -1059,6 +1071,44 @@ public class Parser
 		}
 
 		return valType;
+	}
+
+	private Value parseAggregateLiteral( final BasicScope scope, final AggregateType aggr )
+	{
+		Type index = aggr.getIndexType();
+		Type data = aggr.getDataType();
+		AggregateValue val = (AggregateValue) aggr.initialValue();
+		while ( !"}".equals( this.currentToken() ) )
+		{
+			Value lhs = this.parseValue( scope );
+			if ( lhs == null || !":".equals( this.currentToken() ) )
+			{
+				throw this.parseException( "Script parsing error" );
+			}
+			this.readToken();
+			Value rhs = this.parseValue( scope );
+			if ( rhs == null )
+			{
+				throw this.parseException( "Script parsing error" );
+			}
+			// Check that each type is valid via validCoercion
+			if ( !Parser.validCoercion( index, lhs.getType(), "assign" ) ||
+			     !Parser.validCoercion( data, rhs.getType(), "assign" ) )
+			{
+				throw this.parseException( "Invalid aggregate literal" );
+			}
+			val.aset( lhs, rhs );
+			if ( !this.currentToken().equals(",") )
+			{
+				break;
+			}
+			this.readToken();
+		}
+		if ( !this.currentToken().equals( "}" ) ) {
+			throw this.parseException( "}", this.currentToken() );
+		}
+		this.readToken(); // "}"
+		return val;
 	}
 
 	private Type parseAggregateType( final Type dataType, final BasicScope scope )
@@ -2749,9 +2799,28 @@ public class Parser
 			;
 		}
 
-		else if ( ( result = this.parseVariableReference( scope ) ) != null )
-		{
-			;
+		else {
+			Type baseType = this.parseType( scope, true, false );
+			if ( baseType instanceof AggregateType )
+			{
+				if ( !"{".equals( this.currentToken() ) )
+				{
+					throw this.parseException( "{", this.currentToken() );
+				}
+				this.readToken();
+				result = this.parseAggregateLiteral( scope, (AggregateType) baseType );
+			}
+			else
+			{
+				if ( baseType != null )
+				{
+					this.replaceToken( baseType.name );
+				}
+				if ( ( result = this.parseVariableReference( scope ) ) != null )
+				{
+					;
+				}
+			}
 		}
 
 		Variable current;
@@ -2991,7 +3060,7 @@ public class Parser
 							RequestLogger.printLine( ex.getMessage() );
 						}
 					}
-					
+
 					list.add( value );
 				}
 				if ( ch == ']' )
@@ -3398,7 +3467,7 @@ public class Parser
 			this.notifyRecipient = resultString;
 		}
 	}
-	
+
 	private void parseSince()
 	{
 		String revision = this.parseDirective( "since" );
@@ -3571,7 +3640,7 @@ public class Parser
 			this.fixLines();
 			if ( this.currentLine == null )
 			{
-				return null;
+				return ";";
 			}
 
 			// "#" starts a whole-line comment
@@ -3650,6 +3719,13 @@ public class Parser
 		}
 
 		return result.substring( 0, this.tokenLength( result ) );
+	}
+
+	// Put a token back, so it can be parsed again later.
+	private void replaceToken( String s )
+	{
+		this.currentLine = s + this.currentLine;
+		this.currentToken = null;
 	}
 
 	private void readToken()
@@ -3839,7 +3915,7 @@ public class Parser
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
 	}
-	
+
 	private void enforceSince( String revision )
 	{
 		int current = StaticEntity.getRevision();
