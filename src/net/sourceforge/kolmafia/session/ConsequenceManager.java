@@ -65,11 +65,12 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class ConsequenceManager
 {
-	private static final HashMap itemDescs = new HashMap();
-	private static final HashMap effectDescs = new HashMap();
-	private static final HashMap skillDescs = new HashMap();
+	private static final HashMap<String, Consequence> itemDescs = new HashMap<String, Consequence>();
+	private static final HashMap<String, Consequence> effectDescs = new HashMap<String, Consequence>();
+	private static final HashMap<String, Consequence> skillDescs = new HashMap<String, Consequence>();
 	private static final ArrayList<String> descriptions = new ArrayList<String>();
-	private static final HashMap monsters = new HashMap();
+	private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
+	private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
 
 	private static final Pattern GROUP_PATTERN = Pattern.compile( "\\$(\\d)" );
 	private static final Pattern EXPR_PATTERN = Pattern.compile( "\\[(.+?)\\]" );
@@ -80,14 +81,14 @@ public abstract class ConsequenceManager
 		String[] data;
 
 		// Format is: type / spec / regex / action...
-	
+
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
 			if ( data.length < 4 )
 			{
 				continue;
 			}
-			
+
 			Pattern patt;
 			try
 			{
@@ -98,7 +99,7 @@ public abstract class ConsequenceManager
 				RequestLogger.printLine( "Consequence " + data[ 0 ] + "/" + data[ 1 ] + ": " + e );
 				continue;
 			}
-			
+
 			ConsequenceManager.addConsequence( new Consequence( data, patt ) );
 		}
 
@@ -111,12 +112,12 @@ public abstract class ConsequenceManager
 			StaticEntity.printStackTrace( e );
 		}
 	}
-	
+
 	public static void addConsequence( Consequence cons )
 	{
 		String type = cons.getType();
 		String spec = cons.getSpec();
-		
+
 		if ( type.equals( "DESC_ITEM" ) )
 		{
 			String key = ItemDatabase.getDescriptionId( ItemDatabase.getItemId( spec ) );
@@ -162,15 +163,20 @@ public abstract class ConsequenceManager
 			String key = spec;
 			cons.register( ConsequenceManager.monsters, key );
 		}
+		else if ( type.equals( "QUEST_LOG" ) )
+		{
+			String key = spec;
+			cons.register( ConsequenceManager.accomplishments );
+		}
 		else
 		{
 			RequestLogger.printLine( "Unknown consequence type: " + type );
 		}
 	}
-	
+
 	public static void parseSkillDesc( int id, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.skillDescs.get( IntegerPool.get( id ) );
+		Consequence cons = ConsequenceManager.skillDescs.get( IntegerPool.get( id ) );
 		if ( cons != null )
 		{
 			cons.test( responseText );
@@ -179,7 +185,7 @@ public abstract class ConsequenceManager
 
 	public static void parseItemDesc( String id, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.itemDescs.get( id );
+		Consequence cons = ConsequenceManager.itemDescs.get( id );
 		if ( cons != null )
 		{
 			cons.test( responseText );
@@ -188,13 +194,13 @@ public abstract class ConsequenceManager
 
 	public static void parseEffectDesc( String id, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.effectDescs.get( id );
+		Consequence cons = ConsequenceManager.effectDescs.get( id );
 		if ( cons != null )
 		{
 			cons.test( responseText );
 		}
 	}
-	
+
 	public static void updateOneDesc()
 	{
 		int size = ConsequenceManager.descriptions.size();
@@ -208,9 +214,21 @@ public abstract class ConsequenceManager
 		RequestThread.postRequest( req );
 	}
 
+	public static void parseAccomplishments( String responseText )
+	{
+		for ( Consequence cons : ConsequenceManager.accomplishments )
+		{
+			if ( cons != null )
+			{
+				cons.test( responseText );
+			}
+		}
+	}
+
+
 	public static String disambiguateMonster( String monster, String responseText )
 	{
-		Consequence cons = (Consequence) ConsequenceManager.monsters.get( monster );
+		Consequence cons = ConsequenceManager.monsters.get( monster );
 		if ( cons != null )
 		{
 			String rv = cons.test( responseText, false );
@@ -221,19 +239,19 @@ public abstract class ConsequenceManager
 		}
 		return monster;
 	}
-	
+
 	private static class Consequence
 	{
 		private String[] data;
 		private Pattern patt;
 		private Consequence next;
-		
+
 		public Consequence( String[] data, Pattern patt )
 		{
 			this.data = data;
 			this.patt = patt;
 		}
-	
+
 		public String getType()
 		{
 			return this.data[ 0 ];
@@ -248,24 +266,29 @@ public abstract class ConsequenceManager
 		{
 			return this.patt.matcher( text );
 		}
-		
+
 		public void register( Map map, Object key )
 		{
 			this.next = (Consequence) map.get( key );
 			map.put( key, this );
 		}
-		
+
+		public void register( List<Consequence> list )
+		{
+			list.add( this );
+		}
+
 		@Override
 		public String toString()
 		{
 			return "consequence " + this.getType() + "/" + this.getSpec();
 		}
-		
+
 		public void test( CharSequence text )
 		{
 			this.test( text, true );
 		}
-		
+
 		public String test( CharSequence text, boolean printText )
 		{
 			String rv = null;
@@ -281,7 +304,7 @@ public abstract class ConsequenceManager
 			{
 				RequestLogger.printLine( "Testing " + this );
 			}
-		
+
 			Matcher m = this.matcher( text );
 			if ( m.find() )
 			{
@@ -298,9 +321,9 @@ public abstract class ConsequenceManager
 					}
 				}
 			}
-			return rv;		
+			return rv;
 		}
-		
+
 		private String fireAction( String action, Matcher match )
 		{
 			StringBuffer buff = new StringBuffer();
@@ -327,7 +350,7 @@ public abstract class ConsequenceManager
 				m.appendTail( buff );
 				action = buff.toString();
 			}
-			
+
 			m = ConsequenceManager.EXPR_PATTERN.matcher( action );
 			if ( m.find() )
 			{
@@ -347,19 +370,19 @@ public abstract class ConsequenceManager
 				m.appendTail( buff );
 				action = buff.toString();
 			}
-		
+
 			if ( Preferences.getBoolean( "debugConsequences" ) )
 			{
 				RequestLogger.printLine( "Firing action: " + action );
 			}
-			
+
 			int pos;
 			if ( action.startsWith( "\"" ) )
 			{
 				pos = action.length() - (action.endsWith( "\"" ) ? 1 : 0);
 				return action.substring( 1, pos );
 			}
-			
+
 			pos = action.indexOf( '=' );
 			if ( pos != -1 )
 			{
@@ -367,7 +390,7 @@ public abstract class ConsequenceManager
 					action.substring( pos + 1 ).trim() );
 				return null;
 			}
-			
+
 			// Assume anything that didn't match a specific action type is text.
 			return action;
 		}

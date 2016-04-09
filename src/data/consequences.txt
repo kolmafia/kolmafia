@@ -3,6 +3,7 @@
 #	type <tab> spec <tab> regex <tab> action [ <tab> action ]...
 #
 # type is one of:
+#	QUEST_LOG - spec is ignored, regex is applied to questlog.php?which=3.
 #	DESC_ITEM - spec is an item name, regex is applied to its description.
 #	DESC_SKILL - spec is a skill name, regex is applied to its description.
 #	DESC_EFFECT - spec is an effect name, regex is applied to its description.
@@ -23,6 +24,22 @@
 #		expression, and replaced with the resulting value.
 #		See modifiers.txt for full details, although only the basic math
 #		operators are expected to be useful here.
+
+QUEST_LOG	chatLiterate	You have proven yourself literate	chatLiterate=true
+QUEST_LOG	seahorseName	You have tamed the mighty seahorse <b>(.*?)</b>	seahorseName=$1
+QUEST_LOG	lastPlusSignUnlock	You have discovered the secret of the Dungeons of Doom.	lastPlusSignUnlock=true
+QUEST_LOG	lastTempleUnlock	You have discovered the Hidden Temple.	lastTempleUnlock=true
+
+QUEST_LOG	royalty	You have accumulated ([\d,]+) Royalty	royalty=[$1]
+QUEST_LOG	demonName1	;&middot;([^<]*?), Lord of the Pies<br	demonName1=$1
+QUEST_LOG	demonName2	;&middot;([^<]*?), the Deadest Beat<br	demonName2=$1
+QUEST_LOG	demonName3	;&middot;([^<]*?), the Ancient Fishlord<br	demonName3=$1
+QUEST_LOG	demonName4	;&middot;([^<]*?), Duke of the Underworld<br	demonName4=$1
+QUEST_LOG	demonName5	;&middot;([^<]*?), the Stankmaster<br	demonName5=$1
+QUEST_LOG	demonName8	;&middot;([^<]*?), the Demonic Lord of Revenge<br	demonName8=$1
+QUEST_LOG	demonName9	;&middot;([^<]*?), the Smith<br	demonName9=$1
+QUEST_LOG	demonName10	;&middot;([^<]*?), the Pain Enjoyer<br	demonName10=$1
+QUEST_LOG	demonName11	;&middot;([^<]*?), Friend of Gary<br	demonName11=$1
 
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
