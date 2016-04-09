@@ -296,6 +296,7 @@ public class FightRequest
 	private static boolean usedFlyer = false;
 	private static boolean jiggledChefstaff = false;
 	private static boolean handledCan = false;
+	private static boolean shotSixgun = false;
 	private static boolean squeezedStressBall = false;
 	private static boolean canOlfact = true;
 	private static boolean canStomp = false;
@@ -6455,6 +6456,7 @@ public class FightRequest
 		FightRequest.canOlfact = true;
 		FightRequest.jiggledChefstaff = false;
 		FightRequest.handledCan = false;
+		FightRequest.shotSixgun = false;
 		FightRequest.squeezedStressBall = false;
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
@@ -7554,6 +7556,20 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.SHOOT:
+			if ( responseText.contains( "You draw your sixgun" ) || skillSuccess )
+			{
+				FightRequest.shotSixgun = true;
+			}
+			break;
+
+		case SkillPool.FAN_HAMMER:
+			if ( responseText.contains( "You empty your sixgun" ) || skillSuccess )
+			{
+				FightRequest.shotSixgun = true;
+			}
+			break;
+
 		case SkillPool.BAT_OOMERANG:
 			ResultProcessor.removeItem( ItemPool.BAT_OOMERANG );
 			break;
@@ -7892,6 +7908,11 @@ public class FightRequest
 	{
 		return EquipmentManager.usingCanOfBeans() &&
 		       KoLCharacter.hasSkill( "Canhandle" );
+	}
+
+	public static final boolean shotSixgun()
+	{
+		return FightRequest.shotSixgun;
 	}
 
 	public static final void beginTrackingFights()

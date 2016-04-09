@@ -305,5 +305,6 @@ public class SkillPool
 	public static final int CANHANDLE = 19002;
 	public static final int BEANWEAVER = 19005;
 	public static final int BEANCANNON = 19007;
+	public static final int FAN_HAMMER = 20001;
 	public static final int LONG_CON = 20007;
 }

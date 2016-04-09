@@ -76,12 +76,9 @@ public class StationaryButtonDecorator
 			return true;
 		}
 
-		if ( skillId.equals( String.valueOf( SkillPool.OLFACTION ) ) )
-		{
-			return true;
-		}
-
-		if ( skillId.equals( String.valueOf( SkillPool.CANHANDLE ) ) )
+		if ( skillId.equals( String.valueOf( SkillPool.OLFACTION ) ) ||
+		     skillId.equals( String.valueOf( SkillPool.CANHANDLE ) ) ||
+		     skillId.equals( String.valueOf( SkillPool.SHOOT ) ) )
 		{
 			return true;
 		}
@@ -470,6 +467,11 @@ public class StationaryButtonDecorator
 			StationaryButtonDecorator.addFightButton( actionBuffer, "jiggle", enabled );
 		}
 
+		if ( EquipmentManager.holsteredSixgun() )
+		{
+			StationaryButtonDecorator.addFightButton( actionBuffer, "shoot", !FightRequest.shotSixgun() );
+		}
+
 		if ( FightRequest.canHandleCan() )
 		{
 			StationaryButtonDecorator.addFightButton( actionBuffer, "shake", !FightRequest.handledCan() );
@@ -681,6 +683,11 @@ public class StationaryButtonDecorator
 			actionBuffer.append( "skill&whichskill=" );
 			actionBuffer.append( String.valueOf( SkillPool.CANHANDLE ) );
 		}
+		else if ( action.equals( "shoot" ) )
+		{
+			actionBuffer.append( "skill&whichskill=" );
+			actionBuffer.append( String.valueOf( SkillPool.SHOOT ) );
+		}
 		else if ( action.equals( "insult" ) )
 		{
 			int itemId =
@@ -830,7 +837,8 @@ public class StationaryButtonDecorator
 			return "pirate insult";
 		}
 		
-		if ( action.equals( "steal" ) || action.equals( "jiggle" ) || action.equals( "shake" ) ||
+		if ( action.equals( "steal" ) || action.equals( "jiggle" ) ||
+		     action.equals( "shake" ) || action.equals( "shoot" ) ||
 		     action.equals( "script" ) ||
 		     action.equals( "jam flyer" ) || action.equals( "rock flyer" ) )
 		{
