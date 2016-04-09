@@ -2889,8 +2889,6 @@ public class UseItemRequest
 				return;
 			}
 
-			QuestLogRequest.setDungeonOfDoomAvailable();
-
 			// Various punctuation mark items are replaced by their
 			// identified versions. The new items will be detected
 			// by result parsing, but we need to get rid of the old.
