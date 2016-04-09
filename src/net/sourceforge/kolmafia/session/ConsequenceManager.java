@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
