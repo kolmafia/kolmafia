@@ -859,7 +859,7 @@ Item	supportive bra	Moxie: +3
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
 Item	The Emperor's new shirt	Muscle: [L]
 # Thinknerd T-Shirt	enchantment varies per player?
-Item	tunac	Muscle Percent: +50, Monster Level: +25, Item Drop: +25, Combat Rate: +5, Lasts Until Rollover
+Item	tunac	Muscle Percent: +50, Monster Level: +25, Item Drop: +25, Combat Rate: +10, Lasts Until Rollover
 Item	turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 Item	tuxedo shirt	Moxie: +7
 Item	Ultracolor&trade; shirt	Spooky Damage: [E], Stench Damage: [E], Hot Damage: [E], Cold Damage: [E], Sleaze Damage: [E]
@@ -928,7 +928,7 @@ Item	basic meat crossbow	Moxie: +1
 Item	basic meat spork	Muscle: +3, Weapon Damage: +3
 Item	basic meat staff	Mysticality: +1
 Item	basic meat sword	Muscle: +1
-Item	bass clarinet	Moxie Percent: +100, Ranged Damage: +50, Mana Cost: -3, Combat Rate: -5, Lasts Until Rollover
+Item	bass clarinet	Moxie Percent: +100, Ranged Damage: +50, Mana Cost: -3, Combat Rate: -10, Lasts Until Rollover
 Item	bastard baster	Spell Damage Percent: +20
 Item	bat whip	Spell Damage: +10, Monster Level: +5
 Item	batblade	Weapon Damage: +15
@@ -1125,7 +1125,7 @@ Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
 Item	fire poi	Hot Damage: +15, Moxie: +3
 Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
-Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -5, Lasts Until Rollover
+Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
@@ -2116,6 +2116,7 @@ Item	snowstick	Cold Spell Damage: +80
 Item	sock monkey	Moxie: +3
 Item	Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
 Item	sommelier's towel	Booze Drop: +50
+Item	sonar fishfinder	Fishing Skill: +5
 Item	Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 Item	spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 # Spanish fly trap
@@ -3286,7 +3287,7 @@ Item	black cloak	Spell Damage: +10
 Item	Buddy Bjorn	Softcore Only
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only
-Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +5, Lasts Until Rollover
+Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
@@ -4112,6 +4113,7 @@ Effect	[602]A Little Bit Evil	Monster Level: +2
 Effect	A Little Bit Frightening	Spooky Damage: [3*L]
 Effect	A Little Bit Poisoned	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	A Lovely Day for a Beatnik	Avatar: "Savage Beatnik"
+Effect	A Real Head for Fish	Fishing Skill: +10
 Effect	A Revolution in Your Mouth	Moxie Percent: -10
 Effect	A Rose by Any Other Material	Combat Rate: -20
 Effect	A Short Trial	Avatar: "pygmy witch lawyer"
@@ -6904,6 +6906,7 @@ Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
 Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
 Item	bottle of Bloodweiser	Effect: "Blood Porter", Effect Duration: 50
 Item	bottle of Evermore	Effect: "The Dark Lord Rides in Force Tonight", Effect Duration: 30
+Item	bottle of Fishhead 900-Day IPA	Effect: "A Real Head for Fish", Effect Duration: 50
 Item	bottle of Greedy Dog	Effect: "Covetin' Drunk", Effect Duration: 20
 Item	bottle of Lambada Lambic	Effect: "Dancin' Drunk", Effect Duration: 20
 Item	bottle of norwhiskey	Effect: "Norwhalloped", Effect Duration: 50
@@ -7262,6 +7265,7 @@ Item	Antagonistic Snowman Kit	Skill: "Summon Carrot"
 # anti-anti-antidote: Doesn't not remove poison effects
 # antique hand mirror: Be Careful!
 Item	antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
+Item	antique tacklebox	Fishing Skill: +5
 Item	Apathargic Bandersnatch	Free Pull
 Item	arrowgram	Free Pull
 Item	arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
