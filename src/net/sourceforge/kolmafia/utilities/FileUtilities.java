@@ -47,7 +47,6 @@ import java.net.URL;
 import java.nio.channels.FileChannel;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -362,10 +361,14 @@ public class FileUtilities
 				String signature = new String( bytes, 0, 3 );
 				// Certain firewalls return garbage if they
 				// prevent you from getting to the image
-				// server. Don't cache that. Additionally,
-				// don't cache KoL's blank image that seems
+				// server. Don't cache that.
+
+				// Additionally, don't cache KoL's blank image that seems
 				// to be a standin for a 404 these days..
-				if ( signature.equals( "GIF" ) && bytes.length != 61 )
+				// Removing this check for now, since only a legitimate
+				// blank.gif currently returns a blank image
+				// && bytes.length != 61
+				if ( signature.equals( "GIF" ) )
 				{
 					ostream.write( bytes, 0, bytes.length );
 				}
