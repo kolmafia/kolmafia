@@ -9032,7 +9032,10 @@
 9006	tunac	667722866	tunac.gif	shirt	q	0
 9007	fishin' pole	474556284	fishinpole.gif	none	q	0
 9008	wriggling worm	952633988	wiggleworm.gif	usable		0
-9009
+9009	bottle of Fishhead 900-Day IPA	805014558	fancybrew.gif	drink	t,d	50
 9010	high-test fishing line	998952743	fishingline.gif	usable	t,d	5
 9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50
 9012	Trout Fishing in Loathing	339113101	book3.gif	usable	t	0
+9013	sonar fishfinder	463912431	evilometer.gif	offhand	t	0
+9014
+9015	antique tacklebox	166401677	tacklebox.gif	none	t	0
