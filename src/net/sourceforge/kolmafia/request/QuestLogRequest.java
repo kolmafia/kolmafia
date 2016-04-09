@@ -45,75 +45,21 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class QuestLogRequest
 	extends GenericRequest
 {
-	private static final String ALTAR_OF_LITERACY =
-		"You have proven yourself literate.";
-	private static final String DUNGEONS_OF_DOOM =
-		"You have discovered the secret of the Dungeons of Doom.";
-
-	private static boolean dungeonOfDoomAvailable = false;
-
 	private static final Pattern HEADER_PATTERN = Pattern.compile( "<b>([^<]*?[^>]*?)</b>(?:<p>|)<blockquote>", Pattern.DOTALL );
 	private static final Pattern BODY_PATTERN = Pattern.compile( "(?<=<b>)(.*?[^<>]*?)</b><br>(.*?)(?=<p>$|<p><b>|<p></blockquote>)", Pattern.DOTALL );
-	private static final Pattern SEAHORSE_PATTERN = Pattern.compile( "You have tamed the mighty seahorse <b>(.*?)</b>", Pattern.DOTALL );
-
-	private static final Object[][] questlogDemons =
-	{
-		{
-		//	"Summoning Chamber",
-			Pattern.compile( ";&middot;([^<]*?), Lord of the Pies<br" , Pattern.DOTALL ),
-			"demonName1",
-		},
-		{
-		//	"Hoom Hah",
-			Pattern.compile( ";&middot;([^<]*?), the Deadest Beat<br" , Pattern.DOTALL ),
-			"demonName2",
-		},
-		{
-		//	"Every Seashell Has a Story to Tell If You're Listening",
-			Pattern.compile( ";&middot;([^<]*?), the Ancient Fishlord<br" , Pattern.DOTALL ),			
-			"demonName3",
-		},
-		{
-		//	"Leavesdropping",
-			Pattern.compile( ";&middot;([^<]*?), Duke of the Underworld<br" , Pattern.DOTALL ),
-			"demonName4",
-		},
-		{
-		//	"These Pipes... Aren't Clean!",
-			Pattern.compile( ";&middot;([^<]*?), the Stankmaster<br" , Pattern.DOTALL ),
-			"demonName5",
-		},
-		{
-		//	"Flying In Circles",
-			Pattern.compile( ";&middot;([^<]*?), the Demonic Lord of Revenge<br" , Pattern.DOTALL ),
-			"demonName8",
-		},
-		{
-		//	"Sinister Ancient Tablet",
-			Pattern.compile( ";&middot;([^<]*?), the Smith<br" , Pattern.DOTALL ),
-			"demonName9",
-		},
-		{
-		//	"Strange Cube",
-			Pattern.compile( ";&middot;([^<]*?[^<]), the Pain Enjoyer<br" , Pattern.DOTALL ),
-			"demonName10",
-		},
-		{
-		//	Where Have All The Drunkards Gone?
-			Pattern.compile( ";&middot;([^<]*?[^<]), Friend of Gary<br" , Pattern.DOTALL ),
-			"demonName11",
-		},
-	};
 
 	public QuestLogRequest()
 	{
@@ -127,12 +73,7 @@ public class QuestLogRequest
 
 	public static final boolean isDungeonOfDoomAvailable()
 	{
-		return QuestLogRequest.dungeonOfDoomAvailable;
-	}
-
-	public static final void setDungeonOfDoomAvailable()
-	{
-		QuestLogRequest.dungeonOfDoomAvailable = true;
+		return Preferences.getInteger( "lastPlusSignUnlock" ) == KoLCharacter.getAscensions() && !InventoryManager.hasItem( ItemPool.PLUS_SIGN );
 	}
 
 	public static final boolean isWhiteCitadelAvailable()
@@ -201,16 +142,8 @@ public class QuestLogRequest
 
 		else if ( urlString.contains( "which=3" ) )
 		{
-			ChatManager.setChatLiteracy( responseText.contains( QuestLogRequest.ALTAR_OF_LITERACY ) );
-			QuestLogRequest.dungeonOfDoomAvailable = responseText.contains( QuestLogRequest.DUNGEONS_OF_DOOM );
-			
-			Matcher matcher = QuestLogRequest.SEAHORSE_PATTERN.matcher( responseText );
-			if ( matcher.find() )
-			{
-				Preferences.setString( "seahorseName", new String( matcher.group(1) ) );
-			}
-
-			registerDemonName( responseText );
+			ConsequenceManager.parseAccomplishments( responseText );
+			ChatManager.setChatLiteracy( Preferences.getBoolean( "chatLiterate" ) );
 		}
 	}
 
@@ -384,25 +317,5 @@ public class QuestLogRequest
 	public static boolean isTavernAvailable()
 	{
 		return QuestDatabase.isQuestLaterThan( Quest.RAT, QuestDatabase.STARTED );
-	}
-
-	public static final boolean registerDemonName( final String responseText )
-	{
-		for ( int i = 0; i < QuestLogRequest.questlogDemons.length; ++i )
-		{
-			Object [] demons = QuestLogRequest.questlogDemons[ i ];
-			if ( Preferences.getString( (String) demons[ 1 ] ).equals( "" ) )
-			{
-				Pattern pattern = (Pattern) demons[ 0 ];
-				Matcher matcher = pattern.matcher( responseText );
-
-				if ( matcher.find() )
-				{
-					// We found this demon
-					Preferences.setString( (String) demons[ 1 ], matcher.group( 1 ) );
-				}
-			}
-		}
-		return true;
 	}
 }
