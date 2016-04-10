@@ -1808,6 +1808,7 @@ snowstick	225	Mys: 200
 sock monkey	110	Mys: 40
 Solstice Shield	0	none
 sommelier's towel	150	Mys: 60
+sonar fishfinder	10	none
 Space Tourist palmdoctor	50	none
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
