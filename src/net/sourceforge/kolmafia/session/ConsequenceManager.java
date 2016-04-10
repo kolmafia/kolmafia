@@ -45,6 +45,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -386,9 +387,10 @@ public abstract class ConsequenceManager
 
 			pos = action.indexOf( '=' );
 			if ( pos != -1 )
-			{
-				Preferences.setString( action.substring( 0, pos ).trim(),
-					action.substring( pos + 1 ).trim() );
+			{	String setting = action.substring( 0, pos ).trim();
+				String value = action.substring( pos + 1 ).trim();
+				if ( value.equals( "ascensions" ) ) value = String.valueOf( KoLCharacter.getAscensions() );
+				Preferences.setString( setting, value );
 				return null;
 			}
 
