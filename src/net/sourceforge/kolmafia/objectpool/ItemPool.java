@@ -2591,8 +2591,8 @@ public class ItemPool
 	public static final int SNAKE_OILING_TALES = 8957;
 	public static final int SNAKE_OIL = 8971;
 	public static final int WITCHESS_SET = 8989;
-	public static final int FISHING_LINE = 9007;
-	public static final int FISHING_POLE = 9010;
+	public static final int FISHING_POLE = 9007;
+	public static final int FISHING_LINE = 9010;
 	public static final int FISHING_HAT = 9011;
 	public static final int TROUT_FISHING_IN_LOATHING = 9012;
 
