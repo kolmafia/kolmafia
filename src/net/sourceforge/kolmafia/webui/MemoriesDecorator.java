@@ -79,7 +79,7 @@ public class MemoriesDecorator
 
         // "your ancestral memories are total, absolute jerks. </p></td>"
         private static final String JERKS = "absolute jerks. </p>";
-        private static final String SECRET = "<center><table class=\"item\" style=\"float: none\" rel=\"id=4114&s=0&q=0&d=0&g=0&t=0&n=1\"><tr><td><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/futurebox.gif\" alt=\"secret from the future\" title=\"secret from the future\" class=hand onClick='descitem(502821529)'></td><td valign=center class=effect>You acquire an item: <b>secret from the future</b></td></tr></table></center>";
+        private static final String SECRET = "<center><table class=\"item\" style=\"float: none\" rel=\"id=4114&s=0&q=0&d=0&g=0&t=0&n=1\"><tr><td><img src=/images/itemimages/futurebox.gif\" alt=\"secret from the future\" title=\"secret from the future\" class=hand onClick='descitem(502821529)'></td><td valign=center class=effect>You acquire an item: <b>secret from the future</b></td></tr></table></center>";
 
 	public static final void decorateElementsResponse( final StringBuffer buffer )
 	{
