@@ -13269,6 +13269,27 @@ public abstract class ChoiceManager
 		return request.responseText;
 	}
 
+	private static final String choiceDescription( final int choice, final int decision )
+	{
+		// If we have spoilers for this choice, use that
+		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
+		if ( spoilers != null && spoilers.length > 2 )
+		{
+			Object spoiler = ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] );
+			if ( spoiler != null )
+			{
+				return spoiler.toString();
+			}
+		}
+
+		// If we didn't find a spoiler, use KoL's label for the option
+		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		String desc = choices.get( decision );
+
+		// If we still can't find it, throw up our hands
+		return ( desc == null ) ? "unknown" : desc;
+	}
+
 	public static final boolean registerRequest( final String urlString )
 	{
 		if ( !urlString.startsWith( "choice.php" ) )
@@ -13284,7 +13305,7 @@ public abstract class ChoiceManager
 		}
 
 		int choice = ChoiceManager.extractChoiceFromURL( urlString );
-		int decision = 0;
+		int decision = ChoiceManager.extractOptionFromURL( urlString );
 		if ( choice != 0 )
 		{
 			switch ( choice )
@@ -13346,38 +13367,27 @@ public abstract class ChoiceManager
 				}
 				break;
 			}
+
+			case 1181:	// Your Witchess Set
+			{
+				String desc = ChoiceManager.choiceDescription( choice, decision );
+				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
+				return true;
+			}
+			case 1182:	// Play against the Witchess Pieces
+				// These will either redirect to a fight. The encounter will suffice.
+				if ( decision >= 1 && decision <= 7 )
+				{
+					String desc = "Play against the Witchess pieces";
+					RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
+				}
+				return true;
 			}
 
-			decision = ChoiceManager.extractOptionFromURL( urlString );
 			if ( decision != 0 )
 			{
 				// Figure out which decision we took
-				String desc = null;
-
-				// If we have spoilers for this choice, use that
-				Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
-				if ( spoilers != null && spoilers.length > 2 )
-				{
-					Object spoiler = ChoiceManager.choiceSpoiler( choice, decision, spoilers[ 2 ] );
-					if ( spoiler != null )
-					{
-						desc = spoiler.toString();
-					}
-				}
-
-				// If we didn't find a spoiler, use KoL's label for the option
-				if ( desc == null )
-				{
-					TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
-					desc = choices.get( decision );
-				}
-
-				// If we still can't find it, throw up our hands
-				if ( desc == null )
-				{
-					desc = "unknown";
-				}
-
+				String desc = ChoiceManager.choiceDescription( choice, decision );
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 			}
 		}
