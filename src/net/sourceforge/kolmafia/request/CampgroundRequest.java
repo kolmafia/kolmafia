@@ -1385,6 +1385,10 @@ public class CampgroundRequest
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
 		}
+		else if ( action.equals( "witchess" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
+		}
 		else
 		{
 			// Unknown action.
