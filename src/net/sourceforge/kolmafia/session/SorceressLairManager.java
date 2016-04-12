@@ -771,7 +771,7 @@ public abstract class SorceressLairManager
 			message =
 				action.equals( "ns_01_contestbooth" ) ? "Tower: Contest Booth" :
 				action.equals( "ns_02_coronation" ) ? "Tower: Closing Ceremony" :
-				action.equals( "ns_11_prism" ) ? "Tower: Freeing King Ralph" :
+				action.equals( "ns_11_prism" ) ? ( "[" + KoLAdventure.getAdventureCount() + "] Freeing King Ralph" ) :
 				null;
 
 			if ( message == null )
