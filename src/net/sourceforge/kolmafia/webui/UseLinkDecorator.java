@@ -1199,6 +1199,51 @@ public abstract class UseLinkDecorator
 				uses.add( plateLink );
 				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
 			}
+
+			case ItemPool.CODPIECE:
+			{
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
+				// inv_use.php?pwd&which=f-1&whichitem=xxx
+				UseLink wringOutLink = new UseLink( itemId, itemCount,
+								 "wring out",
+								 "inv_use.php?which=f-1&whichitem=" );
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( equipLink );
+				uses.add( wringOutLink );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+
+			case ItemPool.BASS_CLARINET:
+			{
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
+				// inv_use.php?pwd&which=f-1&whichitem=xxx
+				UseLink drainLink = new UseLink( itemId, itemCount,
+								 "drain spit",
+								 "inv_use.php?which=f-1&whichitem=" );
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( equipLink );
+				uses.add( drainLink );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
+
+			case ItemPool.FISH_HATCHET:
+			{
+				UseLink equipLink = new UseLink( itemId, itemCount,
+								 getEquipmentSpeculation( "equip", itemId, -1 ),
+								 "inv_equip.php?which=2&action=equip&whichitem=" );
+				// inv_use.php?pwd&which=f-1&whichitem=xxx
+				UseLink useLink = new UseLink( itemId, itemCount,
+								 "use",
+								 "inv_use.php?which=f-1&whichitem=" );
+				ArrayList<UseLink> uses = new ArrayList<UseLink>();
+				uses.add( equipLink );
+				uses.add( useLink );
+				return new UsesLink( uses.toArray( new UseLink[ uses.size() ] ) );
+			}
 			}
 
 			// Don't offer an "equip" link for weapons or offhands
