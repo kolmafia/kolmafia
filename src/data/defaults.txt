@@ -1297,6 +1297,7 @@ user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
 user	_nuclearStockpileUsed	0
+user	_oilExtracted	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_pantsgivingFullness	0

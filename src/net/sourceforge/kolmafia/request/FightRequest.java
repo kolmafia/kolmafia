@@ -259,8 +259,12 @@ public class FightRequest
 	
 	private static final Pattern RED_BUTTON_PATTERN = 
 		Pattern.compile( "manage to find and recover all but (\\d+) of the buttons" );
+
 	private static final Pattern PROSELYTIZATION_PATTERN =
 		Pattern.compile( "^\\+1 ([^<]+) Proselytization$" );
+
+	private static final Pattern CLOG_PATTERN =
+		Pattern.compile( "Your oil extractor is (\\d+)% clogged up" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -1485,6 +1489,17 @@ public class FightRequest
 			// You can only use Fan Hammer with a Holstered Pistol
 
 			if ( !EquipmentManager.holsteredSixgun() )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
+		else if ( skillName.equals( "Extract Oil" ) )
+		{
+			// You can only extract 15 oil a day
+
+			if ( Preferences.getInteger( "_oilExtracted" ) > 14 )
 			{
 				--FightRequest.preparatoryRounds;
 				this.nextRound( null );
@@ -7567,6 +7582,27 @@ public class FightRequest
 			if ( responseText.contains( "You empty your sixgun" ) || skillSuccess )
 			{
 				FightRequest.shotSixgun = true;
+			}
+			break;
+
+		case SkillPool.EXTRACT_OIL:
+			if ( responseText.contains( "plunge your trusty oil extractor" ) || skillSuccess )
+			{
+				Preferences.increment( "_oilExtracted" );
+			}
+			else
+			{
+				Matcher matcher = FightRequest.CLOG_PATTERN.matcher( responseText );
+				if ( matcher.find() )
+				{
+					String clog = matcher.group(1);
+					int extracts = StringUtilities.parseInt( clog ) / 10 + 5;
+					Preferences.setInteger( "_oilExtracted", extracts );
+				}
+				else if ( responseText.contains( "completely clogged up" ) )
+				{
+					Preferences.setInteger( "_oilExtracted", 15 );
+				}
 			}
 			break;
 
