@@ -803,6 +803,7 @@ public class EquipmentManager
 				}
 				ResultProcessor.processResult( before.getInstance( -1 ) );
 				EquipmentManager.setEquipment( slot, after );
+				SpecialOutfit.replaceEquipment( before, after );
 				return;
 			}
 		}
