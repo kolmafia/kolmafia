@@ -232,6 +232,7 @@ public class Modifiers
 	public static final int DISCO_STYLE = 121;
 	public static final int ROLLOVER_EFFECT_DURATION = 122;
 	public static final int SIXGUN_DAMAGE = 123;
+	public static final int FISHING_SKILL = 124;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 

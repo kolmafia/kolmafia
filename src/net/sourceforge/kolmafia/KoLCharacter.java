@@ -5588,6 +5588,16 @@ public abstract class KoLCharacter
 			}
 		}
 
+		// Add modifiers from inventory
+		if ( InventoryManager.hasItem( ItemPool.FISHING_POLE ) )
+		{
+			newModifiers.add( Modifiers.FISHING_SKILL, 20, "Inventory Item:fishin' pole" );
+		}
+		if ( InventoryManager.hasItem( ItemPool.ANTIQUE_TACKLE_BOX ) )
+		{
+			newModifiers.add( Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox" );
+		}
+
 		// Miscellaneous
 
 		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
