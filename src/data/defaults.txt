@@ -164,7 +164,6 @@ global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
 global	useNaiveSecureLogin	false
-global	useSecureLogin	false
 global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true

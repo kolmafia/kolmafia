@@ -489,7 +489,6 @@ public class LoginFrame
 		private final String[][] options =
 		{
 			{ "useDevProxyServer", "Use devproxy.kingdomofloathing.com to login" },
-			{ "useSecureLogin", "Switch to HTTPS for login (development in progress)" },
 			{ "connectViaAddress", "Use IP address to connect instead of host name" },
 			{ "useNaiveSecureLogin", "Do not have Java try to validate SSL certificates" },
 			{ "allowSocketTimeout", "Forcibly time-out laggy requests" }
