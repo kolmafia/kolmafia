@@ -150,6 +150,7 @@ public class RequestEditorKit
 	private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN = Pattern.compile( "\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL );
 
 	private static final Pattern ROUND_SEP_PATTERN = Pattern.compile( "<(?:b>Combat!</b>|hr.*?>)" );
+	private static final Pattern RCM_JS_PATTERN = Pattern.compile( "rcm\\.(\\d+\\.)?js" );
 
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
@@ -636,11 +637,7 @@ public class RequestEditorKit
 			}
 
 			if ( buffer.indexOf( "showplayer.php" ) != -1 &&
-			     buffer.indexOf( "rcm.js" ) == -1 &&
-			     buffer.indexOf( "rcm.2.js" ) == -1 &&
-			     buffer.indexOf( "rcm.3.js" ) == -1 &&
-			     buffer.indexOf( "rcm.20090915.js" ) == -1 &&
-			     buffer.indexOf( "rcm.20101215.js" ) == -1 )
+			     !RCM_JS_PATTERN.matcher( buffer ).find() )
 			{
 				RequestEditorKit.addChatFeatures( buffer );
 			}
