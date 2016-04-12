@@ -1243,7 +1243,7 @@ public abstract class UseLinkDecorator
 				}
 				uses.add( new UseLink( itemId, itemCount,
 					getEquipmentSpeculation( "holster", itemId, -1 ),
-					"inv_equip.php?which=2&action=holster&whichitem=" ) );
+					"inventory.php?which=2&action=holster&whichitem=", false ) );
 			}
 			else
 			{
