@@ -633,7 +633,7 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
-		
+
 		if ( action.equals( "dnapotion" ) )
 		{
 			if ( responseText.contains( "little bottle of gene tonic" ) )
@@ -644,7 +644,7 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
-		
+
 		if ( action.equals( "dnainject" ) )
 		{
 			if ( responseText.contains( "abominable genetic hybrid" ) )
@@ -656,7 +656,7 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
-		
+
 		if ( action.equals( "spinningwheel" ) )
 		{
 			// You work the spinning wheel and spin some air into Meat.
