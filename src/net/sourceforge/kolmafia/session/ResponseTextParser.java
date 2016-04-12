@@ -135,6 +135,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
+import net.sourceforge.kolmafia.request.WitchessRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -812,6 +813,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "wand.php" ) )
 		{
 			ZapRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "witchess.php" ) )
+		{
+			WitchessRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "crypt.php" ) )

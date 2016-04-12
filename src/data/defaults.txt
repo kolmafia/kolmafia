@@ -1434,6 +1434,7 @@ user	_warbearGyrocopterUsed	false
 user	_warbearSodaMachineUsed	false
 user	_whiteRiceDrops	0
 user	_witchessFights	0
+user	_witchessBuff	false
 user	_workshedItemUsed	false
 user	_zapCount	0
 user	choiceAdventure2	2
