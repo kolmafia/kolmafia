@@ -158,7 +158,6 @@ public class GenericRequest
 
 	public static final String KOL_IP = "69.16.150.211";
 	public static String KOL_HOST = GenericRequest.SERVERS[ 1 ];
-	public static URL KOL_ROOT = null;
 	public static URL KOL_SECURE_ROOT = null;
 
 	private URL formURL;
@@ -252,14 +251,7 @@ public class GenericRequest
 			NaiveSecureSocketLayer.uninstall();
 		}
 
-		if ( Preferences.getBoolean( "useSecureLogin" ) )
-		{
-			systemProperties.put( "http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php" );
-		}
-		else
-		{
-			systemProperties.put( "http.referer", "http://" + GenericRequest.KOL_HOST + "/game.php" );
-		}
+		systemProperties.put( "http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php" );
 	}
 
 	private static final void applyProxySettings()
@@ -356,22 +348,6 @@ public class GenericRequest
 	private static final void setLoginServer( final int serverIndex )
 	{
 		GenericRequest.KOL_HOST = GenericRequest.SERVERS[ serverIndex ];
-
-		try
-		{
-			if ( Preferences.getBoolean( "connectViaAddress" ) )
-			{
-				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_IP, 80, "/" );
-			}
-			else
-			{
-				GenericRequest.KOL_ROOT = new URL( "http", GenericRequest.KOL_HOST, 80, "/" );
-			}
-		}
-		catch ( IOException e )
-		{
-			StaticEntity.printStackTrace( e );
-		}
 
 		try
 		{
@@ -1676,14 +1652,7 @@ public class GenericRequest
 
 		if ( !this.isExternalRequest )
 		{
-			if ( Preferences.getBoolean( "useSecureLogin" ) && urlString.contains( "login.php" ) )
-			{
-				context = GenericRequest.KOL_SECURE_ROOT;
-			}
-			else
-			{
-				context = GenericRequest.KOL_ROOT;
-			}
+			context = GenericRequest.KOL_SECURE_ROOT;
 		}
 
 		return new URL( context, urlString );
