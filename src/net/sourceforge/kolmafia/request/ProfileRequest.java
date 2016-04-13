@@ -668,7 +668,7 @@ public class ProfileRequest
 	}
 
 	private static final Pattern GOBACK_PATTERN =
-		Pattern.compile( "http://www\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
+		Pattern.compile( "https?://www\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)" );
 
 	@Override
 	public void processResults()
