@@ -1121,6 +1121,12 @@ public class UseItemRequest
 		case ItemPool.GLENN_DICE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_glennGoldenDiceUsed" ) ? 0 : 1;
+
+		case ItemPool.CODPIECE:
+		case ItemPool.BASS_CLARINET:
+		case ItemPool.FISH_HATCHET:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_floundryItemUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5383,6 +5389,12 @@ public class UseItemRequest
 				ResultProcessor.processResult( item.getNegation() );
 			}
 			return;
+
+		case ItemPool.CODPIECE:
+		case ItemPool.BASS_CLARINET:
+		case ItemPool.FISH_HATCHET:
+			Preferences.setBoolean( "_floundryItemUsed", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
