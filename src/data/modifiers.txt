@@ -2373,7 +2373,7 @@ Item	clown shoes	Maximum MP: +7, Clownosity: +1
 Item	clownskin belt	Maximum MP: +15, Clownosity: +2
 # club necklace
 Item	coarse hemp socks	Adventures: [1+10*event(Crimbo2015)], Single Equip
-Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Combat Rate: -5, Lasts Until Rollover
+Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Combat Rate: -10, Lasts Until Rollover
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
