@@ -63,6 +63,7 @@ public class WitchessRequest
 		}
 		RequestThread.postRequest( new GenericRequest( "campground.php?action=witchess" ) );
 		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1181&option=3" ) );
+		super.run();
 	}
 
 	@Override
