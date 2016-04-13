@@ -8766,12 +8766,12 @@
 8740	perfect mimosa	511944154	perf_mimosa.gif	drink	t,d	60
 8741	perfect old-fashioned	187716152	perf_oldf.gif	drink	t,d	60
 8742	perfect paloma	512567833	perf_paloma.gif	drink	t,d	60
-8743
-8744
-8745
-8746
-8747
-8748
+8743	That 70s Cologne	160819689	70scologne.gif	usable	g,d	50
+8744	Wal-Mart &quot;diamond&quot; ring	558128961	fatrock.gif	usable	g,d	50
+8745	Puffstone cigar	397026743	chococigar.gif	usable	g,d	50
+8746	Conspiracy&trade; mascara	818025844	mascara.gif	usable	g,d	50
+8747	Spring Break Beach &quot;swimsuit&quot;	184221342	palette.gif	usable	g,d	50
+8748	airplane tattoo	198112079	planetatkit.gif	usable	g	0
 8749	Deep Machine Tunnels snowglobe	277811366	dmtglobe.gif	usable	t,d	57
 8750	hemp candy necklace	940456173	candynecklace.gif	multiple	t	0
 8751	communal gobstopper	582565826	jawbreaker.gif	multiple	t	0

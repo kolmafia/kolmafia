@@ -4472,6 +4472,7 @@ Effect	Cold Throat	Cold Spell Damage: +50, Spell Damage Percent: +100
 Effect	Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
 Effect	Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, MP Regen Min: 20, MP Regen Max: 30
 # Coldform: Cold, Cold, Cold!
+Effect	Coldfinger	Cold Damage: +50, Cold Spell Damage: +50, Stench Resistance: +5, Sleaze Resistance: +5
 Effect	Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
 Effect	Colorful Gratitude	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Colorfully Concealed	Combat Rate (Underwater): -5
@@ -4486,6 +4487,7 @@ Effect	Concha de Tortuga	HP Regen Min: 6, HP Regen Max: 8
 Effect	Confidence!	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Confused	Mysticality Percent: -30
 Effect	Connering the Seanman	Avatar: "Seannery the Conman"
+Effect	Conspiratory Eyes	Spooky Damage: +50, Spooky Spell Damage: +50, Cold Resistance: +5, Sleaze Resistance: +5
 Effect	CONSUME	Avatar: "Them"
 # Consumed by Anger: You can only attack
 Effect	Consumed by Anger	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
@@ -5415,6 +5417,7 @@ Effect	Overconfident	Monster Level: +30
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
 Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
+Effect	Painted-On Bikini	Sleaze Damage: +50, Sleaze Spell Damage: +50, Hot Resistance: +5, Stench Resistance: +5
 Effect	Pajama Party	Familiar Weight: +10
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 # Effect Partially Ghosted: Reduces physical damage taken by 30%
@@ -5865,6 +5868,7 @@ Effect	Stinking Cloud	Stench Resistance: +1
 # Stinky Breath: Can breathe stench in combat
 Effect	Stinky Hands	Stench Damage: +10, Stench Spell Damage: +20, Hot Resistance: +2, Spooky Resistance: +2
 Effect	Stinky Weapon	Stench Damage: +3
+Effect	Stogied	Stench Damage: +50, Stench Spell Damage: +50, Hot Resistance: +5, Spooky Resistance: +5
 Effect	Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
 Effect	Stopping to Smell the Flowers	Experience: +3
@@ -6209,6 +6213,7 @@ Effect	Wry Smile	Experience (Mysticality): +1
 Effect	Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
 Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
+Effect	Yeah, It's Just Gasoline	Hot Damage: +50, Hot Spell Damage: +50, Cold Resistance: +5, Spooky Resistance: +5
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
 Effect	Yet tea	Cold Damage: +30
@@ -7596,6 +7601,7 @@ Item	confiscated comic book	Effect: "Superheroic", Effect Duration: 20
 Item	confiscated love note	Effect: "Notably Lovely", Effect Duration: 20
 Item	conjured ice cream	Effect: "Magreame Headache", Effect Duration: 50
 Item	Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [R]
+Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 # continental juice bar: Produces 3 random potions each day
 Item	control crystal	Free Pull
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
@@ -8734,6 +8740,7 @@ Item	programmable turtle	Effect: "Spiro Gyro", Effect Duration: 15
 Item	Psycho From The Heat	Skill: "Pyromania"
 # puce plastic oyster egg: Deals 40-50 Physical Damage
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
+Item	Puffstone cigar	Effect: "Stogied", Effect Duration: 50
 # pulled blue taffy: Summons a helpful fish
 # pulled blue taffy: (underwater only)
 Item	pulled blue taffy	Effect: "Blue Swayed", Effect Duration: 10
@@ -9062,6 +9069,7 @@ Item	spooky sap	Effect: "Sugar Rush", Effect Duration: 5
 Item	spooky sound effects record	Effect: "Permanent Halloween", Effect Duration: 10
 Item	spoonful of Linguine-Os	Effect: "Blessing of the Hot Linguine", Effect Duration: 10
 Item	spray chrome	Effect: "Shiny and Chrome", Effect Duration: 100
+Item	Spring Break Beach &quot;swimsuit&quot;	Effect: "Painted-On Bikini", Effect Duration: 50
 Item	squamous polyp	Free Pull
 Item	Squat-Thrust Magazine	Effect: "Squatting and Thrusting", Effect Duration: 20
 Item	squeaky toy rose	Effect: "A Rose by Any Other Material", Effect Duration: 1
@@ -9159,6 +9167,7 @@ Item	tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 # tequila grenade: Deals 75-100 Physical Damage
 # terrible poem: Deals 5-6 Physical Damage
 Item	Texas tea	Effect: "Texas Elegance", Effect Duration: 10
+Item	That 70s Cologne	Effect: "Yeah, It's Just Gasoline", Effect Duration: 50
 Item	that gum you like	Effect: "Sugar Rush", Effect Duration: 5
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
@@ -9313,6 +9322,7 @@ Item	voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
 Item	votive candle	Effect: "Clerical Aura", Effect Duration: 100
 Item	VYKEA woadpaint	Effect: "This Is Where You're a Viking", Effect Duration: 30
 Item	wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50
+Item	Wal-Mart &quot;diamond&quot; ring	Effect: "Coldfinger", Effect Duration: 50
 Item	walkie-talkie	Free Pull
 # wand of pigification: Turns your foe into a pig
 # warbear auto-anvil: Allows Meatsmithing without using an Adventure

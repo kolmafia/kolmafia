@@ -2011,11 +2011,11 @@
 2010	This Is Where You're a Viking	balm.gif	bfd287f0d0282da6f3e4f501a290c30f	use 1 VYKEA woadpaint
 2011	Expert Vacationer	travelbrochure.gif	7a59246c3e406dc71356ab6ed2cb7c99	use 1 exotic travel brochure
 2012	Spiky Frozen Hair	spikyhair.gif	507eb44ad38f5d8e8378a2f63d7e13fc	use 1 frozen shampoo-conditioner
-2013
-2014
-2015
-2016
-2017
+2013	Yeah, It's Just Gasoline	fire.gif	80431cf132585775040ddcaf2880a200	use 1 That 70s Cologne
+2014	Coldfinger	snowflake.gif	71c9306752751b43c3b6179aef56918e	use 1 Wal-Mart &quot;diamond&quot; ring
+2015	Stogied	stogie.gif	541d9206c72a5eaa356dc129c1390ad7	use 1 Puffstone cigar
+2016	Conspiratory Eyes	conspiraceyes.gif	97c11812e505911f9b4a664dd47a3e02	use 1 Conspiracy&trade; mascara
+2017	Painted-On Bikini	speedo.gif	9a3bdc34fcfbc8862080298c0ea95351	use 1 Spring Break Beach &quot;swimsuit&quot;
 2018	Purpose	abs4.gif	008371e785b3193f6b20a7f03f1dc063	chew 1 abstraction: purpose
 2019	Category	abs5.gif	2f79e19fb1a4f3f9652747fc1b9ea6bb	chew 1 abstraction: category
 2020	Perception	abs6.gif	4f8d16338f3261265f0233b094978e30	chew 1 abstraction: perception
