@@ -2211,6 +2211,22 @@ public class ConcoctionDatabase
 		}
 		ConcoctionDatabase.EXCUSE.put( CraftingType.JARLS, "You are not an Avatar of Jarlsberg" );
 
+		if ( Preferences.getBoolean( "coldAirportAlways" ) ||
+		     Preferences.getBoolean( "hotAirportAlways" ) ||
+		     Preferences.getBoolean( "spookyAirportAlways" ) ||
+		     Preferences.getBoolean( "stenchAirportAlways" ) ||
+		     Preferences.getBoolean( "sleazeAirportAlways" ) ||
+		     Preferences.getBoolean( "_coldAirportToday" ) ||
+		     Preferences.getBoolean( "_hotAirportToday" ) ||
+		     Preferences.getBoolean( "_spookyAirportToday" ) ||
+		     Preferences.getBoolean( "_stenchAirportToday" ) ||
+		     Preferences.getBoolean( "_sleazeAirportToday" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.DUTYFREE );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.DUTYFREE, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.DUTYFREE, 0 );
+		}
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2502,6 +2518,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.VYKEA )
 		{
 			result.append( "VYKEA" );
+		}
+		else if ( mixingMethod == CraftingType.DUTYFREE )
+		{
+			result.append( "Elemental International Airport Duty Free Shop" );
 		}
 
 		if ( result.length() == 0 )
@@ -3136,6 +3156,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "VYKEA" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.VYKEA;
+		}
+
+		else if ( mix.equals( "DUTYFREE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.DUTYFREE;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
