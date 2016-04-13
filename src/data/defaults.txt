@@ -1198,6 +1198,7 @@ user	_fingertrapArrows	0
 user	_fireStartingKitUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
+user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
