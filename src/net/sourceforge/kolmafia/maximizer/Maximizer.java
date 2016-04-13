@@ -977,6 +977,32 @@ public class Maximizer
 					duration = 30;
 					usesRemaining = Preferences.getBoolean( "_grimBuff" ) ? 0 : 1;
 				}
+				else if ( cmd.equals( "witchess" ) )
+				{
+					if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.WITCHESS_SET, 1 ) ) )
+					{
+						if ( includeAll )
+						{
+							text = "(install Witchess Set for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getBoolean( "_witchessBuff" ) )
+					{
+						cmd = "";
+					}
+					else if ( Preferences.getInteger( "puzzleChampBonus" ) != 20 )
+					{
+						text = "(manually get " + name + ")";
+						cmd = "";
+					}
+					duration = 25;
+					usesRemaining = Preferences.getBoolean( "_witchessBuff" ) ? 0 : 1;
+				}
 				else if ( cmd.startsWith( "skeleton " ) )
 				{
 					item = ItemPool.get( ItemPool.SKELETON, 1 );

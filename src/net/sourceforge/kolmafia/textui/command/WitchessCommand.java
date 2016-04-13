@@ -24,32 +24,33 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.request;
+package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-public class WitchessRequest
-	extends GenericRequest
+import net.sourceforge.kolmafia.request.WitchessRequest;
+
+
+public class WitchessCommand
+	extends AbstractCommand
 {
-	public WitchessRequest()
+	public WitchessCommand()
 	{
-		super( "choice.php" );
-		this.addFormField( "whichchoice", "1183" );
-		this.addFormField( "option", "2" );
+		this.usage = " - Get the Witchess buff";
 	}
 
 	@Override
-	public void run()
+	public void run( final String cmd, final String parameters )
 	{
 		if ( Preferences.getBoolean( "_witchessBuff" ) )
 		{
@@ -61,26 +62,6 @@ public class WitchessRequest
 			KoLmafia.updateDisplay( "You cannot automatically get a Witchess buff until all puzzles are solved." );
 			return;
 		}
-		RequestThread.postRequest( new GenericRequest( "campground.php?action=witchess" ) );
-		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1181&option=3" ) );
-	}
-
-	@Override
-	public void processResults()
-	{
-		WitchessRequest.parseResponse( this.getURLString(), this.responseText );
-	}
-
-	public static final void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "witchess.php" ) )
-		{
-			return;
-		}
-
-		if ( responseText.contains( "Puzzle Champ" ) )
-		{
-			Preferences.setBoolean( "_witchessBuff", true );
-		}
+		RequestThread.postRequest( new WitchessRequest() );
 	}
 }

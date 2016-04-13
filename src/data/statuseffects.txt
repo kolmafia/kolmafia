@@ -2091,7 +2091,7 @@
 2090	Kicked in the Sinuses	horseradish.gif	a8b9e71de7ccf5a87e20ac8f29289238	eat 1 jumping horseradish
 2091	Sacré Mental	wine2.gif	8b5af0a2980a1144c725e3410b5e53e2	drink 1 Sacramento wine
 2092	Sweetbreads Flambé	potion4.gif	b3f3d7e5c72a045fff556e01f287f42d	use 1 Greek fire
-2093	Puzzle Champ	chessset.gif	c359f03413fa5582269a860f664cc7fe
+2093	Puzzle Champ	chessset.gif	c359f03413fa5582269a860f664cc7fe	witchess
 2094	Baited Hook	wiggleworm.gif	8a79ad1edacc21eb9ba18a14df09ce2e	use 1 wriggling worm
 2095
 2096	High-Test Fishing Line	fishingline.gif	e1636ba1d377fc81d11e007a04627260	use 1 high-test fishing line
