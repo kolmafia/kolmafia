@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AfterLifeRequest;
+import net.sourceforge.kolmafia.request.AirportRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
@@ -842,6 +843,12 @@ public class RequestLogger
 		// alphabetical order.
 
 		if ( ( request instanceof AfterLifeRequest || isExternal ) && AfterLifeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof AirportRequest || isExternal ) && AirportRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

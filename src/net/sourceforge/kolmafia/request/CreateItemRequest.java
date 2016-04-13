@@ -361,6 +361,9 @@ public class CreateItemRequest
 		case VYKEA:
 			return new VYKEARequest( conc );
 
+		case DUTYFREE:
+			return new AirportRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
