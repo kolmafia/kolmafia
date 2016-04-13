@@ -888,6 +888,7 @@ public class KoLmafiaCLI
 		new WindowOpenCommand().register( "chat" ).register( "mail" ).registerPrefix( "opt" ).register( "item" ).register(
 			"gear" ).register( "radio" );
 		new WinGameCommand().register( "win game" );
+		new WitchessCommand().register( "witchess" );
 		new WumpusCommand().register( "wumpus" );
 		new ZapCommand().register( "zap" );
 

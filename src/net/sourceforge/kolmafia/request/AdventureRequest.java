@@ -1280,6 +1280,13 @@ public class AdventureRequest
 			return;
 		}
 
+		if ( redirectLocation.startsWith( "witchess.php" ) )
+		{
+			// Grabbing the buff from Witchess
+			AdventureRequest.ZONE_UNLOCK.run();
+			return;
+		}
+
 		RequestSynchFrame.showRequest( AdventureRequest.ZONE_UNLOCK );
 		KoLmafia.updateDisplay( MafiaState.ABORT, "Unknown adventure type encountered." );
 	}
