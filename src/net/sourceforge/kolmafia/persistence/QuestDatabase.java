@@ -633,28 +633,28 @@ public class QuestDatabase
 			Preferences.setInteger( "lttQuestDifficulty", 2 );
 			return "step4";
 		}
-		// Sherriff Wanted
+		// Sheriff Wanted
 		if ( details.contains( "Fight your way to the sheriff's office and apply for the job." ) )
 		{
-			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setString( "lttQuestName", "Sheriff Wanted" );
 			Preferences.setInteger( "lttQuestDifficulty", 2 );
 			return "step1";
 		}
 		if ( details.contains( "Head up river to the Placid Lake Gang's hideout." ) )
 		{
-			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setString( "lttQuestName", "Sheriff Wanted" );
 			Preferences.setInteger( "lttQuestDifficulty", 2 );
 			return "step2";
 		}
 		if ( details.contains( "Search the hideout for the gang's leader." ) )
 		{
-			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setString( "lttQuestName", "Sheriff Wanted" );
 			Preferences.setInteger( "lttQuestDifficulty", 2 );
 			return "step3";
 		}
 		if ( details.contains( "Defeat Former Sheriff Dan Driscoll." ) )
 		{
-			Preferences.setString( "lttQuestName", "Sherriff Wanted" );
+			Preferences.setString( "lttQuestName", "Sheriff Wanted" );
 			Preferences.setInteger( "lttQuestDifficulty", 2 );
 			return "step4";
 		}
