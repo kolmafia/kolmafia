@@ -210,6 +210,16 @@ public class ValhallaDecorator
 	{
 		RelayRequest.redirectedCommandURL = "/ascend.php";
 
+		boolean hasGift = false;
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_EMO_ROE, "Veracity" );
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.D10, "bmaher" );
+		if ( hasGift )
+		{
+			buffer.append( "<br />" );
+		}
+
 		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
 		if ( count > 0 )
 		{
@@ -278,12 +288,13 @@ public class ValhallaDecorator
 
 		GenericRequest trophyCheck = new GenericRequest( "trophy.php" );
 		trophyCheck.run();
-		if ( trophyCheck.responseText.indexOf( "You're not currently entitled to any trophies" ) == -1 )
-		{			
+		if ( !trophyCheck.responseText.contains( "You're not currently entitled to any trophies" ) )
+		{
 			buffer.append( "<nobr><a href=\"trophy.php\">buy trophies you're eligible for</a></nobr><br>" );
 		}
-		int ip = Preferences.getInteger("lastGoofballBuy");
-		if (KoLCharacter.getAscensions() > ip) {
+		int ip = Preferences.getInteger( "lastGoofballBuy" );
+		if ( KoLCharacter.getAscensions() > ip )
+		{
 			buffer.append( "<nobr><a href=\"tavern.php?place=susguy\">get free goofballs?</a></nobr><br>" );
 		}
 
@@ -291,10 +302,6 @@ public class ValhallaDecorator
 		{
 			buffer.append( "<nobr><a href=\"peevpee.php?place=fight\">Use remaining PVP fights</a></nobr><br>" );
 		}
-
-		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_EMO_ROE, "Veracity" );
-		ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
-		ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
 
 		ValhallaDecorator.switchSeeds( buffer );
 
@@ -329,12 +336,12 @@ public class ValhallaDecorator
 		buffer.append( " key lime</a></nobr><br />" );
 	}
 
-	private static final void developerGift( final StringBuffer buffer, final int itemId, final String developer )
+	private static final boolean developerGift( final StringBuffer buffer, final int itemId, final String developer )
 	{
 		int giftCount = InventoryManager.getAccessibleCount( itemId );
 		if ( giftCount <= 0 )
 		{
-			return;
+			return false;
 		}
 
 		String itemName = StringUtilities.getURLEncode( ItemDatabase.getItemName( itemId ) );
@@ -357,6 +364,7 @@ public class ValhallaDecorator
 		buffer.append( " to " );
 		buffer.append( developer );
 		buffer.append( "</a></nobr><br>" );
+		return true;
 	}
 
 	private static final void switchSeeds( final StringBuffer buffer )
