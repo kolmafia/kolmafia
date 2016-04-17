@@ -8899,16 +8899,16 @@
 8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand, usable	t,d	10
 8874
 8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand, usable	d	25
-8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5
-8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5
-8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5
-8879	plate of Hellfire Spicy Beans	806250063	franksbeans.gif	food	t,d	10
-8880	plate of Frigid Northern Beans	706679368	franksbeans.gif	food	t,d	10
-8881	plate of World's Blackest-Eyed Peas	244199210	darkness.gif	food	t,d	10
-8882	plate of Trader Olaf's Exotic Stinkbeans	806567626	franksbeans.gif	food	t,d	10
-8883	plate of Pork 'n' Pork 'n' Pork 'n' Beans	478142623	franksbeans.gif	food	t,d	10
-8884
-8885	plate of Shrub's Premium Baked Beans	476831047	franksbeans.gif	food	t,d	25
+8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5	plates of Heimz Fortified Kidney Beans
+8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5	plates of Tesla's Electroplated Beans
+8878	plate of Mixed Garbanzos and Chickpeas	339294938	franksbeans.gif	food	t,d	5	plates of Mixed Garbanzos and Chickpeas
+8879	plate of Hellfire Spicy Beans	806250063	franksbeans.gif	food	t,d	10	plates of Hellfire Spicy Beans
+8880	plate of Frigid Northern Beans	706679368	franksbeans.gif	food	t,d	10	plates of Frigid Northern Beans
+8881	plate of World's Blackest-Eyed Peas	244199210	darkness.gif	food	t,d	10	plates of World's Blackest-Eyed Peas
+8882	plate of Trader Olaf's Exotic Stinkbeans	806567626	franksbeans.gif	food	t,d	10	plates of Trader Olaf's Exotic Stinkbeans
+8883	plate of Pork 'n' Pork 'n' Pork 'n' Beans	478142623	franksbeans.gif	food	t,d	10	plates of Pork 'n' Pork 'n' Pork 'n' Beans
+8884	plate of Val-U Brand Every Bean Salad	880233878	franksbeans.gif	food	t,d	25	plates of Val-U Brand Every Bean Salad
+8885	plate of Shrub's Premium Baked Beans	476831047	franksbeans.gif	food	t,d	25	plates of Shrub's Premium Baked Beans
 8886	Fancy Jeff's fancy pocket square	723090130	fancysquare.gif	accessory		0
 8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0
 8888	Pecos Dave's sixgun	305060180	davesixgun.gif	sixgun, combat reusable		0
