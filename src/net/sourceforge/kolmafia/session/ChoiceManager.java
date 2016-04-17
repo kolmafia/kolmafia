@@ -9249,7 +9249,7 @@ public abstract class ChoiceManager
 		}
 
 		// If you walked away from the choice, this is not a choice page
-		if ( !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
+		if ( ChoiceManager.canWalkAway && !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
 		{
 			ChoiceManager.handlingChoice = false;
 			return;
