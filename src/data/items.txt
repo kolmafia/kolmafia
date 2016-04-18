@@ -8930,7 +8930,7 @@
 8904	lion musk	655258040	lightvial.gif	usable	t,d	29
 8905	bear claw	355563460	catclaw.gif	food	t,d	14
 8906	rattler gland	993787330	pineal.gif	usable	t,d	12
-8907	half-digested coal	287234360	evil.gif	usable	t,d	21
+8907	half-digested coal	287234360	evil.gif	multiple	t,d	21
 8908	tightly-wound spine	444616225	clspine.gif	usable	t,d	21
 8909	rotting beefsteak	217124698	gnatfilet.gif	food	t,d	4
 8910	firemilk	627877078	milkbottle.gif	drink	t,d	32
