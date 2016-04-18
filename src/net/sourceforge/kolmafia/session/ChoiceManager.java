@@ -6743,7 +6743,7 @@ public abstract class ChoiceManager
 		}
 
 		// If you walked away from the choice, this is not the result of a choice.
-		if ( !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
+		if ( ChoiceManager.canWalkAway && !urlString.startsWith( "choice.php" ) && !urlString.startsWith( "fight.php" ) )
 		{
 			return;
 		}
