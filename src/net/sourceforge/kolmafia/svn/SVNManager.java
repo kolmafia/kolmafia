@@ -117,7 +117,7 @@ public class SVNManager
 	private static ISVNEventHandler myUpdateEventHandler;
 	private static ISVNEventHandler myWCEventHandler;
 
-	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/code(.*)", Pattern.DOTALL );
+	private static Pattern SOURCEFORGE_PATTERN = Pattern.compile( "/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL );
 	private static Pattern GOOGLECODE_HOST_PATTERN = Pattern.compile( "([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL );
 	private static List<String> permissibles = Arrays.asList( "scripts", "data", "images", "relay", "ccs", "planting" );
 
@@ -1177,26 +1177,20 @@ public class SVNManager
 	public static String getFolderUUIDNoRemote( SVNURL repo )
 	{
 		String UUID = null;
-		Matcher m = SOURCEFORGE_PATTERN.matcher( repo.getPath() );
+		Matcher m;
 
-		if ( m.find() )
+		if ( ( m = SVNManager.SOURCEFORGE_PATTERN.matcher( repo.getPath() ) ).find() )
 		{
 			// replace awful SVN UUID with nicely-formatted string derived from URL
-			UUID = StringUtilities.globalStringReplace( m.group( 1 ) + m.group( 2 ), "/", "-" );
+			UUID = StringUtilities.globalStringReplace( m.group( 1 ) + m.group( 2 ), "/", "-" );//
 		}
-		else
+		else if ( ( m = GOOGLECODE_HOST_PATTERN.matcher( repo.getHost() ) ).find() )
 		{
-			// try googlecode regex.
-			m = GOOGLECODE_HOST_PATTERN.matcher( repo.getHost() );
-
-			if ( m.find() )
-			{
-				UUID = m.group( 1 ) + StringUtilities.globalStringReplace( repo.getPath().substring( 4 ), "/", "-" );
-			}
-			else if ( repo.getHost().contains( "github" ) )
-			{
-				UUID = StringUtilities.globalStringReplace( repo.getPath().substring( 1 ), "/", "-" );
-			}
+			UUID = m.group( 1 ) + StringUtilities.globalStringReplace( repo.getPath().substring( 4 ), "/", "-" );
+		}
+		else if ( repo.getHost().contains( "github" ) )
+		{
+			UUID = StringUtilities.globalStringReplace( repo.getPath().substring( 1 ), "/", "-" );
 		}
 		return UUID;
 	}
