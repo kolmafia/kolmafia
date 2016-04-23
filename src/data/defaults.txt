@@ -1126,6 +1126,7 @@ user	_banderRunaways	0
 user	_barrelPrayer	false
 user	_bearHugs	0
 user	_beerLensDrops	0
+user	_bendHellUsed	false
 user	_benettonsCasts	0
 user	_bittycar
 user	_blankoutUsed	false
@@ -1369,6 +1370,7 @@ user	_spinningWheel	false
 user	_spookyAirportToday	false
 user	_stabonicScrollUsed	false
 user	_steamCardDrops	0
+user	_steelyEyedSquintUsed	false
 user	_stenchAirportToday	false
 user	_stickerSummons	0
 user	_stinkyCheeseCount	0
