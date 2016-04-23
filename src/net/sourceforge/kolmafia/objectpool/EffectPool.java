@@ -305,6 +305,9 @@ public class EffectPool
 	public static final int BEER_BARREL_POLKA = 1950;
 	public static final int CRAFT_TEA = 1989;
 	public static final int COWRRUPTION = 2064;
+	public static final int BOWLEGGED_SWAGGER = 2073;
+	public static final int BENDIN_HELL = 2074;
+	public static final int STEELY_EYED_SQUINT = 2075;
 
 	public static final AdventureResult get( final int effectId )
 	{

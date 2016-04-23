@@ -401,6 +401,12 @@ public class Expression
 				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 
+			case '\u0093':
+				Modifiers mods = KoLCharacter.tempMods;
+				String modName = (String) this.literals.get( (int) s[ --sp ] );
+				v = mods.get( modName );
+				break;
+
 			case 'A':
 				v = KoLCharacter.getAscensions();
 				break;

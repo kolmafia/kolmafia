@@ -440,6 +440,9 @@ public abstract class KoLCharacter
 
 	private static final Modifiers currentModifiers = new Modifiers();
 
+	// This is used for determining modifiers that depend on other modifiers
+	public static Modifiers tempMods = new Modifiers();
+
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name. All
 	 * fields are initialized to their default values (nothing), and it is
@@ -5363,6 +5366,7 @@ public abstract class KoLCharacter
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, boolean applyIntrinsics )
 	{
+		KoLCharacter.tempMods.reset();
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
 		Modifiers newModifiers = debug ? new DebugModifiers() : new Modifiers();
@@ -5706,6 +5710,31 @@ public abstract class KoLCharacter
 				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
 				break;
 			}
+		}
+
+		// These depend on the modifiers from everything else, so they must be done last
+		KoLCharacter.tempMods = newModifiers;
+		if ( effects.contains( EffectPool.get( EffectPool.BENDIN_HELL ) ) )
+		{
+			newModifiers.add( Modifiers.HOT_DAMAGE, newModifiers.get( "Hot Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.COLD_DAMAGE, newModifiers.get( "Cold Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.STENCH_DAMAGE, newModifiers.get( "Stench Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.SPOOKY_DAMAGE, newModifiers.get( "Spooky Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.SLEAZE_DAMAGE, newModifiers.get( "Sleaze Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.HOT_SPELL_DAMAGE, newModifiers.get( "Hot Spell Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.COLD_SPELL_DAMAGE, newModifiers.get( "Cold Spell Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.STENCH_SPELL_DAMAGE, newModifiers.get( "Stench Spell Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.SPOOKY_SPELL_DAMAGE, newModifiers.get( "Spooky Spell Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.SLEAZE_SPELL_DAMAGE, newModifiers.get( "Sleaze Spell Damage" ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+		}
+		if ( effects.contains( EffectPool.get( EffectPool.BOWLEGGED_SWAGGER ) ) )
+		{
+			newModifiers.add( Modifiers.INITIATIVE, newModifiers.get( "Initiative" ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			// Add "Physical Damage" here, when that is properly defined
+		}
+		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
+		{
+			newModifiers.add( Modifiers.ITEMDROP, newModifiers.get( "Item Drop" ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
 		}
 
 		// Determine whether or not data has changed
