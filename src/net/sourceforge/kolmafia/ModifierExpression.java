@@ -125,6 +125,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ), '\u0092' );
 		}
+		if ( this.optional( "mod(" ) )
+		{
+			return this.literal( this.until( ")" ), '\u0093' );
+		}
 
 		return null;
 	}

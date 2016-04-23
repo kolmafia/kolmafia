@@ -4247,7 +4247,7 @@ Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
 Effect	Behind the Green Curtain	Spooky Resistance: +9
 Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Effect	Bells in the Batfry	Moxie Percent: +10
-# Effect Bendin' Hell: Your Elemental (and Elemental Spell) damage bonuses are doubled
+Effect	Bendin' Hell	Hot Damage: [mod(Hot Damage)], Cold Damage: [mod(Cold Damage)], Stench Damage: [mod(Stench Damage)], Spooky Damage: [mod(Spooky Damage)], Sleaze Damage: [mod(Sleaze Damage)], Hot Spell Damage: [mod(Hot Spell Damage)], Cold Spell Damage: [mod(Cold Spell Damage)], Stench Spell Damage: [mod(Stench Spell Damage)], Spooky Spell Damage: [mod(Spooky Spell Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Bestial Sympathy	Familiar Weight: +3
@@ -4335,6 +4335,8 @@ Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky D
 Effect	Bottle in front of Me	Spell Damage: +15
 Effect	Bounty of Renenutet	Item Drop: +50
 # Effect Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
+# Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
+Effect	Bow-Legged Swagger	Initiative: [mod(Initiative)]
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Effect	Braaains	Meat Drop: +50, Initiative: -50
@@ -5849,7 +5851,7 @@ Effect	Stands Alone	Stench Damage: +10
 Effect	Stark Raven Mad	Avatar: "raven"
 Effect	Starry-Eyed	Muscle Percent: [+5*U], Mysticality Percent: [+5*U], Moxie Percent: [+5*U]
 Effect	Staying Frosty	Cold Damage: +100
-# Effect Steely-Eyed Squint: Your Item Drop bonuses are doubled
+Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
 Effect	Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
