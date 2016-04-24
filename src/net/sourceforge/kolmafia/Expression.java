@@ -402,9 +402,9 @@ public class Expression
 				break;
 
 			case '\u0093':
-				Modifiers mods = KoLCharacter.tempMods;
+				Modifiers mods = KoLCharacter.getCurrentModifiers();
 				String modName = (String) this.literals.get( (int) s[ --sp ] );
-				v = mods.get( modName );
+				v = mods.getExtra( modName );
 				break;
 
 			case 'A':
