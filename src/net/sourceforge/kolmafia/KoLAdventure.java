@@ -547,7 +547,7 @@ public class KoLAdventure
 
 		// Disguise zones require outfits
 		if ( !this.adventureId.equals( AdventurePool.COLA_BATTLEFIELD_ID ) &&
-		     ( this.adventureName.indexOf( "Disguise" ) != -1 || this.adventureName.indexOf( "Uniform" ) != -1 ) )
+		     ( this.adventureName.contains( "Disguise" ) || this.adventureName.contains( "Uniform" ) ) )
 		{
 			int outfitId = EquipmentDatabase.getOutfitId( this );
 
@@ -956,7 +956,8 @@ public class KoLAdventure
 
 		if ( this.adventureId.equals( AdventurePool.WHITEYS_GROVE_ID ) )
 		{
-			if ( !Preferences.getString( Quest.CITADEL.getPref() ).equals( "unstarted" ) )
+			if ( !Preferences.getString( Quest.CITADEL.getPref() ).equals( "unstarted" ) ||
+			     ( QuestDatabase.isQuestLaterThan( Quest.PALINDOME, "step2" ) && !KoLCharacter.isEd() ) )
 			{
 				this.isValidAdventure = true;
 				return;
@@ -1255,7 +1256,7 @@ public class KoLAdventure
 
 		if ( this.request instanceof AdventureRequest && !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) )
 		{
-			if ( !this.isNonCombatsOnly() && action.indexOf( "dictionary" ) != -1 && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
+			if ( !this.isNonCombatsOnly() && action.contains( "dictionary" ) && FightRequest.DICTIONARY1.getCount( KoLConstants.inventory ) < 1 && FightRequest.DICTIONARY2.getCount( KoLConstants.inventory ) < 1 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Sorry, you don't have a dictionary." );
 				return;
@@ -1291,7 +1292,7 @@ public class KoLAdventure
 			// Check for dictionaries as a battle strategy, if the
 			// person is not adventuring at the chasm.
 
-			if ( !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.request.getAdventuresUsed() == 1 && action.indexOf( "dictionary" ) != -1 )
+			if ( !this.adventureId.equals( AdventurePool.ORC_CHASM_ID ) && this.request.getAdventuresUsed() == 1 && action.contains( "dictionary" ) )
 			{
 				if ( !KoLCharacter.getFamiliar().isCombatFamiliar() )
 				{
@@ -2326,7 +2327,7 @@ public class KoLAdventure
 
 		for ( int i = 1; i < ADVENTURE_FAILURES.length; ++i )
 		{
-			if ( responseText.indexOf( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) != -1 )
+			if ( responseText.contains( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) )
 			{
 				return i;
 			}
