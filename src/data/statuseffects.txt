@@ -4,7 +4,7 @@
 3	Confused	confused.gif	d335051a5afb4fa12036998ac13f167b	use 1 Senior Mints
 4	Embarrassed	blush.gif	c489e39537ea426cd1b8fae88ed5032c	use 1 patchouli incense stick
 5	Far Out	farout.gif	5ad503e9df2df73bfbbb5377b622c8c4	use 1 patchouli incense stick
-6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74	chew 1 can of Red Minotaur
+6	Wings	wings.gif	8cdb75aeb628bb9b9594908b7d0bfa74
 7	Beaten Up	beatenup.gif	acf143c704afaf7504ac07375084f79e
 8	Hardly Poisoned at All	poison.gif	13e148b2f71301e54e27001d6e603584	use 1 marzipan skull
 9	Knob Goblin Perfume	spraycan.gif	12f74ff515842399be4b67bbc3550f79	use 1 Knob Goblin perfume

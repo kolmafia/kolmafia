@@ -7129,7 +7129,6 @@ Item	bottle of extra-strength melodramamine	Effect: "Emotion Sickness", Effect D
 Item	bottle of melodramamine	Effect: "Emotion Sickness", Effect Duration: 5
 Item	bottle of ultravitamins	Effect: "Vitamin-Maxed", Effect Duration: 10
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10
-Item	can of Red Minotaur	Effect: "Wings", Effect Duration: 5
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 10
