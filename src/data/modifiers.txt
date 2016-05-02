@@ -4745,6 +4745,7 @@ Effect	Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(_feelinTheRhythm)], Moxie: [pref(_feelinTheRhythm)]
 Effect	Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
+Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
@@ -6757,6 +6758,7 @@ Item	foie gras	Effect: "Beaten Up", Effect Duration: 1
 Item	forbidden danish	Effect: "Danish Cunning", Effect Duration: 30
 Item	frozen danish	Effect: "Danish Cunning", Effect Duration: 30
 Item	fudgesicle	Effect: "Fudge Headache", Effect Duration: 30
+Item	gallon of milk	Effect: "Feeling Queasy", Effect Duration: 100
 Item	ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
 Item	giant green gummi bear	Effect: "Gummibrain", Effect Duration: 40
 Item	giant red gummi bear	Effect: "Gummiheart", Effect Duration: 40
@@ -7778,6 +7780,7 @@ Item	disco horoscope (Sagittarius)	Effect: "Sagittarius Rising", Effect Duration
 Item	disco horoscope (Scorpio)	Effect: "Scorpio Rising", Effect Duration: 10
 Item	disco horoscope (Taurus)	Effect: "Taurus Rising", Effect Duration: 10
 Item	disco horoscope (Virgo)	Effect: "Virgo Rising", Effect Duration: 10
+Item	disconnected intergnat	Free Pull
 Item	Discontent&trade; Winter Garden Catalog	Free Pull
 # disease: Weakens enemies very slightly
 Item	disintegrating spiky collar	Effect: "Man's Worst Enemy", Effect Duration: 10

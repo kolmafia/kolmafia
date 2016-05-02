@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -210,6 +211,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel gotporkOrphanagePanel = null;
 	private CoinmasterPanel gotporkPDPanel = null;
 	private CoinmasterPanel lttPanel = null;
+	private CoinmasterPanel baconPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -423,6 +425,11 @@ public class CoinmastersFrame
 		lttPanel = new LTTPanel();
 		panel.add( lttPanel );
 		this.selectorPanel.addPanel( lttPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		baconPanel = new BaconPanel();
+		panel.add( baconPanel );
+		this.selectorPanel.addPanel( baconPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1383,6 +1390,15 @@ public class CoinmastersFrame
 		public BoutiquePanel()
 		{
 			super( BoutiqueRequest.BOUTIQUE );
+		}
+	}
+
+	private class BaconPanel
+		extends CoinmasterPanel
+	{
+		public BaconPanel()
+		{
+			super( MemeShopRequest.BACON_STORE );
 		}
 	}
 

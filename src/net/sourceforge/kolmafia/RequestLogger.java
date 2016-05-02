@@ -126,6 +126,7 @@ import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
@@ -1263,6 +1264,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ManageStoreRequest || isExternal ) && ManageStoreRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof MemeShopRequest || isExternal ) && MemeShopRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

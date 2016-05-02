@@ -8786,7 +8786,7 @@
 8760	tiny plastic Crimbodhisattva	245710520	tpcrimbuddha.gif	accessory	t	0
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
 8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
-8763
+8763	BACON	570568990	jarl_bacon.gif	none	t	0	BACON
 8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0
 8765	Gratitude chocolate (thyme-filled)	158122731	gratchoc1.gif	usable	t	0	Gratitude chocolates (thyme-filled)
 8766	Gratitude chocolate (bourbon-filled)	376915396	gratchoc2.gif	drink	t	0	Gratitude chocolates (bourbon-filled)
@@ -9039,3 +9039,16 @@
 9013	sonar fishfinder	463912431	evilometer.gif	offhand	t	0
 9014
 9015	antique tacklebox	166401677	tacklebox.gif	none	t	0
+9016	disconnected intergnat	989587076	discognat.gif	grow	t	0
+9017	viral video	473286597	viralvideo.gif	none, combat	t,d	10
+9018	internet point	281162369	internetpoint.gif	usable	t,d	1
+9019	meme generator	909671684	memegenerator.gif	usable	t,d	25
+9020	plus one	317841784	plusone.gif	none, usable, curse	t,d	1
+9021	gallon of milk	505156247	milkjug.gif	food	t,d	15
+9022	print screen button	275502291	printscreen.gif	none, combat	t,d	50
+
+9024	daily dungeon malware	264307404	malware.gif	none, combat	t,d	35
+9025	infinite BACON machine	785926220	baconmachine.gif	usable		0
+9026	First Post shirt package	653301257	plainbrown.gif	usable	t,d	100
+
+9028	high-speed upgrade	975692001	upgradechip.gif	familiar	t,d	75

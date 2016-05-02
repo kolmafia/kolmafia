@@ -828,3 +828,14 @@ LT&T Gift Shop	buy	100	LT&T tattoo kit	ROW799
 LT&T Gift Shop	buy	15	Western Slang Vol. 1: Violence	ROW800
 LT&T Gift Shop	buy	15	Western Slang Vol. 2: Cooking	ROW801
 LT&T Gift Shop	buy	15	Western Slang Vol. 3: Fraud	ROW802
+
+# BACON
+Internet Meme Shop	buy	20	viral video	ROW821
+Internet Meme Shop	buy	74	plus one	ROW824
+Internet Meme Shop	buy	100	gallon of milk	ROW825
+Internet Meme Shop	buy	111	print screen button	ROW826
+Internet Meme Shop	buy	150	daily dungeon malware	ROW827
+Internet Meme Shop	buy	37	internet point	ROW822
+Internet Meme Shop	buy	50	meme generator	ROW823
+Internet Meme Shop	buy	150000	First Post shirt package	ROW829
+Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
