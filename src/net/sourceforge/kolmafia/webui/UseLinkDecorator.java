@@ -1933,14 +1933,19 @@ public abstract class UseLinkDecorator
 				new UseLink( itemId, count, "radio", "place.php?whichplace=airport_spooky&action=airport2_radio" );
 		}
 
-        case ItemPool.MEATSMITH_CHECK:
-            return new UseLink( itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith" );
+		case ItemPool.MEATSMITH_CHECK:
+			return new UseLink( itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith" );
 
-        case ItemPool.NO_HANDED_PIE:
-            return new UseLink( itemId, 1, "visit armorer", "shop.php?whichshop=armory" );
+		case ItemPool.NO_HANDED_PIE:
+			return new UseLink( itemId, 1, "visit armorer", "shop.php?whichshop=armory" );
+
+		case ItemPool.BACON:
+			useType = "spend";
+			useLocation = "shop.php?whichshop=fishbones";
+			break;
 
 
-            default:
+		default:
 
 		}
 
