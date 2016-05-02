@@ -68,6 +68,7 @@ import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -127,6 +128,7 @@ public abstract class CoinmasterRegistry
 		IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
 		LTTRequest.LTT,
 		LunarLunchRequest.LUNAR_LUNCH,
+		MemeShopRequest.BACON_STORE,
 		MrStoreRequest.MR_STORE,
 		NeandermallRequest.NEANDERMALL,
 		NinjaStoreRequest.NINJA_STORE,

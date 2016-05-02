@@ -2524,6 +2524,7 @@ public class ItemPool
 	public static final int WESTERN_BOOK_BRAGGADOCCIO = 8716;
 	public static final int WESTERN_BOOK_HELL = 8717;
 	public static final int WESTERN_BOOK_LOOK = 8718;
+	public static final int BACON = 8763;
 	public static final int BAT_OOMERANG = 8797;
 	public static final int BAT_JUTE = 8798;
 	public static final int BAT_O_MITE = 8799;

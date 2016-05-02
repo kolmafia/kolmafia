@@ -796,6 +796,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "bacon" ) )
+		{
+			MemeShopRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )
@@ -1149,6 +1155,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "ltt" ) )
 			{
 				return LTTRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "bacon" ) )
+			{
+				return MemeShopRequest.registerRequest( urlString );
 			}
 
 			return false;
