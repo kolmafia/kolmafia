@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -590,6 +591,7 @@ public class AdventureRequest
 
 		// If the monster has random modifiers, remove and save them
 		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
+		encounter = AdventureRequest.handleIntergnat( encounter );
 
 		// Adventuring in the Wumpus cave while temporarily blind is
 		// stupid, but since we won't clear the cave after defeating it
@@ -1417,6 +1419,35 @@ public class AdventureRequest
 		String[] array = new String[ external.size() ];
 		MonsterData.lastRandomModifiers = external.toArray( array );
 
+		return monsterName;
+	}
+
+	private static final String handleIntergnat( String monsterName )
+	{
+		if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.INTERGNAT )
+		{
+			return monsterName;
+		}
+		if ( monsterName.contains( " WITH BACON!!!" ) )
+		{
+			return StringUtilities.globalStringDelete( monsterName, " WITH BACON!!!" );
+		}
+		if ( monsterName.contains( "ELDRITCH HORROR " ) )
+		{
+			return StringUtilities.globalStringDelete( monsterName, "ELDRITCH HORROR " );
+		}
+		if ( monsterName.contains( " AND TESLA!" ) )
+		{
+			return StringUtilities.globalStringDelete( monsterName, " AND TESLA!" );
+		}
+		if ( monsterName.contains( " WITH SCIENCE!" ) )
+		{
+			return StringUtilities.globalStringDelete( monsterName, " WITH SCIENCE!" );
+		}
+		if ( monsterName.contains( " NAMED NEIL" ) )
+		{
+			return StringUtilities.globalStringDelete( monsterName, " NAMED NEIL" );
+		}
 		return monsterName;
 	}
 }
