@@ -2081,6 +2081,7 @@ public class ItemPool
 	public static final int SNEAKY_PETE_SHOT = 7252;
 	public static final int MINI_MARTINI = 7255;
 	public static final int SMOKE_GRENADE = 7256;
+	public static final int PALINDROME_BOOK_1 = 7262;
 	public static final int PHOTOGRAPH_OF_DOG = 7263;
 	public static final int PHOTOGRAPH_OF_RED_NUGGET = 7264;
 	public static final int PHOTOGRAPH_OF_OSTRICH_EGG = 7265;

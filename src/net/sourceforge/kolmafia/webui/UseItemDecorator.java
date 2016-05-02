@@ -33,20 +33,16 @@
 
 package net.sourceforge.kolmafia.webui;
 
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UseItemDecorator
 {
 	public static final void decorate( final String location, final StringBuffer buffer )
 	{
-		if ( location.startsWith( "inventory.php" ) && location.indexOf( "action=message" ) == -1 )
+		if ( location.startsWith( "inventory.php" ) && !location.contains( "action=message" ) )
 		{
 			return;
 		}
@@ -60,7 +56,35 @@ public class UseItemDecorator
 		case ItemPool.BOO_CLUE:
 			UseItemDecorator.decorateBooClue( buffer );
 			break;
+
+		case ItemPool.PALINDROME_BOOK_1:
+			UseItemDecorator.decorateVolume1( buffer );
+			break;
+
+		case ItemPool.PALINDROME_BOOK_2:
+			UseItemDecorator.decorateVolume2( buffer );
+			break;
 		}
+	}
+
+	private static void decorateItem( final StringBuffer buffer, final StringBuilder insert )
+	{
+		String search = "</blockquote></td></tr>";
+		int index = buffer.indexOf( search );
+
+		if ( index == -1 )
+		{
+			return;
+		}
+
+		// We will insert things before the end of the table
+		index += search.length();
+		StringBuilder link = new StringBuilder();
+		link.append( "<tr align=center><td>" );
+		link.append( insert );
+		link.append( "</td></tr>" );
+
+		buffer.insert( index, link.toString() );
 	}
 
 	// <table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><img src="http://images.kingdomofloathing.com/itemimages/ratchet.gif" width=30 height=30><br></center><blockquote>TEXT</blockquote></td></tr></table>
@@ -72,24 +96,34 @@ public class UseItemDecorator
 			return;
 		}
 
-		String search = "</blockquote></td></tr>";
-		int index = buffer.indexOf( search );
-
-		if ( index == -1 )
-		{
-			return;
-		}
-
-		// We will insert things before the end of the table
-		index += search.length();
-
 		// Add the link to adventure in A-Boo Peak
 		StringBuilder link = new StringBuilder();
-		link.append( "<tr align=center><td>" );
 		link.append( "<a href=\"adventure.php?snarfblat=296\">" );
 		link.append( "[Adventure at A-Boo Peak]" );
-		link.append( "</a></td></tr>" );
+		link.append( "</a>" );
 
-		buffer.insert( index, link.toString() );
+		UseItemDecorator.decorateItem( buffer, link );
+	}
+
+	private static void decorateVolume1( final StringBuffer buffer )
+	{
+		// Add the link
+		StringBuilder link = new StringBuilder();
+		link.append( "<a href=\"place.php?whichplace=palindome&action=pal_droffice\">" );
+		link.append( "[Place stuff on the shelves]" );
+		link.append( "</a>" );
+
+		UseItemDecorator.decorateItem( buffer, link );
+	}
+
+	private static void decorateVolume2( final StringBuffer buffer )
+	{
+		// Add the link
+		StringBuilder link = new StringBuilder();
+		link.append( "<a href=\"place.php?whichplace=palindome&action=pal_mroffice\">" );
+		link.append( "[Talk to Mr. Alarm]" );
+		link.append( "</a>" );
+
+		UseItemDecorator.decorateItem( buffer, link );
 	}
 }
