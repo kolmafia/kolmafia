@@ -1941,7 +1941,7 @@ public abstract class UseLinkDecorator
 
 		case ItemPool.BACON:
 			useType = "spend";
-			useLocation = "shop.php?whichshop=fishbones";
+			useLocation = "shop.php?whichshop=bacon";
 			break;
 
 
