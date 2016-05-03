@@ -9046,9 +9046,9 @@
 9020	plus one	317841784	plusone.gif	none, usable, curse	t,d	1
 9021	gallon of milk	505156247	milkjug.gif	food	t,d	15
 9022	print screen button	275502291	printscreen.gif	none, combat	t,d	50
-
+9023
 9024	daily dungeon malware	264307404	malware.gif	none, combat	t,d	35
 9025	infinite BACON machine	785926220	baconmachine.gif	usable		0
 9026	First Post shirt package	653301257	plainbrown.gif	usable	t,d	100
-
+9027
 9028	high-speed upgrade	975692001	upgradechip.gif	familiar	t,d	75
