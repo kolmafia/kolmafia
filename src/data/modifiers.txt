@@ -3445,6 +3445,7 @@ Item	guard turtle collar	Familiar Damage: +10, Generic
 Item	half-height unicycle	Familiar Weight: +5
 Item	hardware upgrade	Familiar Weight: +5
 Item	heavy-duty Crimbot aerial	Familiar Weight: +5
+Item	high-speed upgrade	Familiar Weight: +5
 # homemade robot gear: +1 Gear
 Item	hot pink lipstick	Familiar Weight: +5
 Item	hypodermic needle	Familiar Weight: +5
