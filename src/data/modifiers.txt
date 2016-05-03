@@ -6273,7 +6273,7 @@ Skill	Astute Angler	Fishing Skill: +10
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
 Skill	Bean Runner	Initiative: +75
-# Bear Essence +20% Picnic Basket Drops from monsters
+# Bear Essence +20% Picnic Basket Drops from monsters each time skill taken
 # Best Dressed You are aware of your torso.  It is awesome.
 Skill	Best Dressed	Experience (Moxie): +1
 Skill	Best Served Cold	Spell Damage Percent: +100
