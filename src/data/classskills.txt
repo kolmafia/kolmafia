@@ -737,6 +737,9 @@
 7267	Adjust the Jokester's Pants	tuxpants.gif	5	0	0
 7268	Cowboy Kick	cowboyboots.gif	5	0	0
 7269	Absorb Cowrruption	angry.gif	2	0	0
+7270	Science! Fight with Medicine	plus.gif	5	0	0
+7271	Science! Fight with Rational Thought	realbrain.gif	5	0	0
+7272	Science!  Fight with Internet Debate	angry.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

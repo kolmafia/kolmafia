@@ -741,6 +741,8 @@ public class AdventureRequest
 				// BatFellow
 				image.startsWith( "henchman" ) ? "very [adjective] henchman" :
 				image.startsWith( "henchwoman" ) ? "very [adjective] henchwoman" :
+				// Tres de Mayo
+				image.startsWith( "reveler" ) ? "Cinco de Mayo reveler" :
 				null;
 		}
 

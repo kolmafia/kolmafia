@@ -5094,6 +5094,7 @@ Effect	Inscrutable exoskeleton	Damage Absorption: +300
 # Effect Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Effect	Insulated Trousers	Cold Resistance: +1
+Effect	Internate Debatable	Monster Level: +10
 Effect	Intimidating Mien	Spooky Damage: +15
 Effect	Into the Friar	Avatar: "black friar"
 # Invisible (20 Minutes Ago): Makes You Invisible In The Past
@@ -5563,6 +5564,7 @@ Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
 Effect	Rank Sweat	Stench Resistance: +7
 Effect	Rat-Faced	Moxie Percent: +10
+Effect	Rational Thought	Combat Rate: -5
 Effect	Rattlin' Head	Avatar: "forest spirit"
 Effect	Rave Concentration	Item Drop: +30
 Effect	Rave Nirvana	Meat Drop: +50

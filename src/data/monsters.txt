@@ -2237,6 +2237,10 @@ ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Init: -10000 P: elf	flas
 exo-suited miner	1648	crimbominer1.gif	Scale: 5 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
 semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
 
+# Tres de Mayo (May 2016)
+
+Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 P: dude
+
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
