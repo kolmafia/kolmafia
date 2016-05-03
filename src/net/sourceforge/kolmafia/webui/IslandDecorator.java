@@ -568,6 +568,10 @@ public class IslandDecorator
 		// Quest-specific page decorations
 		IslandDecorator.decorateArena( url, buffer );
 
+		// Replace all KoL image servers with KoLmafia image cache locations
+		StringUtilities.globalStringReplace( buffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images" );
+		StringUtilities.globalStringReplace( buffer, KoLmafia.KOL_IMAGE_SERVER, "/images" );
+
 		// Replace sidequest location images for completed quests
 
 		// The arena is available after the war only if the fans of the
