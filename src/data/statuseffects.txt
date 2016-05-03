@@ -2095,6 +2095,6 @@
 2094	Baited Hook	wiggleworm.gif	8a79ad1edacc21eb9ba18a14df09ce2e	use 1 wriggling worm
 2095
 2096	High-Test Fishing Line	fishingline.gif	e1636ba1d377fc81d11e007a04627260	use 1 high-test fishing line
-
-
+2097	Rational Thought	realbrain.gif	e2e3f650ec3efb672265335604ed47ed	# cast Science! Fight with Rational Thought in combat
+2098	Internate Debatable	angry.gif	d9ec2dd3296c1062079f0d2a660d8d65	# cast Science!  Fight with Internet Debate in combat
 2099	Feeling Queasy	nauseated.gif	c5f4e1f307eeb6ec4ec7c1b3f1507a17	eat 1 gallon of milk

@@ -2255,7 +2255,8 @@ public class FightRequest
 				    encounter.equalsIgnoreCase( "peripatetic pirate" ) ||
 				    encounter.equalsIgnoreCase( "giant pumpkin-head" ) ||
 				    encounter.equalsIgnoreCase( "large-headed werewolf" ) ||
-				    encounter.equalsIgnoreCase( "oddly-proportioned ghost" )
+				    encounter.equalsIgnoreCase( "oddly-proportioned ghost" ) ||
+				    encounter.equalsIgnoreCase( "Cinco de Mayo reveler" )
 					  ) )
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
