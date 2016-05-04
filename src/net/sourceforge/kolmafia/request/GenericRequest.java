@@ -3010,6 +3010,13 @@ public class GenericRequest
 			itemName = "tonic djinn";
 			break;
 
+		case ItemPool.SCREENCAPPED_MONSTER:
+			itemName = "screencapped monster";
+			consumed = true;
+			EncounterManager.ignoreSpecialMonsters();
+			Preferences.setString( "screencappedMonster", "" );
+			break;
+
 		default:
 			return;
 		}
