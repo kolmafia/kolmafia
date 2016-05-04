@@ -6824,9 +6824,17 @@ public class FightRequest
 			return false;
 
 		case ItemPool.CHATEAU_WATERCOLOR:
-			if ( responseText.contains( "Chateau Mantegna approaches" ) )
+			if ( responseText.contains( "Chateau Mantegna approaches" ) || itemSuccess )
 			{
 				Preferences.setString( "chateauMonster", monsterName );
+				return true;
+			}
+			return false;
+
+		case ItemPool.PRINT_SCREEN:
+			if ( responseText.contains( "You copy" ) || itemSuccess )
+			{
+				Preferences.setString( "screencappedMonster", monsterName );
 				return true;
 			}
 			return false;

@@ -936,6 +936,7 @@ user	royalty
 user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
 user	safePickpocket	true
+user	screencappedMonster	
 user	scriptMRULength	0
 user	scriptMRUList
 user	seahorseName
