@@ -1313,9 +1313,9 @@ public class AdventureRequest
 
 	private static String handleRandomModifiers( String monsterName, String responseText )
 	{
+		MonsterData.lastRandomModifiers.clear();
 		if ( !responseText.contains( "var ocrs" ) )
 		{
-			MonsterData.lastRandomModifiers = null;
 			return monsterName;
 		}
 
@@ -1380,7 +1380,6 @@ public class AdventureRequest
 			monsterName = monsterName.substring( 2 );
 		}
 
-		ArrayList<String> external = new ArrayList<String>();
 		int count = internal.size() - 1;
 		boolean leet = false;
 
@@ -1392,7 +1391,7 @@ public class AdventureRequest
 			if ( remove == null )
 			{
 				RequestLogger.printLine( "Unrecognized monster modifier: " + modifier );
-				external.add( modifier );
+				MonsterData.lastRandomModifiers.add( modifier );
 				continue;
 			}
 
@@ -1401,7 +1400,7 @@ public class AdventureRequest
 				leet = true;
 			}
 
-			external.add( remove );
+			MonsterData.lastRandomModifiers.add( remove );
 
 			remove += ( j == count ) ? " " : ", ";
 
@@ -1417,10 +1416,6 @@ public class AdventureRequest
 			monsterName = MonsterDatabase.translateLeetMonsterName( decoded );
 		}
 
-		// Save the modifiers for later use
-		String[] array = new String[ external.size() ];
-		MonsterData.lastRandomModifiers = external.toArray( array );
-
 		return monsterName;
 	}
 
@@ -1432,23 +1427,28 @@ public class AdventureRequest
 		}
 		if ( monsterName.contains( " WITH BACON!!!" ) )
 		{
+			MonsterData.lastRandomModifiers.add( "bacon" );
 			return StringUtilities.globalStringDelete( monsterName, " WITH BACON!!!" );
 		}
 		if ( monsterName.contains( "ELDRITCH HORROR " ) )
 		{
+			MonsterData.lastRandomModifiers.add( "eldritch" );
 			return StringUtilities.globalStringDelete( monsterName, "ELDRITCH HORROR " );
-		}
-		if ( monsterName.contains( " AND TESLA!" ) )
-		{
-			return StringUtilities.globalStringDelete( monsterName, " AND TESLA!" );
-		}
-		if ( monsterName.contains( " WITH SCIENCE!" ) )
-		{
-			return StringUtilities.globalStringDelete( monsterName, " WITH SCIENCE!" );
 		}
 		if ( monsterName.contains( " NAMED NEIL" ) )
 		{
+			MonsterData.lastRandomModifiers.add( "neil" );
 			return StringUtilities.globalStringDelete( monsterName, " NAMED NEIL" );
+		}
+		if ( monsterName.contains( " WITH SCIENCE!" ) )
+		{
+			MonsterData.lastRandomModifiers.add( "science" );
+			return StringUtilities.globalStringDelete( monsterName, " WITH SCIENCE!" );
+		}
+		if ( monsterName.contains( " AND TESLA!" ) )
+		{
+			MonsterData.lastRandomModifiers.add( "tesla" );
+			return StringUtilities.globalStringDelete( monsterName, " AND TESLA!" );
 		}
 		return monsterName;
 	}
