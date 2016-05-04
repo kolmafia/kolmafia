@@ -165,7 +165,7 @@ public class MonsterData
 	public static final int DEFAULT_CAP = 10000;
 	public static final int DEFAULT_FLOOR = 10;
 
-	public static String[] lastRandomModifiers = null;
+	public static final ArrayList<String> lastRandomModifiers = new ArrayList<String>();
 
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
@@ -264,7 +264,8 @@ public class MonsterData
 
 	public MonsterData handleRandomModifiers()
 	{
-		String[] modifiers = MonsterData.lastRandomModifiers;
+		String[] modifiers = new String[ MonsterData.lastRandomModifiers.size() ];
+		MonsterData.lastRandomModifiers.toArray( modifiers );
 
 		if ( modifiers == null || modifiers.length == 0 )
 		{
