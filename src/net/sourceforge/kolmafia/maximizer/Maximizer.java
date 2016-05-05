@@ -1019,6 +1019,11 @@ public class Maximizer
 						continue;
 					}
 
+					if ( !StandardRequest.isAllowed( "Items", iname ) )
+					{
+						continue;
+					}
+
 					int full = ConsumablesDatabase.getFullness( iname );
 					if ( full > 0 &&
 						KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
