@@ -9052,3 +9052,5 @@
 9026	First Post shirt package	653301257	plainbrown.gif	usable	t,d	100
 9027
 9028	high-speed upgrade	975692001	upgradechip.gif	familiar	t,d	75
+9029
+9030	delicious star salad	875793075	salad.gif	food	t,d	1
