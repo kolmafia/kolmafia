@@ -9050,7 +9050,7 @@
 9024	daily dungeon malware	264307404	malware.gif	none, combat	t,d	35
 9025	infinite BACON machine	785926220	baconmachine.gif	usable		0
 9026	First Post shirt package	653301257	plainbrown.gif	usable	t,d	100
-9027
+9027	First Post shirt	215305249	btee3.gif	shirt		0
 9028	high-speed upgrade	975692001	upgradechip.gif	familiar	t,d	75
 9029
 9030	delicious star salad	875793075	salad.gif	food	t,d	1
