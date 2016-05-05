@@ -648,6 +648,7 @@ eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
 famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
+First Post shirt	100	none
 fishbone corset	20	none
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
