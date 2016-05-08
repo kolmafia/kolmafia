@@ -1127,6 +1127,10 @@ public class UseItemRequest
 		case ItemPool.FISH_HATCHET:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_floundryItemUsed" ) ? 0 : 1;
+
+		case ItemPool.BACON_MACHINE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_baconMachineUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5395,6 +5399,10 @@ public class UseItemRequest
 		case ItemPool.BASS_CLARINET:
 		case ItemPool.FISH_HATCHET:
 			Preferences.setBoolean( "_floundryItemUsed", true );
+			break;
+
+		case ItemPool.BACON_MACHINE:
+			Preferences.setBoolean( "_baconMachineUsed", true );
 			break;
 		}
 
