@@ -1117,6 +1117,7 @@ user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
 user	_astralDrops	0
+user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0
 user	_bagOTricksUsed	false
 user	_bagOfCandy	false

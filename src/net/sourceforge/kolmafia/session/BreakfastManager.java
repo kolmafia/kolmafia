@@ -90,7 +90,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.CHRONER_TRIGGER, 1 ),
 		ItemPool.get( ItemPool.PICKY_TWEEZERS, 1 ),
 		ItemPool.get( ItemPool.COCKTAIL_SHAKER, 1 ),
-
+		ItemPool.get( ItemPool.BACON_MACHINE, 1 ),
 	};
 
 	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
