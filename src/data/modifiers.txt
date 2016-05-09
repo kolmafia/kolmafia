@@ -791,7 +791,7 @@ Item	eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 Item	extremely wet T-shirt	Moxie Percent: +10, Sleaze Damage: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +10, Initiative: +40, Lasts Until Rollover
 Item	filthy hippy poncho	Mysticality: +3
-Item	First Post shirt	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Monster Level: +15, PvP Fights: +5
+Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Monster Level: +15, PvP Fights: +5
 # fishbone corset: Reduces the level of nearby water
 Item	flaming pink shirt	Item Drop: +15, Softcore Only
 Item	floral print shirt	Mysticality: +5
