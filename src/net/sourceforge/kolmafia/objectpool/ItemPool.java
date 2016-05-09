@@ -2544,6 +2544,7 @@ public class ItemPool
 	public static final int GLOB_OF_BAT_GLUE = 8813;
 	public static final int BAT_AID_BANDAGE = 8814;
 	public static final int BAT_BEARING = 8815;
+	public static final int REPLICA_BAT_OOMERANG = 8829;
 	public static final int ROBIN_EGG = 8833;
 	public static final int TELEGRAPH_OFFICE_DEED = 8836;
 	public static final int PLAINTIVE_TELEGRAM = 8837;

@@ -7883,6 +7883,16 @@ public class FightRequest
 				Preferences.setInteger( "mayoLevel", mayo );
 			}
 			break;
+		case ItemPool.REPLICA_BAT_OOMERANG:
+			if ( responseText.contains( "arm is too tired" ) )
+			{
+				Preferences.setInteger( "_usedReplicaBatoomerang", 3 );
+			}
+			else if ( responseText.contains( "throw the replica bat-oomerang" ) || itemSuccess )
+			{
+				Preferences.increment( "_usedReplicaBatoomerang", 1, 3, false );
+			}
+			break;
 		}
 
 		// May update a quest, handle in QuestManager
