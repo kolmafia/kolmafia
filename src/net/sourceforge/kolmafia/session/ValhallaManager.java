@@ -519,7 +519,7 @@ public class ValhallaManager
 		Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Bedroom" );
 		Preferences.setInteger( "meansuckerPrice", 400 );
 		Preferences.setInteger( "mayflyExperience", 0 );
-		Preferences.setString( "trapperOre", "chrome" );
+		Preferences.setString( "trapperOre", "" );
 		Preferences.setInteger( "twinpeakProgress", 0 );
 		Preferences.setInteger( "gnasirProgress", 0 );
 		Preferences.setString( "louvreLayout", "" );
