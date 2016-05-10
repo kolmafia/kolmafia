@@ -1063,7 +1063,7 @@ user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	turtleBlessingTurns	0
-user	trapperOre	chrome ore
+user	trapperOre
 user	twinPeakProgress	0
 user	umdLastObtained	
 user	uneffectWithHotTub	true
