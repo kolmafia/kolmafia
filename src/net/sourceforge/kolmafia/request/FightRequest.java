@@ -210,6 +210,14 @@ public class FightRequest
 		Pattern.compile( "^.*$", Pattern.DOTALL );
 	private static final Pattern MACRO_COMPACT_PATTERN =
 		Pattern.compile( "(?:#.*?)?([;\\n])[\\s;\\n]*" );
+	private static final Pattern INTERGNAT1_PATTERN =
+		Pattern.compile( "used to be a ([A-Za-z0-9 '_]*?) but then I took" );
+	private static final Pattern INTERGNAT2_PATTERN =
+		Pattern.compile( "All your ([A-Za-z0-9 '_]*?) are belong to us" );
+	private static final Pattern INTERGNAT3_PATTERN =
+		Pattern.compile( "I'm a' chargin' mah ([A-Za-z0-9 '_]*?)!&nbsp; it shouts." );
+	private static final Pattern INTERGNAT4_PATTERN =
+		Pattern.compile( "I made you a ([A-Za-z0-9 '_]*?) but I eated it!" );
 
 	private static final Pattern NS_ML_PATTERN =
 		Pattern.compile( "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\." );
@@ -3432,6 +3440,50 @@ public class FightRequest
 			case FamiliarPool.ROCKIN_ROBIN:
 				Preferences.increment( "rockinRobinProgress" );
 				break;
+
+			case FamiliarPool.INTERGNAT:
+				if ( monster != null )
+				{
+					for ( String s : monster.getRandomModifiers() )
+					{
+						if ( s.equals( "eldritch" ) )
+						{
+							String demonName = "";
+							Matcher gnatMatcher;
+							if ( ( gnatMatcher = FightRequest.INTERGNAT1_PATTERN.matcher( responseText ) ).find() )
+							{
+								demonName = gnatMatcher.group( 1 );
+							}
+							else if ( ( gnatMatcher = FightRequest.INTERGNAT2_PATTERN.matcher( responseText ) ).find() )
+							{
+								demonName = gnatMatcher.group( 1 );
+							}
+							else if ( ( gnatMatcher = FightRequest.INTERGNAT3_PATTERN.matcher( responseText ) ).find() )
+							{
+								demonName = gnatMatcher.group( 1 );
+							}
+							else if ( ( gnatMatcher = FightRequest.INTERGNAT4_PATTERN.matcher( responseText ) ).find() )
+							{
+								demonName = gnatMatcher.group( 1 );
+							}
+
+							if ( demonName.equals( "Neil" ) || demonName.equals( "" ) )
+							{
+								break;
+							}
+							else if ( demonName.contains( "'" ) )
+							{
+								//RequestLogger.printLine( "Intergnat name - demon part: " + demonName );
+							}
+							else
+							{
+								//RequestLogger.printLine( "Intergnat name - contact part: " + demonName );
+							}
+						}
+					}
+				}
+				break;
+
 			}
 
 			if ( KoLCharacter.inRaincore() )
