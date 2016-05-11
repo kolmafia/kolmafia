@@ -215,7 +215,7 @@ public class FightRequest
 	private static final Pattern INTERGNAT2_PATTERN =
 		Pattern.compile( "All your ([A-Za-z0-9 '_]*?) are belong to us" );
 	private static final Pattern INTERGNAT3_PATTERN =
-		Pattern.compile( "I'm a' chargin' mah ([A-Za-z0-9 '_]*?)!&nbsp; it shouts." );
+		Pattern.compile( "I'm a' chargin' mah ([A-Za-z0-9 '_]*?)!\" it shouts." );
 	private static final Pattern INTERGNAT4_PATTERN =
 		Pattern.compile( "I made you a ([A-Za-z0-9 '_]*?) but I eated it!" );
 
@@ -3473,11 +3473,11 @@ public class FightRequest
 							}
 							else if ( demonName.contains( "'" ) )
 							{
-								//RequestLogger.printLine( "Intergnat name - demon part: " + demonName );
+								SummoningChamberRequest.updateIntergnatName( demonName, false );
 							}
 							else
 							{
-								//RequestLogger.printLine( "Intergnat name - contact part: " + demonName );
+								SummoningChamberRequest.updateIntergnatName( demonName, true );
 							}
 						}
 					}

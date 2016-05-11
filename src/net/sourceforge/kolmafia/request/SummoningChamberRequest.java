@@ -164,4 +164,41 @@ public class SummoningChamberRequest
 
 		return true;
 	}
+
+	public static void updateIntergnatName( String name, final boolean isContact )
+	{
+		String demonName = Preferences.getString( "demonName12" );
+		if ( demonName.startsWith( "Neil" ) )
+		{
+			// We will add "Neil" when both of the other pieces are found
+			return;
+		}
+		if ( demonName.equals( "" ) )
+		{
+			Preferences.setString( "demonName12", name );
+			return;
+		}
+
+		boolean hasContact = !demonName.contains( "'" );
+
+		if ( isContact == hasContact )
+		{
+			// We know one part, and that's the part we're trying to add again
+			return;
+		}
+
+		if ( isContact )
+		{
+			demonName = demonName + " " + name;
+		}
+		else
+		{
+			demonName = name + " " + demonName;
+		}
+
+		// Since we started with 1 piece and added the second piece,
+		// throw "Neil" on the front to mark that this is finished
+		demonName = "Neil " + demonName;
+		Preferences.setString( "demonName12", demonName );
+	}
 }

@@ -563,6 +563,7 @@ public class ValhallaManager
 		Preferences.setInteger( "rockinRobinProgress", 25 );
 		Preferences.setInteger( "awolMedicine", 0 );
 		Preferences.setInteger( "awolVenom", 0 );
+		Preferences.setString( "demonName12", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
