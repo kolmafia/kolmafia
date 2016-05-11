@@ -2046,7 +2046,7 @@
 2045	More Mansquito Than Man	familiar1.gif	5b28dc6aeb5933421c6cc37bcd192e65	chew 1 Mansquito Serum
 2046	It's a Good Life!	inkwell.gif	c8e5625a3588796179a6f3a5dab1fc7f	chew 1 The Author's ink
 2047	The Inquisitor's Unknown Effect	confused.gif	bac1d296cb2f49ed62224999f04ec66c	chew 1 The Inquisitor's unidentifiable object
-2048	Behind the Green Curtain	jokerwig.gif	3237f73fe0b1ea3edab83baf14de258f	cast 1 Adjust the Jokester's Wig
+2048	Behind the Green Curtain	jokerwig.gif	3237f73fe0b1ea3edab83baf14de258f
 2049	Why So Serious?	jokerface.gif	c7514c82b93e3ca90cc2599bbc95adaa	use 1 Jokester makeup
 2050	Egged On	egg.gif	5d925cd298bcbfa32135fcb42f210a25	use 1 robin's egg
 2051	Slawdered	salad.gif	1c71dcf45c34cd0a714d5ee8cdaac83f	use 1 Kudzu slaw
@@ -2098,3 +2098,5 @@
 2097	Rational Thought	realbrain.gif	e2e3f650ec3efb672265335604ed47ed	# cast Science! Fight with Rational Thought in combat
 2098	Internate Debatable	angry.gif	d9ec2dd3296c1062079f0d2a660d8d65	# cast Science!  Fight with Internet Debate in combat
 2099	Feeling Queasy	nauseated.gif	c5f4e1f307eeb6ec4ec7c1b3f1507a17	eat 1 gallon of milk
+2100	Jacked In	plug.gif	f88b2b8ce68b568feb6d78b09e27ac85
+2101	Speed of the Internet	fast.gif	0b13d27333e5479d4783c9a4ddf5d281

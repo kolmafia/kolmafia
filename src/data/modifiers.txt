@@ -5120,6 +5120,7 @@ Effect	Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Effect	Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
 Effect	Jackasses' Symphony of Destruction	Weapon Damage: +12, Spell Damage: +12
+Effect	Jacked In	Item Drop: +10, Meat Drop: +20, Spell Damage: +30, Weapon Damage: +40, Initiative: +50
 # Jalape&ntilde;o Saucesphere: Damages Attacking Opponent
 Effect	Jalape&ntilde;o Saucesphere	Damage Reduction: 3
 # Jammin': Deal extra damage as the fight goes on
@@ -5804,6 +5805,7 @@ Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Effect Sparkly!: +50 Damage vs. Undead
 Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200
 # Spectral: You take and deal almost no damage
+Effect	Speed of the Internet	Initiative: +50
 Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
