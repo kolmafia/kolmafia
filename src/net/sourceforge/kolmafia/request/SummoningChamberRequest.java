@@ -36,10 +36,13 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -56,19 +59,31 @@ public class SummoningChamberRequest
 
 	private static final Pattern DEMON_PATTERN = Pattern.compile( "demonname=([^&]*)" );
 	private final String demon;
+	private int demonNumber;
 
-	public SummoningChamberRequest( final String demon )
+	public SummoningChamberRequest( final String demon, int demonNumber )
 	{
 		super( "choice.php" );
 		this.addFormField( "whichchoice", "922" );
 		this.addFormField( "option", "1" );
 		this.addFormField( "demonname", demon );
 		this.demon = demon;
+		this.demonNumber = demonNumber;
 	}
 
 	@Override
 	public void run()
 	{
+		FamiliarData currentFam = FamiliarData.NO_FAMILIAR;
+		if ( demonNumber == 12 )
+		{
+			// Intergnat demon
+			// This should never happen if you don't have an Intergnat
+			// unless you are manually setting demonName12 to break things
+			currentFam = KoLCharacter.getFamiliar();
+			RequestThread.postRequest( new FamiliarRequest( KoLCharacter.findFamiliar( FamiliarPool.INTERGNAT ) ) );
+		}
+
 		KoLmafia.updateDisplay( "Summoning " + this.demon + "..." );
 
 		// Go to the Summoning Chamber
@@ -76,6 +91,12 @@ public class SummoningChamberRequest
 
 		// Submit the choice adventure
 		super.run();
+
+		if ( demonNumber == 12 )
+		{
+			// Restore familiar, if needed
+			RequestThread.postRequest( new FamiliarRequest( currentFam ) );
+		}
 	}
 
 	@Override

@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class SummonDemonCommand
 	extends AbstractCommand
 {
@@ -80,9 +82,11 @@ public class SummonDemonCommand
 		}
 
 		String demon = parameters;
+		int demonNumber = -1;
 		if ( Character.isDigit( parameters.charAt( 0 ) ) )
 		{
 			demon = Preferences.getString( "demonName" + parameters );
+			demonNumber = StringUtilities.parseInt( parameters );
 		}
 		else
 		{
@@ -92,6 +96,7 @@ public class SummonDemonCommand
 				if ( location != null && parameters.equalsIgnoreCase( location ) )
 				{
 					demon = Preferences.getString( "demonName" + ( i + 1 ) );
+					demonNumber = i + 1;
 					break;
 				}
 
@@ -99,6 +104,7 @@ public class SummonDemonCommand
 				if ( effect != null && parameters.equalsIgnoreCase( effect ) )
 				{
 					demon = Preferences.getString( "demonName" + ( i + 1 ) );
+					demonNumber = i + 1;
 					break;
 				}
 
@@ -106,6 +112,7 @@ public class SummonDemonCommand
 				if ( parameters.equalsIgnoreCase( name ) )
 				{
 					demon = name;
+					demonNumber = i + 1;
 					break;
 				}
 			}
@@ -118,7 +125,14 @@ public class SummonDemonCommand
 			return;
 		}
 
-		SummoningChamberRequest demonSummon = new SummoningChamberRequest( demon );
+		if ( demonNumber == 12 && !demon.startsWith( "Neil" ) )
+		{
+			KoLmafia.updateDisplay(
+				MafiaState.ERROR, "You don't know the full name of that demon." );
+			return;
+		}
+
+		SummoningChamberRequest demonSummon = new SummoningChamberRequest( demon, demonNumber );
 
 		RequestThread.postRequest( demonSummon );
 	}
