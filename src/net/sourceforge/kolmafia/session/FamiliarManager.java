@@ -39,7 +39,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
@@ -94,7 +93,7 @@ public abstract class FamiliarManager
 				// Use one from the closet
 				closetItems.add( item );
 			}
-			else if ( item.getCount( KoLConstants.storage ) > 0 )
+			else if ( KoLCharacter.canInteract() && item.getCount( KoLConstants.storage ) > 0 )
 			{
 				// Use one from storage
 				storageItems.add( item );
