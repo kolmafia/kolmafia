@@ -559,6 +559,9 @@ public class AfterLifeRequest
 			case 26:
 				builder.append( "an Avatar of West of Loathing" );
 				break;
+			case 27:
+				builder.append( "a The Source" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

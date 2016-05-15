@@ -702,6 +702,10 @@ public class AccountRequest
 		{
 			path = "Avatar of West of Loathing";
 		}
+		else if ( path.equals( "27" ) )
+		{
+			path = "The Source";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

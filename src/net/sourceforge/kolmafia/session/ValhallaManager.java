@@ -433,9 +433,13 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Community Service " );
 		}
-		else if ( KoLCharacter.isWestOfLoathing())
+		else if ( KoLCharacter.isWestOfLoathing() )
 		{
 			sessionStream.print( "Avatar of West of Loathing " );
+		}
+		else if ( KoLCharacter.inTheSource() )
+		{
+			sessionStream.print( "The Source " );
 		}
 		else if ( KoLCharacter.getRestricted() )
 		{
