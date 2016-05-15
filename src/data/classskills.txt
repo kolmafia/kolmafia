@@ -1076,3 +1076,14 @@
 
 # The Source
 21000	Source Punch	ss_punch.gif	5	25	0
+21001	Overclocked	ss_overclocked.gif	0	0	0
+21002	Bullet Time	ss_bullettime.gif	0	0	0
+21003	True Disbeliever	ss_disbelieve.gif	0	0	0
+21004	Code Block	ss_codeblock.gif	0	0	0
+21005	Disarmament	ss_disarm.gif	5	50	0
+21006	Big Guns	ss_guns.gif	5	50	0
+21007	Humiliating Hack	ss_hack.gif	5	50	0
+21008	Source Kick	ss_kick.gif	5	50	0
+21009	Reboot	ss_reboot.gif	5	75	0
+21010	Restore	ss_restore.gif	5	75	0
+21011	Data Siphon	ss_datasiphon.gif	0	0	0
