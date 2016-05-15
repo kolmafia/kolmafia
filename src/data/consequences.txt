@@ -100,7 +100,7 @@ MONSTER	animated nightstand	nightstand\.gif	"animated nightstand (white combat)"
 MONSTER	Mob Penguin goon	pengbook\.gif	"Mob Penguin goon (2008)"
 MONSTER	Mob Penguin Goon	penggoon\.gif	"Mob Penguin Goon (2009)"
 
-MONSTER	Pooltergeist	poolter2\.gif	"Pooltergeist (Ultra-Rare)"
+MONSTER	pooltergeist	poolter2\.gif	"pooltergeist (ultra-rare)"
 
 MONSTER	Orcish Frat Boy	fratskirt\.gif	"Orcish Frat Boy (Pledge)"
 MONSTER	Orcish Frat Boy	rectify	"Orcish Frat Boy (Music Lover)"
