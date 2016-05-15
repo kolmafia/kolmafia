@@ -1073,3 +1073,6 @@
 20007	Long Con	calendar.gif	5	30	0
 20008	Tolerant Constitution	kidney.gif	0	0	0
 20009	Walk: Leisurely Amble	walkamble.gif	10	40	20
+
+# The Source
+21000	Source Punch	ss_punch.gif	5	25	0

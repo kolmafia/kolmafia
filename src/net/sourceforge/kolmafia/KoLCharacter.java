@@ -3733,6 +3733,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( "Avatar of West of Loathing" );
 	}
 
+	public static final boolean inTheSource()
+	{
+		return KoLCharacter.ascensionPath.equals( "The Source" );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
