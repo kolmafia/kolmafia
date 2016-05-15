@@ -1338,6 +1338,7 @@ public class ResultProcessor
 		case ItemPool.FUNFUNDS:
 		case ItemPool.TOXIC_GLOBULE:
 		case ItemPool.VOLCOINO:
+		case ItemPool.BACON:
 			// BatFellow currencies
 		case ItemPool.INCRIMINATING_EVIDENCE:
 		case ItemPool.DANGEROUS_CHEMICALS:
