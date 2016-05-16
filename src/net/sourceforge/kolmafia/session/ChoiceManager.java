@@ -3706,6 +3706,9 @@ public abstract class ChoiceManager
 	   // Choise 1131 is The Crimbulmination
 	   // Choise 1132 is The Crimbulmination
 
+	   // Choise 1188 is The Call is Coming from Outside the Simulation
+	   // Choise 1190 is The Oracle
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -9211,6 +9214,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1190:
+			// The Oracle
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.removeItem( ItemPool.NO_SPOON );
+			}
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -13635,6 +13646,8 @@ public abstract class ChoiceManager
 		case 1178: // Book of the West: Beanslinging
 		case 1179: // Book of the West: Snake Oiling
 		case 1181: // Witchess Set
+		case 1188: // The Call is Coming from Outside the Simulation
+		case 1190: // The Oracle
 		return true;
 
 		default:

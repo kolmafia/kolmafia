@@ -941,6 +941,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.BEAN_SLINGING_TALES:
 			case ItemPool.SNAKE_OILING_TALES:
 			case ItemPool.MAYO_MINDER:
+			case ItemPool.NO_SPOON:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

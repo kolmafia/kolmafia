@@ -2605,6 +2605,7 @@ public class ItemPool
 	public static final int PRINT_SCREEN = 9022;
 	public static final int SCREENCAPPED_MONSTER = 9023;
 	public static final int BACON_MACHINE = 9025;
+	public static final int NO_SPOON = 9029;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
