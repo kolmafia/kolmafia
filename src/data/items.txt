@@ -9054,3 +9054,5 @@
 9028	high-speed upgrade	975692001	upgradechip.gif	familiar	t,d	75
 9029	no spoon	324807416	nospoon.gif	reusable	q	0
 9030	delicious star salad	875793075	salad.gif	food	t,d	1
+9031	Thwaitgold moth statuette	396156390	thwaitmoth.gif	none		0
+9032	bowl of Tastee-Wheet&trade;	153693983	soupbowl.gif	food	t	0

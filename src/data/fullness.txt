@@ -81,6 +81,7 @@ bowl of maggots	2	1	EPIC	10-12	10-20	0	0
 bowl of mummy guts	2	1	awesome	7-9	0	0	10-20	30 Guts Feeling (+50% meat drop)
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
+bowl of Tastee-Wheet&trade;	1	5	EPIC	0	0	0	0	Unspaded
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
 bowl of unidentifiable goo	5	1		9-16	9-10	9-10	9-10
 Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
