@@ -2100,3 +2100,4 @@
 2099	Feeling Queasy	nauseated.gif	c5f4e1f307eeb6ec4ec7c1b3f1507a17	eat 1 gallon of milk
 2100	Jacked In	plug.gif	f88b2b8ce68b568feb6d78b09e27ac85
 2101	Speed of the Internet	fast.gif	0b13d27333e5479d4783c9a4ddf5d281
+2102	Latency	badsignal.gif	77f7332e050672d9a560d2af05fbad18	# Source Agent debuff

@@ -5175,6 +5175,8 @@ Effect	La Bamba	Item Drop: +3
 Effect	La Oscuridad Adentro	Spooky Spell Damage: +13, Spooky Damage: +13, Experience (Mysticality): +3
 Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+# Effect Latency: Prismatic Vulnerability (-Source Agents killed)
+# Effect Latency: All stats (-3 x Source Agents killed)
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
@@ -6697,6 +6699,7 @@ Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
 Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
+Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
 Item	bread line	Effect: "Bread-Lined", Effect Duration: 40
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
