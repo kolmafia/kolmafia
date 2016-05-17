@@ -863,8 +863,6 @@ public abstract class KoLmafia
 			}
 		}
 
-		ChateauRequest.refresh();
-
 		if ( KoLCharacter.isEd() )
 		{
 			// Inspect your servants
@@ -875,6 +873,8 @@ public abstract class KoLmafia
 			// Retrieve the Terrarium
 			RequestThread.postRequest( new FamiliarRequest() );
 		}
+
+		ChateauRequest.refresh();
 
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf
