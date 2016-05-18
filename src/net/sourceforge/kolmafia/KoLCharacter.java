@@ -153,6 +153,7 @@ public abstract class KoLCharacter
 	public static final String ZOMBIE_SLAYER = "Zombie Slayer";
 	public static final String ACTUALLY_ED_THE_UNDYING = "Actually Ed the Undying";
 	public static final String WEST_OF_LOATHING = "Avatar of West of Loathing";
+	public static final String THE_SOURCE = "The Source";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -3290,6 +3291,11 @@ public abstract class KoLCharacter
 				{
 					Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
 				}
+			}
+			else if ( oldPath.equals( THE_SOURCE ) )
+			{
+				int sourcePoints = wasInHardcore ? 2 : 1;
+				Preferences.increment( "sourcePoints", sourcePoints );
 			}
 			else if ( oldPath.equals( "Heavy Rains" ) )
 			{
