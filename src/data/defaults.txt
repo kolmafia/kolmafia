@@ -1002,6 +1002,7 @@ user	snojoMysticalityWins	0
 user	snojoSetting	NONE
 user	snowsuit	
 user	sortByRoom	true
+user	sourcePoints	0
 user	spadingData
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
