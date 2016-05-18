@@ -792,6 +792,11 @@ public class ConsumablesDatabase
 
 	private static final double conditionalStatMultiplier( final String name )
 	{
+		// No stat gains from consumables in The Source
+		if ( KoLCharacter.inTheSource() )
+		{
+			return 0.0;
+		}
 		if ( ConsumablesDatabase.isPizza( ItemDatabase.getItemId( name ) ) && KoLCharacter.hasSkill( SkillPool.PIZZA_LOVER ) )
 		{
 			return 2.0;
