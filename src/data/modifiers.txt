@@ -5177,6 +5177,7 @@ Effect	Lapdog	Initiative: +30, Stench Damage: +25, Monster Level: +20
 Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Effect Latency: Prismatic Vulnerability (-Source Agents killed)
 # Effect Latency: All stats (-3 x Source Agents killed)
+Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(sourceAgentsDefeated)], Moxie: [-3*pref(sourceAgentsDefeated)], Cold Resistance: [-pref(sourceAgentsDefeated)], Hot Resistance: [-pref(sourceAgentsDefeated)], Sleaze Resistance: [-pref(sourceAgentsDefeated)], Spooky Resistance: [-pref(sourceAgentsDefeated)], Stench Resistance: [-pref(sourceAgentsDefeated)]
 Effect	Leash of Linguini	Familiar Weight: +5
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15

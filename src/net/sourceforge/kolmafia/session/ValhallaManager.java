@@ -626,6 +626,16 @@ public class ValhallaManager
 		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 		Preferences.setInteger( "cinderellaScore", 0 );
 		Preferences.setString( "grimstoneMaskPath", "" );
+		// The Source trackers
+		Preferences.resetToDefault( "sourceAgentsDefeated" );
+		if ( KoLCharacter.inTheSource() )
+		{
+			Preferences.setInteger( "sourceEnlightenment", Preferences.getInteger( "sourcePoints" ) );
+		}
+		else
+		{
+			Preferences.resetToDefault( "sourceEnlightenment" );
+		}
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );

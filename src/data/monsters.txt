@@ -1207,6 +1207,11 @@ aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Ini
 prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 E: sleaze P: beast	snake oil (100)	snake oil (100)
 king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast	snake oil (100)	snake oil (100)	snake oil (100)
 
+# The Source
+
+Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
+One Thousand Source Agents	1944	sourceagents.gif	P: construct
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)

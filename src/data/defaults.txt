@@ -903,6 +903,7 @@ user	questM22Shirt	unstarted
 user	questM23Meatsmith	unstarted
 user	questM24Doc	unstarted
 user	questM25Armorer	unstarted
+user	questM26Oracle	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false
@@ -1002,6 +1003,9 @@ user	snojoMysticalityWins	0
 user	snojoSetting	NONE
 user	snowsuit	
 user	sortByRoom	true
+user	sourceAgentsDefeated	0
+user	sourceEnlightenment	0
+user	sourceOracleTarget	
 user	sourcePoints	0
 user	spadingData
 user	spelunkyHints	false

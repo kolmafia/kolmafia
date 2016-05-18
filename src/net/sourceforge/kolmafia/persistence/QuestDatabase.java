@@ -138,6 +138,7 @@ public class QuestDatabase
 			ZIPPITY_DOO_DAH( "questEStZippityDooDah" ),
 			BUCKET( "questECoBucket" ),
 			TELEGRAM( "questLTTQuestByWire" ),
+			ORACLE( "questM26Oracle" ),
 			;
 
 		private final String pref;
@@ -166,6 +167,7 @@ public class QuestDatabase
 	public static final Pattern BOO_PEAK_PATTERN = Pattern.compile( "It is currently (\\d+)%" );
 	public static final Pattern OIL_PEAK_PATTERN = Pattern.compile( "The pressure is currently ([\\d\\.]+) microbowies" );
 	public static final Pattern COMPETITION_PATTERN = Pattern.compile( "Contest #(\\d): ((\\d+) competitor|(Won!))" );
+	public static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -312,6 +314,15 @@ public class QuestDatabase
 		if ( pref.equals( Quest.TELEGRAM.getPref() ) )
 		{
 			return handleTelegramStatus( details );
+		}
+			// Get Oracle quest target
+		if ( pref.equals( Quest.ORACLE.getPref() ) )
+		{
+			Matcher matcher = QuestDatabase.ORACLE_QUEST_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "sourceOracleTarget", matcher.group( 1 ) );
+			}
 		}
 
 		// First thing to do is find which quest we're talking about.

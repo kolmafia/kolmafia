@@ -2979,6 +2979,11 @@ public class ResultProcessor
 				Preferences.setInteger( "rockinRobinProgress", -1 );
 			}
 			break;
+
+		case ItemPool.NO_SPOON:
+			QuestDatabase.setQuestProgress( Quest.ORACLE, "step1" );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.
