@@ -743,6 +743,9 @@ public class AdventureRequest
 				image.startsWith( "henchwoman" ) ? "very [adjective] henchwoman" :
 				// Tres de Mayo
 				image.startsWith( "reveler" ) ? "Cinco de Mayo reveler" :
+				// The Source
+				image.startsWith( "sourceagents" ) ? "One Thousand Source Agents" :
+				image.startsWith( "sourceagent" ) ? "Source Agent" :
 				null;
 		}
 

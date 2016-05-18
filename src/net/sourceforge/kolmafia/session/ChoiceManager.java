@@ -219,6 +219,8 @@ public abstract class ChoiceManager
 	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (\\d+)%\\)" );
 	private static final Pattern SNOJO_CONSOLE_PATTERN = Pattern.compile( "<b>(.*?) MODE</b>" );
 	private static final Pattern TELEGRAM_PATTERN = Pattern.compile( "value=\"RE: (.*?)\"" );
+	private static final Pattern ENLIGHTENMENT_PATTERN = Pattern.compile( "achieved <b>(\\d+)</b> enlightenment" );
+	private static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "don't remember leaving any spoons in (.*?)&quot;" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9219,6 +9221,18 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 2 )
 			{
 				ResultProcessor.removeItem( ItemPool.NO_SPOON );
+				QuestDatabase.setQuestProgress( Quest.ORACLE, QuestDatabase.UNSTARTED );
+				Preferences.increment( "sourceEnlightenment" );
+				Preferences.setString( "sourceOracleTarget", "" );
+			}
+			else if ( ChoiceManager.lastDecision <= 3 )
+			{
+				QuestDatabase.setQuestProgress( Quest.ORACLE, QuestDatabase.STARTED );
+				Matcher matcher = ChoiceManager.ORACLE_QUEST_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "sourceOracleTarget", matcher.group( 1 ) );
+				}
 			}
 			break;
 
@@ -10530,6 +10544,14 @@ public abstract class ChoiceManager
 			Preferences.setInteger( "lttQuestStageCount", 0 );
 			break;
 
+		case 1188: // The Call is Coming from Outside the Simulation
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Skill learned
+				Preferences.decrement( "sourceEnlightenment", 1, 0 );
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
@@ -11303,6 +11325,17 @@ public abstract class ChoiceManager
 			else
 			{
 				Preferences.setString( "snojoSetting", "" );
+			}
+			break;
+		}
+
+		case 1188:
+		{
+			// The Call is Coming from Outside the Simulation
+			Matcher matcher = ChoiceManager.ENLIGHTENMENT_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "sourceEnlightenment", StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
 			break;
 		}

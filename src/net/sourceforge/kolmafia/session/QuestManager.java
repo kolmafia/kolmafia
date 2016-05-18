@@ -1617,6 +1617,7 @@ public class QuestManager
 			  monsterName.equals( "Rene C. Corman" ) ||
 			  monsterName.equals( "The Avatar of Jarlsberg" ) ||
 			  monsterName.equals( "The Rain King" ) ||
+			  monsterName.equals( "One Thousand Source Agents" ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
@@ -1724,9 +1725,13 @@ public class QuestManager
 		{
 			TavernRequest.addTavernLocation( '6' );
 		}
-		else if ( monsterName.equals( "wumpus" ) )
+		else if ( monsterName.equals( "Baron Von Ratsworth" ) )
 		{
-			WumpusManager.reset();
+			TavernRequest.addTavernLocation( '6' );
+		}
+		else if ( monsterName.equals( "Source Agent" ) )
+		{
+			Preferences.increment( "sourceAgentsDefeated" );
 		}
 		else if ( monsterName.equals( "pair of burnouts" ) )
 		{
