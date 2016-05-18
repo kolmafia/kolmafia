@@ -1189,6 +1189,7 @@ public class SkillDatabase
 		case 18:			// Cow Puncher skills
 		case 19:			// Bean Slinger skills
 		case 20:			// Snake Oiler skills
+		case 21:			// The Source skills
 			return false;
 		}
 
