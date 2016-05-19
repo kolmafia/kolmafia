@@ -1102,7 +1102,7 @@ public class RelayRequest
 		message =
 			"You are about to fight Gremlins, but do not have the Molybdenum Magnet. If you are sure you want to do this, click on the image to proceed.";
 
-		this.sendGeneralWarning( "magnet2.gif", message, CONFIRM_GREMLINS, "checked=1" );
+		this.sendGeneralWarning( "magnet2.gif", message, CONFIRM_GREMLINS );
 
 		return true;
 	}
@@ -1159,7 +1159,7 @@ public class RelayRequest
 		message =
 			"You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
 
-		this.sendGeneralWarning( "swords.gif", message, CONFIRM_HARDCOREPVP, "checked=1" );
+		this.sendGeneralWarning( "swords.gif", message, CONFIRM_HARDCOREPVP );
 
 		return true;
 	}
@@ -1539,7 +1539,7 @@ public class RelayRequest
 		message =
 			"You are about to adventure without reading the Mortar disolving recipe with glasses equipped. If you are sure you want to do this, click on the image to proceed.";
 
-		this.sendGeneralWarning( "burgerrecipe.gif", message, CONFIRM_CELLAR, "checked=1" );
+		this.sendGeneralWarning( "burgerrecipe.gif", message, CONFIRM_CELLAR );
 
 		return true;
 	}
@@ -1575,7 +1575,7 @@ public class RelayRequest
 		message =
 			"You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket, which can be bought at the Black Market. If you are sure you want to do this, click on the image to proceed.";
 
-		this.sendGeneralWarning( "zepticket.gif", message, CONFIRM_ZEPPELIN, "checked=1" );
+		this.sendGeneralWarning( "zepticket.gif", message, CONFIRM_ZEPPELIN );
 
 		return true;
 	}
@@ -1623,7 +1623,7 @@ public class RelayRequest
 		message =
 			"You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
 
-		this.sendGeneralWarning( "wine2.gif", message, CONFIRM_BOILER, "checked=1" );
+		this.sendGeneralWarning( "wine2.gif", message, CONFIRM_BOILER );
 
 		return true;
 	}
@@ -1674,7 +1674,7 @@ public class RelayRequest
 		message =
 			"You are about to adventure but have not obtained your father's MacGuffin diary. If you are sure you want to do this, click on the image to proceed.";
 
-		this.sendGeneralWarning( "book2.gif", message, CONFIRM_DIARY, "checked=1" );
+		this.sendGeneralWarning( "book2.gif", message, CONFIRM_DIARY );
 
 		return true;
 	}
@@ -3012,7 +3012,7 @@ public class RelayRequest
 				String location = WikiUtilities.getWikiLocation( item );
 				if ( location != null )
 				{
-					this.pseudoResponse( "HTTP/1.1 302 Found", location );	
+					this.pseudoResponse( "HTTP/1.1 302 Found", location );
 					return;
 				}
 			}
