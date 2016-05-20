@@ -2132,6 +2132,8 @@ public class OptionsFrame
 			Preferences.setString( "recoveryScript", this.recoveryScript.getText() );
 			Preferences.setString( "betweenBattleScript", this.betweenBattleScript.getText() );
 			Preferences.setString( "afterAdventureScript", this.afterAdventureScript.getText() );
+			Preferences.setString( "counterScript", this.counterScript.getText() );
+			Preferences.setString( "familiarScript", this.familiarScript.getText() );
 			Preferences.setString( "kingLiberatedScript", this.kingLiberatedScript.getText() );
 			Preferences.setString( "preAscensionScript", this.preAscensionScript.getText() );
 			Preferences.setString( "postAscensionScript", this.postAscensionScript.getText() );
