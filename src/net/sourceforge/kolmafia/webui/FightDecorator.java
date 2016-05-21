@@ -151,7 +151,7 @@ public class FightDecorator
 			FightDecorator.decorateMachineTunnelFight( name, buffer );
 			return;
 		}
-		if ( name.equals( "source agent" ) )
+		if ( name.equals( "source agent" ) || name.equals( "one thousand source agents" ) )
 		{
 			FightDecorator.decorateSourceAgent( buffer );
 			return;
