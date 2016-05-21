@@ -1005,6 +1005,7 @@ user	snowsuit
 user	sortByRoom	true
 user	sourceAgentsDefeated	0
 user	sourceEnlightenment	0
+user	sourceInterval	0
 user	sourceOracleTarget	
 user	sourcePoints	0
 user	spadingData

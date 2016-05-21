@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 
@@ -57,6 +58,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class FightDecorator
 {
 	private static final Pattern SKILL_FORM_PATTERN = Pattern.compile( "<form name=skill.*?</form>", Pattern.DOTALL );
+	private static final Pattern SKILL_OPTION_PATTERN = Pattern.compile( "<option value=\\\"(\\d+)\\\".*?</option>", Pattern.DOTALL );
 
 	public static final void selectSkill( final StringBuffer buffer, final String skill )
 	{
@@ -147,6 +149,11 @@ public class FightDecorator
 		if ( name.equals( "performer of actions" ) || name.equals( "thinker of thoughts" ) || name.equals( "perceiver of sensations" ) )
 		{
 			FightDecorator.decorateMachineTunnelFight( name, buffer );
+			return;
+		}
+		if ( name.equals( "source agent" ) )
+		{
+			FightDecorator.decorateSourceAgent( buffer );
 			return;
 		}
 	}
@@ -315,6 +322,26 @@ public class FightDecorator
 		index += indexString.length();
 
 		buffer.insert( index, " (" + Preferences.getInteger( "writingDesksDefeated" ) + "/5 defeated)" );
+	}
+
+	private static final void decorateSourceAgent( final StringBuffer buffer )
+	{
+		// Extract the "skill" form from the buffer
+		Matcher skillForm = SKILL_FORM_PATTERN.matcher( buffer );
+		if ( !skillForm.find() )
+		{
+			return;
+		}
+		Matcher option = SKILL_OPTION_PATTERN.matcher( skillForm.group( 0 ) );
+		while( option.find() )
+		{
+			// Remove skills not starting with 21 as they can't be used
+			int skill = StringUtilities.parseInt( option.group( 1 ) );
+			if ( skill < 21000 || skill > 21999 )
+			{
+				StringUtilities.singleStringDelete( buffer, option.group( 0 ) );
+			}
+		}
 	}
 
 	private static final void decorateHauntedKitchen( final StringBuffer buffer )
