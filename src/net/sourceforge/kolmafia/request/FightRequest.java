@@ -274,6 +274,9 @@ public class FightRequest
 	private static final Pattern CLOG_PATTERN =
 		Pattern.compile( "Your oil extractor is (\\d+)% clogged up" );
 
+	private static final Pattern SOURCE_INTERVAL_PATTERN =
+		Pattern.compile( "}, (\\d+)\\);" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -3058,6 +3061,19 @@ public class FightRequest
 			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_GREEN );
 			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_BLUE );
 			ResultProcessor.removeItem( ItemPool.STRANGE_DISC_YELLOW );
+		}
+
+		if ( KoLCharacter.inTheSource() )
+		{
+			Matcher intervalMatcher = FightRequest.SOURCE_INTERVAL_PATTERN.matcher( responseText );
+			if ( intervalMatcher.find() )
+			{
+				Preferences.setInteger( "sourceInterval", StringUtilities.parseInt( intervalMatcher.group( 1 ) ) );
+			}
+			else
+			{
+				Preferences.setInteger( "sourceInterval", 0 );
+			}
 		}
 
 		if ( !won )
