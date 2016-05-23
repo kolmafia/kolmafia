@@ -636,6 +636,8 @@ public class ValhallaManager
 		{
 			Preferences.resetToDefault( "sourceEnlightenment" );
 		}
+		Preferences.resetToDefault( "sourceInterval" );
+		Preferences.resetToDefault( "sourceOracleTarget" );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
