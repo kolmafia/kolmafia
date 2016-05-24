@@ -277,6 +277,11 @@ public class ValhallaManager
 			TurnCounter.startCounting( 5, "WoL Monster window begin loc=*", "lparen.gif" );
 			TurnCounter.startCounting( 10, "WoL Monster window end loc=*", "rparen.gif" );
 		}
+		// Starting Source Enlightenment depends on current Source Points
+		else if ( KoLCharacter.inTheSource() )
+		{
+			Preferences.setInteger( "sourceEnlightenment", Preferences.getInteger( "sourcePoints" ) );
+		}
 
 		// User-defined actions:
 		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "postAscensionScript" ) );
@@ -628,16 +633,9 @@ public class ValhallaManager
 		Preferences.setString( "grimstoneMaskPath", "" );
 		// The Source trackers
 		Preferences.resetToDefault( "sourceAgentsDefeated" );
-		if ( KoLCharacter.inTheSource() )
-		{
-			Preferences.setInteger( "sourceEnlightenment", Preferences.getInteger( "sourcePoints" ) );
-		}
-		else
-		{
-			Preferences.resetToDefault( "sourceEnlightenment" );
-		}
 		Preferences.resetToDefault( "sourceInterval" );
 		Preferences.resetToDefault( "sourceOracleTarget" );
+		Preferences.resetToDefault( "sourceEnlightenment" );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );

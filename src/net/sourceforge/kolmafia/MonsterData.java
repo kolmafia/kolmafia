@@ -754,7 +754,13 @@ public class MonsterData
 		{
 			return 100;
 		}
-		int jumpChance = 100 - monsterInit + initBonus + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
+		int charInit = initBonus;
+		// Overclocked helps against Source Monsters
+		if ( this.name.contains( "Source Agent" ) && KoLCharacter.hasSkill( "Overclocked" ) )
+		{
+			charInit += 200;
+		}
+		int jumpChance = 100 - monsterInit + charInit + Math.max( 0, KoLCharacter.getBaseMainstat() - this.getAttack() );
 		return jumpChance > 100 ? 100 : jumpChance < 0 ? 0 : jumpChance;
 	}
 
