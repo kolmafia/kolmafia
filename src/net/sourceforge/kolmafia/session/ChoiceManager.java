@@ -10362,6 +10362,24 @@ public abstract class ChoiceManager
 
 		case 1101:
 			// It's a Barrel Smashing Party!
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// We're smashing 100 barrels
+				// The results don't say which barrels are being smashed, but it seems to happen in item order
+				int count = 100;
+				int itemId = ItemPool.LITTLE_FIRKIN;
+				while ( count > 0 && itemId <= ItemPool.BARNACLED_BARREL )
+				{
+					int smashNumber = Math.min( count, InventoryManager.getCount( itemId ) );
+					if ( smashNumber > 0 )
+					{
+						ResultProcessor.processResult( ItemPool.get( itemId, -smashNumber ) );
+						count -= smashNumber;
+					}
+					itemId++;
+				}
+				break;
+			}
 			int itemId = ChoiceManager.extractIidFromURL( request.getURLString() );
 			String name = ItemDatabase.getItemName( itemId );
 			if ( name != null )
@@ -13402,6 +13420,26 @@ public abstract class ChoiceManager
 
 			case 1101:	// It's a Barrel Smashing Party!
 			{
+				if ( decision == 2 )
+				{
+					// We're smashing 100 barrels
+					// The results don't say which barrels are being smashed, but it seems to happen in item order
+					int count = 100;
+					int itemId = ItemPool.LITTLE_FIRKIN;
+					RequestLogger.updateSessionLog( "smashing 100 barrels" );
+					while ( count > 0 && itemId <= ItemPool.BARNACLED_BARREL )
+					{
+						int smashNumber = Math.min( count, InventoryManager.getCount( itemId ) );
+						String name = ItemDatabase.getItemName( itemId );
+						if ( smashNumber > 0 && name != null )
+						{
+							RequestLogger.updateSessionLog( "smash " + smashNumber + " " + name );
+							count -= smashNumber;
+						}
+						itemId++;
+					}
+					return true;
+				}
 				int itemId = ChoiceManager.extractIidFromURL( urlString );
 				String name = ItemDatabase.getItemName( itemId );
 				if ( name != null )
