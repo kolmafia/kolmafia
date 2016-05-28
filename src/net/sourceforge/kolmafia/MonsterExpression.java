@@ -105,6 +105,10 @@ public class MonsterExpression
 		{
 			return "\u0090";
 		}
+		if ( this.optional( "path(" ) )
+		{
+			return this.literal( this.until( ")" ), '\u0092' );
+		}
 
 		return null;
 	}
