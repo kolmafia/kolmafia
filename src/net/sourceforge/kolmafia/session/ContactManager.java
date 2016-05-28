@@ -139,7 +139,7 @@ public class ContactManager
 			return;
 		}
 
-		String lowercase = playerName.toLowerCase();
+		String lowercase = playerName.toLowerCase().trim();
 
 		if ( ContactManager.seenPlayerIds.containsKey( lowercase ) )
 		{
