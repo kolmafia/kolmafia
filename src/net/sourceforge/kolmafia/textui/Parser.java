@@ -3043,25 +3043,7 @@ public class Parser
 				resultString.setLength( 0 );
 				if ( element.length() != 0 )
 				{
-					Value value = DataTypes.parseValue( type, element, false );
-					if ( value == null )
-					{
-						throw this.parseException( "Bad " + type.toString() + " value: \"" + element + "\"" );
-					}
-
-					if ( !StringUtilities.isNumeric( element ) )
-					{
-						String fullName = value.toString();
-						if ( !element.equalsIgnoreCase( fullName ) )
-						{
-							String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( StringUtilities.globalStringReplace( element, ",", "\\," ), "  ", " \\ " ) );
-							String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( StringUtilities.globalStringReplace( fullName, ",", "\\," ), "  ", " \\ " ) );
-							ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
-							RequestLogger.printLine( ex.getMessage() );
-						}
-					}
-
-					list.add( value );
+					list.add( parseLiteral( type, element ) );
 				}
 				if ( ch == ']' )
 				{
@@ -3079,6 +3061,29 @@ public class Parser
 				resultString.append( this.currentLine.charAt( i ) );
 			}
 		}
+	}
+
+	private final Value parseLiteral( Type type, String element )
+	{
+		Value value = DataTypes.parseValue( type, element, false );
+		if ( value == null )
+		{
+			throw this.parseException( "Bad " + type.toString() + " value: \"" + element + "\"" );
+		}
+
+		if ( !StringUtilities.isNumeric( element ) )
+		{
+			String fullName = value.toString();
+			if ( !element.equalsIgnoreCase( fullName ) )
+			{
+				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
+				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
+				ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
+				RequestLogger.printLine( ex.getMessage() );
+			}
+		}
+
+		return value;
 	}
 
 	private Value parseTypedConstant( final BasicScope scope )
@@ -3179,24 +3184,7 @@ public class Parser
 					throw this.parseException( "Typed constant $" + type.toString() + "[" + input + "] contains non-ASCII characters" );
 				}
 
-				Value value = DataTypes.parseValue( type, input, false );
-				if ( value == null )
-				{
-					throw this.parseException( "Bad " + type.toString() + " value: \"" + input + "\"" );
-				}
-				// If validating script, give warning if fuzzy matching kicked in
-				if ( !StringUtilities.isNumeric( input ) )
-				{
-					String fullName = value.toString();
-					if ( !input.equalsIgnoreCase( fullName ) )
-					{
-						String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( StringUtilities.globalStringReplace( input, ",", "\\," ), "  ", " \\ " ) );
-						String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( StringUtilities.globalStringReplace( fullName, ",", "\\," ), "  ", " \\ " ) );
-						ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
-						RequestLogger.printLine( ex.getMessage() );
-					}
-				}
-				return value;
+				return parseLiteral( type, input );
 			}
 			else
 			{
