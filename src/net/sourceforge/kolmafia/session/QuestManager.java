@@ -2114,6 +2114,10 @@ public class QuestManager
 		{
 			Preferences.setBoolean( "_infernoDiscoVisited", false );
 		}
+		else if ( monsterName.equals( "Source Agent" ) )
+		{
+			Preferences.decrement( "sourceAgentsDefeated", 1, 0 );
+		}
 	}
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
