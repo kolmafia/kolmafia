@@ -1413,6 +1413,9 @@ user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
 user	_turkeyBooze	0
+user	_turkeyMuscle	0
+user	_turkeyMyst	0
+user	_turkeyMoxie	0
 user	_turtlePowerCast	false
 user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
