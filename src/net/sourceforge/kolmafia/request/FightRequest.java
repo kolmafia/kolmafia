@@ -2724,6 +2724,34 @@ public class FightRequest
 			}
 			break;
 		}
+
+		case FamiliarPool.FIST_TURKEY:
+		{
+			if ( responseText.contains( "challenges you to a push-up contest, which he wins" ) ||
+				responseText.contains( "gives you a fist-bump and a chest-bump" ) ||
+				responseText.contains( "It's quite the workout" ) ||
+				responseText.contains( "challenges you to a flex-off" ) ||
+				responseText.contains( "folds into a fist and armwrestles you to help you build bulk" ) )
+			{
+				Preferences.increment( "_turkeyMuscle" );
+			}
+			else if ( responseText.contains( "have a profound and mystical dream" ) ||
+				responseText.contains( "accidentally scratched a deeply mystical rune" ) ||
+				responseText.contains( "the stars reveal mystic secrets" ) ||
+				responseText.contains( "saying something incredibly profound" ) ||
+				responseText.contains( "looks profoundly supernatural" ) )
+			{
+				Preferences.increment( "_turkeyMyst" );
+			}
+			else if ( responseText.contains( "inspiring you to work on your own flexing" ) ||
+				responseText.contains( "teaches you some suave new obscene gestures" ) ||
+				responseText.contains( "teaches you a cool new fist-bump" ) ||
+				responseText.contains( "teaches you a surprisingly cool turkey-in-the-straw dance" ) ||
+				responseText.contains( "helps you work on your intimidating stare" ) )
+			{
+				Preferences.increment( "_turkeyMoxie" );
+			}
+		}
 		}
 
 		int blindIndex = responseText.indexOf( "... something.</div>" );
