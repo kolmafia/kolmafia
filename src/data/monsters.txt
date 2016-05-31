@@ -1209,7 +1209,7 @@ king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P
 
 # The Source
 
-Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*5] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
+Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*15] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
 One Thousand Source Agents	1944	sourceagents.gif	Atk: 500 Def: 500 HP: 700 Init: 300 P: construct
 
 # Items of the Month
