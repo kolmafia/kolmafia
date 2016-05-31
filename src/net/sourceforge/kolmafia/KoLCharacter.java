@@ -5648,6 +5648,7 @@ public abstract class KoLCharacter
 		// monster level.  Add that information.
 
 		double monsterLevel = newModifiers.get( Modifiers.MONSTER_LEVEL );
+
 		if ( monsterLevel > 0 )
 		{
 			newModifiers.add( Modifiers.EXPERIENCE, monsterLevel / 3.0f, "Monster Level:ML/3" );
@@ -5680,6 +5681,14 @@ public abstract class KoLCharacter
 		double baseExp = ( Modifiers.getCurrentML() - monsterLevel ) / 4.0f;
 
 		double exp = newModifiers.get( Modifiers.EXPERIENCE );
+
+		if ( KoLCharacter.inTheSource() )
+		{
+			// 1/3 base exp and exp when in The Source path
+			baseExp = baseExp / 3;
+			exp = exp / 3;
+		}
+
 		if ( exp != 0.0f )
 		{
 			String tuning = newModifiers.getString( Modifiers.STAT_TUNING );
