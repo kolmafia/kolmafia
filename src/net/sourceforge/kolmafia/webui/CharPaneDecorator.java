@@ -136,12 +136,28 @@ public class CharPaneDecorator
 			// CharPaneRequest.compactCharacterPane
 			// CharPaneRequest.familiarBelowEffects
 
+			// In The Source, we may encounter Agents that don't follow normal turn counter rules, so create a temporary one for decoration
+			if ( KoLCharacter.inTheSource() )
+			{
+				int interval = Preferences.getInteger( "sourceInterval" );
+				if ( interval != 0 )
+				{
+					TurnCounter.startCounting( Math.max( interval/200 - 2, 0 ), "Source Agent loc=*", "ss_overclocked.gif" );
+				}
+			}
+
 			// Decorate the various sections
 			CharPaneDecorator.decorateStatus( buffer );
 			CharPaneDecorator.decorateLastAdventure( buffer );
 			CharPaneDecorator.decorateFamiliar( buffer );
 			CharPaneDecorator.decorateEffects( buffer );
 			CharPaneDecorator.decorateIntrinsics( buffer );
+
+			// Destroy temporary counter in The Source
+			if ( KoLCharacter.inTheSource() )
+			{
+				TurnCounter.stopCounting( "Source Agent" );
+			}
 
 			// Update the safety text every time we load the charpane
 			StringUtilities.singleStringReplace( buffer, "onload='startup();'", "onload='startup();updateSafetyText();'" );
