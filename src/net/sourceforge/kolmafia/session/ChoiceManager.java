@@ -11347,6 +11347,14 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1181:
+			// Witchess Set
+			if ( !text.contains( "Examine the shrink ray" ) )
+			{
+				Preferences.setInteger( "_witchessFights", 5 );
+			}
+			break;
+
 		case 1188:
 		{
 			// The Call is Coming from Outside the Simulation
