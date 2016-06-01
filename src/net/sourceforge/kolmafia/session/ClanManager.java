@@ -566,6 +566,7 @@ public abstract class ClanManager
 		File standardFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "standard.htm" );
 		File softcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "softcore.htm" );
 		File hardcoreFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "hardcore.htm" );
+		File casualFile = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + "casual.htm" );
 		File sortingScript = new File( KoLConstants.ROOT_LOCATION, ClanManager.snapshotFolder + KoLConstants.SORTTABLE_JS );
 
 		// If initialization was unsuccessful, then there isn't
@@ -603,13 +604,19 @@ public abstract class ClanManager
 
 			ostream = LogStream.openStream( softcoreFile, true );
 			ostream.println( AscensionSnapshot.getAscensionData(
-				true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				AscensionSnapshot.NORMAL, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
 				localProfileLink ) );
 			ostream.close();
 
 			ostream = LogStream.openStream( hardcoreFile, true );
 			ostream.println( AscensionSnapshot.getAscensionData(
-				false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				AscensionSnapshot.HARDCORE, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
+			ostream.close();
+
+			ostream = LogStream.openStream( casualFile, true );
+			ostream.println( AscensionSnapshot.getAscensionData(
+				AscensionSnapshot.CASUAL, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
 				localProfileLink ) );
 			ostream.close();
 		}
@@ -626,6 +633,7 @@ public abstract class ClanManager
 		RelayLoader.openSystemBrowser( standardFile );
 		RelayLoader.openSystemBrowser( softcoreFile );
 		RelayLoader.openSystemBrowser( hardcoreFile );
+		RelayLoader.openSystemBrowser( casualFile );
 	}
 
 	/**

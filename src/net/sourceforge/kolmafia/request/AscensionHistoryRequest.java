@@ -65,7 +65,7 @@ public class AscensionHistoryRequest
 	extends GenericRequest
 	implements Comparable<AscensionHistoryRequest>
 {
-	private static boolean isSoftcoreComparator = true;
+	private static int typeComparator = AscensionSnapshot.NORMAL;
 
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>" );
@@ -73,7 +73,7 @@ public class AscensionHistoryRequest
 	private final String playerName;
 	private final String playerId;
 	private final List<AscensionDataField> ascensionData;
-	private int hardcoreCount, softcoreCount;
+	private int hardcoreCount, softcoreCount, casualCount;
 
 	public AscensionHistoryRequest( final String playerName, final String playerId )
 	{
@@ -88,9 +88,9 @@ public class AscensionHistoryRequest
 		this.ascensionData = new ArrayList<AscensionDataField>();
 	}
 
-	public static final void setComparator( final boolean isSoftcoreComparator )
+	public static final void setComparator( final int typeComparator )
 	{
-		AscensionHistoryRequest.isSoftcoreComparator = isSoftcoreComparator;
+		AscensionHistoryRequest.typeComparator = typeComparator;
 	}
 
 	@Override
@@ -104,14 +104,14 @@ public class AscensionHistoryRequest
 
 		stringForm.append( "</b></a></td>" );
 		stringForm.append( "<td align=right>" );
-		stringForm.append( AscensionHistoryRequest.isSoftcoreComparator ? this.softcoreCount : this.hardcoreCount );
+		stringForm.append( typeComparator == AscensionSnapshot.NORMAL ? this.softcoreCount : typeComparator == AscensionSnapshot.HARDCORE ? this.hardcoreCount : casualCount );
 		stringForm.append( "</td></tr>" );
 		return stringForm.toString();
 	}
 
 	public int compareTo( final AscensionHistoryRequest o )
 	{
-		return o == null || !( o instanceof AscensionHistoryRequest ) ? -1 : AscensionHistoryRequest.isSoftcoreComparator ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount : ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount;
+		return o == null || !( o instanceof AscensionHistoryRequest ) ? -1 : typeComparator == AscensionSnapshot.NORMAL ? ( (AscensionHistoryRequest) o ).softcoreCount - this.softcoreCount : typeComparator == AscensionSnapshot.HARDCORE ? ( (AscensionHistoryRequest) o ).hardcoreCount - this.hardcoreCount : ( (AscensionHistoryRequest) o ).casualCount - this.casualCount;
 	}
 
 	@Override
@@ -269,13 +269,17 @@ public class AscensionHistoryRequest
 					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
 					this.ascensionData.add( lastField );
 
-					if ( lastField.isSoftcore )
+					switch ( lastField.typeId )
 					{
+					case AscensionSnapshot.NORMAL:
 						++this.softcoreCount;
-					}
-					else
-					{
+						break;
+					case AscensionSnapshot.HARDCORE:
 						++this.hardcoreCount;
+						break;
+					case AscensionSnapshot.CASUAL:
+						++this.casualCount;
+						break;
 					}
 				}
 
@@ -294,13 +298,17 @@ public class AscensionHistoryRequest
 					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
 					this.ascensionData.add( lastField );
 
-					if ( lastField.isSoftcore )
+					switch ( lastField.typeId )
 					{
+					case AscensionSnapshot.NORMAL:
 						++this.softcoreCount;
-					}
-					else
-					{
+						break;
+					case AscensionSnapshot.HARDCORE:
 						++this.hardcoreCount;
+						break;
+					case AscensionSnapshot.CASUAL:
+						++this.casualCount;
+						break;
 					}
 				}
 				else
@@ -308,13 +316,17 @@ public class AscensionHistoryRequest
 					lastField = new AscensionDataField( this.playerName, this.playerId, columnsOld );
 					this.ascensionData.add( lastField );
 
-					if ( lastField.isSoftcore )
+					switch ( lastField.typeId )
 					{
+					case AscensionSnapshot.NORMAL:
 						++this.softcoreCount;
-					}
-					else
-					{
+						break;
+					case AscensionSnapshot.HARDCORE:
 						++this.hardcoreCount;
+						break;
+					case AscensionSnapshot.CASUAL:
+						++this.casualCount;
+						break;
 					}
 
 					try
@@ -352,13 +364,17 @@ public class AscensionHistoryRequest
 				lastField = new AscensionDataField( this.playerName, this.playerId, columnsNew );
 				this.ascensionData.add( lastField );
 
-				if ( lastField.isSoftcore )
+				switch ( lastField.typeId )
 				{
+				case AscensionSnapshot.NORMAL:
 					++this.softcoreCount;
-				}
-				else
-				{
+					break;
+				case AscensionSnapshot.HARDCORE:
 					++this.hardcoreCount;
+					break;
+				case AscensionSnapshot.CASUAL:
+					++this.casualCount;
+					break;
 				}
 
 				lastFindIndex = fieldMatcher.end() - 5;
@@ -379,13 +395,17 @@ public class AscensionHistoryRequest
 			lastField = new AscensionDataField( this.playerName, this.playerId, columns );
 			this.ascensionData.add( lastField );
 
-			if ( lastField.isSoftcore )
+			switch ( lastField.typeId )
 			{
+			case AscensionSnapshot.NORMAL:
 				++this.softcoreCount;
-			}
-			else
-			{
+				break;
+			case AscensionSnapshot.HARDCORE:
 				++this.hardcoreCount;
+				break;
+			case AscensionSnapshot.CASUAL:
+				++this.casualCount;
+				break;
 			}
 		}
 	}
@@ -460,8 +480,7 @@ public class AscensionHistoryRequest
 		private StringBuffer stringForm;
 
 		private Date timestamp;
-		private boolean isSoftcore;
-		private int level, classId, pathId;
+		private int level, classId, pathId, typeId;
 		private int dayCount, turnCount;
 
 		public AscensionDataField( final String playerName, final String playerId, final String rowData )
@@ -525,11 +544,11 @@ public class AscensionHistoryRequest
 				break;
 
 			case AscensionSnapshot.PASTAMANCER:
-				this.stringForm.append( "P" );
+				this.stringForm.append( "PM" );
 				break;
 
 			case AscensionSnapshot.SAUCEROR:
-				this.stringForm.append( "S" );
+				this.stringForm.append( "SA" );
 				break;
 
 			case AscensionSnapshot.DISCO_BANDIT:
@@ -538,6 +557,38 @@ public class AscensionHistoryRequest
 
 			case AscensionSnapshot.ACCORDION_THIEF:
 				this.stringForm.append( "AT" );
+				break;
+
+			case AscensionSnapshot.BORIS:
+				this.stringForm.append( "B" );
+				break;
+
+			case AscensionSnapshot.ZOMBIE_MASTER:
+				this.stringForm.append( "ZM" );
+				break;
+
+			case AscensionSnapshot.JARLSBERG:
+				this.stringForm.append( "J" );
+				break;
+
+			case AscensionSnapshot.SNEAKY_PETE:
+				this.stringForm.append( "SP" );
+				break;
+
+			case AscensionSnapshot.ED:
+				this.stringForm.append( "E" );
+				break;
+
+			case AscensionSnapshot.COW_PUNCHER:
+				this.stringForm.append( "CP" );
+				break;
+
+			case AscensionSnapshot.BEAN_SLINGER:
+				this.stringForm.append( "BS" );
+				break;
+
+			case AscensionSnapshot.SNAKE_OILER:
+				this.stringForm.append( "SO" );
 				break;
 			}
 
@@ -551,13 +602,57 @@ public class AscensionHistoryRequest
 		private void setHistoricColumns( final String[] columns )
 		{
 			this.classId =
-				columns[ 3 ].startsWith( "SC" ) ? AscensionSnapshot.SEAL_CLUBBER : columns[ 3 ].startsWith( "T" ) ? AscensionSnapshot.TURTLE_TAMER : columns[ 3 ].startsWith( "P" ) ? AscensionSnapshot.PASTAMANCER : columns[ 3 ].startsWith( "S" ) ? AscensionSnapshot.SAUCEROR : columns[ 3 ].startsWith( "D" ) ? AscensionSnapshot.DISCO_BANDIT : AscensionSnapshot.ACCORDION_THIEF;
+				columns[ 3 ].startsWith( "SC" ) ? AscensionSnapshot.SEAL_CLUBBER :
+				columns[ 3 ].startsWith( "TT" ) ? AscensionSnapshot.TURTLE_TAMER :
+				columns[ 3 ].startsWith( "PM" ) ? AscensionSnapshot.PASTAMANCER :
+				columns[ 3 ].startsWith( "SA" ) ? AscensionSnapshot.SAUCEROR :
+				columns[ 3 ].startsWith( "DB" ) ? AscensionSnapshot.DISCO_BANDIT :
+				columns[ 3 ].startsWith( "AT" ) ? AscensionSnapshot.ACCORDION_THIEF :
+				columns[ 3 ].startsWith( "B" ) ? AscensionSnapshot.BORIS :
+				columns[ 3 ].startsWith( "ZM" ) ? AscensionSnapshot.ZOMBIE_MASTER :
+				columns[ 3 ].startsWith( "J" ) ? AscensionSnapshot.JARLSBERG :
+				columns[ 3 ].startsWith( "SP" ) ? AscensionSnapshot.SNEAKY_PETE :
+				columns[ 3 ].startsWith( "E" ) ? AscensionSnapshot.ED :
+				columns[ 3 ].startsWith( "CP" ) ? AscensionSnapshot.COW_PUNCHER :
+				columns[ 3 ].startsWith( "BS" ) ? AscensionSnapshot.BEAN_SLINGER :
+				columns[ 3 ].startsWith( "SO" ) ? AscensionSnapshot.SNAKE_OILER :
+				AscensionSnapshot.UNKNOWN_CLASS;
 
 			String[] path = columns[ 7 ].split( "," );
 
-			this.isSoftcore = path[ 0 ].equals( "Normal" );
+			this.typeId = path[ 0 ].equals( "Normal" ) ? AscensionSnapshot.NORMAL :
+						path[ 0 ].equals( "Hardcore" ) ? AscensionSnapshot.HARDCORE :
+						path[ 0 ].equals( "Casual" ) ? AscensionSnapshot.CASUAL :
+						AscensionSnapshot.UNKNOWN_TYPE;
+
 			this.pathId =
-				path[ 1 ].equals( "No Path" ) ? AscensionSnapshot.NOPATH : path[ 1 ].equals( "Teetotaler" ) ? AscensionSnapshot.TEETOTALER : path[ 1 ].equals( "Boozetafarian" ) ? AscensionSnapshot.BOOZETAFARIAN : AscensionSnapshot.OXYGENARIAN;
+				path[ 1 ].equals( "No Path" ) ? AscensionSnapshot.NOPATH :
+				path[ 1 ].equals( "Teetotaler" ) ? AscensionSnapshot.TEETOTALER :
+				path[ 1 ].equals( "Boozetafarian" ) ? AscensionSnapshot.BOOZETAFARIAN :
+				path[ 1 ].equals( "Oxygenarian" ) ? AscensionSnapshot.OXYGENARIAN :
+				path[ 1 ].equals( "Bad Moon" ) ? AscensionSnapshot.BAD_MOON :
+				path[ 1 ].equals( "Bees Hate You" ) ? AscensionSnapshot.BEES_HATE_YOU :
+				path[ 1 ].equals( "Way of the Surprising Fist" ) ? AscensionSnapshot.SURPRISING_FIST :
+				path[ 1 ].equals( "Trendy" ) ? AscensionSnapshot.TRENDY :
+				path[ 1 ].equals( "Avatar of Boris" ) ? AscensionSnapshot.AVATAR_OF_BORIS :
+				path[ 1 ].equals( "Bugbear Invasion" ) ? AscensionSnapshot.BUGBEAR_INVASION :
+				path[ 1 ].equals( "Zombie Slayer" ) ? AscensionSnapshot.ZOMBIE_SLAYER :
+				path[ 1 ].equals( "Class Act" ) ? AscensionSnapshot.CLASS_ACT :
+				path[ 1 ].equals( "Avatar of Jarlsberg" ) ? AscensionSnapshot.AVATAR_OF_JARLSBERG  :
+				path[ 1 ].equals( "BIG!" ) ? AscensionSnapshot.BIG :
+				path[ 1 ].equals( "KOLHS" ) ? AscensionSnapshot.KOLHS :
+				path[ 1 ].equals( "Class Act II: A Class For Pigs" ) ? AscensionSnapshot.CLASS_ACT_II :
+				path[ 1 ].equals( "Avatar of Sneaky Pete" ) ? AscensionSnapshot.AVATAR_OF_SNEAKY_PETE :
+				path[ 1 ].equals( "Slow and Steady" ) ? AscensionSnapshot.SLOW_AND_STEADY :
+				path[ 1 ].equals( "Heavy Rains" ) ? AscensionSnapshot.HEAVY_RAINS :
+				path[ 1 ].equals( "Picky" ) ? AscensionSnapshot.PICKY :
+				path[ 1 ].equals( "Standard" ) ? AscensionSnapshot.STANDARD :
+				path[ 1 ].equals( "Actually Ed the Undying" ) ? AscensionSnapshot.ACTUALLY_ED_THE_UNDYING :
+				path[ 1 ].equals( "One Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER :
+				path[ 1 ].equals( "Community Service" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
+				path[ 1 ].equals( "Avatar of West of Loathing" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
+				path[ 1 ].equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
+				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
 		private void setCurrentColumns( final String[] columns )
@@ -565,11 +660,53 @@ public class AscensionHistoryRequest
 			try
 			{
 				this.classId =
-					columns[ 3 ].indexOf( "club" ) != -1 ? AscensionSnapshot.SEAL_CLUBBER : columns[ 3 ].indexOf( "turtle" ) != -1 ? AscensionSnapshot.TURTLE_TAMER : columns[ 3 ].indexOf( "pasta" ) != -1 ? AscensionSnapshot.PASTAMANCER : columns[ 3 ].indexOf( "sauce" ) != -1 ? AscensionSnapshot.SAUCEROR : columns[ 3 ].indexOf( "disco" ) != -1 ? AscensionSnapshot.DISCO_BANDIT : AscensionSnapshot.ACCORDION_THIEF;
+					columns[ 3 ].contains( "club" ) ? AscensionSnapshot.SEAL_CLUBBER :
+					columns[ 3 ].contains( "turtle" ) ? AscensionSnapshot.TURTLE_TAMER :
+					columns[ 3 ].contains( "pasta" ) ? AscensionSnapshot.PASTAMANCER :
+					columns[ 3 ].contains( "sauce" ) ? AscensionSnapshot.SAUCEROR :
+					columns[ 3 ].contains( "disco" ) ? AscensionSnapshot.DISCO_BANDIT :
+					columns[ 3 ].contains( "accordion" ) ? AscensionSnapshot.ACCORDION_THIEF :
+					columns[ 3 ].contains( "trusty" ) ? AscensionSnapshot.BORIS :
+					columns[ 3 ].contains( "tombstone" ) ? AscensionSnapshot.ZOMBIE_MASTER :
+					columns[ 3 ].contains( "path12icon" ) ? AscensionSnapshot.JARLSBERG :
+					columns[ 3 ].contains( "bigglasses" ) ? AscensionSnapshot.SNEAKY_PETE :
+					columns[ 3 ].contains( "thoth" ) ? AscensionSnapshot.ED :
+					columns[ 3 ].contains( "darkcow" ) ? AscensionSnapshot.COW_PUNCHER :
+					columns[ 3 ].contains( "beancan" ) ? AscensionSnapshot.BEAN_SLINGER :
+					columns[ 3 ].contains( "tinysnake" ) ? AscensionSnapshot.SNAKE_OILER :
+					AscensionSnapshot.UNKNOWN_CLASS;
 
-				this.isSoftcore = columns[ 8 ].indexOf( "hardcore" ) == -1;
+				this.typeId = columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
+							columns[ 8 ].contains( "beanbag" ) ? AscensionSnapshot.CASUAL :
+							AscensionSnapshot.NORMAL;
+
 				this.pathId =
-					columns[ 8 ].indexOf( "bowl" ) != -1 ? AscensionSnapshot.TEETOTALER : columns[ 8 ].indexOf( "martini" ) != -1 ? AscensionSnapshot.BOOZETAFARIAN : columns[ 8 ].indexOf( "oxy" ) != -1 ? AscensionSnapshot.OXYGENARIAN : AscensionSnapshot.NOPATH;
+					columns[ 8 ].contains( "bowl" ) ? AscensionSnapshot.TEETOTALER :
+					columns[ 8 ].contains( "martini" ) ? AscensionSnapshot.BOOZETAFARIAN :
+					columns[ 8 ].contains( "oxy" ) ? AscensionSnapshot.OXYGENARIAN :
+					columns[ 8 ].contains( "badmoon" ) ? AscensionSnapshot.BAD_MOON :
+					columns[ 8 ].contains( "beeicon" ) ? AscensionSnapshot.BEES_HATE_YOU :
+					columns[ 8 ].contains( "wosp_fist" ) ? AscensionSnapshot.SURPRISING_FIST :
+					columns[ 8 ].contains( "trendyicon" ) ? AscensionSnapshot.TRENDY :
+					columns[ 8 ].contains( "trusty" ) ? AscensionSnapshot.AVATAR_OF_BORIS :
+					columns[ 8 ].contains( "familiar39" ) ? AscensionSnapshot.BUGBEAR_INVASION :
+					columns[ 8 ].contains( "tombstone" ) ? AscensionSnapshot.ZOMBIE_SLAYER :
+					columns[ 8 ].contains( "motorboat." ) ? AscensionSnapshot.CLASS_ACT :
+					columns[ 8 ].contains( "jarlhat" ) ? AscensionSnapshot.AVATAR_OF_JARLSBERG :
+					columns[ 8 ].contains( "bigicon" ) ? AscensionSnapshot.BIG :
+					columns[ 8 ].contains( "kolhsicon" ) ? AscensionSnapshot.KOLHS :
+					columns[ 8 ].contains( "motorboat2" ) ? AscensionSnapshot.CLASS_ACT_II :
+					columns[ 8 ].contains( "bigglasses" ) ? AscensionSnapshot.AVATAR_OF_SNEAKY_PETE :
+					columns[ 8 ].contains( "sas" ) ? AscensionSnapshot.SLOW_AND_STEADY :
+					columns[ 8 ].contains( "familiar31" ) ? AscensionSnapshot.HEAVY_RAINS :
+					columns[ 8 ].contains( "pickypath" ) ? AscensionSnapshot.PICKY :
+					columns[ 8 ].contains( "standardicon" ) ? AscensionSnapshot.STANDARD :
+					columns[ 8 ].contains( "scarab" ) ? AscensionSnapshot.ACTUALLY_ED_THE_UNDYING :
+					columns[ 8 ].contains( "dice" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER :
+					columns[ 8 ].contains( "csplaquesmall" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
+					columns[ 8 ].contains( "badge" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
+					columns[ 8 ].contains( "ss_datasiphon" ) ? AscensionSnapshot.THE_SOURCE :
+					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )
 			{
@@ -611,15 +748,15 @@ public class AscensionHistoryRequest
 			return this.playerId != null ? this.playerId.hashCode() : 0;
 		}
 
-		public boolean matchesFilter( final boolean isSoftcore, final int pathFilter, final int classFilter,
+		public boolean matchesFilter( final int typeFilter, final int pathFilter, final int classFilter,
 			final int maxAge )
 		{
-			return isSoftcore == this.isSoftcore && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId ) && ( maxAge == 0 || maxAge >= this.getAge() );
+			return ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId ) && ( maxAge == 0 || maxAge >= this.getAge() );
 		}
 
-		public boolean matchesFilter( final boolean isSoftcore, final int pathFilter, final int classFilter )
+		public boolean matchesFilter( final int typeFilter, final int pathFilter, final int classFilter )
 		{
-			return isSoftcore == this.isSoftcore && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId );
+			return ( typeFilter == AscensionSnapshot.NO_FILTER || typeFilter == this.typeId ) && ( pathFilter == AscensionSnapshot.NO_FILTER || pathFilter == this.pathId ) && ( classFilter == AscensionSnapshot.NO_FILTER || classFilter == this.classId );
 		}
 
 		public int compareTo( final AscensionDataField o )
