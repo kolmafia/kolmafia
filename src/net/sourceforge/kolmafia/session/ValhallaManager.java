@@ -280,7 +280,7 @@ public class ValhallaManager
 		// Starting Source Enlightenment depends on current Source Points
 		else if ( KoLCharacter.inTheSource() )
 		{
-			Preferences.setInteger( "sourceEnlightenment", Preferences.getInteger( "sourcePoints" ) );
+			Preferences.setInteger( "sourceEnlightenment", Math.min( Preferences.getInteger( "sourcePoints" ), 11 ) );
 		}
 
 		// User-defined actions:
