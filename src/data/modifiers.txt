@@ -9032,6 +9032,7 @@ Item	Sorcerers of the Shore Grimoire	Free Pull, Skill: "Summon Alice's Army Card
 Item	sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 # soup turtle: Deals 5-10 <font color=red>Hot Damage</font>
 Item	sour powder	Effect: "Puckered Up", Effect Duration: 5
+Item	Source terminal	Free Pull
 Item	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Skill: "Summon Tasteful Items"
 # space invader: Deals 300-400 Physical Damage
 Item	space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
