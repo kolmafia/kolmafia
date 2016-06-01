@@ -740,6 +740,12 @@
 7270	Science! Fight with Medicine	plus.gif	5	0	0
 7271	Science! Fight with Rational Thought	realbrain.gif	5	0	0
 7272	Science!  Fight with Internet Debate	angry.gif	5	0	0
+7273	Extract	syringe2.gif	5	20	0
+7274	Digitize	watch.gif	5	20	0
+7275	Compress		5	20	0
+7276	Duplicate		5	20	0
+7277	Portscan		5	20	0
+7278	Turbo	lightning.gif	5	20	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
