@@ -13727,6 +13727,7 @@ public abstract class ChoiceManager
 		case 1181: // Witchess Set
 		case 1188: // The Call is Coming from Outside the Simulation
 		case 1190: // The Oracle
+		case 1191: // Source Terminal
 		return true;
 
 		default:
