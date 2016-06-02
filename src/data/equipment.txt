@@ -2473,6 +2473,7 @@ solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
 soul mask	0	none
 soul monocle	0	none
+Source shades	0	none
 Space Trip safety headphones	100	Mys: 35
 spade necklace	10	none
 spaghetti cult robe	10	none

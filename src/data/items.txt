@@ -9058,3 +9058,35 @@
 9032	bowl of Tastee-Wheet&trade;	153693983	soupbowl.gif	food	t	0
 9033	Source terminal	356709315	sourceterminal.gif	usable	t	0
 9034	Source essence	674096283	10101.gif	none	t,d	1	bits of Source essence
+9035	browser cookie	268852403	browsercookie.gif	food	t,d	40
+9036	hacked gibson	484716153	martini.gif	drink	t,d	40
+9037	Source shades	768800208	morphshades.gif	accessory	d	50
+9038	software bug	854485683	softwarebug.gif	grow	t	0
+9039	missing semicolon	642606169	semicolon.gif	familiar	t,d	75
+9040	Source terminal PRAM chip	688502238	ic.gif	usable	d	5
+9041
+9042	Source terminal SPAM chip	767438327	ic.gif	usable	d	5
+9043	Source terminal CRAM chip	422138193	ic.gif	usable	d	50
+9044	Source terminal DRAM chip	418327179	ic.gif	usable	d	50
+9045
+9046	Source terminal INGRAM chip	865810339	ic.gif	usable	t,d	500
+9047	Source terminal DIAGRAM chip	376755223	ic.gif	usable	t,d	500
+9048	Source terminal ASHRAM chip	528655579	ic.gif	usable	t,d	500
+9049	Source terminal SCRAM chip	272321367	ic.gif	usable	t,d	500
+9050	Source terminal TRIGRAM chip	269331627	ic.gif	usable	t,d	500
+9051	Source terminal file: substats.enh	554680770	floppy.gif	usable	t,d	10
+9052	Source terminal file: damage.enh	452912151	floppy.gif	usable	t,d	10
+9053	Source terminal file: critical.enh	666030556	floppy.gif	usable	t,d	10
+9054	Source terminal file: protect.enq	824771727	floppy.gif	usable	t,d	10
+9055	Source terminal file: stats.enq	711688703	floppy.gif	usable	t,d	10
+9056	Source terminal file: compress.edu	570983230	floppy.gif	usable	t,d	10
+9057	Source terminal file: duplicate.edu	360435338	floppy.gif	usable	t,d	10
+9058	Source terminal file: portscan.edu	270574808	floppy.gif	usable	t,d	10
+9059	Source terminal file: turbo.edu	240487443	floppy.gif	usable	t,d	10
+9060	Source terminal file: familiar.ext	950722056	floppy.gif	usable	t,d	10
+9061	Source terminal file: pram.ext	698490933	floppy.gif	usable	t,d	10
+9062	Source terminal file: gram.ext	893085212	floppy.gif	usable	t,d	10
+9063	Source terminal file: spam.ext	752493567	floppy.gif	usable	t,d	10
+9064	Source terminal file: cram.ext	986416765	floppy.gif	usable	t,d	10
+9065	Source terminal file: dram.ext	688494716	floppy.gif	usable	t,d	10
+9066	Source terminal file: tram.ext	138940093	floppy.gif	usable	t,d	10
