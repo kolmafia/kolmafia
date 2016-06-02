@@ -48,12 +48,15 @@ import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -69,6 +72,7 @@ public class AscensionHistoryRequest
 
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td class=small.*?</tr>" );
+	private static final Pattern NAME_PATTERN = Pattern.compile( "who=(\\d+)\\\" class=nounder><font color=white>(.*?)</font>" );
 
 	private final String playerName;
 	private final String playerId;
@@ -118,6 +122,109 @@ public class AscensionHistoryRequest
 	protected boolean retryOnTimeout()
 	{
 		return true;
+	}
+
+	public static final void parseResponse( final String urlString, String responseText )
+	{
+		if ( responseText == null || responseText.length() == 0 || !urlString.startsWith( "ascensionhistory.php" ) )
+		{
+			return;
+		}
+
+		int borisPoints = 0;
+		int zombiePoints = 0;
+		int jarlsbergPoints = 0;
+		int petePoints = 0;
+		int edPoints = 0;
+		int cowPuncherPoints = 0;
+		int beanSlingerPoints = 0;
+		int snakeOilerPoints = 0;
+		int sourcePoints = 0;
+		String playerName = null;
+		String playerId = null;
+
+		// Add something into familiar column if blank so later processing works
+		responseText = 	responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" ).replaceAll( "<td></td>",
+					     "<td><img src=\"" + KoLmafia.imageServerPath() + "itemimages/confused.gif\" height=30 width=30></td>" );
+
+		Matcher nameMatcher = AscensionHistoryRequest.NAME_PATTERN.matcher( responseText );
+		if ( nameMatcher.find() )
+		{
+			playerName = nameMatcher.group( 2 );
+			playerId = nameMatcher.group( 1 );
+		}
+
+		// Only continue if looking at ourself
+		if ( playerId == null || !playerId.equals( KoLCharacter.getPlayerId() ) )
+		{
+			return;
+		}
+
+		Matcher fieldMatcher = AscensionHistoryRequest.FIELD_PATTERN.matcher( responseText );
+
+		int lastFindIndex = 0;
+		AscensionDataField lastField;
+
+		while ( fieldMatcher.find( lastFindIndex ) )
+		{
+			lastFindIndex = fieldMatcher.end() - 5;
+
+			String[] columns = AscensionHistoryRequest.extractColumns( fieldMatcher.group() );
+
+			if ( columns == null )
+			{
+				continue;
+			}
+
+			lastField = new AscensionDataField( playerName, playerId, columns );
+
+			switch ( lastField.pathId )
+			{
+			case AscensionSnapshot.AVATAR_OF_BORIS:
+				borisPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			case AscensionSnapshot.ZOMBIE_SLAYER:
+				zombiePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			case AscensionSnapshot.AVATAR_OF_JARLSBERG:
+				jarlsbergPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			case AscensionSnapshot.AVATAR_OF_SNEAKY_PETE:
+				petePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			case AscensionSnapshot.ACTUALLY_ED_THE_UNDYING:
+				edPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			case AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING:
+				switch ( lastField.classId )
+				{
+				case AscensionSnapshot.COW_PUNCHER:
+					cowPuncherPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+					break;
+				case AscensionSnapshot.BEAN_SLINGER:
+					beanSlingerPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+					break;
+				case AscensionSnapshot.SNAKE_OILER:
+					snakeOilerPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+					break;
+				}
+				break;
+			case AscensionSnapshot.THE_SOURCE:
+				sourcePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
+			}
+		}
+
+		// Refresh points totals based on ascension history
+		Preferences.setInteger( "borisPoints", borisPoints );
+		Preferences.setInteger( "zombiePoints", zombiePoints );
+		Preferences.setInteger( "jarlsbergPoints", jarlsbergPoints );
+		Preferences.setInteger( "sneakyPetePoints", petePoints );
+		Preferences.setInteger( "edPoints", edPoints );
+		Preferences.setInteger( "awolPointsCowpuncher", cowPuncherPoints );
+		Preferences.setInteger( "awolPointsBeanslinger", beanSlingerPoints );
+		Preferences.setInteger( "awolPointsSnakeoiler", snakeOilerPoints );
+		Preferences.setInteger( "sourcePoints", sourcePoints );
 	}
 
 	@Override
