@@ -2890,7 +2890,9 @@ Item	solid gold pegleg	Initiative: -50, Single Equip
 Item	soul mask	Single Equip
 # soul monocle: Reveals secrets
 Item	soul monocle	Single Equip
-Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
+# Item Source shades: Improves yields of the Extraction skill.
+Item	Source shades	Item Drop: +10
+1Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
 # spade necklace
 # spaghetti cult robe
 Item	spaghetti cult rosary	Maximum MP: +50
@@ -3504,6 +3506,7 @@ Item	miniature tophat	Familiar Weight: +5
 # MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks
 Item	miniscule beatbox	Familiar Weight: +5
 Item	mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
+Item	missing semicolon	Familiar Weight: +11, Generic
 # moonglasses: Makes Familiar Less Sensitive to Light
 # moveable feast: Familiar gains 1 extra experience per Adventure
 # moveable feast: Familiar will start food fights!
@@ -4733,6 +4736,7 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
+Effect	familiar.enq	Familiar Weight: +5
 Effect	Fan Dancing	Avatar: "fan dancer"
 Effect	Fan-Cooled	Cold Damage: +10
 Effect	Fancy Feasted	Moxie Percent: +20
@@ -5081,6 +5085,7 @@ Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
 Effect	Influence of Sphere	Pool Skill: +5
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
+Effect	init.enh	Initiative: +50
 Effect	Inky Camouflage	Combat Rate: -5
 # Inner Dog: +50% Damage vs. Zombies
 # Inner Dog: +50 Damage vs. Ghosts
@@ -5116,6 +5121,7 @@ Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
 Effect	Itchy Trigger Finger	Ranged Damage: +30
+Effect	items.enh	Item Drop: +30
 Effect	Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
 Effect	Jaba&ntilde;ero Saucesphere	Damage Reduction: 5
@@ -5254,6 +5260,7 @@ Effect	Material Witness	Meat Drop: +10
 # Mayeaugh: Deals <font color=purple>Sleaze Damage</font> every round.
 # Meat Shielded
 Effect	Meat the Flintstones	Maximum HP Percent: +50
+Effect	meat.enh	Meat Drop: +60
 Effect	Meatwise	Meat Drop: +35
 Effect	Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Effect	Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
@@ -5290,6 +5297,7 @@ Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
 Effect	Monkeymask	Avatar: "damned dirty ape"
+Effect	monsters.enq	Monster Level: +25
 Effect	Monstrosi Tea	Monster Level: -30
 Effect	Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Effect	Moon'd	Experience: +5
@@ -5423,6 +5431,7 @@ Effect	Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Effect	Over the Ocean	Experience: [min(100,T/5)]
 Effect	Over-Familiar With Dactyls	Familiar Weight: +5
 Effect	Overconfident	Monster Level: +30
+Effect	Overheated	Maximum MP Percent: -50
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
@@ -6087,6 +6096,7 @@ Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Perc
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
 Effect	Tundra Mouth	Cold Damage: [min(100,T)]
+Effect	Turbocharged	Maximum MP Percent: +100
 Effect	Turkey-Agitated	Item Drop: +25
 Effect	Turkey-Ambitious	Initiative: +25, Meat Drop: +50
 Effect	Turkey-Friendly	Familiar Weight: +5
