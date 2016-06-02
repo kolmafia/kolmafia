@@ -336,8 +336,9 @@ public class FightDecorator
 		while( option.find() )
 		{
 			// Remove skills not starting with 21 as they can't be used
+			// Allow new source terminal skills until we know which are usable
 			int skill = StringUtilities.parseInt( option.group( 1 ) );
-			if ( skill < 21000 || skill > 21999 )
+			if ( skill < 7273 || ( skill > 7278 && skill < 21000 ) || skill > 21999 )
 			{
 				StringUtilities.singleStringDelete( buffer, option.group( 0 ) );
 			}
