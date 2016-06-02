@@ -601,6 +601,12 @@ public class AscensionHistoryRequest
 
 		private void setHistoricColumns( final String[] columns )
 		{
+			// Check if any data present
+			if ( !columns[ 7 ].contains( "," ) )
+			{
+				return;
+			}
+
 			this.classId =
 				columns[ 3 ].startsWith( "SC" ) ? AscensionSnapshot.SEAL_CLUBBER :
 				columns[ 3 ].startsWith( "TT" ) ? AscensionSnapshot.TURTLE_TAMER :
