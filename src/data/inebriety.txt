@@ -276,7 +276,7 @@ Grimacider	3	5		3-6	0	0	0
 Grimacite Bock	1	8	EPIC	3-10	65	64	62
 grog	3	3	good	5-10	8-10	0	0
 grogtini	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
-hacked gibson	4	4	EPIC	0	0	0	0	Unspaded
+hacked gibson	4	4	EPIC	20-26	40-60	40-60	40-60
 Haymaker	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Herring Daiquiri	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 Herring Wallbanger	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
