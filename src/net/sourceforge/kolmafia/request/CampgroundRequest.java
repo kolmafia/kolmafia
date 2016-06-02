@@ -171,6 +171,7 @@ public class CampgroundRequest
 		ItemPool.TOILET_PAPER,
 		ItemPool.HAUNTED_DOGHOUSE,
 		ItemPool.WITCHESS_SET,
+		ItemPool.SOURCE_TERMINAL,
 
 		// Special item that aids resting
 		ItemPool.COMFY_BLANKET,
@@ -682,6 +683,7 @@ public class CampgroundRequest
 		findImage( responseText, "golem.gif", ItemPool.MEAT_GOLEM );
 		findImage( responseText, "doghouse.gif", ItemPool.HAUNTED_DOGHOUSE );
 		findImage( responseText, "chesstable.gif", ItemPool.WITCHESS_SET );
+		findImage( responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL );
 
 		findImage( responseText, "teatree", ItemPool.POTTED_TEA_TREE );
 		if ( responseText.contains( "teatree_used.gif" ) )
