@@ -3506,7 +3506,7 @@ Item	miniature tophat	Familiar Weight: +5
 # MiniMechaElf Laser Punch Missile Launcher: More likely to use more powerful attacks
 Item	miniscule beatbox	Familiar Weight: +5
 Item	mint-condition magic wand	Volleyball: 0.3334, Fairy: 0.3334
-Item	missing semicolon	Familiar Weight: +11, Generic
+Item	missing semicolon	Familiar Weight: +11
 # moonglasses: Makes Familiar Less Sensitive to Light
 # moveable feast: Familiar gains 1 extra experience per Adventure
 # moveable feast: Familiar will start food fights!
