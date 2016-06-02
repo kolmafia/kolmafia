@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.request.AccountRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -283,6 +284,11 @@ public class ResponseTextParser
 		else if ( location.startsWith( "api.php" ) )
 		{
 			ApiRequest.parseResponse( location, responseText );
+		}
+
+		else if ( location.startsWith( "ascensionhistory.php" ) )
+		{
+			AscensionHistoryRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "arena.php" ) )
