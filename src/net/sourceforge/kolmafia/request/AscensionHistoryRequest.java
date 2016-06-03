@@ -218,9 +218,6 @@ public class AscensionHistoryRequest
 		// Refresh points totals based on ascension history
 		Preferences.setInteger( "borisPoints", borisPoints );
 		Preferences.setInteger( "zombiePoints", zombiePoints );
-		Preferences.setInteger( "awolPointsCowpuncher", cowPuncherPoints );
-		Preferences.setInteger( "awolPointsBeanslinger", beanSlingerPoints );
-		Preferences.setInteger( "awolPointsSnakeoiler", snakeOilerPoints );
 		Preferences.setInteger( "sourcePoints", sourcePoints );
 
 		// Some can be increased by buying points, so only set these if higher than preference
@@ -235,6 +232,18 @@ public class AscensionHistoryRequest
 		if ( edPoints > Preferences.getInteger( "edPoints" ) )
 		{
 			Preferences.setInteger( "edPoints", edPoints );
+		}
+		if ( cowPuncherPoints > Preferences.getInteger( "awolPointsCowpuncher" ) )
+		{
+			Preferences.setInteger( "awolPointsCowpuncher", cowPuncherPoints );
+		}
+		if ( beanSlingerPoints > Preferences.getInteger( "awolPointsBeanslinger" ) )
+		{
+			Preferences.setInteger( "awolPointsBeanslinger", beanSlingerPoints );
+		}
+		if ( snakeOilerPoints > Preferences.getInteger( "awolPointsSnakeoiler" ) )
+		{
+			Preferences.setInteger( "awolPointsSnakeoiler", snakeOilerPoints );
 		}
 	}
 
