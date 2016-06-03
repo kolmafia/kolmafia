@@ -2892,7 +2892,7 @@ Item	soul mask	Single Equip
 Item	soul monocle	Single Equip
 # Item Source shades: Improves yields of the Extraction skill.
 Item	Source shades	Item Drop: +10
-1Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
+Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
 # spade necklace
 # spaghetti cult robe
 Item	spaghetti cult rosary	Maximum MP: +50
