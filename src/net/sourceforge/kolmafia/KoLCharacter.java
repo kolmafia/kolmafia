@@ -6011,6 +6011,7 @@ public abstract class KoLCharacter
 		{
 			Preferences.setInteger( "lastSemirareReset", KoLCharacter.getAscensions() );
 			Preferences.setInteger( "semirareCounter", 0 );
+			Preferences.setString( "semirareLocation", "" );
 			Preferences.setInteger( "beeCounter", 0 );
 		}
 	}
