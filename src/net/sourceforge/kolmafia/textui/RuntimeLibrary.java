@@ -1230,6 +1230,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "eudora", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "eudora", DataTypes.BOOLEAN_TYPE, params ) );
+
 		// String parsing functions.
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -5367,6 +5373,53 @@ public abstract class RuntimeLibrary
 	public static Value get_counters( Interpreter interpreter, final Value label, final Value min, final Value max )
 	{
 		return new Value( TurnCounter.getCounters( label.toString(), (int) min.intValue(), (int) max.intValue() ) );
+	}
+
+	public static Value eudora ( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getEudora() );
+	}
+
+	public static Value eudora( Interpreter interpreter, final Value newEudora )
+	{
+		String correspondent = newEudora.toString();
+		String requestString = "account.php?am=1&action=whichpenpal&ajax=1&pwd=" +
+			  GenericRequest.passwordHash + "&value=";
+
+		if ( correspondent.equalsIgnoreCase( "penpal" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "1" );
+			request.run();
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "Penpal" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Pen Pal" );
+				return DataTypes.TRUE_VALUE;
+			}
+		}
+		if ( correspondent.equalsIgnoreCase( "game" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "2" );
+			request.run();
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "GameInformPowerDailyPro Magazine" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Game Magazine" );
+				return DataTypes.TRUE_VALUE;
+			}
+		}
+		if ( correspondent.equalsIgnoreCase( "xi" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "3" );
+			request.run();
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "Xi Receiver Unit" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Xi Receiver" );
+				return DataTypes.TRUE_VALUE;
+			}
+		}
+		return DataTypes.FALSE_VALUE;
 	}
 
 	// String parsing functions.
