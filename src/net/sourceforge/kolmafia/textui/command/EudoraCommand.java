@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class EudoraCommand
@@ -42,7 +45,7 @@ public class EudoraCommand
 {
 	public EudoraCommand()
 	{
-		this.usage = " penpal|game - switch to the specified correspondent";
+		this.usage = " penpal|game|xi - switch to the specified correspondent";
 	}
 
 	@Override
@@ -57,24 +60,51 @@ public class EudoraCommand
 		{
 			GenericRequest request = new GenericRequest( requestString + "1" );
 			request.run();
-			KoLmafia.updateDisplay( "Switched to Pen Pal" );
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "Penpal" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Pen Pal" );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Pen Pal" );
+			}
 		}
 		else if ( parameters.equals( "game" ) )
 		{
 			GenericRequest request = new GenericRequest( requestString + "2" );
 			request.run();
-			KoLmafia.updateDisplay( "Switched to Game Magazine" );
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "GameInformPowerDailyPro Magazine" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Game Magazine" );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Game Magazine" );
+			}
 		}
 		else if ( parameters.equals( "xi" ) )
 		{
 			GenericRequest request = new GenericRequest( requestString + "3" );
 			request.run();
-			KoLmafia.updateDisplay( "Switched to Xi Receiver" );
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "Xi Receiver Unit" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to Xi Receiver" );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Xi Receiver" );
+			}
+		}
+		else if ( parameters.length() == 0 )
+		{
+			KoLmafia.updateDisplay( "Current correspondent is " + KoLCharacter.getEudora() );
 		}
 		else
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "That is not a valid correspondent" );
 		}
 	}
-
 }

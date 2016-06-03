@@ -424,6 +424,8 @@ public abstract class KoLCharacter
 	private static boolean lazyInventory = false;
 	private static boolean unequipFamiliar = false;
 
+	private static String eudora = "";
+
 	// Put things that allocate AdventureResult objects AFTER previous
 	// static data has been initialized.
 
@@ -541,6 +543,7 @@ public abstract class KoLCharacter
 		KoLCharacter.autosellMode = "";
 		KoLCharacter.lazyInventory = false;
 		KoLCharacter.unequipFamiliar = false;
+		KoLCharacter.eudora = "";
 
 		// Clear some of the standard lists so they don't
 		// carry over from player to player.
@@ -1418,6 +1421,16 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.attacksLeft = attacksLeft;
 		KoLCharacter.updateStatus();
+	}
+
+	public static final void setEudora( final String eudora )
+	{
+		KoLCharacter.eudora = eudora;
+	}
+
+	public static final String getEudora()
+	{
+		return KoLCharacter.eudora;
 	}
 
 	/**

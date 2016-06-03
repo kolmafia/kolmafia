@@ -724,5 +724,25 @@ public class AccountRequest
 
 		boolean recalled = JSON.getInt( "recalledskills" ) == 1;
 		KoLCharacter.setSkillsRecalled( recalled );
+
+		int eudora = flags.getInt( "whichpenpal" );
+		switch ( eudora )
+		{
+		case 0:
+			KoLCharacter.setEudora( "none" );
+			break;
+		case 1:
+			KoLCharacter.setEudora( "Penpal" );
+			break;
+		case 2:
+			KoLCharacter.setEudora( "GameInformPowerDailyPro Magazine" );
+			break;
+		case 3:
+			KoLCharacter.setEudora( "Xi Receiver Unit" );
+			break;
+		default:
+			KoLCharacter.setEudora( "Unknown" );
+			break;
+		}
 	}
 }
