@@ -441,7 +441,8 @@ public class QuestManager
 			QuestDatabase.setQuestIfBetter( Quest.MEATCAR, QuestDatabase.FINISHED );
 		}
 		if ( responseText.contains( "not recovered the Epic Weapon yet" ) ||
-		     responseText.contains( "The Tomb is within the Misspelled Cemetery" ) )
+		     responseText.contains( "The Tomb is within the Misspelled Cemetery" ) ||
+		     responseText.contains( "the Tomb, which is within the Misspelled Cemetery" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, QuestDatabase.STARTED );
 		}
@@ -457,7 +458,7 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step9" );
 		}
-		if ( responseText.contains( "in the Big Mountains" ) && !responseText.contains( "not the required mettle to defeat him" ) )
+		if ( responseText.contains( "in the Big Mountains" ) && !responseText.contains( "not the required mettle to defeat" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step10" );
 		}
