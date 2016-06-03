@@ -2098,18 +2098,18 @@
 2097	Rational Thought	realbrain.gif	e2e3f650ec3efb672265335604ed47ed	# cast Science! Fight with Rational Thought in combat
 2098	Internate Debatable	angry.gif	d9ec2dd3296c1062079f0d2a660d8d65	# cast Science!  Fight with Internet Debate in combat
 2099	Feeling Queasy	nauseated.gif	c5f4e1f307eeb6ec4ec7c1b3f1507a17	eat 1 gallon of milk
-2100	Jacked In	plug.gif	f88b2b8ce68b568feb6d78b09e27ac85
-2101	Speed of the Internet	fast.gif	0b13d27333e5479d4783c9a4ddf5d281
+2100	Jacked In	plug.gif	f88b2b8ce68b568feb6d78b09e27ac85	# Summon Intergnat demon
+2101	Speed of the Internet	fast.gif	0b13d27333e5479d4783c9a4ddf5d281	# Summon Intergnat demon at level 13
 2102	Latency	badsignal.gif	77f7332e050672d9a560d2af05fbad18	# Source Agent debuff
-2103	meat.enh	10101.gif	16b5be921ee17b766c88e3dfe58c6c6a
-2104	items.enh	10101.gif	4c14018748bc6c9ba2245928cc7410d7
-2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de
-2106
+2103	meat.enh	10101.gif	16b5be921ee17b766c88e3dfe58c6c6a	# Source Terminal buff meat.enh
+2104	items.enh	10101.gif	4c14018748bc6c9ba2245928cc7410d7	# Source Terminal buff items.enh
+2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de	# Source Terminal buff init.enh
+2106	substats.enh	10101.gif	f61a3bdb061ddcb3a53d247c9106b4bf	# Source Terminal buff substats.enh
 2107
 2108
-2109	familiar.enq	10101.gif	e0ee8a20aa6c6f60720749b5b3f875a5
-2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a
+2109	familiar.enq	10101.gif	e0ee8a20aa6c6f60720749b5b3f875a5	# Source Terminal rollover effect familiar.enq
+2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a	# Source Terminal rollover effect monsters.enq
 2111
-2112
-2113	Turbocharged	lightning.gif	3f23853f6ce2d5dd4348f353d7e9cc7a
-2114	Overheated	evil.gif	91299faa7afb91cf4b6ee9dccd97ea7f
+2112	stats.enq	10101.gif	4d1c706ae6625bd6e44b1451ffeb3ff1	# Source Terminal rollover effect stats.enq
+2113	Turbocharged	lightning.gif	3f23853f6ce2d5dd4348f353d7e9cc7a	# Ccst Turbo in combat
+2114	Overheated	evil.gif	91299faa7afb91cf4b6ee9dccd97ea7f	# after fight in which Turbo was cast
