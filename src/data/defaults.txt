@@ -215,6 +215,9 @@ user	awolMedicine	0
 user	awolPointsBeanslinger	0
 user	awolPointsCowpuncher	0
 user	awolPointsSnakeoiler	0
+user	awolDeferredPointsBeanslinger	0
+user	awolDeferredPointsCowpuncher	0
+user	awolDeferredPointsSnakeoiler	0
 user	awolVenom	0
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
