@@ -413,7 +413,7 @@ public abstract class UseLinkDecorator
 
 	private static final CraftingType shouldAddCreateLink( int itemId, String location )
 	{
-		if ( location == null || location.contains( "craft.php" ) )
+		if ( location == null || ( location.contains( "craft.php" ) && !location.contains( "pulverize" ) ) )
 		{
 			return CraftingType.NOCREATE;
 		}
