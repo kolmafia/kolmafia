@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -89,6 +90,8 @@ public class UseSkillRequest
 
 	// <p>1 / 50 casts used today.</td>
 	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d]+ casts used today\\.</td>", Pattern.DOTALL );
+
+	private static final Pattern SKILLZ_PATTERN = Pattern.compile( "rel=\\\"(\\d+)\\\".*?<span class=small>(.*?)</font></center></span>", Pattern.DOTALL );
 
 	public static final String[] BREAKFAST_SKILLS =
 	{
@@ -1704,6 +1707,16 @@ public class UseSkillRequest
 	{
 		int skillId = UseSkillRequest.lastSkillUsed;
 		int count = UseSkillRequest.lastSkillCount;
+
+		if ( urlString.contains( "skillz.php" ) && !urlString.contains( "whichskill" ) )
+		{
+			// This is a skill list, parse skills for consequences.
+			Matcher matcher = UseSkillRequest.SKILLZ_PATTERN.matcher( responseText );
+			while ( matcher.find() )
+			{
+				ConsequenceManager.parseSkillDesc( StringUtilities.parseInt( matcher.group( 1 ) ), matcher.group( 2 ) );
+			}
+		}
 
 		if ( skillId == -1 )
 		{

@@ -79,6 +79,7 @@ DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=$1
 DESC_SKILL	Slimy Sinews	giving you \+(\d+)	skillLevel46=$1
 DESC_SKILL	Slimy Synapses	giving you \+(\d+)	skillLevel47=$1
 DESC_SKILL	Summon Annoyance	Cost:</b> (\d+)	summonAnnoyanceCost=$1
+DESC_SKILL	Bear Essence	\+(\d+)% Picnic Basket	skillLevel134=[$1/20]
 
 DESC_EFFECT	Antihangover	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	_chilledToTheBone=$1
