@@ -1209,6 +1209,7 @@ user	_feastedFamiliars
 user	_feastUsed	0
 user	_feelinTheRhythm	0
 user	_fingertrapArrows	0
+user	_firedJokestersGun	false
 user	_fireStartingKitUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
