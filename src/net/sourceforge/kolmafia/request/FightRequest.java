@@ -1540,6 +1540,17 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Fire the Jokester's Gun" ) )
+		{
+			// You can only fire the gun once per day per day
+
+			if ( Preferences.getBoolean( "_firedJokestersGun" ) )
+			{
+				--FightRequest.preparatoryRounds;
+				this.nextRound( null );
+				return;
+			}
+		}
 
 		// Skills use MP. Make sure the character has enough.
 		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
@@ -7753,6 +7764,13 @@ public class FightRequest
 
 		case SkillPool.USE_BAT_AID:
 			ResultProcessor.removeItem( ItemPool.BAT_AID_BANDAGE );
+			break;
+
+		case SkillPool.FIRE_JOKESTER_GUN:
+			if ( responseText.contains( "little flag reading BANG pops out the end of the barrel" ) || skillSuccess )
+			{
+				Preferences.setBoolean( "_firedJokestersGun", true );
+			}
 			break;
 		}
 	}
