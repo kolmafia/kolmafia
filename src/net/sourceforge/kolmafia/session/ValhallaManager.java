@@ -570,8 +570,6 @@ public class ValhallaManager
 		Preferences.setBoolean( "prayedForProtection", false );
 		Preferences.setBoolean( "prayedForVigor", false );
 		Preferences.setInteger( "rockinRobinProgress", 25 );
-		Preferences.setInteger( "awolMedicine", 0 );
-		Preferences.setInteger( "awolVenom", 0 );
 		Preferences.setString( "demonName12", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
@@ -631,6 +629,15 @@ public class ValhallaManager
 		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 		Preferences.setInteger( "cinderellaScore", 0 );
 		Preferences.setString( "grimstoneMaskPath", "" );
+		// AWOL
+		Preferences.setInteger( "awolMedicine", 0 );
+		Preferences.setInteger( "awolVenom", 0 );
+		Preferences.increment( "awolPointsBeanslinger", Preferences.getInteger( "awolDeferredPointsBeanslinger" ) );
+		Preferences.increment( "awolPointsCowpuncher", Preferences.getInteger( "awolDeferredPointsCowpuncher" ) );
+		Preferences.increment( "awolPointsSnakeoiler", Preferences.getInteger( "awolDeferredPointsSnakeoiler" ) );
+		Preferences.setInteger( "awolDeferredPointsBeanslinger", 0 );
+		Preferences.setInteger( "awolDeferredPointsCowpuncher", 0 );
+		Preferences.setInteger( "awolDeferredPointsSnakeoiler", 0 );
 		// The Source trackers
 		Preferences.resetToDefault( "sourceAgentsDefeated" );
 		Preferences.resetToDefault( "sourceInterval" );

@@ -5395,6 +5395,18 @@ public class UseItemRequest
 			}
 			return;
 
+		case ItemPool.MEMORIES_OF_COW_PUNCHING:
+			Preferences.increment( "awolDeferredPointsCowpuncher" );
+			break;
+
+		case ItemPool.MEMORIES_OF_BEAN_SLINGING:
+			Preferences.increment( "awolDeferredPointsBeanslinger" );
+			break;
+
+		case ItemPool.MEMORIES_OF_SNAKE_OILING:
+			Preferences.increment( "awolDeferredPointsSnakeoiler" );
+			break;
+
 		case ItemPool.CODPIECE:
 		case ItemPool.BASS_CLARINET:
 		case ItemPool.FISH_HATCHET:

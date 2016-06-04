@@ -2593,6 +2593,9 @@ public class ItemPool
 	public static final int BEAN_SLINGING_TALES = 8956;
 	public static final int SNAKE_OILING_TALES = 8957;
 	public static final int SNAKE_OIL = 8971;
+	public static final int MEMORIES_OF_COW_PUNCHING = 8986;
+	public static final int MEMORIES_OF_BEAN_SLINGING = 8987;
+	public static final int MEMORIES_OF_SNAKE_OILING = 8988;
 	public static final int WITCHESS_SET = 8989;
 	public static final int CODPIECE = 9002;
 	public static final int BASS_CLARINET = 9004;
