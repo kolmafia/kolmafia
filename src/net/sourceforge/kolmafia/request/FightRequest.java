@@ -506,6 +506,18 @@ public class FightRequest
 		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 	}
 
+	public static final boolean isSourceAgent()
+	{
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		return monster != null &&  FightRequest.isSourceAgent( monster );
+	}
+
+	public static final boolean isSourceAgent( MonsterData monster )
+	{
+		String name = monster.getName();
+		return name.equals( "Source Agent" ) || name.equals( "One Thousand Source Agents" );
+	}
+
 	public static final boolean isPirate()
 	{
 		return FightRequest.isPirate( MonsterStatusTracker.getLastMonster() );

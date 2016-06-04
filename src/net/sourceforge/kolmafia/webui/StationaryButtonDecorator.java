@@ -71,15 +71,30 @@ public class StationaryButtonDecorator
 
 	private static final boolean builtInSkill( final String skillId )
 	{
-		if ( skillId.equals( String.valueOf( SkillDatabase.getSkillId( KoLCharacter.getClassStun() ) ) ) )
+		if ( !StringUtilities.isNumeric( skillId ) )
+		{
+			return false;
+		}
+
+		int skillNumber = Integer.parseInt( skillId );
+
+		if ( skillNumber == SkillDatabase.getSkillId( KoLCharacter.getClassStun() ) )
 		{
 			return true;
 		}
 
-		if ( skillId.equals( String.valueOf( SkillPool.OLFACTION ) ) ||
-		     skillId.equals( String.valueOf( SkillPool.CANHANDLE ) ) ||
-		     skillId.equals( String.valueOf( SkillPool.SHOOT ) ) )
+		// Do not save The Source skills in buttons since they are
+		// usable only on Source Agents
+		if ( ( skillNumber / 1000 ) == 21 )
 		{
+			return true;
+		}
+
+		switch ( skillNumber )
+		{
+		case SkillPool.OLFACTION:
+		case SkillPool.CANHANDLE:
+		case SkillPool.SHOOT:
 			return true;
 		}
 
@@ -438,6 +453,22 @@ public class StationaryButtonDecorator
 
 	public static final void addCombatButtons( final String urlString, final StringBuffer actionBuffer )
 	{
+		// If we fighting a source agent, create buttons for exactly
+		// those skills which are usable against them.
+		if ( KoLCharacter.inTheSource() && FightRequest.isSourceAgent() )
+		{
+			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
+			for ( UseSkillRequest skill : KoLConstants.availableCombatSkills )
+			{
+				int skillId = skill.getSkillId();
+				if ( SkillDatabase.sourceAgentSkill( skillId ) )
+				{
+					StationaryButtonDecorator.addFightButton( actionBuffer, String.valueOf( skillId ), true );
+				}
+			}
+			return;
+		}
+
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
 			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
