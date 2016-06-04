@@ -2111,5 +2111,5 @@
 2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a	# Source Terminal rollover effect monsters.enq
 2111
 2112	stats.enq	10101.gif	4d1c706ae6625bd6e44b1451ffeb3ff1	# Source Terminal rollover effect stats.enq
-2113	Turbocharged	lightning.gif	3f23853f6ce2d5dd4348f353d7e9cc7a	# Ccst Turbo in combat
+2113	Turbocharged	lightning.gif	3f23853f6ce2d5dd4348f353d7e9cc7a	# Cast Turbo in combat
 2114	Overheated	evil.gif	91299faa7afb91cf4b6ee9dccd97ea7f	# after fight in which Turbo was cast

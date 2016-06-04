@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -151,7 +153,8 @@ public class FightDecorator
 			FightDecorator.decorateMachineTunnelFight( name, buffer );
 			return;
 		}
-		if ( name.equals( "source agent" ) || name.equals( "one thousand source agents" ) )
+
+		if ( FightRequest.isSourceAgent( monster ) )
 		{
 			FightDecorator.decorateSourceAgent( buffer );
 			return;
@@ -337,8 +340,8 @@ public class FightDecorator
 		{
 			// Remove skills not starting with 21 as they can't be used
 			// Allow new source terminal skills until we know which are usable
-			int skill = StringUtilities.parseInt( option.group( 1 ) );
-			if ( skill < 7273 || ( skill > 7278 && skill < 21000 ) || skill > 21999 )
+			int skillId = StringUtilities.parseInt( option.group( 1 ) );
+			if ( !SkillDatabase.sourceAgentSkill( skillId ) )
 			{
 				StringUtilities.singleStringDelete( buffer, option.group( 0 ) );
 			}

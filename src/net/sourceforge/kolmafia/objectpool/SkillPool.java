@@ -247,6 +247,12 @@ public class SkillPool
 	public static final int BAT_GLUE = 7262;
 	public static final int BAT_BEARING = 7263;
 	public static final int USE_BAT_AID = 7264;
+	public static final int EXTRACT = 7273;
+	public static final int DIGITIZE = 7274;
+	public static final int COMPRESS = 7275;
+	public static final int DUPLICATE = 7276;
+	public static final int PORTSCAN = 7277;
+	public static final int TURBO = 7278;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

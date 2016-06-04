@@ -112,6 +112,7 @@ public class SkillDatabase
 	private static final String COWPUNCHER = "Cow Puncher";
 	private static final String BEANSLINGER = "Beanslinger";
 	private static final String SNAKE_OILER = "Snake Oiler";
+	private static final String SOURCE = "The Source";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -132,10 +133,11 @@ public class SkillDatabase
 		SkillDatabase.AVATAR_OF_JARLSBERG,	// 14xxx
 		SkillDatabase.AVATAR_OF_SNEAKY_PETE,	// 15xxx
 		SkillDatabase.HEAVY_RAINS,	// 16xxx
-		SkillDatabase.ED,	// 17xxx
+		SkillDatabase.ED,		// 17xxx
 		SkillDatabase.COWPUNCHER,	// 18xxx
 		SkillDatabase.BEANSLINGER,	// 19xxx
 		SkillDatabase.SNAKE_OILER,	// 20xxx
+		SkillDatabase.SOURCE,		// 21xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
@@ -1605,4 +1607,29 @@ public class SkillDatabase
 		}
 		return ( (Integer) casts ).intValue();
 	}
+
+	public static boolean sourceAgentSkill( int skillId )
+	{
+		// Return true if this skill is usable against a source agent
+		// All class 21 skills can be used
+		if ( ( skillId / 1000 ) == 21 )
+		{
+			return true;
+		}
+
+		// Some Source Terminal skills are usable. Turbo for sure.
+		// List all until we learn which ones are not usable
+		switch ( skillId )
+		{
+		case SkillPool.EXTRACT:
+		case SkillPool.DIGITIZE:
+		case SkillPool.COMPRESS:
+		case SkillPool.DUPLICATE:
+		case SkillPool.PORTSCAN:
+		case SkillPool.TURBO:
+			return true;
+		}
+		return false;
+	}
 }
+
