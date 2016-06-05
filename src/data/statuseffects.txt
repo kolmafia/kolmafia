@@ -2105,11 +2105,11 @@
 2104	items.enh	10101.gif	4c14018748bc6c9ba2245928cc7410d7	# Source Terminal buff items.enh
 2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de	# Source Terminal buff init.enh
 2106	substats.enh	10101.gif	f61a3bdb061ddcb3a53d247c9106b4bf	# Source Terminal buff substats.enh
-2107
-2108	critical.enh	10101.gif	6d62a2abfbdaebe40987517bf987e9b4
+2107	damage.enh	10101.gif	66a3192cd03222c792def0fe0bc20b07	# Source Terminal buff damage.enh
+2108	critical.enh	10101.gif	6d62a2abfbdaebe40987517bf987e9b4	# Source Terminal buff critical.enh
 2109	familiar.enq	10101.gif	e0ee8a20aa6c6f60720749b5b3f875a5	# Source Terminal rollover effect familiar.enq
 2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a	# Source Terminal rollover effect monsters.enq
-2111
+2111	protect.enq	10101.gif	db1b4f7420e45838a4564ab1516a1ec4	# Source Terminal rollover effect protect.enq
 2112	stats.enq	10101.gif	4d1c706ae6625bd6e44b1451ffeb3ff1	# Source Terminal rollover effect stats.enq
 2113	Turbocharged	lightning.gif	3f23853f6ce2d5dd4348f353d7e9cc7a	# Cast Turbo in combat
 2114	Overheated	evil.gif	91299faa7afb91cf4b6ee9dccd97ea7f	# after fight in which Turbo was cast

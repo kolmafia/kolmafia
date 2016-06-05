@@ -9064,11 +9064,11 @@
 9038	software bug	854485683	softwarebug.gif	grow	t	0
 9039	missing semicolon	642606169	semicolon.gif	familiar	t,d	75
 9040	Source terminal PRAM chip	688502238	ic.gif	usable	d	5
-9041
+9041	Source terminal GRAM chip	947021430	ic.gif	usable	d	5
 9042	Source terminal SPAM chip	767438327	ic.gif	usable	d	5
 9043	Source terminal CRAM chip	422138193	ic.gif	usable	d	50
 9044	Source terminal DRAM chip	418327179	ic.gif	usable	d	50
-9045
+9045	Source terminal TRAM chip	851999259	ic.gif	usable	d	50
 9046	Source terminal INGRAM chip	865810339	ic.gif	usable	t,d	500
 9047	Source terminal DIAGRAM chip	376755223	ic.gif	usable	t,d	500
 9048	Source terminal ASHRAM chip	528655579	ic.gif	usable	t,d	500
