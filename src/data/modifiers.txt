@@ -4572,6 +4572,7 @@ Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
 Effect	Cybernetic Muscles	Muscle Percent: +10
 Effect	Daemon Duds	Avatar: "clean room demon"
+Effect	damage.enh	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Dance Interpreter	Item Drop: +20
 Effect	Dance of the Sugar Fairy	Item Drop: +25
 Effect	Dances with Tweedles	Meat Drop: +40
@@ -5532,6 +5533,7 @@ Effect	Proficient Pressure	Experience: +8
 Effect	Pronounced Potency	Weapon Damage: +5
 Effect	Proprie Tea	Sleaze Resistance: +3
 Effect	Pros Only	Avatar: "sensitive poet-type"
+Effect	protect.enq	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
