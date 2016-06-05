@@ -4527,6 +4527,7 @@ Effect	Crimbo Flavor	Spell Damage: +30
 Effect	Crimbo Nostalgia	Experience: +5
 # Crimbonar: Detect the presence of Crimbonium
 Effect	Cringle's Curative Carol	HP Regen Min: 5, HP Regen Max: 10
+Effect	critical.enh	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Crocodile Tear	Familiar Weight (hidden): [10*env(underwater)]
 Effect	Crotchety, Pining	Muscle Percent: +100
 Effect	Crud&eacute;	Sleaze Damage: +5

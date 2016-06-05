@@ -2106,7 +2106,7 @@
 2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de	# Source Terminal buff init.enh
 2106	substats.enh	10101.gif	f61a3bdb061ddcb3a53d247c9106b4bf	# Source Terminal buff substats.enh
 2107
-2108
+2108	critical.enh	10101.gif	6d62a2abfbdaebe40987517bf987e9b4
 2109	familiar.enq	10101.gif	e0ee8a20aa6c6f60720749b5b3f875a5	# Source Terminal rollover effect familiar.enq
 2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a	# Source Terminal rollover effect monsters.enq
 2111
