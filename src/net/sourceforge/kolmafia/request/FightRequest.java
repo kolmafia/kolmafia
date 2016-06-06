@@ -275,7 +275,7 @@ public class FightRequest
 		Pattern.compile( "Your oil extractor is (\\d+)% clogged up" );
 
 	private static final Pattern SOURCE_INTERVAL_PATTERN =
-		Pattern.compile( "}, (\\d+)\\);" );
+		Pattern.compile( "var matrix_speed = (\\d+);" );
 
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
@@ -3119,7 +3119,7 @@ public class FightRequest
 			Matcher intervalMatcher = FightRequest.SOURCE_INTERVAL_PATTERN.matcher( responseText );
 			if ( intervalMatcher.find() )
 			{
-				Preferences.setInteger( "sourceInterval", StringUtilities.parseInt( intervalMatcher.group( 1 ) ) );
+				Preferences.setInteger( "sourceInterval", (int) 0.8 * StringUtilities.parseInt( intervalMatcher.group( 1 ) ) );
 			}
 			else
 			{
