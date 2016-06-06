@@ -2610,6 +2610,33 @@ public class ItemPool
 	public static final int BACON_MACHINE = 9025;
 	public static final int NO_SPOON = 9029;
 	public static final int SOURCE_TERMINAL = 9033;
+	public static final int SOURCE_TERMINAL_PRAM_CHIP = 9040;
+	public static final int SOURCE_TERMINAL_GRAM_CHIP = 9041;
+	public static final int SOURCE_TERMINAL_SPAM_CHIP = 9042;
+	public static final int SOURCE_TERMINAL_CRAM_CHIP = 9043;
+	public static final int SOURCE_TERMINAL_DRAM_CHIP = 9044;
+	public static final int SOURCE_TERMINAL_TRAM_CHIP = 9045;
+	public static final int SOURCE_TERMINAL_INGRAM_CHIP = 9046;
+	public static final int SOURCE_TERMINAL_DIAGRAM_CHIP = 9047;
+	public static final int SOURCE_TERMINAL_ASHRAM_CHIP = 9048;
+	public static final int SOURCE_TERMINAL_SCRAM_CHIP = 9049;
+	public static final int SOURCE_TERMINAL_TRIRAM_CHIP = 9050;
+	public static final int SOURCE_TERMINAL_SUBSTATS_ENH = 9051;
+	public static final int SOURCE_TERMINAL_DAMAGE_ENH = 9052;
+	public static final int SOURCE_TERMINAL_CRITICAL_ENH = 9053;
+	public static final int SOURCE_TERMINAL_PROTECT_ENQ = 9054;
+	public static final int SOURCE_TERMINAL_STATS_ENQ = 9055;
+	public static final int SOURCE_TERMINAL_COMPRESS_EDU = 9056;
+	public static final int SOURCE_TERMINAL_DUPLICATE_EDU = 9057;
+	public static final int SOURCE_TERMINAL_PORTSCAN_EDU = 9058;
+	public static final int SOURCE_TERMINAL_TURBO_EDU = 9059;
+	public static final int SOURCE_TERMINAL_FAMILIAR_EXT = 9060;
+	public static final int SOURCE_TERMINAL_PRAM_EXT = 9061;
+	public static final int SOURCE_TERMINAL_GRAM_EXT = 9062;
+	public static final int SOURCE_TERMINAL_SPAM_EXT = 9063;
+	public static final int SOURCE_TERMINAL_CRAM_EXT = 9064;
+	public static final int SOURCE_TERMINAL_DRAM_EXT = 9065;
+	public static final int SOURCE_TERMINAL_TRAM_EXT = 9066;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

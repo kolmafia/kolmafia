@@ -5416,6 +5416,57 @@ public class UseItemRequest
 		case ItemPool.BACON_MACHINE:
 			Preferences.setBoolean( "_baconMachineUsed", true );
 			break;
+
+		case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:
+			// Source terminal chips (10 maximum)
+			// *** what is the message when you have 10 already?
+			if ( !responseText.contains( "You pull the cover off of your Source terminal and install the chip." ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.SOURCE_TERMINAL_CRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_DRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_TRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_INGRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_DIAGRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_TRIRAM_CHIP:
+			// Source terminal chip (1 maximum)
+			// You've already installed a ASHRAM chip in your Source terminal
+			if ( responseText.contains( "You've already installed" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.SOURCE_TERMINAL_SUBSTATS_ENH:
+		case ItemPool.SOURCE_TERMINAL_DAMAGE_ENH:
+		case ItemPool.SOURCE_TERMINAL_CRITICAL_ENH:
+		case ItemPool.SOURCE_TERMINAL_PROTECT_ENQ:
+		case ItemPool.SOURCE_TERMINAL_STATS_ENQ:
+		case ItemPool.SOURCE_TERMINAL_COMPRESS_EDU:
+		case ItemPool.SOURCE_TERMINAL_DUPLICATE_EDU:
+		case ItemPool.SOURCE_TERMINAL_PORTSCAN_EDU:
+		case ItemPool.SOURCE_TERMINAL_TURBO_EDU:
+		case ItemPool.SOURCE_TERMINAL_FAMILIAR_EXT:
+		case ItemPool.SOURCE_TERMINAL_PRAM_EXT:
+		case ItemPool.SOURCE_TERMINAL_GRAM_EXT:
+		case ItemPool.SOURCE_TERMINAL_SPAM_EXT:
+		case ItemPool.SOURCE_TERMINAL_CRAM_EXT:
+		case ItemPool.SOURCE_TERMINAL_DRAM_EXT:
+		case ItemPool.SOURCE_TERMINAL_TRAM_EXT:
+			// Source terminal file (1 maximum)
+			// You've already installed a copy of tram.ext in your Source terminal
+			if ( responseText.contains( "You've already installed a copy of" ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
