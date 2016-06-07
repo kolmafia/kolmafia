@@ -9314,7 +9314,7 @@ public abstract class ChoiceManager
 					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_TRAM_CHIP ) );
 					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
 				}
-				else if ( input.contains( "goggles" ) )
+				else if ( input.contains( "familiar" ) )
 				{
 					ResultProcessor.processResult( ItemPool.get( ItemPool.SOFTWARE_BUG ) );
 					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10000 ) );
