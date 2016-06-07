@@ -3119,7 +3119,7 @@ public class FightRequest
 			Matcher intervalMatcher = FightRequest.SOURCE_INTERVAL_PATTERN.matcher( responseText );
 			if ( intervalMatcher.find() )
 			{
-				Preferences.setInteger( "sourceInterval", (int) 0.8 * StringUtilities.parseInt( intervalMatcher.group( 1 ) ) );
+				Preferences.setInteger( "sourceInterval", (int) ( 0.8 * StringUtilities.parseInt( intervalMatcher.group( 1 ) ) ) );
 			}
 			else
 			{
