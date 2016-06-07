@@ -239,6 +239,11 @@ public class ResponseTextParser
 				location.startsWith( "clan_dreadsylvania" );
 		}
 
+		if ( path.equals( "choice.php" ) )
+		{
+			return !queryString.contains( "whichchoice=1191" );
+		}
+
 		if ( location.startsWith( "login.php" ) ||
 		     location.startsWith( "logout.php" ) )
 		{

@@ -9236,10 +9236,91 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1191:
+			// Source Terminal
+			if ( ChoiceManager.lastDecision != 1 )
+			{
+				break;
+			}
+			String input = request.getFormField( "input" );
+			if ( input == null )
+			{
+				break;
+			}
+			ChoiceManager.handleSourceTerminal( input, text );
+
 		}
 
 		// Certain choices cost meat or items when selected
 		ChoiceManager.payCost( ChoiceManager.lastChoice, ChoiceManager.lastDecision );
+	}
+
+	private static void handleSourceTerminal( final String input, final String text )
+	{
+		if ( input.startsWith( "extrude" ) )
+		{
+			int acquire = text.indexOf( "You acquire" );
+			int invalid = text.indexOf( "Invalid" );
+			int insufficient = text.indexOf( "Insufficient" );
+			int confirm = text.indexOf( "to confirm" );
+			int exceeded = text.indexOf( "limits exceeded" );
+
+			if ( acquire > Math.max( invalid, Math.max( insufficient, Math.max( confirm, exceeded ) ) ) )
+			{
+				// Creation must have succeeded
+				if ( input.contains( "food" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.BROWSER_COOKIE ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+				}
+				else if ( input.contains( "booze" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.HACKED_GIBSON ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+				}
+				else if ( input.contains( "goggles" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_SHADES ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				}
+				else if ( input.contains( "gram" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_GRAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				}
+				else if ( input.contains( "pram" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_PRAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				}
+				else if ( input.contains( "spam" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_SPAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				}
+				else if ( input.contains( "cram" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_CRAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				}
+				else if ( input.contains( "dram" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_DRAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				}
+				else if ( input.contains( "tram" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_TRAM_CHIP ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				}
+				else if ( input.contains( "goggles" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOFTWARE_BUG ) );
+					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10000 ) );
+				}
+				Preferences.increment( "_sourceTerminalExtrudes" );
+			}
+		}
 	}
 
 	// <td align="center" valign="middle"><a href="choice.php?whichchoice=810&option=1&slot=7&pwd=xxx" style="text-decoration:none"><img alt='Toybot (Level 3)' title='Toybot (Level 3)' border=0 src='http://images.kingdomofloathing.com/otherimages/crimbotown/krampus_toybot.gif' /></a></td>
