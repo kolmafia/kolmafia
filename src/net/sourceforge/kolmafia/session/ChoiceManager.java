@@ -9238,6 +9238,7 @@ public abstract class ChoiceManager
 
 		case 1191:
 			// Source Terminal
+			request.setHasResult( false );
 			if ( ChoiceManager.lastDecision != 1 )
 			{
 				break;
@@ -9248,7 +9249,7 @@ public abstract class ChoiceManager
 				break;
 			}
 			ChoiceManager.handleSourceTerminal( input, text );
-
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -10651,6 +10652,10 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1191:
+			// Source Terminal
+			request.setHasResult( true );
+			break;
 		}
 
 		if ( ChoiceManager.handlingChoice )
