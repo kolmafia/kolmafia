@@ -9260,11 +9260,11 @@ public abstract class ChoiceManager
 	{
 		if ( input.startsWith( "extrude" ) )
 		{
-			int acquire = text.indexOf( "You acquire" );
-			int invalid = text.indexOf( "Invalid" );
-			int insufficient = text.indexOf( "Insufficient" );
-			int confirm = text.indexOf( "to confirm" );
-			int exceeded = text.indexOf( "limits exceeded" );
+			int acquire = text.lastIndexOf( "You acquire" );
+			int invalid = text.lastIndexOf( "Invalid" );
+			int insufficient = text.lastIndexOf( "Insufficient" );
+			int confirm = text.lastIndexOf( "to confirm" );
+			int exceeded = text.lastIndexOf( "limits exceeded" );
 
 			if ( acquire > Math.max( invalid, Math.max( insufficient, Math.max( confirm, exceeded ) ) ) )
 			{
