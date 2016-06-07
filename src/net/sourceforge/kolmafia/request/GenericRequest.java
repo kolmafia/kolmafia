@@ -873,6 +873,11 @@ public class GenericRequest
 		return ResponseTextParser.hasResult( this.getURLString() );
 	}
 
+	public void setHasResult( final boolean change )
+	{
+		this.hasResult = change;
+	}
+
 	public String getHashField()
 	{
 		return ( !this.isExternalRequest ? "pwd" : null );
