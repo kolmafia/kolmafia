@@ -2610,6 +2610,11 @@ public class ItemPool
 	public static final int BACON_MACHINE = 9025;
 	public static final int NO_SPOON = 9029;
 	public static final int SOURCE_TERMINAL = 9033;
+	public static final int SOURCE_ESSENCE = 9034;
+	public static final int BROWSER_COOKIE = 9035;
+	public static final int HACKED_GIBSON = 9036;
+	public static final int SOURCE_SHADES = 9037;
+	public static final int SOFTWARE_BUG = 9038;
 	public static final int SOURCE_TERMINAL_PRAM_CHIP = 9040;
 	public static final int SOURCE_TERMINAL_GRAM_CHIP = 9041;
 	public static final int SOURCE_TERMINAL_SPAM_CHIP = 9042;

@@ -1377,6 +1377,7 @@ user	_snokebombUsed	0
 user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
+user	_sourceTerminalExtrudes	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
