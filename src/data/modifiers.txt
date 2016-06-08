@@ -5433,7 +5433,7 @@ Effect	Outer Wolf&trade;	Weapon Damage Percent: +200, Critical Hit Percent: +10
 Effect	Over the Ocean	Experience: [min(100,T/5)]
 Effect	Over-Familiar With Dactyls	Familiar Weight: +5
 Effect	Overconfident	Monster Level: +30
-Effect	Overheated	Maximum MP Percent: -50
+Effect	Overheated	Maximum MP Percent: -50, Hot Damage: +15, Hot Spell Damage: +15
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
