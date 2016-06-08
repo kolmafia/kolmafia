@@ -11452,6 +11452,10 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1191:
+			// Source Terminal
+			request.setHasResult( false );
+			break;
 		}
 	}
 
