@@ -1011,6 +1011,10 @@ user	sourceEnlightenment	0
 user	sourceInterval	0
 user	sourceOracleTarget	
 user	sourcePoints	0
+user	sourceTerminalChips
+user	sourceTerminalGram	0
+user	sourceTerminalPram	0
+user	sourceTerminalSpam	0
 user	spadingData
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
