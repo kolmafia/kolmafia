@@ -11807,6 +11807,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "sourceTerminalSpam", StringUtilities.parseInt( matcher.group( 3 ) ) );
 			}
 
+			text = text.substring( text.indexOf( "reduced" ) );
 			matcher = CHIP_PATTERN.matcher( text );
 			while ( matcher.find() )
 			{
