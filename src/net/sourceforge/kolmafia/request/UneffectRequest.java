@@ -173,6 +173,7 @@ public class UneffectRequest
 		case EffectPool.DEEP_TAINTED_MIND:
 		case EffectPool.SPIRIT_PARIAH:
 		case EffectPool.BORED_WITH_EXPLOSIONS:
+		case EffectPool.FEELING_QUEASY:
 			return false;
 		default:
 			return true;
