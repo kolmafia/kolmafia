@@ -154,6 +154,16 @@ public class SummoningChamberRequest
 				Preferences.setBoolean( "demonSummoned", true );
 			}
 		}
+		else if ( responseText.contains( "Great Old One Shub-Internet" ) )
+		{
+			// The next line won't actually do anything until that function is updated
+			// Since part of its purpose is to detect the demon name, and this response doesn't
+			// have the demon name, maybe that's fine
+			// AdventureRequest.registerDemonName( "Summoning Chamber", responseText );
+			ResultProcessor.processItem( ItemPool.BLACK_CANDLE, -3 );
+			ResultProcessor.processItem( ItemPool.EVIL_SCROLL, -1 );
+			Preferences.setBoolean( "demonSummoned", true );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
