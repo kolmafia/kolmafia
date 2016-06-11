@@ -845,7 +845,11 @@ public abstract class MoodManager
 		{
 			if ( action.equals( "" ) )
 			{
-				action = "uneffect " + name;
+				int effectId = EffectDatabase.getEffectId( name );
+				if ( UneffectRequest.isRemovable( effectId ) )
+				{
+					action = "uneffect " + name;
+				}
 			}
 
 			return action;
