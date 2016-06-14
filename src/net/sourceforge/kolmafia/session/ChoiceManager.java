@@ -13820,6 +13820,7 @@ public abstract class ChoiceManager
 		case 922: // Summoning Chamber
 		case 929: // Control Freak
 		case 984: // A Radio on a Beach
+		case 985: // The Odd Jobs Board
 		case 986: // Control Panel
 		case 987: // The Post-Apocalyptic Survivor Encampment
 		case 991: // Build a Crimbot!
