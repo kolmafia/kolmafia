@@ -718,6 +718,8 @@ public abstract class KoLmafia
 		// Remove Wandering Monster counters
 		TurnCounter.stopCounting( "Romantic Monster window begin" );
 		TurnCounter.stopCounting( "Romantic Monster window end" );
+		TurnCounter.stopCounting( "Digitize Monster window start" );
+		TurnCounter.stopCounting( "Digitize Monster window end" );
 		TurnCounter.stopCounting( "Holiday Monster window begin" );
 		TurnCounter.stopCounting( "Holiday Monster window end" );
 		TurnCounter.stopCounting( "Event Monster window begin" );
@@ -1959,7 +1961,7 @@ public abstract class KoLmafia
 
 				if ( InputFieldUtilities.confirm( "A new version of KoLmafia is now available.  Would you like to download it now?" ) )
 				{
-					RelayLoader.openSystemBrowser( "http://sourceforge.net/projects/kolmafia/files/" );
+					RelayLoader.openSystemBrowser( "https://sourceforge.net/projects/kolmafia/files/" );
 				}
 			}
 			catch ( Exception e )
