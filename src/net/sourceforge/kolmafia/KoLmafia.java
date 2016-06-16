@@ -718,7 +718,7 @@ public abstract class KoLmafia
 		// Remove Wandering Monster counters
 		TurnCounter.stopCounting( "Romantic Monster window begin" );
 		TurnCounter.stopCounting( "Romantic Monster window end" );
-		TurnCounter.stopCounting( "Digitize Monster window start" );
+		TurnCounter.stopCounting( "Digitize Monster window begin" );
 		TurnCounter.stopCounting( "Digitize Monster window end" );
 		TurnCounter.stopCounting( "Holiday Monster window begin" );
 		TurnCounter.stopCounting( "Holiday Monster window end" );
