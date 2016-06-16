@@ -2121,10 +2121,10 @@ public class FightRequest
 				// This is a Digitize wanderer
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
-				TurnCounter.stopCounting( "Digitize Monster window start" );
+				TurnCounter.stopCounting( "Digitize Monster window begin" );
 				TurnCounter.stopCounting( "Digitize Monster window end" );
 				TurnCounter.startCounting( 5 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
-					  "Digitize Monster window start loc=*", "lparen.gif" );
+					  "Digitize Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 15 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
 					  "Digitize Monster window end loc=*", "rparen.gif" );
 			}
@@ -7785,7 +7785,7 @@ public class FightRequest
 			}
 			break;
 
-		case SkillPool.DIGITIZE:
+		case SkillPool.DIGITIZE://
 			if ( responseText.contains( "quickly copy the monster" ) || skillSuccess )
 			{
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
@@ -7793,7 +7793,7 @@ public class FightRequest
 				TurnCounter.stopCounting( "Digitize Monster window begin" );
 				TurnCounter.stopCounting( "Digitize Monster window end" );
 				TurnCounter.startCounting( 5, "Digitize Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 15, "Digitize Monster window end loc=*", "rparen.gif" );
+				TurnCounter.startCounting( 10, "Digitize Monster window end loc=*", "rparen.gif" );
 			}
 			break;
 		}
