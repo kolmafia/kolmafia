@@ -2116,9 +2116,8 @@ public class FightRequest
 					Preferences.setString( "romanticTarget", "" );
 				}
 			}
-			else if ( responseText.contains( "must have hit CTRL+V" ) )
+			else if ( EncounterManager.isDigitizedEncounter( responseText ) )
 			{
-				// This is a Digitize wanderer
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster window begin" );

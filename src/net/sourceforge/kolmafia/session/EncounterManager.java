@@ -226,6 +226,11 @@ public abstract class EncounterManager
 		       responseText.contains( "you feel the hairs" );
 	}
 
+	public static boolean isDigitizedEncounter( String responseText )
+	{
+		return responseText.contains( "must have hit CTRL+V" );
+	}
+
 	public static boolean isWanderingMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
@@ -291,6 +296,7 @@ public abstract class EncounterManager
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
 		     !EncounterManager.isRomanticEncounter( responseText ) &&
+		     !EncounterManager.isDigitizedEncounter( responseText ) &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
 		{
