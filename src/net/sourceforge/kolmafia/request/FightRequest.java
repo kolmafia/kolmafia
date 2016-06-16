@@ -2122,9 +2122,9 @@ public class FightRequest
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster window begin" );
 				TurnCounter.stopCounting( "Digitize Monster window end" );
-				TurnCounter.startCounting( 5 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
-					  "Digitize Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 15 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+					  "Digitize Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 25 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
 					  "Digitize Monster window end loc=*", "rparen.gif" );
 			}
 
