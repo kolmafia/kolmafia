@@ -7793,7 +7793,7 @@ public class FightRequest
 				TurnCounter.stopCounting( "Digitize Monster window begin" );
 				TurnCounter.stopCounting( "Digitize Monster window end" );
 				TurnCounter.startCounting( 5, "Digitize Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 15, "Digitize Monster window end loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 15, "Digitize Monster window end loc=*", "rparen.gif" );
 			}
 			break;
 		}
