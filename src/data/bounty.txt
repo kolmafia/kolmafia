@@ -17,6 +17,7 @@ handful of meatberries	handfuls of meatberries	easy	cran.gif	7	anglerbush	The Ha
 important bat file	important bat files	easy	documents.gif	6	briefcase bat	Guano Junction
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
+sugar button	sugar buttons	easy	coalbutton.gif	10	gingerbread murderer	Madness Bakery
 suspicious mole	suspicious moles	easy	peyote.gif	13	Portly Abomination	Cobb's Knob Menagerie, Level 3
 triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 
@@ -31,6 +32,7 @@ distintegrating cork	distintegrating corks	hard	cork.gif	13	skeletal sommelier	T
 dusty wing	dusty wings	hard	gnatwing.gif	8	plaque of locusts	The Arid, Extra-Dry Desert
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
 non-Euclidean hoof	non-Euclidean hooves	hard	hoof.gif	11	cubist bull	The Haunted Gallery
+rubber rib	rubber ribs	hard	rib.gif	13	model skeleton	The Haunted Laboratory
 rusty tap handle	rusty tap handles	hard	valvewheel.gif	10	claw-foot bathtub	The Haunted Bathroom
 spare abacus bead	spare abacus beads	hard	ccannonball.gif	13	pygmy witch accountant	The Hidden Office Building
 spent handwarmer	spent handwarmers	hard	handwarmer.gif	13	eXtreme Orcish snowboarder	The eXtreme Slope
@@ -42,6 +44,7 @@ sticky stardust	handfuls of sticky stardust	hard	disease.gif	6	Astronomer	The Ho
 glittery skate key	glittery skate keys	special	clockkey.gif	8	roller-skating Muse	The Stately Pleasure Dome
 greasy string	lengths of greasy string	special	string.gif	8	salaminder	The Nightmare Meatrealm
 grizzled stubble	handfuls of grizzled stubble	special	disease.gif	9	grizzled survivor	Domed City of Grimacia
+hardened lava glob	hardened lava globs	special	dyeglobs.gif	10	lava golem	LavaCo&trade; Lamp Factory
 hickory daiquiri	hickory daiquiris	special	daquiri.gif	6	Sorrowful Hickory	The Clumsiness Grove
 pile of country guano	piles of country guano	special	guano.gif	8	Swarm of Country Bats	An Incredibly Strange Place (Bad Trip)
 pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Anger Man's Level
