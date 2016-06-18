@@ -571,6 +571,9 @@ public class ValhallaManager
 		Preferences.setBoolean( "prayedForVigor", false );
 		Preferences.setInteger( "rockinRobinProgress", 25 );
 		Preferences.setString( "demonName12", "" );
+		Preferences.setString( "sourceTerminalEnquiry", "" );
+		Preferences.setString( "sourceTerminalEducate1", "" );
+		Preferences.setString( "sourceTerminalEducate2", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
