@@ -1012,6 +1012,9 @@ user	sourceInterval	0
 user	sourceOracleTarget	
 user	sourcePoints	0
 user	sourceTerminalChips
+user	sourceTerminalEducate1
+user	sourceTerminalEducate2
+user	sourceTerminalEnquiry
 user	sourceTerminalGram	0
 user	sourceTerminalPram	0
 user	sourceTerminalSpam	0
@@ -1381,8 +1384,10 @@ user	_snokebombUsed	0
 user	_snowSuitCount	0
 user	_snowconeSummons	0
 user	_softwareGlitchTurnReceived	false
+user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0
+user	_sourceTerminalEnhanceUses	0
 user	_sourceTerminalExtrudes	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false

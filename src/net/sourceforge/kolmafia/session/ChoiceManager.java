@@ -11721,7 +11721,41 @@ public abstract class ChoiceManager
 
 	private static void handleSourceTerminal( final String input, String text )
 	{
-		if ( input.startsWith( "extrude" ) )
+		if ( input.startsWith( "educate" ) )
+		{
+			int successIndex = text.lastIndexOf( "active skills" );
+			int failIndex = text.lastIndexOf( "missing educate" );
+			if ( failIndex > successIndex ) return;
+
+			String skill = input.substring( 7 );
+			skill = StringUtilities.globalStringDelete( skill, "+" );
+
+			if ( Preferences.getString( "sourceTerminalChips" ).contains( "DRAM" ) )
+			{
+				Preferences.setString( "sourceTerminalEducate1", Preferences.getString( "sourceTerminalEducate2" ) );
+				Preferences.setString( "sourceTerminalEducate2", skill );
+			}
+			else
+			{
+				Preferences.setString( "sourceTerminalEducate1", skill );
+			}
+		}
+		else if ( input.startsWith( "enhance" ) )
+		{
+			int successIndex = text.lastIndexOf( "You acquire an effect" );
+			int badInputIndex = text.lastIndexOf( "missing enhance" );
+			int limitIndex = text.lastIndexOf( "enhance limit exceeded" );
+			if ( badInputIndex > successIndex || limitIndex > successIndex ) return;
+
+			Preferences.increment( "_sourceTerminalEnhanceUses" );
+		}
+		else if ( input.startsWith( "enquiry" ) )
+		{
+			int beginIndex = text.lastIndexOf( "enquiry mode set:" ) + 18;
+			int endIndex = text.indexOf( "</div>", beginIndex );
+			Preferences.setString( "sourceTerminalEnquiry", text.substring( beginIndex, endIndex ) );
+		}
+		else if ( input.startsWith( "extrude" ) )
 		{
 			int acquire = text.lastIndexOf( "You acquire" );
 			int invalid = text.lastIndexOf( "Invalid" );

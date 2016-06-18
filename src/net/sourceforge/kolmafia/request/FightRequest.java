@@ -7784,7 +7784,7 @@ public class FightRequest
 			}
 			break;
 
-		case SkillPool.DIGITIZE://
+		case SkillPool.DIGITIZE:
 			if ( responseText.contains( "quickly copy the monster" ) || skillSuccess )
 			{
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
@@ -7793,6 +7793,7 @@ public class FightRequest
 				TurnCounter.stopCounting( "Digitize Monster window end" );
 				TurnCounter.startCounting( 5, "Digitize Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 10, "Digitize Monster window end loc=*", "rparen.gif" );
+				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
 		}
