@@ -515,6 +515,7 @@ public class SkillDatabase
 		String classType = null;
 		boolean thrallReduced = false;
 		boolean isCombat = SkillDatabase.isCombat( skillId );
+		boolean terminal = false;
 
 		switch ( skillId )
 		{
@@ -554,6 +555,15 @@ public class SkillDatabase
 				thrallReduced = true;
 			}
 			break;
+
+		case SkillPool.EXTRACT:
+		case SkillPool.DIGITIZE:
+		case SkillPool.COMPRESS:
+		case SkillPool.DUPLICATE:
+		case SkillPool.PORTSCAN:
+		case SkillPool.TURBO:
+			terminal = true;
+			break;
 		}
 
 		if ( classType != null )
@@ -588,6 +598,15 @@ public class SkillDatabase
 		if ( thrallReduced )
 		{
 			cost = cost / 2;
+		}
+
+		if ( terminal )
+		{
+			cost -= Preferences.getInteger( "sourceTerminalSpam" );
+			if ( Preferences.getString( "sourceTerminalChips" ).contains( "ASHRAM" ) )
+			{
+				cost -= 5;
+			}
 		}
 
 		int adjustment = KoLCharacter.getManaCostAdjustment( isCombat );
