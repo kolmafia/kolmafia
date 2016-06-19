@@ -47,10 +47,10 @@ public class EffectPool
 	public static final int LEASH_OF_LINGUINI = 16;
 	public static final int GHOSTLY_SHELL = 18;
 	public static final int EXPERT_OILINESS = 37;
-	public static final int EMPATHY = 50;
 	public static final int HERNIA = 39;
 	public static final int SUNBURNED = 42;
 	public static final int WUSSINESS = 43;
+	public static final int EMPATHY = 50;
 	public static final int ASTRAL_SHELL = 52;
 	public static final int ELEMENTAL_SPHERE = 53;
 	public static final int RAINY_SOUL_MIASMA = 57;
@@ -86,8 +86,8 @@ public class EffectPool
 	public static final int SPOOKYFORM = 191;
 	public static final int STENCHFORM = 192;
 	public static final int SLEAZEFORM = 193;
-	public static final int CURSED_BY_RNG = 217;
 	public static final int MILK = 211;
+	public static final int CURSED_BY_RNG = 217;
 	public static final int CHALKY_HAND = 221;
 	public static final int DREAMS_AND_LIGHTS = 223;
 	public static final int EAU_DE_TORTUE = 263;

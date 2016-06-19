@@ -113,8 +113,8 @@ public class SkillPool
 	public static final int FURIOUS_WALLOP = 1032;
 	public static final int CLUBFOOT = 1033;
 	public static final int TOSS = 2023;
-	public static final int SHELL_UP = 2028;
 	public static final int SPIRIT_VACATION = 2027;
+	public static final int SHELL_UP = 2028;
 	public static final int WAR_BLESSING = 2030;
 	public static final int SHE_WHO_WAS_BLESSING = 2033;
 	public static final int PIZZA_LOVER = 2036;
@@ -276,9 +276,9 @@ public class SkillPool
 	public static final int CREAMPUFF = 14035;
 	public static final int THROW_PARTY = 15003;
 	public static final int FIX_JUKEBOX = 15004;
-	public static final int REV_ENGINE = 15011;
 	public static final int SHAKE_IT_OFF = 15006;
 	public static final int MAKE_FRIENDS = 15009;
+	public static final int REV_ENGINE = 15011;
 	public static final int PEEL_OUT = 15015;
 	public static final int CHECK_MIRROR = 15017;
 	public static final int BIKER_SWAGGER = 15019;
