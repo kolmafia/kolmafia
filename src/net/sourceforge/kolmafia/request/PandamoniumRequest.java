@@ -290,7 +290,7 @@ public class PandamoniumRequest
 			if ( responseText.indexOf( "and lay them in front of him" ) != -1 )
 			{
 				ResultProcessor.processItem( ItemPool.AZAZELS_UNICORN, -1 );
-				ResultProcessor.processItem( ItemPool.AZAZELS_LOLLYPOP, -1 );
+				ResultProcessor.processItem( ItemPool.AZAZELS_LOLLIPOP, -1 );
 				ResultProcessor.processItem( ItemPool.AZAZELS_TUTU, -1 );
 			}
 			return false;

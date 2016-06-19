@@ -3092,7 +3092,7 @@ public class UseItemRequest
 		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
 		case ItemPool.SPELUNKER_FORTUNE:
 		case ItemPool.SPELUNKER_FORTUNE_USED:
-		case ItemPool.DINSY_GUIDE_BOOK:
+		case ItemPool.DINSEY_GUIDE_BOOK:
 		case ItemPool.TRASH_MEMOIR_BOOK:
 		case ItemPool.DINSEY_MAINTENANCE_MANUAL:
 		case ItemPool.DINSEY_AN_AFTERLIFE:
@@ -4062,7 +4062,7 @@ public class UseItemRequest
 			if ( responseText.contains( "carrying the  laser cannon" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.LASER_CANON, -1 ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.TARGETING_CHOP, -1 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.LASER_TARGETING_CHIP, -1 ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.UNOBTAINIUM_STRAPS, -1 ) );
 			}
 
@@ -4691,7 +4691,7 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.CRIMBO_CREEPY_HEAD:
-		case ItemPool.CRIMBO_STOOGIE_ODORIZER:
+		case ItemPool.CRIMBO_STOGIE_ODORIZER:
 		case ItemPool.CRIMBO_HOT_MUG:
 		case ItemPool.CRIMBO_TREE_FLOCKER:
 		case ItemPool.CRIMBO_RUDOLPH_DOLL:
@@ -4702,7 +4702,7 @@ public class UseItemRequest
 
 			ResultProcessor.processResult( item );
 			ResultProcessor.processItem( ItemPool.CRIMBO_CREEPY_HEAD, -1 );
-			ResultProcessor.processItem( ItemPool.CRIMBO_STOOGIE_ODORIZER, -1 );
+			ResultProcessor.processItem( ItemPool.CRIMBO_STOGIE_ODORIZER, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_HOT_MUG, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_TREE_FLOCKER, -1 );
 			ResultProcessor.processItem( ItemPool.CRIMBO_RUDOLPH_DOLL, -1 );

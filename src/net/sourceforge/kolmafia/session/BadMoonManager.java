@@ -362,7 +362,7 @@ public abstract class BadMoonManager
 			"Elementally, My Deal Watson",
 			"Beanbat Chamber",
 			"opening The Beanstalk",
-			EffectPool.get( EffectPool.BATIQUE, 10 ),
+			EffectPool.get( EffectPool.BATIGUE, 10 ),
 			"Slight Resistance to All Elements, All Attributes -10%",
 			BadMoonManager.RESIST2,
 			"badMoonEncounter30",

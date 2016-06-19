@@ -1446,7 +1446,7 @@ public class ResultProcessor
 
 		case ItemPool.JUNK_JUNK:
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step3" );
-		case ItemPool.DINGHY_DINGY:
+		case ItemPool.DINGY_DINGHY:
 		case ItemPool.SKIFF:
 		case ItemPool.YELLOW_SUBMARINE:
 			// Island unlocked

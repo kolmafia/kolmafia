@@ -157,7 +157,7 @@ public class EffectPool
 	public static final int SLIMED = 415;
 	public static final int TAR_STRUCK = 416;
 	public static final int GREASED = 417;
-	public static final int BATIQUE = 418;
+	public static final int BATIGUE = 418;
 	public static final int CUPSHOTTEN = 419;
 	public static final int DEEP_FRIED = 420;
 	public static final int PAW_SWAP = 421;
@@ -264,9 +264,9 @@ public class EffectPool
 	public static final int BLESSING_OF_THE_STORM_TORTOISE = 1422;
 	public static final int GRAND_BLESSING_OF_THE_STORM_TORTOISE = 1423;
 	public static final int GLORIOUS_BLESSING_OF_THE_STORM_TORTOISE = 1424;
-	public static final int DISTAIN_OF_THE_WAR_SNAPPER = 1425;
-	public static final int DISTAIN_OF_SHE_WHO_WAS = 1426;
-	public static final int DISTAIN_OF_THE_STORM_TORTOISE = 1427;
+	public static final int DISDAIN_OF_THE_WAR_SNAPPER = 1425;
+	public static final int DISDAIN_OF_SHE_WHO_WAS = 1426;
+	public static final int DISDAIN_OF_THE_STORM_TORTOISE = 1427;
 	public static final int SPIRIT_PARIAH = 1431;
 	public static final int AVATAR_OF_THE_WAR_SNAPPER = 1432;
 	public static final int AVATAR_OF_SHE_WHO_WAS = 1433;
