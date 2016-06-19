@@ -57,8 +57,8 @@ public class ItemPool
 	public static final int RAVIOLI_HAT = 6;
 	public static final int SAUCEPAN = 7;
 	public static final int SPICES = 8;
-	public static final int DISCO_BALL = 9;
-	public static final int DISCO_MASK = 10;
+	public static final int DISCO_MASK = 9;
+	public static final int DISCO_BALL = 10;
 	public static final int STOLEN_ACCORDION = 11;
 	public static final int MARIACHI_PANTS = 12;
 	public static final int WORTHLESS_ITEM = 13;	// Pseudo item
@@ -116,7 +116,7 @@ public class ItemPool
 	public static final int ICE_COLD_SIX_PACK = 138;
 	public static final int VALUABLE_TRINKET = 139;
 	public static final int DINGY_PLANKS = 140;
-	public static final int DINGHY_DINGY = 141;
+	public static final int DINGY_DINGHY = 141;
 	public static final int ANTICHEESE = 142;
 	public static final int COTTAGE = 143;
 	public static final int BARBED_FENCE = 145;
@@ -319,7 +319,7 @@ public class ItemPool
 	public static final int REALLY_EVIL_RHYTHM = 738;
 	public static final int TAMBOURINE = 740;
 	public static final int BROKEN_SKULL = 741;
-	public static final int KNOB_FIRECRACKER = 746;
+	public static final int KNOB_FIRECRACKER = 747;
 	public static final int FLAMING_MUSHROOM = 755;
 	public static final int FROZEN_MUSHROOM = 756;
 	public static final int STINKY_MUSHROOM = 757;
@@ -366,7 +366,7 @@ public class ItemPool
 	public static final int TAM_O_SHANTER = 1040;
 	public static final int GREEN_BEER = 1041;
 	public static final int RED_STRIPED_EGG = 1048;
-	public static final int RED_POLKA_EGG = 1059;
+	public static final int RED_POLKA_EGG = 1049;
 	public static final int RED_PAISLEY_EGG = 1050;
 	public static final int BLUE_STRIPED_EGG = 1052;
 	public static final int BLUE_POLKA_EGG = 1053;
@@ -382,7 +382,7 @@ public class ItemPool
 	public static final int PREGNANT_STINKY_MUSHROOM = 1120;
 	public static final int INEXPLICABLY_GLOWING_ROCK = 1121;
 	public static final int SPOOKY_GLOVE = 1125;
-	public static final int SPOOKY_BICYCLE_CHAIN = 1125;
+	public static final int SPOOKY_BICYCLE_CHAIN = 1137;
 	public static final int GRAVY_MAYPOLE = 1152;
 	public static final int GIFT1 = 1167;
 	public static final int GIFT2 = 1168;
@@ -555,7 +555,7 @@ public class ItemPool
 	public static final int MAKESHIFT_SKIRT = 2081;
 	public static final int MAKESHIFT_CRANE = 2083;
 	public static final int CAN_OF_STARCH = 2084;
-	public static final int TOWEL = 2085;
+	public static final int TOWEL = 2095;
 	public static final int ANTIQUE_HAND_MIRROR = 2092;
 	public static final int GMOB_POLLEN= 2096;
 	public static final int LUCRE = 2098;
@@ -686,7 +686,7 @@ public class ItemPool
 	public static final int SEVENTEEN_ALARM_SAUCEPAN = 2560;
 	public static final int GREEK_PASTA_OF_PERIL = 2561;
 	public static final int AZAZELS_UNICORN = 2566;
-	public static final int AZAZELS_LOLLYPOP = 2567;
+	public static final int AZAZELS_LOLLIPOP = 2567;
 	public static final int AZAZELS_TUTU = 2568;
 	public static final int ANT_HOE = 2570;
 	public static final int ANT_RAKE = 2571;
@@ -794,7 +794,7 @@ public class ItemPool
 	public static final int UNOBTAINIUM_STRAPS = 3073;
 	public static final int FASTENING_APPARATUS = 3074;
 	public static final int GENERAL_ASSEMBLY_MODULE = 3075;
-	public static final int TARGETING_CHOP = 3076;
+	public static final int LASER_TARGETING_CHIP = 3076;
 	public static final int LEG_ARMOR = 3077;
 	public static final int KEVLATEFLOCITE_HELMET = 3078;
 	public static final int TEDDY_BORG_SEWING_KIT = 3087;
@@ -1013,8 +1013,8 @@ public class ItemPool
 	public static final int SPOOKY_PUTTY_MONSTER = 3667;
 	public static final int RAGE_GLAND = 3674;
 	public static final int MERKIN_PRESSUREGLOBE = 3675;
-	public static final int POTION_OF_PERCEPTION = 3593;
-	public static final int POTION_OF_PROFICIENCY = 3594;
+	public static final int POTION_OF_PERCEPTION = 3693;
+	public static final int POTION_OF_PROFICIENCY = 3694;
 	public static final int MARINARA_TRENCH_MAP = 3683;
 	public static final int TEMPURA_CARROT = 3684;
 	public static final int TEMPURA_CUCUMBER = 3685;
@@ -1135,7 +1135,7 @@ public class ItemPool
 	public static final int VIOLET_HUNT_INVITATION = 4061;
 	public static final int BLUE_MILK_CLUB_CARD = 4062;
 	public static final int MECHA_MAYHEM_CLUB_CARD = 4063;
-	public static final int SMUGGLER_SHOT_FIRST_BADGE = 4064;
+	public static final int SMUGGLER_SHOT_FIRST_BUTTON = 4064;
 	public static final int SPACEFLEET_COMMUNICATOR_BADGE = 4065;
 	public static final int RUBY_ROD = 4066;
 	public static final int ESSENCE_OF_HEAT = 4067;
@@ -1613,7 +1613,7 @@ public class ItemPool
 	public static final int RED_DRUNKI_BEAR = 5482;
 	public static final int GREEN_DRUNKI_BEAR = 5483;
 	public static final int YELLOW_DRUNKI_BEAR = 5484;
-	public static final int PIXEL_ORB = 5492;
+	public static final int PIXEL_ORB = 4592;
 	public static final int ALL_YEAR_SUCKER = 5497;
 	public static final int DARK_CHOCOLATE_HEART = 5498;
 	public static final int JACKASS_PLUMBER_GAME = 5501;
@@ -1623,7 +1623,7 @@ public class ItemPool
 	public static final int WHEN_CARD = 5512;
 	public static final int WHO_CARD = 5513;
 	public static final int WHERE_CARD = 5514;
-	public static final int GLOWING_FUNGUS = 5541;
+	public static final int GLOWING_FUNGUS = 5641;
 	public static final int PLANT_BOOK = 5546;
 	public static final int CLANCY_SACKBUT = 5547;
 	public static final int GHOST_BOOK = 5548;
@@ -1732,7 +1732,7 @@ public class ItemPool
 	public static final int TACO_FLIER = 6051;
 	public static final int PSYCHOANALYTIC_JAR = 6055;
 	public static final int CRIMBO_CREEPY_HEAD = 6058;
-	public static final int CRIMBO_STOOGIE_ODORIZER = 6059;
+	public static final int CRIMBO_STOGIE_ODORIZER = 6059;
 	public static final int CRIMBO_HOT_MUG = 6060;
 	public static final int CRIMBO_TREE_FLOCKER = 6061;
 	public static final int CRIMBO_RUDOLPH_DOLL = 6062;
@@ -1768,7 +1768,7 @@ public class ItemPool
 	public static final int STAFF_OF_CHEESE = 6261;
 	public static final int STAFF_OF_STEAK = 6263;
 	public static final int STAFF_OF_CREAM = 6265;
-	public static final int MARK_V_STEAM_HAT = 6290;
+	public static final int MARK_V_STEAM_HAT = 6289;
 	public static final int ROCKETSHIP = 6290;
 	public static final int JARLSBERG_SOUL_FRAGMENT = 6297;
 	public static final int MODEL_AIRSHIP = 6299;
@@ -2091,7 +2091,7 @@ public class ItemPool
 	public static final int PALINDROME_BOOK_2 = 7270;
 	public static final int THINKNERD_PACKAGE = 7278;
 	public static final int ELEVENT = 7295;
-	public static final int LETTER_FROM_MELVIGN = 7296;
+	public static final int LETTER_FROM_MELVIGN = 7268;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
 	public static final int BILLIARDS_KEY = 7301;
 	public static final int LIBRARY_KEY = 7302;
@@ -2349,7 +2349,7 @@ public class ItemPool
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;
 	public static final int MEATSMITH_CHECK = 8156;
-	public static final int MAGICAL_BAGUETTE = 8168;
+	public static final int MAGICAL_BAGUETTE = 8167;
 	public static final int ENCHANTED_ICING = 8168;
 	public static final int CARTON_OF_SNAKE_MILK = 8172;
 	public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
@@ -2371,7 +2371,7 @@ public class ItemPool
 	public static final int LUBE_SHOES = 8244;
 	public static final int TRASH_NET = 8245;
 	public static final int MASCOT_MASK = 8246;
-	public static final int DINSY_GUIDE_BOOK = 8253;
+	public static final int DINSEY_GUIDE_BOOK = 8253;
 	public static final int TRASH_MEMOIR_BOOK = 8254;
 	public static final int DINSEY_MAINTENANCE_MANUAL = 8255;
 	public static final int DINSEY_AN_AFTERLIFE = 8258;
@@ -2521,9 +2521,9 @@ public class ItemPool
 	public static final int ABSTRACTION_ACTION = 8708;
 	public static final int ABSTRACTION_THOUGHT = 8709;
 	public static final int ABSTRACTION_SENSATION = 8710;
-	public static final int WESTERN_BOOK_BRAGGADOCCIO = 8716;
-	public static final int WESTERN_BOOK_HELL = 8717;
-	public static final int WESTERN_BOOK_LOOK = 8718;
+	public static final int WESTERN_BOOK_BRAGGADOCCIO = 8916;
+	public static final int WESTERN_BOOK_HELL = 8917;
+	public static final int WESTERN_BOOK_LOOK = 8918;
 	public static final int BACON = 8763;
 	public static final int BAT_OOMERANG = 8797;
 	public static final int BAT_JUTE = 8798;

@@ -907,9 +907,9 @@ public class Evaluator
 				KoLCharacter.getBlessingLevel() == -1 ||
 				KoLCharacter.getBlessingLevel() == 4;
 
-		case EffectPool.DISTAIN_OF_SHE_WHO_WAS:
-		case EffectPool.DISTAIN_OF_THE_STORM_TORTOISE:
-		case EffectPool.DISTAIN_OF_THE_WAR_SNAPPER:
+		case EffectPool.DISDAIN_OF_SHE_WHO_WAS:
+		case EffectPool.DISDAIN_OF_THE_STORM_TORTOISE:
+		case EffectPool.DISDAIN_OF_THE_WAR_SNAPPER:
 			return KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER;
 
 		case EffectPool.BARREL_OF_LAUGHS:

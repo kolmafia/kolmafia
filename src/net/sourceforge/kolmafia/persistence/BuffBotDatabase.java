@@ -376,11 +376,7 @@ public class BuffBotDatabase
 				{
 					String name = nameMatcher.group( 1 ).trim();
 
-					if ( name.startsWith( "Jaba" ) )
-					{
-						name = SkillDatabase.getSkillName( SkillPool.JABANERO_SAUCESPHERE );
-					}
-					else if ( name.startsWith( "Jala" ) )
+					if ( name.startsWith( "Jala" ) )
 					{
 						name = SkillDatabase.getSkillName( SkillPool.JALAPENO_SAUCESPHERE );
 					}

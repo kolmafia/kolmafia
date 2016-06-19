@@ -1129,10 +1129,9 @@ public class UseSkillRequest
 		{
 			++rv;
 		}
-		if ( KoLCharacter.currentBooleanModifier( Modifiers.ADDITIONAL_SONG ) )
-		{
-			++rv;
-		}
+
+		rv += KoLCharacter.currentNumericModifier( Modifiers.ADDITIONAL_SONG );
+
 		return rv;
 	}
 

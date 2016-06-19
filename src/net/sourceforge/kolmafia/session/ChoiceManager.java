@@ -6889,7 +6889,7 @@ public abstract class ChoiceManager
 
 		case 363:
 			// Does This Bug You? Does This Bug You?
-			ResultProcessor.processResult( ItemPool.get( ItemPool.SMUGGLER_SHOT_FIRST_BADGE, -1 ) );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SMUGGLER_SHOT_FIRST_BUTTON, -1 ) );
 			break;
 
 		case 373:

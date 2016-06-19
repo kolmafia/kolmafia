@@ -4123,7 +4123,7 @@ public abstract class KoLCharacter
 		// Temporary code to allow Mafia to catch up with the fact that unlock is a flag
 		if ( Preferences.getInteger( "lastIslandUnlock" ) != KoLCharacter.getAscensions() )
 		{
-			if ( InventoryManager.hasItem( ItemPool.DINGHY_DINGY ) ||
+			if ( InventoryManager.hasItem( ItemPool.DINGY_DINGHY ) ||
 			     InventoryManager.hasItem( ItemPool.SKIFF ) ||
 			     InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
 			     Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||

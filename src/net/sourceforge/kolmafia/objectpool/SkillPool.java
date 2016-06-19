@@ -144,7 +144,6 @@ public class SkillPool
 	public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
 	public static final int ADVANCED_SAUCECRAFTING = 4006;
 	public static final int JALAPENO_SAUCESPHERE = 4008;
-	public static final int JABANERO_SAUCESPHERE = 4011;
 	public static final int SALSABALL = 4020;
 	public static final int SIMMER = 4025;
 	public static final int INNER_SAUCE = 4028;

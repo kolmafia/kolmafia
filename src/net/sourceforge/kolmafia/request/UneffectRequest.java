@@ -276,15 +276,15 @@ public class UneffectRequest
 		case SkillPool.SHE_WHO_WAS_BLESSING:
 			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
 							     EffectPool.BLESSING_OF_SHE_WHO_WAS :
-							     EffectPool.DISTAIN_OF_SHE_WHO_WAS );
+							     EffectPool.DISDAIN_OF_SHE_WHO_WAS );
 		case SkillPool.STORM_BLESSING:
 			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
 							     EffectPool.BLESSING_OF_THE_STORM_TORTOISE :
-							     EffectPool.DISTAIN_OF_THE_STORM_TORTOISE );
+							     EffectPool.DISDAIN_OF_THE_STORM_TORTOISE );
 		case SkillPool.WAR_BLESSING:
 			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.TURTLE_TAMER ?
 							     EffectPool.BLESSING_OF_THE_WAR_SNAPPER :
-							     EffectPool.DISTAIN_OF_THE_WAR_SNAPPER );
+							     EffectPool.DISDAIN_OF_THE_WAR_SNAPPER );
 		case SkillPool.TURTLE_POWER:
 		{
 			String blessing = KoLCharacter.getBlessingType();
