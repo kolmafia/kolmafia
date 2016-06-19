@@ -11727,8 +11727,7 @@ public abstract class ChoiceManager
 			int failIndex = text.lastIndexOf( "missing educate" );
 			if ( failIndex > successIndex ) return;
 
-			String skill = input.substring( 7 );
-			skill = StringUtilities.globalStringDelete( skill, "+" );
+			String skill = input.substring( 7 ).trim();
 
 			if ( Preferences.getString( "sourceTerminalChips" ).contains( "DRAM" ) )
 			{
