@@ -19,7 +19,7 @@
 3	The Old Old Smile of Mr. A.	gma.gif	4	0	40
 4	Arse Shoot	asshat.gif	4	5	0
 5	Stomach of Steel	stomach.gif	0	0	0
-6	Spleen of Steel	salspleen.gif.gif	0	0	0
+6	Spleen of Steel	salspleen.gif	0	0	0
 7
 8
 9

@@ -16,6 +16,7 @@ empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The 
 half-empty bottle of eyedrops	half-empty bottles of eyedrops	easy	eyedrops.gif	13	one-eyed Gnoll	The Degrassi Knoll Gym
 handful of meatberries	handfuls of meatberries	easy	cran.gif	7	anglerbush	The Haunted Conservatory
 important bat file	important bat files	easy	documents.gif	6	briefcase bat	Guano Junction
+paper towel	paper towels	easy	tatpaper.gif	8	paper towelgeist	The Haunted Kitchen
 pink bat eye	pink bat eyes	easy	newteye.gif	13	albino bat	The Bat Hole Entrance
 shredded can label	shredded can labels	easy	shredlabel.gif	8	fiendish can of asparagus	The Haunted Pantry
 sugar button	sugar buttons	easy	coalbutton.gif	10	gingerbread murderer	Madness Bakery
@@ -26,6 +27,7 @@ triffid bark	pieces of triffid bark	easy	bark.gif	6	triffid	The Spooky Forest
 absence of moss	absences of moss	hard	blank.gif	10	rolling stone	The Oasis
 beard crumbs	piles of beard crumbs	hard	cruft.gif	10	Neckbeard Giant	The Castle in the Clouds in the Sky (Basement)
 bit of wilted lettuce	bits of wilted lettuce	hard	lettuce.gif	4	Taco Cat	Inside the Palindome
+black eye	black eyes	hard	shadoweye.gif	8	black panther	The Black Forest
 burned-out arcanodiode	burned-out arcanodiodes	hard	diode.gif	12	MagiMechTech MechaMech	The Penultimate Fantasy Airship
 dirty coal button	dirty coal buttons	hard	coalbutton.gif	8	Ninja Snowman Janitor	Lair of the Ninja Snowmen
 discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Castle in the Clouds in the Sky (Top Floor)
