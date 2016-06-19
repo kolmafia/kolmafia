@@ -3372,7 +3372,7 @@ public class RelayRequest
 			else if ( lights )
 			{
 				msg.append( "<br><br>" );
-				msg.append( LightsOutManager.message() );
+				msg.append( LightsOutManager.message( true ) );
 			}
 			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER, isSkill );
 			return true;

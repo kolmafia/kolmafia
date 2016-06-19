@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class LightsOutManager
@@ -92,15 +93,30 @@ public class LightsOutManager
 
 	public static String message()
 	{
+		return LightsOutManager.message( false );
+	}
+
+	public static String message( boolean link )
+	{
 		String msg = "";
 		String elizabethRoom = Preferences.getString( "nextSpookyravenElizabethRoom" );
 		String stephenRoom = Preferences.getString( "nextSpookyravenStephenRoom" );
 		if ( !elizabethRoom.equals( "none" ) )
 		{
+			if ( link )
+			{
+				String url = AdventureDatabase.getAdventure( elizabethRoom ).getRequest().getURLString();
+				elizabethRoom = "<a href=\"" + url + "\">" + elizabethRoom + "</a>";
+			}
 			msg += "Elizabeth can be found in " + elizabethRoom + ".  ";
 		}
 		if ( !stephenRoom.equals( "none" ) )
 		{
+			if ( link )
+			{
+				String url = AdventureDatabase.getAdventure( stephenRoom ).getRequest().getURLString();
+				stephenRoom = "<a href=\"" + url + "\">" + stephenRoom + "</a>";
+			}
 			msg += "Stephen can be found in " + stephenRoom + ".  ";
 		}
 
