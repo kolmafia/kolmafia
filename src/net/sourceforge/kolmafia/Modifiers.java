@@ -233,6 +233,7 @@ public class Modifiers
 	public static final int ROLLOVER_EFFECT_DURATION = 122;
 	public static final int SIXGUN_DAMAGE = 123;
 	public static final int FISHING_SKILL = 124;
+	public static final int ADDITIONAL_SONG = 125;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -796,6 +797,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) Fishing Skill" ),
 		  Pattern.compile( "Fishing Skill: " + EXPR )
 		},
+		{ "Additional Song",
+		  Pattern.compile( "Keep (\\d+) additional song in your head" ),
+		  Pattern.compile( "Additional Song: " +EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -886,16 +891,15 @@ public class Modifiers
 	public static final int MOXIE_CONTROLS_MP = 17;
 	public static final int MOXIE_MAY_CONTROL_MP = 18;
 	public static final int FOUR_SONGS = 19;
-	public static final int ADDITIONAL_SONG = 20;
-	public static final int ADVENTURE_UNDERWATER = 21;
-	public static final int UNDERWATER_FAMILIAR = 22;
-	public static final int GENERIC = 23;
-	public static final int UNARMED = 24;
-	public static final int NOPULL = 25;
-	public static final int LASTS_ONE_DAY = 26;
-	public static final int ATTACKS_CANT_MISS = 27;
-	public static final int LOOK_LIKE_A_PIRATE = 28;
-	public static final int BREAKABLE = 29;
+	public static final int ADVENTURE_UNDERWATER = 20;
+	public static final int UNDERWATER_FAMILIAR = 21;
+	public static final int GENERIC = 22;
+	public static final int UNARMED = 23;
+	public static final int NOPULL = 24;
+	public static final int LASTS_ONE_DAY = 25;
+	public static final int ATTACKS_CANT_MISS = 26;
+	public static final int LOOK_LIKE_A_PIRATE = 27;
+	public static final int BREAKABLE = 28;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -978,10 +982,6 @@ public class Modifiers
 		{ "Four Songs",
 		  Pattern.compile( "Allows you to keep 4 songs in your head instead of 3" ),
 		  Pattern.compile( "Four Songs" )
-		},
-		{ "Additional Song",
-		  Pattern.compile( "Keep 1 additional song in your head" ),
-		  Pattern.compile( "Additional Song" )
 		},
 		{ "Adventure Underwater",
 		  Pattern.compile( "Lets you [bB]reathe [uU]nderwater" ),

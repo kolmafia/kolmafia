@@ -1717,7 +1717,7 @@ Item	X-37 gun	Breakable
 Item	yak whip	Weakens Monster
 Item	yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	Zim Merman's guitar	Ranged Damage: +20
-Item	zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song, Class: "Accordion Thief", Single Equip, Song Duration: 20
+Item	zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song: 1, Class: "Accordion Thief", Single Equip, Song Duration: 20
 Item	Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
 
 # Off-hand Items section of modifiers.txt
@@ -2605,7 +2605,7 @@ Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP 
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 Item	kumquartz ring	Single Equip, Weapon Damage Percent: [200*zone(The Candy Diorama)]
-Item	La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Additional Song, Class: "Accordion Thief", Single Equip
+Item	La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Regen Max: 9, MP Regen Min: 5, MP Regen Max: 9, Additional Song: 1, Class: "Accordion Thief", Single Equip
 Item	ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 Item	Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 # left half of a heart necklace
@@ -6372,7 +6372,7 @@ Skill	Legendary Impatience	Initiative: +100
 # Louder Bellows: Improves Intimidating Bellow
 Skill	Mad Looting Skillz	Item Drop: +20
 Skill	Marginally Insane	Maximum MP Percent: +10
-Skill	Mariachi Memory	Additional Song
+Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
 Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
 Skill	Master Saucier	Spell Damage Percent: +10
