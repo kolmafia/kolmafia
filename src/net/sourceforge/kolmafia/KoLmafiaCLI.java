@@ -864,6 +864,7 @@ public class KoLmafiaCLI
 		new TaleOfDreadCommand().register( "taleofdread" );
 		new TeaTreeCommand().register( "teatree" );
 		new TelescopeCommand().register( "telescope" );
+		new TerminalCommand().register( "terminal" );
 		new TestCommand().register( "test" );
 		new ThrowItemCommand().register( "throw" );
 		new TrainFamiliarCommand().register( "train" );

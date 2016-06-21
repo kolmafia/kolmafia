@@ -474,7 +474,7 @@ public class CampgroundRequest
 	protected boolean shouldFollowRedirect()
 	{
 		// Workshed may be redirected to Shop if Mayo Clinic installed
-		return action != null && action.equals( "workshed" );
+		return action != null && ( action.equals( "workshed" ) || action.equals( "terminal" ) );
 	}
 
 	public static final void parseResponse( final String urlString, final String responseText )

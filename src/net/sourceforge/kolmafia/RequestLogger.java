@@ -171,6 +171,7 @@ import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
+import net.sourceforge.kolmafia.request.TerminalRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
@@ -716,6 +717,13 @@ public class RequestLogger
 
 		// The Potted Tea Tree is an instance of choice.php
 		if ( ( request instanceof PottedTeaTreeRequest || isExternal ) && PottedTeaTreeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// The Source Terminal is an instance of choice.php
+		if ( ( request instanceof TerminalRequest || isExternal ) && TerminalRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
