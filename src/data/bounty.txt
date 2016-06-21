@@ -10,6 +10,7 @@ broken petri dish	broken petri dishes	easy	petridish.gif	13	Knob Goblin Mad Scie
 broken plunger handle	broken plunger handles	easy	lollistick.gif	13	Gnollish Plungermaster	The Degrassi Knoll Restroom
 bundle of receipts	bundles of receipts	easy	receipts.gif	11	Knob Goblin Bean Counter	Cobb's Knob Treasury
 callused fingerbone	callused fingerbones	easy	fingerbone.gif	4	mariachi calavera	South of the Border
+cherry stem	cherry stems	easy	line.gif	10	novelty tropical skeleton	The Skeleton Store
 crumpled pink slip	crumpled pink slips	easy	document.gif	8	unemployed knob goblin	A Barroom Brawl
 drop of filthy ichor	drops of filthy ichor	easy	blooddrops.gif	8	big creepy spider	The Sleazy Back Alley
 empty greasepaint tube	empty greasepaint tubes	easy	tube.gif	7	creepy clown	The "Fun" House
