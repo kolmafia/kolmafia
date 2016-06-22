@@ -1003,6 +1003,34 @@ public class Maximizer
 					duration = 25;
 					usesRemaining = Preferences.getBoolean( "_witchessBuff" ) ? 0 : 1;
 				}
+				else if ( cmd.startsWith( "terminal enhance" ) )
+				{
+					int limit = 1;
+					String chips = Preferences.getString( "sourceTerminalChips" );
+					if ( chips.startsWith( "CRAM" ) ) limit++;
+					if ( chips.contains( "SCRAM" ) ) limit++;
+					if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL, 1 ) ) )
+					{
+						if ( includeAll )
+						{
+							text = "(install Source Terminal for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else
+					{
+						if ( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) >= limit )
+						{
+							cmd = "";
+						}
+					}
+					duration = 25 + ( chips.contains( "INGRAM" ) ? 25 : 0 ) + 5*Preferences.getInteger( "sourceTerminalPram" );
+					usesRemaining = limit - Preferences.getInteger( "_sourceTerminalEnhanceUses" );
+				}
 				else if ( cmd.startsWith( "skeleton " ) )
 				{
 					item = ItemPool.get( ItemPool.SKELETON, 1 );
