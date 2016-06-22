@@ -7791,8 +7791,8 @@ public class FightRequest
 				Preferences.setInteger( "_sourceTerminalDigitizeMonsterCount", 0 );
 				TurnCounter.stopCounting( "Digitize Monster window begin" );
 				TurnCounter.stopCounting( "Digitize Monster window end" );
-				TurnCounter.startCounting( 5, "Digitize Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 10, "Digitize Monster window end loc=*", "rparen.gif" );
+				TurnCounter.startCounting( 6, "Digitize Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCounting( 11, "Digitize Monster window end loc=*", "rparen.gif" );
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
