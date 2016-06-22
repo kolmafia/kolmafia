@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.TerminalRequest;
 
 public class TerminalCommand
@@ -58,6 +61,16 @@ public class TerminalCommand
 
 		if ( command.equals( "enhance" ) )
 		{
+			int enhanceLimit = 1;
+			String chips = Preferences.getString( "sourceTerminalChips" );
+			if ( chips.startsWith( "CRAM" ) ) enhanceLimit++;
+			if ( chips.contains( "SCRAM" ) ) enhanceLimit++;
+			if ( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) >= enhanceLimit )
+			{
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Source Terminal enhance limit reached" );
+				return;
+			}
+
 			if ( input.startsWith( "item" ) )
 			{
 				output = "enhance items.enh";
@@ -146,6 +159,11 @@ public class TerminalCommand
 		}
 		else if ( command.equals( "extrude" ) )
 		{
+			if ( Preferences.getInteger( "_sourceTerminalExtrudes" ) >= 3 )
+			{
+				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Source Terminal extrude limit reached" );
+				return;
+			}
 			if ( input.startsWith( "booze" ) || input.contains( "gibson" ) )
 			{
 				output = "extrude -f booze.ext";

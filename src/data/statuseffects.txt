@@ -2101,12 +2101,12 @@
 2100	Jacked In	plug.gif	f88b2b8ce68b568feb6d78b09e27ac85	# Summon Intergnat demon
 2101	Speed of the Internet	fast.gif	0b13d27333e5479d4783c9a4ddf5d281	# Summon Intergnat demon at level 13
 2102	Latency	badsignal.gif	77f7332e050672d9a560d2af05fbad18	# Source Agent debuff
-2103	meat.enh	10101.gif	16b5be921ee17b766c88e3dfe58c6c6a	# Source Terminal buff meat.enh
-2104	items.enh	10101.gif	4c14018748bc6c9ba2245928cc7410d7	# Source Terminal buff items.enh
-2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de	# Source Terminal buff init.enh
-2106	substats.enh	10101.gif	f61a3bdb061ddcb3a53d247c9106b4bf	# Source Terminal buff substats.enh
-2107	damage.enh	10101.gif	66a3192cd03222c792def0fe0bc20b07	# Source Terminal buff damage.enh
-2108	critical.enh	10101.gif	6d62a2abfbdaebe40987517bf987e9b4	# Source Terminal buff critical.enh
+2103	meat.enh	10101.gif	16b5be921ee17b766c88e3dfe58c6c6a	terminal enhance meat.enh
+2104	items.enh	10101.gif	4c14018748bc6c9ba2245928cc7410d7	terminal enhance items.enh
+2105	init.enh	10101.gif	4ddd0de02c205713f7366fd02d1890de	terminal enhance init.enh
+2106	substats.enh	10101.gif	f61a3bdb061ddcb3a53d247c9106b4bf	terminal enhance substats.enh
+2107	damage.enh	10101.gif	66a3192cd03222c792def0fe0bc20b07	terminal enhance damage.enh
+2108	critical.enh	10101.gif	6d62a2abfbdaebe40987517bf987e9b4	terminal enhance critical.enh
 2109	familiar.enq	10101.gif	e0ee8a20aa6c6f60720749b5b3f875a5	# Source Terminal rollover effect familiar.enq
 2110	monsters.enq	10101.gif	b4b274810cc9f5fd42e96312ef5d811a	# Source Terminal rollover effect monsters.enq
 2111	protect.enq	10101.gif	db1b4f7420e45838a4564ab1516a1ec4	# Source Terminal rollover effect protect.enq
