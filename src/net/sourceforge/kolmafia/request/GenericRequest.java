@@ -2290,7 +2290,7 @@ public class GenericRequest
 			// KoL or network error
 			return;
 		}
-		
+
 		if ( this.shouldUpdateDebugLog() )
 		{
 			String text = this.responseText;
@@ -2319,6 +2319,18 @@ public class GenericRequest
 		{
 			ApiRequest.parseResponse( urlString, this.responseText );
 			return;
+		}
+
+		else if ( urlString.startsWith( "storage.php" ) )
+		{
+			if ( this.responseCode == 504 )
+			{
+				// Likely a pullall request that timed out
+				StorageRequest.refresh();
+				InventoryManager.refresh();
+				ClosetRequest.refresh();
+				return;
+			}
 		}
 
 		if ( !this.isChatRequest && !this.isDescRequest )
@@ -2779,7 +2791,7 @@ public class GenericRequest
 			break;
 
 		case ItemPool.SHAKING_CAMERA:
-			itemName = "Shaking 4-D Camera";
+			itemName = "shaking 4-D camera";
 			Preferences.setString( "cameraMonster", "" );
 			Preferences.setBoolean( "_cameraUsed", true );
 			consumed = true;
