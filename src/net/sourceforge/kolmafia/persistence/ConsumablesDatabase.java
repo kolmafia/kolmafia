@@ -793,7 +793,7 @@ public class ConsumablesDatabase
 	private static final double conditionalStatMultiplier( final String name )
 	{
 		// No stat gains from consumables in The Source
-		if ( KoLCharacter.inTheSource() )
+		if ( KoLCharacter.inTheSource() && !( "browser cookie".equals( name ) || "hacked gibson".equals( name ) ) )
 		{
 			return 0.0;
 		}
