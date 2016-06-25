@@ -7796,6 +7796,21 @@ public class FightRequest
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
+
+		case SkillPool.PORTSCAN:
+			if ( responseText.contains( "scan nearby ports" ) || skillSuccess )
+			{
+				Preferences.increment( "_sourceTerminalPortscanUses" );
+			}
+			break;
+
+		case SkillPool.DUPLICATE:
+			if ( responseText.contains( "cross your eyes" ) || skillSuccess )
+			{
+				Preferences.setBoolean( "_sourceTerminalDuplicateUsed", true );
+			}
+			break;
+
 		}
 	}
 

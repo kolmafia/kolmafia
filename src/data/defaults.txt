@@ -1387,8 +1387,10 @@ user	_softwareGlitchTurnReceived	false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0
+user	_sourceTerminalDuplicateUsed	false
 user	_sourceTerminalEnhanceUses	0
 user	_sourceTerminalExtrudes	0
+user	_sourceTerminalPortscanUses	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
