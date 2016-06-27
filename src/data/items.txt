@@ -9090,3 +9090,4 @@
 9064	Source terminal file: cram.ext	986416765	floppy.gif	usable	t,d	10
 9065	Source terminal file: dram.ext	688494716	floppy.gif	usable	t,d	10
 9066	Source terminal file: tram.ext	138940093	floppy.gif	usable	t,d	10
+9067	green pill	623147196	pill.gif	usable	t	0
