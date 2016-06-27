@@ -7397,7 +7397,7 @@
 7372	pie man was not meant to eat	127859871	pie.gif	food	t,d	350	pies men were not meant to collectively eat
 7373	sommelier's towel	233683477	somtowel.gif	offhand	t,d	150
 7374	tarnished tastevin	267963154	tastevin.gif	accessory	t,d	150
-7375	actual tapas	276595224	tapas.gif	food	t,d	68
+7375	actual tapas	276595224	tapas.gif	food	t,d	68	lids of actual tapas
 7376	ghast iron ingot	705637457	gi_ingot.gif	none	t,d	100
 7377	ghast iron cleaver	452918430	gi_cleaver.gif	weapon	t,d	200
 7378	ghast iron Garibaldi	945225891	gi_hat.gif	hat	t,d	250
@@ -8227,7 +8227,7 @@
 8201	no-handed pie	870363637	0hpie.gif	none	q	0
 8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	usable	t,d	15
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0
-8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0	one-day tickets to Dinseylandfill 
+8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0	one-day tickets to Dinseylandfill
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
 8206	expensive camera	438775690	camera.gif	accessory	t,d	150
 8207	cheap sunglasses	941601679	bigglasses.gif	accessory	t,d	150	pairs of cheap sunglasses
@@ -8361,7 +8361,7 @@
 8335	grease trap	401979440	chocbox.gif	avatar	t,d	5
 8336	shamanic ham	951450474	ham.gif	avatar	t,d	5
 8337	porkpocket	129749347	jarl_bagel.gif	avatar	t,d	5
-8338	Leonard's glasses	598174114	obsglasses.gif	avatar	t,d	5
+8338	Leonard's glasses	598174114	obsglasses.gif	avatar	t,d	5	pairs of Leonard's glasses
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	avatar	t,d	5
 8340	janitor's mop	570677877	mop.gif	avatar	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	avatar	t,d	5	pairs of warehouse clerks' glasses
@@ -8393,9 +8393,9 @@
 8367	handful of stubble	203055435	scpowder.gif	avatar	t,d	5
 8368	garbage juice slurpee	747337911	sodacup.gif	avatar	t,d	5
 8369	plunge-leg	603511915	plunger.gif	avatar	t,d	5
-8370	funky eyepatch	389087225	eyepatch.gif	avatar	t,d	5
-8371	bucket of fish juice	724738264	pail.gif	avatar	t,d	5
-8372	flashy pirate dreadlocks	655432636	hippywig.gif	avatar	t,d	5
+8370	funky eyepatch	389087225	eyepatch.gif	avatar	t,d	5	funky eyepatches
+8371	bucket of fish juice	724738264	pail.gif	avatar	t,d	5	buckets of fish juice
+8372	flashy pirate dreadlocks	655432636	hippywig.gif	avatar	t,d	5	wads of flashy pirate dreadlocks
 8373	captured boozles	526042733	baggie.gif	avatar	t,d	5
 8374	drinks tray	604754615	trayshield.gif	avatar	t,d	5
 8375	eyebrow lifter	854797607	grapplinghook.gif	avatar	t,d	5
@@ -8487,7 +8487,7 @@
 8461	Gold Velvet&trade; whiskey	895090431	fancybrew.gif	drink	t,d	37	bottles of Gold Velvet&trade; whiskey
 8462	SMOOCH soda	506542098	beerbottle.gif	food	t,d	11
 8463	smelted roe	907174760	smeltroe.gif	food	t,d	45
-8464	lavawater	358169908	juice.gif	drink	t,d	44	bottles of lavawater
+8464	lavawater	358169908	juice.gif	drink	t,d	44	cups of lavawater
 8465	basaltamander tongue	980923769	saltongue.gif	usable	t,d	78
 8466	lavalarva	927378000	lavalarva.gif	weapon	t	0	lavalarvae
 8467	lava balaclava	722613138	lavaclava.gif	hat	t	0
@@ -8601,7 +8601,7 @@
 8575	rotting barrel	821226788	barrelrotting.gif	usable		0
 8576	mouldering barrel	473643040	barrelmold.gif	usable		0
 8577	barnacled barrel	394037477	barrelbarnacle.gif	usable		0
-8578	bottle of Amontillado	755818728	beerbottle.gif	drink	t,d	25
+8578	bottle of Amontillado	755818728	beerbottle.gif	drink	t,d	25	bottles of Amontillado
 8579	barrel-aged martini	478306933	martini.gif	drink	t,d	20
 8580	barrel pickle	161770786	barrelpickle.gif	food	t,d	15
 8581	barrel cracker	874506924	barrelcracker.gif	food	t,d	5
@@ -8699,9 +8699,9 @@
 8673	Wal-Mart gift certificate	882474988	walcert.gif	none		0
 8674	airplane charter: The Glaciest	509021709	aircharter.gif	usable	t	0
 8675	one-day ticket to The Glaciest	871547416	airdaypass.gif	usable	t	0
-8676	shoulder-warming lotion	977832847	handlotion.gif	usable	t,d	25
-8677	iceberg lettuce	160982443	icelettuce.gif	food	t,d	75
-8678	ice wine	987837300	wine.gif	drink	t,d	75
+8676	shoulder-warming lotion	977832847	handlotion.gif	usable	t,d	25	bottles of shoulder-warming lotion
+8677	iceberg lettuce	160982443	icelettuce.gif	food	t,d	75	heads of iceberg lettuce
+8678	ice wine	987837300	wine.gif	drink	t,d	75	bottles of ice wine
 8679	Wal-Mart snowglobe	675023434	walglobe.gif	offhand		0
 8680	Wal-Mart nametag	876748252	waltag.gif	accessory		0
 8681	Wal-Mart overalls	654491169	walveralls.gif	pants		0
@@ -8822,14 +8822,14 @@
 8796
 8797	bat-oomerang	872551869	batarang.gif	none	q	0
 8798	bat-jute	117347429	lasso.gif	none	q	0
-8799	bat-o-mite	970970954	minamite.gif	none	q	0
+8799	bat-o-mite	970970954	minamite.gif	none	q	0	sticks of bat-o-mite
 8800	ROM of Optimality	499948583	cd.gif	usable		0
 8801	incriminating evidence	949606286	documents.gif	none	q	0	pieces of incriminating evidence
 8802	dangerous chemicals	918942621	wbchemset.gif	none	q	0	units of dangerous chemicals
 8803	kidnapped orphan	804600614	orphan.gif	none	q	0
 8804	high-grade metal	247023626	scrapmetal.gif	none	q	0	pieces of high-grade metal
 8805	high-tensile-strength fibers	768499725	felt.gif	none	q	0	sheets of high-tensile-strength fibers
-8806	high-grade explosives	923060960	potion15.gif	none	q	0	vials of high-grade explosives
+8806	high-grade explosives	923060960	potion15.gif	none	q	0	vials of high-grade explosive
 8807	experimental gene therapy	358294636	dna.gif	none	q	0	experimental gene therapies
 8808	ultracoagulator	818334177	syringe.gif	none	q	0
 8809	self-defense training	442949364	book3.gif	none	q	0	self-defense training sessions
@@ -8851,7 +8851,7 @@
 8825	The Jokester's gun	875827615	sixshooter.gif	weapon	t	0
 8826	The Jokester's wig	267613824	jokerwig.gif	hat	t	0
 8827	The Jokester's pants	475776756	tuxpants.gif	pants	t	0
-8828	Jokester makeup	848244938	smallcase.gif	usable	t	0
+8828	Jokester makeup	848244938	smallcase.gif	usable	t	0	sets of Jokester makeup
 8829	replica bat-oomerang	619353451	batarang.gif	none, combat reusable		0
 8830	battoo kit	623721699	battookit.gif	usable		0
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
@@ -8927,7 +8927,7 @@
 8901	triggerfingerbone	306575995	gunbone.gif	multiple	t,d	8
 8902	ghost bit	395021532	ghostbit.gif	multiple	t,d	17
 8903	buzzard feather	723857149	feather.gif	multiple	t,d	6
-8904	lion musk	655258040	lightvial.gif	multiple	t,d	29
+8904	lion musk	655258040	lightvial.gif	multiple	t,d	29	vials of lion musk
 8905	bear claw	355563460	catclaw.gif	food	t,d	14
 8906	rattler gland	993787330	pineal.gif	multiple	t,d	12
 8907	half-digested coal	287234360	evil.gif	multiple	t,d	21
@@ -8969,7 +8969,7 @@
 8943	shuddering cow skull	331211422	cowskull.gif	grow	t	0
 8944	rhinestone cowhorn	982372108	rhinehorn.gif	familiar	t,d	75
 8945	silver cow skull	989941067	silvcowskull.gif	none	t,d	10000
-8946	jangly spurs	264681826	dullspurs.gif	usable	t,d	10
+8946	jangly spurs	264681826	dullspurs.gif	usable	t,d	10	pairs of jangly spurs
 8947	quicksilver spurs	576074050	sspurs.gif	bootspur, usable	t,d	500
 8948	thicksilver spurs	444876324	sspurs.gif	bootspur, usable	t,d	500
 8949	wicksilver spurs	713029772	sspurs.gif	bootspur, usable	t,d	500
