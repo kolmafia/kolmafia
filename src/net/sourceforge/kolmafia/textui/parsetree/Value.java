@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import org.json.JSONException;
+
 public class Value
 	extends ParseTreeNode
 	implements Comparable<Value>
@@ -429,23 +431,24 @@ public class Value
 		stream.println( "<VALUE " + this.getType() + " [" + this.toString() + "]>" );
 	}
 
-	public String toJSON()
+	public Object toJSON()
+		throws JSONException
 	{
 		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
 		{
-			return this.contentLong > 0 ? "true" : "false";
+			return new Boolean( this.contentLong > 0 );
 		}
 		else if ( this.type.equals( DataTypes.TYPE_INT ) )
 		{
-			return String.valueOf( this.contentLong );
+			return new Long( this.contentLong );
 		}
 		else if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
 		{
-			return String.valueOf( Double.longBitsToDouble( this.contentLong ) );
+			return new Double( Double.longBitsToDouble( this.contentLong ) );
 		}
 		else
 		{
-			return "\"" + StringUtilities.globalStringReplace( this.toString(), "\"", "\\\"" ) + "\"";
+			return this.toString();
 		}
 	}
 }

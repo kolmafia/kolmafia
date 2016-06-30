@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class ArrayValue
 	extends AggregateValue
 {
@@ -152,26 +155,17 @@ public class ArrayValue
 	}
 
 	@Override
-	public String toJSON()
+	public Object toJSON() throws JSONException
 	{
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "[ " );
+		JSONArray obj = new JSONArray();
 
 		Value[] array = (Value[]) this.content;
 
 		for ( int i = 0; i < array.length; ++i )
 		{
-			if ( i > 0 )
-			{
-				buffer.append( ", " );
-			}
-
-			buffer.append( array[ i ].toJSON() );
+			obj.put( array[ i ].toJSON() );
 		}
 
-		buffer.append( " ]" );
-
-		return buffer.toString();
+		return obj;
 	}
 }
