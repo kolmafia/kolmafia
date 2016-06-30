@@ -11750,7 +11750,10 @@ public abstract class ChoiceManager
 		}
 		else if ( input.startsWith( "enquiry" ) )
 		{
-			int beginIndex = text.lastIndexOf( "enquiry mode set:" ) + 18;
+			int successIndex = text.lastIndexOf( "enquiry mode set:" );
+			int failIndex = text.lastIndexOf( "missing enquiry target" );
+			if ( successIndex <= failIndex ) return;
+			int beginIndex = successIndex + 18;
 			int endIndex = text.indexOf( "</div>", beginIndex );
 			Preferences.setString( "sourceTerminalEnquiry", text.substring( beginIndex, endIndex ) );
 		}
