@@ -68,6 +68,10 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -2336,8 +2340,10 @@ public abstract class RuntimeLibrary
 	// of one data format to another.
 
 	public static Value to_json( Interpreter interpreter, Value val )
+		throws JSONException
 	{
-		return new Value( val.asProxy().toJSON() );
+		Object obj = val.asProxy().toJSON();
+		return new Value( obj instanceof String ? JSONObject.quote( (String) obj ) : obj.toString() );
 	}
 
 	public static Value to_string( Interpreter interpreter, Value val )

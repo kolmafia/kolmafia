@@ -41,6 +41,9 @@ import java.util.Iterator;
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CompositeValue
 	extends Value
 {
@@ -169,39 +172,20 @@ public class CompositeValue
 	}
 
 	@Override
-	public String toJSON()
+	public Object toJSON()
+		throws JSONException
 	{
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( "{ " );
+		JSONObject obj = new JSONObject();
 
 		Value[] keys = this.keys();
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			if ( i > 0 )
-			{
-				buffer.append( ", ");
-			}
-
-			String keyJSON = keys[ i ].toJSON();
-
-			if ( !keyJSON.startsWith( "\"" ) )
-			{
-				keyJSON = "\"" + keyJSON + "\"";
-			}
-
-			buffer.append( keyJSON );
-
-			buffer.append( " : " );
-
-			String valueJSON = this.aref( keys[ i ] ).toJSON();
-
-			buffer.append( valueJSON );
+			String key = keys[ i ].toString();
+			Object value = this.aref( keys[ i ] ).toJSON();
+			obj.put( key, value );
 		}
 
-		buffer.append( " }" );
-
-		return buffer.toString();
+		return obj;
 	}
 }
