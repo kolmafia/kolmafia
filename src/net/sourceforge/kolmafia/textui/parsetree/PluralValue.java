@@ -40,6 +40,9 @@ import java.util.TreeSet;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class PluralValue
 	extends AggregateValue
 {
@@ -97,5 +100,20 @@ public class PluralValue
 	public Value[] keys()
 	{
 		return (Value[]) this.content;
+	}
+
+	@Override
+	public Object toJSON() throws JSONException
+	{
+		JSONArray obj = new JSONArray();
+
+		Value[] array = this.keys();
+
+		for ( int i = 0; i < array.length; ++i )
+		{
+			obj.put( array[ i ].toJSON() );
+		}
+
+		return obj;
 	}
 }
