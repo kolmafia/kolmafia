@@ -35,6 +35,7 @@ discarded pacifier	discarded pacifiers	hard	pacifier.gif	10	Raver Giant	The Cast
 distintegrating cork	distintegrating corks	hard	cork.gif	13	skeletal sommelier	The Haunted Wine Cellar
 dusty wing	dusty wings	hard	gnatwing.gif	8	plaque of locusts	The Arid, Extra-Dry Desert
 filthy rag	filthy rags	hard	dishrag.gif	8	Copperhead Club bartender	The Copperhead Club
+haunted pullstring	haunted pullstrings	hard	string.gif	creepy doll	The Haunted Nursery
 length of bent pipe	lengths of bent pipe	hard	leadpipe.gif	10	smut orc pipelayer	The Smut Orc Logging Camp
 non-Euclidean hoof	non-Euclidean hooves	hard	hoof.gif	11	cubist bull	The Haunted Gallery
 rubber rib	rubber ribs	hard	rib.gif	13	model skeleton	The Haunted Laboratory
