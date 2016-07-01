@@ -82,8 +82,8 @@ public class NumberologyRequest
 			return;
 		}
 
-		// If you already cast Calculate the Universe today, punt
-		if ( Preferences.getBoolean( "_universeCalculated" ) )
+		// If you already used all casts of Calculate the Universe today, punt
+		if ( Preferences.getInteger( "skillLevel144" ) <= Preferences.getInteger( "_universeCalculated" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You already Calculated the Universe today." );
 			return;
@@ -132,7 +132,7 @@ public class NumberologyRequest
 		if ( responseText.contains( "You can't use that skill again today" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You already Calculated the Universe today" );
-			Preferences.setBoolean( "_universeCalculated", true );
+			Preferences.setInteger( "_universeCalculated", Preferences.getInteger( "skillLevel144" ) );
 			return;
 		}
 

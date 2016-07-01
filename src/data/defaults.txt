@@ -992,6 +992,7 @@ user	skillLevel47	0
 user	skillLevel48	0
 user	skillLevel117	0
 user	skillLevel134	0
+user	skillLevel144	0
 user	skillLevel7254	0
 user	sleazeAirportAlways	false
 user	slimelingFullness	0.0
@@ -1437,7 +1438,7 @@ user	_turkeyMoxie	0
 user	_turtlePowerCast	false
 user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
-user	_universeCalculated	false	
+user	_universeCalculated	0
 user	_unknownEasyBountyItem	
 user	_unknownHardBountyItem	
 user	_unknownSpecialBountyItem	
