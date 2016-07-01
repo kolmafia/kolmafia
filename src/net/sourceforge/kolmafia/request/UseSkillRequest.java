@@ -803,7 +803,12 @@ public class UseSkillRequest
 				maximumCast = 0;
 				break;
 			}
-			maximumCast = Preferences.getBoolean( "_universeCalculated" ) ? 0 : 1;
+			if ( Preferences.getInteger( "skillLevel144" ) == 0 )
+			{
+				// If the skill is being cast, then the limit must be at least 1
+				Preferences.setInteger( "skillLevel144", 1 );
+			}
+			maximumCast = Preferences.getInteger( "skillLevel144" ) > Preferences.getInteger( "_universeCalculated" ) ? 1 : 0;
 			break;
 
 		case SkillPool.ANCESTRAL_RECALL:

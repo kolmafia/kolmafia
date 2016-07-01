@@ -3122,7 +3122,8 @@ public class UseItemRequest
 			if ( !responseText.contains( "You acquire a skill" ) &&
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) &&
 			     !responseText.contains( "absorb the knowledge of optimality" ) &&
-				 !responseText.contains( "feel beary" ) )
+			     !responseText.contains( "feel beary" ) &&
+			     !responseText.contains( "important numbers" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
 				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );

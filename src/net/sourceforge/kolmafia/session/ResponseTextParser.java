@@ -1057,6 +1057,10 @@ public class ResponseTextParser
 		{
 			Preferences.increment( "skillLevel134", 1 );
 		}
+		else if ( skillName.equals( "Calculate the Universe" ) )
+		{
+			Preferences.increment( "skillLevel144" );
+		}
 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );

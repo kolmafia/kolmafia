@@ -10405,7 +10405,10 @@ public abstract class ChoiceManager
 
 		case 1103:
 			// Doing the Maths
-			Preferences.setBoolean( "_universeCalculated", !text.contains( "Try again" ) );
+			if ( !text.contains( "Try again" ) )
+			{
+				Preferences.increment( "_universeCalculated" );
+			}
 			break;
 
 		case 1104:
