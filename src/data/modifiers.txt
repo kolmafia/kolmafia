@@ -309,6 +309,7 @@ Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
 Item	nine-gallon hat	Muscle: +9, Mysticality: +9, Moxie: +9, Experience: +3
+Item	noir fedora	Experience Percent (Moxie): +20, Moxie Percent: +20, HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10
 Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
 Item	oil cap	MP Regen Min: 2, MP Regen Max: 4, Sleaze Resistance: +2, Familiar Effect: "cap 28"
@@ -860,6 +861,7 @@ Item	supportive bra	Moxie: +3
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
 Item	The Emperor's new shirt	Muscle: [L]
 # Thinknerd T-Shirt	enchantment varies per player?
+Item	trench coat	Experience Percent (Muscle): +20, Muscle Percent: +20, Spooky Resistance: +4
 Item	tunac	Muscle Percent: +50, Monster Level: +25, Item Drop: +25, Combat Rate: +10, Lasts Until Rollover
 Item	turtlemail hauberk	Damage Absorption: +30, HP Regen Min: 6, HP Regen Max: 12
 Item	tuxedo shirt	Moxie: +7
@@ -1080,6 +1082,7 @@ Item	dented scepter	Experience (Muscle): +5, HP Regen Min: 5, HP Regen Max: 10, 
 # depleted Grimacite hammer: Needed for depleted Grimacite smithing
 Item	depleted Grimacite hammer	Monster Level: [5*G]
 Item	depleted Grimacite kneecapping stick	Critical Hit Percent: [ceil(G/2)]
+Item	detective roscoe	Ranged Damage: +10, Weakens Monster, Booze Drop: +20
 Item	diabolical crossbow	Spooky Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
 Item	diamond-studded cane	Moxie: +5, Class: "Disco Bandit"
 Item	didgeridooka	Moxie: +9
@@ -2333,6 +2336,7 @@ Item	brazen bracelet	Sleaze Resistance: +1, Meat Drop: +10, Synergetic
 Item	Brimstone Bracelet	Mysticality Percent: +50, Muscle Percent: -20, Mana Cost: -3, Single Equip, Brimstone
 Item	Brimstone Brooch	Mysticality Percent: +50, Moxie Percent: -20, Spell Damage: +40, Single Equip, Brimstone
 Item	broken clock	Monster Level: +5
+Item	bronze detective badge	Maximum HP: +20, Maximum MP: +20, Item Drop: +10, Meat Drop: +20
 Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
@@ -2726,6 +2730,7 @@ Item	Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 Item	pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7, Look like a Pirate
 Item	plaid pocket square	Meat Drop: +15
+Item	plastic detective badge	Maximum HP: +10, Maximum MP: +10, Item Drop: +5, Meat Drop: +15
 Item	plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts Until Rollover
 Item	plastic spider ring	Mysticality: +3, Single Equip
 # plastic vampire fangs: Makes You Thirst For Blood
@@ -4924,6 +4929,7 @@ Effect	Grulched	Stench Damage: +25, Monster Level: +20
 Effect	Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Effect	Guanified	Stench Damage: +10, Damage Reduction: -2
 Effect	Guild by Association	Avatar: "rabid MMO addict"
+Effect	Gummed Shoes	Combat Rate: -5
 # Gummi Badass: Deal damage to attackers
 Effect	Gummi-Grin	Experience (Muscle): +1
 Effect	Gummibrain	Mysticality: +100
@@ -6079,6 +6085,7 @@ Effect	To Protect and Servo	Avatar: "cyborg policeman"
 # Toad In The Hole: Continually take damage
 Effect	Toast Tea	Cold Resistance: +3
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Effect	Too Noir For Snoir	Monster Level: +50
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
 # Top Dog: +50% Damage vs. Vampires
@@ -6796,6 +6803,7 @@ Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Duration: 20
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
+Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
 Item	holiday cheese log	Effect: "Stands Alone", Effect Duration: 20
@@ -7004,6 +7012,7 @@ Item	evil horizontal tango	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	evil roll in the hay	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 30
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10
+Item	Falcon&trade; Maltese Liquor	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Item	Fauna Libre	Effect: "Transcendental Wind", Effect Duration: 5
 Item	firemilk	Effect: "Cowrruption", Effect Duration: 30
@@ -7634,6 +7643,7 @@ Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 Item	control crystal	Free Pull
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 # cool spore pod: Briefly enhances your Moxie
+# Item cop dollar
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
@@ -7781,6 +7791,8 @@ Item	deodorant	Effect: "Fresh Scent", Effect Duration: 10
 # depantsing bomb: Weakens enemies somewhat
 # Desert Bus pass: <b>Allows Travel to Desert Beach</b>
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
+Item	detective school application	Free Pull
+# Item detective tattoo
 Item	devil-summoning hat	Effect: "Devil Woman (or Man)", Effect Duration: 30
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 # Item diamondback skin: Adds +20 Monster Level to your cowboy boots
@@ -8976,6 +8988,7 @@ Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 Item	shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
 Item	shimmering tendrils	Class: "Pastamancer"
 Item	Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
+Item	shoe gum	Effect: "Gummed Shoes", Effect Duration: 50
 Item	shopkeeper beard	Effect: "Shopkeeperrific", Effect Duration: 30
 # short calculator: ???
 Item	short deposition	Effect: "A Short Trial", Effect Duration: 50

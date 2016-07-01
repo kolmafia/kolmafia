@@ -219,6 +219,7 @@ mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 neoprene skullcap	65	none
 nine-gallon hat	180	none
+noir fedora	200	Mox: 100
 norwhal helmet	200	Mys: 50
 nurse's hat	200	Mox: 85
 oil cap	115	Mox: 42
@@ -714,6 +715,7 @@ supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
 The Emperor's new shirt	10	none
 Thinknerd T-Shirt	10	none
+trench coat	200	Mus: 100
 tunac	100	none
 turtlemail hauberk	80	Mus: 25
 tuxedo shirt	100	Mus: 35
@@ -914,6 +916,7 @@ dented harmonica	20	Mox: 0	1-handed horn
 dented scepter	200	Mus: 10	1-handed club
 depleted Grimacite hammer	100	Mus: 35	2-handed club
 depleted Grimacite kneecapping stick	90	Mus: 30	1-handed club
+detective roscoe	100	Mox: 0	1-handed pistol
 diabolical crossbow	200	Mox: 150	1-handed crossbow
 diamond-studded cane	60	Mus: 15	1-handed club
 didgeridooka	180	Mox: 75	2-handed blowgun
@@ -2003,6 +2006,7 @@ brazen bracelet	160	Mus: 65
 Brimstone Bracelet	200	Mys: 30
 Brimstone Brooch	200	Mys: 30
 broken clock	30	none
+bronze detective badge	0	none
 brown plastic baby	20	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
@@ -2330,6 +2334,7 @@ Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
 pirate fledges	140	Mys: 60
 plaid pocket square	150	Mys: 50
+plastic detective badge	10	none
 plastic Duskwalker necklace	50	none
 plastic spider ring	0	none
 plastic vampire fangs	0	none
@@ -2473,7 +2478,7 @@ solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
 soul mask	0	none
 soul monocle	0	none
-Source shades	0	none
+Source shades	10	none
 Space Trip safety headphones	100	Mys: 35
 spade necklace	10	none
 spaghetti cult robe	10	none
@@ -2752,7 +2757,7 @@ toy crazy train	60	Mys: 15
 toy maglev monorail	60	Mys: 15
 toy train	60	Mys: 15
 training belt	100	Mus: 10
-training legwarmers	0	Mys: 10
+training legwarmers	100	Mys: 10
 Treads of Loathing	200	Mus: 150
 tube sock	200	Mys: 45
 Uncle Buck	0	none
