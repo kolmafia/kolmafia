@@ -58,5 +58,5 @@ pixellated ashes	cubes of pixellated ashes	special	pixel2.gif	13	rage flame	Ange
 pop art banana peel	pop art banana peels	special	bananapeel.gif	6	velvet underground dweller	Mt. Molehill
 purple butt	purple butts	special	asshat.gif	9	jungle baboon	The Jungles of Ancient Loathing
 unlucky claw	unlucky claws	special	boneclaw.gif	13	lucky cat statue	Chinatown Shops
-vivisected hair	vivisected hair	special	chesthair.gif	10	lab monkey	The Secret Government Laboratory
+vivisected hair	vivisected hairs	special	chesthair.gif	10	lab monkey	The Secret Government Laboratory
 wig powder	piles of wig powder	special	scpowder.gif	10	wasp in a wig	The Red Queen's Garden
