@@ -683,6 +683,7 @@ metal band T-shirt	40	Mus: 5
 midriff scrubs	160	Mus: 65
 Moonthril Cuirass	100	Mus: 40
 Mr. Shirt	30	none
+trench coat	200	Mus: 100
 origami pasties	100	none
 Othello's military jacket	150	Mus: 40
 pirate shirt	50	Mus: 10
@@ -2154,6 +2155,7 @@ glow-in-the-dark wristwatch	0	none
 glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
+gold detective badge	0	none
 gold wedding ring	0	none
 Golden Mr. Accessory	0	none
 government-issued night-vision goggles	25	none
@@ -2451,6 +2453,7 @@ shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
 sicksilver ring	100	Mys: 10
+silver detective badge	0	none
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
 sk8board	70	Mys: 20

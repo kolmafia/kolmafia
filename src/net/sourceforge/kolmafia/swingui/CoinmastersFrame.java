@@ -114,6 +114,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
@@ -212,6 +213,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel gotporkPDPanel = null;
 	private CoinmasterPanel lttPanel = null;
 	private CoinmasterPanel baconPanel = null;
+	private CoinmasterPanel precinctPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -430,6 +432,11 @@ public class CoinmastersFrame
 		baconPanel = new BaconPanel();
 		panel.add( baconPanel );
 		this.selectorPanel.addPanel( baconPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		precinctPanel = new PrecinctPanel();
+		panel.add( precinctPanel );
+		this.selectorPanel.addPanel( precinctPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1354,6 +1361,15 @@ public class CoinmastersFrame
 		public LTTPanel()
 		{
 			super( LTTRequest.LTT );
+		}
+	}
+
+	private class PrecinctPanel
+		extends CoinmasterPanel
+	{
+		public PrecinctPanel()
+		{
+			super ( PrecinctRequest.PRECINCT );
 		}
 	}
 
