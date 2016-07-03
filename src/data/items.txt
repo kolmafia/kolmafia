@@ -9095,7 +9095,7 @@
 9069	bronze detective badge	731557976	dbadge2.gif	accessory	q	0
 9070	silver detective badge	844674710	dbadge3.gif	accessory	q	0
 9071	gold detective badge	496787301	dbadge4.gif	accessory	q	0
-9072	cop dollar	531860263	copdollar.gif	none	0
+9072	cop dollar	531860263	copdollar.gif	none		0
 9073	detective school application	931322505	letter.gif	usable	t	0
 9074	detective roscoe	419814689	happiness.gif	weapon		0
 9075	shoe gum	921140332	glueglob.gif	usable	t,d	10

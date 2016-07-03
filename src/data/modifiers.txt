@@ -826,7 +826,6 @@ Item	metal band T-shirt	Monster Level: +15
 Item	midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
 Item	Moonthril Cuirass	Monster Level: [10*G], Softcore Only
 Item	Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
-Item	trench coat	Experience Percent (Muscle): +20, Muscle Percent: +20, Spooky Resistance: +4
 Item	origami pasties	Meat Drop: +30, Softcore Only
 Item	Othello's military jacket	Othello Skill: +10
 Item	pirate shirt	Moxie: +3
