@@ -13893,6 +13893,7 @@ public abstract class ChoiceManager
 		case 1188: // The Call is Coming from Outside the Simulation
 		case 1190: // The Oracle
 		case 1191: // Source Terminal
+		case 1193: // The Precinct
 		return true;
 
 		default:
