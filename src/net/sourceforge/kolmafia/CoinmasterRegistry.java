@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
@@ -133,6 +134,7 @@ public abstract class CoinmasterRegistry
 		NeandermallRequest.NEANDERMALL,
 		NinjaStoreRequest.NINJA_STORE,
 		NuggletCraftingRequest.NUGGLETCRAFTING,
+		PrecinctRequest.PRECINCT,
 		QuartersmasterRequest.FRATBOY,
 		SHAWARMARequest.SHAWARMA,
 		ShoeRepairRequest.SHOE_REPAIR,

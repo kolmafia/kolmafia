@@ -2642,6 +2642,7 @@ public class ItemPool
 	public static final int SOURCE_TERMINAL_CRAM_EXT = 9064;
 	public static final int SOURCE_TERMINAL_DRAM_EXT = 9065;
 	public static final int SOURCE_TERMINAL_TRAM_EXT = 9066;
+	public static final int COP_DOLLAR = 9072;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

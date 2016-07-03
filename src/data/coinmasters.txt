@@ -839,3 +839,12 @@ Internet Meme Shop	buy	37	internet point	ROW822
 Internet Meme Shop	buy	50	meme generator	ROW823
 Internet Meme Shop	buy	150000	First Post shirt package	ROW829
 Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
+
+# Precinct Materiel Division
+Precinct Materiel Division	buy	4	hardboiled egg	ROW839
+Precinct Materiel Division	buy	4	Falcon&trade; Maltese Liquor	ROW835
+Precinct Materiel Division	buy	10	shoe gum	ROW834
+Precinct Materiel Division	buy	50	detective roscoe	ROW830
+Precinct Materiel Division	buy	200	noir fedora	ROW836
+Precinct Materiel Division	buy	200	trench coat	ROW837
+Precinct Materiel Division	buy	1000	detective tattoo	ROW838
