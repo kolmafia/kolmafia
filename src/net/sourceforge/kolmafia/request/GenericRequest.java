@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1825,6 +1826,20 @@ public class GenericRequest
 			this.responseCode = this.getResponseCode();
 			this.responseMessage = this.getResponseMessage();
 
+			if ( this.responseCode == 504 && this.baseURLString.equals( "storage.php" ) )
+			{
+				// Likely a pullall request that timed out
+				PauseObject pauser = new PauseObject();
+				KoLmafia.updateDisplay( "Waiting 20 seconds for KoL to finish processing..." );
+				pauser.pause( 20 * 1000 );
+				KoLConstants.storage.clear();
+				KoLConstants.freepulls.clear();
+				KoLConstants.nopulls.clear();
+				InventoryManager.refresh();
+				ClosetRequest.refresh();
+				return true;
+			}
+
 			if ( this.responseCode != 0 )
 			{
 				String message = "Server returned response code " + this.responseCode + " (" + this.responseMessage + ") for " + this.baseURLString;
@@ -2319,18 +2334,6 @@ public class GenericRequest
 		{
 			ApiRequest.parseResponse( urlString, this.responseText );
 			return;
-		}
-
-		else if ( urlString.startsWith( "storage.php" ) )
-		{
-			if ( this.responseCode == 504 )
-			{
-				// Likely a pullall request that timed out
-				StorageRequest.refresh();
-				InventoryManager.refresh();
-				ClosetRequest.refresh();
-				return;
-			}
 		}
 
 		if ( !this.isChatRequest && !this.isDescRequest )
