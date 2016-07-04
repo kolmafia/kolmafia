@@ -218,12 +218,14 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.TOY_ACCORDION, 0, false, null ),
 	};
 
-	public static final AdventureResult PLEXI_PENDANT = ItemPool.get( ItemPool.PLEXIGLASS_PENDANT, 1 );
-	public static final AdventureResult BRIM_BERET = ItemPool.get( ItemPool.BRIMSTONE_BERET, 1 );
 	public static final AdventureResult WIZARD_HAT = ItemPool.get( ItemPool.JEWEL_EYED_WIZARD_HAT, 1 );
+
+	public static final AdventureResult SHAKESPEARES_SISTERS_ACCORDION = ItemPool.get( ItemPool.SHAKESPEARES_SISTERS_ACCORDION, 1 );
+	public static final AdventureResult BASS_CLARINET = ItemPool.get( ItemPool.BASS_CLARINET, 1 );
 
 	public static final AdventureResult PLEXI_WATCH = ItemPool.get( ItemPool.PLEXIGLASS_POCKETWATCH, 1 );
 	public static final AdventureResult BRIM_BRACELET = ItemPool.get( ItemPool.BRIMSTONE_BRACELET, 1 );
+	public static final AdventureResult POCKET_SQUARE = ItemPool.get( ItemPool.POCKET_SQUARE, 1 );
 	public static final AdventureResult SOLITAIRE = ItemPool.get( ItemPool.STAINLESS_STEEL_SOLITAIRE, 1 );
 
 	public static final AdventureResult NAVEL_RING = ItemPool.get( ItemPool.NAVEL_RING, 1 );
@@ -236,20 +238,21 @@ public class UseSkillRequest
 	public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get( ItemPool.SAUCEBLOB_BELT, 1 );
 	public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get( ItemPool.JUJU_MOJO_MASK, 1 );
 
-	// The following list must contain only accessories!
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
 	{
-		UseSkillRequest.PLEXI_WATCH,	// -3
+		UseSkillRequest.BASS_CLARINET,	// -3
 		UseSkillRequest.BRIM_BRACELET,	// -3
+		UseSkillRequest.PLEXI_WATCH,	// -3
+		UseSkillRequest.POCKET_SQUARE,	// -3
 		UseSkillRequest.SOLITAIRE,		// -2
+		UseSkillRequest.SHAKESPEARES_SISTERS_ACCORDION,		// -1 or -2
+		UseSkillRequest.WIZARD_HAT,		// -1
 		UseSkillRequest.NAVEL_RING,		// -1
 		UseSkillRequest.WIRE_BRACELET,	// -1
 		UseSkillRequest.BACON_BRACELET,	// -1, discontinued item
 		UseSkillRequest.BACON_EARRING,	// -1
 		UseSkillRequest.SOLID_EARRING,	// -1
 		UseSkillRequest.EMBLEM_AKGYXOTH,	// -1
-		// Removing the following might drop an AT song
-		UseSkillRequest.PLEXI_PENDANT,
 		// Removing the following may lose a buff
 		UseSkillRequest.JUJU_MOJO_MASK,
 	};
@@ -258,15 +261,11 @@ public class UseSkillRequest
 	// there to avoid removal - there's no point in equipping them
 	// temporarily during casting:
 
-	private static final int AVOID_REMOVAL_ONLY = 2;
+	private static final int AVOID_REMOVAL_ONLY = 1;
 
-	// Other known MP cost/song count items:
-	//
-	// wizard hat (-1) - has to be handled specially since it's not an accessory.
+	// Other known MP cost items:
 	// Vile Vagrant Vestments (-5) - unlikely to be equippable during Ronin.
 	// Idol of Ak'gyxoth (-1) - off-hand, would require special handling.
-	// Scandalously Skimpy Bikini (4 songs) - custom accessory.
-	// Sombrero de Vida (4 songs) - custom hat.
 
 	private UseSkillRequest( final String skillName )
 	{
@@ -1020,7 +1019,7 @@ public class UseSkillRequest
 		}
 	}
 
-	private static final boolean isValidSwitch( final int slotId )
+	private static final boolean isValidSwitch( final int slotId, final AdventureResult newItem, final int skillId )
 	{
 		AdventureResult item = EquipmentManager.getEquipment( slotId );
 		if ( item.equals( EquipmentRequest.UNEQUIP ) ) return true;
@@ -1034,17 +1033,27 @@ public class UseSkillRequest
 		}
 
 		Speculation spec = new Speculation();
-		spec.equip( slotId, EquipmentRequest.UNEQUIP );
+		spec.equip( slotId, newItem );
 		int[] predictions = spec.calculate().predict();
-		if ( KoLCharacter.getMaximumMP() > predictions[ Modifiers.BUFFED_MP ] )
+
+		// Make sure we do not lose mp in the switch
+		if ( KoLCharacter.getCurrentMP() > predictions[ Modifiers.BUFFED_MP ] )
 		{
 			return false;
 		}
+		// Make sure we do not reduce max hp in the switch, to avoid loops when casting a heal
 		if ( KoLCharacter.getMaximumHP() > predictions[ Modifiers.BUFFED_HP ] )
 		{
 			return false;
 		}
-
+		// Don't allow if we'd lose a song in the switch
+		Modifiers mods = spec.getModifiers();
+		int predictedSongLimit = 3 + (int) mods.get( Modifiers.ADDITIONAL_SONG ) + ( mods.getBoolean( Modifiers.ADDITIONAL_SONG ) ? 1 : 0 );
+		int predictedSongsNeeded = UseSkillRequest.songsActive() + ( UseSkillRequest.newSong( skillId ) ? 1 : 0 );
+		if ( predictedSongsNeeded > predictedSongLimit )
+		{
+			return false;
+		}
 		return true;
 	}
 
@@ -1076,54 +1085,62 @@ public class UseSkillRequest
 	{
 		int mpCost = SkillDatabase.getMPConsumptionById( skillId );
 		// Never bother trying to reduce mana consumption when casting
-		// ode to booze or a libram skill
+		// expensive skills or a libram skill
 
-		if ( skillId == SkillPool.ODE_TO_BOOZE ||
-		     skillId == SkillPool.GLORIOUS_LUNCH ||
+		if ( mpCost > 50 ||
 		     SkillDatabase.isLibramSkill( skillId ) ||
 		     mpCost == 0 )
 		{
 			return;
 		}
 
+		// MP is cheap in aftercore, so save server hits
 		if ( KoLCharacter.canInteract() )
 		{
 			return;
 		}
 
-		// Best switch is a PLEXI_WATCH, since it's a guaranteed -3 to
-		// spell cost.
+		// Try items
 
 		for ( int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i )
 		{
+			// If you can't reduce cost further, stop
 			if ( mpCost == 1 || KoLCharacter.currentNumericModifier( Modifiers.MANA_COST ) <= -3 )
 			{
 				return;
 			}
 
+			// If you haven't got it or can't wear it, don't evaluate further
 			if ( !UseSkillRequest.canSwitchToItem( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
 			{
 				continue;
 			}
 
-			// First determine which slots are available for switching in
-			// MP reduction items.  This has do be done inside the loop now
-			// that max HP/MP prediction is done, since two changes that are
-			// individually harmless might add up to a loss of points.
+			// If you won't lose max hp, current mp, or songs, use it
+			int slot = EquipmentManager.itemIdToEquipmentType( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() );
+			if ( slot == EquipmentManager.ACCESSORY1 )
+			{
+				// First determine which slots are available for switching in
+				// MP reduction items.  This has do be done inside the loop now
+				// that max HP/MP prediction is done, since two changes that are
+				// individually harmless might add up to a loss of points.
+				boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
+				boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
+				boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3, UseSkillRequest.AVOID_REMOVAL[ i ], skillId );
 
-			boolean slot1Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY1 );
-			boolean slot2Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY2 );
-			boolean slot3Allowed = UseSkillRequest.isValidSwitch( EquipmentManager.ACCESSORY3 );
+				UseSkillRequest.attemptSwitch(
+					skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed );
+			}
+			else
+			{
+				if ( UseSkillRequest.isValidSwitch( slot, UseSkillRequest.AVOID_REMOVAL[ i ], skillId ) )
+				{
+					( new EquipmentRequest( UseSkillRequest.AVOID_REMOVAL[ i ], slot ) ).run();
+				}
+			}
 
-			UseSkillRequest.attemptSwitch(
-				skillId, UseSkillRequest.AVOID_REMOVAL[ i ], slot1Allowed, slot2Allowed, slot3Allowed );
-		}
-
-		if ( UseSkillRequest.canSwitchToItem( UseSkillRequest.WIZARD_HAT ) &&
-		     !KoLCharacter.hasEquipped( UseSkillRequest.BRIM_BERET ) &&
-		     UseSkillRequest.isValidSwitch( EquipmentManager.HAT ) )
-		{
-			( new EquipmentRequest( UseSkillRequest.WIZARD_HAT, EquipmentManager.HAT ) ).run();
+			// Cost may have changed
+			mpCost = SkillDatabase.getMPConsumptionById( skillId );
 		}
 	}
 
@@ -1138,6 +1155,52 @@ public class UseSkillRequest
 		rv += KoLCharacter.currentNumericModifier( Modifiers.ADDITIONAL_SONG );
 
 		return rv;
+	}
+
+	private static final int songsActive()
+	{
+		int count = 0;
+
+		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
+		KoLConstants.activeEffects.toArray( effects );
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+			if ( SkillDatabase.contains( skillName ) )
+			{
+				int skillId = SkillDatabase.getSkillId( skillName );
+				if ( SkillDatabase.isAccordionThiefSong( skillId ) )
+				{
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+
+	private static final Boolean newSong( final int skillId )
+	{
+		if ( !SkillDatabase.isAccordionThiefSong( skillId ) )
+		{
+			return false;
+		}
+
+		AdventureResult[] effects = new AdventureResult[ KoLConstants.activeEffects.size() ];
+		KoLConstants.activeEffects.toArray( effects );
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String skillName = UneffectRequest.effectToSkill( effects[ i ].getName() );
+			if ( SkillDatabase.contains( skillName ) )
+			{
+				int effectSkillId = SkillDatabase.getSkillId( skillName );
+				if ( effectSkillId == skillId )
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
