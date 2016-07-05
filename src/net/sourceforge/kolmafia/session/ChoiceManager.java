@@ -221,6 +221,7 @@ public abstract class ChoiceManager
 	private static final Pattern TELEGRAM_PATTERN = Pattern.compile( "value=\"RE: (.*?)\"" );
 	private static final Pattern ENLIGHTENMENT_PATTERN = Pattern.compile( "achieved <b>(\\d+)</b> enlightenment" );
 	private static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "don't remember leaving any spoons in (.*?)&quot;" );
+	private static final Pattern CASE_PATTERN = Pattern.compile( "\\((\\d+) more case" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -11392,6 +11393,18 @@ public abstract class ChoiceManager
 			// Source Terminal
 			request.setHasResult( false );
 			break;
+
+		case 1193:
+		{
+			// The Precinct
+			Matcher matcher = ChoiceManager.CASE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_detectiveCasesCompleted", 3 - StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			break;
+		}
+
 		}
 	}
 

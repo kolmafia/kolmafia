@@ -348,7 +348,7 @@ public class QuestManager
 			}
 			else if ( location.contains( "whichplace=town" ) )
 			{
-				handleTownChange( responseText );
+				handleTownChange( location, responseText );
 			}
 			else if ( location.contains( "whichplace=woods" ) )
 			{
@@ -378,11 +378,17 @@ public class QuestManager
 		{
 			handleTrickOrTreatingChange( responseText );
 		}
+		else if ( location.startsWith( "wham" ) )
+		{
+			if ( responseText.contains( "Congratulations! You solved the case" ) )
+			{
+				Preferences.increment( "_detectiveCasesCompleted" );
+			}
+		}
 		// Obsolete. Sigh.
 		else if ( location.startsWith( "generate15" ) )
 		{
 			// You slide the last tile into place ...
-
 			if ( AdventureRequest.registerDemonName( "Strange Cube", responseText ) || responseText.contains( "slide the last tile" ) )
 			{
 				ResultProcessor.processItem( ItemPool.STRANGE_CUBE, -1 );
@@ -423,7 +429,7 @@ public class QuestManager
 		}
 	}
 
-	private static void handleTownChange( String responseText )
+	private static void handleTownChange( final String location, String responseText )
 	{
 		boolean oldTimeTower = Preferences.getBoolean( "timeTowerAvailable" );
 		boolean newTimeTower = responseText.contains( "town_tower" );
@@ -431,6 +437,10 @@ public class QuestManager
 		{
 			Preferences.setBoolean( "timeTowerAvailable", newTimeTower );
 			ConcoctionDatabase.setRefreshNeeded( false );
+		}
+		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
+		{
+			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
 		}
 	}
 
