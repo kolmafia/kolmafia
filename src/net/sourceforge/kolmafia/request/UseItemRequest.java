@@ -5468,6 +5468,10 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.DETECTIVE_APPLICATION:
+			Preferences.setBoolean( "hasDetectiveSchool", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

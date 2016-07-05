@@ -513,6 +513,7 @@ user	harvestGardenSoftcore	none
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
+user	hasDetectiveSchool	false
 user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
@@ -1197,6 +1198,7 @@ user	_defectiveTokenUsed	false
 user	_deluxeKlawSummons	0
 user	_defectiveTokenChecked	false
 user	_demandSandwich	0
+user	_detectiveCasesCompleted	0
 user	_dinseyGarbageDisposed	false
 user	_discoKnife	false
 user	_distentionPillUsed	false
@@ -2040,6 +2042,7 @@ user	choiceAdventure1172	1
 user	choiceAdventure1173	1
 user	choiceAdventure1174	1
 user	choiceAdventure1175	1
+user	choiceAdventure1193	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true
