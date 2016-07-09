@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -83,6 +83,10 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -562,7 +566,7 @@ public class AdventureSelectPanel
 		int cardCount = 0;
 
 		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.tally, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( (LockableListModel<AdventureResult>) KoLConstants.tally, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Location Details" );
 		resultPanel.add( new SafetyField(), String.valueOf( cardCount++ ) );
@@ -571,16 +575,16 @@ public class AdventureSelectPanel
 		resultPanel.add( new GenericScrollPane( GoalManager.getGoals(), 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Available Skills" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( (LockableListModel<UseSkillRequest>) KoLConstants.availableSkills, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.activeEffects, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( (LockableListModel<AdventureResult>) KoLConstants.activeEffects, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.encounterList, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( (LockableListModel<RegisteredEncounter>) KoLConstants.encounterList, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new GenericScrollPane( KoLConstants.adventureList, 4 ), String.valueOf( cardCount++ ) );
+		resultPanel.add( new GenericScrollPane( (LockableListModel<RegisteredEncounter>) KoLConstants.adventureList, 4 ), String.valueOf( cardCount++ ) );
 
 		resultSelect.addItem( "Daily Deeds" );
 		resultPanel.add( new GenericScrollPane( new DailyDeedsPanel() ), String.valueOf( cardCount++ ) );

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -122,6 +122,7 @@ import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.textui.DataFileCache;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 
@@ -4261,38 +4262,38 @@ public abstract class KoLCharacter
 
 		case SkillDatabase.SUMMON:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.summoningSkills.add( skill );
-			KoLConstants.summoningSkills.sort();
+			LockableListFactory.sort( KoLConstants.summoningSkills );
 			break;
 
 		case SkillDatabase.REMEDY:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.remedySkills.add( skill );
-			KoLConstants.remedySkills.sort();
+			LockableListFactory.sort( KoLConstants.remedySkills );
 			break;
 
 		case SkillDatabase.SELF_ONLY:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.selfOnlySkills.add( skill );
-			KoLConstants.selfOnlySkills.sort();
+			LockableListFactory.sort( KoLConstants.selfOnlySkills );
 			break;
 
 		case SkillDatabase.BUFF:
 
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.buffSkills.add( skill );
-			KoLConstants.buffSkills.sort();
+			LockableListFactory.sort( KoLConstants.buffSkills );
 			break;
 
 		case SkillDatabase.SONG:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.songSkills.add( skill );
-			KoLConstants.songSkills.sort();
+			LockableListFactory.sort( KoLConstants.songSkills );
 			break;
 
 		case SkillDatabase.COMBAT:
@@ -4301,9 +4302,9 @@ public abstract class KoLCharacter
 
 		case SkillDatabase.COMBAT_NONCOMBAT_REMEDY:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.remedySkills.add( skill );
-			KoLConstants.remedySkills.sort();
+			LockableListFactory.sort( KoLConstants.remedySkills );
 			KoLCharacter.addCombatSkill( skill.getSkillName() );
 			break;
 
@@ -4313,16 +4314,16 @@ public abstract class KoLCharacter
 
 		case SkillDatabase.EXPRESSION:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.expressionSkills.add( skill );
-			KoLConstants.expressionSkills.sort();
+			LockableListFactory.sort( KoLConstants.expressionSkills );
 			break;
 
 		case SkillDatabase.WALK:
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.walkSkills.add( skill );
-			KoLConstants.walkSkills.sort();
+			LockableListFactory.sort( KoLConstants.walkSkills );
 			break;
 		}
 	}
@@ -4536,13 +4537,13 @@ public abstract class KoLCharacter
 		return KoLCharacter.hasSkill( skill, KoLConstants.availableSkills );
 	}
 
-	public static final boolean hasSkill( final String skillName, final LockableListModel<UseSkillRequest> list )
+	public static final boolean hasSkill( final String skillName, final List<UseSkillRequest> list )
 	{
 		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 		return KoLCharacter.hasSkill( skill, list );
 	}
 
-	public static final boolean hasSkill( final UseSkillRequest skill, final LockableListModel<UseSkillRequest> list )
+	public static final boolean hasSkill( final UseSkillRequest skill, final List<UseSkillRequest> list )
 	{
 		if ( list == KoLConstants.availableSkills )
 		{
@@ -5120,9 +5121,9 @@ public abstract class KoLCharacter
 			KoLConstants.availableSkills.add( skill );
 			KoLConstants.availableSkillsMap.put( skill, null );
 			KoLConstants.usableSkills.add( skill );
-			KoLConstants.usableSkills.sort();
+			LockableListFactory.sort( KoLConstants.usableSkills );
 			KoLConstants.summoningSkills.add( skill );
-			KoLConstants.summoningSkills.sort();
+			LockableListFactory.sort( KoLConstants.summoningSkills );
 		}
 
 		KoLCharacter.currentPastaThrall = thrall;

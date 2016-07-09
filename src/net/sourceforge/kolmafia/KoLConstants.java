@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -34,8 +34,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.Toolkit;
 
 import java.io.File;
 
@@ -46,16 +44,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import java.util.regex.Pattern;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
@@ -63,10 +57,11 @@ import net.sourceforge.kolmafia.chat.StyledChatBuffer;
 import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
+
 // The following are objects that go into various global data lists.
 // Perhaps we should have a DataModel.java?
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 
@@ -85,7 +80,6 @@ public interface KoLConstants
 	// strings, as well as for string parsing.
 
 	public static final Random RNG = new Random();
-	public static final Font DEFAULT_FONT = ( new JTextField() ).getFont();
 	public static final Pattern LINE_BREAK_PATTERN = Pattern.compile( "\\s*[\r\n]+\\s*" );
 
 	public static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
@@ -119,14 +113,6 @@ public interface KoLConstants
 	// order to preserve memory.
 
 	public static final Class[] NOPARAMS = new Class[ 0 ];
-	public static final JLabel BLANK_LABEL = new JLabel();
-
-	// Constants which are used in order to do things inside of
-	// the GUI.  Ensures that all GUI information can be accessed
-	// at any time.
-
-	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
-	public static final LockableListModel<String> existingFrames = new LockableListModel<String>();
 
 	// Menus rendered in the relay browser and the KoLmafia mini-browser.
 	// Ensures that the two menus always contain the same information.
@@ -284,8 +270,8 @@ public interface KoLConstants
 	// Scripting-related constants.  Used throughout KoLmafia in
 	// order to ensure proper handling of scripts.
 
-	public static final LockableListModel<File> scripts = new LockableListModel<File>();
-	public static final LockableListModel<String> bookmarks = new LockableListModel<String>();
+	public static final List<File> scripts = LockableListFactory.getInstance( File.class );
+	public static final List<String> bookmarks = LockableListFactory.getInstance( String.class );
 
 	public static final ArrayList<String> disabledScripts = new ArrayList<String>();
 	public static final ScriptMRUList scriptMList = 
@@ -293,10 +279,10 @@ public interface KoLConstants
 	public static final PartialMRUList maximizerMList =
 			  new PartialMRUList( "maximizerMRUList", "maximizerMRUSize", "maximizerList" );
 
-	public static final SortedListModel<AdventureResult> junkList = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> singletonList = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> mementoList = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> profitableList = new SortedListModel<AdventureResult>();
+	public static final List<AdventureResult> junkList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> singletonList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> mementoList = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> profitableList = LockableListFactory.getSortedInstance( AdventureResult.class );
 
 	public static final String BUFFBOT_DIRECTORY = "buffs/";
 	public static final String CCS_DIRECTORY = "ccs/";
@@ -708,46 +694,46 @@ public interface KoLConstants
 	// global in order to ensure that any element of KoLmafia can
 	// access session-specific information.
 
-	public static final SortedListModel<String> saveStateNames = new SortedListModel<String>();
+	public static final List<String> saveStateNames = LockableListFactory.getSortedInstance( String.class );
 
-	public static final SortedListModel<AdventureResult> inventory = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> closet = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> storage = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> unlimited = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> freepulls = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> nopulls = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> collection = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> campground = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> chateau = new SortedListModel<AdventureResult>();
-	public static final SortedListModel<AdventureResult> pulverizeQueue = new SortedListModel<AdventureResult>();
+	public static final List<AdventureResult> inventory = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> closet = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> storage = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> unlimited = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> freepulls = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> nopulls = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> collection = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> campground = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> chateau = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> pulverizeQueue = LockableListFactory.getSortedInstance( AdventureResult.class );
 
-	public static final LockableListModel<UseSkillRequest> usableSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> summoningSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> remedySkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> selfOnlySkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> buffSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> songSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> expressionSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> walkSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> availableSkills = new LockableListModel<UseSkillRequest>();
-	public static final IdentityHashMap<UseSkillRequest,Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest,Object>();
-	public static final LockableListModel<UseSkillRequest> availableCombatSkills = new LockableListModel<UseSkillRequest>();
-	public static final IdentityHashMap<UseSkillRequest,Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest,Object>();
-	public static final LockableListModel<UseSkillRequest> permedSkills = new LockableListModel<UseSkillRequest>();
-	public static final LockableListModel<UseSkillRequest> combatSkills = new LockableListModel<UseSkillRequest>();
+	public static final List<UseSkillRequest> usableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> summoningSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> remedySkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> selfOnlySkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> buffSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> songSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> walkSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> availableSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
+	public static final List<UseSkillRequest> availableCombatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<UseSkillRequest, Object>();
+	public static final List<UseSkillRequest> permedSkills = LockableListFactory.getInstance( UseSkillRequest.class );
+	public static final List<UseSkillRequest> combatSkills = LockableListFactory.getInstance( UseSkillRequest.class );
 
-	public static final LockableListModel<AdventureResult> activeEffects = new LockableListModel<AdventureResult>();
+	public static final List<AdventureResult> activeEffects = LockableListFactory.getInstance( AdventureResult.class );
 	public static final ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
 
-	public static final LockableListModel<AdventureResult> hermitItems = new LockableListModel<AdventureResult>();
-	public static final LockableListModel<String> restaurantItems = new LockableListModel<String>();
-	public static final LockableListModel<String> microbreweryItems = new LockableListModel<String>();
-	public static final LockableListModel<String> kitchenItems = new LockableListModel<String>();
-	public static final LockableListModel<String> cafeItems = new LockableListModel<String>();
+	public static final List<AdventureResult> hermitItems = LockableListFactory.getInstance( AdventureResult.class );
+	public static final List<String> restaurantItems = LockableListFactory.getInstance( String.class );
+	public static final List<String> microbreweryItems = LockableListFactory.getInstance( String.class );
+	public static final List<String> kitchenItems = LockableListFactory.getInstance( String.class );
+	public static final List<String> cafeItems = LockableListFactory.getInstance( String.class );
 
-	public static final SortedListModel<AdventureResult> tally = new SortedListModel<AdventureResult>();
-	public static final LockableListModel<RegisteredEncounter> adventureList = new LockableListModel<RegisteredEncounter>();
-	public static final SortedListModel<RegisteredEncounter> encounterList = new SortedListModel<RegisteredEncounter>();
+	public static final List<AdventureResult> tally = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<RegisteredEncounter> adventureList = LockableListFactory.getInstance( RegisteredEncounter.class );
+	public static final List<RegisteredEncounter> encounterList = LockableListFactory.getSortedInstance( RegisteredEncounter.class );
 
 	// Locations where session information is displayed for the user.
 	// Include just the event history buffer and the command line buffer.

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,10 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -53,10 +52,10 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeRequest
@@ -64,7 +63,7 @@ public class CafeRequest
 {
 	protected static final Pattern CAFE_PATTERN = Pattern.compile( "cafe.php.*cafeid=(\\d*)", Pattern.DOTALL );
 	protected static final Pattern ITEM_PATTERN = Pattern.compile( "whichitem=(-?\\d*)", Pattern.DOTALL );
-	private static final LockableListModel<Concoction> existing = new LockableListModel<Concoction>();
+	private static final List<Concoction> existing = LockableListFactory.getInstance( Concoction.class );
 	private static final AdventureResult LARP = ItemPool.get( ItemPool.LARP_MEMBERSHIP_CARD, 1 );
 	private static final GenericRequest LARP_REQUEST = new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[] { CafeRequest.LARP } );
 
@@ -215,11 +214,11 @@ public class CafeRequest
 	{
 	}
 
-	protected static void addMenuItem( final LockableListModel<String> menu, final String itemName, final int price )
+	protected static void addMenuItem( final List<String> menu, final String itemName, final int price )
 	{
 		menu.add( itemName );
 
-		LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+		List<Concoction> usables = ConcoctionDatabase.getUsables();
 		Concoction item = new Concoction( itemName, price );
 		int index = usables.indexOf( item );
 		if ( index != -1 )
@@ -233,10 +232,10 @@ public class CafeRequest
 		usables.add( item );
 	}
 
-	public static final void reset( final LockableListModel<String> menu )
+	public static final void reset( final List<String> menu )
 	{
 		// Restore usable list with original concoction
-		LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+		List<Concoction> usables = ConcoctionDatabase.getUsables();
 		for ( int i = 0; i < menu.size(); ++i )
 		{
 			String itemName = menu.get( i );

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -45,6 +45,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.TreeSet;
 
 import java.util.regex.Matcher;
@@ -61,6 +62,7 @@ import javax.swing.JTabbedPane;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CakeArenaManager;
@@ -87,7 +89,6 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -100,7 +101,6 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.swingui.button.DisplayFrameButton;
 
@@ -265,7 +265,7 @@ public class FamiliarTrainingFrame
 			this.familiar = KoLCharacter.getFamiliar();
 
 			// Put familiar changer on top
-			this.familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
+			this.familiars = new ChangeComboBox( (LockableListModel) KoLCharacter.getFamiliarList() );
 			this.familiars.setRenderer( FamiliarData.getRenderer() );
 			container.add( this.familiars, BorderLayout.NORTH );
 
@@ -1480,7 +1480,7 @@ public class FamiliarTrainingFrame
 			this.checkCurrentEquipment();
 
 			// Check available equipment
-			this.checkAvailableEquipment( KoLConstants.inventory );
+			this.checkAvailableEquipment( (SortedListModel) KoLConstants.inventory );
 		}
 
 		private void checkSkills()
@@ -1781,7 +1781,7 @@ public class FamiliarTrainingFrame
 
 			// Find first familiar with item
 
-			LockableListModel familiars = KoLCharacter.getFamiliarList();
+			List familiars = KoLCharacter.getFamiliarList();
 			for ( int i = 0; i < familiars.size(); ++i )
 			{
 				FamiliarData familiar = (FamiliarData) familiars.get( i );

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -53,8 +53,6 @@ import java.util.Locale;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -67,7 +65,7 @@ import org.jdesktop.swingx.JXCollapsiblePane;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.chat.ChatFormatter;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -218,7 +216,7 @@ public class ChatFrame
 		JLabel label = new JLabel(
 			"<html><b>You're now in away mode; click to return to normal</b></html>", SwingConstants.CENTER );
 		label.setForeground( Color.blue.darker() );
-		label.setFont( KoLConstants.DEFAULT_FONT );
+		label.setFont( KoLGUIConstants.DEFAULT_FONT );
 		label.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 		label.addMouseListener( awayPanel );
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -41,6 +41,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -54,7 +56,7 @@ public class ScriptMenu
 {
 	public ScriptMenu()
 	{
-		super( "Scripts", KoLConstants.scripts );
+		super( "Scripts", (LockableListModel<File>) KoLConstants.scripts );
 	}
 
 	@Override

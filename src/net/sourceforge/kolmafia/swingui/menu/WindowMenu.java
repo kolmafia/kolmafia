@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 import javax.swing.JComponent;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 
 public class WindowMenu
@@ -43,7 +44,7 @@ public class WindowMenu
 {
 	public WindowMenu()
 	{
-		super( "Window", KoLConstants.existingFrames );
+		super( "Window", KoLGUIConstants.existingFrames );
 	}
 
 	@Override

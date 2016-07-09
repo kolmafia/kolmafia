@@ -33,12 +33,12 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -52,7 +52,7 @@ public class RestorativeItemPanel
 {
 	public RestorativeItemPanel()
 	{
-		super( "use item", "check wiki", KoLConstants.inventory, new boolean[] {false, true} );
+		super( "use item", "check wiki", (SortedListModel) KoLConstants.inventory, new boolean[] {false, true} );
 		this.filterItems();
 	}
 

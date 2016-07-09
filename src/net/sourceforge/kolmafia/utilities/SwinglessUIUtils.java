@@ -31,48 +31,34 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui.menu;
-
-import javax.swing.JComponent;
+package net.sourceforge.kolmafia.utilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.KoLConstants;
-
-/**
- * A special class which renders the menu holding the list of bookmarks. This class also synchronizes with the list
- * of available bookmarks.
- */
-
-public class BookmarkMenu
-	extends MenuItemList
+public class SwinglessUIUtils
 {
-	public BookmarkMenu()
+
+	static boolean isSwingAvailable;
+
+	static
 	{
-		super( "Bookmarks", (LockableListModel) KoLConstants.bookmarks );
-	}
-
-	@Override
-	public JComponent constructMenuItem( final Object o )
-	{
-		String[] bookmarkData = ( (String) o ).split( "\\|" );
-
-		String name = bookmarkData[ 0 ];
-		String location = bookmarkData[ 1 ];
-		String pwdhash = bookmarkData[ 2 ];
-
-		if ( pwdhash.equals( "true" ) )
+		try
 		{
-			location += "&pwd";
+			// try to instantiate a LockableListModel, which implements Swing
+			// interfaces
+			new LockableListModel<Object>();
+			isSwingAvailable = true;
 		}
-
-		return new RelayBrowserMenuItem( name, location );
+		catch ( NoClassDefFoundError e )
+		{
+			// if unable to do so, we are in a Swing-less environment
+			isSwingAvailable = false;
+		}
 	}
 
-	@Override
-	public JComponent[] getHeaders()
+	public static boolean isSwingAvailable()
 	{
-		JComponent[] headers = new JComponent[ 0 ];
-		return headers;
+		return SwinglessUIUtils.isSwingAvailable;
 	}
+
 }

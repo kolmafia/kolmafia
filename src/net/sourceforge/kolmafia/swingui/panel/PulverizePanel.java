@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -51,6 +51,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -80,7 +81,7 @@ public class PulverizePanel
 
 	public PulverizePanel()
 	{
-		super( KoLConstants.inventory );
+		super( (SortedListModel) KoLConstants.inventory );
 
 		this.setButtons( true, new ActionListener[] {
 				new EnqueueListener(),

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -54,6 +54,7 @@ import javax.swing.event.ChangeListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -183,13 +184,13 @@ public class ItemManageFrame
 
 		selectorPanel.addSeparator();
 
-		selectorPanel.addPanel( "General", new InventoryPanel( KoLConstants.inventory, false ) );
-		selectorPanel.addPanel( " - Recent", new InventoryPanel( KoLConstants.tally, false ) );
-		selectorPanel.addPanel( " - Closet", new InventoryPanel( KoLConstants.closet, false ) );
+		selectorPanel.addPanel( "General", new InventoryPanel( (SortedListModel) KoLConstants.inventory, false ) );
+		selectorPanel.addPanel( " - Recent", new InventoryPanel( (SortedListModel) KoLConstants.tally, false ) );
+		selectorPanel.addPanel( " - Closet", new InventoryPanel( (SortedListModel) KoLConstants.closet, false ) );
 		selectorPanel.addPanel( " - Storage", new HagnkStoragePanel( false ) );
-		selectorPanel.addPanel( " - Unlimited", new ViewOnlyPanel( KoLConstants.unlimited ) );
+		selectorPanel.addPanel( " - Unlimited", new ViewOnlyPanel( (SortedListModel) KoLConstants.unlimited ) );
 		selectorPanel.addPanel( " - Free Pulls", new FreePullsPanel() );
-		selectorPanel.addPanel( " - No Pull", new ViewOnlyPanel( KoLConstants.nopulls ) );
+		selectorPanel.addPanel( " - No Pull", new ViewOnlyPanel( (SortedListModel) KoLConstants.nopulls ) );
 
 		selectorPanel.addSeparator();
 
@@ -201,7 +202,7 @@ public class ItemManageFrame
 
 		selectorPanel.addSeparator();
 
-		selectorPanel.addPanel( "Equipment", new InventoryPanel( KoLConstants.inventory, true ) );
+		selectorPanel.addPanel( "Equipment", new InventoryPanel( (SortedListModel) KoLConstants.inventory, true ) );
 		selectorPanel.addPanel( " - Storage ", new HagnkStoragePanel( true ) ); // the extra end space is used to distinguish it for serializing purposes
 		selectorPanel.addPanel( " - Create", new CreateItemPanel( false, false, true, false ) );
 		selectorPanel.addPanel( " - Pulverize", new PulverizePanel() );
@@ -359,7 +360,7 @@ public class ItemManageFrame
 	{
 		public JunkItemsPanel()
 		{
-			super( "cleanup", "help", KoLConstants.junkList, true );
+			super( "cleanup", "help", (LockableListModel) KoLConstants.junkList, true );
 		}
 
 		@Override
@@ -380,7 +381,7 @@ public class ItemManageFrame
 	{
 		public SingletonItemsPanel()
 		{
-			super( "closet", "help", KoLConstants.singletonList, true );
+			super( "closet", "help", (LockableListModel) KoLConstants.singletonList, true );
 		}
 
 		@Override
@@ -411,7 +412,7 @@ public class ItemManageFrame
 	{
 		public MementoItemsPanel()
 		{
-			super( "closet", "help", KoLConstants.mementoList, true );
+			super( "closet", "help", (LockableListModel) KoLConstants.mementoList, true );
 		}
 
 		@Override
@@ -440,7 +441,7 @@ public class ItemManageFrame
 	{
 		public RestockPanel()
 		{
-			super( "automall", "host sale", KoLConstants.profitableList, true );
+			super( "automall", "host sale", (LockableListModel) KoLConstants.profitableList, true );
 
 			this.filters[ 4 ].setSelected( false );
 			this.filters[ 4 ].setEnabled( false );
@@ -484,7 +485,7 @@ public class ItemManageFrame
 
 		public HagnkStoragePanel( final boolean isEquipmentOnly )
 		{
-			super( "pull item", isEquipmentOnly ? "pull & equip" : "put in closet", KoLConstants.storage, isEquipmentOnly );
+			super( "pull item", isEquipmentOnly ? "pull & equip" : "put in closet", (SortedListModel) KoLConstants.storage, isEquipmentOnly );
 
 			this.setButtons( new ActionListener[] {} );
 
@@ -644,7 +645,7 @@ public class ItemManageFrame
 	{
 		public FreePullsPanel()
 		{
-			super( "pull item", "put in closet", KoLConstants.freepulls, false );
+			super( "pull item", "put in closet", (SortedListModel) KoLConstants.freepulls, false );
 
 			this.addFilters();
 			this.addMovers();

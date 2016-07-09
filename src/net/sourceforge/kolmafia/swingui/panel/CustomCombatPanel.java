@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -73,7 +73,7 @@ import javax.swing.tree.DefaultTreeModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -584,7 +584,7 @@ public class CustomCombatPanel
 		{
 			super( "Editor", "save", "cancel", new JTextArea() );
 			CustomCombatPanel.this.combatEditor = (JTextArea) this.scrollComponent;
-			CustomCombatPanel.this.combatEditor.setFont( KoLConstants.DEFAULT_FONT );
+			CustomCombatPanel.this.combatEditor.setFont( KoLGUIConstants.DEFAULT_FONT );
 			CustomCombatPanel.this.refreshCombatTree();
 
 			this.eastPanel.add( new RelayBrowserButton( "help", "http://kolmafia.sourceforge.net/combat.html" ), BorderLayout.SOUTH );

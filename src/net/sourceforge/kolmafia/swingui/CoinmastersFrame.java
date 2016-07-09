@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -51,6 +51,9 @@ import javax.swing.JPanel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -1769,7 +1772,7 @@ public class CoinmastersFrame
 		{
 			public SellPanel()
 			{
-				super( KoLConstants.inventory );
+				super( (SortedListModel) KoLConstants.inventory );
 				this.setButtons( true, new ActionListener[] {
 						new SellListener(),
 					} );
@@ -1873,7 +1876,7 @@ public class CoinmastersFrame
 		{
 			public BuyPanel( ActionListener[] listeners )
 			{
-				super( CoinmasterPanel.this.data.getBuyItems() );
+				super( (LockableListModel) CoinmasterPanel.this.data.getBuyItems() );
 
 				if ( listeners != null )
 				{

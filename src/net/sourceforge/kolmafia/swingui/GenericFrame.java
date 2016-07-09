@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDesktop;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -109,6 +110,7 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GenericFrame
@@ -192,7 +194,7 @@ public abstract class GenericFrame
 
 		if ( this.showInWindowMenu() )
 		{
-			KoLConstants.existingFrames.add( this.getFrameName() );
+			KoLGUIConstants.existingFrames.add( this.getFrameName() );
 		}
 
 		this.setFocusCycleRoot( true );
@@ -462,7 +464,7 @@ public abstract class GenericFrame
 		{
 			this.exists = false;
 			--GenericFrame.existingFrameCount;
-			KoLConstants.existingFrames.remove( this.getFrameName() );
+			KoLGUIConstants.existingFrames.remove( this.getFrameName() );
 		}
 
 		// Remove listeners from interface elements
@@ -554,7 +556,7 @@ public abstract class GenericFrame
 		this.refreshListener = new CharacterListener( this.sidepane );
 		CharacterListenerRegistry.addCharacterListener( this.refreshListener );
 
-		this.sidepane.setBackground( KoLConstants.ENABLED_COLOR );
+		this.sidepane.setBackground( KoLGUIConstants.ENABLED_COLOR );
 		this.framePanel.add( this.sidepane, BorderLayout.WEST );
 	}
 
@@ -608,17 +610,17 @@ public abstract class GenericFrame
 		{
 		case ABORT:
 		case ERROR:
-			color = KoLConstants.ERROR_COLOR;
+			color = KoLGUIConstants.ERROR_COLOR;
 			enabled = true;
 			break;
 
 		case ENABLE:
-			color = KoLConstants.ENABLED_COLOR;
+			color = KoLGUIConstants.ENABLED_COLOR;
 			enabled = true;
 			break;
 
 		default:
-			color = KoLConstants.DISABLED_COLOR;
+			color = KoLGUIConstants.DISABLED_COLOR;
 			enabled = false;
 			break;
 		}
@@ -847,13 +849,13 @@ public abstract class GenericFrame
 	{
 		StringBuilder bookmarkData = new StringBuilder();
 
-		for ( int i = 0; i < KoLConstants.bookmarks.getSize(); ++i )
+		for ( int i = 0; i < LockableListFactory.getsize( KoLConstants.bookmarks ); ++i )
 		{
 			if ( i > 0 )
 			{
 				bookmarkData.append( '|' );
 			}
-			bookmarkData.append( (String) KoLConstants.bookmarks.getElementAt( i ) );
+			bookmarkData.append( (String) LockableListFactory.getElementAt( KoLConstants.bookmarks, i ) );
 		}
 
 		Preferences.setString( "browserBookmarks", bookmarkData.toString() );

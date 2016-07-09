@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -39,7 +39,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 
@@ -98,7 +98,7 @@ public abstract class OptionsPanel
 				message.setWrapStyleWord( true );
 				message.setEditable( false );
 				message.setOpaque( false );
-				message.setFont( KoLConstants.DEFAULT_FONT );
+				message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 				elements[ i ] = new VerifiableElement( message );
 			}

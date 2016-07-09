@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
@@ -50,7 +51,7 @@ public class UseItemPanel
 {
 	public UseItemPanel()
 	{
-		super( KoLConstants.inventory, false );
+		super( (SortedListModel) KoLConstants.inventory, false );
 	}
 
 	@Override

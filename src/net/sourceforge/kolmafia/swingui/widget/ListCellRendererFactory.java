@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -556,7 +557,7 @@ public class ListCellRendererFactory
 
 			stringForm.append( "</nobr></html>" );
 
-			defaultComponent.setFont( KoLConstants.DEFAULT_FONT );
+			defaultComponent.setFont( KoLGUIConstants.DEFAULT_FONT );
 			String text = stringForm.toString();
 			( (JLabel) defaultComponent ).setText( text );
 			if ( defaultComponent.getPreferredSize().width > listWidth )

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -44,7 +44,7 @@ import javax.swing.text.JTextComponent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -85,7 +85,7 @@ public class GenericScrollPane
 			if ( Preferences.getString( "swingLookAndFeel" ).equals(
 				UIManager.getCrossPlatformLookAndFeelClassName() ) )
 			{
-				( (JList) view ).setFont( KoLConstants.DEFAULT_FONT );
+				( (JList) view ).setFont( KoLGUIConstants.DEFAULT_FONT );
 			}
 		}
 		else if ( !( view instanceof JTextComponent ) )

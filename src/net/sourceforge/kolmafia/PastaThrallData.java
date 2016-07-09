@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,17 +33,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Component;
-
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -381,7 +376,7 @@ public class PastaThrallData
 
 	public static void initialize()
 	{
-		LockableListModel<PastaThrallData> thralls = KoLCharacter.getPastaThrallList();
+		List<PastaThrallData> thralls = KoLCharacter.getPastaThrallList();
 		if ( !thralls.contains( PastaThrallData.NO_THRALL ) )
 		{
 			thralls.add( PastaThrallData.NO_THRALL );

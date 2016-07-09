@@ -45,7 +45,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import org.jdesktop.swingx.JXCollapsiblePane;
 
@@ -68,7 +68,7 @@ public class CollapsibleTextArea
 
 		this.area = new JTextArea( 1, 10 );
 		area.setLineWrap( true );
-		area.setFont( KoLConstants.DEFAULT_FONT );
+		area.setFont( KoLGUIConstants.DEFAULT_FONT );
 		area.setBorder( BorderFactory.createLineBorder( Color.black ) );
 		area.setMinimumSize( area.getPreferredSize() );
 

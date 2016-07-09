@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -52,6 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -347,7 +348,7 @@ public class ClanManageFrame
 	{
 		public StoragePanel()
 		{
-			super( KoLConstants.inventory );
+			super( (SortedListModel) KoLConstants.inventory );
 			this.setButtons( new ActionListener[] { new StorageListener(), new RequestButton(
 				"refresh", new EquipmentRequest( EquipmentRequest.REFRESH ) ) } );
 		}

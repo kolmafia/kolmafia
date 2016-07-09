@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.Map;
 
 import java.util.regex.Matcher;
@@ -261,7 +262,7 @@ public class Crimbo11Request
 		Matcher countMatcher = data.getCountMatcher( urlString );
 		int count = countMatcher.find() ? StringUtilities.parseInt( countMatcher.group( 1 ) ) : 1;
 
-		LockableListModel<AdventureResult> items = data.getBuyItems();
+		List<AdventureResult> items = data.getBuyItems();
 		AdventureResult item = AdventureResult.findItem( itemId, items );
 		String name = item != null ? item.getName() :
 			( "item #" + itemIdString );

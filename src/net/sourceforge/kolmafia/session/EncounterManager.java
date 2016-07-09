@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
 
 import java.util.regex.Matcher;
@@ -44,7 +45,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -54,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public abstract class EncounterManager
 {
@@ -150,7 +154,7 @@ public abstract class EncounterManager
 			return;
 		}
 
-		RegisteredEncounter previousAdventure = (RegisteredEncounter) KoLConstants.adventureList.lastElement();
+		RegisteredEncounter previousAdventure = (RegisteredEncounter) LockableListFactory.lastElement( KoLConstants.adventureList );
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
 		{
