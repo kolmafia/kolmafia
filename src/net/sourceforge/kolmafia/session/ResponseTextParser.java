@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -139,6 +139,7 @@ import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WitchessRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -1067,7 +1068,7 @@ public class ResponseTextParser
 		RequestLogger.updateSessionLog( message );
 		KoLCharacter.addAvailableSkill( skillName );
 		KoLCharacter.updateStatus();
-		KoLConstants.usableSkills.sort();
+		LockableListFactory.sort( KoLConstants.usableSkills );
 		DiscoCombatHelper.learnSkill( skillName );
 		ConcoctionDatabase.setRefreshNeeded( true );
 		if ( SkillDatabase.isBookshelfSkill( skillName ) )

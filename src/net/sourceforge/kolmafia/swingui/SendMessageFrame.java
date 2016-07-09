@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -56,9 +56,11 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -168,7 +170,7 @@ public class SendMessageFrame
 		// Add the message entry to the panel.
 
 		this.messageEntry = new JTextArea();
-		this.messageEntry.setFont( KoLConstants.DEFAULT_FONT );
+		this.messageEntry.setFont( KoLGUIConstants.DEFAULT_FONT );
 		this.messageEntry.setRows( 7 );
 		this.messageEntry.setLineWrap( true );
 		this.messageEntry.setWrapStyleWord( true );
@@ -286,7 +288,8 @@ public class SendMessageFrame
 
 	public void attachItem()
 	{
-		LockableListModel source = this.isStorage ? KoLConstants.storage : KoLConstants.inventory;
+		LockableListModel source = this.isStorage ? (SortedListModel) KoLConstants.storage :
+		                                            (SortedListModel) KoLConstants.inventory;
 		if ( source.isEmpty() )
 		{
 			return;

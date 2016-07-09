@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -88,10 +88,12 @@ import org.jdesktop.swingx.JXPanel;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 
 import net.sourceforge.kolmafia.listener.Listener;
@@ -818,7 +820,7 @@ public class OptionsFrame
 	{
 		public BookmarkManagePanel()
 		{
-			super( "Configure Bookmarks", KoLConstants.bookmarks );
+			super( "Configure Bookmarks", (LockableListModel) KoLConstants.bookmarks );
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
 			extraButtons.add( new ThreadedButton( "add", new AddBookmarkRunnable() ), BorderLayout.NORTH );
@@ -936,7 +938,7 @@ public class OptionsFrame
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( KoLConstants.DEFAULT_FONT );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.NORTH );
 			this.container.add( optionPanel, BorderLayout.SOUTH );
@@ -968,7 +970,7 @@ public class OptionsFrame
 		{
 			this.isRefreshing = true;
 
-			String username = (String) KoLConstants.saveStateNames.getSelectedItem();
+			String username = (String) ( (SortedListModel) KoLConstants.saveStateNames ).getSelectedItem();
 			if ( username == null )
 			{
 				username = "";
@@ -1286,7 +1288,7 @@ public class OptionsFrame
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( KoLConstants.DEFAULT_FONT );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 			this.queue( message );
 
 			JSeparator sep = new JSeparator();
@@ -1416,13 +1418,13 @@ public class OptionsFrame
 			{
 				this.add( Box.createHorizontalStrut( 3 ) );
 				label = new JLabel( "[" );
-				label.setFont( KoLConstants.DEFAULT_FONT );
+				label.setFont( KoLGUIConstants.DEFAULT_FONT );
 				this.add( label );
 
 				label = new JLabel( "<html><u>?</u></html>" );
 				this.add( label );
 				label.setForeground( Color.blue.darker() );
-				label.setFont( KoLConstants.DEFAULT_FONT );
+				label.setFont( KoLGUIConstants.DEFAULT_FONT );
 				label.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 				label.setToolTipText( tooltip );
 
@@ -1432,7 +1434,7 @@ public class OptionsFrame
 				ToolTipManager.sharedInstance().setDismissDelay( Integer.MAX_VALUE );
 
 				label = new JLabel( "]" );
-				label.setFont( KoLConstants.DEFAULT_FONT );
+				label.setFont( KoLGUIConstants.DEFAULT_FONT );
 				this.add( label );
 			}
 
@@ -1503,7 +1505,7 @@ public class OptionsFrame
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( KoLConstants.DEFAULT_FONT );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.NORTH );
 		}
@@ -1929,7 +1931,7 @@ public class OptionsFrame
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( KoLConstants.DEFAULT_FONT );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.SOUTH );
 
@@ -1984,7 +1986,7 @@ public class OptionsFrame
 			message.setWrapStyleWord( true );
 			message.setEditable( false );
 			message.setOpaque( false );
-			message.setFont( KoLConstants.DEFAULT_FONT );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 			this.container.add( message, BorderLayout.SOUTH );
 

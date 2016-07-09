@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
@@ -65,7 +67,7 @@ public class LootHermitMenuItem
 			int cloverCount = HermitRequest.cloverCount();
 
 			AdventureResult selectedValue =
-				(AdventureResult) InputFieldUtilities.input( "I have worthless items!", KoLConstants.hermitItems );
+				(AdventureResult) InputFieldUtilities.input( "I have worthless items!", (LockableListModel<AdventureResult>) KoLConstants.hermitItems );
 
 			if ( selectedValue == null )
 			{

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.swingui.RequestFrame;
 
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONArray;
@@ -291,8 +292,8 @@ public class CharPaneRequest
 
 		// Mana cost adjustment may have changed
 
-		KoLConstants.summoningSkills.sort();
-		KoLConstants.usableSkills.sort();
+		LockableListFactory.sort( KoLConstants.summoningSkills );
+		LockableListFactory.sort( KoLConstants.usableSkills );
 		RequestFrame.refreshStatus();
 
 		return true;
@@ -945,7 +946,7 @@ public class CharPaneRequest
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();
 		KoLConstants.activeEffects.addAll( visibleEffects );
-		KoLConstants.activeEffects.sort();
+		LockableListFactory.sort( KoLConstants.activeEffects );
 
 		CharPaneRequest.startCounters();
 	}
@@ -1066,7 +1067,7 @@ public class CharPaneRequest
 		if ( matcher.find() )
 		{
 			int weight = StringUtilities.parseInt( matcher.group(1) );
-			boolean feasted = responseText.indexOf( "well-fed" ) != -1;
+			boolean feasted = responseText.contains( "well-fed" );
 			KoLCharacter.getFamiliar().checkWeight( weight, feasted );
 		}
 
@@ -1522,7 +1523,7 @@ public class CharPaneRequest
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();
 		KoLConstants.activeEffects.addAll( visibleEffects );
-		KoLConstants.activeEffects.sort();
+		LockableListFactory.sort( KoLConstants.activeEffects );
 
 		// If we are Absinthe Minded, start absinthe counters
 		CharPaneRequest.startCounters();

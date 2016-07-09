@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -51,6 +51,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -253,11 +254,11 @@ public class BuffBotFrame
 			this.invalidPriceMessage = new JTextArea();
 			this.thanksMessage = new JTextArea();
 
-			this.invalidPriceMessage.setFont( KoLConstants.DEFAULT_FONT );
+			this.invalidPriceMessage.setFont( KoLGUIConstants.DEFAULT_FONT );
 			this.invalidPriceMessage.setLineWrap( true );
 			this.invalidPriceMessage.setWrapStyleWord( true );
 
-			this.thanksMessage.setFont( KoLConstants.DEFAULT_FONT );
+			this.thanksMessage.setFont( KoLGUIConstants.DEFAULT_FONT );
 			this.thanksMessage.setLineWrap( true );
 			this.thanksMessage.setWrapStyleWord( true );
 

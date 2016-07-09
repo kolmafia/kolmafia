@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -37,6 +37,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 
@@ -52,7 +53,7 @@ public class OverlapPanel
 	public OverlapPanel( final String confirmText, final String cancelText, final LockableListModel overlapModel,
 		final boolean isOverlap )
 	{
-		super( confirmText, cancelText, isOverlap ? overlapModel : KoLConstants.inventory, true, false );
+		super( confirmText, cancelText, isOverlap ? overlapModel : (SortedListModel) KoLConstants.inventory, true, false );
 		this.overlapModel = overlapModel;
 		this.isOverlap = isOverlap;
 

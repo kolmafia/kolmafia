@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -75,6 +75,8 @@ import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONArray;
@@ -126,16 +128,16 @@ public class EquipmentManager
 
 	public static final int FAKEHAND = 24;
 
-	private static LockableListModel<AdventureResult> equipment = new LockableListModel<AdventureResult>();
-	private static final LockableListModel<AdventureResult> accessories = new SortedListModel<AdventureResult>();
-	private static final LockableListModel<AdventureResult>[] equipmentLists = new LockableListModel[ EquipmentManager.ALL_SLOTS ];
+	private static List<AdventureResult> equipment = LockableListFactory.getInstance( AdventureResult.class );
+	private static final List<AdventureResult> accessories = LockableListFactory.getInstance( AdventureResult.class );
+	private static final List<AdventureResult>[] equipmentLists = new List[ EquipmentManager.ALL_SLOTS ];
 	private static final ArrayList<AdventureResult>[] historyLists = new ArrayList[ EquipmentManager.ALL_SLOTS ];
 
 	private static int fakeHandCount = 0;
 	private static int stinkyCheeseLevel = 0;
 
-	private static final LockableListModel<SpecialOutfit> normalOutfits = new LockableListModel<SpecialOutfit>();
-	private static final LockableListModel<SpecialOutfit> customOutfits = new LockableListModel<SpecialOutfit>();
+	private static final List<SpecialOutfit> normalOutfits = LockableListFactory.getInstance( SpecialOutfit.class );
+	private static final List<SpecialOutfit> customOutfits = LockableListFactory.getInstance( SpecialOutfit.class );
 
 	private static final int[] turnsRemaining = new int[ 3 ];
 
@@ -160,11 +162,11 @@ public class EquipmentManager
 			case EquipmentManager.ACCESSORY1:
 			case EquipmentManager.ACCESSORY2:
 			case EquipmentManager.ACCESSORY3:
-				EquipmentManager.equipmentLists[ i ] = EquipmentManager.accessories.getMirrorImage();
+				EquipmentManager.equipmentLists[ i ] = LockableListFactory.getMirror( EquipmentManager.accessories );
 				break;
 				
 			default:
-				EquipmentManager.equipmentLists[ i ] = new SortedListModel();
+				EquipmentManager.equipmentLists[ i ] = LockableListFactory.getSortedInstance( AdventureResult.class );
 				break;
 			}
 		}
@@ -433,7 +435,7 @@ public class EquipmentManager
 		}
 
 		EquipmentManager.equipment.set( slot, item );
-		EquipmentManager.equipmentLists[ slot ].setSelectedItem( item );
+		LockableListFactory.setSelectedItem( EquipmentManager.equipmentLists[ slot ], item );
 		EquipmentManager.historyLists[ slot ].remove( item );
 		EquipmentManager.historyLists[ slot ].add( item );
 
@@ -1303,7 +1305,7 @@ public class EquipmentManager
 	 * items which the current familiar cannot equip.
 	 */
 
-	public static final LockableListModel<AdventureResult>[] getEquipmentLists()
+	public static final List<AdventureResult>[] getEquipmentLists()
 	{
 		return EquipmentManager.equipmentLists;
 	}
@@ -1379,7 +1381,7 @@ public class EquipmentManager
 			break;
 		}
 
-		EquipmentManager.equipmentLists[ listIndex ].setSelectedItem( equippedItem );
+		LockableListFactory.setSelectedItem( EquipmentManager.equipmentLists[ listIndex ], equippedItem );
 	}
 
 	private static final void updateEquipmentList( final int filterId, final List<AdventureResult> currentList )
@@ -1454,10 +1456,10 @@ public class EquipmentManager
 	 * Accessor method to retrieve a list of the custom outfits available to this character, based on the last time the
 	 * equipment screen was requested.
 	 *
-	 * @return A <code>LockableListModel</code> of the available outfits
+	 * @return A <code>List</code> of the available outfits
 	 */
 
-	public static final LockableListModel<SpecialOutfit> getCustomOutfits()
+	public static final List<SpecialOutfit> getCustomOutfits()
 	{
 		return EquipmentManager.customOutfits;
 	}
@@ -1493,7 +1495,7 @@ public class EquipmentManager
 
 	public static void addCustomOutfit( SpecialOutfit outfit )
 	{
-		SortedListModel<SpecialOutfit> newOutfits = new SortedListModel<SpecialOutfit>();
+		List<SpecialOutfit> newOutfits = LockableListFactory.getSortedInstance( SpecialOutfit.class );
 		String name = outfit.getName();
 
 		for ( SpecialOutfit current : EquipmentManager.customOutfits )
@@ -1516,10 +1518,10 @@ public class EquipmentManager
 	 * Accessor method to retrieve a list of the all the outfits available to this character, based on the last time the
 	 * equipment screen was requested.
 	 *
-	 * @return A <code>LockableListModel</code> of the available outfits
+	 * @return A <code>List</code> of the available outfits
 	 */
 
-	public static final LockableListModel<SpecialOutfit> getOutfits()
+	public static final List<SpecialOutfit> getOutfits()
 	{
 		return EquipmentManager.normalOutfits;
 	}

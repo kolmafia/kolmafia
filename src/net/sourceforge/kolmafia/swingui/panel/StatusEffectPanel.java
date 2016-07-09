@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
@@ -52,7 +54,7 @@ public class StatusEffectPanel
 
 	public StatusEffectPanel()
 	{
-		this(new ShowDescriptionList( KoLConstants.activeEffects ) );
+		this(new ShowDescriptionList( (LockableListModel) KoLConstants.activeEffects ) );
 	}
 
 	public StatusEffectPanel( final ShowDescriptionList list )

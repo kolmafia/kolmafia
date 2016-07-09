@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -87,6 +87,8 @@ import org.jdesktop.swingx.rollover.RolloverProducer;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -113,7 +115,6 @@ import net.sourceforge.kolmafia.swingui.table.ListWrapperTableModel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -164,7 +165,7 @@ public class StoreManageFrame
 
 		StoreManageFrame.INSTANCE.setTitle( "Store Manager (potential earnings: " + KoLConstants.COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
-	
+
 	public static void showGlassBox( int rowIndex, int x, int y)
 	{
 		/*
@@ -210,7 +211,7 @@ public class StoreManageFrame
 			}
 		};
 		check.addActionListener( bob );
-		
+
 		DocumentListener steve = new DocumentListener()
 		{
 
@@ -360,7 +361,7 @@ public class StoreManageFrame
 				JButton.class,
 				JButton.class,
 			} );
-			
+
 			this.setModel( new StoreManageTableModel() );
 
 			doColumnSetup();
@@ -382,7 +383,7 @@ public class StoreManageFrame
 			this.getColumnModel().getColumn( 1 ).setPreferredWidth( 100 );
 			this.getTableHeader().setReorderingAllowed( false );
 			this.setAutoResizeMode( AUTO_RESIZE_NEXT_COLUMN );
-			
+
 			this.setIntercellSpacing( new Dimension(1,1) );
 		}
 
@@ -406,7 +407,7 @@ public class StoreManageFrame
 		{
 			Highlighter stripe = HighlighterFactory.createSimpleStriping();
 			this.addHighlighter( stripe );
-			
+
 			HighlightPredicate mouseOver = new HighlightPredicate()
 			{
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
@@ -417,7 +418,7 @@ public class StoreManageFrame
 					return p != null && p.y == adapter.row && convertColumnIndexToModel( p.x ) == 1 && convertColumnIndexToModel( adapter.column ) == 1;
 				}
 			};
-			
+
 			HighlightPredicate valueChanged = new HighlightPredicate()
 			{
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
@@ -445,7 +446,7 @@ public class StoreManageFrame
 					return false;
 				}
 			};
-			
+
 			HighlightPredicate warning = new HighlightPredicate()
 			{
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
@@ -462,7 +463,7 @@ public class StoreManageFrame
 					return it != null && (cellValue < it.getLowest() * 0.15) && it.getLowest() > 50000;
 				}
 			};
-			
+
 			HighlightPredicate auto = new HighlightPredicate()
 			{
 				public boolean isHighlighted( Component renderer, ComponentAdapter adapter )
@@ -498,7 +499,7 @@ public class StoreManageFrame
 					return renderer;
 				}
 			};
-	
+
 			AbstractHighlighter underline = new AbstractHighlighter( mouseOver )
 			{
 				private Font UNDERLINE_FONT;
@@ -552,7 +553,7 @@ public class StoreManageFrame
 			}
 			return false;
 		}
-		
+
 		private class JButtonHackEditor
 			implements TableCellEditor
 		{
@@ -741,7 +742,7 @@ public class StoreManageFrame
 	{
 		public StoreAddFromInventoryPanel()
 		{
-			super( "mallsell", "autosell", KoLConstants.inventory );
+			super( "mallsell", "autosell", (SortedListModel<AdventureResult>) KoLConstants.inventory );
 			this.addFilters();
 
 			this.filters[ 4 ].setSelected( false );
@@ -779,7 +780,7 @@ public class StoreManageFrame
 	{
 		public StoreAddFromStoragePanel()
 		{
-			super( "mallsell", null, KoLConstants.storage, true, true );
+			super( "mallsell", null, (SortedListModel<AdventureResult>) KoLConstants.storage, true, true );
 			this.addFilters();
 
 			this.filters[ 4 ].setSelected( false );

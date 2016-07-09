@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -37,9 +37,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -258,7 +258,7 @@ public class FlaggedItems
 		"club necklace",
 	};
 
-	private static final void initializeList( final LockableListModel<AdventureResult> model, final String[] defaults )
+	private static final void initializeList( final List<AdventureResult> model, final String[] defaults )
 	{
 		model.clear();
 		AdventureResult item;
@@ -299,7 +299,7 @@ public class FlaggedItems
 		BufferedReader reader = DataUtilities.getReader( FlaggedItems.itemFlagsFile );
 
 		String line;
-		LockableListModel<AdventureResult> model = null;
+		List<AdventureResult> model = null;
 		
 		try
 		{

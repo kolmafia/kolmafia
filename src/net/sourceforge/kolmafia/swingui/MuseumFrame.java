@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -37,8 +37,6 @@ import java.awt.GridLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -101,7 +99,7 @@ public class MuseumFrame
 	{
 		public DisplayCaseMatchPanel()
 		{
-			super( "display", "help", KoLConstants.collection, true );
+			super( "display", "help", (SortedListModel) KoLConstants.collection, true );
 		}
 
 		@Override
@@ -197,7 +195,7 @@ public class MuseumFrame
 
 			public OutsideDisplayPanel()
 			{
-				super( "Inventory", "add all", "add some", new ShowDescriptionList( KoLConstants.inventory ) );
+				super( "Inventory", "add all", "add some", new ShowDescriptionList( (SortedListModel) KoLConstants.inventory ) );
 				this.elementList = (ShowDescriptionList) this.scrollComponent;
 			}
 
@@ -229,7 +227,7 @@ public class MuseumFrame
 
 			public InsideDisplayPanel()
 			{
-				super( "Display Case", "take all", "take some", new ShowDescriptionList( KoLConstants.collection ) );
+				super( "Display Case", "take all", "take some", new ShowDescriptionList( (SortedListModel) KoLConstants.collection ) );
 				this.elementList = (ShowDescriptionList) this.scrollComponent;
 			}
 

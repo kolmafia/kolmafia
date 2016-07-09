@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase
@@ -685,8 +686,8 @@ public class SkillDatabase
 		int count =  ( 1 + (int)Math.sqrt( 8 * cost - 7 ) ) / 2;
 
 		Preferences.setInteger( "libramSummons", count - 1 );
-		KoLConstants.summoningSkills.sort();
-		KoLConstants.usableSkills.sort();
+		LockableListFactory.sort(KoLConstants.summoningSkills);
+		LockableListFactory.sort(KoLConstants.usableSkills);
 	}
 
 	/**

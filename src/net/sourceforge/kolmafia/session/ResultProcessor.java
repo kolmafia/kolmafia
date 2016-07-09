@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.HaciendaManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -729,7 +730,7 @@ public class ResultProcessor
 		else
 		{
 			KoLConstants.activeEffects.add( result );
-			KoLConstants.activeEffects.sort();
+			LockableListFactory.sort( KoLConstants.activeEffects );
 		}
 
 		return true;
@@ -1045,7 +1046,7 @@ public class ResultProcessor
 			int size = KoLConstants.tally.size();
 			if ( substatChanged && size > 2 )
 			{
-				KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 2, 2 );
+				LockableListFactory.fireContentsChanged( KoLConstants.tally, 2, 2 );
 			}
 
 			if ( fullstatChanged)
@@ -1053,7 +1054,7 @@ public class ResultProcessor
 				shouldRefresh = true;
 				if ( size > 3 )
 				{
-					KoLConstants.tally.fireContentsChanged( KoLConstants.tally, 3, 3 );
+					LockableListFactory.fireContentsChanged( KoLConstants.tally, 3, 3 );
 				}
 			}
 		}

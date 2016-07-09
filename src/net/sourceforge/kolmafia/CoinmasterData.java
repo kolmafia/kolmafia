@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -36,12 +36,11 @@ package net.sourceforge.kolmafia;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import java.util.List;
 import java.util.Map;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -53,8 +52,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
-
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmasterData
 	implements Comparable<CoinmasterData>
@@ -77,12 +74,12 @@ public class CoinmasterData
 	// The base URL used to buy things from this Coinmaster
 	private final String buyURL;
 	private final String buyAction;
-	private final LockableListModel<AdventureResult> buyItems;
+	private final List<AdventureResult> buyItems;
 	private final Map<Integer, Integer> buyPrices;
 	// The base URL used to sell things to this Coinmaster
 	private final String sellURL;
 	private final String sellAction;
-	private final LockableListModel<AdventureResult> sellItems;
+	private final List<AdventureResult> sellItems;
 	private final Map<Integer, Integer> sellPrices;
 	// Fields assumed to be common to buying & selling
 	private final String itemField;
@@ -106,11 +103,11 @@ public class CoinmasterData
 		final Map<Integer, Integer> itemRows,
 		final String buyURL,
 		final String buyAction,
-		final LockableListModel<AdventureResult> buyItems,
+		final List<AdventureResult> buyItems,
 		final Map<Integer, Integer> buyPrices,
 		final String sellURL,
 		final String sellAction,
-		final LockableListModel<AdventureResult> sellItems,
+		final List<AdventureResult> sellItems,
 		final Map<Integer, Integer> sellPrices,
 		final String itemField,
 		final Pattern itemPattern,
@@ -322,7 +319,7 @@ public class CoinmasterData
 		return this.buyAction;
 	}
 
-	public final LockableListModel<AdventureResult> getBuyItems()
+	public final List<AdventureResult> getBuyItems()
 	{
 		return this.buyItems;
 	}
@@ -367,7 +364,7 @@ public class CoinmasterData
 		return this.sellAction;
 	}
 
-	public final LockableListModel<AdventureResult> getSellItems()
+	public final List<AdventureResult> getSellItems()
 	{
 		return this.sellItems;
 	}

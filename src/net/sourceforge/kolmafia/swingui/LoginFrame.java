@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -45,6 +45,7 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -363,7 +364,7 @@ public class LoginFrame
 			{
 				if ( !LoginPanel.this.savePasswordCheckBox.isSelected() )
 				{
-					String value = (String) KoLConstants.saveStateNames.getSelectedItem();
+					String value = (String) ( (SortedListModel) KoLConstants.saveStateNames ).getSelectedItem();
 					if ( value == null )
 					{
 						return;
@@ -389,7 +390,7 @@ public class LoginFrame
 		{
 			public LoginNameComboBox()
 			{
-				super( KoLConstants.saveStateNames, true );
+				super( (SortedListModel) KoLConstants.saveStateNames, true );
 			}
 
 			@Override

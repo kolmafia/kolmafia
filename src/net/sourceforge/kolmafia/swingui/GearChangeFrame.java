@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -53,9 +53,6 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.jdesktop.swingx.JXCollapsiblePane;
-
-import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel.HideableVerifiableElement;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -144,7 +141,7 @@ public class GearChangeFrame
 
 		this.equipment = new EquipmentComboBox[ EquipmentManager.ALL_SLOTS ];
 
-		LockableListModel[] lists = EquipmentManager.getEquipmentLists();
+		List[] lists = EquipmentManager.getEquipmentLists();
 		// We maintain our own lists of valid hats, pants, weapons and offhand items
 		for ( int i = 0; i < this.equipment.length; ++i )
 		{
@@ -188,7 +185,7 @@ public class GearChangeFrame
 				list = this.sixguns;
 				break;
 			default:
-				list = lists[ i ];
+				list = (LockableListModel) lists[ i ];
 				break;
 			}
 
@@ -198,8 +195,8 @@ public class GearChangeFrame
 		this.familiarSelect = new FamiliarComboBox( this.familiars );
 		this.crownSelect = new ThroneComboBox( this.crownFamiliars );
 		this.bjornSelect = new BjornComboBox( this.bjornFamiliars );
-		this.outfitSelect = new OutfitComboBox( EquipmentManager.getOutfits() );
-		this.customSelect = new OutfitComboBox( EquipmentManager.getCustomOutfits() );
+		this.outfitSelect = new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getOutfits() );
+		this.customSelect = new OutfitComboBox( (LockableListModel<SpecialOutfit>) EquipmentManager.getCustomOutfits() );
 
 		this.equipmentPanel = new EquipmentPanel();
 		this.customizablePanel = new CustomizablePanel();

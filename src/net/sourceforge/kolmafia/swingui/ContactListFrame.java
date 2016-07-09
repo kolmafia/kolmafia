@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -49,7 +49,7 @@ import javax.swing.JToolBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
@@ -158,7 +158,7 @@ public class ContactListFrame
 		JDialog dialogCDL = new JDialog( (java.awt.Frame) null, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
 
-		entryCDL.setFont( KoLConstants.DEFAULT_FONT );
+		entryCDL.setFont( KoLGUIConstants.DEFAULT_FONT );
 		entryCDL.setLineWrap( true );
 		entryCDL.setWrapStyleWord( true );
 

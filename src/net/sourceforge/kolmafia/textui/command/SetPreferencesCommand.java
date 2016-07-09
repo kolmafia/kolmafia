@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -41,6 +41,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
 
@@ -92,7 +94,7 @@ public class SetPreferencesCommand
 
 		if ( name.equals( "battleAction" ) )
 		{
-			if ( value.indexOf( ";" ) != -1 || value.startsWith( "consult" ) )
+			if ( value.contains( ";" ) || value.startsWith( "consult" ) )
 			{
 				CombatActionManager.setDefaultAction( value );
 				value = "custom combat script";
@@ -107,7 +109,7 @@ public class SetPreferencesCommand
 
 			if ( name.equals( "battleAction" ) && value != null )
 			{
-				KoLCharacter.getBattleSkillNames().setSelectedItem( value );
+				LockableListFactory.setSelectedItem( KoLCharacter.getBattleSkillNames(), value );
 			}
 		}
 

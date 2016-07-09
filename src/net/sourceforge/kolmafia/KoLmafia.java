@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -143,8 +143,10 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 
 import net.sourceforge.kolmafia.webui.RelayLoader;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -165,7 +167,10 @@ public abstract class KoLmafia
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 		System.setProperty( "java.net.preferIPv4Stack", "true" );
 
-		JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
+		if ( SwinglessUIUtils.isSwingAvailable() )
+		{
+			JEditorPane.registerEditorKitForContentType( "text/html", RequestEditorKit.class.getName() );
+		}
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 	}
 
@@ -339,6 +344,77 @@ public abstract class KoLmafia
 			RelayRequest.clearImageCache();
 		}
 
+		if ( SwinglessUIUtils.isSwingAvailable() )
+		{
+			KoLmafia.initLookAndFeel();
+		}
+		if ( !KoLmafia.acquireFileLock( "1" ) && !KoLmafia.acquireFileLock( "2" ) )
+		{
+			System.exit( -1 );
+		}
+
+		FlaggedItems.initializeLists();
+
+		// Now run the main routines for each, so that
+		// you have an interface.
+
+		if ( StaticEntity.isGUIRequired() )
+		{
+			KoLmafiaGUI.initialize();
+		}
+		else
+		{
+			RequestLogger.openStandard();
+		}
+
+		// Now, maybe the person wishes to run something
+		// on startup, and they associated KoLmafia with
+		// some non-ASH file extension. This will run it.
+
+		StringBuilder initialScript = new StringBuilder();
+
+		for ( int i = 0; i < args.length; ++i )
+		{
+			if ( args[ i ].equalsIgnoreCase( "--CLI" ) || args[ i ].equalsIgnoreCase( "--GUI" ) )
+			{
+				continue;
+			}
+
+			initialScript.append( args[ i ] );
+			initialScript.append( " " );
+		}
+
+		if ( initialScript.length() != 0 )
+		{
+			String actualScript = initialScript.toString().trim();
+			if ( actualScript.startsWith( "script=" ) )
+			{
+				actualScript = actualScript.substring( 7 );
+			}
+
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + actualScript );
+		}
+		else if ( !StaticEntity.isGUIRequired() )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.attemptLogin( "" );
+		}
+
+		// Check for KoLmafia updates in a separate thread
+		// so as to allow for continued execution.
+
+		RequestThread.runInParallel( new UpdateCheckRunnable(), false );
+
+		// Always read input from the command line when you're not
+		// in GUI mode.
+
+		if ( !StaticEntity.isGUIRequired() )
+		{
+			KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
+		}
+	}
+
+	private static void initLookAndFeel()
+	{
 		// Change the default look and feel to match the player's
 		// preferences. Always do this.
 
@@ -414,69 +490,6 @@ public abstract class KoLmafia
 		tab.CloseTabPaneEnhancedUI.notifiedA = DataUtilities.toColor( Preferences.getString( "innerChatColor" ) );
 		tab.CloseTabPaneEnhancedUI.notifiedB = DataUtilities.toColor( Preferences.getString( "outerChatColor" ) );
 
-		if ( !KoLmafia.acquireFileLock( "1" ) && !KoLmafia.acquireFileLock( "2" ) )
-		{
-			System.exit( -1 );
-		}
-
-		FlaggedItems.initializeLists();
-
-		// Now run the main routines for each, so that
-		// you have an interface.
-
-		if ( StaticEntity.isGUIRequired() )
-		{
-			KoLmafiaGUI.initialize();
-		}
-		else
-		{
-			RequestLogger.openStandard();
-		}
-
-		// Now, maybe the person wishes to run something
-		// on startup, and they associated KoLmafia with
-		// some non-ASH file extension. This will run it.
-
-		StringBuilder initialScript = new StringBuilder();
-
-		for ( int i = 0; i < args.length; ++i )
-		{
-			if ( args[ i ].equalsIgnoreCase( "--CLI" ) || args[ i ].equalsIgnoreCase( "--GUI" ) )
-			{
-				continue;
-			}
-
-			initialScript.append( args[ i ] );
-			initialScript.append( " " );
-		}
-
-		if ( initialScript.length() != 0 )
-		{
-			String actualScript = initialScript.toString().trim();
-			if ( actualScript.startsWith( "script=" ) )
-			{
-				actualScript = actualScript.substring( 7 );
-			}
-
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "call " + actualScript );
-		}
-		else if ( !StaticEntity.isGUIRequired() )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.attemptLogin( "" );
-		}
-
-		// Check for KoLmafia updates in a separate thread
-		// so as to allow for continued execution.
-
-		RequestThread.runInParallel( new UpdateCheckRunnable(), false );
-
-		// Always read input from the command line when you're not
-		// in GUI mode.
-
-		if ( !StaticEntity.isGUIRequired() )
-		{
-			KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
-		}
 	}
 
 	private static final void checkDataOverrides()
@@ -705,15 +718,15 @@ public abstract class KoLmafia
 		{
 			Preferences.setInteger( "kolhsTotalSchoolSpirited", 0 );
 		}
-		
+
 		Preferences.resetDailies();
 		VYKEACompanionData.initialize( false );
 		ConsequenceManager.updateOneDesc();
 		BanishManager.resetRollover();
 
 		// Libram summoning skills now costs 1 MP again
-		KoLConstants.summoningSkills.sort();
-		KoLConstants.usableSkills.sort();
+		LockableListFactory.sort( KoLConstants.summoningSkills );
+		LockableListFactory.sort( KoLConstants.usableSkills );
 
 		// Remove Wandering Monster counters
 		TurnCounter.stopCounting( "Romantic Monster window begin" );
@@ -738,7 +751,7 @@ public abstract class KoLmafia
 
 		// It would be nice to not have to do this
 		IslandManager.ensureUpdatedBigIsland();
-	
+
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 
@@ -857,7 +870,7 @@ public abstract class KoLmafia
 
 		// if the Cyrpt quest is active, force evilometer refresh
 		// (if we don't know evil levels already)
-		if ( QuestDatabase.isQuestStep( Quest.CYRPT, QuestDatabase.STARTED ) ) 
+		if ( QuestDatabase.isQuestStep( Quest.CYRPT, QuestDatabase.STARTED ) )
 		{
 			if ( Preferences.getInteger( "cyrptTotalEvilness" ) == 0 )
 			{
@@ -1114,7 +1127,7 @@ public abstract class KoLmafia
 			EffectDatabase.writeEffects( new File( KoLConstants.DATA_LOCATION, "statuseffects.txt" ) );
 		}
 
-		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects)
+		if ( ItemDatabase.newItems || EquipmentDatabase.newEquipment || EffectDatabase.newEffects )
 		{
 			Modifiers.writeModifiers( new File( KoLConstants.DATA_LOCATION, "modifiers.txt" ) );
 		}
@@ -1160,7 +1173,7 @@ public abstract class KoLmafia
 		}
 
 		KoLConstants.recentEffects.clear();
-		KoLConstants.activeEffects.sort();
+		LockableListFactory.sort( KoLConstants.activeEffects );
 
 		if ( oldCount != KoLConstants.activeEffects.size() )
 		{

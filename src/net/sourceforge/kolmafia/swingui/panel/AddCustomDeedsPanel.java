@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -51,7 +51,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -623,7 +623,7 @@ public class AddCustomDeedsPanel
 		this.textArea.setWrapStyleWord( true );
 		this.textArea.setEditable( false );
 		this.textArea.setOpaque( false );
-		this.textArea.setFont( KoLConstants.DEFAULT_FONT );
+		this.textArea.setFont( KoLGUIConstants.DEFAULT_FONT );
 
 		ThreadedButton undoButton = new ThreadedButton( "undo", new RemoveLastTextRunnable() );
 		ThreadedButton clearButton = new ThreadedButton( "clear", new ClearTextRunnable() );

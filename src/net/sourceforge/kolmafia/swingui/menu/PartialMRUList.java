@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -45,7 +45,10 @@ import javax.swing.ListCellRenderer;
 
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 
 /**
  * Like an MRUList, but maintains a list of "default" settings at the bottom under a JSeparator.
@@ -56,16 +59,12 @@ public class PartialMRUList
 {
 	private final LinkedList<String> defaultList = new LinkedList<String>();
 	private final String pDefaultList;
-	private final ComboSeparatorsRenderer renderer = new ComboSeparatorsRenderer( new DefaultListCellRenderer() )
-	{
-		@Override
-		protected boolean addSeparatorAfter( JList list, Object value, int index )
-		{
-			if ( PartialMRUList.this.maxMRU < 0 )
-				return false;
-			return index == PartialMRUList.this.maxMRU - 1;
-		}
-	};
+
+	/**
+	 * This is a ComboSeparatorsRenderer, but in order to have this class compile in
+	 * Swingless environments, it is typed as an Object
+	 */
+	private final Object renderer;
 
 	/**
 	 * @param pList
@@ -77,6 +76,23 @@ public class PartialMRUList
 		this.pDefaultList = pDefaultList;
 		PreferenceListenerRegistry.registerPreferenceListener( pDefaultList, this );
 		update();
+		if ( SwinglessUIUtils.isSwingAvailable() )
+		{
+			renderer = new ComboSeparatorsRenderer( new DefaultListCellRenderer() )
+			{
+				@Override
+				protected boolean addSeparatorAfter( JList list, Object value, int index )
+				{
+					if ( PartialMRUList.this.maxMRU < 0 )
+						return false;
+					return index == PartialMRUList.this.maxMRU - 1;
+				}
+			};
+		}
+		else
+		{
+			renderer = null;
+		}
 	}
 
 	/*
@@ -93,7 +109,7 @@ public class PartialMRUList
 		}
 		if ( jcb.getRenderer() != this.renderer )
 		{
-			jcb.setRenderer( this.renderer );
+			jcb.setRenderer( (ComboSeparatorsRenderer) this.renderer );
 		}
 		jcb.removeAllItems();
 

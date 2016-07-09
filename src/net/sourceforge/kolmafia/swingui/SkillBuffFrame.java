@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -59,15 +59,12 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.ContactManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
@@ -102,7 +99,7 @@ public class SkillBuffFrame
 		JPanel skillWrapper = new JPanel( new BorderLayout() );
 		skillWrapper.add( new SkillBuffPanel(), BorderLayout.NORTH );
 
-		this.effectList = new ShowDescriptionList( KoLConstants.activeEffects, 12 );
+		this.effectList = new ShowDescriptionList( (LockableListModel<AdventureResult>) KoLConstants.activeEffects, 12 );
 		this.effectList.addListSelectionListener( new SkillReselector() );
 
 		this.tabs.addTab( "Active Effects", new StatusEffectPanel( this.effectList ) );
@@ -385,7 +382,7 @@ public class SkillBuffFrame
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			SkillBuffFrame.this.typeSelect = new SkillTypeComboBox();
-			SkillBuffFrame.this.skillSelect = new SkillSelectComboBox( KoLConstants.usableSkills );
+			SkillBuffFrame.this.skillSelect = new SkillSelectComboBox( (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills );
 			SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
 			SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
@@ -504,35 +501,35 @@ public class SkillBuffFrame
 				{
 				case 0:
 					// All skills
-					newModel = KoLConstants.usableSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.usableSkills;
 					break;
 				case 1:
 					// Summoning skills
-					newModel = KoLConstants.summoningSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.summoningSkills;
 					break;
 				case 2:
 					// Remedy skills
-					newModel = KoLConstants.remedySkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.remedySkills;
 					break;
 				case 3:
 					// Self-only skills
-					newModel = KoLConstants.selfOnlySkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.selfOnlySkills;
 					break;
 				case 4:
 					// Buff skills
-					newModel = KoLConstants.buffSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.buffSkills;
 					break;
 				case 5:
 					// Song skills
-					newModel = KoLConstants.songSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.songSkills;
 					break;
 				case 6:
 					// Expression skills
-					newModel = KoLConstants.expressionSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.expressionSkills;
 					break;
 				case 7:
 					// Walk skills
-					newModel = KoLConstants.walkSkills;
+					newModel = (LockableListModel<UseSkillRequest>) KoLConstants.walkSkills;
 					break;
 				}
 				if ( newModel != oldModel )
