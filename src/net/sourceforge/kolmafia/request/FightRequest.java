@@ -7935,7 +7935,7 @@ public class FightRequest
 			}
 			break;
 		case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
-			if ( responseText.contains( "A wistful expression" ) || itemRunawaySuccess )
+			if ( responseText.contains( "wistful expression" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "spooky music box mechanism" );
 			}
