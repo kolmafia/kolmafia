@@ -2277,7 +2277,7 @@ Item	bakelite badge	Familiar Weight: +5, Muscle Percent: +20, Single Equip
 # Item bakelite belt: Makes Cavalcade of Fury consume less Fury
 Item	bakelite belt	Critical Hit Percent: +5, Damage Reduction: 10, Single Equip
 # Item bakelite brooch: Active Saucespheres increase your spell damage
-Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Single Equip
+Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Spell Damage Percent: [20*(min(1,effect(Elemental Saucesphere))+min(1,effect(Jalape&ntilde;o Saucesphere))+min(1,effect(Antibiotic Saucesphere)))] Single Equip
 # bananarama bangle: (only in the Candy Diorama)
 Item	bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
 Item	Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
