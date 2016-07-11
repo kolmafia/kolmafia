@@ -3326,7 +3326,7 @@ Item	palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistan
 Item	paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7
 Item	pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 # polyester parachute: Fury Increases Your Initiative
-Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10
+Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Initiative: [10*Y]
 # porcelain pelerine: Begin Fights with 1 Disco Momentum
 Item	porcelain pelerine	Hat Drop: +20, Monster Level: +10
 Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
