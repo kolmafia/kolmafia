@@ -2120,12 +2120,9 @@ public class FightRequest
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
-				TurnCounter.stopCounting( "Digitize Monster window begin" );
-				TurnCounter.stopCounting( "Digitize Monster window end" );
-				TurnCounter.startCounting( 15 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
-					  "Digitize Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 25 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
-					  "Digitize Monster window end loc=*", "rparen.gif" );
+				TurnCounter.stopCounting( "Digitize Monster" );
+				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+					  "Digitize Monster", "watch.gif" );
 			}
 
 			// Increment stinky cheese counter
@@ -7789,10 +7786,8 @@ public class FightRequest
 			{
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
 				Preferences.setInteger( "_sourceTerminalDigitizeMonsterCount", 0 );
-				TurnCounter.stopCounting( "Digitize Monster window begin" );
-				TurnCounter.stopCounting( "Digitize Monster window end" );
-				TurnCounter.startCounting( 6, "Digitize Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 11, "Digitize Monster window end loc=*", "rparen.gif" );
+				TurnCounter.stopCounting( "Digitize Monster" );
+				TurnCounter.startCounting( 7, "Digitize Monster", "watch.gif" );
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
