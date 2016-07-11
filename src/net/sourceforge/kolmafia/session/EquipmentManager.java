@@ -499,8 +499,306 @@ public class EquipmentManager
 		}
 
 		// Certain items provide additional skills when equipped.
-		// Handle the addition of those skills here.
+		// Handle the addition / removal of those skills here.
 
+		// Remove skill first if item being removed had one
+		if ( old.getItemId() != item.getItemId() )
+		{
+			Boolean removed = true;
+			// Some items could be in multiple slots
+			switch ( slot )
+			{
+			case EquipmentManager.HAT:
+				{
+					AdventureResult hat = EquipmentManager.getEquipment( HAT );
+					removed = hat.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.WEAPON:
+				{
+					AdventureResult offhand = EquipmentManager.getEquipment( OFFHAND );
+					AdventureResult familiar = EquipmentManager.getEquipment( FAMILIAR );
+					removed = offhand.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.OFFHAND:
+				{
+					AdventureResult weapon = EquipmentManager.getEquipment( WEAPON );
+					AdventureResult familiar = EquipmentManager.getEquipment( FAMILIAR );
+					removed = weapon.getItemId() != old.getItemId() && familiar.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.PANTS:
+				{
+					AdventureResult pants = EquipmentManager.getEquipment( PANTS );
+					removed = pants.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.ACCESSORY1:
+				{
+					AdventureResult acc2 = EquipmentManager.getEquipment( ACCESSORY2 );
+					AdventureResult acc3 = EquipmentManager.getEquipment( ACCESSORY3 );
+					removed = acc2.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.ACCESSORY2:
+				{
+					AdventureResult acc1 = EquipmentManager.getEquipment( ACCESSORY1 );
+					AdventureResult acc3 = EquipmentManager.getEquipment( ACCESSORY3 );
+					removed = acc1.getItemId() != old.getItemId() && acc3.getItemId() != old.getItemId();
+				}
+				break;
+			case EquipmentManager.ACCESSORY3:
+				{
+					AdventureResult acc1 = EquipmentManager.getEquipment( ACCESSORY1 );
+					AdventureResult acc2 = EquipmentManager.getEquipment( ACCESSORY2 );
+					removed = acc1.getItemId() != old.getItemId() && acc2.getItemId() != old.getItemId();
+				}
+				break;
+			}
+
+			// If removed, remote conditional skill
+			if ( removed )
+			{
+				switch ( old.getItemId() )
+				{
+				case ItemPool.BOTTLE_ROCKET:
+					KoLCharacter.removeAvailableSkill( "Fire red bottle-rocket" );
+					KoLCharacter.removeAvailableSkill( "Fire blue bottle-rocket" );
+					KoLCharacter.removeAvailableSkill( "Fire orange bottle-rocket" );
+					KoLCharacter.removeAvailableSkill( "Fire purple bottle-rocket" );
+					KoLCharacter.removeAvailableSkill( "Fire black bottle-rocket" );
+					break;
+				case ItemPool.JEWEL_EYED_WIZARD_HAT:
+					KoLCharacter.removeAvailableSkill( "Magic Missile" );
+					break;
+				case ItemPool.BAKULA:
+					KoLCharacter.removeAvailableSkill( "Give In To Your Vampiric Urges" );
+					break;
+				case ItemPool.JOYBUZZER:
+					KoLCharacter.removeAvailableSkill( "Shake Hands" );
+					break;
+				case ItemPool.V_MASK:
+					KoLCharacter.removeAvailableSkill( "Creepy Grin" );
+					break;
+				case ItemPool.MAYFLY_BAIT_NECKLACE:
+					KoLCharacter.removeAvailableSkill( "Summon Mayfly Swarm" );
+					break;
+				case ItemPool.HODGMANS_PORKPIE_HAT:
+				case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
+				case ItemPool.HODGMANS_BOW_TIE:
+					KoLCharacter.removeAvailableSkill( "Summon hobo underling" );
+					break;
+				case ItemPool.WILLOWY_BONNET:
+					KoLCharacter.removeAvailableSkill( "Rouse Sapling" );
+					break;
+				case ItemPool.SACCHARINE_MAPLE_PENDANT:
+					KoLCharacter.removeAvailableSkill( "Spray Sap" );
+					break;
+				case ItemPool.CROTCHETY_PANTS:
+					KoLCharacter.removeAvailableSkill( "Put Down Roots" );
+					break;
+				case ItemPool.FIREWORKS:
+					KoLCharacter.removeAvailableSkill( "Fire off a Roman Candle" );
+					break;
+				case ItemPool.HAIKU_KATANA:
+					KoLCharacter.removeAvailableSkill( "Spring Raindrop Attack" );
+					KoLCharacter.removeAvailableSkill( "Summer Siesta" );
+					KoLCharacter.removeAvailableSkill( "Falling Leaf Whirlwind" );
+					KoLCharacter.removeAvailableSkill( "Winter's Bite Technique" );
+					KoLCharacter.removeAvailableSkill( "The 17 Cuts" );
+					break;
+				case ItemPool.PARASITIC_CLAW:
+				case ItemPool.PARASITIC_TENTACLES:
+				case ItemPool.PARASITIC_HEADGNAWER:
+				case ItemPool.PARASITIC_STRANGLEWORM:
+					KoLCharacter.removeAvailableSkill( "Disarm" );
+					KoLCharacter.removeAvailableSkill( "Entangle" );
+					KoLCharacter.removeAvailableSkill( "Strangle" );
+					break;
+				case ItemPool.ELVISH_SUNGLASSES:
+					KoLCharacter.removeAvailableSkill( "Play an Accordion Solo" );
+					KoLCharacter.removeAvailableSkill( "Play a Guitar Solo" );
+					KoLCharacter.removeAvailableSkill( "Play a Drum Solo" );
+					KoLCharacter.removeAvailableSkill( "Play a Flute Solo" );
+					break;
+				case ItemPool.BAG_O_TRICKS:
+					KoLCharacter.removeAvailableSkill( "Open the Bag o' Tricks" );
+					break;
+				case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
+					KoLCharacter.removeAvailableSkill( "Apprivoisez la tortue" );
+					break;
+				case ItemPool.RED_AND_GREEN_SWEATER:
+					KoLCharacter.removeAvailableSkill( "Static Shock" );
+					break;
+				case ItemPool.STINKY_CHEESE_EYE:
+					KoLCharacter.removeAvailableSkill( "Give Your Opponent the Stinkeye" );
+					break;
+				case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
+					KoLCharacter.removeAvailableSkill( "Bashing Slam Smash" );
+					break;
+				case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
+					KoLCharacter.removeAvailableSkill( "Turtle of Seven Tails" );
+					break;
+				case ItemPool.WRATH_OF_THE_PASTALORDS:
+					KoLCharacter.removeAvailableSkill( "Noodles of Fire" );
+					break;
+				case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
+					KoLCharacter.removeAvailableSkill( "Saucemageddon" );
+					break;
+				case ItemPool.SEEGERS_BANJO:
+					KoLCharacter.removeAvailableSkill( "Funk Bluegrass Fusion" );
+					break;
+				case ItemPool.TRICKSTER_TRIKITIXA:
+					KoLCharacter.removeAvailableSkill( "Extreme High Note" );
+					break;
+				case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
+					KoLCharacter.removeAvailableSkill( "Goldensh&ouml;wer" );
+					break;
+				case ItemPool.SPIDER_RING:
+					KoLCharacter.removeAvailableSkill( "Shoot Web" );
+					break;
+				case ItemPool.STRESS_BALL:
+					KoLCharacter.removeAvailableSkill( "Squeeze Stress Ball" );
+					break;
+				case ItemPool.PATRIOT_SHIELD:
+					KoLCharacter.removeAvailableSkill( "Throw Shield" );
+					break;
+				case ItemPool.PLASTIC_VAMPIRE_FANGS:
+					KoLCharacter.removeAvailableSkill( "Feed" );
+					break;
+				case ItemPool.LORD_FLAMEFACES_CLOAK:
+					KoLCharacter.removeAvailableSkill( "Swirl Cloak" );
+					break;
+				case ItemPool.RIGHT_BEAR_ARM:
+					KoLCharacter.removeAvailableSkill( "Kodiak Moment" );
+					KoLCharacter.removeAvailableSkill( "Grizzly Scene" );
+					KoLCharacter.removeAvailableSkill( "Bear Hug" );
+					KoLCharacter.removeAvailableSkill( "I Can Bearly Hear You Over the Applause" );
+					break;
+				case ItemPool.LEFT_BEAR_ARM:
+					KoLCharacter.removeAvailableSkill( "Bear-Backrub" );
+					KoLCharacter.removeAvailableSkill( "Bear-ly Legal" );
+					KoLCharacter.removeAvailableSkill( "Bear Hug" );
+					KoLCharacter.removeAvailableSkill( "I Can Bearly Hear You Over the Applause" );
+					break;
+				case ItemPool.ELECTRONIC_DULCIMER_PANTS:
+					KoLCharacter.removeAvailableSkill( "Play Hog Fiddle" );
+					break;
+				case ItemPool.HAGGIS_SOCKS:
+					KoLCharacter.removeAvailableSkill( "Haggis Kick" );
+					break;
+				case ItemPool.MARK_V_STEAM_HAT:
+					KoLCharacter.removeAvailableSkill( "Fire Death Ray" );
+					break;
+				case ItemPool.VIOLENCE_LENS:
+					KoLCharacter.removeAvailableSkill( "Violent Gaze" );
+					break;
+				case ItemPool.VIOLENCE_BRAND:
+					KoLCharacter.removeAvailableSkill( "Brand" );
+					break;
+				case ItemPool.VIOLENCE_PANTS:
+					KoLCharacter.removeAvailableSkill( "Mosh" );
+					break;
+				case ItemPool.VIOLENCE_STOMPERS:
+					KoLCharacter.removeAvailableSkill( "Stomp Ass" );
+					break;
+				case ItemPool.HATRED_LENS:
+					KoLCharacter.removeAvailableSkill( "Hateful Gaze" );
+					break;
+				case ItemPool.HATRED_STONE:
+					KoLCharacter.removeAvailableSkill( "Chilling Grip" );
+					break;
+				case ItemPool.HATRED_PANTS:
+					KoLCharacter.removeAvailableSkill( "Static Shock" );
+					break;
+				case ItemPool.HATRED_GIRDLE:
+					KoLCharacter.removeAvailableSkill( "Tighten Girdle" );
+					break;
+				case ItemPool.ANGER_BLASTER:
+					KoLCharacter.removeAvailableSkill( "Rage Flame" );
+					break;
+				case ItemPool.DOUBT_CANNON:
+					KoLCharacter.removeAvailableSkill( "Doubt Shackles" );
+					break;
+				case ItemPool.FEAR_CONDENSER:
+					KoLCharacter.removeAvailableSkill( "Fear Vapor" );
+					break;
+				case ItemPool.REGRET_HOSE:
+					KoLCharacter.removeAvailableSkill( "Tear Wave" );
+					break;
+				case ItemPool.GREAT_WOLFS_LEFT_PAW:
+				case ItemPool.GREAT_WOLFS_RIGHT_PAW:
+					KoLCharacter.removeAvailableSkill( "Great Slash" );
+					break;
+				case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
+					KoLCharacter.removeAvailableSkill( "Fire Rocket" );
+					break;
+				case ItemPool.MAYOR_GHOSTS_GAVEL:
+					KoLCharacter.removeAvailableSkill( "Hammer Ghost" );
+					break;
+				case ItemPool.PANTSGIVING:
+					KoLCharacter.removeAvailableSkill( "Talk About Politics" );
+					KoLCharacter.removeAvailableSkill( "Pocket Crumbs" );
+					KoLCharacter.removeAvailableSkill( "Air Dirty Laundry" );
+					break;
+				case ItemPool.WARBEAR_OIL_PAN:
+					if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+					{
+						KoLCharacter.removeAvailableSkill( "Spray Hot Grease" );
+					}
+					break;
+				case ItemPool.WOLF_WHISTLE:
+					KoLCharacter.removeAvailableSkill( "Blow Wolf Whistle" );
+					break;
+				case ItemPool.TOMMY_GUN:
+					KoLCharacter.removeAvailableSkill( "Unload Tommy Gun" );
+					break;
+				case ItemPool.CREEPY_VOICE_BOX:
+					KoLCharacter.removeAvailableSkill( "Pull Voice Box String" );
+					break;
+				case ItemPool.COAL_SHOVEL:
+					KoLCharacter.removeAvailableSkill( "Shovel Hot Coal" );
+					break;
+				case ItemPool.SPACE_HEATER:
+					KoLCharacter.removeAvailableSkill( "Heat Space" );
+					break;
+				case ItemPool.CAP_GUN:
+					KoLCharacter.removeAvailableSkill( "Bang! Bang! Bang! Bang!" );
+					break;
+				case ItemPool.THORS_PLIERS:
+					KoLCharacter.removeAvailableSkill( "Ply Reality" );
+					break;
+				case ItemPool.CUDDLY_TEDDY_BEAR:
+					KoLCharacter.removeAvailableSkill( "Overload Teddy Bear" );
+					break;
+				case ItemPool.TOY_CRIMBOT_FACE:
+					KoLCharacter.removeAvailableSkill( "LIGHT" );
+					break;
+				case ItemPool.TOY_CRIMBOT_GLOVE:
+					KoLCharacter.removeAvailableSkill( "ZAP" );
+					break;
+				case ItemPool.TOY_CRIMBOT_FIST:
+					KoLCharacter.removeAvailableSkill( "POW" );
+					break;
+				case ItemPool.TOY_CRIMBOT_LEGS:
+					KoLCharacter.removeAvailableSkill( "BURN" );
+					break;
+				case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
+					KoLCharacter.removeAvailableSkill( "Tell a Skeleton What To Do" );
+					KoLCharacter.removeAvailableSkill( "Tell This Skeleton What To Do" );
+					break;
+				case ItemPool.SEWAGE_CLOGGED_PISTOL:
+					KoLCharacter.removeAvailableSkill( "Fire Sewage Pistol" );
+					break;
+				case ItemPool.LOTS_ENGAGEMENT_RING:
+					KoLCharacter.removeAvailableSkill( "Propose To Your Opponent" );
+					break;
+				}
+			}
+		}
+
+		// Add skill if appropriate
 		switch ( item.getItemId() )
 		{
 		case ItemPool.BOTTLE_ROCKET:
