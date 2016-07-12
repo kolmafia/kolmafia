@@ -2121,7 +2121,7 @@ public class FightRequest
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+				TurnCounter.startCounting( 11 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
 					  "Digitize Monster loc=*", "watch.gif" );
 			}
 
@@ -7787,7 +7787,7 @@ public class FightRequest
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
 				Preferences.setInteger( "_sourceTerminalDigitizeMonsterCount", 0 );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 7, "Digitize Monster loc=*", "watch.gif" );
+				TurnCounter.startCounting( 8, "Digitize Monster loc=*", "watch.gif" );
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
