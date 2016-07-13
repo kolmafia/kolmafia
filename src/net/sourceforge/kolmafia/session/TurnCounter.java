@@ -487,7 +487,8 @@ public class TurnCounter
 			return;
 		}
 		if ( snarfblat == null || 
-		     snarfblat.equals( AdventurePool.THE_SHORE_ID ) )
+		     snarfblat.equals( AdventurePool.THE_SHORE_ID ) ||
+		     snarfblat.equals( AdventurePool.TRAINING_SNOWMAN_ID ) )
 		{
 			return;
 		}

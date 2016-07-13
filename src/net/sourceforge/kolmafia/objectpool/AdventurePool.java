@@ -241,4 +241,5 @@ public class AdventurePool
 	public static final int DEEP_MACHINE_TUNNELS = 458;
 	public static final String DEEP_MACHINE_TUNNELS_ID = "458";
 	public static final int TRAINING_SNOWMAN = 460;
+	public static final String TRAINING_SNOWMAN_ID = "460";
 }
