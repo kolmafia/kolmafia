@@ -517,7 +517,7 @@ public class GenericRequest
 
 	public void addFormFields( final String fields, final boolean encoded )
 	{
-		if ( fields.indexOf( "&" ) == -1 )
+		if ( !fields.contains( "&" ) )
 		{
 			this.addFormField( fields, encoded );
 			return;
@@ -1498,6 +1498,11 @@ public class GenericRequest
 		{
 			GenericRequest.isBarrelSmash = true;
 			BarrelDecorator.beginSmash( urlString );
+		}
+
+		if ( urlString.startsWith( "adventure.php" ) )
+		{
+			TurnCounter.handleTemporaryCounters( this.getFormField( "snarfblat" ) );
 		}
 
 		// Do this before registering the request now that we have a
@@ -2645,8 +2650,8 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "adventure.php" ) )
 		{
-			 ResultProcessor.processResults( true, this.responseText );
-			 return;
+			ResultProcessor.processResults( true, this.responseText );
+			return;
 		}
 
 		if ( urlString.startsWith( "fight.php" ) )

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -42,6 +42,8 @@ import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 
@@ -93,7 +95,7 @@ public class TurnCounter
 				}
 				this.exemptions.add( word.substring( 4 ) );
 			}
-			else if ( word.indexOf( ".php" ) != -1 )
+			else if ( word.contains( ".php" ) )
 			{
 				this.URL = word;
 			}
@@ -455,7 +457,7 @@ public class TurnCounter
 				{
 					continue;
 				}
-				if ( current.parsedLabel.toLowerCase().indexOf( label ) == -1 )
+				if ( !current.parsedLabel.toLowerCase().contains( label ) )
 				{
 					continue;
 				}
@@ -468,6 +470,35 @@ public class TurnCounter
 		}
 
 		return buf.toString();
+	}
+
+	public static final void startCountingTemporary( int value, String label, String image )
+	{
+		String temp = Preferences.getString( "_tempRelayCounters" );
+		temp = temp + value + ":" + label + ":" + image + "|";
+		Preferences.setString( "_tempRelayCounters", temp );
+	}
+
+	public static final void handleTemporaryCounters( String snarfblat )
+	{
+		String temp = Preferences.getString( "_tempRelayCounters" );
+		if ( temp.equals( "" ) )
+		{
+			return;
+		}
+		if ( snarfblat == null || 
+		     snarfblat.equals( AdventurePool.THE_SHORE_ID ) )
+		{
+			return;
+		}
+		String[] counters = temp.split( "\\|" );
+		for ( String counter : counters )
+		{
+			if ( counter.equals( "" ) ) continue;
+			String[] values = counter.split( ":" );
+			TurnCounter.startCounting( StringUtilities.parseInt( values[0] ), values[1], values[2] );
+		}
+		Preferences.setString( "_tempRelayCounters", "" );
 	}
 
 	private static final int getTurnsUsed( GenericRequest request )

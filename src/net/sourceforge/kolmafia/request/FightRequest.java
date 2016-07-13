@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -7428,8 +7428,8 @@ public class FightRequest
 
 				TurnCounter.stopCounting( "Romantic Monster window begin" );
 				TurnCounter.stopCounting( "Romantic Monster window end" );
-				TurnCounter.startCounting( 16, "Romantic Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 26, "Romantic Monster window end loc=*", "rparen.gif" );
+				TurnCounter.startCountingTemporary( 15, "Romantic Monster window begin loc=*", "lparen.gif" );
+				TurnCounter.startCountingTemporary( 25, "Romantic Monster window end loc=*", "rparen.gif" );
 			}
 			break;
 
@@ -7787,7 +7787,7 @@ public class FightRequest
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
 				Preferences.setInteger( "_sourceTerminalDigitizeMonsterCount", 0 );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 8, "Digitize Monster loc=*", "watch.gif" );
+				TurnCounter.startCountingTemporary( 7, "Digitize Monster loc=*", "watch.gif" );
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
