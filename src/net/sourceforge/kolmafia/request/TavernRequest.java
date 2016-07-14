@@ -103,7 +103,8 @@ public class TavernRequest
 		{
 			if ( responseText.contains( "have a few drinks on the house" ) ||
 			     responseText.contains( "something that wasn't booze" ) ||
-			     responseText.contains( "a round on the house" ) )
+			     responseText.contains( "a round on the house" ) ||
+				 responseText.contains( "grab some mugs and pour yourself some tavern swill" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.RAT, QuestDatabase.FINISHED );
 			}
