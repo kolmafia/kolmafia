@@ -108,6 +108,7 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2100,6 +2101,18 @@ public class FightRequest
 				FightRequest.canStomp = true;
 			}
 
+			// If this is the first round, then register the
+			// opponent you are fighting against.
+
+			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
+
+			// In Ed we'll only set the monster name when we have won or abandoned the fight
+			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
+			{
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
+			}
+			MonsterData monster = MonsterStatusTracker.getLastMonster();
+
 			if ( EncounterManager.isRomanticEncounter( responseText ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
@@ -2121,7 +2134,8 @@ public class FightRequest
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 11 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" )
+						+ ( monster.getType() == EncounterType.FREE_COMBAT ? 0 : 1 ),
 					  "Digitize Monster loc=*", "watch.gif" );
 			}
 
@@ -2147,11 +2161,6 @@ public class FightRequest
 			{
 				Preferences.setInteger( "turtleBlessingTurns", 0 );
 			}
-			
-			// If this is the first round, then register the
-			// opponent you are fighting against.
-
-			encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
 
 			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
  			{
@@ -2397,15 +2406,8 @@ public class FightRequest
 				TurnCounter.startCounting( 20, "WoL Monster window end loc=*", "rparen.gif" );
 			}
 
-			// In Ed we'll only set the monster name when we have won or abandoned the fight
-			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
-			{
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
-			}
-
 			FightRequest.isTrackingFights = false;
 			FightRequest.waitingForSpecial = false;
-			MonsterData monster = MonsterStatusTracker.getLastMonster();
 			String monsterName = monster != null ? monster.getName() : "";
 			for ( int i = 0; i < 10; ++i )
 			{
