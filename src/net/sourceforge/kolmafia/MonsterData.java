@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -833,6 +835,11 @@ public class MonsterData
 
 	public EncounterType getType()
 	{
+		// Only the first 10 Snowmen are free
+		if ( this.name == "X-32-F Combat Training Snowman" && Preferences.getInteger( "_snojoFreeFights" ) < 10 )
+		{
+			return EncounterType.FREE_COMBAT;
+		}
 		return this.type;
 	}
 
