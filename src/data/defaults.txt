@@ -1390,7 +1390,7 @@ user	_softwareGlitchTurnReceived	false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
 user	_sourceTerminalDigitizeUses	0
-user	_sourceTerminalDuplicateUsed	0
+user	_sourceTerminalDuplicateUses	0
 user	_sourceTerminalEnhanceUses	0
 user	_sourceTerminalExtrudes	0
 user	_sourceTerminalPortscanUses	0
