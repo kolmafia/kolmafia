@@ -7804,7 +7804,7 @@ public class FightRequest
 		case SkillPool.DUPLICATE:
 			if ( responseText.contains( "cross your eyes" ) || skillSuccess )
 			{
-				Preferences.setBoolean( "_sourceTerminalDuplicateUsed", true );
+				Preferences.increment( "_sourceTerminalDuplicateUsed" );
 			}
 			break;
 
