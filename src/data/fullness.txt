@@ -360,7 +360,7 @@ hamlet sandwich	3	1	awesome	13-14	1-11	1-11	1-11	50 Oh Hamlet Hamlet Hamlet Haml
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 Happy Birthday, Claude! cake	3	1	crappy	3	0	0	0
-hardboiled egg	1	1	awesome	3-4	0	0	0
+hardboiled egg	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
 Hell broth	4	3	good	7-14	-5-9	0	-5-9
 Hell ramen	4	6	awesome	11-14	13	13	13
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
