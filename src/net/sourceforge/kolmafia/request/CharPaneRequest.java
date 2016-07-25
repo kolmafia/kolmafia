@@ -795,7 +795,7 @@ public class CharPaneRequest
 
 	private static final Pattern makeConsumptionPattern( final String consumptionString )
 	{
-		return Pattern.compile( consumptionString + ": ?</td><td(?: align=left)?><b>(\\d+)</b>" );
+		return Pattern.compile( consumptionString + "</span></td><td(?: align=left)?><b><span class=\"(?:blur.)?\">(\\d+) / (\\d+)</span>" );
 	}
 
 	private static final Pattern [] compactInebrietyPatterns =
