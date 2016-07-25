@@ -340,27 +340,27 @@ public class ProxyRecordValue
 
 		public int get_minhp()
 		{
-			return RestoresDatabase.getHPMin( StringUtilities.getCanonicalName( this.contentString ) );
+			return RestoresDatabase.getHPMin( this.contentString );
 		}
 
 		public int get_maxhp()
 		{
-			return RestoresDatabase.getHPMax( StringUtilities.getCanonicalName( this.contentString ) );
+			return RestoresDatabase.getHPMax( this.contentString );
 		}
 
 		public int get_minmp()
 		{
-			return RestoresDatabase.getMPMin( StringUtilities.getCanonicalName( this.contentString ) );
+			return RestoresDatabase.getMPMin( this.contentString );
 		}
 
 		public int get_maxmp()
 		{
-			return RestoresDatabase.getMPMax( StringUtilities.getCanonicalName( this.contentString ) );
+			return RestoresDatabase.getMPMax( this.contentString );
 		}
 
 		public int get_dailyusesleft()
 		{
-			return RestoresDatabase.getUsesLeft( StringUtilities.getCanonicalName( this.contentString ) );
+			return RestoresDatabase.getUsesLeft( this.contentString );
 		}
 
 		public String get_notes()
