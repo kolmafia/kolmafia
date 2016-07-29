@@ -2134,8 +2134,7 @@ public class FightRequest
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" )
-						+ ( monster.getType() == EncounterType.FREE_COMBAT ? 0 : 1 ),
+				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
 					  "Digitize Monster loc=*", "watch.gif" );
 			}
 
