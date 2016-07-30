@@ -1668,7 +1668,10 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.LUCKY_RABBIT_FOOT:
-			QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.FINISHED );
+			if ( RequestLogger.getLastURLString().startsWith( "guild.php" ) )
+			{
+				QuestDatabase.setQuestIfBetter( Quest.CITADEL, QuestDatabase.FINISHED );
+			}
 			break;
 
 		case ItemPool.HAROLDS_BELL:
@@ -1766,7 +1769,10 @@ public class ResultProcessor
 		case ItemPool.KNOB_GOBLIN_CROWN:
 		case ItemPool.KNOB_GOBLIN_BALLS:
 		case ItemPool.KNOB_GOBLIN_CODPIECE:
-			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+			}
 			break;
 
 		case ItemPool.DODECAGRAM:
@@ -1813,12 +1819,14 @@ public class ResultProcessor
 		case ItemPool.MISTY_CLOAK:
 		case ItemPool.MISTY_ROBE:
 		case ItemPool.MISTY_CAPE:
-
-			QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
-			Preferences.setInteger( "booPeakProgress", 0 );
-			Preferences.setInteger( "twinPeakProgress", 15 );
-			Preferences.setInteger( "oilPeakProgress", 0 );
+			if ( RequestLogger.getLastURLString().contains( "action=highlands_dude" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.TOPPING, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.LOL, QuestDatabase.STARTED );
+				Preferences.setInteger( "booPeakProgress", 0 );
+				Preferences.setInteger( "twinPeakProgress", 15 );
+				Preferences.setInteger( "oilPeakProgress", 0 );
+			}
 			break;
 
 		case ItemPool.HEMP_STRING:
@@ -1985,6 +1993,7 @@ public class ResultProcessor
 		case ItemPool.HAND_CARVED_BOKKEN:
 		case ItemPool.HAND_CARVED_BOW:
 		case ItemPool.HAND_CARVED_STAFF:
+			// Needs more checking
 			QuestDatabase.setQuestProgress( Quest.SWAMP, QuestDatabase.FINISHED );
 			break;
 
@@ -2015,6 +2024,7 @@ public class ResultProcessor
 		case ItemPool.FISHY_PIPE:
 		case ItemPool.FISH_MEAT_CRATE:
 		case ItemPool.DAMP_WALLET:
+			// Needs more checking
 			ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
 			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.FINISHED );
 			break;
@@ -2085,7 +2095,10 @@ public class ResultProcessor
 		case ItemPool.ANCIENT_SAUCEHELM:
 		case ItemPool.DISCO_FRO_PICK:
 		case ItemPool.EL_SOMBRERO_DE_LOPEZ:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step16" );
+			}
 			break;
 
 		case ItemPool.KRAKROXS_LOINCLOTH:
@@ -2094,7 +2107,10 @@ public class ResultProcessor
 		case ItemPool.NEWMANS_OWN_TROUSERS:
 		case ItemPool.VOLARTTAS_BELLBOTTOMS:
 		case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
-			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step27" );
+			if ( combatResults )
+			{
+				QuestDatabase.setQuestProgress( Quest.NEMESIS, "step27" );
+			}
 			break;
 
 		case ItemPool.HELLSEAL_DISGUISE:
