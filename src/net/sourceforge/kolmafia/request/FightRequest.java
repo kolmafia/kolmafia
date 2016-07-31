@@ -2121,7 +2121,7 @@ public class FightRequest
 				TurnCounter.stopCounting( "Romantic Monster window end" );
 				if ( Preferences.getInteger( "_romanticFightsLeft" ) > 0 )
 				{
-					TurnCounter.startCounting( 15, "Romantic Monster window begin loc=* type=wander", "lparen.gif" );
+					TurnCounter.startCounting( 15, "Romantic Monster window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 25, "Romantic Monster window end loc=* type=wander", "rparen.gif" );
 				}
 				else
@@ -2282,7 +2282,7 @@ public class FightRequest
 				Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
 				TurnCounter.stopCounting( "Bee window begin" );
 				TurnCounter.stopCounting( "Bee window end" );
-				TurnCounter.startCounting( 15, "Bee window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
@@ -2311,7 +2311,7 @@ public class FightRequest
 			{
 				TurnCounter.stopCounting( "Holiday Monster window begin" );
 				TurnCounter.stopCounting( "Holiday Monster window end" );
-				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
@@ -2368,7 +2368,7 @@ public class FightRequest
 			{
 				TurnCounter.stopCounting( "Nemesis Assassin window begin" );
 				TurnCounter.stopCounting( "Nemesis Assassin window end" );
-				TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
@@ -2384,7 +2384,7 @@ public class FightRequest
 			{
 				TurnCounter.stopCounting( "Rain Monster window begin" );
 				TurnCounter.stopCounting( "Rain Monster window end" );
-				TurnCounter.startCounting( 35, "Rain Monster window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
 			}
 			else if ( !EncounterManager.ignoreSpecialMonsters &&
@@ -2401,7 +2401,7 @@ public class FightRequest
 			{
 				TurnCounter.stopCounting( "WoL Monster window begin" );
 				TurnCounter.stopCounting( "WoL Monster window end" );
-				TurnCounter.startCounting( 15, "WoL Monster window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
 			}
 
@@ -7429,7 +7429,7 @@ public class FightRequest
 
 				TurnCounter.stopCounting( "Romantic Monster window begin" );
 				TurnCounter.stopCounting( "Romantic Monster window end" );
-				TurnCounter.startCountingTemporary( 15, "Romantic Monster window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCountingTemporary( 15, "Romantic Monster window begin loc=*", "lparen.gif" );
 				TurnCounter.startCountingTemporary( 25, "Romantic Monster window end loc=* type=wander", "rparen.gif" );
 			}
 			break;
