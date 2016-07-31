@@ -1993,8 +1993,10 @@ public class ResultProcessor
 		case ItemPool.HAND_CARVED_BOKKEN:
 		case ItemPool.HAND_CARVED_BOW:
 		case ItemPool.HAND_CARVED_STAFF:
-			// Needs more checking
-			QuestDatabase.setQuestProgress( Quest.SWAMP, QuestDatabase.FINISHED );
+			if ( RequestLogger.getLastURLString().contains( "action=lc_marty" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.SWAMP, QuestDatabase.FINISHED );
+			}
 			break;
 
 		case ItemPool.WORSE_HOMES_GARDENS:
@@ -2024,9 +2026,11 @@ public class ResultProcessor
 		case ItemPool.FISHY_PIPE:
 		case ItemPool.FISH_MEAT_CRATE:
 		case ItemPool.DAMP_WALLET:
-			// Needs more checking
-			ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
-			QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.FINISHED );
+			if ( RequestLogger.getLastURLString().contains( "action=oldman_oldman" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.DAMP_OLD_BOOT );
+				QuestDatabase.setQuestProgress( Quest.SEA_OLD_GUY, QuestDatabase.FINISHED );
+			}
 			break;
 
 		case ItemPool.PREGNANT_FLAMING_MUSHROOM:
