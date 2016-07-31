@@ -64,13 +64,14 @@ public class TurnCounter
 	private static final ArrayList<TurnCounter> relayCounters = new ArrayList<TurnCounter>();
 	private static final HashSet<String> ALL_LOCATIONS = new HashSet<String>();
 
-	private final int value;
+	private int value;
 	private final String image;
 	private final String label;
 	private String URL;
 	private String parsedLabel;
 	private HashSet<String> exemptions;
 	private int lastWarned;
+	private boolean wander = false;
 
 	public TurnCounter( final int value, final String label, final String image )
 	{
@@ -94,6 +95,13 @@ public class TurnCounter
 					this.exemptions = new HashSet<String>();
 				}
 				this.exemptions.add( word.substring( 4 ) );
+			}
+			else if ( word.startsWith( "type=" ) )
+			{
+				if ( word.substring( 5 ).equals( "wander" ) )
+				{
+					this.wander = true;
+				}
 			}
 			else if ( word.contains( ".php" ) )
 			{
@@ -146,7 +154,13 @@ public class TurnCounter
 
 	public int getTurnsRemaining()
 	{
-		return this.value - KoLCharacter.getCurrentRun();
+		int remain = this.value - KoLCharacter.getCurrentRun();
+		if ( remain < 0 && this.wander )
+		{
+			this.value = KoLCharacter.getCurrentRun();
+			remain = 0;
+		}
+		return remain;
 	}
 
 	public static int turnsRemaining( final String label )
@@ -308,6 +322,11 @@ public class TurnCounter
 
 				if ( current.value < thisTurn )
 				{
+					if ( current.wander )
+					{
+						// This might not actually be necessary
+						continue;
+					}
 					it.remove();
 				}
 
