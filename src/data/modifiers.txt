@@ -483,7 +483,7 @@ Item	astronaut pants	Maximum HP: +30, Maximum MP: +30, Muscle: +5, Familiar Effe
 Item	baggy rave pants	Damage Absorption: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
 # Item bakelite breeches: Doubles the damage of Disco Inferno
 Item	bakelite breeches	Hot Resistance: +5, Moxie Percent: +20
-Item	bankruptcy barrel	Moxie Percent: +25, Initiative: +50, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
+Item	bankruptcy barrel	Moxie Percent: +25, Initiative: +50, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover, Familiar Effect: "1xPotato, 1xLep, cap 25"
 Item	bark boxers	Damage Reduction: 5, Familiar Effect: "atk, 3xVolley, cap 10"
 Item	barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6"
 Item	basic meat kilt	Moxie: +1, Familiar Effect: "3xPotato, 3xFairy, cap 10"

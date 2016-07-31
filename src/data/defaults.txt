@@ -970,6 +970,9 @@ user	singleFamiliarRun	0
 user	skateParkStatus	war
 user	skillBurn3	-100
 user	skillBurn90	-100
+user	skillBurn153	-100
+user	skillBurn154	-100
+user	skillBurn155	-100
 user	skillBurn1019	-100
 user	skillBurn5017	-100
 user	skillBurn6014	-100
