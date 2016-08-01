@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
@@ -102,6 +104,9 @@ public abstract class ClanManager
 	private static final LockableListModel<String> rankList = new LockableListModel<String>();
 	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<AdventureResult>();
 
+	private static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
+	private static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
+
 	public static final void clearCache()
 	{
 		ProfileSnapshot.clearCache();
@@ -125,6 +130,8 @@ public abstract class ClanManager
 		ClanManager.battleList.clear();
 		ClanManager.rankList.clear();
 		ClanManager.stashContents.clear();
+
+		KoLConstants.clanLounge.clear();
 	}
 
 	public static final void resetClanId()
@@ -181,13 +188,22 @@ public abstract class ClanManager
 			RequestLogger.printLine( "You are currently a member of " + clanName );
 
 			// Visit lounge and check hotdog stand and speakeasy.
-			// As a side effect, report on whether you have a present waiting
-			ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+			// Have to visit second floor in addition, as both default to ground floor if not present.
+			ClanLoungeRequest.visitLoungeFloor2();
+			if ( KoLConstants.clanLounge.contains( HOT_DOG_STAND ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+			}
 			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+			if ( KoLConstants.clanLounge.contains( FLOUNDRY ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
+			}
 		}
 		else
 		{
 			RequestLogger.printLine( "You are not currently a member of a clan." );
+			KoLConstants.clanLounge.clear();
 		}
 	}
 

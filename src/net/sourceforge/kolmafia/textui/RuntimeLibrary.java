@@ -699,6 +699,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_clan_lounge", DataTypes.RESULT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_chateau", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3798,6 +3801,20 @@ public abstract class RuntimeLibrary
 		value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
 
 		for ( AdventureResult item : KoLConstants.campground )
+		{
+			value.aset(
+				DataTypes.parseItemValue( item.getName(), true ),
+				new Value( item.getCount() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_clan_lounge( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+
+		for ( AdventureResult item : KoLConstants.clanLounge )
 		{
 			value.aset(
 				DataTypes.parseItemValue( item.getName(), true ),

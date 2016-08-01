@@ -171,6 +171,7 @@ global	useToolbars	true
 global	useZoneComboBox	false
 global	userAgent
 global	verboseSpeakeasy	false
+global	verboseFloundry	false
 global	_announcementShown	false
 global	_g9Effect	0
 global	_svnRepoFileFetched	false
