@@ -2866,6 +2866,7 @@ paperclip cape	50	Mys: 75
 pillow shell	10	none
 polyester parachute	50	none
 porcelain pelerine	120	Mus: 40
+protonic accelerator pack	0	none
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
 sea cape	200	Mox: 85

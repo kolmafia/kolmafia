@@ -9104,3 +9104,5 @@
 9078	Falcon&trade; Maltese Liquor	403046915	good40.gif	drink	t,d	10
 9079	hardboiled egg	576661213	egg.gif	food	t,d	10
 9080	detective tattoo	754979318	badgetat.gif	usable	t,d	1000
+9081	DIY protonic accelerator kit	521299592	crate.gif	usable	t	0
+9082	protonic accelerator pack	457809238	protonpack.gif	container		0
