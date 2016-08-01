@@ -820,6 +820,7 @@ Item	Kiss the Knob apron	Maximum MP: +5
 Item	Knob Goblin elite shirt	Muscle: +3
 Item	lemon shirt	Candy Drop: +50, Lasts Until Rollover
 Item	letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
+Item	Liam's mail	Damage Absorption: +50, Muscle Percent: +10, Experience: +2
 Item	loathing eagle baby-doll shirt	Moxie: +3
 Item	lynyrdskin tunic	Initiative: +25
 Item	Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
@@ -1235,6 +1236,7 @@ Item	hand-carved bokken	Muscle Percent: +5, Weapon Damage: +15, Critical Hit Per
 Item	hand-carved bow	Moxie Percent: +10, Ranged Damage: +10, Initiative: +20
 Item	hand-carved staff	Mysticality Percent: +10, Spell Damage: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	happiness	Hot Damage: +12
+Item	haunted bindle	Spooky Damage: +10, Spooky Spell Damage: +10
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
 # hawk: +22% Damage vs. Skeletons
 Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
@@ -1517,6 +1519,7 @@ Item	slime-covered speargun	Weapon Damage: [50*zone(The Slime Tube)+25], Critica
 # slime-covered staff: All Spells Cast Are Sleazy
 Item	slime-covered staff	Spell Damage: +60, Initiative: -10
 # slingshot
+Item	smoldering bagel punch	Hot Spell Damage: +10, Spell Damage: +5
 Item	smoldering staff	Mysticality: +7, Moxie: +5, Stench Spell Damage: +11
 Item	Sneaky Pete's basket	Moxie: +5, Initiative: +10, Item Drop: +10
 Item	snow shovel	Muscle: +10, Mysticality: +10, Moxie: +10, Weapon Damage Percent: +100, Lasts Until Rollover
@@ -1859,6 +1862,7 @@ Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
+Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3
 Item	flimsy clipboard	Meat Drop: +5, Damage Reduction: 3
 Item	foon	Mysticality: +2
 Item	foon of fearfulness	Mysticality: +3, Spooky Spell Damage: +8
@@ -1869,6 +1873,7 @@ Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
 Item	ghast iron heater shield	Spooky Damage: +10, Hot Damage: +10, Damage Reduction: 11
+Item	ghostly reins	Familiar Weight: +10, Experience (familiar): +2, Lasts Until Rollover
 Item	giant clay ashtray	Muscle: +5, Damage Reduction: 3
 Item	giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
@@ -2131,6 +2136,7 @@ Item	spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 Item	spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 Item	spooky little girl	Item Drop: [G]
 # sprinkle shaker
+Item	standards and practices guide	Sleaze Resistance: +2
 Item	stapler bear	Muscle: +5
 Item	star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 Item	steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
