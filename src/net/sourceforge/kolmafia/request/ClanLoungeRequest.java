@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -59,6 +60,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -421,6 +423,15 @@ public class ClanLoungeRequest
 		}
 	}
 
+	public static boolean hasClanLoungeItem( AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return item.getCount( KoLConstants.clanLounge ) > 0;
+	}
+
 	public static final int hotdogIdToIndex( int id )
 	{
 		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
@@ -629,6 +640,29 @@ public class ClanLoungeRequest
 		}
 
 		return null;
+	}
+
+	public static final ArrayList<Concoction> ALL_FLOUNDRY = new ArrayList<Concoction>();
+
+	static
+	{
+		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
+		{
+			AdventureResult item = (AdventureResult) FLOUNDRY_DATA[i][1];
+			if ( item != null )
+			{
+				Concoction concoction = ConcoctionPool.get( item );
+				concoction.setMixingMethod( CraftingType.FLOUNDRY );
+				ClanLoungeRequest.ALL_FLOUNDRY.add( concoction );
+			}
+		}
+	};
+
+	public static final void resetFloundry()
+	{
+		// Remove all Floundry Items from the usable list
+		ConcoctionDatabase.getUsables().removeAll( ClanLoungeRequest.ALL_FLOUNDRY );
+		ConcoctionDatabase.refreshConcoctions( false );
 	}
 
 	private static final AdventureResult floundryFishToItem( final String fish )
@@ -1655,6 +1689,12 @@ public class ClanLoungeRequest
 
 	public static void parseFloundry( final String responseText, final boolean verbose )
 	{
+		// Rebuild list of available floundry items every time we visit
+		ClanLoungeRequest.resetFloundry();
+
+		// Make a list of all currently available floundry items
+		ArrayList<Concoction> available = new ArrayList<Concoction>();
+
 		Matcher fishStockMatcher = FISH_STOCK_PATTERN.matcher( responseText );
 		while ( fishStockMatcher.find() )
 		{
@@ -1673,6 +1713,8 @@ public class ClanLoungeRequest
 			if ( fishStock >= 10 )
 			{
 				AdventureResult item = ClanLoungeRequest.floundryFishToItem( fishName );
+				Concoction concoction = ConcoctionPool.get( item );
+				concoction.setMixingMethod( CraftingType.FLOUNDRY );
 				if ( item != null )
 				{
 					AdventureResult countedItem = ItemPool.get( item.getItemId(), (int) Math.floor( fishStock / 10 ) );
@@ -1680,9 +1722,31 @@ public class ClanLoungeRequest
 					{
 						KoLConstants.clanLounge.add( countedItem );
 					}
+					available.add( concoction );
 				}
 			}
 		}
+
+		// Add Floundry Items en masse to the usables list
+		if ( available.size() > 0 )
+		{
+			ConcoctionDatabase.getUsables().addAll( available );
+		}
+
+		// Refresh available concoctions with currently available floundry items
+		ConcoctionDatabase.refreshConcoctions();
+	}
+
+	public static boolean availableFloundryItem( final String itemName )
+	{
+		boolean clanFloundryItem = ClanLoungeRequest.hasClanLoungeItem( ItemPool.get( itemName, 1 ) );
+		boolean gotFloundryItem = InventoryManager.hasItem( ItemPool.CARPE ) ||
+								InventoryManager.hasItem( ItemPool.CODPIECE ) ||
+								InventoryManager.hasItem( ItemPool.TROUTSERS ) ||
+								InventoryManager.hasItem( ItemPool.BASS_CLARINET ) ||
+								InventoryManager.hasItem( ItemPool.FISH_HATCHET ) ||
+								InventoryManager.hasItem( ItemPool.TUNAC );
+		return clanFloundryItem && !gotFloundryItem;
 	}
 
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
