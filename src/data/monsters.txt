@@ -1756,6 +1756,12 @@ Witchess King	1940	chess_bking.gif	FREE Scale: 20 Cap: 6000 Floor: 100 HP: 2000 
 Witchess Witch	1941	chess_bwitch.gif	FREE Scale: 30 Cap: 7000 Floor: 150 HP: 3000 Init: -10000 P: dude	battle broom (n100)
 Witchess Bishop	1942	chess_bbishop.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude	Sacramento wine (n100)
 
+# Proton Accelerator (August 2016)
+The Headless Horseman	1949	ghost_horse.gif	FREE Atk: 12 Def: 10 HP: 12 Init: 15 E: spooky P: undead E: spooky	ghostly reins (n100)
+The ghost of Ebenoozer Screege	1951	ghost_screege.gif	FREE Atk: 25 Def: 22 HP: 25 Init: 25 E: spooky P: undead	Mr. Screege's spectacles (n100)
+The ghost of Sam McGee	1954	ghost_flame.gif	FREE Atk: 95 Def: 85 HP: 90 Init: 40 E: spooky P: undead	burnt snowpants (n100)
+The ghost of Waldo the Carpathian	1956	ghost_waldo.gif	FREE Atk: 70 Def: 65 HP: 70 Init: 60 E: spooky P: undead	Carpathian longsword (n100)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
