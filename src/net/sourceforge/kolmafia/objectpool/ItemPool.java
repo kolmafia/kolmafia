@@ -2657,6 +2657,7 @@ public class ItemPool
 	public static final int SOURCE_TERMINAL_TRAM_EXT = 9066;
 	public static final int COP_DOLLAR = 9072;
 	public static final int DETECTIVE_APPLICATION = 9073;
+	public static final int PROTON_ACCELERATOR = 9082;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

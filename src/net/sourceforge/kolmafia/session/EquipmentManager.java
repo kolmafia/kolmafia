@@ -794,6 +794,10 @@ public class EquipmentManager
 				case ItemPool.LOTS_ENGAGEMENT_RING:
 					KoLCharacter.removeAvailableSkill( "Propose To Your Opponent" );
 					break;
+				case ItemPool.PROTON_ACCELERATOR:
+					KoLCharacter.removeAvailableSkill( "Shoot Ghost" );
+					KoLCharacter.removeAvailableSkill( "Trap Ghost" );
+					break;
 				}
 			}
 		}
@@ -1044,6 +1048,10 @@ public class EquipmentManager
 			break;
 		case ItemPool.LOTS_ENGAGEMENT_RING:
 			KoLCharacter.addAvailableSkill( "Propose To Your Opponent" );
+			break;
+		case ItemPool.PROTON_ACCELERATOR:
+			KoLCharacter.addAvailableSkill( "Shoot Ghost" );
+			KoLCharacter.addAvailableSkill( "Trap Ghost" );
 			break;
 		}
 
