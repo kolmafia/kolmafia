@@ -82,6 +82,7 @@ public class ClanLoungeRequest
 	public static final int SWIMMING_POOL = 8;
 	public static final int HOT_DOG_STAND = 9;
 	public static final int SPEAKEASY = 10;
+	public static final int FLOUNDRY = 11;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -112,11 +113,13 @@ public class ClanLoungeRequest
 	private static final Pattern LUCKY_LINDY_PATTERN = Pattern.compile( "burp-speak the number <b>(\\d+)</b>." );
 	private static final Pattern WHICH_SPEAKEASY_PATTERN = Pattern.compile( "drink=(\\d+)" );
 	private static final Pattern TREE_PATTERN = Pattern.compile( "Check back in (\\d+) day" );
+	private static final Pattern TREE_LEVEL_PATTERN = Pattern.compile( 	"tree(\\d+)(?:nopressie|).gif" );
 	private static final Pattern FAX_PATTERN = Pattern.compile( "preaction=(.+?)fax" );
 	private static final Pattern TEMPERATURE_PATTERN = Pattern.compile( "temperature=(\\d*)" );
 	private static final Pattern SWIMMING_POOL_PATTERN = Pattern.compile( "subaction=([^&]+)" );
 	private static final Pattern LAPS_PATTERN = Pattern.compile( "manage to swim (\\d+) before" );
 	private static final Pattern SPRINTS_PATTERN = Pattern.compile( "you do (\\d+) of them" );
+	private static final Pattern FISH_STOCK_PATTERN = Pattern.compile( "<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)" );
 	private static final AdventureResult CURSE1_EFFECT = EffectPool.get( EffectPool.ONCE_CURSED );
 	private static final AdventureResult CURSE2_EFFECT = EffectPool.get( EffectPool.TWICE_CURSED );
 	private static final AdventureResult CURSE3_EFFECT = EffectPool.get( EffectPool.THRICE_CURSED );
@@ -361,6 +364,63 @@ public class ClanLoungeRequest
 		},
 	};
 
+	public static final Object [][] FLOUNDRY_DATA = new Object[][]
+	{
+		{
+			"carp",
+			ItemPool.get( ItemPool.CARPE, 1 )
+		},
+		{
+			"cod",
+			ItemPool.get( ItemPool.CODPIECE, 1 )
+		},
+		{
+			"trout",
+			ItemPool.get( ItemPool.TROUTSERS, 1 )
+		},
+		{
+			"bass",
+			ItemPool.get( ItemPool.BASS_CLARINET, 1 )
+		},
+		{
+			"hatchetfish",
+			ItemPool.get( ItemPool.FISH_HATCHET, 1 )
+		},
+		{
+			"tuna",
+			ItemPool.get( ItemPool.TUNAC, 1 )
+		},
+	};
+
+	public static void setClanLoungeItem( final int itemId, int count )
+	{
+		ClanLoungeRequest.setClanLoungeItem( ItemPool.get( itemId, count ) );
+	}
+
+	private static void setClanLoungeItem( final AdventureResult item )
+	{
+		int i = KoLConstants.clanLounge.indexOf( item );
+		if ( i != -1 )
+		{
+			AdventureResult old = (AdventureResult)KoLConstants.clanLounge.get( i );
+			if ( old.getCount() == item.getCount() )
+			{
+				return;
+			}
+			KoLConstants.clanLounge.remove( i );
+		}
+		KoLConstants.clanLounge.add( item );
+	}
+
+	public static void removeClanLoungeItem( AdventureResult item )
+	{
+		int i = KoLConstants.clanLounge.indexOf( item );
+		if ( i != -1 )
+		{
+			KoLConstants.clanLounge.remove( i );
+		}
+	}
+
 	public static final int hotdogIdToIndex( int id )
 	{
 		for ( int i = 0; i < HOTDOG_DATA.length; ++i )
@@ -568,6 +628,22 @@ public class ClanLoungeRequest
 			}
 		}
 
+		return null;
+	}
+
+	private static final AdventureResult floundryFishToItem( final String fish )
+	{
+		if ( fish == null )
+		{
+			return null;
+		}
+		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
+		{
+			if ( fish.equalsIgnoreCase( (String)ClanLoungeRequest.FLOUNDRY_DATA[i][0] ) )
+			{
+				return (AdventureResult)ClanLoungeRequest.FLOUNDRY_DATA[i][1];
+			}
+		}
 		return null;
 	}
 
@@ -793,6 +869,7 @@ public class ClanLoungeRequest
 		{
 			ClanLoungeRequest.resetHotdogs();
 			ClanLoungeRequest.resetSpeakeasy();
+			KoLConstants.clanLounge.clear();
 			return false;
 		}
 
@@ -860,6 +937,10 @@ public class ClanLoungeRequest
 		if ( urlString.contains( "action=speakeasy" ) )
 		{
 			return "Speakeasy";
+		}
+		if ( urlString.contains( "action=floundry" ) )
+		{
+			return "Floundry";
 		}
 		return null;
 	}
@@ -1023,6 +1104,19 @@ public class ClanLoungeRequest
 			else
 			{
 				this.addFormField( "action", "speakeasy" );
+			}
+			break;
+
+		case ClanLoungeRequest.FLOUNDRY:
+			this.constructURLString( "clan_viplounge.php" );
+			if ( this.option != 0 )
+			{
+				this.addFormField( "preaction", "buyfloundryitem" );
+				this.addFormField( "whichitem", String.valueOf( option ) );
+			}
+			else
+			{
+				this.addFormField( "action", "floundry" );
 			}
 			break;
 
@@ -1223,6 +1317,9 @@ public class ClanLoungeRequest
 			ClanManager.setClanId( 0 );
 		}
 
+		findImage( responseText, "speakeasy.gif", ItemPool.CLAN_SPEAKEASY );
+		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
 		{
@@ -1237,6 +1334,18 @@ public class ClanLoungeRequest
 			ClanManager.setClanName( clan );
 			ClanManager.setClanId( 0 );
 		}
+
+		findImage( responseText, "lookingglass.gif", ItemPool.CLAN_LOOKING_GLASS );
+		Matcher treeMatcher = TREE_LEVEL_PATTERN.matcher( responseText );
+		if ( treeMatcher.find() )
+		{
+			ClanLoungeRequest.setClanLoungeItem( ItemPool.CRIMBOUGH, Integer.parseInt( treeMatcher.group( 1 ) ) );
+		}
+		findImage( responseText, "aprilshower.gif", ItemPool.CLAN_SHOWER );
+		findImage( responseText, "pooltable.gif", ItemPool.CLAN_POOL_TABLE );
+		findImage( responseText, "faxmachine.gif", ItemPool.CLAN_FAX_MACHINE );
+		findImage( responseText, "hotdogstand.gif", ItemPool.CLAN_HOT_DOG_STAND );
+		findImage( responseText, "vippool.gif", ItemPool.CLAN_SWIMMING_POOL );
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
 		if ( responseText.contains( "tree5.gif" ) )
@@ -1262,6 +1371,41 @@ public class ClanLoungeRequest
 		{
 			Preferences.setBoolean( "_crimboTree", false );
 		}
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId )
+	{
+		return ClanLoungeRequest.findImage( responseText, filename, itemId, false );
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId, boolean allowMultiple )
+	{
+		int count = 0;
+		int i = responseText.indexOf( filename );
+		while ( i != -1 )
+		{
+			++count;
+			i = responseText.indexOf( filename, i + 1 );
+		}
+
+		if ( count > 0 )
+		{
+			ClanLoungeRequest.setClanLoungeItem( itemId, allowMultiple ? count : 1 );
+		}
+
+		return ( count > 0 );
+	}
+
+	private static boolean findImage( final String responseText, final String filename, final int itemId, int count )
+	{
+		if ( !responseText.contains( filename ) )
+		{
+			return false;
+		}
+
+		ClanLoungeRequest.setClanLoungeItem( itemId, count );
+
+		return true;
 	}
 
 	// The HTML for the Hot Dog Stand is - surprise! - malformed.
@@ -1485,6 +1629,11 @@ public class ClanLoungeRequest
 				if ( speakeasyDrink != null )
 				{
 					available.add( speakeasyDrink );
+					AdventureResult drink = ItemPool.get( drinkName, 1 );
+					if ( drink != null )
+					{
+						KoLConstants.clanLounge.add( drink );
+					}
 				}
 			}
 		}
@@ -1502,6 +1651,38 @@ public class ClanLoungeRequest
 
 		// Refresh available concoctions with currently available speakeasy drinks
 		ConcoctionDatabase.refreshConcoctions();
+	}
+
+	public static void parseFloundry( final String responseText, final boolean verbose )
+	{
+		Matcher fishStockMatcher = FISH_STOCK_PATTERN.matcher( responseText );
+		while ( fishStockMatcher.find() )
+		{
+			String fishName = fishStockMatcher.group( 4 );
+			StringBuilder buffer = new StringBuilder();
+			if ( fishStockMatcher.group( 1 ) != null ) buffer.append( fishStockMatcher.group( 1 ) );
+			if ( fishStockMatcher.group( 2 ) != null ) buffer.append( fishStockMatcher.group( 2 ) );
+			if ( fishStockMatcher.group( 3 ) != null ) buffer.append( fishStockMatcher.group( 3 ) );
+			int fishStock = StringUtilities.parseInt( buffer.toString() );
+
+			if ( verbose )
+			{
+				RequestLogger.printLine( fishName + " stock: " + fishStock + "." );
+			}
+
+			if ( fishStock >= 10 )
+			{
+				AdventureResult item = ClanLoungeRequest.floundryFishToItem( fishName );
+				if ( item != null )
+				{
+					AdventureResult countedItem = ItemPool.get( item.getItemId(), (int) Math.floor( fishStock / 10 ) );
+					if ( countedItem != null )
+					{
+						KoLConstants.clanLounge.add( countedItem );
+					}
+				}
+			}
+		}
 	}
 
 	private static final Pattern LOUNGE_PATTERN = Pattern.compile( "<table.*?<b>Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)", Pattern.DOTALL );
@@ -1745,6 +1926,13 @@ public class ClanLoungeRequest
 				Preferences.setBoolean( "_olympicSwimmingPool", true );
 				return;
 			}
+			return;
+		}
+
+		if ( action.equals( "floundry" ) )
+		{
+			// Visiting the Floundry. See what's on offer
+			ClanLoungeRequest.parseFloundry( responseText, Preferences.getBoolean( "verboseFloundry" ) );
 			return;
 		}
 
