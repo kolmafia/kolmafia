@@ -748,6 +748,7 @@
 7278	Turbo	lightning.gif	5	20	0
 7279	Shoot Ghost	protonpack.gif	5	0	0
 7280	Trap Ghost	ghosttrap.gif	5	0	0
+7281	Censurious Lecture	book3.gif	5	5	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

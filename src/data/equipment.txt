@@ -677,6 +677,7 @@ Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
 lemon shirt	50	Mus: 10
 letterman's jacket	200	Mus: 200
+Liam's mail	150	Mus: 20
 loathing eagle baby-doll shirt	45	Mus: 7
 lynyrdskin tunic	170	Mus: 70
 Mer-kin breastplate	200	Mus: 85
@@ -1055,6 +1056,7 @@ hand-carved bokken	130	Mus: 30	1-handed sword
 hand-carved bow	130	Mox: 30	2-handed bow
 hand-carved staff	130	Mus: 30	2-handed staff
 happiness	165	Mox: 67	1-handed pistol
+haunted bindle	50	Mus: 0	2-handed polearm
 haunted paddle-ball	110	Mox: 40	1-handed flail
 hawk	110	Mus: 40	1-handed saw
 heavy leather-bound tome	150	Mus: 60	1-handed club
@@ -1298,6 +1300,7 @@ slime-covered shovel	200	Mus: 200	2-handed polearm
 slime-covered speargun	200	Mox: 200	1-handed pistol
 slime-covered staff	200	Mys: 200	2-handed staff
 slingshot	20	Mox: 0	2-handed slingshot
+smoldering bagel punch	50	Mys: 0	1-handed utensil
 smoldering staff	125	Mus: 45	2-handed staff
 Sneaky Pete's basket	100	Mox: 0	1-handed basket
 snow shovel	100	Mus: 0	2-handed polearm
@@ -1597,6 +1600,7 @@ fancy opera glasses	50	Mys: 10
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
+fleshy lump	0	none	shield
 flimsy clipboard	50	Mus: 10	shield
 foon	30	none
 foon of fearfulness	50	Mys: 10
@@ -1607,6 +1611,7 @@ foon of fulmination	50	Mys: 10
 Frigid Northern Beans	30	none	can of beans
 Gazpacho's Glacial Grimoire	30	none
 ghast iron heater shield	180	Mus: 75	shield
+ghostly reins	0	none
 giant clay ashtray	60	none	shield
 giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
@@ -1825,6 +1830,7 @@ spongy shield	220	Mus: 95	shield
 spooky little girl	0	none
 sprinkle shaker	10	none
 stack of communist leaflets	10	none
+standards and practices guide	0	Mys: 10
 stapler bear	0	none
 star buckler	165	Mus: 67	shield
 steaming evil	0	Mys: 75

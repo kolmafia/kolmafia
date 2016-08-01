@@ -9109,14 +9109,15 @@
 9083	almost-dead walkie-talkie	586899220	walkietalkie.gif	usable	t	0
 9084
 9085	psychokinetic energy blob	812200336	ectoglob.gif	multiple	t	0
-9086
-9087
-9088
+9086	haunted bindle	751499693	bindle.gif	weapon	d	25
+9087	fleshy lump	272270234	skinshield.gif	offhand	d	25
+9088	smoldering bagel punch	752514652	bagelpunch.gif	weapon	d	25
 9089	ghostly reins	756115443	reins.gif	offhand	q	0
 9090
 9091	Mr. Screege's spectacles	195478344	spectacles.gif	accessory	d	75
 9092
 9093
 9094	burnt snowpants	834248453	burntpants.gif	pants	d	50
-9095
+9095	standards and practices guide	402725811	book3.gif	offhand	d	50
 9096	Carpathian longsword	322696518	carpsword.gif	weapon	d	100
+9097	Liam's mail	168280548	liammail.gif	shirt	d	100
