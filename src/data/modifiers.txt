@@ -3329,6 +3329,7 @@ Item	pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Initiative: [10*Y]
 # porcelain pelerine: Begin Fights with 1 Disco Momentum
 Item	porcelain pelerine	Hat Drop: +20, Monster Level: +10
+Item	protonic accelerator pack	MP Regen Min: 2, MP Regen Max: 20, Item Drop: +15, Muscle: +10, Mysticality: +10, Moxie: +10, Critical Hit Percent: +5, Combat Rate: -5
 Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 Item	rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
 Item	sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*env(underwater)], Critical Hit Percent: [15*env(underwater)]
