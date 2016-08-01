@@ -397,6 +397,7 @@ brown paper pants	20	none
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
+burnt snowpants	100	Mox: 10
 Can-Can skirt	90	Mox: 15
 cane-mail pants	100	none
 Cerebral Culottes	90	Mox: 30
@@ -858,6 +859,7 @@ cardboard staff	60	Mus: 15	2-handed staff
 cardboard sword	60	Mus: 15	1-handed sword
 cardboard wakizashi	60	Mus: 15	1-handed sword
 carob cannon	135	Mox: 45	2-handed crossbow
+Carpathian longsword	150	Mus: 20	1-handed sword
 carrot-on-a-stick	120	Mox: 45	1-handed flail
 cast-iron legacy paddle	190	Mus: 80	2-handed club
 Cerebral Crossbow	90	Mox: 30	1-handed crossbow
@@ -2143,7 +2145,7 @@ Gary Claybender's Time Screwer	50	none
 Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 ghost of a necklace	60	Mys: 15
-ghostly reins	0	none
+ghostly reins	50	none
 giant designer sunglasses	10	none
 giant diamond ring	10	none
 giant motorcycle boots	120	Mus: 45
@@ -2281,6 +2283,7 @@ Mr. Cheeng's spectacles	150	Mys: 35
 Mr. Eh?	0	none
 Mr. Exploiter	0	none
 Mr. Joe's bangles	200	Mys: 200
+Mr. Screege's spectacles	100	Mys: 10
 Ms. Accessory	0	none
 Mudflap-Girl Earring	150	Mys: 60
 Mudflap-Girl Necklace	150	Mys: 60

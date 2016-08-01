@@ -508,6 +508,7 @@ Item	brown paper pants	Moxie: +2, Initiative: +10
 Item	bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 Item	bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 Item	buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
+Item	burnt snowpants	Cold Resistance: +2, Hot Damage: +10
 Item	Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, cap 22"
 Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 2xBarrr, cap 25"
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
@@ -1013,6 +1014,7 @@ Item	cardboard staff	Mysticality: +3, Weapon Damage: +3
 Item	cardboard sword	Muscle: +3, Weapon Damage: +3
 Item	cardboard wakizashi	Damage Reduction: 4, Synergetic
 Item	carob cannon	Moxie: +7, Adventures: +3, Stench Damage: +5
+Item	Carpathian longsword	Hot Damage: +20, Hot Spell Damage: +20, Monster Level: +10
 Item	carrot-on-a-stick	Moxie: +7, Candy Drop: +50
 Item	cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
@@ -2665,6 +2667,8 @@ Item	Mr. Cheeng's spectacles	Item Drop: +15, Spell Critical Percent: +10, Spell 
 Item	Mr. Eh?	Muscle: +14, Mysticality: +14, Moxie: +14, Softcore Only
 # Mr. Exploiter
 Item	Mr. Joe's bangles	Mysticality Percent: +10, Single Equip
+# Item Mr. Screege's spectacles: Lets you find valuables after fights
+Item	Mr. Screege's spectacles	Meat Drop: +20, Single Equip
 Item	Ms. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mudflap-Girl Earring	Stench Resistance: +3, Hot Resistance: +3, Single Equip
 Item	Mudflap-Girl Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Spell Damage: +40, Single Equip

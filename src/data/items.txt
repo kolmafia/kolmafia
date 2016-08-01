@@ -9113,3 +9113,10 @@
 9087
 9088
 9089	ghostly reins	756115443	reins.gif	offhand	q	0
+9090
+9091	Mr. Screege's spectacles	195478344	spectacles.gif	accessory	d	75
+9092
+9093
+9094	burnt snowpants	834248453	burntpants.gif	pants	d	50
+9095
+9096	Carpathian longsword	322696518	carpsword.gif	weapon	d	100
