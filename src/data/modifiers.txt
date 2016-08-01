@@ -2503,6 +2503,7 @@ Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen M
 Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
 Item	ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Item	ghostly reins	Familiar Weight: +10, Experience (familiar): +2, Lasts Until Rollover
 Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
 # giant motorcycle boots: +10 Damage vs. Ghosts

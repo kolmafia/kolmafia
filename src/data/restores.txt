@@ -119,6 +119,7 @@ plump juicy grub	item	[90*effect(form of...bird!)]	[100*effect(form of...bird!)]
 Pok&euml;mann band-aid	item	100	100	0	0	0
 # Potion of healing may need special handling
 potion of healing	item	14	16	14	16	0
+psychokinetic energy blob	item	0	0	20	30	0
 really thick bandage	item	100	120	0	0	0
 red paisley oyster egg	item	30	35	0	0	0
 red pixel potion	item	100	120	0	0	0

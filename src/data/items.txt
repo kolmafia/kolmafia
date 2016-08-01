@@ -9106,3 +9106,10 @@
 9080	detective tattoo	754979318	badgetat.gif	usable	t,d	1000
 9081	DIY protonic accelerator kit	521299592	crate.gif	usable	t	0
 9082	protonic accelerator pack	457809238	protonpack.gif	container		0
+9083	almost-dead walkie-talkie	586899220	walkietalkie.gif	usable	t	0
+9084
+9085	psychokinetic energy blob	812200336	ectoglob.gif	multiple	t	0
+9086
+9087
+9088
+9089	ghostly reins	756115443	reins.gif	offhand	q	0
