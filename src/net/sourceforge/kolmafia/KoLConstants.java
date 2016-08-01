@@ -576,7 +576,8 @@ public interface KoLConstants
 		RUMPLE,		// Items made at Rumpelstiltskin's Workshop
 		FIVE_D,		// Xiblaxian 5d Printer
 		VYKEA,		// Items made with VYKEA instructions
-		DUTYFREE,		// Elemental International Airport Duty Free Shop
+		DUTYFREE,	// Elemental International Airport Duty Free Shop
+		FLOUNDRY,	// Items made in Clan Floundry
 	}
 
 	public enum CraftingRequirements

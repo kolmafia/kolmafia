@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -804,6 +805,16 @@ public class Concoction
 			return;
 		}
 
+		if ( this.mixingMethod != null && this.mixingMethod == CraftingType.FLOUNDRY )
+		{
+			this.initial = 0;
+			this.creatable = ClanLoungeRequest.availableFloundryItem ( this.name ) ? 1 : 0;
+			this.total = this.creatable;
+			this.freeTotal = this.creatable;
+			this.visibleTotal = this.creatable;
+			return;
+		}
+
 		if ( this.concoction == null && this.name != null )
 		{
 			this.initial =
@@ -980,7 +991,7 @@ public class Concoction
 		{
 			return;
 		}
-	
+
 		int id = this.getItemId();
 		int maxSuccess = this.initial;
 		int minFailure = Integer.MAX_VALUE;
@@ -1088,6 +1099,11 @@ public class Concoction
 			}
 
 			return alreadyHave + purchaseRequest.affordableCount();
+		}
+
+		if ( this.mixingMethod != null && this.mixingMethod == CraftingType.FLOUNDRY )
+		{
+			return alreadyHave + ( ClanLoungeRequest.availableFloundryItem ( this.name ) ? 1 : 0 );
 		}
 
 		if ( needToMake <= 0 )

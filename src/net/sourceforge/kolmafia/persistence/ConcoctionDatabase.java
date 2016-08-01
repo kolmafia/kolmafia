@@ -2227,6 +2227,28 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.DUTYFREE, 0 );
 		}
 
+		boolean clanFloundry = ClanLoungeRequest.hasClanLoungeItem( ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 ) );
+		boolean gotFloundryItem = InventoryManager.hasItem( ItemPool.CARPE ) ||
+								InventoryManager.hasItem( ItemPool.CODPIECE ) ||
+								InventoryManager.hasItem( ItemPool.TROUTSERS ) ||
+								InventoryManager.hasItem( ItemPool.BASS_CLARINET ) ||
+								InventoryManager.hasItem( ItemPool.FISH_HATCHET ) ||
+								InventoryManager.hasItem( ItemPool.TUNAC );
+		if ( clanFloundry && !gotFloundryItem  )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.FLOUNDRY );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.FLOUNDRY, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.FLOUNDRY, 0 );
+		}
+		if ( gotFloundryItem )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "You have already got a Floundry item today." );
+		}
+		else if ( !clanFloundry )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "Your current clan does not have a Floundry." );
+		}
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2522,6 +2544,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.DUTYFREE )
 		{
 			result.append( "Elemental International Airport Duty Free Shop" );
+		}
+		else if ( mixingMethod == CraftingType.FLOUNDRY )
+		{
+			result.append( "Clan Floundry" );
 		}
 
 		if ( result.length() == 0 )

@@ -364,6 +364,9 @@ public class CreateItemRequest
 		case DUTYFREE:
 			return new AirportRequest( conc );
 
+		case FLOUNDRY:
+			return new FloundryRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
