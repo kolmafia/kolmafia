@@ -197,13 +197,31 @@ public class ContactManager
 
 	public static final String getPlayerName( final String playerId )
 	{
+		return ContactManager.getPlayerName( playerId, false );
+	}
+
+	public static final String getPlayerName( final String playerId, boolean retrieveName )
+	{
 		if ( playerId == null )
 		{
 			return null;
 		}
 
 		String playerName = (String) ContactManager.seenPlayerNames.get( playerId );
-		return playerName != null ? playerName : playerId;
+
+		if ( playerName != null )
+		{
+			return playerName;
+		}
+
+		if ( !retrieveName )
+		{
+			return playerId;
+		}
+
+		ChatSender.executeMacro( "/whois " + playerId );
+
+		return ContactManager.getPlayerName( playerId, false );
 	}
 
 	public static final String[] extractTargets( final String targetList )

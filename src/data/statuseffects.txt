@@ -2115,4 +2115,4 @@
 2114	Overheated	evil.gif	91299faa7afb91cf4b6ee9dccd97ea7f	# after fight in which Turbo was cast
 2115	Too Noir For Snoir	nopic.gif	1cc0141854a62c833a4706e3faab3ea6	eat 1 hardboiled egg|drink 1 Falcon&trade; Maltese Liquor
 2116	Gummed Shoes	tapshoes.gif	24e754566a811be1f5c94f61345c7ab1	use 1 shoe gum
-2117	Total Protonic Reversal	protonpack.gif	c6675b80e5f1433d10058aa0dfdf9279	# Crossing the Protonic Accelerator beams
+2117	Total Protonic Reversal	protonpack.gif	c6675b80e5f1433d10058aa0dfdf9279	crossstreams
