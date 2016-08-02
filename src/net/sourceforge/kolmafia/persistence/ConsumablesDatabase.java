@@ -1154,7 +1154,7 @@ public class ConsumablesDatabase
 		//
 		// Adventure gains appear to be 0.5 + (your level/2), capped at level 11.
 
-		name = "cold one";
+		name = "Cold One";
 		size = 1;
 		float coAdv = ( level + 1 ) / 2;
 		adventures = String.valueOf( coAdv );

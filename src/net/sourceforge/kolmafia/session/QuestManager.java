@@ -1932,7 +1932,8 @@ public class QuestManager
 			{
 				int flamingProtesters = StringUtilities.parseInt( LighterMatcher.group( 1 ) );
 				Preferences.increment( "zeppelinProtestors", flamingProtesters );
-				RequestLogger.printLine( "Set fire to " + flamingProtesters + " protesters" );			}
+				RequestLogger.printLine( "Set fire to " + flamingProtesters + " protesters" );
+			}
 			else
 			{
 				Preferences.increment( "zeppelinProtestors", 1 );
@@ -2158,6 +2159,9 @@ public class QuestManager
 				{
 					Preferences.setString( "ghostLocation", "The Haunted Wine Cellar" );
 				}
+				String message = "Paranormal activity reported at " + Preferences.getString( "ghostLocation" ) + ".";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 		}
 	}
