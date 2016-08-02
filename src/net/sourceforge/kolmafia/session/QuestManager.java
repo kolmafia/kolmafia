@@ -1873,7 +1873,7 @@ public class QuestManager
 				monsterName.equals( "The ghost of Lord Montague Spookyraven" ) ||
 				monsterName.equals( "The ghost of Sam McGee" ) ||
 				monsterName.equals( "The ghost of Richard Cockingham" ) ||
-				monsterName.equals( "The ghost of Waldo the Carpathiane" ) ||
+				monsterName.equals( "The ghost of Waldo the Carpathian" ) ||
 				monsterName.equals( "Emily Koops, a spooky lime" ) ||
 				monsterName.equals( "The ghost of Jim Unfortunato" ) )
 		{

@@ -714,6 +714,11 @@ public class ProfileRequest
 			Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
 		}
 
+		if( location.contains( "action=crossthestreams" ) && responseText.contains( "creating an intense but localized nuclear reaction" ) )
+		{
+			Preferences.setBoolean( "_streamsCrossed", true );
+		}
+
 		// Look for new items in equipment
 		matcher = ProfileRequest.EQUIPMENT_PATTERN.matcher( responseText );
 		if ( matcher.find() )
