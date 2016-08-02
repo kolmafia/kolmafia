@@ -864,6 +864,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "lttQuestDifficulty" );
 		Preferences.resetToDefault( "lttQuestName" );
 		Preferences.resetToDefault( "lttQuestStageCount" );
+		Preferences.resetToDefault( "ghostLocation" );
 	}
 
 	public static void handleCouncilText( String responseText )
