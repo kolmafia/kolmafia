@@ -91,7 +91,7 @@ public class QuestManager
 	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
 	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)" );
 	private static final Pattern SNOWMAN_PATTERN = Pattern.compile( "otherimages/combatsnowman/" );
-	private static final Pattern PARANORMAL_PATTERN = Pattern.compile( "&quot;Paranormal disturbance reported in (.*?).&quot;" );
+	private static final Pattern PARANORMAL_PATTERN = Pattern.compile( "&quot;Paranormal disturbance reported (.*?).&quot;" );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
