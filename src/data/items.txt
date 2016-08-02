@@ -9113,11 +9113,12 @@
 9087	fleshy lump	272270234	skinshield.gif	offhand	d	25
 9088	smoldering bagel punch	752514652	bagelpunch.gif	weapon	d	25
 9089	ghostly reins	756115443	reins.gif	offhand	q	0
-9090
+9090	frigid derringer	288890210	derringer.gif	weapon	d	50
 9091	Mr. Screege's spectacles	195478344	spectacles.gif	accessory	d	75
-9092
+9092	Spookyraven signet	807459388	spookysignet.gif	accessory	d	50
 9093
 9094	burnt snowpants	834248453	burntpants.gif	pants	d	50
 9095	standards and practices guide	402725811	book3.gif	offhand	d	50
 9096	Carpathian longsword	322696518	carpsword.gif	weapon	d	100
 9097	Liam's mail	168280548	liammail.gif	shirt	d	100
+9098	Unfortunato's foolscap	530076908	foolscap.gif	hat	d	100
