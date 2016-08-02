@@ -1768,7 +1768,7 @@ The ghost of Sam McGee	1954	ghost_flame.gif	FREE Atk: 95 Def: 85 HP: 90 Init: 40
 The ghost of Richard Cockingham	1955	ghost_censor.gif	FREE Atk: 85 Def: 80 HP: 80 Init: 50 E: spooky P: undead	standards and practices guide (c100)
 The ghost of Waldo the Carpathian	1956	ghost_waldo.gif	FREE Atk: 70 Def: 65 HP: 70 Init: 60 E: spooky P: undead	Carpathian longsword (c100)
 Emily Koops, a spooky lime	1957	ghost_lime.gif	FREE Atk: 175 Def: 150 HP: 160 Init: 70 E: spooky P: undead	Liam's mail (c100)
-The ghost of Jim Unfortunato	1958		FREE E: spooky P: undead	Unfortunato's foolscap (c100)
+The ghost of Jim Unfortunato	1958	ghost_fortunado.gif	FREE Atk: 190 Def: 170 HP: 180 Init: 75 E: spooky P: undead	Unfortunato's foolscap (c100)
 
 # KoL Con
 
