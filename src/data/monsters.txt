@@ -1756,11 +1756,19 @@ Witchess King	1940	chess_bking.gif	FREE Scale: 20 Cap: 6000 Floor: 100 HP: 2000 
 Witchess Witch	1941	chess_bwitch.gif	FREE Scale: 30 Cap: 7000 Floor: 150 HP: 3000 Init: -10000 P: dude	battle broom (n100)
 Witchess Bishop	1942	chess_bbishop.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude	Sacramento wine (n100)
 
-# Proton Accelerator (August 2016)
-The Headless Horseman	1949	ghost_horse.gif	FREE Atk: 12 Def: 10 HP: 12 Init: 15 E: spooky P: undead E: spooky	ghostly reins (n100)
-The ghost of Ebenoozer Screege	1951	ghost_screege.gif	FREE Atk: 25 Def: 22 HP: 25 Init: 25 E: spooky P: undead	Mr. Screege's spectacles (n100)
-The ghost of Sam McGee	1954	ghost_flame.gif	FREE Atk: 95 Def: 85 HP: 90 Init: 40 E: spooky P: undead	burnt snowpants (n100)
-The ghost of Waldo the Carpathian	1956	ghost_waldo.gif	FREE Atk: 70 Def: 65 HP: 70 Init: 60 E: spooky P: undead	Carpathian longsword (n100)
+# Protonic Accelerator Pack (August 2016)
+the ghost of Oily McBindle	1946	ghost_oily.gif	FREE Atk: 3 Def: 2 HP: 10 Init: 5 E: spooky P: undead	haunted bindle (c100)
+boneless blobghost	1947	ghost_skin.gif	FREE Atk: 3 Def: 2 HP: 10 Init: 5 E: spooky P: undead	fleshy lump (c100)
+the ghost of Monsieur Baguelle	1948	ghost_bagel.gif	FREE Atk: 3 Def: 2 HP: 10 Init: 5 E: spooky P: undead	smoldering bagel punch (c100)
+The Headless Horseman	1949	ghost_horse.gif	FREE Atk: 12 Def: 10 HP: 12 Init: 15 E: spooky P: undead E: spooky	ghostly reins (c100)
+The Icewoman	1950		FREE E: spooky P: undead	frigid derringer (c100)
+The ghost of Ebenoozer Screege	1951	ghost_screege.gif	FREE Atk: 25 Def: 22 HP: 25 Init: 25 E: spooky P: undead	Mr. Screege's spectacles (c100)
+The ghost of Lord Montague Spookyraven	1952	ghost_sraven.gif	FREE Atk: 32 Def: 28 HP: 32 Init: 30 E: spooky P: undead	Spookyraven signet (c100)
+The ghost of Sam McGee	1954	ghost_flame.gif	FREE Atk: 95 Def: 85 HP: 90 Init: 40 E: spooky P: undead	burnt snowpants (c100)
+The ghost of Richard Cockingham	1955	ghost_censor.gif	FREE Atk: 85 Def: 80 HP: 80 Init: 50 E: spooky P: undead	standards and practices guide (c100)
+The ghost of Waldo the Carpathian	1956	ghost_waldo.gif	FREE Atk: 70 Def: 65 HP: 70 Init: 60 E: spooky P: undead	Carpathian longsword (c100)
+Emily Koops, a spooky lime	1957	ghost_lime.gif	FREE Atk: 175 Def: 150 HP: 160 Init: 70 E: spooky P: undead	Liam's mail (c100)
+The ghost of Jim Unfortunato	1958		FREE E: spooky P: undead	Unfortunato's foolscap (c100)
 
 # KoL Con
 

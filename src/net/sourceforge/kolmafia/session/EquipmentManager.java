@@ -798,6 +798,9 @@ public class EquipmentManager
 					KoLCharacter.removeAvailableSkill( "Shoot Ghost" );
 					KoLCharacter.removeAvailableSkill( "Trap Ghost" );
 					break;
+				case ItemPool.STANDARDS_AND_PRACTICES:
+					KoLCharacter.removeAvailableSkill( "Censurious Lecture" );
+					break;
 				}
 			}
 		}
@@ -1052,6 +1055,9 @@ public class EquipmentManager
 		case ItemPool.PROTON_ACCELERATOR:
 			KoLCharacter.addAvailableSkill( "Shoot Ghost" );
 			KoLCharacter.addAvailableSkill( "Trap Ghost" );
+			break;
+		case ItemPool.STANDARDS_AND_PRACTICES:
+			KoLCharacter.addAvailableSkill( "Censurious Lecture" );
 			break;
 		}
 

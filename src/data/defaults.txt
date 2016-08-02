@@ -479,6 +479,7 @@ user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
 user	gameProBossSpecialPower	Unknown
+user	ghostLocation	
 user	ghostPencil1	false
 user	ghostPencil2	false
 user	ghostPencil3	false
@@ -909,6 +910,7 @@ user	questM23Meatsmith	unstarted
 user	questM24Doc	unstarted
 user	questM25Armorer	unstarted
 user	questM26Oracle	unstarted
+user	questPAGhost	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
 user	rageGlandVented	false

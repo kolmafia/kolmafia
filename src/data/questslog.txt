@@ -111,3 +111,6 @@ questECoBucket	Filled to the Brim	Equip Walford's bucket	Walford wants you to fi
 
 # LT&T Quests
 questLTTQuestByWire	Send Me a Quest By Wire	Read the plaintive telegram in your inventory	(various messages)	(various messages)	(various messages)	(various messages)	(no completion message)
+
+# Protonic Accelerator Quests
+questPAGhost	Don't be Afraid of Any Ghost	Investigate the paranormal activity reported	(no completion message)

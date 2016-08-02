@@ -139,6 +139,7 @@ public class QuestDatabase
 			BUCKET( "questECoBucket" ),
 			TELEGRAM( "questLTTQuestByWire" ),
 			ORACLE( "questM26Oracle" ),
+			GHOST( "questPAGhost" ),
 			;
 
 		private final String pref;
@@ -168,6 +169,7 @@ public class QuestDatabase
 	public static final Pattern OIL_PEAK_PATTERN = Pattern.compile( "The pressure is currently ([\\d\\.]+) microbowies" );
 	public static final Pattern COMPETITION_PATTERN = Pattern.compile( "Contest #(\\d): ((\\d+) competitor|(Won!))" );
 	public static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
+	public static final Pattern GHOST_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -322,6 +324,15 @@ public class QuestDatabase
 			if ( matcher.find() )
 			{
 				Preferences.setString( "sourceOracleTarget", matcher.group( 1 ) );
+			}
+		}
+			// Get Ghost quest target
+		if ( pref.equals( Quest.GHOST.getPref() ) )
+		{
+			Matcher matcher = QuestDatabase.GHOST_QUEST_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "ghostLocation", matcher.group( 1 ) );
 			}
 		}
 

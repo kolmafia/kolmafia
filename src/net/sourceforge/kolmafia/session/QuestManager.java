@@ -89,8 +89,9 @@ public class QuestManager
 	private static final Pattern LOWER_CHAMBER_PATTERN = Pattern.compile( "action=pyramid_state(\\d+)" );
 	private static final Pattern GORE_PATTERN = Pattern.compile( "(\\d+) pounds of (?:the gore|gore)" );
 	private static final Pattern TOURIST_PATTERN = Pattern.compile( "and the (\\d+) tourists in front" );
-	private static final Pattern WALFORD_PATTERN = Pattern.compile(  "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)" );
-	private static final Pattern SNOWMAN_PATTERN = Pattern.compile(  "otherimages/combatsnowman/" );
+	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)" );
+	private static final Pattern SNOWMAN_PATTERN = Pattern.compile( "otherimages/combatsnowman/" );
+	private static final Pattern PARANORMAL_PATTERN = Pattern.compile( "&quot;Paranormal disturbance reported in (.*?).&quot;" );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
@@ -1863,6 +1864,22 @@ public class QuestManager
 			Preferences.setInteger( "lttQuestStageCount", 0 );
 			Preferences.setString( "lttQuestName", "" );
 		}
+		else if ( monsterName.equals( "the ghost of Oily McBindle" ) ||
+				monsterName.equals( "boneless blobghost" ) ||
+				monsterName.equals( "the ghost of Monsieur Baguelle" ) ||
+				monsterName.equals( "The Headless Horseman" ) ||
+				monsterName.equals( "The Icewoman" ) ||
+				monsterName.equals( "The ghost of Ebenoozer Screege" ) ||
+				monsterName.equals( "The ghost of Lord Montague Spookyraven" ) ||
+				monsterName.equals( "The ghost of Sam McGee" ) ||
+				monsterName.equals( "The ghost of Richard Cockingham" ) ||
+				monsterName.equals( "The ghost of Waldo the Carpathiane" ) ||
+				monsterName.equals( "Emily Koops, a spooky lime" ) ||
+				monsterName.equals( "The ghost of Jim Unfortunato" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.GHOST, QuestDatabase.UNSTARTED );
+			Preferences.setString( "ghostLocation", "" );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -2082,6 +2099,66 @@ public class QuestManager
 				}
 			}
 			break;
+		}
+
+		// Can get a message about a ghost if wearing a Proton Accelerator Pack
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PROTON_ACCELERATOR, 1 ) ) )
+		{
+			Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher( responseText );
+			while ( ParanormalMatcher.find() )
+			{
+				QuestDatabase.setQuestProgress( Quest.GHOST, QuestDatabase.STARTED );
+				String location = ParanormalMatcher.group( 1 );
+				// Locations don't exactly match location name or quest log entries, so make them
+				if ( location.contains( "Overgrown Lot" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Overgrown Lot" );
+				}
+				else if ( location.contains( "Skeleton Store" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Skeleton Store" );
+				}
+				else if ( location.contains( "Madness Bakery" ) )
+				{
+					Preferences.setString( "ghostLocation", "Madness Bakery" );
+				}
+				else if ( location.contains( "Spooky Forest" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Spooky Forest" );
+				}
+				else if ( location.contains( "Kitchen" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Haunted Kitchen" );
+				}
+				else if ( location.contains( "Knob Treasury" ) )
+				{
+					Preferences.setString( "ghostLocation", "Cobb's Knob Treasury" );
+				}
+				else if ( location.contains( "Conservatory" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Haunted Conservatory" );
+				}
+				else if ( location.contains( "Icy Peak" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Icy Peak" );
+				}
+				else if ( location.contains( "Smut Orc Logging Camp" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Smut Orc Logging Camp" );
+				}
+				else if ( location.contains( "Gallery" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Haunted Gallery" );
+				}
+				else if ( location.contains( "Palindome" ) )
+				{
+					Preferences.setString( "ghostLocation", "Inside the Palindome" );
+				}
+				else if ( location.contains( "Wine Cellar" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Haunted Wine Cellar" );
+				}
+			}
 		}
 	}
 
