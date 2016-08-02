@@ -1054,6 +1054,7 @@ user	statusSpecialOps	0
 user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster	
+user	streamCrossDefaultTarget	ProtonicBot
 user	styxPixieVisited	false
 user	sugarCounter4178	0
 user	sugarCounter4179	0

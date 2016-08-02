@@ -1003,6 +1003,27 @@ public class Maximizer
 					duration = 25;
 					usesRemaining = Preferences.getBoolean( "_witchessBuff" ) ? 0 : 1;
 				}
+				else if ( cmd.equals( "crossstreams" ) )
+				{
+					if ( InventoryManager.getAccessibleCount( ItemPool.PROTON_ACCELERATOR ) == 0 )
+					{
+						if ( includeAll )
+						{
+							text = "(acquire protonic accelerator pack and crossstreams for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getBoolean( "_streamsCrossed" ) )
+					{
+						cmd = "";
+					}
+					duration = 10;
+					usesRemaining = Preferences.getBoolean( "_streamsCrossed" ) ? 0 : 1;
+				}
 				else if ( cmd.startsWith( "terminal enhance" ) )
 				{
 					int limit = 1;

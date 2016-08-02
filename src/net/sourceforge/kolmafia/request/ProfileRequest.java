@@ -714,7 +714,9 @@ public class ProfileRequest
 			Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
 		}
 
-		if( location.contains( "action=crossthestreams" ) && responseText.contains( "creating an intense but localized nuclear reaction" ) )
+		if ( location.contains( "action=crossthestreams" ) && 
+			( responseText.contains( "creating an intense but localized nuclear reaction" ) ||
+			responseText.contains( "You've already crossed the streams today" ) ) )
 		{
 			Preferences.setBoolean( "_streamsCrossed", true );
 		}
