@@ -97,6 +97,7 @@ public class AdventureResult
 	public static final String PVP = "PvP";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
+	public static final String EXTRUDE = "Source Terminal Extrude";
 	public static final String PIRATE_INSULT = "pirate insult";
 	public static final String ARENA_ML = "Arena flyer ML";
 	public static final String CHASM_BRIDGE = "Chasm Bridge Progress";
@@ -209,6 +210,7 @@ public class AdventureResult
 		     name.equals( AdventureResult.PULL ) ||
 		     name.equals( AdventureResult.STILL ) ||
 		     name.equals( AdventureResult.TOME )||
+		     name.equals( AdventureResult.EXTRUDE )||
 		     name.equals( AdventureResult.FREE_CRAFT ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
@@ -793,6 +795,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.TOME ) )
 		{
 			return " Tome Summons: " + KoLConstants.COMMA_FORMAT.format( this.count );
+		}
+
+		if ( this.name.equals( AdventureResult.EXTRUDE ) )
+		{
+			return " Source Terminal Extrudes: " + KoLConstants.COMMA_FORMAT.format( this.count );
 		}
 
 		if ( this.name.equals( AdventureResult.HP ) || this.name.equals( AdventureResult.MP ) || this.name.equals( AdventureResult.DRUNK ) || this.name.equals( AdventureResult.FULL ) )

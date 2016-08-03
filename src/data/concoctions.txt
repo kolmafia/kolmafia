@@ -2796,9 +2796,23 @@ patent avarice tonic	COOK, PATENT	unusual oil	skin oil
 patent alacrity tonic	COOK, PATENT	eldritch oil	unusual oil
 
 # Elemental International Airport Duty Free Shop
+
 That 70s Cologne	DUTYFREE, ROW776	Volcoino (5)
 Puffstone cigar	DUTYFREE, ROW778	FunFunds&trade; (20)
 Wal-Mart &quot;diamond&quot; ring	DUTYFREE, ROW777	Wal-Mart gift certificate (50)
 Conspiracy&trade; mascara	DUTYFREE, ROW779	Coinspiracy (75)
 Spring Break Beach &quot;swimsuit&quot;	DUTYFREE, ROW780	Beach Buck (125)
 airplane tattoo	DUTYFREE, ROW781	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
+
+# Source Terminal
+
+browser cookie	TERMINAL	Source essence (10)
+hacked gibson	TERMINAL	Source essence (10)
+Source shades	TERMINAL	Source essence (100)
+software bug	TERMINAL	Source essence (10000)
+Source terminal PRAM chip	TERMINAL	Source essence (100)
+Source terminal GRAM chip	TERMINAL	Source essence (100)
+Source terminal SPAM chip	TERMINAL	Source essence (100)
+Source terminal CRAM chip	TERMINAL	Source essence (1000)
+Source terminal DRAM chip	TERMINAL	Source essence (1000)
+Source terminal TRAM chip	TERMINAL	Source essence (1000)

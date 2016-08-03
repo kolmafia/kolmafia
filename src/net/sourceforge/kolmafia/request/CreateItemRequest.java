@@ -367,6 +367,9 @@ public class CreateItemRequest
 		case FLOUNDRY:
 			return new FloundryRequest( conc );
 
+		case TERMINAL:
+			return new TerminalExtrudeRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
