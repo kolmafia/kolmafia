@@ -11766,9 +11766,10 @@ public abstract class ChoiceManager
 					knownString.append( matcher.group( 1 ) + ".edu" );
 				}
 				Preferences.setString( "sourceTerminalEducateKnown", knownString.toString() );
+				return;
 			}
 
-			if ( failIndex > successIndex || listIndex > successIndex ) return;
+			if ( failIndex > successIndex ) return;
 
 			String skill = input.substring( 7 ).trim();
 
@@ -11812,9 +11813,18 @@ public abstract class ChoiceManager
 					knownString.append( matcher.group( 1 ) + ".enh" );
 				}
 				Preferences.setString( "sourceTerminalEnhanceKnown", knownString.toString() );
+				return;
 			}
 
-			if ( badInputIndex > successIndex || limitIndex > successIndex || listIndex > successIndex ) return;
+			if ( limitIndex > badInputIndex && limitIndex > successIndex )
+			{
+				String chips = Preferences.getString( "sourceTerminalChips" );
+				int limit = 1 + ( chips.contains( "CRAM" ) ? 1 : 0 ) + ( chips.contains( "SCRAM" ) ? 1 : 0 );
+				Preferences.setInteger( "_sourceTerminalEnhanceUses", limit );
+				return;
+			}
+
+			if ( badInputIndex > successIndex ) return;
 
 			Preferences.increment( "_sourceTerminalEnhanceUses" );
 		}
@@ -11847,9 +11857,11 @@ public abstract class ChoiceManager
 					knownString.append( matcher.group( 1 ) + ".enq" );
 				}
 				Preferences.setString( "sourceTerminalEnquiryKnown", knownString.toString() );
+				return;
 			}
 
-			if ( failIndex > successIndex || listIndex > successIndex ) return;
+			if ( failIndex > successIndex ) return;
+
 			int beginIndex = successIndex + 18;
 			int endIndex = text.indexOf( "</div>", beginIndex );
 			Preferences.setString( "sourceTerminalEnquiry", text.substring( beginIndex, endIndex ) );
@@ -11887,63 +11899,69 @@ public abstract class ChoiceManager
 					knownString.append( matcher.group( 1 ) + ".ext" );
 				}
 				Preferences.setString( "sourceTerminalExtrudeKnown", knownString.toString() );
+				return;
 			}
 
-			if ( acquire > Math.max( invalid, Math.max( insufficient, Math.max( confirm, exceeded ) ) ) )
+			if ( exceeded > acquire && exceeded > invalid && exceeded > insufficient && exceeded > confirm )
 			{
-				// Creation must have succeeded
-				if ( input.contains( "food" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.BROWSER_COOKIE ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
-				}
-				else if ( input.contains( "booze" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.HACKED_GIBSON ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
-				}
-				else if ( input.contains( "goggles" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_SHADES ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
-				}
-				else if ( input.contains( "gram" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_GRAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
-				}
-				else if ( input.contains( "pram" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_PRAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
-				}
-				else if ( input.contains( "spam" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_SPAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
-				}
-				else if ( input.contains( "cram" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_CRAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
-				}
-				else if ( input.contains( "dram" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_DRAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
-				}
-				else if ( input.contains( "tram" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_TRAM_CHIP ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
-				}
-				else if ( input.contains( "familiar" ) )
-				{
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOFTWARE_BUG ) );
-					ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10000 ) );
-				}
-				Preferences.increment( "_sourceTerminalExtrudes" );
+				Preferences.setInteger( "_sourceTerminalExtrudes", 3 );
+				return;
 			}
+
+			if ( invalid > acquire && insufficient > acquire && confirm > acquire ) return;
+
+			// Creation must have succeeded
+			if ( input.contains( "food" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.BROWSER_COOKIE ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+			}
+			else if ( input.contains( "booze" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.HACKED_GIBSON ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+			}
+			else if ( input.contains( "goggles" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_SHADES ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+			}
+			else if ( input.contains( "gram" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_GRAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+			}
+			else if ( input.contains( "pram" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_PRAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+			}
+			else if ( input.contains( "spam" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_SPAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+			}
+			else if ( input.contains( "cram" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_CRAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+			}
+			else if ( input.contains( "dram" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_DRAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+			}
+			else if ( input.contains( "tram" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_TRAM_CHIP ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+			}
+			else if ( input.contains( "familiar" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOFTWARE_BUG ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10000 ) );
+			}
+			Preferences.increment( "_sourceTerminalExtrudes" );
 		}
 		else if ( input.startsWith( "status" ) )
 		{
