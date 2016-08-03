@@ -1028,13 +1028,26 @@ public class Maximizer
 				{
 					int limit = 1;
 					String chips = Preferences.getString( "sourceTerminalChips" );
-					if ( chips.startsWith( "CRAM" ) ) limit++;
+					String files = Preferences.getString( "sourceTerminalEnhanceKnown" );
+					if ( chips.contains( "CRAM" ) ) limit++;
 					if ( chips.contains( "SCRAM" ) ) limit++;
 					if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL, 1 ) ) )
 					{
 						if ( includeAll )
 						{
 							text = "(install Source Terminal for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( cmd.contains( name ) && !files.contains( name ) )
+					{
+						if ( includeAll )
+						{
+							text = "(install Source terminal file: " + name + " for " + name + ")";
 							cmd = "";
 						}
 						else

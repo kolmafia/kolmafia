@@ -1106,9 +1106,43 @@ public class Concoction
 			return alreadyHave + purchaseRequest.affordableCount();
 		}
 
-		if ( this.mixingMethod != null && this.mixingMethod == CraftingType.FLOUNDRY )
+		if ( this.mixingMethod == CraftingType.FLOUNDRY )
 		{
 			return alreadyHave + ( ClanLoungeRequest.availableFloundryItem ( this.name ) ? 1 : 0 );
+		}
+
+		if ( this.mixingMethod == CraftingType.TERMINAL )
+		{
+			// Check that we know the file for this
+			String known = Preferences.getString( "sourceTerminalExtrudeKnown" );
+			if ( this.name.equals( "Source terminal GRAM chip" ) && !known.contains( "gram.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "Source terminal PRAM chip" ) && !known.contains( "pram.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "Source terminal SPAM chip" ) && !known.contains( "spam.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "Source terminal CRAM chip" ) && !known.contains( "cram.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "Source terminal DRAM chip" ) && !known.contains( "dram.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "Source terminal TRAM chip" ) && !known.contains( "tram.ext" ) )
+			{
+				return alreadyHave;
+			}
+			if ( this.name.equals( "software bug" ) && !known.contains( "familiar.ext" ) )
+			{
+				return alreadyHave;
+			}
 		}
 
 		if ( needToMake <= 0 )

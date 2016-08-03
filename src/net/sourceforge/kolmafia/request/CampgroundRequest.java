@@ -685,6 +685,16 @@ public class CampgroundRequest
 		findImage( responseText, "chesstable.gif", ItemPool.WITCHESS_SET );
 		findImage( responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL );
 
+		if ( responseText.contains( "campterminal.gif" ) && Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" ) )
+		{
+			// There is a Terminal, but we don't know what upgrades it has, so find out
+			RequestThread.postRequest( new TerminalRequest( "status" ) );
+			RequestThread.postRequest( new TerminalRequest( "educate" ) );
+			RequestThread.postRequest( new TerminalRequest( "enhance" ) );
+			RequestThread.postRequest( new TerminalRequest( "enquiry" ) );
+			RequestThread.postRequest( new TerminalRequest( "extrude" ) );
+		}
+
 		findImage( responseText, "teatree", ItemPool.POTTED_TEA_TREE );
 		if ( responseText.contains( "teatree_used.gif" ) )
 		{
