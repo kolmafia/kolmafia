@@ -59,11 +59,16 @@ public class TerminalCommand
 		String input = params[1];
 		String output;
 
+		if ( input.equals( "" ) )
+		{
+			output = command;
+		}
 		if ( command.equals( "enhance" ) )
 		{
 			int enhanceLimit = 1;
 			String chips = Preferences.getString( "sourceTerminalChips" );
-			if ( chips.startsWith( "CRAM" ) ) enhanceLimit++;
+			String files = Preferences.getString( "sourceTerminalEnhanceKnown" );
+			if ( chips.contains( "CRAM" ) ) enhanceLimit++;
 			if ( chips.contains( "SCRAM" ) ) enhanceLimit++;
 			if ( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) >= enhanceLimit )
 			{
@@ -83,15 +88,15 @@ public class TerminalCommand
 			{
 				output = "enhance meat.enh";
 			}
-			else if ( input.startsWith( "sub" ) )
+			else if ( input.startsWith( "sub" ) && files.contains( "substats.enh" ) )
 			{
 				output = "enhance substats.enh";
 			}
-			else if ( input.startsWith( "damage" ) )
+			else if ( input.startsWith( "damage" ) && files.contains( "damage.enh" ) )
 			{
 				output = "enhance damage.enh";
 			}
-			else if ( input.startsWith( "crit" ) )
+			else if ( input.startsWith( "crit" ) && files.contains( "critical.enh" ) )
 			{
 				output = "enhance critical.enh";
 			}
@@ -103,6 +108,8 @@ public class TerminalCommand
 		}
 		else if ( command.equals( "enquiry" ) )
 		{
+			String files = Preferences.getString( "sourceTerminalEnquiryKnown" );
+
 			if ( input.startsWith( "fam" ) )
 			{
 				output = "enquiry familiar.enq";
@@ -111,11 +118,11 @@ public class TerminalCommand
 			{
 				output = "enquiry monsters.enq";
 			}
-			else if ( input.startsWith( "protect" ) )
+			else if ( input.startsWith( "protect" ) && files.contains( "protect.enq" ) )
 			{
 				output = "enquiry protect.enq";
 			}
-			else if ( input.startsWith( "stat" ) )
+			else if ( input.startsWith( "stat" ) && files.contains( "stats.enq" ) )
 			{
 				output = "enquiry stats.enq";
 			}
@@ -127,7 +134,9 @@ public class TerminalCommand
 		}
 		else if ( command.equals( "educate" ) )
 		{
-			if ( input.startsWith( "compr" ) )
+			String files = Preferences.getString( "sourceTerminalEducateKnown" );
+
+			if ( input.startsWith( "compr" ) && files.contains( "compress.edu" ) )
 			{
 				output = "educate compress.edu";
 			}
@@ -135,7 +144,7 @@ public class TerminalCommand
 			{
 				output = "educate digitize.edu";
 			}
-			else if ( input.startsWith( "dup" ) )
+			else if ( input.startsWith( "dup" ) && files.contains( "duplicate.edu" ) )
 			{
 				output = "educate duplicate.edu";
 			}
@@ -143,11 +152,11 @@ public class TerminalCommand
 			{
 				output = "educate extract.edu";
 			}
-			else if ( input.startsWith( "port" ) )
+			else if ( input.startsWith( "port" ) && files.contains( "portscan.edu" ) )
 			{
 				output = "educate portscan.edu";
 			}
-			else if ( input.startsWith( "turbo" ) )
+			else if ( input.startsWith( "turbo" ) && files.contains( "turbo.edu" ) )
 			{
 				output = "educate turbo.edu";
 			}
@@ -164,6 +173,9 @@ public class TerminalCommand
 				KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Source Terminal extrude limit reached" );
 				return;
 			}
+
+			String files = Preferences.getString( "sourceTerminalExtrudeKnown" );
+
 			if ( input.startsWith( "booze" ) || input.contains( "gibson" ) )
 			{
 				output = "extrude -f booze.ext";
@@ -172,7 +184,7 @@ public class TerminalCommand
 			{
 				output = "extrude -f food.ext";
 			}
-			else if ( input.startsWith( "fam" ) )
+			else if ( input.startsWith( "fam" ) && files.contains( "familiar.ext" ) )
 			{
 				output = "extrude -f familiar.ext";
 			}
@@ -180,27 +192,27 @@ public class TerminalCommand
 			{
 				output = "extrude -f goggles.ext";
 			}
-			else if ( input.startsWith( "cram" ) )
+			else if ( input.startsWith( "cram" ) && files.contains( "cram.ext" ) )
 			{
 				output = "extrude -f cram.ext";
 			}
-			else if ( input.startsWith( "dram" ) )
+			else if ( input.startsWith( "dram" ) && files.contains( "dram.ext" ) )
 			{
 				output = "extrude -f dram.ext";
 			}
-			else if ( input.startsWith( "gram" ) )
+			else if ( input.startsWith( "gram" ) && files.contains( "gram.ext" ) )
 			{
 				output = "extrude -f gram.ext";
 			}
-			else if ( input.startsWith( "pram" ) )
+			else if ( input.startsWith( "pram" ) && files.contains( "pram.ext" ) )
 			{
 				output = "extrude -f pram.ext";
 			}
-			else if ( input.startsWith( "spam" ) )
+			else if ( input.startsWith( "spam" ) && files.contains( "spam.ext" ) )
 			{
 				output = "extrude -f spam.ext";
 			}
-			else if ( input.startsWith( "tram" ) )
+			else if ( input.startsWith( "tram" ) && files.contains( "tram.ext" ) )
 			{
 				output = "extrude -f tram.ext";
 			}

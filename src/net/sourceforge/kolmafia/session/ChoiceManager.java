@@ -11741,7 +11741,34 @@ public abstract class ChoiceManager
 		{
 			int successIndex = text.lastIndexOf( "active skills" );
 			int failIndex = text.lastIndexOf( "missing educate" );
-			if ( failIndex > successIndex ) return;
+			int listIndex = text.lastIndexOf( "usage: educate [target file]" );
+
+			if ( listIndex > successIndex && listIndex > failIndex )
+			{
+				int startIndex = text.lastIndexOf( "available targets:" );
+				int endIndex = text.lastIndexOf( "&gt;" );
+				if ( startIndex == -1 || endIndex == -1 )
+				{
+					// this shouldn't happen...
+					return;
+				}
+				text = text.substring( startIndex, endIndex );
+				Pattern EDUCATE_PATTERN = Pattern.compile( "rel=\"educate (.*?).edu\"" );
+				StringBuilder knownString = new StringBuilder();
+
+				Matcher matcher = EDUCATE_PATTERN.matcher( text );
+				while ( matcher.find() )
+				{
+					if ( knownString.length() > 0 )
+					{
+						knownString.append( "," );
+					}
+					knownString.append( matcher.group( 1 ) + ".edu" );
+				}
+				Preferences.setString( "sourceTerminalEducateKnown", knownString.toString() );
+			}
+
+			if ( failIndex > successIndex || listIndex > successIndex ) return;
 
 			String skill = input.substring( 7 ).trim();
 
@@ -11760,7 +11787,34 @@ public abstract class ChoiceManager
 			int successIndex = text.lastIndexOf( "You acquire an effect" );
 			int badInputIndex = text.lastIndexOf( "missing enhance" );
 			int limitIndex = text.lastIndexOf( "enhance limit exceeded" );
-			if ( badInputIndex > successIndex || limitIndex > successIndex ) return;
+			int listIndex = text.lastIndexOf( "usage: enhance [target file]" );
+
+			if ( listIndex > limitIndex && listIndex > badInputIndex && listIndex > successIndex )
+			{
+				int startIndex = text.lastIndexOf( "available targets:" );
+				int endIndex = text.lastIndexOf( "&gt;" );
+				if ( startIndex == -1 || endIndex == -1 )
+				{
+					// this shouldn't happen...
+					return;
+				}
+				text = text.substring( startIndex, endIndex );
+				Pattern ENHANCE_PATTERN = Pattern.compile( "rel=\"enhance (.*?).enh\"" );
+				StringBuilder knownString = new StringBuilder();
+
+				Matcher matcher = ENHANCE_PATTERN.matcher( text );
+				while ( matcher.find() )
+				{
+					if ( knownString.length() > 0 )
+					{
+						knownString.append( "," );
+					}
+					knownString.append( matcher.group( 1 ) + ".enh" );
+				}
+				Preferences.setString( "sourceTerminalEnhanceKnown", knownString.toString() );
+			}
+
+			if ( badInputIndex > successIndex || limitIndex > successIndex || listIndex > successIndex ) return;
 
 			Preferences.increment( "_sourceTerminalEnhanceUses" );
 		}
@@ -11768,7 +11822,34 @@ public abstract class ChoiceManager
 		{
 			int successIndex = text.lastIndexOf( "enquiry mode set:" );
 			int failIndex = text.lastIndexOf( "missing enquiry target" );
-			if ( successIndex <= failIndex ) return;
+			int listIndex = text.lastIndexOf( "usage: enquiry [target file]" );
+
+			if ( listIndex > failIndex && listIndex > successIndex )
+			{
+				int startIndex = text.lastIndexOf( "available targets:" );
+				int endIndex = text.lastIndexOf( "&gt;" );
+				if ( startIndex == -1 || endIndex == -1 )
+				{
+					// this shouldn't happen...
+					return;
+				}
+				text = text.substring( startIndex, endIndex );
+				Pattern ENQUIRY_PATTERN = Pattern.compile( "rel=\"enquiry (.*?).enq\"" );
+				StringBuilder knownString = new StringBuilder();
+
+				Matcher matcher = ENQUIRY_PATTERN.matcher( text );
+				while ( matcher.find() )
+				{
+					if ( knownString.length() > 0 )
+					{
+						knownString.append( "," );
+					}
+					knownString.append( matcher.group( 1 ) + ".enq" );
+				}
+				Preferences.setString( "sourceTerminalEnquiryKnown", knownString.toString() );
+			}
+
+			if ( failIndex > successIndex || listIndex > successIndex ) return;
 			int beginIndex = successIndex + 18;
 			int endIndex = text.indexOf( "</div>", beginIndex );
 			Preferences.setString( "sourceTerminalEnquiry", text.substring( beginIndex, endIndex ) );
@@ -11780,6 +11861,33 @@ public abstract class ChoiceManager
 			int insufficient = text.lastIndexOf( "Insufficient" );
 			int confirm = text.lastIndexOf( "to confirm" );
 			int exceeded = text.lastIndexOf( "limits exceeded" );
+			int listIndex = text.lastIndexOf( "usage: extrude [target file]" );
+
+			if ( listIndex > acquire && listIndex > invalid && listIndex > insufficient &&
+				listIndex > confirm && listIndex > exceeded )
+			{
+				int startIndex = text.lastIndexOf( "available targets:" );
+				int endIndex = text.lastIndexOf( "&gt;" );
+				if ( startIndex == -1 || endIndex == -1 )
+				{
+					// this shouldn't happen...
+					return;
+				}
+				text = text.substring( startIndex, endIndex );
+				Pattern EXTRUDE_PATTERN = Pattern.compile( "rel=\"extrude (.*?).ext\"" );
+				StringBuilder knownString = new StringBuilder();
+
+				Matcher matcher = EXTRUDE_PATTERN.matcher( text );
+				while ( matcher.find() )
+				{
+					if ( knownString.length() > 0 )
+					{
+						knownString.append( "," );
+					}
+					knownString.append( matcher.group( 1 ) + ".ext" );
+				}
+				Preferences.setString( "sourceTerminalExtrudeKnown", knownString.toString() );
+			}
 
 			if ( acquire > Math.max( invalid, Math.max( insufficient, Math.max( confirm, exceeded ) ) ) )
 			{

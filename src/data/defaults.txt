@@ -1026,6 +1026,10 @@ user	sourceTerminalEnquiry
 user	sourceTerminalGram	0
 user	sourceTerminalPram	0
 user	sourceTerminalSpam	0
+user	sourceTerminalEducateKnown
+user	sourceTerminalEnhanceKnown
+user	sourceTerminalEnquiryKnown
+user	sourceTerminalExtrudeKnown
 user	spadingData
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1

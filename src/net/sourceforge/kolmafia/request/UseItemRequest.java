@@ -109,6 +109,7 @@ public class UseItemRequest
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
 	private static final Pattern HELPER_PATTERN = Pattern.compile( "(utensil|whichcard)=(\\d+)" );
 	private static final Pattern BRICKO_PATTERN = Pattern.compile( "You break apart your ([\\w\\s]*)." );
+	private static final Pattern TERMINAL_CHIP_PATTERN = Pattern.compile( "You have (\\d+) so far" );
 	private static final Pattern FAMILIAR_NAME_PATTERN =
 		Pattern.compile( "You decide to name (?:.*?) <b>(.*?)</b>" );
 	private static final Pattern FRUIT_TUBING_PATTERN =
@@ -5421,13 +5422,34 @@ public class UseItemRequest
 		case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:
+		{
 			// Source terminal chips (10 maximum)
-			// *** what is the message when you have 10 already?
-			if ( !responseText.contains( "You pull the cover off of your Source terminal and install the chip." ) )
+			// You've already installed the maximum number of those that will fit in your Source terminal.
+			// You pull the cover off of your Source terminal and install the chip. It looks like there's room for up to 10 of this particular kind. You have X so far.
+			int total = 10;
+			Matcher chipMatcher = TERMINAL_CHIP_PATTERN.matcher( responseText );
+			if ( chipMatcher.find() )
+			{
+				total = StringUtilities.parseInt( chipMatcher.group( 1 ) );
+			}
+			switch ( itemId )
+			{
+			case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
+				Preferences.setInteger( "sourceTerminalPram", total );
+				break;
+			case ItemPool.SOURCE_TERMINAL_GRAM_CHIP:
+				Preferences.setInteger( "sourceTerminalGram", total );
+				break;
+			case ItemPool.SOURCE_TERMINAL_SPAM_CHIP:
+				Preferences.setInteger( "sourceTerminalSpam", total );
+				break;
+			}
+			if ( responseText.contains( "You've already installed" ) )
 			{
 				return;
 			}
 			break;
+		}
 
 		case ItemPool.SOURCE_TERMINAL_CRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_DRAM_CHIP:
@@ -5437,13 +5459,55 @@ public class UseItemRequest
 		case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_TRIRAM_CHIP:
+		{
 			// Source terminal chip (1 maximum)
 			// You've already installed a ASHRAM chip in your Source terminal
+			String chipName = null;
+			switch ( itemId )
+			{
+			case ItemPool.SOURCE_TERMINAL_CRAM_CHIP:
+				chipName = "CRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_DRAM_CHIP:
+				chipName = "DRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_TRAM_CHIP:
+				chipName = "TRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_INGRAM_CHIP:
+				chipName = "INGRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_DIAGRAM_CHIP:
+				chipName = "DIAGRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP:
+				chipName = "ASHRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
+				chipName = "SCRAM";
+				break;
+			case ItemPool.SOURCE_TERMINAL_TRIRAM_CHIP:
+				chipName = "TRIRAM";
+				break;
+			}
+			String known = Preferences.getString( "sourceTerminalChips" );
+			StringBuilder knownString = new StringBuilder();
+			knownString.append( known );
+			if ( !known.contains( chipName ) )
+			{
+				if ( knownString.length() > 0 )
+				{
+					knownString.append( "," );
+				}
+				knownString.append( chipName );
+				Preferences.setString( "sourceTerminalChips", knownString.toString() );
+			}
 			if ( responseText.contains( "You've already installed" ) )
 			{
 				return;
 			}
 			break;
+		}
 
 		case ItemPool.SOURCE_TERMINAL_SUBSTATS_ENH:
 		case ItemPool.SOURCE_TERMINAL_DAMAGE_ENH:
@@ -5461,13 +5525,45 @@ public class UseItemRequest
 		case ItemPool.SOURCE_TERMINAL_CRAM_EXT:
 		case ItemPool.SOURCE_TERMINAL_DRAM_EXT:
 		case ItemPool.SOURCE_TERMINAL_TRAM_EXT:
+		{
 			// Source terminal file (1 maximum)
 			// You've already installed a copy of tram.ext in your Source terminal
+			String fileName = ItemDatabase.getItemName( itemId ).substring( 22 );
+			String preference = null;
+			if ( fileName.contains( ".edu" ) )
+			{
+				preference = "sourceTerminalEducateKnown";
+			}
+			else if ( fileName.contains( ".enq" ) )
+			{
+				preference = "sourceTerminalEnquiryKnown";
+			}
+			else if ( fileName.contains( ".enh" ) )
+			{
+				preference = "sourceTerminalEnhanceKnown";
+			}
+			else if ( fileName.contains( ".ext" ) )
+			{
+				preference = "sourceTerminalExtrudeKnown";
+			}
+			String known = Preferences.getString( preference );
+			StringBuilder knownString = new StringBuilder();
+			knownString.append( known );
+			if ( !known.contains( fileName ) )
+			{
+				if ( knownString.length() > 0 )
+				{
+					knownString.append( "," );
+				}
+				knownString.append( fileName );
+				Preferences.setString( preference, knownString.toString() );
+			}
 			if ( responseText.contains( "You've already installed a copy of" ) )
 			{
 				return;
 			}
 			break;
+		}
 
 		case ItemPool.DETECTIVE_APPLICATION:
 			Preferences.setBoolean( "hasDetectiveSchool", true );
