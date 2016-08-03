@@ -578,6 +578,7 @@ public interface KoLConstants
 		VYKEA,		// Items made with VYKEA instructions
 		DUTYFREE,	// Elemental International Airport Duty Free Shop
 		FLOUNDRY,	// Items made in Clan Floundry
+		TERMINAL,	// Items extruded from Source Terminal
 	}
 
 	public enum CraftingRequirements

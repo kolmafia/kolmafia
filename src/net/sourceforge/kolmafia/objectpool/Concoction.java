@@ -739,6 +739,11 @@ public class Concoction
 			ConcoctionDatabase.queuedTomesUsed += overAmount;
 		}
 
+		if ( this.mixingMethod == CraftingType.TERMINAL )
+		{
+			ConcoctionDatabase.queuedExtrudesUsed += overAmount;
+		}
+
 		if ( adjust )
 		{
 			this.queued += amount;
@@ -1231,6 +1236,22 @@ public class Concoction
 					(lastMinMake == minMake ?
 						" not limited" : " limited to " + minMake) +
 					" by tome summons" );
+				lastMinMake = minMake;
+			}
+		}
+
+		// Terminal extrudes are also considered an ingredient.
+
+		if ( minMake > 0 && ( this.mixingMethod == CraftingType.TERMINAL ) )
+		{
+			Concoction c = ConcoctionDatabase.extrudeLimit;
+			minMake = Math.min( minMake, c.canMake( needToMake, visited, turnFreeOnly ) );
+			if ( Concoction.debug )
+			{
+				RequestLogger.printLine( "- " + this.name +
+					(lastMinMake == minMake ?
+						" not limited" : " limited to " + minMake) +
+					" by terminal extrudes" );
 				lastMinMake = minMake;
 			}
 		}

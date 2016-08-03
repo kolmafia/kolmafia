@@ -116,6 +116,7 @@ public class ConcoctionDatabase
 	public static int queuedFreeCraftingTurns = 0;
 	public static int queuedStillsUsed = 0;
 	public static int queuedTomesUsed = 0;
+	public static int queuedExtrudesUsed = 0;
 	public static int queuedPullsUsed = 0;
 	public static int queuedMeatSpent = 0;
 	public static boolean queuedFancyDog = false;
@@ -137,6 +138,7 @@ public class ConcoctionDatabase
 
 	public static final Concoction stillsLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction clipArtLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
+	public static final Concoction extrudeLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction adventureLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction adventureSmithingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
 	public static final Concoction adventureJewelcraftingLimit = new Concoction( (AdventureResult) null, CraftingType.NOCREATE );
@@ -521,6 +523,7 @@ public class ConcoctionDatabase
 		int pulls = ConcoctionDatabase.queuedPullsUsed;
 		int tome = ConcoctionDatabase.queuedTomesUsed;
 		int stills = ConcoctionDatabase.queuedStillsUsed;
+		int extrudes = ConcoctionDatabase.queuedExtrudesUsed;
 		int free = ConcoctionDatabase.queuedFreeCraftingTurns;
 		int advs = ConcoctionDatabase.queuedAdventuresUsed;
 
@@ -548,6 +551,13 @@ public class ConcoctionDatabase
 		{
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.TOME, tome ) );
+		}
+
+		extrudes = ConcoctionDatabase.queuedExtrudesUsed - extrudes;
+		if ( extrudes != 0 )
+		{
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, extrudes ) );
 		}
 
 		stills = ConcoctionDatabase.queuedStillsUsed - stills;
@@ -590,7 +600,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.lastQueuedMayo = 0;
 		}
 
-		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, advs, free ) );
+		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, extrudes, advs, free ) );
 
 		if ( c.getItemId() == ItemPool.SMORE )
 		{
@@ -676,6 +686,14 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedStillsUsed -= stills;
 			AdventureResult.addOrRemoveResultToList(
 				queuedIngredients, new AdventureResult( AdventureResult.STILL, -stills ) );
+		}
+
+		int extrudes = qc.getExtrudes();
+		if ( extrudes != 0 )
+		{
+			ConcoctionDatabase.queuedExtrudesUsed -= extrudes;
+			AdventureResult.addOrRemoveResultToList(
+				queuedIngredients, new AdventureResult( AdventureResult.EXTRUDE, -extrudes ) );
 		}
 
 		int advs = qc.getAdventures();
@@ -1629,6 +1647,14 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.clipArtLimit.creatable = 0;
 		ConcoctionDatabase.clipArtLimit.visibleTotal = ConcoctionDatabase.clipArtLimit.total;
 
+		// Terminal Extrudes are also limited
+
+		ConcoctionDatabase.extrudeLimit.total = 3 - Preferences.getInteger( "_sourceTerminalExtrudes" );
+		ConcoctionDatabase.extrudeLimit.initial =
+			ConcoctionDatabase.extrudeLimit.total - ConcoctionDatabase.queuedExtrudesUsed;
+		ConcoctionDatabase.extrudeLimit.creatable = 0;
+		ConcoctionDatabase.extrudeLimit.visibleTotal = ConcoctionDatabase.extrudeLimit.total;
+
 		// Meat is also also considered Item #0 in the event that the
 		// concoction will create paste/stacks or buy NPC items.
 
@@ -2249,6 +2275,23 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "Your current clan does not have a Floundry." );
 		}
 
+		boolean sourceTerminal = KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) );
+		boolean sourceTerminalUsable = Preferences.getInteger( "_sourceTerminalExtrudes" ) < 3 ? true : false;
+		if ( sourceTerminal && sourceTerminalUsable )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.TERMINAL );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.TERMINAL, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.TERMINAL, 0 );
+		}
+		else if ( sourceTerminal && !sourceTerminalUsable )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You have used all your extrudes for today." );
+		}
+		else
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You do not have a Source Terminal." );
+		}
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2548,6 +2591,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.FLOUNDRY )
 		{
 			result.append( "Clan Floundry" );
+		}
+		else if ( mixingMethod == CraftingType.TERMINAL )
+		{
+			result.append( "Source Terminal" );
 		}
 
 		if ( result.length() == 0 )
@@ -3189,6 +3236,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.mixingMethod = CraftingType.DUTYFREE;
 		}
 
+		else if ( mix.equals( "TERMINAL" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
+		}
+
 		else if ( mix.startsWith( "ROW" ) )
 		{
 			ConcoctionDatabase.row = StringUtilities.parseInt( mix.substring( 3 ) );
@@ -3250,11 +3302,12 @@ public class ConcoctionDatabase
 		private final int pulls;
 		private final int tomes;
 		private final int stills;
+		private final int extrudes;
 		private final int adventures;
 		private final int freeCrafts;
 
 		public QueuedConcoction( final Concoction c, final int count, final ArrayList<AdventureResult> ingredients,
-					 final int meat, final int pulls, final int tomes, final int stills,
+					 final int meat, final int pulls, final int tomes, final int stills, final int extrudes,
 					 final int adventures, final int freeCrafts )
 		{
 			this.concoction = c;
@@ -3264,6 +3317,7 @@ public class ConcoctionDatabase
 			this.pulls = pulls;
 			this.tomes = tomes;
 			this.stills = stills;
+			this.extrudes = extrudes;
 			this.adventures = adventures;
 			this.freeCrafts = freeCrafts;
 		}
@@ -3301,6 +3355,11 @@ public class ConcoctionDatabase
 		public int getStills()
 		{
 			return this.stills;
+		}
+
+		public int getExtrudes()
+		{
+			return this.extrudes;
 		}
 
 		public int getAdventures()
