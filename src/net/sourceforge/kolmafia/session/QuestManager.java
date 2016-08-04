@@ -1871,6 +1871,7 @@ public class QuestManager
 				monsterName.equals( "The Icewoman" ) ||
 				monsterName.equals( "The ghost of Ebenoozer Screege" ) ||
 				monsterName.equals( "The ghost of Lord Montague Spookyraven" ) ||
+				monsterName.equals( "The ghost of Vanillica \"Trashblossom\" Gorton" ) ||
 				monsterName.equals( "The ghost of Sam McGee" ) ||
 				monsterName.equals( "The ghost of Richard Cockingham" ) ||
 				monsterName.equals( "The ghost of Waldo the Carpathian" ) ||
@@ -2138,6 +2139,10 @@ public class QuestManager
 				else if ( location.contains( "Conservatory" ) )
 				{
 					Preferences.setString( "ghostLocation", "The Haunted Conservatory" );
+				}
+				else if ( location.contains( "Overgrown" ) )
+				{
+					Preferences.setString( "ghostLocation", "The Overgrown Lot" );
 				}
 				else if ( location.contains( "Icy Peak" ) )
 				{
