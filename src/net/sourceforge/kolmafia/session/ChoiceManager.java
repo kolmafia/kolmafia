@@ -11826,6 +11826,24 @@ public abstract class ChoiceManager
 
 			if ( badInputIndex > successIndex ) return;
 
+			int startIndex = text.lastIndexOf( "You acquire" );
+			int endIndex = text.lastIndexOf( "&gt;" );
+			if ( startIndex == -1 || endIndex == -1 )
+			{
+				// this shouldn't happen...
+				return;
+			}
+			text = text.substring( startIndex, endIndex );
+			Pattern ENHANCE_PATTERN = Pattern.compile( "acquire an effect: (.*?) \\(duration: (\\d+) Adventures\\)</div>" );
+
+			Matcher matcher = ENHANCE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				String message = "You acquire an effect: " + matcher.group( 1 ) + " (" + matcher.group( 2 ) + ")";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+
 			Preferences.increment( "_sourceTerminalEnhanceUses" );
 		}
 		else if ( input.startsWith( "enquiry" ) )
@@ -11911,56 +11929,69 @@ public abstract class ChoiceManager
 			if ( invalid > acquire && insufficient > acquire && confirm > acquire ) return;
 
 			// Creation must have succeeded
+			String message = "";
 			if ( input.contains( "food" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.BROWSER_COOKIE ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+				message = "You acquire an item: browser cookie";
 			}
 			else if ( input.contains( "booze" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.HACKED_GIBSON ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10 ) );
+				message = "You acquire an item: hacked gibson";
 			}
 			else if ( input.contains( "goggles" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_SHADES ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				message = "You acquire an item: Source shades";
 			}
 			else if ( input.contains( "gram" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_GRAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				message = "You acquire an item: Source terminal GRAM chip";
 			}
 			else if ( input.contains( "pram" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_PRAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				message = "You acquire an item: Source terminal PRAM chip";
 			}
 			else if ( input.contains( "spam" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_SPAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -100 ) );
+				message = "You acquire an item: Source terminal SPAM chip";
 			}
 			else if ( input.contains( "cram" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_CRAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				message = "You acquire an item: Source terminal CRAM chip";
 			}
 			else if ( input.contains( "dram" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_DRAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				message = "You acquire an item: Source terminal DRAM chip";
 			}
 			else if ( input.contains( "tram" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_TERMINAL_TRAM_CHIP ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -1000 ) );
+				message = "You acquire an item: Source terminal TRAM chip";
 			}
 			else if ( input.contains( "familiar" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOFTWARE_BUG ) );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SOURCE_ESSENCE, -10000 ) );
+				message = "You acquire an item: software bug";
 			}
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 			Preferences.increment( "_sourceTerminalExtrudes" );
 		}
 		else if ( input.startsWith( "status" ) )
