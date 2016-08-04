@@ -2973,6 +2973,7 @@ Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie 
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Item	thicksilver ring	Damage Reduction: 60, Damage Absorption: +30, Damage Reduction: 60, Single Equip
 Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip
+Item	tie-dyed fannypack	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Item Drop: +10, Single Equip
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
 Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Item	time halo	Adventures: +5, Unarmed, Single Equip

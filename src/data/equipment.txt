@@ -2545,6 +2545,7 @@ The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60
 thicksilver ring	100	Mys: 10
 ticksilver ring	100	Mys: 10
+tie-dyed fannypack	0	Mys: 10
 Time Bandit Badge of Courage	0	none
 time halo	50	none
 Time Lord Badge of Honor	0	none
