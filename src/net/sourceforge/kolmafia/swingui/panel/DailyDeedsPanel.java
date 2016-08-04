@@ -93,6 +93,8 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
 import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class DailyDeedsPanel
 	extends Box
 	implements Listener
@@ -278,6 +280,21 @@ public class DailyDeedsPanel
 		},
 		{
 			"Special", "Potted Tea Tree"
+		},
+		{
+			"Special", "Terminal Educate"
+		},
+		{
+			"Special", "Terminal Enhance"
+		},
+		{
+			"Special", "Terminal Enquiry"
+		},
+		{
+			"Special", "Terminal Extrude"
+		},
+		{
+			"Special", "Terminal Summary"
 		}
 	};
 
@@ -286,7 +303,17 @@ public class DailyDeedsPanel
 		// Add a method to return the proper version for the deed given.
 		// i.e. if ( deed.equals( "Breakfast" ) ) return 1;
 
-		if ( deed.equals( "Potted Tea Tree" ) )
+		if ( deed.equals( "Terminal Educate" ) )
+			return 13;
+		else if ( deed.equals( "Terminal Enhance" ) )
+			return 13;
+		else if ( deed.equals( "Terminal Enquiry" ) )
+			return 13;
+		else if ( deed.equals( "Terminal Extrude" ) )
+			return 13;
+		else if ( deed.equals( "Terminal Summary" ) )
+			return 13;
+		else if ( deed.equals( "Potted Tea Tree" ) )
 			return 12;
 		else if ( deed.equals( "Shrine to the Barrel god" ) )
 			return 11;
@@ -1057,6 +1084,26 @@ public class DailyDeedsPanel
 		else if ( deedsString[ 1 ].equals( "Shrine to the Barrel god" ) )
 		{
 			this.add( new BarrelGodDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Terminal Educate" ) )
+		{
+			this.add( new TerminalEducateDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Terminal Enhance" ) )
+		{
+			this.add( new TerminalEnhanceDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Terminal Enquiry" ) )
+		{
+			this.add( new TerminalEnquiryDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Terminal Extrude" ) )
+		{
+			this.add( new TerminalExtrudeDaily() );
+		}
+		else if ( deedsString[ 1 ].equals( "Terminal Summary" ) )
+		{
+			this.add( new TerminalSummaryDaily() );
 		}
 		else
 		// you added a special deed to BUILTIN_DEEDS but didn't add a method call.
@@ -4000,6 +4047,419 @@ public class DailyDeedsPanel
 				}
 				btnBuff.setVisible( false );
 			}
+		}
+	}
+
+	private static final Object[][] TERMINAL_ENHANCE_DATA =
+	{
+		{ "Terminal Enhance: ", "", "" },
+		{ "items.enh", "terminal enhance items.enh", "+30% item drop" },
+		{ "meat.enh", "terminal enhance meat.enh", "+60% meat drop" },
+		{ "init.enh", "terminal enhance init.enh", "+50% init" },
+		{ "critical.enh", "terminal enhance critical.enh", "+10% critical chance, +10% spell critical chance" },
+		{ "damage.enh", "terminal enhance damage.enh", "+5 prismatic damage" },
+		{ "substats.enh", "terminal enhance substats.enh", "+3 stats per fight" },
+	};
+
+	public static class TerminalEnhanceDaily
+		extends Daily
+	{
+		private static final ArrayList<Object> choices = new ArrayList<Object>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		static
+		{
+			for ( Object[] combodata : TERMINAL_ENHANCE_DATA )
+			{	
+				choices.add( combodata[0] );
+				commands.add( (String) combodata[1] );
+				tooltips.add( combodata[2] );
+			}
+		}
+
+		public TerminalEnhanceDaily()
+		{
+			this.addListener( "sourceTerminalChips" );
+			this.addListener( "sourceTerminalEnhanceKnown" );
+			this.addListener( "_sourceTerminalEnhanceUses" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box.addActionListener( new TerminalEnhanceComboListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Enhance");
+			this.addLabel( "X/3 enhances" );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			String chips = Preferences.getString( "sourceTerminalChips" );
+			int limit = 1 + ( chips.contains( "CRAM" ) ? 1 : 0 ) + ( chips.contains( "SCRAM" ) ? 1 : 0 );
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean noenhance = Preferences.getInteger( "_sourceTerminalEnhanceUses" ) >= limit;
+			boolean have = !Preferences.getString( "sourceTerminalEnhanceKnown" ).equals( "" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
+			boolean limited = Limitmode.limitCampground();
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			box.setEnabled( !noenhance );
+			box.setSelectedIndex( 0 );
+			this.setText( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) + "/" + limit + " enhances" );
+			for ( int i = 1; i < TERMINAL_ENHANCE_DATA.length ; ++i )
+			{
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnhanceKnown" ).contains( (String) TERMINAL_ENHANCE_DATA[i][0] ) );
+			}
+		}
+
+		private class TerminalEnhanceComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				if ( command.equals( "" ) )
+				{
+					setComboTarget( btn, "" );
+					setEnabled( false );
+				}
+				else
+				{
+					setComboTarget(btn, command );
+					setEnabled( true );
+				}
+			}
+		}
+	}
+
+	private static final Object[][] TERMINAL_ENQUIRY_DATA =
+	{
+		{ "Terminal Enquiry: ", "", "" },
+		{ "familiar.enq", "terminal enquiry familiar.enq", "+5 familiar weight" },
+		{ "monsters.enq", "terminal enquiry monsters.enq", "+25 ML" },
+		{ "protect.enq", "terminal enquiry protect.enq", "+3 all elemental resistance" },
+		{ "stats.enq", "terminal enquiry stats.enq", "+100% all stats" },
+	};
+
+	public static class TerminalEnquiryDaily
+		extends Daily
+	{
+		private static final ArrayList<Object> choices = new ArrayList<Object>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		static
+		{
+			for ( Object[] combodata : TERMINAL_ENQUIRY_DATA )
+			{	
+				choices.add( combodata[0] );
+				commands.add( (String) combodata[1] );
+				tooltips.add( combodata[2] );
+			}
+		}
+
+		public TerminalEnquiryDaily()
+		{
+			this.addListener( "sourceTerminalEnquiryKnown" );
+			this.addListener( "sourceTerminalEnquiry" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box.addActionListener( new TerminalEnquiryComboListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Enquiry");
+			this.addLabel( "currently " );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = !Preferences.getString( "sourceTerminalEnquiryKnown" ).equals( "" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
+			boolean limited = Limitmode.limitCampground();
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			box.setEnabled( true );
+			box.setSelectedIndex( 0 );
+			String currentSetting = Preferences.getString( "sourceTerminalEnquiry" );
+			this.setText( "currently " + currentSetting );
+			for ( int i = 1; i < TERMINAL_ENQUIRY_DATA.length ; ++i )
+			{
+				if ( currentSetting.equals( (String) TERMINAL_ENQUIRY_DATA[i][0] ) )
+				{
+					box.setSelectedIndex( i );
+				}
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEnquiryKnown" ).contains( (String) TERMINAL_ENQUIRY_DATA[i][0] ) );
+			}
+		}
+
+		private class TerminalEnquiryComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				String choice = (String) choices.get( cb.getSelectedIndex() );
+				if ( command.equals( "" ) || choice.equals( Preferences.getString( "sourceTerminalEnquiry" ) ) )
+				{
+					setComboTarget( btn, "" );
+					setEnabled( false );
+				}
+				else
+				{
+					setComboTarget(btn, command );
+					setEnabled( true );
+				}
+			}
+		}
+	}
+
+	private static final Object[][] TERMINAL_EXTRUDE_DATA =
+	{
+		{ "Terminal Extrude: ", "", "", "0" },
+		{ "food.ext", "terminal extrude food", "browser cookie", "10" },
+		{ "booze.ext", "terminal extrude booze", "hacked gibson", "10" },
+		{ "goggles.ext", "terminal extrude goggles", "Source shades", "100" },
+		{ "gram.ext", "terminal extrude gram", "Source terminal GRAM chip", "100" },
+		{ "pram.ext", "terminal extrude pram", "Source terminal PRAM chip", "100" },
+		{ "spam.ext", "terminal extrude spam", "Source terminal SPAM chip", "100" },
+		{ "cram.ext", "terminal extrude cram", "Source terminal CRAM chip", "1000" },
+		{ "dram.ext", "terminal extrude dram", "Source terminal DRAM chip", "1000" },
+		{ "tram.ext", "terminal extrude tram", "Source terminal TRAM chip", "1000"},
+		{ "familiar.ext", "terminal extrude familiar", "software bug", "10000" },
+	};
+
+	public static class TerminalExtrudeDaily
+		extends Daily
+	{
+		private static final ArrayList<Object> choices = new ArrayList<Object>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		static
+		{
+			for ( Object[] combodata : TERMINAL_EXTRUDE_DATA )
+			{	
+				choices.add( combodata[0] );
+				commands.add( (String) combodata[1] );
+				tooltips.add( combodata[2] );
+			}
+		}
+
+		public TerminalExtrudeDaily()
+		{
+			this.addListener( "sourceTerminalExtrudeKnown" );
+			this.addListener( "_sourceTerminalExtrudes" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box.addActionListener( new TerminalExtrudeComboListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Extrude");
+			this.addLabel( "X/3 extrudes" );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = !Preferences.getString( "sourceTerminalExtrudeKnown" ).equals( "" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
+			boolean limited = Limitmode.limitCampground();
+			int extrudes = Preferences.getInteger( "_sourceTerminalExtrudes" );
+			boolean noextrude = extrudes >= 3;
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			box.setEnabled( !noextrude );
+			box.setSelectedIndex( 0 );
+			this.setText( extrudes + "/3 extrudes" );
+			for ( int i = 1; i < TERMINAL_EXTRUDE_DATA.length ; ++i )
+			{
+				boolean known = Preferences.getString( "sourceTerminalExtrudeKnown" ).contains( (String) TERMINAL_EXTRUDE_DATA[i][0] );
+				int sourceEssence = InventoryManager.getCount( ItemPool.SOURCE_ESSENCE );
+				boolean enough = ( sourceEssence >= StringUtilities.parseInt( (String) TERMINAL_EXTRUDE_DATA[i][3] ) );
+				box.setDisabledIndex( i, !known || !enough );
+			}
+		}
+
+		private class TerminalExtrudeComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				String choice = (String) choices.get( cb.getSelectedIndex() );
+				if ( command.equals( "" ) )
+				{
+					setComboTarget( btn, "" );
+					setEnabled( false );
+				}
+				else
+				{
+					setComboTarget(btn, command );
+					setEnabled( true );
+				}
+			}
+		}
+	}
+
+	private static final Object[][] TERMINAL_EDUCATE_DATA =
+	{
+		{ "Terminal Educate: ", "", "" },
+		{ "extract.edu", "terminal educate extract", "collect source essence" },
+		{ "digitize.edu", "terminal educate digitize", "copy monster into future" },
+		{ "compress.edu", "terminal educate compress", "deals 25% of enemy HP" },
+		{ "duplicate.edu", "terminal educate duplicate", "doubles monster difficulty and drops" },
+		{ "portscan.edu", "terminal educate portscan", "makes Agent attack next combat" },
+		{ "turbo.edu", "terminal educate turbo", "increase MP by 100% and recover up to 1000 MP" },
+	};
+
+	public static class TerminalEducateDaily
+		extends Daily
+	{
+		private static final ArrayList<Object> choices = new ArrayList<Object>();
+		private static final ArrayList<String> commands = new ArrayList<String>();
+		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+
+		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		JButton btn;
+
+		static
+		{
+			for ( Object[] combodata : TERMINAL_EDUCATE_DATA )
+			{	
+				choices.add( combodata[0] );
+				commands.add( (String) combodata[1] );
+				tooltips.add( combodata[2] );
+			}
+		}
+
+		public TerminalEducateDaily()
+		{
+			this.addListener( "sourceTerminalEducateKnown" );
+			this.addListener( "sourceTerminalEducate1" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+
+			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box.addActionListener( new TerminalEducateComboListener() );
+			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			btn = this.addComboButton( "" , "Educate");
+			this.addLabel( "currently " );
+			this.setEnabled( false );
+		}
+
+		@Override
+		public void update()
+		{
+			String chips = Preferences.getString( "sourceTerminalChips" );
+			String educate1 = Preferences.getString( "sourceTerminalEducate1" );
+			String educate2 = Preferences.getString( "sourceTerminalEducate2" );
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = !Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
+			boolean limited = Limitmode.limitCampground();
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			box.setEnabled( true );
+			box.setSelectedIndex( 0 );
+			String currentSetting = educate1;
+			if ( chips.contains( "DRAM" ) && !currentSetting.equals( "" ) )
+			{
+				currentSetting = educate1 + "," + educate2;
+			}
+			this.setText( "currently " + currentSetting );
+			for ( int i = 1; i < TERMINAL_EDUCATE_DATA.length ; ++i )
+			{
+				box.setDisabledIndex( i, !Preferences.getString( "sourceTerminalEducateKnown" ).contains( (String) TERMINAL_EDUCATE_DATA[i][0] ) );
+			}
+		}
+
+		private class TerminalEducateComboListener
+			implements ActionListener
+		{
+			public void actionPerformed( final ActionEvent e )
+			{
+				DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+				String command = commands.get( cb.getSelectedIndex() );
+				String choice = (String) choices.get( cb.getSelectedIndex() );
+				String chips = Preferences.getString( "sourceTerminalChips" );
+				boolean disable = ( chips.contains( "DRAM" ) ? choice.equals( Preferences.getString( "sourceTerminalEducate2" ) ) :
+															choice.equals( Preferences.getString( "sourceTerminalEducate1" ) ) );
+				if ( command.equals( "" ) || disable )
+				{
+					setComboTarget( btn, "" );
+					setEnabled( false );
+				}
+				else
+				{
+					setComboTarget(btn, command );
+					setEnabled( true );
+				}
+			}
+		}
+	}
+
+	public static class TerminalSummaryDaily
+	extends Daily
+	{
+		public TerminalSummaryDaily()
+		{
+			this.addListener( "_sourceTerminalDigitizeUses" );
+			this.addListener( "_sourceTerminalDuplicateUses" );
+			this.addListener( "_sourceTerminalPortscanUses" );
+			this.addListener( "sourceTerminalChips" );
+			this.addListener( "kingLiberated" );
+			this.addListener( "(character)" );
+			this.addLabel( "" );
+		}
+
+		@Override
+		public void update()
+		{
+			String chips = Preferences.getString( "sourceTerminalChips" );
+			int digitizeCount = Preferences.getInteger( "_sourceTerminalDigitizeUses" );
+			int digitizeLimit = 1 + ( chips.contains( "TRAM" ) ? 1 : 0 ) + ( chips.contains( "TRIGRAM" ) ? 1 : 0 );
+			String digitizeMonster = Preferences.getString( "_sourceTerminalDigitizeMonster" );
+			int portscanCount = Preferences.getInteger( "_sourceTerminalPortscanUses" );
+			int duplicateCount = Preferences.getInteger( "_sourceTerminalDuplicateUses" );
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = !Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" );
+			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
+			boolean limited = Limitmode.limitCampground();
+			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+
+			StringBuilder text = new StringBuilder();
+			text.append( "Duplicate: " + duplicateCount + "/1, " );
+			text.append( "Portscan: " + portscanCount + "/3, " );
+			text.append( "Digitize: " + digitizeCount + "/" + digitizeLimit );
+			if ( digitizeCount > 0 )
+			{
+				text.append( " currently " + digitizeMonster );
+			}
+
+			this.setText( text.toString() );
 		}
 	}
 }
