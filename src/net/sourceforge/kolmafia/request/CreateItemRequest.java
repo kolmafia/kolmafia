@@ -370,6 +370,9 @@ public class CreateItemRequest
 		case TERMINAL:
 			return new TerminalExtrudeRequest( conc );
 
+		case BARREL:
+			return new BarrelShrineRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

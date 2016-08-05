@@ -2816,3 +2816,9 @@ Source terminal SPAM chip	TERMINAL	Source essence (100)
 Source terminal CRAM chip	TERMINAL	Source essence (1000)
 Source terminal DRAM chip	TERMINAL	Source essence (1000)
 Source terminal TRAM chip	TERMINAL	Source essence (1000)
+
+# Barrel Shrine
+
+barrel lid	BARREL
+barrel hoop earring	BARREL
+bankruptcy barrel	BARREL

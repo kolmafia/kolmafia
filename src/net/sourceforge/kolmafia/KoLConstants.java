@@ -579,6 +579,7 @@ public interface KoLConstants
 		DUTYFREE,	// Elemental International Airport Duty Free Shop
 		FLOUNDRY,	// Items made in Clan Floundry
 		TERMINAL,	// Items extruded from Source Terminal
+		BARREL,		// Items granted at the Barrel Shrine
 	}
 
 	public enum CraftingRequirements

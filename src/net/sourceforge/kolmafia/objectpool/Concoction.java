@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.BarrelShrineRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -810,16 +811,6 @@ public class Concoction
 			return;
 		}
 
-		if ( this.mixingMethod != null && this.mixingMethod == CraftingType.FLOUNDRY )
-		{
-			this.initial = 0;
-			this.creatable = ClanLoungeRequest.availableFloundryItem ( this.name ) ? 1 : 0;
-			this.total = this.creatable;
-			this.freeTotal = this.creatable;
-			this.visibleTotal = this.creatable;
-			return;
-		}
-
 		if ( this.concoction == null && this.name != null )
 		{
 			this.initial =
@@ -1108,7 +1099,12 @@ public class Concoction
 
 		if ( this.mixingMethod == CraftingType.FLOUNDRY )
 		{
-			return alreadyHave + ( ClanLoungeRequest.availableFloundryItem ( this.name ) ? 1 : 0 );
+			return alreadyHave + ( ClanLoungeRequest.availableFloundryItem( this.name ) ? 1 : 0 );
+		}
+
+		if ( this.mixingMethod == CraftingType.BARREL )
+		{
+			return alreadyHave + ( BarrelShrineRequest.availableBarrelItem( this.name ) ? 1 : 0 );
 		}
 
 		if ( this.mixingMethod == CraftingType.TERMINAL )
