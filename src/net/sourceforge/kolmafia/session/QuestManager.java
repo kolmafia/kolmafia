@@ -2140,9 +2140,9 @@ public class QuestManager
 				{
 					Preferences.setString( "ghostLocation", "The Haunted Conservatory" );
 				}
-				else if ( location.contains( "Overgrown" ) )
+				else if ( location.contains( "Landfill" ) )
 				{
-					Preferences.setString( "ghostLocation", "The Overgrown Lot" );
+					Preferences.setString( "ghostLocation", "The Old Landfill" );
 				}
 				else if ( location.contains( "Icy Peak" ) )
 				{
