@@ -550,7 +550,7 @@ public class UseItemRequest
 
 		case ItemPool.TOASTER:
 			UseItemRequest.limiter = "usability";
-			return 3 - Preferences.getInteger( "_toastSummons" );
+			return Preferences.getBoolean( "_toastSummoned" ) ? 0 : 1;
 
 		case ItemPool.AMINO_ACIDS:
 			UseItemRequest.limiter = "usability";
@@ -2334,7 +2334,7 @@ public class UseItemRequest
 		case ItemPool.TOASTER:
 
 			// You push the lever and are rewarded with toast
-			Preferences.increment( "_toastSummons", responseText.contains( "rewarded with toast" ) ? 1 : 3 );
+			Preferences.setBoolean( "_toastSummoned", true );
 			return;
 
 		case ItemPool.GATES_SCROLL:

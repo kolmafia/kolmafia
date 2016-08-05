@@ -1439,7 +1439,7 @@ user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
 user	_timeHelmetAdv	0
-user	_toastSummons	0
+user	_toastSummoned	false
 user	_tokenDrops	0
 user	_tonicDjinn	false
 user	_transponderDrops	0
