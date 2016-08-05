@@ -91,9 +91,9 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.PICKY_TWEEZERS, 1 ),
 		ItemPool.get( ItemPool.COCKTAIL_SHAKER, 1 ),
 		ItemPool.get( ItemPool.BACON_MACHINE, 1 ),
+		ItemPool.get( ItemPool.TOASTER, 1 ),
 	};
 
-	private static final AdventureResult toaster = ItemPool.get( ItemPool.TOASTER, 1 );
 	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 
 	public static void getBreakfast( final boolean runComplete )
@@ -102,7 +102,6 @@ public class BreakfastManager
 
 		if ( runComplete )
 		{
-			checkToaster();
 			checkRumpusRoom();
 			checkVIPLounge();
 			readGuildManual();
@@ -138,20 +137,6 @@ public class BreakfastManager
 		if ( InventoryManager.getAccessibleCount( ItemPool.CSA_FIRE_STARTING_KIT ) > 0 && Preferences.getInteger( "choiceAdventure595" ) != 0 )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ) ) );
-		}
-	}
-
-	public static void checkToaster()
-	{
-		if ( InventoryManager.hasItem( toaster ) )
-		{
-			int count = 3 - Preferences.getInteger( "_toastSummons" );
-			for ( int i = 0; i < count && KoLmafia.permitsContinue(); ++i )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( toaster ) );
-			}
-
-			KoLmafia.forceContinue();
 		}
 	}
 
