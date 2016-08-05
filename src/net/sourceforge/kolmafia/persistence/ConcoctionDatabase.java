@@ -2275,6 +2275,23 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "Your current clan does not have a Floundry." );
 		}
 
+		boolean gotBarrelShrine = Preferences.getBoolean( "barrelShrineUnlocked" );
+		boolean gotBarrelItem = Preferences.getBoolean( "_barrelPrayer" );
+		if ( gotBarrelShrine && !gotBarrelItem  )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.BARREL );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BARREL, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.BARREL, 0 );
+		}
+		if ( gotBarrelItem )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.BARREL, "You have already got a Barrel Shrine item today." );
+		}
+		else if ( !gotBarrelShrine )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.BARREL, "You do not have a Barrel Shrine." );
+		}
+
 		boolean sourceTerminal = KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) );
 		boolean sourceTerminalUsable = Preferences.getInteger( "_sourceTerminalExtrudes" ) < 3 ? true : false;
 		if ( sourceTerminal && sourceTerminalUsable )
@@ -2595,6 +2612,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.TERMINAL )
 		{
 			result.append( "Source Terminal" );
+		}
+		else if ( mixingMethod == CraftingType.BARREL )
+		{
+			result.append( "shrine to the Barrel god" );
 		}
 
 		if ( result.length() == 0 )
@@ -3239,6 +3260,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "TERMINAL" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.TERMINAL;
+		}
+
+		else if ( mix.equals( "BARREL" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
