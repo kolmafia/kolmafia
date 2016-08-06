@@ -11926,7 +11926,7 @@ public abstract class ChoiceManager
 				return;
 			}
 
-			if ( invalid > acquire && insufficient > acquire && confirm > acquire ) return;
+			if ( invalid > acquire || insufficient > acquire || confirm > acquire ) return;
 
 			// Creation must have succeeded
 			String message = "";
