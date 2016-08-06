@@ -70,67 +70,99 @@ public class AddCustomDeedsPanel
 	private JTextField commandField2;
 	private JTextField commandField3;
 	private JTextField commandField4;
+	private JTextField commandField5;
+	private JTextField commandField6;
 	private JTextField itemField1;
 	private JTextField itemField2;
 	private JTextField itemField3;
 	private JTextField itemField4;
+	private JTextField itemField5;
+	private JTextField itemField6;
 	private JTextField skillField1;
 	private JTextField skillField2;
 	private JTextField skillField3;
 	private JTextField skillField4;
+	private JTextField skillField5;
+	private JTextField skillField6;
 	private JTextField textField;
 	private JTextField simpleField1;
 	private JTextField simpleField2;
 	private JTextField simpleField3;
+	private JTextField simpleField4;
+	private JTextField simpleField5;
 
 	private static final int COMMAND_FIELD_1 = 0;
 	private static final int COMMAND_FIELD_2 = 1;
 	private static final int COMMAND_FIELD_3 = 2;
 	private static final int COMMAND_FIELD_4 = 3;
-	private static final int ITEM_FIELD_1 = 4;
-	private static final int ITEM_FIELD_2 = 5;
-	private static final int ITEM_FIELD_3 = 6;
-	private static final int ITEM_FIELD_4 = 7;
-	private static final int SKILL_FIELD_1 = 8;
-	private static final int SKILL_FIELD_2 = 9;
-	private static final int SKILL_FIELD_3 = 10;
-	private static final int SKILL_FIELD_4 = 11;
-	private static final int TEXT_FIELD = 12;
-	private static final int SIMPLE_FIELD_1 = 13;
-	private static final int SIMPLE_FIELD_2 = 14;
-	private static final int SIMPLE_FIELD_3 = 15;
+	private static final int COMMAND_FIELD_5 = 4;
+	private static final int COMMAND_FIELD_6 = 5;
+	private static final int ITEM_FIELD_1 = 6;
+	private static final int ITEM_FIELD_2 = 7;
+	private static final int ITEM_FIELD_3 = 8;
+	private static final int ITEM_FIELD_4 = 9;
+	private static final int ITEM_FIELD_5 = 10;
+	private static final int ITEM_FIELD_6 = 11;
+	private static final int SKILL_FIELD_1 = 12;
+	private static final int SKILL_FIELD_2 = 13;
+	private static final int SKILL_FIELD_3 = 14;
+	private static final int SKILL_FIELD_4 = 15;
+	private static final int SKILL_FIELD_5 = 16;
+	private static final int SKILL_FIELD_6 = 17;
+	private static final int TEXT_FIELD = 18;
+	private static final int SIMPLE_FIELD_1 = 19;
+	private static final int SIMPLE_FIELD_2 = 20;
+	private static final int SIMPLE_FIELD_3 = 21;
+	private static final int SIMPLE_FIELD_4 = 22;
+	private static final int SIMPLE_FIELD_5 = 23;
 
 	private JLabel commandLabel1;
 	private JLabel commandLabel2;
 	private JLabel commandLabel3;
 	private JLabel commandLabel4;
+	private JLabel commandLabel5;
+	private JLabel commandLabel6;
 	private JLabel itemLabel1;
 	private JLabel itemLabel2;
 	private JLabel itemLabel3;
 	private JLabel itemLabel4;
+	private JLabel itemLabel5;
+	private JLabel itemLabel6;
 	private JLabel skillLabel1;
 	private JLabel skillLabel2;
 	private JLabel skillLabel3;
 	private JLabel skillLabel4;
+	private JLabel skillLabel5;
+	private JLabel skillLabel6;
 	private JLabel simpleLabel1;
 	private JLabel simpleLabel2;
 	private JLabel simpleLabel3;
+	private JLabel simpleLabel4;
+	private JLabel simpleLabel5;
 
 	private static final int COMMAND_LABEL_1 = 0;
 	private static final int COMMAND_LABEL_2 = 1;
 	private static final int COMMAND_LABEL_3 = 2;
 	private static final int COMMAND_LABEL_4 = 3;
-	private static final int ITEM_LABEL_1 = 4;
-	private static final int ITEM_LABEL_2 = 5;
-	private static final int ITEM_LABEL_3 = 6;
-	private static final int ITEM_LABEL_4 = 7;
-	private static final int SKILL_LABEL_1 = 8;
-	private static final int SKILL_LABEL_2 = 9;
-	private static final int SKILL_LABEL_3 = 10;
-	private static final int SKILL_LABEL_4 = 11;
-	private static final int SIMPLE_LABEL_1 = 12;
-	private static final int SIMPLE_LABEL_2 = 13;
-	private static final int SIMPLE_LABEL_3 = 14;
+	private static final int COMMAND_LABEL_5 = 4;
+	private static final int COMMAND_LABEL_6 = 5;
+	private static final int ITEM_LABEL_1 = 6;
+	private static final int ITEM_LABEL_2 = 7;
+	private static final int ITEM_LABEL_3 = 8;
+	private static final int ITEM_LABEL_4 = 9;
+	private static final int ITEM_LABEL_5 = 10;
+	private static final int ITEM_LABEL_6 = 11;
+	private static final int SKILL_LABEL_1 = 12;
+	private static final int SKILL_LABEL_2 = 13;
+	private static final int SKILL_LABEL_3 = 14;
+	private static final int SKILL_LABEL_4 = 15;
+	private static final int SKILL_LABEL_5 = 16;
+	private static final int SKILL_LABEL_6 = 17;
+	private static final int SIMPLE_LABEL_1 = 18;
+	private static final int SIMPLE_LABEL_2 = 19;
+	private static final int SIMPLE_LABEL_3 = 20;
+	private static final int SIMPLE_LABEL_4 = 21;
+	private static final int SIMPLE_LABEL_5 = 22;
 
 	private ThreadedButton commandButton;
 	private ThreadedButton itemButton;
@@ -174,6 +206,8 @@ public class AddCustomDeedsPanel
 		this.simpleField1 = new JTextField( 25 );
 		this.simpleField2 = new JTextField( 25 );
 		this.simpleField3 = new JTextField( 25 );
+		this.simpleField4 = new JTextField( 25 );
+		this.simpleField5 = new JTextField( 25 );
 		this.simpleLabel1 = new JLabel( "required" );
 		this.simpleLabel1.setToolTipText( "The text to display on the button." );
 		this.simpleLabel2 = new JLabel( "(optional)" );
@@ -181,10 +215,16 @@ public class AddCustomDeedsPanel
 		this.simpleLabel3 = new JLabel( "(optional)" );
 		this.simpleLabel3
 			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.simpleLabel4 = new JLabel( "(optional)" );
+		this.simpleLabel4.setToolTipText( "The tooltip when moused over." );
+		this.simpleLabel5 = new JLabel( "(optional)" );
+		this.simpleLabel5.setToolTipText( "Message to display when no more can be done today." );
 
 		this.simpleField1.getDocument().addDocumentListener( new SimpleField1Listener() );
 		this.simpleField2.getDocument().addDocumentListener( new SimpleField2Listener() );
 		this.simpleField3.getDocument().addDocumentListener( new SimpleField3Listener() );
+		this.simpleField4.getDocument().addDocumentListener( new SimpleField4Listener() );
+		this.simpleField5.getDocument().addDocumentListener( new SimpleField5Listener() );
 
 		this.simpleButton = new ThreadedButton( "add deed", new SimpleActionRunnable() );
 
@@ -217,6 +257,18 @@ public class AddCustomDeedsPanel
 		c.weighty = 0.5;
 		c.anchor = GridBagConstraints.EAST;
 		textPanel.add( new JLabel( "maxUses:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 4;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "tooltip:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "compMessage:" ), c );
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -229,6 +281,12 @@ public class AddCustomDeedsPanel
 		c.gridx = 1;
 		c.gridy = 3;
 		textPanel.add( this.simpleField3, c );
+		c.gridx = 1;
+		c.gridy = 4;
+		textPanel.add( this.simpleField4, c );
+		c.gridx = 1;
+		c.gridy = 5;
+		textPanel.add( this.simpleField5, c );
 
 		c.gridx = 2;
 		c.gridy = 1;
@@ -239,17 +297,23 @@ public class AddCustomDeedsPanel
 		c.gridx = 2;
 		c.gridy = 3;
 		textPanel.add( this.simpleLabel3, c );
-
-		c.gridx = 0;
-		c.gridy = 5;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
+		c.gridx = 2;
+		c.gridy = 4;
+		textPanel.add( this.simpleLabel4, c );
 		c.gridx = 2;
 		c.gridy = 5;
+		textPanel.add( this.simpleLabel5, c );
+
+		c.gridx = 0;
+		c.gridy = 6;
+		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
+		c.gridx = 2;
+		c.gridy = 6;
 		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 6;
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		textPanel.add( this.simpleButton, c );
 		this.simpleButton.setEnabled( false );
@@ -273,6 +337,8 @@ public class AddCustomDeedsPanel
 		this.commandField2 = new JTextField( 25 );
 		this.commandField3 = new JTextField( 25 );
 		this.commandField4 = new JTextField( 25 );
+		this.commandField5 = new JTextField( 25 );
+		this.commandField6 = new JTextField( 25 );
 		this.commandLabel1 = new JLabel( "required" );
 		this.commandLabel1.setToolTipText( "The text to display on the button." );
 		this.commandLabel2 = new JLabel( "required" );
@@ -280,13 +346,18 @@ public class AddCustomDeedsPanel
 		this.commandLabel3 = new JLabel( "(optional)" );
 		this.commandLabel3.setToolTipText( "The command that the button will execute." );
 		this.commandLabel4 = new JLabel( "(optional)" );
-		this.commandLabel4
-			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.commandLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.commandLabel5 = new JLabel( "(optional)" );
+		this.commandLabel5.setToolTipText( "The tooltip when moused over." );
+		this.commandLabel6 = new JLabel( "(optional)" );
+		this.commandLabel6.setToolTipText( "Message to display when no more can be done today." );
 
 		this.commandField1.getDocument().addDocumentListener( new CommandField1Listener() );
 		this.commandField2.getDocument().addDocumentListener( new CommandField2Listener() );
 		this.commandField3.getDocument().addDocumentListener( new CommandField3Listener() );
 		this.commandField4.getDocument().addDocumentListener( new CommandField4Listener() );
+		this.commandField5.getDocument().addDocumentListener( new CommandField5Listener() );
+		this.commandField6.getDocument().addDocumentListener( new CommandField6Listener() );
 
 		this.commandButton = new ThreadedButton( "add deed", new CommandActionRunnable() );
 
@@ -325,6 +396,18 @@ public class AddCustomDeedsPanel
 		c.weighty = 0.5;
 		c.anchor = GridBagConstraints.EAST;
 		textPanel.add( new JLabel( "maxUses:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "toolTip:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "compMessge:" ), c );
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -340,6 +423,12 @@ public class AddCustomDeedsPanel
 		c.gridx = 1;
 		c.gridy = 4;
 		textPanel.add( this.commandField4, c );
+		c.gridx = 1;
+		c.gridy = 5;
+		textPanel.add( this.commandField5, c );
+		c.gridx = 1;
+		c.gridy = 6;
+		textPanel.add( this.commandField6, c );
 
 		c.gridx = 2;
 		c.gridy = 1;
@@ -353,17 +442,23 @@ public class AddCustomDeedsPanel
 		c.gridx = 2;
 		c.gridy = 4;
 		textPanel.add( this.commandLabel4, c );
-
-		c.gridx = 0;
-		c.gridy = 5;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 		c.gridx = 2;
 		c.gridy = 5;
+		textPanel.add( this.commandLabel5, c );
+		c.gridx = 2;
+		c.gridy = 6;
+		textPanel.add( this.commandLabel6, c );
+
+		c.gridx = 0;
+		c.gridy = 7;
+		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
+		c.gridx = 2;
+		c.gridy = 7;
 		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		textPanel.add( this.commandButton, c );
 		this.commandButton.setEnabled( false );
@@ -387,22 +482,28 @@ public class AddCustomDeedsPanel
 		this.itemField2 = new JTextField( 25 );
 		this.itemField3 = new JTextField( 25 );
 		this.itemField4 = new JTextField( 25 );
+		this.itemField5 = new JTextField( 25 );
+		this.itemField6 = new JTextField( 25 );
 		this.itemLabel1 = new JLabel( "required" );
 		this.itemLabel1.setToolTipText( "The text to display on the button." );
 		this.itemLabel2 = new JLabel( "required" );
 		this.itemLabel2.setToolTipText( "The preference that the button will track." );
 		this.itemLabel3 = new JLabel( "(optional)" );
-		this.itemLabel3
-			.setToolTipText( "If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
+		this.itemLabel3.setToolTipText( "If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
 		this.itemLabel4 = new JLabel( "(optional)" );
-		this.itemLabel4
-			.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.itemLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.itemLabel5 = new JLabel( "(optional)" );
+		this.itemLabel5.setToolTipText( "The tooltip when moused over." );
+		this.itemLabel6 = new JLabel( "(optional)" );
+		this.itemLabel6.setToolTipText( "Message to display when no more can be done today." );
 
 		this.itemField1.getDocument().addDocumentListener( new ItemField1Listener() );
 		this.itemField2.getDocument().addDocumentListener( new ItemField2Listener() );
 		this.itemField3.getDocument().addDocumentListener( new ItemField1Listener() );
 		// listener 1 sets the state of both label1 and label3
 		this.itemField4.getDocument().addDocumentListener( new ItemField4Listener() );
+		this.itemField5.getDocument().addDocumentListener( new ItemField5Listener() );
+		this.itemField6.getDocument().addDocumentListener( new ItemField6Listener() );
 
 		this.itemButton = new ThreadedButton( "add deed", new ItemPrefRunnable() );
 
@@ -441,6 +542,18 @@ public class AddCustomDeedsPanel
 		c.weighty = 0.5;
 		c.anchor = GridBagConstraints.EAST;
 		textPanel.add( new JLabel( "maxUses:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "toolTip:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "compMessage:" ), c );
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -456,6 +569,12 @@ public class AddCustomDeedsPanel
 		c.gridx = 1;
 		c.gridy = 4;
 		textPanel.add( this.itemField4, c );
+		c.gridx = 1;
+		c.gridy = 5;
+		textPanel.add( this.itemField5, c );
+		c.gridx = 1;
+		c.gridy = 6;
+		textPanel.add( this.itemField6, c );
 
 		c.gridx = 2;
 		c.gridy = 1;
@@ -469,17 +588,23 @@ public class AddCustomDeedsPanel
 		c.gridx = 2;
 		c.gridy = 4;
 		textPanel.add( this.itemLabel4, c );
-
-		c.gridx = 0;
-		c.gridy = 5;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 		c.gridx = 2;
 		c.gridy = 5;
+		textPanel.add( this.itemLabel5, c );
+		c.gridx = 2;
+		c.gridy = 6;
+		textPanel.add( this.itemLabel6, c );
+
+		c.gridx = 0;
+		c.gridy = 7;
+		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
+		c.gridx = 2;
+		c.gridy = 7;
 		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		textPanel.add( this.itemButton, c );
 		this.itemButton.setEnabled( false );
@@ -503,6 +628,8 @@ public class AddCustomDeedsPanel
 		this.skillField2 = new JTextField( 25 );
 		this.skillField3 = new JTextField( 25 );
 		this.skillField4 = new JTextField( 25 );
+		this.skillField5 = new JTextField( 25 );
+		this.skillField6 = new JTextField( 25 );
 		this.skillLabel1 = new JLabel( "required" );
 		this.skillLabel1.setToolTipText( "The text to display on the button." );
 		this.skillLabel2 = new JLabel( "required" );
@@ -511,12 +638,18 @@ public class AddCustomDeedsPanel
 		this.skillLabel3.setToolTipText( "The skill that the button will cast." );
 		this.skillLabel4 = new JLabel( "(optional)" );
 		this.skillLabel4.setToolTipText( "Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
+		this.skillLabel5 = new JLabel( "(optional)" );
+		this.skillLabel5.setToolTipText( "The tooltip when moused over." );
+		this.skillLabel6 = new JLabel( "(optional)" );
+		this.skillLabel6.setToolTipText( "Message to display when no more can be done today." );
 
 		this.skillField1.getDocument().addDocumentListener( new SkillField1Listener() );
 		this.skillField2.getDocument().addDocumentListener( new SkillField2Listener() );
 		// listener 1 sets the state of both label1 and label3
 		this.skillField3.getDocument().addDocumentListener( new SkillField1Listener() );
 		this.skillField4.getDocument().addDocumentListener( new SkillField4Listener() );
+		this.skillField5.getDocument().addDocumentListener( new SkillField5Listener() );
+		this.skillField6.getDocument().addDocumentListener( new SkillField6Listener() );
 
 		this.skillButton = new ThreadedButton( "add deed", new SkillActionRunnable() );
 
@@ -555,6 +688,18 @@ public class AddCustomDeedsPanel
 		c.weighty = 0.5;
 		c.anchor = GridBagConstraints.EAST;
 		textPanel.add( new JLabel( "maxCasts:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 5;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "tooltip:" ), c );
+		c.fill = GridBagConstraints.NONE;
+		c.gridx = 0;
+		c.gridy = 6;
+		c.weighty = 0.5;
+		c.anchor = GridBagConstraints.EAST;
+		textPanel.add( new JLabel( "compMessage:" ), c );
 
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 1;
@@ -570,6 +715,12 @@ public class AddCustomDeedsPanel
 		c.gridx = 1;
 		c.gridy = 4;
 		textPanel.add( this.skillField4, c );
+		c.gridx = 1;
+		c.gridy = 5;
+		textPanel.add( this.skillField5, c );
+		c.gridx = 1;
+		c.gridy = 6;
+		textPanel.add( this.skillField6, c );
 
 		c.gridx = 2;
 		c.gridy = 1;
@@ -583,17 +734,23 @@ public class AddCustomDeedsPanel
 		c.gridx = 2;
 		c.gridy = 4;
 		textPanel.add( this.skillLabel4, c );
-
-		c.gridx = 0;
-		c.gridy = 5;
-		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 		c.gridx = 2;
 		c.gridy = 5;
+		textPanel.add( this.skillLabel5, c );
+		c.gridx = 2;
+		c.gridy = 6;
+		textPanel.add( this.skillLabel6, c );
+
+		c.gridx = 0;
+		c.gridy = 7;
+		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
+		c.gridx = 2;
+		c.gridy = 7;
 		textPanel.add( Box.createRigidArea( new Dimension( 75, 5 ) ), c );
 
 		c.fill = GridBagConstraints.NONE;
 		c.gridx = 1;
-		c.gridy = 5;
+		c.gridy = 7;
 		c.anchor = GridBagConstraints.SOUTHEAST;
 		textPanel.add( this.skillButton, c );
 		this.skillButton.setEnabled( false );
@@ -692,6 +849,58 @@ public class AddCustomDeedsPanel
 		AddCustomDeedsPanel.selectorPanel.addPanel( "- Text", panel );
 	}
 
+	public class CommandField6Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent arg0 )
+		{
+			if ( getField( COMMAND_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( COMMAND_LABEL_6, "(optional)", "Message to display when no more can be done today." );
+			}
+			else
+			{
+				setLabel( COMMAND_LABEL_6, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
+	public class CommandField5Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent arg0 )
+		{
+			if ( getField( COMMAND_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( COMMAND_LABEL_5, "(optional)", "The tooltip when moused over." );
+			}
+			else
+			{
+				setLabel( COMMAND_LABEL_5, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
 	public class CommandField4Listener
 		implements DocumentListener
 	{
@@ -699,21 +908,11 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( COMMAND_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( COMMAND_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( COMMAND_LABEL_3, "(optional)",
-						"The command that the button will execute." );
-				}
 				setLabel( COMMAND_LABEL_4, "(optional)",
 					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
 			}
 			else
 			{
-				if ( getField( COMMAND_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( COMMAND_LABEL_3, "required",
-						"You specified maxUses, so you must specify a command  here." );
-				}
 				try
 				{
 					Integer.parseInt( getField( COMMAND_FIELD_4 ).getText() );
@@ -726,11 +925,9 @@ public class AddCustomDeedsPanel
 			}
 			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
 			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label3 = getLabel( COMMAND_LABEL_3 ).getText();
 			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& !label4.equalsIgnoreCase( "BAD" );
 
 			getCommandButton().setEnabled( enabled );
@@ -754,31 +951,13 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( COMMAND_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( COMMAND_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( COMMAND_LABEL_3, "(optional)",
-						"The command that the button will execute." );
-				}
-				else
-				{
-					setLabel( COMMAND_LABEL_3, "required",
-						"You specified maxUses, so you must specify a command here." );
-				}
+				setLabel( COMMAND_LABEL_3, "(optional)",
+					"The command that the button will execute." );
 			}
 			else
 			{
 				setLabel( COMMAND_LABEL_3, "OK" );
 			}
-			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
-			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label3 = getLabel( COMMAND_LABEL_3 ).getText();
-			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
-				&& !label4.equalsIgnoreCase( "BAD" );
-
-			getCommandButton().setEnabled( enabled );
 		}
 
 		public void insertUpdate( DocumentEvent e )
@@ -809,11 +988,9 @@ public class AddCustomDeedsPanel
 
 			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
 			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label3 = getLabel( COMMAND_LABEL_3 ).getText();
 			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& !label4.equalsIgnoreCase( "BAD" );
 
 			getCommandButton().setEnabled( enabled );
@@ -845,14 +1022,64 @@ public class AddCustomDeedsPanel
 			}
 			String label1 = getLabel( COMMAND_LABEL_1 ).getText();
 			String label2 = getLabel( COMMAND_LABEL_2 ).getText();
-			String label3 = getLabel( COMMAND_LABEL_3 ).getText();
 			String label4 = getLabel( COMMAND_LABEL_4 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) && label2.equalsIgnoreCase( "OK" )
-				&& ( label3.equalsIgnoreCase( "OK" ) || label3.equalsIgnoreCase( "(optional)" ) )
 				&& !label4.equalsIgnoreCase( "BAD" );
 
 			getCommandButton().setEnabled( enabled );
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
+	public class ItemField6Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent e )
+		{
+			if ( getField( ITEM_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( ITEM_LABEL_6, "(optional)", "Message to display when no more can be done today." );
+			}
+			else
+			{
+				setLabel( ITEM_LABEL_6, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
+	public class ItemField5Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent e )
+		{
+			if ( getField( ITEM_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( ITEM_LABEL_5, "(optional)", "The tooltip when moused over." );
+			}
+			else
+			{
+				setLabel( ITEM_LABEL_5, "OK" );
+			}
 		}
 
 		public void insertUpdate( DocumentEvent e )
@@ -873,20 +1100,11 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( ITEM_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( ITEM_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( ITEM_LABEL_3, "(optional)", "The item that the button will use." );
-				}
 				setLabel( ITEM_LABEL_4, "(optional)",
 					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
 			}
 			else
 			{
-				if ( getField( ITEM_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( ITEM_LABEL_3, "required",
-						"You specified maxUses, so you must specify an item here." );
-				}
 				try
 				{
 					Integer.parseInt( getField( ITEM_FIELD_4 ).getText() );
@@ -992,16 +1210,8 @@ public class AddCustomDeedsPanel
 			if ( field1empty && field3empty )
 			{
 				setLabel( ITEM_LABEL_1, "required", "The text to display on the button." );
-				if ( getField( ITEM_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( ITEM_LABEL_3, "(optional)",
-						"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
-				}
-				else
-				{
-					setLabel( ITEM_LABEL_3, "required",
-						"You specified maxUses, so you must specify an item here." );
-				}
+				setLabel( ITEM_LABEL_3, "(optional)",
+					"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
 
 			}
 			/* State 2 */
@@ -1021,16 +1231,8 @@ public class AddCustomDeedsPanel
 					"Display text matches item: "
 						+ ItemDatabase.getItemName( ItemDatabase.getItemId( getField(
 							ITEM_FIELD_1 ).getText() ) ) );
-				if ( getField( ITEM_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( ITEM_LABEL_3, "(optional)",
-						"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
-				}
-				else
-				{
-					setLabel( ITEM_LABEL_3, "required",
-						"You specified maxUses, so you must specify an item here." );
-				}
+				setLabel( ITEM_LABEL_3, "(optional)",
+					"If an item is not specified, defaults to displayText.  Uses fuzzy matching." );
 			}
 			/* State 4 */
 			else if ( field1empty && !field3matching )
@@ -1093,6 +1295,58 @@ public class AddCustomDeedsPanel
 		}
 	}
 
+	public class SkillField6Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent e )
+		{
+			if ( getField( SKILL_FIELD_6 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( SKILL_LABEL_6, "(optional)", "Message to display when no more can be done today." );
+			}
+			else
+			{
+				setLabel( SKILL_LABEL_6, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
+	public class SkillField5Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent e )
+		{
+			if ( getField( SKILL_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( SKILL_LABEL_5, "(optional)", "The tooltip when moused over." );
+			}
+			else
+			{
+				setLabel( SKILL_LABEL_5, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
 	public class SkillField4Listener
 		implements DocumentListener
 	{
@@ -1100,20 +1354,11 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( SKILL_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( SKILL_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SKILL_LABEL_3, "(optional)", "The skill that the button will cast." );
-				}
 				setLabel( SKILL_LABEL_4, "(optional)",
 					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
 			}
 			else
 			{
-				if ( getField( SKILL_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SKILL_LABEL_3, "required",
-						"You specified maxCasts, so you must specify a skill here." );
-				}
 				try
 				{
 					Integer.parseInt( getField( SKILL_FIELD_4 ).getText() );
@@ -1215,16 +1460,8 @@ public class AddCustomDeedsPanel
 			if ( field1empty && field3empty )
 			{
 				setLabel( SKILL_LABEL_1, "required", "The text to display on the button." );
-				if ( getField( SKILL_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SKILL_LABEL_3, "(optional)",
-						"If an skill is not specified, defaults to displayText.  Uses fuzzy matching." );
-				}
-				else
-				{
-					setLabel( SKILL_LABEL_3, "required",
-						"You specified maxCasts, so you must specify a skill here." );
-				}
+				setLabel( SKILL_LABEL_3, "(optional)",
+					"If an skill is not specified, defaults to displayText.  Uses fuzzy matching." );
 			}
 
 			/* State 2 */
@@ -1241,16 +1478,8 @@ public class AddCustomDeedsPanel
 			{
 				setLabel( SKILL_LABEL_1, "OK", "Display text matches skill: "
 					+ SkillDatabase.getMatchingNames( getField( SKILL_FIELD_1 ).getText() ).get( 0 ) );
-				if ( getField( SKILL_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SKILL_LABEL_3, "(optional)",
-						"The display text matches a skill, so you don't need to specify one here." );
-				}
-				else
-				{
-					setLabel( SKILL_LABEL_3, "required",
-						"You specified maxCasts, so you must specify a skill here." );
-				}
+				setLabel( SKILL_LABEL_3, "(optional)",
+					"The display text matches a skill, so you don't need to specify one here." );
 			}
 
 			/* State 4 */
@@ -1343,17 +1572,10 @@ public class AddCustomDeedsPanel
 			String pref = getField( SKILL_FIELD_2 ).getText();
 			String skill = getField( SKILL_FIELD_3 ).getText();
 			String maxCasts = getField( SKILL_FIELD_4 ).getText();
+			String tooltip = getField( SKILL_FIELD_5 ).getText();
+			String compMessage = getField( SKILL_FIELD_6 ).getText();
 
-			String deed = "$CUSTOM|Skill|" + display + "|" + pref;
-
-			if ( !skill.equals( "" ) )
-			{
-				deed += "|" + skill;
-			}
-			if ( !maxCasts.equals( "" ) )
-			{
-				deed += "|" + maxCasts;
-			}
+			String deed = "$CUSTOM|Skill|" + display + "|" + pref + "|" + skill + "|" + maxCasts + "|" + tooltip + "|" + compMessage;
 
 			String oldString = Preferences.getString( "dailyDeedsOptions" );
 			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
@@ -1373,23 +1595,68 @@ public class AddCustomDeedsPanel
 			String pref = getField( ITEM_FIELD_2 ).getText();
 			String item = getField( ITEM_FIELD_3 ).getText();
 			String maxUses = getField( ITEM_FIELD_4 ).getText();
+			String tooltip = getField( ITEM_FIELD_5 ).getText();
+			String compMessage = getField( ITEM_FIELD_6 ).getText();
 
-			String deed = "$CUSTOM|Item|" + display + "|" + pref;
-
-			if ( !item.equals( "" ) )
-			{
-				deed += "|" + item;
-			}
-			if ( !maxUses.equals( "" ) )
-			{
-				deed += "|" + maxUses;
-			}
+			String deed = "$CUSTOM|Item|" + display + "|" + pref + "|" + item + "|" + maxUses + "|" + tooltip + "|" + compMessage;
 
 			String oldString = Preferences.getString( "dailyDeedsOptions" );
 			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
 
 			RequestLogger.printLine( "Custom deed added: " + deed );
 			getItemButton().setEnabled( false );
+		}
+	}
+
+	private class SimpleField5Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent arg0 )
+		{
+			if ( getField( SIMPLE_FIELD_5 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( SIMPLE_LABEL_5, "(optional)", "Message to display when no more can be done today." );
+			}
+			else
+			{
+				setLabel( SIMPLE_LABEL_5, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+	}
+
+	private class SimpleField4Listener
+		implements DocumentListener
+	{
+		public void changedUpdate( DocumentEvent arg0 )
+		{
+			if ( getField( SIMPLE_FIELD_4 ).getText().equalsIgnoreCase( "" ) )
+			{
+				setLabel( SIMPLE_LABEL_4, "(optional)", "The tooltip when moused over.." );
+			}
+			else
+			{
+				setLabel( SIMPLE_LABEL_4, "OK" );
+			}
+		}
+
+		public void insertUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
+		}
+
+		public void removeUpdate( DocumentEvent e )
+		{
+			changedUpdate( e );
 		}
 	}
 
@@ -1400,20 +1667,11 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( SIMPLE_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( SIMPLE_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SIMPLE_LABEL_2, "(optional)", "The item that the button will use." );
-				}
 				setLabel( SIMPLE_LABEL_3, "(optional)",
 					"Provide an integer to disable the button at.  The button will be enabled until the preference reaches this number." );
 			}
 			else
 			{
-				if ( getField( SIMPLE_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SIMPLE_LABEL_2, "required",
-						"You specified maxUses, so you must specify an item here." );
-				}
 				try
 				{
 					Integer.parseInt( getField( SIMPLE_FIELD_3 ).getText() );
@@ -1425,11 +1683,9 @@ public class AddCustomDeedsPanel
 				}
 			}
 			String label1 = getLabel( SIMPLE_LABEL_1 ).getText();
-			String label2 = getLabel( SIMPLE_LABEL_2 ).getText();
 			String label3 = getLabel( SIMPLE_LABEL_3 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) 
-				&& ( label2.equalsIgnoreCase( "OK" ) || label2.equalsIgnoreCase( "(optional)" ) )
 				&& !label3.equalsIgnoreCase( "BAD" );
 
 			getSimpleButton().setEnabled( enabled );
@@ -1453,30 +1709,13 @@ public class AddCustomDeedsPanel
 		{
 			if ( getField( SIMPLE_FIELD_2 ).getText().equalsIgnoreCase( "" ) )
 			{
-				if ( getField( SIMPLE_FIELD_3 ).getText().equalsIgnoreCase( "" ) )
-				{
-					setLabel( SIMPLE_LABEL_2, "(optional)",
-						"The command that the button will execute." );
-				}
-				else
-				{
-					setLabel( SIMPLE_LABEL_2, "required",
-						"You specified maxUses, so you must specify a command here." );
-				}
+				setLabel( SIMPLE_LABEL_2, "(optional)",
+					"The command that the button will execute." );
 			}
 			else
 			{
 				setLabel( SIMPLE_LABEL_2, "OK" );
 			}
-			String label1 = getLabel( SIMPLE_LABEL_1 ).getText();
-			String label2 = getLabel( SIMPLE_LABEL_2 ).getText();
-			String label3 = getLabel( SIMPLE_LABEL_3 ).getText();
-
-			boolean enabled = label1.equalsIgnoreCase( "OK" ) 
-				&& ( label2.equalsIgnoreCase( "OK" ) || label2.equalsIgnoreCase( "(optional)" ) )
-				&& !label3.equalsIgnoreCase( "BAD" );
-
-			getSimpleButton().setEnabled( enabled );
 		}
 
 		public void insertUpdate( DocumentEvent e )
@@ -1504,11 +1743,9 @@ public class AddCustomDeedsPanel
 				setLabel( SIMPLE_LABEL_1, "OK" );
 			}
 			String label1 = getLabel( SIMPLE_LABEL_1 ).getText();
-			String label2 = getLabel( SIMPLE_LABEL_2 ).getText();
 			String label3 = getLabel( SIMPLE_LABEL_3 ).getText();
 
 			boolean enabled = label1.equalsIgnoreCase( "OK" ) 
-				&& ( label2.equalsIgnoreCase( "OK" ) || label2.equalsIgnoreCase( "(optional)" ) )
 				&& !label3.equalsIgnoreCase( "BAD" );
 
 			getSimpleButton().setEnabled( enabled );
@@ -1534,17 +1771,10 @@ public class AddCustomDeedsPanel
 			String pref = getField( COMMAND_FIELD_2 ).getText();
 			String command = getField( COMMAND_FIELD_3 ).getText();
 			String maxUses = getField( COMMAND_FIELD_4 ).getText();
+			String toolTip = getField( COMMAND_FIELD_5 ).getText();
+			String compMessage = getField( COMMAND_FIELD_6 ).getText();
 
-			String deed = "$CUSTOM|Command|" + display + "|" + pref;
-
-			if ( !command.equals( "" ) )
-			{
-				deed += "|" + command;
-			}
-			if ( !maxUses.equals( "" ) )
-			{
-				deed += "|" + maxUses;
-			}
+			String deed = "$CUSTOM|Command|" + display + "|" + pref + "|" + command + "|" + maxUses + "|" + toolTip + "|" + compMessage;
 
 			String oldString = Preferences.getString( "dailyDeedsOptions" );
 			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
@@ -1679,17 +1909,10 @@ public class AddCustomDeedsPanel
 			String display = getField( SIMPLE_FIELD_1 ).getText();
 			String command = getField( SIMPLE_FIELD_2 ).getText();
 			String maxUses = getField( SIMPLE_FIELD_3 ).getText();
+			String tooltip = getField( SIMPLE_FIELD_4 ).getText();
+			String compMessage = getField( SIMPLE_FIELD_5 ).getText();
 
-			String deed = "$CUSTOM|Simple|" + display;
-
-			if ( !command.equals( "" ) )
-			{
-				deed += "|" + command;
-			}
-			if ( !maxUses.equals( "" ) )
-			{
-				deed += "|" + maxUses;
-			}
+			String deed = "$CUSTOM|Simple|" + display + "|" + command + "|" + maxUses + "|" + tooltip + "|" + compMessage;
 
 			String oldString = Preferences.getString( "dailyDeedsOptions" );
 			Preferences.setString( "dailyDeedsOptions", oldString + "," + deed );
@@ -1703,10 +1926,10 @@ public class AddCustomDeedsPanel
 	{
 		JTextField[] fields =
 		{
-			this.commandField1, this.commandField2, this.commandField3, this.commandField4,
-			this.itemField1, this.itemField2, this.itemField3, this.itemField4, this.skillField1,
-			this.skillField2, this.skillField3, this.skillField4, this.textField, this.simpleField1,
-			this.simpleField2, this.simpleField3
+			this.commandField1, this.commandField2, this.commandField3, this.commandField4, this.commandField5, this.commandField6,
+			this.itemField1, this.itemField2, this.itemField3, this.itemField4, this.itemField5, this.itemField6,
+			this.skillField1, this.skillField2, this.skillField3, this.skillField4, this.skillField5,  this.skillField6,
+			this.textField, this.simpleField1, this.simpleField2, this.simpleField3, this.simpleField4, this.simpleField5
 		};
 		return fields[ choice ];
 	}
@@ -1715,10 +1938,10 @@ public class AddCustomDeedsPanel
 	{
 		JLabel[] labels =
 		{
-			this.commandLabel1, this.commandLabel2, this.commandLabel3, this.commandLabel4,
-			this.itemLabel1, this.itemLabel2, this.itemLabel3, this.itemLabel4, this.skillLabel1,
-			this.skillLabel2, this.skillLabel3, this.skillLabel4, this.simpleLabel1, this.simpleLabel2,
-			this.simpleLabel3
+			this.commandLabel1, this.commandLabel2, this.commandLabel3, this.commandLabel4, this.commandLabel5, this.commandLabel6,
+			this.itemLabel1, this.itemLabel2, this.itemLabel3, this.itemLabel4, this.itemLabel5, this.itemLabel6,
+			this.skillLabel1, this.skillLabel2, this.skillLabel3, this.skillLabel4, this.skillLabel5, this.skillLabel6,
+			this.simpleLabel1, this.simpleLabel2, this.simpleLabel3, this.simpleLabel4, this.simpleLabel5
 		};
 		return labels[ choice ];
 	}
