@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
 
@@ -120,10 +121,10 @@ public class DailyDeedsPanel
 	public static final String[][] BUILTIN_DEEDS =
 	{
 		{
-			"Command", "Breakfast", "breakfastCompleted", "breakfast", "1", "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences."
+			"Command", "Breakfast", "breakfastCompleted", "breakfast", "1", "Perform typical daily tasks - use 1/day items, visit 1/day locations like various clan furniture, use item creation skills, etc. Configurable in preferences.", "You have completed breakfast"
 		},
 		{
-			"Command", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon", "1", "Adventure in Daily Dungeon"
+			"Command", "Daily Dungeon", "dailyDungeonDone", "adv * Daily Dungeon", "1", "Adventure in Daily Dungeon", "You have adventured in the Daily Dungeon"
 		},
 		{
 			"Special", "Submit Spading Data",
@@ -153,13 +154,13 @@ public class DailyDeedsPanel
 			"Special", "April Shower",
 		},
 		{
-			"Item", "Bag o' Tricks", "_bagOTricksUsed", "Bag o' Tricks", "1", "5 random current effects extended by 3 turns"
+			"Item", "Bag o' Tricks", "_bagOTricksUsed", "Bag o' Tricks", "1", "5 random current effects extended by 3 turns", "Bag o' Tricked used"
 		},
 		{
-			"Item", "Legendary Beat", "_legendaryBeat", "Legendary Beat", "1", "+50% items, 20 turns"
+			"Item", "Legendary Beat", "_legendaryBeat", "Legendary Beat", "1", "+50% items, 20 turns", "Legendary Beat used"
 		},
 		{
-			"Item", "Outrageous Sombrero", "outrageousSombreroUsed", "Outrageous Sombrero", "1", "+3% items, 5 turns"
+			"Item", "Outrageous Sombrero", "outrageousSombreroUsed", "Outrageous Sombrero", "1", "+3% items, 5 turns", "Outrageous Sombrero used"
 		},
 		{
 			"Special", "Friars",
@@ -171,7 +172,7 @@ public class DailyDeedsPanel
 			"Special", "Skate Park",
 		},
 		{
-			"Item", "Fishy Pipe", "_fishyPipeUsed", "Fishy Pipe", "1", "Fishy, 10 turns"
+			"Item", "Fishy Pipe", "_fishyPipeUsed", "Fishy Pipe", "1", "Fishy, 10 turns", "Fishy Pipe used"
 		},
 		{
 			"Special", "Concert",
@@ -180,7 +181,7 @@ public class DailyDeedsPanel
 			"Special", "Demon Summoning",
 		},
 		{
-			"Skill", "Rage Gland", "rageGlandVented", "Rage Gland", "1", "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns"
+			"Skill", "Rage Gland", "rageGlandVented", "Rage Gland", "1", "-10% Mus/Myst/Mox, randomly chosen, and each turn of combat do level to 2*level damage, 5 turns", "Rage Gland used"
 		},
 		{
 			"Special", "Free Rests",
@@ -192,16 +193,16 @@ public class DailyDeedsPanel
 			"Special", "Nuns",
 		},
 		{
-			"Item", "Oscus' Soda", "oscusSodaUsed", "Oscus' Soda", "1", "200-300 MP"
+			"Item", "Oscus' Soda", "oscusSodaUsed", "Oscus' Soda", "1", "200-300 MP", "Oscus' Soda used"
 		},
 		{
-			"Item", "Express Card", "expressCardUsed", "Express Card", "1", "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands"
+			"Item", "Express Card", "expressCardUsed", "Express Card", "1", "extends duration of all current effects by 5 turns, restores all MP, cools zapped wands", "Express Card used"
 		},
 		{
-			"Item", "Brass Dreadsylvanian Flask", "_brassDreadFlaskUsed", "Brass Dreadsylvanian flask", "1", "100 turns of +100% Physical Damage in Dreadsylvania"
+			"Item", "Brass Dreadsylvanian Flask", "_brassDreadFlaskUsed", "Brass Dreadsylvanian flask", "1", "100 turns of +100% Physical Damage in Dreadsylvania", "Brass flask used"
 		},
 		{
-			"Item", "Silver Dreadsylvanian Flask", "_silverDreadFlaskUsed", "Silver Dreadsylvanian flask", "1", "100 turns of +200 Spell Damage in Dreadsylvania"
+			"Item", "Silver Dreadsylvanian Flask", "_silverDreadFlaskUsed", "Silver Dreadsylvanian flask", "1", "100 turns of +200 Spell Damage in Dreadsylvania", "Silver flask used"
 		},
 		{
 			"Special", "Flush Mojo",
@@ -552,10 +553,10 @@ public class DailyDeedsPanel
 
 	private void parseCommandDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 6 )
+		if ( deedsString.length < 3 || deedsString.length > 7 )
 		{
 			RequestLogger
-				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Command. (3, 4, 5, or 6)" );
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Command. (3, 4, 5, 6 or 7)" );
 			return;
 		}
 
@@ -579,7 +580,6 @@ public class DailyDeedsPanel
 			 */
 			String displayText = deedsString[ 1 ];
 			String command = deedsString[ 3 ];
-
 			this.add( new CommandDaily( displayText, pref, command ) );
 		}
 		else if ( deedsString.length == 5 )
@@ -592,7 +592,12 @@ public class DailyDeedsPanel
 			String command = deedsString[ 3 ];
 			try
 			{
-				int maxPref = Integer.parseInt( deedsString[ 4 ] );
+				String maxString = deedsString[ 4 ];
+				int maxPref = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxPref = Integer.parseInt( maxString );
+				}
 
 				this.add( new CommandDaily( displayText, pref, command, maxPref ) );
 			}
@@ -613,9 +618,45 @@ public class DailyDeedsPanel
 			String toolTip = deedsString[ 5 ];
 			try
 			{
-				int maxPref = Integer.parseInt( deedsString[ 4 ] );
+				String maxString = deedsString[ 4 ];
+				int maxPref = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxPref = Integer.parseInt( maxString );
+				}
 
 				this.add( new CommandDaily( displayText, pref, command, maxPref, toolTip ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Command deeds require an int for the fifth parameter." );
+			}
+		}
+		else if ( deedsString.length == 7 )
+		{
+			/*
+			 * MultiPref|displayText|preference|command|maxPref|toolTip|compMessage
+			 */
+
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 3 ];
+			String toolTip = deedsString[ 5 ];
+			String compMessage = deedsString[ 6 ];
+			if ( command.equals( "" ) )
+			{
+				command = displayText;
+			}
+			try
+			{
+				String maxString = deedsString[ 4 ];
+				int maxPref = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxPref = Integer.parseInt( maxString );
+				}
+
+				this.add( new CommandDaily( displayText, pref, command, maxPref, toolTip, compMessage ) );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -627,10 +668,10 @@ public class DailyDeedsPanel
 
 	private void parseItemDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 6 )
+		if ( deedsString.length < 3 || deedsString.length > 7 )
 		{
 			RequestLogger
-				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Item. (3, 4, 5, or 6)" );
+				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Item. (3, 4, 5, 6 or 7)" );
 			return;
 		}
 
@@ -761,11 +802,74 @@ public class DailyDeedsPanel
 					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
 			}
 		}
+		else if ( deedsString.length == 7 )
+		{
+			/*
+			 * BooleanItem|displayText|preference|itemName|maxUses|toolTip|compMessage
+			 * itemId is found from itemName if present, otherwise display text
+			 */
+			String displayText = deedsString[ 1 ];
+			String toolTip = deedsString[ 5 ];
+			String compMessage = deedsString[ 6 ];
+			// Use the substring matching of getItemId because itemName may not
+			// be the canonical name of the item
+			int itemId;
+			String item = "";
+			if ( deedsString[ 3 ].equals ( "" ) )
+			{
+				itemId = ItemDatabase.getItemId( displayText );
+				item = ItemDatabase.getItemName( itemId );
+
+				if ( itemId == -1 )
+				{
+					RequestLogger
+						.printLine( "Daily Deeds error: unable to resolve item " + displayText );
+					return;
+				}
+			}
+			else
+			{
+				String split = deedsString[ 3 ].split( ";" )[ 0 ];
+				itemId = ItemDatabase.getItemId( split );
+				item = ItemDatabase.getItemName( itemId );
+				if ( deedsString[ 3 ].split( ";" ).length > 1 )
+				{
+					for ( int i = 1; i < deedsString[ 3 ].split( ";" ).length; ++i )
+					{
+						item += ";" + deedsString[ 3 ].split( ";" )[ i ];
+					}
+				}
+
+				if ( itemId == -1 )
+				{
+					RequestLogger
+						.printLine( "Daily Deeds error: unable to resolve item " + deedsString[ 3 ] );
+					return;
+				}
+			}
+
+			try
+			{
+				String maxString = deedsString[ 4 ];
+				int maxUses = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxUses = Integer.parseInt( maxString );
+				}
+
+				this.add( new ItemDaily( displayText, pref, itemId, "use " + item, maxUses, toolTip, compMessage ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Item deeds require an int for the fifth parameter." );
+			}
+		}
 	}
 
 	private void parseSkillDeed( String[] deedsString )
 	{
-		if ( deedsString.length < 3 || deedsString.length > 6 )
+		if ( deedsString.length < 3 || deedsString.length > 7 )
 		{
 			RequestLogger
 				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Skill. (3, 4, 5, or 6)" );
@@ -808,7 +912,7 @@ public class DailyDeedsPanel
 			this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
 				+ skillNames.get( 0 ) ) );
 		}
-		else if ( deedsString.length == 5)
+		else if ( deedsString.length == 5 )
 		{
 			String displayText = deedsString[ 1 ];
 			List<?> skillNames = SkillDatabase.getMatchingNames( deedsString[ 3 ] );
@@ -857,10 +961,46 @@ public class DailyDeedsPanel
 					.printLine( "Daily Deeds error: Skill deeds require an int for the fifth parameter." );
 			}
 		}
+		else if ( deedsString.length == 7 )
+		{
+			String displayText = deedsString[ 1 ];
+			String skillString = deedsString[ 3 ];
+			if ( skillString.equals( "" ) )
+			{
+				skillString = displayText;
+			}
+			List<?> skillNames = SkillDatabase.getMatchingNames( skillString );
+			String toolTip = deedsString[ 5 ];
+			String compMessage = deedsString[ 6 ];
+
+			try
+			{
+				String maxString = deedsString[ 4 ];
+				int maxCasts = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxCasts = Integer.parseInt( maxString );
+				}
+
+				if ( skillNames.size() != 1 )
+				{
+					RequestLogger.printLine( "Daily Deeds error: unable to resolve skill "
+						+ skillString );
+					return;
+				}
+				this.add( new SkillDaily( displayText, pref, (String) skillNames.get( 0 ), "cast "
+					+ skillNames.get( 0 ), maxCasts, toolTip, compMessage ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Skill deeds require an int for the fifth parameter." );
+			}
+		}
 	}
 	private void parseSimpleDeed( String[] deedsString, int sCount )
 	{
-		if ( deedsString.length < 2 || deedsString.length > 4 )
+		if ( deedsString.length < 2 || deedsString.length > 6 )
 		{
 			RequestLogger
 				.printLine( "Daily Deeds error: You did not pass the proper number of parameters for a deed of type Simple. (2, 3, or 4)" );
@@ -901,6 +1041,33 @@ public class DailyDeedsPanel
 				int maxPref = Integer.parseInt( deedsString[ 3 ] );
 
 				this.add( new SimpleDaily( displayText, command, maxPref, sCount ) );
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger
+					.printLine( "Daily Deeds error: Simple deeds require an int for the fourth parameter." );
+			}
+		}
+		else if ( deedsString.length == 6 )
+		{
+			/*
+			 * Simple|displayText|command|maxPref|tooltip|compMessage
+			 */
+
+			String displayText = deedsString[ 1 ];
+			String command = deedsString[ 2 ];
+			String tooltip = deedsString[ 4 ];
+			String compMessage = deedsString[ 5 ];
+			try
+			{
+				String maxString = deedsString[ 3 ];
+				int maxPref = 1;
+				if ( !maxString.equals( "" ) )
+				{
+					maxPref = Integer.parseInt( maxString );
+				}
+
+				this.add( new SimpleDaily( displayText, command, maxPref, sCount, tooltip, compMessage ) );
 			}
 			catch ( NumberFormatException e )
 			{
@@ -1330,6 +1497,7 @@ public class DailyDeedsPanel
 		// the shower combo box, but it's implemented here for consistency
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		public ShowerCombo()
@@ -1362,9 +1530,10 @@ public class DailyDeedsPanel
 			//the string is used to set the combobox width. pick the largest, add a space
 			box = this.addComboBox( choices, ttips, "April Shower " );
 			box.addActionListener(new ShowerComboListener() );
-			this.add( Box.createRigidArea(new Dimension(5,1) ) );//small 5px spacer
+			space = this.add( Box.createRigidArea(new Dimension(5,1) ) );//small 5px spacer
 
 			btn = this.addComboButton( "" , "Go!"); //initialize GO button to do nothing
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -1377,8 +1546,16 @@ public class DailyDeedsPanel
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "April Shower" );
 			boolean limited = Limitmode.limitClan();
 			this.setShown( ( !bm || kf ) && ( have || as ) && allowed && !limited );
-			this.setEnabled( !as );
-			box.setEnabled( !as );
+			this.setEnabled( true );
+			box.setEnabled( true );
+			if ( as )
+			{
+				this.setText( "You have showered today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
 		}
 
 		//can probably generalize these combo listeners and put them somewhere else.
@@ -1408,6 +1585,7 @@ public class DailyDeedsPanel
 		extends Daily
 	{
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn = null;
 
 		public DemonCombo()
@@ -1441,17 +1619,15 @@ public class DailyDeedsPanel
 
 			this.addListener( "(character)" );
 			this.addListener( "demonSummoned" );
-
-			this.addItem( ItemPool.EYE_OF_ED );
-			this.addItem( ItemPool.HEADPIECE_OF_ED );
-			this.addItem( ItemPool.STAFF_OF_ED );
+			this.addListener( Quest.MANOR.getPref() );
 
 			box = this.addComboBox( choices, ttips, "Summoning Chamber " );
 			box.addActionListener(new DemonComboListener() );
-			this.add( Box.createRigidArea(new Dimension(5,1) ) );
+			space = this.add( Box.createRigidArea(new Dimension(5,1) ) );
 
 			// Initialize the GO button to do nothing.
 			btn = this.addComboButton( "", "Go!");
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -1460,8 +1636,16 @@ public class DailyDeedsPanel
 			boolean summoned = Preferences.getBoolean( "demonSummoned" );
 			boolean have = QuestDatabase.isQuestFinished( Quest.MANOR );
 			this.setShown( have );
-			this.setEnabled( !summoned );
-			box.setEnabled( !summoned ); // this.setEnabled will not disable the combo box, for whatever reason
+			this.setEnabled( true );
+			box.setEnabled( true ); // this.setEnabled will not disable the combo box, for whatever reason
+			if ( summoned )
+			{
+				this.setText( "You have summoned a demon today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
 
 			// Disable individual choices if we don't have the demon names
 			// Don't touch the first list element
@@ -1618,8 +1802,10 @@ public class DailyDeedsPanel
 	public static class SimpleDaily
 		extends Daily
 	{
+		JButton button;
 		String preference;
 		int maxPref = 1;
+		String compMessage = "";
 
 		/**
 		 * @param command
@@ -1631,8 +1817,9 @@ public class DailyDeedsPanel
 		{
 			this.preference = "_simpleDeed" + sCount;
 			this.addListener( preference );
-			JButton button = this.addButton( command );
+			button = this.addComboButton( command, command );
 			button.addActionListener( new SimpleListener( this.preference ) );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1647,8 +1834,9 @@ public class DailyDeedsPanel
 		{
 			this.preference = "_simpleDeed" + sCount;
 			this.addListener( preference );
-			JButton button = this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 			button.addActionListener( new SimpleListener( this.preference ) );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1665,8 +1853,29 @@ public class DailyDeedsPanel
 			this.preference = "_simpleDeed" + sCount;
 			this.maxPref = maxPref;
 			this.addListener( preference );
-			JButton button = this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 			button.addActionListener( new SimpleListener( this.preference ) );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 *                the text that will be displayed on the button
+		 * @param command
+		 *                the command to execute.
+		 * @param maxPref
+		 *                the integer at which to disable the button.
+		 * @param sCount
+		 */
+		public SimpleDaily( String displayText, String command, int maxPref, int sCount, String tooltip, String compMessage )
+		{
+			this.preference = "_simpleDeed" + sCount;
+			this.maxPref = maxPref;
+			this.compMessage = compMessage;
+			this.addListener( preference );
+			button = this.addComboButton( command, displayText );
+			button.addActionListener( new SimpleListener( this.preference ) );
+			button.setToolTipText( tooltip );
 			this.addLabel( "" );
 		}
 
@@ -1674,6 +1883,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int prefToInt = 1;
+			boolean hideOnComplete = compMessage.equals( "" );
 			String pref = Preferences.getString( this.preference );
 			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
 				|| pref.equalsIgnoreCase( "" ) )
@@ -1690,7 +1900,22 @@ public class DailyDeedsPanel
 				{
 				}
 			}
-			this.setEnabled( prefToInt < this.maxPref );
+			this.setEnabled( true );
+			if ( prefToInt >= this.maxPref )
+			{
+				if ( hideOnComplete )
+				{
+					this.setShown( false );
+					return;
+				}
+				this.setShown( true );
+				this.setText( compMessage );
+				button.setVisible( false );
+				return;
+			}
+			this.setShown( true );
+			this.setText( "" );
+			button.setVisible( true );
 			if ( this.maxPref > 1 )
 			{
 				this.setText( prefToInt + "/" + this.maxPref );
@@ -1719,8 +1944,10 @@ public class DailyDeedsPanel
 	public static class CommandDaily
 		extends Daily
 	{
+		JButton button;
 		String preference;
 		int maxPref = 1;
+		String compMessage = "";
 
 		/**
 		 * @param preference
@@ -1734,7 +1961,7 @@ public class DailyDeedsPanel
 		{
 			this.preference = preference;
 			this.addListener( preference );
-			this.addButton( command );
+			button = this.addComboButton( command, command );
 		}
 
 		/**
@@ -1751,7 +1978,7 @@ public class DailyDeedsPanel
 		{
 			this.preference = preference;
 			this.addListener( preference );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 		}
 
 		/**
@@ -1770,7 +1997,7 @@ public class DailyDeedsPanel
 			this.preference = preference;
 			this.maxPref = maxPref;
 			this.addListener( preference );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 			this.addLabel( "" );
 		}
 
@@ -1792,7 +2019,34 @@ public class DailyDeedsPanel
 			this.preference = preference;
 			this.maxPref = maxPref;
 			this.addListener( preference );
-			this.addComboButton( command, displayText, toolTip );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 *	the text that will be displayed on the button
+		 * @param preference
+		 *	the preference to look at. The preference is used to set the availability of the
+		 *	element.
+		 * @param command
+		 *	the command to execute.
+		 * @param maxPref
+		 *	the integer at which to disable the button.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 * @param compMessage
+		 * 	message to display on completion
+		 */
+		public CommandDaily( String displayText, String preference, String command, int maxPref, String toolTip, String compMessage )
+		{
+			this.preference = preference;
+			this.maxPref = maxPref;
+			this.compMessage = compMessage;
+			this.addListener( preference );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
 			this.addLabel( "" );
 		}
 
@@ -1801,6 +2055,7 @@ public class DailyDeedsPanel
 		{
 			int prefToInt = 1;
 			String pref = Preferences.getString( this.preference );
+			boolean hideOnComplete = compMessage.equals( "" );
 			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
 				|| pref.equalsIgnoreCase( "" ) )
 			{
@@ -1816,7 +2071,22 @@ public class DailyDeedsPanel
 				{
 				}
 			}
-			this.setEnabled( prefToInt < this.maxPref );
+			this.setEnabled( true );
+			if ( prefToInt >= this.maxPref )
+			{
+				if ( hideOnComplete )
+				{
+					this.setShown( false );
+					return;
+				}
+				this.setShown( true );
+				this.setText( compMessage );
+				button.setVisible( false );
+				return;
+			}
+			this.setShown( true );
+			this.setText( "" );
+			button.setVisible( true );
 			if ( this.maxPref > 1 )
 			{
 				this.setText( prefToInt + "/" + this.maxPref );
@@ -1827,9 +2097,11 @@ public class DailyDeedsPanel
 	public static class ItemDaily
 		extends Daily
 	{
+		JButton button;
 		String preference;
 		int itemId;
 		int maxUses = 1;
+		String compMessage = "";
 
 		/**
 		 * @param preference
@@ -1847,7 +2119,8 @@ public class DailyDeedsPanel
 			this.addItem( itemId );
 			this.addListener( preference );
 			this.addListener( "(character)" );
-			this.addButton( command );
+			button = this.addComboButton( command, command );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1868,7 +2141,8 @@ public class DailyDeedsPanel
 			this.addItem( itemId );
 			this.addListener( preference );
 			this.addListener( "(character)" );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1892,7 +2166,7 @@ public class DailyDeedsPanel
 			this.addItem( itemId );
 			this.addListener( preference );
 			this.addListener( "(character)" );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 			this.addLabel( "" );
 		}
 
@@ -1919,7 +2193,39 @@ public class DailyDeedsPanel
 			this.addItem( itemId );
 			this.addListener( preference );
 			this.addListener( "(character)" );
-			this.addComboButton( command, displayText, toolTip );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param itemId
+		 * 	the ID of the item. the item is used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 * @param maxUses
+		 * 	maximum number of uses of the item per day.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 * @param compMessage
+		 * 	message to display on completion.
+		 */
+		public ItemDaily( String displayText, String preference, int itemId, String command, int maxUses, String toolTip, String compMessage )
+		{
+			this.preference = preference;
+			this.itemId = itemId;
+			this.maxUses = maxUses;
+			this.compMessage = compMessage;
+			this.addItem( itemId );
+			this.addListener( preference );
+			this.addListener( "(character)" );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
 			this.addLabel( "" );
 		}
 
@@ -1929,6 +2235,7 @@ public class DailyDeedsPanel
 
 			int prefToInt = 1;
 			String pref = Preferences.getString( this.preference );
+			boolean hideOnComplete = compMessage.equals( "" );
 			boolean haveItem = InventoryManager.getCount( this.itemId ) > 0;
 
 			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
@@ -1948,7 +2255,22 @@ public class DailyDeedsPanel
 			}
 			this.setShown( prefToInt > 0 || haveItem );
 
+			this.setEnabled( true );
+			if ( prefToInt >= this.maxUses )
+			{
+				if ( hideOnComplete )
+				{
+					this.setShown( false );
+					return;
+				}
+				this.setText( compMessage );
+				button.setVisible( false );
+				return;
+			}
+
 			this.setEnabled( haveItem && prefToInt < this.maxUses );
+			this.setText( "" );
+			button.setVisible( true );
 			if ( this.maxUses > 1 )
 			{
 				this.setText( prefToInt + "/" + this.maxUses );
@@ -1959,9 +2281,11 @@ public class DailyDeedsPanel
 	public static class SkillDaily
 		extends Daily
 	{
+		JButton button;
 		String preference;
 		String skill;
 		int maxCasts = 1;
+		String compMessage = "";
 
 		/**
 		 * @param preference
@@ -1978,7 +2302,8 @@ public class DailyDeedsPanel
 			this.skill = skill;
 			this.addListener( preference );
 			this.addListener( "(skill)" );
-			this.addButton( command );
+			button = this.addComboButton( command, command );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1998,7 +2323,8 @@ public class DailyDeedsPanel
 			this.skill = skill;
 			this.addListener( preference );
 			this.addListener( "(skill)" );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -2021,7 +2347,7 @@ public class DailyDeedsPanel
 			this.maxCasts = maxCasts;
 			this.addListener( preference );
 			this.addListener( "(skill)" );
-			this.addComboButton( command, displayText );
+			button = this.addComboButton( command, displayText );
 			this.addLabel( "" );
 		}
 
@@ -2047,7 +2373,38 @@ public class DailyDeedsPanel
 			this.maxCasts = maxCasts;
 			this.addListener( preference );
 			this.addListener( "(skill)" );
-			this.addComboButton( command, displayText, toolTip );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
+			this.addLabel( "" );
+		}
+
+		/**
+		 * @param displayText
+		 * 	the text that will be displayed on the button
+		 * @param preference
+		 * 	the preference to look at. The preference is used to set the availability of the
+		 * 	element.
+		 * @param skill
+		 * 	the skill used to set the visibility of the element.
+		 * @param command
+		 * 	the command to execute.
+		 * @param maxCasts
+		 *  	the number of skill uses before the button is disabled.
+		 * @param toolTip
+		 * 	tooltip to display for button on mouseover, for extended information.
+		 * @param compMessage
+		 * 	message to display on completion.
+		 */
+		public SkillDaily( String displayText, String preference, String skill, String command, int maxCasts, String toolTip, String compMessage )
+		{
+			this.preference = preference;
+			this.skill = skill;
+			this.maxCasts = maxCasts;
+			this.compMessage = compMessage;
+			this.addListener( preference );
+			this.addListener( "(skill)" );
+			button = this.addComboButton( command, displayText );
+			button.setToolTipText( toolTip );
 			this.addLabel( "" );
 		}
 
@@ -2055,6 +2412,7 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			int prefToInt = 1;
+			boolean hideOnComplete = compMessage.equals( "" );
 			String pref = Preferences.getString( this.preference );
 			if ( pref.equalsIgnoreCase( "true" ) || pref.equalsIgnoreCase( "false" )
 				|| pref.equalsIgnoreCase( "" ) )
@@ -2072,7 +2430,21 @@ public class DailyDeedsPanel
 				}
 			}
 			this.setShown( KoLCharacter.hasSkill( this.skill ) );
-			this.setEnabled( prefToInt < this.maxCasts );
+			this.setEnabled( true );
+			if ( prefToInt >= this.maxCasts )
+			{
+				if ( hideOnComplete )
+				{
+					this.setShown( false );
+					return;
+				}
+				this.setText( compMessage );
+				button.setVisible( false );
+				return;
+			}
+
+			this.setText( "" );
+			button.setVisible( true );
 			if ( this.maxCasts > 1 )
 			{
 				this.setText( prefToInt + "/" + this.maxCasts );
@@ -2122,12 +2494,14 @@ public class DailyDeedsPanel
 	public static class NunsDaily
 		extends Daily
 	{
+		JButton button;
+
 		public NunsDaily()
 		{
 			this.addListener( "nunsVisits" );
 			this.addListener( "sidequestNunsCompleted" );
 			this.addListener( "(character)" );
-			this.addButton( "Nuns" );
+			button = this.addComboButton( "Nuns", "nuns" );
 			this.addLabel( "" );
 		}
 
@@ -2138,7 +2512,13 @@ public class DailyDeedsPanel
 			boolean snc = Preferences.getString( "sidequestNunsCompleted" ).equals( "none" );
 			boolean limited = Limitmode.limitZone( "IsleWar" );
 			this.setShown( !snc && !limited );
-			this.setEnabled( nv < 3 && !snc );
+			this.setEnabled( true );
+			if ( nv >= 3 )
+			{
+				this.setText( "The sisters are too busy right now, try tomorrow" );
+				button.setVisible( false );
+				return;
+			}
 			this.setText( nv + "/3" );
 		}
 	}
@@ -2146,6 +2526,7 @@ public class DailyDeedsPanel
 	public static class SkateDaily
 		extends Daily
 	{
+		JButton button;
 		private final String state, visited;
 
 		public SkateDaily( String name, String state, String visited, String desc )
@@ -2155,7 +2536,7 @@ public class DailyDeedsPanel
 			this.addListener( "skateParkStatus" );
 			this.addListener( "(character)" );
 			this.addListener( visited );
-			this.addButton( "skate " + name );
+			button = this.addComboButton( "skate " + name, "skate " + name );
 			this.addLabel( desc );
 		}
 
@@ -2164,7 +2545,13 @@ public class DailyDeedsPanel
 		{
 			boolean limited = Limitmode.limitZone( "The Sea" );
 			this.setShown( Preferences.getString( "skateParkStatus" ).equals( this.state ) && !limited);
-			this.setEnabled( !Preferences.getBoolean( this.visited ) );
+			this.setEnabled( true );
+			if ( Preferences.getBoolean( this.visited ) )
+			{
+				this.setText( "You have visited the Skate Park today" );
+				button.setVisible( false );
+				return;
+			}
 		}
 	}
 
@@ -2190,13 +2577,15 @@ public class DailyDeedsPanel
 	public static class TelescopeDaily
 		extends Daily
 	{
+		JButton button;
+
 		public TelescopeDaily()
 		{
 			this.addListener( "telescopeLookedHigh" );
 			this.addListener( "telescopeUpgrades" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "telescope high" );
+			button = this.addComboButton( "telescope high", "telescope high" );
 			this.addLabel( "" );
 		}
 
@@ -2208,22 +2597,33 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitCampground();
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
 			this.setShown( ( !bm || kf ) && ( nu > 0 ) && !limited );
-			this.setEnabled( nu > 0 && !Preferences.getBoolean( "telescopeLookedHigh" ) );
-			this.setText( nu == 0 ? "" : ("+" + nu*5 + "% all, 10 turns") );
+			this.setEnabled( nu > 0 );
+			if ( Preferences.getBoolean( "telescopeLookedHigh" ) )
+			{
+				this.setText( "You have stared into space today" );
+				button.setVisible( false );
+				return;
+			}
+			this.setText( "+" + nu*5 + "% all, 10 turns" );
 		}
 	}
 
 	public static class ConcertDaily
 		extends Daily
 	{
+		JButton button1;
+		JButton button2;
+		JButton button3;
+
 		public ConcertDaily()
 		{
 			this.addListener( "concertVisited" );
 			this.addListener( "sidequestArenaCompleted" );
 			this.addListener( "(character)" );
-			this.addButton( "concert ?" );
-			this.addButton( "concert ?" );
-			this.addButton( "concert ?" );
+			button1 = this.addComboButton( "concert ?", "concert ?" );
+			button2 = this.addComboButton( "concert ?", "concert ?" );
+			button3 = this.addComboButton( "concert ?", "concert ?" );
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -2232,25 +2632,39 @@ public class DailyDeedsPanel
 			boolean cv = Preferences.getBoolean( "concertVisited" );
 			String side = Preferences.getString( "sidequestArenaCompleted" );
 			boolean limited = Limitmode.limitZone( "IsleWar" );
+			this.setShown( ( side.equals( "fratboy" ) || side.equals( "hippy" ) ) && !limited );
+			this.setEnabled( true );
+			if ( cv )
+			{
+				this.setText( "You have 'enjoyed' a concert today" );
+				button1.setVisible( false );
+				button2.setVisible( false );
+				button3.setVisible( false );
+				return;
+			}
 			if ( side.equals( "fratboy" ) )
 			{
-				this.setShown( true && !limited );
-				this.setEnabled( !cv );
-				this.buttonText( 0, "concert Elvish", "+10% all stats, 20 turns" );
-				this.buttonText( 1, "concert Winklered", "+40% meat, 20 turns" );
-				this.buttonText( 2, "concert White-boy Angst", "+50% initiative, 20 turns" );
+				button1.setActionCommand( "concert Elvish" );
+				button1.setText( "concert Elvish" );
+				button1.setToolTipText( "+10% all stats, 20 turns" );
+				button2.setActionCommand( "concert Winklered" );
+				button2.setText( "concert Winklered" );
+				button2.setToolTipText( "+40% meat, 20 turns" );
+				button3.setActionCommand( "concert White-boy Angst" );
+				button3.setText( "concert White-boy Angst" );
+				button3.setToolTipText( "+50% initiative, 20 turns" );
 			}
 			else if ( side.equals( "hippy" ) )
 			{
-				this.setShown( true && !limited );
-				this.setEnabled( !cv );
-				this.buttonText( 0, "concert Moon'd", "+5 stats per fight, 20 turns" );
-				this.buttonText( 1, "concert Dilated Pupils", "+20% items, 20 turns" );
-				this.buttonText( 2, "concert Optimist Primal", "+5 lbs., 20 turns" );
-			}
-			else {
-				this.setShown( false );
-				this.setEnabled( false );
+				button1.setActionCommand( "concert Moon'd" );
+				button1.setText( "concert Moon'd" );
+				button1.setToolTipText( "+5 stats per fight, 20 turns" );
+				button2.setActionCommand( "concert Dilated Pupils" );
+				button2.setText( "concert Dilated Pupils" );
+				button2.setToolTipText( "+20% items, 20 turns" );
+				button3.setActionCommand( "concert Optimist Primal" );
+				button3.setText( "concert Optimist Primal" );
+				button3.setToolTipText( "+5 lbs., 20 turns" );
 			}
 		}
 	}
@@ -2258,13 +2672,15 @@ public class DailyDeedsPanel
 	public static class RestsDaily
 		extends Daily
 	{
+		JButton button;
+
 		public RestsDaily()
 		{
 			this.addListener( "timesRested" );
 			this.addListener( "(skill)" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "rest free" );
+			button = this.addComboButton( "rest free", "rest free" );
 			this.addLabel( "" );
 		}
 
@@ -2275,23 +2691,37 @@ public class DailyDeedsPanel
 			int fr = KoLCharacter.freeRestsAvailable();
 			boolean limited = Limitmode.limitCampground() && Limitmode.limitZone( "Mountain" );
 			this.setShown( fr > 0 && !limited );
-			this.setEnabled( nr < fr );
+			this.setEnabled( true );
 			this.setText( nr + "/" + fr );
+			if ( nr >= fr )
+			{
+				this.setText( "You have had all " + fr + " free rests today" );
+				button.setVisible( false );
+				return;
+			}
 		}
 	}
 
 	public static class FriarsDaily
 		extends Daily
 	{
+		JButton food;
+		JButton familiar;
+		JButton booze;
+
 		public FriarsDaily()
 		{
 			this.addListener( "friarsBlessingReceived" );
 			this.addListener( "lastFriarCeremonyAscension" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "friars food", "+30% food drops, 20 turns" );
-			this.addButton( "friars familiar", "+2 familiar exp per fight, 20 turns" );
-			this.addButton( "friars booze", "+30% booze drops, 20 turns" );
+			food = this.addComboButton( "friars food", "friars food" );
+			familiar = this.addComboButton( "friars familiar", "friars familiar" );
+			booze = this.addComboButton( "friars booze", "friars booze" );
+			food.setToolTipText( "+30% food drops, 20 turns" );
+			familiar.setToolTipText( "+2 familiar exp per fight, 20 turns" );
+			booze.setToolTipText( "+30% booze drops, 20 turns" );
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -2303,7 +2733,15 @@ public class DailyDeedsPanel
 			int ka = Preferences.getInteger( "knownAscensions" );
 			boolean limited = Limitmode.limitZone( "Friars" );
 			this.setShown( ( kf || lfc == ka ) && !limited && fqc );
-			this.setEnabled( !Preferences.getBoolean( "friarsBlessingReceived" ) );
+			this.setEnabled( true );
+			if ( Preferences.getBoolean( "friarsBlessingReceived" ) )
+			{
+				this.setText( "You have had a friar's blessing today" );
+				food.setVisible( false );
+				familiar.setVisible( false );
+				booze.setVisible( false );
+				return;
+			}
 		}
 	}
 
@@ -2311,6 +2749,7 @@ public class DailyDeedsPanel
 		extends Daily
 	{
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn = null;
 
 		public MomCombo()
@@ -2343,10 +2782,11 @@ public class DailyDeedsPanel
 
 			box = this.addComboBox( choices, ttips, "Get Food from Mom" );
 			box.addActionListener(new MomComboListener() );
-			this.add( Box.createRigidArea(new Dimension(5,1) ) );
+			space = this.add( Box.createRigidArea(new Dimension(5,1) ) );
 
 			// Initialize the GO button to do nothing.
 			btn = this.addComboButton( "", "Go!");
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -2354,8 +2794,15 @@ public class DailyDeedsPanel
 		{
 			boolean limited = Limitmode.limitZone( "The Sea" );
 			this.setShown( QuestDatabase.isQuestFinished( Quest.SEA_MONKEES ) && !limited );
-			this.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) );
-			box.setEnabled( !Preferences.getBoolean( "_momFoodReceived" ) ); // this.setEnabled will not disable the combo box, for whatever reason
+			this.setEnabled( true );
+			if ( Preferences.getBoolean( "_momFoodReceived" ) )
+			{
+				this.setText( "You have had some of Mom's food today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
 		}
 
 		private class MomComboListener
@@ -2381,13 +2828,21 @@ public class DailyDeedsPanel
 	public static class StyxDaily
 		extends Daily
 	{
+		JButton btnMus;
+		JButton btnMys;
+		JButton btnMox;
+
 		public StyxDaily()
 		{
 			this.addListener( "styxPixieVisited" );
 			this.addListener( "(character)" );
-			this.addButton( "styx muscle", "+25% musc, +10 weapon dmg, +5 DR, 10 turns" );
-			this.addButton( "styx mysticality", "+25% myst, +15 spell dmg, 10-15 MP regen, 10 turns" );
-			this.addButton( "styx moxie", "+25% mox, +40% meat, +20% item, 10 turns" );
+			btnMus = this.addComboButton( "styx muscle", "styx muscle" );
+			btnMys = this.addComboButton( "styx mysticality", "styx mysticality" );
+			btnMox = this.addComboButton( "styx moxie", "styx moxie" );
+			btnMus.setToolTipText( "+25% musc, +10 weapon dmg, +5 DR, 10 turns" );
+			btnMys.setToolTipText( "+25% myst, +15 spell dmg, 10-15 MP regen, 10 turns" );
+			btnMox.setToolTipText( "+25% mox, +40% meat, +20% item, 10 turns" );
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -2398,19 +2853,29 @@ public class DailyDeedsPanel
 			this.setShown( bm && !limited );
 			this.setEnabled( !Preferences.getBoolean( "styxPixieVisited" ) &&
 				bm );
+			if ( Preferences.getBoolean( "styxPixieVisited" ) )
+			{
+				this.setText( "You have sampled the Styx today" );
+				btnMus.setVisible( false );
+				btnMys.setVisible( false );
+				btnMox.setVisible( false );
+				return;
+			}
 		}
 	}
 
 	public static class MojoDaily
 		extends Daily
 	{
+		JButton button;
+
 		public MojoDaily()
 		{
 			this.addListener( "currentMojoFilters" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 			this.addItem( ItemPool.MOJO_FILTER );
-			this.addButton( "use mojo filter" );
+			button = this.addComboButton( "use mojo filter", "use mojo filter" );
 			this.addLabel( "" );
 		}
 
@@ -2420,7 +2885,13 @@ public class DailyDeedsPanel
 			boolean have = InventoryManager.getCount( ItemPool.MOJO_FILTER ) > 0;
 			int nf = Preferences.getInteger( "currentMojoFilters" );
 			this.setShown( have || nf > 0 );
-			this.setEnabled( have && nf < 3 );
+			this.setEnabled( true );
+			if ( nf >= 3 )
+			{
+				this.setText( "You can handle no more mojo filtering today" );
+				button.setVisible( false );
+				return;
+			}
 			this.setText( nf + "/3" );
 		}
 	}
@@ -2428,13 +2899,15 @@ public class DailyDeedsPanel
 	public static class HotTubDaily
 		extends Daily
 	{
+		JButton button;
+
 		public HotTubDaily()
 		{
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_hotTubSoaks" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "hottub" );
+			button = this.addComboButton( "hottub", "hottub" );
 			this.addLabel( "" );
 		}
 
@@ -2447,7 +2920,13 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitClan();
 			int nf = Preferences.getInteger( "_hotTubSoaks" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && !limited );
-			this.setEnabled( nf < 5 );
+			this.setEnabled( true );
+			if ( nf >= 5 )
+			{
+				this.setText( "You've spent enough time in the hot tub today" );
+				button.setVisible( false );
+				return;
+			}
 			this.setText( nf + "/5" );
 		}
 	}
@@ -2455,15 +2934,22 @@ public class DailyDeedsPanel
 	public static class PoolDaily
 		extends Daily
 	{
+		JButton pool1;
+		JButton pool2;
+		JButton pool3;
+
 		public PoolDaily()
 		{
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_poolGames" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "pool 1", "weapon dmg +50%, +5 lbs, 10 turns" );
-			this.addButton( "pool 2", "spell dmg +50%, 10 MP per Adv, 10 turns" );
-			this.addButton( "pool 3", "init +50%, +10% item, 10 turns" );
+			pool1 = this.addComboButton( "pool 1", "pool 1" );
+			pool2 = this.addComboButton( "pool 2", "pool 2" );
+			pool3 = this.addComboButton( "pool 3", "pool 3" );
+			pool1.setToolTipText( "weapon dmg +50%, +5 lbs, 10 turns" );
+			pool2.setToolTipText( "spell dmg +50%, 10 MP per Adv, 10 turns" );
+			pool3.setToolTipText( "init +50%, +10% item, 10 turns" );
 			this.addLabel( "" );
 		}
 
@@ -2477,7 +2963,15 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitClan();
 			int nf = Preferences.getInteger( "_poolGames" );
 			this.setShown( ( !bm || kf ) && ( have || nf > 0 ) && allowed && !limited );
-			this.setEnabled( nf < 3 );
+			this.setEnabled( true );
+			if ( nf >= 3 )
+			{
+				this.setText( "You've played enough pool today" );
+				pool1.setVisible( false );
+				pool2.setVisible( false );
+				pool3.setVisible( false );
+				return;
+			}
 			this.setText( nf + "/3" );
 		}
 	}
@@ -2485,13 +2979,15 @@ public class DailyDeedsPanel
 	public static class CrimboTreeDaily
 		extends Daily
 	{
+		JButton button;
+
 		public CrimboTreeDaily()
 		{
 			this.addListener( "_crimboTree" );
 			this.addListener( "crimboTreeDays" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "crimbotree get" );
+			button = this.addComboButton( "crimbotree get", "crimbotree get" );
 			this.addLabel( "" );
 		}
 
@@ -2505,8 +3001,21 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitClan();
 			int ctd = Preferences.getInteger( "crimboTreeDays" );
 			this.setShown( ( !bm || kf ) && tree && allowed && !limited );
-			this.setEnabled( ctd == 0 );
-			this.setText( ctd + " days to go." );
+			this.setEnabled( true );
+			if ( ctd > 0 )
+			{
+				if ( ctd == 1 )
+				{
+					this.setText( "\"Crimbo\" is tomorrow!" );
+				}
+				else
+				{
+					this.setText( ctd + " days to go til \"Crimbo\"" );
+				}
+				button.setVisible( false );
+				return;
+			}
+			this.setText( "\"Crimbo\" is here!" );
 		}
 	}
 
@@ -3208,13 +3717,15 @@ public class DailyDeedsPanel
 	public static class FeastDaily
 		extends Daily
 	{
+		JButton button;
+
 		public FeastDaily()
 		{
 			this.addItem( ItemPool.MOVEABLE_FEAST );
 			this.addListener( "_feastUsed" );
 			this.addListener( "_feastedFamiliars" );
-			this.addButton( "use moveable feast" );
 			this.addListener( "(character)" );
+			button = this.addComboButton( "use moveable feast", "use moveable feast" );
 			this.addLabel( "" );
 		}
 
@@ -3232,10 +3743,16 @@ public class DailyDeedsPanel
 					have = true;
 				}
 			}
-			this.buttonText( 0, "use moveable feast", fu + "/5" );
+			button.setToolTipText( fu + "/5" );
 			this.setText( list );
 			this.setShown( have );
-			this.setEnabled( ( fu < 5 ) );
+			this.setEnabled( true );
+			if ( fu >= 5 )
+			{
+				this.setText( "You have no more feasts for your familiar today" );
+				button.setVisible( false );
+				return;
+			}
 		}
 	}
 
@@ -3262,13 +3779,20 @@ public class DailyDeedsPanel
 	public static class ChipsDaily
 	extends Daily
 	{
+		JButton btnMox;
+		JButton btnMus;
+		JButton btnMys;
+
 		public ChipsDaily()
 		{
 			this.addListener( "_chipBags" );
 			this.addListener( "(character)" );
-			this.addButton( "chips radium", "moxie +30 for 10" );
-			this.addButton( "chips wintergreen", "muscle +30 for 10" );
-			this.addButton( "chips ennui", "mysticality +30 for 10" );
+			btnMox = this.addComboButton( "chips radium", "chips radium" );
+			btnMus = this.addComboButton( "chips wintergreen", "chips wintergreen" );
+			btnMys = this.addComboButton( "chips ennui", "chips ennui" );
+			btnMox.setToolTipText( "moxie +30 for 10" );
+			btnMus.setToolTipText( "muscle +30 for 10" );
+			btnMys.setToolTipText( "mysticality +30 for 10" );
 			this.addLabel( "" );
 		}
 
@@ -3279,7 +3803,15 @@ public class DailyDeedsPanel
 			int nf = Preferences.getInteger( "_chipBags" );
 			this.setShown( KoLCharacter.hasClan() &&
 				KoLCharacter.canInteract() && !limited );
-			this.setEnabled( nf < 3 );
+			this.setEnabled( true );
+			if ( nf < 3 )
+			{
+				this.setText( "You have collected chips today" );
+				btnMox.setVisible( false );
+				btnMus.setVisible( false );
+				btnMys.setVisible( false );
+				return;
+			}
 			this.setText( nf + "/3" );
 		}
 	}
@@ -3287,12 +3819,16 @@ public class DailyDeedsPanel
 	public static class PitDaily
 	extends Daily
 	{
+		JButton button;
+
 		public PitDaily()
 		{
 			this.addListener( "_ballpit" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "ballpit", "stat boost for 20" );
+			button = this.addComboButton( "ballpit", "ballpit" );
+			button.setToolTipText( "stat boost for 20" );
+			this.addLabel( "" );
 		}
 
 		@Override
@@ -3302,7 +3838,13 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitClan();
 			this.setShown( KoLCharacter.hasClan() &&
 				KoLCharacter.canInteract() && !limited );
-			this.setEnabled( !dun );
+			this.setEnabled( true );
+			if ( dun )
+			{
+				this.setText( "You have jumped into the ballpit today" );
+				button.setVisible( false );;
+				return;
+			}
 		}
 	}
 
@@ -3310,6 +3852,7 @@ public class DailyDeedsPanel
 		extends Daily
 	{
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		static List<String> effectHats = new ArrayList<String>();
@@ -3331,16 +3874,34 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 
 			box = this.addComboBox( this.effects.toArray(), this.modifiers, comboBoxSizeString );
-			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
+			space = this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 
 			// Initialize the GO button to do nothing.
 			btn = this.addComboButton( "", "Go!" );
+			this.addLabel( "" );
 			update();
 		}
 
 		@Override
 		public final void update()
 		{
+			boolean bm = KoLCharacter.inBadMoon();
+			boolean kf = KoLCharacter.kingLiberated();
+			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
+				|| ( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
+			boolean active = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
+			boolean limited = Limitmode.limitZone( "RabbitHole" );
+			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) && !limited );
+			this.setEnabled( true );
+			if ( Preferences.getBoolean( "_madTeaParty" ) )
+			{
+				this.setText( "You have visited the tea party today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
+
 			box.removeActionListener( listener );
 			this.box.removeAllItems();
 			box.addActionListener( listener );
@@ -3395,17 +3956,7 @@ public class DailyDeedsPanel
 			}
 			box.setTooltips( modifiers );
 
-			boolean bm = KoLCharacter.inBadMoon();
-			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
-				|| ( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
-			boolean active = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
-			boolean limited = Limitmode.limitZone( "RabbitHole" );
-
-			this.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
-			box.setEnabled( !Preferences.getBoolean( "_madTeaParty" ) );
-
-			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) && !limited );
+			box.setEnabled( true );
 
 			setComboTarget(btn, "");
 		}
@@ -3472,14 +4023,19 @@ public class DailyDeedsPanel
 	public static class SwimmingPoolDaily
 		extends Daily
 	{
+		JButton laps;
+		JButton sprints;
+
 		public SwimmingPoolDaily()
 		{
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 			this.addListener( "_olympicSwimmingPool" );
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
-			this.addButton( "swim laps", "init +30%, +25 stench dmg, +20 ml, 50 turns" );
-			this.addButton( "swim sprints", "-5% combat, 50 turns" );
+			laps = this.addComboButton( "swim laps", "swim laps" );
+			sprints = this.addComboButton( "swim sprints", "swim sprints" );
+			laps.setToolTipText( "init +30%, +25 stench dmg, +20 ml, 50 turns" );
+			sprints.setToolTipText( "-5% combat, 50 turns" );
 			this.addLabel( "" );
 		}
 
@@ -3493,7 +4049,14 @@ public class DailyDeedsPanel
 			boolean allowed = StandardRequest.isAllowed( "Clan Item", "Clan Swimming Pool" );
 			boolean limited = Limitmode.limitClan();
 			this.setShown( ( !bm || kf ) && ( have || sp ) && allowed && !limited );
-			this.setEnabled( !sp );
+			if ( sp )
+			{
+				this.setText( "You have swum in the pool today" );
+				laps.setVisible( false );
+				sprints.setVisible( false );
+				return;
+			}
+			this.setEnabled( true );
 		}
 	}
 	
@@ -3643,7 +4206,7 @@ public class DailyDeedsPanel
 
 			if ( checked )
 			{
-				this.setText( "already checked for a defective token" );
+				this.setText( "You have checked for a defective token today" );
 				this.button.setVisible( false );
 				return;
 			}
@@ -3707,7 +4270,7 @@ public class DailyDeedsPanel
 
 			if ( harvested )
 			{
-				this.setText( "Already harvested the chateau desk" );
+				this.setText( "You have harvested the chateau desk today" );
 				this.button.setVisible( false );
 				return;
 			}
@@ -3805,6 +4368,7 @@ public class DailyDeedsPanel
 		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		static
@@ -3835,7 +4399,7 @@ public class DailyDeedsPanel
 
 			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new DeckComboListener() );
-			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Draw");
 			this.addLabel( "X/15 cards" );
 			this.setEnabled( false );
@@ -3851,6 +4415,14 @@ public class DailyDeedsPanel
 			boolean allowed = StandardRequest.isAllowed( "Items", "Deck of Every Card" );
 			boolean limited = Limitmode.limitItem( ItemPool.DECK_OF_EVERY_CARD );
 			this.setShown( ( !bm || kf ) && ( have || nocards ) && allowed && !limited );
+			if ( nocards )
+			{
+				this.setText( "You have drawn all your cards today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
 			box.setEnabled( !nocards );
 			box.setSelectedIndex( 0 );
 			this.setText( Preferences.getInteger( "_deckCardsDrawn" ) + "/15 cards" );
@@ -3911,6 +4483,7 @@ public class DailyDeedsPanel
 		}
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		public TeaTreeDaily()
@@ -3921,8 +4494,9 @@ public class DailyDeedsPanel
 
 			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new TeaTreeListener() );
-			this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
+			space = this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Pick" );
+			this.addLabel( "" );
 			this.setEnabled( false );
 		}
 
@@ -3936,6 +4510,14 @@ public class DailyDeedsPanel
 			boolean allowed = StandardRequest.isAllowed( "Items", "potted tea tree" );
 			boolean limited = Limitmode.limitItem( ItemPool.POTTED_TEA_TREE );
 			this.setShown( ( !bm || kf ) && have && allowed && !limited );
+			if ( !available )
+			{
+				this.setText( "You have picked your tea for today" );
+				box.setVisible( false );
+				btn.setVisible( false );
+				space.setVisible( false );
+				return;
+			}
 			box.setEnabled( available );
 			box.setSelectedIndex( 0 );
 		}
@@ -3993,27 +4575,24 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitZone( "Dungeon Full of Dungeons" );
 			this.setShown( ( !bm || kf ) && ( have || prayed ) && allowed && !limited );
 
-			boolean hasProtection = !Preferences.getBoolean( "prayedForProtection" );
-			boolean hasGlamour = !Preferences.getBoolean( "prayedForGlamour" );
-			boolean hasVigor = !Preferences.getBoolean( "prayedForVigor" );
-			String myClass = KoLCharacter.getClassType();
-
-			btnMus.setVisible( hasProtection );
-			btnMys.setVisible( hasGlamour );
-			btnMox.setVisible( hasVigor );
-			btnBuff.setVisible( true );
 			if ( prayed )
 			{
-				this.setText( "You have already prayed to the Barrel god today" );
+				this.setText( "You have prayed to the Barrel god today" );
 				btnMus.setVisible( false );
 				btnMys.setVisible( false );
 				btnMox.setVisible( false );
 				btnBuff.setVisible( false );
+				return;
 			}
-			else
-			{
-				this.setText( "Pray to the Barrel god" );
-			}
+			boolean hasProtection = !Preferences.getBoolean( "prayedForProtection" );
+			boolean hasGlamour = !Preferences.getBoolean( "prayedForGlamour" );
+			boolean hasVigor = !Preferences.getBoolean( "prayedForVigor" );
+			String myClass = KoLCharacter.getClassType();
+			btnMus.setVisible( hasProtection );
+			btnMys.setVisible( hasGlamour );
+			btnMox.setVisible( hasVigor );
+			btnBuff.setVisible( true );
+			this.setText( "Pray to the Barrel god" );
 
 			if ( myClass.equals( KoLCharacter.SEAL_CLUBBER ) )
 			{
@@ -4069,6 +4648,7 @@ public class DailyDeedsPanel
 		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		static
@@ -4091,7 +4671,7 @@ public class DailyDeedsPanel
 
 			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalEnhanceComboListener() );
-			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Enhance");
 			this.addLabel( "X/3 enhances" );
 			this.setEnabled( false );
@@ -4109,7 +4689,15 @@ public class DailyDeedsPanel
 			boolean allowed = StandardRequest.isAllowed( "Items", "Source terminal" );
 			boolean limited = Limitmode.limitCampground();
 			this.setShown( ( !bm || kf ) && have && allowed && !limited );
-			box.setEnabled( !noenhance );
+			if ( noenhance )
+			{
+				this.setText( "You have used your enhancements today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
+			box.setEnabled( true );
 			box.setSelectedIndex( 0 );
 			this.setText( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) + "/" + limit + " enhances" );
 			for ( int i = 1; i < TERMINAL_ENHANCE_DATA.length ; ++i )
@@ -4251,6 +4839,7 @@ public class DailyDeedsPanel
 		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
+		Component space;
 		JButton btn;
 
 		static
@@ -4272,7 +4861,7 @@ public class DailyDeedsPanel
 
 			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalExtrudeComboListener() );
-			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
+			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Extrude");
 			this.addLabel( "X/3 extrudes" );
 			this.setEnabled( false );
@@ -4289,9 +4878,17 @@ public class DailyDeedsPanel
 			int extrudes = Preferences.getInteger( "_sourceTerminalExtrudes" );
 			boolean noextrude = extrudes >= 3;
 			this.setShown( ( !bm || kf ) && have && allowed && !limited );
-			box.setEnabled( !noextrude );
-			box.setSelectedIndex( 0 );
+			if ( noextrude )
+			{
+				this.setText( "You have extruded your items today" );
+				box.setVisible( false );
+				space.setVisible( false );
+				btn.setVisible( false );
+				return;
+			}
 			this.setText( extrudes + "/3 extrudes" );
+			box.setEnabled( true );
+			box.setSelectedIndex( 0 );
 			for ( int i = 1; i < TERMINAL_EXTRUDE_DATA.length ; ++i )
 			{
 				boolean known = Preferences.getString( "sourceTerminalExtrudeKnown" ).contains( (String) TERMINAL_EXTRUDE_DATA[i][0] );
