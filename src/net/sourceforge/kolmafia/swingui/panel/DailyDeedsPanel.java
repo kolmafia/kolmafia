@@ -5040,6 +5040,7 @@ public class DailyDeedsPanel
 			String digitizeMonster = Preferences.getString( "_sourceTerminalDigitizeMonster" );
 			int portscanCount = Preferences.getInteger( "_sourceTerminalPortscanUses" );
 			int duplicateCount = Preferences.getInteger( "_sourceTerminalDuplicateUses" );
+			int duplicateLimit = 1 + ( KoLCharacter.inTheSource() ? 4 : 0 );
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = !Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" );
@@ -5048,7 +5049,7 @@ public class DailyDeedsPanel
 			this.setShown( ( !bm || kf ) && have && allowed && !limited );
 
 			StringBuilder text = new StringBuilder();
-			text.append( "Duplicate: " + duplicateCount + "/1, " );
+			text.append( "Duplicate: " + duplicateCount + "/" + duplicateLimit + ", " );
 			text.append( "Portscan: " + portscanCount + "/3, " );
 			text.append( "Digitize: " + digitizeCount + "/" + digitizeLimit );
 			if ( digitizeCount > 0 )
