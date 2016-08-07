@@ -2692,13 +2692,14 @@ public class DailyDeedsPanel
 			boolean limited = Limitmode.limitCampground() && Limitmode.limitZone( "Mountain" );
 			this.setShown( fr > 0 && !limited );
 			this.setEnabled( true );
-			this.setText( nr + "/" + fr );
 			if ( nr >= fr )
 			{
 				this.setText( "You have had all " + fr + " free rests today" );
 				button.setVisible( false );
 				return;
 			}
+			this.setText( nr + "/" + fr );
+			button.setVisible( true );
 		}
 	}
 
@@ -4697,6 +4698,9 @@ public class DailyDeedsPanel
 				btn.setVisible( false );
 				return;
 			}
+			box.setVisible( true );
+			space.setVisible( true );
+			btn.setVisible( true );
 			box.setEnabled( true );
 			box.setSelectedIndex( 0 );
 			this.setText( Preferences.getInteger( "_sourceTerminalEnhanceUses" ) + "/" + limit + " enhances" );
