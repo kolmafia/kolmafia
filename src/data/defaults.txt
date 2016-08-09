@@ -752,6 +752,7 @@ user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream s
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
 user	nextAdventure
+user	nextParanormalActivity	0
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nosyNoseMonster	

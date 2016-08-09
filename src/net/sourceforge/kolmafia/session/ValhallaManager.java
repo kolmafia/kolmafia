@@ -524,6 +524,7 @@ public class ValhallaManager
 		Preferences.setInteger( "cozyCounter6333", 0 );
 		Preferences.setInteger( "cozyCounter6334", 0 );
 		Preferences.setInteger( "lastAnticheeseDay", -5 );
+		Preferences.setInteger( "nextParanormalActivity", 1 );
 		Preferences.setString( "nextSpookyravenElizabethRoom", "The Haunted Storage Room" );
 		Preferences.setString( "nextSpookyravenStephenRoom", "The Haunted Bedroom" );
 		Preferences.setInteger( "meansuckerPrice", 400 );
