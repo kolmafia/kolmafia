@@ -242,8 +242,11 @@ public class QuestLogRequest
 			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step1" ) );
 		Preferences.setBoolean( "controlRoomUnlock", 
 			QuestDatabase.isQuestLaterThan( Quest.PYRAMID, "step2" ) );
-		Preferences.setBoolean( "pyramidBombUsed", 
-			QuestDatabase.isQuestFinished( Quest.PYRAMID ) );
+		if ( !Preferences.getBoolean( "pyramidBombUsed" ) )
+		{
+			Preferences.setBoolean( "pyramidBombUsed", 
+				QuestDatabase.isQuestFinished( Quest.PYRAMID ) );
+		}
 		Preferences.setBoolean( "bigBrotherRescued", 
 			QuestDatabase.isQuestLaterThan( Quest.SEA_MONKEES, "step1" ) );
 		if ( QuestDatabase.isQuestFinished ( Quest.ISLAND_WAR ) )
