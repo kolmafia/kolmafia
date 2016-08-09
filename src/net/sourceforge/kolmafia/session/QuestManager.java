@@ -2164,6 +2164,7 @@ public class QuestManager
 				{
 					Preferences.setString( "ghostLocation", "The Haunted Wine Cellar" );
 				}
+				Preferences.setInteger( "nextParanormalActivity", KoLCharacter.getTurnsPlayed() + 51 );
 				String message = "Paranormal activity reported at " + Preferences.getString( "ghostLocation" ) + ".";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
