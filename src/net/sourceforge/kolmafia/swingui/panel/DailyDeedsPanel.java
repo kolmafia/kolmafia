@@ -1962,6 +1962,7 @@ public class DailyDeedsPanel
 			this.preference = preference;
 			this.addListener( preference );
 			button = this.addComboButton( command, command );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -1979,6 +1980,7 @@ public class DailyDeedsPanel
 			this.preference = preference;
 			this.addListener( preference );
 			button = this.addComboButton( command, displayText );
+			this.addLabel( "" );
 		}
 
 		/**
@@ -3805,7 +3807,7 @@ public class DailyDeedsPanel
 			this.setShown( KoLCharacter.hasClan() &&
 				KoLCharacter.canInteract() && !limited );
 			this.setEnabled( true );
-			if ( nf < 3 )
+			if ( nf >= 3 )
 			{
 				this.setText( "You have collected chips today" );
 				btnMox.setVisible( false );
