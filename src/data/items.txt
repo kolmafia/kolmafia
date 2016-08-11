@@ -7720,7 +7720,7 @@
 7695	cap gun	394224194	sixshooter.gif	weapon	t,d	5
 7696	portable cassette player	829581477	walkman.gif	accessory	t,d	5
 7697	chewable paper	699346310	chewpaper.gif	none, curse	t,d	0	pieces of chewable paper
-7698	rubber spider	141472526	spiderring.gif	usable	t,d	5
+7698	rubber spider	141472526	spiderring.gif	none, curse	t,d	5
 7699	&quot;KICK ME&quot; sign	612631396	kickmesign.gif	none, curse	t,d	5
 7700	confiscated comic book	236084375	comicbook.gif	usable	t,d	5
 7701	confiscated cell phone	111757604	padl.gif	usable	t,d	5
