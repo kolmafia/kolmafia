@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
@@ -485,6 +486,7 @@ public class AdventureRequest
 				     !EncounterManager.isSemiRareMonster( encounter ) &&
 				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
 				     !EncounterManager.isFreeCombatMonster( encounter ) &&
+				     !EncounterManager.isNoWanderMonster( encounter ) &&
 				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
@@ -501,6 +503,8 @@ public class AdventureRequest
 			}
 			EncounterManager.registerEncounter( encounter, type, responseText );
 		}
+
+		TurnCounter.handleTemporaryCounters( type, encounter );
 
 		return encounter;
 	}
@@ -640,7 +644,7 @@ public class AdventureRequest
 				image.startsWith( "fun-gal" ) ? "Fun-Guy Playmate" :
 				// VYKEA
 				image.startsWith( "vykfemale" ) ? "VYKEA viking (female)" :
-				image.startsWith( "vykmale" ) ? "VYKEA viking (male)" :				
+				image.startsWith( "vykmale" ) ? "VYKEA viking (male)" :
 				// The Old Landfill
 				image.startsWith( "js_bender" ) ? "junksprite bender" :
 				image.startsWith( "js_melter" ) ? "junksprite melter" :

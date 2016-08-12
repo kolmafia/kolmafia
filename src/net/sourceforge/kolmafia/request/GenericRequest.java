@@ -1500,11 +1500,6 @@ public class GenericRequest
 			BarrelDecorator.beginSmash( urlString );
 		}
 
-		if ( urlString.startsWith( "adventure.php" ) )
-		{
-			TurnCounter.handleTemporaryCounters( this.getFormField( "snarfblat" ) );
-		}
-
 		// Do this before registering the request now that we have a
 		// choice chain that takes a turn per choice
 		if ( urlString.startsWith( "choice.php" ) )

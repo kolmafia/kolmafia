@@ -78,7 +78,8 @@ public abstract class EncounterManager
 		WANDERER,
 		SUPERLIKELY,
 		ULTRARARE,
-		FREE_COMBAT
+		FREE_COMBAT,
+		NOWANDER, // Don't start wandering monster counters
 	}
 
 	public static class Encounter
@@ -238,31 +239,37 @@ public abstract class EncounterManager
 	public static boolean isWanderingMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.WANDERER;
+		return monster != null && monster.getType().contains( EncounterType.WANDERER );
 	}
 
 	public static boolean isSemiRareMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.SEMIRARE;
+		return monster != null && monster.getType().contains( EncounterType.SEMIRARE );
 	}
 
 	public static boolean isSuperlikelyMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.SUPERLIKELY;
+		return monster != null && monster.getType().contains( EncounterType.SUPERLIKELY );
 	}
 
 	public static boolean isFreeCombatMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.FREE_COMBAT;
+		return monster != null && monster.getType().contains( EncounterType.FREE_COMBAT );
 	}
 
 	public static boolean isUltrarareMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
-		return monster != null && monster.getType() == EncounterType.ULTRARARE;
+		return monster != null && monster.getType().contains( EncounterType.ULTRARARE );
+	}
+
+	public static boolean isNoWanderMonster( String encounter )
+	{
+		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		return monster != null && monster.getType().contains( EncounterType.NOWANDER );
 	}
 
 	// Used to ignore special monsters re-encountered via copying
