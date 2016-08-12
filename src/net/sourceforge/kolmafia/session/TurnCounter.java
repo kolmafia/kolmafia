@@ -498,18 +498,26 @@ public class TurnCounter
 		Preferences.setString( "_tempRelayCounters", temp );
 	}
 
-	public static final void handleTemporaryCounters( String snarfblat )
+	public static final void handleTemporaryCounters( final String type, final String encounter )
 	{
 		String temp = Preferences.getString( "_tempRelayCounters" );
 		if ( temp.equals( "" ) )
 		{
 			return;
 		}
-		if ( snarfblat == null || 
-		     snarfblat.equals( AdventurePool.THE_SHORE_ID ) ||
-		     snarfblat.equals( AdventurePool.TRAINING_SNOWMAN_ID ) )
+		int snarfblat = KoLAdventure.lastAdventureId();
+		if ( snarfblat == 0 ||
+		     snarfblat == AdventurePool.THE_SHORE  ||
+		     snarfblat == AdventurePool.TRAINING_SNOWMAN )
 		{
 			return;
+		}
+		if ( type.equals( "Combat" ) )
+		{
+			if ( EncounterManager.isNoWanderMonster( encounter ) )
+			{
+				return;
+			}
 		}
 		String[] counters = temp.split( "\\|" );
 		for ( String counter : counters )

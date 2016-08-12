@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -452,7 +453,7 @@ public class MonsterDatabase
 		boolean boss = false;
 		boolean noBanish = false;
 		boolean dummy = false;
-		EncounterType type = EncounterType.NONE;
+		EnumSet<EncounterType> type = EnumSet.noneOf( EncounterType.class );
 		int physical = 0;
 		String manuelName = null;
 
@@ -655,31 +656,37 @@ public class MonsterDatabase
 
 				else if ( option.equals( "WANDERER" ) )
 				{
-					type = EncounterType.WANDERER;
+					type.add( EncounterType.WANDERER );
 					continue;
 				}
 
 				else if ( option.equals( "ULTRARARE" ) )
 				{
-					type = EncounterType.ULTRARARE;
+					type.add( EncounterType.ULTRARARE );
 					continue;
 				}
 
 				else if ( option.equals( "SEMIRARE" ) )
 				{
-					type = EncounterType.SEMIRARE;
+					type.add( EncounterType.SEMIRARE );
 					continue;
 				}
 
 				else if ( option.equals( "SUPERLIKELY" ) )
 				{
-					type = EncounterType.SUPERLIKELY;
+					type.add( EncounterType.SUPERLIKELY );
 					continue;
 				}
 
 				else if ( option.equals( "FREE" ) )
 				{
-					type = EncounterType.FREE_COMBAT;
+					type.add( EncounterType.FREE_COMBAT );
+					continue;
+				}
+
+				else if ( option.equals( "NOWANDER" ) )
+				{
+					type.add( EncounterType.NOWANDER );
 					continue;
 				}
 
@@ -764,7 +771,7 @@ public class MonsterDatabase
 			return "";
 		}
 
-		StringBuffer temp = new StringBuffer( token );
+		StringBuilder temp = new StringBuilder( token );
 		while ( !token.endsWith( "\"" ) && tokens.hasMoreTokens() )
 		{
 			token = tokens.nextToken();
