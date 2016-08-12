@@ -8888,7 +8888,7 @@ public abstract class ChoiceManager
 
 		case 1065:
 			// Lending a Hand (and a Foot)
-			if ( text.contains( "I'm freakin' starving, here" ) )
+			if ( text.contains( "freakin' starving, here" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.ARMORER, QuestDatabase.STARTED );
 				ResultProcessor.removeItem( ItemPool.NO_HANDED_PIE );
