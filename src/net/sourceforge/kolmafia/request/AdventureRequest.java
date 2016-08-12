@@ -1375,15 +1375,18 @@ public class AdventureRequest
 		// to recognize that "The 1337 N4ugh7y 50rc3r355" is actually
 		// "Naughty Sorceress", which is Manuel's name for her.
 
+		String trimmed = "";
 		if ( monsterName.startsWith( "The " ) || monsterName.startsWith( "the " ) )
 		{
+			trimmed = monsterName.substring( 0, 4 );
 			monsterName = monsterName.substring( 4 );
 		}
 
 		// Ditto for "a " to recognize the aliases for Your Shadow
 
-		if ( monsterName.startsWith( "a " ) )
+		else if ( monsterName.startsWith( "a " ) )
 		{
+			trimmed = monsterName.substring( 0, 2 );
 			monsterName = monsterName.substring( 2 );
 		}
 
@@ -1423,7 +1426,7 @@ public class AdventureRequest
 			monsterName = MonsterDatabase.translateLeetMonsterName( decoded );
 		}
 
-		return monsterName;
+		return trimmed + monsterName;
 	}
 
 	private static final String handleIntergnat( String monsterName )
