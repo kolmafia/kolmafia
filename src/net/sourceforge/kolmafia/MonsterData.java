@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 import java.lang.CloneNotSupportedException;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class MonsterData
 	private final boolean boss;
 	private final boolean noBanish;
 	private final boolean dummy;
-	private final EncounterType type;
+	private final EnumSet<EncounterType> type;
 	private final String image;
 	private final String[] images;
 	private String manuelName = null;
@@ -177,7 +178,7 @@ public class MonsterData
 			    final int physicalResistance,
 			    final int meat, final Phylum phylum, final int poison,
 			    final boolean boss, final boolean noBanish, final boolean dummy,
-			    final EncounterType type, final String[] images,
+			    final EnumSet<EncounterType> type, final String[] images,
 			    final String manuelName, final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
@@ -266,6 +267,11 @@ public class MonsterData
 
 	public MonsterData handleRandomModifiers()
 	{
+		if ( MonsterData.lastRandomModifiers.isEmpty() )
+		{
+			return this;
+		}
+
 		String[] modifiers = new String[ MonsterData.lastRandomModifiers.size() ];
 		MonsterData.lastRandomModifiers.toArray( modifiers );
 
@@ -833,12 +839,14 @@ public class MonsterData
 		return this.dummy;
 	}
 
-	public EncounterType getType()
+	public EnumSet<EncounterType> getType()
 	{
 		// Only the first 10 Snowmen are free
-		if ( this.name == "X-32-F Combat Training Snowman" && Preferences.getInteger( "_snojoFreeFights" ) < 10 )
+		if ( this.name.equals( "X-32-F Combat Training Snowman" ) && Preferences.getInteger( "_snojoFreeFights" ) < 10 )
 		{
-			return EncounterType.FREE_COMBAT;
+			EnumSet<EncounterType> temp = this.type.clone();
+			temp.add( EncounterType.FREE_COMBAT );
+			return temp;
 		}
 		return this.type;
 	}
