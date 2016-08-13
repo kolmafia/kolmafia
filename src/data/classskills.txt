@@ -742,7 +742,7 @@
 7272	Science!  Fight with Internet Debate	angry.gif	5	0	0
 7273	Extract	syringe2.gif	5	20	0
 7274	Digitize	watch.gif	5	20	0
-7275	Compress	acc8.gig	5	20	0
+7275	Compress	acc8.gif	5	20	0
 7276	Duplicate	tpspoiler.gif	5	20	0
 7277	Portscan	gyroscope.gif	5	20	0
 7278	Turbo	lightning.gif	5	20	0
