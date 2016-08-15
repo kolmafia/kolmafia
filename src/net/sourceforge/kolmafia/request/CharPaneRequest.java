@@ -290,6 +290,8 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkPastaThrall( responseText );
 
+		CharPaneRequest.checkRadSickness( responseText );
+
 		// Mana cost adjustment may have changed
 
 		LockableListFactory.sort( KoLConstants.summoningSkills );
@@ -1238,6 +1240,27 @@ public class CharPaneRequest
 		}
 	}
 
+	private static final Pattern radSicknessPattern =
+		Pattern.compile( "Rad(?:iation| Sickness):</td><td align=left><b><font color=black><span alt=\"-(\\d+) to All Stats" );
+
+	private static final void checkRadSickness( final String responseText )
+	{
+		if ( !KoLCharacter.inNuclearAutumn() )
+		{
+			return;
+		}
+		Pattern pattern = CharPaneRequest.radSicknessPattern;
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			KoLCharacter.setRadSickness( StringUtilities.parseInt( matcher.group( 1 ) ) );
+		}
+		else
+		{
+			KoLCharacter.setRadSickness( 0 );
+		}
+	}
+
 	private static final Pattern mediumPattern =
 		Pattern.compile( "images/medium_([0123]).gif", Pattern.DOTALL );
 
@@ -1467,6 +1490,19 @@ public class CharPaneRequest
 			if ( thrall != PastaThrallData.NO_THRALL )
 			{
 				thrall.update( thrallLevel, null );
+			}
+		}
+
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			if ( JSON.has( "radsickness" ) )
+			{
+				int rads = JSON.getInt( "radsickness" );
+				KoLCharacter.setRadSickness( rads );
+			}
+			else
+			{
+				KoLCharacter.setRadSickness( 0 );
 			}
 		}
 	}

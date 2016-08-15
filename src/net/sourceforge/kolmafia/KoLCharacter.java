@@ -419,6 +419,7 @@ public abstract class KoLCharacter
 	private static KoLAdventure selectedLocation;
 
 	private static int mindControlLevel = 0;
+	private static int radSickness = 0;
 	private static int autoAttackAction = 0;
 	private static String autosellMode = "";
 	private static boolean ignoreZoneWarnings = false;
@@ -540,6 +541,7 @@ public abstract class KoLCharacter
 		KoLCharacter.consumptionRestriction = AscensionSnapshot.NOPATH;
 
 		KoLCharacter.mindControlLevel = 0;
+		KoLCharacter.radSickness = 0;
 
 		KoLCharacter.autosellMode = "";
 		KoLCharacter.lazyInventory = false;
@@ -1673,6 +1675,7 @@ public abstract class KoLCharacter
 		KoLCharacter.pastaThralls.add( PastaThrallData.NO_THRALL );
 		KoLCharacter.stillsAvailable = -1;
 		KoLCharacter.mindControlLevel = 0;
+		KoLCharacter.radSickness = 0;
 		KoLConstants.recentEffects.clear();
 		KoLConstants.activeEffects.clear();
 		ChezSnooteeRequest.reset();
@@ -3887,6 +3890,22 @@ public abstract class KoLCharacter
 		}
 	}
 
+	public static final int getRadSickness()
+	{
+		return KoLCharacter.radSickness;
+	}
+
+	public static final void setRadSickness( final int rads )
+	{
+		if ( KoLCharacter.radSickness != rads )
+		{
+			KoLCharacter.radSickness = rads;
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+			AdventureFrame.updateSafetyDetails();
+		}
+	}
+
 	/**
 	 * Accessor method for the current auto attack action
 	 *
@@ -5618,6 +5637,15 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeCowling" ) ) );
 			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeMuffler" ) ) );
 			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeSeat" ) ) );
+		}
+
+		// If in Nuclear Autumn, add Radiation Sickness
+
+		if ( KoLCharacter.inNuclearAutumn() && KoLCharacter.getRadSickness() > 0 )
+		{
+			newModifiers.add( Modifiers.MUS, -KoLCharacter.getRadSickness(), "Path:Rads" );
+			newModifiers.add( Modifiers.MYS, -KoLCharacter.getRadSickness(), "Path:Rads" );
+			newModifiers.add( Modifiers.MOX, -KoLCharacter.getRadSickness(), "Path:Rads" );
 		}
 
 		// Add in strung-up quartet.
