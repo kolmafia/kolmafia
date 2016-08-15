@@ -52,7 +52,6 @@ import java.util.GregorianCalendar;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -213,7 +212,6 @@ import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
-import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -1220,6 +1218,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "change_mcd", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "current_rad_sickness", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "have_chef", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2066,7 +2067,7 @@ public abstract class RuntimeLibrary
 
 	private static Value abort( Interpreter interpreter, final String string )
 	{
-		KoLmafia.updateDisplay( MafiaState.ABORT, string.toString() );
+		KoLmafia.updateDisplay( MafiaState.ABORT, string );
 		interpreter.setState( Interpreter.STATE_EXIT );
 		return DataTypes.VOID_VALUE;
 	}
@@ -5366,6 +5367,11 @@ public abstract class RuntimeLibrary
 	{
 		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "mcd", level.toString() );
 		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value current_rad_sickness( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getRadSickness() );
 	}
 
 	public static Value have_chef( Interpreter interpreter )
