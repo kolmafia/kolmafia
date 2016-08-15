@@ -2659,6 +2659,7 @@ public class ItemPool
 	public static final int DETECTIVE_APPLICATION = 9073;
 	public static final int PROTON_ACCELERATOR = 9082;
 	public static final int STANDARDS_AND_PRACTICES = 9095;
+	public static final int RAD = 9100;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

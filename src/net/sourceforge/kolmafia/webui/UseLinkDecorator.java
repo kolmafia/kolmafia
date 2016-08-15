@@ -1360,7 +1360,7 @@ public abstract class UseLinkDecorator
 				uses.add( new UseLink( itemId, itemCount, "visit mourn", "pandamonium.php?action=mourn&whichitem=" ) );
 				break;
 			}
-			
+
 			if ( uses.size() == 1 )
 			{
 				return uses.get( 0 );
@@ -1947,6 +1947,10 @@ public abstract class UseLinkDecorator
 			useLocation = "shop.php?whichshop=bacon";
 			break;
 
+		case ItemPool.RAD:
+			useType = "mutate";
+			useLocation = "shop.php?whichshop=mutate";
+			break;
 
 		default:
 
