@@ -715,7 +715,7 @@ public abstract class KoLCharacter
 		else if ( KoLCharacter.isJarlsberg() )
 		{
 			limit = 10;
-			
+
 			if (  KoLCharacter.hasSkill( "Lunch Like a King" ) )
 			{
 				limit += 5;
@@ -725,6 +725,11 @@ public abstract class KoLCharacter
 		else if ( KoLCharacter.isSneakyPete() )
 		{
 			limit = 5;
+		}
+
+		else if ( KoLCharacter.inNuclearAutumn() )
+		{
+			limit = 3;
 		}
 
 		else if ( KoLCharacter.inBadMoon() )
@@ -853,6 +858,11 @@ public abstract class KoLCharacter
 			limit = 4;
 		}
 
+		else if ( KoLCharacter.inNuclearAutumn() )
+		{
+			limit = 2;
+		}
+
 		if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
 		{
 			limit += 5;
@@ -932,6 +942,11 @@ public abstract class KoLCharacter
 			{
 				limit += 5;
 			}
+		}
+
+		else if ( KoLCharacter.inNuclearAutumn() )
+		{
+			limit = 3;
 		}
 
 		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) )
@@ -3756,6 +3771,11 @@ public abstract class KoLCharacter
 	public static final boolean inTheSource()
 	{
 		return KoLCharacter.ascensionPath.equals( "The Source" );
+	}
+
+	public static final boolean inNuclearAutumn()
+	{
+		return KoLCharacter.ascensionPath.equals( "Nuclear Autumn" );
 	}
 
 	public static final boolean isUnarmed()

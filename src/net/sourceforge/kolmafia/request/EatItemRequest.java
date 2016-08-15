@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -135,6 +135,11 @@ public class EatItemRequest
 		     ( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "Zombie Slayer" ) ) )
 		{
 			UseItemRequest.limiter = "it not being a brain";
+			return 0;
+		}
+
+		if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getFullness( itemName ) > 1 )
+		{
 			return 0;
 		}
 
@@ -421,7 +426,7 @@ public class EatItemRequest
 		String advGain = ConsumablesDatabase.getAdvRangeByName( name );
 		if ( advGain.equals( "0" ) )
 		{
-			if ( note == null || ( note != null && !note.contains( "Unspaded" ) ) )
+			if ( note == null || !note.contains( "Unspaded" ) )
 			{
 				return true;
 			}

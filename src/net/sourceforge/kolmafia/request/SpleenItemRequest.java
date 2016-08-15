@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -69,6 +69,10 @@ public class SpleenItemRequest
 
 	public static final int maximumUses( final int itemId, final String itemName, final int spleenHit )
 	{
+		if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getSpleenHit( itemName ) > 1 )
+		{
+			return 0;
+		}
 		// Some spleen items also heal HP or MP
 		int restorationMaximum = UseItemRequest.getRestorationMaximum( itemName );
 

@@ -114,6 +114,7 @@ public class SkillDatabase
 	private static final String BEANSLINGER = "Beanslinger";
 	private static final String SNAKE_OILER = "Snake Oiler";
 	private static final String SOURCE = "The Source";
+	private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -139,6 +140,7 @@ public class SkillDatabase
 		SkillDatabase.BEANSLINGER,	// 19xxx
 		SkillDatabase.SNAKE_OILER,	// 20xxx
 		SkillDatabase.SOURCE,		// 21xxx
+		SkillDatabase.NUCLEAR_AUTUMN,	// 22xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
