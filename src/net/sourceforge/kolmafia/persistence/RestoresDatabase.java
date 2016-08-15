@@ -429,18 +429,24 @@ public class RestoresDatabase
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
 					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
-					!Limitmode.limitCampground();
+					!Limitmode.limitClan();
 			}
 			if ( name.equals( "April Shower" ) )
 			{
 				return InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 &&
 					( !KoLCharacter.inBadMoon() || KoLCharacter.kingLiberated() ) &&
 					StandardRequest.isAllowed( "Clan Item", "April Shower" ) &&
-					!Limitmode.limitCampground();
+					!Limitmode.limitClan();
 			}
-			if ( name.equals( "Campground" ) ||
-			     name.equals( "Comfy Sofa" ) ||
-			     name.contains( "Doc Galaktik's" ) )
+			if ( name.equals( "Campground" ) )
+			{
+				return !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn();
+			}
+			if ( name.equals( "Comfy Sofa" ) )
+			{
+				return !Limitmode.limitClan();
+			}
+			if ( name.contains( "Doc Galaktik's" ) )
 			{
 				return true;
 			}

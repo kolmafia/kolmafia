@@ -60,7 +60,7 @@ public class RestCampgroundMenuItem
 		protected void execute()
 		{
 			String turnCount = InputFieldUtilities.input( "Rest for how many turns?", "1" );
-			if ( turnCount == null || Limitmode.limitCampground() || KoLCharacter.isEd() )
+			if ( turnCount == null || Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() )
 			{
 				return;
 			}
