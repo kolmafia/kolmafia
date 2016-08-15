@@ -1096,3 +1096,45 @@
 21009	Reboot	ss_reboot.gif	5	75	0
 21010	Restore	ss_restore.gif	5	75	0
 21011	Data Siphon	ss_datasiphon.gif	0	0	0
+
+# Nuclear Autumn
+22000	Extra-Thick Skin	hskin.gif	0	0	0
+22001	Comically Oversized Fist	krakfist.gif	5	5	0
+22002	Overactive Pheromones	blackheart.gif	0	0	0
+22003	Dislocatable Jaw	snapper.gif	5	5	0
+22004	Aluminum Nerves	lightning.gif	0	0	0
+22005	Noodly Arms	string.gif	5	5	0
+22006	Self-Lubricating Feet	sebashield.gif	0	0	0
+22007	Hollow Canines	vampirefangs.gif	5	5	0
+22008	Two Right Feet	dance3.gif	0	0	0
+22009	Finger Knives	dv_freddyglove.gif	5	5	0
+22010	Double-Eidetic Memory	realbrain.gif	0	0	0
+22011	Ultrasonic Ululations	brokenflute.gif	5	5	0
+22012	Boiling Tear Ducts	doublewater.gif	5	10	0
+22013	Throat Refrigerant	snowflake.gif	5	10	0
+22014	Skunk Glands	stench.gif	5	10	0
+22015	Translucent Skin	glass.gif	5	10	0
+22016	Projectile Salivary Glands	raindrop.gif	5	10	0
+22017	Mind Bullets	sixshooter.gif	5	15	0
+22018
+22019	Metallic Skin	pittedmetal.gif	0	0	0
+22020	Adipose Polymers	glueglob.gif	0	0	0
+22021	Extra Muscles	strboost.gif	0	0	0
+22022	Extra Brain	birdbrain.gif	0	0	0
+22023	Hypno-Eyes	spiral.gif	0	0	0
+22024	Backwards Knees	knee.gif	0	0	0
+22025	Sucker Fingers	plunger.gif	0	0	0
+22026
+22027	Flappy Ears	spiral.gif	3	30	10
+22028	Magic Sweat	sebashield.gif	3	30	10
+22029	Steroid Bladder	eggsac.gif	3	30	10
+22030	Intracranial Eye	eyeball.gif	3	30	10
+22031	Self-Combing Hair	toupee.gif	3	30	10
+22032	Bone Springs	spring.gif	3	30	10
+22033	Magnetic Ears	ears.gif	3	10	20
+22034	Firefly Abdomen	bulb.gif	3	30	10
+22035	Squid Glands	inkwell.gif	3	30	10
+22036	Extremely Punchable Face	wink.gif	3	30	10
+22037	Extra Gall Bladder	bladder.gif	0	0	0
+22038	Extra Kidney	kidney.gif	0	0	0
+22039	Internal Soda Machine	cloaca.gif	2	0	0

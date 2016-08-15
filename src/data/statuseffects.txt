@@ -2116,3 +2116,13 @@
 2115	Too Noir For Snoir	nopic.gif	1cc0141854a62c833a4706e3faab3ea6	eat 1 hardboiled egg|drink 1 Falcon&trade; Maltese Liquor
 2116	Gummed Shoes	tapshoes.gif	24e754566a811be1f5c94f61345c7ab1	use 1 shoe gum
 2117	Total Protonic Reversal	protonpack.gif	c6675b80e5f1433d10058aa0dfdf9279	crossstreams
+2118	Ear Winds	spiral.gif	e9f002fde92b25e0705ddc0eee76eefa	cast 1 Flappy Ears
+2119	Hardened Sweatshirt	sebashield.gif	ac44b895787ed2f5fd41bec69431332f	cast 1 Magic Sweat
+2120	Juiced and Loose	eggsac.gif	431315eab4badec936d5528453a2220e	cast 1 Steroid Bladder
+2121	Mind Vision	eyeball.gif	b98f4b46e9198bb6f6e50a7bc01900b5	cast 1 Intracranial Eye
+2122	Impeccable Coiffure	toupee.gif	44003e452f0bcf2993c6d7e7c6ec104c	cast 1 Self-Combing Hair
+2123	Bone Springs	spring.gif	7949f960a1b651a5499a3e6df20d60e8	cast 1 Bone Springs
+2124	Magnetized Ears	magnet.gif	bf5790f6d89f3f4e8d8c0bfa5d194f11	cast 1 Magnetic Ears
+2125	Blinking Belly	bulb.gif	4d6275ea983db6584b34e6044ab6470b	cast 1 Firefly Abdomen
+2126	Inked Well	inkwell.gif	71f6fb17d29d27f2c661b5162c2c7ea1	cast 1 Squid Glands
+2127	Punchable Face	wink.gif	536f51109ef943f7ad3484644b2589a5	cast 1 Extremely Punchable Face
