@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
+import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -247,6 +248,7 @@ public class ValhallaManager
 		EquipmentManager.updateEquipmentLists();
 		ValhallaManager.resetMoonsignCafes();
 		ConcoctionDatabase.refreshConcoctions();
+		HermitRequest.initialize();
 
 		// Reset certain settings that the player almost certainly will
 		// use differently at the beginning of a run vs. at the end.

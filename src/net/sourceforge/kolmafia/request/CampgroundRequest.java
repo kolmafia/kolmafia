@@ -1267,12 +1267,13 @@ public class CampgroundRequest
 		if ( ( KoLCharacter.inBadMoon() ||
 		       KoLCharacter.inAxecore() ||
 		       KoLCharacter.inZombiecore() ||
-		       KoLCharacter.isSneakyPete() ) &&
+		       KoLCharacter.isSneakyPete()||
+		       KoLCharacter.inNuclearAutumn() ) &&
 		     !KoLCharacter.kingLiberated() )
 		{
 			// You can't use Mr. Skills in Bad Moon
 			// You can't use Mr. Skills as an Avatar of Boris or Sneaky Pete
-			// You can't use Mr. Skills as a Zombie Master
+			// You can't use Mr. Skills as a Zombie Master or in Nuclear Autumn
 			return;
 		}
 

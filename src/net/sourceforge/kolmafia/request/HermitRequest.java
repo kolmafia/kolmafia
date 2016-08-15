@@ -160,7 +160,7 @@ public class HermitRequest
 	{
 		HermitRequest.reset();
 
-		if ( KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
 		{
 			HermitRequest.resetPurchaseRequests();
 			return;
@@ -260,7 +260,7 @@ public class HermitRequest
 	public void processResults()
 	{
 		// The Hermit has left in the Zombie Slayer path
-		if ( KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
 		{
 			return;
 		}
@@ -317,7 +317,7 @@ public class HermitRequest
 	public static final boolean parseHermitTrade( final String urlString, final String responseText )
 	{
 		// Nothing special to do if the Hermit has departed
-		if ( KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
 		{
 			return true;
 		}

@@ -4758,6 +4758,11 @@ public abstract class KoLCharacter
 
 	public static final boolean getGuildStoreOpen()
 	{
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			return false;
+		}
+
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastGuildStoreOpen" ) )
 		{
 			return true;
@@ -5075,7 +5080,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
 		{
 			return null;
 		}
@@ -5104,7 +5109,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
 		{
 			return null;
 		}

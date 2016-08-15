@@ -196,6 +196,10 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "bugbear" ) )
 		{
+			if ( KoLCharacter.inNuclearAutumn() )
+			{
+				return false;
+			}
 			// Bugbear Bakery
 			return EquipmentManager.hasOutfit( OutfitPool.BUGBEAR_COSTUME );
 		}
@@ -321,6 +325,12 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "generalstore" ) )
 		{
 			// General Store
+
+			if ( KoLCharacter.inNuclearAutumn() )
+			{
+				return false;
+			}
+
 			// Some items restricted, often because of holidays
 			String holiday = HolidayDatabase.getHoliday();
 
@@ -363,7 +373,6 @@ public class NPCStoreDatabase
 			{
 				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
 			}
-			return true;
 		}
 		else if ( storeId.equals( "gnomart" ) )
 		{
@@ -431,7 +440,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "meatsmith" ) )
 		{
 			// Meatsmith's Shop
-			return !KoLCharacter.inZombiecore();
+			return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn();
 		}
 		else if ( storeId.equals( "whitecitadel" ) )
 		{
@@ -444,13 +453,15 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "armory" ) )
 		{
+			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+			{
+				return false;
+			}
 			// Armory and Leggery
-			if ( itemId == ItemPool.FISHING_HAT && !KoLCharacter.inZombiecore() )
+			if ( itemId == ItemPool.FISHING_HAT )
 			{
 				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
 			}
-
-			return !KoLCharacter.inZombiecore();
 		}
 		else if ( storeId.equals( "fdkol" ) )
 		{
@@ -466,6 +477,10 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "doc" ) )
 		{
+			if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+			{
+				return false;
+			}
 			if ( itemId == ItemPool.DOC_VITALITY_SERUM )
 			{
 				return QuestDatabase.isQuestFinished( Quest.DOC );
