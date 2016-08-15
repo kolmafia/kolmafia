@@ -893,7 +893,7 @@ public abstract class KoLmafia
 		// Retrieve campground data to see if the user has box servants
 		// or a bookshelf
 
-		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 		{
 			KoLmafia.updateDisplay( "Retrieving campground data..." );
 			CampgroundRequest.reset();

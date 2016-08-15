@@ -359,7 +359,7 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 			{
 				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 				return;
@@ -374,7 +374,7 @@ public abstract class MPRestoreItemList
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 						return;
 					}
-					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 					{
 						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 						return;

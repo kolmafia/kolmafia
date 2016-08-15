@@ -68,7 +68,7 @@ public class CampgroundCommand
 		}
 		else
 		{
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 			{
 				request = new CampgroundRequest( command );
 			}

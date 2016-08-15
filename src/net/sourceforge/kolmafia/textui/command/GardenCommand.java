@@ -78,7 +78,7 @@ public class GardenCommand
 				return;
 			}
 
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 			{
 				CampgroundRequest.harvestCrop();
 			}

@@ -85,7 +85,7 @@ public class RefreshStatusCommand
 		}
 		else if ( parameters.startsWith( "camp" ) )
 		{
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 			{
 				RequestThread.postRequest( new CampgroundRequest() );
 			}

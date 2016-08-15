@@ -4523,7 +4523,7 @@ public class UseItemRequest
 		case ItemPool.BEER_SEEDS:
 		case ItemPool.WINTER_SEEDS:
 
-			if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
+			if ( Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() )
 			{
 				return;
 			}
