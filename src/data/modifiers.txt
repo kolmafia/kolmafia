@@ -4319,6 +4319,7 @@ Effect	Blessing of the Spaghetto	Spell Damage: +40, Hot Resistance: +2, Cold Res
 Effect	Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky Resistance: +2
 Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
+Effect	Blinking Belly	Combat Rate: +10
 Effect	Block-Rockin' Beet	Damage Reduction: 15
 Effect	Blood of the Jerk that Bit You	Avatar: "Mansquito"
 # Blood Porter
@@ -4343,6 +4344,7 @@ Effect	Boletus Swoletus	Muscle: +40
 Effect	Bolts about Candy	Maximum MP: +50
 Effect	Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
 # Bone Homie: Bites Your Enemies
+Effect	Bone Springs	Initiative: +20
 Effect	Boned Up	Avatar: "Smart Skelton"
 Effect	Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Spooky Damage: +25
 # Boner Battalion: BONERS HO!
@@ -4682,6 +4684,7 @@ Effect	Dwarven Hardiness	Muscle Percent: +5
 Effect	Dweeble-Minded	Avatar: "dweebie"
 Effect	Dweeby	Mysticality: +15
 Effect	Eagle Eyes	Item Drop: +20
+Effect	Ear Winds	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Earthen Fist: +10 damage to Fist techniques
 # Earthen Fist: Allows you to punch rocks without hurting yourself
 # Earworm: Get them out!  Get them out!
@@ -4978,6 +4981,7 @@ Effect	Happy Salamander	Familiar Weight: +3
 Effect	Happy Trails	Mysticality: +100
 Effect	Happy-go-meaty	Avatar: "bundle of Meat of Happiness"
 Effect	Hardened Fabric	Damage Reduction: 15
+Effect	Hardened Sweatshirt	Damage Absorption: +100, Damage Reduction: 10
 Effect	Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
 Effect	Hare-o-dynamic	Initiative: +300
@@ -5089,6 +5093,7 @@ Effect	Ichorous Eyesight	Item Drop: +10
 Effect	Ichorous Intensity	Spell Damage Percent: +20
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
 Effect	Icy Glare	Cold Damage: +10, Cold Spell Damage: +10
+Effect	Impeccable Coiffure	Moxie Percent: +50
 Effect	Impregnabili Tea	Damage Reduction: 30
 Effect	Impregnably Delicious	Damage Reduction: 30
 Effect	Improprie Tea	Sleaze Damage: +30
@@ -5111,6 +5116,7 @@ Effect	Infernal Thirst	Booze Drop: +200
 Effect	Influence of Sphere	Pool Skill: +5
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Effect	init.enh	Initiative: +50
+Effect	Inked Well	Combat Rate: -10
 Effect	Inky Camouflage	Combat Rate: -5
 # Inner Dog: +50% Damage vs. Zombies
 # Inner Dog: +50 Damage vs. Ghosts
@@ -5175,6 +5181,7 @@ Effect	Joy	Familiar Weight: +10
 Effect	Joyful Resolve	Item Drop: +15
 Effect	Juiced	Muscle Percent: -100, Mysticality Percent: -100, Moxie Percent: +200
 Effect	Juiced and Jacked	Item Drop: +20, Spooky Damage: +10, Monster Level: +10
+Effect	Juiced and Loose	Muscle Percent: +50
 Effect	Juiced Newton	Muscle Percent: -100, Mysticality Percent: +200, Moxie Percent: -100
 Effect	Juiced Out	Muscle Percent: +200, Mysticality Percent: -100, Moxie Percent: -100
 # Juiced Up: Makes you a better diver
@@ -5264,6 +5271,7 @@ Effect	Madly Liberated	Avatar: "The Mad Libber"
 # Magic Tongue: Everything tastes weird
 Effect	Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
 Effect	Magicianship	Mysticality Percent: +200
+Effect	Magnetized Ears	Item Drop: +15
 Effect	Magreame Headache	Avatar: "Ice Cream Conjurer"
 Effect	Maid Disservice	Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Majestic Neckbeard	Avatar: "Neckbeard Giant"
@@ -5310,6 +5318,7 @@ Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Milk Studly	Muscle: +15
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
+Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Effect	Minty Freshness	Moxie Percent: +10
@@ -5568,6 +5577,7 @@ Effect	Puissant Pressure	Muscle Percent: +300
 Effect	Pulchritudinous Pressure	Moxie Percent: +300
 Effect	Pumped Stomach	Adventure Underwater
 Effect	Pumped Up	Muscle: +5
+Effect	Punchable Face	Monster Level: +30
 Effect	Punchy, Murdery	Weapon Damage Percent: +50
 Effect	Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Purple Reign	Mysticality: [ceil(min(T,50)/2)], Experience (Mysticality): [ceil(min(T,50)/10)]
@@ -6305,8 +6315,10 @@ Effect	Zomg WTF	Monster Level: +30
 Skill	20/20 Vision	Item Drop: +10
 Skill	Abs of Tin	Maximum HP Percent: +10
 # Accordion Appreciation Double-strength enchantments on accordions
+Skill	Adipose Polymers	Damage Absorption: +100, Damage Reduction: 10
 # Adventurer of Leisure +2 Free Rests/day
 Skill	Alien Source Code	Maximum MP: +5
+Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10
 # Ambidextrous Funkslinging
 Skill	Amphibian Sympathy	Familiar Weight: +5
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
@@ -6317,6 +6329,7 @@ Skill	Armor Plating	Damage Reduction: 10
 Skill	Asbestos Heart	Hot Resistance: +3
 Skill	Astute Angler	Fishing Skill: +10
 # Audacity of the Otter Critical hits do 3x damage
+Skill	Backwards Knees	Initiative: +20
 Skill	Barrel Chested	Muscle Percent: +50
 # Batter Up! Autokills and banishes monster
 Skill	Bean Runner	Initiative: +75
@@ -6344,13 +6357,19 @@ Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 Skill	Diminished Gag Reflex	Stench Resistance: +2
 Skill	Disco Bravado	Experience: [I-max(I-1,0)/2]
 Skill	Disco Greed	Item Drop: [10*I]
+Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 # Double-Fisted Skull Smashing
 Skill	Easy Riding	Experience (Moxie): +5
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Skill	Even More Elemental Wards	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 Skill	Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
+Skill	Extra Brain	Mysticality Percent: +50
+# Extra Gall Bladder: Food gives 100% more Adventures
+# Extra Kidney: Booze gives 100% more Adventures
+Skill	Extra Muscles	Muscle Percent: +50
 # Extra Spleen: +5 spleen capacity
+# Extra-Thick Skin: Reduces physical damage against you by 20%
 # Eye of the Stoat Improves your Smacks
 Skill	Fashionably Late	Adventures: +1
 Skill	Ferocity	Critical Hit Percent: +25
@@ -6378,6 +6397,7 @@ Skill	His Master's Voice	Familiar Weight: +5
 Skill	Hungry Eyes	Food Drop: +100
 Skill	Hunter's Sprint	Initiative: +100
 Skill	Hypersane	Spooky Resistance: +3
+Skill	Hypno-Eyes	Moxie Percent: +50
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Skill	Indefatigable	HP Regen Min: +16, HP Regen Max: +20
@@ -6401,6 +6421,7 @@ Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
 Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
 Skill	Master Saucier	Spell Damage Percent: +10
+Skill	Metallic Skin	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	More Elemental Wards	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	More Legs	Initiative: +50
 Skill	More to Love	Minstrel Level: +3
@@ -6412,6 +6433,7 @@ Skill	Nimble Fingers	Meat Drop: +20
 Skill	Northern Exposure	Cold Resistance: +2
 # Okay Seriously, This is the Last Spleen Another +5 spleen capacity. That's it, for real.
 Skill	Olfactory Burnout	Stench Resistance: +3
+Skill	Overactive Pheromones	Familiar Weight: +10
 Skill	Overdeveloped Sense of Self Preservation	Initiative: +20
 # Pizza Lover You really, really like pizza
 Skill	Powers of Observatiogn	Item Drop: +10
@@ -6429,6 +6451,7 @@ Skill	Riding the Lightning	Maximum MP Percent: +100
 # Salacious Cocktailcrafting
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
 Skill	Seething of the Snow Leopard	Weapon Damage: [2*Y]
+Skill	Self-Lubricating Feet	Initiative: +20
 Skill	Sensitive Fingers	Pickpocket Chance: +10
 Skill	Shivering Monkey Technique	Initiative: +15
 Skill	Sick Pythons	Weapon Damage: +20
@@ -6447,6 +6470,7 @@ Skill	Spirit of Ravioli	Maximum HP Percent: +25
 # Still Another Extra Spleen: Still another +5 spleen capacity
 # Stomach of Steel
 Skill	Subtle and Quick to Anger	Spell Damage Percent: +10
+Skill	Sucker Fingers	Item Drop: +15
 # Super-Advanced Meatsmithing
 # Superhuman Cocktailcrafting
 # Tao of the Terrapin
@@ -6464,6 +6488,7 @@ Skill	Tougher Skin	Damage Absorption: +100
 # Transcendental Noodlecraft
 # Tricky Knifework Use knifes as if Muscle=Moxie if Moxie higher
 Skill	True Outdoorsperson	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
+Skill	Two Right Feet	Item Drop: +10
 Skill	Undying Greed	Meat Drop: +25
 Skill	Unrepentant Thief	Pickpocket Chance: +50
 Skill	Unoffendable	Sleaze Resistance: +3
