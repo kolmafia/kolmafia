@@ -401,7 +401,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "unclep" ) )
 		{
 			// Uncle P's Antiques
-			return !KoLCharacter.inZombiecore() && KoLCharacter.desertBeachAccessible();
+			return !KoLCharacter.inZombiecore() && !KoLCharacter.inNuclearAutumn() && KoLCharacter.desertBeachAccessible();
 		}
 		else if ( storeId.equals( "bartlebys" ) )
 		{
