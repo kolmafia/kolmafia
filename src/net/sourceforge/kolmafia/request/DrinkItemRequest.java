@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -116,6 +116,11 @@ public class DrinkItemRequest
 		     ( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "KOLHS" ) ) )
 		{
 			UseItemRequest.limiter = "your unrefined palate";
+			return 0;
+		}
+
+		if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getInebriety( itemName ) > 1 )
+		{
 			return 0;
 		}
 

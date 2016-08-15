@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -691,7 +691,7 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( UseItemEnqueuePanel.this.food && KoLCharacter.inZombiecore() )
+			if ( KoLCharacter.inZombiecore() && UseItemEnqueuePanel.this.food )
 			{
 				// No hotdogs in Zombiecore
 				if ( creation.hotdog )
@@ -745,6 +745,23 @@ public class UseItemEnqueuePanel
 				String notes = ConsumablesDatabase.getNotes( name );
 				if ( !name.equals( "steel margarita" ) &&
 				     ( notes == null || !notes.startsWith( "KOLHS" ) ) )
+				{
+					return false;
+				}
+			}
+
+			if ( KoLCharacter.inNuclearAutumn() && item != null )
+			{
+				String name = item.getName();
+				if ( UseItemEnqueuePanel.this.food && ConsumablesDatabase.getFullness( name ) > 1 )
+				{
+					return false;
+				}
+				if ( UseItemEnqueuePanel.this.booze && ConsumablesDatabase.getInebriety( name ) > 1 )
+				{
+					return false;
+				}
+				if ( UseItemEnqueuePanel.this.spleen && ConsumablesDatabase.getSpleenHit( name ) > 1 )
 				{
 					return false;
 				}

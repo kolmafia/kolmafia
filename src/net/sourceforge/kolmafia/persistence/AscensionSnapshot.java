@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -83,6 +83,7 @@ public class AscensionSnapshot
 	public static final int COMMUNITY_SERVICE = 25;
 	public static final int AVATAR_OF_WEST_OF_LOATHING = 26;
 	public static final int THE_SOURCE = 27;
+	public static final int NUCLEAR_AUTUMN = 28;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -785,6 +785,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Community Service" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
 				path[ 1 ].equals( "Avatar of West of Loathing" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
 				path[ 1 ].equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
+				path[ 1 ].equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 

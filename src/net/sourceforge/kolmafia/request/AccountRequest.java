@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -705,6 +705,10 @@ public class AccountRequest
 		else if ( path.equals( "27" ) )
 		{
 			path = "The Source";
+		}
+		else if ( path.equals( "28" ) )
+		{
+			path = "Nuclear Autumn";
 		}
 		KoLCharacter.setPath( path );
 
