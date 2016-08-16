@@ -8222,7 +8222,7 @@
 8196	acceptable bagel	243520859	ccbagel.gif	food	t,d	35
 8197	standard-issue cupcake	133905889	ccake1.gif	food	t,d	20
 8198	ultra-deluxe cupcake	257911912	ccake2.gif	food	t,d	35
-8199
+8199	hypnotic breadcrumbs	679762382	breadcrumbs.gif	usable	q	0
 8200	popular tart	654591716	poptart.gif	food	t,d	50
 8201	no-handed pie	870363637	0hpie.gif	none	q	0
 8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	usable	t,d	15
