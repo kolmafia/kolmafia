@@ -33,13 +33,16 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.session.ChoiceManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TerminalRequest
@@ -56,12 +59,19 @@ public class TerminalRequest
 	@Override
 	public void run()
 	{
-		if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) ) )
+		if ( !KoLCharacter.inNuclearAutumn() && !KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) ) )
 		{
 			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "You don't have a Source terminal." );
 			return;
 		}
-		RequestThread.postRequest( new CampgroundRequest( "terminal" ) );
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			RequestThread.postRequest( new PlaceRequest( "falloutshelter", "vault_term", true ) );
+		}
+		else
+		{
+			RequestThread.postRequest( new CampgroundRequest( "terminal" ) );
+		}
 		super.run();
 	}
 
