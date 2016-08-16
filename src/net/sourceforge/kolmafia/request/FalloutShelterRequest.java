@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -178,9 +177,9 @@ public class FalloutShelterRequest
 
 	private static final void parseFalloutShelter( final String responseText )
 	{
-		findImage( responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL );
+		boolean hasTerminal = findImage( responseText, "vaultterminal.gif", ItemPool.SOURCE_TERMINAL );
 
-		if ( responseText.contains( "campterminal.gif" ) && Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" ) )
+		if ( hasTerminal && Preferences.getString( "sourceTerminalEducateKnown" ).equals( "" ) )
 		{
 			// There is a Terminal, but we don't know what upgrades it has, so find out
 			RequestThread.postRequest( new TerminalRequest( "status" ) );

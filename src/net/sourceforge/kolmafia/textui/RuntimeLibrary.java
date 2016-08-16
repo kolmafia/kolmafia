@@ -3797,13 +3797,9 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
-		if ( !KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.inNuclearAutumn() )
 		{
-			// Your dwelling is not in the list of campground items
-			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
-			value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
-
-			for ( AdventureResult item : KoLConstants.campground )
+			for ( AdventureResult item : KoLConstants.falloutShelter )
 			{
 				value.aset(
 					DataTypes.parseItemValue( item.getName(), true ),
@@ -3812,7 +3808,11 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			for ( AdventureResult item : KoLConstants.falloutShelter )
+			// Your dwelling is not in the list of campground items
+			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
+			value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
+
+			for ( AdventureResult item : KoLConstants.campground )
 			{
 				value.aset(
 					DataTypes.parseItemValue( item.getName(), true ),
