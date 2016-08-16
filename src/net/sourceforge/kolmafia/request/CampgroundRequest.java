@@ -473,6 +473,11 @@ public class CampgroundRequest
 	@Override
 	protected boolean shouldFollowRedirect()
 	{
+		// Will redirect in Nuclear Autumn
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			return true;
+		}
 		// Workshed may be redirected to Shop if Mayo Clinic installed
 		return action != null && ( action.equals( "workshed" ) || action.equals( "terminal" ) );
 	}

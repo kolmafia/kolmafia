@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
+import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -359,10 +360,18 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
+			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() )
 			{
-				RequestThread.postRequest( new CampgroundRequest( "rest" ) );
-				return;
+				if ( !KoLCharacter.inNuclearAutumn() )
+				{
+					RequestThread.postRequest( new CampgroundRequest( "rest" ) );
+					return;
+				}
+				else
+				{
+					RequestThread.postRequest( new FalloutShelterRequest( "vault1" ) );
+					return;
+				}
 			}
 
 			if ( this == MPRestoreItemList.FREEREST )

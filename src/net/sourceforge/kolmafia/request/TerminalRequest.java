@@ -64,9 +64,14 @@ public class TerminalRequest
 			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "You don't have a Source terminal." );
 			return;
 		}
+		if ( KoLCharacter.inNuclearAutumn() && !KoLConstants.falloutShelter.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "You don't have a Source terminal." );
+			return;
+		}
 		if ( KoLCharacter.inNuclearAutumn() )
 		{
-			RequestThread.postRequest( new PlaceRequest( "falloutshelter", "vault_term", true ) );
+			RequestThread.postRequest( new FalloutShelterRequest( "vault_term" ) );
 		}
 		else
 		{

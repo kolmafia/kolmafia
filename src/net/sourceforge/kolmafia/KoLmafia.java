@@ -98,6 +98,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -901,6 +902,13 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
+		}
+
+		if ( !Limitmode.limitCampground() && KoLCharacter.inNuclearAutumn() )
+		{
+			KoLmafia.updateDisplay( "Retrieving fallout shelter data..." );
+			FalloutShelterRequest.reset();
+			RequestThread.postRequest( new FalloutShelterRequest() );
 		}
 
 		if ( KoLCharacter.isEd() )
