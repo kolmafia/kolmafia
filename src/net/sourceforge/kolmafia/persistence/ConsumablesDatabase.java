@@ -426,10 +426,10 @@ public class ConsumablesDatabase
 
 	private static final void calculateAdventureRange( final String name )
 	{
-		ConsumablesDatabase.calculateAdventureRange( name, ConsumablesDatabase.getRawFullness( name ) != null );
+		ConsumablesDatabase.calculateAdventureRange( name, EquipmentDatabase.getItemType( ItemDatabase.getItemId( name ) ) );
 	}
 
-	private static final void calculateAdventureRange( final String name, final boolean isFood )
+	private static final void calculateAdventureRange( final String name, final String type )
 	{
 		Concoction c = ConcoctionPool.get( name );
 		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
@@ -437,6 +437,20 @@ public class ConsumablesDatabase
 		int unitCost = ConsumablesDatabase.unitCostByName.get( name ).intValue();
 		int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
 		int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
+
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			if ( type.equals( "food" ) && KoLCharacter.hasSkill( "Extra Gall Bladder" ) )
+			{
+				start *= 2;
+				end *= 2;
+			}
+			else if ( type.equals( "booze" ) && KoLCharacter.hasSkill( "Extra Kidney" ) )
+			{
+				start *= 2;
+				end *= 2;
+			}
+		}
 
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
@@ -469,7 +483,7 @@ public class ConsumablesDatabase
 		ConsumablesDatabase.addAdventureRange( name, unitCost, true, true, false, false, gain2 );
 
 		// Only foods have effects 3-4
-		if ( !isFood )
+		if ( !type.equals( "food" ) )
 		{
 			return;
 		}
