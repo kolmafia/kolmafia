@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -65,10 +66,21 @@ public class RestCampgroundMenuItem
 				return;
 			}
 
-			CampgroundRequest request = new CampgroundRequest( "rest" );
-			int turnCountValue = StringUtilities.parseInt( turnCount );
+			if ( !KoLCharacter.inNuclearAutumn() )
+			{
+				CampgroundRequest request = new CampgroundRequest( "rest" );
+				int turnCountValue = StringUtilities.parseInt( turnCount );
 
-			KoLmafia.makeRequest( request, turnCountValue );
+				KoLmafia.makeRequest( request, turnCountValue );
+			}
+			else
+			{
+				FalloutShelterRequest request = new FalloutShelterRequest( "vault1" );
+				int turnCountValue = StringUtilities.parseInt( turnCount );
+
+				KoLmafia.makeRequest( request, turnCountValue );
+			}
+
 		}
 	}
 }

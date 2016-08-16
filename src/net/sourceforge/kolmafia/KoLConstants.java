@@ -709,6 +709,7 @@ public interface KoLConstants
 	public static final List<AdventureResult> campground = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> clanLounge = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> chateau = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<AdventureResult> falloutShelter = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> pulverizeQueue = LockableListFactory.getSortedInstance( AdventureResult.class );
 
 	public static final List<UseSkillRequest> usableSkills = LockableListFactory.getInstance( UseSkillRequest.class );

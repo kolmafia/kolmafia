@@ -132,6 +132,10 @@ public class PlaceRequest
 				}
 			}
 		}
+		else if ( place.equals( "falloutshelter" ) )
+		{
+			FalloutShelterRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "forestvillage" ) )
 		{
 			if ( action.equals( "fv_untinker" ) )

@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
+import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -68,9 +69,24 @@ public class CampgroundCommand
 		}
 		else
 		{
-			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
+			if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() )
 			{
-				request = new CampgroundRequest( command );
+				if ( !KoLCharacter.inNuclearAutumn() )
+				{
+					request = new CampgroundRequest( command );
+				}
+				else
+				{
+					if ( command.equals( "rest" ) )
+					{
+						command = "vault1";
+					}
+					else if ( command.equals( "terminal" ) )
+					{
+						command = "vault_term";
+					}
+					request = new FalloutShelterRequest( command );
+				}
 			}
 		}
 
