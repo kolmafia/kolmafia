@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -260,6 +260,13 @@ public class PlaceRequest
 			if ( action.equals( "twitch_bank" ) && responseText.contains( "Thanks fer bringin' the money back" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );
+			}
+		}
+		else if ( place.equals( "woods" ) )
+		{
+			if ( action.equals( "woods_hippy" ) && responseText.contains( "You've got this cool boat" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.FINISHED );
 			}
 		}
 	}

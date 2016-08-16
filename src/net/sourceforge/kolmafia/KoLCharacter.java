@@ -72,6 +72,8 @@ import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -4165,7 +4167,7 @@ public abstract class KoLCharacter
 		{
 			if ( InventoryManager.hasItem( ItemPool.DINGY_DINGHY ) ||
 			     InventoryManager.hasItem( ItemPool.SKIFF ) ||
-			     InventoryManager.hasItem( ItemPool.JUNK_JUNK )||
+			     QuestDatabase.isQuestFinished( Quest.HIPPY ) ||
 			     Preferences.getString( "peteMotorbikeGasTank" ).equals( "Extra-Buoyant Tank" ) ||
 			     KoLCharacter.kingLiberated() ||
 			     InventoryManager.hasItem( ItemPool.YELLOW_SUBMARINE ) )
