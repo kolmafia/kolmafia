@@ -1570,6 +1570,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If the ticket isn't available, don't bother prompting
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			return false;
+		}
+
 		String message;
 
 		message =
