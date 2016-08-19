@@ -1495,6 +1495,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
 A Light that Never Goes Out	100	none
+Adventurer bobblehead	0	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield

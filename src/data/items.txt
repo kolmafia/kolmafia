@@ -9107,7 +9107,7 @@
 9081	DIY protonic accelerator kit	521299592	crate.gif	usable	t	0
 9082	protonic accelerator pack	457809238	protonpack.gif	container		0
 9083	almost-dead walkie-talkie	586899220	walkietalkie.gif	usable	t	0
-9084
+9084	Adventurer bobblehead	307376805	bobblehead.gif	offhand	t	0
 9085	psychokinetic energy blob	812200336	ectoglob.gif	multiple	t	0
 9086	haunted bindle	751499693	bindle.gif	weapon	d	25
 9087	fleshy lump	272270234	skinshield.gif	offhand	d	25
@@ -9122,5 +9122,13 @@
 9096	Carpathian longsword	322696518	carpsword.gif	weapon	d	100
 9097	Liam's mail	168280548	liammail.gif	shirt	d	100
 9098	Unfortunato's foolscap	530076908	foolscap.gif	hat	d	100
-
+9099
 9100	rad	501301255	radiation.gif	none	q	0
+9101
+9102
+9103
+9104
+9105
+9106	Rad-B-Gone (1 lb.)	237041759	goofballs.gif	usable	t	0	1 lb. bottles of Rad-B-Gone
+9107	Rad-Pro (1 oz.)	266363503	syringe.gif	usable	t	0	1 oz. syringes of Rad-Pro
+9108	lead umbrella	682720642	heavyumbrella.gif	offhand	t	0
