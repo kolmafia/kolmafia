@@ -2126,3 +2126,6 @@
 2125	Blinking Belly	bulb.gif	4d6275ea983db6584b34e6044ab6470b	cast 1 Firefly Abdomen
 2126	Inked Well	inkwell.gif	71f6fb17d29d27f2c661b5162c2c7ea1	cast 1 Squid Glands
 2127	Punchable Face	wink.gif	536f51109ef943f7ad3484644b2589a5	cast 1 Extremely Punchable Face
+2128
+2129
+2130	Rad-Pro Tected	syringe.gif	2560a83f409827b78c9760fdbc99203e	use 1 Rad-Pro (1 oz.)
