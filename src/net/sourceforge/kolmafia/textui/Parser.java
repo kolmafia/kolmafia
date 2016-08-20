@@ -2406,7 +2406,7 @@ public class Parser
 
 				if ( isExactMatch )
 				{
-					if ( paramType != valueType )
+					if ( paramType == null || !paramType.equals( valueType ) )
 					{
 						matched = false;
 						break;
