@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -158,8 +158,6 @@ public class UntinkerRequest
 
 		if ( !this.responseText.contains( "You acquire" ) )
 		{
-			ResultProcessor.processResult( ItemPool.get( this.itemId ) );
-
 			UntinkerRequest.AVAILABLE_CHECKER.run();
 
 			if ( !UntinkerRequest.AVAILABLE_CHECKER.responseText.contains( "<select" ) )
@@ -382,7 +380,7 @@ public class UntinkerRequest
 			else
 			{
 				String name = ItemDatabase.getItemName( StringUtilities.parseInt( matcher.group( 1 ) ) );
-				message = "untinker " + ( urlString.indexOf( "untinkerall=on" ) != -1 ? "*" : "1" ) + " " + name;
+				message = "untinker " + ( urlString.contains( "untinkerall=on" ) ? "*" : "1" ) + " " + name;
 			}
 		}
 		else
