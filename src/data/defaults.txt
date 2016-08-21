@@ -447,6 +447,7 @@ user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
 user	expressCardUsed	false
 user	extraRolloverAdventures	0
+user	falloutShelterLevel	0
 user	familiarScript
 user	fingernailsClipped	0
 user	fistSkillsKnown	0

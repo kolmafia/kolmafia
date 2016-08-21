@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -55,6 +56,8 @@ public class FalloutShelterRequest
 	{
 		ItemPool.SOURCE_TERMINAL,
 	};
+
+	private static final Pattern SHELTER_PATTERN = Pattern.compile( "falloutshelter/shelter(\\d+)" );
 
 	public static void reset()
 	{
@@ -167,7 +170,18 @@ public class FalloutShelterRequest
 			return;
 		}
 
-		Matcher matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
+		Matcher matcher = FalloutShelterRequest.SHELTER_PATTERN.matcher( responseText );
+		int shelterLevel = -1;
+		while ( matcher.find() )
+		{
+			shelterLevel = Integer.parseInt( matcher.group( 1 ) );
+		}
+		if ( shelterLevel > 0 )
+		{
+			Preferences.setInteger( "falloutShelterLevel", shelterLevel );
+		}
+
+		matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
 			FalloutShelterRequest.parseFalloutShelter( responseText );
