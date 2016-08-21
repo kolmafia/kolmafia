@@ -1062,6 +1062,37 @@ public class ResponseTextParser
 		{
 			Preferences.increment( "skillLevel144" );
 		}
+		else if ( KoLCharacter.inNuclearAutumn() )
+		{
+			if ( skillName.equals( "Boiling Tear Ducts" ) ||
+			     skillName.equals( "Projectile Salivary Glands" ) ||
+			     skillName.equals( "Translucent Skin" ) ||
+			     skillName.equals( "Skunk Glands" ) ||
+			     skillName.equals( "Throat Refrigerant" ) ||
+			     skillName.equals( "Internal Soda Machine" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -30 ) );
+			}
+			else if ( skillName.equals( "Steroid Bladder" ) ||
+			          skillName.equals( "Magic Sweat" ) ||
+			          skillName.equals( "Flappy Ears" ) ||
+			          skillName.equals( "Self-Combing Hair" ) ||
+			          skillName.equals( "Intracranial Eye" ) ||
+			          skillName.equals( "Mind Bullets" ) ||
+			          skillName.equals( "Extra Kidney" ) ||
+			          skillName.equals( "Extra Gall Bladder" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -60 ) );
+			}
+			else if ( skillName.equals( "Extra Muscles" ) ||
+				    skillName.equals( "Adipose Polymers" ) ||
+				    skillName.equals( "Metallic Skin" ) ||
+				    skillName.equals( "Hypno-Eyes" ) ||
+				    skillName.equals( "Extra Brain" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -90 ) );
+			}
+		}
 
 		String message = "You learned a new skill: " + skillName;
 		RequestLogger.printLine( message );
