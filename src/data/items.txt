@@ -9107,7 +9107,7 @@
 9081	DIY protonic accelerator kit	521299592	crate.gif	usable	t	0
 9082	protonic accelerator pack	457809238	protonpack.gif	container		0
 9083	almost-dead walkie-talkie	586899220	walkietalkie.gif	usable	t	0
-9084	Adventurer bobblehead	307376805	bobblehead.gif	offhand	t	0
+9084	Adventurer bobblehead	307376805	bobblehead.gif	offhand		0
 9085	psychokinetic energy blob	812200336	ectoglob.gif	multiple	t	0
 9086	haunted bindle	751499693	bindle.gif	weapon	d	25
 9087	fleshy lump	272270234	skinshield.gif	offhand	d	25
