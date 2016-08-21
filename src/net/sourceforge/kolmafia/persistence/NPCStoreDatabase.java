@@ -497,6 +497,11 @@ public class NPCStoreDatabase
 				return !InventoryManager.hasItem( ItemPool.DIGITAL_KEY );
 			}
 		}
+		else if ( storeId.equals( "vault1" ) )
+		{
+			// Fallout Shelter Medical Supply
+			return KoLCharacter.inNuclearAutumn();
+		}
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
