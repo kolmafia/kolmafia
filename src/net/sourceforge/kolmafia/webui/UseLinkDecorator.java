@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -1943,12 +1943,14 @@ public abstract class UseLinkDecorator
 			return new UseLink( itemId, 1, "visit armorer", "shop.php?whichshop=armory" );
 
 		case ItemPool.BACON:
-			useType = "spend";
+			int baconcount = InventoryManager.getCount( itemId );
+			useType = "spend (" + baconcount + ")";
 			useLocation = "shop.php?whichshop=bacon";
 			break;
 
 		case ItemPool.RAD:
-			useType = "mutate";
+			int radcount = InventoryManager.getCount( itemId );
+			useType = "mutate (" + radcount + ")";
 			useLocation = "shop.php?whichshop=mutate";
 			break;
 
