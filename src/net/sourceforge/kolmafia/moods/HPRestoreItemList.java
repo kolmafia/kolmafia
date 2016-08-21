@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -445,7 +446,7 @@ public abstract class HPRestoreItemList
 
 			if ( this == HPRestoreItemList.SOFA )
 			{
-				RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( ( new ClanRumpusRequest( RequestType.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
 			}
 

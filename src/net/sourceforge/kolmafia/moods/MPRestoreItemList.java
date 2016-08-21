@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -445,7 +446,7 @@ public abstract class MPRestoreItemList
 
 			if ( this == MPRestoreItemList.SOFA && !Limitmode.limitClan() )
 			{
-				RequestThread.postRequest( ( new ClanRumpusRequest( ClanRumpusRequest.SOFA ) ).setTurnCount( numberToUse ) );
+				RequestThread.postRequest( ( new ClanRumpusRequest( RequestType.SOFA ) ).setTurnCount( numberToUse ) );
 				return;
 			}
 

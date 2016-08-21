@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 
 public class JukeboxCommand
 	extends AbstractCommand
@@ -64,6 +65,6 @@ public class JukeboxCommand
 			return;
 		}
 
-		RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.JUKEBOX, song ) );
+		RequestThread.postRequest( new ClanRumpusRequest( RequestType.JUKEBOX, song ) );
 	}
 }

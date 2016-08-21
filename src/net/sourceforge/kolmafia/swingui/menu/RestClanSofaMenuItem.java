@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.swingui.menu;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -62,7 +63,7 @@ public class RestClanSofaMenuItem
 				return;
 			}
 
-			ClanRumpusRequest request = new ClanRumpusRequest( ClanRumpusRequest.SOFA );
+			ClanRumpusRequest request = new ClanRumpusRequest( RequestType.SOFA );
 			int turnCountValue = StringUtilities.parseInt( turnCount );
 
 			request.setTurnCount( turnCountValue );

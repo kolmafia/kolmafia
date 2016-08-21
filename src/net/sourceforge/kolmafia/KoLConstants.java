@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 
 import net.sourceforge.kolmafia.swingui.menu.PartialMRUList;
 import net.sourceforge.kolmafia.swingui.menu.ScriptMRUList;
@@ -708,6 +709,7 @@ public interface KoLConstants
 	public static final List<AdventureResult> collection = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> campground = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> clanLounge = LockableListFactory.getSortedInstance( AdventureResult.class );
+	public static final List<String> clanRumpus = LockableListFactory.getInstance( String.class );
 	public static final List<AdventureResult> chateau = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> falloutShelter = LockableListFactory.getSortedInstance( AdventureResult.class );
 	public static final List<AdventureResult> pulverizeQueue = LockableListFactory.getSortedInstance( AdventureResult.class );
