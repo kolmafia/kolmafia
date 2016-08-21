@@ -500,7 +500,7 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "vault1" ) )
 		{
 			// Fallout Shelter Medical Supply
-			return KoLCharacter.inNuclearAutumn();
+			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 2;
 		}
 
 		// If it gets this far, then the item is definitely available
