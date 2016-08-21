@@ -4125,8 +4125,8 @@ Rumpus	Girls of Loathing Calendar	Adventures: [3*interact()]
 Rumpus	Boys of Loathing Calendar	Adventures: [3*interact()]
 Rumpus	Infuriating Painting	PvP Fights: +3
 Rumpus	Collection of Sports Memorabilia	PvP Fights: +5
-Rumpus	Collection of Self-Help Books	Adventures: [3*interact()]
-Rumpus	Inspirational Desk Calendar	Adventures: [3*interact()]
+Rumpus	Collection of Self-Help Books	Adventures: [5*interact()]
+Rumpus	Inspirational Desk Calendar	Adventures: [1*interact()]
 Rumpus	Wrestling Mat	PvP Fights: +1
 
 # Status Effects section of modifiers.txt
