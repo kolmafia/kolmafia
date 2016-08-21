@@ -370,3 +370,7 @@ The Mayo Clinic	mayoclinic	sphygmayomanometer	2500	ROW722
 The Mayo Clinic	mayoclinic	tomayohawk-style reflex hammer	2500	ROW723
 The Mayo Clinic	mayoclinic	mayo lance	2500	ROW724
 The Mayo Clinic	mayoclinic	miracle whip	10000	ROW721
+
+Fallout Shelter Medical Supply	vault1	lead umbrella	2500	ROW843
+Fallout Shelter Medical Supply	vault1	Rad-B-Gone (1 lb.)	3000	ROW844
+Fallout Shelter Medical Supply	vault1	Rad-Pro (1 oz.)	500	ROW845
