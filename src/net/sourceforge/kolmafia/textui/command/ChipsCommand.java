@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 
 public class ChipsCommand
 	extends AbstractCommand
@@ -78,7 +79,7 @@ public class ChipsCommand
 
 		for ( int i = 0; i < option.length; ++i )
 		{
-			RequestThread.postRequest( new ClanRumpusRequest( ClanRumpusRequest.CHIPS, option[i] ) );
+			RequestThread.postRequest( new ClanRumpusRequest( RequestType.CHIPS, option[i] ) );
 		}
 	}
 }

@@ -2,9 +2,9 @@
 # Zone Name | URL | attributes | Location Name | goals (optional)
 # Possible attributes are Env, Stat and Level
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
-Gyms	clan_gym=1	Env: none Stat: 0	Pump Up Muscle
-Gyms	clan_gym=2	Env: none Stat: 0	Pump Up Mysticality
-Gyms	clan_gym=3	Env: none Stat: 0	Pump Up Moxie
+Gyms	clan_gym=MUSCLE	Env: none Stat: 0	Pump Up Muscle
+Gyms	clan_gym=MYST	Env: none Stat: 0	Pump Up Mysticality
+Gyms	clan_gym=MOXIE	Env: none Stat: 0	Pump Up Moxie
 Gyms	clan_hobopolis=1	Env: none Stat: 0	Richard's Hobo Mysticality
 Gyms	clan_hobopolis=2	Env: none Stat: 0	Richard's Hobo Moxie
 Gyms	clan_hobopolis=3	Env: none Stat: 0	Richard's Hobo Muscle

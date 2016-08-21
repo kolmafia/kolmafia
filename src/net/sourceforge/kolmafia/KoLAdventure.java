@@ -153,7 +153,7 @@ public class KoLAdventure
 		}
 		else if ( formSource.equals( "clan_gym.php" ) )
 		{
-			this.request = new ClanRumpusRequest( StringUtilities.parseInt( adventureId ) );
+			this.request = new ClanRumpusRequest( ClanRumpusRequest.RequestType.fromString( adventureId ) );
 		}
 		else if ( formSource.equals( "clan_hobopolis.php" ) )
 		{

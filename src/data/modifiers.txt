@@ -17,7 +17,7 @@
 #	contains the text.
 # Preferences function: pref(text)
 #	Returns the value of the specified preference
-#             function: pref(text,compare)
+#	function: pref(text,compare)
 #	Returns 1 if the specified preference is equal to "compare", otherwise 0
 # Effect function: effect(text)
 #	This returns the number of turns remaining of the effect uniquely matching text.
@@ -29,6 +29,8 @@
 # Skill function: skill(text)
 #	This has a value of 1 if the player has the skill matching the text.
 #	text can be the skill name or id
+# Interaction: interact()
+#	This has a value of 1 if the player is out of ronin/HC, otherwise 0
 # Upper-case letters are varying values:
 #	A - number of Ascensions
 #	B - Blood of Wereseal effect
@@ -4117,6 +4119,16 @@ Item	artificial skylight	Adventures: +3
 # foreign language tapes: Gives some Mysticality stats when you rest
 # Swiss piggy bank: Produces 1,000 Meat each day
 
+# Clan Rumpus Room section of modifiers.txt
+
+Rumpus	Girls of Loathing Calendar	Adventures: [3*interact()]
+Rumpus	Boys of Loathing Calendar	Adventures: [3*interact()]
+Rumpus	Infuriating Painting	PvP Fights: +3
+Rumpus	Collection of Sports Memorabilia	PvP Fights: +5
+Rumpus	Collection of Self-Help Books	Adventures: [3*interact()]
+Rumpus	Inspirational Desk Calendar	Adventures: [3*interact()]
+Rumpus	Wrestling Mat	PvP Fights: +1
+
 # Status Effects section of modifiers.txt
 
 Effect	&quot;The Disease&quot;	Moxie: -5
@@ -5627,7 +5639,7 @@ Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
-Effect	Reassured	Muscle: +10, Mysticality: +10, Moxie: +10
+Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
 Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [150*env(underwater)], MP Regen Min: [140*env(underwater)], MP Regen Max: [150*env(underwater)]
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2

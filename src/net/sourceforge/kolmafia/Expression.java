@@ -400,11 +400,13 @@ public class Expression
 			case '\u0092':
 				v = KoLCharacter.getPath().equals( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
-
 			case '\u0093':
 				Modifiers mods = KoLCharacter.getCurrentModifiers();
 				String modName = (String) this.literals.get( (int) s[ --sp ] );
 				v = mods.getExtra( modName );
+				break;
+			case '\u0094':
+				v = KoLCharacter.canInteract() ? 1 : 0;
 				break;
 
 			case 'A':

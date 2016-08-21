@@ -73,6 +73,8 @@ import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.ClanLogRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanMembersRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClanRumpusRequest.RequestType;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
@@ -199,6 +201,8 @@ public abstract class ClanManager
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
 			}
+
+			RequestThread.postRequest( new ClanRumpusRequest( RequestType.SEARCH ) );
 		}
 		else
 		{

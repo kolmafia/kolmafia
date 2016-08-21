@@ -5611,6 +5611,11 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Item", ChateauRequest.ceiling ) );
 		}
 
+		for ( String equip : KoLConstants.clanRumpus )
+		{
+			newModifiers.add( Modifiers.getModifiers( "Rumpus", equip ) );
+		}
+
 		// Add other oddball interactions
 		newModifiers.applySynergies();
 
