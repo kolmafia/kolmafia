@@ -496,17 +496,6 @@ public class CampgroundRequest
 			return;
 		}
 
-		if ( urlString.contains( "smashstone=Yep" ) )
-		{
-			// You shatter the <b>Magical Mystical Hippy Stone</b>.
-			if ( responseText.contains( "You shatter the <b>Magical Mystical Hippy Stone</b>" ) )
-			{
-				KoLCharacter.setHippyStoneBroken( true );
-				KoLCharacter.setAttacksLeft( 10 );
-			}
-			return;
-		}
-
 		Matcher matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
@@ -681,7 +670,6 @@ public class CampgroundRequest
 	{
 		KoLCharacter.setTelescope( findImage( responseText, "telescope.gif", ItemPool.TELESCOPE ) );
 		KoLCharacter.setBookshelf( responseText.contains( "action=bookshelf" ) );
-		KoLCharacter.setHippyStoneBroken( responseText.contains( "smashstone.gif" ) );
 
 		findImage( responseText, "pagoda.gif", ItemPool.PAGODA_PLANS );
 		findImage( responseText, "scarecrow.gif", ItemPool.SCARECROW );

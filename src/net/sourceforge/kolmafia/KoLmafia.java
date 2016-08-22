@@ -911,10 +911,7 @@ public abstract class KoLmafia
 			RequestThread.postRequest( new FalloutShelterRequest() );
 		}
 
-		if ( KoLCharacter.isEd() )
-		{
-			RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
-		}
+		RequestThread.postRequest( new PeeVPeeRequest( "fight" ) );
 
 		if ( Preferences.getInteger( "lastEmptiedStorage" ) != KoLCharacter.getAscensions() )
 		{

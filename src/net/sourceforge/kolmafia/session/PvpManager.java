@@ -142,7 +142,7 @@ public class PvpManager
 				KoLmafia.updateDisplay( MafiaState.ABORT, "This feature is not available to hippies." );
 				return false;
 			}
-			new GenericRequest( "campground.php?confirm=on&smashstone=Yep." ).run();
+			new GenericRequest( "peevpee.php?confirm=on&smashstone=Yep." ).run();
 			return KoLCharacter.getHippyStoneBroken();
 		}
 		return true;

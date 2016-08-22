@@ -152,9 +152,14 @@ public class PeeVPeeRequest
 				KoLCharacter.setAttacksLeft( StringUtilities.parseInt( attacksMatcher.group( 1 ) ) );
 				KoLCharacter.setHippyStoneBroken( true );
 			}
-			else
+			else if ( responseText.contains( "You're out of fights!" ) )
 			{
 				KoLCharacter.setAttacksLeft( 0 );
+				KoLCharacter.setHippyStoneBroken( true );
+			}
+			else if ( responseText.contains( "Magical Mystical Hippy Stone" ) )
+			{
+				KoLCharacter.setHippyStoneBroken( false );
 			}
 
 			if ( location.contains( "action=fight" ) )
