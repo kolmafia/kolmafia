@@ -2534,7 +2534,7 @@ Superhero Reboots	0	none
 support cummerbund	100	Mys: 35
 surgical mask	155	Mys: 62
 sweat socks	25	none
-Talisman o' Nam	80	Mys: 20
+Talisman o' Namsilat	80	Mys: 20
 Talisman of Baio	200	none
 Talisman of Bakula	200	none
 tap shoes	70	Mys: 20

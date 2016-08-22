@@ -2075,6 +2075,7 @@ Item	polyester pad	Damage Reduction: 13, HP Regen Min: 4, HP Regen Max: 8
 # pool skimmer: Catches other people's washed-away items
 # porcelain pepper mill: Adds Physical Damage to Saucestorm
 Item	porcelain pepper mill	Spell Critical Percent: +10, Weakens Monster
+Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweaver))]
 Item	portable Othello set	Othello Skill: +10
 Item	pottery shield	Hot Damage: +5, Damage Reduction: 3
 Item	pretty bouquet	Moxie: +3
@@ -2776,7 +2777,6 @@ Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
 # porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
 Item	porcelain phantom mask	Accessory Drop: +20, Moxie Percent: +20, Single Equip
-Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweaver))]
 Item	porquoise bracelet	Moxie: +4, Never Fumble
 Item	porquoise eyebrow ring	Moxie: +4, Never Fumble
 Item	porquoise necklace	Moxie: +4, Meat Drop: +10, Single Equip
