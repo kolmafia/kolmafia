@@ -9122,7 +9122,7 @@
 9096	Carpathian longsword	322696518	carpsword.gif	weapon	d	100
 9097	Liam's mail	168280548	liammail.gif	shirt	d	100
 9098	Unfortunato's foolscap	530076908	foolscap.gif	hat	d	100
-9099
+9099	Thwaitgold cockroach statuette	662855034	thwaitroach.gif	none		0
 9100	rad	501301255	radiation.gif	none	q	0
 9101
 9102
