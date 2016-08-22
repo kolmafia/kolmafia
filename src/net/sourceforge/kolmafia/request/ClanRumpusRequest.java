@@ -478,6 +478,9 @@ public class ClanRumpusRequest
 		}
 
 		String ballpit = null;
+		// Start by saving the number of balls in the pit, in case this response
+		// doesn't have that information.  If the user switches clans, then the
+		// first check is guaranteed to have that information.
 		if ( !KoLConstants.clanRumpus.isEmpty() &&
 		     KoLConstants.clanRumpus.get( KoLConstants.clanRumpus.size() - 1 ).startsWith( "Awesome Ball Pit" ) )
 		{
@@ -509,6 +512,7 @@ public class ClanRumpusRequest
 				KoLConstants.clanRumpus.add( ballpit );
 			}
 		}
+		KoLCharacter.recalculateAdjustments();
 
 		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
