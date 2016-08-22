@@ -596,7 +596,7 @@ public class AdventureRequest
 		// If the monster has random modifiers, remove and save them
 		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
 		encounter = AdventureRequest.handleIntergnat( encounter );
-		encounter = AdventureRequest.handleNuclearAutumn( encounter, responseText );
+		encounter = AdventureRequest.handleNuclearAutumn( encounter );
 
 		// Adventuring in the Wumpus cave while temporarily blind is
 		// stupid, but since we won't clear the cave after defeating it
@@ -1464,18 +1464,14 @@ public class AdventureRequest
 		return monsterName;
 	}
 
-	private static final String handleNuclearAutumn( String monsterName, final String responseText )
+	private static final String handleNuclearAutumn( String monsterName )
 	{
 		if ( !KoLCharacter.inNuclearAutumn() )
 		{
 			return monsterName;
 		}
+		monsterName = StringUtilities.singleStringDelete( monsterName, "mutant " );
 
-		if ( responseText.contains( "adventureimages/mutie" ) )
-		{
-			monsterName = StringUtilities.singleStringDelete( monsterName, "mutant " );
-			// Maybe do other stuff?
-		}
 		return monsterName;
 	}
 }
