@@ -434,6 +434,14 @@ public class MonsterData
 			{
 				// Cold Aura
 			}
+
+			// Non-OCRS modifiers
+			else if ( modifier.equals( "mutant" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 6 / 5 );
+				monster.attack = new Integer( monster.getRawAttack() * 6 / 5 );
+				monster.defense = new Integer( monster.getRawDefense() * 6 / 5 );
+			}
 		}
 
 		return monster;
