@@ -3054,7 +3054,9 @@ public abstract class KoLCharacter
 
 	public static final boolean hasOven()
 	{
-		return Preferences.getBoolean( "hasOven" );
+		return Preferences.getBoolean( "hasOven" ) ||
+		       KoLCharacter.isEd() ||
+		       KoLCharacter.inNuclearAutumn();
 	}
 
 	/**
