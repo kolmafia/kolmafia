@@ -1470,7 +1470,15 @@ public class AdventureRequest
 		{
 			return monsterName;
 		}
-		monsterName = StringUtilities.singleStringDelete( monsterName, "mutant " );
+		if ( monsterName.contains( "mutant " ) )
+		{
+			// This check isn't perfect, since a monster with "mutant " in its name
+			// could show up in Nuclear Autumn eventually.  Currently, the only
+			// monsters fitting that criteria are from Crimbo 2008, so this should be
+			// a safe way to check.
+			monsterName = StringUtilities.singleStringDelete( monsterName, "mutant " );
+			MonsterData.lastRandomModifiers.add( "mutant" );
+		}
 
 		return monsterName;
 	}
