@@ -2129,3 +2129,9 @@
 2128
 2129
 2130	Rad-Pro Tected	syringe.gif	2560a83f409827b78c9760fdbc99203e	use 1 Rad-Pro (1 oz.)
+2131
+2132
+2133
+2134
+2135
+2136	Spa Day!	happy.gif	c1783658a8030bcca134b240f52c9922	# Fallout Shelter buff
