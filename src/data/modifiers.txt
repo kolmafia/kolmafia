@@ -5859,6 +5859,7 @@ Effect	Souper Vengeful	Weapon Damage: +5, Familiar Weight: +3
 Effect	Sour Grapes	Item Drop: +40
 Effect	Sour Softshoe	Item Drop: [min(T,50)], Meat Drop: [2*min(T,50)]
 Effect	Sourpuss	Candy Drop: +50
+Effect	Spa Day!	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Effect	Spangled Star	Monster Level: +10
