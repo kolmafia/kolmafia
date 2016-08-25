@@ -1088,9 +1088,19 @@ public class ResponseTextParser
 				    skillName.equals( "Adipose Polymers" ) ||
 				    skillName.equals( "Metallic Skin" ) ||
 				    skillName.equals( "Hypno-Eyes" ) ||
-				    skillName.equals( "Extra Brain" ) )
+				    skillName.equals( "Extra Brain" ) ||
+				    skillName.equals( "Magnetic Ears" ) ||
+				    skillName.equals( "Extremely Punchable Face" ) ||
+				    skillName.equals( "Firefly Abdomen" ) ||
+				    skillName.equals( "Bone Springs" ) ||
+				    skillName.equals( "Squid Glands" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -90 ) );
+			}
+			else if ( skillName.equals( "Sucker Fingers" ) ||
+			          skillName.equals( "Backward Knees" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -120 ) );
 			}
 		}
 
