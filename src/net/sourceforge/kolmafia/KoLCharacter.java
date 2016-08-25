@@ -3333,7 +3333,8 @@ public abstract class KoLCharacter
 				int sourcePoints = wasInHardcore ? 2 : 1;
 				Preferences.increment( "sourcePoints", sourcePoints );
 			}
-			else if ( oldPath.equals( "Heavy Rains" ) )
+			else if ( oldPath.equals( "Heavy Rains" ) ||
+			          oldPath.equals( "Nuclear Autumn" ) )
 			{
 				KoLCharacter.resetSkills();
 			}
@@ -3388,7 +3389,8 @@ public abstract class KoLCharacter
 				  oldPath.equals( "Way of the Surprising Fist" ) ||
 				  oldPath.equals( "Class Act II: A Class For Pigs" ) ||
 				  oldPath.equals( "Heavy Rains" ) ||
-				  oldPath.equals( "Picky" )
+				  oldPath.equals( "Picky" ) ||
+				  oldPath.equals( "Nuclear Autumn" )
 			        ) )
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
@@ -3397,7 +3399,8 @@ public abstract class KoLCharacter
 
 			if ( !restricted && (
 			     oldPath.equals( "Trendy" ) ||
-			     oldPath.equals( "Heavy Rains" )
+			     oldPath.equals( "Heavy Rains" ) ||
+			     oldPath.equals( "Nuclear Autumn" )
 			     ) )
 			{
 				// If we were restricted, this was already done earlier, so don't
