@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -1132,6 +1132,12 @@ public class UseItemRequest
 		case ItemPool.BACON_MACHINE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_baconMachineUsed" ) ? 0 : 1;
+
+		case ItemPool.HOLORECORD_POWERGUY:
+		case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
+		case ItemPool.HOLORECORD_SUPERDRIFTER:
+			UseItemRequest.limiter = "lack of Wrist-Boy";
+			return InventoryManager.hasItem( ItemPool.WRIST_BOY ) ? 1 : 0;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )

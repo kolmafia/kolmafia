@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -501,6 +501,10 @@ public class NPCStoreDatabase
 		{
 			// Fallout Shelter Medical Supply
 			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 2;
+		}
+		else if ( storeId.equals( "vault2" ) )
+		{
+			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 4;
 		}
 
 		// If it gets this far, then the item is definitely available

@@ -3284,6 +3284,8 @@ Item	wool sock	Mysticality: +20, Muscle: -5, Moxie: -5, Spell Damage Percent: +4
 Item	World's Best Adventurer sash	Muscle: [min(100,A+1)], Mysticality: [min(100,A+1)], Moxie: [min(100,A+1)]
 Item	woven baling wire bracelets	Spell Damage: +15, Mana Cost: -1
 Item	wrench bracelet	Muscle: +5, Weapon Damage: +9
+# Item Wrist-Boy: Allows use of holo-records
+Item	Wrist-Boy	Damage Reduction: 10
 Item	wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
 # x-ray specs
 # Xiblaxian holo-wrist-puter: Detects Anomalous Materials of Xiblaxian Origin
@@ -5562,6 +5564,7 @@ Effect	Porkpocketed	Avatar: "Porkpocket"
 Effect	Powdered	Experience (Mysticality): +10
 Effect	Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Effect	Power of Heka	Spell Damage: +20, Spell Critical Percent: +10, Spell Damage Percent: +50
+Effect	Power, Man	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Prayer of Seshat	Experience (Mysticality): +3
 # Predjudicetidigitation: You are much less attracted to monsters
 # Predjudicetidigitation: (because you hate them)
@@ -5754,6 +5757,7 @@ Effect	Shortened	Sleaze Damage: +25, Sleaze Spell Damage: +50, Sleaze Resistance
 Effect	Shortie Shaman Shurprise	Avatar: "pygmy shaman"
 Effect	Shot in the Arse	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Shredding, Sweating	Weapon Damage Percent: +25
+Effect	Shrieking Weasel	Monster Level: +30
 Effect	Shrimpin' Ain't Easy	Familiar Weight: +5
 # Side Affectation: Extra-Vulnerable to Hot and Stench
 Effect	Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
@@ -5976,6 +5980,7 @@ Effect	Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent:
 Effect	Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Effect	Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Effect	Superdrifting	Experience Percent (Muscle): +20, Experience Percent (Mysticality): +20, Experience Percent (Moxie): +20
 Effect	Superheated Guts	Supercold Resistance: +3
 Effect	Superheroic	Muscle: +10, Weapon Damage: +10, Critical Hit Percent: +10
 Effect	Superhuman Sarcasm	Moxie Percent: +100
@@ -8820,6 +8825,7 @@ Item	powdered candy sushi set	Effect: "Fishy", Effect Duration: 30
 Item	powdered dice	Effect: "Curse of Randomness", Effect Duration: 100
 # powdered organs: Weakens enemies somewhat
 Item	powdered toad horn	Effect: "Squirming Like a Toad", Effect Duration: 10
+Item	Power-Guy 2000 holo-record	Effect: "Power, Man", Effect Duration: 10
 # power pill: Can also be fed to Puck Mans in combat
 Item	power pill	Effect: "Pill Power", Effect Duration: 30
 Item	praying Grim Brother	Free Pull
@@ -9053,6 +9059,7 @@ Item	short deposition	Effect: "A Short Trial", Effect Duration: 50
 # short writ of habeas corpus: Lets you get away from pygmies without spending an Adventure
 Item	shot of Sneaky Pete's Mojo	Free Pull
 Item	shoulder-warming lotion	Effect: "Warm Shoulders", Effect Duration: 20
+Item	Shrieking Weasel holo-record	Effect: "Shrieking Weasel", Effect Duration: 10
 Item	shrimp cocktail	Effect: "Shrimpin' Ain't Easy", Effect Duration: 20
 Item	shrine to the Barrel god	Free Pull
 # shrinking powder: Reduce an enemy's size (Hit Points) by 35-50%
@@ -9220,6 +9227,7 @@ Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 # superamplified boom box: Weakens enemies somewhat
 # superamplified boom box: Briefly stuns your opponent
 # superduperheated metal: Vaporizes foes
+Item	Superdrifter holo-record	Effect: "Superdrifting", Effect Duration: 10
 Item	superwater	Effect: "Ultrahydrated", Effect Duration: 50
 # surgical tape: Weakens enemies a little bit and restores 20-30 Hit Points
 Item	suspicious stocking	Free Pull
