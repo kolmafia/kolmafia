@@ -2827,6 +2827,7 @@ wool sock	100	Mox: 10
 World's Best Adventurer sash	100	none
 woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
+Wrist-Boy	0	none
 wristwatch of the white knight	60	Mys: 15
 x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none

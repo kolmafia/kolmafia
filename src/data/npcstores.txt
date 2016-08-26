@@ -374,3 +374,8 @@ The Mayo Clinic	mayoclinic	miracle whip	10000	ROW721
 Fallout Shelter Medical Supply	vault1	lead umbrella	2500	ROW843
 Fallout Shelter Medical Supply	vault1	Rad-B-Gone (1 lb.)	3000	ROW844
 Fallout Shelter Medical Supply	vault1	Rad-Pro (1 oz.)	500	ROW845
+
+Fallout Shelter Electronics Supply	vault2	Power-Guy 2000 holo-record	300	ROW848
+Fallout Shelter Electronics Supply	vault2	Shrieking Weasel holo-record	300	ROW847
+Fallout Shelter Electronics Supply	vault2	Superdrifter holo-record	300	ROW849
+Fallout Shelter Electronics Supply	vault2	Wrist-Boy	5000	ROW846
