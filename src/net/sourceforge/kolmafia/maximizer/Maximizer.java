@@ -1031,7 +1031,9 @@ public class Maximizer
 					String files = Preferences.getString( "sourceTerminalEnhanceKnown" );
 					if ( chips.contains( "CRAM" ) ) limit++;
 					if ( chips.contains( "SCRAM" ) ) limit++;
-					if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL, 1 ) ) )
+					boolean haveTerminal = KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL, 1 ) ) ||
+					                       KoLConstants.falloutShelter.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL, 1 ) );
+					if ( !haveTerminal )
 					{
 						if ( includeAll )
 						{
