@@ -9134,6 +9134,8 @@
 9108	lead umbrella	682720642	heavyumbrella.gif	offhand	t	0
 9109	Shrieking Weasel holo-record	441544002	record.gif	usable	t	0
 9110	Power-Guy 2000 holo-record	835201930	record.gif	usable	t	0
-9111
-9112
+9111	Lucky Strikes holo-record	553157564	record.gif	usable	t	0
+9112	EMD holo-record	215981221	record.gif	usable	t	0
 9113	Superdrifter holo-record	228800947	record.gif	usable	t	0
+9114	The Pigs holo-record	844450292	record.gif	usable	t	0
+9115	Drunk Uncles holo-record	397571130	record.gif	usable	t	0

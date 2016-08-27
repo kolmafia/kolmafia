@@ -4691,6 +4691,7 @@ Effect	Drenched With Filth	Stench Damage: +75
 Effect	Drescher's Annoying Noise	Monster Level: +10
 Effect	Dress to Kill	Avatar: "Gnollish Crossdresser"
 Effect	Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
+# Effect Drunk and Avuncular: Booze gives 100% more Adventures
 Effect	Drunk With Power	Spell Damage Percent: +100
 Effect	Duct Out of Water	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Dug Out	Avatar: "spelunking astronaut"
@@ -5273,6 +5274,7 @@ Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Effect	Lucky Cat is Lucky	Item Drop: +5
+Effect	Lucky Struck	Item Drop: +20
 Effect	Lustful Heart	Moxie: [min(T,20)]
 Effect	Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Effect	Lynyrd Prytynder	Avatar: "lynyrd skinner"
@@ -5336,6 +5338,7 @@ Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T],
 Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
+Effect	Ministrations in the Dark	Combat Rate: +0
 Effect	Minty Freshness	Moxie Percent: +10
 Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
@@ -5643,6 +5646,7 @@ Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
+# Effect Record Hunger: Food gives 100% more Adventures
 # Red Around the Gills: Regenerate 140-150 HP and MP per fight (Underwater only)
 Effect	Red Around the Gills	HP Regen Min: [140*env(underwater)], HP Regen Max: [150*env(underwater)], MP Regen Min: [140*env(underwater)], MP Regen Max: [150*env(underwater)]
 Effect	Red Door Syndrome	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
@@ -7918,6 +7922,7 @@ Item	Drizzlers&trade; Black Licorice	Effect: "Rainy Soul Miasma", Effect Duratio
 # droopy doll eye: Deals 60-80 <font color=gray>Spooky Damage</font>
 Item	drop of water-37	Effect: "Extra-Wet", Effect Duration: 30
 Item	drum of pomade	Effect: "Perfect Hair", Effect Duration: 10
+Item	Drunk Uncles holo-record	Effect: "Drunk and Avuncular", Effect Duration: 10
 # Drunkula's bell: Summons bats that deal <font color=blue>Cold Damage</font> based on your Mysticality
 Item	dubious peppermint	Effect: "Minty Freshness", Effect Duration: 5
 # dumb mud: Deals 500 Physical Damage and weakens your enemy a lot
@@ -8469,6 +8474,7 @@ Item	love song of vague ambiguity	Effect: "Broken Heart", Effect Duration: 5
 # Item LT&T telegraph office deed: Opens a LT&T telegraph office in Seaside Town
 Item	LT&T telegraph office deed	Free Pull
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
+Item	Lucky Strikes holo-record	Effect: "Lucky Struck", Effect Duration: 10
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
@@ -8568,6 +8574,7 @@ Item	miniature power pill	Effect: "Pill Power", Effect Duration: 30
 # Miniborg strangler: Weakens enemies slightly
 # Miniborg strangler: (doesn't go away when used)
 Item	miniscule temporal rip	Free Pull
+Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
 Item	Missing Eye Simulation Device	Effect: "Gnollivision", Effect Duration: 30
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 Item	mocking turtle	Effect: "Tortious", Effect Duration: 15
@@ -9302,6 +9309,7 @@ Item	The Legendary Beat	Effect: "Clyde's Blessing", Effect Duration: 20
 Item	the most dangerous bait	Effect: "Manbait", Effect Duration: 20
 Item	The Necbronomicon	Skill: "Summon &quot;Boner Battalion&quot;"
 Item	The Necbronomicon (used)	Skill: "Summon &quot;Boner Battalion&quot;"
+Item	The Pigs holo-record	Effect: "Record Hunger", Effect Duration: 10
 # The Six-Pack of Pain: Deals Physical Damage based on your Muscle
 # The Six-Pack of Pain: Weakens Enemies a Whole Lot
 Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
