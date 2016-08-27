@@ -639,6 +639,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_shop", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_shop_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "put_shop_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -3290,38 +3296,28 @@ public abstract class RuntimeLibrary
 
 	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value itemValue )
 	{
-		int itemId = (int) itemValue.intValue();
-		int price = (int) priceValue.intValue();
-		int limit = (int) limitValue.intValue();
-
-		if ( interpreter.batched != null )
-		{
-			String cmd = "shop";
-			String prefix = "put";
-			String params = "* \u00B6" + itemId + " @ " + price + " limit " + limit;
-			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
-		}
-		else
-		{
-			AdventureResult [] items = new AdventureResult[ 1 ];
-			int [] prices = new int[ 1 ];
-			int [] limits = new int[ 1 ];
-
-			AdventureResult item = ItemPool.get( itemId, 1 );
-			items[ 0 ] = item.getInstance( item.getCount( KoLConstants.inventory ) );
-			prices[ 0 ] = price;
-			limits[ 0 ] = limit;
-
-			AutoMallRequest request = new AutoMallRequest( items, prices, limits );
-			RequestThread.postRequest( request );
-		}
-
-		return RuntimeLibrary.continueValue();
+			return put_shop( interpreter, priceValue, limitValue, InventoryManager.getCount( (int) itemValue.contentLong ), itemValue, false );
 	}
 
 	public static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
 	{
-		int qty = (int) qtyValue.intValue();
+		return put_shop( interpreter, priceValue, limitValue, qtyValue.contentLong, itemValue, false );
+	}
+
+	public static Value put_shop_using_storage( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value itemValue )
+	{
+		AdventureResult item = ItemPool.get( (int) itemValue.intValue(), 0 );
+		return put_shop( interpreter, priceValue, limitValue, item.getCount( KoLConstants.storage ), itemValue, true );
+	}
+
+	public static Value put_shop_using_storage( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value qtyValue, final Value itemValue )
+	{
+		return put_shop( interpreter, priceValue, limitValue, qtyValue.contentLong, itemValue, true );
+	}
+
+	// Used internally only.
+	private static Value put_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final long qty, final Value itemValue, boolean usingStorage )
+	{
 		if ( qty <= 0 )
 		{
 			return RuntimeLibrary.continueValue();
@@ -3334,7 +3330,7 @@ public abstract class RuntimeLibrary
 		if ( interpreter.batched != null )
 		{
 			String cmd = "shop";
-			String prefix = "put";
+			String prefix = usingStorage ? "put using storage" : "put";
 			String params = qty + " \u00B6" + itemId + " @ " + price + " limit " + limit;
 			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
 		}
@@ -3344,11 +3340,11 @@ public abstract class RuntimeLibrary
 			int [] prices = new int[ 1 ];
 			int [] limits = new int[ 1 ];
 
-			items[ 0 ] = ItemPool.get( itemId, qty );
+			items[ 0 ] = ItemPool.get( itemId, (int) qty );
 			prices[ 0 ] = price;
 			limits[ 0 ] = limit;
 
-			AutoMallRequest request = new AutoMallRequest( items, prices, limits );
+			ManageStoreRequest request = new ManageStoreRequest( items, prices, limits, usingStorage );
 			RequestThread.postRequest( request );
 		}
 		return RuntimeLibrary.continueValue();
