@@ -506,6 +506,10 @@ public class NPCStoreDatabase
 		{
 			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 4;
 		}
+		else if ( storeId.equals( "vault3" ) )
+		{
+			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 7;
+		}
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

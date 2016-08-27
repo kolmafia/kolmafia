@@ -2126,12 +2126,12 @@
 2125	Blinking Belly	bulb.gif	4d6275ea983db6584b34e6044ab6470b	cast 1 Firefly Abdomen
 2126	Inked Well	inkwell.gif	71f6fb17d29d27f2c661b5162c2c7ea1	cast 1 Squid Glands
 2127	Punchable Face	wink.gif	536f51109ef943f7ad3484644b2589a5	cast 1 Extremely Punchable Face
-2128
-2129
+2128	Record Hunger	record.gif	7c7fb9627919149e212b39d8d978a3bd	use 1 The Pigs holo-record
+2129	Drunk and Avuncular	record.gif	2d1b5f8f1f715dec9d2d0cf894ff143a	use 1 Drunk Uncles holo-record
 2130	Rad-Pro Tected	syringe.gif	2560a83f409827b78c9760fdbc99203e	use 1 Rad-Pro (1 oz.)
 2131	Shrieking Weasel	record.gif	f20e4ba9b43ad2918c1f49f776d7439f	use 1 Shrieking Weasel holo-record
 2132	Power, Man	record.gif	a87de0beba92e30e2fcd23a9380998a7	use 1 Power-Guy 2000 holo-record
-2133
-2134
+2133	Lucky Struck	record.gif	bb2ebb11ea2be9780c6ed02daabadedf	use 1 Lucky Strikes holo-record
+2134	Ministrations in the Dark	record.gif	a636fef16724f7e1e7197f4fadbbe345	use 1 EMD holo-record
 2135	Superdrifting	record.gif	0a64ec0d296c3cdcd05c9137c9d1b934	use 1 Superdrifter holo-record
 2136	Spa Day!	happy.gif	c1783658a8030bcca134b240f52c9922	# Fallout Shelter buff

@@ -379,3 +379,8 @@ Fallout Shelter Electronics Supply	vault2	Power-Guy 2000 holo-record	300	ROW848
 Fallout Shelter Electronics Supply	vault2	Shrieking Weasel holo-record	300	ROW847
 Fallout Shelter Electronics Supply	vault2	Superdrifter holo-record	300	ROW849
 Fallout Shelter Electronics Supply	vault2	Wrist-Boy	5000	ROW846
+
+Underground Record Store	vault3	Drunk Uncles holo-record	1000	ROW881
+Underground Record Store	vault3	EMD holo-record	300	ROW851
+Underground Record Store	vault3	Lucky Strikes holo-record	300	ROW850
+Underground Record Store	vault3	The Pigs holo-record	1000	ROW880

@@ -405,6 +405,12 @@ public class ConsumablesDatabase
 		{
 			return "0";
 		}
+		if ( KoLCharacter.inNuclearAutumn() )
+		{
+			//int dashIndex = range.indexOf( "-" );
+			//int start = StringUtilities.parseInt( dashIndex == -1 ? range : range.substring( 0, dashIndex ) );
+			//int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex + 1 ) );
+		}
 		return range;
 	}
 
@@ -440,15 +446,22 @@ public class ConsumablesDatabase
 
 		if ( KoLCharacter.inNuclearAutumn() )
 		{
-			if ( type.equals( "food" ) && KoLCharacter.hasSkill( "Extra Gall Bladder" ) )
+			if ( type.equals( "food" )  )
 			{
-				start *= 2;
-				end *= 2;
+				int multiplier = 1;
+				if ( KoLCharacter.hasSkill( "Extra Gall Bladder" ) ) multiplier += 1;
+				if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.RECORD_HUNGER ) ) ) multiplier += 1;
+				start *= multiplier;
+				end *= multiplier;
 			}
-			else if ( type.equals( "booze" ) && KoLCharacter.hasSkill( "Extra Kidney" ) )
+			//&& KoLCharacter.hasSkill( "Extra Kidney" )
+			else if ( type.equals( "booze" ) )
 			{
-				start *= 2;
-				end *= 2;
+				int multiplier = 1;
+				if ( KoLCharacter.hasSkill( "Extra Kidney" ) ) multiplier += 1;
+				if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DRUNK_AVUNCULAR ) ) ) multiplier += 1;
+				start *= multiplier;
+				end *= multiplier;
 			}
 		}
 
