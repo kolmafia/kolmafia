@@ -60,7 +60,7 @@ public class ShopCommand
 {
 	public ShopCommand()
 	{
-		this.usage = " put <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all|<num>] <item> [, <another>] - sell or remove from Mall..";
+		this.usage = " put [using storage] <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all|<num>] <item> [, <another>] - sell or remove from Mall..";
 	}
 
 	@Override
@@ -86,6 +86,15 @@ public class ShopCommand
 
 	public static void put( String parameters )
 	{
+		boolean storage = false;
+
+		String TEST = "using storage ";
+		if ( parameters.startsWith( TEST ) )
+		{
+			storage = true;
+			parameters = parameters.substring( TEST.length() ).trim();
+		}
+
 		String[] itemNames = parameters.split( "\\s*,\\s*" );
 
 		AdventureResultArray items = new AdventureResultArray();
@@ -137,7 +146,7 @@ public class ShopCommand
 				continue;
 			}
 
-			int inventoryCount = item.getCount( KoLConstants.inventory );
+			int inventoryCount = item.getCount( storage ? KoLConstants.storage : KoLConstants.inventory );
 
 			if ( item.getCount() > inventoryCount )
 			{
@@ -146,7 +155,7 @@ public class ShopCommand
 
 			if ( item.getCount() == 0 )
 			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "', none found in inventory." );
+				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "', none found in " + ( storage ? "storage." : "inventory." ) );
 				continue;
 			}
 
@@ -157,9 +166,11 @@ public class ShopCommand
 
 		if ( items.size() > 0 )
 		{
-			RequestThread.postRequest( new AutoMallRequest( items.toArray(),
-									(int[])prices.toArray(),
-									(int[])limits.toArray() ) );
+			RequestThread.postRequest( new ManageStoreRequest( items.toArray(),
+															  (int[]) prices.toArray(),
+															  (int[]) limits.toArray(),
+															  storage
+										   ) );
 		}
 	}
 

@@ -78,6 +78,7 @@ public class ManageStoreRequest
 
 	// For action=additem
 	private AdventureResult[] items;
+	private int[] prices, limits;
 	private boolean storage;
 
 	public ManageStoreRequest()
@@ -119,12 +120,19 @@ public class ManageStoreRequest
 
 	public ManageStoreRequest( final AdventureResult[] items, boolean storage )
 	{
+		this( items, null, null, storage );
+	}
+
+	public ManageStoreRequest( final AdventureResult[] items, final int[] prices, final int[] limits, boolean storage )
+	{
 		super( "backoffice.php" );
 		this.addFormField( "action", "additem" );
 		this.addFormField( "ajax", "1" );
 
 		this.requestType = ManageStoreRequest.ITEM_ADDITION;
 		this.items = items;
+		this.prices = prices;
+		this.limits = limits;
 		this.storage = storage;
 	}
 
@@ -182,9 +190,9 @@ public class ManageStoreRequest
 			String name = item.getName();
 
 			this.addFormField( "itemid", ( this.storage ? "h" : "" ) + String.valueOf( item.getItemId() ) );
-			this.addFormField( "price", "" );
+			this.addFormField( "price", ( this.prices == null ? "" : "" + this.prices[ i ] ) );
 			this.addFormField( "quantity", String.valueOf( item.getCount() ) );
-			this.addFormField( "limit", "" );
+			this.addFormField( "limit", ( this.limits == null ? "" : "" + this.limits[ i ] ) );
 
 			KoLmafia.updateDisplay( "Adding " + name + " to store..." );
 			super.run();
