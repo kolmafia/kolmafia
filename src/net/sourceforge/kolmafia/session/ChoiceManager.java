@@ -8283,7 +8283,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.STARTED );
 				Preferences.setInteger( "brodenSprinkles", 0 );
 			}
-			else if ( text.contains( "can sell some deluxe brogurts" ) )
+			else if ( text.contains( "can sell some <i>deluxe</i> brogurts" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.BRODEN_SPRINKLES, QuestDatabase.FINISHED );
 				Preferences.setInteger( "brodenSprinkles", 0 );
