@@ -996,6 +996,8 @@ user	skillBurn14038	-100
 user	skillBurn15011	-100
 user	skillBurn15028	-100
 user	skillBurn17005	-100
+user	skillBurn22034	-100
+user	skillBurn22035	-100
 user	skillLevel46	0
 user	skillLevel47	0
 user	skillLevel48	0
