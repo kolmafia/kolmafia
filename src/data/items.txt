@@ -9126,8 +9126,8 @@
 9100	rad	501301255	radiation.gif	none	q	0
 9101
 9102	Wrist-Boy	471098627	wristboy.gif	accessory	q	0
-9103
-9104
+9103	Dear Past Self Package	819795119	pastselfpackage.gif	usable	t	0
+9104	Time-Spinner	578587926	timespinner.gif	reusable, combat		0
 9105
 9106	Rad-B-Gone (1 lb.)	237041759	goofballs.gif	usable	t	0	1 lb. bottles of Rad-B-Gone
 9107	Rad-Pro (1 oz.)	266363503	syringe.gif	usable	t	0	1 oz. syringes of Rad-Pro
