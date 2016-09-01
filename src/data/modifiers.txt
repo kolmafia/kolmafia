@@ -3220,6 +3220,7 @@ Item	Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip
 Item	Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +5, Single Equip
 Item	Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
+Item	Unstable Pointy Ears	Experience: +3, Lasts Until Rollover
 Item	Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip
 Item	UV monocular	Item Drop: +5, Single Equip
 # V for Vivala mask: Critical Hits are extra-explosive

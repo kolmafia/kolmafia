@@ -9128,7 +9128,7 @@
 9102	Wrist-Boy	471098627	wristboy.gif	accessory	q	0
 9103	Dear Past Self Package	819795119	pastselfpackage.gif	usable	t	0
 9104	Time-Spinner	578587926	timespinner.gif	reusable, combat		0
-9105
+9105	compounded experience	130394510	book3.gif	usable	d	1000
 9106	Rad-B-Gone (1 lb.)	237041759	goofballs.gif	usable	t	0	1 lb. bottles of Rad-B-Gone
 9107	Rad-Pro (1 oz.)	266363503	syringe.gif	usable	t	0	1 oz. syringes of Rad-Pro
 9108	lead umbrella	682720642	heavyumbrella.gif	offhand	t	0
@@ -9139,3 +9139,8 @@
 9113	Superdrifter holo-record	228800947	record.gif	usable	t	0
 9114	The Pigs holo-record	844450292	record.gif	usable	t	0
 9115	Drunk Uncles holo-record	397571130	record.gif	usable	t	0
+9116	time residue	497149659	timeresidue.gif	usable	t	0
+9117
+9118
+9119	Shot of Kardashian Gin	642408954	shot.gif	drink	t,d	100
+9120	Unstable Pointy Ears	169906892	ears.gif	accessory	q	0
