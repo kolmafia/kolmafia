@@ -2661,6 +2661,7 @@ public class ItemPool
 	public static final int STANDARDS_AND_PRACTICES = 9095;
 	public static final int RAD = 9100;
 	public static final int WRIST_BOY = 9102;
+	public static final int TIME_SPINNER = 9104;
 	public static final int HOLORECORD_SHRIEKING_WEASEL = 9109;
 	public static final int HOLORECORD_POWERGUY = 9110;
 	public static final int HOLORECORD_SUPERDRIFTER = 9114;
