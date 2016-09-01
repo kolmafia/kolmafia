@@ -718,6 +718,7 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfBearAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "manualOfNumberologyAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "ROMOfOptimalityAvailable", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "schoolOfHardKnocksDiplomaAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfAnnoyanceAvailable", this );
 		}
 
@@ -750,6 +751,8 @@ public class CoinmastersFrame
 				return Preferences.getBoolean( "manualOfNumberologyAvailable" );
 			case ItemPool.ROM_OF_OPTIMALITY:
 				return Preferences.getBoolean( "ROMOfOptimalityAvailable" );
+			case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+				return Preferences.getBoolean( "schoolOfHardKnocksDiplomaAvailable" );
 			case ItemPool.ESSENCE_OF_ANNOYANCE:
 				return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
 			}

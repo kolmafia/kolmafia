@@ -296,6 +296,9 @@ public class CoinmastersDatabase
 
 		case ItemPool.ROM_OF_OPTIMALITY:
 			return Preferences.getInteger( "optimalSwagger" ) >= Preferences.getInteger( "ROMOfOptimalityCost" );
+
+		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+			return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
 		}
 
 		return true;

@@ -1390,6 +1390,10 @@ public class ResultProcessor
 		case ItemPool.ROM_OF_OPTIMALITY:
 			Preferences.setBoolean( "ROMOfOptimalityAvailable", false );
 			break;
+
+		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+			Preferences.setBoolean( "schoolOfHardKnocksDiplomaAvailable", false );
+			break;
 		}
 
 		// From here on out, only positive results are handled.
