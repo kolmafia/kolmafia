@@ -965,6 +965,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
 			case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
 			case ItemPool.SCREENCAPPED_MONSTER:
+			case ItemPool.TIME_RESIDUE:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.

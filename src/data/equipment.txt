@@ -2782,6 +2782,7 @@ Uncle Hobo's belt	200	Mys: 200
 Uncle Hobo's epic beard	200	Mys: 200
 Uncle Hobo's fingerless tinsel gloves	200	Mys: 200
 Unspeakable Earring	150	Mys: 60
+Unstable Pointy Ears	0	none
 Uranium Omega of Temperance	200	Mys: 85
 UV monocular	75	Mys: 22
 V for Vivala mask	0	none

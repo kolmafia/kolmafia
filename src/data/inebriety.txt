@@ -462,6 +462,7 @@ shining goblet	3	9	awesome	15	18-22	18-22	18-22
 shot of blackberry schnapps	1	11	good	1-4	5-7	5-7	5-7
 shot of flower schnapps	3	1	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
 shot of grapefruit schnapps	1	1	decent	2	0	3-5	0
+Shot of Kardashian Gin	1	1	EPIC	0	0	0	0	Unspaded
 shot of mescal	3	6	awesome	11-13	0	25-75	0	50 Brainworm
 shot of nepenthe schnapps	2	2	awesome	5-8	0	12-18	0	10 Memento Moir&eacute; (+3 exp)
 shot of orange schnapps	1	1	decent	2	3-5	0	0
