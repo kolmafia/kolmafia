@@ -9141,6 +9141,8 @@
 9115	Drunk Uncles holo-record	397571130	record.gif	usable	t	0
 9116	time residue	497149659	timeresidue.gif	usable	t	0
 9117
-9118
+9118	Riker's Search History	949442473	sheet.gif	none, combat	t,d	100
 9119	Shot of Kardashian Gin	642408954	shot.gif	drink	t,d	100
 9120	Unstable Pointy Ears	169906892	ears.gif	accessory	q	0
+9121	Memory Disk, Alpha	527297745	cd.gif	usable	t	0
+9122	Tea, Earl Grey, Hot	521372355	tea.gif	food	t,d	1
