@@ -9017,6 +9017,7 @@ Item	sane hatrack	Free Pull
 # sawblade fragment: Deals 100-150 Physical Damage and causes additional Bleeding over time
 # scented massage oil: Restores all HP
 Item	Schmalz's First Prize Beer	Free Pull
+# Item School of Hard Knocks Diploma: COMING SOON
 Item	scintillating powder	Class: "Pastamancer"
 Item	scrap metal	Effect: "Armor-Plated", Effect Duration: 20
 Item	scrap of shadow	Effect: "Scrappy, Shadowy", Effect Duration: 10

@@ -947,6 +947,9 @@ user	royalty
 user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
 user	safePickpocket	true
+user	schoolOfHardKnocksDiplomaAvailable	true
+user	schoolOfHardKnocksDiplomaCost	1000
+user	schoolSwagger	0
 user	screencappedMonster	
 user	scriptMRULength	0
 user	scriptMRUList

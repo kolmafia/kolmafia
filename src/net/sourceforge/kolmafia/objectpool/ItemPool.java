@@ -2665,6 +2665,7 @@ public class ItemPool
 	public static final int HOLORECORD_POWERGUY = 9110;
 	public static final int HOLORECORD_SUPERDRIFTER = 9114;
 	public static final int TIME_RESIDUE = 9116;
+	public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

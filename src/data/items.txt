@@ -9146,3 +9146,5 @@
 9120	Unstable Pointy Ears	169906892	ears.gif	accessory	q	0
 9121	Memory Disk, Alpha	527297745	cd.gif	usable	t	0
 9122	Tea, Earl Grey, Hot	521372355	tea.gif	food	t,d	1
+9123	School of Hard Knocks Diploma	202870687	scroll2.gif	none		0
+
