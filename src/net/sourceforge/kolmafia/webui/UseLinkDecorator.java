@@ -742,6 +742,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getFullness( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
+			{
+				return null;
+			}
+
 			if ( itemId == ItemPool.BLACK_PUDDING )
 			{
 				return new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=", false );
@@ -757,6 +762,11 @@ public abstract class UseLinkDecorator
 			}
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getInebriety( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
 			{
 				return null;
 			}
@@ -848,6 +858,11 @@ public abstract class UseLinkDecorator
 			}
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getSpleenHit( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
 			{
 				return null;
 			}
