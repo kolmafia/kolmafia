@@ -1777,6 +1777,7 @@ Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: ? Cap: ? Floor: ? Init: -1
 Assembly Elemental	1960	assemblyelem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elemental
 Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid
 Wooly Duck	1963	woolyduck.gif	Scale: 15 Cap: ? Floor: ? Init: -10000 P: beast
+time-spinner prank	1965		Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
 
 # KoL Con
 

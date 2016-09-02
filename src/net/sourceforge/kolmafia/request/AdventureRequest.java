@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -794,6 +794,16 @@ public class AdventureRequest
 				// This is twitch content, but shares image with hired gun, so detection moved here
 				image != null && image.startsWith( "outlawboss" ) ? "outlaw leader" :
 				null;
+		}
+
+		if ( override == null && KoLCharacter.canInteract() )
+		{
+			if ( responseText.contains( "A figure steps out from behind this morning and says" ) )
+			{
+				// SBIP will ruin that text, but so will the staph, and probably other stuff too.
+				// Not going to worry about those.
+				override = "time-spinner prank";
+			}
 		}
 
 		if ( override != null )
