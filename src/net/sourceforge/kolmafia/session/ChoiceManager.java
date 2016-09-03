@@ -14064,6 +14064,7 @@ public abstract class ChoiceManager
 		case 1190: // The Oracle
 		case 1191: // Source Terminal
 		case 1193: // The Precinct
+		case 1195: // Spinning Your Time-Spinner
 		return true;
 
 		default:
