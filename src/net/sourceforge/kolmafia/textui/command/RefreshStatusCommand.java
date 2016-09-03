@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
@@ -53,7 +54,7 @@ public class RefreshStatusCommand
 {
 	public RefreshStatusCommand()
 	{
-		this.usage = " all | status | equip | inv | storage | familiar | stickers | quests - resynchronize with KoL.";
+		this.usage = " all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | [familiar | terarrium] | stickers | quests | shop - resynchronize with KoL.";
 	}
 
 	@Override
@@ -104,6 +105,11 @@ public class RefreshStatusCommand
 		else if ( parameters.equals( "quests" ) )
 		{
 			RequestThread.postRequest( new QuestLogRequest() );
+			return;
+		}
+		else if ( parameters.equals( "shop" ) )
+		{
+			RequestThread.postRequest( new ManageStoreRequest() );
 			return;
 		}
 		else
