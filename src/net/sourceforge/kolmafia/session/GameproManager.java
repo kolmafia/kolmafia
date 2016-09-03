@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -41,7 +41,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class GameproManager
 {
 	private static final Pattern MAZE_PATTERN =
-		  Pattern.compile( "You will start out facing[\\s](\\w+).[\\s]You should go[\\s](\\w+),[\\s](\\w+),[\\s](\\w+),[\\s](\\w+),[\\s](\\w+)," );
+		  Pattern.compile( "You will start out facing(?:\\s)?(\\w+)\\.(?:\\s)?You should go(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+)," );
 
 	public static void parseGameproMagazine( String responseText )
 	{
