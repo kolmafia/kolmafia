@@ -187,7 +187,7 @@ public class UneffectRequest
 			return true;
 		}
 
-		if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS )
+		if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS || effectId == EffectPool.REASSURED )
 		{
 			return true;
 		}
