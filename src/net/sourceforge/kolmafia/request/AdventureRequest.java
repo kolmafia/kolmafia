@@ -487,6 +487,8 @@ public class AdventureRequest
 				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
 				     !EncounterManager.isFreeCombatMonster( encounter ) &&
 				     !EncounterManager.isNoWanderMonster( encounter ) &&
+				     !EncounterManager.isDigitizedEncounter( responseText ) &&
+				     !EncounterManager.isRomanticEncounter( responseText ) &&
 				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
