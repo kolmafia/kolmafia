@@ -2595,10 +2595,11 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean bm = KoLCharacter.inBadMoon();
+			boolean na = KoLCharacter.inNuclearAutumn();
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean limited = Limitmode.limitCampground();
 			int nu = Preferences.getInteger( "telescopeUpgrades" );
-			this.setShown( ( !bm || kf ) && ( nu > 0 ) && !limited );
+			this.setShown( ( !bm || kf ) && ( nu > 0 ) && !limited && !na );
 			this.setEnabled( nu > 0 );
 			if ( Preferences.getBoolean( "telescopeLookedHigh" ) )
 			{
