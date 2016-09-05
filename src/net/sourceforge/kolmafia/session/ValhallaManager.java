@@ -649,6 +649,9 @@ public class ValhallaManager
 		Preferences.resetToDefault( "sourceInterval" );
 		Preferences.resetToDefault( "sourceOracleTarget" );
 		Preferences.resetToDefault( "sourceEnlightenment" );
+		// Nuclear Autumn
+		Preferences.resetToDefault( "falloutShelterChronoUsed" );
+		Preferences.resetToDefault( "falloutShelterCoolingTankUsed" );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
