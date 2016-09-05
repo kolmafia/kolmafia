@@ -2134,4 +2134,4 @@
 2133	Lucky Struck	record.gif	bb2ebb11ea2be9780c6ed02daabadedf	use 1 Lucky Strikes holo-record
 2134	Ministrations in the Dark	record.gif	a636fef16724f7e1e7197f4fadbbe345	use 1 EMD holo-record
 2135	Superdrifting	record.gif	0a64ec0d296c3cdcd05c9137c9d1b934	use 1 Superdrifter holo-record
-2136	Spa Day!	happy.gif	c1783658a8030bcca134b240f52c9922	# Fallout Shelter buff
+2136	Spa Day!	happy.gif	c1783658a8030bcca134b240f52c9922	campground vault3
