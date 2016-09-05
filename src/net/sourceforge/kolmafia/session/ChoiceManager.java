@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -9251,6 +9251,30 @@ public abstract class ChoiceManager
 				break;
 			}
 			ChoiceManager.handleSourceTerminal( input, text );
+			break;
+
+		case 1195:
+			// Spinning Your Time-Spinner
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setNextAdventure( "None" );
+				GenericRequest.itemMonster = "Time-Spinner";
+			}
+			break;
+
+		case 1196:
+			// Travel to a Recent Fight
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setNextAdventure( "None" );
+				GenericRequest.itemMonster = "Time-Spinner";
+			}
 			break;
 		}
 
