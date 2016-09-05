@@ -656,7 +656,7 @@ public class Maximizer
 						}
 						else continue;
 					}
-					else if ( KoLCharacter.inBadMoon() )
+					else if ( KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn() )
 					{
 						continue;
 					}
@@ -1066,6 +1066,28 @@ public class Maximizer
 					}
 					duration = 25 + ( chips.contains( "INGRAM" ) ? 25 : 0 ) + 5*Preferences.getInteger( "sourceTerminalPram" );
 					usesRemaining = limit - Preferences.getInteger( "_sourceTerminalEnhanceUses" );
+				}
+				else if ( cmd.startsWith( "campground vault3" ) )
+				{
+					AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+					if ( !KoLCharacter.inNuclearAutumn() )
+					{
+						continue;
+					}
+					if ( Preferences.getInteger( "falloutShelterLevel" ) < 3 )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitCampground() )
+					{
+						continue;
+					}
+					else if ( Preferences.getBoolean( "_falloutShelterSpaUsed" ) )
+					{
+						cmd = "";
+					}
+					duration = 100;
+					usesRemaining = Preferences.getBoolean( "_falloutShelterSpaUsed" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "skeleton " ) )
 				{

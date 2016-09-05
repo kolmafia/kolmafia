@@ -181,6 +181,26 @@ public class FalloutShelterRequest
 			Preferences.setInteger( "falloutShelterLevel", shelterLevel );
 		}
 
+		// Using Spa Smulation Chamber
+		if ( urlString.contains( "action=vault3" ) && responseText.contains( "entire day" ) )
+		{
+			Preferences.setBoolean( "_falloutShelterSpaUsed", true );
+		}
+
+		// Using Chronodyamics Laboratory
+		if ( urlString.contains( "action=vault5" ) && 
+			( responseText.contains( "more ominous shade of green" ) || responseText.contains( "heat death of the universe" ) ) )
+		{
+			Preferences.setBoolean( "_falloutShelterChronoUsed", true );
+		}
+
+		// Using Main Reactor
+		if ( urlString.contains( "action=vault8" ) && 
+			( responseText.contains( "quick dip in the cooling tank" ) || responseText.contains( "already bathed" ) ) )
+		{
+			Preferences.setBoolean( "_falloutShelterCoolingTankUsed", true );
+		}
+
 		matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
 		if ( !matcher.find() )
 		{
@@ -258,6 +278,34 @@ public class FalloutShelterRequest
 		if ( action.equals( "vault1" ) )
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your Cryo-Sleep Chamber";
+		}
+		else if ( action.equals( "vault2" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Fallout Shelter Medical Supply";
+		}
+		else if ( action.equals( "vault3" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Spa Simulation Chamber";
+		}
+		else if ( action.equals( "vault4" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Fallout Shelter Electronics Supply";
+		}
+		else if ( action.equals( "vault5" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Chronodynamics Laboratory";
+		}
+		else if ( action.equals( "vault6" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Gene-Sequencing Laboratory";
+		}
+		else if ( action.equals( "vault7" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Underground Record Store";
+		}
+		else if ( action.equals( "vault8" ) )
+		{
+			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Main Reactor";
 		}
 		else
 		{
