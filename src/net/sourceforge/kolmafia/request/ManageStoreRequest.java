@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -33,8 +33,6 @@
 
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,12 +64,16 @@ public class ManageStoreRequest
 	// (2) breath mints stocked for 999,999,999 meat each.
 	private static Pattern STOCKED_PATTERN = Pattern.compile( "\\(([\\d,]+)\\) (.*?) stocked for ([\\d,]+) meat each( \\(([\\d,]+)/day\\))?" );
 
-	private static final int ITEM_ADDITION = 1;
-	private static final int ITEM_REMOVAL = 2;
-	private static final int PRICE_MANAGEMENT = 3;
-	private static final int VIEW_STORE_LOG = 4;
+	private static enum RequestType
+	{
+		ITEM_ADDITION,
+		ITEM_REMOVAL,
+		PRICE_UPDATE,
+		REFRESH,
+		VIEW_STORE_LOG,
+	}
 
-	private final int requestType;
+	private final RequestType requestType;
 
 	// For action=removeitem
 	private AdventureResult item;
@@ -84,14 +86,14 @@ public class ManageStoreRequest
 	public ManageStoreRequest()
 	{
 		super( "manageprices.php" );
-		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
+		this.requestType = RequestType.REFRESH;
 	}
 
 	public ManageStoreRequest( final boolean isStoreLog )
 	{
 		super( "backoffice.php" );
 		this.addFormField( "which", "3" );
-		this.requestType =  ManageStoreRequest.VIEW_STORE_LOG;
+		this.requestType =  RequestType.VIEW_STORE_LOG;
 	}
 
 	public ManageStoreRequest( final int itemId, int qty )
@@ -114,7 +116,7 @@ public class ManageStoreRequest
 		this.addFormField( "qty", String.valueOf( qty ) );
 		this.addFormField( "ajax", "1" );
 
-		this.requestType = ManageStoreRequest.ITEM_REMOVAL;
+		this.requestType = RequestType.ITEM_REMOVAL;
 		this.item = ItemPool.get( itemId, qty );
 	}
 
@@ -129,7 +131,7 @@ public class ManageStoreRequest
 		this.addFormField( "action", "additem" );
 		this.addFormField( "ajax", "1" );
 
-		this.requestType = ManageStoreRequest.ITEM_ADDITION;
+		this.requestType = RequestType.ITEM_ADDITION;
 		this.items = items;
 		this.prices = prices;
 		this.limits = limits;
@@ -138,17 +140,27 @@ public class ManageStoreRequest
 
 	public ManageStoreRequest( final int[] itemId, final int[] prices, final int[] limits )
 	{
-		super( "manageprices.php" );
-		this.addFormField( "action", "update" );
-		int formInt;
+		super( "backoffice.php" );
+		this.addFormField( "action", "updateinv" );
 
-		this.requestType = ManageStoreRequest.PRICE_MANAGEMENT;
+		this.requestType = RequestType.PRICE_UPDATE;
 		for ( int i = 0; i < itemId.length; ++i )
 		{
-			formInt = ( ( i - 1 ) / 100 ); //Group the form fields for every 100 items.
-			this.addFormField( "price" + formInt + "[" + itemId[ i ] + "]", prices[ i ] == 0 ? "" : String.valueOf( Math.max(
+			if ( prices[ i ] == 0 )
+			{
+				continue;
+			}
+			if ( prices[ i ] == StoreManager.getPrice( i ) &&
+			     limits[ i ] == StoreManager.getLimit( i ) )
+			{
+				continue;
+			}
+			this.addFormField( "price[" + itemId[ i ] + "]", String.valueOf( Math.max(
 				prices[ i ], Math.max( ItemDatabase.getPriceById( itemId[ i ] ), 100 ) ) ) );
-			this.addFormField( "limit" + formInt + "[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
+			if ( limits[ i ] != 0 )
+			{
+				this.addFormField( "limit[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
+			}
 		}
 	}
 
@@ -171,7 +183,11 @@ public class ManageStoreRequest
 			this.removeItem();
 			break;
 
-		case PRICE_MANAGEMENT:
+		case PRICE_UPDATE:
+			this.priceUpdate();
+			break;
+
+		case REFRESH:
 			this.managePrices();
 			break;
 
@@ -235,6 +251,20 @@ public class ManageStoreRequest
 		}
 
 		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
+	}
+
+	private void priceUpdate()
+	{
+		KoLmafia.updateDisplay( "Updating store prices..." );
+
+		super.run();
+
+		if ( this.responseText != null )
+		{
+			StoreManager.updateSomePrices( this.responseText );
+		}
+
+		KoLmafia.updateDisplay( "Store prices updated." );
 	}
 
 	@Override
