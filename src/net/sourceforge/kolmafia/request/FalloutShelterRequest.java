@@ -189,16 +189,16 @@ public class FalloutShelterRequest
 
 		// Using Chronodyamics Laboratory
 		if ( urlString.contains( "action=vault5" ) && 
-			( responseText.contains( "more ominous shade of green" ) || responseText.contains( "heat death of the universe" ) ) )
+		     ( responseText.contains( "more ominous shade of green" ) || responseText.contains( "heat death of the universe" ) ) )
 		{
-			Preferences.setBoolean( "_falloutShelterChronoUsed", true );
+			Preferences.setBoolean( "falloutShelterChronoUsed", true );
 		}
 
 		// Using Main Reactor
 		if ( urlString.contains( "action=vault8" ) && 
-			( responseText.contains( "quick dip in the cooling tank" ) || responseText.contains( "already bathed" ) ) )
+		     ( responseText.contains( "quick dip in the cooling tank" ) || responseText.contains( "already bathed" ) ) )
 		{
-			Preferences.setBoolean( "_falloutShelterCoolingTankUsed", true );
+			Preferences.setBoolean( "falloutShelterCoolingTankUsed", true );
 		}
 
 		matcher= GenericRequest.ACTION_PATTERN.matcher( urlString );
