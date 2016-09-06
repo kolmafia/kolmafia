@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -73,6 +74,9 @@ import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public abstract class StoreManager
 {
@@ -164,13 +168,29 @@ public abstract class StoreManager
 		int currentPrice = 999999999;
 		for ( int i = 0; i < StoreManager.soldItemList.size(); ++i )
 		{
-			if (  StoreManager.soldItemList.get( i ).getItemId() == itemId )
+			if ( StoreManager.soldItemList.get( i ).getItemId() == itemId )
 			{
 				currentPrice = StoreManager.soldItemList.get( i ).getPrice();
+				break;
 			}
 		}
 
 		return currentPrice;
+	}
+
+	public static final int getLimit( final int itemId )
+	{
+		int currentLimit = 0;
+		for ( int i = 0; i < StoreManager.soldItemList.size(); ++i )
+		{
+			if ( StoreManager.soldItemList.get( i ).getItemId() == itemId )
+			{
+				currentLimit = StoreManager.soldItemList.get( i ).getLimit();
+				break;
+			}
+		}
+
+		return currentLimit;
 	}
 
 	public static final LockableListModel<SoldItem> getSoldItemList()
@@ -319,7 +339,7 @@ public abstract class StoreManager
 		Matcher logMatcher = StoreManager.LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
 		{
-			if ( logMatcher.group().indexOf( "<br>" ) == -1 )
+			if ( !logMatcher.group().contains( "<br>" ) )
 			{
 				return;
 			}
@@ -540,7 +560,7 @@ public abstract class StoreManager
 
 	public static final ArrayList<PurchaseRequest> searchOnlyMall( final AdventureResult item )
 	{
-		// Get a potentially cached list of search request from both PC and NPC stores, 
+		// Get a potentially cached list of search request from both PC and NPC stores,
 		// Coinmaster Requests have already been filtered out
 		ArrayList<PurchaseRequest> allResults = StoreManager.searchMall( item );
 
@@ -1041,5 +1061,52 @@ public abstract class StoreManager
 
 		StoreManager.soldItemList.set( index, item );
 		StoreManager.sortedSoldItemList.set( sortedIndex, item );
+	}
+
+	public static final void updateSomePrices( String storeText )
+	{
+		int startIndex = storeText.indexOf( "<!-- U:{" );
+		if ( startIndex == -1 ) return;
+		startIndex += 7;
+		int endIndex = storeText.indexOf( "-->", startIndex );
+		if ( endIndex == -1 ) return;
+
+		storeText = storeText.substring( startIndex, endIndex );
+
+		JSONObject json;
+		try
+		{
+			json = new JSONObject( storeText );
+
+			String[] itemDescs = JSONObject.getNames( json );
+
+			for ( String itemDesc : itemDescs )
+			{
+				int itemId = ItemDatabase.getItemIdFromDescription( itemDesc );
+				JSONObject item = json.getJSONObject( itemDesc );
+				int newPrice = item.getInt( "price" );
+				int newLimit = item.getInt( "lim" );
+
+				StoreManager.SoldItem soldItem = new StoreManager.SoldItem( itemId, 0, 0, 0, 0 );
+				int index = StoreManager.soldItemList.indexOf( soldItem );
+				int sortedIndex = StoreManager.sortedSoldItemList.indexOf( soldItem );
+				soldItem = soldItemList.get( index );
+				int quantity = soldItem.getQuantity();
+				int lowest = Math.min( soldItem.getLowest(), newPrice );
+				soldItem = new StoreManager.SoldItem( itemId, quantity, newPrice, newLimit, lowest );
+				StoreManager.soldItemList.set( index, soldItem );
+				StoreManager.sortedSoldItemList.set( sortedIndex, soldItem );
+
+				StoreManager.sortItemsByName = true;
+				Collections.sort( StoreManager.soldItemList );
+				StoreManager.sortItemsByName = false;
+				Collections.sort( StoreManager.sortedSoldItemList );
+			}
+		}
+		catch ( JSONException e )
+		{
+			RequestLogger.printLine( "JSON failure while updating prices." );
+			return;
+		}
 	}
 }

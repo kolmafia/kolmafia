@@ -58,7 +58,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -259,7 +258,7 @@ public class StoreManageFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "save prices", "auto reprice", true );
+			super( "save prices", "refresh", true );
 
 			StoreManageFrame.this.manageTable = new StoreManageTable();
 			StoreManageFrame.this.manageTable.setEditable( true );
@@ -325,23 +324,13 @@ public class StoreManageFrame
 		@Override
 		public void actionCancelled()
 		{
-			int selected =
-				JOptionPane.showConfirmDialog(
-					StoreManageFrame.this, StringUtilities.basicTextWrap( StoreManageFrame.UNDERCUT_MESSAGE ), "",
-					JOptionPane.YES_NO_CANCEL_OPTION );
-
-			if ( selected != JOptionPane.YES_OPTION && selected != JOptionPane.NO_OPTION )
-			{
-				return;
-			}
-
-			KoLmafia.updateDisplay( "Gathering data..." );
-			StoreManager.priceItemsAtLowestPrice( selected == JOptionPane.YES_OPTION );
+			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 	}
 
 	public static final String UNDERCUT_MESSAGE =
-		"KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
+		"KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  " +
+		"Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
 
 	protected class StoreManageTable
