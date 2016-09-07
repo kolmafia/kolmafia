@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -11866,6 +11867,8 @@ public abstract class ChoiceManager
 				String message = "You acquire an effect: " + matcher.group( 1 ) + " (" + matcher.group( 2 ) + ")";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
+				// Refresh status manually since KoL doesn't trigger it
+				ApiRequest.updateStatus( true );
 			}
 
 			Preferences.increment( "_sourceTerminalEnhanceUses" );
