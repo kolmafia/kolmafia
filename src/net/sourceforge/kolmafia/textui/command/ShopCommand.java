@@ -166,11 +166,20 @@ public class ShopCommand
 
 		if ( items.size() > 0 )
 		{
-			RequestThread.postRequest( new ManageStoreRequest( items.toArray(),
-															  (int[]) prices.toArray(),
-															  (int[]) limits.toArray(),
-															  storage
-										   ) );
+			if ( storage )
+			{
+				RequestThread.postRequest( new ManageStoreRequest( items.toArray(),
+																(int[]) prices.toArray(),
+																(int[]) limits.toArray(),
+																storage
+											   ) );
+			}
+			else {
+				RequestThread.postRequest( new AutoMallRequest( items.toArray(),
+																(int[]) prices.toArray(),
+																(int[]) limits.toArray()
+											   ) );
+			}
 		}
 	}
 
