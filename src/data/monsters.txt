@@ -1777,7 +1777,7 @@ Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -
 Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental	compounded experience (c100)	time residue (c0)
 Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid	compounded experience (c100)	time residue (c0)
 Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
-Krakrox the Barbarian	1964	krakrox.gif	Scale: 15 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
+Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
 time-spinner prank	1965		Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
 
 # KoL Con
