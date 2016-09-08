@@ -962,7 +962,8 @@ public class ResponseTextParser
 		if ( location.startsWith( "inv_use.php" ) ||
 		     location.startsWith( "inv_eat.php" ) ||
 		     location.startsWith( "inv_booze.php" ) ||
-		     location.startsWith( "inv_spleen.php" ) )
+		     location.startsWith( "inv_spleen.php" ) ||
+		     location.startsWith( "showplayer.php" ) )
 		{
 			return;
 		}
