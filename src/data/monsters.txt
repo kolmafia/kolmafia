@@ -1772,11 +1772,12 @@ Emily Koops, a spooky lime	1957	ghost_lime.gif	FREE NOWANDER Atk: 175 Def: 150 H
 The ghost of Jim Unfortunato	1958	ghost_fortunado.gif	FREE NOWANDER Atk: 190 Def: 170 HP: 180 Init: 75 E: spooky P: undead	Unfortunato's foolscap (c100)
 
 # Time Spinner (September 2016)
-Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 13 Cap: ? Floor: ? Init: -10000 P: undead
-Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
-Assembly Elemental	1960	assemblyelem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elemental
-Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid
-Wooly Duck	1963	woolyduck.gif	Scale: 15 Cap: ? Floor: ? Init: -10000 P: beast
+Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead	compounded experience (c100)	time residue (c0)
+Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
+Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental	compounded experience (c100)	time residue (c0)
+Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid	compounded experience (c100)	time residue (c0)
+Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
+Krakrox the Barbarian	1964	krakrox.gif	Scale: 15 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
 time-spinner prank	1965		Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
 
 # KoL Con
