@@ -1495,7 +1495,7 @@ Zombo's shoulder blade	200	Mus: 200	2-handed sword
 7-ball	60	Mys: 15
 9-ball	60	Mys: 15
 A Light that Never Goes Out	100	none
-Adventurer bobblehead	0	none
+Adventurer bobblehead	100	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
 ancient calendar	70	Mus: 20	shield
@@ -1673,6 +1673,7 @@ KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
 KoL Con X Treasure Map	10	none
 LARP carp	0	none
+lead umbrella	0	none
 left bear arm	0	none
 left-handed melodica	160	Mox: 150
 lemonade marble	204	Mys: 85
@@ -2507,7 +2508,7 @@ spiked boots	0	none
 spiky turtle shoulderpads	130	Mus: 50
 spirit bell	0	none
 spooky glove	60	Mys: 15
-Spookyraven signet	0	Mys: 10
+Spookyraven signet	100	Mys: 10
 spring boots	0	none
 stainless steel scarf	90	Mys: 30
 stainless steel solitaire	90	Mys: 30
@@ -2546,7 +2547,7 @@ The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60
 thicksilver ring	100	Mys: 10
 ticksilver ring	100	Mys: 10
-tie-dyed fannypack	0	Mys: 10
+tie-dyed fannypack	100	Mys: 10
 Time Bandit Badge of Courage	0	none
 time halo	50	none
 Time Lord Badge of Honor	0	none
