@@ -95,7 +95,7 @@ Item	battered old top-hat	Maximum HP: +500, Muscle Percent: +5, Familiar Effect:
 Item	beer helmet	Maximum MP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	beholed bedsheet	Familiar Effect: "8xVolley, 8xLep, cap 2"
 # Item bellhop's hat: Helps you blend in at the Ice Hotel
-Item	bellhop's hat	Muscle: +10, Familiar Effect: 1xLep, 0.75xBarrr, cap 30"
+Item	bellhop's hat	Muscle: +10, Familiar Effect: "1xLep, 0.75xBarrr, cap 30"
 Item	big bad voodoo mask	Mysticality: +7, Spell Damage: +15, Familiar Effect: "1xBarrr, 1xGhuol, cap 40"
 Item	Big Candy's tophat	Candy Drop: +25, Damage Reduction: 5, Familiar Effect: "1xGhoul, 1xFairy, cap 25"
 Item	biker's hat	Moxie Percent: +40, Booze Drop: +40, Pickpocket Chance: +20, Familiar Effect: "atk"
@@ -809,7 +809,7 @@ Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 Item	gnauga hide vest	Damage Reduction: 6, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	goth kid t-shirt	Monster Level: +5
 Item	Grateful Undead T-shirt	Item Drop: +5
-Item	Gregarious Gregorian Smock	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Item	Gregarious Gregorian Smock	Muscle Percent: [5+G], Mysticality Percent: [5+G], Moxie Percent: [5+G]
 Item	Grimacite gown	Monster Level: [10*G]
 Item	Grimacite guayabera	Monster Level: [10*G]
 Item	grungy flannel shirt	Moxie: +11
@@ -1343,7 +1343,7 @@ Item	Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 # Mer-kin finpaddle: +100% Damage vs. Mer-kin
 # Mer-kin hookspear: Extracts Meat on Critical Hits
 Item	Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
-Item	Mer-kin switchblade	PvP Fights: +7, Muscle Percent: +20, Moxie Percent: +10
+Item	Mer-kin switchblade	PvP Fights: +7, Muscle Percent: [10*G], Moxie Percent: +10
 # mecenary pistol: Allows the Use of Specialty Ammunition
 Item	mercenary pistol	Muscle: +10, Mysticality: +10, Moxie: +10, Never Fumble
 # mecenary rifle: Allows the Use of Specialty Ammunition
@@ -2291,7 +2291,7 @@ Item	bakelite badge	Familiar Weight: +5, Muscle Percent: +20, Single Equip
 # Item bakelite belt: Makes Cavalcade of Fury consume less Fury
 Item	bakelite belt	Critical Hit Percent: +5, Damage Reduction: 10, Single Equip
 # Item bakelite brooch: Active Saucespheres increase your spell damage
-Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Spell Damage Percent: [20*(min(1,effect(Elemental Saucesphere))+min(1,effect(Jalape&ntilde;o Saucesphere))+min(1,effect(Antibiotic Saucesphere)))] Single Equip
+Item	bakelite brooch	Mana Cost (combat): -2, Mysticality Percent: +20, Spell Damage Percent: [20*(min(1,effect(Elemental Saucesphere))+min(1,effect(Jalape&ntilde;o Saucesphere))+min(1,effect(Antibiotic Saucesphere)))], Single Equip
 # bananarama bangle: (only in the Candy Diorama)
 Item	bananarama bangle	Damage Reduction: [30*zone(The Candy Diorama)], Single Equip
 Item	Bandolier of the Spaghetti Elemental	Mysticality: +11, MP Regen Min: 10, MP Regen Max: 12, Class: "Pastamancer", Single Equip
@@ -2675,7 +2675,7 @@ Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 # Mr. Cheeng's spectacles: Find... like...  far out stuff, like everywhere... man...
 Item	Mr. Cheeng's spectacles	Item Drop: +15, Spell Critical Percent: +10, Spell Damage Percent: +30, Single Equip
-Item	Mr. Eh?	Muscle: +14, Mysticality: +14, Moxie: +14, Softcore Only
+Item	Mr. Eh?	Muscle: +11, Mysticality: +11, Moxie: +11, Softcore Only
 # Mr. Exploiter
 Item	Mr. Joe's bangles	Mysticality Percent: +10, Single Equip
 # Item Mr. Screege's spectacles: Lets you find valuables after fights
@@ -6779,13 +6779,13 @@ Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
 Item	Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
-Item	bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10
+Item	bat-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 15
 Item	Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 Item	beefy fish meat	Effect: "Fishy", Effect Duration: 5
-Item	bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 10
+Item	bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 20
 Item	bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
 Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
-Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
+Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 20
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	bowl of Bounty-Os	Effect: "Broken Fast", Effect Duration: 20
 Item	bowl of eyeballs	Effect: "Your Eyes are Peeled!", Effect Duration: 30
@@ -6810,7 +6810,7 @@ Item	chaos popcorn	Effect Duration: 5
 Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 Item	chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 Item	Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
-Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
+Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 20
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 # cold mashed potatoes: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blue>Cold Damage</font> based on your Mysticality when used as a combat item
 Item	cookie cookie	Effect: "Cookie Backup", Effect Duration: 10
@@ -6935,7 +6935,7 @@ Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
-Item	skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 10
+Item	skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 20
 Item	Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 Item	sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
 Item	slick fish meat	Effect: "Fishy", Effect Duration: 5
@@ -6946,7 +6946,7 @@ Item	smelted roe	Effect: "Sizzling with Fury", Effect Duration: 50
 Item	snow berries	Effect: "Berry Berry Cold", Effect Duration: 30
 Item	spaghetti con calaveras	Effect: "Eso S&iacute; Que Es", Effect Duration: 10
 Item	spooky hi mein	Effect: "Spooky Breath", Effect Duration: 5
-Item	square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 10
+Item	square CRIMBCOOKIE	Effect: "Square to be Hip", Effect Duration: 20
 Item	squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 Item	stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
 Item	Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
@@ -6964,10 +6964,10 @@ Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
 Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
-Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
+Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 20
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40
-Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
-Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
+Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 20
+Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 20
 Item	turtle soup	Effect: "[598]A Little Bit Evil"
 Item	ultrafondue	Effect: "Fondid", Effect Duration: 30
 Item	unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
@@ -6985,7 +6985,7 @@ Item	wet dog	Effect: "Hangdog", Effect Duration: 30
 # whole turkey leg: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blueviolet>Sleaze Damage</font> based on your Moxie when used as a combat item
 Item	wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 Item	witch's bread	Effect: "Witch Breaded", Effect Duration: 20
-Item	wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 10
+Item	wreath-shaped Crimbo cookie	Effect: "Wreathed in Merriment", Effect Duration: 20
 Item	yellow drunki-bear	Effect: "Gummiskin", Effect Duration: 80
 
 # Booze section of modifiers.txt
@@ -7902,6 +7902,7 @@ Item	disposable lighter	Effect: "Looking at Fire", Effect Duration: 50
 # divine cracker: (Maybe)
 # divine noisemaker: Deals Physical Damage based on your Muscle
 # divine noisemaker: Makes you stronger when you use it
+Item	DIY protonic accelerator kit	Free Pull
 # DNA extraction syringe: Extracts DNA samples for analysis in your lab
 # DNA extraction syringe: (doesn't go away when used)
 # Doc Galaktik's Ailment Ointment: Heals 35-45 Hit Points
