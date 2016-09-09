@@ -14035,6 +14035,7 @@ public abstract class ChoiceManager
 		case 664: // The Crackpot Mystic's Shed
 		case 720: // The Florist Friar's Cottage
 		case 767: // Tales of Dread
+		case 769: // The Super-Secret Canadian Mind-Control Device
 		case 770: // The Institute for Canadian Studies
 		case 774: // Opening up the Folder Holder
 		case 792: // The Degrassi Knoll Gym
