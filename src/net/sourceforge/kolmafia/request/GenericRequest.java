@@ -51,10 +51,12 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import java.util.regex.Matcher;
@@ -186,8 +188,8 @@ public class GenericRequest
 	// Per-login data
 
 	private static String userAgent = "";
-	public static String serverCookie = null;
-	public static String inventoryCookie = null;
+	public static Set<ServerCookie> serverCookies = null;
+	public static String sessionId = null;
 	public static String passwordHash = "";
 	public static String passwordHashValue = "";
 
@@ -202,8 +204,8 @@ public class GenericRequest
 	public static void reset()
 	{
 		GenericRequest.setUserAgent();
-		GenericRequest.serverCookie = null;
-		GenericRequest.inventoryCookie = null;
+		GenericRequest.serverCookies = null;
+		GenericRequest.sessionId = null;
 		GenericRequest.passwordHash = "";
 		GenericRequest.passwordHashValue = "";
 	}
@@ -1256,7 +1258,7 @@ public class GenericRequest
 
 	public void run()
 	{
-		if ( GenericRequest.serverCookie == null &&
+		if ( GenericRequest.sessionId == null &&
 		     !( this instanceof LoginRequest ) &&
 		     !( this instanceof LogoutRequest ) )
 		{
@@ -1267,6 +1269,7 @@ public class GenericRequest
 		{
 			return;
 		}
+
 		GenericRequest.ignoreChatRequest = false;
 
 		this.timeoutCount = 0;
@@ -1608,9 +1611,9 @@ public class GenericRequest
 		this.formConnection.setUseCaches( false );
 		this.formConnection.setInstanceFollowRedirects( false );
 
-		if ( !this.isExternalRequest && GenericRequest.serverCookie != null )
+		if ( !this.isExternalRequest && GenericRequest.sessionId != null )
 		{
-			this.formConnection.addRequestProperty( "Cookie", this.getCookies( new StringBuilder() ).toString() );
+			this.formConnection.addRequestProperty( "Cookie", this.getCookies() );
 		}
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
@@ -1630,17 +1633,99 @@ public class GenericRequest
 		return true;
 	}
 
+	public String getCookies()
+	{
+		return this.getCookies( new StringBuilder() ).toString();
+	}
+
 	public StringBuilder getCookies( final StringBuilder cookies )
 	{
-		if ( GenericRequest.inventoryCookie != null && this.formURLString.startsWith( "inventory" ) )
+		String path = this.getBasePath();
+		int slash = path.lastIndexOf( "/" );
+		if ( slash > 0 )
 		{
-			cookies.append( GenericRequest.inventoryCookie );
-			cookies.append( "; " );
+			path = path.substring( 0, slash - 1 );
+		}
+		else
+		{
+			path = "/";
+		}
+		
+		boolean delim = false;
+
+		for ( ServerCookie cookie : GenericRequest.serverCookies )
+		{
+			if ( cookie.validPath( path ) )
+			{
+				if ( delim )
+				{
+					cookies.append( "; " );
+				}
+				cookies.append( cookie.toString() );
+				delim = true;
+			}
 		}
 
-		cookies.append( GenericRequest.serverCookie );
-
 		return cookies;
+	}
+	
+	public void setCookies()
+	{
+		if ( GenericRequest.serverCookies == null )
+		{
+			GenericRequest.serverCookies = new LinkedHashSet<ServerCookie>();
+		}
+
+		// Field: Set-Cookie = [PHPSESSID=i9tr5te1hhk7084d7do6s877h3; path=/, AWSALB=1HOUaMRO89JYkb8nBfrsK6maRGcdoJpTOmxa/LEVbQsBnwi1jPq7jvG2jw1m4p1SR7Y35Wq/dUKVBG5RcvMu7Zw89U1RAeBkZlIkGP/8hVnXCmkWUxfEvuveJZfB; Expires=Fri, 16-Sep-2016 15:43:04 GMT; Path=/]
+
+		Map<String,List<String>> headerFields = this.formConnection.getHeaderFields();
+
+		for ( Entry<String,List<String>> entry: headerFields.entrySet() )
+		{
+			String key = entry.getKey();
+			if ( key == null || !key.equals( "Set-Cookie" ) )
+			{
+				continue;
+			}
+
+			List<String> cookies = entry.getValue();
+			for ( String cookie : cookies )
+			{
+				while ( cookie != null & !cookie.equals( "" ) )
+				{
+					int comma = cookie.indexOf( "," );
+					int expires = cookie.indexOf( "Expires" );
+					if ( expires != -1 )
+					{
+						comma = cookie.indexOf( ",", comma + 1 );
+					}
+
+					ServerCookie serverCookie = new ServerCookie( comma == -1 ? cookie : cookie.substring( 0, comma ) );
+
+					String name = serverCookie.getName();
+
+					if ( !name.equals( "" ) )
+					{
+						// We've defined cookie equality as same name
+						// Since the value has changed, remove the old cookie first
+						GenericRequest.serverCookies.remove( serverCookie );
+						GenericRequest.serverCookies.add( serverCookie );
+
+						if ( name.equals( "PHPSESSID" ) )
+						{
+							GenericRequest.sessionId = serverCookie.toString();
+						}
+					}
+
+					if ( comma == -1 )
+					{
+						break;
+					}
+
+					cookie = cookie.substring( comma + 1 );
+				}
+			}
+		}
 	}
 
 	private URL buildURL()
@@ -1886,6 +1971,9 @@ public class GenericRequest
 				Interpreter.println( "Retrieved: " + this.requestURL() );
 			}
 		}
+
+		// Handle Set-Cookie headers - which can appear on redirects
+		this.setCookies();
 
 		boolean shouldStop = false;
 
@@ -2241,22 +2329,21 @@ public class GenericRequest
 		{
 			RequestLogger.updateDebugLog( "Retrieving server reply" );
 		}
+
 		this.responseText = new String( ByteBufferUtilities.read( istream ), "UTF-8" );
-		if ( this.shouldUpdateDebugLog() )
-		{
-			if ( this.responseText == null )
-			{
-				RequestLogger.updateDebugLog( "ResponseText is null" );
-			}
-			else
-			{
-				RequestLogger.updateDebugLog( "ResponseText has " + responseText.length() + " characters." );
-			}
-		}
 
 		if ( this.responseText == null )
 		{
+			if ( this.shouldUpdateDebugLog() )
+			{
+				RequestLogger.updateDebugLog( "ResponseText is null" );
+			}
 			return true;
+		}
+
+		if ( this.shouldUpdateDebugLog() )
+		{
+			RequestLogger.updateDebugLog( "ResponseText has " + responseText.length() + " characters." );
 		}
 
 		if ( this.responseText.length() < 200 )
@@ -3221,5 +3308,122 @@ public class GenericRequest
 		}
 
 		RequestLogger.updateDebugLog();
+	}
+
+	public class ServerCookie
+		implements Comparable<ServerCookie>
+	{
+		private String name = "";
+		private String value = "";
+		private String path = "";
+		private String stringValue = "";
+
+		public ServerCookie( final String cookie )
+		{
+			String value = cookie.trim();
+
+			String attributes = "";
+
+			int semi = value.indexOf( ";" );
+			if ( semi != -1 )
+			{
+				attributes = value.substring( semi + 1 ).trim();
+				value = value.substring( 0, semi ).trim();
+			}
+
+			// Get cookie name & value
+			int equals = value.indexOf( "=" );
+			if ( equals == -1 )
+			{
+				// Bogus cookie!
+				System.out.println( "Bogus cookie: " + cookie );
+				return;
+			}
+
+			this.name = value.substring( 0, equals );
+			this.value = value.substring( equals + 1 );
+			this.stringValue = value;
+
+			// Process attributes
+			while ( !attributes.equals( "" ) )
+			{
+				String attribute = attributes;
+				semi = attributes.indexOf( ";" );
+				if ( semi != -1 )
+				{
+					attribute = attributes.substring( 0, semi ).trim();
+					attributes = attributes.substring( semi + 1 ).trim();
+				}
+
+				equals = attribute.indexOf( "=" );
+				if ( equals == -1 )
+				{
+					// Secure or HttpOnly
+					continue;
+				}
+
+				String attributeName = attribute.substring( 0, equals );
+				String attributeValue = attribute.substring( equals + 1 );
+
+				if ( attributeName.equalsIgnoreCase( "path" ) )
+				{
+					this.path = attributeValue;
+				}
+
+				// Expires, Max-Age
+
+				if ( semi == -1)
+				{
+					break;
+				}
+			}
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public String getValue()
+		{
+			return this.value;
+		}
+
+		public String getPath()
+		{
+			return this.path;
+		}
+
+		public boolean validPath( String path )
+		{
+			return path.startsWith( this.path );
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.stringValue;
+		}
+
+		@Override
+		public boolean equals( final Object o )
+		{
+			if ( o instanceof ServerCookie )
+			{
+				return this.compareTo( (ServerCookie) o ) == 0;
+			}
+			return false;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.name != null ? this.name.hashCode() : 0;
+		}
+
+		public int compareTo( final ServerCookie o )
+		{
+			return o == null ? -1 : this.getName().compareTo( o.getName() );
+		}
 	}
 }

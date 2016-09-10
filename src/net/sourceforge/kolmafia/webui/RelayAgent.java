@@ -270,13 +270,10 @@ public class RelayAgent
 				boolean inventory = this.path.startsWith( "/inventory" );
 				for ( String cookie : cookies.split( "\\s*;\\s*" ) )
 				{
-					if ( cookie.contains( "appserver" ) )
+					if ( cookie.startsWith( "appserver" ) ||
+					     cookie.startsWith( "PHPSESSID" ) ||
+					     cookie.startsWith( "AWSALB" ) )
 					{
-						continue;
-					}
-					if ( inventory && cookie.startsWith( "inventory" ) )
-					{
-						GenericRequest.inventoryCookie = cookie;
 						continue;
 					}
 					if ( buffer.length() > 0 )
@@ -285,7 +282,10 @@ public class RelayAgent
 					}
 					buffer.append( cookie );
 				}
-				this.request.cookies = buffer.toString();
+				if ( buffer.length() > 0 )
+				{
+					this.request.cookies = buffer.toString();
+				}
 				continue;
 			}
 		}
