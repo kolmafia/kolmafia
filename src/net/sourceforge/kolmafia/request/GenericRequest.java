@@ -1695,7 +1695,7 @@ public class GenericRequest
 				{
 					int comma = cookie.indexOf( "," );
 					int expires = cookie.toLowerCase().indexOf( "expires=" );
-					if ( expires != -1 )
+					if ( expires != -1 && expires < comma )
 					{
 						comma = cookie.indexOf( ",", comma + 1 );
 					}
