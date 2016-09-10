@@ -48,6 +48,8 @@ import javax.swing.JPanel;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 
@@ -55,13 +57,19 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
-public class RestoreOptionsPanel
-	extends JPanel
+public class RestoreOptionsPanel extends JPanel implements Listener
 {
-	protected JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect, hpHaltCombatSelect;
-	protected JCheckBox[] hpRestoreCheckbox;
-	protected JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect, mpBalanceTriggerSelect, mpBalanceSelect;
-	protected JCheckBox[] mpRestoreCheckbox;
+	private JComboBox hpAutoRecoverSelect;
+	private JComboBox hpAutoRecoverTargetSelect;
+	private JComboBox hpHaltCombatSelect;
+	private JCheckBox[] hpRestoreCheckbox;
+	private JComboBox mpAutoRecoverSelect;
+	private JComboBox mpAutoRecoverTargetSelect;
+	private JComboBox mpBalanceTriggerSelect;
+	private JComboBox mpBalanceSelect;
+	private JCheckBox[] mpRestoreCheckbox;
+	private HealthOptionsPanel healthOptionsPanel;
+	private ManaOptionsPanel manaOptionsPanel;
 
 	private boolean restoring = false;
 
@@ -87,6 +95,13 @@ public class RestoreOptionsPanel
 		{
 			this.mpRestoreCheckbox[ i ].addActionListener( listener );
 		}
+		PreferenceListenerRegistry.registerPreferenceListener("autoAbortThreshold", this);
+		PreferenceListenerRegistry.registerPreferenceListener("hpAutoRecovery", this);
+		PreferenceListenerRegistry.registerPreferenceListener("hpAutoRecoveryTarget", this);
+		PreferenceListenerRegistry.registerPreferenceListener("manaBurningThreshold", this);
+		PreferenceListenerRegistry.registerPreferenceListener("manaBurningTrigger", this);
+		PreferenceListenerRegistry.registerPreferenceListener("mpAutoRecovery", this);
+		PreferenceListenerRegistry.registerPreferenceListener("mpAutoRecoveryTarget", this);
 	}
 
 	public void updateFromPreferences()
@@ -199,9 +214,7 @@ public class RestoreOptionsPanel
 		this.setSelectedIndex( this.hpHaltCombatSelect, "autoAbortThreshold" );
 		this.setSelectedIndex( this.hpAutoRecoverSelect, "hpAutoRecovery" );
 		this.setSelectedIndex( this.hpAutoRecoverTargetSelect, "hpAutoRecoveryTarget" );
-
 		HPRestoreItemList.updateCheckboxes( this.hpRestoreCheckbox );
-
 		this.setSelectedIndex( this.mpBalanceTriggerSelect, "manaBurningTrigger" );
 		this.setSelectedIndex( this.mpBalanceSelect, "manaBurningThreshold" );
 		this.setSelectedIndex( this.mpAutoRecoverSelect, "mpAutoRecovery" );
@@ -229,7 +242,6 @@ public class RestoreOptionsPanel
 		extends JPanel
 		implements ActionListener
 	{
-		public boolean refreshSoon = false;
 
 		public HealthOptionsPanel()
 		{
@@ -364,5 +376,11 @@ public class RestoreOptionsPanel
 		{
 			RestoreOptionsPanel.this.saveRestoreSettings();
 		}
+	}
+
+	public void update() {
+		updateFromPreferences();
+		this.revalidate();
+		this.repaint();
 	}
 }
