@@ -166,7 +166,7 @@ public class ShowDataCommand
 		if ( desiredData.equals( "session" ) )
 		{
 			desiredStream.println( "Player: " + KoLCharacter.getUserName() );
-			desiredStream.println( "Session Id: " + GenericRequest.serverCookie );
+			desiredStream.println( "Session Id: " + GenericRequest.sessionId );
 			desiredStream.println( "Password Hash: " + GenericRequest.passwordHash );
 			desiredStream.println( "Current Server: " + GenericRequest.KOL_HOST );
 			desiredStream.println();

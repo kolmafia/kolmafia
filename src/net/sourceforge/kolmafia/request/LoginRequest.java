@@ -378,42 +378,7 @@ public class LoginRequest
 			return;
 		}
 
-		// Set-Cookie = [appserver=www10, PHPSESSID=cknnse0t2jkro82el2cn90dfv7; path=/]
-
-		StringBuilder buf = new StringBuilder();
-		String delim = null;
-
-		Map<String,List<String>> headerFields = request.formConnection.getHeaderFields();
-
-		for ( Entry<String,List<String>> entry: headerFields.entrySet() )
-		{
-			String key = entry.getKey();
-			if ( key == null || !key.equals( "Set-Cookie" ) )
-			{
-				continue;
-			}
-
-			List<String> cookies = entry.getValue();
-			for ( String cookie : cookies )
-			{
-				int semi = cookie.indexOf( ";" );
-				if ( semi != -1 )
-				{
-					cookie = cookie.substring( 0, semi );
-				}
-				if ( delim == null )
-				{
-					delim = "; ";
-				}
-				else
-				{
-					buf.append( delim );
-				}
-				buf.append( cookie );
-			}
-		}
-
-		GenericRequest.serverCookie = buf.toString();
+		request.setCookies();
 
 		// It's possible that KoL will eventually make the redirect
 		// the way it used to be, but enforce the redirect.  If this

@@ -206,6 +206,10 @@ public class LogoutManager
 		RequestThread.postRequest( new LogoutRequest() );
 		KoLmafia.updateDisplay( "Logout completed." );
 
+		// For some reason KoL gives you new cookies after you are logged out.
+		// Forget them.
+		GenericRequest.reset();
+
 		RequestLogger.closeDebugLog();
 	}
 }
