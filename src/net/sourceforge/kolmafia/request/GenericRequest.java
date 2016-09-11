@@ -873,7 +873,7 @@ public class GenericRequest
 
 	public boolean hasResult()
 	{
-		return ResponseTextParser.hasResult( this.getURLString() );
+		return !this.isExternalRequest && ResponseTextParser.hasResult( this.getURLString() );
 	}
 
 	public void setHasResult( final boolean change )
@@ -1285,7 +1285,7 @@ public class GenericRequest
 		}
 
 		// Calculate this exactly once, now that we have the URL
-		this.hasResult = ResponseTextParser.hasResult( location );
+		this.hasResult = !this.isExternalRequest && ResponseTextParser.hasResult( location );
 
 		if ( this.hasResult && this.stopForCounters() )
 		{
@@ -1297,12 +1297,18 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( this.getClass() );
 		}
 
-		if ( !this.prepareForURL( location ) )
+		if ( this.isExternalRequest )
 		{
-			return;
+			this.externalExecute();
 		}
-
-		this.execute();
+		else
+		{
+			if ( !this.prepareForURL( location ) )
+			{
+				return;
+			}
+			this.execute();
+		}
 
 		// Response is ok or redirect
 		if ( this.responseCode != 200 && this.responseCode != 302 )
@@ -1539,6 +1545,16 @@ public class GenericRequest
 			ValhallaManager.onAscension();
 		}
 
+		this.externalExecute();
+
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			ConcoctionDatabase.refreshConcoctions( false );
+		}
+	}
+
+	public void externalExecute()
+	{
 		do
 		{
 			if ( !this.prepareConnection() )
@@ -1547,11 +1563,6 @@ public class GenericRequest
 			}
 		}
 		while ( !this.postClientData() && !this.retrieveServerReply() && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT && this.redirectCount < GenericRequest.REDIRECT_LIMIT );
-
-		if ( !LoginRequest.isInstanceRunning() )
-		{
-			ConcoctionDatabase.refreshConcoctions( false );
-		}
 	}
 
 	public static final boolean shouldIgnore( final GenericRequest request )
@@ -1973,7 +1984,10 @@ public class GenericRequest
 		}
 
 		// Handle Set-Cookie headers - which can appear on redirects
-		this.setCookies();
+		if ( !this.isExternalRequest )
+		{
+			this.setCookies();
+		}
 
 		boolean shouldStop = false;
 
@@ -3265,7 +3279,9 @@ public class GenericRequest
 
 	public String requestURL()
 	{
-		return this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getURLString();
+		return  this.isExternalRequest ?
+			this.getURLString() :
+			this.formURL.getProtocol() + "://" + GenericRequest.KOL_HOST + "/" + this.getURLString();
 	}
 
 	public void printRequestProperties()
@@ -3359,6 +3375,10 @@ public class GenericRequest
 				if ( equals == -1 )
 				{
 					// Secure or HttpOnly
+					if ( semi == -1 )
+					{
+						break;
+					}
 					continue;
 				}
 
