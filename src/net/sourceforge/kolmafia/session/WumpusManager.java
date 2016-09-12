@@ -206,7 +206,7 @@ public abstract class WumpusManager
 		}
 		
 		String name = m.group( 1 ).toLowerCase();
-		Room room = (Room) WumpusManager.rooms.get( name );
+		Room room = WumpusManager.rooms.get( name );
 		if ( room == null )
 		{
 			// Internal error: unknown room name
@@ -221,7 +221,8 @@ public abstract class WumpusManager
 			return;
 		}
 
-		if ( text.contains( "Wait for the bats to drop you" ) )
+		// Wait for the bats to drop you
+		if ( text.contains( "the bats" ) )
 		{
 			WumpusManager.knownBats( room, VISIT );
 			return;
@@ -250,7 +251,7 @@ public abstract class WumpusManager
 				return;
 			}
 			String ename = m.group( 1 ).toLowerCase();
-			Room exit = (Room) WumpusManager.rooms.get( ename );
+			Room exit = WumpusManager.rooms.get( ename );
 			WumpusManager.current.setExit( i, exit );
 			exit.addExit( WumpusManager.current );
 		}
@@ -262,14 +263,25 @@ public abstract class WumpusManager
 		// in the current room.
 
 		int warn = WARN_INDEFINITE;
-		if ( text.contains( "squeaking coming from somewhere nearby" ) )
+
+		// You hear the fluttering of wings and a high-pitched
+		// squeaking coming from somewhere nearby.
+		if ( text.contains( "a high-pitched squeaking" ) )
 		{
 			warn |= WARN_BATS;
 		}
-		if ( text.contains( "hear a low roaring sound nearby" ) )
+
+		// You hear a low roaring sound nearby, like the echo of wind
+		// in an empty space.
+		if ( text.contains( "a low roaring sound" ) )
 		{
 			warn |= WARN_PIT;
 		}
+
+		// Spatters of blood covering the floor and an overpowering
+		// stench indicate that the Wumpus must be nearby. Tread
+		// carefully, for you'll only get one chance to make good your
+		// attack.
 		if ( text.contains( "the Wumpus must be nearby" ) )
 		{
 			warn |= WARN_WUMPUS;
@@ -517,7 +529,7 @@ public abstract class WumpusManager
 			}
 		}
 
-		// If it is possible there are pits in this room...
+		// If it is possible there is a pit in this room...
 		if ( ( hazards & WARN_PIT ) != 0 )
 		{
 			if ( ( warn & WARN_PIT ) != 0 )
