@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
-import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -73,7 +72,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
-import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1881,6 +1879,15 @@ public class QuestManager
 			QuestDatabase.setQuestProgress( Quest.GHOST, QuestDatabase.UNSTARTED );
 			Preferences.setString( "ghostLocation", "" );
 		}
+		else if ( monsterName.equals( "Drab Bard" ) ||
+		          monsterName.equals( "Bob Racecar" ) ||
+		          monsterName.equals( "Racecar Bob" ) )
+		{
+			if ( QuestDatabase.isQuestStep( Quest.PALINDOME, QuestDatabase.STARTED ) )
+			{
+				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
+			}
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
@@ -2070,15 +2077,6 @@ public class QuestManager
 			else if ( QuestDatabase.isQuestLaterThan( Quest.SOCIAL_JUSTICE_II, QuestDatabase.UNSTARTED ) )
 			{
 				Preferences.increment( "dinseySocialJusticeIIProgress", 1 );
-			}
-			break;
-
-		case AdventurePool.PALINDOME:
-			if ( monsterName.equals( "Drab Bard" ) ||
-			     monsterName.equals( "Bob Racecar" ) ||
-			     monsterName.equals( "Racecar Bob" ) )
-			{
-				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
 			}
 			break;
 
