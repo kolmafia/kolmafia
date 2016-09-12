@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.WumpusManager;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -3658,6 +3659,10 @@ public class FightRequest
 			else if ( monsterName.equals( "bugbear robo-surgeon" ) )
 			{
 				BugbearManager.clearShipZone( "Medbay" );
+			}
+			else if ( monsterName.equals( "wumpus" ) )
+			{
+				WumpusManager.reset();
 			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
