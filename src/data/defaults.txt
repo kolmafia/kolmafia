@@ -1289,6 +1289,7 @@ user	_inigosCasts	0
 user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
+user	_item9084	0
 user	_ironicMoustache	false
 user	_jarlsCheeseSummoned	false
 user	_jarlsCreamSummoned	false
