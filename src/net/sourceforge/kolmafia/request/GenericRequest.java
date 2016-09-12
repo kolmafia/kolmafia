@@ -3138,6 +3138,11 @@ public class GenericRequest
 			Preferences.setString( "screencappedMonster", "" );
 			break;
 
+		case ItemPool.TIME_RESIDUE:
+			itemName = "time residue";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
