@@ -1099,7 +1099,7 @@ public class ResponseTextParser
 				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -90 ) );
 			}
 			else if ( skillName.equals( "Sucker Fingers" ) ||
-			          skillName.equals( "Backward Knees" ) )
+			          skillName.equals( "Backwards Knees" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.RAD, -120 ) );
 			}
