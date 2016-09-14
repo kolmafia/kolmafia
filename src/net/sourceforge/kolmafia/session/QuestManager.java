@@ -818,6 +818,11 @@ public class QuestManager
 				Preferences.setInteger( "lastTempleUnlock", KoLCharacter.getAscensions() );
 			}
 		}
+		else if ( location.contains( "action=woods_hippy" ) && responseText.contains( "You've got this cool boat" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.FINISHED );
+		}
+
 		// If we see the Hidden Temple, mark it as unlocked
 		if ( responseText.contains( "temple.gif" ) )
 		{

@@ -262,13 +262,6 @@ public class PlaceRequest
 				ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );
 			}
 		}
-		else if ( place.equals( "woods" ) )
-		{
-			if ( action.equals( "woods_hippy" ) && responseText.contains( "You've got this cool boat" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.FINISHED );
-			}
-		}
 	}
 
 	public static boolean registerRequest( final String urlString )
