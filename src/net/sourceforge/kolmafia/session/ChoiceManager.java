@@ -10931,6 +10931,7 @@ public abstract class ChoiceManager
 			if ( text.contains( "You should totally keep it!" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.FINISHED );
+				Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 			}
 			break;
 
