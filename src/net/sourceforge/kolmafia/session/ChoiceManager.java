@@ -9941,6 +9941,14 @@ public abstract class ChoiceManager
 			}
 			break;			
 
+		case 798:
+			// Hippy Talkin'
+			if ( text.contains( "Point me at the landfill" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.STARTED );
+			}
+			break;
+
 		case 810:
 			if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -10920,9 +10928,9 @@ public abstract class ChoiceManager
 
 		case 798:
 			// Hippy Talkin'
-			if ( text.contains( "Point me at the landfill" ) )
+			if ( text.contains( "You should totally keep it!" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.STARTED );
+				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.FINISHED );
 			}
 			break;
 
