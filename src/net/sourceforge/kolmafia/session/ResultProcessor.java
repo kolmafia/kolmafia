@@ -1049,7 +1049,7 @@ public class ResultProcessor
 				LockableListFactory.fireContentsChanged( KoLConstants.tally, 2, 2 );
 			}
 
-			if ( fullstatChanged)
+			if ( fullstatChanged )
 			{
 				shouldRefresh = true;
 				if ( size > 3 )
@@ -1113,6 +1113,11 @@ public class ResultProcessor
 			case EffectPool.CRAFT_TEA:
 				// If you gain or lose Inigo's or Craft Tea, what you can
 				// craft changes
+				ConcoctionDatabase.setRefreshNeeded( true );
+				break;
+			case EffectPool.RECORD_HUNGER:
+			case EffectPool.DRUNK_AVUNCULAR:
+				// Turn generation from food and booze changes
 				ConcoctionDatabase.setRefreshNeeded( true );
 				break;
 			case EffectPool.CHILLED_TO_THE_BONE:
@@ -1452,6 +1457,8 @@ public class ResultProcessor
 
 		case ItemPool.JUNK_JUNK:
 			QuestDatabase.setQuestProgress( Quest.HIPPY, "step3" );
+			break;
+
 		case ItemPool.DINGY_DINGHY:
 		case ItemPool.SKIFF:
 		case ItemPool.YELLOW_SUBMARINE:
