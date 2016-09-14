@@ -487,6 +487,15 @@ public class NPCPurchaseRequest
 			}
 		}
 
+		// Quest tracker update
+		if ( shopId.equals( "junkmagazine" ) )
+		{
+			if ( !QuestDatabase.isQuestLaterThan( Quest.HIPPY, "step1" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.HIPPY, "step2" );
+			}
+		}
+
 		// The following trade collections of ingredients for an item
 		if ( shopId.equals( "airport" ) ||
 		     shopId.equals( "beergarden" ) ||
