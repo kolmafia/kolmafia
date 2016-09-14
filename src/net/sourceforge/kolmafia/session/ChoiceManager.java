@@ -7976,6 +7976,14 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 798:
+			// Hippy Talkin'
+			if ( text.contains( "Point me at the landfill" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.STARTED );
+			}
+			return;
+
 		case 801:
 			// A Reanimated Conversation
 			if ( ChoiceManager.lastDecision == 6 )

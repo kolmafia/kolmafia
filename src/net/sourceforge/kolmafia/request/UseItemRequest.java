@@ -4864,14 +4864,6 @@ public class UseItemRequest
 			QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED );
 			break;
 
-		case ItemPool.WORSE_HOMES_GARDENS:
-			if ( !QuestDatabase.isQuestLaterThan( Quest.HIPPY, "step1" ) )
-			{
-				return;
-			}
-			QuestDatabase.setQuestProgress( Quest.HIPPY, "step2" );
-			return;
-
 		case ItemPool.MERKIN_WORDQUIZ:
 			matcher = MERKIN_WORDQUIZ_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
