@@ -152,6 +152,12 @@ public abstract class ChoiceManager
 			}
 		}
 
+		// Rarely, a choice isn't given, but try to identify it anyway:
+		if ( responseText.contains( "<b>Hippy Talkin'</b>" ) )
+		{
+			return 798;
+		}
+
 		return 0;
 	}
 
@@ -7976,14 +7982,6 @@ public abstract class ChoiceManager
 			}
 			return;
 
-		case 798:
-			// Hippy Talkin'
-			if ( text.contains( "Point me at the landfill" ) )
-			{
-				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.STARTED );
-			}
-			return;
-
 		case 801:
 			// A Reanimated Conversation
 			if ( ChoiceManager.lastDecision == 6 )
@@ -10919,7 +10917,15 @@ public abstract class ChoiceManager
 				ChoiceManager.lastDecision = StringUtilities.parseInt( option );
 			}
 			break;
-			
+
+		case 798:
+			// Hippy Talkin'
+			if ( text.contains( "Point me at the landfill" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.HIPPY, QuestDatabase.STARTED );
+			}
+			break;
+
 		case 801:
 		{
 			// A Reanimated Conversation
