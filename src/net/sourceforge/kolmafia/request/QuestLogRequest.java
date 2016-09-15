@@ -219,7 +219,8 @@ public class QuestLogRequest
 			KoLCharacter.setDesertBeachAvailable();
 		}
 		if ( QuestDatabase.isQuestLaterThan( Quest.ISLAND_WAR, QuestDatabase.STARTED ) ||
-			QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) )
+			QuestDatabase.isQuestLaterThan( Quest.PIRATE, QuestDatabase.UNSTARTED ) ||
+			QuestDatabase.isQuestFinished( Quest.HIPPY ) )
 		{
 			Preferences.setInteger( "lastIslandUnlock", KoLCharacter.getAscensions() );
 		}
