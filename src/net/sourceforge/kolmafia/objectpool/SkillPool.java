@@ -314,4 +314,5 @@ public class SkillPool
 	public static final int FAN_HAMMER = 20001;
 	public static final int EXTRACT_OIL = 20002;
 	public static final int LONG_CON = 20007;
+	public static final int INTERNAL_SODA_MACHINE = 22039;
 }
