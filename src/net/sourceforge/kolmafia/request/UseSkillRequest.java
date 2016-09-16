@@ -840,6 +840,11 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_steelyEyedSquintUsed" ) ? 0 : 1;
 			break;
 
+		case SkillPool.INTERNAL_SODA_MACHINE:
+			int meatLimit = KoLCharacter.getAvailableMeat() / 10;
+			int mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 20.0 );
+			maximumCast = Math.min( meatLimit, mpLimit );
+
 		}
 
 		return maximumCast;
