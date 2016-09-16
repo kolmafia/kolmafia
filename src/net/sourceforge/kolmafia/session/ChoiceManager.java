@@ -6662,6 +6662,13 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1089: // Community Service
+			if ( ChoiceManager.lastDecision == 30 )
+			{
+				KoLCharacter.liberateKing();
+			}
+			break;
+
 		case 1171: // LT&T Office
 			if ( ChoiceManager.lastDecision < 4 )
 			{
@@ -11319,13 +11326,6 @@ public abstract class ChoiceManager
 		case 1088:
 			// Rubble, Rubble, Toil and Trouble
 			QuestDatabase.setQuestIfBetter( Quest.NEMESIS, "step13" );
-			break;
-
-		case 1089:
-			if ( ChoiceManager.lastDecision == 30 && text.contains( "fill out all the forms" ) )
-			{
-				KoLCharacter.liberateKing();
-			}
 			break;
 
 		case 1093:
