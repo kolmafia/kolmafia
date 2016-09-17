@@ -73,9 +73,20 @@ public class UseItemCommand
 			EatItemRequest.ignorePrompt();
 			command = "eat";
 		}
+
+		String limitmode = KoLCharacter.getLimitmode();
 		SpecialOutfit.createImplicitCheckpoint();
+
 		UseItemCommand.use( command, parameters );
-		SpecialOutfit.restoreImplicitCheckpoint();
+
+		if ( KoLCharacter.getLimitmode() != limitmode )
+		{
+			SpecialOutfit.discardImplicitCheckpoint();
+		}
+		else
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
+		}
 	}
 
 	public static void use( final String command, String parameters )

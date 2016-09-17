@@ -525,6 +525,21 @@ public class SpecialOutfit
 		}
 	}
 
+	public static final void discardImplicitCheckpoint()
+	{
+		if ( SpecialOutfit.implicitPoints.isEmpty() )
+		{
+			return;
+		}
+
+		SpecialOutfit.implicitPoints.pop();
+
+		if ( SpecialOutfit.implicitPoints.size() < SpecialOutfit.markedCheckpoint )
+		{
+			SpecialOutfit.markedCheckpoint = -1;
+		}
+	}
+
 	public static final boolean markImplicitCheckpoint()
 	{
 		if ( SpecialOutfit.markedCheckpoint != -1 || SpecialOutfit.implicitPoints.isEmpty() )
@@ -598,7 +613,7 @@ public class SpecialOutfit
 
 	public static final void forgetEquipment( AdventureResult item )
 	{
-		replaceEquipment( item, EquipmentRequest.UNEQUIP );
+		SpecialOutfit.replaceEquipment( item, EquipmentRequest.UNEQUIP );
 	}
 
 	/**
@@ -608,10 +623,8 @@ public class SpecialOutfit
 
 	public static void replaceEquipment( AdventureResult item , AdventureResult replaceWith )
 	{
-		AdventureResult[] checkpoint;
-		for ( int i = SpecialOutfit.implicitPoints.size() - 1; i >= 0; --i )
+		for ( AdventureResult[] checkpoint : SpecialOutfit.implicitPoints )
 		{
-			checkpoint = (AdventureResult[]) SpecialOutfit.implicitPoints.get( i );
 			for ( int j = 0; j < checkpoint.length; ++j )
 			{
 				if ( item.equals( checkpoint[ j ] ) )
@@ -620,15 +633,32 @@ public class SpecialOutfit
 				}
 			}
 		}
-		for ( int i = SpecialOutfit.explicitPoints.size() - 1; i >= 0; --i )
+		for ( AdventureResult[] checkpoint : SpecialOutfit.explicitPoints )
 		{
-			checkpoint = (AdventureResult[]) SpecialOutfit.explicitPoints.get( i );
 			for ( int j = 0; j < checkpoint.length; ++j )
 			{
 				if ( item.equals( checkpoint[ j ] ) )
 				{
 					checkpoint[ j ] = replaceWith;
 				}
+			}
+		}
+	}
+
+	public static void replaceEquipmentInSlot( AdventureResult item, int slot )
+	{
+		for ( AdventureResult[] checkpoint : SpecialOutfit.implicitPoints )
+		{
+			if ( slot < checkpoint.length )
+			{
+				checkpoint[ slot ] = item;
+			}
+		}
+		for ( AdventureResult[] checkpoint : SpecialOutfit.explicitPoints )
+		{
+			if ( slot < checkpoint.length )
+			{
+				checkpoint[ slot ] = item;
 			}
 		}
 	}
