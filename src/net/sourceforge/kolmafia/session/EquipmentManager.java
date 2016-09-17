@@ -38,9 +38,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -164,7 +161,7 @@ public class EquipmentManager
 			case EquipmentManager.ACCESSORY3:
 				EquipmentManager.equipmentLists[ i ] = LockableListFactory.getMirror( EquipmentManager.accessories );
 				break;
-				
+
 			default:
 				EquipmentManager.equipmentLists[ i ] = LockableListFactory.getSortedInstance( AdventureResult.class );
 				break;
@@ -411,7 +408,7 @@ public class EquipmentManager
 		{
 		case -1:	// unknown item - ignore it
 			return;
-			
+
 		case ACCESSORY1:
 		case ACCESSORY2:
 		case ACCESSORY3:
@@ -425,7 +422,7 @@ public class EquipmentManager
 				item = (AdventureResult) EquipmentManager.accessories.get( index );
 			}
 			break;
-			
+
 		default:
 			if ( !EquipmentManager.equipmentLists[ slot ].contains( item ) )
 			{
@@ -557,7 +554,7 @@ public class EquipmentManager
 				break;
 			}
 
-			// If removed, remote conditional skill
+			// If removed, remove conditional skill
 			if ( removed )
 			{
 				switch ( old.getItemId() )
@@ -833,7 +830,7 @@ public class EquipmentManager
 		case ItemPool.HODGMANS_PORKPIE_HAT:
 		case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
 		case ItemPool.HODGMANS_BOW_TIE:
-			if ( EquipmentManager.isWearingOutfit( OutfitPool.HODGMANS_REGAL_FRIPPERY ) )			
+			if ( EquipmentManager.isWearingOutfit( OutfitPool.HODGMANS_REGAL_FRIPPERY ) )
 			{
 				KoLCharacter.addAvailableSkill( "Summon hobo underling" );
 			}
@@ -861,7 +858,7 @@ public class EquipmentManager
 		case ItemPool.PARASITIC_TENTACLES:
 		case ItemPool.PARASITIC_HEADGNAWER:
 		case ItemPool.PARASITIC_STRANGLEWORM:
-			if ( EquipmentManager.isWearingOutfit( OutfitPool.MUTANT_COUTURE ) )			
+			if ( EquipmentManager.isWearingOutfit( OutfitPool.MUTANT_COUTURE ) )
 			{
 				KoLCharacter.addAvailableSkill( "Disarm" );
 				KoLCharacter.addAvailableSkill( "Entangle" );
@@ -1091,7 +1088,7 @@ public class EquipmentManager
 				( wheel ? 1 : 0 ) +
 				( eye ? 1 : 0 );
 		}
-		
+
 		// If Tuxedo Shirt put on or off, and autoTuxedo not set, several booze adventure gains change
 		if  ( !Preferences.getBoolean( "autoTuxedo" ) &&
 			( old.getItemId() == ItemPool.TUXEDO_SHIRT || item.getItemId() == ItemPool.TUXEDO_SHIRT ) )
@@ -1099,10 +1096,10 @@ public class EquipmentManager
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
 	}
-	
+
 	public static final void transformEquipment( AdventureResult before, AdventureResult after )
 	{
-		SpecialOutfit.forgetEquipment( before );
+		SpecialOutfit.replaceEquipment( before, after );
 		for ( int slot = 0 ; slot <= EquipmentManager.FAMILIAR ; ++slot )
 		{
 			if ( KoLCharacter.hasEquipped( before, slot ) )
@@ -1117,7 +1114,6 @@ public class EquipmentManager
 				}
 				ResultProcessor.processResult( before.getInstance( -1 ) );
 				EquipmentManager.setEquipment( slot, after );
-				SpecialOutfit.replaceEquipment( before, after );
 				return;
 			}
 		}
@@ -1140,14 +1136,14 @@ public class EquipmentManager
 		}
 		return -1;
 	}
-	
+
 	public static final boolean removeEquipment( final AdventureResult item, final int slot )
 	{
 		if ( !KoLCharacter.hasEquipped( item, slot ) )
 		{
 			return false;
 		}
-	
+
 		EquipmentManager.setEquipment( slot, EquipmentRequest.UNEQUIP );
 
 		// FamiliarData.setItem moved the current familiar item to
@@ -1156,7 +1152,7 @@ public class EquipmentManager
 		{
 			AdventureResult.addResultToList( KoLConstants.inventory, item );
 		}
-		
+
 		return true;
 	}
 
@@ -1182,7 +1178,7 @@ public class EquipmentManager
 	{
 		return EquipmentManager.discardEquipment( itemId, true );
 	}
-	
+
 	public static final int discardEquipment( final int itemId, boolean deleteFromCheckpoints )
 	{
 		return EquipmentManager.discardEquipment( ItemPool.get( itemId, 1 ), deleteFromCheckpoints );
@@ -1214,9 +1210,9 @@ public class EquipmentManager
 		// - even the same one - the previous item will be in inventory, not equipped.
 		// Therefore, if the item is in inventory, take it from there.
 		// Otherwise, take it from the offhand slot.
-		
+
 		AdventureResult item = ItemPool.get( itemId, 1 );
-		
+
 		if ( InventoryManager.getCount( item ) == 0 )
 		{
 			// Not in inventory. Put it there.
@@ -1408,7 +1404,7 @@ public class EquipmentManager
 	{
 		AdventureResult mainhand = EquipmentManager.equipment.get( EquipmentManager.WEAPON );
 		AdventureResult offhand = EquipmentManager.equipment.get( EquipmentManager.OFFHAND );
-		
+
 		return  !mainhand.equals( EquipmentRequest.UNEQUIP ) &&
 			ItemDatabase.getConsumptionType( offhand ) == KoLConstants.EQUIP_WEAPON;
 	}
@@ -1440,7 +1436,7 @@ public class EquipmentManager
 	{
 		return EquipmentManager.lockedFamiliarItem != EquipmentRequest.UNEQUIP;
 	}
- 
+
 	public static final void lockFamiliarItem()
 	{
 		EquipmentManager.lockFamiliarItem( EquipmentManager.familiarItemLocked() && EquipmentManager.familiarItemLockable() );
@@ -1502,12 +1498,12 @@ public class EquipmentManager
 
 		return EquipmentRequest.UNEQUIP;
 	}
-	
+
 	public static final int getTurns( int slot )
 	{
 		return EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ];
 	}
-	
+
 	public static final void setTurns( int slot, int minTurns, int maxTurns )
 	{
 		int curr = EquipmentManager.turnsRemaining[ slot - EquipmentManager.STICKER1 ];
@@ -1525,17 +1521,17 @@ public class EquipmentManager
 			EquipmentManager.turnsRemaining[ 1 ],
 			EquipmentManager.turnsRemaining[ 2 ] );
 	}
-	
+
 	public static final boolean isStickerWeapon( AdventureResult item )
 	{
 		return item != null && isStickerWeapon( item.getItemId() );
 	}
-	
+
 	public static final boolean isStickerWeapon( int itemId )
 	{
 		return itemId == ItemPool.STICKER_SWORD || itemId == ItemPool.STICKER_CROSSBOW;
 	}
-	
+
 	public static final boolean usingStickerWeapon()
 	{
 		return isStickerWeapon( getEquipment( EquipmentManager.WEAPON ) ) ||
@@ -1581,7 +1577,7 @@ public class EquipmentManager
 			}
 		}
 	}
-	
+
 	public static final void decrementTurns()
 	{
 		if ( usingStickerWeapon() )
@@ -1594,7 +1590,7 @@ public class EquipmentManager
 
 		EquipmentManager.incrementEquipmentCounters();
 	}
-	
+
 	public static final void stickersExpired( int count )
 	{
 		for ( int i = 0; i < 3; ++i )
@@ -1637,7 +1633,7 @@ public class EquipmentManager
 		case EquipmentManager.ACCESSORY1:
 		case EquipmentManager.ACCESSORY2:
 			return;	// do all the work when updating ACC3
-			
+
 		case EquipmentManager.ACCESSORY3:
 
 			EquipmentManager.updateEquipmentList( consumeFilter, EquipmentManager.accessories );
@@ -2065,7 +2061,7 @@ public class EquipmentManager
 		case RANGED:
 			return Stat.MOXIE;
 		default:
-			if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() 
+			if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
 				&& EquipmentManager.wieldingKnife()
 				&& KoLCharacter.hasSkill( "Tricky Knifework" ) )
 			{
@@ -2136,7 +2132,7 @@ public class EquipmentManager
 		}
 
 		Collections.sort( available );
-		
+
 		EquipmentManager.normalOutfits.clear();
 
 		// Start with the three constant outfits
@@ -2303,7 +2299,7 @@ public class EquipmentManager
 		{
 			return itemId == ItemPool.TRUSTY;
 		}
-		
+
 		if ( KoLCharacter.isHardcore() )
 		{
 			Modifiers mods = Modifiers.getItemModifiers( itemId );
@@ -2349,17 +2345,17 @@ public class EquipmentManager
 	public static final SpecialOutfit getMatchingOutfit( final String name )
 	{
 		String lowercaseName = name.toLowerCase().trim();
-	
+
 		if ( lowercaseName.equals( "birthday suit" ) || lowercaseName.equals( "nothing" ) )
 		{
 			return SpecialOutfit.BIRTHDAY_SUIT;
 		}
-	
+
 		if ( lowercaseName.equals( "last" ) )
 		{
 			return SpecialOutfit.PREVIOUS_OUTFIT;
 		}
-	
+
 		// Check for exact matches.
 		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
@@ -2372,7 +2368,7 @@ public class EquipmentManager
 				return outfit;
 			}
 		}
-	
+
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
 			if ( outfit == null )
@@ -2384,9 +2380,9 @@ public class EquipmentManager
 				return outfit;
 			}
 		}
-	
+
 		// Check for substring matches.
-	
+
 		for ( SpecialOutfit outfit : EquipmentManager.customOutfits )
 		{
 			if ( outfit == SpecialOutfit.NO_CHANGE )
@@ -2398,7 +2394,7 @@ public class EquipmentManager
 				return outfit;
 			}
 		}
-	
+
 		for ( SpecialOutfit outfit : EquipmentDatabase.normalOutfits )
 		{
 			if ( outfit == null )
@@ -2410,7 +2406,7 @@ public class EquipmentManager
 				return outfit;
 			}
 		}
-	
+
 		return null;
 	}
 
