@@ -362,10 +362,20 @@ public class EquipmentManager
 
 	public static final void autoequipItem( AdventureResult newItem )
 	{
+		EquipmentManager.autoequipItem( newItem, true );
+	}
+
+	public static final void autoequipItem( AdventureResult newItem, boolean addToCheckpoints )
+	{
 		int slot = EquipmentManager.itemIdToEquipmentType( newItem.getItemId() );
 		if ( slot < 0 )
 		{
 			return;
+		}
+
+		if ( addToCheckpoints )
+		{
+			SpecialOutfit.replaceEquipmentInSlot( newItem, slot );
 		}
 
 		AdventureResult oldItem = EquipmentManager.getEquipment( slot );
@@ -1213,17 +1223,18 @@ public class EquipmentManager
 
 		AdventureResult item = ItemPool.get( itemId, 1 );
 
-		if ( InventoryManager.getCount( item ) == 0 )
+		// Remove from saved checkpoint
+		SpecialOutfit.forgetEquipment( item );
+
+		// Move from offhand to inventory if necessary
+		if ( InventoryManager.getCount( item ) == 0 &&
+		     !EquipmentManager.removeEquipment( item, EquipmentManager.OFFHAND ) )
 		{
-			// Not in inventory. Put it there.
-			if ( !EquipmentManager.removeEquipment( item, EquipmentManager.OFFHAND ) )
-			{
-				// Not equipped. How odd.
-				return;
-			}
+			// Not equipped. How odd.
+			return;
 		}
 
-		// Now discard it from inventory
+		// Discard it from inventory
 		ResultProcessor.processItem( item.getItemId(), -1 );
 	}
 
@@ -2410,7 +2421,7 @@ public class EquipmentManager
 		return null;
 	}
 
-	private static AdventureResult equippedItem( final int itemId )
+	public static AdventureResult equippedItem( final int itemId )
 	{
 		if ( itemId == 0 )
 		{

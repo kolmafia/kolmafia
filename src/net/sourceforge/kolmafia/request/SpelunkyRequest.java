@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +64,9 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SpelunkyRequest
 	extends GenericRequest
@@ -450,6 +454,88 @@ public class SpelunkyRequest
 			}
 			Preferences.setString( "spelunkyUpgrades", newUpgradeString.toString() );
 		}
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
+	}
+
+	public static final void parseStatus( final JSONObject JSON )
+		throws JSONException
+	{
+		// api.php is not a complete replacement for charpane.php in
+		// Spelunky, but parse equipment, at least.
+
+		JSONObject equip = JSON.getJSONObject( "equipment" );
+		Iterator keys = equip.keys();
+		while ( keys.hasNext() )
+		{
+			String slotName = (String) keys.next();
+			if ( slotName.equals( "fakehands" ) )
+			{
+				continue;
+			}
+
+			int slot = EquipmentRequest.phpSlotNumber( slotName );
+			if ( slot == -1 )
+			{
+				continue;
+			}
+			
+			int itemId = equip.getInt( slotName );
+			AdventureResult item = EquipmentManager.equippedItem( itemId );
+
+			switch ( slot )
+			{
+			case EquipmentManager.HAT:
+				EquipmentManager.setEquipment( EquipmentManager.HAT, item );
+				break;
+			case EquipmentManager.WEAPON:
+				EquipmentManager.setEquipment( EquipmentManager.WEAPON, item );
+				break;
+			case EquipmentManager.OFFHAND:
+				EquipmentManager.setEquipment( EquipmentManager.OFFHAND, item );
+				switch ( itemId )
+				{
+				case ItemPool.SPELUNKY_SKULL:
+					KoLCharacter.addAvailableSkill( "Throw Skull" );
+					KoLCharacter.removeAvailableSkill( "Throw Rock" );
+					KoLCharacter.removeAvailableSkill( "Throw Pot" );
+					KoLCharacter.removeAvailableSkill( "Throw Torch" );
+					break;
+				case ItemPool.SPELUNKY_ROCK:
+					KoLCharacter.addAvailableSkill( "Throw Rock" );
+					KoLCharacter.removeAvailableSkill( "Throw Skull" );
+					KoLCharacter.removeAvailableSkill( "Throw Pot" );
+					KoLCharacter.removeAvailableSkill( "Throw Torch" );
+					break;
+				case ItemPool.SPELUNKY_POT:
+					KoLCharacter.addAvailableSkill( "Throw Pot" );
+					KoLCharacter.removeAvailableSkill( "Throw Rock" );
+					KoLCharacter.removeAvailableSkill( "Throw Skull" );
+					KoLCharacter.removeAvailableSkill( "Throw Torch" );
+					break;
+				case ItemPool.SPELUNKY_TORCH:
+					KoLCharacter.addAvailableSkill( "Throw Torch" );
+					KoLCharacter.removeAvailableSkill( "Throw Rock" );
+					KoLCharacter.removeAvailableSkill( "Throw Skull" );
+					KoLCharacter.removeAvailableSkill( "Throw Pot" );
+					break;
+				default:
+					KoLCharacter.removeAvailableSkill( "Throw Rock" );
+					KoLCharacter.removeAvailableSkill( "Throw Skull" );
+					KoLCharacter.removeAvailableSkill( "Throw Pot" );
+					KoLCharacter.removeAvailableSkill( "Throw Torch" );
+					break;
+				}
+				break;
+			case EquipmentManager.CONTAINER:
+				EquipmentManager.setEquipment( EquipmentManager.CONTAINER, item );
+				break;
+			case EquipmentManager.ACCESSORY1:
+				EquipmentManager.setEquipment( EquipmentManager.ACCESSORY1, item );
+				break;
+			}
+		}
+
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 	}

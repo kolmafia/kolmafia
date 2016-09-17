@@ -42,9 +42,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -364,8 +366,21 @@ public class ApiRequest
 			// Many things from the Char Sheet are available
 			CharSheetRequest.parseStatus( JSON );
 
-			// Parse currently worn equipment
-			EquipmentManager.parseStatus( JSON );
+			String limitmode = KoLCharacter.getLimitmode();
+			if ( limitmode == Limitmode.SPELUNKY )
+			{
+				// Parse Spelunky equipment
+				SpelunkyRequest.parseStatus( JSON );
+			}
+			else if ( limitmode == Limitmode.BATMAN )
+			{
+				// Don't mess with equipment
+			}
+			else
+			{
+				// Parse currently worn equipment
+				EquipmentManager.parseStatus( JSON );
+			}
 		}
 		catch ( JSONException e )
 		{
