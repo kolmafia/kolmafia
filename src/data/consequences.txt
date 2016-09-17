@@ -42,7 +42,7 @@ QUEST_LOG	demonName9	;&middot;([^<]*?), the Smith<br	demonName9=$1
 QUEST_LOG	demonName10	;&middot;([^<]*?), the Pain Enjoyer<br	demonName10=$1
 QUEST_LOG	demonName11	;&middot;([^<]*?), Friend of Gary<br	demonName11=$1
 
-DESC_ITEM	Adventurer bobblehead	Attributes \+(\d+)%	_item9084=$1
+DESC_ITEM	Adventurer bobblehead	Attributes \+(\d+)%	item9084=$1
 DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	bone abacus	defeated (\d+) opponent	boneAbacusVictories=$1
 DESC_ITEM	briefcase full of snakes	Venom Level: (\d+)<br>Medicine Level: (\d+)	awolVenom=$1	awolMedicine=$2
