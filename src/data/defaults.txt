@@ -545,6 +545,7 @@ user	hpAutoRecoveryTarget	1.0
 user	iceSculptureMonster
 user	iceSwagger	0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	item9084	0
 user	jarlsbergPoints	0
 user	jungCharge	0
 user	junglePuns	0
@@ -1289,7 +1290,6 @@ user	_inigosCasts	0
 user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
-user	_item9084	0
 user	_ironicMoustache	false
 user	_jarlsCheeseSummoned	false
 user	_jarlsCreamSummoned	false

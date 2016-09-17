@@ -1748,7 +1748,7 @@ Item	9-ball	Weapon Damage: +8, Ranged Damage: +8, Spell Damage: +8
 Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5, Item Drop: [K]
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
-Item	Adventurer bobblehead	Muscle Percent: [pref(_item9084)], Mysticality Percent: [pref(_item9084)], Moxie Percent: [pref(_item9084)]
+Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
 Item	ancient calendar	Adventures: +3, Damage Reduction: 4
 Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
