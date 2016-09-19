@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -188,6 +188,13 @@ public class UneffectRequest
 		}
 
 		if ( effectId == EffectPool.JUST_THE_BEST_ANAPESTS || effectId == EffectPool.REASSURED )
+		{
+			return true;
+		}
+
+		if ( effectId == EffectPool.RECORD_HUNGER ||
+		     effectId == EffectPool.DRUNK_AVUNCULAR ||
+		     ( effectId >= EffectPool.SHRIEKING_WEASEL && effectId <= EffectPool.SUPERDRIFTING ) )
 		{
 			return true;
 		}
@@ -773,7 +780,7 @@ public class UneffectRequest
 			return false;
 		}
 
-		if ( location.indexOf( "?" ) == -1 )
+		if ( !location.contains( "?" ) )
 		{
 			return true;
 		}
