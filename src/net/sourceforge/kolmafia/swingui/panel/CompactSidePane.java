@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -59,7 +59,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -535,7 +534,7 @@ public class CompactSidePane
 				String key = "|" + fam.getRace().toLowerCase();
 				for ( int i = 0; i < 9; ++i )
 				{
-					if ( custom[ i ] != null && custom[ i ].indexOf( key ) != -1 )
+					if ( custom[ i ] != null && custom[ i ].contains( key ) )
 					{
 						customMenu[ i ].add( new FamiliarMenuItem( fam ) );
 						added = true;
@@ -879,13 +878,13 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLCharacter.getFury() + " / " + KoLCharacter.getFuryLimit() );
 				count++;
 			}
-			else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR )
+			else if ( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR && !KoLCharacter.inNuclearAutumn() )
 			{
 				this.statusLabel[ count ].setText( "Soulsauce: ");
 				this.statusValueLabel[ count ].setText( KoLCharacter.getSoulsauce() + " / 100" );
 				count++;
 			}
-			else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT )
+			else if ( KoLCharacter.getClassType() == KoLCharacter.DISCO_BANDIT && !KoLCharacter.inNuclearAutumn() )
 			{
 				this.statusLabel[ count ].setText( " Disco: " );
 				this.statusValueLabel[ count ].setText( KoLCharacter.getDiscoMomentum() + " / 3" );
