@@ -229,6 +229,7 @@ public abstract class ChoiceManager
 	private static final Pattern ENLIGHTENMENT_PATTERN = Pattern.compile( "achieved <b>(\\d+)</b> enlightenment" );
 	private static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "don't remember leaving any spoons in (.*?)&quot;" );
 	private static final Pattern CASE_PATTERN = Pattern.compile( "\\((\\d+) more case" );
+	private static final Pattern TIME_SPINNER_PATTERN = Pattern.compile( "have (\\d+) minute" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -3705,20 +3706,25 @@ public abstract class ChoiceManager
 				       new Option( "duplicate one food, booze, spleen or potion", 4 ),
 				       new Option( "leave", 6 ) } ),
 
-	   // Choice 1120 is Some Assembly Required
-	   // Choice 1121 is Some Assembly Required
-	   // Choice 1122 is Some Assembly Required
-	   // Choice 1123 is Some Assembly Required
-	   // Choice 1127 is The Crimbo Elf Commune
-	   // Choice 1128 is Reindeer Commune
-	   // Choise 1129 is The Crimbulmination
-	   // Choise 1130 is The Crimbulmination
-	   // Choise 1131 is The Crimbulmination
-	   // Choise 1132 is The Crimbulmination
+		// Choice 1120 is Some Assembly Required
+		// Choice 1121 is Some Assembly Required
+		// Choice 1122 is Some Assembly Required
+		// Choice 1123 is Some Assembly Required
+		// Choice 1127 is The Crimbo Elf Commune
+		// Choice 1128 is Reindeer Commune
+		// Choise 1129 is The Crimbulmination
+		// Choise 1130 is The Crimbulmination
+		// Choise 1131 is The Crimbulmination
+		// Choise 1132 is The Crimbulmination
 
-	   // Choise 1188 is The Call is Coming from Outside the Simulation
-	   // Choise 1190 is The Oracle
+		// Choise 1188 is The Call is Coming from Outside the Simulation
+		// Choise 1190 is The Oracle
 
+		// Choise 1195 is Spinning Your Time-Spinner
+		// Choise 1196 is Travel to a Recent Fight
+		// Choise 1197 is Travel back to a Delicious Meal
+		// Choise 1198 is Play a Time Prank
+		// Choise 1199 is The Far Future
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -6693,6 +6699,7 @@ public abstract class ChoiceManager
 				Preferences.setString( "lttQuestName", "" );
 			}
 			break;
+
 		}
 	}
 
@@ -9276,18 +9283,24 @@ public abstract class ChoiceManager
 				KoLAdventure.lastLocationURL = urlString;
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Time-Spinner";
+				Preferences.increment( "_timeSpinnerMinutesUsed" );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				Preferences.increment( "_timeSpinnerMinutesUsed", 2 );
 			}
 			break;
 
 		case 1196:
 			// Travel to a Recent Fight
-			if ( ChoiceManager.lastDecision == 1 )
+			if ( ChoiceManager.lastDecision == 1 && !urlString.contains( "monid=0" ) )
 			{
 				KoLAdventure.lastVisitedLocation = null;
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
 				KoLAdventure.setNextAdventure( "None" );
 				GenericRequest.itemMonster = "Time-Spinner";
+				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
 			}
 			break;
 		}
@@ -10639,6 +10652,32 @@ public abstract class ChoiceManager
 			// Source Terminal
 			request.setHasResult( true );
 			break;
+
+		case 1197:
+			// Travel back to a Delicious Meal
+			if ( ChoiceManager.lastDecision == 1 && !text.contains( "too full to eat that" ) &&
+				!urlString.contains( "foodid=0" ) )
+			{
+				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
+			}
+			break;
+
+		case 1198:
+			// Play a Time Prank
+			if ( text.contains( "paradoxical time copy" ) )
+			{
+				Preferences.increment( "_timeSpinnerMinutesUsed" );
+			}
+			break;
+
+		case 1199:
+			// The Far Future
+			if ( text.contains( "item appears in the replicator" ) ||
+				text.contains( "convoluted nature of time-travel" ) )
+			{
+				Preferences.setBoolean( "_timeSpinnerReplicatorUsed", true );
+			}
+			break;
 		}
 
 		if ( ChoiceManager.handlingChoice )
@@ -11449,6 +11488,17 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "_detectiveCasesCompleted", 3 - StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			break;
+		}
+
+		case 1195:
+		{
+			// Spinning Your Time-Spinner
+			Matcher matcher = ChoiceManager.TIME_SPINNER_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_timeSpinnerMinutesUsed", 10 - StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
 			break;
 		}
@@ -14116,6 +14166,7 @@ public abstract class ChoiceManager
 		case 1191: // Source Terminal
 		case 1193: // The Precinct
 		case 1195: // Spinning Your Time-Spinner
+		case 1197: // Travel back to a Delicious Meal
 		return true;
 
 		default:
