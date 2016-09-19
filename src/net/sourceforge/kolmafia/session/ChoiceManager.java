@@ -182,6 +182,13 @@ public abstract class ChoiceManager
 		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
+	public static final Pattern URL_FOODID_PATTERN = Pattern.compile( "foodid=(\\d+)" );
+	public static int extractFoodIdFromURL( final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_FOODID_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
 	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -10656,9 +10663,14 @@ public abstract class ChoiceManager
 		case 1197:
 			// Travel back to a Delicious Meal
 			if ( ChoiceManager.lastDecision == 1 && !text.contains( "too full to eat that" ) &&
-				!urlString.contains( "foodid=0" ) )
+			     !urlString.contains( "foodid=0" ) )
 			{
 				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
+				int foodid = ChoiceManager.extractFoodIdFromURL( urlString );
+
+				// Since we will remove this item from inventory from normal consumption
+				// parsing, add it here to balance things
+				ResultProcessor.processResult( ItemPool.get( foodid, 1 ) );
 			}
 			break;
 
