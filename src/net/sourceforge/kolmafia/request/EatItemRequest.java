@@ -784,6 +784,8 @@ public class EatItemRequest
 		// The food was consumed successfully
 		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
+		EatItemRequest.updateTimeSpinner( item.getItemId() );
+
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
 
@@ -937,7 +939,7 @@ public class EatItemRequest
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
-		     responseText.indexOf( "feel suddenly bloated" ) != -1 )
+		     responseText.contains( "feel suddenly bloated" ) )
 		{
 			Preferences.setInteger( "carboLoading", 0 );
 		}
@@ -1106,6 +1108,26 @@ public class EatItemRequest
 
 		TurnCounter.stopCounting( "Semirare window begin" );
 		TurnCounter.stopCounting( "Semirare window end" );
+	}
+
+	public static final void updateTimeSpinner( final int itemId )
+	{
+		String itemString = String.valueOf( itemId );
+		String foodAvailable = Preferences.getString( "_timeSpinnerFoodAvailable" );
+		String[] foods = foodAvailable.split( "," );
+		for ( String food : foods )
+		{
+			if ( food.equals( itemString ) )
+			{
+				return;
+			}
+		}
+		if ( !foodAvailable.isEmpty() )
+		{
+			foodAvailable += ",";
+		}
+		foodAvailable += itemString;
+		Preferences.setString( "_timeSpinnerFoodAvailable", foodAvailable );
 	}
 
 	public static final String lastSemirareMessage()
