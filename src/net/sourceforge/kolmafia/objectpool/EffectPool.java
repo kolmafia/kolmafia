@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -312,6 +312,8 @@ public class EffectPool
 	public static final int FEELING_QUEASY = 2099;
 	public static final int RECORD_HUNGER = 2128;
 	public static final int DRUNK_AVUNCULAR = 2129;
+	public static final int SHRIEKING_WEASEL = 2131;
+	public static final int SUPERDRIFTING = 2135;
 
 	public static final AdventureResult get( final int effectId )
 	{
