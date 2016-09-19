@@ -1450,6 +1450,7 @@ user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
 user	_timeHelmetAdv	0
+user	_timeSpinnerFoodAvailable
 user	_timeSpinnerMinutesUsed	0
 user	_timeSpinnerReplicatorUsed	false
 user	_toastSummoned	false
