@@ -1450,6 +1450,8 @@ user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
 user	_timeHelmetAdv	0
+user	_timeSpinnerMinutesUsed	0
+user	_timeSpinnerReplicatorUsed	false
 user	_toastSummoned	false
 user	_tokenDrops	0
 user	_tonicDjinn	false
@@ -2067,6 +2069,11 @@ user	choiceAdventure1173	1
 user	choiceAdventure1174	1
 user	choiceAdventure1175	1
 user	choiceAdventure1193	0
+user	choiceAdventure1195	0
+user	choiceAdventure1196	0
+user	choiceAdventure1197	0
+user	choiceAdventure1198	0
+user	choiceAdventure1199	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true
