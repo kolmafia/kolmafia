@@ -6754,6 +6754,13 @@ MutexE	Perceptive Pressure/Perspicacious Pressure/Pneumatic/Proficient Pressure/
 MutexE	Purple Tongue/Green Tongue/Orange Tongue/Red Tongue/Blue Tongue/Black Tongue	none
 MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful Heart	none
 MutexI	shining halo/furry halo/frosty halo/time halo	none
+MutexE	Shrieking Weasel/Power, Man/Lucky Struck/Ministrations in the Dark/Superdrifting	none
+MutexE	Snarl of the Timberwolf/Scowl of the Auk/Stiff Upper Lip/Patient Smile/Arched Eyebrow of the Archmage/Wizard Squint/Icy Glare/Wry Smile/Disco Leer/Disco Smirk/Suspicious Gaze/Knowing Smile	none
+MutexE	Cautious Prowl/Prideful Strut/Leisurely Amblin'	none
+MutexE	Pompadour/Cowlick/Fauxhawk/[1553]Slicked-Back Do	none
+MutexE	Coffeesphere/Oilsphere/Chocolatesphere/Gristlesphere	none
+MutexE	Song of Accompaniment/Song of Cockiness/Song of Fortune	none
+MutexE	Spirit of Bacon Grease/Spirit of Cayenne/Spirit of Garlic/Spirit of Peppermint/Spirit of Wormwood	none
 
 # Maximization categories section of modifiers.txt
 # These pseudo-items list the indirect benefits of certain classes of
