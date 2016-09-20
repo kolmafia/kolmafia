@@ -237,6 +237,7 @@ public abstract class ChoiceManager
 	private static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "don't remember leaving any spoons in (.*?)&quot;" );
 	private static final Pattern CASE_PATTERN = Pattern.compile( "\\((\\d+) more case" );
 	private static final Pattern TIME_SPINNER_PATTERN = Pattern.compile( "have (\\d+) minute" );
+	private static final Pattern TIME_SPINNER_MEDALS_PATTERN = Pattern.compile( "memory of earning <b>(\\d+) medal" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -10688,8 +10689,15 @@ public abstract class ChoiceManager
 				text.contains( "convoluted nature of time-travel" ) )
 			{
 				Preferences.setBoolean( "_timeSpinnerReplicatorUsed", true );
+				break;
+			}
+			Matcher medalMatcher = ChoiceManager.TIME_SPINNER_MEDALS_PATTERN.matcher( text );
+			if ( medalMatcher.find() )
+			{
+				Preferences.setInteger( "timeSpinnerMedals", StringUtilities.parseInt( medalMatcher.group( 1 ) ) );
 			}
 			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
