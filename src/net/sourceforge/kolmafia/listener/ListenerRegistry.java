@@ -61,7 +61,6 @@ public class ListenerRegistry
 	// Deferring
 	private final HashSet<Object> deferred = new HashSet<Object>();
 	private int deferring = 0;
-	private boolean firing = false;
 
 	public ListenerRegistry()
 	{
@@ -94,26 +93,19 @@ public class ListenerRegistry
 
 		synchronized( this.deferred )
 		{
-			try
+			Object[] listenerArray = new Object[ this.deferred.size() ];
+			this.deferred.toArray( listenerArray );
+			this.deferred.clear();
+
+			for ( Object key : listenerArray )
 			{
-				this.firing = true;
-				Iterator<Object> it = this.deferred.iterator();
-				while ( it.hasNext() )
+				ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
+				if ( logit )
 				{
-					Object key = it.next();
-					ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
-					if ( logit )
-					{
-						int count = listenerList == null ? 0 : listenerList.size();
-						RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
-					}
-					this.fireListeners( listenerList, null );
+					int count = listenerList == null ? 0 : listenerList.size();
+					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
 				}
-			}
-			finally
-			{
-				this.firing = false;
-				this.deferred.clear();
+				this.fireListeners( listenerList, null );
 			}
 		}
 
@@ -168,10 +160,6 @@ public class ListenerRegistry
 		{
 			synchronized( this.deferred )
 			{
-				if ( this.firing )
-				{
-					StaticEntity.printStackTrace( "Deferring listeners while firing deferred listeners" );
-				}
 				this.deferred.add( key );
 			}
 			return;
@@ -198,10 +186,6 @@ public class ListenerRegistry
 			}
 			synchronized( this.deferred )
 			{
-				if ( this.firing )
-				{
-					StaticEntity.printStackTrace( "Deferring listeners while firing deferred listeners" );
-				}
 				this.deferred.addAll( keys );
 			}
 			return;
