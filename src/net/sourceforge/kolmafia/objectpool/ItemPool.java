@@ -2664,7 +2664,11 @@ public class ItemPool
 	public static final int TIME_SPINNER = 9104;
 	public static final int HOLORECORD_SHRIEKING_WEASEL = 9109;
 	public static final int HOLORECORD_POWERGUY = 9110;
-	public static final int HOLORECORD_SUPERDRIFTER = 9114;
+	public static final int HOLORECORD_LUCKY_STRIKES = 9111;
+	public static final int HOLORECORD_EMD = 9112;
+	public static final int HOLORECORD_SUPERDRIFTER = 9113;
+	public static final int HOLORECORD_PIGS = 9114;
+	public static final int HOLORECORD_DRUNK_UNCLES = 9115;
 	public static final int TIME_RESIDUE = 9116;
 	public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
 
