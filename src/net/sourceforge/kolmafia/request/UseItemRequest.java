@@ -1136,8 +1136,12 @@ public class UseItemRequest
 		case ItemPool.HOLORECORD_POWERGUY:
 		case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
 		case ItemPool.HOLORECORD_SUPERDRIFTER:
+		case ItemPool.HOLORECORD_LUCKY_STRIKES:
+		case ItemPool.HOLORECORD_DRUNK_UNCLES:
+		case ItemPool.HOLORECORD_EMD:
+		case ItemPool.HOLORECORD_PIGS:
 			UseItemRequest.limiter = "lack of Wrist-Boy";
-			return InventoryManager.hasItem( ItemPool.WRIST_BOY ) ? 1 : 0;
+			return InventoryManager.hasItem( ItemPool.WRIST_BOY ) ? Integer.MAX_VALUE : 0;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5565,6 +5569,19 @@ public class UseItemRequest
 
 		case ItemPool.DETECTIVE_APPLICATION:
 			Preferences.setBoolean( "hasDetectiveSchool", true );
+			break;
+
+		case ItemPool.HOLORECORD_POWERGUY:
+		case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
+		case ItemPool.HOLORECORD_SUPERDRIFTER:
+		case ItemPool.HOLORECORD_LUCKY_STRIKES:
+		case ItemPool.HOLORECORD_DRUNK_UNCLES:
+		case ItemPool.HOLORECORD_EMD:
+		case ItemPool.HOLORECORD_PIGS:
+			if ( responseText.contains( "already a record" ) )
+			{
+				ResultProcessor.processResult( item );
+			}
 			break;
 		}
 
