@@ -61,6 +61,7 @@ public class ListenerRegistry
 	// Deferring
 	private final HashSet<Object> deferred = new HashSet<Object>();
 	private int deferring = 0;
+	private boolean firing = false;
 
 	public ListenerRegistry()
 	{
@@ -95,6 +96,7 @@ public class ListenerRegistry
 		{
 			try
 			{
+				this.firing = true;
 				Iterator<Object> it = this.deferred.iterator();
 				while ( it.hasNext() )
 				{
@@ -110,6 +112,7 @@ public class ListenerRegistry
 			}
 			finally
 			{
+				this.firing = false;
 				this.deferred.clear();
 			}
 		}
@@ -165,6 +168,10 @@ public class ListenerRegistry
 		{
 			synchronized( this.deferred )
 			{
+				if ( this.firing )
+				{
+					StaticEntity.printStackTrace( "Deferring listeners while firing deferred listeners" );
+				}
 				this.deferred.add( key );
 			}
 			return;
@@ -191,6 +198,10 @@ public class ListenerRegistry
 			}
 			synchronized( this.deferred )
 			{
+				if ( this.firing )
+				{
+					StaticEntity.printStackTrace( "Deferring listeners while firing deferred listeners" );
+				}
 				this.deferred.addAll( keys );
 			}
 			return;
