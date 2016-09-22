@@ -93,19 +93,25 @@ public class ListenerRegistry
 
 		synchronized( this.deferred )
 		{
-			Iterator<Object> it = this.deferred.iterator();
-			while ( it.hasNext() )
+			try
 			{
-				Object key = it.next();
-				ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
-				if ( logit )
+				Iterator<Object> it = this.deferred.iterator();
+				while ( it.hasNext() )
 				{
-					int count = listenerList == null ? 0 : listenerList.size();
-					RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
+					Object key = it.next();
+					ArrayList<WeakReference> listenerList = this.listenerMap.get( key );
+					if ( logit )
+					{
+						int count = listenerList == null ? 0 : listenerList.size();
+						RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
+					}
+					this.fireListeners( listenerList, null );
 				}
-				this.fireListeners( listenerList, null );
 			}
-			this.deferred.clear();
+			finally
+			{
+				this.deferred.clear();
+			}
 		}
 
 	}
@@ -147,17 +153,21 @@ public class ListenerRegistry
 			return;
 		}
 
-		if ( this.deferring > 0 )
-		{
-			this.deferred.add( key );
-			return;
-		}
-
 		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
+
 		if ( logit )
 		{
 			int count = listenerList.size();
-			RequestLogger.updateDebugLog( "Firing " + count + " listeners for \"" + key + "\"" );
+			RequestLogger.updateDebugLog( ( this.deferring > 0 ? "Deferring " : "Firing " ) + count + " listeners for \"" + key + "\"" );
+		}
+
+		if ( this.deferring > 0 )
+		{
+			synchronized( this.deferred )
+			{
+				this.deferred.add( key );
+			}
+			return;
 		}
 
 		this.fireListeners( listenerList, null );
@@ -165,6 +175,8 @@ public class ListenerRegistry
 
 	public final void fireAllListeners()
 	{
+		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
+
 		if ( this.deferring > 0 )
 		{
 			Set<Object> keys = null;
@@ -172,13 +184,20 @@ public class ListenerRegistry
 			{
 				keys = this.listenerMap.keySet();
 			}
-			this.deferred.addAll( keys );
+			if ( logit )
+			{
+				int count = keys.size();
+				RequestLogger.updateDebugLog( "Deferring all listeners for " + count + " keys" );
+			}
+			synchronized( this.deferred )
+			{
+				this.deferred.addAll( keys );
+			}
 			return;
 		}
 
 		HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
 
-		boolean logit = ListenerRegistry.logging && RequestLogger.isDebugging();
 		if ( logit )
 		{
 			Set<Entry<Object,ArrayList<WeakReference>>> entries = null;
