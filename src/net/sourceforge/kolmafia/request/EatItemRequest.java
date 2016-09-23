@@ -785,6 +785,7 @@ public class EatItemRequest
 		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
 		EatItemRequest.updateTimeSpinner( item.getItemId() );
+		// Do something to skip processResults if eaten through Time-Spinner...
 
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
@@ -1112,6 +1113,11 @@ public class EatItemRequest
 
 	public static final void updateTimeSpinner( final int itemId )
 	{
+		if ( !ItemDatabase.isDiscardable( itemId ) || !ItemDatabase.isTradeable( itemId ) ||
+		     ItemDatabase.isGiftItem( itemId ) )
+		{
+			return;
+		}
 		String itemString = String.valueOf( itemId );
 		String foodAvailable = Preferences.getString( "_timeSpinnerFoodAvailable" );
 		String[] foods = foodAvailable.split( "," );
