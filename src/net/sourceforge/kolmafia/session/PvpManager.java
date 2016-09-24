@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -142,7 +142,7 @@ public class PvpManager
 				KoLmafia.updateDisplay( MafiaState.ABORT, "This feature is not available to hippies." );
 				return false;
 			}
-			new GenericRequest( "peevpee.php?confirm=on&smashstone=Yep." ).run();
+			new GenericRequest( "peevpee.php?action=smashstone&confirm=on" ).run();
 			return KoLCharacter.getHippyStoneBroken();
 		}
 		return true;
