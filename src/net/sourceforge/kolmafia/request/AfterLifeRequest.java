@@ -562,6 +562,9 @@ public class AfterLifeRequest
 			case 27:
 				builder.append( "a The Source" );
 				break;
+			case 28:
+				builder.append( "a Nuclear Autumn" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );
