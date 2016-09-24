@@ -448,6 +448,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "The Source " );
 		}
+		else if ( KoLCharacter.inNuclearAutumn() )
+		{
+			sessionStream.print( "Nuclear Autumn " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );
