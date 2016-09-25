@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -179,13 +180,6 @@ public abstract class ChoiceManager
 	public static int extractIidFromURL( final String urlString )
 	{
 		Matcher matcher = ChoiceManager.URL_IID_PATTERN.matcher( urlString );
-		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
-	}
-
-	public static final Pattern URL_FOODID_PATTERN = Pattern.compile( "foodid=(\\d+)" );
-	public static int extractFoodIdFromURL( final String urlString )
-	{
-		Matcher matcher = ChoiceManager.URL_FOODID_PATTERN.matcher( urlString );
 		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
@@ -6708,6 +6702,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1197:
+			// Travel back to a Delicious Meal
+			if ( ChoiceManager.lastDecision == 1 && !request.getURLString().contains( "foodid=0" ) )
+			{
+				EatItemRequest.timeSpinnerUsed = true;
+			}
+			break;
+
 		}
 	}
 
@@ -10659,20 +10661,6 @@ public abstract class ChoiceManager
 		case 1191:
 			// Source Terminal
 			request.setHasResult( true );
-			break;
-
-		case 1197:
-			// Travel back to a Delicious Meal
-			if ( ChoiceManager.lastDecision == 1 && !text.contains( "too full to eat that" ) &&
-			     !urlString.contains( "foodid=0" ) )
-			{
-				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
-				int foodid = ChoiceManager.extractFoodIdFromURL( urlString );
-
-				// Since we will remove this item from inventory from normal consumption
-				// parsing, add it here to balance things
-				ResultProcessor.processResult( ItemPool.get( foodid, 1 ) );
-			}
 			break;
 
 		case 1198:
