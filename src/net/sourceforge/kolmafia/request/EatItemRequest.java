@@ -87,6 +87,7 @@ public class EatItemRequest
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 	public static int foodConsumed = 0;
+	public static boolean timeSpinnerUsed = false;
 
 	public EatItemRequest( final AdventureResult item )
 	{
@@ -624,6 +625,10 @@ public class EatItemRequest
 
 	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
 	{
+		// Make sure the global value is reset before returning
+		boolean timeSpinnerUsed = EatItemRequest.timeSpinnerUsed;
+		EatItemRequest.timeSpinnerUsed = false;
+
 		// Special handling for fortune cookies, since you can smash
 		// them, as well as eat them
 		if ( item.getItemId() == ItemPool.FORTUNE_COOKIE &&
@@ -784,10 +789,12 @@ public class EatItemRequest
 		// The food was consumed successfully
 		EatItemRequest.handleFoodHelper( item.getName(), item.getCount(), responseText );
 
-		EatItemRequest.updateTimeSpinner( item.getItemId() );
-		// Do something to skip processResults if eaten through Time-Spinner...
+		EatItemRequest.updateTimeSpinner( item.getItemId(), timeSpinnerUsed );
 
-		ResultProcessor.processResult( item.getNegation() );
+		if ( !timeSpinnerUsed )
+		{
+			ResultProcessor.processResult( item.getNegation() );
+		}
 		KoLCharacter.updateStatus();
 
 		// Re-sort consumables list if needed
@@ -1111,8 +1118,14 @@ public class EatItemRequest
 		TurnCounter.stopCounting( "Semirare window end" );
 	}
 
-	public static final void updateTimeSpinner( final int itemId )
+	public static final void updateTimeSpinner( final int itemId, final boolean timeSpinnerUsed )
 	{
+		if ( timeSpinnerUsed )
+		{
+			Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
+			return;
+		}
+
 		if ( !ItemDatabase.isDiscardable( itemId ) || !ItemDatabase.isTradeable( itemId ) ||
 		     ItemDatabase.isGiftItem( itemId ) )
 		{
