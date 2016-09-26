@@ -134,6 +134,7 @@ public abstract class ClanManager
 		ClanManager.stashContents.clear();
 
 		KoLConstants.clanLounge.clear();
+		KoLConstants.clanRumpus.clear();
 	}
 
 	public static final void resetClanId()
