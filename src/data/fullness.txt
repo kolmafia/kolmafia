@@ -92,7 +92,7 @@ breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
 Brimstone Chicken Sandwich	3	1	decent	4-6	-15-20	0	15-20
 brown sugar cane	2	7	awesome	6-7	1-5	1-5	5-20	3 Sugar Rush
-browser cookie	4	4	EPIC	20-26	40-60	40-60	40-60
+browser cookie	4	4	EPIC	20-22	40-60	40-60	40-60
 Brussels Sprout Stir-Fry	3	1	decent	4	0	0	0	10 Healthy, Elfy, and Wise (8-10 HP Regen)
 bucket of honey	1	4	good	3	0	0	0	50 Sugar Rush
 bunch of square grapes	2	7	awesome	6-7	1-5	5-20	1-5
