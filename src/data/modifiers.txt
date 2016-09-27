@@ -5340,7 +5340,7 @@ Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T],
 Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
-Effect	Ministrations in the Dark	Combat Rate: +0
+Effect	Ministrations in the Dark	Combat Rate: -10
 Effect	Minty Freshness	Moxie Percent: +10
 Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
