@@ -6303,7 +6303,8 @@ public abstract class ChoiceManager
 
 		return  responseText.contains( "action=choice.php" ) ||
 			responseText.contains( "href=choice.php" ) ||
-			responseText.contains( "name=\"whichchoice\"" );
+			responseText.contains( "name=\"whichchoice\"" ) ||
+			responseText.contains( "href=\"choice.php" );
 	}
 
 	public static final void processChoiceAdventure( final GenericRequest request, final String initialURL, final String responseText )
