@@ -841,8 +841,8 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.INTERNAL_SODA_MACHINE:
-			int meatLimit = KoLCharacter.getAvailableMeat() / 10;
-			int mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 20.0 );
+			int meatLimit = KoLCharacter.getAvailableMeat() / 20;
+			int mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 10.0 );
 			maximumCast = Math.min( meatLimit, mpLimit );
 
 		}
