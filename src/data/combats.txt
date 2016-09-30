@@ -37,6 +37,7 @@
 # The weight can be followed by an "r" to indicate a rejection condition,
 # and then the % chance of rejection following
 
+12 West Main	100	board games elemental	nerd rapper	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)
 1st Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
@@ -144,6 +145,7 @@ Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf
 JokesterCo	100	The Jokester: 0
 Kegger in the Woods	-1	actual orcish frat boy	jailbait orquette	juvenile delinquent orquette	orcish juvenile delinquent	orcish frat wannaboy	totally trashed orquette
 Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	Resort Waiter	Brick Mulligan, the Bartender: 0
+KoL Con Clan Party House	100	Arizona bark scorpion	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)	swimming pool monster
 Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ninja Snowman (Mask)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male)	factory overseer (female)	factory worker (male)	lava golem	Mr. Cheeng: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
