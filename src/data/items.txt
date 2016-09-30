@@ -9148,7 +9148,7 @@
 9122	Tea, Earl Grey, Hot	521372355	tea.gif	food	t,d	1	Teas, Earl Grey, Hot
 9123	School of Hard Knocks Diploma	202870687	scroll2.gif	none		0
 9124	baby bark scorpion	554018244	barkscorp.gif	grow	t	0
-9125
+9125	droppable microphone	208907884	dropmic.gif	none, combat	t,d	40
 9126	unidentified drink	955965104	plasticcup.gif	drink	t,d	37
 9127	KoL Con 13 T-shirt	471111113	btee2.gif	shirt	t,d	20
 9128	discarded swimming trunks	620413237	swimtrunks.gif	pants	t,d	69
