@@ -753,6 +753,10 @@ public class AdventureRequest
 				// The Source
 				image.startsWith( "sourceagents" ) ? "One Thousand Source Agents" :
 				image.startsWith( "sourceagent" ) ? "Source Agent" :
+				// KoL Con 13
+				// female needs checking before male
+				image.startsWith( "congoerf" ) ? "stumbling-drunk congoer (female)" :
+				image.startsWith( "congoer" ) ? "stumbling-drunk congoer (male)" :
 				null;
 		}
 
