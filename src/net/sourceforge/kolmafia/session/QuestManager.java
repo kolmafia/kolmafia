@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.List;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +44,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -435,6 +438,17 @@ public class QuestManager
 		if ( oldTimeTower != newTimeTower )
 		{
 			Preferences.setBoolean( "timeTowerAvailable", newTimeTower );
+			Modifiers.getModifiers( "Item", "time-twitching toolbelt" );
+			AdventureResult toolbelt = ItemPool.get( ItemPool.TIME_TWITCHING_TOOLBELT, 1 );
+			List<AdventureResult> source = newTimeTower ? KoLConstants.storage : KoLConstants.freepulls;
+			List<AdventureResult> dest = newTimeTower ? KoLConstants.freepulls : KoLConstants.storage;
+			int index = source.indexOf( toolbelt );
+			if ( index > -1 )
+			{
+				AdventureResult item = source.get( index );
+				source.remove( item );
+				dest.add( item );
+			}
 			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
