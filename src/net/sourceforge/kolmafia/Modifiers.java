@@ -68,13 +68,14 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -2475,6 +2476,14 @@ public class Modifiers
 
 	private boolean override( final String lookup )
 	{
+		int itemId = ItemDatabase.getItemId( name );
+		switch ( itemId )
+		{
+		case ItemPool.TIME_TWITCHING_TOOLBELT:
+			this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );
+			break;
+		}
+
 		if ( this.expressions != null )
 		{
 			for ( int i = 0; i < this.expressions.length; ++i )
@@ -2496,8 +2505,6 @@ public class Modifiers
 		{
 			return false;
 		}
-
-		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )
 		{
