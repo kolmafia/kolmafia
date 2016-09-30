@@ -539,6 +539,7 @@ unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	+1 PvP fight
+very fancy whiskey	2	1	EPIC	0	0	0	0	Unspaded
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vintage smart drink	10	1	awesome	40	0	0	0	1 Smart Drunk (+120 HP, +20 Familiar Weight)
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
