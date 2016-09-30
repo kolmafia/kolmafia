@@ -9147,4 +9147,13 @@
 9121	Memory Disk, Alpha	527297745	cd.gif	usable	t	0	Memory Disks, Alpha
 9122	Tea, Earl Grey, Hot	521372355	tea.gif	food	t,d	1	Teas, Earl Grey, Hot
 9123	School of Hard Knocks Diploma	202870687	scroll2.gif	none		0
+9124	baby bark scorpion	554018244	barkscorp.gif	grow	t	0
 
+9126	unidentified drink	955965104	plasticcup.gif	drink	t,d	37
+9127	KoL Con 13 T-shirt	471111113	btee2.gif	shirt	t,d	20
+9128	discarded swimming trunks	620413237	swimtrunks.gif	pants	t,d	69
+9129	diluted makeup	660688837	moonshine.gif	usable	t,d	5
+9130	charisma potion	801154513	potion13.gif	usable	t,d	23
+9131	extremely confusing manual	226374609	book.gif	none, combat	t,d	11
+9132	foam pistol	296874554	foamgun.gif	weapon	t,d	44
+9133	KoL Con 13 snowglobe	689507238	consnowglobe.gif	offhand	t	0

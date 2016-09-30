@@ -417,6 +417,7 @@ Daisy's unclean bloomers	150	Mox: 30
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
+discarded swimming trunks	100	none
 dice-print pajama pants	10	none
 Dinsey's pants	200	Mox: 100
 distressed denim pants	170	Mox: 70
@@ -676,6 +677,7 @@ junk-mail shirt	60	Mus: 15
 Kashmir sweater	155	Mus: 62
 Kiss the Knob apron	10	none
 Knob Goblin elite shirt	35	Mus: 2
+KoL Con 13 T-shirt	50	none
 lemon shirt	50	Mus: 10
 letterman's jacket	200	Mus: 200
 Liam's mail	150	Mus: 20
@@ -981,6 +983,7 @@ flamingo mallet	70	Mus: 20	2-handed club
 fleetwood chain	155	Mus: 62	1-handed flail
 fluorescent lightbulb	50	Mus: 0	1-handed club
 flypaper staff	80	Mus: 25	2-handed staff
+foam pistol	120	Mox: 0	1-handed pistol
 foot-long hot daub	85	Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 Frankly Mr. Shank	100	Mus: 0	1-handed knife
@@ -1669,6 +1672,7 @@ keg shield	170	Mus: 70	shield
 Kevlar balloon	10	none
 kickback cookbook	40	Mys: 5
 killer rag doll	110	Mys: 40
+KoL Con 13 snowglobe	50	none
 KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
 KoL Con X Treasure Map	10	none

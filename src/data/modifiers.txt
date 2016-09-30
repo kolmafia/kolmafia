@@ -533,6 +533,7 @@ Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Famil
 Item	dice-print pajama pants	Random Monster Modifiers: +1
 # Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15
+Item	discarded swimming trunks	Experience Percent (Muscle): +5, Sleaze Damage: +10, Sleaze Spell Damage: +10
 Item	distressed denim pants	Stench Resistance: +1, Damage Reduction: 2, Familiar Effect: "sleaze atk, 1xPotato, cap 42"
 Item	double-ice britches	Hot Resistance: +4, Damage Reduction: 4, Maximum HP: +40, Maximum MP: +40, Familiar Effect: "cold atk, 3xVolley, 3xLep, cap 17"
 Item	drafty drawers	Maximum MP: +200, MP Regen Min: 15, MP Regen Max: 20, Familiar Effect: "1.5xVolley"
@@ -821,6 +822,7 @@ Item	junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Item	Kiss the Knob apron	Maximum MP: +5
 Item	Knob Goblin elite shirt	Muscle: +3
+Item	KoL Con 13 T-shirt	Sleaze Resistance: +2, Experience Percent (Moxie): +5
 Item	lemon shirt	Candy Drop: +50, Lasts Until Rollover
 Item	letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 Item	Liam's mail	Damage Absorption: +50, Muscle Percent: +10, Experience: +2
@@ -1151,6 +1153,7 @@ Item	flamingo mallet	Monster Level: +4, Meat Drop: +5
 Item	fleetwood chain	Weapon Damage: +5
 Item	fluorescent lightbulb	Maximum MP: +30
 Item	flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
+Item	foam pistol	Critical Hit Percent: +5, Experience Percent (Mysticality): +5
 Item	foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
 Item	fouet de tortue-dressage	Familiar Weight: +10, Familiar Damage: +10
 # Frankly Mr. Shank: Disco Bandit Combat Skills weaken enemies by an additional 25%
@@ -1952,6 +1955,7 @@ Item	keg shield	Damage Absorption: +50, Mysticality: +5, Damage Reduction: 11
 # Kevlar balloon
 Item	kickback cookbook	Spell Damage: +20
 Item	killer rag doll	Muscle: +3
+# Item KoL Con 13 snowglobe: Lets you recall precious memories at the end of every fight
 Item	KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
@@ -4190,6 +4194,7 @@ Effect	All Is Forgiven	Familiar Weight: +10
 Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Effect	Almost Cool	Moxie: +5, Experience (Moxie): +1
+Effect	Amplified Fabulousness	Moxie Percent: +50
 Effect	Analog Drunk	Experience: +3
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
@@ -5286,6 +5291,7 @@ Effect	Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
 # Macho, Macho Dog: +50% Damage vs. Werewolves
 Effect	Macho, Macho Dog	Muscle Percent: +50, Critical Hit Percent: +10
 Effect	Mad at Science	Muscle: +3
+Effect	Made Up, Watered Down	Moxie: +30
 Effect	Madly Liberated	Avatar: "The Mad Libber"
 # Magic Tongue: Everything tastes weird
 Effect	Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
@@ -7632,6 +7638,7 @@ Item	celestial squid ink	Effect: "Celestial Camouflage", Effect Duration: 10
 Item	censored can label	Effect: "Censored Can", Effect Duration: 50
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot
 # chaos butterfly: Is Unpredictable
+Item	charisma potion	Effect: "Amplified Fabulousness", Effect Duration: 10
 Item	Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
 # Chateau Mantegna room key: Permanently unlocks a new residence in the Big Mountains
 Item	Chateau Mantegna room key	Free Pull
@@ -7876,6 +7883,7 @@ Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 # dictionary: Most Enemies Don't Care About It
 # Diet Cloaca Cola: Restores 7-9 MP
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
+Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
 # dinged-up triangle: Summons a Hobo buddy
 # dingy dinghy: <b>Allows Travel to The Mysterious Island of Mystery</b>
 Item	Dinsey face paint	Effect: "The Dinsey Look", Effect Duration: 20
