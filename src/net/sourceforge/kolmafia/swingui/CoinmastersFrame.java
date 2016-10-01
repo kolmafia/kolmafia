@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
+import net.sourceforge.kolmafia.request.MerchTableRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -188,6 +189,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel applePanel = null;
 	private CoinmasterPanel ninjaPanel = null;
 	private CoinmasterPanel shakeShopPanel = null;
+	private CoinmasterPanel merchTablePanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
 	private CoinmasterPanel trapperPanel = null;
 	private CoinmasterPanel vendingMachinePanel = null;
@@ -479,6 +481,11 @@ public class CoinmastersFrame
 		shakeShopPanel = new ShakeShopPanel();
 		panel.add( shakeShopPanel );
 		this.selectorPanel.addPanel( shakeShopPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		merchTablePanel = new MerchTablePanel();
+		panel.add( merchTablePanel );
+		this.selectorPanel.addPanel( merchTablePanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		travelerPanel = new TravelingTraderPanel();
@@ -838,6 +845,24 @@ public class CoinmastersFrame
 		public ApplePanel()
 		{
 			super( AppleStoreRequest.APPLE_STORE );
+		}
+	}
+
+	public class MerchTablePanel
+		extends TwitchPanel
+	{
+		public MerchTablePanel()
+		{
+			super( MerchTableRequest.MERCH_TABLE );
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( MerchTableRequest.CHRONER ) ) );
+			buffer.append( " Chroner)" );
 		}
 	}
 
