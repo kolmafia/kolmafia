@@ -64,8 +64,8 @@ public class WikiUtilities
 
 	public static final String getWikiLocation( String name, int type )
 	{
-		boolean inItemTable = ItemDatabase.contains( name );
-		boolean inEffectTable = EffectDatabase.contains( name );
+		boolean inItemTable = ItemDatabase.containsExactly( name );
+		boolean inEffectTable = EffectDatabase.containsExactly( name );
 		boolean inSkillTable = SkillDatabase.contains( name );
 
 		if ( type != ANY_TYPE )
@@ -93,8 +93,7 @@ public class WikiUtilities
 			if ( name.equals( "sweet tooth" ) ||
 			     name.equals( "water wings" ) ||
 			     name.equals( "knuckle sandwich" ) ||
-			     name.equals( "industrial strength starch" ) ||
-			     name.equals( "gumshoes" ) )
+			     name.equals( "industrial strength starch" ) )
 			{
 				// If its not an effect or skill, no disambiguation needed
 			}
