@@ -1875,6 +1875,11 @@ public class ItemDatabase
 		return ItemDatabase.getItemId( itemName ) != -1;
 	}
 
+	public static final boolean containsExactly( final String itemName )
+	{
+		return ItemDatabase.getItemId( itemName, 1, false ) != -1;
+	}
+
 	/**
 	 * Returns whether or not the item with the given name is usable (this includes edibility).
 	 *

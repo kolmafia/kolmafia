@@ -390,6 +390,11 @@ public class EffectDatabase
 		return EffectDatabase.contains( EffectDatabase.getEffectId( effectName ) );
 	}
 
+	public static final boolean containsExactly( final String effectName )
+	{
+		return EffectDatabase.contains( EffectDatabase.getEffectId( effectName, true ) );
+	}
+
 	public static final boolean contains( final int effectId )
 	{
 		if ( effectId == -1 )

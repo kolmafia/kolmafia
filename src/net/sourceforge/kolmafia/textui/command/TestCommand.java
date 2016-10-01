@@ -110,6 +110,7 @@ import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
@@ -155,7 +156,7 @@ public class TestCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
-		String[] split = parameters.split( " " );
+		String[] split = parameters.split( " +" );
 		String command = split[ 0 ];
 
 		// Load an HTML file to be used by a subsequent "test" command
@@ -515,6 +516,38 @@ public class TestCommand
 				                            KoLCharacter.getAdjustedMoxie(), stat );
 				KoLCharacter.updateStatus();
 			}
+			return;
+		}
+
+		if ( command.equals( "wiki" ) )
+		{
+			if ( split.length < 3 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test wiki type name" );
+				return;
+			}
+
+			String typeName = split[ 1 ];
+			int type =
+				typeName.equalsIgnoreCase( "any" ) ? WikiUtilities.ANY_TYPE :
+				typeName.equalsIgnoreCase( "item" ) ? WikiUtilities.ITEM_TYPE :
+				typeName.equalsIgnoreCase( "effect" ) ? WikiUtilities.EFFECT_TYPE :
+				typeName.equalsIgnoreCase( "skill" ) ? WikiUtilities.SKILL_TYPE :
+				-1;
+
+			if ( type == -1 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "type must be any, item, effect, or skill" );
+				return;
+			}
+			
+			int index = parameters.indexOf( typeName );
+			index = parameters.indexOf( " ", index );
+			String name = parameters.substring( index + 1 );
+			String location = WikiUtilities.getWikiLocation( name, type );
+
+			RequestLogger.printLine( location );
+
 			return;
 		}
 
