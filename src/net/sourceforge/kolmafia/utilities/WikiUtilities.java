@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -93,7 +93,8 @@ public class WikiUtilities
 			if ( name.equals( "sweet tooth" ) ||
 			     name.equals( "water wings" ) ||
 			     name.equals( "knuckle sandwich" ) ||
-			     name.equals( "industrial strength starch" ) )
+			     name.equals( "industrial strength starch" ) ||
+			     name.equals( "gumshoes" ) )
 			{
 				// If its not an effect or skill, no disambiguation needed
 			}
