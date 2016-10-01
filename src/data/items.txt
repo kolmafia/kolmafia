@@ -9159,3 +9159,16 @@
 9133	KoL Con 13 snowglobe	689507238	consnowglobe.gif	offhand	t	0
 9134	leftover pasty	350807012	pasty.gif	food	t,d	5
 9135	very fancy whiskey	370122932	fancybrew.gif	drink	t,d	190
+9136
+9137
+9138
+9139
+9140
+9141
+9142
+9143
+9144
+9145
+9146
+9147
+9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0
