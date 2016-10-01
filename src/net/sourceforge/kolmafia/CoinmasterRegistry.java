@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.IsotopeSmitheryRequest;
 import net.sourceforge.kolmafia.request.LTTRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
+import net.sourceforge.kolmafia.request.MerchTableRequest;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
@@ -150,6 +151,7 @@ public abstract class CoinmasterRegistry
 		WalMartRequest.WALMART,
 		WarbearBoxRequest.WARBEARBOX,
 		YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
+		MerchTableRequest.MERCH_TABLE,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];

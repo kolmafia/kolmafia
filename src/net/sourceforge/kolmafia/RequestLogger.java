@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.request.LeafletRequest;
 import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
+import net.sourceforge.kolmafia.request.MerchTableRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
@@ -1279,6 +1280,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof MemeShopRequest || isExternal ) && MemeShopRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof MerchTableRequest || isExternal ) && MerchTableRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
