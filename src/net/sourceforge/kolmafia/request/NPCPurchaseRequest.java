@@ -721,6 +721,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "conmerch" ) )
+		{
+			MerchTableRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "nina" ) )
 		{
 			NinjaStoreRequest.parseResponse( urlString, responseText );
@@ -1090,6 +1096,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "applestore" ) )
 			{
 				return AppleStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "conmerch" ) )
+			{
+				return MerchTableRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "nina" ) )
