@@ -433,28 +433,38 @@ public class QuestManager
 
 	private static void handleTownChange( final String location, String responseText )
 	{
-		boolean oldTimeTower = Preferences.getBoolean( "timeTowerAvailable" );
-		boolean newTimeTower = responseText.contains( "town_tower" );
-		if ( oldTimeTower != newTimeTower )
-		{
-			Preferences.setBoolean( "timeTowerAvailable", newTimeTower );
-			Modifiers.getModifiers( "Item", "time-twitching toolbelt" );
-			AdventureResult toolbelt = ItemPool.get( ItemPool.TIME_TWITCHING_TOOLBELT, 1 );
-			List<AdventureResult> source = newTimeTower ? KoLConstants.storage : KoLConstants.freepulls;
-			List<AdventureResult> dest = newTimeTower ? KoLConstants.freepulls : KoLConstants.storage;
-			int index = source.indexOf( toolbelt );
-			if ( index > -1 )
-			{
-				AdventureResult item = source.get( index );
-				source.remove( item );
-				dest.add( item );
-			}
-			ConcoctionDatabase.setRefreshNeeded( false );
-		}
+		QuestManager.handleTimeTower( responseText.contains( "town_tower" ) );
 		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
 		}
+	}
+
+	public static void handleTimeTower( final boolean available )
+	{
+		if ( Preferences.getBoolean( "timeTowerAvailable" ) == available )
+		{
+			return;
+		}
+
+		Preferences.setBoolean( "timeTowerAvailable", available );
+
+		// time-twitching toolbelt is a free pull if the time tower is
+		// available. Place it in correct storage list.
+
+		Modifiers.getModifiers( "Item", "time-twitching toolbelt" );
+		AdventureResult toolbelt = ItemPool.get( ItemPool.TIME_TWITCHING_TOOLBELT, 1 );
+		List<AdventureResult> source = available ? KoLConstants.storage : KoLConstants.freepulls;
+		List<AdventureResult> dest = available ? KoLConstants.freepulls : KoLConstants.storage;
+		int index = source.indexOf( toolbelt );
+		if ( index > -1 )
+		{
+			AdventureResult item = source.get( index );
+			source.remove( item );
+			dest.add( item );
+		}
+
+		ConcoctionDatabase.setRefreshNeeded( false );
 	}
 
 	private static void handleGuildChange( final String responseText )

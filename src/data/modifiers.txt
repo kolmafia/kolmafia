@@ -3614,6 +3614,7 @@ Item	sugar shield	Familiar Weight: +10, Generic, Breakable
 Item	tasteful black bow tie	Familiar Weight: +5
 # teddy bear sewing kit: Teddy Bear loses less stuffing when hit
 # teddy borg sewing kit: Teddy Borg loses less stuffing when hit
+Item	tiny baby scorpion	Familiar Weight: +10
 Item	tiny ballet slippers	Familiar Weight: +5
 Item	tiny balloon knife	Familiar Weight: +5
 Item	tiny bindle	Familiar Weight: +5

@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.QuestManager;
+
 public class ShoeRepairRequest
 	extends CoinMasterRequest
 {
@@ -130,6 +132,13 @@ public class ShoeRepairRequest
 		if ( !location.contains( "whichshop=shoeshop" ) )
 		{
 			return;
+		}
+
+		// It'd be nice to check for the "you can't get here" message.
+		// What is it?
+		if ( responseText.contains( "<b>Legitimate Shoe Repair, Inc.</b>" ) )
+		{
+			QuestManager.handleTimeTower( true );
 		}
 
 		CoinmasterData data = ShoeRepairRequest.SHOE_REPAIR;
