@@ -2785,6 +2785,9 @@ robin flan	COOK	Robin's egg	Gnollish pie tin
 rinky-dink sixgun	MUSE	gun parts (4)
 makeshift sixgun	MUSE	gun parts (7)
 custom sixgun	MUSE	gun parts (11)
+baconstone-handled sixgun	COMBINE	custom sixgun	baconstone
+hamethyst-handled sixgun	COMBINE	custom sixgun	hamethyst
+porquoise-handled sixgun	COMBINE	custom sixgun	porquoise
 
 # Avatar of West of Loathing
 
