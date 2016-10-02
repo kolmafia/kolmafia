@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.QuestManager;
+
 public class NinjaStoreRequest
 	extends CoinMasterRequest
 {
@@ -130,6 +132,13 @@ public class NinjaStoreRequest
 		if ( !location.contains( "whichshop=nina" ) )
 		{
 			return;
+		}
+
+		// It'd be nice to check for the "you can't get here" message.
+		// What is it?
+		if ( responseText.contains( "<b>Ni&ntilde;a Store</b>" ) )
+		{
+			QuestManager.handleTimeTower( true );
 		}
 
 		CoinmasterData data = NinjaStoreRequest.NINJA_STORE;

@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
@@ -257,6 +258,13 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "twitch" ) )
 		{
+			// The Time-Twitching Tower has faded back into the
+			// swirling mists of the temporal ether. Or maybe you
+			// only thought it was there in the first place because
+			// you were huffing the temporal ether.
+
+			QuestManager.handleTimeTower( !responseText.contains( "temporal ether" ) );
+
 			if ( action.equals( "twitch_bank" ) && responseText.contains( "Thanks fer bringin' the money back" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.BIG_BAG_OF_MONEY );

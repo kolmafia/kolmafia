@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -57,6 +59,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -68,7 +71,7 @@ public class MerchTableRequest
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows( MerchTableRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows( MerchTableRequest.master );
 
 	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
@@ -151,19 +154,26 @@ public class MerchTableRequest
 			return;
 		}
 
+		// It'd be nice to check for the "you can't get here" message.
+		// What is it?
+		if ( responseText.contains( "<b>KoL Con 13 Merch Table</b>" ) )
+		{
+			QuestManager.handleTimeTower( true );
+		}
+
 		// Learn new items by simply visiting the Merch Table
 		// Refresh the Coin Master inventory every time we visit.
 
 		CoinmasterData data = MerchTableRequest.MERCH_TABLE;
-		LockableListModel<AdventureResult> items = MerchTableRequest.buyItems;
-		Map costs = MerchTableRequest.buyCosts;
-		items.clear();
-		costs.clear();
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
+		Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			int itemId = StringUtilities.parseInt( matcher.group(1) );
+			Integer iitemId = IntegerPool.get( itemId );
 			String descId = matcher.group(2);
 			String itemName = matcher.group(3);
 			String currency = matcher.group(4);
@@ -176,12 +186,19 @@ public class MerchTableRequest
 				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
 
-			// Add it to the Merch Table inventory
 			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 			items.add( item );
 			AdventureResult cost = ItemPool.get( currency, price );
-			costs.put( itemId, cost );
+			costs.put( iitemId, cost );
+			rows.put( iitemId, IntegerPool.get( row ) );
 		}
+
+		MerchTableRequest.buyItems.clear();
+		MerchTableRequest.buyItems.addAll( items );
+		MerchTableRequest.buyCosts.clear();
+		MerchTableRequest.buyCosts.putAll( costs );
+		MerchTableRequest.itemRows.clear();
+		MerchTableRequest.itemRows.putAll( rows );
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();

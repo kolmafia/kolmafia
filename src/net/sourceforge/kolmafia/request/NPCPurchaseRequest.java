@@ -661,6 +661,8 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		// Spring Break Beach shops
+
 		if ( shopId.equals( "sbb_jimmy" ) )
 		{
 			BuffJimmyRequest.parseResponse( urlString, responseText );
@@ -678,6 +680,8 @@ public class NPCPurchaseRequest
 			BrogurtRequest.parseResponse( urlString, responseText );
 			return;
 		}
+
+		// Conspiracy Island shops
 
 		if ( shopId.equals( "si_shop1" ) )
 		{
@@ -697,15 +701,41 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "caveshop" ) )
-		{
-			NeandermallRequest.parseResponse( urlString, responseText );
-			return;
-		}
+		// That 70s Volcano shops
 
 		if ( shopId.equals( "infernodisco" ) )
 		{
 			DiscoGiftCoRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		// Dinsey Landfill shops
+
+		if ( shopId.equals( "landfillstore" ) )
+		{
+			DinseyCompanyStoreRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "toxic" ) )
+		{
+			ToxicChemistryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		// The Glaciest shops
+
+		if ( shopId.equals( "glaciest" ) )
+		{
+			WalMartRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		// Twitch Shops
+
+		if ( shopId.equals( "caveshop" ) )
+		{
+			NeandermallRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -721,12 +751,6 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "conmerch" ) )
-		{
-			MerchTableRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
 		if ( shopId.equals( "nina" ) )
 		{
 			NinjaStoreRequest.parseResponse( urlString, responseText );
@@ -739,27 +763,15 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "conmerch" ) )
+		{
+			MerchTableRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "topiary" ) )
 		{
 			NuggletCraftingRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
-		if ( shopId.equals( "landfillstore" ) )
-		{
-			DinseyCompanyStoreRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
-		if ( shopId.equals( "toxic" ) )
-		{
-			ToxicChemistryRequest.parseResponse( urlString, responseText );
-			return;
-		}
-
-		if ( shopId.equals( "glaciest" ) )
-		{
-			WalMartRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -1053,6 +1065,8 @@ public class NPCPurchaseRequest
 				return FDKOLRequest.registerRequest( urlString, true );
 			}
 
+			// Spring Break Beach shops
+
 			if ( shopId.equals( "sbb_jimmy" ) )
 			{
 				return BuffJimmyRequest.registerRequest( urlString );
@@ -1067,6 +1081,8 @@ public class NPCPurchaseRequest
 			{
 				return BrogurtRequest.registerRequest( urlString );
 			}
+
+			// Conspiracy Island shops
 
 			if ( shopId.equals( "si_shop1" ) )
 			{
@@ -1083,6 +1099,34 @@ public class NPCPurchaseRequest
 				return ArmoryRequest.registerRequest( urlString );
 			}
 
+			// That 70s Volcano shops
+
+			if ( shopId.equals( "infernodisco" ) )
+			{
+				return DiscoGiftCoRequest.registerRequest( urlString );
+			}
+
+			// Dinsey Landfill shops
+
+			if ( shopId.equals( "landfillstore" ) )
+			{
+				return DinseyCompanyStoreRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "toxic" ) )
+			{
+				return ToxicChemistryRequest.registerRequest( urlString );
+			}
+
+			// The Glaciest shops
+
+			if ( shopId.equals( "glaciest" ) )
+			{
+				return WalMartRequest.registerRequest( urlString );
+			}
+
+			// Twitch Shops
+
 			if ( shopId.equals( "caveshop" ) )
 			{
 				return NeandermallRequest.registerRequest( urlString );
@@ -1098,11 +1142,6 @@ public class NPCPurchaseRequest
 				return AppleStoreRequest.registerRequest( urlString );
 			}
 
-			if ( shopId.equals( "conmerch" ) )
-			{
-				return MerchTableRequest.registerRequest( urlString );
-			}
-
 			if ( shopId.equals( "nina" ) )
 			{
 				return NinjaStoreRequest.registerRequest( urlString );
@@ -1111,6 +1150,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "shakeshop" ) )
 			{
 				return YeNeweSouvenirShoppeRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "conmerch" ) )
+			{
+				return MerchTableRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "arcade" ) )
@@ -1126,26 +1170,6 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "topiary" ) )
 			{
 				return NuggletCraftingRequest.registerRequest( urlString );
-			}
-
-			if ( shopId.equals( "infernodisco" ) )
-			{
-				return DiscoGiftCoRequest.registerRequest( urlString );
-			}
-
-			if ( shopId.equals( "landfillstore" ) )
-			{
-				return DinseyCompanyStoreRequest.registerRequest( urlString );
-			}
-
-			if ( shopId.equals( "glaciest" ) )
-			{
-				return WalMartRequest.registerRequest( urlString );
-			}
-
-			if ( shopId.equals( "toxic" ) )
-			{
-				return ToxicChemistryRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.startsWith( "crimbo14" ) )

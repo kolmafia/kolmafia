@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.QuestManager;
+
 public class NeandermallRequest
 	extends CoinMasterRequest
 {
@@ -130,6 +132,13 @@ public class NeandermallRequest
 		if ( !location.contains( "whichshop=caveshop" ) )
 		{
 			return;
+		}
+
+		// It'd be nice to check for the "you can't get here" message.
+		// What is it?
+		if ( responseText.contains( "<b>The Neandermall</b>" ) )
+		{
+			QuestManager.handleTimeTower( true );
 		}
 
 		CoinmasterData data = NeandermallRequest.NEANDERMALL;

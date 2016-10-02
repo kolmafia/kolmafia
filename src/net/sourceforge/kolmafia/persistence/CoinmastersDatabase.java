@@ -118,6 +118,11 @@ public class CoinmastersDatabase
 		return CoinmastersDatabase.itemRows.get( key );
 	}
 
+	public static final Map<Integer, Integer> getOrMakeRows( final String key )
+	{
+		return CoinmastersDatabase.getOrMakeMap( key, CoinmastersDatabase.itemRows );
+	}
+
 	public static final LockableListModel<AdventureResult> getNewList()
 	{
 		return new LockableListModel<AdventureResult>();
