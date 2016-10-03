@@ -209,3 +209,4 @@
 203	Intergnat	intergnat.gif	item0	disconnected intergnat	high-speed upgrade	1	3	2	2
 204	Software Bug	softwarebug.gif	none	software bug	missing semicolon	0	0	0	0
 205	Bark Scorpion	barkscorp.gif	none	baby bark scorpion	tiny baby scorpion	0	0	0	0
+206	Trick-or-Treating Tot	tottot.gif	none	hp1,mp1	li'l orphan tot	li'l knight costume	0	0	0	0

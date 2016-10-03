@@ -163,6 +163,8 @@ The General Store	generalstore	dingy planks	400	ROW655
 The General Store	generalstore	Familiar-Gro&trade; Terrarium	500	ROW656
 The General Store	generalstore	high-test fishing line	2500	ROW817
 The General Store	generalstore	Desert Bus pass	5000	ROW657
+The General Store	generalstore	li'l unicorn costume	1000	ROW890
+The General Store	generalstore	li'l candy corn costume	1000	ROW891
 
 # Only with an over-the-shoulder folder holder
 The General Store	generalstore	folder (blue)	10	ROW636
