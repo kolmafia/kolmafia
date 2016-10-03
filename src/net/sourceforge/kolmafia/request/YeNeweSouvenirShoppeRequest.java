@@ -134,12 +134,13 @@ public class YeNeweSouvenirShoppeRequest
 			return;
 		}
 
-		// It'd be nice to check for the "you can't get here" message.
-		// What is it?
-		if ( responseText.contains( "<b>Ye Newe Souvenir Shoppe</b>" ) )
+		if ( responseText.contains( "That store isn't there anymore." ) )
 		{
-			QuestManager.handleTimeTower( true );
+			QuestManager.handleTimeTower( false );
+			return;
 		}
+		
+		QuestManager.handleTimeTower( true );
 
 		CoinmasterData data = YeNeweSouvenirShoppeRequest.SHAKE_SHOP;
 

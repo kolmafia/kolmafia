@@ -134,12 +134,13 @@ public class ShoeRepairRequest
 			return;
 		}
 
-		// It'd be nice to check for the "you can't get here" message.
-		// What is it?
-		if ( responseText.contains( "<b>Legitimate Shoe Repair, Inc.</b>" ) )
+		if ( responseText.contains( "That store isn't there anymore." ) )
 		{
-			QuestManager.handleTimeTower( true );
+			QuestManager.handleTimeTower( false );
+			return;
 		}
+		
+		QuestManager.handleTimeTower( true );
 
 		CoinmasterData data = ShoeRepairRequest.SHOE_REPAIR;
 

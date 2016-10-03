@@ -134,12 +134,13 @@ public class NinjaStoreRequest
 			return;
 		}
 
-		// It'd be nice to check for the "you can't get here" message.
-		// What is it?
-		if ( responseText.contains( "<b>Ni&ntilde;a Store</b>" ) )
+		if ( responseText.contains( "That store isn't there anymore." ) )
 		{
-			QuestManager.handleTimeTower( true );
+			QuestManager.handleTimeTower( false );
+			return;
 		}
+		
+		QuestManager.handleTimeTower( true );
 
 		CoinmasterData data = NinjaStoreRequest.NINJA_STORE;
 

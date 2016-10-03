@@ -143,23 +143,24 @@ public class MerchTableRequest
 		MerchTableRequest.parseResponse( this.getURLString(), responseText );
 	}
 
-	// <tr rel="9148"><td valign=center></td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/twitchtatkit.gif" class="hand pop" rel="desc_item.php?whichitem=216403537" onClick='javascript:descitem(216403537)'></td><td valign=center><a onClick='javascript:descitem(216403537)'><b>Twitching Television Tattoo</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/chroner.gif width=30 height=30 onClick='javascript:descitem(783338147)' alt="Chroner" title="Chroner"></td><td><b>1,111</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=conmerch&action=buyitem&quantity=1&whichrow=895&pwd=06c181223de952705e3a17580c6023ab' value='Buy'></td></tr>
+	// <tr rel="9148"><td valign=center></td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/twitchtatkit.gif" class="hand pop" rel="desc_item.php?whichitem=216403537" onClick='javascript:descitem(216403537)'></td><td valign=center><a onClick='javascript:descitem(216403537)'><b>Twitching Television Tattoo</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/chroner.gif width=30 height=30 onClick='javascript:descitem(783338147)' alt="Chroner" title="Chroner"></td><td><b>1,111</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=conmerch&action=buyitem&quantity=1&whichrow=895&pwd=' value='Buy'></td></tr>
 
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.startsWith( "shop.php" ) && !urlString.contains( "whichshop=conmerch" ) )
+		if ( !urlString.contains( "whichshop=conmerch" ) )
 		{
 			return;
 		}
 
-		// It'd be nice to check for the "you can't get here" message.
-		// What is it?
-		if ( responseText.contains( "<b>KoL Con 13 Merch Table</b>" ) )
+		if ( responseText.contains( "That store isn't there anymore." ) )
 		{
-			QuestManager.handleTimeTower( true );
+			QuestManager.handleTimeTower( false );
+			return;
 		}
+		
+		QuestManager.handleTimeTower( true );
 
 		// Learn new items by simply visiting the Merch Table
 		// Refresh the Coin Master inventory every time we visit.
