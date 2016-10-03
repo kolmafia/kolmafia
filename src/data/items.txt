@@ -9166,9 +9166,9 @@
 9140	li'l ninja costume	546137475	totstume4.gif	familiar	q	0
 9141	li'l pirate costume	114942996	totstume5.gif	familiar	q	0
 9142	li'l clown costume	381769192	totstume6.gif	familiar	q	0
-9143
-9144
-9145
+9143	li'l robot costume	284932403	totstume7.gif	familiar	q,d	75
+9144	li'l eyeball costume	461807862	totstume8.gif	familiar	q,d	75
+9145	li'l liberty costume	120324527	totstume9.gif	familiar	q,d	75
 9146	hoarded candy wad	616007717	candy.gif	usable	t,d	5
 9147
 9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0

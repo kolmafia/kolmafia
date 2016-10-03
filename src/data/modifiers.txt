@@ -3502,9 +3502,13 @@ Item	lead necklace	Familiar Weight: +3, Generic
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
 Item	li'l clown costume	Experience: +15, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
+Item	li'l eyeball costume	Combat Rate: -10, Equips On: "Trick-or-Treating Tot"
 Item	li'l knight costume	Muscle: +15, Mysticality: +15, Moxie: +15
+Item	li'l liberty costume	Item Drop: +100, Meat Drop: +200, Equips On: "Trick-or-Treating Tot"
 Item	li'l ninja costume	Item Drop: +150, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
 Item	li'l pirate costume	Meat Drop: +300, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
+# Item li'l robot costume: Reduces radiation sickness levels
+Item	li'l robot costume	Experience: +10, Equips On: "Trick-or-Treating Tot"
 Item	li'l unicorn costume	Adventures: +5, PvP Fights: +5, Equips On: "Trick-or-Treating Tot"
 Item	licorice boa	Familiar Weight: +5
 Item	limburger biker boots	Familiar Weight: +5
