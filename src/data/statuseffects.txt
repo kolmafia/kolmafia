@@ -2137,3 +2137,4 @@
 2136	Spa Day!	happy.gif	c1783658a8030bcca134b240f52c9922	campground vault3
 2137	Made Up, Watered Down	demonmakeup.gif	d64ebe06139652ede94cd76b86e29edb	use 1 diluted makeup
 2138	Amplified Fabulousness	wink.gif	1eb3f82b583ca81d419082997e9105ba	use 1 charisma potion
+2139	Not Sharing	candy.gif	f6651ae664480fe52e17f51443257ab4	use 1 hoarded candy wad

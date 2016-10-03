@@ -3500,6 +3500,12 @@ Item	lead collar	Familiar Weight: +5
 Item	lead necklace	Familiar Weight: +3, Generic
 # Li'l Businessman Kit: Lets your familiar make deals
 Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
+Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
+Item	li'l clown costume	Experience: +15, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
+Item	li'l knight costume	Muscle: +15, Mysticality: +15, Moxie: +15
+Item	li'l ninja costume	Item Drop: +150, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
+Item	li'l pirate costume	Meat Drop: +300, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
+Item	li'l unicorn costume	Adventures: +5, PvP Fights: +5, Equips On: "Trick-or-Treating Tot"
 Item	licorice boa	Familiar Weight: +5
 Item	limburger biker boots	Familiar Weight: +5
 Item	little bitty bathysphere	Familiar Weight: -20, Underwater Familiar, Generic, Familiar Effect: "adventure underwater"
@@ -5432,6 +5438,7 @@ Effect	No Squealer Healer	Avatar: "Quiet Healer"
 Effect	No Vertigo	Initiative: +20
 Effect	No Worries	Experience: +3
 Effect	Norwhalloped	MP Regen Min: 6, MP Regen Max: 10
+Effect	Not Sharing	Monster Level: +25
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -8313,6 +8320,7 @@ Item	Hjodor's Guide to Arctic Dalmatians (used)	Skill: "Frigidalmatian"
 # HOA citation pad: Weakens enemies a lot
 # HOA citation pad: (by 30% if they are dudes, hippies or orcs)
 # HOA citation pad: (doesn't go away when used)
+Item	hoarded candy wad	Effect: "Not Sharing", Effect Duration: 10
 Item	Hodgman's journal #1: The Lean Times	Skill: "Natural Born Scrabbler"
 Item	Hodgman's journal #2: Entrepreneurythmics	Skill: "Thrift and Grift"
 Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
@@ -8446,6 +8454,7 @@ Item	lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Item	Let Me Be!	Skill: "Raise Backup Dancer"
 Item	Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
 # lewd playing card: Deals 100-150 Physical Damage and 100-150 <font color=blueviolet>Sleaze Damage</font>
+Item	li'l orphan tot	Free Pull
 Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 Item	Libram of BRICKOs	Free Pull, Skill: "Summon BRICKOs"
 Item	Libram of Candy Heart Summoning	Free Pull, Skill: "Summon Candy Heart"
