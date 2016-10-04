@@ -1418,6 +1418,7 @@ user	_sourceTerminalDuplicateUses	0
 user	_sourceTerminalEnhanceUses	0
 user	_sourceTerminalExtrudes	0
 user	_sourceTerminalPortscanUses	0
+user	_spaceFurDropsCrown	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false
 user	_speakeasyDrinksDrunk	0
