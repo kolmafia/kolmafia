@@ -195,8 +195,7 @@ public class DebugModifiers
 				double value = mods.get( ikey );
 				if ( value != 0.0 )
 				{
-					list.add( new Change( type, name, value,
-						mods.getBoolean( Modifiers.VARIABLE ) ) );
+					list.add( new Change( type, name, value, mods.variable ) );
 				}
 				if ( list.size() > 0 )
 				{

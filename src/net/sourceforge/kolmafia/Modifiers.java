@@ -1447,7 +1447,7 @@ public class Modifiers
 	}
 
 	private String name;
-	private boolean variable;
+	public boolean variable;
 	private final double[] doubles;
 	private final int[] bitmaps;
 	private final String[] strings;
@@ -2008,11 +2008,8 @@ public class Modifiers
 		{
 			newMods.name = changeType + ":" + name;
 		}
-		newMods.variable = newMods.override( lookup );
-		if ( newMods.variable || type.equals( "Loc" ) || type.equals( "Zone" ) )
-		{
-			newMods.bitmaps[ 0 ] |= 1 << Modifiers.VARIABLE;
-		}
+
+		newMods.variable = newMods.override( lookup ) || type.equals( "Loc" ) || type.equals( "Zone" );
 
 		Modifiers.modifiersByName.put( lookup, newMods );
 
