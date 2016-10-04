@@ -2678,6 +2678,7 @@ public class ItemPool
 	public static final int TRICK_TOT_ROBOT = 9143;
 	public static final int TRICK_TOT_EYEBALL = 9144;
 	public static final int TRICK_TOT_LIBERTY = 9145;
+	public static final int HOARDED_CANDY_WAD = 9146;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
