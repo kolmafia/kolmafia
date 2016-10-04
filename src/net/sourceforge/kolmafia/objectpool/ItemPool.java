@@ -2168,6 +2168,7 @@ public class ItemPool
 	public static final int CRUMBLING_WHEEL = 7511;
 	public static final int ALIEN_SOURCE_CODE = 7533;
 	public static final int ALIEN_SOURCE_CODE_USED = 7534;
+	public static final int SPACE_BEAST_FUR = 7536;
 	public static final int SPACE_HEATER = 7543;
 	public static final int HOT_ASHES = 7548;
 	public static final int DRY_RUB = 7553;

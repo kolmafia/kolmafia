@@ -2336,7 +2336,7 @@ public class ResultProcessor
 		case ItemPool.TURNOVER:
 		case ItemPool.DEAD_PIE:
 		case ItemPool.THROBBING_PIE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GRINDER )
 			{
 				Preferences.increment( "_pieDrops", 1 );
 				Preferences.setInteger( "_piePartsCount", -1 );
@@ -2620,6 +2620,19 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.SPACE_BEAST_FUR:
+			if ( combatResults )
+			{
+				// It could still drop from a space beast while this is true, but that would
+				// be harder to check for
+				if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.TWITCHING_SPACE_CRITTER ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.TWITCHING_SPACE_CRITTER )
+				{
+					Preferences.increment( "_spaceFurDropsCrown" );
+				}
+			}
+
+
 		case ItemPool.PROFESSOR_WHAT_GARMENT:
 			QuestDatabase.setQuestProgress( Quest.SHIRT, "step1" );
 			break;
@@ -2806,7 +2819,7 @@ public class ResultProcessor
 		case ItemPool.FRIENDLY_TURKEY:
 		case ItemPool.AGITATED_TURKEY:
 		case ItemPool.AMBITIOUS_TURKEY:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.FIST_TURKEY )
 			{
 				Preferences.increment( "_turkeyBooze" );
 			}
