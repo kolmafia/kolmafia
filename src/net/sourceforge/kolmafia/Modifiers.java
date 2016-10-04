@@ -926,7 +926,7 @@ public class Modifiers
 		},
 		{ "Variable",
 		  null,
-		  null
+		  Pattern.compile( "Variable" )
 		},
 		{ "Nonstackable Watch",
 		  null,
@@ -2476,6 +2476,7 @@ public class Modifiers
 
 	private boolean override( final String lookup )
 	{
+		boolean retval = false;
 		if ( this.expressions != null )
 		{
 			for ( int i = 0; i < this.expressions.length; ++i )
@@ -2486,23 +2487,18 @@ public class Modifiers
 					this.doubles[ i ] = expr.eval();
 				}
 			}
-			// Text check here to avoid having to do a lookup against every item with an expression,
-			// in case it might be a time-twitching toolbelt
-			if ( !lookup.equals( "time-twitching toolbelt" ) )
-			{
-				return true;
-			}
+			retval = true;
 		}
 
-		String type = Modifiers.getTypeFromLookup( lookup );
-
-		// Currently only override items
-		if ( !type.equals( "Item" ) )
+		// If the object does not require hard-coding, we're done
+		if ( !this.getBoolean( Modifiers.VARIABLE ) )
 		{
-			return false;
+			return retval;
 		}
 
 		String name = Modifiers.getNameFromLookup( lookup );
+
+		// We only hardcode items, for now.
 		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )

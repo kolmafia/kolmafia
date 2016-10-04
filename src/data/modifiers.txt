@@ -2027,7 +2027,7 @@ Item	Ol' Scratch's ash can	Spell Damage Percent: +100, Hot Spell Damage: +30, Cl
 # Ol' Scratch's stove door: Deals 40-50 <font color=red>Hot Damage</font> to attackers
 Item	Ol' Scratch's stove door	Hot Damage: +20, Damage Reduction: 15
 Item	old-school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
-Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only
+Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only, Variable
 # Operation Patriot Shield: Can be Thrown in Combat
 # Seal Clubber:
 # Operation Patriot Shield	HP Regen Min: 10, HP Regen Max: 12, Weapon Damage: +15, Damage Reduction: 1
@@ -2222,7 +2222,7 @@ Item	Trader Olaf's Exotic Stinkbeans	Stench Spell Damage: [15*(1+skill(Beanweave
 Item	trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 Item	tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby has day-dependent effects which are hard-coded
-Item	Tuesday's ruby	none
+Item	Tuesday's ruby	Variable
 Item	turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 Item	turtling rod	Class: "Turtle Tamer"
@@ -3221,7 +3221,7 @@ Item	Uncle Buck	Maximum HP: +15, Softcore Only
 Item	Uncle Hobo's belt	Mysticality Percent: +15, Meat Drop: +25, Single Equip
 # Uncle Hobo's epic beard: +6 Adventures per day when equipped
 # Uncle Hobo's epic beard: (+9 in December)
-Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip
+Item	Uncle Hobo's epic beard	Muscle Percent: +20, Single Equip, Variable
 Item	Uncle Hobo's fingerless tinsel gloves	Moxie Percent: +15, PvP Fights: +5, Single Equip
 Item	Unspeakable Earring	Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Item	Unstable Pointy Ears	Experience: +3, Lasts Until Rollover
@@ -6720,7 +6720,7 @@ StatDay	Mysticality Day	Experience Percent (Mysticality): +25
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
 
-Zone	Zone:The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
+Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 
 # Location-specific section of modifiers.txt
 
