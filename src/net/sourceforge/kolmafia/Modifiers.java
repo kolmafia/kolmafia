@@ -2473,7 +2473,6 @@ public class Modifiers
 
 	private boolean override( final String lookup )
 	{
-		boolean retval = false;
 		if ( this.expressions != null )
 		{
 			for ( int i = 0; i < this.expressions.length; ++i )
@@ -2484,13 +2483,12 @@ public class Modifiers
 					this.doubles[ i ] = expr.eval();
 				}
 			}
-			retval = true;
 		}
 
 		// If the object does not require hard-coding, we're done
 		if ( !this.getBoolean( Modifiers.VARIABLE ) )
 		{
-			return retval;
+			return this.expressions != null;
 		}
 
 		String name = Modifiers.getNameFromLookup( lookup );
