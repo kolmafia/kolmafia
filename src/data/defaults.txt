@@ -1273,6 +1273,7 @@ user	_hareAdv	0
 user	_hareCharge	0
 user	_hippyMeatCollected	false
 user	_hipsterAdv	0
+user	_hoardedCandyDropsCrown	0
 user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
 user	_holidayFunUsed	false
