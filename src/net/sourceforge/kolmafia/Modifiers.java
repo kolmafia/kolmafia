@@ -2476,14 +2476,6 @@ public class Modifiers
 
 	private boolean override( final String lookup )
 	{
-		int itemId = ItemDatabase.getItemId( name );
-		switch ( itemId )
-		{
-		case ItemPool.TIME_TWITCHING_TOOLBELT:
-			this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );
-			break;
-		}
-
 		if ( this.expressions != null )
 		{
 			for ( int i = 0; i < this.expressions.length; ++i )
@@ -2494,17 +2486,24 @@ public class Modifiers
 					this.doubles[ i ] = expr.eval();
 				}
 			}
-			return true;
+			// Text check here to avoid having to do a lookup against every item with an expression,
+			// in case it might be a time-twitching toolbelt
+			if ( !lookup.equals( "time-twitching toolbelt" ) )
+			{
+				return true;
+			}
 		}
 
 		String type = Modifiers.getTypeFromLookup( lookup );
-		String name = Modifiers.getNameFromLookup( lookup );
 
 		// Currently only override items
 		if ( !type.equals( "Item" ) )
 		{
 			return false;
 		}
+
+		String name = Modifiers.getNameFromLookup( lookup );
+		int itemId = ItemDatabase.getItemId( name );
 
 		switch ( itemId )
 		{
@@ -2566,6 +2565,12 @@ public class Modifiers
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
 			this.set( Modifiers.ADVENTURES, adventures );
+			return true;
+		}
+
+		case ItemPool.TIME_TWITCHING_TOOLBELT:
+		{
+			this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );
 			return true;
 		}
 
