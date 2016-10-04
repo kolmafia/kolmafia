@@ -2672,6 +2672,12 @@ public class ItemPool
 	public static final int HOLORECORD_DRUNK_UNCLES = 9115;
 	public static final int TIME_RESIDUE = 9116;
 	public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
+	public static final int TRICK_TOT_KNIGHT = 9137;
+	public static final int TRICK_TOT_UNICORN = 9138;
+	public static final int TRICK_TOT_CANDY = 9139;
+	public static final int TRICK_TOT_ROBOT = 9143;
+	public static final int TRICK_TOT_EYEBALL = 9144;
+	public static final int TRICK_TOT_LIBERTY = 9145;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -373,6 +374,10 @@ public class NPCStoreDatabase
 			{
 				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
 			}
+			else if ( itemId == ItemPool.TRICK_TOT_UNICORN || itemId == ItemPool.TRICK_TOT_CANDY )
+			{
+				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
 		}
 		else if ( storeId.equals( "gnomart" ) )
 		{
@@ -500,15 +505,38 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "vault1" ) )
 		{
 			// Fallout Shelter Medical Supply
-			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 2;
+			if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 2 )
+			{
+				return false;
+			}
+			if ( itemId == ItemPool.TRICK_TOT_CANDY || itemId == ItemPool.TRICK_TOT_EYEBALL )
+			{
+				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
 		}
 		else if ( storeId.equals( "vault2" ) )
 		{
-			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 4;
+
+			if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 4 )
+			{
+				return false;
+			}
+			if ( itemId == ItemPool.TRICK_TOT_KNIGHT || itemId == ItemPool.TRICK_TOT_ROBOT )
+			{
+				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
 		}
 		else if ( storeId.equals( "vault3" ) )
 		{
-			return KoLCharacter.inNuclearAutumn() && Preferences.getInteger( "falloutShelterLevel" ) >= 7;
+
+			if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 7 )
+			{
+				return false;
+			}
+			if ( itemId == ItemPool.TRICK_TOT_LIBERTY || itemId == ItemPool.TRICK_TOT_UNICORN )
+			{
+				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
+			}
 		}
 
 		// If it gets this far, then the item is definitely available
