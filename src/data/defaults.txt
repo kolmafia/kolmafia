@@ -1382,7 +1382,6 @@ user	_raindohCopiesMade	0
 user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
-user	_usedReplicaBatoomerang	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_riftletAdv	0
@@ -1410,6 +1409,7 @@ user	_snojoFreeFights	0
 user	_snokebombUsed	0
 user	_snowSuitCount	0
 user	_snowconeSummons	0
+user	_sobrieTeaUsed	fals
 user	_softwareGlitchTurnReceived	false
 user	_sourceTerminalDigitizeMonster
 user	_sourceTerminalDigitizeMonsterCount	0
@@ -1476,7 +1476,8 @@ user	_unknownHardBountyItem
 user	_unknownSpecialBountyItem	
 user	_untakenEasyBountyItem	
 user	_untakenHardBountyItem	
-user	_untakenSpecialBountyItem	
+user	_untakenSpecialBountyItem
+user	_usedReplicaBatoomerang	0
 user	_userMods
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
@@ -1487,6 +1488,7 @@ user	_volcanoItem3	0
 user	_volcanoItemCount1	0
 user	_volcanoItemCount2	0
 user	_volcanoItemCount3	0
+user	_voraciTeaUsed	false
 user	_volcanoItemRedeemed	false
 user	_VYKEACafeteriaRaided	false
 user	_VYKEACompanionType

@@ -1023,6 +1023,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_voraciTeaUsed" ) ? 0 : 1;
 
+		case ItemPool.SOBRIE_TEA:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_sobrieTeaUsed" ) ? 0 : 1;
+
 		case ItemPool.CHRONER_TRIGGER:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_chronerTriggerUsed" ) ? 0 : 1;
@@ -5093,6 +5097,10 @@ public class UseItemRequest
 
 		case ItemPool.VORACI_TEA:
 			Preferences.setBoolean( "_voraciTeaUsed", true );
+			break;
+
+		case ItemPool.SOBRIE_TEA:
+			Preferences.setBoolean( "_sobrieTeaUsed", true );
 			break;
 
 		case ItemPool.CHRONER_TRIGGER:
