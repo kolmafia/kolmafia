@@ -573,9 +573,9 @@ public class ValhallaDecorator
 			workshedBuffer.append( "<form style=\"margin: 0; padding: 0; display: inline;\"><select onchange=\"if (this.value) window.location.href=this.value\">" );
 			workshedBuffer.append( "<option value=\"\" style=\"background-color: #eeeeff\">Pick one</option>" );
 
-			for ( int i = 0; i < CampgroundRequest.workshedItems.size(); i++ )
+			for ( Integer workshedItem : CampgroundRequest.workshedItems )
 			{
-				AdventureResult item = ItemPool.get( CampgroundRequest.workshedItems.get( i ), 1 );
+				AdventureResult item = ItemPool.get( workshedItem, 1 );
 				if ( InventoryManager.hasItem( item ) )
 				{
 					workshedBuffer.append( "<option style=\"background-color: #eeeeff\" " );
@@ -668,12 +668,13 @@ public class ValhallaDecorator
 		if ( monster != null )
 		{
 			iceHouseBuffer.append( monster );
-			iceHouseBuffer.append( " (currently)</a></nobr>" );
+			iceHouseBuffer.append( " (currently)" );
 		}
 		else
 		{
-			iceHouseBuffer.append( "(none currently)</a></nobr>" );
+			iceHouseBuffer.append( "(none currently)" );
 		}
+		iceHouseBuffer.append( "</a></nobr><br />" );
 		buffer.append( iceHouseBuffer );
 	}
 
@@ -686,7 +687,7 @@ public class ValhallaDecorator
 
 		StringBuilder chateauBuffer = new StringBuilder();
 
-		chateauBuffer.append( "<br>Chateau: " );
+		chateauBuffer.append( "Chateau: " );
 
 		for ( AdventureResult item : KoLConstants.chateau )
 		{
