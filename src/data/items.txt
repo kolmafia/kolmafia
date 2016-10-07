@@ -9173,3 +9173,4 @@
 9147
 9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0
 9149	tiny baby scorpion	555009724	tinyscorp.gif	familiar	t,d	75
+9150	invisible string	259064767	blank.gif	usable	q	0
