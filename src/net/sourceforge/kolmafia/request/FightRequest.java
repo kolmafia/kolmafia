@@ -5818,6 +5818,15 @@ public class FightRequest
 			status.lastCombatItem = itemId;
 		}
 
+		if ( status.limitmode == Limitmode.BATMAN &&
+		     image.equals( "briefcase.gif" ) &&
+		     str.contains( "You lose an item" ) )
+		{
+			AdventureResult result = ItemPool.get( ItemPool.FINGERPRINT_DUSTING_KIT, -1 );
+			ResultProcessor.processItem( true, "You lose an item:", result, (List<AdventureResult>) null );
+			return false;
+		}
+
 		if ( image.equals( "hp.gif" ) &&
 		     ( str.contains( "regains" ) || str.contains( "She looks about" ) ) )
 		{

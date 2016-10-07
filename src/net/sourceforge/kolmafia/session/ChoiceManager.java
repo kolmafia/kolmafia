@@ -9140,11 +9140,11 @@ public abstract class ChoiceManager
 
 		case 1140:
 			// Casing the Conservatory
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.GLOB_OF_BAT_GLUE );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			else if ( ChoiceManager.lastDecision == 5 )
 			{
 				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
 				ResultProcessor.removeItem( ItemPool.FINGERPRINT_DUSTING_KIT );
@@ -9154,11 +9154,11 @@ public abstract class ChoiceManager
 
 		case 1141:
 			// Researching the Reservoir
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.BAT_AID_BANDAGE );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			else if ( ChoiceManager.lastDecision == 5 )
 			{
 				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
 				ResultProcessor.removeItem( ItemPool.ULTRACOAGULATOR );
@@ -9168,11 +9168,11 @@ public abstract class ChoiceManager
 
 		case 1142:
 			// Combing the Cemetery
-			if ( ChoiceManager.lastDecision == 3 )
+			if ( ChoiceManager.lastDecision == 4 )
 			{
 				ResultProcessor.removeItem( ItemPool.BAT_BEARING );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			else if ( ChoiceManager.lastDecision == 5 )
 			{
 				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );
 				ResultProcessor.removeItem( ItemPool.EXPLODING_KICKBALL );

@@ -73,7 +73,7 @@ public class StandardRequest
 
 	public static void initialize()
 	{
-		if ( !StandardRequest.initialized )
+		if ( !StandardRequest.initialized && KoLCharacter.getLimitmode() == null )
 		{
 			RequestThread.postRequest( StandardRequest.INSTANCE );
 		}
