@@ -41,10 +41,11 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -313,6 +314,19 @@ public class BatManager
 
 		// You are somewhere in Gotpork City
 		BatManager.setBatZone( BatManager.GOTPORK_CITY );
+
+		AdventureSpentDatabase.setTurns( "Center Park After Dark", 0 );
+		AdventureSpentDatabase.setTurns( "The Mean Streets", 0 );
+		AdventureSpentDatabase.setTurns( "Warehouse Row", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork Conservatory of Flowers", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork Municipal Reservoir", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork Gardens Cemetery", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork City Sewers", 0 );
+		AdventureSpentDatabase.setTurns( "Porkham Asylum", 0 );
+		AdventureSpentDatabase.setTurns( "The Old Gotpork Library", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork Clock, Inc.", 0 );
+		AdventureSpentDatabase.setTurns( "Gotpork Foundry", 0 );
+		AdventureSpentDatabase.setTurns( "Trivial Pursuits, LLC", 0 );
 	}
 
 	public static void begin()
