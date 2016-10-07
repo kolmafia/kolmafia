@@ -5171,6 +5171,7 @@ Effect	Intimidating Mien	Spooky Damage: +15
 Effect	Into the Friar	Avatar: "black friar"
 # Invisible (20 Minutes Ago): Makes You Invisible In The Past
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
+# Effect Invisible Ties
 Effect	Ironclad	Damage Absorption: +50, Damage Reduction: 10
 # Iron Palms: Swords count as clubs
 Effect	Irresistible Resolve	Experience (Moxie): +2
@@ -8388,6 +8389,7 @@ Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Ski
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
+Item	invisible string	Lasts Until Rollover, Effect: "Invisible Ties", Effect Duration: 5
 Item	iron torso box	Effect: "Cyber-Robo-Steam-Whatever Costume", Effect Duration: 30
 Item	ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 Item	irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
