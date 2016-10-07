@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -225,15 +227,26 @@ public abstract class EncounterManager
 		       encounterType == EncounterType.BADMOON;
 	}
 
-	public static boolean isRomanticEncounter( String responseText )
+	public static boolean isRomanticEncounter( final String responseText )
 	{
 		return responseText.contains( "hear a wolf whistle" ) ||
 		       responseText.contains( "you feel the hairs" );
 	}
 
-	public static boolean isDigitizedEncounter( String responseText )
+	public static boolean isDigitizedEncounter( final String responseText, final boolean checkMonster )
 	{
-		return responseText.contains( "must have hit CTRL+V" );
+		if ( responseText.contains( "must have hit CTRL+V" ) )
+		{
+			return true;
+		}
+		// This is called from some places before the next monster is set.
+		// Don't bother checking the monster in those cases.
+		if ( checkMonster && Preferences.getString( "nextAdventure" ).equals( "The Deep Machine Tunnels" ) )
+		{
+			String name = MonsterStatusTracker.getLastMonsterName();
+			return name.equalsIgnoreCase( Preferences.getString( "_sourceTerminalDigitizeMonster" ) );
+		}
+		return false;
 	}
 
 	public static boolean isWanderingMonster( String encounter )
@@ -307,7 +320,7 @@ public abstract class EncounterManager
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
 		     !EncounterManager.isRomanticEncounter( responseText ) &&
-		     !EncounterManager.isDigitizedEncounter( responseText ) &&
+		     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
 		{

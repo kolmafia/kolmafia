@@ -108,7 +108,6 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
-import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -2130,7 +2129,7 @@ public class FightRequest
 					Preferences.setString( "romanticTarget", "" );
 				}
 			}
-			else if ( EncounterManager.isDigitizedEncounter( responseText ) )
+			else if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
