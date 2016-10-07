@@ -81,6 +81,8 @@ public class ConsumablesDatabase
 	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
 	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
 	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( EffectPool.GLORIOUS_LUNCH );
+	public static final AdventureResult RECORD_HUNGER = EffectPool.get( EffectPool.RECORD_HUNGER );
+	public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get( EffectPool.DRUNK_AVUNCULAR );
 
 	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
 	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
