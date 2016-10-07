@@ -487,7 +487,7 @@ public class AdventureRequest
 				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
 				     !EncounterManager.isFreeCombatMonster( encounter ) &&
 				     !EncounterManager.isNoWanderMonster( encounter ) &&
-				     !EncounterManager.isDigitizedEncounter( responseText ) &&
+				     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 				     !EncounterManager.isRomanticEncounter( responseText ) &&
 				     !FightRequest.edFightInProgress() )
 				{
