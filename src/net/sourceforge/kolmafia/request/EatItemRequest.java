@@ -84,6 +84,7 @@ public class EatItemRequest
 	private static int askedAboutLunch = 0;
 	private static int askedAboutGarish = 0;
 	private static int askedAboutMayodiol = 0;
+	private static int askedAboutRecordHunger = 0;
 	private static AdventureResult queuedFoodHelper = null;
 	private static int queuedFoodHelperCount = 0;
 	public static int foodConsumed = 0;
@@ -439,11 +440,18 @@ public class EatItemRequest
 			EatItemRequest.askedAboutLunch = myUserId;
 		}
 
+		// If we are not in Nuclear Autumn or don't have 7th Floor, don't even consider Record Hunger
+		if ( !KoLCharacter.inNuclearAutumn() || Preferences.getInteger( "falloutShelterLevel" ) < 7 )
+		{
+			EatItemRequest.askedAboutRecordHunger = myUserId;
+		}
+
 		boolean skipMilkNag = ( EatItemRequest.askedAboutMilk == myUserId );
 		boolean skipLunchNag = ( EatItemRequest.askedAboutLunch == myUserId );
+		boolean skipRecordHungerNag = ( EatItemRequest.askedAboutRecordHunger == myUserId );
 
-		// If we've already asked about milk and/or lunch, don't nag
-		if ( skipMilkNag && skipLunchNag )
+		// If we've already asked about milk and/or lunch or record hunger, don't nag
+		if ( skipMilkNag && skipLunchNag && skipRecordHungerNag )
 		{
 			return true;
 		}
@@ -456,7 +464,7 @@ public class EatItemRequest
 		boolean canMilk = InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM );
 
 		// If you either can't get or don't care about both effects, don't nag
-		if ( ( !canLunch || skipLunchNag ) && ( !canMilk || skipMilkNag ) )
+		if ( ( !canLunch || skipLunchNag ) && ( !canMilk || skipMilkNag ) && skipRecordHungerNag )
 		{
 			return true;
 		}
@@ -482,7 +490,7 @@ public class EatItemRequest
 					return false;
 				}
 
-				EatItemRequest.askedAboutLunch = KoLCharacter.getUserId();
+				EatItemRequest.askedAboutLunch = myUserId;
 			}
 		}
 
@@ -502,7 +510,25 @@ public class EatItemRequest
 					return false;
 				}
 
-				EatItemRequest.askedAboutMilk = KoLCharacter.getUserId();
+				EatItemRequest.askedAboutMilk = myUserId;
+			}
+		}
+
+		// Check for Record Hunger
+		if ( !skipRecordHungerNag )
+		{
+			// See if already have Record Hunger effect
+			int recordHungerTurns = ConsumablesDatabase.RECORD_HUNGER.getCount( KoLConstants.activeEffects );
+
+			if ( recordHungerTurns < 1 )
+			{
+				String message = "Are you sure you want to eat without Record Hunger?";
+				if ( !InputFieldUtilities.confirm( message ) )
+				{
+					return false;
+				}
+
+				EatItemRequest.askedAboutRecordHunger = myUserId;
 			}
 		}
 
