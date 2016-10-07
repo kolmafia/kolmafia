@@ -66,7 +66,7 @@ public class TurnCounter
 
 	private int value;
 	private final String image;
-	private final String label;
+	private String label;
 	private String URL;
 	private String parsedLabel;
 	private HashSet<String> exemptions;
@@ -573,6 +573,46 @@ public class TurnCounter
 		}
 
 		return 0;
+	}
+
+	public static final void addWarning( final String label )
+	{
+		synchronized ( TurnCounter.relayCounters )
+		{
+			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
+
+			while ( it.hasNext() )
+			{
+				TurnCounter counter = it.next();
+				if ( counter.parsedLabel.equals( label ) && counter.exemptions == TurnCounter.ALL_LOCATIONS )
+				{
+					counter.exemptions = null;
+					counter.label = counter.label.replace( " loc=*", "" );
+				}
+			}
+
+			TurnCounter.saveCounters();
+		}
+	}
+
+	public static final void removeWarning( final String label )
+	{
+		synchronized ( TurnCounter.relayCounters )
+		{
+			Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
+
+			while ( it.hasNext() )
+			{
+				TurnCounter counter = it.next();
+				if ( counter.parsedLabel.equals( label ) && counter.exemptions == null )
+				{
+					counter.exemptions = TurnCounter.ALL_LOCATIONS;
+					counter.label += " loc=*";
+				}
+			}
+
+			TurnCounter.saveCounters();
+		}
 	}
 
 	public static final void deleteByHash( final int hash )

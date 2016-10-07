@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -79,6 +79,18 @@ public class CountersCommand
 			}
 
 			TurnCounter.startCounting( StringUtilities.parseInt( parameters ), title, image );
+		}
+
+		else if ( parameters.startsWith( "warn " ) )
+		{
+			parameters = parameters.substring( 5 ).trim();
+			TurnCounter.addWarning( parameters );
+		}
+
+		else if ( parameters.startsWith( "nowarn " ) )
+		{
+			parameters = parameters.substring( 7 ).trim();
+			TurnCounter.removeWarning( parameters );
 		}
 
 		ShowDataCommand.show( "counters" );
