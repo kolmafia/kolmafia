@@ -5764,6 +5764,7 @@ Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Stormswaddled	Spell Damage Percent: +100
 Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
+# Effect She Ate Too Much Candy
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
@@ -8884,6 +8885,7 @@ Item	probability potion	Effect: "Uncertain", Effect Duration: 10
 # procrastination potion: Causes Enemy to Put Off Attacking You
 Item	Professor of Spelunkology	Free Pull
 Item	programmable turtle	Effect: "Spiro Gyro", Effect Duration: 15
+Item	Prunets	Effect: "She Ate Too Much Candy", Effect Duration: 5
 Item	Psycho From The Heat	Skill: "Pyromania"
 # puce plastic oyster egg: Deals 40-50 Physical Damage
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
