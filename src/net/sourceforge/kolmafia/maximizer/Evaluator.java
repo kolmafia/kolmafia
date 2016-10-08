@@ -1114,7 +1114,7 @@ public class Evaluator
 			for ( int f = this.familiars.size() - 1; f >= 0; --f )
 			{
 				FamiliarData fam = this.familiars.get( f );
-				if ( !fam.canEquip( preItem ) || slot == EquipmentManager.FAMILIAR ) continue;
+				if ( !fam.canEquip( preItem ) ) continue;
 				// Modifiers when worn by Hatrack or Scarecrow
 				Modifiers familiarMods = new Modifiers();
 				int familiarId = fam.getId();
