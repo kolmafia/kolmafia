@@ -9170,7 +9170,7 @@
 9144	li'l eyeball costume	461807862	totstume8.gif	familiar	q,d	75
 9145	li'l liberty costume	120324527	totstume9.gif	familiar	q,d	75
 9146	hoarded candy wad	616007717	candy.gif	usable	t,d	5
-9147
+9147	Prunets	602566991	milkstuds.gif	multiple	t,d	10
 9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0
 9149	tiny baby scorpion	555009724	tinyscorp.gif	familiar	t,d	75
 9150	invisible string	259064767	blank.gif	usable	q	0
