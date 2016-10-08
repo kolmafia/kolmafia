@@ -179,6 +179,8 @@ public class FalloutShelterRequest
 		if ( shelterLevel > 0 )
 		{
 			Preferences.setInteger( "falloutShelterLevel", shelterLevel );
+			// We're in a Fallout Shelter, there must be nothing left of our campground!
+			KoLConstants.campground.clear();
 		}
 
 		// Using Spa Smulation Chamber
