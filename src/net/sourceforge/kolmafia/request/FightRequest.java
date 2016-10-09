@@ -2113,7 +2113,17 @@ public class FightRequest
 			}
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
 
-			if ( EncounterManager.isRomanticEncounter( responseText ) )
+			// Apparently digitize monsters always show up before arrow monsters if they are set to arrive
+			// on the same turn, so check in that order
+			if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
+				TurnCounter.stopCounting( "Digitize Monster" );
+				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+					  "Digitize Monster loc=* type=wander", "watch.gif" );
+			}
+			else if ( EncounterManager.isRomanticEncounter( responseText, true ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_romanticFightsLeft", -1 );
@@ -2128,14 +2138,6 @@ public class FightRequest
 				{
 					Preferences.setString( "romanticTarget", "" );
 				}
-			}
-			else if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
-			{
-				EncounterManager.ignoreSpecialMonsters();
-				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
-				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
-					  "Digitize Monster loc=* type=wander", "watch.gif" );
 			}
 
 			// Increment stinky cheese counter

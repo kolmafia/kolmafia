@@ -227,10 +227,24 @@ public abstract class EncounterManager
 		       encounterType == EncounterType.BADMOON;
 	}
 
-	public static boolean isRomanticEncounter( final String responseText )
+	public static boolean isRomanticEncounter( final String responseText, final boolean checkMonster )
 	{
-		return responseText.contains( "hear a wolf whistle" ) ||
-		       responseText.contains( "you feel the hairs" );
+		if ( responseText.contains( "hear a wolf whistle" ) ||
+		       responseText.contains( "you feel the hairs" ) )
+		{
+			return true;
+		}
+
+		// This is called from some places before the next monster is set.
+		// Don't bother checking the monster in those cases.
+		if ( checkMonster && TurnCounter.isCounting( "Romantic Monster window end", 0, 10 ) &&
+		     Preferences.getString( "nextAdventure" ).equals( "The Deep Machine Tunnels" ) )
+		{
+			String name = MonsterStatusTracker.getLastMonsterName();
+			return name.equalsIgnoreCase( Preferences.getString( "romanticTarget" ) );
+		}
+
+		return false;
 	}
 
 	public static boolean isDigitizedEncounter( final String responseText, final boolean checkMonster )
@@ -239,13 +253,16 @@ public abstract class EncounterManager
 		{
 			return true;
 		}
+
 		// This is called from some places before the next monster is set.
 		// Don't bother checking the monster in those cases.
-		if ( checkMonster && Preferences.getString( "nextAdventure" ).equals( "The Deep Machine Tunnels" ) )
+		if ( checkMonster && TurnCounter.isCounting( "Digitize Monster", 0 ) &&
+		     Preferences.getString( "nextAdventure" ).equals( "The Deep Machine Tunnels" ) )
 		{
 			String name = MonsterStatusTracker.getLastMonsterName();
 			return name.equalsIgnoreCase( Preferences.getString( "_sourceTerminalDigitizeMonster" ) );
 		}
+
 		return false;
 	}
 
@@ -319,7 +336,7 @@ public abstract class EncounterManager
 		
 		if ( encounterType == EncounterType.SEMIRARE &&
 		     !ignoreSpecialMonsters &&
-		     !EncounterManager.isRomanticEncounter( responseText ) &&
+		     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 		     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
