@@ -429,6 +429,25 @@ public class TurnCounter
 		return false;
 	}
 
+	public static final boolean isCounting( final String label, final int start, final int stop )
+	{
+		int begin = KoLCharacter.getCurrentRun() + start;
+		int end = KoLCharacter.getCurrentRun() + stop;
+
+		synchronized ( TurnCounter.relayCounters )
+		{
+			for ( TurnCounter current : TurnCounter.relayCounters )
+			{
+				if ( current.parsedLabel.equals( label ) && current.value >= begin && current.value <= end )
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public static final boolean isCounting( final String label )
 	{
  		synchronized ( TurnCounter.relayCounters )
