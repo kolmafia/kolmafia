@@ -1721,11 +1721,10 @@ public class RequestEditorKit
 		}
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			StringUtilities.singleStringReplace( monster.getName(), " (Dreadsylvanian)", "" );
-		}
+		String monsterName =
+			( monster != null ) ?
+			StringUtilities.singleStringReplace( monster.getName(), " (Dreadsylvanian)", "" ):
+			"";
 		String find = "your scary storybook!";
 		StringBuilder replace = new StringBuilder( find );
 		replace.append( " <font size=1>[<a href=\"" );
