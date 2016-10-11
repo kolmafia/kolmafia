@@ -74,7 +74,7 @@ public class PeeVPeeRequest
 		Pattern.compile( "<a.*?who=(\\d+)\">(.*?)</a> vs <a.*?who=(\\d+)\">(.*?)</a>" );
 
 	private static final Pattern WIN_PATTERN1 =
-		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!</span>" );
+		Pattern.compile( "<span[^>]*><b>(.*?)</b> won the fight, <b>(\\d+)</b> to <b>(\\d+)</b>!" );
 	private static final Pattern WIN_PATTERN2 =
 		Pattern.compile( "align=\"center\"><b>(.*?)</b> Wins!</td>" );
 
