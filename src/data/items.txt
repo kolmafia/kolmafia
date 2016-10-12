@@ -9174,3 +9174,35 @@
 9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0
 9149	tiny baby scorpion	555009724	tinyscorp.gif	familiar	t,d	75
 9150	invisible string	259064767	blank.gif	usable	q	0
+9151
+9152
+9153
+9154
+9155
+9156
+9157
+9158
+9159
+9160
+9161
+9162
+9163
+9164
+9165
+9166
+9167
+9168
+9169
+9170
+9171
+9172
+9173
+9174
+9175
+9176
+9177
+9178
+9179
+9180
+9181
+9182	Eldritch Intellect: Journey into a Mind of Horror	948396759	book2.gif	usable	t	0

@@ -183,6 +183,7 @@
 157	Brain Games	watch.gif	0	0	0
 158	20/20 Vision	eyes.gif	0	0	0
 159	Astute Angler	fishinpole.gif	0	0	0
+161	Eldritch Intellect	dinseybrain.gif	0	0	0
 
 # Skills available to Clubbers
 
