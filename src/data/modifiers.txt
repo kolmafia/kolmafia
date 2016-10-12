@@ -6405,6 +6405,8 @@ Skill	Disco Greed	Item Drop: [10*I]
 Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
 # Double-Fisted Skull Smashing
 Skill	Easy Riding	Experience (Moxie): +5
+Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
+# Eldritch Intellect Unlocks Eldritch Knowledge
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 Skill	Even More Elemental Wards	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
@@ -7973,6 +7975,7 @@ Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
 Item	Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
 Item	eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
+Item	Eldritch Intellect: Journey into a Mind of Horror	Skill: "Eldritch Intellect"
 Item	eldritch oil	Effect: "Uncanny Shot", Effect Duration: 30
 # electric boning knife: Deals Physical Damage each round for the rest of the fight
 Item	electronic Brain Trainer game	Skill: "Brain Games"
