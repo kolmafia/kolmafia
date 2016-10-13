@@ -2333,7 +2333,7 @@ public class GenericRequest
 
 	protected boolean shouldFollowRedirect()
 	{
-		return this != ChoiceManager.CHOICE_HANDLER && this.getClass() == GenericRequest.class;
+		return this.getClass() == GenericRequest.class;
 	}
 
 	private boolean retrieveServerReply( final InputStream istream )
