@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -1266,6 +1266,7 @@ public class KoLAdventure
 
 		if ( this.areaSummary != null &&
 		     !KoLCharacter.inZombiecore() &&
+		     !KoLCharacter.inNuclearAutumn() &&
 		     this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
 		     !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
 		{
