@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -1339,7 +1340,8 @@ public class ConcoctionDatabase
 			return;
 		}
 
-		if ( FightRequest.initializingAfterFight() )
+		if ( FightRequest.initializingAfterFight()||
+		     ChoiceManager.initializingAfterChoice() )
 		{
 			// Implicit defer
 			return;

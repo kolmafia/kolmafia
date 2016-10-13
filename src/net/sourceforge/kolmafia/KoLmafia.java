@@ -121,6 +121,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -939,6 +940,10 @@ public abstract class KoLmafia
 		// Look up the current clan
 		ClanManager.resetClanId();
 		ClanManager.getClanName( true );
+
+		// Update your mail contacts
+		ContactManager.clearMailContacts();
+		ContactManager.updateMailContacts();
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 

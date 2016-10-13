@@ -63,17 +63,6 @@ public class ContactListRequest
 	@Override
 	public void run()
 	{
-		// This is needed to get various lists for frame construction,
-		// which happens after we log in. However, if we are redirected
-		// to a fight or a choice during login, this request itself
-		// will be redirected.
-		if ( KoLmafia.isRefreshing() )
-		{
-
-			RequestThread.postRequestAfterInitialization( this );
-			return;
-		}
-
 		super.run();
 	}
 
@@ -85,6 +74,8 @@ public class ContactListRequest
 
 	public static final void parseResponse( final String urlString, final String responseText )
 	{
+		ContactManager.clearMailContacts();
+
 		ContactManager.addMailContact( KoLCharacter.getUserName(), KoLCharacter.getPlayerId() );
 
 		Matcher listMatcher = ContactListRequest.LIST_PATTERN.matcher( responseText );

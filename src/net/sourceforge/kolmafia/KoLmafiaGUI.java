@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanWarRequest;
-import net.sourceforge.kolmafia.request.ContactListRequest;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -307,10 +306,7 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == ContactListFrame.class )
 		{
-			if ( ContactManager.getMailContacts().isEmpty() && !CharPaneRequest.inValhalla() )
-			{
-				RequestThread.postRequest( new ContactListRequest() );
-			}
+			ContactManager.updateMailContacts();
 		}
 		else if ( frameClass == FamiliarTrainingFrame.class )
 		{
@@ -396,17 +392,11 @@ public class KoLmafiaGUI
 		}
 		else if ( frameClass == SendMessageFrame.class )
 		{
-			if ( ContactManager.getMailContacts().isEmpty() && !CharPaneRequest.inValhalla() )
-			{
-				RequestThread.postRequest( new ContactListRequest() );
-			}
+			ContactManager.updateMailContacts();
 		}
 		else if ( frameClass == SkillBuffFrame.class )
 		{
-			if ( ContactManager.getMailContacts().isEmpty() && !CharPaneRequest.inValhalla() )
-			{
-				RequestThread.postRequest( new ContactListRequest() );
-			}
+			ContactManager.updateMailContacts();
 		}
 		else if ( frameClass == StoreManageFrame.class )
 		{
