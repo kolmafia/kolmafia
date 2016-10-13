@@ -3765,8 +3765,12 @@ public abstract class ChoiceManager
 		GenericRequest request = ChoiceManager.CHOICE_HANDLER;
 		request.constructURLString( "choice.php" );
 		request.run();
-		RequestLogger.printLine( "Encounter: " + Preferences.getString( "lastEncounter" ) );
 		ChoiceCommand.printChoices();
+	}
+
+	public static boolean initializingAfterChoice()
+	{
+		return ChoiceManager.action == PostChoiceAction.INITIALIZE;
 	}
 
 	public static void ascendAfterChoice()

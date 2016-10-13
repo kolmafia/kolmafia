@@ -42,10 +42,16 @@ import java.util.Map.Entry;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
+import net.sourceforge.kolmafia.RequestThread;
+
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.ChatSender;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.ContactListRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 
 import net.sourceforge.kolmafia.swingui.ContactListFrame;
 
@@ -60,6 +66,17 @@ public class ContactManager
 	private static final SortedListModel chatContacts = new SortedListModel();
 
 	private static ContactListFrame contactsFrame = null;
+
+	public static final void updateMailContacts()
+	{
+		if ( ContactManager.mailContacts.isEmpty() &&
+		     !CharPaneRequest.inValhalla() &&
+		     !FightRequest.initializingAfterFight() &&
+		     !ChoiceManager.initializingAfterChoice() )
+		{
+			RequestThread.postRequest( new ContactListRequest() );
+		}
+	}
 
 	public static final boolean isMailContact( final String playerName )
 	{
