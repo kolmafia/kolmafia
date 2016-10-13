@@ -111,7 +111,15 @@ import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 
 public abstract class ChoiceManager
 {
-	public static final GenericRequest CHOICE_HANDLER = new GenericRequest( "choice.php" );
+	public static final GenericRequest CHOICE_HANDLER =
+		new GenericRequest( "choice.php" )
+		{
+			@Override
+			protected boolean shouldFollowRedirect()
+			{
+				return false;
+			}
+		};
 
 	public static boolean handlingChoice = false;
 	public static int lastChoice = 0;
