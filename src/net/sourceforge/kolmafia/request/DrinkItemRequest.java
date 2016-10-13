@@ -512,7 +512,7 @@ public class DrinkItemRequest
 
 			if ( drunkAvuncularTurns < 1 )
 			{
-				String message = "Are you sure you want to eat without Drunk and Avuncular?";
+				String message = "Are you sure you want to drink without Drunk and Avuncular?";
 				if ( !InputFieldUtilities.confirm( message ) )
 				{
 					return false;
