@@ -1916,6 +1916,54 @@ public class ItemDatabase
 		return EquipmentDatabase.isEquipment( useType ) || useType == KoLConstants.EQUIP_FAMILIAR;
 	}
 
+	public static final boolean isFood( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.CONSUME_EAT;
+	}
+
+	public static final boolean isBooze( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.CONSUME_DRINK;
+	}
+
+	public static final boolean isHat( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_HAT;
+	}
+
+	public static final boolean isWeapon( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_WEAPON;
+	}
+
+	public static final boolean isOffHand( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_OFFHAND;
+	}
+
+	public static final boolean isShirt( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_SHIRT;
+	}
+
+	public static final boolean isPants( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_PANTS;
+	}
+
+	public static final boolean isAccessory( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_ACCESSORY ;
+	}
+
 	public static final boolean isMultiUsable( final int itemId )
 	{
 		// Anything that you can manipulate with multiuse.php
