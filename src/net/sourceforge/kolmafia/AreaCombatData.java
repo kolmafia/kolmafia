@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -1074,9 +1075,54 @@ public class AreaCombatData
 
 			buffer.append( "<br>" );
 
+			// Certain items can be increased by other bonuses than just item drop
+			int itemId = item.getItemId();
+			double itemBonus = 0.0;
+
+			if ( ItemDatabase.isFood( itemId ) )
+			{
+				itemBonus += KoLCharacter.currentNumericModifier( Modifiers.FOODDROP ) / 100.0;
+			}
+			else if ( ItemDatabase.isBooze( itemId ) )
+			{
+				itemBonus += KoLCharacter.currentNumericModifier( Modifiers.BOOZEDROP ) / 100.0;
+			}
+			else if ( ItemDatabase.isCandyItem( itemId ) )
+			{
+				itemBonus += KoLCharacter.currentNumericModifier( Modifiers.CANDYDROP ) / 100.0;
+			}
+			else if ( ItemDatabase.isEquipment( itemId ) )
+			{
+				itemBonus += KoLCharacter.currentNumericModifier( Modifiers.GEARDROP ) / 100.0;
+				if ( ItemDatabase.isHat( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.HATDROP ) / 100.0;
+				}
+				else if ( ItemDatabase.isWeapon( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.WEAPONDROP ) / 100.0;
+				}
+				else if ( ItemDatabase.isOffHand( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.OFFHANDDROP ) / 100.0;
+				}
+				else if ( ItemDatabase.isShirt( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.SHIRTDROP ) / 100.0;
+				}
+				else if ( ItemDatabase.isPants( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.PANTSDROP ) / 100.0;
+				}
+				else if ( ItemDatabase.isAccessory( itemId ) )
+				{
+					itemBonus += KoLCharacter.currentNumericModifier( Modifiers.ACCESSORYDROP ) / 100.0;
+				}
+			}
+
 			double stealRate = Math.min( ( (Double) pocketRates.get( i ) ).doubleValue() * pocketModifier, 1.0 );
 			int rawDropRate = item.getCount() >> 16;
-			double dropRate = Math.min( rawDropRate * itemModifier, 100.0 );
+			double dropRate = Math.min( rawDropRate * ( itemModifier + itemBonus ), 100.0 );
 			double effectiveDropRate = stealRate * 100.0 + ( 1.0 - stealRate ) * dropRate;
 
 			String rateRaw = this.format( rawDropRate );
