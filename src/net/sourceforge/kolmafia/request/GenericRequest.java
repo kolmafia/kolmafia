@@ -874,7 +874,12 @@ public class GenericRequest
 
 	public boolean hasResult()
 	{
-		return !this.isExternalRequest && ResponseTextParser.hasResult( this.getURLString() );
+		return this.hasResult( this.getURLString() );
+	}
+
+	public boolean hasResult( String location )
+	{
+		return !this.isExternalRequest && ResponseTextParser.hasResult( location );
 	}
 
 	public void setHasResult( final boolean change )
@@ -1287,7 +1292,7 @@ public class GenericRequest
 		}
 
 		// Calculate this exactly once, now that we have the URL
-		this.hasResult = !this.isExternalRequest && ResponseTextParser.hasResult( location );
+		this.hasResult = this.hasResult( location );
 
 		if ( this.hasResult && this.stopForCounters() )
 		{
@@ -2272,7 +2277,7 @@ public class GenericRequest
 			// desired and rerun the request.
 
 			this.constructURLString( this.redirectLocation, this.redirectMethod.equals( "POST" ) );
-			// this.hasResult = !this.isExternalRequest && ResponseTextParser.hasResult( this.redirectLocation );
+			this.hasResult = this.hasResult( this.redirectLocation );
 			if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
 				ChoiceManager.preChoice( this );
