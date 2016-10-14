@@ -1301,35 +1301,60 @@ public class GenericRequest
 		{
 			this.externalExecute();
 		}
+		else if ( !this.prepareForURL( location ) )
+		{
+			return;
+		}
 		else
 		{
-			if ( !this.prepareForURL( location ) )
-			{
-				return;
-			}
 			this.execute();
 		}
 
-		// Response is ok or redirect
-		if ( this.responseCode != 200 && this.responseCode != 302 )
+		// Normal response?
+		if ( this.responseCode == 200 )
 		{
+			if ( this.responseText == null )
+			{
+				KoLmafia.updateDisplay(
+					MafiaState.ABORT,
+					"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
+			}
+			else
+			{
+				// Call central dispatch method for locations that require
+				// special handling
+
+				QuestManager.handleQuestChange( this );
+				this.formatResponse();
+			}
 			return;
 		}
 
-		if ( this.responseText == null )
+		// Redirect?
+		if ( this.responseCode == 302 )
 		{
-			KoLmafia.updateDisplay(
-				MafiaState.ABORT,
-				"Server " + GenericRequest.KOL_HOST + " returned a blank page from " + this.getBasePath() + ". Complain to Jick, not us." );
+			if ( this.redirectLocation == null )
+			{
+				KoLmafia.updateDisplay(
+					MafiaState.ABORT,
+					"Server " + GenericRequest.KOL_HOST + " returned 302 without a redirect location" );
+			}
+			else if ( this.redirectCount >= GenericRequest.REDIRECT_LIMIT )
+			{
+				KoLmafia.updateDisplay(
+					MafiaState.ABORT,
+					"Too many server redirects (" + this.redirectCount + "); current redirect location = " + this.redirectLocation );
+			}
+			else
+			{
+				// Informational debug message
+				KoLmafia.updateDisplay( "Unhandled redirect to " + this.redirectLocation );
+			}
 			return;
 		}
 
-		// Call central dispatch method for locations that require
-		// special handling
-
-		QuestManager.handleQuestChange( this );
-
-		this.formatResponse();
+		// Something else
+		return;
 	}
 
 	private boolean prepareForURL( final String location )
@@ -2236,6 +2261,7 @@ public class GenericRequest
 			// desired and rerun the request.
 
 			this.constructURLString( this.redirectLocation, this.redirectMethod.equals( "POST" ) );
+			// this.hasResult = !this.isExternalRequest && ResponseTextParser.hasResult( this.redirectLocation );
 			if ( this.redirectLocation.startsWith( "choice.php" ) )
 			{
 				ChoiceManager.preChoice( this );
