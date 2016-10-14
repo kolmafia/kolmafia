@@ -1339,6 +1339,10 @@ public class GenericRequest
 					MafiaState.ABORT,
 					"Server " + GenericRequest.KOL_HOST + " returned 302 without a redirect location" );
 			}
+			else if ( this instanceof RelayRequest )
+			{
+				// We are letting the browser handle redirects
+			}
 			else if ( this.redirectCount >= GenericRequest.REDIRECT_LIMIT )
 			{
 				KoLmafia.updateDisplay(
