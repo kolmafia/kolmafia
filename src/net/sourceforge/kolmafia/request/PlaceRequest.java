@@ -594,6 +594,20 @@ public class PlaceRequest
 				message = "Visiting the Odd Jobs Board";
 			}
 		}
+		else if ( place.equals( "town_market" ) )
+		{
+			if ( action.equals( "town_bookmobile" ) )
+			{
+				message = "Visiting The Bookmobile";
+			}
+		}
+		else if ( place.equals( "town_wrong" ) )
+		{
+			if ( action.equals( "townwrong_precinct" ) )
+			{
+				message = "Visiting the 11th Precinct Headquarters";
+			}
+		}
 		else if ( place.equals( "twitch" ) )
 		{
 			if ( action.equals( "twitch_votingbooth" ) )
