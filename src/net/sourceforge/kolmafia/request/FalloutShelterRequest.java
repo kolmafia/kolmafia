@@ -283,31 +283,35 @@ public class FalloutShelterRequest
 		}
 		else if ( action.equals( "vault2" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Fallout Shelter Medical Supply";
+			// shop.php?whichshop=vault1
+			// message = "Visiting your Fallout Shelter Medical Supply";
 		}
 		else if ( action.equals( "vault3" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Spa Simulation Chamber";
+			message = "Visiting your Spa Simulation Chamber";
 		}
 		else if ( action.equals( "vault4" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Fallout Shelter Electronics Supply";
+			// shop.php?whichshop=vault2
+			// message = "Visiting your Fallout Shelter Electronics Supply";
 		}
 		else if ( action.equals( "vault5" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Chronodynamics Laboratory";
+			message = "Visiting your Chronodynamics Laboratory";
 		}
 		else if ( action.equals( "vault6" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Gene-Sequencing Laboratory";
+			// shop.php?whichshop=mutate
+			// message = "Visiting your Gene-Sequencing Laboratory";
 		}
 		else if ( action.equals( "vault7" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Underground Record Store";
+			// shop.php?whichshop=vault3
+			// message = "Visiting your Underground Record Store";
 		}
 		else if ( action.equals( "vault8" ) )
 		{
-			message = "[" + KoLAdventure.getAdventureCount() + "] Visit your Main Reactor";
+			message = "Visiting your Main Reactor";
 		}
 		else
 		{
@@ -315,11 +319,15 @@ public class FalloutShelterRequest
 			return false;
 		}
 
-		RequestLogger.printLine( "" );
-		RequestLogger.printLine( message );
+		if ( message != null )
+		{
+			RequestLogger.printLine( "" );
+			RequestLogger.printLine( message );
 
-		RequestLogger.updateSessionLog();
-		RequestLogger.updateSessionLog( message );
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+		}
+
 		return true;
 	}
 }

@@ -137,6 +137,7 @@ public class GenericRequest
 	private int timeoutCount = 0;
 	private static final int TIMEOUT_LIMIT = 3;
 
+	private boolean redirectHandled = false;
 	private int redirectCount = 0;
 	private static final int REDIRECT_LIMIT = 5;
 
@@ -1273,6 +1274,7 @@ public class GenericRequest
 		GenericRequest.ignoreChatRequest = false;
 
 		this.timeoutCount = 0;
+		this.redirectHandled = false;
 		this.redirectCount = 0;
 		this.allowRedirect = null;
 
@@ -1342,6 +1344,10 @@ public class GenericRequest
 			else if ( this instanceof RelayRequest )
 			{
 				// We are letting the browser handle redirects
+			}
+			else if ( this.redirectHandled )
+			{
+				// Redirect passed off to another request
 			}
 			else if ( this.redirectCount >= GenericRequest.REDIRECT_LIMIT )
 			{
@@ -2187,6 +2193,7 @@ public class GenericRequest
 
 			if ( this instanceof UseItemRequest || this instanceof ChateauRequest || this instanceof DeckOfEveryCardRequest )
 			{
+				this.redirectHandled = true;
 				FightRequest.INSTANCE.run();
 				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 				{
@@ -2300,6 +2307,7 @@ public class GenericRequest
 				{
 					FightRequest.ireallymeanit = this.redirectLocation.substring( pos + 14 );
 				}
+				this.redirectHandled = true;
 				FightRequest.INSTANCE.run();
 				return !LoginRequest.isInstanceRunning();
 			}
@@ -2320,6 +2328,7 @@ public class GenericRequest
 				return true;
 			}
 
+			this.redirectHandled = true;
 			ChoiceManager.processRedirectedChoiceAdventure( this.redirectLocation );
 			return true;
 		}
