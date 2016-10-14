@@ -868,6 +868,7 @@ public class KoLmafiaCLI
 		new TerminalCommand().register( "terminal" );
 		new TestCommand().register( "test" );
 		new ThrowItemCommand().register( "throw" );
+		new TimeSpinnerCommand().register( "timespinner" );
 		new TrainFamiliarCommand().register( "train" );
 		new TryStatement().register( "try" );
 		new UnaliasCommand().register( "unalias" );
