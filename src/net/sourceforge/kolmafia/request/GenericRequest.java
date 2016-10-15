@@ -2282,6 +2282,10 @@ public class GenericRequest
 			{
 				ChoiceManager.preChoice( this );
 			}
+			if ( this.hasResult )
+			{
+				RequestLogger.registerRequest( this, this.redirectLocation );
+			}
 			return false;
 		}
 
