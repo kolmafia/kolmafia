@@ -48,19 +48,24 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class TimeSpinnerCommand
 	extends AbstractCommand
 {
 	public TimeSpinnerCommand()
 	{
-		this.usage = "";
+		this.usage = " list food | eat (foodname) | prank (target [msg=(message)]) - Use the Time-Spinner";
 	}
 
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		if ( !InventoryManager.hasItem( ItemPool.TIME_SPINNER ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Time-Spinner." );
+			return;
+		}
 		if ( parameters.startsWith( "eat " ) )
 		{
 			if ( Preferences.getInteger( "_timeSpinnerMinutesUsed" ) > 7 )
@@ -136,6 +141,47 @@ public class TimeSpinnerCommand
 			// request.addFormField( "pwd", GenericRequest.passwordHash );
 			// RequestThread.postRequest( request );
 			return;
+		}
+
+		if ( parameters.startsWith( "prank " ) )
+		{
+			if ( Preferences.getInteger( "_timeSpinnerMinutesUsed" ) == 10 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough time to prank anyone." );
+				return;
+			}
+
+			parameters = parameters.substring( 6 );
+			String message = null;
+			int index = parameters.indexOf( "msg=" );
+			if ( index != -1 )
+			{
+				message = parameters.substring( index + 4 ).trim();
+				parameters = parameters.substring( 0, index ).trim();
+			}
+
+			GenericRequest request = new GenericRequest( "inv_use.php" );
+			request.addFormField( "whichitem", String.valueOf( ItemPool.TIME_SPINNER ) );
+			request.addFormField( "ajax", "1" );
+			request.addFormField( "pwd", GenericRequest.passwordHash );
+			RequestThread.postRequest( request );
+
+			request = new GenericRequest( "choice.php" );
+			request.addFormField( "whichchoice", "1195" );
+			request.addFormField( "option", "5" );
+			request.addFormField( "pwd", GenericRequest.passwordHash );
+			RequestThread.postRequest( request );
+
+			request = new GenericRequest( "choice.php" );
+			request.addFormField( "whichchoice", "1198" );
+			request.addFormField( "option", "1" );
+			request.addFormField( "pwd", GenericRequest.passwordHash );
+			request.addFormField( "pl", parameters );
+			if ( message != null )
+			{
+				request.addFormField( "th", message );
+			}
+			RequestThread.postRequest( request );
 		}
 
 		if ( parameters.trim().equals( "list food" ) )
