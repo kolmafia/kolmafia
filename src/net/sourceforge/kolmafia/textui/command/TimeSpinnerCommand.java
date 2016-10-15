@@ -33,7 +33,12 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -42,6 +47,8 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
@@ -55,7 +62,7 @@ public class TimeSpinnerCommand
 {
 	public TimeSpinnerCommand()
 	{
-		this.usage = " list food | eat (foodname) | prank (target [msg=(message)]) - Use the Time-Spinner";
+		this.usage = " list (food|monsters [filter]) | eat (foodname) | prank (target [msg=(message)]) - Use the Time-Spinner";
 	}
 
 	@Override
@@ -182,6 +189,7 @@ public class TimeSpinnerCommand
 				request.addFormField( "th", message );
 			}
 			RequestThread.postRequest( request );
+			return;
 		}
 
 		if ( parameters.trim().equals( "list food" ) )
@@ -197,6 +205,43 @@ public class TimeSpinnerCommand
 			{
 				AdventureResult item = ItemPool.get( Integer.valueOf( food ) );
 				RequestLogger.printLine( item.getName() );
+			}
+			return;
+		}
+
+		if ( parameters.startsWith( "list monsters" ) )
+		{
+			String filter = parameters.substring( 13 ).trim().toLowerCase();
+			boolean filterExists = !filter.equals( "" );
+
+			List<String> monsters = new ArrayList<String>();
+			for ( KoLAdventure adv : AdventureDatabase.getAsLockableListModel() )
+			{
+				if ( !adv.getRequest().getURLString().startsWith( "adventure.php" ) )
+				{
+					continue;
+				}
+				for ( Object mon : AdventureQueueDatabase.getZoneQueue( adv ) )
+				{
+					String monster = (String) mon;
+					if ( !monsters.contains( monster ) && 
+					     ( !filterExists || monster.toLowerCase().contains( filter ) ) )
+					{
+						monsters.add( monster );
+					}
+				}
+			}
+			Collections.sort( monsters, String.CASE_INSENSITIVE_ORDER );
+			if ( monsters.isEmpty() )
+			{
+				RequestLogger.printLine( "No monsters are available." );
+				return;
+			}
+
+			RequestLogger.printLine( "Available monsters:" );
+			for ( String monster : monsters )
+			{
+				RequestLogger.printLine( monster );
 			}
 			return;
 		}
