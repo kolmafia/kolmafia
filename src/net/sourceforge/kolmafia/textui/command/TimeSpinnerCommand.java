@@ -186,8 +186,13 @@ public class TimeSpinnerCommand
 
 		if ( parameters.trim().equals( "list food" ) )
 		{
+			if ( Preferences.getString( "_timeSpinnerFoodAvailable" ).equals( "" ) )
+			{
+				RequestLogger.printLine( "No food available." );
+				return;
+			}
 			String[] spinnerFoods = Preferences.getString( "_timeSpinnerFoodAvailable" ).split( "," );
-			RequestLogger.printLine( "Available foods:" );
+			RequestLogger.printLine( "Available food:" );
 			for ( String food : spinnerFoods )
 			{
 				AdventureResult item = ItemPool.get( Integer.valueOf( food ) );
