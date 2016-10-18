@@ -2039,6 +2039,19 @@ public abstract class RuntimeLibrary
 		return DataTypes.VOID_VALUE;
 	}
 
+	public static Value print( Interpreter interpreter, final Value string )
+	{
+		String parameters = RuntimeLibrary.cleanString( string );
+
+		RequestLogger.getSessionStream().println( "> " + parameters );
+
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
+
+		RequestLogger.printLine( parameters );
+
+		return DataTypes.VOID_VALUE;
+	}
+
 	public static Value print( Interpreter interpreter, final Value string, final Value color )
 	{
 		String parameters = RuntimeLibrary.cleanString( string );
