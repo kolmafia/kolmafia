@@ -606,7 +606,16 @@ public class RelayAgent
 
 		if ( RequestLogger.isTracing() )
 		{
-			RequestLogger.trace( "To Browser: " + this.request.statusLine + ": " + this.path );
+			StringBuilder buffer = new StringBuilder( "To Browser: " );
+			buffer.append( this.request.statusLine );
+			buffer.append( ": " );
+			buffer.append( this.path );
+			if ( this.request.responseCode == 302 )
+			{
+				buffer.append( " -> " );
+				buffer.append( this.request.getRedirectLocation() );
+			}
+			RequestLogger.trace( buffer.toString() );
 		}
 
 		if ( !RequestLogger.isDebugging() )
