@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -124,12 +125,14 @@ public class UseItemEnqueuePanel
 		{
 			listeners.add( new BingeGhostListener() );
 			listeners.add( new MilkListener() );
+			listeners.add( new LunchListener() );
 			listeners.add( new DistendListener() );
 		}
 		else if ( this.booze )
 		{
 			listeners.add( new BingeHoboListener() );
 			listeners.add( new OdeListener() );
+			listeners.add( new PrayerListener() );
 			listeners.add( new DogHairListener() );
 		}
 		else if ( this.spleen )
@@ -235,10 +238,16 @@ public class UseItemEnqueuePanel
 
 			// The milk listener is just after the ghost listener
 			boolean milkAvailable = InventoryManager.itemAvailable( ItemPool.MILK_OF_MAGNESIUM )
-						|| KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
 						|| CreateItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ), false ).getQuantityPossible() > 0;
 
 			this.buttons[ bingeIndex + 1 ].setEnabled( milkAvailable );
+
+			// The lunch listener is just after the milk listener
+			boolean lunchAvailable = KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
+						|| ( Preferences.getBoolean( "barrelShrineUnlocked" ) && !Preferences.getBoolean( "_barrelPrayer" ) &&
+							KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) );
+
+			this.buttons[ bingeIndex + 2 ].setEnabled( lunchAvailable );
 
 			// We gray out the distend button unless we have a
 			// pill, and haven't used one today.
@@ -259,6 +268,11 @@ public class UseItemEnqueuePanel
 			// The ode listener is just after the hobo listener
 			boolean haveOde = KoLCharacter.hasSkill( "The Ode to Booze" );
 			this.buttons[ bingeIndex + 1 ].setEnabled( haveOde );
+
+			// The prayer listener is just after the ode listener
+			boolean prayerAvailable = Preferences.getBoolean( "barrelShrineUnlocked" ) && !Preferences.getBoolean( "_barrelPrayer" ) &&
+							KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
+			this.buttons[ bingeIndex + 2 ].setEnabled( prayerAvailable );
 
 			// We gray out the dog hair button unless we have
 			// inebriety, have a pill, and haven't used one today.
@@ -492,13 +506,33 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void execute()
 		{
+			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "use milk" ;
+		}
+	}
+
+	private class LunchListener
+		extends ThreadedListener
+	{
+		@Override
+		protected void execute()
+		{
 			if ( KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) )
 			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( "Song of the Glorious Lunch", 1 ) );
 			}
 			else
 			{
-				RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MILK_OF_MAGNESIUM, 1 ) ) );
+				// Barrel shrine request
+				GenericRequest request = new GenericRequest( "da.php?barrelshrine=1" ) ;
+				RequestThread.postRequest( request );
+				request.constructURLString( "choice.php?whichchoice=1100&option=4" );
+				RequestThread.postRequest( request );
 			}
 		}
 
@@ -506,7 +540,7 @@ public class UseItemEnqueuePanel
 		public String toString()
 		{
 			return KoLCharacter.hasSkill( "Song of the Glorious Lunch" ) ?
-				"glorious lunch" : "use milk" ;
+				"glorious lunch" : "barrel prayer" ;
 		}
 	}
 
@@ -527,6 +561,26 @@ public class UseItemEnqueuePanel
 		public String toString()
 		{
 			return "cast ode" ;
+		}
+	}
+
+	private class PrayerListener
+		extends ThreadedListener
+	{
+		@Override
+		protected void execute()
+		{
+			// Barrel shrine request
+			GenericRequest request = new GenericRequest( "da.php?barrelshrine=1" ) ;
+			RequestThread.postRequest( request );
+			request.constructURLString( "choice.php?whichchoice=1100&option=4" );
+			RequestThread.postRequest( request );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "barrel prayer" ;
 		}
 	}
 
