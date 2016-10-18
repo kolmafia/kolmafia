@@ -203,6 +203,10 @@ public class ShrineRequest
 		if ( responseText.contains( "bgshrine.gif" ) )
 		{
 			Preferences.setBoolean( "barrelShrineUnlocked", true );
+			if ( responseText.contains( "already prayed to the Barrel god" ) )
+			{
+				Preferences.setBoolean( "_barrelPrayer", true );
+			}
 		}
 
 		String action = GenericRequest.getAction( urlString );
