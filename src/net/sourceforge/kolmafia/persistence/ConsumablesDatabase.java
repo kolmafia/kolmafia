@@ -81,6 +81,8 @@ public class ConsumablesDatabase
 	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
 	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );
 	public static final AdventureResult GLORIOUS_LUNCH = EffectPool.get( EffectPool.GLORIOUS_LUNCH );
+	public static final AdventureResult BARREL_OF_LAUGHS = EffectPool.get( EffectPool.BARREL_OF_LAUGHS );
+	public static final AdventureResult BEER_BARREL_POLKA = EffectPool.get( EffectPool.BEER_BARREL_POLKA );
 	public static final AdventureResult RECORD_HUNGER = EffectPool.get( EffectPool.RECORD_HUNGER );
 	public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get( EffectPool.DRUNK_AVUNCULAR );
 
@@ -470,7 +472,8 @@ public class ConsumablesDatabase
 		// Adventure gain modifier #1 is ode or milk, which adds
 		// unitCost adventures to the result.
 
-		// Adventure gain modifier #2 is Song of the Glorious Lunch or Rowdy Drinker, which adds
+		// Adventure gain modifier #2 is Song of the Glorious Lunch, Rowdy Drinker, 
+		// Barrel of Laughs or Beer Barrel Polka, which add
 		// unitCost adventures to the result.
 
 		// Adventure gain modifier #3 is Gourmand or Neurogourmet, which adds
@@ -854,7 +857,8 @@ public class ConsumablesDatabase
 		{
 			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == CraftingType.SUSHI;
 			boolean milk = KoLConstants.activeEffects.contains( ConsumablesDatabase.MILK );
-			boolean lunch = KoLConstants.activeEffects.contains( ConsumablesDatabase.GLORIOUS_LUNCH );
+			boolean lunch = KoLConstants.activeEffects.contains( ConsumablesDatabase.GLORIOUS_LUNCH ) ||
+							ConsumablesDatabase.BARREL_OF_LAUGHS.getCount( KoLConstants.activeEffects ) >= 5;
 			boolean gourmand = KoLCharacter.hasSkill( "Gourmand" ) || KoLCharacter.hasSkill( "Neurogourmet" );
 			boolean munchies = Preferences.getInteger( "munchiesPillsUsed" ) > 0;
 			range = ConsumablesDatabase.getAdventureMap( perUnit,
@@ -866,7 +870,8 @@ public class ConsumablesDatabase
 		else if ( ConsumablesDatabase.getRawInebriety( name ) != null )
 		{
 			boolean odeEffect = KoLConstants.activeEffects.contains( ConsumablesDatabase.ODE );
-			boolean rowdyDrinker = KoLCharacter.hasSkill( "Rowdy Drinker" );
+			boolean rowdyDrinker = KoLCharacter.hasSkill( "Rowdy Drinker" ) ||
+								ConsumablesDatabase.BEER_BARREL_POLKA.getCount( KoLConstants.activeEffects ) >= 5;
 			range = ConsumablesDatabase.getAdventureMap(
 				perUnit, odeEffect, rowdyDrinker, false, false ).get( name );
 		}
