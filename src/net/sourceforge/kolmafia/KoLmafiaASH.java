@@ -64,9 +64,10 @@ public abstract class KoLmafiaASH
 	public static final void logScriptExecution( final String prefix, final String scriptName, Interpreter script )
 	{
 		boolean isDebugging = RequestLogger.isDebugging();
-		boolean isTracing = Interpreter.isTracing();
+		boolean isTracing = RequestLogger.isTracing();
+		boolean scriptIsTracing = Interpreter.isTracing();
 
-		if ( !isDebugging && !isTracing )
+		if ( !isDebugging && !isTracing && !scriptIsTracing )
 		{
 			return;
 		}
@@ -80,8 +81,13 @@ public abstract class KoLmafiaASH
 
 		if ( isTracing )
 		{
-			script.trace( message );
+			RequestLogger.trace( message );
 		}
+
+ 		if ( scriptIsTracing )
+ 		{
+			script.trace( message );
+ 		}
 	}
 
 	public static final boolean getClientHTML( final RelayRequest request )

@@ -296,6 +296,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "logprint", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "traceprint", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "print", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
@@ -2008,49 +2011,46 @@ public abstract class RuntimeLibrary
 		return InterruptableDialog.confirm( message, timeOut, defaultBoolean );
 	}
 
-	public static Value logprint( Interpreter interpreter, final Value string )
+	private static String cleanString( Value string )
 	{
 		String parameters = string.toString();
 
 		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
 		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+		
+		return parameters;
+	}
 
+	public static Value logprint( Interpreter interpreter, final Value string )
+	{
+		String parameters = RuntimeLibrary.cleanString( string );
 		RequestLogger.getSessionStream().println( "> " + parameters );
-
 		return DataTypes.VOID_VALUE;
 	}
 
-	public static Value print( Interpreter interpreter, final Value string )
+	public static Value traceprint( Interpreter interpreter, final Value string )
 	{
-		String parameters = string.toString();
-
-		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
-		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
-
-		RequestLogger.getSessionStream().println( "> " + parameters );
-
-		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
-
-		RequestLogger.printLine( parameters );
+		if ( RequestLogger.isTracing() )
+		{
+			String parameters = RuntimeLibrary.cleanString( string );
+			RequestLogger.trace( "trace: " + parameters );
+		}
 
 		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value print( Interpreter interpreter, final Value string, final Value color )
 	{
-		String parameters = string.toString();
-
-		parameters = StringUtilities.globalStringDelete( parameters, "\n" );
-		parameters = StringUtilities.globalStringDelete( parameters, "\r" );
+		String parameters = RuntimeLibrary.cleanString( string );
 
 		RequestLogger.getSessionStream().println( "> " + parameters );
+
+		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		String colorString = color.toString();
 
 		colorString = StringUtilities.globalStringDelete( colorString, "\"" );
 		colorString = StringUtilities.globalStringDelete( colorString, "<" );
-
-		parameters = StringUtilities.globalStringReplace( parameters, "<", "&lt;" );
 
 		RequestLogger.printLine( "<font color=\"" + colorString + "\">" + parameters + "</font>" );
 
