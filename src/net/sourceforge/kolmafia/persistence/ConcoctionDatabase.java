@@ -2294,8 +2294,9 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.BARREL, "You do not have a Barrel Shrine." );
 		}
 
-		boolean sourceTerminal = KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) );
-		boolean sourceTerminalUsable = Preferences.getInteger( "_sourceTerminalExtrudes" ) < 3 ? true : false;
+		boolean sourceTerminal = KoLConstants.campground.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) ) ||
+		                         KoLConstants.falloutShelter.contains( ItemPool.get( ItemPool.SOURCE_TERMINAL ) );
+		boolean sourceTerminalUsable = Preferences.getInteger( "_sourceTerminalExtrudes" ) < 3;
 		if ( sourceTerminal && sourceTerminalUsable )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.TERMINAL );
