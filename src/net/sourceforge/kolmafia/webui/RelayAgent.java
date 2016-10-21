@@ -180,6 +180,11 @@ public class RelayAgent
 
 		String requestLine = this.reader.readLine();
 
+		if ( requestLine == null )
+		{
+			return false;
+		}
+
 		if ( debugging )
 		{
 			RequestLogger.updateDebugLog( "-----From Browser-----" );
@@ -189,11 +194,6 @@ public class RelayAgent
 		if ( tracing )
 		{
 			RequestLogger.trace( "From Browser: " + requestLine );
-		}
-
-		if ( requestLine == null )
-		{
-			return false;
 		}
 
 		if ( !requestLine.contains( "HTTP/1.1" ) )
@@ -217,6 +217,7 @@ public class RelayAgent
 		}
 
 		this.request.constructURLString( this.path, usePostMethod );
+		this.request.responseText = null;
 		this.isCheckingModified = null;
 
 		String currentLine;
@@ -549,6 +550,11 @@ public class RelayAgent
 				RequestThread.postRequest( this.request );
 				RelayAgent.errorRequest = null;
 			}
+			else if ( this.request.responseText == null )
+			{
+				// Force a refresh
+				this.request.pseudoResponse( "HTTP/1.1 200 OK", ChoiceManager.lastResponseText );
+			}
 		}
 		else if ( this.path.equals( "/leaflet.php?action=auto" ) )
 		{
@@ -575,6 +581,8 @@ public class RelayAgent
 		{
 			if ( this.request.responseText == null )
 			{
+				// We did not make a request of KoL and did not
+				// create a pseudoResponse
 				return;
 			}
 

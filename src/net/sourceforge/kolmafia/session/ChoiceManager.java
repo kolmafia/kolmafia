@@ -6300,6 +6300,11 @@ public abstract class ChoiceManager
 		return request.responseText;
 	}
 
+	public static final boolean stillInChoice()
+	{
+		return ChoiceManager.stillInChoice( ChoiceManager.lastResponseText );
+	}
+
 	private static final boolean stillInChoice( final String responseText )
 	{
 		// Doing the Maths has a choice form but, somehow, does not specify choice.php
@@ -6372,6 +6377,7 @@ public abstract class ChoiceManager
 
 			if ( ChoiceManager.specialChoiceHandling( choice, request ) )
 			{
+				// Should we abort?
 				return;
 			}
 
@@ -6728,8 +6734,8 @@ public abstract class ChoiceManager
 
 	public static void postChoice0( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest )
+		// chat and desc_ and questlog requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
 		{
 			return;
 		}
@@ -6786,8 +6792,8 @@ public abstract class ChoiceManager
 
 	public static void postChoice1( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest )
+		// chat and desc_ and questlog requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
 		{
 			return;
 		}
@@ -9357,8 +9363,8 @@ public abstract class ChoiceManager
 
 	public static void postChoice2( final String urlString, final GenericRequest request )
 	{
-		// chat and desc_ requests can come at any time
-		if ( request.isChatRequest || request.isDescRequest )
+		// chat and desc_ and questlog requests can come at any time
+		if ( request.isChatRequest || request.isDescRequest || request.isQuestLogRequest )
 		{
 			return;
 		}
@@ -9370,17 +9376,17 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		// Things that can or need to be done AFTER processing results.
-
-		String text = request.responseText;
-
-		ChoiceManager.handlingChoice = ChoiceManager.stillInChoice( text );
-
 		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
 		{
 			// This was a visit
 			return;
 		}
+
+		// Things that can or need to be done AFTER processing results.
+
+		String text = request.responseText;
+
+		ChoiceManager.handlingChoice = ChoiceManager.stillInChoice( text );
 
 		switch ( ChoiceManager.lastChoice )
 		{
@@ -10769,16 +10775,19 @@ public abstract class ChoiceManager
 
 	public static void visitChoice( final GenericRequest request )
 	{
-		String text = ChoiceManager.lastResponseText = request.responseText;
+		String text = request.responseText;
 		ChoiceManager.lastChoice = ChoiceManager.extractChoice( text );
 
 		if ( ChoiceManager.lastChoice == 0 )
 		{
-			// choice.php did not offer us any choices.
-			// This would be a bug in KoL itself.
+			// choice.php did not offer us any choices.  This would
+			// either be a bug in KoL itself or a non-choice page
+			// that you can visit at any time that we don't know
+			// about yet.
 			return;
 		}
 
+		ChoiceManager.lastResponseText = text;
 		ChoiceManager.setCanWalkAway( ChoiceManager.lastChoice );
 
 		switch ( ChoiceManager.lastChoice )
