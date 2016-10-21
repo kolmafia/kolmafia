@@ -2013,7 +2013,7 @@ public class GenericRequest
 			{
 				this.printHeaderFields();
 			}
-			if ( RequestLogger.isTracing() )
+			if ( this.responseCode != 200 && RequestLogger.isTracing() )
 			{
 				RequestLogger.trace( "Retrieved: " + this.requestURL() );
 			}
@@ -2393,6 +2393,16 @@ public class GenericRequest
 		}
 
 		this.responseText = new String( ByteBufferUtilities.read( istream ), "UTF-8" );
+
+		if ( this.responseCode == 200 && RequestLogger.isTracing() )
+		{
+			StringBuilder buffer = new StringBuilder( "Retrieved: " );
+			buffer.append( this.requestURL() );
+			buffer.append( " (" );
+			buffer.append( this.responseText == null ? "0" : this.responseText.length() );
+			buffer.append( " bytes)" );
+			RequestLogger.trace( buffer.toString() );
+		}
 
 		if ( this.responseText == null )
 		{

@@ -610,7 +610,13 @@ public class RelayAgent
 			buffer.append( this.request.statusLine );
 			buffer.append( ": " );
 			buffer.append( this.path );
-			if ( this.request.responseCode == 302 )
+			if ( this.request.responseCode == 200 )
+			{
+				buffer.append( " (" );
+				buffer.append( this.request.rawByteBuffer.length );
+				buffer.append( " bytes)" );
+			}
+			else if ( this.request.responseCode == 302 )
 			{
 				buffer.append( " -> " );
 				buffer.append( this.request.getRedirectLocation() );

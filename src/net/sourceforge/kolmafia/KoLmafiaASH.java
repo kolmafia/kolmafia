@@ -63,6 +63,11 @@ public abstract class KoLmafiaASH
 
 	public static final void logScriptExecution( final String prefix, final String scriptName, Interpreter script )
 	{
+		KoLmafiaASH.logScriptExecution( prefix, scriptName, "", script );
+	}
+
+	public static final void logScriptExecution( final String prefix, final String scriptName, final String postfix, Interpreter script )
+	{
 		boolean isDebugging = RequestLogger.isDebugging();
 		boolean isTracing = RequestLogger.isTracing();
 		boolean scriptIsTracing = Interpreter.isTracing();
@@ -72,7 +77,7 @@ public abstract class KoLmafiaASH
 			return;
 		}
 
-		String message = prefix + scriptName;
+		String message = prefix + scriptName + postfix;
 
 		if ( isDebugging )
 		{
@@ -169,7 +174,7 @@ public abstract class KoLmafiaASH
 				return false;
 			}
 
-			KoLmafiaASH.logScriptExecution( "Starting relay script: ", toExecute.getName(), relayScript );
+			KoLmafiaASH.logScriptExecution( "Starting relay script: ", toExecute.getName(), "", relayScript );
 
 			RelayRequest relayRequest = new RelayRequest( false );
 			relayRequest.cloneURLString( request );
@@ -197,7 +202,7 @@ public abstract class KoLmafiaASH
 
 			relayScript.finishRelayScript();
 
-			KoLmafiaASH.logScriptExecution( "Finished relay script: ", toExecute.getName(), relayScript );
+			KoLmafiaASH.logScriptExecution( "Finished relay script: ", toExecute.getName(), " (" + written + " bytes)",  relayScript );
 
 			return written != 0;
 		}
