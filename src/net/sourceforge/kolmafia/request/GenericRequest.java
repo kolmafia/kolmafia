@@ -174,6 +174,7 @@ public class GenericRequest
 	public boolean isExternalRequest = false;
 	public boolean isChatRequest = false;
 	public boolean isDescRequest = false;
+	public boolean isQuestLogRequest = false;
 
 	protected List<String> data;
 	private boolean dataChanged = true;
@@ -481,6 +482,8 @@ public class GenericRequest
 			this.formURLString.startsWith( "submitnewchat.php" );
 
 		this.isDescRequest = this.formURLString.startsWith( "desc_" );
+
+		this.isQuestLogRequest = this.formURLString.startsWith( "questlog.php" );
 
 		return this;
 	}
@@ -2495,7 +2498,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( !this.isChatRequest && !this.isDescRequest )
+		if ( !this.isChatRequest && !this.isDescRequest && !this.isQuestLogRequest )
 		{
 			EventManager.checkForNewEvents( this.responseText );
 		}
