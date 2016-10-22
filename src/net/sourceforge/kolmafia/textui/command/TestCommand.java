@@ -90,6 +90,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -217,6 +218,20 @@ public class TestCommand
 			String canonical = StringUtilities.getEntityEncode( string, false );
 			String escaped = CharacterEntities.escape( canonical );
 			RequestLogger.printLine( "canonical(" + canonical.length() + ") = \"" + escaped + "\"" );
+			return;
+		}
+
+		if ( command.equals( "cookies" ) )
+		{
+			if ( GenericRequest.serverCookies.size() == 0 )
+			{
+				RequestLogger.printLine( "No server cookies" );
+				return;
+			}
+			for ( ServerCookie cookie : GenericRequest.serverCookies )
+			{
+				RequestLogger.printLine( cookie.toString() );
+			}
 			return;
 		}
 
