@@ -9376,17 +9376,17 @@ public abstract class ChoiceManager
 			return;
 		}
 
-		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
-		{
-			// This was a visit
-			return;
-		}
-
 		// Things that can or need to be done AFTER processing results.
 
 		String text = request.responseText;
 
 		ChoiceManager.handlingChoice = ChoiceManager.stillInChoice( text );
+
+		if ( ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0 )
+		{
+			// This was a visit
+			return;
+		}
 
 		switch ( ChoiceManager.lastChoice )
 		{
