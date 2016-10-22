@@ -1755,10 +1755,9 @@ public class GenericRequest
 					}
 
 					ServerCookie serverCookie = new ServerCookie( comma == -1 ? cookie : cookie.substring( 0, comma ) );
-
 					String name = serverCookie.getName();
 
-					if ( !name.equals( "" ) )
+					if ( GenericRequest.specialCookie( name ) )
 					{
 						// We've defined cookie equality as same name
 						// Since the value has changed, remove the old cookie first
@@ -1780,6 +1779,11 @@ public class GenericRequest
 				}
 			}
 		}
+	}
+
+	public static boolean specialCookie( final String name )
+	{
+		return name.equals( "PHPSESSID" ) || name.equals( "AWSALB" );
 	}
 
 	private URL buildURL()
