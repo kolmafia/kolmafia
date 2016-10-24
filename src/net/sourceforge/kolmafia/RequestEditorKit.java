@@ -466,7 +466,12 @@ public class RequestEditorKit
 
 			RequestEditorKit.suppressInappropriateNags( buffer );
 			RequestEditorKit.fixTavernCellar( buffer );
+
+			// Decorate end of fight before stationary buttons
+			FightDecorator.decorateEndOfFight( buffer );
+
 			StationaryButtonDecorator.decorate( location, buffer );
+
 			DiscoCombatHelper.decorate( buffer );
 			RequestEditorKit.addFightModifiers( buffer );
 			RequestEditorKit.addTaleOfDread( buffer );
