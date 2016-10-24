@@ -2887,6 +2887,8 @@ public class GenericRequest
 		AdventureResult item =
 			location.contains( "action=chateau_painting" ) ?
 			ChateauRequest.CHATEAU_PAINTING :
+			location.startsWith( "choice.php" ) && location.contains( "whichchoice=1195" ) && location.contains( "option=3" ) ?
+			ItemPool.get( ItemPool.TIME_SPINNER ) :
 			UseItemRequest.extractItem( location );
 
 		GenericRequest.itemMonster = null;
@@ -3201,6 +3203,10 @@ public class GenericRequest
 			consumed = true;
 			EncounterManager.ignoreSpecialMonsters();
 			Preferences.setString( "screencappedMonster", "" );
+			break;
+
+		case ItemPool.TIME_SPINNER:
+			itemName = "Way Back in Time";
 			break;
 
 		case ItemPool.TIME_RESIDUE:

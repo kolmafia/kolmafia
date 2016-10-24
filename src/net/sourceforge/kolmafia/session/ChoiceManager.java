@@ -13531,8 +13531,8 @@ public abstract class ChoiceManager
 		case 923:
 			// Manual control if the choice you want isn't available
 			if ( ( decision.equals( "2" ) && !responseText.contains( "Visit the blacksmith's cottage" ) ) ||
-				( decision.equals( "3" ) && !responseText.contains( "Go to the black gold mine" ) ) ||
-				( decision.equals( "4" ) && !responseText.contains( "Check out the black church" ) ) )
+			     ( decision.equals( "3" ) && !responseText.contains( "Go to the black gold mine" ) ) ||
+			     ( decision.equals( "4" ) && !responseText.contains( "Check out the black church" ) ) )
 			{
 				return "0";
 			}
@@ -13945,8 +13945,7 @@ public abstract class ChoiceManager
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 			}
 		}
-
-		if ( choice == 0 && decision == 0 )
+		else if ( decision == 0 )
 		{
 			// forceoption=0 will redirect to the real choice.
 			// Don't bother logging it.
@@ -13959,7 +13958,9 @@ public abstract class ChoiceManager
 		// Special cases
 		if ( choice == 879 && decision == 3 )
 		{
-			// This redirects to a fight with the remains of a
+			// One Rustic Nightstand
+			//
+			// Option 3 redirects to a fight with the remains of a
 			// jilted mistress. Unlike other such redirections,
 			// this takes a turn.
 			RequestLogger.registerLocation( "The Haunted Bedroom" );
