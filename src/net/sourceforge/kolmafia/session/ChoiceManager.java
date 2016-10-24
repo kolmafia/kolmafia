@@ -13955,6 +13955,26 @@ public abstract class ChoiceManager
 		// By default, we log the url of any choice we take
 		RequestLogger.updateSessionLog( urlString );
 
+		switch ( choice )
+		{
+		case 1195:
+			if ( decision == 3 )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setNextAdventure( "None" );
+
+				String message = "[" + KoLAdventure.getAdventureCount() + "] Way Back in Time";
+				RequestLogger.printLine();
+				RequestLogger.printLine( message );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
+			return true;
+		}
+
 		// Special cases
 		if ( choice == 879 && decision == 3 )
 		{
