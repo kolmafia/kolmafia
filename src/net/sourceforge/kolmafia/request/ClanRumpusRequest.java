@@ -617,6 +617,7 @@ public class ClanRumpusRequest
 		{
 			return;
 		}
+
 		ClanRumpusRequest request = new ClanRumpusRequest();
 
 		// The Klaw can be accessed regardless of whether or not
@@ -640,9 +641,20 @@ public class ClanRumpusRequest
 		for ( String equip : KoLConstants.clanRumpus )
 		{
 			Equipment equipment = Equipment.toEquip( equip );
+			// Skip the Mr. Klaw game, since we ran it above
+			if ( equipment == Equipment.KLAW_GAME )
+			{
+				continue;
+			}
+
+			// Things that can be used only once a day should have
+			// daily preferences to track that and we should check
+			// that rather than making a server hit
+
+			request.visitEquipment( equipment.slot, equipment.furni );
 			for ( int i = 0; i < equipment.maxUses; i++ )
 			{
-				request.visitEquipment( equipment.slot, equipment.furni );
+				request.run();
 			}
 		}
 	}
