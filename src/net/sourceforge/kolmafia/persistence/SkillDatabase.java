@@ -1214,6 +1214,7 @@ public class SkillDatabase
 		case 19:			// Bean Slinger skills
 		case 20:			// Snake Oiler skills
 		case 21:			// The Source skills
+		case 22:			// Nuclear Autumn skills
 			return false;
 		}
 
