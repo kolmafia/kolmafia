@@ -1199,7 +1199,7 @@ public class QuestManager
 			}
 		}
 
-		if ( responseText.contains( "dome.gif" ) )
+		if ( responseText.contains( "palinlink.gif" ) )
 		{
 			QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
 		}
