@@ -319,6 +319,7 @@ public class FightRequest
 	public static boolean haiku = false;
 	public static boolean anapest = false;
 	public static boolean machineElf = false;
+	public static boolean innerWolf = false;
 	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
@@ -2053,6 +2054,9 @@ public class FightRequest
 				adventure == AdventurePool.GLACIER_OF_JERKS ||
 				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
 
+			// Unleash Your Inner Wolf
+			FightRequest.innerWolf = KoLAdventure.lastLocationName.equals( "Unleash Your Inner Wolf" );
+
 			// Adventuring in the Deep Machine Tunnels
 			FightRequest.machineElf = adventure == AdventurePool.DEEP_MACHINE_TUNNELS;
 
@@ -2527,7 +2531,7 @@ public class FightRequest
 		// fight is continuing.
 
 		boolean stillInBattle = finalRound && !won &&
-			( limitmode == Limitmode.BATMAN ?
+			( ( limitmode == Limitmode.BATMAN || FightRequest.innerWolf ) ?
 			  responseText.contains( "action=\"fight.php\"" ) :
 			  Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 			  responseText.contains( "(show old combat form)" ) :
