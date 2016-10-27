@@ -3749,7 +3749,7 @@ public abstract class RuntimeLibrary
 		for ( int i = 0; i < items.length; ++i )
 		{
 			value.aset(
-				DataTypes.parseItemValue( items[i].getName(), true ),
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
 				new Value( items[i].getCount() ) );
 		}
 
@@ -3774,7 +3774,7 @@ public abstract class RuntimeLibrary
 		for ( int i = 0; i < list.size(); ++i )
 		{
 			SoldItem item = list.get( i );
-			value.aset( DataTypes.parseItemValue( item.getItemName(), true ),
+			value.aset( DataTypes.makeItemValue( item.getItemId(), true ),
 				    new Value( item.getQuantity() ) );
 		}
 
@@ -3815,7 +3815,7 @@ public abstract class RuntimeLibrary
 			for ( AdventureResult item : KoLConstants.falloutShelter )
 			{
 				value.aset(
-					DataTypes.parseItemValue( item.getName(), true ),
+					DataTypes.makeItemValue( item.getItemId(), true ),
 					new Value( item.getCount() ) );
 			}
 		}
@@ -3823,12 +3823,12 @@ public abstract class RuntimeLibrary
 		{
 			// Your dwelling is not in the list of campground items
 			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
-			value.aset( DataTypes.parseItemValue( dwelling.getName(), true ), DataTypes.ONE_VALUE );
+			value.aset( DataTypes.makeItemValue( dwelling.getItemId(), true ), DataTypes.ONE_VALUE );
 
 			for ( AdventureResult item : KoLConstants.campground )
 			{
 				value.aset(
-					DataTypes.parseItemValue( item.getName(), true ),
+					DataTypes.makeItemValue( item.getItemId(), true ),
 					new Value( item.getCount() ) );
 			}
 		}
@@ -3843,7 +3843,7 @@ public abstract class RuntimeLibrary
 		for ( AdventureResult item : KoLConstants.clanLounge )
 		{
 			value.aset(
-				DataTypes.parseItemValue( item.getName(), true ),
+				DataTypes.makeItemValue( item.getItemId(), true ),
 				new Value( item.getCount() ) );
 		}
 
@@ -3870,7 +3870,7 @@ public abstract class RuntimeLibrary
 		for ( AdventureResult item : KoLConstants.chateau )
 		{
 			value.aset(
-				DataTypes.parseItemValue( item.getName(), true ),
+				DataTypes.makeItemValue( item.getItemId(), true ),
 				new Value( item.getCount() ) );
 		}
 
@@ -4152,7 +4152,7 @@ public abstract class RuntimeLibrary
 		AdventureResult special =
 			KoLCharacter.gnomadsAvailable() ? MicroBreweryRequest.getDailySpecial() : KoLCharacter.canadiaAvailable() ? ChezSnooteeRequest.getDailySpecial() : null;
 
-		return special == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( special.getName(), true );
+		return special == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( special.getItemId(), true );
 	}
 
 	public static Value refresh_shop( Interpreter interpreter )
@@ -4267,9 +4267,8 @@ public abstract class RuntimeLibrary
 				// Skip pseudo-ingredients: coinmaster tokens
 				continue;
 			}
-			String name = ingredient.getName();
 			int count = ingredient.getCount();
-			Value key = DataTypes.parseItemValue( name, true );
+			Value key = DataTypes.makeItemValue( ingredient.getItemId(), true );
 			if ( value.contains( key ) )
 			{
 				count += (int) value.aref( key ).intValue();
@@ -5295,14 +5294,14 @@ public abstract class RuntimeLibrary
 
 	public static Value familiar_equipment( Interpreter interpreter, final Value familiar )
 	{
-		return DataTypes.parseItemValue( FamiliarDatabase.getFamiliarItem( (int) familiar.intValue() ), true );
+		return DataTypes.makeItemValue( FamiliarDatabase.getFamiliarItemId( (int) familiar.intValue() ), true );
 	}
 
 	public static Value familiar_equipped_equipment( Interpreter interpreter, final Value familiar )
 	{
 		FamiliarData fam = KoLCharacter.findFamiliar( (int) familiar.intValue() );
 		AdventureResult item = fam == null ? EquipmentRequest.UNEQUIP : fam.getItem();
-		return item == EquipmentRequest.UNEQUIP ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
+		return item == EquipmentRequest.UNEQUIP ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( item.getItemId(), true );
 	}
 
 	public static Value familiar_weight( Interpreter interpreter, final Value familiar )
@@ -5355,7 +5354,7 @@ public abstract class RuntimeLibrary
 	public static Value minstrel_instrument( Interpreter interpreter )
 	{
 		AdventureResult item = KoLCharacter.getCurrentInstrument();
-		return item == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( item.getName(), true );
+		return item == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( item.getItemId(), true );
 	}
 
 	public static Value minstrel_quest( Interpreter interpreter )
@@ -5538,7 +5537,7 @@ public abstract class RuntimeLibrary
 			if ( result.isItem() )
 			{
 				value.aset(
-					DataTypes.parseItemValue( result.getName(), true ),
+					DataTypes.makeItemValue( result.getItemId(), true ),
 					DataTypes.parseIntValue( String.valueOf( result.getCount() ), true ) );
 			}
 		}
@@ -6156,7 +6155,7 @@ public abstract class RuntimeLibrary
 			rec.aset( 1, DataTypes.parseStringValue( cmd ), null );
 			rec.aset( 2, new Value( boost ), null );
 			rec.aset( 3, arEffect == null ? DataTypes.EFFECT_INIT : DataTypes.parseEffectValue( arEffect.getName(), true ), null );
-			rec.aset( 4, arItem == null ? DataTypes.ITEM_INIT : DataTypes.parseItemValue( arItem.getName(), true ), null );
+			rec.aset( 4, arItem == null ? DataTypes.ITEM_INIT : DataTypes.makeItemValue( arItem.getItemId(), true ), null );
 			rec.aset( 5, skill == null ? DataTypes.SKILL_INIT : DataTypes.parseSkillValue( skill, true ), null );
 		}
 
@@ -7081,7 +7080,7 @@ public abstract class RuntimeLibrary
 		{
 			result = (AdventureResult) data.get( i );
 			value.aset(
-				DataTypes.parseItemValue( result.getName(), true ),
+				DataTypes.makeItemValue( result.getItemId(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
@@ -7100,7 +7099,7 @@ public abstract class RuntimeLibrary
 		{
 			result = (AdventureResult) data.get( i );
 			value.aset(
-				DataTypes.parseItemValue( result.getName(), true ),
+				DataTypes.makeItemValue( result.getItemId(), true ),
 				DataTypes.parseIntValue( String.valueOf( result.getCount() >> 16 ), true ) );
 		}
 
@@ -7130,7 +7129,7 @@ public abstract class RuntimeLibrary
 			char dropType = (char) (count & 0xFFFF);
 			RecordValue rec = (RecordValue) value.aref( new Value( i ) );
 
-			rec.aset( 0, DataTypes.parseItemValue( result.getName(), true ), null );
+			rec.aset( 0, DataTypes.makeItemValue( result.getItemId(), true ), null );
 			rec.aset( 1, new Value( count >> 16 ), null );
 			if ( dropType < '1' || dropType > '9' )
 			{	// leave as an empty string if no special type was given
