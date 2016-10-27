@@ -2562,7 +2562,7 @@
 2537	ancient spice	898002086	disease.gif	none, combat	t,d	125	piles of ancient spice
 2538	powdered organs	724169350	scpowder.gif	none, combat	t,d	75	piles of powdered organs
 2539	Ankh of Badahnkadh	706397439	ankh.gif	accessory	t,d	135	Ankhs of Badahnkadh
-2540	tomb ratchet	116330864	ratchet.gif	usable	t,d	95
+2540	tomb ratchet	116330864	ratchet.gif	none	t,d	95
 2541	Mayflower bouquet	771351446	maybouquet.gif	familiar	t	0
 2542	lesser grodulated violet	379926519	filthviolet.gif	multiple	t,d	100
 2543	tin magnolia	593800005	tinmagnolia.gif	multiple	t,d	100
@@ -9146,7 +9146,7 @@
 9120	Unstable Pointy Ears	169906892	ears.gif	accessory	q	0
 9121	Memory Disk, Alpha	527297745	cd.gif	usable	t	0	Memory Disks, Alpha
 9122	Tea, Earl Grey, Hot	521372355	tea.gif	food	t,d	1	Teas, Earl Grey, Hot
-9123	School of Hard Knocks Diploma	202870687	scroll2.gif	none		0
+9123	School of Hard Knocks Diploma	202870687	scroll2.gif	reusable		0
 9124	baby bark scorpion	554018244	barkscorp.gif	grow	t	0
 9125	droppable microphone	208907884	dropmic.gif	none, combat	t,d	40
 9126	unidentified drink	955965104	plasticcup.gif	drink	t,d	37

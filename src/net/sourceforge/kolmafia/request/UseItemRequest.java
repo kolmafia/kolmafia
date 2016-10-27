@@ -1146,6 +1146,15 @@ public class UseItemRequest
 		case ItemPool.HOLORECORD_PIGS:
 			UseItemRequest.limiter = "lack of Wrist-Boy";
 			return InventoryManager.hasItem( ItemPool.WRIST_BOY ) ? Integer.MAX_VALUE : 0;
+
+		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+			if ( !KoLCharacter.getHippyStoneBroken() )
+			{
+				UseItemRequest.limiter = "an unbroken hippy stone";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_hardKnocksDiplomaUsed" ) ? 0 : 1;
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5427,6 +5436,10 @@ public class UseItemRequest
 
 		case ItemPool.BACON_MACHINE:
 			Preferences.setBoolean( "_baconMachineUsed", true );
+			break;
+
+		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+			Preferences.setBoolean( "_hardKnocksDiplomaUsed", true );
 			break;
 
 		case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:

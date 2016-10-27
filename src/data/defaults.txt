@@ -1269,6 +1269,7 @@ user	_grimstoneMaskDrops	0
 user	_grimstoneMaskDropsCrown	0
 user	_grooseDrops	0
 user	_guildManualUsed	false
+user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
 user	_hippyMeatCollected	false
