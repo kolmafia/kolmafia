@@ -507,6 +507,12 @@ public class AdventureDatabase
 			return AdventureDatabase.getAdventure( "Summoning Chamber" );
 		}
 
+		// place.php?whichplace=ioty2014_wolf&action=wolf_houserun
+		if ( adventureURL.contains( "action=wolf_houserun" ) )
+		{
+			return AdventureDatabase.getAdventure( "Unleash Your Inner Wolf" );
+		}
+
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
 		adventureURL = GenericRequest.removeField( adventureURL, "pwd" );
 		adventureURL = GenericRequest.removeField( adventureURL, "blech" );
@@ -733,15 +739,6 @@ public class AdventureDatabase
 				if ( urlString.contains( "action=workshop" ) )
 				{
 					return "Rumpelstiltskin's Workshop";
-				}
-				return null;
-			}
-
-			if ( urlString.contains( "whichplace=ioty2014_wolf" ) )
-			{ 
-				if ( urlString.contains( "action=wolf_houserun" ) )
-				{
-					return "Unleash Your Inner Wolf";
 				}
 				return null;
 			}
