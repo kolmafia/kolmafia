@@ -5271,7 +5271,7 @@ Effect	Liquid Courage	Experience: +3
 Effect	Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Liquidy Smoky	Mysticality: +15, Moxie: +15
 Effect	Lit Up	Hot Damage: +20, Hot Spell Damage: +20
-Effect	Litely Baked	MP Regen Min: 1, MP Regen Max: 2
+Effect	Litely Baked	MP Regen Min: [min(T/10,50)], MP Regen Max: [min(T/5,100)]
 # Literally Insane: Insane in the BRAIN!
 Effect	Literally On Fire	Avatar: "Fire Fighter"
 Effect	Litterboxing	Stench Damage: +30, Item Drop: +15
@@ -5764,7 +5764,7 @@ Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Stormswaddled	Spell Damage Percent: +100
 Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
-# Effect She Ate Too Much Candy
+Effect She Ate Too Much Candy	Familiar Weight: [min(T,25)]
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
@@ -6262,7 +6262,7 @@ Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
-Effect	Weally Satisfied	HP Regen Min: 1, HP Regen Max: 2
+Effect	Weally Satisfied	HP Regen Min: [min(T/10,50)], HP Regen Max: [min(T/5,100)]
 Effect	Weapon of Mass Destruction	Weapon Damage Percent: +30
 Effect	Wearing a Guard's Hat	Avatar: "warehouse guard"
 Effect	Wearing Assassin Robes	Avatar: "Assassin"

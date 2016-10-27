@@ -6894,7 +6894,7 @@
 6869	dented spoon	370832456	bentspoon.gif	multiple	t,d	1
 6870	old love note	795402177	document.gif	multiple	t,d	1
 6871	old-school beer pull tab	354368969	pulltab.gif	none, combat	t,d	1
-6872	nail file	496758740	nailfile.gif	usable	t,d	1
+6872	nail file	496758740	nailfile.gif	multiple	t,d	1
 6873	old candy wrapper	769989020	candywrapper.gif	multiple	t,d	0
 6874	gym membership card	264919912	gymmember.gif	usable	t,d	1
 6875	post-holiday sale coupon	343572534	coupon.gif	usable	t,d	1
@@ -6907,7 +6907,7 @@
 6882	power sock	713414059	sock1.gif	accessory	t,d	1
 6883	wool sock	340341351	sock2.gif	accessory	t,d	1
 6884	moustache sock	115671108	sockdolager.gif	accessory	t,d	1
-6885	spirit gum	791109479	spiritgum.gif	usable	t,d	5	sticks of spirit gum
+6885	spirit gum	791109479	spiritgum.gif	multiple	t,d	5	sticks of spirit gum
 6886	spirit pillow	837578037	spiritpillow.gif	reusable	t	0
 6887	spirit sheet	873296406	spiritsheet.gif	reusable	t	0
 6888	spirit mattress	225865373	spiritmattress.gif	reusable	t	0	spirit mattresses
@@ -8225,7 +8225,7 @@
 8199	hypnotic breadcrumbs	679762382	breadcrumbs.gif	usable	q	0
 8200	popular tart	654591716	poptart.gif	food	t,d	50
 8201	no-handed pie	870363637	0hpie.gif	none	q	0
-8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	usable	t,d	15
+8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	multiple	t,d	15
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0	airplane charters: Dinseylandfill
 8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0	one-day tickets to Dinseylandfill
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
@@ -8581,8 +8581,8 @@
 8555	a ten-percent bonus	869271245	percent.gif	usable	q	0
 8556	Thwaitgold termite statuette	301131366	thwaittermite.gif	none		0
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
-8558	Wickers bar	951050553	wickerbar.gif	usable	t	0
-8559	bakelite-covered bacon	113363781	bakebacon.gif	usable	t	0	pieces of bakelite-covered bacon
+8558	Wickers bar	951050553	wickerbar.gif	multiple	t	0
+8559	bakelite-covered bacon	113363781	bakebacon.gif	multiple	t	0	pieces of bakelite-covered bacon
 8560
 8561
 8562
@@ -9152,8 +9152,8 @@
 9126	unidentified drink	955965104	plasticcup.gif	drink	t,d	37
 9127	KoL Con 13 T-shirt	471111113	btee2.gif	shirt	t,d	20
 9128	discarded swimming trunks	620413237	swimtrunks.gif	pants	t,d	69
-9129	diluted makeup	660688837	moonshine.gif	usable	t,d	5
-9130	charisma potion	801154513	potion13.gif	usable	t,d	23
+9129	diluted makeup	660688837	moonshine.gif	multiple	t,d	5
+9130	charisma potion	801154513	potion13.gif	multiple	t,d	23
 9131	extremely confusing manual	226374609	book.gif	none, combat	t,d	11
 9132	foam pistol	296874554	foamgun.gif	weapon	t,d	44
 9133	KoL Con 13 snowglobe	689507238	consnowglobe.gif	offhand	t	0
