@@ -2055,7 +2055,7 @@ public class FightRequest
 				KoLConstants.activeEffects.contains( FightRequest.anapestEffect );
 
 			// Unleash Your Inner Wolf
-			FightRequest.innerWolf = KoLAdventure.lastLocationName.equals( "Unleash Your Inner Wolf" );
+			FightRequest.innerWolf = KoLAdventure.lastLocationName != null && KoLAdventure.lastLocationName.equals( "Unleash Your Inner Wolf" );
 
 			// Adventuring in the Deep Machine Tunnels
 			FightRequest.machineElf = adventure == AdventurePool.DEEP_MACHINE_TUNNELS;
