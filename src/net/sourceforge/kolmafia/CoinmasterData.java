@@ -568,4 +568,8 @@ public class CoinmasterData
 			return null;
 		}
 	}
+
+	public void purchaseItem( AdventureResult item, boolean storage )
+	{
+	}
 }

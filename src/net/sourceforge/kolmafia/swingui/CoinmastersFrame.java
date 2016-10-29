@@ -1446,6 +1446,56 @@ public class CoinmastersFrame
 		public BaconPanel()
 		{
 			super( MemeShopRequest.BACON_STORE );
+			PreferenceListenerRegistry.registerPreferenceListener( "_internetViralVideoBought", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "_internetPlusOneBought", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "_internetGallonOfMilkBought", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "_internetPrintScreenButtonBought", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "_internetDailyDungeonMalwareBought", this );
+		}
+
+		@Override
+		public final void update()
+		{
+			// Update title if tokens changed
+			super.update();
+			// Remove item if no longer available
+			this.buyPanel.filterItems();
+		}
+
+		@Override
+		public int buyMax( final AdventureResult item, final int max )
+		{
+			int itemId = item.getItemId();
+			switch ( itemId )
+			{
+			case ItemPool.VIRAL_VIDEO:
+			case ItemPool.PLUS_ONE:
+			case ItemPool.GALLON_OF_MILK:
+			case ItemPool.PRINT_SCREEN:
+			case ItemPool.DAILY_DUNGEON_MALWARE:
+				return 1;
+			}
+			return max;
+		}
+
+		@Override
+		public boolean canBuy( AdventureResult item )
+		{
+			int itemId = item.getItemId();
+			switch ( itemId )
+			{
+			case ItemPool.VIRAL_VIDEO:
+				return !Preferences.getBoolean( "_internetViralVideoBought" );
+			case ItemPool.PLUS_ONE:
+				return !Preferences.getBoolean( "_internetPlusOneBought" );
+			case ItemPool.GALLON_OF_MILK:
+				return !Preferences.getBoolean( "_internetGallonOfMilkBought" );
+			case ItemPool.PRINT_SCREEN:
+				return !Preferences.getBoolean( "_internetPrintScreenButtonBought" );
+			case ItemPool.DAILY_DUNGEON_MALWARE:
+				return !Preferences.getBoolean( "_internetDailyDungeonMalwareBought" );
+			}
+			return true;
 		}
 	}
 
@@ -1643,6 +1693,11 @@ public class CoinmastersFrame
 			}
 		}
 
+		public int buyMax( final AdventureResult item, final int max )
+		{
+			return max;
+		}
+
 		public int buyDefault( final int max )
 		{
 			return 1;
@@ -1735,7 +1790,7 @@ public class CoinmastersFrame
 					continue;
 				}
 
-				int max = balance / price;
+				int max = CoinmasterPanel.this.buyMax( item, balance / price );
 				int quantity = max;
 
 				if ( max > 1 )

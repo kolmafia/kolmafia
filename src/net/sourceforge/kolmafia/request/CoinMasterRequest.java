@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -585,6 +585,8 @@ public class CoinMasterRequest
 				ResultProcessor.processResult( current );
 			}
 		}
+
+		data.purchaseItem( ItemPool.get( itemId, count ), storage );
 	}
 
 	public static final void sellStuff( final CoinmasterData data, final String urlString )
