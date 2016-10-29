@@ -424,6 +424,11 @@ public class PlaceRequest
 			{
 				message = "Talking to the Crackpot Mystic";
 			}
+			else if ( action.equals( "fv_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "highlands" ) )
 		{
@@ -457,6 +462,11 @@ public class PlaceRequest
 			if ( action.equals( "manor1_ladys" ) )
 			{
 				message = "Talking to Lady Spookyraven";
+			}
+			else if ( action.equals( "manor1_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
 			}
 		}
 		else if ( place.equals( "manor2" ) )
