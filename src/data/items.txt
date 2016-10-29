@@ -9206,3 +9206,11 @@
 9180
 9181
 9182	Eldritch Intellect: Journey into a Mind of Horror	948396759	book2.gif	usable	t	0
+9183
+9184
+9185
+9186
+9187
+9188
+9189
+9190	eldritch effluvium	403759606	eldeffluv.gif	none	t,d	100

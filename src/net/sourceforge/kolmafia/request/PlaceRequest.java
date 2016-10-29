@@ -514,6 +514,11 @@ public class PlaceRequest
 			{
 				message = "Entering the Nemesis Cave";
 			}
+			else if ( action.equals( "mts_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "nemesiscave" ) )
 		{
@@ -564,6 +569,11 @@ public class PlaceRequest
 					turns = true;
 				}
 			}
+			else if ( action.equals( "plains_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "pyramid" ) )
 		{
@@ -593,6 +603,11 @@ public class PlaceRequest
 			{
 				message = "Visiting the Odd Jobs Board";
 			}
+			else if ( action.equals( "town_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "town_market" ) )
 		{
@@ -606,6 +621,11 @@ public class PlaceRequest
 			if ( action.equals( "townwrong_precinct" ) )
 			{
 				message = "Visiting the 11th Precinct Headquarters";
+			}
+			else if ( action.equals( "townwrong_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
 			}
 		}
 		else if ( place.equals( "twitch" ) )

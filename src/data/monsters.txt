@@ -2278,6 +2278,10 @@ semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Init: -10000 P: elf	fl
 
 Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 P: dude
 
+# Eldritch Incursion (October 2016)
+
+Eldritch Tentacle	1974	eldtentacle.gif	Scale: ? Init: -10000 E: spooky P: horror
+
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
