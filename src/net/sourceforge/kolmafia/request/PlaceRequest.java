@@ -35,9 +35,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.TreeSet;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestEditorKit;
@@ -228,7 +225,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "nstower_door" ) )
 		{
-			SorceressLairManager.parseTowerDoorResponse( action, responseText );;
+			SorceressLairManager.parseTowerDoorResponse( action, responseText );
 		}
 		else if ( place.equals( "orc_chasm" ) )
 		{
@@ -632,7 +629,7 @@ public class PlaceRequest
 			{
 				message = "Visiting the 11th Precinct Headquarters";
 			}
-			else if ( action.equals( "townwrong_eincursion" ) )
+			else if ( action.equals( "townrwong_eincursion" ) )
 			{
 				message = "An Eldritch Fissure";
 				turns = true;
