@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class MemeShopRequest
@@ -84,7 +86,27 @@ public class MemeShopRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public void purchaseItem( AdventureResult item, boolean storage )
+			{
+				int itemId = item.getItemId();
+				switch ( itemId )
+				{
+				case ItemPool.VIRAL_VIDEO:
+					Preferences.setBoolean( "_internetViralVideoBought", true );
+				case ItemPool.PLUS_ONE:
+					Preferences.setBoolean( "_internetPlusOneBought", true );
+				case ItemPool.GALLON_OF_MILK:
+					Preferences.setBoolean( "_internetGallonOfMilkBought", true );
+				case ItemPool.PRINT_SCREEN:
+					Preferences.setBoolean( "_internetPrintScreenButtonBought", true );
+				case ItemPool.DAILY_DUNGEON_MALWARE:
+					Preferences.setBoolean( "_internetDailyDungeonMalwareBought", true );
+				}
+			}
+		};
 
 	public MemeShopRequest()
 	{
@@ -138,6 +160,12 @@ public class MemeShopRequest
 			CoinMasterRequest.parseResponse( data, location, responseText );
 			return;
 		}
+
+		Preferences.setBoolean( "_internetViralVideoBought", !responseText.contains( "viral video" ) );
+		Preferences.setBoolean( "_internetPlusOneBought", !responseText.contains( "plus one" ) );
+		Preferences.setBoolean( "_internetGallonOfMilkBought", !responseText.contains( "gallon of milk" ) );
+		Preferences.setBoolean( "_internetPrintScreenButtonBought", !responseText.contains( "print screen button" ) );
+		Preferences.setBoolean( "_internetDailyDungeonMalwareBought", !responseText.contains( "daily dungeon malware" ) );
 
 		// Parse current coin balances
 		CoinMasterRequest.parseBalance( data, responseText );

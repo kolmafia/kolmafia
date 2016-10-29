@@ -1290,6 +1290,11 @@ user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
 user	_infernoDiscoVisited	false
 user	_inigosCasts	0
+user	_internetDailyDungeonMalwareBought	false
+user	_internetGallonOfMilkBought	false
+user	_internetPlusOneBought	false
+user	_internetPrintScreenButtonBought	false
+user	_internetViralVideoBought	false
 user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false

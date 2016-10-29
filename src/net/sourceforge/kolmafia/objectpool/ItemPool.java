@@ -2620,8 +2620,12 @@ public class ItemPool
 	public static final int FISHING_HAT = 9011;
 	public static final int TROUT_FISHING_IN_LOATHING = 9012;
 	public static final int ANTIQUE_TACKLE_BOX = 9015;
+	public static final int VIRAL_VIDEO = 9017;
+	public static final int PLUS_ONE = 9020;
+	public static final int GALLON_OF_MILK = 9021;
 	public static final int PRINT_SCREEN = 9022;
 	public static final int SCREENCAPPED_MONSTER = 9023;
+	public static final int DAILY_DUNGEON_MALWARE = 9024;
 	public static final int BACON_MACHINE = 9025;
 	public static final int NO_SPOON = 9029;
 	public static final int SOURCE_TERMINAL = 9033;
