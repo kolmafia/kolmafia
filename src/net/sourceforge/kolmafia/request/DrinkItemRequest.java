@@ -351,6 +351,7 @@ public class DrinkItemRequest
 				// Autoused helpers are ignored
 				this.removeFormField( "utensil" );
 			}
+			DrinkItemRequest.queuedDrinkHelperCount -= 1;
 		}
 		else
 		{
