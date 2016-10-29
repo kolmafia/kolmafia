@@ -84,23 +84,24 @@ public class AdventureResult
 
 	public static final String HP = "HP";
 	public static final String MP = "MP";
-	public static final String FACTOID = "Factoid";
 	public static final String ADV = "Adv";
-	public static final String FREE_CRAFT = "Free Craft";
-	public static final String CHOICE = "Choice";
+	public static final String ARENA_ML = "Arena flyer ML";
 	public static final String AUTOSTOP = "Autostop";
-	public static final String FULL = "Fullness";
+	public static final String CHASM_BRIDGE = "Chasm Bridge Progress";
+	public static final String CHOICE = "Choice";
 	public static final String DRUNK = "Drunk";
+	public static final String EXTRUDE = "Source Terminal Extrude";
+	public static final String FACTOID = "Factoid";
+	public static final String FLOUNDRY = "Floundry Fish";
+	public static final String FREE_CRAFT = "Free Craft";
+	public static final String FULL = "Fullness";
 	public static final String MEAT = "Meat";
 	public static final String MEAT_SPENT = "Meat Spent";
+	public static final String PIRATE_INSULT = "pirate insult";
 	public static final String PULL = "Pull";
 	public static final String PVP = "PvP";
 	public static final String STILL = "Still";
 	public static final String TOME = "Tome Summon";
-	public static final String EXTRUDE = "Source Terminal Extrude";
-	public static final String PIRATE_INSULT = "pirate insult";
-	public static final String ARENA_ML = "Arena flyer ML";
-	public static final String CHASM_BRIDGE = "Chasm Bridge Progress";
 
 	// Sub/full stats have multiple values and should be delegated
 	// to AdventureMultiResult.
@@ -895,6 +896,11 @@ public class AdventureResult
 		if ( this.name.equals( AdventureResult.FACTOID ) )
 		{
 			return "factoid";
+		}
+
+		if ( this.name.equals( AdventureResult.FLOUNDRY ) )
+		{
+			return "floundry fish";
 		}
 
 		if ( this.name.equals( AdventureResult.PIRATE_INSULT ) )
