@@ -190,6 +190,15 @@ public class ConditionsCommand
 			return GoalManager.GOAL_FACTOID.getInstance( count );
 		}
 
+		if ( conditionString.endsWith( "floundry fish" ) )
+		{
+			// parse the number of fish the user wishes to catch
+
+			String[] splitCondition = conditionString.split( "\\s+" );
+			int count = splitCondition.length > 1 ? StringUtilities.parseInt( splitCondition[ 0 ] ) : 1;
+			return GoalManager.GOAL_FLOUNDRY.getInstance( count );
+		}
+
 		if ( conditionString.endsWith( "autostop" ) )
 		{
 			String[] splitCondition = conditionString.split( "\\s+" );

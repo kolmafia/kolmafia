@@ -6229,6 +6229,12 @@ public class FightRequest
 				FightRequest.logText( text, status );
 			}
 
+			if ( str.contains( "(to Clan Floundry)" ) )
+			{
+				AdventureResult.addResultToList( KoLConstants.tally, GoalManager.GOAL_FLOUNDRY );
+				GoalManager.updateProgress( GoalManager.GOAL_FLOUNDRY );
+			}
+
 			int damage = FightRequest.parseVerseDamage( inode );
 			if ( damage == 0 )
 			{
