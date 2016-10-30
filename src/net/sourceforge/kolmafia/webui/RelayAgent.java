@@ -45,6 +45,9 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -574,6 +577,14 @@ public class RelayAgent
 		}
 	}
 
+	private final static String NOCACHE_IMAGES = "(/memes)?";
+		
+	private final static Pattern IMAGE_PATTERN = Pattern.compile( "(" + KoLmafia.AMAZON_IMAGE_SERVER +
+								      "|" + KoLmafia.KOL_IMAGE_SERVER +
+								      "|" + "//images.kingdomofloathing.com" +
+								      "|" + "http://pics.communityofloathing.com/albums" +
+								      ")" + RelayAgent.NOCACHE_IMAGES );
+
 	private void sendServerResponse()
 		throws IOException
 	{
@@ -588,15 +599,22 @@ public class RelayAgent
 
 			if ( Preferences.getBoolean( "useImageCache" ) )
 			{
-				StringBuffer responseBuffer = new StringBuffer( this.request.responseText );
+				StringBuffer responseBuffer = new StringBuffer();
+				Matcher matcher = RelayAgent.IMAGE_PATTERN.matcher( this.request.responseText );
 
-				// Load image files locally to reduce bandwidth
-				StringUtilities.globalStringReplace( responseBuffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images" );
-				StringUtilities.globalStringReplace( responseBuffer, KoLmafia.KOL_IMAGE_SERVER, "/images" );
-				StringUtilities.globalStringReplace( responseBuffer, "//images.kingdomofloathing.com", "/images" );
+				while ( matcher.find() )
+				{
+					if ( matcher.group( 2 ) != null )
+					{
+						matcher.appendReplacement( responseBuffer, "$0" );
+					}
+					else
+					{
+						matcher.appendReplacement( responseBuffer, "/images" );
+					}
+				}
 
-				// Download and link to any Players of Loathing picture pages locally.
-				StringUtilities.globalStringReplace( responseBuffer, "http://pics.communityofloathing.com/albums", "/images" );
+				matcher.appendTail( responseBuffer );
 
 				this.request.responseText = responseBuffer.toString();
 			}
