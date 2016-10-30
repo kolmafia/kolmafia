@@ -762,6 +762,8 @@ public class AdventureRequest
 				// female needs checking before male
 				image.startsWith( "congoerf" ) ? "stumbling-drunk congoer (female)" :
 				image.startsWith( "congoer" ) ? "stumbling-drunk congoer (male)" :
+				// Eldritch Incursion
+				image.startsWith( "eldtentacle" ) ? "Eldritch Tentacle" :
 				null;
 		}
 
