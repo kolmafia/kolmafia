@@ -982,6 +982,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
 			case ItemPool.SCREENCAPPED_MONSTER:
 			case ItemPool.TIME_RESIDUE:
+			case ItemPool.MEME_GENERATOR:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
