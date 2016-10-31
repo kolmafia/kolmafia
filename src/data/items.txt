@@ -9216,3 +9216,4 @@
 9190	eldritch effluvium	403759606	eldeffluv.gif	none	t,d	100
 9191	eldritch concentrate	712115476	glassglobe.gif	usable, fancy	t,d	666
 9192	eldritch extract	379529182	rocks.gif	drink	t,d	66
+9193	Official Council Aide Pin	360414227	smugbutton.gif	accessory		0
