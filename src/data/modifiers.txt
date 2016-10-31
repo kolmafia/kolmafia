@@ -2702,6 +2702,7 @@ Item	novelty tattoo sleeves	Muscle: +6, PvP Fights: +1, Single Equip
 Item	numberwang	PvP Fights: +5, Adventures: +5, Monster Level: +11, Initiative: +23, Maximum HP: +37, Maximum MP: +37, HP Regen Min: 6, HP Regen Max: 9, MP Regen Min: 6, MP Regen Max: 9, Single Equip
 Item	observational glasses	Item Drop: +5
 Item	offensive moustache	PvP Fights: +7, Single Equip
+Item	Official Council Aide Pin	Adventures: +4, PvP Fights: +2
 # Ol' Scratch's manacles: All Spells Cast Are Hot
 Item	Ol' Scratch's manacles	Hot Spell Damage: +30, Moxie Percent: +15, Single Equip
 Item	old ball and chain	Initiative: -50, Cold Damage: +100, Single Equip

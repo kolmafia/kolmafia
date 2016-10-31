@@ -2314,6 +2314,7 @@ novelty tattoo sleeves	10	none
 numberwang	100	Mys: 35
 observational glasses	10	none
 offensive moustache	0	none
+Official Council Aide Pin	0	Mys: 37
 Ol' Scratch's manacles	200	Mys: 200
 old ball and chain	225	Mys: 200
 old soft shoes	200	Mys: 200
