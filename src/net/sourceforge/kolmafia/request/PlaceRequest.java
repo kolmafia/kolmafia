@@ -404,6 +404,11 @@ public class PlaceRequest
 			{
 				// message = "Visiting the Small Pyramid";
 			}
+			else if ( action.equals( "db_eincursion" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
+			}
 		}
 		else if ( place.equals( "forestvillage" ) )
 		{
@@ -509,6 +514,11 @@ public class PlaceRequest
 			else if ( action.equals( "cloudypeak" ) )
 			{
 				message = "Ascending the Mist-Shrouded Peak";
+			}
+			else if ( action.equals( "mlh_eincurions" ) )
+			{
+				message = "An Eldritch Fissure";
+				turns = true;
 			}
 		}
 		else if ( place.equals( "mountains" ) )
