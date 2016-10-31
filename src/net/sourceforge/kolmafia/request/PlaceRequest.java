@@ -404,11 +404,6 @@ public class PlaceRequest
 			{
 				// message = "Visiting the Small Pyramid";
 			}
-			else if ( action.equals( "db_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
-			}
 		}
 		else if ( place.equals( "forestvillage" ) )
 		{
@@ -425,11 +420,6 @@ public class PlaceRequest
 			if ( action.equals( "fv_mystic" ) )
 			{
 				message = "Talking to the Crackpot Mystic";
-			}
-			else if ( action.equals( "fv_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
 			}
 		}
 		else if ( place.equals( "highlands" ) )
@@ -464,11 +454,6 @@ public class PlaceRequest
 			if ( action.equals( "manor1_ladys" ) )
 			{
 				message = "Talking to Lady Spookyraven";
-			}
-			else if ( action.equals( "manor1_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
 			}
 		}
 		else if ( place.equals( "manor2" ) )
@@ -515,11 +500,6 @@ public class PlaceRequest
 			{
 				message = "Ascending the Mist-Shrouded Peak";
 			}
-			else if ( action.equals( "mlh_eincurions" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
-			}
 		}
 		else if ( place.equals( "mountains" ) )
 		{
@@ -530,11 +510,6 @@ public class PlaceRequest
 			else if ( action.equals( "mts_caveblocked" ) )
 			{
 				message = "Entering the Nemesis Cave";
-			}
-			else if ( action.equals( "mts_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
 			}
 		}
 		else if ( place.equals( "nemesiscave" ) )
@@ -586,11 +561,6 @@ public class PlaceRequest
 					turns = true;
 				}
 			}
-			else if ( action.equals( "plains_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
-			}
 		}
 		else if ( place.equals( "pyramid" ) )
 		{
@@ -620,11 +590,6 @@ public class PlaceRequest
 			{
 				message = "Visiting the Odd Jobs Board";
 			}
-			else if ( action.equals( "town_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
-			}
 		}
 		else if ( place.equals( "town_market" ) )
 		{
@@ -638,11 +603,6 @@ public class PlaceRequest
 			if ( action.equals( "townwrong_precinct" ) )
 			{
 				message = "Visiting the 11th Precinct Headquarters";
-			}
-			else if ( action.equals( "townrwong_eincursion" ) )
-			{
-				message = "An Eldritch Fissure";
-				turns = true;
 			}
 		}
 		else if ( place.equals( "twitch" ) )
