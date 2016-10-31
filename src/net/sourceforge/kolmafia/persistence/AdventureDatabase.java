@@ -452,65 +452,88 @@ public class AdventureDatabase
 			return AdventureDatabase.adventureLookup.get( "mining.php?" + mine );
 		}
 
+		if ( adventureURL.startsWith( "place.php" ) )
+		{
+			// Adventuring in the Lower Chamber
+			if ( adventureURL.contains( "action=pyramid_state" ) )
+			{
+				return AdventureDatabase.getAdventure( "The Lower Chambers" );
+			}
+
+			if ( adventureURL.contains( "whichplace=nstower" ) )
+			{
+				if ( adventureURL.contains( "action=ns_01_crowd2" ) )
+				{
+					String stat = Preferences.getString( "nsChallenge1" );
+					String  adventure =
+						stat.equals( Stat.MUSCLE.toString() ) ?
+						"Strongest Adventurer Contest" :
+						stat.equals( Stat.MYSTICALITY.toString() ) ?
+						"Smartest Adventurer Contest" :
+						stat.equals( Stat.MOXIE.toString() ) ?
+						"Smoothest Adventurer Contest" :
+						"A Crowd of (Stat) Adventurers";
+					return AdventureDatabase.getAdventure( adventure );
+				}
+				if ( adventureURL.contains( "action=ns_01_crowd3" ) )
+				{
+					String element = Preferences.getString( "nsChallenge2" );
+					String  adventure =
+						element.equals( Element.HOT.toString() ) ?
+						"Hottest Adventurer Contest" :
+						element.equals( Element.COLD.toString() ) ?
+						"Coldest Adventurer Contest" :
+						element.equals( Element.SPOOKY.toString() ) ?
+						"Spookiest Adventurer Contest" :
+						element.equals( Element.STENCH.toString() ) ?
+						"Stinkiest Adventurer Contest" :
+						element.equals( Element.SLEAZE.toString() ) ?
+						"Sleaziest Adventurer Contest" :
+						"A Crowd of (Element) Adventurers";
+					return AdventureDatabase.getAdventure( adventure );
+				}
+			}
+
+			// place.php?whichplace=manor4&action=manor4_chamber
+			// place.php?whichplace=manor4&action=manor4_chamberboss
+			// place.php?whichplace=manor4&action=manor4_chamberwall
+			// Adventuring in the Summoning Chamber
+			if ( adventureURL.contains( "action=manor4_chamberboss" ) )
+			{
+				return AdventureDatabase.getAdventure( "Summoning Chamber" );
+			}
+
+			// place.php?whichplace=desertbeach&action=db_eincursion
+			// place.php?whichplace=forestvillage&action=fv_eincursion
+			// place.php?whichplace=manor1&action=manor1_eincursion
+			// place.php?whichplace=mclargehuge&action=mlh_eincurions
+			// place.php?whichplace=mountains&action=mts_eincursion
+			// place.php?whichplace=plains&action=plains_eincursion
+			// place.php?whichplace=town&action=town_eincursion
+			// place.php?whichplace=town_wrong&action=townrwong_eincursion
+			if ( adventureURL.contains( "action=db_eincursion" ) ||
+			     adventureURL.contains( "action=fv_eincursion" ) ||
+			     adventureURL.contains( "action=manor1_eincursion" ) ||
+			     adventureURL.contains( "action=mlh_eincurions" ) ||
+			     adventureURL.contains( "action=mts_eincursion" ) ||
+			     adventureURL.contains( "action=plains_eincursion" ) ||
+			     adventureURL.contains( "action=town_eincursion" ) ||
+			     adventureURL.contains( "action=townrwong_eincursion" ) )
+			{
+				return AdventureDatabase.getAdventure( "An Eldritch Fissure" );
+			}
+
+			// place.php?whichplace=ioty2014_wolf&action=wolf_houserun
+			if ( adventureURL.contains( "action=wolf_houserun" ) )
+			{
+				return AdventureDatabase.getAdventure( "Unleash Your Inner Wolf" );
+			}
+		}
+
 		// Adventuring in the barracks after the Nemesis has been defeated
 		if ( adventureURL.startsWith( "volcanoisland.php" ) && adventureURL.contains( "action=tuba" ) )
 		{
 			return AdventureDatabase.getAdventure( "The Island Barracks" );
-		}
-
-		// Adventuring in the Lower Chamber
-		if ( adventureURL.contains( "action=pyramid_state" ) )
-		{
-			return AdventureDatabase.getAdventure( "The Lower Chambers" );
-		}
-
-		if ( adventureURL.contains( "whichplace=nstower" ) )
-		{
-			if ( adventureURL.contains( "action=ns_01_crowd2" ) )
-			{
-				String stat = Preferences.getString( "nsChallenge1" );
-				String  adventure =
-					stat.equals( Stat.MUSCLE.toString() ) ?
-					"Strongest Adventurer Contest" :
-					stat.equals( Stat.MYSTICALITY.toString() ) ?
-					"Smartest Adventurer Contest" :
-					stat.equals( Stat.MOXIE.toString() ) ?
-					"Smoothest Adventurer Contest" :
-					"A Crowd of (Stat) Adventurers";
-				return AdventureDatabase.getAdventure( adventure );
-			}
-			if ( adventureURL.contains( "action=ns_01_crowd3" ) )
-			{
-				String element = Preferences.getString( "nsChallenge2" );
-				String  adventure =
-					element.equals( Element.HOT.toString() ) ?
-					"Hottest Adventurer Contest" :
-					element.equals( Element.COLD.toString() ) ?
-					"Coldest Adventurer Contest" :
-					element.equals( Element.SPOOKY.toString() ) ?
-					"Spookiest Adventurer Contest" :
-					element.equals( Element.STENCH.toString() ) ?
-					"Stinkiest Adventurer Contest" :
-					element.equals( Element.SLEAZE.toString() ) ?
-					"Sleaziest Adventurer Contest" :
-					"A Crowd of (Element) Adventurers";
-				return AdventureDatabase.getAdventure( adventure );
-			}
-		}
-
-		// place.php?whichplace=manor4&action=manor4_chamber
-		// place.php?whichplace=manor4&action=manor4_chamberboss
-		// place.php?whichplace=manor4&action=manor4_chamberwall
-		// Adventuring in the Summoning Chamber
-		if ( adventureURL.contains( "action=manor4_chamberboss" ) )
-		{
-			return AdventureDatabase.getAdventure( "Summoning Chamber" );
-		}
-
-		// place.php?whichplace=ioty2014_wolf&action=wolf_houserun
-		if ( adventureURL.contains( "action=wolf_houserun" ) )
-		{
-			return AdventureDatabase.getAdventure( "Unleash Your Inner Wolf" );
 		}
 
 		adventureURL = RelayRequest.removeConfirmationFields( adventureURL );
