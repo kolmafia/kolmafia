@@ -60,6 +60,7 @@ A Stinking Abyssal Portal	100	scout seal
 A Terrifying Abyssal Portal	100	scout seal
 A Yawning Abyssal Portal	100	official seal
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
+An Eldritch Fissure	100	Eldritch Tentacle
 An Illicit Bohemian Party	-1	hep cat	cigarette girl	Mob penguin entrepreneur
 An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
 An Incredibly Strange Place (Great Trip)	100	Bustle in the Hedgerow	Gathering of Angels?	Higher Plane Serpents	Angels of Avalon	Elders of the Gentle Race
