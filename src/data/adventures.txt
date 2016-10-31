@@ -371,6 +371,8 @@ Events	adventure=365	Env: outdoor	The Spirit World
 Events	adventure=408	Env: outdoor	Some Scattered Smoking Debris
 Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 
+Events	place=town_eincursion	Env: outdoor	An Eldritch Fissure
+
 Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
 Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
 Twitch	adventure=412	Env: outdoor Stat: 0	Moonshiners' Woods

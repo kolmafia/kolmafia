@@ -186,6 +186,11 @@ public class AdventureRequest
 				this.addFormField( "whichplace", "nstower" );
 				this.addFormField( "action", adventureId );
 			}
+			else if ( this.adventureId.equals( "town_eincursion" ) )
+			{
+				this.addFormField( "whichplace", "town" );
+				this.addFormField( "action", adventureId );
+			}
 			else if ( this.adventureId.equals( "ioty2014_wolf" ) )
 			{
 				this.addFormField( "whichplace", "manor4" );
