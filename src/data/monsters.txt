@@ -2280,7 +2280,7 @@ Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 P: du
 
 # Eldritch Incursion (October 2016)
 
-Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 E: spooky P: horror
+Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 E: spooky P: horror	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
