@@ -88,6 +88,7 @@ Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 bread line	2	1	good	5-7	10-20	0	0	40 Bread-Lined (+50% Muscle, +25 Weapon damage)
+bread roll	2	1	awesome	0	0	0	0	Unspaded
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
 Brimstone Chicken Sandwich	3	1	decent	4-6	-15-20	0	15-20
@@ -480,6 +481,7 @@ magical wizened master roll	3	1		9-14	20-30	28-46	20-30	50/60 Fishy
 mana curds	4	4	good	9-11	0	90-120	0	4-6 MP
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
+mashed potatoes	2	1	awesome	0	0	0	0	Unspaded
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
