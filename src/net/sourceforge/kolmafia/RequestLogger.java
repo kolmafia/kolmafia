@@ -176,6 +176,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.TerminalRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.ThankShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -1504,6 +1505,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof TerrifiedEagleInnRequest || isExternal ) && TerrifiedEagleInnRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ThankShopRequest || isExternal ) && ThankShopRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
