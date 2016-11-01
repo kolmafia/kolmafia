@@ -852,3 +852,14 @@ Precinct Materiel Division	buy	50	detective roscoe	ROW830
 Precinct Materiel Division	buy	200	noir fedora	ROW836
 Precinct Materiel Division	buy	200	trench coat	ROW837
 Precinct Materiel Division	buy	1000	detective tattoo	ROW838
+
+# Thanksgiving Salesman
+A traveling Thanksgiving salesman	buy	1	glass casserole dish	ROW900
+A traveling Thanksgiving salesman	buy	1	can opener	ROW902
+A traveling Thanksgiving salesman	buy	1	potato masher	ROW905
+A traveling Thanksgiving salesman	buy	2	mini-marshmallow dispenser	ROW899
+A traveling Thanksgiving salesman	buy	2	glass pie plate	ROW904
+A traveling Thanksgiving salesman	buy	2	bread mold	ROW907
+A traveling Thanksgiving salesman	buy	3	stuffing fluffer	ROW901
+A traveling Thanksgiving salesman	buy	3	turkey blaster	ROW903
+A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906

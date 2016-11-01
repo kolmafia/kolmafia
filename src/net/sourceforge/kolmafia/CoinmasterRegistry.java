@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.ThankShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -143,6 +144,7 @@ public abstract class CoinmasterRegistry
 		SwaggerShopRequest.SWAGGER_SHOP,
 		TacoDanRequest.TACO_DAN,
 		TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN,
+		ThankShopRequest.CASHEW_STORE,
 		TicketCounterRequest.TICKET_COUNTER,
 		ToxicChemistryRequest.TOXIC_CHEMISTRY,
 		TrapperRequest.TRAPPER,

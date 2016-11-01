@@ -129,6 +129,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.ThankShopRequest;
 import net.sourceforge.kolmafia.request.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.TrapperRequest;
@@ -219,6 +220,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel lttPanel = null;
 	private CoinmasterPanel baconPanel = null;
 	private CoinmasterPanel precinctPanel = null;
+	private CoinmasterPanel cashewPanel = null;
 
 	private CoinmasterPanel altarOfBonesPanel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
@@ -442,6 +444,11 @@ public class CoinmastersFrame
 		precinctPanel = new PrecinctPanel();
 		panel.add( precinctPanel );
 		this.selectorPanel.addPanel( precinctPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		cashewPanel = new CashewPanel();
+		panel.add( cashewPanel );
+		this.selectorPanel.addPanel( cashewPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1496,6 +1503,15 @@ public class CoinmastersFrame
 				return !Preferences.getBoolean( "_internetDailyDungeonMalwareBought" );
 			}
 			return true;
+		}
+	}
+
+	private class CashewPanel
+		extends CoinmasterPanel
+	{
+		public CashewPanel()
+		{
+			super( ThankShopRequest.CASHEW_STORE );
 		}
 	}
 
