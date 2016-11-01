@@ -6869,6 +6869,7 @@ Item	Dreadsylvanian stew	Effect: "You've Got a Stew Going!", Effect Duration: 50
 Item	Dreadsylvanian stink pocket	Effect: "Dreadful Smell", Effect Duration: 200
 # dwarf bread: Deals 4-28 Physical Damage when used as a combat item
 Item	dwarf bread	Effect: "Dwarven Hardiness", Effect Duration: 5
+Item	eldritch distillate	Effect: "Eldritch Concentration", Effect Duration: 30
 Item	electric Kool-Aid	Effect: "Electric, Kool", Effect Duration: 50
 Item	elven <i>limbos</i> gingerbread	Effect: "Yuletide Industry", Effect Duration: 20
 Item	Energy Buzz Pastaco	Effect: "Stemonitis Storm", Effect Duration: 40
@@ -7274,6 +7275,7 @@ Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
+Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
 Item	glimmering buzzard feather	Effect: "Carrion' On", Effect Duration: 20
