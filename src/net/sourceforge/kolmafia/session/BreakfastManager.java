@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -92,6 +92,7 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.COCKTAIL_SHAKER, 1 ),
 		ItemPool.get( ItemPool.BACON_MACHINE, 1 ),
 		ItemPool.get( ItemPool.TOASTER, 1 ),
+		ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 1 ),
 	};
 
 	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
