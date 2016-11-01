@@ -216,6 +216,7 @@ Item	googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 Item	googly-heart hat	Moxie: +10, Experience (Moxie): +3
 Item	googly-star hat	Muscle: +10, Experience (Muscle): +3, Familiar Effect: "atk"
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
+# Item gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
 Item	green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Moxie: +3, Familiar Effect: "atk, 1xVolley, cap 12"
 Item	green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
@@ -807,6 +808,8 @@ Item	General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Item	ghost toga	Damage Reduction: 5, Spooky Damage: +10
 Item	gingham blouse	Muscle: +5
 Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
+# Item glass casserole dish: Minor Radiation Sickness Protection
+Item	glass casserole dish	PvP Fights: +3, Sleaze Damage: +30
 Item	gnauga hide vest	Damage Reduction: 6, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	goth kid t-shirt	Monster Level: +5
 Item	Grateful Undead T-shirt	Item Drop: +5
@@ -1007,6 +1010,7 @@ Item	calavera concertina	Moxie: [3*(1+skill(Accordion Appreciation))], Song Dura
 Item	can cannon	Moxie: +3, Monster Level: +3, Weapon Damage: +3
 Item	can of fake snow	Cold Damage: +5
 Item	can of maces	Weapon Damage: +2, Sleaze Resistance: +1
+Item	can opener	Weakens Monster, Hat Drop: +50
 # can-you-dig-it?: + ???
 Item	candlestick	Experience (Mysticality): +2, Mysticality Percent: +100, Lasts Until Rollover
 # candy knife
@@ -1420,6 +1424,7 @@ Item	pool cue	Moxie: +5, Pool Skill: +3
 # porcelain police baton: Your Smacks Restore MP
 Item	porcelain police baton	Maximum MP: +20, Muscle Percent: +20
 Item	portable corkscrew	Weapon Damage: +3, Spell Damage: +3
+Item	potato masher	Spell Damage: +15, Spell Critical Percent: +10
 Item	potato pistol	Moxie: +5, Sleaze Damage: +5
 Item	pottery club	Hot Damage: +5
 Item	pottery yo-yo	Hot Damage: +5
@@ -1887,6 +1892,9 @@ Item	giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damag
 # giant stuffed bugbear
 Item	Glass Balls of the Goblin King	Mysticality: +14
 Item	glass gnoll eye	Mysticality: +3
+# Item glass pie plate: +25 Damage vs. Ghosts
+# Item glass pie plate: Half Damage from Ghosts
+Item	glass pie plate	Hot Resistance: +3, Damage Reduction: 7
 Item	glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 # glowing esca: +20% Item Drops from Monsters (Underwater only)
 Item	glowing esca	Item Drop: [20*env(underwater)]
@@ -2667,6 +2675,7 @@ Item	Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*env(underwater)
 Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
+Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
 # mirrored aviator shades: Kill 10% More Skeletons
 Item	mirrored aviator shades	Moxie: +15, Single Equip
 Item	molten medallion	Hot Resistance: +1, Item Drop: +5, Synergetic
@@ -8228,6 +8237,7 @@ Item	good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 Item	gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
 Item	government	Effect: "I See Everything Thrice!", Effect Duration: 10
 Item	government-issue identification badge	Effect: "Agent's Shield", Effect Duration: 100
+Item	Granny Tood's Thanksgarden Catalog	Free Pull
 # grape troll doll: Deals 3-5 <font color=blueviolet>Sleaze Damage</font>
 # grape troll doll: (doesn't go away when used)
 # grass clippings: Weakens enemies very slightly

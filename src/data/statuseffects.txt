@@ -2093,7 +2093,7 @@
 2092	Sweetbreads Flambé	potion4.gif	b3f3d7e5c72a045fff556e01f287f42d	use 1 Greek fire
 2093	Puzzle Champ	chessset.gif	c359f03413fa5582269a860f664cc7fe	witchess
 2094	Baited Hook	wiggleworm.gif	8a79ad1edacc21eb9ba18a14df09ce2e	use 1 wriggling worm
-2095
+2095	A Real Head for Fish	fishy5.gif	cb3eac6d97f204102cd3 0ca4ee1419f9	drink 1 bottle of Fishhead 900-Day IPA
 2096	High-Test Fishing Line	fishingline.gif	e1636ba1d377fc81d11e007a04627260	use 1 high-test fishing line
 2097	Rational Thought	realbrain.gif	e2e3f650ec3efb672265335604ed47ed	# cast Science! Fight with Rational Thought in combat
 2098	Internate Debatable	angry.gif	d9ec2dd3296c1062079f0d2a660d8d65	# cast Science!  Fight with Internet Debate in combat

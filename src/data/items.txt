@@ -9181,19 +9181,19 @@
 9155
 9156
 9157
-9158
-9159
-9160
-9161
-9162
-9163
-9164
-9165
-9166
-9167
-9168
-9169
-9170
+9158	raw mincemeat	337847415	rawmince.gif	food	t,d	5
+9159	raw potato	808084027	familiar3.gif	food	t,d	5
+9160	raw gravy	627936249	rawgravy.gif	food	t,d	5
+9161	raw bread	675185576	dough.gif	food	t,d	5
+9162	mini-marshmallow dispenser	517561775	marshbelt.gif	accessory	t,d	50
+9163	glass casserole dish	361609510	cassdishshield.gif	shirt	t,d	40
+9164	stuffing fluffer	876668521	stuffingball.gif	usable, combat	t,d	25
+9165	can opener	271336422	canopener.gif	weapon	t,d	15
+9166	turkey blaster	835991309	baster.gif	spleen, usable	t,d	30
+9167	glass pie plate	852298941	glassplate.gif	offhand	t,d	45
+9168	potato masher	427013011	masher.gif	weapon	t,d	20
+9169	gravy boat	994032166	ravyboat.gif	hat	t,d	35
+9170	bread mold	608139790	breadmold.gif	none	t,d	2500
 9171
 9172
 9173
@@ -9206,13 +9206,13 @@
 9180
 9181
 9182	Eldritch Intellect: Journey into a Mind of Horror	948396759	book2.gif	usable	t	0
-9183
+9183	cornucopia	668500619	thanksucopia.gif	multiple	t	0
 9184
 9185
-9186
-9187
+9186	packet of thanksgarden seeds	287958872	thanksseeds.gif	usable		0
+9187	cashew	432367728	cashew.gif	usable	t	0	cashews
 9188
-9189
+9189	Granny Tood's Thanksgarden Catalog	451942593	thankscatalog.gif	usable	t	0
 9190	eldritch effluvium	403759606	eldeffluv.gif	multiple	t,d	100
 9191	eldritch concentrate	712115476	glassglobe.gif	usable, fancy	t,d	666
 9192	eldritch extract	379529182	rocks.gif	drink	t,d	66
