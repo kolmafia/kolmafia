@@ -1055,6 +1055,9 @@ public abstract class UseLinkDecorator
 			case ItemPool.ODD_SILVER_COIN:
 				return new UseLink( itemId, 1, "spend", "shop.php?whichshop=cindy" );
 
+			case ItemPool.CASHEW:
+				return new UseLink( itemId, 1, "trade", "shop.php?whichshop=thankshop" );
+
 			case ItemPool.TOMB_RATCHET:
 			{
 				int count1 = InventoryManager.getCount( itemId );
