@@ -4608,6 +4608,10 @@ public abstract class KoLCharacter
 
 	public static final boolean hasSkill( final String skillName, final List<UseSkillRequest> list )
 	{
+		if ( skillName == null )
+		{
+			return false;
+		}
 		UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 		return KoLCharacter.hasSkill( skill, list );
 	}
