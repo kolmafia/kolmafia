@@ -135,6 +135,7 @@ googly-ball hat	200	Mys: 111
 googly-heart hat	200	Mox: 111
 googly-star hat	200	Mus: 111
 grass hat	80	Mox: 25
+gravy boat	100	none
 Great Wolf's headband	300	Mus: 250
 green cloth cap	50	none
 green traffic cone	60	Mox: 15
@@ -662,6 +663,7 @@ General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 ghost toga	110	Mus: 40
 gingham blouse	100	Mus: 35
 gladiator tunica	100	Mus: 35
+glass casserole dish	100	none
 gnauga hide vest	80	Mus: 25
 goth kid t-shirt	100	Mus: 35
 Grateful Undead T-shirt	70	Mus: 20
@@ -851,6 +853,7 @@ calavera concertina	40	Mox: 5	2-handed accordion
 can cannon	75	Mox: 22	2-handed crossbow
 can of fake snow	100	Mox: 35	1-handed can
 can of maces	50	Mox: 10	1-handed club
+can opener	100	Mus: 0	1-handed claw
 can-you-dig-it?	10	Mus: 0	1-handed spade
 candlestick	100	Mus: 0	1-handed wand
 candy knife	150	Mus: 40	1-handed knife
@@ -1217,6 +1220,7 @@ polyester peeler	50	Mys: 0	1-handed utensil
 pool cue	50	Mus: 10	2-handed staff
 porcelain police baton	120	Mus: 40	1-handed club
 portable corkscrew	30	Mys: 0	1-handed utensil
+potato masher	100	Mys: 0	1-handed utensil
 potato pistol	120	Mox: 45	1-handed pistol
 pottery club	50	Mus: 0	1-handed club
 pottery yo-yo	50	Mox: 0	1-handed yoyo
@@ -1623,6 +1627,7 @@ giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
 Glass Balls of the Goblin King	70	Mys: 20
 glass gnoll eye	35	Mys: 2
+glass pie plate	100	none	shield
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
 glowstick on a string	150	Mox: 60
@@ -2283,6 +2288,7 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
+mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
 monster bait	10	none
