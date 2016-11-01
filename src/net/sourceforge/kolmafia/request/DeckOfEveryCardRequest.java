@@ -335,6 +335,14 @@ public class DeckOfEveryCardRequest
 
 		String responseText = useRequest.responseText;
 
+		//No response, probably because of some logical inconsistency - forcing an adventure with 0 hp, for example
+		if ( responseText == null )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Something is wrong and you should not be drawing a card" );
+			return;
+		}
+
+
 		// You're too beaten up. An accidental papercut would kill you at this point.
 		if ( responseText.contains( "You're too beaten up" ) )
 		{
