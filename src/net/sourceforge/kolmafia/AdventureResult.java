@@ -212,6 +212,7 @@ public class AdventureResult
 		     name.equals( AdventureResult.STILL ) ||
 		     name.equals( AdventureResult.TOME )||
 		     name.equals( AdventureResult.EXTRUDE )||
+		     name.equals( AdventureResult.FLOUNDRY )||
 		     name.equals( AdventureResult.FREE_CRAFT ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
