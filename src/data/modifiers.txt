@@ -6067,6 +6067,7 @@ Effect	Tenuous Grip on Reality	Moxie Percent: -95
 Effect	Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Tetched by an Angel	Avatar: "tetched prospector"
 Effect	Texas Elegance	Maximum HP: +30, Maximum MP: +30
+Effect	Thanksgetting	Meat Drop: +40, Item Drop: +20, Familiar Weight: +1
 Effect	Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 Effect	The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
@@ -6834,6 +6835,7 @@ Item	bowl of mummy guts	Effect: "Guts Feeling", Effect Duration: 30
 Item	bowl of Tastee-Wheet&trade;	Effect: "Video... Games?", Effect Duration: 5
 Item	Brain Food Pastaco	Effect: "Omphalotus Omnipresence", Effect Duration: 40
 Item	bread line	Effect: "Bread-Lined", Effect Duration: 40
+Item	bread roll	Effect: "Thanksgetting", Effect Duration: 20
 Item	brown sugar cane	Effect: "Sugar Rush", Effect Duration: 3
 Item	bucket of honey	Effect: "Sugar Rush", Effect Duration: 50
 Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
@@ -6944,6 +6946,7 @@ Item	loaf of soda bread	Effect: "Bread Burps", Effect Duration: 15
 Item	Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 # magical baguette: You can make stuff out of it
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
+Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
 # Item Mr. Burnsger: Reduces your Drunkenness by 2
