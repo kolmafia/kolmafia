@@ -495,6 +495,10 @@ public class SkillDatabase
 
 	public static final int getSkillId( final String skillName )
 	{
+		if ( skillName == null )
+		{
+			return -1;
+		}
 		Object skillId = SkillDatabase.skillByName.get( StringUtilities.getCanonicalName( skillName ) );
 		return skillId == null ? -1 : ( (Integer) skillId ).intValue();
 	}

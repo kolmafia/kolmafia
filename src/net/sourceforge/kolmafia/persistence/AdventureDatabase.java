@@ -510,15 +510,21 @@ public class AdventureDatabase
 			// place.php?whichplace=mountains&action=mts_eincursion
 			// place.php?whichplace=plains&action=plains_eincursion
 			// place.php?whichplace=town&action=town_eincursion
+			// place.php?whichplace=town&action=town_eincursion2
+			// place.php?whichplace=town_market&action=townmarket_eincursion
 			// place.php?whichplace=town_wrong&action=townrwong_eincursion
-			if ( adventureURL.contains( "action=db_eincursion" ) ||
+			// place.php?whichplace=woods&action=woods_eincursion
+			if ( adventureURL.contains( "action=town_eincursion" ) ||
+			     adventureURL.contains( "action=db_eincursion" ) ||
 			     adventureURL.contains( "action=fv_eincursion" ) ||
 			     adventureURL.contains( "action=manor1_eincursion" ) ||
 			     adventureURL.contains( "action=mlh_eincurions" ) ||
 			     adventureURL.contains( "action=mts_eincursion" ) ||
 			     adventureURL.contains( "action=plains_eincursion" ) ||
-			     adventureURL.contains( "action=town_eincursion" ) ||
-			     adventureURL.contains( "action=townrwong_eincursion" ) )
+			     adventureURL.contains( "action=town_eincursion2" ) ||
+			     adventureURL.contains( "action=townmarket_eincursion" ) ||
+			     adventureURL.contains( "action=townrwong_eincursion" ) ||
+			     adventureURL.contains( "action=woods_eincursion" ) )
 			{
 				return AdventureDatabase.getAdventure( "An Eldritch Fissure" );
 			}
