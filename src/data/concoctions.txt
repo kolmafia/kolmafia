@@ -1843,9 +1843,6 @@ SMOOCH spaulders	MUSE	superheated metal (9)
 SMOOCH codpiece	MUSE	superheated metal (11)
 SMOOCH breastplate	MUSE	superheated metal (13)
 
-eldritch extract	MUSE	eldritch effluvium (37)
-eldritch concentrate	MUSE	eldritch effluvium (111)
-
 high-temperature mining drill	SUSE	broken high-temperature mining drill	heat-resistant sheet metal
 
 insulated gold wire	COMBINE	thin gold wire	unsmoothed velvet
@@ -2828,3 +2825,10 @@ Source terminal TRAM chip	TERMINAL	Source essence (1000)
 barrel lid	BARREL
 barrel hoop earring	BARREL
 bankruptcy barrel	BARREL
+
+# Eldritch Tentacle Event
+
+eldritch extract	MUSE	eldritch effluvium (37)
+eldritch concentrate	MUSE	eldritch effluvium (111)
+eldritch distillate	COOK	eldritch extract	handful of fire
+eldritch essence	COOK	eldritch concentrate	jar of oil
