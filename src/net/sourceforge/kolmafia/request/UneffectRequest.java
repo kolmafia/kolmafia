@@ -259,7 +259,7 @@ public class UneffectRequest
 			}
 		}
 
-		return effectName;
+		return null;
 	}
 
 	public static final String skillToEffect( final String skillName )
@@ -313,7 +313,7 @@ public class UneffectRequest
 							     EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE );
 		}
 
-		// Handle remaining skills where skill name and effect name don't match with a lookup
+		// Handle remaining skills with a lookup
 
 		for ( Entry<String,String> entry : UneffectRequest.EFFECT_SKILL.entrySet() )
 		{
@@ -323,7 +323,7 @@ public class UneffectRequest
 			}
 		}
 
-		return skillName;
+		return null;
 	}
 
 	private static Set REMOVABLE_BY_SKILL;
