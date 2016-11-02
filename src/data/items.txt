@@ -9223,3 +9223,4 @@
 9197
 9198
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
+9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
