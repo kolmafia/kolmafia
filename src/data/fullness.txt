@@ -440,6 +440,8 @@ laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
 lava cake	4	6	awesome	12-18	20-40	0	0	60 Demonic Flavor
 leftover canap&eacute;s	2	2	decent	3-5	3-5	3-5	3-5
 leftover pasty	2	6	EPIC	0	0	0	0	Unspaded
+leftovers	1	1	decent	0	0	0	0	Unspaded
+leftovers sandwich	1	1	good	0	0	0	0	Unspaded
 lemon	1	1	crappy	1	0	0	0
 lemon meringue pie	3	2	decent	3-9	8-10	0	0
 lemon popsicle	1	1	decent	2	0	0	0

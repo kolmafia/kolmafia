@@ -2839,3 +2839,4 @@ eldritch elixir	MIX	eldritch distillate	eldritch distillate
 mashed potatoes	COOK	raw potato	potato masher
 bread roll	COOK	raw bread	bread mold
 green bean casserole	COOK	raw green beans	glass casserole dish
+leftovers sandwich	COOK	leftovers	toast
