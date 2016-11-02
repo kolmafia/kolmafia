@@ -2832,8 +2832,10 @@ eldritch extract	MUSE	eldritch effluvium (37)
 eldritch concentrate	MUSE	eldritch effluvium (111)
 eldritch distillate	COOK	eldritch extract	handful of fire
 eldritch essence	COOK	eldritch concentrate	jar of oil
+eldritch elixir	MIX	eldritch distillate	eldritch distillate
 
 # Thanksgarden
 
 mashed potatoes	COOK	raw potato	potato masher
 bread roll	COOK	raw bread	bread mold
+green bean casserole	COOK	raw green beans	glass casserole dish

@@ -4751,6 +4751,7 @@ Effect	Eggs-tra Sensory Perception	Item Drop: +10
 Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
 Effect	Elbow Sauce	Weapon Damage Percent: +50
+# Effect Eldritch Attunement: Breaks the Barrier between Worlds
 Effect	Eldritch Concentration	Experience: +5, Spooky Damage: +5, MP Regen Min: 5, MP Regen Max: 10
 # Electric, Kool
 Effect	Electrolit Up	Muscle: +30
@@ -6910,6 +6911,7 @@ Item	giant yellow gummi bear	Effect: "Gummiskin", Effect Duration: 40
 Item	gingerbread mutant bugbear	Effect: "Festive Radiation", Effect Duration: 10
 Item	gingerbread robot	Effect: "Gingerbread Robust", Effect Duration: 20
 Item	glistening fish meat	Effect: "Fishy", Effect Duration: 5
+Item	green bean casserole	Effect: "Thanksgetting", Effect Duration: 20
 Item	green drunki-bear	Effect: "Gummibrain", Effect Duration: 80
 Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
@@ -7115,6 +7117,7 @@ Item	dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
 Item	Earth and Firewater	Effect: "Elemental Mastery", Effect Duration: 10
 Item	Earth, Wind and Firewater	Effect: "Elemental Mastery", Effect Duration: 15
 Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
+Item	eldritch elixir	Effect: "Eldritch Attunement", Effect Duration: 5
 Item	eldritch extract	Effect: "Eldritch Concentration", Effect Duration: 10
 Item	electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 Item	elven cellocello	Effect: "Sugar Rush", Effect Duration: 20

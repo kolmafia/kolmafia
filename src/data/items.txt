@@ -9176,11 +9176,11 @@
 9150	invisible string	259064767	blank.gif	usable	q	0
 9151
 9152
-9153
-9154
-9155
-9156
-9157
+9153	raw sweet potato	494328671	sweetpot.gif	food	t,d	5
+9154	raw green beans	588762402	greenbeans.gif	food	t,d	5
+9155	raw stuffing	147752813	rawstuffing.gif	food	t,d	5
+9156	raw cranberry sauce	148837989	spinachcan.gif	food	t,d	5
+9157	raw turkey	605310620	rawturkey.gif	food	t,d	5
 9158	raw mincemeat	337847415	rawmince.gif	food	t,d	5
 9159	raw potato	808084027	familiar3.gif	food	t,d	5
 9160	raw gravy	627936249	rawgravy.gif	food	t,d	5
@@ -9195,7 +9195,7 @@
 9169	gravy boat	994032166	ravyboat.gif	hat	t,d	35
 9170	bread mold	608139790	breadmold.gif	none	t,d	2500
 9171
-9172
+9172	green bean casserole	353127241	casserole.gif	food	t,d	25
 9173
 9174
 9175
@@ -9219,3 +9219,7 @@
 9193	Official Council Aide Pin	360414227	smugbutton.gif	accessory		0
 9194	eldritch distillate	539247819	martini.gif	drink	t,d	666
 9195	eldritch essence	377004299	wbantiwad.gif	spleen, usable	t,d	666
+9196
+9197
+9198
+9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
