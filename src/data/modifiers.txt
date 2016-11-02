@@ -843,6 +843,7 @@ Item	pirate shirt	Moxie: +3
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 Item	punk rock jacket	Moxie: +8, Damage Reduction: 5
+Item	Quartet of Flare Masters Jacket	PvP Fights: +2, Rollover Effect Duration: 1, Rollover Effect: "Eldritch Concentration"
 Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
