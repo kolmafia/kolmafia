@@ -1975,6 +1975,11 @@ public abstract class UseLinkDecorator
 			useLocation = "shop.php?whichshop=mutate";
 			break;
 
+		case ItemPool.CASHEW:
+			useType = "thanksgiving";
+			useLocation = "shop.php?whichshop=thankshop";
+			break;
+
 		default:
 
 		}
