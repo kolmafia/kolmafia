@@ -9203,8 +9203,8 @@
 9177	mashed potatoes	395064520	mashedpots.gif	food	t,d	25
 9178
 9179	bread roll	178057036	roll.gif	food	t,d	25
-9180
-9181
+9180	leftovers	797235248	leftovers.gif	food	t,d	5
+9181	leftovers sandwich	832231617	jarl_sand3.gif	food	t,d	10
 9182	Eldritch Intellect: Journey into a Mind of Horror	948396759	book2.gif	usable	t	0
 9183	cornucopia	668500619	thanksucopia.gif	multiple	t	0
 9184
