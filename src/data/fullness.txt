@@ -344,6 +344,7 @@ government cheese	2	1	decent	2-4	5-10	0	0
 gr8ps	1	1	crappy	1	0	0	0
 grapefruit	1	1	crappy	1	0	0	0
 grapes	1	1	crappy	1	0	0	0
+green bean casserole	2	1	awesome	0	0	0	0	Unspaded
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
@@ -600,9 +601,14 @@ rat scrapple	2	2	decent	2-7	0	0	10-12
 ratini	4	4	good	10-14	0	20-30	0
 ravioli della hippy	3	3	good	4-12	0	19-23	0
 raw bread	1	1	decent	0	0	0	0	Unspaded
+raw cranberry sauce	1	1	decent	0	0	0	0	Unspaded
 raw gravy	1	1	decent	0	0	0	0	Unspaded
+raw green beans	1	1	decent	0	0	0	0	Unspaded
 raw mincemeat	1	1	decent	0	0	0	0	Unspaded
 raw potato	1	1	decent	0	0	0	0	Unspaded
+raw stuffing	1	1	decent	0	0	0	0	Unspaded
+raw sweet potato	1	1	decent	0	0	0	0	Unspaded
+raw turkey	1	1	decent	0	0	0	0	Unspaded
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart (+100 Muscle)
 Red Herring Velvet Cake	5	1		14-19	0	0	0
 red velvet cake	2	4	decent	3-5	0	10-30	0	10-20 HP
