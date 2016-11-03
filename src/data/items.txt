@@ -9219,8 +9219,8 @@
 9193	Official Council Aide Pin	360414227	smugbutton.gif	accessory		0
 9194	eldritch distillate	539247819	martini.gif	drink	t,d	666
 9195	eldritch essence	377004299	wbantiwad.gif	spleen, usable	t,d	666
-9196
-9197
-9198
+9196	Science Notebook	732559218	notebook.gif	offhand		0
+9197	eldritch hat	738111709	eldritchhat.gif	hat	t	0
+9198	eldritch pants	792793451	eldritchpants.gif	pants	t	0
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
