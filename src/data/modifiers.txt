@@ -170,6 +170,7 @@ Item	eelskin hat	Spell Damage Percent: +15, Familiar Effect: "atk"
 Item	eight-gallon hat	Muscle: +8, Mysticality: +8, Moxie: +8, Experience: +3
 Item	El Sombrero De Lopez	Moxie: +11, Ranged Damage: +7, Class: "Accordion Thief", Familiar Effect: "3xGhuol, cap 25"
 Item	El Vibrato helmet	Familiar Effect: "0.5xPotato, 1xFairy"
+Item	eldritch hat	Spooky Damage: +40, Spooky Spell Damage: +40, Spooky Resistance: +3
 Item	Elder Turtle Shell	Muscle: +11, Familiar Weight: +3, Class: "Turtle Tamer", Familiar Effect: "3xGhuol, cap 25"
 Item	electrician's hardhat	Muscle Percent: +40, Weapon Damage: +40, HP Regen Min: 20, HP Regen Max: 40, Familiar Effect: "atk"
 Item	eleven-gallon hat	Muscle: +11, Mysticality: +11, Moxie: +11, Experience: +3
@@ -550,6 +551,7 @@ Item	Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVol
 # eelskin pants: Damages Attacking Opponent (Underwater Only)
 Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen"
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
+Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10
 Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Familiar Effect: "8xPotato, cap 2"
 Item	extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xFairy"
 Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
@@ -2871,6 +2873,8 @@ Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60
 Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect Duration: 30, Single Equip, Rollover Effect: "The Rich Get Richer", Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Item	Scandalously Skimpy Bikini	Four Songs, Single Equip
+# Item Science Notebook: Allows you to collect data about Tentacles
+Item	Science Notebook	Monster Level: +10
 Item	screwing pooch	Item Drop: +3
 Item	sea holster	Ranged Damage: +20, Critical Hit Percent: +4, Never Fumble, Single Equip
 # seal medal: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
@@ -6624,6 +6628,7 @@ Outfit	Dreadful Zombie Suit	Stench Damage: +50, Stench Spell Damage: +50
 Outfit	Dwarvish War Uniform	Damage Reduction: 10
 Outfit	Dyspepsi-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # El Vibrato Relics
+Outfit	Eldritch Equipage	Item Drop: +50
 Outfit	Encephalic Ensemble	Item Drop: +5
 Outfit	eXtreme Cold-Weather Gear	Cold Resistance: +5
 Outfit	Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15

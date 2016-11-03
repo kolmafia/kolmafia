@@ -89,6 +89,7 @@ duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 Dyspepsi-Cola helmet	30	none
 eelskin hat	200	Mys: 85
+eldritch hat	125	Mox: 47
 eight-gallon hat	160	none
 El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
@@ -433,6 +434,7 @@ dwarvish war kilt	165	Mox: 67
 Dyspepsi-Cola fatigues	30	none
 eelskin pants	200	Mox: 85
 El Vibrato leg guards	200	Mox: 200
+eldritch pants	125	Mox: 47
 electronic dulcimer pants	10	none
 extremely skinny jeans	200	Mox: 200
 fancy tuxedo pants	100	Mox: 35
@@ -2321,7 +2323,7 @@ novelty tattoo sleeves	10	none
 numberwang	100	Mys: 35
 observational glasses	10	none
 offensive moustache	0	none
-Official Council Aide Pin	0	Mys: 37
+Official Council Aide Pin	100	Mys: 37
 Ol' Scratch's manacles	200	Mys: 200
 old ball and chain	225	Mys: 200
 old soft shoes	200	Mys: 200
@@ -2460,6 +2462,7 @@ sardine can key	200	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
+Science Notebook	0	Mys: 11
 screwing pooch	85	Mys: 27
 sea holster	200	Mys: 85
 seal medal	0	none

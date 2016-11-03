@@ -126,3 +126,4 @@
 125	SMOOCH Army Uniform	smoochtat.gif	SMOOCH breastplate, SMOOCH codpiece, SMOOCH bracers, SMOOCH kneepads, SMOOCH spaulders
 126	Cooper's Couture	barreltat.gif	barrelhead, chest barrel, bottoms of the barrel
 127	The Jokester's Costume	jokestertat.gif	The Jokester's wig, The Jokester's gun, The Jokester's pants
+128	Eldritch Equipage	elditchtat.gif	eldritch hat, eldritch pants
