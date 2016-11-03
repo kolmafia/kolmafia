@@ -1807,6 +1807,7 @@ rxr shield	100	Mus: 35	shield
 sawblade shield	180	Mus: 75	shield
 Scepter of Loathing	200	Mys: 150
 Sceptre of the Torremolinos Prince	0	none
+Science Notebook	0	Mys: 11
 scissor duck	0	none
 sealhide buckler	160	Mus: 65	shield
 sealskin drum	160	Mus: 150
