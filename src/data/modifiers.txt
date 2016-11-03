@@ -2116,6 +2116,8 @@ Item	rxr shield	Damage Absorption: +10, Damage Reduction: 6
 Item	sawblade shield	Weapon Damage: +11, Damage Reduction: 11
 Item	Scepter of Loathing	Critical Hit Percent: +15, Spell Critical Percent: +15, Spooky Resistance: +5, Cloathing
 Item	Sceptre of the Torremolinos Prince	Mysticality Percent: +12
+# Item Science Notebook: Allows you to collect data about Tentacles
+Item	Science Notebook	Monster Level: +10
 Item	scissor duck	Mysticality: +5
 Item	sealhide buckler	Damage Reduction: 17
 Item	sealskin drum	Weapon Damage: +20, Class: "Seal Clubber"

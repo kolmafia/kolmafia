@@ -2831,7 +2831,7 @@ bankruptcy barrel	BARREL
 eldritch extract	MUSE	eldritch effluvium (37)
 eldritch concentrate	MUSE	eldritch effluvium (111)
 eldritch distillate	COOK	eldritch extract	handful of fire
-eldritch essence	COOK	eldritch concentrate	jar of oil
+eldritch essence	COOK_FANCY	eldritch concentrate	jar of oil
 eldritch elixir	MIX	eldritch distillate	eldritch distillate
 
 # Thanksgarden

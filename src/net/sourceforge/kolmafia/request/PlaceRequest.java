@@ -421,6 +421,10 @@ public class PlaceRequest
 			{
 				message = "Talking to the Crackpot Mystic";
 			}
+			else if ( action.equals( "fv_scientist" ) )
+			{
+				message = "Visiting a Science Tent";
+			}
 		}
 		else if ( place.equals( "highlands" ) )
 		{
