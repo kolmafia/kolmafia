@@ -2463,7 +2463,6 @@ sardine can key	200	Mus: 50
 Sasq&trade; watch	50	Mys: 10
 scabrous seal epaulets	0	none
 Scandalously Skimpy Bikini	0	Mys: 10
-Science Notebook	0	Mys: 11
 screwing pooch	85	Mys: 27
 sea holster	200	Mys: 85
 seal medal	0	none
