@@ -503,6 +503,8 @@ public class AdventureDatabase
 				return AdventureDatabase.getAdventure( "Summoning Chamber" );
 			}
 
+			// place.php?whichplace=bordertown&action=bordertown_eincursion
+			// place.php?whichplace=bordertown&action=bordertown_eincursion2
 			// place.php?whichplace=desertbeach&action=db_eincursion
 			// place.php?whichplace=forestvillage&action=fv_eincursion
 			// place.php?whichplace=manor1&action=manor1_eincursion
@@ -515,6 +517,8 @@ public class AdventureDatabase
 			// place.php?whichplace=town_wrong&action=townrwong_eincursion
 			// place.php?whichplace=woods&action=woods_eincursion
 			if ( adventureURL.contains( "action=town_eincursion" ) ||
+			     adventureURL.contains( "action=bordertown_eincursion" ) ||
+			     adventureURL.contains( "action=bordertown_eincursion2" ) ||
 			     adventureURL.contains( "action=db_eincursion" ) ||
 			     adventureURL.contains( "action=fv_eincursion" ) ||
 			     adventureURL.contains( "action=manor1_eincursion" ) ||
