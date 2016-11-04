@@ -2875,8 +2875,6 @@ Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60
 Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect Duration: 30, Single Equip, Rollover Effect: "The Rich Get Richer", Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Item	Scandalously Skimpy Bikini	Four Songs, Single Equip
-# Item Science Notebook: Allows you to collect data about Tentacles
-Item	Science Notebook	Monster Level: +10
 Item	screwing pooch	Item Drop: +3
 Item	sea holster	Ranged Damage: +20, Critical Hit Percent: +4, Never Fumble, Single Equip
 # seal medal: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
