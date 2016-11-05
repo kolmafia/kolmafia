@@ -503,29 +503,38 @@ public class AdventureDatabase
 				return AdventureDatabase.getAdventure( "Summoning Chamber" );
 			}
 
+			// place.php?whichplace=beanstalk&action=stalk_eincursion
 			// place.php?whichplace=bordertown&action=bordertown_eincursion
 			// place.php?whichplace=bordertown&action=bordertown_eincursion2
+			// place.php?whichplace=cemetery&action=cem_eincursion
 			// place.php?whichplace=desertbeach&action=db_eincursion
 			// place.php?whichplace=forestvillage&action=fv_eincursion
+			// place.php?whichplace=giantcastle&action=castle_eincursion
 			// place.php?whichplace=manor1&action=manor1_eincursion
 			// place.php?whichplace=mclargehuge&action=mlh_eincurions
 			// place.php?whichplace=mountains&action=mts_eincursion
 			// place.php?whichplace=plains&action=plains_eincursion
 			// place.php?whichplace=town&action=town_eincursion
 			// place.php?whichplace=town&action=town_eincursion2
+			// place.php?whichplace=town&action=town_eincursion3
 			// place.php?whichplace=town_market&action=townmarket_eincursion
 			// place.php?whichplace=town_wrong&action=townrwong_eincursion
 			// place.php?whichplace=woods&action=woods_eincursion
 			if ( adventureURL.contains( "action=town_eincursion" ) ||
+			     // Main town fissure first, others alphabetically
 			     adventureURL.contains( "action=bordertown_eincursion" ) ||
 			     adventureURL.contains( "action=bordertown_eincursion2" ) ||
+			     adventureURL.contains( "action=castle_eincursion" ) ||
+			     adventureURL.contains( "action=cem_eincursion" ) ||
 			     adventureURL.contains( "action=db_eincursion" ) ||
 			     adventureURL.contains( "action=fv_eincursion" ) ||
 			     adventureURL.contains( "action=manor1_eincursion" ) ||
 			     adventureURL.contains( "action=mlh_eincurions" ) ||
 			     adventureURL.contains( "action=mts_eincursion" ) ||
 			     adventureURL.contains( "action=plains_eincursion" ) ||
+			     adventureURL.contains( "action=stalk_eincursion" ) ||
 			     adventureURL.contains( "action=town_eincursion2" ) ||
+			     adventureURL.contains( "action=town_eincursion3" ) ||
 			     adventureURL.contains( "action=townmarket_eincursion" ) ||
 			     adventureURL.contains( "action=townrwong_eincursion" ) ||
 			     adventureURL.contains( "action=woods_eincursion" ) )

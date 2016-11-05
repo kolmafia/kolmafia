@@ -1101,6 +1101,50 @@ public class SkillDatabase
 		}
 	}
 
+	public static final AdventureResult getManaItemCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.DARK_RITUAL:
+			return ItemPool.get( ItemPool.BLACK_MANA, 1 );
+		case SkillPool.ANCESTRAL_RECALL:
+			return ItemPool.get( ItemPool.BLUE_MANA, 1 );
+		case SkillPool.GIANT_GROWTH:
+			return ItemPool.get( ItemPool.GREEN_MANA, 1 );
+		case SkillPool.LIGHTNING_BOLT_CARD:
+			return ItemPool.get( ItemPool.RED_MANA, 1 );
+		case SkillPool.HEALING_SALVE:
+			return ItemPool.get( ItemPool.WHITE_MANA, 1 );
+		default:
+			return null;
+		}
+	}
+
+	public static final int getBlackManaCost( final int skillId )
+	{
+		return skillId == SkillPool.DARK_RITUAL ? 1 : 0;
+	}
+
+	public static final int getBlueManaCost( final int skillId )
+	{
+		return skillId == SkillPool.ANCESTRAL_RECALL ? 1 : 0;
+	}
+
+	public static final int getGreenManaCost( final int skillId )
+	{
+		return skillId == SkillPool.GIANT_GROWTH ? 1 : 0;
+	}
+
+	public static final int getRedManaCost( final int skillId )
+	{
+		return skillId == SkillPool.LIGHTNING_BOLT_CARD ? 1 : 0;
+	}
+
+	public static final int getWhiteManaCost( final int skillId )
+	{
+		return skillId == SkillPool.HEALING_SALVE ? 1 : 0;
+	}
+
 	public static final int getAdventureCost( final int skillId )
 	{
 		switch ( skillId )
