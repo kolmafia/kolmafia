@@ -2141,7 +2141,7 @@
 2140	She Ate Too Much Candy	milkstuds.gif	8dcb7b414d44f56e2de39912292f7a05	use 1 Prunets
 2141	Invisible Ties	blank.gif	cc9a17c3b2f617036f214b20fed15c61	use 1 invisible string
 2142
-2143
+2143	The Good Salmonella	bacteria.gif	e0591206b411160b006bdcb6e3318cca
 2144	Thanksgetting	thanksucopia.gif	0a86f78a6356058c3d6edea1b3ea00d0	eat 1 mashed potatoes
 2145
 2146	Eldritch Concentration	glassglobe.gif	51a6be812d5c33891cb062cabdf0cfdf	use 1 eldritch concentrate
