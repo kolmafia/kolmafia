@@ -813,11 +813,11 @@ public class UseSkillRequest
 
 		case SkillPool.ANCESTRAL_RECALL:
 			maximumCast = Math.min( 10 - Preferences.getInteger( "_ancestralRecallCasts" ),
-			              InventoryManager.getCount( ItemPool.BLUE_MANA ) );
+			              InventoryManager.getAccessibleCount( ItemPool.BLUE_MANA ) );
 			break;
 
 		case SkillPool.DARK_RITUAL:
-			maximumCast = InventoryManager.getCount( ItemPool.BLACK_MANA );
+			maximumCast = InventoryManager.getAccessibleCount( ItemPool.BLACK_MANA );
 			break;
 
 		case SkillPool.PERFECT_FREEZE:
@@ -1246,12 +1246,28 @@ public class UseSkillRequest
 			return;
 		}
 
-		this.isRunning = true;
-		this.setBuffCount( Math.min( this.buffCount, this.getMaximumCast() ) );
+		int available = this.getMaximumCast();
+		if ( available == 0 )
+		{
+			// We could print something
+			return;
+		}
+
+		int desired = this.buffCount;
+		if ( available < desired )
+		{
+			// We SHOULD print something here
+			KoLmafia.updateDisplay( "(Only " + available + " casts of " + this.skillName + " currently available.)" );
+		}
+
+		this.setBuffCount( Math.min( desired, available ) );
+
 		if ( this.skillId == SkillPool.SUMMON_MINION || this.skillId == SkillPool.SUMMON_HORDE )
 		{
 			ChoiceManager.setSkillUses( this.buffCount );
 		}
+
+		this.isRunning = true;
 		this.useSkillLoop();
 		this.isRunning = false;
 	}
@@ -1338,13 +1354,42 @@ public class UseSkillRequest
 				return;
 			}
 
-			this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
+			boolean single = false;
+
+			AdventureResult mana = SkillDatabase.getManaItemCost( this.skillId );
+			if ( mana != null )
+			{
+				int manaPerCast = mana.getCount();
+				int manaNeeded = manaPerCast * castsRemaining;
+
+				// getMaximumCast accounted for the "accessible
+				// count" of the appropriate mana before we got
+				// here. This should not fail.
+
+				InventoryManager.retrieveItem( mana.getInstance( manaNeeded ) );
+
+				single = true;
+			}
+
+			if ( single )
+			{
+				this.addFormField( this.countFieldId, "1" );
+			}
+			else
+			{
+				this.addFormField( this.countFieldId, String.valueOf( castsRemaining ) );
+				castsRemaining = 1;
+			}
 
 			// Run it via GET
 			String URLString = this.getFullURLString();
 
 			this.constructURLString( URLString, false );
-			super.run();
+
+			while ( castsRemaining-- > 0  && !KoLmafia.refusesContinue() )
+			{
+				super.run();
+			}
 
 			// But keep fields as per POST for easy modification
 			this.constructURLString( URLString, true );
