@@ -514,6 +514,7 @@ public class AdventureDatabase
 			// place.php?whichplace=mclargehuge&action=mlh_eincurions
 			// place.php?whichplace=mountains&action=mts_eincursion
 			// place.php?whichplace=plains&action=plains_eincursion
+			// place.php?whichplace=thesea&action=thesea_zenicursio
 			// place.php?whichplace=town&action=town_eincursion
 			// place.php?whichplace=town&action=town_eincursion2
 			// place.php?whichplace=town&action=town_eincursion3
@@ -533,6 +534,7 @@ public class AdventureDatabase
 			     adventureURL.contains( "action=mts_eincursion" ) ||
 			     adventureURL.contains( "action=plains_eincursion" ) ||
 			     adventureURL.contains( "action=stalk_eincursion" ) ||
+			     adventureURL.contains( "action=thesea_zenicursio" ) ||
 			     adventureURL.contains( "action=town_eincursion2" ) ||
 			     adventureURL.contains( "action=town_eincursion3" ) ||
 			     adventureURL.contains( "action=townmarket_eincursion" ) ||

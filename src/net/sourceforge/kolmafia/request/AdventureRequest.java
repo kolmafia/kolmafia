@@ -476,6 +476,12 @@ public class AdventureRequest
 			return encounter;
 		}
 
+		if ( isFight )
+		{
+			FightRequest.setCurrentEncounter( encounter );
+
+		}
+
 		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
@@ -545,7 +551,7 @@ public class AdventureRequest
 		Pattern.compile( "<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL ),
 	};
 
-	private static final String parseCombatEncounter( final String responseText )
+	public static final String parseCombatEncounter( final String responseText )
 	{
 		// Silly check for silly situation
 		if ( responseText.contains( "Not in a Fight" ) )
@@ -597,7 +603,7 @@ public class AdventureRequest
 		return name;
 	}
 
-	private static final String translateGenericType( final String encounterToCheck, final String responseText )
+	public static final String translateGenericType( final String encounterToCheck, final String responseText )
 	{
 		if ( KoLAdventure.lastLocationName != null &&
 		     KoLAdventure.lastLocationName.startsWith( "Fernswarthy's Basement" ) )
@@ -814,7 +820,7 @@ public class AdventureRequest
 				null;
 		}
 
-		if ( override == null && KoLCharacter.canInteract() )
+		if ( override == null )
 		{
 			if ( responseText.contains( "A figure steps out from behind this morning and says" ) )
 			{
