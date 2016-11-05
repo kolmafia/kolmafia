@@ -2836,7 +2836,13 @@ eldritch elixir	MIX	eldritch distillate	eldritch distillate
 
 # Thanksgarden
 
-mashed potatoes	COOK	raw potato	potato masher
+baked stuffing	COOK	raw stuffing	stuffing fluffer
 bread roll	COOK	raw bread	bread mold
+candied sweet potatoes	COOK	raw sweet potato	mini-marshmallow dispenser
+cranberry cylinder	COOK	raw cranberry sauce	can opener
 green bean casserole	COOK	raw green beans	glass casserole dish
 leftovers sandwich	COOK	leftovers	toast
+mashed potatoes	COOK	raw potato	potato masher
+mince pie	COOK	raw mincemeat	glass pie plate
+thanksgiving turkey	COOK	raw turkey	turkey blaster
+warm gravy	COOK	raw gravy	gravy boat

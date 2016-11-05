@@ -9194,14 +9194,14 @@
 9168	potato masher	427013011	masher.gif	weapon	t,d	20
 9169	gravy boat	994032166	ravyboat.gif	hat	t,d	35
 9170	bread mold	608139790	breadmold.gif	none	t,d	2500
-9171
+9171	candied sweet potatoes	882321148	cookedyams.gif	food	t,d	25
 9172	green bean casserole	353127241	casserole.gif	food	t,d	25
-9173
-9174
-9175
-9176
+9173	baked stuffing	540324309	cookedstuffing.gif	food	t,d	25
+9174	cranberry cylinder	982665799	cransauce.gif	food	t,d	25
+9175	thanksgiving turkey	815289621	cookedturkey.gif	food	t,d	25
+9176	mince pie	175233392	0hpie.gif	food	t,d	25
 9177	mashed potatoes	395064520	mashedpots.gif	food	t,d	25
-9178
+9178	warm gravy	611586569	gravy.gif	food	t,d	25
 9179	bread roll	178057036	roll.gif	food	t,d	25
 9180	leftovers	797235248	leftovers.gif	food	t,d	5
 9181	leftovers sandwich	832231617	jarl_sand3.gif	food	t,d	10

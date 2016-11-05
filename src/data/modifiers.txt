@@ -6092,6 +6092,7 @@ Effect	The Dinsey Way	Meat Drop: +80
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 Effect	The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 Effect	The Glistening	Initiative: +20, Damage Reduction: 5
+# Effect	The Good Salmonella	Does something based on thanksgarden stuff
 Effect	The Grass...  Is Blue...	Meat Drop: +40, Item Drop: +20
 Effect	The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
 Effect	The Great White Mope	Avatar: "confused goth music student"
@@ -6825,6 +6826,7 @@ Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
+Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
 Item	Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
@@ -6849,6 +6851,7 @@ Item	C.H.U.M. chum	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 Item	can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 50
 Item	candied pecan	Effect: "Sugar Rush", Effect Duration: 10
+Item	candied sweet potatoes	Effect: "Thanksgetting", Effect Duration: 20
 Item	candy carrot	Effect: "Improved Candy Vision", Effect Duration: 10
 Item	candy carrot cake	Effect: "Improved Candy Vision", Effect Duration: 30
 # candy kneecapping stick: Deals 10-20 Physical Damage when used as a combat item
@@ -6867,6 +6870,7 @@ Item	cookie cookie	Effect: "Cookie Backup", Effect Duration: 10
 Item	Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 Item	cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	cool jelly donut	Effect: "Filled with Magic", Effect Duration: 30
+Item	cranberry cylinder	Effect: "Thanksgetting", Effect Duration: 20
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
@@ -6956,6 +6960,7 @@ Item	Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
+Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
 # Item Mr. Burnsger: Reduces your Drunkenness by 2
 Item	nachos of the night	Effect: "Night of the Nachos", Effect Duration: 20
@@ -7009,6 +7014,7 @@ Item	Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
 Item	tea for one	Effect: "One For Tea", Effect Duration: 40
 Item	tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
+Item	thanksgiving turkey	Effect: "Thanksgetting", Effect Duration: 20
 # Item The Plumber's mushroom stew: Reduces your Drunkenness by 1
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
 Item	thyme jelly donut	Effect Duration: 5
@@ -7031,6 +7037,7 @@ Item	video games hot dog	Effect: "Video Game Hot Dog", Effect Duration: 50
 Item	warbear feasting bread	Effect: "Gift of the Warbear", Effect Duration: 40
 Item	warbear thermoregulator bread	Effect: "Superheated Guts", Effect Duration: 40
 Item	warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Duration: 40
+Item	warm gravy	Effect: "Thanksgetting", Effect Duration: 20
 Item	warm war shawarma	Effect: "Shawarma Warm War", Effect Duration: 30
 Item	wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
 Item	weird gazelle steak	Effect: "Gaze of the Gazelle", Effect Duration: 1
