@@ -794,10 +794,12 @@ public class TestCommand
 			if ( round >= 0 )
 			{
 				KoLAdventure.setLastAdventure( AdventureDatabase.getAdventure( adventureName ) );
-				String encounter = AdventureRequest.parseMonsterEncounter( TestCommand.contents );
-				MonsterStatusTracker.setNextMonsterName( encounter );
+				String encounter = AdventureRequest.parseCombatEncounter( TestCommand.contents );
+				FightRequest.setCurrentEncounter( encounter );
+				String monster = AdventureRequest.translateGenericType( encounter, TestCommand.contents );
+				MonsterStatusTracker.setNextMonsterName( monster );
 				FightRequest.currentRound = round;
-				FightRequest.updateCombatData( "fight.php", encounter, TestCommand.contents );
+				FightRequest.updateCombatData( "fight.php", monster, TestCommand.contents );
 			}
 			else
 			{

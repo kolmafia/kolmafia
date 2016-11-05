@@ -176,6 +176,7 @@ public class FightRequest
 	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
+	public static String currentEncounter = "";
 	private static boolean isTrackingFights = false;
 	private static boolean foundNextRound = false;
 	private static boolean haveFought = false;
@@ -258,6 +259,9 @@ public class FightRequest
 
 	private static final Pattern SEAHORSE_PATTERN =
 		Pattern.compile( "I shall name you &quot;(.*?),&quot; you say." );
+
+	private static final Pattern TIMEPRANK_PATTERN =
+		Pattern.compile( "A figure steps out from behind this morning and says, &quot;(.*?)&quot;" );
 
 	private static final Pattern NANORHINO_CHARGE1_PATTERN = 
 		Pattern.compile( "(\\d+)% charge" );
@@ -2017,6 +2021,11 @@ public class FightRequest
 		return true;
 	}
 
+	public static final void setCurrentEncounter( String encounter )
+	{
+		currentEncounter = encounter;
+	}
+
 	public static final Pattern ONTURN_PATTERN = Pattern.compile( "onturn = (\\d+)" );
 	public static final Pattern ROUND_PATTERN = Pattern.compile( "<b>\"Round (\\d+)!\"</b>" );
 	private static final Pattern CHAMBER_PATTERN = Pattern.compile( "chamber <b>#(\\d+)</b>" );
@@ -2251,164 +2260,171 @@ public class FightRequest
 			{
 				DadManager.solve( responseText );
 			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "angry bassist" ) ||
-				    encounter.equalsIgnoreCase( "blue-haired girl" ) ||
-				    encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
-				    encounter.equalsIgnoreCase( "peeved roommate" ) ||
-				    encounter.equalsIgnoreCase( "random scenester" ) ||
-				    encounter.toLowerCase().startsWith( "black crayon" ) ) )
+			else if ( encounter.equalsIgnoreCase( "time-spinner prank" ) )
 			{
-				Preferences.increment( "_hipsterAdv", 1 );
+				Matcher m = FightRequest.TIMEPRANK_PATTERN.matcher( responseText );
+				if ( m.find() )
+				{
+					String message = new String( m.group(1) );
+					StringBuilder buffer = new StringBuilder( "Round 0: " );
+					buffer.append( FightRequest.currentEncounter );
+					buffer.append( " says: \"" );
+					buffer.append( message );
+					buffer.append( "\"" );
+					FightRequest.logText( buffer );
+				}
 			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "Witchess Pawn" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Knight" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Ox" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Rook" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Queen" ) ||
-				    encounter.equalsIgnoreCase( "Witchess King" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Witch" ) ||
-				    encounter.equalsIgnoreCase( "Witchess Bishop" ) ) )
+			else if ( !EncounterManager.ignoreSpecialMonsters )
 			{
-				Preferences.increment( "_witchessFights", 1 );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  KoLCharacter.inBeecore() &&
-				  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
-				    encounter.equalsIgnoreCase( "moneybee" ) ||
-				    encounter.equalsIgnoreCase( "mumblebee" ) ||
-				    encounter.equalsIgnoreCase( "beebee queue" ) ||
-				    encounter.equalsIgnoreCase( "bee swarm" ) ||
-				    encounter.equalsIgnoreCase( "buzzerker" ) ||
-				    encounter.equalsIgnoreCase( "beebee king" ) ||
-				    encounter.equalsIgnoreCase( "bee thoven" ) ||
-				    encounter.equalsIgnoreCase( "Queen Bee" ) ) )
-			{
-				Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
-				TurnCounter.stopCounting( "Bee window begin" );
-				TurnCounter.stopCounting( "Bee window end" );
-				TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
-				    encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
-				    encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
-				    encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
-				    encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
-				    encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
-				    encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
-				    encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
-				    // El/La aren't actually part of the monster's name,
-				    // but they have not been removed yet by KoLmafia
-				    encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
-				    encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
-				    encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
-				    encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
-				    encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
-				    encounter.equalsIgnoreCase( "migratory pirate" ) ||
-				    encounter.equalsIgnoreCase( "peripatetic pirate" ) ||
-				    encounter.equalsIgnoreCase( "giant pumpkin-head" ) ||
-				    encounter.equalsIgnoreCase( "large-headed werewolf" ) ||
-				    encounter.equalsIgnoreCase( "oddly-proportioned ghost" ) ||
-				    encounter.equalsIgnoreCase( "Cinco de Mayo reveler" )
-					  ) )
-			{
-				TurnCounter.stopCounting( "Holiday Monster window begin" );
-				TurnCounter.stopCounting( "Holiday Monster window end" );
-				TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equals( "sign-twirling Crimbo elf" ) ||
-				    encounter.equals( "tacobuilding elf" ) ||
-				    encounter.equals( "taco-clad Crimbo elf" )
-				    ) )
-			{
-				TurnCounter.stopCounting( "Taco Elf window begin" );
-				TurnCounter.stopCounting( "Taco Elf window end" );
-				TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "depressing French accordionist" ) ||
-				    encounter.equalsIgnoreCase( "lively Cajun accordionist" ) ||
-				    encounter.equalsIgnoreCase( "quirky indie-rock accordionist" )
-				    ) )
-			{
-				TurnCounter.stopCounting( "Event Monster window begin" );
-				TurnCounter.stopCounting( "Event Monster window end" );
-				TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "Possessed Can of Linguine-Os" ) ||
-				    encounter.equalsIgnoreCase( "Possessed Can of Creepy Pasta" ) ||
-				    encounter.equalsIgnoreCase( "Frozen Bag of Tortellini" ) ||
-				    encounter.equalsIgnoreCase( "Possessed Jar of Alphredo&trade;" ) ||
-				    encounter.equalsIgnoreCase( "Box of Crafty Dinner" )
-				    ) )
-			{
-				TurnCounter.stopCounting( "Event Monster window begin" );
-				TurnCounter.stopCounting( "Event Monster window end" );
-				TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equalsIgnoreCase( "menacing thug" ) ||
-				    encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
-				    encounter.equalsIgnoreCase( "hunting seal" ) ||
-				    encounter.equalsIgnoreCase( "turtle trapper" ) ||
-				    encounter.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
-				    encounter.equalsIgnoreCase( "B&eacute;arnaise zombie" ) ||
-				    encounter.equalsIgnoreCase( "flock of seagulls" ) ||
-				    encounter.equalsIgnoreCase( "mariachi bandolero" ) ||
-				    encounter.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
-				    encounter.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
-				    encounter.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
-				    encounter.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
-				    encounter.equalsIgnoreCase( "Jocko Homo" ) ||
-				    encounter.equalsIgnoreCase( "The Mariachi With No Name" )
-				  ) )
-			{
-				TurnCounter.stopCounting( "Nemesis Assassin window begin" );
-				TurnCounter.stopCounting( "Nemesis Assassin window end" );
-				TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equals( "alley catfish" ) ||
-				    encounter.equals( "aquaconda" ) ||
-				    encounter.equals( "freshwater bonefish" ) ||
-				    encounter.equals( "giant isopod" ) ||
-				    encounter.equals( "giant tardigrade" ) ||
-				    encounter.equals( "gourmet gourami" ) ||
-				    encounter.equals( "piranhadon" ) ||
-				    encounter.equals( "storm cow" )
-				  ) )
-			{
-				TurnCounter.stopCounting( "Rain Monster window begin" );
-				TurnCounter.stopCounting( "Rain Monster window end" );
-				TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
-			}
-			else if ( !EncounterManager.ignoreSpecialMonsters &&
-				  ( encounter.equals( "aggressive grass snake" ) ||
-				    encounter.equals( "emaciated rodeo clown" ) ||
-				    encounter.equals( "furious cow" ) ||
-				    encounter.equals( "furious giant cow" ) ||
-				    encounter.equals( "grizzled rodeo clown" ) ||
-				    encounter.equals( "king snake" ) ||
-				    encounter.equals( "menacing rodeo clown" ) ||
-				    encounter.equals( "prince snake" ) ||
-				    encounter.equals( "ungulith" )
-				  ) )
-			{
-				TurnCounter.stopCounting( "WoL Monster window begin" );
-				TurnCounter.stopCounting( "WoL Monster window end" );
-				TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
-				TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
+				if ( encounter.equalsIgnoreCase( "angry bassist" ) ||
+				     encounter.equalsIgnoreCase( "blue-haired girl" ) ||
+				     encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
+				     encounter.equalsIgnoreCase( "peeved roommate" ) ||
+				     encounter.equalsIgnoreCase( "random scenester" ) ||
+				     encounter.toLowerCase().startsWith( "black crayon" ) ) 
+				{
+					Preferences.increment( "_hipsterAdv", 1 );
+				}
+				else if ( encounter.equalsIgnoreCase( "Witchess Pawn" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Knight" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Ox" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Rook" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Queen" ) ||
+					  encounter.equalsIgnoreCase( "Witchess King" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Witch" ) ||
+					  encounter.equalsIgnoreCase( "Witchess Bishop" ) )
+				{
+					Preferences.increment( "_witchessFights", 1 );
+				}
+				else if ( KoLCharacter.inBeecore() &&
+					  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
+					    encounter.equalsIgnoreCase( "moneybee" ) ||
+					    encounter.equalsIgnoreCase( "mumblebee" ) ||
+					    encounter.equalsIgnoreCase( "beebee queue" ) ||
+					    encounter.equalsIgnoreCase( "bee swarm" ) ||
+					    encounter.equalsIgnoreCase( "buzzerker" ) ||
+					    encounter.equalsIgnoreCase( "beebee king" ) ||
+					    encounter.equalsIgnoreCase( "bee thoven" ) ||
+					    encounter.equalsIgnoreCase( "Queen Bee" ) ) )
+				{
+					Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
+					TurnCounter.stopCounting( "Bee window begin" );
+					TurnCounter.stopCounting( "Bee window end" );
+					TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
+				}
+				else if ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
+					  encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
+					  encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
+					  encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
+					  encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
+					  encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
+					  encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
+					  encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
+					  // El/La aren't actually part of the monster's name,
+					  // but they have not been removed yet by KoLmafia
+					  encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
+					  encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
+					  encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
+					  encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
+					  encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
+					  encounter.equalsIgnoreCase( "migratory pirate" ) ||
+					  encounter.equalsIgnoreCase( "peripatetic pirate" ) ||
+					  encounter.equalsIgnoreCase( "giant pumpkin-head" ) ||
+					  encounter.equalsIgnoreCase( "large-headed werewolf" ) ||
+					  encounter.equalsIgnoreCase( "oddly-proportioned ghost" ) ||
+					  encounter.equalsIgnoreCase( "Cinco de Mayo reveler" )
+					)
+				{
+					TurnCounter.stopCounting( "Holiday Monster window begin" );
+					TurnCounter.stopCounting( "Holiday Monster window end" );
+					TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
+				}
+				else if ( encounter.equals( "sign-twirling Crimbo elf" ) ||
+					  encounter.equals( "tacobuilding elf" ) ||
+					  encounter.equals( "taco-clad Crimbo elf" )
+					)
+				{
+					TurnCounter.stopCounting( "Taco Elf window begin" );
+					TurnCounter.stopCounting( "Taco Elf window end" );
+					TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
+				}
+				else if ( encounter.equalsIgnoreCase( "depressing French accordionist" ) ||
+					  encounter.equalsIgnoreCase( "lively Cajun accordionist" ) ||
+					  encounter.equalsIgnoreCase( "quirky indie-rock accordionist" )
+					)
+				{
+					TurnCounter.stopCounting( "Event Monster window begin" );
+					TurnCounter.stopCounting( "Event Monster window end" );
+					TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
+				}
+				else if ( encounter.equalsIgnoreCase( "Possessed Can of Linguine-Os" ) ||
+					  encounter.equalsIgnoreCase( "Possessed Can of Creepy Pasta" ) ||
+					  encounter.equalsIgnoreCase( "Frozen Bag of Tortellini" ) ||
+					  encounter.equalsIgnoreCase( "Possessed Jar of Alphredo&trade;" ) ||
+					  encounter.equalsIgnoreCase( "Box of Crafty Dinner" )
+					)
+				{
+					TurnCounter.stopCounting( "Event Monster window begin" );
+					TurnCounter.stopCounting( "Event Monster window end" );
+					TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
+				}
+				else if ( encounter.equalsIgnoreCase( "menacing thug" ) ||
+					  encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
+					  encounter.equalsIgnoreCase( "hunting seal" ) ||
+					  encounter.equalsIgnoreCase( "turtle trapper" ) ||
+					  encounter.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
+					  encounter.equalsIgnoreCase( "B&eacute;arnaise zombie" ) ||
+					  encounter.equalsIgnoreCase( "flock of seagulls" ) ||
+					  encounter.equalsIgnoreCase( "mariachi bandolero" ) ||
+					  encounter.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
+					  encounter.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
+					  encounter.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
+					  encounter.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
+					  encounter.equalsIgnoreCase( "Jocko Homo" ) ||
+					  encounter.equalsIgnoreCase( "The Mariachi With No Name" )
+					)
+				{
+					TurnCounter.stopCounting( "Nemesis Assassin window begin" );
+					TurnCounter.stopCounting( "Nemesis Assassin window end" );
+					TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
+				}
+				else if ( encounter.equals( "alley catfish" ) ||
+					  encounter.equals( "aquaconda" ) ||
+					  encounter.equals( "freshwater bonefish" ) ||
+					  encounter.equals( "giant isopod" ) ||
+					  encounter.equals( "giant tardigrade" ) ||
+					  encounter.equals( "gourmet gourami" ) ||
+					  encounter.equals( "piranhadon" ) ||
+					  encounter.equals( "storm cow" )
+					)
+				{
+					TurnCounter.stopCounting( "Rain Monster window begin" );
+					TurnCounter.stopCounting( "Rain Monster window end" );
+					TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
+				}
+				else if ( encounter.equals( "aggressive grass snake" ) ||
+					  encounter.equals( "emaciated rodeo clown" ) ||
+					  encounter.equals( "furious cow" ) ||
+					  encounter.equals( "furious giant cow" ) ||
+					  encounter.equals( "grizzled rodeo clown" ) ||
+					  encounter.equals( "king snake" ) ||
+					  encounter.equals( "menacing rodeo clown" ) ||
+					  encounter.equals( "prince snake" ) ||
+					  encounter.equals( "ungulith" )
+					)
+				{
+					TurnCounter.stopCounting( "WoL Monster window begin" );
+					TurnCounter.stopCounting( "WoL Monster window end" );
+					TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
+					TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
+				}
 			}
 
 			FightRequest.isTrackingFights = false;
@@ -4147,7 +4163,7 @@ public class FightRequest
 	{
 		StringBuffer action = new StringBuffer();
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = monster != null ? monster.getName() : Preferences.getString( "lastEncounter" );
+		String monsterName = monster != null ? monster.getName() : FightRequest.currentEncounter;
 
 		Matcher m = FightRequest.NS_ML_PATTERN.matcher( responseText );
 		if ( m.find() )
@@ -4314,7 +4330,7 @@ public class FightRequest
 		StringBuffer action = status.action;
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = monster != null ? monster.getName() : Preferences.getString( "lastEncounter" );
+		String monsterName = monster != null ? monster.getName() : FightRequest.currentEncounter;
 
 		FightRequest.getRound( action );
 		action.append( monsterName );
@@ -5033,6 +5049,7 @@ public class FightRequest
 		public int lastCombatItem = -1;
 		public MonsterData monster;
 		public String monsterName;
+		public String encounter;
 		public boolean seahorse;
 		public boolean mayowasp;
 		public boolean dolphin;
@@ -5072,6 +5089,8 @@ public class FightRequest
 
 			this.monster = MonsterStatusTracker.getLastMonster();
 			this.monsterName = this.monster != null ? monster.getName() : "";
+
+			this.encounter = FightRequest.currentEncounter;
 
 			// Note if we are taming a wild seahorse
 			this.seahorse = this.monsterName.equals( "wild seahorse" );
@@ -6599,17 +6618,36 @@ public class FightRequest
 			return;
 		}
 
+		StringBuffer action = status.action;
+		FightRequest.getRound( action );
+		action.append( text );
+		FightRequest.logText( action );
+	}
+
+	private static final void logText( StringBuilder buffer )
+	{
+		FightRequest.logText( buffer.toString() );
+	}
+
+	private static final void logText( StringBuffer buffer )
+	{
+		FightRequest.logText( buffer.toString() );
+	}
+
+	private static final void logText( String text )
+	{
+		if ( text.equals( "" ) )
+		{
+			return;
+		}
+
 		text = StringUtilities.globalStringReplace( text, "<br>", " / " );
 		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( " " );
 		text = StringUtilities.globalStringDelete( text, "&nbsp;" );
 		text = StringUtilities.globalStringReplace( text, "  ", " " );
 
-		StringBuffer action = status.action;
-		FightRequest.getRound( action );
-		action.append( text );
-		String message = action.toString();
-		RequestLogger.printLine( message );
-		RequestLogger.updateSessionLog( message );
+		RequestLogger.printLine( text );
+		RequestLogger.updateSessionLog( text );
 	}
 
 	private static final void clearInstanceData()
