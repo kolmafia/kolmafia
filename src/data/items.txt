@@ -9211,7 +9211,7 @@
 9185
 9186	packet of thanksgarden seeds	287958872	thanksseeds.gif	usable		0
 9187	cashew	432367728	cashew.gif	usable	t	0	cashews
-9188
+9188	bomb of unknown origin	761793147	bomb.gif	none, combat		0
 9189	Granny Tood's Thanksgarden Catalog	451942593	thankscatalog.gif	usable	t	0
 9190	eldritch effluvium	403759606	eldeffluv.gif	multiple	t,d	100
 9191	eldritch concentrate	712115476	glassglobe.gif	multiple, fancy	t,d	666	globes of eldritch concentrate
