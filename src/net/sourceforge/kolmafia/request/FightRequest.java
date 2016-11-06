@@ -6815,7 +6815,7 @@ public class FightRequest
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
-				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
+				// http://http://alliancefromhell.com/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "Communications Windchimes" );
 				TurnCounter.startCounting( 10, "Communications Windchimes loc=*", "chimes.gif" );
 			}
@@ -6842,7 +6842,7 @@ public class FightRequest
 			{
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
-				// http://alliancefromhell.com/forum/viewtopic.php?t=1398
+				// http://http://alliancefromhell.com/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "PADL Phone" );
 				TurnCounter.startCounting( 10, "PADL Phone loc=*", "padl.gif" );
 			}
@@ -7310,11 +7310,13 @@ public class FightRequest
 				item2 = FightRequest.nextAction.substring( commaIndex + 1 );
 			}
 
-			FightRequest.payItemCost( StringUtilities.parseInt( item1 ), responseText );
+			int id1 = StringUtilities.parseInt( item1 );
+			int id2 = StringUtilities.parseInt( item2 );
+			FightRequest.payItemCost( id1, -1, responseText );
 
 			if ( item2 != null )
 			{
-				FightRequest.payItemCost( StringUtilities.parseInt( item2 ), responseText );
+				FightRequest.payItemCost( id2, id1, responseText );
 			}
 
 			return;
@@ -7873,7 +7875,7 @@ public class FightRequest
 		}
 	}
 
-	public static final void payItemCost( final int itemId, final String responseText )
+	public static final void payItemCost( final int itemId, final int itemId2, final String responseText )
 	{
 		if ( itemId <= 0 )
 		{
@@ -8078,28 +8080,6 @@ public class FightRequest
 			}
 			break;
 
-		case ItemPool.POWER_PILL:
-			if ( responseText.contains( "devours your foe" ) || itemSuccess )
-			{
-				Preferences.increment( "_powerPillUses" );
-			}
-			else if ( responseText.contains( "refuses to eat" ) )
-			{
-				Preferences.setInteger( "_powerPillUses", 20 );
-			}
-			break;
-
-		case ItemPool.GLARK_CABLE:
-			if ( responseText.contains( "neatly vaporized" ) || itemSuccess )
-			{
-				Preferences.increment( "_glarkCableUses", 1, 5, false );
-			}
-			else if ( responseText.contains( "glark batteries" ) )
-			{
-				Preferences.setInteger( "_glarkCableUses", 5 );
-			}
-			break;
-
 		case ItemPool.MAYO_LANCE:
 			if ( responseText.contains( "Everything Looks Yellow" ) )
 			{
@@ -8107,16 +8087,48 @@ public class FightRequest
 				Preferences.setInteger( "mayoLevel", mayo );
 			}
 			break;
-		case ItemPool.REPLICA_BAT_OOMERANG:
-			if ( responseText.contains( "arm is too tired" ) )
+
+		}
+
+		if ( itemId != itemId2 )
+		{
+			// If these items succeed, then the second one won't actually do anything
+			// because the first one ended the fight.
+			switch ( itemId )
 			{
-				Preferences.setInteger( "_usedReplicaBatoomerang", 3 );
+			case ItemPool.POWER_PILL:
+				if ( responseText.contains( "devours your foe" ) || itemSuccess )
+				{
+					Preferences.increment( "_powerPillUses" );
+				}
+				else if ( responseText.contains( "refuses to eat" ) )
+				{
+					Preferences.setInteger( "_powerPillUses", 20 );
+				}
+				break;
+
+			case ItemPool.GLARK_CABLE:
+				if ( responseText.contains( "neatly vaporized" ) || itemSuccess )
+				{
+					Preferences.increment( "_glarkCableUses", 1, 5, false );
+				}
+				else if ( responseText.contains( "glark batteries" ) )
+				{
+					Preferences.setInteger( "_glarkCableUses", 5 );
+				}
+				break;
+
+			case ItemPool.REPLICA_BAT_OOMERANG:
+				if ( responseText.contains( "arm is too tired" ) )
+				{
+					Preferences.setInteger( "_usedReplicaBatoomerang", 3 );
+				}
+				else if ( responseText.contains( "throw the replica bat-oomerang" ) || itemSuccess )
+				{
+					Preferences.increment( "_usedReplicaBatoomerang", 1, 3, false );
+				}
+				break;
 			}
-			else if ( responseText.contains( "throw the replica bat-oomerang" ) || itemSuccess )
-			{
-				Preferences.increment( "_usedReplicaBatoomerang", 1, 3, false );
-			}
-			break;
 		}
 
 		// May update a quest, handle in QuestManager
