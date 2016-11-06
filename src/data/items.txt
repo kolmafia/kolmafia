@@ -9224,3 +9224,4 @@
 9198	eldritch pants	792793451	eldritchpants.gif	pants	t	0
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
+9201	Just a lump of inert eldritch matter	251049747	wad.gif	none	t,d	1	Just some lumps of inert eldritch matter
