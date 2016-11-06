@@ -6092,7 +6092,7 @@ Effect	The Dinsey Way	Meat Drop: +80
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 Effect	The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 Effect	The Glistening	Initiative: +20, Damage Reduction: 5
-# Effect	The Good Salmonella	Does something based on thanksgarden stuff
+Effect	The Good Salmonella	Duscle Percent: [20*F], Mysticality Percent: [20*F], Moxie Percent: [20*F]
 Effect	The Grass...  Is Blue...	Meat Drop: +40, Item Drop: +20
 Effect	The Great Tit's Blessing	Monster Level: +20, Moxie Percent: +5
 Effect	The Great White Mope	Avatar: "confused goth music student"
