@@ -195,11 +195,12 @@ Gno-Mart	gnomart	flask of Gnomochloric acid	1000	ROW560
 Gno-Mart	gnomart	jug of Gnomochloric acid	5000	ROW561
 
 Uncle P's Antiques	unclep	Clancy's crumhorn	2500	ROW511
-Uncle P's Antiques	unclep	antique accordion	2500	ROW512
+Uncle P's Antiques	unclep	antique accordion	2500	ROW908
 Uncle P's Antiques	unclep	fancy black tie	1000000	ROW508
 Uncle P's Antiques	unclep	fancy tophat	1000000	ROW506
 Uncle P's Antiques	unclep	fancy tuxedo pants	1000000	ROW509
 Uncle P's Antiques	unclep	'Villa' document	100000000	ROW507
+Uncle P's Antiques	unclep	Just a lump of inert eldritch matter	4750000	ROW512
 
 Huggler Memorial Colosseum Snack Bar	snackbar	Hatorade	500	ROW565
 Huggler Memorial Colosseum Snack Bar	snackbar	nailswurst	500	ROW566
