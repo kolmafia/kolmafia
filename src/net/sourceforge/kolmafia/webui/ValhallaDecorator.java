@@ -453,7 +453,7 @@ public class ValhallaDecorator
 				: ( cropName.contains( "skeleton" ) ) ? "Skeleton"
 				: ( cropName.contains( "barley" ) || cropName.contains( "beer label" ) ) ? "Beer Garden"
 				: ( cropName.contains( "ice harvest" ) || cropName.contains( "frost flower" ) ) ? "Winter Garden"
-				: ( cropName.contains( "cashew" ) ) ? "Thanksgarden"
+				: ( cropName.contains( "cornucopia" ) ) ? "Thanksgarden"
 				: "Unknown";
 			buffer.append( "</nobr><br><nobr>" );
 			buffer.append( " (currently " ).append( cropString ).append( ")" );
