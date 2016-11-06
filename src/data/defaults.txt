@@ -439,6 +439,7 @@ user	edDefeatAbort	2
 user	edPiece	
 user	edPoints	0
 user	edUsedLash	false
+user	eldritchFissureAvailable	false
 user	envyfishMonster
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000

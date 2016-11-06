@@ -674,6 +674,12 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.ELDRITCH_FISSURE_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "eldritchFissureAvailable" );
+			return;
+		}
+
 		if ( !this.formSource.contains( "adventure.php" ) )
 		{
 			this.isValidAdventure = true;

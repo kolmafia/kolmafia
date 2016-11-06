@@ -434,6 +434,7 @@ public class QuestManager
 	private static void handleTownChange( final String location, String responseText )
 	{
 		QuestManager.handleTimeTower( responseText.contains( "town_tower" ) );
+		QuestManager.handleEldritchFissure( responseText.contains( "town_eincursion" ) );
 		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
@@ -465,6 +466,16 @@ public class QuestManager
 		}
 
 		ConcoctionDatabase.setRefreshNeeded( false );
+	}
+
+	public static void handleEldritchFissure( final boolean available )
+	{
+		if ( Preferences.getBoolean( "eldritchFissureAvailable" ) == available )
+		{
+			return;
+		}
+
+		Preferences.setBoolean( "eldritchFissureAvailable", available );
 	}
 
 	private static void handleGuildChange( final String responseText )
