@@ -2837,6 +2837,7 @@ eldritch elixir	MIX	eldritch distillate	eldritch distillate
 # Thanksgarden
 
 baked stuffing	COOK	raw stuffing	stuffing fluffer
+bomb of unknown origin	COMBINE	bread mold	fire of unknown origin
 bread roll	COOK	raw bread	bread mold
 candied sweet potatoes	COOK	raw sweet potato	mini-marshmallow dispenser
 cranberry cylinder	COOK	raw cranberry sauce	can opener
