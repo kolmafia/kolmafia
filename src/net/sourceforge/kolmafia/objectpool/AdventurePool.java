@@ -195,8 +195,6 @@ public class AdventurePool
 	public static final int BLACK_FOREST = 405;
 	public static final String UPPER_CHAMBER_ID = "406";
 	public static final String MIDDLE_CHAMBER_ID = "407";
-	public static final String LOWER_CHAMBER_ID = "pyramid_state";
-	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final int ROAD_TO_WHITE_CITADEL = 413;
 	public static final String ROAD_TO_WHITE_CITADEL_ID = "413";
 	public static final int DR_WEIRDEAUX = 415;
@@ -242,4 +240,8 @@ public class AdventurePool
 	public static final String DEEP_MACHINE_TUNNELS_ID = "458";
 	public static final int TRAINING_SNOWMAN = 460;
 	public static final String TRAINING_SNOWMAN_ID = "460";
+
+	public static final String LOWER_CHAMBER_ID = "pyramid_state";
+	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
+	public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
 }
