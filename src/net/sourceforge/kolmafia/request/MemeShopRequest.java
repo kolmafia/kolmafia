@@ -96,14 +96,19 @@ public class MemeShopRequest
 				{
 				case ItemPool.VIRAL_VIDEO:
 					Preferences.setBoolean( "_internetViralVideoBought", true );
+					break;
 				case ItemPool.PLUS_ONE:
 					Preferences.setBoolean( "_internetPlusOneBought", true );
+					break;
 				case ItemPool.GALLON_OF_MILK:
 					Preferences.setBoolean( "_internetGallonOfMilkBought", true );
+					break;
 				case ItemPool.PRINT_SCREEN:
 					Preferences.setBoolean( "_internetPrintScreenButtonBought", true );
+					break;
 				case ItemPool.DAILY_DUNGEON_MALWARE:
 					Preferences.setBoolean( "_internetDailyDungeonMalwareBought", true );
+					break;
 				}
 			}
 		};
