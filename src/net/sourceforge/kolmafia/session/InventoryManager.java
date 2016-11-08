@@ -604,16 +604,25 @@ public abstract class InventoryManager
 		{
 			for ( int i = EquipmentManager.HAT; i <= EquipmentManager.FAMILIAR; ++i )
 			{
-				if ( EquipmentManager.getEquipment( i ).equals( item ) )
+				// If you are dual-wielding the target item,
+				// remove the one in the offhand slot first
+				// since taking from the weapon slot will drop
+				// the offhand weapon.
+				int slot =
+					i == EquipmentManager.WEAPON ? EquipmentManager.OFFHAND :
+					i == EquipmentManager.OFFHAND ? EquipmentManager.WEAPON :
+					i;
+
+				if ( EquipmentManager.getEquipment( slot ).equals( item ) )
 				{
 					if ( sim )
 					{
 						return "remove";
 					}
 
-					SpecialOutfit.forgetEquipment( item );
+					SpecialOutfit.replaceEquipmentInSlot( EquipmentRequest.UNEQUIP, slot );
 
-					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, i ) );
+					RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.UNEQUIP, slot ) );
 
 					if ( --missingCount <= 0 )
 					{

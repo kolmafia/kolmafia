@@ -485,13 +485,10 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "familiar.php" ) )
 		{
+			FamiliarRequest.parseResponse( location, responseText );
 			if ( !location.contains( "ajax=1" ) )
 			{
 				FamiliarData.registerFamiliarData( responseText );
-			}
-			else
-			{
-				FamiliarRequest.parseResponse( location, responseText );
 			}
 		}
 
