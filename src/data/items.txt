@@ -9207,8 +9207,8 @@
 9181	leftovers sandwich	832231617	jarl_sand3.gif	food	t,d	10
 9182	Eldritch Intellect: Journey into a Mind of Horror	948396759	book2.gif	usable	t	0
 9183	cornucopia	668500619	thanksucopia.gif	multiple	t	0
-9184
-9185
+9184	megacopia	680810357	megacopia.gif	usable	t	0
+9185	giant pilgrim hat	642418610	pilghat.gif	usable	q,d	1000
 9186	packet of thanksgarden seeds	287958872	thanksseeds.gif	usable		0
 9187	cashew	432367728	cashew.gif	usable	t	0	cashews
 9188	bomb of unknown origin	761793147	bomb.gif	none, combat		0

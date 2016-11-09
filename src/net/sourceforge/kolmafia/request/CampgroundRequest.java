@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -65,7 +65,7 @@ public class CampgroundRequest
 	private static final Pattern LIBRAM_PATTERN =
 		Pattern.compile( "Summon (Candy Heart|Party Favor|Love Song|BRICKOs|Dice|Resolutions|Taffy) *.[(]([\\d,]+) MP[)]" );
 	private static final Pattern HOUSING_PATTERN =
-		Pattern.compile( "/rest(\\d+|a|b|c|d|e)(tp)?(_free)?.gif" );
+		Pattern.compile( "/rest([\\da-z])(tp)?(_free)?.gif" );
 	private static final Pattern FURNISHING_PATTERN =
 		Pattern.compile( "<b>(?:an? )?(.*?)</b>" );
 
@@ -748,6 +748,7 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgarden5.gif", ItemPool.CORNUCOPIA, 8 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgarden6.gif", ItemPool.CORNUCOPIA, 11 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgarden7.gif", ItemPool.CORNUCOPIA, 15 );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgardenmega.gif", ItemPool.MEGACOPIA, 1 );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )
@@ -794,30 +795,20 @@ public class CampgroundRequest
 			return;
 		}
 
-		String dwelling = m.group( 1 );
-		if ( dwelling.equals( "a" ) )
+		int dwelling = 0;
+		String dwell = m.group( 1 );
+		if ( StringUtilities.isNumeric( dwell ) )
 		{
-			dwelling = "10";
+			dwelling = Integer.parseInt( dwell );
 		}
-		else if ( dwelling.equals( "b" ) )
+		else
 		{
-			dwelling = "11";
-		}
-		else if ( dwelling.equals( "c" ) )
-		{
-			dwelling = "12";
-		}
-		else if ( dwelling.equals( "d" ) )
-		{
-			dwelling = "13";
-		}
-		else if ( dwelling.equals( "e" ) )
-		{
-			dwelling = "14";
+			char dw = dwell.charAt( 0 );
+			dwelling = dw - 'a' + 10;
 		}
 
 		int itemId = -1;
-		switch ( StringUtilities.parseInt( dwelling ) )
+		switch ( dwelling )
 		{
 		case 0:
 			// placeholder for "the ground"
@@ -865,6 +856,9 @@ public class CampgroundRequest
 			break;
 		case 14:
 			itemId = ItemPool.RESIDENCE_CUBE;
+			break;
+		case 15:
+			itemId = ItemPool.GIANT_PILGRIM_HAT;
 			break;
 		default:
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!" );
@@ -1154,6 +1148,8 @@ public class CampgroundRequest
 			return 13;
 		case ItemPool.RESIDENCE_CUBE:
 			return 14;
+		case ItemPool.GIANT_PILGRIM_HAT:
+			return 15;
 		}
 		return 0;
 	}

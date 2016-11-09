@@ -1353,7 +1353,7 @@ public class UseItemRequest
 			AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
 			int oldLevel = CampgroundRequest.getCurrentDwellingLevel();
 			int newLevel = CampgroundRequest.dwellingLevel( itemId );
-			if ( newLevel < oldLevel && dwelling != null && !UseItemRequest.confirmReplacement( dwelling.getName() ) )
+			if ( ( oldLevel >= 7 || newLevel < oldLevel ) && dwelling != null && !UseItemRequest.confirmReplacement( dwelling.getName() ) )
 			{
 				return;
 			}

@@ -6815,7 +6815,7 @@ public class FightRequest
 			{
 				Preferences.setInteger( "lastHippyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
-				// http://http://alliancefromhell.com/viewtopic.php?t=1398
+				// http://alliancefromhell.com/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "Communications Windchimes" );
 				TurnCounter.startCounting( 10, "Communications Windchimes loc=*", "chimes.gif" );
 			}
@@ -6842,7 +6842,7 @@ public class FightRequest
 			{
 				Preferences.setInteger( "lastFratboyCall", KoLAdventure.getAdventureCount() );
 				// "Safe" interval between uses is 10 turns
-				// http://http://alliancefromhell.com/viewtopic.php?t=1398
+				// http://alliancefromhell.com/viewtopic.php?t=1398
 				TurnCounter.stopCounting( "PADL Phone" );
 				TurnCounter.startCounting( 10, "PADL Phone loc=*", "padl.gif" );
 			}
