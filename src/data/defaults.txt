@@ -1470,6 +1470,7 @@ user	_transponderDrops	0
 user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
+user	_turkeyBlastersUsed	0
 user	_turkeyBooze	0
 user	_turkeyMuscle	0
 user	_turkeyMyst	0
