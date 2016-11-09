@@ -144,6 +144,7 @@ the funk	1	1	EPIC	0	0	0	30-40
 thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
 transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
 tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)
+turkey blaster	2	4	crappy	0	0	0	0	Unspaded
 twinkly wad	1	6	decent	1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30

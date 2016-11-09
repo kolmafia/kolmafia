@@ -1155,6 +1155,11 @@ public class UseItemRequest
 			}
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_hardKnocksDiplomaUsed" ) ? 0 : 1;
+
+		case ItemPool.TURKEY_BLASTER:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_turkeyBlastersUsed" ) );
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5608,7 +5613,7 @@ public class UseItemRequest
 		case ItemPool.TURKEY_BLASTER:
 			if ( responseText.contains( "can't handle" ) )
 			{
-				Preferences.setInteger( "_turkeyBlastersUsed", 5 );
+				Preferences.setInteger( "_turkeyBlastersUsed", 3 );
 			}
 			else
 			{
