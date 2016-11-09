@@ -5604,6 +5604,17 @@ public class UseItemRequest
 				ResultProcessor.processResult( item );
 			}
 			break;
+
+		case ItemPool.TURKEY_BLASTER:
+			if ( responseText.contains( "can't handle" ) )
+			{
+				Preferences.setInteger( "_turkeyBlastersUsed", 5 );
+			}
+			else
+			{
+				Preferences.increment( "_turkeyBlastersUsed" );
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
