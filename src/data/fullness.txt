@@ -606,15 +606,15 @@ rat appendix stir-fry	3	4	awesome	8-12	0	0	27-31
 rat scrapple	2	2	decent	2-7	0	0	10-12
 ratini	4	4	good	10-14	0	20-30	0
 ravioli della hippy	3	3	good	4-12	0	19-23	0
-raw bread	1	1	decent	0	0	0	0	Unspaded
-raw cranberry sauce	1	1	decent	0	0	0	0	Unspaded
-raw gravy	1	1	decent	0	0	0	0	Unspaded
-raw green beans	1	1	decent	0	0	0	0	Unspaded
-raw mincemeat	1	1	decent	0	0	0	0	Unspaded
-raw potato	1	1	decent	0	0	0	0	Unspaded
-raw stuffing	1	1	decent	0	0	0	0	Unspaded
-raw sweet potato	1	1	decent	0	0	0	0	Unspaded
-raw turkey	1	1	decent	0	0	0	0	Unspaded
+raw bread	1	1	decent	2	0	0	20-40	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw cranberry sauce	1	1	decent	2	0	0	20-40	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw gravy	1	1	decent	2	0	20-40	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw green beans	1	1	decent	2	0	20-40	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw mincemeat	1	1	decent	2	20-40	0	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw potato	1	1	decent	2	20-40	0	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw stuffing	1	1	decent	2	0	0	20-40	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw sweet potato	1	1	decent	2	0	20-40	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
+raw turkey	1	1	decent	2	20-40	0	0	chance of 30 The Good Salmonella (+20% x Fullness all stats)
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Inebriety 80 Gummiheart (+100 Muscle)
 Red Herring Velvet Cake	5	1		14-19	0	0	0
 red velvet cake	2	4	decent	3-5	0	10-30	0	10-20 HP
@@ -823,7 +823,6 @@ triangular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Triangle, Man (+10% mus)
 tricky dragon roll	3	1		9-14	20-30	0	8-16	45/55 Fishy
 Trollhouse cookies	2	1	decent	2-3	4-6	0	0
 tube of cranberry Go-Goo	3	1	awesome	8-14	0	0	31-34
-turkey blaster	2	4	crappy	0	0	0	0	Unspaded
 turkish mostaccioli	5	10	awesome	19-22	35-40	0	0
 Turnip and Rutabaga Pie	5	1	good	12-13	0	0	0	30 Healthy, Elfy, and Wise (8-10 HP Regen)
 turtle soup	1	2	good	2-3	9-15	0	0	10 A Little Bit Evil (+2 ML), 10 Souper Vengeful (+3 lbs)
