@@ -4117,6 +4117,7 @@ Item	Frobozz Real-Estate Company Instant House (TM)	Base Resting HP: +39, Base R
 Item	gauze hammock	Bonus Resting HP: +60
 Item	gingerbread house	Base Resting HP: +69, Base Resting MP: +70
 Item	giant Faraday cage	Base Resting HP: +50, Base Resting MP: +50
+Item	giant pilgrim hat	Base Resting HP: +39, Base Resting MP: +40
 Item	ginormous pumpkin	Base Resting HP: +49, Base Resting MP: +50
 # haunted doghouse: Houses your very own Hallowiener Dog!
 Item	haunted doghouse	Free Pull
