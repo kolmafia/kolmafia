@@ -1511,16 +1511,20 @@ public class ConcoctionDatabase
 			}
 		}
 
-		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
-		ConcoctionDatabase.creatableList.sort();
-		ConcoctionDatabase.usableList.updateFilter( changeDetected );
-		ConcoctionDatabase.usableList.sort();
-
 		if ( ConcoctionDatabase.recalculateAdventureRange )
 		{
 			ConsumablesDatabase.calculateAdventureRanges();
 			ConcoctionDatabase.recalculateAdventureRange = false;
+
+			ConcoctionDatabase.queuedFood.touch();
+			ConcoctionDatabase.queuedBooze.touch();
+			ConcoctionDatabase.queuedSpleen.touch();
 		}
+
+		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
+		ConcoctionDatabase.creatableList.sort();
+		ConcoctionDatabase.usableList.updateFilter( changeDetected );
+		ConcoctionDatabase.usableList.sort();
 	}
 
 	/**

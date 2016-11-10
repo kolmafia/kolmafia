@@ -254,7 +254,7 @@ public class UseItemEnqueuePanel
 			//
 			// The "flush" listener is the last button
 			int flushIndex = this.buttons.length - 1;
-			boolean havepill = InventoryManager.getCount( ItemPool.DISTENTION_PILL ) > 0;
+			boolean havepill = InventoryManager.getAccessibleCount( ItemPool.DISTENTION_PILL ) > 0;
 			boolean usedpill = Preferences.getBoolean( "_distentionPillUsed" );
 			boolean canFlush = ( havepill && !usedpill );
 			this.buttons[ flushIndex ].setEnabled( canFlush );
@@ -280,7 +280,7 @@ public class UseItemEnqueuePanel
 			// The "flush" listener is the last button
 			int flushIndex = this.buttons.length - 1;
 			boolean havedrunk = KoLCharacter.getInebriety() > 0;
-			boolean havepill = InventoryManager.getCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
+			boolean havepill = InventoryManager.getAccessibleCount( ItemPool.SYNTHETIC_DOG_HAIR_PILL ) > 0;
 			boolean usedpill = Preferences.getBoolean( "_syntheticDogHairPillUsed" );
 			boolean canFlush = havedrunk && ( havepill && !usedpill );
 			this.buttons[ flushIndex ].setEnabled( canFlush );
@@ -590,7 +590,9 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void execute()
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.DISTENTION_PILL, 1 ) ) );
+			AdventureResult item = ItemPool.get( ItemPool.DISTENTION_PILL, 1 );
+			InventoryManager.retrieveItem( item, false );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 		}
 
 		@Override
@@ -606,7 +608,9 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void execute()
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 ) ) );
+			AdventureResult item = ItemPool.get( ItemPool.SYNTHETIC_DOG_HAIR_PILL, 1 );
+			InventoryManager.retrieveItem( item, false );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 		}
 
 		@Override
@@ -622,7 +626,9 @@ public class UseItemEnqueuePanel
 		@Override
 		protected void execute()
 		{
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.MOJO_FILTER, 1 ) ) );
+			AdventureResult item = ItemPool.get( ItemPool.MOJO_FILTER, 1 );
+			InventoryManager.retrieveItem( item, false );
+			RequestThread.postRequest( UseItemRequest.getInstance( item ) );
 		}
 
 		@Override
