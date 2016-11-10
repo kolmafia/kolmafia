@@ -4789,6 +4789,10 @@ public class UseItemRequest
 
 		case ItemPool.SPRING_BEACH_CHARTER:
 			Preferences.setBoolean( "sleazeAirportAlways", true );
+			if ( !responseText.contains( "name gets added to the registry" ) )
+			{
+				return;
+			}
 			break;
 
 		case ItemPool.SPRING_BEACH_TICKET:
@@ -4809,6 +4813,10 @@ public class UseItemRequest
 
 		case ItemPool.CONSPIRACY_ISLAND_CHARTER:
 			Preferences.setBoolean( "spookyAirportAlways", true );
+			if ( !responseText.contains( "name gets added to the registry" ) )
+			{
+				return;
+			}
 			break;
 
 		case ItemPool.CONSPIRACY_ISLAND_TICKET:
@@ -4817,9 +4825,8 @@ public class UseItemRequest
 				// If you already have access it is not consumed
 				return;
 			}
-
 			Preferences.setBoolean( "_spookyAirportToday", true );
-			return;
+			break;
 
 		case ItemPool.SHAWARMA_KEYCARD:
 			Preferences.setBoolean( "SHAWARMAInitiativeUnlocked", true );
@@ -4835,7 +4842,11 @@ public class UseItemRequest
 
 		case ItemPool.DINSEY_CHARTER:
 			Preferences.setBoolean( "stenchAirportAlways", true );
-			return;
+			if ( !responseText.contains( "name gets added to the registry" ) )
+			{
+				return;
+			}
+			break;
 
 		case ItemPool.DINSEY_TICKET:
 			if ( responseText.contains( "already have access to that place" ) )
@@ -4843,13 +4854,16 @@ public class UseItemRequest
 				// If you already have access it is not consumed
 				return;
 			}
-
 			Preferences.setBoolean( "_stenchAirportToday", true );
-			return;
+			break;
 
 		case ItemPool.VOLCANO_CHARTER:
 			Preferences.setBoolean( "hotAirportAlways", true );
-			return;
+			if ( !responseText.contains( "name gets added to the registry" ) )
+			{
+				return;
+			}
+			break;
 
 		case ItemPool.VOLCANO_TICKET:
 			if ( responseText.contains( "already have access to that place" ) )
@@ -4857,13 +4871,16 @@ public class UseItemRequest
 				// If you already have access it is not consumed
 				return;
 			}
-
 			Preferences.setBoolean( "_hotAirportToday", true );
-			return;
+			break;
 
 		case ItemPool.GLACIEST_CHARTER:
 			Preferences.setBoolean( "coldAirportAlways", true );
-			return;
+			if ( !responseText.contains( "name gets added to the registry" ) )
+			{
+				return;
+			}
+			break;
 
 		case ItemPool.GLACIEST_TICKET:
 			if ( responseText.contains( "already have access to that place" ) )
@@ -4871,9 +4888,8 @@ public class UseItemRequest
 				// If you already have access it is not consumed
 				return;
 			}
-
 			Preferences.setBoolean( "_coldAirportToday", true );
-			return;
+			break;
 
 		case ItemPool.LOVEBUG_PHEROMONES:
 			Preferences.setBoolean( "lovebugsUnlocked", true );
