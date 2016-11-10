@@ -4489,7 +4489,7 @@
 4464	chocolate pasta spoon	799053536	choc3.gif	usable, candy	t	0
 4465	chocolate saucepan	894875363	choc4.gif	usable, candy	t	0
 4466	chocolate disco ball	181522203	choc5.gif	usable, candy	t	0
-4467	chocolate stolen accordion	707981124	choc6.gif	usable, candy	t	0	chocolate stolen accordion
+4467	chocolate stolen accordion	707981124	choc6.gif	usable, candy	t	0
 4468	Libram of BRICKOs	377804923	book2.gif	usable	t	0	Librams of BRICKOs
 4469	BRICKO brick	261433979	brickobrick.gif	multiple	t	0
 4470	BRICKO eye brick	992023114	brickoeye.gif	none	t	0
