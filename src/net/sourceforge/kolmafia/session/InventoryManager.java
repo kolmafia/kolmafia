@@ -1779,13 +1779,13 @@ public abstract class InventoryManager
 
 	public static boolean itemAvailable( final int itemId )
 	{
-		return InventoryManager.hasItem( itemId ) ||
-				InventoryManager.canUseStorage( itemId ) ||
-				InventoryManager.canUseMall( itemId ) ||
-				InventoryManager.canUseNPCStores( itemId ) ||
-				InventoryManager.canUseCoinmasters( itemId ) ||
-				InventoryManager.canUseClanStash( itemId ) ||
-				InventoryManager.canUseCloset( itemId );
+		return  InventoryManager.hasItem( itemId ) ||
+			InventoryManager.canUseStorage( itemId ) ||
+			InventoryManager.canUseMall( itemId ) ||
+			InventoryManager.canUseNPCStores( itemId ) ||
+			InventoryManager.canUseCoinmasters( itemId ) ||
+			InventoryManager.canUseClanStash( itemId ) ||
+			InventoryManager.canUseCloset( itemId );
 	}
 
 	public static boolean canUseMall( final AdventureResult item )

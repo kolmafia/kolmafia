@@ -167,6 +167,26 @@ public class LockableListModel<E>
 		}
 	}
 
+	public void touch()
+	{
+		synchronized ( this.actualElements )
+		{
+			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
+
+			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
+			while ( it.hasNext() )
+			{
+				LockableListModel<E> mirror = this.getNextMirror( it );
+				if ( mirror == null )
+				{
+					break;
+				}
+
+				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
+			}
+		}
+	}
+
 	@Override
 	public void fireContentsChanged( final Object source, final int index0, final int index1 )
 	{

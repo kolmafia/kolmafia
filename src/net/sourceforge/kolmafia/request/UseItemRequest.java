@@ -3858,6 +3858,7 @@ public class UseItemRequest
 		case ItemPool.MILK_OF_MAGNESIUM:
 
 			ConcoctionDatabase.getUsables().sort();
+			ConcoctionDatabase.queuedFood.touch();
 			break;
 
 		case ItemPool.NEWBIESPORT_TENT:
