@@ -1058,16 +1058,6 @@ public abstract class UseLinkDecorator
 			case ItemPool.CASHEW:
 				return new UseLink( itemId, 1, "trade", "shop.php?whichshop=thankshop" );
 
-			case ItemPool.TOMB_RATCHET:
-			{
-				int count1 = InventoryManager.getCount( itemId );
-				int count2 = InventoryManager.getCount( ItemPool.CRUMBLING_WHEEL );
-				String useType = String.valueOf( count2 ) + "+" + String.valueOf( count1 );
-				return !Preferences.getBoolean( "controlRoomUnlock" ) ?
-					new UseLink( itemId, count1, useType, "javascript:return false;" ) :
-					new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
-			}
-
 			case ItemPool.LITTLE_FIRKIN:
 			case ItemPool.NORMAL_BARREL:
 			case ItemPool.BIG_TUN:
@@ -1936,6 +1926,16 @@ public abstract class UseLinkDecorator
 			int count1 = InventoryManager.getCount( itemId );
 			int count2 = InventoryManager.getCount( ItemPool.TOMB_RATCHET );
 			useType = String.valueOf( count1 ) + "+" + String.valueOf( count2 );
+			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
+				new UseLink( itemId, count1, useType, "javascript:return false;" ) :
+				new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
+		}
+
+		case ItemPool.TOMB_RATCHET:
+		{
+			int count1 = InventoryManager.getCount( itemId );
+			int count2 = InventoryManager.getCount( ItemPool.CRUMBLING_WHEEL );
+			useType = String.valueOf( count2 ) + "+" + String.valueOf( count1 );
 			return !Preferences.getBoolean( "controlRoomUnlock" ) ?
 				new UseLink( itemId, count1, useType, "javascript:return false;" ) :
 				new UseLink( itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control" );
