@@ -132,7 +132,7 @@ public class TableCellFactory
 		switch ( columnIndex )
 		{
 		case 0:
-			return (String) result.getValue();
+			return result.getValue().toString();
 		case 1:
 			return IntegerPool.get( (Integer) result.getKey() );
 		}
@@ -456,6 +456,13 @@ public class TableCellFactory
 			return new String[]
 			{
 				"outfit name", "outfit ID",
+			};
+		}
+		else if ( originalModel == DatabaseFrame.allMonsters )
+		{
+			return new String[]
+			{
+				"monster name", "monster ID",
 			};
 		}
 		else if ( originalModel == ScriptManager.getInstalledScripts() || originalModel == ScriptManager.getRepoScripts() )
