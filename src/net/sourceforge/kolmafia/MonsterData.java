@@ -1118,82 +1118,170 @@ public class MonsterData
 		buffer.append( "<tr>" );
 
 		// The image is first, spanning 3 rows
-		buffer.append( "<td rowspan=3 valign=top width=100>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "adventureimages/" );
-		buffer.append( this.image );
-		buffer.append( " height=100 width=100>" );
-		buffer.append( "</td>" );
+		{
+			buffer.append( "<td rowspan=3 valign=top width=100>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "adventureimages/" );
+			buffer.append( this.image );
+			buffer.append( " height=100 width=100>" );
+			buffer.append( "</td>" );
+		}
 
 		// Attack Power
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/nicesword.gif width=30 height=30 alt=\"Attack Power (approximate)\" title=\"Attack Power (approximate)\"></td>" );
-		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.getRawAttack() ) );
-		buffer.append( "</font></b></td>" );
+		{
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/nicesword.gif width=30 height=30 alt=\"" );
+
+			int attack = this.getRawAttack();
+			String description;
+
+			if ( this.scale != null )
+			{
+				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+
+				StringBuilder attb = new StringBuilder();
+				attb.append( "Attack Power scale: (Moxie +" );
+				attb.append( String.valueOf( scale ) );
+				attb.append( ", floor " );
+				attb.append( String.valueOf( floor ) );
+				attb.append( ", cap " );
+				attb.append( String.valueOf( cap ) );
+				attb.append( ")" );
+
+				description = attb.toString();
+			}
+			else if ( this.attack instanceof Integer )
+			{
+				description = "Attack Power (approximate)";
+			}
+			else
+			{
+				description = "Attack Power (variable)";
+			}
+
+			buffer.append( description );
+			buffer.append( "\" title=\"" );
+			buffer.append( description );
+			buffer.append( "\"></td>" );
+
+			buffer.append( "<td width=50 align=left><b><font size=+2>" );
+			buffer.append( String.valueOf( attack ) );
+			buffer.append( "</font></b></td>" );
+		}
 
 		// Phylum
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/" );
-		buffer.append( this.phylum.getImage() );
-		buffer.append( " alt=\"This monster is " );
-		buffer.append( this.phylum.getDescription() );
-		buffer.append( "\" title=\"This monster is " );
-		buffer.append( this.phylum.getDescription() );
-		buffer.append( "\" width=30 height=30></td>" );
+		{
+			String image = this.phylum.getImage();
+			String description = this.phylum.getDescription();
+
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/" );
+			buffer.append( image );
+			buffer.append( " alt=\"This monster is " );
+			buffer.append( description );
+			buffer.append( "\" title=\"This monster is " );
+			buffer.append( description );
+			buffer.append( "\" width=30 height=30></td>" );
+		}
 
 		// Monster Name & 3 factoids are last, spanning 4 rows
+		{
+			buffer.append( "<td rowspan=3 width=10></td><td rowspan=3 valign=top class=small><b><font size=+2>" );
+			buffer.append( this.getName() );
+			buffer.append( "</font></b>" );
 
-		ArrayList<String> factoids = MonsterManuelManager.getFactoids( this.id );
-		int count = factoids.size();
+			ArrayList<String> factoids = MonsterManuelManager.getFactoids( this.id );
+			int count = factoids.size();
 
-		buffer.append( "<td rowspan=3 width=10></td><td rowspan=3 valign=top class=small><b><font size=+2>" );
-		buffer.append( this.getName() );
-		buffer.append( "</font></b>" );
+			buffer.append( "<ul>" );
 
-		buffer.append( "<ul>" );
+			buffer.append( "<li>" );
+			buffer.append( count >= 1 ? factoids.get( 0 ) : "" );
 
-		buffer.append( "<li>" );
-		buffer.append( count >= 1 ? factoids.get( 0 ) : "" );
+			buffer.append( "<li>" );
+			buffer.append( count >= 2 ? factoids.get( 1 ) : "" );
 
-		buffer.append( "<li>" );
-		buffer.append( count >= 2 ? factoids.get( 1 ) : "" );
+			buffer.append( "<li>" );
+			buffer.append( count >= 3 ? factoids.get( 2 ) : "" );
 
-		buffer.append( "<li>" );
-		buffer.append( count >= 3 ? factoids.get( 2 ) : "" );
+			buffer.append( "</ul>" );
+			buffer.append( "</td>" );
+		}
 
-		buffer.append( "</ul>" );
-		buffer.append( "</td>" );
 		buffer.append( "</tr>" );
 
 		// *** Row 2 ***
 		buffer.append( "<tr>" );
 
 		// Defense
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/whiteshield.gif width=30 height=30 alt=\"Defense (approximate)\" title=\"Defense (approximate)\"></td>" );
-		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.getRawDefense() ) );
-		buffer.append( "</font></b></td>" );
+		{
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/whiteshield.gif width=30 height=30 alt=\"" );
+
+			int defense = this.getRawDefense();
+			String description;
+
+			if ( this.scale != null )
+			{
+				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+
+				StringBuilder defb = new StringBuilder();
+				defb.append( "Defense scale: (Muscle +" );
+				defb.append( String.valueOf( scale ) );
+				defb.append( ", floor " );
+				defb.append( String.valueOf( floor ) );
+				defb.append( ", cap " );
+				defb.append( String.valueOf( cap ) );
+				defb.append( ")" );
+
+				description = defb.toString();
+			}
+			else if ( this.defense instanceof Integer )
+			{
+				description = "Defense (approximate)";
+			}
+			else
+			{
+				description = "Defense (variable)";
+			}
+
+			buffer.append( description );
+			buffer.append( "\" title=\"" );
+			buffer.append( description );
+			buffer.append( "\"></td>" );
+
+			buffer.append( "<td width=50 align=left><b><font size=+2>" );
+			buffer.append( String.valueOf( defense ) );
+			buffer.append( "</font></b></td>" );
+		}
 
 		// Element
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/" );
-		buffer.append( this.defenseElement.getImage() );
-		buffer.append( " alt=\"This monster " );
-		buffer.append( this.defenseElement.getDescription() );
-		buffer.append( "\" title=\"This monster " );
-		buffer.append( this.defenseElement.getDescription() );
-		buffer.append( "\" width=30 height=30></td>" );
+		{
+			String image = this.defenseElement.getImage();
+			String description = "This monster " + this.defenseElement.getDescription();
+
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/" );
+			buffer.append( image );
+			buffer.append( " alt=\"" );
+			buffer.append( description );
+			buffer.append( "\" title=\"" );
+			buffer.append( description );
+			buffer.append( "\" width=30 height=30></td>" );
+		}
 
 		buffer.append( "</tr>" );
 
@@ -1201,25 +1289,81 @@ public class MonsterData
 		buffer.append( "<tr>" );
 
 		// HP
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/hp.gif width=30 height=30 alt=\"Hit Points (approximate)\" title=\"Hit Points (approximate)\"></td>" );
-		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.getRawHP() ) );
-		buffer.append( "</font></b></td>" );
+		{
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/hp.gif width=30 height=30 alt=\"" );
+
+			int HP = this.getRawHP();
+			String description;
+
+			if ( this.scale != null )
+			{
+				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+
+				StringBuilder hpb = new StringBuilder();
+				hpb.append( "Hit Points scale: 0.75 * (Muscle +" );
+				hpb.append( String.valueOf( scale ) );
+				hpb.append( ", floor " );
+				hpb.append( String.valueOf( floor ) );
+				hpb.append( ", cap " );
+				hpb.append( String.valueOf( cap ) );
+				hpb.append( ")" );
+
+				description = hpb.toString();
+			}
+			else if ( this.health instanceof Integer )
+			{
+				description = "Hit Points (approximate)";
+			}
+			else
+			{
+				description = "Hit Points (variable)";
+			}
+
+			buffer.append( description );
+			buffer.append( "\" title=\"" );
+			buffer.append( description );
+			buffer.append( "\"></td>" );
+
+			buffer.append( "<td width=50 align=left><b><font size=+2>" );
+			buffer.append( String.valueOf( HP ) );
+			buffer.append( "</font></b></td>" );
+		}
 
 		// Initiative
-		buffer.append( "<td width=30>" );
-		buffer.append( "<img src=" );
-		buffer.append( imageServerPath );
-		buffer.append( "itemimages/" );
-		buffer.append( "watch.gif" );
-		buffer.append( " alt=\"Initiative +" );
-		buffer.append( String.valueOf( this.initiative ) );
-		buffer.append( "%\" title=\"Initiative + " );
-		buffer.append( String.valueOf( this.initiative ) );
-		buffer.append( "%\" width=30 height=30></td>" );
+		{
+			buffer.append( "<td width=30>" );
+			buffer.append( "<img src=" );
+			buffer.append( imageServerPath );
+			buffer.append( "itemimages/" );
+
+			int initiative = this.getRawInitiative();
+			String description;
+			if ( initiative == -10000 )
+			{
+				buffer.append( "snail.gif" );
+				description = "Never wins initiative";
+			}
+			else if ( initiative == 10000 )
+			{
+				buffer.append( "lightningbolt.gif" );
+				description = "Always wins initiative";
+			}
+			else
+			{
+				buffer.append( "watch.gif" );
+				description = "Initiative +" + initiative + "%";
+			}
+			buffer.append( " alt=\"" );
+			buffer.append( description );
+			buffer.append( "\" title=\"" );
+			buffer.append( description );
+			buffer.append( "\" width=30 height=30></td>" );
+		}
 
 		buffer.append( "</tr>" );
 
