@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 
 public class MonsterData
 	extends AdventureResult
@@ -1096,5 +1097,135 @@ public class MonsterData
 		int hitStat = EquipmentManager.getAdjustedHitStat();
 
 		return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0;
+	}
+
+	// </a></center><p><a name='mon554'></a><table width=95%><tr><td colspan=6 height=1 bgcolor=black></td></tr><tr><td rowspan=4 valign=top width=100><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/statue.gif alt="This monster is a Humanoid" title="This monster is a Humanoid" width=30 height=30></td><td rowspan=4 width=10></td><td rowspan=4 valign=top class=small><b><font size=+2>A.M.C. gremlin</font></b><ul><li>Some researchers believe the AMC Gremlin to be evidence that gremlins are a degenerate offshoot of the Crimbo Elf, due to their mechanical skills. However, their research equipment usually falls apart before they get a chance to publish.<li>Be careful never to feed gremlins after midnight. And by 'feed', I mean "allow them to chew on your face".<li>People make snarky jokes about time zones and so on, but the gremlin prohibition on feeding is obviously based on local time, because of their sensitivity to sunlight -- don't feed them between midnight and sunrise. How hard was that, Mr. Sarcasm?</ul></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/whiteshield.gif width=30 height=30 alt="Defense (approximate)" title="Defense (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>153</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/hp.gif width=30 height=30 alt="Hit Points (approximate)" title="Hit Points (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/watch.gif alt="Initiative +60%" title="Initiative +60%" width=30 height=30></td></tr><tr><td></td><td></td></tr></table>
+
+	public String craftDescription()
+	{
+		StringBuilder buffer = new StringBuilder();
+
+		// *** Would like to use image cache
+		// String imageServerPath = "/images/"
+		String imageServerPath = KoLmafia.imageServerPath();
+
+		buffer.append( "<html><head></head><body>" );
+
+		// Craft the table
+		buffer.append( "<table width=95%>" );
+
+		// *** Row 1 ***
+		buffer.append( "<tr>" );
+
+		// The image is first, spanning 3 rows
+		buffer.append( "<td rowspan=3 valign=top width=100>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "adventureimages/" );
+		buffer.append( this.image );
+		buffer.append( " height=100 width=100>" );
+		buffer.append( "</td>" );
+
+		// Attack Power
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/nicesword.gif width=30 height=30 alt=\"Attack Power (approximate)\" title=\"Attack Power (approximate)\"></td>" );
+		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
+		buffer.append( String.valueOf( this.attack ) );
+		buffer.append( "</font></b></td>" );
+
+		// Phylum
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/" );
+		buffer.append( this.phylum.getImage() );
+		buffer.append( " alt=\"This monster is " );
+		buffer.append( this.phylum.getDescription() );
+		buffer.append( "\" title=\"This monster is " );
+		buffer.append( this.phylum.getDescription() );
+		buffer.append( "\" width=30 height=30></td>" );
+
+		// Monster Name & 3 factoids are last, spanning 4 rows
+
+		ArrayList<String> factoids = MonsterManuelManager.getFactoids( this.id );
+		int count = factoids.size();
+
+		buffer.append( "<td rowspan=3 width=10></td><td rowspan=3 valign=top class=small><b><font size=+2>" );
+		buffer.append( this.getName() );
+		buffer.append( "</font></b>" );
+
+		buffer.append( "<ul>" );
+
+		buffer.append( "<li>" );
+		buffer.append( count >= 1 ? factoids.get( 0 ) : "" );
+
+		buffer.append( "<li>" );
+		buffer.append( count >= 2 ? factoids.get( 1 ) : "" );
+
+		buffer.append( "<li>" );
+		buffer.append( count >= 3 ? factoids.get( 2 ) : "" );
+
+		buffer.append( "</ul>" );
+		buffer.append( "</td>" );
+		buffer.append( "</tr>" );
+
+		// *** Row 2 ***
+		buffer.append( "<tr>" );
+
+		// Defense
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/whiteshield.gif width=30 height=30 alt=\"Defense (approximate)\" title=\"Defense (approximate)\"></td>" );
+		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
+		buffer.append( String.valueOf( this.defense ) );
+		buffer.append( "</font></b></td>" );
+
+		// Element
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/" );
+		buffer.append( this.defenseElement.getImage() );
+		buffer.append( " alt=\"This monster " );
+		buffer.append( this.defenseElement.getDescription() );
+		buffer.append( "\" title=\"This monster " );
+		buffer.append( this.defenseElement.getDescription() );
+		buffer.append( "\" width=30 height=30></td>" );
+
+		buffer.append( "</tr>" );
+
+		// *** Row 3 ***
+		buffer.append( "<tr>" );
+
+		// HP
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/hp.gif width=30 height=30 alt=\"Hit Points (approximate)\" title=\"Hit Points (approximate)\"></td>" );
+		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
+		buffer.append( String.valueOf( this.health ) );
+		buffer.append( "</font></b></td>" );
+
+		// Initiative
+		buffer.append( "<td width=30>" );
+		buffer.append( "<img src=" );
+		buffer.append( imageServerPath );
+		buffer.append( "itemimages/" );
+		buffer.append( "watch.gif" );
+		buffer.append( " alt=\"Initiative +" );
+		buffer.append( String.valueOf( this.initiative ) );
+		buffer.append( "%\" title=\"Initiative + " );
+		buffer.append( String.valueOf( this.initiative ) );
+		buffer.append( "%\" width=30 height=30></td>" );
+
+		buffer.append( "</tr>" );
+
+		buffer.append( "</table>" );
+
+		buffer.append( "</body></html>" );
+		return buffer.toString();
 	}
 }

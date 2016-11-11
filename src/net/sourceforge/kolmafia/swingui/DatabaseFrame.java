@@ -43,13 +43,17 @@ import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -68,6 +72,7 @@ public class DatabaseFrame
 	public static final LockableListModel allSkills = LowerCaseEntry.createListModel( SkillDatabase.entrySet() );
 	public static final LockableListModel allFamiliars = LowerCaseEntry.createListModel( FamiliarDatabase.entrySet() );
 	public static final LockableListModel allOutfits = LowerCaseEntry.createListModel( EquipmentDatabase.outfitEntrySet() );
+	public static final LockableListModel allMonsters = LowerCaseEntry.createListModel( MonsterDatabase.idEntrySet() );
 
 	public DatabaseFrame()
 	{
@@ -78,6 +83,7 @@ public class DatabaseFrame
 		this.tabs.addTab( "Skills", new ItemLookupPanel( DatabaseFrame.allSkills, "skill", "whichskill" ) );
 		this.tabs.addTab( "Effects", new ExamineEffectsPanel() );
 		this.tabs.addTab( "Outfits", new ItemLookupPanel( DatabaseFrame.allOutfits, "outfit", "whichoutfit" ) );
+		this.tabs.addTab( "Monsters", new ExamineMonstersPanel() );
 
 		this.setCenterComponent( this.tabs );
 	}
@@ -120,7 +126,7 @@ public class DatabaseFrame
 			this.getElementList().addMouseListener( new ShowEntryListener() );
 			this.getElementList().contextMenu.add( new ThreadedMenuItem( "Game description", new DescriptionListener() ), 0 );
 			
-			this.setPreferredSize( new Dimension(400, 400) );
+			this.setPreferredSize( new Dimension(500, 400) );
 
 			this.actionConfirmed();
 		}
@@ -214,6 +220,25 @@ public class DatabaseFrame
 		public String getId( final Entry e )
 		{
 			return EffectDatabase.getDescriptionId( ( (Integer) e.getKey() ).intValue() );
+		}
+	}
+
+	private class ExamineMonstersPanel
+		extends ItemLookupPanel
+	{
+		public ExamineMonstersPanel()
+		{
+			super( DatabaseFrame.allMonsters, "monster", "" );
+		}
+
+		@Override
+		public void showDescription( final Entry entry )
+		{
+			String path = "desc_" + this.type + ".php?" + this.which + "=" + this.getId( entry );
+			GenericRequest request = new GenericRequest( path );
+			MonsterData monster = (MonsterData) entry.getValue();
+			request.responseText = monster.craftDescription();
+			DescriptionFrame.showRequest( request );
 		}
 	}
 }

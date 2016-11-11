@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -386,12 +387,14 @@ public class MonsterManuelManager
 		return count;
 	}
 
-	public static String getManuelText( final int id)
+	public static final String NO_FACTOIDS = "";
+
+	public static String getManuelText( final int id )
 	{
 		// If we don't know the ID, nothing to be done.
 		if ( id <= 0 )
 		{
-			return "";
+			return MonsterManuelManager.NO_FACTOIDS;
 		}
 
 		// See if we have it cached
@@ -404,7 +407,30 @@ public class MonsterManuelManager
 			text = MonsterManuelManager.manuelEntries.get( id );
 		}
 
-		return text == null ? "" : text;
+		return text == null ? MonsterManuelManager.NO_FACTOIDS : text;
+	}
+
+	public static ArrayList<String> getFactoids( final int id )
+	{
+		ArrayList<String> list = new ArrayList<String>();
+
+		String text = MonsterManuelManager.getManuelText( id );
+		if ( text == MonsterManuelManager.NO_FACTOIDS )
+		{
+			return list;
+		}
+
+		Matcher matcher = MonsterManuelManager.FACTOIDS_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			Matcher factoids = MonsterManuelManager.FACTOID_PATTERN.matcher( matcher.group( 1 )  );
+			while ( factoids.find() )
+			{
+				list.add( factoids.group( 1 ) );
+			}
+		}
+		
+		return list;
 	}
 
 	public static int getFactoidsAvailable( final int id, final boolean cachedOnly )

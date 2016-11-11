@@ -68,26 +68,40 @@ public class MonsterDatabase
 
 	public enum Element
 	{
-		NONE( "none" ),
-		COLD( "cold" ),
-		HOT( "hot" ),
-		SLEAZE( "sleaze" ),
-		SPOOKY( "spooky" ),
-		STENCH( "stench" ),
-		SLIME( "slime" ),
-		SUPERCOLD( "supercold" );
+		NONE( "none", "circle.gif", "has no particular elemental alignment"  ),
+		COLD( "cold", "snowflake.gif", "is Cold. Cold is weak against Hot and Spooky." ),
+		HOT( "hot", "fire.gif", "is Hot. Hot is weak against Sleaze and Stench." ),
+		SLEAZE( "sleaze", "wink.gif", "is Sleazy. Sleaze is weak against Cold and Spooky." ),
+		SPOOKY( "spooky", "skull.gif", "is Spooky. Spooky is weak against Hot and Stench." ),
+		STENCH( "stench", "stench.gif", "is Stinky. Stench is weak against Cold and Sleaze." ),
+		SLIME( "slime", "sebashield.gif", "is Slimy." ),
+		SUPERCOLD( "supercold", "ice.gif", "is Supercold" );
 
 		private final String name;
+		private final String image;
+		private final String description;
 
-		private Element( String name )
+		private Element( String name, String image, String description )
 		{
 			this.name = name;
+			this.image = image;
+			this.description = description;
 		}
 
 		@Override
 		public String toString()
 		{
 			return this.name;
+		}
+
+		public String getImage()
+		{
+			return this.image;
+		}
+
+		public String getDescription()
+		{
+			return this.description;
 		}
 
 		public static Element fromString( String text )
@@ -108,42 +122,56 @@ public class MonsterDatabase
 
 	public enum Phylum
 	{
-		NONE( "none" ),
-		BEAST( "beast" ),
-		BUG( "bug" ),
-		CONSTELLATION( "constellation" ),
-		CONSTRUCT( "construct" ),
-		DEMON( "demon" ),
-		DUDE( "dude" ),
-		ELEMENTAL( "elemental" ),
-		ELF( "elf" ),
-		FISH( "fish" ),
-		GOBLIN( "goblin" ),
-		HIPPY( "hippy" ),
-		HOBO( "hobo" ),
-		HUMANOID( "humanoid" ),
-		HORROR( "horror" ),
-		MER_KIN( "mer-kin" ),
-		ORC( "orc" ),
-		PENGUIN( "penguin" ),
-		PIRATE( "pirate" ),
-		PLANT( "plant" ),
-		SLIME( "slime" ),
-		UNDEAD( "undead" ),
-		WEIRD( "weird" ),
+		NONE( "none", "none.gif", "Unknown" ),
+		BEAST( "beast", "beastflavor.gif", "a Beast" ),
+		BUG( "bug", "stinkbug.gif", "a Bug" ),
+		CONSTELLATION( "constellation", "star.gif", "a Constellation" ),
+		CONSTRUCT( "construct", "sprocket.gif", "a Construct" ),
+		DEMON( "demon", "demonflavor.gif", "a Demon" ),
+		DUDE( "dude", "happy.gif", "a Dude" ),
+		ELEMENTAL( "elemental", "rainbow.gif", "an Elemental" ),
+		ELF( "elf", "elfflavor.gif", "an Elf" ),
+		FISH( "fish", "fish.gif", "a Fish" ),
+		GOBLIN( "goblin", "goblinflavor.gif", "a Goblin" ),
+		HIPPY( "hippy", "hippyflavor.gif", "a Hippy" ),
+		HOBO( "hobo", "hoboflavor.gif", "a Hobo" ),
+		HORROR( "horror", "skull.gif", "a Horror" ),
+		HUMANOID( "humanoid", "statue.gif", "a Humanoid" ),
+		MER_KIN( "mer-kin", "merkinflavor.gif", "a Mer-kin" ),
+		ORC( "orc", "frattyflavor.gif", "an Orc" ),
+		PENGUIN( "penguin", "bowtie.gif", "a Penguin" ),
+		PIRATE( "pirate", "pirateflavor.gif", "a Pirate" ),
+		PLANT( "plant", "leafflavor.gif", "a Plant" ),
+		SLIME( "slime", "sebashield.gif", "a Slime" ),
+		UNDEAD( "undead", "spookyflavor.gif", "an Undead" ),
+		WEIRD( "weird", "weirdflavor.gif", "Weird" ),
 		;
 
 		private final String name;
+		private final String image;
+		private final String description;
 
-		private Phylum( String name )
+		private Phylum( String name, String image, String description )
 		{
 			this.name = name;
+			this.image = image;
+			this.description = description;
 		}
 
 		@Override
 		public String toString()
 		{
 			return this.name;
+		}
+
+		public String getImage()
+		{
+			return this.image;
+		}
+
+		public String getDescription()
+		{
+			return this.description;
 		}
 	}
 
@@ -425,6 +453,11 @@ public class MonsterDatabase
 	public static final Set<Integer> idKeySet()
 	{
 		return MonsterDatabase.MONSTER_IDS.keySet();
+	}
+
+	public static final Set idEntrySet()
+	{
+		return MonsterDatabase.MONSTER_IDS.entrySet();
 	}
 
 	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
