@@ -82,6 +82,7 @@ public class CampgroundRequest
 	public static final AdventureResult BLACK_BLUE_LIGHT = ItemPool.get( ItemPool.BLACK_BLUE_LIGHT, 1 );
 	public static final AdventureResult LOUDMOUTH_LARRY = ItemPool.get( ItemPool.LOUDMOUTH_LARRY, 1 );
 	public static final AdventureResult PLASMA_BALL = ItemPool.get( ItemPool.PLASMA_BALL, 1 );
+	public static final AdventureResult LED_CLOCK = ItemPool.get( ItemPool.LED_CLOCK, 1 );
 
 	public static final int [] campgroundItems =
 	{
@@ -218,6 +219,7 @@ public class CampgroundRequest
 	public static final AdventureResult ICE_HARVEST = ItemPool.get( ItemPool.ICE_HARVEST, 1 );
 	public static final AdventureResult FROST_FLOWER = ItemPool.get( ItemPool.FROST_FLOWER, 1 );
 	public static final AdventureResult CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 1 );
+	public static final AdventureResult MEGACOPIA = ItemPool.get( ItemPool.MEGACOPIA, 1 );
 
 	private enum CropType
 	{
@@ -251,6 +253,7 @@ public class CampgroundRequest
 		CROPMAP.put( ICE_HARVEST, CropType.WINTER );
 		CROPMAP.put( FROST_FLOWER, CropType.WINTER );
 		CROPMAP.put( CORNUCOPIA, CropType.THANKSGARDEN );
+		CROPMAP.put( MEGACOPIA, CropType.THANKSGARDEN );
 	}
 
 	public static final List<Integer> workshedItems = new ArrayList<Integer>();
@@ -594,6 +597,12 @@ public class CampgroundRequest
 			if ( responseText.contains( "youse got some teeth" ) )
 			{
 				ResultProcessor.processItem( ItemPool.LOOSE_TEETH, -1 );
+			}
+
+			if ( responseText.contains( "lunge toward the clock" ) )
+			{
+				CampgroundRequest.removeCampgroundItem( LED_CLOCK );
+				Preferences.setBoolean( "_confusingLEDClockUsed", true );
 			}
 
 			Matcher m = HOUSING_PATTERN.matcher( responseText );
