@@ -1112,19 +1112,19 @@ public class MonsterData
 		buffer.append( "<html><head></head><body>" );
 
 		// Craft the table
-		buffer.append( "<table width=95%>" );
+		buffer.append( "<table>" );
 
 		// *** Row 1 ***
 		buffer.append( "<tr>" );
 
 		// The image is first, spanning 3 rows
 		{
-			buffer.append( "<td rowspan=3 valign=top width=100>" );
+			buffer.append( "<td rowspan=3 valign=top style=\"max-width:350;\">" );
 			buffer.append( "<img src=" );
 			buffer.append( imageServerPath );
 			buffer.append( "adventureimages/" );
 			buffer.append( this.image );
-			buffer.append( " height=100 width=100>" );
+			buffer.append( " style=\"max-width:350;\">" );
 			buffer.append( "</td>" );
 		}
 
