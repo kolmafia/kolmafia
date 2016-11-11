@@ -129,7 +129,7 @@ public class MonsterDatabase
 		CONSTRUCT( "construct", "sprocket.gif", "a Construct" ),
 		DEMON( "demon", "demonflavor.gif", "a Demon" ),
 		DUDE( "dude", "happy.gif", "a Dude" ),
-		ELEMENTAL( "elemental", "rainbow.gif", "an Elemental" ),
+		ELEMENTAL( "elemental", "rrainbow.gif", "an Elemental" ),
 		ELF( "elf", "elfflavor.gif", "an Elf" ),
 		FISH( "fish", "fish.gif", "a Fish" ),
 		GOBLIN( "goblin", "goblinflavor.gif", "a Goblin" ),
