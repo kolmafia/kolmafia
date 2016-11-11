@@ -228,7 +228,7 @@ public class DatabaseFrame
 	{
 		public ExamineMonstersPanel()
 		{
-			super( DatabaseFrame.allMonsters, "monster", "" );
+			super( DatabaseFrame.allMonsters, "monster", "whichmonster" );
 		}
 
 		@Override

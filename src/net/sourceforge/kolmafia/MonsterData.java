@@ -1132,7 +1132,7 @@ public class MonsterData
 		buffer.append( imageServerPath );
 		buffer.append( "itemimages/nicesword.gif width=30 height=30 alt=\"Attack Power (approximate)\" title=\"Attack Power (approximate)\"></td>" );
 		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.attack ) );
+		buffer.append( String.valueOf( this.getRawAttack() ) );
 		buffer.append( "</font></b></td>" );
 
 		// Phylum
@@ -1180,7 +1180,7 @@ public class MonsterData
 		buffer.append( imageServerPath );
 		buffer.append( "itemimages/whiteshield.gif width=30 height=30 alt=\"Defense (approximate)\" title=\"Defense (approximate)\"></td>" );
 		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.defense ) );
+		buffer.append( String.valueOf( this.getRawDefense() ) );
 		buffer.append( "</font></b></td>" );
 
 		// Element
@@ -1206,7 +1206,7 @@ public class MonsterData
 		buffer.append( imageServerPath );
 		buffer.append( "itemimages/hp.gif width=30 height=30 alt=\"Hit Points (approximate)\" title=\"Hit Points (approximate)\"></td>" );
 		buffer.append( "<td width=50 valign=center align=left><b><font size=+2>" );
-		buffer.append( String.valueOf( this.health ) );
+		buffer.append( String.valueOf( this.getRawHP() ) );
 		buffer.append( "</font></b></td>" );
 
 		// Initiative
