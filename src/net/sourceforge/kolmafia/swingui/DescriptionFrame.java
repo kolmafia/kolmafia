@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import javax.swing.ToolTipManager;
+
 import net.sourceforge.kolmafia.RequestEditorKit;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -46,6 +48,7 @@ public class DescriptionFrame
 	{
 		super( "Documentation" );
 		DescriptionFrame.INSTANCE = this;
+		ToolTipManager.sharedInstance().registerComponent( this.mainDisplay );
 	}
 
 	@Override
