@@ -637,29 +637,18 @@ public class StationaryButtonDecorator
 
 	public static final void addChoiceButtons( final StringBuffer buffer )
 	{
-		String name = "auto";
-		String action = "choice.php?action=auto";
-		boolean isEnabled = true;
-		boolean forceFocus = true;
-
-		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
-
 		int choice = ChoiceManager.currentChoice();
+		String name = ChoiceManager.hasGoalButton( choice ) ? "Go To Goal" : "auto";
+		String action = "choice.php?action=auto";
+
+		StationaryButtonDecorator.addButton( buffer, name, action, true, false );
+
 		if ( choice == 0 )
 		{
 			return;
 		}
-		
+
 		StringBuilder actionBuffer = new StringBuilder();
-
-		if ( ChoiceManager.hasGoalButton( choice ) )
-		{
-			actionBuffer.setLength( 0 );
-			actionBuffer.append( "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" );
-			actionBuffer.append( GenericRequest.passwordHash );
-			StationaryButtonDecorator.addButton( buffer, "go to goal", actionBuffer.toString(), true, false );
-		}
-
 		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
 		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
 		{
