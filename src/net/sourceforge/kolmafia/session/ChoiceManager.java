@@ -13761,6 +13761,35 @@ public abstract class ChoiceManager
 		return "1";
 	}
 
+	public static final boolean hasGoalButton( final int choice )
+	{
+		switch ( choice )
+		{
+		case 48: case 49: case 50: case 51: case 52:
+		case 53: case 54: case 55: case 56: case 57:
+		case 58: case 59: case 60: case 61: case 62:
+		case 63: case 64: case 65: case 66: case 67:
+		case 68: case 69: case 70:
+			// Violet Fog
+		case 904: case 905: case 906: case 907: case 908:
+		case 909: case 910: case 911: case 912: case 913:
+			// The Louvre.
+		case 535:
+			// Ronald Safety Shelter Map
+		case 536:
+			// Grimace Safety Shelter Map
+		case 546:
+			// Interview With You
+		case 594:
+			// A Lost Room
+		case 665:
+			// A Gracious Maze
+			return true;
+		}
+
+		return false;
+	}
+
 	public static final void addGoalButton( final StringBuffer buffer, final String goal )
 	{
 		// Insert a "Goal" button in-line

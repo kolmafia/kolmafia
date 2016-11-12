@@ -31,46 +31,78 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia.swingui;
+package net.sourceforge.kolmafia;
 
-import javax.swing.ToolTipManager;
+import java.io.File;
+import java.io.IOException;
 
-import net.sourceforge.kolmafia.ImageCachingEditorKit;
-import net.sourceforge.kolmafia.RequestEditorKit;
+import java.net.URL;
 
-import net.sourceforge.kolmafia.request.GenericRequest;
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
 
-public class DescriptionFrame
-	extends RequestFrame
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.ImageView;
+
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+
+public class ImageCachingEditorKit
+	extends HTMLEditorKit
 {
-	private static DescriptionFrame INSTANCE = null;
-
-	public DescriptionFrame()
-	{
-		super( "Documentation" );
-		DescriptionFrame.INSTANCE = this;
-		this.mainDisplay.setEditorKit( new ImageCachingEditorKit() );
-		ToolTipManager.sharedInstance().registerComponent( this.mainDisplay );
-	}
+	private static final ImageCachingViewFactory DEFAULT_FACTORY = new ImageCachingViewFactory();
 
 	@Override
-	public boolean hasSideBar()
+	public ViewFactory getViewFactory()
 	{
-		return false;
+		return ImageCachingEditorKit.DEFAULT_FACTORY;
 	}
 
-	public static final void showLocation( final String location )
+	private static class ImageCachingViewFactory
+		extends HTMLFactory
 	{
-		DescriptionFrame.showRequest( RequestEditorKit.extractRequest( location ) );
-	}
-
-	public static final void showRequest( final GenericRequest request )
-	{
-		if ( DescriptionFrame.INSTANCE == null )
+		@Override
+		public View create( final Element elem )
 		{
-			GenericFrame.createDisplay( DescriptionFrame.class );
+			if ( elem.getAttributes().getAttribute( StyleConstants.NameAttribute ) == HTML.Tag.IMG )
+			{
+				return new CachedImageView( elem );
+			}
+
+			return super.create( elem );
+		}
+	}
+
+	private static class CachedImageView
+		extends ImageView
+	{
+		public CachedImageView( final Element elem )
+		{
+			super( elem );
 		}
 
-		DescriptionFrame.INSTANCE.refresh( request );
+		@Override
+		public URL getImageURL()
+		{
+			String src = (String) this.getElement().getAttributes().getAttribute( HTML.Attribute.SRC );
+
+			if ( src == null )
+			{
+				return null;
+			}
+
+			File imageFile = FileUtilities.downloadImage( src );
+			
+			try
+			{
+				return imageFile.toURI().toURL();
+			}
+			catch ( IOException e )
+			{
+				return null;
+			}
+		}
 	}
 }
