@@ -1105,8 +1105,6 @@ public class MonsterData
 	{
 		StringBuilder buffer = new StringBuilder();
 
-		// *** Would like to use image cache
-		// String imageServerPath = "/images/"
 		String imageServerPath = KoLmafia.imageServerPath();
 
 		buffer.append( "<html><head></head><body>" );

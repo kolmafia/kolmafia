@@ -645,21 +645,32 @@ public class StationaryButtonDecorator
 		StationaryButtonDecorator.addButton( buffer, name, action, isEnabled, forceFocus );
 
 		int choice = ChoiceManager.currentChoice();
-		if ( choice != 0 )
+		if ( choice == 0 )
 		{
-			StringBuilder actionBuffer = new StringBuilder();
-			TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
-			for ( Map.Entry<Integer,String> entry : choices.entrySet() )
-			{
-				actionBuffer.setLength( 0 );
-				actionBuffer.append( "choice.php?whichchoice=" );
-				actionBuffer.append( choice );
-				actionBuffer.append( "&option=" );
-				actionBuffer.append( entry.getKey().intValue() );
-				actionBuffer.append( "&pwd=" );
-				actionBuffer.append( GenericRequest.passwordHash );
-				StationaryButtonDecorator.addButton( buffer, entry.getValue(), actionBuffer.toString(), true, false );
-			}
+			return;
+		}
+		
+		StringBuilder actionBuffer = new StringBuilder();
+
+		if ( ChoiceManager.hasGoalButton( choice ) )
+		{
+			actionBuffer.setLength( 0 );
+			actionBuffer.append( "/KoLmafia/specialCommand?cmd=choice-goal&pwd=" );
+			actionBuffer.append( GenericRequest.passwordHash );
+			StationaryButtonDecorator.addButton( buffer, "go to goal", actionBuffer.toString(), true, false );
+		}
+
+		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
+		for ( Map.Entry<Integer,String> entry : choices.entrySet() )
+		{
+			actionBuffer.setLength( 0 );
+			actionBuffer.append( "choice.php?whichchoice=" );
+			actionBuffer.append( choice );
+			actionBuffer.append( "&option=" );
+			actionBuffer.append( entry.getKey().intValue() );
+			actionBuffer.append( "&pwd=" );
+			actionBuffer.append( GenericRequest.passwordHash );
+			StationaryButtonDecorator.addButton( buffer, entry.getValue(), actionBuffer.toString(), true, false );
 		}
 	}
 
