@@ -71,11 +71,13 @@ public class MonsterData
 	private final int poison;
 	private final boolean boss;
 	private final boolean noBanish;
+	private final boolean noManuel;
 	private final boolean dummy;
 	private final EnumSet<EncounterType> type;
 	private final String image;
 	private final String[] images;
 	private String manuelName = null;
+	private String wikiName = null;
 	private final String attributes;
 	private final int beeCount;
 
@@ -180,7 +182,7 @@ public class MonsterData
 			    final int meat, final Phylum phylum, final int poison,
 			    final boolean boss, final boolean noBanish, final boolean dummy,
 			    final EnumSet<EncounterType> type, final String[] images,
-			    final String manuelName, final String attributes )
+			    final String manuelName, final String wikiName, final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -208,7 +210,9 @@ public class MonsterData
 		this.image = images.length > 0 ? images[ 0 ] : "";
 		this.images = images;
 		this.manuelName = manuelName;
+		this.wikiName = wikiName == null ? name : wikiName;
 		this.attributes = attributes;
+		this.noManuel = attributes.contains ( "NOMANUEL" );
 
 		int beeCount = 0;
 		// Wandering bees don't have a bee count
@@ -887,6 +891,11 @@ public class MonsterData
 		return this.attributes == null ? "" : this.attributes;
 	}
 
+	public String getWikiName()
+	{
+		return this.wikiName;
+	}
+
 	public String[] getRandomModifiers()
 	{
 		return this.randomModifiers == null ? new String[0] : this.randomModifiers;
@@ -1115,12 +1124,15 @@ public class MonsterData
 		// *** Row 1 ***
 		buffer.append( "<tr>" );
 
-		// The image is first, spanning 3 rows
+		// The image is first, spanning 4 rows
 		{
-			buffer.append( "<td rowspan=3 valign=top style=\"max-width:350;\">" );
+			buffer.append( "<td rowspan=4 valign=top style=\"max-width:350;\">" );
 			buffer.append( "<img src=" );
 			buffer.append( imageServerPath );
-			buffer.append( "adventureimages/" );
+			if ( !this.image.contains( "/" ) )
+			{
+				buffer.append( "adventureimages/" );
+			}
 			buffer.append( this.image );
 			buffer.append( " style=\"max-width:350;\">" );
 			buffer.append( "</td>" );
@@ -1189,28 +1201,33 @@ public class MonsterData
 			buffer.append( "\" width=30 height=30></td>" );
 		}
 
-		// Monster Name & 3 factoids are last, spanning 4 rows
+		// Monster Name & 3 factoids are last, spanning 3 rows
 		{
-			buffer.append( "<td rowspan=3 width=10></td><td rowspan=3 valign=top class=small><b><font size=+2>" );
+			buffer.append( "<td rowspan=3 width=10></td>" );
+
+			buffer.append( "<td rowspan=3 valign=top class=small><b><font size=+2>" );
 			buffer.append( this.getName() );
 			buffer.append( "</font></b>" );
 
-			ArrayList<String> factoids = MonsterManuelManager.getFactoids( this.id );
-			int count = factoids.size();
+			if ( !this.noManuel )
+			{
+				ArrayList<String> factoids = MonsterManuelManager.getFactoids( this.id );
+				int count = factoids.size();
 
-			buffer.append( "<ul>" );
+				buffer.append( "<ul>" );
 
-			buffer.append( "<li>" );
-			buffer.append( count >= 1 ? factoids.get( 0 ) : "" );
+				buffer.append( "<li>" );
+				buffer.append( count >= 1 ? factoids.get( 0 ) : "" );
 
-			buffer.append( "<li>" );
-			buffer.append( count >= 2 ? factoids.get( 1 ) : "" );
+				buffer.append( "<li>" );
+				buffer.append( count >= 2 ? factoids.get( 1 ) : "" );
 
-			buffer.append( "<li>" );
-			buffer.append( count >= 3 ? factoids.get( 2 ) : "" );
+				buffer.append( "<li>" );
+				buffer.append( count >= 3 ? factoids.get( 2 ) : "" );
 
-			buffer.append( "</ul>" );
-			buffer.append( "</td>" );
+				buffer.append( "</ul>" );
+				buffer.append( "</td>" );
+			}
 		}
 
 		buffer.append( "</tr>" );
@@ -1362,6 +1379,15 @@ public class MonsterData
 			buffer.append( description );
 			buffer.append( "\" width=30 height=30></td>" );
 		}
+
+		buffer.append( "</tr>" );
+
+		// *** Row 4 ***
+		buffer.append( "<tr>" );
+
+		buffer.append( "<td valign=top colspan=5 style=\"border-top:medium solid black;\">" );
+		buffer.append( "Other stuff..." );
+		buffer.append( "</td>" );
 
 		buffer.append( "</tr>" );
 

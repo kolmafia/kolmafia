@@ -37,6 +37,7 @@ import java.util.Map.Entry;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.maximizer.Boost;
 
@@ -61,6 +62,7 @@ public class WikiUtilities
 	public static final int ITEM_TYPE = 1;
 	public static final int EFFECT_TYPE = 2;
 	public static final int SKILL_TYPE = 3;
+	public static final int MONSTER_TYPE = 4;
 
 	public static final String getWikiLocation( String name, int type )
 	{
@@ -160,6 +162,8 @@ public class WikiUtilities
 				WikiUtilities.ITEM_TYPE :
 				result.isStatusEffect() ?
 				WikiUtilities.EFFECT_TYPE :
+				result.isMonster() ?
+				WikiUtilities.MONSTER_TYPE :
 				WikiUtilities.ANY_TYPE;
 		}
 		else if ( item instanceof UseSkillRequest )
@@ -196,9 +200,23 @@ public class WikiUtilities
 		{
 			name = (String) item;
 		}
+		else if ( item instanceof MonsterData )
+		{
+			name = ((MonsterData)item).getWikiName();
+			type = WikiUtilities.MONSTER_TYPE;
+		}
 		else if ( item instanceof Entry )
 		{
-			name = (String) ( (Entry) item ).getValue();
+			Object value = ( (Entry) item ).getValue();
+			if ( value instanceof MonsterData )
+			{
+				name = ((MonsterData)value).getWikiName();
+				type = WikiUtilities.MONSTER_TYPE;
+			}
+			else
+			{
+				name = (String) value;
+			}
 		}
 
 		if ( name == null )

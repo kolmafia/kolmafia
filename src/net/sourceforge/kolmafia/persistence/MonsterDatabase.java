@@ -122,7 +122,7 @@ public class MonsterDatabase
 
 	public enum Phylum
 	{
-		NONE( "none", "none.gif", "Unknown" ),
+		NONE( "none", "circle.gif", "Unknown" ),
 		BEAST( "beast", "beastflavor.gif", "a Beast" ),
 		BUG( "bug", "stinkbug.gif", "a Bug" ),
 		CONSTELLATION( "constellation", "star.gif", "a Constellation" ),
@@ -489,6 +489,7 @@ public class MonsterDatabase
 		EnumSet<EncounterType> type = EnumSet.noneOf( EncounterType.class );
 		int physical = 0;
 		String manuelName = null;
+		String wikiName = null;
 
 		StringTokenizer tokens = new StringTokenizer( attributes, " " );
 		while ( tokens.hasMoreTokens() )
@@ -664,6 +665,15 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "Wiki:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						wikiName = parseString( tokens.nextToken(), tokens );
+					}
+					continue;
+				}
+
 				else if ( option.startsWith( "\"" ) )
 				{
 					String string = parseString( option, tokens );
@@ -729,6 +739,11 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "NOMANUEL" ) )
+				{
+					continue;
+				}
+
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -750,7 +765,7 @@ public class MonsterDatabase
 					   physical,
 					   meat, phylum, poison,
 					   boss, noBanish, dummy, type,
-					   images, manuelName,
+					   images, manuelName, wikiName,
 					   attributes );
 
 		return monster;

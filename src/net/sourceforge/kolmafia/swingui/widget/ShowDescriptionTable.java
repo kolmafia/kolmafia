@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -204,13 +205,13 @@ public class ShowDescriptionTable
 
 		boolean isMoodList = displayModel == MoodManager.getTriggers();
 		boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get( 0 ) instanceof Entry;
+		boolean isMonster = isEncyclopedia && ((Entry)displayModel.get( 0 )).getValue() instanceof MonsterData;
 
 		if ( !isMoodList )
 		{
 			if ( displayModel.size() == 0 || !isEncyclopedia )
 			{
-				this.contextMenu.add( new ContextMenuItem( "Game description",
-					new DescriptionRunnable() ) );
+				this.contextMenu.add( new ContextMenuItem( "Game description", new DescriptionRunnable() ) );
 			}
 
 			this.contextMenu.add( new ContextMenuItem( "Wiki description", new WikiLookupRunnable() ) );
@@ -249,8 +250,10 @@ public class ShowDescriptionTable
 			this.contextMenu.add( new ContextMenuItem( "Consume selected", new ConsumeRunnable() ) );
 			this.contextMenu.add( new ContextMenuItem( "Pulverize selected", new PulverizeRunnable() ) );
 		}
-		else if ( displayModel == KoLConstants.inventory || displayModel == KoLConstants.closet
-			|| isEncyclopedia )
+		else if ( displayModel == KoLConstants.inventory ||
+			  displayModel == KoLConstants.closet ||
+			  ( isEncyclopedia && !isMonster )
+			)
 		{
 			this.contextMenu.add( new ContextMenuItem( "Add to junk list", new AddToJunkListRunnable() ) );
 			this.contextMenu.add( new ContextMenuItem( "Add to singleton list",
