@@ -729,7 +729,7 @@ public class MonsterData
 	{
 		return  this.initiative == null ? 0 :
 			this.initiative instanceof Integer ? ((Integer)(this.initiative)).intValue() :
-			0;
+			-1;
 	}
 
 	public int getInitiative()
