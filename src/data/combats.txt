@@ -97,7 +97,7 @@ Cobb's Knob Menagerie, Level 3	100	Booze Giant	Portly Abomination	Spectral Jelly
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1
 Coldest Adventurer Contest	100	Snowbrawler	Ice Cream Conjurer	Iceberglar	Mrs. Freeze: 0
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
-CRIMBCO cubicles	-1	Best Game Ever	Disorganized Files	Endless Conference Call	Hideous Slide Show	Tedious Spreadsheet	Unoptimized Database	Your Overflowing Inbox	Chatty Coworker	The Book Of Faces	The Tome Of Tropes	The Water Cooler	Totally Malicious 'Zine	The Best Game Ever
+CRIMBCO cubicles	-1	Best Game Ever	disorganized files	endless conference call	hideous slide show	tedious spreadsheet	unoptimized database	your overflowing inbox	chatty coworker	Book Of Faces	Tome Of Tropes	water cooler	Totally Malicious 'Zine	Best Game Ever
 CRIMBCO WC	100	Elf Hobo
 Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf	Bashful, the Reindeer	Doc, the Reindeer	Dopey, the Reindeer	Grumpy, the Reindeer	Happy, the Reindeer	Sleepy, the Reindeer	Sneezy, the Reindeer	Zeppo, the Reindeer	Rudolph the Red
 Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
@@ -222,7 +222,7 @@ The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
 The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker: 0	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
 The Beanbat Chamber	100	beanbat	screambat: 0
-The Beehive	-1	bee	queen bee (spelunky): 0
+The Beehive	-1	bee	queen bee (Spelunky): 0
 The Black Forest	100	black adder	black panther	black widow	black friar	black magic woman	blackberry bush: 0
 The Boss Bat's Lair	100	beefy bodyguard bat	Boss Bat
 The Brinier Deepers	100	bazookafish	clubfish	scimitarfish
@@ -354,7 +354,7 @@ The Secret Government Laboratory	100	lab monkey	government scientist	creepy litt
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
-The Slime Tube	95	slime1	slime2	slime3	slime4	slime5	Mother Slime: 0
+The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
 The Snake Pit	-1	cobra	snake

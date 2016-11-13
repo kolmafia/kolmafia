@@ -30,7 +30,7 @@ ancient protector spirit (The Hidden Apartment Building)	442	protspirit.gif	HP: 
 ancient protector spirit (The Hidden Hospital)	443	protspirit.gif	HP: 80 Def: 142 Atk: 162 Init: 10 Phys: 100 P: undead Manuel: "ancient protector spirit"	dripping stone sphere (c100)
 ancient protector spirit (The Hidden Office Building)	444	protspirit.gif	HP: 80 Def: 140 Atk: 160 Init: 10 Phys: 100 P: undead Manuel: "ancient protector spirit"	crackling stone sphere (c100)
 ancient protector spirit (The Hidden Bowling Alley)	445	protspirit.gif	HP: 80 Def: 144 Atk: 156 Init: 10 Phys: 100 P: undead Manuel: "ancient protector spirit"	scorched stone sphere (c100)
-ancient protector spirit (obsolete)	446	protspirit.gif	HP: 80 Def: 144 Atk: 160 Init: 10 Phys: 100 P: undead Manuel: "ancient protector spirit"	obsidian dagger (c100)
+ancient protector spirit (obsolete)	446	protspirit.gif	HP: 80 Def: 144 Atk: 160 Init: 10 Phys: 100 P: undead Manuel: "ancient protector spirit"  Wiki: "ancient protector spirit"	obsidian dagger (c100)
 # ---
 Anemone combatant	766	anemone.gif	HP: 600 Def: 585 Atk: 400 Init: 25 Meat: 100 "Majorly Poisoned" P: fish	anemone nematocyst (n25)
 anglerbush	381	anglerbush.gif	Atk: 22 Def: 21 HP: 25 Init: 300 P: plant	meat stack (35)
@@ -64,7 +64,7 @@ batrat	150	batrat.gif	Atk: 23 Def: 20 HP: 20 Init: 60 Meat: 22 P: beast	bat wing
 Batsnake	1517	snakeboss5.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: stench	The Stankara Stone (0)
 Battlie Knight Ghost	1257	aboo_wars.gif	Atk: 76 Def: 64 HP: 40 Init: -10000 Phys: 100 E: spooky P: undead	A-Boo clue (c15)	Battlie Light Saver (15)	Whoompa Fur Pants (5)	ectoplasmic orbs (0)
 batwinged gremlin	548	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum hammer (c0)
-batwinged gremlin (tool)	549	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "batwinged gremlin"	gremlin juice (3)	molybdenum hammer (c0)
+batwinged gremlin (tool)	549	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "batwinged gremlin" Wiki: "batwinged gremlin (quest)"	gremlin juice (3)	molybdenum hammer (c0)
 bazookafish	724	bazookafish.gif	Atk: 375 Def: 292 HP: 500 Init: 100 Meat: 220 P: fish	bazookafish bubble gum (42)	bazookafish bubble gum (8)	dull fish scale (n15)	fish bazooka (n2)
 beanbat	48	beanbat.gif	Atk: 21 Def: 18 HP: 18 Init: 60 Meat: 34 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
 bearpig topiary animal	1246	topi2.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)	pestopiary (0)
@@ -76,7 +76,7 @@ big creepy spider	156	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 "Hardly P
 big swarm of ghuol whelps	1073	whelps2.gif	Atk: 50 Def: 45 HP: 150 Init: 300 E: spooky P: undead
 Big Wheelin' Twins	1241	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 Init: 60 P: dude	badge of authority (5)	vial of The Glistening (15)
 bizarre construct	665	vib2.gif	HP: 300 Def: 270 Atk: 300 Init: 30 P: construct	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
-bizarre construct (translated)	671	vib2.gif	HP: 300 Def: 270 Atk: 300 Init: 30 P: construct Manuel: "bizarre construct"	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
+bizarre construct (translated)	671	vib2.gif	HP: 300 Def: 270 Atk: 300 Init: 30 P: construct Manuel: "bizarre construct" Wiki: "bizarre construct"	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 BL Imp	980	blimp.gif	Atk: 65 Def: 58 HP: 65 E: hot Init: 30 Meat: 40 P: demon	imp air (20)
 black adder	414	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 Meat: 100 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
 black friar	1577	blackfriar.gif	Atk: 130 Def: 111 HP: 122 Init: 75 P: dude	black label (0)	Mornington crescent roll (0)	black cloak (0)	black friar's tonsure (c0)
@@ -220,12 +220,12 @@ Ed the Undying (5)	0	ed5.gif	BOSS NOMANUEL HP: 32 Def: 162 Atk: 180 Exp: [75+ML/
 Ed the Undying (6)	0	ed6.gif	BOSS NOMANUEL HP: 16 Def: 162 Atk: 180 Exp: [75+ML/3] Init: -10000 P: undead
 Ed the Undying (7)	0	ed7.gif	BOSS NOMANUEL HP: 8 Def: 162 Atk: 180 Exp: [75+ML/3] Init: -10000 P: undead	Holy MacGuffin (n100)
 elegant animated nightstand	1544	nightstand5.gif	Atk: 55 Def: 50 HP: 65 Init: -10000 P: construct
-elephant (meatcar?) topiary animal	1247	topi3.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)	pestopiary (0)
+elephant (meatcar?) topiary animal	1247	topi3.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast Wiki: "elephant (meatcar%3F) topiary animal"	rusty hedge trimmers (15)	pestopiary (0)
 Elite Beer Bongadier	507	warfratbg2.gif	Atk: 190 Def: 184 HP: 230 Init: 50 E: sleaze P: orc	beer bong (30)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (4)	PADL Phone (3)
 Elp&iacute;zo & Crosybdis	1582	elp_and_cros.gif	Atk: 38 Def: 36 HP: 45 Init: 30 P: beast Manuel: "Elpízo & Crosybdis"	glass of bourbon (c100)
 empty suit of armor	395	armor.gif	Atk: 60 Def: 54 HP: 60 Init: -10000 ED: spooky P: construct	antique greaves (10)	antique helmet (10)	antique spear (10)	antique shield (10)
 erudite gremlin	546	gremlinglasses.gif	Atk: 171 Def: 152 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum crescent wrench (c0)
-erudite gremlin (tool)	547	gremlinglasses.gif	Atk: 171 Def: 152 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "erudite gremlin"	gremlin juice (3)	molybdenum crescent wrench (c0)
+erudite gremlin (tool)	547	gremlinglasses.gif	Atk: 171 Def: 152 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "erudite gremlin" Wiki: "erudite gremlin (quest)"	gremlin juice (3)	molybdenum crescent wrench (c0)
 evil cultist	833	cultist.gif	Atk: 60 Def: 45 HP: 70 Init: 40 P: dude	memory of a cultist's robe (0)
 Evil Olive	136	oliveevil.gif	Atk: 145 Def: 130 HP: 140 Init: 50 P: beast	bottle of gin (30)	olive (40)	jumbo olive (10)
 evil spaghetti cult assassin	686	spagcult2.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
@@ -354,7 +354,7 @@ huge barrel mimic	289	mimic4.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird
 huge ghuol	191	ghuol_huge.gif	Atk: 73 Def: 63 HP: 120 Exp: [53+ML/3] Init: 60 Meat: 258-344 E: spooky P: undead	ghuol ears (0)	ghuol egg (0)
 huge mosquito	1341	giantmosquito.gif	Atk: 16 Def: 14 HP: 18 Init: 20 P: bug Meat: 10	delicious swamp muck (0)	huge mosquito proboscis (0)
 hulking construct	669	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 Phys: 100 P: construct	El Vibrato punchcard (104 holes) (1)
-hulking construct (translated)	675	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 Phys: 100 P: construct Manuel: "hulking construct"	El Vibrato punchcard (104 holes) (1)
+hulking construct (translated)	675	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 Phys: 100 P: construct Manuel: "hulking construct" Wiki: "hulking construct"	El Vibrato punchcard (104 holes) (1)
 hung-over half-orc hobo	281	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)
 hunting seal	684	huntingseal.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: demon
 hustled spectre	809	poolghost.gif	Atk: 25 Def: 22 HP: 35 Init: 100 P: undead SEMIRARE	cube of billiard chalk (100)
@@ -362,7 +362,7 @@ Hypnotist of Hey Deze	-97	hypnotist.gif	ULTRARARE NOMANUEL Atk: 85 Def: 115 HP: 
 ice skate	731	iceskate.gif	Atk: 400 Def: 450 HP: 600 Init: 75 Meat: 100 P: fish	collapsible baton (0)	skate blade (0)	skate skin (0)	spangly unitard (0)
 Iiti Kitty	572	mummycat.gif	Atk: 165 Def: 148 HP: 150 Init: 75 P: undead	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)	crumbling rat skull (c0)	Iiti Kitty Gumdrop (c0)
 industrious construct	666	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct	El Vibrato punchcard (129 holes) (1)	El Vibrato punchcard (88 holes) (1)
-industrious construct (translated)	672	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Manuel: "industrious construct"	El Vibrato punchcard (129 holes) (1)	El Vibrato punchcard (88 holes) (1)
+industrious construct (translated)	672	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Manuel: "industrious construct" Wiki: "industrious construct"	El Vibrato punchcard (129 holes) (1)	El Vibrato punchcard (88 holes) (1)
 infernal seal larva	652	seal_larva.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 infernal seal spawn	653	seal_baby.gif	Atk: 24 Def: 21 HP: 21 Init: 40 P: demon	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	seal eyeball (0)
 infinite meat bug	-96	meatbug.gif	ULTRARARE NOMANUEL Atk: 45 Def: 40 HP: 30 Init: 10000 P: bug Meat: 10000	incredibly dense meat gem (100)
@@ -416,7 +416,7 @@ lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 ED: spooky EA: spooky EA: sleaz
 Little Man in the Canoe	540	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
 lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 78 P: beast	barrel of gunpowder (n100)
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
-lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Manuel: "lonely construct"	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
+lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Manuel: "lonely construct" Wiki: "lonely construct"	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
 Lord Spookyraven	464	lordspooky.gif	BOSS Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 ED: spooky P: undead	Eye of Ed (100)	Lord Spookyraven's ear trumpet (100)
 Lot's Wife	1757	lotswife.gif	Atk: 3 Def: 3 HP: 10 P: beast Init: -10000	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish	amber aviator shades (n5)	hair of the fish (c7)	rough fish scale (n4)	slug of shochu (21)
@@ -449,7 +449,7 @@ medium-sized barrel mimic	288	mimic3.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weir
 mean drunk duck	567	duckmeandrunk.gif	Atk: 180 Def: 157 HP: 190 Init: 50 Meat: 174-229 P: beast	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
 mega frog	1342	megafrog.gif	Atk: 14 Def: 16 HP: 20 Init: 10 P: beast Meat: 15	delicious swamp muck (0)	swamp lolly (0)
 menacing construct	664	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
-menacing construct (translated)	670	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct Manuel: "menacing construct"	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
+menacing construct (translated)	670	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct Manuel: "menacing construct" Wiki: "menacing construct"	El Vibrato punchcard (115 holes) (1)	El Vibrato punchcard (142 holes) (1)
 menacing thug	680	nemesisthug.gif	WANDERER Atk: 55 Def: 49 HP: 75 Init: 30 P: dude
 Mer-kin alphabetizer	850	merkinalphabet.gif	Atk: 750 Def: 800 HP: 900 Init: 100 P: mer-kin	Mer-kin smartjuice (0)	Mer-kin worktea (0)
 Mer-kin balldodger	842	merkinballer.gif	Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 P: mer-kin
@@ -670,9 +670,9 @@ Spaghetti Elemental (Volcanic Cave)	884	3_3.gif	BOSS Atk: 185 Def: 166 HP: 260 I
 Spam Witch	143	spamwitch.gif	Atk: 85 Def: 76 HP: 75 Init: 70 EA: sleaze Meat: 30 P: dude	30669 scroll (30)	Spam Witch sammich (50)
 Spawn of Wally	793	wretchedseal.gif	FREE Atk: 10 Def: 9 HP: 15 Init: -10000 P: horror	tainted seal's blood (100)
 Spectral Jellyfish	93	jellyfish.gif	Atk: 70 Def: 63 HP: 60 Init: 60 "Somewhat Poisoned" P: beast	spectral jelly (p1)
-spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)	pestopiary (0)
+spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast Wiki: "spider (duck%3F) topiary animal"	rusty hedge trimmers (15)	pestopiary (0)
 spider gremlin	552	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum pliers (c0)
-spider gremlin (tool)	553	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "spider gremlin"	gremlin juice (3)	molybdenum pliers (c0)
+spider gremlin (tool)	553	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "spider gremlin" Wiki: "spider gremlin (quest)"	gremlin juice (3)	molybdenum pliers (c0)
 spider-legged witch's hut	1580	spiderhut.gif	Atk: 50 Def: 50 HP: 50 Init: 50 P: construct	giant spider leg (c100)
 spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	succulent marrow (0)	evil eye (20)	skelelton spine (c0)
 Spirit of New Wave (Inner Sanctum)	25	5_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: undead Manuel: "Spirit of New Wave"	Disco 'Fro Pick (100)
@@ -758,7 +758,7 @@ tonic water elemental	74	whirlwind.gif	Atk: 18 Def: 16 HP: 14 Init: 60 Meat: 17-
 toothy pirate	620	toothpirate.gif	Atk: 83 Def: 76 HP: 75 Init: 50 Meat: 45 P: pirate	bottle of rum (20)	cocktail napkin (10)	gold toothbrush (c0)
 toothy sklelton	186	toothskel.gif	Atk: 57 Def: 52 HP: 50 Init: 50 E: spooky P: undead	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)	evil eye (20)	bone bandoneon (a0)
 towering construct	667	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
-towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Manuel: "towering construct"	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
+towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Manuel: "towering construct" Wiki: "towering construct"	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
 triffid	342	triffid.gif	Atk: 5 Def: 4 HP: 6 Init: 70 P: plant	moxie weed (30)	spooky stick (30)
 Troll Twins	1244	twins_troll.gif	Atk: 94 Def: 82 HP: 98 Init: 40 P: dude	incredible pizza (5)	troll britches (5)
 trophyfish	774	trophyfish.gif	Atk: 5000 Def: 4500 HP: 15000 Init: 200 Phys: 25 P: fish
@@ -776,7 +776,7 @@ vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast	bat
 vampire clam	75	vampclam.gif	Atk: 40 Def: 17 HP: 14 Init: 60 P: undead	vampire chowder (100)	vampire pearl (p35)
 vampire duck	564	duckvampire.gif	Atk: 175 Def: 153 HP: 190 Init: 50 Meat: 131-165 E: spooky P: beast	frightful feather (10)	duct tape (5)	vampire glitter (c0)
 vegetable gremlin	550	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum screwdriver (c0)
-vegetable gremlin (tool)	551	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "vegetable gremlin"	gremlin juice (3)	molybdenum screwdriver (c0)
+vegetable gremlin (tool)	551	gremlinveg.gif	Atk: 168 Def: 154 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "vegetable gremlin" Wiki: "vegetable gremlin (quest)"	gremlin juice (3)	molybdenum screwdriver (c0)
 vendor slime	805	vendorslime.gif	Atk: 145 Def: 130 HP: 160 Init: 75 P: slime NOBANISH	vial of red slime (f66)
 vengeful turtle spectre	654	turtleghost.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 vicious gnauga	247	gnauga.gif	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast	gnauga hide (10)
@@ -1002,13 +1002,13 @@ Zombo	697	zombo.gif	BOSS HP: 10000 Def: 450 Atk: 500 Init: 200 E: spooky P: unde
 Hodgman, The Hoboverlord	688	hodgman.gif	BOSS HP: 25000 Def: 675 Atk: 750 Init: 250 Phys: 25 P: hobo	Hodgman's bow tie (0)	Hodgman's porkpie hat (0)	Hodgman's lobsterskin pants (0)	Hodgman's almanac (0)	Hodgman's lucky sock (0)	Hodgman's metal detector (0)	Hodgman's varcolac paw (0)	Hodgman's harmonica (0)	Hodgman's garbage sticker (0)	Hodgman's cane (0)	Hodgman's whackin' stick (0)	Hodgman's disgusting technicolor overcoat (0)	Hodgman's imaginary hamster (0)	hobo fortress blueprints (0)	stuffed Hodgman (0)	Hodgman's blanket (0)	tin cup of mulligan stew (0)	Hodgman's journal #1: The Lean Times (0)	Hodgman's journal #2: Entrepreneurythmics (0)	Hodgman's journal #3: Pumping Tin (0)	Hodgman's journal #4: View From The Big Top (0)
 
 # Slime Tube
-Slime Tube monster	791	noart.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime
+Slime Tube monster	791	noart.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime Wiki: "Slime"
 # The above is the single Monster Manuel monster. In the Slime Tube, we can distinguish by image
-slime1	0	slime1_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)	wad of slimy rags (n1)
-slime2	0	slime2_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)
-slime3	0	slime3_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
-slime4	0	slime4_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
-slime5	0	slime5_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
+Slime	-37	slime1_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)	wad of slimy rags (n1)
+Slime Hand	-36	slime2_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)
+Slime Mouth	-35	slime3_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
+Slime Construct	-34	slime4_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
+Slime Colossus	-33	slime5_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
 Mother Slime	792	otherimages/slimetube/stboss.gif	Atk: 1000 Def: 900 HP: 2950 Init: 300 EA: slime P: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
 
 # Dreadsylvania
@@ -1132,7 +1132,7 @@ rag-tag band of survivors	1225	hunter13.gif	WANDERER Atk: 169 Def: 171 HP: 223 I
 The Free Man	1227	hunter15.gif	WANDERER Atk: 230 Def: 234 HP: 360 Init: 150 P: dude	hunter brain (n100)
 Wesley J. "Wes" Campbell	1226	hunter14.gif	WANDERER Atk: 197 Def: 207 HP: 280 Init: 140 P: dude	hunter brain (n100)	good ash (c0)
 zombie-huntin' feller	1213	hunter1.gif	WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude	hunter brain (n100)
-Rene C. Corman	1229	reneccorman.gif	Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude	Thwaitgold maggot statuette (n100)
+Rene C. Corman	1229	reneccorman.gif	Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude Wiki: "Rene C. Corman (Zombie Slayer)"	Thwaitgold maggot statuette (n100)
 
 # Avatar of Jarlsberg
 Clancy	1338	clancy.gif	Atk: 150 Def: 165 HP: 500 Init: 90 Phys: 25 P: dude
@@ -1184,7 +1184,7 @@ The Aquaman	1613	theaquaman.gif	BOSS Atk: 260 Def: 240 HP: 2000 Init: 60 P: dude
 The Rain King	1614	rainking.gif	BOSS Atk: 280 Def: 250 HP: 800 Init: 10000 P: dude
 
 # Actually Ed the Undying
-Boss Bat?	1664	deadbossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: undead
+Boss Bat?	1664	deadbossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: undead Wiki: "Boss Bat%3F"
 new Knob Goblin King	1665	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
 Donerbagon	1666	donerbagon.gif	BOSS Atk: 90 Def: 81 HP: 120 Init: 90 Item: 25 Skill: 50 E: spooky P: undead
 Your winged yeti	1667	wingedyeti.gif	BOSS HP: 250 Atk: 120 Def: 108 Init: 50 E: cold P: beast
@@ -1232,7 +1232,7 @@ Visible Music	362	music.gif	Atk: 53 Def: 47 HP: 50 Init: 60 P: weird	orange-fros
 Angels of Avalon	365	angel.gif	Atk: 145 Def: 130 HP: 150 Init: 60 P: weird	blue-frosted astral cupcake (15)
 Bustle in the Hedgerow	366	hedgerow.gif	Atk: 145 Def: 130 HP: 150 Init: 60 P: weird	green-frosted astral cupcake (15)
 Elders of the Gentle Race	369	elders.gif	Atk: 145 Def: 130 HP: 150 Init: 60 EA: sleaze P: weird	purple-frosted astral cupcake (15)
-Gathering of Angels?	367	angel.gif	Atk: 145 Def: 130 HP: 150 Init: 60 EA: sleaze P: weird	orange-frosted astral cupcake (15)
+Gathering of Angels?	367	angel.gif	Atk: 145 Def: 130 HP: 150 Init: 60 EA: sleaze P: weird Wiki: "Gathering of Angels%3F"	orange-frosted astral cupcake (15)
 Higher Plane Serpents	368	snakes.gif	Atk: 145 Def: 130 HP: 150 Init: 60 P: weird	pink-frosted astral cupcake (15)
 
 # Mouldering Mansion (Green Pixie June 2007)
@@ -1551,11 +1551,11 @@ cobra	1717	spelunkcobra.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: beast
 crocodile man	1728	spelunkcroc.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: dude
 cultist	1729	spelunkhawk.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: dude	hawkface potion (c0)
 devil	1731	spelunkdevil.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: demon	devil-summoning hat (c0)
-ghost (spelunky)	1739	spelunkghost.gif	Atk: 70 Def: 70 HP: 300 Init: -10000 Phys: 50 P: undead Manuel: "ghost"
+ghost (Spelunky)	1739	spelunkghost.gif	Atk: 70 Def: 70 HP: 300 Init: -10000 Phys: 50 P: undead Manuel: "ghost"
 LOLmec	1736	spelunklolm.gif	Atk: 200 Def: 200 HP: 300 Init: -10000 P: construct
 magma man	1726	spelunkmagma.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: elemental
 mummy	1727	spelunkmumm.gif	Atk: 50 Def: 50 HP: 50 Init: -10000 P: undead
-queen bee (spelunky)	1733	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug Manuel: "queen bee"
+queen bee (Spelunky)	1733	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P: bug Manuel: "queen bee"
 scorpion	1719	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 shopkeeper	1738	shopkeep.gif	Atk: 60 Def: 60 HP: 150 Init: -10000 P: dude	shopkeeper beard (c0)
 skeleton	1721	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead	x-ray mirror (c0)
@@ -1582,7 +1582,7 @@ flashy pirate	1764	flashypirate.gif	Atk: 200 Def: 200 HP: 150 E: stench P: const
 toxic beastie	1765	toxbeast1.gif,toxbeast2.gif,toxbeast3.gif,toxbeast4.gif	Scale: [5+55*pref(dinseySafetyProtocolsLoose)] Cap: [11111+11111*pref(dinseySafetyProtocolsLoose)] Floor: 50 Init: -10000 E: stench P: slime	toxic globule (0)	toxic globule (0)	toxic globule (0)
 
 # Uncle Gator's Country Fun-Time Liquid Waste Sluice (Dinseylandfill April 2015)
-C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000 NOBANISH	jar of swamp honey (0)	backwoods banjo (c0)
+C<i>bzzt</i>er the Grisly Bear	1766	animbear.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000 NOBANISH Wiki: "Cbzzter the Grisly Bear"	jar of swamp honey (0)	backwoods banjo (c0)
 Gurgle the Turgle	1768	animturtle.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000 NOBANISH	turtle voicebox (0)	fake washboard (c0)
 Skeezy the Jug Rat	1767	animrat.gif	Scale: [5+20*pref(dinseyAudienceEngagement)] Cap: 11111 Floor: 100 MLMult: [3+2*pref(dinseyAudienceEngagement)] E: stench P: construct Init: -10000 NOBANISH	grody jug (0)	ratskin pajama pants (c0)
 nasty bear	1769	nastybear.gif	Atk: 150 Def: 150 HP: 1000 E: stench P: beast Init: -10000 NOBANISH
@@ -2014,10 +2014,10 @@ stocking-stuffing zombie	433	crimonster4.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P
 toy-making creature from the Gray Lagoon	436	crimonster1.gif	Atk: 0 Def: 0 HP: 55 Init: -10000 P: undead	evil googly eye (10)	spooky felt (10)	spooky length of string (10)	spooky stuffing (10)	spooky toy wheel (10)	spooky wooden block (10)
 
 # The Crimborg Collective Factory (Crimbo 2006)
-<s>Killer</s> Festive Arc-Welding Elfbot	-42	borgelf1.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-<s>Killer</s> Festive Decal-Applying Elfbot	-41	borgelf4.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-<s>Killer</s> Festive Laser-Calibrating Elfbot	-40	borgelf2.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
-<s>Killer</s> Festive Weapons-Assembly Elfbot	-39	borgelf3.gif		capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+<s>Killer</s> Festive Arc-Welding Elfbot	-42	borgelf1.gif	Wiki: "Festive Arc-Welding Elfbot"	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+<s>Killer</s> Festive Decal-Applying Elfbot	-41	borgelf4.gif	Wiki: "Festive Decal-Applying Elfbot"	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+<s>Killer</s> Festive Laser-Calibrating Elfbot	-40	borgelf2.gif	Wiki: "Festive Laser-Calibrating Elfbot"	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
+<s>Killer</s> Festive Weapons-Assembly Elfbot	-39	borgelf3.gif	Wiki: "Festive Weapons-Assembly Elfbot"	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 Rudolphus of Crimborg	441	rudolfus.gif	Atk: 0 Def: 0 HP: 80 Init: -10000 P: construct	capacitor relay (8)	carbon nanotube frame (8)	ion grid (8)	Feynman gate (8)	logic synthesizer (8)	high-resistance ultrapolymer plating (4)
 
 # Crimbo Town Toy Factory (Crimbo 2007)
@@ -2048,7 +2048,7 @@ swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: b
 
 # Old Crimbo Town Toy Factory (Crimbo 2008)
 Mob Penguin enforcer	752	pengthug.gif	Scale: 6 Init: 75 P: penguin	patent leather shoes (0)
-Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Manuel: "Mob Penguin goon"	penguin thesaurus (0)
+Mob Penguin goon (2008)	753	pengbook.gif	Scale: 6 Init: 75 P: penguin Manuel: "Mob Penguin goon" Wiki: "Mob Penguin goon"	penguin thesaurus (0)
 Mob Penguin hitpenguin	755	penggun.gif	Scale: 6 Init: 100 P: penguin	canteen of wine (0)	depleted Grimacite kneecapping stick (0)
 Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin	knuckle sandwich (0)	psycho sweater (c0)
 Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin	gray bow tie (0)
@@ -2073,7 +2073,7 @@ fur tree	862	shiv_fur.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petri
 hangman's tree	865	shiv_hangman.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
 pumpkin tree	863	shiv_pumpkin.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
 toilet-papered tree	861	shiv_tp.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
-Underworld Tree	-83	shiv_underworld.gif	NOMANUEL	Underworld acorn (100)	Underworld trunk (100)
+Underworld Tree	-83	shiv_underworld.gif	NOMANUEL P: plant	Underworld acorn (100)	Underworld trunk (100)
 
 # Crimbo Town Toy Factory (Crimbo 2009)
 amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
@@ -2094,7 +2094,7 @@ Mesmerizing Penguin	909	pengmesmer.gif	Scale: 2 Init: -10000 P: penguin	Crimbuck
 Mob Penguin Arsonist	905	pengarson.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Caporegime	907	pengcapo.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Demolitionist	908	pengdemo.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
-Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Manuel: "Mob Penguin Goon"	Crimbuck	herringcello	penguin focaccia bread
+Mob Penguin Goon (2009)	906	penggoon.gif	Scale: 0 Init: -10000 P: penguin Manuel: "Mob Penguin Goon" Wiki: "Mob Penguin Goon"	Crimbuck	herringcello	penguin focaccia bread
 Mob Penguin Kneecapper	904	pengthug.gif	Scale: 0 Init: -10000 P: penguin	Crimbuck	herringcello	penguin focaccia bread
 Undercover Penguin	910	pengundercover.gif	Scale: 1 Init: -10000 P: penguin	cardboard elf ear (c100)	Crimbuck (0)	passable elf mask (0)
 Don Crimbo	-81	doncrimbo.gif	NOMANUEL HP: 1000000 Def: 89999 Atk: 99999 Init: 100 Phys: 100
@@ -2116,18 +2116,18 @@ five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (0)
 
 # CRIMBCO cubicles (Crimbo 2010)
-Disorganized Files	-74	c10files.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Endless Conference Call	-73	c10confcall.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Hideous Slide Show	-72	c10slideshow.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Your Overflowing Inbox	1038	c10inbox.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Tedious Spreadsheet	-71	c10spreadsheet.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Unoptimized Database	-70	c10database.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-The Book Of Faces	-69	c10faces.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Chatty Coworker	1042	c10chatty.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-The Tome Of Tropes	-68	c10tropes.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+disorganized files	-74	c10files.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+endless conference call	-73	c10confcall.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+hideous slide show	-72	c10slideshow.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+your overflowing inbox	1038	c10inbox.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+tedious spreadsheet	-71	c10spreadsheet.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+unoptimized database	-70	c10database.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+Book Of Faces	-69	c10faces.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+chatty coworker	1042	c10chatty.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+Tome Of Tropes	-68	c10tropes.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Totally Malicious 'Zine	-67	c10tmz.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-The Water Cooler	-66	c10cooler.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-The Best Game Ever	-65	c10bge.gif	NOMANUEL Scale: 0 Init: 100	BGE merchandise order form (n100)
+water cooler	-66	c10cooler.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+Best Game Ever	-65	c10bge.gif	NOMANUEL Scale: 0 Init: 100	BGE merchandise order form (n100)
 
 # CRIMBCO WC (Crimbo 2010)
 Elf Hobo	1050	elfhobo1.gif,elfhobo2.gif,elfhobo3.gif,elfhobo4.gif,elfhobo5.gif,elfhobo6.gif,elfhobo7.gif,elfhobo8.gif	HP: 40 Def: 27 Atk: 30 Init: 50 P: hobo Manuel: "Hobelf"	bindlestocking (0)	bottle of rum (15)	bottle of tequila (15)	bottle of whiskey (15)	candy cane (15)	Crimbo candied pecan (15)	Crimbo fudge (15)	Crimbo peppermint bark (15)	eggnog (15)	Mad Train wine (15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)	white lightning (15)	Wint-O-Fresh mint (15)
@@ -2147,12 +2147,12 @@ Plastered Can of Cranberry Sauce	-55	drunkcrancan.gif	WANDERER NOMANUEL Scale: -
 Soused Stuffing Golem	-54	drunkstuffing.gif	WANDERER NOMANUEL Scale: -3 MLMult: 0	breaded beer (c100)
 
 # April Fool's Day (April 2011)
-CDMoyer's Butt	-64	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Red Pill (100)
-Hotstuff's Butt	-63	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	obnoxious riddle (100)
-Jick's Butt	-62	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	handful of numbers (100)
-Mr. Skullhead's Butt	-61	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Lars the Cyberian (100)
-Multi Czar's Butt	-60	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Atomic Comic (100)
-Riff's Butt	-59	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	intriguing puzzle box (100)
+CDMoyer's butt	-64	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Red Pill (100)
+HotStuff's butt	-63	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	obnoxious riddle (100)
+Jick's butt	-62	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	handful of numbers (100)
+Mr Skullhead's butt	-61	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Lars the Cyberian (100)
+Multi Czar's butt	-60	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	Atomic Comic (100)
+Riff's butt	-59	butt.gif	WANDERER NOMANUEL HP: 52 Def: 76 Atk: 69	intriguing puzzle box (100)
 
 # A Pile of Old Servers (June 2011)
 antique database server	1099	spiderserver.gif	Atk: [0] Def: [0] HP: 300 Init: -10000 Exp: 60 P: construct	corrupted data (10)	squirming egg sac (5)
@@ -2170,7 +2170,7 @@ lolligator	1113	lolligator.gif	Atk: 20 Def: 18 HP: 30 Init: 50 P: beast	lollipop
 lollipede	1111	lollipede.gif	Atk: 20 Def: 18 HP: 30 Init: 50 P: bug	lollipop stick (10)	bananagate (c1)
 lolliphaunt	1114	lolliphaunt.gif	Atk: 40 Def: 36 HP: 50 Init: 50 P: beast	lollipop stick (25)	kumquartz (c1)
 lolrus	1115	lollirus2.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: beast	lollipop stick (20)	lollipop stick (20)	strawberyl (c1)
-Trollipop	-53	trollipop.gif	NOMANUEL HP: 150 Def: 90 Atk: 90 Init: 50	grape troll doll (0)	cinnamon troll doll (0)	blue raspberry troll doll (0)
+trollipop	-53	trollipop.gif	NOMANUEL HP: 150 Def: 90 Atk: 90 Init: 50	grape troll doll (0)	cinnamon troll doll (0)	blue raspberry troll doll (0)
 The Colollilossus	-52	colollilossus.gif	NOMANUEL HP: 600 Def: 400 Atk: 400 Init: 0	all-year sucker (100)
 
 # Fudge Mountain (Crimbo 2011)
@@ -2249,16 +2249,16 @@ sparking Crimbot	1863	crimbot1.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct
 unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	overloaded micro-reactor (0)
 
 # Retired Standard Monsters
-Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer"	star chart (100)
-possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack"
-skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier"
+Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
+possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"
+skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier" Wiki: "skeletal sommelier"
 
 7-Foot Dwarf	-38	miner.gif	HP: 40 Def: 47 Atk: 53 Meat: 34-48 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct	felt (2)	stuffing (2)	googly eye (2)
-animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
-animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)
-animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
-animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand"	grouchy restless spirit (80)
+animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
+animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)
+animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
+animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
 Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 73-105 P: dude	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct
