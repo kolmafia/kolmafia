@@ -1203,9 +1203,17 @@ public class MonsterData
 
 		// Monster Name & 3 factoids are last, spanning 3 rows
 		{
+			Element element = this.defenseElement;
+
 			buffer.append( "<td rowspan=3 width=10></td>" );
 
-			buffer.append( "<td rowspan=3 valign=top class=small><b><font size=+2>" );
+			buffer.append( "<td rowspan=3 valign=top class=small><b><font size=+2" );
+			if ( element != Element.NONE )
+			{
+				buffer.append( " color=" );
+				buffer.append( element.getColor() );
+			}
+			buffer.append( ">" );
 			buffer.append( this.getName() );
 			buffer.append( "</font></b>" );
 
