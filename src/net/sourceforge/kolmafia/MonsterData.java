@@ -722,14 +722,14 @@ public class MonsterData
 
 	public int getRawInitiative()
 	{
-		return evaluate( this.initiative, -1 );
+		return evaluate( this.initiative, 0 );
 	}
 
 	public int getBaseInitiative()
 	{
 		return  this.initiative == null ? 0 :
 			this.initiative instanceof Integer ? ((Integer)(this.initiative)).intValue() :
-			-1;
+			0;
 	}
 
 	public int getInitiative()

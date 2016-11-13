@@ -152,8 +152,17 @@ public class WikiUtilities
 		{
 			item = ((Boost) item).getItem();
 		}
+		else if ( item instanceof Entry )
+		{
+			item = ((Entry) item).getValue();
+		}
 
-		if ( item instanceof AdventureResult )
+		if ( item instanceof MonsterData )
+		{
+			name = ((MonsterData)item).getWikiName();
+			type = WikiUtilities.MONSTER_TYPE;
+		}
+		else if ( item instanceof AdventureResult )
 		{
 			AdventureResult result = (AdventureResult) item;
 			name = result.getDataName();
@@ -162,8 +171,6 @@ public class WikiUtilities
 				WikiUtilities.ITEM_TYPE :
 				result.isStatusEffect() ?
 				WikiUtilities.EFFECT_TYPE :
-				result.isMonster() ?
-				WikiUtilities.MONSTER_TYPE :
 				WikiUtilities.ANY_TYPE;
 		}
 		else if ( item instanceof UseSkillRequest )
@@ -199,24 +206,6 @@ public class WikiUtilities
 		else if ( item instanceof String )
 		{
 			name = (String) item;
-		}
-		else if ( item instanceof MonsterData )
-		{
-			name = ((MonsterData)item).getWikiName();
-			type = WikiUtilities.MONSTER_TYPE;
-		}
-		else if ( item instanceof Entry )
-		{
-			Object value = ( (Entry) item ).getValue();
-			if ( value instanceof MonsterData )
-			{
-				name = ((MonsterData)value).getWikiName();
-				type = WikiUtilities.MONSTER_TYPE;
-			}
-			else
-			{
-				name = (String) value;
-			}
 		}
 
 		if ( name == null )
