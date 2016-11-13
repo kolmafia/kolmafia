@@ -707,7 +707,11 @@ public class AdventureRequest
 				image.startsWith( "spookyhobo" ) ? "Spooky Hobo" :
 				image.startsWith( "slhobo" ) ? "Sleaze Hobo" :
 				// Slime Tube
-				image.startsWith( "slime" ) ? image.substring( 0, 6 ) :
+				image.startsWith( "slime1" ) ? "Slime" :
+				image.startsWith( "slime2" ) ? "Slime Hand" :
+				image.startsWith( "slime3" ) ? "Slime Mouth" :
+				image.startsWith( "slime4" ) ? "Slime Construct" :
+				image.startsWith( "slime5" ) ? "Slime Colossus" :
 				// GamePro Bosses
 				image.startsWith( "faq_boss" ) ? "Video Game Boss" :
 				image.startsWith( "faq_miniboss" ) ? "Video Game Miniboss" :

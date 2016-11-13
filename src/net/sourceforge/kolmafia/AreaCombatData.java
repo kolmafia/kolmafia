@@ -1660,23 +1660,23 @@ public class AreaCombatData
 		else if ( zone.equals( "The Slime Tube" ) )
 		{
 			int monsterLevel = (int) KoLCharacter.currentNumericModifier( Modifiers.MONSTER_LEVEL );
-			if ( monster.equals( "slime1" ) )
+			if ( monster.equals( "Slime" ) )
 			{
 				return monsterLevel <= 100 ? 1 : 0;
 			}
-			else if ( monster.equals( "slime2" ) )
+			else if ( monster.equals( "Slime Hand" ) )
 			{
 				return monsterLevel > 100 && monsterLevel <= 300 ? 1 : 0;
 			}
-			else if ( monster.equals( "slime3" ) )
+			else if ( monster.equals( "Slime Mouth" ) )
 			{
 				return monsterLevel > 300 && monsterLevel <= 600 ? 1 : 0;
 			}
-			else if ( monster.equals( "slime4" ) )
+			else if ( monster.equals( "Slime Construct" ) )
 			{
 				return monsterLevel > 600 && monsterLevel <= 1000 ? 1 : 0;
 			}
-			else if ( monster.equals( "slime5" ) )
+			else if ( monster.equals( "Slime Colossus" ) )
 			{
 				return monsterLevel > 1000 ? 1 : 0;
 			}
