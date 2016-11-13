@@ -1173,6 +1173,7 @@ public class ProxyRecordValue
 			.add( "random_modifiers",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "manuel_name", DataTypes.STRING_TYPE )
+			.add( "wiki_name", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -1318,6 +1319,11 @@ public class ProxyRecordValue
 		public String get_manuel_name()
 		{
 			return ( (MonsterData) this.content ).getManuelName();
+		}
+
+		public String get_wiki_name()
+		{
+			return ( (MonsterData) this.content ).getWikiName();
 		}
 	}
 

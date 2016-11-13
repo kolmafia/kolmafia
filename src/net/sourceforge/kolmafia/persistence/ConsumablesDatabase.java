@@ -425,11 +425,8 @@ public class ConsumablesDatabase
 			ConsumablesDatabase.advNames = ConsumablesDatabase.unitCostByName.keySet();
 		}
 
-		Iterator<String> it = ConsumablesDatabase.advNames.iterator();
-
-		while ( it.hasNext() )
+		for ( String name : ConsumablesDatabase.advNames )
 		{
-			String name = it.next();
 			ConsumablesDatabase.calculateAdventureRange( name );
 		}
 	}

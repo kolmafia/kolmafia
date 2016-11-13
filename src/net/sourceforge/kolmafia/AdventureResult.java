@@ -452,6 +452,11 @@ public class AdventureResult
 		return this.name.equals( AdventureResult.MP );
 	}
 
+	public boolean isMonster()
+	{
+		return this.priority == AdventureResult.MONSTER_PRIORITY;
+	}
+
 	/**
 	 * Accessor method to retrieve the name associated with the result.
 	 *
