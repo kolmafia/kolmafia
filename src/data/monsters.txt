@@ -2123,7 +2123,7 @@ Your Overflowing Inbox	1038	c10inbox.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scr
 Tedious Spreadsheet	-71	c10spreadsheet.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Unoptimized Database	-70	c10database.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 The Book Of Faces	-69	c10faces.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
-Chatty Coworker	1042	c10chatty.gif	Scale: 0 Init: 100	NOMANUEL	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
+Chatty Coworker	1042	c10chatty.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 The Tome Of Tropes	-68	c10tropes.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 Totally Malicious 'Zine	-67	c10tmz.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
 The Water Cooler	-66	c10cooler.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
