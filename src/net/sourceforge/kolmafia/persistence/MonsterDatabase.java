@@ -68,23 +68,33 @@ public class MonsterDatabase
 
 	public enum Element
 	{
-		NONE( "none", "circle.gif", "has no particular elemental alignment"  ),
-		COLD( "cold", "snowflake.gif", "is Cold. Cold is weak against Hot and Spooky." ),
-		HOT( "hot", "fire.gif", "is Hot. Hot is weak against Sleaze and Stench." ),
-		SLEAZE( "sleaze", "wink.gif", "is Sleazy. Sleaze is weak against Cold and Spooky." ),
-		SPOOKY( "spooky", "skull.gif", "is Spooky. Spooky is weak against Hot and Stench." ),
-		STENCH( "stench", "stench.gif", "is Stinky. Stench is weak against Cold and Sleaze." ),
-		SLIME( "slime", "sebashield.gif", "is Slimy." ),
-		SUPERCOLD( "supercold", "ice.gif", "is Supercold" );
+		NONE( "none", "circle.gif", "black",
+		      "has no particular elemental alignment"  ),
+		COLD( "cold", "snowflake.gif", "blue",
+		      "is Cold. Cold is weak against Hot and Spooky." ),
+		HOT( "hot", "fire.gif", "red",
+		     "is Hot. Hot is weak against Sleaze and Stench." ),
+		SLEAZE( "sleaze", "wink.gif", "#8A2BE2",	// blueviolet
+			"is Sleazy. Sleaze is weak against Cold and Spooky." ),
+		SPOOKY( "spooky", "skull.gif", "gray",
+			"is Spooky. Spooky is weak against Hot and Stench." ),
+		STENCH( "stench", "stench.gif","green",
+			"is Stinky. Stench is weak against Cold and Sleaze." ),
+		SLIME( "slime", "sebashield.gif", "#006400",	// darkgreen
+		       "is Slimy." ),
+		SUPERCOLD( "supercold", "ice.gif", "#ADD8E6",	// lightblue
+			   "is Supercold" );
 
 		private final String name;
 		private final String image;
+		private final String color;
 		private final String description;
 
-		private Element( String name, String image, String description )
+		private Element( String name, String image, String color, String description )
 		{
 			this.name = name;
 			this.image = image;
+			this.color = color;
 			this.description = description;
 		}
 
@@ -97,6 +107,11 @@ public class MonsterDatabase
 		public String getImage()
 		{
 			return this.image;
+		}
+
+		public String getColor()
+		{
+			return this.color;
 		}
 
 		public String getDescription()
