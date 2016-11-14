@@ -1992,6 +1992,16 @@ public class UseSkillRequest
 			return true;
 		}
 
+		// You've already recalled a lot of ancestral memories lately. You should
+		// probably give your ancestors the rest of the day off.
+
+		if ( responseText.contains( "You've already recalled a lot of ancestral memories lately" ) )
+		{
+			UseSkillRequest.lastUpdate = "You can only cast Ancestral Recall 10 times per day.";
+			Preferences.setInteger( "_ancestralRecallCasts", 10 );
+			return true;
+		}
+
 		// You think your stomach has had enough for one day.
 		if ( responseText.contains( "enough for one day" ) )
 		{
@@ -2034,6 +2044,7 @@ public class UseSkillRequest
 			case SkillPool.INIGOS:
 				Preferences.setInteger( "_inigosCasts", 5 );
 				break;
+
 			default:
 				break;
 			}
@@ -2112,6 +2123,13 @@ public class UseSkillRequest
 				// Cannelloni Cocoon says "You can't use that
 				// skill" when you are already at full HP.
 				UseSkillRequest.lastUpdate = "You are already at full HP.";
+			}
+			else if ( skillId == SkillPool.ANCESTRAL_RECALL )
+			{
+				// Ancestral Recall says "You can't use that
+				// skill" if you don't have any blue mana.
+				UseSkillRequest.lastUpdate = "You don't have any blue mana.";
+				return true;
 			}
 			else
 			{
@@ -2435,7 +2453,10 @@ public class UseSkillRequest
 			KoLCharacter.decrementLightning( SkillDatabase.getLightningCost( skillId ) * count );
 		}
 
-		ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+		if ( mpCost > 0 )
+		{
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
+		}
 
 		return false;
 	}
