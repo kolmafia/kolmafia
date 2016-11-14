@@ -39,10 +39,10 @@ import java.util.List;
 import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -159,20 +159,29 @@ public class PlayCommand
 				return;
 			}
 
-			List<String> matchingNames =  StringUtilities.getMatchingNames( PlayCommand.CANONICAL_STAT_ARRAY, parameter );
-			if ( matchingNames.size() == 0 )
+			Stat stat = null;
+			if ( parameter.startsWith( "main" ) )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Which stat is " + parameter + "?" );
-				return;
+				stat = KoLCharacter.mainStat();
+			}
+			else
+			{
+				List<String> matchingNames =  StringUtilities.getMatchingNames( PlayCommand.CANONICAL_STAT_ARRAY, parameter );
+				if ( matchingNames.size() == 0 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Which stat is " + parameter + "?" );
+					return;
+				}
+
+				if ( matchingNames.size() > 1 )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "'" + parameter + "' is an ambiguous stat" );
+					return;
+				}
+
+				stat = PlayCommand.canonicalNameToStat.get( matchingNames.get( 0 ) );
 			}
 
-			if ( matchingNames.size() > 1 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "'" + parameter + "' is an ambiguous stat" );
-				return;
-			}
-
-			Stat stat = PlayCommand.canonicalNameToStat.get( matchingNames.get( 0 ) );
 			card = DeckOfEveryCardRequest.statToCard( stat );
 			if ( card == null )
 			{
