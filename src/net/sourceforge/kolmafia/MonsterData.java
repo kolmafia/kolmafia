@@ -40,6 +40,8 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -1108,6 +1110,59 @@ public class MonsterData
 		return AreaCombatData.hitPercent( hitStat - defenseModifier, this.getDefense() ) <= 50.0;
 	}
 
+	public void appendItemDrops( StringBuilder buffer )
+	{
+		boolean first = true;
+
+		for ( AdventureResult item : this.items )
+		{
+			buffer.append( first ? "<br />Item Drops: " : ", " );
+			first = false;
+
+			int rate = item.getCount() >> 16;
+			buffer.append( item.getName() );
+			switch ( (char) item.getCount() & 0xFFFF )
+			{
+			case 'p':
+				buffer.append( " (" );
+				buffer.append( rate );
+				buffer.append( " pp only)" );
+				break;
+			case 'n':
+				buffer.append( " (" );
+				buffer.append( rate );
+				buffer.append( " no pp)" );
+				break;
+			case 'c':
+				buffer.append( " (" );
+				buffer.append( rate );
+				buffer.append( " cond)" );
+				break;
+			case 'f':
+				buffer.append( " (" );
+				buffer.append( rate );
+				buffer.append( " no mod)" );
+				break;
+			case 'a':
+				buffer.append( " (stealable accordion)" );
+				break;
+			default:
+				buffer.append( " (" );
+				buffer.append( rate );
+				buffer.append( ")" );
+			}
+		}
+
+		String bounty = BountyDatabase.getNameByMonster( this.getName() );
+		if ( bounty != null )
+		{
+			buffer.append( first ? "<br />Item Drops: " : ", " );
+			first = false;
+			buffer.append( bounty );
+			buffer.append( " (bounty)" );
+		}
+	}
+
 	// </a></center><p><a name='mon554'></a><table width=95%><tr><td colspan=6 height=1 bgcolor=black></td></tr><tr><td rowspan=4 valign=top width=100><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/statue.gif alt="This monster is a Humanoid" title="This monster is a Humanoid" width=30 height=30></td><td rowspan=4 width=10></td><td rowspan=4 valign=top class=small><b><font size=+2>A.M.C. gremlin</font></b><ul><li>Some researchers believe the AMC Gremlin to be evidence that gremlins are a degenerate offshoot of the Crimbo Elf, due to their mechanical skills. However, their research equipment usually falls apart before they get a chance to publish.<li>Be careful never to feed gremlins after midnight. And by 'feed', I mean "allow them to chew on your face".<li>People make snarky jokes about time zones and so on, but the gremlin prohibition on feeding is obviously based on local time, because of their sensitivity to sunlight -- don't feed them between midnight and sunrise. How hard was that, Mr. Sarcasm?</ul></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/whiteshield.gif width=30 height=30 alt="Defense (approximate)" title="Defense (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>153</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/hp.gif width=30 height=30 alt="Hit Points (approximate)" title="Hit Points (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/watch.gif alt="Initiative +60%" title="Initiative +60%" width=30 height=30></td></tr><tr><td></td><td></td></tr></table>
 
 	public String craftDescription()
@@ -1205,9 +1260,7 @@ public class MonsterData
 		{
 			Element element = this.defenseElement;
 
-			buffer.append( "<td rowspan=3 width=10></td>" );
-
-			buffer.append( "<td rowspan=3 valign=top class=small><b><font size=+2" );
+			buffer.append( "<td rowspan=3 valign=top width=390><b><font size=+2" );
 			if ( element != Element.NONE )
 			{
 				buffer.append( " color=" );
@@ -1393,8 +1446,61 @@ public class MonsterData
 		// *** Row 4 ***
 		buffer.append( "<tr>" );
 
-		buffer.append( "<td valign=top colspan=5 style=\"border-top:medium solid black;\">" );
-		buffer.append( "Other stuff..." );
+		buffer.append( "<td width=500 valign=top colspan=4 style=\"border-top:medium solid black;\">" );
+		if ( this.attributes.contains( "WANDERER" ) )
+		{
+			buffer.append( "This is a wandering monster." );
+		}
+		else
+		{
+			List<String> zones = AdventureDatabase.getAreasWithMonster( this );
+			if ( zones.size() > 0 )
+			{
+				buffer.append( "This monster can be found in: " );
+				boolean first = true;
+				for ( String zone : zones )
+				{
+					if ( !first )
+					{
+						buffer.append( ", " );
+					}
+					buffer.append( zone );
+					first = false;
+				}
+			}
+			else
+			{
+				buffer.append( "This monster does not appear in any known zone." );
+			}
+		}
+
+		if ( this.boss )
+		{
+			buffer.append( "<br />This monster is a Boss. " );
+		}
+
+		if ( this.attributes.contains( "ULTRARARE" ) )
+		{
+			buffer.append( "<br />This monster is Ultrarare. " );
+		}
+
+		if ( this.attributes.contains( "SEMIRARE" ) )
+		{
+			buffer.append( "<br />This monster is Semirare. " );
+		}
+
+		int minMeat = this.getMinMeat();
+		int maxMeat = this.getMaxMeat();
+		if ( maxMeat > 0 )
+		{
+			buffer.append( "<br />Meat Drop: " );
+			buffer.append( String.valueOf( minMeat ) );
+			buffer.append( " - " );
+			buffer.append( String.valueOf( maxMeat ) );
+		}
+
+		this.appendItemDrops( buffer );
+
 		buffer.append( "</td>" );
 
 		buffer.append( "</tr>" );
