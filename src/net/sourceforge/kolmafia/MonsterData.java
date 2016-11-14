@@ -1260,7 +1260,7 @@ public class MonsterData
 		{
 			Element element = this.defenseElement;
 
-			buffer.append( "<td rowspan=3 valign=top width=390><b><font size=+2" );
+			buffer.append( "<td rowspan=3 valign=top><b><font size=+2" );
 			if ( element != Element.NONE )
 			{
 				buffer.append( " color=" );
