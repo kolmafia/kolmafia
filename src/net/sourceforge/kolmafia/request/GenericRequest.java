@@ -3208,6 +3208,11 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.MEGACOPIA:
+			itemName = "megacopia";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
