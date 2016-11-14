@@ -190,7 +190,7 @@ public class GenericRequest
 	// Per-login data
 
 	private static String userAgent = "";
-	public static Set<ServerCookie> serverCookies = null;
+	public static final Set<ServerCookie> serverCookies = new LinkedHashSet<ServerCookie>();;
 	public static String sessionId = null;
 	public static String passwordHash = "";
 	public static String passwordHashValue = "";
@@ -206,7 +206,7 @@ public class GenericRequest
 	public static void reset()
 	{
 		GenericRequest.setUserAgent();
-		GenericRequest.serverCookies = null;
+		GenericRequest.serverCookies.clear();
 		GenericRequest.sessionId = null;
 		GenericRequest.passwordHash = "";
 		GenericRequest.passwordHashValue = "";
@@ -1707,16 +1707,19 @@ public class GenericRequest
 		
 		boolean delim = false;
 
-		for ( ServerCookie cookie : GenericRequest.serverCookies )
+		synchronized ( GenericRequest.serverCookies )
 		{
-			if ( cookie.validPath( path ) )
+			for ( ServerCookie cookie : GenericRequest.serverCookies )
 			{
-				if ( delim )
+				if ( cookie.validPath( path ) )
 				{
-					cookies.append( "; " );
+					if ( delim )
+					{
+						cookies.append( "; " );
+					}
+					cookies.append( cookie.toString() );
+					delim = true;
 				}
-				cookies.append( cookie.toString() );
-				delim = true;
 			}
 		}
 
@@ -1725,57 +1728,55 @@ public class GenericRequest
 	
 	public void setCookies()
 	{
-		if ( GenericRequest.serverCookies == null )
+		synchronized ( GenericRequest.serverCookies )
 		{
-			GenericRequest.serverCookies = new LinkedHashSet<ServerCookie>();
-		}
+			// Field: Set-Cookie = [PHPSESSID=i9tr5te1hhk7084d7do6s877h3; path=/, AWSALB=1HOUaMRO89JYkb8nBfrsK6maRGcdoJpTOmxa/LEVbQsBnwi1jPq7jvG2jw1m4p1SR7Y35Wq/dUKVBG5RcvMu7Zw89U1RAeBkZlIkGP/8hVnXCmkWUxfEvuveJZfB; Expires=Fri, 16-Sep-2016 15:43:04 GMT; Path=/]
 
-		// Field: Set-Cookie = [PHPSESSID=i9tr5te1hhk7084d7do6s877h3; path=/, AWSALB=1HOUaMRO89JYkb8nBfrsK6maRGcdoJpTOmxa/LEVbQsBnwi1jPq7jvG2jw1m4p1SR7Y35Wq/dUKVBG5RcvMu7Zw89U1RAeBkZlIkGP/8hVnXCmkWUxfEvuveJZfB; Expires=Fri, 16-Sep-2016 15:43:04 GMT; Path=/]
+			Map<String,List<String>> headerFields = this.formConnection.getHeaderFields();
 
-		Map<String,List<String>> headerFields = this.formConnection.getHeaderFields();
-
-		for ( Entry<String,List<String>> entry: headerFields.entrySet() )
-		{
-			String key = entry.getKey();
-			if ( key == null || !key.equals( "Set-Cookie" ) )
+			for ( Entry<String,List<String>> entry: headerFields.entrySet() )
 			{
-				continue;
-			}
-
-			List<String> cookies = entry.getValue();
-			for ( String cookie : cookies )
-			{
-				while ( cookie != null & !cookie.equals( "" ) )
+				String key = entry.getKey();
+				if ( key == null || !key.equals( "Set-Cookie" ) )
 				{
-					int comma = cookie.indexOf( "," );
-					int expires = cookie.toLowerCase().indexOf( "expires=" );
-					if ( expires != -1 && expires < comma )
+					continue;
+				}
+
+				List<String> cookies = entry.getValue();
+				for ( String cookie : cookies )
+				{
+					while ( cookie != null & !cookie.equals( "" ) )
 					{
-						comma = cookie.indexOf( ",", comma + 1 );
-					}
-
-					ServerCookie serverCookie = new ServerCookie( comma == -1 ? cookie : cookie.substring( 0, comma ) );
-					String name = serverCookie.getName();
-
-					if ( GenericRequest.specialCookie( name ) )
-					{
-						// We've defined cookie equality as same name
-						// Since the value has changed, remove the old cookie first
-						GenericRequest.serverCookies.remove( serverCookie );
-						GenericRequest.serverCookies.add( serverCookie );
-
-						if ( name.equals( "PHPSESSID" ) )
+						int comma = cookie.indexOf( "," );
+						int expires = cookie.toLowerCase().indexOf( "expires=" );
+						if ( expires != -1 && expires < comma )
 						{
-							GenericRequest.sessionId = serverCookie.toString();
+							comma = cookie.indexOf( ",", comma + 1 );
 						}
-					}
 
-					if ( comma == -1 )
-					{
-						break;
-					}
+						ServerCookie serverCookie = new ServerCookie( comma == -1 ? cookie : cookie.substring( 0, comma ) );
+						String name = serverCookie.getName();
 
-					cookie = cookie.substring( comma + 1 );
+						if ( GenericRequest.specialCookie( name ) )
+						{
+							// We've defined cookie equality as same name
+							// Since the value has changed, remove the old cookie first
+							GenericRequest.serverCookies.remove( serverCookie );
+							GenericRequest.serverCookies.add( serverCookie );
+
+							if ( name.equals( "PHPSESSID" ) )
+							{
+								GenericRequest.sessionId = serverCookie.toString();
+							}
+						}
+
+						if ( comma == -1 )
+						{
+							break;
+						}
+
+						cookie = cookie.substring( comma + 1 );
+					}
 				}
 			}
 		}
