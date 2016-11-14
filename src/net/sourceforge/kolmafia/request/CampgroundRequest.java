@@ -285,6 +285,7 @@ public class CampgroundRequest
 		CampgroundRequest.ICE_HARVEST,
 		CampgroundRequest.FROST_FLOWER,
 		CampgroundRequest.CORNUCOPIA,
+		CampgroundRequest.MEGACOPIA,
 	};
 
 	public static void reset()
