@@ -98,7 +98,7 @@ bookbat	387	bookbat.gif	Atk: 26 Def: 24 HP: 26 Init: 70 P: construct	tattered sc
 booth slime	803	boothslime.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: slime NOBANISH	vial of blue slime (f66)
 booty crab	634	bootycrab.gif	Atk: 100 Def: 90 HP: 70 Init: 10000 Meat: 286-334 E: sleaze Phys: 25 P: beast	Cap'm Caronch's nasty booty (100)
 Booze Giant	95	boozegiant.gif	Atk: 76 Def: 68 HP: 66 Init: 80 P: humanoid	bottle of gin (15)	bottle of rum (15)	bottle of tequila (15)	bottle of vodka (15)	bottle of whiskey (15)	boxed wine (15)	giant breath mint (c0)
-Boss Bat	49	bossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast NOBANISH
+Boss Bat	49	bossbat.gif	BOSS Atk: 33 Def: 29 HP: 40 Init: 60 P: beast NOBANISH	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
 Box	535	box.gif	Atk: 150 Def: 135 HP: 150 E: sleaze Init: 70 P: constellation	line (30)	line (30)	line (30)
 Brainsweeper	34	broombrain.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct	disembodied brain (30)
 Bram the Stoker	1559	bram.gif	SEMIRARE Atk: 164 Def: 148 HP: 170 Init: 50 P: undead	Bram's choker (100)

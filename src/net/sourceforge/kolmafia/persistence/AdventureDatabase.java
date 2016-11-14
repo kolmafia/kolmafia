@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import java.util.regex.Matcher;
@@ -54,6 +55,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -738,6 +740,22 @@ public class AdventureDatabase
 
 		// Get the combat data
 		return AdventureDatabase.areaCombatData.get( area );
+	}
+
+	public static final ArrayList<String> getAreasWithMonster( MonsterData monster )
+	{
+		ArrayList<String> zones = new ArrayList<String>();
+
+		for ( Entry<String,AreaCombatData> entry : AdventureDatabase.areaCombatData.entrySet() )
+		{
+			AreaCombatData area = entry.getValue();
+			if ( area.hasMonster( monster ) )
+			{
+				zones.add( entry.getKey() );
+			}
+		}
+
+		return zones;
 	}
 
 	public static final String getUnknownName( final String urlString )

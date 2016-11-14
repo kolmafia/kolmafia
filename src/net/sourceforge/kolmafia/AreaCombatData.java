@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -384,15 +383,10 @@ public class AreaCombatData
 	{
 		int total = 0;
 
-		Iterator<MonsterData> monsters = this.monsters.iterator();
-		while ( monsters.hasNext() )
+		for ( MonsterData monster : this.monsters )
 		{
-			MonsterData monster = monsters.next();
-			Iterator<AdventureResult> items = monster.getItems().iterator();
-			while ( items.hasNext() )
+			for ( AdventureResult item : monster.getItems() )
 			{
-				AdventureResult item = items.next();
-
 				if ( item.getItemId() == itemId )
 				{
 					total++;
@@ -401,15 +395,10 @@ public class AreaCombatData
 			}
 		}
 
-		Iterator<MonsterData> superlikelyMonsters = this.superlikelyMonsters.iterator();
-		while ( superlikelyMonsters.hasNext() )
+		for ( MonsterData monster : this.superlikelyMonsters )
 		{
-			MonsterData monster = superlikelyMonsters.next();
-			Iterator<AdventureResult> items = monster.getItems().iterator();
-			while ( items.hasNext() )
+			for ( AdventureResult item : monster.getItems() )
 			{
-				AdventureResult item = items.next();
-
 				if ( item.getItemId() == itemId )
 				{
 					total++;
