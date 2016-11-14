@@ -212,7 +212,6 @@ public class AdventureResult
 		     name.equals( AdventureResult.STILL ) ||
 		     name.equals( AdventureResult.TOME )||
 		     name.equals( AdventureResult.EXTRUDE )||
-		     name.equals( AdventureResult.FLOUNDRY )||
 		     name.equals( AdventureResult.FREE_CRAFT ) )
 		{
 			return AdventureResult.ADV_PRIORITY;
@@ -234,6 +233,10 @@ public class AdventureResult
 		if ( name.equals( AdventureResult.FULLSTATS ) )
 		{
 			return AdventureResult.FULLSTAT_PRIORITY;
+		}
+		if ( name.equals( AdventureResult.FLOUNDRY ) )
+		{
+			return AdventureResult.ITEM_PRIORITY;
 		}
 		if ( BountyDatabase.getType( name ) != null )
 		{

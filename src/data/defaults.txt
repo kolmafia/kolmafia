@@ -2062,6 +2062,7 @@ user	choiceAdventure1081	4
 user	choiceAdventure1082	1
 user	choiceAdventure1083	1
 user	choiceAdventure1084	0
+user	choiceAdventure1085	1
 user	choiceAdventure1094	0
 user	choiceAdventure1095	0
 user	choiceAdventure1096	0
