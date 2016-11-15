@@ -416,7 +416,15 @@ public class DeckOfEveryCardRequest
 	public static String parseCardEncounter( final String responseText )
 	{
 		Matcher matcher = DeckOfEveryCardRequest.DRAW_CARD_PATTERN.matcher( responseText );
-		return  matcher.find() ? matcher.group( 1 ) : null;
+		if ( matcher.find() )
+		{
+			String card = matcher.group( 1 );
+			String alt = Preferences.getString( "_deckCardsSeen" );
+			String neu = alt.length() == 0 ? card : ( alt + "|" + card );
+			Preferences.setString( "_deckCardsSeen", neu );
+			return card;
+		}
+		return null;
 	}
 
 	// There's something written on the ground under the shovels: GGUGEWCCCI<center>
