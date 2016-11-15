@@ -1217,6 +1217,7 @@ user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_darkChocolateHeart	false
+user	_deckCardsSeen
 user	_deckCardsDrawn	0
 user	_defectiveTokenUsed	false
 user	_deluxeKlawSummons	0
