@@ -9307,11 +9307,6 @@ public abstract class ChoiceManager
 			// Spinning Your Time-Spinner
 			if ( ChoiceManager.lastDecision == 3 )
 			{
-				KoLAdventure.lastVisitedLocation = null;
-				KoLAdventure.lastLocationName = null;
-				KoLAdventure.lastLocationURL = urlString;
-				KoLAdventure.setNextAdventure( "None" );
-				GenericRequest.itemMonster = "Time-Spinner";
 				Preferences.increment( "_timeSpinnerMinutesUsed" );
 			}
 			else if ( ChoiceManager.lastDecision == 4 )
@@ -9324,11 +9319,6 @@ public abstract class ChoiceManager
 			// Travel to a Recent Fight
 			if ( ChoiceManager.lastDecision == 1 && !urlString.contains( "monid=0" ) )
 			{
-				KoLAdventure.lastVisitedLocation = null;
-				KoLAdventure.lastLocationName = null;
-				KoLAdventure.lastLocationURL = urlString;
-				KoLAdventure.setNextAdventure( "None" );
-				GenericRequest.itemMonster = "Time-Spinner";
 				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
 			}
 			break;
@@ -13993,8 +13983,27 @@ public abstract class ChoiceManager
 				KoLAdventure.lastLocationName = null;
 				KoLAdventure.lastLocationURL = urlString;
 				KoLAdventure.setNextAdventure( "None" );
-
+				GenericRequest.itemMonster = "Time-Spinner";
+			
 				String message = "[" + KoLAdventure.getAdventureCount() + "] Way Back in Time";
+				RequestLogger.printLine();
+				RequestLogger.printLine( message );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
+			return true;
+
+		case 1196:
+			if ( ChoiceManager.lastDecision == 1 && !urlString.contains( "monid=0" ) )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = urlString;
+				KoLAdventure.setNextAdventure( "None" );
+				GenericRequest.itemMonster = "Time-Spinner";
+
+				String message = "[" + KoLAdventure.getAdventureCount() + "] A Recent Fight";
 				RequestLogger.printLine();
 				RequestLogger.printLine( message );
 

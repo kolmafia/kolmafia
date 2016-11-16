@@ -983,6 +983,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.SCREENCAPPED_MONSTER:
 			case ItemPool.TIME_RESIDUE:
 			case ItemPool.MEME_GENERATOR:
+			case ItemPool.MEGACOPIA:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.

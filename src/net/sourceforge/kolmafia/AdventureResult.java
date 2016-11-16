@@ -236,7 +236,7 @@ public class AdventureResult
 		}
 		if ( name.equals( AdventureResult.FLOUNDRY ) )
 		{
-			return AdventureResult.ITEM_PRIORITY;
+			return AdventureResult.PSEUDO_ITEM_PRIORITY;
 		}
 		if ( BountyDatabase.getType( name ) != null )
 		{
