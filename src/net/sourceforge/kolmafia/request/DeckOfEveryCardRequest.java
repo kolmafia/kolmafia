@@ -419,8 +419,10 @@ public class DeckOfEveryCardRequest
 		if ( matcher.find() )
 		{
 			String card = matcher.group( 1 );
+			int of = card.indexOf( " of " );
+			String munged = of == -1 ? card : ( "X" + card.substring( of ) );
 			String alt = Preferences.getString( "_deckCardsSeen" );
-			String neu = alt.length() == 0 ? card : ( alt + "|" + card );
+			String neu = alt.length() == 0 ? munged : ( alt + "|" + munged );
 			Preferences.setString( "_deckCardsSeen", neu );
 			return card;
 		}

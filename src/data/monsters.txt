@@ -724,6 +724,7 @@ Tan Gnat	135	biggnat.gif	Atk: 136 Def: 127 HP: 128 Init: 50 P: bug Meat: 20	[252
 tapdancing skeleton	402	hatskel.gif	Atk: 65 Def: 55 HP: 70 Init: 50 ED: spooky P: undead	tap shoes (5)	worn tophat (5)	janglin' bones (c0)
 Tektite	114	tektite.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	blue pixel (80)	white pixel (50)
 tetchy pirate	619	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 40 P: pirate	bottle of rum (20)	cocktail napkin (10)
+Thanksgolem	1973	thanksgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	giant pilgrim hat (n100)
 The Barrelmech of Diogenes	1840	otherimages/barrelbeast.gif	Atk: 200 Def: 250 HP: 1500 Init: 25 P: construct
 The Big Wisniewski	545	thisdude.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	569	beelzebozo.gif	BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
