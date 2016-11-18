@@ -2143,6 +2143,6 @@
 2142
 2143	The Good Salmonella	bacteria.gif	e0591206b411160b006bdcb6e3318cca
 2144	Thanksgetting	thanksucopia.gif	0a86f78a6356058c3d6edea1b3ea00d0	eat 1 mashed potatoes
-2145
+2145	Thanksgot	megacopia.gif	8427803ecefd67e9e7bfbcc9ba08ee6c
 2146	Eldritch Concentration	glassglobe.gif	51a6be812d5c33891cb062cabdf0cfdf	use 1 eldritch concentrate
 2147	Eldritch Attunement	eldeffluv.gif	71a7c94a0c2c70d5e834ae5d2c8ea3f2	drink 1 eldritch elixir
