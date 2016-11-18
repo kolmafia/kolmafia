@@ -5349,6 +5349,7 @@ public class UseItemRequest
 			if ( responseText.contains( "familiar doesn't seem interested" ) )
 			{
 				// Not used up
+				UseItemRequest.lastUpdate = "Your familiar is not interested in that item.";
 				return;
 			}
 			break;
