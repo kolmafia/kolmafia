@@ -537,7 +537,7 @@ Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 unflavored wine cooler	2	1	decent	4	0	0	0
-unidentified drink	3	1	6-20	6	6	6	very random stat gain, average only
+unidentified drink	3	1		6-20	6	6	6	very random stat gain, average only
 unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
