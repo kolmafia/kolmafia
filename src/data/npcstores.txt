@@ -131,6 +131,8 @@ The Black Market	blackmarket	Black Body&trade; spray	300	ROW286
 The Black Market	blackmarket	black facepaint	300	ROW284
 The Black Market	blackmarket	black sheepskin diploma	300	ROW285
 The Black Market	blackmarket	can of black paint	1000	ROW282
+# What is the ROW for the following?
+# The Black Market	blackmarket	spare kidney	2000	ROWXXX
 The Black Market	blackmarket	forged identification documents	5000	ROW281
 The Black Market	blackmarket	exotic parrot egg	500000	ROW287
 The Black Market	blackmarket	Red Zeppelin ticket	5000	ROW289

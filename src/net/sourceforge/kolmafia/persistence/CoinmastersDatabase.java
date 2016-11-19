@@ -220,7 +220,7 @@ public class CoinmastersDatabase
 			if ( type.equals( "buy" ) )
 			{
 				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.buyItems );
-				list.add( item.getInstance( PurchaseRequest.MAX_QUANTITY ) );
+				list.add( item.getInstance( CoinmastersDatabase.purchaseLimit( iitemId ) ) );
 
 				Map<Integer, Integer> map = CoinmastersDatabase.getOrMakeMap( master, CoinmastersDatabase.buyPrices );
 				map.put( iitemId, iprice );
@@ -247,6 +247,16 @@ public class CoinmastersDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	private static final int purchaseLimit( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.ZEPPELIN_TICKET:
+			return 1;
+		}
+		return PurchaseRequest.MAX_QUANTITY;
 	}
 
 	public static final int getPrice( final int itemId, final Map prices )

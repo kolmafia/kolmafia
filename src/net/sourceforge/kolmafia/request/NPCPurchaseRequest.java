@@ -90,6 +90,11 @@ public class NPCPurchaseRequest
 
 	public NPCPurchaseRequest( final String storeName, final String storeId, final int itemId, final int row, final int price )
 	{
+		this( storeName, storeId, itemId, row, price, PurchaseRequest.MAX_QUANTITY );
+	}
+
+	public NPCPurchaseRequest( final String storeName, final String storeId, final int itemId, final int row, final int price, final int quantity )
+	{
 		super( NPCPurchaseRequest.pickForm( storeId ) );
 
 		this.isMallStore = false;
@@ -99,7 +104,7 @@ public class NPCPurchaseRequest
 		this.npcStoreId = storeId;
 		this.row = row;
 
-		this.quantity = PurchaseRequest.MAX_QUANTITY;
+		this.quantity = quantity;
 		this.price = price;
 		this.limit = this.quantity;
 		this.canPurchase = true;
@@ -854,6 +859,7 @@ public class NPCPurchaseRequest
 		{
 			return;
 		}
+
 		// These shops have variable offerings
 		if ( shopId.equals( "bartlebys" ) )
 		{
