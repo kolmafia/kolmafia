@@ -863,3 +863,7 @@ A traveling Thanksgiving salesman	buy	2	bread mold	ROW907
 A traveling Thanksgiving salesman	buy	3	stuffing fluffer	ROW901
 A traveling Thanksgiving salesman	buy	3	turkey blaster	ROW903
 A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
+
+# Things you can buy with priceless diamonds
+
+The Black Market	buy	1	Red Zeppelin ticket	ROW290

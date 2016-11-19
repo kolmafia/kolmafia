@@ -598,17 +598,6 @@ public class NPCPurchaseRequest
 			return;
 		}
 
-		if ( shopId.equals( "blackmarket" ) )
-		{
-			// If Black Market not already unlocked, unlock it
-			if ( !QuestLogRequest.isBlackMarketAvailable() )
-			{
-				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
-				ConcoctionDatabase.setRefreshNeeded( true );
-			}
-			return;
-		}
-
 		// The following are coinmasters
 
 		if ( shopId.equals( "arcade" ) )
@@ -620,6 +609,18 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "armory" ) )
 		{
 			ArmoryAndLeggeryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
+		if ( shopId.equals( "blackmarket" ) )
+		{
+			// If Black Market not already unlocked, unlock it
+			if ( !QuestLogRequest.isBlackMarketAvailable() )
+			{
+				QuestDatabase.setQuestProgress( Quest.MACGUFFIN, "step1" );
+				ConcoctionDatabase.setRefreshNeeded( true );
+			}
+			BlackMarketRequest.parseResponse( urlString, responseText );
 			return;
 		}
 
@@ -1050,6 +1051,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "armory" ) )
 			{
 				return ArmoryAndLeggeryRequest.registerRequest( urlString, true );
+			}
+
+			if ( shopId.equals( "blackmarket" ) )
+			{
+				return BlackMarketRequest.registerRequest( urlString, true );
 			}
 
 			if ( shopId.equals( "damachine" ) )

@@ -720,6 +720,7 @@ public class ItemPool
 	public static final int DUCT_TAPE = 2697;
 	public static final int SHRINKING_POWDER = 2704;
 	public static final int PARROT_CRACKER = 2710;
+	public static final int SPARE_KIDNEY = 2718;
 	public static final int HAND_CARVED_BOKKEN = 2719;
 	public static final int HAND_CARVED_BOW = 2720;
 	public static final int HAND_CARVED_STAFF = 2721;
@@ -2082,6 +2083,7 @@ public class ItemPool
 	public static final int BUDDY_BJORN = 7200;
 	public static final int LYNYRD_SNARE = 7204;
 	public static final int FLEETWOOD_MAC_N_CHEESE = 7215;
+	public static final int PRICELESS_DIAMOND = 7221;
 	public static final int FLAMIN_WHATSHISNAME = 7222;
 	public static final int RED_BUTTON = 7243;
 	public static final int GLARK_CABLE = 7246;
