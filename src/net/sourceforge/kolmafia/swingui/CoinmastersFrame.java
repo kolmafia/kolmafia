@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
+import net.sourceforge.kolmafia.request.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
@@ -184,6 +185,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel batFabricatorPanel = null;
 	private CoinmasterPanel bhhPanel = null;
 	private CoinmasterPanel bigBrotherPanel = null;
+	private CoinmasterPanel blackMarketPanel = null;
 	private CoinmasterPanel boutiquePanel = null;
 	private CoinmasterPanel brogurtPanel = null;
 	private CoinmasterPanel buffJimmyPanel = null;
@@ -253,6 +255,11 @@ public class CoinmastersFrame
 		armoryAndLeggeryPanel = new ArmoryAndLeggeryPanel();
 		panel.add( armoryAndLeggeryPanel );
 		this.selectorPanel.addPanel( armoryAndLeggeryPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		blackMarketPanel = new BlackMarketPanel();
+		panel.add( blackMarketPanel );
+		this.selectorPanel.addPanel( blackMarketPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		hermitPanel = new HermitPanel();
@@ -715,6 +722,38 @@ public class CoinmastersFrame
 			buffer.append( " (" );
 			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.get( ItemPool.BAKELITE_BITS ) ) ) );
 			buffer.append( " bakelite bits)" );
+		}
+	}
+
+	public class BlackMarketPanel
+		extends CoinmasterPanel
+	{
+		public BlackMarketPanel()
+		{
+			super( BlackMarketRequest.BLACK_MARKET );
+		}
+
+		@Override
+		public final void update()
+		{
+			// Update title if tokens changed
+			super.update();
+			// Remove item if no longer available
+			this.buyPanel.filterItems();
+		}
+
+		@Override
+		public boolean canBuy( AdventureResult item )
+		{
+			int itemId = item.getItemId();
+			switch ( itemId )
+			{
+			case ItemPool.ZEPPELIN_TICKET:
+				// Something similar for FORGED_ID_DOCUMENTS
+				// and SPARE_KIDNEY but those are Meat purchases
+				return InventoryManager.getCount( item ) == 0;
+			}
+			return true;
 		}
 	}
 

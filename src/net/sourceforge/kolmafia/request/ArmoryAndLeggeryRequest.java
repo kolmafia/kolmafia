@@ -199,15 +199,16 @@ public class ArmoryAndLeggeryRequest
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
 
-		String action = GenericRequest.getAction( location );
-		if ( action != null )
+		int itemId = CoinMasterRequest.extractItemId( data, location );
+
+		if ( itemId == -1 )
 		{
-			CoinMasterRequest.parseResponse( data, location, responseText );
+			// Purchase for Meat or a simple visit
+			CoinMasterRequest.parseBalance( data, responseText );
 			return;
 		}
 
-		// Parse current coin balances
-		CoinMasterRequest.parseBalance( data, responseText );
+		CoinMasterRequest.parseResponse( data, location, responseText );
 	}
 
 	public static final boolean registerRequest( final String urlString, final boolean noMeat )

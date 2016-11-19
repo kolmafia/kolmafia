@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.ArmoryRequest;
 import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
+import net.sourceforge.kolmafia.request.BlackMarketRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
@@ -106,6 +107,7 @@ public abstract class CoinmasterRegistry
 		AWOLQuartermasterRequest.AWOL,
 		BatFabricatorRequest.BAT_FABRICATOR,
 		BigBrotherRequest.BIG_BROTHER,
+		BlackMarketRequest.BLACK_MARKET,
 		BountyHunterHunterRequest.BHH,
 		BoutiqueRequest.BOUTIQUE,
 		BrogurtRequest.BROGURT,
