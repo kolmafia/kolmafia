@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -198,6 +200,7 @@ public class ArmoryAndLeggeryRequest
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
+		NamedListenerRegistry.fireChange( "(coinmaster)" );
 
 		int itemId = CoinMasterRequest.extractItemId( data, location );
 

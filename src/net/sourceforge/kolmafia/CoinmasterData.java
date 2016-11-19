@@ -38,6 +38,8 @@ import java.lang.reflect.Method;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -357,6 +359,16 @@ public class CoinmasterData
 		return  this.item == null ?
 			this.tokenItem.getInstance( price ) :
 			this.item.getInstance( price );
+	}
+
+	public Set<AdventureResult> currencies()
+	{
+		Set<AdventureResult> currencies = new TreeSet<AdventureResult>();
+		for ( AdventureResult item : this.buyItems )
+		{
+			currencies.add( this.itemBuyPrice( item.getItemId() ) );
+		}
+		return currencies;
 	}
 
 	public final String getSellAction()

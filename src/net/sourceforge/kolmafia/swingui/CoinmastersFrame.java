@@ -713,15 +713,26 @@ public class CoinmastersFrame
 		}
 
 		@Override
+		public final void update()
+		{
+			// Update title if tokens changed
+			super.update();
+			// Remove item if no longer available
+			this.buyPanel.filterItems();
+		}
+
+		@Override
 		public void setTitle( final StringBuffer buffer )
 		{
 			this.standardTitle( buffer );
-			buffer.append( " (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.get( ItemPool.WICKERBITS ) ) ) );
-			buffer.append( " wickerbits)" );
-			buffer.append( " (" );
-			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.get( ItemPool.BAKELITE_BITS ) ) ) );
-			buffer.append( " bakelite bits)" );
+			for ( AdventureResult currency : this.data.currencies() )
+			{
+				buffer.append( " (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( " " );
+				buffer.append( currency.getName() );
+				buffer.append( ")" );
+			}
 		}
 	}
 

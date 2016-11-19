@@ -70,7 +70,7 @@ public class MrStoreRequest
 	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
 	public static final AdventureResult UNCLE_B = ItemPool.get( ItemPool.UNCLE_BUCK, 1 );
 	public static final CoinmasterData MR_STORE =
-		new MrStoreCoinmasterData(
+		new CoinmasterData(
 			MrStoreRequest.master,
 			"mrstore",
 			MrStoreRequest.class,
@@ -96,7 +96,14 @@ public class MrStoreRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public AdventureResult itemBuyPrice( final int itemId )
+			{
+				return MrStoreRequest.buyCosts.get( IntegerPool.get( itemId ) );
+			}
+		};
 
 	// Since there are two different currencies, we need to have a map from
 	// itemId to item/count of currency; an AdventureResult.
@@ -271,53 +278,5 @@ public class MrStoreRequest
 
 		CoinmasterData data = MrStoreRequest.MR_STORE;
 		return CoinMasterRequest.registerRequest( data, urlString, true );
-	}
-
-	private static class MrStoreCoinmasterData
-		extends CoinmasterData
-	{
-		public MrStoreCoinmasterData( 
-			final String master,
-			final String nickname,
-			final Class requestClass,
-			final String token,
-			final String tokenTest,
-			final boolean positiveTest,
-			final Pattern tokenPattern,
-			final AdventureResult item,
-			final String property,
-			final Map<Integer, Integer> itemRows,
-			final String buyURL,
-			final String buyAction,
-			final LockableListModel<AdventureResult> buyItems,
-			final Map<Integer, Integer> buyPrices,
-			final String sellURL,
-			final String sellAction,
-			final LockableListModel<AdventureResult> sellItems,
-			final Map<Integer, Integer> sellPrices,
-			final String itemField,
-			final Pattern itemPattern,
-			final String countField,
-			final Pattern countPattern,
-			final String storageAction,
-			final String tradeAllAction,
-			final boolean canPurchase )
-		{
-			super( master, nickname, requestClass,
-			       token, tokenTest, positiveTest, tokenPattern,
-			       item, property, itemRows,
-			       buyURL, buyAction, buyItems, buyPrices,
-			       sellURL, sellAction, sellItems, sellPrices,
-			       itemField, itemPattern,
-			       countField, countPattern,
-			       storageAction, tradeAllAction,
-			       canPurchase );
-		}
-
-		@Override
-		public AdventureResult itemBuyPrice( final int itemId )
-		{
-			return MrStoreRequest.buyCosts.get( IntegerPool.get( itemId ) );
-		}
 	}
 }
