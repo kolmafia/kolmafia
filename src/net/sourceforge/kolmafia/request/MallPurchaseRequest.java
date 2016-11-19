@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -370,6 +370,10 @@ public class MallPurchaseRequest
 
 		String result = itemMatcher.group( 0 );
 		boolean storage = itemMatcher.group( 1 ) != null;
+		if ( storage )
+		{
+			result = result.replaceFirst( "\\(stored in Hagnk's Ancestral Mini-Storage\\)", "" );
+		}
 
 		ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
 		ResultProcessor.processResults( false, result, results );
