@@ -8909,7 +8909,7 @@ public abstract class ChoiceManager
 				QuestDatabase.setQuestProgress( Quest.MEATSMITH, QuestDatabase.FINISHED );
 				ResultProcessor.removeItem( ItemPool.MEATSMITH_CHECK );
 			}
-			else if ( text.contains( "skeleton store is right next door" ) || text.contains( "I'll be here when you get back" ) )
+			else if ( text.contains( "skeleton store is right next door" ) || text.contains( "I'll be here" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.MEATSMITH, QuestDatabase.STARTED );
 			}
