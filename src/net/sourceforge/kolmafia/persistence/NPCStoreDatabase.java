@@ -92,7 +92,10 @@ public class NPCStoreDatabase
 
 			String storeName = new String( data[0] );
 			String storeId = new String( data[1] );
-			NPCStoreDatabase.storeNameById.put( storeId, storeName );
+			if ( !storeId.equals( "bartlebys" ) )
+			{
+				NPCStoreDatabase.storeNameById.put( storeId, storeName );
+			}
 
 			String itemName = data[ 2 ];
 			int itemId = ItemDatabase.getItemId( itemName );
@@ -109,7 +112,8 @@ public class NPCStoreDatabase
 				0;
 
 			// Make the purchase request for this item
-			NPCPurchaseRequest purchaseRequest = new NPCPurchaseRequest( storeName, storeId, itemId, row, price );
+			int quantity = NPCStoreDatabase.limitQuantity( itemId );
+			NPCPurchaseRequest purchaseRequest = new NPCPurchaseRequest( storeName, storeId, itemId, row, price, quantity );
 
 			// Map from item id -> purchase request
 			NPCStoreDatabase.NPC_ITEMS.put( itemId, purchaseRequest );
@@ -136,7 +140,11 @@ public class NPCStoreDatabase
 
 	public static final String getStoreName( final String storeId )
 	{
-		return (String) NPCStoreDatabase.storeNameById.get( storeId );
+		return storeId.equals( "bartlebys" ) ?
+			( KoLCharacter.inBeecore() ?
+			  "Barrrtleby's Barrrgain Books (Bees Hate You)" :
+			  "Barrrtleby's Barrrgain Books" ) :
+			NPCStoreDatabase.storeNameById.get( storeId );
 	}
 
 	public static final PurchaseRequest getPurchaseRequest( final int itemId )
@@ -169,6 +177,19 @@ public class NPCStoreDatabase
 
 		foundItem.setCanPurchase( false );
 		return foundItem;
+	}
+
+	private static final int limitQuantity( int itemId )
+	{
+		switch( itemId )
+		{
+		case ItemPool.ABRIDGED:
+		case ItemPool.ZEPPELIN_TICKET:
+		case ItemPool.FORGED_ID_DOCUMENTS:
+		case ItemPool.SPARE_KIDNEY:
+			return 1;
+		}
+		return PurchaseRequest.MAX_QUANTITY;
 	}
 
 	private static final boolean canPurchase( final String storeId, final String shopName,
@@ -217,7 +238,21 @@ public class NPCStoreDatabase
 		else if ( storeId.equals( "blackmarket" ) )
 		{
 			// Black Market
-			return QuestLogRequest.isBlackMarketAvailable();
+			if ( ! QuestLogRequest.isBlackMarketAvailable() )
+			{
+				return false;
+			}
+			switch ( itemId )
+			{
+			case ItemPool.ZEPPELIN_TICKET:
+				return !InventoryManager.hasItem( itemId );
+			case ItemPool.SPARE_KIDNEY:
+				// Should check for whether your kidney has been stolen
+				return KoLCharacter.inBadMoon() && !InventoryManager.hasItem( itemId );
+			case ItemPool.FORGED_ID_DOCUMENTS:
+				return !QuestDatabase.isQuestLaterThan( Quest.MACGUFFIN, "step1" );
+			}
+			return true;
 		}
 		else if ( storeId.equals( "chateau" ) )
 		{
@@ -410,36 +445,28 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.equals( "bartlebys" ) )
 		{
-			boolean available;
-			if ( shopName.equals( "Barrrtleby's Barrrgain Books" ) )
-			{
-				available = !KoLCharacter.inBeecore();
-			}
-			else if ( shopName.equals( "Barrrtleby's Barrrgain Books (Bees Hate You)" ) )
-			{
-				available = KoLCharacter.inBeecore();
-			}
-			else
-			{
-				// What is this?
-				return false;
-			}
-
+			boolean available = shopName.equals( NPCStoreDatabase.getStoreName( storeId ) );
 			if ( !available )
 			{
 				return false;
 			}
 
+			if ( itemId == ItemPool.ABRIDGED &&
+			     ( InventoryManager.hasItem( ItemPool.ABRIDGED ) || InventoryManager.hasItem( ItemPool.DICTIONARY ) ) )
+			{
+				return false;
+			}
+
 			String itemName = ItemDatabase.getItemName( itemId );
-			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions()
-				&& !Preferences.getString( "lastPirateEphemera" ).equalsIgnoreCase( itemName ) )
+			if ( Preferences.getInteger( "lastPirateEphemeraReset" ) == KoLCharacter.getAscensions() &&
+			     !Preferences.getString( "lastPirateEphemera" ).equals( itemName ) )
 			{
 				if ( NPCPurchaseRequest.PIRATE_EPHEMERA_PATTERN.matcher( itemName ).matches() )
 				{
 					return false;
 				}
 			}
-			return EquipmentManager.hasOutfit( OutfitPool.SWASHBUCKLING_GETUP ) ||
+			return  EquipmentManager.hasOutfit( OutfitPool.SWASHBUCKLING_GETUP ) ||
 				InventoryManager.hasItem( ItemPool.PIRATE_FLEDGES );
 		}
 		else if ( storeId.equals( "meatsmith" ) )
