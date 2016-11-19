@@ -2483,6 +2483,17 @@ public class GenericRequest
 			RequestLogger.updateDebugLog( text );
 		}
 
+		if ( this.isChatRequest )
+		{
+			return;
+		}
+
+		if ( this.isDescRequest || this.isQuestLogRequest )
+		{
+			ResponseTextParser.externalUpdate( this );
+			return;
+		}
+
 		String urlString = this.getURLString();
 		if ( urlString.startsWith( "charpane.php" ) )
 		{
@@ -2503,10 +2514,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( !this.isChatRequest && !this.isDescRequest && !this.isQuestLogRequest )
-		{
-			EventManager.checkForNewEvents( this.responseText );
-		}
+		EventManager.checkForNewEvents( this.responseText );
 
 		if ( GenericRequest.isRatQuest )
 		{
@@ -2827,24 +2835,13 @@ public class GenericRequest
 
 	public void processResults()
 	{
-		boolean externalUpdate = false;
 		String path = this.getPath();
 
-		if ( this.hasResult && !path.startsWith( "fight.php" ) )
+		if ( ( this.hasResult && !path.startsWith( "fight.php" ) ) ||
+		     path.startsWith( "clan_hall.php" ) ||
+		     path.startsWith( "showclan.php" ) )
 		{
-			externalUpdate = true;
-		}
-		else if ( path.startsWith( "desc_" ) ||
-			  path.startsWith( "clan_hall.php" ) ||
-			  path.startsWith( "showclan.php" )  ||
-			  path.startsWith( "questlog.php" ) )
-		{
-			externalUpdate = true;
-		}
-
-		if ( externalUpdate )
-		{
-			ResponseTextParser.externalUpdate( this.getURLString(), this.responseText );
+			ResponseTextParser.externalUpdate( this );
 		}
 	}
 
