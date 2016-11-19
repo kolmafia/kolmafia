@@ -2356,6 +2356,8 @@ public class ItemPool
 	public static final int SPELUNKER_FORTUNE_USED = 8085;
 	public static final int STILL_BEATING_SPLEEN = 8086;
 	public static final int SCARAB_BEETLE_STATUETTE = 8087;
+	public static final int WICKERBITS = 8098;
+	public static final int BAKELITE_BITS = 8105;
 	public static final int LOVEBUG_PHEROMONES = 8134;
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;

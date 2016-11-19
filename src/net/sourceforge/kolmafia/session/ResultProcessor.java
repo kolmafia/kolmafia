@@ -1348,6 +1348,9 @@ public class ResultProcessor
 		case ItemPool.VOLCOINO:
 		case ItemPool.BACON:
 		case ItemPool.COP_DOLLAR:
+			// Pulverized ascension rewards
+		case ItemPool.WICKERBITS:
+		case ItemPool.BAKELITE_BITS:
 			// BatFellow currencies
 		case ItemPool.INCRIMINATING_EVIDENCE:
 		case ItemPool.DANGEROUS_CHEMICALS:

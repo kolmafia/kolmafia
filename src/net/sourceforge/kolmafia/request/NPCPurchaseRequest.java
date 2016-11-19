@@ -617,6 +617,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "armory" ) )
+		{
+			ArmoryAndLeggeryRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "damachine" ) )
 		{
 			VendingMachineRequest.parseResponse( urlString, responseText );
@@ -1040,6 +1046,11 @@ public class NPCPurchaseRequest
 			}
 
 			// The following are coinmasters
+
+			if ( shopId.equals( "armory" ) )
+			{
+				return ArmoryAndLeggeryRequest.registerRequest( urlString, true );
+			}
 
 			if ( shopId.equals( "damachine" ) )
 			{

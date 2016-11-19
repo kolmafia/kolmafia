@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArmoryRequest;
+import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -170,63 +171,63 @@ public class CoinmastersFrame
 
 	private CardLayoutSelectorPanel selectorPanel = null;
 
-	private CoinmasterPanel dimemasterPanel = null;
-	private CoinmasterPanel quartersmasterPanel = null;
-	private CoinmasterPanel bhhPanel = null;
-	private CoinmasterPanel mrStorePanel = null;
-	private CoinmasterPanel hermitPanel = null;
-	private CoinmasterPanel bigBrotherPanel = null;
-	private CoinmasterPanel arcadePanel = null;
-	private CoinmasterPanel gameShoppePanel = null;
-	private CoinmasterPanel freeSnackPanel = null;
-	private CoinmasterPanel isotopeSmitheryPanel = null;
-	private CoinmasterPanel dollhawkerPanel = null;
-	private CoinmasterPanel lunarLunchPanel = null;
-	private CoinmasterPanel awolPanel = null;
-	private CoinmasterPanel fudgeWandPanel = null;
-	private CoinmasterPanel travelerPanel = null;
-	private CoinmasterPanel neandermallPanel = null;
-	private CoinmasterPanel shoeRepairPanel = null;
-	private CoinmasterPanel applePanel = null;
-	private CoinmasterPanel ninjaPanel = null;
-	private CoinmasterPanel shakeShopPanel = null;
-	private CoinmasterPanel merchTablePanel = null;
-	private CoinmasterPanel shoreGiftShopPanel = null;
-	private CoinmasterPanel trapperPanel = null;
-	private CoinmasterPanel vendingMachinePanel = null;
-	private CoinmasterPanel swaggerShopPanel = null;
-	private CoinmasterPanel nuggletcraftingPanel = null;
-	private CoinmasterPanel terrifiedEagleInnPanel = null;
 	private CoinmasterPanel BURTPanel = null;
-	private CoinmasterPanel fdkolPanel = null;
-	private CoinmasterPanel edshopPanel = null;
-	private CoinmasterPanel fishboneryPanel = null;
-	private CoinmasterPanel warbearBoxPanel = null;
+	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
+	private CoinmasterPanel SHAWARMAPanel = null;
+	private CoinmasterPanel altarOfBonesPanel = null;
+	private CoinmasterPanel applePanel = null;
+	private CoinmasterPanel arcadePanel = null;
+	private CoinmasterPanel armoryPanel = null;
+	private CoinmasterPanel armoryAndLeggeryPanel = null;
+	private CoinmasterPanel awolPanel = null;
+	private CoinmasterPanel baconPanel = null;
+	private CoinmasterPanel batFabricatorPanel = null;
+	private CoinmasterPanel bhhPanel = null;
+	private CoinmasterPanel bigBrotherPanel = null;
 	private CoinmasterPanel boutiquePanel = null;
 	private CoinmasterPanel brogurtPanel = null;
 	private CoinmasterPanel buffJimmyPanel = null;
-	private CoinmasterPanel tacoDanPanel = null;
-	private CoinmasterPanel SHAWARMAPanel = null;
 	private CoinmasterPanel canteenPanel = null;
-	private CoinmasterPanel armoryPanel = null;
-	private CoinmasterPanel dinseyCompanyStorePanel = null;
-	private CoinmasterPanel toxicChemistryPanel = null;
-	private CoinmasterPanel discoGiftCoPanel = null;
-	private CoinmasterPanel walmartPanel = null;
-	private CoinmasterPanel batFabricatorPanel = null;
-	private CoinmasterPanel chemCorpPanel = null;
-	private CoinmasterPanel gotporkOrphanagePanel = null;
-	private CoinmasterPanel gotporkPDPanel = null;
-	private CoinmasterPanel lttPanel = null;
-	private CoinmasterPanel baconPanel = null;
-	private CoinmasterPanel precinctPanel = null;
 	private CoinmasterPanel cashewPanel = null;
-
-	private CoinmasterPanel altarOfBonesPanel = null;
-	private CoinmasterPanel crimboCartelPanel = null;
-	private CoinmasterPanel CRIMBCOGiftShopPanel = null;
+	private CoinmasterPanel chemCorpPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel crimbo14Panel = null;
+	private CoinmasterPanel crimboCartelPanel = null;
+	private CoinmasterPanel dimemasterPanel = null;
+	private CoinmasterPanel dinseyCompanyStorePanel = null;
+	private CoinmasterPanel discoGiftCoPanel = null;
+	private CoinmasterPanel dollhawkerPanel = null;
+	private CoinmasterPanel edshopPanel = null;
+	private CoinmasterPanel fdkolPanel = null;
+	private CoinmasterPanel fishboneryPanel = null;
+	private CoinmasterPanel freeSnackPanel = null;
+	private CoinmasterPanel fudgeWandPanel = null;
+	private CoinmasterPanel gameShoppePanel = null;
+	private CoinmasterPanel gotporkOrphanagePanel = null;
+	private CoinmasterPanel gotporkPDPanel = null;
+	private CoinmasterPanel hermitPanel = null;
+	private CoinmasterPanel isotopeSmitheryPanel = null;
+	private CoinmasterPanel lttPanel = null;
+	private CoinmasterPanel lunarLunchPanel = null;
+	private CoinmasterPanel merchTablePanel = null;
+	private CoinmasterPanel mrStorePanel = null;
+	private CoinmasterPanel neandermallPanel = null;
+	private CoinmasterPanel ninjaPanel = null;
+	private CoinmasterPanel nuggletcraftingPanel = null;
+	private CoinmasterPanel precinctPanel = null;
+	private CoinmasterPanel quartersmasterPanel = null;
+	private CoinmasterPanel shakeShopPanel = null;
+	private CoinmasterPanel shoeRepairPanel = null;
+	private CoinmasterPanel shoreGiftShopPanel = null;
+	private CoinmasterPanel swaggerShopPanel = null;
+	private CoinmasterPanel tacoDanPanel = null;
+	private CoinmasterPanel terrifiedEagleInnPanel = null;
+	private CoinmasterPanel toxicChemistryPanel = null;
+	private CoinmasterPanel trapperPanel = null;
+	private CoinmasterPanel travelerPanel = null;
+	private CoinmasterPanel vendingMachinePanel = null;
+	private CoinmasterPanel walmartPanel = null;
+	private CoinmasterPanel warbearBoxPanel = null;
 
 	public CoinmastersFrame()
 	{
@@ -247,6 +248,11 @@ public class CoinmastersFrame
 		mrStorePanel = new MrStorePanel();
 		panel.add( mrStorePanel );
 		this.selectorPanel.addPanel( mrStorePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		armoryAndLeggeryPanel = new ArmoryAndLeggeryPanel();
+		panel.add( armoryAndLeggeryPanel );
+		this.selectorPanel.addPanel( armoryAndLeggeryPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
 		hermitPanel = new HermitPanel();
@@ -688,6 +694,27 @@ public class CoinmastersFrame
 		public void BToA()
 		{
 			RequestThread.postRequest( new MrStoreRequest( "b_to_a" ) );
+		}
+	}
+
+	public class ArmoryAndLeggeryPanel
+		extends CoinmasterPanel
+	{
+		public ArmoryAndLeggeryPanel()
+		{
+			super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY );
+		}
+
+		@Override
+		public void setTitle( final StringBuffer buffer )
+		{
+			this.standardTitle( buffer );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.get( ItemPool.WICKERBITS ) ) ) );
+			buffer.append( " wickerbits)" );
+			buffer.append( " (" );
+			buffer.append( String.valueOf( InventoryManager.getCount( ItemPool.get( ItemPool.BAKELITE_BITS ) ) ) );
+			buffer.append( " bakelite bits)" );
 		}
 	}
 
@@ -1641,35 +1668,40 @@ public class CoinmastersFrame
 
 		public final void standardTitle( final StringBuffer buffer )
 		{
-			AdventureResult item = this.data.getItem();
-			int count = this.data.availableTokens();
-			String name = ( count != 1 ) ? this.data.getPluralToken() : this.data.getToken();
-			buffer.append( "Coin Masters (" );
-			buffer.append( String.valueOf( count ) );
-			buffer.append( " " );
-			buffer.append( name );
-
-			// Makes no sense to show storage except for real items
-			if ( storageInTitle && item != null )
+			buffer.append( "Coin Masters" );
+			String token = this.data.getToken();
+			if ( token != null )
 			{
-				int count1 = item.getCount( KoLConstants.storage );
-				buffer.append( ", " );
-				buffer.append( String.valueOf( count1 ) );
-				buffer.append( " in storage" );
+				AdventureResult item = this.data.getItem();
+				int count = this.data.availableTokens();
+				String name = ( count != 1 ) ? this.data.getPluralToken() : token;
+				buffer.append( " (" );
+				buffer.append( String.valueOf( count ) );
+				buffer.append( " " );
+				buffer.append( name );
 
-				// Only show pulls if we actually have the item in storage
-				if ( pullsInTitle && count1 > 0 && !KoLCharacter.isHardcore() )
+				// Makes no sense to show storage except for real items
+				if ( storageInTitle && item != null )
 				{
-					int pulls = ConcoctionDatabase.getPullsRemaining();
+					int count1 = item.getCount( KoLConstants.storage );
 					buffer.append( ", " );
-					buffer.append( KoLCharacter.inRonin() ? String.valueOf( pulls ) : "unlimited" );
-					buffer.append( " pull" );
-					buffer.append( pulls != 1 ? "s" : "" );
-					buffer.append( " available" );
-				}
-			}
+					buffer.append( String.valueOf( count1 ) );
+					buffer.append( " in storage" );
 
-			buffer.append( ")" );
+					// Only show pulls if we actually have the item in storage
+					if ( pullsInTitle && count1 > 0 && !KoLCharacter.isHardcore() )
+					{
+						int pulls = ConcoctionDatabase.getPullsRemaining();
+						buffer.append( ", " );
+						buffer.append( KoLCharacter.inRonin() ? String.valueOf( pulls ) : "unlimited" );
+						buffer.append( " pull" );
+						buffer.append( pulls != 1 ? "s" : "" );
+						buffer.append( " available" );
+					}
+				}
+
+				buffer.append( ")" );
+			}
 		}
 
 		public void actionConfirmed()

@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.ArmoryRequest;
+import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.ArtistRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
@@ -881,6 +882,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof ArmoryRequest || isExternal ) && ArmoryRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ArmoryAndLeggeryRequest || isExternal ) && ArmoryAndLeggeryRequest.registerRequest( urlString, false ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

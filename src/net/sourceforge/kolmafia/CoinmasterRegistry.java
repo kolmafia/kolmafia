@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.ArmoryRequest;
+import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.BatFabricatorRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
@@ -101,6 +102,7 @@ public abstract class CoinmasterRegistry
 		AltarOfBonesRequest.ALTAR_OF_BONES,
 		AppleStoreRequest.APPLE_STORE,
 		ArmoryRequest.ARMORY,
+		ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY,
 		AWOLQuartermasterRequest.AWOL,
 		BatFabricatorRequest.BAT_FABRICATOR,
 		BigBrotherRequest.BIG_BROTHER,
@@ -132,6 +134,7 @@ public abstract class CoinmasterRegistry
 		LTTRequest.LTT,
 		LunarLunchRequest.LUNAR_LUNCH,
 		MemeShopRequest.BACON_STORE,
+		MerchTableRequest.MERCH_TABLE,
 		MrStoreRequest.MR_STORE,
 		NeandermallRequest.NEANDERMALL,
 		NinjaStoreRequest.NINJA_STORE,
@@ -153,7 +156,6 @@ public abstract class CoinmasterRegistry
 		WalMartRequest.WALMART,
 		WarbearBoxRequest.WARBEARBOX,
 		YeNeweSouvenirShoppeRequest.SHAKE_SHOP,
-		MerchTableRequest.MERCH_TABLE,
 	};
 
 	public static final String [] MASTERS = new String[ COINMASTERS.length ];

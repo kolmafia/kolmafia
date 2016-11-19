@@ -64,37 +64,36 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class MerchTableRequest
+public class ArmoryAndLeggeryRequest
 	extends CoinMasterRequest
 {
-	public static final String master = "KoL Con 13 Merch Table"; 
+	public static final String master = "Armory & Leggery";
 
 	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getNewList();
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getNewMap();
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows( MerchTableRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getOrMakeRows( ArmoryAndLeggeryRequest.master );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) FDKOL commendation" );
 
-	private static final Pattern MR_A_PATTERN = Pattern.compile( "You have (\\w+) Mr. Accessor(?:y|ies) to trade." );
-	public static final AdventureResult MR_A = ItemPool.get( ItemPool.MR_ACCESSORY, 1 );
+	// Since there are multiple, we need to have a map from itemId to
+	// item/count of currency; an AdventureResult.
+	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<Integer, AdventureResult>();
 
-	private static final Pattern CHRONER_PATTERN = Pattern.compile( "You have (\\w+) Mr. Chroner to trade." );
-	public static final AdventureResult CHRONER = ItemPool.get( ItemPool.CHRONER, 1 );
-
-	public static final CoinmasterData MERCH_TABLE =
+	public static final CoinmasterData ARMORY_AND_LEGGERY =
 		new CoinmasterData(
-			MerchTableRequest.master,
-			"conmerch",
-			MerchTableRequest.class,
-			"Mr. A",
-			"You have no Mr. Accessories to trade",
-			false,
-			MerchTableRequest.MR_A_PATTERN,
-			MerchTableRequest.MR_A,
+			ArmoryAndLeggeryRequest.master,
+			"armory",
+			ArmoryAndLeggeryRequest.class,
 			null,
-			MerchTableRequest.itemRows,
-			"shop.php?whichshop=conmerch",
+			null,
+			false,
+			null,
+			null,
+			null,
+			ArmoryAndLeggeryRequest.itemRows,
+			"shop.php?whichshop=armory",
 			"buyitem",
-			MerchTableRequest.buyItems,
-			MerchTableRequest.buyPrices,
+			ArmoryAndLeggeryRequest.buyItems,
+			ArmoryAndLeggeryRequest.buyPrices,
 			null,
 			null,
 			null,
@@ -111,68 +110,52 @@ public class MerchTableRequest
 			@Override
 			public AdventureResult itemBuyPrice( final int itemId )
 			{
-				return MerchTableRequest.buyCosts.get( IntegerPool.get( itemId ) );
+				return ArmoryAndLeggeryRequest.buyCosts.get( IntegerPool.get( itemId ) );
 			}
 		};
 
-	// Since there are two different currencies, we need to have a map from
-	// itemId to item/count of currency; an AdventureResult.
-	private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<Integer, AdventureResult>();
-
-	public MerchTableRequest()
+	public ArmoryAndLeggeryRequest()
 	{
-		super( MerchTableRequest.MERCH_TABLE );
+		super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY );
 	}
 
-	public MerchTableRequest( final String action )
+	public ArmoryAndLeggeryRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super( MerchTableRequest.MERCH_TABLE, action );
+		super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, attachments );
 	}
 
-	public MerchTableRequest( final boolean buying, final AdventureResult [] attachments )
+	public ArmoryAndLeggeryRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super( MerchTableRequest.MERCH_TABLE, buying, attachments );
+		super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, attachment );
 	}
 
-	public MerchTableRequest( final boolean buying, final AdventureResult attachment )
+	public ArmoryAndLeggeryRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super( MerchTableRequest.MERCH_TABLE, buying, attachment );
-	}
-
-	public MerchTableRequest( final boolean buying, final int itemId, final int quantity )
-	{
-		super( MerchTableRequest.MERCH_TABLE, buying, itemId, quantity );
+		super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY, buying, itemId, quantity );
 	}
 
 	@Override
 	public void processResults()
 	{
-		MerchTableRequest.parseResponse( this.getURLString(), responseText );
+		ArmoryAndLeggeryRequest.parseResponse( this.getURLString(), responseText );
 	}
 
-	// <tr rel="9148"><td valign=center></td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/twitchtatkit.gif" class="hand pop" rel="desc_item.php?whichitem=216403537" onClick='javascript:descitem(216403537)'></td><td valign=center><a onClick='javascript:descitem(216403537)'><b>Twitching Television Tattoo</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/chroner.gif width=30 height=30 onClick='javascript:descitem(783338147)' alt="Chroner" title="Chroner"></td><td><b>1,111</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=conmerch&action=buyitem&quantity=1&whichrow=895&pwd=' value='Buy'></td></tr>
+	// <tr rel="7985"><td valign=center></td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/polyparachute.gif" class=hand onClick='javascript:descitem(973760204)'></td><td valign=center><a onClick='javascript:descitem(973760204)'><b>polyester parachute</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/wickerbits.gif width=30 height=30 onClick='javascript:descitem(134381888)' alt="wickerbits" title="wickerbits"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=armory&action=buyitem&quantity=1&whichrow=804&pwd=' value='Buy'></td></tr>
 
 	private static final Pattern ITEM_PATTERN =
 		Pattern.compile( "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)", Pattern.DOTALL );
-	public static void parseResponse( final String urlString, final String responseText )
+
+	public static void parseResponse( final String location, final String responseText )
 	{
-		if ( !urlString.contains( "whichshop=conmerch" ) )
+		if ( !location.contains( "whichshop=armory" ) )
 		{
 			return;
 		}
 
-		if ( responseText.contains( "That store isn't there anymore." ) )
-		{
-			QuestManager.handleTimeTower( false );
-			return;
-		}
-		
-		QuestManager.handleTimeTower( true );
-
-		// Learn new items by simply visiting the Merch Table
+		// Learn new items by simply visiting the Armory & Leggery
 		// Refresh the Coin Master inventory every time we visit.
 
-		CoinmasterData data = MerchTableRequest.MERCH_TABLE;
+		CoinmasterData data = ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY;
 		List<AdventureResult> items = new ArrayList<AdventureResult>();
 		Map<Integer, AdventureResult> costs = new TreeMap<Integer, AdventureResult>();
 		Map<Integer, Integer> rows = new TreeMap<Integer, Integer>();
@@ -188,6 +171,11 @@ public class MerchTableRequest
 			int price = StringUtilities.parseInt( matcher.group(5) );
 			int row = StringUtilities.parseInt( matcher.group(6) );
 
+			if ( currency.equals( "Meat" ) )
+			{
+				continue;
+			}
+
 			String match = ItemDatabase.getItemDataName( itemId );
 			if ( match == null || !match.equals( itemName ) )
 			{
@@ -201,20 +189,20 @@ public class MerchTableRequest
 			rows.put( iitemId, IntegerPool.get( row ) );
 		}
 
-		MerchTableRequest.buyItems.clear();
-		MerchTableRequest.buyItems.addAll( items );
-		MerchTableRequest.buyCosts.clear();
-		MerchTableRequest.buyCosts.putAll( costs );
-		MerchTableRequest.itemRows.clear();
-		MerchTableRequest.itemRows.putAll( rows );
+		ArmoryAndLeggeryRequest.buyItems.clear();
+		ArmoryAndLeggeryRequest.buyItems.addAll( items );
+		ArmoryAndLeggeryRequest.buyCosts.clear();
+		ArmoryAndLeggeryRequest.buyCosts.putAll( costs );
+		ArmoryAndLeggeryRequest.itemRows.clear();
+		ArmoryAndLeggeryRequest.itemRows.putAll( rows );
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
 
-		String action = GenericRequest.getAction( urlString );
+		String action = GenericRequest.getAction( location );
 		if ( action != null )
 		{
-			CoinMasterRequest.parseResponse( data, urlString, responseText );
+			CoinMasterRequest.parseResponse( data, location, responseText );
 			return;
 		}
 
@@ -222,23 +210,34 @@ public class MerchTableRequest
 		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
-	public static String accessible()
+	public static final boolean registerRequest( final String urlString, final boolean noMeat )
 	{
-		if ( !Preferences.getBoolean( "timeTowerAvailable" ) )
-		{
-			return "You can't get to the KoL Con 13 Merch Table";
-		}
-		return null;
-	}
-
-	public static boolean registerRequest( final String urlString )
-	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=conmerch" ) )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=armory" ) )
 		{
 			return false;
 		}
 
-		CoinmasterData data = MerchTableRequest.MERCH_TABLE;
+		Matcher m = GenericRequest.WHICHROW_PATTERN.matcher( urlString );
+		if ( !m.find() )
+		{
+			// Just a visit
+			return true;
+		}
+
+		CoinmasterData data = ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY;
+		int itemId = CoinMasterRequest.extractItemId( data, urlString );
+
+		if ( itemId == -1 )
+		{
+			// Presumably this is a purchase for Meat.
+			// If we've already checked Meat, this is an unknown item
+			if ( noMeat )
+			{
+				return false;
+			}
+			return NPCPurchaseRequest.registerShopRequest( urlString, true );
+		}
+
 		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 }
