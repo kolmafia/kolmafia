@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -57,6 +57,7 @@ public class BanishManager
 	private enum Reset
 	{
 		TURN_RESET,
+		TURN_ROLLOVER_RESET,
 		ROLLOVER_RESET,
 		AVATAR_RESET,
 		NEVER_RESET,
@@ -69,7 +70,7 @@ public class BanishManager
 		final int queueSize;
 		final boolean isTurnFree;
 		final Reset resetType;
-		
+
 		public Banisher( final String name, final int duration, final int queueSize, final boolean isTurnFree, final Reset resetType )
 		{
 			this.name = name;
@@ -78,24 +79,24 @@ public class BanishManager
 			this.isTurnFree = isTurnFree;
 			this.resetType = resetType;
 		}
-		
+
 		public final String getName()
 		{
 			return this.name;
 		}
-		
+
 		public final int getDuration()
 		{
 			// returns actual duration of banish after the turn used, which varies depending if that turn is free
 			int turnCost = this.isTurnFree ? 0 : 1;
 			return this.duration - turnCost;
 		}
-		
+
 		public final int getQueueSize()
 		{
 			return this.queueSize;
 		}
-		
+
 		public final boolean isTurnFree()
 		{
 			return this.isTurnFree;
@@ -106,7 +107,7 @@ public class BanishManager
 			return this.resetType;
 		}
 	}
-	
+
 	// Format is name of banisher, duration of banisher, how many monsters can be banished at once from this source,
 	// whether banish is turn free, type of reset.
 	private static final Banisher[] BANISHER = new Banisher[]
@@ -197,7 +198,8 @@ public class BanishManager
 			int turnBanished = StringUtilities.parseInt( tokens.nextToken() );
 			int banishDuration = BanishManager.findBanisher( banishName ).getDuration();
 			Reset resetType = BanishManager.findBanisher( banishName ).getResetType();
-			if ( resetType != Reset.TURN_RESET || turnBanished + banishDuration >= KoLCharacter.getCurrentRun() )
+			if ( ( resetType != Reset.TURN_RESET && resetType != Reset.TURN_ROLLOVER_RESET ) || 
+			     ( turnBanished + banishDuration >= KoLCharacter.getCurrentRun() ) )
 			{
 				BanishManager.addBanishedMonster( monsterName, banishName, turnBanished );
 			}
@@ -237,8 +239,9 @@ public class BanishManager
 		while ( it.hasNext() )
 		{
 			BanishedMonster current = it.next();
-			
-			if ( BanishManager.findBanisher( current.getBanishName() ).getResetType() == Reset.ROLLOVER_RESET )
+
+			Reset type = BanishManager.findBanisher( current.getBanishName() ).getResetType();
+			if ( type == Reset.ROLLOVER_RESET || type == Reset.TURN_ROLLOVER_RESET )
 			{
 				it.remove();
 			}
@@ -296,7 +299,8 @@ public class BanishManager
 			BanishedMonster current = it.next();
 			int banisherDuration = BanishManager.findBanisher( current.getBanishName() ).getDuration();
 			Reset resetType = BanishManager.findBanisher( current.getBanishName() ).getResetType();
-			if ( resetType == Reset.TURN_RESET && current.getTurnBanished() + banisherDuration <= KoLCharacter.getCurrentRun() )
+			if ( ( resetType == Reset.TURN_RESET || resetType == Reset.TURN_ROLLOVER_RESET ) &&
+			     ( current.getTurnBanished() + banisherDuration <= KoLCharacter.getCurrentRun() ) )
 			{
 				it.remove();
 			}
@@ -543,6 +547,10 @@ public class BanishManager
 				else if ( resetType == Reset.ROLLOVER_RESET )
 				{
 					banishData[ banish ][ 3 ] = "Until Rollover";
+				}
+				else if ( resetType == Reset.TURN_ROLLOVER_RESET )
+				{
+					banishData[ banish ][ 3 ] = String.valueOf( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() ) + "or Until Rollover";
 				}
 				else if ( resetType == Reset.AVATAR_RESET )
 				{
