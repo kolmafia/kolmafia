@@ -452,7 +452,9 @@ public class NPCStoreDatabase
 			}
 
 			if ( itemId == ItemPool.ABRIDGED &&
-			     ( InventoryManager.hasItem( ItemPool.ABRIDGED ) || InventoryManager.hasItem( ItemPool.DICTIONARY ) ) )
+			     ( InventoryManager.hasItem( ItemPool.ABRIDGED ) ||
+			       InventoryManager.hasItem( ItemPool.DICTIONARY ) ||
+			       QuestDatabase.isQuestFinished( Quest.LOL ) ) )
 			{
 				return false;
 			}
