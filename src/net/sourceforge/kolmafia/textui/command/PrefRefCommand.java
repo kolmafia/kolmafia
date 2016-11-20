@@ -126,11 +126,11 @@ public class PrefRefCommand
 				{
 					output.append( "<tr><td>" );
 					output.append( pref );
-					output.append( "</td><td>" );
+					output.append( "</td><td><p>" );
 					output.append( globalPrefs.get( pref ) );
-					output.append( "</td><td>" );
+					output.append( "</p></td><td><p>" );
 					output.append( globalDefs.containsKey( pref ) ? globalDefs.get( pref ) : "N/A" );
-					output.append( "</td><td>" );
+					output.append( "</p></td><td>" );
 					output.append( "global" );
 					output.append( "</td></tr>" );
 				}
@@ -151,11 +151,11 @@ public class PrefRefCommand
 				{
 					output.append( "<tr><td>" );
 					output.append( pref );
-					output.append( "</td><td>" );
+					output.append( "</td><td><p>" );
 					output.append( userPrefs.get( pref ) );
-					output.append( "</td><td>" );
+					output.append( "</p></td><td><p>" );
 					output.append( userDefs.containsKey( pref ) ? userDefs.get( pref ) : "N/A" );
-					output.append( "</td><td>" );
+					output.append( "</p></td><td>" );
 					output.append( "user" );
 					output.append( "</td></tr>" );
 				}
