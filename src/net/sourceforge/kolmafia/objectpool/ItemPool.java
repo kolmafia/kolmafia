@@ -542,6 +542,8 @@ public class ItemPool
 	public static final int SILVER_SHRIMP_FORK = 1972;
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int RUBBER_WWTNSD_BRACELET = 1994;
+	public static final int PATCHOULI_OIL_BOMB = 2040;
+	public static final int EXPLODING_HACKY_SACK = 2042;
 	public static final int MACGUFFIN_DIARY = 2044;
 	public static final int BROKEN_WINGS = 2050;
 	public static final int SUNKEN_EYES = 2051;
@@ -549,6 +551,7 @@ public class ItemPool
 	public static final int BLACKBERRY = 2063;
 	public static final int FORGED_ID_DOCUMENTS = 2064;
 	public static final int PADL_PHONE = 2065;
+	public static final int TEQUILA_GRENADE = 2068;
 	public static final int NOVELTY_BUTTON = 2072;
 	public static final int MAKESHIFT_TURBAN = 2079;
 	public static final int MAKESHIFT_CAPE = 2080;
@@ -627,6 +630,7 @@ public class ItemPool
 	public static final int COMMUNICATIONS_WINDCHIMES = 2354;
 	public static final int ZIM_MERMANS_GUITAR = 2364;
 	public static final int FILTHY_POULTICE = 2369;
+	public static final int MOLOTOV_COCKTAIL_COCKTAIL = 2400;
 	public static final int GAUZE_GARTER = 2402;
 	public static final int GUNPOWDER = 2403;
 	public static final int JAM_BAND_FLYERS = 2404;

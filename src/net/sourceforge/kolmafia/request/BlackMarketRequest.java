@@ -45,7 +45,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -86,7 +89,19 @@ public class BlackMarketRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.ZEPPELIN_TICKET:
+					return InventoryManager.getCount( itemId ) == 0;
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public BlackMarketRequest()
 	{

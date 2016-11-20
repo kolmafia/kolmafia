@@ -46,10 +46,13 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -91,9 +94,20 @@ public class DimemasterRequest
 			null,
 			null,
 			true
-			);
-
-	
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.PATCHOULI_OIL_BOMB:
+				case ItemPool.EXPLODING_HACKY_SACK:
+					return Preferences.getString( "sidequestLighthouseCompleted" ).equals( "hippy" );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	static
 	{

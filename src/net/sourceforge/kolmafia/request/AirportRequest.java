@@ -75,7 +75,7 @@ public class AirportRequest
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
-			//KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
+			// KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
 			return;
 		}
 

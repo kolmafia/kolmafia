@@ -65,7 +65,7 @@ public class GotporkPDRequest
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) incriminating evidence" );
 	public static final AdventureResult COIN = ItemPool.get( ItemPool.INCRIMINATING_EVIDENCE, 1 );
 	public static final CoinmasterData GOTPORK_PD =
-		new GotporkPDCoinmasterData(
+		new CoinmasterData(
 			GotporkPDRequest.master,
 			"Gotpork P. D.",
 			GotporkPDRequest.class,
@@ -91,7 +91,25 @@ public class GotporkPDRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public AdventureResult itemBuyPrice( final int itemId )
+			{
+				int price = GotporkPDRequest.buyPrices.get( IntegerPool.get( itemId ) );
+				if ( price == 1 )
+				{
+					return GotporkPDRequest.COIN;
+				}
+				// price increased by 3 each time you buy one
+				int count = InventoryManager.getCount( itemId );
+				if ( count > 0 )
+				{
+					price = 3 * ( count + 1 );
+				}
+				return GotporkPDRequest.COIN.getInstance( price );
+			}
+		};
 
 	public GotporkPDRequest()
 	{
@@ -158,64 +176,5 @@ public class GotporkPDRequest
 		}
 		// *** Only accessible if our current zone is Downtown
 		return null;
-	}
-
-	private static class GotporkPDCoinmasterData
-		extends CoinmasterData
-	{
-		public GotporkPDCoinmasterData( 
-			final String master,
-			final String nickname,
-			final Class requestClass,
-			final String token,
-			final String tokenTest,
-			final boolean positiveTest,
-			final Pattern tokenPattern,
-			final AdventureResult item,
-			final String property,
-			final Map<Integer, Integer> itemRows,
-			final String buyURL,
-			final String buyAction,
-			final LockableListModel<AdventureResult> buyItems,
-			final Map<Integer, Integer> buyPrices,
-			final String sellURL,
-			final String sellAction,
-			final LockableListModel<AdventureResult> sellItems,
-			final Map<Integer, Integer> sellPrices,
-			final String itemField,
-			final Pattern itemPattern,
-			final String countField,
-			final Pattern countPattern,
-			final String storageAction,
-			final String tradeAllAction,
-			final boolean canPurchase )
-		{
-			super( master, nickname, requestClass,
-			       token, tokenTest, positiveTest, tokenPattern,
-			       item, property, itemRows,
-			       buyURL, buyAction, buyItems, buyPrices,
-			       sellURL, sellAction, sellItems, sellPrices,
-			       itemField, itemPattern,
-			       countField, countPattern,
-			       storageAction, tradeAllAction,
-			       canPurchase );
-		}
-
-		@Override
-		public AdventureResult itemBuyPrice( final int itemId )
-		{
-			int price = GotporkPDRequest.buyPrices.get( IntegerPool.get( itemId ) );
-			if ( price == 1 )
-			{
-				return GotporkPDRequest.COIN;
-			}
-			// price increased by 3 each time you buy one
-			int count = InventoryManager.getCount( itemId );
-			if ( count > 0 )
-			{
-				price = 3 * ( count + 1 );
-			}
-			return GotporkPDRequest.COIN.getInstance( price );
-		}
 	}
 }

@@ -524,6 +524,9 @@ user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
 user	hasSushiMat	false
+user	hasTalesOfDread	false
+user	hasBrassDreadFlask	false
+user	hasSilverDreadFlask	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0

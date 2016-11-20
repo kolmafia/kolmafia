@@ -46,10 +46,13 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -91,8 +94,20 @@ public class QuartersmasterRequest
 			null,
 			null,
 			true
-			);
-
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.TEQUILA_GRENADE:
+				case ItemPool.MOLOTOV_COCKTAIL_COCKTAIL:
+					return Preferences.getString( "sidequestLighthouseCompleted" ).equals( "fratboy" );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	static
 	{

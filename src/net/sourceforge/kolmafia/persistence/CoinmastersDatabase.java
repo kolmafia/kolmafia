@@ -173,29 +173,12 @@ public class CoinmastersDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length < 2 )
-			{
-				continue;
-			}
-
-			String master = data[ 0 ];
-
-			// Special categories
-			if ( data.length == 2 )
-			{
-				String rname = data[ 1 ];
-				int itemId = ItemDatabase.getItemId( rname );
-				AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
-				LockableListModel<AdventureResult> list = CoinmastersDatabase.getOrMakeList( master, CoinmastersDatabase.items );
-				list.add( item );
-				continue;
-			}
-
 			if ( data.length < 4 )
 			{
 				continue;
 			}
 
+			String master = data[ 0 ];
 			String type = data[ 1 ];
 			int price = StringUtilities.parseInt( data[ 2 ] );
 			Integer iprice = IntegerPool.get( price );
@@ -254,6 +237,9 @@ public class CoinmastersDatabase
 		switch ( itemId )
 		{
 		case ItemPool.ZEPPELIN_TICKET:
+		case ItemPool.TALES_OF_DREAD:
+		case ItemPool.BRASS_DREAD_FLASK:
+		case ItemPool.SILVER_DREAD_FLASK:
 			return 1;
 		}
 		return PurchaseRequest.MAX_QUANTITY;

@@ -586,7 +586,7 @@ public class CoinmastersFrame
 	{
 		public DimemasterPanel()
 		{
-			super( DimemasterRequest.HIPPY, "hippy");
+			super( DimemasterRequest.HIPPY);
 		}
 	}
 
@@ -595,7 +595,7 @@ public class CoinmastersFrame
 	{
 		public QuartersmasterPanel()
 		{
-			super( QuartersmasterRequest.FRATBOY, "fratboy" );
+			super( QuartersmasterRequest.FRATBOY );
 		}
 	}
 
@@ -713,15 +713,6 @@ public class CoinmastersFrame
 		}
 
 		@Override
-		public final void update()
-		{
-			// Update title if tokens changed
-			super.update();
-			// Remove item if no longer available
-			this.buyPanel.filterItems();
-		}
-
-		@Override
 		public void setTitle( final StringBuffer buffer )
 		{
 			this.standardTitle( buffer );
@@ -742,29 +733,6 @@ public class CoinmastersFrame
 		public BlackMarketPanel()
 		{
 			super( BlackMarketRequest.BLACK_MARKET );
-		}
-
-		@Override
-		public final void update()
-		{
-			// Update title if tokens changed
-			super.update();
-			// Remove item if no longer available
-			this.buyPanel.filterItems();
-		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			int itemId = item.getItemId();
-			switch ( itemId )
-			{
-			case ItemPool.ZEPPELIN_TICKET:
-				// Something similar for FORGED_ID_DOCUMENTS
-				// and SPARE_KIDNEY but those are Meat purchases
-				return InventoryManager.getCount( item ) == 0;
-			}
-			return true;
 		}
 	}
 
@@ -811,43 +779,6 @@ public class CoinmastersFrame
 			PreferenceListenerRegistry.registerPreferenceListener( "ROMOfOptimalityAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "schoolOfHardKnocksDiplomaAvailable", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "essenceOfAnnoyanceAvailable", this );
-		}
-
-		@Override
-		public final void update()
-		{
-			// Update title if tokens changed
-			super.update();
-			// Remove item if no longer available
-			this.buyPanel.filterItems();
-		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			int itemId = item.getItemId();
-			switch ( itemId )
-			{
-			case ItemPool.BLACK_BARTS_BOOTY:
-				return Preferences.getBoolean( "blackBartsBootyAvailable" );
-			case ItemPool.HOLIDAY_FUN_BOOK:
-				return Preferences.getBoolean( "holidayHalsBookAvailable" );
-			case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-				return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
-			case ItemPool.MAP_TO_KOKOMO:
-				return Preferences.getBoolean( "mapToKokomoAvailable" );
-			case ItemPool.ESSENCE_OF_BEAR:
-				return Preferences.getBoolean( "essenceOfBearAvailable" );
-			case ItemPool.MANUAL_OF_NUMBEROLOGY:
-				return Preferences.getBoolean( "manualOfNumberologyAvailable" );
-			case ItemPool.ROM_OF_OPTIMALITY:
-				return Preferences.getBoolean( "ROMOfOptimalityAvailable" );
-			case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-				return Preferences.getBoolean( "schoolOfHardKnocksDiplomaAvailable" );
-			case ItemPool.ESSENCE_OF_ANNOYANCE:
-				return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
-			}
-			return true;
 		}
 	}
 
@@ -993,28 +924,6 @@ public class CoinmastersFrame
 		{
 			super( BigBrotherRequest.BIG_BROTHER );
 		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			int itemId = item.getItemId();
-			switch ( itemId )
-			{
-			case ItemPool.MADNESS_REEF_MAP:
-			case ItemPool.MARINARA_TRENCH_MAP:
-			case ItemPool.ANEMONE_MINE_MAP:
-			case ItemPool.DIVE_BAR_MAP:
-			case ItemPool.SKATE_PARK_MAP:
-				return !ItemDatabase.haveVirtualItem( itemId );
-			case ItemPool.DAMP_OLD_BOOT:
-				return !Preferences.getBoolean( "dampOldBootPurchased" );
-			case ItemPool.BLACK_GLASS:
-				return BigBrotherRequest.BLACK_GLASS.getCount( KoLConstants.inventory ) == 0;
-			case ItemPool.FOLDER_19:
-				return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
-			}
-			return true;
-		}
 	}
 
 	private class Crimbo11Panel
@@ -1153,26 +1062,7 @@ public class CoinmastersFrame
 		{
 			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
-			this.buyPanel.filterItems();
-			// Update title if tokens changed
 			super.update();
-		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			if ( !CoinmastersFrame.conditionalItems.contains( item ) )
-			{
-				return true;
-			}
-
-			int itemId = item.getItemId();
-			if ( itemId == ItemPool.FOLDER_14 )
-			{
-				// Jackass Plumber folder
-				return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
-			}
-			return !Preferences.getBoolean( "lockedItem" + itemId );
 		}
 
 		@Override
@@ -1503,6 +1393,22 @@ public class CoinmastersFrame
 		public TerrifiedEagleInnPanel()
 		{
 			super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN );
+			PreferenceListenerRegistry.registerPreferenceListener( "hasTalesOfDread", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "hasBrassDreadFlask", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "hasSilverDreadFlask", this );
+		}
+
+		@Override
+		public int buyMax( final AdventureResult item, final int max )
+		{
+			switch ( item.getItemId() )
+			{
+			case ItemPool.TALES_OF_DREAD:
+			case ItemPool.BRASS_DREAD_FLASK:
+			case ItemPool.SILVER_DREAD_FLASK:
+				return 1;
+			}
+			return max;
 		}
 	}
 
@@ -1538,19 +1444,9 @@ public class CoinmastersFrame
 		}
 
 		@Override
-		public final void update()
-		{
-			// Update title if tokens changed
-			super.update();
-			// Remove item if no longer available
-			this.buyPanel.filterItems();
-		}
-
-		@Override
 		public int buyMax( final AdventureResult item, final int max )
 		{
-			int itemId = item.getItemId();
-			switch ( itemId )
+			switch ( item.getItemId() )
 			{
 			case ItemPool.VIRAL_VIDEO:
 			case ItemPool.PLUS_ONE:
@@ -1560,26 +1456,6 @@ public class CoinmastersFrame
 				return 1;
 			}
 			return max;
-		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			int itemId = item.getItemId();
-			switch ( itemId )
-			{
-			case ItemPool.VIRAL_VIDEO:
-				return !Preferences.getBoolean( "_internetViralVideoBought" );
-			case ItemPool.PLUS_ONE:
-				return !Preferences.getBoolean( "_internetPlusOneBought" );
-			case ItemPool.GALLON_OF_MILK:
-				return !Preferences.getBoolean( "_internetGallonOfMilkBought" );
-			case ItemPool.PRINT_SCREEN:
-				return !Preferences.getBoolean( "_internetPrintScreenButtonBought" );
-			case ItemPool.DAILY_DUNGEON_MALWARE:
-				return !Preferences.getBoolean( "_internetDailyDungeonMalwareBought" );
-			}
-			return true;
 		}
 	}
 
@@ -1595,32 +1471,13 @@ public class CoinmastersFrame
 	private abstract class WarMasterPanel
 		extends CoinmasterPanel
 	{
-		String side;
-
-		public WarMasterPanel( CoinmasterData data, String side )
+		public WarMasterPanel( CoinmasterData data )
 		{
 			super( data );
-			this.side = side;
 			this.buyPanel.filterItems();
 			NamedListenerRegistry.registerNamedListener( "(outfit)", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "warProgress", this );
 			PreferenceListenerRegistry.registerPreferenceListener( "sidequestLighthouseCompleted", this );
-		}
-
-		@Override
-		public void update()
-		{
-			// Update title if tokens changed
-			super.update();
-			// Add items if lighthouse now completed
-			this.buyPanel.filterItems();
-		}
-
-		@Override
-		public boolean canBuy( AdventureResult item )
-		{
-			return  !CoinmastersFrame.conditionalItems.contains( item ) ||
-				Preferences.getString( "sidequestLighthouseCompleted" ).equals( this.side );
 		}
 
 		@Override
@@ -1689,6 +1546,10 @@ public class CoinmastersFrame
 		{
 			// (coinmaster) is fired when tokens change
 			this.setTitle();
+			if ( this.buyPanel != null )
+			{
+				this.buyPanel.filterItems();
+			}
 		}
 
 		public CoinMasterRequest getRequest()
@@ -1943,9 +1804,9 @@ public class CoinmastersFrame
 			return desiredItems;
 		}
 
-		public boolean canBuy( AdventureResult item )
+		public boolean canBuyItem( AdventureResult item )
 		{
-			return true;
+			return this.data.canBuyItem( item.getItemId() );
 		}
 
 		public class SellPanel
@@ -2200,7 +2061,7 @@ public class CoinmastersFrame
 						return false;
 					}
 					AdventureResult ar = (AdventureResult)element;
-					return  CoinmasterPanel.this.canBuy( ar ) &&
+					return  CoinmasterPanel.this.canBuyItem( ar ) &&
 						super.isVisible( element );
 				}
 			}
