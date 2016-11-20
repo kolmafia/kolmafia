@@ -1374,7 +1374,7 @@ public class ResultProcessor
 
 		case ItemPool.BLACK_BARTS_BOOTY:
 			// Whether you just got Black Bart's booty or just used
-			// it to get the skill, you ain't never gettin' another.
+			// it to get the skill, you ain't gettin' another this season.
 			Preferences.setBoolean( "blackBartsBootyAvailable", false );
 			break;
 
@@ -3042,6 +3042,17 @@ public class ResultProcessor
 			QuestDatabase.setQuestProgress( Quest.ORACLE, "step1" );
 			break;
 
+		case ItemPool.TALES_OF_DREAD:
+			Preferences.setBoolean( "hasTalesOfDread", true );
+			break;
+
+		case ItemPool.BRASS_DREAD_FLASK:
+			Preferences.setBoolean( "hasBrassDreadFlask", true );
+			break;
+
+		case ItemPool.SILVER_DREAD_FLASK:
+			Preferences.setBoolean( "hasSilverDreadFlask", true );
+			break;
 		}
 
 		// Gaining items can achieve goals.

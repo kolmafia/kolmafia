@@ -42,6 +42,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -49,6 +50,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -89,7 +92,25 @@ public class TicketCounterRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.FOLDER_14:
+					return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
+				case ItemPool.SINISTER_DEMON_MASK:
+				case ItemPool.CHAMPION_BELT:
+				case ItemPool.SPACE_TRIP_HEADPHONES:
+				case ItemPool.DUNGEON_FIST_GAUNTLET:
+				case ItemPool.METEOID_ICE_BEAM:
+					return !Preferences.getBoolean( "lockedItem" + itemId );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public TicketCounterRequest()
 	{

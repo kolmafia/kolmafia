@@ -340,7 +340,8 @@ public class CoinMasterRequest
 		String sellURL = data.getSellURL();
 		if ( buy != null && action.equals( buy ) &&
 		     ( buyURL == null || shopId == null || buyURL.endsWith( shopId ) ) &&
-		     !responseText.contains( "You don't have enough" ) )
+		     !responseText.contains( "You don't have enough" ) &&
+		     !responseText.contains( "Huh?" ))
 		{
 			CoinMasterRequest.completePurchase( data, urlString );
 		}

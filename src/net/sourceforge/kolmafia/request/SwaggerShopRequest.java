@@ -121,6 +121,33 @@ public class SwaggerShopRequest
 
 				return super.getBuyPrice( itemId );
 			}
+
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.BLACK_BARTS_BOOTY:
+					return Preferences.getBoolean( "blackBartsBootyAvailable" );
+				case ItemPool.HOLIDAY_FUN_BOOK:
+					return Preferences.getBoolean( "holidayHalsBookAvailable" );
+				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+					return Preferences.getBoolean( "antagonisticSnowmanKitAvailable" );
+				case ItemPool.MAP_TO_KOKOMO:
+					return Preferences.getBoolean( "mapToKokomoAvailable" );
+				case ItemPool.ESSENCE_OF_BEAR:
+					return Preferences.getBoolean( "essenceOfBearAvailable" );
+				case ItemPool.MANUAL_OF_NUMBEROLOGY:
+					return Preferences.getBoolean( "manualOfNumberologyAvailable" );
+				case ItemPool.ROM_OF_OPTIMALITY:
+					return Preferences.getBoolean( "ROMOfOptimalityAvailable" );
+				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+					return Preferences.getBoolean( "schoolOfHardKnocksDiplomaAvailable" );
+				case ItemPool.ESSENCE_OF_ANNOYANCE:
+					return Preferences.getBoolean( "essenceOfAnnoyanceAvailable" );
+				}
+				return super.canBuyItem( itemId );
+			}
 		};
 
 	static

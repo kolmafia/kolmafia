@@ -50,6 +50,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TerrifiedEagleInnRequest
@@ -89,7 +91,23 @@ public class TerrifiedEagleInnRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.TALES_OF_DREAD:
+					return !Preferences.getBoolean( "hasTalesOfDread" );
+				case ItemPool.BRASS_DREAD_FLASK:
+					return !Preferences.getBoolean( "hasBrassDreadFlask" );
+				case ItemPool.SILVER_DREAD_FLASK:
+					return !Preferences.getBoolean( "hasSilverDreadFlask" );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public TerrifiedEagleInnRequest()
 	{

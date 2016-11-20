@@ -66,7 +66,7 @@ public class BatFabricatorRequest
 	public static final AdventureResult EXPLOSIVES = ItemPool.get( ItemPool.HIGH_GRADE_EXPLOSIVES, 1 );
 
 	public static final CoinmasterData BAT_FABRICATOR =
-		new BatFabricatorCoinmasterData(
+		new CoinmasterData(
 			BatFabricatorRequest.master,
 			"Bat-Fabricator",
 			BatFabricatorRequest.class,
@@ -92,7 +92,24 @@ public class BatFabricatorRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public AdventureResult itemBuyPrice( final int itemId )
+			{
+				int cost = BatManager.hasUpgrade( BatManager.IMPROVED_3D_BAT_PRINTER ) ? 2 : 3;
+				switch ( itemId )
+				{
+				case ItemPool.BAT_OOMERANG:
+					return BatFabricatorRequest.METAL.getInstance( cost );
+				case ItemPool.BAT_JUTE:
+					return BatFabricatorRequest.FIBERS.getInstance( cost );
+				case ItemPool.BAT_O_MITE:
+					return BatFabricatorRequest.EXPLOSIVES.getInstance( cost );
+				}
+				return null;
+			}
+		};
 
 	public BatFabricatorRequest()
 	{
@@ -159,63 +176,5 @@ public class BatFabricatorRequest
 		}
 		// *** Only accessible if our current zone is Bat-Cave
 		return null;
-	}
-
-	private static class BatFabricatorCoinmasterData
-		extends CoinmasterData
-	{
-		public BatFabricatorCoinmasterData( 
-			final String master,
-			final String nickname,
-			final Class requestClass,
-			final String token,
-			final String tokenTest,
-			final boolean positiveTest,
-			final Pattern tokenPattern,
-			final AdventureResult item,
-			final String property,
-			final Map<Integer, Integer> itemRows,
-			final String buyURL,
-			final String buyAction,
-			final LockableListModel<AdventureResult> buyItems,
-			final Map<Integer, Integer> buyPrices,
-			final String sellURL,
-			final String sellAction,
-			final LockableListModel<AdventureResult> sellItems,
-			final Map<Integer, Integer> sellPrices,
-			final String itemField,
-			final Pattern itemPattern,
-			final String countField,
-			final Pattern countPattern,
-			final String storageAction,
-			final String tradeAllAction,
-			final boolean canPurchase )
-		{
-			super( master, nickname, requestClass,
-			       token, tokenTest, positiveTest, tokenPattern,
-			       item, property, itemRows,
-			       buyURL, buyAction, buyItems, buyPrices,
-			       sellURL, sellAction, sellItems, sellPrices,
-			       itemField, itemPattern,
-			       countField, countPattern,
-			       storageAction, tradeAllAction,
-			       canPurchase );
-		}
-
-		@Override
-		public AdventureResult itemBuyPrice( final int itemId )
-		{
-			int cost = BatManager.hasUpgrade( BatManager.IMPROVED_3D_BAT_PRINTER ) ? 2 : 3;
-			switch ( itemId )
-			{
-			case ItemPool.BAT_OOMERANG:
-				return BatFabricatorRequest.METAL.getInstance( cost );
-			case ItemPool.BAT_JUTE:
-				return BatFabricatorRequest.FIBERS.getInstance( cost );
-			case ItemPool.BAT_O_MITE:
-				return BatFabricatorRequest.EXPLOSIVES.getInstance( cost );
-			}
-			return null;
-		}
 	}
 }

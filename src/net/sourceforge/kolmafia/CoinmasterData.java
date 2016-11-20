@@ -331,7 +331,7 @@ public class CoinmasterData
 		return this.buyPrices;
 	}
 
-	public final boolean canBuyItem( final int itemId )
+	public boolean canBuyItem( final int itemId )
 	{
 		if ( this.buyItems == null )
 		{

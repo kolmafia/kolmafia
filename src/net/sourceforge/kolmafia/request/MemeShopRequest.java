@@ -89,6 +89,25 @@ public class MemeShopRequest
 			)
 		{
 			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.VIRAL_VIDEO:
+					return !Preferences.getBoolean( "_internetViralVideoBought" );
+				case ItemPool.PLUS_ONE:
+					return !Preferences.getBoolean( "_internetPlusOneBought" );
+				case ItemPool.GALLON_OF_MILK:
+					return !Preferences.getBoolean( "_internetGallonOfMilkBought" );
+				case ItemPool.PRINT_SCREEN:
+					return !Preferences.getBoolean( "_internetPrintScreenButtonBought" );
+				case ItemPool.DAILY_DUNGEON_MALWARE:
+					return !Preferences.getBoolean( "_internetDailyDungeonMalwareBought" );
+				}
+				return super.canBuyItem( itemId );
+			}
+
+			@Override
 			public void purchaseItem( AdventureResult item, boolean storage )
 			{
 				int itemId = item.getItemId();

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -50,9 +50,11 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class BigBrotherRequest
@@ -93,7 +95,29 @@ public class BigBrotherRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.MADNESS_REEF_MAP:
+				case ItemPool.MARINARA_TRENCH_MAP:
+				case ItemPool.ANEMONE_MINE_MAP:
+				case ItemPool.DIVE_BAR_MAP:
+				case ItemPool.SKATE_PARK_MAP:
+					return !ItemDatabase.haveVirtualItem( itemId );
+				case ItemPool.DAMP_OLD_BOOT:
+					return !Preferences.getBoolean( "dampOldBootPurchased" );
+				case ItemPool.BLACK_GLASS:
+					return BigBrotherRequest.BLACK_GLASS.getCount( KoLConstants.inventory ) == 0;
+				case ItemPool.FOLDER_19:
+					return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public static final AdventureResult AERATED_DIVING_HELMET = ItemPool.get( ItemPool.AERATED_DIVING_HELMET, 1 );
 	public static final AdventureResult SCUBA_GEAR = ItemPool.get( ItemPool.SCUBA_GEAR, 1 );
