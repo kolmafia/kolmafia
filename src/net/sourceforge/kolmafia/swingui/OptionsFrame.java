@@ -2377,7 +2377,7 @@ public class OptionsFrame
 			this.grimoireSkills.addActionListener( this );
 			centerPanel.add( this.grimoireSkills );
 
-			this.cropsMenu = new CropMenu( CampgroundRequest.CROPS, "harvestGarden" + this.breakfastType );
+			this.cropsMenu = new CropMenu( "harvestGarden" + this.breakfastType );
 			this.cropsMenu.addActionListener( this );
 			centerPanel.add( this.cropsMenu );
 
@@ -2529,14 +2529,16 @@ public class OptionsFrame
 	{
 		final String preference;
 
-		public CropMenu( final AdventureResult[] crops, final String preference )
+		public CropMenu( final String preference )
 		{
 			super();
+
 			this.addItem( "Harvest Nothing" );
 			this.addItem( "Harvest Anything" );
-			for ( int i = 0; i < crops.length; ++i )
+
+			for ( AdventureResult crop : CampgroundRequest.CROPS )
 			{
-				this.addItem( crops[ i ].getName() );
+				this.addItem( crop.toString() );
 			}
 
 			this.preference = preference;
