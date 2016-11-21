@@ -571,16 +571,17 @@ public class NPCPurchaseRequest
 				if ( responseText.contains( "miracle whip" ) )
 				{
 					Preferences.setBoolean( "_mayoDeviceRented", false );
-					Preferences.setBoolean( "mayoWhipRented", false );
+					Preferences.setBoolean( "itemBoughtPerAscension8266", false );
 				}
 				else if ( responseText.contains( "mayo lance" ) )
 				{
 					Preferences.setBoolean( "_mayoDeviceRented", false );
-					Preferences.setBoolean( "mayoWhipRented", true );
+					Preferences.setBoolean( "itemBoughtPerAscension8266", true );
 				}
 				else
 				{
 					Preferences.setBoolean( "_mayoDeviceRented", true );
+					Preferences.setBoolean( "itemBoughtPerAscension8266", true );
 				}
 			}
 			Preferences.setBoolean( "_mayoTankSoaked", !responseText.contains( "Soak in the Mayo Tank" ) );

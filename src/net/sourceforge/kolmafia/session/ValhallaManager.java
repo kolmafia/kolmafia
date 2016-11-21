@@ -504,10 +504,11 @@ public class ValhallaManager
 		Preferences.setString( "currentHippyStore", "none" );
 		Preferences.setString( "dnaSyringe", "" );
 		Preferences.setString( "edPiece", "" );
+		Preferences.setBoolean( "itemBoughtPerAscension637", false );
+		Preferences.setBoolean( "itemBoughtPerAscension8266", false );
 		Preferences.setString( "mayoInMouth", "" );
 		Preferences.setInteger( "mayoLevel", 0 );
 		Preferences.setString( "mayoMinderSetting", "" );
-		Preferences.setBoolean( "mayoWhipRented", false );
 		Preferences.setString( "snowsuit", "" );
 		Preferences.setInteger( "guyMadeOfBeesCount", 0 );
 		Preferences.setBoolean( "guyMadeOfBeesDefeated", false );

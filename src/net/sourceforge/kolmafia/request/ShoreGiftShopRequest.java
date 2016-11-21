@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class ShoreGiftShopRequest
@@ -94,10 +96,24 @@ public class ShoreGiftShopRequest
 			{
 				switch ( itemId )
 				{
+				case ItemPool.TOASTER:
+					return !Preferences.getBoolean( "itemBoughtPerAscension637" );
 				case ItemPool.UV_RESISTANT_COMPASS:
 					return !InventoryManager.hasItem( itemId );
 				}
 				return super.canBuyItem( itemId );
+			}
+
+			@Override
+			public void purchaseItem( AdventureResult item, boolean storage )
+			{
+				int itemId = item.getItemId();
+				switch ( itemId )
+				{
+				case ItemPool.TOASTER:
+					Preferences.setBoolean( "itemBoughtPerAscension637", true );
+					break;
+				}
 			}
 		};
 
@@ -153,6 +169,8 @@ public class ShoreGiftShopRequest
 			CoinMasterRequest.parseResponse( data, location, responseText );
 			return;
 		}
+
+		Preferences.setBoolean( "itemBoughtPerAscension637", !responseText.contains( "cheap toaster" ) );
 
 		// Parse current coin balances
 		CoinMasterRequest.parseBalance( data, responseText );

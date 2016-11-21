@@ -218,7 +218,8 @@ public class CheckedItem
 		switch ( itemId )
 		{
 		case ItemPool.MIRACLE_WHIP:
-			return Preferences.getBoolean( "_mayoDeviceRented" ) || Preferences.getBoolean( "mayoWhipRented" ) ? 0 : 1;
+			return  Preferences.getBoolean( "_mayoDeviceRented" ) ||
+				Preferences.getBoolean( "itemBoughtPerAscension8266" ) ? 0 : 1;
 		case ItemPool.SPHYGMAYOMANOMETER:
 		case ItemPool.REFLEX_HAMMER:
 		case ItemPool.MAYO_LANCE:
