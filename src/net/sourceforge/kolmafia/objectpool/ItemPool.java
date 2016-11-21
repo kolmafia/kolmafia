@@ -2107,6 +2107,7 @@ public class ItemPool
 	public static final int THINKNERD_PACKAGE = 7278;
 	public static final int ELEVENT = 7295;
 	public static final int PROFESSOR_WHAT_TSHIRT = 7297;
+	public static final int SEWING_KIT = 7300;
 	public static final int BILLIARDS_KEY = 7301;
 	public static final int LIBRARY_KEY = 7302;
 	public static final int SPOOKYRAVEN_NECKLACE = 7303;

@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 public class ShoreGiftShopRequest
 	extends CoinMasterRequest
 {
@@ -85,7 +87,19 @@ public class ShoreGiftShopRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.UV_RESISTANT_COMPASS:
+					return !InventoryManager.hasItem( itemId );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public ShoreGiftShopRequest()
 	{
@@ -126,20 +140,22 @@ public class ShoreGiftShopRequest
 
 	public static void parseResponse( final String location, final String responseText )
 	{
-		CoinmasterData data = ShoreGiftShopRequest.SHORE_GIFT_SHOP;
-		String action = GenericRequest.getAction( location );
-		if ( action == null )
+		if ( !location.contains( "whichshop=shore" ) )
 		{
-			if ( location.contains( "whichshop=shore" ) )
-			{
-				// Parse current coin balances
-				CoinMasterRequest.parseBalance( data, responseText );
-			}
-
 			return;
 		}
 
-		CoinMasterRequest.parseResponse( data, location, responseText );
+		CoinmasterData data = ShoreGiftShopRequest.SHORE_GIFT_SHOP;
+
+		String action = GenericRequest.getAction( location );
+		if ( action != null )
+		{
+			CoinMasterRequest.parseResponse( data, location, responseText );
+			return;
+		}
+
+		// Parse current coin balances
+		CoinMasterRequest.parseBalance( data, responseText );
 	}
 
 	public static String accessible()

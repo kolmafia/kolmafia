@@ -370,47 +370,43 @@ public class NPCStoreDatabase
 			// Some items restricted, often because of holidays
 			String holiday = HolidayDatabase.getHoliday();
 
-			if ( itemId == ItemPool.MARSHMALLOW )
+			switch ( itemId )
 			{
+			case ItemPool.MARSHMALLOW:
 				return holiday.contains( "Yuletide" );
-			}
-			else if ( itemId == ItemPool.OYSTER_BASKET )
-			{
+			case ItemPool.OYSTER_BASKET:
 				return holiday.contains( "Oyster Egg Day" );
-			}
-			else if ( itemId == ItemPool.PARTY_HAT )
-			{
+			case ItemPool.PARTY_HAT:
 				return holiday.contains( "Festival of Jarlsberg" );
-			}
-			else if ( itemId == ItemPool.M282 || itemId == ItemPool.SNAKE || itemId == ItemPool.SPARKLER )
-			{
+			case ItemPool.M282:
+			case ItemPool.SNAKE:
+			case ItemPool.SPARKLER:
 				return holiday.contains( "Dependence Day" );
-			}
-			else if ( itemId == ItemPool.FOAM_NOODLE || itemId == ItemPool.INFLATABLE_DUCK || itemId == ItemPool.WATER_WINGS )
-			{
+			case ItemPool.FOAM_NOODLE:
+			case ItemPool.INFLATABLE_DUCK:
+			case ItemPool.WATER_WINGS:
 				return holiday.contains( "Generic Summer Holiday" );
-			}
-			else if ( itemId == ItemPool.DESERT_BUS_PASS )
-			{
+			case ItemPool.DESERT_BUS_PASS:
 				return !KoLCharacter.desertBeachAccessible();
-			}
-			else if ( itemId == ItemPool.FOLDER_01 || itemId == ItemPool.FOLDER_02 || itemId == ItemPool.FOLDER_03 )
+			case ItemPool.FOLDER_01:
+			case ItemPool.FOLDER_02:
+			case ItemPool.FOLDER_03:
 			{
 				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1, false );
-				return folderHolder.getCount( KoLConstants.inventory ) + folderHolder.getCount( KoLConstants.closet ) +
-					folderHolder.getCount( KoLConstants.collection ) > 0 || KoLCharacter.hasEquipped( folderHolder );
+				return  ( folderHolder.getCount( KoLConstants.inventory ) +
+					  folderHolder.getCount( KoLConstants.closet ) +
+					  folderHolder.getCount( KoLConstants.collection ) ) > 0 ||
+					KoLCharacter.hasEquipped( folderHolder );
 			}
-			else if ( itemId == ItemPool.WATER_WINGS_FOR_BABIES || itemId == ItemPool.MINI_LIFE_PRESERVER ||
-				itemId == ItemPool.HEAVY_DUTY_UMBRELLA  || itemId == ItemPool.POOL_SKIMMER )
-			{
+			case ItemPool.WATER_WINGS_FOR_BABIES:
+			case ItemPool.MINI_LIFE_PRESERVER:
+			case ItemPool.HEAVY_DUTY_UMBRELLA:
+			case ItemPool.POOL_SKIMMER:
 				return KoLCharacter.inRaincore();
-			}
-			else if ( itemId == ItemPool.FISHING_LINE )
-			{
+			case ItemPool.FISHING_LINE:
 				return InventoryManager.hasItem( ItemPool.FISHING_POLE );
-			}
-			else if ( itemId == ItemPool.TRICK_TOT_UNICORN || itemId == ItemPool.TRICK_TOT_CANDY )
-			{
+			case ItemPool.TRICK_TOT_UNICORN:
+			case ItemPool.TRICK_TOT_CANDY:
 				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
 			}
 		}
