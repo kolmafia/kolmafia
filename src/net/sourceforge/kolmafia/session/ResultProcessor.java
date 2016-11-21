@@ -2904,7 +2904,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.MIRACLE_WHIP:
-			Preferences.setBoolean( "mayoWhipRented", true );
+			Preferences.setBoolean( "itemBoughtPerAscension8266", true );
 			// Deliberate fallthrough
 		case ItemPool.SPHYGMAYOMANOMETER:
 		case ItemPool.REFLEX_HAMMER:
@@ -3043,15 +3043,15 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.TALES_OF_DREAD:
-			Preferences.setBoolean( "hasTalesOfDread", true );
+			Preferences.setBoolean( "itemBoughtPerCharacter6423", true );
 			break;
 
 		case ItemPool.BRASS_DREAD_FLASK:
-			Preferences.setBoolean( "hasBrassDreadFlask", true );
+			Preferences.setBoolean( "itemBoughtPerCharacter6428", true );
 			break;
 
 		case ItemPool.SILVER_DREAD_FLASK:
-			Preferences.setBoolean( "hasSilverDreadFlask", true );
+			Preferences.setBoolean( "itemBoughtPerCharacter6429", true );
 			break;
 		}
 

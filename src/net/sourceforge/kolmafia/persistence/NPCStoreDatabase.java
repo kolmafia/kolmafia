@@ -425,7 +425,9 @@ public class NPCStoreDatabase
 				available = workshedItem.getItemId() == ItemPool.MAYO_CLINIC && StandardRequest.isAllowed( "Items", "portable Mayo Clinic" );
 				if ( itemId == ItemPool.MIRACLE_WHIP )
 				{
-					return available && !Preferences.getBoolean( "_mayoDeviceRented" ) && !Preferences.getBoolean( "mayoWhipRented" );
+					return  available &&
+						!Preferences.getBoolean( "_mayoDeviceRented" ) &&
+						!Preferences.getBoolean( "itemBoughtPerAscension8266" );
 				}
 				if ( itemId == ItemPool.SPHYGMAYOMANOMETER || itemId == ItemPool.REFLEX_HAMMER || itemId == ItemPool.MAYO_LANCE )
 				{

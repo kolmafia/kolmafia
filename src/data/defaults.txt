@@ -524,9 +524,6 @@ user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
 user	hasSushiMat	false
-user	hasTalesOfDread	false
-user	hasBrassDreadFlask	false
-user	hasSilverDreadFlask	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
@@ -550,6 +547,11 @@ user	iceSculptureMonster
 user	iceSwagger	0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	item9084	0
+user	itemBoughtPerAscension637	false
+user	itemBoughtPerCharacter6423	false
+user	itemBoughtPerCharacter6428	false
+user	itemBoughtPerCharacter6429	false
+user	itemBoughtPerAscension8266	false
 user	jarlsbergPoints	0
 user	jungCharge	0
 user	junglePuns	0
@@ -735,7 +737,6 @@ user	mayflyExperience	0
 user	mayoInMouth	
 user	mayoLevel	0
 user	mayoMinderSetting	
-user	mayoWhipRented	false
 user	meansuckerPrice	400
 user	meatDropSpading	false
 user	merkinQuestPath	none

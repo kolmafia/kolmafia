@@ -99,11 +99,11 @@ public class TerrifiedEagleInnRequest
 				switch ( itemId )
 				{
 				case ItemPool.TALES_OF_DREAD:
-					return !Preferences.getBoolean( "hasTalesOfDread" );
+					return !Preferences.getBoolean( "itemBoughtPerCharacter6423" );
 				case ItemPool.BRASS_DREAD_FLASK:
-					return !Preferences.getBoolean( "hasBrassDreadFlask" );
+					return !Preferences.getBoolean( "itemBoughtPerCharacter6428" );
 				case ItemPool.SILVER_DREAD_FLASK:
-					return !Preferences.getBoolean( "hasSilverDreadFlask" );
+					return !Preferences.getBoolean( "itemBoughtPerCharacter6429" );
 				}
 				return super.canBuyItem( itemId );
 			}

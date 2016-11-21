@@ -903,6 +903,7 @@ public class CoinmastersFrame
 		public ShoreGiftShopPanel()
 		{
 			super( ShoreGiftShopRequest.SHORE_GIFT_SHOP );
+			PreferenceListenerRegistry.registerPreferenceListener( "itemBoughtPerAscension637", this );
 		}
 	}
 
@@ -1391,9 +1392,9 @@ public class CoinmastersFrame
 		public TerrifiedEagleInnPanel()
 		{
 			super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN );
-			PreferenceListenerRegistry.registerPreferenceListener( "hasTalesOfDread", this );
-			PreferenceListenerRegistry.registerPreferenceListener( "hasBrassDreadFlask", this );
-			PreferenceListenerRegistry.registerPreferenceListener( "hasSilverDreadFlask", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "itemBoughtPerCharacter6423", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "itemBoughtPerCharacter6428", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "itemBoughtPerCharacter6429", this );
 		}
 
 		@Override
