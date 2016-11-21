@@ -2720,6 +2720,7 @@ public class RelayRequest
 			else if ( RelayRequest.specialCommandResponse.length() > 0 )
 			{
 				StringBuffer buffer = new StringBuffer();
+
 				Matcher matcher = RelayRequest.BASE_LINK_PATTERN.matcher( RelayRequest.specialCommandResponse );
 
 				while ( matcher.find() )
@@ -2737,6 +2738,12 @@ public class RelayRequest
 				}
 
 				matcher.appendTail( buffer );
+
+				int headIndex = buffer.indexOf( "</head>" );
+				if ( headIndex != -1 )
+				{
+					buffer.insert( headIndex, "<base href=\"/\">" );
+				}
 
 				this.pseudoResponse( "HTTP/1.1 200 OK", buffer.toString() );
 
