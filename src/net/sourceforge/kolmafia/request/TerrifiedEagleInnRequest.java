@@ -42,6 +42,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -51,6 +52,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -104,6 +107,8 @@ public class TerrifiedEagleInnRequest
 					return !Preferences.getBoolean( "itemBoughtPerCharacter6428" );
 				case ItemPool.SILVER_DREAD_FLASK:
 					return !Preferences.getBoolean( "itemBoughtPerCharacter6429" );
+				case ItemPool.FOLDER_21:
+					return KoLCharacter.hasEquipped( EquipmentManager.FOLDER_HOLDER );
 				}
 				return super.canBuyItem( itemId );
 			}

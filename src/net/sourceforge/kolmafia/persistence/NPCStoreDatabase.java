@@ -392,10 +392,10 @@ public class NPCStoreDatabase
 			case ItemPool.FOLDER_02:
 			case ItemPool.FOLDER_03:
 			{
-				AdventureResult folderHolder = new AdventureResult( ItemPool.FOLDER_HOLDER, 1, false );
-				return  ( folderHolder.getCount( KoLConstants.inventory ) +
-					  folderHolder.getCount( KoLConstants.closet ) +
-					  folderHolder.getCount( KoLConstants.collection ) ) > 0 ||
+				AdventureResult folderHolder = ItemPool.get( ItemPool.FOLDER_HOLDER );
+				return  folderHolder.getCount( KoLConstants.inventory )  > 0 ||
+					folderHolder.getCount( KoLConstants.closet ) > 0 ||
+					folderHolder.getCount( KoLConstants.collection ) > 0 ||
 					KoLCharacter.hasEquipped( folderHolder );
 			}
 			case ItemPool.WATER_WINGS_FOR_BABIES:
