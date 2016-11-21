@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
+
 public class VendingMachineRequest
 	extends CoinMasterRequest
 {
@@ -84,7 +86,19 @@ public class VendingMachineRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.SEWING_KIT:
+					return InventoryManager.getCount( itemId ) == 0;
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public VendingMachineRequest()
 	{
