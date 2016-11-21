@@ -548,10 +548,10 @@ user	iceSwagger	0
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
 user	item9084	0
 user	itemBoughtPerAscension637	false
+user	itemBoughtPerAscension8266	false
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
-user	itemBoughtPerAscension8266	false
 user	jarlsbergPoints	0
 user	jungCharge	0
 user	junglePuns	0
