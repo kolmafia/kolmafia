@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.AdventureRequest;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -233,6 +234,20 @@ public class TestCommand
 			{
 				RequestLogger.printLine( cookie.toString() );
 			}
+			return;
+		}
+
+		if ( command.equals( "crop" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test crop MATCH" );
+				return;
+			}
+			AdventureResult current = CampgroundRequest.getCrop();
+			String crop = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
+			boolean better = CampgroundRequest.hasCropOrBetter( current, crop );
+			RequestLogger.printLine( current + ( better ? " is as good as " : " is worse than " ) + crop );
 			return;
 		}
 

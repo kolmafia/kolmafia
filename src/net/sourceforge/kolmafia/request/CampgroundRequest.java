@@ -219,6 +219,11 @@ public class CampgroundRequest
 	public static final AdventureResult ICE_HARVEST = ItemPool.get( ItemPool.ICE_HARVEST, 1 );
 	public static final AdventureResult FROST_FLOWER = ItemPool.get( ItemPool.FROST_FLOWER, 1 );
 	public static final AdventureResult CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 1 );
+	public static final AdventureResult THREE_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 3 );
+	public static final AdventureResult FIVE_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 5 );
+	public static final AdventureResult EIGHT_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 8 );
+	public static final AdventureResult ELEVEN_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 11 );
+	public static final AdventureResult FIFTEEN_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 15 );
 	public static final AdventureResult MEGACOPIA = ItemPool.get( ItemPool.MEGACOPIA, 1 );
 
 	private enum CropType
@@ -285,6 +290,11 @@ public class CampgroundRequest
 		CampgroundRequest.ICE_HARVEST,
 		CampgroundRequest.FROST_FLOWER,
 		CampgroundRequest.CORNUCOPIA,
+		CampgroundRequest.THREE_CORNUCOPIA,
+		CampgroundRequest.FIVE_CORNUCOPIA,
+		CampgroundRequest.EIGHT_CORNUCOPIA,
+		CampgroundRequest.ELEVEN_CORNUCOPIA,
+		CampgroundRequest.FIFTEEN_CORNUCOPIA,
 		CampgroundRequest.MEGACOPIA,
 	};
 
@@ -359,29 +369,41 @@ public class CampgroundRequest
 		}
 	}
 
-	private static int getCropIndex()
-	{
-		for ( int i = 0; i < CROPS.length; ++i )
-		{
-			int index = KoLConstants.campground.indexOf( CROPS[ i ] );
-			if ( index != -1 )
-			{
-				return index;
-			}
-		}
-		return -1;
-	}
-
 	public static AdventureResult getCrop()
 	{
-		int i = CampgroundRequest.getCropIndex();
-		return i != -1 ? (AdventureResult)KoLConstants.campground.get( i ) : null;
+		for ( AdventureResult crop : CampgroundRequest.CROPS )
+		{
+			int index = KoLConstants.campground.indexOf( crop );
+			if ( index != -1 )
+			{
+				return KoLConstants.campground.get( index );
+			}
+		}
+		return null;
+	}
+
+	public static AdventureResult parseCrop( final String crop )
+	{
+		String name = crop;
+		int count = 1;
+
+		int paren = crop.indexOf( " (" );
+		if ( paren != -1 )
+		{
+			name = crop.substring( 0, paren ).trim();
+			count = StringUtilities.parseInt( crop.substring( paren + 2, crop.length() - 1 ) );
+		}
+
+		return new AdventureResult( name, count, false );
 	}
 
 	public static boolean hasCropOrBetter( final String crop )
 	{
-		// Get current crop, if any
-		AdventureResult current = CampgroundRequest.getCrop();
+		return CampgroundRequest.hasCropOrBetter( CampgroundRequest.getCrop(), crop );
+	}
+
+	public static boolean hasCropOrBetter( final AdventureResult current, final String cropName )
+	{
 		if ( current == null || current.getCount() == 0 )
 		{
 			// Nothing in your garden or no garden.
@@ -390,33 +412,42 @@ public class CampgroundRequest
 
 		// We want whatever is there.  Since we made it this far,
 		// we have something to pick.
-		if ( crop.equals( "any" ) )
+		if ( cropName.equals( "any" ) )
 		{
 			return true;
 		}
 
-		// If it equals the desired crop, peachy. Or is it pumpkiny?
-		String currentName = current.getName();
-		if ( crop.equals( currentName )  )
+		int currentID = current.getItemId();
+		int currentCount = current.getCount();
+
+		AdventureResult desired = CampgroundRequest.parseCrop( cropName );
+		int desiredID = desired.getItemId();
+		int desiredCount = desired.getCount();
+
+		// If the current crop type equals the desired crop and the
+		// count is at least as great, peachy. Or is it pumpkiny?
+		if ( currentID == desiredID )
 		{
-			return true;
+			return currentCount >= desiredCount;
 		}
 
-		// Iterate through CROPS.
-		for ( int i = 0; i < CROPS.length; ++i )
+		for ( AdventureResult crop : CampgroundRequest.CROPS )
 		{
-			String cropName = CROPS[ i ].getName();
+			int cropID = crop.getItemId();
+			int cropCount = crop.getCount();
+
 			// We found the current crop before we found the
 			// desired crop. Not good enough.
-			if ( cropName.equals( currentName ) )
+			if ( cropID == currentID && cropCount == currentCount )
 			{
 				return false;
 			}
-			// We found the desired crop before we found the
+
+ 			// We found the desired crop before we found the
 			// current crop - which is therefore better IFF its type is the same.
-			if ( cropName.equals( crop ) )
-			{
-				return CROPMAP.get( CROPS[ i ] ) == CROPMAP.get( current );
+			if ( cropID == desiredID && cropCount >= desiredCount )
+ 			{
+				return CROPMAP.get( crop ) == CROPMAP.get( current );
 			}
 		}
 
@@ -426,10 +457,14 @@ public class CampgroundRequest
 
 	public static void clearCrop()
 	{
-		int i = CampgroundRequest.getCropIndex();
-		if ( i != -1 )
+		for ( AdventureResult crop : CampgroundRequest.CROPS )
 		{
-			KoLConstants.campground.remove( i );
+			int index = KoLConstants.campground.indexOf( crop );
+			if ( index != -1 )
+			{
+				KoLConstants.campground.remove( index );
+				return;
+			}
 		}
 	}
 
