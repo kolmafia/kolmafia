@@ -514,15 +514,18 @@ public class FightDecorator
 		}
 
 		// If this was a Time-Spinner monster
-		int inventoryLink = buffer.indexOf( "<Center><a href=\"inventory.php\">Back to your Inventory</a></center>" );
-		if ( inventoryLink != -1 )
+		if ( GenericRequest.itemMonster != null && GenericRequest.itemMonster.equals( "Time-Spinner" ) )
 		{
-			StringBuilder link = new StringBuilder();
-			// inv_use.php?whichitem=9104&ajax=1&pwd
-			link.append( "<center><a href=\"inv_use.php?whichitem=9104&pwd=" );
-			link.append( GenericRequest.passwordHash );
-			link.append( "\">Back to your Time-Spinner</a></center>" );
-			buffer.insert( inventoryLink, link.toString()  );
+			int inventoryLink = buffer.indexOf( "<Center><a href=\"inventory.php\">Back to your Inventory</a></center>" );
+			if ( inventoryLink != -1 )
+			{
+				StringBuilder link = new StringBuilder();
+				// inv_use.php?whichitem=9104&ajax=1&pwd
+				link.append( "<center><a href=\"inv_use.php?whichitem=9104&pwd=" );
+				link.append( GenericRequest.passwordHash );
+				link.append( "\">Back to your Time-Spinner</a></center><br>" );
+				buffer.insert( inventoryLink, link.toString()  );
+			}
 		}
 	}
 }

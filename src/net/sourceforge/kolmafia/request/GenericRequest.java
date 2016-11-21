@@ -2882,6 +2882,13 @@ public class GenericRequest
 
 	private static final void checkItemRedirection( final String location )
 	{
+		// Certain choices lead to fights. We log those in ChoiceManager.
+		if ( location.startsWith( "choice.php" ) )
+		{
+			return;
+		}
+
+		// Otherwise, only look for items
 		AdventureResult item =
 			location.contains( "action=chateau_painting" ) ?
 			ChateauRequest.CHATEAU_PAINTING :
