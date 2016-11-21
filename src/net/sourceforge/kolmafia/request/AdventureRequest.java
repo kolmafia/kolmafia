@@ -488,8 +488,6 @@ public class AdventureRequest
 		AdventureRequest.registerDemonName( encounter, responseText );
 
 		// We are done registering the item's encounter.
-		GenericRequest.itemMonster = null;
-
 		if ( type != null )
 		{
 			if ( type.equals( "Combat" ) )

@@ -13857,6 +13857,8 @@ public abstract class ChoiceManager
 			return true;
 		}
 
+		GenericRequest.itemMonster = null;
+
 		int choice = ChoiceManager.extractChoiceFromURL( urlString );
 		int decision = ChoiceManager.extractOptionFromURL( urlString );
 		if ( choice != 0 )
