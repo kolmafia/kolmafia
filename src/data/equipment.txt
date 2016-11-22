@@ -700,7 +700,7 @@ Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
 psycho sweater	100	Mus: 35
 punk rock jacket	145	Mus: 57
-Quartet of Flare Masters Jacket	0	Mox: 11
+Quartet of Flare Masters Jacket	50	Mox: 11
 Radio Free Jersey	0	none
 real cowboy hat	50	none
 red coat	160	Mus: 65

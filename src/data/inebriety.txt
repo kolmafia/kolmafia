@@ -385,7 +385,7 @@ old-fashioned	3	3	good	5-10	0	8-10	0
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
 Orangemageddon wine cooler	2	1	good	6	2-3	2-3	2-3
-Oreille Divis&eacute;e brandy	3	4	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
+Oreille Divis&eacute;e brandy	3	3	awesome	12-15	15-25	15-25	15-25	20 Hoity Toity (+30% item drop)
 Over Easy Rider	3	1	good	8-10	0	0	30-40
 overpowering mushroom wine	4	3	EPIC	22-24	100-150	0	0	80 Boletus Swoletus (+40 Mus)
 overpriced &quot;imported&quot; beer	1	1	decent	2	0	0	0

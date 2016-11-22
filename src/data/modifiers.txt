@@ -811,7 +811,7 @@ Item	ghost toga	Damage Reduction: 5, Spooky Damage: +10
 Item	gingham blouse	Muscle: +5
 Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 # Item glass casserole dish: Minor Radiation Sickness Protection
-Item	glass casserole dish	PvP Fights: +3, Sleaze Damage: +30
+Item	glass casserole dish	PvP Fights: +3, Sleaze Damage: +30, Damage Reduction: 10
 Item	gnauga hide vest	Damage Reduction: 6, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	goth kid t-shirt	Monster Level: +5
 Item	Grateful Undead T-shirt	Item Drop: +5
