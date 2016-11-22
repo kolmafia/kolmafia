@@ -73,7 +73,7 @@ boring spaghetti	4	5	good	10-14	0	20-25	0
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
 boss brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
 Bouillabaise Coucher Avec Moi	5	1		5-9	0	0	0
-bowl of Bounty-Os	3	4	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
+bowl of Bounty-Os	3	3	awesome	12-15	16-24	16-24	16-24	20 Broken Fast (+30% item drop)
 bowl of cottage cheese	2	1	crappy	2	0	0	0
 bowl of eyeballs	2	1	awesome	7-9	0	10-20	0	30 Your Eyes are Peeled! (+25% item drop)
 bowl of fishysoisse	6	8	awesome	27-29	48-74	67-70	52-70

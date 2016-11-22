@@ -9217,7 +9217,7 @@
 9191	eldritch concentrate	712115476	glassglobe.gif	multiple, fancy	t,d	666	globes of eldritch concentrate
 9192	eldritch extract	379529182	rocks.gif	drink	t,d	66
 9193	Official Council Aide Pin	360414227	smugbutton.gif	accessory		0
-9194	eldritch distillate	539247819	martini.gif	drink	t,d	666
+9194	eldritch distillate	539247819	martini.gif	drink, fancy	t,d	666
 9195	eldritch essence	377004299	wbantiwad.gif	spleen, usable	t,d	666
 9196	Science Notebook	732559218	notebook.gif	offhand		0
 9197	eldritch hat	738111709	eldritchhat.gif	hat	t	0
