@@ -1320,6 +1320,15 @@ public class GenericRequest
 			this.execute();
 		}
 
+		if ( ( this.responseCode == 200 && this.responseText != null ) ||
+		     ( this.responseCode == 302 && this.redirectLocation != null ) )
+		{
+			// Call central dispatch method for locations that require
+			// special handling
+
+			QuestManager.handleQuestChange( this );
+		}
+
 		// Normal response?
 		if ( this.responseCode == 200 )
 		{
@@ -1331,10 +1340,6 @@ public class GenericRequest
 			}
 			else
 			{
-				// Call central dispatch method for locations that require
-				// special handling
-
-				QuestManager.handleQuestChange( this );
 				this.formatResponse();
 			}
 			return;
