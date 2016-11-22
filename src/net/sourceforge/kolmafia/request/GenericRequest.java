@@ -3184,7 +3184,8 @@ public class GenericRequest
 
 		case ItemPool.DECK_OF_EVERY_CARD:
 			itemName = "Deck of Every Card";
-			EncounterManager.ignoreSpecialMonsters();
+			// Do not ignore special monsters here. That is handled
+			// elsewhere, just for the cases that will be a combat.
 			break;
 
 		case ItemPool.GIFT_CARD:
