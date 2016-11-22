@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -418,13 +419,20 @@ public class DeckOfEveryCardRequest
 		Matcher matcher = DeckOfEveryCardRequest.DRAW_CARD_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
-			String card = matcher.group( 1 );
-			int of = card.indexOf( " of " );
-			String munged = of == -1 ? card : ( "X" + card.substring( of ) );
+			String cardName = matcher.group( 1 );
+			int of = cardName.indexOf( " of " );
+			String munged = of == -1 ? cardName : ( "X" + cardName.substring( of ) );
 			String alt = Preferences.getString( "_deckCardsSeen" );
 			String neu = alt.length() == 0 ? munged : ( alt + "|" + munged );
 			Preferences.setString( "_deckCardsSeen", neu );
-			return card;
+
+			EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard( munged );
+			if ( DeckOfEveryCardRequest.phylumToCard.containsValue( card ) )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+			}
+
+			return cardName;
 		}
 		return null;
 	}
@@ -497,6 +505,12 @@ public class DeckOfEveryCardRequest
 		public boolean equals( final Object o )
 		{
 			return ( o instanceof EveryCard ) && ( (EveryCard) o ).id == this.id;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			return this.id;
 		}
 
 		@Override
