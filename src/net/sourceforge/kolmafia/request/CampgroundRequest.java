@@ -216,6 +216,8 @@ public class CampgroundRequest
 	public static final AdventureResult SKELETON = ItemPool.get( ItemPool.SKELETON, 1 );
 	public static final AdventureResult BARLEY = ItemPool.get( ItemPool.BARLEY, 1 );
 	public static final AdventureResult BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 1 );
+	public static final AdventureResult TWO_BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 2 );
+	public static final AdventureResult THREE_BEER_LABEL = ItemPool.get( ItemPool.FANCY_BEER_LABEL, 3 );
 	public static final AdventureResult ICE_HARVEST = ItemPool.get( ItemPool.ICE_HARVEST, 1 );
 	public static final AdventureResult FROST_FLOWER = ItemPool.get( ItemPool.FROST_FLOWER, 1 );
 	public static final AdventureResult CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 1 );
@@ -287,6 +289,8 @@ public class CampgroundRequest
 		CampgroundRequest.SKELETON,
 		CampgroundRequest.BARLEY,
 		CampgroundRequest.BEER_LABEL,
+		CampgroundRequest.TWO_BEER_LABEL,
+		CampgroundRequest.THREE_BEER_LABEL,
 		CampgroundRequest.ICE_HARVEST,
 		CampgroundRequest.FROST_FLOWER,
 		CampgroundRequest.CORNUCOPIA,
