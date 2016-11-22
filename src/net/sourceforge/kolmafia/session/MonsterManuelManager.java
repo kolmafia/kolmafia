@@ -162,7 +162,8 @@ public class MonsterManuelManager
 			}
 
 			// Don't bother checking image for (shadow opponent) and You the Adventurer
-			if ( id != 210 && id != 1669 && !monster.hasImage( image ) )
+			// noart.gif is used for monsters with variable images
+			if ( id != 210 && id != 1669 && !image.equals( "noart.gif" ) && !monster.hasImage( image ) )
 			{
 				RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'" );
 			}
@@ -180,13 +181,13 @@ public class MonsterManuelManager
 				// Non-scaling monster
 				int baseAttack = monster.getBaseAttack();
 				int attack = StringUtilities.parseInt( attackString );
-				if ( baseAttack != -1 && baseAttack != attack )
+				if ( baseAttack != -1 && attack != 0  && baseAttack != attack )
 				{
 					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has attack " + attack + ", but KoLmafia says it is " + baseAttack );
 				}
 				int baseDefense = monster.getBaseDefense();
 				int defense = StringUtilities.parseInt( defenseString );
-				if ( baseDefense != -1 && baseDefense != defense )
+				if ( baseDefense != -1 && defense != 0 && baseDefense != defense )
 				{
 					RequestLogger.printLine( "Manuel says that '" + name + "' (" + id + ") has defense " + defense + ", but KoLmafia says it is " + baseDefense );
 				}
