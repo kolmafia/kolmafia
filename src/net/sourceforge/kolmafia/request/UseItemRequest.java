@@ -5029,7 +5029,19 @@ public class UseItemRequest
 
 			// Otherwise, it is not consumed
 			return;
-			
+
+		case ItemPool.STUFFING_FLUFFER:
+			if ( responseText.contains( "hippies and frat orcs" ) )
+			{
+				// Look at the island map and make our best
+				// effort to synch up the kill count
+				RequestThread.postRequest( new IslandRequest() );
+				break;
+			}
+
+			// Otherwise, it is not consumed
+			return;
+
 		case ItemPool.BLUE_LINT:
 		case ItemPool.GREEN_LINT:
 		case ItemPool.WHITE_LINT:
