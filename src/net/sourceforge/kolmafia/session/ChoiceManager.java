@@ -6689,13 +6689,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1089: // Community Service
-			if ( ChoiceManager.lastDecision == 30 )
-			{
-				KoLCharacter.liberateKing();
-			}
-			break;
-
 		case 1171: // LT&T Office
 			if ( ChoiceManager.lastDecision < 4 )
 			{
@@ -10326,6 +10319,13 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision < 6 )
 			{
 				ResultProcessor.processItem( ItemPool.CHRONER, -1 );
+			}
+			break;
+
+		case 1089: // Community Service
+			if ( ChoiceManager.lastDecision == 30 )
+			{
+				KoLCharacter.liberateKing();
 			}
 			break;
 
