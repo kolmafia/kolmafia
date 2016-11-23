@@ -510,6 +510,7 @@ public abstract class KoLCharacter
 		KoLConstants.inventory.clear();
 		KoLConstants.closet.clear();
 		KoLConstants.storage.clear();
+		KoLCharacter.storageMeat = 0;
 		KoLConstants.freepulls.clear();
 		KoLConstants.collection.clear();
 		KoLConstants.pulverizeQueue.clear();
