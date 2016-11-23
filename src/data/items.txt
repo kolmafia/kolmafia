@@ -8860,7 +8860,7 @@
 8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5	cups of robin nog
 8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
-8837	plaintive telegram	819771344	lttgram.gif	usable	q	0
+8837	plaintive telegram	819771344	lttgram.gif	none	q	0
 8838	exploding gum	208323168	gumstick.gif	none, combat	t,d	5	sticks of exploding gum
 8839	root beer barrel	364849592	barrelnormal.gif	usable	t,d	5
 8840	Kudzu slaw	649517887	salad.gif	avatar, usable	t,d	5	bowls of Kudzu slaw
