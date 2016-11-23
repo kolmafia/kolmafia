@@ -114,8 +114,8 @@ public class WikiLookupCommand
 				if ( num != -1 )
 				{
 					target = FamiliarDatabase.getFamiliarName( num );
+					WikiUtilities.showWikiDescription( target );
 				}
-				WikiUtilities.showWikiDescription( target );
  				return;
  			}
 
@@ -156,7 +156,7 @@ public class WikiLookupCommand
 				MonsterData monster = MonsterDatabase.findMonster( target, true );
 				if ( monster != null )
 				{
-					WikiUtilities.showWikiDescription( monster.getName() );
+					WikiUtilities.showWikiDescription( monster );
 					return;
 				}
 			}
