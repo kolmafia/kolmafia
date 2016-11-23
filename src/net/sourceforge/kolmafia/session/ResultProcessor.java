@@ -495,6 +495,12 @@ public class ResultProcessor
 
 		if ( lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " ) || lastToken.startsWith( "You spent " ) )
 		{
+			// Chatty pirate message
+			if ( lastToken.startsWith( "You lose your temper" ) )
+			{
+				return false;
+			}
+
 			return ResultProcessor.processGainLoss( lastToken, data );
 		}
 
