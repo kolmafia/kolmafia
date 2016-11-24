@@ -10617,6 +10617,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1119:
+			// Shining Mauve Backwards In Time
+			if ( ChoiceManager.lastDecision == 4 && Preferences.getInteger( "lastDMTDuplication" ) != KoLCharacter.getAscensions())
+			{
+				Preferences.setInteger( "lastDMTDuplication", KoLCharacter.getAscensions() );
+			}
+			break;
+
 		case 1134:
 			// Batfellow Ends
 			// (choosing to exit)
