@@ -72,12 +72,12 @@ public class RefreshStatusCommand
 		else if ( parameters.equals( "gear" ) || parameters.startsWith( "equip" ) || parameters.equals( "outfit" ) )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.EQUIPMENT ) );
-			parameters = "equip";
+			parameters = "equipment";
 		}
 		else if ( parameters.startsWith( "stick" ) )
 		{
 			RequestThread.postRequest( new EquipmentRequest( EquipmentRequest.BEDAZZLEMENTS ) );
-			parameters = "equip";
+			parameters = "equipment";
 		}
 		else if ( parameters.startsWith( "inv" ) )
 		{

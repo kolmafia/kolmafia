@@ -589,6 +589,7 @@ user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDesertUnlock	-1
 user	lastDispensaryOpen	-1
+user	lastDMTDuplication	-1
 user	lastDwarfDiceRolls
 user	lastDwarfDigitRunes	-------
 user	lastDwarfEquipmentRunes
