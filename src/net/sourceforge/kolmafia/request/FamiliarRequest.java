@@ -401,7 +401,11 @@ public class FamiliarRequest
 			return;
 		}
 
-		if ( this.item != null )
+		if ( this.item == EquipmentRequest.UNEQUIP )
+		{
+			KoLmafia.updateDisplay( "Familiar unequipped." );
+		}
+		else if ( this.item != null )
 		{
 			KoLmafia.updateDisplay( "Familiar equipped." );
 		}
