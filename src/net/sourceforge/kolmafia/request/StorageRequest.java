@@ -599,6 +599,14 @@ public class StorageRequest
 		int meat = TransferItemRequest.transferredMeat( urlString, "amt" );
 		KoLCharacter.setStorageMeat( KoLCharacter.getStorageMeat() - meat );
 		ResultProcessor.processMeat( meat );
+
+		// If remaining is -1, pulls are unlimited.
+		int remaining = ConcoctionDatabase.getPullsRemaining();
+		int pulls = (meat + 999 ) / 1000;
+		if ( pulls > 0 && remaining >= pulls )
+		{
+			ConcoctionDatabase.setPullsRemaining( remaining - pulls );
+		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
