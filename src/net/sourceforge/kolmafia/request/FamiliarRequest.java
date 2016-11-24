@@ -213,6 +213,13 @@ public class FamiliarRequest
 
 		if ( this.item != null )
 		{
+			if ( this.changeTo.equals( KoLCharacter.getFamiliar() ) )
+			{
+				EquipmentRequest request = new EquipmentRequest( this.item, EquipmentManager.FAMILIAR );
+				request.run();
+				return;
+			}
+
 			if ( this.item == EquipmentRequest.UNEQUIP )
 			{
 				KoLmafia.updateDisplay( "Unequipping " + this.changeTo.getName() + " the " + this.changeTo.getRace() + "..." );

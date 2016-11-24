@@ -274,10 +274,8 @@ public abstract class InventoryManager
 
 		count += InventoryManager.getEquippedCount( item );
 
-		for ( int i = 0; i < KoLCharacter.getFamiliarList().size(); ++i )
+		for ( FamiliarData current: KoLCharacter.getFamiliarList() )
 		{
-			FamiliarData current = (FamiliarData) KoLCharacter.getFamiliarList().get( i );
-
 			if ( !current.equals( KoLCharacter.getFamiliar() ) &&
 			     current.getItem() != null && current.getItem().equals( item ) )
 			{
