@@ -844,9 +844,10 @@ public class KoLmafiaCLI
 		new SetHolidayCommand().register( "holiday" );
 		new SetPreferencesCommand().register( "get" ).register( "set" );
 		new ShopCommand().register( "shop" );
-		new ShowDataCommand().registerPrefix( "inv" ).register( "storage" ).register( "session" ).register( "summary" ).register(
-			"effects" ).register( "status" ).register( "skills" ).register( "locations" ).register( "encounters" ).registerPrefix(
-			"moon" );
+		new ShowDataCommand()
+			.registerPrefix( "inv" ).register( "storage" ).register( "session" ).register( "summary" )
+			.register( "effects" ).register( "status" ).register( "skills" ).register( "locations" )
+			.register( "encounters" ).registerPrefix( "moon" );
 		new ShowerCommand().register( "shower" );
 		new SkateParkCommand().register( "skate" );
 		new SkeeballCommand().register( "skeeball" );
