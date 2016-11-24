@@ -224,7 +224,7 @@ public class ShowDataCommand
 			return;
 		}
 
-		if ( desiredData.startsWith( "equipment" ) )
+		if ( desiredData.startsWith( "equip" ) )
 		{
 			AdventureResult hat = EquipmentManager.getEquipment( EquipmentManager.HAT );
 			desiredStream.println( "Hat: " + hat );
