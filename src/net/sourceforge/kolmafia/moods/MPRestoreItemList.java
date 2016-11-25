@@ -142,6 +142,7 @@ public abstract class MPRestoreItemList
 		new MPRestoreItem( "blue striped oyster egg", 33, false ),
 		new MPRestoreItem( "cotton candy plug", 28, false ),
 		new MPRestoreItem( "Knob Goblin superseltzer", 27, true ),
+		new MPRestoreItem( "psychokinetic energy blob", 25, false ),
 		new MPRestoreItem( "gold star", 25, false ),
 		new MPRestoreItem( "Blatantly Canadian", 23, false ),
 		new MPRestoreItem( "cotton candy skoshe", 22, false ),
