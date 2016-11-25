@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -52,9 +52,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -89,8 +91,6 @@ import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.internal.io.svn.SVNRepositoryFactoryImpl;
 import org.tmatesoft.svn.core.internal.wc.SVNFileUtil;
-import org.tmatesoft.svn.core.internal.wc17.db.ISVNWCDb;
-
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.ISVNOptions;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
@@ -1233,7 +1233,10 @@ public class SVNManager
 		{
 			public void run()
 			{
-				KoLmafia.updateDisplay( "Updating all SVN projects..." );
+				KoLmafia.updateDisplay( "Checking all SVN projects..." );
+				List<File> projectsToUpdate = new ArrayList<File>();
+				List<CheckStatusRunnable> checkingRunnables = new ArrayList<CheckStatusRunnable>();
+				// checking projects should be parallelized; it is a read-only operation, which is thread-safe
 				for ( File f : projects )
 				{
 					if ( !KoLmafia.permitsContinue() )
@@ -1245,8 +1248,56 @@ public class SVNManager
 
 					if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
 					{
-						if ( WCAtHead( f ) )
-							continue;
+						WCAtHead( f, false, checkingRunnables );
+					}
+				}
+
+				if (!checkingRunnables.isEmpty())
+				{
+					// now start all threads and wait for them to finish.
+					// we must keep one big lock over the entire time, until no thread accesses it anymore
+					try
+					{
+						Map<Thread, CheckStatusRunnable> trMap = new HashMap<Thread, CheckStatusRunnable>();
+ 
+						SVN_LOCK.lock();
+	
+						for (CheckStatusRunnable r : checkingRunnables)
+						{
+							Thread t = new Thread( r );
+							trMap.put(t, r);
+							t.start();
+						}
+						for (Thread t : trMap.keySet())
+						{
+							CheckStatusRunnable r = trMap.get(t);
+							try
+							{
+								t.join();
+							}
+							catch (InterruptedException ie)
+							{
+								r.reportInterrupt();
+							}
+							if (r.shouldBeUpdated())
+							{
+								projectsToUpdate.add(r.getOriginalFile());
+							}
+						}
+					}
+					finally
+					{
+						SVN_LOCK.unlock();
+					}
+				}
+
+				// updates are serialized, if there even are any
+				KoLmafia.updateDisplay( "Updating all SVN projects..." );
+				for ( File f : projectsToUpdate )
+				{
+					if ( !KoLmafia.permitsContinue() )
+					{
+						return;
 					}
 
 					RequestThread.postRequest( new UpdateRunnable( f ) );
@@ -1286,18 +1337,9 @@ public class SVNManager
 			checkDependencies();
 	}
 
-	/**
-	 * For users who just want "simple" update behavior, check if the revision of the project root and the repo root are
-	 * the same.
-	 * <p>
-	 * Users who have used <code>svn switch</code> on some of their project should not use this.
-	 * 
-	 * @param f the working copy
-	 * @return <code>true</code> if the working copy is at HEAD
-	 */
-	private static boolean WCAtHead( File f )
+	public static boolean WCAtHead( File f, boolean quiet )
 	{
-		return WCAtHead( f, false );
+		return WCAtHead( f, quiet, null );
 	}
 
 	/**
@@ -1308,10 +1350,12 @@ public class SVNManager
 	 * 
 	 * @param f the working copy
 	 * @param quiet if <code>true</code>, suppresses RequestLogger output.
-	 * @return <code>true</code> if the working copy is at HEAD
+	 * @param runnables if present, enables multi-threaded behaviour, and adds a runnable to the list; otherwise executes the runnable
+	 * @return <code>true</code> if the working copy is at HEAD, or runnable was successfully added to <code>runnables</code> 
 	 */
-	public static boolean WCAtHead( File f, boolean quiet )
+	public static boolean WCAtHead( File f, boolean quiet, List<CheckStatusRunnable> runnables )
 	{
+		boolean mayReuseRepo = runnables == null;
 		try
 		{
 			SVN_LOCK.lock();
@@ -1321,13 +1365,21 @@ public class SVNManager
 			}
 
 			SVNInfo wcinfo = getClientManager().getWCClient().doInfo( f, SVNRevision.WORKING );
-			long repoRev = getClientManager().createRepository( wcinfo.getURL(), true ).getLatestRevision();
+			SVNRepository repo = getClientManager().createRepository( wcinfo.getURL(), mayReuseRepo );
+			long wcRevisionNumber = wcinfo.getRevision().getNumber();
 
-			if ( wcinfo.getRevision().getNumber() == repoRev )
+			CheckStatusRunnable checkStatusRunnable = new CheckStatusRunnable( f, repo, wcRevisionNumber, wcinfo.getFile(), quiet );
+			if (runnables != null)
 			{
-				if ( !quiet )
-					RequestLogger.printLine( wcinfo.getFile().getName() + " is at HEAD (r" + repoRev + ")" );
-				return true;
+				runnables.add(checkStatusRunnable);
+			}
+			else
+			{
+				checkStatusRunnable.run();
+				if ( checkStatusRunnable.isAtHead() )
+				{
+					return true;
+				}
 			}
 		}
 		catch ( SVNException e )
