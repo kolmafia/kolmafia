@@ -74,19 +74,14 @@ public class BasementDecorator
 		if ( buffer.indexOf( "Got Silk?" ) != -1 )
 		{
 			BasementDecorator.addBasementChoiceSpoilers( buffer, "Moxie", "Muscle" );
-			return;
 		}
-
-		if ( buffer.indexOf( "Save the Dolls" ) != -1 )
+		else if ( buffer.indexOf( "Save the Dolls" ) != -1 )
 		{
 			BasementDecorator.addBasementChoiceSpoilers( buffer, "Mysticality", "Moxie" );
-			return;
 		}
-
-		if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
+		else if ( buffer.indexOf( "Take the Red Pill" ) != -1 )
 		{
 			BasementDecorator.addBasementChoiceSpoilers( buffer, "Muscle", "Mysticality" );
-			return;
 		}
 
 		addBasementSpoilers( buffer );
