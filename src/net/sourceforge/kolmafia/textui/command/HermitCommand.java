@@ -91,9 +91,8 @@ public class HermitCommand
 		parameters = parameters.toLowerCase().trim();
 		int itemId = -1;
 
-		for ( int i = 0; i < KoLConstants.hermitItems.size(); ++i )
+		for ( AdventureResult item : KoLConstants.hermitItems )
 		{
-			AdventureResult item = (AdventureResult) KoLConstants.hermitItems.get( i );
 			String name = item.getName();
 			if ( name.toLowerCase().contains( parameters ) )
 			{

@@ -512,7 +512,16 @@ public abstract class InventoryManager
 				return "chewing gum";
 			}
 
-			return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
+			try
+			{
+				SpecialOutfit.createImplicitCheckpoint();
+				return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
+			}
+			finally
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+			}
+
 		}
 
 		// If it is a virtual item, see if we already bought it
