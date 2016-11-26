@@ -485,7 +485,37 @@ public class ItemFinder
 		{
 			if ( errorOnFailure )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "] has no matches." );
+				String error;
+				switch ( filterType )
+				{
+				case ANY_MATCH:
+				default:
+					error = " has no matches.";
+					break;
+				case FOOD_MATCH:
+					error = " cannot be eaten.";
+					break;
+				case BOOZE_MATCH:
+					error = " cannot be drunk.";
+					break;
+				case SPLEEN_MATCH:
+					error = " cannot be chewed.";
+					break;
+				case USE_MATCH:
+					error = " cannot be used.";
+					break;
+				case CREATE_MATCH:
+					error = " cannot be created.";
+					break;
+				case UNTINKER_MATCH:
+					error = " cannot be untinkered.";
+					break;
+				case EQUIP_MATCH:
+					error = " cannot be equipped.";
+					break;
+				}
+
+				KoLmafia.updateDisplay( MafiaState.ERROR, "[" + parameters + "]" + error );
 			}
 
 			return null;
