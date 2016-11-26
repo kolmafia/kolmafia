@@ -1,7 +1,25 @@
 3
 # Original familiar arena stats from Vladjimir's arena data
 # http://www.therye.org/familiars/
-
+#
+# stat0 - vollyball-like
+# stat1 - sombrero-like
+# item0 - Item Drop
+# meat0 - Meat Drop
+# combat0 - Physical Attack
+# combat1 - Elemental Attack
+# block - potato-like
+# delevel - barrrnacle-like
+# hp0 - restore hp during combat
+# mp0 - restore mp during combat
+# other0 - does other things during combat
+# hp1 - restore hp after combat
+# mp1 - restore mp after combat
+# other1 - does other things during combat
+# passive - passive effect
+# underwater - breaths underwater
+# variable - varies according to equipment or other factors.
+#
 # no.	name	image	type	larva	item	CM	SH	OC	H&S
 
 1	Mosquito	familiar1.gif	combat0,hp0	mosquito larva	hypodermic needle	2	1	3	0
