@@ -246,7 +246,7 @@ public class ShowDataCommand
 			AdventureResult container = EquipmentManager.getEquipment( EquipmentManager.CONTAINER );
 			if ( container != EquipmentRequest.UNEQUIP )
 			{
-				desiredStream.println( "Container: " + container );
+				desiredStream.println( "Back: " + container );
 				if ( container.getItemId() == ItemPool.BUDDY_BJORN )
 				{
 					desiredStream.println( "Carrying: " + KoLCharacter.getBjorned() );
