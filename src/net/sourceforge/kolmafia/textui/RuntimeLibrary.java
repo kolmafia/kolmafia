@@ -4282,7 +4282,7 @@ public abstract class RuntimeLibrary
 	public static Value storage_amount( Interpreter interpreter, final Value arg )
 	{
 		AdventureResult item = ItemPool.get( (int) arg.intValue(), 0 );
-		return new Value( item.getCount( KoLConstants.storage ) );
+		return new Value( item.getCount( KoLConstants.storage ) + item.getCount( KoLConstants.freepulls ) );
 	}
 
 	public static Value display_amount( Interpreter interpreter, final Value arg )
