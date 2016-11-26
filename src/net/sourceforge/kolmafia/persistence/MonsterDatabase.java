@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -505,6 +506,7 @@ public class MonsterDatabase
 		int physical = 0;
 		String manuelName = null;
 		String wikiName = null;
+		ArrayList<String> subTypes = new ArrayList<String>();
 
 		StringTokenizer tokens = new StringTokenizer( attributes, " " );
 		while ( tokens.hasMoreTokens() )
@@ -758,6 +760,11 @@ public class MonsterDatabase
 				{
 					continue;
 				}
+				else if ( option.equals( "GHOST" ) )
+				{
+					subTypes.add( option.toLowerCase() );
+					continue;
+				}
 
 				RequestLogger.printLine( "Monster: \"" + name + "\": unknown option: " + option );
 			}
@@ -781,7 +788,7 @@ public class MonsterDatabase
 					   meat, phylum, poison,
 					   boss, noBanish, dummy, type,
 					   images, manuelName, wikiName,
-					   attributes );
+					   subTypes, attributes );
 
 		return monster;
 	}

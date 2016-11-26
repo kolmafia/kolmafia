@@ -1169,11 +1169,13 @@ public class ProxyRecordValue
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "images",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
-			.add( "attributes", DataTypes.STRING_TYPE )
+			.add( "sub_types",
+				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "random_modifiers",
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "manuel_name", DataTypes.STRING_TYPE )
 			.add( "wiki_name", DataTypes.STRING_TYPE )
+			.add( "attributes", DataTypes.STRING_TYPE )
 			.finish( "monster proxy" );
 
 		public MonsterProxy( Value obj )
@@ -1301,15 +1303,20 @@ public class ProxyRecordValue
 			return new PluralValue( DataTypes.STRING_TYPE, rv );
 		}
 
-		public String get_attributes()
-		{
-			return ( (MonsterData) this.content ).getAttributes();
-		}
-
 		public Value get_random_modifiers()
 		{
 			ArrayList<Value> rv = new ArrayList<Value>();
 			for ( String attribute : ( (MonsterData) this.content ).getRandomModifiers() )
+			{
+				rv.add( new Value( attribute ) );
+			}
+			return new PluralValue( DataTypes.STRING_TYPE, rv );
+		}
+
+		public Value get_sub_types()
+		{
+			ArrayList<Value> rv = new ArrayList<Value>();
+			for ( String attribute : ( (MonsterData) this.content ).getSubTypes() )
 			{
 				rv.add( new Value( attribute ) );
 			}
@@ -1324,6 +1331,11 @@ public class ProxyRecordValue
 		public String get_wiki_name()
 		{
 			return ( (MonsterData) this.content ).getWikiName();
+		}
+
+		public String get_attributes()
+		{
+			return ( (MonsterData) this.content ).getAttributes();
 		}
 	}
 
