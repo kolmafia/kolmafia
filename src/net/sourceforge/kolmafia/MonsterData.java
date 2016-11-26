@@ -80,6 +80,7 @@ public class MonsterData
 	private final String[] images;
 	private String manuelName = null;
 	private String wikiName = null;
+	private final List<String> subTypes;
 	private final String attributes;
 	private final int beeCount;
 
@@ -184,7 +185,8 @@ public class MonsterData
 			    final int meat, final Phylum phylum, final int poison,
 			    final boolean boss, final boolean noBanish, final boolean dummy,
 			    final EnumSet<EncounterType> type, final String[] images,
-			    final String manuelName, final String wikiName, final String attributes )
+			    final String manuelName, final String wikiName, final List<String> subTypes,
+			    final String attributes )
 	{
 		super( AdventureResult.MONSTER_PRIORITY, name );
 
@@ -213,6 +215,7 @@ public class MonsterData
 		this.images = images;
 		this.manuelName = manuelName;
 		this.wikiName = wikiName == null ? name : wikiName;
+		this.subTypes = subTypes;
 		this.attributes = attributes;
 		this.noManuel = attributes.contains ( "NOMANUEL" );
 
@@ -886,6 +889,11 @@ public class MonsterData
 			}
 		}
 		return false;
+	}
+
+	public List<String> getSubTypes()
+	{
+		return this.subTypes;
 	}
 
 	public String getAttributes()
