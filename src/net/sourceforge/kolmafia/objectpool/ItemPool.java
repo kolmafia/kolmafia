@@ -2590,6 +2590,9 @@ public class ItemPool
 	public static final int WESTERN_BOOK_BRAGGADOCCIO = 8916;
 	public static final int WESTERN_BOOK_HELL = 8917;
 	public static final int WESTERN_BOOK_LOOK = 8918;
+	public static final int WESTERN_SLANG_VOL_1 = 8920;
+	public static final int WESTERN_SLANG_VOL_2 = 8921;
+	public static final int WESTERN_SLANG_VOL_3 = 8922;
 	public static final int STRANGE_DISC_WHITE = 8923;
 	public static final int STRANGE_DISC_BLACK = 8924;
 	public static final int STRANGE_DISC_RED = 8925;
