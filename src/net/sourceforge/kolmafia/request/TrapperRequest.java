@@ -150,6 +150,10 @@ public class TrapperRequest
 		{
 			return "You have unfinished business with the Trapper";
 		}
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return "The trapper won't be back for quite a while";
+		}
 		return null;
 	}
 }

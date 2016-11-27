@@ -259,9 +259,17 @@ public class HermitRequest
 	@Override
 	public void processResults()
 	{
-		// The Hermit has left in the Zombie Slayer path
-		if ( KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+		// The Hermit has left in the Nuclear Autumn path
+		if ( KoLCharacter.inNuclearAutumn() )
 		{
+			return;
+		}
+
+		// In Zombiecore we can get one clover per day on first visit
+		if ( KoLCharacter.inZombiecore() )
+		{
+			Preferences.setBoolean( "_zombieClover", true );
+			HermitRequest.checkedForClovers = true;
 			return;
 		}
 
@@ -502,6 +510,12 @@ public class HermitRequest
 
 	public static final int cloverCount()
 	{
+		// One clover a day available in Zombie path
+		if ( KoLCharacter.inZombiecore() )
+		{
+			return Preferences.getBoolean( "_zombieClover0" ) ? 0 : 1;
+		}
+
 		if ( !HermitRequest.checkedForClovers )
 		{
 			RequestThread.postRequest( new HermitRequest() );
