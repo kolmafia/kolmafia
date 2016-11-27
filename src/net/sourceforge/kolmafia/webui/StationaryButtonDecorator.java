@@ -638,15 +638,22 @@ public class StationaryButtonDecorator
 	public static final void addChoiceButtons( final StringBuffer buffer )
 	{
 		int choice = ChoiceManager.currentChoice();
-		String name = ChoiceManager.hasGoalButton( choice ) ? "Go To Goal" : "auto";
+
+		// Certain choices require extra parameters
+		switch ( choice )
+		{
+		case 0:
+			return;
+		case 999:
+			// Shrubberatin'
+			return;
+		}
+
+		boolean goal = ChoiceManager.hasGoalButton( choice );
+		String name = goal ? "Go To Goal" : "auto";
 		String action = "choice.php?action=auto";
 
 		StationaryButtonDecorator.addButton( buffer, name, action, true, false );
-
-		if ( choice == 0 )
-		{
-			return;
-		}
 
 		StringBuilder actionBuffer = new StringBuilder();
 		TreeMap<Integer,String> choices = ChoiceUtilities.parseChoices( ChoiceManager.lastResponseText );
