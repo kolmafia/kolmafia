@@ -5332,7 +5332,15 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.TONIC_DJINN:
+			if ( responseText.contains( "put the bottle away" ) )
+			{
+				return;
+			}
 			Preferences.setBoolean( "_tonicDjinn", true );
+			if ( responseText.contains( "already had a wish today" ) )
+			{
+				return;
+			}
 			break;
 
 		case ItemPool.TWELVE_NIGHT_ENERGY:
