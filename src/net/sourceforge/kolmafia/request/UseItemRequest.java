@@ -3168,6 +3168,36 @@ public class UseItemRequest
 			break;
 		}
 
+		case ItemPool.WESTERN_SLANG_VOL_1:
+		case ItemPool.WESTERN_SLANG_VOL_2:
+		case ItemPool.WESTERN_SLANG_VOL_3:
+
+			// You memorize all of the violence-related slang terms in the book.
+			//
+			// Advanced Cowpuncher skills have been unlocked in the
+			// Avatar of West of Loathing Challenge Path.
+			//
+			// You memorize all of the food-related slang terms in the book.
+			// 
+			// Advanced Beanslinger skills have been unlocked in
+			// the Avatar of West of Loathing Challenge Path.
+			// 
+			// You memorize all of the slang terms about scams and con artists.
+			// 
+			// Advanced Snake Oiler skills have been unlocked in
+			// the Avatar of West of Loathing Challenge Path.
+
+			if ( !responseText.contains( "skills have been unlocked" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already read that book.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+
+			// Do we need to track this?
+
+			break;
+
 		case ItemPool.CHATEAU_ROOM_KEY:
 
 			Preferences.setBoolean( "chateauAvailable", true );
