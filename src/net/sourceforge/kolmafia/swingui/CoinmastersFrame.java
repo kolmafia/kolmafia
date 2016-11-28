@@ -831,7 +831,6 @@ public class CoinmastersFrame
 			super.update();
 			this.setEnabled( Preferences.getBoolean( "timeTowerAvailable" ) );
 		}
-
 	}
 
 	public class NeandermallPanel
@@ -1294,12 +1293,8 @@ public class CoinmastersFrame
 	}
 
 	private class BatFabricatorPanel
-		extends CoinmasterPanel
+		extends BatFellowPanel
 	{
-		private int metal = 0;
-		private int fibers = 0;
-		private int explosives = 0;
-
 		public BatFabricatorPanel()
 		{
 			super( BatFabricatorRequest.BAT_FABRICATOR );
@@ -1307,33 +1302,22 @@ public class CoinmastersFrame
 		}
 
 		@Override
-		public final void update()
-		{
-			this.metal = BatFabricatorRequest.METAL.getCount( KoLConstants.inventory );
-			this.fibers = BatFabricatorRequest.FIBERS.getCount( KoLConstants.inventory );
-			this.explosives = BatFabricatorRequest.EXPLOSIVES.getCount( KoLConstants.inventory );
-			super.update();
-		}
-
-		@Override
 		public void setTitle( final StringBuffer buffer )
 		{
-			buffer.append( String.valueOf( this.metal ) );
-			buffer.append( " " );
-			buffer.append( BatFabricatorRequest.METAL.getName() );
-			buffer.append( ", " );
-			buffer.append( String.valueOf( this.fibers ) );
-			buffer.append( " " );
-			buffer.append( BatFabricatorRequest.FIBERS.getName() );
-			buffer.append( ", " );
-			buffer.append( String.valueOf( this.explosives ) );
-			buffer.append( " " );
-			buffer.append( BatFabricatorRequest.EXPLOSIVES.getName() );
+			this.standardTitle( buffer );
+			for ( AdventureResult currency : this.data.currencies() )
+			{
+				buffer.append( " (" );
+				buffer.append( String.valueOf( InventoryManager.getCount( currency ) ) );
+				buffer.append( " " );
+				buffer.append( currency.getName() );
+				buffer.append( ")" );
+			}
 		}
 	}
 
 	private class ChemiCorpPanel
-		extends CoinmasterPanel
+		extends BatFellowPanel
 	{
 		public ChemiCorpPanel()
 		{
@@ -1342,7 +1326,7 @@ public class CoinmastersFrame
 	}
 
 	private class GotporkOrphanagePanel
-		extends CoinmasterPanel
+		extends BatFellowPanel
 	{
 		public GotporkOrphanagePanel()
 		{
@@ -1351,7 +1335,7 @@ public class CoinmastersFrame
 	}
 
 	private class GotporkPDPanel
-		extends CoinmasterPanel
+		extends BatFellowPanel
 	{
 		public GotporkPDPanel()
 		{
@@ -1464,6 +1448,29 @@ public class CoinmastersFrame
 		public CashewPanel()
 		{
 			super( ThankShopRequest.CASHEW_STORE );
+		}
+	}
+
+	private abstract class BatFellowPanel
+		extends CoinmasterPanel
+	{
+		public BatFellowPanel( CoinmasterData data )
+		{
+			super( data );
+			NamedListenerRegistry.registerNamedListener( "(batfellow)", this );
+		}
+
+		@Override
+		public final void update()
+		{
+			super.update();
+			this.setEnabled( this.data.isAccessible() );
+		}
+
+		@Override
+		public int buyDefault( final int max )
+		{
+			return max;
 		}
 	}
 

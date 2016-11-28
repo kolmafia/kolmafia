@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -174,7 +175,10 @@ public class ChemiCorpRequest
 		{
 			return "Only Batfellow can go to ChemiCorp.";
 		}
-		// *** Only accessible if our current zone is Downtown
+		if ( BatManager.currentBatZone() != BatManager.DOWNTOWN )
+		{
+			return "Batfellow can only visit ChemiCorp while Downtown.";
+		}
 		return null;
 	}
 }

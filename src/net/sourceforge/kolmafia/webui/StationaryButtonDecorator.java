@@ -61,6 +61,8 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -469,6 +471,24 @@ public class StationaryButtonDecorator
 			return;
 		}
 
+		// If you are Batfellow, you cannot "attack". Instead, you have
+		// skills based on items you might have.
+		if ( KoLCharacter.getLimitmode() == Limitmode.BATMAN )
+		{
+			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-Punch", 0 );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-Kick", 0 );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-oomerang", ItemPool.BAT_OOMERANG );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-Jute", ItemPool.BAT_JUTE );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-o-mite", ItemPool.BAT_O_MITE );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Ultracoagulator", ItemPool.ULTRACOAGULATOR );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Kickball", ItemPool.EXPLODING_KICKBALL );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-Glue", ItemPool.GLOB_OF_BAT_GLUE );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Bat-Bearing", ItemPool.BAT_BEARING );
+			StationaryButtonDecorator.addBatButton( actionBuffer, "Use Bat-Aid", ItemPool.BAT_AID_BANDAGE );
+			return;
+		}
+
 		if ( Preferences.getBoolean( "relayScriptButtonFirst" ) )
 		{
 			StationaryButtonDecorator.addScriptButton( urlString, actionBuffer, true );
@@ -632,6 +652,19 @@ public class StationaryButtonDecorator
 		if ( StationaryButtonDecorator.combatHotkeys.isEmpty() )
 		{
 			StationaryButtonDecorator.reloadCombatHotkeyMap();
+		}
+	}
+
+	public static final void addBatButton( final StringBuffer actionBuffer, String skillName, int itemId )
+	{
+		if ( itemId != 0 && InventoryManager.getCount( itemId ) == 0 )
+		{
+			return;
+		}
+		int skillId = SkillDatabase.getSkillId( skillName );
+		if ( skillId != -1 )
+		{
+			StationaryButtonDecorator.addFightButton( actionBuffer, String.valueOf( skillId ), true );
 		}
 	}
 

@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -347,11 +349,40 @@ public class BatManager
 
 		// You start in the Bat-Cavern
 		BatManager.setBatZone( BatManager.BAT_CAVERN );
+
+		// You can use Batfellow combat skills.
+		BatManager.setCombatSkills();
+	}
+
+	public static void setCombatSkills()
+	{
+		KoLCharacter.addAvailableCombatSkill( "Bat-Punch" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-Kick" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-oomerang" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-Jute" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-o-mite" );
+		KoLCharacter.addAvailableCombatSkill( "Ultracoagulator" );
+		KoLCharacter.addAvailableCombatSkill( "Kickball" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-Glue" );
+		KoLCharacter.addAvailableCombatSkill( "Bat-Bearing" );
+		KoLCharacter.addAvailableCombatSkill( "Use Bat-Aid" );
 	}
 
 	public static void end()
 	{
 		BatManager.reset( false );
+
+		// You can no longer use Batfellow combat skills.
+		KoLCharacter.removeAvailableCombatSkill( "Bat-Punch" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-Kick" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-oomerang" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-Jute" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-o-mite" );
+		KoLCharacter.removeAvailableCombatSkill( "Ultracoagulator" );
+		KoLCharacter.removeAvailableCombatSkill( "Kickball" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-Glue" );
+		KoLCharacter.removeAvailableCombatSkill( "Bat-Bearing" );
+		KoLCharacter.removeAvailableCombatSkill( "Use Bat-Aid" );
 	}
 
 	private static void resetItems()
@@ -537,6 +568,7 @@ public class BatManager
 	{
 		BatManager.zone = zone;
 		Preferences.setString( "batmanZone", zone );
+		NamedListenerRegistry.fireChange( "(batfellow)" );
 	}
 
 	public static void newBatZone( final String zone )

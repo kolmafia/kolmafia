@@ -174,7 +174,10 @@ public class BatFabricatorRequest
 		{
 			return "Only Batfellow can use the Bat-Fabricator.";
 		}
-		// *** Only accessible if our current zone is Bat-Cave
+		if ( BatManager.currentBatZone() != BatManager.BAT_CAVERN )
+		{
+			return "Batfellow can only use the Bat-Fabricator in the BatCavern.";
+		}
 		return null;
 	}
 }
