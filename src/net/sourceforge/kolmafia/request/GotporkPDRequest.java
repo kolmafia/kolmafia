@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -174,7 +175,10 @@ public class GotporkPDRequest
 		{
 			return "Only Batfellow can go to the Gotpork P. D.";
 		}
-		// *** Only accessible if our current zone is Downtown
+		if ( BatManager.currentBatZone() != BatManager.DOWNTOWN )
+		{
+			return "Batfellow can only visit the Gotpork Police Department while Downtown.";
+		}
 		return null;
 	}
 }

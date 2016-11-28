@@ -1651,6 +1651,7 @@ public abstract class KoLCharacter
 		else if ( limitmode.equals( Limitmode.BATMAN ) )
 		{
 			KoLCharacter.limitmode = Limitmode.BATMAN;
+			BatManager.setCombatSkills();
 		}
 		else if ( limitmode.equals( Limitmode.ED ) )
 		{
@@ -4421,6 +4422,27 @@ public abstract class KoLCharacter
 	public static final void addAvailableCombatSkill( final String name )
 	{
 		KoLCharacter.addAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
+	}
+
+	private static final void removeAvailableCombatSkill( final UseSkillRequest skill )
+	{
+		if ( skill == null )
+		{
+			return;
+		}
+
+		if ( !KoLConstants.availableCombatSkillsMap.containsKey( skill ) )
+		{
+			return;
+		}
+
+		KoLConstants.availableCombatSkills.remove( skill );
+		KoLConstants.availableCombatSkillsMap.remove( skill );
+	}
+
+	public static final void removeAvailableCombatSkill( final String name )
+	{
+		KoLCharacter.removeAvailableCombatSkill( UseSkillRequest.getUnmodifiedInstance( name ) );
 	}
 
 	private static final void addCombatSkill( final String name )

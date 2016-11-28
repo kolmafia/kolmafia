@@ -149,9 +149,9 @@ public class Macrofier
 
 		if ( Macrofier.macroInterpreter != null )
 		{
-			String[] parameters = new String[ 3 ];
-			parameters[ 0 ] = String.valueOf( FightRequest.getRoundIndex() );
-			parameters[ 1 ] = monsterName;
+			Object[] parameters = new Object[ 3 ];
+			parameters[ 0 ] = new Integer( FightRequest.getRoundIndex() );
+			parameters[ 1 ] = monster;
 			parameters[ 2 ] = FightRequest.lastResponseText;
 
 			// Execute a single function in the scope of the
