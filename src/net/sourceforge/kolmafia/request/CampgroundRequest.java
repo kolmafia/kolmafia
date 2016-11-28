@@ -442,14 +442,14 @@ public class CampgroundRequest
 
 			// We found the current crop before we found the
 			// desired crop. Not good enough.
-			if ( cropID == currentID && cropCount == currentCount )
+			if ( cropID == currentID )
 			{
 				return false;
 			}
 
  			// We found the desired crop before we found the
 			// current crop - which is therefore better IFF its type is the same.
-			if ( cropID == desiredID && cropCount >= desiredCount )
+			if ( cropID == desiredID )
  			{
 				return CROPMAP.get( crop ) == CROPMAP.get( current );
 			}

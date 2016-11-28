@@ -241,13 +241,29 @@ public class TestCommand
 		{
 			if ( split.length < 2 )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "test crop MATCH" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test crop [CROP,] MATCH" );
 				return;
 			}
-			AdventureResult current = CampgroundRequest.getCrop();
-			String crop = parameters.substring( parameters.indexOf( " " ) + 1 ).trim();
-			boolean better = CampgroundRequest.hasCropOrBetter( current, crop );
-			RequestLogger.printLine( current + ( better ? " is as good as " : " is worse than " ) + crop );
+
+			AdventureResult crop;
+			String matchName;
+
+			int space = parameters.indexOf( " " );
+			int comma = parameters.indexOf( "," );
+			if ( comma != -1 )
+			{
+				String cropName = parameters.substring( space + 1, comma ).trim();
+				crop = CampgroundRequest.parseCrop( cropName );
+				matchName = parameters.substring( comma + 1 ).trim();
+			}
+			else
+			{
+				crop = CampgroundRequest.getCrop();
+				matchName = parameters.substring( space + 1 ).trim();
+			}
+
+			boolean better = CampgroundRequest.hasCropOrBetter( crop, matchName );
+			RequestLogger.printLine( crop + ( better ? " is as good as " : " is worse than " ) + matchName );
 			return;
 		}
 
