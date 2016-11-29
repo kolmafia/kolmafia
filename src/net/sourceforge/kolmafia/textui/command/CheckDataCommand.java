@@ -104,7 +104,10 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkfamiliars" ) )
 		{
-			DebugDatabase.checkFamiliars();
+			RequestLogger.printLine( "Checking familiar powers from terrarium." );
+			DebugDatabase.checkFamiliarsInTerrarium();
+			RequestLogger.printLine( "Checking familiar images." );
+			DebugDatabase.checkFamiliarImages();
 			RequestLogger.printLine( "Familiars checked." );
 			return;
 		}

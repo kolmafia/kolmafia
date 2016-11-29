@@ -823,6 +823,7 @@ public class CoinmastersFrame
 		{
 			super( data );
 			PreferenceListenerRegistry.registerPreferenceListener( "timeTowerAvailable", this );
+			this.update();
 		}
 
 		@Override
@@ -1058,9 +1059,9 @@ public class CoinmastersFrame
 		@Override
 		public final void update()
 		{
+			super.update();
 			this.gameGridTokens = ArcadeRequest.TOKEN.getCount( KoLConstants.inventory );
 			this.skeeball.setEnabled( this.gameGridTokens > 0 );
-			super.update();
 		}
 
 		@Override
@@ -1298,7 +1299,6 @@ public class CoinmastersFrame
 		public BatFabricatorPanel()
 		{
 			super( BatFabricatorRequest.BAT_FABRICATOR );
-			this.update();
 		}
 
 		@Override
@@ -1458,6 +1458,7 @@ public class CoinmastersFrame
 		{
 			super( data );
 			NamedListenerRegistry.registerNamedListener( "(batfellow)", this );
+			this.update();
 		}
 
 		@Override

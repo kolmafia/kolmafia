@@ -48,6 +48,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -77,6 +78,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -2405,19 +2407,205 @@ public class DebugDatabase
 
 	// **********************************************************
 
-	public static final void checkFamiliars()
+	// <tr class="frow " data-stats="1" data-meat="1" data-items="1"><td valign=center><input type=radio name=newfam value=192></td><td valign=center><img src="/images/itemimages/goldmonkey.gif" class="hand fam" onClick='fam(192)'></td><td valign=top style='padding-top: .45em;'><b>Ignominious Uncguary</b>, the 20-pound Golden Monkey (400 exp, 6,107 kills) <font size="1"><br />&nbsp;&nbsp;&nbsp;&nbsp;<a class="fave" href="familiar.php?group=0&action=fave&famid=192&pwd">[unfavorite]</a>&nbsp;&nbsp;<a class="fave" href="familiar.php?&action=newfam&newfam=192&pwd">[take with you]</a></font></td><td valign=center nowrap><center><b>(</b><img src="/images/itemimages/goldbanana.gif" class=hand onClick='descitem(986943479)' align=middle><b>)</b><br><font size=1><a href='familiar.php?pwd&action=unequip&famid=192'>[unequip]</a></font></center></td></tr>
+
+	private static final Pattern FAMILIAR_ROW_PATTERN = Pattern.compile( "<tr class=\"frow ?\"([^>]*)>.*?onClick='fam\\(([\\d]+)\\)'.*?</tr>" );
+
+	public static final void checkFamiliarsInTerrarium()
 	{
-		// Get familiar images from the familiar description
-		for ( int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i )
+		FamiliarRequest request = new FamiliarRequest();
+		RequestThread.postRequest( request );
+
+		TreeMap<Integer,String> map = new TreeMap<Integer,String>();
+
+		Matcher matcher = DebugDatabase.FAMILIAR_ROW_PATTERN.matcher( request.responseText );
+		while ( matcher.find() )
 		{
-			DebugDatabase.checkFamiliar( i );
+			int id = StringUtilities.parseInt( matcher.group( 2 ) );
+			String powers = matcher.group( 1 ).trim();
+			map.put( id, powers );
 		}
 
-		FamiliarDatabase.saveDataOverride();
+		for ( Entry<Integer,String> entry : map.entrySet() )
+		{
+			int id = entry.getKey().intValue();
+			String powers = entry.getValue();
+			DebugDatabase.checkTerrariumFamiliar( id, powers );
+		}
+	}
+
+	private static final void checkTerrariumFamiliar( int id, String powers )
+	{
+		// KoL familiar categories
+		boolean dataAttack = powers.contains( "data-attack" );
+		boolean dataDefense = powers.contains( "data-defense" );
+		boolean dataHPRestore = powers.contains( "data-hp_restore" );
+		boolean dataItemDrops = powers.contains( "data-itemdrops" );
+		boolean dataItems = powers.contains( "data-items" );
+		boolean dataMeat = powers.contains( "data-meat" );
+		boolean dataMPRestore = powers.contains( "data-mp_restore" );
+		boolean dataOther = powers.contains( "data-other" );
+		boolean dataStats = powers.contains( "data-stats" );
+		boolean dataUnderwater = powers.contains( "data-underwater" );
+
+		// KoLmafia familiar categories
+		boolean block = FamiliarDatabase.isBlockType( id );
+		boolean combat0 = FamiliarDatabase.isCombat0Type( id );
+		boolean combat1 = FamiliarDatabase.isCombat1Type( id );
+		boolean delevel = FamiliarDatabase.isDelevelType( id );
+		boolean drop = FamiliarDatabase.isDropType( id );
+		boolean hp0 = FamiliarDatabase.isHp0Type( id );
+		boolean hp1 = FamiliarDatabase.isHp1Type( id );
+		boolean item0 = FamiliarDatabase.isFairyType( id );
+		boolean meat0 = FamiliarDatabase.isMeatDropType( id );
+		boolean mp0 = FamiliarDatabase.isMp0Type( id );
+		boolean mp1 = FamiliarDatabase.isMp1Type( id );
+		boolean none = FamiliarDatabase.isNoneType( id );
+		boolean other0 = FamiliarDatabase.isOther0Type( id );
+		boolean other1 = FamiliarDatabase.isOther1Type( id );
+		boolean passive = FamiliarDatabase.isPassiveType( id );
+		boolean stat0 = FamiliarDatabase.isVolleyType( id );
+		boolean stat1 = FamiliarDatabase.isSombreroType( id );
+		boolean underwater = FamiliarDatabase.isUnderwaterType( id );
+		boolean variable = FamiliarDatabase.isVariableType( id );
+
+		String name = FamiliarDatabase.getFamiliarName( id );
+
+		// Check KoL categories
+		if ( dataAttack && !( combat0 || combat1 ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'attack' but we have neither 'combat0' nor 'combat1'" );
+		}
+		if ( dataDefense && !( block || delevel ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'defense' but we have neither 'block' nor 'delevel'" );
+		}
+		if ( dataHPRestore && !( hp0 || hp1 ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'hp_restore' but we have neither 'hp0' nor 'hp1'" );
+		}
+		if ( dataItemDrops && !item0 )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'itemdrops' but we do not have 'item0'" );
+		}
+		if ( dataItems && !drop )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'item' but we do not have 'drop'" );
+		}
+		if ( dataMeat && !meat0 )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'meat' but we do not have 'meat0'" );
+		}
+		if ( dataMPRestore && !( mp0 || mp1 ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'mp_restore' but we have neither 'mp0' nor 'mp1'" );
+		}
+		if ( dataOther && !( none || other0 || other1 || passive ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'other' but we have none of 'none', 'other0', 'other1', or 'passive'" );
+		}
+		if ( dataStats && !( stat0 || stat1 ) )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'stats' but we have neither 'stat0' nor 'stat1'" );
+		}
+		if ( dataUnderwater && !underwater )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'underwater' but we do not have 'underwater'" );
+		}
+
+		// Check KoLmafia categories
+		if ( block && !dataDefense )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'block' but KoL does not say 'defense'" );
+		}
+		if ( combat0 && !dataAttack )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'combat0' but KoL does not say 'attack'" );
+		}
+		if ( combat1 && !dataAttack )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'combat1' but KoL does not say 'attack'" );
+		}
+		if ( delevel && !dataDefense )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'delevel' but KoL does not say 'defense'" );
+		}
+		if ( drop && !dataItems )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'drop' but KoL does not say 'items'" );
+		}
+		if ( hp0 && !dataHPRestore )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'hp0' but KoL does not say 'hp_restore'" );
+		}
+		if ( hp1 && !dataHPRestore )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'hp1' but KoL does not say 'hp_restore'" );
+		}
+		if ( item0 && !dataItemDrops )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'item0' but KoL does not say 'itemdrops'" );
+		}
+		if ( meat0 && !dataMeat )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'meat0' but KoL does not say 'meat'" );
+		}
+		if ( mp0 && !dataMPRestore )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'mp0' but KoL does not say 'mp_restore'" );
+		}
+		if ( mp1 && !dataMPRestore )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'mp1' but KoL does not say 'mp_restore'" );
+		}
+		if ( none && !dataOther )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'none' but KoL does not say 'other'" );
+		}
+		if ( other0 && !dataOther )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'other0' but KoL does not say 'other'" );
+		}
+		if ( other1 && !dataOther )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'other1' but KoL does not say 'other'" );
+		}
+		if ( passive && !dataOther )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'passive' but KoL does not say 'other'" );
+		}
+		if ( stat0 && !dataStats )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'stat0' but KoL does not say 'stats'" );
+		}
+		if ( stat1 && !dataStats )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'stat1' but KoL does not say 'stats'" );
+		}
+		if ( underwater && !dataUnderwater )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'underwater' but KoL does not say 'underwater'" );
+		}
+		if ( variable && !dataOther )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'variable' but KoL does not say 'other'" );
+		}
+	}
+
+	public static final void checkFamiliarImages()
+	{
+		// Get familiar images from the familiar description
+		boolean changed = false;
+		for ( int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i )
+		{
+			changed |= DebugDatabase.checkFamiliarImage( i );
+		}
+
+		// FamiliarDatabase.saveDataOverride();
 	}
 
 	private static final Pattern FAMILIAR_IMAGE_PATTERN = Pattern.compile( "images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)" );
-	private static final void checkFamiliar( final int id )
+	private static final boolean checkFamiliarImage( final int id )
 	{
 		String file = "desc_familiar.php?which=" + String.valueOf( id );
 		GenericRequest request = new GenericRequest( file );
@@ -2425,13 +2613,25 @@ public class DebugDatabase
 		String text = request.responseText;
 		if ( text == null )
 		{
-			return;
+			RequestLogger.printLine( "*** no description for familiar #" + id );
+			return false;
 		}
+
+		boolean changed = false;
 		Matcher matcher = FAMILIAR_IMAGE_PATTERN.matcher( text );
 		if ( matcher.find() )
 		{
-			FamiliarDatabase.setFamiliarImageLocation( id, matcher.group( 1 ) );
+			String oldImage = FamiliarDatabase.getFamiliarImageLocation( id );
+			String newImage = matcher.group( 1 );
+			if ( !oldImage.equals( newImage ) )
+			{
+				RequestLogger.printLine( "*** familiar #" + id + " has image " + oldImage + " but KoL says it is " + newImage );
+				FamiliarDatabase.setFamiliarImageLocation( id, newImage );
+				changed = true;
+			}
 		}
+
+		return changed;
 	}
 
 	// **********************************************************

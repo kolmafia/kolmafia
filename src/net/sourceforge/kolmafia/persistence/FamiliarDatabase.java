@@ -98,7 +98,10 @@ public class FamiliarDatabase
 	private static final BooleanArray other1ById = new BooleanArray();
 
 	private static final BooleanArray passiveById = new BooleanArray();
+	private static final BooleanArray dropById = new BooleanArray();
 	private static final BooleanArray underwaterById = new BooleanArray();
+
+	private static final BooleanArray noneById = new BooleanArray();
 	private static final BooleanArray variableById = new BooleanArray();
 
 	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
@@ -187,7 +190,10 @@ public class FamiliarDatabase
 
 				// The following are other abilities that deserve their own category
 				FamiliarDatabase.passiveById.set( familiarId.intValue(), familiarType.contains( "passive" ) );
+				FamiliarDatabase.dropById.set( familiarId.intValue(), familiarType.contains( "drop" ) );
 				FamiliarDatabase.underwaterById.set( familiarId.intValue(), familiarType.contains( "underwater" ) );
+
+				FamiliarDatabase.noneById.set( familiarId.intValue(), familiarType.contains( "none" ) );
 				FamiliarDatabase.variableById.set( familiarId.intValue(), familiarType.contains( "variable" ) );
 
 				String canonical = StringUtilities.getCanonicalName( data[ 1 ] );
@@ -378,6 +384,11 @@ public class FamiliarDatabase
 		return  FamiliarDatabase.combat1ById.get( familiarId );
 	}
 
+	public static final boolean isDropType( final int familiarId )
+	{
+		return  FamiliarDatabase.dropById.get( familiarId );
+	}
+
 	public static final boolean isBlockType( final int familiarId )
 	{
 		return  FamiliarDatabase.blockById.get( familiarId );
@@ -411,6 +422,11 @@ public class FamiliarDatabase
 	public static final boolean isMp1Type( final int familiarId )
 	{
 		return  FamiliarDatabase.mp1ById.get( familiarId );
+	}
+
+	public static final boolean isNoneType( final int familiarId )
+	{
+		return  FamiliarDatabase.noneById.get( familiarId );
 	}
 
 	public static final boolean isOther1Type( final int familiarId )
@@ -576,6 +592,12 @@ public class FamiliarDatabase
 			buffer.append( sep );
 			sep = ",";
 			buffer.append( "meat0" );
+		}
+		if ( FamiliarDatabase.dropById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "drop" );
 		}
 		if ( sep.equals( "" )  )
 		{
