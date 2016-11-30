@@ -373,11 +373,14 @@ public class CompactSidePane
 			JMenu delevel = new JMenu( "delevel" );
 			JMenu hp0 = new JMenu( "restore HP" );
 			JMenu mp0 = new JMenu( "restore MP" );
+			JMenu stat2 = new JMenu( "stats" );
+			JMenu meat1 = new JMenu( "meat" );
 			JMenu other0 = new JMenu( "anything else" );
 
 			// After Combat submenu
 			JMenu hp1 = new JMenu( "restore HP" );
 			JMenu mp1 = new JMenu( "restore MP" );
+			JMenu stat3 = new JMenu( "stats" );
 			JMenu other1 = new JMenu( "anything else" );
 
 			JMenu passive = new JMenu( "passive" );
@@ -495,6 +498,16 @@ public class CompactSidePane
 					mp0.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
+				if ( FamiliarDatabase.isStat2Type( id ) )
+				{
+					stat2.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isMeat1Type( id ) )
+				{
+					meat1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
 				if ( FamiliarDatabase.isOther0Type( id ) )
 				{
 					other0.add( new FamiliarMenuItem( fam ) );
@@ -508,6 +521,11 @@ public class CompactSidePane
 				if ( FamiliarDatabase.isMp1Type( id ) )
 				{
 					mp1.add( new FamiliarMenuItem( fam ) );
+					added = true;
+				}
+				if ( FamiliarDatabase.isStat3Type( id ) )
+				{
+					stat3.add( new FamiliarMenuItem( fam ) );
 					added = true;
 				}
 				if ( FamiliarDatabase.isOther1Type( id ) )
@@ -572,6 +590,8 @@ public class CompactSidePane
 			     delevel.getMenuComponentCount() > 0 ||
 			     hp0.getMenuComponentCount() > 0 ||
 			     mp0.getMenuComponentCount() > 0 ||
+			     stat2.getMenuComponentCount() > 0 ||
+			     meat1.getMenuComponentCount() > 0 ||
 			     other0.getMenuComponentCount() > 0 )
 			{
 				JMenu combat = new JMenu( "combat" );
@@ -604,6 +624,14 @@ public class CompactSidePane
 				{
 					combat.add( mp0 );
 				}
+				if ( stat2.getMenuComponentCount() > 0 )
+				{
+					combat.add( stat2 );
+				}
+				if ( meat1.getMenuComponentCount() > 0 )
+				{
+					combat.add( meat1 );
+				}
 				if ( other0.getMenuComponentCount() > 0 )
 				{
 					combat.add( other0 );
@@ -614,6 +642,7 @@ public class CompactSidePane
 
 			if ( hp1.getMenuComponentCount() > 0 ||
 			     mp1.getMenuComponentCount() > 0 ||
+			     stat3.getMenuComponentCount() > 0 ||
 			     other1.getMenuComponentCount() > 0 )
 			{
 				JMenu aftercombat = new JMenu( "after combat" );
@@ -625,6 +654,10 @@ public class CompactSidePane
 				if ( mp1.getMenuComponentCount() > 0 )
 				{
 					aftercombat.add( mp1 );
+				}
+				if ( stat3.getMenuComponentCount() > 0 )
+				{
+					aftercombat.add( stat3 );
 				}
 				if ( other1.getMenuComponentCount() > 0 )
 				{

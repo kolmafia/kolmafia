@@ -89,12 +89,15 @@ public class FamiliarDatabase
 	private static final BooleanArray combat1ById = new BooleanArray();
 	private static final BooleanArray blockById = new BooleanArray();
 	private static final BooleanArray delevelById = new BooleanArray();
+	private static final BooleanArray meat1ById = new BooleanArray();
+	private static final BooleanArray stat2ById = new BooleanArray();
 	private static final BooleanArray hp0ById = new BooleanArray();
 	private static final BooleanArray mp0ById = new BooleanArray();
 	private static final BooleanArray other0ById = new BooleanArray();
 
 	private static final BooleanArray hp1ById = new BooleanArray();
 	private static final BooleanArray mp1ById = new BooleanArray();
+	private static final BooleanArray stat3ById = new BooleanArray();
 	private static final BooleanArray other1ById = new BooleanArray();
 
 	private static final BooleanArray passiveById = new BooleanArray();
@@ -181,11 +184,14 @@ public class FamiliarDatabase
 				FamiliarDatabase.delevelById.set( familiarId.intValue(), familiarType.contains( "delevel" ) );
 				FamiliarDatabase.hp0ById.set( familiarId.intValue(), familiarType.contains( "hp0" ) );
 				FamiliarDatabase.mp0ById.set( familiarId.intValue(), familiarType.contains( "mp0" ) );
+				FamiliarDatabase.meat1ById.set( familiarId.intValue(), familiarType.contains( "meat1" ) );
+				FamiliarDatabase.stat2ById.set( familiarId.intValue(), familiarType.contains( "stat2" ) );
 				FamiliarDatabase.other0ById.set( familiarId.intValue(), familiarType.contains( "other0" ) );
 
 				// The following are "after combat" abilities
 				FamiliarDatabase.hp1ById.set( familiarId.intValue(), familiarType.contains( "hp1" ) );
 				FamiliarDatabase.mp1ById.set( familiarId.intValue(), familiarType.contains( "mp1" ) );
+				FamiliarDatabase.stat3ById.set( familiarId.intValue(), familiarType.contains( "stat3" ) );
 				FamiliarDatabase.other1ById.set( familiarId.intValue(), familiarType.contains( "other1" ) );
 
 				// The following are other abilities that deserve their own category
@@ -409,6 +415,16 @@ public class FamiliarDatabase
 		return  FamiliarDatabase.mp0ById.get( familiarId );
 	}
 
+	public static final boolean isMeat1Type( final int familiarId )
+	{
+		return  FamiliarDatabase.meat1ById.get( familiarId );
+	}
+
+	public static final boolean isStat2Type( final int familiarId )
+	{
+		return  FamiliarDatabase.stat2ById.get( familiarId );
+	}
+
 	public static final boolean isOther0Type( final int familiarId )
 	{
 		return  FamiliarDatabase.other0ById.get( familiarId );
@@ -422,6 +438,11 @@ public class FamiliarDatabase
 	public static final boolean isMp1Type( final int familiarId )
 	{
 		return  FamiliarDatabase.mp1ById.get( familiarId );
+	}
+
+	public static final boolean isStat3Type( final int familiarId )
+	{
+		return  FamiliarDatabase.stat3ById.get( familiarId );
 	}
 
 	public static final boolean isNoneType( final int familiarId )
@@ -491,6 +512,34 @@ public class FamiliarDatabase
 	{
 		StringBuilder buffer = new StringBuilder();
 		String sep = "";
+
+		// Base types: Leprechaun, Fairy, Volleyball, Sombrero
+		if ( FamiliarDatabase.meatDropById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "meat0" );
+		}
+		if ( FamiliarDatabase.fairyById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "item0" );
+		}
+		if ( FamiliarDatabase.volleyById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "stat0" );
+		}
+		if ( FamiliarDatabase.sombreroById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "stat1" );
+		}
+
+		// Combat abilities
 		if ( FamiliarDatabase.combat0ById.get( familiarId ) )
 		{
 			buffer.append( sep );
@@ -533,6 +582,20 @@ public class FamiliarDatabase
 			sep = ",";
 			buffer.append( "other0" );
 		}
+		if ( FamiliarDatabase.meat1ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "meat1" );
+		}
+		if ( FamiliarDatabase.stat2ById.get( familiarId ) )
+		{
+			buffer.append( sep );
+			sep = ",";
+			buffer.append( "stat2" );
+		}
+
+		// After Combat abilities
 		if ( FamiliarDatabase.hp1ById.get( familiarId ) )
 		{
 			buffer.append( sep );
@@ -551,12 +614,7 @@ public class FamiliarDatabase
 			sep = ",";
 			buffer.append( "other1" );
 		}
-		if ( FamiliarDatabase.variableById.get( familiarId ) )
-		{
-			buffer.append( sep );
-			sep = ",";
-			buffer.append( "variable" );
-		}
+
 		if ( FamiliarDatabase.passiveById.get( familiarId ) )
 		{
 			buffer.append( sep );
@@ -569,30 +627,15 @@ public class FamiliarDatabase
 			sep = ",";
 			buffer.append( "underwater" );
 		}
-		if ( FamiliarDatabase.volleyById.get( familiarId ) )
+
+		if ( FamiliarDatabase.variableById.get( familiarId ) )
 		{
 			buffer.append( sep );
 			sep = ",";
-			buffer.append( "stat0" );
+			buffer.append( "variable" );
 		}
-		if ( FamiliarDatabase.sombreroById.get( familiarId ) )
-		{
-			buffer.append( sep );
-			sep = ",";
-			buffer.append( "stat1" );
-		}
-		if ( FamiliarDatabase.fairyById.get( familiarId ) )
-		{
-			buffer.append( sep );
-			sep = ",";
-			buffer.append( "item0" );
-		}
-		if ( FamiliarDatabase.meatDropById.get( familiarId ) )
-		{
-			buffer.append( sep );
-			sep = ",";
-			buffer.append( "meat0" );
-		}
+
+		// Special items
 		if ( FamiliarDatabase.dropById.get( familiarId ) )
 		{
 			buffer.append( sep );

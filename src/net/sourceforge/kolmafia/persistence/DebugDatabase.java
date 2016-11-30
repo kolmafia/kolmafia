@@ -2458,6 +2458,7 @@ public class DebugDatabase
 		boolean hp1 = FamiliarDatabase.isHp1Type( id );
 		boolean item0 = FamiliarDatabase.isFairyType( id );
 		boolean meat0 = FamiliarDatabase.isMeatDropType( id );
+		boolean meat1 = FamiliarDatabase.isMeat1Type( id );
 		boolean mp0 = FamiliarDatabase.isMp0Type( id );
 		boolean mp1 = FamiliarDatabase.isMp1Type( id );
 		boolean none = FamiliarDatabase.isNoneType( id );
@@ -2466,49 +2467,51 @@ public class DebugDatabase
 		boolean passive = FamiliarDatabase.isPassiveType( id );
 		boolean stat0 = FamiliarDatabase.isVolleyType( id );
 		boolean stat1 = FamiliarDatabase.isSombreroType( id );
+		boolean stat2 = FamiliarDatabase.isStat2Type( id );
+		boolean stat3 = FamiliarDatabase.isStat3Type( id );
 		boolean underwater = FamiliarDatabase.isUnderwaterType( id );
 		boolean variable = FamiliarDatabase.isVariableType( id );
 
 		String name = FamiliarDatabase.getFamiliarName( id );
 
 		// Check KoL categories
-		if ( dataAttack && !( combat0 || combat1 ) )
+		if ( dataAttack && !( combat0 || combat1 || variable) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'attack' but we have neither 'combat0' nor 'combat1'" );
 		}
-		if ( dataDefense && !( block || delevel ) )
+		if ( dataDefense && !( block || delevel || other0 || variable ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'defense' but we have neither 'block' nor 'delevel'" );
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'defense' but we have none of 'block', 'delevel', or 'other0'" );
 		}
-		if ( dataHPRestore && !( hp0 || hp1 ) )
+		if ( dataHPRestore && !( hp0 || hp1 || variable ) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'hp_restore' but we have neither 'hp0' nor 'hp1'" );
 		}
-		if ( dataItemDrops && !item0 )
+		if ( dataItemDrops && !(item0 || variable ) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'itemdrops' but we do not have 'item0'" );
 		}
-		if ( dataItems && !drop )
+		if ( dataItems && !( drop || variable ) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'item' but we do not have 'drop'" );
 		}
-		if ( dataMeat && !meat0 )
+		if ( dataMeat && !( meat0 || meat1 || variable ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'meat' but we do not have 'meat0'" );
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'meat' but we have neither 'meat0' nor 'meat1'" );
 		}
-		if ( dataMPRestore && !( mp0 || mp1 ) )
+		if ( dataMPRestore && !( mp0 || mp1 || variable ) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'mp_restore' but we have neither 'mp0' nor 'mp1'" );
 		}
-		if ( dataOther && !( none || other0 || other1 || passive ) )
+		if ( dataOther && !( none || other0 || other1 || passive || variable ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'other' but we have none of 'none', 'other0', 'other1', or 'passive'" );
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'other' but we have none of 'none', 'other0', 'other1', 'passive', or 'variable'" );
 		}
-		if ( dataStats && !( stat0 || stat1 ) )
+		if ( dataStats && !( stat0 || stat1 || stat2 || stat3 || passive || variable ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'stats' but we have neither 'stat0' nor 'stat1'" );
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'stats' but we have none of 'stat0', 'stat1', 'stat2', or 'stat3'" );
 		}
-		if ( dataUnderwater && !underwater )
+		if ( dataUnderwater && !( underwater || variable ) )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'underwater' but we do not have 'underwater'" );
 		}
@@ -2550,6 +2553,10 @@ public class DebugDatabase
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'meat0' but KoL does not say 'meat'" );
 		}
+		if ( meat1 && !dataMeat )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'meat1' but KoL does not say 'meat'" );
+		}
 		if ( mp0 && !dataMPRestore )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'mp0' but KoL does not say 'mp_restore'" );
@@ -2562,9 +2569,9 @@ public class DebugDatabase
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'none' but KoL does not say 'other'" );
 		}
-		if ( other0 && !dataOther )
+		if ( other0 && !( dataOther || dataDefense ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'other0' but KoL does not say 'other'" );
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'other0' but KoL does not say 'other' or 'defense'" );
 		}
 		if ( other1 && !dataOther )
 		{
@@ -2582,13 +2589,17 @@ public class DebugDatabase
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'stat1' but KoL does not say 'stats'" );
 		}
+		if ( stat2 && !dataStats )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'stat2' but KoL does not say 'stats'" );
+		}
+		if ( stat3 && !dataStats )
+		{
+			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'stat3' but KoL does not say 'stats'" );
+		}
 		if ( underwater && !dataUnderwater )
 		{
 			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'underwater' but KoL does not say 'underwater'" );
-		}
-		if ( variable && !dataOther )
-		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoLmafia has 'variable' but KoL does not say 'other'" );
 		}
 	}
 
