@@ -104,8 +104,9 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkfamiliars" ) )
 		{
+			boolean showVariable = parameters.equals( "true" );
 			RequestLogger.printLine( "Checking familiar powers from terrarium." );
-			DebugDatabase.checkFamiliarsInTerrarium();
+			DebugDatabase.checkFamiliarsInTerrarium( showVariable );
 			RequestLogger.printLine( "Checking familiar images." );
 			DebugDatabase.checkFamiliarImages();
 			RequestLogger.printLine( "Familiars checked." );
