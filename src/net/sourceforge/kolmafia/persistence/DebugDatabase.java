@@ -2411,7 +2411,7 @@ public class DebugDatabase
 
 	private static final Pattern FAMILIAR_ROW_PATTERN = Pattern.compile( "<tr class=\"frow ?\"([^>]*)>.*?onClick='fam\\(([\\d]+)\\)'.*?</tr>" );
 
-	public static final void checkFamiliarsInTerrarium()
+	public static final void checkFamiliarsInTerrarium( boolean showVariable )
 	{
 		FamiliarRequest request = new FamiliarRequest();
 		RequestThread.postRequest( request );
@@ -2430,11 +2430,11 @@ public class DebugDatabase
 		{
 			int id = entry.getKey().intValue();
 			String powers = entry.getValue();
-			DebugDatabase.checkTerrariumFamiliar( id, powers );
+			DebugDatabase.checkTerrariumFamiliar( id, powers, showVariable );
 		}
 	}
 
-	private static final void checkTerrariumFamiliar( int id, String powers )
+	private static final void checkTerrariumFamiliar( int id, String powers, boolean showVariable )
 	{
 		// KoL familiar categories
 		boolean dataAttack = powers.contains( "data-attack" );
@@ -2473,47 +2473,118 @@ public class DebugDatabase
 		boolean variable = FamiliarDatabase.isVariableType( id );
 
 		String name = FamiliarDatabase.getFamiliarName( id );
+		String prefix = "*** familiar #" + id + " (" + name + "): KoL says ";
 
 		// Check KoL categories
-		if ( dataAttack && !( combat0 || combat1 || variable) )
+		if ( dataAttack && !( combat0 || combat1 ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'attack' but we have neither 'combat0' nor 'combat1'" );
+			String message =
+				!variable ? "'attack' but we have neither 'combat0' nor 'combat1'" :
+				showVariable ? "'attack' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataDefense && !( block || delevel || other0 || variable ) )
+		if ( dataDefense && !( block || delevel || other0 ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'defense' but we have none of 'block', 'delevel', or 'other0'" );
+			String message =
+				!variable ? "'defense' but we have none of 'block', 'delevel', or 'other0'" :
+				showVariable ? "'defense' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataHPRestore && !( hp0 || hp1 || variable ) )
+		if ( dataHPRestore && !( hp0 || hp1 ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'hp_restore' but we have neither 'hp0' nor 'hp1'" );
+			String message =
+				!variable ? "'hp_restore' but we have neither 'hp0' nor 'hp1'" :
+				showVariable ? "'hp_restore' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataItemDrops && !(item0 || variable ) )
+		if ( dataItemDrops && !item0 )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'itemdrops' but we do not have 'item0'" );
+			String message =
+				!variable ? "'itemdrops' but we do not have 'item0'" :
+				showVariable ? "'itemdrops' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataItems && !( drop || variable ) )
+		if ( dataItems && !drop )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'item' but we do not have 'drop'" );
+			String message =
+				!variable ? "'item' but we do not have 'drop'" :
+				showVariable ? "'item' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataMeat && !( meat0 || meat1 || variable ) )
+		if ( dataMeat && !( meat0 || meat1 ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'meat' but we have neither 'meat0' nor 'meat1'" );
+			String message =
+				!variable ? "'meat' but we have neither 'meat0' nor 'meat1'" :
+				showVariable ? "'meat' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataMPRestore && !( mp0 || mp1 || variable ) )
+		if ( dataMPRestore && !( mp0 || mp1 ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'mp_restore' but we have neither 'mp0' nor 'mp1'" );
+			String message =
+				!variable ? "'mp_restore' but we have neither 'mp0' nor 'mp1'" :
+				showVariable ? "'mp_restore' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataOther && !( none || other0 || other1 || passive || variable ) )
+		if ( dataOther && !( none || other0 || other1 || passive ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'other' but we have none of 'none', 'other0', 'other1', 'passive', or 'variable'" );
+			String message =
+				!variable ? "'other' but we have none of 'none', 'other0', 'other1',or 'passive'" :
+				showVariable ? "'other' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataStats && !( stat0 || stat1 || stat2 || stat3 || passive || variable ) )
+		if ( dataStats && !( stat0 || stat1 || stat2 || stat3 || passive ) )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'stats' but we have none of 'stat0', 'stat1', 'stat2', or 'stat3'" );
+			String message =
+				!variable ? "'stats' but we have none of 'stat0', 'stat1', 'stat2', or 'stat3'" :
+				showVariable ? "'stats' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
-		if ( dataUnderwater && !( underwater || variable ) )
+		if ( dataUnderwater && !underwater )
 		{
-			RequestLogger.printLine( "*** familiar #" + id + " (" + name + "): KoL says 'underwater' but we do not have 'underwater'" );
+			String message =
+				!variable ? "'underwater' but we do not have 'underwater'" :
+				showVariable ? "'underwater' but we say 'variable'" :
+				null;
+			if ( message != null )
+			{
+				RequestLogger.printLine( prefix + message );
+			}
 		}
 
 		// Check KoLmafia categories

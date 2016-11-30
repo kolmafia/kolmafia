@@ -127,7 +127,7 @@
 98	Mutant Cactus Bud	cactusbud.gif	combat0,meat0	mutant cactus bud	cactus monocle	3	0	2	2
 99	Mutant Gila Monster	gilamonster.gif	combat0,other0,hp1,mp1	mutant gila monster egg	Jawmaster 2000&trade;	3	0	2	2
 100	Cuddlefish	cuddlefish.gif	block,hp1,mp1,underwater	baby cuddlefish	six-armed sweater	0	1	3	3
-101	Sugar Fruit Fairy	sugarfairy.gif	stat0,item0,drop	candy cornucopia	tiny ballet slippers	0	3	3	2
+101	Sugar Fruit Fairy	sugarfairy.gif	stat0,item0,other1,drop	candy cornucopia	tiny ballet slippers	0	3	3	2
 102	Imitation Crab	crab.gif	combat0,underwater	imitation crab zoea	imitation whetstone	3	1	2	2
 103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1
 104	Magic Dragonfish	dragonfishfam.gif	passive,underwater	magic dragonfish fry	fin-bit wax	1	1	2	0
@@ -148,7 +148,7 @@
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1
 120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0
 121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2
-122	Jack-in-the-Box	jackinthebox.gif	stat0,item0	Jack-in-the-box	brass crank handle	0	0	0	0
+122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0
 123	BRICKO chick	brickochick.gif	combat0,drop	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1
 124	Baby Bugged Bugbear	babybugbug.gif	block,other0,drop,variable	panicked kernel	bugged beanie	0	0	0	0
 125	Money-Making Goblin	mmgoblin.gif	none			0	0	0	0
@@ -229,7 +229,7 @@
 200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3
 201	Rockin' Robin	rockinrobin.gif	stat0,item0	basking robin	tiny domino mask	3	3	3	3
 202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1
-203	Intergnat	intergnat.gif	item0,combat0,other0,mp1.drop	disconnected intergnat	high-speed upgrade	1	3	2	2
+203	Intergnat	intergnat.gif	item0,combat0,other0,mp1,drop	disconnected intergnat	high-speed upgrade	1	3	2	2
 204	Software Bug	softwarebug.gif	none	software bug	missing semicolon	0	0	0	0
 205	Bark Scorpion	barkscorp.gif	combat0	baby bark scorpion	tiny baby scorpion	3	1	2	3
 206	Trick-or-Treating Tot	tottot.gif	hp1,mp1	li'l orphan tot	li'l knight costume	1	3	2	3
