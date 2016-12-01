@@ -5170,6 +5170,9 @@ Effect	Influence of Sphere	Pool Skill: +5
 Effect	init.enh	Initiative: +50
 Effect	Inked Well	Combat Rate: -10
 Effect	Inky Camouflage	Combat Rate: -5
+Effect	Innately Strong	Muscle Percent: +100, Experience (Muscle): +3
+Effect	Innately Truthy	Moxie Percent: +100, Experience (Moxie): +3
+Effect	Innately Wise	Mysticality Percent: +100, Experience (Mysticality): +3
 # Inner Dog: +50% Damage vs. Zombies
 # Inner Dog: +50 Damage vs. Ghosts
 Effect	Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
@@ -8427,6 +8430,9 @@ Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Ski
 # ink bladder: Lets you escape from combat without spending an Adventure (underwater)
 # ink bladder: Weakens enemies significantly (on land)
 # inkwell: Weakens enemies a little bit
+Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
+Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
+Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
