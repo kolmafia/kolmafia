@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionInvocation;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
+import net.sourceforge.kolmafia.textui.parsetree.IncDec;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
@@ -111,6 +112,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Parser
 {
 	public static String APPROX = "\u2248";
+	public static String PRE_INCREMENT = "++X";
+	public static String PRE_DECREMENT = "--X";
+	public static String POST_INCREMENT = "X++";
+	public static String POST_DECREMENT = "X--";
 
 	// Variables used during parsing
 
@@ -269,6 +274,8 @@ public class Parser
 		multiCharTokens.add( "<<" );
 		multiCharTokens.add( ">>" );
 		multiCharTokens.add( ">>>" );
+		multiCharTokens.add( "++" );
+		multiCharTokens.add( "--" );
 		multiCharTokens.add( "**" );
 		multiCharTokens.add( "+=" );
 		multiCharTokens.add( "-=" );
@@ -2547,6 +2554,91 @@ public class Parser
 		return lhs;
 	}
 
+	private Value parsePreIncDec( final BasicScope scope )
+	{
+		if ( this.nextToken() == null )
+		{
+			return null;
+		}
+
+		Value lhs = null;
+		String operStr = null;
+
+		// --[VariableReference]
+		// ++[VariableReference]
+
+		if ( this.currentToken().equals( "++" ) ||
+		     this.currentToken().equals( "--" ) )
+		{
+			operStr = this.currentToken().equals( "++" ) ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
+			this.readToken(); // oper
+
+			if ( !this.parseIdentifier( this.currentToken() ) )
+			{
+				throw this.parseException( "Variable reference expected" );
+			}
+
+			lhs = this.parseVariableReference( scope );
+			if ( lhs == null || !( lhs instanceof VariableReference ) )
+			{
+				throw this.parseException( "Variable reference expected" );
+			}
+
+			while ( this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
+			{
+				Variable current = new Variable( lhs.getType() );
+				current.setExpression( lhs );
+
+				lhs = this.parseVariableReference( scope, current );
+			}
+		}
+		else
+		{
+			return null;
+		}
+
+		int ltype = lhs.getType().getType();
+		if ( ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT )
+		{
+			throw this.parseException( operStr + " requires a numeric variable reference" );
+		}
+
+		Operator oper = new Operator( operStr, this );
+
+		return new IncDec( (VariableReference) lhs, oper );
+	}
+
+	private Value parsePostIncDec( final VariableReference lhs )
+	{
+		if ( this.currentToken() == null )
+		{
+			return lhs;
+		}
+
+		// [VariableReference]++
+		// [VariableReference]--
+
+		if ( !this.currentToken().equals( "++" ) &&
+		     !this.currentToken().equals( "--" ) )
+		{
+			return lhs;
+		}
+
+		String operStr = this.currentToken().equals( "++" ) ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
+
+		int ltype = lhs.getType().getType();
+		if ( ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT )
+		{
+			throw this.parseException( operStr + " requires a numeric variable reference" );
+		}
+
+		this.readToken(); // oper
+
+		Operator oper = new Operator( operStr, this );
+
+		return new IncDec( (VariableReference) lhs, oper );
+	}
+
 	private Value parseExpression( final BasicScope scope )
 	{
 		return this.parseExpression( scope, null );
@@ -2789,6 +2881,11 @@ public class Parser
 			result = this.parseNewRecord( scope );
 		}
 
+		else if ( ( result = this.parsePreIncDec( scope ) ) != null )
+		{
+			return result;
+		}
+
 		else if ( ( result = this.parseInvoke( scope ) ) != null )
 		{
 			;
@@ -2823,14 +2920,17 @@ public class Parser
 			}
 		}
 
-		Variable current;
-
 		while ( result != null && this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
 		{
-			current = new Variable( result.getType() );
+			Variable current = new Variable( result.getType() );
 			current.setExpression( result );
 
 			result = this.parseVariableReference( scope, current );
+		}
+
+		if ( result instanceof VariableReference )
+		{
+			result = this.parsePostIncDec( (VariableReference)result );
 		}
 
 		return result;
@@ -3266,8 +3366,10 @@ public class Parser
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 
-		while ( this.currentToken() != null && ( this.currentToken().equals( "[" ) || this.currentToken().equals( "." ) || parseAggregate && this.currentToken().equals(
-			"," ) ) )
+		while ( this.currentToken() != null &&
+			( this.currentToken().equals( "[" ) ||
+			  this.currentToken().equals( "." ) ||
+			  parseAggregate && this.currentToken().equals( "," ) ) )
 		{
 			Value index;
 
