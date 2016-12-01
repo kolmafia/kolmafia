@@ -453,7 +453,7 @@ public class CompactSidePane
 				}
 
 				// Special drops
-				if ( fam.hasDrop() )
+				if ( FamiliarDatabase.isDropType( id ) )
 				{
 					drops.add( new FamiliarMenuItem( fam ) );
 					added = true;
