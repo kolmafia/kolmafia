@@ -162,7 +162,7 @@
 133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
 134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0
 135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0
-136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1	Schmalz's First Prize Beer	ironic moustache	0	3	2	1
+136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0
 138	Hippo Ballerina	hippo.gif	combat1,block,delevel,item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0
 139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0,other1,drop	organ grinder	microwave stogie	0	3	2	1
