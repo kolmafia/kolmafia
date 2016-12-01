@@ -69,15 +69,19 @@ public class Operator
 
 	private int operStrength()
 	{
-		// *** Here is where a postfix ++ and -- would go
-		// return 14;
+		if ( this.operator == Parser.POST_INCREMENT ||
+		     this.operator == Parser.POST_DECREMENT )
+		{
+			return 14;
+		}
 
 		if ( this.operator.equals( "!" ) ||
 		     this.operator.equals( "~" ) ||
 		     this.operator.equals( "contains" ) ||
-		     this.operator.equals( "remove" ) )
+		     this.operator.equals( "remove" ) ||
+		     this.operator == Parser.PRE_INCREMENT ||
+		     this.operator == Parser.PRE_DECREMENT )
 		{
-			// also prefix ++ and --
 			return 13;
 		}
 
@@ -175,7 +179,11 @@ public class Operator
 			this.operator.equals( "*" ) ||
 			this.operator.equals( "/" ) ||
 			this.operator.equals( "%" ) ||
-			this.operator.equals( "**" );
+			this.operator.equals( "**" ) ||
+			this.operator == Parser.PRE_INCREMENT ||
+			this.operator == Parser.PRE_DECREMENT ||
+			this.operator == Parser.POST_INCREMENT ||
+			this.operator == Parser.POST_DECREMENT;
 	}
 
 	public boolean isBoolean()
@@ -483,6 +491,36 @@ public class Operator
 			else
 			{
 				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
+			}
+		}
+		else if ( this.operator == Parser.PRE_INCREMENT || this.operator == Parser.POST_INCREMENT )
+		{
+			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
+			{
+				result = DataTypes.makeIntValue( leftValue.intValue() + 1 );
+			}
+			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
+			{
+				result = DataTypes.makeFloatValue( leftValue.floatValue() + 1.0 );
+			}
+			else
+			{
+				throw Interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
+			}
+		}
+		else if ( this.operator == Parser.PRE_DECREMENT || this.operator == Parser.POST_DECREMENT )
+		{
+			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
+			{
+				result = DataTypes.makeIntValue( leftValue.intValue() - 1 );
+			}
+			else if ( lhs.getType().equals( DataTypes.TYPE_FLOAT ) )
+			{
+				result = DataTypes.makeFloatValue( leftValue.floatValue() - 1.0 );
+			}
+			else
+			{
+				throw Interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
 			}
 		}
 		else
