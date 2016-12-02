@@ -5562,7 +5562,7 @@ public class UseItemRequest
 		case ItemPool.SOURCE_TERMINAL_DIAGRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_ASHRAM_CHIP:
 		case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
-		case ItemPool.SOURCE_TERMINAL_TRIRAM_CHIP:
+		case ItemPool.SOURCE_TERMINAL_TRIGRAM_CHIP:
 		{
 			// Source terminal chip (1 maximum)
 			// You've already installed a ASHRAM chip in your Source terminal
@@ -5590,8 +5590,8 @@ public class UseItemRequest
 			case ItemPool.SOURCE_TERMINAL_SCRAM_CHIP:
 				chipName = "SCRAM";
 				break;
-			case ItemPool.SOURCE_TERMINAL_TRIRAM_CHIP:
-				chipName = "TRIRAM";
+			case ItemPool.SOURCE_TERMINAL_TRIGRAM_CHIP:
+				chipName = "TRIGRAM";
 				break;
 			}
 			String known = Preferences.getString( "sourceTerminalChips" );
