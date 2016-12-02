@@ -2146,8 +2146,8 @@
 2145	Thanksgot	megacopia.gif	8427803ecefd67e9e7bfbcc9ba08ee6c
 2146	Eldritch Concentration	glassglobe.gif	51a6be812d5c33891cb062cabdf0cfdf	use 1 eldritch concentrate
 2147	Eldritch Attunement	eldeffluv.gif	71a7c94a0c2c70d5e834ae5d2c8ea3f2	drink 1 eldritch elixir
-2148
-2149
+2148	Sprinkle in Your Eye	sprinkles.gif	31b576b9a5aec68ff80848649dc2f879	drink 1 gingerbread wine|eat 1 animal part cracker
+2149	Iced and Tainted	blankoutglob.gif	ce08eaf8f3c33ce2d56830c514883b2d	use 1 tainted icing
 2150
 2151
 2152

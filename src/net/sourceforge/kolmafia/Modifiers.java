@@ -235,6 +235,7 @@ public class Modifiers
 	public static final int SIXGUN_DAMAGE = 123;
 	public static final int FISHING_SKILL = 124;
 	public static final int ADDITIONAL_SONG = 125;
+	public static final int SPRINKLES = 126;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -801,6 +802,10 @@ public class Modifiers
 		{ "Additional Song",
 		  Pattern.compile( "Keep (\\d+) additional song in your head" ),
 		  Pattern.compile( "Additional Song: " +EXPR )
+		},
+		{ "Sprinkle Drop",
+		  Pattern.compile( "([+-]\\d+)% Sprinkles from Monsters" ),
+		  Pattern.compile( "Sprinkle Drop: " + EXPR )
 		},
 	};
 
