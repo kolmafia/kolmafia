@@ -9228,26 +9228,26 @@
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204
-9205
+9205	sprinkles	757828485	sprinkles.gif	none		0
 9206
 9207
 9208
 9209
 9210
 9211
-9212
+9212	candy dress shoes	741868271	moccasins.gif	accessory	t,d	300
 9213
 9214
 9215
 9216
-9217
+9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
 9218
-9219
-9220
+9219	animal part cracker	298097264	animalcracker.gif	food	t,d	8
+9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21
 9221
 9222
 9223
-9224
+9224	tainted icing	494280376	blankoutglob.gif	usable	t,d	15
 9225
 9226
 9227
@@ -9259,11 +9259,11 @@
 9233
 9234
 9235
-9236
+9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
 9237
 9238
 9239
-9240
+9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
 9241
 9242
 9243

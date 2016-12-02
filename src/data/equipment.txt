@@ -1024,6 +1024,7 @@ giant shrimp fork	200	Mus: 85	2-handed staff
 giant spider leg	75	Mus: 22	2-handed club
 giant turkey leg	200	Mus: 200	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
+gingerbread gavel	50	Mus: 0	1-handed club
 Ginsu&trade;	200	Mus: 200	2-handed sword
 glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol
@@ -2037,6 +2038,7 @@ brown plastic baby	20	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
+candy dress shoes	100	Mus: 20
 candy necklace	150	Mox: 60
 cannonball charrrm bracelet	190	Mys: 80
 Cat-Herding Prod	0	none

@@ -1198,6 +1198,7 @@ Item	giant shrimp fork	Mysticality Percent: +20, Spell Critical Percent: +10, Ma
 Item	giant spider leg	Spooky Damage: +10, Critical Hit Percent: +10
 Item	giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 # gift-a-pult: Allows hurling of Gift Items
+Item	gingerbread gavel	Critical Hit Percent: +5, Weapon Damage Percent: +25
 Item	Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
 Item	glistening staff	Mysticality: +2, Sleaze Damage: +3
 # glow-in-the-dark dart gun: Super Accurate!
@@ -2373,6 +2374,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
+Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
 # cannonball charrrm bracelet: Explosively hilarious
 Item	cannonball charrrm bracelet	Single Equip
@@ -5141,6 +5143,7 @@ Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Effect	Icebergled	Avatar: "Iceberglar"
+Effect	Iced and Tainted	Sprinkle Drop: +25, Cold Damage: +15, Spell Critical Percent: +5
 Effect	Ichorous Eyesight	Item Drop: +10
 Effect	Ichorous Intensity	Spell Damage Percent: +20
 Effect	Icy Demeanor	Maximum HP: +20, Hot Resistance: +3
@@ -5959,6 +5962,7 @@ Effect	Spookypants	Spooky Resistance: +1
 Effect	Spookyravin'	Familiar Weight: +10
 Effect	Spore-Wreathed	Reduce Enemy Defense: 20
 Effect	Springy Fusilli	Initiative: +40
+Effect	Sprinkle in Your Eye	Sprinkle Drop: +25
 Effect	Square Jaw And Everything Else	Avatar: "Scott the Miner"
 Effect	Square to be Hip	Moxie Percent: +10
 Effect	Squatting and Thrusting	Experience (Muscle): +3
@@ -6645,6 +6649,7 @@ Outfit	Frat Warrior Fatigues	Sleaze Damage: +15
 Outfit	Frigid Northlands Garb	Cold Resistance: +3
 Outfit	Furry Suit	Moxie Percent: -75, Monster Level: +5
 Outfit	Ghast Iron Gear	Spooky Damage: +20, Hot Damage: +20
+Outfit	Gingerbread Best	Sprinkle Drop: +25
 Outfit	Glad Bag Glad Rags	Stench Damage: +5, Sleaze Damage: +5, Mysticality: +10, Moxie: +10, Initiative: +10
 Outfit	Gladiatorial Glad Rags	Adventures: +6
 Outfit	Gnauga Hides	Damage Reduction: 3
@@ -6828,6 +6833,7 @@ MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality 
 Item	&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
 Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
+Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
@@ -7163,6 +7169,7 @@ Item	Friendly Turkey	Effect: "Turkey-Friendly", Effect Duration: 25
 Item	Fromage Pinotage	Effect: "Some Cheese with Your Wine", Effect Duration: 20
 Item	Fuzzy Tentacle	Effect: "Void Between the Stars", Effect Duration: 10
 Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
+Item	gingerbread wine	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	glass of herbal tequila	Effect: "Herbal Pert", Effect Duration: 50
 Item	gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
 Item	Golden Mean	Effect: "World's Shortest Giant", Effect Duration: 10
@@ -8222,6 +8229,7 @@ Item	giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 # gift card: Allows you to draw one card from the Deck of Every Card
 Item	gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
+# Item gingerbread restraining order: Banish a gingerbread man for the rest of the day
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
@@ -9334,6 +9342,7 @@ Item	Swizzler	Effect: "Sugar Rush", Effect Duration: 5
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
 Item	Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
+Item	tainted icing	Effect: "Iced and Tainted", Effect Duration: 10
 Item	tainted milk	Effect: "Cowrruption", Effect Duration: 30
 Item	tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
 Item	Take Eleven Bar	Effect: "Took Eleven", Effect Duration: 20
