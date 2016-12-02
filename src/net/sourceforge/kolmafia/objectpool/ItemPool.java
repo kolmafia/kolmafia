@@ -2657,7 +2657,7 @@ public class ItemPool
 	public static final int SOURCE_TERMINAL_DIAGRAM_CHIP = 9047;
 	public static final int SOURCE_TERMINAL_ASHRAM_CHIP = 9048;
 	public static final int SOURCE_TERMINAL_SCRAM_CHIP = 9049;
-	public static final int SOURCE_TERMINAL_TRIRAM_CHIP = 9050;
+	public static final int SOURCE_TERMINAL_TRIGRAM_CHIP = 9050;
 	public static final int SOURCE_TERMINAL_SUBSTATS_ENH = 9051;
 	public static final int SOURCE_TERMINAL_DAMAGE_ENH = 9052;
 	public static final int SOURCE_TERMINAL_CRITICAL_ENH = 9053;
