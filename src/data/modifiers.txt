@@ -7644,6 +7644,8 @@ Item	bucket of fish juice	Effect: "Beyond the Pail", Effect Duration: 30
 # buckyball: Lets you escape from combat
 Item	buffed alien drugs	Effect: "Space Tripping", Effect Duration: 10
 Item	Bugbearclaw Donut	Effect: "Bugbear in Tooth and Claw", Effect Duration: 20
+# Item Build-a-City Gingerbread kit: Unlocks a Gingerbread City in the Big Mountains
+Item	Build-a-City Gingerbread kit	Free Pull
 Item	bull blubber	Effect: "Matador Nemesis", Effect Duration: 30
 # Item bundle of &quot;fragrant&quot; herbs: Banish a monster for the rest of the day
 # Item bundle of &quot;fragrant&quot; herbs: (up to 10 times per day)

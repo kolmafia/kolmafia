@@ -218,6 +218,10 @@ public class PlaceRequest
 			{
 				Preferences.setBoolean( "snojoAvailable", true );
 			}
+			if ( responseText.contains( "gingerbreadcity" ) )
+			{
+				Preferences.setBoolean( "gingerbreadCityAvailable", true );
+			}
 		}
 		else if ( place.equals( "nstower" ) )
 		{

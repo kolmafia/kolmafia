@@ -3215,6 +3215,14 @@ public class UseItemRequest
 
 			break;
 
+		case ItemPool.GINGERBREAD_CITY:
+
+			Preferences.setBoolean( "gingerbreadCityAvailable", true );
+
+			// Detect "you already have one" text
+
+			break;
+
 		case ItemPool.TELEGRAPH_OFFICE_DEED:
 
 			Preferences.setBoolean( "telegraphOfficeAvailable", true );

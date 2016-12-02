@@ -9226,7 +9226,7 @@
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
 9201	Just a lump of inert eldritch matter	251049747	wad.gif	none	t,d	1	Just some lumps of inert eldritch matter
 9202
-9203
+9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204
 9205
 9206
