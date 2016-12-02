@@ -9244,8 +9244,8 @@
 9218
 9219	animal part cracker	298097264	animalcracker.gif	food	t,d	8
 9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21
-9221
-9222
+9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
+9222	gingerbread mask	915468639	gingermask.gif	hat	t,d	40
 9223
 9224	tainted icing	494280376	blankoutglob.gif	usable	t,d	15
 9225

@@ -19,6 +19,7 @@ ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy
 ancient unspeakable fruitcake	3	1	decent	3-6	15-20	15-20	15-20
 angel-food cake	3	1	crappy	3	0	0	0
 angst burger	5	1	awesome	0	0	0	0	+10 PvP fights
+animal part cracker	3	4	good	0	0	0	0	Unspaded, 30 Sprinkle in Your Eye (+25% Sprinkle drop)
 antique packet of ketchup	1	1	crappy	1	1-2	0	1-3	lose 3 HP
 As Jus Gezund Heit	4	1		4-6	0	0	0
 asparagus lo mein	3	6	awesome	10-14	10-14	10-14	0
@@ -323,6 +324,7 @@ Gingerborg Hive	5	5		10-15	0	0	0
 gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
+gingerbread mug	2	1	decent	0	0	0	0	Unspaded
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 Gingerbread Nutrition Block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
