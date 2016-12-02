@@ -474,3 +474,7 @@ Industrial District (High Crime)	adventure=472	Env: none Stat: 0	Trivial Pursuit
 Downtown	adventure=473	Env: none Stat: 0	JokesterCo
 
 The Snojo	adventure=460	Env: indoor	The X-32-F Combat Training Snowman
+
+Gingerbread City	adventure=477	Env: indoor Stat: 0	Gingerbread Civic Center
+Gingerbread City	adventure=478	Env: indoor Stat: 0	Gingerbread Train Station
+Gingerbread City	adventure=479	Env: indoor Stat: 0	Gingerbread Industrial Zone

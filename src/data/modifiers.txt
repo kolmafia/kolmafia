@@ -208,6 +208,7 @@ Item	gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
 Item	ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xFairy, cap 14"
 Item	giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	giant yellow hat	Familiar Damage: +10, Experience (familiar): +1, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "2xFairy, 0.5xPotato, cap 31"
+Item	gingerbread mask	Hat Drop: +25
 Item	goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 # Goggles of Loathing: Makes you a better diver
 Item	Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"

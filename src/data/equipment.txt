@@ -128,6 +128,7 @@ gasmask	50	Mox: 10
 ghast iron Garibaldi	170	Mox: 70
 giant discarded bottlecap	155	Mox: 62
 giant yellow hat	125	Mox: 47
+gingerbread mask	80	Mox: 10
 goat beard	60	Mox: 15
 Goggles of Loathing	200	Mys: 150
 gold crown	150	Mox: 60

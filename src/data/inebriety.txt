@@ -257,6 +257,7 @@ Gin and Herring	3	1		7-11	0	0	0
 gin and tonic	3	3	good	5-10	0	16-20	0
 Gin Mint	2	2	EPIC	10-13	10-20	10-20	25-50
 gin-soaked blotter paper	1	3	decent	1-3	5-10	0	5-10
+gingerbread wine	3	4	good	0	0	0	0	Unspaded, 30 Sprinkle in Your Eye (+25% Sprinkle drop)
 glass of &quot;milk&quot;	1	1	good	2-3	75-100	0	0
 glass of bourbon	1	5	EPIC	5-6	10-20	10-20	10-20
 glass of herbal tequila	3	6	awesome	11-13	0	0	25-75	50 Herbal Pert

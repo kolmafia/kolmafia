@@ -46,6 +46,7 @@ Highlands	Mountain	Highlands
 The Red Zeppelin's Mooring	Mountain	The Red Zeppelin's Mooring
 Nemesis Cave	Mountain	Nemesis Cave
 The Snojo	Mountain	The Snojo
+Gingerbread City	Mountain	Gingerbread City
 
 Beach	Beach	Desert Beach
 Pyramid	Beach	Ancient Buried Pyramid
