@@ -493,6 +493,7 @@ user	ghostPencil6	false
 user	ghostPencil7	false
 user	ghostPencil8	false
 user	ghostPencil9	false
+user	gingerbreadCityAvailable	false
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
