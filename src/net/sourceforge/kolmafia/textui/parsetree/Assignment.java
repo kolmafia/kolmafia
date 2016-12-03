@@ -155,7 +155,8 @@ public class Assignment
 		Parser.printIndices( lhs.getIndices(), stream, indent + 1 );
 		if ( this.oper != null )
 		{
-			oper.print( stream, indent + 1 );
+			Interpreter.indentLine( stream, indent );
+			stream.println( "<OPER " + this.oper.operator + "=>" );
 		}
 		this.getRightHandSide().print( stream, indent + 1 );
 	}

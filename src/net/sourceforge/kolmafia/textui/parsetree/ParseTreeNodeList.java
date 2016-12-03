@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+
 public class ParseTreeNodeList<E extends ParseTreeNode>
 	implements Iterable<E>
 {

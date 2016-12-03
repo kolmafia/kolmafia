@@ -110,18 +110,14 @@ public class SwitchScope
 
 	public void print( final PrintStream stream, final int indent, Value [] tests, Integer [] offsets, int defaultIndex )
 	{
-		Iterator it;
-
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<SCOPE>" );
 
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<VARIABLES>" );
 
-		it = this.getVariables();
-		while ( it.hasNext() )
+		for ( Variable currentVar : this.getVariables() )
 		{
-			Variable currentVar = (Variable) it.next();
 			currentVar.print( stream, indent + 2 );
 		}
 
