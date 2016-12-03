@@ -2130,6 +2130,11 @@ public class Parser
 			if ( this.currentToken() != null && this.currentToken().equals( "," ) )
 			{
 				this.readToken(); // ,
+
+				if ( this.currentToken() == null || this.currentToken.equals( ";" ) )
+				{
+					throw this.parseException( "Identifier expected" );
+				}
 			}
 		}
 
@@ -2142,16 +2147,9 @@ public class Parser
 
 		// Parse condition in context of scope
 
-		Value condition;
-
-		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
-		{
-			condition = new Value( true );
-		}
-		else
-		{
-			condition = this.parseExpression( scope );
-		}
+		Value condition =
+			( this.currentToken() != null && this.currentToken().equals( ";" ) ) ?
+			DataTypes.TRUE_VALUE : this.parseExpression( scope );
 
 		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
 		{
@@ -2207,6 +2205,11 @@ public class Parser
 			if ( this.currentToken() != null && this.currentToken().equals( "," ) )
 			{
 				this.readToken(); // ,
+
+				if ( this.currentToken() == null || this.currentToken.equals( ")" ) )
+				{
+					throw this.parseException( "Identifier expected" );
+				}
 			}
 		}
 

@@ -2620,6 +2620,8 @@ public class ItemPool
 	public static final int MEMORIES_OF_BEAN_SLINGING = 8987;
 	public static final int MEMORIES_OF_SNAKE_OILING = 8988;
 	public static final int WITCHESS_SET = 8989;
+	public static final int BRAIN_TRAINER_GAME = 8990;
+	public static final int LASER_EYE_SURGERY_KIT = 8991;
 	public static final int CLAN_FLOUNDRY = 9000;
 	public static final int CARPE = 9001;
 	public static final int CODPIECE = 9002;

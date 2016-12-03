@@ -3143,6 +3143,8 @@ public class UseItemRequest
 		case ItemPool.WESTERN_BOOK_HELL:
 		case ItemPool.WESTERN_BOOK_LOOK:
 		case ItemPool.TROUT_FISHING_IN_LOATHING:
+		case ItemPool.BRAIN_TRAINER_GAME:
+		case ItemPool.LASER_EYE_SURGERY_KIT:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you
