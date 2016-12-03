@@ -1611,6 +1611,7 @@ faded green protest sign	10	none
 faded red protest sign	10	none
 fake hand	10	none
 fake washboard	200	Mus: 50	shield
+fancy marzipan briefcase	100	Mys: 10
 fancy opera glasses	50	Mys: 10
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
@@ -2512,6 +2513,7 @@ solid baconstone ring	110	Mys: 40
 solid gold pegleg	150	Mys: 60
 soul mask	0	none
 soul monocle	0	none
+sour ball and chain	50	Mus: 10
 Source shades	10	none
 Space Trip safety headphones	100	Mys: 35
 spade necklace	10	none

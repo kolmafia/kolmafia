@@ -1654,13 +1654,6 @@ Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -1000
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	0	xxx.gif	NOWANDER Atk: 1 Def: 1 HP: 1 E: cold P: construct
 
-# Gingerbread City (December 2016)
-gingerbread pigeon	1975	gbpigeon.gif	Scale: -5 Cap: 1000 Floor: ? Init: 50 P: beast
-gingerbread rat	1976	gbrat.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: beast
-gingerbread mugger	1983	gbmugger.gif	Scale: 10 Cap: 1000 Floor: ? Init: 150 P: dude	gingerbread mug (0)	gingerbread mask (0)
-gingerbread welder robot	1984	Scale: 10 Cap: 1000 Floor: ? Init: 200 P: construct
-gingerbread mutant	1985	gbmutant.gif	Scale: 10 Cap: 1000 Floor: ? Init: 150 P: dude	tainted icing (0)
-
 # Investigating a Plaintive Telegram
 
 drunk cowpoke	1899	drunkpoke.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: -10000 P: dude	cow poker (0)
@@ -1787,6 +1780,16 @@ Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: 
 Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
 time-spinner prank	1965	noart.gif	FREE Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
 Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
+
+# Gingerbread City (December 2016)
+gingerbread pigeon	1975	gbpigeon.gif	Scale: -5 Cap: 1000 Floor: 30 Init: 50 P: beast
+gingerbread rat	1976	gbrat.gif	Scale: -5 Cap: 1000 Floor: 30 Init: 50 P: beast
+gingerbread convict	1977	gbconvict.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude	sour ball and chain (0)
+gingerbread mad dog	1978	gbdog.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: beast
+gingerbread lawyer	1979	gblawyer.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude	candy dress shoes (0)	gingerbread restraining order (0)
+gingerbread mugger	1983	gbmugger.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude	gingerbread mug (0)	gingerbread mask (0)
+gingerbread welder robot	1984	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: construct
+gingerbread mutant	1985	gbmutant.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude	tainted icing (0)
 
 # KoL Con
 

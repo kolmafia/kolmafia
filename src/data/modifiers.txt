@@ -1876,6 +1876,7 @@ Item	eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 # fake hand: Gives Extra Offhand Equipment Slot
 Item	fake hand	Weapon Damage: -1
 Item	fake washboard	Experience Percent (Muscle): +25, Damage Absorption: +50, Accessory Drop: +75, Damage Reduction: 13
+Item	fancy marzipan briefcase	MP Regen Min: 4, MP Regen Max: 8, Combat Rate: -10, Lasts Until Rollover
 Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
@@ -2934,6 +2935,7 @@ Item	solid gold pegleg	Initiative: -50, Single Equip
 Item	soul mask	Single Equip
 # soul monocle: Reveals secrets
 Item	soul monocle	Single Equip
+Item	sour ball and chain	Initiative: -300, Sprinkle Drop: +50, Single Equip
 # Item Source shades: Improves yields of the Extraction skill.
 Item	Source shades	Item Drop: +10
 Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
@@ -8230,6 +8232,7 @@ Item	giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 # gift card: Allows you to draw one card from the Deck of Every Card
 Item	gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
+# Item gingerbread cigarette: Placate a gingerbread man
 # Item gingerbread restraining order: Banish a gingerbread man for the rest of the day
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
