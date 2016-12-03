@@ -2142,7 +2142,16 @@ public class Parser
 
 		// Parse condition in context of scope
 
-		Value condition = this.parseExpression( scope );
+		Value condition;
+
+		if ( this.currentToken() != null && this.currentToken().equals( ";" ) )
+		{
+			condition = new Value( true );
+		}
+		else
+		{
+			condition = this.parseExpression( scope );
+		}
 
 		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
 		{
