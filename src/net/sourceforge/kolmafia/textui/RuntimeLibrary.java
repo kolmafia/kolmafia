@@ -4999,11 +4999,12 @@ public abstract class RuntimeLibrary
 		{
 			return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( "" ) );
 		}
+
 		try
 		{
 			String filter = filterFunction.toString();
 			Macrofier.setMacroOverride( filter, interpreter );
-			FightRequest.INSTANCE.nextRound( null );
+			RequestThread.postRequest( FightRequest.INSTANCE );
 		}
 		finally
 		{
