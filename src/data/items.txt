@@ -9230,7 +9230,7 @@
 9204
 9205	sprinkles	757828485	sprinkles.gif	none		0
 9206
-9207
+9207	sour ball and chain	957350053	sourballchain.gif	accessory	t,d	150
 9208
 9209
 9210
@@ -9252,7 +9252,7 @@
 9226
 9227
 9228
-9229
+9229	fancy marzipan briefcase	647469595	marzicase.gif	offhand	q	0
 9230
 9231
 9232
@@ -9260,7 +9260,7 @@
 9234
 9235
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
-9237
+9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
 9238
 9239
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
