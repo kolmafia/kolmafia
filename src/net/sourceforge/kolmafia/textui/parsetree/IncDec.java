@@ -47,12 +47,6 @@ public class IncDec
 	private final VariableReference lhs;
 	private final Operator oper;
 
-	public IncDec( final VariableReference lhs )
-	{
-		this.lhs = lhs;
-		this.oper = null;
-	}
-
 	public IncDec( final VariableReference lhs, final Operator oper )
 	{
 		this.lhs = lhs;
