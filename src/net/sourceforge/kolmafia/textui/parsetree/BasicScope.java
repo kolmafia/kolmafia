@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -61,7 +62,7 @@ public abstract class BasicScope
 	protected VariableList variables;
 	protected FunctionList functions;
 	protected BasicScope parentScope;
-	protected ArrayList nestedScopes;
+	protected ArrayList<BasicScope> nestedScopes;
 	boolean executed;
 
 	public BasicScope( FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope )
@@ -70,7 +71,7 @@ public abstract class BasicScope
 		this.types = ( types == null ) ? new TypeList() : types;
 		this.variables = ( variables == null ) ? new VariableList() : variables;
 		this.parentScope = parentScope;
-		this.nestedScopes = new ArrayList();
+		this.nestedScopes = new ArrayList<BasicScope>();
 		this.nestedScopes.add( this );
 		while ( parentScope != null )
 		{
@@ -119,14 +120,14 @@ public abstract class BasicScope
 		return null;
 	}
 
-	public Iterator getScopes()
+	public List<BasicScope> getScopes()
 	{
-		return this.nestedScopes.iterator();
+		return this.nestedScopes;
 	}
 
-	public Iterator getVariables()
+	public VariableList getVariables()
 	{
-		return this.variables.iterator();
+		return this.variables;
 	}
 
 	public boolean addVariable( final Variable v )
@@ -377,10 +378,8 @@ public abstract class BasicScope
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<VARIABLES>" );
 
-		it = this.getVariables();
-		while ( it.hasNext() )
+		for ( Variable currentVar : this.getVariables() )
 		{
-			Variable currentVar = (Variable) it.next();
 			currentVar.print( stream, indent + 2 );
 		}
 

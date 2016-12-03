@@ -78,20 +78,17 @@ public class UserDefinedFunction
 		
 		ArrayList<Value> values = new ArrayList<Value>();
 
-		Iterator scopes = this.scope.getScopes();
-		while ( scopes.hasNext() )
+		for ( BasicScope next : this.scope.getScopes() )
 		{
-			Iterator variables = ((BasicScope) scopes.next()).getVariables();
-	
-			while ( variables.hasNext() )
+			for ( Variable current : next.getVariables() )
 			{
-				Variable current = (Variable) variables.next();
 				if ( !current.isStatic() )
 				{
 					values.add( current.getValue( interpreter ) );
 				}
 			}
 		}
+
 		this.callStack.push( values );
 	}
 
@@ -105,14 +102,10 @@ public class UserDefinedFunction
 		ArrayList<Value> values = this.callStack.pop();
 		int i = 0;
 
-		Iterator scopes = this.scope.getScopes();
-		while ( scopes.hasNext() )
+		for ( BasicScope next : this.scope.getScopes() )
 		{
-			Iterator variables = ((BasicScope) scopes.next()).getVariables();
-	
-			while ( variables.hasNext() )
+			for ( Variable current : next.getVariables() )
 			{
-				Variable current = (Variable) variables.next();
 				if ( !current.isStatic() )
 				{
 					current.forceValue( values.get( i++ ) );

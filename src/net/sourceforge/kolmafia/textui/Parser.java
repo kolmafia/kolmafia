@@ -77,6 +77,8 @@ import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;
+import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
+import net.sourceforge.kolmafia.textui.parsetree.Loop;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
@@ -199,7 +201,7 @@ public class Parser
 
 		try
 		{
-			scope = this.parseScope( null, null, new VariableList(), Parser.getExistingFunctionScope(), false, false );
+			scope = this.parseScope( null, null, null, Parser.getExistingFunctionScope(), false, false );
 
 			if ( this.currentLine != null )
 			{
@@ -386,7 +388,7 @@ public class Parser
 		try
 		{
 			parser = new Parser( scriptFile, null, this.imports );
-			result = parser.parseScope( scope, null, new VariableList(), scope.getParentScope(), false, false );
+			result = parser.parseScope( scope, null, null, scope.getParentScope(), false, false );
 			if ( parser.currentLine != null )
 			{
 				throw this.parseException( "Script parsing error" );
@@ -456,10 +458,18 @@ public class Parser
 				  final boolean allowBreak,
 				  final boolean allowContinue )
 	{
-		Scope result;
+		Scope result = startScope == null ? new Scope( variables, parentScope ) : startScope;
+		return this.parseScope( result, expectedType, parentScope, allowBreak, allowContinue );
+	}
+
+	private Scope parseScope( Scope result,
+				  final Type expectedType,
+				  final BasicScope parentScope,
+				  final boolean allowBreak,
+				  final boolean allowContinue )
+	{
 		String importString;
 
-		result = startScope == null ? new Scope( variables, parentScope ) : startScope;
 		this.parseScriptName();
 		this.parseNotify();
 		this.parseSince();
@@ -981,6 +991,11 @@ public class Parser
 			// foreach doesn't have a ; token
 			return result;
 		}
+		else if ( ( result = this.parseJavaFor( functionType, scope ) ) != null )
+		{
+			// for doesn't have a ; token
+			return result;
+		}
 		else if ( ( result = this.parseFor( functionType, scope ) ) != null )
 		{
 			// for doesn't have a ; token
@@ -1459,7 +1474,7 @@ public class Parser
 		return new BasicScript( ostream );
 	}
 
-	private WhileLoop parseWhile( final Type functionType, final BasicScope parentScope )
+	private Loop parseWhile( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1497,7 +1512,7 @@ public class Parser
 		return new WhileLoop( scope, condition );
 	}
 
-	private RepeatUntilLoop parseRepeat( final Type functionType, final BasicScope parentScope )
+	private Loop parseRepeat( final Type functionType, final BasicScope parentScope )
 	{
 		if ( this.currentToken() == null )
 		{
@@ -1711,9 +1726,8 @@ public class Parser
 				   constantLabels ? labels : null );
 	}
 
-	private Try parseTry( final Type functionType,
-		final BasicScope parentScope,
-		final boolean allowBreak, final boolean allowContinue )
+	private Try parseTry( final Type functionType, final BasicScope parentScope,
+			      final boolean allowBreak, final boolean allowContinue )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equalsIgnoreCase( "try" ) )
 		{
@@ -1787,7 +1801,7 @@ public class Parser
 
 		this.readToken(); //read {
 
-		this.parseScope( result, functionType, null, parentScope, false, false );
+		this.parseScope( result, functionType, parentScope, false, false );
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 		{
@@ -1852,7 +1866,7 @@ public class Parser
 		return new SortBy( (VariableReference) aggregate, indexvar, valuevar, expr, this );
 	}
 
-	private ForEachLoop parseForeach( final Type functionType, final BasicScope parentScope )
+	private Loop parseForeach( final Type functionType, final BasicScope parentScope )
 	{
 		// foreach key [, key ... ] in aggregate { scope }
 
@@ -1953,9 +1967,9 @@ public class Parser
 		return new ForEachLoop( scope, variableReferences, aggregate, this );
 	}
 
-	private ForLoop parseFor( final Type functionType, final BasicScope parentScope )
+	private Loop parseFor( final Type functionType, final BasicScope parentScope )
 	{
-		// foreach key in aggregate {scope }
+		// for identifier from X [upto|downto|to|] Y [by Z]? {scope }
 
 		if ( this.currentToken() == null )
 		{
@@ -2038,17 +2052,182 @@ public class Parser
 		return new ForLoop( scope, new VariableReference( indexvar ), initial, last, increment, direction, this );
 	}
 
+	private Loop parseJavaFor( final Type functionType, final BasicScope parentScope )
+	{
+		if ( this.currentToken() == null )
+		{
+			return null;
+		}
+
+		if ( !this.currentToken().equalsIgnoreCase( "for" ) )
+		{
+			return null;
+		}
+
+		if ( this.nextToken() == null || !this.nextToken().equals( "(" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // for
+		this.readToken(); // (
+
+		// Parse variables and initializers
+
+		Scope scope = new Scope( parentScope );
+		ParseTreeNodeList<Assignment> initializers = new ParseTreeNodeList<Assignment>();
+
+		// Parse each initializer in the context of scope, adding
+		// variable to variable list in the scope, and saving
+		// initialization expressions in initializers.
+
+		while ( this.currentToken() != null && !this.currentToken.equals( ";" ) )
+		{
+			Type t = this.parseType( scope, true, true );
+
+			String name = this.currentToken();
+			Variable variable;
+
+			if ( name == null || !this.parseIdentifier( name ) || Parser.isReservedWord( name ) )
+			{
+				throw this.parseException( "Identifier required" );
+			}
+
+			// If there is no data type, it is using an existing variable
+			if ( t == null )
+			{
+				variable = parentScope.findVariable( name );
+				if ( variable == null )
+				{
+					throw this.parseException( "Unknown variable '" + name + "'" );
+				}
+			}
+			else
+			{
+				if ( scope.findVariable( name, true ) != null )
+				{
+					throw this.parseException( "Variable '" + name + "' already defined" );
+				}
+
+				// Create variable and add it to the scope
+				variable = new Variable( name, t );
+				scope.addVariable( variable );
+			}
+
+			this.readToken(); // name
+
+			VariableReference lhs = new VariableReference( name, scope );
+
+			Assignment initializer = parseAssignment( scope, lhs );
+
+			if ( initializer == null )
+			{
+				throw this.parseException( "Variable '" + name + "' needs an initializer" );
+			}
+
+			initializers.add( initializer);
+
+			if ( this.currentToken() != null && this.currentToken().equals( "," ) )
+			{
+				this.readToken(); // ,
+			}
+		}
+
+		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+		{
+			throw this.parseException( ";", this.currentToken() );
+		}
+
+		this.readToken(); // ;
+
+		// Parse condition in context of scope
+
+		Value condition = this.parseExpression( scope );
+
+		if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
+		{
+			throw this.parseException( ";", this.currentToken() );
+		}
+
+		if ( condition == null || condition.getType() != DataTypes.BOOLEAN_TYPE )
+		{
+			throw this.parseException( "\"for\" requires a boolean conditional expression" );
+		}
+
+		this.readToken(); // ;
+
+		// Parse incrementers in context of scope
+
+		ParseTreeNodeList<ParseTreeNode> incrementers = new ParseTreeNodeList<ParseTreeNode>();
+
+		while ( this.currentToken() != null && !this.currentToken.equals( ")" ) )
+		{
+			Value value = parsePreIncDec( scope );
+			if ( value != null )
+			{
+				incrementers.add( value );
+			}
+			else
+			{
+				value = this.parseVariableReference( scope );
+				if ( !( value instanceof VariableReference ) )
+				{
+					throw this.parseException( "Variable reference expected" );
+				}
+
+				VariableReference ref = (VariableReference) value;
+				Value lhs = this.parsePostIncDec( ref );
+
+				if ( lhs == ref )
+				{
+					Assignment incrementer = parseAssignment( scope, ref );
+
+					if ( incrementer == null )
+					{
+						throw this.parseException( "Variable '" + ref.getName() + "' not incremented" );
+					}
+
+					incrementers.add( incrementer );
+				}
+				else 
+				{
+					incrementers.add( lhs );
+				}
+			}
+
+			if ( this.currentToken() != null && this.currentToken().equals( "," ) )
+			{
+				this.readToken(); // ,
+			}
+		}
+
+		if ( this.currentToken() == null || !this.currentToken().equals( ")" ) )
+		{
+			throw this.parseException( ")", this.currentToken() );
+		}
+
+		this.readToken(); // )
+
+		// Parse scope body
+		this.parseLoopScope( scope, functionType, parentScope );
+
+		return new JavaForLoop( scope, initializers, condition, incrementers );
+	}
+
 	private Scope parseLoopScope( final Type functionType, final VariableList varList, final BasicScope parentScope )
 	{
-		Scope scope;
+		return this.parseLoopScope( new Scope( varList, parentScope ), functionType, parentScope );
+	}
 
+	private Scope parseLoopScope( final Scope result, final Type functionType, final BasicScope parentScope )
+	{
 		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
 			this.readToken(); // {
 
-			scope = this.parseScope( null, functionType, varList, parentScope, true, true );
+			this.parseScope( result, functionType, parentScope, true, true );
 			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
 			{
 				throw this.parseException( "}", this.currentToken() );
@@ -2059,8 +2238,7 @@ public class Parser
 		else
 		{
 			// Scope is a single command
-			scope = new Scope( varList, parentScope );
-			ParseTreeNode command = this.parseCommand( functionType, scope, false, true, true );
+			ParseTreeNode command = this.parseCommand( functionType, result, false, true, true );
 			if ( command == null )
 			{
 				if ( this.currentToken() == null || !this.currentToken().equals( ";" ) )
@@ -2072,11 +2250,11 @@ public class Parser
 			}
 			else
 			{
-				scope.addCommand( command, this );
+				result.addCommand( command, this );
 			}
 		}
 
-		return scope;
+		return result;
 	}
 
 	private Value parseNewRecord( final BasicScope scope )
@@ -2450,48 +2628,8 @@ public class Parser
 		return null;
 	}
 
-	private ParseTreeNode parseAssignment( final BasicScope scope )
+	private Assignment parseAssignment( final BasicScope scope, final VariableReference lhs )
 	{
-		if ( this.nextToken() == null )
-		{
-			return null;
-		}
-
-		if ( !this.nextToken().equals( "=" ) &&
-		     !this.nextToken().equals( "[" ) &&
-		     !this.nextToken().equals( "." ) &&
-		     !this.nextToken().equals( "+=" ) &&
-		     !this.nextToken().equals( "-=" ) &&
-		     !this.nextToken().equals( "*=" ) &&
-		     !this.nextToken().equals( "/=" ) &&
-		     !this.nextToken().equals( "%=" ) &&
-		     !this.nextToken().equals( "**=" ) &&
-		     !this.nextToken().equals( "&=" ) &&
-		     !this.nextToken().equals( "^=" ) &&
-		     !this.nextToken().equals( "|=" ) &&
-		     !this.nextToken().equals( "<<=" ) &&
-		     !this.nextToken().equals( ">>=" ) &&
-		     !this.nextToken().equals( ">>>=" ) )
-		{
-			return null;
-		}
-
-		if ( !this.parseIdentifier( this.currentToken() ) )
-		{
-			return null;
-		}
-
-		Value lhs = this.parseVariableReference( scope );
-		if ( lhs instanceof FunctionCall )
-		{
-			return lhs;
-		}
-
-		if ( lhs == null || !( lhs instanceof VariableReference ) )
-		{
-			throw this.parseException( "Variable reference expected" );
-		}
-
 		String operStr = this.currentToken();
 		if ( !operStr.equals( "=" ) &&
 		     !operStr.equals( "+=" ) &&
@@ -2534,7 +2672,52 @@ public class Parser
 
 		Operator op = operStr.equals( "=" ) ? null : new Operator( operStr.substring( 0, operStr.length() - 1 ), this );
 
-		return new Assignment( (VariableReference) lhs, rhs, op );
+		return new Assignment( lhs, rhs, op );
+	}
+
+	private ParseTreeNode parseAssignment( final BasicScope scope )
+	{
+		if ( this.nextToken() == null )
+		{
+			return null;
+		}
+
+		if ( !this.nextToken().equals( "=" ) &&
+		     !this.nextToken().equals( "[" ) &&
+		     !this.nextToken().equals( "." ) &&
+		     !this.nextToken().equals( "+=" ) &&
+		     !this.nextToken().equals( "-=" ) &&
+		     !this.nextToken().equals( "*=" ) &&
+		     !this.nextToken().equals( "/=" ) &&
+		     !this.nextToken().equals( "%=" ) &&
+		     !this.nextToken().equals( "**=" ) &&
+		     !this.nextToken().equals( "&=" ) &&
+		     !this.nextToken().equals( "^=" ) &&
+		     !this.nextToken().equals( "|=" ) &&
+		     !this.nextToken().equals( "<<=" ) &&
+		     !this.nextToken().equals( ">>=" ) &&
+		     !this.nextToken().equals( ">>>=" ) )
+		{
+			return null;
+		}
+
+		if ( !this.parseIdentifier( this.currentToken() ) )
+		{
+			return null;
+		}
+
+		Value lhs = this.parseVariableReference( scope );
+		if ( lhs instanceof FunctionCall )
+		{
+			return lhs;
+		}
+
+		if ( lhs == null || !( lhs instanceof VariableReference ) )
+		{
+			throw this.parseException( "Variable reference expected" );
+		}
+
+		return this.parseAssignment( scope, (VariableReference)lhs );
 	}
 
 	private Value parseRemove( final BasicScope scope )
@@ -2573,23 +2756,10 @@ public class Parser
 			operStr = this.currentToken().equals( "++" ) ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
 			this.readToken(); // oper
 
-			if ( !this.parseIdentifier( this.currentToken() ) )
-			{
-				throw this.parseException( "Variable reference expected" );
-			}
-
 			lhs = this.parseVariableReference( scope );
-			if ( lhs == null || !( lhs instanceof VariableReference ) )
+			if ( lhs == null )
 			{
 				throw this.parseException( "Variable reference expected" );
-			}
-
-			while ( this.currentToken() != null && ( this.currentToken().equals( "." ) || this.currentToken().equals( "[" ) ) )
-			{
-				Variable current = new Variable( lhs.getType() );
-				current.setExpression( lhs );
-
-				lhs = this.parseVariableReference( scope, current );
 			}
 		}
 		else
@@ -2636,7 +2806,7 @@ public class Parser
 
 		Operator oper = new Operator( operStr, this );
 
-		return new IncDec( (VariableReference) lhs, oper );
+		return new IncDec( lhs, oper );
 	}
 
 	private Value parseExpression( final BasicScope scope )

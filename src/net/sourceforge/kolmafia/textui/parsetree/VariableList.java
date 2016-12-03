@@ -37,8 +37,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class VariableList
+	implements Iterable<Variable>
 {
-	private ArrayList list = new ArrayList();
+	private ArrayList<Variable> list = new ArrayList<Variable>();
 
 	public boolean add( final Variable n )
 	{
@@ -53,20 +54,18 @@ public class VariableList
 
 	public Variable find( final String name )
 	{
-		Variable currentVariable = null;
-		for ( int i = 0; i < list.size(); ++i )
+		for ( Variable variable : this.list )
 		{
-			currentVariable = (Variable) list.get( i );
-			if ( currentVariable.getName().equalsIgnoreCase( name ) )
+			if ( variable.getName().equalsIgnoreCase( name ) )
 			{
-				return currentVariable;
+				return variable;
 			}
 		}
 
 		return null;
 	}
 
-	public Iterator iterator()
+	public Iterator<Variable> iterator()
 	{
 		return list.iterator();
 	}
