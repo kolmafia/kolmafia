@@ -861,8 +861,10 @@ can of maces	50	Mox: 10	1-handed club
 can opener	100	Mus: 0	1-handed claw
 can-you-dig-it?	10	Mus: 0	1-handed spade
 candlestick	100	Mus: 0	1-handed wand
+candy crowbar	110	Mus: 25	1-handed club
 candy knife	150	Mus: 40	1-handed knife
 candy knuckles	10	Mus: 0	1-handed knuckles
+candy screwdriver	100	Mus: 20	1-handed knife
 candy stick	80	Mys: 25	1-handed staff
 cap gun	20	Mox: 0	1-handed pistol
 cardboard crossbow	60	Mox: 15	2-handed crossbow
@@ -1573,6 +1575,7 @@ collapsible baton	200	Mys: 85
 Cookbook of the Damned	30	none
 creepy doll head	100	Mys: 35
 creepy voice box	120	Mys: 45
+creme brulee torch	0	Mus: 25
 Crimbo bottomless hot cocoa mug	20	none
 Crimbo Elf creepy bobble-head	20	none
 Crimbo light-up Rudolph doll	20	none

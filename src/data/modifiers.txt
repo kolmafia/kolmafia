@@ -1018,8 +1018,10 @@ Item	can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 Item	can opener	Weakens Monster, Hat Drop: +50
 # can-you-dig-it?: + ???
 Item	candlestick	Experience (Mysticality): +2, Mysticality Percent: +100, Lasts Until Rollover
+Item	candy crowbar	Weapon Damage Percent: +100, Lasts Until Rollover
 # candy knife
 Item	candy knuckles	Weapon Damage: +25
+Item	candy screwdriver	Monster Level: +10, Candy Drop: +25
 Item	candy stick	Spell Damage Percent: +50, Candy Drop: +40
 # cap gun: Bang Bang!
 Item	cap gun	Muscle Limit: 200, Mysticality Limit: 200, Moxie Limit: 200
@@ -1832,6 +1834,7 @@ Item	collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
 Item	Cookbook of the Damned	Spell Damage: +10
 Item	creepy doll head	Spooky Damage: +15
 # creepy voice box: Pull the String!  I Dare You!
+Item	creme brulee torch	Hot Damage: +30, Lasts Until Rollover
 Item	Crimbo bottomless hot cocoa mug	Hot Spell Damage: +10
 Item	Crimbo Elf creepy bobble-head	Spooky Damage: +10
 Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10

@@ -478,3 +478,5 @@ The Snojo	adventure=460	Env: indoor	The X-32-F Combat Training Snowman
 Gingerbread City	adventure=477	Env: indoor Stat: 0	Gingerbread Civic Center
 Gingerbread City	adventure=478	Env: indoor Stat: 0	Gingerbread Train Station
 Gingerbread City	adventure=479	Env: indoor Stat: 0	Gingerbread Industrial Zone
+Gingerbread City	adventure=480	Env: outdoor Stat: 0	Gingerbread Upscale Retail District
+Gingerbread City	adventure=481	Env: underground Stat: 0	Gingerbread Sewers
