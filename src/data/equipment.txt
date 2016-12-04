@@ -664,6 +664,7 @@ flyest of shirts	80	Mus: 25
 frilly shirt	20	none
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 ghost toga	110	Mus: 40
+gingerbread hoodie	100	Mus: 20
 gingham blouse	100	Mus: 35
 gladiator tunica	100	Mus: 35
 glass casserole dish	100	none
@@ -2042,6 +2043,7 @@ bugbear detector	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 candy dress shoes	100	Mus: 20
 candy necklace	150	Mox: 60
+candy necktie	0	Mox: 20
 cannonball charrrm bracelet	190	Mys: 80
 Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
@@ -2059,6 +2061,7 @@ chintzy noodle ring	120	Mys: 45
 chintzy saucepan earring	120	Mys: 45
 chintzy seal pendant	120	Mus: 45
 chintzy turtle brooch	120	Mus: 45
+chocolate pocketwatch	0	Mys: 20
 chocolate rabbit's foot	40	Mys: 5
 Choker of the Ultragoth	150	Mys: 60
 Claw of the Infernal Seal	150	Mus: 45
@@ -2176,6 +2179,8 @@ giant designer sunglasses	10	none
 giant diamond ring	10	none
 giant motorcycle boots	120	Mus: 45
 giant pinky ring	100	Mys: 35
+gingerbeard	0	Mys: 25
+gingerservo	0	none
 Girdle of Hatred	200	Mus: 125
 glacial clock	30	none
 glass eye	100	Mys: 50

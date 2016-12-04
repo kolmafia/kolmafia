@@ -809,6 +809,7 @@ Item	flyest of shirts	Moxie: +5, Spell Damage: +5
 Item	frilly shirt	Mysticality: +3
 Item	General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Item	ghost toga	Damage Reduction: 5, Spooky Damage: +10
+Item	gingerbread hoodie	Experience: +2, Spell Damage: +10, Sprinkle Drop: +15
 Item	gingham blouse	Muscle: +5
 Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 # Item glass casserole dish: Minor Radiation Sickness Protection
@@ -2378,6 +2379,7 @@ Item	bugbear detector	Single Equip
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
+Item	candy necktie	Initiative: +20, Ranged Damage: +15, Pickpocket Chance: +10, Single Equip
 # cannonball charrrm bracelet: Explosively hilarious
 Item	cannonball charrrm bracelet	Single Equip
 # Cat-Herding Prod: +10 Damage vs. Lions
@@ -2401,6 +2403,7 @@ Item	chintzy noodle ring	Mysticality: +12, Muscle: +6, Class: "Pastamancer", Sin
 Item	chintzy saucepan earring	Mysticality: +12, Moxie: +6, Class: "Sauceror", Single Equip
 Item	chintzy seal pendant	Muscle: +12, Moxie: +6, Class: "Seal Clubber", Single Equip
 Item	chintzy turtle brooch	Muscle: +12, Mysticality: +6, Class: "Turtle Tamer", Single Equip
+Item	chocolate pocketwatch	Maximum MP: +20, Spell Damage: +15, Spell Critical Percent: +10, Single Equip
 Item	chocolate rabbit's foot	Item Drop: +5, Meat Drop: +5, Candy Drop: +20
 Item	Choker of the Ultragoth	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Spell Damage: +40, Single Equip
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day<super>*</super>
@@ -2544,6 +2547,10 @@ Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 Item	giant motorcycle boots	Muscle: +5, Single Equip
 # giant pinky ring: 75% Chance of Preventing Negative Status Attacks
 Item	giant pinky ring	Single Equip
+# Item gingerbeard: +6 Adventures per day when equipped
+# Item gingerbeard: (+9 in December)
+Item	gingerbeard	Variable
+Item	gingerservo	Muscle Percent: +25, HP Regen Min: 6, HP Regen Max: 12, PvP Fights: +6, Single Equip
 # Girdle of Hatred: Tightenable
 Item	Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
 Item	glacial clock	Cold Damage: +15
@@ -3443,9 +3450,11 @@ Item	bugged beanie	Familiar Weight: +10
 Item	cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 Item	candied yam pinky ring	Familiar Weight: +5
+Item	candy dog collar	Sprinkle Drop: +25, Generic
 Item	charpuce jub-jub bird	Familiar Weight: +5, Familiar Tuning (Moxie): 100, Familiar Effect: "mox stats", Equips On: "Frumious Bandersnatch"
 Item	chiptune guitar	Item Drop: +25, Effect: "item drop", Equips On: "Mini-Hipster"
 Item	chocolate bowtie	Familiar Weight: +5
+Item	chocolate leash	Familiar Weight: +10
 Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
 Item	cotton candy cordial	Familiar Weight: +5
@@ -5294,6 +5303,7 @@ Effect	Light-Headed	Mysticality Percent: -30
 Effect	Like an Egyptian	Avatar: "tomb servant"
 Effect	Limber as Mortimer	Gear Drop: +100
 Effect	Lion in Ambush	Combat Rate: +15
+Effect	Liquor-ish	Maximum MP: +50, MP Regen Min: 20, MP Regen Max: 30
 Effect	Liquid Courage	Experience: +3
 Effect	Liquid Luck	Critical Hit Percent: +10, Spell Critical Percent: +10
 Effect	Liquidy Smoky	Mysticality: +15, Moxie: +15
@@ -7809,6 +7819,7 @@ Item	cotton candy cocoon	Free Pull
 # cotton candy plug: Restores 19-38 HP and MP
 # cotton candy skoshe: Restores 15-30 HP and MP
 # cotton candy smidgen: Restores 11-23 HP and MP
+# Item counterfeit city
 # cracked stone sphere: Mysterious, Deprecated
 Item	Cracklin' Oat Bran	Effect: "Lookin' at Some Burning Cereal", Effect Duration: 50
 Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
@@ -8084,6 +8095,7 @@ Item	fabric hardener	Effect: "Hardened Fabric", Effect Duration: 20
 # facsimile dictionary: (doesn't go away when used)
 Item	fairy-worn boots	Free Pull
 Item	fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
+Item	fake cocktail	Effect: "Liquor-ish", Effect Duration: 10
 # fancy bath salts: Weakens enemies very slightly
 # fancy blue potion: Restores 90-110 MP
 Item	fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
@@ -8233,7 +8245,9 @@ Item	giant tube of black lipstick	Effect: "Visibly Goth", Effect Duration: 30
 Item	gilt perfume bottle	Effect: "Something's Amistress", Effect Duration: 30
 Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 # Item gingerbread cigarette: Placate a gingerbread man
+# Item gingerbread dog treat: Grants 20 Familiar XP
 # Item gingerbread restraining order: Banish a gingerbread man for the rest of the day
+# Item gingerbread smartphone
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
@@ -8723,6 +8737,7 @@ Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Item	ninja eyeblack	Effect: "Waiting for Ninjas", Effect Duration: 50
 Item	ninja fear powder	Effect: "Ninja in Waiting", Effect Duration: 50
+Item	No Hats as Art	Skill: "Ceci N'Est Pa Une Chapeau"
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Item	note from Clancy	Skill: "Request Sandwich"
 # Notes from the Elfpocalypse, Chapter I: Restores 30-40 HP and MP
@@ -8902,6 +8917,7 @@ Item	Polysniff Perfume	Effect: "Neutered Nostrils", Effect Duration: 10
 # pool torpedo: Deals 250-250 Physical Damage
 # pool torpedo: (underwater only)
 # pool torpedo: (has a chance to not go away when used)
+Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
 Item	poppy	Effect: "It's Soporiffic!", Effect Duration: 10
 Item	porcelain candy dish	Effect: "Red in Tooth", Effect Duration: 5
 Item	porkpocket	Effect: "Porkpocketed", Effect Duration: 50
@@ -9399,6 +9415,7 @@ Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 # The Emperor's new cookie: So delicious!
 Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
+Item	The Gingerbread Vigilante's Handbook	Skill: "Licorice Rope"
 Item	The Groose in the Hoose	Free Pull
 Item	The Joy of Wassailing	Skill: "Wassail"
 Item	The Joy of Wassailing (used)	Skill: "Wassail"
