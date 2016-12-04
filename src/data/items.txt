@@ -9227,17 +9227,17 @@
 9201	Just a lump of inert eldritch matter	251049747	wad.gif	none	t,d	1	Just some lumps of inert eldritch matter
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
-9204
+9204	counterfeit city	703636438	fakecity.gif	usable	t	0
 9205	sprinkles	757828485	sprinkles.gif	none		0
-9206
+9206	The Gingerbread Vigilante's Handbook	424629948	book2.gif	usable	t,d	500
 9207	sour ball and chain	957350053	sourballchain.gif	accessory	t,d	150
-9208
+9208	candy dog collar	408478511	candycollar.gif	familiar	t,d	75
 9209
 9210
 9211
 9212	candy dress shoes	741868271	moccasins.gif	accessory	t,d	300
-9213
-9214
+9213	candy necktie	801970115	necktie.gif	accessory	t,d	300
+9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t,d	300
 9215
 9216
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
@@ -9246,17 +9246,17 @@
 9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21
 9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
 9222	gingerbread mask	915468639	gingermask.gif	hat	t,d	40
-9223
+9223	gingerservo	127067100	gingerservo.gif	accessory	t,d	400
 9224	tainted icing	494280376	blankoutglob.gif	usable	t,d	15
-9225
-9226
-9227
+9225	gingerbeard	484162042	gingerbeard.gif	accessory	t	0
+9226	gingerbread smartphone	704376570	gingerphone.gif	usable	t,d	55
+9227	gingerbread hoodie	842441254	gingerhoodie.gif	shirt	t,d	35
 9228
 9229	fancy marzipan briefcase	647469595	marzicase.gif	offhand	q	0
 9230
 9231
 9232
-9233
+9233	gingerbread dog treat	251890316	gingerbone.gif	usable	t,d	20
 9234
 9235
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
@@ -9265,7 +9265,7 @@
 9239
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
 9241
-9242
+9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2
 9243
 9244
 9245
@@ -9275,3 +9275,12 @@
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
 9250	Inner Strength	389870199	jperfume.gif	multiple	t	0
 9251	Inner Truth	903953457	jperfume.gif	multiple	t	0
+9252
+9253
+9254
+9255
+9256
+9257	chocolate leash	513864144	string.gif	familiar	t,d	75
+9258
+9259	Pop Art: a Guide	778248097	book4.gif	usable	t	0
+9260	No Hats as Art	321323345	book5.gif	usable	t	0

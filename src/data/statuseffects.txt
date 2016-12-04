@@ -2150,7 +2150,7 @@
 2149	Iced and Tainted	blankoutglob.gif	ce08eaf8f3c33ce2d56830c514883b2d	use 1 tainted icing
 2150
 2151
-2152
+2152	Liquor-ish	nopic.gif	85d7e30dbef8216f145c54dac291af88	use 1 fake cocktail
 2153
 2154
 2155
