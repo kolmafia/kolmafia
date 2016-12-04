@@ -9281,6 +9281,6 @@
 9255
 9256
 9257	chocolate leash	513864144	string.gif	familiar	t,d	75
-9258
+9258	My Life of Crime, a Memoir	267400722	book3.gif	usable	t	0
 9259	Pop Art: a Guide	778248097	book4.gif	usable	t	0
 9260	No Hats as Art	321323345	book5.gif	usable	t	0
