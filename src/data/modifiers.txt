@@ -6391,6 +6391,7 @@ Effect	You've Got Questions	Avatar: "The Inquisitor"
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
 Effect	Your Eyes are Peeled!	Item Drop: +25
+Effect	Your Fifteen Minutes	Hot Damage: +15, Hot Spell Damage: +15, Initiative: +15
 Effect	Your Head is That of a Hawk	Avatar: "cultist"
 Effect	Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
 Effect	Yuletide Industry	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -8714,6 +8715,7 @@ Item	mouse skull	Effect: "Little Mouse Skull Buddy", Effect Duration: 20
 Item	Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
 Item	muscle oil	Effect: "Built Body", Effect Duration: 100
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
+Item	My Life of Crime, a Memoir	Skill: "Gingerbread Mob Hit"
 Item	My Own Pen Pal kit	Free Pull
 # mylar scout drone: Weakens enemies somewhat
 Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
