@@ -1975,7 +1975,9 @@ public class GenericRequest
 			this.responseCode = this.getResponseCode();
 			this.responseMessage = this.getResponseMessage();
 
-			if ( this.responseCode == 504 && this.baseURLString.equals( "storage.php" ) )
+			if ( this.responseCode == 504 &&
+			     ( this.baseURLString.equals( "storage.php" ) ||
+				 ( this.baseURLString.equals( "inventory.php" ) && this.formURLString.contains( "action=pullall" ) ) ) )
 			{
 				// Likely a pullall request that timed out
 				PauseObject pauser = new PauseObject();
