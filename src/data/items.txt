@@ -9228,7 +9228,7 @@
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204	counterfeit city	703636438	fakecity.gif	usable	t	0
-9205	sprinkles	757828485	sprinkles.gif	none		0
+9205	sprinkles	757828485	sprinkles.gif	none		0	sprinkles
 9206	The Gingerbread Vigilante's Handbook	424629948	book2.gif	usable	t,d	500
 9207	sour ball and chain	957350053	sourballchain.gif	accessory	t,d	150
 9208	candy dog collar	408478511	candycollar.gif	familiar	t,d	75
@@ -9253,9 +9253,9 @@
 9227	gingerbread hoodie	842441254	gingerhoodie.gif	shirt	t,d	35
 9228
 9229	fancy marzipan briefcase	647469595	marzicase.gif	offhand	q	0
-9230
-9231
-9232
+9230	creme brulee torch	892568816	blowtorch.gif	offhand	q	0
+9231	candy crowbar	112008833	crowbar.gif	weapon	q	0
+9232	candy screwdriver	908995282	candyscrewdriver.gif	weapon	q	0
 9233	gingerbread dog treat	251890316	gingerbone.gif	usable	t,d	20
 9234
 9235

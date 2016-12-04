@@ -122,9 +122,11 @@ Fightin' Fire	100	brushfire
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)	The Frattlesnake: 0
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Galley	100	angry cavebugbear	trendy bugbear chef
-Gingerbread Civic Center	-1	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer
-Gingerbread Train Station	-1	gingerbread pigeon
+Gingerbread Civic Center	-1	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
 Gingerbread Industrial Zone	-1	gingerbread pigeon	gingerbread rat	gingerbread mugger	gingerbread welder robot	gingerbread mutant
+Gingerbread Sewers	-1
+Gingerbread Train Station	-1	gingerbread pigeon	gingerbread rat	gingerbread vagrant	animal cracker	gingerbread wino
+Gingerbread Upscale Retail District	-1	gingerbread pigeon	gingerbread rat	gingerbread gentrifier	gingerbread finance bro	gingerbread tech bro
 Globe Theatre Main Stage	100	Richard X	Groundling	Hamlet	Othello
 Globe Theatre Backstage	100	Ye Olde Key Grippe	Understudy	ghost actor
 Gotpork City Sewers	100	mid-level mook	liquid plumber	plumber's helper	The Plumber: 0
