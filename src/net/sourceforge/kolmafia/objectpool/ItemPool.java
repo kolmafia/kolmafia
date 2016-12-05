@@ -2707,6 +2707,7 @@ public class ItemPool
 	public static final int THANKSGARDEN_SEEDS = 9186;
 	public static final int CASHEW = 9187;
 	public static final int GINGERBREAD_CITY = 9203;
+	public static final int GINGERBREAD_CIGARETTE = 9237;
 	public static final int MY_LIFE_OF_CRIME_BOOK = 9258;
 	public static final int POP_ART_BOOK = 9259;
 	public static final int NO_HATS_BOOK = 9260;
