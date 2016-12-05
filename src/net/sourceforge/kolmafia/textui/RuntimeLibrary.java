@@ -709,8 +709,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_clan_lounge", DataTypes.RESULT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_clan_rumpus", new AggregateType(
-			DataTypes.STRING_TYPE, 0 ), params ) );
+		functions.add( new LibraryFunction( "get_clan_rumpus", DataTypes.STRING_MAP_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_chateau", DataTypes.RESULT_TYPE, params ) );
@@ -3852,12 +3851,20 @@ public abstract class RuntimeLibrary
 
 	public static Value get_clan_rumpus( Interpreter interpreter )
 	{
-		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, KoLConstants.clanRumpus.size() );
-		ArrayValue value = new ArrayValue( type );
+		MapValue value = new MapValue( DataTypes.STRING_MAP_TYPE );
 
-		for ( int i = 0; i < KoLConstants.clanRumpus.size(); ++i )
+		for ( String name : KoLConstants.clanRumpus )
 		{
-			value.aset( new Value( i ), new Value( KoLConstants.clanRumpus.get( i ) ) );
+			int count = 1;
+			int countIndex = name.indexOf( " (" );
+			if ( countIndex != -1 )
+			{
+				count = StringUtilities.parseInt( name.substring( countIndex + 2, name.length() - 1 ) );
+				name = name.substring( 0, countIndex );
+			}
+			value.aset(
+				new Value( name ),
+				new Value( count ) );
 		}
 
 		return value;
