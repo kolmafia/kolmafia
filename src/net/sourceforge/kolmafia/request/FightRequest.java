@@ -7075,6 +7075,13 @@ public class FightRequest
 
 			return responseText.contains( "toss the light" ) || itemDamageSuccess;
 
+		case ItemPool.GINGERBREAD_CIGARETTE:
+
+			// You hand the gingerbread man a cigarette. He says "Oh, hey, thank you. That's just what I needed!"
+			// and strolls away, puffing merrily and having a slowly but surely deleterious effect on his health.
+
+			return responseText.contains( "hand the gingerbread man a cigarette" ) || itemDamageSuccess;
+
 		case ItemPool.PEPPERMINT_PARASOL:
 
 			// You hold up the parasol, and a sudden freak gust of wind
