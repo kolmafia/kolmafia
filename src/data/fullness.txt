@@ -352,6 +352,7 @@ grapes	1	1	crappy	1	0	0	0
 green bean casserole	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Myst)
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
+green-iced sweet roll	1	1	good	0	0	0	0	Unspaded
 grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
 Grimdrop Chow Mein	4	5		6-11	0	0	0
 Grimgerbread House	5	5		10-15	0	0	0
