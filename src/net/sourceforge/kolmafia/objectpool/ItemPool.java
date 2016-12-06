@@ -2893,44 +2893,59 @@ public class ItemPool
 	// If two items remain unidentified, only identify one, since
 	// eliminationProcessor will handle the other.
 	
-	public static final void suggestIdentify( final List<String> items,
+	public static final void suggestIdentify( final List<Integer> items,
 		final int minId, final int maxId, final String baseName )
 	{
 		ArrayList<Integer> possible = new ArrayList<Integer>();
-		int count;
 		int unknown = 0;
+
 		for ( int i = minId; i <= maxId; ++i ) 
 		{
 			if ( !Preferences.getString( baseName + i ).equals( "" ) )
 			{
 				continue;	// already identified;
 			}
+
 			++unknown;
+
 			AdventureResult item = new AdventureResult( i, 1, false );
-			count = item.getCount( KoLConstants.inventory );
+			int count = item.getCount( KoLConstants.inventory );
+
 			if ( count <= 0 )
 			{
 				continue;	// can't identify yet
 			}
+
 			possible.add( IntegerPool.get( i | Math.min( count, 127 ) << 24 ) );
 		}
-		count = possible.size();
+
+		int count = possible.size();
+
+		// Nothing to do if we have no items that qualify
 		if ( count == 0 )
 		{
 			return;
 		}
-		Collections.sort( possible, Collections.reverseOrder() );
-		count = possible.size();
-		if ( unknown == 2 && count == 2 )
-		{
-			possible.remove( --count );
-		}
-		items.add( String.valueOf( ((Integer) possible.get( 0 )).intValue()
-			& 0x00FFFFFF ) );
+
 		if ( count > 1 )
 		{
-			items.add( String.valueOf( ((Integer) possible.get( 1 )).intValue()
-				& 0x00FFFFFF ) );
+			Collections.sort( possible, Collections.reverseOrder() );
+		}
+
+		// Identify the item we have the most of
+		items.add( possible.get( 0 ) & 0x00FFFFFF );
+
+		// If only two items are unknown, that's enough, since the
+		// other will be identified by eliminationProcessor
+		if ( unknown == 2 )
+		{
+			return;
+		}
+
+		// If we have three or more unknowns, try for a second
+		if ( count > 1 )
+		{
+			items.add( possible.get( 1 ) & 0x00FFFFFF );
 		}
 	}
 }

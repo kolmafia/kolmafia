@@ -747,11 +747,11 @@ public class FightRequest
 
 			if ( FightRequest.nextAction == null )
 			{
-				String combatAction = CombatActionManager.getCombatAction(
-					MonsterStatusTracker.getLastMonsterName(), FightRequest.getRoundIndex(), false );
+				String name = MonsterStatusTracker.getLastMonsterName();
+				int roundIndex = FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
 
-				FightRequest.nextAction =
-					CombatActionManager.getShortCombatOptionName( combatAction );
+				String combatAction = CombatActionManager.getCombatAction( name, roundIndex, false );
+				FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( combatAction );
 			}
 		}
 
@@ -2476,14 +2476,14 @@ public class FightRequest
 			{
 				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
 			}
+
+			// Synchronize with KoL
+			FightRequest.currentRound = round;
 		}
 
-		// *** This doesn't seem right, but is currently necessary for
-		// *** CCS scripts to behave correctly. FIX
 		if ( autoAttacked )
 		{
 			++FightRequest.preparatoryRounds;
-			++FightRequest.currentRound;
 		}
 
 		// Assume this response does not warrant a refresh
@@ -3756,15 +3756,14 @@ public class FightRequest
 
 	public static final String getSpecialAction()
 	{
-		ArrayList<String> items = new ArrayList<String>();
+		ArrayList<Integer> items = new ArrayList<Integer>();
 
-		boolean haveSkill, haveItem;
 		String pref = Preferences.getString( "autoOlfact" );
 		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 		{
-			haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
+			boolean haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
 				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillPool.OLFACTION ) );
-			haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
+			boolean haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
 			if ( (haveSkill | haveItem) && shouldTag( pref, "autoOlfact triggered" ) )
 			{
 				if ( haveSkill )
@@ -3772,7 +3771,7 @@ public class FightRequest
 					return OLFACTION_ACTION;
 				}
 
-				items.add( String.valueOf( ItemPool.ODOR_EXTRACTOR ) );
+				items.add( ItemPool.ODOR_EXTRACTOR );
 			}
 		}
 
@@ -3780,7 +3779,7 @@ public class FightRequest
 		if ( !pref.equals( "" ) )
 		{
 			int totalCopies = Preferences.getInteger( "spookyPuttyCopiesMade" ) + Preferences.getInteger( "_raindohCopiesMade" );
-			haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
+			boolean haveItem = KoLConstants.inventory.contains( FightRequest.PUTTY_SHEET ) &&
 				Preferences.getInteger( "spookyPuttyCopiesMade" ) < 5 && totalCopies < 6;
 			boolean haveItem2 = KoLConstants.inventory.contains( FightRequest.RAINDOH_BOX ) &&
 				Preferences.getInteger( "_raindohCopiesMade" ) < 5 && totalCopies < 6;
@@ -3794,23 +3793,23 @@ public class FightRequest
 			{
 				if ( haveItem )
 				{
-					items.add( String.valueOf( ItemPool.SPOOKY_PUTTY_SHEET ) );
+					items.add( ItemPool.SPOOKY_PUTTY_SHEET );
 				}
 				else if ( haveItem2 )
 				{
-					items.add( String.valueOf( ItemPool.RAIN_DOH_BOX ) );
+					items.add( ItemPool.RAIN_DOH_BOX );
 				}
 				else if ( haveItem3 )
 				{
-					items.add( String.valueOf( ItemPool.CAMERA ) );
+					items.add( ItemPool.CAMERA );
 				}
 				else if ( haveItem4 )
 				{
-					items.add( String.valueOf( ItemPool.CRAPPY_CAMERA ) );
+					items.add( ItemPool.CRAPPY_CAMERA );
 				}
 				else
 				{
-					items.add( String.valueOf( ItemPool.PHOTOCOPIER ) );
+					items.add( ItemPool.PHOTOCOPIER );
 				}
 			}
 		}
@@ -3821,25 +3820,25 @@ public class FightRequest
 		}
 
 		int itemsSize = items.size();
-		boolean haveFunkslinging = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
 		if ( itemsSize == 0 )
 		{
 			return null;
 		}
-		else if ( itemsSize == 1 || !haveFunkslinging )
+		else if ( itemsSize == 1 || !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			return (String) items.get( 0 );
+			return String.valueOf( items.get( 0 ) );
 		}
 		else
 		{
-			return (String) items.get( 0 ) + "," + (String) items.get( 1 );
+			return String.valueOf( items.get( 0 ) ) + "," + String.valueOf( items.get( 1 ) );
 		}
 	}
 
 	private static final boolean shouldTag( String pref, String msg )
 	{
-		boolean isAbort = false, isMonster = false, rv;
-		List items = null;
+		boolean isAbort = false;
+		boolean isMonster = false;
+		List<AdventureResult> items = null;
 
 		if ( pref.endsWith( " abort" ) )
 		{
@@ -3856,7 +3855,8 @@ public class FightRequest
 			isMonster = true;
 			pref = pref.substring( 8 ).trim();
 		}
-		else {
+		else
+		{
 			if ( pref.startsWith( "item " ) )
 			{
 				pref = pref.substring( 5 );
@@ -3869,6 +3869,7 @@ public class FightRequest
 			items = Arrays.asList( temp );
 		}
 
+		boolean rv;
 		if ( isMonster )
 		{
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
@@ -3887,6 +3888,7 @@ public class FightRequest
 		{
 			KoLmafia.abortAfter( msg );
 		}
+
 		return rv;
 	}
 
@@ -8180,11 +8182,6 @@ public class FightRequest
 	public static final int getCurrentRound()
 	{
 		return FightRequest.currentRound;
-	}
-
-	public static final int getRoundIndex()
-	{
-		return FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
 	}
 
 	public static final boolean edFightInProgress()
