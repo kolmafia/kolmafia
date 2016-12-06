@@ -1635,6 +1635,7 @@ ghostly reins	50	none
 giant clay ashtray	60	none	shield
 giant penguin keychain	155	Mus: 62	shield
 giant stuffed bugbear	10	none
+gingerbread moneybag	0	none
 Glass Balls of the Goblin King	70	Mys: 20
 glass gnoll eye	35	Mys: 2
 glass pie plate	100	none	shield

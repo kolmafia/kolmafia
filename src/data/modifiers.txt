@@ -1900,6 +1900,7 @@ Item	ghostly reins	Familiar Weight: +10, Experience (familiar): +2, Lasts Until 
 Item	giant clay ashtray	Muscle: +5, Damage Reduction: 3
 Item	giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damage Reduction: 10
 # giant stuffed bugbear
+Item	gingerbread moneybag	Sprinkle Drop: +25
 Item	Glass Balls of the Goblin King	Mysticality: +14
 Item	glass gnoll eye	Mysticality: +3
 # Item glass pie plate: +25 Damage vs. Ghosts
