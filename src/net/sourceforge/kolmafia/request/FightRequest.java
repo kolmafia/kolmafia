@@ -748,7 +748,7 @@ public class FightRequest
 			if ( FightRequest.nextAction == null )
 			{
 				String name = MonsterStatusTracker.getLastMonsterName();
-				int roundIndex = FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
+				int roundIndex = FightRequest.getRoundIndex();
 
 				String combatAction = CombatActionManager.getCombatAction( name, roundIndex, false );
 				FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( combatAction );
@@ -8182,6 +8182,11 @@ public class FightRequest
 	public static final int getCurrentRound()
 	{
 		return FightRequest.currentRound;
+	}
+
+	public static final int getRoundIndex()
+	{
+		return FightRequest.currentRound - 1 - FightRequest.preparatoryRounds;
 	}
 
 	public static final boolean edFightInProgress()
