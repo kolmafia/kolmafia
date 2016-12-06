@@ -1853,6 +1853,7 @@ spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
 spooky little girl	0	none
 sprinkle shaker	10	none
+sprinkle-begging cup	0	Mys: 20
 stack of communist leaflets	10	none
 standards and practices guide	100	Mys: 10
 stapler bear	0	none

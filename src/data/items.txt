@@ -9241,7 +9241,7 @@
 9215
 9216
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
-9218
+9218	sprinkle-begging cup	401017315	starchcan.gif	offhand	t,d	50
 9219	animal part cracker	298097264	animalcracker.gif	food	t,d	8
 9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21
 9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
@@ -9284,3 +9284,10 @@
 9258	My Life of Crime, a Memoir	267400722	book3.gif	usable	t	0
 9259	Pop Art: a Guide	778248097	book4.gif	usable	t	0
 9260	No Hats as Art	321323345	book5.gif	usable	t	0
+9261
+9262
+9263
+9264
+9265
+9266
+9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20

@@ -2166,6 +2166,7 @@ Item	spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 Item	spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
 Item	spooky little girl	Item Drop: [G]
 # sprinkle shaker
+Item	sprinkle-begging cup	Sprinkle Drop: +50
 Item	standards and practices guide	Sleaze Resistance: +2
 Item	stapler bear	Muscle: +5
 Item	star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
@@ -5979,6 +5980,7 @@ Effect	Spookyravin'	Familiar Weight: +10
 Effect	Spore-Wreathed	Reduce Enemy Defense: 20
 Effect	Springy Fusilli	Initiative: +40
 Effect	Sprinkle in Your Eye	Sprinkle Drop: +25
+Effect	Sprinkle Sense	Sprinkle Drop: +50
 Effect	Square Jaw And Everything Else	Avatar: "Scott the Miner"
 Effect	Square to be Hip	Moxie Percent: +10
 Effect	Squatting and Thrusting	Experience (Muscle): +3
@@ -6952,6 +6954,7 @@ Item	glistening fish meat	Effect: "Fishy", Effect Duration: 5
 Item	green bean casserole	Effect: "Thanksgetting", Effect Duration: 20
 Item	green drunki-bear	Effect: "Gummibrain", Effect Duration: 80
 Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
+Item	green-iced sweet roll	Effect: "Sprinkle Sense", Effect Duration: 40
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Duration: 20
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50

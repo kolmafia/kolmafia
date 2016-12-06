@@ -2152,7 +2152,7 @@
 2151
 2152	Liquor-ish	nopic.gif	85d7e30dbef8216f145c54dac291af88	use 1 fake cocktail
 2153	Your Fifteen Minutes	fire.gif	69dcf3d8fe46c29e7fb6075d06448c95
-2154
+2154	Sprinkle Sense	radiation.gif	4952c587111fe6fd981b2ec363a9ff01	eat 1 green-iced sweet roll
 2155
 2156	Innately Wise	jperfume.gif	0c453b9ca3fe82e629dfff908d18cc71	use 1 Inner Wisdom
 2157	Innately Strong	jperfume.gif	9543d6998c767e2b70aebd2256a391cf	use 1 Inner Strength
