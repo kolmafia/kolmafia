@@ -9261,7 +9261,7 @@
 9235
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
 9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
-9238
+9238	gingerbread moneybag	405806675	gingerbag.gif	offhand		0
 9239
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
 9241
