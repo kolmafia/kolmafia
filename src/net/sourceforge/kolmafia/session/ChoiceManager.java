@@ -3722,19 +3722,29 @@ public abstract class ChoiceManager
 		// Choice 1123 is Some Assembly Required
 		// Choice 1127 is The Crimbo Elf Commune
 		// Choice 1128 is Reindeer Commune
-		// Choise 1129 is The Crimbulmination
-		// Choise 1130 is The Crimbulmination
-		// Choise 1131 is The Crimbulmination
-		// Choise 1132 is The Crimbulmination
+		// Choice 1129 is The Crimbulmination
+		// Choice 1130 is The Crimbulmination
+		// Choice 1131 is The Crimbulmination
+		// Choice 1132 is The Crimbulmination
 
-		// Choise 1188 is The Call is Coming from Outside the Simulation
-		// Choise 1190 is The Oracle
+		// Choice 1188 is The Call is Coming from Outside the Simulation
+		// Choice 1190 is The Oracle
 
-		// Choise 1195 is Spinning Your Time-Spinner
-		// Choise 1196 is Travel to a Recent Fight
-		// Choise 1197 is Travel back to a Delicious Meal
-		// Choise 1198 is Play a Time Prank
-		// Choise 1199 is The Far Future
+		// Choice 1195 is Spinning Your Time-Spinner
+		// Choice 1196 is Travel to a Recent Fight
+		// Choice 1197 is Travel back to a Delicious Meal
+		// Choice 1198 is Play a Time Prank
+		// Choice 1199 is The Far Future
+
+		// Choice 1202 is Noon in the Civic Center
+		// Choice 1203 is Midnight in Civic Center
+		// Choice 1205 is Midnight at the Train Station
+		// Choice 1206 is Noon in the Industrial Zone
+		// Choice 1207 is Midnight in the Industrial Zone
+		// Choice 1210 is Civic Planning Office
+		// Choice 1212 is The Currency Exchange
+		// Choice 1213 is The Factory Factor
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -10700,6 +10710,35 @@ public abstract class ChoiceManager
 			if ( medalMatcher.find() )
 			{
 				Preferences.setInteger( "timeSpinnerMedals", StringUtilities.parseInt( medalMatcher.group( 1 ) ) );
+			}
+			break;
+
+		case 1210:
+			// Civic Planning Office
+			if ( !text.contains( "they've already enacted it" ) )
+			{
+				return;
+			}
+			ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "gingerRetailUnlocked", true );
+				break;
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setBoolean( "gingerSewersUnlocked", true );
+				break;
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.setBoolean( "gingerExtraAdventures", true );
+				break;
+			}
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
+				break;
 			}
 			break;
 

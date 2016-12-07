@@ -1846,6 +1846,14 @@ public class AreaCombatData
 				return ( quest.equals( "Wagon Train Escort Wanted" ) && questStep.equals( "step4" ) ) ? 1 : 0;
 			}
 		}
+		else if ( zone.equals( "Gingerbread Civic Center" ) || zone.equals( "Gingerbread Train Station" ) ||
+				zone.equals( "Gingerbread Industrial Zone" ) || zone.equals( "Gingerbread Upscale Retail District" ) )
+		{
+			if ( monster.equals( "gingerbread pigeon" ) || monster.equals( "gingerbread rat" ) )
+			{
+				return Preferences.getBoolean( "gingerSewersUnlocked" ) ? 0 : 1;
+			}
+		}
 		return weighting;
 	}
 
