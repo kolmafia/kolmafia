@@ -2557,6 +2557,7 @@ public class Modifiers
 		}
 
 		case ItemPool.UNCLE_HOBO_BEARD:
+		case ItemPool.GINGERBEARD:
 		{
 			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
 			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
