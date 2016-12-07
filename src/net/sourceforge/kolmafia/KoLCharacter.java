@@ -2648,8 +2648,19 @@ public abstract class KoLCharacter
 	public static final double getMeatDropPercentAdjustment()
 	{
 		// Penalty is constrained to be non-positive
-		return KoLCharacter.currentModifiers.get( Modifiers.MEATDROP ) +
+		return  KoLCharacter.currentModifiers.get( Modifiers.MEATDROP ) +
 			Math.min( KoLCharacter.currentModifiers.get( Modifiers.MEATDROP_PENALTY ), 0.0f );
+	}
+
+	/**
+	 * Accessor method to retrieve the total current sprinkle drop percent adjustment
+	 *
+	 * @return Total Current Sprinkle Drop Percent Adjustment
+	 */
+
+	public static final double getSprinkleDropPercentAdjustment()
+	{
+		return KoLCharacter.currentModifiers.get( Modifiers.SPRINKLES );
 	}
 
 	/**
