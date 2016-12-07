@@ -1796,6 +1796,8 @@ gingerbread mutant	1985	gbmutant.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: 
 gingerbread gentrifier	1986	gbgentry.gif	Scale: ? Cap: ? Floor: ? Init: 200 P: dude
 gingerbread finance bro	1987	gbfinancebro.gif	Scale: ? Cap: ? Floor: ? Init: 150 P: dude
 gingerbread tech bro	1988	gbtechbro.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: dude
+gingerbread alligator	1989	gbgator.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: beast
+gingerbread vigilante	1990	gbvigilante.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude	gingerbread gavel (n100)
 
 # KoL Con
