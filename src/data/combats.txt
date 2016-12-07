@@ -124,7 +124,7 @@ Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poo
 Galley	100	angry cavebugbear	trendy bugbear chef
 Gingerbread Civic Center	-1	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
 Gingerbread Industrial Zone	-1	gingerbread pigeon	gingerbread rat	gingerbread mugger	gingerbread welder robot	gingerbread mutant
-Gingerbread Sewers	-1
+Gingerbread Sewers	-1	gingerbread pigeon	gingerbread rat	gingerbread alligator	gingerbread vigilante
 Gingerbread Train Station	-1	gingerbread pigeon	gingerbread rat	gingerbread vagrant	animal cracker	gingerbread wino
 Gingerbread Upscale Retail District	-1	gingerbread pigeon	gingerbread rat	gingerbread gentrifier	gingerbread finance bro	gingerbread tech bro
 Globe Theatre Main Stage	100	Richard X	Groundling	Hamlet	Othello
