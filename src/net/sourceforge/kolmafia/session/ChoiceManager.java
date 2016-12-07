@@ -9325,14 +9325,6 @@ public abstract class ChoiceManager
 				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
 			}
 			break;
-
-		case 1202:
-			// Noon in the Civic Center
-			if ( ChoiceManager.lastDecision == 3 )
-			{
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
-			}
-			break;
 		}
 
 		// Certain choices cost meat or items when selected
