@@ -555,6 +555,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_ccs_action", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "can_still_steal", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "add_item_condition", DataTypes.VOID_TYPE, params ) );
 
@@ -2925,6 +2928,11 @@ public abstract class RuntimeLibrary
 		return new Value(
 			CombatActionManager.getCombatAction(
 				FightRequest.getCurrentKey(), (int) index.intValue(), true ) );
+	}
+
+	public static Value can_still_steal( Interpreter interpreter )
+	{
+		return new Value( FightRequest.canStillSteal() );
 	}
 
 	public static Value add_item_condition( Interpreter interpreter, final Value countValue, final Value item )

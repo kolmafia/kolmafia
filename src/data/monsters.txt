@@ -1647,9 +1647,9 @@ Arctic Octolus	1857	octolus.gif	Atk: 225 Def: 250 HP: 200 P: fish E: cold Init: 
 Tin of Submardines	1855	submardines.gif	Atk: 225 Def: 200 HP: 250 P: fish E: cold Init: 25	tin of submardines (0)	sardine can key (0)
 
 # Deep Machine Tunnels (Machine Elf Capsule December 2015)
-Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
-Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
-Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird
+Performer of Actions	1859	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: action (0)	abstraction: purpose (0)
+Thinker of Thoughts	1860	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: thought (0)	abstraction: category (0)
+Perceiver of Sensations	1861	blank.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 P: weird	abstraction: perception (0)	abstraction: sensation (0)
 
 # The X-32-F Combat Training Snowman (X-32-F snowman crate January 2016)
 X-32-F Combat Training Snowman	0	xxx.gif	NOWANDER Atk: 1 Def: 1 HP: 1 E: cold P: construct
