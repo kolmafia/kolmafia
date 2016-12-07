@@ -9291,3 +9291,5 @@
 9265
 9266
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
+9268
+9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
