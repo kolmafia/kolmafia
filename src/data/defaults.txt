@@ -493,7 +493,11 @@ user	ghostPencil6	false
 user	ghostPencil7	false
 user	ghostPencil8	false
 user	ghostPencil9	false
+user	gingerAdvanceClockUnlocked	false
 user	gingerbreadCityAvailable	false
+user	gingerExtraAdventures	false
+user	gingerSewersUnlocked	false
+user	gingerRetailUnlocked	false
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
@@ -2098,6 +2102,14 @@ user	choiceAdventure1196	0
 user	choiceAdventure1197	0
 user	choiceAdventure1198	0
 user	choiceAdventure1199	0
+user	choiceAdventure1202	0
+user	choiceAdventure1203	0
+user	choiceAdventure1205	0
+user	choiceAdventure1206	0
+user	choiceAdventure1207	0
+user	choiceAdventure1210	0
+user	choiceAdventure1212	0
+user	choiceAdventure1213	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

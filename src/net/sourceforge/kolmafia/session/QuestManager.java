@@ -279,6 +279,10 @@ public class QuestManager
 					handleBeachChange( responseText );
 				}
 			}
+			else if ( location.contains( "whichplace=gingerbreadcity" ) )
+			{
+				handleGingerbreadCityChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=manor1" ) )
 			{
 				handleManorFirstFloorChange( location, responseText );
@@ -537,6 +541,18 @@ public class QuestManager
 		else
 		{
 			QuestDatabase.setQuestIfBetter( Quest.CITADEL, "step2" );
+		}
+	}
+
+	private static void handleGingerbreadCityChange( final String location, final String responseText )
+	{
+		if ( responseText.contains( "snarfblat=480" ) )
+		{
+			Preferences.setBoolean( "gingerRetailUnlocked", true );
+		}
+		if ( responseText.contains( "snarfblat=481" ) )
+		{
+			Preferences.setBoolean( "gingerSewersUnlocked", true );
 		}
 	}
 
