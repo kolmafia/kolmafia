@@ -1161,6 +1161,8 @@ public class ProxyRecordValue
 			.add( "physical_resistance", DataTypes.INT_TYPE )
 			.add( "min_meat", DataTypes.INT_TYPE )
 			.add( "max_meat", DataTypes.INT_TYPE )
+			.add( "min_sprinkles", DataTypes.INT_TYPE )
+			.add( "max_sprinkles", DataTypes.INT_TYPE )
 			.add( "base_mainstat_exp", DataTypes.FLOAT_TYPE )
 			.add( "phylum", DataTypes.PHYLUM_TYPE )
 			.add( "poison", DataTypes.EFFECT_TYPE )
@@ -1255,6 +1257,16 @@ public class ProxyRecordValue
 		public int get_max_meat()
 		{
 			return ( (MonsterData) this.content ).getMaxMeat();
+		}
+
+		public int get_min_sprinkles()
+		{
+			return ( (MonsterData) this.content ).getMinSprinkles();
+		}
+
+		public int get_max_sprinkles()
+		{
+			return ( (MonsterData) this.content ).getMaxSprinkles();
 		}
 
 		public double get_base_mainstat_exp()

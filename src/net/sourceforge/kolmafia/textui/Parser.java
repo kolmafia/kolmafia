@@ -3112,7 +3112,7 @@ public class Parser
 
 		if ( result instanceof VariableReference )
 		{
-			result = this.parsePostIncDec( (VariableReference)result );
+			return this.parsePostIncDec( (VariableReference)result );
 		}
 
 		return result;
