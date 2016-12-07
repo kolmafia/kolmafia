@@ -1005,6 +1005,7 @@ public class AreaCombatData
 		if ( fullString )
 		{
 			this.appendMeatDrop( buffer, monster );
+			this.appendSprinkleDrop( buffer, monster );
 		}
 
 		this.appendItemList( buffer, monster.getItems(), monster.getPocketRates(), fullString );
@@ -1022,14 +1023,36 @@ public class AreaCombatData
 	{
 		int minMeat = monster.getMinMeat();
 		int maxMeat = monster.getMaxMeat();
-		int avgMeat = monster.getBaseMeat();
-		if ( avgMeat == 0 )
+
+		if ( maxMeat == 0 )
 		{
 			return;
 		}
 
+		int avgMeat = monster.getBaseMeat();
+
 		double modifier = Math.max( 0.0, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0 );
 		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( avgMeat ) * modifier ) + " average)" );
+	}
+
+	private void appendSprinkleDrop( final StringBuffer buffer, final MonsterData monster )
+	{
+		int minSprinkles = monster.getMinSprinkles();
+		int maxSprinkles = monster.getMaxSprinkles();
+
+		if ( maxSprinkles == 0 )
+		{
+			return;
+		}
+
+		double modifier = Math.max( 0.0, ( KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0 ) / 100.0 );
+		buffer.append( "<br>Sprinkles: " );
+		buffer.append( this.format( minSprinkles * modifier ) );
+		if ( maxSprinkles != minSprinkles )
+		{
+			buffer.append( "-" );
+			buffer.append( this.format( maxSprinkles * modifier ) );
+		}
 	}
 
 	private void appendItemList( final StringBuffer buffer, final List items, final List pocketRates, boolean fullString )
