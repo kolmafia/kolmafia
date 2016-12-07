@@ -495,6 +495,8 @@ public class MonsterDatabase
 		Object floor = null;
 		Object mlMult = null;
 		int meat = 0;
+		int minSprinkles = 0;
+		int maxSprinkles = 0;
 		Element attackElement = Element.NONE;
 		Element defenseElement = Element.NONE;
 		Phylum phylum = Phylum.NONE;
@@ -659,6 +661,25 @@ public class MonsterDatabase
 					continue;
 				}
 
+				else if ( option.equals( "Sprinkles:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						value = tokens.nextToken();
+						int dash = value.indexOf( "-" );
+						if ( dash >= 0 )
+						{
+							minSprinkles = StringUtilities.parseInt( value.substring( 0, dash ) );
+							maxSprinkles = StringUtilities.parseInt( value.substring( dash + 1 ) );
+						}
+						else
+						{
+							minSprinkles = maxSprinkles = StringUtilities.parseInt( value );
+						}
+					}
+					continue;
+				}
+
 				else if ( option.equals( "P:" ) )
 				{
 					if ( tokens.hasMoreTokens() )
@@ -785,7 +806,7 @@ public class MonsterDatabase
 					   scale, cap, floor, mlMult,
 					   attackElement, defenseElement,
 					   physical,
-					   meat, phylum, poison,
+					   meat, minSprinkles, maxSprinkles, phylum, poison,
 					   boss, noBanish, dummy, type,
 					   images, manuelName, wikiName,
 					   subTypes, attributes );

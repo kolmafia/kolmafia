@@ -1543,6 +1543,29 @@ public class RequestEditorKit
 			monsterData.append( " (bounty)" );
 		}
 
+		int minMeat = monster.getMinMeat();
+		int maxMeat = monster.getMaxMeat();
+		if ( maxMeat > 0 )
+		{
+			monsterData.append( "<br />Meat: " );
+			monsterData.append( String.valueOf( minMeat ) );
+			monsterData.append( "-" );
+			monsterData.append( String.valueOf( maxMeat ) );
+		}
+
+		int minSprinkles = monster.getMinSprinkles();
+		int maxSprinkles = monster.getMaxSprinkles();
+		if ( maxSprinkles > 0 )
+		{
+			monsterData.append( "<br />Sprinkles: " );
+			monsterData.append( String.valueOf( minSprinkles ) );
+			if ( maxSprinkles != minSprinkles )
+			{
+				monsterData.append( "-" );
+				monsterData.append( String.valueOf( maxSprinkles ) );
+			}
+		}
+
 		IslandDecorator.appendMissingGremlinTool( monsterData );
 
 		if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )

@@ -69,6 +69,8 @@ public class MonsterData
 	private Element defenseElement;
 	private int physicalResistance;
 	private int meat;
+	private int minSprinkles;
+	private int maxSprinkles;
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
@@ -182,7 +184,8 @@ public class MonsterData
 			    final Object scale, final Object cap, final Object floor, final Object mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
-			    final int meat, final Phylum phylum, final int poison,
+			    final int meat, final int minSprinkles, final int maxSprinkles,
+			    final Phylum phylum, final int poison,
 			    final boolean boss, final boolean noBanish, final boolean dummy,
 			    final EnumSet<EncounterType> type, final String[] images,
 			    final String manuelName, final String wikiName, final List<String> subTypes,
@@ -205,6 +208,8 @@ public class MonsterData
 		this.defenseElement = defenseElement;
 		this.physicalResistance = physicalResistance;
 		this.meat = meat;
+		this.minSprinkles = minSprinkles;
+		this.maxSprinkles = maxSprinkles;
 		this.phylum = phylum;
 		this.poison = poison;
 		this.boss = boss;
@@ -830,6 +835,16 @@ public class MonsterData
 	{
 		int variation = (int) Math.max( 1, Math.floor( this.meat * 0.2 ) );
 		return this.meat > 0 ? this.meat + variation : 0;
+	}
+
+	public int getMinSprinkles()
+	{
+		return this.minSprinkles;
+	}
+
+	public int getMaxSprinkles()
+	{
+		return this.maxSprinkles;
 	}
 
 	public Phylum getPhylum()
@@ -1497,14 +1512,32 @@ public class MonsterData
 			buffer.append( "<br />This monster is Semirare. " );
 		}
 
+		if ( this.attributes.contains( "GHOST" ) )
+		{
+			buffer.append( "<br />This monster is a ghost. " );
+		}
+
 		int minMeat = this.getMinMeat();
 		int maxMeat = this.getMaxMeat();
 		if ( maxMeat > 0 )
 		{
-			buffer.append( "<br />Meat Drop: " );
+			buffer.append( "<br />Meat: " );
 			buffer.append( String.valueOf( minMeat ) );
 			buffer.append( " - " );
 			buffer.append( String.valueOf( maxMeat ) );
+		}
+
+		int minSprinkles = this.getMinSprinkles();
+		int maxSprinkles = this.getMaxSprinkles();
+		if ( maxSprinkles > 0 )
+		{
+			buffer.append( "<br />Sprinkles: " );
+			buffer.append( String.valueOf( minSprinkles ) );
+			if ( maxSprinkles != minSprinkles )
+			{
+				buffer.append( " - " );
+				buffer.append( String.valueOf( maxSprinkles ) );
+			}
 		}
 
 		this.appendItemDrops( buffer );
