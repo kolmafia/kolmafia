@@ -1370,8 +1370,12 @@ public class GenericRequest
 			}
 			else
 			{
-				// Informational debug message
-				KoLmafia.updateDisplay( "Unhandled redirect to " + this.redirectLocation );
+				if ( !this.redirectLocation.equals( "/game.php" ) &&
+				     !this.redirectLocation.equals( "witchess.php" ) )
+				{
+					// Informational debug message
+					KoLmafia.updateDisplay( "Unhandled redirect to " + this.redirectLocation );
+				}
 			}
 			return;
 		}
