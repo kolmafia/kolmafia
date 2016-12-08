@@ -1087,6 +1087,10 @@ public class CharPaneRequest
 				KoLCharacter.setFamiliarImage( image );
 				CharPaneRequest.checkMedium( responseText );
 				CharPaneRequest.checkMiniAdventurer( image );
+				if ( image.startsWith( "commacha" ) )
+				{
+					CharPaneRequest.checkComma( responseText );
+				}
 			}
 		}
 	}
@@ -1258,6 +1262,32 @@ public class CharPaneRequest
 		else
 		{
 			KoLCharacter.setRadSickness( 0 );
+		}
+	}
+
+	private static final Pattern commaPattern =
+		Pattern.compile( "pound (.*?), Chameleon", Pattern.DOTALL );
+
+	private static final void checkComma( final String responseText )
+	{
+		Pattern pattern = CharPaneRequest.commaPattern;
+		Matcher commaMatcher = pattern.matcher( responseText );
+		if ( commaMatcher.find() )
+		{
+			String newRace = commaMatcher.group( 1 );
+			if ( !newRace.equals( Preferences.getString( "commaFamiliar" ) ) )
+			{
+				Preferences.setString( "commaFamiliar", commaMatcher.group( 1 ) );
+				KoLCharacter.recalculateAdjustments();
+			}
+		}
+		else
+		{
+			if ( !Preferences.getString( "commaFamiliar" ).equals( "" ) )
+			{
+				Preferences.setString( "commaFamiliar", "" );
+				KoLCharacter.recalculateAdjustments();
+			}
 		}
 	}
 

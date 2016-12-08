@@ -2854,6 +2854,17 @@ public class Modifiers
 		Modifiers.currentWeight = weight;
 
 		String race = familiar.getRace();
+
+		// Comma Chameleon acts as if it was something else
+		if ( familiarId == FamiliarPool.CHAMELEON )
+		{
+			String newRace = Preferences.getString( "commaFamiliar" );
+			if ( newRace != null && !newRace.equals( "" ) )
+			{
+				race = newRace;
+				familiarId = FamiliarDatabase.getFamiliarId( race );
+			}
+		}
 		this.add( Modifiers.getModifiers( "Familiar", race ) );
 		if ( famItem != null )
 		{
