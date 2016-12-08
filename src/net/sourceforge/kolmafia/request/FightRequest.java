@@ -2474,18 +2474,14 @@ public class FightRequest
 			int round = StringUtilities.parseInt( m.group(1) );
 			if ( round != FightRequest.currentRound )
 			{
-				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound + " but KoL thinks it is round " + round );
+				RequestLogger.printLine( "KoLmafia thinks it is round " + FightRequest.currentRound +
+							 " but KoL thinks it is round " + round );
 			}
 
 			// Synchronize with KoL
 			int delta = FightRequest.currentRound - round;
 			FightRequest.currentRound = round;
-			FightRequest.preparatoryRounds += delta;
-		}
-
-		if ( autoAttacked )
-		{
-			++FightRequest.preparatoryRounds;
+			FightRequest.preparatoryRounds -= delta;
 		}
 
 		// Assume this response does not warrant a refresh
