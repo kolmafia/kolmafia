@@ -63,8 +63,15 @@ public class AutoAttackCommand
 	{
 		parameters = parameters.trim();
 
+		if ( parameters.equals( "" ) )
+		{
+			printCurrentAutoAttack();
+			return;
+		}
+
 		if ( setAutoAttackSkill( parameters.toLowerCase() ) )
 		{
+			printCurrentAutoAttack();
 			return;
 		}
 
@@ -80,6 +87,28 @@ public class AutoAttackCommand
 		}
 
 		ChatSender.executeMacro( "/aa " + parameters );
+	}
+
+	protected void printCurrentAutoAttack()
+	{
+		int aa = KoLCharacter.getAutoAttackAction();
+		if ( aa == 0 )
+		{
+			KoLmafia.updateDisplay( "Autoattack is disabled." );
+		}
+		else if ( aa == 1 )
+		{
+			KoLmafia.updateDisplay( "Autoattack: attack with weapon." );
+		}
+		else if ( aa == 3 )
+		{
+			KoLmafia.updateDisplay( "Autoattack: pick pocket." );
+		}
+		else
+		{
+			String skillName = SkillDatabase.getSkillName( aa );
+			KoLmafia.updateDisplay( "Autoattack: " + skillName );
+		}
 	}
 
 	protected boolean setAutoAttackSkill( String attackName )
