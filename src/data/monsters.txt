@@ -1784,9 +1784,9 @@ Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast	co
 # Gingerbread City (December 2016)
 gingerbread pigeon	1975	gbpigeon.gif	Scale: -5 Cap: 1000 Floor: 30 Init: 50 P: beast Sprinkles: 1-3
 gingerbread rat	1976	gbrat.gif	Scale: -5 Cap: 1000 Floor: 30 Init: 50 P: beast Sprinkles: 1-3
-gingerbread convict	1977	gbconvict.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude Sprinkles: 4-6	sour ball and chain (0)
-gingerbread mad dog	1978	gbdog.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: beast Sprinkles: 4-6	candy dog collar (0)
-gingerbread lawyer	1979	gblawyer.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude Sprinkles: 23-25	candy dress shoes (0)	gingerbread restraining order (0)
+gingerbread convict	1977	gbconvict.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude Sprinkles: 3-5	sour ball and chain (0)
+gingerbread mad dog	1978	gbdog.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: beast Sprinkles: 3-5	candy dog collar (0)
+gingerbread lawyer	1979	gblawyer.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude Sprinkles: 18-20	candy dress shoes (0)	gingerbread restraining order (0)
 gingerbread vagrant	1980	gbvagrant.gif	Scale: -5 Cap: 1000 Floor: 30 Init: 150 P: dude Sprinkles: 3-5
 animal cracker	1981	gbcracker.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: beast Sprinkles: 8-10	animal part cracker (0)
 gingerbread wino	1982	gbwino.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude Sprinkles: 3-5	gingerbread wine (0)

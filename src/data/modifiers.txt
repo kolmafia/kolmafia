@@ -3756,7 +3756,9 @@ Familiar	(none)	Underwater Familiar
 Familiar	Adorable Space Buddy	Underwater Familiar
 Familiar	Baby Mutant Rattlesnake	Volleyball Effectiveness: [1.3-0.15*G]
 Familiar	Barrrnacle	Underwater Familiar
+Familiar	Chocolate Lab	Sprinkle Drop: [W]
 Familiar	Crimbo P. R. E. S. S. I. E.	Volleyball: 1
+Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)]
 Familiar	Cuddlefish	Underwater Familiar
 Familiar	Emo Squid	Underwater Familiar
 Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
@@ -3770,6 +3772,7 @@ Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100
 Familiar	Mechanical Songbird	Fairy: [1.0+0.5*zone(Dreadsylvania)]
 Familiar	Midget Clownfish	Underwater Familiar
 Familiar	Mini-Adventurer	Volleyball: [pref(miniAdvClass,1)*max(0,min(L-4,1))+pref(miniAdvClass,2)], Leprechaun: [pref(miniAdvClass,3)*max(0,min(L-9,1))+pref(miniAdvClass,4)], Fairy: [pref(miniAdvClass,5)*max(0,min(L-4,1))+pref(miniAdvClass,6)*max(0,min(L-9,1))], Sombrero: [pref(miniAdvClass,6)*max(0,min(L-14,1))]
+Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)]
 Familiar	Mutant Cactus Bud	Leprechaun Effectiveness: [1.3-0.15*G]
 Familiar	Mutant Fire Ant	Fairy Effectiveness: [1.3-0.15*G]
 Familiar	Oily Woim	Initiative: [2*W]
@@ -3782,8 +3785,6 @@ Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50
 Familiar	Urchin Urchin	Underwater Familiar
 Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
-Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)]
-Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)]
 
 # Enthroned familiars section of modifiers.txt
 
