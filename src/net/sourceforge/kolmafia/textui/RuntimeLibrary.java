@@ -1053,6 +1053,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "set_auto_attack", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "set_auto_attack", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "attack", DataTypes.BUFFER_TYPE, params ) );
 
@@ -4938,7 +4941,13 @@ public abstract class RuntimeLibrary
 
 	public static Value set_auto_attack( Interpreter interpreter, Value attackValue )
 	{
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", String.valueOf( (int) attackValue.intValue() ) );
+		Type type = attackValue.getType();
+		String arg =
+			type.equals( DataTypes.TYPE_STRING ) ? attackValue.toString() :
+			type.equals( DataTypes.TYPE_INT ) ? String.valueOf( attackValue.intValue() ) :
+			"none";
+
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "autoattack", arg );
 
 		return DataTypes.VOID_VALUE;
 	}

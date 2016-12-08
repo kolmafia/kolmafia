@@ -96,29 +96,33 @@ public class AutoAttackCommand
 		{
 			skillId = 1;
 		}
-		else if ( !Character.isDigit( attackName.charAt( 0 ) ) )
+		else if ( attackName.equals( "steal" ) || attackName.equals( "pickpocket" ) || attackName.equals( "pick pocket" ) )
 		{
-			List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
-			String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
-
-			if ( skillName != null )
-			{
-				skillId = SkillDatabase.getSkillId( skillName );
-			}
+			skillId = 3;
 		}
 		else
 		{
-			skillId = StringUtilities.parseInt( attackName );
-		}
+			if ( Character.isDigit( attackName.charAt( 0 ) ) )
+			{
+				skillId = StringUtilities.parseInt( attackName );
+			}
+			else
+			{
+				List combatSkills = SkillDatabase.getSkillsByType( SkillDatabase.COMBAT );
+				String skillName = SkillDatabase.getSkillName( attackName, combatSkills );
 
-		// If it's not something that KoLmafia recognizes, fall through to KoL chat's implementation
+				if ( skillName != null )
+				{
+					skillId = SkillDatabase.getSkillId( skillName );
+				}
+			}
 
-		if (   skillId == -1 || 
-			   ( skillId > 1 && 
-			     skillId < 7000 && 
-			     !KoLCharacter.hasSkill( skillId ) ) )
-		{
-			return false;
+			// If it's not something that KoLmafia recognizes, fall through to KoL chat's implementation
+
+			if ( skillId == -1 || ( ( skillId == 2 || skillId > 3 ) && !KoLCharacter.hasSkill( skillId ) ) )
+			{
+				return false;
+			}
 		}
 
 		if ( skillId != KoLCharacter.getAutoAttackAction() )
