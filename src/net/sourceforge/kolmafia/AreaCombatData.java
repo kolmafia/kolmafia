@@ -1032,7 +1032,13 @@ public class AreaCombatData
 		int avgMeat = monster.getBaseMeat();
 
 		double modifier = Math.max( 0.0, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0 );
-		buffer.append( "<br>Meat: " + this.format( minMeat * modifier ) + "-" + this.format( maxMeat * modifier ) + " (" + this.format( ( avgMeat ) * modifier ) + " average)" );
+		buffer.append( "<br>Meat: " );
+		buffer.append( this.format( (int)Math.floor (minMeat * modifier ) ) );
+		buffer.append( "-" );
+		buffer.append( this.format( (int)Math.floor( maxMeat * modifier ) ) ) ;
+		buffer.append( " (" );
+		buffer.append( this.format( (int)Math.floor( avgMeat * modifier ) ) );
+		buffer.append( " average)" );
 	}
 
 	private void appendSprinkleDrop( final StringBuffer buffer, final MonsterData monster )
@@ -1047,11 +1053,11 @@ public class AreaCombatData
 
 		double modifier = Math.max( 0.0, ( KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0 ) / 100.0 );
 		buffer.append( "<br>Sprinkles: " );
-		buffer.append( this.format( minSprinkles * modifier ) );
+		buffer.append( this.format( (int)Math.floor( minSprinkles * modifier ) ) );
 		if ( maxSprinkles != minSprinkles )
 		{
 			buffer.append( "-" );
-			buffer.append( this.format( maxSprinkles * modifier ) );
+			buffer.append( this.format( (int)Math.floor( maxSprinkles * modifier ) ) );
 		}
 	}
 
