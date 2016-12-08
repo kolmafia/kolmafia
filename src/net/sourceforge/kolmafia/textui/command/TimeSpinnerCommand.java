@@ -158,13 +158,13 @@ public class TimeSpinnerCommand
 				return;
 			}
 
-			parameters = parameters.substring( 6 );
+			String target = parameters.substring( 6 );
 			String message = null;
-			int index = parameters.indexOf( "msg=" );
+			int index = target.indexOf( "msg=" );
 			if ( index != -1 )
 			{
-				message = parameters.substring( index + 4 ).trim();
-				parameters = parameters.substring( 0, index ).trim();
+				message = target.substring( index + 4 ).trim();
+				target = target.substring( 0, index ).trim();
 			}
 
 			GenericRequest request = new GenericRequest( "inv_use.php" );
@@ -183,12 +183,26 @@ public class TimeSpinnerCommand
 			request.addFormField( "whichchoice", "1198" );
 			request.addFormField( "option", "1" );
 			request.addFormField( "pwd", GenericRequest.passwordHash );
-			request.addFormField( "pl", parameters );
+			request.addFormField( "pl", target );
 			if ( message != null )
 			{
 				request.addFormField( "th", message );
 			}
 			RequestThread.postRequest( request );
+
+			String responseText = request.responseText;
+			if ( responseText.contains( "paradoxical time copy" ) )
+			{
+				return;
+			}
+
+			RequestLogger.printLine( "Somebody was already waiting to prank " + target );
+			request = new GenericRequest( "choice.php" );
+			request.addFormField( "whichchoice", "1198" );
+			request.addFormField( "option", "2" );
+			request.addFormField( "pwd", GenericRequest.passwordHash );
+			RequestThread.postRequest( request );
+
 			return;
 		}
 
