@@ -2710,6 +2710,8 @@ public class ItemPool
 	public static final int SPRINKLES = 9205;
 	public static final int VIGILANTE_BOOK = 9206;
 	public static final int GINGERBEARD = 9225;
+	public static final int CREME_BRULEE_TORCH = 9230;
+	public static final int GINGERBREAD_DOG_TREAT = 9233;
 	public static final int GINGERBREAD_CIGARETTE = 9237;
 	public static final int MY_LIFE_OF_CRIME_BOOK = 9258;
 	public static final int POP_ART_BOOK = 9259;
