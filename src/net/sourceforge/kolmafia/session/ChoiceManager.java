@@ -10692,7 +10692,7 @@ public abstract class ChoiceManager
 
 		case 1198:
 			// Play a Time Prank
-			if ( text.contains( "paradoxical time copy" ) )
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "paradoxical time copy" ) )
 			{
 				Preferences.increment( "_timeSpinnerMinutesUsed" );
 			}
@@ -10701,7 +10701,7 @@ public abstract class ChoiceManager
 		case 1199:
 			// The Far Future
 			if ( text.contains( "item appears in the replicator" ) ||
-				text.contains( "convoluted nature of time-travel" ) )
+			     text.contains( "convoluted nature of time-travel" ) )
 			{
 				Preferences.setBoolean( "_timeSpinnerReplicatorUsed", true );
 				break;
