@@ -10713,6 +10713,25 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1203:
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.CREME_BRULEE_TORCH, -1 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -5 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_DOG_TREAT, -1 ) );
+			}
+			break;
+
 		case 1210:
 			// Civic Planning Office
 			if ( !text.contains( "they've already enacted it" ) )
