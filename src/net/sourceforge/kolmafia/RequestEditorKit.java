@@ -1549,9 +1549,9 @@ public class RequestEditorKit
 		{
 			double modifier = Math.max( 0.0, ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0 );
 			monsterData.append( "<br />Meat: " );
-			monsterData.append( String.valueOf( Math.floor( minMeat * modifier ) ) );
+			monsterData.append( String.valueOf( (int)Math.floor( minMeat * modifier ) ) );
 			monsterData.append( "-" );
-			monsterData.append( String.valueOf( Math.floor( maxMeat * modifier ) ) );
+			monsterData.append( String.valueOf( (int)Math.floor( maxMeat * modifier ) ) );
 		}
 
 		int minSprinkles = monster.getMinSprinkles();
@@ -1560,11 +1560,11 @@ public class RequestEditorKit
 		{
 			double modifier = Math.max( 0.0, ( KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0 ) / 100.0 );
 			monsterData.append( "<br />Sprinkles: " );
-			monsterData.append( String.valueOf( Math.floor( minSprinkles * modifier ) ) );
+			monsterData.append( String.valueOf( (int)Math.floor( minSprinkles * modifier ) ) );
 			if ( maxSprinkles != minSprinkles )
 			{
 				monsterData.append( "-" );
-				monsterData.append( String.valueOf( Math.floor( maxSprinkles * modifier ) ) );
+				monsterData.append( String.valueOf( (int)Math.floor( maxSprinkles * modifier ) ) );
 			}
 		}
 

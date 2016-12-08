@@ -2478,7 +2478,9 @@ public class FightRequest
 			}
 
 			// Synchronize with KoL
+			int delta = FightRequest.currentRound - round;
 			FightRequest.currentRound = round;
+			FightRequest.preparatoryRounds += delta;
 		}
 
 		if ( autoAttacked )
