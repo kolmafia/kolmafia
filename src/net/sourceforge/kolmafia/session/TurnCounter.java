@@ -527,7 +527,9 @@ public class TurnCounter
 		int snarfblat = KoLAdventure.lastAdventureId();
 		if ( snarfblat == 0 ||
 		     snarfblat == AdventurePool.THE_SHORE  ||
-		     snarfblat == AdventurePool.TRAINING_SNOWMAN )
+		     snarfblat == AdventurePool.TRAINING_SNOWMAN ||
+		     snarfblat == AdventurePool.DIRE_WARREN ||
+		     ( snarfblat >= AdventurePool.GINGERBREAD_CIVIC && snarfblat <= AdventurePool.GINGERBREAD_SEWERS ) )
 		{
 			return;
 		}

@@ -65,6 +65,7 @@ public class AdventurePool
 	public static final String CLOACA_BATTLEFIELD_ID = "86";
 	public static final int DYSPEPSI_BATTLEFIELD = 87;
 	public static final String DYSPEPSI_BATTLEFIELD_ID = "87";
+	public static final int DIRE_WARREN = 92;
 	public static final String BAD_TRIP_ID = "96";
 	public static final String GREAT_TRIP_ID = "97";
 	public static final String MEDIOCRE_TRIP_ID = "98";
@@ -240,6 +241,8 @@ public class AdventurePool
 	public static final String DEEP_MACHINE_TUNNELS_ID = "458";
 	public static final int TRAINING_SNOWMAN = 460;
 	public static final String TRAINING_SNOWMAN_ID = "460";
+	public static final int GINGERBREAD_CIVIC = 477;
+	public static final int GINGERBREAD_SEWERS = 481;
 
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
