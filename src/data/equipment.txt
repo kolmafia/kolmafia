@@ -1029,6 +1029,7 @@ giant spider leg	75	Mus: 22	2-handed club
 giant turkey leg	200	Mus: 200	3-handed club
 gift-a-pult	50	Mox: 0	2-handed giftapult
 gingerbread gavel	50	Mus: 0	1-handed club
+gingerbread pistol	80	Mox: 10	1-handed pistol
 Ginsu&trade;	200	Mus: 200	2-handed sword
 glistening staff	60	Mus: 15	2-handed staff
 glow-in-the-dark dart gun	50	Mox: 0	1-handed pistol

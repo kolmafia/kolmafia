@@ -9238,7 +9238,7 @@
 9212	candy dress shoes	741868271	moccasins.gif	accessory	t,d	300
 9213	candy necktie	801970115	necktie.gif	accessory	t,d	300
 9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t,d	300
-9215
+9215	broken chocolate pocketwatch	905664883	gingerwatch.gif	usable	t,d	0
 9216
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
 9218	sprinkle-begging cup	401017315	starchcan.gif	offhand	t,d	50
@@ -9251,7 +9251,7 @@
 9225	gingerbeard	484162042	gingerbeard.gif	accessory	t	0
 9226	gingerbread smartphone	704376570	gingerphone.gif	usable	t,d	55
 9227	gingerbread hoodie	842441254	gingerhoodie.gif	shirt	t,d	35
-9228
+9228	gingerbread pistol	322211583	gingergun.gif	weapon	d	80
 9229	fancy marzipan briefcase	647469595	marzicase.gif	offhand	q	0
 9230	creme brulee torch	892568816	blowtorch.gif	offhand	q	0
 9231	candy crowbar	112008833	crowbar.gif	weapon	q	0
@@ -9262,9 +9262,9 @@
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
 9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
 9238	gingerbread moneybag	405806675	gingerbag.gif	offhand		0
-9239
+9239	ginger beer	705436141	gingerbeer.gif	drink	d	150
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
-9241
+9241	industrial frosting	603766917	indfrosting.gif	usable	d	400
 9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2
 9243
 9244
