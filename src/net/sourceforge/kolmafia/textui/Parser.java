@@ -2101,6 +2101,7 @@ public class Parser
 				{
 					throw this.parseException( "Unknown variable '" + name + "'" );
 				}
+				t = variable.getType();
 			}
 			else
 			{
@@ -2117,13 +2118,29 @@ public class Parser
 			this.readToken(); // name
 
 			VariableReference lhs = new VariableReference( name, scope );
+			Value rhs = null;
 
-			Assignment initializer = parseAssignment( scope, lhs );
-
-			if ( initializer == null )
+			if ( this.currentToken().equals( "=" ) )
 			{
-				throw this.parseException( "Variable '" + name + "' needs an initializer" );
+				this.readToken(); // =
+
+				rhs = this.parseExpression( scope );
+
+				if ( rhs == null )
+				{
+					throw this.parseException( "Expression expected" );
+				}
+
+				Type ltype = t.getBaseType();
+				Type rtype = rhs.getType();
+
+				if ( !Parser.validCoercion( ltype, rtype, "assign" ) )
+				{
+					throw this.parseException( "Cannot store " + rtype + " in " + name + " of type " + ltype );
+				}
 			}
+
+			Assignment initializer = new Assignment( lhs, rhs );
 
 			initializers.add( initializer);
 
