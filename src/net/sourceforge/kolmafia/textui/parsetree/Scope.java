@@ -103,6 +103,11 @@ public class Scope
 		}
 	}
 
+	public ParseTreeNodeList getCommandList()
+	{
+		return this.commands;
+	}
+
 	@Override
 	public Iterator getCommands()
 	{

@@ -774,31 +774,12 @@ public class Parser
 			return result;
 		}
 
-		Scope scope;
-		if ( this.currentToken() != null && this.currentToken().equals( "{" ) )
+		Scope scope = this.parseBlockOrSingleCommand( functionType, paramList, parentScope, false, false, false );
+		// Note that a "single command" cannot be empty, since it will
+		// look like a forward reference, which was handled just above.
+		if ( scope.getCommandList().isEmpty() )
 		{
-			// Scope is a block
-
-			this.readToken(); // {
-
-			scope = this.parseScope( null, functionType, paramList, parentScope, false, false );
-			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-			{
-				throw this.parseException( "}", this.currentToken() );
-			}
-
-			this.readToken(); // }
-		}
-		else
-		{
-			// Scope is a single command
-			scope = new Scope( paramList, parentScope );
-			ParseTreeNode cmd = this.parseCommand( functionType, parentScope, false, false, false );
-			if ( cmd == null )
-			{
-				throw this.parseException( "Function with no body" );
-			}
-			scope.addCommand( cmd, this );
+			throw this.parseException( "Function with no body" );
 		}
 
 		result.setScope( scope );
@@ -1036,6 +1017,11 @@ public class Parser
 		else if ( ( result = this.parseRemove( scope ) ) != null )
 		{
 			;
+		}
+		else if ( ( result = this.parseBlock( functionType, null, scope, noElse, allowBreak, allowContinue ) ) != null )
+		{
+			// {} doesn't have a ; token
+			return result;
 		}
 		else if ( ( result = this.parseValue( scope ) ) != null )
 		{
@@ -1302,6 +1288,47 @@ public class Parser
 		return new Scope( command, parentScope );
 	}
 
+	private Scope parseBlockOrSingleCommand( final Type functionType,
+						 final VariableList variables,
+						 final BasicScope parentScope,
+						 final boolean noElse,
+						 boolean allowBreak,
+						 boolean allowContinue )
+	{
+		Scope scope = this.parseBlock( functionType, variables, parentScope, noElse, allowBreak, allowContinue );
+		if ( scope != null )
+		{
+			return scope;
+		}
+		return this.parseSingleCommandScope( functionType, parentScope, noElse, allowBreak, allowContinue );
+	}
+
+	private Scope parseBlock( final Type functionType,
+				  final VariableList variables,
+				  final BasicScope parentScope,
+				  final boolean noElse,
+				  final boolean allowBreak,
+				  final boolean allowContinue )
+	{
+		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) )
+		{
+			return null;
+		}
+
+		this.readToken(); // {
+
+		Scope scope = this.parseScope( null, functionType, variables, parentScope, allowBreak, allowContinue );
+
+		if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
+		{
+			throw this.parseException( "}", this.currentToken() );
+		}
+
+		this.readToken(); //read }
+
+		return scope;
+	}
+
 	private Conditional parseConditional( final Type functionType,
 					      final BasicScope parentScope,
 					      boolean noElse,
@@ -1340,24 +1367,7 @@ public class Parser
 
 		do
 		{
-			Scope scope;
-
-			if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) //Scope is a single call
-			{
-				scope = parseSingleCommandScope( functionType, parentScope, !elseFound, allowBreak, allowContinue );
-			}
-			else
-			{
-				this.readToken(); //read {
-				scope = this.parseScope( null, functionType, null, parentScope, allowBreak, allowContinue );
-
-				if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-				{
-					throw this.parseException( "}", this.currentToken() );
-				}
-
-				this.readToken(); //read }
-			}
+			Scope scope = parseBlockOrSingleCommand( functionType, null, parentScope, !elseFound, allowBreak, allowContinue );
 
 			if ( result == null )
 			{
@@ -1736,49 +1746,18 @@ public class Parser
 
 		this.readToken(); // try
 
-		Scope body;
-		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // body is a single call
-		{
-			body = parseSingleCommandScope( functionType, parentScope, false, allowBreak, allowContinue );
-		}
-		else
-		{
-			this.readToken(); //read {
-			body = this.parseScope( null, functionType, null, parentScope, allowBreak, allowContinue );
-
-			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-			{
-				throw this.parseException( "}", this.currentToken() );
-			}
-
-			this.readToken(); //read }
-		}
+		Scope body = this.parseBlockOrSingleCommand( functionType, null, parentScope, false, allowBreak, allowContinue );
 
 		// catch clauses would be parsed here
 
 		if ( this.currentToken() == null || !this.currentToken().equals( "finally" ) )
-		{	// this would not be an error if at least one catch was present
+		{
+			// this would not be an error if at least one catch was present
 			throw this.parseException( "\"try\" without \"finally\" is pointless" );
 		}
-		this.readToken(); //read finally
+		this.readToken(); // finally
 
-		Scope finalClause;
-		if ( this.currentToken() == null || !this.currentToken().equals( "{" ) ) // finally is a single call
-		{
-			finalClause = parseSingleCommandScope( functionType, body, false, allowBreak, allowContinue );
-		}
-		else
-		{
-			this.readToken(); //read {
-			finalClause = this.parseScope( null, functionType, null, body, allowBreak, allowContinue );
-
-			if ( this.currentToken() == null || !this.currentToken().equals( "}" ) )
-			{
-				throw this.parseException( "}", this.currentToken() );
-			}
-
-			this.readToken(); //read }
-		}
+		Scope finalClause = this.parseBlockOrSingleCommand( functionType, null, body, false, allowBreak, allowContinue );
 
 		return new Try( body, finalClause );
 	}

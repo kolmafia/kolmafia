@@ -359,7 +359,7 @@ public class Interpreter
 		{
 			main = topScope.findFunction( functionName, parameters != null );
 
-			if ( main == null && !topScope.getCommands().hasNext() )
+			if ( main == null && topScope.getCommandList().isEmpty() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Unable to invoke " + functionName );
 				return DataTypes.VOID_VALUE;
