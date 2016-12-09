@@ -775,12 +775,6 @@ public class Parser
 		}
 
 		Scope scope = this.parseBlockOrSingleCommand( functionType, paramList, parentScope, false, false, false );
-		// Note that a "single command" cannot be empty, since it will
-		// look like a forward reference, which was handled just above.
-		if ( scope.getCommandList().isEmpty() )
-		{
-			throw this.parseException( "Function with no body" );
-		}
 
 		result.setScope( scope );
 		if ( !result.assertBarrier() && !functionType.equals( DataTypes.TYPE_VOID ) )
