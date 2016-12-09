@@ -141,11 +141,7 @@ public class Macrofier
 		// Begin monster-specific macrofication.
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
-		String monsterName = "";
-		if ( monster != null )
-		{
-			monsterName = monster.getName();
-		}
+		String monsterName = ( monster != null ) ? monster.getName() : "";
 
 		if ( Macrofier.macroInterpreter != null )
 		{
@@ -170,6 +166,15 @@ public class Macrofier
 				String result = returnValue.toString();
 				if ( result.length() > 0 )
 				{
+					if ( result.startsWith( "\"" ) && result.charAt( result.length() - 1 ) == '\"')
+					{
+						StringBuffer macro = new StringBuffer();
+						macro.append( "#macro action\n" );
+						macro.append( result.substring( 1, result.length() - 1 ) );
+						macro.append( '\n' );
+						return macro.toString();
+					}
+
 					return result;
 				}
 			}
