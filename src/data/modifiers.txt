@@ -1203,6 +1203,7 @@ Item	giant spider leg	Spooky Damage: +10, Critical Hit Percent: +10
 Item	giant turkey leg	Weapon Damage Percent: +50, Combat Rate: +5
 # gift-a-pult: Allows hurling of Gift Items
 Item	gingerbread gavel	Critical Hit Percent: +5, Weapon Damage Percent: +25
+Item	gingerbread pistol	Ranged Damage Percent: +25, Sleaze Damage: +10
 Item	Ginsu&trade;	Food Drop: +100, Weapon Damage Percent: +100
 Item	glistening staff	Mysticality: +2, Sleaze Damage: +3
 # glow-in-the-dark dart gun: Super Accurate!
@@ -5183,6 +5184,7 @@ Effect	Incensed	Mysticality: +10
 Effect	Incredibly Hulking	Muscle Percent: +200
 Effect	Indescribable Flavor	Spell Damage: +30
 Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
+Effect	Industrially Frosted	Damage Reduction: 50, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Sprinkle Drop: +250
 Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
@@ -8458,6 +8460,7 @@ Item	imbued seal-blubber candle	Class: "Seal Clubber"
 # imp air: Deals 35-40 <font color=red>Hot Damage</font>
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 # Item incriminating evidence: Take it downtown to Gotpork P. D.
+Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5
 Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
 Item	infant sandworm	Free Pull
 Item	infrablack lipstick	Effect: "One Lip in the Grave", Effect Duration: 50
