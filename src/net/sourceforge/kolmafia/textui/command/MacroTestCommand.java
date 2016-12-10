@@ -33,10 +33,16 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.FightRequest;
+
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MacroTestCommand
 	extends AbstractCommand
@@ -47,15 +53,51 @@ public class MacroTestCommand
 	}
 
 	@Override
-	public void run( final String cmd, final String parameters )
+	public void run( final String cmd, String parameters )
 	{
-		if ( parameters != null && parameters.length() > 0 )
+		int index = 0;
+		if ( parameters != null )
 		{
-			MonsterStatusTracker.setNextMonsterName( parameters );
+			int val = parameters.indexOf( "index=" );
+			if ( val != -1 )
+			{
+				index = StringUtilities.parseInt( parameters.substring( val + 6).trim() );
+				parameters = parameters.substring( 0, val ).trim();
+			}
+
+			if ( parameters.length() > 0 )
+			{
+				MonsterStatusTracker.setNextMonsterName( parameters );
+			}
 		}
 		
-		Preferences.setBoolean( "macroDebug", true );
-		
-		Macrofier.macrofy();
+		try
+		{
+			Preferences.setBoolean( "macroDebug", true );
+			FightRequest.setMacroPrefixLength( index );
+
+			while ( true )
+			{
+				String macro = Macrofier.macrofy();
+				int prefix = FightRequest.getMacroPrefixLength();
+
+				if ( macro == null )
+				{
+					FightRequest.setMacroPrefixLength( prefix + 1 );
+					RequestLogger.printLine( "****action***" );
+					RequestLogger.printLine();
+					continue;
+				}
+
+				if ( prefix == 0 )
+				{
+					break;
+				}
+			}
+		}
+		finally
+		{
+			Preferences.setBoolean( "macroDebug", false );
+		}
 	}
 }
