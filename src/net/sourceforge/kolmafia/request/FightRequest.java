@@ -170,7 +170,12 @@ public class FightRequest
 	private static final String lostBatfellowInitiativeMessage =  "Round 0: Batfellow loses initiative!";
 	private static final String wonBatfellowInitiativeMessage = "Round 0: Batfellow wins initiative!";
 
+	// Extra rounds used by KoLmafia doing special actions
 	private static int preparatoryRounds = 0;
+
+	// Index into current CCS section since last macro generated
+	private static int macroPrefixLength = 0;
+
 	private static String consultScriptThatDidNothing = null;
 	public static boolean waitingForSpecial;
 	public static String ireallymeanit = null;
@@ -640,6 +645,22 @@ public class FightRequest
 		return false;
 	}
 
+	public static int getMacroPrefixLength()
+	{
+		return FightRequest.macroPrefixLength;
+	}
+
+	public static void setMacroPrefixLength( final int lines )
+	{
+		FightRequest.macroPrefixLength = lines;
+	}
+
+	public void skipRound()
+	{
+		--FightRequest.preparatoryRounds;
+		this.nextRound( null );
+	}
+
 	public void nextRound( String desiredAction )
 	{
 		if ( KoLmafia.refusesContinue() )
@@ -653,8 +674,7 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 0 )
 		{
-			String macro = Macrofier.macrofy();
-
+			FightRequest.macroPrefixLength = 0;
 			FightRequest.nextAction = null;
 
 			if ( FightRequest.ireallymeanit != null )
@@ -663,6 +683,7 @@ public class FightRequest
 				FightRequest.ireallymeanit = null;
 			}
 
+			String macro = Macrofier.macrofyRoundZero();
 			if ( macro != null && macro.length() > 0 && ( macro.contains( "\n" ) || macro.contains( ";" ) ) )
 			{
 				this.handleMacroAction( macro );
@@ -693,8 +714,7 @@ public class FightRequest
 				return;
 			}
 
-			FightRequest.nextAction =
-				CombatActionManager.getShortCombatOptionName( desiredAction );
+			FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( desiredAction );
 		}
 		else
 		{
@@ -726,9 +746,9 @@ public class FightRequest
 			// Adding machine should override custom combat scripts as well,
 			// since it's conditions-driven.
 
-			else if ( monsterName.equals( "rampaging adding machine" )
-				&& !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM )
-				&& !FightRequest.waitingForSpecial )
+			else if ( monsterName.equals( "rampaging adding machine" ) &&
+				  !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) &&
+				  !FightRequest.waitingForSpecial )
 			{
 				this.handleAddingMachine();
 			}
@@ -748,7 +768,7 @@ public class FightRequest
 			if ( FightRequest.nextAction == null )
 			{
 				String name = MonsterStatusTracker.getLastMonsterName();
-				int roundIndex = FightRequest.getRoundIndex();
+				int roundIndex = FightRequest.macroPrefixLength;
 
 				String combatAction = CombatActionManager.getCombatAction( name, roundIndex, false );
 				FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( combatAction );
@@ -779,6 +799,8 @@ public class FightRequest
 				consultInterpreter.execute( "main", parameters );
 				KoLmafiaASH.logScriptExecution( "Finished consult script: ", scriptFile.getName(), consultInterpreter );
 
+				++FightRequest.macroPrefixLength;
+
 				if ( KoLmafia.refusesContinue() )
 				{
 					FightRequest.nextAction = "abort";
@@ -798,12 +820,6 @@ public class FightRequest
 						FightRequest.consultScriptThatDidNothing = FightRequest.nextAction;
 					}
 				}
-				if ( FightRequest.currentRound != 0 )
-				{
-					// don't adjust round # if fight is over!
-					FightRequest.preparatoryRounds +=
-						FightRequest.currentRound - initialRound - 1;
-				}
 
 				// Continue running after the consult script
 				this.responseCode = 200;
@@ -820,6 +836,7 @@ public class FightRequest
 
 		if ( FightRequest.nextAction.startsWith( "delevel" ) )
 		{
+			++FightRequest.macroPrefixLength;
 			FightRequest.nextAction = this.getMonsterWeakenAction();
 		}
 
@@ -865,10 +882,9 @@ public class FightRequest
 			FightRequest.waitingForSpecial = false;
 			String specialAction = FightRequest.getSpecialAction();
 
-			if ( GenericRequest.passwordHash.equals( "" ) || specialAction == null )
+			if ( specialAction == null )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 
@@ -885,15 +901,13 @@ public class FightRequest
 		if ( FightRequest.nextAction.equals( "abort after" ) )
 		{
 			KoLmafia.abortAfter( "Aborted by CCS request" );
-			--FightRequest.preparatoryRounds;
-			this.nextRound( null );
+			this.skipRound();
 			return;
 		}
 
 		if ( FightRequest.nextAction.equals( "skip" ) )
 		{
-			--FightRequest.preparatoryRounds;
-			this.nextRound( null );
+			this.skipRound();
 			return;
 		}
 
@@ -913,8 +927,7 @@ public class FightRequest
 
 			if ( runaway > FightRequest.freeRunawayChance() )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 
@@ -932,7 +945,7 @@ public class FightRequest
 
 		if ( FightRequest.nextAction.startsWith( "twiddle" ) )
 		{
-			--FightRequest.preparatoryRounds;
+			++FightRequest.macroPrefixLength;
 			return;
 		}
 
@@ -962,8 +975,7 @@ public class FightRequest
 				return;
 			}
 
-			--FightRequest.preparatoryRounds;
-			this.nextRound( null );
+			this.skipRound();
 			return;
 		}
 
@@ -981,8 +993,7 @@ public class FightRequest
 			}
 
 			// You can only jiggle once per round.
-			--FightRequest.preparatoryRounds;
-			this.nextRound( null );
+			this.skipRound();
 			return;
 		}
 
@@ -995,8 +1006,7 @@ public class FightRequest
 			if ( combo == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "Invalid combo '" + name + "' requested" );
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 
@@ -1006,8 +1016,7 @@ public class FightRequest
 			     !DiscoCombatHelper.canRaveSteal() )
 			{
 				RequestLogger.printLine( "rave steal identified" );
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 
@@ -1029,8 +1038,7 @@ public class FightRequest
 		{
 			if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
 			{	// Can't use items in Birdform
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 			int item1, item2;
@@ -1190,8 +1198,7 @@ public class FightRequest
 			if ( ( KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled() ) ||
 			     KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1201,8 +1208,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "burrowgrubSummonsRemaining" ) <= 0 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1211,8 +1217,7 @@ public class FightRequest
 			// You can only use this skill once per combat
 			if ( FightRequest.castNoodles )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1221,8 +1226,7 @@ public class FightRequest
 			// You can only use this skill once per combat
 			if ( FightRequest.castClubFoot )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1231,8 +1235,7 @@ public class FightRequest
 			// You can only use this skill once per combat
 			if ( FightRequest.castShellUp )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1241,8 +1244,7 @@ public class FightRequest
 			// You can only use this skill once per combat
 			if ( FightRequest.castAccordionBash )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1251,8 +1253,7 @@ public class FightRequest
 			// You can only use this skill once per combat
 			if ( FightRequest.squeezedStressBall )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1263,8 +1264,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
 			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1275,8 +1275,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_badlyRomanticArrows" ) >= 1 ||
 			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1287,8 +1286,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_boxingGloveArrows" ) >= 5 ||
 			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1299,8 +1297,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_poisonArrows" ) >= 1 ||
 			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1311,8 +1308,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_fingertrapArrows" ) >= 10 ||
 			     KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1323,8 +1319,7 @@ public class FightRequest
 			if ( Preferences.getInteger( "_pantsgivingBanish" ) >= 5 ||
 			    !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PANTSGIVING, 1 ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1334,8 +1329,7 @@ public class FightRequest
 
 			if ( !FightRequest.canStomp )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1345,8 +1339,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_peteJukeboxFixed" ) >= 3 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1356,8 +1349,7 @@ public class FightRequest
 			int max = 10 + ( Preferences.getString( "peteMotorbikeTires" ).equals( "Racing Slicks" ) ? 20 : 0 );
 			if ( Preferences.getInteger( "_petePeeledOut" ) >= max )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1367,8 +1359,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_peteJumpedShark" ) >= 3 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1378,8 +1369,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_snokebombUsed" ) >= 3 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1387,8 +1377,7 @@ public class FightRequest
 		{
 			if ( Preferences.getInteger( "_shatteringPunchUsed" ) >= 3 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1398,8 +1387,7 @@ public class FightRequest
 
 			if ( KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.BORED_WITH_EXPLOSIONS ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1409,8 +1397,7 @@ public class FightRequest
 
 			if ( !KoLConstants.activeEffects.contains( FightRequest.INFERNO ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1421,8 +1408,7 @@ public class FightRequest
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.DRY_NOODLES, 1 ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1432,8 +1418,7 @@ public class FightRequest
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.TOMMY_AMMO, 1 ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1443,8 +1428,7 @@ public class FightRequest
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.HOT_COAL, 1 ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1454,8 +1438,7 @@ public class FightRequest
 
 			if ( Preferences.getBoolean( "edUsedLash" ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1465,8 +1448,7 @@ public class FightRequest
 
 			if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.KA_COIN, 1 ) ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1476,8 +1458,7 @@ public class FightRequest
 
 			if ( !KoLCharacter.isUnarmed() )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1487,8 +1468,7 @@ public class FightRequest
 
 			if ( !EquipmentManager.holsteredSixgun() )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1497,8 +1477,7 @@ public class FightRequest
 			// You can only use Unleash Cowrruption with 30 or more Cowrruption
 			if ( FightRequest.COWRRUPTION.getCount( KoLConstants.activeEffects ) < 30 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1508,8 +1487,7 @@ public class FightRequest
 
 			if ( !EquipmentManager.usingCanOfBeans() )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1519,8 +1497,7 @@ public class FightRequest
 
 			if ( !EquipmentManager.holsteredSixgun() )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1530,8 +1507,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_oilExtracted" ) > 14 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1541,8 +1517,7 @@ public class FightRequest
 
 			if ( Preferences.getInteger( "_longConUsed" ) >= 5 )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
@@ -1552,19 +1527,17 @@ public class FightRequest
 
 			if ( Preferences.getBoolean( "_firedJokestersGun" ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 		}
 
 		// Skills use MP. Make sure the character has enough.
-		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() && !GenericRequest.passwordHash.equals( "" ) )
+		if ( KoLCharacter.getCurrentMP() < FightRequest.getActionCost() )
 		{
 			if ( !Preferences.getBoolean( "autoManaRestore" ) )
 			{
-				--FightRequest.preparatoryRounds;
-				this.nextRound( null );
+				this.skipRound();
 				return;
 			}
 
@@ -6685,6 +6658,7 @@ public class FightRequest
 
 		FightRequest.currentRound = 0;
 		FightRequest.preparatoryRounds = 0;
+		FightRequest.macroPrefixLength = 0;
 		FightRequest.consultScriptThatDidNothing = null;
 
 		if ( FightRequest.initializeAfterFight )

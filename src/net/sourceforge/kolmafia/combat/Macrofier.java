@@ -121,21 +121,39 @@ public class Macrofier
 		return true;
 	}
 
+	public static String macrofyRoundZero()
+	{
+		// Don't try to macrofy the first round, since we don't know
+		// what monster it is, and "special action" could include
+		// olfaction.
+
+		boolean debug = Preferences.getBoolean( "macroDebug" );
+
+		if ( Macrofier.macroInterpreter == null && Macrofier.macroOverride != null && Macrofier.macroOverride.length() > 0 )
+		{
+			if ( debug )
+			{
+				RequestLogger.printLine( "Using macroOverride" );
+			}
+			return Macrofier.macroOverride;
+		}
+
+		return null;
+	}
+
 	public static String macrofy()
 	{
+		boolean debug = Preferences.getBoolean( "macroDebug" );
+
 		// If there's an override, always use it
 
 		if ( Macrofier.macroInterpreter == null && Macrofier.macroOverride != null && Macrofier.macroOverride.length() > 0 )
 		{
+			if ( debug )
+			{
+				RequestLogger.printLine( "Using macroOverride" );
+			}
 			return Macrofier.macroOverride;
-		}
-
-		// Don't try to macrofy the first round, since we don't know what monster it is, and "special action"
-		// could include olfaction.
-		
-		if ( FightRequest.getCurrentRound() == 0 )
-		{
-			return null;
 		}
 
 		// Begin monster-specific macrofication.
@@ -172,6 +190,14 @@ public class Macrofier
 						macro.append( "#macro action\n" );
 						macro.append( result.substring( 1, result.length() - 1 ) );
 						macro.append( '\n' );
+
+						if ( debug )
+						{
+							RequestLogger.printLine( "Generated macro:" );
+							Macrofier.indentify( macro.toString(), false );
+							RequestLogger.printLine( "" );
+						}
+
 						return macro.toString();
 					}
 
@@ -181,6 +207,18 @@ public class Macrofier
 		}
 
 		StringBuffer macro = new StringBuffer();
+
+		if ( monsterName.equals( "rampaging adding machine" ) &&
+		     !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) &&
+		     !FightRequest.waitingForSpecial )
+		{
+			if ( debug )
+			{
+				RequestLogger.printLine( "(unable to macrofy vs. RAM)" );
+			}
+
+			return null;
+		}
 
 		if ( monsterName.equals( "hulking construct" ) )
 		{
@@ -195,6 +233,14 @@ public class Macrofier
 				macro.append( "  use 3146; use 3155\n" );
 			}
 			macro.append( "endif\nrunaway; repeat\n" );
+
+			if ( debug )
+			{
+				RequestLogger.printLine( "Generated macro:" );
+				Macrofier.indentify( macro.toString(), false );
+				RequestLogger.printLine( "" );
+			}
+
 			return macro.toString();
 		}
 
@@ -210,46 +256,59 @@ public class Macrofier
 
 		macro.append( "#mafiaheader\n" );
 
-		boolean debug = Preferences.getBoolean( "macroDebug" );
-
-		boolean useGlobalPrefix = CombatActionManager.hasGlobalPrefix();
-
-		for ( int i = 0; i < 10000; ++i )
+		// Load up the "global prefix", if there is one
+		if ( CombatActionManager.hasGlobalPrefix() )
 		{
-			if ( monsterName.equals( "rampaging adding machine" ) && !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) && !FightRequest.waitingForSpecial )
+			for ( int i = 0; i < 10000; ++i )
 			{
-				if ( debug )
+				String action = CombatActionManager.getCombatAction( "global prefix", i, true );
+			
+				if ( !Macrofier.isSimpleAction( action ) )
 				{
-					RequestLogger.printLine( "(unable to macrofy vs. RAM)" );
+					if ( debug )
+					{
+						RequestLogger.printLine( "(unable to macrofy global prefix due to action: " + action + ")" );
+					}
+
+					return null;
 				}
 
-				return null;
-			}
+				Macrofier.macroAction( macro, action, 0 );
 
-			String action;
+				if ( CombatActionManager.atEndOfStrategy() )
+				{
+					break;	// continue with actual CCS section
+				}
+			}
+		}
 
-			if ( useGlobalPrefix )
-			{
-				action = CombatActionManager.getCombatAction( "global prefix", i, true );
-			}
-			else
-			{
-				action = CombatActionManager.getCombatAction( monsterName, i, true );
-			}
+		int macrolen = FightRequest.getMacroPrefixLength();
+		int start = macrolen > 0 ? macrolen : 0;
+
+		for ( int i = start; i < 10000; ++i )
+		{
+			String action = CombatActionManager.getCombatAction( monsterName, i, true );
 			
 			if ( !Macrofier.isSimpleAction( action ) )
 			{
 				if ( debug )
 				{
-					RequestLogger.printLine( "(unable to macrofy due to action: " + action + ")" );
+					RequestLogger.printLine( "stopping macrofication due to action: " + action );
 				}
 
-				return null;
+				if ( i == start  )
+				{
+					return null;
+				}
+
+				FightRequest.setMacroPrefixLength( i );
+
+				break;
 			}
 
 			int finalRound = 0;
 			
-			if ( !useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
+			if ( CombatActionManager.atEndOfStrategy() )
 			{
 				macro.append( "mark mafiafinal\n" );
 				finalRound = macro.length();
@@ -265,13 +324,8 @@ public class Macrofier
 					macro.append( "call mafiaround; attack\n" );
 				}
 				macro.append( "goto mafiafinal" );
+				FightRequest.setMacroPrefixLength( 0 );
 				break;
-			}
-
-			if ( useGlobalPrefix && CombatActionManager.atEndOfStrategy() )
-			{
-				useGlobalPrefix = false;
-				i = -1; // continue with actual CCS section
 			}
 		}
 
