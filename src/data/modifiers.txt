@@ -209,6 +209,7 @@ Item	ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: 
 Item	giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	giant yellow hat	Familiar Damage: +10, Experience (familiar): +1, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "2xFairy, 0.5xPotato, cap 31"
 Item	gingerbread mask	Hat Drop: +25
+Item	gingerbread tophat	Mysticality: +10
 Item	goat beard	Mysticality: +3, Familiar Effect: "atk, 1xPotato, cap 15"
 # Goggles of Loathing: Makes you a better diver
 Item	Goggles of Loathing	Initiative: +50, Hot Resistance: +5, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Cloathing, Familiar Effect: "1.5xVolley, 1.5xBarrr"
@@ -570,6 +571,7 @@ Item	Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tame
 Item	gauze shorts	Damage Reduction: 3, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "1xBarrr, 1xGhuol, cap 42"
 Item	ghast iron codpiece	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xBarrr, cap 42"
 Item	giant discarded torn-up glove	Stench Damage: +5, Moxie: -10, Familiar Effect: "stench atk, 0.5xPotato, cap 38"
+Item	gingerbread trousers	Moxie: +10
 Item	gnauga hide chaps	Damage Absorption: +30, Familiar Effect: "atk, 4xBarrr, cap 20"
 Item	gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gnauga hide skirt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
@@ -810,6 +812,7 @@ Item	frilly shirt	Mysticality: +3
 Item	General Sage's Lonely Diamonds Club Jacket	Adventures: +3
 Item	ghost toga	Damage Reduction: 5, Spooky Damage: +10
 Item	gingerbread hoodie	Experience: +2, Spell Damage: +10, Sprinkle Drop: +15
+Item	gingerbread waistcoat	Muscle: +10
 Item	gingham blouse	Muscle: +5
 Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 # Item glass casserole dish: Minor Radiation Sickness Protection
