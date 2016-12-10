@@ -3738,11 +3738,15 @@ public abstract class ChoiceManager
 
 		// Choice 1202 is Noon in the Civic Center
 		// Choice 1203 is Midnight in Civic Center
+		// Choice 1204 is Noon at the Train Station
 		// Choice 1205 is Midnight at the Train Station
 		// Choice 1206 is Noon in the Industrial Zone
 		// Choice 1207 is Midnight in the Industrial Zone
+		// Choice 1208 is Upscale Noon
+		// Choice 1209 is Upscale Midnight
 		// Choice 1210 is Civic Planning Office
-		// Choice 1212 is The Currency Exchange
+		// Choice 1211 is The Currency Exchange
+		// Choice 1212 is Seedy Seedy Seedy
 		// Choice 1213 is The Factory Factor
 
 	};
@@ -10713,51 +10717,135 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1202:
+			// Noon in the Civic Center
+			// You bribe the clerk and he lets you into the office with a sneer. And a key. The key was probably the important part.
+			if ( text.contains( "bribe the clerk" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+			}
+			break;
+
 		case 1203:
-			if ( ChoiceManager.lastDecision == 2 )
+			// Midnight in Civic Center
+			// You pay the counterfeiter to make you a fake version of Gingerbread City to pawn off on some rube as the real thing
+			if ( text.contains( "fake version of Gingerbread City" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
 			}
-			else if ( ChoiceManager.lastDecision == 3 )
+			// You quickly melt the lock on the cell and the criminal inside thanks you as he runs off into the night.
+			// "Hey," you shout after him, "you forgot your..." but he's already gone.
+			// Oh well. He almost certainly stole this thing, anyway.
+			else if ( text.contains( "melt the lock on the cell" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CREME_BRULEE_TORCH, -1 ) );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			// You insert your sprinkles and buy your cigarettes.
+			else if ( text.contains( "buy your cigarettes" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -5 ) );
 			}
-			else if ( ChoiceManager.lastDecision == 5 )
+			// You feed the treat to the puppy and he immediately becomes a loyal friend to you. Dogs are so easy!
+			else if ( text.contains( "Dogs are so easy" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_DOG_TREAT, -1 ) );
 			}
 			break;
 
+		case 1206:
+			// Noon in the Industrial Zone
+			// You buy the tool.
+			if ( !text.contains( "buy the tool" ) )
+			{
+				break;
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -25 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -100 ) );
+			}
+			break;
+
+		case 1207:
+			// Midnight in the Industrial Zone
+			// You can't afford a tattoo.
+			if ( ChoiceManager.lastDecision == 3 && !text.contains( "can't afford a tattoo" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -100000 ) );
+			}
+			break;
+
+		case 1208:
+			// Upscale Noon
+			// You buy the xxxx (not all spaded)
+			if ( !text.contains( "You buy" ) )
+			{
+				break;
+			}
+			if ( text.contains( "buy the dog treat" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -200 ) );
+			}
+			else if ( text.contains( "buy the candle" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -150 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 6 )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
+			}
+			break;
+
 		case 1210:
 			// Civic Planning Office
+			// You move the policy to the front of the drawer, and by the time you leave the office they've already enacted it!
 			if ( !text.contains( "they've already enacted it" ) )
 			{
-				return;
+				break;
 			}
-			ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				Preferences.setBoolean( "gingerRetailUnlocked", true );
-				break;
 			}
-			if ( ChoiceManager.lastDecision == 2 )
+			else if ( ChoiceManager.lastDecision == 2 )
 			{
 				Preferences.setBoolean( "gingerSewersUnlocked", true );
-				break;
 			}
-			if ( ChoiceManager.lastDecision == 3 )
+			else if ( ChoiceManager.lastDecision == 3 )
 			{
 				Preferences.setBoolean( "gingerExtraAdventures", true );
-				break;
 			}
-			if ( ChoiceManager.lastDecision == 4 )
+			else if ( ChoiceManager.lastDecision == 4 )
 			{
 				Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
-				break;
+			}
+			break;
+
+		case 1212:
+			// Seedy Seedy Seedy
+			// You reach behind the bar with your gingerbread mug, swipe a measure of beer, and then leave before anybody notices.
+			if ( text.contains( "reach behind the bar" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_MUG, -1 ) );
 			}
 			break;
 

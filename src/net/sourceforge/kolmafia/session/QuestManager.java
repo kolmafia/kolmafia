@@ -2291,6 +2291,10 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.ARMORER, "step2" );
 		}
+		else if ( monsterName.equals( "GNG-3-R" ) )
+		{
+			ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERSERVO, -1 ) );
+		}
 	}
 	
 	public static void updateQuestItemUsed( final int itemId, final String responseText )
