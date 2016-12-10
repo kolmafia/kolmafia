@@ -129,6 +129,7 @@ ghast iron Garibaldi	170	Mox: 70
 giant discarded bottlecap	155	Mox: 62
 giant yellow hat	125	Mox: 47
 gingerbread mask	80	Mox: 10
+gingerbread tophat	50	Mys: 10
 goat beard	60	Mox: 15
 Goggles of Loathing	200	Mys: 150
 gold crown	150	Mox: 60
@@ -453,6 +454,7 @@ Galapagosian Cuisses	125	Mus: 30
 gauze shorts	170	Mox: 70
 ghast iron codpiece	170	Mox: 70
 giant discarded torn-up glove	155	Mox: 62
+gingerbread trousers	50	Mox: 10
 gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
@@ -665,6 +667,7 @@ frilly shirt	20	none
 General Sage's Lonely Diamonds Club Jacket	130	Mus: 50
 ghost toga	110	Mus: 40
 gingerbread hoodie	100	Mus: 20
+gingerbread waistcoat	50	Mus: 10
 gingham blouse	100	Mus: 35
 gladiator tunica	100	Mus: 35
 glass casserole dish	100	none
