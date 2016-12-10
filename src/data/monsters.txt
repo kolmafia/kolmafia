@@ -1793,9 +1793,9 @@ gingerbread wino	1982	gbwino.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude
 gingerbread mugger	1983	gbmugger.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude Sprinkles: 18-20	gingerbread mug (0)	gingerbread mask (0)
 gingerbread welder robot	1984	gbwelder.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: construct Sprinkles: 8-10
 gingerbread mutant	1985	gbmutant.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude Sprinkles: 8-10	tainted icing (0)
-gingerbread gentrifier	1986	gbgentry.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: dude Sprinkles: 18-20	gingerbread smartphone (0)
-gingerbread finance bro	1987	gbfinancebro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude Sprinkles: 28-30	gingerbread smartphone (0)	candy necktie (0)
-gingerbread tech bro	1988	gbtechbro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude Sprinkles: 18-20	gingerbread smartphone (0)	gingerbread hoodie (0)
+gingerbread gentrifier	1986	gbgentry.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: dude Sprinkles: 16-18	gingerbread smartphone (0)
+gingerbread finance bro	1987	gbfinancebro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude Sprinkles: 25-27	gingerbread smartphone (0)	candy necktie (0)
+gingerbread tech bro	1988	gbtechbro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude Sprinkles: 21-23	gingerbread smartphone (0)	gingerbread hoodie (0)
 gingerbread alligator	1989	gbgator.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: beast Sprinkles: 28-30
 gingerbread vigilante	1990	gbvigilante.gif	BOSS Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude Sprinkles: 98-100	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude Sprinkles: 100	gingerbread gavel (n100)

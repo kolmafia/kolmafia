@@ -2105,10 +2105,14 @@ user	choiceAdventure1198	0
 user	choiceAdventure1199	0
 user	choiceAdventure1202	0
 user	choiceAdventure1203	0
+user	choiceAdventure1204	0
 user	choiceAdventure1205	0
 user	choiceAdventure1206	0
 user	choiceAdventure1207	0
+user	choiceAdventure1208	0
+user	choiceAdventure1209	0
 user	choiceAdventure1210	0
+user	choiceAdventure1211	0
 user	choiceAdventure1212	0
 user	choiceAdventure1213	0
 
