@@ -10752,6 +10752,15 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1204:
+			// Noon at the Train Station
+			// You pull the lever and hear a rumbling from underneath you as the sewer gets much larger. Now there's more room for the alligators!
+			if ( text.contains( "more room for the alligators" ) )
+			{
+				Preferences.setBoolean( "_gingerBiggerAlligators", true );
+			}
+			break;
+
 		case 1206:
 			// Noon in the Industrial Zone
 			// You buy the tool.

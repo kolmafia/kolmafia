@@ -69,8 +69,8 @@ public class MonsterData
 	private Element defenseElement;
 	private int physicalResistance;
 	private int meat;
-	private int minSprinkles;
-	private int maxSprinkles;
+	private Object minSprinkles;
+	private Object maxSprinkles;
 	private final Phylum phylum;
 	private final int poison;
 	private final boolean boss;
@@ -184,7 +184,7 @@ public class MonsterData
 			    final Object scale, final Object cap, final Object floor, final Object mlMult,
 			    final Element attackElement, final Element defenseElement,
 			    final int physicalResistance,
-			    final int meat, final int minSprinkles, final int maxSprinkles,
+			    final int meat, final Object minSprinkles, final Object maxSprinkles,
 			    final Phylum phylum, final int poison,
 			    final boolean boss, final boolean noBanish, final boolean dummy,
 			    final EnumSet<EncounterType> type, final String[] images,
@@ -839,12 +839,12 @@ public class MonsterData
 
 	public int getMinSprinkles()
 	{
-		return this.minSprinkles;
+		return evaluate( this.minSprinkles, 0 );
 	}
 
 	public int getMaxSprinkles()
 	{
-		return this.maxSprinkles;
+		return evaluate( this.maxSprinkles, 0 );
 	}
 
 	public Phylum getPhylum()

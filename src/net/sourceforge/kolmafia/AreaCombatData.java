@@ -1057,7 +1057,7 @@ public class AreaCombatData
 		if ( maxSprinkles != minSprinkles )
 		{
 			buffer.append( "-" );
-			buffer.append( this.format( (int)Math.floor( maxSprinkles * modifier ) ) );
+			buffer.append( this.format( (int)Math.ceil( maxSprinkles * modifier ) ) );
 		}
 	}
 
