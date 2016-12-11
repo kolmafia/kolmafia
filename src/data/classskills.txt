@@ -185,7 +185,7 @@
 159	Astute Angler	fishinpole.gif	0	0	0
 161	Eldritch Intellect	dinseybrain.gif	0	0	0
 162	Licorice Rope		5	0	0
-163	Gingerbread Mob Hit     	5	30	0
+163	Gingerbread Mob Hit		5	30	0
 164	Fifteen Minutes of Flame	fire.gif	3	50	15
 165	Ceci N'Est Pa Une Chapeau	nohat.gif	3	300	0
 

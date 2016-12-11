@@ -88,12 +88,6 @@ public class DatabaseFrame
 		this.setCenterComponent( this.tabs );
 	}
 
-	public static void addItem( final Integer id, final String itemName )
-	{
-		DatabaseFrame.allItems.add( new LowerCaseEntry( id, itemName ) );
-		DatabaseFrame.allItems.sort( new IntegerEntryKeyComparator() );
-	}
-
 	private static class IntegerEntryKeyComparator
 		implements Comparator<LowerCaseEntry>
 	{
