@@ -76,6 +76,7 @@ public class MacroTestCommand
 			Preferences.setBoolean( "macroDebug", true );
 			FightRequest.setMacroPrefixLength( index );
 
+			int lastComplexActionPrefix = 0;
 			while ( true )
 			{
 				String macro = Macrofier.macrofy();
@@ -83,6 +84,12 @@ public class MacroTestCommand
 
 				if ( macro == null )
 				{
+					// Quit if final action in strategy is complex
+					if ( lastComplexActionPrefix + 1 == prefix )
+					{
+						break;
+					}
+					lastComplexActionPrefix = prefix;
 					FightRequest.setMacroPrefixLength( prefix + 1 );
 					RequestLogger.printLine( "****action***" );
 					RequestLogger.printLine();

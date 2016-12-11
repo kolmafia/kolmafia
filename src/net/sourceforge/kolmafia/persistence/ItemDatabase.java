@@ -103,7 +103,7 @@ public class ItemDatabase
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
 	private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
 	private static final Map<Integer, String> descriptionById = new TreeMap<Integer, String>();
-	private static final Map<String, Object> itemIdByName = new HashMap<String, Object>();
+	private static final Map<String, int[]> itemIdSetByName = new HashMap<String, int[]>();
 	private static final ArrayList<String> itemAliases = new ArrayList<String>();
 	private static final ArrayList<String> pluralAliases = new ArrayList<String>();
 	private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
@@ -329,18 +329,43 @@ public class ItemDatabase
 	{
 		ItemDatabase.newItems = false;
 
-		if ( !ItemDatabase.itemIdByName.isEmpty() )
+		if ( !ItemDatabase.itemIdSetByName.isEmpty() )
 		{
 			ItemDatabase.miniReset();
 			return;
 		}
 
-		ItemDatabase.itemIdByName.clear();
+		ItemDatabase.itemIdSetByName.clear();
 
 		ItemDatabase.readItems();
 		ItemDatabase.readFoldGroups();
 		ItemDatabase.addPseudoItems();
 		ItemDatabase.saveCanonicalNames();
+	}
+
+	private static void addIdToName( String canonicalName, int itemId )
+	{
+		int[] idSet = ItemDatabase.itemIdSetByName.get( canonicalName );
+		int[] newSet;
+
+		if ( idSet == null )
+		{
+			newSet = new int[1];
+		}
+		// *** This assumes the array is sorted
+		else if ( Arrays.binarySearch( idSet, itemId ) >= 0 )
+		{
+			return;
+		}
+		else
+		{
+			newSet = Arrays.copyOf( idSet, idSet.length + 1 );
+		}
+
+		newSet[ newSet.length - 1 ] = itemId;
+		// *** Make it so
+		Arrays.sort( newSet );
+		ItemDatabase.itemIdSetByName.put( canonicalName, newSet );
 	}
 
 	private static void miniReset()
@@ -358,9 +383,7 @@ public class ItemDatabase
 
 			int itemId = StringUtilities.parseInt( data[ 0 ] );
 			String canonicalName = StringUtilities.getCanonicalName( data[1] );
-
-			Integer id = IntegerPool.get( itemId );
-			ItemDatabase.itemIdByName.put( canonicalName, id );
+			ItemDatabase.addIdToName( canonicalName, itemId );
 		}
 
 		try
@@ -377,7 +400,7 @@ public class ItemDatabase
 		while ( it.hasNext() )
 		{
 			String canonical = it.next();
-			ItemDatabase.itemIdByName.remove( canonical );
+			ItemDatabase.itemIdSetByName.remove( canonical );
 		}
 		ItemDatabase.itemAliases.clear();
 
@@ -469,7 +492,7 @@ public class ItemDatabase
 				ItemDatabase.maxItemId = itemId;
 			}
 
-			ItemDatabase.itemIdByName.put( canonicalName, id );
+			ItemDatabase.addIdToName( canonicalName, itemId );
 
 			ItemDatabase.nameLength.set( itemId, displayName.length() );
 
@@ -562,7 +585,7 @@ public class ItemDatabase
 			for ( int i = 1; i < data.length; ++i )
 			{
 				String name = StringUtilities.getCanonicalName( data[ i ] );
-				if ( ItemDatabase.itemIdByName.get( name ) == null )
+				if ( ItemDatabase.itemIdSetByName.get( name ) == null )
 				{
 					RequestLogger.printLine( "Unknown foldable item: " + name );
 					continue;
@@ -589,7 +612,7 @@ public class ItemDatabase
 
 		ItemDatabase.dataNameById.put( id, "worthless item" );
 		ItemDatabase.nameById.put( id, "worthless item" );
-		ItemDatabase.itemIdByName.put( "worthless item", id );
+		ItemDatabase.addIdToName( "worthless item", id );
 
 		// Set aliases for the dusty bottles
 		for ( Object[] dusty : ConsumablesDatabase.DUSTY_BOTTLES )
@@ -598,7 +621,7 @@ public class ItemDatabase
 			String name = StringUtilities.getCanonicalName( (String) dusty[1] );
 			String alias = StringUtilities.getCanonicalName( (String) dusty[2] );
 			String plural = StringUtilities.singleStringReplace( alias, "bottle", "bottles" );
-			ItemDatabase.itemIdByName.put( alias, id );
+			ItemDatabase.addIdToName( alias, id );
 			ItemDatabase.itemIdByPlural.put( plural, id );
 			ConsumablesDatabase.cloneConsumptionData( name, alias );
 		}
@@ -609,7 +632,7 @@ public class ItemDatabase
 			id = (Integer) punchcard[0];
 			String alias = StringUtilities.getCanonicalName( (String) punchcard[2] );
 			String plural = StringUtilities.singleStringReplace( alias, "punchcard", "punchcards" );
-			ItemDatabase.itemIdByName.put( alias, id );
+			ItemDatabase.addIdToName( alias, id );
 			ItemDatabase.itemIdByPlural.put( plural, id );
 		}
 
@@ -618,7 +641,7 @@ public class ItemDatabase
 		for ( String sushi : SushiRequest.SUSHI )
 		{
 			String name = StringUtilities.getCanonicalName( sushi );
-			ItemDatabase.itemIdByName.put( name, id );
+			ItemDatabase.addIdToName( name, id );
 		}
 
 		// Add names of all the VYKEA companions
@@ -626,7 +649,7 @@ public class ItemDatabase
 		for ( String VYKEA : VYKEACompanionData.VYKEA )
 		{
 			String name = StringUtilities.getCanonicalName( VYKEA );
-			ItemDatabase.itemIdByName.put( name, id );
+			ItemDatabase.addIdToName( name, id );
 		}
 
 		// Miscellaneous aliases for untypeable item names
@@ -634,14 +657,14 @@ public class ItemDatabase
 		{
 			id = (Integer) alias[0];
 			String name = StringUtilities.getCanonicalName( (String) alias[ 1 ] );
-			ItemDatabase.itemIdByName.put( name, id );
+			ItemDatabase.addIdToName( name, id );
 		}
 	}
 
 	private static final void saveCanonicalNames()
 	{
-		String[] newArray = new String[ ItemDatabase.itemIdByName.size() ];
-		ItemDatabase.itemIdByName.keySet().toArray( newArray );
+		String[] newArray = new String[ ItemDatabase.itemIdSetByName.size() ];
+		ItemDatabase.itemIdSetByName.keySet().toArray( newArray );
 		Arrays.sort( newArray );
 		ItemDatabase.canonicalNames = newArray;
 	}
@@ -906,7 +929,7 @@ public class ItemDatabase
 		ItemDatabase.descriptionById.put( id, descId );
 		ItemDatabase.itemIdByDescription.put( descId, id );
 
-		ItemDatabase.itemIdByName.put( StringUtilities.getCanonicalName( itemName ), id );
+		ItemDatabase.addIdToName( StringUtilities.getCanonicalName( itemName ), id );
 		ItemDatabase.saveCanonicalNames();
 
 		if ( plural != null )
@@ -1083,7 +1106,7 @@ public class ItemDatabase
 		Integer id = IntegerPool.get( itemId );
 
 		String canonical = StringUtilities.getCanonicalName( itemName );
-		ItemDatabase.itemIdByName.put( canonical, id );
+		ItemDatabase.addIdToName( canonical, id );
 		ItemDatabase.itemAliases.add( canonical );
 
 		if ( plural != null )
@@ -1105,7 +1128,7 @@ public class ItemDatabase
 
 	public static final int getItemId( final String itemName )
 	{
-		return ItemDatabase.getItemId( itemName, 1 );
+		return ItemDatabase.getItemId( itemName, 1, true );
 	}
 
 	/**
@@ -1132,9 +1155,27 @@ public class ItemDatabase
 
 	public static final int getItemId( final String itemName, final int count, final boolean substringMatch )
 	{
-		if ( itemName == null )
+		int[] itemIds = getItemIds( itemName, count, substringMatch );
+		int length = itemIds == null ? 0 : itemIds.length;
+
+		if ( length == 0 )
 		{
 			return -1;
+		}
+
+		// *** There could be multiple. For backward compatibility,
+		// *** return the last one.
+
+		return itemIds[ length - 1 ];
+	}
+
+	private static final int[] NO_ITEM_IDS = new int[0];
+	
+	public static final int[] getItemIds( final String itemName, final int count, final boolean substringMatch )
+	{
+		if ( itemName == null )
+		{
+			return NO_ITEM_IDS;
 		}
 
 		// If name starts with [nnnn] then that is explicitly the item id 
@@ -1152,21 +1193,24 @@ public class ItemDatabase
 				catch (NumberFormatException e)
 				{
 				}
-				return itemId;
+				int[] ids = new int[1];
+				ids[0] = itemId;
+				return ids;
 			}
 		}
 		String name = ItemDatabase.getCanonicalName( itemName, count, substringMatch );
 		if ( name == null )
 		{
-			return -1;
-		}
-		Object itemId = ItemDatabase.itemIdByName.get( name );
-		if ( itemId == null )
-		{
-			return -1;
+			return NO_ITEM_IDS;
 		}
 
-		return ( (Integer) itemId ).intValue();
+		int[] itemIds = ItemDatabase.itemIdSetByName.get( name );
+		if ( itemIds == null || itemIds.length == 0 )
+		{
+			return NO_ITEM_IDS;
+		}
+
+		return itemIds;
 	}
 
 	public static String getDataName( final Integer itemId )
@@ -1210,7 +1254,7 @@ public class ItemDatabase
 		// to parse based on that.
 
 		String canonicalName = StringUtilities.getCanonicalName( itemName );
-		Object itemId;
+		int itemId;
 
 		// If name is specified by use of [xxxx], return CanonicalName
 		if ( itemName.startsWith( "[" ) )
@@ -1227,23 +1271,23 @@ public class ItemDatabase
 
 		if ( count > 1 )
 		{
-			itemId = ItemDatabase.itemIdByPlural.get( canonicalName );
-			if ( itemId != null )
+			Integer id = ItemDatabase.itemIdByPlural.get( canonicalName );
+			if ( id != null )
 			{
-				return ItemDatabase.getCanonicalName( (Integer) itemId );
+				return ItemDatabase.getCanonicalName( id );
 			}
-			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
-			if ( itemId != null )
+			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 1 ), count, false );
+			if ( itemId != -1 )
 			{
-				return ItemDatabase.getCanonicalName( (Integer) itemId );
+				return ItemDatabase.getCanonicalName( itemId );
 			}
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( canonicalName );
+		int[] itemIds = ItemDatabase.itemIdSetByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database, return it
 
-		if ( itemId != null )
+		if ( itemIds != null )
 		{
 			return canonicalName;
 		}
@@ -1280,18 +1324,18 @@ public class ItemDatabase
 			// More than one match - but since the canonical name table
 			// contains aliases, they might all be the same item.
 
-			itemId = ItemDatabase.itemIdByName.get( first );
+			itemId = ItemDatabase.getItemId( first, 1, false );
 			for ( int i = 1; i < matches; ++i )
 			{
-				Object id = ItemDatabase.itemIdByName.get( possibilities.get( i ) );
-				if ( !itemId.equals( id ) )
+				int id = ItemDatabase.getItemId( possibilities.get( i ), 1, false );
+				if ( itemId != id )
 				{
-					itemId = null;
+					itemId = -1;
 					break;
 				}
 			}
 
-			if ( itemId != null )
+			if ( itemId != -1 )
 			{
 				return first;
 			}
@@ -1315,8 +1359,8 @@ public class ItemDatabase
 		// introduced into the name when no such dash exists in the
 		// singular form.
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "-", " " ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "-", " " ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1324,14 +1368,14 @@ public class ItemDatabase
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "es-", "-" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "es-", "-" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "s-", "-" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "s-", "-" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1341,8 +1385,8 @@ public class ItemDatabase
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ee", "oo" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ee", "oo" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1351,8 +1395,8 @@ public class ItemDatabase
 		// "vortices" -- this should only appear in the
 		// meat vortex, but better safe than sorry.
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ices", "ex" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ices", "ex" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1361,8 +1405,8 @@ public class ItemDatabase
 		// of appendix, not appendex, so it is not caught
 		// by the previous test).
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ices", "ix" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ices", "ix" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1370,8 +1414,8 @@ public class ItemDatabase
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ives", "ife" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ives", "ife" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1379,8 +1423,8 @@ public class ItemDatabase
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ves", "f" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ves", "f" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1388,8 +1432,8 @@ public class ItemDatabase
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "aves", "aff" ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "aves", "aff" ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1400,15 +1444,15 @@ public class ItemDatabase
 
 		if ( canonicalName.endsWith( "ies" ) )
 		{
-			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
-			if ( itemId != null )
+			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y", 1, false );
+			if ( itemId != -1 )
 			{
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
 			}
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "ies ", "y " ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "ies ", "y " ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1419,15 +1463,15 @@ public class ItemDatabase
 
 		if ( canonicalName.endsWith( "es" ) )
 		{
-			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
-			if ( itemId != null )
+			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 2 ), 1, false );
+			if ( itemId != -1 )
 			{
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
 			}
 		}
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "es ", " " ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "es ", " " ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1436,8 +1480,8 @@ public class ItemDatabase
 		// ends with "an", then return the appropriate
 		// item Id for the "en" version.
 
-		itemId = ItemDatabase.itemIdByName.get( StringUtilities.singleStringReplace( canonicalName, "en ", "an " ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( StringUtilities.singleStringReplace( canonicalName, "en ", "an " ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1445,8 +1489,8 @@ public class ItemDatabase
 		// If it's a standard pluralized forms, then
 		// return the appropriate item Id.
 
-		itemId = ItemDatabase.itemIdByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
-		if ( itemId != null )
+		itemId = ItemDatabase.getItemId( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ), 1, false );
+		if ( itemId != -1 )
 		{
 			return ItemDatabase.getCanonicalName( (Integer) itemId );
 		}
@@ -1456,8 +1500,8 @@ public class ItemDatabase
 
 		if ( canonicalName.endsWith( "i" ) )
 		{
-			itemId = ItemDatabase.itemIdByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us" );
-			if ( itemId != null )
+			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 1 ) + "us", 1, false );
+			if ( itemId != -1 )
 			{
 				return ItemDatabase.getCanonicalName( (Integer) itemId );
 			}
