@@ -1564,7 +1564,7 @@ public class RequestEditorKit
 			if ( maxSprinkles != minSprinkles )
 			{
 				monsterData.append( "-" );
-				monsterData.append( String.valueOf( (int)Math.floor( maxSprinkles * modifier ) ) );
+				monsterData.append( String.valueOf( (int)Math.ceil( maxSprinkles * modifier ) ) );
 			}
 		}
 

@@ -495,8 +495,8 @@ public class MonsterDatabase
 		Object floor = null;
 		Object mlMult = null;
 		int meat = 0;
-		int minSprinkles = 0;
-		int maxSprinkles = 0;
+		Object minSprinkles = null;
+		Object maxSprinkles = null;
 		Element attackElement = Element.NONE;
 		Element defenseElement = Element.NONE;
 		Phylum phylum = Phylum.NONE;
@@ -661,22 +661,15 @@ public class MonsterDatabase
 					continue;
 				}
 
-				else if ( option.equals( "Sprinkles:" ) )
+				else if ( option.equals( "SprinkleMin:" ) )
 				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						int dash = value.indexOf( "-" );
-						if ( dash >= 0 )
-						{
-							minSprinkles = StringUtilities.parseInt( value.substring( 0, dash ) );
-							maxSprinkles = StringUtilities.parseInt( value.substring( dash + 1 ) );
-						}
-						else
-						{
-							minSprinkles = maxSprinkles = StringUtilities.parseInt( value );
-						}
-					}
+					minSprinkles = parseNumeric( tokens );
+					continue;
+				}
+
+				else if ( option.equals( "SprinkleMax:" ) )
+				{
+					maxSprinkles = parseNumeric( tokens );
 					continue;
 				}
 
