@@ -713,6 +713,9 @@ spicy enchanted bean burrito	3	4	good	6-12	0	22-28	0
 spicy jumping bean burrito	3	3	good	5-12	0	0	22-28
 spicy mushroom quesadilla	3	1	decent	3-8	35-40	0	0
 spicy noodles	3	4	good	6-12	0	0	0
+spiritual candy cane	1	4	good	0	0	0	0	Unspaded
+spiritual fruitcake	3	1	decent	0	0	0	0	Unspaded
+spiritual gingerbread	1	4	good	0	0	0	0	Unspaded
 sponge cake	2	3	decent	3-5	0	0	5-10
 spooky frank	0	1	crappy	0	0	0	0
 spooky hi mein	5	13	EPIC	24-27	15-20	70-75	30-35	5 Spooky Breath (combat skill)
