@@ -1815,6 +1815,96 @@ public class DebugDatabase
 			path;
 	}
 
+	// Grants Skill: <a class=hand onClick='javascript:poop("desc_skill.php?whichskill=163&self=true","skill", 350, 300)'><b>Gingerbread Mob Hit</b></a>
+	private static final Pattern SKILL_ID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	public static final int parseSkillId( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_ID_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final Pattern SKILL_TYPE_PATTERN = Pattern.compile( "<b>Type:</b> (.*?)<br>" );
+	public static final String parseSkillType( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_TYPE_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	private static final Pattern SKILL_MP_COST_PATTERN = Pattern.compile( "<b>MP Cost:</b> (\\d+)" );
+	public static final int parseSkillMPCost( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_MP_COST_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	// Gives Effect: <b><a class=nounder href="desc_effect.php?whicheffect=69dcf3d8fe46c29e7fb6075d06448c95">Your Fifteen Minutes</a>
+	private static final Pattern SKILL_EFFECT_PATTERN = Pattern.compile( "Gives Effect: .*?whicheffect=([^\">]*).*?>([^<]*)" );
+	public static final String parseSkillEffectName( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 2 ) : "";
+	}
+
+	public static final String parseSkillEffectId( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher( text );
+		return matcher.find() ? matcher.group( 1 ) : "";
+	}
+
+	private static final Pattern SKILL_EFFECT_DURATION_PATTERN = Pattern.compile( "\\((\\d+) Adventures?\\)" );
+	public static final int parseSkillEffectDuration( final String text )
+	{
+		Matcher matcher = DebugDatabase.SKILL_EFFECT_DURATION_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
+	private static final GenericRequest DESC_SKILL_REQUEST = new GenericRequest( "desc_skill.php" );
+
+	public static final String skillDescriptionText( final int skillId )
+	{
+                return DebugDatabase.skillDescriptionText( DebugDatabase.rawSkillDescriptionText( skillId ) );
+	}
+
+	public static final String readSkillDescriptionText( final int skillId )
+	{
+		DebugDatabase.DESC_SKILL_REQUEST.clearDataFields();
+		DebugDatabase.DESC_SKILL_REQUEST.addFormField( "whichskill", String.valueOf( skillId ) );;
+		RequestThread.postRequest( DebugDatabase.DESC_SKILL_REQUEST );
+		return DebugDatabase.DESC_SKILL_REQUEST.responseText;
+	}
+
+	private static final String rawSkillDescriptionText( final int skillId )
+	{
+		String previous = DebugDatabase.rawSkills.get( skillId );
+		if ( previous != null && !previous.equals( "" ) )
+		{
+			return previous;
+		}
+
+		String text = DebugDatabase.readSkillDescriptionText( skillId );
+		DebugDatabase.rawSkills.set( skillId, text );
+
+		return text;
+	}
+
+	private static final Pattern SKILL_DATA_PATTERN = Pattern.compile( "<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL );
+
+	private static final String skillDescriptionText( final String rawText )
+	{
+		if ( rawText == null )
+		{
+			return null;
+		}
+
+		Matcher matcher = DebugDatabase.SKILL_DATA_PATTERN.matcher( rawText );
+		if ( !matcher.find() )
+		{
+			return null;
+		}
+
+		return matcher.group( 1 );
+	}
+
 	// href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"
 	private static final Pattern EFFECT_DESCID_PATTERN = Pattern.compile( "whicheffect=(.*?)\"" );
 	public static final String parseEffectDescid( final String text )
@@ -1936,6 +2026,18 @@ public class DebugDatabase
 		// Print the modifiers in the format modifiers.txt expects.
 		DebugDatabase.logModifierDatum( "Effect", name, known, unknown, report );
 	}
+
+
+	// **********************************************************
+
+	// Support for the "checkskills" command, which compares KoLmafia's
+	// internal skill data with what can be mined from the skill
+	// description.
+
+	private static final String SKILL_HTML = "skillhtml.txt";
+	private static final String SKILL_DATA = "skilldata.txt";
+	private static final StringArray rawSkills = new StringArray();
+	private static final ItemMap skills = new ItemMap( "Skills", 0 );
 
 	// **********************************************************
 

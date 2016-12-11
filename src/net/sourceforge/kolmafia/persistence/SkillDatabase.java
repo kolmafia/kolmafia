@@ -1664,6 +1664,84 @@ public class SkillDatabase
 		SkillDatabase.castsById.put( IntegerPool.get( skillId ), IntegerPool.get( newCasts ) );
 	}
 
+	public static String skillString( final int skillId, final String skillName, final String image, final int type, final int mp, final int duration, final int level )
+	{
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append( String.valueOf( skillId ) );
+		buffer.append( "\t" );
+		buffer.append( skillName );
+		buffer.append( "\t" );
+		buffer.append( image );
+		buffer.append( "\t" );
+		buffer.append( String.valueOf( type ) );
+		buffer.append( "\t" );
+		buffer.append( String.valueOf( mp) );
+		buffer.append( "\t" );
+		buffer.append( String.valueOf( duration ) );
+		if ( level != 0 )
+		{
+			buffer.append( "\t" );
+			buffer.append( String.valueOf( level ) );
+		}
+		return buffer.toString();
+	}
+
+	public static final void registerSkill( final int skillId, String skillName )
+	{
+		// Load the description text for this skill
+		String text = DebugDatabase.readSkillDescriptionText( skillId );
+		if ( text == null )
+		{
+			return;
+		}
+
+		if ( skillName == null )
+		{
+			skillName = DebugDatabase.parseName( text );
+		}
+
+		String image = DebugDatabase.parseImage( text );
+
+		// Detach name and image from being substrings
+		skillName = new String( skillName );
+		image = new String( image );
+
+		String typeString = DebugDatabase.parseSkillType( text );
+		int type =
+			typeString.equals( "Passive" ) ? 0 :
+			typeString.equals( "Noncombat" ) ? 3 :
+			typeString.equals( "Combat" ) ? 5 :
+			-1;
+		int mp = DebugDatabase.parseSkillMPCost( text );
+		int duration = DebugDatabase.parseSkillEffectDuration( text );
+		int level = 0;
+
+		SkillDatabase.addSkill( skillId, skillName, image, type, mp, duration, level );
+
+		String printMe;
+
+		// Print what goes in classkills.txt
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = SkillDatabase.skillString( skillId, skillName, image, type, mp, duration, level );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		String effectName = DebugDatabase.parseSkillEffectName( text );
+		if ( !effectName.equals( "" ) && EffectDatabase.getEffectId( effectName, true ) == -1 )
+		{
+			String effectDescid = DebugDatabase.parseSkillEffectId( text );
+			EffectDatabase.registerEffect( effectName, effectDescid, "cast 1 " + skillName );
+		}
+	}
+
 	/**
 	 * Utility method used to get the number of times a skill has been cast in the current session.
 	 */
@@ -1703,4 +1781,3 @@ public class SkillDatabase
 		return false;
 	}
 }
-

@@ -76,8 +76,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 
-import net.sourceforge.kolmafia.swingui.DatabaseFrame;
-
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -943,9 +941,6 @@ public class ItemDatabase
 		Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 		ConcoctionPool.set( c );
 		ConcoctionDatabase.addUsableConcoction( c );
-
-		// Add the new item to the Encyclopedia
-		DatabaseFrame.addItem( id, itemName );
 	}
 
 	public static final void registerPlural( final int itemId, final String plural )
@@ -1072,6 +1067,14 @@ public class ItemDatabase
 
 		// Equipment can be part of an outfit.
 		EquipmentDatabase.registerItemOutfit( itemId, text );
+
+		// Skillbooks teach you a skill
+		String skillName = Modifiers.getStringModifier( "Item", itemId, "Skill" );
+		if ( !skillName.equals( "" ) && SkillDatabase.getSkillId( skillName ) == -1 )
+		{
+			int skillId = DebugDatabase.parseSkillId( rawText );
+			SkillDatabase.registerSkill( skillId, skillName );
+		}
 
 		// Potions grant an effect. Check for a new effect.
 		String effectName = Modifiers.getStringModifier( "Item", itemId, "Effect" );
