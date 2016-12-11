@@ -536,14 +536,26 @@ public class Macrofier
 				Macrofier.macroSkill( macro, skillId );
 			}
 		}
-		else if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
-		{ // can't use items in Birdform
+		else if ( !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			// Must be an item use
+			// Can't use items in Birdform
+			int comma = action.indexOf( "," );
+			int item1 = StringUtilities.parseInt( comma != -1 ? action.substring( 0, comma ).trim() : action );
+			int item2 = comma != -1 ? StringUtilities.parseInt( action.substring( comma + 1 ).trim() ) : -1;
+				
+			macro.append( "call mafiaround; use " );
+			macro.append( String.valueOf( item1 ) );
+			if ( item2 != -1 )
+			{
+				macro.append( "," );
+				macro.append( String.valueOf( item2 ) );
+			}
+			macro.append( "\n" );
 		}
 		else
-		// must be an item use
 		{
-			macro.append( "call mafiaround; use " + action + "\n" );
-			// TODO
+			// Trying to use an item in Birdform. Ignore it.
 		}
 	}
 
