@@ -10849,6 +10849,18 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1213:
+			// The Factory Factor
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Try to remove an equipped gingerservo first, then remove from inventory if that fails
+				if ( EquipmentManager.discardEquipment( ItemPool.get( ItemPool.GINGERSERVO ) ) == EquipmentManager.NONE )
+				{
+					ResultProcessor.removeItem( ItemPool.GINGERSERVO );
+				}
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
