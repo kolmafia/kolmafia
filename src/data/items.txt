@@ -9275,10 +9275,10 @@
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
 9250	Inner Strength	389870199	jperfume.gif	multiple	t	0
 9251	Inner Truth	903953457	jperfume.gif	multiple	t	0
-9252
-9253
-9254
-9255
+9252	spiritual candy cane	628826378	candycane.gif	food	t	0
+9253	spiritual eggnog	296391406	coffeecup.gif	drink	t	0
+9254	spiritual fruitcake	831864960	fruitcake.gif	food	t	0
+9255	spiritual gingerbread	468256357	gingerbear.gif	food	t	0
 9256	chocolate puppy	706707809	chocopuppy.gif	grow	d	1000
 9257	chocolate leash	513864144	string.gif	familiar	t,d	75
 9258	My Life of Crime, a Memoir	267400722	book3.gif	usable	t	0
