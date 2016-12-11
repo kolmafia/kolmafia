@@ -2293,7 +2293,11 @@ public class QuestManager
 		}
 		else if ( monsterName.equals( "GNG-3-R" ) )
 		{
-			ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERSERVO, -1 ) );
+			if ( EquipmentManager.discardEquipment( ItemPool.get( ItemPool.GINGERSERVO ) ) == EquipmentManager.NONE )
+			{
+				// Remove it from equipment if it is equipped, otherwise remove it from inventory
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERSERVO, -1 ) );
+			}
 		}
 	}
 	
