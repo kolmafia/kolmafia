@@ -1041,13 +1041,20 @@ public class FightRequest
 				this.skipRound();
 				return;
 			}
+
 			int item1, item2;
+			boolean funksling = KoLCharacter.hasSkill( "Ambidextrous Funkslinging" );
 
 			int commaIndex = FightRequest.nextAction.indexOf( "," );
 			if ( commaIndex != -1 )
 			{
 				item1 = StringUtilities.parseInt( FightRequest.nextAction.substring( 0, commaIndex ) );
 				item2 = StringUtilities.parseInt( FightRequest.nextAction.substring( commaIndex + 1 ) );
+				if ( item2 == -1 )
+				{
+					// Specifically asking for just one item
+					funksling = false;
+				}
 			}
 			else
 			{
@@ -1096,7 +1103,7 @@ public class FightRequest
 			this.addFormField( "action", "useitem" );
 			this.addFormField( "whichitem", String.valueOf( item1 ) );
 
-			if ( !KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			if ( !funksling )
 			{
 				return;
 			}

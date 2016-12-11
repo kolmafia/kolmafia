@@ -522,19 +522,31 @@ public abstract class CombatActionManager
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
 		{
-			String first = CombatActionManager.getLongItemAction( action.substring( 0, commaIndex ) );
+			String firstName = action.substring( 0, commaIndex ).trim();
+			String secondName = action.substring( commaIndex + 1 ).trim();
+
+			String first = CombatActionManager.getLongItemAction( firstName );
+
+			// Invalid item name
 			if ( first.startsWith( "attack" ) )
 			{
-				return CombatActionManager.getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+				return CombatActionManager.getLongItemAction( secondName );
 			}
 
+			if ( secondName.equals( "none" ) )
+			{
+				return firstName + "," + secondName;
+			} 
+
 			String second = CombatActionManager.getLongItemAction( action.substring( commaIndex + 1 ).trim() );
+
+			// Invalid item name
 			if ( second.startsWith( "attack" ) )
 			{
 				return first;
 			}
 
-			return first + ", " + second;
+			return first + "," + second;
 		}
 
 		if ( action.startsWith( "item" ) )
@@ -694,13 +706,26 @@ public abstract class CombatActionManager
 		int commaIndex = action.indexOf( "," );
 		if ( commaIndex != -1 )
 		{
-			String first = CombatActionManager.getShortItemAction( action.substring( 0, commaIndex ) );
+			String firstName = action.substring( 0, commaIndex ).trim();
+			String secondName = action.substring( commaIndex + 1 ).trim();
+
+			String first = CombatActionManager.getShortItemAction( firstName );
+
+			// Invalid item name
 			if ( first.startsWith( "attack" ) )
 			{
-				return CombatActionManager.getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+				return CombatActionManager.getShortItemAction( secondName );
 			}
 
-			String second = CombatActionManager.getShortItemAction( action.substring( commaIndex + 1 ).trim() );
+			if ( secondName.equals( "none" ) )
+			{
+				// Asking for no Funkslinging
+				return first + ",-1";
+			}
+
+			String second = CombatActionManager.getShortItemAction( secondName );
+
+			// Invalid item name
 			if ( second.startsWith( "attack" ) )
 			{
 				return first;
@@ -736,6 +761,11 @@ public abstract class CombatActionManager
 
 	public static final int getCombatItem( String action )
 	{
+		if ( action.equals( "none" ) )
+		{
+			return -1;
+		}
+
 		List matchingNames = ItemDatabase.getMatchingNames( action );
 		int count = matchingNames.size();
 
