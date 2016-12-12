@@ -292,6 +292,41 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "effectids" ) )
+		{
+			int index = parameters.indexOf( " " );
+			String string = parameters.substring( index + 1 ).trim();
+			int[] effectIds = EffectDatabase.getEffectIds( string, false );
+			int length = effectIds.length;
+			if ( length == 0 )
+			{
+				RequestLogger.printLine( "No effect ids found for \"" + string + "\"." );
+			}
+			else
+			{
+				StringBuilder buffer = new StringBuilder();
+				buffer.append( string );
+				buffer.append( " has " );
+				buffer.append( String.valueOf( length ) );
+				buffer.append( " effectid" );
+				if ( length > 1 )
+				{
+					buffer.append( "s" );
+				}
+				buffer.append( ": " );
+				for ( int i = 0; i < length; ++i )
+				{
+					if ( i > 0 )
+					{
+						buffer.append( ", " );
+					}
+					buffer.append( String.valueOf( effectIds[ i ] ) );
+				}
+				RequestLogger.printLine( buffer.toString() );
+			}
+			return;
+		}
+
 		if ( command.equals( "fairy" ) )
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();

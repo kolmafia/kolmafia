@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -71,7 +72,7 @@ public class EffectDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
-	private static final Map<String, Integer> effectIdByName = new TreeMap<String, Integer>();
+	private static final Map<String, int[]> effectIdSetByName = new TreeMap<String, int[]>();
 	public static final HashMap<Integer, String> defaultActions = new HashMap<Integer, String>();
 
 	private static final Map<Integer, String> imageById = new HashMap<Integer, String>();
@@ -124,8 +125,33 @@ public class EffectDatabase
 			StaticEntity.printStackTrace( e );
 		}
 
-		EffectDatabase.canonicalNames = new String[ EffectDatabase.effectIdByName.size() ];
-		EffectDatabase.effectIdByName.keySet().toArray( EffectDatabase.canonicalNames );
+		EffectDatabase.canonicalNames = new String[ EffectDatabase.effectIdSetByName.size() ];
+		EffectDatabase.effectIdSetByName.keySet().toArray( EffectDatabase.canonicalNames );
+	}
+
+	private static void addIdToName( String canonicalName, int itemId )
+	{
+		int[] idSet = EffectDatabase.effectIdSetByName.get( canonicalName );
+		int[] newSet;
+
+		if ( idSet == null )
+		{
+			newSet = new int[1];
+		}
+		// *** This assumes the array is sorted
+		else if ( Arrays.binarySearch( idSet, itemId ) >= 0 )
+		{
+			return;
+		}
+		else
+		{
+			newSet = Arrays.copyOf( idSet, idSet.length + 1 );
+		}
+
+		newSet[ newSet.length - 1 ] = itemId;
+		// *** Make it so
+		Arrays.sort( newSet );
+		EffectDatabase.effectIdSetByName.put( canonicalName, newSet );
 	}
 
 	private static final void addToDatabase( final Integer effectId, final String name, final String image,
@@ -133,7 +159,7 @@ public class EffectDatabase
 	{
 		String canonicalName = StringUtilities.getCanonicalName( name );
 		EffectDatabase.nameById.put( effectId, name );
-		EffectDatabase.effectIdByName.put( canonicalName, effectId );
+		EffectDatabase.addIdToName( canonicalName, effectId );
 		EffectDatabase.imageById.put( effectId, image );
 
 		if ( descriptionId != null )
@@ -322,12 +348,19 @@ public class EffectDatabase
 				return effectId;
 			}
 		}
-		Integer effectId = EffectDatabase.effectIdByName.get( StringUtilities.getCanonicalName( effectName ) );
-		if ( effectId != null )
+
+		int[] ids = EffectDatabase.effectIdSetByName.get( StringUtilities.getCanonicalName( effectName ) );
+
+		if ( ids != null )
 		{
-			return effectId.intValue();
+			if ( exact && ids.length > 1)
+			{
+				return -1;
+			}
+			return ids[ ids.length - 1 ];
 		}
-		else if ( exact )
+
+		if ( exact )
 		{
 			return -1;
 		}
@@ -339,6 +372,63 @@ public class EffectDatabase
 		}
 
 		return -1;
+	}
+
+	private static final int[] NO_EFFECT_IDS = new int[0];
+	
+	public static final int[] getEffectIds( final String effectName, final boolean exact )
+	{
+		if ( effectName == null )
+		{
+			return NO_EFFECT_IDS;
+		}
+
+		// If name starts with [nnnn] then that is explicitly the effect id 
+		if ( effectName.startsWith( "[" ) )
+		{
+			int index = effectName.indexOf( "]" );
+			if ( index > 0 )
+			{
+				String idString = effectName.substring( 1, index );
+				int effectId = -1;
+				try 
+				{
+					effectId = StringUtilities.parseInt( idString );
+				}
+				catch (NumberFormatException e)
+				{
+				}
+				int[] ids = new int[1];
+				ids[0] = effectId;
+				return ids;
+			}
+		}
+
+		int[] ids = EffectDatabase.effectIdSetByName.get( StringUtilities.getCanonicalName( effectName ) );
+
+		if ( ids != null )
+		{
+			if ( exact && ids.length > 1)
+			{
+				return NO_EFFECT_IDS;
+			}
+			return ids;
+		}
+
+		if ( exact )
+		{
+			return NO_EFFECT_IDS;
+		}
+
+		List<String> names = EffectDatabase.getMatchingNames( effectName );
+		if ( names.size() != 1 )
+		{
+			return NO_EFFECT_IDS;
+		}
+
+		ids = effectIdSetByName.get( StringUtilities.getCanonicalName( names.get( 0 ) ) );
+
+		return ids != null ? ids : NO_EFFECT_IDS;
 	}
 
 	/**
@@ -470,7 +560,7 @@ public class EffectDatabase
 		Integer id = IntegerPool.get( effectId );
 
 		EffectDatabase.nameById.put( id, name );
-		EffectDatabase.effectIdByName.put( canonicalName, id );
+		EffectDatabase.addIdToName( canonicalName, id );
 		EffectDatabase.imageById.put( id, image );
 		EffectDatabase.descriptionById.put( id, descId );
 		EffectDatabase.effectIdByDescription.put( descId, id );
