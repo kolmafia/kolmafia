@@ -3158,6 +3158,7 @@ public class UseItemRequest
 			     !responseText.contains( "place the Grimoire on the bookshelf" ) &&
 			     !responseText.contains( "absorb the knowledge of optimality" ) &&
 			     !responseText.contains( "feel beary" ) &&
+			     !responseText.contains( "knew how to maximize" ) &&
 			     !responseText.contains( "Beleven" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
