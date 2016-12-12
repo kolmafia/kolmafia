@@ -533,9 +533,9 @@ public abstract class CombatActionManager
 				return CombatActionManager.getLongItemAction( secondName );
 			}
 
-			if ( secondName.equals( "none" ) )
+			if ( secondName.equals( "" ) || secondName.equals( "none" ) )
 			{
-				return firstName + "," + secondName;
+				return firstName + "," + "none";
 			} 
 
 			String second = CombatActionManager.getLongItemAction( action.substring( commaIndex + 1 ).trim() );
