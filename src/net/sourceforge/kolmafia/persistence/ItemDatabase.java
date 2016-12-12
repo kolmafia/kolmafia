@@ -1284,7 +1284,7 @@ public class ItemDatabase
 			{
 				return ItemDatabase.getCanonicalName( id );
 			}
-			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 1 ), count, false );
+			itemId = ItemDatabase.getItemId( canonicalName.substring( 0, canonicalName.length() - 1 ), 1, false );
 			if ( itemId != -1 )
 			{
 				return ItemDatabase.getCanonicalName( itemId );
