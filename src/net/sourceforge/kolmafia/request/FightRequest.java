@@ -7063,6 +7063,12 @@ public class FightRequest
 
 			return responseText.contains( "hand the gingerbread man a cigarette" ) || itemDamageSuccess;
 
+		case ItemPool.GINGERBREAD_RESTRAINING_ORDER:
+
+			// You read the restraining order to the gingerbread man, and for some reason, he agrees to abide by it.
+
+			return responseText.contains( "read the restraining order" ) || itemSuccess;
+
 		case ItemPool.PEPPERMINT_PARASOL:
 
 			// You hold up the parasol, and a sudden freak gust of wind
@@ -7571,6 +7577,15 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.LICORICE_ROPE:
+			// You tie up the gingerbread man and hang him from a conveniently placed gargoyle.
+			// You won't be seeing him again today! Or anybody with his same job.
+			if ( responseText.contains( "tie up the gingerbread" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "licorice rope" );
+			}
+			break;
+
 		case SkillPool.POCKET_CRUMBS:
 			if ( responseText.contains( "pocket next to the crumbs" ) )
 			{
@@ -8008,6 +8023,13 @@ public class FightRequest
 			if ( responseText.contains( "a nearby door" ) || itemRunawaySuccess )
 			{
 				BanishManager.banishCurrentMonster( "ice hotel bell" );
+			}
+			break;
+		case ItemPool.GINGERBREAD_RESTRAINING_ORDER:
+			// You read the restraining order to the gingerbread man, and for some reason, he agrees to abide by it.
+			if ( responseText.contains( "read the restraining order" ) || itemSuccess )
+			{
+				BanishManager.banishCurrentMonster( "gingerbread restraining order" );
 			}
 			break;
 		case ItemPool.BUNDLE_OF_FRAGRANT_HERBS:
