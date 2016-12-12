@@ -1799,6 +1799,7 @@ gingerbread tech bro	1988	gbtechbro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -100
 gingerbread alligator	1989	gbgator.gif	Scale: [10+190*pref(_gingerBiggerAlligators)] Cap: 1000 Floor: 30 Init: 100 P: beast SprinkleMin: [28+70*pref(_gingerBiggerAlligators)] SprinkleMax: [30+70*pref(_gingerBiggerAlligators)]
 gingerbread vigilante	1990	gbvigilante.gif	BOSS Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude SprinkleMin: 98 SprinkleMax: 100	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude SprinkleMin: 100 SprinkleMax: 100	gingerbread gavel (n100)
+GNG-3-R	1992	gng3r.gif	Scale: ? Cap: ? Floor: ? Init: 300 P: construct
 
 # KoL Con
 
