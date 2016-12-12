@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
+import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -701,34 +702,46 @@ public class Macrofier
 
 	public static void macroManaRestore( StringBuffer macro )
 	{
+		if ( KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+		{
+			macro.append( "abort \"Cannot use combat items while in Birdform!\"\n" );
+			return;
+		}
+		
 		int cumulative = 0;
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 		{
-			if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && !KoLConstants.activeEffects.contains( FightRequest.BIRDFORM ) )
+			MPRestoreItem restorer = MPRestoreItemList.CONFIGURES[ i ];
+			if ( restorer.isCombatUsable() )
 			{
-				AdventureResult restoreItem = MPRestoreItemList.CONFIGURES[ i ].getItem();
+				AdventureResult restoreItem = restorer.getItem();
 				if ( restoreItem == null )
 				{
 					continue;
 				}
-				int count = MPRestoreItemList.CONFIGURES[ i ].getItem().getCount( KoLConstants.inventory );
+
+				int count = restoreItem.getCount( KoLConstants.inventory );
 				if ( count <= 0 )
+				{
 					continue;
-				String item = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
+				}
+
+				String itemId = String.valueOf( restoreItem.getItemId() );
 				cumulative += count;
 				if ( cumulative >= 30 )
-				{ // Assume this item will be sufficient for all requests
+				{
+					// Assume this item will be sufficient for all requests
 					macro.append( "call mafiaround; use " );
-					macro.append( item );
+					macro.append( itemId );
 					macro.append( "\nmark mafiampexit\n" );
 					return;
 				}
 
 				macro.append( "if hascombatitem " );
-				macro.append( item );
+				macro.append( itemId );
 				macro.append( "\ncall mafiaround; use " );
-				macro.append( item );
-				macro.append( "\ngoto mafiampexit\n endif\n" );
+				macro.append( itemId );
+				macro.append( "\ngoto mafiampexit\nendif\n" );
 			}
 		}
 
