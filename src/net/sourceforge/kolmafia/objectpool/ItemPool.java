@@ -2709,6 +2709,7 @@ public class ItemPool
 	public static final int GINGERBREAD_CITY = 9203;
 	public static final int SPRINKLES = 9205;
 	public static final int VIGILANTE_BOOK = 9206;
+	public static final int GINGERBREAD_RESTRAINING_ORDER = 9217;
 	public static final int GINGERBREAD_MUG = 9221;
 	public static final int GINGERSERVO = 9223;
 	public static final int GINGERBEARD = 9225;
