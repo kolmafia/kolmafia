@@ -201,7 +201,8 @@ Uncle P's Antiques	unclep	fancy black tie	1000000	ROW508
 Uncle P's Antiques	unclep	fancy tophat	1000000	ROW506
 Uncle P's Antiques	unclep	fancy tuxedo pants	1000000	ROW509
 Uncle P's Antiques	unclep	'Villa' document	100000000	ROW507
-Uncle P's Antiques	unclep	Just a lump of inert eldritch matter	4750000	ROW512
+# No longer available
+# Uncle P's Antiques	unclep	Just a lump of inert eldritch matter	4750000	ROW512
 
 Huggler Memorial Colosseum Snack Bar	snackbar	Hatorade	500	ROW565
 Huggler Memorial Colosseum Snack Bar	snackbar	nailswurst	500	ROW566
