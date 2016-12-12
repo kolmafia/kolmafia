@@ -5702,6 +5702,16 @@ public class UseItemRequest
 				Preferences.increment( "_turkeyBlastersUsed" );
 			}
 			break;
+
+		case ItemPool.BROKEN_CHOCOLATE_POCKETWATCH:
+			// Using your candy screwdriver and your spare gingerbread parts, you manage to repair the pocketwatch
+			if ( !responseText.contains( "manage to repair" ) )
+			{
+				return;
+			}
+			ResultProcessor.processItem( ItemPool.SPARE_CHOCOLATE_PARTS, -1 );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
