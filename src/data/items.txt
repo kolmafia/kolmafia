@@ -9257,7 +9257,7 @@
 9231	candy crowbar	112008833	crowbar.gif	weapon	q	0
 9232	candy screwdriver	908995282	candyscrewdriver.gif	weapon	q	0
 9233	gingerbread dog treat	251890316	gingerbone.gif	usable	t,d	20
-9234
+9234	pumpkin spice candle	781652626	gingercandle.gif	offhand	q	0
 9235
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
 9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
@@ -9293,3 +9293,6 @@
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
+9270
+9271	chakra sludge	736693207	ragwad.gif	none	t,d	160
+9272	negative lump	442273709	chocolump.gif	none	t,d	16

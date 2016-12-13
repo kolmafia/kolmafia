@@ -2106,6 +2106,7 @@ Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweav
 Item	portable Othello set	Othello Skill: +10
 Item	pottery shield	Hot Damage: +5, Damage Reduction: 3
 Item	pretty bouquet	Moxie: +3
+Item	pumpkin spice candle	Item Drop: +40, Lasts Until Rollover
 Item	radiator heater shield	Cold Resistance: +3, Damage Reduction: 6
 Item	rag doll	Muscle: +3
 # Raggedy Hippy doll
