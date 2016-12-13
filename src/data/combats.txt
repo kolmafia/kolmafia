@@ -417,6 +417,7 @@ Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	sca
 Whitey's Grove	85	Knight in White Satin	white chocolate golem	white lion	whitesnake	white elephant: 0
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
 Yomama's Throne	-1	Yomama: 0
+Your Bung Chakra	-1	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
 
 # Areas with no combat data
 
