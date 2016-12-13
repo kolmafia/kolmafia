@@ -120,6 +120,10 @@ public class PlaceRequest
 		{
 			ChateauRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "crimbo16m" ) )
+		{
+			// A Meditation Mat
+		}
 		else if ( place.equals( "desertbeach" ) )
 		{
 			if ( action.equals( "db_nukehouse" ) )

@@ -5035,6 +5035,7 @@ public class FightRequest
 		public boolean dolphin;
 		public String limitmode;
 		public String VYKEACompanion;
+		public String location;
 
 		public TagStatus()
 		{
@@ -5090,6 +5091,8 @@ public class FightRequest
 			this.limitmode = KoLCharacter.getLimitmode();
 			boolean isBatfellow = ( this.limitmode == Limitmode.BATMAN );
 			this.name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
+
+			this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
 		}
 
 		public void setFamiliar( final String image )
@@ -5411,6 +5414,11 @@ public class FightRequest
 			}
 
 			if ( FightRequest.handleCrimboPresent( node, status ) )
+			{
+				return;
+			}
+
+			if ( FightRequest.handleChakra( node, status ) )
 			{
 				return;
 			}
@@ -6095,6 +6103,34 @@ public class FightRequest
 		if ( !matcher.find() )
 		{
 			return false;
+		}
+
+		FightRequest.logText( str, status );
+
+		return true;
+	}
+
+	public static final Pattern CHAKRA_PATTERN = Pattern.compile( "This Chakra is now (\\d+)% clean." );
+	private static boolean handleChakra( TagNode node, TagStatus status )
+	{
+		StringBuffer text = node.getText();
+		String str = text.toString();
+
+		Matcher matcher = FightRequest.CHAKRA_PATTERN.matcher( str );
+		if ( !matcher.find() )
+		{
+			return false;
+		}
+
+		int cleanliness = StringUtilities.parseInt( matcher.group( 1 ) );
+
+		String setting = 
+			status.location.equals( "Your Bung Chakra" ) ? "crimbo16BungChakraCleanliness" :
+			null;
+
+		if ( setting != null )
+		{
+			Preferences.setString( setting, matcher.group( 1 ) );
 		}
 
 		FightRequest.logText( str, status );
