@@ -343,7 +343,7 @@ public class DataTypes
 				return returnDefault ? DataTypes.ITEM_INIT : null;
 			}
 
-			return new Value( DataTypes.ITEM_TYPE, itemId, name );
+			return DataTypes.makeNormalizedItem( itemId, name );
 		}
 		
 		// Otherwise, let ItemDatabase parse the name using fuzzy matching.
@@ -361,7 +361,7 @@ public class DataTypes
 		}
 
 		name = ItemDatabase.getItemDataName( itemId );
-		return new Value( DataTypes.ITEM_TYPE, itemId, name );
+		return DataTypes.makeNormalizedItem( itemId, name );
 	}
 
 	public static final Value parseLocationValue( final String name, final boolean returnDefault )
@@ -509,7 +509,7 @@ public class DataTypes
 				return returnDefault ? DataTypes.EFFECT_INIT : null;
 			}
 
-			return new Value( DataTypes.EFFECT_TYPE, effectId, name );
+			return DataTypes.makeNormalizedEffect( effectId, name );
 		}
 
 		effectId = EffectDatabase.getEffectId( name );
@@ -520,7 +520,7 @@ public class DataTypes
 		}
 
 		name = EffectDatabase.getEffectName( effectId );
-		return new Value( DataTypes.EFFECT_TYPE, effectId, name );
+		return DataTypes.makeNormalizedEffect( effectId, name );
 	}
 
 	public static final Value parseFamiliarValue( String name, final boolean returnDefault )
@@ -796,6 +796,16 @@ public class DataTypes
 		return value ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
 	}
 
+	private static final Value makeNormalizedItem( final int num, String name )
+	{
+		int[] itemIds = ItemDatabase.getItemIds( name, 1, false );
+		if ( itemIds != null && itemIds.length > 1 )
+		{
+			name = "[" + String.valueOf( num ) + "]" + name;
+		}
+		return new Value( DataTypes.ITEM_TYPE, num, name );
+	}		
+
 	public static final Value makeItemValue( final int num, final boolean returnDefault )
 	{
 		String name = ItemDatabase.getItemDataName( num );
@@ -805,7 +815,7 @@ public class DataTypes
 			return returnDefault ? DataTypes.ITEM_INIT : null;
 		}
 
-		return new Value( DataTypes.ITEM_TYPE, num, name );
+		return DataTypes.makeNormalizedItem( num, name );
 	}
 
 	public static final Value makeItemValue( String name )
@@ -818,14 +828,14 @@ public class DataTypes
 		}
 
 		name = ItemDatabase.getItemDataName( num );
-		return new Value( DataTypes.ITEM_TYPE, num, name );
+		return DataTypes.makeNormalizedItem( num, name );
 	}
 
 	public static final Value makeItemValue( final AdventureResult ar )
 	{
 		int num = ar.getItemId();
 		String name = ItemDatabase.getItemDataName( num );
-		return new Value( DataTypes.ITEM_TYPE, num, name );
+		return DataTypes.makeNormalizedItem( num, name );
 	}
 
 	public static final Value makeClassValue( final String name )
@@ -844,6 +854,16 @@ public class DataTypes
 		return new Value( DataTypes.SKILL_TYPE, num, name );
 	}
 
+	private static final Value makeNormalizedEffect( final int num, String name )
+	{
+		int[] effectIds = EffectDatabase.getEffectIds( name, true );
+		if ( effectIds != null && effectIds.length > 1 )
+		{
+			name = "[" + String.valueOf( num ) + "]" + name;
+		}
+		return new Value( DataTypes.EFFECT_TYPE, num, name );
+	}		
+
 	public static final Value makeEffectValue( final int num, final boolean returnDefault )
 	{
 		String name = EffectDatabase.getEffectName( num );
@@ -851,7 +871,7 @@ public class DataTypes
 		{
 			return returnDefault? DataTypes.EFFECT_INIT : null;
 		}
-		return new Value( DataTypes.EFFECT_TYPE, num, name );
+		return DataTypes.makeNormalizedEffect( num, name );
 	}
 
 	public static final Value makeFamiliarValue( final int num, final boolean returnDefault )
