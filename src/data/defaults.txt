@@ -498,7 +498,9 @@ user	ghostPencil9	false
 user	gingerAdvanceClockUnlocked	false
 user	gingerbreadCityAvailable	false
 user	gingerExtraAdventures	false
+user	gingerMuscleChoice	0
 user	gingerSewersUnlocked	false
+user	gingerSubwayLineUnlocked	false
 user	gingerRetailUnlocked	false
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0

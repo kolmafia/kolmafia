@@ -10761,6 +10761,18 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1205:
+			// Midnight at the Train Station
+			if ( text.contains( "provide a great workout" ) )
+			{
+				Preferences.increment( "gingerMuscleChoice" );
+			}
+			if ( text.contains( "new line to the subway system" ) )
+			{
+				Preferences.setBoolean( "gingerSubwayLineUnlocked", true );
+			}
+			break;
+
 		case 1206:
 			// Noon in the Industrial Zone
 			// You buy the tool.
@@ -10810,7 +10822,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
 			}
-			else if ( ChoiceManager.lastDecision == 4 )
+			else if ( text.contains( "buy the pants" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}

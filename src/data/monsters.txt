@@ -2305,9 +2305,9 @@ Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 P: du
 Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 E: spooky P: horror	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
 
 # Crimbo 2016 (December 2016)
-obsessively imagining your worst phobias	1993	badvibe1.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: weird
-the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: weird
-what you totally should have said that one time	1999	badvibe5.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: weird
+obsessively imagining your worst phobias	1993	badvibe1.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
+the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
+what you totally should have said that one time	1999	badvibe5.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
