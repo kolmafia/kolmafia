@@ -174,3 +174,4 @@ radiation-resistant helmet, servo-assisted exo-pants, high-energy mining laser
 yellow puck, yellow puck with a bow on it
 barrelhead, bottoms of the barrel, chest barrel
 The Jokester's wig, The Jokester's gun, The Jokester's pants
+critical.enh, damage.enh, substats.enh, protect.enq, stats.enq, compress.edu, duplicate.edu, portscan.edu, turbo.edu, gram.ext, pram.ext, spam.ext, cram.ext, dram.ext, tram.ext, familiar.ext
