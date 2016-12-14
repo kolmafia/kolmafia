@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -321,6 +322,48 @@ public class Type
 			return DataTypes.SERVANT_INIT;
 		}
 		return null;
+	}
+
+	public void validateValue( final Interpreter interpreter, String s1, Value value )
+	{
+		switch ( this.type )
+		{
+		case DataTypes.TYPE_ITEM:
+		case DataTypes.TYPE_EFFECT:
+		{
+			String s2 = value.toString();
+			if ( s1.equalsIgnoreCase( s2 ) )
+			{
+				return;
+			}
+			ArrayList<String> names = new ArrayList<String>();
+			int currentId = (int)value.contentLong;
+			String name =
+				this.type == DataTypes.TYPE_ITEM ?
+				ItemDatabase.getItemName( currentId ) :
+				EffectDatabase.getEffectName( currentId );
+			int[] ids =
+				this.type == DataTypes.TYPE_ITEM ?
+				ItemDatabase.getItemIds( name, 1, false ) :
+				EffectDatabase.getEffectIds( name, false );
+			for ( int id : ids )
+			{
+				String s3 = "\"[" + String.valueOf( id ) + "]" + name + "\"";
+				names.add( s3 );
+			}
+			if ( names.size() > 1 )
+			{
+				Exception ex = interpreter.runtimeException2( "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
+									      "Clarify by using one of:" );
+				RequestLogger.printLine( ex.getMessage() );
+				for ( String str : names )
+				{
+					RequestLogger.printLine( str );
+				}
+			}
+			break;
+		}
+		}
 	}
 
 	public Value coerceValue( final Object object, final boolean returnDefault )

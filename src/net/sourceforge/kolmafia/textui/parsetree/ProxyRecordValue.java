@@ -1379,7 +1379,7 @@ public class ProxyRecordValue
 			AdventureResult item = data.getItem();
 			return item == null ?
 				DataTypes.ITEM_INIT :
-				DataTypes.parseItemValue( item.getName(), true );
+				DataTypes.makeItemValue( item.getItemId(), true );
 		}
 
 		public String get_property()

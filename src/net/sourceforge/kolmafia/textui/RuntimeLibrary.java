@@ -2477,7 +2477,11 @@ public abstract class RuntimeLibrary
 			return DataTypes.makeItemValue( (int) value.intValue(), true );
 		}
 
-		return DataTypes.parseItemValue( value.toString(), true, true );
+		String s1 = value.toString();
+		Value item = DataTypes.parseItemValue( s1, true, true );
+		DataTypes.ITEM_TYPE.validateValue( interpreter, s1, item );
+
+		return item;
 	}
 
 	public static Value to_item( Interpreter interpreter, final Value name, final Value count )
@@ -2544,7 +2548,11 @@ public abstract class RuntimeLibrary
 			return DataTypes.parseEffectValue( UneffectRequest.skillToEffect( value.toString() ), true );
 		}
 
-		return DataTypes.parseEffectValue( value.toString(), true );
+		String s1 = value.toString();
+		Value effect = DataTypes.parseEffectValue( s1, true );
+		DataTypes.EFFECT_TYPE.validateValue( interpreter, s1, effect );
+
+		return effect;
 	}
 
 	public static Value to_location( Interpreter interpreter, final Value value )

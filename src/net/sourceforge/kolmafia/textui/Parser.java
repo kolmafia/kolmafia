@@ -55,6 +55,9 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -3386,8 +3389,45 @@ public class Parser
 			{
 				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
 				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
-				ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message" );
-				RequestLogger.printLine( ex.getMessage() );
+				ArrayList<String> names = new ArrayList<String>();
+				if ( type == DataTypes.ITEM_TYPE )
+				{
+					int itemId = (int)value.contentLong;
+					String name = ItemDatabase.getItemName( itemId );
+					int[] ids = ItemDatabase.getItemIds( name, 1, false );
+					for ( int id : ids )
+					{
+						String s3 = "$item[[" + String.valueOf( id ) + "]" + name + "]";
+						names.add( s3 );
+					}
+				}
+				else if ( type == DataTypes.EFFECT_TYPE )
+				{
+					int effectId = (int)value.contentLong;
+					String name = EffectDatabase.getEffectName( effectId );
+					int[] ids = EffectDatabase.getEffectIds( name, false );
+					for ( int id : ids )
+					{
+						String s3 = "$effect[[" + String.valueOf( id ) + "]" + name + "]";
+						names.add( s3 );
+					}
+				}
+
+				if ( names.size() > 1 )
+				{
+					ScriptException ex = this.parseException2( "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
+										   "Clarify by using one of:" );
+					RequestLogger.printLine( ex.getMessage() );
+					for ( String name : names )
+					{
+						RequestLogger.printLine( name );
+					}
+				}
+				else
+				{
+					ScriptException ex = this.parseException( "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message." );
+					RequestLogger.printLine( ex.getMessage() );
+				}
 			}
 		}
 
@@ -4178,6 +4218,11 @@ public class Parser
 	private final ScriptException parseException( final String message )
 	{
 		return new ScriptException( message + " " + this.getLineAndFile() );
+	}
+
+	private final ScriptException parseException2( final String message1, final String message2 )
+	{
+		return new ScriptException( message1 + " " + this.getLineAndFile() + " " + message2 );
 	}
 
 	private final ScriptException undefinedFunctionException( final String name, final ValueList params )
