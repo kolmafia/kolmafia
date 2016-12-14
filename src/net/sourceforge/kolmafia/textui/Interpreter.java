@@ -564,6 +564,16 @@ public class Interpreter
 		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) );
 	}
 
+	public final ScriptException runtimeException2( final String message1, final String message2 )
+	{
+		return Interpreter.runtimeException2( message1, message2, this.fileName, this.lineNumber );
+	}
+
+	public static final ScriptException runtimeException2( final String message1, final String message2, final String fileName, final int lineNumber )
+	{
+		return new ScriptException( message1 + " " + Parser.getLineAndFile( fileName, lineNumber ) + " " + message2);
+	}
+
 	public final ScriptException undefinedFunctionException( final String name, final ValueList params )
 	{
 		return this.runtimeException( Parser.undefinedFunctionMessage( name, params ) );

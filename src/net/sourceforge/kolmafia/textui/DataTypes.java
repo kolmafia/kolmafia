@@ -856,7 +856,7 @@ public class DataTypes
 
 	private static final Value makeNormalizedEffect( final int num, String name )
 	{
-		int[] effectIds = EffectDatabase.getEffectIds( name, true );
+		int[] effectIds = EffectDatabase.getEffectIds( name, false );
 		if ( effectIds != null && effectIds.length > 1 )
 		{
 			name = "[" + String.valueOf( num ) + "]" + name;
@@ -869,7 +869,7 @@ public class DataTypes
 		String name = EffectDatabase.getEffectName( num );
 		if ( name == null )
 		{
-			return returnDefault? DataTypes.EFFECT_INIT : null;
+			return returnDefault ? DataTypes.EFFECT_INIT : null;
 		}
 		return DataTypes.makeNormalizedEffect( num, name );
 	}
