@@ -9285,7 +9285,7 @@
 9259	Pop Art: a Guide	778248097	book4.gif	usable	t	0
 9260	No Hats as Art	321323345	book5.gif	usable	t	0
 9261
-9262
+9262	fruit-leather negatives	154948221	filmcan.gif	none	q	0
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264
 9265

@@ -390,15 +390,19 @@ public class PlaceRequest
 				turns = true;
 			}
 		}
-		else if ( place.equals( "crimbo16" ) )
+		else if ( place.equals( "crimbo2016" ) )
 		{
-			if ( action.equals( "crimbo_16_trailer" ) )
+			if ( action.equals( "crimbo16_trailer" ) )
 			{
-				// Uncle Crimbo's Mobile Home
+				message = "Visiting Uncle Crimbo's Mobile Home";
 			}
-			else if ( action.equals( "crimbo_16_tammy" ) )
+			else if ( action.equals( "crimbo16_tammy" ) )
 			{
-				// Tammy's Tent
+				message = "Visiting Tammy's Tent";
+			}
+			else if ( action.equals( "crimbo16_guy2" ) )
+			{
+				message = "Visiting A Ninja Snowman";
 			}
 		}
 		else if ( place.equals( "crimbo16m" ) )

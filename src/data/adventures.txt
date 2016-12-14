@@ -301,6 +301,7 @@ The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
 Crimbo16	adventure=482	Env: indoor Stat: 0	Your Bung Chakra
+Crimbo16	adventure=483	Env: indoor Stat: 0	Your Guts Chakra
 
 Crimbo15	adventure=459	Env: outdoor Stat: 0	The Ruins of the Fully Automated Crimbo Factory
 
