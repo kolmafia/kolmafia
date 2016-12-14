@@ -760,7 +760,7 @@ public class AdventureRequest
 				image.startsWith( "sadiator" ) ? "Sadiator" :
 				// Spelunky
 				image.startsWith( "spelunkbeeq" ) ? "queen bee (spelunky)" :
-				image.startsWith( "spelunkghost" ) ? "ghost (spelunky)" :
+				image.startsWith( "spelunkghost" ) ? "ghost (Spelunky)" :
 				// Globe Theatre Main Stage
 				image.startsWith( "richardx" ) ? "Richard X" :
 				// BatFellow

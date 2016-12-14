@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 
-import net.sourceforge.kolmafia.combat.CombatUtilities;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -752,7 +751,7 @@ public class SpelunkyRequest
 		{
 			SpelunkyRequest.spiderQueenDefeated();
 		}
-		if ( !monsterName.equals( "shopkeeper" ) && !monsterName.equals( "ghost (spelunky)" ) )
+		if ( !monsterName.equals( "shopkeeper" ) && !monsterName.equals( "ghost (Spelunky)" ) )
 		{
 			SpelunkyRequest.incrementWinCount();
 		}
@@ -1085,7 +1084,7 @@ public class SpelunkyRequest
 			return false;
 		}
 
-		String message = message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
+		String message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
 
 		RequestLogger.printLine();
 		RequestLogger.printLine( message );
