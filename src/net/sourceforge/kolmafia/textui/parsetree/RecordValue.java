@@ -222,7 +222,7 @@ public class RecordValue
 			}
 			else
 			{
-				array[ offset ] = DataTypes.parseValue( valType, data[ index ], true );
+				array[ offset ] = Value.readValue( valType, data[ index ] );
 				index += 1;
 			}
 		}
