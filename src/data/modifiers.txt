@@ -6144,6 +6144,8 @@ Effect	The Moxious Madrigal	Moxie: +10
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
 Effect	The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)]
+# Effect The Power of Negative Thinking: Improves chances of finding lumps and sludge
+# Effect The Power of Positive Thinking: Improves your ability to align chakras
 Effect	The Q Is Talking To You	Mysticality Percent: +10
 Effect	The Rage	Muscle Percent: +50, Mysticality Percent: -50
 # The Rain In Loathing: Makes the water around you even deeper
@@ -6348,6 +6350,7 @@ Effect	White-boy Angst	Initiative: +50
 Effect	Whitened Teeth	Moxie Percent: +10
 # Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
+Effect	Whole Latte Love	Familiar Weight: +10
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
@@ -6873,6 +6876,7 @@ Item	Beefy Crunch Pastaco	Effect: "Boletus Swoletus", Effect Duration: 40
 Item	beefy fish meat	Effect: "Fishy", Effect Duration: 5
 Item	bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 20
 Item	bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
+Item	Black Angus blackburger	Effect: "The Power of Negative Thinking", Effect Duration: 100
 Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 20
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
@@ -6965,6 +6969,7 @@ Item	green hamhock	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	green-iced sweet roll	Effect: "Sprinkle Sense", Effect Duration: 40
 Item	gunky chicken	Effect: "Gunky Dory", Effect Duration: 20
 Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Duration: 20
+Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
@@ -7106,6 +7111,7 @@ Item	Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect
 Item	Bee's Knees	Effect: "On the Trolley", Effect Duration: 25
 Item	Beignet Milgranet	Effect: "Sugar Rush", Effect Duration: 100
 Item	berry-infused sake	Effect: "Warm Belly", Effect Duration: 1
+Item	black brandy	Effect: "The Power of Negative Thinking", Effect Duration: 100
 Item	blood and blood	Effect: "Bloodthirsty", Effect Duration: 30
 Item	Blood Light	Effect: "Bloody-minded", Effect Duration: 30
 Item	blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
@@ -7138,6 +7144,7 @@ Item	Candy Alexander	Effect: "Holiday Bliss", Effect Duration: 10
 Item	canteen of wine	Effect: "In Vino Vires", Effect Duration: 20
 Item	carrot claret	Effect: "Pla-see-bo", Effect Duration: 10
 Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
+Item	chakra-mental wine	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	Chakra Libre	Effect: "Transcendental Wind", Effect Duration: 10
 Item	chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
 Item	Cinco Mayo Lager	Effect: "Cinco Elementos", Effect Duration: 5
@@ -7728,6 +7735,7 @@ Item	celestial olive oil	Effect: "Celestial Sheen", Effect Duration: 10
 Item	celestial squid ink	Effect: "Celestial Camouflage", Effect Duration: 10
 Item	censored can label	Effect: "Censored Can", Effect Duration: 50
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot
+Item	chakra malt	Effect: "The Power of Positive Thinking", Effect Duration: 10
 # chaos butterfly: Is Unpredictable
 Item	charisma potion	Effect: "Amplified Fabulousness", Effect Duration: 10
 Item	Charity's choker	Effect: "Beginning at Home", Effect Duration: 100
@@ -8263,6 +8271,7 @@ Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 # Item gingerbread dog treat: Grants 20 Familiar XP
 # Item gingerbread restraining order: Banish a gingerbread man for the rest of the day
 # Item gingerbread smartphone
+Item	gingerbread spice latte	Effect: "Whole Latte Love", Effect Duration: 30
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
@@ -8951,6 +8960,7 @@ Item	potion of animal rage	Effect: "Raging Animal", Effect Duration: 30
 Item	potion of fishy speed	Effect: "Fishily Speeding", Effect Duration: 20
 Item	potion of potency	Effect: "Pronounced Potency", Effect Duration: [R]
 Item	potion of punctual companionship	Effect: "Stickler for Promptness", Effect Duration: 30
+Item	potion of spiritual gunkifying	Effect: "The Power of Negative Thinking", Effect Duration: 20
 Item	potion of temporary gr8tness	Effect: "Gr8tness", Effect Duration: [R]
 Item	potion of the captain's hammer	Effect: "The Captain's Hammer", Effect Duration: 20
 Item	potion of the field gar	Effect: "Gar-ish", Effect Duration: 10

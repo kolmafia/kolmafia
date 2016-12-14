@@ -1668,6 +1668,12 @@ public class FightRequest
 			if ( FightRequest.currentRound == 0 || ( FightRequest.nextAction != null && !FightRequest.nextAction.equals( "abort" ) ) )
 			{
 				super.run();
+
+				// If the fight is over, we don't care whether a macro aborted, say.
+				if ( FightRequest.currentRound == 0 )
+				{
+					return;
+				}
 			}
 		}
 

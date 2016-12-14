@@ -390,6 +390,21 @@ public class PlaceRequest
 				turns = true;
 			}
 		}
+		else if ( place.equals( "crimbo16" ) )
+		{
+			if ( action.equals( "crimbo_16_trailer" ) )
+			{
+				// Uncle Crimbo's Mobile Home
+			}
+			else if ( action.equals( "crimbo_16_tammy" ) )
+			{
+				// Tammy's Tent
+			}
+		}
+		else if ( place.equals( "crimbo16m" ) )
+		{
+			// A Meditation Mat
+		}
 		else if ( place.equals( "crashsite" ) )
 		{
 			if ( action.equals( "crash_ship" ) )
