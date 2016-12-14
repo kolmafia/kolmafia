@@ -2148,7 +2148,7 @@
 2147	Eldritch Attunement	eldeffluv.gif	71a7c94a0c2c70d5e834ae5d2c8ea3f2	drink 1 eldritch elixir
 2148	Sprinkle in Your Eye	sprinkles.gif	31b576b9a5aec68ff80848649dc2f879	drink 1 gingerbread wine|eat 1 animal part cracker
 2149	Iced and Tainted	blankoutglob.gif	ce08eaf8f3c33ce2d56830c514883b2d	use 1 tainted icing
-2150
+2150	Whole Latte Love	candyheart.gif	6742945c990ecb2c4605fbcff9df4e34	use 1 gingerbread spice latte
 2151	Industrially Frosted	indfrosting.gif	8ebb2a068dde4b9e3e724315f5075170	use 1 industrial frosting
 2152	Liquor-ish	nopic.gif	85d7e30dbef8216f145c54dac291af88	use 1 fake cocktail
 2153	Your Fifteen Minutes	fire.gif	69dcf3d8fe46c29e7fb6075d06448c95	cast 1 Fifteen Minutes of Flame
@@ -2157,3 +2157,8 @@
 2156	Innately Wise	jperfume.gif	0c453b9ca3fe82e629dfff908d18cc71	use 1 Inner Wisdom
 2157	Innately Strong	jperfume.gif	9543d6998c767e2b70aebd2256a391cf	use 1 Inner Strength
 2158	Innately Truthy	jperfume.gif	32587ceb39537c44ac2132b46a6c7362	use 1 Inner Truth
+2159
+2160
+2162
+2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier
+2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger

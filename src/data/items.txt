@@ -9258,7 +9258,7 @@
 9232	candy screwdriver	908995282	candyscrewdriver.gif	weapon	q	0
 9233	gingerbread dog treat	251890316	gingerbone.gif	usable	t,d	20
 9234	pumpkin spice candle	781652626	gingercandle.gif	offhand	q	0
-9235
+9235	gingerbread spice latte	714321585	latte.gif	usable	t,d	25
 9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
 9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
 9238	gingerbread moneybag	405806675	gingerbag.gif	offhand		0
@@ -9286,7 +9286,7 @@
 9260	No Hats as Art	321323345	book5.gif	usable	t	0
 9261
 9262
-9263
+9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264
 9265
 9266
@@ -9296,3 +9296,11 @@
 9270
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160
 9272	negative lump	442273709	chocolump.gif	none	t,d	16
+9273
+9274
+9275	hambrosier	300045053	burger.gif	food	t	0
+9276	chakra-mental wine	737943031	wine.gif	drink	t	0
+9277	chakra malt	851080367	sodacup.gif	usable	t	0
+9278	Black Angus blackburger	292396129	blackburger.gif	food	t	0
+9279	black brandy	830638097	snifter.gif	drink	t	0
+9280	potion of spiritual gunkifying	321401265	potion15.gif	usable	t	0

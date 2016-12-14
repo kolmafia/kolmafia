@@ -3198,28 +3198,36 @@ public class Parser
 		// Directly work with currentLine - ignore any "tokens" you meet until
 		// the string is closed
 
-		StringBuilder resultString = new StringBuilder();
-		char stopCharacter, ch;
+		char startCharacter = this.currentLine.charAt( 0 );
+		char stopCharacter;
+
+		int level = 1;
 		ArrayList<Value> list = null;
+
 		if ( type == null )
-		{	// Plain string constant
-			stopCharacter = this.currentLine.charAt( 0 );
+		{
+			// Plain string constant
+			stopCharacter = startCharacter;
 		}
 		else
-		{	// Typed plural constant - handled by same code as plain strings
+		{
+			// Typed plural constant - handled by same code as plain strings
 			// so that they can share escape character processing
 			stopCharacter = ']';
 			list = new ArrayList<Value>();
 		}
 
+		StringBuilder resultString = new StringBuilder();
 		for ( int i = 1; ; ++i )
 		{
 			if ( i == this.currentLine.length() )
 			{
+				// Plain strings can't span lines
 				if ( type == null )
-				{	// Plain strings can't span lines
+				{
 					throw this.parseException( "No closing \" found" );
 				}
+
 				this.currentLine = "";
 				this.fixLines();
 				i = 0;
@@ -3229,7 +3237,9 @@ public class Parser
 				}
 			}
 
-			ch = this.currentLine.charAt( i );
+			char ch = this.currentLine.charAt( i );
+
+			// Handle escape sequences
 			if ( ch == '\\' )
 			{
 				if ( i == this.currentLine.length() - 1 )
@@ -3301,36 +3311,62 @@ public class Parser
 					}
 					resultString.append( ch );
 				}
+				continue;
 			}
-			else if ( ch == stopCharacter ||
-				( type != null && ch == ',' ) )
+
+			// Handle plain strings
+			if ( type == null )
 			{
-				if ( type == null )
-				{	// Plain string
+				if ( ch == stopCharacter )
+				{
 					this.currentLine = this.currentLine.substring( i + 1 ); //+ 1 to get rid of '"' token
 					this.currentToken = null;
 					return new Value( resultString.toString() );
 				}
-				String element = resultString.toString().trim();
-				resultString.setLength( 0 );
-				if ( element.length() != 0 )
-				{
-					list.add( parseLiteral( type, element ) );
-				}
-				if ( ch == ']' )
-				{
-					this.currentLine = this.currentLine.substring( i + 1 );
-					this.currentToken = null;
-					if ( list.size() == 0 )
-					{	// Empty list - caller will interpret this specially
-						return null;
-					}
-					return new PluralValue( type, list );
-				}
+				resultString.append( ch );
+				continue;
 			}
-			else
+
+			// Handle typed constants
+			// Allow start char without escaping
+			if ( ch == startCharacter )
 			{
-				resultString.append( this.currentLine.charAt( i ) );
+				level++;
+				resultString.append( ch );
+				continue;
+			}
+
+			// Match non-initial start char
+			if ( ch == stopCharacter && --level > 0 )
+			{
+				resultString.append( ch );
+				continue;
+			}
+
+			if ( ch != stopCharacter && ch != ',' )
+			{
+				resultString.append( ch );
+				continue;
+			}
+
+			// Add a new element to the list
+			String element = resultString.toString().trim();
+			resultString.setLength( 0 );
+			if ( element.length() != 0 )
+			{
+				list.add( parseLiteral( type, element ) );
+			}
+
+			if ( ch == stopCharacter )
+			{
+				this.currentLine = this.currentLine.substring( i + 1 );
+				this.currentToken = null;
+				if ( list.size() == 0 )
+				{
+					// Empty list - caller will interpret this specially
+					return null;
+				}
+				return new PluralValue( type, list );
 			}
 		}
 	}
@@ -3433,18 +3469,31 @@ public class Parser
 
 		StringBuilder resultString = new StringBuilder();
 
+		int level = 1;
 		for ( int i = 1;; ++i )
 		{
 			if ( i == this.currentLine.length() )
 			{
 				throw this.parseException( "No closing ] found" );
 			}
-			else if ( this.currentLine.charAt( i ) == '\\' )
+
+			char c = this.currentLine.charAt( i );
+			if ( c == '\\' )
 			{
 				resultString.append( this.currentLine.charAt( ++i ) );
 			}
-			else if ( this.currentLine.charAt( i ) == ']' )
+			else if ( c == '[' )
 			{
+				level++;
+				resultString.append( c );
+			}
+			else if ( c == ']' )
+			{
+				if ( --level > 0 )
+				{
+					resultString.append( c );
+					continue;
+				}
 				this.currentLine = this.currentLine.substring( i + 1 ); //+1 to get rid of ']' token
 				this.currentToken = null;
 				String input = resultString.toString().trim();
@@ -3460,7 +3509,7 @@ public class Parser
 			}
 			else
 			{
-				resultString.append( this.currentLine.charAt( i ) );
+				resultString.append( c );
 			}
 		}
 	}
