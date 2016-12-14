@@ -406,10 +406,42 @@ public class Value
 		return hash;
 	}
 
+	public static String escapeString( String string )
+	{
+		// Since map_to_file has one record per line with fields
+		// delimited by tabs, string values cannot have newline or tab
+		// characters in them. Escape those characters. And, since we
+		// escape using backslashes, backslash must also be escaped.
+		// 
+		// Replace backslashes with \\, newlines with \n, and tabs with \t
+
+		string = StringUtilities.globalStringReplace( string, "\\", "\\\\" );
+		string = StringUtilities.globalStringReplace( string, "\n", "\\n" );
+		string = StringUtilities.globalStringReplace( string, "\t", "\\t" );
+		return string;
+	}
+
+	public static String unEscapeString( String string )
+	{
+		string = StringUtilities.globalStringReplace( string, "\\n", "\n" );
+		string = StringUtilities.globalStringReplace( string, "\\t", "\t"  );
+		string = StringUtilities.globalStringReplace( string, "\\\\", "\\" );
+		return string;
+	}
+
+	public static Value readValue( Type type, final String string )
+	{
+		return  type.getType() == DataTypes.TYPE_STRING ?
+			new Value( Value.unEscapeString( string ) ) :
+			type.parseValue( string, true );
+	}
+
 	public String dumpValue()
 	{
 		int type = this.type.getType();
-		return  type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
+		return  type == DataTypes.TYPE_STRING ?
+			Value.escapeString( this.contentString ) :
+			type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
 			( this.contentString.startsWith( "[" ) ?
 			  this.contentString :
 			  "[" + String.valueOf( this.contentLong ) + "]" + this.contentString ) :

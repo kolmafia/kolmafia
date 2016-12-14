@@ -130,7 +130,7 @@ public class CompositeValue
 		CompositeType type = (CompositeType) this.type;
 		Type indexType = type.getIndexType();
 		String keyString = ( index < data.length ) ? data[index] : "none";
-		Value key =  type.getKey( indexType.parseValue( keyString, true ) );
+		Value key = type.getKey( Value.readValue( indexType, keyString ) );
 		if ( key == null )
 		{
 			throw new ScriptException( "Invalid key in data file: " + keyString );
@@ -154,11 +154,12 @@ public class CompositeValue
 
 			return slice.read( data, index + 1, compact ) + 1;
 		}
-
+		
 		// Parse the value and store it in the composite
 
-		Value value = ( index < data.length - 1 ) ?
-			dataType.parseValue( data[ index + 1 ], true ) :
+		Value value =
+			index < data.length - 1 ?
+			Value.readValue( dataType, data[ index + 1 ] ) :
 			dataType.initialValue();
 
 		this.aset( key, value );
