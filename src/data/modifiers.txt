@@ -2559,7 +2559,7 @@ Item	giant motorcycle boots	Muscle: +5, Single Equip
 Item	giant pinky ring	Single Equip
 # Item gingerbeard: +6 Adventures per day when equipped
 # Item gingerbeard: (+9 in December)
-Item	gingerbeard	Variable
+Item	gingerbeard	Single Equip, Variable
 Item	gingerservo	Muscle Percent: +25, HP Regen Min: 6, HP Regen Max: 12, PvP Fights: +6, Single Equip
 # Girdle of Hatred: Tightenable
 Item	Girdle of Hatred	Initiative: +45, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
