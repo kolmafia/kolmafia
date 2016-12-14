@@ -418,7 +418,7 @@ Whitey's Grove	85	Knight in White Satin	white chocolate golem	white lion	whitesn
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
 Yomama's Throne	-1	Yomama: 0
 Your Bung Chakra	-1	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
-Your Bung Guts	-1	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
+Your Guts Chakra	-1	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
 
 # Areas with no combat data
 
