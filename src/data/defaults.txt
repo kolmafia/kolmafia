@@ -365,6 +365,7 @@ user	cozyCounter6333	0
 user	cozyCounter6334	0
 user	crappyCameraMonster
 user	crimbo16BungChakraCleanliness	0
+user	crimbo16GutsChakraCleanliness	0
 user	crimboTreeDays	7
 user	crimbotChassis	
 user	crimbotArm	
