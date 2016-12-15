@@ -798,6 +798,14 @@ public class DataTypes
 
 	private static final Value makeNormalizedItem( final int num, String name )
 	{
+		if ( num == -1 )
+		{
+			return DataTypes.ITEM_INIT;
+		}
+		if ( name == null )
+		{
+			name = "[" + String.valueOf( num ) + "]";
+		}
 		int[] itemIds = ItemDatabase.getItemIds( name, 1, false );
 		if ( itemIds != null && itemIds.length > 1 )
 		{
@@ -820,6 +828,11 @@ public class DataTypes
 
 	public static final Value makeItemValue( String name )
 	{
+		if ( name == null )
+		{
+			return DataTypes.ITEM_INIT;
+		}
+
 		int num = ItemDatabase.getItemId( name );
 
 		if ( num == -1 )
@@ -856,6 +869,10 @@ public class DataTypes
 
 	private static final Value makeNormalizedEffect( final int num, String name )
 	{
+		if ( name == null )
+		{
+			name = "[" + String.valueOf( num ) + "]";
+		}
 		int[] effectIds = EffectDatabase.getEffectIds( name, false );
 		if ( effectIds != null && effectIds.length > 1 )
 		{
