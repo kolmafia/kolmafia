@@ -35,10 +35,15 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.VYKEACompanionData;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.json.JSONException;
@@ -485,11 +490,36 @@ public class Value
 		return buffer.toString();
 	}
 
-	public static Value readValue( Type type, final String string )
+	public static Value readValue( final Type type, final String string, final String filename, final int line )
 	{
-		return  type.getType() == DataTypes.TYPE_STRING ?
-			new Value( Value.unEscapeString( string ) ) :
-			type.parseValue( string, true );
+		int tnum = type.getType();
+		if ( tnum == DataTypes.TYPE_STRING )
+		{
+			return new Value( Value.unEscapeString( string ) );
+		}
+
+		Value value = type.parseValue( string, true );
+
+		// Validate data and report errors
+		List<String> names = type.getAmbiguousNames( string, value, false );
+		if ( names != null && names.size() > 1 )
+		{
+			StringBuilder message = new StringBuilder();
+			message.append( "Multiple matches for " );
+			message.append( string );
+			message.append( "; using " );
+			message.append( value.toString() );
+			message.append( " in " );
+			message.append( Parser.getLineAndFile( filename, line ) );
+			message.append( ". Clarify by using one of:" );
+			RequestLogger.printLine( message.toString() );
+			for ( String str : names )
+			{
+				RequestLogger.printLine( str );
+			}
+		}
+
+		return value;
 	}
 
 	public String dumpValue()

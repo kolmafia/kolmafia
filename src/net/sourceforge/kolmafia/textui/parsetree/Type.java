@@ -37,6 +37,7 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import java.util.regex.Pattern;
@@ -326,7 +327,7 @@ public class Type
 		return null;
 	}
 
-	public void validateValue( final Interpreter interpreter, String s1, Value value )
+	public List<String> getAmbiguousNames( String s1, Value value, boolean quote )
 	{
 		switch ( this.type )
 		{
@@ -336,14 +337,14 @@ public class Type
 			String s2 = value.toString();
 			if ( s1.equalsIgnoreCase( s2 ) )
 			{
-				return;
+				return null;
 			}
 
 			if ( StringUtilities.isNumeric( s1 ) )
 			{
 				// A number will have been unambiguously
 				// interpreted as an item or effect id
-				return;
+				return null;
 			}
 
 			ArrayList<String> names = new ArrayList<String>();
@@ -356,23 +357,34 @@ public class Type
 				this.type == DataTypes.TYPE_ITEM ?
 				ItemDatabase.getItemIds( name, 1, false ) :
 				EffectDatabase.getEffectIds( name, false );
+
 			for ( int id : ids )
 			{
-				String s3 = "\"[" + String.valueOf( id ) + "]" + name + "\"";
+				String s3 =
+					quote ?
+					( "\"[" + String.valueOf( id ) + "]" + name + "\"" ) :
+					( "[" + String.valueOf( id ) + "]" + name );
 				names.add( s3 );
 			}
-			if ( names.size() > 1 )
-			{
-				Exception ex = interpreter.runtimeException2( "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
-									      "Clarify by using one of:" );
-				RequestLogger.printLine( ex.getMessage() );
-				for ( String str : names )
-				{
-					RequestLogger.printLine( str );
-				}
-			}
-			break;
+			return names;
 		}
+		}
+		return null;
+	}
+
+	public void validateValue( final Interpreter interpreter, String s1, Value value )
+	{
+		List<String> names = this.getAmbiguousNames( s1, value, true );
+		if ( names != null && names.size() > 1 )
+		{
+			String s2 = value.toString();
+			Exception ex = interpreter.runtimeException2( "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
+								      "Clarify by using one of:" );
+			RequestLogger.printLine( ex.getMessage() );
+			for ( String str : names )
+			{
+				RequestLogger.printLine( str );
+			}
 		}
 	}
 

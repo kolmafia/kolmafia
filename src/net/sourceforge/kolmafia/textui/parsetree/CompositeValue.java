@@ -125,12 +125,12 @@ public class CompositeValue
 	}
 
 	// Returns number of fields consumed
-	public int read( final String[] data, final int index, final boolean compact )
+	public int read( final String[] data, final int index, final boolean compact, final String filename, final int line )
 	{
 		CompositeType type = (CompositeType) this.type;
 		Type indexType = type.getIndexType();
 		String keyString = ( index < data.length ) ? data[index] : "none";
-		Value key = type.getKey( Value.readValue( indexType, keyString ) );
+		Value key = type.getKey( Value.readValue( indexType, keyString, filename, line ) );
 		if ( key == null )
 		{
 			throw new ScriptException( "Invalid key in data file: " + keyString );
@@ -152,14 +152,14 @@ public class CompositeValue
 				this.aset( key, slice );
 			}
 
-			return slice.read( data, index + 1, compact ) + 1;
+			return slice.read( data, index + 1, compact, filename, line ) + 1;
 		}
 		
 		// Parse the value and store it in the composite
 
 		Value value =
 			index < data.length - 1 ?
-			Value.readValue( dataType, data[ index + 1 ] ) :
+			Value.readValue( dataType, data[ index + 1 ], filename, line ) :
 			dataType.initialValue();
 
 		this.aset( key, value );
