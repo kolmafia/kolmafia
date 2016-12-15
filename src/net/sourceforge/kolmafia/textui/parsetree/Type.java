@@ -62,6 +62,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class Type
 	extends Symbol
 {
@@ -336,6 +338,14 @@ public class Type
 			{
 				return;
 			}
+
+			if ( StringUtilities.isNumeric( s1 ) )
+			{
+				// A number will have been unambiguously
+				// interpreted as an item or effect id
+				return;
+			}
+
 			ArrayList<String> names = new ArrayList<String>();
 			int currentId = (int)value.contentLong;
 			String name =
