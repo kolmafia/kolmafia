@@ -198,11 +198,11 @@ public class RecordValue
 	}
 
 	@Override
-	public int read( final String[] data, int index, boolean compact )
+	public int read( final String[] data, int index, final boolean compact, final String filename, final int line )
 	{
 		if ( !compact || this.type.containsAggregate() )
 		{
-			return super.read( data, index, compact );
+			return super.read( data, index, compact, filename, line );
 		}
 
 		Type[] types = ( (RecordType) this.type ).getFieldTypes();
@@ -218,11 +218,11 @@ public class RecordValue
 			if ( valType instanceof RecordType )
 			{
 				RecordValue rec = (RecordValue) array[ offset ];
-				index += rec.read( data, index, true );
+				index += rec.read( data, index, true, filename, line );
 			}
 			else
 			{
-				array[ offset ] = Value.readValue( valType, data[ index ] );
+				array[ offset ] = Value.readValue( valType, data[ index ], filename, line );
 				index += 1;
 			}
 		}

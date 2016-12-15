@@ -6511,11 +6511,13 @@ public abstract class RuntimeLibrary
 
 		try
 		{
+			int line = 0;
 			while ( ( data = FileUtilities.readData( reader ) ) != null )
 			{
+				line++;
 				if ( data.length > 1 )
 				{
-					result.read( data, 0, compact );
+					result.read( data, 0, compact, filename, line );
 				}
 			}
 		}
