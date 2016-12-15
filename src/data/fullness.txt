@@ -60,7 +60,7 @@ Better Than Cuddling Cake	3	1	decent	4	0	0	0
 big merv's protein shakes	5	1	EPIC	60-80	220-400	0	0
 birthday party jellybean cheesecake	3	1	crappy	3	20	20	20
 bishop cookie	1	13	EPIC	4-6	0	45-50	0	30 Mitre Cut (+100..200% mys)
-Black Angus blackburger	2	1	good	5-7	0	0	0	50 The Power of Negative Thinking
+Black Angus blackburger	2	1	good	5-7	0	0	0	100 The Power of Negative Thinking
 black forest cake	3	7	good	6-8	0	25-50	0	5 Sugar Rush
 black forest ham	3	7	good	8-9	25-45	0	0
 black pudding	3	7	decent	5-7	10-12	10-12	9-12

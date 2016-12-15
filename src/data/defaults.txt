@@ -501,6 +501,7 @@ user	gingerAdvanceClockUnlocked	false
 user	gingerbreadCityAvailable	false
 user	gingerExtraAdventures	false
 user	gingerMuscleChoice	0
+user	gingerNegativesDropped	false
 user	gingerSewersUnlocked	false
 user	gingerSubwayLineUnlocked	false
 user	gingerRetailUnlocked	false
