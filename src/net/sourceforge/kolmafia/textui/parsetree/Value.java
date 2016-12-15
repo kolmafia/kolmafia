@@ -415,18 +415,74 @@ public class Value
 		// 
 		// Replace backslashes with \\, newlines with \n, and tabs with \t
 
-		string = StringUtilities.globalStringReplace( string, "\\", "\\\\" );
-		string = StringUtilities.globalStringReplace( string, "\n", "\\n" );
-		string = StringUtilities.globalStringReplace( string, "\t", "\\t" );
-		return string;
+		int length = string.length();
+		StringBuilder buffer = new StringBuilder( length );
+		for ( int i = 0; i < length; i++ )
+		{
+			char c = string.charAt( i );
+			switch ( c )
+			{
+			case '\n':
+				buffer.append( "\\n" );
+				break;
+			case '\t':
+				buffer.append( "\\t" );
+				break;
+			case '\\':
+				buffer.append( "\\\\" );
+				break;
+			default:
+				buffer.append( c );
+				break;
+			}
+		}
+		return buffer.toString();
 	}
 
 	public static String unEscapeString( String string )
 	{
-		string = StringUtilities.globalStringReplace( string, "\\n", "\n" );
-		string = StringUtilities.globalStringReplace( string, "\\t", "\t"  );
-		string = StringUtilities.globalStringReplace( string, "\\\\", "\\" );
-		return string;
+		int length = string.length();
+		StringBuilder buffer = new StringBuilder( length );
+		boolean saw_backslash = false;
+
+		for ( int i = 0; i < length; i++ )
+		{
+			char c = string.charAt( i );
+			if ( !saw_backslash )
+			{
+				if ( c == '\\' )
+				{
+					saw_backslash = true;
+				}
+				else
+				{
+					buffer.append( c );
+				}
+				continue;
+			}
+
+			switch ( c )
+			{
+			case 'n':
+				buffer.append( '\n' );
+				break;
+			case 't':
+				buffer.append( '\t' );
+				break;
+			default:
+				buffer.append( c );
+				break;
+			}
+
+			saw_backslash = false;
+		}
+
+		if ( saw_backslash )
+		{
+			buffer.append('\\');
+		}
+
+		return buffer.toString();
 	}
 
 	public static Value readValue( Type type, final String string )
