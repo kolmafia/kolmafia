@@ -869,6 +869,10 @@ public class DataTypes
 
 	private static final Value makeNormalizedEffect( final int num, String name )
 	{
+		if ( num == -1 )
+		{
+			return DataTypes.EFFECT_INIT;
+		}
 		if ( name == null )
 		{
 			name = "[" + String.valueOf( num ) + "]";
