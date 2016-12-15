@@ -419,6 +419,7 @@ Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesm
 Yomama's Throne	-1	Yomama: 0
 Your Bung Chakra	-1	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
 Your Guts Chakra	-1	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
+Your Liver Chakra	-1	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
 
 # Areas with no combat data
 

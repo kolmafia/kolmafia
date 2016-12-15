@@ -6133,6 +6133,7 @@ public class FightRequest
 		String setting = 
 			status.location.equals( "Your Bung Chakra" ) ? "crimbo16BungChakraCleanliness" :
 			status.location.equals( "Your Guts Chakra" ) ? "crimbo16GutsChakraCleanliness" :
+			status.location.equals( "Your Liver Chakra" ) ? "crimbo16LiverChakraCleanliness" :
 			null;
 
 		if ( setting != null )
