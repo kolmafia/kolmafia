@@ -2847,3 +2847,12 @@ mashed potatoes	COOK	raw potato	potato masher
 mince pie	COOK	raw mincemeat	glass pie plate
 thanksgiving turkey	COOK	raw turkey	turkey blaster
 warm gravy	COOK	raw gravy	gravy boat
+
+# Crimbo 16
+
+hambrosier	CRIMBO16, ROW911	negative lump (10)
+chakra-mental wine	CRIMBO16, ROW912	negative lump (10)
+chakra malt	CRIMBO16, ROW913	negative lump (10)
+Black Angus blackburger	CRIMBO16, ROW914	negative lump (20)	chakra sludge
+black brandy	CRIMBO16, ROW915	negative lump (20)	chakra sludge
+potion of spiritual gunkifying	CRIMBO16, ROW916	negative lump (20)	chakra sludge

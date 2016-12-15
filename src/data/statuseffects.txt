@@ -2160,5 +2160,5 @@
 2159
 2160
 2162
-2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier
-2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger
+2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier|drink 1 chakra-mental wine|use 1 chakra malt
+2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger|drink 1 black brandy|use 1 potion of spiritual gunkifying

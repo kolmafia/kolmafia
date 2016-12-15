@@ -2309,7 +2309,7 @@ fear of an uncertain future	1996	badvibe4.gif	Scale: -1 Cap: 10000 Floor: 10 Ini
 obsessively imagining your worst phobias	1993	badvibe1.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 that time you screwed everything up like a complete idiot	1997	badvibe7.gif	Scale: -1 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
-the realization that everyone you love will die someday	1994	badvibe2.gif	Scale: 3 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
+the realization that everyone you love will die someday	1994	badvibe2.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 what you totally should have said that one time	1999	badvibe5.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.

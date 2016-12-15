@@ -60,7 +60,7 @@ Better Than Cuddling Cake	3	1	decent	4	0	0	0
 big merv's protein shakes	5	1	EPIC	60-80	220-400	0	0
 birthday party jellybean cheesecake	3	1	crappy	3	20	20	20
 bishop cookie	1	13	EPIC	4-6	0	45-50	0	30 Mitre Cut (+100..200% mys)
-Black Angus blackburger	2	1	good	0	0	0	0	Unspaded
+Black Angus blackburger	2	1	good	5-7	0	0	0	50 The Power of Negative Thinking
 black forest cake	3	7	good	6-8	0	25-50	0	5 Sugar Rush
 black forest ham	3	7	good	8-9	25-45	0	0
 black pudding	3	7	decent	5-7	10-12	10-12	9-12
@@ -364,7 +364,7 @@ gunpowder burrito	2	1	good	0	0	0	0	+3 PvP fights
 haggis-wrapped haggis-stuffed haggis	2	2	decent	3-4	0	0	4-10	20 Highland Sheen (+10 mox)
 Halibut Alfredo	4	1	awesome	10-15	0	0	0
 ham steak	3	5	good	8-10	30-50	0	0
-hambrosier	3	1	awesome	0	0	0	0	Unspaded
+hambrosier	3	1	awesome	11-13	0	0	0	50 The Power of Positive Thinking
 hamburger	2	5	awesome	8	18-22	18-22	18-22
 hamlet sandwich	3	1	awesome	13-14	1-11	1-11	1-11	50 Oh Hamlet Hamlet Hamlet Hamlet (+50% HP, +50% MP, +50 damage vs Ghosts)
 handful of nuts and berries	1	12	awesome	3-4	0	50-60	0

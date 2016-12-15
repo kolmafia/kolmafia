@@ -9300,7 +9300,7 @@
 9274
 9275	hambrosier	300045053	burger.gif	food	t	0
 9276	chakra-mental wine	737943031	wine.gif	drink	t	0
-9277	chakra malt	851080367	sodacup.gif	usable	t	0
+9277	chakra malt	851080367	sodacup.gif	multiple	t	0
 9278	Black Angus blackburger	292396129	blackburger.gif	food	t	0
 9279	black brandy	830638097	snifter.gif	drink	t	0
-9280	potion of spiritual gunkifying	321401265	potion15.gif	usable	t	0
+9280	potion of spiritual gunkifying	321401265	potion15.gif	multiple	t	0
