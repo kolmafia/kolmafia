@@ -2144,9 +2144,9 @@ toy maglev monorail	CRIMBO07	theoretical string (2)	LED block (3)	toy hoverpad (
 fire	CRIMBO07	stick	stick
 prehistoric spear	CRIMBO07	stick	tooth
 stick-on-a-string	CRIMBO07	stick	stringy sinew
-toothsome rock	CRIMBO07	tooth	rock
-wheel	CRIMBO07	stick	rock
-yo	CRIMBO07	stringy sinew	rock
+toothsome rock	CRIMBO07	tooth	[2108]rock
+wheel	CRIMBO07	stick	[2108]rock
+yo	CRIMBO07	stringy sinew	[2108]rock
 
 leaf tube	CRIMBO06	stringy sinew	big leaf
 lit cigar	COMBINE, NODISCOVERY	fire	leaf tube
