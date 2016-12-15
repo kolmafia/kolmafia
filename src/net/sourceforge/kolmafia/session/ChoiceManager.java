@@ -10834,6 +10834,10 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}
+			else if ( text.contains( "drop off the negatives" ) )
+			{
+				Preferences.setBoolean( "gingerNegativesDropped", true );
+			}
 			break;
 
 		case 1210:

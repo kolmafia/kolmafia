@@ -40,7 +40,7 @@ berry-infused sake	4	7	awesome	14-17	0	0	75-120	1 Warm Belly (+hot dmg, +10 Fish
 bilge wine	3	1	decent	3-6	0	0	0
 black & tan	2	7	awesome	6-7	10-12	10-12	10-12	18-20 MP
 Black and Tan and Red All Over	4	1		10-15	0	0	0
-black brandy	2	1	good	5-7	0	0	0	50 The Power of Negative Thinking
+black brandy	2	1	good	5-7	0	0	0	100 The Power of Negative Thinking
 Black Hole	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
 Blackfly Chardonnay	3	7	decent	5-6	0	0	25-45
 blended frozen swill	4	4	good	10-14	2-3	2-3	26-30
