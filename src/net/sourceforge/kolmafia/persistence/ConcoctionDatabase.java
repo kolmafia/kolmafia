@@ -2259,6 +2259,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.DUTYFREE, 0 );
 		}
 
+		// It's Crimbo, so allow creation!
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CRIMBO16 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CRIMBO16, 0 );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.CRIMBO16, 0 );
+
 		boolean clanFloundry = ClanLoungeRequest.hasClanLoungeItem( ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 ) );
 		boolean gotFloundryItem = InventoryManager.hasItem( ItemPool.CARPE ) ||
 								InventoryManager.hasItem( ItemPool.CODPIECE ) ||
@@ -2551,6 +2556,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.CRIMBO12 )
 		{
 			result.append( "Uncle Crimbo's Futuristic Trailer (Crimboku 2012)" );
+		}
+		else if ( mixingMethod == CraftingType.CRIMBO16 )
+		{
+			result.append( "Crimbo Lumps Shop (Crimbo 2016)" );
 		}
 		else if ( mixingMethod == CraftingType.PHINEAS )
 		{
@@ -2956,6 +2965,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "CRIMBO12" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.CRIMBO12;
+		}
+		// Items creatable in Crimbo Town during Crimbo 2016
+		else if ( mix.equals( "CRIMBO16" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.CRIMBO16;
 		}
 		// Items requiring access to Phineas
 		else if ( mix.equals( "PHINEAS" ) )

@@ -326,6 +326,9 @@ public class CreateItemRequest
 		case CRIMBO12:
 			return new Crimbo12Request( conc );
 
+		case CRIMBO16:
+			return new Crimbo16Request( conc );
+
 		case PHINEAS:
 			return new PhineasRequest( conc );
 

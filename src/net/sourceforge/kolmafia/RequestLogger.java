@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.request.Crimbo10Request;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo12Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
+import net.sourceforge.kolmafia.request.Crimbo16Request;
 import net.sourceforge.kolmafia.request.CrimboCafeRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.CurseRequest;
@@ -1075,6 +1076,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof Crimbo14Request || isExternal ) && Crimbo14Request.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof Crimbo16Request || isExternal ) && Crimbo16Request.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

@@ -10826,7 +10826,7 @@ public abstract class ChoiceManager
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}
-			else if ( ChoiceManager.lastDecision == 5 )
+			else if ( text.contains( "buy the waistcoat" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}
