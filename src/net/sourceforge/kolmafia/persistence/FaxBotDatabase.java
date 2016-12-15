@@ -49,13 +49,18 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+
 import net.sourceforge.kolmafia.session.ContactManager;
+
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -69,6 +74,7 @@ public class FaxBotDatabase
 {
 	private static boolean isInitialized = false;
 	private static boolean faxBotError = false;
+	private static String faxBotErrorMessage = "";
 
 	// List of bots from faxbots.txt
 	public static final ArrayList<BotData> botData = new ArrayList<BotData>();
@@ -147,6 +153,7 @@ public class FaxBotDatabase
 		if ( FaxBotDatabase.faxBotError )
 		{
 			KoLmafia.updateDisplay( MafiaState.ABORT, "Could not load " + data.name + " configuration from \"" + data.URL + "\"" );
+			RequestLogger.printLine( FaxBotDatabase.faxBotErrorMessage );
 			return;
 		}
 	}
@@ -333,11 +340,11 @@ public class FaxBotDatabase
 
 		public Monster( final String name, final String actualName, final String command, final String category )
 		{
-			this.name = name;
-			this.actualName = actualName;
+			this.name = CharacterEntities.unescape( name );
+			this.actualName = CharacterEntities.unescape( actualName );
 			this.command = command;
 			this.category = category;
-			this.stringForm = name + " [" + command + "]";
+			this.stringForm = this.name + " [" + command + "]";
 			this.lowerCaseStringForm = this.stringForm.toLowerCase();
 		}
 
@@ -424,7 +431,7 @@ public class FaxBotDatabase
 			try
 			{
 				File local = new File( KoLConstants.DATA_LOCATION, this.data.name + ".xml" );
-				FileUtilities.downloadFile( this.data.URL, local, true );
+				// FileUtilities.downloadFile( this.data.URL, local, true );
 
 				// Get an instance of document builder
 				DocumentBuilder db = dbf.newDocumentBuilder();
@@ -435,12 +442,15 @@ public class FaxBotDatabase
 			}
 			catch (ParserConfigurationException pce)
 			{
+				FaxBotDatabase.faxBotErrorMessage = pce.getMessage();
 			}
 			catch (SAXException se)
 			{
+				FaxBotDatabase.faxBotErrorMessage = se.getMessage();
 			}
 			catch (IOException ioe)
 			{
+				FaxBotDatabase.faxBotErrorMessage = ioe.getMessage();
 			}
 
 			if ( dom == null )
