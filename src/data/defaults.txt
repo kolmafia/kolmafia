@@ -500,6 +500,7 @@ user	ghostPencil9	false
 user	gingerAdvanceClockUnlocked	false
 user	gingerbreadCityAvailable	false
 user	gingerExtraAdventures	false
+user	gingerLawChoice	0
 user	gingerMuscleChoice	0
 user	gingerNegativesDropped	false
 user	gingerSewersUnlocked	false

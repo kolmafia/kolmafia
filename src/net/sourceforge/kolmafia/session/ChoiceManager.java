@@ -10725,11 +10725,16 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
 			}
 			break;
-
 		case 1203:
 			// Midnight in Civic Center
+			// You step into the library and spend a few hours studying law. It's surprisingly difficult! You gain a new respect for lawyers.
+			// Haha no you don't.
+			if ( text.contains( "few hours studying law" ) )
+			{
+				Preferences.increment( "gingerLawChoice" );
+			}
 			// You pay the counterfeiter to make you a fake version of Gingerbread City to pawn off on some rube as the real thing
-			if ( text.contains( "fake version of Gingerbread City" ) )
+			else if ( text.contains( "fake version of Gingerbread City" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
 			}
@@ -10847,6 +10852,11 @@ public abstract class ChoiceManager
 			{
 				// gingerbread tophat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 8 )
+			{
+				// gingerbread blackmail photos
+				Preferences.setBoolean( "gingerNegativesDropped", false );
 			}
 			break;
 
