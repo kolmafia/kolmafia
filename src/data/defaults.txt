@@ -145,7 +145,6 @@ global	sharePriceData	false
 global	showAllRequests	false
 global	showAnnouncements	true
 global	showExceptionalRequests	false
-global	simpleSvnUpdate	true
 global	statusDropdown	0
 global	stealthLogin	true
 global	svnInstallDependencies	true
