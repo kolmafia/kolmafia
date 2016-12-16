@@ -10782,14 +10782,17 @@ public abstract class ChoiceManager
 			}
 			if ( ChoiceManager.lastDecision == 1 )
 			{
+				// creme brulee torch
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -25 ) );
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
+				// candy crowbar
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
 			}
 			else if ( ChoiceManager.lastDecision == 3 )
 			{
+				// candy screwdriver
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -100 ) );
 			}
 			break;
@@ -10805,38 +10808,45 @@ public abstract class ChoiceManager
 
 		case 1208:
 			// Upscale Noon
-			// You buy the xxxx (not all spaded)
-			if ( !text.contains( "You buy" ) )
+			if ( text.contains( "drop off the negatives" ) )
+			{
+				Preferences.setBoolean( "gingerNegativesDropped", true );
+				break;
+			}
+			else if ( !text.contains( "You acquire an item" ) )
 			{
 				break;
 			}
-			if ( text.contains( "buy the dog treat" ) )
+
+			if ( ChoiceManager.lastDecision == 1 )
 			{
+				// gingerbread dog treat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -200 ) );
 			}
-			else if ( text.contains( "buy the candle" ) )
+			else if ( ChoiceManager.lastDecision == 2 )
 			{
+				// pumpkin spice candle
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -150 ) );
 			}
 			else if ( ChoiceManager.lastDecision == 3 )
 			{
+				// gingerbread spice latte
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
 			}
-			else if ( text.contains( "buy the pants" ) )
+			else if ( ChoiceManager.lastDecision == 4 )
 			{
+				// gingerbread trousers
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}
-			else if ( text.contains( "buy the waistcoat" ) )
+			else if ( ChoiceManager.lastDecision == 5 )
 			{
+				// gingerbread waistcoat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
 			}
 			else if ( ChoiceManager.lastDecision == 6 )
 			{
+				// gingerbread tophat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
-			}
-			else if ( text.contains( "drop off the negatives" ) )
-			{
-				Preferences.setBoolean( "gingerNegativesDropped", true );
 			}
 			break;
 
@@ -10867,13 +10877,50 @@ public abstract class ChoiceManager
 
 		case 1212:
 			// Seedy Seedy Seedy
-			// You reach behind the bar with your gingerbread mug, swipe a measure of beer, and then leave before anybody notices.
-			if ( text.contains( "reach behind the bar" ) )
+			if ( !text.contains( "You acquire an item" ) )
 			{
+				break;
+			}
+
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// gingerbread pistol
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				// gingerbread beer
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_MUG, -1 ) );
 			}
 			break;
 
+		case 1214:
+			// The Gingerbread Gallery
+			if ( !text.contains( "You acquire an item" ) )
+			{
+				break;
+			}
+
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// gingerbread wine
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				// chocolate sculpture
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Pop Art: a Guide
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				// No Hats as Art
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+			}
+			break;
 		}
 
 		if ( ChoiceManager.handlingChoice )
