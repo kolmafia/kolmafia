@@ -5102,6 +5102,7 @@ Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance
 Effect	Hiding in Plain Sight	Initiative: +100
 Effect	High Blood Chocolate Content	Candy Drop: +30
 Effect	High Colognic	Combat Rate: +5
+Effect	High-Falutin'	Meat Drop: +50, Item Drop: +25
 Effect	High-Test Fishing Line	Fishing Skill: +5
 Effect	Highland Sheen	Moxie: +10
 Effect	Hip to Be Square Dancin'	Item Drop: +10
@@ -7218,6 +7219,7 @@ Item	Herring Daiquiri	Effect: "Fishy", Effect Duration: 5
 Item	Herring Wallbanger	Effect: "Fishy", Effect Duration: 10
 Item	herringcello	Effect: "Sugar Rush", Effect Duration: 20
 Item	Herringtini	Effect: "Fishy", Effect Duration: 15
+Item	high-end ginger wine	Effect: "High-Falutin'", Effect Duration: 30
 Item	Highest Bitter	Effect: "Mercenary", Effect Duration: 60
 Item	honey mead	Effect: "Sugar Rush", Effect Duration: 5
 Item	hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25

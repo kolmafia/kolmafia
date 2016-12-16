@@ -291,6 +291,7 @@ Herring Wallbanger	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 herringcello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
 Herringtini	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Hi-Octane Peppermint Jet Fuel	5	5		10-15	0	0	0
+high-end ginger wine	2	1	EPIC	0	0	0	0	Unspaded
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop)
 Hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
