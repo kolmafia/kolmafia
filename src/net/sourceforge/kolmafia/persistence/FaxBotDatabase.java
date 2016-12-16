@@ -146,6 +146,7 @@ public class FaxBotDatabase
 	private static final void configureFaxBot( final BotData data )
 	{
 		FaxBotDatabase.faxBotError = false;
+		FaxBotDatabase.faxBotErrorMessage = "";
 		KoLmafia.forceContinue();
 
 		RequestThread.postRequest( new DynamicBotFetcher( data ) );
@@ -423,6 +424,7 @@ public class FaxBotDatabase
 		{
 			// Start with a clean slate
 			FaxBotDatabase.faxBotError = false;
+			FaxBotDatabase.faxBotErrorMessage = "";
 			KoLmafia.forceContinue();
 
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -431,7 +433,7 @@ public class FaxBotDatabase
 			try
 			{
 				File local = new File( KoLConstants.DATA_LOCATION, this.data.name + ".xml" );
-				// FileUtilities.downloadFile( this.data.URL, local, true );
+				FileUtilities.downloadFile( this.data.URL, local, true );
 
 				// Get an instance of document builder
 				DocumentBuilder db = dbf.newDocumentBuilder();
