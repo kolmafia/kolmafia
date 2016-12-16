@@ -1324,14 +1324,6 @@ public class OptionsFrame
 			 * Advanced Options
 			 */
 
-			tip = "<html>\"Simple\" behavior means that svn will just check the revision of your project's<br>"
-				+ "root directory and compare it to that of the root directory in the repo.<br>" + "<br>"
-				+ "This saves time and server hits over a full <i>svn update</i>, but advanced users with<br>"
-				+ "mixed-revision working copies or the like may want to turn it off so that<br>"
-				+ "a full <i>svn update</i> happens every time.</html>";
-			this.queue( new PreferenceCheckBox(
-				"simpleSvnUpdate", "Use simple SVN update behavior for faster updates", tip ) );
-
 			tip = "<html>A script may declare dependencies - i.e. other scripts that should be installed<br>"
 				+ "along with it.  Those dependencies can declare their own dependencies, and<br>so forth.<br>"
 				+ "<br>" + "Users who want complete control over what they are installing can turn this off,<br>"

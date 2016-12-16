@@ -1240,16 +1240,17 @@ public class SVNManager
 				for ( File f : projects )
 				{
 					if ( !KoLmafia.permitsContinue() )
+					{
 						return;
+					}
 
 					// skip hidden files; OSX tends to pepper your filesystem with them, apparently
 					if ( f.getName().startsWith( "." ) )
-						continue;
-
-					if ( Preferences.getBoolean( "simpleSvnUpdate" ) )
 					{
-						WCAtHead( f, false, checkingRunnables );
+						continue;
 					}
+
+					WCAtHead( f, false, checkingRunnables );
 				}
 
 				if (!checkingRunnables.isEmpty())
@@ -1441,7 +1442,7 @@ public class SVNManager
 	{
 		initialize();
 
-		RequestThread.postRequest( new UpdateRunnable( repo ) );
+		RequestThread.postRequest( new UpdateRunnable( repo ) );//
 
 		pushUpdates();
 		showCommitMessages();
