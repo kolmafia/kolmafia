@@ -8763,7 +8763,7 @@ Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Item	ninja eyeblack	Effect: "Waiting for Ninjas", Effect Duration: 50
 Item	ninja fear powder	Effect: "Ninja in Waiting", Effect Duration: 50
-Item	No Hats as Art	Skill: "Ceci N'Est Pa Une Chapeau"
+Item	No Hats as Art	Skill: "Ceci N'Est Pas Un Chapeau"
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Item	note from Clancy	Skill: "Request Sandwich"
 # Notes from the Elfpocalypse, Chapter I: Restores 30-40 HP and MP
