@@ -6134,6 +6134,7 @@ public class FightRequest
 			status.location.equals( "Your Bung Chakra" ) ? "crimbo16BungChakraCleanliness" :
 			status.location.equals( "Your Guts Chakra" ) ? "crimbo16GutsChakraCleanliness" :
 			status.location.equals( "Your Liver Chakra" ) ? "crimbo16LiverChakraCleanliness" :
+			status.location.equals( "Your Nipple Chakra" ) ? "crimbo16NippleChakraCleanliness" :
 			null;
 
 		if ( setting != null )
