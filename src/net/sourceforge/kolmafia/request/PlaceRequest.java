@@ -408,6 +408,10 @@ public class PlaceRequest
 			{
 				message = "Visiting A Hobo";
 			}
+			else if ( action.equals( "crimbo16_guy4" ) )
+			{
+				message = "Visiting A Bugbear";
+			}
 		}
 		else if ( place.equals( "crimbo16m" ) )
 		{
