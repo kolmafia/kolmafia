@@ -9266,7 +9266,7 @@
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
 9241	industrial frosting	603766917	indfrosting.gif	usable	d	400
 9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2
-9243
+9243	high-end ginger wine	411301645	gingerwineglass.gif	drink		0
 9244
 9245
 9246
