@@ -10913,7 +10913,7 @@ public abstract class ChoiceManager
 
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				// gingerbread wine
+				// high-end ginger wine
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
