@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -68,6 +69,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -2014,6 +2016,24 @@ public abstract class InventoryManager
 			String race = matcher.group( 1 );
 			KoLCharacter.setBjorned( KoLCharacter.findFamiliar( race ) );
 		}
+	}
+	
+	public static final AdventureResult NO_HAT = ItemPool.get( ItemPool.NO_HAT, 1 );
+
+	public static final void checkNoHat()
+	{
+		String mod = Preferences.getString( "_noHatModifier" );
+		if ( !KoLCharacter.hasEquipped( InventoryManager.NO_HAT, EquipmentManager.HAT ) && !KoLConstants.inventory.contains( InventoryManager.NO_HAT ) )
+		{
+			return;
+		}
+		if ( mod == "" )
+		{
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemPool.NO_HAT );
+			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
+			Preferences.setString( "_noHatModifier", mod );
+		}
+		Modifiers.overrideModifier( "Item:[" + ItemPool.NO_HAT + "]", mod );
 	}
 
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );

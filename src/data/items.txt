@@ -9293,7 +9293,7 @@
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
-9270
+9270	no hat	887807812	nohat.gif	hat	q	0
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160
 9272	negative lump	442273709	chocolump.gif	none	t,d	16
 9273
