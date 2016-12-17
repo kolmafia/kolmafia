@@ -9235,9 +9235,9 @@
 9209	gingerbread tophat	219681720	gingerhat.gif	hat	d	200
 9210	gingerbread waistcoat	927412339	gingercoat.gif	shirt	d	200
 9211	gingerbread trousers	564459612	gingerpants.gif	pants	d	200
-9212	candy dress shoes	741868271	moccasins.gif	accessory	t,d	300
-9213	candy necktie	801970115	necktie.gif	accessory	t,d	300
-9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t,d	300
+9212	candy dress shoes	741868271	moccasins.gif	accessory	t,d	0
+9213	candy necktie	801970115	necktie.gif	accessory	t,d	0
+9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t,d	0
 9215	broken chocolate pocketwatch	905664883	gingerwatch.gif	usable	t,d	0
 9216
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
@@ -9287,7 +9287,7 @@
 9261
 9262	fruit-leather negatives	154948221	filmcan.gif	none	q	0
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
-9264
+9264	briefcase full of sprinkles	842602736	briefcase.gif	usable		0
 9265
 9266
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
