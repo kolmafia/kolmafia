@@ -304,6 +304,7 @@ Crimbo16	adventure=482	Env: indoor Stat: 0	Your Bung Chakra
 Crimbo16	adventure=483	Env: indoor Stat: 0	Your Guts Chakra
 Crimbo16	adventure=484	Env: indoor Stat: 0	Your Liver Chakra
 Crimbo16	adventure=485	Env: indoor Stat: 0	Your Nipple Chakra
+Crimbo16	adventure=486	Env: indoor Stat: 0	Your Nose Chakra
 
 Crimbo15	adventure=459	Env: outdoor Stat: 0	The Ruins of the Fully Automated Crimbo Factory
 
