@@ -2017,7 +2017,7 @@ public abstract class InventoryManager
 			KoLCharacter.setBjorned( KoLCharacter.findFamiliar( race ) );
 		}
 	}
-	
+
 	public static final AdventureResult NO_HAT = ItemPool.get( ItemPool.NO_HAT, 1 );
 
 	public static final void checkNoHat()
@@ -2034,6 +2034,33 @@ public abstract class InventoryManager
 			Preferences.setString( "_noHatModifier", mod );
 		}
 		Modifiers.overrideModifier( "Item:[" + ItemPool.NO_HAT + "]", mod );
+	}
+
+	public static final AdventureResult JICK_SWORD = ItemPool.get( ItemPool.JICK_SWORD, 1 );
+
+	public static final void checkJickSword()
+	{
+		String mod = Preferences.getString( "jickSwordModifier" );
+		if ( mod != "" )
+		{
+			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );
+			return;
+		}
+		if ( !KoLCharacter.hasEquipped( InventoryManager.JICK_SWORD, EquipmentManager.WEAPON ) &&
+		     !KoLConstants.inventory.contains( InventoryManager.JICK_SWORD ) )
+		{
+			// There are other places it could be, but it only needs to be
+			// checked once ever, and if the sword isn't being used then
+			// it can be checked later
+			return;
+		}
+		if ( mod == "" )
+		{
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemPool.JICK_SWORD );
+			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_WEAPON );
+			Preferences.setString( "jickSwordModifier", mod );
+			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );
+		}
 	}
 
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
