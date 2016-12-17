@@ -268,14 +268,33 @@ public class QuestLogRequest
 		}
 	}
 
+	private static final Pattern GHOST_PATTERN = Pattern.compile( "<b>(.*?)</b>", Pattern.DOTALL );
+
 	private static void handleQuestText( String response, int source )
 	{
+		if ( source == 1 )
+		{
+			Preferences.setString( "ghostLocation", "" );
+		}
+
 		Matcher body = QuestLogRequest.BODY_PATTERN.matcher( response );
 		// Form of.. a regex! group(1) now contains the quest title and group(2) has the details.
 		while ( body.find() )
 		{
 			String title = body.group( 1 );
 			String details = body.group( 2 );
+
+			if ( source == 1 && title.contains( "Don't be Afraid of Any Ghost" ) )
+			{
+				// Hard code this quest. It has an adventuring location in it.
+				Matcher ghost = QuestLogRequest.BODY_PATTERN.matcher( details );
+				if ( ghost.find() )
+				{
+					Preferences.setString( "ghostLocation", ghost.group( 1 ) );
+				}
+				continue;
+			}
+			
 			String pref = QuestDatabase.titleToPref( title );
 			String status = "";
 
