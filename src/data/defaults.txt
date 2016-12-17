@@ -567,6 +567,7 @@ user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
+user	jickSwordModifier
 user	jungCharge	0
 user	junglePuns	0
 user	kingLiberated	false
