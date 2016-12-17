@@ -2029,7 +2029,7 @@ public abstract class InventoryManager
 		}
 		if ( mod == "" )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemPool.NO_HAT );
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.NO_HAT ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
 			Preferences.setString( "_noHatModifier", mod );
 		}
@@ -2056,7 +2056,7 @@ public abstract class InventoryManager
 		}
 		if ( mod == "" )
 		{
-			String rawText = DebugDatabase.rawItemDescriptionText( ItemPool.JICK_SWORD );
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.JICK_SWORD ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_WEAPON );
 			Preferences.setString( "jickSwordModifier", mod );
 			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );

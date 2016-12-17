@@ -3063,7 +3063,7 @@ public class ResultProcessor
 
 		case ItemPool.NO_HAT:
 			{
-				String rawText = DebugDatabase.rawItemDescriptionText( itemId );
+				String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), true );
 				String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
 				Modifiers.overrideModifier( "Item:[" + itemId + "]", mod );
 				Preferences.setString( "_noHatModifier", mod );
