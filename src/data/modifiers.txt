@@ -673,6 +673,8 @@ Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xL
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect Duration: 40, Rollover Effect: "Pajama Party"
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
+# Item saffron antaravasaka: Improves chances of finding lumps and sludge
+Item	saffron antaravasaka	MP Regen Min: 4, MP Regen Max: 6, Spell Critical Percent: +5
 Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: +3, Familiar Effect: "2xVolley"
 Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
@@ -936,6 +938,8 @@ Item	autocalliope	Spooky Damage: [2*(1+skill(Accordion Appreciation))], Stench D
 # automatic catapult
 # Ax of L'rose
 Item	backwoods banjo	Experience Percent (Moxie): +20, Ranged Damage: +40, Maximum HP: +200, Maximum MP: +200
+# Item bad vibroknife: Improves your ability to align chakras
+Item	bad vibroknife	Maximum HP: +25, Weapon Damage: +10
 Item	bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 Item	bag of random words	Effect: "Madly Liberated", Effect Duration: 50
 Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
@@ -2444,6 +2448,8 @@ Item	Crimbomega drive chain	Moxie: +5, Sleaze Damage: +20, Sleaze Spell Damage: 
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
 Item	crusty hula hoop	Mysticality Percent: +15, Spell Damage: +50, Single Equip
 Item	crying statue earrings	Muscle: +5, Maximum HP: +100, Single Equip, Lasts Until Rollover
+# Item crystal belt buckle: Improves your ability to align chakras
+Item	crystal belt buckle	Maximum MP: +25, Spell Damage: +10
 # crystalline seal eye: +200% Item Drops from Seals
 Item	crystalline seal eye	Single Equip
 Item	cursed ring finger ring	Spell Damage Percent: +50, Spooky Spell Damage: +30, Spell Critical Percent: +10, Single Equip
@@ -3394,6 +3400,8 @@ Item	porcelain pelerine	Hat Drop: +20, Monster Level: +10
 Item	protonic accelerator pack	MP Regen Min: 2, MP Regen Max: 20, Item Drop: +15, Muscle: +10, Mysticality: +10, Moxie: +10, Critical Hit Percent: +5, Combat Rate: -5
 Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 Item	rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
+# Item saffron uttarasanga: Improves chances of finding lumps and sludge
+Item	saffron uttarasanga	HP Regen Min: 4, HP Regen Max: 6, Critical Hit Percent: +5
 Item	sea cape	Moxie Percent: +5, Maximum HP: +30, Maximum MP: +30, Initiative: [50*env(underwater)], Critical Hit Percent: [15*env(underwater)]
 # sea mantle: +150% Physical Damage (Underwater Only)
 Item	sea mantle	Muscle Percent: +10, Maximum MP: +50, Weapon Damage Percent: [150*env(underwater)]

@@ -9294,7 +9294,7 @@
 9268
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
 9270	no hat	887807812	nohat.gif	hat	q	0
-9271	chakra sludge	736693207	ragwad.gif	none	t,d	160
+9271	chakra sludge	736693207	ragwad.gif	none	t,d	160	wads of chakra sludge
 9272	negative lump	442273709	chocolump.gif	none	t,d	16
 9273
 9274
@@ -9304,3 +9304,7 @@
 9278	Black Angus blackburger	292396129	blackburger.gif	food	t	0
 9279	black brandy	830638097	snifter.gif	drink	t	0
 9280	potion of spiritual gunkifying	321401265	potion15.gif	multiple	t	0
+9281	bad vibroknife	928791753	vibroknife.gif	weapon		0
+9282	crystal belt buckle	240247384	crystalbuckle.gif	accessory		0
+9283	saffron antaravasaka	278132307	brobe2.gif	pants		0
+9284	saffron uttarasanga	555660466	brobe1.gif	container		0

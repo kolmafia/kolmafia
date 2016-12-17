@@ -544,6 +544,7 @@ Radio Free Pants	150	Mox: 60
 ratskin pajama pants	150	Mox: 50
 red silk skirt	155	Mox: 62
 rusty metal greaves	150	Mus: 60
+saffron antaravasaka	100	Mox: 35
 scale-mail underwear	200	Mox: 85
 sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
@@ -786,6 +787,7 @@ autocalliope	130	Mox: 50	2-handed accordion
 automatic catapult	150	Mox: 60	2-handed autopult
 Ax of L'rose	50	Mus: 0	2-handed axe
 backwoods banjo	150	Mox: 50	2-handed banjo
+bad vibroknife	100	Mus: 35	1-handed knife
 bad-ass club	130	Mus: 50	2-handed club
 bag of unfinished business	225	Mox: 200	2-handed doggie bag
 Bal-musette accordion	50	Mox: 0	2-handed accordion
@@ -2054,7 +2056,7 @@ bugbear detector	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 candy dress shoes	100	Mus: 20
 candy necklace	150	Mox: 60
-candy necktie	0	Mox: 20
+candy necktie	100	Mox: 20
 cannonball charrrm bracelet	190	Mys: 80
 Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
@@ -2096,6 +2098,7 @@ CRIMBCO lanyard	0	none
 Crimbomega drive chain	100	none
 crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
+crystal belt buckle	0	Mys: 35
 crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
@@ -2922,6 +2925,7 @@ porcelain pelerine	120	Mus: 40
 protonic accelerator pack	100	none
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
+saffron uttarasanga	100	Mus: 35
 sea cape	200	Mox: 85
 sea mantle	200	Mus: 85
 sea shawl	200	Mys: 85

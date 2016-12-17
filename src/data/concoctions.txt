@@ -2856,3 +2856,7 @@ chakra malt	CRIMBO16, ROW913	negative lump (10)
 Black Angus blackburger	CRIMBO16, ROW914	negative lump (20)	chakra sludge
 black brandy	CRIMBO16, ROW915	negative lump (20)	chakra sludge
 potion of spiritual gunkifying	CRIMBO16, ROW916	negative lump (20)	chakra sludge
+bad vibroknife	CRIMBO16, ROW917	negative lump (100)	chakra sludge (10)
+crystal belt buckle	CRIMBO16, ROW918	negative lump (100)	chakra sludge (10)
+saffron antaravasaka	CRIMBO16, ROW919	negative lump (200)	chakra sludge (20)
+saffron uttarasanga	CRIMBO16, ROW920	negative lump (200)	chakra sludge (20)

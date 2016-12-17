@@ -235,6 +235,11 @@ public class EquipmentManager
 		return array;
 	}
 
+	public static final List<AdventureResult> allEquipmentAsList()
+	{
+		return EquipmentManager.equipment;
+	}
+
 	public static final void processResult( AdventureResult item )
 	{
 		int itemId = item.getItemId();
