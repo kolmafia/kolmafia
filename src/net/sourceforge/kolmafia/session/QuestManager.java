@@ -1534,6 +1534,7 @@ public class QuestManager
 			adventureId.equals( "ns_01_crowd3" ) ?
 			"nsContestants3" :
 			null;
+		boolean ghostBusted = false;
 
 		if ( counter != null )
 		{
@@ -1883,35 +1884,35 @@ public class QuestManager
 			}
 		}
 		else if ( monsterName.equals( "drunk cowpoke" ) ||
-				monsterName.equals( "surly gambler" ) ||
-				monsterName.equals( "wannabe gunslinger" ) ||
-				monsterName.equals( "cow cultist" ) ||
-				monsterName.equals( "hired gun" ) ||
-				monsterName.equals( "camp cook" ) ||
-				monsterName.equals( "skeletal gunslinger" ) ||
-				monsterName.equals( "restless ghost" ) ||
-				monsterName.equals( "buzzard" ) ||
-				monsterName.equals( "mountain lion" ) ||
-				monsterName.equals( "grizzled bear" ) ||
-				monsterName.equals( "diamondback rattler" ) ||
-				monsterName.equals( "coal snake" ) ||
-				monsterName.equals( "frontwinder" ) ||
-				monsterName.equals( "caugr" ) ||
-				monsterName.equals( "pyrobove" ) ||
-				monsterName.equals( "spidercow" ) ||
-				monsterName.equals( "moomy" ) )
+			  monsterName.equals( "surly gambler" ) ||
+			  monsterName.equals( "wannabe gunslinger" ) ||
+			  monsterName.equals( "cow cultist" ) ||
+			  monsterName.equals( "hired gun" ) ||
+			  monsterName.equals( "camp cook" ) ||
+			  monsterName.equals( "skeletal gunslinger" ) ||
+			  monsterName.equals( "restless ghost" ) ||
+			  monsterName.equals( "buzzard" ) ||
+			  monsterName.equals( "mountain lion" ) ||
+			  monsterName.equals( "grizzled bear" ) ||
+			  monsterName.equals( "diamondback rattler" ) ||
+			  monsterName.equals( "coal snake" ) ||
+			  monsterName.equals( "frontwinder" ) ||
+			  monsterName.equals( "caugr" ) ||
+			  monsterName.equals( "pyrobove" ) ||
+			  monsterName.equals( "spidercow" ) ||
+			  monsterName.equals( "moomy" ) )
 		{
 			Preferences.increment( "lttQuestStageCount", 1 );
 		}
 		else if ( monsterName.equals( "Jeff the Fancy Skeleton" ) ||
-				monsterName.equals( "Daisy the Unclean" ) ||
-				monsterName.equals( "Pecos Dave" ) ||
-				monsterName.equals( "Pharaoh Amoon-Ra Cowtep" ) ||
-				monsterName.equals( "Snake-Eyes Glenn" ) ||
-				monsterName.equals( "Former Sheriff Dan Driscoll" ) ||
-				monsterName.equals( "unusual construct" ) ||
-				monsterName.equals( "Clara" ) ||
-				monsterName.equals( "Granny Hackleton" ) )
+			  monsterName.equals( "Daisy the Unclean" ) ||
+			  monsterName.equals( "Pecos Dave" ) ||
+			  monsterName.equals( "Pharaoh Amoon-Ra Cowtep" ) ||
+			  monsterName.equals( "Snake-Eyes Glenn" ) ||
+			  monsterName.equals( "Former Sheriff Dan Driscoll" ) ||
+			  monsterName.equals( "unusual construct" ) ||
+			  monsterName.equals( "Clara" ) ||
+			  monsterName.equals( "Granny Hackleton" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.TELEGRAM, QuestDatabase.UNSTARTED );
 			Preferences.setInteger( "lttQuestDifficulty", 0 );
@@ -1919,21 +1920,22 @@ public class QuestManager
 			Preferences.setString( "lttQuestName", "" );
 		}
 		else if ( monsterName.equals( "the ghost of Oily McBindle" ) ||
-				monsterName.equals( "boneless blobghost" ) ||
-				monsterName.equals( "the ghost of Monsieur Baguelle" ) ||
-				monsterName.equals( "The Headless Horseman" ) ||
-				monsterName.equals( "The Icewoman" ) ||
-				monsterName.equals( "The ghost of Ebenoozer Screege" ) ||
-				monsterName.equals( "The ghost of Lord Montague Spookyraven" ) ||
-				monsterName.equals( "The ghost of Vanillica \"Trashblossom\" Gorton" ) ||
-				monsterName.equals( "The ghost of Sam McGee" ) ||
-				monsterName.equals( "The ghost of Richard Cockingham" ) ||
-				monsterName.equals( "The ghost of Waldo the Carpathian" ) ||
-				monsterName.equals( "Emily Koops, a spooky lime" ) ||
-				monsterName.equals( "The ghost of Jim Unfortunato" ) )
+			  monsterName.equals( "boneless blobghost" ) ||
+			  monsterName.equals( "the ghost of Monsieur Baguelle" ) ||
+			  monsterName.equals( "The Headless Horseman" ) ||
+			  monsterName.equals( "The Icewoman" ) ||
+			  monsterName.equals( "The ghost of Ebenoozer Screege" ) ||
+			  monsterName.equals( "The ghost of Lord Montague Spookyraven" ) ||
+			  monsterName.equals( "The ghost of Vanillica \"Trashblossom\" Gorton" ) ||
+			  monsterName.equals( "The ghost of Sam McGee" ) ||
+			  monsterName.equals( "The ghost of Richard Cockingham" ) ||
+			  monsterName.equals( "The ghost of Waldo the Carpathian" ) ||
+			  monsterName.equals( "Emily Koops, a spooky lime" ) ||
+			  monsterName.equals( "The ghost of Jim Unfortunato" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.GHOST, QuestDatabase.UNSTARTED );
 			Preferences.setString( "ghostLocation", "" );
+			ghostBusted = true;
 		}
 		else if ( monsterName.equals( "Drab Bard" ) ||
 		          monsterName.equals( "Bob Racecar" ) ||
@@ -2157,8 +2159,10 @@ public class QuestManager
 			break;
 		}
 
-		// Can get a message about a ghost if wearing a Proton Accelerator Pack
-		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PROTON_ACCELERATOR, 1 ) ) )
+		// Can get a message about a ghost if wearing a Proton Accelerator Pack,
+		// but if you got on the turn you busted a ghost, it is a false alarm.
+		// 
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PROTON_ACCELERATOR, 1 ) ) && !ghostBusted )
 		{
 			Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher( responseText );
 			while ( ParanormalMatcher.find() )
