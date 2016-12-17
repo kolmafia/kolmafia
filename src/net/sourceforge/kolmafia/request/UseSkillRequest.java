@@ -844,6 +844,11 @@ public class UseSkillRequest
 			int meatLimit = KoLCharacter.getAvailableMeat() / 20;
 			int mpLimit = (int) Math.ceil( ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) / 10.0 );
 			maximumCast = Math.min( meatLimit, mpLimit );
+			break;
+
+		case SkillPool.CECI_CHAPEAU:
+			maximumCast = Preferences.getBoolean( "_ceciHatUsed" ) ? 0 : 1;
+			break;
 
 		}
 
@@ -2420,6 +2425,10 @@ public class UseSkillRequest
 
 		case SkillPool.STEELY_EYED_SQUINT:
 			Preferences.setBoolean( "_steelyEyedSquintUsed", true );
+			break;
+
+		case SkillPool.CECI_CHAPEAU:
+			Preferences.setBoolean( "_ceciHatUsed", true );
 			break;
 
 		}
