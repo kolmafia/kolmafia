@@ -421,6 +421,7 @@ Your Bung Chakra	-1	obsessively imagining your worst phobias	the most embarrassi
 Your Guts Chakra	-1	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
 Your Liver Chakra	-1	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
 Your Nipple Chakra	-1	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
+Your Nose Chakra	-1	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
 
 # Areas with no combat data
 
