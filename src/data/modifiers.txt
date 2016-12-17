@@ -315,6 +315,7 @@ Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
 Item	nine-gallon hat	Muscle: +9, Mysticality: +9, Moxie: +9, Experience: +3
+# Item no hat: (May or May Not Truly Exist)
 Item	noir fedora	Experience Percent (Moxie): +20, Moxie Percent: +20, HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10
 Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60, Familiar Effect: "atk"
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"

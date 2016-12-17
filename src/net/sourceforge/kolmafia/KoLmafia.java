@@ -930,6 +930,7 @@ public abstract class KoLmafia
 		// equipped, see which familiar is sitting in it, if any.
 		InventoryManager.checkCrownOfThrones();
 		InventoryManager.checkBuddyBjorn();
+		InventoryManager.checkNoHat();
 
 		// Refresh familiar stuff
 		FamiliarData.reset();

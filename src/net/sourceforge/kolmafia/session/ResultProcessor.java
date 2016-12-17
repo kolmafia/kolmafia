@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.LinkedList;
@@ -3058,6 +3059,15 @@ public class ResultProcessor
 
 		case ItemPool.SILVER_DREAD_FLASK:
 			Preferences.setBoolean( "itemBoughtPerCharacter6429", true );
+			break;
+
+		case ItemPool.NO_HAT:
+			{
+				String rawText = DebugDatabase.rawItemDescriptionText( itemId );
+				String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
+				Modifiers.overrideModifier( "Item:[" + itemId + "]", mod );
+				Preferences.setString( "_noHatModifier", mod );
+			}
 			break;
 		}
 

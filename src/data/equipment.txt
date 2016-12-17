@@ -223,6 +223,7 @@ mummy mask	170	Mox: 70
 nasty rat mask	180	Mox: 75
 neoprene skullcap	65	none
 nine-gallon hat	180	none
+no hat	200	Mox: 150
 noir fedora	200	Mox: 100
 norwhal helmet	200	Mys: 50
 nurse's hat	200	Mox: 85
