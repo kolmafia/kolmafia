@@ -78,12 +78,14 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -2274,6 +2276,7 @@ public class DebugDatabase
 		TreeSet<AdventureResult> items = new TreeSet<AdventureResult>();
 		items.addAll( KoLConstants.inventory );
 		items.addAll( KoLConstants.closet );
+		items.addAll( EquipmentManager.allEquipmentAsList() );
 		// items.addAll( KoLConstants.storage );
 
 		if ( KoLCharacter.hasDisplayCase() && !DisplayCaseManager.collectionRetrieved )

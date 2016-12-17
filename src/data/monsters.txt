@@ -2306,7 +2306,7 @@ Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 
 
 # Crimbo 2016 (December 2016)
 fear of an uncertain future	1996	badvibe4.gif	Scale: -1 Cap: 10000 Floor: 10 Init: 10 P: weird	negative lump (0)
-imagining how your life would be better if you'd made different decisions	1995	badvibe3.gif	Scale: +3 Cap: 10000 Floor: 10 Init: 10 P: weird	negative lump (0)
+imagining how your life would be better if you'd made different decisions	1995	badvibe3.gif	Scale: +3 Cap: 10000 Floor: 10 Init: 10 P: weird	negative lump (0)	chakra sludge (0)
 obsessively imagining your worst phobias	1993	badvibe1.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 that time you screwed everything up like a complete idiot	1997	badvibe7.gif	Scale: -1 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
