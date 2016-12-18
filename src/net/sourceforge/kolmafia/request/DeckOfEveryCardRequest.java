@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +72,7 @@ public class DeckOfEveryCardRequest
 	private static final HashSet<EveryCard> monsterCards = new HashSet<EveryCard>();
 	private static final TreeMap<Stat,EveryCard> statToCard = new TreeMap<Stat,EveryCard>();
 	private static final TreeMap<AdventureResult,EveryCard> buffToCard = new TreeMap<AdventureResult,EveryCard>();
+	public static final TreeSet<String> allCardNames = new TreeSet<String>();
 
 	public static final AdventureResult STRONGLY_MOTIVATED = EffectPool.get( EffectPool.STRONGLY_MOTIVATED, 20 );
 	public static final AdventureResult MAGICIANSHIP = EffectPool.get( EffectPool.MAGICIANSHIP, 20 );
@@ -142,7 +144,7 @@ public class DeckOfEveryCardRequest
 		registerCard( 15, "Werewolf", Phylum.BEAST );			// Fight a random Beast
 		registerCard( 11, "The Hive", Phylum.BUG );			// Fight a random Bug
 		registerCard( 26, "XVII - The Star", Phylum.CONSTELLATION );	// Fight a random Constellation
-		registerCard( 18, "VII - The Chariot", Phylum.CONSTRUCT );	// Fight a random Construct
+		registerCard( 19, "VII - The Chariot", Phylum.CONSTRUCT );	// Fight a random Construct
 		registerCard( 16, "XV - The Devil", Phylum.DEMON );		// Fight a random Demon
 		registerCard( 13, "V - The Hierophant", Phylum.DUDE );		// Fight a random Dude
 		registerCard( 17, "Fire Elemental", Phylum.ELEMENTAL );		// Fight a random Elemental
@@ -168,6 +170,7 @@ public class DeckOfEveryCardRequest
 		EveryCard card = new EveryCard( id, name );
 		DeckOfEveryCardRequest.idToCard.put( id, card );
 		DeckOfEveryCardRequest.canonicalNameToCard.put( StringUtilities.getCanonicalName( name ), card );
+		DeckOfEveryCardRequest.allCardNames.add( name );
 		return card;
 	}
 
@@ -336,10 +339,10 @@ public class DeckOfEveryCardRequest
 
 		String responseText = useRequest.responseText;
 
-		//No response, probably because of some logical inconsistency - forcing an adventure with 0 hp, for example
+		// No response because of I/O error
 		if ( responseText == null )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Something is wrong and you should not be drawing a card" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "I/O error" );
 			return;
 		}
 
@@ -381,12 +384,17 @@ public class DeckOfEveryCardRequest
 		// decide to fix it, we'd better make sure the card is
 		// available
 
-		if ( this.card != null && !responseText.contains( this.card.name ) )
+		if ( this.card != null )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "That card is not currently available." );
-			this.constructURLString( "choice.php?whichchoice=1086&option=2", true );
-			super.run();
-			return;
+			// Update the set of cards we know have been drawn today
+			DeckOfEveryCardRequest.parseAvailableCards( responseText);
+			if ( !responseText.contains( this.card.name ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "That card is not currently available." );
+				this.constructURLString( "choice.php?whichchoice=1086&option=2", true );
+				super.run();
+				return;
+			}
 		}
 
 		super.run();
@@ -408,6 +416,41 @@ public class DeckOfEveryCardRequest
 			this.constructURLString( "choice.php?whichchoice=1085&option=1", true );
 			super.run();
 		}
+	}
+
+	public static final Pattern CHEAT_SELECT_PATTERN = Pattern.compile( "<select name=\"which\".*?</select>", Pattern.DOTALL );
+	public static final Pattern AVAILABLE_CARD_PATTERN = Pattern.compile( "<option [^>]*>(.*?)</option>" );
+
+	public static void parseAvailableCards( final String responseText )
+	{
+		// Iterate over the cards in the dropdown and remove them from the set of all cards
+		Matcher selectMatcher = DeckOfEveryCardRequest.CHEAT_SELECT_PATTERN.matcher( responseText );
+		if ( !selectMatcher.find() )
+		{
+			return;
+		}
+
+		TreeSet<String> cards = new TreeSet<String>( DeckOfEveryCardRequest.allCardNames );
+
+		Matcher cardMatcher = DeckOfEveryCardRequest.AVAILABLE_CARD_PATTERN.matcher( selectMatcher.group(0) );
+		while ( cardMatcher.find() )
+		{
+			String card = cardMatcher.group( 1 );
+			cards.remove( card );
+		}
+
+		// What remains is the set of cards we have drawn.
+		StringBuilder buffer = new StringBuilder();
+		for ( String card : cards )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "|" );
+			}
+			buffer.append( card );
+		}
+
+		Preferences.setString( "_deckCardsSeen", buffer.toString() );
 	}
 
 	// <div id="blurb">You draw a card: <b>X - The Wheel of Fortune</b><p>This card has a little wheel pinned to the center of it.</div>

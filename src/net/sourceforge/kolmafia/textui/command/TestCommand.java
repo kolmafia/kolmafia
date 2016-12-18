@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -804,6 +805,7 @@ public class TestCommand
 			{
 				RequestLogger.printLine( "Unable to solve for elemental weaknesses" );
 			}
+			TestCommand.contents = null;
 			CLI.executeLine( "dad" );
 			return;
 		}
@@ -820,6 +822,16 @@ public class TestCommand
 			TestCommand.contents = null;
 			RequestEditorKit.getFeatureRichHTML( urlString, buffer, true );
 			TestCommand.dump( buffer.toString() );
+			return;
+		}
+
+		if ( command.equals( "deck" ) )
+		{
+			String responseText = TestCommand.contents;
+			TestCommand.contents = null;
+			RequestLogger.printLine( "Cards seen (before): " + Preferences.getString( "_deckCardsSeen" ) );
+			DeckOfEveryCardRequest.parseAvailableCards( responseText );
+			RequestLogger.printLine( "Cards seen (after): " + Preferences.getString( "_deckCardsSeen" ) );
 			return;
 		}
 
