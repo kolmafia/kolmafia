@@ -365,6 +365,7 @@ user	cozyCounter6334	0
 user	crappyCameraMonster
 user	crimbo16BungChakraCleanliness	0
 user	crimbo16GutsChakraCleanliness	0
+user	crimbo16HatChakraCleanliness	0
 user	crimbo16LiverChakraCleanliness	0
 user	crimbo16NippleChakraCleanliness	0
 user	crimbo16NoseChakraCleanliness	0

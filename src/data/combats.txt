@@ -422,6 +422,7 @@ Your Guts Chakra	-1	obsessively imagining your worst phobias	fear of an uncertai
 Your Liver Chakra	-1	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
 Your Nipple Chakra	-1	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
 Your Nose Chakra	-1	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
+Your Hat Chakra	-1	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
 
 # Areas with no combat data
 
