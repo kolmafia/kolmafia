@@ -315,6 +315,7 @@ The Crown of Ed the Undying	100	none
 The Emperor's new hat	10	none
 The Jokester's wig	200	Mox: 50
 The Necbromancer's Hat	200	Mox: 200
+Third Eye	150	Mox: 40
 three-gallon hat	60	none
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35

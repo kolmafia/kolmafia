@@ -2162,7 +2162,7 @@ public class QuestManager
 		// Can get a message about a ghost if wearing a Proton Accelerator Pack,
 		// but if you got on the turn you busted a ghost, it is a false alarm.
 		// 
-		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PROTON_ACCELERATOR, 1 ) ) && !ghostBusted )
+		if ( !ghostBusted && KoLCharacter.hasEquipped( ItemPool.get( ItemPool.PROTON_ACCELERATOR, 1 ) ) )
 		{
 			Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher( responseText );
 			while ( ParanormalMatcher.find() )
