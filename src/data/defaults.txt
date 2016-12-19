@@ -1280,6 +1280,7 @@ user	_gapBuffs	0
 user	_gibbererAdv	0
 user	_gibbererCharge	0
 user	_gingerBiggerAlligators	false
+user	_gingerbreadMobHitUsed	false
 user	_glarkCableUses	0
 user	_glennGoldenDiceUsed	false
 user	_gnollEyeUsed	false
