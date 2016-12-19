@@ -9311,3 +9311,4 @@
 9285
 9286
 9287	pet bad vibe	143653174	babybadvibe.gif	grow	t	0
+9288	black gallstone	923998146	loadstone.gif	familiar	t	0
