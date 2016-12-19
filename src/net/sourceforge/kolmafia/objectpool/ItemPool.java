@@ -2724,6 +2724,7 @@ public class ItemPool
 	public static final int NO_HATS_BOOK = 9260;
 	public static final int NO_HAT = 9270;
 	public static final int NEGATIVE_LUMP = 9272;
+	public static final int LUMP_STACKING_BOOK = 9285;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

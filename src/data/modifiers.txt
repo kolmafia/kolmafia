@@ -8345,6 +8345,7 @@ Item	green candy heart	Effect: "Heart of Green", Effect Duration: 10
 # green face paint: Does not go away when used.
 Item	green face paint	Free Pull
 # green pixel potion: Restores 40-60 HP and 30-40 MP
+Item	green rock candy	Effect: "Sprinkle Sense", Effect Duration: 10
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
 Item	green snowcone	Effect: "Green Tongue", Effect Duration: 20
