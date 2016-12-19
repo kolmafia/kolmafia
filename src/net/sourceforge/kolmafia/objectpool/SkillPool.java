@@ -108,6 +108,7 @@ public class SkillPool
 	public static final int LICORICE_ROPE = 162;
 	public static final int GINGERBREAD_MOB_HIT = 163;
 	public static final int CECI_CHAPEAU = 165;
+	public static final int STACK_LUMPS = 167;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
