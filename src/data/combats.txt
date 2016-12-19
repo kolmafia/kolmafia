@@ -103,7 +103,7 @@ Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wra
 Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
-Crimbo's Sack	-1	penguin mafioso	simple hobo	endless winter
+Crimbo's Sack	100	endless winter	penguin mafioso	simple hobo
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
@@ -418,12 +418,12 @@ Waste Processing	100	creepy eye-stalk tentacle monster	grouchy furry monster	sca
 Whitey's Grove	85	Knight in White Satin	white chocolate golem	white lion	whitesnake	white elephant: 0
 Ye Olde Medievale Villagee	100	Medieval dung peddler	Medieval leather mug salesman	Medieval mug apprentice	Medieval potter	Medieval strawman debator	Medieval stucco artisan
 Yomama's Throne	-1	Yomama: 0
-Your Bung Chakra	-1	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
-Your Guts Chakra	-1	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
-Your Liver Chakra	-1	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
-Your Nipple Chakra	-1	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
-Your Nose Chakra	-1	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
-Your Hat Chakra	-1	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
+Your Bung Chakra	100	obsessively imagining your worst phobias	the most embarrassing moment in your entire life	what you totally should have said that one time
+Your Guts Chakra	100	obsessively imagining your worst phobias	fear of an uncertain future	that time you screwed everything up like a complete idiot
+Your Liver Chakra	100	fear of an uncertain future	the most embarrassing moment in your entire life	the realization that everyone you love will die someday
+Your Nipple Chakra	100	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
+Your Nose Chakra	100	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
+Your Hat Chakra	100	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
 
 # Areas with no combat data
 

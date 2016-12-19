@@ -9288,7 +9288,7 @@
 9262	fruit-leather negatives	154948221	filmcan.gif	none	q	0
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264	briefcase full of sprinkles	842602736	briefcase.gif	usable		0
-9265
+9265	teethpick	606568152	teethpick.gif	none	q	0
 9266
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268
