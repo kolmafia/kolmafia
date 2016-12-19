@@ -2313,6 +2313,9 @@ the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: 0 Cap:
 the realization that everyone you love will die someday	1994	badvibe2.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 what you totally should have said that one time	1999	badvibe5.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: 10 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
+penguin mafiosi	2005	pengthug.gif	Scale: 5 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0)	negative lump (0)
+endless winter	2000	winter,gif	Scale: 5 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0)	negative lump (0)	chakra sludge (0)
+simple hobo	2006	nhobo1.gif	Scale: 3 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.

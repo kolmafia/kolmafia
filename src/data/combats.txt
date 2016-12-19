@@ -103,6 +103,7 @@ Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wra
 Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
+Crimbo's Sack	-1      penguin mafioso	simple hobo	endless winter
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor

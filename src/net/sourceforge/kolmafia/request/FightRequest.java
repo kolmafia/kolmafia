@@ -6137,6 +6137,7 @@ public class FightRequest
 			status.location.equals( "Your Nipple Chakra" ) ? "crimbo16NippleChakraCleanliness" :
 			status.location.equals( "Your Nose Chakra" ) ? "crimbo16NoseChakraCleanliness" :
 			status.location.equals( "Your Hat Chakra" ) ? "crimbo16HatChakraCleanliness" :
+			status.location.equals( "Crimbo's Sack" ) ? "crimbo16SackChakraCleanliness" :
 			null;
 
 		if ( setting != null )

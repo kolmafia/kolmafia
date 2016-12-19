@@ -3451,6 +3451,7 @@ Item	astral pet sweater	Familiar Weight: +10, Generic
 Item	attention spanner	Familiar Weight: +5
 # badger badge: Increases Astral Mushroom Drop Rate
 # bag of many confections: Full of Candy!
+Item	black gallstone	Familiar Weight: +5
 Item	blue canary nightlight	Familiar Weight: +5
 # blue pumps: Causes your Ms. Puck Man to sometimes drop extra yellow pixels
 Item	blue suede shoes	Familiar Weight: +5
