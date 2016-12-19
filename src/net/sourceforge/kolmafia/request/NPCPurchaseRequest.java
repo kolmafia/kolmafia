@@ -504,13 +504,16 @@ public class NPCPurchaseRequest
 		// The following trade collections of ingredients for an item
 		if ( shopId.equals( "airport" ) ||
 		     shopId.equals( "beergarden" ) ||
+		     shopId.equals( "crimbo16" ) ||
+		     shopId.equals( "5dprinter" ) ||
 		     shopId.equals( "grandma" ) ||
 		     shopId.equals( "junkmagazine" ) ||
 		     shopId.startsWith( "kolhs_" ) ||
 		     shopId.equals( "mystic" ) ||
 		     shopId.equals( "rumple" ) ||
 		     shopId.equals( "snowgarden" ) ||
-		     shopId.equals( "starchart" ) )
+		     shopId.equals( "starchart" ) ||
+		     shopId.equals( "still" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;

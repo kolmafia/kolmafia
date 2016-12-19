@@ -75,7 +75,17 @@ public class AirportRequest
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
-			// KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Airport shopping was unsuccessful." );
+			return;
+		}
+
+		AirportRequest.parseResponse( urlString, responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=airport" ) )
+		{
 			return;
 		}
 

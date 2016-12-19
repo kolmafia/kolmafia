@@ -87,11 +87,21 @@ public class StarChartRequest
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
 
-		// You place the stars and lines on the chart -- the chart bursts into flames
-		// and leaves behind a sweet star item!
+		// You place the stars and lines on the chart -- the chart
+		// bursts into flames and leaves behind a sweet star item!
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You place the stars" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Star chart crafting was unsuccessful." );
+			return;
+		}
+
+		StarChartRequest.parseResponse( urlString, responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=starchart" ) )
+		{
 			return;
 		}
 
