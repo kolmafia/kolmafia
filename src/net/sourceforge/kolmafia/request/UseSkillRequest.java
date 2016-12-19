@@ -2432,7 +2432,8 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.STACK_LUMPS:
-			Preferences.increment( "_stackLumpsUses" );
+			Preferences.increment( "_stackLumpsUses", count );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.NEGATIVE_LUMP, -100*count ) );
 			break;
 
 		}
