@@ -81,6 +81,16 @@ public class PixelRequest
 			return;
 		}
 
+		PixelRequest.parseResponse( urlString, responseText );
+	}
+
+	public static void parseResponse( final String urlString, final String responseText )
+	{
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=mystic" ) )
+		{
+			return;
+		}
+
 		NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 	}
 

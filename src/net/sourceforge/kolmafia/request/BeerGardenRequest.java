@@ -33,7 +33,9 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 
@@ -69,6 +71,13 @@ public class BeerGardenRequest
 	{
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
+
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Beer crafting was unsuccessful." );
+			return;
+		}
+
 		BeerGardenRequest.parseResponse( urlString, responseText );
 	}
 

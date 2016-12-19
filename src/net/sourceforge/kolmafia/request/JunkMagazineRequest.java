@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -70,6 +71,13 @@ public class JunkMagazineRequest
 	{
 		String urlString = this.getURLString();
 		String responseText = this.responseText;
+
+		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Junk magazine purchasing was unsuccessful." );
+			return;
+		}
+
 		JunkMagazineRequest.parseResponse( urlString, responseText );
 	}
 
