@@ -421,7 +421,7 @@ public abstract class HPRestoreItemList
 					return;
 				}
 
-				new ClanLoungeRequest( ClanLoungeRequest.HOTTUB );
+				RequestThread.postRequest( new ClanLoungeRequest( ClanLoungeRequest.HOTTUB ) );
 				return;
 			}
 
