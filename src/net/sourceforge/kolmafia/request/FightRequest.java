@@ -1388,6 +1388,14 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Gingerbread Mob Hit" ) )
+		{
+			if ( Preferences.getBoolean( "_gingerbreadMobHitUsed" ) )
+			{
+				this.skipRound();
+				return;
+			}
+		}
 		if ( skillName.equals( "Walk Away From Explosion" ) )
 		{
 			// You can't walk away from explosions whilst bored of them
@@ -7678,6 +7686,13 @@ public class FightRequest
 			if ( responseText.contains( "punch" ) || skillSuccess )
 			{
 				Preferences.increment( "_shatteringPunchUsed" );
+			}
+			break;
+
+		case SkillPool.GINGERBREAD_MOB_HIT:
+			if ( responseText.contains( "associates arrive" ) || skillSuccess )
+			{
+				Preferences.setBoolean( "_gingerbreadMobHitUsed", true );
 			}
 			break;
 
