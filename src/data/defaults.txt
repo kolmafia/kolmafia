@@ -1461,6 +1461,7 @@ user	_spelunkingTalesDrops	0
 user	_spinningWheel	false
 user	_spookyAirportToday	false
 user	_stabonicScrollUsed	false
+user	_stackLumpsUses	0
 user	_steamCardDrops	0
 user	_steelyEyedSquintUsed	false
 user	_stenchAirportToday	false

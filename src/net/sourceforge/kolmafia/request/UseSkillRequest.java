@@ -2431,6 +2431,10 @@ public class UseSkillRequest
 			Preferences.setBoolean( "_ceciHatUsed", true );
 			break;
 
+		case SkillPool.STACK_LUMPS:
+			Preferences.increment( "_stackLumpsUses" );
+			break;
+
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )

@@ -571,6 +571,9 @@ public class SkillDatabase
 		case SkillPool.TURBO:
 			terminal = true;
 			break;
+
+		case SkillPool.STACK_LUMPS:
+			return SkillDatabase.stackLumpsCost();
 		}
 
 		if ( classType != null )
@@ -766,6 +769,19 @@ public class SkillDatabase
 		}
 
 		return count;
+	}
+
+	public static final int stackLumpsCost()
+	{
+		int mpCost = 1;
+		int casts = Preferences.getInteger( "_stackLumpsUses" );
+		if ( casts < 0 ) return mpCost;
+		for ( int i = 0; i <= casts; i++ )
+		{
+			mpCost += 10*Math.pow( 10, i );
+		}
+
+		return mpCost;
 	}
 
 	/**
