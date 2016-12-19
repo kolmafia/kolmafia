@@ -9289,7 +9289,7 @@
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264	briefcase full of sprinkles	842602736	briefcase.gif	usable		0
 9265	teethpick	606568152	teethpick.gif	none	q	0
-9266
+9266	green rock candy	837289777	greencandy.gif	usable	t,d	15
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0

@@ -3149,6 +3149,7 @@ public class UseItemRequest
 		case ItemPool.POP_ART_BOOK:
 		case ItemPool.NO_HATS_BOOK:
 		case ItemPool.VIGILANTE_BOOK:
+		case ItemPool.LUMP_STACKING_BOOK:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you
