@@ -9308,7 +9308,7 @@
 9282	crystal belt buckle	240247384	crystalbuckle.gif	accessory		0
 9283	saffron antaravasaka	278132307	brobe2.gif	pants		0
 9284	saffron uttarasanga	555660466	brobe1.gif	container		0
-9285
+9285	Lump-Stacking for Beginners	273387832	book3.gif	usable	t	0
 9286
 9287	pet bad vibe	143653174	babybadvibe.gif	grow	t	0
 9288	black gallstone	923998146	loadstone.gif	familiar	t	0
