@@ -9312,3 +9312,5 @@
 9286	eternal knot tattoo	216849870	knottat.gif	usable	t	0
 9287	pet bad vibe	143653174	babybadvibe.gif	grow	t	0
 9288	black gallstone	923998146	loadstone.gif	familiar	t	0
+9289
+9290	Eldritch snap	460482869	circle.gif	food	t	0
