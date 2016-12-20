@@ -526,7 +526,7 @@ public class MonsterData
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
 			int hp = KoLCharacter.getAdjustedMuscle() + scale;
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP);
-			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+			int floor = (int) ( evaluate( this.floor, MonsterData.DEFAULT_FLOOR) * 0.75 );
 			int ml = ML();
 
 			hp = hp > cap ? cap : hp;
@@ -669,7 +669,7 @@ public class MonsterData
 			int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
 			int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
 
-			defense = defense > cap ? cap : defense < floor ? floor : defense;
+			defense = defense > cap ? cap : defense;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
 			defense = (int) Math.floor( ( defense + ml ) * getBeeosity() );
