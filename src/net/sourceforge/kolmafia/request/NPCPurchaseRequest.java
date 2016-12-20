@@ -505,15 +505,13 @@ public class NPCPurchaseRequest
 		if ( shopId.equals( "airport" ) ||
 		     shopId.equals( "beergarden" ) ||
 		     shopId.equals( "crimbo16" ) ||
-		     shopId.equals( "5dprinter" ) ||
 		     shopId.equals( "grandma" ) ||
 		     shopId.equals( "junkmagazine" ) ||
 		     shopId.startsWith( "kolhs_" ) ||
 		     shopId.equals( "mystic" ) ||
 		     shopId.equals( "rumple" ) ||
 		     shopId.equals( "snowgarden" ) ||
-		     shopId.equals( "starchart" ) ||
-		     shopId.equals( "still" ) )
+		     shopId.equals( "starchart" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
 			return;
@@ -1023,6 +1021,7 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "5dprinter" ) ||
 			     shopId.equals( "airport" ) ||
 			     shopId.equals( "beergarden" ) ||
+			     shopId.equals( "crimbo16" ) ||
 			     shopId.equals( "grandma" ) ||
 			     shopId.equals( "junkmagazine" ) ||
 			     shopId.startsWith( "kolhs_" ) ||
