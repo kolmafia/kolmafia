@@ -236,6 +236,7 @@ Dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going (
 Dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 eagle's milk	2	2	decent	4	0	0	0
+Eldritch snap	1	3	EPIC	0	0	0	0	Unspaded, 3 Eldritch Attunement
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
 electric eleven oceans roll	3	1		12-17	20-30	20-30	28-46	45/55 Fishy
