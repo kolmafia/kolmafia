@@ -363,6 +363,7 @@ user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
 user	crappyCameraMonster
+user	crimbo16BootsChakraCleanliness	0
 user	crimbo16BungChakraCleanliness	0
 user	crimbo16GutsChakraCleanliness	0
 user	crimbo16HatChakraCleanliness	0

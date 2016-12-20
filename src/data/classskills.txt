@@ -1,4 +1,4 @@
-4
+<4
 # Syntax is:
 # id	Name	image	Type	MP Cost	Duration[	Level]
 # Type can be:
@@ -188,7 +188,7 @@
 163	Gingerbread Mob Hit		5	30	0
 164	Fifteen Minutes of Flame	fire.gif	3	50	15
 165	Ceci N'Est Pas Un Chapeau	nohat.gif	3	300	0
-166
+166	Sweet Synthesis	pep_patty.gif	3	0	0
 167	Stack Lumps	chocolump.gif	1	0	0
 
 # Skills available to Clubbers
