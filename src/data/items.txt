@@ -9284,7 +9284,7 @@
 9258	My Life of Crime, a Memoir	267400722	book3.gif	usable	t	0
 9259	Pop Art: a Guide	778248097	book4.gif	usable	t	0
 9260	No Hats as Art	321323345	book5.gif	usable	t	0
-9261
+9261	Rethinking Candy	352309634	book3.gif	usable	t	0
 9262	fruit-leather negatives	154948221	filmcan.gif	none	q	0
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264	briefcase full of sprinkles	842602736	briefcase.gif	usable		0
@@ -9309,6 +9309,6 @@
 9283	saffron antaravasaka	278132307	brobe2.gif	pants		0
 9284	saffron uttarasanga	555660466	brobe1.gif	container		0
 9285	Lump-Stacking for Beginners	273387832	book3.gif	usable	t	0
-9286
+9286	eternal knot tattoo	216849870	knottat.gif	usable	t	0
 9287	pet bad vibe	143653174	babybadvibe.gif	grow	t	0
 9288	black gallstone	923998146	loadstone.gif	familiar	t	0

@@ -9132,6 +9132,7 @@ Item	resolution: be sexier	Effect: "Irresistible Resolve", Effect Duration: 20
 Item	resolution: be smarter	Effect: "Brilliant Resolve", Effect Duration: 20
 Item	resolution: be stronger	Effect: "Strong Resolve", Effect Duration: 20
 Item	resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
+Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
 # Item robin's egg: When used in combat: weakens enemies by 50% and briefly stuns them
 Item	robin's egg	Effect: "Egged On", Effect Duration: 10
