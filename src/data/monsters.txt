@@ -2320,7 +2320,7 @@ simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird	
 endless winter	2000	winter.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 
 bottle of cheap whiskey	2003	whiskey.gif	Scale: 4 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0)
-the crimborg	2004	dodec.gif	Scale: 4 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0
+the crimborg	2004	dodec.gif	Scale: 4 Cap: 10000 Floor: ? Init: -10000 P: weird	negative lump (0)	negative lump (0)	negative lump (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
