@@ -3083,6 +3083,7 @@ Item	tiny plastic apathetic lizardman	Monster Level: +1
 Item	tiny plastic astronomer	Monster Level: +1
 Item	tiny plastic Axe Wound	Monster Level: +1
 Item	tiny plastic baby gravy fairy	Familiar Weight: +1
+Item	tiny plastic bad vibe	Monster Level: +2
 Item	tiny plastic Baron von Ratsworth	Meat Drop: +3
 Item	tiny plastic barrrnacle	Familiar Weight: +1
 Item	tiny plastic batbugbear	Monster Level: +1
