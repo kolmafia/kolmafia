@@ -2194,8 +2194,8 @@ giant designer sunglasses	10	none
 giant diamond ring	10	none
 giant motorcycle boots	120	Mus: 45
 giant pinky ring	100	Mys: 35
-gingerbeard	0	Mys: 25
-gingerservo	0	none
+gingerbeard	200	Mys: 25
+gingerservo	100	none
 Girdle of Hatred	200	Mus: 125
 glacial clock	30	none
 glass eye	100	Mys: 50
@@ -2639,6 +2639,7 @@ tiny plastic apathetic lizardman	10	none
 tiny plastic astronomer	10	none
 tiny plastic Axe Wound	10	none
 tiny plastic baby gravy fairy	10	none
+tiny plastic bad vibe	10	none
 tiny plastic Baron von Ratsworth	30	none
 tiny plastic barrrnacle	10	none
 tiny plastic batbugbear	10	none
