@@ -898,8 +898,8 @@ public class EquipmentRequest
 			}
 			else if ( this.outfit == SpecialOutfit.PREVIOUS_OUTFIT )
 			{
-				// If we donning KoL's idea of your previous outfit
-				// we have no idea what the pieces are.
+				// If we are donning KoL's idea of your previous
+				// outfit, we have no idea what the pieces are.
 
 				// *** KoL bug: whichoutfit=last doesn't actually work
 				// *** Therefore, look up the actual outfit id.
@@ -1861,6 +1861,10 @@ public class EquipmentRequest
 			// we could ask for an update, but we'll apply
 			// heuristics and hope for the best.
 
+			// Similarly, if you are dual-wielding two of the same
+			// weapon, if you replace one of them with another
+			// weapon, it's problematic.
+
 			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
 			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
 
@@ -1871,6 +1875,9 @@ public class EquipmentRequest
 			//
 			// Note that if an already equipped accessory is part
 			// of the new outfit, it stays exactly where it was.
+
+			// Weapons that are part of the new outfit stay where
+			// they currently are.
 
 			// Iterate over all unequipped items.
 			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
@@ -1907,6 +1914,8 @@ public class EquipmentRequest
 				case EquipmentManager.WEAPON:
 					if ( newEquipment[ EquipmentManager.OFFHAND ].equals( item ) )
 					{
+						// Heuristic: unequip duplicate
+						// weapon from offhand slot first
 						slot = EquipmentManager.OFFHAND;
 					}
 					else if ( !newEquipment[ EquipmentManager.WEAPON ].equals( item ) )
@@ -1935,7 +1944,7 @@ public class EquipmentRequest
 			// Consume unfilled slots from 1 to 3
 			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; slot++ )
 			{
-				if ( oldEquipment[ slot] == EquipmentRequest.UNEQUIP )
+				if ( oldEquipment[ slot ] == EquipmentRequest.UNEQUIP )
 				{
 					accessories[ accessoryIndex++ ] = slot;
 				}
@@ -1943,7 +1952,7 @@ public class EquipmentRequest
 			// Consume filled slots from 3 to 1
 			for ( int slot = EquipmentManager.ACCESSORY3; accessoryIndex < 3 && slot >= EquipmentManager.ACCESSORY1; slot-- )
 			{
-				if ( oldEquipment[ slot] != EquipmentRequest.UNEQUIP &&
+				if ( oldEquipment[ slot ] != EquipmentRequest.UNEQUIP &&
 				     newEquipment[ slot ] == EquipmentRequest.UNEQUIP )
 				{
 					accessories[ accessoryIndex++ ] = slot;
@@ -1956,6 +1965,15 @@ public class EquipmentRequest
 				EquipmentManager.OFFHAND,
 			};
 			int weaponIndex = 0;
+
+			// If the offhand slot is empty and the weapon slot is
+			// not, put new weapon into offhand slot
+			if ( newEquipment[ EquipmentManager.OFFHAND ] == EquipmentRequest.UNEQUIP &&
+			     newEquipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
+			{
+				weapons[ 0 ] = EquipmentManager.OFFHAND;
+				weapons[ 1 ] = EquipmentManager.WEAPON;
+			}
 
 			// Reset equip indices
 			accessoryIndex = 0;
@@ -1992,16 +2010,26 @@ public class EquipmentRequest
 						// KoL error: three weapons
 						continue;
 					}
-					slot = weapons[ weaponIndex++ ];
+					slot = weapons[ weaponIndex ];
+
 					// A chefstaff must go in the weapon slot,
 					// but KoL does not always list it first.
 					if ( slot == EquipmentManager.OFFHAND &&
 					     EquipmentDatabase.isChefStaff( item ) )
 					{
+						slot = EquipmentManager.WEAPON;
+
 						// Move other weapon to offhand
 						newEquipment[ EquipmentManager.OFFHAND ] = newEquipment[ EquipmentManager.WEAPON ];
-						slot = EquipmentManager.WEAPON;
+
+						// If we thought we were unequipping offhand
+						// and leaving weapon equipped, reverse that
+						if ( weaponIndex == 0 )
+						{
+							weapons[ 1 ] = EquipmentManager.OFFHAND;
+						}
 					}
+					weaponIndex++;
 					break;
 				default:
 					// Everything else goes into an
