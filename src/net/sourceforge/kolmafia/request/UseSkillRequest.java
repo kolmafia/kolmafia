@@ -850,6 +850,10 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_ceciHatUsed" ) ? 0 : 1;
 			break;
 
+		case SkillPool.STACK_LUMPS:
+			maximumCast = 1;
+			break;
+
 		}
 
 		return maximumCast;
@@ -2432,8 +2436,8 @@ public class UseSkillRequest
 			break;
 
 		case SkillPool.STACK_LUMPS:
-			Preferences.increment( "_stackLumpsUses", count );
-			ResultProcessor.processResult( ItemPool.get( ItemPool.NEGATIVE_LUMP, -100*count ) );
+			Preferences.increment( "_stackLumpsUses" );
+			ResultProcessor.processResult( ItemPool.get( ItemPool.NEGATIVE_LUMP, -100 ) );
 			break;
 
 		}
