@@ -1644,6 +1644,7 @@ Item	styrofoam staff	Mysticality: +3, Monster Level: +3
 Item	styrofoam sword	Muscle: +3, Monster Level: +3
 Item	sucker tachi	Weapon Damage: +10
 # suede shortsword
+Item	sugar raygun	Sprinkle Drop: +50
 # sugar shank: On Critical:  Cause Opponent to Bleed
 Item	sugar shank	Weapon Damage Percent: +50, Breakable
 Item	sugar shillelagh	Weapon Damage Percent: +50, Breakable
