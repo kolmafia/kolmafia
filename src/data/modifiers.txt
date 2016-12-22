@@ -3077,6 +3077,7 @@ Item	tiny plastic ancient yuletide troll	Familiar Weight: +1
 Item	tiny plastic angry bugbear	Monster Level: +1
 Item	tiny plastic angry goat	Familiar Weight: +1
 Item	tiny plastic angry space marine	Monster Level: +1
+Item	tiny plastic angry vikings	Weapon Damage: +10
 Item	tiny plastic anime smiley	Monster Level: +1
 Item	tiny plastic animelf	Initiative: +5
 Item	tiny plastic apathetic lizardman	Monster Level: +1

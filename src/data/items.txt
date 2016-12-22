@@ -9268,7 +9268,7 @@
 9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2
 9243	high-end ginger wine	411301645	gingerwineglass.gif	drink		0
 9244	tiny plastic bad vibe	349395507	tpbadvibe.gif	accessory	t	0
-9245
+9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0
 9246
 9247
 9248

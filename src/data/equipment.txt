@@ -2633,6 +2633,7 @@ tiny plastic ancient yuletide troll	10	none
 tiny plastic angry bugbear	10	none
 tiny plastic angry goat	10	none
 tiny plastic angry space marine	10	none
+tiny plastic angry vikings	10	none
 tiny plastic anime smiley	10	none
 tiny plastic animelf	0	none
 tiny plastic apathetic lizardman	10	none
