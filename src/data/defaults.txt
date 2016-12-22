@@ -371,6 +371,7 @@ user	crimbo16JellyChakraCleanliness	0
 user	crimbo16LiverChakraCleanliness	0
 user	crimbo16NippleChakraCleanliness	0
 user	crimbo16NoseChakraCleanliness	0
+user	crimbo16ReindeerChakraCleanliness	0
 user	crimbo16SackChakraCleanliness	0
 user	crimboTreeDays	7
 user	crimbotChassis	
