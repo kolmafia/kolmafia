@@ -9291,7 +9291,7 @@
 9265	teethpick	606568152	teethpick.gif	none	q	0
 9266	green rock candy	837289777	greencandy.gif	usable	t,d	15
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
-9268
+9268	sugar raygun	744275266	sugarraygun.gif	weapon		0
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
 9270	no hat	887807812	nohat.gif	hat	q	0
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160	wads of chakra sludge

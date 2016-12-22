@@ -1411,6 +1411,7 @@ styrofoam staff	60	Mus: 15	2-handed staff
 styrofoam sword	60	Mus: 15	1-handed sword
 sucker tachi	50	Mus: 0	1-handed sword
 suede shortsword	40	Mus: 5	1-handed sword
+sugar raygun	150	Mox: 50	1-handed pistol
 sugar shank	100	Mus: 0	1-handed knife
 sugar shillelagh	100	Mus: 0	2-handed club
 sugar shotgun	100	Mox: 0	1-handed pistol
