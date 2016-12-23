@@ -1793,9 +1793,9 @@ gingerbread wino	1982	gbwino.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude
 gingerbread mugger	1983	gbmugger.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude SprinkleMin: 18 SprinkleMax: 20	gingerbread mug (0)	gingerbread mask (0)
 gingerbread welder robot	1984	gbwelder.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: construct SprinkleMin: 8 SprinkleMax: 10	gingerservo (0)
 gingerbread mutant	1985	gbmutant.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude SprinkleMin: 8 SprinkleMax: 10	tainted icing (0)
-gingerbread gentrifier	1986	gbgentry.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: dude SprinkleMin: 18 SprinkleMax: 20	gingerbread smartphone (0)	gingerbeard (0)
-gingerbread finance bro	1987	gbfinancebro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude SprinkleMin: 28 SprinkleMax: 30	gingerbread smartphone (0)	candy necktie (0)
-gingerbread tech bro	1988	gbtechbro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude SprinkleMin: 23 SprinkleMax: 25	gingerbread smartphone (0)	gingerbread hoodie (0)
+gingerbread gentrifier	1986	gbgentry.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 200 P: dude SprinkleMin: 18 SprinkleMax: 22	gingerbread smartphone (0)	gingerbeard (0)
+gingerbread finance bro	1987	gbfinancebro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 150 P: dude SprinkleMin: 28 SprinkleMax: 32	gingerbread smartphone (0)	candy necktie (0)
+gingerbread tech bro	1988	gbtechbro.gif	Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude SprinkleMin: 23 SprinkleMax: 27	gingerbread smartphone (0)	gingerbread hoodie (0)
 gingerbread alligator	1989	gbgator.gif	Scale: [10+190*pref(_gingerBiggerAlligators)] Cap: 1000 Floor: 30 Init: 100 P: beast SprinkleMin: [28+70*pref(_gingerBiggerAlligators)] SprinkleMax: [30+70*pref(_gingerBiggerAlligators)]
 gingerbread vigilante	1990	gbvigilante.gif	BOSS Scale: 10 Cap: 1000 Floor: 30 Init: -10000 P: dude SprinkleMin: 98 SprinkleMax: 100	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude SprinkleMin: 100 SprinkleMax: 100	gingerbread gavel (n100)
