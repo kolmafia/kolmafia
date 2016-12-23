@@ -310,6 +310,7 @@ Crimbo16	adventure=488	Env: indoor Stat: 0	Crimbo's Sack
 Crimbo16	adventure=489	Env: indoor Stat: 0	Crimbo's Boots
 Crimbo16	adventure=490	Env: indoor Stat: 0	Crimbo's Jelly
 Crimbo16	adventure=491	Env: indoor Stat: 0	Crimbo's Reindeer
+Crimbo16	adventure=492	Env: indoor Stat: 0	Crimbo's Beard
 
 Crimbo15	adventure=459	Env: outdoor Stat: 0	The Ruins of the Fully Automated Crimbo Factory
 

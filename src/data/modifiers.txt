@@ -3184,6 +3184,7 @@ Item	tiny plastic Knob Goblin harem girl	Monster Level: +1
 Item	tiny plastic Knob Goblin King	Muscle: +3
 Item	tiny plastic Knob Goblin mad scientist	Monster Level: +1
 Item	tiny plastic Knott Yeti	Monster Level: +1
+Item	tiny plastic Knows About Chakras	Spell Damage: +10
 Item	tiny plastic lemon-in-the-box	Monster Level: +1
 Item	tiny plastic leprechaun	Familiar Weight: +1
 Item	tiny plastic levitating potato	Familiar Weight: +1
