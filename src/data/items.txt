@@ -9269,7 +9269,7 @@
 9243	high-end ginger wine	411301645	gingerwineglass.gif	drink		0
 9244	tiny plastic bad vibe	349395507	tpbadvibe.gif	accessory	t	0
 9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0
-9246
+9246	tiny plastic Knows About Chakras	190016836	tpkac.gif	accessory	t	0
 9247
 9248
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0

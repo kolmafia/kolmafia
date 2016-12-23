@@ -103,6 +103,7 @@ Crimbo Town Toy Factory (2005)	100	Striking Factory-Worker Elf	Striking Gift-Wra
 Crimbo Town Toy Factory (2007)	100	Arc-Welding Elfborg	Decal-Applying Elfborg	Ribbon-Cutting Elfborg	Weapons-Assembly Elfborg
 Crimbo Town Toy Factory (2009)	100	amateur elf	auteur elf	bolt-cuttin' elf	monkey wrenchin' elf	propaganda-spewin' elf	provocateur elf	raconteur elf	saboteur elf	wire-crossin' elf
 Crimbo Town Toy Factory (2012)	100	circuit-soldering animelf	plastic-extruding animelf	quality control animelf	tiny-screwing animelf	toy assembling animelf
+Crimbo's Beard	100	the Crimborg	penguin mafioso	angry viking warriors
 Crimbo's Boots	100	endless winter	bottle of cheap whiskey	the Crimborg
 Crimbo's Jelly	100	bottle of cheap whiskey	the abstract concept of poverty	penguin mafioso
 Crimbo's Reindeer	100	the Crimborg	the abstract concept of poverty	simple hobo

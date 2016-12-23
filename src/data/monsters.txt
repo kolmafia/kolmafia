@@ -2317,6 +2317,7 @@ what you totally should have said that one time	1999	badvibe5.gif	Scale: 0 Cap: 
 
 endless winter	2000	winter.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 the abstract concept of poverty	2001	poverty.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
+angry viking warriors	2002	3vikings.gif	Scale: 7 Cap: 10000 Floor: ? Init: -10000 Phys: 100 P: weird	negative lump (0)	chakra sludge (0)
 
 bottle of cheap whiskey	2003	whiskey.gif	Scale: 4 Cap: 10000 Floor: 25 Init: -10000 P: weird	negative lump (0)
 the Crimborg	2004	dodec.gif	Scale: 4 Cap: 10000 Floor: 25 Init: -10000 P: weird	negative lump (0)
