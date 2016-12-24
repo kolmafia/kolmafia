@@ -7521,7 +7521,7 @@
 7496	bottled day	917421867	timebottle.gif	usable	t	0
 7497	ghost formula	403230490	babybottle.gif	usable	q	0
 7498	Thwaitgold wheel bug statuette	825448772	thwaitwheelbug.gif	none		0
-7499	Hot 'n' Scarys	112858401	box2.gif	multiple	t,d	5	boxes of Hot 'n' Scarys
+7499	Hot 'n' Scarys	112858401	box2.gif	multiple, candy	t,d	5	boxes of Hot 'n' Scarys
 7500	black map	897134461	blackmap.gif	none	q	0
 7501	black gold	998488929	blackgold.gif	none	t,d	300	chunks of black gold
 7502	Texas tea	444456310	coffeecup.gif	usable	t,d	75	cups of Texas tea
@@ -8560,7 +8560,7 @@
 8534	libertagliatelle	178454636	bowl.gif	food	t,d	65	bowls of libertagliatelle
 8535	turkish mostaccioli	352002016	bowl.gif	food	t,d	65	bowls of turkish mostaccioli
 8536	linguini of the sea	136886155	bowl.gif	food	t,d	65	bowls of linguini of the sea
-8537	Hersey&trade; SMOOCH	802918114	smoochkiss.gif	multiple	t,d	15	Hersey&trade; SMOOCHes
+8537	Hersey&trade; SMOOCH	802918114	smoochkiss.gif	multiple, candy	t,d	15	Hersey&trade; SMOOCHes
 8538
 8539	Alexy sauce	811157373	gravy.gif	none	t,d	65	tureens of Alexy sauce
 8540	rainbow sauce	772149264	gravy.gif	none	t,d	65	tureens of rainbow sauce
