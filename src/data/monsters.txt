@@ -2325,7 +2325,7 @@ penguin mafioso	2005	pengthug.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: 
 simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird	negative lump (0)
 
 Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: ? Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
-The Krampus	2008	krampus.gif		NOMANUEL Scale: 9 Cap: 10000 Floor: ? Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
+The Krampus	2008	krampus.gif	NOMANUEL Scale: 9 Cap: 10000 Floor: ? Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
