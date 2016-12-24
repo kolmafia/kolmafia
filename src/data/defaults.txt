@@ -366,6 +366,7 @@ user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
 user	crimbo16BungChakraCleanliness	0
+user	crimbo16CrimboHatChakraCleanliness	0
 user	crimbo16GutsChakraCleanliness	0
 user	crimbo16HatChakraCleanliness	0
 user	crimbo16JellyChakraCleanliness	0

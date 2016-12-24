@@ -432,9 +432,13 @@ public class PlaceRequest
 			{
 				message = "Visiting An Elf Bearddresser";
 			}
-			else if ( action.equals( "crimbo16_guy" ) )
+			else if ( action.equals( "crimbo16_guy6" ) )
 			{
 				message = "Visiting A Frat Boy";
+			}
+			else if ( action.equals( "crimbo16_guy6a" ) )
+			{
+				message = "Visiting An Elf Haberdasher";
 			}
 		}
 		else if ( place.equals( "crimbo16m" ) )

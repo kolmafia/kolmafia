@@ -9297,7 +9297,7 @@
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160	wads of chakra sludge
 9272	negative lump	442273709	chocolump.gif	none	t,d	16
 9273	Third Eye	333741309	thirdeye.gif	hat		0
-9274
+9274	Krampus Horn	664351213	krampushorn.gif	accessory		0
 9275	hambrosier	300045053	burger.gif	food	t	0
 9276	chakra-mental wine	737943031	wine.gif	drink	t	0
 9277	chakra malt	851080367	sodacup.gif	multiple	t	0
