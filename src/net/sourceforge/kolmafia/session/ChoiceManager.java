@@ -10800,6 +10800,11 @@ public abstract class ChoiceManager
 				// candy screwdriver
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -100 ) );
 			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				// teethpick
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+			}
 			break;
 
 		case 1207:
