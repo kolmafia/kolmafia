@@ -2669,6 +2669,9 @@ Item	kick-ass kicks	Sleaze Damage: +10, Moxie: +3, Single Equip
 Item	knobby kneepads	Weapon Damage: +3
 Item	KoL Con 8-Bit power bracelet	Muscle: +8
 Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
+# Item Krampus Horn: Greatly improves chances of finding lumps and sludge
+# Item Krampus Horn: Doubles your damage against Bad Vibes
+Item	Krampus Horn	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Experience: +2, Single Equip
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 Item	kumquartz ring	Single Equip, Weapon Damage Percent: [200*zone(The Candy Diorama)]

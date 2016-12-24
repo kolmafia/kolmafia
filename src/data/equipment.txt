@@ -2281,6 +2281,7 @@ kick-ass kicks	160	Mys: 65
 knobby kneepads	20	none
 KoL Con 8-Bit power bracelet	0	none
 KoL Con X Bingo Card	0	none
+Krampus Horn	150	Mys: 40
 kumquartz ring	0	none
 La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 ladle of mystery	40	Mys: 5
