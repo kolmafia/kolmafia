@@ -9270,7 +9270,7 @@
 9244	tiny plastic bad vibe	349395507	tpbadvibe.gif	accessory	t	0
 9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0
 9246	tiny plastic Knows About Chakras	190016836	tpkac.gif	accessory	t	0
-9247
+9247	tiny plastic Your Brain	349091506	tpbrain.gif	accessory	t	0
 9248
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
 9250	Inner Strength	389870199	jperfume.gif	multiple	t	0

@@ -3256,6 +3256,7 @@ Item	tiny plastic warwelf	Monster Level: +1
 Item	tiny plastic whitesnake	Monster Level: +1
 Item	tiny plastic Wu Tang the Betrayer	Weapon Damage: +5
 Item	tiny plastic XXX pr0n	Monster Level: +1
+Item	tiny plastic Your Brain	MP Regen Min: 3, MP Regen Max: 4
 Item	tiny plastic zmobie	Monster Level: +1
 Item	tonguebone	Sleaze Resistance: +4, Single Equip
 Item	topiary necktie	Sleaze Resistance: +3
