@@ -9271,7 +9271,7 @@
 9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0
 9246	tiny plastic Knows About Chakras	190016836	tpkac.gif	accessory	t	0
 9247	tiny plastic Your Brain	349091506	tpbrain.gif	accessory	t	0
-9248
+9248	tiny plastic Krampus	939530296	tpkramps.gif	accessory	t	0
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
 9250	Inner Strength	389870199	jperfume.gif	multiple	t	0
 9251	Inner Truth	903953457	jperfume.gif	multiple	t	0
@@ -9312,5 +9312,5 @@
 9286	eternal knot tattoo	216849870	knottat.gif	usable	t	0
 9287	pet bad vibe	143653174	babybadvibe.gif	grow	t	0
 9288	black gallstone	923998146	loadstone.gif	familiar	t	0
-9289
+9289	Uncle Crimbo's hat	113038072	santahat.gif	hat		0
 9290	Eldritch snap	460482869	circle.gif	food	t	0
