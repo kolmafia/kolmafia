@@ -431,6 +431,7 @@ Item	Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFai
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
 Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
+Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect Duration: 100, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia"
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
@@ -731,7 +732,6 @@ Item	troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 Item	troutsers	Moxie Percent: +50, Pickpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover, Familiar Effect: "sleaze atk, 0.5xPotato"
 Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
-Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect Duration: 100, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia"
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
