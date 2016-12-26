@@ -8324,7 +8324,7 @@
 8298	yellow pixel	512868873	pixel7.gif	none	t,d	5
 8299	pixel coin	818106945	pixelcoin.gif	multiple	t	0
 8300	power pill	515789880	powerpill.gif	multiple, combat	t,d	200
-8301	pixel star	177951003	pixelstar.gif	usable	t,d	150
+8301	pixel star	177951003	pixelstar.gif	multiple	t,d	150
 8302	pixel banana	390664858	pixelbanana.gif	food	t,d	150
 8303	pixel beer	365395975	pixelbeer.gif	drink	t,d	150
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0	yellow pucks with bows on them
