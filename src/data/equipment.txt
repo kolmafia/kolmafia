@@ -328,6 +328,7 @@ Tropical Crimbo Hat	100	Mox: 35
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
 two-gallon hat	40	none
+Uncle Crimbo's hat	100	Mox: 35
 Uncle Hobo's stocking cap	200	Mox: 200
 Unfortunato's foolscap	150	Mox: 20
 Unkillable Skeleton's skullcap	300	Mus: 250
@@ -2742,6 +2743,7 @@ tiny plastic Knob Goblin King	30	none
 tiny plastic Knob Goblin mad scientist	10	none
 tiny plastic Knott Yeti	10	none
 tiny plastic Knows About Chakras	10	none
+tiny plastic Krampus	10	none
 tiny plastic lemon-in-the-box	10	none
 tiny plastic leprechaun	10	none
 tiny plastic levitating potato	10	none

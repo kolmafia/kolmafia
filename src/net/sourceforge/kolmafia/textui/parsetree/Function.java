@@ -81,7 +81,7 @@ public abstract class Function
 			buf.append( this.name );
 			buf.append( "(" );
 		
-			Iterator i = this.getReferences();
+			Iterator<VariableReference> i = this.getReferences();
 			boolean first = true;
 			while ( i.hasNext()  )
 			{
@@ -113,7 +113,7 @@ public abstract class Function
 		this.variableReferences = variableReferences;
 	}
 
-	public Iterator getReferences()
+	public Iterator<VariableReference> getReferences()
 	{
 		return this.variableReferences.iterator();
 	}
