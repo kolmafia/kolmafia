@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -49,7 +49,7 @@ public class FunctionInvocation
 	private Value name;
 	private Type type;
 
-	public FunctionInvocation( final BasicScope scope, final Type type, final Value name, final ValueList params, final Parser parser )
+	public FunctionInvocation( final BasicScope scope, final Type type, final Value name, final List<Value> params, final Parser parser )
 	{
 		super( null, params, parser);
 		this.scope = scope;
@@ -130,10 +130,8 @@ public class FunctionInvocation
 		stream.println( "<INVOKE " + this.name.toString() + ">" );
 		this.type.print( stream, indent + 1 );
 
-		Iterator it = this.getValues();
-		while ( it.hasNext() )
+		for ( Value current : this.params )
 		{
-			Value current = (Value) it.next();
 			current.print( stream, indent + 1 );
 		}
 	}

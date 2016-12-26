@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import net.sourceforge.kolmafia.StaticEntity;
@@ -50,8 +50,7 @@ public class UserDefinedFunction
 	private Scope scope;
 	private final Stack<ArrayList<Value>> callStack;
 
-	public UserDefinedFunction( final String name, final Type type,
-		final VariableReferenceList variableReferences )
+	public UserDefinedFunction( final String name, final Type type, final List<VariableReference> variableReferences )
 	{
 		super( name, type, variableReferences );
 
@@ -120,7 +119,7 @@ public class UserDefinedFunction
 		if ( StaticEntity.isDisabled( this.getName() ) )
 		{
 			this.printDisabledMessage( interpreter );
-			return this.getType().initialValue();
+			return this.type.initialValue();
 		}
 
 		if ( this.scope == null )
@@ -131,12 +130,9 @@ public class UserDefinedFunction
 		// Save current variable bindings
 		this.saveBindings( interpreter );
 
-		Iterator refIterator = this.getReferences();
 		int paramCount = 1;
-
-		while ( refIterator.hasNext() )
+		for ( VariableReference paramVarRef : this.variableReferences )
 		{
-			VariableReference paramVarRef = (VariableReference) refIterator.next();
 			Value value = (Value)values[ paramCount++ ];
 
 			// Bind parameter to new value
@@ -153,7 +149,7 @@ public class UserDefinedFunction
 			return result;
 		}
 
-		return this.getType().initialValue();
+		return this.type.initialValue();
 	}
 
 	public boolean overridesLibraryFunction()

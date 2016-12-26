@@ -44,7 +44,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class SwitchScope
 	extends BasicScope
 {
-	private ArrayList commands = new ArrayList();
+	private ArrayList<ParseTreeNode> commands = new ArrayList<ParseTreeNode>();
 	private int offset = -1;
 	private int barrier = BasicScope.BARRIER_SEEN;
 	private boolean breakable = false;
@@ -81,7 +81,7 @@ public class SwitchScope
 	}
 
 	@Override
-	public Iterator getCommands()
+	public Iterator<ParseTreeNode> getCommands()
 	{
 		return this.commands.listIterator( this.offset );
 	}
@@ -151,9 +151,8 @@ public class SwitchScope
                                 stream.println( "<DEFAULT>" );
                         }
 
-			ParseTreeNode command = (ParseTreeNode)commands.get( index );
+			ParseTreeNode command = commands.get( index );
 			command.print( stream, indent + 2 );
 		}
 	}
 }
-

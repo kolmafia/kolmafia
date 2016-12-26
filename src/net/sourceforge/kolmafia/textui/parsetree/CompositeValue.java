@@ -91,7 +91,7 @@ public class CompositeValue
 		return new Value[ 0 ];
 	}
 
-	public Iterator iterator()
+	public Iterator<Value> iterator()
 	{
 		return Arrays.asList( this.keys() ).iterator();
 	}

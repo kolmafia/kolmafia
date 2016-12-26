@@ -87,7 +87,6 @@ import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
-import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNodeList;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RepeatUntilLoop;
@@ -103,11 +102,9 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeDef;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import net.sourceforge.kolmafia.textui.parsetree.ValueList;
 import net.sourceforge.kolmafia.textui.parsetree.Variable;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
-import net.sourceforge.kolmafia.textui.parsetree.VariableReferenceList;
 import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
@@ -611,8 +608,8 @@ public class Parser
 		this.readToken(); // read {
 
 		// Loop collecting fields
-		ArrayList<Type> fieldTypes = new ArrayList<Type>();
-		ArrayList<String> fieldNames = new ArrayList<String>();
+		List<Type> fieldTypes = new ArrayList<Type>();
+		List<String> fieldNames = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -713,7 +710,7 @@ public class Parser
 		this.readToken(); //read (
 
 		VariableList paramList = new VariableList();
-		VariableReferenceList variableReferences = new VariableReferenceList();
+		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 
 		while ( !this.currentToken().equals( ")" ) )
 		{
@@ -1607,8 +1604,8 @@ public class Parser
 
 		this.readToken(); // {
 
-		ArrayList<Value> tests = new ArrayList<Value>();
-		ArrayList<Integer> indices = new ArrayList<Integer>();
+		List<Value> tests = new ArrayList<Value>();
+		List<Integer> indices = new ArrayList<Integer>();
 		int defaultIndex = -1;
 
 		SwitchScope scope = new SwitchScope( parentScope );
@@ -1858,7 +1855,7 @@ public class Parser
 
 		this.readToken(); // foreach
 
-		ArrayList<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
 
 		while ( true )
 		{
@@ -1910,7 +1907,7 @@ public class Parser
 
 		// Define key variables of appropriate type
 		VariableList varList = new VariableList();
-		VariableReferenceList variableReferences = new VariableReferenceList();
+		List<VariableReference> variableReferences = new ArrayList<VariableReference>();
 		Type type = aggregate.getType().getBaseType();
 
 		for ( String name : names )
@@ -2051,7 +2048,7 @@ public class Parser
 		// Parse variables and initializers
 
 		Scope scope = new Scope( parentScope );
-		ParseTreeNodeList<Assignment> initializers = new ParseTreeNodeList<Assignment>();
+		List<Assignment> initializers = new ArrayList<Assignment>();
 
 		// Parse each initializer in the context of scope, adding
 		// variable to variable list in the scope, and saving
@@ -2158,7 +2155,7 @@ public class Parser
 
 		// Parse incrementers in context of scope
 
-		ParseTreeNodeList<ParseTreeNode> incrementers = new ParseTreeNodeList<ParseTreeNode>();
+		List<ParseTreeNode> incrementers = new ArrayList<ParseTreeNode>();
 
 		while ( this.currentToken() != null && !this.currentToken.equals( ")" ) )
 		{
@@ -2281,7 +2278,7 @@ public class Parser
 
 		this.readToken(); //name
 
-		ValueList params = new ValueList();
+		List params = new ArrayList<Value>();
 		String [] names = target.getFieldNames();
 		Type [] types = target.getFieldTypes();
 		int param = 0;
@@ -2363,7 +2360,7 @@ public class Parser
 		String name = this.currentToken();
 		this.readToken(); //name
 
-		ValueList params = parseParameters( scope, firstParam );
+		List<Value> params = this.parseParameters( scope, firstParam );
 		Function target = this.findFunction( scope, name, params );
 
 		if ( target == null )
@@ -2376,7 +2373,7 @@ public class Parser
 		return parsePostCall( scope, call );
 	}
 
-	private ValueList parseParameters( final BasicScope scope, final Value firstParam )
+	private List<Value> parseParameters( final BasicScope scope, final Value firstParam )
 	{
 		if ( !this.currentToken().equals( "(" ) )
 		{
@@ -2385,7 +2382,7 @@ public class Parser
 
 		this.readToken(); //(
 
-		ValueList params = new ValueList();
+		List<Value> params = new ArrayList<Value>();
 		if ( firstParam != null )
 		{
 			params.add( firstParam );
@@ -2500,7 +2497,7 @@ public class Parser
 			}
 		}
 
-		ValueList params = parseParameters( scope, null );
+		List<Value> params = parseParameters( scope, null );
 
 		FunctionInvocation call = new FunctionInvocation( scope, type, name, params, this );
 
@@ -2526,9 +2523,9 @@ public class Parser
                 "to_url",
         };
 
-	private final Function findFunction( final BasicScope scope, final String name, final ValueList params )
+	private final Function findFunction( final BasicScope scope, final String name, final List<Value> params )
 	{
-		Function result = this.findFunction( scope, scope.getFunctionList(), name, params, true );
+		Function result = this.findFunction( scope, scope.getFunctions(), name, params, true );
 		if ( result != null )
 		{
 			return result;
@@ -2540,7 +2537,7 @@ public class Parser
 			return result;
 		}
 
-		result = this.findFunction( scope, scope.getFunctionList(), name, params, false );
+		result = this.findFunction( scope, scope.getFunctions(), name, params, false );
 		if ( result != null )
 		{
 			return result;
@@ -2568,7 +2565,7 @@ public class Parser
 	}
 
 	private final Function findFunction( BasicScope scope, final FunctionList source,
-					     final String name, final ValueList params,
+					     final String name, final List<Value> params,
 					     boolean isExactMatch )
 	{
 		if ( params == null )
@@ -2581,17 +2578,17 @@ public class Parser
 		// First, try to find an exact match on parameter types.
 		// This allows strict matches to take precedence.
 
-		for ( int i = 0; i < functions.length; ++i )
+		for ( Function function : functions )
 		{
-			Iterator< ? > refIterator = functions[ i ].getReferences();
-			Iterator< ? > valIterator = params.iterator();
+			Iterator<VariableReference> refIterator = function.getVariableReferences().iterator();
+			Iterator<Value> valIterator = params.iterator();
 			boolean matched = true;
 
 			while ( refIterator.hasNext() && valIterator.hasNext() )
 			{
-				VariableReference currentParam = (VariableReference) refIterator.next();
+				VariableReference currentParam = refIterator.next();
 				Type paramType = currentParam.getType();
-				Value currentValue = (Value) valIterator.next();
+				Value currentValue = valIterator.next();
 				Type valueType = currentValue.getType();
 
 				if ( isExactMatch )
@@ -2616,7 +2613,7 @@ public class Parser
 
 			if ( matched )
 			{
-				return functions[ i ];
+				return function;
 			}
 		}
 
@@ -3205,7 +3202,7 @@ public class Parser
 		char stopCharacter;
 
 		int level = 1;
-		ArrayList<Value> list = null;
+		List<Value> list = null;
 
 		if ( type == null )
 		{
@@ -3389,7 +3386,7 @@ public class Parser
 			{
 				String s1 = CharacterEntities.escape( StringUtilities.globalStringReplace( element, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
 				String s2 = CharacterEntities.escape( StringUtilities.globalStringReplace( fullName, ",", "\\," ).replaceAll("(?<= ) ", "\\\\ " ) );
-				ArrayList<String> names = new ArrayList<String>();
+				List<String> names = new ArrayList<String>();
 				if ( type == DataTypes.ITEM_TYPE )
 				{
 					int itemId = (int)value.contentLong;
@@ -3623,7 +3620,7 @@ public class Parser
 	private Value parseVariableReference( final BasicScope scope, final Variable var )
 	{
 		Type type = var.getType();
-		ValueList indices = new ValueList();
+		List<Value> indices = new ArrayList<Value>();
 
 		boolean parseAggregate = this.currentToken().equals( "[" );
 
@@ -4225,25 +4222,25 @@ public class Parser
 		return new ScriptException( message1 + " " + this.getLineAndFile() + " " + message2 );
 	}
 
-	private final ScriptException undefinedFunctionException( final String name, final ValueList params )
+	private final ScriptException undefinedFunctionException( final String name, final List<Value> params )
 	{
 		return this.parseException( Parser.undefinedFunctionMessage( name, params ) );
 	}
 
-	private final ScriptException multiplyDefinedFunctionException( final String name, final VariableReferenceList params )
+	private final ScriptException multiplyDefinedFunctionException( final String name, final List<VariableReference> params )
 	{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Function '" );
-		Parser.appendFunction( buffer, name, params );
+		Parser.appendFunctionDefinition( buffer, name, params );
 		buffer.append( "' defined multiple times" );
 		return this.parseException( buffer.toString() );
 	}
 
-	private final ScriptException overridesLibraryFunctionException( final String name, final VariableReferenceList params )
+	private final ScriptException overridesLibraryFunctionException( final String name, final List<VariableReference> params )
 	{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Function '" );
-		Parser.appendFunction( buffer, name, params );
+		Parser.appendFunctionDefinition( buffer, name, params );
 		buffer.append( "' overrides a library function" );
 		return this.parseException( buffer.toString() );
 	}
@@ -4263,11 +4260,11 @@ public class Parser
 		return new ScriptException( String.format( template, this.shortFileName, target, current ) );
 	}
 
-	public static final String undefinedFunctionMessage( final String name, final ValueList params )
+	public static final String undefinedFunctionMessage( final String name, final List<Value> params )
 	{
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Function '" );
-		Parser.appendFunction( buffer, name, params );
+		Parser.appendFunctionCall( buffer, name, params );
 		buffer.append( "' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts." );
 		return buffer.toString();
 	}
@@ -4314,27 +4311,33 @@ public class Parser
 		RequestLogger.printLine( "WARNING: " + msg + " " + this.getLineAndFile() );
 	}
 
-	private static final void appendFunction(  final StringBuffer buffer, final String name, final ParseTreeNodeList params )
+	private static final void appendFunctionCall( final StringBuffer buffer, final String name, final List<Value> params )
 	{
 		buffer.append( name );
 		buffer.append( "(" );
 
-		Iterator< ? > it = params.iterator();
-		boolean first = true;
-		while ( it.hasNext() )
+		String sep = " ";
+		for ( Value current : params )
 		{
-			if ( !first )
-			{
-				buffer.append( ", " );
-			}
-			else
-			{
-				buffer.append( " " );
-				first = false;
-			}
-			Value current = (Value) it.next();
-			Type type = current.getType();
-			buffer.append( type );
+			buffer.append( sep );
+			sep = ", ";
+			buffer.append( current.getType() );
+		}
+
+		buffer.append( " )" );
+	}
+
+	private static final void appendFunctionDefinition( final StringBuffer buffer, final String name, final List<VariableReference> params )
+	{
+		buffer.append( name );
+		buffer.append( "(" );
+
+		String sep = " ";
+		for ( Value current : params )
+		{
+			buffer.append( sep );
+			sep = ", ";
+			buffer.append( current.getType() );
 		}
 
 		buffer.append( " )" );
@@ -4355,17 +4358,15 @@ public class Parser
 		return "(" + fileName + ", line " + lineNumber + ")";
 	}
 
-	public static void printIndices( final ValueList indices, final PrintStream stream, final int indent )
+	public static void printIndices( final List<Value> indices, final PrintStream stream, final int indent )
 	{
 		if ( indices == null )
 		{
 			return;
 		}
 
-		Iterator< ? > it = indices.iterator();
-		while ( it.hasNext() )
+		for ( Value current : indices )
 		{
-			Value current = (Value) it.next();
 			Interpreter.indentLine( stream, indent );
 			stream.println( "<KEY>" );
 			current.print( stream, indent + 1 );

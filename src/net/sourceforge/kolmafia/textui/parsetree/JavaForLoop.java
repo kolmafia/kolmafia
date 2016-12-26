@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -46,14 +46,14 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class JavaForLoop
 	extends Loop
 {
-	private final ParseTreeNodeList<Assignment> initializers;
+	private final List<Assignment> initializers;
 	private final Value condition;
-	private final ParseTreeNodeList<ParseTreeNode> incrementers;
+	private final List<ParseTreeNode> incrementers;
 
 	public JavaForLoop( final Scope scope,
-			    final ParseTreeNodeList<Assignment> initializers,
+			    final List<Assignment> initializers,
 			    final Value condition,
-			    final ParseTreeNodeList<ParseTreeNode> incrementers )
+			    final List<ParseTreeNode> incrementers )
 	{
 		super( scope );
 		this.initializers = initializers;

@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLmafia;
@@ -54,11 +54,11 @@ public class Switch
 	private final SwitchScope scope;
 	private final Map labels;
 
-	public Switch( final Value condition, final ArrayList tests, final ArrayList offsets, final int defaultIndex, final SwitchScope scope, final Map labels )
+	public Switch( final Value condition, final List<Value> tests, final List<Integer> offsets, final int defaultIndex, final SwitchScope scope, final Map labels )
 	{
 		this.condition = condition;
-		this.tests = (Value[])tests.toArray( new Value[tests.size()] );
-		this.offsets = (Integer[])offsets.toArray(new Integer[offsets.size()] );
+		this.tests = tests.toArray( new Value[tests.size()] );
+		this.offsets = offsets.toArray(new Integer[offsets.size()] );
 		this.defaultIndex = defaultIndex;
 		this.scope = scope;
 		this.labels = labels;

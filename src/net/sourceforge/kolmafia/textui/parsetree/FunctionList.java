@@ -37,8 +37,10 @@ import java.util.Iterator;
 import java.util.TreeMap;
 
 public class FunctionList
+	implements Iterable<Function>
 {
-	private TreeMap list = new TreeMap();
+	private TreeMap<String,Function> list = new TreeMap<String,Function>();
+
 	// Assumes there will not be more than 65535 functions in any scope.
 	// Assumes that \0 will never appear in a function name.
 	private char sequence = '\0';
@@ -61,7 +63,12 @@ public class FunctionList
 		return (Function[]) this.list.subMap( name + '\0', name + '\1' ).values().toArray( new Function[ 0 ] );
 	}
 
-	public Iterator iterator()
+	public boolean isEmpty()
+	{
+		return list.isEmpty();
+	}
+
+	public Iterator<Function> iterator()
 	{
 		return list.values().iterator();
 	}

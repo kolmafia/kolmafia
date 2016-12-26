@@ -35,7 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -48,11 +48,11 @@ public class FunctionCall
 	extends Value
 {
 	protected Function target;
-	protected final ValueList params;
+	protected final List<Value> params;
 	protected final String fileName;
 	protected final int lineNumber;
 
-	public FunctionCall( final Function target, final ValueList params, final Parser parser )
+	public FunctionCall( final Function target, final List<Value> params, final Parser parser )
 	{
 		this.target = target;
 		this.params = params;
@@ -65,9 +65,9 @@ public class FunctionCall
 		return this.target;
 	}
 
-	public Iterator getValues()
+	public List<Value> getParams()
 	{
-		return this.params.iterator();
+		return this.params;
 	}
 
 	@Override
@@ -87,16 +87,13 @@ public class FunctionCall
 
 		interpreter.traceIndent();
 
-		Iterator valIterator = this.params.iterator();
 		Object[] values = new Object[ params.size() + 1 ];
 		values[ 0 ] = interpreter;
 
 		int paramCount = 1;
 
-		while ( valIterator.hasNext() )
+		for ( Value paramValue : this.params )
 		{
-			Value paramValue = (Value) valIterator.next();
-
 			if ( interpreter.isTracing() )
 			{
 				interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
@@ -181,10 +178,8 @@ public class FunctionCall
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<CALL " + this.getTarget().getName() + ">" );
 
-		Iterator it = this.getValues();
-		while ( it.hasNext() )
+		for ( Value current : this.params )
 		{
-			Value current = (Value) it.next();
 			current.print( stream, indent + 1 );
 		}
 	}

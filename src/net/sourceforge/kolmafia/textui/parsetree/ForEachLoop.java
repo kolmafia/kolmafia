@@ -38,6 +38,7 @@ import java.io.PrintStream;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.KoLmafia;
 
@@ -48,7 +49,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class ForEachLoop
 	extends Loop
 {
-	private final VariableReferenceList variableReferences;
+	private final List<VariableReference> variableReferences;
 	private final Value aggregate;
 
 	// For runtime error messages
@@ -56,7 +57,7 @@ public class ForEachLoop
 	int lineNumber;
 
 	public ForEachLoop( final Scope scope,
-			    final VariableReferenceList variableReferences,
+			    final List<VariableReference> variableReferences,
 			    final Value aggregate, final Parser parser )
 	{
 		super( scope );
@@ -66,14 +67,9 @@ public class ForEachLoop
 		this.lineNumber = parser.getLineNumber();
 	}
 
-	public VariableReferenceList getVariableReferences()
+	public List<VariableReference> getVariableReferences()
 	{
 		return this.variableReferences;
-	}
-
-	public ListIterator<VariableReference> getReferences()
-	{
-		return this.variableReferences.listIterator();
 	}
 
 	public Value getAggregate()
@@ -107,7 +103,7 @@ public class ForEachLoop
 
 		// Iterate over the slice with bound keyvar
 
-		ListIterator<VariableReference> it = this.getReferences();
+		ListIterator<VariableReference> it = this.variableReferences.listIterator();
 		Value retval = this.executeSlice( interpreter, slice, it, it.next() );
 
 		if ( interpreter.getState() == Interpreter.STATE_BREAK )
@@ -125,7 +121,7 @@ public class ForEachLoop
 		VariableReference nextVariable = it.hasNext() ? it.next() : null;
 
 		// Get an iterator over the keys for the slice
-		Iterator keys = slice.iterator();
+		Iterator<Value> keys = slice.iterator();
 		
 		int stackPos = interpreter.iterators.size();
 		interpreter.iterators.add( null );	// key
@@ -140,7 +136,7 @@ public class ForEachLoop
 
 			try
 			{
-				key = (Value) keys.next();
+				key = keys.next();
 				interpreter.iterators.set( stackPos, key );
 			}
 			catch ( ConcurrentModificationException e )

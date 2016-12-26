@@ -37,8 +37,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class TypeList
+	implements Iterable<Type>
 {
-	private ArrayList list = new ArrayList();
+	private ArrayList<Type> list = new ArrayList<Type>();
 
 	public boolean add( final Type n )
 	{
@@ -53,10 +54,8 @@ public class TypeList
 
 	public Type find( final String name )
 	{
-		Type currentType = null;
-		for ( int i = 0; i < list.size(); ++i )
+		for ( Type currentType : this.list )
 		{
-			currentType = (Type) list.get( i );
 			if ( currentType.getName().equalsIgnoreCase( name ) )
 			{
 				return currentType;

@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import java.util.Iterator;
-
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 

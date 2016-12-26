@@ -75,13 +75,10 @@ public class Concatenate
 
 		StringBuilder buffer = new StringBuilder();
 
-		Iterator<Value> it = this.strings.iterator();
 		int count = 0;
 
-		while ( it.hasNext() )
+		for ( Value arg : this.strings )
 		{
-			Value arg = it.next();
-
 			interpreter.traceIndent();
 			if ( interpreter.isTracing() )
 			{
@@ -126,16 +123,14 @@ public class Concatenate
 	public String toString()
 	{
 		StringBuilder output = new StringBuilder( "(" );
-		Iterator<Value> it = this.strings.iterator();
 		int count = 0;
 
-		while ( it.hasNext() )
+		for ( Value string : this.strings )
 		{
 			if ( count++ > 0 )
 			{
 				output.append( " + " );
 			}
-			Value string = it.next();
 			output.append( string.toQuotedString() );
 
 		}
@@ -149,10 +144,8 @@ public class Concatenate
 	{
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<CONCATENATE>" );
-		Iterator<Value> it = this.strings.iterator();
-		while ( it.hasNext() )
+		for ( Value string : this.strings )
 		{
-			Value string = it.next();
 			string.print( stream, indent + 1 );
 		}
 	}

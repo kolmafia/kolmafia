@@ -39,8 +39,8 @@ import java.io.PrintStream;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Stack;
 import java.util.TreeMap;
 
@@ -57,10 +57,10 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import net.sourceforge.kolmafia.textui.parsetree.ValueList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
@@ -199,7 +199,7 @@ public class Interpreter
 		return this.parser.getImports();
 	}
 
-	public Iterator getFunctions()
+	public FunctionList getFunctions()
 	{
 		return this.scope.getFunctions();
 	}
@@ -390,7 +390,7 @@ public class Interpreter
 				this.trace( "Executing main function" );
 			}
 
-			Object[] values = new Object[ main.variableReferences.size() + 1];
+			Object[] values = new Object[ main.getVariableReferences().size() + 1];
 			values[ 0 ] = this;
 			
 			if ( !this.requestUserParams( main, parameters, values ) )
@@ -409,13 +409,11 @@ public class Interpreter
 	private boolean requestUserParams( final Function targetFunction, final Object[] parameters, Object[] values )
 	{
 		int args = parameters == null ? 0 : parameters.length;
-		Iterator it = targetFunction.getReferences();
 		Type type = null;
 		int index = 0;
 
-		while ( it.hasNext() )
+		for ( VariableReference param : targetFunction.getVariableReferences() )
 		{
-			VariableReference param = (VariableReference) it.next();
 			type = param.getType();
 
 			String name = param.getName();
@@ -574,7 +572,7 @@ public class Interpreter
 		return new ScriptException( message1 + " " + Parser.getLineAndFile( fileName, lineNumber ) + " " + message2);
 	}
 
-	public final ScriptException undefinedFunctionException( final String name, final ValueList params )
+	public final ScriptException undefinedFunctionException( final String name, final List<Value> params )
 	{
 		return this.runtimeException( Parser.undefinedFunctionMessage( name, params ) );
 	}

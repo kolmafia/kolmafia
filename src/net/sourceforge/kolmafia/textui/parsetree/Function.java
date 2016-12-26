@@ -35,23 +35,23 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 
-
 public abstract class Function
 	extends Symbol
 {
-	public Type type;
-	public VariableReferenceList variableReferences;
+	protected Type type;
+	protected List<VariableReference> variableReferences;
 	private String signature;
 
-	public Function( final String name, final Type type,
-		final VariableReferenceList variableReferences )
+	public Function( final String name, final Type type, final List<VariableReference> variableReferences )
 	{
 		super( name );
 		this.type = type;
@@ -60,12 +60,22 @@ public abstract class Function
 
 	public Function( final String name, final Type type )
 	{
-		this( name, type, new VariableReferenceList() );
+		this( name, type, new ArrayList<VariableReference>() );
 	}
 
 	public Type getType()
 	{
 		return this.type;
+	}
+
+	public List<VariableReference> getVariableReferences()
+	{
+		return this.variableReferences;
+	}
+
+	public void setVariableReferences( final List<VariableReference> variableReferences )
+	{
+		this.variableReferences = variableReferences;
 	}
 	
 	public String getSignature()
@@ -81,19 +91,12 @@ public abstract class Function
 			buf.append( this.name );
 			buf.append( "(" );
 		
-			Iterator<VariableReference> i = this.getReferences();
-			boolean first = true;
-			while ( i.hasNext()  )
+			String sep = "";
+			for ( VariableReference current : this.variableReferences )
 			{
-				if ( first )
-				{
-					first = false;
-				}
-				else
-				{
-					buf.append( ", " );
-				}
-				Type paramType = ((VariableReference) i.next()).getType();
+				buf.append( sep );
+				sep = ", ";
+				Type paramType = current.getType();
 				buf.append( paramType );
 			}
 			
@@ -103,33 +106,18 @@ public abstract class Function
 		return this.signature;
 	}
 
-	public VariableReferenceList getVariableReferences()
-	{
-		return this.variableReferences;
-	}
-
-	public void setVariableReferences( final VariableReferenceList variableReferences )
-	{
-		this.variableReferences = variableReferences;
-	}
-
-	public Iterator<VariableReference> getReferences()
-	{
-		return this.variableReferences.iterator();
-	}
-
 	public boolean paramsMatch( final Function that, boolean exact )
 	{
 		// The types of the other function's parameters must exactly
 		// match the types of this function's parameters
 
-		Iterator it1 = this.getReferences();
-		Iterator it2 = that.getReferences();
+		Iterator<VariableReference> it1 = this.variableReferences.iterator();
+		Iterator<VariableReference> it2 = that.variableReferences.iterator();
 
 		while ( it1.hasNext() && it2.hasNext() )
 		{
-			Type p1Type = ((VariableReference) it1.next()).getType();
-			Type p2Type = ((VariableReference) it2.next()).getType();;
+			Type p1Type = it1.next().getType();
+			Type p2Type = it2.next().getType();
 
 			if ( p1Type.equals( p2Type ) )
 			{
@@ -154,20 +142,20 @@ public abstract class Function
 		return true;
 	}
 
-	public boolean paramsMatch( final ValueList params, boolean exact )
+	public boolean paramsMatch( final List<Value> params, boolean exact )
 	{
 		if ( params == null )
 		{
 			return true;
 		}
 
-		Iterator refIterator = this.getReferences();
-		Iterator valIterator = params.iterator();
+		Iterator<VariableReference> refIterator = this.variableReferences.iterator();
+		Iterator<Value> valIterator = params.iterator();
 
 		while ( refIterator.hasNext() && valIterator.hasNext() )
 		{
-			Type paramType = ((VariableReference) refIterator.next()).getType();
-			Type valueType = ((Value) valIterator.next()).getType();
+			Type paramType = refIterator.next().getType();
+			Type valueType = valIterator.next().getType();
 
 			if ( paramType == valueType )
 			{
@@ -199,16 +187,11 @@ public abstract class Function
 
 			message.append( "(" );
 
-			Iterator it = this.variableReferences.iterator();
-			for ( int i = 0; it.hasNext(); ++i )
+			String sep = "";
+			for ( VariableReference current : this.variableReferences )
 			{
-				VariableReference current = (VariableReference) it.next();
-
-				if ( i != 0 )
-				{
-					message.append( ',' );
-				}
-
+				message.append( sep );
+				sep = ",";
 				message.append( ' ' );
 				message.append( current.getValue( interpreter ).toStringValue().toString() );
 			}
@@ -230,11 +213,10 @@ public abstract class Function
 		Object[] values = new Object[ this.variableReferences.size() + 1];
 		values[ 0 ] = interpreter;
 
-		Iterator it = this.variableReferences.iterator();
-		for ( int i = 1; it.hasNext(); ++i )
+		int index = 1;
+		for ( VariableReference current : this.variableReferences )
 		{
-			VariableReference current = (VariableReference) it.next();
-			values[ i ] = current.getValue( interpreter );
+			values[ index++ ] = current.getValue( interpreter );
 		}
 
 		return this.execute( interpreter, values );
@@ -248,10 +230,8 @@ public abstract class Function
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<FUNC " + this.type + " " + this.getName() + ">" );
 
-		Iterator it = this.getReferences();
-		while ( it.hasNext() )
+		for ( VariableReference current : this.variableReferences )
 		{
-			VariableReference current = (VariableReference) it.next();
 			current.print( stream, indent + 1 );
 		}
 	}
