@@ -9247,7 +9247,7 @@
 9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
 9222	gingerbread mask	915468639	gingermask.gif	hat	t,d	40
 9223	gingerservo	127067100	gingerservo.gif	accessory	t,d	400
-9224	tainted icing	494280376	blankoutglob.gif	usable	t,d	15
+9224	tainted icing	494280376	blankoutglob.gif	multiple	t,d	15
 9225	gingerbeard	484162042	gingerbeard.gif	accessory	t	0
 9226	gingerbread smartphone	704376570	gingerphone.gif	usable	t,d	55
 9227	gingerbread hoodie	842441254	gingerhoodie.gif	shirt	t,d	35
@@ -9289,7 +9289,7 @@
 9263	gingerbread blackmail photos	636102164	photofolder.gif	none	q	0
 9264	briefcase full of sprinkles	842602736	briefcase.gif	usable		0
 9265	teethpick	606568152	teethpick.gif	none	q	0
-9266	green rock candy	837289777	greencandy.gif	usable	t,d	15
+9266	green rock candy	837289777	greencandy.gif	multiple	t,d	15
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268	sugar raygun	744275266	sugarraygun.gif	weapon		0
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0

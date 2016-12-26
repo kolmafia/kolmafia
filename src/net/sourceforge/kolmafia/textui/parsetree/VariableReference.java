@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 public class VariableReference
@@ -68,7 +70,7 @@ public class VariableReference
 		return this.target.getName();
 	}
 
-	public ValueList getIndices()
+	public List<Value> getIndices()
 	{
 		return null;
 	}

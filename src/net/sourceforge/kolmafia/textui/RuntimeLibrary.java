@@ -247,9 +247,9 @@ public abstract class RuntimeLibrary
 
 	public static final FunctionList functions = new FunctionList();
 
-	public static Iterator getFunctions()
+	public static FunctionList getFunctions()
 	{
-		return functions.iterator();
+		return RuntimeLibrary.functions;
 	}
 
 	static

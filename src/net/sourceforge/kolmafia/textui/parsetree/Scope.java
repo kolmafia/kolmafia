@@ -33,33 +33,35 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class Scope
 	extends BasicScope
 {
-	private ParseTreeNodeList commands;
+	private ArrayList<ParseTreeNode> commands;
 	private int barrier = BasicScope.BARRIER_NONE;
 	private boolean breakable = false;
 
 	public Scope( VariableList variables, final BasicScope parentScope )
 	{
 		super( variables, parentScope );
-		this.commands = new ParseTreeNodeList();
+		this.commands = new ArrayList<ParseTreeNode>();
 	}
 
 	public Scope( final BasicScope parentScope )
 	{
 		super( parentScope );
-		this.commands = new ParseTreeNodeList();
+		this.commands = new ArrayList<ParseTreeNode>();
 	}
 
 	public Scope( final ParseTreeNode command, final BasicScope parentScope )
 	{
 		super( parentScope );
-		this.commands = new ParseTreeNodeList();
+		this.commands = new ArrayList<ParseTreeNode>();
 		this.commands.add( command );
 		this.barrier = command.assertBarrier() ? BasicScope.BARRIER_SEEN : 0;
 		this.breakable = command.assertBreakable();
@@ -68,7 +70,7 @@ public class Scope
 	public Scope( FunctionList functions, VariableList variables, TypeList types )
 	{
 		super( functions, variables, types, null );
-		this.commands = new ParseTreeNodeList();
+		this.commands = new ArrayList<ParseTreeNode>();
 	}
 
 	@Override
@@ -103,13 +105,13 @@ public class Scope
 		}
 	}
 
-	public ParseTreeNodeList getCommandList()
+	public List<ParseTreeNode> getCommandList()
 	{
 		return this.commands;
 	}
 
 	@Override
-	public Iterator getCommands()
+	public Iterator<ParseTreeNode> getCommands()
 	{
 		return this.commands.iterator();
 	}

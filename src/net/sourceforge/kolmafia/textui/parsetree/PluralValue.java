@@ -33,8 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -48,7 +48,7 @@ public class PluralValue
 {
 	private TreeSet<Value> lookup;
 	
-	public PluralValue( final Type type, ArrayList<Value> values )
+	public PluralValue( final Type type, List<Value> values )
 	{
 		super( new AggregateType( DataTypes.BOOLEAN_TYPE, type ) );
 

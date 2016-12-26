@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 
@@ -200,7 +202,7 @@ public class RecordType
 		return new RecordValue( this );
 	}
 
-	public Value initialValueExpression( ValueList params )
+	public Value initialValueExpression( List<Value> params )
 	{
 		if ( params.isEmpty() )
 		{

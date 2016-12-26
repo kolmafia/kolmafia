@@ -96,11 +96,6 @@ public abstract class BasicScope
 		return this.parentScope;
 	}
 
-	public Iterator getTypes()
-	{
-		return this.types.iterator();
-	}
-
 	public boolean addType( final Type t )
 	{
 		return this.types.add( t );
@@ -154,12 +149,7 @@ public abstract class BasicScope
 		return null;
 	}
 
-	public Iterator getFunctions()
-	{
-		return this.functions.iterator();
-	}
-
-	public FunctionList getFunctionList()
+	public FunctionList getFunctions()
 	{
 		return this.functions;
 	}
@@ -174,7 +164,7 @@ public abstract class BasicScope
 		return this.functions.remove( f );
 	}
 
-	public Function findFunction( final String name, final ValueList params )
+	public Function findFunction( final String name, final List<Value> params )
 	{
 		Function result = this.findFunction( this.functions, name, params, true );
 
@@ -196,7 +186,7 @@ public abstract class BasicScope
 		return result;
 	}
 
-	private Function findFunction( final FunctionList source, final String name, final ValueList params, boolean exact )
+	private Function findFunction( final FunctionList source, final String name, final List<Value> params, boolean exact )
 	{
 		Function[] functions = source.findFunctions( name );
 
@@ -292,24 +282,23 @@ public abstract class BasicScope
 			int paramCount = 0;
 			boolean isSingleString = false;
 
-			Iterator refIterator = functions[ i ].getReferences();
+			Iterator<VariableReference> refIterator = functions[ i ].getVariableReferences().iterator();
 
 			if ( refIterator.hasNext() )
 			{
-				paramCount = 1;
-				VariableReference reference = (VariableReference) refIterator.next();
-				
+				VariableReference reference = refIterator.next();
 				if ( reference.getType().equals( DataTypes.STRING_TYPE ) )
 				{
 					isSingleString = true;
 				}
+				paramCount = 1;
 			}
 			
 			while ( refIterator.hasNext() )
 			{
-				++paramCount;
-				isSingleString = false;
 				refIterator.next();
+				isSingleString = false;
+				++paramCount;
 			}
 			
 			if ( paramCount == 0 )
@@ -360,25 +349,21 @@ public abstract class BasicScope
 	@Override
 	public void print( final PrintStream stream, final int indent )
 	{
-		Iterator it;
-
 		Interpreter.indentLine( stream, indent );
 		stream.println( "<SCOPE>" );
 
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<TYPES>" );
 
-		it = this.getTypes();
-		while ( it.hasNext() )
+		for ( Type currentType : types )
 		{
-			Type currentType = (Type) it.next();
 			currentType.print( stream, indent + 2 );
 		}
 
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<VARIABLES>" );
 
-		for ( Variable currentVar : this.getVariables() )
+		for ( Variable currentVar : this.variables )
 		{
 			currentVar.print( stream, indent + 2 );
 		}
@@ -386,20 +371,18 @@ public abstract class BasicScope
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<FUNCTIONS>" );
 
-		it = this.getFunctions();
-		while ( it.hasNext() )
+		for ( Function currentFunc: this.functions )
 		{
-			Function currentFunc = (Function) it.next();
 			currentFunc.print( stream, indent + 2 );
 		}
 
 		Interpreter.indentLine( stream, indent + 1 );
 		stream.println( "<COMMANDS>" );
 
-		it = this.getCommands();
+		Iterator<ParseTreeNode> it = this.getCommands();
 		while ( it.hasNext() )
 		{
-			ParseTreeNode currentCommand = (ParseTreeNode) it.next();
+			ParseTreeNode currentCommand = it.next();
 			currentCommand.print( stream, indent + 2 );
 		}
 	}
@@ -427,10 +410,10 @@ public abstract class BasicScope
 			Value result = DataTypes.VOID_VALUE;
 			interpreter.traceIndent();
 
-			Iterator it = this.getCommands();
+			Iterator<ParseTreeNode> it = this.getCommands();
 			while ( it.hasNext() )
 			{
-				ParseTreeNode current = (ParseTreeNode) it.next();
+				ParseTreeNode current = it.next();
 				result = current.execute( interpreter );
 
 				// Abort processing now if command failed
@@ -466,5 +449,5 @@ public abstract class BasicScope
 
 	public abstract void addCommand( final ParseTreeNode c, final Parser p );
 
-	public abstract Iterator getCommands();
+	public abstract Iterator<ParseTreeNode> getCommands();
 }

@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 
 import net.sourceforge.kolmafia.textui.parsetree.Function;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 
 public abstract class KoLmafiaASH
@@ -314,21 +315,18 @@ public abstract class KoLmafiaASH
 		KoLmafiaASH.showFunctions( RuntimeLibrary.getFunctions(), filter.toLowerCase(), true );
 	}
 
-	private static void showFunctions( final Iterator it, final String filter, boolean addLinks )
+	private static void showFunctions( final FunctionList functions, final String filter, boolean addLinks )
 	{
-		Function func;
 		addLinks = addLinks && StaticEntity.isGUIRequired();
 
-		if ( !it.hasNext() )
+		if ( functions.isEmpty() )
 		{
 			RequestLogger.printLine( "No functions in your current namespace." );
 			return;
 		}
 
-		while ( it.hasNext() )
+		for ( Function func : functions )
 		{
-			func = (Function) it.next();
-
 			boolean matches = filter.equals( "" );
 
 			if ( !matches )
@@ -336,16 +334,11 @@ public abstract class KoLmafiaASH
 				matches = func.getName().toLowerCase().contains( filter );
 			}
 
-			Iterator it2 = func.getReferences();
-
 			if ( !matches )
 			{
-				if ( it2.hasNext() )
+				for ( VariableReference ref : func.getVariableReferences() )
 				{
-					VariableReference ref = (VariableReference) it2.next();
-
 					String refType = ref.getType().toString();
-
 					matches = refType != null && refType.contains( filter );
 				}
 			}
@@ -372,23 +365,18 @@ public abstract class KoLmafiaASH
 			}
 			description.append( "( " );
 
-			it2 = func.getReferences();
-			VariableReference var;
-
-			while ( it2.hasNext() )
+			String sep = "";
+			for ( VariableReference var : func.getVariableReferences() )
 			{
-				var = (VariableReference) it2.next();
+				description.append( sep );
+				sep = ", ";
+
 				description.append( var.getType() );
 
 				if ( var.getName() != null )
 				{
 					description.append( " " );
 					description.append( var.getName() );
-				}
-
-				if ( it2.hasNext() )
-				{
-					description.append( ", " );
 				}
 			}
 

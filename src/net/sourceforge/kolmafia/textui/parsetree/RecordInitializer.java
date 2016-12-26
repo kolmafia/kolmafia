@@ -33,7 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.parsetree;
 
-import java.util.Iterator;
+import java.util.List;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
@@ -41,9 +41,9 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 public class RecordInitializer
 	extends TypeInitializer
 {
-        ValueList params;
+        List<Value> params;
 
-	public RecordInitializer( final RecordType type, ValueList params )
+	public RecordInitializer( final RecordType type, List<Value> params )
 	{
 		super( type );
                 this.params = params;
@@ -56,15 +56,11 @@ public class RecordInitializer
 		RecordValue record = (RecordValue) type.initialValue();
 		Value[] content = (Value []) record.rawValue();
 
-		Iterator iterator = this.params.iterator();
-		int fieldCount = 0;
-
 		interpreter.traceIndent();
 
-		while ( iterator.hasNext() )
+		int fieldCount = 0;
+		for ( Value fieldValue : this.params )
 		{
-			Value fieldValue = (Value) iterator.next();
-
 			if ( fieldValue == DataTypes.VOID_VALUE )
 			{
 				fieldCount++;

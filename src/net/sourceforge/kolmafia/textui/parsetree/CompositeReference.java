@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.List;
 import java.util.Iterator;
 
 import net.sourceforge.kolmafia.KoLmafia;
@@ -46,7 +47,7 @@ import net.sourceforge.kolmafia.textui.Parser;
 public class CompositeReference
 	extends VariableReference
 {
-	private final ValueList indices;
+	private final List<Value> indices;
 
 	// Derived from indices: Final slice and index into it
 	private CompositeValue slice;
@@ -56,7 +57,7 @@ public class CompositeReference
 	String fileName;
 	int lineNumber;
 
-	public CompositeReference( final Variable target, final ValueList indices, final Parser parser )
+	public CompositeReference( final Variable target, final List<Value> indices, final Parser parser )
 	{
 		super( target );
 		this.indices = indices;
@@ -68,11 +69,10 @@ public class CompositeReference
 	public Type getType()
 	{
 		Type type = this.target.getType().getBaseType();
-		Iterator it = this.indices.iterator();
 
-		while ( it.hasNext() )
+		for ( Value current : this.indices )
 		{
-			type = ( (CompositeType) type.asProxy() ).getDataType( it.next() ).getBaseType();
+			type = ( (CompositeType) type.asProxy() ).getDataType( current ).getBaseType();
 		}
 		return type;
 	}
@@ -84,7 +84,7 @@ public class CompositeReference
 	}
 
 	@Override
-	public ValueList getIndices()
+	public List<Value> getIndices()
 	{
 		return this.indices;
 	}
