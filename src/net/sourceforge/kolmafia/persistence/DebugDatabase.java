@@ -1453,12 +1453,24 @@ public class DebugDatabase
 			String mod = Modifiers.parseModifier( enchantment );
 			if ( mod != null )
 			{
+				// Rollover Effect and Rollover Effect Duration come together
+				// Modifiers parses the numeric modifier first
+				if ( mod.startsWith( "Rollover Effect Duration" ) )
+				{
+					String effect = Modifiers.parseStringModifier( enchantment );
+					if ( effect != null )
+					{
+						DebugDatabase.appendModifier( known, effect );
+					}
+				}
+
 				// Damage Reduction can appear in several
 				// places. Combine them all.
-				if ( mod.startsWith("Damage Reduction" ) )
+				else if ( mod.startsWith( "Damage Reduction" ) )
 				{
 					mod = Modifiers.parseDamageReduction( text );
 				}
+
 				DebugDatabase.appendModifier( known, mod );
 				continue;
 			}

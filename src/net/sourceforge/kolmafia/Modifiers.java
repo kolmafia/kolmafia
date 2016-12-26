@@ -3331,6 +3331,11 @@ public class Modifiers
 		return null;
 	}
 
+	public static final String parseStringModifier( final String enchantment )
+	{
+		return Modifiers.parseModifier( Modifiers.stringModifiers, enchantment, true );
+	}
+
 	private static final String parseModifier( final Object[][] table, final String enchantment, final boolean quoted )
 	{
 		String quote = quoted ? "\"" : "";

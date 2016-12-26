@@ -316,6 +316,7 @@ Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
 Item	nine-gallon hat	Muscle: +9, Mysticality: +9, Moxie: +9, Experience: +3
 # Item no hat: (May or May Not Truly Exist)
+Item	no hat	Lasts Until Rollover
 Item	noir fedora	Experience Percent (Moxie): +20, Moxie Percent: +20, HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10
 Item	norwhal helmet	Experience (Mysticality): +2, Spell Damage Percent: +60, Booze Drop: +60, Familiar Effect: "atk"
 Item	nurse's hat	Maximum HP: +300, HP Regen Min: 30, HP Regen Max: 60, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "atk"
@@ -431,7 +432,7 @@ Item	Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFai
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
 Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
-Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect Duration: 100, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia"
+Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Familiar Effect: "atk"
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
@@ -632,7 +633,7 @@ Item	mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effec
 Item	muddy skirt	Familiar Effect: "sleaze atk, 1xFairy"
 Item	Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato, cap 31"
 Item	ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, 3xPotato, cap 17"
-Item	ninjammies	Adventures: +2, PvP Fights: +2, Rollover Effect Duration: 50, Rollover Effect: "Morninja", Familiar Effect: "atk, 0.5xPotato, cap 25"
+Item	ninjammies	Adventures: +2, PvP Fights: +2, Rollover Effect: "Morninja", Rollover Effect Duration: 50, Familiar Effect: "atk, 0.5xPotato, cap 25"
 Item	oil slacks	Initiative: +20, Familiar Effect: "1xPotato, cap 30"
 Item	Ol' Scratch's ol' britches	Cold Resistance: +3, Spooky Resistance: +3, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato"
 Item	old patched suit-pants	Monster Level: +40, Moxie Percent: +5, Familiar Effect: "1xPotato, 0.5xFairy"
@@ -673,7 +674,7 @@ Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: 
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
-Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect Duration: 40, Rollover Effect: "Pajama Party"
+Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 # Item saffron antaravasaka: Improves chances of finding lumps and sludge
@@ -856,7 +857,7 @@ Item	pirate shirt	Moxie: +3
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
 Item	punk rock jacket	Moxie: +8, Damage Reduction: 5
-Item	Quartet of Flare Masters Jacket	PvP Fights: +2, Rollover Effect Duration: 1, Rollover Effect: "Eldritch Concentration"
+Item	Quartet of Flare Masters Jacket	PvP Fights: +2, Rollover Effect: "Eldritch Concentration", Rollover Effect Duration: 1
 Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Single Equip
 Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
@@ -1810,7 +1811,7 @@ Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 Item	big bumboozer marble	Spell Damage: +80
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
-Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect Duration: 50, Rollover Effect: "Blue Eyed Devil"
+Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil", Rollover Effect Duration: 50
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 # bone abacus: Helps you track your progress
 Item	borg sock monkey	Moxie: +3
@@ -1928,7 +1929,7 @@ Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reductio
 # gore bucket
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
-Item	green LavaCo Lamp&trade;	Adventures: +5, Rollover Effect Duration: 50, Rollover Effect: "Green Peace"
+Item	green LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Green Peace", Rollover Effect Duration: 50
 Item	green peawee marble	Stench Spell Damage: +30
 # Grey Guanon: Deals <font color=green>Stench Damage</font> every round
 Item	Grey Guanon	Stench Damage: +5
@@ -2125,12 +2126,12 @@ Item	Rainbow Jello Mould	Moxie Percent: +25
 # red balloon
 Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
-Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect Duration: 50, Rollover Effect: "Red Menace"
+Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Red Menace", Rollover Effect Duration: 50
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
-Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect Duration: 5, Rollover Effect: "It's Good To Be Royal!"
+Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!", Rollover Effect Duration: 5
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
 Item	rusty compass	Initiative: +30
 # rusty old lantern
@@ -2907,7 +2908,7 @@ Item	rum barrel charrrm bracelet	Booze Drop: +5
 Item	rusty chain necklace	Muscle: +9, Maximum HP: +25
 Item	Saccharine Maple pendant	Maximum HP: +20, Maximum MP: +20
 Item	sardine can key	Cold Damage: +40, Hot Resistance: +4, Food Drop: +60
-Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect Duration: 30, Single Equip, Rollover Effect: "The Rich Get Richer", Nonstackable Watch
+Item	Sasq&trade; watch	PvP Fights: +3, Adventures: +6, Rollover Effect: "The Rich Get Richer", Rollover Effect Duration: 30, Single Equip, Nonstackable Watch
 Item	scabrous seal epaulets	Maximum HP: +20, HP Regen Min: 8, HP Regen Max: 10, Single Equip
 Item	Scandalously Skimpy Bikini	Four Songs, Single Equip
 Item	screwing pooch	Item Drop: +3
@@ -3399,7 +3400,7 @@ Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
 Item	Mr. Container	Item Drop: +3
 Item	Newbiesport&trade; backpack	Item Drop: +1
-Item	octolus-skin cloak	Adventures: +2, PvP Fights: +4, Rollover Effect Duration: 30, Rollover Effect: "Octolus Gift"
+Item	octolus-skin cloak	Adventures: +2, PvP Fights: +4, Rollover Effect: "Octolus Gift", Rollover Effect Duration: 30
 Item	oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 Item	old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -7095,7 +7096,7 @@ Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Durati
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 20
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 20
-Item	turtle soup	Effect: "[598]A Little Bit Evil"
+Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10
 Item	ultrafondue	Effect: "Fondid", Effect Duration: 30
 Item	unfortunate dumplings	Effect: "Really Quite Poisoned", Effect Duration: 20
 Item	unidentifiable dried fruit	Effect: "Fruited", Effect Duration: 50
@@ -8660,7 +8661,7 @@ Item	March hat	Free Pull
 Item	mariachi toothpaste	Effect: "Gleaming White Teeth", Effect Duration: 20
 # Marquis de Poivre soda: Restores 30-40 MP
 Item	Marvin's marvelous pill	Effect: "Pharmaceutically Cool", Effect Duration: 10
-Item	marzipan skull	Effect: "Sugar Rush", Effect Duration: 5
+Item	marzipan skull	Effect: "Sugar Rush", Effect Duration: 5, Effect: "Hardly Poisoned at All", Effect Duration: 5, Effect: "Hombre Muerto Caminando", Effect Duration: 5
 # Massive Manual of Marauder Mockery: Makes marauder mockery mossible
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
