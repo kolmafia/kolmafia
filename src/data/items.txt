@@ -9247,7 +9247,7 @@
 9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
 9222	gingerbread mask	915468639	gingermask.gif	hat	t,d	40
 9223	gingerservo	127067100	gingerservo.gif	accessory	t,d	400
-9224	tainted icing	494280376	blankoutglob.gif	multiple	t,d	15
+9224	tainted icing	494280376	blankoutglob.gif	multiple	t,d	15	globs of tainted icing
 9225	gingerbeard	484162042	gingerbeard.gif	accessory	t	0
 9226	gingerbread smartphone	704376570	gingerphone.gif	usable	t,d	55
 9227	gingerbread hoodie	842441254	gingerhoodie.gif	shirt	t,d	35
