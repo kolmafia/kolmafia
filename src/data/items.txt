@@ -9234,16 +9234,16 @@
 9208	candy dog collar	408478511	candycollar.gif	familiar	t,d	75
 9209	gingerbread tophat	219681720	gingerhat.gif	hat	d	200
 9210	gingerbread waistcoat	927412339	gingercoat.gif	shirt	d	200
-9211	gingerbread trousers	564459612	gingerpants.gif	pants	d	200
-9212	candy dress shoes	741868271	moccasins.gif	accessory	t	0
+9211	gingerbread trousers	564459612	gingerpants.gif	pants	d	200	pairs of gingerbread trousers
+9212	candy dress shoes	741868271	moccasins.gif	accessory	t	0	candy dress shoes
 9213	candy necktie	801970115	necktie.gif	accessory	t	0
-9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t	0
+9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t	0	chocolate pocketwatches
 9215	broken chocolate pocketwatch	905664883	gingerwatch.gif	usable	t,d	0
 9216
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
 9218	sprinkle-begging cup	401017315	starchcan.gif	offhand	t,d	50
 9219	animal part cracker	298097264	animalcracker.gif	food	t,d	8
-9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21
+9220	gingerbread wine	897082000	gingerwine.gif	drink	t,d	21	gingerbread wine
 9221	gingerbread mug	944327354	gingermug.gif	food	t,d	16
 9222	gingerbread mask	915468639	gingermask.gif	hat	t,d	40
 9223	gingerservo	127067100	gingerservo.gif	accessory	t,d	400
@@ -9259,26 +9259,26 @@
 9233	gingerbread dog treat	251890316	gingerbone.gif	usable	t,d	20
 9234	pumpkin spice candle	781652626	gingercandle.gif	offhand	q	0
 9235	gingerbread spice latte	714321585	latte.gif	usable	t,d	25
-9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50
+9236	gingerbread gavel	653945094	gingergavel.gif	weapon	d	50	gingerbread gavel
 9237	gingerbread cigarette	483871542	cigarette.gif	none, combat	t,d	5	gingerbread cigarettes
 9238	gingerbread moneybag	405806675	gingerbag.gif	offhand		0
 9239	ginger beer	705436141	gingerbeer.gif	drink	d	150
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
-9241	industrial frosting	603766917	indfrosting.gif	usable	d	400
-9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2
+9241	industrial frosting	603766917	indfrosting.gif	usable	d	400	 tubs of industrial frosting
+9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2	fake cocktail
 9243	high-end ginger wine	411301645	gingerwineglass.gif	drink		0
 9244	tiny plastic bad vibe	349395507	tpbadvibe.gif	accessory	t	0
-9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0
-9246	tiny plastic Knows About Chakras	190016836	tpkac.gif	accessory	t	0
+9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0	tiny plastic angry vikings
+9246	tiny plastic Knows About Chakras	190016836	tpkac.gif	accessory	t	0	tiny plastic Knows About Chakras
 9247	tiny plastic Your Brain	349091506	tpbrain.gif	accessory	t	0
-9248	tiny plastic Krampus	939530296	tpkramps.gif	accessory	t	0
-9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
-9250	Inner Strength	389870199	jperfume.gif	multiple	t	0
-9251	Inner Truth	903953457	jperfume.gif	multiple	t	0
+9248	tiny plastic Krampus	939530296	tpkramps.gif	accessory	t	0	tiny plastic Krampi
+9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0	vials of Inner Wisdom
+9250	Inner Strength	389870199	jperfume.gif	multiple	t	0	vials of Inner Strength
+9251	Inner Truth	903953457	jperfume.gif	multiple	t	0	vials of Inner Truth
 9252	spiritual candy cane	628826378	candycane.gif	food, candy	t	0
-9253	spiritual eggnog	296391406	coffeecup.gif	drink	t	0
+9253	spiritual eggnog	296391406	coffeecup.gif	drink	t	0	cups of spiritual eggnog
 9254	spiritual fruitcake	831864960	fruitcake.gif	food	t	0
-9255	spiritual gingerbread	468256357	gingerbear.gif	food	t	0
+9255	spiritual gingerbread	468256357	gingerbear.gif	food	t	0	spiritual gingerbread bugbears
 9256	chocolate puppy	706707809	chocopuppy.gif	grow	d	1000
 9257	chocolate leash	513864144	string.gif	familiar	t,d	75
 9258	My Life of Crime, a Memoir	267400722	book3.gif	usable	t	0
@@ -9295,7 +9295,7 @@
 9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
 9270	no hat	887807812	nohat.gif	hat	q	0
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160	wads of chakra sludge
-9272	negative lump	442273709	chocolump.gif	none	t,d	16
+9272	negative lump	442273709	chocolump.gif	none	t,d	16	negative lump
 9273	Third Eye	333741309	thirdeye.gif	hat		0
 9274	Krampus Horn	664351213	krampushorn.gif	accessory		0
 9275	hambrosier	300045053	burger.gif	food	t	0

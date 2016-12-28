@@ -10776,6 +10776,22 @@ public abstract class ChoiceManager
 			{
 				Preferences.setBoolean( "gingerSubwayLineUnlocked", true );
 			}
+			if ( text.contains( "what looks like a sweet roll" ) )
+			{
+				Preferences.increment( "gingerDigCount" );
+			}
+			else if ( text.contains( "piece of rock candy" ) )
+			{
+				Preferences.increment( "gingerDigCount" );
+				if ( Preferences.getInteger( "gingerDigCount" ) < 4 )
+				{
+					Preferences.setInteger( "gingerDigCount", 4 );
+				}
+			}
+			else if ( text.contains( "sugar raygun" ) )
+			{
+				Preferences.setInteger( "gingerDigCount", 7 );
+			}
 			break;
 
 		case 1206:
