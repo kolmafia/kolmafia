@@ -6283,8 +6283,9 @@ public class FightRequest
 		if ( !str.equals( "" ) && !ResultProcessor.processFamiliarWeightGain( str ) )
 		{
 			// Familiar combat action?
-			// Don't log in Machine Elf Tunnels
-			if ( status.logFamiliar && !FightRequest.machineElf )
+			// Don't log most familiar actions in the Deep Machine Tunnels
+			if ( status.logFamiliar &&
+			     ( !FightRequest.machineElf || str.contains( "time starts passing again" ) ) )
 			{
 				FightRequest.logText( text, status );
 			}
