@@ -2702,6 +2702,8 @@ public class ItemPool
 	public static final int HOARDED_CANDY_WAD = 9146;
 	public static final int STUFFING_FLUFFER = 9164;
 	public static final int TURKEY_BLASTER = 9166;
+	public static final int CANDIED_SWEET_POTATOES = 9171;
+	public static final int BREAD_ROLL = 9179;
 	public static final int CORNUCOPIA = 9183;
 	public static final int MEGACOPIA = 9184;
 	public static final int GIANT_PILGRIM_HAT = 9185;

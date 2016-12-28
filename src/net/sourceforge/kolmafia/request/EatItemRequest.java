@@ -1146,6 +1146,8 @@ public class EatItemRequest
 
 	public static final void updateTimeSpinner( final int itemId, final boolean timeSpinnerUsed )
 	{
+		// This will also track Thanksgetting foods, since all foods that count for it
+		// show up in the Time-Spinner list
 		if ( timeSpinnerUsed )
 		{
 			Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
@@ -1173,6 +1175,10 @@ public class EatItemRequest
 		}
 		foodAvailable += itemString;
 		Preferences.setString( "_timeSpinnerFoodAvailable", foodAvailable );
+		if ( itemId >= ItemPool.CANDIED_SWEET_POTATOES && itemId <= ItemPool.BREAD_ROLL )
+		{
+			Preferences.increment( "_thanksgettingFoodsEaten" );
+		}
 	}
 
 	public static final String lastSemirareMessage()
