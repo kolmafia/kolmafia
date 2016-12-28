@@ -9275,7 +9275,7 @@
 9249	Inner Wisdom	163252586	jperfume.gif	multiple	t	0
 9250	Inner Strength	389870199	jperfume.gif	multiple	t	0
 9251	Inner Truth	903953457	jperfume.gif	multiple	t	0
-9252	spiritual candy cane	628826378	candycane.gif	food	t	0
+9252	spiritual candy cane	628826378	candycane.gif	food, candy	t	0
 9253	spiritual eggnog	296391406	coffeecup.gif	drink	t	0
 9254	spiritual fruitcake	831864960	fruitcake.gif	food	t	0
 9255	spiritual gingerbread	468256357	gingerbear.gif	food	t	0
