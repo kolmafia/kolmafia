@@ -5837,7 +5837,7 @@ Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Stormswaddled	Spell Damage Percent: +100
 Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
-Effect She Ate Too Much Candy	Familiar Weight: [min(T,25)]
+Effect	She Ate Too Much Candy	Familiar Weight: [min(T,25)]
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
