@@ -2162,3 +2162,18 @@
 2162
 2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier|drink 1 chakra-mental wine|use 1 chakra malt
 2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger|drink 1 black brandy|use 1 potion of spiritual gunkifying
+2165	Synthesis: Hot	molecule1.gif	70c1f50c4b1f77c7a6b2770d368a8392
+2166	Synthesis: Cold	molecule1.gif	daa3e18133e0139ab932034b043f8a94
+2167	Synthesis: Pungent	molecule1.gif	2f04d1a794547d3f0f809fe0995d46b2
+2168	Synthesis: Scary	molecule1.gif	d6716e91a89a172640caf154f3204b52
+2169	Synthesis: Greasy	molecule1.gif	16edc9d5664e731bdd7a301b868f51fa
+2170	Synthesis: Strong	molecule2.gif	bf0690a153910730d4dac25af85afd26
+2171	Synthesis: Smart	molecule2.gif	a01998ee94700aeb5b4e88709829e416
+2172	Synthesis: Cool	molecule2.gif	f88b5aa9cf481f4ce178a58b61e1278c
+2173	Synthesis: Hardy	molecule2.gif	43d63c6c27ef2b297417987e89d3749e
+2174	Synthesis: Energy	molecule2.gif	856f0ec800a8b125ad0b1104f1a66fbb
+2175	Synthesis: Greed	molecule3.gif	bcba6799f907f44d5a10d4cd8aaf8b64
+2176	Synthesis: Collection	molecule3.gif	c4b32a8af96620346e2898c4d875ce24
+2177	Synthesis: Movement	molecule3.gif	8fc6d4d7a4a762291af19f4dce1f9968
+2178	Synthesis: Learning	molecule3.gif	2ab58c6dc401f84bde540ee4381aa923
+2179	Synthesis: Style	molecule3.gif	3eac42a54fbbf3270e7f8d045ae0f98d

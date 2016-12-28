@@ -5435,7 +5435,7 @@
 5410	Mint Yulep	225646375	pep_drink2.gif	drink	t	0
 5411	Crimbojito	410538513	pep_drink2.gif	drink	t	0
 5412	Sangria de Menthe	520908403	pep_drink3.gif	drink	t	0
-5413	candycaine powder	136515861	powder.gif	none, combat	t	0	pouches of candycaine powder
+5413	candycaine powder	136515861	powder.gif	none, combat, candy	t	0	pouches of candycaine powder
 5414	licorice boa	331298512	pep_boa.gif	familiar, candy	t,d	75
 5415	licorice root	550695829	licoriceroot.gif	multiple, candy	t	0
 5416	banana supersucker	274700194	supersucker.gif	usable, candy	t	0
@@ -5495,15 +5495,15 @@
 5470	resolution: be kinder	943398376	resolution.gif	multiple	t	0	resolutions: be kinder
 5471	resolution: be more adventurous	240284844	resolution.gif	multiple	t	0	resolutions: be more adventurous
 5472	resolution: be luckier	845740317	resolution.gif	multiple	t	0	resolutions: be luckier
-5473	giant red gummi ingot	850315657	gummiingot.gif	multiple	t	0
-5474	giant green gummi ingot	901120665	gummiingot.gif	multiple	t	0
-5475	giant yellow gummi ingot	472799701	gummiingot.gif	multiple	t	0
+5473	giant red gummi ingot	850315657	gummiingot.gif	multiple, candy	t	0
+5474	giant green gummi ingot	901120665	gummiingot.gif	multiple, candy	t	0
+5475	giant yellow gummi ingot	472799701	gummiingot.gif	multiple, candy	t	0
 5476	gummi salamander	955549057	gummisal.gif	usable, candy	t	0
 5477	gummi snake	486564447	gummisnake.gif	usable, candy	t	0
 5478	gummi canary	489569362	gummican.gif	usable, candy	t	0	gummi canaries
-5479	giant red gummi bear	340597823	gummibear.gif	food	t	0
-5480	giant green gummi bear	324939639	gummibear.gif	food	t	0
-5481	giant yellow gummi bear	829917146	gummibear.gif	food	t	0
+5479	giant red gummi bear	340597823	gummibear.gif	food, candy	t	0
+5480	giant green gummi bear	324939639	gummibear.gif	food, candy	t	0
+5481	giant yellow gummi bear	829917146	gummibear.gif	food, candy	t	0
 5482	red drunki-bear	837752850	drunkibear.gif	food, candy	t	0
 5483	green drunki-bear	531778289	drunkibear.gif	food, candy	t	0
 5484	yellow drunki-bear	150067631	drunkibear.gif	food, candy	t	0
@@ -6428,7 +6428,7 @@
 6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
 6404	violent pastilles	610227992	sororbox.gif	usable, candy	t,d	50	fun-size tins of violent pastilles
 6405	worst candy	208490422	confused.gif	usable, candy	t,d	50	wads of the worst candy
-6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable, candy	t,d	100	fudge-shaped holes in space-time
+6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable	t,d	100	fudge-shaped holes in space-time
 6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
 6408	corrupted stardust	115797236	stardust.gif	usable	t	0
 6409	Star Spawn	561439887	starspawn.gif	grow	t	0
@@ -6860,13 +6860,13 @@
 6835	bag of W&Ws	787691763	wandws.gif	multiple, candy	t,d	15	bags of W&Ws
 6836	PEEZ dispenser	168804605	peez.gif	usable, candy	t,d	15
 6837	Swizzler	653273118	swizzler.gif	multiple, candy	t,d	15
-6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	multiple, candy	t,d	25
-6839	little red jam	347947486	redjamjar.gif	multiple, candy	t,d	25	jars of little red jam
+6838	Bugbearclaw Donut	723480931	bugbearclaw.gif	multiple	t,d	25
+6839	little red jam	347947486	redjamjar.gif	multiple	t,d	25	jars of little red jam
 6840	Whenchamacallit bar	812046783	whenbar.gif	multiple, candy	t,d	25
 6841	8-bit banana	603852187	8bitbanana.gif	multiple, candy	t,d	25	8-bit bananananas
-6842	vial of blood simple syrup	976862806	bloodvial.gif	multiple, candy	t,d	25	vials of blood simple syrup
+6842	vial of blood simple syrup	976862806	bloodvial.gif	multiple	t,d	25	vials of blood simple syrup
 6843	bone bons	405110026	bonebon.gif	usable, candy	t,d	25	handfuls of bone bons
-6844	ironic mint	800270383	ironmint.gif	multiple, candy	t,d	25
+6844	ironic mint	800270383	ironmint.gif	multiple	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
 6846	walkie-talkie	879889967	walkietalkie.gif	reusable		0
 6847	killing jar	888987269	killingjar.gif	none, combat	t	88
