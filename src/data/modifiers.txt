@@ -6131,7 +6131,7 @@ Effect	Tenuous Grip on Reality	Moxie Percent: -95
 Effect	Tetanus	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Tetched by an Angel	Avatar: "tetched prospector"
 Effect	Texas Elegance	Maximum HP: +30, Maximum MP: +30
-Effect	Thanksgetting	Meat Drop: +40, Item Drop: +20, Familiar Weight: +1
+Effect	Thanksgetting	Meat Drop: [20+20*pref(_thanksgettingFoodsEaten)], Item Drop: [10+10*pref(_thanksgettingFoodsEaten)], Familiar Weight: [1+1*pref(_thanksgettingFoodsEaten)], Hot Resistance: [pref(_thanksgettingFoodsEaten)], Cold Resistance: [pref(_thanksgettingFoodsEaten)], Stench Resistance: [pref(_thanksgettingFoodsEaten)], Spooky Resistance: [pref(_thanksgettingFoodsEaten)], Sleaze Resistance: [pref(_thanksgettingFoodsEaten)]
 Effect	Thanksgot	Meat Drop: +80, Item Drop: +40, Familiar Weight: +2, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?

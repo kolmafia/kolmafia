@@ -1490,6 +1490,7 @@ user	_taffyYellowSummons	0
 user	_templeHiddenPower	false
 user	_tempRelayCounters
 user	_tempuraAirUsed	false
+user	_thanksgettingFoodsEaten	0
 user	_thingfinderCasts	0
 user	_thinknerdPackageDrops	0
 user	_thorsPliersCrafting	0
