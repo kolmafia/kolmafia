@@ -507,6 +507,7 @@ user	ghostPencil8	false
 user	ghostPencil9	false
 user	gingerAdvanceClockUnlocked	false
 user	gingerbreadCityAvailable	false
+user	gingerDigCount	0
 user	gingerExtraAdventures	false
 user	gingerLawChoice	0
 user	gingerMuscleChoice	0

@@ -608,6 +608,10 @@ public class Evaluator
 			{
 				index = Modifiers.SPELL_CRITICAL_PCT;
 			}
+			else if ( keyword.startsWith( "sprinkle" ) )
+			{
+				index = Modifiers.SPRINKLES;
+			}
 			else if ( keyword.equals( "ocrs" ) )
 			{
 				this.noTiebreaker = true;
