@@ -6105,6 +6105,21 @@ Effect	Swimming Head	Item Drop: [25*env(underwater)]
 Effect	Swimming with Sharks	Meat Drop: +20, Pool Skill: +3, Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Swordholder	Weapon Damage Percent: +50
 Effect	Swung Step	Avatar: "Doc Clock"
+Effect	Synthesis: Cold	Cold Resistance: +9
+Effect	Synthesis: Collection	Item Drop: +150
+Effect	Synthesis: Cool	Moxie Percent: +300
+Effect	Synthesis: Energy	Maximum MP Percent: +300
+Effect	Synthesis: Greasy	Sleaze Resistance: +9
+Effect	Synthesis: Greed	Meat Drop: +300
+Effect	Synthesis: Hardy	Maximum HP Percent: +300
+Effect	Synthesis: Hot	Hot Resistance: +9
+Effect	Synthesis: Learning	Experience Percent (Mysticality): +50
+Effect	Synthesis: Movement	Experience Percent (Muscle): +50
+Effect	Synthesis: Pungent	Stench Resistance: +9
+Effect	Synthesis: Scary	Spooky Resistance: +9
+Effect	Synthesis: Smart	Mysticality Percent: +300
+Effect	Synthesis: Strong	Muscle Percent: +300
+Effect	Synthesis: Style	Experience Percent (Moxie): +50
 Effect	Synthesized	Damage Reduction: 8, Weapon Damage: -8
 Effect	Takin' It Greasy	Sleaze Damage: +15
 Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
