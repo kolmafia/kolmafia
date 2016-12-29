@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -310,6 +310,9 @@ public class ItemDatabase
 		ItemDatabase.defineSecondaryUse( "curse", ItemDatabase.ATTR_CURSE );
 		ItemDatabase.defineSecondaryUse( "bounty", ItemDatabase.ATTR_BOUNTY );
 		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY );
+		// This candy stuff will need changing
+		ItemDatabase.defineSecondaryUse( "candy1", ItemDatabase.ATTR_CANDY );
+		ItemDatabase.defineSecondaryUse( "candy2", ItemDatabase.ATTR_CANDY );
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
 		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
 	}
