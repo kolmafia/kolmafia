@@ -2725,6 +2725,9 @@ public class ItemPool
 	public static final int POP_ART_BOOK = 9259;
 	public static final int NO_HATS_BOOK = 9260;
 	public static final int RETHINKING_CANDY_BOOK = 9261;
+	public static final int FRUIT_LEATHER_NEGATIVE = 9262;
+	public static final int GINGERBREAD_BLACKMAIL_PHOTOS = 9263;
+	public static final int TEETHPICK = 9265;
 	public static final int NO_HAT = 9270;
 	public static final int NEGATIVE_LUMP = 9272;
 	public static final int LUMP_STACKING_BOOK = 9285;

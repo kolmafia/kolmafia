@@ -515,6 +515,7 @@ user	gingerNegativesDropped	false
 user	gingerSewersUnlocked	false
 user	gingerSubwayLineUnlocked	false
 user	gingerRetailUnlocked	false
+user	gingerTrainScheduleStudies	0
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
