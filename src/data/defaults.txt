@@ -1373,6 +1373,7 @@ user	_longConUsed	0
 user	_lookingGlass	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
+user	_lynyrdSnareUses	0
 user	_machineTunnelsAdv	0
 user	_madTeaParty	false
 user	_managerialManipulationUsed	false

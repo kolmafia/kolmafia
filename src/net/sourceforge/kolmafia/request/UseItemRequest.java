@@ -3798,6 +3798,15 @@ public class UseItemRequest
 
 			return;
 
+		case ItemPool.LYNYRD_SNARE:
+
+			// If we are redirected to a fight, the item is
+			// consumed elsewhere. If we got here, it wasn't
+			// actually consumed
+
+			Preferences.setInteger( "_lynyrdSnareUses", 3 );
+			return;
+
 		case ItemPool.MOJO_FILTER:
 
 			// You strain some of the toxins out of your mojo, and

@@ -3179,6 +3179,7 @@ public class GenericRequest
 		case ItemPool.LYNYRD_SNARE:
 			itemName = "lynyrd snare";
 			consumed = true;
+			Preferences.increment( "_lynyrdSnareUses" );
 			break;
 
 		case ItemPool.CHATEAU_WATERCOLOR:
