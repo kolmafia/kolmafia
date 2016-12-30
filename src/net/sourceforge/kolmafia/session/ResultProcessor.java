@@ -2798,7 +2798,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.PACK_OF_SMOKES:
-			if ( InventoryManager.getCount( ItemPool.PACK_OF_SMOKES ) >= 9 )
+			if ( InventoryManager.getCount( ItemPool.PACK_OF_SMOKES ) >= 10 )
 			{
 				QuestDatabase.setQuestProgress( Quest.SMOKES, "step1" );
 			}
