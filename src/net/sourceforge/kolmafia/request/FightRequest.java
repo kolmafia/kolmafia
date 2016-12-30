@@ -3525,6 +3525,10 @@ public class FightRequest
 				{
 					Preferences.increment( "_machineTunnelsAdv", 1, 5, false );
 				}
+				else if ( adventure == AdventurePool.DEEP_MACHINE_TUNNELS )
+				{
+					Preferences.setInteger( "_machineTunnelsAdv", 5 );
+				}
 				break;
 
 			case FamiliarPool.ROCKIN_ROBIN:

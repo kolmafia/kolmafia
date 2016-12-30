@@ -10723,8 +10723,17 @@ public abstract class ChoiceManager
 			if ( text.contains( "bribe the clerk" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+				break;
+			}
+
+			// He squints at you and pushes a briefcase across the table.
+			if ( text.contains( "briefcase full of sprinkles" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_BLACKMAIL_PHOTOS, -1 ) );
+				break;
 			}
 			break;
+
 		case 1203:
 			// Midnight in Civic Center
 			// You step into the library and spend a few hours studying law. It's surprisingly difficult! You gain a new respect for lawyers.
@@ -10732,28 +10741,37 @@ public abstract class ChoiceManager
 			if ( text.contains( "few hours studying law" ) )
 			{
 				Preferences.increment( "gingerLawChoice" );
+				break;
 			}
+
 			// You pay the counterfeiter to make you a fake version of Gingerbread City to pawn off on some rube as the real thing
-			else if ( text.contains( "fake version of Gingerbread City" ) )
+			if ( text.contains( "fake version of Gingerbread City" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -300 ) );
+				break;
 			}
+
 			// You quickly melt the lock on the cell and the criminal inside thanks you as he runs off into the night.
 			// "Hey," you shout after him, "you forgot your..." but he's already gone.
 			// Oh well. He almost certainly stole this thing, anyway.
-			else if ( text.contains( "melt the lock on the cell" ) )
+			if ( text.contains( "melt the lock on the cell" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.CREME_BRULEE_TORCH, -1 ) );
+				break;
 			}
+
 			// You insert your sprinkles and buy your cigarettes.
-			else if ( text.contains( "buy your cigarettes" ) )
+			if ( text.contains( "buy your cigarettes" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -5 ) );
+				break;
 			}
+
 			// You feed the treat to the puppy and he immediately becomes a loyal friend to you. Dogs are so easy!
-			else if ( text.contains( "Dogs are so easy" ) )
+			if ( text.contains( "Dogs are so easy" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_DOG_TREAT, -1 ) );
+				break;
 			}
 			break;
 
@@ -10763,7 +10781,33 @@ public abstract class ChoiceManager
 			if ( text.contains( "more room for the alligators" ) )
 			{
 				Preferences.setBoolean( "_gingerBiggerAlligators", true );
+				break;
 			}
+
+			// You can't make heads or tails of it
+			if ( text.contains( "can't make heads or tails of it" ) )
+			{
+				Preferences.increment( "gingerTrainScheduleStudies" );
+			}
+			// You're starting to get a feel for it, but it's still really confusing
+			else if ( text.contains( "starting to get a feel for it" ) )
+			{
+				Preferences.increment( "gingerTrainScheduleStudies" );
+				if ( Preferences.getInteger( "gingerTrainScheduleStudies" ) < 4 )
+				{
+					Preferences.setInteger( "gingerTrainScheduleStudies", 4 );
+				}
+			}
+			// You're starting to get a handle on how it all works.
+			else if ( text.contains( "starting to get a handle" ) )
+			{
+				Preferences.increment( "gingerTrainScheduleStudies" );
+				if ( Preferences.getInteger( "gingerTrainScheduleStudies" ) < 7 )
+				{
+					Preferences.setInteger( "gingerTrainScheduleStudies", 7 );
+				}
+			}
+			// What next?
 			break;
 
 		case 1205:
@@ -10771,11 +10815,15 @@ public abstract class ChoiceManager
 			if ( text.contains( "provide a great workout" ) )
 			{
 				Preferences.increment( "gingerMuscleChoice" );
+				break;
 			}
+
 			if ( text.contains( "new line to the subway system" ) )
 			{
 				Preferences.setBoolean( "gingerSubwayLineUnlocked", true );
+				break;
 			}
+
 			if ( text.contains( "what looks like a sweet roll" ) )
 			{
 				Preferences.increment( "gingerDigCount" );
@@ -10791,7 +10839,9 @@ public abstract class ChoiceManager
 			else if ( text.contains( "sugar raygun" ) )
 			{
 				Preferences.setInteger( "gingerDigCount", 7 );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.TEETHPICK, -1 ) );
 			}
+
 			break;
 
 		case 1206:
@@ -10801,25 +10851,25 @@ public abstract class ChoiceManager
 			{
 				break;
 			}
-			if ( ChoiceManager.lastDecision == 1 )
+
+			switch ( ChoiceManager.lastDecision )
 			{
+			case 1:
 				// creme brulee torch
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -25 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
+				break;
+			case 2:
 				// candy crowbar
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
+				break;
+			case 3:
 				// candy screwdriver
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -100 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
+				break;
+			case 4:
 				// teethpick
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
+				break;
 			}
 			break;
 
@@ -10837,47 +10887,45 @@ public abstract class ChoiceManager
 			if ( text.contains( "drop off the negatives" ) )
 			{
 				Preferences.setBoolean( "gingerNegativesDropped", true );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FRUIT_LEATHER_NEGATIVE, -1 ) );
 				break;
 			}
-			else if ( !text.contains( "You acquire an item" ) )
+
+			if ( !text.contains( "You acquire an item" ) )
 			{
 				break;
 			}
 
-			if ( ChoiceManager.lastDecision == 1 )
+			switch ( ChoiceManager.lastDecision )
 			{
+			case 1:
 				// gingerbread dog treat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -200 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
+				break;
+			case 2:
 				// pumpkin spice candle
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -150 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
+				break;
+			case 3:
 				// gingerbread spice latte
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -50 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
+				break;
+			case 4:
 				// gingerbread trousers
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 5 )
-			{
+				break;
+			case 5:
 				// gingerbread waistcoat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 6 )
-			{
+				break;
+			case 6:
 				// gingerbread tophat
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -500 ) );
-			}
-			else if ( ChoiceManager.lastDecision == 8 )
-			{
+				break;
+			case 8:
 				// gingerbread blackmail photos
 				Preferences.setBoolean( "gingerNegativesDropped", false );
+				break;
 			}
 			break;
 
@@ -10888,21 +10936,21 @@ public abstract class ChoiceManager
 			{
 				break;
 			}
-			if ( ChoiceManager.lastDecision == 1 )
+
+			switch ( ChoiceManager.lastDecision )
 			{
+			case 1:
 				Preferences.setBoolean( "gingerRetailUnlocked", true );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
+				break;
+			case 2:
 				Preferences.setBoolean( "gingerSewersUnlocked", true );
-			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
+				break;
+			case 3:
 				Preferences.setBoolean( "gingerExtraAdventures", true );
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
+				break;
+			case 4:
 				Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
+				break;
 			}
 			break;
 
