@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -263,6 +264,7 @@ public class ProxyRecordValue
 			.add( "multi", DataTypes.BOOLEAN_TYPE )
 			.add( "fancy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy", DataTypes.BOOLEAN_TYPE )
+			.add( "candy_type", DataTypes.STRING_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.add( "name_length", DataTypes.INT_TYPE )
@@ -422,6 +424,11 @@ public class ProxyRecordValue
 		public boolean get_candy()
 		{
 			return ItemDatabase.isCandyItem( (int) this.contentLong );
+		}
+
+		public String get_candy_type()
+		{
+			return CandyDatabase.getCandyType( (int) this.contentLong );
 		}
 
 		public CoinmasterData get_seller()
@@ -981,6 +988,7 @@ public class ProxyRecordValue
 				new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ) )
 			.add( "image", DataTypes.STRING_TYPE )
 			.add( "descid", DataTypes.STRING_TYPE )
+			.add( "candy_tier", DataTypes.INT_TYPE )
 			.finish( "effect proxy" );
 
 		public EffectProxy( Value obj )
@@ -1017,6 +1025,11 @@ public class ProxyRecordValue
 		public String get_descid()
 		{
 			return EffectDatabase.getDescriptionId( (int) this.contentLong );
+		}
+
+		public int get_candy_tier()
+		{
+			return CandyDatabase.getEffectTier( (int) this.contentLong );
 		}
 	}
 

@@ -314,6 +314,21 @@ public class EffectPool
 	public static final int DRUNK_AVUNCULAR = 2129;
 	public static final int SHRIEKING_WEASEL = 2131;
 	public static final int SUPERDRIFTING = 2135;
+	public static final int SYNTHESIS_HOT = 2165;
+	public static final int SYNTHESIS_COLD = 2166;
+	public static final int SYNTHESIS_PUNGENT = 2167;
+	public static final int SYNTHESIS_SCARY = 2168;
+	public static final int SYNTHESIS_GREASY = 2169;
+	public static final int SYNTHESIS_SMART = 2170;
+	public static final int SYNTHESIS_STRONG = 2171;
+	public static final int SYNTHESIS_COOL = 2172;
+	public static final int SYNTHESIS_HARDY = 2173;
+	public static final int SYNTHESIS_ENERGY = 2174;
+	public static final int SYNTHESIS_GREED = 2175;
+	public static final int SYNTHESIS_COLLECTION = 2176;
+	public static final int SYNTHESIS_MOVEMENT = 2177;
+	public static final int SYNTHESIS_LEARNING = 2178;
+	public static final int SYNTHESIS_STYLE = 2179;
 
 	public static final AdventureResult get( final int effectId )
 	{
