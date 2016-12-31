@@ -234,9 +234,11 @@ public class ItemDatabase
 	public static final int ATTR_SOLO = 0x00000400;
 	public static final int ATTR_CURSE = 0x00000800;
 	public static final int ATTR_BOUNTY = 0x00001000;
-	public static final int ATTR_CANDY = 0x00002000;
-	public static final int ATTR_MATCHABLE = 0x00004000;
-	public static final int ATTR_FANCY = 0x00008000;
+	public static final int ATTR_CANDY0 = 0x00002000;
+	public static final int ATTR_CANDY1 = 0x00004000;
+	public static final int ATTR_CANDY2 = 0x00008000;
+	public static final int ATTR_MATCHABLE = 0x00010000;
+	public static final int ATTR_FANCY = 0x00020000;
 
 	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
@@ -307,10 +309,9 @@ public class ItemDatabase
 
 		ItemDatabase.defineSecondaryUse( "curse", ItemDatabase.ATTR_CURSE );
 		ItemDatabase.defineSecondaryUse( "bounty", ItemDatabase.ATTR_BOUNTY );
-		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY );
-		// This candy stuff will need changing
-		ItemDatabase.defineSecondaryUse( "candy1", ItemDatabase.ATTR_CANDY );
-		ItemDatabase.defineSecondaryUse( "candy2", ItemDatabase.ATTR_CANDY );
+		ItemDatabase.defineSecondaryUse( "candy", ItemDatabase.ATTR_CANDY0 );
+		ItemDatabase.defineSecondaryUse( "candy1", ItemDatabase.ATTR_CANDY1 );
+		ItemDatabase.defineSecondaryUse( "candy2", ItemDatabase.ATTR_CANDY2 );
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
 		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
 	}
@@ -450,7 +451,6 @@ public class ItemDatabase
 			String access = ItemDatabase.parseAccess( data[ 5 ] );
 			int price = StringUtilities.parseInt( data[ 6 ] );
 
-			int attrs = 0;
 			String usage = usages[ 0 ];
 			Integer useType = ItemDatabase.PRIMARY_USE.get( usage );
 			if ( useType == null )
@@ -461,6 +461,8 @@ public class ItemDatabase
 			{
 				ItemDatabase.useTypeById.set( itemId, useType.intValue() );
 			}
+
+			int attrs = 0;
 			for ( int i = 1; i < usages.length; ++i )
 			{
 				usage = usages[ i ];
@@ -472,6 +474,7 @@ public class ItemDatabase
 				else
 				{
 					attrs |= useType.intValue();
+					CandyDatabase.registerCandy( id, usage );
 				}
 			}
 
@@ -502,6 +505,9 @@ public class ItemDatabase
 				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
 			}
 		}
+
+		// Rather than doing it repeatedly as we add candies
+		CandyDatabase.saveCanonicalNames();
 
 		try
 		{
@@ -1837,7 +1843,7 @@ public class ItemDatabase
 
 	public static final boolean isCandyItem( final int itemId )
 	{
-		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CANDY );
+		return ItemDatabase.getAttribute( itemId, ( ItemDatabase.ATTR_CANDY0 | ItemDatabase.ATTR_CANDY1 | ItemDatabase.ATTR_CANDY2 ) );
 	}
 
 	/**

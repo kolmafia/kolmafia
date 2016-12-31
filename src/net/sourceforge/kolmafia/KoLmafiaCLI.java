@@ -687,6 +687,7 @@ public class KoLmafiaCLI
 		new CampgroundCommand().registerPrefix( "camp" );
 		new ChangeCombatScriptCommand().register( "ccs" );
 		new CheckDataCommand().register( "newdata" ).
+			register( "checkcandy" ).
 			register( "checkconsumables" ).
 			register( "checkconsumption" ).
 			register( "checkeffects" ).

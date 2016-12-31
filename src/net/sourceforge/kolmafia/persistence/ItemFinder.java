@@ -70,6 +70,7 @@ public class ItemFinder
 	public static final int CREATE_MATCH = 6;
 	public static final int UNTINKER_MATCH = 7;
 	public static final int EQUIP_MATCH = 8;
+	public static final int CANDY_MATCH = 9;
 
 	public static final List<String> getMatchingNames( String searchString )
 	{
@@ -188,41 +189,34 @@ public class ItemFinder
 
 	private static final void filterNameList( List<String> nameList, int filterType )
 	{
-		String itemName;
-		int itemId, useType;
-
-		// First, check to see if there are an HP/MP restores
-		// in the list of matches.  If there are, only return
-		// the restorative items (the others are irrelevant).
-
-		ArrayList<String> restoreList = new ArrayList<String>();
-
-		for ( int i = 0; i < nameList.size(); ++i )
+		if ( filterType != ItemFinder.FOOD_MATCH &&
+		     filterType != ItemFinder.BOOZE_MATCH &&
+		     filterType != ItemFinder.SPLEEN_MATCH &&
+		     filterType != ItemFinder.CANDY_MATCH )
 		{
-			itemName = nameList.get( i );
-			itemId = ItemDatabase.getItemId( itemName );
+			// First, check to see if there are an HP/MP restores
+			// in the list of matches.  If there are, only return
+			// the restorative items (the others are irrelevant).
 
-			if ( RestoresDatabase.isRestore( itemId ) )
+			ArrayList<String> restoreList = new ArrayList<String>();
+
+			for ( int i = 0; i < nameList.size(); ++i )
 			{
-				restoreList.add( itemName );
+				String itemName = nameList.get( i );
+				int itemId = ItemDatabase.getItemId( itemName );
+
+				if ( RestoresDatabase.isRestore( itemId ) )
+				{
+					restoreList.add( itemName );
+				}
+			}
+
+			if ( !restoreList.isEmpty() )
+			{
+				nameList.clear();
+				nameList.addAll( restoreList );
 			}
 		}
-
-		if ( !restoreList.isEmpty() &&
-		     filterType != ItemFinder.FOOD_MATCH &&
-		     filterType != ItemFinder.BOOZE_MATCH &&
-		     filterType != ItemFinder.SPLEEN_MATCH )
-		{
-			nameList.clear();
-			nameList.addAll( restoreList );
-		}
-
-		// Why would we not filter if there is one item? If there is an item that doesn't match the filter
-		// surely we should return 0 ? Commenting it out!
-		// if ( nameList.size() == 1 )
-		// {
-		//		return;
-		//}
 
 		// Check for consumption filters when matching against the
 		// item name.
@@ -231,8 +225,8 @@ public class ItemFinder
 
 		while ( nameIterator.hasNext() )
 		{
-			itemName = nameIterator.next();
-			itemId = ItemDatabase.getItemId( itemName );
+			String itemName = nameIterator.next();
+			int itemId = ItemDatabase.getItemId( itemName );
 			
 			if ( filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
 			{
@@ -245,7 +239,7 @@ public class ItemFinder
 				continue;
 			}
 
-			useType = ItemDatabase.getConsumptionType( itemId );
+			int useType = ItemDatabase.getConsumptionType( itemId );
 
 			switch ( filterType )
 			{
@@ -284,6 +278,9 @@ public class ItemFinder
 				}
 
 				break;
+			case ItemFinder.CANDY_MATCH:
+				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isCandyItem( itemId ) );
+				break;
 
 			case ItemFinder.USE_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isUsable( itemId ) );
@@ -311,8 +308,8 @@ public class ItemFinder
 
 		while ( nameIterator.hasNext() )
 		{
-			itemName = nameIterator.next();
-			itemId = ItemDatabase.getItemId( itemName );
+			String itemName = nameIterator.next();
+			int itemId = ItemDatabase.getItemId( itemName );
 
 			conditionalRemove( nameIterator, itemId != -1 &&
 				!ItemDatabase.getAttribute( itemId,
@@ -512,6 +509,9 @@ public class ItemFinder
 					break;
 				case EQUIP_MATCH:
 					error = " cannot be equipped.";
+					break;
+				case CANDY_MATCH:
+					error = " is not candy.";
 					break;
 				}
 

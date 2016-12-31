@@ -126,6 +126,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1864,6 +1865,10 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "xpath", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+		// Sweet Synthesis
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -7751,5 +7756,30 @@ public abstract class RuntimeLibrary
 			return DataTypes.FALSE_VALUE;
 		}
 		return DataTypes.makeBooleanValue( SVNManager.WCAtHead( f, true ) );
+	}
+
+	// Sweet Synthesis
+	public static Value candy_for_tier( Interpreter interpreter, final Value arg )
+	{
+		int tier = (int) arg.intValue();
+		Set<Integer> candies = CandyDatabase.candyForTier( tier );
+
+		int count = ( candies == null ) ? 0 : candies.size();
+
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, count );
+		ArrayValue value = new ArrayValue( type );
+
+		if ( candies != null )
+		{
+			int index = 0;
+			for ( Integer itemId : candies )
+			{
+				Value key = new Value( index++ );
+				Value val = DataTypes.makeItemValue( itemId.intValue(), true );
+				value.aset( key, val );
+			}
+		}
+
+		return value;
 	}
 }

@@ -33,19 +33,24 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Set;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -77,6 +82,30 @@ public class CheckDataCommand
 			KoLmafia.saveDataOverride();
 
 			RequestLogger.printLine( "Data tables updated." );
+			return;
+		}
+
+		if ( command.equals( "checkcandy" ) )
+		{
+			String candy = parameters.trim();
+			if ( candy.equals( "" ) )
+			{
+				Set<Integer> candies = CandyDatabase.candyForTier( 0 );
+				for ( Integer itemId : candies )
+				{
+					RequestLogger.printLine( "***Unspaded candy: " + ItemDatabase.getDataName( itemId ) );
+				}
+			}
+			else
+			{
+				int filter = ItemFinder.CANDY_MATCH;
+				AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, filter );
+				for ( AdventureResult item : itemList )
+				{
+					String type = CandyDatabase.getCandyType( item.getItemId() );
+					RequestLogger.printLine( item.getName() + ": " + type );
+				}
+			}
 			return;
 		}
 
