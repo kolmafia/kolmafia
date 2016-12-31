@@ -82,7 +82,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Modifiers
-	extends KoLDatabase
 {
 	private static final HashMap<String, Object> modifiersByName = new HashMap<String, Object>();
 	private static final HashMap<String,String> familiarEffectByName = new HashMap<String,String>();

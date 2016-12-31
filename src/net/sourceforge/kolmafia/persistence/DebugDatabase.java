@@ -62,7 +62,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
@@ -103,7 +102,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class DebugDatabase
-	extends KoLDatabase
 {
 	//private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
 	//private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b> (\\d+)<br />" );

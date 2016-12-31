@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -76,7 +75,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class ConsumablesDatabase
-	extends KoLDatabase
 {
 	public static final AdventureResult ODE = EffectPool.get( EffectPool.ODE );
 	public static final AdventureResult MILK = EffectPool.get( EffectPool.MILK );

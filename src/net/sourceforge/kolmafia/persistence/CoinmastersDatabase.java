@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -65,7 +64,6 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinmastersDatabase
-	extends KoLDatabase
 {
 	// Map from Integer( itemId ) -> CoinMasterPurchaseRequest
 	public static final HashMap<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<Integer, CoinMasterPurchaseRequest>();

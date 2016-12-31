@@ -42,7 +42,6 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -70,7 +69,6 @@ import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCStoreDatabase
-	extends KoLDatabase
 {
 	private static final HashMultimap<NPCPurchaseRequest> NPC_ITEMS = new HashMultimap<NPCPurchaseRequest>();
 	private static final HashMultimap<NPCPurchaseRequest> ROW_ITEMS = new HashMultimap<NPCPurchaseRequest>();

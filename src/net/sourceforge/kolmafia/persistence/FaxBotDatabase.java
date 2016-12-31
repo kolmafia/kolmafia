@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -70,7 +69,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class FaxBotDatabase
-	extends KoLDatabase
 {
 	private static boolean isInitialized = false;
 	private static boolean faxBotError = false;

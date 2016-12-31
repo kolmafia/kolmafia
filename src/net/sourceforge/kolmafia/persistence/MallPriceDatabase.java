@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -60,7 +59,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase
-	extends KoLDatabase
 {
 	private static final PriceArray prices = new PriceArray();
 	private static final HashSet<String> updated = new HashSet<String>();

@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -82,7 +81,6 @@ import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureDatabase
-	extends KoLDatabase
 {
 	private static final Pattern SNARF_PATTERN = Pattern.compile( "snarfblat=(\\d+)" );
 	private static final Pattern MINE_PATTERN = Pattern.compile( "mine=(\\d+)" );

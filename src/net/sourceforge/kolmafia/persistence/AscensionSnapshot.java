@@ -43,7 +43,6 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataField;
@@ -52,7 +51,6 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 public class AscensionSnapshot
-	extends KoLDatabase
 {
 	public static final int NO_FILTER = 0;
 

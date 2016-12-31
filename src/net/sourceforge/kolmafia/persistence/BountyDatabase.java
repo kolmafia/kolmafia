@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -53,7 +52,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class BountyDatabase
-	extends KoLDatabase
 {
 	private static final ArrayList<String> bountyNames = new ArrayList<String>();
 	private static final Map<String, String> bountyByPlural = new HashMap<String, String>();
