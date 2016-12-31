@@ -99,6 +99,7 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
+import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
@@ -9329,6 +9330,11 @@ public abstract class ChoiceManager
 				Preferences.increment( "_timeSpinnerMinutesUsed", 3 );
 			}
 			break;
+
+		case 1217:
+			// Sweet Synthesis
+			SweetSynthesisRequest.postChoice1( urlString, text );
+			return;
 		}
 
 		// Certain choices cost meat or items when selected

@@ -172,6 +172,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -1869,6 +1870,15 @@ public abstract class RuntimeLibrary
 		// Sweet Synthesis
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis_pairing", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis_result", DataTypes.EFFECT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -7766,7 +7776,7 @@ public abstract class RuntimeLibrary
 
 		int count = ( candies == null ) ? 0 : candies.size();
 
-		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, count );
+		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, count );
 		ArrayValue value = new ArrayValue( type );
 
 		if ( candies != null )
@@ -7781,5 +7791,55 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value sweet_synthesis_pairing( Interpreter interpreter, final Value arg1, final Value arg2  )
+	{
+		int effectId = (int) arg1.intValue();
+		int itemId =  (int) arg2.intValue();
+
+		Set<Integer> candies = CandyDatabase.sweetSynthesisPairing( effectId, itemId );
+
+		int count = ( candies == null ) ? 0 : candies.size();
+
+		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, count );
+		ArrayValue value = new ArrayValue( type );
+
+		if ( candies != null )
+		{
+			int index = 0;
+			for ( Integer itemId2 : candies )
+			{
+				Value key = new Value( index++ );
+				Value val = DataTypes.makeItemValue( itemId2.intValue(), true );
+				value.aset( key, val );
+			}
+		}
+
+		return value;
+	}
+
+	public static Value sweet_synthesis_result( Interpreter interpreter, final Value item1, final Value item2 )
+	{
+		int itemId1 = (int) item1.intValue();
+		int itemId2 = (int) item2.intValue();
+		int effectId = CandyDatabase.synthesisResult( itemId1, itemId2 );
+		return effectId == -1 ? DataTypes.EFFECT_INIT : DataTypes.makeEffectValue( effectId, true );
+	}
+
+	public static Value sweet_synthesis( Interpreter interpreter, final Value item1, final Value item2 )
+	{
+		int itemId1 = (int) item1.intValue();
+		int itemId2 = (int) item2.intValue();
+
+		if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		// SweetSynthesisRequest will retrieve the candies
+		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+		RequestThread.postRequest( request );
+		return RuntimeLibrary.continueValue();
 	}
 }

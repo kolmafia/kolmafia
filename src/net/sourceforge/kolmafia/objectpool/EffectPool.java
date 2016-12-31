@@ -319,8 +319,8 @@ public class EffectPool
 	public static final int SYNTHESIS_PUNGENT = 2167;
 	public static final int SYNTHESIS_SCARY = 2168;
 	public static final int SYNTHESIS_GREASY = 2169;
-	public static final int SYNTHESIS_SMART = 2170;
-	public static final int SYNTHESIS_STRONG = 2171;
+	public static final int SYNTHESIS_STRONG = 2170;
+	public static final int SYNTHESIS_SMART = 2171;
 	public static final int SYNTHESIS_COOL = 2172;
 	public static final int SYNTHESIS_HARDY = 2173;
 	public static final int SYNTHESIS_ENERGY = 2174;

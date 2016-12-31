@@ -4353,7 +4353,7 @@
 4328	suspicious stocking	171587799	susstocking.gif	grow	t	0
 4329	bag of many confections	899647196	lilbag.gif	familiar, candy2	t,d	75	bags of many confections
 4330	candy kneecapping stick	937968773	candyclub.gif	food, combat, candy2	t	0
-4331	licorice garrote	390509859	licgarotte.gif	food, combat, candy1	t	0
+4331	licorice garrote	390509859	licgarotte.gif	food, combat, candy2	t	0
 4332	candy knuckles	795046000	knuckles.gif	weapon, candy2	t	0	sets of candy knuckles
 4333	jawbruiser	707896286	jawbreaker.gif	food, curse, candy2	t	0
 4334	fancy chocolate car	114513584	choccar.gif	usable, candy2	t	0
@@ -5420,7 +5420,7 @@
 5395	peppermint sprout	691356968	pep_sprout.gif	multiple, candy2	t	0
 5396	peppermint twist	627296529	pep_twist.gif	multiple, candy2, fancy	t	0
 5397	peppermint patty	257430124	pep_patty.gif	food, candy2	t	0	peppermint patties, sir
-5398	peppermint crook	218861653	pep_crook.gif	none, combat, candy1	t	0
+5398	peppermint crook	218861653	pep_crook.gif	none, combat, candy2	t	0
 5399	peppermint rhino baby	705620213	pep_rhinobaby.gif	grow	t	0	peppermint rhino babies
 5400	candy cane candygram	767129386	pep_gram.gif	none, curse, candy2	t	0
 5401	peppermint parasol	642836578	pep_parasol.gif	none, combat, candy2	t	0
@@ -9186,7 +9186,7 @@
 9160	raw gravy	627936249	rawgravy.gif	food	t,d	5
 9161	raw bread	675185576	dough.gif	food	t,d	5
 9162	mini-marshmallow dispenser	517561775	marshbelt.gif	accessory	t,d	50
-9163	glass casserole dish	361609510	cassdishshield.gif	shirt	t,d	40
+9163	glass casserole dish	361609510	cassdishshield.gif	shirt	t,d	40	glass casserole dishes
 9164	stuffing fluffer	876668521	stuffingball.gif	usable, combat	t,d	25
 9165	can opener	271336422	canopener.gif	weapon	t,d	15
 9166	turkey blaster	835991309	baster.gif	spleen, usable	t,d	30

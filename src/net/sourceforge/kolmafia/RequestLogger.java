@@ -174,6 +174,7 @@ import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SugarSheetRequest;
 import net.sourceforge.kolmafia.request.SummoningChamberRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
@@ -703,6 +704,13 @@ public class RequestLogger
 
 		// The Deck of Every Card is an instance of choice.php
 		if ( ( request instanceof DeckOfEveryCardRequest || isExternal ) && DeckOfEveryCardRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Sweet Synthesis is an instance of choice.php
+		if ( ( request instanceof SweetSynthesisRequest || isExternal ) && SweetSynthesisRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
