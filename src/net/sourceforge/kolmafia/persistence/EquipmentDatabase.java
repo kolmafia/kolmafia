@@ -55,7 +55,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -76,7 +75,6 @@ import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentDatabase
-	extends KoLDatabase
 {
 	private static final IntegerArray power = new IntegerArray();
 	private static final IntegerArray hands = new IntegerArray();

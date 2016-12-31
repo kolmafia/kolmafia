@@ -42,7 +42,6 @@ import java.util.Map;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestoreExpression;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -64,7 +63,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
 public class RestoresDatabase
-	extends KoLDatabase
 {
 	private static final ArrayList<String> restoreNames = new ArrayList<String>();
 	private static final Map<String, String> typeByName = new HashMap<String, String>();

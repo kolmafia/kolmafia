@@ -52,7 +52,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -66,7 +65,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarDatabase
-	extends KoLDatabase
 {
 	private static final Map<Integer,String> familiarById = new TreeMap<Integer,String>();
 	private static final Map<String,Integer> familiarByName = new TreeMap<String,Integer>();

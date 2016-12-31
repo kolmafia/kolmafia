@@ -43,7 +43,6 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -56,10 +55,10 @@ import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
+import net.sourceforge.kolmafia.utilities.KoLDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProfileSnapshot
-	extends KoLDatabase
 {
 	public static final int EXACT_MATCH = 0;
 	public static final int BELOW_MATCH = -1;

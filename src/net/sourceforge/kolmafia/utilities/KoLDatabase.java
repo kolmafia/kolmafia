@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2015, KoLmafia development team
+ * Copyright (c) 2005-2016, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -31,11 +31,13 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import net.sourceforge.kolmafia.KoLConstants;
 
 public class KoLDatabase
 {

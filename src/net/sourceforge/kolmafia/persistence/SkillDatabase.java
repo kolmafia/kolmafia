@@ -47,7 +47,6 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -69,7 +68,6 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase
-	extends KoLDatabase
 {
 	private static String [] canonicalNames = new String[0];
 	private static final Map<Integer, String> skillById = new TreeMap<Integer, String>();

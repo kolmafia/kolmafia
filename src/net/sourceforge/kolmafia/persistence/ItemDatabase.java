@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -86,7 +85,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ItemDatabase
-	extends KoLDatabase
 {
 	private static int maxItemId = 0;
 

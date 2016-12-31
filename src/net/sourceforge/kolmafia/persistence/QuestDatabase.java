@@ -42,7 +42,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLDatabase;
 import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -55,7 +54,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * 
  */
 public class QuestDatabase
-	extends KoLDatabase
 {
 	public enum Quest
 	{
