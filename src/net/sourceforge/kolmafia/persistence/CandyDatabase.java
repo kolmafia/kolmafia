@@ -41,12 +41,18 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 public class CandyDatabase
 {
+	public static Set<Integer> noCandy = new HashSet<Integer>();	// No candies
 	public static Set<Integer> tier0Candy = new HashSet<Integer>();	// Unspaded
 	public static Set<Integer> tier1Candy = new HashSet<Integer>();	// Simple
 	public static Set<Integer> tier2Candy = new HashSet<Integer>();	// Simple and Complex
 	public static Set<Integer> tier3Candy = new HashSet<Integer>();	// Complex
 
 	public static String [] canonicalNames = new String[0];
+
+	public static final String NONE = "none";
+	public static final String UNSPADED = "unspaded";
+	public static final String SIMPLE = "simple";
+	public static final String COMPLEX = "complex";
 
 	public static void registerCandy( final Integer itemId, final String type )
 	{
@@ -101,10 +107,20 @@ public class CandyDatabase
 		// We could look in our various candy sets, but more efficient
 		// to just look at item attributes
 		int attributes = ItemDatabase.getAttributes( itemId );
-		return  ( attributes & ItemDatabase.ATTR_CANDY0 ) != 0 ? "unspaded" :
-			( attributes & ItemDatabase.ATTR_CANDY1 ) != 0 ? "simple" :
-			( attributes & ItemDatabase.ATTR_CANDY2 ) != 0 ? "complex" :
-			"none";
+		return  ( attributes & ItemDatabase.ATTR_CANDY0 ) != 0 ? UNSPADED :
+			( attributes & ItemDatabase.ATTR_CANDY1 ) != 0 ? SIMPLE :
+			( attributes & ItemDatabase.ATTR_CANDY2 ) != 0 ? COMPLEX :
+			NONE;
+	}
+
+	public static final int getEffectTier( final int itemId1, final int itemId2 )
+	{
+		String candyType1 = CandyDatabase.getCandyType( itemId1 );
+		String candyType2 = CandyDatabase.getCandyType( itemId2 );
+		return  ( candyType1 == NONE || candyType2 == NONE ) ? 0 :
+			( candyType1 == SIMPLE && candyType2 == SIMPLE ) ? 1 :
+			( candyType1 == COMPLEX && candyType2 == COMPLEX ) ? 3 :
+			2;
 	}
 
 	public static final int getEffectTier( final int effectId )
@@ -117,8 +133,8 @@ public class CandyDatabase
 		case EffectPool.SYNTHESIS_SCARY:
 		case EffectPool.SYNTHESIS_GREASY:
 			return 1;
-		case EffectPool.SYNTHESIS_SMART:
 		case EffectPool.SYNTHESIS_STRONG:
+		case EffectPool.SYNTHESIS_SMART:
 		case EffectPool.SYNTHESIS_COOL:
 		case EffectPool.SYNTHESIS_HARDY:
 		case EffectPool.SYNTHESIS_ENERGY:
@@ -134,6 +150,49 @@ public class CandyDatabase
 		}
 	}
 
+	public static final int getEffectModulus( final int effectId )
+	{
+		switch ( effectId )
+		{
+		case EffectPool.SYNTHESIS_HOT:
+		case EffectPool.SYNTHESIS_STRONG:
+		case EffectPool.SYNTHESIS_GREED:
+			return 0;
+		case EffectPool.SYNTHESIS_COLD:
+		case EffectPool.SYNTHESIS_SMART:
+		case EffectPool.SYNTHESIS_COLLECTION:
+			return 1;
+		case EffectPool.SYNTHESIS_PUNGENT:
+		case EffectPool.SYNTHESIS_COOL:
+		case EffectPool.SYNTHESIS_MOVEMENT:
+			return 2;
+		case EffectPool.SYNTHESIS_SCARY:
+		case EffectPool.SYNTHESIS_HARDY:
+		case EffectPool.SYNTHESIS_LEARNING:
+			return 3;
+		case EffectPool.SYNTHESIS_GREASY:
+		case EffectPool.SYNTHESIS_ENERGY:
+		case EffectPool.SYNTHESIS_STYLE:
+			return 4;
+		default:
+			return -1;
+		}
+	}
+
+	public static final int effectTierBase( final int tier )
+	{
+		switch ( tier )
+		{
+		case 1:
+			return EffectPool.SYNTHESIS_HOT;
+		case 2:
+			return EffectPool.SYNTHESIS_STRONG;
+		case 3:
+			return EffectPool.SYNTHESIS_GREED;
+		}
+		return -1;
+	}
+
 	public static Set<Integer> candyForTier( final int tier )
 	{
 		return  tier == 0 ? CandyDatabase.tier0Candy :
@@ -141,5 +200,68 @@ public class CandyDatabase
 			tier == 2 ? CandyDatabase.tier2Candy :
 			tier == 3 ? CandyDatabase.tier3Candy :
 			null;
+	}
+
+	public static int synthesisResult( final int itemId1, final int itemId2 )
+	{
+		if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+		{
+			return -1;
+		}
+
+		int tier = CandyDatabase.getEffectTier( itemId1, itemId2 );
+		if ( tier == 0 )
+		{
+			return -1;
+		}
+
+		int base = CandyDatabase.effectTierBase( tier );
+		int modulus = ( itemId1 + itemId2 ) % 5;
+
+		return base + modulus;
+	}
+
+	public static Set<Integer> sweetSynthesisPairing( final int effectId, final int itemId1 )
+	{
+		Set<Integer> result = new HashSet<Integer>();
+
+		int tier = CandyDatabase.getEffectTier( effectId );
+		if ( tier < 1 || tier > 3 )
+		{
+			return result;
+		}
+
+		String candyType = CandyDatabase.getCandyType( itemId1 );
+		if ( candyType != SIMPLE && candyType != COMPLEX )
+		{
+			return result;
+		}
+
+		Set<Integer> candidates = CandyDatabase.noCandy;
+
+		switch ( tier )
+		{
+		case 1:
+			candidates = ( candyType == SIMPLE ) ? CandyDatabase.tier1Candy : CandyDatabase.noCandy;
+			break;
+		case 2:
+			candidates = ( candyType == SIMPLE ) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
+			break;
+		case 3:
+			candidates = ( candyType == COMPLEX ) ? CandyDatabase.tier3Candy : CandyDatabase.noCandy;
+			break;
+		}
+
+		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
+
+		for ( int itemId2 : candidates )
+		{
+			if ( ( itemId1 + itemId2 ) % 5 == desiredModulus )
+			{
+				result.add( itemId2 );
+			}
+		}
+
+		return result;
 	}
 }

@@ -346,7 +346,6 @@ public class DeckOfEveryCardRequest
 			return;
 		}
 
-
 		// You're too beaten up. An accidental papercut would kill you at this point.
 		if ( responseText.contains( "You're too beaten up" ) )
 		{
