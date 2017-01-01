@@ -109,16 +109,27 @@ public class SweetSynthesisRequest
 			return;
 		}
 
-		// Acquire the first candy
-		if ( !InventoryManager.retrieveItem( this.itemId1, 1, true, false ) )
+		if ( this.itemId1 == this.itemId2 )
 		{
-			return;
+			// Acquire both candies
+			if ( !InventoryManager.retrieveItem( this.itemId1, 2, true, false ) )
+			{
+				return;
+			}
 		}
-
-		// Acquire the second candy
-		if ( !InventoryManager.retrieveItem( this.itemId2, 1, true, false ) )
+		else
 		{
-			return;
+			// Acquire the first candy
+			if ( !InventoryManager.retrieveItem( this.itemId1, 1, true, false ) )
+			{
+				return;
+			}
+
+			// Acquire the second candy
+			if ( !InventoryManager.retrieveItem( this.itemId2, 1, true, false ) )
+			{
+				return;
+			}
 		}
 
 		// Run the skill
