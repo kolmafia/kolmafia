@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
+import net.sourceforge.kolmafia.swingui.panel.SynthesizePanel;
+import net.sourceforge.kolmafia.swingui.panel.SynthesizePanel.Candy;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -84,6 +86,11 @@ public class TableCellFactory
 				return getStorageCell( columnIndex, isSelected, advresult, raw );
 			}
 			return getGeneralCell( columnIndex, isSelected, advresult, raw );
+		}
+		if ( result instanceof Candy )
+		{
+			Candy candy = (Candy) result;
+			return getGeneralCell( columnIndex, isSelected, candy, raw );
 		}
 		if ( result instanceof CreateItemRequest )
 		{
@@ -197,6 +204,21 @@ public class TableCellFactory
 				advRange = advRange / fill;
 			}
 			return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format( advRange ) : null;
+		default:
+			return null;
+		}
+	}
+
+	private static Object getGeneralCell( int columnIndex, boolean isSelected, Candy candy, boolean raw )
+	{		
+		switch ( columnIndex )
+		{
+		case 0:
+			return candy.getName();
+		case 1:
+			return IntegerPool.get( candy.getCount() );
+		case 2:
+			return IntegerPool.get( candy.getCost() );
 		default:
 			return null;
 		}
@@ -404,10 +426,13 @@ public class TableCellFactory
 				"item name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
 			};
 		}
-		else if ( originalModel == KoLConstants.inventory || originalModel == KoLConstants.tally
-			|| originalModel == KoLConstants.freepulls || originalModel == KoLConstants.storage
-			|| originalModel == KoLConstants.closet || originalModel == KoLConstants.nopulls
-			|| originalModel == KoLConstants.unlimited )
+		else if ( originalModel == KoLConstants.inventory ||
+			  originalModel == KoLConstants.tally ||
+			  originalModel == KoLConstants.freepulls ||
+			  originalModel == KoLConstants.storage ||
+			  originalModel == KoLConstants.closet ||
+			  originalModel == KoLConstants.nopulls ||
+			  originalModel == KoLConstants.unlimited )
 		{
 			return new String[]
 			{
@@ -465,10 +490,20 @@ public class TableCellFactory
 				"monster name", "monster ID",
 			};
 		}
-		else if ( originalModel == ScriptManager.getInstalledScripts() || originalModel == ScriptManager.getRepoScripts() )
+		else if ( originalModel == ScriptManager.getInstalledScripts() ||
+			  originalModel == ScriptManager.getRepoScripts() )
 		{
 			return new String[]
-			{ "Script Name", "Authors", "Description", "Category", "Repo"
+			{
+				"Script Name", "Authors", "Description", "Category", "Repo"
+			};
+		}
+		else if ( originalModel == SynthesizePanel.candy1List ||
+			  originalModel == SynthesizePanel.candy2List )
+		{
+			return new String[]
+			{
+				"candy", "have", "cost"
 			};
 		}
 		return new String[]
