@@ -46,6 +46,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -53,6 +54,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+
+import javax.swing.border.TitledBorder;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -99,7 +102,7 @@ public class SynthesizePanel
 		this.centerPanel.add( this.effectPanel, BorderLayout.NORTH );
 
 		this.candyPanel = new CandyPanel();
-		this.centerPanel.add( this.candyPanel, BorderLayout.CENTER );
+		this.centerPanel.add( this.candyPanel, BorderLayout.SOUTH );
 
 		this.eastPanel = new JPanel( new BorderLayout() );
 
@@ -228,13 +231,42 @@ public class SynthesizePanel
 			implements ActionListener
 		{
 			final public int effectId;
+			final Color foreground;
+			final Color background;
 			
 			public EffectButton( final String name, final int effectId )
 			{
 				super( name );
+
+				// The following makes the button a solid
+				// rectangle on OS X.
+				this.setContentAreaFilled( false );
+				this.setBorderPainted( false );
 				this.setOpaque( true );
+
 				this.effectId = effectId;
+				this.foreground = this.getForeground();
+				this.background = this.getBackground();
+
 				this.addActionListener( this );
+			}
+
+			private void originalColors()
+			{
+				this.setBackground( background );
+				if ( !this.isBorderPainted() )
+				{
+					this.setForeground( foreground );
+				}
+			}
+
+			private void reverseColors()
+			{
+				this.setBackground( foreground );
+				if ( !this.isBorderPainted() )
+				{
+					this.setForeground( background );
+				}
 			}
 
 			public void actionPerformed( final ActionEvent e )
@@ -242,7 +274,7 @@ public class SynthesizePanel
 				EffectButton current = EffectPanel.this.selected;
 				if ( current != null )
 				{
-					current.setBackground( Color.WHITE );
+					current.originalColors();
 					SynthesizePanel.candy2List.clear();
 				}
 				if ( current == this )
@@ -255,7 +287,7 @@ public class SynthesizePanel
 				{
 					EffectPanel.this.selected = this;
 					SynthesizePanel.this.effectId = this.effectId;
-					this.setBackground( Color.LIGHT_GRAY );
+					this.reverseColors();
 					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ) );
 					SynthesizePanel.loadCandy( SynthesizePanel.candy1List, candy );
 				}
@@ -337,38 +369,45 @@ public class SynthesizePanel
 		public CandyPanel()
 		{
 			super( new GridLayout( 1, 2 ) );
-			this.candyList1 = new CandyList( SynthesizePanel.candy1List );
+
+			this.candyList1 = new CandyList( "Candy A", SynthesizePanel.candy1List );
 			this.source1 = this.candyList1.getElementList().getSelectionModel();
 			this.add( this.candyList1 );
-			this.candyList2 = new CandyList( SynthesizePanel.candy2List );
+
+			this.candyList2 = new CandyList( "Candy B", SynthesizePanel.candy2List );
 			this.source2 = this.candyList2.getElementList().getSelectionModel();
 			this.add( this.candyList2 );
 		}
 
 		public void valueChanged( ListSelectionEvent e )
 		{
+			if ( e.getValueIsAdjusting() )
+			{
+				// Mouse down, for example.
+				// Wait until final event comes in
+				return;
+			}
+
 			Object source = e.getSource();
 			if ( source == source1 )
 			{
 				Object[] items = candyList1.getSelectedValues();
 				Candy current = SynthesizePanel.this.candy1;
 				Candy replace = items.length == 0 ? null : (Candy)items[0];
-				if ( replace == null )
-				{
-					SynthesizePanel.this.candy1 = null;
-					SynthesizePanel.this.selectedCandyPanel.candyData1.updateCandy( null );
-					SynthesizePanel.this.candy2 = null;
-					SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( null );
-					SynthesizePanel.candy1List.clear();
-					SynthesizePanel.candy2List.clear();
-					SynthesizePanel.this.synthesizeButton.setEnabled( false );
-				}
-				else if ( current != replace )
+				if ( current != replace )
 				{
 					SynthesizePanel.this.candy1 = replace;
 					SynthesizePanel.this.selectedCandyPanel.candyData1.updateCandy( replace );
-					Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId, replace.getItemId() );
-					SynthesizePanel.loadCandy( SynthesizePanel.candy2List, candy );
+					if ( replace == null )
+					{
+						SynthesizePanel.candy2List.clear();
+					}
+					else
+					{
+						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId, replace.getItemId() );
+						SynthesizePanel.loadCandy( SynthesizePanel.candy2List, candy );
+					}
+					SynthesizePanel.this.candy2 = null;
 					SynthesizePanel.this.synthesizeButton.setEnabled( false );
 				}
 			}
@@ -381,7 +420,10 @@ public class SynthesizePanel
 				{
 					SynthesizePanel.this.candy2 = replace;
 					SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( replace );
-					SynthesizePanel.this.synthesizeButton.setEnabled( true );
+					if ( replace != null )
+					{
+						SynthesizePanel.this.synthesizeButton.setEnabled( true );
+					}
 				}
 			}
 		}
@@ -389,9 +431,10 @@ public class SynthesizePanel
 		private class CandyList
 			extends ItemTableManagePanel
 		{
-			public CandyList( final LockableListModel candyList )
+			public CandyList( final String title, final LockableListModel candyList )
 			{
 				super( candyList, false, false );
+				this.scrollPane.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
 				this.getElementList().setVisibleRowCount( 20 );
 				this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				this.getElementList().getSelectionModel().addListSelectionListener( CandyPanel.this );
@@ -412,7 +455,6 @@ public class SynthesizePanel
 			this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 			this.candyData1 = new CandyData( "Candy A" );
 			this.add( this.candyData1 );
-			this.add( Box.createVerticalStrut( 10 ) );
 			this.candyData2 = new CandyData( "Candy B" );
 			this.add( this.candyData2 );
 		}
@@ -426,7 +468,7 @@ public class SynthesizePanel
 			public CandyData( final String title )
 			{
 				super( new BorderLayout() );
-				this.add( new JLabel( title ), BorderLayout.NORTH );
+				this.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
 
 				JPanel labelPanel = new JPanel( new GridLayout( 2, 1 ) );
 				labelPanel.add( new JLabel( "Have: " ) );
