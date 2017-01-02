@@ -63,12 +63,16 @@ import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+
+import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -124,11 +128,6 @@ public class SynthesizePanel
 	public void setEnabled( final boolean isEnabled )
 	{
 		this.synthesizeButton.setEnabled( isEnabled && this.effectId != -1 && this.candy1 != null && this.candy2 != null );
-	}
-
-	public void synthesize()
-	{
-		// Synthesize
 	}
 
 	// Compare by lowest mall price, then largest quantity, then alphabetically
@@ -299,8 +298,8 @@ public class SynthesizePanel
 	{
 		private final int itemId;
 		private final String name;
-		private final int count;
-		private final int mallprice;
+		private int count;
+		private int mallprice;
 		private final int autosell;
 
 		public Candy( final int itemId )
@@ -351,7 +350,14 @@ public class SynthesizePanel
 			return this.autosell;
 		}
 
-		public String to_string()
+		public Candy update()
+		{
+			this.count = InventoryManager.getAccessibleCount( this.itemId );
+			this.mallprice = MallPriceDatabase.getPrice( this.itemId );
+			return this;
+		}
+
+		public String toString()
 		{
 			return this.name;
 		}
@@ -506,7 +512,35 @@ public class SynthesizePanel
 		@Override
 		protected void execute()
 		{
-			SynthesizePanel.this.synthesize();
+			if ( SynthesizePanel.this.candy1 == null || SynthesizePanel.this.candy2 == null )
+			{
+				return;
+			}
+
+			Candy candy1 = SynthesizePanel.this.candy1;
+			int itemId1 = candy1.getItemId();
+			Candy candy2 = SynthesizePanel.this.candy2;
+			int itemId2 = candy2.getItemId();
+
+			KoLmafia.updateDisplay( "Synthesizing " + candy1 + " with " + candy2 + "..." );
+
+			SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+			RequestThread.postRequest( request );
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				KoLmafia.updateDisplay( "Done!" );;
+
+				// If we succeeded, count and/or mall price might have changed
+				SynthesizePanel.this.selectedCandyPanel.candyData1.updateCandy( candy1.update() );
+				SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( candy2.update() );
+			}
+		}
+
+		@Override
+		public String toString()
+		{
+			return "synthesize";
 		}
 	}
 }

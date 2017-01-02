@@ -69,7 +69,7 @@ public class SweetSynthesisRequest
 		this.addFormField( "whichchoice", "1217" );
 		this.addFormField( "option", "1" );
 		this.addFormField( "a", String.valueOf( itemId1 ) );
-		this.addFormField( "b", String.valueOf( itemId1 ) );
+		this.addFormField( "b", String.valueOf( itemId2 ) );
 		this.itemId1 = itemId1;
 		this.itemId2 = itemId2;
 	}
