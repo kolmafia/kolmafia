@@ -227,7 +227,7 @@
 198	Lil' Barrel Mimic	barrelmimic.gif	stat0,hp1,mp1,drop	tiny barrel	brass bung spigot	1	2	1	3
 199	Machine Elf	machelf.gif	other0,stat3,drop	machine elf capsule	self-dribbling basketball	1	2	3	1
 200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3
-201	Rockin' Robin	rockinrobin.gif	stat0,item0	basking robin	tiny domino mask	3	3	3	3
+201	Rockin' Robin	rockinrobin.gif	stat0,item0,drop	basking robin	tiny domino mask	3	3	3	3
 202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1
 203	Intergnat	intergnat.gif	item0,combat0,other0,mp1,drop	disconnected intergnat	high-speed upgrade	1	3	2	2
 204	Software Bug	softwarebug.gif	none	software bug	missing semicolon	0	0	0	0

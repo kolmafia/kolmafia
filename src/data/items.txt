@@ -9328,12 +9328,12 @@
 9302	space jellybicycle	269909743	bicycle.gif	familiar	t,d	75
 9303	hopeful candle	474003769	hopefulcandle.gif	grow	t	0
 9304	pewter candlestick	319573977	tinycandlestick.gif	familiar	t,d	75
-9305
-9306
-9307
-9308
-9309
-9310
+9305	wax hand	417697662	waxhand.gif	accessory		0
+9306	miniature candle	976093033	smallcandle.gif	offhand	q	0
+9307	wax pancake	899405619	waxpancake.gif	food	t,d	15
+9308	wax face	271058427	waxface.gif	accessory		0
+9309	wax booze	793123034	waxbottle.gif	drink	t,d	10
+9310	glob of melted wax	650729867	waxglob.gif	usable	t	0
 9311
 9312
 9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100

@@ -3750,6 +3750,8 @@ public abstract class ChoiceManager
 		// Choice 1212 is Seedy Seedy Seedy
 		// Choice 1213 is The Factory Factor
 
+		// Choice 1218 is Wax On
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -11006,6 +11008,15 @@ public abstract class ChoiceManager
 				ResultProcessor.processResult( ItemPool.get( ItemPool.SPRINKLES, -1000 ) );
 			}
 			break;
+
+		case 1218:
+			// Wax On
+			if ( text.contains( "You acquire an item" ) )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.WAX_GLOB, -1 ) );
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
