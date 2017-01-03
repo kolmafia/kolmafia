@@ -73,6 +73,8 @@ Item	8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: 
 # Admiral's hat: +50 Skeleton Anger
 Item	Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
 Item	aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
+# Item aerogel akubra: Lets you use Spirit Snap multiple times per fight
+Item	aerogel akubra	Muscle: +10, Meat Drop: +10
 Item	All-Hallow's Steve's fright wig	Sleaze Damage: +20, Spooky Resistance: +2, Candy Drop: +20, Familiar Effect: "0.5xVolley, 1xPotato, cap 13"
 Item	Amoon-Ra Cowtep's nemes	Mysticality Percent: +35, Spell Damage: +25, Spell Critical Percent: +15, Familiar Effect: "atk, 1xVolley"
 Item	Ancient Saucehelm	Mysticality: +11, Spell Damage: +11, Class: "Sauceror", Familiar Effect: "3xGhuol, cap 25"
@@ -472,6 +474,8 @@ Item	wooden salad bowl	Familiar Effect: "atk, cap 30"
 Item	wool hat	Damage Absorption: +20, Cold Resistance: +2, Familiar Effect: "1xLep, cap 43"
 Item	worn tophat	Moxie: +5, Initiative: +15, Familiar Effect: "1xBarrr, 1xLep, cap 31"
 Item	wreath of laurels	Muscle: +25, Maximum HP: +25, Maximum MP: +25, Familiar Effect: "0.5xLep, 0.5xFairy"
+# Item wrought-iron wig: Makes Northern Explosion deal additional damage over time
+Item	wrought-iron wig	Experience (Muscle): +3, Cold Damage: +15
 Item	wumpus-hair wig	Moxie: -5, Stench Damage: +20, Stench Spell Damage: +20, Familiar Effect: "1xPotato, 1xGhuol, cap 25"
 Item	Xiblaxian stealth cowl	Combat Rate: -5, Mysticality Percent: +20, Familiar Effect: "spooky atk, cap 25"
 Item	yabba dabba doo rag	Stench Resistance: +4, HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "atk, 1xVolley, cap 27"
@@ -767,6 +771,8 @@ Item	Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effec
 # Item wicker knickers: Increases the effectiveness of Shield of the Pastalord
 Item	wicker knickers	Experience (Mysticality): +2, Adventures: +2
 Item	wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "atk, 1xVolley, cap 27"
+# Item wrought-iron waders: Adds an extra source of damage to Concerto de los Muertos
+Item	wrought-iron waders	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Meat Drop: +20
 Item	wumpus-hair loincloth	Initiative: -10, HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Cold Resistance: +2, Familiar Effect: "1xVolley, 1xPotato, cap 5"
 Item	Xiblaxian stealth trousers	Combat Rate: -5, Moxie Percent: +20
 Item	yakskin kilt	Maximum MP: +25, Familiar Effect: "1xFairy, cap 35"
@@ -918,6 +924,8 @@ Item	accordion file	MP Regen Min: [2*(1+skill(Accordion Appreciation))], MP Rege
 Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat Drop: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 14
 Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
+# Item aerogel accordion: Only takes up one hand!
+Item	aerogel accordion	Moxie: +20, Maximum HP: +40
 # airblaster gun: Blasts Air (Duh.)
 Item	alarm accordion	Adventures: [3*(1+skill(Accordion Appreciation))], Initiative: [20*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 Item	amok putter	Hot Damage: +9, Cold Damage: +9, Initiative: +18
@@ -1753,6 +1761,8 @@ Item	world's smallest violin	Ranged Damage: +5, Meat Drop: +5, Monster Level: +5
 # Wrath of the Capsaician Pastalords: Special Attack:  Noodles of Fire
 Item	Wrath of the Capsaician Pastalords	Mysticality: +15, Food Drop: +50, Initiative: +40, Class: "Pastamancer"
 Item	wrench	Maximum MP: +50, Spell Damage Percent: +100, Lasts Until Rollover
+# Item wrought-iron whisk: Adds many additional balls to Salsaball
+Item	wrought-iron whisk	Spooky Damage: +10, Monster Level: +10
 Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 # X-37 gun: Shoots Elemental Blasts
 Item	X-37 gun	Breakable
@@ -1779,6 +1789,8 @@ Item	A Light that Never Goes Out	Mysticality: +5, Hot Damage: +5, Smithsness: +5
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
 Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
+# Item aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
+Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10
 Item	ancient calendar	Adventures: +3, Damage Reduction: 4
 Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
@@ -2297,6 +2309,12 @@ Item	Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: 
 Item	acid-squirting flower	Single Equip
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull
+# Item aerogel anvil: Gives a chance of generating extra Fury
+Item	aerogel anvil	Weapon Damage Percent: +25, Never Fumble, Single Equip
+# Item aerogel apron: Weapon of the Pastalord can be even messier
+Item	aerogel apron	Spell Critical Percent: +5, Hot Resistance: +3, Single Equip
+# Item aerogel ascot: Dramatically improves Saucecicle
+Item	aerogel ascot	Mysticality: +10, Adventures: +3, Single Equip
 Item	albatross necklace	Mysticality Percent: +10, Single Equip
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
@@ -3349,6 +3367,12 @@ Item	wrench bracelet	Muscle: +5, Weapon Damage: +9
 # Item Wrist-Boy: Allows use of holo-records
 Item	Wrist-Boy	Damage Reduction: 10
 Item	wristwatch of the white knight	Initiative: +10, Adventures: +3, Single Equip, Nonstackable Watch
+# Item wrought-iron walker: Makes Disco Momentum cause passive damage over time
+Item	wrought-iron walker	Experience (Moxie): +3, HP Regen Min: 6, HP Regen Max: 10, Single Equip
+# Item wrought-iron widget: Adds extra sources of damage to Cannelloni Cannon
+Item	wrought-iron widget	Experience (Mysticality): +3, Maximum HP: +40, Single Equip
+# Item wrought-iron winch crank: Increases the damage of Spirit Snap
+Item	wrought-iron winch crank	Initiative: +40, MP Regen Min: 4, MP Regen Max: 6, Single Equip
 # x-ray specs
 # Xiblaxian holo-wrist-puter: Detects Anomalous Materials of Xiblaxian Origin
 Item	Xiblaxian holo-wrist-puter	Item Drop: +10
@@ -3673,6 +3697,7 @@ Item	snow halo	Familiar Weight: +5
 Item	Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore Only, Generic
 Item	solid shifting time weirdness	Adventures: +4, PvP Fights: +4, Generic
 Item	solid state loom	Familiar Weight: +10
+Item	space jellybicycle	Familiar Weight: +5
 Item	spoon!	Familiar Weight: +5
 Item	spruce juice	Familiar Weight: +5
 # Stembridge sidearm: Decisively ends fights, but only occasionally
@@ -4595,6 +4620,7 @@ Effect	Cold Blooded	Muscle Percent: +30, Mysticality Percent: +20, Moxie Percent
 Effect	Cold Hands	Cold Damage: +10, Cold Spell Damage: +20, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Cold Hard Skin	Cold Damage: +25, Maximum HP: +200
 Effect	Cold Hearted	Familiar Weight: [ceil(min(T,20)/2)], Moxie: [min(T,20)]
+Effect	Cold Jellied	Experience (Mysticality): +3, Cold Damage: +5, Mysticality Percent: +30
 Effect	Cold Sweat	Cold Resistance: +7
 Effect	Cold Throat	Cold Spell Damage: +50, Spell Damage Percent: +100
 Effect	Cold, Dead Hands	Cold Damage: +40, Spooky Damage: +40
@@ -5149,6 +5175,7 @@ Effect	Horrid, Torrid	Weapon Damage Percent: +10
 Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
 Effect	Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
+Effect	Hot Jellied	Experience (Muscle): +3, Hot Damage: +5, Muscle Percent: +30
 Effect	Hot Sweat	Hot Resistance: +7
 Effect	Hotcaked	Hot Resistance: +3
 # Hotform: Hot, Hot, Hot!
@@ -5889,6 +5916,7 @@ Effect	Sleaze-Resistant Trousers	Sleaze Resistance: +1
 Effect	Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability
 # Sleazy Breath: Can breathe cologne in combat
 Effect	Sleazy Hands	Sleaze Damage: +10, Sleaze Spell Damage: +20, Hot Resistance: +2, Stench Resistance: +2
+Effect	Sleazy Jellied	Experience (Moxie): +3, Sleaze Damage: +5, Moxie Percent: +30
 Effect	Sleazy Weapon	Sleaze Damage: +3
 # Sleeping with the Fishes: Makes you sleep like the dead
 Effect	Sleepy	Muscle Percent: -30
@@ -6004,6 +6032,7 @@ Effect	Spooky Blur	Spooky Damage: +30, Spooky Spell Damage: +30, Initiative: +20
 Effect	Spooky Demeanor	Muscle Percent: +10, Mysticality Percent: +30, Moxie Percent: +20, Spooky Damage: +10, Spooky Resistance: +2
 Effect	Spooky Flavor	Spooky Damage: +10, Spooky Resistance: +2
 Effect	Spooky Hands	Spooky Damage: +10, Spooky Spell Damage: +20, Cold Resistance: +2, Sleaze Resistance: +2
+Effect	Spooky Jellied	Experience: +5, Spooky Damage: +5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Spooky Weapon	Spooky Damage: +3
 # Spookyform: Ooooooooooooooooh
 Effect	Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
@@ -6029,6 +6058,7 @@ Effect	Staying Frosty	Cold Damage: +100
 Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
+Effect	Stench Jellied	Item Drop: +30, Stench Damage: +5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Effect	Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
 Effect	Steroid Boost	Muscle: +2
@@ -6078,6 +6108,7 @@ Effect	Super Speed	Moxie Percent: +100
 Effect	Super Structure	Damage Absorption: +500, Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5
 Effect	Super Vision	Item Drop: +25
 Effect	Super-Charged	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+Effect	Super-Electrified	Maximum MP: +200, MP Regen Min: 30, MP Regen Max: 40
 Effect	Super-Mega-Charged	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Super-Mega-Ultra-Charged	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Effect	Super-Mega-Ultra-Hyper-Charged	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
@@ -7105,6 +7136,10 @@ Item	thyme jelly donut	Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
 Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
+# Item toast with spooky jelly: Makes you emanate Spookily
+Item	toast with spooky jelly	Effect: "Spooky Jellied", Effect Duration: 25
+# Item toast with stench jelly: Makes monsters avoid you
+Item	toast with stench jelly	Effect: "Stench Jellied", Effect Duration: 25
 Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 20
@@ -7385,6 +7420,8 @@ Item	bottle of ultravitamins	Effect: "Vitamin-Maxed", Effect Duration: 10
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
+# Item cold jelly: Freezes your liver
+Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 10
 Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
@@ -7406,6 +7443,8 @@ Item	handful of Smithereens	Effect: "Smithsness Presence", Effect Duration: 100
 Item	hippy paste	Effect: "Hippy Flavor", Effect Duration: 10
 Item	hobo paste	Effect: "Hobo Flavor", Effect Duration: 10
 Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
+# Item hot jelly: Lets you breathe on a monster
+Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 10
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
@@ -7424,10 +7463,16 @@ Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
 # red striped oyster egg: Restores 30-35 HP
+# Item sleaze jelly: Enables Sleazy Bickering
+Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
 Item	sleaze wad	Effect: "Supafly", Effect Duration: 10
 Item	slimy alveolus	Effect: "Slimebreath", Effect Duration: 40
 Item	slimy paste	Effect: "Slimy Flavor", Effect Duration: 10
+# Item spooky jelly: Makes you emanate Spookily
+Item	spooky jelly	Effect: "Spooky Jellied", Effect Duration: 50
 Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
+# Item stench jelly: Makes monsters avoid you
+Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 10
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
@@ -9322,6 +9367,7 @@ Item	Source terminal	Free Pull
 Item	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Skill: "Summon Tasteful Items"
 # space invader: Deals 300-400 Physical Damage
 Item	space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
+Item	space planula	Free Pull
 # Space Tours Tripple: Weakens enemies a little bit
 # spangly unitard: Deals 100-250 Physical Damage and weakens your opponent somewhat
 Item	spare neck bolts	Effect: "Big Square Head", Effect Duration: 100
