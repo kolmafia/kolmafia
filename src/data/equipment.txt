@@ -5,6 +5,7 @@
 8-billed baseball cap	200	Mox: 85
 Admiral's hat	200	Mox: 85
 aerated diving helmet	200	Mox: 85
+aerogel akubra	50	none
 All-Hallow's Steve's fright wig	100	Mox: 35
 Amoon-Ra Cowtep's nemes	225	Mox: 50
 Ancient Saucehelm	100	Mys: 15
@@ -359,6 +360,7 @@ wooden salad bowl	120	Mox: 45
 wool hat	175	Mox: 72
 worn tophat	85	Mox: 27
 wreath of laurels	200	Mox: 85
+wrought-iron wig	120	Mox: 40
 wumpus-hair wig	100	Mox: 35
 X-ray goggles	0	none
 Xiblaxian stealth cowl	100	none
@@ -620,6 +622,7 @@ white satin pants	40	Mox: 5
 Whoompa Fur Pants	110	Mox: 40
 wicker knickers	50	none
 wooly loincloth	110	Mox: 40
+wrought-iron waders	120	Mox: 40
 wumpus-hair loincloth	100	Mox: 35
 Xiblaxian stealth trousers	100	none
 yakskin kilt	140	Mox: 55
@@ -765,6 +768,7 @@ accordion file	60	Mox: 15	2-handed accordion
 Accordion of Jordion	105	Mox: 37	2-handed accordion
 accordionoid rocca	160	Mox: 65	2-handed accordion
 acoustic guitarrr	140	Mox: 55	2-handed guitar
+aerogel accordion	50	Mox: 0	1-handed accordion
 airblaster gun	10	Mox: 0	1-handed pistol
 alarm accordion	180	Mox: 75	2-handed accordion
 amok putter	30	Mus: 0	2-handed club
@@ -1499,6 +1503,7 @@ world's smallest violin	150	Mox: 60	1-handed violin
 worm-riding hooks	50	Mus: 0	2-handed club
 Wrath of the Capsaician Pastalords	200	Mys: 60	1-handed utensil
 wrench	100	Mys: 0	1-handed utensil
+wrought-iron whisk	120	Mys: 40	1-handed utensil
 wumpus-hair whip	15	Mus: 0	1-handed whip
 X-37 gun	160	Mox: 65	1-handed pistol
 yak whip	20	Mus: 0	1-handed whip
@@ -1523,6 +1528,7 @@ A Light that Never Goes Out	100	none
 Adventurer bobblehead	100	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
+aerogel attache case	0	none
 ancient calendar	70	Mus: 20	shield
 ancient hot dog wrapper	200	Mys: 85
 ancient stone head	85	Mus: 27	shield
@@ -1971,6 +1977,9 @@ Zombo's shield	240	Mus: 200	shield
 
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
+aerogel anvil	0	none
+aerogel apron	0	none
+aerogel ascot	0	none
 albatross necklace	90	Mys: 15
 Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
@@ -2879,6 +2888,9 @@ woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 Wrist-Boy	0	none
 wristwatch of the white knight	60	Mys: 15
+wrought-iron walker	0	Mys: 40
+wrought-iron widget	0	Mys: 40
+wrought-iron winch crank	0	Mys: 40
 x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none
 Xiblaxian xeno-detection goggles	100	none

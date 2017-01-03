@@ -8128,19 +8128,19 @@
 8103	bakelite breeches	960476220	bakebreeches.gif	pants		0	pairs of bakelite breeches
 8104	bakelite backpack	393280436	bakepack.gif	container		0
 8105	bakelite bits	168333481	bakebits.gif	spleen, usable		0	handfuls of bakelite bits
-8106
-8107
-8108
-8109
-8110
-8111
+8106	aerogel anvil	651986677	aeroanvil.gif	accessory		0
+8107	aerogel akubra	829946270	aeroakubra.gif	hat		0
+8108	aerogel apron	905923292	aeroapron.gif	accessory		0
+8109	aerogel ascot	979456974	aeroascot.gif	accessory		0
+8110	aerogel attache case	732524845	aeroattache.gif	offhand		0
+8111	aerogel accordion	768319736	aeroaccordion.gif	weapon		0
 8112
-8113
-8114
-8115
-8116
-8117
-8118
+8113	wrought-iron wig	359556400	wroughtwig.gif	hat		0
+8114	wrought-iron winch crank	790683305	wroughtcrank.gif	accessory		0
+8115	wrought-iron widget	431029746	wroughtwidget.gif	accessory		0
+8116	wrought-iron whisk	215720810	wroughtwhisk.gif	weapon		0
+8117	wrought-iron walker	314107712	wroughtwalker.gif	accessory		0
+8118	wrought-iron waders	771154174	wroughtpants.gif	pants		0
 8119
 8120
 8121
@@ -9314,3 +9314,26 @@
 9288	black gallstone	923998146	loadstone.gif	familiar	t	0
 9289	Uncle Crimbo's hat	113038072	santahat.gif	hat		0
 9290	Eldritch snap	460482869	circle.gif	food	t	0
+9291	hot jelly	893942349	jellyglob.gif	spleen, usable	t,d	5
+9292	cold jelly	555347356	jellyglob.gif	spleen, usable	t,d	5
+9293	spooky jelly	135928269	jellyglob.gif	spleen, usable	t,d	5
+9294	sleaze jelly	338591821	jellyglob.gif	spleen, usable	t,d	5
+9295	stench jelly	676237400	jellyglob.gif	spleen, usable	t,d	5
+9296	space planula	642860470	planula.gif	grow	t	0
+9297
+9298
+9299	toast with spooky jelly	431448305	jamtoast.gif	food	t,d	10
+9300
+9301	toast with stench jelly	437690724	jamtoast.gif	food	t,d	10
+9302	space jellybicycle	269909743	bicycle.gif	familiar	t,d	75
+9303
+9304
+9305
+9306
+9307
+9308
+9309
+9310
+9311
+9312
+9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100

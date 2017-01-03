@@ -99,6 +99,9 @@ public class SynthesizePanel
 	public SynthesizePanel()
 	{
 		super();
+
+		this.candy1List.clear();
+		this.candy2List.clear();
 		
 		this.centerPanel = new JPanel( new BorderLayout() );
 
