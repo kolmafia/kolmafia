@@ -1755,6 +1755,7 @@ Microplushie: Otakulone	5	none
 Microplushie: Raverdrine	5	none
 Microplushie: Sororitrate	5	none
 mini-zeppelin	10	none
+miniature candle	100	none
 miniature stuffed Goth Giant	10	none
 misfit dolly	0	none
 misfit hobby horse	0	none
@@ -2110,7 +2111,7 @@ CRIMBCO lanyard	0	none
 Crimbomega drive chain	100	none
 crusty hula hoop	200	Mys: 200
 crying statue earrings	50	none
-crystal belt buckle	0	Mys: 35
+crystal belt buckle	100	Mys: 35
 crystalline seal eye	0	none
 cursed ring finger ring	250	Mys: 200
 cursed scrunchie	200	Mys: 200
@@ -2873,6 +2874,8 @@ warm fur	225	Mys: 200
 water wings	10	none
 water wings for babies	10	none
 water-polo mitt	200	Mys: 85
+wax face	50	none
+wax hand	50	none
 whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5

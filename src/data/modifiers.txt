@@ -2051,6 +2051,7 @@ Item	Microplushie: Otakulone	Maximum MP: +4
 Item	Microplushie: Raverdrine	Maximum HP: +8
 Item	Microplushie: Sororitrate	Sleaze Damage: +2
 # mini-zeppelin
+Item	miniature candle	Experience: +3, Item Drop: +20, Lasts Until Rollover
 # miniature stuffed Goth Giant
 Item	misfit dolly	Moxie: +5, Spooky Damage: +5
 Item	misfit hobby horse	Muscle: +5, Stench Damage: +5
@@ -3349,6 +3350,8 @@ Item	warm fur	Hot Damage: +60
 # water wings
 Item	water wings for babies	Maximum HP: +10, Monster Level: -15
 Item	water-polo mitt	Weapon Damage: +30, Single Equip
+Item	wax face	Maximum MP: +20, Spell Damage Percent: +25
+Item	wax hand	Maximum HP: +40, Weapon Damage Percent: +25
 Item	whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 Item	wheel	Initiative: +10
 Item	white belt	Muscle: +3, Weapon Damage: +3, Single Equip
@@ -6391,6 +6394,7 @@ Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen M
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
+Effect	Waxing	Maximum HP Percent: +100, Maximum MP Percent: +50, Initiative: +50
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
 Effect	Weally Satisfied	HP Regen Min: [min(T/10,50)], HP Regen Max: [min(T/5,100)]
 Effect	Weapon of Mass Destruction	Weapon Damage Percent: +30
@@ -8374,6 +8378,8 @@ Item	Glo-Pop	Effect: "Glo-Face", Effect Duration: 10
 # Item glob of Bat-Glue: Stuns foes for a few rounds
 # glob of Blank-Out: Lets you escape from combat without spending an Adventure
 # glob of Blank-Out: (usable a few times before it goes away)
+# Item glob of melted wax: Stuns enemies for a few rounds, dealing <font color=red>Hot Damage</font> all the while
+# Item glob of melted wax: Can be fashioned into various wax objects
 Item	glob of spoiled mayo	Effect: "Mayeaugh", Effect Duration: 10
 Item	glowing El Vibrato drone	Effect: "Inscrutable exoskeleton", Effect Duration: 10
 Item	glowing frisbee	Free Pull
