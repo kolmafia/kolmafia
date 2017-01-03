@@ -7144,6 +7144,12 @@ Item	thyme jelly donut	Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
 Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
+# Item toast with cold jelly: Freezes your liver
+Item	toast with cold jelly	Effect: "Cold Jellied", Effect Duration: 25
+# Item toast with hot jelly: Lets you breathe on a monster
+Item	toast with hot jelly	Effect: "Hot Jellied", Effect Duration: 25
+# Item toast with sleaze jelly: Enables Sleazy Bickering
+Item	toast with sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 25
 # Item toast with spooky jelly: Makes you emanate Spookily
 Item	toast with spooky jelly	Effect: "Spooky Jellied", Effect Duration: 25
 # Item toast with stench jelly: Makes monsters avoid you

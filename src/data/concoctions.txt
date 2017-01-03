@@ -2864,3 +2864,11 @@ Lump-Stacking for Beginners	CRIMBO16, ROW921	negative lump (1000)	chakra sludge 
 pet bad vibe	CRIMBO16, ROW922	negative lump (2000)	chakra sludge (50)
 Rethinking Candy	CRIMBO16, ROW923	negative lump (4000)	chakra sludge (75)
 eternal knot tattoo	CRIMBO16, ROW924	negative lump (8000)	chakra sludge (100)
+
+# Space Jellyfish
+
+toast with cold jelly	COOK	toast	cold jelly
+toast with hot jelly	COOK	toast	hot jelly
+toast with sleaze jelly	COOK	toast	sleaze jelly
+toast with spooky jelly	COOK	toast	spooky jelly
+toast with stench jelly	COOK	toast	stench jelly
