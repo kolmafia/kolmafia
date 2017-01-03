@@ -3535,6 +3535,10 @@ public class FightRequest
 				Preferences.increment( "rockinRobinProgress" );
 				break;
 
+			case FamiliarPool.CANDLE:
+				Preferences.increment( "optimisticCandleProgress" );
+				break;
+
 			case FamiliarPool.INTERGNAT:
 				if ( monster != null )
 				{

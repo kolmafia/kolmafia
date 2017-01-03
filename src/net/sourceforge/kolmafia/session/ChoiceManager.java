@@ -14580,6 +14580,7 @@ public abstract class ChoiceManager
 		case 1193: // The Precinct
 		case 1195: // Spinning Your Time-Spinner
 		case 1197: // Travel back to a Delicious Meal
+		case 1218: // Wax On
 		return true;
 
 		default:

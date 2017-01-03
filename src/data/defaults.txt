@@ -807,6 +807,7 @@ user	oceanDestination	manual
 user	oilPeakProgress	310.66
 user	olfactedMonster	unknown
 user	optimalSwagger	0
+user	optimisticCandleProgress	25
 user	oscusSodaUsed	false
 user	outrageousSombreroUsed	false
 user	palindomeDudesDefeated	0
@@ -849,7 +850,7 @@ user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
-user	rockinRobinProgress	0
+user	rockinRobinProgress	25
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
 user	questECoBucket	unstarted
