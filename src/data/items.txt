@@ -9320,10 +9320,10 @@
 9294	sleaze jelly	338591821	jellyglob.gif	spleen, usable	t,d	5
 9295	stench jelly	676237400	jellyglob.gif	spleen, usable	t,d	5
 9296	space planula	642860470	planula.gif	grow	t	0
-9297
-9298
+9297	toast with hot jelly	247551302	jamtoast.gif	food	t,d	10
+9298	toast with cold jelly	678971076	jamtoast.gif	food	t,d	10
 9299	toast with spooky jelly	431448305	jamtoast.gif	food	t,d	10
-9300
+9300	toast with sleaze jelly	312466008	jamtoast.gif	food	t,d	10
 9301	toast with stench jelly	437690724	jamtoast.gif	food	t,d	10
 9302	space jellybicycle	269909743	bicycle.gif	familiar	t,d	75
 9303	hopeful candle	474003769	hopefulcandle.gif	grow	t	0
