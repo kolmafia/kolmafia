@@ -121,4 +121,5 @@ public class FamiliarPool
 	public static final int ROCKIN_ROBIN = 201;
 	public static final int INTERGNAT = 203;
 	public static final int TRICK_TOT = 206;
+	public static final int CANDLE = 210;
 }

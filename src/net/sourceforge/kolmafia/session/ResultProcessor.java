@@ -3045,6 +3045,14 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.WAX_GLOB:
+			if ( combatResults )
+			{
+				// This will be updated to 0 in FightRequest later
+				Preferences.setInteger( "optimisticCandleProgress", -1 );
+			}
+			break;
+
 		case ItemPool.NO_SPOON:
 			QuestDatabase.setQuestProgress( Quest.ORACLE, "step1" );
 			break;
