@@ -3654,6 +3654,7 @@ Item	pet anemone	Familiar Weight: +5
 Item	pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 Item	pet rock &quot;Snooty&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
 Item	Petite Paintbrush	Adventures: +1, Generic
+Item	pewter candlestick	Familiar Weight: +10
 Item	pile of dungeon junk	Familiar Weight: +5
 # plastic bib: Makes your ghost better at eating stuff
 # plastic pumpkin bucket: Familiar Will Occasionally Play Tricks on Enemies
@@ -3833,6 +3834,7 @@ Familiar	Peppermint Rhino	Candy Drop: [max(sqrt(55*W)+W-3,0)]
 Familiar	Purse Rat	Monster Level: [floor(W/2)]
 Familiar	Reanimated Reanimator	Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
 Familiar	Rock Lobster	Underwater Familiar
+Familiar	Space Jellyfish	Underwater Familiar, Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
 Familiar	Squamous Gibberer	Underwater Familiar
 Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
 Familiar	Urchin Urchin	Underwater Familiar
@@ -3959,6 +3961,7 @@ Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Oily Woim	Item Drop: +10
+Throne	Optimistic Candle	Item Drop: +15
 Throne	Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
@@ -3993,6 +3996,7 @@ Throne	Sludgepuppy	Stench Damage: +15
 Throne	Smiling Rat	Experience: +3
 Throne	Snow Angel	Spell Damage Percent: +10
 Throne	Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne	Space Jellyfish	Weapon Damage Percent: +20, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Spirit Hobo	Booze Drop: +15
 Throne	Spooky Gravy Fairy	Spooky Damage: +20
 Throne	Spooky Pirate Skeleton	Familiar Weight: +5
@@ -8528,6 +8532,7 @@ Item	homeless hobo spirit	Free Pull
 Item	honey stick	Effect: "Stuck That Way", Effect Duration: 10
 # honey-dipped locust: Restores 30-40 HP and MP
 Item	honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
+Item	hopeful candle	Free Pull
 Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect: "Spooky Breath"
 # hot ashes: Deals <font color=red>Hot Damage</font> based on your highest stat
 # hot clusterbomb: Deals <font color=red>Hot Damage</font> based on your highest stat
