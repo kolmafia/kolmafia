@@ -235,6 +235,15 @@ public class MallPurchaseRequest
 			return;
 		}
 
+		// This store belongs to a player whose account has been disabled for policy violation. Its inventory is frozen.
+
+		if ( this.responseText.contains( "Its inventory is frozen" ) )
+		{
+			KoLmafia.updateDisplay( "This shop's inventory is frozen (#" + this.shopId + "). Skipping..." );
+			RequestLogger.updateSessionLog( "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
+			return;
+		}
+
 		// Another thing to search for is to see if the person
 		// swapped the price on the item, or you got a "failed
 		// to yield" message.  In that case, you may wish to

@@ -263,6 +263,10 @@ public interface KoLConstants
 			"OptionsFrame"
 		},
 		{
+			"Sweet Synthesis",
+			"SynthesisFrame"
+		},
+		{
 			"Modifier Maximizer",
 			"MaximizerFrame"
 		}

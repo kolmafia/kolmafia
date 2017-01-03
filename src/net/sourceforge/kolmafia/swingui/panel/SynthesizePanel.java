@@ -103,13 +103,13 @@ public class SynthesizePanel
 		this.candy1List.clear();
 		this.candy2List.clear();
 		
-		this.centerPanel = new JPanel( new BorderLayout() );
+		this.centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		this.effectPanel = new EffectPanel();
 		this.centerPanel.add( this.effectPanel, BorderLayout.NORTH );
 
 		this.candyPanel = new CandyPanel();
-		this.centerPanel.add( this.candyPanel, BorderLayout.SOUTH );
+		this.centerPanel.add( this.candyPanel, BorderLayout.CENTER );
 
 		this.eastPanel = new JPanel( new BorderLayout() );
 
@@ -120,7 +120,7 @@ public class SynthesizePanel
 		this.selectedCandyPanel = new SelectedCandyPanel();
 		this.eastPanel.add( this.selectedCandyPanel, BorderLayout.SOUTH );
 
-		this.setLayout( new BorderLayout( 20, 10 ) );
+		this.setLayout( new BorderLayout( 10, 10 ) );
 		this.add( this.centerPanel, BorderLayout.CENTER );
 		this.add( this.eastPanel, BorderLayout.EAST );
 
@@ -256,19 +256,13 @@ public class SynthesizePanel
 			private void originalColors()
 			{
 				this.setBackground( background );
-				if ( !this.isBorderPainted() )
-				{
-					this.setForeground( foreground );
-				}
+				this.setForeground( foreground );
 			}
 
 			private void reverseColors()
 			{
 				this.setBackground( foreground );
-				if ( !this.isBorderPainted() )
-				{
-					this.setForeground( background );
-				}
+				this.setForeground( background );
 			}
 
 			public void actionPerformed( final ActionEvent e )
