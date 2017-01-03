@@ -9326,8 +9326,8 @@
 9300
 9301	toast with stench jelly	437690724	jamtoast.gif	food	t,d	10
 9302	space jellybicycle	269909743	bicycle.gif	familiar	t,d	75
-9303
-9304
+9303	hopeful candle	474003769	hopefulcandle.gif	grow	t	0
+9304	pewter candlestick	319573977	tinycandlestick.gif	familiar	t,d	75
 9305
 9306
 9307

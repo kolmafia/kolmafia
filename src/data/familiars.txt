@@ -235,3 +235,5 @@
 206	Trick-or-Treating Tot	tottot.gif	hp1,mp1	li'l orphan tot	li'l knight costume	1	3	2	3
 207	Chocolate Lab	chocolab.gif	item0	chocolate puppy	chocolate leash	1	1	1	1
 208	Bad Vibe	lilbadvibe.gif	none	pet bad vibe	black gallstone	0	0	0	0
+209	Space Jellyfish	spacejelly.gif	underwater,delevel,drop	space planula	space jellybicycle	0	0	0	0
+210	Optimistic Candle	opticandle.gif	stat0,item0,drop	hopeful candle	pewter candlestick	0	0	0	0
