@@ -771,6 +771,24 @@ public class ShowDescriptionTable
 		return selectedValues;
 	}
 
+	public Object getSelectedValue()
+	{
+		/*
+		 * Since this function exists for lists but not for tables, provide this as a pseudo-adapter function.
+		 * Note that we have to get the MODEL index from the sorter object, as there is possibly a
+		 * mapping of viewIndex -> modelIndex caused by sorting.
+		 */
+
+		int selectedRow = this.getSelectedRow();
+
+		if ( selectedRow != -1 )
+		{
+			return this.displayModel.getElementAt( this.convertRowIndexToModel( selectedRow ) );
+		}
+
+		return null;
+	}
+
 	public AdventureResult[] getSelectedItems()
 	{
 		// Obviously, this only works if the model contains AdventureResults

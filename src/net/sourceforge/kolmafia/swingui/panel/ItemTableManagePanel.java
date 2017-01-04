@@ -113,6 +113,11 @@ public class ItemTableManagePanel
 		return (ShowDescriptionTable)this.scrollComponent;
 	}
 
+	public Object getSelectedValue()
+	{
+		return this.getElementList().getSelectedValue();
+	}
+
 	@Override
 	public Object[] getSelectedValues()
 	{

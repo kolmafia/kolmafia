@@ -84,6 +84,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
+import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
+
 public class SynthesizePanel
 	extends JPanel
 	implements ActionListener, Listener
@@ -434,29 +436,24 @@ public class SynthesizePanel
 		private final Object source1;
 		private final CandyList candyList2;
 		private final Object source2;
+		private boolean filtering = false;
 
 		public CandyPanel()
 		{
 			super( new GridLayout( 1, 2 ) );
 
 			this.candyList1 = new CandyList( "Candy A", SynthesizePanel.candy1List );
-			this.source1 = this.candyList1.getElementList().getSelectionModel();
+			this.source1 = this.candyList1.selectionModel;
 			this.add( this.candyList1 );
 
 			this.candyList2 = new CandyList( "Candy B", SynthesizePanel.candy2List );
-			this.source2 = this.candyList2.getElementList().getSelectionModel();
+			this.source2 = this.candyList2.selectionModel;
 			this.add( this.candyList2 );
-		}
-
-		public void filterItems()
-		{
-			this.candyList1.filterItems();
-			this.candyList2.filterItems();
 		}
 
 		public void valueChanged( ListSelectionEvent e )
 		{
-			if ( e.getValueIsAdjusting() )
+			if ( this.filtering || e.getValueIsAdjusting() )
 			{
 				// Mouse down, for example.
 				// Wait until final event comes in
@@ -466,9 +463,9 @@ public class SynthesizePanel
 			Object source = e.getSource();
 			if ( source == source1 )
 			{
-				Object[] items = candyList1.getSelectedValues();
+				Object item = this.candyList1.getSelectedValue();
 				Candy current = SynthesizePanel.this.candy1;
-				Candy replace = items.length == 0 ? null : (Candy)items[0];
+				Candy replace = (Candy)item;
 				if ( current != replace )
 				{
 					SynthesizePanel.this.candy1 = replace;
@@ -488,46 +485,79 @@ public class SynthesizePanel
 			}
 			else if ( source == source2 )
 			{
-				Object[] items = candyList2.getSelectedValues();
+				Object item = this.candyList2.getSelectedValue();
 				Candy current = SynthesizePanel.this.candy2;
-				Candy replace = items.length == 0 ? null : (Candy)items[0];
+				Candy replace = (Candy)item;
 				if ( current != replace )
 				{
 					SynthesizePanel.this.candy2 = replace;
 					SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( replace );
-					if ( replace != null )
-					{
-						SynthesizePanel.this.synthesizeButton.setEnabled( true );
-					}
+					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
 				}
 			}
+		}
+
+		public void filterItems()
+		{
+			Candy candy1 = (Candy)this.candyList1.getSelectedValue();
+			Candy candy2 = (Candy)this.candyList2.getSelectedValue();
+
+			this.candyList1.filterItems( candy1 );
+			this.candyList2.filterItems( candy2 );
 		}
 
 		private class CandyList
 			extends ItemTableManagePanel
 			implements ListElementFilter
 		{
-			private final LockableListModel displayModel; 
+			public final ShowDescriptionTable table;
+			public final ListSelectionModel selectionModel;
+			public final LockableListModel displayModel; 
 
 			public CandyList( final String title, final LockableListModel<Candy> candyList )
 			{
 				super( candyList, false, false );
+
+				this.table = this.getElementList();
+				this.selectionModel = this.table.getSelectionModel();
+				this.displayModel = this.table.getDisplayModel();
+
 				this.scrollPane.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
-				this.getElementList().setVisibleRowCount( 20 );
-				this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-				this.getElementList().getSelectionModel().addListSelectionListener( CandyPanel.this );
 				this.setPreferredSize( new Dimension( 200, 400 ) );
-				this.displayModel = (LockableListModel)this.getElementList().getDisplayModel();
+
+				this.table.setVisibleRowCount( 20 );
+				this.table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				this.selectionModel.addListSelectionListener( CandyPanel.this );
 				this.displayModel.setFilter( this );
 			}
 
-			public void filterItems()
+			public void filterItems( final Candy selected )
 			{
-				this.displayModel.updateFilter( false );
-				int size = this.displayModel.size();
-				if ( size > 0 )
+				int index = -1;
+
+				try
 				{
-					this.displayModel.fireContentsChanged( this.displayModel, 0, size - 1 );
+					CandyPanel.this.filtering = true;
+					this.displayModel.updateFilter( false );
+					int size = this.displayModel.size();
+					if ( size > 0 )
+					{
+						this.displayModel.fireContentsChanged( this.displayModel, 0, size - 1 );
+						index = this.displayModel.getIndexOf( selected );
+					}
+				}
+				finally
+				{
+					CandyPanel.this.filtering = false;
+				}
+
+				if ( index == -1 )
+				{
+					this.table.clearSelection();
+				}
+				else
+				{
+					this.table.setSelectedIndex( index );
 				}
 			}
 
