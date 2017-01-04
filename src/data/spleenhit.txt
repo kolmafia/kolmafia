@@ -128,6 +128,7 @@ red paisley oyster egg	1	1	good	0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
 residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
+sea jelly	1	1	crappy	0	0	0	0	Unspaded
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	0	Unspaded
 sleaze wad	1	6	decent	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)

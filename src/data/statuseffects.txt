@@ -2184,3 +2184,4 @@
 2184	Stench Jellied	stench.gif	55cc6ddc969e0227634e5f783f90cd87	chew 1 stench jelly|eat 1 toast with stench jelly
 2185	Waxing	waxglob.gif	a91f45ce13ec0cbf1c018ddbc7cf1ca3	eat 1 wax pancake|drink 1 wax booze
 2186	Super-Electrified	lightning.gif	ecea00b4fe8a53563fd1f969acbc1e24
+2187	Trufflin'	mushroom.gif	0f041f1b7cbe8283eec918ef8d3459cd	eat 1 sea truffle

@@ -9224,7 +9224,7 @@
 9198	eldritch pants	792793451	eldritchpants.gif	pants	t	0
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
-9201	Just a lump of inert eldritch matter	251049747	wad.gif	none	t,d	1	Just some lumps of inert eldritch matter
+9201	lump of basically inert eldritch matter	251049747	wad.gif	none	t,d	1	lumps of basically inert eldritch matter
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204	counterfeit city	703636438	fakecity.gif	usable	t	0
@@ -9334,6 +9334,6 @@
 9308	wax face	271058427	waxface.gif	accessory		0
 9309	wax booze	793123034	waxbottle.gif	drink	t,d	10
 9310	glob of melted wax	650729867	waxglob.gif	usable	t	0
-9311
-9312
+9311	sea jelly	727232856	jellyglob.gif	spleen, usable	t,d	30
+9312	sea truffle	955920102	mushroom.gif	food	t,d	999
 9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100

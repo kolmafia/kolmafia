@@ -6311,6 +6311,7 @@ Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Effect	Triangle, Man	Muscle Percent: +10
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Effect Tropical Contact High: Grants Access to Kokomo
+Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
 Effect	Tundra Mouth	Cold Damage: [min(100,T)]
@@ -7113,6 +7114,7 @@ Item	rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 Item	rook cookie	Effect: "Towering Strength", Effect Duration: 30
 Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
+Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
@@ -7477,6 +7479,7 @@ Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
 # red striped oyster egg: Restores 30-35 HP
+Item	sea jelly	Effect: "Fishy", Effect Duration: 10
 # Item sleaze jelly: Enables Sleazy Bickering
 Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
 Item	sleaze wad	Effect: "Supafly", Effect Duration: 10
@@ -8716,6 +8719,7 @@ Item	LT&T telegraph office deed	Free Pull
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
 Item	Lucky Strikes holo-record	Effect: "Lucky Struck", Effect Duration: 10
 Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"
+# Item lump of basically inert eldritch matter: Makes you feel Vaguely Uneasy
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
