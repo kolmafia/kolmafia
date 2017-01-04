@@ -103,10 +103,8 @@ public class SynthesizePanel
 	// The Synthesize! button
 	private JButton synthesizeButton;
 
-	// The summary panel with data about Candy A and Candy B
-	private CandyDataPanel candyDataPanel;
-	private CandyDataPanel.CandyData candyData1;
-	private CandyDataPanel.CandyData candyData2;
+	// The panel with data about Candy A and Candy B and total cost/turn
+	private CandyDataPanel candyData;
 
 	// The list models for Candy A and Candy B.  They are static because
 	// TableCellFactory.getColumnNames chooses column names based on the
@@ -139,8 +137,8 @@ public class SynthesizePanel
 		this.synthesizeButton.addActionListener( new SynthesizeListener() );
 		eastPanel.add( this.synthesizeButton, BorderLayout.NORTH );
 
-		this.candyDataPanel = new CandyDataPanel();
-		eastPanel.add( this.candyDataPanel, BorderLayout.SOUTH );
+		this.candyData = new CandyDataPanel();
+		eastPanel.add( this.candyData, BorderLayout.SOUTH );
 
 		this.setLayout( new BorderLayout( 10, 10 ) );
 		this.add( centerPanel, BorderLayout.CENTER );
@@ -175,7 +173,7 @@ public class SynthesizePanel
 		this.synthesizeButton.setEnabled( isEnabled && this.effectId() != -1 && this.candy1() != null && this.candy2() != null );
 	}
 
-	public JPanel addFilters()
+	private JPanel addFilters()
 	{
 		JPanel filterPanel = new JPanel();
 
@@ -203,7 +201,7 @@ public class SynthesizePanel
 		this.filterItems();
 	}
 
-	public void filterItems()
+	private void filterItems()
 	{
 		Candy candy1 = this.candy1();
 		Candy candy2 = this.candy2();
@@ -219,16 +217,13 @@ public class SynthesizePanel
 		{
 			candy.update();
 		}
-		SynthesizePanel.candy1List.touch();
 
 		for ( Candy candy : SynthesizePanel.candy2List )
 		{
 			candy.update();
 		}
-		SynthesizePanel.candy2List.touch();
 
-		this.candyData1.updateCandy( this.candy1() );
-		this.candyData2.updateCandy( this.candy2() );
+		this.filterItems();
 	}
 
 	private class EffectPanel
@@ -431,7 +426,7 @@ public class SynthesizePanel
 		}
 	}
 
-	static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
+	public static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
 
 	// Compare by largest quantity, then alphabetically
 	private static class InverseCountComparator
@@ -449,7 +444,7 @@ public class SynthesizePanel
 		}
 	}
 
-	static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
+	public static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
 
 	private class CandyPanel
 		extends JPanel
@@ -589,7 +584,7 @@ public class SynthesizePanel
 				if ( current != replace )
 				{
 					this.candy = replace;
-					SynthesizePanel.this.candyData1.updateCandy( replace );
+					SynthesizePanel.this.candyData.update();
 					if ( replace == null )
 					{
 						SynthesizePanel.candy2List.clear();
@@ -628,7 +623,7 @@ public class SynthesizePanel
 				if ( current != replace )
 				{
 					this.candy = replace;
-					SynthesizePanel.this.candyData2.updateCandy( replace );
+					SynthesizePanel.this.candyData.update();
 					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
 				}
 			}
@@ -638,14 +633,29 @@ public class SynthesizePanel
 	private class CandyDataPanel
 		extends JPanel
 	{
+		private final CandyData candyData1;
+		private final CandyData candyData2;
+		private final CandyTotal candyTotal;
+
 		public CandyDataPanel()
 		{
 			super();
 			this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			SynthesizePanel.this.candyData1 = new CandyData( "Candy A" );
-			this.add( SynthesizePanel.this.candyData1 );
-			SynthesizePanel.this.candyData2 = new CandyData( "Candy B" );
-			this.add( SynthesizePanel.this.candyData2 );
+			this.candyData1 = new CandyData( "Candy A" );
+			this.add( this.candyData1 );
+			this.candyData2 = new CandyData( "Candy B" );
+			this.add( this.candyData2 );
+			this.candyTotal = new CandyTotal();
+			this.add( this.candyTotal );
+		}
+
+		public void update()
+		{
+			Candy candy1 = SynthesizePanel.this.candy1();
+			Candy candy2 = SynthesizePanel.this.candy2();
+			this.candyData1.updateCandy( candy1 );
+			this.candyData2.updateCandy( candy2 );
+			this.candyTotal.update( candy1, candy2 );
 		}
 
 		private class CandyData
@@ -684,6 +694,48 @@ public class SynthesizePanel
 				{
 					this.haveValue.setText( String.valueOf( candy.getCount() ) );
 					this.costValue.setText( String.valueOf( candy.getCost() ) );
+				}
+			}
+		}
+
+		private class CandyTotal
+			extends JPanel
+		{
+			private final JLabel totalValue;
+			private final JLabel perTurnValue;
+
+			public CandyTotal()
+			{
+				super( new BorderLayout() );
+				this.setBorder( BorderFactory.createTitledBorder( null, "Total", TitledBorder.CENTER, TitledBorder.TOP ) );
+
+				JPanel labelPanel = new JPanel( new GridLayout( 2, 1 ) );
+				labelPanel.add( new JLabel( "Cost:" ) );
+				labelPanel.add( new JLabel( "/Adv: " ) );
+
+				JPanel valuePanel = new JPanel( new GridLayout( 2, 1 ) );
+				this.totalValue = new JLabel( "" );
+				valuePanel.add( this.totalValue );
+				this.perTurnValue = new JLabel( "" );
+				valuePanel.add( this.perTurnValue );
+
+				this.add( labelPanel, BorderLayout.WEST );
+				this.add( valuePanel, BorderLayout.CENTER );
+			}
+
+			public void update( Candy candy1, Candy candy2 )
+			{
+				if ( candy1 == null || candy2 == null )
+				{
+					this.totalValue.setText( "" );
+					this.perTurnValue.setText( "" );
+				}
+				else
+				{
+					int total = candy1.getCost() + candy2.getCost();
+					int perTurn = Math.round( total / 30.0f );
+					this.totalValue.setText( String.valueOf( total ) );
+					this.perTurnValue.setText( String.valueOf( perTurn ) );
 				}
 			}
 		}
