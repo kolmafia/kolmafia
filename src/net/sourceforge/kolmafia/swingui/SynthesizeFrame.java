@@ -51,4 +51,14 @@ public class SynthesizeFrame
 		this.add( this.synthesizePanel, BorderLayout.CENTER );
 		this.add( new StatusPanel(), BorderLayout.SOUTH );
 	}
+
+	@Override
+	public void dispose()
+	{
+		if ( this.synthesizePanel != null )
+		{
+			this.synthesizePanel.dispose();
+		}
+		super.dispose();
+	}
 }

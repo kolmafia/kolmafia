@@ -50,6 +50,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -61,10 +62,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
@@ -72,6 +77,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -80,11 +86,15 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class SynthesizePanel
 	extends JPanel
+	implements ActionListener, Listener
 {
 	private JPanel centerPanel;
 	private JPanel eastPanel;
 
 	private EffectPanel effectPanel;
+	private JCheckBox[] filters;
+	private boolean availableChecked;
+	private boolean unrestrictedChecked;
 	private CandyPanel candyPanel;
 	private JButton synthesizeButton;
 	private SelectedCandyPanel selectedCandyPanel;
@@ -99,14 +109,18 @@ public class SynthesizePanel
 	public SynthesizePanel()
 	{
 		super();
-
-		this.candy1List.clear();
-		this.candy2List.clear();
 		
 		this.centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
 
+		JPanel northPanel = new JPanel();
+		northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
+
 		this.effectPanel = new EffectPanel();
-		this.centerPanel.add( this.effectPanel, BorderLayout.NORTH );
+
+		northPanel.add( this.effectPanel );
+		northPanel.add( this.addFilters() );
+
+		this.centerPanel.add( northPanel, BorderLayout.NORTH );
 
 		this.candyPanel = new CandyPanel();
 		this.centerPanel.add( this.candyPanel, BorderLayout.CENTER );
@@ -124,13 +138,56 @@ public class SynthesizePanel
 		this.add( this.centerPanel, BorderLayout.CENTER );
 		this.add( this.eastPanel, BorderLayout.EAST );
 
+		NamedListenerRegistry.registerNamedListener( "(candy)", this );
+
 		this.setEnabled( true );
+
+		this.candy1List.clear();
+		this.candy2List.clear();
 	}
 
 	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
 		this.synthesizeButton.setEnabled( isEnabled && this.effectId != -1 && this.candy1 != null && this.candy2 != null );
+	}
+
+	public JPanel addFilters()
+	{
+		JPanel filterPanel = new JPanel();
+
+		this.availableChecked = !KoLCharacter.canInteract();
+		this.unrestrictedChecked = KoLCharacter.getRestricted();
+
+		this.filters = new JCheckBox[ 2 ];
+		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
+		this.filters[ 1 ] = new JCheckBox( "unrestricted", this.unrestrictedChecked );
+
+		for ( JCheckBox checkbox : this.filters )
+		{
+			filterPanel.add( checkbox );
+			this.listenToCheckBox( checkbox );
+		}
+
+		return filterPanel;
+	}
+
+	public void listenToCheckBox( final JCheckBox checkbox )
+	{
+		checkbox.addActionListener( this );
+	}
+
+	// Called when checkbox changes
+	public void actionPerformed( final ActionEvent e )
+	{
+		this.availableChecked = this.filters[0].isSelected();
+		this.unrestrictedChecked = this.filters[1].isSelected();
+		this.candyPanel.filterItems();
+	}
+
+	// called when (candy) fires
+	public void update()
+	{
 	}
 
 	// Compare by lowest mall price, then largest quantity, then alphabetically
@@ -175,7 +232,7 @@ public class SynthesizePanel
 
 	static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new MallPriceComparator();
 
-	public static void loadCandy( LockableListModel<Candy> list, Set<Integer> itemIds )
+	public void loadCandy( LockableListModel<Candy> list, Set<Integer> itemIds )
 	{
 		ArrayList<Candy> array = new ArrayList<Candy>();
 
@@ -193,6 +250,7 @@ public class SynthesizePanel
 
 		list.clear();
 		list.addAll( array );
+		this.candyPanel.filterItems();
 	}
 
 	private class EffectPanel
@@ -285,7 +343,7 @@ public class SynthesizePanel
 					SynthesizePanel.this.effectId = this.effectId;
 					this.reverseColors();
 					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ) );
-					SynthesizePanel.loadCandy( SynthesizePanel.candy1List, candy );
+					SynthesizePanel.this.loadCandy( SynthesizePanel.candy1List, candy );
 				}
 			}
 		}
@@ -297,6 +355,7 @@ public class SynthesizePanel
 		private final String name;
 		private int count;
 		private int mallprice;
+		private boolean restricted;
 		private final int autosell;
 
 		public Candy( final int itemId )
@@ -305,15 +364,17 @@ public class SynthesizePanel
 			      ItemDatabase.getDataName( itemId ),
 			      InventoryManager.getAccessibleCount( itemId ),
 			      MallPriceDatabase.getPrice( itemId ),
+			      !ItemDatabase.isAllowedInStandard( itemId ),
 			      ItemDatabase.getPriceById( itemId ) );
 		}
 
-		public Candy( final int itemId, final String name, final int count, final int mallprice, final int autosell )
+		public Candy( final int itemId, final String name, final int count, final int mallprice, final boolean restricted, final int autosell )
 		{
 			this.itemId = itemId;
 			this.name = name;
 			this.count = count;
 			this.mallprice = mallprice;
+			this.restricted = restricted;
 			this.autosell = autosell;
 		}
 
@@ -340,6 +401,11 @@ public class SynthesizePanel
 		public int getMallPrice()
 		{
 			return this.mallprice;
+		}
+
+		public boolean getRestricted()
+		{
+			return this.restricted;
 		}
 
 		public int getAutosell()
@@ -382,6 +448,12 @@ public class SynthesizePanel
 			this.add( this.candyList2 );
 		}
 
+		public void filterItems()
+		{
+			this.candyList1.filterItems();
+			this.candyList2.filterItems();
+		}
+
 		public void valueChanged( ListSelectionEvent e )
 		{
 			if ( e.getValueIsAdjusting() )
@@ -408,7 +480,7 @@ public class SynthesizePanel
 					else
 					{
 						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId, replace.getItemId() );
-						SynthesizePanel.loadCandy( SynthesizePanel.candy2List, candy );
+						SynthesizePanel.this.loadCandy( SynthesizePanel.candy2List, candy );
 					}
 					SynthesizePanel.this.candy2 = null;
 					SynthesizePanel.this.synthesizeButton.setEnabled( false );
@@ -433,8 +505,11 @@ public class SynthesizePanel
 
 		private class CandyList
 			extends ItemTableManagePanel
+			implements ListElementFilter
 		{
-			public CandyList( final String title, final LockableListModel candyList )
+			private final LockableListModel displayModel; 
+
+			public CandyList( final String title, final LockableListModel<Candy> candyList )
 			{
 				super( candyList, false, false );
 				this.scrollPane.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
@@ -442,6 +517,34 @@ public class SynthesizePanel
 				this.getElementList().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 				this.getElementList().getSelectionModel().addListSelectionListener( CandyPanel.this );
 				this.setPreferredSize( new Dimension( 200, 400 ) );
+				this.displayModel = (LockableListModel)this.getElementList().getDisplayModel();
+				this.displayModel.setFilter( this );
+			}
+
+			public void filterItems()
+			{
+				this.displayModel.updateFilter( false );
+				int size = this.displayModel.size();
+				if ( size > 0 )
+				{
+					this.displayModel.fireContentsChanged( this.displayModel, 0, size - 1 );
+				}
+			}
+
+			public boolean isVisible( final Object o )
+			{
+				if ( o instanceof Candy )
+				{
+					if ( SynthesizePanel.this.availableChecked && ((Candy)o).count == 0 )
+					{
+						return false;
+					}
+					if ( SynthesizePanel.this.unrestrictedChecked && ((Candy)o).restricted )
+					{
+						return false;
+					}
+				}
+				return true;
 			}
 		}
 	}
@@ -539,5 +642,14 @@ public class SynthesizePanel
 		{
 			return "synthesize";
 		}
+	}
+
+	public void dispose()
+	{
+		SynthesizePanel.candy1List.clear();
+		SynthesizePanel.candy1List.setFilter( null );
+
+		SynthesizePanel.candy2List.clear();
+		SynthesizePanel.candy2List.setFilter( null );
 	}
 }

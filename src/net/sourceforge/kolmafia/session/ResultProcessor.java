@@ -1414,6 +1414,11 @@ public class ResultProcessor
 			break;
 		}
 
+		if ( ItemDatabase.isCandyItem( itemId ) )
+		{
+			NamedListenerRegistry.fireChange( "(candy)" );
+		}
+
 		// From here on out, only positive results are handled.
 		if ( count < 0 )
 		{

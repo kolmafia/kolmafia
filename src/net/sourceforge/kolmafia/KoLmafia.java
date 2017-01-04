@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -950,6 +951,9 @@ public abstract class KoLmafia
 		// Update your mail contacts
 		ContactManager.clearMailContacts();
 		ContactManager.updateMailContacts();
+
+		// Get current list of restricted items
+		StandardRequest.initialize( !KoLCharacter.getRestricted() );
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
