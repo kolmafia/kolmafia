@@ -73,6 +73,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -2340,5 +2341,15 @@ public class ItemDatabase
 		}
 
 		return KoLCharacter.hasBeeosity( ItemDatabase.getItemName( itemId ) );
+	}
+
+	public static boolean isAllowed( final int itemId )
+	{
+		return StandardRequest.isAllowed( "Items", ItemDatabase.getDataName( itemId ) );
+	}
+
+	public static boolean isAllowedInStandard( final int itemId )
+	{
+		return StandardRequest.isAllowedInStandard( "Items", ItemDatabase.getDataName( itemId ) );
 	}
 }

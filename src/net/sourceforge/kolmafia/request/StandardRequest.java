@@ -79,6 +79,14 @@ public class StandardRequest
 		}
 	}
 
+	public static void initialize( final boolean force )
+	{
+		if ( KoLCharacter.getLimitmode() == null )
+		{
+			RequestThread.postRequest( new StandardRequest( force ) );
+		}
+	}
+
 	private static List<String> typeToList( final String type )
 	{
 		return	
@@ -117,6 +125,11 @@ public class StandardRequest
 			return true;
 		}
 
+		return StandardRequest.isAllowedInStandard( type, key );
+	}
+
+	public static boolean isAllowedInStandard( String type, final String key )
+	{
 		if ( type.equals( "Bookshelf" ) )
 		{
 			type = "Bookshelf Books";
@@ -142,6 +155,18 @@ public class StandardRequest
 	public StandardRequest()
 	{
 		super( "standard.php" );
+	}
+
+	public StandardRequest( final boolean force )
+	{
+		super( "standard.php" );
+		if ( force )
+		{
+			// Two years before current year
+			this.addFormField( "date", "2015-01-01" );
+			// Must use GET
+			this.constructURLString( this.getFullURLString(), false );
+		}
 	}
 
 	@Override
