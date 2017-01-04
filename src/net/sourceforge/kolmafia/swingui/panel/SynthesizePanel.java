@@ -47,11 +47,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -77,7 +75,6 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -90,29 +87,38 @@ public class SynthesizePanel
 	extends JPanel
 	implements ActionListener, Listener
 {
-	private JPanel centerPanel;
-	private JPanel eastPanel;
-
+	// The panel with the effect buttons
 	private EffectPanel effectPanel;
+
+	// The filter checkboxes
 	private JCheckBox[] filters;
 	private boolean availableChecked;
 	private boolean unrestrictedChecked;
-	private CandyPanel candyPanel;
-	private JButton synthesizeButton;
-	private SelectedCandyPanel selectedCandyPanel;
 
+	// The panel with Candy A and Candy B columns
+	private CandyPanel candyPanel;
+	private CandyPanel.CandyList candyList1;
+	private CandyPanel.CandyList candyList2;
+
+	// The Synthesize! button
+	private JButton synthesizeButton;
+
+	// The summary panel with data about Candy A and Candy B
+	private CandyDataPanel candyDataPanel;
+	private CandyDataPanel.CandyData candyData1;
+	private CandyDataPanel.CandyData candyData2;
+
+	// The list models for Candy A and Candy B.  They are static because
+	// TableCellFactory.getColumnNames chooses column names based on the
+	// specific list, not what goes in the list. Sloppy API.
 	public static final LockableListModel<Candy> candy1List = new LockableListModel<Candy>();
 	public static final LockableListModel<Candy> candy2List = new LockableListModel<Candy>();
-
-	private int effectId = -1;
-	private Candy candy1 = null;
-	private Candy candy2 = null;
 
 	public SynthesizePanel()
 	{
 		super();
 		
-		this.centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
+		JPanel centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
 
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout( new BoxLayout( northPanel, BoxLayout.Y_AXIS ) );
@@ -122,36 +128,51 @@ public class SynthesizePanel
 		northPanel.add( this.effectPanel );
 		northPanel.add( this.addFilters() );
 
-		this.centerPanel.add( northPanel, BorderLayout.NORTH );
+		centerPanel.add( northPanel, BorderLayout.NORTH );
 
-		this.candyPanel = new CandyPanel();
-		this.centerPanel.add( this.candyPanel, BorderLayout.CENTER );
+		candyPanel = new CandyPanel();
+		centerPanel.add( this.candyPanel, BorderLayout.CENTER );
 
-		this.eastPanel = new JPanel( new BorderLayout() );
+		JPanel eastPanel = new JPanel( new BorderLayout() );
 
 		this.synthesizeButton = new JButton( "Synthesize!" );
 		this.synthesizeButton.addActionListener( new SynthesizeListener() );
-		this.eastPanel.add( this.synthesizeButton, BorderLayout.NORTH );
+		eastPanel.add( this.synthesizeButton, BorderLayout.NORTH );
 
-		this.selectedCandyPanel = new SelectedCandyPanel();
-		this.eastPanel.add( this.selectedCandyPanel, BorderLayout.SOUTH );
+		this.candyDataPanel = new CandyDataPanel();
+		eastPanel.add( this.candyDataPanel, BorderLayout.SOUTH );
 
 		this.setLayout( new BorderLayout( 10, 10 ) );
-		this.add( this.centerPanel, BorderLayout.CENTER );
-		this.add( this.eastPanel, BorderLayout.EAST );
+		this.add( centerPanel, BorderLayout.CENTER );
+		this.add( eastPanel, BorderLayout.EAST );
 
 		NamedListenerRegistry.registerNamedListener( "(candy)", this );
 
 		this.setEnabled( true );
 
-		this.candy1List.clear();
-		this.candy2List.clear();
+		SynthesizePanel.candy1List.clear();
+		SynthesizePanel.candy2List.clear();
+	}
+
+	private int effectId()
+	{
+		return this.effectPanel == null ? -1 : this.effectPanel.currentEffectId();
+	}
+
+	private Candy candy1()
+	{
+		return this.candyList1 == null ? null : this.candyList1.currentCandy();
+	}
+
+	private Candy candy2()
+	{
+		return this.candyList2 == null ? null : this.candyList2.currentCandy();
 	}
 
 	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
-		this.synthesizeButton.setEnabled( isEnabled && this.effectId != -1 && this.candy1 != null && this.candy2 != null );
+		this.synthesizeButton.setEnabled( isEnabled && this.effectId() != -1 && this.candy1() != null && this.candy2() != null );
 	}
 
 	public JPanel addFilters()
@@ -168,15 +189,10 @@ public class SynthesizePanel
 		for ( JCheckBox checkbox : this.filters )
 		{
 			filterPanel.add( checkbox );
-			this.listenToCheckBox( checkbox );
+			checkbox.addActionListener( this );
 		}
 
 		return filterPanel;
-	}
-
-	public void listenToCheckBox( final JCheckBox checkbox )
-	{
-		checkbox.addActionListener( this );
 	}
 
 	// Called when checkbox changes
@@ -184,75 +200,35 @@ public class SynthesizePanel
 	{
 		this.availableChecked = this.filters[0].isSelected();
 		this.unrestrictedChecked = this.filters[1].isSelected();
-		this.candyPanel.filterItems();
+		this.filterItems();
+	}
+
+	public void filterItems()
+	{
+		Candy candy1 = this.candy1();
+		Candy candy2 = this.candy2();
+
+		this.candyList1.filterItems( candy1 );
+		this.candyList2.filterItems( candy2 );
 	}
 
 	// called when (candy) fires
 	public void update()
 	{
-	}
-
-	// Compare by lowest mall price, then largest quantity, then alphabetically
-	private static class MallPriceComparator
-		implements Comparator<Candy>
-	{
-		public int compare( Candy o1, Candy o2 )
+		for ( Candy candy : SynthesizePanel.candy1List )
 		{
-			int cost1 = o1.getCost();
-			int cost2 = o2.getCost();
-			if ( cost1 != cost2 )
-			{
-				return cost1 - cost2;
-			}
-			int count1 = o1.getCount();
-			int count2 = o2.getCount();
-			if ( count1 != count2 )
-			{
-				return count2 - count1;
-			}
-			return o1.getName().compareToIgnoreCase( o2.getName() );
+			candy.update();
 		}
-	}
+		SynthesizePanel.candy1List.touch();
 
-	static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
-
-	// Compare by largest quantity, then alphabetically
-	private static class InverseCountComparator
-		implements Comparator<Candy>
-	{
-		public int compare( Candy o1, Candy o2 )
+		for ( Candy candy : SynthesizePanel.candy2List )
 		{
-			int count1 = o1.getCount();
-			int count2 = o2.getCount();
-			if ( count1 != count2 )
-			{
-				return count2 - count1;
-			}
-			return o1.getName().compareToIgnoreCase( o2.getName() );
+			candy.update();
 		}
-	}
+		SynthesizePanel.candy2List.touch();
 
-	static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new MallPriceComparator();
-
-	public void loadCandy( LockableListModel<Candy> list, Set<Integer> itemIds )
-	{
-		ArrayList<Candy> array = new ArrayList<Candy>();
-
-		for ( int itemId : itemIds )
-		{
-			array.add( new Candy( itemId ) );
-		}
-
-		Comparator comparator =
-			KoLCharacter.canInteract() ?
-			SynthesizePanel.MALL_PRICE_COMPARATOR :
-			SynthesizePanel.INVERSE_COUNT_COMPARATOR;
-
-		Collections.sort( array, comparator );
-
-		list.clear();
-		list.addAll( array );
-		this.candyPanel.filterItems();
+		this.candyData1.updateCandy( this.candy1() );
+		this.candyData2.updateCandy( this.candy2() );
 	}
 
 	private class EffectPanel
@@ -283,7 +259,7 @@ public class SynthesizePanel
 			this.add( new EffectButton( "Mox Exp +50%", EffectPool.SYNTHESIS_STYLE ) );
 		}
 
-		public int currentEffect()
+		public int currentEffectId()
 		{
 			return this.selected == null ? -1 : this.selected.effectId;
 		}
@@ -321,8 +297,8 @@ public class SynthesizePanel
 
 			private void reverseColors()
 			{
-				this.setBackground( foreground );
-				this.setForeground( background );
+				this.setBackground( Color.BLACK );
+				this.setForeground( Color.WHITE );
 			}
 
 			public void actionPerformed( final ActionEvent e )
@@ -336,16 +312,14 @@ public class SynthesizePanel
 				if ( current == this )
 				{
 					EffectPanel.this.selected = null;
-					SynthesizePanel.this.effectId = -1;
 					SynthesizePanel.candy1List.clear();
 				}
 				else
 				{
 					EffectPanel.this.selected = this;
-					SynthesizePanel.this.effectId = this.effectId;
 					this.reverseColors();
 					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ) );
-					SynthesizePanel.this.loadCandy( SynthesizePanel.candy1List, candy );
+					SynthesizePanel.this.candyList1.loadCandy( candy );
 				}
 			}
 		}
@@ -378,6 +352,13 @@ public class SynthesizePanel
 			this.mallprice = mallprice;
 			this.restricted = restricted;
 			this.autosell = autosell;
+		}
+
+
+		@Override
+		public boolean equals( final Object o )
+		{
+			return ( o instanceof Candy ) && ( this.itemId == ((Candy)o).itemId );
 		}
 
 		public int getItemId()
@@ -428,96 +409,77 @@ public class SynthesizePanel
 		}
 	}
 
+	// Compare by lowest mall price, then largest quantity, then alphabetically
+	private static class MallPriceComparator
+		implements Comparator<Candy>
+	{
+		public int compare( Candy o1, Candy o2 )
+		{
+			int cost1 = o1.getCost();
+			int cost2 = o2.getCost();
+			if ( cost1 != cost2 )
+			{
+				return cost1 - cost2;
+			}
+			int count1 = o1.getCount();
+			int count2 = o2.getCount();
+			if ( count1 != count2 )
+			{
+				return count2 - count1;
+			}
+			return o1.getName().compareToIgnoreCase( o2.getName() );
+		}
+	}
+
+	static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
+
+	// Compare by largest quantity, then alphabetically
+	private static class InverseCountComparator
+		implements Comparator<Candy>
+	{
+		public int compare( Candy o1, Candy o2 )
+		{
+			int count1 = o1.getCount();
+			int count2 = o2.getCount();
+			if ( count1 != count2 )
+			{
+				return count2 - count1;
+			}
+			return o1.getName().compareToIgnoreCase( o2.getName() );
+		}
+	}
+
+	static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
+
 	private class CandyPanel
 		extends JPanel
-		implements ListSelectionListener
 	{
-		private final CandyList candyList1;
-		private final Object source1;
-		private final CandyList candyList2;
-		private final Object source2;
-		private boolean filtering = false;
-
 		public CandyPanel()
 		{
 			super( new GridLayout( 1, 2 ) );
 
-			this.candyList1 = new CandyList( "Candy A", SynthesizePanel.candy1List );
-			this.source1 = this.candyList1.selectionModel;
-			this.add( this.candyList1 );
+			SynthesizePanel.this.candyList1 = new CandyListA();
+			this.add( SynthesizePanel.this.candyList1 );
 
-			this.candyList2 = new CandyList( "Candy B", SynthesizePanel.candy2List );
-			this.source2 = this.candyList2.selectionModel;
-			this.add( this.candyList2 );
+			SynthesizePanel.this.candyList2 = new CandyListB();
+			this.add( SynthesizePanel.this.candyList2 );
 		}
 
-		public void valueChanged( ListSelectionEvent e )
-		{
-			if ( this.filtering || e.getValueIsAdjusting() )
-			{
-				// Mouse down, for example.
-				// Wait until final event comes in
-				return;
-			}
-
-			Object source = e.getSource();
-			if ( source == source1 )
-			{
-				Object item = this.candyList1.getSelectedValue();
-				Candy current = SynthesizePanel.this.candy1;
-				Candy replace = (Candy)item;
-				if ( current != replace )
-				{
-					SynthesizePanel.this.candy1 = replace;
-					SynthesizePanel.this.selectedCandyPanel.candyData1.updateCandy( replace );
-					if ( replace == null )
-					{
-						SynthesizePanel.candy2List.clear();
-					}
-					else
-					{
-						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId, replace.getItemId() );
-						SynthesizePanel.this.loadCandy( SynthesizePanel.candy2List, candy );
-					}
-					SynthesizePanel.this.candy2 = null;
-					SynthesizePanel.this.synthesizeButton.setEnabled( false );
-				}
-			}
-			else if ( source == source2 )
-			{
-				Object item = this.candyList2.getSelectedValue();
-				Candy current = SynthesizePanel.this.candy2;
-				Candy replace = (Candy)item;
-				if ( current != replace )
-				{
-					SynthesizePanel.this.candy2 = replace;
-					SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( replace );
-					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
-				}
-			}
-		}
-
-		public void filterItems()
-		{
-			Candy candy1 = (Candy)this.candyList1.getSelectedValue();
-			Candy candy2 = (Candy)this.candyList2.getSelectedValue();
-
-			this.candyList1.filterItems( candy1 );
-			this.candyList2.filterItems( candy2 );
-		}
-
-		private class CandyList
+		public abstract class CandyList
 			extends ItemTableManagePanel
-			implements ListElementFilter
+			implements ListElementFilter, ListSelectionListener
 		{
-			public final ShowDescriptionTable table;
-			public final ListSelectionModel selectionModel;
-			public final LockableListModel displayModel; 
+			private final LockableListModel<Candy> model;
+			private final ShowDescriptionTable table;
+			private final ListSelectionModel selectionModel;
+			private final LockableListModel displayModel; 
+			protected Candy candy = null;
 
 			public CandyList( final String title, final LockableListModel<Candy> candyList )
 			{
 				super( candyList, false, false );
 
+				this.model = candyList;
 				this.table = this.getElementList();
 				this.selectionModel = this.table.getSelectionModel();
 				this.displayModel = this.table.getDisplayModel();
@@ -527,8 +489,36 @@ public class SynthesizePanel
 
 				this.table.setVisibleRowCount( 20 );
 				this.table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-				this.selectionModel.addListSelectionListener( CandyPanel.this );
+				this.selectionModel.addListSelectionListener( this );
 				this.displayModel.setFilter( this );
+			}
+
+			public Candy currentCandy()
+			{
+				return this.candy;
+			}
+
+			public abstract void valueChanged( ListSelectionEvent e );
+
+			public void loadCandy( Set<Integer> itemIds )
+			{
+				ArrayList<Candy> array = new ArrayList<Candy>();
+
+				for ( int itemId : itemIds )
+				{
+					array.add( new Candy( itemId ) );
+				}
+
+				Comparator<Candy> comparator =
+					KoLCharacter.canInteract() ?
+					SynthesizePanel.MALL_PRICE_COMPARATOR :
+					SynthesizePanel.INVERSE_COUNT_COMPARATOR;
+
+				Collections.sort( array, comparator );
+
+				this.model.clear();
+				this.model.addAll( array );
+				this.filterItems( null );
 			}
 
 			public void filterItems( final Candy selected )
@@ -537,7 +527,6 @@ public class SynthesizePanel
 
 				try
 				{
-					CandyPanel.this.filtering = true;
 					this.displayModel.updateFilter( false );
 					int size = this.displayModel.size();
 					if ( size > 0 )
@@ -548,7 +537,6 @@ public class SynthesizePanel
 				}
 				finally
 				{
-					CandyPanel.this.filtering = false;
 				}
 
 				if ( index == -1 )
@@ -577,22 +565,87 @@ public class SynthesizePanel
 				return true;
 			}
 		}
+
+		public class CandyListA
+			extends CandyList
+		{
+			public CandyListA()
+			{
+				super( "Candy A", SynthesizePanel.candy1List );
+			}
+
+			public void valueChanged( ListSelectionEvent e )
+			{
+				if ( e.getValueIsAdjusting() )
+				{
+					// Mouse down, for example.
+					// Wait until final event comes in
+					return;
+				}
+
+				Object item = SynthesizePanel.this.candyList1.getSelectedValue();
+				Candy current = SynthesizePanel.this.candy1();
+				Candy replace = (Candy)item;
+				if ( current != replace )
+				{
+					this.candy = replace;
+					SynthesizePanel.this.candyData1.updateCandy( replace );
+					if ( replace == null )
+					{
+						SynthesizePanel.candy2List.clear();
+					}
+					else
+					{
+						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId(), replace.getItemId() );
+						SynthesizePanel.this.candyList2.loadCandy( candy );
+					}
+					SynthesizePanel.this.synthesizeButton.setEnabled( false );
+				}
+				return;
+			}
+		}
+
+		public class CandyListB
+			extends CandyList
+		{
+			public CandyListB()
+			{
+				super( "Candy B", SynthesizePanel.candy2List );
+			}
+
+			public void valueChanged( ListSelectionEvent e )
+			{
+				if ( e.getValueIsAdjusting() )
+				{
+					// Mouse down, for example.
+					// Wait until final event comes in
+					return;
+				}
+
+				Object item = SynthesizePanel.this.candyList2.getSelectedValue();
+				Candy current = SynthesizePanel.this.candy2();
+				Candy replace = (Candy)item;
+				if ( current != replace )
+				{
+					this.candy = replace;
+					SynthesizePanel.this.candyData2.updateCandy( replace );
+					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
+				}
+			}
+		}
 	}
 
-	private class SelectedCandyPanel
+	private class CandyDataPanel
 		extends JPanel
 	{
-		public final CandyData candyData1;
-		public final CandyData candyData2;
-
-		public SelectedCandyPanel()
+		public CandyDataPanel()
 		{
 			super();
 			this.setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			this.candyData1 = new CandyData( "Candy A" );
-			this.add( this.candyData1 );
-			this.candyData2 = new CandyData( "Candy B" );
-			this.add( this.candyData2 );
+			SynthesizePanel.this.candyData1 = new CandyData( "Candy A" );
+			this.add( SynthesizePanel.this.candyData1 );
+			SynthesizePanel.this.candyData2 = new CandyData( "Candy B" );
+			this.add( SynthesizePanel.this.candyData2 );
 		}
 
 		private class CandyData
@@ -642,14 +695,14 @@ public class SynthesizePanel
 		@Override
 		protected void execute()
 		{
-			if ( SynthesizePanel.this.candy1 == null || SynthesizePanel.this.candy2 == null )
+			if ( SynthesizePanel.this.candy1() == null || SynthesizePanel.this.candy2() == null )
 			{
 				return;
 			}
 
-			Candy candy1 = SynthesizePanel.this.candy1;
+			Candy candy1 = SynthesizePanel.this.candy1();
 			int itemId1 = candy1.getItemId();
-			Candy candy2 = SynthesizePanel.this.candy2;
+			Candy candy2 = SynthesizePanel.this.candy2();
 			int itemId2 = candy2.getItemId();
 
 			KoLmafia.updateDisplay( "Synthesizing " + candy1 + " with " + candy2 + "..." );
@@ -660,10 +713,6 @@ public class SynthesizePanel
 			if ( KoLmafia.permitsContinue() )
 			{
 				KoLmafia.updateDisplay( "Done!" );;
-
-				// If we succeeded, count and/or mall price might have changed
-				SynthesizePanel.this.selectedCandyPanel.candyData1.updateCandy( candy1.update() );
-				SynthesizePanel.this.selectedCandyPanel.candyData2.updateCandy( candy2.update() );
 			}
 		}
 
