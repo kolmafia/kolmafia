@@ -177,8 +177,9 @@ public class SynthesizePanel
 	{
 		JPanel filterPanel = new JPanel();
 
-		this.availableChecked = !KoLCharacter.canInteract();
-		this.unrestrictedChecked = KoLCharacter.getRestricted();
+		boolean loggedIn = KoLCharacter.getUserId() > 0;
+		this.availableChecked = loggedIn && !KoLCharacter.canInteract();
+		this.unrestrictedChecked = loggedIn && KoLCharacter.getRestricted();
 
 		this.filters = new JCheckBox[ 2 ];
 		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
@@ -234,24 +235,30 @@ public class SynthesizePanel
 		public EffectPanel()
 		{
 			super( new GridLayout( 3, 5 ) );
+
 			// Tier 1 effects
 			this.add( new EffectButton( "Hot Res +9", EffectPool.SYNTHESIS_HOT ) );
 			this.add( new EffectButton( "Cold Res +9", EffectPool.SYNTHESIS_COLD ) );
 			this.add( new EffectButton( "Stench Res +9", EffectPool.SYNTHESIS_PUNGENT ) );
 			this.add( new EffectButton( "Spooky Res +9", EffectPool.SYNTHESIS_SCARY ) );
 			this.add( new EffectButton( "Sleaze Res +9", EffectPool.SYNTHESIS_GREASY ) );
+
 			// Tier 2 effects
 			this.add( new EffectButton( "Mus +300%", EffectPool.SYNTHESIS_STRONG ) );
 			this.add( new EffectButton( "Mys +300%", EffectPool.SYNTHESIS_SMART ) );
 			this.add( new EffectButton( "Mox +300%", EffectPool.SYNTHESIS_COOL ) );
 			this.add( new EffectButton( "Max HP +300%", EffectPool.SYNTHESIS_HARDY ) );
 			this.add( new EffectButton( "Max MP +300%", EffectPool.SYNTHESIS_ENERGY ) );
+
 			// Tier 3 effects
 			this.add( new EffectButton( "Meat +300%", EffectPool.SYNTHESIS_GREED ) );
 			this.add( new EffectButton( "Item +150%", EffectPool.SYNTHESIS_COLLECTION ) );
 			this.add( new EffectButton( "Mus Exp +50%", EffectPool.SYNTHESIS_MOVEMENT ) );
 			this.add( new EffectButton( "Mys Exp +50%", EffectPool.SYNTHESIS_LEARNING ) );
 			this.add( new EffectButton( "Mox Exp +50%", EffectPool.SYNTHESIS_STYLE ) );
+
+			// Wrap the buttons in an attractive titled border
+			this.setBorder( BorderFactory.createTitledBorder( null, "Effects", TitledBorder.CENTER, TitledBorder.TOP ) );
 		}
 
 		public int currentEffectId()

@@ -73,7 +73,7 @@ public class StandardRequest
 
 	public static void initialize()
 	{
-		if ( !StandardRequest.initialized && KoLCharacter.getLimitmode() == null )
+		if ( !StandardRequest.initialized && !GenericRequest.passwordHash.equals( "" ) && KoLCharacter.getLimitmode() == null )
 		{
 			RequestThread.postRequest( StandardRequest.INSTANCE );
 		}

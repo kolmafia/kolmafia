@@ -10815,6 +10815,15 @@ public abstract class ChoiceManager
 					Preferences.setInteger( "gingerTrainScheduleStudies", 7 );
 				}
 			}
+			// You think you've got a pretty good understanding of it at this point.
+			else if ( text.contains( "pretty good understanding" ) )
+			{
+				Preferences.increment( "gingerTrainScheduleStudies" );
+				if ( Preferences.getInteger( "gingerTrainScheduleStudies" ) < 10 )
+				{
+					Preferences.setInteger( "gingerTrainScheduleStudies", 10 );
+				}
+			}
 			// What next?
 			break;
 
