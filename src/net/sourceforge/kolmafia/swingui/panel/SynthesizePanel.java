@@ -320,7 +320,7 @@ public class SynthesizePanel
 				{
 					EffectPanel.this.selected = this;
 					this.reverseColors();
-					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ) );
+					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ), 0 );
 					SynthesizePanel.this.candyList1.loadCandy( candy );
 				}
 			}
@@ -598,7 +598,7 @@ public class SynthesizePanel
 					}
 					else
 					{
-						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId(), replace.getItemId() );
+						Set<Integer> candy = CandyDatabase.sweetSynthesisPairing( SynthesizePanel.this.effectId(), replace.getItemId(), 0 );
 						SynthesizePanel.this.candyList2.loadCandy( candy );
 					}
 					SynthesizePanel.this.synthesizeButton.setEnabled( false );
@@ -633,6 +633,21 @@ public class SynthesizePanel
 					SynthesizePanel.this.candyData.update();
 					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
 				}
+			}
+
+			public boolean isVisible( final Object o )
+			{
+				if ( o instanceof Candy &&
+				     SynthesizePanel.this.availableChecked &&
+				     ((Candy)o).count == 1 &&
+				     o.equals( SynthesizePanel.this.candy1() ) )
+				{
+					// You can synthesize two of the same
+					// candy.  If using available candy and
+					// you only have one, can't reuse it.
+					return false;
+				}
+				return super.isVisible();
 			}
 		}
 	}

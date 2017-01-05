@@ -1871,7 +1871,13 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "candy_for_tier", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
 		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis_pairing", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis_pairing", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
@@ -6182,7 +6188,7 @@ public abstract class RuntimeLibrary
 
 		for ( int i = lastEquipIndex; i < m.size(); ++i )
 		{
-			Boost boo =  m.get( i );
+			Boost boo = m.get( i );
 			String text = boo.toString();
 			String cmd = boo.getCmd();
 			Double boost = boo.getBoost();
@@ -7771,8 +7777,14 @@ public abstract class RuntimeLibrary
 	// Sweet Synthesis
 	public static Value candy_for_tier( Interpreter interpreter, final Value arg )
 	{
-		int tier = (int) arg.intValue();
-		Set<Integer> candies = CandyDatabase.candyForTier( tier );
+		return RuntimeLibrary.candy_for_tier( interpreter, arg, DataTypes.makeIntValue( CandyDatabase.defaultFlags() ) );
+	}
+
+	public static Value candy_for_tier( Interpreter interpreter, final Value arg1, final Value arg2 )
+	{
+		int tier = (int) arg1.intValue();
+		int flags = (int) arg2.intValue();
+		Set<Integer> candies = CandyDatabase.candyForTier( tier, flags );
 
 		int count = ( candies == null ) ? 0 : candies.size();
 
@@ -7795,10 +7807,16 @@ public abstract class RuntimeLibrary
 
 	public static Value sweet_synthesis_pairing( Interpreter interpreter, final Value arg1, final Value arg2  )
 	{
-		int effectId = (int) arg1.intValue();
-		int itemId =  (int) arg2.intValue();
+		return RuntimeLibrary.sweet_synthesis_pairing( interpreter, arg1, arg2, DataTypes.makeIntValue( CandyDatabase.defaultFlags() ) );
+	}
 
-		Set<Integer> candies = CandyDatabase.sweetSynthesisPairing( effectId, itemId );
+	public static Value sweet_synthesis_pairing( Interpreter interpreter, final Value arg1, final Value arg2, final Value arg3  )
+	{
+		int effectId = (int) arg1.intValue();
+		int itemId = (int) arg2.intValue();
+		int flags = (int) arg3.intValue();
+
+		Set<Integer> candies = CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags );
 
 		int count = ( candies == null ) ? 0 : candies.size();
 

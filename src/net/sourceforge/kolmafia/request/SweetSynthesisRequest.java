@@ -97,16 +97,36 @@ public class SweetSynthesisRequest
 			return;
 		}
 
+		String itemName1 = ItemDatabase.getDataName( this.itemId1 );
+		String itemName2 = ItemDatabase.getDataName( this.itemId2 );
+
 		if ( !ItemDatabase.isCandyItem( this.itemId1 ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Item '" + this.itemId1 + "' is not candy" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Item '" + itemName1 + "' is not candy" );
 			return;
 		}
 
 		if ( !ItemDatabase.isCandyItem( this.itemId2 ) )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Item '" + this.itemId2 + "' is not candy" );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Item '" + itemName2 + "' is not candy" );
 			return;
+		}
+
+		// Check Standard restrictions, if necessary before trying to
+		// "acquire" the candies
+		if ( KoLCharacter.getRestricted() )
+		{
+			if ( !ItemDatabase.isAllowed( this.itemId1 ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Candy '" + itemName1 + "' is not permitted under Standard restrictions" );
+				return;
+			}
+
+			if ( !ItemDatabase.isAllowed( this.itemId2 ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Candy '" + itemName2 + "' is not permitted under Standard restrictions" );
+				return;
+			}
 		}
 
 		if ( this.itemId1 == this.itemId2 )
