@@ -6709,6 +6709,7 @@ Skill	Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 
 Outfit	1000th Birthday Suit	Spooky Damage: +15
 Outfit	8-Bit Finery	Initiative: +25
+Outfit	Aeroutfit	Meat Drop: +40
 Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
 Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Outfit	Arboreal Raiment	Stench Resistance: +3
@@ -6826,6 +6827,7 @@ Outfit	Warbear Dress Armor	Item Drop: +10
 Outfit	Wax Wardrobe	Moxie: +7
 Outfit	Wicker Wear	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	Workoutfit	PvP Fights: +2
+Outfit	Wrought Wrappings	Weapon Damage Percent: +100
 Outfit	Wumpus-Hair Wardrobe	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 Outfit	Xiblaxian Stealth Suit	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # Yendorian Finery: Be careful! New moon tonight.

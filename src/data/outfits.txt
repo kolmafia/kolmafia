@@ -116,8 +116,8 @@
 115	Spelunker's Gear	spelunktat.gif	Spelunker's fedora, Spelunker's whip, Spelunker's khakis
 116	Wicker Wear	wickertat.gif	wicker sticker, wicker clicker, wicker slicker, wicker knickers, wicker ticker, wicker kickers
 117	Bakelite Brigandine	baketat.gif	bakelite bowl, bakelite backpack, bakelite breeches, bakelite belt, bakelite badge, bakelite brooch
-118
-119
+118	Aeroutfit	aerotat.gif	aerogel akubra, aerogel accordion, aerogel attache case, aerogel anvil, aerogel apron, aerogel ascot
+119	Wrought Wrappings	wroughttat.gif	wrought-iron wig, wrought-iron whisk, wrought-iron waders, wrought-iron winch crank, wrought-iron widget, wrought-iron walker
 120
 121
 122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts
