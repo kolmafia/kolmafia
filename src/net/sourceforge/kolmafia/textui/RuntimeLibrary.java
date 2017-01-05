@@ -4127,8 +4127,7 @@ public abstract class RuntimeLibrary
 
 	public static Value mall_price( Interpreter interpreter, final Value item )
 	{
-		return new Value( StoreManager.getMallPrice(
-			ItemPool.get( (int) item.intValue(), 0 ) ) );
+		return new Value( StoreManager.getMallPrice( ItemPool.get( (int) item.intValue(), 0 ) ) );
 	}
 
 	public static Value npc_price( Interpreter interpreter, final Value item )

@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -79,6 +80,7 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
@@ -101,8 +103,9 @@ public class SynthesizePanel
 	private CandyPanel.CandyList candyList1;
 	private CandyPanel.CandyList candyList2;
 
-	// The Synthesize! button
+	// The Buttons
 	private JButton synthesizeButton;
+	private JButton priceCheckButton;
 
 	// The panel with data about Candy A and Candy B and total cost/turn
 	private CandyDataPanel candyData;
@@ -113,9 +116,19 @@ public class SynthesizePanel
 	public static final LockableListModel<Candy> candy1List = new LockableListModel<Candy>();
 	public static final LockableListModel<Candy> candy2List = new LockableListModel<Candy>();
 
+	// How old is "too old" for a price. Expressed in fractional days.
+	public static float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
+
+	// Pseudo-price for a non-tradeable item
+	public static int NON_TRADEABLE_PRICE = 999999999;
+
 	public SynthesizePanel()
 	{
 		super();
+
+		// Reset static data in case we instantiate this panel again
+		SynthesizePanel.candy1List.clear();
+		SynthesizePanel.candy2List.clear();
 		
 		JPanel centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
 
@@ -134,9 +147,18 @@ public class SynthesizePanel
 
 		JPanel eastPanel = new JPanel( new BorderLayout() );
 
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout( new BoxLayout( buttonPanel, BoxLayout.Y_AXIS ) );
+
 		this.synthesizeButton = new JButton( "Synthesize!" );
 		this.synthesizeButton.addActionListener( new SynthesizeListener() );
-		eastPanel.add( this.synthesizeButton, BorderLayout.NORTH );
+		buttonPanel.add( this.synthesizeButton);
+
+		this.priceCheckButton = new JButton( "Check Prices" );
+		this.priceCheckButton.addActionListener( new PriceCheckListener() );
+		buttonPanel.add( this.priceCheckButton);
+
+		eastPanel.add( buttonPanel, BorderLayout.NORTH );
 
 		this.candyData = new CandyDataPanel();
 		eastPanel.add( this.candyData, BorderLayout.SOUTH );
@@ -148,9 +170,6 @@ public class SynthesizePanel
 		NamedListenerRegistry.registerNamedListener( "(candy)", this );
 
 		this.setEnabled( true );
-
-		SynthesizePanel.candy1List.clear();
-		SynthesizePanel.candy2List.clear();
 	}
 
 	private int effectId()
@@ -172,6 +191,7 @@ public class SynthesizePanel
 	public void setEnabled( final boolean isEnabled )
 	{
 		this.synthesizeButton.setEnabled( isEnabled && this.effectId() != -1 && this.candy1() != null && this.candy2() != null );
+		this.priceCheckButton.setEnabled( isEnabled && !this.availableChecked );
 	}
 
 	private JPanel addFilters()
@@ -202,7 +222,12 @@ public class SynthesizePanel
 	{
 		this.availableChecked = this.filters[0].isSelected();
 		this.allowedChecked = this.filters[1].isSelected();
+
+		// Filter candy lists
 		this.filterItems();
+
+		// Only enable Price Check if you (might be) buying in mall
+		this.priceCheckButton.setEnabled( !this.availableChecked );
 	}
 
 	private void filterItems()
@@ -347,7 +372,7 @@ public class SynthesizePanel
 			this( itemId,
 			      ItemDatabase.getDataName( itemId ),
 			      InventoryManager.getAccessibleCount( itemId ),
-			      MallPriceDatabase.getPrice( itemId ),
+			      ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0,
 			      !ItemDatabase.isAllowedInStandard( itemId ),
 			      ItemDatabase.getPriceById( itemId ) );
 		}
@@ -386,7 +411,7 @@ public class SynthesizePanel
 
 		public int getCost()
 		{
-			return this.mallprice == 0 ? Integer.MAX_VALUE : this.mallprice;
+			return this.mallprice == 0 ? SynthesizePanel.NON_TRADEABLE_PRICE : this.mallprice;
 		}
 
 		public int getMallPrice()
@@ -800,6 +825,39 @@ public class SynthesizePanel
 		public String toString()
 		{
 			return "synthesize";
+		}
+	}
+
+	private class PriceCheckListener
+		extends ThreadedListener
+	{
+		@Override
+		protected void execute()
+		{
+			for ( Integer itemId : CandyDatabase.candyForTier( 2, 0 ) )
+			{
+				if ( !ItemDatabase.isTradeable( itemId ) )
+				{
+					continue;
+				}
+				float age = MallPriceDatabase.getAge( itemId );
+				if ( age > SynthesizePanel.AGE_LIMIT )
+				{
+					// Force a mall search
+					StoreManager.getMallPrice( ItemPool.get( itemId, 0 ) );
+				}
+			}
+
+			// Update all visible candies
+			SynthesizePanel.this.update();
+
+			KoLmafia.updateDisplay( "All prices are less than one hour old." );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "check prices";
 		}
 	}
 
