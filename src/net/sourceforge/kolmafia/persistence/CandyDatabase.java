@@ -37,11 +37,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.sourceforge.kolmafia.KoLCharacter;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class CandyDatabase
 {
-	public static Set<Integer> noCandy = new HashSet<Integer>();	// No candies
+	public static Set<Integer> NO_CANDY = new HashSet<Integer>();	// No candies
 	public static Set<Integer> tier0Candy = new HashSet<Integer>();	// Unspaded
 	public static Set<Integer> tier1Candy = new HashSet<Integer>();	// Simple
 	public static Set<Integer> tier2Candy = new HashSet<Integer>();	// Simple and Complex
@@ -193,13 +197,58 @@ public class CandyDatabase
 		return -1;
 	}
 
+	public static int defaultFlags()
+	{
+		boolean loggedIn = KoLCharacter.getUserId() > 0;
+		boolean available = loggedIn && !KoLCharacter.canInteract();
+		boolean unrestricted = loggedIn && KoLCharacter.getRestricted();
+		return ( available ? 0x1 : 0 ) + ( unrestricted ? 0x2 : 0 );
+	}
+
 	public static Set<Integer> candyForTier( final int tier )
 	{
-		return  tier == 0 ? CandyDatabase.tier0Candy :
+		return CandyDatabase.candyForTier( tier, CandyDatabase.defaultFlags() );
+	}
+
+	public static Set<Integer> candyForTier( final int tier, final int flags )
+	{
+		if ( tier < 0 || tier > 3 )
+		{
+			return null;
+		}
+
+		Set<Integer> candies =
+			tier == 0 ? CandyDatabase.tier0Candy :
 			tier == 1 ? CandyDatabase.tier1Candy :
 			tier == 2 ? CandyDatabase.tier2Candy :
 			tier == 3 ? CandyDatabase.tier3Candy :
 			null;
+
+		// If neither flag is set, return full set
+		if ( ( flags & 0x3) == 0 )
+		{
+			return candies;
+		}
+
+		// Otherwise, we must filter
+		boolean available = ( flags & 0x1 ) != 0;
+		boolean unrestricted = ( flags & 0x2 ) != 0;
+		Set<Integer> result = new HashSet<Integer>();
+
+		for ( Integer itemId : candies )
+		{
+			if ( available && InventoryManager.getAccessibleCount( itemId ) == 0 )
+			{
+				continue;
+			}
+			if ( unrestricted && !ItemDatabase.isAllowed( itemId ) )
+			{
+				continue;
+			}
+			result.add( itemId );
+		}
+
+		return result;
 	}
 
 	public static int synthesisResult( final int itemId1, final int itemId2 )
@@ -223,6 +272,11 @@ public class CandyDatabase
 
 	public static Set<Integer> sweetSynthesisPairing( final int effectId, final int itemId1 )
 	{
+		return CandyDatabase.sweetSynthesisPairing( effectId, itemId1, CandyDatabase.defaultFlags() );
+	}
+
+	public static Set<Integer> sweetSynthesisPairing( final int effectId, final int itemId1, final int flags )
+	{
 		Set<Integer> result = new HashSet<Integer>();
 
 		int tier = CandyDatabase.getEffectTier( effectId );
@@ -237,29 +291,40 @@ public class CandyDatabase
 			return result;
 		}
 
-		Set<Integer> candidates = CandyDatabase.noCandy;
+		Set<Integer> candidates = CandyDatabase.NO_CANDY;
 
 		switch ( tier )
 		{
 		case 1:
-			candidates = ( candyType == SIMPLE ) ? CandyDatabase.tier1Candy : CandyDatabase.noCandy;
+			candidates = ( candyType == SIMPLE ) ? CandyDatabase.tier1Candy : CandyDatabase.NO_CANDY;
 			break;
 		case 2:
 			candidates = ( candyType == SIMPLE ) ? CandyDatabase.tier3Candy : CandyDatabase.tier1Candy;
 			break;
 		case 3:
-			candidates = ( candyType == COMPLEX ) ? CandyDatabase.tier3Candy : CandyDatabase.noCandy;
+			candidates = ( candyType == COMPLEX ) ? CandyDatabase.tier3Candy : CandyDatabase.NO_CANDY;
 			break;
 		}
 
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
+		boolean available = ( flags & 0x1 ) != 0;
+		boolean unrestricted = ( flags & 0x2 ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
-			if ( ( itemId1 + itemId2 ) % 5 == desiredModulus )
+			if ( ( itemId1 + itemId2 ) % 5 != desiredModulus )
 			{
-				result.add( itemId2 );
+				continue;
 			}
+			if ( available && InventoryManager.getAccessibleCount( itemId2 ) == 0 )
+			{
+				continue;
+			}
+			if ( unrestricted && !ItemDatabase.isAllowed( itemId2 ) )
+			{
+				continue;
+			}
+			result.add( itemId2 );
 		}
 
 		return result;
