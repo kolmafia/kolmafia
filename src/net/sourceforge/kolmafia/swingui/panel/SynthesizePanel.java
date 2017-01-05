@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
@@ -93,7 +94,7 @@ public class SynthesizePanel
 	// The filter checkboxes
 	private JCheckBox[] filters;
 	private boolean availableChecked;
-	private boolean unrestrictedChecked;
+	private boolean allowedChecked;
 
 	// The panel with Candy A and Candy B columns
 	private CandyPanel candyPanel;
@@ -179,11 +180,13 @@ public class SynthesizePanel
 
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		this.availableChecked = loggedIn && !KoLCharacter.canInteract();
-		this.unrestrictedChecked = loggedIn && KoLCharacter.getRestricted();
+		this.allowedChecked = loggedIn && KoLCharacter.getRestricted();
 
 		this.filters = new JCheckBox[ 2 ];
 		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
-		this.filters[ 1 ] = new JCheckBox( "unrestricted", this.unrestrictedChecked );
+		this.filters[ 0 ].setToolTipText( "Show only items that 'acquire' will find. Inventory, at least." );
+		this.filters[ 1 ] = new JCheckBox( "allowed", this.allowedChecked );
+		this.filters[ 1 ].setToolTipText( "Show only items that are allowed under Standard restrictions." );
 
 		for ( JCheckBox checkbox : this.filters )
 		{
@@ -198,7 +201,7 @@ public class SynthesizePanel
 	public void actionPerformed( final ActionEvent e )
 	{
 		this.availableChecked = this.filters[0].isSelected();
-		this.unrestrictedChecked = this.filters[1].isSelected();
+		this.allowedChecked = this.filters[1].isSelected();
 		this.filterItems();
 	}
 
@@ -289,6 +292,9 @@ public class SynthesizePanel
 				this.background = this.getBackground();
 
 				this.addActionListener( this );
+
+				String effectName = EffectDatabase.getEffectName( effectId );
+				this.setToolTipText( effectName );
 			}
 
 			private void originalColors()
@@ -559,7 +565,7 @@ public class SynthesizePanel
 					{
 						return false;
 					}
-					if ( SynthesizePanel.this.unrestrictedChecked && ((Candy)o).restricted )
+					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).restricted )
 					{
 						return false;
 					}
