@@ -864,6 +864,7 @@ public class KoLmafiaCLI
 		new SummonDemonCommand().register( "summon" );
 		new SVNCommand().register( "svn" );
 		new SwimmingPoolCommand().register( "swim" );
+		new SynthesizeCommand().register( "synthesize" );
 		new TaleOfDreadCommand().register( "taleofdread" );
 		new TeaTreeCommand().register( "teatree" );
 		new TelescopeCommand().register( "telescope" );
