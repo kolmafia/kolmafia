@@ -90,7 +90,7 @@ public class SynthesizeCommand
 
 		message.append( "Item '" );
 		message.append( candy.getName() );
-		message.append( " is a " );
+		message.append( "' is a " );
 		if ( !tradeable )
 		{
 			message.append( "non-tradeable " );
@@ -98,7 +98,7 @@ public class SynthesizeCommand
 		message.append( candyType );
 		message.append( " candy. You have ");
 		message.append( String.valueOf( count ) );
-		message.append( " of it available to you" );
+		message.append( " available to you" );
 		if ( !tradeable )
 		{
 			message.append( "." );
