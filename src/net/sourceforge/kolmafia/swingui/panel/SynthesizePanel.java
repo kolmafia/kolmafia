@@ -532,6 +532,9 @@ public class SynthesizePanel
 			protected final LockableListModel<Candy> model = new LockableListModel<Candy>();
 			protected Candy candy = null;
 
+			// Don't do anything with ListSelection events while we are sorting the candy list
+			protected boolean sorting = false;
+
 			public CandyList( final String title )
 			{
 				super( new BorderLayout() );
@@ -545,7 +548,7 @@ public class SynthesizePanel
 
 				this.table.setAutoCreateRowSorter( true );
 				this.rowSorter = (TableRowSorter<CandyTableModel>)this.table.getRowSorter();
-				this.rowSorter.setSortable(0, false);
+				this.rowSorter.setSortable( 0, false );
 
 				this.model.setFilter( this );
 
@@ -591,6 +594,7 @@ public class SynthesizePanel
 
 			public void sortCandy( final Candy selected )
 			{
+				this.sorting = true;
 				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( this.table.getModel() );
 				this.table.setRowSorter( sorter );
 
@@ -609,11 +613,9 @@ public class SynthesizePanel
 				sorter.setSortable(0, false);
 
 				// Selected item might have moved. Make sure it is visible.
-				//
-				// *** JTable sometimes seems to lose the
-				// *** selection when sorting on multiple rows.
-				//
-				// this.selectAndScroll( candy );
+				this.selectAndScroll( candy );
+
+				this.sorting = false;
 			}
 
 			public void filterItems( final Candy selected )
@@ -726,6 +728,13 @@ public class SynthesizePanel
 
 			public void valueChanged( ListSelectionEvent e )
 			{
+				// The selection is cleared at the beginning of a sort.
+				// We will restore it when we are done.
+				if ( this.sorting )
+				{
+					return;
+				}
+
 				if ( e.getValueIsAdjusting() )
 				{
 					// Mouse down, for example.
@@ -765,6 +774,13 @@ public class SynthesizePanel
 
 			public void valueChanged( ListSelectionEvent e )
 			{
+				// The selection is cleared at the beginning of a sort.
+				// We will restore it when we are done.
+				if ( this.sorting )
+				{
+					return;
+				}
+
 				if ( e.getValueIsAdjusting() )
 				{
 					// Mouse down, for example.
