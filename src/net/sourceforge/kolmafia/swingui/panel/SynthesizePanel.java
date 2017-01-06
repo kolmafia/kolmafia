@@ -268,6 +268,8 @@ public class SynthesizePanel
 		Candy candy2 = this.candy2();
 		this.candyList1.sortCandy( candy1 );
 		this.candyList2.sortCandy( candy2 );
+
+		this.candyData.update();
 	}
 
 	private class EffectPanel
