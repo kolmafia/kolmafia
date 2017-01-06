@@ -33,13 +33,18 @@
 
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.lang.NullPointerException;
+import java.lang.IllegalArgumentException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -52,12 +57,21 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.UIManager;
 
 import javax.swing.border.TitledBorder;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
@@ -70,6 +84,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
@@ -84,7 +99,7 @@ import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
+import com.jgoodies.binding.adapter.AbstractTableAdapter;
 
 public class SynthesizePanel
 	extends JPanel
@@ -110,25 +125,15 @@ public class SynthesizePanel
 	// The panel with data about Candy A and Candy B and total cost/turn
 	private CandyDataPanel candyData;
 
-	// The list models for Candy A and Candy B.  They are static because
-	// TableCellFactory.getColumnNames chooses column names based on the
-	// specific list, not what goes in the list. Sloppy API.
-	public static final LockableListModel<Candy> candy1List = new LockableListModel<Candy>();
-	public static final LockableListModel<Candy> candy2List = new LockableListModel<Candy>();
-
 	// How old is "too old" for a price. Expressed in fractional days.
-	public static float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
+	public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
 
 	// Pseudo-price for a non-tradeable item
-	public static int NON_TRADEABLE_PRICE = 999999999;
+	public static final int NON_TRADEABLE_PRICE = 999999999;
 
 	public SynthesizePanel()
 	{
 		super();
-
-		// Reset static data in case we instantiate this panel again
-		SynthesizePanel.candy1List.clear();
-		SynthesizePanel.candy2List.clear();
 		
 		JPanel centerPanel = new JPanel( new BorderLayout( 0, 0 ) );
 
@@ -234,7 +239,6 @@ public class SynthesizePanel
 	{
 		Candy candy1 = this.candy1();
 		Candy candy2 = this.candy2();
-
 		this.candyList1.filterItems( candy1 );
 		this.candyList2.filterItems( candy2 );
 	}
@@ -242,17 +246,23 @@ public class SynthesizePanel
 	// called when (candy) fires
 	public void update()
 	{
-		for ( Candy candy : SynthesizePanel.candy1List )
+		for ( Candy candy : this.candyList1.getCandyList() )
 		{
 			candy.update();
 		}
 
-		for ( Candy candy : SynthesizePanel.candy2List )
+		for ( Candy candy : this.candyList2.getCandyList() )
 		{
 			candy.update();
 		}
 
 		this.filterItems();
+
+		// Since quantities might have changed, sort
+		Candy candy1 = this.candy1();
+		Candy candy2 = this.candy2();
+		this.candyList1.sortCandy( candy1 );
+		this.candyList2.sortCandy( candy2 );
 	}
 
 	private class EffectPanel
@@ -340,12 +350,12 @@ public class SynthesizePanel
 				if ( current != null )
 				{
 					current.originalColors();
-					SynthesizePanel.candy2List.clear();
+					SynthesizePanel.this.candyList2.getCandyList().clear();
 				}
 				if ( current == this )
 				{
 					EffectPanel.this.selected = null;
-					SynthesizePanel.candy1List.clear();
+					SynthesizePanel.this.candyList1.getCandyList().clear();
 				}
 				else
 				{
@@ -359,6 +369,7 @@ public class SynthesizePanel
 	}
 
 	public static class Candy
+		implements Comparable<Candy>
 	{
 		private final int itemId;
 		private final String name;
@@ -392,6 +403,16 @@ public class SynthesizePanel
 		public boolean equals( final Object o )
 		{
 			return ( o instanceof Candy ) && ( this.itemId == ((Candy)o).itemId );
+		}
+
+		public int compareTo( final Candy o )
+		{
+			if ( o == null )
+			{
+				throw new NullPointerException();
+			}
+
+			return this.itemId - o.itemId;
 		}
 
 		public int getItemId()
@@ -442,47 +463,49 @@ public class SynthesizePanel
 		}
 	}
 
-	// Compare by lowest mall price, then largest quantity, then alphabetically
-	private static class MallPriceComparator
-		implements Comparator<Candy>
+	// Why can't this be inside CandyTableModel?
+	private static final String[] columnNames = { "candy", "have", "cost" };
+
+	public class CandyTableModel
+		extends AbstractTableAdapter
 	{
-		public int compare( Candy o1, Candy o2 )
+		private static final int NAME = 0;
+		private static final int COUNT = 1;
+		private static final int COST = 2;
+
+		private final LockableListModel<Candy> model;
+
+		public CandyTableModel( LockableListModel<Candy> listModel )
 		{
-			int cost1 = o1.getCost();
-			int cost2 = o2.getCost();
-			if ( cost1 != cost2 )
-			{
-				return cost1 - cost2;
+			super( listModel, columnNames );
+			this.model = listModel;
+		}
+
+		@Override
+		public Class<?> getColumnClass( int columnIndex )
+		{
+			return  this.model.isEmpty() ?
+				Object.class :
+				this.getValueAt( 0, columnIndex ).getClass();
+		}
+
+		@Override
+		public Object getValueAt( int rowIndex, int columnIndex )
+		{
+			Candy candy = this.model.getElementAt( rowIndex );
+         
+			switch (columnIndex) {
+			case NAME:
+				return candy.getName();
+			case COUNT:
+				return IntegerPool.get( candy.getCount() );
+			case COST:
+				return IntegerPool.get( candy.getCost() );
+			default:
+				throw new IllegalArgumentException( "Invalid column index" );
 			}
-			int count1 = o1.getCount();
-			int count2 = o2.getCount();
-			if ( count1 != count2 )
-			{
-				return count2 - count1;
-			}
-			return o1.getName().compareToIgnoreCase( o2.getName() );
 		}
 	}
-
-	public static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
-
-	// Compare by largest quantity, then alphabetically
-	private static class InverseCountComparator
-		implements Comparator<Candy>
-	{
-		public int compare( Candy o1, Candy o2 )
-		{
-			int count1 = o1.getCount();
-			int count2 = o2.getCount();
-			if ( count1 != count2 )
-			{
-				return count2 - count1;
-			}
-			return o1.getName().compareToIgnoreCase( o2.getName() );
-		}
-	}
-
-	public static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
 
 	private class CandyPanel
 		extends JPanel
@@ -499,36 +522,52 @@ public class SynthesizePanel
 		}
 
 		public abstract class CandyList
-			extends ItemTableManagePanel
+			extends JPanel
 			implements ListElementFilter, ListSelectionListener
 		{
-			private final LockableListModel<Candy> model;
-			private final ShowDescriptionTable table;
+			private final CandyTable table;
+			private final TableRowSorter<CandyTableModel> rowSorter;
 			private final ListSelectionModel selectionModel;
-			private final LockableListModel displayModel; 
+
+			protected final LockableListModel<Candy> model = new LockableListModel<Candy>();
 			protected Candy candy = null;
 
-			public CandyList( final String title, final LockableListModel<Candy> candyList )
+			public CandyList( final String title )
 			{
-				super( candyList, false, false );
+				super( new BorderLayout() );
 
-				this.model = candyList;
-				this.table = this.getElementList();
-				this.selectionModel = this.table.getSelectionModel();
-				this.displayModel = this.table.getDisplayModel();
-
-				this.scrollPane.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
 				this.setPreferredSize( new Dimension( 200, 400 ) );
 
-				this.table.setVisibleRowCount( 20 );
+				this.table = new CandyTable( this.model );
 				this.table.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+				this.selectionModel = this.table.getSelectionModel();
 				this.selectionModel.addListSelectionListener( this );
-				this.displayModel.setFilter( this );
+
+				this.table.setAutoCreateRowSorter( true );
+				this.rowSorter = (TableRowSorter<CandyTableModel>)this.table.getRowSorter();
+				this.rowSorter.setSortable(0, false);
+
+				this.model.setFilter( this );
+
+				JScrollPane scrollComponent = new JScrollPane( this.table );
+				scrollComponent.setBorder( BorderFactory.createTitledBorder( null, title, TitledBorder.CENTER, TitledBorder.TOP ) );
+
+				this.add( scrollComponent, BorderLayout.CENTER  );
+			}
+
+			public List<Candy> getCandyList()
+			{
+				return this.model;
 			}
 
 			public Candy currentCandy()
 			{
 				return this.candy;
+			}
+
+			public Candy getSelectedValue()
+			{
+				return this.table.getSelectedValue();
 			}
 
 			public abstract void valueChanged( ListSelectionEvent e );
@@ -542,43 +581,82 @@ public class SynthesizePanel
 					array.add( new Candy( itemId ) );
 				}
 
-				Comparator<Candy> comparator =
-					KoLCharacter.canInteract() ?
-					SynthesizePanel.MALL_PRICE_COMPARATOR :
-					SynthesizePanel.INVERSE_COUNT_COMPARATOR;
-
-				Collections.sort( array, comparator );
-
 				this.model.clear();
 				this.model.addAll( array );
+
 				this.filterItems( null );
+
+				this.sortCandy( null );
+			}
+
+			public void sortCandy( final Candy selected )
+			{
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>( this.table.getModel() );
+				this.table.setRowSorter( sorter );
+
+				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+
+				if ( KoLCharacter.canInteract() )
+				{
+					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COST, SortOrder.ASCENDING ) );
+				}
+				sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) );
+ 
+				sorter.setSortKeys( sortKeys );
+				sorter.sort();
+
+				// Don't let user use this TableRowSorter to sort on candy name
+				sorter.setSortable(0, false);
+
+				// Selected item might have moved. Make sure it is visible.
+				//
+				// *** JTable sometimes seems to lose the
+				// *** selection when sorting on multiple rows.
+				//
+				// this.selectAndScroll( candy );
 			}
 
 			public void filterItems( final Candy selected )
 			{
-				int index = -1;
-
-				try
+				this.model.updateFilter( false );
+				int size = this.model.getSize();
+				if ( size == 0 )
 				{
-					this.displayModel.updateFilter( false );
-					int size = this.displayModel.size();
-					if ( size > 0 )
-					{
-						this.displayModel.fireContentsChanged( this.displayModel, 0, size - 1 );
-						index = this.displayModel.getIndexOf( selected );
-					}
-				}
-				finally
-				{
+					this.table.clearSelection();
+					return;
 				}
 
+				// Update displayed rows
+				this.model.fireContentsChanged( this.model, 0, size - 1 );
+
+				this.selectAndScroll( selected );
+			}
+
+			private void selectAndScroll( final Candy selected )
+			{
+				if ( selected == null )
+				{
+					return;
+				}
+
+				int index = this.model.getIndexOf( selected );
 				if ( index == -1 )
 				{
 					this.table.clearSelection();
+					return;
 				}
-				else
+
+				// We must locate the new index in the sorted view
+				int size = this.model.getSize();
+				for ( int i = 0; i < size; ++i )
 				{
-					this.table.setSelectedIndex( index );
+					int modelIndex = this.table.convertRowIndexToModel( i );
+					if ( this.model.getElementAt( modelIndex ).equals( selected ) )
+					{
+						this.table.setSelectedIndex( modelIndex );
+						this.table.ensureIndexIsVisible( modelIndex );
+						return;
+					}
 				}
 			}
 
@@ -597,6 +675,45 @@ public class SynthesizePanel
 				}
 				return true;
 			}
+
+			public class CandyTable
+				extends JTable
+			{
+				private final LockableListModel<Candy> model;
+
+				public CandyTable( LockableListModel<Candy> model )
+				{
+					super( new CandyTableModel( model ) );
+					this.model = model;
+
+					// Magic number! Make the name column wide.
+					this.getColumnModel().getColumn( 0 ).setPreferredWidth( 220 );
+				}
+
+				public void ensureIndexIsVisible( int index )
+				{
+					int i = convertRowIndexToView( index );
+					this.scrollRectToVisible( this.getCellRect( i, 0, true ) );
+				}
+
+				public int getSelectedIndex()
+				{
+					int selectedRow = this.getSelectedRow();
+					return selectedRow == -1 ? -1 : this.convertRowIndexToModel( selectedRow );
+				}
+
+				public Candy getSelectedValue()
+				{
+					int selectedRow = this.getSelectedRow();
+					return selectedRow == -1 ? null : this.model.getElementAt( this.convertRowIndexToModel( selectedRow ) );
+				}
+
+				public void setSelectedIndex( int index )
+				{
+					int i = this.convertRowIndexToView( index );
+					this.setRowSelectionInterval( i, i );
+				}
+			}
 		}
 
 		public class CandyListA
@@ -604,7 +721,7 @@ public class SynthesizePanel
 		{
 			public CandyListA()
 			{
-				super( "Candy A", SynthesizePanel.candy1List );
+				super( "Candy A" );
 			}
 
 			public void valueChanged( ListSelectionEvent e )
@@ -625,7 +742,7 @@ public class SynthesizePanel
 					SynthesizePanel.this.candyData.update();
 					if ( replace == null )
 					{
-						SynthesizePanel.candy2List.clear();
+						SynthesizePanel.this.candyList2.getCandyList().clear();
 					}
 					else
 					{
@@ -643,7 +760,7 @@ public class SynthesizePanel
 		{
 			public CandyListB()
 			{
-				super( "Candy B", SynthesizePanel.candy2List );
+				super( "Candy B" );
 			}
 
 			public void valueChanged( ListSelectionEvent e )
@@ -666,19 +783,29 @@ public class SynthesizePanel
 				}
 			}
 
+			@Override
 			public boolean isVisible( final Object o )
 			{
-				if ( o instanceof Candy &&
-				     SynthesizePanel.this.availableChecked &&
-				     ((Candy)o).count == 1 &&
-				     o.equals( SynthesizePanel.this.candy1() ) )
+				if ( o instanceof Candy )
 				{
-					// You can synthesize two of the same
-					// candy.  If using available candy and
-					// you only have one, can't reuse it.
-					return false;
+					if ( SynthesizePanel.this.availableChecked )
+					{
+						int count = ((Candy)o).count;
+						if ( ( count == 0 ) ||
+						     ( count == 1 && o.equals( SynthesizePanel.this.candy1() ) ) )
+						{
+							// You can synthesize two of the same
+							// candy.  If using available candy and
+							// you only have one, can't reuse it.
+							return false;
+						}
+					}
+					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).restricted )
+					{
+						return false;
+					}
 				}
-				return super.isVisible();
+				return true;
 			}
 		}
 	}
@@ -863,10 +990,5 @@ public class SynthesizePanel
 
 	public void dispose()
 	{
-		SynthesizePanel.candy1List.clear();
-		SynthesizePanel.candy1List.setFilter( null );
-
-		SynthesizePanel.candy2List.clear();
-		SynthesizePanel.candy2List.setFilter( null );
 	}
 }
