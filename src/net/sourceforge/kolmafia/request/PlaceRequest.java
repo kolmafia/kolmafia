@@ -651,6 +651,13 @@ public class PlaceRequest
 				message = "Talking to the Old Man";
 			}
 		}
+		else if ( place.equals( "thesea" ) )
+		{
+			if ( action.equals( "thesea_left2" ) )
+			{
+				message = "Visiting the Swimmy Little Fishes and Such";
+			}
+		}
 		else if ( place.equals( "town" ) )
 		{
 			if ( action.equals( "town_oddjobs" ) )
