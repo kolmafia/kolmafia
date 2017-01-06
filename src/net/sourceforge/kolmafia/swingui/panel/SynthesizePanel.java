@@ -37,14 +37,11 @@ import java.lang.NullPointerException;
 import java.lang.IllegalArgumentException;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -62,14 +59,12 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
-import javax.swing.UIManager;
 
 import javax.swing.border.TitledBorder;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -192,10 +187,20 @@ public class SynthesizePanel
 		return this.candyList2 == null ? null : this.candyList2.currentCandy();
 	}
 
+	private static boolean haveSpleenAvailable()
+	{
+		boolean loggedIn = KoLCharacter.getUserId() > 0;
+		return !loggedIn || KoLCharacter.getSpleenLimit() > KoLCharacter.getSpleenUse();
+	}
+
 	@Override
 	public void setEnabled( final boolean isEnabled )
 	{
-		this.synthesizeButton.setEnabled( isEnabled && this.effectId() != -1 && this.candy1() != null && this.candy2() != null );
+		this.synthesizeButton.setEnabled( isEnabled &&
+						  this.effectId() != -1 &&
+						  this.candy1() != null &&
+						  this.candy2() != null &&
+						  SynthesizePanel.haveSpleenAvailable() );
 		this.priceCheckButton.setEnabled( isEnabled && !this.availableChecked );
 	}
 
@@ -604,8 +609,9 @@ public class SynthesizePanel
 				{
 					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COST, SortOrder.ASCENDING ) );
 				}
-				sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) );
- 
+				sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) ); 
+				sortKeys.add( new RowSorter.SortKey( CandyTableModel.NAME, SortOrder.ASCENDING ) );
+
 				sorter.setSortKeys( sortKeys );
 				sorter.sort();
 
@@ -795,7 +801,7 @@ public class SynthesizePanel
 				{
 					this.candy = replace;
 					SynthesizePanel.this.candyData.update();
-					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null );
+					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null && SynthesizePanel.haveSpleenAvailable() );
 				}
 			}
 
@@ -943,7 +949,7 @@ public class SynthesizePanel
 		@Override
 		protected void execute()
 		{
-			if ( SynthesizePanel.this.candy1() == null || SynthesizePanel.this.candy2() == null )
+			if ( SynthesizePanel.this.candy1() == null || SynthesizePanel.this.candy2() == null || KoLCharacter.getUserId() == 0 )
 			{
 				return;
 			}

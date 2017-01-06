@@ -2322,6 +2322,12 @@ public class KoLAdventure
 			"The ghost has arrived",
 			"Your tale of spelunking is over.",
 		},
+
+		// Gingerbread City
+		{
+			"The gingerbread city has collapsed.",
+			"The gingerbread city has collapsed.",
+		}
 	};
 
 	public static final int findAdventureFailure( String responseText )

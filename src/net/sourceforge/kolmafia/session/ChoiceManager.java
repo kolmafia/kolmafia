@@ -11026,6 +11026,16 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1219:
+			// Approach the Jellyfish
+			// You acquire an item: sea jelly
+			// You think it'd be best to leave them alone for the rest of the day.
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_seaJellyHarvested", true );
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
