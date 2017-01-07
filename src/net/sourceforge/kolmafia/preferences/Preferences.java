@@ -158,6 +158,7 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
+			System.out.println(e.getMessage()+" trying to load preferences from file.");
 		}
 
 		try
@@ -166,6 +167,7 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
+			System.out.println(e.getMessage()+" trying to close preferences file.");
 		}
 
 		for ( Entry<Object, Object> currentEntry : p.entrySet() )
@@ -601,6 +603,7 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
+			System.out.println(e.getMessage()+" trying to write preferences as byte array.");
 		}
 
 		OutputStream fstream = DataUtilities.getOutputStream( file );
@@ -611,6 +614,7 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
+			System.out.println(e.getMessage()+" trying to write preferences as stream.");
 		}
 
 		try
@@ -619,6 +623,7 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
+			System.out.println(e.getMessage()+" trying to close preferences stream.");
 		}
 	}
 
