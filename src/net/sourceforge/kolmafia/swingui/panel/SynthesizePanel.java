@@ -491,7 +491,7 @@ public class SynthesizePanel
 		@Override
 		public Class<?> getColumnClass( int columnIndex )
 		{
-			return  this.model.isEmpty() ?
+			return  this.model.getSize() == 0 ?
 				Object.class :
 				this.getValueAt( 0, columnIndex ).getClass();
 		}
@@ -630,16 +630,18 @@ public class SynthesizePanel
 			{
 				this.model.updateFilter( false );
 				int size = this.model.getSize();
-				if ( size == 0 )
-				{
-					this.table.clearSelection();
-					return;
-				}
 
 				// Update displayed rows
 				this.model.fireContentsChanged( this.model, 0, size - 1 );
 
-				this.selectAndScroll( selected );
+				if ( size == 0 )
+				{
+					this.table.clearSelection();
+				}
+				else
+				{
+					this.selectAndScroll( selected );
+				}
 			}
 
 			private void selectAndScroll( final Candy selected )
