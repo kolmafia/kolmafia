@@ -2881,6 +2881,7 @@ Item	rainbow pearl earring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Res
 Item	rainbow pearl necklace	Muscle: +15, Mysticality: +15, Moxie: +15, Spell Damage: +200, Single Equip
 Item	rainbow pearl ring	Muscle: +15, Mysticality: +15, Moxie: +15, Spooky Damage: +40, Stench Damage: +40, Hot Damage: +40, Cold Damage: +40, Sleaze Damage: +40, Single Equip
 Item	ratskin belt	Moxie: +8, Meat Drop: +10, Single Equip
+Item	recovered cufflinks	Familiar Weight: +6, Single Equip
 Item	red armband	Adventures: [1+10*event(Crimbo2015)], Single Equip
 Item	red badge	Damage Reduction: 5, Monster Level: -25, Single Equip
 Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11, Single Equip

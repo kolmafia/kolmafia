@@ -103,6 +103,7 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 
 import net.sourceforge.kolmafia.textui.command.ChoiceCommand;
+import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
@@ -1654,7 +1655,7 @@ public abstract class ChoiceManager
 		// Down at the Hatch
 		new ChoiceAdventure(
 			"The Sea", "choiceAdventure299", "The Wreck of the Edgar Fitzsimmons",
-			new Object[] { "release creatures", "skip adventure" } ),
+			new Object[] { "release creatures", "skip adventure", "unlock tarnished luggage key adventure" } ),
 
 		// Choice 300 is Merry Crimbo!
 		// Choice 301 is And to All a Good Night
@@ -14252,6 +14253,20 @@ public abstract class ChoiceManager
 			case 1053:	// The Servants' Quarters
 				return EdServantData.registerRequest( urlString );
 
+			case 1063:	// Adjust your 'Edpiece
+			{
+				int index = decision - 1;
+				if ( index < 0 || index > EdPieceCommand.ANIMAL.length )
+				{
+					// Doing nothing
+					return true;
+				}
+				String decoration = EdPieceCommand.ANIMAL[index][0];
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "edpiece " + decoration );
+				return true;
+			}
+			
 			case 1101:	// It's a Barrel Smashing Party!
 			{
 				if ( decision == 2 )

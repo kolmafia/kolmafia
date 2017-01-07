@@ -9337,3 +9337,5 @@
 9311	sea jelly	727232856	jellyglob.gif	spleen, usable	t,d	30
 9312	sea truffle	955920102	mushroom.gif	food	t,d	999
 9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100
+9314	crushed steamer trunk	753405632	undertrunk.gif	none	d	100
+9315	recovered cufflinks	721303222	cufflinks.gif	accessory		0

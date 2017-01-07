@@ -2455,6 +2455,7 @@ rainbow pearl earring	0	Mys: 200
 rainbow pearl necklace	0	Mys: 200
 rainbow pearl ring	0	Mys: 200
 ratskin belt	180	Mys: 75
+recovered cufflinks	0	none
 red armband	10	none
 red badge	150	Mys: 60
 Red Balloon of Valor	200	Mys: 85
