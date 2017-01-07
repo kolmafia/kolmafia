@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -163,7 +164,9 @@ public class StandardRequest
 		if ( force )
 		{
 			// Two years before current year
-			this.addFormField( "date", "2015-01-01" );
+			Calendar calendar = Calendar.getInstance();
+			int year = calendar.get( Calendar.YEAR );
+			this.addFormField( "date", String.valueOf( year - 2 ) + "-01-01" );
 			// Must use GET
 			this.constructURLString( this.getFullURLString(), false );
 		}
