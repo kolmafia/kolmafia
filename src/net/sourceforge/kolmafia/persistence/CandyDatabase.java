@@ -33,8 +33,11 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -329,4 +332,156 @@ public class CandyDatabase
 
 		return result;
 	}
+
+	// *** Phase 5 methods ***
+
+	// Here will go fancy code to choose combinations of candies that are
+	// either cheap (aftercore) or available (in-run) using he provided
+	// Comparators to sort Candy lists appropriately
+
+	// Use MALL_PRICE_COMPARATOR in aftercore
+	// Use INVERSE_COUNT_COMPARATOR in-run
+
+	// Pseudo-price for a non-tradeable item
+	public static final int NON_TRADEABLE_PRICE = 999999999;
+
+	public static class Candy
+		implements Comparable<Candy>
+	{
+		private final int itemId;
+		private final String name;
+		private int count;
+		private int mallprice;
+		private boolean restricted;
+
+		public Candy( final int itemId )
+		{
+			this( itemId,
+			      ItemDatabase.getDataName( itemId ),
+			      InventoryManager.getAccessibleCount( itemId ),
+			      ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0,
+			      !ItemDatabase.isAllowedInStandard( itemId ) );
+		}
+
+		public Candy( final int itemId, final String name, final int count, final int mallprice, final boolean restricted )
+		{
+			this.itemId = itemId;
+			this.name = name;
+			this.count = count;
+			this.mallprice = mallprice;
+			this.restricted = restricted;
+		}
+
+		@Override
+		public boolean equals( final Object o )
+		{
+			return ( o instanceof Candy ) && ( this.itemId == ((Candy)o).itemId );
+		}
+
+		public int compareTo( final Candy o )
+		{
+			if ( o == null )
+			{
+				throw new NullPointerException();
+			}
+
+			return this.itemId - o.itemId;
+		}
+
+		public int getItemId()
+		{
+			return this.itemId;
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public int getCount()
+		{
+			return this.count;
+		}
+
+		public int getCost()
+		{
+			return this.mallprice == 0 ? CandyDatabase.NON_TRADEABLE_PRICE : this.mallprice;
+		}
+
+		public int getMallPrice()
+		{
+			return this.mallprice;
+		}
+
+		public boolean getRestricted()
+		{
+			return this.restricted;
+		}
+
+		public Candy update()
+		{
+			this.count = InventoryManager.getAccessibleCount( this.itemId );
+			this.mallprice = MallPriceDatabase.getPrice( this.itemId );
+			return this;
+		}
+
+		public String toString()
+		{
+			return this.name;
+		}
+	}
+
+	public static List<Candy> itemIdSetToCandyList( Set<Integer> itemIds )
+	{
+		ArrayList<Candy> list = new ArrayList<Candy>();
+
+		for ( int itemId : itemIds )
+		{
+			list.add( new Candy( itemId ) );
+		}
+
+		return list;
+	}
+
+	// Compare by lowest mall price, then largest quantity, then alphabetically
+	private static class MallPriceComparator
+		implements Comparator<Candy>
+	{
+		public int compare( Candy o1, Candy o2 )
+		{
+			int cost1 = o1.getCost();
+			int cost2 = o2.getCost();
+			if ( cost1 != cost2 )
+			{
+				return cost1 - cost2;
+			}
+			int count1 = o1.getCount();
+			int count2 = o2.getCount();
+			if ( count1 != count2 )
+			{
+				return count2 - count1;
+			}
+			return o1.getName().compareToIgnoreCase( o2.getName() );
+		}
+	}
+
+	public static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
+
+	// Compare by largest quantity, then alphabetically
+	private static class InverseCountComparator
+		implements Comparator<Candy>
+	{
+		public int compare( Candy o1, Candy o2 )
+		{
+			int count1 = o1.getCount();
+			int count2 = o2.getCount();
+			if ( count1 != count2 )
+			{
+				return count2 - count1;
+			}
+			return o1.getName().compareToIgnoreCase( o2.getName() );
+		}
+	}
+
+	public static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
 }
