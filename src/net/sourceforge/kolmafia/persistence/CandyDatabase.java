@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -200,12 +201,20 @@ public class CandyDatabase
 		return -1;
 	}
 
+	private static final int FLAG_AVAILABLE = 0x1;
+	private static final int FLAG_ALLOWED = 0x2;
+
+	public static int makeFlags( final boolean available, final boolean allowed )
+	{
+		return ( available ? FLAG_AVAILABLE : 0 ) + ( allowed ? FLAG_ALLOWED : 0 );
+	}
+
 	public static int defaultFlags()
 	{
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		boolean available = loggedIn && !KoLCharacter.canInteract();
-		boolean unrestricted = loggedIn && KoLCharacter.getRestricted();
-		return ( available ? 0x1 : 0 ) + ( unrestricted ? 0x2 : 0 );
+		boolean allowed = loggedIn && KoLCharacter.getRestricted();
+		return CandyDatabase.makeFlags( available, allowed );
 	}
 
 	public static Set<Integer> candyForTier( final int tier )
@@ -234,8 +243,8 @@ public class CandyDatabase
 		}
 
 		// Otherwise, we must filter
-		boolean available = ( flags & 0x1 ) != 0;
-		boolean unrestricted = ( flags & 0x2 ) != 0;
+		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		boolean allowed = ( flags & FLAG_ALLOWED ) != 0;
 		Set<Integer> result = new HashSet<Integer>();
 
 		for ( Integer itemId : candies )
@@ -244,7 +253,7 @@ public class CandyDatabase
 			{
 				continue;
 			}
-			if ( unrestricted && !ItemDatabase.isAllowed( itemId ) )
+			if ( allowed && !ItemDatabase.isAllowed( itemId ) )
 			{
 				continue;
 			}
@@ -310,8 +319,8 @@ public class CandyDatabase
 		}
 
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
-		boolean available = ( flags & 0x1 ) != 0;
-		boolean unrestricted = ( flags & 0x2 ) != 0;
+		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		boolean allowed = ( flags & FLAG_ALLOWED ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
@@ -323,7 +332,7 @@ public class CandyDatabase
 			{
 				continue;
 			}
-			if ( unrestricted && !ItemDatabase.isAllowed( itemId2 ) )
+			if ( allowed && !ItemDatabase.isAllowed( itemId2 ) )
 			{
 				continue;
 			}
@@ -336,7 +345,7 @@ public class CandyDatabase
 	// *** Phase 5 methods ***
 
 	// Here will go fancy code to choose combinations of candies that are
-	// either cheap (aftercore) or available (in-run) using he provided
+	// either cheap (aftercore) or available (in-run) using the provided
 	// Comparators to sort Candy lists appropriately
 
 	// Use MALL_PRICE_COMPARATOR in aftercore
@@ -356,20 +365,11 @@ public class CandyDatabase
 
 		public Candy( final int itemId )
 		{
-			this( itemId,
-			      ItemDatabase.getDataName( itemId ),
-			      InventoryManager.getAccessibleCount( itemId ),
-			      ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0,
-			      !ItemDatabase.isAllowedInStandard( itemId ) );
-		}
-
-		public Candy( final int itemId, final String name, final int count, final int mallprice, final boolean restricted )
-		{
 			this.itemId = itemId;
-			this.name = name;
-			this.count = count;
-			this.mallprice = mallprice;
-			this.restricted = restricted;
+			this.name = ItemDatabase.getDataName( itemId );
+			this.count = InventoryManager.getAccessibleCount( itemId );
+			this.mallprice = ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0;
+			this.restricted = !ItemDatabase.isAllowedInStandard( itemId );
 		}
 
 		@Override
@@ -484,4 +484,114 @@ public class CandyDatabase
 	}
 
 	public static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
+
+	private static final Candy[] NO_PAIR = new Candy[0];
+
+	public static Candy[] synthesisPair( final int effectId )
+	{
+		return CandyDatabase.synthesisPair( effectId, CandyDatabase.defaultFlags() );
+	}
+
+	public static Candy[] synthesisPair( final int effectId, final int flags )
+	{
+		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		return  available ?
+			CandyDatabase.synthesisPairByCount( effectId, flags ) :
+			CandyDatabase.synthesisPairByCost( effectId, flags );
+	}
+
+	private static Candy[] synthesisPairByCount( final int effectId, final int flags )
+	{
+		int tier = CandyDatabase.getEffectTier( effectId );
+
+		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
+		Collections.sort( candy1List, INVERSE_COUNT_COMPARATOR );
+
+		for ( Candy candy : candy1List )
+		{
+			if ( candy.getCount() == 0 )
+			{
+				// Ran out of available candies
+				return NO_PAIR;
+			}
+
+			int itemId = candy.getItemId();
+			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
+			Collections.sort( candy2List, INVERSE_COUNT_COMPARATOR );
+
+			for ( Candy pairing : candy2List )
+			{
+				int count = pairing.getCount();
+				if ( count == 0 )
+				{
+					// Nothing left in this list. Select a new candy1
+					break;
+				}
+				
+				if ( candy.equals( pairing ) && count == 1 )
+				{
+					// Pairs with itself but only have one.
+					continue;
+				}
+
+				Candy[] result = new Candy[2];
+				result[0] = candy;
+				result[1] = pairing;
+				return result;
+			}
+		}
+
+		return NO_PAIR;
+	}
+
+	private static Candy[] synthesisPairByCost( final int effectId, final int flags )
+	{
+		int tier = CandyDatabase.getEffectTier( effectId );
+
+		int bestCost = Integer.MAX_VALUE;
+		Candy candy1 = null;
+		Candy candy2 = null;
+
+		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
+		Collections.sort( candy1List, MALL_PRICE_COMPARATOR );
+
+		for ( Candy candy : candy1List )
+		{
+			int cost1 = candy.getCost();
+			if ( cost1 > bestCost )
+			{
+				break;
+			}
+
+			int itemId = candy.getItemId();
+			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
+			Collections.sort( candy2List, MALL_PRICE_COMPARATOR );
+
+			for ( Candy pairing : candy2List )
+			{
+				int cost2 = pairing.getCost();
+				int currentCost = cost1 + cost2;
+
+				if ( currentCost >= bestCost )
+				{
+					break;
+				}
+
+				candy1 = candy;
+				candy2 = pairing;
+				bestCost = currentCost;
+			}
+		}
+
+		if ( candy1 == null || candy2 == null )
+		{
+			return NO_PAIR;
+		}
+
+		Candy[] result = new Candy[2];
+		result[0] = candy1;
+		result[1] = candy2;
+
+		return result;
+	}
 }

@@ -127,6 +127,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1882,6 +1883,18 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis_result", DataTypes.EFFECT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis_pair", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis_pair", new AggregateType( DataTypes.ITEM_TYPE, 0 ), params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.EFFECT_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
@@ -7836,6 +7849,30 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
+	public static Value sweet_synthesis_pair( Interpreter interpreter, final Value arg1  )
+	{
+		return RuntimeLibrary.sweet_synthesis_pair( interpreter, arg1, DataTypes.makeIntValue( CandyDatabase.defaultFlags() ) );
+	}
+
+	public static Value sweet_synthesis_pair( Interpreter interpreter, final Value arg1, final Value arg2  )
+	{
+		int effectId = (int) arg1.intValue();
+		int flags = (int) arg2.intValue();
+
+		AggregateType type = new AggregateType( DataTypes.ITEM_TYPE, 2 );
+		ArrayValue value = new ArrayValue( type );
+
+		Candy[] candies = CandyDatabase.synthesisPair( effectId, flags );
+
+		if ( candies.length == 2 )
+		{
+			value.aset( new Value( 0 ), DataTypes.makeItemValue( candies[0].getItemId(), true ) );
+			value.aset( new Value( 1 ), DataTypes.makeItemValue( candies[1].getItemId(), true ) );
+		}
+
+		return value;
+	}
+
 	public static Value sweet_synthesis_result( Interpreter interpreter, final Value item1, final Value item2 )
 	{
 		int itemId1 = (int) item1.intValue();
@@ -7844,14 +7881,57 @@ public abstract class RuntimeLibrary
 		return effectId == -1 ? DataTypes.EFFECT_INIT : DataTypes.makeEffectValue( effectId, true );
 	}
 
-	public static Value sweet_synthesis( Interpreter interpreter, final Value item1, final Value item2 )
+	public static Value sweet_synthesis( Interpreter interpreter, final Value effect )
 	{
-		int itemId1 = (int) item1.intValue();
-		int itemId2 = (int) item2.intValue();
+		int effectId = (int) effect.intValue();
 
-		if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+		Candy[] candies = CandyDatabase.synthesisPair( effectId );
+
+		if ( candies.length != 2 )
 		{
 			return DataTypes.FALSE_VALUE;
+		}
+
+		int itemId1 = candies[0].getItemId();
+		int itemId2 = candies[1].getItemId();
+
+		// SweetSynthesisRequest will retrieve the candies
+		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
+		RequestThread.postRequest( request );
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value sweet_synthesis( Interpreter interpreter, final Value arg1, final Value arg2 )
+	{
+		Type type = arg1.getType();
+
+		int itemId1 = -1;
+		int itemId2 = -1;
+
+		if ( type.equals( DataTypes.TYPE_ITEM ) )
+		{
+			itemId1 = (int) arg1.intValue();
+			itemId2 = (int) arg2.intValue();
+
+			if ( !ItemDatabase.isCandyItem( itemId1 ) || !ItemDatabase.isCandyItem( itemId2 ) )
+			{
+				return DataTypes.FALSE_VALUE;
+			}
+		}
+		else
+		{
+			int effectId = (int) arg1.intValue();
+			int flags =  (int) arg2.intValue() | CandyDatabase.defaultFlags();
+
+			Candy[] candies = CandyDatabase.synthesisPair( effectId, flags );
+
+			if ( candies.length != 2 )
+			{
+				return DataTypes.FALSE_VALUE;
+			}
+
+			itemId1 = candies[0].getItemId();
+			itemId2 = candies[1].getItemId();
 		}
 
 		// SweetSynthesisRequest will retrieve the candies

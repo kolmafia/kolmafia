@@ -115,6 +115,7 @@ public class SynthesizePanel
 
 	// The Buttons
 	private JButton synthesizeButton;
+	private JButton automaticButton;
 	private JButton priceCheckButton;
 
 	// The panel with data about Candy A and Candy B and total cost/turn
@@ -150,6 +151,10 @@ public class SynthesizePanel
 		this.synthesizeButton = new JButton( "Synthesize!" );
 		this.synthesizeButton.addActionListener( new SynthesizeListener() );
 		buttonPanel.add( this.synthesizeButton);
+
+		this.automaticButton = new JButton( "Automatic" );
+		this.automaticButton.addActionListener( new AutomaticListener() );
+		buttonPanel.add( this.automaticButton);
 
 		this.priceCheckButton = new JButton( "Check Prices" );
 		this.priceCheckButton.addActionListener( new PriceCheckListener() );
@@ -198,6 +203,7 @@ public class SynthesizePanel
 						  this.candy1() != null &&
 						  this.candy2() != null &&
 						  SynthesizePanel.haveSpleenAvailable() );
+		this.automaticButton.setEnabled( isEnabled && this.effectId() != -1 );
 		this.priceCheckButton.setEnabled( isEnabled && !this.availableChecked );
 	}
 
@@ -359,11 +365,13 @@ public class SynthesizePanel
 				if ( current == this )
 				{
 					EffectPanel.this.selected = null;
+					SynthesizePanel.this.automaticButton.setEnabled( false );
 					SynthesizePanel.this.candyList1.getCandyList().clear();
 				}
 				else
 				{
 					EffectPanel.this.selected = this;
+					SynthesizePanel.this.automaticButton.setEnabled( true );
 					this.reverseColors();
 					Set<Integer> candy = CandyDatabase.candyForTier( CandyDatabase.getEffectTier( this.effectId ), 0 );
 					SynthesizePanel.this.candyList1.loadCandy( candy );
@@ -541,7 +549,7 @@ public class SynthesizePanel
 				}
 			}
 
-			private void selectAndScroll( final Candy selected )
+			public void selectAndScroll( final Candy selected )
 			{
 				if ( selected == null )
 				{
@@ -875,6 +883,43 @@ public class SynthesizePanel
 		public String toString()
 		{
 			return "synthesize";
+		}
+	}
+
+	private class AutomaticListener
+		implements ActionListener
+	{
+		public void actionPerformed( final ActionEvent e )
+		{
+			int effectId = SynthesizePanel.this.effectId();
+			if ( effectId == -1 )
+			{
+				return;
+			}
+
+			// Flags required by current character state are not
+			// optional, but the user can use the checkboxes to be
+			// more restrictive
+
+			boolean available = SynthesizePanel.this.availableChecked;
+			boolean allowed = SynthesizePanel.this.allowedChecked;
+			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, allowed );
+
+			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
+			if ( pair.length == 0 )
+			{
+				KoLmafia.updateDisplay( "Can't find a pair of candies for that effect" );
+				return;
+			}
+
+			candyList1.selectAndScroll( pair[0] );
+			candyList2.selectAndScroll( pair[1] );
+		}
+
+		@Override
+		public String toString()
+		{
+			return "automatic";
 		}
 	}
 
