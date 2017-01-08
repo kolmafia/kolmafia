@@ -41,24 +41,11 @@ import net.sourceforge.kolmafia.swingui.panel.SynthesizePanel;
 public class SynthesizeFrame
 	extends GenericFrame
 {
-	SynthesizePanel synthesizePanel;
-
 	public SynthesizeFrame()
 	{
 		super( "Sweet Synthesis" );
 
-		this.synthesizePanel = new SynthesizePanel();
-		this.add( this.synthesizePanel, BorderLayout.CENTER );
+		this.add( new SynthesizePanel(), BorderLayout.CENTER );
 		this.add( new StatusPanel(), BorderLayout.SOUTH );
-	}
-
-	@Override
-	public void dispose()
-	{
-		if ( this.synthesizePanel != null )
-		{
-			this.synthesizePanel.dispose();
-		}
-		super.dispose();
 	}
 }

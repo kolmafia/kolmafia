@@ -83,13 +83,13 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -122,9 +122,6 @@ public class SynthesizePanel
 
 	// How old is "too old" for a price. Expressed in fractional days.
 	public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
-
-	// Pseudo-price for a non-tradeable item
-	public static final int NON_TRADEABLE_PRICE = 999999999;
 
 	public SynthesizePanel()
 	{
@@ -375,101 +372,6 @@ public class SynthesizePanel
 		}
 	}
 
-	public static class Candy
-		implements Comparable<Candy>
-	{
-		private final int itemId;
-		private final String name;
-		private int count;
-		private int mallprice;
-		private boolean restricted;
-		private final int autosell;
-
-		public Candy( final int itemId )
-		{
-			this( itemId,
-			      ItemDatabase.getDataName( itemId ),
-			      InventoryManager.getAccessibleCount( itemId ),
-			      ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0,
-			      !ItemDatabase.isAllowedInStandard( itemId ),
-			      ItemDatabase.getPriceById( itemId ) );
-		}
-
-		public Candy( final int itemId, final String name, final int count, final int mallprice, final boolean restricted, final int autosell )
-		{
-			this.itemId = itemId;
-			this.name = name;
-			this.count = count;
-			this.mallprice = mallprice;
-			this.restricted = restricted;
-			this.autosell = autosell;
-		}
-
-
-		@Override
-		public boolean equals( final Object o )
-		{
-			return ( o instanceof Candy ) && ( this.itemId == ((Candy)o).itemId );
-		}
-
-		public int compareTo( final Candy o )
-		{
-			if ( o == null )
-			{
-				throw new NullPointerException();
-			}
-
-			return this.itemId - o.itemId;
-		}
-
-		public int getItemId()
-		{
-			return this.itemId;
-		}
-
-		public String getName()
-		{
-			return this.name;
-		}
-
-		public int getCount()
-		{
-			return this.count;
-		}
-
-		public int getCost()
-		{
-			return this.mallprice == 0 ? SynthesizePanel.NON_TRADEABLE_PRICE : this.mallprice;
-		}
-
-		public int getMallPrice()
-		{
-			return this.mallprice;
-		}
-
-		public boolean getRestricted()
-		{
-			return this.restricted;
-		}
-
-		public int getAutosell()
-		{
-			return this.autosell;
-		}
-
-		public Candy update()
-		{
-			this.count = InventoryManager.getAccessibleCount( this.itemId );
-			this.mallprice = MallPriceDatabase.getPrice( this.itemId );
-			return this;
-		}
-
-		public String toString()
-		{
-			return this.name;
-		}
-	}
-
 	// Why can't this be inside CandyTableModel?
 	private static final String[] columnNames = { "candy", "have", "cost" };
 
@@ -584,15 +486,10 @@ public class SynthesizePanel
 
 			public void loadCandy( Set<Integer> itemIds )
 			{
-				ArrayList<Candy> array = new ArrayList<Candy>();
-
-				for ( int itemId : itemIds )
-				{
-					array.add( new Candy( itemId ) );
-				}
+				List<Candy> list = CandyDatabase.itemIdSetToCandyList( itemIds );
 
 				this.model.clear();
-				this.model.addAll( array );
+				this.model.addAll( list );
 
 				this.filterItems( null );
 
@@ -676,11 +573,11 @@ public class SynthesizePanel
 			{
 				if ( o instanceof Candy )
 				{
-					if ( SynthesizePanel.this.availableChecked && ((Candy)o).count == 0 )
+					if ( SynthesizePanel.this.availableChecked && ((Candy)o).getCount() == 0 )
 					{
 						return false;
 					}
-					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).restricted )
+					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).getRestricted() )
 					{
 						return false;
 					}
@@ -816,7 +713,7 @@ public class SynthesizePanel
 				{
 					if ( SynthesizePanel.this.availableChecked )
 					{
-						int count = ((Candy)o).count;
+						int count = ((Candy)o).getCount();
 						if ( ( count == 0 ) ||
 						     ( count == 1 && o.equals( SynthesizePanel.this.candy1() ) ) )
 						{
@@ -826,7 +723,7 @@ public class SynthesizePanel
 							return false;
 						}
 					}
-					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).restricted )
+					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).getRestricted() )
 					{
 						return false;
 					}
@@ -1012,9 +909,5 @@ public class SynthesizePanel
 		{
 			return "check prices";
 		}
-	}
-
-	public void dispose()
-	{
 	}
 }
