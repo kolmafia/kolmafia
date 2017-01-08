@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -42,7 +44,10 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
+import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -125,24 +130,63 @@ public class SynthesizeCommand
 			return;
 		}
 
-		int filter = ItemFinder.CANDY_MATCH;
+		AdventureResult candy1 = null;
+		AdventureResult candy2 = null;
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, filter );
-
-		if ( !KoLmafia.permitsContinue() )
+		if ( parameters.contains( "," ) )
 		{
-			return;
+			// Two candies
+			
+			int filter = ItemFinder.CANDY_MATCH;
+
+			AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, filter );
+
+			if ( !KoLmafia.permitsContinue() )
+			{
+				return;
+			}
+
+			int length = itemList.length;
+
+			candy1 = ( length > 0 ) ? itemList[ 0 ] : null;
+			candy2 = ( length > 1 ) ? itemList[ 1 ] : ( length == 1 && candy1.getCount() == 2 ) ? candy1 : null;
+
+			if ( candy1 == null || candy2 == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You must specify two candies" );
+				return;
+			}
+
 		}
-
-		int length = itemList.length;
-
-		AdventureResult candy1 = ( length > 0 ) ? itemList[ 0 ] : null;
-		AdventureResult candy2 = ( length > 1 ) ? itemList[ 1 ] : ( length == 1 && candy1.getCount() == 2 ) ? candy1 : null;
-
-		if ( candy1 == null || candy2 == null )
+		else
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "You must specify two candies" );
-			return;
+			// Effect
+
+			List<String> matchingEffects = EffectDatabase.getMatchingNames( parameters.trim() );
+			if ( matchingEffects.isEmpty() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown effect: " + parameters );
+				return;
+			}
+
+			if ( matchingEffects.size() > 1 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Ambiguous effect name: " + parameters );
+				RequestLogger.printList( matchingEffects );
+				return;
+			}
+
+			int effectId = EffectDatabase.getEffectId( matchingEffects.get( 0 ) );
+
+			Candy [] pair = CandyDatabase.synthesisPair( effectId );
+			if ( pair.length == 0 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Can't find a pair of candies for that effect" );
+				return;
+			}
+
+			candy1 = ItemPool.get( pair[0].getItemId(), 1 );
+			candy2 = ItemPool.get( pair[1].getItemId(), 1 );
 		}
 
 		int itemId1 = candy1.getItemId();
