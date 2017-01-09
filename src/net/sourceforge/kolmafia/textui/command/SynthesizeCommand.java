@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -57,13 +58,107 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class SynthesizeCommand
 	extends AbstractCommand
 {
 	public SynthesizeCommand()
 	{
-		this.usage = "[?] CANDY1, CANDY2";
+		this.usage = "[?] CANDY1, CANDY2 or [?] EFFECT - get an effect via Sweet Synthesis";
 	}
+
+	private static class Effect
+	{
+		public final String name;
+		public final String description;
+		public final int effectId;
+		public final String canonicalName;
+
+		public Effect( final String name, final String description )
+		{
+			this.name = name;
+			this.description = description;
+			this.effectId = EffectDatabase.getEffectId( name );
+			this.canonicalName = StringUtilities.getCanonicalName( name );
+		}
+
+		public String getName()
+		{
+			return this.name;
+		}
+
+		public String getDescription()
+		{
+			return this.description;
+		}
+
+		public int getEffectId()
+		{
+			return this.effectId;
+		}
+
+		public String getCanonicalName()
+		{
+			return this.name;
+		}
+	}
+
+	static final Effect[] EFFECTS =
+	{
+		new Effect( "Synthesis: Hot", "Hot Res +9" ),
+		new Effect( "Synthesis: Cold", "Cold Res +9" ),
+		new Effect( "Synthesis: Pungent", "Stench Res +9" ),
+		new Effect( "Synthesis: Scary", "Spooky Res +9" ),
+		new Effect( "Synthesis: Greasy", "Sleaze Res +9" ),
+		new Effect( "Synthesis: Strong", "Mus +300%" ),
+		new Effect( "Synthesis: Smart", "Mys +300%" ),
+		new Effect( "Synthesis: Cool", "Mox +300%" ),
+		new Effect( "Synthesis: Hardy", "Max HP +300%" ),
+		new Effect( "Synthesis: Energy", "Max MP +300%" ),
+		new Effect( "Synthesis: Greed", "Meat +300%" ),
+		new Effect( "Synthesis: Collection", "Item +150%" ),
+		new Effect( "Synthesis: Movement", "Mus Exp +50%" ),
+		new Effect( "Synthesis: Learning", "Mys Exp +50%" ),
+		new Effect( "Synthesis: Style", "Mox Exp +50%" ),
+	};
+
+	private static Effect findEffectByCanonicalName( final String canonicalName )
+	{
+		for ( Effect effect : EFFECTS )
+		{
+			if ( effect.canonicalName.equals( canonicalName ) )
+			{
+				return effect;
+			}
+		}
+		return null;
+	}
+
+	private static Effect findEffectByEffectId( final int effectId )
+	{
+		for ( Effect effect : EFFECTS )
+		{
+			if ( effect.effectId == effectId )
+			{
+				return effect;
+			}
+		}
+		return null;
+	}
+
+	public static String [] CANONICAL_EFFECT_NAMES = new String[ EFFECTS.length ];
+
+	static
+	{
+		// Save canonical name
+		for ( int i = 0; i < EFFECTS.length; ++i )
+		{
+			CANONICAL_EFFECT_NAMES[ i ] = EFFECTS[ i ].canonicalName;
+		}
+
+		Arrays.sort( CANONICAL_EFFECT_NAMES );
+	};
 
 	public static final float AGE_LIMIT = ( 60.0f * 60.0f ) / 86400.0f;	// One hour
 
@@ -73,20 +168,20 @@ public class SynthesizeCommand
 		StoreManager.getMallPrice( candy2, AGE_LIMIT );
 	}
 
-	private boolean analyzeCandy( final AdventureResult candy )
+	private void analyzeCandy( final AdventureResult candy )
 	{
 		StringBuilder message = new StringBuilder();
 		int itemId = candy.getItemId();
 		String candyType = CandyDatabase.getCandyType( itemId );
 
-		if ( candyType != CandyDatabase.SIMPLE && candyType != CandyDatabase.COMPLEX )
+		if ( candyType == CandyDatabase.NONE )
 		{
 			message.append( "Item '" );
 			message.append( candy.getName() );
 			message.append( "' has candy type " );
 			message.append( candyType );
 			KoLmafia.updateDisplay( message.toString() );
-			return false;
+			return;
 		}
 
 		int count = InventoryManager.getAccessibleCount( candy );
@@ -116,7 +211,6 @@ public class SynthesizeCommand
 		}
 
 		KoLmafia.updateDisplay( message.toString() );
-		return true;
 	}
 
 	@Override
@@ -130,6 +224,7 @@ public class SynthesizeCommand
 			return;
 		}
 
+		Effect effect = null;
 		AdventureResult candy1 = null;
 		AdventureResult candy2 = null;
 
@@ -157,12 +252,22 @@ public class SynthesizeCommand
 				return;
 			}
 
+			int effectId = CandyDatabase.synthesisResult( candy1.getItemId(), candy2.getItemId() );
+			if ( effectId == -1 )
+			{
+				KoLmafia.updateDisplay( "Unknown result from synthesizing those two candies" );
+				// Allow the attempt. For science!
+			}
+			else
+			{
+				effect = SynthesizeCommand.findEffectByEffectId( effectId );
+			}
 		}
 		else
 		{
 			// Effect
 
-			List<String> matchingEffects = EffectDatabase.getMatchingNames( parameters.trim() );
+			List<String> matchingEffects = StringUtilities.getMatchingNames( CANONICAL_EFFECT_NAMES, parameters.trim() );
 			if ( matchingEffects.isEmpty() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Unknown effect: " + parameters );
@@ -176,9 +281,9 @@ public class SynthesizeCommand
 				return;
 			}
 
-			int effectId = EffectDatabase.getEffectId( matchingEffects.get( 0 ) );
+			effect = SynthesizeCommand.findEffectByCanonicalName( matchingEffects.get( 0 ) );
 
-			Candy [] pair = CandyDatabase.synthesisPair( effectId );
+			Candy [] pair = CandyDatabase.synthesisPair( effect.effectId );
 			if ( pair.length == 0 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Can't find a pair of candies for that effect" );
@@ -196,23 +301,24 @@ public class SynthesizeCommand
 		{
 			updatePrices( candy1, candy2 );
 
-			boolean valid = false;
+			analyzeCandy( candy1 );
+			analyzeCandy( candy2 );
 
-			valid |= analyzeCandy( candy1 );
-			valid |= analyzeCandy( candy2 );
-
-			if ( !valid )
+			StringBuilder message = new StringBuilder();
+			message.append( "Synthesizing those two candies will give you 30 turns of " );
+			if ( effect != null )
 			{
-				return;
+				message.append( effect.name );
+				message.append( " (" );
+				message.append( effect.description );
+				message.append( ")" );
+			}
+			else
+			{
+				message.append( "an unknown effect" );
 			}
 
-			int effectId = CandyDatabase.synthesisResult( itemId1, itemId2 );
-			if ( effectId != -1 )
-			{
-				String effectName = EffectDatabase.getEffectName( effectId );
-				KoLmafia.updateDisplay( "Synthesizing those two candies will give you 30 turns of " + effectName );
-			}
-
+			KoLmafia.updateDisplay( message.toString() );
 			return;
 		}
 
