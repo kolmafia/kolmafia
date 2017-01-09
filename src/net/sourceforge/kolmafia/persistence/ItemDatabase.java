@@ -507,9 +507,6 @@ public class ItemDatabase
 			}
 		}
 
-		// Rather than doing it repeatedly as we add candies
-		CandyDatabase.saveCanonicalNames();
-
 		try
 		{
 			reader.close();

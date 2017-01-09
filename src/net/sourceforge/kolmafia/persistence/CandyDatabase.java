@@ -55,8 +55,6 @@ public class CandyDatabase
 	public static Set<Integer> tier2Candy = new HashSet<Integer>();	// Simple and Complex
 	public static Set<Integer> tier3Candy = new HashSet<Integer>();	// Complex
 
-	public static String [] canonicalNames = new String[0];
-
 	public static final String NONE = "none";
 	public static final String UNSPADED = "unspaded";
 	public static final String SIMPLE = "simple";
@@ -87,27 +85,6 @@ public class CandyDatabase
 		{
 			return;
 		}
-
-		// We could add to the canonical name array, but it is more
-		// efficient to do it after all the candies are registered
-	}
-
-	public static final void saveCanonicalNames()
-	{
-		String[] newArray = new String[ CandyDatabase.tier0Candy.size() + CandyDatabase.tier2Candy.size() ];
-
-		int i = 0;
-		for ( Integer itemId : CandyDatabase.tier0Candy )
-		{
-			newArray[ i++ ] = ItemDatabase.getCanonicalName( itemId );
-		}
-		for ( Integer itemId : CandyDatabase.tier2Candy )
-		{
-			newArray[ i++ ] = ItemDatabase.getCanonicalName( itemId );
-		}
-
-		Arrays.sort( newArray );
-		CandyDatabase.canonicalNames = newArray;
 	}
 
 	public static final String getCandyType( final int itemId )
@@ -348,8 +325,8 @@ public class CandyDatabase
 	// either cheap (aftercore) or available (in-run) using the provided
 	// Comparators to sort Candy lists appropriately
 
-	// Use MALL_PRICE_COMPARATOR in aftercore
-	// Use INVERSE_COUNT_COMPARATOR in-run
+	// Use ASCENDING_MALL_PRICE_COMPARATOR in aftercore
+	// Use DESCENDING_COUNT_COMPARATOR in-run
 
 	// Pseudo-price for a non-tradeable item
 	public static final int NON_TRADEABLE_PRICE = 999999999;
@@ -465,7 +442,7 @@ public class CandyDatabase
 		}
 	}
 
-	public static final Comparator<Candy> MALL_PRICE_COMPARATOR = new MallPriceComparator();
+	public static final Comparator<Candy> ASCENDING_MALL_PRICE_COMPARATOR = new MallPriceComparator();
 
 	// Compare by largest quantity, then alphabetically
 	private static class InverseCountComparator
@@ -483,7 +460,7 @@ public class CandyDatabase
 		}
 	}
 
-	public static final Comparator<Candy> INVERSE_COUNT_COMPARATOR = new InverseCountComparator();
+	public static final Comparator<Candy> DESCENDING_COUNT_COMPARATOR = new InverseCountComparator();
 
 	private static final Candy[] NO_PAIR = new Candy[0];
 
@@ -505,7 +482,7 @@ public class CandyDatabase
 		int tier = CandyDatabase.getEffectTier( effectId );
 
 		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
-		Collections.sort( candy1List, INVERSE_COUNT_COMPARATOR );
+		Collections.sort( candy1List, DESCENDING_COUNT_COMPARATOR );
 
 		for ( Candy candy : candy1List )
 		{
@@ -517,7 +494,7 @@ public class CandyDatabase
 
 			int itemId = candy.getItemId();
 			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
-			Collections.sort( candy2List, INVERSE_COUNT_COMPARATOR );
+			Collections.sort( candy2List, DESCENDING_COUNT_COMPARATOR );
 
 			for ( Candy pairing : candy2List )
 			{
@@ -553,7 +530,7 @@ public class CandyDatabase
 		Candy candy2 = null;
 
 		List<Candy> candy1List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.candyForTier( tier, flags ) );
-		Collections.sort( candy1List, MALL_PRICE_COMPARATOR );
+		Collections.sort( candy1List, ASCENDING_MALL_PRICE_COMPARATOR );
 
 		for ( Candy candy : candy1List )
 		{
@@ -565,7 +542,7 @@ public class CandyDatabase
 
 			int itemId = candy.getItemId();
 			List<Candy> candy2List = CandyDatabase.itemIdSetToCandyList( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ) );
-			Collections.sort( candy2List, MALL_PRICE_COMPARATOR );
+			Collections.sort( candy2List, ASCENDING_MALL_PRICE_COMPARATOR );
 
 			for ( Candy pairing : candy2List )
 			{
