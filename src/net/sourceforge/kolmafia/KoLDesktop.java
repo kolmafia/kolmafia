@@ -394,7 +394,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new RelayBrowserButton( "Radio KoL", "radsword.gif", "http://209.9.238.5:8794/listen.pls" ) );
+		toolbarPanel.add( new RelayBrowserButton( "Radio KoL", "radsword.gif", "http://radio-kol.net/64/" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 
