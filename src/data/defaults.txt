@@ -1318,6 +1318,7 @@ user	_holoWristDrops	0
 user	_holoWristProgress	0
 user	_hotAirportToday	false
 user	_hotAshesDrops	0
+user	_hotJellyUses	0
 user	_hotTubSoaks	0
 user	_hungerSauceUsed	false
 user	_hyperinflatedSealLungUsed	false
