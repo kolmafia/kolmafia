@@ -86,20 +86,19 @@ public class ArrayValue
 		{
 			array[ index ] = val.toStringValue();
 		}
-		else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
-			DataTypes.TYPE_FLOAT ) )
+		else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) &&
+			  val.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			array[ index ] = val.toIntValue();
 		}
-		else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
-			DataTypes.TYPE_INT ) )
+		else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) &&
+			  val.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			array[ index ] = val.toFloatValue();
 		}
 		else
 		{
-			throw interpreter.runtimeException(
-				"Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
 		}
 	}
 
@@ -167,5 +166,16 @@ public class ArrayValue
 		}
 
 		return obj;
+	}
+
+	@Override
+	public Value execute( final Interpreter interpreter )
+	{
+		Value[] content = (Value[]) this.content;
+		for ( int i = 0; i < content.length; i++ )
+		{
+			content[i] = content[i].execute( interpreter );
+		}
+		return this;
 	}
 }
