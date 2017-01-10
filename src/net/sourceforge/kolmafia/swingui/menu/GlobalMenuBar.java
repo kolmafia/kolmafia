@@ -106,6 +106,7 @@ public class GlobalMenuBar
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Coin Masters", "CoinmastersFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Museum Display", "MuseumFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Trophy Arranger", "TrophyFrame" ) );
 
@@ -137,6 +138,9 @@ public class GlobalMenuBar
 		peopleMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
+		peopleMenu.add( new RelayBrowserMenuItem( "Radio KoL", "http://radio-kol.net/64/" ) );
+
+		peopleMenu.add( new JSeparator() );
 		peopleMenu.add( new DisplayFrameMenuItem( "Request a Fax", "FaxRequestFrame" ) );
 
 		// Add in common tasks menu
@@ -153,11 +157,12 @@ public class GlobalMenuBar
 		travelMenu.add( new MonsterLevelMenuItem() );
 		travelMenu.add( new UntinkerMenuItem() );
 		travelMenu.add( new WandZapMenuItem() );
+
 		travelMenu.add( new JSeparator() );
+
 		travelMenu.add( new LootHermitMenuItem() );
 		travelMenu.add( new LootTrapperMenuItem() );
 		travelMenu.add( new LootHunterMenuItem() );
-		travelMenu.add( new DisplayFrameMenuItem( "Visit Coin Masters", "CoinmastersFrame" ) );
 
 		// Add in automatic quest completion scripts.
 
@@ -216,18 +221,15 @@ public class GlobalMenuBar
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new RelayBrowserMenuItem(
-			"KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=186011" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=186011" ) );
 		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Forums", "http://kolmafia.us/" ) );
 		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Wiki", "http://wiki.kolmafia.us/index.php?title=Main_Page" ) );
 		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia FAQ", "http://wiki.kolmafia.us/index.php?title=Help:Frequently_Asked_Questions" ) );
-		helperMenu.add( new RelayBrowserMenuItem(
-			"Unofficial Guide", "http://wiki.kolmafia.us/index.php?title=KoLmafia_Guide" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "Unofficial Guide", "http://wiki.kolmafia.us/index.php?title=KoLmafia_Guide" ) );
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new RelayBrowserMenuItem(
-			"The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFogManager.class, "showGemelliMap" ) );
 		helperMenu.add( new InvocationMenuItem( "Wumpinator", WumpusManager.class, "invokeWumpinator" ) );
 	}
