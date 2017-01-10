@@ -204,7 +204,7 @@ public class SpleenItemRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "That item isn't usable in quantity" ) != -1 )
+		if ( responseText.contains( "That item isn't usable in quantity" ) )
 		{
 			int attrs = ItemDatabase.getAttributes( item.getItemId() );
 			if ( ( attrs & ItemDatabase.ATTR_MULTIPLE ) == 0 )
@@ -221,7 +221,7 @@ public class SpleenItemRequest
 		int count = item.getCount();
 		int spleenUse = spleenHit * count;
 
-		if ( responseText.indexOf( "rupture" ) != -1 )
+		if ( responseText.contains( "rupture" ) )
 		{
 			UseItemRequest.lastUpdate = "Your spleen might go kablooie.";
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
@@ -265,11 +265,22 @@ public class SpleenItemRequest
 		switch ( item.getItemId() )
 		{
 		case ItemPool.STEEL_SPLEEN:
-			if ( responseText.indexOf( "You acquire a skill" ) != -1 )
+			if ( responseText.contains( "You acquire a skill" ) )
 			{
 				ResponseTextParser.learnSkill( "Spleen of Steel" );
 			}
-			return;
+			break;
+
+		case ItemPool.TURKEY_BLASTER:
+			if ( responseText.contains( "can't handle" ) )
+			{
+				Preferences.setInteger( "_turkeyBlastersUsed", 3 );
+			}
+			else
+			{
+				Preferences.increment( "_turkeyBlastersUsed" );
+			}
+			break;
 		}
 	}
 
