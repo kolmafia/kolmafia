@@ -34,6 +34,8 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -46,20 +48,20 @@ public class MapValue
 	public MapValue( final AggregateType type )
 	{
 		super( type );
-		this.content = new TreeMap();
+		this.content = new TreeMap<Value,Value>();
 	}
 
 	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
-		TreeMap map = (TreeMap) this.content;
-		return (Value) map.get( key );
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		return map.get( key );
 	}
 
 	@Override
 	public void aset( final Value key, Value val, final Interpreter interpreter )
 	{
-		TreeMap map = (TreeMap) this.content;
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
 
 		if ( !this.getDataType().equals( val.getType() ) )
 		{
@@ -114,35 +116,35 @@ public class MapValue
 			return rv;
 		}
 		
-		TreeMap map = (TreeMap) this.content;
-		return (Value) map.remove( key );
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
+		return map.remove( key );
 	}
 
 	@Override
 	public void clear()
 	{
-		TreeMap map = (TreeMap) this.content;
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
 		map.clear();
 	}
 
 	@Override
 	public int count()
 	{
-		TreeMap map = (TreeMap) this.content;
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
 		return map.size();
 	}
 
 	@Override
 	public boolean contains( final Value key )
 	{
-		TreeMap map = (TreeMap) this.content;
+		Map<Value,Value> map = (Map<Value,Value>) this.content;
 		return map.containsKey( key );
 	}
 
 	@Override
 	public Value[] keys()
 	{
-		Set set = ( (TreeMap) this.content ).keySet();
+		Set set = ( (Map<Value,Value>) this.content ).keySet();
 		Value[] keys = new Value[ set.size() ];
 		set.toArray( keys );
 		return keys;
@@ -151,7 +153,18 @@ public class MapValue
 	@Override
 	public Iterator iterator()
 	{
-		Set set = ( (TreeMap) this.content ).keySet();
+		Set set = ( (Map<Value,Value>) this.content ).keySet();
 		return set.iterator();
+	}
+
+	@Override
+	public Value execute( final Interpreter interpreter )
+	{
+		Set<Entry<Value, Value>> set = ( (Map<Value, Value>) this.content ).entrySet();
+		for ( Entry<Value, Value> entry : set )
+		{
+			entry.setValue( entry.getValue().execute( interpreter ) );
+		}
+		return this;
 	}
 }
