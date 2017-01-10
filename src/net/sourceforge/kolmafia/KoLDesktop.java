@@ -374,7 +374,6 @@ public class KoLDesktop
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new RelayBrowserButton( "Read KoLmail", "mail.gif", "game.php?mainpane=messages" ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoLmafia Chat", "chat.gif", "ChatManager" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 
@@ -389,13 +388,12 @@ public class KoLDesktop
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
 		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Modifier Maximizer", "uparrow.gif", "MaximizerFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Sweet Synthesis", "allyearsucker.gif", "SynthesizeFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", "MushroomFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
 
-		toolbarPanel.add( new RelayBrowserButton( "Radio KoL", "radsword.gif", "http://radio-kol.net/64/" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Farmer's Almanac", "calendar.gif", "CalendarFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
