@@ -5704,17 +5704,6 @@ public class UseItemRequest
 			}
 			break;
 
-		case ItemPool.TURKEY_BLASTER:
-			if ( responseText.contains( "can't handle" ) )
-			{
-				Preferences.setInteger( "_turkeyBlastersUsed", 3 );
-			}
-			else
-			{
-				Preferences.increment( "_turkeyBlastersUsed" );
-			}
-			break;
-
 		case ItemPool.BROKEN_CHOCOLATE_POCKETWATCH:
 			// Using your candy screwdriver and your spare gingerbread parts, you manage to repair the pocketwatch
 			if ( !responseText.contains( "manage to repair" ) )
