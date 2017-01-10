@@ -2731,6 +2731,11 @@ public class ItemPool
 	public static final int NO_HAT = 9270;
 	public static final int NEGATIVE_LUMP = 9272;
 	public static final int LUMP_STACKING_BOOK = 9285;
+	public static final int HOT_JELLY = 9291;
+	public static final int COLD_JELLY = 9292;
+	public static final int SPOOKY_JELLY = 9293;
+	public static final int SLEAZE_JELLY = 9294;
+	public static final int STENCH_JELLY = 9295;
 	public static final int WAX_GLOB = 9310;
 
 	public static final AdventureResult get( String itemName, int count )
