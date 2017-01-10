@@ -389,7 +389,7 @@ public class KoLDesktop
 
 		toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Modifier Maximizer", "uparrow.gif", "MaximizerFrame" ) );
-		toolbarPanel.add( new DisplayFrameButton( "Sweet Synthesis", "allyearsucker.gif", "SynthesizeFrame" ) );
+		toolbarPanel.add( new DisplayFrameButton( "Sweet Synthesis", "candypile.gif", "SynthesizeFrame" ) );
 		toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
 
 		toolbarPanel.add( Box.createHorizontalStrut( 10 ) );
