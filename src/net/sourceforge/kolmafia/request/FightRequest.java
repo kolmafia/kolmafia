@@ -7718,6 +7718,14 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.BREATHE_OUT:
+			if ( responseText.contains( "residual hot jelly heat" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "breathe out" );
+				Preferences.decrement( "_hotJellyUses" );
+			}
+			break;
+
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:

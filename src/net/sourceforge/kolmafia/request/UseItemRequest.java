@@ -5724,6 +5724,10 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.SPARE_CHOCOLATE_PARTS, -1 );
 			break;
 
+		case ItemPool.HOT_JELLY:
+			Preferences.increment( "_hotJellyUses", count );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
