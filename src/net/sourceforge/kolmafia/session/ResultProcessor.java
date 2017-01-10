@@ -3082,6 +3082,17 @@ public class ResultProcessor
 				Preferences.setString( "_noHatModifier", mod );
 			}
 			break;
+
+		case ItemPool.HOT_JELLY:
+		case ItemPool.COLD_JELLY:
+		case ItemPool.SPOOKY_JELLY:
+		case ItemPool.SLEAZE_JELLY:
+		case ItemPool.STENCH_JELLY:
+			if ( combatResults )
+			{
+				Preferences.increment( "_spaceJellyfishDrops" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
