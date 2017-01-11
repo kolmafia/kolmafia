@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -505,6 +506,30 @@ public class Maximizer
 						}
 						else continue;
 					}
+				}
+				else if ( cmd.startsWith( "synthesize " ) )
+				{
+					// You must know the skill
+					if ( !KoLCharacter.hasSkill( "Sweet Synthesis" ) )
+					{
+						if ( includeAll )
+						{
+							text = "(learn the Sweet Synthesis skill)";
+							cmd = "";
+						}
+						else continue;
+					}
+					// You must have a spleen available
+					if ( KoLCharacter.getSpleenUse() >= KoLCharacter.getSpleenLimit() )
+					{
+						cmd = "";
+					}
+					// You must have (or be able to get) a suitable pair of candies
+					if ( CandyDatabase.synthesisPair( effectId ) == CandyDatabase.NO_PAIR )
+					{
+						cmd = "";
+					}
+					duration = 30;
 				}
 				else if ( cmd.startsWith( "friars " ) )
 				{
