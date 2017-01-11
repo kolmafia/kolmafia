@@ -37,10 +37,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 
-public class LoadScriptButton extends ThreadedButton {
+public class LoadScriptButton
+	extends ThreadedButton
+{
 
-	public LoadScriptButton( final int scriptId, final String scriptPath ) {
-
+	public LoadScriptButton( final int scriptId, final String scriptPath )
+	{
 		super( String.valueOf( scriptId ), new LoadScriptRunnable( scriptPath ) );
 
 		this.setToolTipText( scriptPath );

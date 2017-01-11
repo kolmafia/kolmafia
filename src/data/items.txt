@@ -1516,7 +1516,7 @@
 1491	rice bowl	777734706	ricebowl.gif	offhand	t,d	110
 1492	ninja mop	548791558	mop.gif	weapon	t,d	112
 1493	ridiculously overelaborate ninja weapon	519057602	ninjaweap.gif	weapon	t,d	120
-1494	sugar-coated pine cone	274334119	pinecone.gif	multiple, candy1	t,d	10
+1494	sugar-coated pine cone	274334119	pinecone.gif	multiple, candy2	t,d	10
 1495	blue traffic cone	219278794	cone.gif	hat	d	100
 1496	gloomy mushroom wine	823384974	wine.gif	drink	t,d	90	bottles of gloomy mushroom wine
 1497	oily mushroom wine	585493054	wine.gif	drink	t,d	90	bottles of oily mushroom wine
