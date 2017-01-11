@@ -90,6 +90,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -562,34 +564,86 @@ public abstract class GenericFrame
 
 	public void addScriptPane()
 	{
-		int scriptButtons = Preferences.getInteger( "scriptButtonPosition" );
-		String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
+		int scriptButtonPosition = Preferences.getInteger( "scriptButtonPosition" );
+		String scriptList = Preferences.getString( "scriptList" ).trim();
 
-		if ( scriptButtons == 0 || scriptList.length == 0 )
+		if ( scriptButtonPosition == 0 )
 		{
 			return;
 		}
 
-		JToolBar scriptBar;
-
-		if ( scriptButtons == 1 )
+		// Scripts are added to existing toolbar
+		if ( scriptButtonPosition == 1  && scriptList.length() > 0 )
 		{
-			scriptBar = this.getToolbar();
-		}
-		else
-		{
-			scriptBar = new JToolBar( SwingConstants.VERTICAL );
-			scriptBar.setFloatable( false );
-		}
-
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			scriptBar.add( new LoadScriptButton( i + 1, scriptList[ i ] ) );
+			JToolBar toolBar = this.getToolbar();
+			int index = 1;
+			for ( String script : scriptList.split( " *\\| *" ) )
+			{
+				if ( !script.equals( "" ) )
+				{
+					toolBar.add( new LoadScriptButton( index++, script ) );
+				}
+			}
+			return;
 		}
 
-		if ( scriptButtons == 2 )
+		// Scripts are added to a new panel on right
+		// You are allowed to have zero buttons in it.
+		if ( scriptButtonPosition == 2 )
 		{
+			ScriptBar scriptBar = new ScriptBar( scriptList );
 			this.framePanel.add( scriptBar, BorderLayout.EAST );
+		}
+	}
+
+	private class ScriptBar
+		extends JToolBar
+		implements Listener
+	{
+		private String scriptList = "";
+
+		public ScriptBar( final String scriptList )
+		{
+			super( SwingConstants.VERTICAL );
+			this.setFloatable( false );
+
+			PreferenceListenerRegistry.registerPreferenceListener( "scriptList", this );
+
+			this.update( scriptList );
+		}
+
+		public void update()
+		{
+			this.update( Preferences.getString( "scriptList" ) );
+		}
+
+		public void update( String scriptList )
+		{
+			scriptList = scriptList.trim();
+
+			// If scripts have not changed, leave the buttons alone
+			if ( !this.scriptList.equals( scriptList ) )
+			{
+				// Remove all current script buttons
+				this.removeAll();
+
+				// Create new script buttons for current script list
+				String[] scripts = scriptList.split( " *\\| *" );
+				int index = 1;
+				for ( String script : scripts )
+				{
+					if ( !script.equals( "" ) )
+					{
+						this.add( new LoadScriptButton( index++, script ) );
+					}
+				}
+
+				this.revalidate();
+				this.repaint();
+
+				// Save current scriptList
+				this.scriptList = scriptList;
+			}
 		}
 	}
 
