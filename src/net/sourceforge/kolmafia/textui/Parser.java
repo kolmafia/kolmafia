@@ -546,9 +546,7 @@ public class Parser
 
 			if ( (t instanceof AggregateType) && "{".equals( this.currentToken() ) )
 			{
-
-				this.readToken();
-
+				this.readToken(); // read {
 				result.addCommand( this.parseAggregateLiteral( result, (AggregateType) t ), this );
 			}
 			else {
@@ -858,6 +856,11 @@ public class Parser
 					"Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
 			}
 		}
+		else if ( this.currentToken().equals( "{" ) && t instanceof AggregateType )
+		{
+			this.readToken(); // read {
+			rhs = this.parseAggregateLiteral( scope, (AggregateType) t );
+		}
 		else
 		{
 			rhs = null;
@@ -1087,8 +1090,17 @@ public class Parser
 			{
 				throw this.parseException( "Script parsing error" );
 			}
-			this.readToken();
-			Value rhs = this.parseValue( scope );
+			this.readToken(); // read :
+			Value rhs;
+			if ( this.currentToken().equals( "{" ) && data instanceof AggregateType )
+			{
+				this.readToken(); // read {
+				rhs = parseAggregateLiteral( scope, (AggregateType) data );
+			}
+			else
+			{
+				rhs = this.parseValue( scope );
+			}
 			if ( rhs == null )
 			{
 				throw this.parseException( "Script parsing error" );
@@ -3067,8 +3079,8 @@ public class Parser
 		{
 			;
 		}
-
-		else {
+		else
+		{
 			Type baseType = this.parseType( scope, true, false );
 			if ( baseType instanceof AggregateType )
 			{
