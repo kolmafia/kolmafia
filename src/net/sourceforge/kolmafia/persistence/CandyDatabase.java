@@ -462,7 +462,7 @@ public class CandyDatabase
 
 	public static final Comparator<Candy> DESCENDING_COUNT_COMPARATOR = new InverseCountComparator();
 
-	private static final Candy[] NO_PAIR = new Candy[0];
+	public static final Candy[] NO_PAIR = new Candy[0];
 
 	public static Candy[] synthesisPair( final int effectId )
 	{
