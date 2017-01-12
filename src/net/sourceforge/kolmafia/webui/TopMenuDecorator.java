@@ -149,7 +149,7 @@ public abstract class TopMenuDecorator
 		buffer.append( "<form name=\"gcli\">" );
 
 		buffer.append( "<select id=\"scriptbar\">" );
-		String[] scriptList = Preferences.getString( "scriptList" ).split( " *\\| *" );
+		String[] scriptList = Preferences.getString( "scriptList" ).split( " +\\| +" );
 		for ( int i = 0; i < scriptList.length; ++i )
 		{
 			buffer.append( "<option value=\"" );

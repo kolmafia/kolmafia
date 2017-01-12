@@ -510,7 +510,7 @@ public class OptionsFrame
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			String[] scriptList = Preferences.getString( "scriptList" ).split( " *\\| *" );
+			String[] scriptList = Preferences.getString( "scriptList" ).split( " +\\| +" );
 
 			for ( String script : scriptList )
 			{
@@ -620,7 +620,7 @@ public class OptionsFrame
 		public MaximizerStringsPanel()
 		{
 			super( "Modifier Maximizer Strings", new LockableListModel() );
-			String[] scriptList = Preferences.getString( "maximizerList" ).split( " *\\| *" );
+			String[] scriptList = Preferences.getString( "maximizerList" ).split( " +\\| +" );
 
 			for ( String script : scriptList )
 			{
