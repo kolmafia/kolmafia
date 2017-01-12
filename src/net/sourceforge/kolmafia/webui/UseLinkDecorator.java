@@ -958,6 +958,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.MAYO_MINDER:
 			case ItemPool.NO_SPOON:
 			case ItemPool.TIME_SPINNER:
+			case ItemPool.WAX_GLOB:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

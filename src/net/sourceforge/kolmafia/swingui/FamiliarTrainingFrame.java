@@ -53,11 +53,11 @@ import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -563,19 +563,32 @@ public class FamiliarTrainingFrame
 			private class SaveListener
 				extends ThreadedListener
 			{
+				File output = null;
+
 				@Override
 				protected void execute()
 				{
-					JFileChooser chooser = new JFileChooser( "data" );
-					chooser.showSaveDialog( FamiliarTrainingFrame.this );
+					this.output = null;
 
-					File output = chooser.getSelectedFile();
+					try
+					{
+						SwingUtilities.invokeAndWait( new Runnable()
+						{
+							public void run()
+							{
+								SaveListener.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.DATA_LOCATION, FamiliarTrainingFrame.this );
+							}
+						} );
+					}
+					catch ( Exception ie )
+					{
+					}
 
 					if ( output == null )
 					{
 						return;
 					}
-
+	
 					try
 					{
 						PrintStream ostream = LogStream.openStream( output, false );
