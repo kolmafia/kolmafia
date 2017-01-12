@@ -1703,8 +1703,7 @@ public class OptionsFrame
 
 			this.scripts = new JComboBox();
 			this.scripts.addItem( "Do not show script bar on main interface" );
-			this.scripts.addItem( "Put script bar after normal toolbar" );
-			this.scripts.addItem( "Put script bar along right of panel" );
+			this.scripts.addItem( "Show script bar along right of panel" );
 
 			VerifiableElement[] elements = new VerifiableElement[ 3 ];
 
@@ -1765,7 +1764,7 @@ public class OptionsFrame
 			}
 
 			this.toolbars.setSelectedIndex( Preferences.getInteger( "toolbarPosition" ) );
-			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) );
+			this.scripts.setSelectedIndex( Preferences.getInteger( "scriptButtonPosition" ) == 0 ? 0 : 1 );
 		}
 
 		private class InterfaceCheckboxPanel
