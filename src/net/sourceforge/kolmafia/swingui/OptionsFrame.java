@@ -57,6 +57,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -518,45 +519,44 @@ public class OptionsFrame
 			}
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
-			extraButtons.add( new ThreadedButton( "script file", new AddScriptRunnable() ), BorderLayout.NORTH );
+
+			JButton addScriptButton = new JButton( "script file" );
+			addScriptButton.addActionListener( new AddScriptListener() );
+			extraButtons.add( addScriptButton, BorderLayout.NORTH );
+
 			extraButtons.add( new ThreadedButton( "cli command", new AddCommandRunnable() ), BorderLayout.CENTER );
 			extraButtons.add( new ThreadedButton( "delete", new DeleteListingRunnable() ), BorderLayout.SOUTH );
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
-		private class AddScriptRunnable
-			implements Runnable
+		private class AddScriptListener
+			implements ActionListener
 		{
-			public void run()
+			public void actionPerformed( final ActionEvent e )
 			{
 				try
 				{
 					String rootPath = KoLConstants.SCRIPT_LOCATION.getCanonicalPath();
-
 					JFileChooser chooser = new JFileChooser( rootPath );
 					int returnVal = chooser.showOpenDialog( null );
 
-					if ( chooser.getSelectedFile() == null )
+					if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
 					{
 						return;
 					}
 
-					if ( returnVal == JFileChooser.APPROVE_OPTION )
+					String scriptPath = chooser.getSelectedFile().getCanonicalPath();
+					if ( scriptPath.startsWith( rootPath ) )
 					{
-						String scriptPath = chooser.getSelectedFile().getCanonicalPath();
-						if ( scriptPath.startsWith( rootPath ) )
-						{
-							scriptPath = scriptPath.substring( rootPath.length() + 1 );
-						}
-
-						ScriptButtonPanel.this.list.add( "call " + scriptPath );
+						scriptPath = scriptPath.substring( rootPath.length() + 1 );
 					}
+
+					ScriptButtonPanel.this.list.add( "call " + scriptPath );
+					ScriptButtonPanel.this.saveSettings();
 				}
-				catch ( IOException e )
+				catch ( IOException ioe )
 				{
 				}
-
-				ScriptButtonPanel.this.saveSettings();
 			}
 		}
 
