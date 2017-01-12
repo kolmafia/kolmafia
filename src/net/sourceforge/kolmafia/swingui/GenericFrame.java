@@ -567,33 +567,10 @@ public abstract class GenericFrame
 		int scriptButtonPosition = Preferences.getInteger( "scriptButtonPosition" );
 		String scriptList = Preferences.getString( "scriptList" ).trim();
 
-		if ( scriptButtonPosition == 0 )
-		{
-			return;
-		}
-
-		// Scripts are added to existing toolbar
-		if ( scriptButtonPosition == 1  && scriptList.length() > 0 )
-		{
-			JToolBar toolBar = this.getToolbar();
-			int index = 1;
-			for ( String script : scriptList.split( " *\\| *" ) )
-			{
-				if ( !script.equals( "" ) )
-				{
-					toolBar.add( new LoadScriptButton( index++, script ) );
-				}
-			}
-			return;
-		}
-
 		// Scripts are added to a new panel on right
 		// You are allowed to have zero buttons in it.
-		if ( scriptButtonPosition == 2 )
-		{
-			ScriptBar scriptBar = new ScriptBar( scriptList );
-			this.framePanel.add( scriptBar, BorderLayout.EAST );
-		}
+		ScriptBar scriptBar = new ScriptBar( scriptList, scriptButtonPosition );
+		this.framePanel.add( scriptBar, BorderLayout.EAST );
 	}
 
 	private class ScriptBar
@@ -601,49 +578,72 @@ public abstract class GenericFrame
 		implements Listener
 	{
 		private String scriptList = "";
+		private boolean showScriptList = false;
 
-		public ScriptBar( final String scriptList )
+		public ScriptBar( final String scriptList, final int scriptButtonPosition )
 		{
 			super( SwingConstants.VERTICAL );
 			this.setFloatable( false );
 
 			PreferenceListenerRegistry.registerPreferenceListener( "scriptList", this );
+			PreferenceListenerRegistry.registerPreferenceListener( "scriptButtonPosition", this );
 
-			this.update( scriptList );
+			this.update( scriptList, scriptButtonPosition );
 		}
 
 		public void update()
 		{
-			this.update( Preferences.getString( "scriptList" ) );
+			this.update( Preferences.getString( "scriptList" ), Preferences.getInteger( "scriptButtonPosition" ) );
 		}
 
-		public void update( String scriptList )
+		public void update( String scriptList, final int scriptButtonPosition )
 		{
 			scriptList = scriptList.trim();
 
-			// If scripts have not changed, leave the buttons alone
-			if ( !this.scriptList.equals( scriptList ) )
+			if ( scriptButtonPosition == 0 )
 			{
-				// Remove all current script buttons
-				this.removeAll();
-
-				// Create new script buttons for current script list
-				String[] scripts = scriptList.split( " *\\| *" );
-				int index = 1;
-				for ( String script : scripts )
+				// We are not showing script buttons
+				if ( !this.scriptList.equals( "" ) )
 				{
-					if ( !script.equals( "" ) )
-					{
-						this.add( new LoadScriptButton( index++, script ) );
-					}
+					this.removeAll();
+					this.revalidate();
+					this.repaint();
 				}
-
-				this.revalidate();
-				this.repaint();
-
-				// Save current scriptList
 				this.scriptList = scriptList;
+				this.showScriptList = false;
+				return;
 			}
+
+			// We are showing scripts. If we previously were and
+			// they have not changed, nothing to do.
+			if ( this.showScriptList && this.scriptList.equals( scriptList ) )
+			{
+				return;
+			}
+
+			// We are showing scripts when we were not before, or
+			// scripts have changed. Update buttons.
+
+			// Remove all current script buttons
+			this.removeAll();
+
+			// Create new script buttons for current script list
+			String[] scripts = scriptList.split( " *\\| *" );
+			int index = 1;
+			for ( String script : scripts )
+			{
+				if ( !script.equals( "" ) )
+				{
+					this.add( new LoadScriptButton( index++, script ) );
+				}
+			}
+
+			this.revalidate();
+			this.repaint();
+
+			// Save current scriptList
+			this.showScriptList = true;
+			this.scriptList = scriptList;
 		}
 	}
 
