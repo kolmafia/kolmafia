@@ -59,6 +59,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowSorter;
 import javax.swing.SortOrder;
+import javax.swing.SwingUtilities;
 
 import javax.swing.border.TitledBorder;
 
@@ -264,15 +265,27 @@ public class SynthesizePanel
 			candy.update();
 		}
 
-		this.filterItems();
+		try
+		{
+			SwingUtilities.invokeAndWait( new Runnable()
+			{
+				public void run()
+				{
+					SynthesizePanel.this.filterItems();
 
-		// Since quantities might have changed, sort
-		Candy candy1 = this.candy1();
-		Candy candy2 = this.candy2();
-		this.candyList1.sortCandy( candy1 );
-		this.candyList2.sortCandy( candy2 );
+					// Since quantities might have changed, sort
+					Candy candy1 = SynthesizePanel.this.candy1();
+					Candy candy2 = SynthesizePanel.this.candy2();
+					SynthesizePanel.this.candyList1.sortCandy( candy1 );
+					SynthesizePanel.this.candyList2.sortCandy( candy2 );
 
-		this.candyData.update();
+					SynthesizePanel.this.candyData.update();
+				}
+				} );
+		}
+		catch ( Exception ie )
+		{
+		}
 	}
 
 	private class EffectPanel
