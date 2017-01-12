@@ -34,6 +34,9 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+
+import java.io.File;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +44,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -411,5 +415,49 @@ public class InputFieldUtilities
 			int col = table.getEditingColumn();
 			table.getCellEditor( row, col ).cancelCellEditing();
 		}
+	}
+
+	public static File chooseInputFile( final File path, Component parent )
+	{
+		JFileChooser chooser = new JFileChooser( path );
+		if ( chooser.showOpenDialog( parent ) != JFileChooser.APPROVE_OPTION )
+		{
+			return null;
+		}
+
+		return chooser.getSelectedFile();
+	}
+
+	public static File chooseInputFile( final String path, Component parent )
+	{
+		JFileChooser chooser = new JFileChooser( path );
+		if ( chooser.showOpenDialog( parent ) != JFileChooser.APPROVE_OPTION )
+		{
+			return null;
+		}
+
+		return chooser.getSelectedFile();
+	}
+
+	public static File chooseOutputFile( final File path, Component parent )
+	{
+		JFileChooser chooser = new JFileChooser( path );
+		if ( chooser.showSaveDialog( parent ) != JFileChooser.APPROVE_OPTION )
+		{
+			return null;
+		}
+
+		return chooser.getSelectedFile();
+	}
+
+	public static File chooseOutputFile( final String path, Component parent )
+	{
+		JFileChooser chooser = new JFileChooser( path );
+		if ( chooser.showSaveDialog( parent ) != JFileChooser.APPROVE_OPTION )
+		{
+			return null;
+		}
+
+		return chooser.getSelectedFile();
 	}
 }

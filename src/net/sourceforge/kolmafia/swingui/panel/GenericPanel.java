@@ -54,7 +54,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -73,6 +72,8 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public abstract class GenericPanel
 	extends ActionVerifyPanel
@@ -576,15 +577,13 @@ public abstract class GenericPanel
 			{
 				try
 				{
-					JFileChooser chooser = new JFileChooser( this.path.getCanonicalPath() );
-					chooser.showOpenDialog( null );
-
-					if ( chooser.getSelectedFile() == null )
+					File input = InputFieldUtilities.chooseInputFile( this.path, null );
+					if ( input == null )
 					{
 						return;
 					}
 
-					this.setText( chooser.getSelectedFile().getCanonicalPath() );
+					this.setText( input.getCanonicalPath() );
 				}
 				catch ( IOException e1 )
 				{

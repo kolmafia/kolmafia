@@ -63,7 +63,6 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -524,8 +523,14 @@ public class OptionsFrame
 			addScriptButton.addActionListener( new AddScriptListener() );
 			extraButtons.add( addScriptButton, BorderLayout.NORTH );
 
-			extraButtons.add( new ThreadedButton( "cli command", new AddCommandRunnable() ), BorderLayout.CENTER );
-			extraButtons.add( new ThreadedButton( "delete", new DeleteListingRunnable() ), BorderLayout.SOUTH );
+			JButton addCommandButton = new JButton( "cli command" );
+			addCommandButton.addActionListener( new AddCommandListener() );
+			extraButtons.add( addCommandButton, BorderLayout.CENTER );
+
+			JButton deleteListingButton = new JButton( "delete" );
+			deleteListingButton.addActionListener( new DeleteListingListener() );
+			extraButtons.add( deleteListingButton, BorderLayout.SOUTH );
+
 			this.buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
@@ -534,18 +539,16 @@ public class OptionsFrame
 		{
 			public void actionPerformed( final ActionEvent e )
 			{
+				File input = InputFieldUtilities.chooseInputFile( KoLConstants.SCRIPT_LOCATION, null );
+				if ( input == null )
+				{
+					return;
+				}
+
 				try
 				{
 					String rootPath = KoLConstants.SCRIPT_LOCATION.getCanonicalPath();
-					JFileChooser chooser = new JFileChooser( rootPath );
-					int returnVal = chooser.showOpenDialog( null );
-
-					if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
-					{
-						return;
-					}
-
-					String scriptPath = chooser.getSelectedFile().getCanonicalPath();
+					String scriptPath = input.getCanonicalPath();
 					if ( scriptPath.startsWith( rootPath ) )
 					{
 						scriptPath = scriptPath.substring( rootPath.length() + 1 );
@@ -560,25 +563,26 @@ public class OptionsFrame
 			}
 		}
 
-		private class AddCommandRunnable
-			implements Runnable
+		private class AddCommandListener
+			implements ActionListener
 		{
-			public void run()
+			public void actionPerformed( final ActionEvent e )
 			{
 				String currentValue = InputFieldUtilities.input( "Enter the desired CLI Command" );
-				if ( currentValue != null && currentValue.length() != 0 )
+				if ( currentValue == null || currentValue.length() == 0 )
 				{
-					ScriptButtonPanel.this.list.add( currentValue );
+					return;
 				}
 
+				ScriptButtonPanel.this.list.add( currentValue );
 				ScriptButtonPanel.this.saveSettings();
 			}
 		}
 
-		private class DeleteListingRunnable
-			implements Runnable
+		private class DeleteListingListener
+			implements ActionListener
 		{
-			public void run()
+			public void actionPerformed( final ActionEvent e )
 			{
 				int index = ScriptButtonPanel.this.elementList.getSelectedIndex();
 				if ( index == -1 )

@@ -46,12 +46,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import java.lang.InterruptedException;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -64,6 +66,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.MushroomManager;
 
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
 public class MushroomPlotPanel
@@ -148,13 +152,25 @@ public class MushroomPlotPanel
 		this.doingLayout = false;
 	}
 
+	private File output;
 	public void scriptLayout()
 	{
-		JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION );
-		int returnVal = chooser.showSaveDialog( this );
+		this.output = null;
 
-		File output = chooser.getSelectedFile();
-
+		try
+		{
+			SwingUtilities.invokeAndWait( new Runnable()
+			{
+				public void run()
+				{
+					MushroomPlotPanel.this.output = InputFieldUtilities.chooseOutputFile( KoLConstants.SCRIPT_LOCATION, MushroomPlotPanel.this );
+				}
+			} );
+		}
+		catch ( Exception ie )
+		{
+		}
+	
 		if ( output == null )
 		{
 			return;

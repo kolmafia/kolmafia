@@ -33,9 +33,10 @@
 
 package net.sourceforge.kolmafia.swingui.menu;
 
+import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JFileChooser;
+import javax.swing.SwingUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -43,6 +44,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
+
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 /**
  * In order to keep the user interface from freezing (or at least appearing to freeze), this internal class is used
@@ -66,6 +69,7 @@ public class LoadScriptMenuItem
 		extends ThreadedListener
 	{
 		private final String scriptPath;
+		private String executePath;
 
 		public LoadScriptListener( String scriptPath )
 		{
@@ -75,32 +79,38 @@ public class LoadScriptMenuItem
 		@Override
 		protected void execute()
 		{
-			String executePath = this.scriptPath;
+			this.executePath = this.scriptPath;
 
-			try
+			if ( this.scriptPath == null )
 			{
-				if ( this.scriptPath == null )
+				try
 				{
-					JFileChooser chooser = new JFileChooser( KoLConstants.SCRIPT_LOCATION.getCanonicalPath() );
-					int returnVal = chooser.showOpenDialog( null );
-
-					if ( chooser.getSelectedFile() == null )
+					SwingUtilities.invokeAndWait( new Runnable()
 					{
-						return;
-					}
+						public void run()
+						{
+							File input = InputFieldUtilities.chooseInputFile( KoLConstants.SCRIPT_LOCATION, null );
+							if ( input == null )
+							{
+								return;
+							}
 
-					if ( returnVal == JFileChooser.APPROVE_OPTION )
-					{
-						executePath = chooser.getSelectedFile().getCanonicalPath();
-					}
+							try
+							{
+								LoadScriptListener.this.executePath = input.getCanonicalPath();
+							}
+							catch ( IOException e )
+							{
+							}
+						}
+					} );
+				}
+				catch ( Exception e )
+				{
 				}
 			}
-			catch ( IOException e )
-			{
 
-			}
-
-			if ( executePath == null )
+			if ( this.executePath == null )
 			{
 				return;
 			}
@@ -109,11 +119,11 @@ public class LoadScriptMenuItem
 
 			if ( this.hasShiftModifier() )
 			{
-				CommandDisplayFrame.executeCommand( "edit " + executePath );
+				CommandDisplayFrame.executeCommand( "edit " + this.executePath );
 			}
 			else
 			{
-				CommandDisplayFrame.executeCommand( "call " + executePath );
+				CommandDisplayFrame.executeCommand( "call " + this.executePath );
 			}
 		}
 	}
