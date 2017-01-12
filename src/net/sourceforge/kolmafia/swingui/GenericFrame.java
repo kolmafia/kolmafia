@@ -628,7 +628,7 @@ public abstract class GenericFrame
 			this.removeAll();
 
 			// Create new script buttons for current script list
-			String[] scripts = scriptList.split( " *\\| *" );
+			String[] scripts = scriptList.split( " +\\| +" );
 			int index = 1;
 			for ( String script : scripts )
 			{
