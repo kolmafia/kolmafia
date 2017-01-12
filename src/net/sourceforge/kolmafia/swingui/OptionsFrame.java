@@ -510,11 +510,11 @@ public class OptionsFrame
 		public ScriptButtonPanel()
 		{
 			super( "gCLI Toolbar Buttons", new LockableListModel() );
-			String[] scriptList = Preferences.getString( "scriptList" ).split( " \\| " );
+			String[] scriptList = Preferences.getString( "scriptList" ).split( " *\\| *" );
 
-			for ( int i = 0; i < scriptList.length; ++i )
+			for ( String script : scriptList )
 			{
-				this.list.add( scriptList[ i ] );
+				this.list.add( script );
 			}
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
@@ -616,11 +616,11 @@ public class OptionsFrame
 		public MaximizerStringsPanel()
 		{
 			super( "Modifier Maximizer Strings", new LockableListModel() );
-			String[] scriptList = Preferences.getString( "maximizerList" ).split( " \\| " );
+			String[] scriptList = Preferences.getString( "maximizerList" ).split( " *\\| *" );
 
-			for ( int i = 0; i < scriptList.length; ++i )
+			for ( String script : scriptList )
 			{
-				this.list.add( scriptList[ i ] );
+				this.list.add( script );
 			}
 
 			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
