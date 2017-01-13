@@ -92,6 +92,8 @@ public abstract class StoreManager
 
 	private static int currentLogSort = StoreManager.RECENT_FIRST;
 	private static boolean sortItemsByName = false;
+
+	private final static long REALISTIC_PRICE_THRESHOLD = 50000000;
 	private static long potentialEarnings = 0;
 
 	private static final LockableListModel<StoreLogEntry> storeLog = new LockableListModel<StoreLogEntry>();
@@ -123,7 +125,11 @@ public abstract class StoreManager
 		long earnings = 0;
 		for ( SoldItem item : StoreManager.soldItemList )
 		{
-			earnings += (long)item.getQuantity() * (long)item.getPrice();
+			int price = item.getPrice();
+			if ( price < REALISTIC_PRICE_THRESHOLD )
+			{
+				earnings += (long)item.getQuantity() * (long)price;
+			}
 		}
 		StoreManager.potentialEarnings = earnings;
 		StoreManageFrame.updateEarnings( StoreManager.potentialEarnings );
@@ -137,7 +143,7 @@ public abstract class StoreManager
 	public static final SoldItem registerItem( final int itemId, final int quantity, final int price, final int limit,
 		final int lowest )
 	{
-		if ( price < 50000000 )
+		if ( price < REALISTIC_PRICE_THRESHOLD )
 		{
 			StoreManager.potentialEarnings += (long) price * (long) quantity;
 		}
