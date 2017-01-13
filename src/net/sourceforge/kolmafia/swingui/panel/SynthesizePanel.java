@@ -244,6 +244,7 @@ public class SynthesizePanel
 		this.priceCheckButton.setEnabled( !this.availableChecked );
 	}
 
+	// Invoke this in the Swing event thread
 	private void filterItems()
 	{
 		Candy candy1 = this.candy1();
@@ -265,6 +266,7 @@ public class SynthesizePanel
 			candy.update();
 		}
 
+		// Having updated the data, update the GUI
 		try
 		{
 			SwingUtilities.invokeAndWait( new Runnable()
@@ -281,7 +283,7 @@ public class SynthesizePanel
 
 					SynthesizePanel.this.candyData.update();
 				}
-				} );
+			} );
 		}
 		catch ( Exception ie )
 		{

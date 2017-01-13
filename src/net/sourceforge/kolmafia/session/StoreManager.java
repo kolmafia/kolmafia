@@ -113,9 +113,20 @@ public abstract class StoreManager
 		StoreManager.potentialEarnings = 0;
 	}
 
-	public static final long getPotentialEarnings()
+	public static long getPotentialEarnings()
 	{
 		return StoreManager.potentialEarnings;
+	}
+
+	public static void calculatePotentialEarnings()
+	{
+		long earnings = 0;
+		for ( SoldItem item : StoreManager.soldItemList )
+		{
+			earnings += (long)item.getQuantity() * (long)item.getPrice();
+		}
+		StoreManager.potentialEarnings = earnings;
+		StoreManageFrame.updateEarnings( StoreManager.potentialEarnings );
 	}
 
 	/**
@@ -1032,6 +1043,37 @@ public abstract class StoreManager
 		}
 	}
 
+	public static void updateItem( int itemId, int quantity, int price, int limit )
+	{
+		StoreManager.updateItem( ItemPool.get( itemId, quantity ), price, limit );
+
+		StoreManager.sortItemsByName = true;
+		Collections.sort( StoreManager.soldItemList );
+		StoreManager.sortItemsByName = false;
+		Collections.sort( StoreManager.sortedSoldItemList );
+	}
+
+	private static void updateItem( AdventureResult item, int price, int limit )
+	{
+		int itemId = item.getItemId();
+		int quantity = item.getCount();
+
+		SoldItem soldItem = new SoldItem( itemId, quantity, price, limit, 0);
+		int index = StoreManager.soldItemList.indexOf( soldItem );
+
+		if ( index < 0 )
+		{
+			StoreManager.soldItemList.add( soldItem );
+			StoreManager.sortedSoldItemList.add( soldItem );
+		}
+		else
+		{
+			int sortedIndex = StoreManager.sortedSoldItemList.indexOf( soldItem );
+			StoreManager.soldItemList.set( index, soldItem );
+			StoreManager.sortedSoldItemList.set( sortedIndex, soldItem );
+		}
+	}
+
 	public static void removeItem( int itemId, int quantity )
 	{
 		SoldItem item = new SoldItem( itemId, 0, 0, 0, 0 );
@@ -1096,12 +1138,12 @@ public abstract class StoreManager
 				soldItem = new StoreManager.SoldItem( itemId, quantity, newPrice, newLimit, lowest );
 				StoreManager.soldItemList.set( index, soldItem );
 				StoreManager.sortedSoldItemList.set( sortedIndex, soldItem );
-
-				StoreManager.sortItemsByName = true;
-				Collections.sort( StoreManager.soldItemList );
-				StoreManager.sortItemsByName = false;
-				Collections.sort( StoreManager.sortedSoldItemList );
 			}
+
+			StoreManager.sortItemsByName = true;
+			Collections.sort( StoreManager.soldItemList );
+			StoreManager.sortItemsByName = false;
+			Collections.sort( StoreManager.sortedSoldItemList );
 		}
 		catch ( JSONException e )
 		{
