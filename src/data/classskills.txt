@@ -1,4 +1,4 @@
-<4
+4
 # Syntax is:
 # id	Name	image	Type	MP Cost	Duration[	Level]
 # Type can be:
