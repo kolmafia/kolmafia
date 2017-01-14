@@ -40,7 +40,6 @@ import java.awt.image.ImageObserver;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-
 public class UnanimatedLabel
 	extends JLabel
 {

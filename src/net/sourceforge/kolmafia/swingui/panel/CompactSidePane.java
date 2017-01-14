@@ -49,6 +49,7 @@ import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -60,6 +61,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -70,6 +74,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -82,8 +87,6 @@ import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
-
-import net.sourceforge.kolmafia.swingui.widget.UnanimatedLabel;
 
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
@@ -105,7 +108,7 @@ public class CompactSidePane
 	private final int CONSUMPTION_LABELS = 3;
 	private final JLabel[] consumptionLabel = new JLabel[ CONSUMPTION_LABELS ];
 	private final JLabel[] consumptionValueLabel = new JLabel[ CONSUMPTION_LABELS ];
-	private final JLabel familiarLabel;
+	private final FamiliarLabel familiarLabel;
 	private final int BONUS_LABELS = 10;
 	private final JLabel[] bonusLabel = new JLabel[ BONUS_LABELS ];
 	private final JLabel[] bonusValueLabel = new JLabel[ BONUS_LABELS ];
@@ -214,7 +217,7 @@ public class CompactSidePane
 		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
 
 		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
-		panels[ panelCount ].add( this.familiarLabel = new UnanimatedLabel() );
+		panels[ panelCount ].add( this.familiarLabel = new FamiliarLabel() );
 		panels[ panelCount ].addMouseListener( new FamPopListener() );
 
 		// Make a popup label for Sneaky Pete's motorcycle. Clicking on
@@ -279,7 +282,6 @@ public class CompactSidePane
 			this.consumptionLabel[ i ].setForeground( Color.BLACK );
 			this.consumptionValueLabel[ i ].setForeground( Color.BLACK );
 		}
-		this.familiarLabel.setForeground( Color.BLACK );
 		for ( int i = 0; i < this.BONUS_LABELS ; i++ )
 		{
 			this.bonusLabel[ i ].setForeground( Color.BLACK );
@@ -1101,61 +1103,39 @@ public class CompactSidePane
 			String imageName = SpelunkyRequest.getBuddyImageName();
 			if ( imageName == null )
 			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-				this.familiarLabel.setText( "" );
+				this.familiarLabel.setNoIcon();
+				return;
 			}
-			else
-			{
-				String path = "otherimages/" + imageName;
-				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
-				ImageIcon icon = JComponentUtilities.getImage( path );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-				String buddy = SpelunkyRequest.getBuddyName();
-				this.familiarLabel.setText( buddy );
-			}
+
+			this.familiarLabel.setIcon( imageName, "otherimages/" );
+			this.familiarLabel.setText( SpelunkyRequest.getBuddyName() );
 		}
 		else if ( KoLCharacter.inAxecore() )
 		{
 			AdventureResult item = KoLCharacter.getCurrentInstrument();
 			if ( item == null )
 			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
+				this.familiarLabel.setNoIcon();
+				return;
 			}
-			else
-			{
-				ImageIcon icon = ItemDatabase.getItemImage( item.getItemId() );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-			}
-			int level = KoLCharacter.getMinstrelLevel();
-			this.familiarLabel.setText( "Level " + level );
+
+			this.familiarLabel.setIcon( ItemDatabase.getItemImageLocation( item.getItemId() ), "itemimages/" );
+			this.familiarLabel.setText( "Level " + KoLCharacter.getMinstrelLevel() );
 		}
 		else if ( KoLCharacter.isJarlsberg() )
 		{
-			if ( KoLCharacter.getCompanion() == null )
+			Companion companion = KoLCharacter.getCompanion();
+			if ( companion == null )
 			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
+				this.familiarLabel.setNoIcon();
+				return;
 			}
-			else
-			{
-				String path = "itemimages/" + KoLCharacter.getCompanion().imageName();
-				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
-				ImageIcon icon = JComponentUtilities.getImage( path );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-			}
+
+			this.familiarLabel.setIcon( companion.imageName(), "itemimages/" );
 		}
 		else if ( KoLCharacter.isSneakyPete() )
 		{
-			String path = "itemimages/motorbike.gif";
-			FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
-			ImageIcon icon = JComponentUtilities.getImage( path );
-			this.familiarLabel.setIcon( icon );
-			icon.setImageObserver( this );
+			this.familiarLabel.setIcon( "motorbike.gif", "itemimages/" );
 
 			String popText = CompactSidePane.motorcyclePopupText();
 			try
@@ -1171,49 +1151,86 @@ public class CompactSidePane
 		else if ( KoLCharacter.isEd() )
 		{
 			EdServantData servant = EdServantData.currentServant();
-			if ( servant == EdServantData.NO_SERVANT )
+			if ( servant == null )
 			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
+				this.familiarLabel.setNoIcon();
+				return;
 			}
-			else
-			{
-				String path = "itemimages/" + servant.getImage();
-				FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
-				ImageIcon icon = JComponentUtilities.getImage( path );
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-				int level = servant.getLevel();
-				this.familiarLabel.setText( "<HTML><center>level " + level + "</center></HTML>" );
-			}
+
+			this.familiarLabel.setIcon( servant.getImage(), "itemimages/" );
+			this.familiarLabel.setText( "<HTML><center>level " + servant.getLevel() + "</center></HTML>" );
 		}
 		else
+		{
+			this.familiarLabel.update();
+		}
+	}
+
+	private class FamiliarLabel
+		extends JLabel
+		implements Listener
+	{
+		private final ImageIcon noFamiliarImage;
+		private int currentId = -1;
+
+		public FamiliarLabel()
+		{
+			super( " ", null, SwingConstants.CENTER );
+			this.setForeground( Color.BLACK );
+			this.noFamiliarImage = FamiliarDatabase.getNoFamiliarImage();
+			this.setVerticalTextPosition( JLabel.BOTTOM );
+			this.setHorizontalTextPosition( JLabel.CENTER );
+
+			NamedListenerRegistry.registerNamedListener( "(familiar image)", this );
+		}
+
+		private void setNoIcon()
+		{
+			this.setIcon( this.noFamiliarImage );
+			this.setText( "" );
+		}
+
+		public void setIcon( final String image, final String prefix )
+		{
+			if ( image == null )
+			{
+				this.setNoIcon();
+				return;
+			}
+
+			String path = prefix + image;
+			FileUtilities.downloadImage( KoLmafia.imageServerPath() + path );
+			ImageIcon icon = JComponentUtilities.getImage( path );
+			super.setIcon( icon );
+			icon.setImageObserver( this );
+		}
+
+		public void update()
 		{
 			FamiliarData current = KoLCharacter.getFamiliar();
 			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
 			int id = effective == null ? -1 : effective.getId();
 
+			if ( id == this.currentId )
+			{
+				return;
+			}
+
 			if ( id == -1 )
 			{
-				ImageIcon icon = FamiliarDatabase.getNoFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-				this.familiarLabel.setText( "0 lbs." );
+				this.setNoIcon();
+				this.setText( "0 lbs." );
+				return;
 			}
-			else
-			{
-				StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
-				ImageIcon icon = FamiliarDatabase.getCurrentFamiliarImage();
-				this.familiarLabel.setIcon( icon );
-				icon.setImageObserver( this );
-				int weight = current.getModifiedWeight();
-				this.familiarLabel.setText( "<HTML><center>" + weight +
-								( weight == 1 ? " lb." : " lbs." ) +
-								( anno == null ? "" : "<br>" + anno.toString() ) + "</center></HTML>" );
-			}
-		}
 
-		this.familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
-		this.familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+			this.setIcon( KoLCharacter.getFamiliarImage(), "itemimages/" );
+
+			StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
+			int weight = current.getModifiedWeight();
+			this.setText( "<HTML><center>" + weight +
+				      ( weight == 1 ? " lb." : " lbs." ) +
+				      ( anno == null ? "" : "<br>" + anno.toString() ) + "</center></HTML>" );
+		}
 	}
 
 	private static String motorcyclePopupText()
