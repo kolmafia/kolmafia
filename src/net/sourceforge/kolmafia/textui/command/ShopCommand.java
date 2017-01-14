@@ -60,7 +60,7 @@ public class ShopCommand
 {
 	public ShopCommand()
 	{
-		this.usage = " put [using storage] <item> [[@] <price> [[limit] <num>]] [, <another>] | take [all|<num>] <item> [, <another>] - sell or remove from Mall..";
+		this.usage = " put [using storage] <item> [@ <price> [limit <num>]] [, <another>] | reprice <item> @ price [limit <num>] [, <another>] | take [all|<num>] <item> [, <another>] - sell, reprice or remove from Mall.";
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ShopCommand
 	{
 		parameters = parameters.toLowerCase();
 
-		if ( !parameters.startsWith( "take " ) && !parameters.startsWith( "put " ) )
+		if ( !parameters.startsWith( "take " ) && !parameters.startsWith( "put " ) && !parameters.startsWith( "reprice " ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Invalid shop command." );
 			return;
@@ -78,9 +78,13 @@ public class ShopCommand
 		{
 			ShopCommand.put( parameters.substring( 3 ).trim() );
 		}
-		else
+		else if ( parameters.startsWith( "take ") )
 		{
 			ShopCommand.take( parameters.substring( 4 ).trim() );
+		}
+		else
+		{
+			ShopCommand.reprice( parameters.substring( 7 ).trim() );
 		}
 	}
 
@@ -95,30 +99,21 @@ public class ShopCommand
 			parameters = parameters.substring( TEST.length() ).trim();
 		}
 
-		String[] itemNames = parameters.split( "\\s*,\\s*" );
-
 		AdventureResultArray items = new AdventureResultArray();
 		IntegerArray prices = new IntegerArray();
 		IntegerArray limits = new IntegerArray();
 
-		AdventureResult item;
-		int price;
-		int limit;
-
-		int separatorIndex;
-		String description;
-
-		for ( int i = 0; i < itemNames.length; ++i )
+		for ( String itemName : parameters.split( "\\s*,\\s*" ) )
 		{
-			price = 0;
-			limit = 0;
+			int price = 0;
+			int limit = 0;
 
-			separatorIndex = itemNames[ i ].indexOf( '@' );
+			int separatorIndex = itemName.indexOf( '@' );
 
 			if ( separatorIndex != -1 )
 			{
-				description = itemNames[ i ].substring( separatorIndex + 1 ).trim();
-				itemNames[ i ] = itemNames[ i ].substring( 0, separatorIndex );
+				String description = itemName.substring( separatorIndex + 1 ).trim();
+				itemName = itemName.substring( 0, separatorIndex );
 
 				separatorIndex = description.indexOf( "limit" );
 
@@ -132,17 +127,17 @@ public class ShopCommand
 			}
 
 			// workaround issue: user types in something like "mallsell pail @ 20,000,000
-			if ( StringUtilities.isNumeric( itemNames[ i ] ) )
+			if ( StringUtilities.isNumeric( itemName ) )
 			{
-				RequestLogger.printLine( "'" + itemNames[ i ] + "' is not an item.  Did you use a comma in the middle of a number?  Quitting..." );
+				RequestLogger.printLine( "'" + itemName + "' is not an item.  Did you use a comma in the middle of a number?  Quitting..." );
 				return;
 			}
 
-			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, true );
 
 			if ( item == null )
 			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "'." );
+				RequestLogger.printLine( "Skipping '" + itemName + "'." );
 				continue;
 			}
 
@@ -155,7 +150,7 @@ public class ShopCommand
 
 			if ( item.getCount() == 0 )
 			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "', none found in " + ( storage ? "storage." : "inventory." ) );
+				RequestLogger.printLine( "Skipping '" + itemName + "', none found in " + ( storage ? "storage." : "inventory." ) );
 				continue;
 			}
 
@@ -169,16 +164,16 @@ public class ShopCommand
 			if ( storage )
 			{
 				RequestThread.postRequest( new ManageStoreRequest( items.toArray(),
-																(int[]) prices.toArray(),
-																(int[]) limits.toArray(),
-																storage
-											   ) );
+										   prices.toArray(),
+										   limits.toArray(),
+										   storage
+								   ) );
 			}
 			else {
 				RequestThread.postRequest( new AutoMallRequest( items.toArray(),
-																(int[]) prices.toArray(),
-																(int[]) limits.toArray()
-											   ) );
+										prices.toArray(),
+										limits.toArray()
+								   ) );
 			}
 		}
 	}
@@ -211,17 +206,15 @@ public class ShopCommand
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		List list = StoreManager.getSoldItemList();
+		List<SoldItem> list = StoreManager.getSoldItemList();
 
-		String[] itemNames = parameters.split( "\\s*,\\s*" );
-
-		for ( int i = 0; i < itemNames.length; ++i )
+		for ( String itemName : parameters.split( "\\s*,\\s*" ) )
 		{
-			AdventureResult item = ItemFinder.getFirstMatchingItem( itemNames[ i ], true );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, true );
 
 			if ( item == null )
 			{
-				RequestLogger.printLine( "Skipping '" + itemNames[ i ] + "'." );
+				RequestLogger.printLine( "Skipping '" + itemName + "'." );
 				continue;
 			}
 
@@ -232,14 +225,94 @@ public class ShopCommand
 
 			if ( index < 0 )
 			{
-				RequestLogger.printLine( itemNames[ i ] + " not found in shop." );
+				RequestLogger.printLine( itemName + " not found in shop." );
 				continue;
 			}
 
-			SoldItem soldItem = (SoldItem) list.get( index );
+			SoldItem soldItem = list.get( index );
 
 			int count = takeAll ? soldItem.getQuantity() : qty;
 			RequestThread.postRequest( new ManageStoreRequest( itemId, count ) );
+		}
+	}
+
+	public static void reprice( String parameters )
+	{
+		if ( !StoreManager.soldItemsRetrieved )
+		{
+			RequestThread.postRequest( new ManageStoreRequest() );
+		}
+
+		List<SoldItem> list = StoreManager.getSoldItemList();
+
+		IntegerArray itemIds = new IntegerArray();
+		IntegerArray prices = new IntegerArray();
+		IntegerArray limits = new IntegerArray();
+
+		for ( String itemName : parameters.split( "\\s*,\\s*" ) )
+		{
+			AdventureResult item = null;
+			int price = 0;
+			Integer limit = null;
+
+			int separatorIndex = itemName.indexOf( '@' );
+			if ( separatorIndex == -1 )
+			{
+				RequestLogger.printLine( "Skipping '" + itemName + "', no price provided" );
+				continue;
+			}
+
+			String description = itemName.substring( separatorIndex + 1 ).trim();
+			itemName = itemName.substring( 0, separatorIndex );
+
+			separatorIndex = description.indexOf( "limit" );
+
+			if ( separatorIndex != -1 )
+			{
+				limit = StringUtilities.parseInt( description.substring( separatorIndex + 5 ).trim() );
+				description = description.substring( 0, separatorIndex ).trim();
+			}
+
+			price = StringUtilities.parseInt( description );
+
+			// workaround issue: user types in something like "shop reprice pail @ 20,000,000
+			if ( StringUtilities.isNumeric( itemName ) )
+			{
+				RequestLogger.printLine( "'" + itemName + "' is not an item.  Did you use a comma in the middle of a number?  Quitting..." );
+				return;
+			}
+
+			item = ItemFinder.getFirstMatchingItem( itemName, true );
+
+			if ( item == null )
+			{
+				RequestLogger.printLine( "Skipping '" + itemName + "'." );
+				continue;
+			}
+
+			int itemId = item.getItemId();
+
+			if ( list.indexOf( new SoldItem( itemId, 0, 0, 0, 0 ) ) < 0 )
+			{
+				RequestLogger.printLine( itemName + " not found in shop." );
+				continue;
+			}
+
+			if ( limit == null )
+			{
+				limit = StoreManager.getLimit( itemId );
+			}
+
+			itemIds.add( itemId );
+			prices.add( price );
+			limits.add( limit );
+		}
+
+		if ( itemIds.size() > 0 )
+		{
+			RequestThread.postRequest( new ManageStoreRequest( itemIds.toArray(),
+									   prices.toArray(),
+									   limits.toArray() ) );
 		}
 	}
 }
