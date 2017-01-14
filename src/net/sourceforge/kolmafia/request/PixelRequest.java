@@ -32,11 +32,16 @@
  */
 
 package net.sourceforge.kolmafia.request;
+
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class PixelRequest
 	extends CreateItemRequest
@@ -54,6 +59,13 @@ public class PixelRequest
 	@Override
 	public void run()
 	{
+		int itemId = this.createdItem.getItemId();
+		if ( itemId == ItemPool.DIGITAL_KEY && InventoryManager.hasItem( itemId ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You can only have one digital key and you already have one." );
+			return;
+		}
+
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 		// In this case, it will also create the needed white
@@ -77,7 +89,7 @@ public class PixelRequest
 
 		if ( urlString.contains( "action=buyitem" ) && !responseText.contains( "You acquire" ) )
 		{
-			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "Mystic shopping was unsuccessful." );
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Mystic shopping was unsuccessful." );
 			return;
 		}
 
