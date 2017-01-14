@@ -452,7 +452,7 @@ public class CandyDatabase
 
 	public static final Comparator<Candy> ASCENDING_MALL_PRICE_COMPARATOR = new MallPriceComparator();
 
-	// Compare by largest quantity, then alphabetically
+	// Compare by largest quantity, then by lowest mall price, then alphabetically
 	private static class InverseCountComparator
 		implements Comparator<Candy>
 	{
