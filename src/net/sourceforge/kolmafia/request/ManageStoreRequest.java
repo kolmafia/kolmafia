@@ -143,29 +143,35 @@ public class ManageStoreRequest
 		this.storage = storage;
 	}
 
-	public ManageStoreRequest( final int[] itemId, final int[] prices, final int[] limits )
+	public ManageStoreRequest( final int[] itemIds, final int[] prices, final int[] limits )
 	{
 		super( "backoffice.php" );
 		this.addFormField( "action", "updateinv" );
 		this.addFormField( "ajax", "1" );
 
 		this.requestType = RequestType.PRICE_UPDATE;
-		for ( int i = 0; i < itemId.length; ++i )
+		for ( int i = 0; i < itemIds.length; ++i )
 		{
-			if ( prices[ i ] == 0 )
+			int price = prices[ i ];
+			if ( price == 0 )
 			{
 				continue;
 			}
-			if ( prices[ i ] == StoreManager.getPrice( i ) &&
-			     limits[ i ] == StoreManager.getLimit( i ) )
+
+			int itemId = itemIds[ i ];
+			int limit = limits[ i ];
+			if ( price == StoreManager.getPrice( itemId ) &&
+			     limit == StoreManager.getLimit( itemId ) )
 			{
 				continue;
 			}
-			this.addFormField( "price[" + itemId[ i ] + "]", String.valueOf( Math.max(
-				prices[ i ], Math.max( ItemDatabase.getPriceById( itemId[ i ] ), 100 ) ) ) );
-			if ( limits[ i ] != 0 )
+
+			int autosell = ItemDatabase.getPriceById( itemId );
+			int actualPrice = Math.max( price, Math.max( autosell, 100 ) );
+			this.addFormField( "price[" + itemId + "]", String.valueOf( actualPrice ) );
+			if ( limit != 0 )
 			{
-				this.addFormField( "limit[" + itemId[ i ] + "]", String.valueOf( limits[ i ] ) );
+				this.addFormField( "limit[" + itemId + "]", String.valueOf( limit ) );
 			}
 		}
 	}

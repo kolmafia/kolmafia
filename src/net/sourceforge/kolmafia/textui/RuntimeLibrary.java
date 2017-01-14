@@ -654,6 +654,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_shop_using_storage", DataTypes.BOOLEAN_TYPE, params ) );
 
+ 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "reprice_shop", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "reprice_shop", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "put_stash", DataTypes.BOOLEAN_TYPE, params ) );
 
@@ -3401,15 +3407,42 @@ public abstract class RuntimeLibrary
 		}
 		else
 		{
-			AdventureResult [] items = new AdventureResult[ 1 ];
-			int [] prices = new int[ 1 ];
-			int [] limits = new int[ 1 ];
-
-			items[ 0 ] = ItemPool.get( itemId, (int) qty );
-			prices[ 0 ] = price;
-			limits[ 0 ] = limit;
+			AdventureResult [] items = { ItemPool.get( itemId, (int) qty ) };
+			int [] prices = { price };
+			int [] limits = { limit };
 
 			ManageStoreRequest request = new ManageStoreRequest( items, prices, limits, usingStorage );
+			RequestThread.postRequest( request );
+		}
+		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value reprice_shop( Interpreter interpreter, final Value priceValue, final Value itemValue )
+	{
+		int itemId = (int) itemValue.intValue();
+		return reprice_shop( interpreter, priceValue, new Value( StoreManager.getLimit( itemId ) ), itemValue );
+	}
+
+	public static Value reprice_shop( Interpreter interpreter, final Value priceValue, final Value limitValue, final Value itemValue )
+	{
+		int itemId = (int) itemValue.intValue();
+		int price = (int) priceValue.intValue();
+		int limit = (int) limitValue.intValue();
+
+		if ( interpreter.batched != null )
+		{
+			String cmd = "shop";
+			String prefix = "reprice";
+			String params = "\u00B6" + itemId + " @ " + price + " limit " + limit;
+			RuntimeLibrary.batchCommand( interpreter, cmd, prefix, params );
+		}
+		else
+		{
+			int [] itemIds = { itemId };
+			int [] prices = { price };
+			int [] limits = { limit };
+
+			ManageStoreRequest request = new ManageStoreRequest( itemIds, prices, limits );
 			RequestThread.postRequest( request );
 		}
 		return RuntimeLibrary.continueValue();
