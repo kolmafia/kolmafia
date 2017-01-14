@@ -42,6 +42,7 @@ import java.util.Set;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
@@ -106,8 +107,8 @@ public class SynthesizePanel
 
 	// The filter checkboxes
 	private JCheckBox[] filters;
-	private boolean availableChecked;
-	private boolean allowedChecked;
+	private boolean availableChecked = false;
+	private boolean allowedChecked = false;;
 
 	// The panel with Candy A and Candy B columns
 	private CandyPanel candyPanel;
@@ -206,6 +207,7 @@ public class SynthesizePanel
 						  SynthesizePanel.haveSpleenAvailable() );
 		this.automaticButton.setEnabled( isEnabled && this.effectId() != -1 );
 		this.priceCheckButton.setEnabled( isEnabled && !this.availableChecked );
+		this.effectPanel.setEnabled( isEnabled );
 	}
 
 	private JPanel addFilters()
@@ -247,6 +249,10 @@ public class SynthesizePanel
 	// Invoke this in the Swing event thread
 	private void filterItems()
 	{
+		// If we are using available candies only, availability of
+		// effects might have changed
+		SynthesizePanel.this.effectPanel.update();
+
 		Candy candy1 = this.candy1();
 		Candy candy2 = this.candy2();
 		this.candyList1.filterItems( candy1 );
@@ -327,6 +333,51 @@ public class SynthesizePanel
 		public int currentEffectId()
 		{
 			return this.selected == null ? -1 : this.selected.effectId;
+		}
+
+		public void setEnabled( final boolean isEnabled )
+		{
+			this.update();
+		}
+
+		public void update()
+		{
+			// Enable or disable buttons depending on whether the
+			// effect can be made using available candies
+
+			boolean available = SynthesizePanel.this.availableChecked;
+			boolean allowed = SynthesizePanel.this.allowedChecked;
+			int flags = CandyDatabase.makeFlags( available, allowed );
+
+			for ( Component component : this.getComponents() )
+			{
+				if ( component instanceof EffectButton )
+				{
+					EffectButton button = (EffectButton) component;
+					boolean enabled = !available;
+
+					if ( !enabled )
+					{
+						int effectId = button.effectId;
+						int tier = CandyDatabase.getEffectTier( effectId );
+						for ( int itemId : CandyDatabase.candyForTier( tier, flags ) )
+						{
+							if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() > 0 )
+							{
+								enabled = true;
+								break;
+							}
+						}
+
+						if ( !enabled && button == this.selected )
+						{
+							button.doClick();
+						}
+					}
+
+					button.setEnabled( enabled );
+				}
+			}
 		}
 
 		private class EffectButton
@@ -529,9 +580,16 @@ public class SynthesizePanel
 
 				if ( KoLCharacter.canInteract() )
 				{
+					// Prefer cheapest candy, then most numerous
+					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COST, SortOrder.ASCENDING ) );
+					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) ); 
+				}
+				else
+				{
+					// Prefer most numerous candy, then cheapest
+					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) ); 
 					sortKeys.add( new RowSorter.SortKey( CandyTableModel.COST, SortOrder.ASCENDING ) );
 				}
-				sortKeys.add( new RowSorter.SortKey( CandyTableModel.COUNT, SortOrder.DESCENDING ) ); 
 				sortKeys.add( new RowSorter.SortKey( CandyTableModel.NAME, SortOrder.ASCENDING ) );
 
 				sorter.setSortKeys( sortKeys );
