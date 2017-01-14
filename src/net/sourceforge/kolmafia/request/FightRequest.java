@@ -3685,6 +3685,10 @@ public class FightRequest
 			{
 				WumpusManager.reset();
 			}
+			else if ( monsterName.equals( "Baron von Ratsworth" ) )
+			{
+				TavernRequest.addTavernLocation( '6' );
+			}
 			else if ( !FightRequest.castCleesh &&
 				Preferences.getString( "lastAdventure" ).equalsIgnoreCase(
 					"A Maze of Sewer Tunnels" ) )
