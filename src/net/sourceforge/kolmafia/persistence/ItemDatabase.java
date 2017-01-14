@@ -1596,7 +1596,7 @@ public class ItemDatabase
 		imageById.set( itemId, image );
 	}
 
-	private static final String getItemImageLocation( final int itemId )
+	public static final String getItemImageLocation( final int itemId )
 	{
 		String location = ItemDatabase.getImage( itemId );
 		return ( location != null ) ? location : "debug.gif";

@@ -4693,6 +4693,7 @@ public abstract class KoLCharacter
 	{
 		KoLCharacter.currentFamiliarImage = image;
 		FamiliarDatabase.setFamiliarImageLocation( KoLCharacter.getFamiliar().getId(), image );
+		NamedListenerRegistry.fireChange( "(familiar image)" );
 	}
 
 	public static final FamiliarData getEnthroned()
