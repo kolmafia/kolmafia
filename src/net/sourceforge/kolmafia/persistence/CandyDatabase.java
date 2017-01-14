@@ -305,9 +305,17 @@ public class CandyDatabase
 			{
 				continue;
 			}
-			if ( available && InventoryManager.getAccessibleCount( itemId2 ) == 0 )
+			if ( available )
 			{
-				continue;
+				// You can synthesize two of the same candy.
+				// If using available candy and you only have
+				// one, can't reuse it.
+				int candy2Count = InventoryManager.getAccessibleCount( itemId2 );
+				if ( ( candy2Count == 0 ) ||
+				     ( itemId1 == itemId2 && candy2Count == 1 ) )
+				{
+					continue;
+				}
 			}
 			if ( allowed && !ItemDatabase.isAllowed( itemId2 ) )
 			{

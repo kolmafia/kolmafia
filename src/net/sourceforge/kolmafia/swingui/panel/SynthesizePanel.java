@@ -692,6 +692,39 @@ public class SynthesizePanel
 				}
 				return;
 			}
+
+			@Override
+			public boolean isVisible( final Object o )
+			{
+				if ( o instanceof Candy )
+				{
+					Candy candy = (Candy)o;
+
+					if ( SynthesizePanel.this.availableChecked )
+					{
+						// Filter out candy we have none of
+						int count = candy.getCount();
+						if ( count == 0 )
+						{
+							return false;
+						}
+
+						// Filter out candy which has no available pairing
+						int effectId = SynthesizePanel.this.effectId();
+						int itemId = candy.getItemId();
+						int flags = CandyDatabase.makeFlags( true, SynthesizePanel.this.allowedChecked );
+						if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() == 0 )
+						{
+							return false;
+						}
+					}
+					if ( SynthesizePanel.this.allowedChecked && candy.getRestricted() )
+					{
+						return false;
+					}
+				}
+				return true;
+			}
 		}
 
 		public class CandyListB
@@ -727,31 +760,6 @@ public class SynthesizePanel
 					SynthesizePanel.this.candyData.update();
 					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null && SynthesizePanel.haveSpleenAvailable() );
 				}
-			}
-
-			@Override
-			public boolean isVisible( final Object o )
-			{
-				if ( o instanceof Candy )
-				{
-					if ( SynthesizePanel.this.availableChecked )
-					{
-						int count = ((Candy)o).getCount();
-						if ( ( count == 0 ) ||
-						     ( count == 1 && o.equals( SynthesizePanel.this.candy1() ) ) )
-						{
-							// You can synthesize two of the same
-							// candy.  If using available candy and
-							// you only have one, can't reuse it.
-							return false;
-						}
-					}
-					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).getRestricted() )
-					{
-						return false;
-					}
-				}
-				return true;
 			}
 		}
 	}
