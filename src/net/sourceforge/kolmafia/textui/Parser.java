@@ -3547,12 +3547,12 @@ public class Parser
 				this.currentToken = null;
 				String input = resultString.toString().trim();
 
-				// Make sure that only ASCII characters appear
-				// in the string
-				if ( !input.matches( "^\\p{ASCII}*$" ) )
-				{
-					throw this.parseException( "Typed constant $" + type.toString() + "[" + input + "] contains non-ASCII characters" );
-				}
+				// Make sure that only ASCII characters appear in the string
+				// *** No longer necessary?
+				// if ( !input.matches( "^\\p{ASCII}*$" ) )
+				// {
+				//	throw this.parseException( "Typed constant $" + type.toString() + "[" + input + "] contains non-ASCII characters" );
+				// }
 
 				return parseLiteral( type, input );
 			}
