@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,13 +53,13 @@ public class EdPieceCommand
 {
 	public static final String[][] ANIMAL =
 	{
-		{ "bear", "muscle", "1" },
-		{ "owl", "mysticality", "2" },
-		{ "puma", "moxie", "3" },
-		{ "hyena", "monster level", "4" },
-		{ "mouse", "item/meat", "5" },
-		{ "weasel", "block/HP regen", "6" },
-		{ "fish", "sea", "7" },
+		{ "bear", "muscle", "1", "Muscle: +20; +2 Muscle Stats Per Fight" },
+		{ "owl", "mysticality", "2", "Mysticality: +20; +2 Mysticality Stats Per Fight" },
+		{ "puma", "moxie", "3", "Moxie: +20; +2 Moxie Stats Per Fight" },
+		{ "hyena", "monster level", "4", "+20 to Monster Level" },
+		{ "mouse", "item/meat", "5", "+10% Item Drops From Monsters; +20% Meat from Monsters" },
+		{ "weasel", "block/HP regen", "6", "The first attack against you will always miss; Regenerate 10-20 HP per Adventure" },
+		{ "fish", "sea", "7", "Lets you breath Adventure" },
 	};
 
 	public EdPieceCommand()
@@ -68,11 +70,57 @@ public class EdPieceCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		String currentAnimal = Preferences.getString( "edPiece" );
+		boolean checking = KoLmafiaCLI.isExecutingCheckOnlyCommand;
 
+		if ( checking )
+		{
+			StringBuilder output = new StringBuilder();
+
+			output.append( "<table border=2 cols=5>" );
+			output.append( "<tr>" );
+			output.append( "<th>Decoration</th>" );
+			output.append( "<th>Effect</th>" );
+			output.append( "</tr>" );
+			for ( String[] decoration : ANIMAL )
+			{
+				output.append( "<tr>" );
+				output.append( "<td valign=top>" );
+				output.append( "golden " );
+				output.append( decoration[ 0 ] );
+				output.append( "</td>" );
+				output.append( "<td valign=top>" );
+				output.append( decoration[ 3 ] );
+				output.append( "</td>" );
+				output.append( "</tr>" );
+			}
+
+			output.append( "</table>" );
+
+			RequestLogger.printLine( output.toString() );
+			RequestLogger.printLine();
+
+			parameters = "";
+		}
+
+		String currentAnimal = Preferences.getString( "edPiece" );
 		if ( parameters.length() == 0 )
 		{
-			KoLmafia.updateDisplay( "Current decoration on EdPiece is a golden " + currentAnimal );
+			StringBuilder output = new StringBuilder();
+
+			output.append( "The current decoration on The Crown of Ed the Undying is " );
+			if ( currentAnimal.equals( "" ) )
+			{
+				output.append( "&lt;nothing&gt;" );
+			}
+			else
+			{
+				output.append( "a golden " );
+				output.append( currentAnimal );
+			}
+			output.append( "." );
+
+			RequestLogger.printLine( output.toString() );
+			RequestLogger.printLine();
 			return;
 		}
 
