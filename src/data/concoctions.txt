@@ -2872,3 +2872,12 @@ toast with hot jelly	COOK	toast	hot jelly
 toast with sleaze jelly	COOK	toast	sleaze jelly
 toast with spooky jelly	COOK	toast	spooky jelly
 toast with stench jelly	COOK	toast	stench jelly
+
+# Optimistic Candle
+
+wax hand	WAX	glob of melted wax
+miniature candle	WAX	glob of melted wax
+wax pancake	WAX	glob of melted wax
+wax face	WAX	glob of melted wax
+wax booze	WAX	glob of melted wax
+

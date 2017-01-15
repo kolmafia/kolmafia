@@ -376,6 +376,9 @@ public class CreateItemRequest
 		case BARREL:
 			return new BarrelShrineRequest( conc );
 
+		case WAX:
+			return new WaxGlobRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

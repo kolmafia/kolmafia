@@ -2736,6 +2736,11 @@ public class ItemPool
 	public static final int SPOOKY_JELLY = 9293;
 	public static final int SLEAZE_JELLY = 9294;
 	public static final int STENCH_JELLY = 9295;
+	public static final int WAX_HAND = 9305;
+	public static final int MINIATURE_CANDLE = 9306;
+	public static final int WAX_PANCAKE = 9307;
+	public static final int WAX_FACE = 9308;
+	public static final int WAX_BOOZE = 9309;
 	public static final int WAX_GLOB = 9310;
 
 	public static final AdventureResult get( String itemName, int count )

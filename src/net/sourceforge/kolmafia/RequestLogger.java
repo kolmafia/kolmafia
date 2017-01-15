@@ -196,6 +196,7 @@ import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.WaxGlobRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
@@ -740,6 +741,13 @@ public class RequestLogger
 
 		// The Source Terminal is an instance of choice.php
 		if ( ( request instanceof TerminalRequest || isExternal ) && TerminalRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Wax Glob creation is an instance of choice.php
+		if ( ( request instanceof WaxGlobRequest || isExternal ) && WaxGlobRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
