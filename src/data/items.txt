@@ -8134,7 +8134,7 @@
 8109	aerogel ascot	979456974	aeroascot.gif	accessory		0
 8110	aerogel attache case	732524845	aeroattache.gif	offhand		0
 8111	aerogel accordion	768319736	aeroaccordion.gif	weapon		0
-8112
+8112	aerosolized aerogel 	828279627	aerobits.gif 	spleen, usable		0
 8113	wrought-iron wig	359556400	wroughtwig.gif	hat		0
 8114	wrought-iron winch crank	790683305	wroughtcrank.gif	accessory		0
 8115	wrought-iron widget	431029746	wroughtwidget.gif	accessory		0

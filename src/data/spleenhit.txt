@@ -14,6 +14,7 @@ abstraction: perception	1	1	decent	0	0	0	0	50 Perception (+25% mox experience)
 abstraction: purpose	1	1	decent	0	0	0	0	50 Purpose (+25% mus experience)
 abstraction: sensation	1	1	decent	0	0	0	0	50 Sensation (+100% mox)
 abstraction: thought	1	1	decent	0	0	0	0	50 Thought (+100% mys)
+aerosolized aerogel	2	12	good	0	0	0	0	Unspaded
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
 alien protein powder	3	4	awesome	8-10	0	0	0
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)

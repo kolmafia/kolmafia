@@ -504,6 +504,22 @@ wicker ticker	wickerbits
 wicker sticker	wickerbits
 wicker clicker	wickerbits
 
+# Bakelite items
+bakelite belt	bakelite bits
+bakelite badge	bakelite bits
+bakelite bowl	bakelite bits
+bakelite brooch	bakelite bits
+bakelite breeches	bakelite bits
+bakelite backpack	bakelite bits
+
+# Aerogel items
+aerogel anvil	aerosolized aerogel
+aerogel akubra	aerosolized aerogel
+aerogel apron	aerosolized aerogel
+aerogel ascot	aerosolized aerogel
+aerogel attache case	aerosolized aerogel
+aerogel accordion	aerosolized aerogel
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice
