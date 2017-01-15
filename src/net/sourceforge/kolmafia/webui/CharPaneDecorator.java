@@ -652,6 +652,12 @@ public class CharPaneDecorator
 				buffer.append( "/30 charges" );
 				return buffer;
 			}
+		case FamiliarPool.SPACE_JELLYFISH:
+			{
+				buffer.append( Preferences.getString( "_spaceJellyfishDrops" ) );
+				buffer.append( " jelly harvested" );
+				return buffer;
+			}
 		case FamiliarPool.CANDLE:
 			{
 				buffer.append( Preferences.getString( "optimisticCandleProgress" ) );
