@@ -586,6 +586,7 @@ public interface KoLConstants
 		FLOUNDRY,	// Items made in Clan Floundry
 		TERMINAL,	// Items extruded from Source Terminal
 		BARREL,		// Items granted at the Barrel Shrine
+		WAX,		// Items made from globs of melted wax
 	}
 
 	public enum CraftingRequirements

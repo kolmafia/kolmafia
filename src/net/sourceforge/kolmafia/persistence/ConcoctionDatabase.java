@@ -2180,6 +2180,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.VYKEA, 0 );
 		}
 
+		// Making stuff with globs of melted wax is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.WAX );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.WAX, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.WAX, 0 );
+
 		// Other creatability flags
 
 		if ( KoLCharacter.isTorsoAware() )
@@ -2632,6 +2637,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.BARREL )
 		{
 			result.append( "shrine to the Barrel god" );
+		}
+		else if ( mixingMethod == CraftingType.WAX )
+		{
+			result.append( "globs of wax" );
 		}
 
 		if ( result.length() == 0 )
@@ -3286,6 +3295,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "BARREL" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.BARREL;
+		}
+
+		else if ( mix.equals( "WAX" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.WAX;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

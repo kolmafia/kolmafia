@@ -137,6 +137,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
+import net.sourceforge.kolmafia.request.WaxGlobRequest;
 import net.sourceforge.kolmafia.request.WitchessRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -377,6 +378,10 @@ public class ResponseTextParser
 			else if ( location.contains( "whichchoice=922" ) )
 			{
 				SummoningChamberRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichchoice=1218" ) )
+			{
+				WaxGlobRequest.parseResponse( location, responseText );
 			}
 		}
 
