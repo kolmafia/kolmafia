@@ -73,33 +73,33 @@ public class PastaThrallCommand
 			}
 
 			output.append( "<tr>" );
-			output.append( "<td rowspan=3>" );
+			output.append( "<td rowspan=3><p>" );
 			output.append( thrall.getType() );
-			output.append( "</td>" );
-			output.append( "<td>" );
+			output.append( "</p></td>" );
+			output.append( "<td align=center><p>" );
 			output.append( thrall.getName() );
-			output.append( "</td>" );
-			output.append( "<td>" );
+			output.append( "</p></td>" );
+			output.append( "<td><p>" );
 			output.append( thrall.getLevel1Ability() );
-			output.append( "</td>" );
+			output.append( "</p></td>" );
 			output.append( "</tr>" );
 
 			output.append( "<tr>" );
-			output.append( "<td>" );
+			output.append( "<td align=center><p>" );
 			output.append( thrall.getLevel() );
-			output.append( "</td>" );
-			output.append( "<td>" );
+			output.append( "</p></td>" );
+			output.append( "<td><p>" );
 			output.append( thrall.getLevel5Ability() );
-			output.append( "</td>" );
+			output.append( "</p></td>" );
 			output.append( "</tr>" );
 
 			output.append( "<tr>" );
-			output.append( "<td>" );
+			output.append( "<td align=center><p>" );
 			output.append( thrall.getCurrentModifiers() );
-			output.append( "</td>" );
-			output.append( "<td>" );
+			output.append( "</p></td>" );
+			output.append( "<td><p>" );
 			output.append( thrall.getLevel10Ability() );
-			output.append( "</td>" );
+			output.append( "</p></td>" );
 			output.append( "</tr>" );
 		}
 
