@@ -61,14 +61,15 @@ public class VersionDataPanel
 		StaticEntity.getVersion(),
 		KoLConstants.VERSION_DATE,
 		" ",
-		"Copyright \u00a9 2005-2015 KoLmafia development team",
+		"Copyright \u00a9 2005-2017 KoLmafia development team",
 		"Berkeley Software Development (BSD) License",
 		"http://kolmafia.sourceforge.net/",
 		" ",
 		"Current Running on " + System.getProperty( "os.name" ),
 		"Local Directory is " + System.getProperty( "user.dir" ),
 		"Settings in " + KoLConstants.ROOT_LOCATION.getAbsolutePath(),
-		"Using Java v" + System.getProperty( "java.runtime.version" )
+		"Using Java v" + System.getProperty( "java.runtime.version" ),
+		"Default system file encoding is " + System.getProperty( "file.encoding" ),
 	};
 
 	public VersionDataPanel()
