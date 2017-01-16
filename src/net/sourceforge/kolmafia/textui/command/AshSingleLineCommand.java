@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.parsetree.CompositeValue;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class AshSingleLineCommand
 	extends AbstractCommand
 {
@@ -61,7 +63,11 @@ public class AshSingleLineCommand
 		{
 			parameters += ";";
 		}
-		ByteArrayInputStream istream = new ByteArrayInputStream( ( parameters + KoLConstants.LINE_BREAK ).getBytes() );
+		parameters += KoLConstants.LINE_BREAK;
+
+		// ASH requires its input to be UTF-8
+		String text = StringUtilities.getEncodedString( parameters.getBytes(), "UTF-8" );
+		ByteArrayInputStream istream = new ByteArrayInputStream( text.getBytes() );
 
 		Interpreter interpreter = new Interpreter();
 		interpreter.validate( null, istream );
