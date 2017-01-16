@@ -216,7 +216,7 @@ public class StorageCommand
 			int pulls = ConcoctionDatabase.getPullsRemaining();
 			if ( pulls >= 0 && KoLmafia.permitsContinue() )
 			{
-				KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining," + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
+				KoLmafia.updateDisplay( pulls + ( pulls == 1 ? " pull" : " pulls" ) + " remaining, " + ConcoctionDatabase.getPullsBudgeted() + " budgeted for automatic use." );
 			}
 		}
 	}
