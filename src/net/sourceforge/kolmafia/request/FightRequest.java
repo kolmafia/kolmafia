@@ -8187,6 +8187,20 @@ public class FightRequest
 			}
 			break;
 
+		case ItemPool.BEEHIVE:
+			if ( responseText.contains( "entire wall fattens" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.BEEHIVE );
+			}
+			break;
+
+		case ItemPool.ELECTRIC_BONING_KNIFE:
+			if ( responseText.contains( "knife's motor burns out" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.ELECTRIC_BONING_KNIFE );
+			}
+			break;
+
 		}
 
 		if ( itemId != itemId2 )
