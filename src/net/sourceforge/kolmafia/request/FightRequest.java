@@ -2343,201 +2343,204 @@ public class FightRequest
 
 			SpecialMonster special = FightRequest.specialMonsters.get( encounter );
 
-			switch ( special )
+			if ( special )
 			{
-			case ANCIENT_PROTECTOR_SPIRIT:
-				// Update appropriate quest to status 6 if lower.
-				if ( adventure == AdventurePool.HIDDEN_APARTMENT )
+				switch ( special )
 				{
-					if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 6 )
+				case ANCIENT_PROTECTOR_SPIRIT:
+					// Update appropriate quest to status 6 if lower.
+					if ( adventure == AdventurePool.HIDDEN_APARTMENT )
 					{
-						Preferences.setInteger( "hiddenApartmentProgress", 6 );
-						QuestDatabase.setQuestProgress( Quest.CURSES, "step1" );
+						if ( Preferences.getInteger( "hiddenApartmentProgress" ) < 6 )
+						{
+							Preferences.setInteger( "hiddenApartmentProgress", 6 );
+							QuestDatabase.setQuestProgress( Quest.CURSES, "step1" );
+						}
 					}
-				}
-				else if ( adventure == AdventurePool.HIDDEN_HOSPITAL )
-				{
-					if ( Preferences.getInteger( "hiddenHospitalProgress" ) < 6 )
+					else if ( adventure == AdventurePool.HIDDEN_HOSPITAL )
 					{
-						Preferences.setInteger( "hiddenHospitalProgress", 6 );
-						QuestDatabase.setQuestProgress( Quest.DOCTOR, "step1" );
+						if ( Preferences.getInteger( "hiddenHospitalProgress" ) < 6 )
+						{
+							Preferences.setInteger( "hiddenHospitalProgress", 6 );
+							QuestDatabase.setQuestProgress( Quest.DOCTOR, "step1" );
+						}
 					}
-				}
-				else if ( adventure == AdventurePool.HIDDEN_OFFICE )
-				{
-					if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
+					else if ( adventure == AdventurePool.HIDDEN_OFFICE )
 					{
-						Preferences.setInteger( "hiddenOfficeProgress", 6 );
-						QuestDatabase.setQuestProgress( Quest.BUSINESS, "step1" );
+						if ( Preferences.getInteger( "hiddenOfficeProgress" ) < 6 )
+						{
+							Preferences.setInteger( "hiddenOfficeProgress", 6 );
+							QuestDatabase.setQuestProgress( Quest.BUSINESS, "step1" );
+						}
 					}
-				}
-				else if ( adventure == AdventurePool.HIDDEN_BOWLING_ALLEY )
-				{
-					if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 6 )
+					else if ( adventure == AdventurePool.HIDDEN_BOWLING_ALLEY )
 					{
-						Preferences.setInteger( "hiddenBowlingAlleyProgress", 6 );
-						QuestDatabase.setQuestProgress( Quest.SPARE, "step1" );
+						if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) < 6 )
+						{
+							Preferences.setInteger( "hiddenBowlingAlleyProgress", 6 );
+							QuestDatabase.setQuestProgress( Quest.SPARE, "step1" );
+						}
 					}
-				}
-				break;
+					break;
 
-			case PYGMY_JANITOR:
-				// If you're meeting these in Park, then they've been relocated
-				if ( adventure == AdventurePool.HIDDEN_PARK )
-				{
-					Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
-				}
-				break;
+				case PYGMY_JANITOR:
+					// If you're meeting these in Park, then they've been relocated
+					if ( adventure == AdventurePool.HIDDEN_PARK )
+					{
+						Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
+					}
+					break;
 
-			case PYGMY_WITCH_LAWYER:
-				// If you're meeting these in Park, then they've been relocated
-				if ( adventure == AdventurePool.HIDDEN_PARK )
-				{
-					Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
-				}
-				break;
+				case PYGMY_WITCH_LAWYER:
+					// If you're meeting these in Park, then they've been relocated
+					if ( adventure == AdventurePool.HIDDEN_PARK )
+					{
+						Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
+					}
+					break;
 
-			// Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
-			case CONJOINED_ZMOMBIE:
-				if ( Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
-				{
-					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
-					Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
-				}
-				break;
-			case HUGE_GHUOL:
-				if ( Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
-				{
-					Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
-					Preferences.setInteger( "cyrptCrannyEvilness", 25 );
-				}
-				break;
-			case GARGANTULIHC:
-				if ( Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
-				{
-					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
-					Preferences.setInteger( "cyrptNicheEvilness", 25 );
-				}
-				break;
-			case GIANT_SKEELTON:
-				if ( Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
-				{
-					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
-					Preferences.setInteger( "cyrptNookEvilness", 25 );
-				}
-				break;
+					// Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
+				case CONJOINED_ZMOMBIE:
+					if ( Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
+					{
+						Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
+						Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
+					}
+					break;
+				case HUGE_GHUOL:
+					if ( Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
+					{
+						Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
+						Preferences.setInteger( "cyrptCrannyEvilness", 25 );
+					}
+					break;
+				case GARGANTULIHC:
+					if ( Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
+					{
+						Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
+						Preferences.setInteger( "cyrptNicheEvilness", 25 );
+					}
+					break;
+				case GIANT_SKEELTON:
+					if ( Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
+					{
+						Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
+						Preferences.setInteger( "cyrptNookEvilness", 25 );
+					}
+					break;
 
-			case GIANT_OCTOPUS:
-				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
-				{
-					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
-				}
-				break;
+				case GIANT_OCTOPUS:
+					if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
+					{
+						ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
+					}
+					break;
 
-			case DAD_SEA_MONKEE:
-				DadManager.solve( responseText );
-				break;
+				case DAD_SEA_MONKEE:
+					DadManager.solve( responseText );
+					break;
 
-			case TIME_SPINNER_PRANK:
-			{
-				Matcher m = FightRequest.TIMEPRANK_PATTERN.matcher( responseText );
-				if ( m.find() )
+				case TIME_SPINNER_PRANK:
 				{
-					String message = new String( m.group(1) );
-					StringBuilder buffer = new StringBuilder( "Round 0: " );
-					buffer.append( FightRequest.currentEncounter );
-					buffer.append( " says: \"" );
-					buffer.append( message );
-					buffer.append( "\"" );
-					FightRequest.logText( buffer );
+					Matcher m = FightRequest.TIMEPRANK_PATTERN.matcher( responseText );
+					if ( m.find() )
+					{
+						String message = new String( m.group(1) );
+						StringBuilder buffer = new StringBuilder( "Round 0: " );
+						buffer.append( FightRequest.currentEncounter );
+						buffer.append( " says: \"" );
+						buffer.append( message );
+						buffer.append( "\"" );
+						FightRequest.logText( buffer );
+					}
+					break;
 				}
-				break;
-			}
 
-			case HIPSTER:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					Preferences.increment( "_hipsterAdv", 1 );
-				}
-				break;
+				case HIPSTER:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "_hipsterAdv", 1 );
+					}
+					break;
 
-			case WITCHESS:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					Preferences.increment( "_witchessFights", 1 );
-				}
-				break;
+				case WITCHESS:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "_witchessFights", 1 );
+					}
+					break;
 
-			case BEE:
-				if ( !EncounterManager.ignoreSpecialMonsters && KoLCharacter.inBeecore() )
-				{
-					Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
-					TurnCounter.stopCounting( "Bee window begin" );
-					TurnCounter.stopCounting( "Bee window end" );
-					TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
-				}
-				break;
+				case BEE:
+					if ( !EncounterManager.ignoreSpecialMonsters && KoLCharacter.inBeecore() )
+					{
+						Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
+						TurnCounter.stopCounting( "Bee window begin" );
+						TurnCounter.stopCounting( "Bee window end" );
+						TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
 
-			case HOLIDAY:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "Holiday Monster window begin" );
-					TurnCounter.stopCounting( "Holiday Monster window end" );
-					TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
-				}
-				break;
+				case HOLIDAY:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "Holiday Monster window begin" );
+						TurnCounter.stopCounting( "Holiday Monster window end" );
+						TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
 
-			case TACO_ELF:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "Taco Elf window begin" );
-					TurnCounter.stopCounting( "Taco Elf window end" );
-					TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
-				}
-				break;
+				case TACO_ELF:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "Taco Elf window begin" );
+						TurnCounter.stopCounting( "Taco Elf window end" );
+						TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
+					}
+					break;
 
-			case EVENT:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "Event Monster window begin" );
-					TurnCounter.stopCounting( "Event Monster window end" );
-					TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
-				}
-				break;
+				case EVENT:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "Event Monster window begin" );
+						TurnCounter.stopCounting( "Event Monster window end" );
+						TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
+					}
+					break;
 
-			case NEMESIS:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "Nemesis Assassin window begin" );
-					TurnCounter.stopCounting( "Nemesis Assassin window end" );
-					TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
-				}
-				break;
+				case NEMESIS:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "Nemesis Assassin window begin" );
+						TurnCounter.stopCounting( "Nemesis Assassin window end" );
+						TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
 
-			case RAIN:
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "Rain Monster window begin" );
-					TurnCounter.stopCounting( "Rain Monster window end" );
-					TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
-				}
-				break;
+				case RAIN:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "Rain Monster window begin" );
+						TurnCounter.stopCounting( "Rain Monster window end" );
+						TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
 
-			case WOL:	
-				if ( !EncounterManager.ignoreSpecialMonsters )
-				{
-					TurnCounter.stopCounting( "WoL Monster window begin" );
-					TurnCounter.stopCounting( "WoL Monster window end" );
-					TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
+				case WOL:	
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						TurnCounter.stopCounting( "WoL Monster window begin" );
+						TurnCounter.stopCounting( "WoL Monster window end" );
+						TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
+						TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
 				}
-				break;
 			}
 
 			FightRequest.isTrackingFights = false;
