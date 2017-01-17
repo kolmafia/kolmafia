@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AshMultiLineCommand
 	extends AbstractCommand
@@ -62,7 +61,7 @@ public class AshMultiLineCommand
 		{
 			try
 			{
-				ostream.write( StringUtilities.getEncodedString( currentLine.getBytes(), "UTF-8" ).getBytes() );
+				ostream.write( currentLine.getBytes() );
 				ostream.write( KoLConstants.LINE_BREAK.getBytes() );
 			}
 			catch ( Exception e )
