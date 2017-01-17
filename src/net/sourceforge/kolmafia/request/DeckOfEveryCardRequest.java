@@ -468,7 +468,7 @@ public class DeckOfEveryCardRequest
 			String neu = alt.length() == 0 ? munged : ( alt + "|" + munged );
 			Preferences.setString( "_deckCardsSeen", neu );
 
-			EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard( munged );
+			EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard( StringUtilities.getCanonicalName( munged ) );
 			if ( DeckOfEveryCardRequest.phylumToCard.containsValue( card ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
