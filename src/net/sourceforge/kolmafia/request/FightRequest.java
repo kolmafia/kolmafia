@@ -2343,7 +2343,7 @@ public class FightRequest
 
 			SpecialMonster special = FightRequest.specialMonsters.get( encounter );
 
-			if ( special )
+			if ( special != null )
 			{
 				switch ( special )
 				{
