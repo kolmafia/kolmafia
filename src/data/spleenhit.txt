@@ -159,6 +159,7 @@ vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
 voodoo snuff	3	13	good	8	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 wickerbits	2	12	good	0	0	0	0	Unspaded
+wrought-iron flakes	3	12	awesome	0	0	0	0	Unspaded
 yellow paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-headedness (+10% mys)
 yellow polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
 yellow striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stra Arm (+10% mus)

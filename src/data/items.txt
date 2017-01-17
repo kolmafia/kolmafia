@@ -8140,8 +8140,8 @@
 8115	wrought-iron widget	431029746	wroughtwidget.gif	accessory		0
 8116	wrought-iron whisk	215720810	wroughtwhisk.gif	weapon		0
 8117	wrought-iron walker	314107712	wroughtwalker.gif	accessory		0
-8118	wrought-iron waders	771154174	wroughtpants.gif	pants		0
-8119
+8118	wrought-iron waders	771154174	wroughtpants.gif	pants		0	pairs of wrought-iron waders
+8119	wrought-iron flakes	943800160	wroughtbits.gif	spleen, usable		0
 8120
 8121
 8122
