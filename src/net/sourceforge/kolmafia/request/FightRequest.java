@@ -4494,6 +4494,7 @@ public class FightRequest
 	private static final Pattern INT_PATTERN = Pattern.compile( "\\d[\\d,]*" );
 	private static final Pattern SPACE_INT_PATTERN = Pattern.compile( " \\d[\\d,]*" );
 	private static final Pattern EFF_PATTERN = Pattern.compile( "eff\\(['\"](.*?)['\"]" );
+	private static final Pattern DURATION_PATTERN = Pattern.compile( "\\((?:duration: )?(\\d+) Adventures?\\)" );
 
 	private static final int parseHaikuDamage( final String text )
 	{
@@ -5815,7 +5816,9 @@ public class FightRequest
 				{
 					return false;
 				}
-				AdventureResult result = EffectPool.get( effectId );
+				Matcher d = DURATION_PATTERN.matcher( str );
+				int duration = d.find() ? StringUtilities.parseInt( d.group( 1 ) ) : 1;
+				AdventureResult result = EffectPool.get( effectId, duration );
 				if ( str.startsWith( "You lose" ) )
 				{
 					ResultProcessor.processEffect( true, "You lose an effect:", result, (List<AdventureResult>) null );
