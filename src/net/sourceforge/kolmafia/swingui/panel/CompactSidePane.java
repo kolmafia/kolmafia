@@ -1170,14 +1170,12 @@ public class CompactSidePane
 		extends JLabel
 		implements Listener
 	{
-		private final ImageIcon noFamiliarImage;
-		private int currentId = -1;
+		private final ImageIcon noFamiliarImage = FamiliarDatabase.getNoFamiliarImage();
 
 		public FamiliarLabel()
 		{
 			super( " ", null, SwingConstants.CENTER );
 			this.setForeground( Color.BLACK );
-			this.noFamiliarImage = FamiliarDatabase.getNoFamiliarImage();
 			this.setVerticalTextPosition( JLabel.BOTTOM );
 			this.setHorizontalTextPosition( JLabel.CENTER );
 
@@ -1210,11 +1208,6 @@ public class CompactSidePane
 			FamiliarData current = KoLCharacter.getFamiliar();
 			FamiliarData effective = KoLCharacter.getEffectiveFamiliar();
 			int id = effective == null ? -1 : effective.getId();
-
-			if ( id == this.currentId )
-			{
-				return;
-			}
 
 			if ( id == -1 )
 			{
