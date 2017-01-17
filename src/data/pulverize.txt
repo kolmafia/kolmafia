@@ -520,6 +520,14 @@ aerogel ascot	aerosolized aerogel
 aerogel attache case	aerosolized aerogel
 aerogel accordion	aerosolized aerogel
 
+# Wrought-Iron items
+wrought-iron wig	wrought-iron flakes
+wrought-iron winch crank	wrought-iron flakes
+wrought-iron widget	wrought-iron flakes
+wrought-iron whisk	wrought-iron flakes
+wrought-iron walker	wrought-iron flakes
+wrought-iron waders	wrought-iron flakes
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice
