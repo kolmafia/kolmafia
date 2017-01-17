@@ -46,6 +46,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -414,6 +416,175 @@ public class FightRequest
 			"The Defiled Nook",
 			"cyrptNookEvilness",
 		},
+	};
+
+	public enum SpecialMonster
+	{
+		// Individual monsters
+		ANCIENT_PROTECTOR_SPIRIT( "Ancient Protector Spirit" ),
+		PYGMY_JANITOR( "pygmy janitor" ),
+		PYGMY_WITCH_LAWYER( "pygmy witch lawyer" ),
+		CONJOINED_ZMOMBIE( "conjoined zmombie" ),
+		HUGE_GHUOL( "huge ghoul" ),
+		GARGANTULIHC( "gargantulihc" ),
+		GIANT_SKEELTON( "giant skeelton" ),
+		GIANT_OCTOPUS( "giant octopus" ),
+		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
+		TIME_SPINNER_PRANK( "time-spinner prank" ),
+
+		// Categories of monsters
+		BEE( "bee" ),
+		EVENT( "event monster" ),
+		HIPSTER( "hipsters" ),
+		HOLIDAY( "holiday monster" ),
+		NEMESIS( "nemesis assassin" ),
+		RAIN( "Heavy Rains" ),
+		TACO_ELF( "taco elf" ),
+		WITCHESS( "witchess" ),
+		WOL( "West of Loathing" );
+
+		private final String name;
+
+		private SpecialMonster( String name )
+		{
+			this.name = name;
+		}
+		
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+	}
+
+	private final static TreeMap<String,SpecialMonster> specialMonsters = new TreeMap<String,SpecialMonster>( String.CASE_INSENSITIVE_ORDER );
+
+	static
+	{
+		FightRequest.specialMonsters.put( "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT );
+		FightRequest.specialMonsters.put( "pygmy janitor", SpecialMonster.PYGMY_JANITOR );
+		FightRequest.specialMonsters.put( "pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER );
+		FightRequest.specialMonsters.put( "conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE );
+		FightRequest.specialMonsters.put( "huge ghoul", SpecialMonster.HUGE_GHUOL );
+		FightRequest.specialMonsters.put( "gargantulihc", SpecialMonster.GARGANTULIHC );
+		FightRequest.specialMonsters.put( "giant skeelton", SpecialMonster.GIANT_SKEELTON );
+		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
+		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
+		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
+
+		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "blue-haired girl", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "evil ex-girlfriend", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "peeved roommate", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "random scenester", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Beast", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Beetle", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Constellation", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Crimbo Elf", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Demon", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Elemental", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Fish", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Flower", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Frat Orc", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Goblin", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Golem", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Hippy", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Hobo", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Man", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Manloid", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Mer-kin", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Penguin", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Pirate", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Shambling Monstrosity", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Slime", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Spiraling Shape", SpecialMonster.HIPSTER );
+		FightRequest.specialMonsters.put( "Black Crayon Undead Thing", SpecialMonster.HIPSTER );
+
+		FightRequest.specialMonsters.put( "Witchess Bishop", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess King", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Knight", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Ox", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Pawn", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Queen", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Rook", SpecialMonster.WITCHESS );
+		FightRequest.specialMonsters.put( "Witchess Witch", SpecialMonster.WITCHESS );
+
+		FightRequest.specialMonsters.put( "beebee gunners" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "moneybee" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "mumblebee" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "beebee queue" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "bee swarm" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "buzzerker" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "beebee king" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "bee thoven" , SpecialMonster.BEE );
+		FightRequest.specialMonsters.put( "Queen Bee" , SpecialMonster.BEE );
+
+		FightRequest.specialMonsters.put( "Candied Yam Golem", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Malevolent Tofurkey", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Possessed Can of Cranberry Sauce", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Stuffing Golem", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Hammered Yam Golem", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Inebriated Tofurkey", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Plastered Can of Cranberry Sauce", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Soused Stuffing Golem", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "El Novio Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "El Padre Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "La Novia Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "La Persona Inocente Cad&aacute;ver", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "ambulatory pirate", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "migratory pirate", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "peripatetic pirate", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "giant pumpkin-head", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "large-headed werewolf", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "oddly-proportioned ghost", SpecialMonster.HOLIDAY );
+		FightRequest.specialMonsters.put( "Cinco de Mayo reveler", SpecialMonster.HOLIDAY );
+
+		FightRequest.specialMonsters.put( "sign-twirling Crimbo elf", SpecialMonster.TACO_ELF );
+		FightRequest.specialMonsters.put( "tacobuilding elf", SpecialMonster.TACO_ELF );
+		FightRequest.specialMonsters.put( "taco-clad Crimbo elf", SpecialMonster.TACO_ELF );
+
+		FightRequest.specialMonsters.put( "depressing French accordionist", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "lively Cajun accordionist", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "quirky indie-rock accordionist", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "Possessed Can of Linguine-Os", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "Possessed Can of Creepy Pasta", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "Frozen Bag of Tortellini", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "Possessed Jar of Alphredo&trade;", SpecialMonster.EVENT );
+		FightRequest.specialMonsters.put( "Box of Crafty Dinner", SpecialMonster.EVENT );
+
+		FightRequest.specialMonsters.put( "menacing thug", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Mob Penguin hitman", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "hunting seal", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "turtle trapper", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "evil spaghetti cult assassin", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "B&eacute;arnaise zombie", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "flock of seagulls", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "mariachi bandolero", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Argarggagarg the Dire Hellseal", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Safari Jack, Small-Game Hunter", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Yakisoba the Executioner", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Heimandatz, Nacho Golem", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "Jocko Homo", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "The Mariachi With No Name", SpecialMonster.NEMESIS );
+
+		FightRequest.specialMonsters.put( "alley catfish", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "aquaconda", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "freshwater bonefish", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "giant isopod", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "giant tardigrade", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "gourmet gourami", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "piranhadon", SpecialMonster.RAIN );
+		FightRequest.specialMonsters.put( "storm cow", SpecialMonster.RAIN );
+
+		FightRequest.specialMonsters.put( "aggressive grass snake", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "emaciated rodeo clown", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "furious cow", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "furious giant cow", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "grizzled rodeo clown", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "king snake", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "menacing rodeo clown", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "prince snake", SpecialMonster.WOL );
+		FightRequest.specialMonsters.put( "ungulith", SpecialMonster.WOL );
 	};
 
 	private static final SimpleDateFormat COMBAT_START = new SimpleDateFormat( "yyyyMMddHHmmss" );
@@ -2170,8 +2341,11 @@ public class FightRequest
 				Preferences.setInteger( "turtleBlessingTurns", 0 );
 			}
 
-			if ( encounter.equalsIgnoreCase( "Ancient Protector Spirit" ) )
- 			{
+			SpecialMonster special = FightRequest.specialMonsters.get( encounter );
+
+			switch ( special )
+			{
+			case ANCIENT_PROTECTOR_SPIRIT:
 				// Update appropriate quest to status 6 if lower.
 				if ( adventure == AdventurePool.HIDDEN_APARTMENT )
 				{
@@ -2205,56 +2379,66 @@ public class FightRequest
 						QuestDatabase.setQuestProgress( Quest.SPARE, "step1" );
 					}
 				}
- 			}
-			else if ( encounter.equalsIgnoreCase( "pygmy janitor" ) )
- 			{
+				break;
+
+			case PYGMY_JANITOR:
 				// If you're meeting these in Park, then they've been relocated
 				if ( adventure == AdventurePool.HIDDEN_PARK )
 				{
 					Preferences.setInteger( "relocatePygmyJanitor", KoLCharacter.getAscensions() );
 				}
-			}
-			else if ( encounter.equalsIgnoreCase( "pygmy witch lawyer" ) )
-			{
+				break;
+
+			case PYGMY_WITCH_LAWYER:
 				// If you're meeting these in Park, then they've been relocated
 				if ( adventure == AdventurePool.HIDDEN_PARK )
 				{
 					Preferences.setInteger( "relocatePygmyLawyer", KoLCharacter.getAscensions() );
 				}
-			}
+				break;
+
 			// Correct Crypt Evilness if encountering boss when we think we're at more than 25 evil
-			else if ( encounter.equalsIgnoreCase( "conjoined zmombie" ) && Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
-			{
-				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
-				Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
-			}
-			else if ( encounter.equalsIgnoreCase( "huge ghoul" ) && Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
-			{
-				Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
-				Preferences.setInteger( "cyrptCrannyEvilness", 25 );
-			}
-			else if ( encounter.equalsIgnoreCase( "gargantulihc" ) && Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
-			{
-				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
-				Preferences.setInteger( "cyrptNicheEvilness", 25 );
-			}
-			else if ( encounter.equalsIgnoreCase( "giant skeelton" ) && Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
-			{
-				Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
-				Preferences.setInteger( "cyrptNookEvilness", 25 );
-			}
-			else if ( encounter.equalsIgnoreCase( "giant octopus" ) )
-			{
+			case CONJOINED_ZMOMBIE:
+				if ( Preferences.getInteger( "cyrptAlcoveEvilness" ) > 25 )
+				{
+					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptAlcoveEvilness" ) + 25 );
+					Preferences.setInteger( "cyrptAlcoveEvilness", 25 );
+				}
+				break;
+			case HUGE_GHUOL:
+				if ( Preferences.getInteger( "cyrptCrannyEvilness" ) > 25 )
+				{
+					Preferences.increment( "cyrptTotalEvilness", -Preferences.getInteger( "cyrptCrannyEvilness" ) + 25 );
+					Preferences.setInteger( "cyrptCrannyEvilness", 25 );
+				}
+				break;
+			case GARGANTULIHC:
+				if ( Preferences.getInteger( "cyrptNicheEvilness" ) > 25 )
+				{
+					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNicheEvilness" ) + 25 );
+					Preferences.setInteger( "cyrptNicheEvilness", 25 );
+				}
+				break;
+			case GIANT_SKEELTON:
+				if ( Preferences.getInteger( "cyrptNookEvilness" ) > 25 )
+				{
+					Preferences.increment( "cyrptTotalEvilness" , -Preferences.getInteger( "cyrptNookEvilness" ) + 25 );
+					Preferences.setInteger( "cyrptNookEvilness", 25 );
+				}
+				break;
+
+			case GIANT_OCTOPUS:
 				if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.GRAPPLING_HOOK, 1 ) ) )
 				{
 					ResultProcessor.processItem( ItemPool.GRAPPLING_HOOK, -1 );
 				}
-			}
-			else if ( encounter.equalsIgnoreCase( "Dad Sea Monkee" ) )
-			{
+				break;
+
+			case DAD_SEA_MONKEE:
 				DadManager.solve( responseText );
-			}
-			else if ( encounter.equalsIgnoreCase( "time-spinner prank" ) )
+				break;
+
+			case TIME_SPINNER_PRANK:
 			{
 				Matcher m = FightRequest.TIMEPRANK_PATTERN.matcher( responseText );
 				if ( m.find() )
@@ -2267,39 +2451,25 @@ public class FightRequest
 					buffer.append( "\"" );
 					FightRequest.logText( buffer );
 				}
+				break;
 			}
-			else if ( !EncounterManager.ignoreSpecialMonsters )
-			{
-				if ( encounter.equalsIgnoreCase( "angry bassist" ) ||
-				     encounter.equalsIgnoreCase( "blue-haired girl" ) ||
-				     encounter.equalsIgnoreCase( "evil ex-girlfriend" ) ||
-				     encounter.equalsIgnoreCase( "peeved roommate" ) ||
-				     encounter.equalsIgnoreCase( "random scenester" ) ||
-				     encounter.toLowerCase().startsWith( "black crayon" ) ) 
+
+			case HIPSTER:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					Preferences.increment( "_hipsterAdv", 1 );
 				}
-				else if ( encounter.equalsIgnoreCase( "Witchess Pawn" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Knight" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Ox" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Rook" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Queen" ) ||
-					  encounter.equalsIgnoreCase( "Witchess King" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Witch" ) ||
-					  encounter.equalsIgnoreCase( "Witchess Bishop" ) )
+				break;
+
+			case WITCHESS:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					Preferences.increment( "_witchessFights", 1 );
 				}
-				else if ( KoLCharacter.inBeecore() &&
-					  ( encounter.equalsIgnoreCase( "beebee gunners" ) ||
-					    encounter.equalsIgnoreCase( "moneybee" ) ||
-					    encounter.equalsIgnoreCase( "mumblebee" ) ||
-					    encounter.equalsIgnoreCase( "beebee queue" ) ||
-					    encounter.equalsIgnoreCase( "bee swarm" ) ||
-					    encounter.equalsIgnoreCase( "buzzerker" ) ||
-					    encounter.equalsIgnoreCase( "beebee king" ) ||
-					    encounter.equalsIgnoreCase( "bee thoven" ) ||
-					    encounter.equalsIgnoreCase( "Queen Bee" ) ) )
+				break;
+
+			case BEE:
+				if ( !EncounterManager.ignoreSpecialMonsters && KoLCharacter.inBeecore() )
 				{
 					Preferences.setInteger( "beeCounter", KoLCharacter.getCurrentRun() + 1 );
 					TurnCounter.stopCounting( "Bee window begin" );
@@ -2307,118 +2477,67 @@ public class FightRequest
 					TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
 				}
-				else if ( encounter.equalsIgnoreCase( "Candied Yam Golem" ) ||
-					  encounter.equalsIgnoreCase( "Malevolent Tofurkey" ) ||
-					  encounter.equalsIgnoreCase( "Possessed Can of Cranberry Sauce" ) ||
-					  encounter.equalsIgnoreCase( "Stuffing Golem" ) ||
-					  encounter.equalsIgnoreCase( "Hammered Yam Golem" ) ||
-					  encounter.equalsIgnoreCase( "Inebriated Tofurkey" ) ||
-					  encounter.equalsIgnoreCase( "Plastered Can of Cranberry Sauce" ) ||
-					  encounter.equalsIgnoreCase( "Soused Stuffing Golem" ) ||
-					  // El/La aren't actually part of the monster's name,
-					  // but they have not been removed yet by KoLmafia
-					  encounter.equalsIgnoreCase( "El Novio Cad&aacute;ver" ) ||
-					  encounter.equalsIgnoreCase( "El Padre Cad&aacute;ver" ) ||
-					  encounter.equalsIgnoreCase( "La Novia Cad&aacute;ver" ) ||
-					  encounter.equalsIgnoreCase( "La Persona Inocente Cad&aacute;ver" ) ||
-					  encounter.equalsIgnoreCase( "ambulatory pirate" ) ||
-					  encounter.equalsIgnoreCase( "migratory pirate" ) ||
-					  encounter.equalsIgnoreCase( "peripatetic pirate" ) ||
-					  encounter.equalsIgnoreCase( "giant pumpkin-head" ) ||
-					  encounter.equalsIgnoreCase( "large-headed werewolf" ) ||
-					  encounter.equalsIgnoreCase( "oddly-proportioned ghost" ) ||
-					  encounter.equalsIgnoreCase( "Cinco de Mayo reveler" )
-					)
+				break;
+
+			case HOLIDAY:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "Holiday Monster window begin" );
 					TurnCounter.stopCounting( "Holiday Monster window end" );
 					TurnCounter.startCounting( 25, "Holiday Monster window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 35, "Holiday Monster window end loc=* type=wander", "rparen.gif" );
 				}
-				else if ( encounter.equals( "sign-twirling Crimbo elf" ) ||
-					  encounter.equals( "tacobuilding elf" ) ||
-					  encounter.equals( "taco-clad Crimbo elf" )
-					)
+				break;
+
+			case TACO_ELF:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "Taco Elf window begin" );
 					TurnCounter.stopCounting( "Taco Elf window end" );
 					TurnCounter.startCounting( 35, "Taco Elf window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 40, "Taco Elf window end loc=*", "rparen.gif" );
 				}
-				else if ( encounter.equalsIgnoreCase( "depressing French accordionist" ) ||
-					  encounter.equalsIgnoreCase( "lively Cajun accordionist" ) ||
-					  encounter.equalsIgnoreCase( "quirky indie-rock accordionist" )
-					)
+				break;
+
+			case EVENT:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "Event Monster window begin" );
 					TurnCounter.stopCounting( "Event Monster window end" );
 					TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
 				}
-				else if ( encounter.equalsIgnoreCase( "Possessed Can of Linguine-Os" ) ||
-					  encounter.equalsIgnoreCase( "Possessed Can of Creepy Pasta" ) ||
-					  encounter.equalsIgnoreCase( "Frozen Bag of Tortellini" ) ||
-					  encounter.equalsIgnoreCase( "Possessed Jar of Alphredo&trade;" ) ||
-					  encounter.equalsIgnoreCase( "Box of Crafty Dinner" )
-					)
-				{
-					TurnCounter.stopCounting( "Event Monster window begin" );
-					TurnCounter.stopCounting( "Event Monster window end" );
-					TurnCounter.startCounting( 35, "Event Monster window begin loc=*", "lparen.gif" );
-					TurnCounter.startCounting( 40, "Event Monster window end loc=*", "rparen.gif" );
-				}
-				else if ( encounter.equalsIgnoreCase( "menacing thug" ) ||
-					  encounter.equalsIgnoreCase( "Mob Penguin hitman" ) ||
-					  encounter.equalsIgnoreCase( "hunting seal" ) ||
-					  encounter.equalsIgnoreCase( "turtle trapper" ) ||
-					  encounter.equalsIgnoreCase( "evil spaghetti cult assassin" ) ||
-					  encounter.equalsIgnoreCase( "B&eacute;arnaise zombie" ) ||
-					  encounter.equalsIgnoreCase( "flock of seagulls" ) ||
-					  encounter.equalsIgnoreCase( "mariachi bandolero" ) ||
-					  encounter.equalsIgnoreCase( "Argarggagarg the Dire Hellseal" ) ||
-					  encounter.equalsIgnoreCase( "Safari Jack, Small-Game Hunter" ) ||
-					  encounter.equalsIgnoreCase( "Yakisoba the Executioner" ) ||
-					  encounter.equalsIgnoreCase( "Heimandatz, Nacho Golem" ) ||
-					  encounter.equalsIgnoreCase( "Jocko Homo" ) ||
-					  encounter.equalsIgnoreCase( "The Mariachi With No Name" )
-					)
+				break;
+
+			case NEMESIS:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "Nemesis Assassin window begin" );
 					TurnCounter.stopCounting( "Nemesis Assassin window end" );
 					TurnCounter.startCounting( 35, "Nemesis Assassin window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 50, "Nemesis Assassin window end loc=* type=wander", "rparen.gif" );
 				}
-				else if ( encounter.equals( "alley catfish" ) ||
-					  encounter.equals( "aquaconda" ) ||
-					  encounter.equals( "freshwater bonefish" ) ||
-					  encounter.equals( "giant isopod" ) ||
-					  encounter.equals( "giant tardigrade" ) ||
-					  encounter.equals( "gourmet gourami" ) ||
-					  encounter.equals( "piranhadon" ) ||
-					  encounter.equals( "storm cow" )
-					)
+				break;
+
+			case RAIN:
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "Rain Monster window begin" );
 					TurnCounter.stopCounting( "Rain Monster window end" );
 					TurnCounter.startCounting( 35, "Rain Monster window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 45, "Rain Monster window end loc=* type=wander", "rparen.gif" );
 				}
-				else if ( encounter.equals( "aggressive grass snake" ) ||
-					  encounter.equals( "emaciated rodeo clown" ) ||
-					  encounter.equals( "furious cow" ) ||
-					  encounter.equals( "furious giant cow" ) ||
-					  encounter.equals( "grizzled rodeo clown" ) ||
-					  encounter.equals( "king snake" ) ||
-					  encounter.equals( "menacing rodeo clown" ) ||
-					  encounter.equals( "prince snake" ) ||
-					  encounter.equals( "ungulith" )
-					)
+				break;
+
+			case WOL:	
+				if ( !EncounterManager.ignoreSpecialMonsters )
 				{
 					TurnCounter.stopCounting( "WoL Monster window begin" );
 					TurnCounter.stopCounting( "WoL Monster window end" );
 					TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
 					TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
 				}
+				break;
 			}
 
 			FightRequest.isTrackingFights = false;
