@@ -2890,9 +2890,9 @@
 2865	beaver spear	212528569	beavspear.gif	weapon	t,d	70
 2866	shamanic beads	564800741	shamnecklace.gif	accessory	t,d	80	strings of shamanic beads
 2867	dilapidated wizard hat	864129917	wizhat2.gif	hat	t,d	72
-2868	pirate pamphlet	282485397	pamphlet.gif	multiple	t,d	250
-2869	pirate brochure	751847928	pamphlet.gif	multiple	t,d	250
-2870	pirate tract	240521902	pamphlet.gif	multiple	t,d	250
+2868	pirate pamphlet	282485397	pamphlet.gif	multiple	t,d	150
+2869	pirate brochure	751847928	pamphlet.gif	multiple	t,d	150
+2870	pirate tract	240521902	pamphlet.gif	multiple	t,d	150
 2871	burnt flower	601551923	burntflower.gif	none	t	0
 2872	tiny plastic Naughty Sorceress	562567673	fig2_1.gif	accessory	t	0	tiny plastic Naughty Sorceresses
 2873	tiny plastic Ed the Undying	575689216	fig2_2.gif	accessory	t	0	tiny plastic Eds the Undying
@@ -6411,7 +6411,7 @@
 6386	balsa plank	971684051	balsa.gif	usable	t,d	6
 6387	blob of wood glue	550275315	glueglob.gif	none, combat	t,d	2	blobs of wood glue
 6388	envyfish egg	651790358	roe.gif	usable	q	0
-6389	Mer-kin rocksalt	820963347	saltcandy2.gif	usable	t	0	Mer-kin rocksalt candies
+6389	Mer-kin rocksalt	820963347	saltcandy1.gif	usable	t	0	Mer-kin rocksalt candies
 6390	Mer-kin saltmint	964380486	saltcandy2.gif	usable	t	0
 6391	Mer-kin saltsquid	876664593	saltcandy3.gif	usable	t	0
 6392	scale-mail underwear	539861153	scaleunderwear.gif	pants	t,d	145	pairs of scale-mail underwear
@@ -8134,7 +8134,7 @@
 8109	aerogel ascot	979456974	aeroascot.gif	accessory		0
 8110	aerogel attache case	732524845	aeroattache.gif	offhand		0
 8111	aerogel accordion	768319736	aeroaccordion.gif	weapon		0
-8112	aerosolized aerogel 	828279627	aerobits.gif 	spleen, usable		0
+8112	aerosolized aerogel	828279627	aerobits.gif	spleen, usable		0
 8113	wrought-iron wig	359556400	wroughtwig.gif	hat		0
 8114	wrought-iron winch crank	790683305	wroughtcrank.gif	accessory		0
 8115	wrought-iron widget	431029746	wroughtwidget.gif	accessory		0
@@ -9224,7 +9224,7 @@
 9198	eldritch pants	792793451	eldritchpants.gif	pants	t	0
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
-9201	lump of basically motionless eldritch matter	251049747	wad.gif	none	t,d	1	lumps of basically motionless eldritch matter
+9201	lump of kinda motionless eldritch matter	251049747	wad.gif	none	t,d	1	lumps of kinda motionless eldritch matter
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204	counterfeit city	703636438	fakecity.gif	usable	t	0

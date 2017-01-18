@@ -925,7 +925,7 @@ Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat
 Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
 # Item aerogel accordion: Only takes up one hand!
-Item	aerogel accordion	Moxie: +20, Maximum HP: +40
+Item	aerogel accordion	Moxie: +20, Maximum HP: +40, Song Duration: 10
 # airblaster gun: Blasts Air (Duh.)
 Item	alarm accordion	Adventures: [3*(1+skill(Accordion Appreciation))], Initiative: [20*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 Item	amok putter	Hot Damage: +9, Cold Damage: +9, Initiative: +18
@@ -7178,6 +7178,7 @@ Item	warbear warrior bread	Effect: "Warriors, Come out to Playyyy", Effect Durat
 Item	warm gravy	Effect: "Thanksgetting", Effect Duration: 20
 Item	warm war shawarma	Effect: "Shawarma Warm War", Effect Duration: 30
 Item	wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
+Item	wax pancake	Effect: "Waxing", Effect Duration: 30
 Item	weird gazelle steak	Effect: "Gaze of the Gazelle", Effect Duration: 1
 Item	wet dog	Effect: "Hangdog", Effect Duration: 30
 # whole turkey leg: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blueviolet>Sleaze Damage</font> based on your Moxie when used as a combat item
@@ -7403,6 +7404,7 @@ Item	warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
 Item	warbear blizzard mead	Effect: "Warbear Blubber", Effect Duration: 40
 Item	warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40
 Item	wasabi-infused sake	Effect: "Wasabi With You", Effect Duration: 30
+Item	wax booze	Effect: "Waxing", Effect Duration: 30
 Item	whiskey in a broken glass	Effect: "Bloody Grin", Effect Duration: 50
 Item	white Canadian	Effect: "Canadianity", Effect Duration: 3
 Item	white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 50
