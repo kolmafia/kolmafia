@@ -222,7 +222,7 @@ public class AutoMallRequest
 		}
 		else
 		{
-			StoreManager.update( responseText, false );
+			StoreManager.update( responseText, StoreManager.ADDER );
 		}
 
 		return true;

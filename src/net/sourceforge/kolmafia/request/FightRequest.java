@@ -41,12 +41,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.TreeMap;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -457,7 +457,7 @@ public class FightRequest
 		}
 	}
 
-	private final static TreeMap<String,SpecialMonster> specialMonsters = new TreeMap<String,SpecialMonster>( String.CASE_INSENSITIVE_ORDER );
+	private final static HashMap<String,SpecialMonster> specialMonsters = new HashMap<String,SpecialMonster>();
 
 	static
 	{
