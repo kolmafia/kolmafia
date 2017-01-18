@@ -64,11 +64,6 @@ public class ManageStoreRequest
 	// (2) breath mints stocked for 999,999,999 meat each.
 	private static Pattern STOCKED_PATTERN = Pattern.compile( "\\(([\\d,]+)\\) (.*?) stocked for ([\\d,]+) meat each( \\(([\\d,]+)/day\\))?" );
 
-	// <tr class="deets" rel="618679857" after="6"><td valign="center"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/cocostraw.gif"></td><td valign="center"><b>slip 'n' slide</b></td><td valign="center" align="center">1,081</td valign="center"><td align="center"><span class="tohide">230</span><input type="text" class="hideit price" rel="230" style="width:80px" name="price[681]" value="230" /></td><td valign="center" align="center"><span class="tohide">&infin;</span><input type="text" class="hideit lim" style="width:24px" name="limit[681]" value="0" /><input type="submit" value="Save" class="button hideit pricejax" style="font-size: 8pt"/></td><td align="right" valign="center">[<a href="#" class="update">update</a>][<a href="/backoffice.php?pwd=90ef7aca1d45123f7abe567b758c5b89&iid=681&action=prices" class="prices">prices</a>]<span class="tohide">[<a class="take" href="backoffice.php?qty=1&pwd=90ef7aca1d45123f7abe567b758c5b89&action=removeitem&itemid=681">take&nbsp;1</a>][<a class="take" href="backoffice.php?qty=1081&pwd=90ef7aca1d45123f7abe567b758c5b89&action=removeitem&itemid=681">take&nbsp;&infin;</a>]</span><span class="hideit" style="font-size: .9em">  <span class="setp">min&nbsp;price:&nbsp;230</span><br /><span class="setp">cheapest: 230</span></span></td></tr>
-
-	private static Pattern INVENTORY_ROW_PATTERN = Pattern.compile( "<tr class=\"deets\".*?</tr>" );
-	private static Pattern INVENTORY_PATTERN = Pattern.compile( ".*?>([\\d,]+<).*name=\"price\\[(.*?)\\]\" value=\"(.*?)\".*name=\"limit\\[.*?\\]\" value=\"(.*?)\"" );
-
 	private static enum RequestType
 	{
 		ITEM_ADDITION,
@@ -245,7 +240,7 @@ public class ManageStoreRequest
 
 		if ( this.responseText != null )
 		{
-			StoreManager.update( this.responseText, true );
+			StoreManager.update( this.responseText, StoreManager.PRICER );
 		}
 
 		KoLmafia.updateDisplay( "Store inventory request complete." );
@@ -290,6 +285,8 @@ public class ManageStoreRequest
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
+			StoreManager.update( responseText, StoreManager.DEETS );
+			StoreManager.calculatePotentialEarnings();
 			return;
 		}
 
@@ -362,19 +359,7 @@ public class ManageStoreRequest
 
 			if ( !urlString.contains( "ajax=1" ) )
 			{
-				Matcher rowMatcher = ManageStoreRequest.INVENTORY_ROW_PATTERN.matcher( responseText );
-				while ( rowMatcher.find() )
-				{
-					Matcher matcher = ManageStoreRequest.INVENTORY_PATTERN.matcher( rowMatcher.group( 0 ) );
-					if ( matcher.find() )
-					{
-						int itemId = StringUtilities.parseInt( matcher.group( 2 ) );
-						int count = StringUtilities.parseInt( matcher.group( 1 ) );
-						int price = StringUtilities.parseInt( matcher.group( 3 ) );
-						int limit = StringUtilities.parseInt( matcher.group( 4 ) );
-						StoreManager.updateItem( itemId, count, price, limit );
-					}
-				}
+				StoreManager.update( responseText, StoreManager.DEETS );
 			}
 			else
 			{
