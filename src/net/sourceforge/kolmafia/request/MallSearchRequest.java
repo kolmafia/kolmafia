@@ -433,6 +433,16 @@ public class MallSearchRequest
 					continue;
 				}
 
+				int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
+
+				// If we have tried to purchase from this store this session
+				// and discovered that it is disabled, skip it.
+
+				if ( MallPurchaseRequest.disabledStores.contains( shopId ) )
+				{
+					continue;
+				}
+
 				if ( previousItemId != itemId )
 				{
 					previousItemId = itemId;
@@ -444,7 +454,6 @@ public class MallSearchRequest
 				// Only add mall store results if the NPC store option
 				// is not available.
 
-				int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
 				int price = StringUtilities.parseInt( detailsMatcher.group( 3 ) );
 				String shopName = new String( detailsMatcher.group( 4 ).replaceAll( "<br>", " " ) );
 

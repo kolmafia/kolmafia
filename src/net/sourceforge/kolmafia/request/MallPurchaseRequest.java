@@ -35,7 +35,9 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -61,9 +64,17 @@ public class MallPurchaseRequest
 {
 	private static final Pattern YIELD_PATTERN =
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
-	private static Pattern MALLSTOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
+
+
+	public static final Set<Integer> disabledStores = new HashSet<Integer>();
 
 	private final int shopId;
+
+	private static Pattern STOREID_PATTERN = Pattern.compile( "whichstore\\d?=(\\d+)" );
+	public static final int getStoreId( final String urlString )
+	{
+		return GenericRequest.getNumericField( urlString, MallPurchaseRequest.STOREID_PATTERN );
+	}
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> with the given
@@ -161,6 +172,12 @@ public class MallPurchaseRequest
 			return;
 		}
 
+		if ( MallPurchaseRequest.disabledStores.contains( this.shopId ) )
+		{
+			KoLmafia.updateDisplay( "This shop's inventory is frozen (#" + this.shopId + "). Skipping..." );
+			return;
+		}
+
 		if ( Limitmode.limitMall() )
 		{
 			return;
@@ -241,6 +258,8 @@ public class MallPurchaseRequest
 		{
 			KoLmafia.updateDisplay( "This shop's inventory is frozen (#" + this.shopId + "). Skipping..." );
 			RequestLogger.updateSessionLog( "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
+			MallPurchaseRequest.disabledStores.add( shopId );
+			StoreManager.flushCache( this.item.getItemId() );
 			return;
 		}
 
@@ -324,6 +343,31 @@ public class MallPurchaseRequest
 	{
 		if ( !urlString.startsWith( "mallstore.php" ) || !urlString.contains( "whichitem" ) )
 		{
+			return;
+		}
+
+		if ( responseText.contains( "Its inventory is frozen" ) )
+		{
+			// This store is disabled.
+			int shopId = MallPurchaseRequest.getStoreId( urlString );
+			if ( shopId == -1 )
+			{
+				return;
+			}
+
+			// Ignore it for the rest of the session.
+			MallPurchaseRequest.disabledStores.add( shopId );
+
+			// Find the item we were trying to buy
+			int itemId = MallPurchaseRequest.extractItemId( urlString );
+			if ( itemId == -1 )
+			{
+				return;
+			}
+
+			// flush the price cache for that item
+			StoreManager.flushCache( itemId );
+
 			return;
 		}
 
@@ -449,8 +493,8 @@ public class MallPurchaseRequest
 		// store ID is embedded in the URL.  Extract it and get
 		// the store name for logging
 
-		Matcher m = MallPurchaseRequest.MALLSTOREID_PATTERN.matcher(urlString);
-		String storeName = m.find() ? m.group(1) : "a PC store";
+		int shopId = MallPurchaseRequest.getStoreId( urlString );
+		String storeName = shopId != -1 ? ( "shop #" + shopId ) : "a PC store";
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "buy " + quantity + " " + itemName + " for " + priceVal +
