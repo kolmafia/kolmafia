@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JPanel;
+
 import net.sourceforge.kolmafia.swingui.panel.StatusPanel;
 import net.sourceforge.kolmafia.swingui.panel.SynthesizePanel;
 
@@ -45,7 +47,11 @@ public class SynthesizeFrame
 	{
 		super( "Sweet Synthesis" );
 
-		this.add( new SynthesizePanel(), BorderLayout.CENTER );
-		this.add( new StatusPanel(), BorderLayout.SOUTH );
+		JPanel centerPanel = new JPanel( new BorderLayout() );
+		
+		centerPanel.add( new SynthesizePanel(), BorderLayout.CENTER );
+		centerPanel.add( new StatusPanel(), BorderLayout.SOUTH );
+
+		this.setCenterComponent( centerPanel );
 	}
 }
