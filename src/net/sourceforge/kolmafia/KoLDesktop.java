@@ -170,23 +170,15 @@ public class KoLDesktop
 		KoLmafiaGUI.checkFrameSettings();
 
 		String interfaceSetting = Preferences.getString( "initialDesktop" );
-		if ( !interfaceSetting.equals( "" ) )
+		for ( String frameName : interfaceSetting.split( "\\s*,\\s*" ) )
 		{
-			String[] interfaceArray = interfaceSetting.split( "," );
-
-			if ( !interfaceSetting.equals( "" ) )
+			if ( frameName.equals( "LocalRelayServer" ) )
 			{
-				for ( int i = 0; i < interfaceArray.length; ++i )
-				{
-					if ( interfaceArray[ i ].equals( "LocalRelayServer" ) )
-					{
-						RelayLoader.startRelayServer();
-						continue;
-					}
-
-					KoLmafiaGUI.constructFrame( interfaceArray[ i ] );
-				}
+				RelayLoader.startRelayServer();
+				continue;
 			}
+
+			KoLmafiaGUI.constructFrame( frameName );
 		}
 
 		this.pack();
