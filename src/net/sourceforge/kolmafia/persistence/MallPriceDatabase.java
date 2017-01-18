@@ -108,7 +108,7 @@ public class MallPriceDatabase
 			if ( id < 1 || id > ItemDatabase.maxItemId() ||
 				price < 1 || price > 999999999 || timestamp <= 0 )
 			{	// Something's fishy with this file...
-				return count;
+				continue;
 			}
 
 			if ( !ItemDatabase.isTradeable( id ) ) continue;
