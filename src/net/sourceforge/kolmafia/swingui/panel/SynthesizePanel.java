@@ -819,6 +819,32 @@ public class SynthesizePanel
 					SynthesizePanel.this.synthesizeButton.setEnabled( replace != null && SynthesizePanel.haveSpleenAvailable() );
 				}
 			}
+
+			public boolean isVisible( final Object o )
+			{
+				if ( o instanceof Candy )
+				{
+					Candy candy = (Candy)o;
+
+					if ( SynthesizePanel.this.availableChecked )
+					{
+						// Filter out candy we have none of.
+						// You can synthesize two of the same
+						// candy. If only have one, can't reuse it.
+						int count = candy.getCount();
+						if ( ( count == 0 ) ||
+						     ( count == 1 && candy.equals( SynthesizePanel.this.candy1() ) ) )
+						{
+							return false;
+						}
+					}
+					if ( SynthesizePanel.this.allowedChecked && candy.getRestricted() )
+					{
+						return false;
+					}
+				}
+				return true;
+			}
 		}
 	}
 
