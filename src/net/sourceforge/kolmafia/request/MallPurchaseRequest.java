@@ -66,7 +66,7 @@ public class MallPurchaseRequest
 		Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
 
 
-	public static final Set<Integer> disabledStores = new HashSet<Integer>();
+	public static final Set<Integer> unavailableStores = new HashSet<Integer>();
 
 	private final int shopId;
 
@@ -74,6 +74,11 @@ public class MallPurchaseRequest
 	public static final int getStoreId( final String urlString )
 	{
 		return GenericRequest.getNumericField( urlString, MallPurchaseRequest.STOREID_PATTERN );
+	}
+
+	public int getShopId()
+	{
+		return this.shopId;
 	}
 
 	/**
@@ -172,9 +177,9 @@ public class MallPurchaseRequest
 			return;
 		}
 
-		if ( MallPurchaseRequest.disabledStores.contains( this.shopId ) )
+		if ( MallPurchaseRequest.unavailableStores.contains( this.shopId ) )
 		{
-			KoLmafia.updateDisplay( "This shop's inventory is frozen (#" + this.shopId + "). Skipping..." );
+			KoLmafia.updateDisplay( "This shop (#" + this.shopId + ") is unavailable; it is either disabled or ignoring you. Skipping..." );
 			return;
 		}
 
@@ -249,6 +254,8 @@ public class MallPurchaseRequest
 		{
 			KoLmafia.updateDisplay( "You are on this shop's ignore list (#" + this.shopId + "). Skipping..." );
 			RequestLogger.updateSessionLog( "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
+			MallPurchaseRequest.unavailableStores.add( shopId );
+			StoreManager.flushCache( -1, this.shopId );
 			return;
 		}
 
@@ -258,8 +265,8 @@ public class MallPurchaseRequest
 		{
 			KoLmafia.updateDisplay( "This shop's inventory is frozen (#" + this.shopId + "). Skipping..." );
 			RequestLogger.updateSessionLog( "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
-			MallPurchaseRequest.disabledStores.add( shopId );
-			StoreManager.flushCache( this.item.getItemId() );
+			MallPurchaseRequest.unavailableStores.add( shopId );
+			StoreManager.flushCache( -1, this.shopId );
 			return;
 		}
 
@@ -346,9 +353,10 @@ public class MallPurchaseRequest
 			return;
 		}
 
-		if ( responseText.contains( "Its inventory is frozen" ) )
+		if ( responseText.contains( "That player will not sell to you" ) ||
+		     responseText.contains( "Its inventory is frozen" ) )
 		{
-			// This store is disabled.
+			// This store is unavailable to you.
 			int shopId = MallPurchaseRequest.getStoreId( urlString );
 			if ( shopId == -1 )
 			{
@@ -356,7 +364,7 @@ public class MallPurchaseRequest
 			}
 
 			// Ignore it for the rest of the session.
-			MallPurchaseRequest.disabledStores.add( shopId );
+			MallPurchaseRequest.unavailableStores.add( shopId );
 
 			// Find the item we were trying to buy
 			int itemId = MallPurchaseRequest.extractItemId( urlString );
@@ -366,7 +374,7 @@ public class MallPurchaseRequest
 			}
 
 			// flush the price cache for that item
-			StoreManager.flushCache( itemId );
+			StoreManager.flushCache( -1, shopId );
 
 			return;
 		}

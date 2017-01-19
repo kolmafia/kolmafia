@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -458,6 +459,40 @@ public abstract class StoreManager
 		}
 	}
 
+	public static final void flushCache( final int itemId, final int shopId )
+	{
+		Iterator<ArrayList<PurchaseRequest>> i1 = StoreManager.mallSearches.values().iterator();
+		while ( i1.hasNext() )
+		{
+			ArrayList<PurchaseRequest> search = i1.next();
+
+			// Always remove empty searches
+			if ( search == null || search.size() == 0 )
+			{
+				i1.remove();
+				continue;
+			}
+
+			if ( itemId != -1 && search.get( 0 ).getItemId() != itemId )
+			{
+				continue;
+			}
+
+			Iterator<PurchaseRequest> i2 = search.iterator();
+			while ( i2.hasNext() )
+			{
+				PurchaseRequest purchase = i2.next();
+				if ( purchase instanceof MallPurchaseRequest &&
+				     shopId == ((MallPurchaseRequest) purchase).getShopId() )
+				{
+					i2.remove();
+					StoreManager.updateMallPrice( ItemPool.get( itemId ), search );
+					return;
+				}
+			}
+		}
+	}
+
 	public static final void flushCache( final int itemId )
 	{
 		Iterator<ArrayList<PurchaseRequest>> i = StoreManager.mallSearches.values().iterator();
@@ -474,6 +509,7 @@ public abstract class StoreManager
 			if ( itemId == id )
 			{
 				i.remove();
+				StoreManager.updateMallPrice( ItemPool.get( itemId ), search );
 				return;
 			}
 			break;

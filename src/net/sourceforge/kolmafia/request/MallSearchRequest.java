@@ -438,7 +438,7 @@ public class MallSearchRequest
 				// If we have tried to purchase from this store this session
 				// and discovered that it is disabled, skip it.
 
-				if ( MallPurchaseRequest.disabledStores.contains( shopId ) )
+				if ( MallPurchaseRequest.unavailableStores.contains( shopId ) )
 				{
 					continue;
 				}
