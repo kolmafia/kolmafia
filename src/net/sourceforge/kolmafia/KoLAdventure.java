@@ -2327,6 +2327,16 @@ public class KoLAdventure
 		{
 			"The gingerbread city has collapsed.",
 			"The gingerbread city has collapsed.",
+		},
+
+		// Hole in the sky
+
+		// You can see it, but you can't get to it without some means of traveling...
+		// 
+		// TO SPACE
+		{
+			"you can't get to it",
+			"You need a way to travel in space.",
 		}
 	};
 

@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 
@@ -197,6 +198,7 @@ public class LoginManager
 		ChateauRequest.reset();
 		HermitRequest.reset();
 		FalloutShelterRequest.reset();
+		MallPurchaseRequest.reset();
 		MonsterManuelManager.reset();
 		SpecialOutfit.forgetCheckpoints();
 

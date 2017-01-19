@@ -436,9 +436,10 @@ public class MallSearchRequest
 				int shopId = StringUtilities.parseInt( detailsMatcher.group( 1 ) );
 
 				// If we have tried to purchase from this store this session
-				// and discovered that it is disabled, skip it.
+				// and discovered that it is disabled or ignoring you, skip it.
 
-				if ( MallPurchaseRequest.unavailableStores.contains( shopId ) )
+				if ( MallPurchaseRequest.disabledStores.contains( shopId ) ||
+				     MallPurchaseRequest.ignoringStores.contains( shopId ))
 				{
 					continue;
 				}
