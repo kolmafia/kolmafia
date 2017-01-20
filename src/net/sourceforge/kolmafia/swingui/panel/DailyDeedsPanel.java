@@ -50,6 +50,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -89,6 +90,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
+import net.sourceforge.kolmafia.session.RabbitHoleManager.Hat;
 
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 
@@ -110,6 +112,7 @@ public class DailyDeedsPanel
 	public static final AdventureResult STAFF_OF_CREAM = ItemPool.get( ItemPool.STAFF_OF_CREAM, 1 );
 
 	private static final String comboBoxSizeString = "Available Hatter Buffs: BLAH";
+	private static final String[] STRING_ARRAY = new String[0];
 
 	/*
 	 * Built-in deeds. {Type, Name, ...otherArgs}
@@ -1396,7 +1399,7 @@ public class DailyDeedsPanel
 			this.addComboButton( command, displaytext ).setToolTipText( tip );
 		}
 
-		public DisabledItemsComboBox addComboBox( Object choice[], ArrayList<Object> tooltips, String lengthString )
+		public DisabledItemsComboBox addComboBox( String choice[], List<String> tooltips, String lengthString )
 		{
 			DisabledItemsComboBox comboBox = new DisabledItemsComboBox();
 			int ht = comboBox.getFontMetrics(comboBox.getFont()).getHeight() ;
@@ -1408,7 +1411,7 @@ public class DailyDeedsPanel
 			// The combobox is ultimately sized by setPrototypeDisplayValue().
 
 			comboBox.setMaximumSize( new Dimension( (int)Math.round( len + 100 ), (int)Math.round( ht * 1.5 ) ) );
-			comboBox.setPrototypeDisplayValue( (Object)lengthString );
+			comboBox.setPrototypeDisplayValue( lengthString );
 
 			for ( int i = 0; i < choice.length ; ++i )
 			{
@@ -1502,8 +1505,8 @@ public class DailyDeedsPanel
 
 		public ShowerCombo()
 		{
-			ArrayList<Object> ttips = new ArrayList<Object>();
-			Object[] choices = {
+			List<String> ttips = new ArrayList<String>();
+			String[] choices = {
 				"April Shower",
 				"Muscle",
 				"Mysticality",
@@ -1511,7 +1514,7 @@ public class DailyDeedsPanel
 				"Ice",
 				"MP"
 			};
-			Object[] tips = {
+			String[] tips = {
 				"Take a shower",
 				"+5% to all Muscle Gains, 50 turns",
 				"+5% to all Mysticality Gains, 50 turns",
@@ -1591,10 +1594,10 @@ public class DailyDeedsPanel
 		public DemonCombo()
 		{
 			int len = KoLAdventure.DEMON_TYPES.length;
-			ArrayList<Object> ttips = new ArrayList<Object>();
-			Object[] choices = new String[ len + 1 ];
+			List<String> ttips = new ArrayList<String>();
+			String[] choices = new String[ len + 1 ];
 			choices[0] = "Summoning Chamber";
-			Object[] tips = {
+			String[] tips = {
 				"Summon a demon",
 				"Yum!",
 				"+100% meat, 30 turns",
@@ -1690,9 +1693,9 @@ public class DailyDeedsPanel
 			this.preference = pref;
 
 			int len = packedDeed.size();
-			ArrayList<Object> ttips = new ArrayList<Object>();
-			Object[] tips = new Object[ len + 1 ];
-			Object[] choices = new String[ len + 1 ];
+			List<String> ttips = new ArrayList<String>();
+			String[] tips = new String[ len + 1 ];
+			String[] choices = new String[ len + 1 ];
 			choices[ 0 ] = displayText;
 			tips[ 0 ] = "";
 			String lengthString = "ABCDEFGH";
@@ -2759,10 +2762,11 @@ public class DailyDeedsPanel
 		public MomCombo()
 		{
 			int len = MomRequest.FOOD.length;
-			ArrayList<Object> ttips = new ArrayList<Object>();
-			Object[] choices = new String[ len + 1 ];
+			List<String> ttips = new ArrayList<String>();
+			String[] choices = new String[ len + 1 ];
 			choices[0] = "Mom Food";
-			Object[] tips = {
+			String[] tips =
+			{
 				"Get Food from Mom",
 				"+7 Hot Resist, 50 turns",
 				"+7 Cold Resist, 50 turns",
@@ -3855,20 +3859,17 @@ public class DailyDeedsPanel
 	public static class HatterDaily
 		extends Daily
 	{
-		DisabledItemsComboBox box = new DisabledItemsComboBox();
-		Component space;
-		JButton btn;
+		private final DisabledItemsComboBox box;
+		private final Component space;
+		private final JButton button;
 
-		static List<String> effectHats = new ArrayList<String>();
-		ArrayList<?> effects = new ArrayList<Object>();
-		ArrayList<Object> modifiers = new ArrayList<Object>();
+		private final List<String> effectHats = Collections.synchronizedList( new ArrayList<String>() );
+		private final List<String> modifiers = Collections.synchronizedList( new ArrayList<String>() );
 
-		HatterComboListener listener = new HatterComboListener();
+		private final HatterComboListener listener = new HatterComboListener();
 
 		public HatterDaily()
 		{
-			this.modifiers.add( null );
-
 			this.addListener( "_madTeaParty" );
 			this.addListener( "(hats)" );
 			this.addListener( "kingLiberated" );
@@ -3877,13 +3878,16 @@ public class DailyDeedsPanel
 			this.addItem( ItemPool.DRINK_ME_POTION );
 			this.addItem( ItemPool.VIP_LOUNGE_KEY );
 
-			box = this.addComboBox( this.effects.toArray(), this.modifiers, comboBoxSizeString );
-			space = this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
+			this.modifiers.add( null );
+			this.box = this.addComboBox( new String[0], this.modifiers, comboBoxSizeString );
+			this.space = this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 
 			// Initialize the GO button to do nothing.
-			btn = this.addComboButton( "", "Go!" );
+			this.button = this.addComboButton( "", "Go!" );
+
 			this.addLabel( "" );
-			update();
+
+			this.update();
 		}
 
 		@Override
@@ -3891,29 +3895,35 @@ public class DailyDeedsPanel
 		{
 			boolean bm = KoLCharacter.inBadMoon();
 			boolean kf = KoLCharacter.kingLiberated();
-			boolean have = ( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 )
-				|| ( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
+			boolean have =
+				( InventoryManager.getCount( ItemPool.VIP_LOUNGE_KEY ) > 0 ) ||
+				( InventoryManager.getCount( ItemPool.DRINK_ME_POTION ) > 0 );
 			boolean active = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.DOWN_THE_RABBIT_HOLE ) );
 			boolean limited = Limitmode.limitZone( "RabbitHole" );
+
 			this.setShown( StandardRequest.isAllowed( "Clan Item", "Looking Glass" ) && ( have || active ) && ( !bm || kf ) && !limited );
-			this.setEnabled( true );
+
 			if ( Preferences.getBoolean( "_madTeaParty" ) )
 			{
+				this.box.setVisible( false );
+				this.space.setVisible( false );
+				this.button.setVisible( false );
 				this.setText( "You have visited the tea party today" );
-				box.setVisible( false );
-				space.setVisible( false );
-				btn.setVisible( false );
+				this.setEnabled( false );
 				return;
 			}
 
-			box.removeActionListener( listener );
-			this.box.removeAllItems();
-			box.addActionListener( listener );
+			this.setEnabled( true );
 
-			HatterDaily.effectHats = Collections.synchronizedList( new ArrayList<String>() );
-			this.modifiers = new ArrayList<Object>();
-			box.addItem( "Available Hatter Buffs: " );
-			HatterDaily.effectHats.add( null );
+			this.box.removeActionListener( listener );
+			this.box.removeAllItems();
+			this.box.addActionListener( listener );
+
+			this.effectHats.clear();
+			this.modifiers.clear();
+
+			this.box.addItem( "Available Hatter Buffs: " );
+			this.effectHats.add( null );
 			this.modifiers.add( null );
 
 			//build hat options here
@@ -3925,49 +3935,39 @@ public class DailyDeedsPanel
 				hats.add( current.getItem() );
 			}
 
-			Object[][] hat_data = RabbitHoleManager.HAT_DATA;
-
-			//iterate across hatter buffs (i.e. hat character-lengths) first
+			// Iterate across hatter buffs (i.e. hat character-lengths) first
 			if ( hats.size() > 0 )
 			{
-				for ( int i = 0; i < hat_data.length; ++i )
+				for ( Hat hat : RabbitHoleManager.HAT_DATA )
 				{
 					// iterate down inventory second
-					for ( int j = 0; j <= hats.size(); ++j )
+					for ( AdventureResult ad : hats )
 					{
-						AdventureResult ad = hats.get( j );
-
-						if ( ad != null && !ad.getName().equals( "(none)" ) &&
-								EquipmentManager.canEquip( ad ) )
+						if ( ad != null &&
+						     !ad.getName().equals( "(none)" ) &&
+						     EquipmentManager.canEquip( ad ) )
 						{
-							if ( ( (Integer) hat_data[ i ][ 0 ] ).intValue() == RabbitHoleManager
-								.hatLength( ad.getName() ) )
+							if ( hat.getLength() == RabbitHoleManager.hatLength( ad.getName() ) )
 							{
-								synchronized ( HatterDaily.effectHats )
-								{
-									HatterDaily.effectHats.add( ad.getName() );
-								}
-								box.addItem( hat_data[ i ][ 1 ], false );
-								synchronized ( modifiers )
-								{
-									modifiers.add( hat_data[ i ][ 2 ] );
-								}
+								this.box.addItem( hat.getEffect(), false );
+								this.effectHats.add( ad.getName() );
+								this.modifiers.add( hat.getModifier() );
 								break;
 							}
 						}
 					}
 				}
 			}
-			box.setTooltips( modifiers );
 
+			box.setTooltips( this.modifiers );
 			box.setEnabled( true );
 
-			setComboTarget(btn, "");
+			setComboTarget( button, "" );
 		}
 
-		public static String getEffectHat( int index )
+		public String getEffectHat( int index )
 		{
-			return effectHats.get( index );
+			return this.effectHats.get( index );
 		}
 
 		private class HatterComboListener
@@ -3984,17 +3984,15 @@ public class DailyDeedsPanel
 
 				if ( cb.getSelectedIndex() <= 0 )
 				{
-					setComboTarget( btn, "" );
+					setComboTarget( button, "" );
 				}
 				else
 				{
 					String Choice = cb.getSelectedItem().toString();
-					setComboTarget( btn, "hatter " + HatterDaily.getEffectHat( cb.getSelectedIndex() ) );
+					setComboTarget( button, "hatter " + HatterDaily.this.getEffectHat( cb.getSelectedIndex() ) );
 				}
 			}
 		}
-
-
 	}
 
 	public static class BanishedDaily
@@ -4303,7 +4301,7 @@ public class DailyDeedsPanel
 		}
 	}
 
-	private static final Object[][] DECK_COMBO_DATA =
+	private static final String[][] DECK_COMBO_DATA =
 	{
 		{ "Deck of Every Card: ", "", "" },
 		{ "Random", "play random", "Draw cards randomly" },
@@ -4367,9 +4365,9 @@ public class DailyDeedsPanel
 	public static class DeckOfEveryCardDaily
 		extends Daily
 	{
-		private static final ArrayList<Object> choices = new ArrayList<Object>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4377,10 +4375,10 @@ public class DailyDeedsPanel
 
 		static
 		{
-			for ( Object[] combodata : DECK_COMBO_DATA )
+			for ( String[] combodata : DECK_COMBO_DATA )
 			{	
 				choices.add( combodata[0] );
-				commands.add( (String) combodata[1] );
+				commands.add( combodata[1] );
 				tooltips.add( combodata[2] );
 			}
 			for ( String phylum : MonsterDatabase.PHYLUM_ARRAY )
@@ -4401,7 +4399,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new DeckComboListener() );
 			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Draw");
@@ -4465,9 +4463,9 @@ public class DailyDeedsPanel
 	public static class TeaTreeDaily
 		extends Daily
 	{
-		private static final ArrayList<String> choices = new ArrayList<String>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 		static
 		{
 			choices.add( "Potted Tea Tree:" );
@@ -4496,7 +4494,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new TeaTreeListener() );
 			space = this.add( Box.createRigidArea( new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Pick" );
@@ -4633,7 +4631,7 @@ public class DailyDeedsPanel
 		}
 	}
 
-	private static final Object[][] TERMINAL_ENHANCE_DATA =
+	private static final String[][] TERMINAL_ENHANCE_DATA =
 	{
 		{ "Terminal Enhance: ", "", "" },
 		{ "items.enh", "terminal enhance items.enh", "+30% item drop" },
@@ -4647,9 +4645,9 @@ public class DailyDeedsPanel
 	public static class TerminalEnhanceDaily
 		extends Daily
 	{
-		private static final ArrayList<Object> choices = new ArrayList<Object>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4657,7 +4655,7 @@ public class DailyDeedsPanel
 
 		static
 		{
-			for ( Object[] combodata : TERMINAL_ENHANCE_DATA )
+			for ( String[] combodata : TERMINAL_ENHANCE_DATA )
 			{	
 				choices.add( combodata[0] );
 				commands.add( (String) combodata[1] );
@@ -4673,7 +4671,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalEnhanceComboListener() );
 			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Enhance");
@@ -4734,7 +4732,7 @@ public class DailyDeedsPanel
 		}
 	}
 
-	private static final Object[][] TERMINAL_ENQUIRY_DATA =
+	private static final String[][] TERMINAL_ENQUIRY_DATA =
 	{
 		{ "Terminal Enquiry: ", "", "" },
 		{ "familiar.enq", "terminal enquiry familiar.enq", "+5 familiar weight" },
@@ -4746,16 +4744,16 @@ public class DailyDeedsPanel
 	public static class TerminalEnquiryDaily
 		extends Daily
 	{
-		private static final ArrayList<Object> choices = new ArrayList<Object>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
 
 		static
 		{
-			for ( Object[] combodata : TERMINAL_ENQUIRY_DATA )
+			for ( String[] combodata : TERMINAL_ENQUIRY_DATA )
 			{	
 				choices.add( combodata[0] );
 				commands.add( (String) combodata[1] );
@@ -4770,7 +4768,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalEnquiryComboListener() );
 			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Enquiry");
@@ -4823,7 +4821,7 @@ public class DailyDeedsPanel
 		}
 	}
 
-	private static final Object[][] TERMINAL_EXTRUDE_DATA =
+	private static final String[][] TERMINAL_EXTRUDE_DATA =
 	{
 		{ "Terminal Extrude: ", "", "", "0" },
 		{ "food.ext", "terminal extrude food", "browser cookie", "10" },
@@ -4841,9 +4839,9 @@ public class DailyDeedsPanel
 	public static class TerminalExtrudeDaily
 		extends Daily
 	{
-		private static final ArrayList<Object> choices = new ArrayList<Object>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		Component space;
@@ -4851,7 +4849,7 @@ public class DailyDeedsPanel
 
 		static
 		{
-			for ( Object[] combodata : TERMINAL_EXTRUDE_DATA )
+			for ( String[] combodata : TERMINAL_EXTRUDE_DATA )
 			{	
 				choices.add( combodata[0] );
 				commands.add( (String) combodata[1] );
@@ -4866,7 +4864,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalExtrudeComboListener() );
 			space = this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Extrude");
@@ -4927,7 +4925,7 @@ public class DailyDeedsPanel
 		}
 	}
 
-	private static final Object[][] TERMINAL_EDUCATE_DATA =
+	private static final String[][] TERMINAL_EDUCATE_DATA =
 	{
 		{ "Terminal Educate: ", "", "" },
 		{ "extract.edu", "terminal educate extract", "collect source essence" },
@@ -4941,19 +4939,19 @@ public class DailyDeedsPanel
 	public static class TerminalEducateDaily
 		extends Daily
 	{
-		private static final ArrayList<Object> choices = new ArrayList<Object>();
-		private static final ArrayList<String> commands = new ArrayList<String>();
-		private static final ArrayList<Object> tooltips = new ArrayList<Object>();
+		private static final List<String> choices = new ArrayList<String>();
+		private static final List<String> commands = new ArrayList<String>();
+		private static final List<String> tooltips = new ArrayList<String>();
 
 		DisabledItemsComboBox box = new DisabledItemsComboBox();
 		JButton btn;
 
 		static
 		{
-			for ( Object[] combodata : TERMINAL_EDUCATE_DATA )
+			for ( String[] combodata : TERMINAL_EDUCATE_DATA )
 			{	
 				choices.add( combodata[0] );
-				commands.add( (String) combodata[1] );
+				commands.add( combodata[1] );
 				tooltips.add( combodata[2] );
 			}
 		}
@@ -4965,7 +4963,7 @@ public class DailyDeedsPanel
 			this.addListener( "kingLiberated" );
 			this.addListener( "(character)" );
 
-			box = this.addComboBox( choices.toArray(), tooltips, comboBoxSizeString );
+			box = this.addComboBox( choices.toArray( STRING_ARRAY ), tooltips, comboBoxSizeString );
 			box.addActionListener( new TerminalEducateComboListener() );
 			this.add( Box.createRigidArea(new Dimension( 5, 1 ) ) );
 			btn = this.addComboButton( "" , "Educate");

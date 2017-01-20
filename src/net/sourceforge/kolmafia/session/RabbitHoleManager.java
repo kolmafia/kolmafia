@@ -72,143 +72,65 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public abstract class RabbitHoleManager
 {
 	public static final Pattern HAT_CLEANER_PATTERN = Pattern.compile( "\\s" );
-	public final static Object [][] HAT_DATA =
+
+	public static class Hat
 	{
+		private final int length;
+		private final String effect;
+		private final String modifier;
+		
+		public Hat( final int length, final String effect, final String modifier )
 		{
-			IntegerPool.get( 4 ),
-			"Assaulted with Pepper",
-			"Monster Level +20",
-		},
+			this.length = length;
+			this.effect = effect;
+			this.modifier = modifier;
+		}
+
+		public int getLength()
 		{
-			IntegerPool.get( 6 ),
-			"Three Days Slow",
-			"Familiar Experience +3",
-		},
+			return this.length;
+		}
+
+		public String getEffect()
 		{
-			IntegerPool.get( 7 ),
-			"Cat-Alyzed",
-			"Moxie +10",
-		},
+			return this.effect;
+		}
+
+		public String getModifier()
 		{
-			IntegerPool.get( 8 ),
-			"Anytwo Five Elevenis?",
-			"Muscle +10",
-		},
-		{
-			IntegerPool.get( 9 ),
-			"Coated Arms",
-			"Weapon Damage +15",
-		},
-		{
-			IntegerPool.get( 10 ),
-			"Smoky Third Eye",
-			"Mysticality +10",
-		},
-		{
-			IntegerPool.get( 11 ),
-			"Full Bottle in front of Me",
-			"Spell Damage +30%",
-		},
-		{
-			IntegerPool.get( 12 ),
-			"Thick-Skinned",
-			"Maximum HP +50",
-		},
-		{
-			IntegerPool.get( 13 ),
-			"20-20 Second Sight",
-			"Maximum MP +25",
-		},
-		{
-			IntegerPool.get( 14 ),
-			"Slimy Hands",
-			"+10 Sleaze Damage",
-		},
-		{
-			IntegerPool.get( 15 ),
-			"Bottle in front of Me",
-			"Spell Damage +15",
-		},
-		{
-			IntegerPool.get( 16 ),
-			"Fan-Cooled",
-			"+10 Cold Damage",
-		},
-		{
-			IntegerPool.get( 17 ),
-			"Ginger Snapped",
-			"+10 Spooky Damage",
-		},
-		{
-			IntegerPool.get( 18 ),
-			"Egg on your Face",
-			"+10 Stench Damage",
-		},
-		{
-			IntegerPool.get( 19 ),
-			"Pockets of Fire",
-			"+10 Hot Damage",
-		},
-		{
-			IntegerPool.get( 20 ),
-			"Weapon of Mass Destruction",
-			"Weapon Damage +30%",
-		},
-		{
-			IntegerPool.get( 21 ),
-			"Orchid Blood",
-			"Regenerate 5-10 MP per Adventure",
-		},
-		{
-			IntegerPool.get( 22 ),
-			"Dances with Tweedles",
-			"+40% Meat from Monsters",
-		},
-		{
-			IntegerPool.get( 23 ),
-			"Patched In",
-			"Mysticality +20%",
-		},
-		{
-			IntegerPool.get( 24 ),
-			"You Can Really Taste the Dormouse",
-			"+5 to Familiar Weight",
-		},
-		{
-			IntegerPool.get( 25 ),
-			"Turtle Titters",
-			"+3 Stat Gains from Fights",
-		},
-		{
-			IntegerPool.get( 26 ),
-			"Cat Class, Cat Style",
-			"Moxie +20%",
-		},
-		{
-			IntegerPool.get( 27 ),
-			"Surreally Buff",
-			"Muscle +20%",
-		},
-		{
-			IntegerPool.get( 28 ),
-			"Quadrilled",
-			"+20% Items from Monsters",
-		},
-		{
-			IntegerPool.get( 29 ),
-			"Coming Up Roses",
-			"Regenerate 10-20 MP per Adventure",
-		},
-		{
-			IntegerPool.get( 30 ),
-			"Oleaginous Soles",
-			"+40% Combat Initiative",
-		},
-		{
-			IntegerPool.get( 31 ),
-			"Oleaginous Soles",
-			"+40% Combat Initiative",
-		},
+			return this.modifier;
+		}
+	}
+
+	public final static Hat [] HAT_DATA =
+	{
+		new Hat( 4, "Assaulted with Pepper", "Monster Level +20" ),
+		new Hat( 6, "Three Days Slow", "Familiar Experience +3" ),
+		new Hat( 7, "Cat-Alyzed", "Moxie +10" ),
+		new Hat( 8, "Anytwo Five Elevenis?", "Muscle +10" ),
+		new Hat( 9, "Coated Arms", "Weapon Damage +15" ),
+		new Hat( 10, "Smoky Third Eye", "Mysticality +10" ),
+		new Hat( 11, "Full Bottle in front of Me", "Spell Damage +30%" ),
+		new Hat( 12, "Thick-Skinned", "Maximum HP +50" ),
+		new Hat( 13, "20-20 Second Sight", "Maximum MP +25" ),
+		new Hat( 14, "Slimy Hands", "+10 Sleaze Damage" ),
+		new Hat( 15, "Bottle in front of Me", "Spell Damage +15" ),
+		new Hat( 16, "Fan-Cooled", "+10 Cold Damage" ),
+		new Hat( 17, "Ginger Snapped", "+10 Spooky Damage" ),
+		new Hat( 18, "Egg on your Face", "+10 Stench Damage" ),
+		new Hat( 19, "Pockets of Fire", "+10 Hot Damage" ),
+		new Hat( 20, "Weapon of Mass Destruction", "Weapon Damage +30%" ),
+		new Hat( 21, "Orchid Blood", "Regenerate 5-10 MP per Adventure" ),
+		new Hat( 22, "Dances with Tweedles", "+40% Meat from Monsters" ),
+		new Hat( 23, "Patched In", "Mysticality +20%" ),
+		new Hat( 24, "You Can Really Taste the Dormouse", "+5 to Familiar Weight" ),
+		new Hat( 25, "Turtle Titters", "+3 Stat Gains from Fights" ),
+		new Hat( 26, "Cat Class, Cat Style", "Moxie +20%" ),
+		new Hat( 27, "Surreally Buff", "Muscle +20%" ),
+		new Hat( 28, "Quadrilled", "+20% Items from Monsters" ),
+		new Hat( 29, "Coming Up Roses", "Regenerate 10-20 MP per Adventure" ),
+		new Hat( 30, "Oleaginous Soles", "+40% Combat Initiative" ),
+		new Hat( 31, "Oleaginous Soles", "+40% Combat Initiative" ),
 	};
 
 	private static final String[] IMAGES = new String[]
@@ -1463,15 +1385,13 @@ public abstract class RabbitHoleManager
 		buffer.insert( index, link );
 	}
 	
-	public static final Object[] getHatData( int length )
+	public static final Hat getHatData( int length )
 	{
-		Object[][] hat_data = RabbitHoleManager.HAT_DATA;
-		for ( int i = hat_data.length - 1; i >= 0; --i )
+		for ( Hat hat : RabbitHoleManager.HAT_DATA )
 		{
-			Object [] data = hat_data[i];
-			if ( ((Integer) data[ 0 ]).intValue() == length )
+			if ( hat.getLength() == length )
 			{
-				return data;
+				return hat;
 			}
 		}
 		return null;
@@ -1479,10 +1399,10 @@ public abstract class RabbitHoleManager
 
 	public static final String getHatDescription( int length )
 	{
-		Object [] data = RabbitHoleManager.getHatData( length );
-		if ( data != null )
+		Hat hat = RabbitHoleManager.getHatData( length );
+		if ( hat != null )
 		{
-			return data[ 1 ] + " (" + data[ 2 ] + ")";
+			return hat.getEffect() + " (" + hat.getModifier() + ")";
 		}
 		return "unknown (" + length + " characters)";
 	}
@@ -1608,8 +1528,8 @@ public abstract class RabbitHoleManager
 		while ( it.hasNext() )
 		{
 			Integer key = (Integer) it.next();
-			Object [] data = RabbitHoleManager.getHatData( key.intValue() );
-			if ( data == null )
+			Hat hat = RabbitHoleManager.getHatData( key.intValue() );
+			if ( hat == null )
 			{
 				continue;
 			}
@@ -1621,11 +1541,11 @@ public abstract class RabbitHoleManager
 			output.append( "</td><td rowspan=" );
 			output.append( String.valueOf( split.length ) );
 			output.append( ">" );
-			output.append( (String) data[ 2 ] );
+			output.append( hat.getModifier() );
 			output.append( "</td><td rowspan=" );
 			output.append( String.valueOf( split.length ) );
 			output.append( ">" );
-			output.append( (String) data[ 1 ] );
+			output.append( hat.getEffect() );
 			output.append( "</td></tr>" );
 			for ( int i = 1; i < split.length; ++i )
 			{
@@ -1668,29 +1588,19 @@ public abstract class RabbitHoleManager
 			return;
 		}
 
-		String effectName = "", effectModifiers = "";
-		int len = hatLength( hat.getName() );
-		int allHatLen = HAT_DATA.length;
-
-		for ( int i=0; i <= allHatLen ; ++i )
-		{
-			if ( ( (Integer) HAT_DATA[i][0] ).intValue() == len )
-			{
-				effectName = (String) HAT_DATA[i][1];
-				effectModifiers = (String) HAT_DATA[i][2];
-				break;
-			}
-		}
-		
-		if ( effectName.equals( "" ) || effectModifiers.equals( "" ) )
+		Hat data = RabbitHoleManager.getHatData( hatLength( hat.getName() ) );
+		if ( data == null )
 		{
 			return;
 		}
 
+		String effectName = data.getEffect();
+		String effectModifiers = data.getModifier();
+
 		RequestLogger.printLine( "Getting " + effectName + " (" + effectModifiers + ") from the Mad Tea Party..." );
+
 		RequestThread.postRequest( new RabbitHoleRequest( "rabbithole_teaparty" ) );
 		RequestThread.postRequest( new GenericRequest( "choice.php?pwd&whichchoice=441&option=1", true ) );
-
 		RequestThread.postRequest( new EquipmentRequest( oldHat, EquipmentManager.HAT ) );
 	}
 	

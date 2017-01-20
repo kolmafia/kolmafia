@@ -37,6 +37,7 @@ import java.awt.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
@@ -48,7 +49,7 @@ import javax.swing.UIManager;
 public class DisabledItemsComboBox 
 	extends JComboBox 
 {
-	private ArrayList tooltips;
+	private List<String> tooltips;
 	private HashSet disabledItems = new HashSet(); //these indices will be disabled
 	private DisabledItemsRenderer itemRenderer = new DisabledItemsRenderer();
 	
@@ -142,7 +143,7 @@ public class DisabledItemsComboBox
 	}
       
 	// provides access to the renderer setTooltips
-	public void setTooltips( ArrayList tooltips )
+	public void setTooltips( List<String> tooltips )
 	{
 		this.tooltips = tooltips;
 	}
@@ -198,7 +199,7 @@ public class DisabledItemsComboBox
 			{
 				if ( index >= 0 && index < tooltips.size() )
 				{
-					String text = (String) tooltips.get( index );
+					String text = tooltips.get( index );
 
 					list.setToolTipText( text );
 				}
