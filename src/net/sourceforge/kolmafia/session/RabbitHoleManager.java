@@ -34,7 +34,6 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -1416,13 +1415,11 @@ public abstract class RabbitHoleManager
 		}
 		index += 8;
 		
-		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
 		AdventureResult curHat = EquipmentManager.getEquipment( EquipmentManager.HAT );
-		TreeMap options = new TreeMap();
-		Iterator i = hats.iterator();
-		while ( i.hasNext() )
+		TreeMap<Integer,String> options = new TreeMap<Integer,String>();
+		for ( AdventureResult hat : hats )
 		{
-			AdventureResult hat = (AdventureResult) i.next();
 			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
 			{	// no buff without a hat!
 				continue;
@@ -1439,8 +1436,7 @@ public abstract class RabbitHoleManager
 			buf.append( ": " );
 			buf.append( RabbitHoleManager.getHatDescription( len ) );
 			buf.append( "</option>" );
-			options.put( IntegerPool.get( (len << 24) | hat.getItemId() ),
-				buf.toString() );
+			options.put( IntegerPool.get( (len << 24) | hat.getItemId() ), buf.toString() );
 		}
 		
 		String ending = buffer.substring( index );
@@ -1448,10 +1444,9 @@ public abstract class RabbitHoleManager
 		buffer.append( "Hat the player: <select onChange=\"singleUse('inv_equip.php', 'which=2&action=equip&pwd=" );
 		buffer.append( GenericRequest.passwordHash );
 		buffer.append( "&ajax=1&whichitem=' + this.options[this.selectedIndex].value);\">" );
-		i = options.values().iterator();
-		while ( i.hasNext() )
+		for ( String option : options.values() )
 		{
-			buffer.append( (String) i.next() );
+			buffer.append( option );
 		}
 		buffer.append( "</select>" );
 		buffer.append( ending );
@@ -1460,7 +1455,7 @@ public abstract class RabbitHoleManager
 	private static TreeMap getHatMap()
 	{
 		// Make a map of all hats indexed by length
-		List hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
+		List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[ EquipmentManager.HAT ];
 		FamiliarData current = (FamiliarData) KoLCharacter.getFamiliar();
 
 		if ( current.getItem() != null && EquipmentDatabase.isHat( current.getItem() ) )
@@ -1468,11 +1463,9 @@ public abstract class RabbitHoleManager
 			hats.add( current.getItem() );
 		}
 
-		TreeMap lengths = new TreeMap();
-		Iterator it = hats.iterator();
-		while ( it.hasNext() )
+		TreeMap<Integer,StringBuffer> lengths = new TreeMap<Integer,StringBuffer>();
+		for ( AdventureResult hat : hats )
 		{
-			AdventureResult hat = (AdventureResult) it.next();
 			if ( hat.equals( EquipmentRequest.UNEQUIP ) )
 			{	// no buff without a hat!
 				continue;
@@ -1487,7 +1480,7 @@ public abstract class RabbitHoleManager
 			String name = hat.getName();
 
 			Integer len = IntegerPool.get( hatLength( name ) );
-			StringBuffer buffer = (StringBuffer) lengths.get( len );
+			StringBuffer buffer = lengths.get( len );
 
 			if ( buffer == null )
 			{
@@ -1506,7 +1499,7 @@ public abstract class RabbitHoleManager
 	
 	public static final void hatCommand()
 	{
-		TreeMap lengths = getHatMap();
+		TreeMap<Integer,StringBuffer> lengths = getHatMap();
 
 		if ( lengths.size() == 0 )
 		{
@@ -1524,17 +1517,15 @@ public abstract class RabbitHoleManager
 		output.append( "</tr>" );
 		
 		// For each hat length, generate a table row
-		Iterator it = lengths.keySet().iterator();
-		while ( it.hasNext() )
+		for ( Integer key : lengths.keySet() )
 		{
-			Integer key = (Integer) it.next();
 			Hat hat = RabbitHoleManager.getHatData( key.intValue() );
 			if ( hat == null )
 			{
 				continue;
 			}
 
-			StringBuffer buffer = (StringBuffer) lengths.get( key );
+			StringBuffer buffer = lengths.get( key );
 			String[] split = buffer.toString().split( "\\|" );
 			output.append( "<tr><td>" );
 			output.append( split[0] );
