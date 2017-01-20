@@ -47,6 +47,7 @@ import java.util.Map;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
@@ -74,7 +75,6 @@ public class DataFileCache
 		}
 
 		filename = filename.substring( filename.lastIndexOf( "\\" ) + 1 );
-		filename = filename.substring( filename.lastIndexOf( "/" ) + 1 );
 
 		File[] parents;
 
@@ -101,11 +101,41 @@ public class DataFileCache
 			File file = new File( parents[ i ], filename );
 			if ( checkFile( parents, file, true ) )
 			{
-				return file;
+				try
+				{
+					if ( file.getCanonicalPath().startsWith( parents[ i ].getCanonicalPath() ) )
+					{
+						return file;
+					}
+					else
+					{
+						KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, filename + " is not within KoLmafia's directories." );
+						return null;
+					}
+				}
+				catch ( IOException e )
+				{
+					return null;
+				}
+				
 			}
 		}
 
-		return new File( KoLConstants.DATA_LOCATION, filename );
+		File file = new File( KoLConstants.DATA_LOCATION, filename );
+		try
+		{
+			if ( file.getCanonicalPath().startsWith( KoLConstants.DATA_LOCATION.getCanonicalPath() ) )
+			{
+				return file;
+			}
+		}
+		catch ( IOException e )
+		{
+			return null;
+		}
+
+		KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, filename + " is not within KoLmafia's directories." );
+		return null;
 	}
 
 	private static boolean checkFile( File[] parents, File file, boolean checkExists )
