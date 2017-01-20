@@ -92,7 +92,6 @@ public class DataFileCache
 				KoLConstants.SCRIPT_LOCATION,
 				KoLConstants.RELAY_LOCATION,
 				KoLConstants.DATA_LOCATION,
-				KoLConstants.ROOT_LOCATION
 			};
 		}
 
@@ -121,7 +120,13 @@ public class DataFileCache
 			}
 		}
 
-		File file = new File( KoLConstants.DATA_LOCATION, filename );
+		File file = new File( KoLConstants.ROOT_LOCATION, filename );
+		if ( file.exists() && file.getParent().equals( KoLConstants.ROOT_LOCATION.getAbsolutePath() ) )
+		{
+			return file;
+		}
+
+		file = new File( KoLConstants.DATA_LOCATION, filename );
 		try
 		{
 			if ( file.getCanonicalPath().startsWith( KoLConstants.DATA_LOCATION.getCanonicalPath() ) )
