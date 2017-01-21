@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.List;
+import java.util.Locale;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1579,6 +1580,7 @@ public class QuestManager
 		// oil baron: 31.7
 		// oil cartel: 63.4
 		// dress pants: 6.34
+		// lovebug: 6.34
 		else if ( monsterName.equals( "oil slick" ) )
 		{
 			double pantsBonus = InventoryManager.getEquippedCount( ItemPool.DRESS_PANTS ) > 0 ? 6.34 : 0;
@@ -1586,7 +1588,7 @@ public class QuestManager
 			double lovebug = responseText.contains( "love oil beetle trundles up" ) ? 6.34 : 0;
 
 			// normalize
-			String setTo = String.format( "%.2f", Math.max( 0, current - 6.34 - pantsBonus - lovebug ) );
+			String setTo = String.format( Locale.US, "%.2f", Math.max( 0, current - 6.34 - pantsBonus - lovebug ) );
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
@@ -1596,7 +1598,7 @@ public class QuestManager
 			float current = Preferences.getFloat( "oilPeakProgress" );
 			double lovebug = responseText.contains( "love oil beetle trundles up" ) ? 6.34 : 0;
 
-			String setTo = String.format( "%.2f", Math.max( 0, current - 19.02 - pantsBonus - lovebug ) );
+			String setTo = String.format( Locale.US, "%.2f", Math.max( 0, current - 19.02 - pantsBonus - lovebug ) );
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
@@ -1606,7 +1608,7 @@ public class QuestManager
 			float current = Preferences.getFloat( "oilPeakProgress" );
 			double lovebug = responseText.contains( "love oil beetle trundles up" ) ? 6.34 : 0;
 
-			String setTo = String.format( "%.2f", Math.max( 0, current - 31.7 - pantsBonus - lovebug ) );
+			String setTo = String.format( Locale.US, "%.2f", Math.max( 0, current - 31.7 - pantsBonus - lovebug ) );
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
@@ -1616,7 +1618,7 @@ public class QuestManager
 			float current = Preferences.getFloat( "oilPeakProgress" );
 			double lovebug = responseText.contains( "love oil beetle trundles up" ) ? 6.34 : 0;
 
-			String setTo = String.format( "%.2f", Math.max( 0, current - 63.4 - pantsBonus - lovebug ) );
+			String setTo = String.format( Locale.US, "%.2f", Math.max( 0, current - 63.4 - pantsBonus - lovebug ) );
 
 			Preferences.setString( "oilPeakProgress", setTo );
 		}
