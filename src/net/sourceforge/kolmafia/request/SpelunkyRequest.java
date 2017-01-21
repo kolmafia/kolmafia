@@ -214,6 +214,8 @@ public class SpelunkyRequest
 			return;
 		}
 
+		CharPaneRequest.parseAvatar( responseText );
+
 		boolean ghostWaving = false;
 
 		String spelunkyStatus = Preferences.getString( "spelunkyStatus" );
