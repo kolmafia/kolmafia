@@ -5875,23 +5875,23 @@ public abstract class KoLCharacter
 		// These depend on the modifiers from everything else, so they must be done last
 		if ( effects.contains( EffectPool.get( EffectPool.BENDIN_HELL ) ) )
 		{
-			newModifiers.add( Modifiers.HOT_DAMAGE, newModifiers.getExtra( Modifiers.HOT_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.COLD_DAMAGE, newModifiers.getExtra( Modifiers.COLD_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.STENCH_DAMAGE, newModifiers.getExtra( Modifiers.STENCH_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.SPOOKY_DAMAGE, newModifiers.getExtra( Modifiers.SPOOKY_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.SLEAZE_DAMAGE, newModifiers.getExtra( Modifiers.SLEAZE_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.HOT_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.HOT_SPELL_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.COLD_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.COLD_SPELL_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.STENCH_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.STENCH_SPELL_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.SPOOKY_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.SPOOKY_SPELL_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
-			newModifiers.add( Modifiers.SLEAZE_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.SLEAZE_SPELL_DAMAGE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
+			newModifiers.add( Modifiers.HOT_DAMAGE, newModifiers.getExtra( Modifiers.HOT_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.COLD_DAMAGE, newModifiers.getExtra( Modifiers.COLD_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.STENCH_DAMAGE, newModifiers.getExtra( Modifiers.STENCH_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.SPOOKY_DAMAGE, newModifiers.getExtra( Modifiers.SPOOKY_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.SLEAZE_DAMAGE, newModifiers.getExtra( Modifiers.SLEAZE_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.HOT_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.HOT_SPELL_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.COLD_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.COLD_SPELL_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.STENCH_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.STENCH_SPELL_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.SPOOKY_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.SPOOKY_SPELL_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.SLEAZE_SPELL_DAMAGE, newModifiers.getExtra( Modifiers.SLEAZE_SPELL_DAMAGE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
 		}
 		if ( effects.contains( EffectPool.get( EffectPool.BOWLEGGED_SWAGGER ) ) )
 		{
-			newModifiers.add( Modifiers.INITIATIVE, newModifiers.getExtra( Modifiers.INITIATIVE ), "Effect:[" + EffectPool.BENDIN_HELL + "]" );
+			newModifiers.add( Modifiers.INITIATIVE, newModifiers.getExtra( Modifiers.INITIATIVE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
 			// Add "Physical Damage" here, when that is properly defined
 		}
-		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )//
+		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
 		}
