@@ -187,18 +187,17 @@ public class SweetSynthesisRequest
 
 	public static void postChoice1( final String urlString, final String responseText )
 	{
-		if ( responseText.contains( "Your spleen has already taken enough abuse for one day." ) )
-		{
-			return;
-		}
+		// Your spleen has already taken enough abuse for one day.
+		// You have to pick two candies!
 
-		// We just used 1 spleen
-		KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + 1 );
-		KoLCharacter.updateStatus();
-
-		// If we gain an effect, extract the items we used and remove them from inventory
+		// Rather than detecting various failures, look for success.
 		if ( responseText.contains( "You acquire an effect" ) )
 		{
+			// We just poisoned 1 spleen
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + 1 );
+			KoLCharacter.updateStatus();
+
+			// And used up two candies
 			int itemId1 = SweetSynthesisRequest.extractItemId( urlString, ITEMID1_PATTERN );
 			int itemId2 = SweetSynthesisRequest.extractItemId( urlString, ITEMID2_PATTERN );
 			ResultProcessor.processItem( itemId1, -1 );
