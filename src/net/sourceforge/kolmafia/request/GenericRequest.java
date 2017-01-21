@@ -1980,18 +1980,14 @@ public class GenericRequest
 			this.responseMessage = this.getResponseMessage();
 
 			if ( this.responseCode == 504 &&
-			     ( this.baseURLString.equals( "storage.php" ) ||
-				 ( this.baseURLString.equals( "inventory.php" ) && this.formURLString.contains( "action=pullall" ) ) ) )
+			     ( this.baseURLString.equals( "storage.php" ) || this.baseURLString.equals( "inventory.php" ) ) &&
+			     this.formURLString.contains( "action=pullall" ) )
 			{
 				// Likely a pullall request that timed out
 				PauseObject pauser = new PauseObject();
 				KoLmafia.updateDisplay( "Waiting 20 seconds for KoL to finish processing..." );
 				pauser.pause( 20 * 1000 );
-				KoLConstants.storage.clear();
-				KoLConstants.freepulls.clear();
-				KoLConstants.nopulls.clear();
-				InventoryManager.refresh();
-				ClosetRequest.refresh();
+				StorageRequest.emptyStorage( this.formURLString );
 				return true;
 			}
 
