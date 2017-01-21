@@ -241,6 +241,8 @@ public class CharPaneRequest
 		// Since we believe this update, synchronize with it
 		ResultProcessor.processAdventuresUsed( turnsThisRun - mafiaTurnsThisRun );
 
+		CharPaneRequest.parseAvatar( responseText );
+
 		CharPaneRequest.setLastAdventure( responseText );
 		CharPaneRequest.refreshEffects( responseText );
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
@@ -306,6 +308,19 @@ public class CharPaneRequest
 		return CharPaneRequest.lastResponse;
 	}
 
+	// <a class='nounder ' target=mainpane href="charsheet.php"><img  src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/classav41_f.gif" width=60 height=100 border=0></a>
+
+	public static final Pattern AVATAR_PATTERN =
+		Pattern.compile( "<img +src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>\'\"\\s]+)" );
+	public static final void parseAvatar( final String responseText )
+	{
+		Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher( responseText );
+		if ( avatarMatcher.find() )
+		{
+			KoLCharacter.setAvatar( avatarMatcher.group( 1 ) );
+		}
+	}
+
 	// <td align=center><img src="http://images.kingdomofloathing.com/itemimages/karma.gif" width=30 height=30 alt="Karma" title="Karma"><br>0</td>
 	public static final Pattern KARMA_PATTERN = Pattern.compile( "karma.gif.*?<br>([^<]*)</td>" );
 	// <td align=right>Karma:</td><td align=left><b>122</b></td>
@@ -315,6 +330,8 @@ public class CharPaneRequest
 	{
 		// We are in Valhalla
 		CharPaneRequest.inValhalla = true;
+
+		KoLCharacter.setAvatar( "otherimages/spirit.gif" );
 
 		// We have no stats as an Astral Spirit
 		KoLCharacter.setStatPoints( 1, 0L, 1, 0L, 1, 0L );

@@ -38,6 +38,7 @@ import java.awt.CardLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -49,6 +50,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -57,7 +60,7 @@ import net.sourceforge.kolmafia.swingui.panel.AdventureSelectPanel;
 public class CharSheetFrame
 	extends GenericFrame
 {
-	private final JLabel avatar;
+	private final AvatarLabel avatar;
 	private JProgressBar[] tnpDisplay;
 	private final CharacterListener statusRefresher;
 
@@ -71,7 +74,7 @@ public class CharSheetFrame
 
 		JPanel statusPanel = new JPanel( new BorderLayout( 10, 10 ) );
 
-		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
+		this.avatar = new AvatarLabel();
 
 		statusPanel.add( this.createStatusPanel(), BorderLayout.CENTER );
 		statusPanel.add( this.avatar, BorderLayout.WEST );
@@ -147,6 +150,24 @@ public class CharSheetFrame
 			tnp.setToolTipText( "At " + points +
 				" points, you'll be able to equip a " +
 				triggerItem + " (and maybe more)" );
+		}
+	}
+
+	public class AvatarLabel
+		extends JLabel
+		implements Listener
+	{
+		public AvatarLabel()
+		{
+			super();
+			NamedListenerRegistry.registerNamedListener( "(avatar)", this );
+			this.update();
+		}
+
+		public void update()
+		{
+			ImageIcon icon = JComponentUtilities.getImage( KoLCharacter.getAvatar() );
+			this.setIcon( icon );
 		}
 	}
 

@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CharPaneRequest;
+
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -439,6 +441,8 @@ public class BatManager
 		{
 			return;
 		}
+
+		CharPaneRequest.parseAvatar( responseText );
 
 		Matcher matcher = BatManager.TIME_PATTERN.matcher( responseText );
 		if ( matcher.find() )

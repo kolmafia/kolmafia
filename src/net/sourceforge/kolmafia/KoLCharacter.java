@@ -1046,6 +1046,8 @@ public abstract class KoLCharacter
 			String prefix = KoLmafia.imageServerPath();
 			FileUtilities.downloadImage( prefix + KoLCharacter.avatar );
 		}
+		NamedListenerRegistry.fireChange( "(avatar)" );
+
 		if ( avatar.endsWith( "_f.gif" ) )
 		{
 			KoLCharacter.setGender( KoLCharacter.FEMALE );
