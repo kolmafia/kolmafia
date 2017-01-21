@@ -78,7 +78,7 @@ public class ValhallaManager
 {
 	private static final AdventureResult [] USABLE = new AdventureResult []
 	{
-		ItemPool.get( ItemPool.ELITE_SCROLL, 1 ),
+		ItemPool.get( ItemPool.GATES_SCROLL, 1 ),
 		ItemPool.get( ItemPool.FISHERMANS_SACK, 1 ),
 		ItemPool.get( ItemPool.BONERDAGON_CHEST, 1 ),
 	};
