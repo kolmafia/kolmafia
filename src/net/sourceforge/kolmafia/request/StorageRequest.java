@@ -466,28 +466,7 @@ public class StorageRequest
 
 			if ( responseText.contains( "go and grab all of your stuff" ) )
 			{
-				KoLConstants.storage.clear();
-				KoLConstants.freepulls.clear();
-				KoLCharacter.setStorageMeat( 0 );
-
-				// Doing a "pull all" in Hagnk's does not tell
-				// you what went into inventory and what went
-				// into the closet.
-
-				InventoryManager.refresh();
-				ClosetRequest.refresh();
-				NamedListenerRegistry.fireChange( "(coinmaster)" );
-
-				// If we are still in a Trendy run or are pulling only
-				// "favorite things", we may have left items in storage.
-
-				if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() || urlString.contains( "favonly=1" ) )
-				{
-					StorageRequest.refresh();
-					KoLCharacter.updateStatus();
-					return true;
-				}
-
+				StorageRequest.emptyStorage( urlString );
 				transfer = true;
 			}
 		}
@@ -532,6 +511,29 @@ public class StorageRequest
 		}
 
 		return true;
+	}
+
+	public static final void emptyStorage( final String urlString )
+	{
+		KoLConstants.storage.clear();
+		KoLConstants.freepulls.clear();
+		KoLCharacter.setStorageMeat( 0 );
+
+		// Doing a "pull all" in Hagnk's does not tell
+		// you what went into inventory and what went
+		// into the closet.
+
+		InventoryManager.refresh();
+		ClosetRequest.refresh();
+		NamedListenerRegistry.fireChange( "(coinmaster)" );
+
+		// If we are still in a Trendy run or are pulling only
+		// "favorite things", we may have left items in storage.
+
+		if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() || urlString.contains( "favonly=1" ) )
+		{
+			StorageRequest.refresh();
+		}
 	}
 
 	// <b>star hat (1)</b> moved from storage to inventory.
