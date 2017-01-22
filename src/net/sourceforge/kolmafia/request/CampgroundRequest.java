@@ -408,9 +408,9 @@ public class CampgroundRequest
 
 	public static boolean hasCropOrBetter( final AdventureResult current, final String cropName )
 	{
-		if ( current == null || current.getCount() == 0 )
+		if ( current == null || current.getCount() == 0 || cropName.equals( "none" ) )
 		{
-			// Nothing in your garden or no garden.
+			// Nothing in your garden or no garden or don't want to pick
 			return false;
 		}
 
