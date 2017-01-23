@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.BookType;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -44,10 +45,12 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -57,6 +60,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
@@ -95,10 +99,24 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 1 ),
 	};
 
-	private static final AdventureResult key = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
+	private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
 
 	public static void getBreakfast( final boolean runComplete )
 	{
+		String limitmode = KoLCharacter.getLimitmode();
+		if ( limitmode != null )
+		{
+			// Current limitmodes are transient states you can
+			// enter and leave during a run. If KoL ever implements
+			// a limitmode for an entire run, we may have to
+			// revisit this.
+			//
+			// Individual breakfast actions already check for zones
+			// and places being limited.
+
+			return;
+		}
+
 		SpecialOutfit.createImplicitCheckpoint();
 
 		if ( runComplete )
@@ -118,6 +136,7 @@ public class BreakfastManager
 				useCSAKit();
 			}
 			collectAnticheese();
+			collectSeaJelly();
 		}
 
 		boolean recoverMana = Preferences.getBoolean( "loginRecovery" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
@@ -152,7 +171,7 @@ public class BreakfastManager
 
 	public static void checkVIPLounge()
 	{
-		if ( !Limitmode.limitClan() && InventoryManager.hasItem( key ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		if ( !Limitmode.limitClan() && InventoryManager.hasItem( VIP_LOUNGE_KEY ) && Preferences.getBoolean( "visitLounge" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			ClanLoungeRequest.getBreakfast();
 			KoLmafia.forceContinue();
@@ -165,6 +184,7 @@ public class BreakfastManager
 		{
 			return;
 		}
+
 		if ( !Preferences.getBoolean( "readManual" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			return;
@@ -221,7 +241,7 @@ public class BreakfastManager
 
 	public static void getHermitClovers()
 	{
-		if ( KoLCharacter.inBadMoon() || Limitmode.limitZone( "Woods" ) )
+		if ( KoLCharacter.inBadMoon() || KoLCharacter.inNuclearAutumn() || Limitmode.limitZone( "Mountain" ) )
 		{
 			return;
 		}
@@ -240,11 +260,13 @@ public class BreakfastManager
 
 	public static void harvestGarden()
 	{
+		if ( KoLCharacter.isEd() || !KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground() )
+		{
+			return;
+		}
+
 		String crop = Preferences.getString( "harvestGarden" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) );
-		if ( !Limitmode.limitCampground() &&
-		     !KoLCharacter.isEd() &&
-		     !KoLCharacter.inNuclearAutumn() &&
-		     CampgroundRequest.hasCropOrBetter( crop ) )
+		if ( CampgroundRequest.hasCropOrBetter( crop ) )
 		{
 			CampgroundRequest.harvestCrop();
 		}
@@ -252,10 +274,12 @@ public class BreakfastManager
 
 	public static void useSpinningWheel()
 	{
-		if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground() )
 		{
-			CampgroundRequest.useSpinningWheel();
+			return;
 		}
+
+		CampgroundRequest.useSpinningWheel();
 	}
 
 	public static boolean castSkills( final boolean allowRestore, final int manaRemaining )
@@ -675,5 +699,41 @@ public class BreakfastManager
 		{
 			RequestThread.postRequest( new PlaceRequest( "desertbeach", "db_nukehouse" ) );
 		}
+	}
+
+	private static void collectSeaJelly()
+	{
+		if ( Limitmode.limitZone( "The Sea" ) || Limitmode.limitFamiliars() )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "_seaJellyHarvested" ) )
+		{
+			return;
+		}
+
+		if ( QuestDatabase.isQuestStep( QuestDatabase.Quest.SEA_OLD_GUY, QuestDatabase.UNSTARTED ) )
+		{
+			return;
+		}
+
+		FamiliarData jellyfish = KoLCharacter.findFamiliar( FamiliarPool.SPACE_JELLYFISH );
+		if ( jellyfish == null )
+		{
+			return;
+		}
+
+		FamiliarData currentFam = KoLCharacter.getFamiliar();
+		RequestThread.postRequest( new FamiliarRequest( jellyfish ) );
+
+		KoLmafia.updateDisplay( "Collecting sea jelly..." );
+		GenericRequest request = new PlaceRequest( "thesea", "thesea_left2" ) ;
+		RequestThread.postRequest( request );
+		request.constructURLString( "choice.php?whichchoice=1219&option=1" );
+		RequestThread.postRequest( request );
+
+		RequestThread.postRequest( new FamiliarRequest( currentFam ) );	
+		KoLmafia.forceContinue();
 	}
 }
