@@ -583,15 +583,22 @@ public class ResponseTextParser
 
 			// If there is a binge message, parse it
 			else if ( location.contains( "action=ghost" ) || location.contains( "action=hobo" ) || 
-				    location.contains( "action=slime" ) || location.contains( "action=candy" ) )
+				  location.contains( "action=slime" ) || location.contains( "action=candy" ) )
 			{
 				UseItemRequest.parseBinge( location, responseText );
 			}
+
+			// Closet transfers can come via inventory.php
 			else if ( location.contains( "action=closetpush" ) || location.contains( "action=closetpull" ) )
 			{
 				ClosetRequest.parseTransfer( location, responseText );
 			}
 
+			// Emptying storage can come via inventory.php
+			else if ( location.contains( "action=pullall" ) )
+			{
+				StorageRequest.parseTransfer( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "inv_equip.php" ) && location.contains( "ajax=1" ) )
