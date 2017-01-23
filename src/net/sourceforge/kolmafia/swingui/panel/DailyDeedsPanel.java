@@ -42,7 +42,6 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -3863,8 +3862,8 @@ public class DailyDeedsPanel
 		private final Component space;
 		private final JButton button;
 
-		private final List<String> effectHats = Collections.synchronizedList( new ArrayList<String>() );
-		private final List<String> modifiers = Collections.synchronizedList( new ArrayList<String>() );
+		private final List<String> effectHats = new ArrayList<String>();
+		private final List<String> modifiers = new ArrayList<String>();
 
 		private final HatterComboListener listener = new HatterComboListener();
 

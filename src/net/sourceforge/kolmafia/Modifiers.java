@@ -625,7 +625,7 @@ public class Modifiers
 		},
 		{ "Effect Duration",
 		  null,
-		  Pattern.compile( "Effect Duration: " + EXPR )
+		  Pattern.compile( "(?:^|, )Effect Duration: " + EXPR )
 		},
 		{ "Candy Drop",
 		  Pattern.compile( "([+-]\\d+)% Candy Drops? [Ff]rom Monsters$" ),
