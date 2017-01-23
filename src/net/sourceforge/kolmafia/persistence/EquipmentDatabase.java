@@ -722,7 +722,7 @@ public class EquipmentDatabase
 	public static final boolean isSpecialAccordion( final int itemId )
 	{
 		return ( EquipmentDatabase.isAccordion( itemId ) &&
-			itemId != ItemPool.TOY_ACCORDION && itemId != ItemPool.ANTIQUE_ACCORDION );
+			itemId != ItemPool.TOY_ACCORDION && itemId != ItemPool.ANTIQUE_ACCORDION && itemId != ItemPool.AEROGEL_ACCORDION );
 	}
 	
 	public static final Stat getWeaponStat( final int itemId )
