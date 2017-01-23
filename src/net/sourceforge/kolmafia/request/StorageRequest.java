@@ -455,8 +455,6 @@ public class StorageRequest
 			return true;
 		}
 
-		boolean transfer = false;
-
 		if ( action.equals( "pullall" ) )
 		{
 			// Hagnk leans back and yells something
@@ -467,11 +465,15 @@ public class StorageRequest
 			if ( responseText.contains( "go and grab all of your stuff" ) )
 			{
 				StorageRequest.emptyStorage( urlString );
-				transfer = true;
+				KoLCharacter.updateStatus();
 			}
+
+			return true;
 		}
 
-		else if ( action.equals( "takemeat" ) )
+		boolean transfer = false;
+
+		if ( action.equals( "takemeat" ) )
 		{
 			if ( responseText.contains( "Meat out of storage" ) )
 			{
@@ -495,15 +497,7 @@ public class StorageRequest
 			StorageRequest.parseStorage( urlString, responseText );
 		}
 
-		if ( KoLConstants.storage.isEmpty() && KoLConstants.freepulls.isEmpty() && KoLCharacter.getStorageMeat() == 0 )
-		{
-			Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
-		}
-		else if ( Preferences.getInteger( "lastEmptiedStorage" ) == KoLCharacter.getAscensions() )
-		{
-			// Storage is not empty, but we erroneously thought it was
-			Preferences.setInteger( "lastEmptiedStorage", -1 );
-		}
+		StorageRequest.updateSettings();
 
 		if ( transfer )
 		{
@@ -533,6 +527,22 @@ public class StorageRequest
 		if ( KoLCharacter.isTrendy() || KoLCharacter.getRestricted() || urlString.contains( "favonly=1" ) )
 		{
 			StorageRequest.refresh();
+		}
+
+		// Update settings
+		StorageRequest.updateSettings();
+	}
+
+	private static final void updateSettings()
+	{
+		if ( KoLConstants.storage.isEmpty() && KoLConstants.freepulls.isEmpty() && KoLCharacter.getStorageMeat() == 0 )
+		{
+			Preferences.setInteger( "lastEmptiedStorage", KoLCharacter.getAscensions() );
+		}
+		else if ( Preferences.getInteger( "lastEmptiedStorage" ) == KoLCharacter.getAscensions() )
+		{
+			// Storage is not empty, but we erroneously thought it was
+			Preferences.setInteger( "lastEmptiedStorage", -1 );
 		}
 	}
 
