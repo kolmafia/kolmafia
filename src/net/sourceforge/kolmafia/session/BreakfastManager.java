@@ -724,16 +724,15 @@ public class BreakfastManager
 			return;
 		}
 
-		FamiliarData currentFam = KoLCharacter.getFamiliar();
-		RequestThread.postRequest( new FamiliarRequest( jellyfish ) );
-
 		KoLmafia.updateDisplay( "Collecting sea jelly..." );
-		GenericRequest request = new PlaceRequest( "thesea", "thesea_left2" ) ;
-		RequestThread.postRequest( request );
-		request.constructURLString( "choice.php?whichchoice=1219&option=1" );
-		RequestThread.postRequest( request );
 
+		FamiliarData currentFam = KoLCharacter.getFamiliar();
+
+		RequestThread.postRequest( new FamiliarRequest( jellyfish ) );
+		RequestThread.postRequest( new PlaceRequest( "thesea", "thesea_left2", false ) );
+		RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1219&option=1" ) );
 		RequestThread.postRequest( new FamiliarRequest( currentFam ) );	
+
 		KoLmafia.forceContinue();
 	}
 }
