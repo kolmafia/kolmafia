@@ -1218,8 +1218,6 @@ public abstract class KoLmafia
 	{
 		try
 		{
-			boolean wasAdventuring = KoLmafia.isAdventuring;
-
 			if ( request instanceof KoLAdventure )
 			{
 				KoLmafia.currentAdventure = (KoLAdventure) request;
@@ -1229,6 +1227,7 @@ public abstract class KoLmafia
 					RequestThread.postRequest( ( (ClanRumpusRequest) KoLmafia.currentAdventure.getRequest() ).setTurnCount( iterations ) );
 					return;
 				}
+
 				if ( KoLmafia.currentAdventure.getRequest() instanceof RichardRequest )
 				{
 					RequestThread.postRequest( ( (RichardRequest) KoLmafia.currentAdventure.getRequest() ).setTurnCount( iterations ) );
@@ -1246,23 +1245,11 @@ public abstract class KoLmafia
 				}
 
 				KoLmafia.isAdventuring = true;
-				if ( !wasAdventuring )
-				{
-					SpecialOutfit.createImplicitCheckpoint();
-				}
+				NamedListenerRegistry.fireChange( "(adventuring)" );
+				SpecialOutfit.createImplicitCheckpoint();
 			}
 
-			KoLmafia.executeRequest( request, iterations, wasAdventuring );
-
-			if ( request instanceof KoLAdventure && !wasAdventuring )
-			{
-				KoLmafia.isAdventuring = false;
-				if ( RecoveryManager.isRecoveryPossible() )
-				{
-					RecoveryManager.runBetweenBattleChecks( false );
-				}
-				SpecialOutfit.restoreImplicitCheckpoint();
-			}
+			KoLmafia.executeRequest( request, iterations );
 		}
 		catch ( Exception e )
 		{
@@ -1270,6 +1257,219 @@ public abstract class KoLmafia
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+		}
+		finally
+		{
+			if ( request instanceof KoLAdventure )
+			{
+				SpecialOutfit.restoreImplicitCheckpoint();
+				KoLmafia.isAdventuring = false;
+				NamedListenerRegistry.fireChange( "(adventuring)" );
+
+				if ( RecoveryManager.isRecoveryPossible() )
+				{
+					RecoveryManager.runBetweenBattleChecks( false );
+				}
+			}
+		}
+	}
+
+	private static void executeRequest( final Runnable request, final int totalIterations )
+	{
+		Interpreter.forgetPendingState();
+
+		// Begin the adventuring process, or the request execution
+		// process (whichever is applicable).
+
+		boolean isAdventure = request instanceof KoLAdventure;
+
+		List<AdventureResult> goals = GoalManager.getGoals();
+
+		boolean deferConcoctionRefresh = true;
+
+		AdventureResult[] items = new AdventureResult[ goals.size() ];
+		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];
+
+		for ( int i = 0; i < goals.size(); ++i )
+		{
+			AdventureResult goal = goals.get( i );
+			items[ i ] = goal;
+			creatables[ i ] = CreateItemRequest.getInstance( goal );
+
+			if ( deferConcoctionRefresh && ConcoctionDatabase.getMixingMethod( goal ) != CraftingType.NOCREATE )
+			{
+				deferConcoctionRefresh = false;
+			}
+		}
+
+		KoLmafia.forceContinue();
+		KoLmafia.abortAfter = null;
+
+		if ( deferConcoctionRefresh )
+		{
+			ConcoctionDatabase.deferRefresh( true );
+		}
+
+		int currentIteration = 0;
+
+		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
+		{
+			int runBeforeRequest = KoLCharacter.getCurrentRun();
+			KoLmafia.tookChoice = false;
+
+			KoLmafia.executeRequestOnce( request, currentIteration, totalIterations, items, creatables );
+
+			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
+			     runBeforeRequest == KoLCharacter.getCurrentRun() )
+			{
+				--currentIteration;
+			}
+
+			// Check if bounties completed, and hand in if so
+			boolean completeBounty = false;
+			completeBounty |= BountyDatabase.checkBounty( "currentEasyBountyItem" );
+			completeBounty |= BountyDatabase.checkBounty( "currentHardBountyItem" );
+			completeBounty |= BountyDatabase.checkBounty( "currentSpecialBountyItem" );
+
+			if ( completeBounty )
+			{
+				RequestThread.postRequest( new BountyHunterHunterRequest() );
+			}
+		}
+
+		if ( deferConcoctionRefresh )
+		{
+			ConcoctionDatabase.deferRefresh( false );
+		}
+
+
+		if ( isAdventure )
+		{
+			AdventureFrame.updateRequestMeter( 1, 1 );
+		}
+
+		// If you've completed the requests, make sure to update
+		// the display.
+
+		if ( KoLmafia.permitsContinue() && RecoveryManager.isRecoveryPossible() )
+		{
+			if ( isAdventure && GoalManager.hasGoals() )
+			{
+				KoLmafia.updateDisplay(
+					MafiaState.ERROR,
+					"Conditions not satisfied after " + ( currentIteration - 1 ) + ( currentIteration == 2 ? " adventure." : " adventures." ) );
+			}
+		}
+		else if ( StaticEntity.getContinuationState() == MafiaState.PENDING )
+		{
+			Interpreter.rememberPendingState();
+			KoLmafia.forceContinue();
+		}
+	}
+
+	private static void executeRequestOnce( final Runnable request, final int currentIteration, final int totalIterations,
+						final AdventureResult[] items, final CreateItemRequest[] creatables )
+	{
+		if ( request instanceof KoLAdventure )
+		{
+			KoLmafia.executeAdventureOnce(
+				(KoLAdventure) request, currentIteration, totalIterations, items, creatables );
+			return;
+		}
+
+		if ( request instanceof CampgroundRequest )
+		{
+			KoLmafia.updateDisplay( "Campground request " + currentIteration + " of " + totalIterations + " in progress..." );
+		}
+
+		RequestLogger.printLine();
+		RequestThread.postRequest( (GenericRequest) request );
+		RequestLogger.printLine();
+	}
+
+	private static void executeAdventureOnce( final KoLAdventure adventure, final int currentIteration, final int totalIterations,
+						  final AdventureResult[] items, final CreateItemRequest[] creatables )
+	{
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.PENDING, "Ran out of adventures." );
+			return;
+		}
+
+		if ( KoLmafia.handleConditions( items, creatables ) )
+		{
+			KoLmafia.updateDisplay(
+				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
+			return;
+		}
+
+		if ( KoLCharacter.isFallingDown() )
+		{
+			String holiday = HolidayDatabase.getHoliday();
+			String adventureName = adventure.getAdventureName();
+
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.DRUNKULA_WINEGLASS, 1 ) ) )
+			{
+				// The wine glass allows you to adventure while falling down drunk
+			}
+			else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
+			{
+				// You're allowed to Spelunk even while falling down drunk
+			}
+			else if ( adventureName.equals( "An Eldritch Fissure" ) ||
+				  adventureName.equals( "Trick-or-Treating" ) )
+			{
+				// You're allowed to explore eldritch fissures
+				// or go trick-or-treating even while falling
+				// down drunk
+			}
+			else if ( !holiday.contains( "St. Sneaky Pete's Day" ) && !holiday.contains( "Drunksgiving" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too drunk to continue." );
+				return;
+			}
+			else if ( KoLCharacter.getInebriety() <= 25 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You are not drunk enough to continue." );
+				return;
+			}
+		}
+
+		if ( KoLmafia.abortAfter != null )
+		{
+			KoLmafia.updateDisplay( MafiaState.PENDING, KoLmafia.abortAfter );
+			return;
+		}
+
+		// Otherwise, disable the display and update the user
+		// and the current request number. Different requests
+		// have different displays. They are handled here.
+
+		if ( totalIterations > 1 )
+		{
+			KoLmafia.currentIterationString =
+				"Request " + currentIteration + " of " + totalIterations + " (" + adventure.toString() + ") in progress...";
+		}
+		else
+		{
+			KoLmafia.currentIterationString = "Visit to " + adventure.toString() + " in progress...";
+		}
+
+		AdventureFrame.updateRequestMeter( currentIteration - 1, totalIterations );
+
+		RequestLogger.printLine();
+		RequestThread.postRequest( adventure );
+		RequestLogger.printLine();
+
+		KoLmafia.currentIterationString = "";
+
+		KoLmafia.executeAfterAdventureScript();
+
+		if ( KoLmafia.handleConditions( items, creatables ) )
+		{
+			KoLmafia.updateDisplay(
+				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
+			return;
 		}
 	}
 
@@ -1345,209 +1545,6 @@ public abstract class KoLmafia
 	public static void abortAfter( String msg )
 	{
 		KoLmafia.abortAfter = msg;
-	}
-
-	private static void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
-	{
-		Interpreter.forgetPendingState();
-
-		// Begin the adventuring process, or the request execution
-		// process (whichever is applicable).
-
-		boolean isAdventure = request instanceof KoLAdventure;
-
-		List<AdventureResult> goals = GoalManager.getGoals();
-
-		boolean deferConcoctionRefresh = true;
-
-		AdventureResult[] items = new AdventureResult[ goals.size() ];
-		CreateItemRequest[] creatables = new CreateItemRequest[ goals.size() ];
-
-		for ( int i = 0; i < goals.size(); ++i )
-		{
-			AdventureResult goal = goals.get( i );
-			items[ i ] = goal;
-			creatables[ i ] = CreateItemRequest.getInstance( goal );
-
-			if ( deferConcoctionRefresh && ConcoctionDatabase.getMixingMethod( goal ) != CraftingType.NOCREATE )
-			{
-				deferConcoctionRefresh = false;
-			}
-		}
-
-		KoLmafia.forceContinue();
-		KoLmafia.abortAfter = null;
-
-		if ( deferConcoctionRefresh )
-		{
-			ConcoctionDatabase.deferRefresh( true );
-		}
-
-		int currentIteration = 0;
-
-		while ( KoLmafia.permitsContinue() && ++currentIteration <= totalIterations )
-		{
-			int runBeforeRequest = KoLCharacter.getCurrentRun();
-			KoLmafia.tookChoice = false;
-
-			KoLmafia.executeRequestOnce( request, wasAdventuring, currentIteration, totalIterations, items, creatables );
-
-			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
-			     runBeforeRequest == KoLCharacter.getCurrentRun() )
-			{
-				--currentIteration;
-			}
-
-			// Check if bounties completed, and hand in if so
-			boolean completeBounty = false;
-			completeBounty |= BountyDatabase.checkBounty( "currentEasyBountyItem" );
-			completeBounty |= BountyDatabase.checkBounty( "currentHardBountyItem" );
-			completeBounty |= BountyDatabase.checkBounty( "currentSpecialBountyItem" );
-
-			if ( completeBounty )
-			{
-				RequestThread.postRequest( new BountyHunterHunterRequest() );
-			}
-		}
-
-		if ( deferConcoctionRefresh )
-		{
-			ConcoctionDatabase.deferRefresh( false );
-		}
-
-
-		if ( isAdventure )
-		{
-			AdventureFrame.updateRequestMeter( 1, 1 );
-		}
-
-		// If you've completed the requests, make sure to update
-		// the display.
-
-		if ( KoLmafia.permitsContinue() && RecoveryManager.isRecoveryPossible() )
-		{
-			if ( isAdventure && GoalManager.hasGoals() )
-			{
-				KoLmafia.updateDisplay(
-					MafiaState.ERROR,
-					"Conditions not satisfied after " + ( currentIteration - 1 ) + ( currentIteration == 2 ? " adventure." : " adventures." ) );
-			}
-		}
-		else if ( StaticEntity.getContinuationState() == MafiaState.PENDING )
-		{
-			Interpreter.rememberPendingState();
-			KoLmafia.forceContinue();
-		}
-	}
-
-	private static void executeAdventureOnce( final KoLAdventure adventure, boolean wasAdventuring,
-		final int currentIteration, final int totalIterations, final AdventureResult[] items,
-		final CreateItemRequest[] creatables )
-	{
-		if ( KoLCharacter.getAdventuresLeft() == 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.PENDING, "Ran out of adventures." );
-			return;
-		}
-
-		if ( KoLmafia.handleConditions( items, creatables ) )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
-			return;
-		}
-
-		if ( KoLCharacter.isFallingDown() )
-		{
-			String holiday = HolidayDatabase.getHoliday();
-			String adventureName = adventure.getAdventureName();
-
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.DRUNKULA_WINEGLASS, 1 ) ) )
-			{
-				// The wine glass allows you to adventure while falling down drunk
-			}
-			else if ( KoLCharacter.getLimitmode() == Limitmode.SPELUNKY )
-			{
-				// You're allowed to Spelunk even while falling down drunk
-			}
-			else if ( adventureName.equals( "An Eldritch Fissure" ) ||
-				  adventureName.equals( "Trick-or-Treating" ) )
-			{
-				// You're allowed to explore eldritch fissures
-				// or go trick-or-treating even while falling
-				// down drunk
-			}
-			else if ( !holiday.contains( "St. Sneaky Pete's Day" ) && !holiday.contains( "Drunksgiving" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too drunk to continue." );
-				return;
-			}
-			else if ( KoLCharacter.getInebriety() <= 25 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You are not drunk enough to continue." );
-				return;
-			}
-		}
-
-		if ( KoLmafia.abortAfter != null )
-		{
-			KoLmafia.updateDisplay( MafiaState.PENDING, KoLmafia.abortAfter );
-			return;
-		}
-
-		// Otherwise, disable the display and update the user
-		// and the current request number. Different requests
-		// have different displays. They are handled here.
-
-		if ( totalIterations > 1 )
-		{
-			KoLmafia.currentIterationString =
-				"Request " + currentIteration + " of " + totalIterations + " (" + adventure.toString() + ") in progress...";
-		}
-		else
-		{
-			KoLmafia.currentIterationString = "Visit to " + adventure.toString() + " in progress...";
-		}
-
-		if ( !wasAdventuring )
-		{
-			AdventureFrame.updateRequestMeter( currentIteration - 1, totalIterations );
-		}
-
-		RequestLogger.printLine();
-		RequestThread.postRequest( adventure );
-		RequestLogger.printLine();
-
-		KoLmafia.currentIterationString = "";
-
-		KoLmafia.executeAfterAdventureScript();
-
-		if ( KoLmafia.handleConditions( items, creatables ) )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.PENDING, "Conditions satisfied after " + currentIteration + " adventures." );
-			return;
-		}
-	}
-
-	private static void executeRequestOnce( final Runnable request, final boolean wasAdventuring, final int currentIteration,
-		final int totalIterations, final AdventureResult[] items, final CreateItemRequest[] creatables )
-	{
-		if ( request instanceof KoLAdventure )
-		{
-			KoLmafia.executeAdventureOnce(
-				(KoLAdventure) request, wasAdventuring, currentIteration, totalIterations, items, creatables );
-			return;
-		}
-
-		if ( request instanceof CampgroundRequest )
-		{
-			KoLmafia.updateDisplay( "Campground request " + currentIteration + " of " + totalIterations + " in progress..." );
-		}
-
-		RequestLogger.printLine();
-		RequestThread.postRequest( (GenericRequest) request );
-		RequestLogger.printLine();
 	}
 
 	public static void protectClovers()

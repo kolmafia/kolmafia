@@ -77,6 +77,8 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
@@ -120,7 +122,8 @@ public class AdventureSelectPanel
 	private JComponent zoneSelect;
 
 	private final LockableListModel locationConditions = new LockableListModel();
-	private final JCheckBox conditionsFieldActive = new JCheckBox();
+	private final RedoFreeAdventuresCheckbox redoFreeAdventures;
+	private final JCheckBox conditionsFieldActive;
 	private final ConditionsComboBox conditionField = new ConditionsComboBox();
 	private SafetyField safetyField = null;
 
@@ -146,7 +149,7 @@ public class AdventureSelectPanel
 		}
 		else
 		{
-			this.zoneSelect = new AutoFilterTextField( AdventureSelectPanel.this.locationSelect );
+			this.zoneSelect = new AutoFilterTextField( this.locationSelect );
 		}
 
 		this.zoneMap = new TreeMap();
@@ -168,12 +171,19 @@ public class AdventureSelectPanel
 		JComponentUtilities.setComponentSize( this.zoneSelect, 200, -1 );
 		zonePanel.add( this.zoneSelect, BorderLayout.CENTER );
 
+		this.redoFreeAdventures = new RedoFreeAdventuresCheckbox();
 		if ( enableAdventures )
 		{
+			JPanel panel = new JPanel();
+
+			panel.add( this.redoFreeAdventures );
+
 			this.countField = new AdventureCountSpinner();
 			this.countField.setHorizontalAlignment( AutoHighlightTextField.RIGHT );
 			JComponentUtilities.setComponentSize( this.countField, 56, -1 );
-			zonePanel.add( this.countField, BorderLayout.EAST );
+			panel.add( this.countField );
+
+			zonePanel.add( panel, BorderLayout.EAST );
 		}
 
 		JPanel contentHolder = new JPanel( new BorderLayout( 5, 5 ) );
@@ -185,13 +195,16 @@ public class AdventureSelectPanel
 
 		JPanel conditionPanel = new JPanel( new BorderLayout( 5, 5 ) );
 
-		conditionPanel.add( AdventureSelectPanel.this.conditionField, BorderLayout.CENTER );
-		conditionPanel.add( AdventureSelectPanel.this.conditionsFieldActive, BorderLayout.EAST );
+		conditionPanel.add( this.conditionField, BorderLayout.CENTER );
 
-		this.conditionsFieldActive.setSelected( Preferences.getBoolean( "autoSetConditions" ) );
-		this.conditionField.setEnabled( Preferences.getBoolean( "autoSetConditions" ) );
+		this.conditionsFieldActive = new JCheckBox();
+		conditionPanel.add( this.conditionsFieldActive, BorderLayout.EAST );
 
+		boolean enableConditionsField = Preferences.getBoolean( "autoSetConditions" );
+		this.conditionsFieldActive.setSelected( enableConditionsField );
+		this.conditionsFieldActive.setToolTipText( "enable conditions field" );
 		this.conditionsFieldActive.addActionListener( new EnableObjectivesListener() );
+		this.conditionField.setEnabled( enableConditionsField );
 
 		contentHolder.add( conditionPanel, BorderLayout.SOUTH );
 
@@ -208,9 +221,9 @@ public class AdventureSelectPanel
 			this.begin = new ThreadedButton( "begin", new ExecuteRunnable() );
 			this.begin.setToolTipText( "Start Adventuring" );
 
-			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, AdventureSelectPanel.this.begin );
+			JComponentUtilities.addHotKey( this, KeyEvent.VK_ENTER, this.begin );
 
-			buttonHolder.add( AdventureSelectPanel.this.begin );
+			buttonHolder.add( this.begin );
 			buttonHolder.add( new InvocationButton( "stop now", RequestThread.class, "declareWorldPeace" ) );
 			buttonHolder.add( new StopButton() );
 
@@ -328,6 +341,31 @@ public class AdventureSelectPanel
 			}
 		}
 	}
+	
+	private class RedoFreeAdventuresCheckbox
+		extends JCheckBox
+		implements ActionListener, Listener
+	{
+		public RedoFreeAdventuresCheckbox()
+		{
+			super();
+			this.setToolTipText( "redo free adventures" );
+			this.setSelected( KoLmafia.redoSkippedAdventures );
+			this.addActionListener( this );
+			NamedListenerRegistry.registerNamedListener( "(adventuring)", this );
+		}
+
+		public void actionPerformed( final ActionEvent e )
+		{
+			KoLmafia.redoSkippedAdventures = this.isSelected();
+		}
+
+		// called when (adventuring) fires
+		public void update()
+		{
+			this.setEnabled( !KoLmafia.isAdventuring() );
+		}
+	}
 
 	private class EnableObjectivesListener
 		extends ThreadedListener
@@ -335,10 +373,9 @@ public class AdventureSelectPanel
 		@Override
 		protected void execute()
 		{
-			Preferences.setBoolean(
-				"autoSetConditions", AdventureSelectPanel.this.conditionsFieldActive.isSelected() );
-
-			AdventureSelectPanel.this.conditionField.setEnabled( AdventureSelectPanel.this.conditionsFieldActive.isSelected() && !KoLmafia.isAdventuring() );
+			boolean enabled = AdventureSelectPanel.this.conditionsFieldActive.isSelected();
+			Preferences.setBoolean( "autoSetConditions", enabled );
+			AdventureSelectPanel.this.conditionField.setEnabled( enabled && !KoLmafia.isAdventuring() );
 		}
 	}
 

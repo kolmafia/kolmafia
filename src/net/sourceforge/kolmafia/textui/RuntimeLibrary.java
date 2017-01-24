@@ -2952,22 +2952,19 @@ public abstract class RuntimeLibrary
 			return RuntimeLibrary.continueValue();
 		}
 
+		boolean redoSkippedAdventures = KoLmafia.redoSkippedAdventures;
 		try
 		{
 			adventure.overrideAdventuresUsed( (int) adventuresUsedValue.intValue() );
-
-			String filter = filterFunction.toString();
-			Macrofier.setMacroOverride( filter, interpreter );
-
+			Macrofier.setMacroOverride( filterFunction.toString(), interpreter );
 			KoLmafia.redoSkippedAdventures = false;
 
 			KoLmafia.makeRequest( adventure, 1 );
 		}
 		finally
 		{
-			KoLmafia.redoSkippedAdventures = true;
+			KoLmafia.redoSkippedAdventures = redoSkippedAdventures;
 			Macrofier.resetMacroOverride();
-
 			adventure.overrideAdventuresUsed( -1 );
 		}
 
