@@ -113,10 +113,10 @@ public class ChoiceOptionsPanel
 	private final JComboBox propDeportmentSelect;
 	private final JComboBox reloadedSelect;
 	private final JComboBox sororityGuideSelect;
-	private final JComboBox hiddenShrineNWSelect;
-	private final JComboBox hiddenShrineSWSelect;
-	private final JComboBox hiddenShrineNESelect;
-	private final JComboBox hiddenShrineSESelect;
+	private final ShrineComboBox hiddenShrineNWSelect;
+	private final ShrineComboBox hiddenShrineSWSelect;
+	private final ShrineComboBox hiddenShrineNESelect;
+	private final ShrineComboBox hiddenShrineSESelect;
 	private final JComboBox hiddenApartmentSelect;
 	private final JComboBox hiddenHospitalSelect;
 	private final JComboBox hiddenParkSelect;
@@ -315,7 +315,7 @@ public class ChoiceOptionsPanel
 		this.reloadedSelect.addItem( "melt silver tongue charrrm bracelet" );
 		this.reloadedSelect.addItem( "melt silver cheese-slicer" );
 		this.reloadedSelect.addItem( "melt silver shrimp fork" );
-		this.reloadedSelect.addItem( "melt silver pat� knife" );
+		this.reloadedSelect.addItem( "melt silver paté knife" );
 		this.reloadedSelect.addItem( "don't melt anything" );
 
 		this.sororityGuideSelect = new JComboBox();
@@ -326,21 +326,29 @@ public class ChoiceOptionsPanel
 		
 		// Hidden City Non-combats
 		
-		this.hiddenShrineNWSelect = new JComboBox();
+		this.hiddenShrineNWSelect = new ShrineComboBox( "choiceAdventure781" );
 		this.hiddenShrineNWSelect.addItem( "show in browser" );
 		this.hiddenShrineNWSelect.addItem( "unlock hidden apartment building or get stone triangle" );
+		this.hiddenShrineNWSelect.addItem( "gain the Blessing of Bulbazinalli" );
+		this.hiddenShrineNWSelect.addItem( "skip this adventure" );
 		
-		this.hiddenShrineSWSelect = new JComboBox();
+		this.hiddenShrineSWSelect = new ShrineComboBox( "choiceAdventure783" );
 		this.hiddenShrineSWSelect.addItem( "show in browser" );
 		this.hiddenShrineSWSelect.addItem( "unlock hidden hospital or get stone triangle" );
+		this.hiddenShrineSWSelect.addItem( "gain the Blessing of Squirtlcthulli" );
+		this.hiddenShrineSWSelect.addItem( "skip this adventure" );
 		
-		this.hiddenShrineNESelect = new JComboBox();
+		this.hiddenShrineNESelect = new ShrineComboBox( "choiceAdventure785" );
 		this.hiddenShrineNESelect.addItem( "show in browser" );
 		this.hiddenShrineNESelect.addItem( "unlock hidden office building or get stone triangle" );
+		this.hiddenShrineNESelect.addItem( "gain the Blessing of Pikachutlotal" );
+		this.hiddenShrineNESelect.addItem( "skip this adventure" );
 		
-		this.hiddenShrineSESelect = new JComboBox();
+		this.hiddenShrineSESelect = new ShrineComboBox( "choiceAdventure787" );
 		this.hiddenShrineSESelect.addItem( "show in browser" );
 		this.hiddenShrineSESelect.addItem( "unlock hidden bowling alley or get stone triangle" );
+		this.hiddenShrineSESelect.addItem( "gain the Blessing of Charcoatl" );
+		this.hiddenShrineSESelect.addItem( "skip this adventure" );
 		
 		this.hiddenApartmentSelect = new JComboBox();
 		this.hiddenApartmentSelect.addItem( "show in browser" );
@@ -595,6 +603,52 @@ public class ChoiceOptionsPanel
 		@Override
 		public void setEnabled( final boolean isEnabled )
 		{
+		}
+	}
+
+	private class ShrineComboBox
+		extends JComboBox
+	{
+		final String setting;
+
+		public ShrineComboBox( final String setting )
+		{
+			super();
+			this.setting = setting;
+		}
+
+		public void selectedToSetting()
+		{
+			// Index 0 is "show in browser"
+			// Index 1 maps to 1 or 2 at runtime
+			// Index 2 maps to 3
+			// Index 3 maps to 6
+			int index = this.getSelectedIndex();
+			int value =
+				index == 2 ? 3 :
+				index == 3 ? 6 :
+				index;
+			Preferences.setString( this.setting, String.valueOf( value ) );
+		}
+
+		public void settingToSelected()
+		{
+			int value = Preferences.getInteger( this.setting );
+			int index =
+				value == 6 ? 3 :
+				value == 3 ? 2 :
+				value == 1 ? 1 :
+				value == 0 ? 0 :
+				-1;
+
+			if ( index != -1 )
+			{
+				this.setSelectedIndex( index );
+			}
+			else
+			{
+				System.out.println( "Invalid setting " + value + " for " + this.setting );
+			}
 		}
 	}
 
@@ -889,10 +943,11 @@ public class ChoiceOptionsPanel
 		Preferences.setString( "choiceAdventure554",
 			String.valueOf( this.sororityGuideSelect.getSelectedIndex() ) );
 
-		Preferences.setString( "choiceAdventure781", String.valueOf( this.hiddenShrineNWSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure783", String.valueOf( this.hiddenShrineSWSelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure785", String.valueOf( this.hiddenShrineNESelect.getSelectedIndex() ) );
-		Preferences.setString( "choiceAdventure787", String.valueOf( this.hiddenShrineSESelect.getSelectedIndex() ) );
+		this.hiddenShrineNWSelect.selectedToSetting();
+		this.hiddenShrineSWSelect.selectedToSetting();
+		this.hiddenShrineNESelect.selectedToSetting();
+		this.hiddenShrineSESelect.selectedToSetting();
+
 		int hiddenApartmentIndex = this.hiddenApartmentSelect.getSelectedIndex();
 		Preferences.setString( "choiceAdventure780",
 						hiddenApartmentIndex == 1 ? "1" :
@@ -1153,42 +1208,11 @@ public class ChoiceOptionsPanel
 		this.sororityGuideSelect.setSelectedIndex( Preferences.getInteger( "choiceAdventure554" ) );
 		this.lightsOutSelect.setSelectedIndex( Preferences.getInteger( "lightsOutAutomation" ) );
 
-		int hiddenShrineNWIndex = Preferences.getInteger ( "choiceAdventure781" );
-		if ( hiddenShrineNWIndex <= 1 && hiddenShrineNWIndex >= 0 )
-		{
-			this.hiddenShrineNWSelect.setSelectedIndex( hiddenShrineNWIndex );
-		}
-		else
-		{
-			System.out.println( "Invalid setting " + hiddenShrineNWIndex + " for choiceAdventure781." );
-		}
-		int hiddenShrineSWIndex = Preferences.getInteger ( "choiceAdventure783" );
-		if ( hiddenShrineSWIndex <= 1 && hiddenShrineSWIndex >= 0 )
-		{
-			this.hiddenShrineSWSelect.setSelectedIndex( hiddenShrineSWIndex );
-		}
-		else
-		{
-			System.out.println( "Invalid setting " + hiddenShrineSWIndex + " for choiceAdventure783." );
-		}
-		int hiddenShrineNEIndex = Preferences.getInteger ( "choiceAdventure785" );
-		if ( hiddenShrineNEIndex <= 1  && hiddenShrineNEIndex >= 0)
-		{
-			this.hiddenShrineNESelect.setSelectedIndex( hiddenShrineNEIndex );
-		}
-		else
-		{
-			System.out.println( "Invalid setting " + hiddenShrineNEIndex + " for choiceAdventure785." );
-		}
-		int hiddenShrineSEIndex = Preferences.getInteger ( "choiceAdventure787" );
-		if ( hiddenShrineSEIndex <= 1  && hiddenShrineSEIndex >= 0)
-		{
-			this.hiddenShrineSESelect.setSelectedIndex( hiddenShrineSEIndex );
-		}
-		else
-		{
-			System.out.println( "Invalid setting " + hiddenShrineSEIndex + " for choiceAdventure787." );
-		}
+		this.hiddenShrineNWSelect.settingToSelected();
+		this.hiddenShrineSWSelect.settingToSelected();
+		this.hiddenShrineNESelect.settingToSelected();
+		this.hiddenShrineSESelect.settingToSelected();
+
 		int hiddenApartmentIndex = Preferences.getInteger( "choiceAdventure780" );
 		if ( hiddenApartmentIndex <= 6  && hiddenApartmentIndex >= 0 )
 		{
