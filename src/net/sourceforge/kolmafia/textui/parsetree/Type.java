@@ -340,6 +340,15 @@ public class Type
 				return null;
 			}
 
+			if ( s1.startsWith( "[" ) )
+			{
+				int bracket = s1.indexOf( "]" );
+				if ( bracket > 0 && StringUtilities.isNumeric( s1.substring( 1, bracket ) ) )
+				{
+					return null;
+				}
+			}
+
 			if ( StringUtilities.isNumeric( s1 ) )
 			{
 				// A number will have been unambiguously
