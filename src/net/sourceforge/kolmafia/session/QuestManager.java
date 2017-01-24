@@ -97,13 +97,28 @@ public class QuestManager
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
-		String location = request.getURLString();
+		String redirectLocation = request.redirectLocation;
+		if ( redirectLocation != null )
+		{
+			// If this request redirected to a fight or choice and
+			// was automated, there no response text here
+			return;
+		}
+
 		String responseText = request.responseText;
+		if ( responseText == null || responseText.equals( "" ) )
+		{
+			// Similarly, don't process an empty response
+			return;
+		}
+
+		String location = request.getURLString();
 		String locationId = request.getFormField( "snarfblat" );
 		if ( locationId == null )
 		{
 			locationId = "";
 		}
+
 		if ( location.startsWith( "adventure" ) )
 		{
 			if ( locationId.equals( AdventurePool.ROAD_TO_WHITE_CITADEL_ID ) )
