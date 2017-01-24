@@ -1216,6 +1216,12 @@ public abstract class KoLmafia
 
 	public static void makeRequest( final Runnable request, final int iterations )
 	{
+		// This will only be true if this method is recursively
+		// called via a script: an afterAdventureScript calling
+		// "adventure", for example
+
+		boolean wasAdventuring = KoLmafia.isAdventuring;
+
 		try
 		{
 			if ( request instanceof KoLAdventure )
@@ -1244,12 +1250,15 @@ public abstract class KoLmafia
 					return;
 				}
 
-				KoLmafia.isAdventuring = true;
-				NamedListenerRegistry.fireChange( "(adventuring)" );
-				SpecialOutfit.createImplicitCheckpoint();
+				if ( !wasAdventuring )
+				{
+					KoLmafia.isAdventuring = true;
+					NamedListenerRegistry.fireChange( "(adventuring)" );
+					SpecialOutfit.createImplicitCheckpoint();
+				}
 			}
 
-			KoLmafia.executeRequest( request, iterations );
+			KoLmafia.executeRequest( request, iterations, wasAdventuring );
 		}
 		catch ( Exception e )
 		{
@@ -1260,7 +1269,7 @@ public abstract class KoLmafia
 		}
 		finally
 		{
-			if ( request instanceof KoLAdventure )
+			if ( request instanceof KoLAdventure && !wasAdventuring )
 			{
 				SpecialOutfit.restoreImplicitCheckpoint();
 				KoLmafia.isAdventuring = false;
@@ -1274,7 +1283,7 @@ public abstract class KoLmafia
 		}
 	}
 
-	private static void executeRequest( final Runnable request, final int totalIterations )
+	private static void executeRequest( final Runnable request, final int totalIterations, final boolean wasAdventuring )
 	{
 		Interpreter.forgetPendingState();
 
@@ -1317,7 +1326,7 @@ public abstract class KoLmafia
 			int runBeforeRequest = KoLCharacter.getCurrentRun();
 			KoLmafia.tookChoice = false;
 
-			KoLmafia.executeRequestOnce( request, currentIteration, totalIterations, items, creatables );
+			KoLmafia.executeRequestOnce( request, currentIteration, totalIterations, items, creatables, wasAdventuring );
 
 			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
 			     runBeforeRequest == KoLCharacter.getCurrentRun() )
@@ -1341,7 +1350,6 @@ public abstract class KoLmafia
 		{
 			ConcoctionDatabase.deferRefresh( false );
 		}
-
 
 		if ( isAdventure )
 		{
@@ -1368,12 +1376,13 @@ public abstract class KoLmafia
 	}
 
 	private static void executeRequestOnce( final Runnable request, final int currentIteration, final int totalIterations,
-						final AdventureResult[] items, final CreateItemRequest[] creatables )
+						final AdventureResult[] items, final CreateItemRequest[] creatables,
+						final boolean wasAdventuring )
 	{
 		if ( request instanceof KoLAdventure )
 		{
-			KoLmafia.executeAdventureOnce(
-				(KoLAdventure) request, currentIteration, totalIterations, items, creatables );
+			KoLmafia.executeAdventureOnce( (KoLAdventure) request, currentIteration, totalIterations,
+						       items, creatables, wasAdventuring );
 			return;
 		}
 
@@ -1388,7 +1397,8 @@ public abstract class KoLmafia
 	}
 
 	private static void executeAdventureOnce( final KoLAdventure adventure, final int currentIteration, final int totalIterations,
-						  final AdventureResult[] items, final CreateItemRequest[] creatables )
+						  final AdventureResult[] items, final CreateItemRequest[] creatables,
+						  final boolean wasAdventuring )
 	{
 		if ( KoLCharacter.getAdventuresLeft() == 0 )
 		{
@@ -1455,7 +1465,10 @@ public abstract class KoLmafia
 			KoLmafia.currentIterationString = "Visit to " + adventure.toString() + " in progress...";
 		}
 
-		AdventureFrame.updateRequestMeter( currentIteration - 1, totalIterations );
+		if ( !wasAdventuring )
+		{
+			AdventureFrame.updateRequestMeter( currentIteration - 1, totalIterations );
+		}
 
 		RequestLogger.printLine();
 		RequestThread.postRequest( adventure );
