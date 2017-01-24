@@ -105,6 +105,15 @@ public class AdventureCommand
 			return;
 		}
 
-		KoLmafia.makeRequest( adventure, adventureCount );
+		boolean redoSkippedAdventures = KoLmafia.redoSkippedAdventures;
+		try
+		{
+			KoLmafia.redoSkippedAdventures = true;
+			KoLmafia.makeRequest( adventure, adventureCount );
+		}
+		finally
+		{
+			KoLmafia.redoSkippedAdventures = redoSkippedAdventures;
+		}
 	}
 }
