@@ -326,29 +326,10 @@ public class ChoiceOptionsPanel
 		
 		// Hidden City Non-combats
 		
-		this.hiddenShrineNWSelect = new ShrineComboBox( "choiceAdventure781" );
-		this.hiddenShrineNWSelect.addItem( "show in browser" );
-		this.hiddenShrineNWSelect.addItem( "unlock hidden apartment building or get stone triangle" );
-		this.hiddenShrineNWSelect.addItem( "gain the Blessing of Bulbazinalli" );
-		this.hiddenShrineNWSelect.addItem( "skip this adventure" );
-		
-		this.hiddenShrineSWSelect = new ShrineComboBox( "choiceAdventure783" );
-		this.hiddenShrineSWSelect.addItem( "show in browser" );
-		this.hiddenShrineSWSelect.addItem( "unlock hidden hospital or get stone triangle" );
-		this.hiddenShrineSWSelect.addItem( "gain the Blessing of Squirtlcthulli" );
-		this.hiddenShrineSWSelect.addItem( "skip this adventure" );
-		
-		this.hiddenShrineNESelect = new ShrineComboBox( "choiceAdventure785" );
-		this.hiddenShrineNESelect.addItem( "show in browser" );
-		this.hiddenShrineNESelect.addItem( "unlock hidden office building or get stone triangle" );
-		this.hiddenShrineNESelect.addItem( "gain the Blessing of Pikachutlotal" );
-		this.hiddenShrineNESelect.addItem( "skip this adventure" );
-		
-		this.hiddenShrineSESelect = new ShrineComboBox( "choiceAdventure787" );
-		this.hiddenShrineSESelect.addItem( "show in browser" );
-		this.hiddenShrineSESelect.addItem( "unlock hidden bowling alley or get stone triangle" );
-		this.hiddenShrineSESelect.addItem( "gain the Blessing of Charcoatl" );
-		this.hiddenShrineSESelect.addItem( "skip this adventure" );
+		this.hiddenShrineNWSelect = new ShrineComboBox( "choiceAdventure781", "Blessing of Bulbazinalli" );
+		this.hiddenShrineSWSelect = new ShrineComboBox( "choiceAdventure783", "Blessing of Squirtlcthulli" );
+		this.hiddenShrineNESelect = new ShrineComboBox( "choiceAdventure785", "Blessing of Pikachutlotal" );
+		this.hiddenShrineSESelect = new ShrineComboBox( "choiceAdventure787", "Blessing of Charcoatl" );
 		
 		this.hiddenApartmentSelect = new JComboBox();
 		this.hiddenApartmentSelect.addItem( "show in browser" );
@@ -611,10 +592,14 @@ public class ChoiceOptionsPanel
 	{
 		final String setting;
 
-		public ShrineComboBox( final String setting )
+		public ShrineComboBox( final String setting, final String blessing )
 		{
 			super();
 			this.setting = setting;
+			this.addItem( "show in browser" );
+			this.addItem( "unlock hidden apartment building or get stone triangle" );
+			this.addItem( "gain the " + blessing );
+			this.addItem( "skip this adventure" );
 		}
 
 		public void selectedToSetting()

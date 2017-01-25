@@ -260,7 +260,7 @@ public class BreakfastManager
 
 	public static void harvestGarden()
 	{
-		if ( KoLCharacter.isEd() || !KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground() )
+		if ( KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() || Limitmode.limitCampground() )
 		{
 			return;
 		}
