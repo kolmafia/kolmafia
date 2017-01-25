@@ -5718,6 +5718,10 @@ public class UseItemRequest
 			Preferences.increment( "_hotJellyUses", count );
 			break;
 
+		case ItemPool.SPOOKY_JELLY:
+			Preferences.increment( "_spookyJellyUses", count );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

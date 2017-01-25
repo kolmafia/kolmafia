@@ -1472,6 +1472,7 @@ user	_speakeasyDrinksDrunk	0
 user	_spelunkingTalesDrops	0
 user	_spinningWheel	false
 user	_spookyAirportToday	false
+user	_spookyJellyUses	0
 user	_stabonicScrollUsed	false
 user	_stackLumpsUses	0
 user	_steamCardDrops	0
