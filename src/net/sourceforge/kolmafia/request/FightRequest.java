@@ -2531,7 +2531,7 @@ public class FightRequest
 					}
 					break;
 
-				case WOL:	
+				case WOL:
 					if ( !EncounterManager.ignoreSpecialMonsters )
 					{
 						TurnCounter.stopCounting( "WoL Monster window begin" );
@@ -3286,7 +3286,7 @@ public class FightRequest
 
 			KoLCharacter.getFamiliar().addCombatExperience( responseText );
 			EdServantData.currentServant().addCombatExperience( responseText );
-			
+
 			switch ( familiar.getId() )
 			{
 			case FamiliarPool.RIFTLET:
@@ -3759,6 +3759,12 @@ public class FightRequest
 			     responseText.contains( "back, and gains 1 Experience" ) )
 			{
 				KoLCharacter.getBjorned().addNonCombatExperience( 1 );
+			}
+
+			if ( Preferences.getInteger( "_spookyJellyUses" ) > 0 &&
+			     responseText.contains( "Spooked by the emanations" ) )
+			{
+				Preferences.decrement( "_spookyJellyUses" );
 			}
 
 			if ( KoLCharacter.hasEquipped( ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR ) )
@@ -5460,7 +5466,7 @@ public class FightRequest
 	private static final void processNode( final TagNode node, final TagStatus status )
 	{
 		String name = node.getName();
-		StringBuffer action = status.action;
+		//StringBuffer action = status.action;
 
 		// Skip html links
 		if ( name.equals( "a" ) )
