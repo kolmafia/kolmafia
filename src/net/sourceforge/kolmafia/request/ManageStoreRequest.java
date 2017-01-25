@@ -282,6 +282,12 @@ public class ManageStoreRequest
 			return;
 		}
 
+		if ( urlString.contains( "which=3" ) )
+		{
+			// Store Log retrieval
+			return;
+		}
+
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
