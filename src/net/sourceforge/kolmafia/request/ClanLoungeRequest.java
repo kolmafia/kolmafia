@@ -1139,6 +1139,7 @@ public class ClanLoungeRequest
 			{
 				this.addFormField( "action", "speakeasy" );
 			}
+			this.addFormField( "whichfloor", "2" );
 			break;
 
 		case ClanLoungeRequest.FLOUNDRY:
@@ -1351,7 +1352,6 @@ public class ClanLoungeRequest
 			ClanManager.setClanId( 0 );
 		}
 
-		findImage( responseText, "speakeasy.gif", ItemPool.CLAN_SPEAKEASY );
 		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
@@ -1380,6 +1380,7 @@ public class ClanLoungeRequest
 		findImage( responseText, "faxmachine.gif", ItemPool.CLAN_FAX_MACHINE );
 		findImage( responseText, "hotdogstand.gif", ItemPool.CLAN_HOT_DOG_STAND );
 		findImage( responseText, "vippool.gif", ItemPool.CLAN_SWIMMING_POOL );
+		findImage( responseText, "speakeasy.gif", ItemPool.CLAN_SPEAKEASY );
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
 		if ( responseText.contains( "tree5.gif" ) )
