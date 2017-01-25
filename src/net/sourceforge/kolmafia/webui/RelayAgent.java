@@ -577,7 +577,7 @@ public class RelayAgent
 		}
 	}
 
-	private final static String NOCACHE_IMAGES = "(/memes)?";
+	private final static String NOCACHE_IMAGES = "(/memes|/otherimages/zonefont)?";
 		
 	private final static Pattern IMAGE_PATTERN = Pattern.compile( "(" + KoLmafia.AMAZON_IMAGE_SERVER +
 								      "|" + KoLmafia.KOL_IMAGE_SERVER +
