@@ -90,11 +90,12 @@ duct tape fedora	195	Mox: 82
 dwarvish war helmet	165	Mox: 67
 Dyspepsi-Cola helmet	30	none
 eelskin hat	200	Mys: 85
-eldritch hat	125	Mox: 47
 eight-gallon hat	160	none
 El Sombrero De Lopez	100	Mox: 15
 El Vibrato helmet	200	Mox: 200
 Elder Turtle Shell	100	Mus: 15
+eldritch hat	125	Mox: 47
+eldritch scanner	10	Mus: 10
 electrician's hardhat	200	Mus: 85
 eleven-gallon hat	220	none
 enchanted eyepatch	35	Mox: 2

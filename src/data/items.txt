@@ -9339,3 +9339,16 @@
 9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100
 9314	crushed steamer trunk	753405632	undertrunk.gif	none	d	100
 9315	recovered cufflinks	721303222	cufflinks.gif	accessory		0
+9316
+9317
+9318
+9319
+9320
+9321
+9322
+9323
+9324
+9325
+9326
+9327
+9328	eldritch scanner	136891875	radardish.gif	hat	t	0
