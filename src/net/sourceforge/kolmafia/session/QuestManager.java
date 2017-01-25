@@ -368,8 +368,9 @@ public class QuestManager
 			{
 				handleSeaChange( location, responseText );
 			}
-			else if ( location.contains( "whichplace=town" ) )
+			else if ( location.endsWith( "whichplace=town" ) )
 			{
+				// don't catch town_wrong, town_right, or other places
 				handleTownChange( location, responseText );
 			}
 			else if ( location.contains( "whichplace=woods" ) )
