@@ -4841,6 +4841,8 @@ Effect	Eggs-tra Sensory Perception	Item Drop: +10
 Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
 Effect	Elbow Sauce	Weapon Damage Percent: +50
+# Effect Eldritch Alignment: Helps with Eldritch Science!
+Effect Eldritch Alignment Moxie Percent: -30
 # Effect Eldritch Attunement: Breaks the Barrier between Worlds
 Effect	Eldritch Concentration	Experience: +5, Spooky Damage: +5, MP Regen Min: 5, MP Regen Max: 10
 # Electric, Kool
@@ -8168,6 +8170,7 @@ Item	ectoplasmic orbs	Effect: "Balls of Ectoplasm", Effect Duration: 10
 Item	eel battery	Effect: "It's Electric!", Effect Duration: 15
 Item	Effermint&trade; tablets	Effect: "Winning Smile", Effect Duration: 10
 Item	elderly jawbreaker	Effect: "Sugar Rush", Effect Duration: 10
+Item	eldritch alignment spray	Effect: "Eldritch Alignment", Effect Duration: 10
 Item	eldritch concentrate	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 Item	Eldritch Intellect: Journey into a Mind of Horror	Skill: "Eldritch Intellect"
