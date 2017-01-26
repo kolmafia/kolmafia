@@ -1536,7 +1536,7 @@ public class EquipmentRequest
 		}
 	}
 
-	private static final boolean switchEquipment( final AdventureResult [] oldEquipment, final AdventureResult [] newEquipment )
+	public static final boolean switchEquipment( final AdventureResult [] oldEquipment, final AdventureResult [] newEquipment )
 	{
 		boolean refresh = false;
 

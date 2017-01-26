@@ -2464,6 +2464,7 @@ public class EquipmentManager
 		// "stickers":[0,0,0],
 		// "folder_holder":["01","22","12","00","00"]
 
+		AdventureResult[] current = EquipmentManager.allEquipment();
 		AdventureResult[] equipment = EquipmentManager.emptyEquipmentArray( true );
 		int fakeHands = 0;
 
@@ -2505,12 +2506,31 @@ public class EquipmentManager
 		}
 
 		// We can't read these from api.php (yet?)
-		equipment[ EquipmentManager.BOOTSKIN ] = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
-		equipment[ EquipmentManager.BOOTSPUR ] = EquipmentManager.getEquipment( EquipmentManager.BOOTSPUR );
-		equipment[ EquipmentManager.HOLSTER ] = EquipmentManager.getEquipment( EquipmentManager.HOLSTER );
+		equipment[ EquipmentManager.CROWNOFTHRONES ] = current[ EquipmentManager.CROWNOFTHRONES ];
+		equipment[ EquipmentManager.BUDDYBJORN ] = current[ EquipmentManager.BUDDYBJORN ];
+		equipment[ EquipmentManager.BOOTSKIN ] = current[ EquipmentManager.BOOTSKIN ];
+		equipment[ EquipmentManager.BOOTSPUR ] = current[ EquipmentManager.BOOTSPUR ];
+		equipment[ EquipmentManager.HOLSTER ] = current[ EquipmentManager.HOLSTER ];
 
-		// Set all regular equipment slots
-		EquipmentManager.setEquipment( equipment );
+		// For debug purposes, print wherever KoLmafia's model differs
+		// from KoL's model.
+
+		if ( !KoLmafia.isRefreshing() )
+		{
+			for ( int i = 0; i < EquipmentManager.ALL_SLOTS; ++i )
+			{
+				if ( !current[ i ].equals( equipment[ i ] ) )
+				{
+					String slotName = EquipmentRequest.slotNames[ i ];
+					String message = "*** slot " + slotName + ": KoL has " + equipment[ i ] + " but KoLmafia has " + current[ i ];
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+			}
+		}
+
+		// Shuffle inventory and load up KoL's model of equipment
+		EquipmentRequest.switchEquipment( current, equipment );
 
 		// *** Locked familiar item
 
