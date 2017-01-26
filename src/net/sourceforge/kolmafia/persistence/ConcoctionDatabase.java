@@ -2341,14 +2341,14 @@ public class ConcoctionDatabase
 					continue;
 				}
 				if ( adv > KoLCharacter.getAdventuresLeft() + 
-				     ( method == CraftingType.SMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
-					                                  ConcoctionDatabase.getFreeSmithJewelTurns() +
-					                                  ConcoctionDatabase.getFreeSmithingTurns() :
-					   method == CraftingType.SSMITH ? ConcoctionDatabase.getFreeCraftingTurns() +
-					                                  ConcoctionDatabase.getFreeSmithJewelTurns() +
-					                                  ConcoctionDatabase.getFreeSmithingTurns() :
-					   method == CraftingType.JEWELRY ?  ConcoctionDatabase.getFreeCraftingTurns() +
-					                                     ConcoctionDatabase.getFreeSmithJewelTurns() :
+				     ( method == CraftingType.SMITH ?   ConcoctionDatabase.getFreeCraftingTurns() +
+					                                ConcoctionDatabase.getFreeSmithJewelTurns() +
+					                                ConcoctionDatabase.getFreeSmithingTurns() :
+				       method == CraftingType.SSMITH ?  ConcoctionDatabase.getFreeCraftingTurns() +
+					                                ConcoctionDatabase.getFreeSmithJewelTurns() +
+					                                ConcoctionDatabase.getFreeSmithingTurns() :
+				       method == CraftingType.JEWELRY ? ConcoctionDatabase.getFreeCraftingTurns() +
+					                                ConcoctionDatabase.getFreeSmithJewelTurns() :
 					   ConcoctionDatabase.getFreeCraftingTurns() )
 				   )
 				{//
@@ -2380,7 +2380,8 @@ public class ConcoctionDatabase
 	public static int getFreeCraftingTurns()
 	{
 		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 +
-			( KoLCharacter.hasSkill( "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 ) +
+			( KoLCharacter.hasSkill( "Rapid Prototyping" ) &&
+			  StandardRequest.isAllowed( "Skill", "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 ) +
 			ConcoctionDatabase.CRAFT_TEA.getCount( KoLConstants.activeEffects ) / 5;
 	}
 

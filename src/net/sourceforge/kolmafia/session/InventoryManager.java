@@ -2116,7 +2116,7 @@ public abstract class InventoryManager
 		}
 		// If we've already nagged, don't nag. Unless the user wants us to nag. Then, nag.
 		if ( InventoryManager.askedAboutCrafting == KoLCharacter.getUserId() &&
-			Preferences.getInteger( "promptAboutCrafting" ) < 2 )
+		     Preferences.getInteger( "promptAboutCrafting" ) < 2 )
 		{
 			return true;
 		}
