@@ -6086,6 +6086,15 @@ public class UseItemRequest
 
 		int itemId = item.getItemId();
 
+		boolean isSealFigurine = ItemDatabase.isSealFigurine( itemId );
+		boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster( itemId );
+
+		if ( ( isSealFigurine || isBRICKOMonster ) && !urlString.contains( "checked=1" ) )
+		{
+			// Only log the second "use" that actually leads to a fight.
+			return true;
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.AWOL_COMMENDATION:
