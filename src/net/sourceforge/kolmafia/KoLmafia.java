@@ -953,7 +953,7 @@ public abstract class KoLmafia
 		ContactManager.updateMailContacts();
 
 		// Get current list of restricted items
-		StandardRequest.initialize( !KoLCharacter.getRestricted() );
+		StandardRequest.initialize();
 
 		KoLmafia.updateDisplay( "Session data refreshed." );
 
