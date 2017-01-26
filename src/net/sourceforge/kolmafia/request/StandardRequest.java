@@ -57,7 +57,6 @@ public class StandardRequest
 	private final static List<String> clanMap = new ArrayList<String>();
 	// There is a Miscellaneous category that doesn't seem useful
 
-	private static final StandardRequest INSTANCE = new StandardRequest();
 	private static boolean running = false;
 
 	private static boolean initialized = false;
@@ -76,7 +75,7 @@ public class StandardRequest
 	{
 		if ( !StandardRequest.initialized && !GenericRequest.passwordHash.equals( "" ) && KoLCharacter.getLimitmode() == null )
 		{
-			RequestThread.postRequest( StandardRequest.INSTANCE );
+			RequestThread.postRequest( new StandardRequest() );
 		}
 	}
 

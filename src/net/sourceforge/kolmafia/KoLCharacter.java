@@ -3607,6 +3607,10 @@ public abstract class KoLCharacter
 
 	public static final void setRestricted( final boolean restricted )
 	{
+		if ( restricted && !KoLCharacter.restricted )
+		{
+			StandardRequest.reset();
+		}
 		KoLCharacter.restricted = restricted;
 	}
 
