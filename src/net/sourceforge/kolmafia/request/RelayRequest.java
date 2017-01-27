@@ -2806,15 +2806,23 @@ public class RelayRequest
 
 		this.waitForRecoveryToComplete();
 
-		GenericRequest.suppressUpdate( suppressUpdate );
-		CommandDisplayFrame.executeCommand( GenericRequest.decodeField( command ) );
-
-		while ( waitForCompletion && CommandDisplayFrame.hasQueuedCommands() )
+		try
 		{
-			this.pauser.pause( 500 );
-		}
+			GenericRequest.suppressUpdate( suppressUpdate );
+			CommandDisplayFrame.executeCommand( GenericRequest.decodeField( command ) );
 
-		GenericRequest.suppressUpdate( false );
+			if ( waitForCompletion )
+			{
+				while ( CommandDisplayFrame.hasQueuedCommands() )
+				{
+					this.pauser.pause( 500 );
+				}
+			}
+		}
+		finally
+		{
+			GenericRequest.suppressUpdate( false );
+		}
 	}
 
 	private void handleChat()

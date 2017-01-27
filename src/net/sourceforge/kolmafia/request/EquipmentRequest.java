@@ -1205,7 +1205,10 @@ public class EquipmentRequest
 			}
 			else if ( this.getURLString().contains( "ajax=1" ) )
 			{
-				EquipmentRequest.parseEquipmentChange( urlString, responseText );
+				if ( EquipmentRequest.parseEquipmentChange( urlString, responseText ) )
+				{
+					this.setHasResult( false );
+				}
 			}
 			else if ( this.equipmentSlot == EquipmentManager.HOLSTER )
 			{
@@ -1608,14 +1611,14 @@ public class EquipmentRequest
 		return refresh;
 	}
 
-	public static final void parseEquipmentChange( final String location, final String responseText )
+	public static final boolean parseEquipmentChange( final String location, final String responseText )
 	{
 		Matcher matcher = GenericRequest.ACTION_PATTERN.matcher( location );
 
 		// We have nothing special to do for simple visits.
 		if ( !matcher.find() )
 		{
-			return;
+			return false;
 		}
 
 		String action = matcher.group(1);
@@ -1630,14 +1633,14 @@ public class EquipmentRequest
 			     !responseText.contains( "Item equipped" ) &&
 			     !responseText.contains( "equips an item" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
 			{
-				return;
+				return false;
 			}
 
 			if ( itemId == ItemPool.FAKE_HAND )
@@ -1645,7 +1648,7 @@ public class EquipmentRequest
 				int oldFakeHands = EquipmentManager.getFakeHands();
 				EquipmentManager.setFakeHands( oldFakeHands + 1 );
 				AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( ItemPool.FAKE_HAND, -1 ) );
-				return;
+				return false;
 			}
 
 			int slot = EquipmentRequest.findEquipmentSlot( itemId, location );
@@ -1654,7 +1657,7 @@ public class EquipmentRequest
 				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
-			return;
+			return false;
 		}
 
 		// inv_equip.php?action=dualwield&whichitem=1325&ajax=1
@@ -1663,14 +1666,14 @@ public class EquipmentRequest
 			// Detect failure to equip
 			if ( !responseText.contains( "You equip an item" ) && !responseText.contains( "Item equipped" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
 			{
-				return;
+				return false;
 			}
 
 			if ( EquipmentRequest.switchItem( EquipmentManager.OFFHAND, ItemPool.get( itemId, 1 ) ) )
@@ -1678,7 +1681,7 @@ public class EquipmentRequest
 				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
-			return;
+			return false;
 		}
 
 		// inv_equip.php?action=unequipall&ajax=1
@@ -1687,7 +1690,7 @@ public class EquipmentRequest
 			// We unequipped everything
 			if ( !responseText.contains( "All items unequipped" ) )
 			{
-				return;
+				return false;
 			}
 
 			boolean switched = false;
@@ -1719,20 +1722,20 @@ public class EquipmentRequest
 			// Detect failure to equip
 			if ( !responseText.contains( "Item unequipped" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We unequipped an item.
 			String slotName = EquipmentRequest.parseSlotName( location );
 			if ( slotName == null )
 			{
-				return;
+				return false;
 			}
 
 			int type = EquipmentRequest.slotNumber( slotName );
 			if ( type < 0 )
 			{
-				return;
+				return false;
 			}
 
 			if ( type == EquipmentManager.FAKEHAND )
@@ -1740,7 +1743,7 @@ public class EquipmentRequest
 				int oldFakeHands = EquipmentManager.getFakeHands();
 				AdventureResult.addResultToList( KoLConstants.inventory, ItemPool.get( ItemPool.FAKE_HAND, oldFakeHands ) );
 				EquipmentManager.setFakeHands( 0 );
-				return;
+				return false;
 			}
 
 			if ( EquipmentRequest.switchItem( type, EquipmentRequest.UNEQUIP ) )
@@ -1748,7 +1751,7 @@ public class EquipmentRequest
 				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
-			return;
+			return false;
 		}
 
 		// inv_equip.php?action=hatrack&whichitem=308&ajax=1
@@ -1757,14 +1760,14 @@ public class EquipmentRequest
 			// Detect failure to equip
 			if ( !responseText.contains( "equips an item" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We equipped an item.
 			int itemId = EquipmentRequest.parseItemId( location );
 			if ( itemId < 0 )
 			{
-				return;
+				return false;
 			}
 
 			if ( EquipmentRequest.switchItem( EquipmentManager.FAMILIAR, ItemPool.get( itemId, 1 ) ) )
@@ -1772,7 +1775,7 @@ public class EquipmentRequest
 				ConcoctionDatabase.setRefreshNeeded( false );
 			}
 
-			return;
+			return false;
 		}
 
 		// inventory.php?action=holster&holster=8970&ajax=1
@@ -1782,7 +1785,7 @@ public class EquipmentRequest
 			int itemId = EquipmentRequest.parseHolster( location );
 			if ( itemId < 0 )
 			{
-				return;
+				return false;
 			}
 
 			if ( itemId == 0 )
@@ -1794,7 +1797,7 @@ public class EquipmentRequest
 				EquipmentRequest.switchItem( EquipmentManager.HOLSTER, ItemPool.get( itemId, 1 ) );
 			}
 
-			return;
+			return false;
 		}
 
 		// inv_equip.php?action=customoutfit&outfitname=Backup
@@ -1803,7 +1806,7 @@ public class EquipmentRequest
 			// Detect failure to equip
 			if ( !responseText.contains( "Your custom outfit has been saved" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We saved a custom outfit. KoL assigned a new outfit
@@ -1813,14 +1816,14 @@ public class EquipmentRequest
 			matcher = OUTFITNAME_PATTERN.matcher( location );
 			if ( !matcher.find() )
 			{
-				return;
+				return false;
 			}
 			String name = GenericRequest.decodeField( matcher.group( 1 ) );
 
 			matcher = OUTFITID_PATTERN.matcher( responseText );
 			if ( !matcher.find() )
 			{
-				return;
+				return false;
 			}
 			int id = StringUtilities.parseInt( matcher.group( 1 ) );
 
@@ -1843,7 +1846,7 @@ public class EquipmentRequest
 			// Add this outfit to the list of custom outfits.
 			EquipmentManager.addCustomOutfit( outfit );
 
-			return;
+			return false;
 		}
 
 		// inv_equip.php?action=outfit&whichoutfit=-28&ajax=1
@@ -1852,202 +1855,224 @@ public class EquipmentRequest
 			// Detect failure to equip
 			if ( !responseText.contains( "You put on" ) )
 			{
-				return;
+				return false;
 			}
 
 			// We changed into an outfit.
 
-			// Since KoL doesn't tell us where accessories end up,
-			// we could ask for an update, but we'll apply
-			// heuristics and hope for the best.
+			// Since KoL doesn't tell us where accessories and
+			// dual-wielded weapons end up, apply heuristics and
+			// hope for the best.
 
-			// Similarly, if you are dual-wielding two of the same
-			// weapon, if you replace one of them with another
-			// weapon, it's problematic.
+			EquipmentRequest.donOutfit( responseText );
 
-			AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
-			AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
-
-			// Experimentation suggests that accessories are
-			// installed in	 "Item Equipped" order like this:
-			// - fill empty accessory slots from 1 to 3
-			// - replace previous accessories from 3 to 1
+			// Until/unless KoL includes the equipment slot for
+			// each item changed, "hope" is not enough.
 			//
-			// Note that if an already equipped accessory is part
-			// of the new outfit, it stays exactly where it was.
+			// Request status refresh via api.php in order to make
+			// sure equipment ends up in correct slots.
 
-			// Weapons that are part of the new outfit stay where
-			// they currently are.
+			ApiRequest.updateStatus( true );
 
-			// Iterate over all unequipped items.
-			Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
-			while ( unequipped.find() )
-			{
-				String descId = unequipped.group( 1 );
-
-				int itemId = ItemDatabase.getItemIdFromDescription( descId );
-				if ( !EquipmentDatabase.contains( itemId ) )
-				{
-					continue;
-				}
-
-				AdventureResult item = ItemPool.get( itemId );
-				int slot = EquipmentManager.itemIdToEquipmentType( itemId );
-				switch ( slot )
-				{
-				case EquipmentManager.ACCESSORY1:
-					if ( newEquipment[ EquipmentManager.ACCESSORY3 ].equals( item ) )
-					{
-						slot = EquipmentManager.ACCESSORY3;
-					}
-					else if ( newEquipment[ EquipmentManager.ACCESSORY2 ].equals( item ) )
-					{
-						slot = EquipmentManager.ACCESSORY2;
-					}
-					else if ( !newEquipment[ EquipmentManager.ACCESSORY1 ].equals( item ) )
-					{
-						// KoL error: accessory not found
-						continue;
-					}
-					break;
-
-				case EquipmentManager.WEAPON:
-					if ( newEquipment[ EquipmentManager.OFFHAND ].equals( item ) )
-					{
-						// Heuristic: unequip duplicate
-						// weapon from offhand slot first
-						slot = EquipmentManager.OFFHAND;
-					}
-					else if ( !newEquipment[ EquipmentManager.WEAPON ].equals( item ) )
-					{
-						// KoL error: weapon not found
-						continue;
-					}
-					break;
-				default:
-					// Everything else goes into an
-					// unambiguous slot.
-					break;
-				}
-
-				newEquipment[ slot ] = EquipmentRequest.UNEQUIP;
-			}
-
-			// Calculate accessory fill order
-			int [] accessories = new int[] {
-				EquipmentManager.ACCESSORY1,
-				EquipmentManager.ACCESSORY2,
-				EquipmentManager.ACCESSORY3
-			};
-			int accessoryIndex = 0;
-
-			// Consume unfilled slots from 1 to 3
-			for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; slot++ )
-			{
-				if ( oldEquipment[ slot ] == EquipmentRequest.UNEQUIP )
-				{
-					accessories[ accessoryIndex++ ] = slot;
-				}
-			}
-			// Consume filled slots from 3 to 1
-			for ( int slot = EquipmentManager.ACCESSORY3; accessoryIndex < 3 && slot >= EquipmentManager.ACCESSORY1; slot-- )
-			{
-				if ( oldEquipment[ slot ] != EquipmentRequest.UNEQUIP &&
-				     newEquipment[ slot ] == EquipmentRequest.UNEQUIP )
-				{
-					accessories[ accessoryIndex++ ] = slot;
-				}
-			}
-
-			// Calculate weapon fill order
-			int [] weapons = new int[] {
-				EquipmentManager.WEAPON,
-				EquipmentManager.OFFHAND,
-			};
-			int weaponIndex = 0;
-
-			// If the offhand slot is empty and the weapon slot is
-			// not, put new weapon into offhand slot
-			if ( newEquipment[ EquipmentManager.OFFHAND ] == EquipmentRequest.UNEQUIP &&
-			     newEquipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
-			{
-				weapons[ 0 ] = EquipmentManager.OFFHAND;
-				weapons[ 1 ] = EquipmentManager.WEAPON;
-			}
-
-			// Reset equip indices
-			accessoryIndex = 0;
-			weaponIndex = 0;
-
-			// Iterate over all equipped items.
-			Matcher equipped = EQUIPPED_PATTERN.matcher( responseText );
-			while ( equipped.find() )
-			{
-				String descId = equipped.group( 1 );
-
-				int itemId = ItemDatabase.getItemIdFromDescription( descId );
-				if ( !EquipmentDatabase.contains( itemId ) )
-				{
-					continue;
-				}
-
-				AdventureResult item = ItemPool.get( itemId );
-				int slot = EquipmentManager.itemIdToEquipmentType( itemId );
-				switch ( slot )
-				{
-				case EquipmentManager.ACCESSORY1:
-					if ( accessoryIndex >= 3 )
-					{
-						// KoL error: four accessories
-						continue;
-					}
-					slot = accessories[ accessoryIndex++ ];
-					break;
-
-				case EquipmentManager.WEAPON:
-					if ( weaponIndex >= 2 )
-					{
-						// KoL error: three weapons
-						continue;
-					}
-					slot = weapons[ weaponIndex ];
-
-					// A chefstaff must go in the weapon slot,
-					// but KoL does not always list it first.
-					if ( slot == EquipmentManager.OFFHAND &&
-					     EquipmentDatabase.isChefStaff( item ) )
-					{
-						slot = EquipmentManager.WEAPON;
-
-						// Move other weapon to offhand
-						newEquipment[ EquipmentManager.OFFHAND ] = newEquipment[ EquipmentManager.WEAPON ];
-
-						// If we thought we were unequipping offhand
-						// and leaving weapon equipped, reverse that
-						if ( weaponIndex == 0 )
-						{
-							weapons[ 1 ] = EquipmentManager.OFFHAND;
-						}
-					}
-					weaponIndex++;
-					break;
-				default:
-					// Everything else goes into an
-					// unambiguous slot.
-					break;
-				}
-
-				newEquipment[ slot ] = item;
-			}
-
-			if ( EquipmentRequest.switchEquipment( oldEquipment, newEquipment ) )
-			{
-				ConcoctionDatabase.setRefreshNeeded( false );
-			}
+			// Trigger actions based on outfit name
 
 			EquipmentRequest.wearCustomOutfit( location );
 
-			return;
+			return true;
+		}
+
+		return false;
+	}
+
+	private static final void donOutfit( final String responseText )
+	{
+		// Since KoL doesn't tell us where accessories end up,
+		// we could ask for an update, but we'll apply
+		// heuristics and hope for the best.
+
+		// Similarly, if you are dual-wielding two of the same
+		// weapon, if you replace one of them with another
+		// weapon, it's problematic.
+
+		AdventureResult[] oldEquipment = EquipmentManager.currentEquipment();
+		AdventureResult[] newEquipment = EquipmentManager.currentEquipment();
+
+		// Experimentation suggests that accessories are
+		// installed in	 "Item Equipped" order like this:
+		// - fill empty accessory slots from 1 to 3
+		// - replace previous accessories from 3 to 1
+		//
+		// Note that if an already equipped accessory is part
+		// of the new outfit, it stays exactly where it was.
+
+		// Weapons that are part of the new outfit stay where
+		// they currently are.
+
+		// Iterate over all unequipped items.
+		Matcher unequipped = UNEQUIPPED_PATTERN.matcher( responseText );
+		while ( unequipped.find() )
+		{
+			String descId = unequipped.group( 1 );
+
+			int itemId = ItemDatabase.getItemIdFromDescription( descId );
+			if ( !EquipmentDatabase.contains( itemId ) )
+			{
+				continue;
+			}
+
+			AdventureResult item = ItemPool.get( itemId );
+			int slot = EquipmentManager.itemIdToEquipmentType( itemId );
+			switch ( slot )
+			{
+			case EquipmentManager.ACCESSORY1:
+				if ( newEquipment[ EquipmentManager.ACCESSORY3 ].equals( item ) )
+				{
+					slot = EquipmentManager.ACCESSORY3;
+				}
+				else if ( newEquipment[ EquipmentManager.ACCESSORY2 ].equals( item ) )
+				{
+					slot = EquipmentManager.ACCESSORY2;
+				}
+				else if ( !newEquipment[ EquipmentManager.ACCESSORY1 ].equals( item ) )
+				{
+					// KoL error: accessory not found
+					continue;
+				}
+				break;
+
+			case EquipmentManager.WEAPON:
+				if ( newEquipment[ EquipmentManager.OFFHAND ].equals( item ) )
+				{
+					// Heuristic: unequip duplicate
+					// weapon from offhand slot first
+					slot = EquipmentManager.OFFHAND;
+				}
+				else if ( !newEquipment[ EquipmentManager.WEAPON ].equals( item ) )
+				{
+					// KoL error: weapon not found
+					continue;
+				}
+				break;
+			default:
+				// Everything else goes into an
+				// unambiguous slot.
+				break;
+			}
+
+			newEquipment[ slot ] = EquipmentRequest.UNEQUIP;
+		}
+
+		// Calculate accessory fill order
+		int [] accessories = new int[] {
+			EquipmentManager.ACCESSORY1,
+			EquipmentManager.ACCESSORY2,
+			EquipmentManager.ACCESSORY3
+		};
+		int accessoryIndex = 0;
+
+		// Consume unfilled slots from 1 to 3
+		for ( int slot = EquipmentManager.ACCESSORY1; slot <= EquipmentManager.ACCESSORY3; slot++ )
+		{
+			if ( oldEquipment[ slot ] == EquipmentRequest.UNEQUIP )
+			{
+				accessories[ accessoryIndex++ ] = slot;
+			}
+		}
+		// Consume filled slots from 3 to 1
+		for ( int slot = EquipmentManager.ACCESSORY3; accessoryIndex < 3 && slot >= EquipmentManager.ACCESSORY1; slot-- )
+		{
+			if ( oldEquipment[ slot ] != EquipmentRequest.UNEQUIP &&
+			     newEquipment[ slot ] == EquipmentRequest.UNEQUIP )
+			{
+				accessories[ accessoryIndex++ ] = slot;
+			}
+		}
+
+		// Calculate weapon fill order
+		int [] weapons = new int[] {
+			EquipmentManager.WEAPON,
+			EquipmentManager.OFFHAND,
+		};
+		int weaponIndex = 0;
+
+		// If the offhand slot is empty and the weapon slot is
+		// not, put new weapon into offhand slot
+		if ( newEquipment[ EquipmentManager.OFFHAND ] == EquipmentRequest.UNEQUIP &&
+		     newEquipment[ EquipmentManager.WEAPON ] != EquipmentRequest.UNEQUIP )
+		{
+			weapons[ 0 ] = EquipmentManager.OFFHAND;
+			weapons[ 1 ] = EquipmentManager.WEAPON;
+		}
+
+		// Reset equip indices
+		accessoryIndex = 0;
+		weaponIndex = 0;
+
+		// Iterate over all equipped items.
+		Matcher equipped = EQUIPPED_PATTERN.matcher( responseText );
+		while ( equipped.find() )
+		{
+			String descId = equipped.group( 1 );
+
+			int itemId = ItemDatabase.getItemIdFromDescription( descId );
+			if ( !EquipmentDatabase.contains( itemId ) )
+			{
+				continue;
+			}
+
+			AdventureResult item = ItemPool.get( itemId );
+			int slot = EquipmentManager.itemIdToEquipmentType( itemId );
+			switch ( slot )
+			{
+			case EquipmentManager.ACCESSORY1:
+				if ( accessoryIndex >= 3 )
+				{
+					// KoL error: four accessories
+					continue;
+				}
+				slot = accessories[ accessoryIndex++ ];
+				break;
+
+			case EquipmentManager.WEAPON:
+				if ( weaponIndex >= 2 )
+				{
+					// KoL error: three weapons
+					continue;
+				}
+				slot = weapons[ weaponIndex ];
+
+				// A chefstaff must go in the weapon slot,
+				// but KoL does not always list it first.
+				if ( slot == EquipmentManager.OFFHAND &&
+				     EquipmentDatabase.isChefStaff( item ) )
+				{
+					slot = EquipmentManager.WEAPON;
+
+					// Move other weapon to offhand
+					newEquipment[ EquipmentManager.OFFHAND ] = newEquipment[ EquipmentManager.WEAPON ];
+
+					// If we thought we were unequipping offhand
+					// and leaving weapon equipped, reverse that
+					if ( weaponIndex == 0 )
+					{
+						weapons[ 1 ] = EquipmentManager.OFFHAND;
+					}
+				}
+				weaponIndex++;
+				break;
+			default:
+				// Everything else goes into an
+				// unambiguous slot.
+				break;
+			}
+
+			newEquipment[ slot ] = item;
+		}
+
+
+		if ( EquipmentRequest.switchEquipment( oldEquipment, newEquipment ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( false );
 		}
 	}
 
