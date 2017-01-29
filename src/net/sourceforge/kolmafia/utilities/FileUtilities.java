@@ -380,6 +380,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		try
@@ -388,6 +389,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		// Don't keep a 0-length file
@@ -504,6 +506,7 @@ public class FileUtilities
 			}
 			catch ( IOException e )
 			{
+				StaticEntity.printStackTrace( e );
 			}
 
 			try
@@ -512,6 +515,7 @@ public class FileUtilities
 			}
 			catch ( IOException e )
 			{
+				StaticEntity.printStackTrace( e );
 			}
 
 			return;
@@ -526,6 +530,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		try
@@ -534,6 +539,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
 
 		try
@@ -542,6 +548,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
