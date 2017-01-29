@@ -9224,7 +9224,7 @@
 9198	eldritch pants	792793451	eldritchpants.gif	pants	t	0
 9199	eldritch elixir	326528460	eldritchwine.gif	drink	t,d	666
 9200	Quartet of Flare Masters Jacket	948558329	punkjacket.gif	shirt		0
-9201	lump of sorta wriggling eldritch matter	251049747	wad.gif	none	t,d	1	lumps of sorta wriggling eldritch matter
+9201	lump of occasionally wriggling eldritch matter	251049747	wad.gif	none	t,d	1	lumps of occasionally wriggling eldritch matter
 9202
 9203	Build-a-City Gingerbread kit	939230415	gingercity.gif	usable	t	0
 9204	counterfeit city	703636438	fakecity.gif	usable	t	0
@@ -9352,4 +9352,4 @@
 9326
 9327
 9328	eldritch scanner	136891875	radardish.gif	hat	t	0
-9329	eldritch alignment spray	885469931	spraycan.gif	multiple	t,d	1
+9329	eldritch alignment spray	885469931	spraycan.gif	multiple	t,d	1	cans of eldritch alignment spray
