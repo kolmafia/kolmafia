@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.StandardRequest;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 
@@ -460,6 +462,10 @@ public class BanishManager
 			BanishedMonster current = it.next();
 			if ( current.getMonsterName().equalsIgnoreCase( monster ) )
 			{
+				if ( current.getBanishName().equals( "ice house" ) && !StandardRequest.isAllowed( "Items", "ice house" ) )
+				{
+					continue;
+				}
 				return true;
 			}
 		}
