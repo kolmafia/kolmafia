@@ -1521,10 +1521,12 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedSpleen.touch();
 		}
 
-		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
 		ConcoctionDatabase.creatableList.sort();
-		ConcoctionDatabase.usableList.updateFilter( changeDetected );
 		ConcoctionDatabase.usableList.sort();
+
+		// Now tell the GUI about the changes
+		ConcoctionDatabase.creatableList.updateFilter( changeDetected );
+		ConcoctionDatabase.usableList.updateFilter( changeDetected );
 	}
 
 	/**
