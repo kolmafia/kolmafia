@@ -107,6 +107,7 @@ public abstract class ClanManager
 	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<AdventureResult>();
 
 	private static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
+	private static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
 	private static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
 
 	public static final void clearCache()
@@ -197,11 +198,12 @@ public abstract class ClanManager
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
 			}
-			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
-			if ( KoLConstants.clanLounge.contains( FLOUNDRY ) )
+			if ( KoLConstants.clanLounge.contains( SPEAKEASY ) )
 			{
-				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
 			}
+
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
 
 			RequestThread.postRequest( new ClanRumpusRequest( RequestType.SEARCH ) );
 		}
