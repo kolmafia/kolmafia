@@ -1985,8 +1985,8 @@ public class GenericRequest
 			{
 				// Likely a pullall request that timed out
 				PauseObject pauser = new PauseObject();
-				KoLmafia.updateDisplay( "Waiting 20 seconds for KoL to finish processing..." );
-				pauser.pause( 20 * 1000 );
+				KoLmafia.updateDisplay( "Waiting 40 seconds for KoL to finish processing..." );
+				pauser.pause( 40 * 1000 );
 				StorageRequest.emptyStorage( this.formURLString );
 				return true;
 			}
