@@ -1029,8 +1029,8 @@ public abstract class KoLmafia
 		RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
 		RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 		RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
-		KoLCharacter.checkTelescope();
 		RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+		KoLCharacter.checkTelescope();
 
 		// Finally, update available concoctions
 		ConcoctionDatabase.resetQueue();
@@ -1038,12 +1038,12 @@ public abstract class KoLmafia
 
 		KoLmafia.setIsRefreshing( false );
 
-		// Now we can finally run the player's kingLiberatedScript
-		if ( KoLCharacter.kingLiberated() )
-		{
-			// Run a user-supplied script
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
-		}
+		// Check the Florist
+		FloristRequest.reset();
+		RequestThread.postRequest( new FloristRequest() );
+
+		// Run a user-supplied script
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
 	}
 
 	public static final void resetAfterLimitmode()

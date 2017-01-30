@@ -11070,27 +11070,27 @@ public abstract class ChoiceManager
 	private static void handleAfterAvatar()
 	{
 		String newClass = "Unknown";
-			switch ( ChoiceManager.lastDecision )
-			{
-			case 1:
-				newClass = "Seal Clubber";
-				break;
-			case 2:
-				newClass = "Turtle Tamer";
-				break;
-			case 3:
-				newClass = "Pastamancer";
-				break;
-			case 4:
-				newClass = "Sauceror";
-				break;
-			case 5:
-				newClass = "Disco Bandit";
-				break;
-			case 6:
-				newClass = "Accordion Thief";
-				break;
-			}
+		switch ( ChoiceManager.lastDecision )
+		{
+		case 1:
+			newClass = "Seal Clubber";
+			break;
+		case 2:
+			newClass = "Turtle Tamer";
+			break;
+		case 3:
+			newClass = "Pastamancer";
+			break;
+		case 4:
+			newClass = "Sauceror";
+			break;
+		case 5:
+			newClass = "Disco Bandit";
+			break;
+		case 6:
+			newClass = "Accordion Thief";
+			break;
+		}
 
 		StringBuilder buffer = new StringBuilder();
 		buffer.append( "Now walking on the " );

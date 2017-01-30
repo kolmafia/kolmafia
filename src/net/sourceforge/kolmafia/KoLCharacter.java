@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
@@ -3309,172 +3310,183 @@ public abstract class KoLCharacter
 
 	public static final void liberateKing()
 	{
-		if ( !KoLCharacter.kingLiberated() )
+		if ( KoLCharacter.kingLiberated() )
 		{
-			boolean wasInHardcore = KoLCharacter.isHardcore;
-			String oldPath = KoLCharacter.ascensionPath;
+			return;
+		}
 
-			Preferences.setBoolean( "kingLiberated", true );
+		boolean wasInHardcore = KoLCharacter.isHardcore;
+		String oldPath = KoLCharacter.ascensionPath;
 
-			if ( oldPath.equals( AVATAR_OF_BORIS ) )
+		Preferences.setBoolean( "kingLiberated", true );
+
+		if ( oldPath.equals( AVATAR_OF_BORIS ) )
+		{
+			int borisPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "borisPoints", borisPoints );
+		}
+		else if ( oldPath.equals( AVATAR_OF_JARLSBERG ) )
+		{
+			int jarlsbergPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "jarlsbergPoints", jarlsbergPoints );
+		}
+		else if ( oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+		{
+			int sneakyPetePoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
+		}
+		else if ( oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+		{
+			int edPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "edPoints", edPoints );
+		}
+		else if ( oldPath.equals( ZOMBIE_SLAYER ) )
+		{
+			int zombiePoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "zombiePoints", zombiePoints );
+		}
+		else if ( oldPath.equals( WEST_OF_LOATHING ) )
+		{
+			int points = wasInHardcore ? 2 : 1;
+			if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
 			{
-				int borisPoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "borisPoints", borisPoints );
+				Preferences.increment( "awolPointsBeanslinger", points, 10, false );
 			}
-			else if ( oldPath.equals( AVATAR_OF_JARLSBERG ) )
+			else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
 			{
-				int jarlsbergPoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "jarlsbergPoints", jarlsbergPoints );
+				Preferences.increment( "awolPointsCowpuncher", points, 10, false );
 			}
-			else if ( oldPath.equals( AVATAR_OF_SNEAKY_PETE ) )
+			else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
 			{
-				int sneakyPetePoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "sneakyPetePoints", sneakyPetePoints );
+				Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
 			}
-			else if ( oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
-			{
-				int edPoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "edPoints", edPoints );
-			}
-			else if ( oldPath.equals( ZOMBIE_SLAYER ) )
-			{
-				int zombiePoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "zombiePoints", zombiePoints );
-			}
-			else if ( oldPath.equals( WEST_OF_LOATHING ) )
-			{
-				int points = wasInHardcore ? 2 : 1;
-				if ( KoLCharacter.classtype == KoLCharacter.BEANSLINGER )
-				{
-					Preferences.increment( "awolPointsBeanslinger", points, 10, false );
-				}
-				else if ( KoLCharacter.classtype == KoLCharacter.COWPUNCHER )
-				{
-					Preferences.increment( "awolPointsCowpuncher", points, 10, false );
-				}
-				else if ( KoLCharacter.classtype == KoLCharacter.SNAKE_OILER )
-				{
-					Preferences.increment( "awolPointsSnakeoiler", points, 10, false );
-				}
-			}
-			else if ( oldPath.equals( THE_SOURCE ) )
-			{
-				int sourcePoints = wasInHardcore ? 2 : 1;
-				Preferences.increment( "sourcePoints", sourcePoints );
-			}
-			else if ( oldPath.equals( HEAVY_RAINS ) ||
-			          oldPath.equals( NUCLEAR_AUTUMN ) )
-			{
-				KoLCharacter.resetSkills();
-			}
+		}
+		else if ( oldPath.equals( THE_SOURCE ) )
+		{
+			int sourcePoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "sourcePoints", sourcePoints );
+		}
+		else if ( oldPath.equals( HEAVY_RAINS ) ||
+			  oldPath.equals( NUCLEAR_AUTUMN ) )
+		{
+			KoLCharacter.resetSkills();
+		}
 
-			// Are we restricted by Standard?
-			boolean restricted = KoLCharacter.getRestricted();
+		// Are we restricted by Standard?
+		boolean restricted = KoLCharacter.getRestricted();
 
-			// We are no longer in Hardcore
-			KoLCharacter.setHardcore( false );
+		// We are no longer in Hardcore
+		KoLCharacter.setHardcore( false );
 
-			// Ronin is lifted and we can interact freely with the Kingdom
-			KoLCharacter.setRonin( false );
+		// Ronin is lifted and we can interact freely with the Kingdom
+		KoLCharacter.setRonin( false );
 
-			// If the path was restricted, this clears restriction
-			// and triggers a skill and terrarium refresh
-			CharPaneRequest.setInteraction( true );
+		// If the path was restricted, this clears restriction
+		// and triggers a skill and terrarium refresh
+		CharPaneRequest.setInteraction( true );
 
-			// We are no longer subject to consumption restrictions
-			KoLCharacter.setPath( NONE );
+		// We are no longer subject to consumption restrictions
+		KoLCharacter.setPath( NONE );
 
-			// Storage is freely available
-			KoLConstants.storage.addAll( KoLConstants.freepulls );
-			KoLConstants.storage.addAll( KoLConstants.nopulls );
-			KoLConstants.freepulls.clear();
-			KoLConstants.nopulls.clear();
-			ConcoctionDatabase.setPullsRemaining( -1 );
+		// Storage is freely available
+		KoLConstants.storage.addAll( KoLConstants.freepulls );
+		KoLConstants.storage.addAll( KoLConstants.nopulls );
+		KoLConstants.freepulls.clear();
+		KoLConstants.nopulls.clear();
+		ConcoctionDatabase.setPullsRemaining( -1 );
 
-			// We can use all familiars again
-			GearChangeFrame.updateFamiliars();
+		// We can use all familiars again
+		GearChangeFrame.updateFamiliars();
 			
-			// We may want to re-run breakfast, for various reasons
-			Preferences.setBoolean( "breakfastCompleted", false );
+		// We may want to re-run breakfast, for various reasons
+		Preferences.setBoolean( "breakfastCompleted", false );
 
-			// Available hermit items and clover numbers may have changed
-			HermitRequest.initialize();
+		// If we are in Bad Moon, we can use the bookshelf and
+		// telescope again.
+		if ( KoLCharacter.inBadMoon() )
+		{
+			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+			KoLCharacter.checkTelescope();
+		}
 
-			// If we are in Bad Moon, we can use the bookshelf and
-			// telescope again.
-			if ( KoLCharacter.inBadMoon() )
-			{
-				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
-				KoLCharacter.checkTelescope();
-			}
-
+		if ( !restricted )
+		{
 			// If we were in Hardcore or a path that alters skills, automatically recall skills
 			// Paths that require you to choose your class at the end will refresh skills later
 			// If we are leaving a restricted path, then skills were refreshed earlier
-			else if ( !restricted && (
-				  wasInHardcore ||
-				  oldPath.equals( TRENDY ) ||
-				  oldPath.equals( CLASS_ACT ) ||
-				  oldPath.equals( SURPRISING_FIST ) ||
-				  oldPath.equals( CLASS_ACT_II ) ||
-				  oldPath.equals( HEAVY_RAINS ) ||
-				  oldPath.equals( PICKY ) ||
-				  oldPath.equals( NUCLEAR_AUTUMN )
-			        ) )
+			if ( wasInHardcore ||
+			     oldPath.equals( TRENDY ) ||
+			     oldPath.equals( CLASS_ACT ) ||
+			     oldPath.equals( SURPRISING_FIST ) ||
+			     oldPath.equals( CLASS_ACT_II ) ||
+			     oldPath.equals( HEAVY_RAINS ) ||
+			     oldPath.equals( PICKY ) ||
+			     oldPath.equals( NUCLEAR_AUTUMN ) 
+				)
 			{
 				// Normal permed skills (will also reset KoLCharacter.restricted to false)
 				RequestThread.postRequest( new CharSheetRequest() );
 			}
 
-			if ( !restricted && (
-			     oldPath.equals( TRENDY ) ||
+			if ( oldPath.equals( TRENDY ) ||
 			     oldPath.equals( HEAVY_RAINS ) ||
 			     oldPath.equals( NUCLEAR_AUTUMN )
-			     ) )
+				)
 			{
 				// If we were restricted, this was already done earlier, so don't
 				// do it again even if it's needed for the path
 				// Retrieve the bookshelf
 				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
 			}
-
-			if ( oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
-			     oldPath.equals( NUCLEAR_AUTUMN ) )
-			{
-				// We haven't previously seen our campground
-				RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
-				RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
-				RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
-			}
-
-			// Stop expecting Path-related Wandering Monsters
-			if ( oldPath.equals( BEES_HATE_YOU ) )
-			{
-				TurnCounter.stopCounting( "Bee window begin" );
-				TurnCounter.stopCounting( "Bee window end" );
-			}
-			else if ( oldPath.equals( HEAVY_RAINS ) )
-			{
-				TurnCounter.stopCounting( "Rain Monster window begin" );
-				TurnCounter.stopCounting( "Rain Monster window end" );
-			}
-			else if ( oldPath.equals( WEST_OF_LOATHING ) )
-			{
-				TurnCounter.stopCounting( "WoL Monster window begin" );
-				TurnCounter.stopCounting( "WoL Monster window end" );
-			}
-
-			// If leaving a path with a unique class, wait until player picks a new class.
-			if ( !oldPath.equals( AVATAR_OF_BORIS ) &&
-			     !oldPath.equals( ZOMBIE_SLAYER ) &&
-			     !oldPath.equals( AVATAR_OF_JARLSBERG ) &&
-			     !oldPath.equals( AVATAR_OF_SNEAKY_PETE ) &&
-			     !oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
-			{
-				// Run a user-supplied script
-				KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
-			}
 		}
+
+		if ( oldPath.equals( NUCLEAR_AUTUMN ) )
+		{
+			// We haven't previously seen our campground
+			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+			KoLCharacter.checkTelescope();
+		}
+
+		// Stop expecting Path-related Wandering Monsters
+		if ( oldPath.equals( BEES_HATE_YOU ) )
+		{
+			TurnCounter.stopCounting( "Bee window begin" );
+			TurnCounter.stopCounting( "Bee window end" );
+		}
+		else if ( oldPath.equals( HEAVY_RAINS ) )
+		{
+			TurnCounter.stopCounting( "Rain Monster window begin" );
+			TurnCounter.stopCounting( "Rain Monster window end" );
+		}
+		else if ( oldPath.equals( WEST_OF_LOATHING ) )
+		{
+			TurnCounter.stopCounting( "WoL Monster window begin" );
+			TurnCounter.stopCounting( "WoL Monster window end" );
+		}
+
+		// If leaving a path with a unique class, wait until player picks a new class.
+		if ( oldPath.equals( AVATAR_OF_BORIS ) ||
+		     oldPath.equals( ZOMBIE_SLAYER ) ||
+		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
+		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
+		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+		{
+			return;
+		}
+
+		// Available hermit items and clover numbers may have changed
+		// They depend on character class, so ex-avatars check after
+		// they choose a new class.
+		HermitRequest.initialize();
+
+		// Check the Florist
+		FloristRequest.reset();
+		RequestThread.postRequest( new FloristRequest() );
+
+		// Run a user-supplied script
+		KoLmafiaCLI.DEFAULT_SHELL.executeLine( Preferences.getString( "kingLiberatedScript" ) );
 	}
 
 	/**
