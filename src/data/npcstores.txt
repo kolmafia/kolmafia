@@ -162,7 +162,7 @@ The General Store	generalstore	water wings	300	ROW661
 The General Store	generalstore	sweet rims	300	ROW653
 The General Store	generalstore	dingy planks	400	ROW655
 The General Store	generalstore	Familiar-Gro&trade; Terrarium	500	ROW656
-The General Store	generalstore	eldritch alignment spray	1000	ROW938
+# The General Store	generalstore	eldritch alignment spray	1000	ROW938
 The General Store	generalstore	high-test fishing line	2500	ROW817
 The General Store	generalstore	Desert Bus pass	5000	ROW657
 The General Store	generalstore	li'l unicorn costume	1000	ROW890
