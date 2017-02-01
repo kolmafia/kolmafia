@@ -852,6 +852,7 @@ Item	lemon shirt	Candy Drop: +50, Lasts Until Rollover
 Item	letterman's jacket	Slime Resistance: +1, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 Item	Liam's mail	Damage Absorption: +50, Muscle Percent: +10, Experience: +2
 Item	loathing eagle baby-doll shirt	Moxie: +3
+Item	LOV Eardigan	Experience Percent (Muscle): +25, HP Regen Min: 8, HP Regen Max: 12, Monster Level: +25, Lasts Until Rollover
 Item	lynyrdskin tunic	Initiative: +25
 Item	Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Item	metal band T-shirt	Monster Level: +15
@@ -2026,6 +2027,7 @@ Item	Loathing Legion moondial	Adventures: +4, Softcore Only
 Item	Loathing Legion pizza stone	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Damage Reduction: 6, Softcore Only
 Item	Loathing Legion tape measure	Critical Hit Percent: +10, Softcore Only
 # loose purse strings: Monsters Will Drop Additional Meat
+Item	LOV Elephant	Damage Reduction: 16
 Item	low-budget shield	Damage Reduction: 3
 Item	lucky lighter	Hot Damage: +6, Critical Hit Percent: +5
 Item	mad scientist's sock monkey	Moxie: +3
@@ -2712,6 +2714,7 @@ Item	long-forgotten necklace	Meat Drop: +15
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
+Item	LOV Earrings	Experience Percent (Moxie): +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Meat Drop: +50, Single Equip, Lasts Until Rollover
 # lube-shoes: Good for lubricating rollercoaster tracks
 Item	lube-shoes	Moxie: -10
 Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
@@ -3424,6 +3427,7 @@ Item	Lavalos's shell	Damage Absorption: +40, Hot Damage: +20, Hot Resistance: +2
 Item	little deuce cape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +25
 # Lord Flameface's cloak: Has Cool Swirling Flames
 Item	Lord Flameface's cloak	Cold Resistance: +2
+Item	LOV Epaulettes	Experience Percent (Mysticality): +25, MP Regen Min: 4, MP Regen Max: 6, Mana Cost (combat): -3, Lasts Until Rollover
 Item	makeshift cape	Item Drop: +5
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
@@ -5402,6 +5406,7 @@ Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
+Effect	Lovebotamy	Experience: +10
 Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
@@ -5605,6 +5610,7 @@ Effect	Ooh, Salty!	Cold Damage: +5
 Effect	Ooh, Sour!	Stench Damage: +5
 Effect	Ooh, Sweet!	Hot Damage: +5
 Effect	Ooh, Umami!	Sleaze Damage: +5
+Effect	Open Heart Surgery	Familiar Weight: +10
 Effect	Optimist Primal	Familiar Weight: +5
 Effect	Orange Crusher	Muscle: [ceil(min(T,50)/2)], Experience (Muscle): [ceil(min(T,50)/10)]
 Effect	Orange Tongue	Experience: +3
@@ -6380,6 +6386,7 @@ Effect	WAKKA WAKKA WAKKA	Monster Level: +20
 Effect	Walberg's Dim Bulb	Initiative: +10
 Effect	Walking Carpet	Avatar: "grouchy furry monster"
 Effect	Wallflowering	Damage Absorption: +100, Damage Reduction: 10
+Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
 Effect	War is Hol	Avatar: "François Verte, Art Teacher"
 Effect	Warbear Blubber	Supercold Resistance: +3
@@ -8516,6 +8523,7 @@ Item	Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect
 Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)
+Item	heart-shaped crate	Free Pull
 # hedgeturtle: Deals 30-60 Physical Damage
 # hedgeturtle: Causes Bleeding
 Item	Hell and How I Bent It	Skill: "Bend Hell"
