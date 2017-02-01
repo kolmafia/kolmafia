@@ -699,6 +699,7 @@ lemon shirt	50	Mus: 10
 letterman's jacket	200	Mus: 200
 Liam's mail	150	Mus: 20
 loathing eagle baby-doll shirt	45	Mus: 7
+LOV Eardigan	100	none
 lynyrdskin tunic	170	Mus: 70
 Mer-kin breastplate	200	Mus: 85
 metal band T-shirt	40	Mus: 5
@@ -1729,6 +1730,7 @@ Loathing Legion moondial	0	none
 Loathing Legion pizza stone	100	none	shield
 Loathing Legion tape measure	0	none
 loose purse strings	10	none
+LOV Elephant	0	Mus: 25	shield
 low-budget shield	60	none	shield
 lube-shoes	0	none
 lucky lighter	35	Mys: 2
@@ -2309,6 +2311,7 @@ long-forgotten necklace	200	Mys: 85
 Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's ear trumpet	150	Mys: 20
 Lord Spookyraven's spectacles	10	none
+LOV Earrings	0	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
@@ -2934,6 +2937,7 @@ jetpack	0	none
 Lavalos's shell	150	Mys: 75
 little deuce cape	150	Mus: 75
 Lord Flameface's cloak	0	Mys: 75
+LOV Epaulettes	0	none
 makeshift cape	100	Mys: 75
 Mayor Ghost's cloak	300	Mys: 250
 Misty Cape	130	Mox: 75
