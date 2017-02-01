@@ -86,6 +86,7 @@ import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -3315,11 +3316,13 @@ public abstract class KoLCharacter
 			return;
 		}
 
-		boolean wasInHardcore = KoLCharacter.isHardcore;
 		String oldPath = KoLCharacter.ascensionPath;
+		boolean wasInHardcore = KoLCharacter.isHardcore;
+		boolean restricted = KoLCharacter.getRestricted();
 
 		Preferences.setBoolean( "kingLiberated", true );
 
+		// Assign "points" to paths that grant them
 		if ( oldPath.equals( AVATAR_OF_BORIS ) )
 		{
 			int borisPoints = wasInHardcore ? 2 : 1;
@@ -3366,14 +3369,6 @@ public abstract class KoLCharacter
 			int sourcePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "sourcePoints", sourcePoints );
 		}
-		else if ( oldPath.equals( HEAVY_RAINS ) ||
-			  oldPath.equals( NUCLEAR_AUTUMN ) )
-		{
-			KoLCharacter.resetSkills();
-		}
-
-		// Are we restricted by Standard?
-		boolean restricted = KoLCharacter.getRestricted();
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
@@ -3381,9 +3376,8 @@ public abstract class KoLCharacter
 		// Ronin is lifted and we can interact freely with the Kingdom
 		KoLCharacter.setRonin( false );
 
-		// If the path was restricted, this clears restriction
-		// and triggers a skill and terrarium refresh
-		CharPaneRequest.setInteraction( true );
+		// Reset interaction and restriction
+		CharPaneRequest.liberateKing();
 
 		// We are no longer subject to consumption restrictions
 		KoLCharacter.setPath( NONE );
@@ -3395,11 +3389,22 @@ public abstract class KoLCharacter
 		KoLConstants.nopulls.clear();
 		ConcoctionDatabase.setPullsRemaining( -1 );
 
-		// We can use all familiars again
-		GearChangeFrame.updateFamiliars();
+		// The mall now uses Meat from inventory, not storage
+		MallSearchFrame.updateMeat();
 			
 		// We may want to re-run breakfast, for various reasons
 		Preferences.setBoolean( "breakfastCompleted", false );
+
+		// If leaving a path with a unique class, finish when player picks a new class.
+		// We can't interrupt choice.php with (most) requests.
+		if ( oldPath.equals( AVATAR_OF_BORIS ) ||
+		     oldPath.equals( ZOMBIE_SLAYER ) ||
+		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
+		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
+		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+		{
+			return;
+		}
 
 		// If we are in Bad Moon, we can use the bookshelf and
 		// telescope again.
@@ -3409,37 +3414,6 @@ public abstract class KoLCharacter
 			KoLCharacter.checkTelescope();
 		}
 
-		if ( !restricted )
-		{
-			// If we were in Hardcore or a path that alters skills, automatically recall skills
-			// Paths that require you to choose your class at the end will refresh skills later
-			// If we are leaving a restricted path, then skills were refreshed earlier
-			if ( wasInHardcore ||
-			     oldPath.equals( TRENDY ) ||
-			     oldPath.equals( CLASS_ACT ) ||
-			     oldPath.equals( SURPRISING_FIST ) ||
-			     oldPath.equals( CLASS_ACT_II ) ||
-			     oldPath.equals( HEAVY_RAINS ) ||
-			     oldPath.equals( PICKY ) ||
-			     oldPath.equals( NUCLEAR_AUTUMN ) 
-				)
-			{
-				// Normal permed skills (will also reset KoLCharacter.restricted to false)
-				RequestThread.postRequest( new CharSheetRequest() );
-			}
-
-			if ( oldPath.equals( TRENDY ) ||
-			     oldPath.equals( HEAVY_RAINS ) ||
-			     oldPath.equals( NUCLEAR_AUTUMN )
-				)
-			{
-				// If we were restricted, this was already done earlier, so don't
-				// do it again even if it's needed for the path
-				// Retrieve the bookshelf
-				RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
-			}
-		}
-
 		if ( oldPath.equals( NUCLEAR_AUTUMN ) )
 		{
 			// We haven't previously seen our campground
@@ -3447,6 +3421,45 @@ public abstract class KoLCharacter
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
+		}
+
+		// If we were in a path that grants skills only while on the path, rest them
+		if ( oldPath.equals( HEAVY_RAINS ) ||
+		     oldPath.equals( NUCLEAR_AUTUMN ) )
+		{
+			KoLCharacter.resetSkills();
+		}
+
+		// If we were in Hardcore or a path that alters skills, automatically recall skills
+		if ( restricted ||
+		     wasInHardcore ||
+		     oldPath.equals( TRENDY ) ||
+		     oldPath.equals( CLASS_ACT ) ||
+		     oldPath.equals( SURPRISING_FIST ) ||
+		     oldPath.equals( CLASS_ACT_II ) ||
+		     oldPath.equals( HEAVY_RAINS ) ||
+		     oldPath.equals( PICKY ) ||
+		     oldPath.equals( NUCLEAR_AUTUMN ) 
+			)
+		{
+			RequestThread.postRequest( new CharSheetRequest() );
+		}
+
+		if ( restricted ||
+		     oldPath.equals( TRENDY ) ||
+		     oldPath.equals( HEAVY_RAINS ) ||
+		     oldPath.equals( NUCLEAR_AUTUMN )
+			)
+		{
+			// Retrieve the bookshelf
+			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );
+		}
+
+		if ( restricted )
+		{
+			// All familiars can now be used
+			RequestThread.postRequest( new FamiliarRequest() );
+			GearChangeFrame.updateFamiliars();
 		}
 
 		// Stop expecting Path-related Wandering Monsters
@@ -3464,16 +3477,6 @@ public abstract class KoLCharacter
 		{
 			TurnCounter.stopCounting( "WoL Monster window begin" );
 			TurnCounter.stopCounting( "WoL Monster window end" );
-		}
-
-		// If leaving a path with a unique class, wait until player picks a new class.
-		if ( oldPath.equals( AVATAR_OF_BORIS ) ||
-		     oldPath.equals( ZOMBIE_SLAYER ) ||
-		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
-		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
-		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
-		{
-			return;
 		}
 
 		// Available hermit items and clover numbers may have changed
@@ -3543,11 +3546,6 @@ public abstract class KoLCharacter
 
 	public static final void setRonin( final boolean inRonin )
 	{
-		boolean oldRonin = KoLCharacter.inRonin;
-		if ( !KoLCharacter.isHardcore() && oldRonin && !inRonin )
-		{
-			// end standard
-		}
 		KoLCharacter.inRonin = inRonin;
 	}
 
