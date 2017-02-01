@@ -2051,6 +2051,14 @@ public class KoLAdventure
 			"You haven't opened the ground floor of the castle yet.",
 		},
 
+		// You have to learn to walk before you can learn to fly.
+		//
+		// Also you can't get to the top floor of a building if you can't get to the ground floor.
+		{
+			"you can't get to the ground floor",
+			"You haven't opened the ground floor of the castle yet.",
+		},
+
 		// The door at the top of the ground floor stairway is also
 		// closed, and you're still too short to reach a doorknob
 		// that's forty feet over your head.

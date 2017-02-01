@@ -997,12 +997,11 @@ public abstract class KoLmafia
 
 		ApiRequest.updateStatus();
 
-		// Retrieve the character sheet. It's necessary to do this
-		// before concoctions have a chance to get refreshed.
+		// Retrieve the character sheet. We must do this before
+		// concoctions have a chance to get refreshed.
 
 		// Clear skills first, since we no longer know Avatar skills
 		KoLCharacter.resetSkills();
-
 		RequestThread.postRequest( new CharSheetRequest() );
 
 		// Clear preferences
@@ -1023,6 +1022,7 @@ public abstract class KoLmafia
 
 		// Retrieve the Terrarium
 		RequestThread.postRequest( new FamiliarRequest() );
+		GearChangeFrame.updateFamiliars();
 
 		// Check the campground
 		CampgroundRequest.reset();

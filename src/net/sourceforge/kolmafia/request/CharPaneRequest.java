@@ -134,6 +134,13 @@ public class CharPaneRequest
 		return CharPaneRequest.inValhalla;
 	}
 
+	public static final void liberateKing()
+	{
+		// Set variables without making requests
+		CharPaneRequest.canInteract = true;
+		KoLCharacter.setRestricted( false );
+	}
+
 	public static final void setInteraction()
 	{
 		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
@@ -245,7 +252,7 @@ public class CharPaneRequest
 
 		CharPaneRequest.setLastAdventure( responseText );
 		CharPaneRequest.refreshEffects( responseText );
-		CharPaneRequest.setInteraction( CharPaneRequest.checkInteraction() );
+		CharPaneRequest.setInteraction();
 
 		// Refresh effects and modifiers before updating stats, since new effects
 		// can mean that we should not check for incorrect substat values
@@ -406,7 +413,7 @@ public class CharPaneRequest
 		}
 
 		// If the charsheet does not say he can't interact or api.php
-		// says roninleft =0, ok.
+		// says roninleft == 0, ok.
 		// (this will be true for any Casual run, for an unascended
 		// character, or for a sufficiently lengthy softcore run)
 		if ( !KoLCharacter.inRonin() )

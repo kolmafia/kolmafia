@@ -1530,7 +1530,7 @@ A Light that Never Goes Out	100	none
 Adventurer bobblehead	100	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
-aerogel attache case	0	none
+aerogel attache case	50	none
 ancient calendar	70	Mus: 20	shield
 ancient hot dog wrapper	200	Mys: 85
 ancient stone head	85	Mus: 27	shield
@@ -1980,9 +1980,9 @@ Zombo's shield	240	Mus: 200	shield
 
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
-aerogel anvil	0	none
-aerogel apron	0	none
-aerogel ascot	0	none
+aerogel anvil	50	none
+aerogel apron	50	none
+aerogel ascot	50	none
 albatross necklace	90	Mys: 15
 Aluminum Epsilon of Humility	200	Mys: 85
 amber aviator shades	200	Mys: 85
@@ -2894,9 +2894,9 @@ woven baling wire bracelets	180	Mys: 75
 wrench bracelet	180	Mys: 75
 Wrist-Boy	0	none
 wristwatch of the white knight	60	Mys: 15
-wrought-iron walker	0	Mys: 40
-wrought-iron widget	0	Mys: 40
-wrought-iron winch crank	0	Mys: 40
+wrought-iron walker	120	Mys: 40
+wrought-iron widget	120	Mys: 40
+wrought-iron winch crank	120	Mys: 40
 x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none
 Xiblaxian xeno-detection goggles	100	none
