@@ -9353,3 +9353,5 @@
 9327
 9328	eldritch scanner	136891875	radardish.gif	hat	t	0
 9329	eldritch alignment spray	885469931	spraycan.gif	multiple	t,d	1	cans of eldritch alignment spray
+9330
+9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0

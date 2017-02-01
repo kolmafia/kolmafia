@@ -1150,6 +1150,7 @@ Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
+Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50
 Item	electric crutch	Spell Damage: +20
 Item	elegant nightstick	Maximum HP: +30, Maximum MP: +15
 # elephant stinger: 50% chance of poisoning opponent.
