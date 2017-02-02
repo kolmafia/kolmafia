@@ -548,6 +548,11 @@ public class AdventureDatabase
 				return AdventureDatabase.getAdventure( "An Eldritch Fissure" );
 			}
 
+			if ( adventureURL.contains( "action=town_eicfight2" ) )
+			{
+				return AdventureDatabase.getAdventure( "An Eldritch Horror" );
+			}
+
 			// place.php?whichplace=ioty2014_wolf&action=wolf_houserun
 			if ( adventureURL.contains( "action=wolf_houserun" ) )
 			{

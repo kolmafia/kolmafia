@@ -456,6 +456,7 @@ public class QuestManager
 	{
 		QuestManager.handleTimeTower( responseText.contains( "town_tower" ) );
 		QuestManager.handleEldritchFissure( responseText.contains( "town_eincursion" ) );
+		QuestManager.handleEldritchHorror( responseText.contains( "town_eicfight2" ) );
 		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
@@ -497,6 +498,16 @@ public class QuestManager
 		}
 
 		Preferences.setBoolean( "eldritchFissureAvailable", available );
+	}
+
+	public static void handleEldritchHorror( final boolean available )
+	{
+		if ( Preferences.getBoolean( "eldritchHorrorAvailable" ) == available )
+		{
+			return;
+		}
+
+		Preferences.setBoolean( "eldritchHorrorAvailable", available );
 	}
 
 	private static void handleGuildChange( final String responseText )

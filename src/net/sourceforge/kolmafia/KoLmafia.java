@@ -1427,6 +1427,7 @@ public abstract class KoLmafia
 				// You're allowed to Spelunk even while falling down drunk
 			}
 			else if ( adventureName.equals( "An Eldritch Fissure" ) ||
+				  adventureName.equals( "An Eldritch Horror" ) ||
 				  adventureName.equals( "Trick-or-Treating" ) )
 			{
 				// You're allowed to explore eldritch fissures
