@@ -2192,3 +2192,4 @@
 2192	Lovebotamy	realbrain.gif	4acab24bfb993e91039b4158378a47d3
 2193	Wandering Eye Surgery	eyeball.gif	8ce208a2127c308f70cf70b2d9b8b5e3
 2194	Eldritch Alignment	spraycan.gif	a7a8a9a7ececfcf5108834c593f4a926	use 1 eldritch alignment spray
+2195	Feeling Insignificant	tinydancer.gif	a1a1d6611adceb88d5cc21c9791c5050

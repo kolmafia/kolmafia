@@ -680,6 +680,12 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.ELDRITCH_HORROR_ID ) )
+		{
+			this.isValidAdventure = Preferences.getBoolean( "eldritchHorrorAvailable" );
+			return;
+		}
+
 		if ( !this.formSource.contains( "adventure.php" ) )
 		{
 			this.isValidAdventure = true;
