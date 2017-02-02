@@ -186,7 +186,8 @@ public class AdventureRequest
 				this.addFormField( "whichplace", "nstower" );
 				this.addFormField( "action", adventureId );
 			}
-			else if ( this.adventureId.equals( "town_eincursion" ) )
+			else if ( this.adventureId.equals( "town_eincursion" ) ||
+				  this.adventureId.equals( "town_eicfight2" ))
 			{
 				this.addFormField( "whichplace", "town" );
 				this.addFormField( "action", adventureId );

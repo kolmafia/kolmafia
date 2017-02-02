@@ -5188,6 +5188,7 @@ public class FightRequest
 		public boolean seahorse;
 		public boolean mayowasp;
 		public boolean dolphin;
+		public boolean eldritchHorror;
 		public String limitmode;
 		public String VYKEACompanion;
 		public String location;
@@ -5233,6 +5234,9 @@ public class FightRequest
 
 			// Note if we are fighting a mayonnaise wasp
 			this.mayowasp = this.monsterName.equals( "mayonnaise wasp" );
+
+			// Note if we are fighting Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl
+			this.eldritchHorror = this.monsterName.equals( "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl" );
 
 			// Note if we are fighting in The Themthar Hills
 			this.nunnery = this.monsterName.equals( "dirty thieving brigand" );
@@ -5563,6 +5567,11 @@ public class FightRequest
 		}
 		else if ( name.equals( "p" ) )
 		{
+			if ( FightRequest.handleEldritchHorror( node, status ) )
+			{
+				return;
+			}
+
 			if ( FightRequest.handleKisses( node, status ) )
 			{
 				return;
@@ -6172,6 +6181,50 @@ public class FightRequest
 		// Combat item usage: process the children of this node
 		// to pick up damage to the monster and stat gains
 		return true;
+	}
+
+	private static boolean handleEldritchHorror( TagNode node, TagStatus status )
+	{
+		if ( !status.eldritchHorror )
+		{
+			return false;
+		}
+
+		StringBuffer text = node.getText();
+		String str = text.toString();
+
+		if ( str.startsWith( "You hear in your mind" ) ||
+		     str.startsWith( "Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl is done with you" ) )
+		{
+			FightRequest.logText( str, status );
+			return true;
+		}
+
+		if ( str.startsWith( "Combat rages around you" ) ||
+		     str.startsWith( "You survey the battle around you:" ) )
+		{
+			return true;
+		}
+
+		if ( str.startsWith( "You  damaged" ) || str.startsWith( "You  bothered" ) || str.startsWith( "You  whomped" ) )
+		{
+			str = StringUtilities.globalStringReplace( str, "  ", " " );
+			int index = str.indexOf( "." ) + 1;
+			if ( index != 0 )
+			{
+				String s1 = str.substring( 0, index ).trim();
+				String s2 = str.substring( index ).trim();
+				FightRequest.logText( s1, status );
+				FightRequest.logText( s2, status );
+			}
+			else
+			{
+				FightRequest.logText( str, status );
+			}
+			return true;
+		}
+
+		return false;
 	}
 
 	public static final Pattern KISS_PATTERN = Pattern.compile( "(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?" );
