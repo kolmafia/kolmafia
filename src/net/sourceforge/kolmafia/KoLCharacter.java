@@ -5016,11 +5016,13 @@ public abstract class KoLCharacter
 	public static final void setFamiliar( final FamiliarData familiar )
 	{
 		KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar( familiar );
+
 		if ( KoLCharacter.currentFamiliar.equals( KoLCharacter.currentEnthroned ) )
 		{
 			KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
 		}
-		else if ( KoLCharacter.currentFamiliar.equals( KoLCharacter.currentBjorned ) )
+
+		if ( KoLCharacter.currentFamiliar.equals( KoLCharacter.currentBjorned ) )
 		{
 			KoLCharacter.currentBjorned = FamiliarData.NO_FAMILIAR;
 		}
@@ -5032,13 +5034,17 @@ public abstract class KoLCharacter
 			KoLCharacter.currentFamiliar.getRace().equals( "Stab Bat" ) ||
 			KoLCharacter.currentFamiliar.getRace().equals( "Scary Death Orb" );
 
+		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
+		GearChangeFrame.updateFamiliars();
+
+		KoLCharacter.effectiveFamiliar = familiar;
+
 		// Set the default image for this familiar. A subsequent
 		// charpane update may change it.
 		KoLCharacter.setFamiliarImage();
 
-		EquipmentManager.updateEquipmentList( EquipmentManager.FAMILIAR );
-		GearChangeFrame.updateFamiliars();
-		KoLCharacter.resetEffectiveFamiliar();
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 	}
 
 	public static final void resetEffectiveFamiliar()

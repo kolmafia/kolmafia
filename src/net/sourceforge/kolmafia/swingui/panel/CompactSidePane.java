@@ -1212,7 +1212,6 @@ public class CompactSidePane
 			if ( id == -1 )
 			{
 				this.setNoIcon();
-				this.setText( "0 lbs." );
 				return;
 			}
 
