@@ -548,6 +548,11 @@ public class AdventureDatabase
 				return AdventureDatabase.getAdventure( "An Eldritch Fissure" );
 			}
 
+			if ( adventureURL.contains( "action=townwrong_tunnel" ) )
+			{
+				return AdventureDatabase.getAdventure( "The Tunnel of L.O.V.E." );
+			}
+
 			if ( adventureURL.contains( "action=town_eicfight2" ) )
 			{
 				return AdventureDatabase.getAdventure( "An Eldritch Horror" );

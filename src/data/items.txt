@@ -9341,14 +9341,14 @@
 9315	recovered cufflinks	721303222	cufflinks.gif	accessory		0
 9316	heart-shaped crate	246766056	heartcrate.gif	usable	t	0
 9317
-9318
+9318	LOV Elixir #6	555398926	wine2.gif	usable	t,d	5
 9319
 9320	LOV Eardigan	732556455	cardigan.gif	shirt	q	0
 9321	LOV Epaulettes	392533091	epaulets.gif	container	q	0
 9322	LOV Earrings	407500745	loveearrings.gif	accessory	q	0
 9323	LOV Enamorang	851394921	loveboomerang.gif	none, combat	g,d	5
 9324	LOV Emotionizer	855486742	ancientdart.gif	none, usable, curse	g,d	5
-9325	LOV Extraterrestrial Chocolate	727798208	choco.gif	usable	g,d	5
+9325	LOV Extraterrestrial Chocolate	727798208	choco.gif	usable, candy1	g,d	5
 9326	LOV Echinacea Bouquet	463029835	bouquet.gif	spleen, usable	g,d	5
 9327	LOV Elephant	284967813	pl_elephant.gif	offhand	g,d	5
 9328	eldritch scanner	136891875	radardish.gif	hat	t	0

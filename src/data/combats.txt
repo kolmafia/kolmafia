@@ -383,6 +383,7 @@ The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
 The Toxic Teacups	100	toxic beastie
+The Tunnel of L.O.V.E.	-1	LOV Enforcer	LOV Engineer	LOV Equivocator
 The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
 The Upper Chamber	-1	Iiti Kitty	tomb bat	tomb servant

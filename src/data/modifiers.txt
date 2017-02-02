@@ -6227,6 +6227,7 @@ Effect	The Halls of Mysticality	Experience (Mysticality): +3
 Effect	The HeyDezebound Heart	Experience: [min(100,floor(T/5))], Item Drop: [min(300,T)], Muscle Percent: [max(-1000,-T)], Mysticality Percent: [max(-1000,-T)], Moxie Percent: [max(-1000,-T)]
 Effect	The Inquisitor's Unknown Effect	Familiar Weight: +10, Damage Reduction: 25, Initiative: +100, Meat Drop: +100, Item Drop: +100, Maximum MP Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +200
 Effect	The Kobold and the Kobeautiful	Avatar: "large kobold"
+Effect	The Magic of LOV	Mysticality: +25, Spell Damage Percent: +100, Spell Critical Percent: +15
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
 Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
@@ -8722,6 +8723,7 @@ Item	lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R+5]
 Item	lotion of spookiness	Effect: "Spooky Hands", Effect Duration: [R+5]
 Item	lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 # Louder Than Bomb: Banishes a monster for a while
+Item	LOV Elixir #6	Effect: "The Magic of LOV", Effect Duration: 40
 # love song of disturbing obsession: Deals <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 # love song of icy revenge: Deals <font color=blue>Cold Damage</font> based on your Moxie
