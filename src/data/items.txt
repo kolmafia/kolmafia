@@ -9355,3 +9355,4 @@
 9329	eldritch alignment spray	885469931	spraycan.gif	multiple	t,d	1	cans of eldritch alignment spray
 9330
 9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0
+9332	eldritch mushroom	318795596	moxshroom.gif	food	t,d	100
