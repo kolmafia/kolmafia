@@ -8521,7 +8521,6 @@ Item	haunted flame	Effect: "Skulla, Brah", Effect Duration: 50
 Item	hawkface potion	Effect: "Your Head is That of a Hawk", Effect Duration: 30
 Item	Hawking's Elixir of Brilliance	Effect: "On the Shoulders of Giants", Effect Duration: [R]
 Item	heart necklace	Free Pull
-Item	heart-shaped crate	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)
 Item	heart-shaped crate	Free Pull
