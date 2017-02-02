@@ -2186,7 +2186,7 @@
 2186	Super-Electrified	lightning.gif	ecea00b4fe8a53563fd1f969acbc1e24
 2187	Trufflin'	mushroom.gif	0f041f1b7cbe8283eec918ef8d3459cd	eat 1 sea truffle
 2188
-2189
+2189	The Magic of LOV	wand.gif	5c6c5376cbfdc50258ed87cc66843805	use 1 LOV Elixir #6
 2190
 2191	Open Heart Surgery	heart.gif	ffd54718202c7179398fa2032f7561ae
 2192	Lovebotamy	realbrain.gif	4acab24bfb993e91039b4158378a47d3

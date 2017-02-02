@@ -2328,6 +2328,11 @@ simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird	
 Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 The Krampus	2008	krampus.gif	NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
+# Tunnel of L.O.V.E. (February 2017)
+LOV Enforcer	2009	lovenforcer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: dude
+LOV Engineer	2010	lovengineer.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
+LOV Equivocator	2011	lovequivocator.gif	Scale: ? Cap: ? Floor: ? Init: 500 P: dude
+
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
