@@ -2678,7 +2678,7 @@ public class UseSkillRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
-		if ( skillId == SkillPool.RAIN_MAN )
+		if ( SkillDatabase.usesTurn( skillId ) )
 		{
 			int turncount = KoLAdventure.getAdventureCount();
 			RequestLogger.printLine( "[" + turncount + "] " + skillName );
