@@ -8745,7 +8745,7 @@ Item	LT&T telegraph office deed	Free Pull
 Item	lucky cat's paw	Effect: "Nihao You Doin'?", Effect Duration: 50
 Item	Lucky Strikes holo-record	Effect: "Lucky Struck", Effect Duration: 10
 Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"
-# Item lump of basically inert eldritch matter: Makes you feel Vaguely Uneasy
+# Item lump of frequently wriggling eldritch matter: Makes you feel Vaguely Uneasy
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
