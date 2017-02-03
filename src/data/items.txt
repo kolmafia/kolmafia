@@ -9356,4 +9356,4 @@
 9330
 9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0
 9332	eldritch mushroom	318795596	moxshroom.gif	food	t,d	100
-9333	eldritch ichor	826301199	blooddrops.gif	none	t	0	drops of eldritch ichor
+9333	eldritch ichor	826301199	blooddrops.gif	multiple	t	0	drops of eldritch ichor
