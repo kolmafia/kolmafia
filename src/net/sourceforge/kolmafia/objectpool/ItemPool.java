@@ -2744,6 +2744,7 @@ public class ItemPool
 	public static final int WAX_BOOZE = 9309;
 	public static final int WAX_GLOB = 9310;
 	public static final int ELDRITCH_TINCTURE = 9335;
+	public static final int ELDRITCH_TINCTURE_DEPLETED = 9336;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
