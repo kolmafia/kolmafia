@@ -1794,4 +1794,15 @@ public class SkillDatabase
 		}
 		return false;
 	}
+
+	public static boolean usesTurn( int skillId )
+	{
+		switch (skillId )
+		{
+		case SkillPool.RAIN_MAN:
+		case SkillPool.EVOKE_ELDRITCH_HORROR:
+			return true;
+		}
+		return false;
+	}
 }
