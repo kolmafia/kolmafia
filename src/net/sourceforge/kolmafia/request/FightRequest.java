@@ -6206,7 +6206,10 @@ public class FightRequest
 			return true;
 		}
 
-		if ( str.startsWith( "You  damaged" ) || str.startsWith( "You  bothered" ) || str.startsWith( "You  whomped" ) )
+		if ( str.startsWith( "You  plinked" ) ||
+		     str.startsWith( "You  damaged" ) ||
+		     str.startsWith( "You  bothered" ) ||
+		     str.startsWith( "You  whomped" ) )
 		{
 			str = StringUtilities.globalStringReplace( str, "  ", " " );
 			int index = str.indexOf( "." ) + 1;
