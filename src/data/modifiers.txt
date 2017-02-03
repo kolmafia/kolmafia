@@ -1981,6 +1981,7 @@ Item	Hodgman's varcolac paw	Weapon Damage: [0.8*H]
 Item	hors d'oeuvre tray	Initiative: +15, Damage Reduction: 5
 # hot plate: Damages Attacking Opponent
 Item	hot plate	Hot Damage: +3, Damage Reduction: 3
+# Item HP-35 Calculator: Makes you look altruistic
 Item	hypnodisk	Item Drop: +25
 Item	ice baby	Experience: +3, Softcore Only
 Item	ice bucket	Item Drop: +20, Lasts Until Rollover
@@ -5106,6 +5107,7 @@ Effect	Gutterminded	Sleaze Damage: +50
 Effect	Gyromitra Gymnastics	Moxie: +40
 Effect	Hag-gard	Avatar: "swamp hag"
 Effect	Hagg-ard	Muscle: +10
+Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # Haiku State of Mind: large penalty to result parsing
 Effect	Hair on Your Chest	Maximum MP Percent: +50
 # Hairless and Airless: Makes you a better diver

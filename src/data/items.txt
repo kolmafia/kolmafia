@@ -9361,3 +9361,5 @@
 9335	eldritch tincture	686008682	vial.gif	usable	t	0
 9336	eldritch tincture (depleted)	309912211	vial.gif	usable		0
 9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000
+9338	HP-35 Calculator	132580267	longcalc.gif	offhand		0
+9339	Silver HP-35 Calculator	727658182	longcalc.gif	offhand		0
