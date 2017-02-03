@@ -2833,6 +2833,8 @@ eldritch concentrate	MUSE	eldritch effluvium (111)
 eldritch distillate	COOK	eldritch extract	handful of fire
 eldritch essence	COOK_FANCY	eldritch concentrate	jar of oil
 eldritch elixir	MIX	eldritch distillate	eldritch distillate
+eldritch rub	MUSE	eldritch ichor (111)
+eldritch tincture	MUSE	eldritch ichor (666)
 
 # Thanksgarden
 

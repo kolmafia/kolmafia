@@ -110,6 +110,7 @@ public class SkillPool
 	public static final int CECI_CHAPEAU = 165;
 	public static final int SWEET_SYNTHESIS = 166;
 	public static final int STACK_LUMPS = 167;
+	public static final int EVOKE_ELDRITCH_HORROR = 168;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;
