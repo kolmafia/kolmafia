@@ -1170,6 +1170,7 @@ public class SkillDatabase
 		case SkillPool.RECRUIT_ZOMBIE:
 		case SkillPool.CHECK_MIRROR:
 		case SkillPool.RAIN_MAN:
+		case SkillPool.EVOKE_ELDRITCH_HORROR:
 			return 1;
 		default:
 			return 0;
@@ -1795,7 +1796,7 @@ public class SkillDatabase
 		return false;
 	}
 
-	public static boolean usesTurn( int skillId )
+	public static boolean summonsMonster( int skillId )
 	{
 		switch (skillId )
 		{

@@ -2678,7 +2678,7 @@ public class UseSkillRequest
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( "cast " + count + " " + skillName );
 
-		if ( SkillDatabase.usesTurn( skillId ) )
+		if ( SkillDatabase.summonsMonster( skillId ) )
 		{
 			int turncount = KoLAdventure.getAdventureCount();
 			RequestLogger.printLine( "[" + turncount + "] " + skillName );
