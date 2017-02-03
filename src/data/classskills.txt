@@ -190,6 +190,7 @@
 165	Ceci N'Est Pas Un Chapeau	nohat.gif	3	300	0
 166	Sweet Synthesis	pep_patty.gif	3	0	0
 167	Stack Lumps	chocolump.gif	1	0	0
+168	Evoke Eldritch Horror	tentacle.gif	3	66	0
 
 # Skills available to Clubbers
 

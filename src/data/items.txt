@@ -9357,3 +9357,7 @@
 9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0
 9332	eldritch mushroom	318795596	moxshroom.gif	food	t,d	100
 9333	eldritch ichor	826301199	blooddrops.gif	multiple	t	0	drops of eldritch ichor
+9334
+9335	eldritch tincture	686008682	vial.gif	usable	t	0
+9336	eldritch tincture (depleted)	309912211	vial.gif	usable		0
+9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000

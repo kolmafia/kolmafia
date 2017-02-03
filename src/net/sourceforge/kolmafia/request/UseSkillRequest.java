@@ -850,6 +850,10 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_ceciHatUsed" ) ? 0 : 1;
 			break;
 
+		case SkillPool.EVOKE_ELDRITCH_HORROR:
+			maximumCast = Preferences.getBoolean( "_eldritchHorrorEvoked" ) ? 0 : 1;
+			break;
+
 		case SkillPool.STACK_LUMPS:
 			maximumCast = 1;
 			break;
@@ -2440,6 +2444,9 @@ public class UseSkillRequest
 			ResultProcessor.processResult( ItemPool.get( ItemPool.NEGATIVE_LUMP, -100 ) );
 			break;
 
+		case SkillPool.EVOKE_ELDRITCH_HORROR:
+			Preferences.setBoolean( "_eldritchHorrorEvoked", true );
+			break;
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )

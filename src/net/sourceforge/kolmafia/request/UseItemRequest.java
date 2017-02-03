@@ -3151,6 +3151,7 @@ public class UseItemRequest
 		case ItemPool.VIGILANTE_BOOK:
 		case ItemPool.LUMP_STACKING_BOOK:
 		case ItemPool.RETHINKING_CANDY_BOOK:
+		case ItemPool.ELDRITCH_TINCTURE:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you

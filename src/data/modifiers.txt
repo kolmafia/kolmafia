@@ -5262,6 +5262,7 @@ Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
 Effect	Influence of Sphere	Pool Skill: +5
+Effect	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	Spooky Resistance: +5, Spooky Damage: +50
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Effect	init.enh	Initiative: +50
 Effect	Inked Well	Combat Rate: -10
@@ -8185,6 +8186,9 @@ Item	eldritch concentrate	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	eldritch dough	Effect: "Better Off Bread", Effect Duration: 30
 Item	Eldritch Intellect: Journey into a Mind of Horror	Skill: "Eldritch Intellect"
 Item	eldritch oil	Effect: "Uncanny Shot", Effect Duration: 30
+Item	eldritch rub	Effect: "Infused with Sssshhsssblllrrggghsssssggggrrgglssss", Effect Duration: 10
+Item	eldritch tincture	Skill: "Evoke Eldritch Horror"
+Item	eldritch tincture (depleted)	Skill: "Evoke Eldritch Horror"
 # electric boning knife: Deals Physical Damage each round for the rest of the fight
 Item	electronic Brain Trainer game	Skill: "Brain Games"
 Item	electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
