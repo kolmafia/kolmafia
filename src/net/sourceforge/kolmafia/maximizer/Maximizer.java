@@ -520,7 +520,8 @@ public class Maximizer
 						else continue;
 					}
 					// You must have a spleen available
-					if ( KoLCharacter.getSpleenUse() >= KoLCharacter.getSpleenLimit() )
+					usesRemaining = KoLCharacter.getSpleenLimit() - KoLCharacter.getSpleenUse();
+					if ( usesRemaining < 1 )
 					{
 						cmd = "";
 					}
