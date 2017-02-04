@@ -9363,3 +9363,4 @@
 9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000
 9338	HP-35 Calculator	132580267	longcalc.gif	offhand		0
 9339	Silver HP-35 Calculator	727658182	longcalc.gif	offhand		0
+9340	Golden HP-35 Calculator	958721500	longcalc.gif	offhand		0
