@@ -487,7 +487,11 @@ public abstract class StoreManager
 				{
 					i2.remove();
 					StoreManager.updateMallPrice( ItemPool.get( itemId ), search );
-					return;
+					if ( itemId != -1 )
+					{
+						return;
+					}
+					break;
 				}
 			}
 		}
