@@ -1941,6 +1941,7 @@ Item	glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 Item	glowing esca	Item Drop: [20*env(underwater)]
 Item	glowstick on a string	Weapon Damage: +10, Raveosity: +1
 Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
+# Item Golden HP-35 Calculator: Makes you look super altruistic
 # golden sausage
 # gore bucket
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
