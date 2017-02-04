@@ -446,12 +446,33 @@ public class StorageRequest
 		return StorageRequest.parseTransfer( urlString, responseText, false );
 	}
 
+	private static final Pattern ICHOR_PATTERN = Pattern.compile( "iqty=([\\d,]+)" );
+
+	public static final int ichorQuantity( final String urlString )
+	{
+		Matcher matcher = ICHOR_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final boolean parseTransfer( final String urlString, final String responseText, final boolean bulkTransfer )
 	{
 		String action = GenericRequest.getAction( urlString );
 		if ( action == null )
 		{
 			StorageRequest.parseStorage( urlString, responseText );
+			return true;
+		}
+
+		if ( action.equals( "tossichor" ) )
+		{
+			// So generous, contributing 0 ichor to save the Kingdom.
+			// You don't have that much ichor. Good Try!
+			// You toss the ichor into the fissure and hear a distant voice, "Thanks a lot! We can save the Kingdom!"
+			if ( responseText.contains( "You toss the ichor into the fissure" ) )
+			{
+				int ichor = StorageRequest.ichorQuantity( urlString );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ELDRITCH_ICHOR, -ichor ) );
+			}
 			return true;
 		}
 
@@ -632,6 +653,17 @@ public class StorageRequest
 		{
 			RequestLogger.updateSessionLog();
 			RequestLogger.updateSessionLog( "Emptying storage" );
+			return true;
+		}
+
+		if ( urlString.contains( "action=tossichor" ) )
+		{
+			int ichor = StorageRequest.ichorQuantity( urlString );
+			if ( ichor > 0 )
+			{
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( "Toss " + ichor + " eldritch ichor into the fissure" );
+			}
 			return true;
 		}
 
