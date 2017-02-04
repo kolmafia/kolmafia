@@ -4141,7 +4141,7 @@
 4116	rickety old unicycle	453371698	unicycle2.gif	accessory, combat	d	2000
 4117	crusty hula hoop	832063847	hulahoop.gif	accessory, combat	d	1600
 4118	Coily&trade;	998607445	coily.gif	weapon, combat	d	1200	Coilies&trade;
-4119	old-school flying disc	940588617	petfrisbee.gif	offhand, combat	d	800
+4119	old school flying disc	940588617	petfrisbee.gif	offhand, combat	d	800
 4120	lawn dart	147072484	jart.gif	weapon, combat	d	800
 4121	red wagon	341047975	redwagon.gif	offhand, combat	d	1600
 4122	wad of slimy rags	330802495	ragwad.gif	multiple	t	0	wads of slimy rags
@@ -6101,7 +6101,7 @@
 6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5	bottles of McLeod's Hard Haggis-Ade
 6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5	haggis-wrapped haggis-stuffed haggises
 6078	home robotics kit	269335110	robokit.gif	usable	t,d	5
-6079	old-school calculator watch	859101038	calcwatch.gif	accessory	t,d	5	old-school calculator watches
+6079	old school calculator watch	859101038	calcwatch.gif	accessory	t,d	5	old school calculator watches
 6080	haggis socks	763374333	haggissocks.gif	accessory	t,d	5	pairs of haggis socks
 6081	airblaster gun	348707874	airzooka.gif	weapon	t,d	5
 6082	Thinknerd T-shirt grab bag	974426576	foodbag.gif	usable	t,d	5
@@ -6893,7 +6893,7 @@
 6868	finger exerciser	895527807	fingerciser.gif	multiple	t,d	1
 6869	dented spoon	370832456	bentspoon.gif	multiple	t,d	1
 6870	old love note	795402177	document.gif	multiple	t,d	1
-6871	old-school beer pull tab	354368969	pulltab.gif	none, combat	t,d	1
+6871	old school beer pull tab	354368969	pulltab.gif	none, combat	t,d	1
 6872	nail file	496758740	nailfile.gif	multiple	t,d	1
 6873	old candy wrapper	769989020	candywrapper.gif	multiple	t,d	0
 6874	gym membership card	264919912	gymmember.gif	usable	t,d	1
@@ -9217,7 +9217,7 @@
 9191	eldritch concentrate	712115476	glassglobe.gif	multiple, fancy	t,d	666	globes of eldritch concentrate
 9192	eldritch extract	379529182	rocks.gif	drink	t,d	66
 9193	Official Council Aide Pin	360414227	smugbutton.gif	accessory		0
-9194	eldritch distillate	539247819	martini.gif	drink, fancy	t,d	666
+9194	eldritch distillate	539247819	martini.gif	drink, fancy	t,d	666	glasses of eldritch distillate
 9195	eldritch essence	377004299	wbantiwad.gif	spleen, usable	t,d	666
 9196	Science Notebook	732559218	notebook.gif	offhand		0
 9197	eldritch hat	738111709	eldritchhat.gif	hat	t	0
@@ -9357,7 +9357,7 @@
 9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0
 9332	eldritch mushroom	318795596	moxshroom.gif	food	t,d	100
 9333	eldritch ichor	826301199	blooddrops.gif	multiple	t	0	drops of eldritch ichor
-9334
+9334	eldritch mushroom pizza	160404947	pizza.gif	food	t,d	666
 9335	eldritch tincture	686008682	vial.gif	usable	t	0
 9336	eldritch tincture (depleted)	309912211	vial.gif	usable		0
 9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000

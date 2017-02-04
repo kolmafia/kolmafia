@@ -2835,6 +2835,7 @@ eldritch essence	COOK_FANCY	eldritch concentrate	jar of oil
 eldritch elixir	MIX	eldritch distillate	eldritch distillate
 eldritch rub	MUSE	eldritch ichor (111)
 eldritch tincture	MUSE	eldritch ichor (666)
+eldritch mushroom pizza	COOK	eldritch mushroom	plain pizza
 
 # Thanksgarden
 
