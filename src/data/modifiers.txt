@@ -2118,6 +2118,7 @@ Item	pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Rege
 Item	pirate hook	Weapon Damage: +3
 Item	pixel grappling hook	Initiative: +40, Item Drop: +10
 Item	pixel shield	Muscle: +5, Damage Reduction: 3
+# Item Platinum HP-35 Calculator: Makes you look incredibly altruistic
 Item	plush alielf	Maximum HP: +30
 Item	plush alien hamsterpus	Muscle Percent: [2*G], Mysticality Percent: [2*G], Moxie Percent: [2*G]
 Item	plush dogcat	Maximum MP: +30
