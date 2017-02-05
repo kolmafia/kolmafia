@@ -1799,6 +1799,7 @@ pilgrim shield	240	none	shield
 pirate hook	0	none
 pixel grappling hook	200	Mox: 200
 pixel shield	50	Mus: 10	shield
+Platinum HP-35 Calculator	0	none
 plush alielf	0	none
 plush alien hamsterpus	0	none
 plush dogcat	0	none
