@@ -6209,7 +6209,9 @@ public class FightRequest
 		if ( str.startsWith( "You  plinked" ) ||
 		     str.startsWith( "You  damaged" ) ||
 		     str.startsWith( "You  bothered" ) ||
-		     str.startsWith( "You  whomped" ) )
+		     str.startsWith( "You  whomped" ) ||
+		     str.startsWith( "You  epically whomped" ) ||
+		     str.startsWith( "You  epically blasted" ) )
 		{
 			str = StringUtilities.globalStringReplace( str, "  ", " " );
 			int index = str.indexOf( "." ) + 1;
