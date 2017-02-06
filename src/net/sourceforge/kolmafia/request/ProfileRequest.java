@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -707,16 +708,22 @@ public class ProfileRequest
 	public static void parseResponse( String location, String responseText )
 	{
 		Matcher matcher = ProfileRequest.WHO_PATTERN.matcher( location );
-		if ( matcher.find() && matcher.group( 1 ).equals( "1" ) &&	// if we're looking at Jick's profile
-		     InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and we have an empty jar
-		     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and we haven't already filled a jar
+		if ( matcher.find() && matcher.group( 1 ).equals( "1" ) )	// if we're looking at Jick's profile
 		{
-			Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
+			if ( InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and we have an empty jar
+			     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and we haven't already filled a jar
+			{
+				Preferences.setString( "_jickJarAvailable", Boolean.toString( responseText.contains( "psychoanalytic jar" ) ) );
+			}
+			if ( responseText.contains( "jar of psychoses (Jick)" ) )
+			{
+				ResultProcessor.processItem( ItemPool.JICK_JAR, 1 );
+			}
 		}
 
 		if ( location.contains( "action=crossthestreams" ) && 
-			( responseText.contains( "creating an intense but localized nuclear reaction" ) ||
-			responseText.contains( "You've already crossed the streams today" ) ) )
+		     ( responseText.contains( "creating an intense but localized nuclear reaction" ) ||
+		       responseText.contains( "You've already crossed the streams today" ) ) )
 		{
 			Preferences.setBoolean( "_streamsCrossed", true );
 		}
