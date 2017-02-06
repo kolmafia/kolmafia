@@ -9353,7 +9353,7 @@
 9327	LOV Elephant	284967813	pl_elephant.gif	offhand	g,d	5
 9328	eldritch scanner	136891875	radardish.gif	hat	t	0
 9329	eldritch alignment spray	885469931	spraycan.gif	multiple	t,d	1	cans of eldritch alignment spray
-9330
+9330	LOV Entrance Pass	794274987	lamcard.gif	usable	t	0
 9331	eldritch hammer	399333455	eldritchhammer.gif	weapon	t	0
 9332	eldritch mushroom	318795596	moxshroom.gif	food	t,d	100
 9333	eldritch ichor	826301199	blooddrops.gif	multiple	t	0	drops of eldritch ichor
