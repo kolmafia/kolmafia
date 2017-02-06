@@ -260,6 +260,10 @@ public class PlaceRequest
 			{
 				ArtistRequest.parseResponse( urlString, responseText );
 			}
+			if ( responseText.contains( "townwrong_tunnel" ) )
+			{
+				Preferences.setBoolean( "loveTunnelAvailable", true );
+			}
 		}
 		else if ( place.equals( "twitch" ) )
 		{

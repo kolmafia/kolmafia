@@ -3255,6 +3255,16 @@ public class UseItemRequest
 
 			break;
 
+		case ItemPool.HEART_SHAPED_CRATE:
+			Preferences.setBoolean( "loveTunnelAvailable", true );
+			if ( !responseText.contains( "You wander" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already opened a Tunnel of L.O.V.E.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+			break;
+
 		case ItemPool.BEAUTIFUL_RAINBOW:
 		{
 			if ( responseText.contains( "don't have the item you're trying to use" ) )
