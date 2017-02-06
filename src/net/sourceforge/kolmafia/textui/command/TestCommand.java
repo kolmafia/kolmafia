@@ -962,6 +962,26 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "response" ) )
+		{
+			if ( split.length < 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "test response URL" );
+				return;
+			}
+
+			String urlString = split[ 1 ];
+			GenericRequest request = new GenericRequest( urlString );
+			request.responseText = TestCommand.contents;
+			request.setHasResult( ResponseTextParser.hasResult( urlString ) );
+			TestCommand.contents = null;
+
+			RequestLogger.registerRequest( request, urlString );
+			request.processResponse();
+
+			return;
+		}
+
 		if ( command.equals( "rumple" ) )
 		{
 			RumpleManager.spyOnParents( TestCommand.contents );
