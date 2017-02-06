@@ -249,10 +249,7 @@ public class PlaceRequest
 		}
 		else if ( place.equals( "town_right" ) )
 		{
-			if ( responseText.contains( "townright_ltt" ) )
-			{
-				Preferences.setBoolean( "telegraphOfficeAvailable", true );
-			}
+			Preferences.setBoolean( "telegraphOfficeAvailable", responseText.contains( "townright_ltt" ) );
 		}
 		else if ( place.equals( "town_wrong" ) )
 		{
@@ -260,10 +257,7 @@ public class PlaceRequest
 			{
 				ArtistRequest.parseResponse( urlString, responseText );
 			}
-			if ( responseText.contains( "townwrong_tunnel" ) )
-			{
-				Preferences.setBoolean( "loveTunnelAvailable", true );
-			}
+			Preferences.setBoolean( "loveTunnelAvailable", responseText.contains( "townwrong_tunnel" ) );
 		}
 		else if ( place.equals( "twitch" ) )
 		{
