@@ -2329,9 +2329,9 @@ Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P:
 The Krampus	2008	krampus.gif	NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude
+LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #3 (0)
 LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
-LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude
+LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
