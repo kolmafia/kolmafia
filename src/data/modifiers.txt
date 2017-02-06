@@ -6233,6 +6233,7 @@ Effect	The HeyDezebound Heart	Experience: [min(100,floor(T/5))], Item Drop: [min
 Effect	The Inquisitor's Unknown Effect	Familiar Weight: +10, Damage Reduction: 25, Initiative: +100, Meat Drop: +100, Item Drop: +100, Maximum MP Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +200
 Effect	The Kobold and the Kobeautiful	Avatar: "large kobold"
 Effect	The Magic of LOV	Mysticality: +25, Spell Damage Percent: +100, Spell Critical Percent: +15
+Effect	The Moxie of LOV	Moxie: +25, Ranged Damage Percent: +50, Initiative: +50
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
 Effect	The Magical Mojomuscular Melody	Maximum MP: +20, Mysticality: +10
 Effect	The Moomy's Curse	Mana Cost: +20, Familiar Weight: -40, Muscle Percent: -200, Mysticality Percent: -200, Moxie Percent: -200
@@ -6240,6 +6241,7 @@ Effect	The Moxious Madrigal	Moxie: +10
 Effect	The Other	Avatar: "The Author"
 Effect	The Perfect Snowman Disguise	Avatar: "Snowbrawler"
 Effect	The Pleasures of the Flesh	Muscle Percent: [min(300,T)], Mysticality Percent: [min(300,T)], Moxie Percent: [min(300,T)]
+Effect	The Power of LOV	Muscle: +40, Weapon Damage Percent: +50, Critical Hit Percent: +15
 # Effect The Power of Negative Thinking: Improves chances of finding lumps and sludge
 # Effect The Power of Positive Thinking: Improves your ability to align chakras
 Effect	The Q Is Talking To You	Mysticality Percent: +10
@@ -8732,7 +8734,9 @@ Item	lotion of sleaziness	Effect: "Sleazy Hands", Effect Duration: [R+5]
 Item	lotion of spookiness	Effect: "Spooky Hands", Effect Duration: [R+5]
 Item	lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 # Louder Than Bomb: Banishes a monster for a while
+Item	LOV Elixir #3	Effect: "The Power of LOV", Effect Duration: 40
 Item	LOV Elixir #6	Effect: "The Magic of LOV", Effect Duration: 40
+Item	LOV Elixir #9	Effect: "The Moxie of LOV", Effect Duration: 40
 # love song of disturbing obsession: Deals <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 # love song of icy revenge: Deals <font color=blue>Cold Damage</font> based on your Moxie

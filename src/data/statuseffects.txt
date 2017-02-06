@@ -2185,9 +2185,9 @@
 2185	Waxing	waxglob.gif	a91f45ce13ec0cbf1c018ddbc7cf1ca3	eat 1 wax pancake|drink 1 wax booze
 2186	Super-Electrified	lightning.gif	ecea00b4fe8a53563fd1f969acbc1e24
 2187	Trufflin'	mushroom.gif	0f041f1b7cbe8283eec918ef8d3459cd	eat 1 sea truffle
-2188
+2188	The Power of LOV	strboost.gif	5fe671710f7d75cf2ef6756a31778025	use 1 LOV Elixir #3
 2189	The Magic of LOV	wand.gif	5c6c5376cbfdc50258ed87cc66843805	use 1 LOV Elixir #6
-2190
+2190	The Moxie of LOV	bigglasses.gif	2e72510339b49f1fb65711a99673ff59	use 1 LOV Elixir #9
 2191	Open Heart Surgery	heart.gif	ffd54718202c7179398fa2032f7561ae
 2192	Lovebotamy	realbrain.gif	4acab24bfb993e91039b4158378a47d3
 2193	Wandering Eye Surgery	eyeball.gif	8ce208a2127c308f70cf70b2d9b8b5e3
