@@ -3280,6 +3280,10 @@ public class Parser
 					resultString.append( '\t' );
 					break;
 
+				case ',':
+					resultString.append( ',' );
+					break;
+
 				case 'x':
 					try
 					{
