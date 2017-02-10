@@ -139,7 +139,6 @@ public class MultiUseRequest
 
 	public static final void parseResponse( AdventureResult item, String responseText )
 	{
-		RequestLogger.printLine( "mark 1" );
 		int baseId = item.getItemId();
 		int count = item.getCount();
 		String plural = ItemDatabase.getPluralName( baseId );
@@ -153,7 +152,6 @@ public class MultiUseRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Using " + count + " " + ( count == 1 ? item.getName() : plural ) + " doesn't make anything interesting." );
 			return;
 		}
-		RequestLogger.printLine( "mark 2" );
 		Concoction concoction = ConcoctionPool.findConcoction( CraftingType.MULTI_USE, baseId, count );
 
 		if ( concoction == null )
@@ -161,14 +159,12 @@ public class MultiUseRequest
 			return;
 		}
 
-		RequestLogger.printLine( "mark 3" );
 		AdventureResult[] ingredients = concoction.getIngredients();
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult ingredient = ingredients[ i ];
 			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
-			RequestLogger.printLine( "mark 4" );
 		}
 	}
 

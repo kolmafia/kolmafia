@@ -1939,19 +1939,16 @@ public class UseItemRequest
 
 	public static final void parseConsumption( final String responseText, final boolean showHTML )
 	{
-		RequestLogger.printLine( "marker 7" );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
 			return;
 		}
-		RequestLogger.printLine( "marker 8" );
 
 		UseItemRequest.lastUpdate = "";
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		int itemId = item.getItemId();
 		int count = item.getCount();
-		RequestLogger.printLine( "item used: itemid is " + itemId + ", count is " + count );
 
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
 
@@ -2105,7 +2102,6 @@ public class UseItemRequest
 			return;
 		}
 
-		RequestLogger.printLine( "marker 6" );
 		if ( ConcoctionDatabase.multiUseCreation( itemId ) != null && count > 1 )
 		{
 			MultiUseRequest.parseResponse( item, responseText );
