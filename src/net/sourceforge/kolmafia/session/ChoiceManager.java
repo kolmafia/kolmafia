@@ -242,6 +242,8 @@ public abstract class ChoiceManager
 	private static final Pattern CASE_PATTERN = Pattern.compile( "\\((\\d+) more case" );
 	private static final Pattern TIME_SPINNER_PATTERN = Pattern.compile( "have (\\d+) minute" );
 	private static final Pattern TIME_SPINNER_MEDALS_PATTERN = Pattern.compile( "memory of earning <b>(\\d+) medal" );
+	private static final Pattern LOV_EXIT_PATTERN = Pattern.compile( "a sign above it that says <b>(.*?)</b>" );
+	private static final Pattern LOV_LOGENTRY_PATTERN = Pattern.compile( "you scrawl <b>(.*?)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9338,6 +9340,20 @@ public abstract class ChoiceManager
 			// Sweet Synthesis
 			SweetSynthesisRequest.postChoice1( urlString, text );
 			return;
+
+		case 1229:
+		{
+			// L.O.V. Exit
+
+			Matcher matcher = ChoiceManager.LOV_LOGENTRY_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				String message = "Your log entry: " + matcher.group( 1 );
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			return;
+		}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -11865,6 +11881,24 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1229:
+		{
+			// L.O.V. Exit
+
+			// As you are about to leave the station, you notice a
+			// data entry pad and a sign above it that says <WORD>.
+			// Huh, that's odd.
+
+			Matcher matcher = ChoiceManager.LOV_EXIT_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				String message = "L.O.V. Exit word: " + matcher.group( 1 );
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+
+			break;
+		}
 		}
 	}
 
