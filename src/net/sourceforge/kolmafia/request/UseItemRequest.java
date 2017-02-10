@@ -1939,16 +1939,19 @@ public class UseItemRequest
 
 	public static final void parseConsumption( final String responseText, final boolean showHTML )
 	{
+		RequestLogger.printLine( "marker 7" );
 		if ( UseItemRequest.lastItemUsed == null )
 		{
 			return;
 		}
+		RequestLogger.printLine( "marker 8" );
 
 		UseItemRequest.lastUpdate = "";
 
 		AdventureResult item = UseItemRequest.lastItemUsed;
 		int itemId = item.getItemId();
 		int count = item.getCount();
+		RequestLogger.printLine( "item used: itemid is " + itemId + ", count is " + count );
 
 		AdventureResult helper = UseItemRequest.lastHelperUsed;
 
@@ -2095,35 +2098,18 @@ public class UseItemRequest
 			ResultProcessor.processResult( helper.getNegation() );
 		}
 
-		if ( ConcoctionDatabase.singleUseCreation( itemId ) != null ||
-		     ( ConcoctionDatabase.multiUseCreation( itemId ) != null && count > 1 ) )
+		if ( ConcoctionDatabase.singleUseCreation( itemId ) != null )
 		{
-			// These all create things via "use" or "multiuse" of
-			// an ingredient and perhaps consume other ingredients.
-			// SingleUseRequest or MultiUseRequest removed all the
-			// ingredients.
+			SingleUseRequest.parseResponse( item, responseText );
+			UseItemRequest.lastItemUsed = null;
+			return;
+		}
 
-			if ( responseText.contains( "You acquire" ) )
-			{
-				// If the user navigates to the equipment page,
-				// we will be called again with inventory page
-				// and will generate an error below.
-				UseItemRequest.lastItemUsed = null;
-				return;
-			}
-
-			String plural = ItemDatabase.getPluralName( itemId );
-
-			if ( responseText.contains( "You don't have that many" ) )
-			{
-				UseItemRequest.lastUpdate = "You don't have that many " + plural;
-			}
-			else
-			{
-				UseItemRequest.lastUpdate = "Using " + count + " " + ( count == 1 ? name : plural ) + " doesn't make anything interesting.";
-			}
-
-			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+		RequestLogger.printLine( "marker 6" );
+		if ( ConcoctionDatabase.multiUseCreation( itemId ) != null && count > 1 )
+		{
+			MultiUseRequest.parseResponse( item, responseText );
+			UseItemRequest.lastItemUsed = null;
 			return;
 		}
 
