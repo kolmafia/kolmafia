@@ -1007,10 +1007,6 @@ public class Parser
 		{
 			;
 		}
-		else if ( ( result = this.parseAssignment( scope ) ) != null )
-		{
-			;
-		}
 		else if ( ( result = this.parseRemove( scope ) ) != null )
 		{
 			;
@@ -2689,51 +2685,6 @@ public class Parser
 		return new Assignment( lhs, rhs, op );
 	}
 
-	private ParseTreeNode parseAssignment( final BasicScope scope )
-	{
-		if ( this.nextToken() == null )
-		{
-			return null;
-		}
-
-		if ( !this.nextToken().equals( "=" ) &&
-		     !this.nextToken().equals( "[" ) &&
-		     !this.nextToken().equals( "." ) &&
-		     !this.nextToken().equals( "+=" ) &&
-		     !this.nextToken().equals( "-=" ) &&
-		     !this.nextToken().equals( "*=" ) &&
-		     !this.nextToken().equals( "/=" ) &&
-		     !this.nextToken().equals( "%=" ) &&
-		     !this.nextToken().equals( "**=" ) &&
-		     !this.nextToken().equals( "&=" ) &&
-		     !this.nextToken().equals( "^=" ) &&
-		     !this.nextToken().equals( "|=" ) &&
-		     !this.nextToken().equals( "<<=" ) &&
-		     !this.nextToken().equals( ">>=" ) &&
-		     !this.nextToken().equals( ">>>=" ) )
-		{
-			return null;
-		}
-
-		if ( !this.parseIdentifier( this.currentToken() ) )
-		{
-			return null;
-		}
-
-		Value lhs = this.parseVariableReference( scope );
-		if ( lhs instanceof FunctionCall )
-		{
-			return lhs;
-		}
-
-		if ( lhs == null || !( lhs instanceof VariableReference ) )
-		{
-			throw this.parseException( "Variable reference expected" );
-		}
-
-		return this.parseAssignment( scope, (VariableReference)lhs );
-	}
-
 	private Value parseRemove( final BasicScope scope )
 	{
 		if ( this.currentToken() == null || !this.currentToken().equals( "remove" ) )
@@ -3114,7 +3065,9 @@ public class Parser
 
 		if ( result instanceof VariableReference )
 		{
-			return this.parsePostIncDec( (VariableReference)result );
+			VariableReference ref = (VariableReference) result;
+			Assignment value = this.parseAssignment( scope, ref );
+			return ( value != null ) ? value : this.parsePostIncDec( ref );
 		}
 
 		return result;

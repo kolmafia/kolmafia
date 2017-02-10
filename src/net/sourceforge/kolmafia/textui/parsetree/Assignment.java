@@ -42,7 +42,7 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 import net.sourceforge.kolmafia.textui.Parser;
 
 public class Assignment
-	extends ParseTreeNode
+	extends Value
 {
 	private final VariableReference lhs;
 	private final Value rhs;
