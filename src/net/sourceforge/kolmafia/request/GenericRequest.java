@@ -2324,7 +2324,8 @@ public class GenericRequest
 
 			if ( this == ChoiceManager.CHOICE_HANDLER ||
 			     this instanceof AdventureRequest ||
-			     this instanceof BasementRequest )
+			     this instanceof BasementRequest  ||
+			     this instanceof UseSkillRequest )
 			{
 				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
 				if ( pos != -1 )
