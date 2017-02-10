@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -2209,9 +2210,15 @@ public class GenericRequest
 
 		if ( this.redirectLocation.startsWith( "fight.php" ) )
 		{
-			GenericRequest.checkItemRedirection( this.getURLString() );
+			String location = this.getURLString();
 
-			if ( this instanceof UseItemRequest || this instanceof ChateauRequest || this instanceof DeckOfEveryCardRequest )
+			GenericRequest.checkItemRedirection( location );
+			GenericRequest.checkSkillRedirection( location );
+
+			if ( this instanceof UseItemRequest ||
+			     this instanceof ChateauRequest ||
+			     this instanceof DeckOfEveryCardRequest ||
+			     this instanceof UseSkillRequest )
 			{
 				this.redirectHandled = true;
 				FightRequest.INSTANCE.run();
@@ -2324,8 +2331,7 @@ public class GenericRequest
 
 			if ( this == ChoiceManager.CHOICE_HANDLER ||
 			     this instanceof AdventureRequest ||
-			     this instanceof BasementRequest  ||
-			     this instanceof UseSkillRequest )
+			     this instanceof BasementRequest )
 			{
 				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
 				if ( pos != -1 )
@@ -3260,6 +3266,44 @@ public class GenericRequest
 		RequestLogger.updateSessionLog( message );
 
 		GenericRequest.itemMonster = itemName;
+	}
+
+	private static final void checkSkillRedirection( final String location )
+	{
+		if ( !location.startsWith( "runskillz.php" ) )
+		{
+			return;
+		}
+
+		int skillId = UseSkillRequest.getSkillId( location );
+		String skillName = null;
+
+		switch ( skillId )
+		{
+		case SkillPool.RAIN_MAN:
+			skillName = "Rain Man";
+			break;
+
+		case SkillPool.EVOKE_ELDRITCH_HORROR:
+			skillName = "Evoke Eldritch Horror";
+			Preferences.setBoolean( "_eldritchHorrorEvoked", true );
+			break;
+
+		default:
+			return;
+		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = null;
+		KoLAdventure.lastLocationURL = location;
+		KoLAdventure.setNextAdventure( "None" );
+
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + skillName;
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final AdventureResult sealRitualCandles( final int itemId )
