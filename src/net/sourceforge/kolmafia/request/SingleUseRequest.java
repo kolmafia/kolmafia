@@ -172,7 +172,7 @@ public class SingleUseRequest
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult ingredient = ingredients[ i ];
-			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() ) );
+			ResultProcessor.processResult( ingredient.getInstance( -1 * ingredient.getCount() * count ) );
 		}
 	}
 
