@@ -1613,6 +1613,7 @@ demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
 detour shield	100	Mus: 35	shield
+Diamond HP-35 Calculator	0	none
 Dinsey's radar dish	240	Mus: 100	shield
 dirty rigging rope	100	Mus: 30
 disturbing fanfic	60	Mys: 15
