@@ -401,26 +401,17 @@ public class ClanLoungeRequest
 
 	private static void setClanLoungeItem( final AdventureResult item )
 	{
-		int i = KoLConstants.clanLounge.indexOf( item );
+		int i = ClanManager.getClanLounge().indexOf( item );
 		if ( i != -1 )
 		{
-			AdventureResult old = (AdventureResult)KoLConstants.clanLounge.get( i );
+			AdventureResult old = ClanManager.getClanLounge().get( i );
 			if ( old.getCount() == item.getCount() )
 			{
 				return;
 			}
-			KoLConstants.clanLounge.remove( i );
+			ClanManager.getClanLounge().remove( i );
 		}
-		KoLConstants.clanLounge.add( item );
-	}
-
-	public static void removeClanLoungeItem( AdventureResult item )
-	{
-		int i = KoLConstants.clanLounge.indexOf( item );
-		if ( i != -1 )
-		{
-			KoLConstants.clanLounge.remove( i );
-		}
+		ClanManager.addToLounge( item );
 	}
 
 	public static boolean hasClanLoungeItem( AdventureResult item )
@@ -429,7 +420,7 @@ public class ClanLoungeRequest
 		{
 			return false;
 		}
-		return item.getCount( KoLConstants.clanLounge ) > 0;
+		return item.getCount( ClanManager.getClanLounge() ) > 0;
 	}
 
 	public static final int hotdogIdToIndex( int id )
@@ -681,6 +672,18 @@ public class ClanLoungeRequest
 		return null;
 	}
 
+	public static final boolean isFloundryItem( AdventureResult item )
+	{
+		for ( int i = 0; i < FLOUNDRY_DATA.length; ++i )
+		{
+			if ( item.equals( (AdventureResult)FLOUNDRY_DATA[i][1] ) )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static final int findPoolGame( String tag )
 	{
 		if ( StringUtilities.isNumeric( tag ) )
@@ -903,7 +906,7 @@ public class ClanLoungeRequest
 		{
 			ClanLoungeRequest.resetHotdogs();
 			ClanLoungeRequest.resetSpeakeasy();
-			KoLConstants.clanLounge.clear();
+			ClanManager.getClanLounge().clear();
 			return false;
 		}
 
@@ -1352,7 +1355,11 @@ public class ClanLoungeRequest
 			ClanManager.setClanId( 0 );
 		}
 
-		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+		if ( StandardRequest.isAllowedInStandard( "Items", "Clan Floundry" ) )
+		{
+			// KoL should move this to the second floor as soon as it leaves Standard
+			findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+		}
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
@@ -1381,6 +1388,11 @@ public class ClanLoungeRequest
 		findImage( responseText, "hotdogstand.gif", ItemPool.CLAN_HOT_DOG_STAND );
 		findImage( responseText, "vippool.gif", ItemPool.CLAN_SWIMMING_POOL );
 		findImage( responseText, "speakeasy.gif", ItemPool.CLAN_SPEAKEASY );
+		if ( !StandardRequest.isAllowedInStandard( "Items", "Clan Floundry" ) )
+		{
+			// KoL should move this to the second floor as soon as it leaves Standard
+			findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+		}
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
 		if ( responseText.contains( "tree5.gif" ) )
@@ -1506,7 +1518,7 @@ public class ClanLoungeRequest
 		return ConcoctionDatabase.getUsables().contains( item );
 	}
 
-	private static Concoction addHotDog( final String itemName )
+	public static Concoction addHotDog( final String itemName )
 	{
 		int index = ClanLoungeRequest.hotdogNameToIndex( itemName );
 		Concoction item = ClanLoungeRequest.ALL_HOTDOGS.get( index );
@@ -1565,6 +1577,7 @@ public class ClanLoungeRequest
 			if ( hotdog != null )
 			{
 				available.add( hotdog );
+				ClanManager.addHotdog( hotdog.getName() );
 			}
 		}
 
@@ -1604,7 +1617,7 @@ public class ClanLoungeRequest
 		return ConcoctionDatabase.getUsables().contains( item );
 	}
 
-	private static Concoction addSpeakeasyDrink( final String itemName )
+	public static Concoction addSpeakeasyDrink( final String itemName )
 	{
 		int index = ClanLoungeRequest.speakeasyNameToIndex( itemName );
 		if ( index < 0 )
@@ -1667,7 +1680,7 @@ public class ClanLoungeRequest
 					AdventureResult drink = ItemPool.get( drinkName, 1 );
 					if ( drink != null )
 					{
-						KoLConstants.clanLounge.add( drink );
+						ClanManager.addToLounge( drink );
 					}
 				}
 			}
@@ -1721,7 +1734,7 @@ public class ClanLoungeRequest
 					AdventureResult countedItem = ItemPool.get( item.getItemId(), (int) Math.floor( fishStock / 10 ) );
 					if ( countedItem != null )
 					{
-						KoLConstants.clanLounge.add( countedItem );
+						ClanManager.addToLounge( countedItem );
 					}
 					available.add( concoction );
 				}
@@ -1817,7 +1830,7 @@ public class ClanLoungeRequest
 			// You've already played quite a bit of pool today, so
 			// you just watch with your hands in your pockets.
 
-			if ( responseText.indexOf( "hands in your pockets" ) != -1 )
+			if ( responseText.contains( "hands in your pockets" ) )
 			{
 				Preferences.setInteger( "_poolGames", 3 );
 			}

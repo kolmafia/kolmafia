@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -62,9 +64,12 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 import net.sourceforge.kolmafia.chat.ChatManager;
 
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AscensionSnapshot;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ProfileSnapshot;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -100,6 +105,9 @@ public abstract class ClanManager
 	private static final Map<String, String> profileMap = ProfileSnapshot.getProfileMap();
 	private static final Map<String, String> ascensionMap = AscensionSnapshot.getAscensionMap();
 	private static final Map<String, String> titleMap = new HashMap<String, String>();
+	private static final Map<Integer,List<AdventureResult>> clanLounge = new HashMap<Integer,List<AdventureResult>>();
+	private static final Map<Integer,List<String>> clanRumpus = new LinkedHashMap<Integer,List<String>>();
+	private static final Map<Integer,List<String>> clanHotdogs = new HashMap<Integer,List<String>>();
 
 	private static final List battleList = new ArrayList();
 
@@ -108,15 +116,15 @@ public abstract class ClanManager
 
 	private static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
 	private static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
-	private static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
 
-	public static final void clearCache()
+	public static final void clearCache( boolean newCharacter )
 	{
 		ProfileSnapshot.clearCache();
 		AscensionSnapshot.clearCache();
 		ChatManager.resetClanMessages();
 		ClanLoungeRequest.resetHotdogs();
 		ClanLoungeRequest.resetSpeakeasy();
+		ClanLoungeRequest.resetFloundry();
 		FightRequest.resetKisses();
 
 		ClanManager.clanId = 0;
@@ -134,8 +142,12 @@ public abstract class ClanManager
 		ClanManager.rankList.clear();
 		ClanManager.stashContents.clear();
 
-		KoLConstants.clanLounge.clear();
-		KoLConstants.clanRumpus.clear();
+		if ( newCharacter )
+		{
+			ClanManager.clanLounge.clear();
+			ClanManager.clanRumpus.clear();
+			ClanManager.clanHotdogs.clear();
+		}
 	}
 
 	public static final void resetClanId()
@@ -180,7 +192,7 @@ public abstract class ClanManager
 	public static final void changeClan( final int clanId, String clanName )
 	{
 		// Drop all saved clan information
-		ClanManager.clearCache();
+		ClanManager.clearCache( false );
 
 		// Save new clan information
 		ClanManager.clanId = clanId;
@@ -191,14 +203,40 @@ public abstract class ClanManager
 		{
 			RequestLogger.printLine( "You are currently a member of " + clanName );
 
+			if ( !ClanManager.getClanRumpus().isEmpty() )
+			{
+				// All of this stuff has already been checked, but hot dogs and
+				// such need to be re-added as concoctions for the returned-to clan
+				for ( AdventureResult item : ClanManager.getClanLounge() )
+				{
+					if ( ClanLoungeRequest.isSpeakeasyDrink( item.getName() ) )
+					{
+						ConcoctionDatabase.getUsables().add( ClanLoungeRequest.addSpeakeasyDrink( item.getName() ) );
+					}
+					else if ( ClanLoungeRequest.isFloundryItem( item ) )
+					{
+						Concoction c = ConcoctionPool.get( item );
+						c.setMixingMethod( CraftingType.FLOUNDRY );
+						ConcoctionDatabase.getUsables().add( c );
+					}
+				}
+				for ( String hotdog : ClanManager.getHotdogs() )
+				{
+					Concoction c = ClanLoungeRequest.addHotDog( hotdog );
+					ConcoctionDatabase.getUsables().add( c );
+				}
+				ConcoctionDatabase.refreshConcoctions();
+				return;
+			}
+
 			// Visit lounge and check hotdog stand and speakeasy.
 			// Have to visit second floor in addition, as both default to ground floor if not present.
 			ClanLoungeRequest.visitLoungeFloor2();
-			if ( KoLConstants.clanLounge.contains( HOT_DOG_STAND ) )
+			if ( ClanManager.getClanLounge().contains( HOT_DOG_STAND ) )
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
 			}
-			if ( KoLConstants.clanLounge.contains( SPEAKEASY ) )
+			if ( ClanManager.getClanLounge().contains( SPEAKEASY ) )
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
 			}
@@ -210,7 +248,6 @@ public abstract class ClanManager
 		else
 		{
 			RequestLogger.printLine( "You are not currently a member of a clan." );
-			KoLConstants.clanLounge.clear();
 		}
 	}
 
@@ -722,5 +759,57 @@ public abstract class ClanManager
 		}
 
 		ProfileSnapshot.applyFilter( matchType, filterType, filter );
+	}
+
+	public static final List<AdventureResult> getClanLounge()
+	{
+		List<AdventureResult> list = ClanManager.clanLounge.get( ClanManager.clanId );
+		return list == null ? new ArrayList<AdventureResult>() : list;
+	}
+
+	public static final void addToLounge( AdventureResult item )
+	{
+		
+		List<AdventureResult> list = ClanManager.clanLounge.get( ClanManager.clanId );
+		if ( list == null )
+		{
+			ClanManager.clanLounge.put( ClanManager.clanId, new ArrayList<AdventureResult>() );
+			list = ClanManager.clanLounge.get( ClanManager.clanId );
+		}
+		list.add( item );
+	}
+
+	public static final List<String> getClanRumpus()
+	{
+		List<String> list = ClanManager.clanRumpus.get( ClanManager.clanId );
+		return list == null ? new ArrayList<String>() : list;
+	}
+
+	public static final void addToRumpus( String it )
+	{
+		List<String> list = ClanManager.clanRumpus.get( ClanManager.clanId );
+		if ( list == null )
+		{
+			ClanManager.clanRumpus.put( ClanManager.clanId, new ArrayList<String>() );
+			list = ClanManager.clanRumpus.get( ClanManager.clanId );
+		}
+		list.add( it );
+	}
+
+	public static final List<String> getHotdogs()
+	{
+		List<String> list = ClanManager.clanHotdogs.get( ClanManager.clanId );
+		return list == null ? new ArrayList<String>() : list;
+	}
+
+	public static final void addHotdog( String hotdog )
+	{
+		List<String> list = ClanManager.clanHotdogs.get( ClanManager.clanId );
+		if ( list == null )
+		{
+			ClanManager.clanHotdogs.put( ClanManager.clanId, new ArrayList<String>() );
+			list = ClanManager.clanHotdogs.get( ClanManager.clanId );
+		}
+		list.add( hotdog );
 	}
 }

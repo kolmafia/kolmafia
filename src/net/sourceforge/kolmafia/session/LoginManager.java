@@ -191,7 +191,7 @@ public class LoginManager
 		MailManager.clearMailboxes();
 		StoreManager.clearCache();
 		DisplayCaseManager.clearCache();
-		ClanManager.clearCache();
+		ClanManager.clearCache( true );
 		BanishManager.clearCache();
 
 		CampgroundRequest.reset();
@@ -246,7 +246,7 @@ public class LoginManager
 		{
 			KoLmafiaGUI.intializeMainInterfaces();
 		}
-		else if ( Preferences.getString( "initialFrames" ).indexOf( "LocalRelayServer" ) != -1 )
+		else if ( Preferences.getString( "initialFrames" ).contains( "LocalRelayServer" ) )
 		{
 			KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 		}
