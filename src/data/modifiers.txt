@@ -1882,6 +1882,7 @@ Item	demon buckler	Hot Damage: +3, Damage Reduction: 5
 Item	depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
 Item	detour shield	Damage Absorption: +10, Damage Reduction: 6
+# Item Diamond HP-35 Calculator: Makes you look the most altruisticest
 # Dinsey's radar dish: Deals Increasing Damage Every Round
 Item	Dinsey's radar dish	MP Regen Min: 8, MP Regen Max: 10, Damage Reduction: 15
 Item	dirty rigging rope	Initiative: +30, Stench Damage: +15
