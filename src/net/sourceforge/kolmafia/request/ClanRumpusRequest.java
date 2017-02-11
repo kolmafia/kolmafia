@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -48,6 +47,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -313,7 +313,7 @@ public class ClanRumpusRequest
 			// Otherwise, use the one in our clan - if we're in one.
 			else
 			{
-				if ( !KoLConstants.clanRumpus.contains( "Hobo-Flex Workout System" ) )
+				if ( !ClanManager.getClanRumpus().contains( "Hobo-Flex Workout System" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have access to a clan muscle gym." );
 					return;
@@ -337,7 +337,7 @@ public class ClanRumpusRequest
 			// Otherwise, use the one in our clan - if we're in one.
 			else
 			{
-				if ( !KoLConstants.clanRumpus.contains( "Collection of Arcane Tomes and Whatnot" ) )
+				if ( !ClanManager.getClanRumpus().contains( "Collection of Arcane Tomes and Whatnot" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have access to a clan mysticality gym." );
 					return;
@@ -358,7 +358,7 @@ public class ClanRumpusRequest
 			// Otherwise, use the one in our clan - if we're in one.
 			else
 			{
-				if ( !KoLConstants.clanRumpus.contains( "Tan-U-Lots Tanning Bed" ) )
+				if ( !ClanManager.getClanRumpus().contains( "Tan-U-Lots Tanning Bed" ) )
 				{
 					KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have access to a clan moxie gym." );
 					return;
@@ -370,7 +370,7 @@ public class ClanRumpusRequest
 			break;
 
 		case SOFA:
-			if ( !KoLConstants.clanRumpus.contains( "Comfy Sofa" ) )
+			if ( !ClanManager.getClanRumpus().contains( "Comfy Sofa" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Your clan doesn't have a sofa." );
 				return;
@@ -380,7 +380,7 @@ public class ClanRumpusRequest
 			break;
 
 		case CHIPS:
-			if ( !KoLConstants.clanRumpus.contains( "Snack Machine" ) )
+			if ( !ClanManager.getClanRumpus().contains( "Snack Machine" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Your clan doesn't have a Snack Machine." );
 				return;
@@ -396,7 +396,7 @@ public class ClanRumpusRequest
 			break;
 
 		case JUKEBOX:
-			if ( !KoLConstants.clanRumpus.contains( "Jukebox" ) )
+			if ( !ClanManager.getClanRumpus().contains( "Jukebox" ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Your clan doesn't have a Jukebox." );
 				return;
@@ -481,12 +481,12 @@ public class ClanRumpusRequest
 		// Start by saving the number of balls in the pit, in case this response
 		// doesn't have that information.  If the user switches clans, then the
 		// first check is guaranteed to have that information.
-		if ( !KoLConstants.clanRumpus.isEmpty() &&
-		     KoLConstants.clanRumpus.get( KoLConstants.clanRumpus.size() - 1 ).startsWith( "Awesome Ball Pit" ) )
+		if ( !ClanManager.getClanRumpus().isEmpty() &&
+		     ClanManager.getClanRumpus().get( ClanManager.getClanRumpus().size() - 1 ).startsWith( "Awesome Ball Pit" ) )
 		{
-			ballpit = KoLConstants.clanRumpus.get( KoLConstants.clanRumpus.size() - 1 );
+			ballpit = ClanManager.getClanRumpus().get( ClanManager.getClanRumpus().size() - 1 );
 		}
-		KoLConstants.clanRumpus.clear();
+		ClanManager.getClanRumpus().clear();
 		Matcher matcher = ClanRumpusRequest.ROOM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
@@ -495,7 +495,7 @@ public class ClanRumpusRequest
 			String equipmentName = ClanRumpusRequest.Equipment.equipmentName( spot, furni );
 			if ( !equipmentName.equals( "" ) )
 			{
-				KoLConstants.clanRumpus.add( equipmentName );
+				ClanManager.addToRumpus( equipmentName );
 			}
 		}
 		if ( responseText.contains( "action=click&spot=7" ) )
@@ -505,11 +505,11 @@ public class ClanRumpusRequest
 			if ( matcher.find() )
 			{
 				String balls = matcher.group( 1 );
-				KoLConstants.clanRumpus.add( "Awesome Ball Pit (" + balls + ")" );
+				ClanManager.addToRumpus( "Awesome Ball Pit (" + balls + ")" );
 			}
 			else
 			{
-				KoLConstants.clanRumpus.add( ballpit );
+				ClanManager.addToRumpus( ballpit );
 			}
 		}
 		KoLCharacter.recalculateAdjustments();
@@ -623,7 +623,7 @@ public class ClanRumpusRequest
 		// The Klaw can be accessed regardless of whether or not
 		// you are in hardcore, so handle it first.
 
-		if ( KoLConstants.clanRumpus.contains( "Mr. Klaw \"Skill\" Crane Game" ) )
+		if ( ClanManager.getClanRumpus().contains( "Mr. Klaw \"Skill\" Crane Game" ) )
 		{
 			request.visitEquipment( 3, 3 );
 
@@ -638,7 +638,7 @@ public class ClanRumpusRequest
 			return;
 		}
 
-		for ( String equip : KoLConstants.clanRumpus )
+		for ( String equip : ClanManager.getClanRumpus() )
 		{
 			Equipment equipment = Equipment.toEquip( equip );
 			// Skip the Mr. Klaw game, since we ran it above

@@ -608,7 +608,7 @@ public abstract class KoLCharacter
 			DataFileCache.clearCache();
 			EventManager.clearEventHistory();
 			ChatManager.resetChatLiteracy();
-			ClanManager.clearCache();
+			ClanManager.clearCache( true );
 			StoreManager.clearCache();
 		}
 	}
@@ -5700,7 +5700,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Item", ChateauRequest.ceiling ) );
 		}
 
-		for ( String equip : KoLConstants.clanRumpus )
+		for ( String equip : ClanManager.getClanRumpus() )
 		{
 			newModifiers.add( Modifiers.getModifiers( "Rumpus", equip ) );
 		}

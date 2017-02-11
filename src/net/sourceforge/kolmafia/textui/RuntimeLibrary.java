@@ -3922,7 +3922,7 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
 
-		for ( AdventureResult item : KoLConstants.clanLounge )
+		for ( AdventureResult item : ClanManager.getClanLounge() )
 		{
 			value.aset(
 				DataTypes.makeItemValue( item.getItemId(), true ),
@@ -3936,7 +3936,7 @@ public abstract class RuntimeLibrary
 	{
 		MapValue value = new MapValue( DataTypes.STRING_MAP_TYPE );
 
-		for ( String name : KoLConstants.clanRumpus )
+		for ( String name : ClanManager.getClanRumpus() )
 		{
 			int count = 1;
 			int countIndex = name.indexOf( " (" );
