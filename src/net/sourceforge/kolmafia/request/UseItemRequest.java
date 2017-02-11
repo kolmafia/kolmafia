@@ -804,6 +804,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return ( 3 - Preferences.getInteger( "_chocolatesUsed" ) );
 
+		case ItemPool.LOVE_CHOCOLATE:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_loveChocolatesUsed" ) );
+
 		case ItemPool.CREEPY_VOODOO_DOLL:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_creepyVoodooDollUsed" ) ? 0 : 1;
@@ -4660,6 +4664,10 @@ public class UseItemRequest
 		case ItemPool.CABBAGE_MEDIOCREBAR:
 		case ItemPool.CHOCO_CRIMBOT:
 			Preferences.increment( "_chocolatesUsed" );
+			break;
+
+		case ItemPool.LOVE_CHOCOLATE:
+			Preferences.increment( "_loveChocolatesUsed" );
 			break;
 
 		case ItemPool.CREEPY_VOODOO_DOLL:
