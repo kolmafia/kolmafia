@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -638,7 +640,8 @@ public class ClanRumpusRequest
 			return;
 		}
 
-		for ( String equip : ClanManager.getClanRumpus() )
+		List<String> rumpus = new ArrayList<String>( ClanManager.getClanRumpus() );
+		for ( String equip : rumpus )
 		{
 			Equipment equipment = Equipment.toEquip( equip );
 			// Skip the Mr. Klaw game, since we ran it above
