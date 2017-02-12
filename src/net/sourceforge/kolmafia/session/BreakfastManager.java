@@ -215,8 +215,11 @@ public class BreakfastManager
 
 	private static void useToys()
 	{
-		AdventureResultArray closetItems = new AdventureResultArray();
-		AdventureResultArray storageItems = new AdventureResultArray();
+		boolean useCloset = true;
+		boolean useStorage = KoLCharacter.canInteract();
+
+		AdventureResultArray closetItems = useCloset ? new AdventureResultArray() : null;
+		AdventureResultArray storageItems = useStorage ? new AdventureResultArray() : null;
 		ArrayList<UseItemRequest> requests = new ArrayList<UseItemRequest>();
 
 		for ( AdventureResult toy : toys )
@@ -244,7 +247,8 @@ public class BreakfastManager
 				available += Math.min( count, needed );
 			}
 
-			if ( ( available < needed ) &&
+			if ( useCloset &&
+			     ( available < needed ) &&
 			     ( count = toy.getCount( KoLConstants.closet ) ) > 0 )
 			{
 				// Remove from closet
@@ -253,7 +257,7 @@ public class BreakfastManager
 				available += take;
 			}
 
-			if ( KoLCharacter.canInteract() &&
+			if ( useStorage &&
 			     ( available < needed ) &&
 			     ( count = toy.getCount( KoLConstants.storage ) ) > 0 )
 			{
@@ -282,28 +286,28 @@ public class BreakfastManager
 		}
 
 		// Pull items that are in storage but not inventory or the closet
-		if ( storageItems.size() > 0 )
+		if ( useStorage && storageItems.size() > 0 )
 		{
-			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), true ) );
+			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), false ) );
 		}
 
 		// Move items that are in the closet into inventory
-		if ( closetItems.size() > 0 )
+		if ( useCloset && closetItems.size() > 0 )
 		{
-			// *** We'd like to do this transfer without adding the
-			// *** items to the session tally
 			RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray() ) );
 		}
 
 		// Use the toys!
 		for ( UseItemRequest request : requests )
 		{
+			AdventureResult toy = request.getItemUsed();
+			int slot = KoLCharacter.equipmentSlot( toy );
+
 			RequestThread.postRequest( request );
 			KoLmafia.forceContinue();
 
-			// *** Why do we equip toys which happen to be equipment?
-			AdventureResult toy = request.getItemUsed();
-			int slot = KoLCharacter.equipmentSlot( toy );
+			// If the toy is equipment, we had it equipped, and
+			// "using" it unequipped it, re-equip it
 			if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
 			{
 				RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
