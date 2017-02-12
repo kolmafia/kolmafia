@@ -1664,6 +1664,7 @@ public class ItemPool
 	public static final int WAX_BUGBEAR = 5704;
 	public static final int FDKOL_COMMENDATION = 5707;
 	public static final int HJODOR_GUIDE = 5715;
+	public static final int HJODOR_GUIDE_USED = 5716;
 	public static final int LORD_FLAMEFACES_CLOAK = 5735;
 	public static final int CSA_FIRE_STARTING_KIT = 5739;
 	public static final int CRAPPY_BRAIN = 5752;
@@ -2544,6 +2545,8 @@ public class ItemPool
 	public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
 	public static final int NUCLEAR_STOCKPILE = 8778;
 	public static final int CIRCLE_DRUM = 8784;
+	public static final int COMMUNISM_BOOK = 8785;
+	public static final int COMMUNISM_BOOK_USED = 8794;
 	public static final int BAT_OOMERANG = 8797;
 	public static final int BAT_JUTE = 8798;
 	public static final int BAT_O_MITE = 8799;

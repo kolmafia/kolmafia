@@ -39,6 +39,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.BookType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -59,15 +60,19 @@ import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
+import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
+
+import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class BreakfastManager
 {
@@ -96,7 +101,8 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.COCKTAIL_SHAKER, 1 ),
 		ItemPool.get( ItemPool.BACON_MACHINE, 1 ),
 		ItemPool.get( ItemPool.TOASTER, 1 ),
-		ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 1 ),
+		ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 11 ),
+		ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ),
 	};
 
 	private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );
@@ -133,7 +139,6 @@ public class BreakfastManager
 			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				useToys();
-				useCSAKit();
 			}
 			collectAnticheese();
 			collectSeaJelly();
@@ -150,14 +155,6 @@ public class BreakfastManager
 
 		SpecialOutfit.restoreImplicitCheckpoint();
 		KoLmafia.forceContinue();
-	}
-
-	private static void useCSAKit()
-	{
-		if ( InventoryManager.getAccessibleCount( ItemPool.CSA_FIRE_STARTING_KIT ) > 0 && Preferences.getInteger( "choiceAdventure595" ) != 0 )
-		{
-			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ) ) );
-		}
 	}
 
 	public static void checkRumpusRoom()
@@ -218,23 +215,99 @@ public class BreakfastManager
 
 	private static void useToys()
 	{
-		for ( int i = 0; i < toys.length; ++i )
+		AdventureResultArray closetItems = new AdventureResultArray();
+		AdventureResultArray storageItems = new AdventureResultArray();
+		ArrayList<UseItemRequest> requests = new ArrayList<UseItemRequest>();
+
+		for ( AdventureResult toy : toys )
 		{
-			AdventureResult toy = toys[ i ];
 			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( toy.getName() ) )
 			{
 				continue;
 			}
-			if ( InventoryManager.hasItem( toy ) )
+
+			int itemId = toy.getItemId();
+
+			// Special cases
+			if ( itemId == ItemPool.CSA_FIRE_STARTING_KIT && Preferences.getInteger( "choiceAdventure595" ) == 0 )
 			{
-				int slot = KoLCharacter.equipmentSlot( toy );
-				RequestThread.postRequest( UseItemRequest.getInstance( toy ) );
+				continue;
+			}
+
+			int needed = toy.getCount();
+			int available = 0;
+			int count = 0;
+
+			if ( ( count = toy.getCount( KoLConstants.inventory ) ) > 0 )
+			{
+				// Use from inventory
+				available += Math.min( count, needed );
+			}
+
+			if ( ( available < needed ) &&
+			     ( count = toy.getCount( KoLConstants.closet ) ) > 0 )
+			{
+				// Remove from closet
+				int take = Math.min( count, needed - available );
+				closetItems.add( toy.getInstance( take ) );
+				available += take;
+			}
+
+			if ( KoLCharacter.canInteract() &&
+			     ( available < needed ) &&
+			     ( count = toy.getCount( KoLConstants.storage ) ) > 0 )
+			{
+				// Pull from storage
+				int take = Math.min( count, needed - available );
+				storageItems.add( toy.getInstance( take ) );
+				available += take;
+			}
+
+			// If we have none, skip this toy.
+			if ( available == 0 )
+			{
+				continue;
+			}
+
+			// It's OK if we don't have as many as we'd like
+
+			// Make a request to use the toy
+			requests.add( UseItemRequest.getInstance( toy.getInstance( available ) ) );
+		}
+
+		// If nothing to do, do nothing!
+		if ( requests.size() == 0 )
+		{
+			return;
+		}
+
+		// Pull items that are in storage but not inventory or the closet
+		if ( storageItems.size() > 0 )
+		{
+			RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), true ) );
+		}
+
+		// Move items that are in the closet into inventory
+		if ( closetItems.size() > 0 )
+		{
+			// *** We'd like to do this transfer without adding the
+			// *** items to the session tally
+			RequestThread.postRequest( new ClosetRequest( ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray() ) );
+		}
+
+		// Use the toys!
+		for ( UseItemRequest request : requests )
+		{
+			RequestThread.postRequest( request );
+			KoLmafia.forceContinue();
+
+			// *** Why do we equip toys which happen to be equipment?
+			AdventureResult toy = request.getItemUsed();
+			int slot = KoLCharacter.equipmentSlot( toy );
+			if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
+			{
+				RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
 				KoLmafia.forceContinue();
-				if ( slot != EquipmentManager.NONE && !KoLCharacter.hasEquipped( toy, slot ) )
-				{
-					RequestThread.postRequest( new EquipmentRequest( toy, slot ) );
-					KoLmafia.forceContinue();
-				}
 			}
 		}
 	}
