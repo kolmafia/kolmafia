@@ -3075,6 +3075,7 @@ public class UseItemRequest
 		case ItemPool.GRUDGE_BOOK:
 		case ItemPool.JERK_BOOK:
 		case ItemPool.HJODOR_GUIDE:
+		case ItemPool.HJODOR_GUIDE_USED:
 		case ItemPool.INFURIATING_SILENCE_RECORD:
 		case ItemPool.INFURIATING_SILENCE_RECORD_USED:
 		case ItemPool.TRANQUIL_SILENCE_RECORD:
@@ -3129,6 +3130,8 @@ public class UseItemRequest
 		case ItemPool.WESTERN_BOOK_HELL:
 		case ItemPool.WESTERN_BOOK_LOOK:
 		case ItemPool.TROUT_FISHING_IN_LOATHING:
+		case ItemPool.COMMUNISM_BOOK:
+		case ItemPool.COMMUNISM_BOOK_USED:
 		case ItemPool.BRAIN_TRAINER_GAME:
 		case ItemPool.LASER_EYE_SURGERY_KIT:
 		case ItemPool.MY_LIFE_OF_CRIME_BOOK:

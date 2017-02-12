@@ -621,8 +621,9 @@ public class EatItemRequest
 		{
 			// It's food
 			// If we will use MayoMinder to automatically use Mayodiol, warn
-			if ( Preferences.getString( "mayoInMouth" ).equals( "" ) &&	Preferences.getString( "mayoMinderSetting" ).equals( "Mayodiol" ) &&
-				InventoryManager.hasItem( ItemPool.MAYODIOL ) )
+			if ( Preferences.getString( "mayoInMouth" ).equals( "" ) &&
+			     Preferences.getString( "mayoMinderSetting" ).equals( "Mayodiol" ) &&
+			     InventoryManager.hasItem( ItemPool.MAYODIOL ) )
 			{
 				if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in inventory with Mayo Minder&trade; set to use it, are you sure ?" ) )
 				{
