@@ -142,7 +142,8 @@ public class SingleUseRequest
 	@Override
 	public void processResults()
 	{
-		// Is there a general way to detect a failure?
+		SingleUseRequest.parseResponse( UseItemRequest.lastItemUsed, this.responseText );
+		UseItemRequest.lastItemUsed = null;
 	}
 
 	public static final void parseResponse( AdventureResult item, String responseText )
