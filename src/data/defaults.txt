@@ -1378,6 +1378,7 @@ user	_legionJackhammerCrafting	0
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0
+user	_loveTunnelUsed	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
 user	_lynyrdSnareUses	0

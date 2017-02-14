@@ -9341,6 +9341,14 @@ public abstract class ChoiceManager
 			SweetSynthesisRequest.postChoice1( urlString, text );
 			return;
 
+		case 1222:
+			// The Tunnel of L.O.V.E.
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_loveTunnelUsed", true );
+			}
+			return;
+
 		case 1229:
 		{
 			// L.O.V. Exit
