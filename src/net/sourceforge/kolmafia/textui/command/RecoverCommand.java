@@ -52,26 +52,27 @@ public class RecoverCommand
 	public void run( final String cmd, final String parameters )
 	{
 		boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();
-		RecoveryManager.setRecoveryActive( true );
-
-		SpecialOutfit.createImplicitCheckpoint();
-
-		int target;
-
-		if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) || parameters.equalsIgnoreCase( "both" ) )
+		try
 		{
-			target = (int) ( Preferences.getFloat( "hpAutoRecoveryTarget" ) * KoLCharacter.getMaximumHP() );
-			RecoveryManager.recoverHP( Math.max( target, KoLCharacter.getCurrentHP() + 1 ) );
-		}
+			RecoveryManager.setRecoveryActive( true );
+			SpecialOutfit.createImplicitCheckpoint();
 
-		if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" ) )
+			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) || parameters.equalsIgnoreCase( "both" ) )
+			{
+				int target = (int) ( Preferences.getFloat( "hpAutoRecoveryTarget" ) * KoLCharacter.getMaximumHP() );
+				RecoveryManager.recoverHP( Math.max( target, KoLCharacter.getCurrentHP() + 1 ) );
+			}
+
+			if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) || parameters.equalsIgnoreCase( "both" ) )
+			{
+				int target = (int) ( Preferences.getFloat( "mpAutoRecoveryTarget" ) * KoLCharacter.getMaximumMP() );
+				RecoveryManager.recoverMP( Math.max( target, KoLCharacter.getCurrentMP() + 1 ) );
+			}
+		}
+		finally
 		{
-			target = (int) ( Preferences.getFloat( "mpAutoRecoveryTarget" ) * KoLCharacter.getMaximumMP() );
-			RecoveryManager.recoverMP( Math.max( target, KoLCharacter.getCurrentMP() + 1 ) );
+			SpecialOutfit.restoreImplicitCheckpoint();
+			RecoveryManager.setRecoveryActive( wasRecoveryActive );
 		}
-
-		SpecialOutfit.restoreImplicitCheckpoint();
-
-		RecoveryManager.setRecoveryActive( wasRecoveryActive );
 	}
 }
