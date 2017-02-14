@@ -2293,7 +2293,14 @@ public class FightRequest
 
 			// Apparently digitize monsters always show up before arrow monsters if they are set to arrive
 			// on the same turn, so check in that order
-			if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
+			// Where does LOV Enamorang fit in?
+			if ( EncounterManager.isEnamorangEncounter( responseText, true ) )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+				TurnCounter.stopCounting( "Enamorang Monster" );
+				Preferences.setString( "enamorangMonster", "" );
+			}
+			else if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
@@ -7270,6 +7277,16 @@ public class FightRequest
 			if ( responseText.contains( "You copy" ) || itemSuccess )
 			{
 				Preferences.setString( "screencappedMonster", monsterName );
+				return true;
+			}
+			return false;
+
+		case ItemPool.LOVE_BOOMERANG:
+			if ( responseText.contains( "hurl an enamorrang" ) || itemSuccess )
+			{
+				TurnCounter.stopCounting( "Enamorang Monster" );
+				TurnCounter.startCountingTemporary( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
+				Preferences.setString( "enamorangMonster", monsterName );
 				return true;
 			}
 			return false;
