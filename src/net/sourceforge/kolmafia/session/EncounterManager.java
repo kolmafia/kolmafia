@@ -247,7 +247,16 @@ public abstract class EncounterManager
 		return false;
 	}
 
-	public static boolean isDigitizedEncounter( final String responseText, final boolean checkMonster )
+	public static final boolean isEnamorangEncounter( final String responseText, final boolean checkMonster )
+	{
+		if ( responseText.contains( "tangled heartstrings" ) )
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean isDigitizedEncounter( final String responseText, final boolean checkMonster )
 	{
 		if ( responseText.contains( "must have hit CTRL+V" ) )
 		{
@@ -266,7 +275,7 @@ public abstract class EncounterManager
 		return false;
 	}
 
-	public static boolean isWanderingMonster( String encounter )
+	public static final boolean isWanderingMonster( String encounter )
 	{
 		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
 		return monster != null && monster.getType().contains( EncounterType.WANDERER );
@@ -338,6 +347,7 @@ public abstract class EncounterManager
 		     !ignoreSpecialMonsters &&
 		     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 		     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
+		     !EncounterManager.isEnamorangEncounter( responseText, false ) &&
 		     !responseText.contains( "clover disappears" ) &&
 		     !FightRequest.edFightInProgress() )
 		{

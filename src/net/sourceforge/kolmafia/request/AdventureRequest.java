@@ -502,6 +502,7 @@ public class AdventureRequest
 				     !EncounterManager.isSuperlikelyMonster( encounter ) &&
 				     !EncounterManager.isFreeCombatMonster( encounter ) &&
 				     !EncounterManager.isNoWanderMonster( encounter ) &&
+				     !EncounterManager.isEnamorangEncounter( responseText, false ) &&
 				     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 				     !EncounterManager.isRomanticEncounter( responseText, false ) &&
 				     !FightRequest.edFightInProgress() )
@@ -1202,7 +1203,7 @@ public class AdventureRequest
 		RequestLogger.updateSessionLog( "Demon name: " + demon );
 		Preferences.setString( setting, demon );
 
-		GoalManager.checkAutoStop( place );
+		GoalManager.checkAutoStop( place );//
 
 		// Valid demon name
 		return true;
