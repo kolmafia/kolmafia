@@ -9340,9 +9340,9 @@
 9314	crushed steamer trunk	753405632	undertrunk.gif	none	d	100
 9315	recovered cufflinks	721303222	cufflinks.gif	accessory		0
 9316	heart-shaped crate	246766056	heartcrate.gif	usable	t	0
-9317	LOV Elixir #3	624768654	beerbottle.gif	usable	t,d	5
-9318	LOV Elixir #6	555398926	wine2.gif	usable	t,d	5
-9319	LOV Elixir #9	427474144	gingerwine.gif	usable	t,d	5
+9317	LOV Elixir #3	624768654	beerbottle.gif	multiple	t,d	5
+9318	LOV Elixir #6	555398926	wine2.gif	multiple	t,d	5
+9319	LOV Elixir #9	427474144	gingerwine.gif	multiple	t,d	5
 9320	LOV Eardigan	732556455	cardigan.gif	shirt	q	0
 9321	LOV Epaulettes	392533091	epaulets.gif	container	q	0
 9322	LOV Earrings	407500745	loveearrings.gif	accessory	q	0
