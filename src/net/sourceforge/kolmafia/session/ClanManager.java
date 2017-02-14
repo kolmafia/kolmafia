@@ -116,6 +116,7 @@ public abstract class ClanManager
 
 	private static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
 	private static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
+	private static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
 
 	public static final void clearCache( boolean newCharacter )
 	{
@@ -229,9 +230,11 @@ public abstract class ClanManager
 				return;
 			}
 
-			// Visit lounge and check hotdog stand and speakeasy.
-			// Have to visit second floor in addition, as both default to ground floor if not present.
+			// Have to visit second floor in addition, as equipment can be on either floor
 			ClanLoungeRequest.visitLoungeFloor2();
+
+			// Visit lounge and check hotdog stand, speakeasy, and floundry
+
 			if ( ClanManager.getClanLounge().contains( HOT_DOG_STAND ) )
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
@@ -240,8 +243,10 @@ public abstract class ClanManager
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
 			}
-
-			ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
+			if ( ClanManager.getClanLounge().contains( FLOUNDRY ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
+			}
 
 			RequestThread.postRequest( new ClanRumpusRequest( RequestType.SEARCH ) );
 		}

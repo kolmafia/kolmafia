@@ -1355,11 +1355,8 @@ public class ClanLoungeRequest
 			ClanManager.setClanId( 0 );
 		}
 
-		if ( StandardRequest.isAllowedInStandard( "Items", "Clan Floundry" ) )
-		{
-			// KoL should move this to the second floor as soon as it leaves Standard
-			findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
-		}
+		// *** KoL should move this to the second floor as soon as it leaves Standard
+		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
@@ -1388,11 +1385,9 @@ public class ClanLoungeRequest
 		findImage( responseText, "hotdogstand.gif", ItemPool.CLAN_HOT_DOG_STAND );
 		findImage( responseText, "vippool.gif", ItemPool.CLAN_SWIMMING_POOL );
 		findImage( responseText, "speakeasy.gif", ItemPool.CLAN_SPEAKEASY );
-		if ( !StandardRequest.isAllowedInStandard( "Items", "Clan Floundry" ) )
-		{
-			// KoL should move this to the second floor as soon as it leaves Standard
-			findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
-		}
+
+		// *** KoL should move this to the second floor as soon as it leaves Standard
+		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
 		if ( responseText.contains( "tree5.gif" ) )
