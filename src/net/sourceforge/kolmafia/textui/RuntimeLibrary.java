@@ -4467,12 +4467,28 @@ public abstract class RuntimeLibrary
 
 	public static Value restore_hp( Interpreter interpreter, final Value amount )
 	{
-		return DataTypes.makeBooleanValue( RecoveryManager.recoverHP( (int) amount.intValue() ) );
+		return RuntimeLibrary.restore( true, (int) amount.intValue() );
 	}
 
 	public static Value restore_mp( Interpreter interpreter, final Value amount )
 	{
-		return DataTypes.makeBooleanValue( RecoveryManager.recoverMP( (int) amount.intValue() ) );
+		return RuntimeLibrary.restore( false, (int) amount.intValue() );
+	}
+
+	private static Value restore( boolean hp, int amount )
+	{
+		boolean wasRecoveryActive = RecoveryManager.isRecoveryActive();
+		try
+		{
+			RecoveryManager.setRecoveryActive( true );
+			SpecialOutfit.createImplicitCheckpoint();
+			return DataTypes.makeBooleanValue( hp ? RecoveryManager.recoverHP( amount ) : RecoveryManager.recoverMP( amount ) );
+		}
+		finally
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
+			RecoveryManager.setRecoveryActive( wasRecoveryActive );
+		}
 	}
 
 	public static Value my_name( Interpreter interpreter )
