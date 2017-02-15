@@ -1407,6 +1407,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "is_online", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.ITEM_TYPE };
+		functions.add( new LibraryFunction( "slash_count", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "chat_macro", DataTypes.VOID_TYPE, params ) );
 
@@ -6301,6 +6304,16 @@ public abstract class RuntimeLibrary
 	{
 		String name = arg.toString();
 		return DataTypes.makeBooleanValue( KoLmafia.isPlayerOnline( name ) );
+	}
+
+	static final Pattern COUNT_PATTERN = Pattern.compile( "You have (\\d+) " );
+	public static Value slash_count( Interpreter interpreter, final Value arg )
+	{
+		String itemName = ItemDatabase.getItemName( (int)arg.intValue() );
+		InternalChatRequest request = new InternalChatRequest( "/count " + itemName );
+		RequestThread.postRequest( request );
+		Matcher m = RuntimeLibrary.COUNT_PATTERN.matcher( request.responseText );
+		return new Value( m.find() ? StringUtilities.parseInt( m.group( 1 ) ) : 0 );
 	}
 
 	public static Value chat_macro( Interpreter interpreter, final Value macroValue )
