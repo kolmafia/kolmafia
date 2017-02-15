@@ -1942,14 +1942,12 @@ public class UseItemRequest
 	{
 		if ( !KoLCharacter.inNoobcore() )
 		{
-			KoLmafia.updateDisplay( "Not in Noobcore" );
 			return true;
 		}
 
 		AdventureResult item = UseItemRequest.extractAbsorbedItem( urlString );
 		if ( item == null )
 		{
-			KoLmafia.updateDisplay( "No item found" );
 			return true;
 		}
 
@@ -1957,6 +1955,9 @@ public class UseItemRequest
 		if ( responseText.contains( "absorb some new knowledge" ) )
 		{
 			Preferences.increment( "_noobSkillCount" );
+			String message = "Absorbing " + item.getName();
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 			ResultProcessor.processResult( item.getNegation() );
 		}
 		// You can't absorb anything else right now
