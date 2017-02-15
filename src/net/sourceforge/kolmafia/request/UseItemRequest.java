@@ -105,6 +105,8 @@ public class UseItemRequest
 
 	public static final Pattern DOWHICHITEM_PATTERN = Pattern.compile( "dowhichitem=(\\d+)" );
 
+	private static final Pattern ABSORB_PATTERN = Pattern.compile( "absorb=(\\d+)" );
+
 	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
 	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</blockquote></td></tr></table>.*?</body>" );
 	private static final Pattern HELPER_PATTERN = Pattern.compile( "(utensil|whichcard)=(\\d+)" );
@@ -1940,12 +1942,14 @@ public class UseItemRequest
 	{
 		if ( !KoLCharacter.inNoobcore() )
 		{
+			KoLmafia.updateDisplay( "Not in Noobcore" );
 			return true;
 		}
 
 		AdventureResult item = UseItemRequest.extractAbsorbedItem( urlString );
 		if ( item == null )
 		{
+			KoLmafia.updateDisplay( "No item found" );
 			return true;
 		}
 
@@ -5972,7 +5976,7 @@ public class UseItemRequest
 			return null;
 		}
 
-		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
+		Matcher itemMatcher = UseItemRequest.ABSORB_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 		{
 			return null;
