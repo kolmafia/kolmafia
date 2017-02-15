@@ -558,6 +558,10 @@ public class ResponseTextParser
 				{
 					UseItemRequest.parseBinge( location, responseText );
 				}
+				else if ( location.contains( "action=absorb" ) )
+				{
+					UseItemRequest.parseAbsorb( location, responseText );
+				}
 				// Certain requests, like inserting cards into
 				// an El Vibrato helmet, have a usage message,
 				// not an equipment page. Check for that, too.

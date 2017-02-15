@@ -1936,6 +1936,33 @@ public class UseItemRequest
 		return true;
 	}
 
+	public static final boolean parseAbsorb( final String urlString, final String responseText )
+	{
+		if ( !KoLCharacter.inNoobcore() )
+		{
+			return true;
+		}
+
+		AdventureResult item = UseItemRequest.extractAbsorbedItem( urlString );
+		if ( item == null )
+		{
+			return true;
+		}
+
+		// You absorb some new knowledge of humanity!
+		if ( responseText.contains( "absorb some new knowledge" ) )
+		{
+			Preferences.increment( "_noobSkillCount" );
+			ResultProcessor.processResult( item.getNegation() );
+		}
+		// You can't absorb anything else right now
+		else if ( responseText.contains( "can't absorb anything" ) )
+		{
+			Preferences.setInteger( "_noobSkillCount", KoLCharacter.getLevel() + 2 );
+		}
+		return true;
+	}
+
 	public void parseConsumption()
 	{
 		UseItemRequest.parseConsumption( "", true );
@@ -5728,7 +5755,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.GUMMY_MEMORY:
-			Preferences.increment( "noobDeferredPoints" );
+			Preferences.increment( "noobDeferredPoints", 5 );
 			break;
 
 		}
@@ -5936,6 +5963,24 @@ public class UseItemRequest
 		}
 
 		return ItemPool.get( itemId, itemCount );
+	}
+
+	public static final AdventureResult extractAbsorbedItem( final String urlString )
+	{
+		if ( !urlString.startsWith( "inventory.php" ) )
+		{
+			return null;
+		}
+
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return null;
+		}
+
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+
+		return ItemPool.get( itemId, 1 );
 	}
 
 	private static final AdventureResult extractHelper( final String urlString )

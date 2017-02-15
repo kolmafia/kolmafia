@@ -1398,6 +1398,7 @@ user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
 user	_noHatModifier
+user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
 user	_olympicSwimmingPool	false
