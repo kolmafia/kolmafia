@@ -5759,10 +5759,6 @@ public class UseItemRequest
 			Preferences.increment( "_spookyJellyUses", count );
 			break;
 
-		case ItemPool.GUMMY_MEMORY:
-			Preferences.increment( "noobDeferredPoints", 5 );
-			break;
-
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
