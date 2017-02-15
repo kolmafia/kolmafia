@@ -558,10 +558,6 @@ public class ResponseTextParser
 				{
 					UseItemRequest.parseBinge( location, responseText );
 				}
-				else if ( location.contains( "action=absorb" ) )
-				{
-					UseItemRequest.parseAbsorb( location, responseText );
-				}
 				// Certain requests, like inserting cards into
 				// an El Vibrato helmet, have a usage message,
 				// not an equipment page. Check for that, too.
@@ -592,7 +588,13 @@ public class ResponseTextParser
 				UseItemRequest.parseBinge( location, responseText );
 			}
 
-			// Closet transfers can come via inventory.php
+			// If there is an absorb message, parse it
+			else if ( location.contains( "absorb=" ) )
+			{
+				UseItemRequest.parseAbsorb( location, responseText );
+			}
+
+				// Closet transfers can come via inventory.php
 			else if ( location.contains( "action=closetpush" ) || location.contains( "action=closetpull" ) )
 			{
 				ClosetRequest.parseTransfer( location, responseText );
