@@ -45,6 +45,7 @@ import java.util.TreeMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -208,11 +209,15 @@ public class CustomCombatLookup
 	{
 		StringBuffer indent = new StringBuffer();
 		String line = null;
+		int lineNumber = 0;
 
 		String encounterKey = "default";
 
 		while ( ( line = reader.readLine() ) != null )
 		{
+			// Count line for use in error messages
+			++lineNumber;
+
 			// Skip over any lines with no content.
 
 			line = line.trim();
@@ -233,10 +238,22 @@ public class CustomCombatLookup
 					strategy.addCombatAction( 1, "attack", indent.toString(), false );
 				}
 
-				encounterKey = CombatActionManager.encounterKey( line.substring( 1, line.length() - 1 ) );
+				indent.setLength( 0 );
+
+				// Skip malformed lines
+				int close = line.indexOf( "]" );
+				if ( close == -1 )
+				{
+					KoLmafia.updateDisplay( "Malformed encounter key in CCS at line " + lineNumber );
+					encounterKey = "ignore";
+				}
+				else
+				{
+					encounterKey = CombatActionManager.encounterKey( line.substring( 1, close ).trim() );
+				}
+
 				addEncounterKey( encounterKey );
 
-				indent.setLength( 0 );
 				continue;
 			}
 
