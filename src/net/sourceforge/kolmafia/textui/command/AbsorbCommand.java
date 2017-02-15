@@ -33,11 +33,8 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -108,7 +105,7 @@ public class AbsorbCommand
 		}
 
 		// Absorb the item
-		RequestThread.postRequest( new GenericRequest( "inventory.php?absorb=" + itemId ) );
+		RequestThread.postRequest( new GenericRequest( "inventory.php?absorb=" + itemId + "&ajax=1" ) );
 
 		// update "Hatter" daily deed
 		if ( ItemDatabase.isHat( itemId ) )
