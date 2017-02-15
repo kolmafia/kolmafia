@@ -141,3 +141,27 @@ questL12War	finished	"Look in the supply crates and see if we have any medals or
 questL13Final	started	"The Naughty Sorceress. Her lair is to the east of the Nearby Plains. You must seek her out and destroy her!"
 questL13Final	step13	"I did it!" you excitedly shout to the panic-room door. "I defeated the Naughty Sorceress, and oh man, just wait till I tell you what happened next!"
 
+
+# Gelatinous Noob
+questL02Larva	started	Okay, you're in luck, because I found a quest that's perfect for an adventurer of your... stature. We need you to go out to the marshy part of the Spooky Forest, and bring us back a mosquito larva. I bet you get mosquitoes trying to breed in you all the time, so this should be really easy for you. In case you aren't actually from the Spooky Forest, I'll mark it on your map -- it's in the Distant Woods. Hand on, let me find a real long pencil that I don't care about.	I can kind of see some things wriggling around inside you, but I think they're just bubbles. We need you to bring us a mosquito larva from the Spooky Forest.
+questL02Larva	finished	Oh nice, you brought back a mosquito larva! Great, let me just get that... out of you. Fortunately, our janitor was able to lend me a pair of tongs.
+questL03Rat	started	So, since you've proven that you can understand instructions and aren't just a gelatinous mass that happened to roll into here at random, I've got another quest for you. We've received word that the owner of the Typical Tavern is having a bit of a rat problem; I'm sure he'd reward you if you took care of it for him. Technically, you shouldn't be allowed inside because of health code regulations, but, well, it's the kind of place where that probably doesn't really matter.	The owner of the Typical Tavern is still bugging us about his rat problems.  Perhaps you could help him? Without getting any of yourself in the beer barrels?
+questL04Bat	started	Anyway, we need someone (or something) to kill the Boss Bat.  He can be found in the deepest part of the Bat Hole, in the Nearby Plains.  Slay him, and return to us with undigested proof of your conquest.	You haven't killed the Boss Bat yet... I can understand if you're worried about getting guano... in you? But this does need to get done. He can be found in the Bat Hole, in the Nearby Plains.
+questL04Bat	finished
+questL05Goblin	started
+questL05Goblin	step1
+questL05Goblin	finished
+questL06Friar	started
+questL07Cyrptic	started
+questL07Cyrptic	finished
+questL08Trapper	started
+questL09Topping	started
+questL10Garbage	started
+questL10Garbage	finished
+questL11MacGuffin	started
+questL11MacGuffin	finished
+questL12War	started
+questL12War	step1
+questL12War	finished
+questL13Final
+questL13Final
