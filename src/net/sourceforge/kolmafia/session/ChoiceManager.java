@@ -9362,6 +9362,15 @@ public abstract class ChoiceManager
 			}
 			return;
 		}
+
+		case 1231:
+			// Gummi-Memories, In the Corner of Your Mind
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.GUMMY_MEMORY );
+				Preferences.increment( "noobDeferredPoints", 5 );
+			}
+			return;
 		}
 
 		// Certain choices cost meat or items when selected
