@@ -925,6 +925,11 @@ public abstract class KoLCharacter
 			return 0;
 		}
 
+		if ( KoLCharacter.inNoobcore() )
+		{
+			return 0;
+		}
+
 		// Default spleen size, overridden below for various paths
 		int limit = 15;
 
@@ -3917,6 +3922,11 @@ public abstract class KoLCharacter
 			return false;
 		}
 
+		if ( KoLCharacter.inNoobcore() )
+		{
+			return false;
+		}
+
 		return  KoLCharacter.consumptionRestriction == AscensionSnapshot.NOPATH ||
 			KoLCharacter.consumptionRestriction == AscensionSnapshot.TEETOTALER;
 	}
@@ -3929,6 +3939,11 @@ public abstract class KoLCharacter
 		}
 
 		if ( KoLCharacter.isEd() && !KoLCharacter.hasSkill( "Replacement Liver" ) )
+		{
+			return false;
+		}
+
+		if ( KoLCharacter.inNoobcore() )
 		{
 			return false;
 		}
