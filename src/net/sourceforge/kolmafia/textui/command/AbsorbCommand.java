@@ -105,7 +105,7 @@ public class AbsorbCommand
 		}
 
 		// Absorb the item
-		RequestThread.postRequest( new GenericRequest( "inventory.php?absorb=" + itemId + "&ajax=1" ) );
+		RequestThread.postRequest( new GenericRequest( "inventory.php?absorb=" + itemId + "&ajax=1", false ) );
 
 		// update "Hatter" daily deed
 		if ( ItemDatabase.isHat( itemId ) )
