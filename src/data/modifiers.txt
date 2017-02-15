@@ -8120,7 +8120,9 @@ Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
 Item	Dinsey face paint	Effect: "The Dinsey Look", Effect Duration: 20
 Item	Dinsey Maintenance Manual	Skill: "Dinsey Operations Expert"
 # Dinsey tattoo kit: Grants a cool Dinsey tattoo when used
+# Item dirty bottlecap: Absorb it for a useful skill!
 # dirty stinkbomb: Banishes a monster for a while
+# Item discarded button: Absorb it for a useful skill!
 Item	disco horoscope (Aquarius)	Effect: "Aquarius Rising", Effect Duration: 10
 Item	disco horoscope (Aries)	Effect: "Aries Rising", Effect Duration: 10
 Item	disco horoscope (Cancer)	Effect: "Cancer Rising", Effect Duration: 10
@@ -8494,6 +8496,7 @@ Item	gummi trilobite	Effect: "Sugar Rush", Effect Duration: 100
 Item	gummi turtle	Effect: "Gummi-Grin", Effect Duration: 15
 Item	Gummi-DNA	Effect: "Sugar Rush", Effect Duration: 3
 Item	Gummi-Gnauga	Effect: "Sugar Rush", Effect Duration: 10
+# Item Gummi-Memory: Your future Gelatinous Noob runs will start with 5 extra skills (up to 20)
 Item	Gummy Brains	Effect: "Sugar Rush", Effect Duration: 10
 Item	gun cleaning kit	Effect: "Very Clean Guns", Effect Duration: 20
 Item	Gygaxian Libram	Skill: "Summon Dice"
@@ -8626,6 +8629,7 @@ Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Ski
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
+# Item interesting clod of dirt: Absorb it for a useful skill!
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20

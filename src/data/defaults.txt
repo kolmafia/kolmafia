@@ -792,8 +792,10 @@ user	nextAdventure
 user	nextParanormalActivity	0
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
-user	nosyNoseMonster	
+user	noobPoints	0
+user	noobDeferredPoints	0
 user	noodleSummons	0
+user	nosyNoseMonster	
 user	nsChallenge1	none
 user	nsChallenge2	none
 user	nsChallenge3	none

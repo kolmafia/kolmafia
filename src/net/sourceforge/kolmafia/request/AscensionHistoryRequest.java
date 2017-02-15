@@ -140,6 +140,7 @@ public class AscensionHistoryRequest
 		int beanSlingerPoints = 0;
 		int snakeOilerPoints = 0;
 		int sourcePoints = 0;
+		int noobPoints = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -212,6 +213,9 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.THE_SOURCE:
 				sourcePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.GELATINOUS_NOOB:
+				noobPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -244,6 +248,10 @@ public class AscensionHistoryRequest
 		if ( snakeOilerPoints > Preferences.getInteger( "awolPointsSnakeoiler" ) )
 		{
 			Preferences.setInteger( "awolPointsSnakeoiler", snakeOilerPoints );
+		}
+		if ( noobPoints > Preferences.getInteger( "noobPoints" ) )
+		{
+			Preferences.setInteger( "noobPoints", noobPoints );
 		}
 	}
 
@@ -717,6 +725,10 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.SNAKE_OILER:
 				this.stringForm.append( "SO" );
 				break;
+
+			case AscensionSnapshot.GELATINOUS_NOOB:
+				this.stringForm.append( "GN" );
+				break;
 			}
 
 			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
@@ -749,6 +761,7 @@ public class AscensionHistoryRequest
 				columns[ 3 ].startsWith( "CP" ) ? AscensionSnapshot.COW_PUNCHER :
 				columns[ 3 ].startsWith( "BS" ) ? AscensionSnapshot.BEAN_SLINGER :
 				columns[ 3 ].startsWith( "SO" ) ? AscensionSnapshot.SNAKE_OILER :
+				columns[ 3 ].startsWith( "GN" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 				AscensionSnapshot.UNKNOWN_CLASS;
 
 			String[] path = columns[ 7 ].split( "," );
@@ -786,6 +799,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Avatar of West of Loathing" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
 				path[ 1 ].equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
 				path[ 1 ].equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
+				path[ 1 ].equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -808,6 +822,7 @@ public class AscensionHistoryRequest
 					columns[ 3 ].contains( "darkcow" ) ? AscensionSnapshot.COW_PUNCHER :
 					columns[ 3 ].contains( "beancan" ) ? AscensionSnapshot.BEAN_SLINGER :
 					columns[ 3 ].contains( "tinysnake" ) ? AscensionSnapshot.SNAKE_OILER :
+					columns[ 3 ].contains( "not_yet_known" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					AscensionSnapshot.UNKNOWN_CLASS;
 
 				this.typeId = columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
@@ -840,6 +855,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "csplaquesmall" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
 					columns[ 8 ].contains( "badge" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
 					columns[ 8 ].contains( "ss_datasiphon" ) ? AscensionSnapshot.THE_SOURCE :
+					columns[ 8 ].contains( "not_yet_known" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

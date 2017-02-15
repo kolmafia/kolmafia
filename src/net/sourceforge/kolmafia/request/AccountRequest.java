@@ -710,6 +710,10 @@ public class AccountRequest
 		{
 			path = "Nuclear Autumn";
 		}
+		else if ( path.equals( "29" ) )
+		{
+			path = "Gelatinous Noob";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

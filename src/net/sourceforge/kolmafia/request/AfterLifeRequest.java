@@ -443,6 +443,9 @@ public class AfterLifeRequest
 			case 20:
 				builder.append( "Snake Oiler" );
 				break;
+			case 23:
+				builder.append( "Gelatinous Noob" );
+				break;
 			default:
 				builder.append( "(Class " );
 				builder.append( String.valueOf( pclass ) );
@@ -564,6 +567,9 @@ public class AfterLifeRequest
 				break;
 			case 28:
 				builder.append( "a Nuclear Autumn" );
+				break;
+			case 29:
+				builder.append( "a Gelatinous Noob" );
 				break;
 			default:
 				builder.append( "(Path " );
