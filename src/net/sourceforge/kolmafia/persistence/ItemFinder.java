@@ -71,6 +71,7 @@ public class ItemFinder
 	public static final int UNTINKER_MATCH = 7;
 	public static final int EQUIP_MATCH = 8;
 	public static final int CANDY_MATCH = 9;
+	public static final int ABSORB_MATCH = 10;
 
 	public static final List<String> getMatchingNames( String searchString )
 	{
@@ -280,6 +281,10 @@ public class ItemFinder
 				break;
 			case ItemFinder.CANDY_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isCandyItem( itemId ) );
+				break;
+
+			case ItemFinder.ABSORB_MATCH:
+				ItemFinder.conditionalRemove( nameIterator, ItemDatabase.getNoobSkillId( itemId ) == -1 );
 				break;
 
 			case ItemFinder.USE_MATCH:
@@ -512,6 +517,9 @@ public class ItemFinder
 					break;
 				case CANDY_MATCH:
 					error = " is not candy.";
+					break;
+				case ABSORB_MATCH:
+					error = " cannot be absorbed.";
 					break;
 				}
 
