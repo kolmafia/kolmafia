@@ -2349,4 +2349,55 @@ public class ItemDatabase
 	{
 		return StandardRequest.isAllowedInStandard( "Items", ItemDatabase.getDataName( itemId ) );
 	}
+
+	public static int getNoobSkillId( final int itemId )
+	{
+		if ( itemId <= 0 )
+		{
+			return -1;
+		}
+
+		// Cannot absorb quest items
+		if ( ItemDatabase.isQuestItem( itemId ) )
+		{
+			return -1;
+		}
+
+		// Cannot absorb gift items
+		if ( ItemDatabase.isGiftItem( itemId ) )
+		{
+			return -1;
+		}
+
+		// Cannot absorb discardable items
+		if ( !ItemDatabase.isDiscardable( itemId ) )
+		{
+			return -1;
+		}
+
+		// Cannot absorb untradeable items
+		if ( !ItemDatabase.isTradeable( itemId ) )
+		{
+			// Some are overridden
+			switch ( itemId )
+			{
+			case ItemPool.CLOD_OF_DIRT:
+			case ItemPool.DISCARDED_BUTTON:
+			case ItemPool.GUMMY_MEMORY:
+				break;
+			default:
+				return -1;
+			}
+		}
+
+		// Cannot absorb items with no selling price
+		if ( ItemDatabase.getPriceById( itemId ) <= 0 )
+		{
+			return -1;
+		}
+
+		int descId = StringUtilities.parseInt( ItemDatabase.getDescriptionId( itemId ) );
+		int skillId = ( descId % 125 ) + 23001;
+		return skillId;
+	}
 }

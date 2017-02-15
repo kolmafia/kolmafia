@@ -2752,6 +2752,9 @@ public class ItemPool
 	public static final int ELDRITCH_ICHOR = 9333;
 	public static final int ELDRITCH_TINCTURE = 9335;
 	public static final int ELDRITCH_TINCTURE_DEPLETED = 9336;
+	public static final int CLOD_OF_DIRT = 9216;
+	public static final int DIRTY_BOTTLECAP = 9343;
+	public static final int DISCARDED_BUTTON = 9344;
 	public static final int GUMMY_MEMORY = 9345;
 
 	public static final AdventureResult get( String itemName, int count )
