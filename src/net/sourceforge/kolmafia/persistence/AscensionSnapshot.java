@@ -82,6 +82,7 @@ public class AscensionSnapshot
 	public static final int AVATAR_OF_WEST_OF_LOATHING = 26;
 	public static final int THE_SOURCE = 27;
 	public static final int NUCLEAR_AUTUMN = 28;
+	public static final int GELATINOUS_NOOB = 29;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -98,6 +99,7 @@ public class AscensionSnapshot
 	public static final int COW_PUNCHER = 18;
 	public static final int BEAN_SLINGER = 19;
 	public static final int SNAKE_OILER = 20;
+	public static final int NOOB = 23;
 
 	public static final int UNKNOWN_TYPE = -1;
 	public static final int NORMAL = 1;
@@ -236,6 +238,14 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.GELATINOUS_NOOB, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.NUCLEAR_AUTUMN, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.THE_SOURCE, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
 				localProfileLink ) );
@@ -374,6 +384,7 @@ public class AscensionSnapshot
 		case AscensionSnapshot.AVATAR_OF_JARLSBERG:
 		case AscensionSnapshot.AVATAR_OF_SNEAKY_PETE:
 		case AscensionSnapshot.ACTUALLY_ED_THE_UNDYING:
+		case AscensionSnapshot.GELATINOUS_NOOB:
 			break;
 		case AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING:
 			strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
@@ -559,7 +570,9 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.CRAZY_RANDOM_SUMMER ? "One Crazy Random Summer " : 
 						pathFilter == AscensionSnapshot.COMMUNITY_SERVICE ? "Community Service " : 
 						pathFilter == AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING ? "Avatar of West of Loathing " : 
-						pathFilter == AscensionSnapshot.THE_SOURCE ? "The Source " : "" );
+						pathFilter == AscensionSnapshot.THE_SOURCE ? "The Source "  :
+						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
+						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " : "" );
 
 			strbuf.append( "Ascensions (Out of " );
 			strbuf.append( resultsList.size() );

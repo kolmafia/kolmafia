@@ -129,6 +129,9 @@ public class DataTypes
 		KoLCharacter.COWPUNCHER,
 		KoLCharacter.BEANSLINGER,
 		KoLCharacter.SNAKE_OILER,
+		"",
+		"",
+		KoLCharacter.GELATINOUS_NOOB,
 	};
 
 	public static final Type ANY_TYPE = new Type( null, DataTypes.TYPE_ANY );

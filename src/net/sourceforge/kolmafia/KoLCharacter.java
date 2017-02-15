@@ -173,6 +173,7 @@ public abstract class KoLCharacter
 	public static final String WEST_OF_LOATHING = "Avatar of West of Loathing";
 	public static final String THE_SOURCE = "The Source";
 	public static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
+	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -1148,7 +1149,8 @@ public abstract class KoLCharacter
 		if ( classType.equals( KoLCharacter.DISCO_BANDIT ) ||
 		     classType.equals( KoLCharacter.ACCORDION_THIEF ) ||
 		     classType.equals( KoLCharacter.AVATAR_OF_SNEAKY_PETE ) ||
-		     classType.equals( KoLCharacter.SNAKE_OILER ) )
+		     classType.equals( KoLCharacter.SNAKE_OILER ) ||
+		     classType.equals( KoLCharacter.GELATINOUS_NOOB ) )
 		{
 			return 2;
 		}
@@ -1495,6 +1497,7 @@ public abstract class KoLCharacter
 			classtype == 18 ? KoLCharacter.COWPUNCHER :
 			classtype == 19 ? KoLCharacter.BEANSLINGER :
 			classtype == 20 ? KoLCharacter.SNAKE_OILER :
+			classtype == 23 ? KoLCharacter.GELATINOUS_NOOB :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1571,6 +1574,7 @@ public abstract class KoLCharacter
 			classname.equals( KoLCharacter.COWPUNCHER ) ? KoLCharacter.COWPUNCHER :
 			classname.equals( KoLCharacter.BEANSLINGER ) ? KoLCharacter.BEANSLINGER :
 			classname.equals( KoLCharacter.SNAKE_OILER ) ? KoLCharacter.SNAKE_OILER :
+			classname.equals( KoLCharacter.GELATINOUS_NOOB ) ? KoLCharacter.GELATINOUS_NOOB :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1613,7 +1617,8 @@ public abstract class KoLCharacter
 		return	KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
 			KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
-			KoLCharacter.classtype == KoLCharacter.SNAKE_OILER;
+			KoLCharacter.classtype == KoLCharacter.SNAKE_OILER ||
+			KoLCharacter.classtype == KoLCharacter.GELATINOUS_NOOB;
 	}
 
 	public static final boolean isAWoLClass()
@@ -3369,6 +3374,11 @@ public abstract class KoLCharacter
 			int sourcePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "sourcePoints", sourcePoints );
 		}
+		else if ( oldPath.equals( GELATINOUS_NOOB ) )
+		{
+			int noobPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "noobPoints", noobPoints );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
@@ -3401,7 +3411,8 @@ public abstract class KoLCharacter
 		     oldPath.equals( ZOMBIE_SLAYER ) ||
 		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
 		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
-		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) )
+		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
+		     oldPath.equals( GELATINOUS_NOOB ) )
 		{
 			return;
 		}
@@ -3838,6 +3849,11 @@ public abstract class KoLCharacter
 	public static final boolean inNuclearAutumn()
 	{
 		return KoLCharacter.ascensionPath.equals( NUCLEAR_AUTUMN );
+	}
+
+	public static final boolean inNoobcore()
+	{
+		return KoLCharacter.ascensionPath.equals( GELATINOUS_NOOB );
 	}
 
 	public static final boolean isUnarmed()
@@ -5190,7 +5206,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.inNoobcore() )
 		{
 			return null;
 		}
@@ -5219,7 +5235,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.inNoobcore() )
 		{
 			return null;
 		}

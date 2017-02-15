@@ -9239,7 +9239,7 @@
 9213	candy necktie	801970115	necktie.gif	accessory	t	0
 9214	chocolate pocketwatch	887375771	gingerwatch.gif	accessory	t	0	chocolate pocketwatches
 9215	broken chocolate pocketwatch	905664883	gingerwatch.gif	usable	t,d	0
-9216
+9216	interesting clod of dirt	718542	ragwad.gif	none	d	15
 9217	gingerbread restraining order	805926029	document.gif	none, combat	t,d	100
 9218	sprinkle-begging cup	401017315	starchcan.gif	offhand	t,d	50
 9219	animal part cracker	298097264	animalcracker.gif	food	t,d	8
@@ -9366,3 +9366,6 @@
 9340	Golden HP-35 Calculator	958721500	longcalc.gif	offhand		0
 9341	Platinum HP-35 Calculator	265987570	longcalc.gif	offhand		0
 9342	Diamond HP-35 Calculator	471576537	longcalc.gif	offhand		0
+9343	dirty bottlecap	1180423	bottlecap.gif	none	d	15
+9344	discarded button	2951341	redbutton.gif	none	d	15
+9345	Gummi-Memory	122696052	gummimemory.gif	usable	t	0

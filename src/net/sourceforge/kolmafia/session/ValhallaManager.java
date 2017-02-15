@@ -452,6 +452,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Nuclear Autumn " );
 		}
+		else if ( KoLCharacter.inNoobcore() )
+		{
+			sessionStream.print( "Gelatinous Noob " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );
@@ -658,6 +662,8 @@ public class ValhallaManager
 		// Nuclear Autumn
 		Preferences.resetToDefault( "falloutShelterChronoUsed" );
 		Preferences.resetToDefault( "falloutShelterCoolingTankUsed" );
+		// Gelatinous Noob
+		Preferences.increment( "noobPoints", Preferences.getInteger( "noobDeferredPoints" ) );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
