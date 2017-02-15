@@ -235,6 +235,8 @@ public class Modifiers
 	public static final int FISHING_SKILL = 124;
 	public static final int ADDITIONAL_SONG = 125;
 	public static final int SPRINKLES = 126;
+	public static final int ABSORB_ADV = 127;
+	public static final int ABSORB_STAT = 128;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -805,6 +807,14 @@ public class Modifiers
 		{ "Sprinkle Drop",
 		  Pattern.compile( "([+-]\\d+)% Sprinkles from Monsters" ),
 		  Pattern.compile( "Sprinkle Drop: " + EXPR )
+		},
+		{ "Absorb Adventures",
+		  Pattern.compile( "([+-]\\d+) Adventures when you absorb an item" ),
+		  Pattern.compile( "Absorb Adventures: " + EXPR )
+		},
+		{ "Absorb Stats",
+		  Pattern.compile( "([+-]\\d+) Stats when you absorb an item" ),
+		  Pattern.compile( "Absorb Stats: " + EXPR )
 		},
 	};
 
@@ -1947,7 +1957,7 @@ public class Modifiers
 
 	public static final Modifiers getItemModifiers( final int id )
 	{
-		if ( id <= 0 )
+		if ( id <= 0 || KoLCharacter.inNoobcore() )
 		{
 			return null;
 		}

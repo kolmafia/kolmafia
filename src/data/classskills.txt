@@ -1148,3 +1148,134 @@
 22037	Extra Gall Bladder	bladder.gif	0	0	0
 22038	Extra Kidney	kidney.gif	0	0	0
 22039	Internal Soda Machine	cloaca.gif	2	0	0
+
+# Gelatinous Noob
+23000	Gelatinous Reconstruction	gcube.gif	2	3	0
+23001	Dilatable Capillaries	pod_veiny.gif	0	0	0
+23002	Upper Hypothalamus	pineal.gif	0	0	0
+23003	Thick Dermis	hskin.gif	0	0	0
+23004	High Water Content	waterbottle.gif	0	0	0
+23005	Sweat Glands	teardrop.gif	0	0	0
+23006	Constrictable Capillaries	pod_veiny.gif	0	0	0
+23007	Lower Hypothalamus	pineal.gif	0	0	0
+23008	Shiver Reflex	belch.gif	0	0	0
+23009	Chatterable Teeth	chatteeth.gif	0	0	0
+23010	Subcutaneous Fat	sebashield.gif	0	0	0
+23011	Nose Hair	whiskers.gif	0	0	0
+23012	Pinchable Nose	nosynose.gif	0	0	0
+23013	Nasal Lamina Propria	redcells.gif	0	0	0
+23014	Nasal Septum	cheesestaf.gif	0	0	0
+23015	Olfactory Cortex	realbrain2.gif	0	0	0
+23016	Left Eyelid	eyelashes.gif	0	0	0
+23017	Right Eyelid	eyelashes.gif	0	0	0
+23018	Hyperactive Amygdala	realbrain2.gif	0	0	0
+23019	Adrenal Gland	salspleen.gif	0	0	0
+23020	Bravery Gland	strboost.gif	0	0	0
+23021	Sense of Decorum	monocle.gif	0	0	0
+23022	Blush Reflex	blush.gif	0	0	0
+23023	Sense of Propriety	necktie.gif	0	0	0
+23024	Politeness	knifefork.gif	0	0	0
+23025	Profound Shame	blush.gif	0	0	0
+23026	Rigid Armbones	goodbone.gif	0	0	0
+23027	Rigid Legbones	goodbone.gif	0	0	0
+23028	Rigid Pelvis	pelvis.gif	0	0	0
+23029	Rigid Headbone	bigskull.gif	0	0	0
+23030	Rigid Rib Cage	bonechest.gif	0	0	0
+23031	Calluses	yakskin.gif	0	0	0
+23032	Cartilage	knucklebone.gif	0	0	0
+23033	Spinal Discs	clspine.gif	0	0	0
+23034	Shock-Absorbing Joints	ma6buff1.gif	0	0	0
+23035	Overalls	walveralls.gif	0	0	0
+23036	Hamstrings	string.gif	0	0	0
+23037	Ankle Joints	feet.gif	0	0	0
+23038	Kneecaps	kneecap.gif	0	0	0
+23039	Achilles Tendons	tendrils.gif	0	0	0
+23040	Anterior Cruciate Ligaments	tendrils.gif	0	0	0
+23041	Work Ethic	mattock.gif	0	0	0
+23042	Basic Self-Worth	exclam.gif	0	0	0
+23043	Sense of Purpose	louder.gif	0	0	0
+23044	Sense of Pride	trophy.gif	0	0	0
+23045	Arrogance	banishingshout.gif	0	0	0
+23046	Central Hypothalamus	salspleen.gif	0	0	0
+23047	Rudimentary Alimentary Canal	breath.gif	0	0	0
+23048	Stomach-Like Thing	stomach.gif	0	0	0
+23049	Small Intestine	batgut.gif	0	0	0
+23050	Large Intestine	batgut.gif	0	0	0
+23051	Lysosomes	redcells.gif	0	0	0
+23052	Mitochondria	planula.gif	0	0	0
+23053	Ribosomes	bathball.gif	0	0	0
+23054	Vacuoles	dna.gif	0	0	0
+23055	Golgi Apparatus	larva.gif	0	0	0
+23056	Veins	pod_veiny.gif	0	0	0
+23057	Arteries	pod_veiny.gif	0	0	0
+23058	Small Left Kidney	kidney.gif	0	0	0
+23059	Oversized Right Kidney	kidney.gif	0	0	0
+23060	Beating Human Heart	heart.gif	0	0	0
+23061	Left Brain Hemisphere	realbrain.gif	0	0	0
+23062	Right Brain Hemisphere	realbrain.gif	0	0	0
+23063	Parasympathetic Nervous System	lightning.gif	0	0	0
+23064	Sympathetic Nervous System	jigawatts.gif	0	0	0
+23065	Spinal Cord	clspine.gif	0	0	0
+23066	Left Eyeball	bseye.gif	0	0	0
+23067	Right Eyeball	bseye.gif	0	0	0
+23068	Optic Nerves	eyeball.gif	0	0	0
+23069	Saccade Reflex	vibeshroom.gif	0	0	0
+23070	Visual Cortex	realbrain2.gif	0	0	0
+23071	Pinky Fingers	manglefinger.gif	0	0	0
+23072	Ring Fingers	manglefinger.gif	0	0	0
+23073	Middle Fingers	manglefinger.gif	0	0	0
+23074	Index Fingers	manglefinger.gif	0	0	0
+23075	Thumbs	manglefinger.gif	0	0	0
+23076	The Concept of Property	scroll1.gif	0	0	0
+23077	Financial Ambition	moneybag.gif	0	0	0
+23078	Business Acumen	meat.gif	0	0	0
+23079	Sense of Entitlement	scroll1.gif	0	0	0
+23080	Pathological Greed	resolve_greedy.gif	0	0	0
+23081	Triceps	strboost.gif	0	0	0
+23082	Biceps	bigdumbbell.gif	0	0	0
+23083	Abdominal Muscles	washboard.gif	0	0	0
+23084	Pectoral Muscles	breastplate.gif	0	0	0
+23085	Gluteus Maximus	asshat.gif	0	0	0
+23086	Object Permanence	teddybear.gif	0	0	0
+23087	Abstract Reasoning	15puzzle.gif	0	0	0
+23088	Deductive Reasoning	abs7.gif	0	0	0
+23089	Introspection	thirdeye.gif	0	0	0
+23090	Algebra	11.gif	0	0	0
+23091	Sense of Style	petejacket.gif	0	0	0
+23092	Vestibular System	scentgland.gif	0	0	0
+23093	Sense of Humor	hahahaha.gif	0	0	0
+23094	Sense of Sarcasm	wink.gif	0	0	0
+23095	Sunglasses	bigglasses.gif	0	0	0
+23096	Fingernails	lemonscales.gif	0	0	0
+23097	Palms	stickygloves.gif	0	0	0
+23098	Elbows	elbow.gif	0	0	0
+23099	Knees	knee.gif	0	0	0
+23100	Knuckles	krakfist.gif	0	0	0
+23101	Warm Smile	waxlips.gif	0	0	0
+23102	Warm Heart	heart.gif	0	0	0
+23103	Warm Blood	blooddrops.gif	0	0	0
+23104	Choleric Humours	raindrop.gif	0	0	0
+23105	Hot Headedness	fire.gif	0	0	0
+23106	Cool Head	combatfan.gif	0	0	0
+23107	Cool Heels	feet.gif	0	0	0
+23108	Cold Feet	feet.gif	0	0	0
+23109	Cold Heart	heart.gif	0	0	0
+23110	Ice Water In Your Veins	perf_icecube.gif	0	0	0
+23111	Bad Breath	breath.gif	0	0	0
+23112	Armpit Sweat Glands	sebashield.gif	0	0	0
+23113	Armpit Hair	spacefur.gif	0	0	0
+23114	Weak Esophageal Sphincter	stomach.gif	0	0	0
+23115	Thriving Gut Flora	bacteria.gif	0	0	0
+23116	Sunken Cheeks	shead.gif	0	0	0
+23117	Pallid Skin	driedface.gif	0	0	0
+23118	Dark Circles Under Your Eyes	pupils.gif	0	0	0
+23119	Vacant Stare	bigeyes.gif	0	0	0
+23120	Visible Skull	bigskull.gif	0	0	0
+23121	Sweaty Palms	hand.gif	0	0	0
+23122	Waxy Ears	humanears.gif	0	0	0
+23123	Oily Scalp	slimed.gif	0	0	0
+23124	Flop Sweat	sebashield.gif	0	0	0
+23125	Thrustable Pelvis	pelvis.gif	0	0	0
+23201	Gelatinous Punch	gelatinousfist.gif	5	5	0
+23202	Gelatinous Headbutt	gelatinousicon.gif	5	15	0
+23203	Gelatinous Kick	gelatinousboot.gif	5	30	0
