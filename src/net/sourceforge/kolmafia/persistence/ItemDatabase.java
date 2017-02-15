@@ -2363,12 +2363,6 @@ public class ItemDatabase
 			return -1;
 		}
 
-		// Cannot absorb gift items
-		if ( ItemDatabase.isGiftItem( itemId ) )
-		{
-			return -1;
-		}
-
 		// Cannot absorb discardable items
 		if ( !ItemDatabase.isDiscardable( itemId ) )
 		{
