@@ -268,6 +268,7 @@ public class ProxyRecordValue
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.add( "name_length", DataTypes.INT_TYPE )
+			.add( "noob_skill", DataTypes.SKILL_TYPE )
 			.finish( "item proxy" );
 
 		public ItemProxy( Value obj )
@@ -444,6 +445,11 @@ public class ProxyRecordValue
 		public int get_name_length()
 		{
 			return ItemDatabase.getNameLength( (int) this.contentLong );
+		}
+
+		public Value get_noob_skill()
+		{
+			return DataTypes.makeSkillValue( ItemDatabase.getNoobSkillId( (int) this.contentLong ), true );
 		}
 	}
 
