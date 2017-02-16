@@ -87,21 +87,17 @@ public class AbsorbCommand
 
 		int itemId = match.getItemId();
 
-		// Is one available ?
-		if ( InventoryManager.getAccessibleCount( match ) == 0 )
+		// If not in inventory, try to retrieve it
+		if ( !InventoryManager.hasItem( match, true ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Item not accessible." );
 			return;
 		}
 
-		// If not in inventory, try to retrieve it
-		if ( !InventoryManager.hasItem( match ) )
+		if ( !InventoryManager.retrieveItem( match ) )
 		{
-			if ( !InventoryManager.retrieveItem( match ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to retrieve item." );
-				return;
-			}
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to retrieve item." );
+			return;
 		}
 
 		// Absorb the item

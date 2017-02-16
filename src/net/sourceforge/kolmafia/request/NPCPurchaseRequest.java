@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -289,7 +290,7 @@ public class NPCPurchaseRequest
 		// If the recovery manager is running, do not change equipment as this has the potential
 		// for an infinite loop.
 
-		if ( RecoveryManager.isRecoveryActive() )
+		if ( RecoveryManager.isRecoveryActive() && !MoodManager.isExecuting() )
 		{
 			if ( neededOutfit != OutfitPool.NONE )
 			{
