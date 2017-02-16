@@ -6709,7 +6709,7 @@ Skill	Oversized Right Kidney	Maximum HP Percent: +50
 Skill	Pallid Skin	Spooky Damage: +5
 Skill	Palms	Weapon Damage: +9
 Skill	Parasympathetic Nervous System	Maximum MP Percent: +40
-Skill	Pathological Greed	Item Drop: +70
+Skill	Pathological Greed	Meat Drop: +70
 Skill	Pectoral Muscles	Muscle: +20
 Skill	Pinky Fingers	Pickpocket Chance: +10
 Skill	Pinchable Nose	Stench Resistance: +1
