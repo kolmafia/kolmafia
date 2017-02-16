@@ -138,15 +138,20 @@ public class RecoveryManager
 			KoLmafia.executeScript( Preferences.getString( "betweenBattleScript" ) );
 		}
 
-		SpecialOutfit.createImplicitCheckpoint();
-
 		// Now, run the built-in behavior to take care of
 		// any loose ends.
+
+
+		SpecialOutfit.createImplicitCheckpoint();
 
 		if ( isMoodCheck )
 		{
 			MoodManager.execute();
 		}
+
+		SpecialOutfit.restoreImplicitCheckpoint();
+
+		SpecialOutfit.createImplicitCheckpoint();
 
 		if ( isHealthCheck )
 		{
