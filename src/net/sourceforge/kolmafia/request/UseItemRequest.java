@@ -1952,7 +1952,13 @@ public class UseItemRequest
 		}
 
 		// You absorb some new knowledge of humanity!
-		if ( responseText.contains( "absorb some new knowledge" ) )
+		// You absorb the
+
+		// Fail to absorb because it's a bad target:
+		// That's too important to absorb.
+		// You can't absorb something you don't have.
+		if ( responseText.contains( "absorb some new knowledge" ) ||
+		     responseText.contains( "You absorb the" ) )
 		{
 			Preferences.increment( "_noobSkillCount" );
 			String message = "Absorbing " + item.getName();
