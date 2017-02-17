@@ -2021,6 +2021,12 @@ public class ItemDatabase
 		return useType == KoLConstants.EQUIP_ACCESSORY ;
 	}
 
+	public static final boolean isFamiliarEquipment( final int itemId )
+	{
+		int useType = ItemDatabase.useTypeById.get( itemId );
+		return useType == KoLConstants.EQUIP_FAMILIAR;
+	}
+
 	public static final boolean isMultiUsable( final int itemId )
 	{
 		// Anything that you can manipulate with multiuse.php
@@ -2357,8 +2363,8 @@ public class ItemDatabase
 			return -1;
 		}
 
-		// Equipment doesn't return noob skills
-		if ( ItemDatabase.isEquipment( itemId ) )
+		// Non-Familiar Equipment doesn't return noob skills
+		if ( ItemDatabase.isEquipment( itemId ) && !ItemDatabase.isFamiliarEquipment( itemId ) )
 		{
 			return -1;
 		}
