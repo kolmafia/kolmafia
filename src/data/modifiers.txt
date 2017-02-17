@@ -6627,7 +6627,7 @@ Skill	Gift of the Dancer	MP Regen Min: 4, MP Regen Max: 8
 Skill	Gift of the Maid	Meat Drop: +50
 Skill	Gift of the Scribe	Experience (Mysticality): +5
 Skill	Gift of the Priest	Spell Damage: +40
-Skill	Gluteus Maximu	Muscle: +25
+Skill	Gluteus Maximus	Muscle: +25
 Skill	Gnefarious Pickpocketing	Meat Drop: +10
 Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
