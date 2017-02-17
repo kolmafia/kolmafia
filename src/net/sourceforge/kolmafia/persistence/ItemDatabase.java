@@ -2357,20 +2357,26 @@ public class ItemDatabase
 			return -1;
 		}
 
+		// Equipment doesn't return noob skills
+		if ( ItemDatabase.isEquipment( itemId ) )
+		{
+			return -1;
+		}
+
 		// Cannot absorb quest items
 		if ( ItemDatabase.isQuestItem( itemId ) )
 		{
 			return -1;
 		}
 
-		// Cannot absorb discardable items
+		// Cannot absorb undiscardable items
 		if ( !ItemDatabase.isDiscardable( itemId ) )
 		{
 			return -1;
 		}
 
-		// Cannot absorb untradeable items
-		if ( !ItemDatabase.isTradeable( itemId ) )
+		// Cannot absorb untradeable items unless they are gift items
+		if ( !ItemDatabase.isTradeable( itemId ) && !ItemDatabase.isGiftItem( itemId ) )
 		{
 			// Some are overridden
 			switch ( itemId )
@@ -2382,12 +2388,6 @@ public class ItemDatabase
 			default:
 				return -1;
 			}
-		}
-
-		// Cannot absorb items with no selling price
-		if ( ItemDatabase.getPriceById( itemId ) <= 0 )
-		{
-			return -1;
 		}
 
 		int descId = StringUtilities.parseInt( ItemDatabase.getDescriptionId( itemId ) );
