@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -75,8 +77,13 @@ import net.sourceforge.kolmafia.swingui.RequestFrame;
 
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,6 +104,8 @@ public class CharPaneRequest
 
 	public static boolean compactCharacterPane = false;
 	public static boolean familiarBelowEffects = false;
+
+	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
 	public CharPaneRequest()
 	{
@@ -300,6 +309,8 @@ public class CharPaneRequest
 		CharPaneRequest.checkPastaThrall( responseText );
 
 		CharPaneRequest.checkRadSickness( responseText );
+
+		CharPaneRequest.checkAbsorbs( responseText );
 
 		// Mana cost adjustment may have changed
 
@@ -1287,6 +1298,54 @@ public class CharPaneRequest
 		{
 			KoLCharacter.setRadSickness( 0 );
 		}
+	}
+
+	private static final void checkAbsorbs( final String responseText )
+	{
+		if ( !KoLCharacter.inNoobcore() )
+		{
+			return;
+		}
+
+		TagNode doc;
+		try
+		{
+			doc = cleaner.clean( responseText );
+		}
+		catch( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+
+		Object[] result;
+		String xpath = "//div[@class='gnoob small']/font/text()";
+		try
+		{
+			result = doc.evaluateXPath( xpath );
+		}
+		catch ( XPatherException e )
+		{
+			StaticEntity.printStackTrace( e );
+			return;
+		}
+		if ( result.length == 0 )
+		{
+			return;
+		}
+
+		for ( Object res : result )
+		{
+			String mod = Modifiers.parseDoubleModifier( res.toString() );
+			if ( mod == null )
+			{
+				// this shouldn't happen...
+				continue;
+			}
+			// Do something with each of these Strings, which are
+			// formatted like the values in modifiers.txt
+		}
+
 	}
 
 	private static final Pattern commaPattern =
