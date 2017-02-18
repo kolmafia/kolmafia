@@ -9369,3 +9369,4 @@
 9343	dirty bottlecap	1180423	bottlecap.gif	none	d	15
 9344	discarded button	2951341	redbutton.gif	none	d	15
 9345	Gummi-Memory	122696052	gummimemory.gif	usable	t	0
+9346	Thwaitgold amoeba statuette	712215594	thwaitamoeba.gif	none		0
