@@ -11071,7 +11071,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 1232: // Finally Human
-			KoLmafia.resetAfterAvatar();
+			ChoiceManager.handleAfterAvatar();
 			break;
 
 		}
