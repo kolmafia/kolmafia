@@ -230,11 +230,11 @@ public abstract class ClanManager
 				return;
 			}
 
-			// Have to visit second floor in addition, as equipment can be on either floor
+			// Equipment can be on either the first or second floor
+			ClanLoungeRequest.visitLounge();
 			ClanLoungeRequest.visitLoungeFloor2();
 
-			// Visit lounge and check hotdog stand, speakeasy, and floundry
-
+			// Check hotdog stand, speakeasy, and floundry, if present
 			if ( ClanManager.getClanLounge().contains( HOT_DOG_STAND ) )
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
