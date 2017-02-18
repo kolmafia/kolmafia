@@ -3374,6 +3374,11 @@ public class Modifiers
 		return Modifiers.parseModifier( Modifiers.stringModifiers, enchantment, true );
 	}
 
+	public static final String parseDoubleModifier( final String enchantment )
+	{
+		return Modifiers.parseModifier( Modifiers.doubleModifiers, enchantment, false );
+	}
+
 	private static final String parseModifier( final Object[][] table, final String enchantment, final boolean quoted )
 	{
 		String quote = quoted ? "\"" : "";
@@ -3781,11 +3786,11 @@ public class Modifiers
 					Modifiers mods = null;
 					if ( type.equals( "MutexI" ) )
 					{
-						mods = Modifiers.getModifiers( "Item", pieces[ i ] );						
+						mods = Modifiers.getModifiers( "Item", pieces[ i ] );
 					}
 					else if ( type.equals( "MutexE" ) )
 					{
-						mods = Modifiers.getModifiers( "Effect", pieces[ i ] );						
+						mods = Modifiers.getModifiers( "Effect", pieces[ i ] );
 					}
 					if ( mods == null )
 					{
