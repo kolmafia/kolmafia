@@ -284,7 +284,8 @@ public class ItemFinder
 				break;
 
 			case ItemFinder.ABSORB_MATCH:
-				ItemFinder.conditionalRemove( nameIterator, ItemDatabase.getNoobSkillId( itemId ) == -1 );
+				ItemFinder.conditionalRemove( nameIterator, ( ItemDatabase.getNoobSkillId( itemId ) == -1 &&
+					!( ItemDatabase.isEquipment( itemId ) && !ItemDatabase.isFamiliarEquipment( itemId ) ) ) );
 				break;
 
 			case ItemFinder.USE_MATCH:
