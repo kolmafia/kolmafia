@@ -337,6 +337,10 @@ Gift Shop	town_giftshop.php	rat head balloon	10000
 Gift Shop	town_giftshop.php	mini-zeppelin	20000
 Gift Shop	town_giftshop.php	Mr. Balloon	50000
 Gift Shop	town_giftshop.php	red balloon	100000
+Gift Shop	town_giftshop.php	chocolate-covered diamond-studded roses	20000
+Gift Shop	town_giftshop.php	bouquet of circular saw blades	5000
+Gift Shop	town_giftshop.php	Better Than Cuddling Cake	1000
+Gift Shop	town_giftshop.php	stuffed ninja snowman	500
 
 FDKOL Requisitions Tent	fdkol	drop of water-37	1000
 FDKOL Requisitions Tent	fdkol	FDKOL hotcakes	5000

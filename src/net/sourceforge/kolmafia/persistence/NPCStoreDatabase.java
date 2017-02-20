@@ -408,6 +408,77 @@ public class NPCStoreDatabase
 				return KoLCharacter.findFamiliar( FamiliarPool.TRICK_TOT ) != null;
 			}
 		}
+		else if ( storeId.equals( "town_giftshop.php" ) )
+		{
+			// Gift Shop
+			// Some items restricted, because of holidays or number of ascensions
+			String holiday = HolidayDatabase.getHoliday();
+			int asc = KoLCharacter.getAscensions();
+
+			switch ( itemId )
+			{
+			case ItemPool.VALENTINE:
+			case ItemPool.CHOCOLATE_COVERED_DIAMOND_STUDDED_ROSES:
+			case ItemPool.BOUQUET_OF_CIRCULAR_SAW_BLADES:
+			case ItemPool.BETTER_THAN_CUDDLING_CAKE:
+			case ItemPool.STUFFED_NINJA_SNOWMAN:
+				return holiday.contains( "Valentine's Day" );
+			case ItemPool.POTTED_FERN:
+			case ItemPool.HAPPY_BIRTHDAY_CLAUDE_CAKE:
+				return asc >= 1;
+			case ItemPool.STUFFED_GHUOL_WHELP:
+			case ItemPool.HEART_SHAPED_BALLOON:
+				return asc >= 2;
+			case ItemPool.TULIP:
+			case ItemPool.PERSONALIZED_BIRTHDAY_CAKE:
+				return asc >= 4;
+			case ItemPool.STUFFED_ZMOBIE:
+			case ItemPool.ANNIVERSARY_BALLOON:
+				return asc >= 5;
+			case ItemPool.VENUS_FLYTRAP:
+			case ItemPool.THREE_TIERED_WEDDING_CAKE:
+				return asc >= 7;
+			case ItemPool.RAGGEDY_HIPPY_DOLL:
+			case ItemPool.MYLAR_BALLOON:
+				return asc >= 8;
+			case ItemPool.ALL_PURPOSE_FLOWER:
+			case ItemPool.BABYCAKES:
+				return asc >= 10;
+			case ItemPool.STUFFED_STAB_BAT:
+			case ItemPool.KEVLAR_BALLOON:
+				return asc >= 11;
+			case ItemPool.EXOTIC_ORCHID:
+			case ItemPool.BLUE_VELVET_CAKE:
+				return asc >= 13;
+			case ItemPool.APATHETIC_LIZARDMAN_DOLL:
+			case ItemPool.THOUGHT_BALLOON:
+				return asc >= 14;
+			case ItemPool.LONG_STEMMED_ROSE:
+			case ItemPool.CONGRATULATORY_CAKE:
+				return asc >= 16;
+			case ItemPool.STUFFED_YETI:
+			case ItemPool.RAT_BALLOON:
+				return asc >= 17;
+			case ItemPool.GILDED_LILY:
+			case ItemPool.ANGEL_FOOD_CAKE:
+				return asc >= 19;
+			case ItemPool.STUFFED_MOB_PENGUIN:
+			case ItemPool.MINI_ZEPPELIN:
+				return asc >= 20;
+			case ItemPool.DEADLY_NIGHTSHADE:
+			case ItemPool.DEVILS_FOOD_CAKE:
+				return asc >= 22;
+			case ItemPool.STUFFED_SABRE_TOOTHED_LIME:
+			case ItemPool.MR_BALLOON:
+				return asc >= 23;
+			case ItemPool.BLACK_LOTUS:
+			case ItemPool.BIRTHDAY_PARTY_JELLYBEAN_CHEESECAKE:
+				return asc >= 25;
+			case ItemPool.GIANT_STUFFED_BUGBEAR:
+			case ItemPool.RED_BALLOON:
+				return asc >= 26;
+			}
+		}
 		else if ( storeId.equals( "gnomart" ) )
 		{
 			// Gno-Mart
