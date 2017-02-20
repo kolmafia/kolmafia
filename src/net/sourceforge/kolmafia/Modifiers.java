@@ -2008,20 +2008,6 @@ public class Modifiers
 					mods.name = changeType + ":" + name;
 				}
 			}
-			if ( KoLCharacter.inNoobcore() && type.equals( "Item" ) )
-			{
-				// Remove MOST Numeric Modifiers from Items in Noobcore
-
-				for ( int i = 0; i < mods.doubles.length; ++i )
-				{
-					switch ( i )
-					{
-					case SURGEONOSITY:
-						continue;
-					}
-					mods.set( i, 0.0 );
-				}
-			}
 			return mods;
 		}
 
@@ -2040,21 +2026,6 @@ public class Modifiers
 		newMods.variable = newMods.override( lookup ) || type.equals( "Loc" ) || type.equals( "Zone" );
 
 		Modifiers.modifiersByName.put( lookup, newMods );
-
-		if ( KoLCharacter.inNoobcore() && type.equals( "Item" ) )
-		{
-			// Remove MOST Numeric Modifiers from Items in Noobcore
-
-			for ( int i = 0; i < newMods.doubles.length; ++i )
-			{
-				switch ( i )
-				{
-				case SURGEONOSITY:
-					continue;
-				}
-				newMods.set( i, 0.0 );
-			}
-		}
 
 		return newMods;
 	}

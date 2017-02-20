@@ -6008,79 +6008,100 @@ public abstract class KoLCharacter
 				}
 			}
 
-			newModifiers.add( imod );
+			if ( KoLCharacter.inNoobcore() )
+			{
+				// Remove MOST Numeric Modifiers from Items in Noobcore
+				Modifiers iModCopy = new Modifiers( imod );
+				for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
+				{
+					switch ( i )
+					{
+					case Modifiers.SURGEONOSITY:
+						continue;
+					}
+					iModCopy.set( i, 0.0 );
+				}
+				newModifiers.add( iModCopy );
+			}
+			else
+			{
+				newModifiers.add( imod );
+			}
 		}
 
 		// Do appropriate things for specific items
-		switch ( itemId )
+		if ( !KoLCharacter.inNoobcore() )
 		{
-		case ItemPool.STICKER_SWORD:
-		case ItemPool.STICKER_CROSSBOW:
-			// Apply stickers
-			for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
+			switch ( itemId )
 			{
-				AdventureResult sticker = equipment[ i ];
-				if ( sticker != null && sticker != EquipmentRequest.UNEQUIP )
+			case ItemPool.STICKER_SWORD:
+			case ItemPool.STICKER_CROSSBOW:
+				// Apply stickers
+				for ( int i = EquipmentManager.STICKER1; i <= EquipmentManager.STICKER3; ++i )
 				{
-					newModifiers.add( Modifiers.getItemModifiers( sticker.getItemId() ) );
+					AdventureResult sticker = equipment[ i ];
+					if ( sticker != null && sticker != EquipmentRequest.UNEQUIP )
+					{
+						newModifiers.add( Modifiers.getItemModifiers( sticker.getItemId() ) );
+					}
 				}
-			}
-			break;
+				break;
 
-		case ItemPool.CARD_SLEEVE:
-		{
-			// Apply card
-			AdventureResult card = equipment[ EquipmentManager.CARDSLEEVE ];
-			if ( card != null && card != EquipmentRequest.UNEQUIP )
+			case ItemPool.CARD_SLEEVE:
 			{
-				newModifiers.add( Modifiers.getItemModifiers( card.getItemId() ) );
-			}
-			break;
-		}
-
-		case ItemPool.FOLDER_HOLDER:
-			// Apply folders
-			for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
-			{
-				AdventureResult folder = equipment[ i ];
-				if ( folder != null && folder != EquipmentRequest.UNEQUIP )
+				// Apply card
+				AdventureResult card = equipment[ EquipmentManager.CARDSLEEVE ];
+				if ( card != null && card != EquipmentRequest.UNEQUIP )
 				{
-					newModifiers.add( Modifiers.getItemModifiers( folder.getItemId() ) );
+					newModifiers.add( Modifiers.getItemModifiers( card.getItemId() ) );
 				}
+				break;
 			}
-			break;
 
-		case ItemPool.COWBOY_BOOTS:
-			AdventureResult skin = equipment[ EquipmentManager.BOOTSKIN ];
-			AdventureResult spur = equipment[ EquipmentManager.BOOTSPUR ];
-			if ( skin != null && skin != EquipmentRequest.UNEQUIP )
-			{
-				newModifiers.add( Modifiers.getItemModifiers( skin.getItemId() ) );
+			case ItemPool.FOLDER_HOLDER:
+				// Apply folders
+				for ( int i = EquipmentManager.FOLDER1; i <= EquipmentManager.FOLDER5; ++i )
+				{
+					AdventureResult folder = equipment[ i ];
+					if ( folder != null && folder != EquipmentRequest.UNEQUIP )
+					{
+						newModifiers.add( Modifiers.getItemModifiers( folder.getItemId() ) );
+					}
+				}
+				break;
+
+			case ItemPool.COWBOY_BOOTS:
+				AdventureResult skin = equipment[ EquipmentManager.BOOTSKIN ];
+				AdventureResult spur = equipment[ EquipmentManager.BOOTSPUR ];
+				if ( skin != null && skin != EquipmentRequest.UNEQUIP )
+				{
+					newModifiers.add( Modifiers.getItemModifiers( skin.getItemId() ) );
+				}
+				if ( spur != null && spur != EquipmentRequest.UNEQUIP )
+				{
+					newModifiers.add( Modifiers.getItemModifiers( spur.getItemId() ) );
+				}
+				break;
+
+			case ItemPool.HATSEAT:
+				// Apply enthroned familiar
+				newModifiers.add( Modifiers.getModifiers( "Throne", enthroned.getRace() ) );
+				break;
+
+			case ItemPool.BUDDY_BJORN:
+				// Apply bjorned familiar
+				newModifiers.add( Modifiers.getModifiers( "Bjorn", bjorned.getRace() ) );
+				break;
+
+			case ItemPool.CROWN_OF_ED:
+				newModifiers.add( Modifiers.getModifiers( "Edpiece", edPiece ) );
+				break;
+
+			case ItemPool.SNOW_SUIT:
+				newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );
+				break;
+
 			}
-			if ( spur != null && spur != EquipmentRequest.UNEQUIP )
-			{
-				newModifiers.add( Modifiers.getItemModifiers( spur.getItemId() ) );
-			}
-			break;
-
-		case ItemPool.HATSEAT:
-			// Apply enthroned familiar
-			newModifiers.add( Modifiers.getModifiers( "Throne", enthroned.getRace() ) );
-			break;
-
-		case ItemPool.BUDDY_BJORN:
-			// Apply bjorned familiar
-			newModifiers.add( Modifiers.getModifiers( "Bjorn", bjorned.getRace() ) );
-			break;
-
-		case ItemPool.CROWN_OF_ED:
-			newModifiers.add( Modifiers.getModifiers( "Edpiece", edPiece ) );
-			break;
-
-		case ItemPool.SNOW_SUIT:
-			newModifiers.add( Modifiers.getModifiers( "Snowsuit", snowsuit ) );
-			break;
-
 		}
 
 		// Add modifiers that depend on equipment power
