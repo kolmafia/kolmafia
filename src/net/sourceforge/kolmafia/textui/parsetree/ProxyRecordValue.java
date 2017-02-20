@@ -234,6 +234,7 @@ public class ProxyRecordValue
 		extends ProxyRecordValue
 	{
 		public static RecordType _type = new RecordBuilder()
+			.add( "name", DataTypes.STRING_TYPE )
 			.add( "plural", DataTypes.STRING_TYPE )
 			.add( "descid", DataTypes.STRING_TYPE )
 			.add( "image", DataTypes.STRING_TYPE )
@@ -274,6 +275,11 @@ public class ProxyRecordValue
 		public ItemProxy( Value obj )
 		{
 			super( _type, obj );
+		}
+
+		public String get_name()
+		{
+			return ItemDatabase.getDataName( (int) this.contentLong );
 		}
 
 		public String get_plural()
