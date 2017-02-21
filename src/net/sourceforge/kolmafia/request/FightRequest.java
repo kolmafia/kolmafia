@@ -6594,7 +6594,8 @@ public class FightRequest
 
 	private static boolean handleEvilometer( String text, TagStatus status )
 	{
-		if ( !text.contains( "Evilometer" ) && !text.contains( "ghost vacuum" ) )
+		if ( !text.contains( "Evilometer" ) && !text.contains( "ghost vacuum" ) &&
+		     !text.contains( "gravy sloshes" ) )
 		{
 			return false;
 		}
