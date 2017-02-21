@@ -160,8 +160,8 @@ questL10Garbage	started	Something is amiss, Blobventurer.  The Nearby Plains are
 questL10Garbage	finished	We're not sure what you did, Blobventurer, but the garbage finally stopped falling. Thanks a lot!
 questL11MacGuffin	started	Ah, Samuel Spade, excellent timing. We've just received a message from the Distant Lands -- it seems that your... uh... this can't be right. Do you even have a father? This message says a renowned archaeologist has gone missing, and says he's your father. Were you originally a regular person? You know what, I'm just gonna resolve not to think about it very hard.	Any luck getting your father's -- I mean, that probably unrelated archaeologist's -- diary and recovering the Holy MacGuffin? It's a pretty important whatchamacallit, so we'd appreciate it if you'd get on that right away.
 questL11MacGuffin	finished
-questL12War	started
-questL12War	step1
+questL12War	started	Blobventurer, we have heard rumors that trouble is brewing on the Mysterious Island of Mystery. The hippies and frat boys are agitating for war. I mean, they've always been a little tense with each other, but now it's getting serious. It's great! We couldn't be happier.	Hey, have you managed to start the war on the Mysterious Island yet? If you can't get them sufficiently worked up, try assassinating Franz Ferdinand. Historically, that tends to work. I guess, failing that, just dress up in one side's uniform and drip goop all around the other side's base?
+questL12War	step1	Excellent work, Blobventurer! You've finally managed to get those idiots to fight each other. Now you've got to make sure the battle ends before the tourist season. I mean, would you rather go visit the &quot;beautiful tropical island&quot; or the &quot;body-strewn war zone?&quot;
 questL12War	finished
 questL13Final
 questL13Final
