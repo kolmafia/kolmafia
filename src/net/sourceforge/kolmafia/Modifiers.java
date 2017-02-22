@@ -2224,7 +2224,7 @@ public class Modifiers
 			return this.value;
 		}
 
-		public void setValue( final String value)
+		public void setValue( final String value )
 		{
 			this.value = value;
 		}
@@ -2327,6 +2327,18 @@ public class Modifiers
 				}
 			}
 			return false;
+		}
+
+		public String getModifierValue( final String name )
+		{
+			for ( Modifier modifier : this.list )
+			{
+				if ( name.equals( modifier.name ) )
+				{
+					return modifier.value;
+				}
+			}
+			return null;
 		}
 
 		public Modifier removeModifier( final String name )
