@@ -1334,6 +1334,7 @@ public class CharPaneRequest
 			return;
 		}
 
+		StringBuilder modList = new StringBuilder();
 		for ( Object res : result )
 		{
 			String mod = Modifiers.parseDoubleModifier( res.toString() );
@@ -1342,10 +1343,13 @@ public class CharPaneRequest
 				// this shouldn't happen...
 				continue;
 			}
-			// Do something with each of these Strings, which are
-			// formatted like the values in modifiers.txt
+			if ( modList.length() > 0 )
+			{
+				modList.append( ", " );
+			}
+			modList.append( mod );
 		}
-
+		Modifiers.overrideModifier( "Generated:Enchantments Absorbed", modList.toString() );
 	}
 
 	private static final Pattern commaPattern =
