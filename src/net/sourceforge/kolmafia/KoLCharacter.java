@@ -5808,6 +5808,9 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
 		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
 
+		// Noobcore
+		newModifiers.add( Modifiers.getModifiers( "Generated", "Enchantments Absorbed" ) );
+
 		if ( Modifiers.currentLocation.equals( "The Slime Tube" ) )
 		{
 			int hatred = (int) newModifiers.get( Modifiers.SLIME_HATES_IT );
