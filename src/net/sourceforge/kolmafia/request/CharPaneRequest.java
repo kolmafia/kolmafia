@@ -747,6 +747,16 @@ public class CharPaneRequest
 				KoLCharacter.setAudience( 0 );
 			}
 		}
+		else if ( KoLCharacter.inNoobcore() )
+		{
+			pattern = Pattern.compile( "<b>Absorptions:</b> (\\d+) / (\\d+)</span>" );
+			matcher = pattern.matcher( responseText );
+			if ( matcher != null && matcher.find() )
+			{
+				int absorbs = StringUtilities.parseInt( matcher.group( 1 ) );
+				KoLCharacter.setAbsorbs( absorbs );
+			}
+		}
 
 		// Path rather than class restricted matchers
 		if ( KoLCharacter.inRaincore() )

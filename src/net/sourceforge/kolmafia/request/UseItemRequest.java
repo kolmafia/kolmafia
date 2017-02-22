@@ -1962,6 +1962,7 @@ public class UseItemRequest
 		{
 			Preferences.increment( "_noobSkillCount" );
 			String message = "Absorbing " + item.getName();
+			KoLCharacter.incrementAbsorbs( 1 );
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			ResultProcessor.processResult( item.getNegation() );
