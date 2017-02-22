@@ -1960,17 +1960,13 @@ public class UseItemRequest
 		if ( responseText.contains( "absorb some new knowledge" ) ||
 		     responseText.contains( "You absorb the" ) )
 		{
-			Preferences.increment( "_noobSkillCount" );
 			String message = "Absorbing " + item.getName();
 			KoLCharacter.incrementAbsorbs( 1 );
 			RequestLogger.printLine( message );
 			RequestLogger.updateSessionLog( message );
 			ResultProcessor.processResult( item.getNegation() );
-		}
-		// You can't absorb anything else right now
-		else if ( responseText.contains( "can't absorb anything" ) )
-		{
-			Preferences.setInteger( "_noobSkillCount", KoLCharacter.getLevel() + 2 );
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
 		}
 		return true;
 	}

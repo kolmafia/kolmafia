@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -73,7 +74,7 @@ public class AbsorbCommand
 			return;
 		}
 
-		if ( Preferences.getInteger( "_noobSkillCount" ) >= KoLCharacter.getLevel() + 2 )
+		if ( KoLCharacter.getAbsorbs() >= KoLCharacter.getAbsorbsLimit() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot absorb items at present." );
 			return;
@@ -87,14 +88,14 @@ public class AbsorbCommand
 
 		int itemId = match.getItemId();
 
-		// If not in inventory, try to retrieve it
-		if ( !InventoryManager.hasItem( match, true ) )
+		// If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside Standard)
+		if ( !InventoryManager.hasItem( match, true ) && match.getCount( KoLConstants.inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Item not accessible." );
 			return;
 		}
 
-		if ( !InventoryManager.retrieveItem( match ) )
+		if ( !InventoryManager.retrieveItem( match ) && match.getCount( KoLConstants.inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to retrieve item." );
 			return;
