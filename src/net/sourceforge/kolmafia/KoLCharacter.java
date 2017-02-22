@@ -365,6 +365,7 @@ public abstract class KoLCharacter
 	private static int soulsauce = 0;
 	private static int disco_momentum = 0;
 	private static int audience = 0;
+	private static int absorbs = 0;
 
 	private static int thunder = 0;
 	private static int rain = 0;
@@ -1391,6 +1392,33 @@ public abstract class KoLCharacter
 	public static final void decrementAudience( final int decAudience )
 	{
 		KoLCharacter.setAudience( KoLCharacter.audience - decAudience );
+	}
+
+	public static final int getAbsorbs()
+	{
+		return KoLCharacter.absorbs;
+	}
+
+	public static final int getAbsorbsLimit()
+	{
+		int level = KoLCharacter.getLevel();
+		return level > 12 ? 15 : level + 2;
+	}
+
+	public static final void setAbsorbs( final int newAbsorbs )
+	{
+		int limit = KoLCharacter.getAbsorbsLimit();
+		KoLCharacter.absorbs = newAbsorbs > limit ? limit : newAbsorbs < 0 ? 0 : newAbsorbs;
+	}
+
+	public static final void incrementAbsorbs( final int incAbsorbs )
+	{
+		KoLCharacter.setAudience( KoLCharacter.absorbs + incAbsorbs );
+	}
+	
+	public static final void decrementAbsorbs( final int decAbsorbs )
+	{
+		KoLCharacter.setAbsorbs( KoLCharacter.absorbs - decAbsorbs );
 	}
 
 	public static final int getThunder()

@@ -932,6 +932,13 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( KoLCharacter.getAudience() + " / " + limit );
 				count++;
 			}
+			else if ( KoLCharacter.inNoobcore() )
+			{
+				limit = KoLCharacter.getAbsorbsLimit();
+				this.statusLabel[ count ].setText( "   Abs: " );
+				this.statusValueLabel[ count ].setText( KoLCharacter.getAbsorbs() + " / " + limit );
+				count++;
+			}
 			this.statusLabel[ count ].setText( "  Meat: " );
 			this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			this.statusValueLabel[ count ].setToolTipText( "Closet: " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );

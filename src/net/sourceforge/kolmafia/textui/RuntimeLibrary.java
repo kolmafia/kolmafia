@@ -919,6 +919,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_audience", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_absorbs", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_thunder", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4651,6 +4654,11 @@ public abstract class RuntimeLibrary
 	public static Value my_audience( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAudience() );
+	}
+
+	public static Value my_absorbs( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getAbsorbs() );
 	}
 
 	public static Value my_thunder( Interpreter interpreter )
