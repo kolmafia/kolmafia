@@ -452,7 +452,7 @@ public abstract class KoLCharacter
 	// static data has been initialized.
 
 	private static final AdventureResult[] WANDS = new AdventureResult[]
-   	{
+	{
 		ItemPool.get( ItemPool.PINE_WAND, 1 ),
 		ItemPool.get( ItemPool.EBONY_WAND, 1 ),
 		ItemPool.get( ItemPool.HEXAGONAL_WAND, 1 ),
@@ -464,15 +464,6 @@ public abstract class KoLCharacter
 	// the user changes equipment, effects, and familiar
 
 	private static final Modifiers currentModifiers = new Modifiers();
-
-	/**
-	 * Constructs a new <code>KoLCharacter</code> with the given name. All
-	 * fields are initialized to their default values (nothing), and it is
-	 * the responsibility of other methods to initialize the fields with
-	 * their real values.
-	 *
-	 * @param newUsername The name of the character this <code>KoLCharacter</code> represents
-	 */
 
 	public static final void reset( final String newUserName )
 	{
@@ -5836,9 +5827,6 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
 		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
 
-		// Noobcore
-		newModifiers.add( Modifiers.getModifiers( "Generated", "Enchantments Absorbed" ) );
-
 		if ( Modifiers.currentLocation.equals( "The Slime Tube" ) )
 		{
 			int hatred = (int) newModifiers.get( Modifiers.SLIME_HATES_IT );
@@ -5862,6 +5850,11 @@ public abstract class KoLCharacter
 		if ( KoLCharacter.isEd() && EdServantData.currentServant() != null )
 		{
 			newModifiers.applyServantModifiers( EdServantData.currentServant() );
+		}
+
+		if ( KoLCharacter.inNoobcore() )
+		{
+			newModifiers.add( Modifiers.getModifiers( "Generated", "Enchantments Absorbed" ) );
 		}
 
 		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
