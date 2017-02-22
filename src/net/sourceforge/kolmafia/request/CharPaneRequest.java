@@ -1347,7 +1347,7 @@ public class CharPaneRequest
 		StringBuilder modList = new StringBuilder();
 		for ( Object res : result )
 		{
-			String mod = Modifiers.parseDoubleModifier( res.toString() );
+			String mod = Modifiers.parseModifier( res.toString() );
 			if ( mod == null )
 			{
 				// this shouldn't happen...
