@@ -1400,6 +1400,8 @@ public abstract class KoLCharacter
 	{
 		int limit = KoLCharacter.getAbsorbsLimit();
 		KoLCharacter.absorbs = newAbsorbs > limit ? limit : newAbsorbs < 0 ? 0 : newAbsorbs;
+		// Temporary historical support
+		Preferences.setInteger( "_noobSkillCount", KoLCharacter.absorbs );
 	}
 
 	public static final void incrementAbsorbs( final int incAbsorbs )
