@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -1344,7 +1346,7 @@ public class CharPaneRequest
 			return;
 		}
 
-		StringBuilder modList = new StringBuilder();
+		ModifierList modList = new ModifierList();
 		for ( Object res : result )
 		{
 			String mod = Modifiers.parseModifier( res.toString() );
@@ -1353,11 +1355,29 @@ public class CharPaneRequest
 				// this shouldn't happen...
 				continue;
 			}
-			if ( modList.length() > 0 )
+			// Split into modifiers as some, like regeneration, get two values from one mod string
+			ModifierList newModList = Modifiers.splitModifiers( mod );
+
+			// Iterate over modifiers
+			for ( Modifier modifier : newModList )
 			{
-				modList.append( ", " );
+				String key = modifier.getName();
+				String value = modifier.getValue();
+				int modVal = StringUtilities.parseInt( value );
+
+				// If modifier exists in ModList, get modifier value, add to it and replace
+				if ( modList.containsModifier( key ) )
+				{
+					int oldVal = StringUtilities.parseInt( modList.getModifierValue( key ) );
+					modList.removeModifier( key );
+					modList.addModifier( key, Integer.toString( oldVal + modVal ) );
+				}
+				// Otherwise just add it
+				else
+				{
+					modList.addModifier( modifier );
+				}
 			}
-			modList.append( mod );
 		}
 		Modifiers.overrideModifier( "Generated:Enchantments Absorbed", modList.toString() );
 	}
