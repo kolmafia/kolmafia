@@ -2489,13 +2489,13 @@ public abstract class KoLCharacter
 		TurnCounter.stopCounting( "Semirare window begin" );
 		TurnCounter.stopCounting( "Semirare window end" );
 
-		int begin = 100;
-		int end = 120;
+		int begin = 160;
+		int end = 200;
 
-		if ( KoLCharacter.canEat() || KoLCharacter.canDrink() )
+		if ( KoLCharacter.getPath().equals( "Oxygenarian" ) )
 		{
-			begin = 160;
-			end = 200;
+			begin = 100;
+			end = 120;
 		}
 
 		StringBuilder beginType = new StringBuilder();
