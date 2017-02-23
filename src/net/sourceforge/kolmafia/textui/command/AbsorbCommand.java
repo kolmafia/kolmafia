@@ -44,8 +44,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -104,6 +103,8 @@ public class AbsorbCommand
 		// Absorb the item
 		RequestThread.postRequest( new GenericRequest( "inventory.php?absorb=" + itemId + "&ajax=1", false ) );
 
+		// Parse the charpane for updated absorb info
+		RequestThread.postRequest( new CharPaneRequest() );
 		// update "Hatter" daily deed
 		if ( ItemDatabase.isHat( itemId ) )
 		{
