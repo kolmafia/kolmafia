@@ -822,7 +822,7 @@ public class AscensionHistoryRequest
 					columns[ 3 ].contains( "darkcow" ) ? AscensionSnapshot.COW_PUNCHER :
 					columns[ 3 ].contains( "beancan" ) ? AscensionSnapshot.BEAN_SLINGER :
 					columns[ 3 ].contains( "tinysnake" ) ? AscensionSnapshot.SNAKE_OILER :
-					columns[ 3 ].contains( "not_yet_known" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+					columns[ 3 ].contains( "JICK" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					AscensionSnapshot.UNKNOWN_CLASS;
 
 				this.typeId = columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
@@ -855,7 +855,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "csplaquesmall" ) ? AscensionSnapshot.COMMUNITY_SERVICE :
 					columns[ 8 ].contains( "badge" ) ? AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING :
 					columns[ 8 ].contains( "ss_datasiphon" ) ? AscensionSnapshot.THE_SOURCE :
-					columns[ 8 ].contains( "not_yet_known" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+					columns[ 8 ].contains( "gelatinousicon" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )
