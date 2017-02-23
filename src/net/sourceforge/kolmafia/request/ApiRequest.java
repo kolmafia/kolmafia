@@ -97,8 +97,8 @@ public class ApiRequest
 
 	public synchronized static String updateStatus( final boolean silent )
 	{
-		// If in limitmode, API status doesn't contain the full information, so use Character Sheet instead
-		if ( KoLCharacter.getLimitmode() != null )
+		// If in limitmode or Noobcore, API status doesn't contain the full information, so use Character Sheet instead
+		if ( KoLCharacter.getLimitmode() != null || KoLCharacter.inNoobcore() )
 		{
 			ApiRequest.CHARPANE.run();
 			return ApiRequest.CHARPANE.redirectLocation;
