@@ -2389,7 +2389,7 @@ public class ItemDatabase
 			{
 			case ItemPool.CLOD_OF_DIRT:
 			case ItemPool.DISCARDED_BUTTON:
-			case ItemPool.GUMMY_MEMORY:
+			case ItemPool.DIRTY_BOTTLECAP:
 				break;
 			default:
 				return -1;
