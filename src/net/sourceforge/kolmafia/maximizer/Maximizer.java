@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -216,6 +217,112 @@ public class Maximizer
 		while ( i.hasNext() )
 		{
 			String lookup = i.next();
+
+			// Include skills from absorbing items in Noobcore
+			if ( KoLCharacter.inNoobcore() && lookup.startsWith( "Skill:" ) )
+			{
+				String name = lookup.substring( 6 );
+				int skillId = SkillDatabase.getSkillId( name );
+				if ( skillId < 23001 || skillId > 23125 )
+				{
+					continue;
+				}
+				if ( KoLCharacter.hasSkill( skillId ) )
+				{
+					continue;
+				}
+				int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
+				if ( absorbsLeft < 1 )
+				{
+					continue;
+				}
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				String mods = Modifiers.getModifierList( "Skill", name ).toString();
+				spec.setCustom( mods );
+				double delta = spec.getScore() - current;
+				if ( delta <= 0.0 )
+				{
+					continue;
+				}
+				int[] itemList = ItemDatabase.getItemListByNoobSkillId( skillId );
+				if ( itemList == null )
+				{
+					continue;
+				}
+				// Iterate over items to see if we have access to them
+				int count = 0;
+				for ( int itemId : itemList )
+				{
+					CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
+					// We won't include unavailable items, as this just gets far too large
+					String cmd, text;
+					int price = 0;
+					AdventureResult item = ItemPool.get( itemId );
+					cmd = "absorb \u00B6" + itemId;
+					text = "absorb " + item.getName() + " (";
+					if ( checkedItem.inventory > 0 )
+					{
+					}
+					else if ( checkedItem.initial > 0 )
+					{
+						String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+						if ( !method.equals( "have" ) )
+						{
+							text = method + " & " + text;
+						}
+						if ( method.equals( "uncloset" ) )
+						{
+							cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+						}
+						// Should be only hitting this after Ronin I think
+						else if ( method.equals( "pull" ) ) 
+						{
+							cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+						}
+					}
+					else if ( checkedItem.creatable > 0 )
+					{
+						text = "make & " + text;
+						cmd = "make \u00B6" + itemId + ";" + cmd;
+					}
+					else if ( checkedItem.npcBuyable > 0 )
+					{
+						text = "buy & " + text;
+						cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+						price = ConcoctionPool.get( item ).price;
+					}
+					else if ( checkedItem.pullable > 0 )
+					{
+						text = "pull & " + text;
+						cmd = "pull \u00B6" + itemId + ";" + cmd;
+					}
+					else if ( checkedItem.mallBuyable > 0 )
+					{
+						text = "acquire & " + text;
+						if ( priceLevel > 0 )
+						{
+							price = StoreManager.getMallPrice( item );
+						}
+					}
+					else
+					{
+						continue;
+					}
+					if ( price > 0 )
+					{
+						text = text + KoLConstants.COMMA_FORMAT.format( price ) +
+							" meat, ";
+					}
+					text = text + KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+					text = text + " [" + absorbsLeft + " absorbs remaining]";
+					if ( count > 0 )
+					{
+						text = "  or " + text;
+					}
+					Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
+					count++;
+				}
+			}
 			if ( !lookup.startsWith( "Effect:" ) )
 			{
 				continue;

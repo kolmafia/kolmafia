@@ -108,6 +108,9 @@ public class ItemDatabase
 	private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
 	private static final Map<String, ArrayList<Comparable>> foldGroupsByName = new HashMap<String, ArrayList<Comparable>>();
 
+	private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
+	private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
+
 	public static final String QUEST_FLAG = "q";
 	public static final String GIFT_FLAG = "g";
 	public static final String TRADE_FLAG = "t";
@@ -337,6 +340,7 @@ public class ItemDatabase
 		}
 
 		ItemDatabase.itemIdSetByName.clear();
+		ItemDatabase.itemSourceByNoobSkillId.clear();
 
 		ItemDatabase.readItems();
 		ItemDatabase.readFoldGroups();
@@ -367,6 +371,31 @@ public class ItemDatabase
 		// *** Make it so
 		Arrays.sort( newSet );
 		ItemDatabase.itemIdSetByName.put( canonicalName, newSet );
+	}
+
+	private static void addIdToNoobSkill( Integer skillId, int itemId )
+	{
+		int[] idSources = ItemDatabase.itemSourceByNoobSkillId.get( skillId );
+		int[] newSources;
+
+		if ( idSources == null )
+		{
+			newSources = new int[1];
+		}
+		// *** This assumes the array is sorted
+		else if ( Arrays.binarySearch( idSources, itemId ) >= 0 )
+		{
+			return;
+		}
+		else
+		{
+			newSources = Arrays.copyOf( idSources, idSources.length + 1 );
+		}
+
+		newSources[ newSources.length - 1 ] = itemId;
+		// *** Make it so
+		Arrays.sort( newSources );
+		ItemDatabase.itemSourceByNoobSkillId.put( skillId, newSources );
 	}
 
 	private static void miniReset()
@@ -504,6 +533,17 @@ public class ItemDatabase
 				String plural = new String( data[ 7 ] );
 				ItemDatabase.pluralById.set( itemId, plural );
 				ItemDatabase.itemIdByPlural.put( StringUtilities.getCanonicalName( plural ), id );
+			}
+			// Build Noobcore skill source list
+			if ( ( !ItemDatabase.isEquipment( itemId ) || ItemDatabase.isFamiliarEquipment( itemId ) ) &&
+				!ItemDatabase.isQuestItem( itemId ) && ItemDatabase.isDiscardable( itemId ) &&
+				( ItemDatabase.isTradeable( itemId ) || ItemDatabase.isGiftItem( itemId ) ||
+				itemId == ItemPool.CLOD_OF_DIRT || itemId == ItemPool.DIRTY_BOTTLECAP || itemId == ItemPool.DISCARDED_BUTTON ) )
+			{
+				int intDescId = StringUtilities.parseInt( descId );
+				int skillId = ( intDescId % 125 ) + 23001;
+				ItemDatabase.addIdToNoobSkill( IntegerPool.get( skillId ), itemId );
+				ItemDatabase.noobSkillIdByItemSource.set( itemId, skillId );
 			}
 		}
 
@@ -941,7 +981,19 @@ public class ItemDatabase
 		}
 		ItemDatabase.parseItemDescription( id, descId, power, multi );
 
-		// Add the new item to the ConcoctionPool
+		// Build Noobcore skill source list
+		if ( ( !ItemDatabase.isEquipment( itemId ) || ItemDatabase.isFamiliarEquipment( itemId ) ) &&
+			!ItemDatabase.isQuestItem( itemId ) && ItemDatabase.isDiscardable( itemId ) &&
+			( ItemDatabase.isTradeable( itemId ) || ItemDatabase.isGiftItem( itemId ) ||
+			itemId == ItemPool.CLOD_OF_DIRT || itemId == ItemPool.DIRTY_BOTTLECAP || itemId == ItemPool.DISCARDED_BUTTON ) )
+		{
+			int intDescId = StringUtilities.parseInt( descId );
+			int skillId = ( intDescId % 125 ) + 23001;
+			ItemDatabase.addIdToNoobSkill( IntegerPool.get( skillId ), itemId );
+			ItemDatabase.noobSkillIdByItemSource.set( itemId, skillId );
+		}
+
+			// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
 		Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 		ConcoctionPool.set( c );
@@ -1970,7 +2022,19 @@ public class ItemDatabase
 	public static final boolean isEquipment( final int itemId )
 	{
 		int useType = ItemDatabase.useTypeById.get( itemId );
-		return EquipmentDatabase.isEquipment( useType ) || useType == KoLConstants.EQUIP_FAMILIAR;
+		switch ( useType )
+		{
+		case KoLConstants.EQUIP_ACCESSORY:
+		case KoLConstants.EQUIP_CONTAINER:
+		case KoLConstants.EQUIP_HAT:
+		case KoLConstants.EQUIP_SHIRT:
+		case KoLConstants.EQUIP_PANTS:
+		case KoLConstants.EQUIP_WEAPON:
+		case KoLConstants.EQUIP_OFFHAND:
+		case KoLConstants.EQUIP_FAMILIAR:
+			return true;
+		}
+		return false;
 	}
 
 	public static final boolean isFood( final int itemId )
@@ -2358,46 +2422,16 @@ public class ItemDatabase
 
 	public static int getNoobSkillId( final int itemId )
 	{
-		if ( itemId <= 0 )
+		Integer skillId = ItemDatabase.noobSkillIdByItemSource.get( itemId );
+		if ( skillId == null )
 		{
 			return -1;
 		}
+		return skillId.intValue();
+	}
 
-		// Non-Familiar Equipment doesn't return noob skills
-		if ( ItemDatabase.isEquipment( itemId ) && !ItemDatabase.isFamiliarEquipment( itemId ) )
-		{
-			return -1;
-		}
-
-		// Cannot absorb quest items
-		if ( ItemDatabase.isQuestItem( itemId ) )
-		{
-			return -1;
-		}
-
-		// Cannot absorb undiscardable items
-		if ( !ItemDatabase.isDiscardable( itemId ) )
-		{
-			return -1;
-		}
-
-		// Cannot absorb untradeable items unless they are gift items
-		if ( !ItemDatabase.isTradeable( itemId ) && !ItemDatabase.isGiftItem( itemId ) )
-		{
-			// Some are overridden
-			switch ( itemId )
-			{
-			case ItemPool.CLOD_OF_DIRT:
-			case ItemPool.DISCARDED_BUTTON:
-			case ItemPool.DIRTY_BOTTLECAP:
-				break;
-			default:
-				return -1;
-			}
-		}
-
-		int descId = StringUtilities.parseInt( ItemDatabase.getDescriptionId( itemId ) );
-		int skillId = ( descId % 125 ) + 23001;
-		return skillId;
+	public static int[] getItemListByNoobSkillId( final int skillId )
+	{
+		return ItemDatabase.itemSourceByNoobSkillId.get( skillId );
 	}
 }

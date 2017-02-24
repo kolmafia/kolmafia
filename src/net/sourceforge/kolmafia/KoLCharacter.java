@@ -5567,13 +5567,14 @@ public abstract class KoLCharacter
 				KoLCharacter.currentBjorned,
 				Preferences.getString( "edPiece" ),
 				Preferences.getString( "snowsuit" ),
+				null,
 				false ) );
 	}
 
 	public static final Modifiers recalculateAdjustments( boolean debug, int MCD,
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
-							      String edPiece, String snowsuit, boolean applyIntrinsics )
+							      String edPiece, String snowsuit, String custom, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5828,6 +5829,12 @@ public abstract class KoLCharacter
 
 		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
 		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
+
+		// Temporary custom modifier
+		if ( custom != null )
+		{
+			newModifiers.add( Modifiers.parseModifiers( "Generated:custom", custom ) );
+		}
 
 		if ( Modifiers.currentLocation.equals( "The Slime Tube" ) )
 		{
