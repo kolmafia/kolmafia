@@ -48,7 +48,7 @@ implements Comparable<Boost>
 	private FamiliarData fam, enthroned, bjorned;
 	private String edPiece, snowsuit;
 
-	private Boost( String cmd, String text, AdventureResult item, double boost )
+	public Boost( String cmd, String text, AdventureResult item, double boost )
 	{
 		this.cmd = cmd;
 		this.text = text;
