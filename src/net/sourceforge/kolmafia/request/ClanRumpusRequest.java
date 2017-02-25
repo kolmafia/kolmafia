@@ -517,6 +517,10 @@ public class ClanRumpusRequest
 				String balls = matcher.group( 1 );
 				ballpit = "Awesome Ball Pit (" + balls + ")";
 			}
+			else if ( responseText.contains( "single ball" ) )
+			{
+				ballpit = "Awesome Ball Pit (1)";
+			}
 			if ( ballpit != null )
 			{
 				ClanManager.addToRumpus( ballpit );
