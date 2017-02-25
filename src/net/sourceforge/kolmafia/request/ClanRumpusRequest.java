@@ -448,7 +448,7 @@ public class ClanRumpusRequest
 			if ( urlString.contains( "whichchoice=770" ) || urlString.contains( "whichchoice=792" ) )
 			{
 				if ( responseText.contains( "feel the burn" ) ||
-					responseText.contains( "learn from the sages" ) )
+				     responseText.contains( "learn from the sages" ) )
 				{
 					RequestLogger.printLine( "Workout completed." );
 				}
@@ -457,6 +457,7 @@ public class ClanRumpusRequest
 					KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
 				}
 			}
+			return;
 		}
 
 		if ( urlString.startsWith( "gnomes.php" ) )
@@ -472,6 +473,7 @@ public class ClanRumpusRequest
 					KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
 				}
 			}
+			return;
 		}
 
 		if ( !urlString.startsWith( "clan_rumpus.php" ) )
@@ -479,15 +481,20 @@ public class ClanRumpusRequest
 			return;
 		}
 
-		String ballpit = null;
 		// Start by saving the number of balls in the pit, in case this response
 		// doesn't have that information.  If the user switches clans, then the
 		// first check is guaranteed to have that information.
-		if ( !ClanManager.getClanRumpus().isEmpty() &&
-		     ClanManager.getClanRumpus().get( ClanManager.getClanRumpus().size() - 1 ).startsWith( "Awesome Ball Pit" ) )
+
+		String ballpit = null;
+		if ( !ClanManager.getClanRumpus().isEmpty() )
 		{
-			ballpit = ClanManager.getClanRumpus().get( ClanManager.getClanRumpus().size() - 1 );
+			String last = ClanManager.getClanRumpus().get( ClanManager.getClanRumpus().size() - 1 );
+			if ( last.startsWith( "Awesome Ball Pit" ) )
+			{
+				ballpit = last;
+			}
 		}
+
 		ClanManager.getClanRumpus().clear();
 		Matcher matcher = ClanRumpusRequest.ROOM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -500,6 +507,7 @@ public class ClanRumpusRequest
 				ClanManager.addToRumpus( equipmentName );
 			}
 		}
+
 		if ( responseText.contains( "action=click&spot=7" ) )
 		{
 			// We have an Awesome Ball Pit
@@ -507,9 +515,9 @@ public class ClanRumpusRequest
 			if ( matcher.find() )
 			{
 				String balls = matcher.group( 1 );
-				ClanManager.addToRumpus( "Awesome Ball Pit (" + balls + ")" );
+				ballpit = "Awesome Ball Pit (" + balls + ")";
 			}
-			else
+			if ( ballpit != null )
 			{
 				ClanManager.addToRumpus( ballpit );
 			}
@@ -527,8 +535,8 @@ public class ClanRumpusRequest
 		if ( action.equals( "gym" ) )
 		{
 			if ( responseText.contains( "You work it on out." ) ||
-				 responseText.contains( "You study the secrets of the cosmos." ) ||
-				 responseText.contains( "You bake under the artificial sunlight." ) )
+			     responseText.contains( "You study the secrets of the cosmos." ) ||
+			     responseText.contains( "You bake under the artificial sunlight." ) )
 			{
 				KoLmafia.updateDisplay( "Workout completed." );
 			}
@@ -536,6 +544,7 @@ public class ClanRumpusRequest
 			{
 				KoLmafia.updateDisplay( MafiaState.ABORT, "You can't access that gym" );
 			}
+			return;
 		}
 
 		if ( action.equals( "nap" ) )
@@ -603,6 +612,9 @@ public class ClanRumpusRequest
 			}
 			// The machine makes a horrible clanking noise, and a
 			// wisp of smoke pours out of the prize chute.
+			//
+			// The crane machine seems to be broken down. Oh
+			// well. Maybe they'll fix it by tomorrow.
 			else if ( responseText.contains( "seems to be broken down" ) )
 			{
 				Preferences.setInteger( "_klawSummons", 3 );
