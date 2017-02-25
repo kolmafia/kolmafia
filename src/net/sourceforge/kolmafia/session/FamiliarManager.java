@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -61,6 +63,9 @@ public abstract class FamiliarManager
 		KoLmafia.updateDisplay( "Equipping familiars..." );
 
 		FamiliarData current = KoLCharacter.getFamiliar();
+
+		boolean useCloset = Preferences.getBoolean( "autoSatisfyWithCloset" );
+		boolean useStorage = KoLCharacter.canInteract();
 
 		AdventureResultArray closetItems = new AdventureResultArray();
 		AdventureResultArray storageItems = new AdventureResultArray();
@@ -88,12 +93,12 @@ public abstract class FamiliarManager
 			{
 				// Use one from inventory
 			}
-			else if ( item.getCount( KoLConstants.closet ) > 0 )
+			else if ( useCloset && item.getCount( KoLConstants.closet ) > 0 )
 			{
 				// Use one from the closet
 				closetItems.add( item );
 			}
-			else if ( KoLCharacter.canInteract() && item.getCount( KoLConstants.storage ) > 0 )
+			else if ( useStorage && item.getCount( KoLConstants.storage ) > 0 )
 			{
 				// Use one from storage
 				storageItems.add( item );
