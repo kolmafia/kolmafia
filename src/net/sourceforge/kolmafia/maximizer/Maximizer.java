@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -259,7 +260,7 @@ public class Maximizer
 					int price = 0;
 					AdventureResult item = ItemPool.get( itemId );
 					cmd = "absorb \u00B6" + itemId;
-					text = "absorb " + item.getName() + " (";
+					text = "absorb " + item.getName() + " (" + name + ", ";
 					if ( checkedItem.inventory > 0 )
 					{
 					}
@@ -322,6 +323,148 @@ public class Maximizer
 					Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
 					count++;
 				}
+			}
+			// Include enchantments from absorbing equipment in Noobcore
+			else if ( KoLCharacter.inNoobcore() && lookup.startsWith( "Item:" ) )
+			{
+				String name = lookup.substring( 5 );
+				int itemId = ItemDatabase.getItemId( name );
+				int absorbsLeft = KoLCharacter.getAbsorbsLimit() - KoLCharacter.getAbsorbs();
+				if ( absorbsLeft < 1 )
+				{
+					continue;
+				}
+				// Cannot abosrb undiscardable items
+				if ( !ItemDatabase.isDiscardable( itemId ) )
+				{
+					continue;
+				}
+				// Can only absorb tradeable and gift items
+				if ( !ItemDatabase.isTradeable( itemId ) && !ItemDatabase.isGiftItem( itemId ) )
+				{
+					continue;
+				}
+				// Can only get it from Equipment
+				if ( !EquipmentDatabase.isEquipment( itemId ) )
+				{
+					continue;
+				}
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				Modifiers itemMods = Modifiers.getItemModifiers( itemId );
+				if ( itemMods == null )
+				{
+					continue;
+				}
+				// Only take numeric modifiers, and not Surgeonosity, from Items in Noobcore
+				StringBuilder mods = new StringBuilder();
+				for ( int j = 0; j < Modifiers.DOUBLE_MODIFIERS; ++j )
+				{
+					switch ( j )
+					{
+					case Modifiers.SURGEONOSITY:
+						continue;
+					}
+					if ( itemMods.get( j ) != 0.0 )
+					{
+						if ( mods.length() > 0 )
+						{
+							mods.append( ", " );
+						}
+						mods.append( Modifiers.getModifierName( j ) + ": " + itemMods.get( j ) );
+					}
+				}
+				if ( mods.length() == 0 )
+				{
+					continue;
+				}
+				spec.setCustom( mods.toString() );
+				double delta = spec.getScore() - current;
+				if ( delta <= 0.0 )
+				{
+					continue;
+				}
+				// Check if we have access to item
+				CheckedItem checkedItem = new CheckedItem( itemId, equipLevel, maxPrice, priceLevel );
+				// We won't include unavailable items, as this just gets far too large
+				String cmd, text;
+				int price = 0;
+				AdventureResult item = ItemPool.get( itemId );
+				cmd = "absorb \u00B6" + itemId;
+				text = "absorb " + item.getName() + " (";
+				if ( checkedItem.inventory > 0 )
+				{
+				}
+				else if ( checkedItem.initial > 0 )
+				{
+					String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+					if ( !method.equals( "have" ) )
+					{
+						text = method + " & " + text;
+					}
+					if ( method.equals( "uncloset" ) )
+					{
+						cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+					}
+					// Should be only hitting this after Ronin I think
+					else if ( method.equals( "pull" ) ) 
+					{
+						cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+					}
+				}
+				else if ( checkedItem.creatable > 0 )
+				{
+					text = "make & " + text;
+					cmd = "make \u00B6" + itemId + ";" + cmd;
+				}
+				else if ( checkedItem.npcBuyable > 0 )
+				{
+					text = "buy & " + text;
+					cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+					price = ConcoctionPool.get( item ).price;
+				}
+				else if ( checkedItem.pullable > 0 )
+				{
+					text = "pull & " + text;
+					cmd = "pull \u00B6" + itemId + ";" + cmd;
+				}
+				else if ( checkedItem.mallBuyable > 0 )
+				{
+					text = "acquire & " + text;
+					if ( priceLevel > 0 )
+					{
+						price = StoreManager.getMallPrice( item );
+					}
+				}
+				else
+				{
+					continue;
+				}
+				if ( price > 0 )
+				{
+					text = text + KoLConstants.COMMA_FORMAT.format( price ) +
+						" meat, ";
+				}
+				text = text + "lasts til end of day, ";
+				text = text + KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+				text = text + " [" + absorbsLeft + " absorbs remaining";
+				if ( checkedItem.inventory > 0 )
+				{
+					text = text + ", " + checkedItem.inventory + " in inventory";
+				}
+				if ( checkedItem.initial - checkedItem.inventory > 0 )
+				{
+					text = text + ", " + ( checkedItem.initial - checkedItem.inventory ) + " obtainable";
+				}
+				if ( checkedItem.creatable > 0 )
+				{
+					text = text + ", " + checkedItem.creatable + " createable";
+				}
+				if ( checkedItem.npcBuyable > 0 )
+				{
+					text = text + ", " + checkedItem.npcBuyable + " pullable";
+				}
+				text = text + "]";
+				Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
 			}
 			if ( !lookup.startsWith( "Effect:" ) )
 			{
