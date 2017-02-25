@@ -295,19 +295,28 @@ public class FightDecorator
 
 	private static final void decorateFallsFromSky( final StringBuffer buffer )
 	{
-		if ( buffer.indexOf( "begins to spin in a circle" ) != -1 )
+		// While under the effect of Chilled to the Bone,
+		// Falls-From-Sky can do multiple attacks per round.
+		//
+		// Only the last one determines the correct response.
+
+		int circle = buffer.lastIndexOf( "begins to spin in a circle" );
+		int paw = buffer.lastIndexOf( "begins to paw at the ground" );
+		int shuffle = buffer.lastIndexOf( "shuffles toward you" );
+
+		if ( circle > paw && circle > shuffle )
 		{
 			FightDecorator.selectSkill( buffer, "Hide Under a Rock" );
 			return;
 		}
 
-		if ( buffer.indexOf( "begins to paw at the ground" ) != -1 )
+		if ( paw > circle && paw > shuffle )
 		{
 			FightDecorator.selectSkill( buffer, "Dive Into a Puddle" );
 			return;
 		}
 
-		if ( buffer.indexOf( "shuffles toward you" ) != -1 )
+		if ( shuffle > circle && shuffle > paw )
 		{
 			FightDecorator.selectSkill( buffer, "Hide Behind a Tree" );
 			return;
