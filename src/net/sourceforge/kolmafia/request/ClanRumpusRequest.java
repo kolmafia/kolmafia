@@ -60,7 +60,7 @@ public class ClanRumpusRequest
 	private static final Pattern SPOT_PATTERN = Pattern.compile( "spot=(\\d*)" );
 	private static final Pattern FURNI_PATTERN = Pattern.compile( "furni=(\\d*)" );
 	private static final Pattern ROOM_PATTERN = Pattern.compile( "action=click&spot=(\\d)&furni=(\\d)" );
-	private static final Pattern BALLPIT_PATTERN = Pattern.compile( "with ([\\d,]+) balls");
+	private static final Pattern BALLPIT_PATTERN = Pattern.compile( "with ([\\d,]+) ball" );
 
 	public static enum RequestType
 	{
