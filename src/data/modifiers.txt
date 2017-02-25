@@ -6585,7 +6585,7 @@ Skill	Cool Heels	Cold Damage: +5
 Skill	Cold Heart	Cold Damage: +9
 Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Crab Claw Technique Makes your accordion attacks significantly more accurate
-Skill	Dark Circles Under Your Eyes	Stench Damage: +7
+Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 Skill	Deductive Reasoning	Mysticality: +15
 # Deep Saucery
 # Deft Hands +25% damage from combat items
