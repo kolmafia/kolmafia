@@ -85,6 +85,7 @@ public class StorageRequest
 
 		RequestThread.postRequest( new StorageRequest( REFRESH ) );
 		RequestThread.postRequest( new ApiRequest( "storage" ) );
+		StorageRequest.updateSettings();
 	}
 
 	public static void emptyStorage()
