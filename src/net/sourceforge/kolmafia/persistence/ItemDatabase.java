@@ -536,7 +536,7 @@ public class ItemDatabase
 			}
 			// Build Noobcore skill source list
 			if ( ( !ItemDatabase.isEquipment( itemId ) || ItemDatabase.isFamiliarEquipment( itemId ) ) &&
-				!ItemDatabase.isQuestItem( itemId ) && ItemDatabase.isDiscardable( itemId ) &&
+				ItemDatabase.isDiscardable( itemId ) &&
 				( ItemDatabase.isTradeable( itemId ) || ItemDatabase.isGiftItem( itemId ) ||
 				itemId == ItemPool.CLOD_OF_DIRT || itemId == ItemPool.DIRTY_BOTTLECAP || itemId == ItemPool.DISCARDED_BUTTON ) )
 			{
