@@ -2248,8 +2248,13 @@ public class RelayRequest
 		return true;
 	}
 
-	private boolean sendWineglassWarning()
+	private boolean sendWineglassWarning( final KoLAdventure adventure )
 	{
+		if ( adventure == null )
+		{
+			return false;
+		}
+
 		if ( this.getFormField( CONFIRM_WINEGLASS ) != null )
 		{
 			return false;
@@ -2257,6 +2262,12 @@ public class RelayRequest
 
 		// If you are not overdrunk, nothing to warn about
 		if ( !KoLCharacter.isFallingDown() )
+		{
+			return false;
+		}
+
+		// Only adventure.php will shunt you into a Drunken Stupor
+		if ( !adventure.getFormSource().equals( "adventure.php" ) )
 		{
 			return false;
 		}
@@ -3296,7 +3307,9 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( adventureName != null && KoLCharacter.isFallingDown() && this.sendWineglassWarning() )
+		if ( adventureName != null &&
+		     KoLCharacter.isFallingDown() &&
+		     this.sendWineglassWarning( adventure ) )
 		{
 			return true;
 		}
