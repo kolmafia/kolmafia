@@ -2293,6 +2293,17 @@ public class GenericRequest
 			}
 		}
 
+		if ( this.formURLString.startsWith( "peevpee.php" ) )
+		{
+			// If you have not set an e-mail address, you get
+			// redirected.  This can happen while logging in.
+			// In any case, we cannot automate it.
+			if ( this.redirectLocation.startsWith( "choice.php" ) )
+			{
+				return true;
+			}
+		}
+
 		if ( this.shouldFollowRedirect() )
 		{
 			// Re-setup this request to follow the redirect

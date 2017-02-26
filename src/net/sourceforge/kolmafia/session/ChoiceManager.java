@@ -14606,6 +14606,7 @@ public abstract class ChoiceManager
 		case 570: // GameInformPowerDailyPro Walkthru
 		case 603: // Skeletons and The Closet
 		case 627: // ChibiBuddy&trade; (on)
+		case 632: // Add an E-Mail Address
 		case 633: // ChibiBuddy&trade; (off)
 		case 664: // The Crackpot Mystic's Shed
 		case 720: // The Florist Friar's Cottage
