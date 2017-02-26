@@ -88,15 +88,11 @@ public class AbsorbCommand
 		int itemId = match.getItemId();
 
 		// If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside Standard)
-		if ( !InventoryManager.hasItem( match, true ) && match.getCount( KoLConstants.inventory ) == 0 )
+		if ( !InventoryManager.hasItem( match, true ) &&
+		     !InventoryManager.retrieveItem( match ) &&
+		     match.getCount( KoLConstants.inventory ) == 0 )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Item not accessible." );
-			return;
-		}
-
-		if ( !InventoryManager.retrieveItem( match ) && match.getCount( KoLConstants.inventory ) == 0 )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to retrieve item." );
 			return;
 		}
 
