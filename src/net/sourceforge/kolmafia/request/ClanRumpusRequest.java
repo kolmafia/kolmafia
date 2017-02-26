@@ -644,10 +644,18 @@ public class ClanRumpusRequest
 		if ( ClanManager.getClanRumpus().contains( "Mr. Klaw \"Skill\" Crane Game" ) )
 		{
 			request.visitEquipment( 3, 3 );
+			int klawCount = Preferences.getInteger( "_klawSummons" );
 
 			while ( Preferences.getInteger( "_klawSummons" ) < 3 )
 			{
 				request.run();
+				int count = Preferences.getInteger( "_klawSummons" );
+				if ( klawCount == count )
+				{
+					KoLmafia.updateDisplay( MafiaState.ERROR, "Something went wrong while using the Klaw Machine." );
+					break;
+				}
+				klawCount = count;
 			}
 		}
 
