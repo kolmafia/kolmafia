@@ -153,9 +153,9 @@ The General Store	generalstore	third-hand lantern	100	ROW633
 The General Store	generalstore	marshmallow	100	ROW662
 The General Store	generalstore	oyster basket	300	ROW658
 The General Store	generalstore	party hat	300	ROW654
-The General Store	generalstore	M-242	300	ROW
-The General Store	generalstore	snake	300	ROW
-The General Store	generalstore	sparkler	300	ROW
+The General Store	generalstore	M-242	300	ROW639
+The General Store	generalstore	snake	300	ROW637
+The General Store	generalstore	sparkler	300	ROW638
 The General Store	generalstore	foam noodle	300	ROW660
 The General Store	generalstore	inflatable duck	300	ROW659
 The General Store	generalstore	water wings	300	ROW661
