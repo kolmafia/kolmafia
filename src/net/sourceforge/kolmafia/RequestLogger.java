@@ -151,6 +151,7 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
+import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
@@ -1411,6 +1412,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PrecinctRequest || isExternal ) && PrecinctRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof ProfileRequest || isExternal ) && ProfileRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
