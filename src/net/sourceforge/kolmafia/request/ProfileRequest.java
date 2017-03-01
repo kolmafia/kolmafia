@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -702,13 +703,20 @@ public class ProfileRequest
 	}
 
 	private static final Pattern WHO_PATTERN = Pattern.compile( "who=(\\d+)" );
+
+	public static int getWho( final String urlString )
+	{
+		Matcher matcher = ProfileRequest.WHO_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final Pattern EQUIPMENT_PATTERN = Pattern.compile( "<center>Equipment:</center>(<table>.*?</table>)" );
 	private static final Pattern FAMILIAR_PATTERN = Pattern.compile( "<p>Familiar:.*?(<table>.*?</table>)" );
 
 	public static void parseResponse( String location, String responseText )
 	{
-		Matcher matcher = ProfileRequest.WHO_PATTERN.matcher( location );
-		if ( matcher.find() && matcher.group( 1 ).equals( "1" ) )	// if we're looking at Jick's profile
+		int who = ProfileRequest.getWho( location );
+		if ( who == 1 )	// if we're looking at Jick's profile
 		{
 			if ( InventoryManager.hasItem( ItemPool.PSYCHOANALYTIC_JAR ) &&	// and we have an empty jar
 			     !Preferences.getBoolean( "_psychoJarFilled" ) )		// and we haven't already filled a jar
@@ -717,7 +725,7 @@ public class ProfileRequest
 			}
 			if ( responseText.contains( "jar of psychoses (Jick)" ) )
 			{
-				ResultProcessor.processItem( ItemPool.JICK_JAR, 1 );
+				ResultProcessor.processItem( false, "You acquire an item:", ItemPool.get( ItemPool.JICK_JAR ), null );
 			}
 		}
 
@@ -729,7 +737,7 @@ public class ProfileRequest
 		}
 
 		// Look for new items in equipment
-		matcher = ProfileRequest.EQUIPMENT_PATTERN.matcher( responseText );
+		Matcher matcher = ProfileRequest.EQUIPMENT_PATTERN.matcher( responseText );
 		if ( matcher.find() )
 		{
 			ItemDatabase.parseNewItems( matcher.group( 1 ) );
@@ -741,5 +749,29 @@ public class ProfileRequest
 		{
 			ItemDatabase.parseNewItems( matcher.group( 1 ) );
 		}
+	}
+
+	public static boolean registerRequest( final String urlString )
+	{
+		if ( !urlString.startsWith( "showplayer.php" ) )
+		{
+			return false;
+		}
+
+		int who = ProfileRequest.getWho( urlString );
+		if ( who == 1 )		// if we're looking at Jick's profile
+		{
+			if ( urlString.contains( "action=jung" ) &&
+			     urlString.contains( "whichperson=jick" ) )
+			{
+				String message = "Psychoanalyzing Jick";
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+				return true;
+			}
+		}
+
+		// No need to log looking at player profiles
+		return true;
 	}
 }

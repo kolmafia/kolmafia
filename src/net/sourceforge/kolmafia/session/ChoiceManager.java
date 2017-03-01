@@ -8949,6 +8949,23 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1064:
+			// The Doctor is Out.  Of Herbs.
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.STARTED );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.FINISHED );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FRAUDWORT, -3 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SHYSTERWEED, -3 ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SWINDLEBLOSSOM, -3 ) );
+				HPRestoreItemList.updateHealthRestored();
+				MPRestoreItemList.updateManaRestored();
+			}
+			break;
+
 		case 1065:
 			// Lending a Hand (and a Foot)
 			if ( text.contains( "freakin' starving, here" ) )
@@ -10409,22 +10426,6 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision == 5 )
 			{
 				ResultProcessor.processItem( ItemPool.BOOZE_MAP, -1 );
-			}
-			break;
-		case 1064:
-			// Doc G Quest Choice
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.STARTED );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
-				QuestDatabase.setQuestProgress( Quest.DOC, QuestDatabase.FINISHED );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.FRAUDWORT, -3 ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SHYSTERWEED, -3 ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SWINDLEBLOSSOM, -3 ) );
-				HPRestoreItemList.updateHealthRestored();
-				MPRestoreItemList.updateManaRestored();
 			}
 			break;
 

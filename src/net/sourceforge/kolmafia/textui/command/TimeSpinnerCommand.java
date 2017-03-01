@@ -73,6 +73,13 @@ public class TimeSpinnerCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Time-Spinner." );
 			return;
 		}
+
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You need to have adventures available in order to use your Time-Spinner." );
+			return;
+		}
+
 		if ( parameters.startsWith( "eat " ) )
 		{
 			if ( Preferences.getInteger( "_timeSpinnerMinutesUsed" ) > 7 )
