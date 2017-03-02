@@ -174,6 +174,7 @@ discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +3
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 Divine	4	6	awesome	14-18	16-20	25-27	0
 Doc Clock's thyme cocktail	4	8	EPIC	0	0	0	0	Unspaded
+double entendre	1	1	awesome	0	0	0	0	Unspaded, 40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 Drac & Tan	2	1	good	4-5	10-20	0	0	5 Creepypasted (+50 Spooky Dam)
 Dreadsylvanian cold-fashioned	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill (+5 Sleaze/Stench Res)
@@ -221,7 +222,7 @@ expensive champagne	1	4	EPIC	5-6	10-20	10-20	10-20	15-20 MP
 expired bottle of peppermint schnapps	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
 Extra-slimy Slimosa	2	4	awesome	6-7	0	0	20-30	10 In the Slimelight (+50 Stench Dam)
 extra-spicy bloody mary	3	3	good	5-10	5-11	5-11	5-11
-extremely slippery nipple	1	1	awesome	0	0	0	0	Unspaded 40 Slippery Tongue (+20 Sleaze Damage & Sleaze Spell Damage)
+extremely slippery nipple	1	1	awesome	0	0	0	0	Unspaded, 40 Slippery Tongue (+20 Sleaze Dam, +20 Sleaze Spell Dam)
 Falcon&trade; Maltese Liquor	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
 Fantasma en la M&aacute;quina	3	1	good	8-10	0	0	13	13 Sangre Brillante (+3 Moxie exp, +5-6 MP regen)
 Fauna Libre	2	1	good	4-5	0	10-20	0	5 Transcendental Wind (+50 Myst)
@@ -292,7 +293,7 @@ Grimacider	3	5		3-6	0	0	0
 Grimacite Bock	1	8	EPIC	3-10	65	64	62
 grog	3	3	good	5-10	8-10	0	0
 grogtini	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
-gunner's daughter	1	3	EPIC	0	0	0	0	Unspaded 40 Kissed the Gunner's Daughter (+40 Mox)
+gunner's daughter	1	3	EPIC	0	0	0	0	Unspaded, 40 Kissed the Gunner's Daughter (+40 Mox)
 hacked gibson	4	4	EPIC	20-22	40-60	40-60	40-60
 Haymaker	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 hell in a bucket	1	3	EPIC	0	0	0	0	Unspaded 40 Hell ib a Hambasked (+40 Stench Damage & Stench Spell Damage)
@@ -345,6 +346,7 @@ lavawater	1	4	good	3	0	0	10-20	50 Sizzling with Fury (+25 Hot Damage, +60 Init)
 Le Roi	3	1	good	8-10	0	0	30-40
 legitimate business on the beach	2	5	awesome	6-8	20-30	20-30	20-30
 Lemonade-235	2	5	good	5-7	0	15-20	0	40 Radiated and Grodiated (+50% Mys, +25 Stench Spell Dam, +3 Stench Res)
+literal grasshopper	1	1	awesome	0	0	0	0	Unspaded, 40 Wings of the Grasshopper (+50 init)
 Locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 Lollipop Drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 low tide martini	1	1	awesome	0	0	0	0	Unspaded 40 Floundering (+5 Fishing Skill)
@@ -379,6 +381,7 @@ moons-shine	4	1		6-10	7-8	7-8	7-8
 Moonshine Mohobo	2	4	awesome	6-7	10-15	10-15	10-15	10 Mo' Hobo (+10 Hobo Power)
 Moonthril Schnapps	1	3	awesome	4-5	5-10	5-10	5-10
 More Humanitini than Humanitini	2	4	awesome	6-7	10-15	10-15	10-15	Restores HP
+moreltini	1	3	awesome	0	0	0	0	Unspaded, 40 Truffle Tango (+50 Item drop)
 Morlock's Mark Bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morning dew	1	1	awesome	0	0	0	0	Unspaded 40 Granolarrrgh (+20 Stench Damage & Stench Spell Damage)
 Morto Moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
@@ -498,7 +501,9 @@ shot of pear schnapps	2	8	good	4-8	0	14-20	0
 shot of rotgut	1	1	good	2-3	10-12	10-12	10-12	lose 20-28 HP
 Shot of the Living Dead	2	8	awesome	8-9	30-40	0	0	15 Creepypasted (+50 Spooky Dam)
 shot of tomato schnapps	1	1	decent	2	1-2	1-2	1-2
+shroomtini	1	1	good	0	0	0	0	Unspaded, 40 Mushroom Samba (+25 Item drop)
 Silver Bullet beer	1	6	awesome	3-4	5-10	5-10	5-10	30 Wolf's Bane (+50 dmg vs. Werewolves)
+single entendre	1	3	awesome	0	0	0	0	Unspaded, 40 Pounded by the Actual Stars (+100% MP)
 single swig of vodka	2	9	good	5-6	6-8	6-8	6-8	KOLHS
 Sizzling Sinner	2	8	awesome	8-9	30-40	0	0	15 Heart Aflame (+50 Hot Dam)
 slap and slap again	3	1	decent	0	0	0	0	+3 PvP fights

@@ -753,7 +753,7 @@ vesper	MIX_FANCY	dry vodka martini	skewered jumbo olive
 
 Vodka Matryoshka	MIX_FANCY	bottle of vodka	peppermint twist
 Gin Mint	MIX_FANCY	bottle of gin	peppermint twist
-Feliz Navidad	MIX_FANCY	bottle of tequila	peppermint twist
+Tequiz Navidad	MIX_FANCY	bottle of tequila	peppermint twist
 Mint Yulep	MIX_FANCY	bottle of whiskey	peppermint twist
 Crimbojito	MIX_FANCY	bottle of rum	peppermint twist
 Sangria de Menthe	MIX_FANCY	boxed wine	peppermint twist
@@ -2884,3 +2884,21 @@ wax pancake	WAX	glob of melted wax
 wax face	WAX	glob of melted wax
 wax booze	WAX	glob of melted wax
 
+# Robortender
+
+Churchill	MIX	bottle of rum	limepatch
+gunner's daughter	MIX	Churchill	grapefruit
+literal grasshopper	MIX	bottle of tequila	pickled grasshopper
+eighth plague	MIX	literal grasshopper	olive
+shroomtini	MIX	bottle of gin	cocktail mushroom
+moreltini	MIX	shroomtini	olive
+soilzerac	MIX	bottle of whiskey	pile of dirt
+dirt julep	MIX	soilzerac	lemon
+great old fashioned	MIX	bottle of whiskey	lump of black ichor
+R'lyeh	MIX	great old fashioned	strawberry
+low tide martini	MIX	bottle of vodka	bottle of clam juice
+Bloody Nora	MIX	low tide martini	olive
+double entendre	MIX	bottle of tequila	bottle of an&iacute;s
+single entendre	MIX	double entendre	lemon
+extremely slippery nipple	MIX	bottle of tequila	baby oil shooter
+Mysterious Island iced tea	MIX	extremely slippery nipple	soda water

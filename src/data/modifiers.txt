@@ -5536,6 +5536,7 @@ Effect	Mushroom Magicalness	Mysticality Percent: +200
 Effect	Mushroom Melody	Ranged Damage: +100
 Effect	Mushroom Might	Muscle Percent: +200
 Effect	Mushroom Moxiousness	Moxie Percent: +200
+Effect	Mushroom Samba	Item Drop: +25
 Effect	Musk of the Moose	Combat Rate: +5
 # Musky: You Smell Like a Lynyrd
 Effect	Musky	Stench Damage: +15
@@ -5728,6 +5729,7 @@ Effect	Pop-eyed	Weapon Damage: +30
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
+Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
 Effect	Powdered	Experience (Mysticality): +10
 Effect	Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Effect	Power of Heka	Spell Damage: +20, Spell Critical Percent: +10, Spell Damage Percent: +50
@@ -5981,6 +5983,7 @@ Effect	Slimy Hands	Sleaze Damage: +10
 Effect	Slinking Noodle Glob	Maximum MP: +15
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Effect	Slippery Oiliness	Equalize: "Moxie"
+Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
 Effect	Slurpee-O'ed	Avatar: "angry tourist"
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
@@ -6035,6 +6038,7 @@ Effect	Sour Grapes	Item Drop: +40
 Effect	Sour Softshoe	Item Drop: [min(T,50)], Meat Drop: [2*min(T,50)]
 Effect	Sourpuss	Candy Drop: +50
 Effect	Spa Day!	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Space Cadet	Maximum MP Percent: +50
 Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Effect	Spangled Star	Monster Level: +10
@@ -6354,6 +6358,7 @@ Effect	Trepandation	Spell Damage Percent: +50, Spell Damage: +50
 Effect	Triangle, Man	Muscle Percent: +10
 Effect	Trivia Master	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 # Effect Tropical Contact High: Grants Access to Kokomo
+Effect	Truffle Tango	Item Drop: +50
 Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
@@ -6479,6 +6484,7 @@ Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
 # Wings: You believe you can fly!
 Effect	Wings of the Dragonfly	Initiative: +100
+Effect	Wings of the Grasshopper	Initiative: +50
 Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
 Effect	Wintergreen Warmongery	Muscle: +30
@@ -7429,6 +7435,7 @@ Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
 Item	dirt julep	Effect: "Here's Some More Mud in Your Eye", Effect Duration: 40
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 # Item Doc Clock's thyme cocktail: Reduces your Fullness by 2
+Item	double entendre	Effect: "Space Cadet", Effect Duration: 40
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
 Item	Drac & Tan	Effect: "Creepypasted ", Effect Duration: 5
 Item	Dreadsylvanian cold-fashioned	Effect: "Dreadful Chill", Effect Duration: 200
@@ -7510,6 +7517,7 @@ Item	Jungle Juice	Effect: "Jungle Juiced", Effect Duration: 30
 Item	La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
 Item	lavawater	Effect: "Sizzling with Fury", Effect Duration: 50
 Item	Lemonade-235	Effect: "Radiated and Grodiated", Effect Duration: 40
+Item	literal grasshopper	Effect: "Wings of the Grasshopper", Effect Duration: 40
 Item	Locust	Effect: "Cockroach Scurry", Effect Duration: 10
 Item	Lollipop Drop	Effect: "Holiday Bliss", Effect Duration: 5
 Item	low tide martini	Effect: "Floundering", Effect Duration: 40
@@ -7522,6 +7530,7 @@ Item	mini-martini	Effect: "It's Not Even Funny", Effect Duration: 11
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10
 Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40
+Item	moreltini	Effect: "Truffle Tango", Effect Duration: 40
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30
 Item	Murderer's Punch	Effect: "Punchy, Murdery", Effect Duration: 40
@@ -7563,7 +7572,9 @@ Item	shot of flower schnapps	Effect: "Flower Power", Effect Duration: 3
 Item	shot of mescal	Effect: "Brainworm", Effect Duration: 50
 Item	shot of nepenthe schnapps	Effect: "Memento Moir&eacute;", Effect Duration: 10
 Item	Shot of the Living Dead	Effect: "Creepypasted ", Effect Duration: 15
+Item	shroomtini	Effect: "Mushroom Samba", Effect Duration: 40
 Item	Silver Bullet beer	Effect: "Wolf's Bane", Effect Duration: 30
+Item	single entendre	Effect: "Pounded by the Actual Stars", Effect Duration: 40
 Item	Sizzling Sinner	Effect: "Heart Aflame", Effect Duration: 15
 Item	Slimebite	Effect: "In the Slimelight", Effect Duration: 15
 Item	Slimosa	Effect: "In the Slimelight", Effect Duration: 5
@@ -9873,6 +9884,7 @@ Item	Unmotivator: Crashed Meat Car	Free Pull
 Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull
 # unnatural gas: Weakens enemies a lot
+Item	unpowered Robortender	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 Item	unstable DNA	Effect: "Yuletide Mutations", Effect Duration: 10
 # unstable laser battery: Deals 200-250 <font color=red>Hot Damage</font>
