@@ -2207,12 +2207,12 @@
 2207	It Is So Hot In Your Guts, So So Hot	batgut.gif	3744d667628625ce06a7bbd473acce37	drink 1 reverse Tantalus
 2208
 2209
-2210
+2210	Sugar, Hello	cube.gif	f1c6d5d56090b95edb8ca8d314061e44	drink 1 Siberian sunrise
 2211	Magically Delicious	rrainbow.gif	51a8a6e5102e2d238b8bf56a6bffc8da	drink 1 elemental caipiroska
 2212
 2213
-2214
-2215
+2214	Christmessy	pep_patty.gif	6b96033181536d791ea2177bca752138	drink 1 mentholated wine
+2215	Wassailing You	pep_drink3.gif	d0dab97b29f394372f874803c088157e	drink 1 Feliz Navidad
 2216
 2217
 2218	Floundering	fish.gif	205b217d25e01ecdb549d754cbedad67	drink 1 low tide martini
@@ -2227,7 +2227,7 @@
 2227	Hell ib a Hambasked	basket.gif	8579f68d6d1960a546622b23b74446a4	drink 1 hell in a bucket
 2228
 2229
-2230
+2230	Hobo Powers Activate!	hobotophat.gif	321ca25d07b86ff037b592a843976567	drink 1 whiskey squeeze
 2231	Hobo Powering Up!	hobohead.gif	7f74b9c442eb2b189a7042d9333cd691	drink 1 Newark
 2232
 2233
@@ -2239,8 +2239,8 @@
 2239	Strength of the Gnoll	bigdumbbell.gif	2eaafee6f11331c11c33833bd57c14ba	drink 1 Gnollish sangria
 2240
 2241
-2242
-2243
+2242	Mer-kindliness	merkinmask.gif	e53cd8b45e9ab668f0e3b00606273584	drink 1 vodka stinger
+2243	Mer-kinkiness	gladmask.gif	81629060c68a0bd229b2c027e4677f88	drink 1 vodka barracuda
 2244
 2245
 2246	Slippery Tongue	tongue.gif	bbfca6078b816c398b444446bd69bd22	drink 1 extremely slippery nipple
@@ -2259,8 +2259,9 @@
 2259	Here's Some More Mud in Your Eye	coalbutton.gif	dd1707f95c83a2d75581b3064859d755	drink 1 dirt julep
 2260
 2261
-2262
-2263
+2262	Slime Time	gooball.gif	e723d5d2a2293617e9c28a5cbb736b97	drink 1 London frog
+2263	The Secret of the Ooze	sebashield.gif	02010e747d2a195f3908b9ddf3cd1cbb	drink 1 Simepore slime
 2264
 2265
 2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	drink 1 nothingtini
+2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	drink 1 Phil Collins
