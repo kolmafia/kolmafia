@@ -2195,12 +2195,12 @@
 2195	Feeling Insignificant	tinydancer.gif	a1a1d6611adceb88d5cc21c9791c5050
 2196	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	tentacle.gif	0bee8497953c044ccbb26769436874aa	use 1 eldritch rub
 2197	Hagnk's Gratitude	happy.gif	12ab723a001e17699fcf41cc1ff55cc7
-2198
+2198	Wings of the Grasshopper	locust1.gif	b87ab6a546097731791c4e2cbbd00a71	drink 1 literal grasshopper
 2199	Wings of the Dragonfly	dragonfly.gif	9a5f36faa5771f5aaf9a2ca3db7c64b7	drink 1 eighth plague
 2200
 2201
-2202
-2203
+2202	Space Cadet	spacehelmet.gif	62361e332402328f9398ded1aa551bda	drink 1 double entendre
+2203	Pounded by the Actual Stars	tinystars.gif	3414fb4ec08f761d3b0ea241aaba270f	drink 1 single entendre
 2204
 2205
 2206	Flambé-a-thon	hurricane_f.gif	04d1ad82de59c3fd9be3fe6e6688c3ef	drink 1 Phlegethon
@@ -2219,8 +2219,8 @@
 2219	Fishtacular Vernacular	fishhead.gif	5aa995941311171f0fe893dc7d264b09	drink 1 Bloody Nora
 2220
 2221
-2222
-2223
+2222	Mushroom Samba	broshroom.gif	4b527a5d76592772cad1dbac8ff98b58	drink 1 shroomtini
+2223	Truffle Tango	sleightshroom.gif	fb4176165c054ea0a34ecfa6d6a03558	drink 1 moreltini
 2224
 2225
 2226	Granolarrrgh	granolashot.gif	0d5449c0c73c1437d69054a04e755fe6	drink 1 morning dew
