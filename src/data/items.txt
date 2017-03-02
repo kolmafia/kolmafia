@@ -9425,3 +9425,4 @@
 9399
 9400
 9401	unpowered Robortender	726929105	robotenderlarva.gif	grow	t	0
+9402	toggle switch (Bartend)	431660273	toggleswitch2.gif	familiar	t,d	75
