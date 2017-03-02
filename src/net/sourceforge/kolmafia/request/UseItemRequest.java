@@ -1953,12 +1953,14 @@ public class UseItemRequest
 
 		// You absorb some new knowledge of humanity!
 		// You absorb the
+		// You don't gain any new knowledge from absorbing that item, but you're able to extract a lot of energy from it!
 
 		// Fail to absorb because it's a bad target:
 		// That's too important to absorb.
 		// You can't absorb something you don't have.
 		if ( responseText.contains( "absorb some new knowledge" ) ||
-		     responseText.contains( "You absorb the" ) )
+		     responseText.contains( "You absorb the" ) ||
+			 responseText.contains( "absorbing that item" ) )
 		{
 			String message = "Absorbing " + item.getName();
 			KoLCharacter.incrementAbsorbs( 1 );
