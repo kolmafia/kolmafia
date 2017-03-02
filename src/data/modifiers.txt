@@ -3752,6 +3752,7 @@ Item	tiny sombrero	Sombrero Bonus: +10
 Item	tiny top hat and cane	Fairy: 1.0
 Item	Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Softcore Only, Generic
 Item	toggle switch (Bartend)	Familiar Weight: +5
+Item	toggle switch (Bounce)	Familiar Weight: +5, Equips On: "Robortender"
 Item	topiary noseplugs	Familiar Weight: +5
 Item	toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
@@ -4425,6 +4426,7 @@ Effect	Better Off Bread	Avatar: "Bread Golem"
 Effect	Beyond the Pail	Avatar: "fishy pirate"
 Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
+Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
 Effect	Big Square Head	Avatar: "Arthur Frankenstein"
 Effect	Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
@@ -4688,6 +4690,7 @@ Effect	Cowrruption	Muscle Limit: [30-30*class(Cow Puncher)], Moxie Limit: [30-30
 Effect	Cranberry Cordiality	Meat Drop: +10
 # Crappily Disguised as a Waiter: You almost look sort of like a waiter.
 Effect	Cravin' for a Ravin'	Meat Drop: +100
+Effect	Creepin' Up on You	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Creepypasted	Spooky Damage: +50
 Effect	Crimbo Epiphany	Mysticality Percent: +10
 Effect	Crimbo Flavor	Spell Damage: +30
@@ -4953,6 +4956,7 @@ Effect	First Eye Blind	Muscle Percent: -10, Mysticality Percent: -10, Moxie Perc
 Effect	First, Like, Do No Harm?	Avatar: "Sorority Nurse"
 Effect	Fishbreath	Stench Damage: +15
 Effect	Fishily Speeding	Initiative: +50
+Effect	Fishtacular Vernacular	Fishing Skill: +10
 # Fishy: -1 Adventure cost underwater
 # Fishy, Oily: (In Heavy Rains only)
 Effect	Fishy, Oily	Initiative: [60*path(Heavy Rains)]
@@ -4963,6 +4967,7 @@ Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Reg
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
+Effect	Flambé-a-thon	Hot Damage: +20, Hot Spell Damage: +20
 Effect	Flame-Retardant Trousers	Hot Resistance: +1
 Effect	Flamibili Tea	Hot Damage: +30
 Effect	Flaming Weapon	Hot Damage: +3
@@ -4979,6 +4984,7 @@ Effect	Flexibili Tea	Experience (Moxie): +3
 # Float Like a Butterfly, Smell Like a Bee: Bzzzzzz
 Effect	Flop Sweat	Sleaze Resistance: +7
 Effect	Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
+Effect	Floundering	Fishing Skill: +5
 Effect	Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Fly for a White Guy	Avatar: "Gnollish Flyslayer"
 Effect	Flyin' Drunk	Initiative: +100, Damage Reduction: 25
@@ -5074,6 +5080,7 @@ Effect	Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: 
 Effect	Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Effect	Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
 Effect	Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
+Effect	Granolarrrgh	Stench Damage: +20, Stench Spell Damage: +20
 Effect	Grape Expectations	Maximum HP: +50, Maximum MP: +25
 Effect	Grease Trappings	Avatar: "Grease Trapper"
 # Greased: Continually take damage
@@ -5160,6 +5167,7 @@ Effect	Heightened Senses	Meat Drop: +50, Item Drop: +25
 # Heisenberglary: Mysticality +/-Y
 # Heisenberglary: Moxie  +/-Z
 Effect	Held Closer	Item Drop: +20
+Effect	Hell ib a Hambasked	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Effect	Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Effect	Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
@@ -5169,6 +5177,8 @@ Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Effect	Hennaliciousness	Mysticality: +3
 Effect	Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)]
 Effect	Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
+Effect	Here's Mud in Your Eye	Meat Drop: +50
+Effect	Here's Some More Mud in Your Eye	Meat Drop: +100
 Effect	Hernia!	Muscle Percent: -70
 Effect	Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
@@ -5184,6 +5194,7 @@ Effect	[1872]Hip to the Jive	Avatar: "hep cat"
 Effect	Hippy Flavor	Mysticality: +15
 Effect	Hippy Stench	Combat Rate: +5
 Effect	Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
+Effect	Hobo Powering Up!	Hobo Power: +10
 Effect	Hobonic	Hobo Power: +5
 Effect	Hoity Toity	Item Drop: +30
 Effect	Holiday Bliss	Item Drop: +20, Meat Drop: +20
@@ -5303,6 +5314,7 @@ Effect	Irritabili Tea	Combat Rate: +5
 Effect	Is This Your Card?	Spell Damage Percent: +50
 Effect	Isskay like an Ashtray	Moxie Percent: +20, Mysticality Percent: -20, Experience (Moxie): +2, Pickpocket Chance: +10
 Effect	It Didn't Kill You	Muscle Percent: +50
+Effect	It Is So Hot In Your Guts, So So Hot	Hot Damage: +40, Hot Spell Damage: +40
 Effect	It Tickles! It Tickles!	MP Regen Min: 4, MP Regen Max: 6
 Effect	It's a Good Life!	Experience: +10, Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 # It's Electric!: Damages Attacking Opponents
@@ -5432,6 +5444,7 @@ Effect	Mad at Science	Muscle: +3
 Effect	Made Up, Watered Down	Moxie: +30
 Effect	Madly Liberated	Avatar: "The Mad Libber"
 # Magic Tongue: Everything tastes weird
+Effect	Magically Delicious	Mysticality: +40
 Effect	Magically Fingered	Maximum MP: +150, MP Regen Min: 40, MP Regen Max: 50
 Effect	Magicianship	Mysticality Percent: +200
 Effect	Magnetized Ears	Item Drop: +15
@@ -5571,6 +5584,7 @@ Effect	No Worries	Experience: +3
 Effect	Norwhalloped	MP Regen Min: 6, MP Regen Max: 10
 Effect	Not Sharing	Monster Level: +25
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
+Effect	Nothing Happened	Monster Level: +20
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
@@ -5624,6 +5638,7 @@ Effect	Orange Crusher	Muscle: [ceil(min(T,50)/2)], Experience (Muscle): [ceil(mi
 Effect	Orange Tongue	Experience: +3
 Effect	Orc Chops	Muscle: +50
 Effect	Orchid Blood	MP Regen Min: 5, MP Regen Max: 10
+Effect	Orcmouth	Sleaze Damage: +40, Sleaze Spell Damage: +40
 Effect	Oriental Mysticism	Mysticality Percent: +5
 Effect	Osseous George	Avatar: "skeletal monkey"
 Effect	Oth-Jeal-O	Othello Skill: +20
@@ -6110,7 +6125,9 @@ Effect	Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Effect	Straw Pole-Ish	Avatar: "Medieval strawman debator"
 Effect	Strawberry Alarm	Initiative: +50
+Effect	Stregngth of the Gnome	Muscle: +20
 Effect	Strength of Ten Ettins	Muscle Percent: +25
+Effect	Strength of the Gnoll	Muscle: +40
 Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
 Effect	Strong Spirit	Muscle: +15
@@ -6221,6 +6238,7 @@ Effect	The Dark Lord Rides in Force Tonight	Spooky Damage: +40
 Effect	The Dinsey Look	Monster Level: +40
 Effect	The Dinsey Spirit	Item Drop: +40
 Effect	The Dinsey Way	Meat Drop: +80
+Effect	The Effect Man Was Not Meant to Have	Spooky Damage: +40, Spooky Spell Damage: +40
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
 Effect	The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
 Effect	The Glistening	Initiative: +20, Damage Reduction: 5
@@ -6458,6 +6476,7 @@ Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
 # Wings: You believe you can fly!
+Effect	Wings of the Dragonfly	Initiative: +100
 Effect	Winklered	Meat Drop: +40
 Effect	Winning Smile	Experience: +3
 Effect	Wintergreen Warmongery	Muscle: +30
@@ -6489,6 +6508,7 @@ Effect	Yoloswagyoloswag	Sleaze Damage: +15, Sleaze Spell Damage: +15, Monster Le
 Effect	You Ate Some Hemp Candy	Maximum MP: +50, Experience (Mysticality): +2
 Effect	You Can Really Taste the Dormouse	Familiar Weight: +5
 Effect	You Can Taste the Darkness	Spooky Resistance: +9, Spooky Damage: +100
+Effect	You Drank Fish Wine	Cold Damage: +20, Cold Spell Damage: +20
 Effect	You Know What's Up	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	You Know When to Walk Away	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -7360,6 +7380,7 @@ Item	blood and blood	Effect: "Bloodthirsty", Effect Duration: 30
 Item	Blood Light	Effect: "Bloody-minded", Effect Duration: 30
 Item	blood-red mushroom wine	Effect: "Helvella Health", Effect Duration: 80
 Item	bloody kiwitini	Effect: "First Blood Kiwi", Effect Duration: 10
+Item	Bloody Nora	Effect: "Fishtacular Vernacular", Effect Duration: 40
 Item	Bone's Farm &quot;wine&quot;	Effect: "Sticks and Stones", Effect Duration: 30
 Item	Bordeaux Marteaux	Effect: "Hammered", Effect Duration: 20
 Item	bottle of Amontillado	Effect: "Bricked-In", Effect Duration: 100
@@ -7391,6 +7412,7 @@ Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
 Item	chakra-mental wine	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	Chakra Libre	Effect: "Transcendental Wind", Effect Duration: 10
 Item	chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
+Item	Churchill	Effect: "Big Ol' Glass of Rum", Effect Duration: 40
 Item	Cinco Mayo Lager	Effect: "Cinco Elementos", Effect Duration: 5
 Item	citrus-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	complex mushroom wine	Effect: "Omphalotus Omnipresence", Effect Duration: 80
@@ -7402,6 +7424,7 @@ Item	cursed bottle of black-label rum	Effect: "Curse Magnet", Effect Duration: 1
 Item	dew yoana lei	Effect: "Brined Liver", Effect Duration: 20
 Item	dew yoana salacious lei	Effect: "Brined Liver", Effect Duration: 30
 Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
+Item	dirt julep	Effect: "Here's Some More Mud in Your Eye", Effect Duration: 40
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 # Item Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
@@ -7420,9 +7443,11 @@ Item	dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
 Item	Earth and Firewater	Effect: "Elemental Mastery", Effect Duration: 10
 Item	Earth, Wind and Firewater	Effect: "Elemental Mastery", Effect Duration: 15
 Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
+Item	eighth plague	Effect: "Wings of the Dragonfly", Effect Duration: 40
 Item	eldritch elixir	Effect: "Eldritch Attunement", Effect Duration: 5
 Item	eldritch extract	Effect: "Eldritch Concentration", Effect Duration: 10
 Item	electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
+Item	elemental caipiroska	Effect: "Magically Delicious", Effect Duration: 40
 Item	elven cellocello	Effect: "Sugar Rush", Effect Duration: 20
 Item	elven moonshine	Effect: "Drunk With Power", Effect Duration: 20
 Item	emergency margarita	Effect: "Margamergency", Effect Duration: 1
@@ -7451,13 +7476,17 @@ Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
 Item	gingerbread wine	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	glass of herbal tequila	Effect: "Herbal Pert", Effect Duration: 50
 Item	gloomy mushroom wine	Effect: "Gothy", Effect Duration: 20
+Item	Gnollish sangria	Effect: "Strength of the Gnoll", Effect Duration: 40
+Item	Gnomish sagngria	Effect: "Stregngth of the Gnome", Effect Duration: 40
 Item	Golden Mean	Effect: "World's Shortest Giant", Effect Duration: 10
 Item	Grasshopper	Effect: "Cockroach Scurry", Effect Duration: 5
-Item	Great Old Fashioned	Effect: "Void Between the Stars", Effect Duration: 5
+Item	great old fashioned	Effect: "Creepin' Up on You", Effect Duration: 40
+Item	Great Older Fashioned	Effect: "Void Between the Stars", Effect Duration: 5
 Item	green eggnog	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	Green Giant	Effect: "World's Shortest Giant", Effect Duration: 15
 Item	Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30
 Item	Haymaker	Effect: "Fishy", Effect Duration: 15
+Item	hell in a bucket	Effect: "Hell ib a Hambasked", Effect Duration: 40
 Item	Herring Daiquiri	Effect: "Fishy", Effect Duration: 5
 Item	Herring Wallbanger	Effect: "Fishy", Effect Duration: 10
 Item	herringcello	Effect: "Sugar Rush", Effect Duration: 20
@@ -7479,6 +7508,7 @@ Item	lavawater	Effect: "Sizzling with Fury", Effect Duration: 50
 Item	Lemonade-235	Effect: "Radiated and Grodiated", Effect Duration: 40
 Item	Locust	Effect: "Cockroach Scurry", Effect Duration: 10
 Item	Lollipop Drop	Effect: "Holiday Bliss", Effect Duration: 5
+Item	low tide martini	Effect: "Floundering", Effect Duration: 40
 Item	Lumineux Limnio	Effect: "Bright!", Effect Duration: 50
 Item	lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 Item	marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
@@ -7487,25 +7517,33 @@ Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	mini-martini	Effect: "It's Not Even Funny", Effect Duration: 11
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10
+Item	morning dew	Effect: "Granolarrrgh", Effect Duration: 40
 Item	Morto Moreto	Effect: "Majorly Poisoned", Effect Duration: 100
 Item	mulled berry wine	Effect: "Sweet Nostalgia", Effect Duration: 30
 Item	Murderer's Punch	Effect: "Punchy, Murdery", Effect Duration: 40
 Item	Muschat	Effect: "L'instinct F&eacute;lin", Effect Duration: 20
+Item	Mysterious Island iced tea	Effect: "Orcmouth", Effect Duration: 40
 Item	nanite-infested eggnog	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	natto-infused sake	Effect: "Ninja, Please", Effect Duration: 30
 Item	New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
+Item	Newark	Effect: "Hobo Powering Up!", Effect Duration: 40
 Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
+Item	nothingtini	Effect: "Nothing Happened", Effect Duration: 40
 Item	oozenog	Effect: "Festive Radiation", Effect Duration: 10
 Item	Oreille Divis&eacute;e brandy	Effect: "Hoity Toity", Effect Duration: 20
 Item	overpowering mushroom wine	Effect: "Boletus Swoletus", Effect Duration: 80
+Item	Phlegethon	Effect: "Flambé-a-thon", Effect Duration: 40
+Item	piscatini	Effect: "You Drank Fish Wine", Effect Duration: 40
 Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100
+Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40
 Item	red ale	Effect: "Putting the Pro in Proletariat", Effect Duration: 40
 Item	Red Dwarf	Effect: "World's Shortest Giant", Effect Duration: 5
 Item	red hot boilermaker	Effect: "Boilermade", Effect Duration: 50
+Item	reverse Tantalus	Effect: "It Is So Hot In Your Guts, So So Hot", Effect Duration: 40
 Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 # Russian Ice: Weakens enemies somewhat when used as a combat item
 Item	Sacramento wine	Effect: "Sacré Mental", Effect Duration: 50
@@ -7535,6 +7573,7 @@ Item	slug of vodka	Effect: "Brined Liver", Effect Duration: 10
 Item	smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 Item	Sockdollager	Effect: "In a Lather", Effect Duration: 25
+Item	soilzerac	Effect: "Here's Mud in Your Eye", Effect Duration: 40
 Item	soy cordial	Effect: "Electrolyte Fantastic", Effect Duration: 2
 Item	soyburger juice	Effect: "Oversaturated Palate", Effect Duration: 1
 Item	Strikes Again Bigmouth	Effect: "Smithsness Cheer", Effect Duration: 50
