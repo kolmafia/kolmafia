@@ -5613,7 +5613,7 @@
 5588	Humanitini	822675650	martini.gif	drink	t,d	10	Humanitinii
 5589	More Humanitini than Humanitini	282001208	martini.gif	drink	t,d	25	More Humanitinis than Humanitinis
 5590	Oh, the Humanitini	839812561	martini_f.gif	drink	t,d	50
-5591	Greater Old Fashioned	238625388	rocks.gif	drink	t,d	10
+5591	Great Older Fashioned	238625388	rocks.gif	drink	t,d	10
 5592	Fuzzy Tentacle	187788581	chamfluteu.gif	drink	t,d	25
 5593	Crazymaker	660220677	juice.gif	drink	t,d	50
 5594	Zoodriver	624051601	rocks.gif	drink	t,d	10
@@ -9371,7 +9371,7 @@
 9345	Gummi-Memory	122696052	gummimemory.gif	usable	t	0
 9346	Thwaitgold amoeba statuette	712215594	thwaitamoeba.gif	none		0
 9347	pickled grasshopper	128595775	locust1.gif	none	t,d	5
-9348
+9348	bottle of an&iacute;s	262960551	fancybrew.gif	none	t,d	5
 9349	bottle of novelty hot sauce	855974990	ww_sauce.gif	none	t,d	5
 9350	elemental sugarcube	938834134	cube.gif	none	t,d	5
 9351
@@ -9384,7 +9384,7 @@
 9358	bottle of Cr&egrave;me de Fugu	529981603	champagne.gif	none	t,d	5
 9359
 9360
-9361
+9361	limepatch	818648997	limepatch.gif	none	t,d	5
 9362	pile of dirt	297242000	powderpile2.gif	none	t,d	5
 9363
 9364	imaginary lemon	373210565	imaginarylemon.gif	none	t,d	5
@@ -9400,7 +9400,7 @@
 9374	great old fashioned	122490232	perf_oldf.gif	drink	t,d	10
 9375	Gnomish sagngria	830423004	wine.gif	drink	t,d	10
 9376
-9377
+9377	extremely slippery nipple	173189557	perf_cosmo.gif	drink	t,d	10
 9378	piscatini	190356120	jarl_chunkymary.gif	drink	t,d	10
 9379	Churchill	958768729	perf_oldf.gif	drink	t,d	10
 9380	soilzerac	336517414	jarl_sauerlager.gif	drink	t,d	10
@@ -9420,7 +9420,7 @@
 9394
 9395	Mysterious Island iced tea	791471608	icedtea.gif	drink	t,d	15
 9396
-9397
+9397	gunner's daughter	236378730	fruitym.gif	drink	t,d	15
 9398	dirt julep	143638977	granolashot.gif	drink	t,d	15
 9399
 9400

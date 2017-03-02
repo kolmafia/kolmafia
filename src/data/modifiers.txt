@@ -5369,6 +5369,7 @@ Effect	Kid Dracularp	Avatar: "vampire"
 Effect	Kindly Resolve	Familiar Weight: +5
 Effect	Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Effect	Kissed By Fire	Maximum HP: +25, Hot Damage: +25, Hot Spell Damage: +25
+Effect	Kissed the Gunner's Daughter	Moxie: +40
 Effect	Kitty Littered	Avatar: "Iiti Kitty"
 Effect	Knightlife	Moxie Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Knob Goblin Lust Frenzy	Moxie: +2
@@ -5900,6 +5901,7 @@ Effect	Sharin' Stone	Avatar: "Stone Golem"
 # Sharp Weapon: +3-5 Weapon Damage
 # Sheepskinned: Your regular attacks deal Sleaze damage
 Effect	Slawdered	Avatar: "Kudzu"
+Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Smoothly Criminal...ing	Avatar: "Smooth Criminal"
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 # Stormswaddled: Damages attacking opponents
@@ -7457,6 +7459,7 @@ Item	evil horizontal tango	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	evil roll in the hay	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 30
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10
+Item	extremely slippery nipple	Effect: "Slippery Tongue", Effect Duration: 40
 Item	Falcon&trade; Maltese Liquor	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Item	Fauna Libre	Effect: "Transcendental Wind", Effect Duration: 5
@@ -7485,6 +7488,7 @@ Item	Great Older Fashioned	Effect: "Void Between the Stars", Effect Duration: 5
 Item	green eggnog	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	Green Giant	Effect: "World's Shortest Giant", Effect Duration: 15
 Item	Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30
+Item	gunner's daughter	Effect: "Kissed the Gunner's Daughter", Effect Duration: 40
 Item	Haymaker	Effect: "Fishy", Effect Duration: 15
 Item	hell in a bucket	Effect: "Hell ib a Hambasked", Effect Duration: 40
 Item	Herring Daiquiri	Effect: "Fishy", Effect Duration: 5
