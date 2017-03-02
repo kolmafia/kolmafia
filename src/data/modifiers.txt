@@ -3751,6 +3751,7 @@ Item	tiny sombrero	Sombrero Bonus: +10
 # tiny top hat and cane: (adds item0 to familiar abilities)
 Item	tiny top hat and cane	Fairy: 1.0
 Item	Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Softcore Only, Generic
+Item	toggle switch (Bartend)	Familiar Weight: +5
 Item	topiary noseplugs	Familiar Weight: +5
 Item	toy six-seater hovercraft	Familiar Weight: -5
 # tuning fork: Familiar Will Attack You Less Often
