@@ -1021,7 +1021,7 @@
 1020	Transcendental Wind	wind.gif	bd99b8be9799c485fbcc6fe8d062f924	drink either 1 Fauna Libre, 1 Chakra Libre, 1 Aura Libre
 1021	Orc Chops	frathead.gif	797e9a674436ff0334e94e99909b1a7c	drink either 1 Sazerorc, 1 Sazuruk-hai, 1 Flaming Sazerorc
 1022	Heart Aflame	flameheart.gif	b23b5bfbe8e2deb6fce772fd3a521fb8	drink either 1 Suffering Sinner, 1 Suppurating Sinner, 1 Sizzling Sinner
-1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Greater Old Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
+1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Great Older Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
 1024	Gutterminded	guttermind.gif	a7078f10bbe13fa991602b9990b0d9bb	drink either 1 Buttery Knob, 1 Slippery Knob, 1 Flaming Knob
 1025	Arresistible	handhook.gif	e49cef94ac423d6766232f0b6666d74e	drink either 1 Aye Aye, 1 Aye Aye Captain, 1 Aye Aye Tooth Tooth
 1026	Heisenberglary	confused.gif	c82b8774eb111fdf7088d4768bc8432e	drink either 1 Drunken Philosopher, 1 Drunken Neurologist, 1 Drunken Astrophysicist
@@ -2243,7 +2243,7 @@
 2243
 2244
 2245
-2246
+2246	Slippery Tongue	tongue.gif	bbfca6078b816c398b444446bd69bd22	drink 1 extremely slippery nipple
 2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	drink 1 Mysterious Island iced tea
 2248
 2249
@@ -2252,7 +2252,7 @@
 2252
 2253
 2254	Big Ol' Glass of Rum	rocks.gif	3007d376a922ad2c7b191ea84b0ac0c5	drink 1 Churchill
-2255
+2255	Kissed the Gunner's Daughter	minicannon.gif	08165019b5e9fa66b070ee680a935ab4	drink 1 gunner's daughter
 2256
 2257
 2258	Here's Mud in Your Eye	chocolump.gif	748b6d1f2067a1728cabe84729de2c02	drink 1 soilzerac
