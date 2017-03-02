@@ -4617,6 +4617,7 @@ Effect	Chocolatesphere	Combat Rate: -15
 Effect	Cholestoriffic	Sleaze Damage: [min(100,T)]
 Effect	Chorale of Companionship	Familiar Weight: +10
 Effect	Chow Downed	Familiar Weight: +5
+Effect	Christmessy	Familiar Weight: +5
 Effect	Chronologically Pummeled	Moxie: +20, Muscle: -5, Mysticality: -5
 Effect	Chunky	Maximum HP: +30
 Effect	Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
@@ -5171,6 +5172,7 @@ Effect	Hell ib a Hambasked	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Hella Smart	Mysticality Percent: +25, Spell Damage: +15, MP Regen Min: 10, MP Regen Max: 15
 Effect	Hella Smooth	Moxie Percent: +25, Meat Drop: +40, Item Drop: +20
 Effect	Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
+Effect	Hello, I Must Be Going	Monster Level: +40
 Effect	HELLO WORLD!	Avatar: "triad code wizard"
 Effect	Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
 Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
@@ -5194,6 +5196,7 @@ Effect	[1872]Hip to the Jive	Avatar: "hep cat"
 Effect	Hippy Flavor	Mysticality: +15
 Effect	Hippy Stench	Combat Rate: +5
 Effect	Hobo Flavor	Stench Damage: +10, Stench Resistance: +2
+Effect	Hobo Powers Activate!	Hobo Power: +10
 Effect	Hobo Powering Up!	Hobo Power: +10
 Effect	Hobonic	Hobo Power: +5
 Effect	Hoity Toity	Item Drop: +30
@@ -5487,6 +5490,8 @@ Effect	Memory of Strength	Muscle Percent: +100
 Effect	Mental A-cue-ity	Spell Damage Percent: +50, MP Regen Min: 10, MP Regen Max: 10
 Effect	Mer-kinny Flavor	Adventure Underwater
 Effect	Mercenary	Item Drop: +40
+Effect	Mer-kindliness	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Effect	Mer-kinkiness	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
 # Merry Smithsness: (+% to All Stats Based on Smithsness)
 Effect	Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
 Effect	Metal Speed	Initiative: +20
@@ -5901,16 +5906,10 @@ Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 Effect	Sharin' Stone	Avatar: "Stone Golem"
 # Sharp Weapon: +3-5 Weapon Damage
-# Sheepskinned: Your regular attacks deal Sleaze damage
-Effect	Slawdered	Avatar: "Kudzu"
-Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
-Effect	Smoothly Criminal...ing	Avatar: "Smooth Criminal"
-Effect	SNAPPED INTO IT	Avatar: "Macho Man"
-# Stormswaddled: Damages attacking opponents
-Effect	Stormswaddled	Spell Damage Percent: +100
 Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
 Effect	She Ate Too Much Candy	Familiar Weight: [min(T,25)]
+# Sheepskinned: Your regular attacks deal Sleaze damage
 Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
@@ -5957,6 +5956,7 @@ Effect	Skinvisible	Avatar: "former owner of the Skeleton Store"
 Effect	Skull Full of Hot Chocolate	Cold Resistance: +2
 Effect	Skulla, Brah	Avatar: "haunted skullabra"
 # Skunkulated: Take stench damage every round of combat
+Effect	Slawdered	Avatar: "Kudzu"
 Effect	Sleaze-Resistant Trousers	Sleaze Resistance: +1
 # Sleazeform: Wink Wink, Nudge Nudge
 Effect	Sleazeform	Sleaze Immunity, Cold Vulnerability, Spooky Vulnerability
@@ -5970,6 +5970,7 @@ Effect	Sleepy	Muscle Percent: -30
 Effect	[1342]Slicked-Back Do	Moxie: +20
 Effect	[1553]Slicked-Back Do	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
+Effect	Slime Time	Maximum HP Percent: +100
 Effect	Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
 Effect	Slimed	Spooky Damage: +20
@@ -5997,7 +5998,9 @@ Effect	Smoking like a Bandit	Moxie Percent: +100
 Effect	Smoky Third Eye	Mysticality: +10
 # Smooth Legs: You know how to use them.
 Effect	Smooth Movements	Combat Rate: -5
+Effect	Smoothly Criminal...ing	Avatar: "Smooth Criminal"
 Effect	Smugness	Moxie: +5
+Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Snarl of the Timberwolf	Spooky Damage: +10
 Effect	Sneaky Serpentine Subtlety	Moxie Percent: +100
 Effect	Snobby	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -6127,6 +6130,8 @@ Effect	Stogied	Stench Damage: +50, Stench Spell Damage: +50, Hot Resistance: +5,
 Effect	Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
 Effect	Stopping to Smell the Flowers	Experience: +3
+# Stormswaddled: Damages attacking opponents
+Effect	Stormswaddled	Spell Damage Percent: +100
 Effect	Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Effect	Straw Pole-Ish	Avatar: "Medieval strawman debator"
@@ -6145,6 +6150,7 @@ Effect	Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysti
 Effect	Stumpy	Initiative: -50
 Effect	substats.enh	Experience: +3
 Effect	Sugar-Frosted Pet Guts	Familiar Weight: +5
+Effect	Sugar, Hello	Mysticality: +20
 Effect	Sugar High	Mysticality Percent: +30
 Effect	Sugar Rush	Initiative: +20, Muscle Percent: +5, Moxie Percent: +5, Mysticality Percent: -10
 Effect	Sugar Smacks	Muscle Percent: +30
@@ -6279,6 +6285,7 @@ Effect	The Real Deal	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Re
 Effect	The Rich Get Richer	Meat Drop: +50
 Effect	The Royal We	Experience: [25+floor(min(50,pref(chessboardsCleared))/2)]
 Effect	The Saddest Helmet	Avatar: "Sadiator"
+Effect	The Secret of the Ooze	Maximum HP Percent: +200
 Effect	The Smeezingtons	Muscle Percent: +100
 Effect	The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	The Solution	Weapon Damage: +25
@@ -6440,6 +6447,7 @@ Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
 # Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Effect	Wasabi With You	Weapon Damage Percent: +150
+Effect	Wassailing You	Familiar Weight: +5
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
@@ -7470,6 +7478,7 @@ Item	extremely slippery nipple	Effect: "Slippery Tongue", Effect Duration: 40
 Item	Falcon&trade; Maltese Liquor	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	Fantasma en la M&aacute;quina	Effect: "Sangre Brillante", Effect Duration: 13
 Item	Fauna Libre	Effect: "Transcendental Wind", Effect Duration: 5
+Item	Feliz Navidad	Effect: "Wassailing You", Effect Duration: 40
 Item	firemilk	Effect: "Cowrruption", Effect Duration: 30
 Item	Firewater	Effect: "Elemental Mastery", Effect Duration: 5
 Item	Flaming Caipiranha	Effect: "Fishy", Effect Duration: 15
@@ -7520,12 +7529,14 @@ Item	Lemonade-235	Effect: "Radiated and Grodiated", Effect Duration: 40
 Item	literal grasshopper	Effect: "Wings of the Grasshopper", Effect Duration: 40
 Item	Locust	Effect: "Cockroach Scurry", Effect Duration: 10
 Item	Lollipop Drop	Effect: "Holiday Bliss", Effect Duration: 5
+Item	London frog	Effect: "Slime Time", Effect Duration: 40
 Item	low tide martini	Effect: "Floundering", Effect Duration: 40
 Item	Lumineux Limnio	Effect: "Bright!", Effect Duration: 50
 Item	lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 Item	marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
 Item	McLeod's Hard Haggis-Ade	Effect: "Hagg-ard", Effect Duration: 20
 Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
+Item	mentholated wine	Effect: "Christmessy", Effect Duration: 20
 Item	mini-martini	Effect: "It's Not Even Funny", Effect Duration: 11
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10
@@ -7545,6 +7556,7 @@ Item	nothingtini	Effect: "Nothing Happened", Effect Duration: 40
 Item	oozenog	Effect: "Festive Radiation", Effect Duration: 10
 Item	Oreille Divis&eacute;e brandy	Effect: "Hoity Toity", Effect Duration: 20
 Item	overpowering mushroom wine	Effect: "Boletus Swoletus", Effect Duration: 80
+Item	Phil Collins	Effect: "Hello, I Must Be Going", Effect Duration: 40
 Item	Phlegethon	Effect: "Flambé-a-thon", Effect Duration: 40
 Item	piscatini	Effect: "You Drank Fish Wine", Effect Duration: 40
 Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
@@ -7573,7 +7585,9 @@ Item	shot of mescal	Effect: "Brainworm", Effect Duration: 50
 Item	shot of nepenthe schnapps	Effect: "Memento Moir&eacute;", Effect Duration: 10
 Item	Shot of the Living Dead	Effect: "Creepypasted ", Effect Duration: 15
 Item	shroomtini	Effect: "Mushroom Samba", Effect Duration: 40
+Item	Siberian sunrise	Effect: "Sugar, Hello", Effect Duration: 40
 Item	Silver Bullet beer	Effect: "Wolf's Bane", Effect Duration: 30
+Item	Simepore slime	Effect: "The Secret of the Ooze", Effect Duration: 40
 Item	single entendre	Effect: "Pounded by the Actual Stars", Effect Duration: 40
 Item	Sizzling Sinner	Effect: "Heart Aflame", Effect Duration: 15
 Item	Slimebite	Effect: "In the Slimelight", Effect Duration: 15
@@ -7603,12 +7617,15 @@ Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
+Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40
+Item	vodka stinger	Effect: "Mer-kindliness", Effect Duration: 40
 Item	warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40
 Item	warbear blizzard mead	Effect: "Warbear Blubber", Effect Duration: 40
 Item	warbear feasting mead	Effect: "Warbear Loot Lust", Effect Duration: 40
 Item	wasabi-infused sake	Effect: "Wasabi With You", Effect Duration: 30
 Item	wax booze	Effect: "Waxing", Effect Duration: 30
 Item	whiskey in a broken glass	Effect: "Bloody Grin", Effect Duration: 50
+Item	whiskey squeeze	Effect: "Hobo Powers Activate!", Effect Duration: 20
 Item	white Canadian	Effect: "Canadianity", Effect Duration: 3
 Item	white Dreadsylvanian	Effect: "Whitesloshed", Effect Duration: 50
 Item	white lightning	Effect: "Temporary Blindness", Effect Duration: 3

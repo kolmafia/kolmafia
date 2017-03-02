@@ -2902,3 +2902,21 @@ double entendre	MIX	bottle of tequila	bottle of an&iacute;s
 single entendre	MIX	double entendre	lemon
 extremely slippery nipple	MIX	bottle of tequila	baby oil shooter
 Mysterious Island iced tea	MIX	extremely slippery nipple	soda water
+mentholated wine	MIX	boxed wine	peppermint sprig
+Feliz Navidad	MIX	mentholated wine	orange
+Gnomish sagngria	MIX	boxed wine	bottle of gregnadigne
+Gnollish sangria	MIX	Gnomish sagngria	strawberry
+morning dew	MIX	shot of granola liqueur	bottle of rum
+hell in a bucket	MIX	morning dew	soda water
+London frog	MIX	bottle of gin	slime shooter
+Simepore slime	MIX	London frog	strawberry
+nothingtini	MIX	bottle of gin	imaginary lemon
+Phil Collins	MIX	nothingtini	soda water
+Phlegethon	MIX	bottle of rum	bottle of novelty hot sauce
+reverse Tantalus	MIX	Phlegethon	orange
+vodka stinger	MIX	bottle of vodka	bottle of Cr&egrave;me de Fugu
+vodka barracuda	MIX	vodka stinger	lemon
+whiskey squeeze	MIX	bottle of whiskey	can of cherry-flavored sterno
+Newark	MIX	whiskey squeeze	orange
+Siberian sunrise	MIX	bottle of vodka	elemental sugarcube
+elemental caipiroska	MIX	Siberian sunrise	grapefruit
