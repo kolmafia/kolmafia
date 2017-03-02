@@ -1021,7 +1021,7 @@
 1020	Transcendental Wind	wind.gif	bd99b8be9799c485fbcc6fe8d062f924	drink either 1 Fauna Libre, 1 Chakra Libre, 1 Aura Libre
 1021	Orc Chops	frathead.gif	797e9a674436ff0334e94e99909b1a7c	drink either 1 Sazerorc, 1 Sazuruk-hai, 1 Flaming Sazerorc
 1022	Heart Aflame	flameheart.gif	b23b5bfbe8e2deb6fce772fd3a521fb8	drink either 1 Suffering Sinner, 1 Suppurating Sinner, 1 Sizzling Sinner
-1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Great Old Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
+1023	Void Between the Stars	space.gif	d94cd7cd85e9147762348a562393172d	drink either 1 Greater Old Fashioned, 1 Fuzzy Tentacle, 1 Crazymaker
 1024	Gutterminded	guttermind.gif	a7078f10bbe13fa991602b9990b0d9bb	drink either 1 Buttery Knob, 1 Slippery Knob, 1 Flaming Knob
 1025	Arresistible	handhook.gif	e49cef94ac423d6766232f0b6666d74e	drink either 1 Aye Aye, 1 Aye Aye Captain, 1 Aye Aye Tooth Tooth
 1026	Heisenberglary	confused.gif	c82b8774eb111fdf7088d4768bc8432e	drink either 1 Drunken Philosopher, 1 Drunken Neurologist, 1 Drunken Astrophysicist
@@ -2195,3 +2195,72 @@
 2195	Feeling Insignificant	tinydancer.gif	a1a1d6611adceb88d5cc21c9791c5050
 2196	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	tentacle.gif	0bee8497953c044ccbb26769436874aa	use 1 eldritch rub
 2197	Hagnk's Gratitude	happy.gif	12ab723a001e17699fcf41cc1ff55cc7
+2198
+2199	Wings of the Dragonfly	dragonfly.gif	9a5f36faa5771f5aaf9a2ca3db7c64b7	drink 1 eighth plague
+2200
+2201
+2202
+2203
+2204
+2205
+2206	Flambé-a-thon	hurricane_f.gif	04d1ad82de59c3fd9be3fe6e6688c3ef	drink 1 Phlegethon
+2207	It Is So Hot In Your Guts, So So Hot	batgut.gif	3744d667628625ce06a7bbd473acce37	drink 1 reverse Tantalus
+2208
+2209
+2210
+2211	Magically Delicious	rrainbow.gif	51a8a6e5102e2d238b8bf56a6bffc8da	drink 1 elemental caipiroska
+2212
+2213
+2214
+2215
+2216
+2217
+2218	Floundering	fish.gif	205b217d25e01ecdb549d754cbedad67	drink 1 low tide martini
+2219	Fishtacular Vernacular	fishhead.gif	5aa995941311171f0fe893dc7d264b09	drink 1 Bloody Nora
+2220
+2221
+2222
+2223
+2224
+2225
+2226	Granolarrrgh	granolashot.gif	0d5449c0c73c1437d69054a04e755fe6	drink 1 morning dew
+2227	Hell ib a Hambasked	basket.gif	8579f68d6d1960a546622b23b74446a4	drink 1 hell in a bucket
+2228
+2229
+2230
+2231	Hobo Powering Up!	hobohead.gif	7f74b9c442eb2b189a7042d9333cd691	drink 1 Newark
+2232
+2233
+2234	Creepin' Up on You	hairdoll.gif	ea96138029a398498671e09aa6e66628	drink 1 great old fashioned
+2235	The Effect Man Was Not Meant to Have	rlyeh.gif	dedb8b7b0c6bcd6aa348eecfe24da149	drink 1 R'lyeh
+2236
+2237
+2238	Stregngth of the Gnome	strboost.gif	01f942244009e2f2c3fdf85f875ff75d	drink 1 Gnomish sagngria
+2239	Strength of the Gnoll	bigdumbbell.gif	2eaafee6f11331c11c33833bd57c14ba	drink 1 Gnollish sangria
+2240
+2241
+2242
+2243
+2244
+2245
+2246
+2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	drink 1 Mysterious Island iced tea
+2248
+2249
+2250	You Drank Fish Wine	whitewine.gif	ca447f558c3dd76c920c785ff7b89a33	drink 1 piscatini
+2251
+2252
+2253
+2254	Big Ol' Glass of Rum	rocks.gif	3007d376a922ad2c7b191ea84b0ac0c5	drink 1 Churchill
+2255
+2256
+2257
+2258	Here's Mud in Your Eye	chocolump.gif	748b6d1f2067a1728cabe84729de2c02	drink 1 soilzerac
+2259	Here's Some More Mud in Your Eye	coalbutton.gif	dd1707f95c83a2d75581b3064859d755	drink 1 dirt julep
+2260
+2261
+2262
+2263
+2264
+2265
+2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	drink 1 nothingtini
