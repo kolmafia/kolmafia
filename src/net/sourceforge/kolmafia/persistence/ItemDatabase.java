@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -542,6 +543,28 @@ public class ItemDatabase
 			{
 				int intDescId = StringUtilities.parseInt( descId );
 				int skillId = ( intDescId % 125 ) + 23001;
+				// Override Robortender items
+				switch ( itemId )
+				{
+				case ItemPool.NOVELTY_HOT_SAUCE:
+					skillId = SkillPool.FROWN_MUSCLES;
+					break;
+				case ItemPool.COCKTAIL_MUSHROOM:
+					skillId = SkillPool.RETRACTABLE_TOES;
+					break;
+				case ItemPool.GRANOLA_LIQUEUR:
+					skillId = SkillPool.INK_GLAND;
+					break;
+				case ItemPool.GREGNADIGNE:
+					skillId = SkillPool.BENDABLE_KNEES;
+					break;
+				case ItemPool.BABY_OIL_SHOOTER:
+					skillId = SkillPool.POWERFUL_VOCAL_CHORDS;
+					break;
+				case ItemPool.LIMEPATCH:
+					skillId = SkillPool.ANGER_GLANDS;
+					break;
+				}
 				ItemDatabase.addIdToNoobSkill( IntegerPool.get( skillId ), itemId );
 				ItemDatabase.noobSkillIdByItemSource.set( itemId, skillId );
 			}
