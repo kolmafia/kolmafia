@@ -2796,6 +2796,12 @@ public class ItemPool
 	public static final int DIRTY_BOTTLECAP = 9343;
 	public static final int DISCARDED_BUTTON = 9344;
 	public static final int GUMMY_MEMORY = 9345;
+	public static final int NOVELTY_HOT_SAUCE = 9349;
+	public static final int COCKTAIL_MUSHROOM = 9353;
+	public static final int GRANOLA_LIQUEUR = 9354;
+	public static final int GREGNADIGNE = 9357;
+	public static final int BABY_OIL_SHOOTER = 9359;
+	public static final int LIMEPATCH = 9361;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

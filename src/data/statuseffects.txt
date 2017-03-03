@@ -2265,3 +2265,11 @@
 2265
 2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	drink 1 nothingtini
 2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	drink 1 Phil Collins
+2268
+2269
+2270	Bent Knees	knee.gif	a91c3d843c0ed51e7c9a0a751a5833cb	cast 1 Bendable Knees
+2271	Extended Toes	manglefinger.gif	f3e6dac40e7b543b8c62aa136cd82442	cast 1 Retractable Toes
+2272	Ink Cloud	darkness.gif	7c98336be37dcfe90cb25a1d64234546	cast 1 Ink Gland
+2273	Frown	sad.gif	7eb4592f6bbae1ad0a4ddd34e8079433	cast 1 Frown Muscles
+2274	Angry	angry.gif	3667ddabd8160373f565fab58e978dd5	cast 1 Anger Glands
+2275	Screaming!  SCREAMING!  AAAAAAAH!	breath.gif	3b8628bb9c5a2a01de60b1f715c59766	cast 1 Powerful Vocal Chords

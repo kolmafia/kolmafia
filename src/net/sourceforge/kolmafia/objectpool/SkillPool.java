@@ -322,4 +322,10 @@ public class SkillPool
 	public static final int EXTRACT_OIL = 20002;
 	public static final int LONG_CON = 20007;
 	public static final int INTERNAL_SODA_MACHINE = 22039;
+	public static final int BENDABLE_KNEES = 23301;
+	public static final int RETRACTABLE_TOES = 23302;
+	public static final int INK_GLAND = 23303;
+	public static final int FROWN_MUSCLES = 23304;
+	public static final int ANGER_GLANDS = 23305;
+	public static final int POWERFUL_VOCAL_CHORDS = 23306;
 }

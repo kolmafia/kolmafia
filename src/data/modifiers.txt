@@ -4334,6 +4334,7 @@ Effect	Ancient Annoying Serpent Poison	Muscle: -5, Mysticality: -5, Moxie: -5
 Effect	Ancient Fortitude	Maximum HP Percent: +100, HP Regen Min: 90, HP Regen Max: 100
 Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	And Your Family, Too	Familiar Weight: -10
+Effect	Angry	Combat Rate: +5
 # Angry Bone: +40 Damage vs. Undead
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
@@ -4419,6 +4420,7 @@ Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)
 Effect	Bells in the Batfry	Moxie Percent: +10
 Effect	Bendin' Hell	Hot Damage: [mod(Hot Damage)], Cold Damage: [mod(Cold Damage)], Stench Damage: [mod(Stench Damage)], Spooky Damage: [mod(Spooky Damage)], Sleaze Damage: [mod(Sleaze Damage)], Hot Spell Damage: [mod(Hot Spell Damage)], Cold Spell Damage: [mod(Cold Spell Damage)], Stench Spell Damage: [mod(Stench Spell Damage)], Spooky Spell Damage: [mod(Spooky Spell Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
+Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
@@ -4898,6 +4900,7 @@ Effect	Expert Oiliness	Equalize: "Mysticality"
 Effect	Expert Timing	Item Drop: +20
 # Effect Expert Vacationer: +25% to all stat gains in exotic travel destinations
 Effect	Expert Vacationer	Experience Percent (Muscle): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Mysticality): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))], Experience Percent (Moxie): [25*(zone(Spring Break Beach)+zone(Conspiracy Island)+zone(Dinseylandfill)+zone(That 70s Volcano)+zone(The Glaciest))]
+Effect	Extended Toes	Combat Rate: -5
 Effect	Extra Backbone	Muscle: +5, Experience (Muscle): +1
 Effect	Extra Sensory Perception	Item Drop: +50
 Effect	Extra Terrestrial	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
@@ -5019,6 +5022,7 @@ Effect	Frosty	Initiative: +100, Item Drop: +100, Meat Drop: +200, Monster Level:
 # Frosty the Hitman: +0-2 <font color=gray>Spooky Damage</font>
 # Frosty the Hitman: +0-2 <font color=green>Stench Damage</font>
 # Frosty the Hitman: +0-2 <font color=blueviolet>Sleaze Damage</font>
+Effect	Frown	Combat Rate: +5
 Effect	Frozen Hands	Cold Damage: +11
 Effect	Frozen Shoulders	Cold Spell Damage: +11, Hot Resistance: +3
 Effect	Fruited	Maximum HP: +100, Maximum MP: +100
@@ -5285,6 +5289,7 @@ Effect	Influence of Sphere	Pool Skill: +5
 Effect	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	Spooky Resistance: +5, Spooky Damage: +50
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Effect	init.enh	Initiative: +50
+Effect	Ink Cloud	Combat Rate: -5
 Effect	Inked Well	Combat Rate: -10
 Effect	Inky Camouflage	Combat Rate: -5
 Effect	Innately Strong	Muscle Percent: +100, Experience (Muscle): +3
@@ -5889,6 +5894,7 @@ Effect	Science is Real	Avatar: "Mrs. K, the Chemistry Teacher"
 Effect	Scorpio Rising	Initiative: +25
 Effect	Scowl of the Auk	Weapon Damage: +10
 Effect	Scrappy, Shadowy	Spooky Damage: +25, Damage Reduction: 15
+Effect	Screaming!  SCREAMING!  AAAAAAAH!	Combat Rate: +5
 Effect	Seal Clubbing Frenzy	Muscle: +2
 Effect	Sealed Brain	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25
 Effect	Seeing Colors	Mysticality Percent: +50

@@ -1279,3 +1279,9 @@
 23201	Gelatinous Punch	gelatinousfist.gif	5	5	0
 23202	Gelatinous Headbutt	gelatinousicon.gif	5	15	0
 23203	Gelatinous Kick	gelatinousboot.gif	5	30	0
+23301	Bendable Knees	knee.gif	3	5	10
+23302	Retractable Toes	manglefinger.gif	3	5	20
+23303	Ink Gland	darkness.gif	3	5	40
+23304	Frown Muscles	sad.gif	3	5	10
+23305	Anger Glands	angry.gif	3	5	20
+23306	Powerful Vocal Chords	echo.gif	3	5	40
