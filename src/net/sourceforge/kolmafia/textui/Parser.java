@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.textui.parsetree.AggregateLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
@@ -1078,7 +1079,10 @@ public class Parser
 	{
 		Type index = aggr.getIndexType();
 		Type data = aggr.getDataType();
-		AggregateValue val = (AggregateValue) aggr.initialValue();
+
+		List<Value> keys = new ArrayList<Value>();
+		List<Value> values = new ArrayList<Value>();
+
 		while ( !"}".equals( this.currentToken() ) )
 		{
 			Value lhs = this.parseValue( scope );
@@ -1107,18 +1111,23 @@ public class Parser
 			{
 				throw this.parseException( "Invalid aggregate literal" );
 			}
-			val.aset( lhs, rhs );
+
+			keys.add( lhs );
+			values.add( rhs );
+
 			if ( !this.currentToken().equals(",") )
 			{
 				break;
 			}
 			this.readToken();
 		}
-		if ( !this.currentToken().equals( "}" ) ) {
+		if ( !this.currentToken().equals( "}" ) )
+		{
 			throw this.parseException( "}", this.currentToken() );
 		}
 		this.readToken(); // "}"
-		return val;
+
+		return new AggregateLiteral( aggr, keys, values );
 	}
 
 	private Type parseAggregateType( final Type dataType, final BasicScope scope )
