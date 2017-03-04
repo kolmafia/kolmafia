@@ -156,15 +156,4 @@ public class MapValue
 		Set set = ( (Map<Value,Value>) this.content ).keySet();
 		return set.iterator();
 	}
-
-	@Override
-	public Value execute( final Interpreter interpreter )
-	{
-		Set<Entry<Value, Value>> set = ( (Map<Value, Value>) this.content ).entrySet();
-		for ( Entry<Value, Value> entry : set )
-		{
-			entry.setValue( entry.getValue().execute( interpreter ) );
-		}
-		return this;
-	}
 }

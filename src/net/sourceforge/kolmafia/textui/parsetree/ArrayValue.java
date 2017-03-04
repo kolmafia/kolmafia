@@ -167,15 +167,4 @@ public class ArrayValue
 
 		return obj;
 	}
-
-	@Override
-	public Value execute( final Interpreter interpreter )
-	{
-		Value[] content = (Value[]) this.content;
-		for ( int i = 0; i < content.length; i++ )
-		{
-			content[i] = content[i].execute( interpreter );
-		}
-		return this;
-	}
 }

@@ -74,10 +74,4 @@ public class AggregateLiteral
 
 		return this.aggr;
 	}
-
-	@Override
-	public String toString()
-	{
-		return "aggregate " + this.type.toString();
-	}
 }
