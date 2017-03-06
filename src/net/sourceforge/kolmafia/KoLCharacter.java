@@ -4972,6 +4972,7 @@ public abstract class KoLCharacter
 			( KoLCharacter.classtype == KoLCharacter.DISCO_BANDIT ||
 			  KoLCharacter.classtype == KoLCharacter.ACCORDION_THIEF ||
 			  KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
+			  KoLCharacter.classtype == KoLCharacter.GELATINOUS_NOOB ||
 			  KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
 			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) );
 	}
