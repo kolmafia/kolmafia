@@ -9383,7 +9383,7 @@
 9357	bottle of gregnadigne	308675114	jarl_lambic.gif	none	t,d	5
 9358	bottle of Cr&egrave;me de Fugu	529981603	champagne.gif	none	t,d	5
 9359	baby oil shooter	119719515	bubblebottle.gif	none	t,d	5
-9360
+9360	fish head	407443459	fishhead.gif	none	t,d	5
 9361	limepatch	818648997	limepatch.gif	none	t,d	5
 9362	pile of dirt	297242000	powderpile2.gif	none	t,d	5
 9363	slime shooter	347011782	shot.gif	none	t,d	5
@@ -9419,7 +9419,7 @@
 9393	Gnollish sangria	627977937	redwine.gif	drink	t,d	15
 9394	vodka barracuda	820354455	rocks.gif	drink	t,d	15
 9395	Mysterious Island iced tea	791471608	icedtea.gif	drink	t,d	15
-9396
+9396	drive-by shooting	401865184	chamflute.gif	drink	t,d	15
 9397	gunner's daughter	236378730	fruitym.gif	drink	t,d	15
 9398	dirt julep	143638977	granolashot.gif	drink	t,d	15
 9399	Simepore slime	388072926	scotchrocks.gif	drink	t,d	15

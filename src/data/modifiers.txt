@@ -4824,6 +4824,7 @@ Effect	Drenched in Lava	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
 Effect	Drenched With Filth	Stench Damage: +75
 Effect	Drescher's Annoying Noise	Monster Level: +10
 Effect	Dress to Kill	Avatar: "Gnollish Crossdresser"
+Effect	Drive-By Shot	Cold Damage: +40, Cold Spell Damage: +40
 Effect	Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 # Effect Drunk and Avuncular: Booze gives 100% more Adventures
 Effect	Drunk With Power	Spell Damage Percent: +100
@@ -7457,6 +7458,7 @@ Item	Dreadsylvanian dank and stormy	Effect: "Dreadful Smell", Effect Duration: 2
 Item	Dreadsylvanian grimlet	Effect: "Dreadful Fear", Effect Duration: 200
 Item	Dreadsylvanian hot toddy	Effect: "Dreadful Heat", Effect Duration: 200
 Item	Dreadsylvanian slithery nipple	Effect: "Dreadful Sheen", Effect Duration: 200
+Item	drive-by shooting	Effect: "Drive-By Shot", Effect Duration: 40
 Item	Drunken Astrophysicist	Effect: "Heisenberglary", Effect Duration: 15
 Item	Drunken Neurologist	Effect: "Heisenberglary", Effect Duration: 10
 Item	Drunken Philosopher	Effect: "Heisenberglary", Effect Duration: 5
