@@ -2920,3 +2920,5 @@ whiskey squeeze	MIX	bottle of whiskey	can of cherry-flavored sterno
 Newark	MIX	whiskey squeeze	orange
 Siberian sunrise	MIX	bottle of vodka	elemental sugarcube
 elemental caipiroska	MIX	Siberian sunrise	grapefruit
+piscatini	MIX	boxed wine	fish head
+drive-by shooting	MIX	piscatini	grapefruit
