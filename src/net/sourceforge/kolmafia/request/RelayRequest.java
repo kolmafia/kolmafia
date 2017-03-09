@@ -503,6 +503,11 @@ public class RelayRequest
 
 				for ( String value : entry.getValue() )
 				{
+					if ( ukey.equals( "SET-COOKIE" ) )
+					{
+						value = GenericRequest.mungeCookieDomain( value );
+					}
+
 					ostream.print( key );
 					ostream.print( ": " );
 					ostream.println( value );

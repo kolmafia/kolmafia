@@ -3471,6 +3471,15 @@ public class GenericRequest
 		RequestLogger.updateDebugLog();
 	}
 
+	private static final Pattern DOMAIN_PATTERN = Pattern.compile( "; *domain=\\.?kingdomofloathing.com" );
+	public static String mungeCookieDomain( final String value )
+	{
+		Matcher m = DOMAIN_PATTERN.matcher( value );
+		return  m.find() ?
+			StringUtilities.globalStringDelete( value, m.group( 0 ) ) :
+			value;
+	}
+
 	public class ServerCookie
 		implements Comparable<ServerCookie>
 	{
@@ -3500,6 +3509,9 @@ public class GenericRequest
 				System.out.println( "Bogus cookie: " + cookie );
 				return;
 			}
+
+			// If KoL specifies a Domain attribute, we must remove it
+			value = GenericRequest.mungeCookieDomain( value );
 
 			this.name = value.substring( 0, equals );
 			this.value = value.substring( equals + 1 );
