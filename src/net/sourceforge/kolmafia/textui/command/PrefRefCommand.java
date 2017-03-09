@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,31 @@ public class PrefRefCommand
 	public PrefRefCommand()
 	{
 		this.usage = " <searchText> [regex] [user|global] - Search and list preferences";
+	}
+
+	private void dumpPrefs( StringBuilder output, Pattern p, String searchText,
+				String type, Map<String,String> prefs, Map<String,String> defaults )
+	{
+		for ( String pref : prefs.keySet() )
+		{
+			if ( !Preferences.isUserEditable( pref ) )
+			{
+				continue;
+			}
+
+			if ( p != null ? p.matcher( pref ).find() : pref.toLowerCase().contains( searchText ) )
+			{
+				output.append( "<tr><td><p>" );
+				output.append( pref );
+				output.append( "</p></td><td><p>" );
+				output.append( prefs.get( pref ) );
+				output.append( "</p></td><td><p>" );
+				output.append( defaults.containsKey( pref ) ? defaults.get( pref ) : "N/A" );
+				output.append( "</p></td><td>" );
+				output.append( type );
+				output.append( "</td></tr>" );
+			}
+		}
 	}
 
 	@Override
@@ -79,32 +105,23 @@ public class PrefRefCommand
 			}
 			pos++;
 		}
+
 		if ( !findUserPrefs && !findGlobalPrefs )
 		{
 			findUserPrefs = true;
 			findGlobalPrefs = true;
 		}
 
-		TreeMap<String, String> userPrefs = new TreeMap<String, String>();
-		TreeMap<String, String> userDefs = new TreeMap<String, String>();
-		TreeMap<String, String> globalPrefs = new TreeMap<String, String>();
-		TreeMap<String, String> globalDefs = new TreeMap<String, String>();
-		if ( findUserPrefs )
-		{
-			userPrefs = Preferences.getMap( false, true );
-			userDefs = Preferences.getMap( true, true );
-		}
-		if ( findGlobalPrefs )
-		{
-			globalPrefs = Preferences.getMap( false, false );
-			globalDefs = Preferences.getMap( true, false );
-		}
+		Pattern p = null;
 
-		if ( !isRegEx )
+		if ( isRegEx )
+		{
+			p = Pattern.compile( searchText );
+		}
+		else
 		{
 			searchText = searchText.toLowerCase();
 		}
-		Pattern p = Pattern.compile( searchText );
 
 		output.append( "<table border=2 cols=4>" );
 		output.append( "<tr>" );
@@ -116,50 +133,16 @@ public class PrefRefCommand
 
 		if ( findGlobalPrefs )
 		{
-			for ( String pref : globalPrefs.keySet() )
-			{
-				if ( !Preferences.isUserEditable( pref ) )
-				{
-					continue;
-				}
-				if ( isRegEx ? p.matcher( pref ).find() : pref.toLowerCase().contains( searchText ) )
-				{
-					output.append( "<tr><td>" );
-					output.append( pref );
-					output.append( "</td><td><p>" );
-					output.append( globalPrefs.get( pref ) );
-					output.append( "</p></td><td><p>" );
-					output.append( globalDefs.containsKey( pref ) ? globalDefs.get( pref ) : "N/A" );
-					output.append( "</p></td><td>" );
-					output.append( "global" );
-					output.append( "</td></tr>" );
-				}
-			}
+			TreeMap<String, String> globalPrefs = Preferences.getMap( false, false );
+			TreeMap<String, String> globalDefs = Preferences.getMap( true, false );
+			dumpPrefs( output, p, searchText, "global", globalPrefs, globalDefs );
 		}
 
 		if ( findUserPrefs )
 		{
-			for ( String pref : userPrefs.keySet() )
-			{
-				// This might be needed eventually, but for now all non user-editable settings are global
-				/*if ( !Preferences.isUserEditable( pref ) )
-				{
-					continue;
-				}
-				*/
-				if ( isRegEx ? p.matcher( pref ).find() : pref.toLowerCase().contains( searchText ) )
-				{
-					output.append( "<tr><td>" );
-					output.append( pref );
-					output.append( "</td><td><p>" );
-					output.append( userPrefs.get( pref ) );
-					output.append( "</p></td><td><p>" );
-					output.append( userDefs.containsKey( pref ) ? userDefs.get( pref ) : "N/A" );
-					output.append( "</p></td><td>" );
-					output.append( "user" );
-					output.append( "</td></tr>" );
-				}
-			}
+			TreeMap<String, String> userPrefs = Preferences.getMap( false, true );
+			TreeMap<String, String> userDefs = Preferences.getMap( true, true );
+			dumpPrefs( output, p, searchText, "user", userPrefs, userDefs );
 		}
 
 		output.append( "</table>" );

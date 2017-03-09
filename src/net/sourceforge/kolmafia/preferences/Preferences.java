@@ -82,27 +82,91 @@ public class Preferences
 	private static final String [] characterMap = new String[ 65536 ];
 	private static final HashMap<String, String> propertyNames = new HashMap<String, String>();
 
-	private static final HashMap<String,String> userNames = new HashMap<String,String>();
-	private static final TreeMap<String, Object> userValues = new TreeMap<String, Object>();
-	private static File userPropertiesFile = null;
-
 	private static final HashMap<String, String> globalNames = new HashMap<String, String>();
 	private static final TreeMap<String, Object> globalValues = new TreeMap<String, Object>();
 	private static File globalPropertiesFile = null;
+
+	private static final HashMap<String,String> userNames = new HashMap<String,String>();
+	private static final TreeMap<String, Object> userValues = new TreeMap<String, Object>();
+	private static File userPropertiesFile = null;
 	
 	private static final Set<String> defaultsSet = new HashSet<String>();
+	private static final Set<String> perUserGlobalSet = new HashSet<String>();
 
 	static
 	{
-		initializeMaps();
+		// Initialize perUserGlobalSet and read defaults.txt into
+		// defaultsSet, globalNames, and userNames
+		Preferences.initializeMaps();
 
-		Preferences.globalPropertiesFile = new File( KoLConstants.SETTINGS_LOCATION,
-			Preferences.baseUserName( "" ) + "_prefs.txt" );
+		// Read GLOBAL_prefs.txt into globalNames and globalValues
+		Preferences.loadGlobalPreferences();
+	}
 
-		Preferences.globalValues.clear();
+	private static final void initializeMaps()
+	{
+		// There are three specific per-user settings that appear in
+		// GLOBAL_prefs.txt because the LoginFrame needs them
 
-		Preferences.loadPreferences( globalValues, globalPropertiesFile );
-		Preferences.ensureGlobalDefaults();
+		Preferences.perUserGlobalSet.add( "displayName" );
+		Preferences.perUserGlobalSet.add( "getBreakfast" );
+		Preferences.perUserGlobalSet.add( "saveState" );
+
+		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
+
+		String[] current;
+		while ( ( current = FileUtilities.readData( istream ) ) != null )
+		{
+			if ( current.length >= 2 )
+			{
+				String map = current[ 0 ];
+				String name = current[ 1 ];
+				String value = current.length == 2 ? "" : current[ 2 ];
+
+				HashMap<String, String> desiredMap = map.equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
+				if ( desiredMap.containsKey( name ) )
+				{
+					System.out.println( map + " setting " + name + " multiply defined" );
+				}
+
+				HashMap<String, String> otherMap = map.equals( "global" ) ? Preferences.userNames : Preferences.globalNames;
+				if ( otherMap != null && otherMap.containsKey( name ) )
+				{
+					String other = map.equals( "global" ) ? "user" : "global";
+					System.out.println( map + " setting " + name + " already defined as a " + other + " setting" );
+					continue;
+				}
+
+				desiredMap.put( name, value );
+
+				// Maintain a set of prefs that exist in defaults.txt
+				defaultsSet.add( name );
+			}
+		}
+
+		// Update Mac-specific properties values to ensure
+		// that the displays are usable (by default).
+
+		boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
+
+		Preferences.globalNames.put( "useDecoratedTabs", String.valueOf( !isUsingMac ) );
+		Preferences.globalNames.put( "chatFontSize", isUsingMac ? "medium" : "small" );
+
+		try
+		{
+			istream.close();
+		}
+		catch ( Exception e )
+		{
+			// The stream is already closed, go ahead
+			// and ignore this error.
+		}
+	}
+
+	public static boolean isPerUserGlobal( final String name )
+	{
+		int index = name.indexOf( "." );
+		return index != -1 && Preferences.perUserGlobalSet.contains( name.substring( 0, index ) );
 	}
 
 	/**
@@ -127,13 +191,7 @@ public class Preferences
 			return;
 		}
 
-		Preferences.userPropertiesFile = new File( KoLConstants.SETTINGS_LOCATION,
-			Preferences.baseUserName( username ) + "_prefs.txt" );
-
-		Preferences.userValues.clear();
-
-		Preferences.loadPreferences( userValues, userPropertiesFile );
-		Preferences.ensureUserDefaults();
+		Preferences.loadUserPreferences( username );
 
 		AdventureFrame.updateFromPreferences();
 		CharPaneDecorator.updateFromPreferences();
@@ -147,18 +205,101 @@ public class Preferences
 		return name == null || name.equals( "" ) ? "GLOBAL" : StringUtilities.globalStringReplace( name.trim(), " ", "_" ).toLowerCase();
 	}
 
-	private static void loadPreferences( TreeMap<String, Object> values, File file )
+	private static void loadGlobalPreferences()
 	{
-		Properties p = new Properties();
+		File file = new File( KoLConstants.SETTINGS_LOCATION,
+				      Preferences.baseUserName( "" ) + "_prefs.txt" );
+		Preferences.globalPropertiesFile = file;
+
+		Properties p = Preferences.loadPreferences( file );
+		Preferences.globalValues.clear();
+
+		// GLOBAL_prefs.txt can contain obsolete settings which
+		// migrated from global to user. Leave them, since the
+		// migration will pull the value from the global map
+		for ( Entry<Object, Object> entry : p.entrySet() )
+		{
+			String key = (String) entry.getKey();
+			if ( !Preferences.globalNames.containsKey( key ) && !Preferences.isPerUserGlobal( key ) )
+			{
+				// System.out.println( "obsolete global setting detected: " + key );
+				// continue;
+			}
+
+			String value = (String) entry.getValue();
+			Preferences.propertyNames.put( key.toLowerCase(), key );
+			Preferences.globalValues.put( key, value );
+		}
+
+		// For all global properties in defaults.txt which were not in
+		// GLOBAL_prefs.txt, add to global map with default value.
+		for ( Entry<String,String>entry : Preferences.globalNames.entrySet() )
+		{
+			String key = entry.getKey();
+			if ( !Preferences.globalValues.containsKey( key ) )
+			{
+				// System.out.println( "Adding new built-in global setting: " + key );
+				String value = entry.getValue();
+				Preferences.propertyNames.put( key.toLowerCase(), key );
+				Preferences.globalValues.put( key, value );
+			}
+		}
+	}
+
+	private static void loadUserPreferences( final String username )
+	{
+		File file = new File( KoLConstants.SETTINGS_LOCATION,
+				      Preferences.baseUserName( username ) + "_prefs.txt" );
+		Preferences.userPropertiesFile = file;
+
+		Properties p = Preferences.loadPreferences( file );
+		Preferences.userValues.clear();
+
+		for ( Entry<Object, Object> currentEntry : p.entrySet() )
+		{
+			String key = (String) currentEntry.getKey();
+			String value = (String) currentEntry.getValue();
+
+			Preferences.propertyNames.put( key.toLowerCase(), key );
+			Preferences.userValues.put( key, value );
+		}
+
+		for ( Entry<String,String>entry : Preferences.userNames.entrySet() )
+		{
+			String key = entry.getKey();
+			if ( Preferences.userValues.containsKey( key ) )
+			{
+				continue;
+			}
+
+			// If a user property in defaults.txt was not in
+			// NAME_prefs.txt, add to user map with default value
+			// (this is how we add a new user property)
+			//
+			// If it had a value in the GLOBAL map, use that (this
+			// is how we migrate a preference from GLOBAL to user)
+			String value = Preferences.globalValues.containsKey( key ) ?
+				(String) Preferences.globalValues.get( key ) :
+				(String) entry.getValue();
+
+			// System.out.println( "Adding new built-in user setting: " + key );
+			Preferences.propertyNames.put( key.toLowerCase(), key );
+			Preferences.userValues.put( key, value );
+		}
+	}
+
+	private static Properties loadPreferences( File file )
+	{
 		InputStream istream = DataUtilities.getInputStream( file );
 
+		Properties p = new Properties();
 		try
 		{
 			p.load( istream );
 		}
 		catch ( IOException e )
 		{
-			System.out.println(e.getMessage()+" trying to load preferences from file.");
+			System.out.println( e.getMessage() + " trying to load preferences from file." );
 		}
 
 		try
@@ -167,17 +308,10 @@ public class Preferences
 		}
 		catch ( IOException e )
 		{
-			System.out.println(e.getMessage()+" trying to close preferences file.");
+			System.out.println( e.getMessage() + " trying to close preferences file." );
 		}
 
-		for ( Entry<Object, Object> currentEntry : p.entrySet() )
-		{
-			String currentName = (String) currentEntry.getKey();
-			String currentValue = (String) currentEntry.getValue();
-
-			Preferences.propertyNames.put( currentName.toLowerCase(), currentName );
-			values.put( currentName, currentValue );
-		}
+		return p;
 	}
 
 	private static final String encodeProperty( String name, String value )
@@ -627,47 +761,6 @@ public class Preferences
 		}
 	}
 
-	private static final void initializeMaps()
-	{
-		String[] current;
-		HashMap<String, String> desiredMap;
-
-		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
-
-		while ( ( current = FileUtilities.readData( istream ) ) != null )
-		{
-			if ( current.length >= 2 )
-			{
-				String map = current[ 0 ];
-				String name = current[ 1 ];
-				String value = current.length == 2 ? "" : current[ 2 ];
-				desiredMap = map.equals( "global" ) ? Preferences.globalNames : Preferences.userNames;
-				desiredMap.put( name, value );
-
-				// Maintain a set of prefs that exist in defaults.txt
-				defaultsSet.add( name );
-			}
-		}
-
-		// Update Mac-specific properties values to ensure
-		// that the displays are usable (by default).
-
-		boolean isUsingMac = System.getProperty( "os.name" ).startsWith( "Mac" );
-
-		Preferences.globalNames.put( "useDecoratedTabs", String.valueOf( !isUsingMac ) );
-		Preferences.globalNames.put( "chatFontSize", isUsingMac ? "medium" : "small" );
-
-		try
-		{
-			istream.close();
-		}
-		catch ( Exception e )
-		{
-			// The stream is already closed, go ahead
-			// and ignore this error.
-		}
-	}
-
 	public static final void printDefaults()
 	{
 		PrintStream ostream = LogStream.openStream( "choices.txt", true );
@@ -729,47 +822,6 @@ public class Preferences
 			}
 
 			ostream.println( ")[/color]" );
-		}
-	}
-
-	/**
-	 * Ensures that all the default keys are non-null. This is used so that there aren't lots of null checks whenever a
-	 * key is loaded.
-	 */
-
-	private static void ensureGlobalDefaults()
-	{
-		Entry< ? , ? >[] entries = new Entry[ Preferences.globalNames.size() ];
-		Preferences.globalNames.entrySet().toArray( entries );
-
-		for ( int i = 0; i < entries.length; ++i )
-		{
-			if ( !Preferences.globalValues.containsKey( entries[ i ].getKey() ) )
-			{
-				String key = (String) entries[ i ].getKey();
-				String value = (String) entries[ i ].getValue();
-
-				Preferences.globalValues.put( key, value );
-			}
-		}
-	}
-
-	private static void ensureUserDefaults()
-	{
-		Entry< ? , ? >[] entries = new Entry[ Preferences.userNames.size() ];
-		Preferences.userNames.entrySet().toArray( entries );
-
-		for ( int i = 0; i < entries.length; ++i )
-		{
-			String key = (String) entries[ i ].getKey();
-			if ( !Preferences.userValues.containsKey( key ) )
-			{
-				String value = Preferences.globalValues.containsKey( key ) ?
-					(String) Preferences.globalValues.get( key ) :
-					(String) entries[ i ].getValue();
-
-				Preferences.userValues.put( key, value );
-			}
 		}
 	}
 

@@ -1783,12 +1783,6 @@ user	choiceAdventure352	0
 user	choiceAdventure353	0
 user	choiceAdventure354	0
 user	choiceAdventure355	0
-user	choiceAdventure353	0
-user	choiceAdventure354	0
-user	choiceAdventure355	0
-user	choiceAdventure353	0
-user	choiceAdventure354	0
-user	choiceAdventure355	0
 user	choiceAdventure356	0
 user	choiceAdventure357	0
 user	choiceAdventure358	0
