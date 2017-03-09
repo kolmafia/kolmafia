@@ -3471,12 +3471,12 @@ public class GenericRequest
 		RequestLogger.updateDebugLog();
 	}
 
-	private static final Pattern DOMAIN_PATTERN = Pattern.compile( "; *domain=\\.?kingdomofloathing.com" );
+	private static final Pattern DOMAIN_PATTERN = Pattern.compile( "; *domain=(\\.?kingdomofloathing.com)" );
 	public static String mungeCookieDomain( final String value )
 	{
 		Matcher m = DOMAIN_PATTERN.matcher( value );
 		return  m.find() ?
-			StringUtilities.globalStringDelete( value, m.group( 0 ) ) :
+			StringUtilities.globalStringReplace( value, m.group( 1 ), "127.0.0.1:" + RelayServer.getPort() ) :
 			value;
 	}
 
