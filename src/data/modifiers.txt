@@ -2080,7 +2080,7 @@ Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
 Item	Ol' Scratch's ash can	Spell Damage Percent: +100, Hot Spell Damage: +30, Class: "Sauceror"
 # Ol' Scratch's stove door: Deals 40-50 <font color=red>Hot Damage</font> to attackers
 Item	Ol' Scratch's stove door	Hot Damage: +20, Damage Reduction: 15
-Item	old-school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
+Item	old school flying disc	Muscle Percent: +15, Damage Reduction: 24, Familiar Weight: +5
 Item	Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Softcore Only, Variable
 # Operation Patriot Shield: Can be Thrown in Combat
 # Seal Clubber:
@@ -2787,7 +2787,7 @@ Item	Ol' Scratch's manacles	Hot Spell Damage: +30, Moxie Percent: +15, Single Eq
 Item	old ball and chain	Initiative: -50, Cold Damage: +100, Single Equip
 # old soft shoes: +30% Item Drops from Hobos
 Item	old soft shoes	Single Equip, Item Drop: [30*zone(Hobopolis)*(1-loc(Sewer Tunnels))]
-# old-school calculator watch: Math!
+# old school calculator watch: Math!
 Item	orange glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	orange leather lanyard	Weapon Damage: +15, Single Equip
 Item	Orange Star of Sacrifice	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +6, Single Equip
@@ -4859,7 +4859,7 @@ Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
 Effect	Elbow Sauce	Weapon Damage Percent: +50
 # Effect Eldritch Alignment: Helps with Eldritch Science!
-Effect Eldritch Alignment Moxie Percent: -30
+Effect	Eldritch Alignment	Moxie Percent: -30
 # Effect Eldritch Attunement: Breaks the Barrier between Worlds
 Effect	Eldritch Concentration	Experience: +5, Spooky Damage: +5, MP Regen Min: 5, MP Regen Max: 10
 # Electric, Kool
