@@ -1779,7 +1779,7 @@ off-hand balloon	10	none
 oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200
 Ol' Scratch's stove door	240	Mus: 200	shield
-old-school flying disc	220	Mus: 200	shield
+old school flying disc	220	Mus: 200	shield
 Operation Patriot Shield	240	none	shield
 optimal spreadsheet	0	none
 orcish stud-finder	85	Mys: 27
@@ -2375,7 +2375,7 @@ Official Council Aide Pin	100	Mys: 37
 Ol' Scratch's manacles	200	Mys: 200
 old ball and chain	225	Mys: 200
 old soft shoes	200	Mys: 200
-old-school calculator watch	10	none
+old school calculator watch	10	none
 orange glowstick	20	none
 orange leather lanyard	50	none
 Orange Star of Sacrifice	200	Mys: 85
