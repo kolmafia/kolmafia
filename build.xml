@@ -255,7 +255,7 @@
 
 	<target name="jarbundler" depends="init,jar">
 
-		<taskdef name="jarbundler" classname="net.sourceforge.jarbundler.JarBundler" classpath="${util}/macosx/${mac.jarbundlerjar}" />
+		<taskdef name="jarbundler" classname="com.ultramixer.jarbundler.JarBundler" classpath="${util}/macosx/${mac.jarbundlerjar}" />
 		<jarbundler dir="${dist}"
 			    name="${version-name}"
 			    mainclass="${main}"
