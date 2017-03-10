@@ -97,6 +97,7 @@ public abstract class HPRestoreItemList
 	private static final HPRestoreItem GRUB = new HPRestoreItem( "plump juicy grub", 95 );
 	private static final HPRestoreItem DOCS_UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4, 30 );
 	private static final HPRestoreItem DOCS_ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 120 );
+	private static final HPRestoreItem GELATINOUS_RECONSTRUCTION = new HPRestoreItem( "Gelatinous Reconstruction", 13 );
 
 	public static final HPRestoreItem[] CONFIGURES = new HPRestoreItem[]
 	{
@@ -156,7 +157,8 @@ public abstract class HPRestoreItemList
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter IV", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter V", 35 ),
 		new HPRestoreItem( "Notes from the Elfpocalypse, Chapter VI", 35 ),
-		new HPRestoreItem( "dueling turtle", 15 )
+		new HPRestoreItem( "dueling turtle", 15 ),
+		HPRestoreItemList.GELATINOUS_RECONSTRUCTION,
 	};
 
 	public static final void setPurchaseBasedSort( final boolean purchaseBasedSort )

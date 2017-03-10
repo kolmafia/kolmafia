@@ -1496,6 +1496,7 @@ public class UseSkillRequest
 			case SkillPool.BANDAGES:
 			case SkillPool.COCOON:
 			case SkillPool.SHAKE_IT_OFF:
+			case SkillPool.GELATINOUS_RECONSTRUCTION:
 
 				int healthRestored = HPRestoreItemList.getHealthRestored( this.skillName );
 				int maxPossible = Math.max( 1, ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) / healthRestored );

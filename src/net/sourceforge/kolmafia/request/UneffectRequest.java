@@ -483,6 +483,11 @@ public class UneffectRequest
 		removeWithSkillMap.put( "Absorb Cowrruption", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.COWRRUPTION ) );
 
+
+		removableEffects = new HashSet<Integer>();
+		removeWithSkillMap.put( "Gelatinous Reconstruction", removableEffects );
+		removableEffects.add( IntegerPool.get( EffectPool.BEATEN_UP ) );
+
 		UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
 	}
 
