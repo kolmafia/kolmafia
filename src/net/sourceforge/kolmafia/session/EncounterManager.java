@@ -253,6 +253,14 @@ public abstract class EncounterManager
 		{
 			return true;
 		}
+
+		if ( checkMonster && TurnCounter.isCounting( "Enamorang Monster", 0 ) &&
+		     Preferences.getString( "nextAdventure" ).equals( "The Deep Machine Tunnels" ) )
+		{
+			String name = MonsterStatusTracker.getLastMonsterName();
+			return name.equalsIgnoreCase( Preferences.getString( "enamorangMonster" ) );
+		}
+
 		return false;
 	}
 
