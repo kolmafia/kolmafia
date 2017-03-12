@@ -6094,7 +6094,7 @@ public class UseItemRequest
 			return EquipmentRequest.registerCardSleeve( urlString );
 		}
 
-		// Special handing for twisting Boris's Helm when it is equipped
+		// Special handling for twisting Boris's Helm when it is equipped
 		if ( item == null && urlString.contains( "action=twisthorns" ) )
 		{
 			int slot = -1;
@@ -6117,7 +6117,7 @@ public class UseItemRequest
 			return false;
 		}
 
-		// Special handing for shaking Jarlsberg's pan when it is equipped
+		// Special handling for shaking Jarlsberg's pan when it is equipped
 		if ( item == null && urlString.contains( "action=shakepan" ) )
 		{
 			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.OFFHAND );
@@ -6127,13 +6127,25 @@ public class UseItemRequest
 			return true;
 		}
 
-		// Special handing for shaking Sneaky Pete's leather jacket when it is equipped
+		// Special handling for shaking Sneaky Pete's leather jacket when it is equipped
 		if ( item == null && urlString.contains( "action=popcollar" ) )
 		{
 			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.SHIRT );
 			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.PETE_JACKET ? ItemPool.PETE_JACKET_COLLAR : ItemPool.PETE_JACKET, 1 );
 			EquipmentManager.setEquipment( EquipmentManager.SHIRT, after );
 			RequestLogger.printLine( "Popped " + before + " into " + after );
+			return true;
+		}
+
+		// Special handling for twisting toggle switch
+		if ( item == null && urlString.contains( "action=togglebutt" ) )
+		{
+			AdventureResult before = EquipmentManager.getEquipment( EquipmentManager.FAMILIAR );
+			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.TOGGLE_SWITCH_BARTEND ?
+			                                                            ItemPool.TOGGLE_SWITCH_BOUNCE :
+				                                                      ItemPool.TOGGLE_SWITCH_BARTEND, 1 );
+			EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, after );
+			RequestLogger.printLine( "Toggled " + before + " into " + after );
 			return true;
 		}
 

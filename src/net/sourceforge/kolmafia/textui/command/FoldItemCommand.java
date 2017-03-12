@@ -208,6 +208,20 @@ public class FoldItemCommand
 			return;
 		}
 
+		// The Robortender's toggle switch can only be toggled while equipped
+		if ( targetName.startsWith( "toggle switch" ) && slot != EquipmentManager.NONE )
+		{
+			// inventory.php?action=togglebutt&slot=familiarequip&pwd=aac208cd3ac99f274ea3822e13e5965a
+			StringBuilder buf = new StringBuilder();
+			buf.append( "inventory.php?action=togglebutt" );
+			buf.append( "&slot=familiarequip&pwd=" );buf.append( GenericRequest.passwordHash );
+			buf.append( "&ajax=1" );
+
+			GenericRequest request = new GenericRequest( buf.toString(), false );
+			RequestThread.postRequest( request );
+			return;
+		}
+
 		// track the equipment slot if Loathing Legion gear
 		// is being folded without being unequipped
 		int legionSlot = -1;
