@@ -41,6 +41,7 @@ public class AggregateType
 	private final Type dataType;
 	private final Type indexType;
 	private final int size;
+	private final boolean caseInsensitive;
 
 	// Map
 	public AggregateType( final Type dataType, final Type indexType )
@@ -49,6 +50,17 @@ public class AggregateType
 		this.dataType = dataType;
 		this.indexType = indexType;
 		this.size = 0;
+		this.caseInsensitive = false;
+	}
+
+	// Map with case-insensitive string keys
+	public AggregateType( final Type dataType, final Type indexType, boolean caseInsensitive )
+	{
+		super( "aggregate", DataTypes.TYPE_AGGREGATE );
+		this.dataType = dataType;
+		this.indexType = indexType;
+		this.size = 0;
+		this.caseInsensitive = caseInsensitive && indexType.equals( DataTypes.STRING_TYPE );
 	}
 
 	// Array
@@ -59,6 +71,7 @@ public class AggregateType
 		this.dataType = dataType;
 		this.indexType = DataTypes.INT_TYPE;
 		this.size = size;
+		this.caseInsensitive = false;
 	}
 
 	@Override
@@ -87,7 +100,9 @@ public class AggregateType
 	@Override
 	public boolean equals( final Type o )
 	{
-		return o instanceof AggregateType && this.dataType.equals( ( (AggregateType) o ).dataType ) && this.indexType.equals( ( (AggregateType) o ).indexType );
+		return o instanceof AggregateType &&
+			this.dataType.equals( ( (AggregateType) o ).dataType ) &&
+			this.indexType.equals( ( (AggregateType) o ).indexType );
 	}
 
 	@Override
@@ -128,11 +143,9 @@ public class AggregateType
 	@Override
 	public Value initialValue()
 	{
-		if ( this.size != 0 )
-		{
-			return new ArrayValue( this );
-		}
-		return new MapValue( this );
+		return  ( this.size != 0 ) ?
+			new ArrayValue( this ) :
+			new MapValue( this, this.caseInsensitive );
 	}
 
 	@Override

@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.Comparator;
 import java.util.List;
 
 import net.sourceforge.kolmafia.KoLConstants;
@@ -325,7 +326,25 @@ public class Value
 		return value.asProxy();
 	}
 
+	public static final Comparator<Value> ignoreCaseComparator = new Comparator<Value>()
+	{
+		public int compare( Value v1, Value v2 )
+		{
+			return v1.compareToIgnoreCase( v2 );
+		}
+	};
+
 	public int compareTo( final Value o )
+	{
+		return this.compareTo( o, false );
+	}
+
+	public int compareToIgnoreCase( final Value o )
+	{
+		return this.compareTo( o, true );
+	}
+
+	private int compareTo( final Value o, final boolean ignoreCase )
 	{
 		if ( !( o instanceof Value ) )
 		{
@@ -375,7 +394,9 @@ public class Value
 
 		if ( this.contentString != null && it.contentString != null )
 		{
-			return this.contentString.compareTo( it.contentString );
+			return  ignoreCase ?
+				this.contentString.compareToIgnoreCase( it.contentString ) :
+				this.contentString.compareTo( it.contentString );
 		}
 
 		return -1;

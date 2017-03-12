@@ -51,6 +51,15 @@ public class MapValue
 		this.content = new TreeMap<Value,Value>();
 	}
 
+	public MapValue( final AggregateType type, boolean caseInsensitive )
+	{
+		super( type );
+		this.content =
+			caseInsensitive ?
+			new TreeMap<Value,Value>( Value.ignoreCaseComparator ) :
+			new TreeMap<Value,Value>();
+	}
+
 	@Override
 	public Value aref( final Value key, final Interpreter interpreter )
 	{
