@@ -2802,6 +2802,8 @@ public class ItemPool
 	public static final int GREGNADIGNE = 9357;
 	public static final int BABY_OIL_SHOOTER = 9359;
 	public static final int LIMEPATCH = 9361;
+	public static final int TOGGLE_SWITCH_BARTEND = 9402;
+	public static final int TOGGLE_SWITCH_BOUNCE = 9403;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
