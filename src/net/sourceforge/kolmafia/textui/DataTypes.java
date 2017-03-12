@@ -163,13 +163,20 @@ public class DataTypes
 	public static final Type STRICT_STRING_TYPE = new Type( "strict_string", DataTypes.TYPE_STRICT_STRING );
 	public static final Type AGGREGATE_TYPE = new Type( "aggregate", DataTypes.TYPE_AGGREGATE );
 	
-	public static final AggregateType BOOLEAN_MAP_TYPE =
-		new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
-
-	public static final AggregateType RESULT_TYPE =
+	// Map from ITEM -> INT
+	public static final AggregateType ITEM_TO_INT_TYPE =
 		new AggregateType( DataTypes.INT_TYPE, DataTypes.ITEM_TYPE );
 
-	public static final AggregateType STRING_MAP_TYPE =
+	// Map from (case insensitive) STRING -> BOOLEAN
+	public static final AggregateType CASE_INSENSITIVE_STRING_TO_BOOLEAN_TYPE =
+		new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE, true );
+
+	// Map from STRING -> BOOLEAN
+	public static final AggregateType STRING_TO_BOOLEAN_TYPE =
+		new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE );
+
+	// Map from STRING -> INT
+	public static final AggregateType STRING_TO_INT_TYPE =
 		new AggregateType( DataTypes.INT_TYPE, DataTypes.STRING_TYPE );
 
 	public static final AggregateType REGEX_GROUP_TYPE =
@@ -789,6 +796,11 @@ public class DataTypes
 		return val == 0.0 ? ZERO_FLOAT_VALUE : new Value( val );
 	}
 
+	public static final Value makeStringValue( final String val )
+	{
+		return val == null || val.equals( "" ) ? STRING_INIT : new Value( val );
+	}
+	
 	public static final Value makeBooleanValue( final int num )
 	{
 		return makeBooleanValue( num != 0 );

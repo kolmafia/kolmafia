@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
@@ -108,9 +109,9 @@ public class Preferences
 		// There are three specific per-user settings that appear in
 		// GLOBAL_prefs.txt because the LoginFrame needs them
 
+		Preferences.perUserGlobalSet.add( "saveState" );
 		Preferences.perUserGlobalSet.add( "displayName" );
 		Preferences.perUserGlobalSet.add( "getBreakfast" );
-		Preferences.perUserGlobalSet.add( "saveState" );
 
 		BufferedReader istream = FileUtilities.getVersionedReader( "defaults.txt", KoLConstants.DEFAULTS_VERSION );
 
@@ -161,12 +162,6 @@ public class Preferences
 			// The stream is already closed, go ahead
 			// and ignore this error.
 		}
-	}
-
-	public static boolean isPerUserGlobal( final String name )
-	{
-		int index = name.indexOf( "." );
-		return index != -1 && Preferences.perUserGlobalSet.contains( name.substring( 0, index ) );
 	}
 
 	/**
@@ -220,7 +215,7 @@ public class Preferences
 		for ( Entry<Object, Object> entry : p.entrySet() )
 		{
 			String key = (String) entry.getKey();
-			if ( !Preferences.globalNames.containsKey( key ) && !Preferences.isPerUserGlobal( key ) )
+			if ( !Preferences.globalNames.containsKey( key ) && !Preferences.isPerUserGlobalProperty( key ) )
 			{
 				// System.out.println( "obsolete global setting detected: " + key );
 				// continue;
@@ -397,9 +392,87 @@ public class Preferences
 		return name;
 	}
 
-	private static final boolean isGlobalProperty( final String name )
+	public static final boolean propertyExists( final String name, final boolean global )
+	{
+		return  global ?
+			Preferences.globalValues.containsKey( name ) :
+			Preferences.userValues.containsKey( name );
+	}
+
+	public static final String getString( final String name, final boolean global )
+	{
+		Object value = null;
+
+		if ( global )
+		{
+			if ( Preferences.globalValues.containsKey( name ) )
+			{
+				value = Preferences.globalValues.get( name );
+			}
+		}	
+		else
+		{
+			if ( Preferences.userValues.containsKey( name ) )
+			{
+				value = Preferences.userValues.get( name );
+			}
+		}
+
+		return value == null ? "" :  value.toString();
+	}
+
+	public static final String getDefault( final String name )
+	{
+		if ( Preferences.globalNames.containsKey( name ) )
+		{
+			return Preferences.globalNames.get( name );
+		}
+
+		if ( Preferences.userNames.containsKey( name ) )
+		{
+			return Preferences.userNames.get( name );
+		}
+
+		return "";
+	}
+
+	public static final void removeProperty( final String name, final boolean global )
+	{
+		// Remove only properties which do not have defaults
+		if ( global )
+		{
+			if ( !Preferences.globalNames.containsKey( name ) )
+			{
+				Preferences.globalValues.remove( name );
+			}
+		}
+		else
+		{
+			if ( !Preferences.userNames.containsKey( name ) )
+			{
+				Preferences.userValues.remove( name );
+			}
+		}
+	}
+
+	public static final boolean isGlobalProperty( final String name )
 	{
 		return Preferences.globalNames.containsKey( name );
+	}
+
+	public static boolean isPerUserGlobalProperty( final String property )
+	{
+		if ( property.indexOf( "." ) != -1 )
+		{
+			for ( String prefix : Preferences.perUserGlobalSet )
+			{
+				if ( property.startsWith( prefix ) )
+				{
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public static final boolean isUserEditable( final String property )

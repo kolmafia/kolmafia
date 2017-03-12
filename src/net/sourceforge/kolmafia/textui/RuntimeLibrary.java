@@ -706,31 +706,31 @@ public abstract class RuntimeLibrary
 		// information.
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_inventory", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_inventory", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_shop", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_shop", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_stash", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_stash", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_campground", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_campground", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_clan_lounge", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_clan_rumpus", DataTypes.STRING_MAP_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_clan_rumpus", DataTypes.STRING_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "get_chateau", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_chateau", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_dwelling", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "get_related", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_related", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "is_npc_item", DataTypes.BOOLEAN_TYPE, params ) );
@@ -814,7 +814,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "creatable_turns", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
-		functions.add( new LibraryFunction( "get_ingredients", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_ingredients", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "storage_amount", DataTypes.INT_TYPE, params ) );
@@ -1286,7 +1286,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "extract_meat", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
-		functions.add( new LibraryFunction( "extract_items", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "extract_items", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "length", DataTypes.INT_TYPE, params ) );
@@ -1429,8 +1429,7 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "chat_notify", DataTypes.VOID_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "who_clan", new AggregateType(
-			DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE ), params ) );
+		functions.add( new LibraryFunction( "who_clan", DataTypes.STRING_TO_BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "get_player_id", DataTypes.STRING_TYPE, params ) );
@@ -1486,7 +1485,7 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "max", DataTypes.INT_TYPE, params ) );
 
-		// Settings-type functions.
+		// String encoding/decoding functions.
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "url_encode", DataTypes.STRING_TYPE, params ) );
@@ -1500,11 +1499,40 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "entity_decode", DataTypes.STRING_TYPE, params ) );
 
+		// Functions to manipulate settings
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "get_all_properties", DataTypes.CASE_INSENSITIVE_STRING_TO_BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "property_exists", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "property_exists", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "property_has_default", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "property_default_value", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "get_property", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "get_property", DataTypes.STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "set_property", DataTypes.VOID_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "remove_property", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "remove_property", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "rename_property", DataTypes.BOOLEAN_TYPE, params ) );
 
 		// Functions for aggregates.
 
@@ -1667,10 +1695,10 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "jump_chance", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
-		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "item_drops", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.MONSTER_TYPE };
-		functions.add( new LibraryFunction( "item_drops", DataTypes.RESULT_TYPE, params ) );
+		functions.add( new LibraryFunction( "item_drops", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		Type itemDropRecArray = new AggregateType( itemDropRec, 0 );
 
@@ -3829,7 +3857,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_inventory( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.inventory.size() ];
 		KoLConstants.inventory.toArray( items );
@@ -3846,7 +3874,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_shop( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		if ( !KoLCharacter.hasStore() )
 		{
@@ -3871,7 +3899,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_stash( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		if ( !KoLCharacter.hasStore() )
 		{
@@ -3896,7 +3924,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_campground( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		if ( KoLCharacter.inNuclearAutumn() )
 		{
@@ -3926,7 +3954,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_clan_lounge( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		for ( AdventureResult item : ClanManager.getClanLounge() )
 		{
@@ -3940,7 +3968,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_clan_rumpus( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.STRING_MAP_TYPE );
+		MapValue value = new MapValue( DataTypes.STRING_TO_INT_TYPE );
 
 		for ( String name : ClanManager.getClanRumpus() )
 		{
@@ -3961,7 +3989,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_chateau( Interpreter interpreter )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		for ( AdventureResult item : KoLConstants.chateau )
 		{
@@ -3984,7 +4012,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_related( Interpreter interpreter, Value item, Value type )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 		String which = type.toString();
 
 		if ( which.equals( "zap" ) )
@@ -4343,7 +4371,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_ingredients( Interpreter interpreter, final Value arg )
 	{
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		int itemId = (int) arg.intValue();
 		CraftingType method = ConcoctionDatabase.getMixingMethod( itemId );
@@ -5383,7 +5411,10 @@ public abstract class RuntimeLibrary
 
 	public static Value have_familiar( Interpreter interpreter, final Value familiar )
 	{
-		return DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( (int) familiar.intValue() ) != null );
+		int familiarId = (int) familiar.intValue();
+		return  familiarId == -1 ?
+			DataTypes.FALSE_VALUE :
+			DataTypes.makeBooleanValue( KoLCharacter.findFamiliar( familiarId ) != null );
 	}
 
 	public static Value use_familiar( Interpreter interpreter, final Value familiar )
@@ -5650,7 +5681,7 @@ public abstract class RuntimeLibrary
 		ResultProcessor.processResults( false,
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
 		AdventureResult result;
 
@@ -6386,7 +6417,7 @@ public abstract class RuntimeLibrary
 		InternalChatRequest request = new InternalChatRequest( "/who clan" );
 		List<ChatMessage> chatMessages = ChatSender.sendRequest( request );
 
-		MapValue value = new MapValue( DataTypes.BOOLEAN_MAP_TYPE );
+		MapValue value = new MapValue( DataTypes.STRING_TO_BOOLEAN_TYPE );
 		for ( ChatMessage chatMessage : chatMessages )
 		{
 			if ( chatMessage instanceof WhoMessage )
@@ -6548,22 +6579,148 @@ public abstract class RuntimeLibrary
 		return new Value( CharacterEntities.unescape( arg.toString() ) );
 	}
 
+	public static Value get_all_properties( Interpreter interpreter, final Value filterValue, final Value globalValue )
+	{
+		// This returns a map from string -> boolean which is property name -> builtin
+		// filter is a substring (ignoring case) of the property name. 
+		// If filter is "", all properties in the specified scope are returned.
+
+		String filter = filterValue.toString().trim().toLowerCase();
+		boolean all = filter.equals( "" );
+		boolean global = globalValue.intValue() != 0;
+
+		MapValue value = new MapValue( DataTypes.CASE_INSENSITIVE_STRING_TO_BOOLEAN_TYPE );
+
+		Map<String, String> properties = Preferences.getMap( false, !global );
+		Map<String, String> defaults = Preferences.getMap( true, !global );
+
+		for ( String name : properties.keySet() )
+		{
+			if ( !Preferences.isUserEditable( name ) )
+			{
+				continue;
+			}
+
+			if ( all || name.toLowerCase().contains( filter ) )
+			{
+				boolean builtIn = defaults.containsKey( name );
+				if ( !builtIn )
+				{
+					if ( global )
+					{
+						builtIn = Preferences.isPerUserGlobalProperty( name );
+					}
+					else
+					{
+						builtIn = ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) );
+					}
+				}
+				Value key = new Value( name );
+				Value val = DataTypes.makeBooleanValue( builtIn );
+				value.aset( key, val );
+			}
+		}
+
+		return value;
+	}
+
+	public static Value property_exists( Interpreter interpreter, final Value nameValue )
+	{
+		// Look up a property (in the specified scope) and return true
+		// if is present and false otherwise
+		String name = nameValue.toString();
+
+		if ( Preferences.propertyExists( name, true ) || Preferences.propertyExists( name, false ) )
+		{
+			return DataTypes.TRUE_VALUE;
+		}
+
+		// All choiceAdventureXXX and skillBurnXXX properties are
+		// considered to exist in the user scope even if they don't
+		// appear in defaults.txt.
+
+		if ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) )
+		{
+			return DataTypes.TRUE_VALUE;
+		}
+
+		return DataTypes.FALSE_VALUE;
+	}
+
+	public static Value property_exists( Interpreter interpreter, final Value nameValue, final Value globalValue )
+	{
+		// Look up a property (in the specified scope) and return true
+		// if is present and false otherwise
+		String name = nameValue.toString();
+		boolean global = globalValue.intValue() != 0;
+
+		if ( Preferences.propertyExists( name, global ) )
+		{
+			return DataTypes.TRUE_VALUE;
+		}
+
+		// All choiceAdventureXXX and skillBurnXXX properties are
+		// considered to exist in the user scope even if they don't
+		// appear in defaults.txt.
+
+		if ( !global && ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) ) )
+		{
+			return DataTypes.TRUE_VALUE;
+		}
+			
+		return DataTypes.FALSE_VALUE;
+	}
+
+	public static Value property_has_default( Interpreter interpreter, final Value nameValue )
+	{
+		String name = nameValue.toString();
+		return DataTypes.makeBooleanValue( Preferences.containsDefault( name ) );
+	}
+
+	public static Value property_default_value( Interpreter interpreter, final Value nameValue )
+	{
+		String name = nameValue.toString();
+		return  Preferences.containsDefault( name ) ?
+			DataTypes.makeStringValue( Preferences.getDefault( name ) ) :
+			DataTypes.STRING_INIT;
+	}
+
 	public static Value get_property( Interpreter interpreter, final Value name )
 	{
 		String property = name.toString();
 
-		Value value = DataTypes.STRING_INIT;
-
 		if ( property.startsWith( "System." ) )
 		{
-			value = new Value( System.getProperty( property.substring( 7 ) ) );
-		}
-		else if ( Preferences.isUserEditable( property ) )
-		{
-			value = new Value( Preferences.getString( property ) );
+			return new Value( System.getProperty( property.substring( 7 ) ) );
 		}
 
-		return value;
+		if ( Preferences.isUserEditable( property ) )
+		{
+			return DataTypes.makeStringValue( Preferences.getString( property ) );
+		}
+
+		return DataTypes.STRING_INIT;
+	}
+
+	public static Value get_property( Interpreter interpreter, final Value name, final Value globalValue )
+	{
+		String property = name.toString();
+
+		if ( !Preferences.isUserEditable( property ) )
+		{
+			return DataTypes.STRING_INIT;
+		}
+
+		boolean global = globalValue.intValue() != 0;
+
+		// Look up a property (in the specified scope) and return the current value.
+		if ( Preferences.propertyExists( property, global ) )
+		{
+			return DataTypes.makeStringValue( Preferences.getString( property, global ) );
+		}
+
+		// If the property is not found (in the specified scope), "" is returned
+		return DataTypes.STRING_INIT;
 	}
 
 	public static Value set_property( Interpreter interpreter, final Value name, final Value value )
@@ -6571,9 +6728,117 @@ public abstract class RuntimeLibrary
 		// In order to avoid code duplication for combat
 		// related settings, use the shell.
 
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
-			"set", name.toString() + "=" + value.toString() );
+		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", name.toString() + "=" + value.toString() );
 		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value remove_property( Interpreter interpreter, final Value nameValue )
+	{
+		String name = nameValue.toString();
+
+		if ( !Preferences.isUserEditable( name ) || Preferences.isPerUserGlobalProperty( name ) )
+		{
+			return DataTypes.STRING_INIT;
+		}
+
+		String oldValue;
+
+		// If it is listed in defaults.txt, set property back to default value.
+		if ( Preferences.containsDefault( name ) )
+		{
+			oldValue = Preferences.getString( name );
+			Preferences.resetToDefault( name );
+		}
+		// If it is in the user map, remove from there
+		else if ( Preferences.propertyExists( name, false ) )
+		{
+			oldValue = Preferences.getString( name, false );
+			Preferences.removeProperty( name, false );
+		}
+		// If it is in the global map, remove from there
+		else if ( Preferences.propertyExists( name, true ) )
+		{
+			oldValue = Preferences.getString( name, true );
+			Preferences.removeProperty( name, true );
+		}
+		// If it's not in either map, nothing to do
+		else
+		{
+			oldValue = "";
+		}
+
+		return DataTypes.makeStringValue( oldValue );
+	}
+
+	public static Value remove_property( Interpreter interpreter, final Value nameValue, final Value globalValue )
+	{
+		String name = nameValue.toString();
+
+		if ( !Preferences.isUserEditable( name ) || Preferences.isPerUserGlobalProperty( name ) )
+		{
+			return DataTypes.STRING_INIT;
+		}
+
+		boolean global = globalValue.intValue() != 0;
+		String oldValue;
+
+		// If it's not a known global property but we want to remove
+		// from global map, we are cleaning up orphaned globals
+		if ( !Preferences.isGlobalProperty( name ) && global )
+		{
+			oldValue = Preferences.getString( name, true );
+			Preferences.removeProperty( name, true );
+		}
+		// If it is listed in defaults.txt, set property back to default value.
+		else if ( Preferences.containsDefault( name ) )
+		{
+			oldValue = Preferences.getString( name );
+			Preferences.resetToDefault( name );
+		}
+		// Otherwise, remove from the specified map.
+		else
+		{
+			oldValue = Preferences.getString( name, global );
+			Preferences.removeProperty( name, global );
+		}
+
+		return DataTypes.makeStringValue( oldValue );
+	}
+
+	public static Value rename_property( Interpreter interpreter, final Value oldNameValue, final Value newNameValue )
+	{
+		String oldName = oldNameValue.toString();
+		String newName = newNameValue.toString();
+
+		// User scripts cannot rename built-in properties
+		if ( Preferences.containsDefault( oldName ) || Preferences.containsDefault( newName ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		// If the old name does not exist, do nothing
+		if ( !Preferences.propertyExists( oldName, false ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		// If the new name does exist, do nothing
+		if ( Preferences.propertyExists( newName, false ) )
+		{
+			return DataTypes.FALSE_VALUE;
+		}
+
+		// Get value of old property in user map
+		String oldValue = Preferences.getString( oldName, false );
+
+		// Remove old property from user map
+		Preferences.removeProperty( oldName, false );
+
+		// Create new property in user map
+		Preferences.setString( newName, oldValue );
+
+		// Return success
+		return DataTypes.TRUE_VALUE;
 	}
 
 	// Functions for aggregates.
@@ -7208,7 +7473,7 @@ public abstract class RuntimeLibrary
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
@@ -7227,7 +7492,7 @@ public abstract class RuntimeLibrary
 		MonsterData monster = (MonsterData) arg.rawValue();
 		List data = monster == null ? new ArrayList() : monster.getItems();
 
-		MapValue value = new MapValue( DataTypes.RESULT_TYPE );
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 		AdventureResult result;
 
 		for ( int i = 0; i < data.size(); ++i )
