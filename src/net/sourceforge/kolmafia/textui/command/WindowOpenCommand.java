@@ -54,12 +54,6 @@ public class WindowOpenCommand
 			return;
 		}
 
-		if ( command.equals( "mail" ) )
-		{
-			KoLmafiaGUI.constructFrame( "MailboxFrame" );
-			return;
-		}
-
 		if ( command.startsWith( "opt" ) )
 		{
 			KoLmafiaGUI.constructFrame( "OptionsFrame" );

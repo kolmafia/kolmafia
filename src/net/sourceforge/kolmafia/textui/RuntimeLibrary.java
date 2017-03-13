@@ -49,6 +49,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.IllegalFormatException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -249,6 +250,28 @@ public abstract class RuntimeLibrary
 	private static final AggregateType NumberologyType = new AggregateType( DataTypes.INT_TYPE, DataTypes.INT_TYPE );
 
 	public static final FunctionList functions = new FunctionList();
+
+	// *** Why can't the following go in KoLConstants?
+	public static final Set<String> frameNames = new HashSet<String>();
+	static
+	{
+		for ( String[] frame : KoLConstants.FRAME_NAMES )
+		{
+			RuntimeLibrary.frameNames.add( frame[ 1 ] );
+		}
+		RuntimeLibrary.frameNames.add( "AnnouncementFrame" );
+		RuntimeLibrary.frameNames.add( "CakeArenaFrame" );
+		RuntimeLibrary.frameNames.add( "ChatFrame" );
+		RuntimeLibrary.frameNames.add( "CouncilFrame" );
+		RuntimeLibrary.frameNames.add( "DescriptionFrame" );
+		RuntimeLibrary.frameNames.add( "LoginFrame" );
+		RuntimeLibrary.frameNames.add( "ProfileFrame" );
+		RuntimeLibrary.frameNames.add( "RequestSynchFrame" );
+		RuntimeLibrary.frameNames.add( "ScriptManageFrame" );
+		RuntimeLibrary.frameNames.add( "SendMessageFrame" );
+		RuntimeLibrary.frameNames.add( "TabbedChatFrame" );
+		RuntimeLibrary.frameNames.add( "TrophyFrame" );
+	}
 
 	public static FunctionList getFunctions()
 	{
@@ -6579,6 +6602,14 @@ public abstract class RuntimeLibrary
 		return new Value( CharacterEntities.unescape( arg.toString() ) );
 	}
 
+	private static boolean built_in_property( String name )
+	{
+		return  name.startsWith( "choiceAdventure" ) ||
+			name.startsWith( "skillBurn" ) ||
+			RuntimeLibrary.frameNames.contains( name ) ||
+			name.equals( "KoLDesktop" );
+	}
+
 	public static Value get_all_properties( Interpreter interpreter, final Value filterValue, final Value globalValue )
 	{
 		// This returns a map from string -> boolean which is property name -> builtin
@@ -6612,7 +6643,7 @@ public abstract class RuntimeLibrary
 					}
 					else
 					{
-						builtIn = ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) );
+						builtIn = RuntimeLibrary.built_in_property( name );
 					}
 				}
 				Value key = new Value( name );
@@ -6639,7 +6670,7 @@ public abstract class RuntimeLibrary
 		// considered to exist in the user scope even if they don't
 		// appear in defaults.txt.
 
-		if ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) )
+		if ( RuntimeLibrary.built_in_property( name ) )
 		{
 			return DataTypes.TRUE_VALUE;
 		}
@@ -6663,7 +6694,7 @@ public abstract class RuntimeLibrary
 		// considered to exist in the user scope even if they don't
 		// appear in defaults.txt.
 
-		if ( !global && ( name.startsWith( "choiceAdventure" ) || name.startsWith( "skillBurn" ) ) )
+		if ( !global && RuntimeLibrary.built_in_property( name ) )
 		{
 			return DataTypes.TRUE_VALUE;
 		}
