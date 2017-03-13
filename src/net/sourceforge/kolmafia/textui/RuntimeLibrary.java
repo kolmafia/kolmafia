@@ -6620,7 +6620,13 @@ public abstract class RuntimeLibrary
 		boolean all = filter.equals( "" );
 		boolean global = globalValue.intValue() != 0;
 
-		MapValue value = new MapValue( DataTypes.STRING_TO_BOOLEAN_TYPE, true );
+		// The following create a case-insensitive map. This makes
+		// properties sort prettily, but, unfortunately, Preferences
+		// really are case sensitive.
+		//
+		// MapValue value = new MapValue( DataTypes.STRING_TO_BOOLEAN_TYPE, true );
+
+		MapValue value = new MapValue( DataTypes.STRING_TO_BOOLEAN_TYPE );
 
 		Map<String, String> properties = Preferences.getMap( false, !global );
 		Map<String, String> defaults = Preferences.getMap( true, !global );
