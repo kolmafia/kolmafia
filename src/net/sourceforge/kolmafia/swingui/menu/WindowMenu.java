@@ -53,11 +53,11 @@ public class WindowMenu
 		String frameKey = (String) o;
 		String frameTitle = frameKey;
 
-		for ( int i = 0; i < KoLConstants.FRAME_NAMES.length; ++i )
+		for ( String[] frame : KoLConstants.FRAME_NAMES )
 		{
-			if ( KoLConstants.FRAME_NAMES[ i ][ 1 ].equals( frameKey ) )
+			if ( frame[ 1 ].equals( frameKey ) )
 			{
-				frameTitle = KoLConstants.FRAME_NAMES[ i ][ 0 ];
+				frameTitle = frame[ 0 ];
 			}
 		}
 

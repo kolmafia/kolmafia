@@ -921,9 +921,9 @@ public class OptionsFrame
 			super();
 			this.setContent( null );
 
-			for ( int i = 0; i < KoLConstants.FRAME_NAMES.length; ++i )
+			for ( String[] frame : KoLConstants.FRAME_NAMES )
 			{
-				this.completeList.add( KoLConstants.FRAME_NAMES[ i ][ 0 ] );
+				this.completeList.add( frame[ 0 ] );
 			}
 
 			JPanel optionPanel = new JPanel( new GridLayout( 1, 3 ) );
@@ -993,11 +993,11 @@ public class OptionsFrame
 			pieces = frameString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
 			{
-				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
+				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( !this.startupList.contains( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) && KoLConstants.FRAME_NAMES[ j ][ 1 ].equals( pieces[ i ] ) )
+					if ( !this.startupList.contains( frame[ 0 ] ) && frame[ 1 ].equals( pieces[ i ] ) )
 					{
-						this.startupList.add( KoLConstants.FRAME_NAMES[ j ][ 0 ] );
+						this.startupList.add( frame[ 0 ] );
 					}
 				}
 			}
@@ -1005,11 +1005,11 @@ public class OptionsFrame
 			pieces = desktopString.split( "," );
 			for ( int i = 0; i < pieces.length; ++i )
 			{
-				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
+				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( !this.desktopList.contains( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) && KoLConstants.FRAME_NAMES[ j ][ 1 ].equals( pieces[ i ] ) )
+					if ( !this.desktopList.contains( frame[ 0 ] ) && frame[ 1 ].equals( pieces[ i ] ) )
 					{
-						this.desktopList.add( KoLConstants.FRAME_NAMES[ j ][ 0 ] );
+						this.desktopList.add( frame[ 0 ] );
 					}
 				}
 			}
@@ -1070,30 +1070,30 @@ public class OptionsFrame
 
 			for ( int i = 0; i < this.startupList.getSize(); ++i )
 			{
-				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
+				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( this.startupList.getElementAt( i ).equals( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) )
+					if ( this.startupList.getElementAt( i ).equals( frame[ 0 ] ) )
 					{
 						if ( frameString.length() != 0 )
 						{
 							frameString.append( "," );
 						}
-						frameString.append( KoLConstants.FRAME_NAMES[ j ][ 1 ] );
+						frameString.append( frame[ 1 ] );
 					}
 				}
 			}
 
 			for ( int i = 0; i < this.desktopList.getSize(); ++i )
 			{
-				for ( int j = 0; j < KoLConstants.FRAME_NAMES.length; ++j )
+				for ( String[] frame : KoLConstants.FRAME_NAMES )
 				{
-					if ( this.desktopList.getElementAt( i ).equals( KoLConstants.FRAME_NAMES[ j ][ 0 ] ) )
+					if ( this.desktopList.getElementAt( i ).equals( frame[ 0 ] ) )
 					{
 						if ( desktopString.length() != 0 )
 						{
 							desktopString.append( "," );
 						}
-						desktopString.append( KoLConstants.FRAME_NAMES[ j ][ 1 ] );
+						desktopString.append( frame[ 1 ] );
 					}
 				}
 			}
