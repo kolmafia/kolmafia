@@ -6789,6 +6789,13 @@ public abstract class RuntimeLibrary
 			oldValue = Preferences.getString( name, true );
 			Preferences.removeProperty( name, true );
 		}
+		// If it is a known global property but we want to remove from
+		// user map, we are cleaning up orphaned user properties
+		else if ( Preferences.isGlobalProperty( name ) && !global )
+		{
+			oldValue = Preferences.getString( name, false );
+			Preferences.removeProperty( name, false );
+		}
 		// If it is listed in defaults.txt, set property back to default value.
 		else if ( Preferences.containsDefault( name ) )
 		{
