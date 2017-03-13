@@ -6145,6 +6145,7 @@ public class UseItemRequest
 			AdventureResult after = ItemPool.get( before.getItemId() == ItemPool.TOGGLE_SWITCH_BARTEND ?
 			                                                            ItemPool.TOGGLE_SWITCH_BOUNCE :
 				                                                      ItemPool.TOGGLE_SWITCH_BARTEND, 1 );
+			EquipmentManager.discardEquipment( before );
 			EquipmentManager.setEquipment( EquipmentManager.FAMILIAR, after );
 			RequestLogger.printLine( "Toggled " + before + " into " + after );
 			return true;
