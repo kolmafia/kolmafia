@@ -1502,7 +1502,7 @@ public abstract class RuntimeLibrary
 		// Functions to manipulate settings
 
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
-		functions.add( new LibraryFunction( "get_all_properties", DataTypes.CASE_INSENSITIVE_STRING_TO_BOOLEAN_TYPE, params ) );
+		functions.add( new LibraryFunction( "get_all_properties", DataTypes.STRING_TO_BOOLEAN_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "property_exists", DataTypes.BOOLEAN_TYPE, params ) );
@@ -6589,7 +6589,7 @@ public abstract class RuntimeLibrary
 		boolean all = filter.equals( "" );
 		boolean global = globalValue.intValue() != 0;
 
-		MapValue value = new MapValue( DataTypes.CASE_INSENSITIVE_STRING_TO_BOOLEAN_TYPE );
+		MapValue value = new MapValue( DataTypes.STRING_TO_BOOLEAN_TYPE, true );
 
 		Map<String, String> properties = Preferences.getMap( false, !global );
 		Map<String, String> defaults = Preferences.getMap( true, !global );
