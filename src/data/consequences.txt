@@ -266,6 +266,7 @@ MONSTER	Shadow Avatar of Sneaky Pete	.	"Your Shadow"
 MONSTER	Shadow Cow Puncher	.	"Your Shadow"
 MONSTER	Shadow Beanslinger	.	"Your Shadow"
 MONSTER	Shadow Snake Oiler	.	"Your Shadow"
+MONSTER	Shadow Gelatinous Noob	.	"Your Shadow"
 
 # Monsters from Investigating a Plaintive Telegram
 MONSTER	smelly buzzard	.	"buzzard"
