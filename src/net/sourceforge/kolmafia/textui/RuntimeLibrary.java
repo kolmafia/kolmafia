@@ -441,6 +441,11 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_item", DataTypes.ITEM_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "to_class", DataTypes.CLASS_TYPE, params ) );
@@ -461,11 +466,6 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
 		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "to_effect", DataTypes.EFFECT_TYPE, params ) );
-
-		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
-		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
-		params = new Type[] { DataTypes.INT_TYPE };
-		functions.add( new LibraryFunction( "to_location", DataTypes.LOCATION_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
 		functions.add( new LibraryFunction( "to_familiar", DataTypes.FAMILIAR_TYPE, params ) );
