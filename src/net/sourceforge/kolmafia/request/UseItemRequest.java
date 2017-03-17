@@ -3256,9 +3256,19 @@ public class UseItemRequest
 		case ItemPool.GINGERBREAD_CITY:
 
 			Preferences.setBoolean( "gingerbreadCityAvailable", true );
+			if ( !responseText.contains( "build a gingerbread city" ) )
+			{
+				return;
+			}
+			break;
 
-			// Detect "you already have one" text
-
+		case ItemPool.COUNTERFEIT_CITY:
+			if ( responseText.contains( "already a gingerbread city" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+			Preferences.setBoolean( "_gingerbreadCityToday", true );
 			break;
 
 		case ItemPool.TELEGRAPH_OFFICE_DEED:
