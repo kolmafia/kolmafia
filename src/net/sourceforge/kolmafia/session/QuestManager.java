@@ -205,6 +205,14 @@ public class QuestManager
 			{
 				handleSeaChange( location, responseText );
 			}
+			else if ( locationId.equals( AdventurePool.GINGERBREAD_CIVIC_CENTER_ID ) ||
+				  locationId.equals( AdventurePool.GINGERBREAD_TRAIN_STATION_ID ) ||
+				  locationId.equals( AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE_ID ) ||
+				  locationId.equals( AdventurePool.GINGERBREAD_RETAIL_DISTRICT_ID ) ||
+				  locationId.equals( AdventurePool.GINGERBREAD_SEWERS_ID ) )
+			{
+				handleGingerbreadCityChange( location, responseText );
+			}
 			else if ( KoLCharacter.getInebriety() > 25 )
 			{
 				handleSneakyPeteChange( responseText );
@@ -574,6 +582,10 @@ public class QuestManager
 
 	private static void handleGingerbreadCityChange( final String location, final String responseText )
 	{
+		if ( !Preferences.getBoolean( "gingerbreadCityAvailable" ) )
+		{
+			Preferences.setBoolean( "_gingerbreadCityToday", true );
+		}
 		if ( responseText.contains( "snarfblat=480" ) )
 		{
 			Preferences.setBoolean( "gingerRetailUnlocked", true );

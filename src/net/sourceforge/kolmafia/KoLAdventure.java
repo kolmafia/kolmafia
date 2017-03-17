@@ -1128,6 +1128,24 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.GINGERBREAD_CIVIC_CENTER_ID ) ||
+		     this.adventureId.equals( AdventurePool.GINGERBREAD_TRAIN_STATION_ID ) ||
+		     this.adventureId.equals( AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE_ID ) ||
+		     this.adventureId.equals( AdventurePool.GINGERBREAD_RETAIL_DISTRICT_ID ) ||
+		     this.adventureId.equals( AdventurePool.GINGERBREAD_SEWERS_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "gingerbreadCityAvailable" ) || Preferences.getBoolean( "_gingerbreadCityToday" );
+			if ( !unlocked )
+			{
+				// Visit the Mountains and take a look.
+				RequestThread.postRequest( new PlaceRequest( "mountains" ) );
+				unlocked = Preferences.getBoolean( "_gingerbreadCityToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
 		if ( this.adventureId.equals( AdventurePool.EDGE_OF_THE_SWAMP_ID ) )
 		{
 			this.isValidAdventure = QuestDatabase.isQuestLaterThan( Quest.SWAMP, "unstarted" );

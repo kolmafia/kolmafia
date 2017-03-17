@@ -2754,6 +2754,7 @@ public class ItemPool
 	public static final int THANKSGARDEN_SEEDS = 9186;
 	public static final int CASHEW = 9187;
 	public static final int GINGERBREAD_CITY = 9203;
+	public static final int COUNTERFEIT_CITY = 9204;
 	public static final int SPRINKLES = 9205;
 	public static final int VIGILANTE_BOOK = 9206;
 	public static final int BROKEN_CHOCOLATE_POCKETWATCH = 9215;

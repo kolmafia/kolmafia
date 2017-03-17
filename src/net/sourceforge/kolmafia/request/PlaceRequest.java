@@ -224,7 +224,7 @@ public class PlaceRequest
 			}
 			if ( responseText.contains( "gingerbreadcity" ) )
 			{
-				// Preferences.setBoolean( "gingerbreadCityAvailable", true );
+				Preferences.setBoolean( "_gingerbreadCityToday", true );
 			}
 		}
 		else if ( place.equals( "nstower" ) )

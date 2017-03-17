@@ -92,6 +92,11 @@ public class SetPreferencesCommand
 			value = value.substring( 0, value.length() - 1 ).trim();
 		}
 
+		SetPreferencesCommand.setProperty( name, value, true );
+	}
+
+	public static void setProperty( String name, String value, boolean print )
+	{
 		if ( name.equals( "battleAction" ) )
 		{
 			if ( value.contains( ";" ) || value.startsWith( "consult" ) )
@@ -104,13 +109,14 @@ public class SetPreferencesCommand
 				value = CombatActionManager.getLongCombatOptionName( value );
 			}
 
+			if ( value == null )
+			{
+				return;
+			}
+			
 			// Special handling of the battle action property,
 			// such that auto-recovery gets reset as needed.
-
-			if ( name.equals( "battleAction" ) && value != null )
-			{
-				LockableListFactory.setSelectedItem( KoLCharacter.getBattleSkillNames(), value );
-			}
+			LockableListFactory.setSelectedItem( KoLCharacter.getBattleSkillNames(), value );
 		}
 
 		if ( name.equals( "customCombatScript" ) )
@@ -142,7 +148,7 @@ public class SetPreferencesCommand
 		}
 
 		// suppress CLI output iff it is a pref that starts with _ AND is not defined in defaults.txt
-		if ( !name.startsWith( "_" ) || Preferences.containsDefault( name ) )
+		if ( print && !name.startsWith( "_" ) || Preferences.containsDefault( name ) )
 		{
 			RequestLogger.printLine( name + " => " + value );
 		}

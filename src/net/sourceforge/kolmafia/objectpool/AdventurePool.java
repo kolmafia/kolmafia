@@ -242,7 +242,12 @@ public class AdventurePool
 	public static final int TRAINING_SNOWMAN = 460;
 	public static final String TRAINING_SNOWMAN_ID = "460";
 	public static final int GINGERBREAD_CIVIC = 477;
+	public static final String GINGERBREAD_CIVIC_CENTER_ID = "477";
+	public static final String GINGERBREAD_TRAIN_STATION_ID = "478";
+	public static final String GINGERBREAD_INDUSTRIAL_ZONE_ID = "479";
+	public static final String GINGERBREAD_RETAIL_DISTRICT_ID = "480";
 	public static final int GINGERBREAD_SEWERS = 481;
+	public static final String GINGERBREAD_SEWERS_ID = "481";
 
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";

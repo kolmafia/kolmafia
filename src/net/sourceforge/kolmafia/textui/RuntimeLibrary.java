@@ -208,6 +208,7 @@ import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
+import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
 
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
@@ -6762,10 +6763,8 @@ public abstract class RuntimeLibrary
 
 	public static Value set_property( Interpreter interpreter, final Value name, final Value value )
 	{
-		// In order to avoid code duplication for combat
-		// related settings, use the shell.
-
-		KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "set", name.toString() + "=" + value.toString() );
+		// Avoid code duplication for combat related settings
+		SetPreferencesCommand.setProperty( name.toString(), value.toString(), false );
 		return DataTypes.VOID_VALUE;
 	}
 
