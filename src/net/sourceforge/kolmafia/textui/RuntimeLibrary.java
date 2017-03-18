@@ -6761,10 +6761,12 @@ public abstract class RuntimeLibrary
 		return DataTypes.STRING_INIT;
 	}
 
-	public static Value set_property( Interpreter interpreter, final Value name, final Value value )
+	public static Value set_property( Interpreter interpreter, final Value nameValue, final Value value )
 	{
 		// Avoid code duplication for combat related settings
-		SetPreferencesCommand.setProperty( name.toString(), value.toString(), false );
+		String name = nameValue.toString();
+		boolean builtin = Preferences.containsDefault( name );
+		SetPreferencesCommand.setProperty( name, value.toString(), builtin );
 		return DataTypes.VOID_VALUE;
 	}
 
