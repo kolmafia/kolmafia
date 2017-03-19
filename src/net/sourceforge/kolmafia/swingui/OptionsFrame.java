@@ -462,7 +462,7 @@ public class OptionsFrame
 		public final void actionConfirmed()
 		{
 			int index = this.elementList.getSelectedIndex();
-			if ( index == -1 )
+			if ( index == -1 || index == 0 )
 			{
 				return;
 			}
@@ -476,7 +476,7 @@ public class OptionsFrame
 		public final void actionCancelled()
 		{
 			int index = this.elementList.getSelectedIndex();
-			if ( index == -1 )
+			if ( index == -1 || index == this.list.size() - 1  )
 			{
 				return;
 			}

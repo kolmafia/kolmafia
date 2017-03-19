@@ -9265,7 +9265,7 @@
 9239	ginger beer	705436141	gingerbeer.gif	drink	d	150
 9240	spare chocolate parts	568410011	chocoparts.gif	none	d	15
 9241	industrial frosting	603766917	indfrosting.gif	usable	d	400	 tubs of industrial frosting
-9242	fake cocktail	430309780	daquiri.gif	usable	t,d	2	fake cocktail
+9242	fake cocktail	430309780	daquiri.gif	multiple	t,d	2	fake cocktail
 9243	high-end ginger wine	411301645	gingerwineglass.gif	drink		0
 9244	tiny plastic bad vibe	349395507	tpbadvibe.gif	accessory	t	0
 9245	tiny plastic angry vikings	924061367	tpvikings.gif	accessory	t	0	tiny plastic angry vikings
