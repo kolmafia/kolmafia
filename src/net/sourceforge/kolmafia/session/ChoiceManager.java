@@ -14361,8 +14361,9 @@ public abstract class ChoiceManager
 				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				return true;
 			}
+
 			case 1182:	// Play against the Witchess Pieces
-				// These will either redirect to a fight. The encounter will suffice.
+				// These will redirect to a fight. The encounter will suffice.
 				if ( decision >= 1 && decision <= 7 )
 				{
 					String desc = "Play against the Witchess pieces";
@@ -14496,6 +14497,17 @@ public abstract class ChoiceManager
 			// Getting here took a turn
 			ResultProcessor.processAdventuresUsed( 1 );
 			RequestLogger.registerLocation( "The Black Forest" );
+			break;
+
+		case 1223:	// L.O.V. Entrance
+		case 1224:	// L.O.V. Equipment Room
+		case 1225:	// L.O.V. Engine Room
+		case 1226:	// L.O.V. Emergency Room
+		case 1227:	// L.O.V. Elbow Room
+		case 1228:	// L.O.V. Emporium
+			// This is chain of choices that either immediately
+			// follow a fight or the previous choice.
+			RequestLogger.registerLastLocation();
 			break;
 		}
 	}
