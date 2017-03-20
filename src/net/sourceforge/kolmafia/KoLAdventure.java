@@ -38,13 +38,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -52,6 +56,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
@@ -67,6 +72,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -74,8 +80,11 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+
 import net.sourceforge.kolmafia.swingui.GenericFrame;
+
 import net.sourceforge.kolmafia.textui.command.CouncilCommand;
+
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2507,6 +2516,7 @@ public class KoLAdventure
 
 		KoLAdventure.setLastAdventure( KoLAdventure.lastVisitedLocation );
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
+		KoLAdventure.checkGingerbreadCity( location );
 		EncounterManager.registerAdventure( location );
 
 		String limitmode = KoLCharacter.getLimitmode();
@@ -2543,6 +2553,15 @@ public class KoLAdventure
 		}
 
 		return true;
+	}
+
+	public static void checkGingerbreadCity( final String adventureName )
+	{
+		String zone = AdventureDatabase.getZone( adventureName );
+		if ( zone != null && zone.equals( "Gingerbread City" ) )
+		{
+			Preferences.increment( "_gingerbreadCityTurns" );
+		}
 	}
 
 	public static final int getAdventureCount()

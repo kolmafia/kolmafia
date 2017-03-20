@@ -1298,6 +1298,8 @@ user	_gibbererAdv	0
 user	_gibbererCharge	0
 user	_gingerBiggerAlligators	false
 user	_gingerbreadCityToday	false
+user	_gingerbreadCityTurns	0
+user	_gingerbreadClockAdvanced	false
 user	_gingerbreadMobHitUsed	false
 user	_glarkCableUses	0
 user	_glennGoldenDiceUsed	false

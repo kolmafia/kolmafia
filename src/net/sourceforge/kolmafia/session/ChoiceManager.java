@@ -9353,6 +9353,14 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1215:
+			// Setting the Clock
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_gingerbreadClockAdvanced", true );
+			}
+			break;
+
 		case 1217:
 			// Sweet Synthesis
 			SweetSynthesisRequest.postChoice1( urlString, text );
