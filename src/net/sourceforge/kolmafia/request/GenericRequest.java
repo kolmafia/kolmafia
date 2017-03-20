@@ -3476,7 +3476,8 @@ public class GenericRequest
 	{
 		Matcher m = DOMAIN_PATTERN.matcher( value );
 		return  m.find() ?
-			StringUtilities.globalStringReplace( value, m.group( 1 ), "127.0.0.1:" + RelayServer.getPort() ) :
+			// StringUtilities.globalStringReplace( value, m.group( 1 ), "127.0.0.1:" + RelayServer.getPort() ) :
+			StringUtilities.globalStringDelete( value, m.group( 0 ) ) :
 			value;
 	}
 
