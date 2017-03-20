@@ -598,6 +598,7 @@ public class ValhallaManager
 		Preferences.setString( "screencappedMonster", "" );
 		Preferences.setString( "spookyPuttyMonster", "" );
 		Preferences.setString( "waxMonster", "" );
+		Preferences.setString( "nosyNoseMonster", "" );
 		// Way of the Surprising Fist
 		Preferences.setInteger( "charitableDonations", 0 );
 		Preferences.setInteger( "fistSkillsKnown", 0 );
