@@ -1131,6 +1131,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "reverse_numberology", NumberologyType, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "numberology_prize", DataTypes.STRING_TYPE, params ) );
+
 		// Equipment functions.
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
@@ -5234,6 +5237,11 @@ public abstract class RuntimeLibrary
 		}
 
 		return value;
+	}
+
+	public static Value numberology_prize( Interpreter interpreter, final Value num )
+	{
+		return DataTypes.makeStringValue( NumberologyManager.numberologyPrize( (int) num.intValue() ) );
 	}
 
 	// Equipment functions.
