@@ -5144,10 +5144,9 @@ public abstract class RuntimeLibrary
 		}
 		else if ( option > 0 )
 		{
+			// Submit the option chosen
 			String message = "Submitting option " + option + " for choice " + ChoiceManager.getLastChoice();
 			RequestLogger.printLine( message );
-			RequestLogger.updateSessionLog( message );
-			// Submit the option chosen
 			response = ChoiceManager.processChoiceAdventure( option, false );
 		}
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
