@@ -1309,6 +1309,12 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "contains_text", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "starts_with", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "ends_with", DataTypes.BOOLEAN_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "extract_meat", DataTypes.INT_TYPE, params ) );
 
@@ -5685,6 +5691,16 @@ public abstract class RuntimeLibrary
 		return DataTypes.makeBooleanValue( source.toString().contains( search.toString() ) );
 	}
 
+	public static Value starts_with( Interpreter interpreter, final Value source, final Value prefix )
+	{
+		return DataTypes.makeBooleanValue( source.toString().startsWith( prefix.toString() ) );
+	}
+
+	public static Value ends_with( Interpreter interpreter, final Value source, final Value suffix )
+	{
+		return DataTypes.makeBooleanValue( source.toString().endsWith( suffix.toString() ) );
+	}
+
 	public static Value extract_meat( Interpreter interpreter, final Value string )
 	{
 		ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
@@ -5692,11 +5708,8 @@ public abstract class RuntimeLibrary
 			StringUtilities.globalStringReplace( string.toString(), "- ", "-" ),
 			data );
 
-		AdventureResult result;
-
-		for ( int i = 0; i < data.size(); ++i )
+		for ( AdventureResult result : data )
 		{
-			result = (AdventureResult) data.get( i );
 			if ( result.getName().equals( AdventureResult.MEAT ) )
 			{
 				return new Value( result.getCount() );
@@ -5714,11 +5727,8 @@ public abstract class RuntimeLibrary
 			data );
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
 
-		AdventureResult result;
-
-		for ( int i = 0; i < data.size(); ++i )
+		for ( AdventureResult result : data )
 		{
-			result = (AdventureResult) data.get( i );
 			if ( result.isItem() )
 			{
 				value.aset(
