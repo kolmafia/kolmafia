@@ -843,14 +843,22 @@ public class Parser
 		{
 			this.readToken(); // Eat the equals sign
 
-			Type ltype = t.getBaseType();
-			rhs = this.parseExpression( scope );
+			if ( this.currentToken().equals( "{" ) && t instanceof AggregateType )
+			{
+				this.readToken(); // read {
+				rhs = this.parseAggregateLiteral( scope, (AggregateType) t );
+			}
+			else
+			{
+				rhs = this.parseExpression( scope );
+			}
 
 			if ( rhs == null )
 			{
 				throw this.parseException( "Expression expected" );
 			}
 
+			Type ltype = t.getBaseType();
 			if ( !Parser.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException(
