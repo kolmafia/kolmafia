@@ -159,6 +159,8 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CraftRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
+import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -1133,6 +1135,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "numberology_prize", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] { DataTypes.STRICT_STRING_TYPE };
+		functions.add( new LibraryFunction( "every_card_name", DataTypes.STRING_TYPE, params ) );
 
 		// Equipment functions.
 
@@ -5248,6 +5253,20 @@ public abstract class RuntimeLibrary
 	public static Value numberology_prize( Interpreter interpreter, final Value num )
 	{
 		return DataTypes.makeStringValue( NumberologyManager.numberologyPrize( (int) num.intValue() ) );
+	}
+
+	public static Value every_card_name( Interpreter interpreter, final Value name )
+	{
+		// Use logic from CLI "play" command
+		List<String> matchingNames = DeckOfEveryCardRequest.getMatchingNames( name.toString() );
+		if ( matchingNames.size() == 0 ||	// No match
+		     matchingNames.size() > 1 )		// Ambiguous
+		{
+			return DataTypes.STRING_INIT;
+		}
+
+		EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard( matchingNames.get( 0 ) );
+		return ( card == null ) ? DataTypes.STRING_INIT : DataTypes.makeStringValue( card.name );
 	}
 
 	// Equipment functions.
