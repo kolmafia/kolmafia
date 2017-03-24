@@ -624,6 +624,7 @@ public class ValhallaManager
 		Preferences.setInteger( "dreadScroll6", 0 );
 		Preferences.setInteger( "dreadScroll7", 0 );
 		Preferences.setInteger( "dreadScroll8", 0 );
+		Preferences.setInteger( "encountersUntilDMTChoice", 5 );
 		Preferences.setInteger( "gladiatorBallMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorBladeMovesKnown", 0 );
 		Preferences.setInteger( "gladiatorNetMovesKnown", 0 );
