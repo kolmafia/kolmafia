@@ -434,6 +434,7 @@ public class FightRequest
 
 		// Categories of monsters
 		BEE( "bee" ),
+		DMT( "Deep Machine Tunnels" ),
 		EVENT( "event monster" ),
 		HIPSTER( "hipsters" ),
 		HOLIDAY( "holiday monster" ),
@@ -518,6 +519,10 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "beebee king" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "bee thoven" , SpecialMonster.BEE );
 		FightRequest.specialMonsters.put( "Queen Bee" , SpecialMonster.BEE );
+
+		FightRequest.specialMonsters.put( "Performer of Actions" , SpecialMonster.DMT );
+		FightRequest.specialMonsters.put( "Thinker of Thoughts" , SpecialMonster.DMT );
+		FightRequest.specialMonsters.put( "Perceiver of Sensations" , SpecialMonster.DMT );
 
 		FightRequest.specialMonsters.put( "Candied Yam Golem", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "Malevolent Tofurkey", SpecialMonster.HOLIDAY );
@@ -2485,6 +2490,13 @@ public class FightRequest
 						TurnCounter.stopCounting( "Bee window end" );
 						TurnCounter.startCounting( 15, "Bee window begin loc=*", "lparen.gif" );
 						TurnCounter.startCounting( 20, "Bee window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
+
+				case DMT:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.decrement( "encountersUntilDMTChoice" );
 					}
 					break;
 

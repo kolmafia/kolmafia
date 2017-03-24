@@ -10684,6 +10684,7 @@ public abstract class ChoiceManager
 
 		case 1119:
 			// Shining Mauve Backwards In Time
+			Preferences.setInteger( "encountersUntilDMTChoice", 49 );
 			if ( ChoiceManager.lastDecision == 4 && Preferences.getInteger( "lastDMTDuplication" ) != KoLCharacter.getAscensions())
 			{
 				Preferences.setInteger( "lastDMTDuplication", KoLCharacter.getAscensions() );
