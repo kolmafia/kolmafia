@@ -1446,6 +1446,7 @@ user	_raveStealCount	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_riftletAdv	0
+user	_robortenderDrinks
 user	_romanticFightsLeft	0
 user	_saltGrainsConsumed	0
 user	_seaJellyHarvested	false
