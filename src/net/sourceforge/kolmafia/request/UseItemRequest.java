@@ -1965,7 +1965,7 @@ public class UseItemRequest
 			pref += ",";
 		}
 		pref += item.getName();
-		Preferences.setString( "_robortenderDrinks", pref );
+		Preferences.setString( "_roboDrinks", pref );
 
 		ResultProcessor.processResult( item );
 
