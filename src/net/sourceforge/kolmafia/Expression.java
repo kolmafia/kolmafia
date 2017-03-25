@@ -297,7 +297,7 @@ public class Expression
 				String prefString = Preferences.getString( first );
 				if ( second != null )
 				{
-					v = second.equals( prefString ) ? 1 : 0;
+					v = prefString.contains( second ) ? 1 : 0;
 				}
 				else
 				{
@@ -395,6 +395,11 @@ public class Expression
 					GregorianCalendar eventEnd = new GregorianCalendar( 2016, Calendar.JANUARY, 3, 20, 30 );
 					eventEnd.setTimeZone( TimeZone.getTimeZone( "GMT-0700" ) );
 					v = date.before( eventEnd ) ? 1 : 0;
+				}
+				else if ( event.equals( "December" ) )
+				{
+					int month = date.get( Calendar.MONTH );
+					v = ( month == Calendar.DECEMBER ) ? 1 : 0;
 				}
 				break;
 			case '\u0092':
