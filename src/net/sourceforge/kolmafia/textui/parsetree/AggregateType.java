@@ -40,8 +40,17 @@ public class AggregateType
 {
 	private final Type dataType;
 	private final Type indexType;
-	private final int size;
 	private final boolean caseInsensitive;
+	private int size;
+
+	public AggregateType( final AggregateType original )
+	{
+		super( "aggregate", DataTypes.TYPE_AGGREGATE );
+		this.dataType = original.dataType;
+		this.indexType = original.indexType;
+		this.caseInsensitive = original.caseInsensitive;
+		this.size = original.size;
+	}
 
 	// Map
 	public AggregateType( final Type dataType, final Type indexType )
@@ -49,7 +58,7 @@ public class AggregateType
 		super( "aggregate", DataTypes.TYPE_AGGREGATE );
 		this.dataType = dataType;
 		this.indexType = indexType;
-		this.size = 0;
+		this.size = -1;
 		this.caseInsensitive = false;
 	}
 
@@ -59,7 +68,7 @@ public class AggregateType
 		super( "aggregate", DataTypes.TYPE_AGGREGATE );
 		this.dataType = dataType;
 		this.indexType = indexType;
-		this.size = 0;
+		this.size = -1;
 		this.caseInsensitive = caseInsensitive && indexType.equals( DataTypes.STRING_TYPE );
 	}
 
@@ -97,6 +106,11 @@ public class AggregateType
 		return this.size;
 	}
 
+	public void setSize( final int size )
+	{
+		this.size = size;
+	}
+
 	@Override
 	public boolean equals( final Type o )
 	{
@@ -126,14 +140,14 @@ public class AggregateType
 		if ( this.dataType instanceof AggregateType )
 		{
 			String suffix = ", " + ( (AggregateType) this.dataType ).indexString();
-			if ( this.size != 0 )
+			if ( this.size != -1 )
 			{
 				return this.size + suffix;
 			}
 			return this.indexType.toString() + suffix;
 		}
 
-		if ( this.size != 0 )
+		if ( this.size != -1 )
 		{
 			return String.valueOf( this.size );
 		}
@@ -143,7 +157,7 @@ public class AggregateType
 	@Override
 	public Value initialValue()
 	{
-		return  ( this.size != 0 ) ?
+		return  ( this.size != -1 ) ?
 			new ArrayValue( this ) :
 			new MapValue( this, this.caseInsensitive );
 	}
