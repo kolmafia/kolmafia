@@ -588,6 +588,12 @@ public class ResponseTextParser
 				UseItemRequest.parseBinge( location, responseText );
 			}
 
+			// Robortender consumption
+			else if ( location.contains( "action=robooze" ) )
+			{
+				UseItemRequest.parseRobortenderBinge( location, responseText );
+			}
+
 			// If there is an absorb message, parse it
 			else if ( location.contains( "absorb=" ) )
 			{
@@ -678,11 +684,6 @@ public class ResponseTextParser
 		else if ( ( location.startsWith( "multiuse.php" ) || location.startsWith( "skills.php" ) ) && location.contains( "useitem" ) )
 		{
 			UseItemRequest.parseConsumption( responseText, false );
-		}
-
-		else if ( location.startsWith( "mrstore.php" ) )
-		{
-			MrStoreRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "pandamonium.php" ) )

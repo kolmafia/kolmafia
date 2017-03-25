@@ -1938,6 +1938,40 @@ public class UseItemRequest
 		return true;
 	}
 
+	public static final boolean parseRobortenderBinge( final String urlString, final String responseText )
+	{
+		// inventory.php?pwd&action=robooze&whichitem=9396
+		if ( !urlString.startsWith( "inventory.php" ) || !urlString.contains( "action=robooze" ) )
+		{
+			return false;
+		}
+
+		if ( !responseText.contains( "the cocktail" ) && !responseText.contains( "the drink" ) )
+		{
+			return false;
+		}
+
+		Matcher itemMatcher = GenericRequest.WHICHITEM_PATTERN.matcher( urlString );
+		if ( !itemMatcher.find() )
+		{
+			return false;
+		}
+		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
+		AdventureResult item = ItemPool.get( itemId, -1 );
+
+		String pref = Preferences.getString( "_robortenderDrinks" );
+		if ( pref.length() != 0 )
+		{
+			pref += ",";
+		}
+		pref += item.getName();
+		Preferences.setString( "_robortenderDrinks", pref );
+
+		ResultProcessor.processResult( item );
+
+		return true;
+	}
+
 	public static final boolean parseAbsorb( final String urlString, final String responseText )
 	{
 		if ( !KoLCharacter.inNoobcore() )
