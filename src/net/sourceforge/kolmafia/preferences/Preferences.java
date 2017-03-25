@@ -42,6 +42,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +50,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -81,14 +83,13 @@ public class Preferences
 	private static final byte [] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
 	private static final String [] characterMap = new String[ 65536 ];
-	private static final HashMap<String, String> propertyNames = new HashMap<String, String>();
 
 	private static final HashMap<String, String> globalNames = new HashMap<String, String>();
-	private static final TreeMap<String, Object> globalValues = new TreeMap<String, Object>();
+	private static final SortedMap<String, Object> globalValues = Collections.synchronizedSortedMap( new TreeMap<String, Object>() );
 	private static File globalPropertiesFile = null;
 
 	private static final HashMap<String,String> userNames = new HashMap<String,String>();
-	private static final TreeMap<String, Object> userValues = new TreeMap<String, Object>();
+	private static final SortedMap<String, Object> userValues = Collections.synchronizedSortedMap( new TreeMap<String, Object>() );
 	private static File userPropertiesFile = null;
 	
 	private static final Set<String> defaultsSet = new HashSet<String>();
@@ -173,20 +174,24 @@ public class Preferences
 	{
 		Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
 
-		if ( username == null || username.equals( "" ) )
+		// Prevent anybody from manipulating the user map until we are
+		// done bulk-loading it.
+		synchronized ( Preferences.userValues )
 		{
-			if ( Preferences.userPropertiesFile != null )
+			if ( username == null || username.equals( "" ) )
 			{
-				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+				if ( Preferences.userPropertiesFile != null )
+				{
+					Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+					Preferences.userPropertiesFile = null;
+					Preferences.userValues.clear();
+				}
 
-				Preferences.userPropertiesFile = null;
-				Preferences.userValues.clear();
+				return;
 			}
 
-			return;
+			Preferences.loadUserPreferences( username );
 		}
-
-		Preferences.loadUserPreferences( username );
 
 		AdventureFrame.updateFromPreferences();
 		CharPaneDecorator.updateFromPreferences();
@@ -222,7 +227,6 @@ public class Preferences
 			}
 
 			String value = (String) entry.getValue();
-			Preferences.propertyNames.put( key.toLowerCase(), key );
 			Preferences.globalValues.put( key, value );
 		}
 
@@ -235,7 +239,6 @@ public class Preferences
 			{
 				// System.out.println( "Adding new built-in global setting: " + key );
 				String value = entry.getValue();
-				Preferences.propertyNames.put( key.toLowerCase(), key );
 				Preferences.globalValues.put( key, value );
 			}
 		}
@@ -255,7 +258,6 @@ public class Preferences
 			String key = (String) currentEntry.getKey();
 			String value = (String) currentEntry.getValue();
 
-			Preferences.propertyNames.put( key.toLowerCase(), key );
 			Preferences.userValues.put( key, value );
 		}
 
@@ -278,7 +280,6 @@ public class Preferences
 				(String) entry.getValue();
 
 			// System.out.println( "Adding new built-in user setting: " + key );
-			Preferences.propertyNames.put( key.toLowerCase(), key );
 			Preferences.userValues.put( key, value );
 		}
 	}
@@ -378,20 +379,6 @@ public class Preferences
 			"\\u" + Integer.toHexString( ch );
 	}
 
-	public static final String getCaseSensitiveName( final String name )
-	{
-		String lowercase = name.toLowerCase();
-		String actualName = Preferences.propertyNames.get( lowercase );
-
-		if ( actualName != null )
-		{
-			return actualName;
-		}
-
-		Preferences.propertyNames.put( lowercase, name );
-		return name;
-	}
-
 	public static final boolean propertyExists( final String name, final boolean global )
 	{
 		return  global ?
@@ -443,14 +430,28 @@ public class Preferences
 		{
 			if ( !Preferences.globalNames.containsKey( name ) )
 			{
+				// We are changing the structure of the map.
+				// globalValues is a synchronized map.
+
 				Preferences.globalValues.remove( name );
+				if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+				{
+					Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
+				}
 			}
 		}
 		else
 		{
 			if ( !Preferences.userNames.containsKey( name ) )
 			{
+				// We are changing the structure of the map.
+				// userValues is a synchronized map.
+
 				Preferences.userValues.remove( name );
+				if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+				{
+					Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+				}
 			}
 		}
 	}
@@ -606,7 +607,7 @@ public class Preferences
 
 	public static final boolean getBoolean( final String user, final String name )
 	{
-		TreeMap<String, Object> map = Preferences.getMap( name );
+		Map<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -625,7 +626,7 @@ public class Preferences
 
 	public static final int getInteger( final String user, final String name )
 	{
-		TreeMap<String, Object> map = Preferences.getMap( name );
+		Map<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -644,7 +645,7 @@ public class Preferences
 
 	public static final long getLong( final String user, final String name )
 	{
-		TreeMap<String, Object> map = Preferences.getMap( name );
+		Map<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -663,7 +664,7 @@ public class Preferences
 
 	public static final float getFloat( final String user, final String name )
 	{
-		TreeMap<String, Object> map = Preferences.getMap( name );
+		Map<String, Object> map = Preferences.getMap( name );
 		Object value = Preferences.getObject( map, user, name );
 
 		if ( value == null )
@@ -680,7 +681,7 @@ public class Preferences
 		return ((Float) value).floatValue();
 	}
 
-	private static final TreeMap<String, Object> getMap( final String name )
+	private static final Map<String, Object> getMap( final String name )
 	{
 		return Preferences.isGlobalProperty( name ) ? Preferences.globalValues : Preferences.userValues;
 	}
@@ -690,7 +691,7 @@ public class Preferences
 		return Preferences.getObject( Preferences.getMap( name ), user, name );
 	}
 
-	private static final Object getObject( final TreeMap<String, Object> map, final String user, final String name )
+	private static final Object getObject( final Map<String, Object> map, final String user, final String name )
 	{
 		String key = Preferences.propertyName( user, name );
 		return map.get( key );
@@ -705,7 +706,7 @@ public class Preferences
 		else
 		{
 			TreeMap<String, String> map = new TreeMap<String, String>();
-			TreeMap<String, Object> srcmap = user ? userValues : globalValues;
+			Map<String, Object> srcmap = user ? userValues : globalValues;
 			for ( String pref : srcmap.keySet() )
 			{
 				map.put( pref, getString( pref ) );
@@ -759,11 +760,14 @@ public class Preferences
 		}
 	}
 
-	private static synchronized final void setObject( final String user, final String name, final String value, final Object object )
+	private static final void setObject( final String user, final String name, final String value, final Object object )
 	{
 		if ( Preferences.isGlobalProperty( name ) )
 		{
 			String actualName = Preferences.propertyName( user, name );
+
+			// We might be changing the structure of the map.
+			// globalValues is a synchronized map.
 
 			Preferences.globalValues.put( actualName, object );
 			if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
@@ -773,6 +777,9 @@ public class Preferences
 		}
 		else if ( Preferences.userPropertiesFile != null )
 		{
+			// We might be changing the structure of the map.
+			// userValues is a synchronized map.
+
 			Preferences.userValues.put( name, object );
 			if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
 			{
@@ -793,44 +800,53 @@ public class Preferences
 		return user == null ? name : name + "." + Preferences.baseUserName( user );
 	}
 
-	private static final void saveToFile( File file, TreeMap<String, Object> data )
+	private static final void saveToFile( File file, Map<String, Object> data )
 	{
-		// Determine the contents of the file by
-		// actually printing them.
+		// See Collections.synchronizedSortedMap
+		//
+		// We are essentially iterating over the map. Not exactly - we
+		// are iterating over the entrySet - but let's keep the map and
+		// the file in synch atomically
 
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
-
-		try
+		synchronized ( data )
 		{
-			for ( Entry<String, Object> current : data.entrySet() )
+			// Determine the contents of the file by
+			// actually printing them.
+
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+			try
 			{
-				ostream.write( Preferences.encodeProperty( current.getKey(), current.getValue().toString() ).getBytes() );
-				ostream.write( LINE_BREAK_AS_BYTES );
+				for ( Entry<String, Object> current : data.entrySet() )
+				{
+					ostream.write( Preferences.encodeProperty( current.getKey(), current.getValue().toString() ).getBytes() );
+					ostream.write( LINE_BREAK_AS_BYTES );
+				}
 			}
-		}
-		catch ( IOException e )
-		{
-			System.out.println(e.getMessage()+" trying to write preferences as byte array.");
-		}
+			catch ( IOException e )
+			{
+				System.out.println(e.getMessage()+" trying to write preferences as byte array.");
+			}
 
-		OutputStream fstream = DataUtilities.getOutputStream( file );
+			OutputStream fstream = DataUtilities.getOutputStream( file );
 
-		try
-		{
-			ostream.writeTo( fstream );
-		}
-		catch ( IOException e )
-		{
-			System.out.println(e.getMessage()+" trying to write preferences as stream.");
-		}
+			try
+			{
+				ostream.writeTo( fstream );
+			}
+			catch ( IOException e )
+			{
+				System.out.println(e.getMessage()+" trying to write preferences as stream.");
+			}
 
-		try
-		{
-			fstream.close();
-		}
-		catch ( IOException e )
-		{
-			System.out.println(e.getMessage()+" trying to close preferences stream.");
+			try
+			{
+				fstream.close();
+			}
+			catch ( IOException e )
+			{
+				System.out.println(e.getMessage()+" trying to close preferences stream.");
+			}
 		}
 	}
 
@@ -910,44 +926,66 @@ public class Preferences
 		}
 	}
 
-	public static synchronized void resetDailies()
+	public static void resetDailies()
 	{
-		Iterator<String> it = Preferences.userValues.keySet().iterator();
-		while ( it.hasNext() )
- 		{
-			String name = it.next();
-			if ( name.startsWith( "_" ) )
+		// See Collections.synchronizedSortedMap
+		//
+		// userValues is a synchronized map, but we are doing a mass
+		// change to it.
+
+		synchronized ( Preferences.userValues )
+		{
+			Iterator<String> it = Preferences.userValues.keySet().iterator();
+			while ( it.hasNext() )
 			{
-				if ( !Preferences.containsDefault( name ) )
+				String name = it.next();
+				if ( name.startsWith( "_" ) )
 				{
-					// fully delete preferences that start with _ and aren't in defaults.txt
-					it.remove();
-					if ( Preferences.getBoolean( "saveSettingsOnSet" ) )
+					if ( !Preferences.containsDefault( name ) )
 					{
-						Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
+						// fully delete preferences that start with _ and aren't in defaults.txt
+						it.remove();
+						continue;
 					}
-					continue;
+					String val = Preferences.userNames.get( name );
+					if ( val == null ) val = "";
+					Preferences.setString( name, val );
 				}
-				String val = Preferences.userNames.get( name );
-				if ( val == null ) val = "";
-				Preferences.setString( name, val );
+			}
+
+			if ( Preferences.getBoolean( "saveSettingsOnSet" ))
+			{
+				Preferences.saveToFile( Preferences.userPropertiesFile, Preferences.userValues );
 			}
 		}
 	}
 
-	public static synchronized void resetGlobalDailies()
+	public static void resetGlobalDailies()
 	{
-		for ( String name : Preferences.globalValues.keySet() )
+		// See Collections.synchronizedSortedMap
+		//
+		// globalValues is a synchronized map, but we are doing a mass
+		// change to it.
+
+		synchronized ( Preferences.globalValues )
 		{
-			if ( name.startsWith( "_" ) )
+			for ( String name : Preferences.globalValues.keySet() )
 			{
-				String val = Preferences.globalNames.get( name );
-				if ( val == null ) val = "";
-				Preferences.setString( name, val );
+				if ( name.startsWith( "_" ) )
+				{
+					String val = Preferences.globalNames.get( name );
+					if ( val == null ) val = "";
+					Preferences.setString( name, val );
+				}
+			}
+
+			Preferences.setInteger( "lastGlobalCounterDay", HolidayDatabase.getPhaseStep() );
+
+			if ( Preferences.getBoolean( "saveSettingsOnSet" ))
+			{
+				Preferences.saveToFile( Preferences.globalPropertiesFile, Preferences.globalValues );
 			}
 		}
-
-		Preferences.setInteger( "lastGlobalCounterDay", HolidayDatabase.getPhaseStep() );
 	}
 
 	public static boolean containsDefault( String key )
