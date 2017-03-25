@@ -60,9 +60,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-import net.sourceforge.kolmafia.textui.parsetree.AggregateLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
+import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
 import net.sourceforge.kolmafia.textui.parsetree.Loop;
 import net.sourceforge.kolmafia.textui.parsetree.LoopBreak;
 import net.sourceforge.kolmafia.textui.parsetree.LoopContinue;
+import net.sourceforge.kolmafia.textui.parsetree.MapLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.Operation;
 import net.sourceforge.kolmafia.textui.parsetree.Operator;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode;
@@ -1091,14 +1092,78 @@ public class Parser
 		List<Value> keys = new ArrayList<Value>();
 		List<Value> values = new ArrayList<Value>();
 
-		while ( !"}".equals( this.currentToken() ) )
+		// If index type is an int, it could be an array or a map
+		boolean arrayAllowed = index.equals( DataTypes.INT_TYPE );
+
+		// Assume it is a map.
+		boolean isArray = false;
+
+		while ( this.currentToken() != null && !this.currentToken().equals( "}" ) )
 		{
-			Value lhs = this.parseValue( scope );
-			if ( lhs == null || !":".equals( this.currentToken() ) )
+			Value lhs;
+
+			// If we know we are reading an ArrayLiteral or haven't
+			// yet ensured we are reading a MapLiteral, allow any
+			// type of Value as the "key"
+			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && data instanceof AggregateType )
+			{
+				this.readToken(); // read {
+				lhs = parseAggregateLiteral( scope, (AggregateType) data );
+			}
+			else
+			{
+				lhs = this.parseValue( scope );
+			}
+
+			if ( lhs == null || this.currentToken() == null )
 			{
 				throw this.parseException( "Script parsing error" );
 			}
+
+			String delim = this.currentToken();
+
+			// If this could be an array and we haven't already
+			// decided it is one, if the delimiter is a comma,
+			// parse as an ArrayLiteral
+			if ( arrayAllowed )
+			{
+				if ( delim.equals( "," ) || delim.equals( "}" ) )
+				{
+					isArray = true;
+				}
+				arrayAllowed = false;
+			}
+
+			// If parsing an ArrayLiteral, accumulate only values
+			if ( isArray )
+			{
+				// The value must have the correct data type
+				if ( !Parser.validCoercion( data, lhs.getType(), "assign" ) )
+				{
+					throw this.parseException( "Invalid array literal" );
+				}
+
+				values.add( lhs );
+
+				// If there is not another value, done parsing values
+				if ( !delim.equals( "," ) )
+				{
+					break;
+				}
+
+				// Otherwise, move on to the next value
+				this.readToken(); // read ;
+				continue;
+			}
+
+			// We are parsing a MapLiteral
+			if (  !delim.equals( ":" ) )
+			{
+				throw this.parseException( ":", this.currentToken() );
+			}
+
 			this.readToken(); // read :
+
 			Value rhs;
 			if ( this.currentToken().equals( "{" ) && data instanceof AggregateType )
 			{
@@ -1109,15 +1174,17 @@ public class Parser
 			{
 				rhs = this.parseValue( scope );
 			}
+
 			if ( rhs == null )
 			{
 				throw this.parseException( "Script parsing error" );
 			}
+
 			// Check that each type is valid via validCoercion
 			if ( !Parser.validCoercion( index, lhs.getType(), "assign" ) ||
 			     !Parser.validCoercion( data, rhs.getType(), "assign" ) )
 			{
-				throw this.parseException( "Invalid aggregate literal" );
+				throw this.parseException( "Invalid map literal" );
 			}
 
 			keys.add( lhs );
@@ -1127,15 +1194,27 @@ public class Parser
 			{
 				break;
 			}
+
 			this.readToken();
 		}
+
 		if ( !this.currentToken().equals( "}" ) )
 		{
 			throw this.parseException( "}", this.currentToken() );
 		}
+
 		this.readToken(); // "}"
 
-		return new AggregateLiteral( aggr, keys, values );
+		if ( isArray )
+		{
+			int size = aggr.getSize ();
+			if ( size > 0 && size < values.size() )
+			{
+				throw this.parseException( "Array has " + size + " elements but " + values.size() + " initializers." );
+			}
+		}
+
+		return isArray ? new ArrayLiteral( aggr, values ) :  new MapLiteral( aggr, keys, values );
 	}
 
 	private Type parseAggregateType( final Type dataType, final BasicScope scope )
@@ -1144,6 +1223,18 @@ public class Parser
 		if ( this.currentToken() == null )
 		{
 			throw this.parseException( "Missing index token" );
+		}
+
+		if ( this.currentToken().equals( "]" ) )
+		{
+			this.readToken(); // ]
+
+			if ( this.currentToken().equals( "[" ) )
+			{
+				return new AggregateType( this.parseAggregateType( dataType, scope ), 0 );
+			}
+
+			return new AggregateType( dataType, 0 );
 		}
 
 		if ( this.readIntegerToken( this.currentToken() ) )
@@ -2314,11 +2405,17 @@ public class Parser
 
 			while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
 			{
+				Type expected = types[param];
 				Value val;
 
 				if ( this.currentToken().equals( "," ) )
 				{
 					val = DataTypes.VOID_VALUE;
+				}
+				else if ( this.currentToken().equals( "{" ) && expected instanceof AggregateType )
+				{
+					this.readToken(); // read {
+					val = this.parseAggregateLiteral( scope, (AggregateType) expected );
 				}
 				else
 				{
@@ -2332,7 +2429,6 @@ public class Parser
 
 				if ( val != DataTypes.VOID_VALUE )
 				{
-					Type expected = types[param];
 					Type given = val.getType();
 					if ( !expected.equals( given ) )
 					{
