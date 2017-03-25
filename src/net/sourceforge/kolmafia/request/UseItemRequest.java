@@ -1959,7 +1959,7 @@ public class UseItemRequest
 		int itemId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 		AdventureResult item = ItemPool.get( itemId, -1 );
 
-		String pref = Preferences.getString( "_robortenderDrinks" );
+		String pref = Preferences.getString( "_roboDrinks" );
 		if ( pref.length() != 0 )
 		{
 			pref += ",";
