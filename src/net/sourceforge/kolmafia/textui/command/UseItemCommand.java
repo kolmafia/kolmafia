@@ -174,6 +174,11 @@ public class UseItemCommand
 			consumptionType = KoLConstants.CONSUME_SLIME;
 			filter = ItemFinder.EQUIP_MATCH;
 		}
+		else if ( command.equals( "robo" ) )
+		{
+			consumptionType = KoLConstants.CONSUME_ROBO;
+			filter = ItemFinder.ROBO_MATCH;
+		}
 		else
 		{
 			filter = ItemFinder.USE_MATCH;

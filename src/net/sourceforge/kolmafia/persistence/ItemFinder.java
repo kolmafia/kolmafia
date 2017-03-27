@@ -56,8 +56,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
-import net.sourceforge.kolmafia.session.InventoryManager;
-
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
@@ -72,6 +70,7 @@ public class ItemFinder
 	public static final int EQUIP_MATCH = 8;
 	public static final int CANDY_MATCH = 9;
 	public static final int ABSORB_MATCH = 10;
+	public static final int ROBO_MATCH = 11;
 
 	public static final List<String> getMatchingNames( String searchString )
 	{
@@ -228,7 +227,7 @@ public class ItemFinder
 		{
 			String itemName = nameIterator.next();
 			int itemId = ItemDatabase.getItemId( itemName );
-			
+
 			if ( filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
 			{
 				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId, itemName );
@@ -286,6 +285,11 @@ public class ItemFinder
 			case ItemFinder.ABSORB_MATCH:
 				ItemFinder.conditionalRemove( nameIterator, ( ItemDatabase.getNoobSkillId( itemId ) == -1 &&
 					!( ItemDatabase.isEquipment( itemId ) && !ItemDatabase.isFamiliarEquipment( itemId ) ) ) );
+				break;
+
+			case ItemFinder.ROBO_MATCH:
+				ItemFinder.conditionalRemove( nameIterator, itemId < ItemPool.LITERAL_GRASSHOPPER || itemId > ItemPool.PHIL_COLLINS
+					|| Preferences.getString( "_roboDrinks" ).contains( itemName ) );
 				break;
 
 			case ItemFinder.USE_MATCH:
