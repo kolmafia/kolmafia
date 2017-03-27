@@ -4300,6 +4300,7 @@ Effect	Action	Muscle Percent: +100
 Effect	Adorable Lookout	Initiative: +30
 Effect	Adrenaline Rush	Muscle Percent: +100
 Effect	Adventurer's Best Friendship	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Effect	Aerated	Maximum HP Percent: [min(T,500)]
 Effect	Affronted Decency	Moxie: -20
 Effect	Afternoon Insight	Mysticality Percent: +20
 Effect	Agent's Shield	Avatar: "Government agent"
@@ -6520,6 +6521,7 @@ Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Re
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25
 Effect	Wreathed in Merriment	Moxie Percent: +10
 Effect	Wreathed in Smoke	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Effect	Wrought Nerves	Maximum MP Percent: [min(T,500)]
 Effect	Wry Smile	Experience (Mysticality): +1
 Effect	Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
@@ -7789,6 +7791,7 @@ Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 # adder: Poisons your opponent
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
 Item	adventurer clone egg	Free Pull
+Item	Aerheads	Effect: "Aerated", Effect Duration: 20
 Item	Agent Corrigan's cigarette	Effect: "Ermahgerd, Burke", Effect Duration: 100
 Item	Aggressive Carrot	Free Pull
 Item	airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
@@ -10005,6 +10008,7 @@ Item	wizard action figure	Free Pull
 Item	worst candy	Effect: "Predjudicetidigitation", Effect Duration: 10
 Item	wrestling mask	Effect: "Cavemanipulated", Effect Duration: 30
 Item	wriggling worm	Effect: "Baited Hook", Effect Duration: 100
+Item	Wrotz	Effect: "Wrought Nerves", Effect Duration: 20
 # wumpus-hair bolo: Lets you escape from combat without spending an Adventure
 # wumpus-hair bolo: (Maybe)
 # wumpus-hair net: Weakens enemies somewhat
