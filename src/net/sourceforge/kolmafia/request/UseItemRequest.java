@@ -273,6 +273,8 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_SLIME:
 			return "familiarbinger.php";
+		case KoLConstants.CONSUME_ROBO:
+			return "inventory.php";
 		case KoLConstants.CONSUME_SPHERE:
 			return "campground.php";
 		case KoLConstants.CONSUME_MULTIPLE:
@@ -472,6 +474,8 @@ public class UseItemRequest
 		case KoLConstants.CONSUME_GHOST:
 		case KoLConstants.CONSUME_SLIME:
 			return Integer.MAX_VALUE;
+		case KoLConstants.CONSUME_ROBO:
+			return 1;
 		case KoLConstants.CONSUME_GUARDIAN:
 			UseItemRequest.limiter = "character class";
 			return KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER ? 1 : 0;
@@ -1582,6 +1586,7 @@ public class UseItemRequest
 			case KoLConstants.CONSUME_HOBO:
 			case KoLConstants.CONSUME_GHOST:
 			case KoLConstants.CONSUME_SLIME:
+			case KoLConstants.CONSUME_ROBO:
 				break;
 			default:
 				iterations = origCount;
@@ -1734,6 +1739,17 @@ public class UseItemRequest
 			useTypeAsString = "Feeding stocking mimic with";
 			break;
 
+		case KoLConstants.CONSUME_ROBO:
+			if ( KoLCharacter.getFamiliar().getId() != FamiliarPool.ROBORTENDER )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have a Robortender equipped" );
+				return;
+			}
+			this.addFormField( "action", "robooze" );
+			this.addFormField( "ajax", "1" );
+			useTypeAsString = "Boozing Robortender with";
+			break;
+
 		case KoLConstants.CONSUME_MULTIPLE:
 			if ( this.itemUsed.getCount() > 1 )
 			{
@@ -1835,6 +1851,12 @@ public class UseItemRequest
 			if ( !UseItemRequest.parseBinge( this.getURLString(), this.responseText ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Your current familiar can't use that." );
+			}
+			return;
+		case KoLConstants.CONSUME_ROBO:
+			if ( !UseItemRequest.parseRobortenderBinge( this.getURLString(), this.responseText ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Your Robortender can't drink that." );
 			}
 			return;
 		}

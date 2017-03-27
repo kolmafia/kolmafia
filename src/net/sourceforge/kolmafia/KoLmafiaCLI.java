@@ -882,7 +882,7 @@ public class KoLmafiaCLI
 		new UpdateDataCommand().register( "update" );
 		new UseItemCommand().register( "eat" ).register( "drink" ).register( "use" ).register( "chew" )
 			.register( "eatsilent" ).register( "overdrink" )
-			.register( "hobo" ).register( "ghost" ).register( "slimeling" );
+			.register( "hobo" ).register( "ghost" ).register( "slimeling" ).register( "robo" );
 		new UseSkillCommand().register( "cast" ).register( "skill" );
 		new VersionCommand().register( "version" );
 		new VisitURLCommand().register( "text" ).registerPrefix( "http://" ).registerSubstring( ".php" );
