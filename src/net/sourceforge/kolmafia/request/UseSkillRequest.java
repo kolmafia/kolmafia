@@ -217,6 +217,7 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.BEER_BATTERED_ACCORDION, 1, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.TOY_ACCORDION, 0, false, null ),
+		new BuffTool( ItemPool.AEROGEL_ACCORDION, 5, false, null ),
 	};
 
 	public static final AdventureResult WIZARD_HAT = ItemPool.get( ItemPool.JEWEL_EYED_WIZARD_HAT, 1 );
