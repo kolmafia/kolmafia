@@ -77,7 +77,6 @@ import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -733,6 +732,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_inventory", DataTypes.ITEM_TO_INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_closet", DataTypes.ITEM_TO_INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_storage", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_shop", DataTypes.ITEM_TO_INT_TYPE, params ) );
@@ -3103,7 +3108,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_goals( Interpreter interpreter )
 	{
-		LockableListModel<AdventureResult> goals = GoalManager.getGoals();
+		List<AdventureResult> goals = GoalManager.getGoals();
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, goals.size() );
 		ArrayValue value = new ArrayValue( type );
 
@@ -3117,7 +3122,7 @@ public abstract class RuntimeLibrary
 
 	public static Value get_moods( Interpreter interpreter )
 	{
-		LockableListModel<Mood> moods = MoodManager.getAvailableMoods();
+		List<Mood> moods = MoodManager.getAvailableMoods();
 		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, moods.size() );
 		ArrayValue value = new ArrayValue( type );
 
@@ -3910,6 +3915,40 @@ public abstract class RuntimeLibrary
 		return value;
 	}
 
+	public static Value get_closet( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.closet.size() ];
+		KoLConstants.closet.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_storage( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.storage.size() ];
+		KoLConstants.storage.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
+		}
+
+		return value;
+	}
+
 	public static Value get_shop( Interpreter interpreter )
 	{
 		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
@@ -3924,7 +3963,7 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ManageStoreRequest() );
 		}
 
-		LockableListModel<SoldItem> list = StoreManager.getSoldItemList();
+		List<SoldItem> list = StoreManager.getSoldItemList();
 		for ( int i = 0; i < list.size(); ++i )
 		{
 			SoldItem item = list.get( i );
@@ -3949,7 +3988,7 @@ public abstract class RuntimeLibrary
 			RequestThread.postRequest( new ClanStashRequest() );
 		}
 
-		LockableListModel<AdventureResult> list = ClanManager.getStash();
+		List<AdventureResult> list = ClanManager.getStash();
 		for ( int i = 0; i < list.size(); ++i )
 		{
 			AdventureResult item = list.get( i );
@@ -4476,7 +4515,7 @@ public abstract class RuntimeLibrary
 
 		SoldItem item = new SoldItem( (int) arg.intValue(), 0, 0, 0, 0 );
 
-		LockableListModel<SoldItem> list = StoreManager.getSoldItemList();
+		List<SoldItem> list = StoreManager.getSoldItemList();
 		int index = list.indexOf( item );
 		if ( index < 0 )
 		{
@@ -6329,7 +6368,7 @@ public abstract class RuntimeLibrary
 
 		Maximizer.maximize( maximizerString, maxPrice, priceLevel, isSpeculateOnly );
 
-		LockableListModel<Boost> m = Maximizer.boosts;
+		List<Boost> m = Maximizer.boosts;
 
 		int lastEquipIndex = 0;
 
