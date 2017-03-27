@@ -8583,8 +8583,8 @@
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
 8558	Wickers bar	951050553	wickerbar.gif	multiple	t	0
 8559	bakelite-covered bacon	113363781	bakebacon.gif	multiple	t	0	pieces of bakelite-covered bacon
-8560
-8561
+8560	Aerheads	911385583	aerhead.gif	usable	t	0
+8561	Wrotz	259155467	wrotz.gif	usable	t	0
 8562
 8563
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
@@ -9174,7 +9174,7 @@
 9148	Twitching Television Tattoo	216403537	twitchtatkit.gif	usable	t	0
 9149	tiny baby scorpion	555009724	tinyscorp.gif	familiar	t,d	75
 9150	invisible string	259064767	blank.gif	usable	q	0
-9151
+9151	invisible seam ripper	539870712	blank.gif	usable	q	0
 9152
 9153	raw sweet potato	494328671	sweetpot.gif	food	t,d	5
 9154	raw green beans	588762402	greenbeans.gif	food	t,d	5

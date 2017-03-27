@@ -2140,7 +2140,7 @@
 2139	Not Sharing	candy.gif	f6651ae664480fe52e17f51443257ab4	use 1 hoarded candy wad
 2140	She Ate Too Much Candy	milkstuds.gif	8dcb7b414d44f56e2de39912292f7a05	use 1 Prunets
 2141	Invisible Ties	blank.gif	cc9a17c3b2f617036f214b20fed15c61	use 1 invisible string
-2142
+2142	Invisibly Ripped	blank.gif	ac973ec446768bfc63bbbcdc99f6ace3	use 1 invisible seam ripper
 2143	The Good Salmonella	bacteria.gif	e0591206b411160b006bdcb6e3318cca
 2144	Thanksgetting	thanksucopia.gif	0a86f78a6356058c3d6edea1b3ea00d0	eat 1 mashed potatoes
 2145	Thanksgot	megacopia.gif	8427803ecefd67e9e7bfbcc9ba08ee6c
@@ -2157,8 +2157,9 @@
 2156	Innately Wise	jperfume.gif	0c453b9ca3fe82e629dfff908d18cc71	use 1 Inner Wisdom
 2157	Innately Strong	jperfume.gif	9543d6998c767e2b70aebd2256a391cf	use 1 Inner Strength
 2158	Innately Truthy	jperfume.gif	32587ceb39537c44ac2132b46a6c7362	use 1 Inner Truth
-2159
-2160
+2159	Aerated	aerhead.gif	74a24a6aa0c773dd08aebe4aa749b8bc	use 1 Aerheads
+2160	Wrought Nerves	wrotz.gif	69bde4e383b663a0cb5f900d530027a0	use 1 Wrotz
+2161
 2162
 2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier|drink 1 chakra-mental wine|use 1 chakra malt
 2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger|drink 1 black brandy|use 1 potion of spiritual gunkifying
