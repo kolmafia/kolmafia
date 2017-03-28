@@ -3604,6 +3604,7 @@ Item	Li'l Businessman Kit	Meat Drop: +5, Item Drop: +5, Generic
 Item	li'l candy corn costume	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Equips On: "Trick-or-Treating Tot"
 Item	li'l clown costume	Experience: +15, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
 Item	li'l eyeball costume	Combat Rate: -10, Equips On: "Trick-or-Treating Tot"
+Item	l'il ghost costume	Initiative: +100, Equips On: "Trick-or-Treating Tot"
 Item	li'l knight costume	Muscle: +15, Mysticality: +15, Moxie: +15
 Item	li'l liberty costume	Item Drop: +100, Meat Drop: +200, Equips On: "Trick-or-Treating Tot"
 Item	li'l ninja costume	Item Drop: +150, Lasts Until Rollover, Equips On: "Trick-or-Treating Tot"
@@ -8844,6 +8845,7 @@ Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
 Item	invisible string	Lasts Until Rollover, Effect: "Invisible Ties", Effect Duration: 5
+Item	invisible seam ripper	Lasts Until Rollover, Effect: "Invisibly Ripped", Effect Duration: 5
 Item	iron torso box	Effect: "Cyber-Robo-Steam-Whatever Costume", Effect Duration: 30
 Item	ironic mint	Effect: "Deeply Ironic", Effect Duration: 20
 Item	irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
