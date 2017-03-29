@@ -344,30 +344,36 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			if ( this == HPRestoreItemList.GRUB && !KoLConstants.activeEffects.contains(
-				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
+			if ( this == HPRestoreItemList.GRUB &&
+			     !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
 			}
 
-			if ( this == HPRestoreItemList.CHATEAU && ChateauRequest.chateauRestUsable() )
+			if ( this == HPRestoreItemList.CHATEAU )
 			{
-				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				if ( ChateauRequest.chateauRestUsable() )
+				{
+					RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				}
 				return;
 			}
 
-			if ( this == HPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() )
+			if ( this == HPRestoreItemList.CAMPGROUND )
 			{
+				if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
+				{
+					return;
+				}
 				if ( !KoLCharacter.inNuclearAutumn() )
 				{
 					RequestThread.postRequest( new CampgroundRequest( "rest" ) );
-					return;
 				}
 				else
 				{
 					RequestThread.postRequest( new FalloutShelterRequest( "vault1" ) );
-					return;
 				}
+				return;
 			}
 
 			if ( this == HPRestoreItemList.FREEREST )
@@ -377,12 +383,10 @@ public abstract class HPRestoreItemList
 					if ( ChateauRequest.chateauRestUsable() )
 					{
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
-						return;
 					}
 					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 					{
 						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
-						return;
 					}
 				}
 				return;
@@ -452,7 +456,7 @@ public abstract class HPRestoreItemList
 				return;
 			}
 
-			else if ( SkillDatabase.contains( this.restoreName ) )
+			if ( SkillDatabase.contains( this.restoreName ) )
 			{
 				if ( !KoLCharacter.hasSkill( this.restoreName ) )
 				{
@@ -500,6 +504,12 @@ public abstract class HPRestoreItemList
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
 			}
+			else
+			{
+				// It's neither a skill nor an item
+				// We should have handled it above
+				return;
+			}
 
 			// If you don't have any items to use, then return
 			// without doing anything.
@@ -513,7 +523,7 @@ public abstract class HPRestoreItemList
 			{
 				RequestThread.postRequest( UseSkillRequest.getInstance( this.restoreName, "", numberToUse ) );
 			}
-			else
+			else if ( ItemDatabase.contains( this.restoreName ) )
 			{
 				RequestThread.postRequest( UseItemRequest.getInstance( this.itemUsed.getInstance( numberToUse ) ) );
 			}
