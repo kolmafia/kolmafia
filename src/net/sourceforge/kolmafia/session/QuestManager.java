@@ -1879,7 +1879,9 @@ public class QuestManager
 		}
 		else if ( monsterName.equals( "writing desk" ) )
 		{
-			if ( responseText.contains( "You open" ) )
+			if ( QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED ) &&
+			     !InventoryManager.hasItem( ItemPool.SPOOKYRAVEN_NECKLACE ) &&
+			     !QuestDatabase.isQuestFinished( Quest.SPOOKYRAVEN_NECKLACE ) )
 			{
 				Preferences.increment( "writingDesksDefeated", 1, 5, false );
 			}
