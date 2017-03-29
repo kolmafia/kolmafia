@@ -317,8 +317,8 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.MOTH && !KoLConstants.activeEffects.contains(
-				EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
+			if ( this == MPRestoreItemList.MOTH &&
+			     !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) )
 			{
 				return;
 			}
@@ -356,24 +356,30 @@ public abstract class MPRestoreItemList
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CHATEAU && ChateauRequest.chateauRestUsable() )
+			if ( this == MPRestoreItemList.CHATEAU )
 			{
-				RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				if ( ChateauRequest.chateauRestUsable() )
+				{
+					RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
+				}
 				return;
 			}
 
-			if ( this == MPRestoreItemList.CAMPGROUND && !Limitmode.limitCampground() && !KoLCharacter.isEd() )
+			if ( this == MPRestoreItemList.CAMPGROUND )
 			{
+				if ( Limitmode.limitCampground() || KoLCharacter.isEd() )
+				{
+					return;
+				}
 				if ( !KoLCharacter.inNuclearAutumn() )
 				{
 					RequestThread.postRequest( new CampgroundRequest( "rest" ) );
-					return;
 				}
 				else
 				{
 					RequestThread.postRequest( new FalloutShelterRequest( "vault1" ) );
-					return;
 				}
+				return;
 			}
 
 			if ( this == MPRestoreItemList.FREEREST )
@@ -385,7 +391,7 @@ public abstract class MPRestoreItemList
 						RequestThread.postRequest( new ChateauRequest( "chateau_restbox" ) );
 						return;
 					}
-					else if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
+					if ( !Limitmode.limitCampground() && !KoLCharacter.isEd() && !KoLCharacter.inNuclearAutumn() )
 					{
 						RequestThread.postRequest( new CampgroundRequest( "rest" ) );
 						return;
@@ -445,9 +451,19 @@ public abstract class MPRestoreItemList
 
 			int numberToUse = Math.max( (int) Math.floor( (float) mpShort / (float) this.getManaRestored() ), 1 );
 
-			if ( this == MPRestoreItemList.SOFA && !Limitmode.limitClan() )
+			if ( this == MPRestoreItemList.SOFA )
 			{
-				RequestThread.postRequest( ( new ClanRumpusRequest( RequestType.SOFA ) ).setTurnCount( numberToUse ) );
+				if ( !Limitmode.limitClan() )
+				{
+					RequestThread.postRequest( ( new ClanRumpusRequest( RequestType.SOFA ) ).setTurnCount( numberToUse ) );
+				}
+				return;
+			}
+
+			if ( this.itemUsed == null )
+			{
+				// It's neither a skill nor an item
+				// We should have handled it above
 				return;
 			}
 
