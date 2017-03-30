@@ -55,7 +55,7 @@ public class MicroBreweryRequest
 {
 	private static AdventureResult dailySpecial = null;
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(\\d+ Meat\\)</td>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\([\\d,]+ Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{

@@ -46,10 +46,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-
-import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -59,7 +56,7 @@ public class ChezSnooteeRequest
 	private static AdventureResult dailySpecial = null;
 
 	private static final Pattern SPECIAL_PATTERN =
-		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\(\\d+ Meat\\)</td>", Pattern.DOTALL );
+		Pattern.compile( "Today's Special:.*?name=whichitem value=(\\d+).*?onclick='descitem\\(\"(\\d+)\".*?<td>(.*?) \\([\\d,]+ Meat\\)</td>", Pattern.DOTALL );
 
 	public static final AdventureResult getDailySpecial()
 	{
