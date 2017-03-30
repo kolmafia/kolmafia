@@ -2516,7 +2516,6 @@ public class KoLAdventure
 
 		KoLAdventure.setLastAdventure( KoLAdventure.lastVisitedLocation );
 		KoLAdventure.setNextAdventure( KoLAdventure.lastVisitedLocation );
-		KoLAdventure.checkGingerbreadCity( location );
 		EncounterManager.registerAdventure( location );
 
 		String limitmode = KoLCharacter.getLimitmode();
@@ -2553,15 +2552,6 @@ public class KoLAdventure
 		}
 
 		return true;
-	}
-
-	public static void checkGingerbreadCity( final String adventureName )
-	{
-		String zone = AdventureDatabase.getZone( adventureName );
-		if ( zone != null && zone.equals( "Gingerbread City" ) )
-		{
-			Preferences.increment( "_gingerbreadCityTurns" );
-		}
 	}
 
 	public static final int getAdventureCount()

@@ -3752,9 +3752,11 @@ public abstract class ChoiceManager
 		// Choice 1211 is The Currency Exchange
 		// Choice 1212 is Seedy Seedy Seedy
 		// Choice 1213 is The Factory Factor
+		// Choice 1214 is The Gingerbread Gallery
+		// Choice 1215 is Setting the Clock
 
+		// Choice 1217 is Sweet Synthesis
 		// Choice 1218 is Wax On
-
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -11909,6 +11911,21 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "_timeSpinnerMinutesUsed", 10 - StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
+			break;
+		}
+
+		case 1202:	// Noon in the Civic Center
+		case 1203:	// Midnight in Civic Center
+		case 1204:	// Noon at the Train Station
+		case 1205:	// Midnight at the Train Station
+		case 1206:	// Noon in the Industrial Zone
+		case 1207:	// Midnight in the Industrial Zone
+		case 1208:	// Upscale Noon
+		case 1209:	// Upscale Midnight
+		case 1210:	// Civic Planning Office
+		case 1215:	// Setting the Clock
+		{
+			Preferences.increment( "_gingerbreadCityTurns" );
 			break;
 		}
 
