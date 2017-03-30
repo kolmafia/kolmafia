@@ -436,6 +436,7 @@ public class FightRequest
 		BEE( "bee" ),
 		DMT( "Deep Machine Tunnels" ),
 		EVENT( "event monster" ),
+		GINGERBREAD( "Gingerbread City" ),
 		HIPSTER( "hipsters" ),
 		HOLIDAY( "holiday monster" ),
 		NEMESIS( "nemesis assassin" ),
@@ -523,6 +524,26 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "Performer of Actions" , SpecialMonster.DMT );
 		FightRequest.specialMonsters.put( "Thinker of Thoughts" , SpecialMonster.DMT );
 		FightRequest.specialMonsters.put( "Perceiver of Sensations" , SpecialMonster.DMT );
+
+		FightRequest.specialMonsters.put( "animal cracker" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread alligator" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread convict" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread finance bro" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread gentrifier" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread lawyer" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread mad dog" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread mugger" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread mutant" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread pigeon" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread rat" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread tech bro" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread vagrant" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread vigilante" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread welder robot" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "gingerbread wino" , SpecialMonster.GINGERBREAD );
+		FightRequest.specialMonsters.put( "Judge Fudge" , SpecialMonster.GINGERBREAD );
+		// The following monster appears following a choice which already counted the turn
+		// FightRequest.specialMonsters.put( "GNG-3-R" , SpecialMonster.GINGERBREAD );
 
 		FightRequest.specialMonsters.put( "Candied Yam Golem", SpecialMonster.HOLIDAY );
 		FightRequest.specialMonsters.put( "Malevolent Tofurkey", SpecialMonster.HOLIDAY );
@@ -2497,6 +2518,13 @@ public class FightRequest
 					if ( !EncounterManager.ignoreSpecialMonsters )
 					{
 						Preferences.decrement( "encountersUntilDMTChoice" );
+					}
+					break;
+
+				case GINGERBREAD:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						Preferences.increment( "_gingerbreadCityTurns" );
 					}
 					break;
 
