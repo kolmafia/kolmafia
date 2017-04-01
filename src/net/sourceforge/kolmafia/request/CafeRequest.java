@@ -223,13 +223,15 @@ public class CafeRequest
 		int index = usables.indexOf( item );
 		if ( index != -1 )
 		{
-			CafeRequest.existing.add( usables.remove( index ) );
+			Concoction old = usables.get( index );
+			CafeRequest.existing.add( old );
+			usables.set( index, item );
 		}
 		else
 		{
 			CafeRequest.existing.add( null );
+			usables.add( item );
 		}
-		usables.add( item );
 	}
 
 	public static final void reset( final List<String> menu )
