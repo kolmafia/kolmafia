@@ -645,42 +645,46 @@ public class UseItemEnqueuePanel
 		public boolean isVisible( final Object element )
 		{
 			Concoction creation = (Concoction) element;
-			AdventureResult item = creation.getItem();
 
 			if ( creation.getAvailable() == 0 )
 			{
 				return false;
 			}
 
-			if ( item != null && !StandardRequest.isAllowed( "Items", item.getDataName() ) )
-			{
-				return false;
-			}
+			AdventureResult item = creation.getItem();
 
-			// no create
-			if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() )
+			if ( item != null )
 			{
-				if ( item != null && item.getCount( KoLConstants.inventory ) == 0 )
+				if ( !StandardRequest.isAllowed( "Items", item.getDataName() ) )
+				{
+					return false;
+				}
+
+				// no create
+				if ( UseItemEnqueuePanel.this.filters[ 0 ].isSelected() &&
+				     item.getCount( KoLConstants.inventory ) == 0 )
 				{
 					return false;
 				}
 			}
 
-			if ( ConsumablesDatabase.getRawFullness( creation.getName() ) != null )
+			String name = creation.getName();
+
+			if ( ConsumablesDatabase.getRawFullness( name ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.food )
 				{
 					return false;
 				}
 			}
-			else if ( ConsumablesDatabase.getRawInebriety( creation.getName() ) != null )
+			else if ( ConsumablesDatabase.getRawInebriety( name ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.booze )
 				{
 					return false;
 				}
 			}
-			else if ( ConsumablesDatabase.getRawSpleenHit( creation.getName() ) != null )
+			else if ( ConsumablesDatabase.getRawSpleenHit( name ) != null )
 			{
 				if ( !UseItemEnqueuePanel.this.spleen )
 				{
@@ -705,9 +709,9 @@ public class UseItemEnqueuePanel
 
 			case KoLConstants.CONSUME_USE:
 				if ( ( !UseItemEnqueuePanel.this.booze ||
-				     creation.getItemId() != ItemPool.ICE_STEIN ) &&
-					 ( !UseItemEnqueuePanel.this.food ||
-					 !ConcoctionDatabase.canQueueFood( creation.getItemId() ) ) )
+				       creation.getItemId() != ItemPool.ICE_STEIN ) &&
+				     ( !UseItemEnqueuePanel.this.food ||
+				       !ConcoctionDatabase.canQueueFood( creation.getItemId() ) ) )
 				{
 					return false;
 				}
@@ -762,9 +766,9 @@ public class UseItemEnqueuePanel
 				int fam = KoLCharacter.getFamiliar().getId();
 				if ( fam != FamiliarPool.GHOST )
 				{
-					String name = item != null ? item.getName() : null;
-					if ( name != null && !name.equals( "steel lasagna" ) &&
-					     ( ConsumablesDatabase.getNotes( name ) == null || !ConsumablesDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
+					if ( item != null && !item.getName().equals( "steel lasagna" ) &&
+					     ( ConsumablesDatabase.getNotes( name ) == null ||
+					       !ConsumablesDatabase.getNotes( name ).startsWith( "Zombie Slayer" ) ) )
 					{
 						return false;
 					}
@@ -778,8 +782,7 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				String name = item != null ? item.getName() : null;
-				if ( creation.getMixingMethod() != CraftingType.JARLS && name != null &&
+				if ( creation.getMixingMethod() != CraftingType.JARLS &&
 				     !name.equals( "steel margarita" ) &&
 				     !name.equals( "mediocre lager" ) )
 				{
@@ -793,15 +796,6 @@ public class UseItemEnqueuePanel
 				{
 					return false;
 				}
-				if ( item == null )
-				{
-					return false;
-				}
-				String name = item.getName();
-				if ( name == null )
-				{
-					return false;
-				}
 				String notes = ConsumablesDatabase.getNotes( name );
 				if ( !name.equals( "steel margarita" ) &&
 				     ( notes == null || !notes.startsWith( "KOLHS" ) ) )
@@ -810,9 +804,8 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( KoLCharacter.inNuclearAutumn() && item != null )
+			if ( KoLCharacter.inNuclearAutumn() )
 			{
-				String name = item.getName();
 				if ( UseItemEnqueuePanel.this.food && ConsumablesDatabase.getFullness( name ) > 1 )
 				{
 					return false;
@@ -860,7 +853,7 @@ public class UseItemEnqueuePanel
 			}
 			if ( UseItemEnqueuePanel.this.filters[ 3 ].isSelected() )
 			{
-				String range = ConsumablesDatabase.getMuscleRange( creation.getName() );
+				String range = ConsumablesDatabase.getMuscleRange( name );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;
@@ -869,7 +862,7 @@ public class UseItemEnqueuePanel
 
 			if ( UseItemEnqueuePanel.this.filters[ 4 ].isSelected() )
 			{
-				String range = ConsumablesDatabase.getMysticalityRange( creation.getName() );
+				String range = ConsumablesDatabase.getMysticalityRange( name );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;
@@ -878,7 +871,7 @@ public class UseItemEnqueuePanel
 
 			if ( UseItemEnqueuePanel.this.filters[ 5 ].isSelected() )
 			{
-				String range = ConsumablesDatabase.getMoxieRange( creation.getName() );
+				String range = ConsumablesDatabase.getMoxieRange( name );
 				if ( range.equals( "+0.0" ) || range.startsWith( "-" ) )
 				{
 					return false;
@@ -886,14 +879,11 @@ public class UseItemEnqueuePanel
 			}
 
 			// Don't display memento items if memento items are protected from destruction
-			if ( Preferences.getBoolean( "mementoListActive" ) )
+			if ( Preferences.getBoolean( "mementoListActive" ) && item != null )
 			{
-				for ( Object it : KoLConstants.mementoList )
+				if ( KoLConstants.mementoList.contains( item ) )
 				{
-					if ( ( (AdventureResult) it ).getName().equals( creation.getName() ) )
-					{
-						return false;
-					}
+					return false;
 				}
 			}
 

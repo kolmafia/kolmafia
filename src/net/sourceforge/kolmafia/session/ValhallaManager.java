@@ -647,6 +647,11 @@ public class ValhallaManager
 		Preferences.setInteger( "cinderellaMinutesToMidnight", 0 );
 		Preferences.setInteger( "cinderellaScore", 0 );
 		Preferences.setString( "grimstoneMaskPath", "" );
+		// Gingerbread City
+		Preferences.setInteger( "gingerMuscleChoice", 0 );
+		Preferences.setBoolean( "gingerSubwayLineUnlocked", false );
+		Preferences.setBoolean( "gingerNegativesDropped", false );
+		Preferences.setBoolean( "gingerBlackmailAccomplished", false );
 		// AWOL
 		Preferences.setInteger( "awolMedicine", 0 );
 		Preferences.setInteger( "awolVenom", 0 );

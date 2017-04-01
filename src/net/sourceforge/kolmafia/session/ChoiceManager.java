@@ -10784,6 +10784,7 @@ public abstract class ChoiceManager
 			if ( text.contains( "briefcase full of sprinkles" ) )
 			{
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERBREAD_BLACKMAIL_PHOTOS, -1 ) );
+				Preferences.setBoolean( "gingerBlackmailAccomplished", true );
 				break;
 			}
 			break;
