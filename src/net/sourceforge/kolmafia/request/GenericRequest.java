@@ -2213,6 +2213,7 @@ public class GenericRequest
 			String location = this.getURLString();
 
 			GenericRequest.checkItemRedirection( location );
+			GenericRequest.checkChoiceRedirection( location );
 			GenericRequest.checkSkillRedirection( location );
 
 			if ( this instanceof UseItemRequest ||
@@ -3277,6 +3278,40 @@ public class GenericRequest
 		RequestLogger.updateSessionLog( message );
 
 		GenericRequest.itemMonster = itemName;
+	}
+
+	private static final void checkChoiceRedirection( final String location )
+	{
+		if ( !location.startsWith( "choice.php" ) )
+		{
+			return;
+		}
+
+		int choice = ChoiceManager.lastChoice;
+		String name = null;
+
+		switch ( choice )
+		{
+		case 1201:
+			name = "Dr. Gordon Stuart's Science Tent";
+			Preferences.setBoolean( "_eldritchTentacleFought", true );
+			break;
+
+		default:
+			return;
+		}
+
+		KoLAdventure.lastVisitedLocation = null;
+		KoLAdventure.lastLocationName = null;
+		KoLAdventure.lastLocationURL = location;
+		KoLAdventure.setNextAdventure( "None" );
+
+		String message = "[" + KoLAdventure.getAdventureCount() + "] " + name;
+		RequestLogger.printLine();
+		RequestLogger.printLine( message );
+
+		RequestLogger.updateSessionLog();
+		RequestLogger.updateSessionLog( message );
 	}
 
 	private static final void checkSkillRedirection( final String location )
