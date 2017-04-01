@@ -88,7 +88,7 @@ public class UpdateRunnable
 			// If we're updating it, make sure the project is already checked out first
 			try
 			{
-				if ( !SVNWCUtil.isWorkingCopyRoot( new File( KoLConstants.SVN_DIRECTORY, UUID ) ) )
+				if ( !SVNWCUtil.isWorkingCopyRoot( new File( KoLConstants.SVN_LOCATION, UUID ) ) )
 				{
 					KoLmafia.updateDisplay( "No existing project named " + UUID +
 						". Did you mean to do \"checkout\" instead of \"update\"?" );
