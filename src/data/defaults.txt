@@ -1276,6 +1276,7 @@ user	_dreamJarDrops	0
 user	_edLashCount	0
 user	_edDefeats	0
 user	_eldritchHorrorEvoked	false
+user	_eldritchTentacleFought	false
 user	_elronsCasts	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false

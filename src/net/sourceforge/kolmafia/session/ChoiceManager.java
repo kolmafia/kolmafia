@@ -6743,7 +6743,6 @@ public abstract class ChoiceManager
 				EatItemRequest.timeSpinnerUsed = true;
 			}
 			break;
-
 		}
 	}
 
