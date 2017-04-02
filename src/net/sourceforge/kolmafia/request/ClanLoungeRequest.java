@@ -366,6 +366,7 @@ public class ClanLoungeRequest
 		},
 	};
 
+
 	public static final Object [][] FLOUNDRY_DATA = new Object[][]
 	{
 		{
@@ -2006,6 +2007,30 @@ public class ClanLoungeRequest
 		{
 			// Visiting the Floundry. See what's on offer
 			ClanLoungeRequest.parseFloundry( responseText, Preferences.getBoolean( "verboseFloundry" ) );
+			return;
+		}
+
+		if ( action.equals( "buyfloundryitem" ) )
+		{
+			// Buying an item. If it succeeded or failed because
+			// you have already bought an item from the Clan
+			// Floundry today, remember it.
+			
+			// There is a clattering of machinery followed by a
+			// series of wet smacking sounds. Your freshly fishily
+			// fabricated item plops into the floundery's output
+			// hopper.
+			//
+			// You acquire... something.
+
+			if ( responseText.contains( "You acquire" ) )
+			{
+				Preferences.setBoolean( "_floundryItemCreated", true );
+			}
+
+			// *** What is the message if you've already created an
+			// item today? That should also set the property.
+
 			return;
 		}
 
