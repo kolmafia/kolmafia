@@ -1292,6 +1292,7 @@ user	_firedJokestersGun	false
 user	_fireStartingKitUsed	false
 user	_fishyPipeUsed	false
 user	_floristPlantsUsed
+user	_floundryItemCreated	false
 user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
 user	_fudgeSporkUsed	false
