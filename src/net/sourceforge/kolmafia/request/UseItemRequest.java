@@ -1989,6 +1989,7 @@ public class UseItemRequest
 		pref += item.getName();
 		Preferences.setString( "_roboDrinks", pref );
 		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 
 		ResultProcessor.processResult( item );
 
