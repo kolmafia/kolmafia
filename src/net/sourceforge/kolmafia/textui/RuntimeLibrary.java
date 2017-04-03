@@ -224,6 +224,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -1122,6 +1123,12 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "last_choice", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
@@ -5225,6 +5232,30 @@ public abstract class RuntimeLibrary
 			response = ChoiceManager.processChoiceAdventure( option, false );
 		}
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
+	}
+
+	public static Value last_choice( Interpreter interpreter )
+	{
+		return DataTypes.makeIntValue( ChoiceManager.lastChoice );
+	}
+
+	public static Value available_choice_options( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.INT_TO_STRING_TYPE );
+
+		String responseText = ChoiceManager.lastResponseText;
+		if ( responseText != null && !responseText.equals( "" ) )
+		{
+			Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+
+			for ( Entry<Integer,String> entry : choices.entrySet() )
+			{
+				value.aset( DataTypes.makeIntValue( entry.getKey() ),
+					    new Value( entry.getValue() ) );
+			}
+		}
+		
+		return value;
 	}
 
 	public static Value run_combat( Interpreter interpreter )
