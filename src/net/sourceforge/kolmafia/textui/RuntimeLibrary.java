@@ -883,6 +883,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "restore_mp", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "mood_execute", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_name", DataTypes.STRING_TYPE, params ) );
 
@@ -4599,6 +4602,25 @@ public abstract class RuntimeLibrary
 		{
 			SpecialOutfit.restoreImplicitCheckpoint();
 			RecoveryManager.setRecoveryActive( wasRecoveryActive );
+		}
+	}
+
+	public static Value mood_execute( Interpreter interpreter, final Value multiplicity )
+	{
+		if ( RecoveryManager.isRecoveryActive() || MoodManager.isExecuting() )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		try
+		{
+			SpecialOutfit.createImplicitCheckpoint();
+			MoodManager.execute( (int) multiplicity.intValue() );
+			return DataTypes.VOID_VALUE;
+		}
+		finally
+		{
+			SpecialOutfit.restoreImplicitCheckpoint();
 		}
 	}
 
