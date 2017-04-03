@@ -1130,6 +1130,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
@@ -5241,12 +5244,24 @@ public abstract class RuntimeLibrary
 
 	public static Value available_choice_options( Interpreter interpreter )
 	{
+		return RuntimeLibrary.available_choice_options( false );
+	}
+
+	public static Value available_choice_options( Interpreter interpreter, Value spoilers )
+	{
+		return RuntimeLibrary.available_choice_options( spoilers.intValue() == 1 );
+	}
+
+	private static Value available_choice_options( boolean spoilers)
+	{
 		MapValue value = new MapValue( DataTypes.INT_TO_STRING_TYPE );
 
 		String responseText = ChoiceManager.lastResponseText;
 		if ( responseText != null && !responseText.equals( "" ) )
 		{
-			Map<Integer,String> choices = ChoiceUtilities.parseChoices( responseText );
+			Map<Integer,String> choices = spoilers ?
+				ChoiceUtilities.parseChoicesWithSpoilers() :
+				ChoiceUtilities.parseChoices( responseText );
 
 			for ( Entry<Integer,String> entry : choices.entrySet() )
 			{
