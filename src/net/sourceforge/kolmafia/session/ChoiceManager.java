@@ -10878,13 +10878,11 @@ public abstract class ChoiceManager
 			if ( text.contains( "provide a great workout" ) )
 			{
 				Preferences.increment( "gingerMuscleChoice" );
-				break;
 			}
 
 			if ( text.contains( "new line to the subway system" ) )
 			{
 				Preferences.setBoolean( "gingerSubwayLineUnlocked", true );
-				break;
 			}
 
 			if ( text.contains( "what looks like a sweet roll" ) )
