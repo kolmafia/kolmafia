@@ -72,25 +72,32 @@ public class MapValue
 	{
 		Map<Value,Value> map = (Map<Value,Value>) this.content;
 
-		if ( !this.getDataType().equals( val.getType() ) )
-		{
-			if ( this.getDataType().equals( DataTypes.TYPE_STRING ) )
-			{
-				val = val.toStringValue();
-			}
-			else if ( this.getDataType().equals( DataTypes.TYPE_INT ) && val.getType().equals(
-				DataTypes.TYPE_FLOAT ) )
-			{
-				val = val.toIntValue();
-			}
-			else if ( this.getDataType().equals( DataTypes.TYPE_FLOAT ) && val.getType().equals(
-				DataTypes.TYPE_INT ) )
-			{
-				val = val.toFloatValue();
-			}
-		}
+		Type dataType = this.getDataType();
+		Type baseType = dataType.getBaseType();
+		Type valType = val.getType();
 
-		map.put( key, val );
+		if ( baseType.equals( valType ) )
+		{
+			map.put( key, val );
+		}
+		else if ( baseType.equals( DataTypes.TYPE_STRING ) )
+		{
+			map.put( key, val.toStringValue() );
+		}
+		else if ( baseType.equals( DataTypes.TYPE_INT ) &&
+			  valType.equals( DataTypes.TYPE_FLOAT ) )
+		{
+			map.put( key, val.toIntValue() );
+		}
+		else if ( baseType.equals( DataTypes.TYPE_FLOAT ) &&
+			  valType.equals( DataTypes.TYPE_INT ) )
+		{
+			map.put( key, val.toFloatValue() );
+		}
+		else
+		{
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + valType + " to " + dataType );
+		}
 	}
 
 	@Override

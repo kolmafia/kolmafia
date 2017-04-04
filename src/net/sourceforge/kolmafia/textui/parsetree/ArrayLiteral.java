@@ -94,7 +94,7 @@ public class ArrayLiteral
 			}
 
 			Value key = DataTypes.makeIntValue( index++ );
-			this.aggr.aset( key, val );
+			this.aggr.aset( key, val.execute( interpreter ) );
 		}
 
 		return this.aggr;
