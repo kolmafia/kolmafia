@@ -9428,9 +9428,22 @@
 9402	toggle switch (Bartend)	431660273	toggleswitch2.gif	familiar	t,d	75
 9403	toggle switch (Bounce)	723822103	toggleswitch1.gif	familiar	t,d	75
 9404	Spacegate access badge	977103521	sgbadge.gif	usable	t	0
-
+9405	filter helmet	312851719	sghelmet.gif	hat	q	0
+9406	exo-servo leg braces	857487934	radipants.gif	pants	q	0
+9407	rad cloak	530478383	smokecloak.gif	container	q	0
+9408	gate transceiver	900860541	sgcompass.gif	accessory	q	0
+9409	high-friction boots	294528920	wtbboots.gif	accessory	q	0
 9410	Spacegate Research	772021968	document.gif	none		0	pages of Spacegate Research
+9411	alien rock sample	196471263	spelrock.gif	none	d	10	alien rock samples
+9412
+9413	geological sample kit	512153322	briefcase.gif	offhand	q	0
+9414	botanical sample kit	216275865	briefcase.gif	offhand	q	0
+9415	edible alien plant bit	306788819	plantbit.gif	food	t,d	4
+9416	alien plant fibers	876928996	plantfibers.gif	none	d	5
 
+9422	zoological sample kit	313682924	briefcase.gif	offhand	q	0
+
+9465	portable Spacegate	313840046	portablesg.gif	usable	t	0
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
 9467	Centauri fish wine	186069841	wine2.gif	drink	t,d	33
 9468	powdered oxygen	472482824	disease.gif	spleen, usable	t,d	22

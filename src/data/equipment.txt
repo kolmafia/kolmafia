@@ -109,6 +109,7 @@ fancy tophat	100	Mox: 35
 feathered headdress	200	Mys: 85
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
+filter helmet	10	none
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
 fireman's helmet	150	Mus: 60
@@ -444,6 +445,7 @@ eelskin pants	200	Mox: 85
 El Vibrato leg guards	200	Mox: 200
 eldritch pants	125	Mox: 47
 electronic dulcimer pants	10	none
+exo-servo leg braces	10	none
 extremely skinny jeans	200	Mox: 200
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
@@ -1564,6 +1566,7 @@ blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
 borg sock monkey	110	Mys: 40
+botanical sample kit	0	none
 bottle of Goldschn&ouml;ckered	75	Mox: 22
 bouquet of all-natural free-range flowers	10	none
 bowl of petunias	100	Mys: 44
@@ -1982,6 +1985,7 @@ yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
 Yorick	150	Mys: 25
 Zombo's shield	240	Mus: 200	shield
+zoological sample kit	0	none
 
 # Accessories section of equipment.txt
 
@@ -2208,6 +2212,7 @@ Gaia beads	175	Mys: 72
 garish pinky ring	50	Mys: 10
 Garter of the Turtle Poacher	150	Mus: 45
 Gary Claybender's Time Screwer	50	none
+gate transceiver	0	none
 Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 ghost of a necklace	60	Mys: 15
@@ -2263,6 +2268,7 @@ heat-resistant gloves	100	Mox: 35
 heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
+high-friction boots	0	none
 hippy medical kit	175	Mys: 72
 hippy protest button	160	Mys: 65
 HOA zombie eyes	300	Mys: 100
@@ -2962,6 +2968,7 @@ pillow shell	10	none
 polyester parachute	50	none
 porcelain pelerine	120	Mus: 40
 protonic accelerator pack	100	none
+rad cloak	0	none
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
 saffron uttarasanga	100	Mus: 35
