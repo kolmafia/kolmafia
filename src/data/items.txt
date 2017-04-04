@@ -9374,7 +9374,7 @@
 9348	bottle of an&iacute;s	262960551	fancybrew.gif	none	t,d	5
 9349	bottle of novelty hot sauce	855974990	ww_sauce.gif	none	t,d	5
 9350	elemental sugarcube	938834134	cube.gif	none	t,d	5
-9351	peppermint sprig	890609928	peppersprig.gif	none	t,d	5
+9351	peppermint sprig	890609928	peppersprig.gif	none	t,d	5	sprigs of peppermint
 9352	bottle of clam juice	676847820	ade.gif	none	t,d	5
 9353	cocktail mushroom	961246514	sleightshroom.gif	none	t,d	5
 9354	shot of granola liqueur	159695755	granolashot.gif	none	t,d	5
@@ -9392,13 +9392,13 @@
 9366	double entendre	117945407	bloodymary.gif	drink	t,d	10
 9367	Phlegethon	765188872	bloodtini.gif	drink	t,d	10
 9368	Siberian sunrise	582748650	seadrink.gif	drink	t,d	10
-9369	mentholated wine	443273319	redwine.gif	drink	t,d	10
+9369	mentholated wine	443273319	redwine.gif	drink	t,d	10	glasses of mentholated wine
 9370	low tide martini	861914212	martini.gif	drink	t,d	10
 9371	shroomtini	128459577	martini2.gif	drink	t,d	10
 9372	morning dew	733477266	pebblebrau.gif	drink	t,d	10
 9373	whiskey squeeze	921545417	rocks.gif	drink	t,d	10
 9374	great old fashioned	122490232	perf_oldf.gif	drink	t,d	10
-9375	Gnomish sagngria	830423004	wine.gif	drink	t,d	10
+9375	Gnomish sagngria	830423004	wine.gif	drink	t,d	10	glasses of gnomish sagngria
 9376	vodka stinger	329624841	perf_negroni.gif	drink	t,d	10
 9377	extremely slippery nipple	173189557	perf_cosmo.gif	drink	t,d	10
 9378	piscatini	190356120	jarl_chunkymary.gif	drink	t,d	10
@@ -9413,17 +9413,17 @@
 9387	Feliz Navidad	230933250	pep_drink3.gif	drink	t,d	15
 9388	Bloody Nora	413602766	bloodymary.gif	drink	t,d	15
 9389	moreltini	887141704	martini2.gif	drink	t,d	15
-9390	hell in a bucket	620104457	pail.gif	drink	t,d	15
+9390	hell in a bucket	620104457	pail.gif	drink	t,d	15	hells in buckets
 9391	Newark	764553434	perf_cosmo.gif	drink	t,d	15
 9392	R'lyeh	120130722	rlyeh.gif	drink	t,d	15
-9393	Gnollish sangria	627977937	redwine.gif	drink	t,d	15
+9393	Gnollish sangria	627977937	redwine.gif	drink	t,d	15	glasses of Gnollish sangria
 9394	vodka barracuda	820354455	rocks.gif	drink	t,d	15
 9395	Mysterious Island iced tea	791471608	icedtea.gif	drink	t,d	15
 9396	drive-by shooting	401865184	chamflute.gif	drink	t,d	15
 9397	gunner's daughter	236378730	fruitym.gif	drink	t,d	15
 9398	dirt julep	143638977	granolashot.gif	drink	t,d	15
 9399	Simepore slime	388072926	scotchrocks.gif	drink	t,d	15
-9400	Phil Collins	734223890	collins.gif	drink	t,d	15
+9400	Phil Collins	734223890	collins.gif	drink	t,d	15	Phil Collins
 9401	unpowered Robortender	726929105	robotenderlarva.gif	grow	t	0
 9402	toggle switch (Bartend)	431660273	toggleswitch2.gif	familiar	t,d	75
 9403	toggle switch (Bounce)	723822103	toggleswitch1.gif	familiar	t,d	75
