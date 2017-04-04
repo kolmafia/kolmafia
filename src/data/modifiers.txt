@@ -190,6 +190,8 @@ Item	fancy tophat	Mysticality Percent: +15, Familiar Effect: "1xBarrr, cap 25"
 Item	feathered headdress	Mysticality Percent: +40, Food Drop: +40, MP Regen Min: 10, MP Regen Max: 20, Familiar Effect: "atk, 1xVolley"
 Item	festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, cap 7"
 Item	fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
+# Item filter helmet: Provides protection against toxic alien atmospheres
+Item	filter helmet	Lasts Until Rollover
 Item	filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
 Item	fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, cap 2"
 # fireman's helmet: +1 FDKOL Commendation per Fire
@@ -566,6 +568,8 @@ Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10
 Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Familiar Effect: "8xPotato, cap 2"
+# Item exo-servo leg braces: Allows you to move normally in high gravity environments (Spacegate)
+Item	exo-servo leg braces	Lasts Until Rollover
 Item	extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xFairy"
 Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
 Item	filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
@@ -1831,6 +1835,8 @@ Item	blue LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Blue Eyed Devil",
 Item	bobble-hip hula elf doll	Muscle: +5, Mysticality: +5, Moxie: +5, Meat Drop: +15
 # bone abacus: Helps you track your progress
 Item	borg sock monkey	Moxie: +3
+# Item botanical sample kit: Increases the yield of Spacegate botany operations
+Item	botanical sample kit	Lasts Until Rollover
 Item	bottle of Goldschn&ouml;ckered	Hot Damage: +5, Cold Resistance: +2
 Item	bowl of petunias	Muscle: +4, Mysticality: +4, Moxie: +4, Experience: +4, PvP Fights: +4, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 Item	box	Meat Drop: +1
@@ -2312,6 +2318,8 @@ Item	yakskin buckler	Mysticality: +5, Damage Reduction: 5
 Item	yield shield	Damage Absorption: +10, Damage Reduction: 6
 Item	Yorick	Experience: +2, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Item Drop: +15
 Item	Zombo's shield	Damage Absorption: +50, Spooky Damage: +30, Muscle Percent: +20, Class: "Turtle Tamer", Damage Reduction: 15
+# Item zoological sample kit: Increases the yield of Spacegate zoology operations
+Item	zoological sample kit	Lasts Until Rollover
 
 # Accessories section of modifiers.txt
 
@@ -2588,6 +2596,8 @@ Item	garish pinky ring	Maximum HP: +10, Maximum MP: +10
 # Garter of the Turtle Poacher: Helps You Tame Turtles
 Item	Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
 Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts Until Rollover
+# Item gate transceiver: Allows you to negotiate magnetic storms without losing your way
+Item	gate transceiver	Single Equip, Lasts Until Rollover
 Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
 Item	ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -2657,6 +2667,8 @@ Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumbl
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 # hemp string
+# Item high-friction boots: Allows you to move normally on extremely windy planets
+Item	high-friction boots	Single Equip, Lasts Until Rollover
 Item	hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
 # hippy protest button: Damages Attacking Opponent
 Item	hippy protest button	Single Equip
@@ -3453,6 +3465,8 @@ Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Initiative: 
 # porcelain pelerine: Begin Fights with 1 Disco Momentum
 Item	porcelain pelerine	Hat Drop: +20, Monster Level: +10
 Item	protonic accelerator pack	MP Regen Min: 2, MP Regen Max: 20, Item Drop: +15, Muscle: +10, Mysticality: +10, Moxie: +10, Critical Hit Percent: +5, Combat Rate: -5
+# Item rad cloak: Protects against harmful radiation on alien worlds
+Item	rad cloak	Lasts Until Rollover
 Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
 Item	rubber cape	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10
 # Item saffron uttarasanga: Improves chances of finding lumps and sludge
