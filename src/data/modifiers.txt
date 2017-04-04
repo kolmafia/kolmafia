@@ -3001,6 +3001,9 @@ Item	sour ball and chain	Initiative: -300, Sprinkle Drop: +50, Single Equip
 # Item Source shades: Improves yields of the Extraction skill.
 Item	Source shades	Item Drop: +10
 Item	Space Trip safety headphones	Monster Level: -100, Damage Reduction: 10, Combat Rate: -5, Single Equip
+Item	Spacegate diplomat's insignia	Moxie Percent: +25, Initiative: +25, Meat Drop: +25, Single Equip
+Item	Spacegate military insignia	PvP Fights: +6, Rollover Effect: "Spirit of Galactic Unity", Rollover Effect Duration: 30, Single Equip
+Item	Spacegate scientist's insignia	Adventures: +6, Rollover Effect: "Spirit of Galactic Unity", Rollover Effect Duration: 30, Single Equip
 # spade necklace
 # spaghetti cult robe
 Item	spaghetti cult rosary	Maximum MP: +50
@@ -5258,6 +5261,7 @@ Effect	Hustlin'	Initiative: +50, Item Drop: +10
 Effect	Hyperbolic Hypothermia	Cold Damage: +20
 Effect	Hypercubed	Maximum MP: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Hyperoffended	Sleaze Resistance: +9
+Effect	Hyperoxygenated Blood	Adventure Underwater
 Effect	Hyphemariffic	Spooky Resistance: +9
 Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
@@ -6076,6 +6080,7 @@ Effect	Spirit of Alph	Muscle Percent: +10
 Effect	Spirit of Bacon Grease	Spell Damage: +10
 # Spirit of Cayenne: All Spells Cast Are Hot
 Effect	Spirit of Cayenne	Spell Damage: +10
+Effect	Spirit of Galactic Unity	Familiar Weight: +10
 # Spirit of Garlic: All Spells Cast Are Stinky
 Effect	Spirit of Garlic	Spell Damage: +10
 # Spirit of Peppermint: All Spells Cast Are Cold
@@ -7140,6 +7145,7 @@ MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality 
 
 Item	&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
 Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
+Item	Aldebaran sardines	Effect: "Fishy", Effect Duration: 60
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
@@ -7437,6 +7443,7 @@ Item	Candy Alexander	Effect: "Holiday Bliss", Effect Duration: 10
 Item	canteen of wine	Effect: "In Vino Vires", Effect Duration: 20
 Item	carrot claret	Effect: "Pla-see-bo", Effect Duration: 10
 Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
+Item	Centauri fish wine	Effect: "Fishy", Effect Duration: 60
 Item	chakra-mental wine	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	Chakra Libre	Effect: "Transcendental Wind", Effect Duration: 10
 Item	chocotini	Effect: "High Blood Chocolate Content", Effect Duration: 30
@@ -7713,6 +7720,7 @@ Item	oily paste	Effect: "Oily Flavor", Effect Duration: 10
 Item	orc paste	Effect: "Fratty Flavor", Effect Duration: 10
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
+Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
 Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
@@ -9642,6 +9650,7 @@ Item	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Skill: "Summon Tasteful I
 Item	space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
 Item	space planula	Free Pull
 # Space Tours Tripple: Weakens enemies a little bit
+Item	Spacegate emergency disintegrator	Skill: "Disintegrate"
 # spangly unitard: Deals 100-250 Physical Damage and weakens your opponent somewhat
 Item	spare neck bolts	Effect: "Big Square Head", Effect Duration: 100
 # sparking El Vibrato drone: Deals 250-300 Physical Damage

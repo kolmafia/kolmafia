@@ -192,6 +192,8 @@
 167	Stack Lumps	chocolump.gif	1	0	0
 168	Evoke Eldritch Horror	tentacle.gif	3	66	0
 
+173	Disintegrate	explosion.gif	5	150	0
+
 # Skills available to Clubbers
 
 1000	Seal Clubbing Frenzy	clubseal.gif	3	1	5	0

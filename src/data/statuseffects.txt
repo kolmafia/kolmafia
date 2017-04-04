@@ -2274,3 +2274,6 @@
 2273	Frown	sad.gif	7eb4592f6bbae1ad0a4ddd34e8079433	cast 1 Frown Muscles
 2274	Angry	angry.gif	3667ddabd8160373f565fab58e978dd5	cast 1 Anger Glands
 2275	Screaming!  SCREAMING!  AAAAAAAH!	breath.gif	3b8628bb9c5a2a01de60b1f715c59766	cast 1 Powerful Vocal Chords
+
+2284	Hyperoxygenated Blood	blooddrops.gif	06c23a2c08e1e798efc5365b91ad6665	chew 1 powdered oxygen
+2285	Spirit of Galactic Unity	blackheart.gif	59c1c9eff7f18414ed6716e969c153d6

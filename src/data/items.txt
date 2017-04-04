@@ -9427,3 +9427,13 @@
 9401	unpowered Robortender	726929105	robotenderlarva.gif	grow	t	0
 9402	toggle switch (Bartend)	431660273	toggleswitch2.gif	familiar	t,d	75
 9403	toggle switch (Bounce)	723822103	toggleswitch1.gif	familiar	t,d	75
+9404	Spacegate access badge	977103521	sgbadge.gif	usable	t	0
+
+9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
+9467	Centauri fish wine	186069841	wine2.gif	drink	t,d	33
+9468	powdered oxygen	472482824	disease.gif	spleen, usable	t,d	22
+9469	Spacegate scientist's insignia	180571738	sginsignia1.gif	accessory	t,d	150
+9470	Spacegate military insignia	444485872	sginsignia2.gif	accessory	t,d	150
+9471	Spacegate diplomat's insignia	171569558	sginsignia3.gif	accessory	t,d	150
+9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t,d	200
+9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
