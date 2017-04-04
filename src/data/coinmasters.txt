@@ -844,3 +844,12 @@ A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
 # Things you can buy with priceless diamonds
 
 The Black Market	buy	1	Red Zeppelin ticket	ROW290
+
+Spacegate Fabrication Facility	buy	50	Aldebaran sardines	ROW943
+Spacegate Fabrication Facility	buy	50	Centauri fish wine	ROW944
+Spacegate Fabrication Facility	buy	100	powdered oxygen	ROW945
+Spacegate Fabrication Facility	buy	3000	Spacegate scientist's insignia	ROW948
+Spacegate Fabrication Facility	buy	3000	Spacegate military insignia	ROW949
+Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950
+Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
+Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952

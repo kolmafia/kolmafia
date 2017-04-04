@@ -126,6 +126,7 @@ import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.TacoDanRequest;
@@ -219,6 +220,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel shakeShopPanel = null;
 	private CoinmasterPanel shoeRepairPanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
+	private CoinmasterPanel spacegateFabricationPanel = null;
 	private CoinmasterPanel swaggerShopPanel = null;
 	private CoinmasterPanel tacoDanPanel = null;
 	private CoinmasterPanel terrifiedEagleInnPanel = null;
@@ -460,6 +462,11 @@ public class CoinmastersFrame
 		cashewPanel = new CashewPanel();
 		panel.add( cashewPanel );
 		this.selectorPanel.addPanel( cashewPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		spacegateFabricationPanel = new SpacegateFabricationPanel();
+		panel.add( spacegateFabricationPanel );
+		this.selectorPanel.addPanel( spacegateFabricationPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -904,6 +911,15 @@ public class CoinmastersFrame
 		{
 			super( ShoreGiftShopRequest.SHORE_GIFT_SHOP );
 			PreferenceListenerRegistry.registerPreferenceListener( "itemBoughtPerAscension637", this );
+		}
+	}
+
+	public class SpacegateFabricationPanel
+		extends CoinmasterPanel
+	{
+		public SpacegateFabricationPanel()
+		{
+			super( SpacegateFabricationRequest.SPACEGATE_STORE );
 		}
 	}
 
