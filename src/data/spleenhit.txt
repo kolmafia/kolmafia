@@ -122,6 +122,7 @@ pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
 porcelain powder	3	1	awesome	10	0	0	0
 powdered gold	4	1	good	5-10	20-30	20-30	20-30
+powdered oxygen	3	4	good	0	0	0	0	Unspaded
 prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 puce paisley oyster egg	1	1	awesome	0	11-15	11-15	0
 puce polka-dot oyster egg	1	1	awesome	0	11-15	0	11-15

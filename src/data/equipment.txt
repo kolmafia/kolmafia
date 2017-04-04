@@ -2560,6 +2560,9 @@ soul monocle	0	none
 sour ball and chain	50	Mus: 10
 Source shades	10	none
 Space Trip safety headphones	100	Mys: 35
+Spacegate diplomat's insignia	0	Mox: 75
+Spacegate military insignia	0	Mys: 75
+Spacegate scientist's insignia	0	Mus: 75
 spade necklace	10	none
 spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
