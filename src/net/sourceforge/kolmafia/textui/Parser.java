@@ -546,7 +546,7 @@ public class Parser
 				continue;
 			}
 
-			if ( (t instanceof AggregateType) && "{".equals( this.currentToken() ) )
+			if ( (t.getBaseType() instanceof AggregateType) && "{".equals( this.currentToken() ) )
 			{
 				this.readToken(); // read {
 				result.addCommand( this.parseAggregateLiteral( result, (AggregateType) t ), this );
@@ -840,14 +840,15 @@ public class Parser
 
 		Value rhs;
 
+		Type ltype = t.getBaseType();
 		if ( this.currentToken().equals( "=" ) )
 		{
 			this.readToken(); // Eat the equals sign
 
-			if ( this.currentToken().equals( "{" ) && t instanceof AggregateType )
+			if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
 			{
 				this.readToken(); // read {
-				rhs = this.parseAggregateLiteral( scope, (AggregateType) t );
+				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
 			else
 			{
@@ -859,17 +860,16 @@ public class Parser
 				throw this.parseException( "Expression expected" );
 			}
 
-			Type ltype = t.getBaseType();
 			if ( !Parser.validCoercion( ltype, rhs.getType(), "assign" ) )
 			{
 				throw this.parseException(
 					"Cannot store " + rhs.getType() + " in " + variableName + " of type " + ltype );
 			}
 		}
-		else if ( this.currentToken().equals( "{" ) && t instanceof AggregateType )
+		else if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
 		{
 			this.readToken(); // read {
-			rhs = this.parseAggregateLiteral( scope, (AggregateType) t );
+			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 		}
 		else
 		{
@@ -1105,10 +1105,11 @@ public class Parser
 			// If we know we are reading an ArrayLiteral or haven't
 			// yet ensured we are reading a MapLiteral, allow any
 			// type of Value as the "key"
-			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && data instanceof AggregateType )
+			Type dataType = data.getBaseType();
+			if ( ( isArray || arrayAllowed ) && this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
 				this.readToken(); // read {
-				lhs = parseAggregateLiteral( scope, (AggregateType) data );
+				lhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
 			{
@@ -1138,7 +1139,7 @@ public class Parser
 			if ( isArray )
 			{
 				// The value must have the correct data type
-				if ( !Parser.validCoercion( data, lhs.getType(), "assign" ) )
+				if ( !Parser.validCoercion( dataType, lhs.getType(), "assign" ) )
 				{
 					throw this.parseException( "Invalid array literal" );
 				}
@@ -1165,10 +1166,10 @@ public class Parser
 			this.readToken(); // read :
 
 			Value rhs;
-			if ( this.currentToken().equals( "{" ) && data instanceof AggregateType )
+			if ( this.currentToken().equals( "{" ) && dataType instanceof AggregateType )
 			{
 				this.readToken(); // read {
-				rhs = parseAggregateLiteral( scope, (AggregateType) data );
+				rhs = parseAggregateLiteral( scope, (AggregateType) dataType );
 			}
 			else
 			{
@@ -2412,10 +2413,10 @@ public class Parser
 				{
 					val = DataTypes.VOID_VALUE;
 				}
-				else if ( this.currentToken().equals( "{" ) && expected instanceof AggregateType )
+				else if ( this.currentToken().equals( "{" ) && expected.getBaseType() instanceof AggregateType )
 				{
 					this.readToken(); // read {
-					val = this.parseAggregateLiteral( scope, (AggregateType) expected );
+					val = this.parseAggregateLiteral( scope, (AggregateType) expected.getBaseType() );
 				}
 				else
 				{
@@ -3146,14 +3147,14 @@ public class Parser
 		else
 		{
 			Type baseType = this.parseType( scope, true, false );
-			if ( baseType instanceof AggregateType )
+			if ( baseType != null && baseType.getBaseType() instanceof AggregateType )
 			{
 				if ( !"{".equals( this.currentToken() ) )
 				{
 					throw this.parseException( "{", this.currentToken() );
 				}
 				this.readToken();
-				result = this.parseAggregateLiteral( scope, (AggregateType) baseType );
+				result = this.parseAggregateLiteral( scope, (AggregateType) baseType.getBaseType() );
 			}
 			else
 			{

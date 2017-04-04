@@ -78,27 +78,31 @@ public class ArrayValue
 			throw interpreter.runtimeException( "Array index out of bounds" );
 		}
 
-		if ( array[ index ].getType().equals( val.getType() ) )
+		Type dataType = array[ index ].getType();
+		Type baseType = dataType.getBaseType();
+		Type valType = val.getType();
+
+		if ( baseType.equals( valType ) )
 		{
 			array[ index ] = val;
 		}
-		else if ( array[ index ].getType().equals( DataTypes.TYPE_STRING ) )
+		else if ( baseType.equals( DataTypes.TYPE_STRING ) )
 		{
 			array[ index ] = val.toStringValue();
 		}
-		else if ( array[ index ].getType().equals( DataTypes.TYPE_INT ) &&
-			  val.getType().equals( DataTypes.TYPE_FLOAT ) )
+		else if ( baseType.equals( DataTypes.TYPE_INT ) &&
+			  valType.equals( DataTypes.TYPE_FLOAT ) )
 		{
 			array[ index ] = val.toIntValue();
 		}
-		else if ( array[ index ].getType().equals( DataTypes.TYPE_FLOAT ) &&
-			  val.getType().equals( DataTypes.TYPE_INT ) )
+		else if ( baseType.equals( DataTypes.TYPE_FLOAT ) &&
+			  valType.equals( DataTypes.TYPE_INT ) )
 		{
 			array[ index ] = val.toFloatValue();
 		}
 		else
 		{
-			throw interpreter.runtimeException( "Internal error: Cannot assign " + val.getType() + " to " + array[ index ].getType() );
+			throw interpreter.runtimeException( "Internal error: Cannot assign " + valType + " to " + dataType );
 		}
 	}
 

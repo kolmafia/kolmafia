@@ -158,7 +158,13 @@ public class ForEachLoop
 			if ( nextVariable != null )
 			{
 				Value nextSlice = slice.aref( key, interpreter );
-				if ( nextSlice instanceof AggregateValue )
+				if ( nextVariable.getType() instanceof AggregateType )
+				{
+					// typedef, for example
+					nextVariable.setValue( interpreter, nextSlice );
+					result = super.execute( interpreter );
+				}
+				else if ( nextSlice instanceof AggregateValue )
 				{
 					interpreter.traceIndent();
 					result = this.executeSlice( interpreter, (AggregateValue) nextSlice, it, nextVariable );
