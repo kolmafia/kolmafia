@@ -2922,3 +2922,11 @@ Siberian sunrise	MIX	bottle of vodka	elemental sugarcube
 elemental caipiroska	MIX	Siberian sunrise	grapefruit
 piscatini	MIX	boxed wine	fish head
 drive-by shooting	MIX	piscatini	grapefruit
+
+# Spacegate
+
+murderbot live wire	COMBINE	murderbot component casing	murderbot power cell
+murderbot mask	COMBINE	murderbot component casing	murderbot component casing
+murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
+murderbot spring injector	COMBINE	murderbot component casing	murderbot monofilament
+murderbot whip 	COMBINE	murderbot monofilament	murderbot monofilament

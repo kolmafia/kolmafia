@@ -9458,8 +9458,11 @@
 9448	murderbot power cell	301843276	wbattery.gif	none	t,d	11
 9449	murderbot component casing	785447051	clsheet.gif	none	t,d	15
 9450	murderbot monofilament	431837846	string.gif	none	t,d	22
-
+9451	murderbot shield unit	157970633	murderbotshield.gif	multiple	t,d	25
+9452	murderbot live wire	162002087	livewire.gif	none, combat	t,d	30
+9453	murderbot mask	815227827	murderbotmask.gif	hat	t,d	50
 9454	murderbot spring injector	232320098	pill.gif	usable	t,d	40
+9455	murderbot whip	393535917	monowhip.gif	weapon	t,d	45
 
 9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
 
