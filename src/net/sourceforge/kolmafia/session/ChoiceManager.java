@@ -9397,6 +9397,18 @@ public abstract class ChoiceManager
 				Preferences.increment( "noobDeferredPoints", 5 );
 			}
 			return;
+
+
+		case 1235:
+			// Spacegate Terminal
+			//
+			// choice.php?whichchoice=1235&option=1&letter1=A&letter2=A&letter3=A&letter4=A&letter5=A&letter6=A&letter7=A
+			// choice.php?whichchoice=1235&option=2&word=ABCDEFG
+			// choice.php?whichchoice=1235&option=3
+			//
+			// *** If not "random" (option 3), log the word we used to choose a planet
+			// *** Parse and log the parameters of today's planet
+			return;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -14709,7 +14721,8 @@ public abstract class ChoiceManager
 		case 1197: // Travel back to a Delicious Meal
 		case 1218: // Wax On
 		case 1233: // Equipment Requisition
-		return true;
+		case 1235: // Spacegate Terminal
+			return true;
 
 		default:
 			return false;

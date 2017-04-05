@@ -213,6 +213,10 @@ public class QuestManager
 			{
 				handleGingerbreadCityChange( location, responseText );
 			}
+			else if ( locationId.equals( AdventurePool.SPACEGATE_ID ) )
+			{
+				handleSpacegateChange( location, responseText );
+			}
 			else if ( KoLCharacter.getInebriety() > 25 )
 			{
 				handleSneakyPeteChange( responseText );
@@ -375,6 +379,10 @@ public class QuestManager
 			else if ( location.contains( "whichplace=sea_oldman" ) )
 			{
 				handleSeaChange( location, responseText );
+			}
+			else if ( location.contains( "whichplace=spacegate" ) )
+			{
+				handleSpacegateChange( location, responseText );
 			}
 			else if ( location.endsWith( "whichplace=town" ) )
 			{
@@ -593,6 +601,14 @@ public class QuestManager
 		if ( responseText.contains( "snarfblat=481" ) )
 		{
 			Preferences.setBoolean( "gingerSewersUnlocked", true );
+		}
+	}
+
+	private static void handleSpacegateChange( final String location, final String responseText )
+	{
+		if ( !Preferences.getBoolean( "spacegateAlways" ) )
+		{
+			Preferences.setBoolean( "_spacegateToday", true );
 		}
 	}
 

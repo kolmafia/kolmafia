@@ -821,7 +821,8 @@ Internet Meme Shop	buy	50	meme generator	ROW823
 Internet Meme Shop	buy	150000	First Post shirt package	ROW829
 Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
 
-# Precinct Materiel Division
+# Things you can buy with cop dollars
+
 Precinct Materiel Division	buy	4	hardboiled egg	ROW839
 Precinct Materiel Division	buy	4	Falcon&trade; Maltese Liquor	ROW835
 Precinct Materiel Division	buy	10	shoe gum	ROW834
@@ -830,7 +831,8 @@ Precinct Materiel Division	buy	200	noir fedora	ROW836
 Precinct Materiel Division	buy	200	trench coat	ROW837
 Precinct Materiel Division	buy	1000	detective tattoo	ROW838
 
-# Thanksgiving Salesman
+# Things you can buy with cashews
+
 A traveling Thanksgiving salesman	buy	1	glass casserole dish	ROW900
 A traveling Thanksgiving salesman	buy	1	can opener	ROW902
 A traveling Thanksgiving salesman	buy	1	potato masher	ROW905
@@ -845,9 +847,12 @@ A traveling Thanksgiving salesman	buy	3	gravy boat	ROW906
 
 The Black Market	buy	1	Red Zeppelin ticket	ROW290
 
+# Things you can buy with Spacegate Research
+
 Spacegate Fabrication Facility	buy	50	Aldebaran sardines	ROW943
 Spacegate Fabrication Facility	buy	50	Centauri fish wine	ROW944
 Spacegate Fabrication Facility	buy	100	powdered oxygen	ROW945
+Spacegate Fabrication Facility	buy	1000	portable Spacegate	ROW947
 Spacegate Fabrication Facility	buy	3000	Spacegate scientist's insignia	ROW948
 Spacegate Fabrication Facility	buy	3000	Spacegate military insignia	ROW949
 Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950

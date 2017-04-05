@@ -5833,6 +5833,30 @@ public class UseItemRequest
 			Preferences.increment( "_spookyJellyUses", count );
 			break;
 
+
+		case ItemPool.SPACEGATE_ACCESS_BADGE:
+
+			// She doesn't give you the badge back, and when you
+			// ask, she explains that the facility entrance is now
+			// keyed to your genetic signature, and you can come
+			// and go as you please, unless your genes change for
+			// some reason.
+
+			Preferences.setBoolean( "spacegateAlways", true );
+			if ( !responseText.contains( "is now keyed to your genetic signature" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.PORTABLE_SPACEGATE:
+			if ( responseText.contains( "already have access to that place" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+			Preferences.setBoolean( "_spacegateToday", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
