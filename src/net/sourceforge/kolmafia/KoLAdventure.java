@@ -1151,7 +1151,6 @@ public class KoLAdventure
 			return;
 		}
 
-
 		if ( this.adventureId.equals( AdventurePool.GINGERBREAD_CIVIC_CENTER_ID ) ||
 		     this.adventureId.equals( AdventurePool.GINGERBREAD_TRAIN_STATION_ID ) ||
 		     this.adventureId.equals( AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE_ID ) ||
@@ -2393,6 +2392,14 @@ public class KoLAdventure
 		{
 			"you can't get to it",
 			"You need a way to travel in space.",
+		},
+
+		// The spacegate is out of energy for today. You can explore
+		// another planet tomorrow. Or the same planet, if you
+		// want. The spacegate isn't the boss of you.
+		{
+			"out of energy for today",
+			"The Spacegate is out of energy for today.",
 		}
 	};
 

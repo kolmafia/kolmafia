@@ -1080,6 +1080,7 @@ user	sourceTerminalEducateKnown
 user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
+user	spaceBabyLanguageFluency	0
 user	spacegateAlways	false
 user	spadingData
 user	spelunkyHints	false

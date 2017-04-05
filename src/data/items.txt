@@ -9461,6 +9461,8 @@
 
 9454	murderbot spring injector	232320098	pill.gif	usable	t,d	40
 
+9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
+
 9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
 
 9465	portable Spacegate	313840046	portablesg.gif	usable	t	0

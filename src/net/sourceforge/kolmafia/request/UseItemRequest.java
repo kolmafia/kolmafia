@@ -5857,7 +5857,19 @@ public class UseItemRequest
 			}
 			Preferences.setBoolean( "_spacegateToday", true );
 			break;
+
+		case ItemPool.SPACE_BABY_CHILDRENS_BOOK:
+			// You read the book and learn a few words in the Space
+			// Baby language. Mostly about cute animals.
+			if ( !responseText.contains( "learn a few words" ) )
+			{
+				// If you already have access it is not consumed
+				return;
+			}
+			Preferences.increment( "spaceBabyLanguageFluency", 10 );
+			break;
 		}
+
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
 		{

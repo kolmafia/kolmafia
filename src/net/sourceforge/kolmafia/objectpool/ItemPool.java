@@ -2809,6 +2809,7 @@ public class ItemPool
 	public static final int TOGGLE_SWITCH_BOUNCE = 9403;
 	public static final int SPACEGATE_ACCESS_BADGE = 9404;
 	public static final int SPACEGATE_RESEARCH = 9410;
+	public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
 	public static final int PORTABLE_SPACEGATE = 9465;
 
 	public static final AdventureResult get( String itemName, int count )
