@@ -4551,6 +4551,7 @@ Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
+Effect	Broad-Spectrum Vaccine	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Effect	Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
 # Broken Dancing: You Can't Not Dance If You Don't Want To
@@ -4898,6 +4899,7 @@ Effect	Embarrassed	Moxie Percent: -30
 # Emotion Sickness: +50% Meat drops from Monsters
 # Emotion Sickness: (Underwater only)
 Effect	Emotion Sickness	Item Drop: [(+25-D)*env(underwater)], Meat Drop: [2*(+25-D)*env(underwater)]
+Effect	Emotional Vaccine	Monster Level: +30
 Effect	Empathy	Familiar Weight: +5
 Effect	Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Empty Inside	Food Drop: +50, Booze Drop: +50
@@ -5830,6 +5832,7 @@ Effect	Rage of the Reindeer	Weapon Damage: +10, Muscle Percent: +10
 Effect	Raging Animal	Familiar Damage: +30
 Effect	Rain Dancin'	Item Drop: +20
 Effect	Rainbow Bright	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Cold Damage: +15, Hot Damage: +15, Sleaze Damage: +15, Spooky Damage: +15, Stench Damage: +15
+Effect	Rainbow Vaccine	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Effect	Rainy Soul Miasma	Muscle: +10, Mysticality: +10, Moxie: -5
 Effect	Ramboner	Avatar: "Mercenary of Fortune"
 Effect	Rampage!	Weapon Damage Percent: +50
