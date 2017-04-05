@@ -1137,6 +1137,21 @@ public class KoLAdventure
 			return;
 		}
 
+		if ( this.adventureId.equals( AdventurePool.SPACEGATE_ID ) )
+		{
+			boolean unlocked = Preferences.getBoolean( "spacegateAlways" ) || Preferences.getBoolean( "_spacegateToday" );
+			if ( !unlocked )
+			{
+				// Visit the mountains and take a look.
+				RequestThread.postRequest( new PlaceRequest( "mountains" ) );
+				unlocked = Preferences.getBoolean( "_spacegateToday" );
+			}
+
+			this.isValidAdventure = unlocked;
+			return;
+		}
+
+
 		if ( this.adventureId.equals( AdventurePool.GINGERBREAD_CIVIC_CENTER_ID ) ||
 		     this.adventureId.equals( AdventurePool.GINGERBREAD_TRAIN_STATION_ID ) ||
 		     this.adventureId.equals( AdventurePool.GINGERBREAD_INDUSTRIAL_ZONE_ID ) ||

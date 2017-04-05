@@ -652,6 +652,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "gingerSubwayLineUnlocked", false );
 		Preferences.setBoolean( "gingerNegativesDropped", false );
 		Preferences.setBoolean( "gingerBlackmailAccomplished", false );
+		Preferences.setInteger( "gingerLawChoice", 0 );
+		Preferences.setInteger( "gingerDigCount", 0 );
 		// AWOL
 		Preferences.setInteger( "awolMedicine", 0 );
 		Preferences.setInteger( "awolVenom", 0 );
