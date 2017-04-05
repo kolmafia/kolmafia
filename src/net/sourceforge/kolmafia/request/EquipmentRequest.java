@@ -1167,12 +1167,6 @@ public class EquipmentRequest
 					return;
 				}
 
-				if ( result.contains( "You put on part of" ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "You only put on part of that outfit." );
-					return;
-				}
-
 				// It appears you're already wearing all the
 				// parts of the outfit 'outfitname' which you
 				// possess or can wear.	 ... followed by a
