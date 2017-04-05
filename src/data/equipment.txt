@@ -1347,6 +1347,7 @@ space beast fur whip	20	Mus: 0	1-handed whip
 space heater	100	Mox: 35	1-handed pistol
 space needle	100	Mus: 35	1-handed sword
 Space Tourist Phaser	100	Mox: 35	1-handed pistol
+spant spear	100	Mus: 20	1-handed spear
 spectral axe	150	Mus: 50	1-handed axe
 Spelunker's whip	10	Mus: 0	1-handed whip
 spiked femur	100	Mus: 35	1-handed club

@@ -16,6 +16,7 @@ abstraction: sensation	1	1	decent	0	0	0	0	50 Sensation (+100% mox)
 abstraction: thought	1	1	decent	0	0	0	0	50 Thought (+100% mys)
 aerosolized aerogel	2	12	good	0	0	0	0	Unspaded
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
+alien animal goo	1	1	crappy	0	0	0	0	Unspaded
 alien protein powder	3	4	awesome	8-10	0	0	0
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient protein powder	1	1	good	0	12-14	0	0

@@ -9441,7 +9441,27 @@
 9415	edible alien plant bit	306788819	plantbit.gif	food	t,d	4
 9416	alien plant fibers	876928996	plantfibers.gif	none	d	5
 
+9420	alien plant goo	538908723	plantgoo.gif	spleen, usable	t,d	15
+
 9422	zoological sample kit	313682924	briefcase.gif	offhand	q	0
+9423	alien meat	672000286	alienmeat.gif	food	t,d	8
+9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
+
+9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30
+
+9433	primitive alien salad	129944437	salad.gif	food	t,d	23
+
+9441	spant chitin	689199719	spantchitin.gif	none	t,d	3
+9442	spant tendon	684936831	string.gif	none	t,d	7
+
+9447	spant spear	860697539	tinyspear.gif	weapon	d	120
+9448	murderbot power cell	301843276	wbattery.gif	none	t,d	11
+9449	murderbot component casing	785447051	clsheet.gif	none	t,d	15
+9450	murderbot monofilament	431837846	string.gif	none	t,d	22
+
+9454	murderbot spring injector	232320098	pill.gif	usable	t,d	40
+
+9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
 
 9465	portable Spacegate	313840046	portablesg.gif	usable	t	0
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
@@ -9452,3 +9472,4 @@
 9471	Spacegate diplomat's insignia	171569558	sginsignia3.gif	accessory	t	150
 9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t,d	200
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
+9474	alien sandwich	264675078	sammich.gif	food	t,d	44
