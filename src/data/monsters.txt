@@ -2333,6 +2333,11 @@ LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	
 LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
 LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
 
+# Spacegate (April 2017)
+Murderbot drone	2021	sgmbdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
+
+
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
 # Therefore, we put them here so they end up in our LEET_MONSTER_MAP
