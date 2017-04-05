@@ -9123,6 +9123,7 @@ Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
 # Mountain Stream soda: Restores 30-40 MP
 Item	mouse skull	Effect: "Little Mouse Skull Buddy", Effect Duration: 20
 Item	Mr. Mediocrebar	Effect: "Apathy", Effect Duration: 10
+# Item murderbot memory chip: Worth 15 pages of Spacegate Research
 Item	murderbot spring injector	Effect: "Spring Training", Effect Duration: 20
 Item	muscle oil	Effect: "Built Body", Effect Duration: 100
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
