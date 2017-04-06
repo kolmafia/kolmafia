@@ -2357,7 +2357,7 @@ Lumpy, the Sinister Sauceblob	0		DUMMY
 the Spirit of New Wave	0		DUMMY
 Somerset Lopez, Dread Mariachi	0		DUMMY
 
-Ed the Undying	473	ed.gif	Atk: 180 Def: 162 HP: 1 Init: -10000 P: undead
+Ed the Undying	473	ed.gif,ed2.gif,ed3.gif,ed4.gif,ed5.gif,ed6.gif,ed7.gif	Atk: 180 Def: 162 HP: 180 Init: -10000 P: undead
 
 Shadow Lemming Trampler	0		DUMMY
 Shadow Tern Slapper	0		DUMMY
