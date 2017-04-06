@@ -1188,8 +1188,13 @@ public class MonsterData
 
 	// </a></center><p><a name='mon554'></a><table width=95%><tr><td colspan=6 height=1 bgcolor=black></td></tr><tr><td rowspan=4 valign=top width=100><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/adventureimages/gremlinamc.gif width=100></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/nicesword.gif width=30 height=30 alt="Attack Power (approximate)" title="Attack Power (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/statue.gif alt="This monster is a Humanoid" title="This monster is a Humanoid" width=30 height=30></td><td rowspan=4 width=10></td><td rowspan=4 valign=top class=small><b><font size=+2>A.M.C. gremlin</font></b><ul><li>Some researchers believe the AMC Gremlin to be evidence that gremlins are a degenerate offshoot of the Crimbo Elf, due to their mechanical skills. However, their research equipment usually falls apart before they get a chance to publish.<li>Be careful never to feed gremlins after midnight. And by 'feed', I mean "allow them to chew on your face".<li>People make snarky jokes about time zones and so on, but the gremlin prohibition on feeding is obviously based on local time, because of their sensitivity to sunlight -- don't feed them between midnight and sunrise. How hard was that, Mr. Sarcasm?</ul></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/whiteshield.gif width=30 height=30 alt="Defense (approximate)" title="Defense (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>153</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td></tr><tr><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/hp.gif width=30 height=30 alt="Hit Points (approximate)" title="Hit Points (approximate)"></td><td width=50 valign=center align=left><b><font size=+2>170</font></b></td><td width=30><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/watch.gif alt="Initiative +60%" title="Initiative +60%" width=30 height=30></td></tr><tr><td></td><td></td></tr></table>
 
-	public String craftDescription( final int variant )
+	public String craftDescription( final int variant, MonsterData stats )
 	{
+		if ( stats == null )
+		{
+			stats = this;
+		}
+
 		StringBuilder buffer = new StringBuilder();
 
 		String imageServerPath = KoLmafia.imageServerPath();
@@ -1209,11 +1214,11 @@ public class MonsterData
 			buffer.append( imageServerPath );
 
 			// Allow variants of image
-			int variants = this.images.length;
+			int variants = stats.images.length;
 			String image =
-				variants < 2 ? this.image :
-				variant < variants ? this.images[ variant ] :
-				this.image;
+				variants < 2 ? stats.image :
+				variant < variants ? stats.images[ variant ] :
+				stats.image;
 
 			if ( !image.contains( "/" ) )
 			{
@@ -1231,14 +1236,14 @@ public class MonsterData
 			buffer.append( imageServerPath );
 			buffer.append( "itemimages/nicesword.gif width=30 height=30 alt=\"" );
 
-			int attack = this.getRawAttack();
+			int attack = stats.getRawAttack();
 			String description;
 
-			if ( this.scale != null )
+			if ( stats.scale != null )
 			{
-				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
-				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+				int scale = evaluate( stats.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				StringBuilder attb = new StringBuilder();
 				attb.append( "Attack Power scale: (Moxie +" );
@@ -1251,7 +1256,7 @@ public class MonsterData
 
 				description = attb.toString();
 			}
-			else if ( this.attack instanceof Integer )
+			else if ( stats.attack instanceof Integer )
 			{
 				description = "Attack Power (approximate)";
 			}
@@ -1272,8 +1277,8 @@ public class MonsterData
 
 		// Phylum
 		{
-			String image = this.phylum.getImage();
-			String description = this.phylum.getDescription();
+			String image = stats.phylum.getImage();
+			String description = stats.phylum.getDescription();
 
 			buffer.append( "<td width=30>" );
 			buffer.append( "<img src=" );
@@ -1289,7 +1294,7 @@ public class MonsterData
 
 		// Monster Name & 3 factoids are last, spanning 3 rows
 		{
-			Element element = this.defenseElement;
+			Element element = stats.defenseElement;
 
 			buffer.append( "<td rowspan=3 valign=top><b><font size=+2" );
 			if ( element != Element.NONE )
@@ -1298,7 +1303,7 @@ public class MonsterData
 				buffer.append( element.getColor() );
 			}
 			buffer.append( ">" );
-			buffer.append( this.getName() );
+			buffer.append( stats.getName() );
 			buffer.append( "</font></b>" );
 
 			if ( !this.noManuel )
@@ -1334,14 +1339,14 @@ public class MonsterData
 			buffer.append( imageServerPath );
 			buffer.append( "itemimages/whiteshield.gif width=30 height=30 alt=\"" );
 
-			int defense = this.getRawDefense();
+			int defense = stats.getRawDefense();
 			String description;
 
-			if ( this.scale != null )
+			if ( stats.scale != null )
 			{
-				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
-				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+				int scale = evaluate( stats.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				StringBuilder defb = new StringBuilder();
 				defb.append( "Defense scale: (Muscle +" );
@@ -1354,7 +1359,7 @@ public class MonsterData
 
 				description = defb.toString();
 			}
-			else if ( this.defense instanceof Integer )
+			else if ( stats.defense instanceof Integer )
 			{
 				description = "Defense (approximate)";
 			}
@@ -1375,8 +1380,8 @@ public class MonsterData
 
 		// Element
 		{
-			String image = this.defenseElement.getImage();
-			String description = "This monster " + this.defenseElement.getDescription();
+			String image = stats.defenseElement.getImage();
+			String description = "This monster " + stats.defenseElement.getDescription();
 
 			buffer.append( "<td width=30>" );
 			buffer.append( "<img src=" );
@@ -1402,14 +1407,14 @@ public class MonsterData
 			buffer.append( imageServerPath );
 			buffer.append( "itemimages/hp.gif width=30 height=30 alt=\"" );
 
-			int HP = this.getRawHP();
+			int HP = stats.getRawHP();
 			String description;
 
-			if ( this.scale != null )
+			if ( stats.scale != null )
 			{
-				int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
-				int cap = evaluate( this.cap, MonsterData.DEFAULT_CAP );
-				int floor = evaluate( this.floor, MonsterData.DEFAULT_FLOOR);
+				int scale = evaluate( stats.scale, MonsterData.DEFAULT_SCALE );
+				int cap = evaluate( stats.cap, MonsterData.DEFAULT_CAP );
+				int floor = evaluate( stats.floor, MonsterData.DEFAULT_FLOOR);
 
 				StringBuilder hpb = new StringBuilder();
 				hpb.append( "Hit Points scale: 0.75 * (Muscle +" );
@@ -1422,7 +1427,7 @@ public class MonsterData
 
 				description = hpb.toString();
 			}
-			else if ( this.health instanceof Integer )
+			else if ( stats.health instanceof Integer )
 			{
 				description = "Hit Points (approximate)";
 			}
@@ -1448,7 +1453,7 @@ public class MonsterData
 			buffer.append( imageServerPath );
 			buffer.append( "itemimages/" );
 
-			int initiative = this.getRawInitiative();
+			int initiative = stats.getRawInitiative();
 			String description;
 			if ( initiative == -10000 )
 			{
@@ -1548,7 +1553,7 @@ public class MonsterData
 			}
 		}
 
-		this.appendItemDrops( buffer );
+		stats.appendItemDrops( buffer );
 
 		buffer.append( "</td>" );
 

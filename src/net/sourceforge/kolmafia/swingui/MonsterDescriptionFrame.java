@@ -44,6 +44,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 import net.sourceforge.kolmafia.MonsterData;
 
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -58,7 +60,7 @@ public class MonsterDescriptionFrame
 	private JButton nextVariantButton;
 
 	private MonsterData currentMonster;
-	private int variants;
+	private String[] variants;
 	private int variant;
 
 	public MonsterDescriptionFrame()
@@ -105,7 +107,7 @@ public class MonsterDescriptionFrame
 					frame.lastVariantButton.setEnabled( false );
 				}
 				frame.nextVariantButton.setEnabled( true );
-				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants );
+				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants.length );
 				frame.variantsLabel.setText( label );
 				frame.refreshMonster();
 			}
@@ -118,14 +120,14 @@ public class MonsterDescriptionFrame
 		public void run()
 		{
 			MonsterDescriptionFrame frame = MonsterDescriptionFrame.this;
-			if ( frame.variant < frame.variants - 1 )
+			if ( frame.variant < frame.variants.length - 1 )
 			{
-				if ( ++frame.variant == frame.variants - 1 )
+				if ( ++frame.variant == frame.variants.length - 1 )
 				{
 					frame.nextVariantButton.setEnabled( false );
 				}
 				frame.lastVariantButton.setEnabled( true );
-				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants );
+				String label = String.valueOf( frame.variant + 1 ) + "/" + String.valueOf( frame.variants.length );
 				frame.variantsLabel.setText( label );
 				frame.refreshMonster();
 			}
@@ -134,9 +136,18 @@ public class MonsterDescriptionFrame
 
 	private void refreshMonster()
 	{
+		MonsterData stats = null;
+
+		// Kludge for a single monster...
+		if ( this.variant > 0 && this.currentMonster.getName().equals( "Ed the Undying" ) )
+		{
+			String name = "Ed the Undying (" + String.valueOf( variant + 1 ) + ")";
+			stats = MonsterDatabase.findMonster( name, false );
+		}
+
 		String path = "desc_monster.php?whichmonster=" + this.currentMonster.getId();
 		GenericRequest request = new GenericRequest( path );
-		request.responseText = this.currentMonster.craftDescription( this.variant );
+		request.responseText = this.currentMonster.craftDescription( this.variant, stats );
 		this.refresh( request );
 	}
 
@@ -150,17 +161,17 @@ public class MonsterDescriptionFrame
 		MonsterDescriptionFrame frame = MonsterDescriptionFrame.INSTANCE;
 
 		frame.currentMonster = monster;
-		frame.variants = monster.getImages().length;
+		frame.variants = monster.getImages();
 		frame.variant = 0;
 
-		if ( frame.variants > 0 )
+		if ( frame.variants.length > 0 )
 		{
-			String label = "1/" + String.valueOf( frame.variants );
+			String label = "1/" + String.valueOf( frame.variants.length );
 			frame.variantsLabel.setText( label );
 		}
 
 		frame.lastVariantButton.setEnabled( false );
-		frame.nextVariantButton.setEnabled( frame.variants > 1 );
+		frame.nextVariantButton.setEnabled( frame.variants.length > 1 );
 
 		frame.refreshMonster();
 	}
