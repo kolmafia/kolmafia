@@ -46,6 +46,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class SpacegateFabricationRequest
 	extends CoinMasterRequest
 {
@@ -145,7 +147,10 @@ public class SpacegateFabricationRequest
 
 	public static String accessible()
 	{
-		// Add a check for having the IotM
+		if ( !Preferences.getBoolean( "_spacegateToday" ) && !Preferences.getBoolean( "spacegateAlways" ) )
+		{
+			return "You can't get to the Spacegate.";
+		}
 		return null;
 	}
 
