@@ -45,12 +45,17 @@ public class DescriptionFrame
 {
 	private static DescriptionFrame INSTANCE = null;
 
-	public DescriptionFrame()
+	public DescriptionFrame( final String title )
 	{
-		super( "Documentation" );
-		DescriptionFrame.INSTANCE = this;
+		super( title );
 		this.mainDisplay.setEditorKit( new ImageCachingEditorKit() );
 		ToolTipManager.sharedInstance().registerComponent( this.mainDisplay );
+	}
+
+	public DescriptionFrame()
+	{
+		this( "Documentation" );
+		DescriptionFrame.INSTANCE = this;
 	}
 
 	@Override
