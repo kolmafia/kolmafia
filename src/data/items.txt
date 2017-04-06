@@ -9458,7 +9458,7 @@
 9432	primitive alien medicine	593385746	balm.gif	usable	t,d	80
 9433	primitive alien salad	129944437	salad.gif	food	t,d	23
 9434	primitive alien booze	233926007	stonecup.gif	drink	t,d	80
-9435
+9435	primitive alien mask	133813413	alienmask.gif	hat	t,d	600
 9436
 9437
 9438
@@ -9479,7 +9479,7 @@
 9453	murderbot mask	815227827	murderbotmask.gif	hat	t,d	50
 9454	murderbot spring injector	232320098	pill.gif	usable	t,d	40
 9455	murderbot whip	393535917	monowhip.gif	weapon	t,d	45
-9456
+9456	murderbot plasma rifle	726175739	murderbotrifle.gif	weapon	t,d	160
 9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
 9458
 9459
@@ -9487,7 +9487,7 @@
 9461
 9462
 9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
-9464
+9464	Space Baby bawbaw	434723310	bawbaw.gif	none	t,d	6
 9465	portable Spacegate	313840046	portablesg.gif	usable	t	0
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
 9467	Centauri fish wine	186069841	wine2.gif	drink	t,d	33
