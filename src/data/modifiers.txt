@@ -362,6 +362,8 @@ Item	polyester panama hat	Experience (Moxie): +2, Meat Drop: +10
 Item	porcelain porkpie	Food Drop: +20, Mysticality Percent: +20
 Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Familiar Effect: "hot atk, cap 11"
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: "2xPotato, 1xGhuol, cap 17"
+# Item primitive alien mask: Reveals your inner alien
+Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	radiation-resistant helmet	Item Drop: -10, Familiar Effect: "1xFairy, cap 12"
@@ -1401,6 +1403,8 @@ Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop
 Item	Moonthril Flamberge	Muscle Percent: [15*G]
 Item	Moonthril Longbow	Moxie Percent: [15*G]
 Item	muculent machete	Muscle: +2, Meat Drop: +5
+# Item murderbot plasma rifle: Can be used to instantly kill Spants
+Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
 # Item murderbot whip: Deals 1,000 extra damage on Critical Hit
 Item	murderbot whip	Weapon Damage: +10, Critical Hit Percent: +10
 Item	nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
