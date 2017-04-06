@@ -9435,25 +9435,41 @@
 9409	high-friction boots	294528920	wtbboots.gif	accessory	q	0
 9410	Spacegate Research	772021968	document.gif	none		0	pages of Spacegate Research
 9411	alien rock sample	196471263	spelrock.gif	none	d	10	alien rock samples
-9412
+9412	alien gemstone	691847839	aliengem.gif	none	t,d	100
 9413	geological sample kit	512153322	briefcase.gif	offhand	q	0
 9414	botanical sample kit	216275865	briefcase.gif	offhand	q	0
 9415	edible alien plant bit	306788819	plantbit.gif	food	t,d	4
 9416	alien plant fibers	876928996	plantfibers.gif	none	d	5
-
+9417
+9418
+9419
 9420	alien plant goo	538908723	plantgoo.gif	spleen, usable	t,d	15
-
+9421
 9422	zoological sample kit	313682924	briefcase.gif	offhand	q	0
 9423	alien meat	672000286	alienmeat.gif	food	t,d	8
 9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
-
+9425
+9426
+9427
 9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30
-
+9429
+9430
+9431
+9432	primitive alien medicine	593385746	balm.gif	usable	t,d	80
 9433	primitive alien salad	129944437	salad.gif	food	t,d	23
-
+9434	primitive alien booze	233926007	stonecup.gif	drink	t,d	80
+9435
+9436
+9437
+9438
+9439
+9440
 9441	spant chitin	689199719	spantchitin.gif	none	t,d	3
 9442	spant tendon	684936831	string.gif	none	t,d	7
-
+9443
+9444
+9445
+9446
 9447	spant spear	860697539	tinyspear.gif	weapon	d	120
 9448	murderbot power cell	301843276	wbattery.gif	none	t,d	11
 9449	murderbot component casing	785447051	clsheet.gif	none	t,d	15
@@ -9463,11 +9479,15 @@
 9453	murderbot mask	815227827	murderbotmask.gif	hat	t,d	50
 9454	murderbot spring injector	232320098	pill.gif	usable	t,d	40
 9455	murderbot whip	393535917	monowhip.gif	weapon	t,d	45
-
+9456
 9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
-
+9458
+9459
+9460
+9461
+9462
 9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
-
+9464
 9465	portable Spacegate	313840046	portablesg.gif	usable	t	0
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
 9467	Centauri fish wine	186069841	wine2.gif	drink	t,d	33

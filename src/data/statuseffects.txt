@@ -2278,7 +2278,8 @@
 2277	Broad-Spectrum Vaccine	strboost.gif	326be0e591c6d45ed44946be4a017837
 2278	Emotional Vaccine	angry.gif	bcbf4a5e830e86b4de000ecd4812e0c2
 2279	Celestial Mind	realbrain.gif	f31647391d032e601aa31d5daa0ccae7	chew 1 alien plant goo
-
+2280
+2281	Preemptive Medicine	balm.gif	c956e1be89942f99535892719dc6557e	use 1 primitive alien medicine
 2282	Shielded Unit	sphere.gif	ba272b8023f3c50f76433e19dd0504f6	use 1 murderbot shield unit
 2283	Spring Training	spring.gif	6bde966f3414c20ad674c6caef5c85a4	use 1 murderbot spring injector
 2284	Hyperoxygenated Blood	blooddrops.gif	06c23a2c08e1e798efc5365b91ad6665	chew 1 powdered oxygen
