@@ -228,11 +228,7 @@ public class DatabaseFrame
 		@Override
 		public void showDescription( final Entry entry )
 		{
-			String path = "desc_" + this.type + ".php?" + this.which + "=" + this.getId( entry );
-			GenericRequest request = new GenericRequest( path );
-			MonsterData monster = (MonsterData) entry.getValue();
-			request.responseText = monster.craftDescription();
-			DescriptionFrame.showRequest( request );
+			MonsterDescriptionFrame.showMonster( (MonsterData) entry.getValue() );
 		}
 	}
 }

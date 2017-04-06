@@ -9434,7 +9434,7 @@
 9408	gate transceiver	900860541	sgcompass.gif	accessory	q	0
 9409	high-friction boots	294528920	wtbboots.gif	accessory	q	0
 9410	Spacegate Research	772021968	document.gif	none		0	pages of Spacegate Research
-9411	alien rock sample	196471263	spelrock.gif	none	d	10	alien rock samples
+9411	alien rock sample	196471263	spelrock.gif	none	d	10
 9412	alien gemstone	691847839	aliengem.gif	none	t,d	100
 9413	geological sample kit	512153322	briefcase.gif	offhand	q	0
 9414	botanical sample kit	216275865	briefcase.gif	offhand	q	0
