@@ -2335,6 +2335,7 @@ LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: du
 
 # Spacegate (April 2017)
 Murderbot drone	2021	sgmbdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
+Murderbot soldier	2022	sgmb.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
 
 

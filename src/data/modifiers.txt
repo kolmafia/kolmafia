@@ -5778,6 +5778,7 @@ Effect	Prayer of Seshat	Experience (Mysticality): +3
 # Predjudicetidigitation: You are much less attracted to monsters
 # Predjudicetidigitation: (because you hate them)
 Effect	Predjudicetidigitation	Combat Rate: -10
+Effect	Preemptive Medicine	Maximum HP Percent: +500
 Effect	Prelude of Precision	Critical Hit Percent: +10
 Effect	Prestidigysfunction	Mysticality Percent: -95
 Effect	Pretending to Pretend	Weapon Damage Percent: +100
@@ -7606,6 +7607,7 @@ Item	piscatini	Effect: "You Drank Fish Wine", Effect Duration: 40
 Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
+# Item primitive alien booze: Extends the duration of up to 10 of your effects by 5 Adventures
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100
 Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40
@@ -7835,6 +7837,7 @@ Item	airplane charter: That 70s Volcano	Free Pull
 Item	airplane charter: The Glaciest	Free Pull
 Item	alien autoautopsy kit	Effect: "Autopsy-turvy", Effect Duration: 30
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
+# Item alien gemstone: Worth 100 pages of Spacegate Research
 Item	alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
 Item	alien source code printout	Skill: "Alien Source Code"
 Item	alien source code printout (used)	Skill: "Alien Source Code"
@@ -9381,6 +9384,7 @@ Item	pressurized potion of pneumaticity	Effect: "Pneumatic", Effect Duration: 20
 Item	pressurized potion of proficiency	Effect: "Proficient Pressure", Effect Duration: [R]
 Item	pressurized potion of puissance	Effect: "Puissant Pressure", Effect Duration: [R]
 Item	pressurized potion of pulchritude	Effect: "Pulchritudinous Pressure", Effect Duration: [R]
+Item	primitive alien medicine	Effect: "Preemptive Medicine", Effect Duration: 20
 Item	probability potion	Effect: "Uncertain", Effect Duration: 10
 # procrastination potion: Causes Enemy to Put Off Attacking You
 Item	Professor of Spelunkology	Free Pull
