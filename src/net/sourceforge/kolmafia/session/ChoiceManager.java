@@ -14721,6 +14721,7 @@ public abstract class ChoiceManager
 		case 1197: // Travel back to a Delicious Meal
 		case 1218: // Wax On
 		case 1233: // Equipment Requisition
+		case 1234: // Spacegate Vaccination Machine
 		case 1235: // Spacegate Terminal
 			return true;
 
