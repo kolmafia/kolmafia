@@ -9484,7 +9484,7 @@
 9458
 9459
 9460
-9461
+9461	Peek-a-Boo!	862120389	book5.gif	usable	t,d	400
 9462
 9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
 9464	Space Baby bawbaw	434723310	bawbaw.gif	none	t,d	6
