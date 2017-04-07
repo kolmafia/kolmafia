@@ -9440,8 +9440,8 @@
 9414	botanical sample kit	216275865	briefcase.gif	offhand	q	0
 9415	edible alien plant bit	306788819	plantbit.gif	food	t,d	4
 9416	alien plant fibers	876928996	plantfibers.gif	none	d	5
-9417
-9418
+9417	alien plant sample	662601741	dna.gif	none	d	10
+9418	complex alien plant sample	754099238	dna.gif	none	d	25
 9419
 9420	alien plant goo	538908723	plantgoo.gif	spleen, usable	t,d	15
 9421
@@ -9450,7 +9450,7 @@
 9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
 9425
 9426
-9427
+9427	fascinating alien zoological sample	326307398	dna.gif	none	d	50
 9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30
 9429
 9430	spant egg casing	382669140	spantegg.gif	none	d	50
