@@ -139,7 +139,7 @@ public class MonsterDescriptionFrame
 		MonsterData stats = null;
 
 		// Kludge for a single monster...
-		if ( this.variant > 0 && this.currentMonster.getName().equals( "Ed the Undying" ) )
+		if ( this.currentMonster.getName().equals( "Ed the Undying" ) )
 		{
 			String name = "Ed the Undying (" + String.valueOf( variant + 1 ) + ")";
 			stats = MonsterDatabase.findMonster( name, false );
