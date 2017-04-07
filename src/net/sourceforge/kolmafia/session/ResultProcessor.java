@@ -1986,6 +1986,7 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SPOOKYRAVEN_NECKLACE:
+			Preferences.setInteger( "writingDesksDefeated", 5 );
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_NECKLACE, "step4" );
 			break;
 
