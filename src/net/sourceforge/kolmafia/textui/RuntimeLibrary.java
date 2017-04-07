@@ -268,6 +268,7 @@ public abstract class RuntimeLibrary
 		RuntimeLibrary.frameNames.add( "CouncilFrame" );
 		RuntimeLibrary.frameNames.add( "DescriptionFrame" );
 		RuntimeLibrary.frameNames.add( "LoginFrame" );
+		RuntimeLibrary.frameNames.add( "MonsterDescriptionFrame" );
 		RuntimeLibrary.frameNames.add( "ProfileFrame" );
 		RuntimeLibrary.frameNames.add( "RequestSynchFrame" );
 		RuntimeLibrary.frameNames.add( "ScriptManageFrame" );
