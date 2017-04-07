@@ -6787,6 +6787,7 @@ Skill	Nimble Fingers	Meat Drop: +20
 Skill	Northern Exposure	Cold Resistance: +2
 Skill	Nose Hair	Stench Resistance: +1
 Skill	Object Permanence	Mysticality: +5
+Skill	Object Quasi-Permanence	Item Drop: +10
 Skill	Oily Scalp	Sleaze Damage: +7
 # Okay Seriously, This is the Last Spleen Another +5 spleen capacity. That's it, for real.
 Skill	Olfactory Burnout	Stench Resistance: +3
@@ -9269,6 +9270,7 @@ Item	peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 Item	pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 Item	pec oil	Effect: "Oiled-Up", Effect Duration: 20
+Item	Peek-a-Boo!	Skill: "Object Quasi-Permanence"
 Item	PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
 # pencil kunai: Deals 20-30 Physical Damage
 # pencil stub: Does any number of crazy things
