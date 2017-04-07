@@ -2930,3 +2930,7 @@ murderbot mask	COMBINE	murderbot component casing	murderbot component casing
 murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
 murderbot spring injector	COMBINE	murderbot component casing	murderbot monofilament
 murderbot whip 	COMBINE	murderbot monofilament	murderbot monofilament
+spant backplate	SPANT, ROW942	spant chitin (4)	spant tendon (6)
+spant shield	SPANT, ROW940	spant chitin (6)	spant tendon (4)
+spant shoulderpads	SPANT, ROW941	spant chitin (3)	spant tendon (7)
+spants	SPANT, ROW939	spant chitin (7)	spant tendon (3)

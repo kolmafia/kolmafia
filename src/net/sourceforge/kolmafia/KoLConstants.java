@@ -587,6 +587,7 @@ public interface KoLConstants
 		TERMINAL,	// Items extruded from Source Terminal
 		BARREL,		// Items granted at the Barrel Shrine
 		WAX,		// Items made from globs of melted wax
+		SPANT,	// Items made from spant chitin/tendons
 	}
 
 	public enum CraftingRequirements

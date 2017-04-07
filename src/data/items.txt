@@ -9448,7 +9448,7 @@
 9422	zoological sample kit	313682924	briefcase.gif	offhand	q	0
 9423	alien meat	672000286	alienmeat.gif	food	t,d	8	pieces of alien meat
 9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
-9425
+9425	alien zoological sample	746407603	dna.gif	none	d	10
 9426
 9427	fascinating alien zoological sample	326307398	dna.gif	none	d	50
 9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30	globs of alien animal goo
@@ -9466,10 +9466,10 @@
 9440
 9441	spant chitin	689199719	spantchitin.gif	none	t,d	3
 9442	spant tendon	684936831	string.gif	none	t,d	7
-9443
-9444
-9445
-9446
+9443	spants	657210352	spantpants.gif	pants	d	120
+9444	spant shield	728372590	spantshield.gif	offhand	d	120
+9445	spant shoulderpads	251162958	spantshoulders.gif	accessory	d	120
+9446	spant backplate	444657671	spantback.gif	container	d	120
 9447	spant spear	860697539	tinyspear.gif	weapon	d	120
 9448	murderbot power cell	301843276	wbattery.gif	none	t,d	11
 9449	murderbot component casing	785447051	clsheet.gif	none	t,d	15

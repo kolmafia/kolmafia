@@ -706,6 +706,7 @@ Item	snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 2
 Item	space beast fur pants	Damage Reduction: 5, Familiar Effect: "1xVolley"
 Item	spandex anniversary shorts	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 10xLep, cap 2"
 Item	spangly mariachi pants	MP Regen Min: 5, MP Regen Max: 10, Familiar Effect: "2xFairy, 2xPotato, cap 37"
+Item	spants	Moxie Percent: +15, Damage Absorption: +100
 Item	Spelunker's khakis	Initiative: +25, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Combat Rate: +5, Familiar Effect: "1.5xVolley, cap 25"
 Item	Spooky Putty leotard	Initiative: +15, Meat Drop: +15, Softcore Only, Familiar Effect: "1.5xVolley, cap 25"
 Item	square sponge pants	Moxie Percent: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Damage Absorption: +30, Familiar Effect: "hot atk, 1xPotato"
@@ -2215,6 +2216,7 @@ Item	sonar fishfinder	Fishing Skill: +5
 Item	Space Tourist palmdoctor	Maximum HP: +25, Maximum MP: +25, HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 4, MP Regen Max: 6, Lasts Until Rollover
 Item	spaghetti-box banjo	MP Regen Min: 5, MP Regen Max: 10, Class: "Pastamancer"
 # Spanish fly trap
+Item	spant shield	Muscle Percent: +15, Damage Absorption: +100, Damage Reduction: 6
 Item	speed limit shield	Damage Absorption: +10, Damage Reduction: 6
 Item	spiky turtle shield	Weapon Damage: +8, Item Drop: +10, Damage Reduction: 8
 Item	spongy shield	Muscle Percent: +10, HP Regen Min: 20, HP Regen Max: 50, Damage Absorption: +50, Damage Reduction: 14
@@ -3029,6 +3031,7 @@ Item	Spacegate scientist's insignia	Adventures: +6, Rollover Effect: "Spirit of 
 # spade necklace
 # spaghetti cult robe
 Item	spaghetti cult rosary	Maximum MP: +50
+Item	spant shoulderpads	Mysticality Percent: +15, Damage Absorption: +100, Single Equip
 Item	spark plug earring	MP Regen Min: 3, MP Regen Max: 4, Spooky Resistance: +2
 Item	sparkly engagement ring	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip
 # special sauce glove: Allows you to equip Chefstaves
@@ -3491,6 +3494,7 @@ Item	shellacked shell	Maximum HP: +5, HP Regen Min: 2, HP Regen Max: 3, Class: "
 Item	shocked shell	Class: "Turtle Tamer"
 Item	Size XI Wizard's Robe	Booze Drop: +11, Food Drop: +11, Candy Drop: +11
 Item	smoker's cloak	Monster Level: +10, Initiative: +20, Stench Damage: +30
+Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Damage Absorption: +100, Single Equip
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1

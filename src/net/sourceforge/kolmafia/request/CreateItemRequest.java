@@ -379,6 +379,9 @@ public class CreateItemRequest
 		case WAX:
 			return new WaxGlobRequest( conc );
 
+		case SPANT:
+			return new SpantRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
@@ -707,7 +710,7 @@ public class CreateItemRequest
 			return 0;
 		}
 
-		if ( location.indexOf( "action=pulverize" ) != -1 )
+		if ( location.contains( "action=pulverize" ) )
 		{
 			return PulverizeRequest.parseResponse( location, responseText );
 		}

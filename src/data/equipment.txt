@@ -567,6 +567,7 @@ snowboarder pants	100	Mox: 35
 space beast fur pants	100	Mox: 35
 spandex anniversary shorts	10	none
 spangly mariachi pants	150	Mox: 60
+spants	100	Mox: 20
 Spelunker's khakis	100	Mox: 35
 Spooky Putty leotard	100	none
 square sponge pants	200	Mox: 85
@@ -1885,6 +1886,7 @@ sonar fishfinder	10	none
 Space Tourist palmdoctor	50	none
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
+spant shield	0	Mus: 20	shield
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
@@ -2986,6 +2988,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
+spant backplate	0	Mus: 20
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75

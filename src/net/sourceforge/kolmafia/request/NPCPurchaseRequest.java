@@ -512,6 +512,7 @@ public class NPCPurchaseRequest
 		     shopId.equals( "mystic" ) ||
 		     shopId.equals( "rumple" ) ||
 		     shopId.equals( "snowgarden" ) ||
+		     shopId.equals( "spant" ) ||
 		     shopId.equals( "starchart" ) )
 		{
 			NPCPurchaseRequest.parseShopRowResponse( urlString, responseText );
@@ -1034,7 +1035,8 @@ public class NPCPurchaseRequest
 			     shopId.startsWith( "kolhs_" ) ||
 			     shopId.equals( "mystic" ) ||
 			     shopId.equals( "rumple" ) ||
-			     shopId.equals( "snowgarden" ) )
+			     shopId.equals( "snowgarden" ) ||
+			     shopId.equals( "spant" ) )
 			{
 				return NPCPurchaseRequest.registerShopRowRequest( urlString );
 			}
