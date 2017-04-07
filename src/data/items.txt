@@ -9443,15 +9443,15 @@
 9417	alien plant sample	662601741	dna.gif	none	d	10
 9418	complex alien plant sample	754099238	dna.gif	none	d	25
 9419
-9420	alien plant goo	538908723	plantgoo.gif	spleen, usable	t,d	15
+9420	alien plant goo	538908723	plantgoo.gif	spleen, usable	t,d	15	globs of alien plant goo
 9421
 9422	zoological sample kit	313682924	briefcase.gif	offhand	q	0
-9423	alien meat	672000286	alienmeat.gif	food	t,d	8
+9423	alien meat	672000286	alienmeat.gif	food	t,d	8	pieces of alien meat
 9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
 9425
 9426
 9427	fascinating alien zoological sample	326307398	dna.gif	none	d	50
-9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30
+9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30	globs of alien animal goo
 9429
 9430	spant egg casing	382669140	spantegg.gif	none	d	50
 9431	murderbot data core	634585700	murderbotcube.gif	none	q	0
@@ -9497,4 +9497,4 @@
 9471	Spacegate diplomat's insignia	171569558	sginsignia3.gif	accessory	t	0
 9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t	0
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
-9474	alien sandwich	264675078	sammich.gif	food	t,d	44
+9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
