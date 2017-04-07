@@ -390,17 +390,39 @@ public class MonsterManuelManager
 
 	public static final String NO_FACTOIDS = "";
 
-	public static String getManuelText( final int id )
+	private static int translateManuelId( int id )
+	{
+		MonsterData monster = MonsterDatabase.findMonsterById( id );
+		if ( monster == null )
+		{
+			return id;
+		}
+		String manuelName = monster.getManuelName();
+		if ( manuelName == null )
+		{
+			return id;
+		}
+
+		monster = MonsterDatabase.findMonster( manuelName, false );
+		return monster != null ? monster.getId() : id;
+	}
+
+	public static String getManuelText( int id )
 	{
 		// If we don't know the ID, nothing to be done.
-		if ( id <= 0 )
+		if ( id == 0 )
 		{
 			return MonsterManuelManager.NO_FACTOIDS;
 		}
 
+		if ( id < 0 )
+		{
+			id = MonsterManuelManager.translateManuelId( id );
+		}
+
 		// See if we have it cached
 		String text = MonsterManuelManager.manuelEntries.get( id );
-		if ( text == null )
+		if ( text == null && id > 0)
 		{
 			// No. Attempt to look up the monster in your quest log
 			MonsterManuelRequest request = new MonsterManuelRequest( id );
@@ -434,17 +456,22 @@ public class MonsterManuelManager
 		return list;
 	}
 
-	public static int getFactoidsAvailable( final int id, final boolean cachedOnly )
+	public static int getFactoidsAvailable( int id, final boolean cachedOnly )
 	{
 		// If we don't know the ID, nothing to be done.
-		if ( id <= 0 )
+		if ( id == 0 )
 		{
 			return 0;
 		}
 
+		if ( id < 0 )
+		{
+			id = MonsterManuelManager.translateManuelId( id );
+		}
+
 		// See if we have it cached
 		Integer factoids = MonsterManuelManager.manuelFactoidCounts.get( id );
-		if ( factoids == null && !cachedOnly )
+		if ( factoids == null && id > 0 && !cachedOnly )
 		{
 			// No. Attempt to look up the monster in your quest log
 			MonsterManuelRequest request = new MonsterManuelRequest( id );
