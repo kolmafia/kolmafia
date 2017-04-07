@@ -1005,11 +1005,11 @@ Hodgman, The Hoboverlord	688	hodgman.gif	BOSS HP: 25000 Def: 675 Atk: 750 Init: 
 # Slime Tube
 Slime Tube monster	791	noart.gif	Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime Wiki: "Slime"
 # The above is the single Monster Manuel monster. In the Slime Tube, we can distinguish by image
-Slime	-37	slime1_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)	wad of slimy rags (n1)
-Slime Hand	-36	slime2_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)
-Slime Mouth	-35	slime3_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
-Slime Construct	-34	slime4_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
-Slime Colossus	-33	slime5_1.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
+Slime	-37	slime1_1.gif,slime1_2.gif,slime1_3.gif,slime1_4.gif,slime1_5.gif,slime1_6.gif,slime1_7.gif,slime1_8.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)	wad of slimy rags (n1)
+Slime Hand	-36	slime2_1.gif,slime2_2.gif,slime2_3.gif,slime2_4.gif,slime2_5.gif,slime2_6.gif,slime2_7.gif,slime2_8.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	tiny slimy cyst (n5)
+Slime Mouth	-35	slime3_1.gif,slime3_2.gif,slime3_3.gif,slime3_4.gif,slime3_5.gif,slime3_6.gif,slime3_7.gif,slime3_8.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	small slimy cyst (n5)
+Slime Construct	-34	slime4_1.gif,slime4_2.gif,slime4_3.gif,slime4_4.gif,slime4_5.gif,slime4_6.gif,slime4_7.gif,slime4_8.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	medium slimy cyst (n2)
+Slime Colossus	-33	slime5_1.gif,slime5_2.gif,slime5_3.gif,slime5_4.gif,slime5_5.gif,slime5_6.gif,slime5_7.gif,slime5_8.gif	NOMANUEL Atk: 100 Def: 90 HP: 200 Init: 50 EA: slime P: slime	slimy sweetbreads (5)	slimy fermented bile bladder (5)	big slimy cyst (n2)
 Mother Slime	792	otherimages/slimetube/stboss.gif	Atk: 1000 Def: 900 HP: 2950 Init: 300 EA: slime P: slime	hardened slime belt (0)	hardened slime hat (0)	hardened slime pants (0)	slime-soaked brain (0)	slime-soaked hypophysis (0)	slime-soaked sweat gland (0)	slimy alveolus (0)	chamoisole (n5)	caustic slime nodule (0)	caustic slime nodule (0)	squirming Slime larva (0)
 
 # Dreadsylvania
@@ -2334,10 +2334,11 @@ LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	
 LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
 
 # Spacegate (April 2017)
+hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: plant
+large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 Murderbot drone	2021	sgmbdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 Murderbot soldier	2022	sgmb.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
-
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
@@ -2357,7 +2358,7 @@ Lumpy, the Sinister Sauceblob	0		DUMMY
 the Spirit of New Wave	0		DUMMY
 Somerset Lopez, Dread Mariachi	0		DUMMY
 
-Ed the Undying	473	ed.gif,ed2.gif,ed3.gif,ed4.gif,ed5.gif,ed6.gif,ed7.gif	Atk: 180 Def: 162 HP: 180 Init: -10000 P: undead
+Ed the Undying	473	ed.gif,ed2.gif,ed3.gif,ed4.gif,ed5.gif,ed6.gif,ed7.gif	Atk: 180 Def: 162 HP: 1 Init: -10000 P: undead
 
 Shadow Lemming Trampler	0		DUMMY
 Shadow Tern Slapper	0		DUMMY
