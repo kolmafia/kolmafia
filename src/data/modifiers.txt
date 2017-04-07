@@ -4617,6 +4617,7 @@ Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
 Effect	Cautious Prowl	Item Drop: +50
 Effect	Cavemanipulated	Avatar: "caveman"
+Effect	Celestial Body	Weapon Damage Percent: +100, Critical Hit Percent: +20
 Effect	Celestial Camouflage	Combat Rate: -5
 Effect	Celestial Mind	Spell Damage Percent: +100, Spell Critical Percent: +20
 Effect	Celestial Saltiness	Combat Rate: +5
