@@ -2187,6 +2187,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.WAX, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.WAX, 0 );
 
+		// Making stuff with spant chitin/tendons is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SPANT );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.SPANT, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SPANT, 0 );
+
 		// Other creatability flags
 
 		if ( KoLCharacter.isTorsoAware() )
