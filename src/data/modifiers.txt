@@ -1940,6 +1940,8 @@ Item	foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
+# geological sample kit: Increases the yield of Spacegate geology operations
+Item	geological sample kit	Lasts Until Rollover
 Item	ghast iron heater shield	Spooky Damage: +10, Hot Damage: +10, Damage Reduction: 11
 Item	ghostly reins	Familiar Weight: +10, Experience (familiar): +2, Lasts Until Rollover
 Item	giant clay ashtray	Muscle: +5, Damage Reduction: 3
@@ -6134,6 +6136,7 @@ Effect	Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Effect	Spookypants	Spooky Resistance: +1
 Effect	Spookyravin'	Familiar Weight: +10
 Effect	Spore-Wreathed	Reduce Enemy Defense: 20
+Effect	Spring Training	Initiative: +100
 Effect	Springy Fusilli	Initiative: +40
 Effect	Sprinkle in Your Eye	Sprinkle Drop: +25
 Effect	Sprinkle Sense	Sprinkle Drop: +50
@@ -7695,6 +7698,7 @@ Item	abstraction: perception	Effect: "Perception", Effect Duration: 50
 Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
 Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
 Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
+Item	alien plant goo	Effect: "Celestial Mind", Effect Duration: 40
 Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50

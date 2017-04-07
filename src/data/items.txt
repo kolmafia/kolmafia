@@ -4097,14 +4097,14 @@
 4072	essence of cute	226858619	datadisk.gif	none	q	0
 4073	Supreme Being Glossary	528300671	book.gif	none	q	0
 4074	multi-pass	212838845	multipass.gif	none	q	0
-4075	villainous scythe	270978316	mlscythe.gif	weapon	d	4000
-4076	baneful bandolier	606754471	mlbando.gif	accessory	d	4000
-4077	diabolical crossbow	828398092	mlcrossbow.gif	weapon	d	4000
-4078	malevolent medallion	189762372	mlmedal.gif	accessory	d	4000
-4079	corrosive cowl	904156487	mlcowl.gif	hat	d	4000
-4080	grisly shield	924434870	mlshield.gif	offhand	d	4000
-4081	corroded breeches	956208229	mlpants.gif	pants	d	4000
-4082	pernicious cudgel	728374904	mlcudgel.gif	weapon	d	4000
+4075	villainous scythe	270978316	mlscythe.gif	weapon	d	0
+4076	baneful bandolier	606754471	mlbando.gif	accessory		0
+4077	diabolical crossbow	828398092	mlcrossbow.gif	weapon		0
+4078	malevolent medallion	189762372	mlmedal.gif	accessory		0
+4079	corrosive cowl	904156487	mlcowl.gif	hat		0
+4080	grisly shield	924434870	mlshield.gif	offhand		0
+4081	corroded breeches	956208229	mlpants.gif	pants		0
+4082	pernicious cudgel	728374904	mlcudgel.gif	weapon		0
 4083	cupcake-in-a-cup	840782535	cupcakecup.gif	food	t,d	130	cupcakes-in-cups
 4084	pool of liquid metal	289499503	liquidmetal.gif	none, combat	t,d	107	pools of liquid metal
 4085	protein paste	176155931	proteintube.gif	food	t,d	145	tubes of protein paste
@@ -5783,7 +5783,7 @@
 5758	Staff of Holiday Sensations	235701538	pepperstaff.gif	weapon	d	25	Staves of Holiday Sensations
 5759	rusty staff	586597404	rustystaff.gif	weapon	t,d	140	rusty staves
 5760	slime-covered staff	325350654	slimestaff.gif	weapon	d	500	slime-covered staves
-5761	Staff of the Scummy Sink	270811344	scumsinkstaff.gif	weapon	d	25	Staves of the Scummy Sink
+5761	Staff of the Scummy Sink	270811344	scumsinkstaff.gif	weapon		0	Staves of the Scummy Sink
 5762	flaming nose	449067753	flamenose.gif	familiar	t,d	75
 5763	Superhero Reboots	999275045	reboots.gif	accessory		0	pairs of Superhero Reboots
 5764	fuzzy busby	191752711	fuzzybusby.gif	hat	d	200
@@ -9175,7 +9175,7 @@
 9149	tiny baby scorpion	555009724	tinyscorp.gif	familiar	t,d	75
 9150	invisible string	259064767	blank.gif	usable	q	0
 9151	invisible seam ripper	539870712	blank.gif	usable	q	0
-9152	l'il ghost costume	878683491	blank.gif	familiar	d	11
+9152	li'l ghost costume	878683491	blank.gif	familiar	d	11
 9153	raw sweet potato	494328671	sweetpot.gif	food	t,d	5
 9154	raw green beans	588762402	greenbeans.gif	food	t,d	5
 9155	raw stuffing	147752813	rawstuffing.gif	food	t,d	5
@@ -9492,9 +9492,9 @@
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
 9467	Centauri fish wine	186069841	wine2.gif	drink	t,d	33
 9468	powdered oxygen	472482824	disease.gif	spleen, usable	t,d	22
-9469	Spacegate scientist's insignia	180571738	sginsignia1.gif	accessory	t	150
-9470	Spacegate military insignia	444485872	sginsignia2.gif	accessory	t	150
-9471	Spacegate diplomat's insignia	171569558	sginsignia3.gif	accessory	t	150
-9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t,d	200
+9469	Spacegate scientist's insignia	180571738	sginsignia1.gif	accessory	t	0
+9470	Spacegate military insignia	444485872	sginsignia2.gif	accessory	t	0
+9471	Spacegate diplomat's insignia	171569558	sginsignia3.gif	accessory	t	0
+9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t	0
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44
