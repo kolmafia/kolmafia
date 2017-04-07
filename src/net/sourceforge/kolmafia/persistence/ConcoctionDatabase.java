@@ -2650,6 +2650,10 @@ public class ConcoctionDatabase
 		{
 			result.append( "globs of wax" );
 		}
+		else if ( mixingMethod == CraftingType.SPANT )
+		{
+			result.append( "spant pieces" );
+		}
 
 		if ( result.length() == 0 )
 		{
@@ -3308,6 +3312,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "WAX" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.WAX;
+		}
+
+		else if ( mix.equals( "SPANT" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SPANT;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
