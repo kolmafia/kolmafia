@@ -9481,7 +9481,7 @@
 9455	murderbot whip	393535917	monowhip.gif	weapon	t,d	45
 9456	murderbot plasma rifle	726175739	murderbotrifle.gif	weapon	t,d	160
 9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
-9458
+9458	space pirate treasure map	584260074	map.gif	none	t,d	75
 9459
 9460
 9461	Peek-a-Boo!	862120389	book5.gif	usable	t,d	400
