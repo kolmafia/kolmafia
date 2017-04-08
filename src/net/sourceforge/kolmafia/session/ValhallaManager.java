@@ -654,6 +654,10 @@ public class ValhallaManager
 		Preferences.setBoolean( "gingerBlackmailAccomplished", false );
 		Preferences.setInteger( "gingerLawChoice", 0 );
 		Preferences.setInteger( "gingerDigCount", 0 );
+		// Spacegate
+		Preferences.setInteger( "procrastinatorLanguageFluency", 0 );
+		Preferences.setInteger( "spaceBabyLanguageFluency", 0 );
+		Preferences.setInteger( "spacePirateLanguageFluency", 0 );
 		// AWOL
 		Preferences.setInteger( "awolMedicine", 0 );
 		Preferences.setInteger( "awolVenom", 0 );

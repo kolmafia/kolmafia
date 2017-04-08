@@ -855,6 +855,7 @@ user	prayedForVigor	false
 user	preAscensionScript
 user	preBlackbirdFamiliar
 user	prismaticSummons	0
+user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
 user	puzzleChampBonus	5
 user	pyramidPosition	1
@@ -1081,6 +1082,7 @@ user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
 user	spaceBabyLanguageFluency	0
+user	spacePirateLanguageFluency	0
 user	spacegateAlways	false
 user	spacegateVaccine1	false
 user	spacegateVaccine2	false
