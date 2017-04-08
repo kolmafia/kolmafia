@@ -1206,6 +1206,33 @@ public class Maximizer
 					}
 					usesRemaining = 5 - Preferences.getInteger( "_gapBuffs" );
 				}
+				else if ( cmd.startsWith( "spacegate" ) )
+				{
+					if ( !StandardRequest.isAllowed( "Item", "Spacegate access badge" ) )
+					{
+						continue;
+					}
+					boolean available = Preferences.getBoolean( "spacegateAlways" ) || Preferences.getBoolean( "_spacegateToday" );
+					String number = cmd.substring( cmd.length() - 1 );
+					String setting = "spacegateVaccine" + number;
+					boolean vaccineAvailable = Preferences.getBoolean( setting );
+					if ( !available || !vaccineAvailable )
+					{
+						if ( includeAll )
+						{
+							text = "(unlock Spacegate and vaccine " + number + " for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getBoolean( "_spacegateVaccine" ) )
+					{
+						cmd = "";
+					}
+				}
 				else if ( cmd.startsWith( "play" ) )
 				{
 					if ( InventoryManager.getAccessibleCount( ItemPool.DECK_OF_EVERY_CARD ) == 0 )
