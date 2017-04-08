@@ -6607,6 +6607,7 @@ Effect	Zomg WTF	Monster Level: +30
 
 # Passive Skills section of modifiers.txt
 
+Skill	5-D Earning Potential	Meat Drop: +20
 Skill	20/20 Vision	Item Drop: +10
 Skill	Abdominal Muscles	Muscle: +15
 Skill	Abs of Tin	Maximum HP Percent: +10
@@ -6811,6 +6812,7 @@ Skill	Powers of Observatiogn	Item Drop: +10
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
 Skill	Profound Shame	Sleaze Resistance: +3
 # Pulverize
+Skill	Quantum Movement	Initiative: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting
