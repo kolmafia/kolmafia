@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -55,6 +56,12 @@ public class SpacegateCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		if ( !Preferences.getBoolean( "spacegateAlways" ) && !Preferences.getBoolean( "_spacegateToday" ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are not cleared to access the Spacegate facility" );
+			return;
+		}
+
 		String[] params = parameters.trim().split( "\\s+" );
 		String command = params[0];
 
@@ -68,7 +75,7 @@ public class SpacegateCommand
 			int vaccine = StringUtilities.parseInt( params[1] );
 			if ( vaccine < 1 || vaccine > 3 )
 			{
-				RequestLogger.printLine( "Choose vaccine 1, 2, or 3" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Choose vaccine 1, 2, or 3" );
 				return;
 			}
 			if ( Preferences.getBoolean( "_spacegateVaccine" ) )
@@ -84,7 +91,7 @@ public class SpacegateCommand
 
 			if ( !Preferences.getBoolean( setting ) )
 			{
-				RequestLogger.printLine( "You have not unlocked that vaccine yet" );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You have not unlocked that vaccine yet" );
 				return;
 			}
 
