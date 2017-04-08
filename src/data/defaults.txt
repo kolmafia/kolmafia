@@ -1082,6 +1082,9 @@ user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
 user	spaceBabyLanguageFluency	0
 user	spacegateAlways	false
+user	spacegateVaccine1	false
+user	spacegateVaccine2	false
+user	spacegateVaccine3	false
 user	spadingData
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
@@ -1489,6 +1492,7 @@ user	_sourceTerminalExtrudes	0
 user	_sourceTerminalPortscanUses	0
 user	_spaceFurDropsCrown	0
 user	_spacegateToday	false
+user	_spacegateVaccine	false
 user	_spaceJellyfishDrops	0
 user	_spaghettiBreakfast	false
 user	_spaghettiBreakfastEaten	false

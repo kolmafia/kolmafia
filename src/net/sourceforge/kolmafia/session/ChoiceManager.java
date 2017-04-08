@@ -244,6 +244,7 @@ public abstract class ChoiceManager
 	private static final Pattern TIME_SPINNER_MEDALS_PATTERN = Pattern.compile( "memory of earning <b>(\\d+) medal" );
 	private static final Pattern LOV_EXIT_PATTERN = Pattern.compile( "a sign above it that says <b>(.*?)</b>" );
 	private static final Pattern LOV_LOGENTRY_PATTERN = Pattern.compile( "you scrawl <b>(.*?)</b>" );
+	private static final Pattern VACCINE_PATTERN = Pattern.compile( "option value=(\\d+).*?class=button type=submit value=\"([^\"]*)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9398,6 +9399,25 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 1234:
+			// Spacegate Vaccinator
+			//
+			// option 1 = Rainbow Vaccine
+			// option 2 = Broad-Spectrum Vaccine
+			// option 3 = Emotional Vaccine
+			//
+			// You can unlock it (by turning in enough research) or
+			// Select it (if previously unlocked).
+			//
+			if ( text.contains( "New vaccine unlocked!" ) )
+			{
+				Preferences.setBoolean( "spacegateVaccine" + ChoiceManager.lastDecision, true );
+			}
+			else if ( text.contains( "You acquire an effect" ) )
+			{
+				Preferences.setBoolean( "_spacegateVaccine", true );
+			}
+			break;
 
 		case 1235:
 			// Spacegate Terminal
@@ -11955,6 +11975,28 @@ public abstract class ChoiceManager
 				RequestLogger.updateSessionLog( message );
 			}
 
+			break;
+		}
+
+		case 1234:
+		{
+			// Spacegate Vaccinator
+
+			Matcher matcher = ChoiceManager.VACCINE_PATTERN.matcher( text );
+
+			while ( matcher.find() )
+			{
+				String setting = "spacegateVaccine" + matcher.group( 1 );
+				String button = matcher.group( 2 );
+				if ( button.startsWith( "Select Vaccine" ) )
+				{
+					Preferences.setBoolean( setting, true );
+				}
+				else if ( button.startsWith( "Unlock Vaccine" ) )
+				{
+					Preferences.setBoolean( setting, false );
+				}
+			}
 			break;
 		}
 		}
