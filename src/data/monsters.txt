@@ -2335,7 +2335,9 @@ LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: du
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: plant
+small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
+Spant drone	2019	sgspantdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: bug
 Murderbot drone	2021	sgmbdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 Murderbot soldier	2022	sgmb.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
