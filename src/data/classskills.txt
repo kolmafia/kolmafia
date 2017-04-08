@@ -192,8 +192,8 @@
 167	Stack Lumps	chocolump.gif	1	0	0
 168	Evoke Eldritch Horror	tentacle.gif	3	66	0
 169
-170
-171
+170	Quantum Movement		0	0	0
+171	5-D Earning Potential	dollarsign.gif	0	0	0
 172	Object Quasi-Permanence	confused.gif	0	0	0
 173	Disintegrate	explosion.gif	5	150	0
 
