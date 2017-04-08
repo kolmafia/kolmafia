@@ -1208,7 +1208,7 @@ public class Maximizer
 				}
 				else if ( cmd.startsWith( "spacegate" ) )
 				{
-					if ( !StandardRequest.isAllowed( "Item", "Spacegate access badge" ) )
+					if ( !StandardRequest.isAllowed( "Items", "Spacegate access badge" ) )
 					{
 						continue;
 					}
