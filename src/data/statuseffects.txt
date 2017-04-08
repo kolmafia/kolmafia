@@ -2274,9 +2274,9 @@
 2273	Frown	sad.gif	7eb4592f6bbae1ad0a4ddd34e8079433	cast 1 Frown Muscles
 2274	Angry	angry.gif	3667ddabd8160373f565fab58e978dd5	cast 1 Anger Glands
 2275	Screaming!  SCREAMING!  AAAAAAAH!	breath.gif	3b8628bb9c5a2a01de60b1f715c59766	cast 1 Powerful Vocal Chords
-2276	Rainbow Vaccine	rrainbow.gif	9ea60f85b44b2a1717c26dc1a83b2008
-2277	Broad-Spectrum Vaccine	strboost.gif	326be0e591c6d45ed44946be4a017837
-2278	Emotional Vaccine	angry.gif	bcbf4a5e830e86b4de000ecd4812e0c2
+2276	Rainbow Vaccine	rrainbow.gif	9ea60f85b44b2a1717c26dc1a83b2008	spacegate vaccine 1
+2277	Broad-Spectrum Vaccine	strboost.gif	326be0e591c6d45ed44946be4a017837	spacegate vaccine 2
+2278	Emotional Vaccine	angry.gif	bcbf4a5e830e86b4de000ecd4812e0c2	spacegate vaccine 3
 2279	Celestial Mind	realbrain.gif	f31647391d032e601aa31d5daa0ccae7	chew 1 alien plant goo
 2280	Celestial Body	strboost.gif	ff81117c5e5caf9da4169bf930c1de48
 2281	Preemptive Medicine	balm.gif	c956e1be89942f99535892719dc6557e	use 1 primitive alien medicine

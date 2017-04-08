@@ -641,6 +641,25 @@ public class PlaceRequest
 				message = "Visiting the Mad Tea Party";
 			}
 		}
+		else if ( place.equals( "spacegate" ) )
+		{
+			if ( action.equals( "sg_requisition" ) )
+			{
+				message = "Visiting Spacegate Equipment Requisition";
+			}
+			else if ( action.equals( "sg_tech" ) )
+			{
+				message = "Visiting Spacegate R&D";
+			}
+			else if ( action.equals( "sg_Terminal" ) )
+			{
+				message = "Visiting the Spacegate Terminal";
+			}
+			else if ( action.equals( "sg_vaccinator" ) )
+			{
+				message = "Visiting the Spacegate Vaccination Machine";
+			}
+		}
 		else if ( place.equals( "sea_oldman" ) )
 		{
 			// place.php?whichplace=sea_oldman&action=oldman_oldman&preaction=pickreward&whichreward=6313[/code]
