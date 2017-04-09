@@ -2341,10 +2341,13 @@ small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala
 large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 Spant drone	2019	sgspantdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: bug
-// intelligent alien	2020	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
+# Spant soldier	2020	sgspant????.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: bug
 Murderbot drone	2021	sgmbdrone.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 Murderbot soldier	2022	sgmb.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct
 hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
+
+# The following may not actually be a monster, but there is a cycle of images for it
+intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.

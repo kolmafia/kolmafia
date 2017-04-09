@@ -742,6 +742,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_storage", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_free_pulls", DataTypes.ITEM_TO_INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_shop", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -3952,6 +3955,23 @@ public abstract class RuntimeLibrary
 
 		AdventureResult [] items = new AdventureResult[ KoLConstants.storage.size() ];
 		KoLConstants.storage.toArray( items );
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			value.aset(
+				DataTypes.makeItemValue( items[i].getItemId(), true ),
+				new Value( items[i].getCount() ) );
+		}
+
+		return value;
+	}
+
+	public static Value get_free_pulls( Interpreter interpreter )
+	{
+		MapValue value = new MapValue( DataTypes.ITEM_TO_INT_TYPE );
+
+		AdventureResult [] items = new AdventureResult[ KoLConstants.freepulls.size() ];
+		KoLConstants.freepulls.toArray( items );
 
 		for ( int i = 0; i < items.length; ++i )
 		{
