@@ -1983,6 +1983,12 @@ public abstract class UseLinkDecorator
 			useLocation = "shop.php?whichshop=thankshop";
 			break;
 
+		case ItemPool.SPANT_CHITIN:
+		case ItemPool.SPANT_TENDON:
+			useType = "assemble";
+			useLocation = "shop.php?whichshop=spant";
+			break;
+
 		default:
 
 		}
