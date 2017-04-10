@@ -9457,7 +9457,7 @@
 9431	murderbot data core	634585700	murderbotcube.gif	none	q	0
 9432	primitive alien medicine	593385746	balm.gif	usable	t,d	80
 9433	primitive alien salad	129944437	salad.gif	food	t,d	23
-9434	primitive alien booze	233926007	stonecup.gif	drink	t,d	80
+9434	primitive alien booze	233926007	stonecup.gif	drink	t,d	80	bottles of primitive alien booze
 9435	primitive alien mask	133813413	alienmask.gif	hat	t,d	600
 9436
 9437
