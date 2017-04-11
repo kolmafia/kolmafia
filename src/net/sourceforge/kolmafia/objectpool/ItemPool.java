@@ -2809,9 +2809,13 @@ public class ItemPool
 	public static final int TOGGLE_SWITCH_BOUNCE = 9403;
 	public static final int SPACEGATE_ACCESS_BADGE = 9404;
 	public static final int SPACEGATE_RESEARCH = 9410;
+	public static final int MURDERBOT_DATA_CORE = 9431;
 	public static final int SPANT_CHITIN = 9441;
 	public static final int SPANT_TENDON = 9442;
+	public static final int SPACE_PIRATE_TREASURE_MAP = 9458;
+	public static final int PROCRASTINATOR_LOCKER_KEY = 9462;
 	public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
+	public static final int SPACE_BABY_BAWBAW = 9464;
 	public static final int PORTABLE_SPACEGATE = 9465;
 
 	public static final AdventureResult get( String itemName, int count )
