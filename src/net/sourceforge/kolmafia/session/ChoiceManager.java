@@ -9429,6 +9429,102 @@ public abstract class ChoiceManager
 			// *** If not "random" (option 3), log the word we used to choose a planet
 			// *** Parse and log the parameters of today's planet
 			return;
+
+		case 1246:
+			// Land Ho
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "spacePirateLanguageFluency", 10 );
+			}
+			break;
+
+		case 1247:
+			// Half the Ship it used to Be
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( text.contains( "You acquire an item" ) )
+				{
+					Preferences.setInteger( "spacePirateLanguageFluency", 0 );
+				}
+				else
+				{
+					Preferences.increment( "spacePirateLanguageFluency", 5 );
+				}
+			}
+			break;
+
+		case 1248:
+			// Paradise Under a Strange Sun
+			if ( text.contains( "You acquire an item" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.SPACE_PIRATE_TREASURE_MAP );
+			}
+			break;
+
+		case 1249:
+			// That's No Monolith, it's a Monolith Ho
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "procrastinatorLanguageFluency", 20 );
+				ResultProcessor.removeItem( ItemPool.MURDERBOT_DATA_CORE );
+			}
+			break;
+
+		case 1250:
+			// Half the Ship it used to Be
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( text.contains( "You acquire an item" ) )
+				{
+					Preferences.setInteger( "spacePirateLanguageFluency", 0 );
+				}
+				else
+				{
+					// What?
+				}
+			}
+			break;
+
+		case 1251:
+			// Curses, A Hex
+			if ( text.contains( "You acquire an item" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.PROCRASTINATOR_LOCKER_KEY );
+			}
+			break;
+
+		case 1252:
+			// Time Enough at Last
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// You get a Space Baby children's book which
+				// will grants spaceBabyLanguageFluency +10
+				// when read
+			}
+			break;
+
+		case 1253:
+			// Mother May I
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( text.contains( "You acquire an item" ) )
+				{
+					Preferences.setInteger( "spaceBabyLanguageFluency", 0 );
+				}
+				else
+				{
+					// What?
+				}
+			}
+			break;
+
+		case 1254:
+			// Please Baby Baby Please
+			if ( text.contains( "You acquire an item" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.SPACE_BABY_BAWBAW );
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
