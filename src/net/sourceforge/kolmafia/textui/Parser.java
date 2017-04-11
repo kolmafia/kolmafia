@@ -3278,23 +3278,22 @@ public class Parser
 		// the string is closed
 
 		char startCharacter = this.currentLine.charAt( 0 );
-		char stopCharacter;
+		char stopCharacter = startCharacter;
+		boolean allowComments = false;
 
-		int level = 1;
 		List<Value> list = null;
 
-		if ( type == null )
-		{
-			// Plain string constant
-			stopCharacter = startCharacter;
-		}
-		else
+		if ( type != null )
 		{
 			// Typed plural constant - handled by same code as plain strings
 			// so that they can share escape character processing
 			stopCharacter = ']';
+			allowComments = type.getBaseType().getType() != DataTypes.TYPE_STRING;
 			list = new ArrayList<Value>();
 		}
+
+		int level = 1;
+		boolean slash = false;
 
 		StringBuilder resultString = new StringBuilder();
 		for ( int i = 1; ; ++i )
@@ -3396,6 +3395,28 @@ public class Parser
 				}
 				continue;
 			}
+
+			// Potentially handle comments
+			if ( allowComments )
+			{
+				// If we've already seen a slash
+				if ( slash )
+				{
+					slash = false;
+					if ( ch == '/' )
+					{
+						// Throw away the rest of the line
+						i = this.currentLine.length() - 1;
+						continue;
+					}
+					resultString.append( '/' );
+				}
+				else if ( ch == '/' )
+				{
+					slash = true;
+					continue;
+				}
+			} 
 
 			// Handle plain strings
 			if ( type == null )
