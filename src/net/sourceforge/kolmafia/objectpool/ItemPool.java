@@ -2813,6 +2813,8 @@ public class ItemPool
 	public static final int SPANT_CHITIN = 9441;
 	public static final int SPANT_TENDON = 9442;
 	public static final int SPACE_PIRATE_TREASURE_MAP = 9458;
+	public static final int NON_EUCLIDEAN_FINANCE = 9460;
+	public static final int PEEK_A_BOO = 9461;
 	public static final int PROCRASTINATOR_LOCKER_KEY = 9462;
 	public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
 	public static final int SPACE_BABY_BAWBAW = 9464;

@@ -9180,6 +9180,7 @@ Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Item	ninja eyeblack	Effect: "Waiting for Ninjas", Effect Duration: 50
 Item	ninja fear powder	Effect: "Ninja in Waiting", Effect Duration: 50
 Item	No Hats as Art	Skill: "Ceci N'Est Pas Un Chapeau"
+Item	Non-Euclidean Finance	Skill: "5-D Earning Potential"
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Item	note from Clancy	Skill: "Request Sandwich"
 # Notes from the Elfpocalypse, Chapter I: Restores 30-40 HP and MP

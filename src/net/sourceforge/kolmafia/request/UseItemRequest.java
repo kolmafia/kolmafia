@@ -3237,6 +3237,8 @@ public class UseItemRequest
 		case ItemPool.RETHINKING_CANDY_BOOK:
 		case ItemPool.ELDRITCH_TINCTURE:
 		case ItemPool.ELDRITCH_TINCTURE_DEPLETED:
+		case ItemPool.PEEK_A_BOO:
+		case ItemPool.NON_EUCLIDEAN_FINANCE:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you
