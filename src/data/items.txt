@@ -9482,7 +9482,7 @@
 9456	murderbot plasma rifle	726175739	murderbotrifle.gif	weapon	t,d	160
 9457	murderbot memory chip	893194929	ramstick.gif	none	d	25
 9458	space pirate treasure map	584260074	map.gif	none	t,d	75
-9459
+9459	Space Pirate Astrogation Handbook	767534230	book4.gif	usable	t,d	400
 9460	Non-Euclidean Finance	585580898	book3.gif	usable	t,d	400
 9461	Peek-a-Boo!	862120389	book5.gif	usable	t,d	400
 9462	Procrastinator locker key	901458331	key2.gif	none	q	0

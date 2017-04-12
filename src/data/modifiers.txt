@@ -9698,6 +9698,7 @@ Item	Source terminal	Free Pull
 Item	Sp'n-Zor's Grimoire of &quot;Tasteful&quot; Gifts	Skill: "Summon Tasteful Items"
 # space invader: Deals 300-400 Physical Damage
 Item	space marine flash grenade	Effect: "RIP AND TEAR", Effect Duration: 50
+Item	Space Pirate Astrogation Handbook	Skill: "Quantum Movement"
 Item	space planula	Free Pull
 # Space Tours Tripple: Weakens enemies a little bit
 Item	Spacegate emergency disintegrator	Skill: "Disintegrate"
