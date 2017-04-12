@@ -2824,6 +2824,7 @@ public class ItemPool
 	public static final int SPANT_TENDON = 9442;
 	public static final int MURDERBOT_MEMORY_CHIP = 9457;
 	public static final int SPACE_PIRATE_TREASURE_MAP = 9458;
+	public static final int SPACE_PIRATE_ASTROGATION_HANDBOOK = 9459;
 	public static final int NON_EUCLIDEAN_FINANCE = 9460;
 	public static final int PEEK_A_BOO = 9461;
 	public static final int PROCRASTINATOR_LOCKER_KEY = 9462;
