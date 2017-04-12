@@ -243,6 +243,24 @@ public class PlaceRequest
 		{
 			RabbitHoleRequest.parseResponse( urlString, responseText );
 		}
+		else if ( place.equals( "spacegate" ) )
+		{
+			if ( action.equals( "sg_tech" ) && responseText.contains( "You turn in" ) )
+			{
+				// fascinating alien plant sample still needed according to the wiki, but no itemid yet
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_ROCK_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_ROCK_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_GEMSTONE, InventoryManager.getCount( ItemPool.ALIEN_GEMSTONE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_PLANT_FIBERS, InventoryManager.getCount( ItemPool.ALIEN_PLANT_FIBERS ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_PLANT_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_PLANT_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE, InventoryManager.getCount( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_TOENAILS, InventoryManager.getCount( ItemPool.ALIEN_TOENAILS ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.MURDERBOT_MEMORY_CHIP, InventoryManager.getCount( ItemPool.MURDERBOT_MEMORY_CHIP ) ) );
+				ResultProcessor.processResult( ItemPool.get( ItemPool.SPANT_EGG_CASING, InventoryManager.getCount( ItemPool.SPANT_EGG_CASING ) ) );
+			}
+		}
 		else if ( place.equals( "spelunky" ) )
 		{
 			SpelunkyRequest.parseResponse( urlString, responseText );
