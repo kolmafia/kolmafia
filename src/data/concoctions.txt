@@ -2925,6 +2925,7 @@ drive-by shooting	MIX	piscatini	grapefruit
 
 # Spacegate
 
+alien sandwich	COOK	edible alien plant bit	alien meat
 murderbot live wire	COMBINE	murderbot component casing	murderbot power cell
 murderbot mask	COMBINE	murderbot component casing	murderbot component casing
 murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
