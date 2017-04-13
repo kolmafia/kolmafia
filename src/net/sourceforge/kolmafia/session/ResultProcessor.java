@@ -1158,6 +1158,16 @@ public class ResultProcessor
 		}
 	}
 
+	public static void removeAllItems( int itemId )
+	{
+		int count = InventoryManager.getCount( itemId );
+		if ( count > 0 )
+		{
+			AdventureResult ar = ItemPool.get( itemId, -count );
+			ResultProcessor.processResult( ar );
+		}
+	}
+
 	public static boolean processMeat( int amount )
 	{
 		return ResultProcessor.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
