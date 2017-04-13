@@ -247,18 +247,19 @@ public class PlaceRequest
 		{
 			if ( action.equals( "sg_tech" ) && responseText.contains( "You turn in" ) )
 			{
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_ROCK_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_GEMSTONE );
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_PLANT_FIBERS );
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_PLANT_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE );
 				// fascinating alien plant sample still needed according to the wiki, but no itemid yet
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_ROCK_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_ROCK_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_GEMSTONE, InventoryManager.getCount( ItemPool.ALIEN_GEMSTONE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_PLANT_FIBERS, InventoryManager.getCount( ItemPool.ALIEN_PLANT_FIBERS ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_PLANT_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_PLANT_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE, InventoryManager.getCount( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_TOENAILS, InventoryManager.getCount( ItemPool.ALIEN_TOENAILS ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE, InventoryManager.getCount( ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.MURDERBOT_MEMORY_CHIP, InventoryManager.getCount( ItemPool.MURDERBOT_MEMORY_CHIP ) ) );
-				ResultProcessor.processResult( ItemPool.get( ItemPool.SPANT_EGG_CASING, InventoryManager.getCount( ItemPool.SPANT_EGG_CASING ) ) );
+				// ResultProcessor.removeAllItems( ItemPool.FASCINATING_ALIEN_PLANT_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_TOENAILS );
+				ResultProcessor.removeAllItems( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.MURDERBOT_MEMORY_CHIP );
+				ResultProcessor.removeAllItems( ItemPool.SPANT_EGG_CASING );
 			}
 		}
 		else if ( place.equals( "spelunky" ) )
