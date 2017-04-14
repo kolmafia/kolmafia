@@ -9449,7 +9449,7 @@
 9423	alien meat	672000286	alienmeat.gif	food	t,d	8	pieces of alien meat
 9424	alien toenails	191705518	alientoenails.gif	none	d	5	piles of alien toenails
 9425	alien zoological sample	746407603	dna.gif	none	d	10
-9426
+9426	complex alien zoological sample	537135662	dna.gif	none	d	25
 9427	fascinating alien zoological sample	326307398	dna.gif	none	d	50
 9428	alien animal goo	432889167	blankoutglob.gif	spleen, usable	t,d	30	globs of alien animal goo
 9429
