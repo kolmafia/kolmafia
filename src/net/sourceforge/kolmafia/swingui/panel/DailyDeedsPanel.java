@@ -49,7 +49,6 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -3162,6 +3161,7 @@ public class DailyDeedsPanel
 			this.addListener( "_machineTunnelsAdv" );
 			this.addListener( "_snojoFreeFights" );
 			this.addListener( "_witchessFights" );
+			this.addListener( "_eldritchTentacleFought" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
@@ -3189,8 +3189,9 @@ public class DailyDeedsPanel
 			boolean wc = KoLConstants.campground.contains( ItemPool.get( ItemPool.WITCHESS_SET, 1 ) ) &&
 				StandardRequest.isAllowed( "Items", "Witchess Set" ) && !Limitmode.limitCampground() &&
 				!KoLCharacter.inBadMoon();
+			boolean et = !(Preferences.getBoolean("_eldritchTentacleFought"));
 
-			this.setShown( bf || hf || sc || me || sj || wc );
+			this.setShown( bf || hf || sc || me || sj || wc || et);
 			int maxSummons = 5;
 			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
 			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
@@ -3199,16 +3200,18 @@ public class DailyDeedsPanel
 			}
 			String text = "Fights: ";
 			if ( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
-			if ( bf && ( hf || sc || me || sj || wc ) ) text = text + ", ";
+			if ( bf && ( hf || sc || me || sj || wc || et) ) text = text + ", ";
 			if ( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
-			if ( hf && ( sc || me || sj || wc )  ) text = text + ", ";
+			if ( hf && ( sc || me || sj || wc || et )  ) text = text + ", ";
 			if ( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
-			if ( sc && ( me || sj || wc ) ) text = text + ", ";
+			if ( sc && ( me || sj || wc || et ) ) text = text + ", ";
 			if ( me ) text = text + Preferences.getInteger( "_machineTunnelsAdv" ) + "/5" + " machine elf";
-			if ( me && ( sj || wc ) ) text = text + ", ";
+			if ( me && ( sj || wc || et) ) text = text + ", ";
 			if ( sj ) text = text + Preferences.getInteger( "_snojoFreeFights" ) + "/10" + " snojo";
-			if ( sj && wc ) text = text + ", ";
+			if ( sj && (wc || et)) text = text + ", ";
 			if ( wc ) text = text + Preferences.getInteger( "_witchessFights" ) + "/5" + " witchess";
+			if ( wc && et) text = text + ", ";
+			if ( et ) text = text + " tentacle";
 			this.setText( text );
 		}
 	}
