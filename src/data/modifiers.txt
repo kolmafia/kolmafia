@@ -7855,8 +7855,15 @@ Item	alien autoautopsy kit	Effect: "Autopsy-turvy", Effect Duration: 30
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 # Item alien gemstone: Worth 100 pages of Spacegate Research
 Item	alien hologram projector	Effect: "Alien Resurrection", Effect Duration: 100
+# Item alien plant fibers: Worth 1 page of Spacegate Research
+# Item alien plant pod: Reduces your Drunkenness by 3
+# Item alien plant pod: (limit 1x / day)
+# Item alien plant sample: Worth 3 pages of Spacegate Research
+# Item alien rock sample: Worth 3 pages of Spacegate Research
 Item	alien source code printout	Skill: "Alien Source Code"
 Item	alien source code printout (used)	Skill: "Alien Source Code"
+# Item alien toenails: Worth 1 page of Spacegate Research
+# Item alien zoological sample: Worth 3 pages of Spacegate Research
 Item	all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 Item	all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 Item	alphabet gum	Effect: "Bubble, Bubble", Effect Duration: 5
@@ -8201,6 +8208,8 @@ Item	Comet Pop	Effect: "Heal Thy Nanoself", Effect Duration: 10
 # comfy pillow: Restores 20-30 HP
 Item	Comma Chameleon egg	Free Pull
 # communications windchimes: Summons Hippy Army Aid
+# Item complex alien plant sample: Worth 10 pages of Spacegate Research
+# Item complex alien zoological sample: Worth 10 pages of Spacegate Research
 # complimentary Dinsey refreshments: Ya eat 'em.  Well, tourists do.
 Item	compressed air canister	Effect: "Dug Out", Effect Duration: 30
 Item	communal gobstopper	Effect: "The Magic of Sharing", Effect Duration: 20
@@ -8524,6 +8533,8 @@ Item	fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
 Item	fancy calligraphy pen	Free Pull
 # fancy dress ball: Lets You Escape From Combat
 # fancy oil painting: Useful for Bridge-Building
+# Item fascinating alien plant sample: Worth 20 pages of Spacegate Research
+# Item fascinating alien zoological sample: Worth 20 pages of Spacegate Research
 # fat bottom quark: Deals 25-40 <font color=green>Stench Damage</font>
 Item	fat loot token	No Pull
 # fat stacks of cash: Does Not Impress Most Monsters
@@ -9703,6 +9714,7 @@ Item	space planula	Free Pull
 # Space Tours Tripple: Weakens enemies a little bit
 Item	Spacegate emergency disintegrator	Skill: "Disintegrate"
 # spangly unitard: Deals 100-250 Physical Damage and weakens your opponent somewhat
+# Item spant egg casing: Worth 25 pages of Spacegate Research
 Item	spare neck bolts	Effect: "Big Square Head", Effect Duration: 100
 # sparking El Vibrato drone: Deals 250-300 Physical Damage
 Item	sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
