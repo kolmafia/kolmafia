@@ -602,6 +602,10 @@ public class QuestManager
 		{
 			Preferences.setBoolean( "gingerSewersUnlocked", true );
 		}
+		if ( responseText.contains( "digitalclock.gif" ) )
+		{
+			Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
+		}
 	}
 
 	private static void handleSpacegateChange( final String location, final String responseText )
