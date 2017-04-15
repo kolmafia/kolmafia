@@ -2814,6 +2814,7 @@ public class ItemPool
 	public static final int ALIEN_PLANT_FIBERS = 9416;
 	public static final int ALIEN_PLANT_SAMPLE = 9417;
 	public static final int COMPLEX_ALIEN_PLANT_SAMPLE = 9418;
+	public static final int FASCINATING_ALIEN_PLANT_SAMPLE = 9419;
 	public static final int ALIEN_TOENAILS = 9424;
 	public static final int ALIEN_ZOOLOGICAL_SAMPLE = 9425;
 	public static final int COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE = 9426;
