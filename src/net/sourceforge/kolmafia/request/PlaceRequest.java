@@ -252,8 +252,7 @@ public class PlaceRequest
 				ResultProcessor.removeAllItems( ItemPool.ALIEN_PLANT_FIBERS );
 				ResultProcessor.removeAllItems( ItemPool.ALIEN_PLANT_SAMPLE );
 				ResultProcessor.removeAllItems( ItemPool.COMPLEX_ALIEN_PLANT_SAMPLE );
-				// fascinating alien plant sample still needed according to the wiki, but no itemid yet
-				// ResultProcessor.removeAllItems( ItemPool.FASCINATING_ALIEN_PLANT_SAMPLE );
+				ResultProcessor.removeAllItems( ItemPool.FASCINATING_ALIEN_PLANT_SAMPLE );
 				ResultProcessor.removeAllItems( ItemPool.ALIEN_TOENAILS );
 				ResultProcessor.removeAllItems( ItemPool.ALIEN_ZOOLOGICAL_SAMPLE );
 				ResultProcessor.removeAllItems( ItemPool.COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE );
