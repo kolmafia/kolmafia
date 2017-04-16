@@ -319,7 +319,7 @@ public class QuestManager
 			{
 				handleManorSecondFloorChange( location, responseText );
 			}
-			else if ( location.contains( "whichplace=manor3" ) )
+			else if ( location.contains( "whichplace=manor3" ) && responseText.contains( "Spookyraven Manor Third Floor" ) )
 			{
 				// If here at all, Necklace and Dance quests are complete and second floor open
 				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
@@ -327,7 +327,7 @@ public class QuestManager
 				// Legacy code support
 				Preferences.setInteger( "lastSecondFloorUnlock", KoLCharacter.getAscensions() );
 			}
-			else if ( location.contains( "whichplace=manor4" ) )
+			else if ( location.contains( "whichplace=manor4" ) && responseText.contains( "Spookyraven Manor Cellar" ) )
 			{
 				// If here at all, Necklace and Dance quests are complete and second floor and basement open
 				QuestDatabase.setQuestIfBetter( Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED );
@@ -644,6 +644,10 @@ public class QuestManager
 
 	private static void handleManorSecondFloorChange( final String location, final String responseText )
 	{
+		if ( !responseText.contains( "Spookyraven Manor Second Floor" ) )
+		{
+			return;
+		}
 		if ( location.contains( "action=manor2_ladys" ) )
 		{
 			if ( responseText.contains( "just want to dance" ) )
@@ -1468,7 +1472,7 @@ public class QuestManager
 		}
 
 		else if ( responseText.contains( "He takes the load of cheese and ore" ) ||
-				responseText.contains( "haul your load of ore and cheese" ) )
+		          responseText.contains( "haul your load of ore and cheese" ) )
 		{
 			AdventureResult item = ItemPool.get( Preferences.getString( "trapperOre" ), -3 );
 			ResultProcessor.processResult( item );
