@@ -1493,7 +1493,17 @@ user	_sourceTerminalEnhanceUses	0
 user	_sourceTerminalExtrudes	0
 user	_sourceTerminalPortscanUses	0
 user	_spaceFurDropsCrown	0
+user	_spacegateAnimalLife
+user	_spacegateCoordinates
+user	_spacegateHazards
+user	_spacegateIntelligentLife
+user	_spacegateMurderbot	false
+user	_spacegatePlanetName
+user	_spacegatePlantLife
+user	_spacegateRuins	false
+user	_spacegateSpant	false
 user	_spacegateToday	false
+user	_spacegateTurnsLeft	0
 user	_spacegateVaccine	false
 user	_spaceJellyfishDrops	0
 user	_spaghettiBreakfast	false

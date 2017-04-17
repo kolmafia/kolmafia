@@ -237,6 +237,12 @@ public class QuestManager
 		{
 			handleCanadiaChange( location, responseText );
 		}
+		else if ( location.startsWith( "choice.php" ) && location.contains( "forceoption=0" ) )
+		{
+			// This can have no active choice options and therefore
+			// won't be interpreted by ChoiceManager
+			parseSpacegateTerminal( responseText, false );
+		}
 		else if ( location.startsWith( "cobbsknob.php" ) )
 		{
 			if ( location.contains( "action=cell37" ) )
@@ -2446,6 +2452,117 @@ public class QuestManager
 		case ItemPool.WALFORDS_BUCKET:
 			QuestDatabase.setQuestIfBetter( Quest.BUCKET, "step1" );
 			break;
+		}
+	}
+
+	public static final Pattern SPACEGATE_PLANET_PATTERN = Pattern.compile( "<td>Current planet: Planet Name: ([^<]+)<br>" );
+	public static final Pattern SPACEGATE_COORDINATES_PATTERN = Pattern.compile( "<br>Coordinates: ([^<]+)<br>" );
+	public static final Pattern SPACEGATE_HAZARDS_PATTERN = Pattern.compile( "<br><p>Environmental Hazards:<[Bb]r>(.*)<br>Plant Life:", Pattern.DOTALL );
+	public static final Pattern SPACEGATE_PLANT_LIFE_PATTERN = Pattern.compile( "<br>Plant Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>" );
+	public static final Pattern SPACEGATE_ANIMAL_LIFE_PATTERN = Pattern.compile( "<br>Animal Life: (?:<font color=\\w+>)?([^<]+)(?:</font>)? ?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>" );
+	public static final Pattern SPACEGATE_INTELLIGENT_LIFE_PATTERN = Pattern.compile( "<br>Intelligent Life: (?:<font color=\\w+>)?([^<]+) ?(?:</font>)?(?:<font color=\\w+>(\\(hostile\\))</font>)?<br>" );
+	public static final Pattern SPACEGATE_SPANT_PATTERN = Pattern.compile( "<b>Spant</b>" );
+	public static final Pattern SPACEGATE_MURDERBOT_PATTERN = Pattern.compile( "<b>Murderbot</b>" );
+	public static final Pattern SPACEGATE_RUINS_PATTERN = Pattern.compile( "<br>ALERT: ANCIENT RUINS DETECTED<br>" );
+	public static final Pattern SPACEGATE_TURNS_PATTERN = Pattern.compile( "<p>Spacegate Energy remaining: <b><font size=\\+2>(\\d+) </font>" );
+
+	public static void parseSpacegateTerminal( final String text, final boolean print )
+	{
+		if ( !text.contains( "Spacegate Terminal" ) )
+		{
+			return;
+		}
+
+		Matcher m = QuestManager.SPACEGATE_PLANET_PATTERN.matcher( text );
+		String name = m.find() ?
+			m.group( 1 ).trim() :
+			"";
+		Preferences.setString( "_spacegatePlanetName", name );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Planet: " + name );
+		}
+
+		m = QuestManager.SPACEGATE_COORDINATES_PATTERN.matcher( text );
+		String coordinates = m.find() ?
+			m.group( 1 ).trim() :
+			"";
+		Preferences.setString( "_spacegateCoordinates", coordinates );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Coordinates: " + coordinates );
+		}
+
+		m = QuestManager.SPACEGATE_HAZARDS_PATTERN.matcher( text );
+		String hazards = m.find() ? m.group(1).trim(): "";
+		hazards = StringUtilities.globalStringDelete( hazards, "&nbsp;" );
+		hazards = StringUtilities.globalStringReplace( hazards, "<br>", "|" ).trim();
+		Preferences.setString( "_spacegateHazards", hazards );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Hazards: " + hazards );
+		}
+
+		m = QuestManager.SPACEGATE_PLANT_LIFE_PATTERN.matcher( text );
+		String plants = m.find() ?
+			m.group(1).trim() + ( m.group(2) == null ? "" : ( " " + m.group(2) ) ) :
+			"none";
+		Preferences.setString( "_spacegatePlantLife", plants );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Plant Life: " + plants );
+		}
+
+		m = QuestManager.SPACEGATE_ANIMAL_LIFE_PATTERN.matcher( text );
+		String animals = m.find() ?
+			m.group(1).trim() + ( m.group(2) == null ? "" : ( " " + m.group(2) ) ) :
+			"none";
+		Preferences.setString( "_spacegateAnimalLife", animals );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Animal Life: " + animals );
+		}
+
+		m = QuestManager.SPACEGATE_INTELLIGENT_LIFE_PATTERN.matcher( text );
+		String intelligent = m.find() ?
+			m.group(1).trim() + ( m.group(2) == null ? "" : ( " " + m.group(2) ) ) :
+			"none";
+		Preferences.setString( "_spacegateIntelligentLife", intelligent );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Intelligent Life: " + intelligent );
+		}
+
+		m = QuestManager.SPACEGATE_SPANT_PATTERN.matcher( text );
+		boolean spants = m.find();
+		Preferences.setBoolean( "_spacegateSpant", spants );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Spant chemical signature detected: " + spants );
+		}
+
+		m = QuestManager.SPACEGATE_MURDERBOT_PATTERN.matcher( text );
+		boolean murderbots = m.find();
+		Preferences.setBoolean( "_spacegateMurderbot", murderbots );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Murderbots frequencies detected: " + murderbots );
+		}
+
+		m = QuestManager.SPACEGATE_RUINS_PATTERN.matcher( text );
+		boolean ruins = m.find();
+		Preferences.setBoolean( "_spacegateRuins", ruins );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Ancient ruins detected: " + ruins );
+		}
+
+		m = QuestManager.SPACEGATE_TURNS_PATTERN.matcher( text );
+		String turns = m.find() ? m.group( 1 ) : "0";
+		Preferences.setString("_spacegateTurnsLeft", turns );
+		if ( print )
+		{
+			RequestLogger.updateSessionLog( "Spacegate turns left: " + turns );
 		}
 	}
 }

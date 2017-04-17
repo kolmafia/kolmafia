@@ -9421,13 +9421,7 @@ public abstract class ChoiceManager
 
 		case 1235:
 			// Spacegate Terminal
-			//
-			// choice.php?whichchoice=1235&option=1&letter1=A&letter2=A&letter3=A&letter4=A&letter5=A&letter6=A&letter7=A
-			// choice.php?whichchoice=1235&option=2&word=ABCDEFG
-			// choice.php?whichchoice=1235&option=3
-			//
-			// *** If not "random" (option 3), log the word we used to choose a planet
-			// *** Parse and log the parameters of today's planet
+			QuestManager.parseSpacegateTerminal( text, true );
 			return;
 
 		case 1246:
