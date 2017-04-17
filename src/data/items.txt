@@ -8194,7 +8194,7 @@
 8169	ginger snaps	514737495	gingersnaps.gif	usable	t,d	25
 8170	mostly-broken sunglasses	649978519	brokeshades.gif	usable	t,d	25
 8171	unflavored wine cooler	314851779	winecooler.gif	drink	t,d	25
-8172	carton of snake milk	273705150	milkcarton.gif	food	t,d	25
+8172	carton of snake milk	273705150	milkcarton.gif	food, usable	t,d	25
 8173	sewer snake	773521845	sewersnake.gif	weapon	t,d	35
 8174	pigeon egg	986654614	tinyegg.gif	food	t,d	25
 8175	jaunty feather	524424816	coolfeather.gif	accessory	t,d	25
