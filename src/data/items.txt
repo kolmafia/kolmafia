@@ -9462,7 +9462,7 @@
 9436
 9437
 9438
-9439
+9439	primitive alien totem	441787817	alientotem.gif	offhand	t	0
 9440
 9441	spant chitin	689199719	spantchitin.gif	none	t,d	3
 9442	spant tendon	684936831	string.gif	none	t,d	7

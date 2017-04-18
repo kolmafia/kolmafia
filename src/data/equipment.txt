@@ -1828,6 +1828,7 @@ portable Othello set	75	Mys: 15
 pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
+primitive alien totem	0	Mus: 10
 pumpkin spice candle	100	Mus: 20
 radiator heater shield	100	Mus: 35	shield
 rag doll	110	Mys: 40
