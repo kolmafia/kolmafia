@@ -7852,6 +7852,8 @@ Item	airplane charter: Dinseylandfill	Free Pull
 Item	airplane charter: Spring Break Beach	Free Pull
 Item	airplane charter: That 70s Volcano	Free Pull
 Item	airplane charter: The Glaciest	Free Pull
+# Item alien animal milk: Reduces your Fullness by 3
+# Item alien animal milk: (limit 1x / day)
 Item	alien autoautopsy kit	Effect: "Autopsy-turvy", Effect Duration: 30
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
 # Item alien gemstone: Worth 100 pages of Spacegate Research

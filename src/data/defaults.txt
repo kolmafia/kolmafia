@@ -1498,6 +1498,7 @@ user	_spacegateCoordinates
 user	_spacegateHazards
 user	_spacegateIntelligentLife
 user	_spacegateMurderbot	false
+user	_spacegatePlanetIndex	0
 user	_spacegatePlanetName
 user	_spacegatePlantLife
 user	_spacegateRuins	false

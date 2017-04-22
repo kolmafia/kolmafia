@@ -2488,6 +2488,11 @@ public class QuestManager
 			m.group( 1 ).trim() :
 			"";
 		Preferences.setString( "_spacegateCoordinates", coordinates );
+		int index =
+			coordinates.length() > 0  ?
+			( coordinates.charAt( 0 ) - 'A' ) :
+			0;
+		Preferences.setInteger( "_spacegatePlanetIndex", Math.max( 0, Math.min( 25, index ) ) );
 		if ( print )
 		{
 			RequestLogger.updateSessionLog( "Coordinates: " + coordinates );
