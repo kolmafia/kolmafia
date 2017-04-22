@@ -658,6 +658,14 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_ultraMegaSourBallUsed" ) ? 0 : 1;
 
+		case ItemPool.ALIEN_PLANT_POD:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_alienPlantPodUsed" ) ? 0 : 1;
+
+		case ItemPool.ALIEN_ANIMAL_MILK:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_alienAnimalMilkUsed" ) ? 0 : 1;
+
 		case ItemPool.BORROWED_TIME:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_borrowedTimeUsed" ) ? 0 : 1;
@@ -1421,6 +1429,30 @@ public class UseItemRequest
 			}
 
 			if ( !InputFieldUtilities.confirm( "A " + ItemDatabase.getItemName( itemId ) + "clears 3 " + organ +
+				  " and you have not filled that yet.  Are you sure you want to use it?" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.ALIEN_ANIMAL_MILK:
+			if ( KoLCharacter.getFullness() >= 3 )
+			{
+				break;
+			}
+			if ( !InputFieldUtilities.confirm( "Alien animal milk clears 3 stomach" +
+				  " and you have not filled that yet.  Are you sure you want to use it?" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.ALIEN_PLANT_POD:
+			if ( KoLCharacter.getInebriety() >= 3 )
+			{
+				break;
+			}
+			if ( !InputFieldUtilities.confirm( "Alien plant pod clears 3 liver" +
 				  " and you have not filled that yet.  Are you sure you want to use it?" ) )
 			{
 				return;
@@ -3978,6 +4010,20 @@ public class UseItemRequest
 			KoLCharacter.updateStatus();
 			ConcoctionDatabase.getUsables().sort();
 
+			break;
+
+		case ItemPool.ALIEN_ANIMAL_MILK:
+			Preferences.setBoolean( "_alienAnimalMilkUsed", true );
+			KoLCharacter.setFullness( KoLCharacter.getFullness() - 3 );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
+			break;
+
+		case ItemPool.ALIEN_PLANT_POD:
+			Preferences.setBoolean( "_alienPlantPodUsed", true );
+			KoLCharacter.setInebriety( Math.max( 0, KoLCharacter.getInebriety() - 3 ) );
+			KoLCharacter.updateStatus();
+			ConcoctionDatabase.getUsables().sort();
 			break;
 
 		case ItemPool.SYNTHETIC_DOG_HAIR_PILL:

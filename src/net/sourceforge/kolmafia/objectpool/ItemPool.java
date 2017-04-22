@@ -2815,10 +2815,12 @@ public class ItemPool
 	public static final int ALIEN_PLANT_SAMPLE = 9417;
 	public static final int COMPLEX_ALIEN_PLANT_SAMPLE = 9418;
 	public static final int FASCINATING_ALIEN_PLANT_SAMPLE = 9419;
+	public static final int ALIEN_PLANT_POD = 9421;
 	public static final int ALIEN_TOENAILS = 9424;
 	public static final int ALIEN_ZOOLOGICAL_SAMPLE = 9425;
 	public static final int COMPLEX_ALIEN_ZOOLOGICAL_SAMPLE = 9426;
 	public static final int FASCINATING_ALIEN_ZOOLOGICAL_SAMPLE = 9427;
+	public static final int ALIEN_ANIMAL_MILK = 9429;
 	public static final int SPANT_EGG_CASING = 9430;
 	public static final int MURDERBOT_DATA_CORE = 9431;
 	public static final int SPANT_CHITIN = 9441;
