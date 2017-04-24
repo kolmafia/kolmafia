@@ -386,6 +386,7 @@ public abstract class KoLCharacter
 	private static int availableMeat = 0;
 	private static int storageMeat = 0;
 	private static int closetMeat = 0;
+	private static int sessionMeat = 0;
 	private static int inebriety = 0;
 	private static int fullness = 0;
 	private static int spleenUse = 0;
@@ -509,6 +510,7 @@ public abstract class KoLCharacter
 		KoLConstants.freepulls.clear();
 		KoLConstants.collection.clear();
 		KoLConstants.pulverizeQueue.clear();
+		KoLCharacter.sessionMeat = 0;
 
 		KoLCharacter.resetSkills();
 
@@ -1895,6 +1897,28 @@ public abstract class KoLCharacter
 	public static final void setClosetMeat( final int closetMeat )
 	{
 		KoLCharacter.closetMeat = closetMeat;
+	}
+
+	/**
+	 * Accessor method to retrieve the amount of meat gained or lost this session.
+	 * This will not include meat gained from mall sales or kmail.
+	 *
+	 * @return The amount of meat gained or lost this session
+	 */
+
+	public static final int getSessionMeat()
+	{
+		return KoLCharacter.sessionMeat;
+	}
+
+	public static final void clearSessionMeat()
+	{
+		KoLCharacter.sessionMeat = 0;
+	}
+
+	public static final void incrementSessionMeat( final int delta)
+	{
+		KoLCharacter.sessionMeat += delta;
 	}
 
 	/**

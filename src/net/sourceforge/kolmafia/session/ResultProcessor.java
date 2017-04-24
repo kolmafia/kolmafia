@@ -1068,6 +1068,7 @@ public class ResultProcessor
 		else if ( resultName.equals( AdventureResult.MEAT ) )
 		{
 			AdventureResult.addResultToList( KoLConstants.tally, result );
+			KoLCharacter.incrementSessionMeat( result.getCount() );
 			shouldRefresh = true;
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) )

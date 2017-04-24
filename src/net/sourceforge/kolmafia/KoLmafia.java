@@ -1127,6 +1127,12 @@ public abstract class KoLmafia
 		KoLConstants.tally.add( new AdventureResult( AdventureResult.MEAT ) );
 		KoLConstants.tally.add( AdventureResult.SESSION_SUBSTATS_RESULT );
 		KoLConstants.tally.add( AdventureResult.SESSION_FULLSTATS_RESULT );
+
+		// We could clear this here. However, it's useful for ASH
+		// scripts to know this value regardless of whether the user
+		// cleared the tally via the menu.
+		//
+		// KoLCharacter.clearSessionMeat();
 	}
 
 	public static final void saveDataOverride()
