@@ -7331,7 +7331,7 @@ public class FightRequest
 			if ( responseText.contains( "hurl an enamorrang" ) || itemSuccess )
 			{
 				TurnCounter.stopCounting( "Enamorang Monster" );
-				TurnCounter.startCountingTemporary( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
+				TurnCounter.startCountingTemporary( 16, "Enamorang Monster loc=* type=wander", "watch.gif" );
 				Preferences.setString( "enamorangMonster", monsterName );
 				return true;
 			}
