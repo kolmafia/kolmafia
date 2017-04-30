@@ -2228,6 +2228,9 @@ public class FightRequest
 		// Silly check for silly situation
 		if ( encounter == AdventureRequest.NOT_IN_A_FIGHT )
 		{
+			FightRequest.clearInstanceData();
+			FightRequest.inMultiFight = false;
+			FightRequest.choiceFollowsFight = false;
 			return;
 		}
 
