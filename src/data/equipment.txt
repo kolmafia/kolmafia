@@ -1572,7 +1572,7 @@ blue LavaCo Lamp&trade;	100	Mys: 35
 bobble-hip hula elf doll	40	Mys: 5
 bone abacus	100	Mys: 5
 borg sock monkey	110	Mys: 40
-botanical sample kit	0	none
+botanical sample kit	10	none
 bottle of Goldschn&ouml;ckered	75	Mox: 22
 bouquet of all-natural free-range flowers	10	none
 bowl of petunias	100	Mys: 44
@@ -1659,7 +1659,7 @@ foon of frigidity	50	Mys: 10
 foon of fulmination	50	Mys: 10
 Frigid Northern Beans	30	none	can of beans
 Gazpacho's Glacial Grimoire	30	none
-geological sample kit	0	none
+geological sample kit	10	none
 ghast iron heater shield	180	Mus: 75	shield
 ghostly reins	50	none
 giant clay ashtray	60	none	shield
@@ -1887,7 +1887,7 @@ sonar fishfinder	10	none
 Space Tourist palmdoctor	50	none
 spaghetti-box banjo	160	Mys: 150
 Spanish fly trap	10	none
-spant shield	0	Mus: 20	shield
+spant shield	100	Mus: 20	shield
 speed limit shield	100	Mus: 35	shield
 spiky turtle shield	130	Mus: 50	shield
 spongy shield	220	Mus: 95	shield
@@ -1994,7 +1994,7 @@ yakskin buckler	90	Mus: 30	shield
 yield shield	100	Mus: 35	shield
 Yorick	150	Mys: 25
 Zombo's shield	240	Mus: 200	shield
-zoological sample kit	0	none
+zoological sample kit	10	none
 
 # Accessories section of equipment.txt
 
@@ -2221,7 +2221,7 @@ Gaia beads	175	Mys: 72
 garish pinky ring	50	Mys: 10
 Garter of the Turtle Poacher	150	Mus: 45
 Gary Claybender's Time Screwer	50	none
-gate transceiver	0	none
+gate transceiver	10	none
 Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 ghost of a necklace	60	Mys: 15
@@ -2277,7 +2277,7 @@ heat-resistant gloves	100	Mox: 35
 heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
-high-friction boots	0	none
+high-friction boots	10	none
 hippy medical kit	175	Mys: 72
 hippy protest button	160	Mys: 65
 HOA zombie eyes	300	Mys: 100
@@ -2581,7 +2581,7 @@ Spacegate scientist's insignia	0	Mys: 75
 spade necklace	10	none
 spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
-spant shoulderpads	0	Mys: 20
+spant shoulderpads	100	Mys: 20
 spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	10	none
@@ -2978,7 +2978,7 @@ pillow shell	10	none
 polyester parachute	50	none
 porcelain pelerine	120	Mus: 40
 protonic accelerator pack	100	none
-rad cloak	0	none
+rad cloak	10	none
 Rain-Doh red wings	100	none
 rubber cape	200	Mys: 85
 saffron uttarasanga	100	Mus: 35
@@ -2990,7 +2990,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
-spant backplate	0	Mus: 20
+spant backplate	100	Mus: 20
 super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
