@@ -9486,7 +9486,7 @@
 9460	Non-Euclidean Finance	585580898	book3.gif	usable	t,d	400
 9461	Peek-a-Boo!	862120389	book5.gif	usable	t,d	400
 9462	Procrastinator locker key	901458331	key2.gif	none	q	0
-9463	Space Baby childrens' book	913377216	book3.gif	usable	t,d	12
+9463	Space Baby children's book	913377216	book3.gif	usable	t,d	12
 9464	Space Baby bawbaw	434723310	bawbaw.gif	none	t,d	6
 9465	portable Spacegate	313840046	portablesg.gif	usable	t	0
 9466	Aldebaran sardines	338492052	sardinecan.gif	food	t,d	33
