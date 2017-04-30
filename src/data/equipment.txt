@@ -2581,6 +2581,7 @@ Spacegate scientist's insignia	0	Mys: 75
 spade necklace	10	none
 spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
+spant shoulderpads	0	Mys: 20
 spark plug earring	180	Mys: 75
 sparkly engagement ring	0	none
 special sauce glove	10	none
