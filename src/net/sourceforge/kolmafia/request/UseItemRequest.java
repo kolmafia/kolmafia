@@ -3283,6 +3283,7 @@ public class UseItemRequest
 			     !responseText.contains( "feel beary" ) &&
 			     !responseText.contains( "knew how to maximize" ) &&
 			     !responseText.contains( "additional carrot" ) &&
+			     !responseText.contains( "larynx become even more pirate" ) &&
 			     !responseText.contains( "Beleven" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";
