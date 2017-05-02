@@ -479,6 +479,11 @@ public class ResponseTextParser
 			}
 		}
 
+		else if ( location.startsWith( "diary.php" ) )
+		{
+			UseItemRequest.handleDiary( responseText );
+		}
+
 		else if ( location.startsWith( "dig.php" ) )
 		{
 			DigRequest.parseResponse( location, responseText );
