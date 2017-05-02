@@ -1329,15 +1329,6 @@ public class UseItemRequest
 			RelayRequest request = new RelayRequest( false );
 			request.constructURLString( "diary.php?textversion=1" );
 			RequestThread.postRequest( request );
-			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step2" );
-			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.FINISHED );
-			QuestDatabase.setQuestIfBetter( Quest.DESERT, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( Quest.MANOR, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( Quest.SHEN, QuestDatabase.STARTED );
-			QuestDatabase.setQuestIfBetter( Quest.RON, QuestDatabase.STARTED );
-			// If Hidden Temple already unlocked, this completes step 1 of Gotta Worship Them All, otherwise start it.
-			String status = Preferences.getInteger( "lastTempleUnlock" ) == KoLCharacter.getAscensions() ? "step1" : QuestDatabase.STARTED;
-			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, status );
 			KoLmafia.updateDisplay( "Your father's diary has been read." );
 			return;
 		}
@@ -6758,5 +6749,21 @@ public class UseItemRequest
 		}
 		Preferences.setInteger( "lastEVHelmetValue", data );
 		Preferences.setInteger( "lastEVHelmetReset", KoLCharacter.getAscensions() );
+	}
+
+	public static final void handleDiary( final String responseText )
+	{
+		if ( responseText.contains( "Diary" ) )
+		{
+			QuestDatabase.setQuestIfBetter( Quest.MACGUFFIN, "step2" );
+			QuestDatabase.setQuestIfBetter( Quest.BLACK, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestIfBetter( Quest.DESERT, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.MANOR, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.SHEN, QuestDatabase.STARTED );
+			QuestDatabase.setQuestIfBetter( Quest.RON, QuestDatabase.STARTED );
+			// If Hidden Temple already unlocked, this completes step 1 of Gotta Worship Them All, otherwise start it.
+			String status = Preferences.getInteger( "lastTempleUnlock" ) == KoLCharacter.getAscensions() ? "step1" : QuestDatabase.STARTED;
+			QuestDatabase.setQuestIfBetter( Quest.WORSHIP, status );
+		}
 	}
 }
