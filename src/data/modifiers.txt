@@ -4445,6 +4445,7 @@ Effect	Bear Clawed	Weapon Damage Percent: +100
 # Bearserker Bearrage: +20 WarBear Armor Penetration
 Effect	Beastly Flavor	Familiar Weight: +3
 Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+Effect	Become Superficially interested	Combat Rate: -5
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
 # Effect Beer Barrel Polka: Makes booze more effective!
 Effect	Beer Barrel Polka	Booze Drop: +45
@@ -8350,6 +8351,8 @@ Item	d12	Effect: "Bastard!", Effect Duration: 10
 # d6: Stuns your opponent for 1-6 rounds
 # d8: Deals Prismatic Damage based on your Level
 Item	Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
+# Item Daily Affirmation: Be Superficially interested: In Combat: Superficially track a monster!
+Item	Daily Affirmation: Be Superficially interested	Effect: "Become Superficially interested", Effect Duration: 100
 Item	damp bar rag	Effect: "Two Car Bar Rag", Effect Duration: 100
 Item	dancing fan	Effect: "Fan Dancing", Effect Duration: 50
 Item	dandy lion cub	Free Pull
@@ -9188,7 +9191,7 @@ Item	nervous tick egg	Free Pull
 Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 # New Age healing crystal: Restores 500 HP
 # New Age healing crystal: (and briefly stuns your opponent)
-# New Cloaca-Cola: Restores 140-160 MP
+Item	New-You Club Membership Form	Free Pull
 # NG: Deals 40-70 Physical Damage
 Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Item	ninja eyeblack	Effect: "Waiting for Ninjas", Effect Duration: 50

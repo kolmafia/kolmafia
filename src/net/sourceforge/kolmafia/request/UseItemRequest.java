@@ -4589,6 +4589,18 @@ public class UseItemRequest
 			}
 			break;
 
+		case ItemPool.NEW_YOU_CLUB_MEMBERSHIP_FORM:
+			// Per the instructions on the back of the card, you
+			// place your hand over your heart and recite the
+			// membership oath: "I'm good enough, I'm smart enough,
+			// and doggone it, people like me!" You feel affirmed
+			// already!
+			if ( !responseText.contains( "instructions on the back of the card" ) )
+			{
+				return;
+			}
+			break;
+
 		case ItemPool.HONEYPOT:
 			// You gain the "Float Like a Butterfly, Smell Like a
 			// Bee" effect.	 This prevents bees from appearing
