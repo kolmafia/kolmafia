@@ -5831,6 +5831,17 @@ public abstract class RuntimeLibrary
 				return DataTypes.TRUE_VALUE;
 			}
 		}
+		if ( correspondent.equalsIgnoreCase( "newyou" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "4" );
+			request.run();
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "New-You Club" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to New-You Club" );
+				return DataTypes.TRUE_VALUE;
+			}
+		}
 		return DataTypes.FALSE_VALUE;
 	}
 

@@ -748,6 +748,9 @@ public class AccountRequest
 		case 3:
 			KoLCharacter.setEudora( "Xi Receiver Unit" );
 			break;
+		case 4:
+			KoLCharacter.setEudora( "New-You Club" );
+			break;
 		default:
 			KoLCharacter.setEudora( "Unknown" );
 			break;

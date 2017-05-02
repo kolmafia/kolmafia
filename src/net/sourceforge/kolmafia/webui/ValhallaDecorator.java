@@ -461,7 +461,7 @@ public class ValhallaDecorator
 		buffer.append( "</nobr><br>" );
 	}
 
-	private static final Pattern EUDORA_PATTERN = Pattern.compile( "<option (selected='selected' )?value=\"(\\d)\">([\\w\\s]*)" );
+	private static final Pattern EUDORA_PATTERN = Pattern.compile( "<option (selected='selected' )?value=\"(\\d)\">([\\w\\s-]*)" );
 	private static final void switchCorrespondent( final StringBuffer buffer )
 	{
 		GenericRequest eudoraCheck = new GenericRequest( "account.php?tab=correspondence" );
@@ -478,6 +478,7 @@ public class ValhallaDecorator
 		boolean havePenpal = false;
 		boolean haveGamemag = false;
 		boolean haveXi = false;
+		boolean haveNewYou = false;
 		String activeEudora = "";
 		Matcher matcher = ValhallaDecorator.EUDORA_PATTERN.matcher( response );
 
@@ -516,6 +517,17 @@ public class ValhallaDecorator
 					activeEudora = "Xi Receiver";
 				}
 			}
+			else if ( matcher.group(3).equals( "New-You Club" ) )
+			{
+				if ( matcher.group(1) == null )
+				{
+					haveNewYou = true;
+				}
+				else
+				{
+					activeEudora = "New-You Club";
+				}
+			}
 		}
 
 		if ( !havePenpal && !haveGamemag && !haveXi )
@@ -551,6 +563,14 @@ public class ValhallaDecorator
 			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+xi&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">Xi Receiver" );
+			buffer.append( "</option>" );
+		}
+		if ( haveNewYou )
+		{
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=eudora+newyou&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">New-You Club" );
 			buffer.append( "</option>" );
 		}
 
