@@ -45,7 +45,7 @@ public class EudoraCommand
 {
 	public EudoraCommand()
 	{
-		this.usage = " penpal|game|xi - switch to the specified correspondent";
+		this.usage = " penpal|game|xi|newyou - switch to the specified correspondent";
 	}
 
 	@Override
@@ -96,6 +96,20 @@ public class EudoraCommand
 			else
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to Xi Receiver" );
+			}
+		}
+		else if ( parameters.equals( "newyou" ) )
+		{
+			GenericRequest request = new GenericRequest( requestString + "4" );
+			request.run();
+			ApiRequest.updateStatus();
+			if ( KoLCharacter.getEudora().equals( "New-You Club" ) )
+			{
+				KoLmafia.updateDisplay( "Switched to New-You Club" );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot switch to New-You Club" );
 			}
 		}
 		else if ( parameters.length() == 0 )
