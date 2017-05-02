@@ -9509,3 +9509,4 @@
 9483	Daily Affirmation: Be a Mind Master	763042202	newyoucard5.gif	multiple, combat	t,d	5
 9484	Daily Affirmation: Work For Hours a Week	594054996	newyoucard6.gif	multiple, combat	t,d	5
 9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	usable	t,d	5
+9486	Affirmation Cookie	861232060	cookie.gif	food	t,d	5
