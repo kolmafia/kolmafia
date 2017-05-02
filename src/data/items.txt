@@ -9502,6 +9502,10 @@
 9476
 9477
 9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
-9479
-9480
+9479	Daily Affirmation: Always be Collecting	121669048	newyoucard1.gif	multiple, combat	t,d	5
+9480	Daily Affirmation: Think Win-Lose	190121003	newyoucard2.gif	multiple, combat	t,d	5
 9481	Daily Affirmation: Be Superficially interested	401765762	newyoucard3.gif	multiple, combat	t,d	5
+9482	Daily Affirmation: Adapt to Change Eventually	631908932	newyoucard4.gif	multiple, combat	t,d	5
+9483	Daily Affirmation: Be a Mind Master	763042202	newyoucard5.gif	multiple, combat	t,d	5
+9484	Daily Affirmation: Work For Hours a Week	594054996	newyoucard6.gif	multiple, combat	t,d	5
+9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	usable	t,d	5
