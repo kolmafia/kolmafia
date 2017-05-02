@@ -4330,6 +4330,7 @@ Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min:
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
 Effect	Ack! Barred!	Muscle Percent: +30
 Effect	Action	Muscle Percent: +100
+Effect	Adapt to Change Eventually	Experience: +4, Initiative: +50
 Effect	Adorable Lookout	Initiative: +30
 Effect	Adrenaline Rush	Muscle Percent: +100
 Effect	Adventurer's Best Friendship	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
@@ -4358,6 +4359,7 @@ Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysti
 Effect	Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Spell Damage: +25
 Effect	Also Schmeckt Zarathustra	Mysticality: +30
 Effect	Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
+Effect	Always be Collecting	Item drop: +50, Meat Drop: +100
 Effect	Always In Motion	Initiative: +100
 Effect	Amazing	Moxie Percent: +200, Hot Resistance: +4
 Effect	Amorous	Moxie: +5, Sleaze Damage: +5
@@ -4441,6 +4443,7 @@ Effect	Bats in the Belfry	Mysticality Percent: +10
 Effect	Batted Around	Avatar: "perpendicular bat"
 Effect	Batteries Included	Crimbot Outfit Power: +4
 Effect	Batwards Masking	Avatar: "Batburglar"
+Effect	Be a Mind Master	Spell Damage Percent: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Bear Clawed	Weapon Damage Percent: +100
 # Bearserker Bearrage: +20 WarBear Armor Penetration
 Effect	Beastly Flavor	Familiar Weight: +3
@@ -5414,6 +5417,7 @@ Effect	Jukebox Hero	Item Drop: +300
 Effect	Just Aged Enough	Moxie: +25
 # Just the Best Anapests: Da da dee, da da dee
 Effect	Just the Brown Ones	Moxie: +15
+Effect	Keep Free Hate in your Heart	Monster Level: +30, Damage Absorption: +10
 Effect	Kernel Panic!	Critical Hit Percent: +5
 Effect	Kicked in the Sinuses	Meat Drop: +100
 Effect	Kid Dracularp	Avatar: "vampire"
@@ -6363,6 +6367,7 @@ Effect	Thicker, Sicker	Damage Reduction: 15
 Effect	Thickest, Sickest	Damage Reduction: 30
 # Things Man Was Not Meant to Eat: Full of Loathing
 Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: +25, Item Drop: +20, Meat Drop: +20, Pickpocket Chance: +10, Spell Damage Percent: +100, Weapon Damage Percent: +50
+Effect	Think Win-Lose	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
@@ -6561,6 +6566,7 @@ Effect	Withered Heart	Item Drop: [min(T,20)], Mysticality: [min(T,20)]
 Effect	Wizard Squint	Spell Critical Percent: +10
 Effect	Woad Warrior	Muscle: +25
 # Wolf's Bane: +50% Damage vs. Werewolves
+Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25
 Effect	Wreathed in Merriment	Moxie Percent: +10
@@ -8351,8 +8357,20 @@ Item	d12	Effect: "Bastard!", Effect Duration: 10
 # d6: Stuns your opponent for 1-6 rounds
 # d8: Deals Prismatic Damage based on your Level
 Item	Daffy Taffy	Effect: "Sugar Rush", Effect Duration: 3
+# Item Daily Affirmation: Adapt to Change Eventually: In Combat: Enact Immediate Change!
+Item	Daily Affirmation: Adapt to Change Eventually	Effect: "Adapt to Change Eventually", Effect Duration: 100
+# Item Daily Affirmation: Always be Collecting: In Combat: Collect more stuff after a fight!
+Item	Daily Affirmation: Always be Collecting	Effect: "Always be Collecting", Effect Duration: 100
+# Item Daily Affirmation: Be a Mind Master: In Combat: Banish Terrible Encounters!
+Item	Daily Affirmation: Be a Mind Master	Effect: "Be a Mind Master", Effect Duration: 100
 # Item Daily Affirmation: Be Superficially interested: In Combat: Superficially track a monster!
 Item	Daily Affirmation: Be Superficially interested	Effect: "Become Superficially interested", Effect Duration: 100
+# Item Daily Affirmation: Keep Free Hate in your Heart: In Combat: Demean Foes and Increase Your Belligerence
+Item	Daily Affirmation: Keep Free Hate in your Heart	Effect: "Keep Free Hate in your Heart", Effect Duration: 100
+# Item Daily Affirmation: Think Win-Lose: In Combat: Force a win!
+Item	Daily Affirmation: Think Win-Lose	Effect: "Think Win-Lose", Effect Duration: 100
+# Item Daily Affirmation: Work For Hours a Week: In Combat: Earn Active Income!
+Item	Daily Affirmation: Work For Hours a Week	Effect: "Work For Hours a Week", Effect Duration: 100
 Item	damp bar rag	Effect: "Two Car Bar Rag", Effect Duration: 100
 Item	dancing fan	Effect: "Fan Dancing", Effect Duration: 50
 Item	dandy lion cub	Free Pull
