@@ -9498,3 +9498,10 @@
 9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t	0
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
+9475
+9476
+9477
+9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
+9479
+9480
+9481	Daily Affirmation: Be Superficially interested	401765762	newyoucard3.gif	multiple, combat	t,d	5
