@@ -548,14 +548,16 @@ public class Preferences
 		{
 			current += delta;
 
-			if ( mod && max > 0 && current >= max )
+			if ( max > 0 && current >= max )
 			{
-				current %= max;
-			}
-
-			if ( max > 0 && current > max )
-			{
-				current = max;
+				if ( mod )
+				{
+					current %= max;
+				}
+				else
+				{
+					current = max;
+				}
 			}
 
 			Preferences.setInteger( name, current );

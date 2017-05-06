@@ -9428,7 +9428,7 @@ public abstract class ChoiceManager
 			// Land Ho
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.increment( "spacePirateLanguageFluency", 10 );
+				Preferences.increment( "spacePirateLanguageFluency", 10, 100, false );
 			}
 			break;
 
@@ -9442,7 +9442,7 @@ public abstract class ChoiceManager
 				}
 				else
 				{
-					Preferences.increment( "spacePirateLanguageFluency", 5 );
+					Preferences.increment( "spacePirateLanguageFluency", 5, 100, false );
 				}
 			}
 			break;
@@ -9456,25 +9456,21 @@ public abstract class ChoiceManager
 			break;
 
 		case 1249:
-			// That's No Monolith, it's a Monolith Ho
+			// That's No Monolith, it's a Monolith
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.increment( "procrastinatorLanguageFluency", 20 );
+				Preferences.increment( "procrastinatorLanguageFluency", 20, 100, false );
 				ResultProcessor.removeItem( ItemPool.MURDERBOT_DATA_CORE );
 			}
 			break;
 
 		case 1250:
-			// Half the Ship it used to Be
+			// I'm Afraid It's Terminal
 			if ( ChoiceManager.lastDecision == 1 )
 			{
 				if ( text.contains( "You acquire an item" ) )
 				{
-					Preferences.setInteger( "spacePirateLanguageFluency", 0 );
-				}
-				else
-				{
-					// What?
+					Preferences.setInteger( "procrastinatorLanguageFluency", 0 );
 				}
 			}
 			break;
@@ -9504,10 +9500,6 @@ public abstract class ChoiceManager
 				if ( text.contains( "You acquire an item" ) )
 				{
 					Preferences.setInteger( "spaceBabyLanguageFluency", 0 );
-				}
-				else
-				{
-					// What?
 				}
 			}
 			break;
