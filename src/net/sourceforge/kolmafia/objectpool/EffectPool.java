@@ -329,6 +329,8 @@ public class EffectPool
 	public static final int SYNTHESIS_MOVEMENT = 2177;
 	public static final int SYNTHESIS_LEARNING = 2178;
 	public static final int SYNTHESIS_STYLE = 2179;
+	public static final int SUPERFICIALLY_INTERESTED = 2288;
+	public static final int INTENSELY_INTERESTED = 2289;
 
 	public static final AdventureResult get( final int effectId )
 	{

@@ -1372,7 +1372,6 @@ public class Maximizer
 				}
 				else if ( cmd.startsWith( "campground vault3" ) )
 				{
-					AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
 					if ( !KoLCharacter.inNuclearAutumn() )
 					{
 						continue;
@@ -1396,6 +1395,14 @@ public class Maximizer
 				{
 					item = ItemPool.get( ItemPool.SKELETON, 1 );
 					duration = 30;
+				}
+				else if ( cmd.startsWith( "toggle" ) )
+				{
+					if ( !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.INTENSELY_INTERESTED ) ) &&
+					     !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.SUPERFICIALLY_INTERESTED ) ) )
+					{
+						continue;
+					}
 				}
 
 				if ( item != null )
