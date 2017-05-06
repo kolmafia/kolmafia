@@ -4448,6 +4448,7 @@ Effect	Bear Clawed	Weapon Damage Percent: +100
 # Bearserker Bearrage: +20 WarBear Armor Penetration
 Effect	Beastly Flavor	Familiar Weight: +3
 Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
+Effect	Become Intensely interested	Combat Rate: +5
 Effect	Become Superficially interested	Combat Rate: -5
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
 # Effect Beer Barrel Polka: Makes booze more effective!

@@ -2284,10 +2284,10 @@
 2283	Spring Training	spring.gif	6bde966f3414c20ad674c6caef5c85a4	use 1 murderbot spring injector
 2284	Hyperoxygenated Blood	blooddrops.gif	06c23a2c08e1e798efc5365b91ad6665	chew 1 powdered oxygen
 2285	Spirit of Galactic Unity	blackheart.gif	59c1c9eff7f18414ed6716e969c153d6
-2286
-2287	Always be Collecting	foldednote.gif	8c8332e4a6065eb5cbf229062cb64663	use 1 Daily Affirmation: Always be Collecting
-2288	Become Superficially interested	foldednote.gif	3ae7ac0713f04156fd2b53a37b450b83	use 1 Daily Affirmation: Be Superficially interested
-2289	Think Win-Lose	foldednote.gif	15e085fdaa0b4b22b52381f094e14b27	use 1 Daily Affirmation: Think Win-Lose
+2286	Always be Collecting	foldednote.gif	8c8332e4a6065eb5cbf229062cb64663	use 1 Daily Affirmation: Always be Collecting
+2287	Think Win-Lose	foldednote.gif	15e085fdaa0b4b22b52381f094e14b27	use 1 Daily Affirmation: Think Win-Lose
+2288	Become Superficially interested	foldednote.gif	3ae7ac0713f04156fd2b53a37b450b83	use 1 Daily Affirmation: Be Superficially interested|toggle Become Intensely interested
+2289	Become Intensely interested	foldednote.gif	4dedd7ca824340c7267ce393292dd1e9	toggle Become Superficially interested
 2290	Adapt to Change Eventually	foldednote.gif	be6aefbd2f80d32224bcc87ced7b03f2	use 1 Daily Affirmation: Adapt to Change Eventually
 2291	Be a Mind Master	foldednote.gif	7927f8fded8242d6895637f1e8bc0b15	use 1 Daily Affirmation: Be a Mind Master
 2292	Work For Hours a Week	foldednote.gif	7272d8675fff329c116b07aa39e111a0	use 1 Daily Affirmation: Work For Hours a Week
