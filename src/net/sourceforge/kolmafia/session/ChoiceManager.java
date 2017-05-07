@@ -9428,7 +9428,7 @@ public abstract class ChoiceManager
 			// Land Ho
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.increment( "spacePirateLanguageFluency", 10, 100, false );
+				ChoiceManager.parseLanguageFluency( text, "spacePirateLanguageFluency" );
 			}
 			break;
 
@@ -9442,7 +9442,7 @@ public abstract class ChoiceManager
 				}
 				else
 				{
-					Preferences.increment( "spacePirateLanguageFluency", 5, 100, false );
+					ChoiceManager.parseLanguageFluency( text, "spacePirateLanguageFluency" );
 				}
 			}
 			break;
@@ -9459,7 +9459,7 @@ public abstract class ChoiceManager
 			// That's No Monolith, it's a Monolith
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				Preferences.increment( "procrastinatorLanguageFluency", 20, 100, false );
+				ChoiceManager.parseLanguageFluency( text, "procrastinatorLanguageFluency" );
 				ResultProcessor.removeItem( ItemPool.MURDERBOT_DATA_CORE );
 			}
 			break;
@@ -14760,6 +14760,16 @@ public abstract class ChoiceManager
 			}
 		}
 		return false;
+	}
+
+	private static final Pattern FLUENCY_PATTERN = Pattern.compile( "Fluency is now (\\d+)%" );
+	public static void parseLanguageFluency( final String text, final String setting )
+	{
+		Matcher m = FLUENCY_PATTERN.matcher( text );
+		if ( m.find() )
+		{
+			Preferences.setInteger( setting, StringUtilities.parseInt( m.group( 1 ) ) );
+		}
 	}
 	
 	public static boolean canWalkAway()
