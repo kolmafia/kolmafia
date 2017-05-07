@@ -5919,7 +5919,7 @@ public class UseItemRequest
 				// If you already have access it is not consumed
 				return;
 			}
-			Preferences.increment( "spaceBabyLanguageFluency", 10, 100, false );
+			ChoiceManager.parseLanguageFluency( responseText, "spaceBabyLanguageFluency" );
 			break;
 		}
 
