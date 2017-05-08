@@ -4359,7 +4359,7 @@ Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysti
 Effect	Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Spell Damage: +25
 Effect	Also Schmeckt Zarathustra	Mysticality: +30
 Effect	Altered Wavelengths	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
-Effect	Always be Collecting	Item drop: +50, Meat Drop: +100
+Effect	Always be Collecting	Item Drop: +50, Meat Drop: +100
 Effect	Always In Motion	Initiative: +100
 Effect	Amazing	Moxie Percent: +200, Hot Resistance: +4
 Effect	Amorous	Moxie: +5, Sleaze Damage: +5
