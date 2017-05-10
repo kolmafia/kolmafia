@@ -330,6 +330,7 @@ public class FileUtilities
 		}
 		catch ( IOException e )
 		{
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 
