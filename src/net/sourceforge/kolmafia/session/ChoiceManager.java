@@ -12248,7 +12248,7 @@ public abstract class ChoiceManager
 			}
 			return "1";
 		case 894:
-			if ( automation == 1 && responseText.contains( "Go to the Childrens' Section" ) )
+			if ( automation == 1 && responseText.contains( "Go to the Children's Section" ) )
 			{
 				return "2";
 			}
