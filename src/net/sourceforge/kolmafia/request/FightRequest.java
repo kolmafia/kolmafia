@@ -180,7 +180,6 @@ public class FightRequest
 
 	private static String consultScriptThatDidNothing = null;
 	public static boolean waitingForSpecial;
-	public static String ireallymeanit = null;
 
 	public static String lastResponseText = "";
 	public static String currentEncounter = "";
@@ -873,12 +872,6 @@ public class FightRequest
 		{
 			FightRequest.macroPrefixLength = 0;
 			FightRequest.nextAction = null;
-
-			if ( FightRequest.ireallymeanit != null )
-			{
-				this.addFormField( "ireallymeanit", FightRequest.ireallymeanit );
-				FightRequest.ireallymeanit = null;
-			}
 
 			String macro = Macrofier.macrofyRoundZero();
 			if ( macro != null && macro.length() > 0 && ( macro.contains( "\n" ) || macro.contains( ";" ) ) )
@@ -1891,6 +1884,23 @@ public class FightRequest
 	@Override
 	public void run()
 	{
+		this.run( null );
+	}
+
+	public void run( final String redirectLocation )
+	{
+		if ( redirectLocation != null )
+		{
+			// The first request will contain "ireallymeanit" and
+			// apparently KoL has to actually follow the redirect
+			// before the actual round zero is ready to go.
+
+			this.constructURLString( redirectLocation, false );
+			super.run();
+
+			// Carry on with the rest of the automation
+		}
+
 		this.constructURLString( "fight.php" );
 
 		FightRequest.isAutomatingFight = true;

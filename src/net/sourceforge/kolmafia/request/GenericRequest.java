@@ -2222,7 +2222,7 @@ public class GenericRequest
 			     this instanceof UseSkillRequest )
 			{
 				this.redirectHandled = true;
-				FightRequest.INSTANCE.run();
+				FightRequest.INSTANCE.run( this.redirectLocation );
 				if ( FightRequest.currentRound == 0 && !FightRequest.inMultiFight && !FightRequest.choiceFollowsFight )
 				{
 					KoLmafia.executeAfterAdventureScript();
@@ -2345,13 +2345,8 @@ public class GenericRequest
 			     this instanceof AdventureRequest ||
 			     this instanceof BasementRequest )
 			{
-				int pos = this.redirectLocation.indexOf( "ireallymeanit=" );
-				if ( pos != -1 )
-				{
-					FightRequest.ireallymeanit = this.redirectLocation.substring( pos + 14 );
-				}
 				this.redirectHandled = true;
-				FightRequest.INSTANCE.run();
+				FightRequest.INSTANCE.run( this.redirectLocation );
 				return !LoginRequest.isInstanceRunning();
 			}
 
