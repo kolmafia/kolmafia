@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
 
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -176,7 +175,9 @@ public class CheckedItem
 		}
 
 		// We never want to suggest turning Mr. Accessories into other items
-		if ( c.getIngredients().length > 0 && ( MrStoreRequest.MR_A ).equals( c.getIngredients()[0] ) )
+		if ( c.getIngredients().length > 0 && (
+		     ( MrStoreRequest.MR_A ).equals( c.getIngredients()[0] ) ||
+		     ( MrStoreRequest.UNCLE_B ).equals( c.getIngredients()[0] ) ) )
 		{
 			this.creatable = 0;
 		}
