@@ -460,7 +460,7 @@ public class Modifiers
 		},
 		{ "Adventures",
 		  Pattern.compile( "([+-]\\d+) Adventure\\(s\\) per day( when equipped)?" ),
-		  Pattern.compile( "^Adventures: " + EXPR )
+		  Pattern.compile( "Adventures: " + EXPR )
 		},
 		{ "Familiar Weight Percent",
 		  Pattern.compile( "([+-]\\d+)% Familiar Weight" ),
