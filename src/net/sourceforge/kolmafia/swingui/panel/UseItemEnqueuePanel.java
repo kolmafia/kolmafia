@@ -820,6 +820,14 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( KoLCharacter.inBondcore() && UseItemEnqueuePanel.this.booze )
+			{
+				if ( !ConsumablesDatabase.isMartini( creation.getItemId() ) )
+				{
+					return false;
+				}
+			}
+
 			if ( creation.fancydog && !Limitmode.limitClan() &&
 			     ( ConcoctionDatabase.queuedFancyDog || Preferences.getBoolean( "_fancyHotDogEaten" ) ) )
 			{
