@@ -333,7 +333,7 @@ public class AfterLifeRequest
 		// afterlife.php?action=ascend&confirmascend=1&whichsign=2&gender=2&whichclass=4&whichpath=4&asctype=3
 		else if ( action.equals( "ascend" ) )
 		{
-			if ( urlString.indexOf( "confirmascend=1" ) == -1 )
+			if ( !urlString.contains( "confirmascend=1" ) )
 			{
 				return true;
 			}
@@ -570,6 +570,9 @@ public class AfterLifeRequest
 				break;
 			case 29:
 				builder.append( "a Gelatinous Noob" );
+				break;
+			case 30:
+				builder.append( "a License to Adventure" );
 				break;
 			default:
 				builder.append( "(Path " );

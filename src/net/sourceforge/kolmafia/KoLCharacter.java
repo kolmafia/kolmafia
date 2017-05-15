@@ -174,6 +174,7 @@ public abstract class KoLCharacter
 	public static final String THE_SOURCE = "The Source";
 	public static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
 	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
+	public static final String LICENSE = "License to Adventure";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -3904,6 +3905,11 @@ public abstract class KoLCharacter
 	public static final boolean inNoobcore()
 	{
 		return KoLCharacter.ascensionPath.equals( GELATINOUS_NOOB );
+	}
+
+	public static final boolean inBondcore()
+	{
+		return KoLCharacter.ascensionPath.equals( LICENSE );
 	}
 
 	public static final boolean isUnarmed()
