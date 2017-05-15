@@ -880,6 +880,11 @@ public abstract class KoLCharacter
 			limit = 2;
 		}
 
+		else if ( KoLCharacter.inBondcore() )
+		{
+			limit = KoLCharacter.getLevel() + 2;
+		}
+
 		if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
 		{
 			limit += 5;
@@ -3973,7 +3978,7 @@ public abstract class KoLCharacter
 			return false;
 		}
 
-		if ( KoLCharacter.inNoobcore() )
+		if ( KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() )
 		{
 			return false;
 		}

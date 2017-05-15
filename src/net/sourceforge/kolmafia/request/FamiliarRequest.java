@@ -396,7 +396,8 @@ public class FamiliarRequest
 		// Jarlsberg didn't trust any companion that he didn't summon himself.
 		// Familiars weren't cool enough for Pete.
 		// Ed already has more than enough servants.
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() ||
+		     KoLCharacter.inBondcore() )
 		{
 			return;
 		}
