@@ -822,7 +822,7 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.inBondcore() && UseItemEnqueuePanel.this.booze )
 			{
-				if ( !ConsumablesDatabase.isMartini( creation.getItemId() ) )
+				if ( !"martini.gif".equals( ItemDatabase.getImage( creation.getItemId() ) ) )
 				{
 					return false;
 				}
