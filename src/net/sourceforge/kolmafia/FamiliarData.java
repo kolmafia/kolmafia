@@ -166,7 +166,8 @@ public class FamiliarData
 	public final boolean canEquip()
 	{
 		// Familiars cannot be equipped by most Avatar classes
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() ||
+		     KoLCharacter.inBondcore() )
 		{
 			return false;
 		}
