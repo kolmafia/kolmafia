@@ -300,7 +300,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.food = st.nextToken().trim();
+			this.food = st.nextToken().replaceFirst( "\\([\\d,]+\\)", "" ).trim();
 		}
 		else
 		{
@@ -313,7 +313,7 @@ public class ProfileRequest
 			{
 				;
 			}
-			this.drink = st.nextToken().trim();
+			this.drink = st.nextToken().replaceFirst( "\\([\\d,]+\\)", "" ).trim();
 		}
 		else
 		{
