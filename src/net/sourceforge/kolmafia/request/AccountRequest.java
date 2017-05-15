@@ -714,6 +714,10 @@ public class AccountRequest
 		{
 			path = "Gelatinous Noob";
 		}
+		else if ( path.equals( "30" ) )
+		{
+			path = "License to Adventure";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
