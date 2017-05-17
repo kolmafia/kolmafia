@@ -677,6 +677,32 @@ public class ValhallaManager
 		Preferences.resetToDefault( "falloutShelterCoolingTankUsed" );
 		// Gelatinous Noob
 		Preferences.increment( "noobPoints", Preferences.getInteger( "noobDeferredPoints" ) );
+		// License to Adventure
+		Preferences.setBoolean( "bondAdv", false );
+		Preferences.setBoolean( "bondWpn", false );
+		Preferences.setBoolean( "bondInit", false );
+		Preferences.setBoolean( "bondDA", false );
+		Preferences.setBoolean( "bondHP", false );
+		Preferences.setBoolean( "bondItem2", false );
+		Preferences.setBoolean( "bondStat", false );
+		Preferences.setBoolean( "bondDrunk1", false );
+		Preferences.setBoolean( "bondBooze", false );
+		Preferences.setBoolean( "bondSymbols", false );
+		Preferences.setBoolean( "bondDrunk2", false );
+		Preferences.setBoolean( "bondJetpack", false );
+		Preferences.setBoolean( "bondStealth", false );
+		Preferences.setBoolean( "bondMartiniTurn", false );
+		Preferences.setBoolean( "bondMeat", false );
+		Preferences.setBoolean( "bondItem1", false );
+		Preferences.setBoolean( "bondMus1", false );
+		Preferences.setBoolean( "bondMys1", false );
+		Preferences.setBoolean( "bondMox1", false );
+		Preferences.setBoolean( "bondBeach", false );
+		Preferences.setBoolean( "bondBeat", false );
+		Preferences.setBoolean( "bondMartiniDelivery", false );
+		Preferences.setBoolean( "bondMus2", false );
+		Preferences.setBoolean( "bondMys2", false );
+		Preferences.setBoolean( "bondMox2", false );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
