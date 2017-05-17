@@ -883,6 +883,14 @@ public abstract class KoLCharacter
 		else if ( KoLCharacter.inBondcore() )
 		{
 			limit = KoLCharacter.getLevel() + 2;
+			if ( Preferences.getBoolean( "bondDrunk1" ) )
+			{
+				limit += 1;
+			}
+			if ( Preferences.getBoolean( "bondDrunk2" ) )
+			{
+				limit += 2;
+			}
 		}
 
 		if ( KoLCharacter.hasSkill( "Liver of Steel" ) )

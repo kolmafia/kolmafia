@@ -12081,6 +12081,182 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+
+		case 1259: // LI-11 HQ
+			if ( text.contains( "LI-11 HQ" ) )
+			{
+				Pattern capitalPattern = Pattern.compile( "<input type=\"hidden\" name=\"k\" value=\"(\\d+)\" /><input type=\"hidden\" name=\"w\" value=\"(s|p)\" />" );
+				boolean bondAdv = true, bondWpn = true, bondInit = true, bondDR = true, bondHP = true, bondItem2 = true,
+				bondStat = true, bondDrunk1 = true, bondBooze = true, bondSymbols = true, bondDrunk2 = true, bondJetpack = true, bondStealth = true,
+				bondMartiniTurn = true, bondMeat = true, bondItem1 = true, bondMus1 = true, bondMys1 = true, bondMox1 = true,
+				bondBeach = true, bondBeat = true, bondMartiniDelivery = true, bondMus2 = true, bondMys2 = true, bondMox2 = true;
+				Matcher matcher = capitalPattern.matcher( text );
+				while ( matcher.find() )
+				{
+					int value = Integer.parseInt( matcher.group( 1 ) );
+					switch ( value )
+					{
+					case 1:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondAdv = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMartiniTurn = false;
+						}
+						break;
+					case 2:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondWpn = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMeat = false;
+						}
+						break;
+					case 3:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondInit = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondItem1 = false;
+						}
+						break;
+					case 4:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondDR = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMus1 = false;
+						}
+						break;
+					case 5:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondHP = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMys1 = false;
+						}
+						break;
+					case 6:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondItem2 = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMox1 = false;
+						}
+						break;
+					case 7:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondStat = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondBeach = false;
+						}
+						break;
+					case 8:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondDrunk1 = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondBeat = false;
+						}
+						break;
+					case 9:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondBooze = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMartiniDelivery = false;
+						}
+						break;
+					case 10:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondSymbols = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMus2 = false;
+						}
+						break;
+					case 11:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondDrunk2 = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMys2 = false;
+						}
+						break;
+					case 12:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondJetpack = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMox2 = false;
+						}
+						break;
+					case 13:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondStealth = false;
+						}
+						break;
+					}
+				}
+				Preferences.setBoolean( "bondAdv", bondAdv );
+				Preferences.setBoolean( "bondWpn", bondWpn );
+				Preferences.setBoolean( "bondInit", bondInit );
+				Preferences.setBoolean( "bondDA", bondDR );
+				Preferences.setBoolean( "bondHP", bondHP );
+				Preferences.setBoolean( "bondItem2", bondItem2 );
+				Preferences.setBoolean( "bondStat", bondStat );
+				Preferences.setBoolean( "bondDrunk1", bondDrunk1 );
+				Preferences.setBoolean( "bondBooze", bondBooze );
+				Preferences.setBoolean( "bondSymbols", bondSymbols );
+				Preferences.setBoolean( "bondDrunk2", bondDrunk2 );
+				Preferences.setBoolean( "bondJetpack", bondJetpack );
+				Preferences.setBoolean( "bondStealth", bondStealth );
+				Preferences.setBoolean( "bondMartiniTurn", bondMartiniTurn );
+				Preferences.setBoolean( "bondMeat", bondMeat );
+				Preferences.setBoolean( "bondItem1", bondItem1 );
+				Preferences.setBoolean( "bondMus1", bondMus1 );
+				Preferences.setBoolean( "bondMys1", bondMys1 );
+				Preferences.setBoolean( "bondMox1", bondMox1 );
+				Preferences.setBoolean( "bondBeach", bondBeach );
+				Preferences.setBoolean( "bondBeat", bondBeat );
+				Preferences.setBoolean( "bondMartiniDelivery", bondMartiniDelivery );
+				Preferences.setBoolean( "bondMus2", bondMus2 );
+				Preferences.setBoolean( "bondMys2", bondMys2 );
+				Preferences.setBoolean( "bondMox2", bondMox2 );
+				if ( bondBeach )
+				{
+					KoLCharacter.setDesertBeachAvailable();
+				}
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+			}
 		}
 	}
 

@@ -10169,6 +10169,7 @@ Florist	Seltzer Watercress	MP Regen Min: 5, MP Regen Max: 15
 # Path section
 
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
+Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)], Experience: [2*pref(bondStat)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)]
 
 # Indoor Plants
 
