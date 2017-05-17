@@ -9000,7 +9000,7 @@
 8974	eldritch oil	650209099	darkvial.gif	usable	t,d	50
 8975	exclusive club	812957838	exclusiveclub.gif	weapon	t	0
 8976	patent preventative tonic	994670440	coughsyrup.gif	usable	t,d	100
-8977	patent invisibility tonic	837072744	wine2.gif	usable	t,d	100
+8977	patent invisibility tonic	837072744	wine2.gif	multiple	t,d	100
 8978	patent aggression tonic	740807150	champagne.gif	usable	t,d	100
 8979	patent sallowness tonic	525068963	inkbottle.gif	usable	t,d	100
 8980	patent avarice tonic	645800628	fancybrew.gif	usable	t,d	100
