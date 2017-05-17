@@ -882,7 +882,7 @@ public abstract class KoLCharacter
 
 		else if ( KoLCharacter.inBondcore() )
 		{
-			limit = KoLCharacter.getLevel() + 2;
+			limit = Math.min( KoLCharacter.getLevel(), 11 ) + 2;
 			if ( Preferences.getBoolean( "bondDrunk1" ) )
 			{
 				limit += 1;
