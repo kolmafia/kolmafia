@@ -227,6 +227,8 @@ public abstract class ClanManager
 					ConcoctionDatabase.getUsables().add( c );
 				}
 				ConcoctionDatabase.refreshConcoctions();
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
 				return;
 			}
 

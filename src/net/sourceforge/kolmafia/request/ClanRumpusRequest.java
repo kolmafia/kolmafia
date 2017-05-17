@@ -527,6 +527,7 @@ public class ClanRumpusRequest
 			}
 		}
 		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 
 		matcher = GenericRequest.ACTION_PATTERN.matcher( urlString );
 		String action = matcher.find() ? matcher.group(1) : null;
