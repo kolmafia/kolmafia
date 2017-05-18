@@ -1804,7 +1804,8 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || 
+		     KoLCharacter.isEd() || KoLCharacter.inBondcore() )
 		{
 			return false;
 		}
