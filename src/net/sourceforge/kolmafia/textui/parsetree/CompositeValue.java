@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -136,7 +137,27 @@ public class CompositeValue
 			throw new ScriptException( "Invalid key in data file: " + keyString );
 		}
 
-		Type dataType = type.getDataType( key );
+		Type dataType = type.getDataType( key ).getBaseType();
+
+		// If data is a zero-length array, read all remaining fields
+		// into it and set the length of the array appropriately.
+
+		if ( dataType instanceof AggregateType )
+		{
+			AggregateType atype = (AggregateType)dataType;
+			if ( atype.getSize() == 0 )
+			{
+				Type dtype = atype.getDataType();
+				ArrayList<Value> values = new ArrayList<Value>();
+				for ( int i = index + 1; i < data.length; i++ )
+				{
+					values.add( Value.readValue( dtype, data[ i ], filename, line ) );
+				}
+				int count = values.size();
+				this.aset( key, new ArrayLiteral( new AggregateType( atype ), values ) );
+				return data.length - index;
+			}
+		}
 
 		// If the data is another composite, recurse until we get the
 		// final slice

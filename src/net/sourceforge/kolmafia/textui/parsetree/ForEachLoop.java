@@ -120,6 +120,13 @@ public class ForEachLoop
 		// Get the next key variable
 		VariableReference nextVariable = it.hasNext() ? it.next() : null;
 
+		// If the slice is an AggregateLiteral, must execute it to
+		// initialize the values.
+		if ( slice instanceof AggregateLiteral )
+		{
+			slice.execute( interpreter );
+		}
+
 		// Get an iterator over the keys for the slice
 		Iterator<Value> keys = slice.iterator();
 		
