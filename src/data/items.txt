@@ -9511,4 +9511,4 @@
 9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	usable	t,d	5
 9486	Affirmation Cookie	861232060	cookie.gif	food	t,d	5
 9487	License To Kill	666441939	licensetokill.gif	usable	t	0
-9488	Thwaitgold bug statue	754030701	thwaitbug.gif	none	t	0
+9488	Thwaitgold bug statue	754030701	thwaitbug.gif	none		0
