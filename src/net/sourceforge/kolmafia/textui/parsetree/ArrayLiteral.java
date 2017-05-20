@@ -99,4 +99,14 @@ public class ArrayLiteral
 
 		return this.aggr;
 	}
+
+	@Override
+	public int count()
+	{
+		if ( this.aggr != null )
+		{
+			return this.aggr.count();
+		}
+		return this.values.size();
+	}
 }

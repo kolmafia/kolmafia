@@ -74,4 +74,14 @@ public class MapLiteral
 
 		return this.aggr;
 	}
+
+	@Override
+	public int count()
+	{
+		if ( this.aggr != null )
+		{
+			return this.aggr.count();
+		}
+		return this.keys.size();
+	}
 }
