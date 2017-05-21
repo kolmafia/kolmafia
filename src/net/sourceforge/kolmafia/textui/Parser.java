@@ -2776,7 +2776,18 @@ public class Parser
 
 		this.readToken(); // oper
 
-		Value rhs = this.parseExpression( scope );
+		Value rhs;
+
+		Type ltype = lhs.getType().getBaseType();
+		if ( operStr.equals( "=" ) && "{".equals( this.currentToken() ) && ltype instanceof AggregateType )
+		{
+			this.readToken(); // read {
+			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
+		}
+		else
+		{
+			rhs = this.parseExpression( scope );
+		}
 
 		if ( rhs == null )
 		{
