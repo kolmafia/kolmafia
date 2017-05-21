@@ -4830,6 +4830,8 @@ Effect	Dilated Pupils	Item Drop: +20
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 # Dirty Pear: All Bonus Sleaze Damage is doubled
 # Dis Abled: Grants access to the Suburb of Dis
+# Disavowed reduces a bunch of stuff based on how many times it has been given that day
+# Effect	Disavowed	Muscle: [-X], Mysticality: [-X], Moxie: [-X], Item Drop: [-X], Meat Drop: [-2*X], Experience: [-X]
 Effect	Disco Concentration	Item Drop: +20
 Effect	Disco Fever	Ranged Damage: +10, Moxie Percent: +10
 Effect	Disco Inferno	Moxie: +5, Hot Damage: +3

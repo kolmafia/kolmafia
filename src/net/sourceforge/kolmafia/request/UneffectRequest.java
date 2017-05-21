@@ -395,6 +395,7 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.SLEEPY ) );
 		removableEffects.add( IntegerPool.get( EffectPool.SUNBURNED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
+		removableEffects.add( IntegerPool.get( EffectPool.DISAVOWED ) );
 		if ( KoLCharacter.hasSkill( "Adventurer of Leisure" ) )
 		{
 			removableEffects.add( IntegerPool.get( EffectPool.AFFRONTED_DECENCY ) );
