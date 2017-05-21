@@ -845,8 +845,13 @@ public class Parser
 		{
 			this.readToken(); // Eat the equals sign
 
-			if ( this.currentToken().equals( "{" ) && ltype instanceof AggregateType )
+			if ( this.currentToken().equals( "{" ) )
 			{
+				if ( !( ltype instanceof AggregateType ) )
+				{
+					throw this.parseException(
+						"Cannot initialize " + variableName + " of type " + t + " with an aggregate literal" );
+				}
 				this.readToken(); // read {
 				rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 			}
@@ -2772,15 +2777,25 @@ public class Parser
 			return null;
 		}
 
-		Operator oper = new Operator( operStr, this );
+		Type ltype = lhs.getType().getBaseType();
+		boolean isAggregate = ( ltype instanceof AggregateType );
 
+		if ( isAggregate && !operStr.equals( "=" ) )
+		{
+			throw this.parseException( "Cannot use '" + operStr + "' on an aggregate" );
+		}
+
+		Operator oper = new Operator( operStr, this );
 		this.readToken(); // oper
 
 		Value rhs;
 
-		Type ltype = lhs.getType().getBaseType();
-		if ( operStr.equals( "=" ) && "{".equals( this.currentToken() ) && ltype instanceof AggregateType )
+		if ( "{".equals( this.currentToken() ) )
 		{
+			if ( !isAggregate )
+			{
+				throw this.parseException( "Cannot use an aggregate literal for type " + lhs.getType() );
+			}
 			this.readToken(); // read {
 			rhs = this.parseAggregateLiteral( scope, (AggregateType) ltype );
 		}
