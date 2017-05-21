@@ -9461,7 +9461,7 @@
 9435	primitive alien mask	133813413	alienmask.gif	hat	t,d	600
 9436
 9437
-9438
+9438	primitive alien loincloth	509203357	wumploincloth.gif	pants	t	0
 9439	primitive alien totem	441787817	alientotem.gif	offhand	t	0
 9440
 9441	spant chitin	689199719	spantchitin.gif	none	t,d	3

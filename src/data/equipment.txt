@@ -547,6 +547,7 @@ polyester pettipants	50	none
 poodle skirt	200	Mox: 200
 porcelain plus-fours	120	Mox: 40
 pottery training pants	50	none
+primitive alien loincloth	50	Mox: 10
 pteruges	100	Mox: 35
 pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
