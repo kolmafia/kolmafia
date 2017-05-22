@@ -779,6 +779,10 @@ public class AdventureRequest
 				image.startsWith( "congoer" ) ? "stumbling-drunk congoer (male)" :
 				// Eldritch Incursion
 				image.startsWith( "eldtentacle" ) ? "Eldritch Tentacle" :
+				// License to Adventure
+				image.startsWith( "bond_minion" ) ? "Villainous Minion" :
+				image.startsWith( "bond_sidekick" ) ? "Villainous Henchperson" :
+				image.startsWith( "bond_villain" ) ? "Villainous Villain" :
 				null;
 		}
 
