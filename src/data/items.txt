@@ -9512,3 +9512,4 @@
 9486	Affirmation Cookie	861232060	cookie.gif	food	t,d	5
 9487	License To Kill	666441939	licensetokill.gif	usable	t	0
 9488	Thwaitgold bug statue	754030701	thwaitbug.gif	none		0
+9489	Victor's Spoils	389523822	olive.gif	usable	t,d	100
