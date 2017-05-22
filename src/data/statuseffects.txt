@@ -2293,3 +2293,4 @@
 2292	Work For Hours a Week	foldednote.gif	7272d8675fff329c116b07aa39e111a0	use 1 Daily Affirmation: Work For Hours a Week
 2293	Keep Free Hate in your Heart	foldednote.gif	988ced2ce3a558efd472ee41743d67f2	use 1 Daily Affirmation: Keep Free Hate in your Heart
 2294	Disavowed	sad.gif	60ee556070e3ab6202d5053d048f7f27
+2295	Annoyed by Threats	letter.gif	0cd9c08b9a816a3c9124f7091365b153	use 1 Threatening Missive

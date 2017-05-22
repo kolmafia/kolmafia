@@ -4377,6 +4377,7 @@ Effect	Angry	Combat Rate: +5
 # Angry Bone: +40 Damage vs. Undead
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
+Effect	Annoyed by Threats	Monster Level: +25
 # Antarctic Memories: Recover HP and MP after battle
 Effect	Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
 Effect	Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
@@ -9926,6 +9927,7 @@ Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
 Item	thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Skill: "Summon Geeky Gifts"
+Item	Threatening Missive	Effect: "Annoyed by Threats", Effect Duration: 30
 Item	throbbing rage gland	Skill: "Vent Rage Gland"
 # throwing candy: Deals 25-50 Physical Damage and weakens enemies somewhat
 # throwing fork: Deals 20-30 Physical Damage with each of its three tines
