@@ -15033,6 +15033,7 @@ public abstract class ChoiceManager
 		case 1233: // Equipment Requisition
 		case 1234: // Spacegate Vaccination Machine
 		case 1235: // Spacegate Terminal
+		case 1259: // LI-11 HQ
 			return true;
 
 		default:
