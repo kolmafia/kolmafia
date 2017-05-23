@@ -6744,6 +6744,25 @@ public abstract class ChoiceManager
 				EatItemRequest.timeSpinnerUsed = true;
 			}
 			break;
+
+		case 1261:
+			// Which Door?
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				if ( ChoiceManager.lastResponseText.contains( "Boris" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.BORIS_KEY );
+				}
+				else if ( ChoiceManager.lastResponseText.contains( "Jarlsberg" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.JARLSBERG_KEY );
+				}
+				else if ( ChoiceManager.lastResponseText.contains( "Sneaky Pete" ) )
+				{
+					ResultProcessor.removeItem( ItemPool.SNEAKY_PETE_KEY );
+				}
+			}
+			break;
 		}
 	}
 
