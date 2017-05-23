@@ -165,6 +165,6 @@ public class AggregateType
 	@Override
 	public boolean containsAggregate()
 	{
-		return this.dataType.containsAggregate();
+		return this.dataType instanceof AggregateType;
 	}
 }
