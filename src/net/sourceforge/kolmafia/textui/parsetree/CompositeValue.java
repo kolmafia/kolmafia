@@ -153,8 +153,7 @@ public class CompositeValue
 				{
 					values.add( Value.readValue( dtype, data[ i ], filename, line ) );
 				}
-				int count = values.size();
-				this.aset( key, new ArrayLiteral( new AggregateType( atype ), values ) );
+				this.aset( key, new ArrayValue( new AggregateType( atype ), values ) );
 				return data.length - index;
 			}
 		}

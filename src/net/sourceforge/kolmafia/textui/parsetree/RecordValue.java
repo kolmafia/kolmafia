@@ -171,7 +171,7 @@ public class RecordValue
 	@Override
 	public void dump( final PrintStream writer, final String prefix, boolean compact )
 	{
-		if ( !compact || this.type.containsAggregate() )
+		if ( !compact || this.type.dataValues() < 0 )
 		{
 			super.dump( writer, prefix, compact );
 			return;
@@ -200,7 +200,7 @@ public class RecordValue
 	@Override
 	public int read( final String[] data, int index, final boolean compact, final String filename, final int line )
 	{
-		if ( !compact || this.type.containsAggregate() )
+		if ( !compact || this.type.dataValues() < 0 )
 		{
 			return super.read( data, index, compact, filename, line );
 		}
@@ -219,6 +219,13 @@ public class RecordValue
 			{
 				RecordValue rec = (RecordValue) array[ offset ];
 				index += rec.read( data, index, true, filename, line );
+			}
+			// The only Aggregates that handle compact mode are
+			// fixed-length arrays
+			else if ( valType instanceof AggregateType )
+			{
+				ArrayValue agg = (ArrayValue) array[ offset ];
+				index += agg.read( data, index, true, filename, line );
 			}
 			else
 			{

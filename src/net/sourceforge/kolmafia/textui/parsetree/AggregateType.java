@@ -163,8 +163,17 @@ public class AggregateType
 	}
 
 	@Override
-	public boolean containsAggregate()
+	public int dataValues()
 	{
-		return true;
+		if ( this.size <= 0 )
+		{
+			return -1;
+		}
+		int values = this.dataType.dataValues();
+		if ( values <= 0 )
+		{
+			return -1;
+		}
+		return this.size * values;
 	}
 }
