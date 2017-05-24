@@ -54,10 +54,9 @@ public class AggregateValue
 	}
 
 	@Override
-	//Interim change from always false to always true
 	public boolean contains( final Value index )
 	{
-		return true;
+		return false;
 	}
 
 	@Override
