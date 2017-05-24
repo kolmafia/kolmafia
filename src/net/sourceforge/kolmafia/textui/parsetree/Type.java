@@ -563,9 +563,9 @@ public class Type
 		return new TypeInitializer( this );
 	}
 
-	public boolean containsAggregate()
+	public int dataValues()
 	{
-		return false;
+		return 1;
 	}
 	
 	@Override

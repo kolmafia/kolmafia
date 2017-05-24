@@ -213,15 +213,18 @@ public class RecordType
 	}
 
 	@Override
-	public boolean containsAggregate()
+	public int dataValues()
 	{
-		for ( int i = 0; i < this.fieldTypes.length; ++i )
+		int values = 0;
+		for ( Type type : this.fieldTypes )
 		{
-			if ( this.fieldTypes[ i ].containsAggregate() )
+			int value = type.dataValues();
+			if ( value == -1 )
 			{
-				return true;
+				return -1;
 			}
+			values += value;
 		}
-		return false;
+		return values;
 	}
 }
