@@ -7947,7 +7947,7 @@
 7922	Friendly Turkey	423985595	turkeywhiskey.gif	drink	t,d	5	bottles of Friendly Turkey
 7923	Agitated Turkey	835506983	turkeywhiskey.gif	drink	t,d	10	bottles of Agitated Turkey
 7924	Ambitious Turkey	284993213	turkeywhiskey.gif	drink	t,d	15	bottles of Ambitious Turkey
-7925	neutron lollipop	367228523	neutronpop.gif	food	t,d	11
+7925	neutron lollipop	367228523	neutronpop.gif	food, candy1	t,d	11
 7926	gamma nog	416334851	oozenog.gif	drink	t,d	11	mugs of gamma nog
 7927
 7928
