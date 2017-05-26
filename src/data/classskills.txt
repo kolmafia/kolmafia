@@ -196,6 +196,7 @@
 171	5-D Earning Potential	dollarsign.gif	0	0	0
 172	Object Quasi-Permanence	confused.gif	0	0	0
 173	Disintegrate	explosion.gif	5	150	0
+174	Incredible Self-Esteem	newyouform.gif	3	10	50
 
 # Skills available to Clubbers
 

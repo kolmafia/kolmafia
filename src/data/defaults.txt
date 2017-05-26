@@ -1375,6 +1375,7 @@ user	_hyperinflatedSealLungUsed	false
 user	_iceballUses	0
 user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
+user	_incredibleSelfEsteemCast	false
 user	_infernoDiscoVisited	false
 user	_inigosCasts	0
 user	_internetDailyDungeonMalwareBought	false
