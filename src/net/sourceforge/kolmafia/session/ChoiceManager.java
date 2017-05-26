@@ -110,6 +110,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
+import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
 public abstract class ChoiceManager
 {
@@ -14368,6 +14369,10 @@ public abstract class ChoiceManager
 				// Can only access Popular machine after quest complete
 				return "0";
 			}
+
+		case 1262:
+			// What Setting?
+			return VillainLairDecorator.Symbology( responseText );
 		}
 		return decision;
 	}
