@@ -40,7 +40,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
-import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -857,6 +856,10 @@ public class UseSkillRequest
 
 		case SkillPool.STACK_LUMPS:
 			maximumCast = 1;
+			break;
+
+		case SkillPool.INCREDIBLE_SELF_ESTEEM:
+			maximumCast = Preferences.getBoolean( "_incredibleSelfEsteemCast" ) ? 0 : 1;
 			break;
 
 		}
@@ -2448,6 +2451,10 @@ public class UseSkillRequest
 
 		case SkillPool.EVOKE_ELDRITCH_HORROR:
 			Preferences.setBoolean( "_eldritchHorrorEvoked", true );
+			break;
+
+		case SkillPool.INCREDIBLE_SELF_ESTEEM:
+			Preferences.setBoolean( "_incredibleSelfEsteemCast", true );
 			break;
 		}
 
