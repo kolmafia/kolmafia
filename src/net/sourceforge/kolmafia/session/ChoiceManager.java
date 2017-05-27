@@ -14369,6 +14369,11 @@ public abstract class ChoiceManager
 				// Can only access Popular machine after quest complete
 				return "0";
 			}
+			return decision;
+
+		case 1260:
+			// A Strange Panel
+			return VillainLairDecorator.spoilColorChoice();
 
 		case 1262:
 			// What Setting?

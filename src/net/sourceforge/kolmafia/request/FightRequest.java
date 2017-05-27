@@ -131,6 +131,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
+import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentToken;
@@ -5700,6 +5701,8 @@ public class FightRequest
 				return;
 			}
 
+			FightRequest.handleVillainLairRadio( node, status );
+
 			boolean VYKEAaction = status.VYKEACompanion != null && str.contains( status.VYKEACompanion );
 			if ( VYKEAaction && status.logFamiliar )
 			{
@@ -6422,6 +6425,26 @@ public class FightRequest
 		FightRequest.logText( str, status );
 
 		return true;
+	}
+
+	private static void handleVillainLairRadio( TagNode node, TagStatus status )
+	{
+		if ( !KoLCharacter.inBondcore() )
+		{
+			return;
+		}
+		if ( !status.location.equals( "Super Villain's Lair" ) )
+		{
+			return;
+		}
+		StringBuffer text = node.getText();
+		String str = text.toString();
+		if ( str.contains( "crackle" ) )
+		{
+			FightRequest.logText( str );
+			VillainLairDecorator.parseColorClue( str );
+			return;
+		}
 	}
 
 	private static boolean handleProselytization( TagNode node, TagStatus status )
