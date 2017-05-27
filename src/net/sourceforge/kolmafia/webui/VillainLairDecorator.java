@@ -36,16 +36,47 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class VillainLairDecorator
 {
 	private static final Pattern LABEL_PATTERN = Pattern.compile( "from top to bottom:<br /><center>\"(.*?)\"<br />\"(.*?)\"<br />\"(.*?)\"</center>" );
 
-	private static final String[] OPTIONS =
+	private static final String[] SYMBOLOGY_OPTIONS =
 	{
 		"Vent Poisonous Gas",
 		"Monorail Shutdown",
 		"Roaring Fire",
 		"Poison Gas"
+	};
+
+	private static final String[] GREEN_CLUES =
+	{
+		//"aqua button", // "Maintenance, please ensure that the aqua button is disabled, the pool is moderately active now."
+		"disconnect the jade", // "Maintenance, please disconnect the jade button, the lunchroom is constantly full."
+		//"remove the Sub", // "Maintenance, please remove the Sub recall system, the dome already has enough aquanauts. It's hooked up to burnt umber."
+		//"press the periwinkle", // "Hello? Can someone press the periwinkle button? We're trapped behind the lavafall."
+		"moss", // "Nobody press the moss button, we've got two squads in the barracks."
+		//"disable the indigo button", // "Can someone disable the indigo button, it's already too cold here."
+		"hit the pine button", // "Ok, the charges are in place. You can hit the pine button after today when the patrol is cleared out."
+	};
+
+	private static final String[] BLUE_CLUES =
+	{
+		"don't hit the navy", // "Hey folks, don't hit the navy button until my squad is back in the base."
+		//"green means alert", // "Remember everyone, green means alert."
+		"off the gondola", // "Clear to hit the navy button once our squads are off the gondola!"
+		"no pay", // "Don't forget, navy button means no pay today. Stupid furnace."
+		//"Jello", // "The mint button is on the fritz and we can't afford to lose more Jello. Be careful."
+		//"pumpkin-colored", // "A reminder, only press the pumpkin-colored button if you know the team outside the door."
+	};
+
+	private static final String[] ORANGE_CLUES =
+	{
+		// "exploration team", // "If anyone needs to send out an exploration team, press the navy button."
+		// "powder blue", // "Remember, powder blue means gas the cafeteria."
+		// "pine button sounds", // "Don't forget, the pine button sounds the alarm and alerts the defenses."
+		"peach button", // "Avoid the peach button while a crew is in the silo."
 	};
 
 	public static final String Symbology( final String responseText )
@@ -58,7 +89,7 @@ public class VillainLairDecorator
 		int index = 0;
 		if ( matcher.find() )
 		{
-			for ( String option : VillainLairDecorator.OPTIONS )
+			for ( String option : VillainLairDecorator.SYMBOLOGY_OPTIONS )
 			{
 				for ( int i = 1; i <= 3; i++ )
 				{
@@ -71,6 +102,52 @@ public class VillainLairDecorator
 			}
 		}
 		return String.valueOf( index );
+	}
+
+	public static final void parseColorClue( final String text )
+	{
+		for ( String clue : VillainLairDecorator.GREEN_CLUES )
+		{
+			if ( text.contains( clue ) )
+			{
+				Preferences.setString( "_villainLairColor", "green" );
+				return;
+			}
+		}
+		for ( String clue : VillainLairDecorator.BLUE_CLUES )
+		{
+			if ( text.contains( clue ) )
+			{
+				Preferences.setString( "_villainLairColor", "blue" );
+				return;
+			}
+		}
+		for ( String clue : VillainLairDecorator.ORANGE_CLUES )
+		{
+			if ( text.contains( clue ) )
+			{
+				Preferences.setString( "_villainLairColor", "orange" );
+				return;
+			}
+		}
+	}
+
+	public static final String spoilColorChoice()
+	{
+		String color = Preferences.getString( "_villainLairColor" );
+		if ( color.equals( "blue" ) )
+		{
+			return "1";
+		}
+		if ( color.equals( "green" ) )
+		{
+			return "2";
+		}
+		if ( color.equals( "orange" ) )
+		{
+			return "3";
+		}
+		return "0";
 	}
 
 }
