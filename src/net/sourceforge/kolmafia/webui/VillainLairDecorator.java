@@ -64,7 +64,8 @@ public class VillainLairDecorator
 	private static final String[] BLUE_CLUES =
 	{
 		"don't hit the navy", // "Hey folks, don't hit the navy button until my squad is back in the base."
-		//"green means alert", // "Remember everyone, green means alert."
+		"green means alert", // "Remember everyone, green means alert."
+		"magma heating system", // "Avoid the peach button everyone, the magma heating system isn't quite right."
 		"off the gondola", // "Clear to hit the navy button once our squads are off the gondola!"
 		"no pay", // "Don't forget, navy button means no pay today. Stupid furnace."
 		//"Jello", // "The mint button is on the fritz and we can't afford to lose more Jello. Be careful."
@@ -76,7 +77,7 @@ public class VillainLairDecorator
 		// "exploration team", // "If anyone needs to send out an exploration team, press the navy button."
 		// "powder blue", // "Remember, powder blue means gas the cafeteria."
 		// "pine button sounds", // "Don't forget, the pine button sounds the alarm and alerts the defenses."
-		"peach button", // "Avoid the peach button while a crew is in the silo."
+		"silo", // "Avoid the peach button while a crew is in the silo."
 	};
 
 	public static final String Symbology( final String responseText )
