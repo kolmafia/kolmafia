@@ -12108,9 +12108,11 @@ public abstract class ChoiceManager
 			{
 				Pattern capitalPattern = Pattern.compile( "<input type=\"hidden\" name=\"k\" value=\"(\\d+)\" /><input type=\"hidden\" name=\"w\" value=\"(s|p)\" />" );
 				boolean bondAdv = true, bondWpn = true, bondInit = true, bondDR = true, bondHP = true, bondItem2 = true,
-				bondStat = true, bondDrunk1 = true, bondBooze = true, bondSymbols = true, bondDrunk2 = true, bondJetpack = true, bondStealth = true,
+				bondStat = true, bondDrunk1 = true, bondBooze = true, bondSymbols = true, bondDrunk2 = true, bondJetpack = true,
 				bondMartiniTurn = true, bondMeat = true, bondItem1 = true, bondMus1 = true, bondMys1 = true, bondMox1 = true,
-				bondBeach = true, bondBeat = true, bondMartiniDelivery = true, bondMus2 = true, bondMys2 = true, bondMox2 = true;
+				bondBeach = true, bondBeat = true, bondMartiniDelivery = true, bondMus2 = true, bondMys2 = true, bondMox2 = true,
+				bondStealth = true, bondMartiniPlus = true, bondBridge = true, bondWar = true, bondMPregen = true, bondWeapon2 = true,
+				bondItem3 = true, bondStealth2 = true, bondSpleen = true, bondStat2 = true, bondDesert = true, bondHoney = true;
 				Matcher matcher = capitalPattern.matcher( text );
 				while ( matcher.find() )
 				{
@@ -12242,6 +12244,60 @@ public abstract class ChoiceManager
 						{
 							bondStealth = false;
 						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondMartiniPlus = false;
+						}
+						break;
+					case 14:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondBridge = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondWar = false;
+						}
+						break;
+					case 15:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondMPregen = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondWeapon2 = false;
+						}
+						break;
+					case 16:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondItem3 = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondStealth2 = false;
+						}
+						break;
+					case 17:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondSpleen = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondStat2 = false;
+						}
+						break;
+					case 18:
+						if ( matcher.group( 2 ).equals( "s" ) )
+						{
+							bondDesert = false;
+						}
+						else if ( matcher.group( 2 ).equals( "p" ) )
+						{
+							bondHoney = false;
+						}
 						break;
 					}
 				}
@@ -12270,6 +12326,17 @@ public abstract class ChoiceManager
 				Preferences.setBoolean( "bondMus2", bondMus2 );
 				Preferences.setBoolean( "bondMys2", bondMys2 );
 				Preferences.setBoolean( "bondMox2", bondMox2 );
+				Preferences.setBoolean( "bondMartiniPlus", bondMartiniPlus );
+				Preferences.setBoolean( "bondBridge", bondBridge ); // need to handle when this is selected
+				Preferences.setBoolean( "bondWar", bondWar );
+				Preferences.setBoolean( "bondMPregen", bondMPregen );
+				Preferences.setBoolean( "bondWeapon2", bondWeapon2 );
+				Preferences.setBoolean( "bondItem3", bondItem3 );
+				Preferences.setBoolean( "bondStealth2", bondStealth2 );
+				Preferences.setBoolean( "bondSpleen", bondSpleen );
+				Preferences.setBoolean( "bondStat2", bondStat2 );
+				Preferences.setBoolean( "bondDesert", bondDesert ); // Do something with this
+				Preferences.setBoolean( "bondHoney", bondHoney );
 				if ( bondBeach )
 				{
 					KoLCharacter.setDesertBeachAvailable();
