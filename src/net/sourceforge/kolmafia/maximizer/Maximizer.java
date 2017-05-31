@@ -285,6 +285,7 @@ public class Maximizer
 					{
 						text = "make & " + text;
 						cmd = "make \u00B6" + itemId + ";" + cmd;
+						price = ConcoctionPool.get( item ).price;
 					}
 					else if ( checkedItem.npcBuyable > 0 )
 					{
@@ -300,6 +301,15 @@ public class Maximizer
 					else if ( checkedItem.mallBuyable > 0 )
 					{
 						text = "acquire & " + text;
+						if ( priceLevel > 0 )
+						{
+							price = StoreManager.getMallPrice( item );
+						}
+					}
+					else if ( checkedItem.pullBuyable > 0 )
+					{
+						text = "buy & pull & " + text;
+						cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";"  + cmd;
 						if ( priceLevel > 0 )
 						{
 							price = StoreManager.getMallPrice( item );
@@ -415,6 +425,7 @@ public class Maximizer
 				{
 					text = "make & " + text;
 					cmd = "make \u00B6" + itemId + ";" + cmd;
+					price = ConcoctionPool.get( item ).price;
 				}
 				else if ( checkedItem.npcBuyable > 0 )
 				{
@@ -430,6 +441,15 @@ public class Maximizer
 				else if ( checkedItem.mallBuyable > 0 )
 				{
 					text = "acquire & " + text;
+					if ( priceLevel > 0 )
+					{
+						price = StoreManager.getMallPrice( item );
+					}
+				}
+				else if ( checkedItem.pullBuyable > 0 )
+				{
+					text = "buy & pull & " + text;
+					cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";"  + cmd;
 					if ( priceLevel > 0 )
 					{
 						price = StoreManager.getMallPrice( item );
@@ -461,7 +481,11 @@ public class Maximizer
 				}
 				if ( checkedItem.npcBuyable > 0 )
 				{
-					text = text + ", " + checkedItem.npcBuyable + " pullable";
+					text = text + ", " + checkedItem.npcBuyable + " NPC buyable";
+				}
+				if ( checkedItem.pullable > 0 )
+				{
+					text = text + ", " + checkedItem.pullable + " pullable";
 				}
 				text = text + "]";
 				Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
@@ -1455,44 +1479,57 @@ public class Maximizer
 
 					if ( cmd.length() > 0 )
 					{
-						Concoction c = ConcoctionPool.get( item );
-						price = c.price;
-						itemsCreatable = c.creatable;
-						int count = Math.max( 0, item.getCount() - c.initial );
-						if ( count > 0 )
+						int itemId = item.getItemId();
+						// Outside Ronin/Hardcore, always show all purchasable
+						int showLevel = equipLevel;
+						if ( KoLCharacter.canInteract() )
 						{
-							int create = Math.min( count, c.creatable );
-							count -= create;
-							if ( create > 0 )
+							showLevel = 3;
+						}
+						CheckedItem checkedItem = new CheckedItem( itemId, showLevel, maxPrice, priceLevel );
+						if ( checkedItem.inventory > 0 )
+						{
+						}
+						else if ( checkedItem.initial > 0 )
+						{
+							String method = InventoryManager.simRetrieveItem( item, equipLevel == -1, false );
+							if ( !method.equals( "have" ) )
 							{
-								text = create > 1 ? "make " + create + " & " + text
-									: "make & " + text;
+								text = method + " & " + text;
 							}
-							int buy = price > 0 ? Math.min( count, KoLCharacter.getAvailableMeat() / price ) : 0;
-							count -= buy;
-							if ( buy > 0 && InventoryManager.canUseNPCStores( item ) )
+							if ( method.equals( "uncloset" ) )
 							{
-								text = buy > 1 ? "buy " + buy + " & " + text
-									: "buy & " + text;
-								cmd = "buy " + buy + " \u00B6" + item.getItemId() +
-									";" + cmd;
+								cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
 							}
-							if ( count > 0 )
+							// Should be only hitting this after Ronin I think
+							else if ( method.equals( "pull" ) ) 
 							{
-								if ( !InventoryManager.canUseMall( item ) )
-								{
-									continue;
-								}
-								text = count > 1 ? "acquire " + count + " & " + text
-									: "acquire & " + text;
+								cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
 							}
 						}
-						if ( priceLevel == 2 || (priceLevel == 1 && count > 0) )
+						else if ( checkedItem.creatable > 0 )
 						{
-							if ( price <= 0 && InventoryManager.canUseMall ( item ) )
+							text = "make & " + text;
+							cmd = "make \u00B6" + itemId + ";" + cmd;
+							price = ConcoctionPool.get( item ).price;
+						}
+						else if ( checkedItem.npcBuyable > 0 )
+						{
+							text = "buy & " + text;
+							cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+							price = ConcoctionPool.get( item ).price;
+						}
+						else if ( checkedItem.pullable > 0 )
+						{
+							text = "pull & " + text;
+							cmd = "pull \u00B6" + itemId + ";" + cmd;
+						}
+						else if ( checkedItem.mallBuyable > 0 )
+						{
+							text = "acquire & " + text;
+							if ( priceLevel > 0 )
 							{
-								if ( MallPriceDatabase.getPrice( item.getItemId() )
-									> maxPrice * 2 )
+								if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
 								{
 									continue;
 								}
@@ -1508,7 +1545,51 @@ public class Maximizer
 								}
 							}
 						}
+						else if ( checkedItem.pullBuyable > 0 )
+						{
+							text = "buy & pull & " + text;
+							cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";"  + cmd;
+							if ( priceLevel > 0 )
+							{
+								if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
+								{
+									continue;
+								}
+
+								// Depending on preference, either get historical mall price or look it up
+								if ( Preferences.getBoolean( "maximizerCurrentMallPrices" ) )
+								{
+									price = StoreManager.getMallPrice( item );
+								}
+								else
+								{
+									price = StoreManager.getMallPrice( item, 7.0f );
+								}
+							}
+						}
+						else
+						{
+							continue;
+						}
+
 						if ( price > maxPrice || price == -1 ) continue;
+						if ( priceLevel == 2 && checkedItem.inventory > 0 )
+						{
+							if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
+							{
+								continue;
+							}
+
+							// Depending on preference, either get historical mall price or look it up
+							if ( Preferences.getBoolean( "maximizerCurrentMallPrices" ) )
+							{
+								price = StoreManager.getMallPrice( item );
+							}
+							else
+							{
+								price = StoreManager.getMallPrice( item, 7.0f );
+							}
+						}
 					}
 					else if ( item.getCount( KoLConstants.inventory ) == 0 )
 					{
@@ -1854,6 +1935,7 @@ public class Maximizer
 			{
 				text = "make & " + text;
 				cmd = "make \u00B6" + item.getItemId() + ";" + cmd;
+				price = ConcoctionPool.get( item ).price;
 			}
 			else if ( checkedItem.npcBuyable + checkedItem.initial > count )
 			{
@@ -1888,6 +1970,15 @@ public class Maximizer
 				// Not always right, but will do for now.
 				text = "pull & fold & " + text;
 				cmd = "pull 1 \u00B6" + checkedItem.foldItemId + ";fold \u00B6" + item.getItemId() + ";" + cmd;
+			}
+			else if ( checkedItem.pullBuyable + checkedItem.initial > count )
+			{
+				text = "buy & pull & " + text;
+				cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";"  + cmd;
+				if ( priceLevel > 0 )
+				{
+					price = StoreManager.getMallPrice( item );
+				}
 			}
 			else 	// Mall buyable
 			{
