@@ -149,6 +149,22 @@ public class CheckedItem
 			// consider pulling
 			this.pullable = this.getCount( KoLConstants.storage );
 
+			this.pullBuyable = 0;
+			if ( InventoryManager.canUseMallToStorage( itemId ) )
+			{
+				// consider Mall buying
+				if ( this.getCount() == 0 )
+				{	
+					// but only if none are otherwise available
+					// Not using maxPrice as that considers on hand meat, which we don't use for Mall to Storage
+					if ( priceLevel == 0 ||
+						MallPriceDatabase.getPrice( itemId ) < Preferences.getInteger( "autoBuyPriceLimit" ) * 2 )
+					{
+						this.pullBuyable = 1;
+					}
+				}
+			}
+
 			this.pullfoldable = 0;
 			if ( itemId > 0 && Preferences.getBoolean( "maximizerFoldables" ) )
 			{
@@ -188,10 +204,10 @@ public class CheckedItem
 	{
 		if ( this.singleFlag )
 		{
-			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable );
+			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
 		}
 
-		return this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable;
+		return this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable;
 	}
 
 	public void validate( int maxPrice, int priceLevel )
@@ -248,6 +264,7 @@ public class CheckedItem
 	public int foldable;
 	public int pullable;
 	public int pullfoldable;
+	public int pullBuyable;
 	public int foldItemId;
 
 	public boolean buyableFlag;

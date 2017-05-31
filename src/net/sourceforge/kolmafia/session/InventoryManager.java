@@ -1819,6 +1819,27 @@ public abstract class InventoryManager
 			!Limitmode.limitMall();
 	}
 
+	public static boolean canUseMallToStorage( final AdventureResult item )
+	{
+		if ( item == null )
+		{
+			return false;
+		}
+		return InventoryManager.canUseMallToStorage( item.getItemId() );
+	}
+
+	public static boolean canUseMallToStorage( final int itemId )
+	{
+		return ItemDatabase.isTradeable( itemId ) &&
+			InventoryManager.canUseMallToStorage();
+	}
+
+	public static boolean canUseMallToStorage()
+	{
+		return Preferences.getBoolean( "autoSatisfyWithMall" ) &&
+			!Limitmode.limitMall();
+	}
+
 	public static boolean canUseNPCStores( final AdventureResult item )
 	{
 		if ( item == null )
