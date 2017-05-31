@@ -984,6 +984,11 @@ public abstract class KoLCharacter
 			limit = 3;
 		}
 
+		else if ( KoLCharacter.inBondcore() && Preferences.getBoolean( "bondSpleen" ) )
+		{
+			limit += 2;
+		}
+
 		if ( KoLCharacter.hasSkill( "Spleen of Steel" ) )
 		{
 			limit += 5;

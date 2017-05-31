@@ -703,6 +703,17 @@ public class ValhallaManager
 		Preferences.setBoolean( "bondMus2", false );
 		Preferences.setBoolean( "bondMys2", false );
 		Preferences.setBoolean( "bondMox2", false );
+		Preferences.setBoolean( "bondMartiniPlus", false );
+		Preferences.setBoolean( "bondBridge", false );
+		Preferences.setBoolean( "bondWar", false );
+		Preferences.setBoolean( "bondMPregen", false );
+		Preferences.setBoolean( "bondWeapon2", false );
+		Preferences.setBoolean( "bondItem3", false );
+		Preferences.setBoolean( "bondStealth2", false );
+		Preferences.setBoolean( "bondSpleen", false );
+		Preferences.setBoolean( "bondStat2", false );
+		Preferences.setBoolean( "bondDesert", false );
+		Preferences.setBoolean( "bondHoney", false );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
