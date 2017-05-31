@@ -52,31 +52,36 @@ public class VillainLairDecorator
 
 	private static final String[] GREEN_CLUES =
 	{
-		//"aqua button", // "Maintenance, please ensure that the aqua button is disabled, the pool is moderately active now."
+		"aqua button", // "Maintenance, please ensure that the aqua button is disabled, the pool is moderately active now."
 		"disconnect the jade", // "Maintenance, please disconnect the jade button, the lunchroom is constantly full."
-		//"remove the Sub", // "Maintenance, please remove the Sub recall system, the dome already has enough aquanauts. It's hooked up to burnt umber."
-		//"press the periwinkle", // "Hello? Can someone press the periwinkle button? We're trapped behind the lavafall."
+		"remove the Sub", // "Maintenance, please remove the Sub recall system, the dome already has enough aquanauts. It's hooked up to burnt umber."
+		"press the periwinkle", // "Hello? Can someone press the periwinkle button? We're trapped behind the lavafall."
 		"moss", // "Nobody press the moss button, we've got two squads in the barracks."
-		//"disable the indigo button", // "Can someone disable the indigo button, it's already too cold here."
+		"disable the indigo button", // "Can someone disable the indigo button, it's already too cold here."
 		"hit the pine button", // "Ok, the charges are in place. You can hit the pine button after today when the patrol is cleared out."
+		"seafoam", // "In case of emergency, press the seafoam button."
+		"engage the flood-wash", // "Please be courteous and engage the flood-wash system if you make a mess in the bathroom. It's the apricot button."
+		"tangerine", // "Stop playing with the tangerine button, we don't need to recruit anyone else."
 	};
 
 	private static final String[] BLUE_CLUES =
 	{
+		"press the navy button", // "If anyone needs to send out an exploration team, press the navy button."
 		"don't hit the navy", // "Hey folks, don't hit the navy button until my squad is back in the base."
 		"green means alert", // "Remember everyone, green means alert."
 		"magma heating system", // "Avoid the peach button everyone, the magma heating system isn't quite right."
 		"off the gondola", // "Clear to hit the navy button once our squads are off the gondola!"
 		"no pay", // "Don't forget, navy button means no pay today. Stupid furnace."
-		//"Jello", // "The mint button is on the fritz and we can't afford to lose more Jello. Be careful."
-		//"pumpkin-colored", // "A reminder, only press the pumpkin-colored button if you know the team outside the door."
+		"avoid pressing the green", // "Let's avoid pressing the green button unless we want to share the barracks with even more recruits!"
+		"press the vermilion", // "Clear to press the vermilion button once my squad is off the lift."
+		"Jello", // "The mint button is on the fritz and we can't afford to lose more Jello. Be careful."
+		"pumpkin-colored", // "A reminder, only press the pumpkin-colored button if you know the team outside the door."
 	};
 
 	private static final String[] ORANGE_CLUES =
 	{
-		// "exploration team", // "If anyone needs to send out an exploration team, press the navy button."
-		// "powder blue", // "Remember, powder blue means gas the cafeteria."
-		// "pine button sounds", // "Don't forget, the pine button sounds the alarm and alerts the defenses."
+		"powder blue", // "Remember, powder blue means gas the cafeteria."
+		"pine button sounds", // "Don't forget, the pine button sounds the alarm and alerts the defenses."
 		"silo", // "Avoid the peach button while a crew is in the silo."
 	};
 
