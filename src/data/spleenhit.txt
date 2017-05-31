@@ -16,8 +16,8 @@ abstraction: sensation	1	1	decent	0	0	0	0	50 Sensation (+100% mox)
 abstraction: thought	1	1	decent	0	0	0	0	50 Thought (+100% mys)
 aerosolized aerogel	2	12	good	0	0	0	0	Unspaded
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
-alien animal goo	1	1	crappy	0	0	0	0	Unspaded
-alien plant goo	1	1	crappy	0	0	0	0	Unspaded
+alien animal goo	1	1	crappy	0	0	0	0	40 Celestial Body (+100% weapon damage, +20% critical hit chance)
+alien plant goo	1	1	crappy	0	0	0	0	40 Celestial Mind (+100% spell damage, +20% spell critical hit chance)
 alien protein powder	3	4	awesome	8-10	0	0	0
 ancient medicinal herbs	1	1	awesome	0	0	0	0	50 Ancient Fortitude (+100% HP, +90-100 HP Regen, Impervious to negative effects)
 ancient protein powder	1	1	good	0	12-14	0	0
@@ -46,7 +46,7 @@ can-can-in-a-can	1	1	good	0	0	0	10-12
 carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
 chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
 coffee pixie stick	4	4	good	5-10	0	0	0
-cold jelly	1	1	crappy	0	0	0	0	Unspaded
+cold jelly	1	1	crappy	0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking
 cold wad	1	6	decent	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
@@ -56,7 +56,7 @@ cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
-eldritch essence	1	4	crappy	0	0	0	0	Unspaded
+eldritch essence	1	4	crappy	0	66	66	66
 elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
 enchanted barbell	1	2	decent	0	5-7	0	0
 enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
@@ -86,7 +86,7 @@ haunted battery	1	1	EPIC	0	0	30-40	0
 hippy paste	4	4	good	5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4	good	5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
 homeopathic mint tea	1	1	decent	1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
-hot jelly	1	1	crappy	0	0	0	0	Unspaded
+hot jelly	1	1	crappy	0	50-60	0	0	50 Hot Jellied (+3 mus stats/fight, +5 hot damage, +30% mus), grants one-use 20 turn banishing skill
 hot wad	1	6	decent	1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 indescribably horrible paste	4	4	good	5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
 Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
@@ -124,7 +124,7 @@ pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
 porcelain powder	3	1	awesome	10	0	0	0
 powdered gold	4	1	good	5-10	20-30	20-30	20-30
-powdered oxygen	3	4	good	0	0	0	0	Unspaded
+powdered oxygen	3	4	good	0	0	0	0	10 Hyperoxygenated Blood (Breath Underwater)
 prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 puce paisley oyster egg	1	1	awesome	0	11-15	11-15	0
 puce polka-dot oyster egg	1	1	awesome	0	11-15	0	11-15
@@ -133,23 +133,23 @@ red paisley oyster egg	1	1	good	0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
 residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
-sea jelly	1	1	crappy	0	0	0	0	Unspaded
+sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 single atom	1	1	decent	1	0	0	0
-sleaze jelly	1	1	crappy	0	0	0	0	Unspaded
+sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
 sleaze wad	1	6	decent	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
 slimy alveolus	1	5	decent	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
 slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
 SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
-spooky jelly	1	1	crappy	0	0	0	0	Unspaded
+spooky jelly	1	1	crappy	0	15-20	15-20	15-20	50 Spooky Jellied (+5 stats/fight, +5 spooky damage, +10% all stats), next monster defeated drops all items
 spooky wad	1	6	decent	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
-stench jelly	1	1	crappy	0	0	0	0	Unspaded
+stench jelly	1	1	crappy	0	15-20	15-20	15-20	50 Stench Jellied (+30 item drop, +5 stench damage, +10% all stats), sets combat frequency to 0 til next non-combat
 stench wad	1	6	decent	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
 strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
 synthetic marrow	1	1	EPIC	0	30-40	0	0
-The Author's ink	1	4	awesome	0	0	0	0	Unspaded, 200 It's a Good Life! (+10 stat gain, +200% all)
+The Author's ink	1	4	awesome	0	0	0	0	200 It's a Good Life! (+10 stat gain, +200% all)
 The Inquisitor's unidentifiable object	1	6	EPIC	0	0	0	0	Unspaded, 100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 the funk	1	1	EPIC	0	0	0	30-40
 thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
