@@ -59,9 +59,8 @@ public class VillainLairDecorator
 		"moss", // "Nobody press the moss button, we've got two squads in the barracks."
 		"disable the indigo button", // "Can someone disable the indigo button, it's already too cold here."
 		"hit the pine button", // "Ok, the charges are in place. You can hit the pine button after today when the patrol is cleared out."
-		"seafoam", // "In case of emergency, press the seafoam button."
-		"engage the flood-wash", // "Please be courteous and engage the flood-wash system if you make a mess in the bathroom. It's the apricot button."
 		"tangerine", // "Stop playing with the tangerine button, we don't need to recruit anyone else."
+		"bathrooms are full", // "Avoid the orange button folks, we've got a jammed magma chute and the bathrooms are full."
 	};
 
 	private static final String[] BLUE_CLUES =
@@ -76,6 +75,8 @@ public class VillainLairDecorator
 		"press the vermilion", // "Clear to press the vermilion button once my squad is off the lift."
 		"Jello", // "The mint button is on the fritz and we can't afford to lose more Jello. Be careful."
 		"pumpkin-colored", // "A reminder, only press the pumpkin-colored button if you know the team outside the door."
+		"engage the flood-wash", // "Please be courteous and engage the flood-wash system if you make a mess in the bathroom. It's the apricot button."
+		"seafoam", // "In case of emergency, press the seafoam button."
 	};
 
 	private static final String[] ORANGE_CLUES =
