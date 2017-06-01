@@ -9515,3 +9515,10 @@
 9489	Victor's Spoils	389523822	olive.gif	usable	t,d	100
 9490	Threatening Missive	292042434	letter.gif	usable	q	0
 9491	Targeted Plague Vector	604726380	spraycan.gif	usable	q	0
+9492	suspicious package	858561555	kgbpackage.gif	usable	t	0
+9493	Kremlin's Greatest Briefcase	311743898	kgbcase.gif	accessory		0
+9494	basic martini	348765896	martini.gif	drink	t,d	5
+9595
+9496
+9497	exploding cigar	559823065	kgbcigar.gif	none, combat	d	5
+9498	can of Minions-Be-Gone	445440033	kgbspray.gif	usable	t,d	5

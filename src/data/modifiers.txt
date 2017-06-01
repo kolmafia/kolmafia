@@ -2728,6 +2728,7 @@ Item	KoL Con X Bingo Card	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP 
 # Item Krampus Horn: Greatly improves chances of finding lumps and sludge
 # Item Krampus Horn: Doubles your damage against Bad Vibes
 Item	Krampus Horn	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Experience: +2, Single Equip
+Item	Kremlin's Greatest Briefcase	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Weapon Damage Percent: +25, Initiative: +25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen Max: 10
 # kumquartz ring: +200% Physical Damage (currently approximated with Weapon Damage)
 # kumquartz ring: (only in the Candy Diorama)
 Item	kumquartz ring	Single Equip, Weapon Damage Percent: [200*zone(The Candy Diorama)]
@@ -5045,6 +5046,7 @@ Effect	Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 # Foe-Splattered: Can't use Bifurcating Blow
 Effect	Fondid	Monster Level: +15
 Effect	Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
+Effect	For Your Brain Only	Mysticality: +30
 # Forbear, Warbears!: +40 WarBear Armor Penetration
 Effect	Force of Mayo Be With You	Sleaze Damage: +10, Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Form of...Bird!: You're a Bird
@@ -5123,6 +5125,7 @@ Effect	Goblin in Black	Avatar: "goblin conspirator"
 Effect	Gobliny Flavor	Damage Reduction: 5
 Effect	Godfather of Soul Patch	Avatar: "funky pirate"
 Effect	Going Ape	Item Drop: +30
+Effect	Goldentongue	Moxie Percent: +100
 Effect	Gonna Get You, Sucker	Muscle: +5, Mysticality: +5, Moxie: +5
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
@@ -5382,6 +5385,7 @@ Effect	It's Not Even Funny	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	It's Ridiculous	Muscle Percent: +11, Mysticality Percent: +11, Moxie Percent: +11, Initiative: +11, Meat Drop: +11, Item Drop: +11, Weapon Damage: +11, Spell Damage: +11, Maximum HP: +11, Maximum MP: +11, Damage Reduction: 11
 Effect	It's Soporiffic!	MP Regen Min: 1, MP Regen Max: 3
 Effect	Itchy Trigger Finger	Ranged Damage: +30
+Effect	Items Are Forever	Item Drop: +50
 Effect	items.enh	Item Drop: +30
 Effect	Izchak's Blessing	Moxie Percent: +25
 # Jaba&ntilde;ero Saucesphere: Damages Attacking Opponent
@@ -5458,6 +5462,7 @@ Effect	Less Pervious	Damage Reduction: 3
 Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
+Effect	License to Punch	Muscle Percent: +100
 # Light!
 # Light-Headed: Increased chance of fumbling
 Effect	Light-Headed	Mysticality Percent: -30
@@ -5843,6 +5848,7 @@ Effect	Pyramid Power	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
+Effect	Quantum of Moxie	Moxie: +30
 Effect	Quivering with Rage	Muscle Percent: -10
 # QWOPped Up: Always Fumble
 Effect	QWOPped Up	Initiative: -100
@@ -6354,6 +6360,7 @@ Effect	The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	The Solution	Weapon Damage: +25
 Effect	The Sonata of Sneakiness	Combat Rate: -5
 # The Spirit of Crimbo
+Effect	The Spy Who Loved XP	Experience: +5
 Effect	The Strength... of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
 Effect	The Style... of the Future	Moxie Percent: +50, Moxie: +15, Experience (Moxie): +3
 Effect	The Sweats	Stench Resistance: +5
@@ -9843,6 +9850,7 @@ Item	super-spiky hair gel	Effect: "Spiky Hair", Effect Duration: 5
 Item	Superdrifter holo-record	Effect: "Superdrifting", Effect Duration: 10
 Item	superwater	Effect: "Ultrahydrated", Effect Duration: 50
 # surgical tape: Weakens enemies a little bit and restores 20-30 Hit Points
+Item	suspicious package	Free Pull
 Item	suspicious stocking	Free Pull
 Item	Swabbie&trade; swab	Effect: "Well-Swabbed Ear", Effect Duration: 10
 Item	swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
