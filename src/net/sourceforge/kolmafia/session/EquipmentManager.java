@@ -813,6 +813,9 @@ public class EquipmentManager
 				case ItemPool.STANDARDS_AND_PRACTICES:
 					KoLCharacter.removeAvailableSkill( "Censurious Lecture" );
 					break;
+				case ItemPool.KREMLIN_BRIEFCASE:
+					KoLCharacter.removeAvailableSkill( "KGB tranquilizer dart" );
+					break;
 				}
 			}
 		}
@@ -1070,6 +1073,9 @@ public class EquipmentManager
 			break;
 		case ItemPool.STANDARDS_AND_PRACTICES:
 			KoLCharacter.addAvailableSkill( "Censurious Lecture" );
+			break;
+		case ItemPool.KREMLIN_BRIEFCASE:
+			KoLCharacter.addAvailableSkill( "KGB tranquilizer dart" );
 			break;
 		}
 

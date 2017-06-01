@@ -7948,6 +7948,14 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.KGB_TRANQUILIZER_DART:
+			Preferences.increment( "_kgbTranquilizerDartUses" );
+			if ( responseText.contains( "press the secret switch" ) )
+			{
+				BanishManager.banishMonster( monsterName, "KGB tranquilizer dart" );
+			}
+			break;
+
 		case SkillPool.POCKET_CRUMBS:
 			if ( responseText.contains( "pocket next to the crumbs" ) )
 			{

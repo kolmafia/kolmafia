@@ -1419,6 +1419,7 @@ user	_kloopDrops	0
 user	_jackassPlumberGame	false
 user	_jickJarAvailable	unknown
 user	_jingleBellUsed	false
+user	_kgbTranquilizerDartUses	0
 user	_klawSummons	0
 user	_kolConSixPackUsed	false
 user	_kolhsAdventures	0

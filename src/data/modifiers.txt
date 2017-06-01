@@ -4325,6 +4325,7 @@ Effect	A Rose by Any Other Material	Combat Rate: -20
 Effect	A Short Trial	Avatar: "pygmy witch lawyer"
 Effect	A Taste for Accounting	Avatar: "pygmy witch accountant"
 # A Taste of Rainbow: Increases stat gains from food
+Effect	A View to Some Meat	Meat Drop: +100
 Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 # Absinthe-Minded: You are aware of The Worm Wood
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
