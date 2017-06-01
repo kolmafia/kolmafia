@@ -261,6 +261,7 @@ public class SkillPool
 	public static final int PORTSCAN = 7277;
 	public static final int TURBO = 7278;
 	public static final int BREATHE_OUT = 7283;
+	public static final int KGB_TRANQUILIZER_DART = 7285;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

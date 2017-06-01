@@ -2835,6 +2835,7 @@ public class ItemPool
 	public static final int SPACE_BABY_BAWBAW = 9464;
 	public static final int PORTABLE_SPACEGATE = 9465;
 	public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
+	public static final int KREMLIN_BRIEFCASE = 9493;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
