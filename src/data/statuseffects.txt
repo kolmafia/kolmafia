@@ -2300,7 +2300,7 @@
 2299	License to Punch	effect004.gif	db08e7fe4feec0a00fa8e9c5686c5222
 2300
 2301	Goldentongue	effect006.gif	1cd6b0a9e4189aba802ce96652a19438
-2302
+2302	The Living Hitpoints	effect007.gif	80c967998c47584525af5d10a9c63eea
 2303
 2304	A View to Some Meat	effect009.gif	c0699070fa1203615d3652eab33c56fa
 2305	Items Are Forever	effect0010.gif	0b962f64b073be3a403529f1b1eb0794

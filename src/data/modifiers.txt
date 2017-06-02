@@ -6334,6 +6334,7 @@ Effect	The Halls of Mysticality	Experience (Mysticality): +3
 Effect	The HeyDezebound Heart	Experience: [min(100,floor(T/5))], Item Drop: [min(300,T)], Muscle Percent: [max(-1000,-T)], Mysticality Percent: [max(-1000,-T)], Moxie Percent: [max(-1000,-T)]
 Effect	The Inquisitor's Unknown Effect	Familiar Weight: +10, Damage Reduction: 25, Initiative: +100, Meat Drop: +100, Item Drop: +100, Maximum MP Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +200
 Effect	The Kobold and the Kobeautiful	Avatar: "large kobold"
+Effect	The Living Hitpoints	Maximum HP Percent: +100, Maximum MP Percent: +100
 Effect	The Magic of LOV	Mysticality: +25, Spell Damage Percent: +100, Spell Critical Percent: +15
 Effect	The Moxie of LOV	Moxie: +25, Ranged Damage Percent: +50, Initiative: +50
 Effect	The Magic of Sharing	Mysticality Percent: +50, Spell Damage: +25
