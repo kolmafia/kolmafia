@@ -333,7 +333,7 @@ Gingerborg Hive	5	5		10-15	0	0	0
 gingerbread bugbear	1	4	good	1-5	10-20	10-20	10-20
 gingerbread horror	1	4	good	1-5	10-20	10-20	10-20
 gingerbread massacre	3	1		3-6	5-6	5-6	5-6	10 Sugar Rush
-gingerbread mug	2	1	decent	0	0	0	0	Unspaded
+gingerbread mug	2	1	decent	3-4	2-4	2-4	2-4
 gingerbread mutant bugbear	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 Gingerbread Nutrition Block	4	1	decent	6-10	0	0	0	20 Forbear, Warbears! (+40 WarBear Armor Penetration)
 gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
@@ -587,7 +587,7 @@ plate of Pork 'n' Pork 'n' Pork 'n' Beans	1	3	awesome	3-4	0	0	0
 plate of Shrub's Premium Baked Beans	1	5	awesome	3-5	5-10	5-10	5-10
 plate of Tesla's Electroplated Beans	1	4	good	2-4	0	12-25	0	+100 MP
 plate of Trader Olaf's Exotic Stinkbeans	1	3	awesome	3-4	0	0	0
-plate of Val-U Brand Every Bean Salad	1	5	awesome	0	0	0	0	Unspaded
+plate of Val-U Brand Every Bean Salad	1	5	awesome	3-5	5-10	5-10	5-10
 plate of World's Blackest-Eyed Peas	1	3	awesome	3-4	0	0	0
 plum	1	4	good	3	15-20	0	0
 plumber's lunch	2	4	decent	2-4	0	0	0	20 Egg Burps (+50 Stench Spell Damage, +100% Spell Damage)
