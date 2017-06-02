@@ -12106,199 +12106,162 @@ public abstract class ChoiceManager
 		case 1259: // LI-11 HQ
 			if ( text.contains( "LI-11 HQ" ) )
 			{
-				Pattern capitalPattern = Pattern.compile( "<input type=\"hidden\" name=\"k\" value=\"(\\d+)\" /><input type=\"hidden\" name=\"w\" value=\"(s|p)\" />" );
-				boolean bondAdv = true, bondWpn = true, bondInit = true, bondDR = true, bondHP = true, bondItem2 = true,
-				bondStat = true, bondDrunk1 = true, bondBooze = true, bondSymbols = true, bondDrunk2 = true, bondJetpack = true,
-				bondMartiniTurn = true, bondMeat = true, bondItem1 = true, bondMus1 = true, bondMys1 = true, bondMox1 = true,
-				bondBeach = true, bondBeat = true, bondMartiniDelivery = true, bondMus2 = true, bondMys2 = true, bondMox2 = true,
-				bondStealth = true, bondMartiniPlus = true, bondBridge = true, bondWar = true, bondMPregen = true, bondWeapon2 = true,
-				bondItem3 = true, bondStealth2 = true, bondSpleen = true, bondStat2 = true, bondDesert = true, bondHoney = true;
+				Pattern capitalPattern = Pattern.compile( "<td><b>(.*?)</b>(.*?)</td></tr>" );
+				boolean bondAdv = false, bondWpn = false, bondInit = false, bondDR = false, bondHP = false, bondItem2 = false,
+				bondStat = false, bondDrunk1 = false, bondBooze = false, bondSymbols = false, bondDrunk2 = false, bondJetpack = false,
+				bondMartiniTurn = false, bondMeat = false, bondItem1 = false, bondMus1 = false, bondMys1 = false, bondMox1 = false,
+				bondBeach = false, bondBeat = false, bondMartiniDelivery = false, bondMus2 = false, bondMys2 = false, bondMox2 = false,
+				bondStealth = false, bondMartiniPlus = false, bondBridge = false, bondWar = false, bondMPregen = false, bondWeapon2 = false,
+				bondItem3 = false, bondStealth2 = false, bondSpleen = false, bondStat2 = false, bondDesert = false, bondHoney = false;
 				Matcher matcher = capitalPattern.matcher( text );
 				while ( matcher.find() )
 				{
-					int value = Integer.parseInt( matcher.group( 1 ) );
-					switch ( value )
+					if ( matcher.group( 2 ).contains( "Active" ) || matcher.group( 2 ).contains( "Connected" ) )
 					{
-					case 1:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						if ( matcher.group( 1 ).equals( "Super-Accurate Spy Watch" ) )
 						{
-							bondAdv = false;
+							bondAdv = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Razor-Sharp Tie" ) )
 						{
-							bondMartiniTurn = false;
+							bondWpn = true;
 						}
-						break;
-					case 2:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Jet-Powered Skis" ) )
 						{
-							bondWpn = false;
+							bondInit = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Kevlar-Lined Pants" ) )
 						{
-							bondMeat = false;
+							bondDR = true;
 						}
-						break;
-					case 3:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Injected Nanobots" ) )
 						{
-							bondInit = false;
+							bondHP = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Sticky Climbing Gloves" ) )
 						{
-							bondItem1 = false;
+							bondItem2 = true;
 						}
-						break;
-					case 4:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Retinal Knowledge HUD" ) )
 						{
-							bondDR = false;
+							bondStat = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Belt-Implanted Still" ) )
 						{
-							bondMus1 = false;
+							bondDrunk1 = true;
 						}
-						break;
-					case 5:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Alcohol Absorbent Underwear" ) )
 						{
-							bondHP = false;
+							bondBooze = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Universal Symbology Guide" ) )
 						{
-							bondMys1 = false;
+							bondSymbols = true;
 						}
-						break;
-					case 6:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Soberness Injection Pen" ) )
 						{
-							bondItem2 = false;
+							bondDrunk2 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Short-Range Jetpack" ) )
 						{
-							bondMox1 = false;
+							bondJetpack = true;
 						}
-						break;
-					case 7:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Invisible Meat Car, the Vanish" ) )
 						{
-							bondStat = false;
+							bondStealth = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Portable Pocket Bridge" ) )
 						{
-							bondBeach = false;
+							bondBridge = true;
 						}
-						break;
-					case 8:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Static-Inducing, Bug-Shorting Underpants" ) )
 						{
-							bondDrunk1 = false;
+							bondMPregen = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Exotic Bartender, Barry L. Eagle" ) )
 						{
-							bondBeat = false;
+							bondMartiniTurn = true;
 						}
-						break;
-					case 9:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Renowned Meat Thief, Ivanna Cuddle" ) )
 						{
-							bondBooze = false;
+							bondMeat = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Master Art Thief, Sly Richard" ) )
 						{
-							bondMartiniDelivery = false;
+							bondItem1 = true;
 						}
-						break;
-					case 10:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Personal Trainer, Debbie Dallas" ) )
 						{
-							bondSymbols = false;
+							bondMus1 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Rocket Scientist, Crimbo Jones" ) )
 						{
-							bondMus2 = false;
+							bondMys1 = true;
 						}
-						break;
-					case 11:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Licensed Masseur, Oliver Closehoff" ) )
 						{
-							bondDrunk2 = false;
+							bondMox1 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Professional Cabbie, Rock Hardy" ) )
 						{
-							bondMys2 = false;
+							bondBeach = true;
 						}
-						break;
-					case 12:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Fellow Spy, Daisy Duke" ) )
 						{
-							bondJetpack = false;
+							bondBeat = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Fellow Spy, Prince O'Toole" ) )
 						{
-							bondMox2 = false;
+							bondMartiniDelivery = true;
 						}
-						break;
-					case 13:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Personal Kinesiologist, Doctor Kittie" ) )
 						{
-							bondStealth = false;
+							bondMus2 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Computer Hacker, Mitt Jobs" ) )
 						{
-							bondMartiniPlus = false;
+							bondMys2 = true;
 						}
-						break;
-					case 14:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Spa Owner, Fatima Jiggles" ) )
 						{
-							bondBridge = false;
+							bondMox2 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Exotic Olive Procurer, Ben Dover" ) )
 						{
-							bondWar = false;
+							bondMartiniPlus = true;
 						}
-						break;
-					case 15:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Trained Sniper, Felicity Snuggles" ) )
 						{
-							bondMPregen = false;
+							bondWar = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Martial Arts Trainer, Jaques Trappe" ) )
 						{
-							bondWeapon2 = false;
+							bondWeapon2 = true;
 						}
-						break;
-					case 16:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Electromagnetic Ring" ) )
 						{
-							bondItem3 = false;
+							bondItem3 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Robo-Spleen" ) )
 						{
-							bondStealth2 = false;
+							bondSpleen = true;
 						}
-						break;
-					case 17:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Universal GPS" ) )
 						{
-							bondSpleen = false;
+							bondDesert = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "Mission Controller, Maeby Moneypenny" ) )
 						{
-							bondStat2 = false;
+							bondStealth2 = true;
 						}
-						break;
-					case 18:
-						if ( matcher.group( 2 ).equals( "s" ) )
+						else if ( matcher.group( 1 ).equals( "Sage Advisor, London McBrittishman" ) )
 						{
-							bondDesert = false;
+							bondStat2 = true;
 						}
-						else if ( matcher.group( 2 ).equals( "p" ) )
+						else if ( matcher.group( 1 ).equals( "True Love, Honey Potts" ) )
 						{
-							bondHoney = false;
+							bondHoney = true;
 						}
-						break;
 					}
 				}
 				Preferences.setBoolean( "bondAdv", bondAdv );
