@@ -1611,7 +1611,15 @@ user	_untakenHardBountyItem
 user	_untakenSpecialBountyItem
 user	_usedReplicaBatoomerang	0
 user	_userMods
+user	_villainLairCanLidUsed	false
 user	_villainLairColor
+user	_villainLairColorChoiceUsed	false
+user	_villainLairDoorChoiceUsed	false
+user	_villainLairFirecrackerUsed	false
+user	_villainLairKey
+user	_villainLairProgress	0
+user	_villainLairSymbologyChoiceUsed	false
+user	_villainLairWebUsed	false
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false

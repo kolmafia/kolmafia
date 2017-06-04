@@ -2230,6 +2230,17 @@ public class QuestManager
 				}
 			}
 			break;
+
+		case AdventurePool.SUPER_VILLAIN_LAIR:
+			if ( monsterName.equals( "Villainous Minion" ) )
+			{
+				Preferences.increment( "_villainLairProgress" );
+			}
+			else if ( monsterName.equals( "Villainous Villain" ) )
+			{
+				Preferences.setInteger( "_villainLairProgress", 999 );
+			}
+			break;
 		}
 
 		// Can get a message about a ghost if wearing a Proton Accelerator Pack,

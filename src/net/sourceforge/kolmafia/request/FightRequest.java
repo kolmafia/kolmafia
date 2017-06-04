@@ -8497,6 +8497,30 @@ public class FightRequest
 			}
 			break;
 
+		case ItemPool.SPIDER_WEB:
+			if ( responseText.contains( "Three other minions" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 3 );
+				Preferences.setBoolean( "_villainLairWebUsed", true );
+			}
+			break;
+
+		case ItemPool.KNOB_FIRECRACKER:
+			if ( responseText.contains( "three other minions" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 3 );
+				Preferences.setBoolean( "_villainLairFirecrackerUsed", true );
+			}
+			break;
+
+		case ItemPool.CAN_LID:
+			if ( responseText.contains( "three other minions" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 3 );
+				Preferences.setBoolean( "_villainLairCanLidUsed", true );
+			}
+			break;
+
 		}
 
 		if ( itemId != itemId2 )
