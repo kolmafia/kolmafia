@@ -6748,20 +6748,17 @@ public abstract class ChoiceManager
 
 		case 1261:
 			// Which Door?
-			if ( ChoiceManager.lastDecision == 2 )
+			if ( ChoiceManager.lastResponseText.contains( "Boris" ) )
 			{
-				if ( ChoiceManager.lastResponseText.contains( "Boris" ) )
-				{
-					ResultProcessor.removeItem( ItemPool.BORIS_KEY );
-				}
-				else if ( ChoiceManager.lastResponseText.contains( "Jarlsberg" ) )
-				{
-					ResultProcessor.removeItem( ItemPool.JARLSBERG_KEY );
-				}
-				else if ( ChoiceManager.lastResponseText.contains( "Sneaky Pete" ) )
-				{
-					ResultProcessor.removeItem( ItemPool.SNEAKY_PETE_KEY );
-				}
+				Preferences.setString( "_villainLairKey", "boris" );
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "Jarlsberg" ) )
+			{
+				Preferences.setString( "_villainLairKey", "jarlsberg" );
+			}
+			else if ( ChoiceManager.lastResponseText.contains( "Sneaky Pete" ) )
+			{
+				Preferences.setString( "_villainLairKey", "pete" );
 			}
 			break;
 		}
@@ -9531,6 +9528,95 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.SPACE_BABY_BAWBAW );
 			}
 			break;
+
+		case 1260:
+			// A Strange Panel
+			if ( ChoiceManager.lastDecision < 1 || ChoiceManager.lastDecision > 3 )
+			{
+				break;
+			}
+			if ( text.contains( "10 casualties" ) || text.contains( "10 crew" ) || text.contains( "10 minions" ) ||
+			     text.contains( "10 ski" ) || text.contains( "10 members" ) || text.contains( "ten techs" ) ||
+			     text.contains( "10 soldiers" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 10 );
+			}
+			else if ( text.contains( "5 casualties" ) || text.contains( "5 souls" ) || text.contains( "5 minions" ) ||
+			          text.contains( "five minions" ) || text.contains( "group of ski" ) || text.contains( "5 members" ) ||
+			          text.contains( "five people" ) || text.contains( "five of us" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 5 );
+			}
+			else
+			{
+				Preferences.decrement( "_villainLairProgress", 7 );
+			}
+			Preferences.setBoolean( "_villainLairColorChoiceUsed", true );
+			break;
+
+		case 1261:
+			// Which Door?
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( text.contains( "drop 1000" ) )
+				{
+					Preferences.increment( "_villainLairProgress", 5 );
+					Preferences.setBoolean( "_villainLairDoorChoiceUsed", true );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				if ( text.contains( "insert the key" ) )
+				{
+					int itemId = -1;
+					String key = Preferences.getString( "_villainLairKey" );
+					if ( key.equals( "boris" ) )
+					{
+						itemId = ItemPool.BORIS_KEY;
+					}
+					else if ( key.equals( "jarlsberg" ) )
+					{
+						itemId = ItemPool.JARLSBERG_KEY;
+					}
+					if ( key.equals( "pete" ) )
+					{
+						itemId = ItemPool.SNEAKY_PETE_KEY;
+					}
+					ResultProcessor.removeItem( itemId );
+					Preferences.increment( "_villainLairProgress", 15 );
+					Preferences.setBoolean( "_villainLairDoorChoiceUsed", true );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Preferences.decrement( "_villainLairProgress", 13 );
+				Preferences.setBoolean( "_villainLairDoorChoiceUsed", true );
+			}
+			break;
+
+		case 1262:
+			// What Setting?
+			if ( ChoiceManager.lastDecision < 1 || ChoiceManager.lastDecision > 3 )
+			{
+				break;
+			}
+			if ( text.contains( "20 of the" ) || text.contains( "20 minions" ) ||
+			     text.contains( "20 or so" ) || text.contains( "20 soldiers" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 20 );
+			}
+			else if ( text.contains( "10 or so" ) || text.contains( "10 injured" ) ||
+			          text.contains( "10 patrol-sicles" ) || text.contains( "10 soldiers" ) )
+			{
+				Preferences.increment( "_villainLairProgress", 10 );
+			}
+			else if ( text.contains( "15 aquanats" ) || text.contains( "15 reserve" ) ||
+			          text.contains( "15 previously" ) || text.contains( "15 Soldiers" ) )
+			{
+				Preferences.decrement( "_villainLairProgress", 15 );
+			}
+			Preferences.setBoolean( "_villainLairSymbologyChoiceUsed", true );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -12101,7 +12187,6 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
-
 
 		case 1259: // LI-11 HQ
 			if ( text.contains( "LI-11 HQ" ) )
