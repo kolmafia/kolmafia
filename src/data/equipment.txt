@@ -1258,6 +1258,7 @@ pottery club	50	Mus: 0	1-handed club
 pottery yo-yo	50	Mox: 0	1-handed yoyo
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
+primitive alien spear	50	Mus: 10	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 PVC staff	200	Mus: 85	2-handed staff
 pygmy concertinette	150	Mox: 60	1-handed accordion
@@ -2461,6 +2462,7 @@ porquoise necklace	50	Mys: 10
 porquoise ring	50	Mys: 10
 portable cassette player	20	none
 power sock	100	Mys: 10
+primitive alien necklace	0	Mys: 10
 Protects-Your-Junk	350	Mox: 100
 pulled porquoise earring	110	Mys: 40
 pulled porquoise pendant	110	Mys: 40

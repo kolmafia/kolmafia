@@ -9459,11 +9459,11 @@
 9433	primitive alien salad	129944437	salad.gif	food	t,d	23
 9434	primitive alien booze	233926007	stonecup.gif	drink	t,d	80	bottles of primitive alien booze
 9435	primitive alien mask	133813413	alienmask.gif	hat	t,d	600
-9436
+9436	primitive alien spear	512595143	cavespear.gif	weapon	t	0
 9437
 9438	primitive alien loincloth	509203357	wumploincloth.gif	pants	t	0
 9439	primitive alien totem	441787817	alientotem.gif	offhand	t	0
-9440
+9440	primitive alien necklace	194454961	aliennecklace.gif	accessory	t	0
 9441	spant chitin	689199719	spantchitin.gif	none	t,d	3
 9442	spant tendon	684936831	string.gif	none	t,d	7
 9443	spants	657210352	spantpants.gif	pants	d	120
@@ -9518,7 +9518,7 @@
 9492	suspicious package	858561555	kgbpackage.gif	usable	t	0
 9493	Kremlin's Greatest Briefcase	311743898	kgbcase.gif	accessory		0
 9494	basic martini	348765896	martini.gif	drink	t,d	5
-9595
-9496
+9495	improved martini	168845639	martini.gif	drink	t,d	10
+9496	splendid martini	967052759	martini.gif	drink	t,d	10
 9497	exploding cigar	559823065	kgbcigar.gif	none, combat	d	5
 9498	can of Minions-Be-Gone	445440033	kgbspray.gif	usable	t,d	5
