@@ -1476,6 +1476,7 @@ Item	pottery club	Hot Damage: +5
 Item	pottery yo-yo	Hot Damage: +5
 Item	poutine pole	Mysticality: +3, Sleaze Damage: +3
 Item	prehistoric spear	Critical Hit Percent: +5
+Item	primitive alien spear	Muscle: +20, Hot Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 Item	projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 Item	PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Item	pygmy concertinette	Weapon Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 17
@@ -2895,6 +2896,7 @@ Item	porquoise ring	Moxie: +5, Maximum HP: +5, Maximum MP: +5, HP Regen Min: 1, 
 # portable cassette player: Has An Obnoxious Mix Tape Stuck In It
 Item	portable cassette player	Combat Rate: +5, Monster Level: +5, Single Equip
 Item	power sock	Muscle: +20, Mysticality: -5, Moxie: -5, Weapon Damage Percent: +20, Single Equip
+Item	primitive alien necklace	Experience: +5, Cold Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 # Protects-Your-Junk: 75% Chance of Preventing Negative Status Attacks
 # Protects-Your-Junk: Grants Protection from Dreadsylvanian Curses
 Item	Protects-Your-Junk	Damage Reduction: 20, Single Equip
