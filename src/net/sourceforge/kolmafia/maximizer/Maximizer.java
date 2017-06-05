@@ -1647,7 +1647,11 @@ public class Maximizer
 				if ( price > 0 )
 				{
 					text += KoLConstants.COMMA_FORMAT.format( price ) + " meat, ";
-					if ( price > KoLCharacter.getAvailableMeat() )
+					if ( cmd.startsWith( "buy using storage" ) && price > KoLCharacter.getStorageMeat() )
+					{
+						cmd = "";
+					}
+					else if ( price > KoLCharacter.getAvailableMeat() )
 					{
 						cmd = "";
 					}
