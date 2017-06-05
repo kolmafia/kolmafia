@@ -1267,6 +1267,10 @@ public class SkillDatabase
 		case SkillPool.SHOOT:
 			// Avatar of West of Loathing skills
 			return false;
+
+		case SkillPool.INCREDIBLE_SELF_ESTEEM:
+			// Auto-awarded after unlocking if you have New-You active
+			return false;
 		}
 
 		switch ( skillId / 1000 )
