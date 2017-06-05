@@ -2294,14 +2294,14 @@
 2293	Keep Free Hate in your Heart	foldednote.gif	988ced2ce3a558efd472ee41743d67f2	use 1 Daily Affirmation: Keep Free Hate in your Heart
 2294	Disavowed	sad.gif	60ee556070e3ab6202d5053d048f7f27
 2295	Annoyed by Threats	letter.gif	0cd9c08b9a816a3c9124f7091365b153	use 1 Threatening Missive
-2296
+2296	Punch Another Day	effect001.gif	4c328cf5352289691cc27785e17c4535
 2297	For Your Brain Only	effect002.gif	6d251cdeb7ead754398dfd18283e451f
 2298	Quantum of Moxie	effect003.gif	76ceee93e229dc62526b25fbd03df83f
 2299	License to Punch	effect004.gif	db08e7fe4feec0a00fa8e9c5686c5222
-2300
+2300	Thunderspell	effect005.gif	5b50c5bb305a5af066c5c974887ba855
 2301	Goldentongue	effect006.gif	1cd6b0a9e4189aba802ce96652a19438
 2302	The Living Hitpoints	effect007.gif	80c967998c47584525af5d10a9c63eea
-2303
+2303	Initiative and Let Die	effect008.gif	8a06d33542af2d608ec5d591601e1a26
 2304	A View to Some Meat	effect009.gif	c0699070fa1203615d3652eab33c56fa
 2305	Items Are Forever	effect0010.gif	0b962f64b073be3a403529f1b1eb0794
 2306	The Spy Who Loved XP	effect0011.gif	51a0eea3519449ab2b43748edd5af2cb

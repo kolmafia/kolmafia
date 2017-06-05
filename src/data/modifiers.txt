@@ -5346,6 +5346,7 @@ Effect	Influence of Sphere	Pool Skill: +5
 Effect	Infused with Sssshhsssblllrrggghsssssggggrrgglssss	Spooky Resistance: +5, Spooky Damage: +50
 # Inigo's Incantation of Inspiration: Lets you craft things more quickly
 Effect	init.enh	Initiative: +50
+Effect	Initiative and Let Die	Initiative: +50
 Effect	Ink Cloud	Combat Rate: -5
 Effect	Inked Well	Combat Rate: -10
 Effect	Inky Camouflage	Combat Rate: -5
@@ -5833,6 +5834,7 @@ Effect	Puissant Pressure	Muscle Percent: +300
 Effect	Pulchritudinous Pressure	Moxie Percent: +300
 Effect	Pumped Stomach	Adventure Underwater
 Effect	Pumped Up	Muscle: +5
+Effect	Punch Another Day	Muscle: +30
 Effect	Punchable Face	Monster Level: +30
 Effect	Punchy, Murdery	Weapon Damage Percent: +50
 Effect	Purity of Spirit	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
@@ -6394,6 +6396,7 @@ Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
 Effect	Throwing Some Shade	Muscle Percent: +200, Combat Rate: -20
 Effect	Thuggity Yak	Avatar: "yakuza thug"
 Effect	Thunderheart	Maximum HP Percent: +100
+Effect	Thunderspell	Mysticality Percent: +100
 Effect	Ticking Clock	Initiative: +30
 Effect	Tiffany's Breakfast	Item Drop: [min(40,T)]
 Effect	Tightly-Wound Spine	Initiative: +25
