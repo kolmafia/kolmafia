@@ -32,7 +32,7 @@ bark rootbeer	2	1	good	5-7	0	0	10-20	40 Bark of the Dog (+2 Moxie stats/fight, +
 barrel-aged martini	2	5	good	5-7	0	5-10	10-20	50 Just Aged Enough (+25 Mox)
 Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
-basic martini	1	1	good	0	0	0	0	Unspaded
+basic martini	1	1	good	3	3-9	3-9	3-9	10 random spy buff
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights
@@ -120,7 +120,7 @@ candycaine	4	1		7-10	0	0	0	10 Sugar Rush
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all)
 carrot claret	3	3	decent	7-8	3-4	3-4	3-4	10 Pla-see-bo (+10 Item Drop)
 Cement Mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied (+100 DA)
-Centauri fish wine	2	4	awesome	0	0	0	0	Unspaded
+Centauri fish wine	2	4	awesome	9-10	10-20	10-20	10-20	60 Fishy
 chakra-mental wine	3	1	awesome	11-13	0	0	0	50 The Power of Positive Thinking
 Chakra Libre	2	4	awesome	6-7	0	20-30	0	10 Transcendental Wind (+50 Myst)
 cheap Chinese beer	1	1	crappy	1	0	0	0	4 MP
@@ -206,9 +206,9 @@ ecto-nog	3	1		3-6	5-6	5-6	5-6
 eggnog	3	3	good	5-10	0	17-30	18-30
 eggnogtini	3	3		3-5	0	0	0	10 Sugar Rush
 eighth plague	1	3	awesome	4-6	0	0	30-60	40 Wings of the Dragonfly (100 Init)
-eldritch distillate	3	12	awesome	0	0	0	0	Unspaded
-eldritch elixir	3	12	awesome	0	666	666	666	Unspaded
-eldritch extract	3	11	awesome	0	0	0	0	Unspaded
+eldritch distillate	3	12	awesome	9-11	333	333	333	30 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen)
+eldritch elixir	3	12	awesome	9-11	666	666	666	30 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen), 5 Eldritch Attunement
+eldritch extract	3	11	awesome	9-11	111	111	111	10 Eldritch Concentration (+5 stats/fight, +5 spooky damage, 5-10 MP regen)
 electric snakebite	2	5	good	4-6	0	15-30	0	20 Once Bitten Twice Fried (+25 MP, +2-5 MP regen)
 elemental caipiroska	1	3	EPIC	5-7	0	40-80	0	40 Magically Delicious (+40 Myst)
 elven cellocello	1	1	good	1-5	5-7	5-7	5-7	20 Sugar Rush
