@@ -2084,6 +2084,22 @@ public abstract class InventoryManager
 		}
 	}
 
+	public static final void checkKGB()
+	{
+		AdventureResult KGB = ItemPool.get( ItemPool.KREMLIN_BRIEFCASE, 1 );
+		// See if we have a Kremlin's Greatest Briefcase
+		// One sitting in storage, mall store, or display case probably hasn't had enchantments changed, maybe
+		if ( !KoLCharacter.hasEquipped( KGB ) && KGB.getCount( KoLConstants.inventory ) == 0 && KGB.getCount( KoLConstants.closet ) == 0 )
+		{
+			return;
+		}
+
+		String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.KREMLIN_BRIEFCASE ), true );
+		String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_ACCESSORY );
+		RequestLogger.printLine( "kgb mods: " + mod );
+		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
+	}
+
 	private static final AdventureResult GOLDEN_MR_ACCESSORY = ItemPool.get( ItemPool.GOLDEN_MR_ACCESSORY, 1 );
 
 	public static void countGoldenMrAccesories()

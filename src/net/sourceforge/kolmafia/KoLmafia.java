@@ -932,6 +932,9 @@ public abstract class KoLmafia
 		InventoryManager.checkCrownOfThrones();
 		InventoryManager.checkBuddyBjorn();
 
+		// Items that need to be checked every time
+		InventoryManager.checkKGB();
+
 		// Check items that vary per person
 		// These won't actually generate a server hit if the item
 		// has been seen at its current modifiers
