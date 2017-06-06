@@ -125,6 +125,11 @@ public class DrinkItemRequest
 			return 0;
 		}
 
+		if ( KoLCharacter.inBondcore() && !"martini.gif".equals( ItemDatabase.getImage( itemId ) ) )
+		{
+			return 0;
+		}
+
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 		int maxAvailable = Integer.MAX_VALUE;
