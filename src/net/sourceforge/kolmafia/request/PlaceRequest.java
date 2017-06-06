@@ -149,6 +149,10 @@ public class PlaceRequest
 		{
 			UseItemRequest.parseConsumption( responseText, false );
 		}
+		else if ( place.equals( "kgb" ) )
+		{
+			KGBRequest.parseResponse( urlString, responseText );
+		}
 		else if ( place.equals( "knoll_friendly" ) )
 		{
 			KnollRequest.parseResponse( urlString, responseText );
