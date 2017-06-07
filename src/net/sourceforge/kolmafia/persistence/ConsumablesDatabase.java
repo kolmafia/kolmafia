@@ -758,6 +758,31 @@ public class ConsumablesDatabase
 		int itemId = ItemDatabase.getItemId( name );
 		int fullness = ConsumablesDatabase.getFullness( name );
 		int inebriety = ConsumablesDatabase.getInebriety( name );
+		if ( KoLCharacter.inBondcore() && "martini.gif".equals( ItemDatabase.getImage( itemId ) ) &&
+			Preferences.getBoolean( "bondMartiniTurn" ) )
+		{
+			double bonus = 0.0;
+			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
+			     Preferences.getBoolean( "autoTuxedo" ) &&
+			     EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT ) &&
+			     InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) )
+			{
+				bonus += 2.0;
+			}
+			// +1 Turn from Martini-Drinks from Exotic Bartender, Barry L. Eagle
+			if ( Preferences.getBoolean( "bondMartiniTurn" ) )
+			{
+				bonus += 1.0;
+			}
+			// +4 Turns (?) Improves Low Quality Martinis from Exotic Olive Procurer, Ben Dover
+			if ( Preferences.getBoolean( "bondMartiniPlus" ) && 
+				!ConsumablesDatabase.getQuality( name ).equals( ConsumablesDatabase.EPIC ) )
+			{
+				bonus += 4.0;
+			}
+			return perUnit ? ( bonus / inebriety ) : bonus;
+		}
 		if ( ConsumablesDatabase.isMartini ( itemId ) )
 		{
 			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
