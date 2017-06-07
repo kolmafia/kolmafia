@@ -820,9 +820,13 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( KoLCharacter.inBondcore() && UseItemEnqueuePanel.this.booze )
+			if ( KoLCharacter.inBondcore() )
 			{
-				if ( !"martini.gif".equals( ItemDatabase.getImage( creation.getItemId() ) ) )
+				if ( UseItemEnqueuePanel.this.food )
+				{
+					return false;
+				}
+				if ( UseItemEnqueuePanel.this.booze && !"martini.gif".equals( ItemDatabase.getImage( creation.getItemId() ) ) )
 				{
 					return false;
 				}
