@@ -543,7 +543,7 @@ Spasmi Dolorosi Del Rene Champagne	1	10	EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
 Spicy Hot Chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
 spiritual eggnog	3	3	good	6-10	0	30-60	0
-splendid martini	1	6	EPIC	0	0	0	0	Unspaded
+splendid martini	1	6	EPIC	5-7	9-27	9-27	9-27	40 random spy buff
 spooky eggnog	3	3	good	5-10	0	16-30	16-30
 spooky mushroom wine	3	6	awesome	10-14	0	0	4-6
 stealth bomber	3	6	awesome	9-12	10-20	0	10-20
