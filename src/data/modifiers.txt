@@ -8162,6 +8162,8 @@ Item	celestial au jus	Effect: "Celestial Saltiness", Effect Duration: 10
 Item	celestial carrot juice	Effect: "Celestial Vision", Effect Duration: 10
 Item	celestial olive oil	Effect: "Celestial Sheen", Effect Duration: 10
 Item	celestial squid ink	Effect: "Celestial Camouflage", Effect Duration: 10
+Item	Celsius 233	Skill: "Eternal Flame"
+Item	Celsius 233 (singed)	Skill: "Eternal Flame"
 Item	censored can label	Effect: "Censored Can", Effect Duration: 50
 # chainsaw chain: Deals 60-80 Physical Damage and weakens enemies a lot
 Item	chakra malt	Effect: "The Power of Positive Thinking", Effect Duration: 10
