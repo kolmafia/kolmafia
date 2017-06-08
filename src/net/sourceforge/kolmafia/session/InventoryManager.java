@@ -2096,7 +2096,6 @@ public abstract class InventoryManager
 
 		String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.KREMLIN_BRIEFCASE ), true );
 		String mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_ACCESSORY );
-		RequestLogger.printLine( "kgb mods: " + mod );
 		Modifiers.overrideModifier( "Item:[" + ItemPool.KREMLIN_BRIEFCASE + "]", mod );
 	}
 
