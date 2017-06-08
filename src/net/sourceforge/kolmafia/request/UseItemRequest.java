@@ -3263,6 +3263,8 @@ public class UseItemRequest
 		case ItemPool.SPACE_PIRATE_ASTROGATION_HANDBOOK:
 		case ItemPool.NON_EUCLIDEAN_FINANCE:
 		case ItemPool.PEEK_A_BOO:
+		case ItemPool.CELCIUS_233:
+		case ItemPool.CELCIUS_233_SINGED:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you
