@@ -202,6 +202,18 @@ public class Macrofier
 						return macro.toString();
 					}
 
+					// FightRequest.combatFilterThatDidNothing is cleared
+					// at the beginning of each round. If we are called a
+					// second time within a round (because the first action
+					// we returned was rejected) it is pointless to return
+					// the same action. Return "abort" instead.
+					if ( result.equals( FightRequest.combatFilterThatDidNothing ) )
+					{
+						return "abort";
+					}
+
+					FightRequest.combatFilterThatDidNothing = result;
+
 					return result;
 				}
 			}

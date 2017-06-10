@@ -2551,11 +2551,6 @@ public class GenericRequest
 
 		this.encounter = AdventureRequest.registerEncounter( this );
 
-		if ( urlString.startsWith( "fight.php" ) )
-		{
-			FightRequest.updateCombatData( urlString, this.encounter, this.responseText );
-		}
-
 		if ( ChoiceManager.handlingChoice )
 		{
 			// Handle choices BEFORE result processing
@@ -2577,14 +2572,6 @@ public class GenericRequest
 			{
 				this.showInBrowser( false );
 			}
-		}
-
-		if ( urlString.startsWith( "fight.php" ) )
-		{
-			// This has to be done after parseResults() to properly
-			// deal with combat items received during combat.
-			FightRequest.parseCombatItems( this.responseText );
-			FightRequest.parseAvailableCombatSkills( this.responseText );
 		}
 
 		// Now let the main method of result processing for
@@ -2847,7 +2834,7 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "fight.php" ) )
 		{
-			FightRequest.processResults( this.responseText );
+			FightRequest.processResults( urlString, this.encounter, this.responseText );
 			return;
 		}
 

@@ -180,6 +180,7 @@ public class FightRequest
 	private static int macroPrefixLength = 0;
 
 	private static String consultScriptThatDidNothing = null;
+	public static String combatFilterThatDidNothing = null;
 	public static boolean waitingForSpecial;
 
 	public static String lastResponseText = "";
@@ -852,34 +853,17 @@ public class FightRequest
 		FightRequest.macroPrefixLength = lines;
 	}
 
-	public void skipRound()
+	private void skipRound()
 	{
 		--FightRequest.preparatoryRounds;
 		this.nextRound( null );
 	}
 
-	public void nextRound( String desiredAction )
+	private void nextRound( String desiredAction )
 	{
 		if ( KoLmafia.refusesContinue() )
 		{
 			FightRequest.nextAction = "abort";
-			return;
-		}
-
-		// First round, KoLmafia does not decide the action.
-		// Update accordingly.
-
-		if ( FightRequest.currentRound == 0 )
-		{
-			FightRequest.macroPrefixLength = 0;
-			FightRequest.nextAction = null;
-
-			String macro = Macrofier.macrofyRoundZero();
-			if ( macro != null && macro.length() > 0 && ( macro.contains( "\n" ) || macro.contains( ";" ) ) )
-			{
-				this.handleMacroAction( macro );
-			}
-
 			return;
 		}
 
@@ -1755,7 +1739,8 @@ public class FightRequest
 
 			for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			{
-				if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() && KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
+				if ( MPRestoreItemList.CONFIGURES[ i ].isCombatUsable() &&
+				     KoLConstants.inventory.contains( MPRestoreItemList.CONFIGURES[ i ].getItem() ) )
 				{
 					FightRequest.nextAction = String.valueOf( MPRestoreItemList.CONFIGURES[ i ].getItem().getItemId() );
 
@@ -1859,12 +1844,13 @@ public class FightRequest
 
 		if ( !KoLmafia.refusesContinue() )
 		{
+			combatFilterThatDidNothing = null;
 			this.nextRound( desiredAction );
 		}
 
 		if ( !FightRequest.isUsingConsultScript )
 		{
-			if ( FightRequest.currentRound == 0 || ( FightRequest.nextAction != null && !FightRequest.nextAction.equals( "abort" ) ) )
+			if ( FightRequest.nextAction != null && !FightRequest.nextAction.equals( "abort" ) )
 			{
 				super.run();
 
@@ -1925,8 +1911,12 @@ public class FightRequest
 		FightRequest.isAutomatingFight = false;
 	}
 
-	public static final boolean processResults( final String responseText )
+	public static final boolean processResults( final String urlString, final String encounter, final String responseText )
 	{
+		FightRequest.updateCombatData( urlString, encounter, responseText );
+		FightRequest.parseCombatItems( responseText );
+		FightRequest.parseAvailableCombatSkills( responseText );
+
 		return FightRequest.shouldRefresh;
 	}
 
@@ -2605,17 +2595,7 @@ public class FightRequest
 			}
 
 			FightRequest.isTrackingFights = false;
-			FightRequest.waitingForSpecial = false;
-			String monsterName = monster != null ? monster.getName() : "";
-			for ( int i = 0; i < 10; ++i )
-			{
-				if ( CombatActionManager.getShortCombatOptionName(
-					     CombatActionManager.getCombatAction( monsterName, i, false ) ).equals( "special" ) )
-				{
-					FightRequest.waitingForSpecial = true;
-					break;
-				}
-			}
+			FightRequest.waitingForSpecial = FightRequest.waitingForSpecial( monster );
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
 			FightRequest.fightingCopy = EncounterManager.ignoreSpecialMonsters;
@@ -2685,6 +2665,23 @@ public class FightRequest
 		}
 
 		FightRequest.foundNextRound = true;
+	}
+
+	private static final boolean waitingForSpecial( MonsterData monster )
+	{
+		String monsterName = monster != null ? monster.getName() : "";
+
+		// Really? Just look for "special" in the next 10 actions?
+		for ( int i = 0; i < 10; ++i )
+		{
+			if ( CombatActionManager.getShortCombatOptionName(
+				     CombatActionManager.getCombatAction( monsterName, i, false ) ).equals( "special" ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	// This performs checks that have to be applied to a single round of
