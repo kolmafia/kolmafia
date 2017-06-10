@@ -287,13 +287,15 @@ public class IslandManager
 	public static final int fratboysDefeatedPerBattle()
 	{
 		return IslandManager.sidequestFactor( "hippy" ) +
-		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 );
+		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 ) +
+		       ( Preferences.getBoolean( "bondWar" ) ? 3 : 0 );
 	}
 
 	public static final int hippiesDefeatedPerBattle()
 	{
 		return IslandManager.sidequestFactor( "fratboy" ) +
-		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 );
+		       ( Preferences.getString( "peteMotorbikeCowling" ).equals( "Rocket Launcher" ) ? 3 : 0 ) +
+		       ( Preferences.getBoolean( "bondWar" ) ? 3 : 0 );
 	}
 
 	private static final String[] SIDEQUEST_PREFERENCES =
@@ -1099,6 +1101,12 @@ public class IslandManager
 
 		// Handle Pete's Motorbike with Rocket Launcher
 		if ( responseText.contains( "rocket launcher blasts 3 extra" ) )
+		{
+			delta += 3;
+		}
+
+		// Handle License to Adventure extra kills
+		if ( responseText.contains( "fall to Felicity's rifle" ) )
 		{
 			delta += 3;
 		}
