@@ -775,9 +775,10 @@ public class ConsumablesDatabase
 			{
 				bonus += 1.0;
 			}
-			// +4 Turns (?) Improves Low Quality Martinis from Exotic Olive Procurer, Ben Dover
+			// +4 Turns (?) Improves Low Quality Martinis (& Splendid Martinis) from Exotic Olive Procurer, Ben Dover
 			if ( Preferences.getBoolean( "bondMartiniPlus" ) && 
-				!ConsumablesDatabase.getQuality( name ).equals( ConsumablesDatabase.EPIC ) )
+				( !ConsumablesDatabase.getQuality( name ).equals( ConsumablesDatabase.EPIC ) ||
+				name.equals( "splendid martini" ) ) )
 			{
 				bonus += 4.0;
 			}
