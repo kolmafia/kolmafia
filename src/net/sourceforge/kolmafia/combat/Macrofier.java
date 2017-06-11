@@ -122,26 +122,6 @@ public class Macrofier
 		return true;
 	}
 
-	public static String macrofyRoundZero()
-	{
-		// Don't try to macrofy the first round, since we don't know
-		// what monster it is, and "special action" could include
-		// olfaction.
-
-		boolean debug = Preferences.getBoolean( "macroDebug" );
-
-		if ( Macrofier.macroInterpreter == null && Macrofier.macroOverride != null && Macrofier.macroOverride.length() > 0 )
-		{
-			if ( debug )
-			{
-				RequestLogger.printLine( "Using macroOverride" );
-			}
-			return Macrofier.macroOverride;
-		}
-
-		return null;
-	}
-
 	public static String macrofy()
 	{
 		boolean debug = Preferences.getBoolean( "macroDebug" );

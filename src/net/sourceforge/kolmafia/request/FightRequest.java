@@ -867,6 +867,14 @@ public class FightRequest
 			return;
 		}
 
+		// First round, KoLmafia does not decide the action.
+		// Update accordingly.
+
+		if ( FightRequest.currentRound == 0 )
+		{
+			return;
+		}
+
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : "";
 
