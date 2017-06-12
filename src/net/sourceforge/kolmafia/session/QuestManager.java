@@ -1118,7 +1118,9 @@ public class QuestManager
 
 	private static final void handleChasmChange( final String responseText )
 	{
-		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) )
+		// You deploy your handy-dandy portable bridge and quickly finish the job.
+		if ( responseText.contains( "Huzzah!  The bridge is finished!" ) || 
+			responseText.contains( "deploy your handy-dandy portable bridge" ) )
 		{
 			ResultProcessor.processItem(
 				ItemPool.MORNINGWOOD_PLANK, -1 * InventoryManager.getCount( ItemPool.MORNINGWOOD_PLANK ) );
