@@ -2064,6 +2064,10 @@ public class QuestManager
 			{
 				explored += 2;
 			}
+			else if ( Preferences.getBoolean( "bondDesert" ) )
+			{
+				explored += 2;
+			}
 			QuestManager.incrementDesertExploration( explored );
 			break;
 
