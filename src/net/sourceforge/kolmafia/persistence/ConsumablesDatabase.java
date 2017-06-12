@@ -758,15 +758,15 @@ public class ConsumablesDatabase
 		int itemId = ItemDatabase.getItemId( name );
 		int fullness = ConsumablesDatabase.getFullness( name );
 		int inebriety = ConsumablesDatabase.getInebriety( name );
-		if ( KoLCharacter.inBondcore() && "martini.gif".equals( ItemDatabase.getImage( itemId ) ) &&
-			Preferences.getBoolean( "bondMartiniTurn" ) )
+		if ( KoLCharacter.inBondcore() && "martini.gif".equals( ItemDatabase.getImage( itemId ) ) )
 		{
 			double bonus = 0.0;
 			// If we have Tuxedo Shirt equipped, or can get it equipped and have autoTuxedo set, apply 1-3 bonus adventures
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
+			if ( ConsumablesDatabase.isMartini ( itemId ) &&
+				( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.TUXEDO_SHIRT, 1 ) ) ||
 			     Preferences.getBoolean( "autoTuxedo" ) &&
 			     EquipmentManager.canEquip( ItemPool.TUXEDO_SHIRT ) &&
-			     InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) )
+			     InventoryManager.itemAvailable( ItemPool.TUXEDO_SHIRT ) ) )
 			{
 				bonus += 2.0;
 			}
@@ -775,12 +775,19 @@ public class ConsumablesDatabase
 			{
 				bonus += 1.0;
 			}
-			// +4 Turns (?) Improves Low Quality Martinis (& Splendid Martinis) from Exotic Olive Procurer, Ben Dover
-			if ( Preferences.getBoolean( "bondMartiniPlus" ) && 
-				( !ConsumablesDatabase.getQuality( name ).equals( ConsumablesDatabase.EPIC ) ||
-				name.equals( "splendid martini" ) ) )
+			// +4 Turns (?) Improves Low Quality Martinis from Exotic Olive Procurer, Ben Dover
+			if ( Preferences.getBoolean( "bondMartiniPlus" ) )
 			{
-				bonus += 4.0;
+				// If Martini would have given 10 or more adventures at base, give 4 extra
+				int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+				int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
+				for ( int i = start; i <= end ; i++ )
+				{
+					if ( i < 10 )
+					{
+						bonus += 4.0 / ( end - start + 1 );
+					}
+				}
 			}
 			return perUnit ? ( bonus / inebriety ) : bonus;
 		}
