@@ -872,6 +872,8 @@ public class FightRequest
 
 		if ( FightRequest.currentRound == 0 )
 		{
+			FightRequest.macroPrefixLength = 0;
+			FightRequest.nextAction = null;
 			return;
 		}
 
