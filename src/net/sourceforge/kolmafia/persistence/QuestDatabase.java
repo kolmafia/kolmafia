@@ -863,6 +863,7 @@ public class QuestDatabase
 		Preferences.resetToDefault( "lttQuestName" );
 		Preferences.resetToDefault( "lttQuestStageCount" );
 		Preferences.resetToDefault( "ghostLocation" );
+		Preferences.resetToDefault( "bondVillainsDefeated" );
 	}
 
 	public static void handleCouncilText( String responseText )

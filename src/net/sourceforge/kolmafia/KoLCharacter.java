@@ -3448,6 +3448,11 @@ public abstract class KoLCharacter
 			int noobPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "noobPoints", noobPoints );
 		}
+		else if ( oldPath.equals( LICENSE ) )
+		{
+			int bondPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "bondPoints", bondPoints );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );

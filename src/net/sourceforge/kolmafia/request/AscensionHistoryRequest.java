@@ -141,6 +141,7 @@ public class AscensionHistoryRequest
 		int snakeOilerPoints = 0;
 		int sourcePoints = 0;
 		int noobPoints = 0;
+		int bondPoints = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -216,6 +217,9 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.GELATINOUS_NOOB:
 				noobPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.LICENSE:
+				bondPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -252,6 +256,10 @@ public class AscensionHistoryRequest
 		if ( noobPoints > Preferences.getInteger( "noobPoints" ) )
 		{
 			Preferences.setInteger( "noobPoints", noobPoints );
+		}
+		if ( bondPoints > Preferences.getInteger( "bondPoints" ) )
+		{
+			Preferences.setInteger( "bondPoints", bondPoints );
 		}
 	}
 
@@ -729,6 +737,10 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.GELATINOUS_NOOB:
 				this.stringForm.append( "GN" );
 				break;
+
+			case AscensionSnapshot.LICENSE:
+				this.stringForm.append( "LA" );
+				break;
 			}
 
 			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
@@ -800,6 +812,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "The Source" ) ? AscensionSnapshot.THE_SOURCE :
 				path[ 1 ].equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 				path[ 1 ].equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+				path[ 1 ].equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -857,6 +870,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "ss_datasiphon" ) ? AscensionSnapshot.THE_SOURCE :
 					columns[ 8 ].contains( "radiation" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 					columns[ 8 ].contains( "gcube" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

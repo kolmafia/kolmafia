@@ -83,6 +83,7 @@ public class AscensionSnapshot
 	public static final int THE_SOURCE = 27;
 	public static final int NUCLEAR_AUTUMN = 28;
 	public static final int GELATINOUS_NOOB = 29;
+	public static final int LICENSE = 30;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -238,6 +239,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.LICENSE, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.GELATINOUS_NOOB, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
@@ -572,7 +577,8 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING ? "Avatar of West of Loathing " : 
 						pathFilter == AscensionSnapshot.THE_SOURCE ? "The Source "  :
 						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
-						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " : "" );
+						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Nuclear Autumn " :
+						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " : "" );
 
 			strbuf.append( "Ascensions (Out of " );
 			strbuf.append( resultsList.size() );
