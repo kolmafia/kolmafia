@@ -327,12 +327,14 @@ user	bondMus1	false
 user	bondMus2	false
 user	bondMys1	false
 user	bondMys2	false
+user	bondPoints	0
 user	bondSpleen	false
 user	bondStat	false
 user	bondStat2	false
 user	bondStealth	false
 user	bondStealth2	false
 user	bondSymbols	false
+user	bondVillainsDefeated	0
 user	bondWar	false
 user	bondWeapon2	false
 user	bondWpn	false

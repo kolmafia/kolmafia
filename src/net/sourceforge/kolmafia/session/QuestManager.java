@@ -2245,6 +2245,7 @@ public class QuestManager
 			else if ( monsterName.equals( "Villainous Villain" ) )
 			{
 				Preferences.setInteger( "_villainLairProgress", 999 );
+				Preferences.increment( "bondVillainsDefeated" );
 			}
 			break;
 		}
