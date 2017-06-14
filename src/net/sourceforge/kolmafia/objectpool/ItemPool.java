@@ -2838,6 +2838,7 @@ public class ItemPool
 	public static final int KREMLIN_BRIEFCASE = 9493;
 	public static final int CELSIUS_233 = 9504;
 	public static final int CELSIUS_233_SINGED = 9505;
+	public static final int LAZENBY = 9506;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

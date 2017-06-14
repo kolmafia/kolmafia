@@ -9529,3 +9529,4 @@
 9503
 9504	Celsius 233	448534493	book3.gif	usable	t	0
 9505	Celsius 233 (singed)	778678345	book3.gif	usable		0
+9506	Lazenby's Life Lesson	211516162	pamphlet.gif	usable	t	0
