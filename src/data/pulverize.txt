@@ -42,6 +42,7 @@ hypnodisk	ultimate wad
 incredibly dense meat gem	ultimate wad
 Talisman of Baio	ultimate wad
 Talisman of Bakula	ultimate wad
+The Nuge's favorite crossbow	ultimate wad
 
 # Antique Arms & Armor got nerfed.
 antique greaves	useless powder
