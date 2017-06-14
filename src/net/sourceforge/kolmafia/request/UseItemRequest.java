@@ -5347,6 +5347,13 @@ public class UseItemRequest
 			}
 			break;
 
+		case ItemPool.LAZENBY:
+			if ( responseText.contains( "You lean how best to grow your social capital." ) )
+			{
+				Preferences.increment( "bondPoints" );
+			}
+			break;
+
 		case ItemPool.ESSENCE_OF_ANNOYANCE:
 			if ( responseText.contains( "You quaff" ) )
 			{

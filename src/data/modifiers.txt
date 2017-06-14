@@ -9015,6 +9015,7 @@ Item	labrador cookie	Effect: "Insatiable Hunger", Effect Duration: 40
 Item	Lava Miner's Daughter	Skill: "Asbestos Heart"
 Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 # lavender plastic oyster egg: Deals 40-50 Physical Damage
+Item	Lazenby's Life Lesson	Free Pull
 Item	leather glove	Effect: "Connering the Seanman", Effect Duration: 100
 # leftovers of indeterminate origin: Deals 8-10 <font color=green>Stench Damage</font>
 Item	lemonhead caviar	Effect: "Sourpuss", Effect Duration: 30
