@@ -114,9 +114,9 @@ public abstract class ClanManager
 	private static final LockableListModel<String> rankList = new LockableListModel<String>();
 	private static final SortedListModel<AdventureResult> stashContents = new SortedListModel<AdventureResult>();
 
-	private static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
-	private static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
-	private static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
+	public static final AdventureResult HOT_DOG_STAND = ItemPool.get( ItemPool.CLAN_HOT_DOG_STAND, 1 );
+	public static final AdventureResult SPEAKEASY = ItemPool.get( ItemPool.CLAN_SPEAKEASY, 1 );
+	public static final AdventureResult FLOUNDRY = ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 );
 
 	public static final void clearCache( boolean newCharacter )
 	{

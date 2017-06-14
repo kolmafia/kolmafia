@@ -71,6 +71,8 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
+import net.sourceforge.kolmafia.session.ClanManager;
+
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class ValhallaManager
@@ -293,6 +295,24 @@ public class ValhallaManager
 		if ( Preferences.getBoolean( "autoQuest" ) )
 		{
 			RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.get( ItemPool.SPOOKYRAVEN_TELEGRAM, 1 ) ) );
+		}
+
+		// Standard paths can change what is available, so check clan
+		ClanLoungeRequest.visitLounge();
+		ClanLoungeRequest.visitLoungeFloor2();
+
+		// Check hotdog stand, speakeasy, and floundry, if present
+		if ( ClanManager.getClanLounge().contains( ClanManager.HOT_DOG_STAND ) )
+		{
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+		}
+		if ( ClanManager.getClanLounge().contains( ClanManager.SPEAKEASY ) )
+		{
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+		}
+		if ( ClanManager.getClanLounge().contains( ClanManager.FLOUNDRY ) )
+		{
+			ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
 		}
 
 		//force rebuild of daily deeds panel

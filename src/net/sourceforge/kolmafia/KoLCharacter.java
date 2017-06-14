@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -3545,6 +3546,25 @@ public abstract class KoLCharacter
 			// All familiars can now be used
 			RequestThread.postRequest( new FamiliarRequest() );
 			GearChangeFrame.updateFamiliars();
+
+			// Available stuff in Clan may have changed, so check clan
+			// Equipment can be on either the first or second floor
+			ClanLoungeRequest.visitLounge();
+			ClanLoungeRequest.visitLoungeFloor2();
+
+			// Check hotdog stand, speakeasy, and floundry, if present
+			if ( ClanManager.getClanLounge().contains( ClanManager.HOT_DOG_STAND ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.HOT_DOG_STAND );
+			}
+			if ( ClanManager.getClanLounge().contains( ClanManager.SPEAKEASY ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.SPEAKEASY );
+			}
+			if ( ClanManager.getClanLounge().contains( ClanManager.FLOUNDRY ) )
+			{
+				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
+			}
 		}
 
 		// Stop expecting Path-related Wandering Monsters
