@@ -185,7 +185,8 @@ public class KoLAdventure
 		}
 		else if ( this.areaSummary != null )
 		{
-			this.isNonCombatsOnly = this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0;
+			this.isNonCombatsOnly = this.areaSummary.combats() == 0 && this.areaSummary.getMonsterCount() == 0 &&
+							this.areaSummary.getSuperlikelyMonsterCount() == 0;
 		}
 		else
 		{
@@ -305,12 +306,21 @@ public class KoLAdventure
 
 	public boolean isNonCombatsOnly()
 	{
-		return this.isNonCombatsOnly && KoLAdventure.hasWanderingMonsters( this.formSource );
+		return this.isNonCombatsOnly && !KoLAdventure.hasWanderingMonsters( this.formSource, this.adventureId );
 	}
 
-	public static boolean hasWanderingMonsters( String urlString )
+	public static final boolean hasWanderingMonsters( final String urlString, final String adventureId )
 	{
 		if ( !urlString.startsWith( "adventure.php" ) )
+		{
+			return false;
+		}
+
+		int advId = Integer.parseInt( adventureId );
+		if ( advId == AdventurePool.THE_SHORE  ||
+		     advId == AdventurePool.TRAINING_SNOWMAN ||
+		     advId == AdventurePool.DIRE_WARREN ||
+		     ( advId >= AdventurePool.GINGERBREAD_CIVIC && advId <= AdventurePool.GINGERBREAD_SEWERS ) )
 		{
 			return false;
 		}
@@ -352,7 +362,8 @@ public class KoLAdventure
 		// Mini-Hipster and Artistic Goth Kid
 
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		if ( familiar != null && ( familiar.getId() == FamiliarPool.HIPSTER || familiar.getId() == FamiliarPool.ARTISTIC_GOTH_KID ) && Preferences.getInteger( "_hipsterAdv" ) < 7 )
+		if ( familiar != null && ( familiar.getId() == FamiliarPool.HIPSTER || familiar.getId() == FamiliarPool.ARTISTIC_GOTH_KID ) &&
+		     Preferences.getInteger( "_hipsterAdv" ) < 7 )
 		{
 			return true;
 		}

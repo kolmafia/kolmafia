@@ -3264,14 +3264,9 @@ public class RelayRequest
 			return true;
 		}
 
-		if ( adventureName != null )
+		if ( adventure != null )
 		{
-			areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
-			if ( areaSummary != null )
-			{
-				isNonCombatsOnly = areaSummary.combats() == 0 && areaSummary.getMonsterCount() == 0
-							&& areaSummary.getSuperlikelyMonsterCount() == 0 && !KoLAdventure.hasWanderingMonsters( urlString );
-			}
+			isNonCombatsOnly = adventure.isNonCombatsOnly();
 		}
 
 		if ( nextAdventure != null && RecoveryManager.isRecoveryPossible() && this.getFormField( CONFIRM_RECOVERY ) == null )
