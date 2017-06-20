@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.Modifiers.ModifierList;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 public class KGBRequest
 	extends GenericRequest
 {
@@ -51,14 +53,33 @@ public class KGBRequest
 		super( "place.php" );
 	}
 
-
-	public static void parseResponse( final String urlString, final String responseText )
+	public static final void parseResponse( final String urlString, final String responseText )
 	{
 		String action = GenericRequest.getAction( urlString );
+
+		if ( action != null )
+		{
+			KGBRequest.countClicks( responseText );
+		}
 		if ( action != null && action.startsWith( "kgb_button" ) )
 		{
 			KGBRequest.updateEnchantments( responseText );
 		}
+	}
+
+	public static final void countClicks( String responseText )
+	{
+		int startIndex = responseText.indexOf( "<br>Click" ) + 4;
+		int endIndex = responseText.indexOf( "<br>", startIndex );
+		String text = responseText.substring( startIndex, endIndex ).toLowerCase();
+		int index = text.indexOf( "click" );
+		int count = 0;
+		while ( index != -1 )
+		{
+			count++;
+			index = text.indexOf( "click", index + 5 );
+		}
+		Preferences.increment( "_kgbClicksUsed", count );
 	}
 
 	// <s>Monsters will be less attracted to you</s><br><br><b>+5 PvP Fights per day</b>
