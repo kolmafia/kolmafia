@@ -69,7 +69,12 @@ public class KGBRequest
 
 	public static final void countClicks( String responseText )
 	{
-		int startIndex = responseText.indexOf( "<br>Click" ) + 4;
+		int startIndex = responseText.indexOf( "<br>Click" );
+		if ( startIndex == -1 )
+		{
+			return;
+		}
+		startIndex += 4;
 		int endIndex = responseText.indexOf( "<br>", startIndex );
 		String text = responseText.substring( startIndex, endIndex ).toLowerCase();
 		int index = text.indexOf( "click" );
