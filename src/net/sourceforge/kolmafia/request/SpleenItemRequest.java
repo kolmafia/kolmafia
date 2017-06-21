@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -81,8 +82,16 @@ public class SpleenItemRequest
 
 		int limit = KoLCharacter.getSpleenLimit();
 		int spleenLeft = limit - KoLCharacter.getSpleenUse();
+		int usableMaximum = spleenLeft / spleenHit;
 
-		return Math.min( restorationMaximum, spleenLeft / spleenHit );
+		switch ( itemId )
+		{
+		case ItemPool.TURKEY_BLASTER:
+			UseItemRequest.limiter = "daily limit";
+			return Math.min( usableMaximum, ( 3 - Preferences.getInteger( "_turkeyBlastersUsed" ) ) );
+		}
+
+		return Math.min( restorationMaximum, usableMaximum );
 	}
 
 	@Override
@@ -278,7 +287,13 @@ public class SpleenItemRequest
 			}
 			else
 			{
-				Preferences.increment( "_turkeyBlastersUsed" );
+				int turns = AdventureSpentDatabase.getTurns( Preferences.getString( "lastAdventure" ) );
+				if ( turns > 0 )
+				{
+					AdventureSpentDatabase.setTurns( Preferences.getString( "lastAdventure" ), turns + 5*count );
+				}
+
+				Preferences.increment( "_turkeyBlastersUsed", count );
 			}
 			break;
 		}
