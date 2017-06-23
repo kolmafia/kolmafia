@@ -288,7 +288,7 @@ public class SpleenItemRequest
 			else
 			{
 				int turns = AdventureSpentDatabase.getTurns( Preferences.getString( "lastAdventure" ) );
-				if ( turns > 0 )
+				if ( turns >= 0 )
 				{
 					AdventureSpentDatabase.setTurns( Preferences.getString( "lastAdventure" ), turns + 5*count );
 				}
