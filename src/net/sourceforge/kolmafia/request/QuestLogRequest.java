@@ -161,6 +161,11 @@ public class QuestLogRequest
 			map.put( IntegerPool.get( headers.end() ), headers.group( 1 ) );
 		}
 
+		if ( !map.isEmpty() && source == 1 )
+		{
+			Preferences.setString( "ghostLocation", "" );
+		}
+
 		Iterator<Integer> it = map.keySet().iterator();
 		while ( it.hasNext() )
 		{
@@ -170,16 +175,16 @@ public class QuestLogRequest
 
 			if ( header.equals( "Council Quests:" ) )
 			{
-				handleQuestText( cut, source );
+				handleQuestText( cut );
 			}
 			else if ( header.equals( "Guild Quests:" ) )
 			{
-				handleQuestText( cut, source );
+				handleQuestText( cut );
 			}
 			// First time I opened this today it said Miscellaneous quests, now says Other quests, so check for both
 			else if ( header.equals( "Other Quests:" ) || header.equals( "Miscellaneous Quests:" ) )
 			{
-				handleQuestText( cut, source );
+				handleQuestText( cut );
 			}
 			else
 			{
@@ -268,13 +273,8 @@ public class QuestLogRequest
 		}
 	}
 
-	private static void handleQuestText( String response, int source )
+	private static void handleQuestText( String response )
 	{
-		if ( source == 1 )
-		{
-			Preferences.setString( "ghostLocation", "" );
-		}
-
 		Matcher body = QuestLogRequest.BODY_PATTERN.matcher( response );
 		// Form of.. a regex! group(1) now contains the quest title and group(2) has the details.
 		while ( body.find() )
