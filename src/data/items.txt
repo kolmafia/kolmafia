@@ -9526,7 +9526,7 @@
 9500
 9501
 9502
-9503
+9503	License to Chill	163081018	licensetochill.gif	usable		0
 9504	Celsius 233	448534493	book3.gif	usable	t	0
 9505	Celsius 233 (singed)	778678345	book3.gif	usable		0
 9506	Lazenby's Life Lesson	211516162	pamphlet.gif	usable	t	0

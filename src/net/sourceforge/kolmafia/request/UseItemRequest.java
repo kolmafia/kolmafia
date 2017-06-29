@@ -1174,6 +1174,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_hardKnocksDiplomaUsed" ) ? 0 : 1;
 
+		case ItemPool.LICENSE_TO_CHILL:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_licenseToChillUsed" ) ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5925,6 +5929,10 @@ public class UseItemRequest
 				return;
 			}
 			ChoiceManager.parseLanguageFluency( responseText, "spaceBabyLanguageFluency" );
+			break;
+
+		case ItemPool.LICENSE_TO_CHILL:
+			Preferences.setBoolean( "_licenseToChill", true );
 			break;
 		}
 
