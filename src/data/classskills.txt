@@ -766,7 +766,7 @@
 7281	Censurious Lecture	book3.gif	5	5	0
 7282	Extract Jelly	jellyglob.gif	5	0	0
 7283	Breathe Out	waves.gif	5	0	0
-7284
+7284	EXTERMINATE SPANT	murderbotmask.gif	5	0	0
 7285	KGB tranquilizer dart	ancientdart.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
