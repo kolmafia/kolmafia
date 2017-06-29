@@ -3105,6 +3105,13 @@ public class ResultProcessor
 				Preferences.increment( "_spaceJellyfishDrops" );
 			}
 			break;
+
+		case ItemPool.LICENSE_TO_CHILL:
+			if ( combatResults )
+			{
+				ResultProcessor.processResult( ItemPool.get( ItemPool.LICENSE_TO_KILL, -11 ) );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
