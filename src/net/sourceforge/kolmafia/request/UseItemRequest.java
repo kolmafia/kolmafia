@@ -5932,7 +5932,7 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.LICENSE_TO_CHILL:
-			Preferences.setBoolean( "_licenseToChill", true );
+			Preferences.setBoolean( "_licenseToChillUsed", true );
 			break;
 		}
 
