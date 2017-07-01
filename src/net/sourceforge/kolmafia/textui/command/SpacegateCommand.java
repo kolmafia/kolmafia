@@ -50,7 +50,7 @@ public class SpacegateCommand
 {
 	public SpacegateCommand()
 	{
-		this.usage = " vaccine [#] - Perform the specified action at the Spacegate Facility";
+		this.usage = " vaccine [#], destination [#######|random] - Perform the specified action at the Spacegate Facility";
 	}
 
 	@Override
@@ -99,8 +99,32 @@ public class SpacegateCommand
 			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1234&option=" + vaccine ) );
 			return;
 		}
+		else if ( command.equals( "destination" ) )
+		{
+			if ( params.length < 2 )
+			{
+				RequestLogger.printLine( "Usage: spacegate " + this.usage );
+				return;
+			}
+			if ( !Preferences.getString( "_spacegateCoordinates" ).equals( "" ) )
+			{
+				RequestLogger.printLine( "You've already chosen a destination today" );
+				return;
+			}
+
+			String destination = params[1];
+			if ( destination.equals( "random" ) )
+			{
+				RequestThread.postRequest( new GenericRequest( "place.php?whichplace=spacegate&action=sg_Terminal" ) );
+				RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1235&option=3" ) );
+				return;
+			}
+
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=spacegate&action=sg_Terminal" ) );
+			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1235&option=2&word=" + destination ) );
+			return;
+		}
 
 		RequestLogger.printLine( "Usage: spacegate " + this.usage );
-
 	}
 }

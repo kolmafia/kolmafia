@@ -588,6 +588,7 @@ public interface KoLConstants
 		BARREL,		// Items granted at the Barrel Shrine
 		WAX,		// Items made from globs of melted wax
 		SPANT,		// Items made from spant chitin/tendons
+		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
 	}
 
 	public enum CraftingRequirements

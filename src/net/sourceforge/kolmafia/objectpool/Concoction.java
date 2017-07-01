@@ -1141,6 +1141,12 @@ public class Concoction
 			}
 		}
 
+		if ( this.mixingMethod == CraftingType.SPACEGATE )
+		{
+			// If you have one in inventory, you cannot get more
+			return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
+		}
+
 		if ( needToMake <= 0 )
 		{	// Have enough on hand already.
 			// Don't bother with calculating the number creatable:

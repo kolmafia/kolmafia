@@ -2935,3 +2935,11 @@ spant backplate	SPANT, ROW942	spant chitin (4)	spant tendon (6)
 spant shield	SPANT, ROW940	spant chitin (6)	spant tendon (4)
 spant shoulderpads	SPANT, ROW941	spant chitin (3)	spant tendon (7)
 spants	SPANT, ROW939	spant chitin (7)	spant tendon (3)
+filter helmet	SPACEGATE
+exo-servo leg braces	SPACEGATE
+rad cloak	SPACEGATE
+gate transceiver	SPACEGATE
+high-friction boots	SPACEGATE
+geological sample kit	SPACEGATE
+botanical sample kit	SPACEGATE
+zoological sample kit	SPACEGATE

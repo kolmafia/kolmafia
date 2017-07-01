@@ -42,6 +42,8 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -129,5 +131,6 @@ public class BarrelPrayerCommand
 		RequestThread.postRequest( request );
 		request.constructURLString( "choice.php?whichchoice=1100&option=" + option );
 		RequestThread.postRequest( request );
+		ConcoctionDatabase.refreshConcoctionsNow();
 	}
 }

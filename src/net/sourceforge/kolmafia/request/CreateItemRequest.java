@@ -382,6 +382,9 @@ public class CreateItemRequest
 		case SPANT:
 			return new SpantRequest( conc );
 
+		case SPACEGATE:
+			return new SpacegateEquipmentRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}
