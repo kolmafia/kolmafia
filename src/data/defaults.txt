@@ -2234,6 +2234,27 @@ user	choiceAdventure1211	0
 user	choiceAdventure1212	0
 user	choiceAdventure1213	0
 user	choiceAdventure1219	1
+user	choiceAdventure1236	0
+user	choiceAdventure1237	0
+user	choiceAdventure1238	0
+user	choiceAdventure1239	0
+user	choiceAdventure1240	0
+user	choiceAdventure1241	0
+user	choiceAdventure1242	0
+user	choiceAdventure1243	0
+user	choiceAdventure1244	1
+user	choiceAdventure1245	1
+user	choiceAdventure1246	1
+user	choiceAdventure1247	0
+user	choiceAdventure1248	0
+user	choiceAdventure1249	0
+user	choiceAdventure1250	0
+user	choiceAdventure1251	0
+user	choiceAdventure1252	1
+user	choiceAdventure1253	0
+user	choiceAdventure1254	0
+user	choiceAdventure1255	0
+user	choiceAdventure1256	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

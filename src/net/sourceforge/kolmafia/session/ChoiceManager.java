@@ -3759,7 +3759,146 @@ public abstract class ChoiceManager
 
 		// Choice 1217 is Sweet Synthesis
 		// Choice 1218 is Wax On
-	};
+
+		// Choice 1236 is Space Cave
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1236", "Space Cave",
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+		// Choice 1237 is A Simple Plant
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1237", "A Simple Plant",
+			new Object[] { new Option( "acquire edible alien plant bit", 1, "edible alien plant bit" ),
+				       new Option( "acquire alien plant fibers", 2, "alien plant fibers" ),
+				       new Option( "acquire alien plant sample (with botany kit)", 3, "alien plant sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+		// Choice 1238 is A Complicated Plant
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1238", "A Complicated Plant",
+			new Object[] { new Option( "acquire some edible alien plant bit", 1, "edible alien plant bit" ),
+				       new Option( "acquire some alien plant fibers", 2, "alien plant fibers" ),
+				       new Option( "acquire complex alien plant sample (with botany kit)", 3, "complex alien plant sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+		// Choice 1239 is What a Plant!
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1239", "What a Plant!",
+			new Object[] { new Option( "acquire some edible alien plant bit", 1, "edible alien plant bit" ),
+				       new Option( "acquire some alien plant fibers", 2, "alien plant fibers" ),
+				       new Option( "acquire fascinating alien plant sample (with botany kit)", 3, "fascinating alien plant sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+		// Choice 1240 is The Animals, The Animals
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1240", "The Animals, The Animals",
+			new Object[] { new Option( "acquire alien meat", 1, "alien meat" ),
+				       new Option( "acquire alien toenails", 2, "alien toenails" ),
+				       new Option( "acquire alien zoological sample (with zoology kit)", 3, "alien zoological sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+	   // Choice 1241 is Buffalo-Like Animal, Won't You Come Out Tonight
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1241", "Buffalo-Like Animal, Won't You Come Out Tonight",
+			new Object[] { new Option( "acquire some alien meat", 1, "alien meat" ),
+				       new Option( "acquire some alien toenails", 2, "alien toenails" ),
+				       new Option( "acquire complex alien zoological sample (with zoology kit)", 3, "complex alien zoological sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+	   // Choice 1242 is House-Sized Animal
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1242", "House-Sized Animal",
+			new Object[] { new Option( "acquire some alien meat", 1, "alien meat" ),
+				       new Option( "acquire some alien toenails", 2, "alien toenails" ),
+				       new Option( "acquire fascinating alien zoological sample (with zoology kit)", 3, "fascinating alien zoological sample" ),
+				       new Option( "skip adventure", 6 ) } ),
+
+		// Choice 1243 is Interstellar Trade
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1243", "Interstellar Trade",
+			new Object[] { new Option( "purchase item", 1 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1244 is Here There Be No Spants
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1244", "Here There Be No Spants",
+			new Object[] { new Option( "acquire spant egg casing", 1, "spant egg casing" ) } ),
+
+		// Choice 1245 is Recovering the Satellites
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1245", "Recovering the Satellite",
+			new Object[] { new Option( "acquire murderbot data core", 1, "murderbot data core" ) } ),
+
+		// Choice 1246 is Land Ho
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1246", "Land Ho",
+			new Object[] { new Option( "gain 10% Space Pirate language", 1 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1247 is Half The Ship it Used to Be
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1247", "Half The Ship it Used to Be",
+			new Object[] { new Option( "acquire space pirate treasure map (with enough Space Pirate language)", 1, "space pirate treasure map" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1248 is Paradise Under a Strange Sun
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1248", "Paradise Under a Strange Sun",
+			new Object[] { new Option( "acquire Space Pirate Astrogation Handbook (with space pirate treasure map)", 1, "Space Pirate Astrogation Handbook" ),
+				       new Option( "gain 1000 moxie stats", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1249 is That's No Moonlith, it's a Monolith!
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1249", "That's No Moonlith, it's a Monolith!",
+			new Object[] { new Option( "gain 20% procrastinator language (with murderbot data core)", 1 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1250 is I'm Afraid It's Terminal
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1250", "I'm Afraid It's Terminal",
+			new Object[] { new Option( "acquire procrastinator locker key (with enough procrastinator language)", 1, "Procrastinator locker key" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1251 is Curses, a Hex
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1251", "Curses, a Hex",
+			new Object[] { new Option( "acquire Non-Euclidean Finance (with procrastinator locker key)", 1, "Non-Euclidean Finance" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1252 is Time Enough at Last
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1252", "Time Enough at Last",
+			new Object[] { new Option( "acquire Space Baby childrens' book", 1, "Space Baby childrens' book" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1253 is Mother May I
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1253", "Mother May I",
+			new Object[] { new Option( "acquire Space Baby bawbaw (with enough Space Baby language)", 1, "Space Baby bawbaw" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1254 is Please Baby Baby Please
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1254", "Please Baby Baby Please",
+			new Object[] { new Option( "acquire Peek-a-Boo! (with Space Baby bawbaw)", 1, "Peek-a-Boo!" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1255 is Cool Space Rocks
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1255", "Cool Space Rocks",
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ) } ),
+
+		// Choice 1256 is Wide Open Spaces
+		new ChoiceAdventure(
+			"The Spacegate", "choiceAdventure1256", "Wide Open Spaces",
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ) } ),
+
+   };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 

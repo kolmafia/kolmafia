@@ -2272,9 +2272,9 @@ public class ConcoctionDatabase
 		}
 
 		// It's Crimbo, so allow creation!
-		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CRIMBO16 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CRIMBO16, 0 );
-		ConcoctionDatabase.CREATION_COST.put( CraftingType.CRIMBO16, 0 );
+		//ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.CRIMBO16 );
+		//ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.CRIMBO16, 0 );
+		//ConcoctionDatabase.CREATION_COST.put( CraftingType.CRIMBO16, 0 );
 
 		boolean clanFloundry = ClanLoungeRequest.hasClanLoungeItem( ItemPool.get( ItemPool.CLAN_FLOUNDRY, 1 ) );
 		boolean gotFloundryItem = InventoryManager.hasItem( ItemPool.CARPE ) ||
@@ -2331,6 +2331,17 @@ public class ConcoctionDatabase
 		else
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You do not have a Source Terminal." );
+		}
+
+		if ( Preferences.getBoolean( "spacegateAlways" ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SPACEGATE );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SPACEGATE, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.SPACEGATE, 0 );
+		}
+		else
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You do not have access to Spacegate Equipment Requisition." );
 		}
 
 		// Now, go through all the cached adventure usage values and if
@@ -2654,7 +2665,10 @@ public class ConcoctionDatabase
 		{
 			result.append( "spant pieces" );
 		}
-
+		else if ( mixingMethod == CraftingType.SPACEGATE )
+		{
+			result.append( "Spacegate Equipment Requisition" );
+		}
 		if ( result.length() == 0 )
 		{
 			result.append( "[unknown method of creation]" );
@@ -3317,6 +3331,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "SPANT" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.SPANT;
+		}
+
+		else if ( mix.equals( "SPACEGATE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SPACEGATE;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )
