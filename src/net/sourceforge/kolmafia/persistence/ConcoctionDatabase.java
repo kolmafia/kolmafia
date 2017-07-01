@@ -2341,7 +2341,7 @@ public class ConcoctionDatabase
 		}
 		else
 		{
-			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You do not have access to Spacegate Equipment Requisition." );
+			ConcoctionDatabase.EXCUSE.put( CraftingType.SPACEGATE, "You do not have access to Spacegate Equipment Requisition." );
 		}
 
 		// Now, go through all the cached adventure usage values and if
