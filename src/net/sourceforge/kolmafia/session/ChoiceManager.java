@@ -3743,19 +3743,116 @@ public abstract class ChoiceManager
 		// Choice 1199 is The Far Future
 
 		// Choice 1202 is Noon in the Civic Center
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1202", "Noon in the Civic Center",
+			new Object[] { new Option( "fancy marzipan briefcase", 1, "fancy marzipan briefcase" ),
+				       new Option( "acquire 50 sprinkles and unlock judge fudge", 2, "sprinkles" ),
+				       new Option( "enter Civic Planning Office (costs 1000 sprinkles)", 3 ),
+				       new Option( "acquire briefcase full of sprinkles (with gingerbread blackmail photos)", 4 ) } ),
+
 		// Choice 1203 is Midnight in Civic Center
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1203", "Midnight in the Civic Center",
+			new Object[] { new Option( "gain 500 mysticality", 1 ),
+				       new Option( "acquire counterfeit city (costs 300 sprinkles)", 2, "counterfeit city" ),
+				       new Option( "acquire gingerbread moneybag (with creme brulee torch)", 3, "gingerbread moneybag" ),
+				       new Option( "acquire 5 gingerbread cigarettes (costs 5 sprinkles)", 4, "gingerbread cigarette" ),
+				       new Option( "acquire chocolate puppy (with gingerbread dog treat)", 5, "chocolate puppy" ) } ),
+
 		// Choice 1204 is Noon at the Train Station
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1204", "Noon at the Train Station",
+			new Object[] { new Option( "gain 8-11 candies", 1 ),
+				       new Option( "increase size of sewer gators (with sewer unlocked)", 2 ),
+				       new Option( "gain 250 mysticality", 3 ) } ),
+
 		// Choice 1205 is Midnight at the Train Station
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1205", "Midnight at the Train Station",
+			new Object[] { new Option( "gain 500 muscle and add track", 1 ),
+				       new Option( "acquire broken chocolate pocketwatch (with pumpkin spice candle)", 2, "broken chocolate pocketwatch" ),
+				       new Option( "enter The Currency Exchange (with candy crowbar)", 3 ),
+				       new Option( "acquire fruit-leather negatives (with track added)", 4, "fruit-leather negatives" ),
+				       new Option( "acquire various items (with teethpick)", 5 ) } ),
+
 		// Choice 1206 is Noon in the Industrial Zone
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1206", "Noon in the Industrial Zone",
+			new Object[] { new Option( "acquire creme brulee torch (costs 25 sprinkles)", 1, "creme brulee torch" ),
+				       new Option( "acquire candy crowbar (costs 50 sprinkles)", 2, "candy crowbar" ),
+				       new Option( "acquire candy screwdriver (costs 100 sprinkles)", 3, "candy screwdriver" ),
+				       new Option( "acquire teethpick (costs 1000 sprinkles after studying law)", 4, "teethpick" ),
+				       new Option( "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 5 ) } ),
+
 		// Choice 1207 is Midnight in the Industrial Zone
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1207", "Midnight in the Industrial Zone",
+			new Object[] { new Option( "enter Seedy Seedy Seedy", 1 ),
+				       new Option( "enter The Factory Factor", 2 ),
+				       new Option( "acquire tattoo (costs 100000 sprinkles)", 3 ) } ),
+
 		// Choice 1208 is Upscale Noon
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1208", "Upscale Noon",
+			new Object[] { new Option( "acquire gingerbread dog treat (costs 200 sprinkles)", 1, "gingerbread dog treat" ),
+				       new Option( "acquire pumpkin spice candle (costs 150 sprinkles)", 2, "pumpkin spice candle" ),
+				       new Option( "acquire gingerbread spice latte (costs 50 sprinkles)", 3, "gingerbread spice latte" ),
+				       new Option( "acquire gingerbread trousers (costs 500 sprinkles)", 4, "gingerbread trousers" ),
+				       new Option( "acquire gingerbread waistcoat (costs 500 sprinkles)", 5, "gingerbread waistcoat" ),
+				       new Option( "acquire gingerbread tophat (costs 500 sprinkles)", 6, "gingerbread tophat" ),
+				       new Option( "acquire 400-600 sprinkles (with gingerbread mask, pistol and moneybag)", 7 ),
+				       new Option( "acquire gingerbread blackmail photos (drop off fruit-leather negatives and pick up next visit)", 8, "gingerbread blackmail photos" ),
+				       new Option( "leave", 9 ) } ),
+
 		// Choice 1209 is Upscale Midnight
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1209", "Upscale Midnight",
+			new Object[] { new Option( "acquire fake cocktail", 1, "fake cocktail" ),
+				       new Option( "enter The Gingerbread Gallery (wearing Gingerbread Best", 2 ) } ),
+
 		// Choice 1210 is Civic Planning Office
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1210", "Civic Planning Office",
+			new Object[] { new Option( "unlock Gingerbread Upscale Retail District", 1 ),
+				       new Option( "unlock Gingerbread Sewers", 2 ),
+				       new Option( "unlock 10 extra City adventures", 3 ),
+				       new Option( "unlock City Clock", 4 ) } ),
+
 		// Choice 1211 is The Currency Exchange
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1211", "The Currency Exchange",
+			new Object[] { new Option( "acquire 5000 meat", 1 ),
+				       new Option( "acquire fat loot token", 2, "fat loot token" ),
+				       new Option( "acquire 250 sprinkles", 3, "sprinkles" ),
+				       new Option( "acquire priceless diamond", 4, "priceless diamond" ),
+				       new Option( "acquire 5 pristine fish scales)", 5, "pristine fish scales" ) } ),
+
 		// Choice 1212 is Seedy Seedy Seedy
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1212", "Seedy Seedy Seedy",
+			new Object[] { new Option( "acquire gingerbread pistol (costs 300 sprinkles)", 1, "gingerbread pistol" ),
+				       new Option( "gain 500 moxie", 2 ),
+				       new Option( "ginger beer (with gingerbread mug)", 3, "ginger beer" ) } ),
+
 		// Choice 1213 is The Factory Factor
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1213", "The Factory Factor",
+			new Object[] { new Option( "acquire spare chocolate parts", 1, "spare chocolate parts" ),
+				       new Option( "fight GNG-3-R (with gingerservo", 2 ) } ),
+
 		// Choice 1214 is The Gingerbread Gallery
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1214", "The Gingerbread Gallery",
+			new Object[] { new Option( "acquire high-end ginger wine", 1, "high-end ginger wine" ),
+				       new Option( "acquire fancy chocolate sculpture (costs 300 sprinkles)", 2, "fancy chocolate sculpture" ),
+				       new Option( "acquire Pop Art: a Guide (costs 1000 sprinkles)", 3, "Pop Art: a Guide" ),
+				       new Option( "acquire No Hats as Art (costs 1000 sprinkles)", 4, "No Hats as Art" ) } ),
+
 		// Choice 1215 is Setting the Clock
+		new ChoiceAdventure(
+			"Gingerbread City", "choiceAdventure1215", "Setting the Clock",
+			new Object[] { new Option( "move clock forward", 1 ),
+				       new Option( "leave", 2 ) } ),
 
 		// Choice 1217 is Sweet Synthesis
 		// Choice 1218 is Wax On

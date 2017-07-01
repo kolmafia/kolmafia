@@ -2233,6 +2233,8 @@ user	choiceAdventure1210	0
 user	choiceAdventure1211	0
 user	choiceAdventure1212	0
 user	choiceAdventure1213	0
+user	choiceAdventure1214	0
+user	choiceAdventure1215	0
 user	choiceAdventure1219	1
 user	choiceAdventure1236	0
 user	choiceAdventure1237	0
