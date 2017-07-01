@@ -242,7 +242,7 @@ dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 eagle's milk	2	2	decent	4	0	0	0
 edible alien plant bit	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
 eldritch mushroom	1	1	crappy	3	11	11	11
-eldritch mushroom pizza	3	12	awesome	0	0	0	0	gain eldritch effluvium, 1 Eldritch Attunement
+eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement
 Eldritch snap	1	12	EPIC	7	11	11	11	3 Eldritch Attunement
 electric ancient serpent roll	3	1		12-17	0	8-16	20-30	45/55 Fishy
 electric beefy maki	3	1		10-15	8-16	0	0	45/55 Fishy
