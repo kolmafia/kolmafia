@@ -6719,6 +6719,8 @@ Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
 # Eldritch Intellect Unlocks Eldritch Knowledge
 Skill	Elemental Obliviousness	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Elemental Wards	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+# Skill	Eternal Flame	Makes you Politically Active
+Skill	Eternal Flame	Hot Resistance: +1, Hot Spell Damage: +1
 Skill	Even More Elemental Wards	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 Skill	Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Skill	Extra Brain	Mysticality Percent: +50
