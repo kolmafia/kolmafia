@@ -9499,7 +9499,7 @@
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
 9475
-9476
+9476	Spant eggs	622124078	spanteggs.gif	usable	t,d	5
 9477
 9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
 9479	Daily Affirmation: Always be Collecting	121669048	newyoucard1.gif	multiple, combat	t,d	5

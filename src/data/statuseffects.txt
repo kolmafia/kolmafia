@@ -2305,3 +2305,4 @@
 2304	A View to Some Meat	effect009.gif	c0699070fa1203615d3652eab33c56fa
 2305	Items Are Forever	effect0010.gif	0b962f64b073be3a403529f1b1eb0794
 2306	The Spy Who Loved XP	effect0011.gif	51a0eea3519449ab2b43748edd5af2cb
+2307	Sugary World View	spanteggs.gif	7e401e00dc196efc529a6eb3f5bd06b1	use 1 Spant eggs
