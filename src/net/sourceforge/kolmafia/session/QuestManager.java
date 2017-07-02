@@ -97,26 +97,40 @@ public class QuestManager
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
-		String redirectLocation = request.redirectLocation;
-		if ( redirectLocation != null )
-		{
-			// If this request redirected to a fight or choice and
-			// was automated, there no response text here
-			return;
-		}
-
-		String responseText = request.responseText;
-		if ( responseText == null || responseText.equals( "" ) )
-		{
-			// Similarly, don't process an empty response
-			return;
-		}
+		// Certain location-specific quest changes are noticed by
+		// simply adventuring in a location. Get the location.
 
 		String location = request.getURLString();
 		String locationId = request.getFormField( "snarfblat" );
 		if ( locationId == null )
 		{
 			locationId = "";
+		}
+
+		// If we redirected to a choice or fight, there is no response
+		// text here. Look for the above-mentioned quest changes which
+		// don't depend on a responseText.
+		
+		String redirectLocation = request.redirectLocation;
+		if ( redirectLocation != null )
+		{
+			if ( location.startsWith( "adventure" ) )
+			{
+				if ( locationId.equals( AdventurePool.PALINDOME_ID ) )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+				}
+			}
+			return;
+		}
+
+		// If there was no redirect but we didn't get a response for
+		// some reason, that is puzzling, but nothing to do.
+		String responseText = request.responseText;
+		if ( responseText == null || responseText.equals( "" ) )
+		{
+			// Similarly, don't process an empty response
+			return;
 		}
 
 		if ( location.startsWith( "adventure" ) )
