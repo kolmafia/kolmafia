@@ -9522,10 +9522,10 @@
 9496	splendid martini	967052759	martini.gif	drink	t,d	10
 9497	exploding cigar	559823065	kgbcigar.gif	none, combat	d	5
 9498	can of Minions-Be-Gone	445440033	kgbspray.gif	usable	t,d	5
-9499
-9500
-9501
-9502
+9499	golden tattoo gun	999824293	kgbtatgun.gif	usable	t	0
+9500	golden gun	819484224	kgbgoldgun.gif	none, usable, curse	t	0
+9501	golden gum	688389739	kgbgum.gif	none, usable, curse	t	0
+9502	tiny plastic golden gundam	725087901	kgbgundam.gif	accessory	t,d	5
 9503	License to Chill	163081018	licensetochill.gif	usable		0
 9504	Celsius 233	448534493	book3.gif	usable	t	0
 9505	Celsius 233 (singed)	778678345	book3.gif	usable		0
