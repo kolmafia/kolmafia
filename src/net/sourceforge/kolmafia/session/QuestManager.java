@@ -176,7 +176,15 @@ public class QuestManager
 			}
 			else if ( locationId.equals( AdventurePool.PALINDOME_ID ) )
 			{
-				QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+				// Non-fight, non-choice. Could be a regular
+				// non-combat, or it could be an error message.
+				//
+				// You get the following if you haven't made a
+				// Talisman o' Namsilat.
+				if ( !responseText.contains( "That place isn't accessible to you right now." ) )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.PALINDOME, QuestDatabase.STARTED );
+				}
 			}
 			else if ( locationId.equals( AdventurePool.POOP_DECK_ID ) )
 			{
