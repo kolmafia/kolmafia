@@ -2638,6 +2638,7 @@ Item	gnoll-tooth necklace	Muscle: +5
 Item	gold detective badge	Maximum HP: +40, Maximum MP: +40, Item Drop: +20, Meat Drop: +30
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 Item	gold wedding ring	Adventures: +1, Single Equip
+Item	tiny plastic golden gundam	Adventures: +1, PvP Fights: +1, Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 # GPS-tracking wristwatch
@@ -8759,6 +8760,8 @@ Item	goblin water	Effect: "Wet and Greedy", Effect Duration: 100
 # gold star: Restores 20-30 MP
 Item	gold star	Effect: "Healthy Blue Glow", Effect Duration: 10
 Item	gold toothbrush	Effect: "Grillin' Like a Villain", Effect Duration: 30
+Item	golden gum	Free Pull
+Item	golden gun	Free Pull
 # Golden Kokomo Resort Chip: Shiny!
 # Golden Light: Vaporizes an enemy and causes all of its items to drop
 Item	golden monkey statuette	Free Pull

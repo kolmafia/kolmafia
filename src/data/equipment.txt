@@ -2766,6 +2766,7 @@ tiny plastic giant pair of tweezers	10	none
 tiny plastic gift-wrapping vampire	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none
+tiny plastic golden gundam	0	none
 tiny plastic GORM-8	10	none
 tiny plastic goth giant	10	none
 tiny plastic grue	10	none
