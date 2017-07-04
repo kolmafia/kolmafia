@@ -1829,7 +1829,9 @@ public class Modifiers
 			   || type.equals( "Sign" )
 			   || type.equals( "Skill" )
 			   || type.equals( "Synergy" )
-			   || type.equals( "Throne" ) )
+			   || type.equals( "Throne" )
+			   || type.equals( "Path" )
+			   )
 			{
 				String name = Modifiers.getNameFromLookup( desc );
 				if ( !name.equals( "Steely-Eyed Squint" ) )
