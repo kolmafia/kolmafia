@@ -1884,6 +1884,13 @@ public class FightRequest
 		this.run( null );
 	}
 
+	public static void preFight( final GenericRequest request )
+	{
+		FightRequest.currentRound = 0;
+		FightRequest.macroPrefixLength = 0;
+		FightRequest.nextAction = null;
+	}
+
 	public void run( final String redirectLocation )
 	{
 		if ( redirectLocation != null )
@@ -1893,6 +1900,7 @@ public class FightRequest
 			// before the actual round zero is ready to go.
 
 			this.constructURLString( redirectLocation, false );
+			FightRequest.preFight( this );
 			super.run();
 
 			// Carry on with the rest of the automation

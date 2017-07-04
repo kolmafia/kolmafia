@@ -2316,6 +2316,10 @@ public class GenericRequest
 			{
 				ChoiceManager.preChoice( this );
 			}
+			else if ( this.redirectLocation.startsWith( "fight.php" ) )
+			{
+				FightRequest.preFight( this );
+			}
 			if ( this.hasResult )
 			{
 				RequestLogger.registerRequest( this, this.redirectLocation );
