@@ -1881,7 +1881,13 @@ public class FightRequest
 	@Override
 	public void run()
 	{
-		this.run( null );
+		if ( FightRequest.inMultiFight )
+		{
+			this.constructURLString( "fight.php" );
+			super.run();
+		}
+
+		this.run( this.redirectLocation );
 	}
 
 	public static void preFight( final GenericRequest request )
