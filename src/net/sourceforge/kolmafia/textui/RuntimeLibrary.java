@@ -2001,6 +2001,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "sweet_synthesis", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_fuel", DataTypes.INT_TYPE, params ) );
 	}
 
 	public static Method findMethod( final String name, final Class[] args )
@@ -8498,5 +8501,10 @@ public abstract class RuntimeLibrary
 		SweetSynthesisRequest request = new SweetSynthesisRequest( itemId1, itemId2 );
 		RequestThread.postRequest( request );
 		return RuntimeLibrary.continueValue();
+	}
+
+	public static Value get_fuel( Interpreter interpreter )
+	{
+		return new Value( CampgroundRequest.getFuel() );
 	}
 }
