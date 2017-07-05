@@ -4878,6 +4878,17 @@ Effect	Drenched With Filth	Stench Damage: +75
 Effect	Drescher's Annoying Noise	Monster Level: +10
 Effect	Dress to Kill	Avatar: "Gnollish Crossdresser"
 Effect	Drive-By Shot	Cold Damage: +40, Cold Spell Damage: +40
+Effect	Driving Intimidatingly	Monster Level: -25
+Effect	Driving Obnoxiously	Combat Rate: +10
+Effect	Driving Observantly	Meat Drop: +50, Item Drop: +50, Booze Drop: +50
+Effect	Driving Quickly	Initiative: +50
+Effect	Driving Recklessly	Monster Level: +25
+Effect	Driving Safely	Damage Absorption: +50, Damage Reduction: 10, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Effect	Driving Stealthily	Combat Rate: -10
+# Effect Driving Wastefully
+# Effect Driving Waterproofly: Makes you a better diver
+# Effect Driving Waterproofly: Your familiar can breathe underwater
+Effect	Driving Waterproofly	Adventure Underwater, Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)], Underwater Familiar
 Effect	Drummed Out	Mysticality Percent: +50, Muscle Percent: -50
 # Effect Drunk and Avuncular: Booze gives 100% more Adventures
 Effect	Drunk With Power	Spell Damage Percent: +100
@@ -7930,6 +7941,7 @@ Item	artisanal hand-squeezed wheatgrass juice	Effect: "Artisanal Retentive", Eff
 # Artist's Spatula of Despair: Deals 10-20 Physical Damage
 # Artist's Whisk of Misery: Deals 10-20 Physical Damage
 Item	ASCII fu manchu	Effect: "HELLO WORLD!", Effect Duration: 50
+# Item Asdon Martin keyfob
 Item	ash soda	Effect: "Ashen Burps", Effect Duration: 15
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	assassin's cheese knife	Effect: "Wearing Assassin Robes", Effect Duration: 50
@@ -9030,6 +9042,7 @@ Item	lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Item	Let Me Be!	Skill: "Raise Backup Dancer"
 Item	Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
 # lewd playing card: Deals 100-150 Physical Damage and 100-150 <font color=blueviolet>Sleaze Damage</font>
+# Item LI-11 Motor Pool voucher
 Item	li'l orphan tot	Free Pull
 Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 Item	Libram of BRICKOs	Free Pull, Skill: "Summon BRICKOs"
