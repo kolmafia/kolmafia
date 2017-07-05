@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1494,6 +1495,23 @@ public class CampgroundRequest
 		else if ( action.equals( "witchess" ) )
 		{
 			message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
+		}
+		else if ( action.equals( "fuelconvertor" ) )
+		{
+			Matcher fuelMatcher = FUEL_PATTERN_3.matcher( urlString );
+			if ( fuelMatcher.find() )
+			{
+				int qty = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
+				int itemId = StringUtilities.parseInt( fuelMatcher.group( 2 ) );
+				if ( qty > 1 )
+				{
+					message = "Converting " + qty + " " + ItemDatabase.getPluralName( itemId ) + " into Fuel";
+				}
+				else
+				{
+					message = "Converting " + ItemDatabase.getItemName( itemId ) + " into Fuel";
+				}
+			}
 		}
 		else
 		{
