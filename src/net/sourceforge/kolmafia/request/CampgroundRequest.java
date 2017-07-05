@@ -157,7 +157,7 @@ public class CampgroundRequest
 		ItemPool.SPINNING_WHEEL,
 		ItemPool.DNA_LAB,
 		ItemPool.MAYO_CLINIC,
-		ItemPool.ASDOM_MARTIN,
+		ItemPool.ASDON_MARTIN,
 
 		// Garden
 		ItemPool.PUMPKIN,
@@ -278,7 +278,7 @@ public class CampgroundRequest
 		CampgroundRequest.workshedItems.add( ItemPool.SPINNING_WHEEL );
 		CampgroundRequest.workshedItems.add( ItemPool.DNA_LAB );
 		CampgroundRequest.workshedItems.add( ItemPool.MAYO_CLINIC );
-		CampgroundRequest.workshedItems.add( ItemPool.ASDOM_MARTIN );
+		CampgroundRequest.workshedItems.add( ItemPool.ASDON_MARTIN );
 	}
 
 	public static final AdventureResult [] CROPS =
@@ -1038,9 +1038,9 @@ public class CampgroundRequest
 			}
 		}
 		// Mayo Clinic redirects to Store, so handle in NPCPurchaseRequest
-		else if ( findImage( responseText, "asdongarage.gif", ItemPool.ASDOM_MARTIN ) )
+		else if ( findImage( responseText, "asdongarage.gif", ItemPool.ASDON_MARTIN ) )
 		{
-			CampgroundRequest.setCurrentWorkshedItem( ItemPool.ASDOM_MARTIN );
+			CampgroundRequest.setCurrentWorkshedItem( ItemPool.ASDON_MARTIN );
 		}
 	}
 
