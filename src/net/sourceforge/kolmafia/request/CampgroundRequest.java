@@ -71,11 +71,15 @@ public class CampgroundRequest
 
 	private static final Pattern JUNG_PATTERN = Pattern.compile( "junggate_(\\d)" );
 	private static final Pattern DNA_PATTERN = Pattern.compile( "sample of <b>(.*?)</b> DNA" );
+	private static final Pattern FUEL_PATTERN_1 = Pattern.compile( "fuel gauge reads (.*?) litres of fuel" );
+	private static final Pattern FUEL_PATTERN_2 = Pattern.compile( "<p>The fuel gauge currently reads: (.*?)</p>" );
+	private static final Pattern FUEL_PATTERN_3 = Pattern.compile( "&qty=(.*?)&iid=(.*?)&" );
 
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;
 	private static AdventureResult currentBed = null;
 	private static AdventureResult currentWorkshedItem = null;
+	private static int asdonMartinFuel = 0;
 
 	public static final AdventureResult BIG_ROCK = ItemPool.get( ItemPool.BIG_ROCK, 1 );
 
@@ -719,6 +723,25 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
+
+		if ( action.equals( "fuelconvertor" ) )
+		{
+			Matcher fuelMatcher = FUEL_PATTERN_2.matcher( responseText );
+			if ( fuelMatcher.find() )
+			{
+				asdonMartinFuel = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
+			}
+			fuelMatcher = FUEL_PATTERN_3.matcher( urlString );
+			if ( fuelMatcher.find() )
+			{
+				int qty = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
+				int itemId = StringUtilities.parseInt( fuelMatcher.group( 2 ) );
+				ResultProcessor.processResult( ItemPool.get( itemId, -qty ) );
+			}
+			CampgroundRequest.parseCampground( responseText );
+			CampgroundRequest.parseWorkshed( responseText );
+			return;
+		}
 	}
 
 	private static final void parseCampground( final String responseText )
@@ -1041,6 +1064,11 @@ public class CampgroundRequest
 		else if ( findImage( responseText, "asdongarage.gif", ItemPool.ASDON_MARTIN ) )
 		{
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.ASDON_MARTIN );
+			Matcher fuelMatcher = FUEL_PATTERN_1.matcher( responseText );
+			if ( fuelMatcher.find() )
+			{
+				asdonMartinFuel = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
+			}
 		}
 	}
 
@@ -1232,6 +1260,16 @@ public class CampgroundRequest
 	public static boolean isWorkshedItem( final int itemId )
 	{
 		return CampgroundRequest.workshedItems.contains( itemId );
+	}
+
+	public static int getFuel()
+	{
+		return CampgroundRequest.asdonMartinFuel;
+	}
+
+	public static void useFuel( final int fuel )
+	{
+		CampgroundRequest.asdonMartinFuel -= fuel;
 	}
 
 	private static final String[][] BOOKS =
