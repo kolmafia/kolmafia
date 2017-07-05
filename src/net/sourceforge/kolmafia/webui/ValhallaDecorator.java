@@ -215,6 +215,7 @@ public class ValhallaDecorator
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.RUBBER_WWTNSD_BRACELET, "Veracity" );
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.STUFFED_COCOABO, "holatuwol" );
 		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.D10, "bmaher" );
+		hasGift |= ValhallaDecorator.developerGift( buffer, ItemPool.SPADE_NECKLACE, "Darzil" );
 
 		int count = InventoryManager.getCount( ItemPool.INSTANT_KARMA );
 		if ( count > 0 )

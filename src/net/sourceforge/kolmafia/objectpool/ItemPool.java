@@ -578,6 +578,7 @@ public class ItemPool
 	public static final int SILVER_SHRIMP_FORK = 1972;
 	public static final int STUFFED_COCOABO = 1974;
 	public static final int RUBBER_WWTNSD_BRACELET = 1994;
+	public static final int SPADE_NECKLACE = 2017;
 	public static final int PATCHOULI_OIL_BOMB = 2040;
 	public static final int EXPLODING_HACKY_SACK = 2042;
 	public static final int MACGUFFIN_DIARY = 2044;
