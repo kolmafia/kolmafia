@@ -2306,12 +2306,12 @@
 2305	Items Are Forever	effect0010.gif	0b962f64b073be3a403529f1b1eb0794
 2306	The Spy Who Loved XP	effect0011.gif	51a0eea3519449ab2b43748edd5af2cb
 2307	Sugary World View	spanteggs.gif	7e401e00dc196efc529a6eb3f5bd06b1	use 1 Spant eggs
-2308	Driving Obnoxiously	wackydriving.gif	e93a7cff72adc9bc8220b09ad7701936
-2309	Driving Stealthily	stealthdriving.gif	1a7bfdda2f18779c81dad2e66e1e005a
-2310	Driving Wastefully	gascan.gif	0a2895d55f0823715f8068fd00651d51
-2311	Driving Safely	yieldsign.gif	3e46034af4b17e098ee86dd3cf616603
-2312	Driving Recklessly	reckless.gif	573738e1c307123878a56b1305dd707e
-2313	Driving Quickly	fastdriving.gif	0a0485d475b62f6be890c928bad92db6
-2314	Driving Intimidatingly	aggrodriving.gif	7d535262c5f45a5df692edd049495fe4
-2315	Driving Observantly	obsdriving.gif	fda9d0ecb534fea7b39a6674a0c30478
-2316	Driving Waterproofly	nowater.gif	9e752072e4e5bad6f2a99896a8a638d0
+2308	Driving Obnoxiously	wackydriving.gif	e93a7cff72adc9bc8220b09ad7701936	asdonmartin drive obnoxiously
+2309	Driving Stealthily	stealthdriving.gif	1a7bfdda2f18779c81dad2e66e1e005a	asdonmartin drive stealthily
+2310	Driving Wastefully	gascan.gif	0a2895d55f0823715f8068fd00651d51	asdonmartin drive wastefully
+2311	Driving Safely	yieldsign.gif	3e46034af4b17e098ee86dd3cf616603	asdonmartin drive safely
+2312	Driving Recklessly	reckless.gif	573738e1c307123878a56b1305dd707e	asdonmartin drive recklessly
+2313	Driving Quickly	fastdriving.gif	0a0485d475b62f6be890c928bad92db6	asdonmartin drive quickly
+2314	Driving Intimidatingly	aggrodriving.gif	7d535262c5f45a5df692edd049495fe4	asdonmartin drive intimidatingly
+2315	Driving Observantly	obsdriving.gif	fda9d0ecb534fea7b39a6674a0c30478	asdonmartin drive observantly
+2316	Driving Waterproofly	nowater.gif	9e752072e4e5bad6f2a99896a8a638d0	asdonmartin drive waterproofly

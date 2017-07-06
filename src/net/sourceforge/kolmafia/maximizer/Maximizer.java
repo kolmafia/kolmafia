@@ -516,6 +516,7 @@ public class Maximizer
 			int thunderCost = 0;
 			int rainCost = 0;
 			int lightningCost = 0;
+			int fuelCost = 0;
 			int duration = 0;
 			int usesRemaining = 0;
 			int itemsRemaining = 0;
@@ -1394,6 +1395,32 @@ public class Maximizer
 					duration = 25 + ( chips.contains( "INGRAM" ) ? 25 : 0 ) + 5*Preferences.getInteger( "sourceTerminalPram" );
 					usesRemaining = limit - Preferences.getInteger( "_sourceTerminalEnhanceUses" );
 				}
+				else if ( cmd.startsWith( "asdonmartin drive" ) )
+				{
+					boolean haveAsdonMartin = CampgroundRequest.getCurrentWorkshedItem().getItemId() == ItemPool.ASDON_MARTIN;
+					if ( !haveAsdonMartin )
+					{
+						if ( includeAll )
+						{
+							text = "(install Asdon Martin for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else
+					{
+						if ( CampgroundRequest.getFuel() < 37 )
+						{
+							cmd = "";
+						}
+					}
+					duration = 30;
+					usesRemaining = CampgroundRequest.getFuel() / 37;
+					fuelCost = 37;
+				}
 				else if ( cmd.startsWith( "campground vault3" ) )
 				{
 					if ( !KoLCharacter.inNuclearAutumn() )
@@ -1643,6 +1670,10 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+				}
+				if ( fuelCost > 0 )
+				{
+					text += fuelCost + " fuel, ";
 				}
 				if ( price > 0 )
 				{
