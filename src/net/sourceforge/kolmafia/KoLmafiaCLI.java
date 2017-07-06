@@ -654,6 +654,7 @@ public class KoLmafiaCLI
 		new AdventureCommand().registerPrefix( "adv" );
 		new AliasCommand().register( "alias" );
 		new AreaSummaryCommand().register( "safe" );
+		new AsdonMartinCommand().register( "asdonmartin" );
 		new AshMultiLineCommand().register( "<inline-ash-script>" );
 		new AshRefCommand().register( "ashref" );
 		new AshSingleLineCommand().register( "ash" ).register( "ashq" );

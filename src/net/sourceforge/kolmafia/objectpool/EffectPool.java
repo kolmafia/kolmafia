@@ -332,6 +332,16 @@ public class EffectPool
 	public static final int SUPERFICIALLY_INTERESTED = 2288;
 	public static final int INTENSELY_INTERESTED = 2289;
 	public static final int DISAVOWED = 2294;
+	public static final int OBNOXIOUSLY = 2308;
+	public static final int STEALTHILY = 2309;
+	public static final int WASTEFULLY = 2310;
+	public static final int SAFELY = 2311;
+	public static final int RECKLESSLY = 2312;
+	public static final int QUICKLY = 2313;
+	public static final int INTIMIDATINGLY = 2314;
+	public static final int OBSERVANTLY = 2315;
+	public static final int WATERPROOFLY = 2316;
+	
 
 	public static final AdventureResult get( final int effectId )
 	{
