@@ -8281,6 +8281,28 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.AM_MISSILE_LAUNCHER:
+			if ( true || skillSuccess ) // Get success message
+			{
+				Preferences.setBoolean( "_missileLauncherUsed", true );
+				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_MISSILE_LAUNCHER ) );
+			}
+			break;
+
+		case SkillPool.AM_BEAN_BAG_CANNON:
+			if ( responseText.contains( "beanbag cannon pops out" ) || skillSuccess )
+			{
+				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_BEAN_BAG_CANNON ) );
+			}
+			break;
+
+		case SkillPool.AM_FRONT_BUMPER:
+			if ( responseText.contains( "Spring-Loaded Front Bumper" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "curse of vacation" );
+				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_FRONT_BUMPER ) );
+			}
+			break;
 		}
 	}
 

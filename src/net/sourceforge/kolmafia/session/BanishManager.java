@@ -142,6 +142,7 @@ public class BanishManager
 		new Banisher( "smoke grenade", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "snokebomb", 30, 1, true, Reset.TURN_RESET ),
 		new Banisher( "spooky music box mechanism", -1, 1, false, Reset.ROLLOVER_RESET ),
+		new Banisher( "Spring-Loaded Front Bumper", 30, 1, false, Reset.TURN_RESET ),
 		new Banisher( "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET ),
 		new Banisher( "stinky cheese eye", 10, 1, true, Reset.TURN_RESET ),
 		new Banisher( "tennis ball", 30, 1, true, Reset.TURN_RESET ),

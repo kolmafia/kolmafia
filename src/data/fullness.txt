@@ -569,7 +569,7 @@ petit fortran	2	1	awesome	7-11	0	0	0	10 Petit Forbearance (+8-10 MP regen, +10-2
 philosopher's scone	2	4	good	4-5	8-10	8-10	8-10
 phish stick	1	1	awesome	4-5	20-55	20-55	20-55
 pickled egg	1	1	crappy	1	1-2	1-2	1-2
-pie man was not meant to eat	100	15	EPIC	0	0	0	0
+pie man was not meant to eat	100	15	EPIC	100-200	100-200	100-200	100-200
 piece of wedding cake	2	1	decent	2-5	0	0	0
 pigeon egg	1	1	decent	2	0	0	0
 pink slime	2	1	decent	3-4	8-10	8-10	8-10
