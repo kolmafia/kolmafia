@@ -768,6 +768,9 @@
 7283	Breathe Out	waves.gif	5	0	0
 7284	EXTERMINATE SPANT	murderbotmask.gif	5	0	0
 7285	KGB tranquilizer dart	ancientdart.gif	5	0	0
+7286	Asdon Martin: Missile Launcher	missile.gif	5	0	0
+7287	Asdon Martin: Bean Bag Cannon	beanbagcannon.gif	5	0	0
+7288	Asdon Martin: Spring-Loaded Front Bumper	spring.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

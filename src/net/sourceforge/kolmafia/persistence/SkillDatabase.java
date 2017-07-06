@@ -1121,6 +1121,26 @@ public class SkillDatabase
 		}
 	}
 
+	public static final boolean isAsdonMartinSkill( final int skillId )
+	{
+		return SkillDatabase.getFuelCost( skillId ) > 0;
+	}
+
+	public static final int getFuelCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.AM_MISSILE_LAUNCHER:
+			return 100;
+		case SkillPool.AM_BEAN_BAG_CANNON:
+			return 10;
+		case SkillPool.AM_FRONT_BUMPER:
+			return 50;
+		default:
+			return 0;
+		}
+	}
+
 	public static final AdventureResult getManaItemCost( final int skillId )
 	{
 		switch ( skillId )

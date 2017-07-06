@@ -743,6 +743,15 @@ public class CampgroundRequest
 			CampgroundRequest.parseWorkshed( responseText );
 			return;
 		}
+
+		if ( action.equals( "drive" ) )
+		{
+			Matcher fuelMatcher = FUEL_PATTERN_1.matcher( responseText );
+			if ( fuelMatcher.find() )
+			{
+				asdonMartinFuel = StringUtilities.parseInt( fuelMatcher.group( 1 ) );
+			}
+		}
 	}
 
 	private static final void parseCampground( final String responseText )
