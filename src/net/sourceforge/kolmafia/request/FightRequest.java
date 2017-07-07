@@ -8282,7 +8282,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.AM_MISSILE_LAUNCHER:
-			if ( true || skillSuccess ) // Get success message
+			if ( responseText.contains( "they're entirely gone" ) || skillSuccess )
 			{
 				Preferences.setBoolean( "_missileLauncherUsed", true );
 				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_MISSILE_LAUNCHER ) );
@@ -8297,7 +8297,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.AM_FRONT_BUMPER:
-			if ( responseText.contains( "Spring-Loaded Front Bumper" ) || skillSuccess )
+			if ( responseText.contains( "before flying out of sight" ) || skillSuccess )
 			{
 				BanishManager.banishMonster( monsterName, "Spring-Loaded Front Bumper" );
 				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_FRONT_BUMPER ) );
