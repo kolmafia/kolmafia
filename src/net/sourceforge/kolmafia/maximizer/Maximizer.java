@@ -1397,7 +1397,12 @@ public class Maximizer
 				}
 				else if ( cmd.startsWith( "asdonmartin drive" ) )
 				{
-					boolean haveAsdonMartin = CampgroundRequest.getCurrentWorkshedItem().getItemId() == ItemPool.ASDON_MARTIN;
+					boolean haveAsdonMartin = false;
+					AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
+					if ( workshed != null )
+					{
+						haveAsdonMartin = workshed.getItemId() == ItemPool.ASDON_MARTIN;
+					}
 					if ( !haveAsdonMartin )
 					{
 						if ( includeAll )

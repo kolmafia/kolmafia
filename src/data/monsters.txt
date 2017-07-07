@@ -1209,9 +1209,14 @@ prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000
 king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast	snake oil (100)	snake oil (100)	snake oil (100)
 
 # The Source
-
 Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*15] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
 One Thousand Source Agents	1944	sourceagents.gif	Atk: 500 Def: 500 HP: 700 Init: -10000 P: construct
+
+# License to Adventure (May 2017)
+"Blofeld"	2028	bond_villain5.gif	Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
+Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: dude
+Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude
+Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude
 
 # Items of the Month
 
@@ -1801,6 +1806,27 @@ gingerbread vigilante	1990	gbvigilante.gif	BOSS Scale: 10 Cap: 1000 Floor: 30 In
 Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude SprinkleMin: 100 SprinkleMax: 100	gingerbread gavel (n100)
 GNG-3-R	1992	gng3r.gif	Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
+# Tunnel of L.O.V.E. (February 2017)
+LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #3 (0)
+LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
+LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
+
+# Spacegate (April 2017)
+hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	alien plant fibers	alien plant goo
+large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] Init: -10000 P: plant	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant goo
+exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant fibers	alien plant goo	alien plant pod
+small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien toenails	alien animal goo
+large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien toenails	alien toenails	alien animal goo
+exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien meat	alien toenails	alien toenails	alien toenails	alien animal goo	alien animal milk
+Spant drone	2019	sgspantdrone.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon
+Spant soldier	2020	sgspantwarrior.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon	spant spear
+Murderbot drone	2021	sgmbdrone.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip
+Murderbot soldier	2022	sgmb.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip	murderbot memory chip	murderbot memory chip	murderbot plasma rifle
+hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid
+
+# The following may not actually be a monster, but there is a cycle of images for it
+intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
@@ -2264,30 +2290,6 @@ giant pumpkin-head	-77	headpumpkin.gif	NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init
 large-headed werewolf	-76	headwolf.gif	NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Moonds (n100)	mimeplasm (c100)
 oddly-proportioned ghost	-75	headghost.gif	NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	BOOterfinger (n100)	mimeplasm (c100)
 
-# # The Ruins of the Fully Automated Crimbo Factory (Crimbo 2015)
-armored Crimbot	1862	crimbot2.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	pitted sheet metal (0)
-sparking Crimbot	1863	crimbot1.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	sparking robo-battery (0)
-unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	overloaded micro-reactor (0)
-
-# Retired Standard Monsters
-Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
-possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"
-skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier" Wiki: "skeletal sommelier"
-
-7-Foot Dwarf (Moiling)	97	miner.gif	NOMANUEL HP: 40 Def: 47 Atk: 53 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
-7-Foot Dwarf (Royale)	96	miner.gif	NOMANUEL HP: 40 Def: 47 Atk: 53 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
-angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct	felt (2)	stuffing (2)	googly eye (2)
-animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
-animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)
-animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
-animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
-Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 90 P: dude	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
-eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
-giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct
-Gnollish Sorceress	17	gnollmage.gif	HP: 5 Def: 9 Atk: 11 Meat: 24 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)
-Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 P: goblin Init: 90 Meat: 50	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
-The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
-
 # The Fully Automated Crimbo Factory (Crimbo 2014)
 Crimbomega	-79	crimbomega.gif	NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega drive chain (n100)
 
@@ -2295,6 +2297,11 @@ Crimbomega	-79	crimbomega.gif	NOMANUEL Atk: 100 Def: 100 HP: 300	Crimbomega driv
 ambulatory robo-minecart	1650	crimbominer3.gif	Scale: 5 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	servo-assisted exo-pants (c1)
 exo-suited miner	1648	crimbominer1.gif	Scale: 5 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	high-energy mining laser (c1)
 semi-autonomous drill unit	1649	crimbominer2.gif	Scale: 5 Init: -10000 P: elf	flask of tainted mining oil (15)	cylindrical mold (5)	radiation-resistant helmet (c1)
+
+# The Ruins of the Fully Automated Crimbo Factory (Crimbo 2015)
+armored Crimbot	1862	crimbot2.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	pitted sheet metal (0)
+sparking Crimbot	1863	crimbot1.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	sparking robo-battery (0)
+unstable nuclear Crimbot	1864	crimbot3.gif	Scale: 1 Cap: 10000 Init: -10000 P: construct	overloaded micro-reactor (0)
 
 # Tres de Mayo (May 2016)
 
@@ -2328,32 +2335,25 @@ simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird	
 Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 The Krampus	2008	krampus.gif	NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
-# Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #3 (0)
-LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
-LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
 
-# Spacegate (April 2017)
-hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	alien plant fibers	alien plant goo
-large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] Init: -10000 P: plant	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant goo
-exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant fibers	alien plant goo	alien plant pod
-small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien toenails	alien animal goo
-large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien toenails	alien toenails	alien animal goo
-exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien meat	alien toenails	alien toenails	alien toenails	alien animal goo	alien animal milk
-Spant drone	2019	sgspantdrone.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon
-Spant soldier	2020	sgspantwarrior.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon	spant spear
-Murderbot drone	2021	sgmbdrone.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip
-Murderbot soldier	2022	sgmb.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip	murderbot memory chip	murderbot memory chip	murderbot plasma rifle
-hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid
+# Retired Standard Monsters
+Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
+possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"
+skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 ED: spooky P: undead Manuel: "skeletal sommelier" Wiki: "skeletal sommelier"
 
-# The following may not actually be a monster, but there is a cycle of images for it
-intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
-
-# License to Adventure (May 2017)
-"Blofeld"	2028	bond_villain5.gif	Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
-Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: dude
-Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: dude
-Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: dude
+7-Foot Dwarf (Moiling)	97	miner.gif	NOMANUEL HP: 40 Def: 47 Atk: 53 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
+7-Foot Dwarf (Royale)	96	miner.gif	NOMANUEL HP: 40 Def: 47 Atk: 53 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
+angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct	felt (2)	stuffing (2)	googly eye (2)
+animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
+animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)
+animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
+animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
+Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 90 P: dude	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
+eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
+giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct
+Gnollish Sorceress	17	gnollmage.gif	HP: 5 Def: 9 Atk: 11 Meat: 24 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)
+Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 P: goblin Init: 90 Meat: 50	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
+The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
