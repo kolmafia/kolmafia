@@ -8299,7 +8299,7 @@ public class FightRequest
 		case SkillPool.AM_FRONT_BUMPER:
 			if ( responseText.contains( "Spring-Loaded Front Bumper" ) || skillSuccess )
 			{
-				BanishManager.banishMonster( monsterName, "curse of vacation" );
+				BanishManager.banishMonster( monsterName, "Spring-Loaded Front Bumper" );
 				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_FRONT_BUMPER ) );
 			}
 			break;
