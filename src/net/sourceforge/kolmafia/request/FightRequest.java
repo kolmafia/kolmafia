@@ -1878,18 +1878,6 @@ public class FightRequest
 		}
 	}
 
-	@Override
-	public void run()
-	{
-		if ( FightRequest.inMultiFight )
-		{
-			this.constructURLString( "fight.php" );
-			super.run();
-		}
-
-		this.run( this.redirectLocation );
-	}
-
 	public static void preFight( final GenericRequest request )
 	{
 		FightRequest.currentRound = 0;
@@ -1897,15 +1885,26 @@ public class FightRequest
 		FightRequest.nextAction = null;
 	}
 
+	@Override
+	public void run()
+	{
+		this.run( null );
+	}
+
 	public void run( final String redirectLocation )
 	{
-		if ( redirectLocation != null )
+		String url = FightRequest.inMultiFight ? "fight.php" : redirectLocation;
+
+		if ( url != null )
 		{
-			// The first request will contain "ireallymeanit" and
-			// apparently KoL has to actually follow the redirect
+			// A multifight starts with am unadorned call to
+			// fight.php.
+			//
+			// A non-multifight starts with a redirect to
+			// "ireallymeanit" and KoL needs to follow the redirect
 			// before the actual round zero is ready to go.
 
-			this.constructURLString( redirectLocation, false );
+			this.constructURLString( url );
 			FightRequest.preFight( this );
 			super.run();
 
@@ -2618,7 +2617,7 @@ public class FightRequest
 				}
 			}
 
-			FightRequest.isTrackingFights = false;
+			FightRequest.inMultiFight = false;
 			FightRequest.waitingForSpecial = FightRequest.waitingForSpecial( monster );
 
 			autoAttacked = FightRequest.checkForInitiative( responseText );
