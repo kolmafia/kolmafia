@@ -981,6 +981,10 @@ public class FightRequest
 
 				File scriptFile = scriptFiles.get( 0 );
 				KoLmafiaASH.logScriptExecution( "Starting consult script: ", scriptFile.getName(), consultInterpreter );
+
+				// Since we are automating, let the script execute without interruption
+				KoLmafia.forceContinue();
+
 				consultInterpreter.execute( "main", parameters );
 				KoLmafiaASH.logScriptExecution( "Finished consult script: ", scriptFile.getName(), consultInterpreter );
 
