@@ -3860,8 +3860,8 @@ public abstract class ChoiceManager
 		// Choice 1236 is Space Cave
 		new ChoiceAdventure(
 			"The Spacegate", "choiceAdventure1236", "Space Cave",
-			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
-				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ),
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock sample" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample" ),
 				       new Option( "skip adventure", 6 ) } ),
 
 		// Choice 1237 is A Simple Plant
@@ -3986,14 +3986,14 @@ public abstract class ChoiceManager
 		// Choice 1255 is Cool Space Rocks
 		new ChoiceAdventure(
 			"The Spacegate", "choiceAdventure1255", "Cool Space Rocks",
-			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
-				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ) } ),
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock sample" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample" ) } ),
 
 		// Choice 1256 is Wide Open Spaces
 		new ChoiceAdventure(
 			"The Spacegate", "choiceAdventure1256", "Wide Open Spaces",
-			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock samples" ),
-				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock samples" ) } ),
+			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock sample" ),
+				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample" ) } ),
 
    };
 
