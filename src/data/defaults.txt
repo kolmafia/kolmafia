@@ -1422,6 +1422,10 @@ user	_jackassPlumberGame	false
 user	_jickJarAvailable	unknown
 user	_jingleBellUsed	false
 user	_kgbClicksUsed	0
+user	_kgbDispenserUses	0
+user	_kgbLeftDrawerUsed	false
+user	_kgbOpened	false
+user	_kgbRightDrawerUsed	false
 user	_kgbTranquilizerDartUses	0
 user	_klawSummons	0
 user	_kolConSixPackUsed	false
