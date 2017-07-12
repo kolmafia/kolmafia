@@ -71,7 +71,7 @@ public class AsdonMartinCommand
 
 	public AsdonMartinCommand()
 	{
-		this.usage = " drive style|clear, fuel [#] item name - Get drive buff or convert items to fuel";
+		this.usage = " drive style|clear - Get drive buff";
 	}
 
 	private static final int findDriveStyle( final String name )
