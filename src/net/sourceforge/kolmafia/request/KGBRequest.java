@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.Modifiers;
@@ -57,13 +58,38 @@ public class KGBRequest
 	{
 		String action = GenericRequest.getAction( urlString );
 
-		if ( action != null )
+		if ( action == null )
 		{
-			KGBRequest.countClicks( responseText );
+			return;
 		}
-		if ( action != null && action.startsWith( "kgb_button" ) )
+		KGBRequest.countClicks( responseText );
+
+		if ( action.startsWith( "kgb_button" ) )
 		{
 			KGBRequest.updateEnchantments( responseText );
+		}
+		else if ( action.equals( "kgb_dispenser" ) )
+		{
+			if ( responseText.contains( "You acquire an item" ) )
+			{
+				Preferences.increment( "_kgbDispenserUses" );
+			}
+			else if ( responseText.contains( "out of juice" ) )
+			{
+				Preferences.setInteger( "_kgbDispenserUses", 3 );
+			}
+		}
+		else if ( action.equals( "kgb_drawer1" ) )
+		{
+			Preferences.setBoolean( "_kgbRightDrawerUsed", true );
+		}
+		else if ( action.equals( "kgb_drawer2" ) )
+		{
+			Preferences.setBoolean( "_kgbLeftDrawerUsed", true );
+		}
+		else if ( action.equals( "kgb_daily" ) )
+		{
+			Preferences.setBoolean( "_kgbOpened", true );
 		}
 	}
 
