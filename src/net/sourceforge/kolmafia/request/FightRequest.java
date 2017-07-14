@@ -1689,7 +1689,7 @@ public class FightRequest
 		{
 			// You can only use Beancannon with an offhand Can of Beans
 
-			if ( !EquipmentManager.usingCanOfBeans() )
+			if ( Preferences.getInteger( "_beanCannonUses" ) >= 5 || !EquipmentManager.usingCanOfBeans() )
 			{
 				this.skipRound();
 				return;
@@ -8037,6 +8037,7 @@ public class FightRequest
 		case SkillPool.BEANCANNON:
 			if ( responseText.contains( "tide of beans" ) || skillSuccess )
 			{
+				Preferences.increment( "_beanCannonUses" );
 				BanishManager.banishMonster( monsterName, "beancannon" );
 				EquipmentManager.discardEquipment( EquipmentManager.getEquipment( EquipmentManager.OFFHAND ) );
 			}
