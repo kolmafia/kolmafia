@@ -72,7 +72,7 @@ public class CampgroundRequest
 
 	private static final Pattern JUNG_PATTERN = Pattern.compile( "junggate_(\\d)" );
 	private static final Pattern DNA_PATTERN = Pattern.compile( "sample of <b>(.*?)</b> DNA" );
-	private static final Pattern FUEL_PATTERN_1 = Pattern.compile( "fuel gauge reads (.*?) litres of fuel" );
+	private static final Pattern FUEL_PATTERN_1 = Pattern.compile( "fuel gauge reads ([\\d,]+) litre" );
 	private static final Pattern FUEL_PATTERN_2 = Pattern.compile( "<p>The fuel gauge currently reads: (.*?)</p>" );
 	private static final Pattern FUEL_PATTERN_3 = Pattern.compile( "&qty=(.*?)&iid=(.*?)&" );
 
