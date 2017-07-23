@@ -577,7 +577,7 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING ? "Avatar of West of Loathing " : 
 						pathFilter == AscensionSnapshot.THE_SOURCE ? "The Source "  :
 						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
-						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Nuclear Autumn " :
+						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " :
 						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " : "" );
 
 			strbuf.append( "Ascensions (Out of " );
