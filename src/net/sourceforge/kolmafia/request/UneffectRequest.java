@@ -76,6 +76,7 @@ public class UneffectRequest
 {
 	private final int effectId;
 	private final boolean isShruggable;
+	private final boolean isAsdon;
 	private final boolean needsCocoa;
 	private final boolean isTimer;
 	private final AdventureResult effect;
@@ -109,11 +110,14 @@ public class UneffectRequest
 
 	public UneffectRequest( final AdventureResult effect )
 	{
-		super( UneffectRequest.isShruggable( effect.getEffectId() ) ? "charsheet.php" : "uneffect.php" );
+		super( UneffectRequest.isShruggable( effect.getEffectId() ) ? "charsheet.php" :
+		       UneffectRequest.isAsdon( effect.getEffectId() ) ? "campground.php" :
+		       "uneffect.php" );
 
 		this.effect = effect;
 		this.effectId = effect.getEffectId();
 		this.isShruggable = UneffectRequest.isShruggable( this.effectId );
+		this.isAsdon = UneffectRequest.isAsdon( effectId );
 		this.needsCocoa = UneffectRequest.needsCocoa( this.effectId );
 		this.isTimer = this.effectId >= EffectPool.TIMER1 && this.effectId <= EffectPool.TIMER10;
 
@@ -122,6 +126,11 @@ public class UneffectRequest
 			this.addFormField( "action", "unbuff" );
 			this.addFormField( "ajax", "1" );
 			this.addFormField( "whichbuff", String.valueOf( this.effectId ) );
+		}
+		else if ( this.isAsdon )
+		{
+			this.addFormField( "preaction", "undrive" );
+			this.addFormField( "ajax", "1" );
 		}
 		else
 		{
@@ -212,6 +221,11 @@ public class UneffectRequest
 	{
 		int effectId = EffectDatabase.getEffectId( effectName );
 		return UneffectRequest.isShruggable( effectId );
+	}
+
+	public static final boolean isAsdon( final int effectId )
+	{
+		return effectId >= EffectPool.OBNOXIOUSLY && effectId <= EffectPool.WATERPROOFLY;
 	}
 
 	public static final boolean needsCocoa( final String effectName )
@@ -594,7 +608,7 @@ public class UneffectRequest
 
 		// If it's shruggable, then the cleanest way is to just shrug it.
 
-		if ( this.isShruggable )
+		if ( this.isShruggable || this.isAsdon )
 		{
 			return "uneffect [" + effectId + "]";
 		}
@@ -730,6 +744,10 @@ public class UneffectRequest
 		else if ( this.isShruggable )
 		{
 			KoLmafia.updateDisplay( "Shrugging off your buff..." );
+		}
+		else if ( this.isAsdon )
+		{
+			KoLmafia.updateDisplay( "No longer driving..." );
 		}
 		else if ( InventoryManager.hasItem( ItemPool.ANCIENT_CURE_ALL ) )
 		{
