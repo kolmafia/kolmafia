@@ -2086,8 +2086,9 @@ public class QuestManager
 			{
 				explored += 2;
 			}
-			else if ( Preferences.getBoolean( "bondDesert" ) )
+			else if ( Preferences.getBoolean( "bondDesert" ) && Preferences.getInteger( "desertExploration" ) > 0 )
 			{
+				// Universal GPS doesn't help on the first turn.  Probably a KoL bug, but it probably won't get fixed.
 				explored += 2;
 			}
 			QuestManager.incrementDesertExploration( explored );
