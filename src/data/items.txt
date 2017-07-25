@@ -9533,3 +9533,4 @@
 9507	LI-11 Motor Pool voucher	638644193	l11voucher.gif	usable	t	0
 9508	Asdon Martin keyfob	391247220	asdonfob.gif	usable		0
 9509	L.I.M.P. Stock Certificate	215241552	letter.gif	none		0
+9510	Dust bunny	464964385	float_dust.gif	none	t,d	0
