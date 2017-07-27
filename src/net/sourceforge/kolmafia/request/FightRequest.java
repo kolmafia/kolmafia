@@ -8477,6 +8477,12 @@ public class FightRequest
 				Preferences.increment( "_nuclearStockpileUsed", 1, 10, false );
 			}
 			break;
+		case ItemPool.AFFIRMATION_MIND_MASTER:
+			if ( responseText.contains( "push away your opponent" ) || itemRunawaySuccess )
+			{
+				BanishManager.banishCurrentMonster( "Be a Mind Master" );
+			}
+			break;
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.
