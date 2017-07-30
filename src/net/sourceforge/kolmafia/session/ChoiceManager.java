@@ -11570,6 +11570,29 @@ public abstract class ChoiceManager
 		}
 	}
 
+	public static void handleWalkingAway( final String urlString, final String redirectLocation )
+	{
+		// If we are not handling a choice, nothing to do
+		if ( !ChoiceManager.handlingChoice )
+		{
+			return;
+		}
+
+		// If the choice doesn't let you walk away, normal redirect
+		// processing will take care of it
+		if ( !ChoiceManager.canWalkAway )
+		{
+			return;
+		}
+
+		// If you walked away from the choice, we're done with the choice
+		if ( !urlString.startsWith( "choice.php" ) )
+		{
+			ChoiceManager.handlingChoice = false;
+			return;
+		}
+	}
+
 	private static void handleAfterAvatar()
 	{
 		String newClass = "Unknown";

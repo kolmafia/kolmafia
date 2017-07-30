@@ -2139,6 +2139,9 @@ public class GenericRequest
 
 		this.redirectCount++;
 
+		// Let ChoiceManager clean up if you are walking away from a request.
+		ChoiceManager.handleWalkingAway( this.formURLString, this.redirectLocation );
+
 		if ( this.redirectLocation.startsWith( "maint.php" ) )
 		{
 			// If the request was issued from the Relay
@@ -2318,7 +2321,7 @@ public class GenericRequest
 			}
 			else if ( this.redirectLocation.startsWith( "fight.php" ) )
 			{
-				FightRequest.preFight( this );
+				FightRequest.preFight();
 			}
 			if ( this.hasResult )
 			{
