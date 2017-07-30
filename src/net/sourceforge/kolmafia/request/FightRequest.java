@@ -1882,7 +1882,7 @@ public class FightRequest
 		}
 	}
 
-	public static void preFight( final GenericRequest request )
+	public static void preFight()
 	{
 		FightRequest.currentRound = 0;
 		FightRequest.macroPrefixLength = 0;
@@ -1909,7 +1909,7 @@ public class FightRequest
 			// before the actual round zero is ready to go.
 
 			this.constructURLString( url );
-			FightRequest.preFight( this );
+			FightRequest.preFight();
 			super.run();
 
 			// Carry on with the rest of the automation
