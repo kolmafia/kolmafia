@@ -213,6 +213,7 @@ Mer-kin scholar mask	200	Mys: 85
 Mer-kin sneakmask	200	Mox: 85
 mesh cap	165	Mox: 50
 metallic foil cat ears	30	none
+meteortarboard	100	none
 miner's helmet	80	Mox: 25
 mining helmet	0	none
 Mohawk wig	140	Mox: 55
@@ -1322,6 +1323,7 @@ Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
 Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
 shiny butcherknife	60	Mys: 15	1-handed utensil
+shooting morning star	100	Mus: 0	1-handed flail
 short-handled mop	165	Mus: 67	1-handed polearm
 shotgun	60	Mox: 0	1-handed 
 shuddersword	125	Mus: 45	2-handed sword
@@ -1762,6 +1764,8 @@ Mer-kin begsign	200	Mus: 85
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
+meteorite guard	0	none	shield
+meteorb	0	none
 Microplushie: Bropane	5	none
 Microplushie: Dorkonide	5	none
 Microplushie: Ermahgerdic Acid	5	none
@@ -2019,6 +2023,7 @@ aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20
 Ass-Stompers of Violence	200	Mus: 125
+asteroid belt	0	none
 astral belt	50	none
 astral bracer	50	none
 astral mask	50	none
@@ -2357,6 +2362,7 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
+meteorthopedic shoes	0	none
 mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
@@ -2766,7 +2772,7 @@ tiny plastic giant pair of tweezers	10	none
 tiny plastic gift-wrapping vampire	10	none
 tiny plastic Gnollish crossdresser	10	none
 tiny plastic Gnomester Blomester	10	none
-tiny plastic golden gundam	0	none
+tiny plastic golden gundam	10	none
 tiny plastic GORM-8	10	none
 tiny plastic goth giant	10	none
 tiny plastic grue	10	none

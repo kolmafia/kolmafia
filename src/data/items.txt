@@ -9534,3 +9534,15 @@
 9508	Asdon Martin keyfob	391247220	asdonfob.gif	usable		0
 9509	L.I.M.P. Stock Certificate	215241552	letter.gif	none		0
 9510	Dust bunny	464964385	float_dust.gif	none	t,d	0
+9511	Pocket Meteor Guide	338822774	meteorbook.gif	usable	t	0
+9512	Pocket Meteor Guide (well-thumbed)	230568790	meteorbook.gif	usable		0
+9513	Meteorite-Ade	451562546	meteordrink.gif	usable	t,d	5
+9514	meteoreo	216636826	meteoreo.gif	food	t,d	5
+
+9516	metal meteoroid	776984843	metalm.gif	usable	t,d	5
+9517	meteortarboard	509979319	metalm_hat.gif	hat		0
+9518	meteorite guard	623936169	metalm_shield.gif	offhand		0
+9519	meteorb	972308752	metalm_orb.gif	offhand		0
+9520	asteroid belt	586508038	metalm_belt.gif	accessory		0
+9521	meteorthopedic shoes	410465900	metalm_shoes.gif	accessory		0
+9522	shooting morning star	887651527	metalm_mace.gif	weapon		0

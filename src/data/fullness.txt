@@ -504,6 +504,7 @@ mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
+meteoreo	1	1	EPIC	0	0	0	0	Unspaded
 mince pie	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 mind flayer corpse	5	1	crappy	5	0	21-25	0
 mineapple	2	1	good	4-6	10-20	10-20	10-20

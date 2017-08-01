@@ -198,6 +198,7 @@
 173	Disintegrate	explosion.gif	5	150	0
 174	Incredible Self-Esteem	newyouform.gif	3	10	50
 175	Eternal Flame	fire.gif	0	0	0
+176	Meteor Love	meteorshower.gif	0	0	0
 
 # Skills available to Clubbers
 
@@ -771,6 +772,9 @@
 7286	Asdon Martin: Missile Launcher	missile.gif	5	0	0
 7287	Asdon Martin: Bean Bag Cannon	beanbagcannon.gif	5	0	0
 7288	Asdon Martin: Spring-Loaded Front Bumper	spring.gif	5	0	0
+7289	Micrometeorite	micrometeor.gif	5	0	0
+7290	Macrometeorite	macrometeor.gif	5	0	0
+7291	Meteor Shower	meteorshower.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

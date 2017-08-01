@@ -309,6 +309,7 @@ Item	Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwat
 Item	mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
 # metallic foil cat ears: Not Amused
 Item	metallic foil cat ears	Familiar Effect: "atk, cap 7"
+Item	meteortarboard	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15, Spell Critical Percent: +10
 Item	miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 Item	Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Item	moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
@@ -1551,6 +1552,7 @@ Item	Shakespeare's Sister's Accordion	Mana Cost: [-1*(1+skill(Accordion Apprecia
 # Sheila Take a Crossbow: (+Initiative based on Smithsness)
 Item	Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Pickpocket Chance: +5, Smithsness: +5, Initiative: [K]
 Item	shiny butcherknife	Spell Damage: +8
+Item	shooting morning star	Muscle Percent: +15, Hot Damage: +15, Weakens Monster, Single Equip
 Item	short-handled mop	Stench Damage: +10, Sleaze Damage: +10
 Item	shotgun	Ranged Damage: +10
 Item	shuddersword	Muscle: +7, Spell Damage: +7, Spooky Damage: +5
@@ -2066,6 +2068,10 @@ Item	Mer-kin roundshield	Damage Reduction: 19, Damage Absorption: +40, HP Regen 
 Item	Mer-kin stopwatch	Adventures: +3, Initiative: [50*env(underwater)]
 # Mer-kin takebag: (+15% Underwater)
 Item	Mer-kin takebag	Item Drop: [5+10*env(underwater)]
+# Item meteorite guard: 75% Chance of Preventing Negative Status Attacks
+Item	meteorite guard	Stench Resistance: +3, Hot Resistance: +3, Damage Reduction: 9
+# Item meteorb: Contributes Hot Damage to your spells
+Item	meteorb	Mysticality: +5, Maximum MP: +10
 Item	Microplushie: Bropane	Weapon Damage: +3
 Item	Microplushie: Dorkonide	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Microplushie: Ermahgerdic Acid	Hot Damage: +2
@@ -2366,6 +2372,8 @@ Item	aquamariner's ring	HP Regen Min: 10, HP Regen Max: 15, Meat Drop: +10, Sing
 Item	arrrgyle socks	Mysticality: +6
 # Ass-Stompers of Violence: Allows you to stomp asses
 Item	Ass-Stompers of Violence	Combat Rate: +5, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip
+# Item asteroid belt: Deflects 25% of enemy attacks
+Item	asteroid belt	Monster Level: +10, Ranged Damage Percent: +50, Single Equip
 Item	astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Monster Level: +20
 Item	astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
 Item	astral mask	Moxie Percent: +25, Item Drop: +20
@@ -2774,6 +2782,7 @@ Item	Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*env(underwater)
 Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
+Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, Single Equip
 Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
 # mirrored aviator shades: Kill 10% More Skeletons
 Item	mirrored aviator shades	Moxie: +15, Single Equip
@@ -4837,7 +4846,7 @@ Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 # Dirty Pear: All Bonus Sleaze Damage is doubled
 # Dis Abled: Grants access to the Suburb of Dis
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
-# Effect	Disavowed	Muscle: [-X], Mysticality: [-X], Moxie: [-X], Item Drop: [-X], Meat Drop: [-2*X], Experience: [-X]
+Effect	Disavowed	Muscle Percent: [-pref(_disavowed)], Mysticality Percent: [-pref(_disavowed)], Moxie Percent: [-pref(_disavowed)], Item Drop: [-pref(_disavowed)], Meat Drop: [-2*pref(_disavowed)], Experience: [-pref(_disavowed)]
 Effect	Disco Concentration	Item Drop: +20
 Effect	Disco Fever	Ranged Damage: +10, Moxie Percent: +10
 Effect	Disco Inferno	Moxie: +5, Hot Damage: +3
@@ -6259,6 +6268,7 @@ Effect	Superdrifting	Experience Percent (Muscle): +20, Experience Percent (Mysti
 Effect	Superheated Guts	Supercold Resistance: +3
 Effect	Superheroic	Muscle: +10, Weapon Damage: +10, Critical Hit Percent: +10
 Effect	Superhuman Sarcasm	Moxie Percent: +100
+Effect	Superioreo	Experience: +5, Maximum HP Percent: +100
 # SuperStar: You earned a gold star
 Effect	Superveiny 9000	Maximum HP: +300
 Effect	Surreally Buff	Muscle Percent: +20
@@ -7372,6 +7382,7 @@ Item	Ludovico Pastaco	Effect: "Tremella Tremens", Effect Duration: 40
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
+Item	meteoreo	Effect: "Superioreo", Effect Duration: 40
 Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
 # Item Mr. Burnsger: Reduces your Drunkenness by 2
