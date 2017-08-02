@@ -2317,3 +2317,4 @@
 2316	Driving Waterproofly	nowater.gif	9e752072e4e5bad6f2a99896a8a638d0	asdonmartin drive waterproofly
 
 2318	Superioreo meteoreo.gif	90ada7abc7dc18d0e993d2d8a31679b3	eat 1 meteoreo
+2319	Meadulla Oblongota	meadeor.gif	e8e06d19e444b35a8549825e80b5c8ee	drink 1 meadeorite

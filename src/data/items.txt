@@ -9538,7 +9538,7 @@
 9512	Pocket Meteor Guide (well-thumbed)	230568790	meteorbook.gif	usable		0
 9513	Meteorite-Ade	451562546	meteordrink.gif	usable	t,d	5
 9514	meteoreo	216636826	meteoreo.gif	food	t,d	5
-
+9515	meadeorite	315817843	meadeor.gif	drink	t,d	5
 9516	metal meteoroid	776984843	metalm.gif	usable	t,d	5
 9517	meteortarboard	509979319	metalm_hat.gif	hat		0
 9518	meteorite guard	623936169	metalm_shield.gif	offhand		0
