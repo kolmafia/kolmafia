@@ -1214,7 +1214,7 @@ One Thousand Source Agents	1944	sourceagents.gif	Atk: 500 Def: 500 HP: 700 Init:
 
 # License to Adventure (May 2017)
 "Blofeld"	2028	bond_villain5.gif	Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
-Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: dude
+Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: -2 Cap: ? Floor: ? Init: 50 P: dude
 Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude
 Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude
 
