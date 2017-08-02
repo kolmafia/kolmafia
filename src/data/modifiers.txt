@@ -5558,6 +5558,7 @@ Effect	Matador Nemesis	Avatar: "raging bull"
 Effect	Material Witness	Meat Drop: +10
 # Mathematically Precise: Combat items deal 50% more damage
 # Mayeaugh: Deals <font color=purple>Sleaze Damage</font> every round.
+Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
 # Meat Shielded
 Effect	Meat the Flintstones	Maximum HP Percent: +50
 Effect	meat.enh	Meat Drop: +60
@@ -7648,6 +7649,7 @@ Item	Lumineux Limnio	Effect: "Bright!", Effect Duration: 50
 Item	lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 Item	marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
 Item	McLeod's Hard Haggis-Ade	Effect: "Hagg-ard", Effect Duration: 20
+Item	meadeorite	Effect: "Meadulla Oblongota", Effect Duration: 40
 Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	mentholated wine	Effect: "Christmessy", Effect Duration: 20
 Item	mini-martini	Effect: "It's Not Even Funny", Effect Duration: 11
