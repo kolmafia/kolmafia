@@ -198,7 +198,7 @@
 173	Disintegrate	explosion.gif	5	150	0
 174	Incredible Self-Esteem	newyouform.gif	3	10	50
 175	Eternal Flame	fire.gif	0	0	0
-176	Meteor Love	meteorshower.gif	0	0	0
+176	Meteor Lore	meteorshower.gif	0	0	0
 
 # Skills available to Clubbers
 
