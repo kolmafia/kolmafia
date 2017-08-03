@@ -1314,6 +1314,7 @@ user	_defectiveTokenChecked	false
 user	_demandSandwich	0
 user	_detectiveCasesCompleted	0
 user	_dinseyGarbageDisposed	false
+user	_disavowed	0
 user	_discoKnife	false
 user	_distentionPillUsed	false
 user	_dnaPotionsMade	0
