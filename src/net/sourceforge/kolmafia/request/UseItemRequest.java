@@ -1178,6 +1178,15 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_licenseToChillUsed" ) ? 0 : 1;
 
+		case ItemPool.VICTOR_SPOILS:
+			if ( !KoLCharacter.inBondcore() )
+			{
+				UseItemRequest.limiter = "not being Bond";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_victorSpoilsUsed" ) ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5933,6 +5942,14 @@ public class UseItemRequest
 
 		case ItemPool.LICENSE_TO_CHILL:
 			Preferences.setBoolean( "_licenseToChillUsed", true );
+			break;
+
+		case ItemPool.VICTOR_SPOILS:
+			Preferences.setBoolean( "_victorSpoilsUsed", true );
+			break;
+
+		case ItemPool.CORNUCOPIA:
+			Preferences.increment( "cornucopiasOpened", count );
 			break;
 		}
 
