@@ -1157,7 +1157,7 @@ public class QuestManager
 			{
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You have bridged the Orc Chasm." );
 			}
-			QuestDatabase.setQuestProgress( Quest.TOPPING, "step1" );
+			QuestDatabase.setQuestIfBetter( Quest.TOPPING, "step1" );
 		}
 	}
 
