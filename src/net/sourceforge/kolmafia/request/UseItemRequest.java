@@ -1187,6 +1187,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_victorSpoilsUsed" ) ? 0 : 1;
 
+		case ItemPool.METEORITE_ADE:
+			UseItemRequest.limiter = "daily limit";
+			return ( 3 - Preferences.getInteger( "_meteoriteAdesUsed" ) );
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5950,6 +5954,10 @@ public class UseItemRequest
 
 		case ItemPool.CORNUCOPIA:
 			Preferences.increment( "cornucopiasOpened", count );
+			break;
+
+		case ItemPool.METEORITE_ADE:
+			Preferences.increment( "_meteoriteAdesUsed" );
 			break;
 		}
 
