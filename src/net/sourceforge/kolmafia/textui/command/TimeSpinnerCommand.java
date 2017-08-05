@@ -243,9 +243,8 @@ public class TimeSpinnerCommand
 				{
 					continue;
 				}
-				for ( Object mon : AdventureQueueDatabase.getZoneQueue( adv ) )
+				for ( String monster : AdventureQueueDatabase.getZoneQueue( adv ) )
 				{
-					String monster = (String) mon;
 					if ( !monsters.contains( monster ) && 
 					     ( !filterExists || monster.toLowerCase().contains( filter ) ) )
 					{
