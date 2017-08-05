@@ -45,7 +45,6 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
@@ -234,22 +233,22 @@ public class AdventureQueueDatabase
 		zoneQueue.add( name );
 	}
 
-	public static RollingLinkedList getZoneQueue( KoLAdventure adv )
+	public static RollingLinkedList<String> getZoneQueue( KoLAdventure adv )
 	{
 		return AdventureQueueDatabase.getZoneQueue( adv.getAdventureName() );
 	}
 
-	public static RollingLinkedList getZoneQueue( String adv )
+	public static RollingLinkedList<String> getZoneQueue( String adv )
 	{
 		return COMBAT_QUEUE.get( adv );
 	}
 
-	public static RollingLinkedList getZoneNoncombatQueue( KoLAdventure adv )
+	public static RollingLinkedList<String> getZoneNoncombatQueue( KoLAdventure adv )
 	{
 		return AdventureQueueDatabase.getZoneNoncombatQueue( adv.getAdventureName() );
 	}
 
-	public static RollingLinkedList getZoneNoncombatQueue( String adv )
+	public static RollingLinkedList<String> getZoneNoncombatQueue( String adv )
 	{
 		return NONCOMBAT_QUEUE.get( adv );
 	}
