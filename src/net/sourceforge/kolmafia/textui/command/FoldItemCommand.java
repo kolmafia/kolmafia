@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -72,7 +73,7 @@ public class FoldItemCommand
 	public void run( final String cmd, final String parameters )
 	{
 		// Determine which item to create
-		AdventureResult target = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+		AdventureResult target = ItemFinder.getFirstMatchingItem( parameters, Match.ANY );
 		if ( target == null )
 		{
 			return;

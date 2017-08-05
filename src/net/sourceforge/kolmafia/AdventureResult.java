@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 import java.lang.CloneNotSupportedException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -1624,7 +1623,7 @@ public class AdventureResult
 
 		public static WildcardResult getInstance( String text )
 		{
-			if ( text.indexOf( "any" ) == -1 )
+			if ( !text.contains( "any" ) )
 			{
 				return null;
 			}

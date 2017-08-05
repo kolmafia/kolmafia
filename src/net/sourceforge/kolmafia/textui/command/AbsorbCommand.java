@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -79,7 +80,7 @@ public class AbsorbCommand
 			return;
 		}
 
-		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ABSORB_MATCH );
+		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters, Match.ABSORB );
 		if ( match == null )
 		{
 			return;

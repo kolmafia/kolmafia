@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.ChatRequest;
 
@@ -153,7 +154,7 @@ public class ChatSender
 		{
 			String item = graf.substring( graf.indexOf( " " ) ).trim();
 
-			AdventureResult result = ItemFinder.getFirstMatchingItem( item, false, ItemFinder.ANY_MATCH );
+			AdventureResult result = ItemFinder.getFirstMatchingItem( item, false, Match.ANY );
 
 			if ( result != null )
 			{

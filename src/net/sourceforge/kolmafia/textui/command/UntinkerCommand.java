@@ -34,10 +34,10 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 
@@ -58,7 +58,7 @@ public class UntinkerCommand
 			return;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, ItemFinder.UNTINKER_MATCH );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, Match.UNTINKER );
 		for ( AdventureResult item : itemList )
 		{
 			RequestThread.postRequest( new UntinkerRequest( item.getItemId(), item.getCount() ) );

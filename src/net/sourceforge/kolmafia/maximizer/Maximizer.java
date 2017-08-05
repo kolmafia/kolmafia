@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.moods.MoodManager;
 
-import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -61,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -647,15 +647,15 @@ public class Maximizer
 					}
 					else if ( cmd.startsWith( "chew " ) )
 					{
-						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.SPLEEN_MATCH );
+						item = ItemFinder.getFirstMatchingItem( iName, false, Match.SPLEEN );
 					}
 					else if ( cmd.startsWith( "drink " ) )
 					{
-						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.BOOZE_MATCH );
+						item = ItemFinder.getFirstMatchingItem( iName, false, Match.BOOZE );
 					}
 					else if ( cmd.startsWith( "eat " ) )
 					{
-						item = ItemFinder.getFirstMatchingItem( iName, false, ItemFinder.FOOD_MATCH );
+						item = ItemFinder.getFirstMatchingItem( iName, false, Match.FOOD );
 					}
 
 					if ( item != null )

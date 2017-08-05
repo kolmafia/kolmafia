@@ -46,14 +46,11 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
-
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-
-import net.sourceforge.kolmafia.textui.DataTypes;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
@@ -121,7 +118,7 @@ public class WikiLookupCommand
 
 			if ( type.startsWith( "item" ) )
 			{
-				AdventureResult result = ItemFinder.getFirstMatchingItem( target, ItemFinder.ANY_MATCH );
+				AdventureResult result = ItemFinder.getFirstMatchingItem( target, Match.ANY );
 				if ( result != null )
 				{
 					WikiUtilities.showWikiDescription( result );
