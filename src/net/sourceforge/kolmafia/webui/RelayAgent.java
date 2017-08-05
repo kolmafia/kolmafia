@@ -581,6 +581,7 @@ public class RelayAgent
 		
 	private final static Pattern IMAGE_PATTERN = Pattern.compile( "(" + KoLmafia.AMAZON_IMAGE_SERVER +
 								      "|" + KoLmafia.KOL_IMAGE_SERVER +
+								      "|" + "/iii" +
 								      "|" + "//images.kingdomofloathing.com" +
 								      "|" + "http://pics.communityofloathing.com/albums" +
 								      ")" + RelayAgent.NOCACHE_IMAGES );
