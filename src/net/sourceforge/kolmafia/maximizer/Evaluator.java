@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -383,7 +384,7 @@ public class Evaluator
 			else if ( keyword.startsWith( "equip " ) )
 			{
 				AdventureResult match = ItemFinder.getFirstMatchingItem(
-					keyword.substring( 6 ).trim(), ItemFinder.EQUIP_MATCH );
+					keyword.substring( 6 ).trim(), Match.EQUIP );
 				if ( match == null )
 				{
 					return;
@@ -1698,9 +1699,9 @@ public class Evaluator
 			best.setSnowsuit( bestSnowsuit );
 			
 			// Check each decoration in Snowsuit to see if they are worthwhile
-			for ( int i = 0; i < SnowsuitCommand.DECORATION.length; i++ )
+			for ( String[] DECORATION : SnowsuitCommand.DECORATION )
 			{
-				String decoration = SnowsuitCommand.DECORATION[ i ][ 0 ];
+				String decoration = DECORATION[ 0 ];
 				if ( decoration.equals( bestSnowsuit ) )
 				{
 					// Don't bother if we've already done it for best

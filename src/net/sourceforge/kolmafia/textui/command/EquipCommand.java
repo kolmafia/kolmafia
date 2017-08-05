@@ -42,8 +42,8 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 
@@ -79,7 +79,7 @@ public class EquipCommand
 			return;
 		}
 
-		if ( parameters.indexOf( "(no change)" ) != -1 )
+		if ( parameters.contains( "(no change)" ) )
 		{
 			return;
 		}
@@ -93,7 +93,7 @@ public class EquipCommand
 			parameters = parameters.substring( command.length() ).trim();
 		}
 
-		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.EQUIP_MATCH );
+		AdventureResult match = ItemFinder.getFirstMatchingItem( parameters, Match.EQUIP );
 		if ( match == null )
 		{
 			return;
@@ -117,7 +117,7 @@ public class EquipCommand
 			for ( int i = 0; i <= EquipmentManager.FAMILIAR; ++i )
 			{
 				AdventureResult item = EquipmentManager.getEquipment( i );
-				if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
+				if ( item != null && item.getName().toLowerCase().contains( parameters ) )
 				{
 					return;
 				}

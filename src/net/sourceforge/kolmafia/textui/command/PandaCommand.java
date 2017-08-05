@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 
@@ -112,7 +113,7 @@ public class PandaCommand
 			}
 
 			String itemName = m.group(2);
-			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, ItemFinder.ANY_MATCH );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( itemName, Match.ANY );
 			if ( item == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "WHAT did you want to give to " + member + "?" );

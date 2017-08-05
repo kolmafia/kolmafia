@@ -60,17 +60,21 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder
 {
-	public static final int ANY_MATCH = 1;
-	public static final int FOOD_MATCH = 2;
-	public static final int BOOZE_MATCH = 3;
-	public static final int SPLEEN_MATCH = 4;
-	public static final int USE_MATCH = 5;
-	public static final int CREATE_MATCH = 6;
-	public static final int UNTINKER_MATCH = 7;
-	public static final int EQUIP_MATCH = 8;
-	public static final int CANDY_MATCH = 9;
-	public static final int ABSORB_MATCH = 10;
-	public static final int ROBO_MATCH = 11;
+	public enum Match
+	{
+		ANY,
+		FOOD,
+		BOOZE,
+		SPLEEN,
+		USE,
+		CREATE,
+		UNTINKER,
+		EQUIP,
+		CANDY,
+		ABSORB,
+		ROBO,
+		ASDON,
+	}
 
 	public static final List<String> getMatchingNames( String searchString )
 	{
@@ -79,10 +83,10 @@ public class ItemFinder
 
 	public static final String getFirstMatchingItemName( List<String> nameList, String searchString )
 	{
-		return ItemFinder.getFirstMatchingItemName( nameList, searchString, ItemFinder.ANY_MATCH );
+		return ItemFinder.getFirstMatchingItemName( nameList, searchString, Match.ANY );
 	}
 
-	public static final String getFirstMatchingItemName( List<String> nameList, String searchString, int filterType )
+	public static final String getFirstMatchingItemName( List<String> nameList, String searchString, Match filterType )
 	{
 		if ( nameList == null || nameList.isEmpty() )
 		{
@@ -187,12 +191,12 @@ public class ItemFinder
 		return "";
 	}
 
-	private static final void filterNameList( List<String> nameList, int filterType )
+	private static final void filterNameList( List<String> nameList, Match filterType )
 	{
-		if ( filterType != ItemFinder.FOOD_MATCH &&
-		     filterType != ItemFinder.BOOZE_MATCH &&
-		     filterType != ItemFinder.SPLEEN_MATCH &&
-		     filterType != ItemFinder.CANDY_MATCH )
+		if ( filterType != Match.FOOD &&
+		     filterType != Match.BOOZE &&
+		     filterType != Match.SPLEEN &&
+		     filterType != Match.CANDY )
 		{
 			// First, check to see if there are an HP/MP restores
 			// in the list of matches.  If there are, only return
@@ -228,11 +232,11 @@ public class ItemFinder
 			String itemName = nameIterator.next();
 			int itemId = ItemDatabase.getItemId( itemName );
 
-			if ( filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
+			if ( filterType == Match.CREATE || filterType == Match.UNTINKER )
 			{
 				CraftingType mixMethod = ConcoctionDatabase.getMixingMethod( itemId, itemName );
 				boolean condition =
-					( filterType == ItemFinder.CREATE_MATCH ) ?
+					( filterType == Match.CREATE ) ?
 					( mixMethod == CraftingType.NOCREATE && CombineMeatRequest.getCost( itemId ) == 0 ) :
 					( mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY );
 				ItemFinder.conditionalRemove( nameIterator, condition );
@@ -243,18 +247,18 @@ public class ItemFinder
 
 			switch ( filterType )
 			{
-			case ItemFinder.FOOD_MATCH:
+			case FOOD:
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_EAT
 					&& useType != KoLConstants.CONSUME_FOOD_HELPER );
 				break;
-			case ItemFinder.BOOZE_MATCH:
+			case BOOZE:
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_DRINK
 					&& useType != KoLConstants.CONSUME_DRINK_HELPER );
 				break;
-			case ItemFinder.SPLEEN_MATCH:
+			case SPLEEN:
 				ItemFinder.conditionalRemove( nameIterator, useType != KoLConstants.CONSUME_SPLEEN );
 				break;
-			case ItemFinder.EQUIP_MATCH:
+			case EQUIP:
 				switch ( useType )
 				{
 				case KoLConstants.EQUIP_FAMILIAR:
@@ -278,27 +282,31 @@ public class ItemFinder
 				}
 
 				break;
-			case ItemFinder.CANDY_MATCH:
+			case CANDY:
 				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isCandyItem( itemId ) );
 				break;
 
-			case ItemFinder.ABSORB_MATCH:
+			case ABSORB:
 				ItemFinder.conditionalRemove( nameIterator, ( ItemDatabase.getNoobSkillId( itemId ) == -1 &&
 					!( ItemDatabase.isEquipment( itemId ) && !ItemDatabase.isFamiliarEquipment( itemId ) ) ) );
 				break;
 
-			case ItemFinder.ROBO_MATCH:
+			case ROBO:
 				ItemFinder.conditionalRemove( nameIterator, itemId < ItemPool.LITERAL_GRASSHOPPER || itemId > ItemPool.PHIL_COLLINS
 					|| Preferences.getString( "_roboDrinks" ).contains( itemName ) );
 				break;
 
-			case ItemFinder.USE_MATCH:
+			case ASDON:
+				ItemFinder.conditionalRemove( nameIterator, NPCStoreDatabase.contains( itemId, false ) );
+				break;
+
+			case USE:
 				ItemFinder.conditionalRemove( nameIterator, !ItemDatabase.isUsable( itemId ) );
 				break;
 			}
 		}
 
-		if ( nameList.size() == 1 || filterType == ItemFinder.CREATE_MATCH || filterType == ItemFinder.UNTINKER_MATCH )
+		if ( nameList.size() == 1 || filterType == Match.CREATE || filterType == Match.UNTINKER )
 		{
 			return;
 		}
@@ -349,25 +357,25 @@ public class ItemFinder
 
 	public static final AdventureResult getFirstMatchingItem( String parameters )
 	{
-		return ItemFinder.getFirstMatchingItem( parameters, true, null, ItemFinder.ANY_MATCH );
+		return ItemFinder.getFirstMatchingItem( parameters, true, null, ItemFinder.Match.ANY );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters, int filterType )
+	public static final AdventureResult getFirstMatchingItem( String parameters, Match filterType )
 	{
 		return ItemFinder.getFirstMatchingItem( parameters, true, null, filterType );
 	}
 
 	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure )
 	{
-		return ItemFinder.getFirstMatchingItem( parameters, errorOnFailure, null, ItemFinder.ANY_MATCH );
+		return ItemFinder.getFirstMatchingItem( parameters, errorOnFailure, null, Match.ANY );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, int filterType )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, Match filterType )
 	{
 		return getFirstMatchingItem( parameters, errorOnFailure, null, filterType );
 	}
 
-	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, List<AdventureResult> sourceList, int filterType )
+	public static final AdventureResult getFirstMatchingItem( String parameters, boolean errorOnFailure, List<AdventureResult> sourceList, Match filterType )
 	{
 		// Ignore spaces and tabs in front of the parameter string
 		parameters = parameters.trim();
@@ -495,36 +503,42 @@ public class ItemFinder
 				String error;
 				switch ( filterType )
 				{
-				case ANY_MATCH:
+				case ANY:
 				default:
 					error = " has no matches.";
 					break;
-				case FOOD_MATCH:
+				case FOOD:
 					error = " cannot be eaten.";
 					break;
-				case BOOZE_MATCH:
+				case BOOZE:
 					error = " cannot be drunk.";
 					break;
-				case SPLEEN_MATCH:
+				case SPLEEN:
 					error = " cannot be chewed.";
 					break;
-				case USE_MATCH:
+				case USE:
 					error = " cannot be used.";
 					break;
-				case CREATE_MATCH:
+				case CREATE:
 					error = " cannot be created.";
 					break;
-				case UNTINKER_MATCH:
+				case UNTINKER:
 					error = " cannot be untinkered.";
 					break;
-				case EQUIP_MATCH:
+				case EQUIP:
 					error = " cannot be equipped.";
 					break;
-				case CANDY_MATCH:
+				case CANDY:
 					error = " is not candy.";
 					break;
-				case ABSORB_MATCH:
+				case ABSORB:
 					error = " cannot be absorbed.";
+					break;
+				case ROBO:
+					error = " cannot be fed.";
+					break;
+				case ASDON:
+					error = " cannot be used as fuel.";
 					break;
 				}
 
@@ -562,7 +576,7 @@ public class ItemFinder
 
 		int matchCount;
 
-		if ( filterType == ItemFinder.CREATE_MATCH )
+		if ( filterType == Match.CREATE )
 		{
 			boolean skipNPCs = Preferences.getBoolean( "autoSatisfyWithNPCs" ) && itemCount <= 0;
 
@@ -625,25 +639,25 @@ public class ItemFinder
 
 	public static AdventureResult[] getMatchingItemList( String itemList )
 	{
-		return ItemFinder.getMatchingItemList( itemList, true, null, ItemFinder.ANY_MATCH );
+		return ItemFinder.getMatchingItemList( itemList, true, null, Match.ANY );
 	}
 
 	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure )
 	{
-		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, null, ItemFinder.ANY_MATCH );
+		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, null, Match.ANY );
 	}
 
 	public static AdventureResult[] getMatchingItemList( String itemList, List<AdventureResult> sourceList )
 	{
-		return ItemFinder.getMatchingItemList( itemList, true, sourceList, ItemFinder.ANY_MATCH );
+		return ItemFinder.getMatchingItemList( itemList, true, sourceList, Match.ANY );
 	}
 
 	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<AdventureResult> sourceList )
 	{
-		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, sourceList, ItemFinder.ANY_MATCH );
+		return ItemFinder.getMatchingItemList( itemList, errorOnFailure, sourceList, Match.ANY );
 	}
 
-	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<AdventureResult> sourceList, int filterType )
+	public static AdventureResult[] getMatchingItemList( String itemList, boolean errorOnFailure, List<AdventureResult> sourceList, Match filterType )
 	{
 		AdventureResult firstMatch = ItemFinder.getFirstMatchingItem( itemList, false, sourceList, filterType );
 		if ( firstMatch != null )

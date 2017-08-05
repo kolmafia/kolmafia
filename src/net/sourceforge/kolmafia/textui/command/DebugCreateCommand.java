@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 public class DebugCreateCommand
 	extends AbstractCommand
@@ -62,7 +63,7 @@ public class DebugCreateCommand
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], ItemFinder.ANY_MATCH );
+			item = ItemFinder.getFirstMatchingItem( itemNames[ i ], Match.ANY );
 
 			if ( item != null )
 			{

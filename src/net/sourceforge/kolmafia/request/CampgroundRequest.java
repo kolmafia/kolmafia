@@ -74,7 +74,7 @@ public class CampgroundRequest
 	private static final Pattern DNA_PATTERN = Pattern.compile( "sample of <b>(.*?)</b> DNA" );
 	private static final Pattern FUEL_PATTERN_1 = Pattern.compile( "fuel gauge reads ([\\d,]+) litre" );
 	private static final Pattern FUEL_PATTERN_2 = Pattern.compile( "<p>The fuel gauge currently reads: (.*?)</p>" );
-	private static final Pattern FUEL_PATTERN_3 = Pattern.compile( "&qty=(.*?)&iid=(.*?)&" );
+	private static final Pattern FUEL_PATTERN_3 = Pattern.compile( "&qty=([\\d,]+)&iid=([\\d,]+)" );
 
 	private static int currentDwellingLevel = 0;
 	private static AdventureResult currentDwelling = null;

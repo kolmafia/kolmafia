@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.CurseRequest;
 
@@ -69,7 +70,7 @@ public class ThrowItemCommand
 		}
 		String target = parameters.substring( splitPos + 4 ).trim();
 		parameters = parameters.substring( 0, splitPos ).trim();
-		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, ItemFinder.ANY_MATCH );
+		AdventureResult item = ItemFinder.getFirstMatchingItem( parameters, Match.ANY );
 		if ( item != null )
 		{
 			if ( !ItemDatabase.getAttribute( item.getItemId(), ItemDatabase.ATTR_CURSE ) )

@@ -46,12 +46,13 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AsdonMartinCommand
 	extends AbstractCommand
@@ -71,7 +72,7 @@ public class AsdonMartinCommand
 
 	public AsdonMartinCommand()
 	{
-		this.usage = " drive style|clear - Get drive buff";
+		this.usage = " drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel";
 	}
 
 	private static final int findDriveStyle( final String name )
@@ -185,6 +186,26 @@ public class AsdonMartinCommand
 					return;
 				}
 			}
+		}
+		else if ( command.equals( "fuel" ) )
+		{
+			String param = parameters.substring( 5 );
+			AdventureResult item = ItemFinder.getFirstMatchingItem( param, true, null, Match.ASDON );
+			if ( item == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, param + " cannot be used as fuel." );
+				return;
+			}
+			if ( !InventoryManager.retrieveItem( item ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough " + item.getDataName() + "." );
+				return;
+			}
+			CampgroundRequest request = new CampgroundRequest( "fuelconvertor" );
+			request.addFormField( "qty", String.valueOf( item.getCount() ) );
+			request.addFormField( "iid", String.valueOf( item.getItemId() ) );
+			RequestThread.postRequest( request );
+			return;
 		}
 
 		RequestLogger.printLine( "Usage: asdonmartin " + this.usage );

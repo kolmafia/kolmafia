@@ -37,8 +37,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -52,6 +50,7 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 
@@ -231,8 +230,8 @@ public class SynthesizeCommand
 		if ( parameters.contains( "," ) )
 		{
 			// Two candies
-			
-			int filter = ItemFinder.CANDY_MATCH;
+
+			Match filter = Match.CANDY;
 
 			AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, filter );
 

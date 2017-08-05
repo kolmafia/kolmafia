@@ -48,12 +48,12 @@ import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -98,7 +98,7 @@ public class CheckDataCommand
 			}
 			else
 			{
-				int filter = ItemFinder.CANDY_MATCH;
+				Match filter = Match.CANDY;
 				AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, filter );
 				for ( AdventureResult item : itemList )
 				{

@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
@@ -142,46 +143,46 @@ public class UseItemCommand
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
 		int consumptionType = KoLConstants.NO_CONSUME;
-		int filter;
+		Match filter;
 
 		if ( command.equals( "eat" ) || command.equals( "eatsilent" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_EAT;
-			filter = ItemFinder.FOOD_MATCH;
+			filter = Match.FOOD;
 		}
 		else if ( command.equals( "ghost" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_GHOST;
-			filter = ItemFinder.FOOD_MATCH;
+			filter = Match.FOOD;
 		}
 		else if ( command.equals( "drink" ) || command.equals( "overdrink" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_DRINK;
-			filter = ItemFinder.BOOZE_MATCH;
+			filter = Match.BOOZE;
 		}
 		else if ( command.equals( "hobo" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_HOBO;
-			filter = ItemFinder.BOOZE_MATCH;
+			filter = Match.BOOZE;
 		}
 		else if ( command.equals( "chew" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_SPLEEN;
-			filter = ItemFinder.SPLEEN_MATCH;
+			filter = Match.SPLEEN;
 		}
 		else if ( command.equals( "slimeling" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_SLIME;
-			filter = ItemFinder.EQUIP_MATCH;
+			filter = Match.EQUIP;
 		}
 		else if ( command.equals( "robo" ) )
 		{
 			consumptionType = KoLConstants.CONSUME_ROBO;
-			filter = ItemFinder.ROBO_MATCH;
+			filter = Match.ROBO;
 		}
 		else
 		{
-			filter = ItemFinder.USE_MATCH;
+			filter = Match.USE;
 		}
 
 		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, !sim, null, filter );

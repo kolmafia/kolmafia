@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -236,7 +237,7 @@ public class Speculation
 				}
 		
 				AdventureResult match = ItemFinder.getFirstMatchingItem( params,
-					ItemFinder.EQUIP_MATCH );
+					Match.EQUIP );
 				if ( match == null )
 				{
 					return true;

@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -62,7 +63,7 @@ public class TimeSpinnerCommand
 {
 	public TimeSpinnerCommand()
 	{
-		this.usage = " list (food|monsters [filter]) | eat (foodname) | prank (target [msg=(message)]) - Use the Time-Spinner";
+		this.usage = " list (food|monsters [<filter>]) | eat <foodname> | prank <target<> [msg=<message>] - Use the Time-Spinner";
 	}
 
 	@Override
@@ -88,7 +89,7 @@ public class TimeSpinnerCommand
 				return;
 			}
 			parameters = parameters.substring( 4 );
-			AdventureResult food = ItemFinder.getFirstMatchingItem( parameters, false, ItemFinder.FOOD_MATCH );
+			AdventureResult food = ItemFinder.getFirstMatchingItem( parameters, false, Match.FOOD );
 			if ( food == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "That isn't a valid food." );
@@ -242,9 +243,8 @@ public class TimeSpinnerCommand
 				{
 					continue;
 				}
-				for ( Object mon : AdventureQueueDatabase.getZoneQueue( adv ) )
+				for ( String monster : AdventureQueueDatabase.getZoneQueue( adv ) )
 				{
-					String monster = (String) mon;
 					if ( !monsters.contains( monster ) && 
 					     ( !filterExists || monster.toLowerCase().contains( filter ) ) )
 					{

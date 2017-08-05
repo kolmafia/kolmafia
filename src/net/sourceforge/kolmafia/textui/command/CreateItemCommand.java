@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 
@@ -69,7 +70,7 @@ public class CreateItemCommand
 			return;
 		}
 
-		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, ItemFinder.CREATE_MATCH );
+		AdventureResult[] itemList = ItemFinder.getMatchingItemList( parameters, true, null, Match.CREATE );
 		for ( AdventureResult currentMatch : itemList )
 		{
 			CreateItemRequest irequest = CreateItemRequest.getInstance( currentMatch );
