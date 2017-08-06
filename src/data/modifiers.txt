@@ -5583,6 +5583,7 @@ Effect	Mer-kinkiness	Hot Resistance: +4, Cold Resistance: +4, Stench Resistance:
 # Merry Smithsness: (+% to All Stats Based on Smithsness)
 Effect	Merry Smithsness	Smithsness: +25, Muscle Percent: [K], Mysticality Percent: [K], Moxie Percent: [K]
 Effect	Metal Speed	Initiative: +20
+Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
