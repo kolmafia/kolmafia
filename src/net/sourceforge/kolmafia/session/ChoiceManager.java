@@ -11540,6 +11540,14 @@ public abstract class ChoiceManager
 			ChoiceManager.handleAfterAvatar();
 			break;
 
+		case 1264: // Meteor Metal Machinations
+			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 6 )
+			{
+				// Exchanging for equipment
+				ResultProcessor.removeItem( ItemPool.METAL_METEOROID );
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
