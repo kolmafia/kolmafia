@@ -265,6 +265,8 @@ public class SkillPool
 	public static final int AM_MISSILE_LAUNCHER = 7286;
 	public static final int AM_BEAN_BAG_CANNON = 7287;
 	public static final int AM_FRONT_BUMPER = 7288;
+	public static final int MACROMETEOR = 7290;
+	public static final int METEOR_SHOWER = 7291;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

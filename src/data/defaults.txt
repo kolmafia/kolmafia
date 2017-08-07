@@ -1453,6 +1453,7 @@ user	_lunchBreak	false
 user	_lupineHormonesUsed	false
 user	_lynyrdSnareUses	0
 user	_machineTunnelsAdv	0
+user	_macrometeoriteUses	0
 user	_madTeaParty	false
 user	_managerialManipulationUsed	false
 user	_mayflowerDrops	0
@@ -1461,6 +1462,7 @@ user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
+user	_meteorShowerUses	0
 user	_miniMartiniDrops	0
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
