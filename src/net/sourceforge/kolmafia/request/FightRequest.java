@@ -8307,6 +8307,20 @@ public class FightRequest
 				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_FRONT_BUMPER ) );
 			}
 			break;
+
+		case SkillPool.MACROMETEOR:
+			if ( responseText.contains( "You quickly step" ) || skillSuccess )
+			{
+				Preferences.increment( "_macrometeoriteUses" );
+			}
+			break;
+
+		case SkillPool.METEOR_SHOWER:
+			if ( responseText.contains( "consult your mental index" ) || skillSuccess )
+			{
+				Preferences.increment( "_meteorShowerUses" );
+			}
+			break;
 		}
 	}
 
