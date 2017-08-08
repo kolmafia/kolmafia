@@ -8308,6 +8308,10 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.MICROMETEOR:
+			Preferences.increment( "_micrometeoriteUses" );
+			break;
+
 		case SkillPool.MACROMETEOR:
 			if ( responseText.contains( "You quickly step" ) || skillSuccess )
 			{

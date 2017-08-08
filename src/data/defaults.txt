@@ -1463,6 +1463,7 @@ user	_mayoTankSoaked	false
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
+user	_micrometeoriteUses	0
 user	_miniMartiniDrops	0
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
