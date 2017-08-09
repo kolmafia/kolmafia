@@ -259,7 +259,7 @@ public class AscensionHistoryRequest
 		}
 		if ( bondPoints > Preferences.getInteger( "bondPoints" ) )
 		{
-			Preferences.setInteger( "bondPoints", bondPoints );
+			Preferences.setInteger( "bondPoints", ( bondPoints < 24 ? bondPoints : 24 ) );
 		}
 	}
 
