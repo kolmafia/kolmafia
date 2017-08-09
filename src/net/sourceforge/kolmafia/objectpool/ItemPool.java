@@ -604,7 +604,10 @@ public class ItemPool
 	public static final int EVIL_TEDDY_SEWING_KIT = 2147;
 	public static final int TRIANGULAR_STONE = 2173;
 	public static final int ANCIENT_AMULET = 2180;
+	public static final int HAROLDS_HAMMER_HEAD = 2182;
 	public static final int HAROLDS_HAMMER = 2184;
+	public static final int UNLIT_BIRTHDAY_CAKE = 2186;
+	public static final int LIT_BIRTHDAY_CAKE = 2187;
 	public static final int ANCIENT_CAROLS = 2191;
 	public static final int SHEET_MUSIC = 2192;
 	public static final int FANCY_EVIL_CHOCOLATE = 2197;
@@ -749,6 +752,7 @@ public class ItemPool
 	public static final int PALM_FROND = 2605;
 	public static final int MOJO_FILTER = 2614;
 	public static final int WEAVING_MANUAL = 2630;
+	public static final int PAT_A_CAKE_PENDANT = 2633;
 	public static final int MUMMY_WRAP = 2634;
 	public static final int GAUZE_HAMMOCK = 2638;
 	public static final int MAXWELL_HAMMER = 2642;
