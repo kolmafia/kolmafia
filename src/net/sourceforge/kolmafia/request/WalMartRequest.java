@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 public class WalMartRequest
 	extends CoinMasterRequest
 {
@@ -147,6 +149,14 @@ public class WalMartRequest
 
 	public static String accessible()
 	{
+		if ( !Preferences.getBoolean( "_coldAirportToday" ) && !Preferences.getBoolean( "coldAirportAlways" ) )
+		{
+			return "You don't have access to The Glaciest";
+		}
+		if ( Limitmode.limitZone( "The Glaciest" ) )
+		{
+			return "You cannot currently access The Glaciest";
+		}
 		return null;
 	}
 }

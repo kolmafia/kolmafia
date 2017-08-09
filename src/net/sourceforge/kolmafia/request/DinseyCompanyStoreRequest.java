@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 public class DinseyCompanyStoreRequest
 	extends CoinMasterRequest
 {
@@ -152,6 +154,14 @@ public class DinseyCompanyStoreRequest
 
 	public static String accessible()
 	{
+		if ( !Preferences.getBoolean( "_stenchAirportToday" ) && !Preferences.getBoolean( "stenchAirportAlways" ) )
+		{
+			return "You don't have access to Dinseylandfill";
+		}
+		if ( Limitmode.limitZone( "Dinseylandfill" ) )
+		{
+			return "You cannot currently access Dinseylandfill";
+		}
 		return null;
 	}
 }

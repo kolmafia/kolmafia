@@ -49,6 +49,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 public class DiscoGiftCoRequest
 	extends CoinMasterRequest
 {
@@ -147,6 +149,14 @@ public class DiscoGiftCoRequest
 
 	public static String accessible()
 	{
+		if ( !Preferences.getBoolean( "_hotAirportToday" ) && !Preferences.getBoolean( "hotAirportAlways" ) )
+		{
+			return "You don't have access to That 70s Volcano";
+		}
+		if ( Limitmode.limitZone( "That 70s Volcano" ) )
+		{
+			return "You cannot currently access That 70s Volcano";
+		}
 		return null;
 	}
 }

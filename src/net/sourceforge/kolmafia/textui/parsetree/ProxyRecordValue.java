@@ -1386,6 +1386,7 @@ public class ProxyRecordValue
 			.add( "available_tokens", DataTypes.INT_TYPE )
 			.add( "buys", DataTypes.BOOLEAN_TYPE )
 			.add( "sells", DataTypes.BOOLEAN_TYPE )
+			.add( "nickname", DataTypes.STRING_TYPE )
 			.finish( "coinmaster proxy" );
 
 		public CoinmasterProxy( Value obj )
@@ -1425,6 +1426,11 @@ public class ProxyRecordValue
 		public boolean get_sells()
 		{
 			return ( (CoinmasterData) this.content ).getBuyAction() != null;
+		}
+
+		public String get_nickname()
+		{
+			return ( (CoinmasterData) this.content ).getNickname();
 		}
 	}
 

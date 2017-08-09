@@ -220,7 +220,7 @@ public abstract class CoinmasterRegistry
 		for ( int i = 0; i < COINMASTERS.length; ++i )
 		{
 			CoinmasterData data = COINMASTERS[ i ];
-			if ( name.equals( data.getNickname() ) )
+			if ( name.equalsIgnoreCase( data.getNickname() ) )
 			{
 				return data;
 			}
