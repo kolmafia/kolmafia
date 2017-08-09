@@ -1714,8 +1714,27 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.HAROLDS_HAMMER_HEAD:
+		case ItemPool.HAROLDS_HAMMER:
+			// Yes, they are the same quest step!
+			QuestDatabase.setQuestProgress( Quest.HAMMER, QuestDatabase.STARTED );
+			break;
+
 		case ItemPool.HAROLDS_BELL:
+			QuestDatabase.setQuestProgress( Quest.HAMMER, QuestDatabase.FINISHED );
 			ResultProcessor.processItem( ItemPool.HAROLDS_HAMMER, -1 );
+			break;
+
+		case ItemPool.LIT_BIRTHDAY_CAKE:
+			ResultProcessor.processItem( ItemPool.UNLIT_BIRTHDAY_CAKE, -1 );
+		case ItemPool.UNLIT_BIRTHDAY_CAKE:
+			// Yes, they are the same quest step!
+			QuestDatabase.setQuestProgress( Quest.BAKER, QuestDatabase.STARTED );
+			break;
+
+		case ItemPool.PAT_A_CAKE_PENDANT:
+			ResultProcessor.processItem( ItemPool.LIT_BIRTHDAY_CAKE, -1 );
+			QuestDatabase.setQuestProgress( Quest.BAKER, QuestDatabase.FINISHED );
 			break;
 
 		 // These update the session results for the item swapping in
