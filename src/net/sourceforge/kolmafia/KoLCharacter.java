@@ -3452,7 +3452,9 @@ public abstract class KoLCharacter
 		else if ( oldPath.equals( LICENSE ) )
 		{
 			int bondPoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "bondPoints", bondPoints );
+			int currentBondPoints = Preferences.getInteger( "bondPoints" );
+			currentBondPoints += bondPoints;
+			Preferences.setInteger( "bondPoints", ( currentBondPoints < 24 ? currentBondPoints : 24 ) );
 		}
 
 		// We are no longer in Hardcore
