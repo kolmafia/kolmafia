@@ -46,6 +46,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.Limitmode;
+
 public class BuffJimmyRequest
 	extends CoinMasterRequest
 {
@@ -59,7 +63,7 @@ public class BuffJimmyRequest
 	public static final CoinmasterData BUFF_JIMMY =
 		new CoinmasterData(
 			BuffJimmyRequest.master,
-			"Buff Jimmy",
+			"BuffJimmy",
 			BuffJimmyRequest.class,
 			"Beach Buck",
 			null,
@@ -144,7 +148,14 @@ public class BuffJimmyRequest
 
 	public static String accessible()
 	{
-		// Not yet implemented
+		if ( !Preferences.getBoolean( "_sleazeAirportToday" ) && !Preferences.getBoolean( "sleazeAirportAlways" ) )
+		{
+			return "You don't have access to Spring Break Beach";
+		}
+		if ( Limitmode.limitZone( "Spring Break Beach" ) )
+		{
+			return "You cannot currently access Spring Break Beach";
+		}
 		return null;
 	}
 }

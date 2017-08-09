@@ -48,6 +48,8 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.Limitmode;
+
 public class ArmoryRequest
 	extends CoinMasterRequest
 {
@@ -146,6 +148,14 @@ public class ArmoryRequest
 
 	public static String accessible()
 	{
+		if ( !Preferences.getBoolean( "_spookyAirportToday" ) && !Preferences.getBoolean( "spookyAirportAlways" ) )
+		{
+			return "You don't have access to Conspiracy Island";
+		}
+		if ( Limitmode.limitZone( "Conspiracy Island" ) )
+		{
+			return "You cannot currently access Conspiracy Island";
+		}
 		if ( !Preferences.getBoolean( "armoryUnlocked" ) )
 		{
 			return "The Armory is locked";
