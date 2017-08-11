@@ -606,6 +606,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	horseryAvailable	false
 user	hotAirportAlways	false
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
@@ -1382,6 +1383,7 @@ user	_hoboUnderlingSummons	0
 user	_holidayFunUsed	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
+user	_horsery
 user	_hotAirportToday	false
 user	_hotAshesDrops	0
 user	_hotJellyUses	0

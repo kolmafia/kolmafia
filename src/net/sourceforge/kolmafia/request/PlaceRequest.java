@@ -272,6 +272,7 @@ public class PlaceRequest
 		else if ( place.equals( "town_right" ) )
 		{
 			Preferences.setBoolean( "telegraphOfficeAvailable", responseText.contains( "townright_ltt" ) );
+			Preferences.setBoolean( "horseryAvailable", responseText.contains( "horsery.gif" ) );
 		}
 		else if ( place.equals( "town_wrong" ) )
 		{
