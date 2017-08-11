@@ -9546,3 +9546,8 @@
 9520	asteroid belt	586508038	metalm_belt.gif	accessory		0
 9521	meteorthopedic shoes	410465900	metalm_shoes.gif	accessory		0
 9522	shooting morning star	887651527	metalm_mace.gif	weapon		0
+9523
+9524
+9525
+9526
+9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
