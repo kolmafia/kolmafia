@@ -6997,6 +6997,39 @@ public abstract class ChoiceManager
 				Preferences.setString( "_villainLairKey", "pete" );
 			}
 			break;
+
+		case 1266:
+			// The Hostler
+			Preferences.setBoolean( "horseryAvailable", true );
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setString( "_horsery", "Initiative: +10" );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Preferences.setString( "_horsery", "Combat Rate: -5" );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				Pattern pattern = Pattern.compile( "Gives you\\s+([+-]\\d+)% Muscle, ([+-]\\d+)% Mysticality, and ([+-]\\d+)%" );
+				Matcher matcher = pattern.matcher( ChoiceManager.lastResponseText );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "_horsery", "Muscle Percent: " + matcher.group( 1 ) +
+					                                 ", Mysticality Percent: " + matcher.group( 2 ) +
+					                                 ", Moxie Percent: " + matcher.group( 3 ) );
+				}
+				else
+				{
+					// This shouldn't happen, but at least clear the setting if something goes wrong
+					Preferences.setString( "_horsery", "" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				Preferences.setString( "_horsery", "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1" );
+			}
+			break;
 		}
 	}
 
@@ -15445,6 +15478,7 @@ public abstract class ChoiceManager
 		case 1234: // Spacegate Vaccination Machine
 		case 1235: // Spacegate Terminal
 		case 1259: // LI-11 HQ
+		case 1266: // The Hostler
 			return true;
 
 		default:

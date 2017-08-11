@@ -5891,6 +5891,9 @@ public abstract class KoLCharacter
 			}
 		}
 
+		// Horsery
+		newModifiers.add( Modifiers.parseModifiers( "Horsery", Preferences.getString( "_horsery" ) ) );
+
 		// Add modifiers from inventory
 		if ( InventoryManager.hasItem( ItemPool.FISHING_POLE ) )
 		{
