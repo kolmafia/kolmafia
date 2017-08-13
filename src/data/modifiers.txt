@@ -7078,6 +7078,7 @@ Outfit	Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 Outfit	Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Outfit	Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
 Outfit	Mer-kin Scholar's Vestments	Spell Critical Percent: +10
+Outfit	Meteor Masquerade	Meat Drop: +50
 Outfit	Mining Gear	Meat Drop: +5
 # Mutant Couture: Release Your Inner Mutant
 Outfit	Oil Rig	Initiative: +30

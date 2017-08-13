@@ -129,3 +129,6 @@
 128	Eldritch Equipage	elditchtat.gif	eldritch hat, eldritch pants
 129	Gingerbread Best	gingertat.gif	candy dress shoes, candy necktie, chocolate pocketwatch, gingerbread waistcoat, gingerbread trousers, gingerbread tophat
 130	Spant Armor	spantat.gif	spant spear, spant backplate, spant shield, spant shoulderpads, spants
+# Meteor Masquerade can use meteorite guard in place of meteorb, but there's no good way to support that, and
+# KoL equips meteorb when equipping the outfit
+131	Meteor Masquerade	meteortat.gif	meteortarboard, shooting morning star, meteorb, meteorthopedic shoes, asteroid belt
