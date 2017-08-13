@@ -7029,6 +7029,10 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "_horsery", "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1" );
 			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Preferences.setString( "_horsery", "" );
+			}
 			break;
 		}
 	}
