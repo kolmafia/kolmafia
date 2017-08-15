@@ -99,7 +99,7 @@ public class UseSkillCommand
 					return false;
 				}
 				KoLmafia.updateDisplay( MafiaState.ERROR,
-					"You don't have a skill uniquely matching \"" + parameters + "\"" );
+					"Could not find a known, usable skill of yours uniquely matching \"" + parameters + "\"" );
 				return false;
 			}
 
