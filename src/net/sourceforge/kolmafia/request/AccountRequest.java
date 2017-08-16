@@ -718,6 +718,10 @@ public class AccountRequest
 		{
 			path = "License to Adventure";
 		}
+		else if ( path.equals( "31" ) )
+		{
+			path = "Live. Ascend. Repeat.";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
