@@ -813,6 +813,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Nuclear Autumn" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 				path[ 1 ].equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 				path[ 1 ].equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
+				path[ 1 ].equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 

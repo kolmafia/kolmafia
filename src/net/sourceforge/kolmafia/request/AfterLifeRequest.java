@@ -574,6 +574,9 @@ public class AfterLifeRequest
 			case 30:
 				builder.append( "a License to Adventure" );
 				break;
+			case 31:
+				builder.append( "a Live. Ascend. Repeat." );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

@@ -84,6 +84,7 @@ public class AscensionSnapshot
 	public static final int NUCLEAR_AUTUMN = 28;
 	public static final int GELATINOUS_NOOB = 29;
 	public static final int LICENSE = 30;
+	public static final int REPEAT = 31;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -578,7 +579,9 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.THE_SOURCE ? "The Source "  :
 						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
 						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " :
-						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " : "" );
+						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " :
+						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat."
+						: "" );
 
 			strbuf.append( "Ascensions (Out of " );
 			strbuf.append( resultsList.size() );
