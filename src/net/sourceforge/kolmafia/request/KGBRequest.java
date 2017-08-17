@@ -126,7 +126,7 @@ public class KGBRequest
 		modMap.put( "Weapon Damage +25%", list1 );
 
 		ModifierList list2 = new ModifierList();
-		list2.addModifier( "Spell Damage Percent", "25" );
+		list2.addModifier( "Spell Damage Percent", "50" );
 		modMap.put( "Spell Damage +50%", list2 );
 
 		ModifierList list3 = new ModifierList();
