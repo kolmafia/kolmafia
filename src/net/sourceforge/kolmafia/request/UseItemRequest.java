@@ -1191,6 +1191,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return ( 3 - Preferences.getInteger( "_meteoriteAdesUsed" ) );
 
+		case ItemPool.PERFECTLY_FAIR_COIN:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_perfectlyFairCoinUsed" ) ? 0 : 1;
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -5958,6 +5962,10 @@ public class UseItemRequest
 
 		case ItemPool.METEORITE_ADE:
 			Preferences.increment( "_meteoriteAdesUsed" );
+			break;
+
+		case ItemPool.PERFECTLY_FAIR_COIN:
+			Preferences.setBoolean( "_perfectlyFairCoinUsed", true );
 			break;
 		}
 

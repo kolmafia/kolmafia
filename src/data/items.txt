@@ -9549,5 +9549,5 @@
 9523
 9524
 9525
-9526
+9526	perfectly fair coin	576720542	faircoin.gif	reusable	0
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
