@@ -2318,3 +2318,4 @@
 2317	Meteor Showered	meteorshower.gif	97117fd0a12997dd1edeb37fc5bac060
 2318	Superioreo meteoreo.gif	90ada7abc7dc18d0e993d2d8a31679b3	eat 1 meteoreo
 2319	Meadulla Oblongota	meadeor.gif	e8e06d19e444b35a8549825e80b5c8ee	drink 1 meadeorite
+2320	What Are The Odds!?	faircoin.gif	08765fc624c117eafc6849d5e1997099	use 1 perfectly fair coin

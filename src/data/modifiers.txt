@@ -6579,6 +6579,7 @@ Effect	Wet and Greedy	Item Drop: +25
 Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Effect	Wet Willied	Underwater Familiar
+# Effect	What Are The Odds!?: All item drop rolls will be 50%
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
 Effect	Which Nurse? Witch Nurse!	Avatar: "pygmy witch nurse"

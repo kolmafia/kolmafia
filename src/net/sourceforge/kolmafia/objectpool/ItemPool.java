@@ -2851,6 +2851,7 @@ public class ItemPool
 	public static final int ASDON_MARTIN = 9508;
 	public static final int METEORITE_ADE = 9513;
 	public static final int METAL_METEOROID = 9516;
+	public static final int PERFECTLY_FAIR_COIN = 9526;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
