@@ -9548,6 +9548,6 @@
 9522	shooting morning star	887651527	metalm_mace.gif	weapon		0
 9523
 9524
-9525
-9526	perfectly fair coin	576720542	faircoin.gif	reusable	0
+9525	thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0
+9526	perfectly fair coin	576720542	faircoin.gif	reusable		0
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
