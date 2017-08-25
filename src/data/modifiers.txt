@@ -938,7 +938,7 @@ Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat
 Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
 # Item aerogel accordion: Only takes up one hand!
-Item	aerogel accordion	Moxie: +20, Maximum HP: +40, Song Duration: 10
+Item	aerogel accordion	Moxie: [10*(1+skill(Accordion Appreciation))], Maximum HP: [20*(1+skill(Accordion Appreciation))], Song Duration: 10
 # airblaster gun: Blasts Air (Duh.)
 Item	alarm accordion	Adventures: [3*(1+skill(Accordion Appreciation))], Initiative: [20*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 20
 Item	amok putter	Hot Damage: +9, Cold Damage: +9, Initiative: +18
