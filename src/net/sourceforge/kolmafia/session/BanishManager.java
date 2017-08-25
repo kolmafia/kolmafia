@@ -562,7 +562,7 @@ public class BanishManager
 				}
 				else if ( resetType == Reset.TURN_ROLLOVER_RESET )
 				{
-					banishData[ banish ][ 3 ] = String.valueOf( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() ) + "or Until Rollover";
+					banishData[ banish ][ 3 ] = String.valueOf( current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun() ) + " or Until Rollover";
 				}
 				else if ( resetType == Reset.AVATAR_RESET )
 				{
