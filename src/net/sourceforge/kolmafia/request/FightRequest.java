@@ -5569,8 +5569,9 @@ public class FightRequest
 			Matcher m = CLEESH_PATTERN.matcher( node.getText() );
 			if ( m.find() )
 			{
+				FightRequest.clearInstanceData( true );
 				String newMonster = m.group( 1 );
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster ) );
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster ), true );
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
@@ -7008,7 +7009,11 @@ public class FightRequest
 
 	private static final void clearInstanceData()
 	{
-		KoLCharacter.resetEffectiveFamiliar();
+		FightRequest.clearInstanceData( false );
+	}
+
+	private static final void clearInstanceData( final boolean transform )
+	{
 		FightRequest.castNoodles = false;
 		FightRequest.castClubFoot = false;
 		FightRequest.castShellUp = false;
@@ -7024,18 +7029,24 @@ public class FightRequest
 		FightRequest.canStomp = false;
 		FightRequest.desiredScroll = null;
 
-		EncounterManager.ignoreSpecialMonsters = false;
-
-		// Do not clear the following, since they are looked at after combat finishes.
-		// FightRequest.haiku = false;
-		// FightRequest.anapest = false;
-
 		// In Ed we'll only clear the monster status and Gremlins when we have won or abandoned the fight
 		if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 		{
 			IslandManager.startFight();
 			MonsterStatusTracker.reset();
 		}
+
+		if ( transform )
+		{
+			return;
+		}
+
+		KoLCharacter.resetEffectiveFamiliar();
+		EncounterManager.ignoreSpecialMonsters = false;
+
+		// Do not clear the following, since they are looked at after combat finishes.
+		// FightRequest.haiku = false;
+		// FightRequest.anapest = false;
 
 		FightRequest.nextAction = null;
 
