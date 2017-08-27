@@ -8592,6 +8592,13 @@ public class FightRequest
 			}
 			break;
 
+		case ItemPool.DAILY_DUNGEON_MALWARE:
+			if ( responseText.contains( "It's a UNIX System" ) || responseText.contains( "You attempt to hack the monster" ) )
+			{
+				Preferences.setBoolean( "_dailyDungeonMalwareUsed", true );
+			}
+			break;
+
 		}
 
 		if ( itemId != itemId2 )

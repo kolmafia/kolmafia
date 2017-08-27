@@ -1307,6 +1307,7 @@ user	_creepyVoodooDollUsed	false
 user	_crimboTree	false
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
+user	_dailyDungeonMalwareUsed	false
 user	_darkChocolateHeart	false
 user	_deckCardsSeen
 user	_deckCardsDrawn	0
