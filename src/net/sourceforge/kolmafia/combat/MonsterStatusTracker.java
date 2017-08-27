@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia.combat;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -49,7 +48,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.Limitmode;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -93,6 +91,11 @@ public class MonsterStatusTracker
 
 	public static final void setNextMonsterName( String monsterName )
 	{
+		MonsterStatusTracker.setNextMonsterName( monsterName, false );
+	}
+
+	public static final void setNextMonsterName( String monsterName, final boolean transformed )
+	{
 		MonsterStatusTracker.reset();
 
 		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
@@ -133,6 +136,10 @@ public class MonsterStatusTracker
 		// If we saved an array of random modifiers, apply them
 		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
 		MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
+		if ( transformed )
+		{
+			MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.transform();
+		}
 
 		MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
 		MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
@@ -391,7 +398,7 @@ public class MonsterStatusTracker
 		// If we don't know anything about this monster, assume that
 		// Manuel is showing the original stats - even though, as
 		// described above, that's not always the case.
-		if ( !manuelFound && MonsterStatusTracker.originalAttack == 0)
+		if ( !manuelFound && MonsterStatusTracker.originalAttack == 0 )
 		{
 			MonsterStatusTracker.originalAttack = attack;
 			MonsterStatusTracker.originalDefense = defense;
