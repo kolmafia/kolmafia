@@ -9551,3 +9551,5 @@
 9525	thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0
 9526	perfectly fair coin	576720542	faircoin.gif	reusable		0
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
+9528	corked genie bottle	452623094	gbottle_cork.gif	usable	t	0
+9529	genie bottle	675243967	gbottle_open.gif	reusable		0

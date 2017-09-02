@@ -8292,6 +8292,7 @@ Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 # cool spore pod: Briefly enhances your Moxie
 # Item cop dollar
 Item	cordial of concentration	Effect: "Concentration", Effect Duration: [R]
+Item	corked genie bottle	Free Pull
 Item	correction fluid	Effect: "The Solution", Effect Duration: 30
 Item	corrupted data	Effect: "Corrupted", Effect Duration: 30
 Item	corrupted marrow	Effect: "Cowrruption", Effect Duration: 30
