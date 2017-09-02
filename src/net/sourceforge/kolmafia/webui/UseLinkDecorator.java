@@ -961,6 +961,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.WAX_GLOB:
 			case ItemPool.GUMMY_MEMORY:
 			case ItemPool.METAL_METEOROID:
+			case ItemPool.CORKED_GENIE_BOTTLE:
+			case ItemPool.GENIE_BOTTLE:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

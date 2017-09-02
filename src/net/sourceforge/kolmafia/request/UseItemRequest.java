@@ -5344,38 +5344,43 @@ public class UseItemRequest
 			break;
 
 		case ItemPool.JARLSBERG_SOUL_FRAGMENT:
-			if ( responseText.contains( "extra skill point" ) )
+			if ( !responseText.contains( "extra skill point" ) )
 			{
-				Preferences.increment( "jarlsbergPoints" );
+				return;
 			}
+			Preferences.increment( "jarlsbergPoints" );
 			break;
 
 		case ItemPool.SNEAKY_PETE_SHOT:
-			if ( responseText.contains( "extra skill point" ) )
+			if ( !responseText.contains( "extra skill point" ) )
 			{
-				Preferences.increment( "sneakyPetePoints" );
+				return;
 			}
+			Preferences.increment( "sneakyPetePoints" );
 			break;
 
 		case ItemPool.SESHAT_TALISMAN:
-			if ( responseText.contains( "transform into knowledge" ) )
+			if ( !responseText.contains( "transform into knowledge" ) )
 			{
-				Preferences.increment( "edPoints" );
+				return;
 			}
+			Preferences.increment( "edPoints" );
 			break;
 
 		case ItemPool.LAZENBY:
-			if ( responseText.contains( "You lean how best to grow your social capital." ) )
+			if ( !responseText.contains( "You lean how best to grow your social capital." ) )
 			{
-				Preferences.increment( "bondPoints" );
+				return;
 			}
+			Preferences.increment( "bondPoints" );
 			break;
 
 		case ItemPool.ESSENCE_OF_ANNOYANCE:
-			if ( responseText.contains( "You quaff" ) )
+			if ( !responseText.contains( "You quaff" ) )
 			{
-				Preferences.decrement( "summonAnnoyanceCost", 1 );
+				return;
 			}
+			Preferences.decrement( "summonAnnoyanceCost", 1 );
 			break;
 
 		case ItemPool.SWEET_TOOTH:
@@ -5967,6 +5972,11 @@ public class UseItemRequest
 		case ItemPool.PERFECTLY_FAIR_COIN:
 			Preferences.setBoolean( "_perfectlyFairCoinUsed", true );
 			break;
+
+		case ItemPool.CORKED_GENIE_BOTTLE:
+			// If we got here, we did not redirect to choice.php
+			// That would imply it did not actually consume the item
+			return;
 		}
 
 
