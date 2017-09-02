@@ -3235,6 +3235,12 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.GENIE_BOTTLE:
+			itemName = "genie bottle";
+			// Do not ignore special monsters here. That is handled
+			// elsewhere, just for the cases that will be a combat.
+			break;
+
 		default:
 			return;
 		}

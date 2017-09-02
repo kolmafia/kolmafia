@@ -15483,6 +15483,7 @@ public abstract class ChoiceManager
 		case 1235: // Spacegate Terminal
 		case 1259: // LI-11 HQ
 		case 1266: // The Hostler
+		case 1267: // Rubbed it the Right Way
 			return true;
 
 		default:
