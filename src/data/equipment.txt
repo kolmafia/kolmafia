@@ -651,6 +651,7 @@ bat-ass leather jacket	180	Mus: 77
 BGE 'cuddly critter' shirt	30	none
 BGE 'ferocious fruit' shirt	30	none
 birdbone corset	50	none
+blessed rustproof +2 gray dragon scale mail	150	none
 bod-ice	100	none
 Brogre brolo shirt	100	Mus: 35
 bronze breastplate	105	Mus: 37
