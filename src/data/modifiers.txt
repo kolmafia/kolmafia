@@ -805,6 +805,7 @@ Item	bat-ass leather jacket	Mysticality: +10, Spooky Resistance: +1, Stench Resi
 Item	BGE 'cuddly critter' shirt	Item Drop: +7, Meat Drop: +7
 Item	BGE 'ferocious fruit' shirt	Moxie: +10, Maximum HP: +10
 Item	birdbone corset	Maximum Hooch: +2
+Item	blessed rustproof +2 gray dragon scale mail	Muscle: +2, Mysticality: +2, Moxie: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 2, HP Regen Max: 22, MP Regen Min: 2, MP Regen Max: 22
 Item	bod-ice	Monster Level: +25, Sleaze Damage: +25, Sleaze Spell Damage: +25, Lasts Until Rollover
 Item	Brogre brolo shirt	PvP Fights: +3
 Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4

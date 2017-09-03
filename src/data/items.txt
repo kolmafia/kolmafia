@@ -9553,3 +9553,7 @@
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
 9528	corked genie bottle	452623094	gbottle_cork.gif	usable	t	0
 9529	genie bottle	675243967	gbottle_open.gif	reusable		0
+9530	blessed rustproof +2 gray dragon scale mail	353335817	scalemail.gif	shirt	t	0	suits of blessed rustproof +2 gray dragon scale ma
+
+9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
+9538	dropped scrap of paper	452049528	page.gif	usable		0	dropped scraps of paper
