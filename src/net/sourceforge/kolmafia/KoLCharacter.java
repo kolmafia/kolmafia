@@ -176,6 +176,7 @@ public abstract class KoLCharacter
 	public static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
 	public static final String GELATINOUS_NOOB = "Gelatinous Noob";
 	public static final String LICENSE = "License to Adventure";
+	public static final String LIVE_ASCEND_REPEAT = "Live. Ascend. Repeat.";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -2533,6 +2534,12 @@ public abstract class KoLCharacter
 		TurnCounter.stopCounting( "Semirare window begin" );
 		TurnCounter.stopCounting( "Semirare window end" );
 
+		if ( KoLCharacter.inLAR() )
+		{
+			TurnCounter.startCounting( 110, "Fortune Cookie", "fortune.gif" );
+			return;
+		}
+
 		int begin = 160;
 		int end = 200;
 
@@ -3955,6 +3962,11 @@ public abstract class KoLCharacter
 	public static final boolean inBondcore()
 	{
 		return KoLCharacter.ascensionPath.equals( LICENSE );
+	}
+
+	public static final boolean inLAR()
+	{
+		return KoLCharacter.ascensionPath.equals( LIVE_ASCEND_REPEAT );
 	}
 
 	public static final boolean isUnarmed()

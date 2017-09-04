@@ -524,13 +524,17 @@ public class TurnCounter
 		{
 			return;
 		}
-		int snarfblat = KoLAdventure.lastAdventureId();
-		if ( snarfblat == 0 ||
-		     snarfblat == AdventurePool.THE_SHORE  ||
-		     snarfblat == AdventurePool.TRAINING_SNOWMAN ||
-		     snarfblat == AdventurePool.DIRE_WARREN ||
-		     ( snarfblat >= AdventurePool.GINGERBREAD_CIVIC && snarfblat <= AdventurePool.GINGERBREAD_SEWERS ) )
+		switch ( KoLAdventure.lastAdventureId() )
 		{
+		case 0:
+		case AdventurePool.THE_SHORE:
+		case AdventurePool.TRAINING_SNOWMAN:
+		case AdventurePool.DIRE_WARREN:
+		case AdventurePool.GINGERBREAD_CIVIC:
+		case AdventurePool.GINGERBREAD_TRAIN:
+		case AdventurePool.GINGERBREAD_INDUSTRIAL:
+		case AdventurePool.GINGERBREAD_RETAIL:
+		case AdventurePool.GINGERBREAD_SEWERS:
 			return;
 		}
 		if ( type.equals( "Combat" ) )
