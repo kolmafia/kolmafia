@@ -370,7 +370,7 @@ marshmallow flamb&eacute;	2	3	EPIC	11-13	46-79	0	0	10 Sugar Rush
 martini	3	1	decent	5-6	0	0	8-10
 McLeod's Hard Haggis-Ade	2	2	decent	3-4	5-10	0	0	20 Hagg-ard (+10 Mus)
 McMillicancuddy's Special Lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP
-meadeorite	1	1	EPIC	0	0	0	0	Unspaded
+meadeorite	1	1	EPIC	6-7	0	0	0	40 Meadulla Oblongota (+5 stats/fight, +50% HP)
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted Jell-o shot	1	10	good	2-4	0-40	0-40	0-40
