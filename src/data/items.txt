@@ -9558,7 +9558,7 @@
 9532
 9533
 9534	magical pony: Uniquity	747735692	pony3.gif	none	g,d	5
-9535
+9535	magical pony: Rosey Cake	111352978	pony2.gif	none	g,d	5
 9536
 9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
 9538	dropped scrap of paper	452049528	page.gif	usable		0	dropped scraps of paper
