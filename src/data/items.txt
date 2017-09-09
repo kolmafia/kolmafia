@@ -9555,7 +9555,7 @@
 9529	genie bottle	675243967	gbottle_open.gif	reusable		0
 9530	blessed rustproof +2 gray dragon scale mail	353335817	scalemail.gif	shirt	t	0	suits of blessed rustproof +2 gray dragon scale ma
 9531	magical pony: Dusk Shiny	630307304	pony6.gif	none	g,d	5
-9532
+9532	magical pony: Shutterfly	837660676	pony5.gif	none	g,d	5
 9533	magical pony: Pearjack	267454164	pony4.gif	none	g,d	5
 9534	magical pony: Uniquity	747735692	pony3.gif	none	g,d	5
 9535	magical pony: Rosey Cake	111352978	pony2.gif	none	g,d	5
