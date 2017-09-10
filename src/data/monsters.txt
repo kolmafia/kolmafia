@@ -1828,7 +1828,7 @@ hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalien
 intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
 
 # Genie (Sept 2017)
-Genie	2029	genie_mad.gif	Scale: 37 Cap: ? Init: -10000 P: elemental	dropped scrap of paper (n100)
+Genie	2029	genie_mad.gif	Scale: 37 Cap: 11000 Init: -10000 P: elemental	dropped scrap of paper (n100)
 
 # KoL Con
 
