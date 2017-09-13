@@ -623,6 +623,7 @@ public class ValhallaManager
 		Preferences.setString( "sourceTerminalEducate1", "" );
 		Preferences.setString( "sourceTerminalEducate2", "" );
 		Preferences.setInteger( "cornucopiasOpened", 0 );
+		Preferences.setInteger( "bagOTricksCharges", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
