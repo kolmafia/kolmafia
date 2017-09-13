@@ -9561,4 +9561,4 @@
 9535	magical pony: Rosey Cake	111352978	pony2.gif	none	g,d	5
 9536	magical pony: Spectrum Dash	391123089	pony1.gif	none	g,d	5
 9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
-9538	dropped scrap of paper	452049528	page.gif	usable		0	dropped scraps of paper
+9538	dropped scrap of paper	452049528	page.gif	reusable		1001	dropped scraps of paper

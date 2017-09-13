@@ -11585,6 +11585,13 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1267:
+			if ( text.contains( ">Fight!<" ) )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
@@ -13054,7 +13061,7 @@ public abstract class ChoiceManager
 					{
 						knownString.append( "," );
 					}
-					knownString.append( matcher.group( 1 ) + ".edu" );
+					knownString.append( matcher.group( 1 ) ).append( ".edu" );
 				}
 				Preferences.setString( "sourceTerminalEducateKnown", knownString.toString() );
 				return;
