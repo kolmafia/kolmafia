@@ -55,10 +55,11 @@ public class SweetSynthesisRequest
 	extends GenericRequest
 {
 	// runskillz.php?action=Skillz&whichskill=166&targetplayer=XXXXX&quantity=1
-	// choice.php?a=XXXX&b=YYYY&whichchoice=1217&option=1
+	// choice.php?a=XXXX&b=YYYY&q=W&whichchoice=1217&option=1
 
 	private static final Pattern ITEMID1_PATTERN = Pattern.compile( "[?&]a=([\\d]+)" );
 	private static final Pattern ITEMID2_PATTERN = Pattern.compile( "[?&]b=([\\d]+)" );
+	private static final Pattern QTY_PATTERN = Pattern.compile( "[?&]q=([\\d]+)" );
 
 	final int itemId1;
 	final int itemId2;
@@ -80,6 +81,14 @@ public class SweetSynthesisRequest
 		return matcher.find() ?
 			StringUtilities.parseInt( matcher.group( 1 ) ):
 			0;
+	}
+
+	private static final int extractQty( final String urlString )
+	{
+		Matcher matcher = SweetSynthesisRequest.QTY_PATTERN.matcher( urlString );
+		return matcher.find() ?
+			Math.max( 1, StringUtilities.parseInt( matcher.group ( 1 ) ) ) :
+			1;
 	}
 
 	@Override
@@ -193,15 +202,16 @@ public class SweetSynthesisRequest
 		// Rather than detecting various failures, look for success.
 		if ( responseText.contains( "You acquire an effect" ) )
 		{
-			// We just poisoned 1 spleen
-			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + 1 );
+			int qty = SweetSynthesisRequest.extractQty( urlString );
+			// We just poisoned some spleen
+			KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + qty );
 			KoLCharacter.updateStatus();
 
-			// And used up two candies
+			// And used up some candies
 			int itemId1 = SweetSynthesisRequest.extractItemId( urlString, ITEMID1_PATTERN );
 			int itemId2 = SweetSynthesisRequest.extractItemId( urlString, ITEMID2_PATTERN );
-			ResultProcessor.processItem( itemId1, -1 );
-			ResultProcessor.processItem( itemId2, -1 );
+			ResultProcessor.processItem( itemId1, -qty );
+			ResultProcessor.processItem( itemId2, -qty );
 		}
 	}
 
