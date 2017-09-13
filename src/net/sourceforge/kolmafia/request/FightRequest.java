@@ -2942,6 +2942,31 @@ public class FightRequest
 			}
 		}
 
+		if ( KoLCharacter.hasEquipped( ItemPool.BAG_O_TRICKS, EquipmentManager.OFFHAND ) )
+		{
+			if ( responseText.contains( "You reach into the bag and pull out " ) )
+			{
+				Preferences.increment( "_bagOTricksBuffs" );
+				Preferences.setInteger( "bagOTricksCharges", 0 );
+			}
+			else if ( responseText.contains( "The Bag o' Tricks" ) )
+			{
+				if ( responseText.contains( "The Bag o' Tricks suddenly feels a little heavier." ) )
+				{
+					Preferences.setInteger( "bagOTricksCharges", 1 );
+				}
+				else if ( responseText.contains( "The Bag o' Tricks begins to wriggle around in your hand." ) )
+				{
+					Preferences.setInteger( "bagOTricksCharges", 2 );
+				}
+				else if ( responseText.contains( "The Bag o' Tricks begins squirming around more urgently." ) ||
+				          responseText.contains( "The Bag o' Tricks continues to wriggle around in your hand." ) )
+				{
+					Preferences.setInteger( "bagOTricksCharges", 3 );
+				}
+			}
+		}
+
 		FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 		int familiarId = familiar.getId();
 		
