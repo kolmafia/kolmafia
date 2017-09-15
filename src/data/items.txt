@@ -9562,3 +9562,5 @@
 9536	magical pony: Spectrum Dash	391123089	pony1.gif	none	g,d	5
 9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
 9538	dropped scrap of paper	452049528	page.gif	reusable		1001	dropped scraps of paper
+9539	hunk of granite	715880131	bigrock.gif	none	t,d	0	hunks of granite
+9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
