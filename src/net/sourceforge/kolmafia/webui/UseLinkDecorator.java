@@ -963,6 +963,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.METAL_METEOROID:
 			case ItemPool.CORKED_GENIE_BOTTLE:
 			case ItemPool.GENIE_BOTTLE:
+			case ItemPool.POCKET_WISH:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
