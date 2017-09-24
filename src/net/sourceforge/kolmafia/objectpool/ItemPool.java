@@ -2829,6 +2829,7 @@ public class ItemPool
 	public static final int SPANT_EGG_CASING = 9430;
 	public static final int MURDERBOT_DATA_CORE = 9431;
 	public static final int SPANT_CHITIN = 9441;
+	public static final int PRIMITIVE_ALIEN_TOTEM = 9439;
 	public static final int SPANT_TENDON = 9442;
 	public static final int MURDERBOT_MEMORY_CHIP = 9457;
 	public static final int SPACE_PIRATE_TREASURE_MAP = 9458;

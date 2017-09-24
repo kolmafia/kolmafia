@@ -167,6 +167,7 @@ public class UseSkillRequest
 
 	public static final BuffTool[] TAMER_TOOLS = new BuffTool[]
 	{
+		new BuffTool( ItemPool.PRIMITIVE_ALIEN_TOTEM, 30, false, null ),
 		new BuffTool( ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 15, false, null ),
 		new BuffTool( ItemPool.CHELONIAN_MORNINGSTAR, 10, false, null ),
 		new BuffTool( ItemPool.MACE_OF_THE_TORTOISE, 5, false, null ),
@@ -202,6 +203,7 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.PENTATONIC_ACCORDION, 7, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.BONE_BANDONEON, 6, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.ANTIQUE_ACCORDION, 5, true, null ),
+		new BuffTool( ItemPool.AEROGEL_ACCORDION, 5, false, null ),
 		new BuffTool( ItemPool.ACCORD_ION, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.ACCORDION_FILE, 5, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.BAL_MUSETTE_ACCORDION, 5, false, KoLCharacter.ACCORDION_THIEF ),
@@ -216,7 +218,6 @@ public class UseSkillRequest
 		new BuffTool( ItemPool.BEER_BATTERED_ACCORDION, 1, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.STOLEN_ACCORDION, 0, false, KoLCharacter.ACCORDION_THIEF ),
 		new BuffTool( ItemPool.TOY_ACCORDION, 0, false, null ),
-		new BuffTool( ItemPool.AEROGEL_ACCORDION, 5, false, null ),
 	};
 
 	public static final AdventureResult WIZARD_HAT = ItemPool.get( ItemPool.JEWEL_EYED_WIZARD_HAT, 1 );
