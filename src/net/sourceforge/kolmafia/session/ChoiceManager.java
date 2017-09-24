@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -11585,11 +11586,8 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1267:
-			if ( text.contains( ">Fight!<" ) )
-			{
-				EncounterManager.ignoreSpecialMonsters();
-			}
+		case 1267: // Rubbed it the Right Way
+			GenieRequest.postChoice( text );
 			break;
 
 		}
@@ -12703,6 +12701,12 @@ public abstract class ChoiceManager
 				KoLCharacter.recalculateAdjustments();
 				KoLCharacter.updateStatus();
 			}
+			break;
+
+		case 1267:
+			// Rubbed it the Right Way
+			GenieRequest.visitChoice( text );
+			break;
 		}
 	}
 
