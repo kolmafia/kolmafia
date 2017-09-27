@@ -1099,6 +1099,7 @@ Item	club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: 
 Item	coal shovel	Hot Damage: +20
 Item	Coily&trade;	Moxie Percent: +15, Item Drop: +10, Meat Drop: +25
 Item	combat fan	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	contract enforcement stick	Critical Hit Percent: +4, Muscle Percent: +5
 # cool whip
 Item	corn holder	Spell Damage: +6
 Item	corrupt club of corrupt corruption	Weapon Damage: +9, Class: "Seal Clubber"
@@ -2765,6 +2766,7 @@ Item	lucky cat collar	Meat Drop: +7, Single Equip
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	Mafia bow tie	Muscle: +20, Moxie: +20
+Item	mafia pinky ring	Weapon Damage Percent: +10, Muscle Percent: +10, Single Equip
 Item	Mafia stogie	Muscle: +20, Mysticality: +20
 # MagiMechTech NanoMechaMech: Attacks Monsters in Combat
 Item	MagiMechTech NanoMechaMech	Single Equip
@@ -5004,6 +5006,7 @@ Effect	Fast as Lightning	Initiative: +50
 Effect	Fastbreaker	Muscle Percent: +20
 Effect	Fat Leon's Phat Loot Lyric	Item Drop: +20
 Effect	Fauxhawk	Initiative: +50
+Effect	Favored by Lyle	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Fearless	Monster Level: -10
 Effect	Feelin' Philosophical	MP Regen Min: 8, MP Regen Max: 10
 Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(_feelinTheRhythm)], Moxie: [pref(_feelinTheRhythm)]
@@ -7572,6 +7575,7 @@ Item	drive-by shooting	Effect: "Drive-By Shot", Effect Duration: 40
 Item	Drunken Astrophysicist	Effect: "Heisenberglary", Effect Duration: 15
 Item	Drunken Neurologist	Effect: "Heisenberglary", Effect Duration: 10
 Item	Drunken Philosopher	Effect: "Heisenberglary", Effect Duration: 5
+Item	DUFRESNE Suds	Effect: "Favored by Lyle", Effect Duration: 10
 Item	Dump Truck	Effect: "Mortarfied", Effect Duration: 15
 Item	dusty bottle of Pinot Noir	Effect: "Kiss of the Black Fairy", Effect Duration: 10
 Item	dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
