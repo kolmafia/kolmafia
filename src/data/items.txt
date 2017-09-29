@@ -9564,7 +9564,10 @@
 9538	dropped scrap of paper	452049528	page.gif	reusable		1001	dropped scraps of paper
 9539	hunk of granite	715880131	bigrock.gif	none	t,d	0	hunks of granite
 9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
-
+9541
+9542
+9543
+9544
 9545	DUFRESNE Suds	269565518	beerbottle.gif	drink	t,d	100	bottles of DUFRESNE Suds
 9546	mafia pinky ring	608546842	fancyring.gif	accessory	t	0
 9547	flask of port	181458610	flask.gif	drink	t,d	299
