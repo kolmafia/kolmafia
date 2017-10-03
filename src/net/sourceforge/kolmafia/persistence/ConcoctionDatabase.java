@@ -2192,6 +2192,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.SPANT, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SPANT, 0 );
 
+		// Making stuff with Xes/Os is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.XO );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.XO, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.XO, 0 );
+
 		// Other creatability flags
 
 		if ( KoLCharacter.isTorsoAware() )
@@ -2668,6 +2673,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.SPACEGATE )
 		{
 			result.append( "Spacegate Equipment Requisition" );
+		}
+		else if ( mixingMethod == CraftingType.XO )
+		{
+			result.append( "XO Shop" );
 		}
 		if ( result.length() == 0 )
 		{
@@ -3331,6 +3340,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "SPANT" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.SPANT;
+		}
+
+		else if ( mix.equals( "XOSHOP" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.XO;
 		}
 
 		else if ( mix.equals( "SPACEGATE" ) )

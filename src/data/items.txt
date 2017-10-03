@@ -2966,7 +2966,7 @@
 2941	Steal This Candy	525080486	candy.gif	usable, candy1	t,d	25	Steal These Candies
 2942	chocolate filthy lucre	512578714	lucre.gif	multiple, candy1	t,d	35
 2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	usable, candy2	t,d	30	Angry Farmer's Wife Candies
-2944	the Jickinator	653861412	raygun.gif	none, combat	t	0
+2944	the Jickinator	653861412	raygun.gif	none, combat reusable	t	0
 2945	party hat	340531020	partyhat.gif	hat	t,d	50
 2946	V for Vivala mask	798085688	vivala.gif	accessory	t	0
 2947	The Big Book of Pirate Insults	501433602	book4.gif	none, combat reusable	t,d	250	Big Books of Pirate Insults
@@ -9546,7 +9546,7 @@
 9520	asteroid belt	586508038	metalm_belt.gif	accessory		0
 9521	meteorthopedic shoes	410465900	metalm_shoes.gif	accessory		0
 9522	shooting morning star	887651527	metalm_mace.gif	weapon		0
-9523
+9523	cute meteoroid	779521070	cutemeteorlarva.gif	grow	t	0
 9524
 9525	thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0
 9526	perfectly fair coin	576720542	faircoin.gif	reusable		0
@@ -9566,7 +9566,7 @@
 9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
 9541	xo-skeleton-in-a-box	173076297	xobox.gif	grow	t	0
 9542	exo-xo-skeleton-skeleton	721163885	xominiskel.gif	familiar	t,d	75
-9543	X	889321363	xox.gif	none	t,d	1
+9543	X	889321363	xox.gif	none	t,d	1	Xes
 9544	O	791555172	xoo.gif	none	t,d	1
 9545	DUFRESNE Suds	269565518	beerbottle.gif	drink	t,d	100	bottles of DUFRESNE Suds
 9546	mafia pinky ring	608546842	fancyring.gif	accessory	t	0
@@ -9580,3 +9580,4 @@
 9554	pair of scissors	690072174	xoscissors.gif	none, combat	t,d	5
 9555	new habit	918930002	xocalendar.gif	usable	t,d	100
 9556	bridge truss	871587190	xotruss.gif	none	q	0
+9557	pearl necklace	202718409	xonecklace.gif	accessory	q	0
