@@ -1263,6 +1263,7 @@ poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
 primitive alien spear	50	Mus: 10	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
+protection stick	90	Mus: 30	1-handed club
 PVC staff	200	Mus: 85	2-handed staff
 pygmy concertinette	150	Mox: 60	1-handed accordion
 pygmy spear	165	Mus: 67	1-handed spear
@@ -2350,6 +2351,7 @@ LWA ring	10	none
 Mafia bow tie	0	Mys: 35
 mafia pinky ring	0	Mus: 35
 Mafia stogie	0	Mys: 35
+mafia thumb ring	0	Mus: 40
 MagiMechTech NanoMechaMech	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150
