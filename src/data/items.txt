@@ -9581,3 +9581,7 @@
 9555	new habit	918930002	xocalendar.gif	usable	t,d	100
 9556	bridge truss	871587190	xotruss.gif	none	q	0
 9557	pearl necklace	202718409	xonecklace.gif	accessory	q	0
+
+9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
+
+9564	mafia thumb ring	422193168	onemoodring.gif	accessory	t,d	999
