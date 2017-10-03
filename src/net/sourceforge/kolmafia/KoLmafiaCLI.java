@@ -774,6 +774,7 @@ public class KoLmafiaCLI
 		new GapCommand().register("gap");
 		new GarbageCollectCommand().register("gc");
 		new GardenCommand().register( "garden" );
+		new GenieCommand().register( "genie" );
 		new GongCommand().register( "gong" );
 		new GrandpaCommand().register( "grandpa" );
 		new GrayGUICommand().register( "graygui" ).register( "greygui" ).register( "jstack" );

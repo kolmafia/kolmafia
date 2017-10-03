@@ -1351,6 +1351,7 @@ user	_fragrantHerbsUsed	0
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
+user	_genieFightsUsed	0
 user	_genieWishesUsed	0
 user	_gibbererAdv	0
 user	_gibbererCharge	0
