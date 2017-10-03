@@ -2943,3 +2943,14 @@ high-friction boots	SPACEGATE
 geological sample kit	SPACEGATE
 botanical sample kit	SPACEGATE
 zoological sample kit	SPACEGATE
+
+# XO Shop
+pair of candy glasses	XOSHOP,ROW953	O (2)
+temporary X tattoos	XOSHOP,ROW957	X (2)
+Hide-rox&trade; cookie	XOSHOP,ROW956	O (3)
+jug of booze	XOSHOP,ROW955	X (3)
+glyph of athleticism	XOSHOP,ROW958	O (5)
+pair of scissors	XOSHOP,ROW959	O (2)	X (1)
+new habit	XOSHOP,ROW960	X (31)
+bridge truss	XOSHOP,ROW961	X (23)
+pearl necklace	XOSHOP,ROW962	O (37)
