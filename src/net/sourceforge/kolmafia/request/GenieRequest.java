@@ -35,9 +35,17 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.moods.RecoveryManager;
+
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.EncounterManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 public class GenieRequest
@@ -46,14 +54,65 @@ public class GenieRequest
 	private static boolean usingPocketWish = false;
 	private static final Pattern WISH_PATTERN = Pattern.compile( "You have (\\d) wish" );
 
+	private String wish;
+
+	public GenieRequest( final String wish )
+	{
+		super( "choice.php" );
+
+		this.addFormField( "whichchoice", "1267" );
+		this.addFormField( "wish", wish );
+		this.addFormField( "option", "1" );
+		this.wish = wish;
+	}
+
+	@Override
+	public void run()
+	{
+		if ( GenericRequest.abortIfInFightOrChoice() )
+		{
+			return;
+		}
+
+		int itemId = -1;
+		if ( InventoryManager.hasItem( ItemPool.GENIE_BOTTLE ) && Preferences.getInteger( "_genieWishesUsed" ) < 3 )
+		{
+			itemId = ItemPool.GENIE_BOTTLE;
+		}
+		else if ( InventoryManager.hasItem( ItemPool.POCKET_WISH ) )
+		{
+			itemId = ItemPool.POCKET_WISH;
+		}
+		else
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You do not have a genie bottle or pocket wish to use." );
+			return;
+		}
+
+		GenericRequest useRequest = new GenericRequest( "inv_use.php" );
+		useRequest.addFormField( "whichitem", String.valueOf( itemId ) );
+		if ( this.getAdventuresUsed() > 0 )
+		{
+			// set location to "None" for the benefit of
+			// betweenBattleScripts
+			Preferences.setString( "nextAdventure", "None" );
+			RecoveryManager.runBetweenBattleChecks( true );
+		}
+
+		useRequest.run();
+
+		super.run();
+	}
+
+	@Override
+	public int getAdventuresUsed()
+	{
+		return ( this.wish.startsWith( "to fight" ) || this.wish.equals( "for your freedom" ) ) ? 1 : 0;
+	}
+
 	// You are using a pocket wish!
 	// You have 2 wishes left today.
 	// You have 1 wish left today.
-
-	public GenieRequest()
-	{
-		super( "choice.php" );
-	}
 
 	public static void visitChoice( final String responseText )
 	{
@@ -89,6 +148,7 @@ public class GenieRequest
 
 		if ( responseText.contains( ">Fight!<" ) )
 		{
+			Preferences.increment( "_genieFightsUsed" );
 			EncounterManager.ignoreSpecialMonsters();
 		}
 	}
