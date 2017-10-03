@@ -201,6 +201,7 @@ import net.sourceforge.kolmafia.request.WalMartRequest;
 import net.sourceforge.kolmafia.request.WarbearBoxRequest;
 import net.sourceforge.kolmafia.request.WaxGlobRequest;
 import net.sourceforge.kolmafia.request.WinterGardenRequest;
+import net.sourceforge.kolmafia.request.XOShopRequest;
 import net.sourceforge.kolmafia.request.YeNeweSouvenirShoppeRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 
@@ -1648,6 +1649,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof WinterGardenRequest || isExternal ) && WinterGardenRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof XOShopRequest || isExternal ) && XOShopRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

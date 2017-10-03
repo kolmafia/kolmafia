@@ -589,6 +589,7 @@ public interface KoLConstants
 		WAX,		// Items made from globs of melted wax
 		SPANT,		// Items made from spant chitin/tendons
 		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
+		XO,	// Items made using Xes and Os
 	}
 
 	public enum CraftingRequirements

@@ -2424,6 +2424,7 @@ patent leather shoes	30	none
 peace-sign necklace	70	Mys: 20
 pearl diver's necklace	200	Mys: 85
 pearl diver's ring	200	Mys: 85
+pearl necklace	0	Mox: 37
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
 perfume-soaked bandana	75	Mys: 15
