@@ -383,6 +383,7 @@ Hell broth	4	3	good	7-14	-5-9	0	-5-9
 Hell ramen	4	6	awesome	11-14	13	13	13
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
 herbal stuffing	4	7	awesome	15-21	0	0	70-75
+Hide-rox&trade; cookie	1	1	awesome	0	0	0	0	Unspaded, 30 Broken Bone Nubs (+50% Myst, +25 MP, +25% Spell Dam)
 high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
 hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
 holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)

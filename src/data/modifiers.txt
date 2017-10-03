@@ -2856,6 +2856,7 @@ Item	peace-sign necklace	Damage Reduction: 3
 Item	pearl diver's necklace	Critical Hit Percent: +4, Monster Level: +20, Single Equip, Item Drop: [30*env(underwater)]
 # pearl diver's ring: +20% Item Drops from Monsters (Underwater only)
 Item	pearl diver's ring	Critical Hit Percent: +3, Monster Level: +15, Single Equip, Item Drop: [20*env(underwater)]
+Item	pearl necklace	Sleaze Damage: +23, Sleaze Spell Damage: +37, Moxie Percent: +69, Single Equip
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
@@ -3588,6 +3589,7 @@ Item	dental pliers	Familiar Weight: +5
 Item	diamond-studded fronts	Familiar Weight: +5
 Item	even more tinsel	Familiar Weight: +5
 # evil teddy bear sewing kit: Teddy Bear loses less stuffing when hit
+Item	exo-xo-skeleton-skeleton	Familiar Weight: +5
 Item	extra-heavy BRICKO brick	Familiar Weight: +5
 Item	extra-strength rubber bands	Familiar Weight: +5
 Item	eye 'n' horn shampoo	Familiar Weight: +5
@@ -4564,6 +4566,7 @@ Effect	Boon of She-Who-Was	Weapon Damage: +20
 Effect	Booooooze	Mysticality Percent: +100, Damage Reduction: 11
 Effect	BOOsted	Muscle: +30
 Effect	Bootyliciousness	Item Drop: +10
+Effect	Booze Goozles	Moxie Percent: +50, Initiative: +25, Ranged Damage Percent: +25
 Effect	Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
@@ -4592,6 +4595,7 @@ Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
 Effect	Broad-Spectrum Vaccine	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Effect	Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
+Effect	Broken Bone Nubs	Mysticality Percent: +50, Maximum MP: +25, Spell Damage Percent: +25
 # Broken Dancing: You Can't Not Dance If You Don't Want To
 Effect	Broken Fast	Item Drop: +30
 Effect	Broken Heart	HP Regen Min: [min(T,20)], HP Regen Max: [min(T,20)], Muscle: [min(T,20)]
@@ -5202,6 +5206,7 @@ Effect	Gutballed	Muscle Percent: -300
 Effect	Guts Feeling	Meat Drop: +50
 Effect	Gutterminded	Sleaze Damage: +50
 Effect	Gyromitra Gymnastics	Moxie: +40
+# Effect Habituated: Lets you exercise your habit in combat.
 Effect	Hag-gard	Avatar: "swamp hag"
 Effect	Hagg-ard	Muscle: +10
 Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
@@ -6234,6 +6239,7 @@ Effect	Stone-Faced	Damage Reduction: 3
 Effect	Stopping to Smell the Flowers	Experience: +3
 # Stormswaddled: Damages attacking opponents
 Effect	Stormswaddled	Spell Damage Percent: +100
+# Effect Straight-Edgy
 Effect	Strange Mental Acuity	Mysticality Percent: +25
 # Strangulated: Continually take damage
 Effect	Straw Pole-Ish	Avatar: "Medieval strawman debator"
@@ -6251,6 +6257,7 @@ Effect	Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysti
 # Stuck-Up Hair: Damages Attacking Opponents
 Effect	Stumpy	Initiative: -50
 Effect	substats.enh	Experience: +3
+Effect	Sucrose-Colored Glasses	Item Drop: +50
 Effect	Sugar-Frosted Pet Guts	Familiar Weight: +5
 Effect	Sugar, Hello	Mysticality: +20
 Effect	Sugar High	Mysticality Percent: +30
@@ -6481,6 +6488,7 @@ Effect	Turbocharged	Maximum MP Percent: +100
 Effect	Turkey-Agitated	Item Drop: +25
 Effect	Turkey-Ambitious	Initiative: +25, Meat Drop: +50
 Effect	Turkey-Friendly	Familiar Weight: +5
+Effect	Turn On, Tune In, Play Ball!	Muscle Percent: +50, Maximum HP: +50, Weapon Damage Percent: +25
 Effect	Turned Into a Skeleton	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Turtle Power	MP Regen Min: 4, MP Regen Max: 5
 Effect	Turtle Titters	Experience: +3
@@ -7359,6 +7367,7 @@ Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
+Item	Hide-rox&trade; cookie	Effect: "Broken Bone Nubs", Effect Duration: 30
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
 Item	holiday cheese log	Effect: "Stands Alone", Effect Duration: 20
 Item	honey-dew	Effect: "Mmmmmelon", Effect Duration: 10
@@ -7644,6 +7653,7 @@ Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 10
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Jack-O-Lantern beer	Effect: "Toothy Grin", Effect Duration: 30
 Item	Jackhammer	Effect: "Mortarfied", Effect Duration: 10
+Item	jug of booze	Effect: "Booze Goozles", Effect Duration: 30
 Item	Jungle Juice	Effect: "Jungle Juiced", Effect Duration: 30
 Item	La Fantasma y La Oscuridad	Effect: "La Oscuridad Adentro", Effect Duration: 13
 Item	lavawater	Effect: "Sizzling with Fury", Effect Duration: 50
@@ -8786,6 +8796,7 @@ Item	glowing frisbee	Free Pull
 # glowing New Age crystal: (and briefly stuns your opponent)
 # glowing spore pod: Briefly enhances your Mysticality
 Item	glowing syringe	Effect: "Biologically Shocked", Effect Duration: 20
+Item	glyph of athleticism	Effect: "Turn On, Tune In, Play Ball!", Effect Duration: 50
 Item	Gnollish Crossdress	Effect: "Dress to Kill", Effect Duration: 30
 # Gnomitronic Hyperspatial Demodulizer: Science!
 Item	go-go potion	Effect: "Go-Gone", Effect Duration: 20
@@ -9272,6 +9283,7 @@ Item	nervous tick egg	Free Pull
 Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
 # New Age healing crystal: Restores 500 HP
 # New Age healing crystal: (and briefly stuns your opponent)
+Item	new habit	Effect: "Habituated", Effect Duration: 365
 Item	New-You Club Membership Form	Free Pull
 # NG: Deals 40-70 Physical Damage
 Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
@@ -9346,6 +9358,7 @@ Item	Pain Dip	Effect: "The HeyDezebound Heart", Effect Duration: 1
 # paint bomb: Deals 5-10 Prismatic Damage
 # paint bomb: (keeps dealing damage every round)
 # painted turtle: Deals 10-20 Prismatic Damage
+Item	pair of candy glasses	Effect: "Sucrose-Colored Glasses", Effect Duration: 10
 # paisley spore pod: Stuns your opponent for a couple of rounds.
 # palm-frond fan: Restores 35-45 HP and MP
 # palm-frond net: Weakens enemies somewhat
@@ -9945,6 +9958,7 @@ Item	teeny-tiny magic scroll	Effect: "Happy Trails", Effect Duration: 10
 Item	temporary teardrop tattoo	Effect: "Crocodile Tear", Effect Duration: 15
 Item	temporary tribal tattoo	Effect: "Dawn of the Goblin", Effect Duration: 50
 Item	temporary yak tattoo	Effect: "Thuggity Yak", Effect Duration: 50
+Item	temporary X tattoos	Effect: "Straight-Edgy", Effect Duration: 100
 Item	tempura air	Effect: "Pumped Stomach", Effect Duration: 20
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage

@@ -9564,11 +9564,19 @@
 9538	dropped scrap of paper	452049528	page.gif	reusable		1001	dropped scraps of paper
 9539	hunk of granite	715880131	bigrock.gif	none	t,d	0	hunks of granite
 9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
-9541
-9542
-9543
-9544
+9541	xo-skeleton-in-a-box	173076297	xobox.gif	grow	t	0
+9542	exo-xo-skeleton-skeleton	721163885	xominiskel.gif	familiar	t,d	75
+9543	X	889321363	xox.gif	none	t,d	1
+9544	O	791555172	xoo.gif	none	t,d	1
 9545	DUFRESNE Suds	269565518	beerbottle.gif	drink	t,d	100	bottles of DUFRESNE Suds
 9546	mafia pinky ring	608546842	fancyring.gif	accessory	t	0
 9547	flask of port	181458610	flask.gif	drink	t,d	299
 9548	contract enforcement stick	704099753	kneestick.gif	weapon	t,d	95
+9549	Hide-rox&trade; cookie	458669388	xocookie.gif	food	t,d	5
+9550	jug of booze	817676160	jug.gif	drink	t,d	5
+9551	pair of candy glasses	407570273	xoglasses.gif	usable	t,d	5
+9552	temporary X tattoos	857889805	xotats.gif	usable	t,d	5
+9553	glyph of athleticism	879213986	xorings.gif	spleen, usable	t,d	5
+9554	pair of scissors	690072174	xoscissors.gif	none, combat	t,d	5
+9555	new habit	918930002	xocalendar.gif	usable	t,d	100
+9556	bridge truss	871587190	xotruss.gif	none	q	0

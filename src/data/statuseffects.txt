@@ -2320,3 +2320,9 @@
 2319	Meadulla Oblongota	meadeor.gif	e8e06d19e444b35a8549825e80b5c8ee	drink 1 meadeorite
 2320	What Are The Odds!?	faircoin.gif	08765fc624c117eafc6849d5e1997099	use 1 perfectly fair coin
 2321	Favored by Lyle	happy.gif	674b630f61a0cb81c8315f544fb3f63f	drink 1 DUFRESNE Suds
+2322	Sucrose-Colored Glasses	xoglasses.gif	26e604cb70ce5f719805428eb353c4a6	use 1 pair of candy glasses
+2323	Straight-Edgy	xotats.gif	fc18c2b4b237352c68ed1a6ff9ba1edf	use 1 temporary X tattoos
+2324	Broken Bone Nubs	looseteeth.gif	352bd5270885c9963ba296e7a22eea72	eat 1 Hide-rox&trade; cookie
+2325	Booze Goozles	jug.gif	477e70b089e9a26f4f0113746e29419f	drink 1 jug of booze
+2326	Turn On, Tune In, Play Ball!	xorings.gif	2445ed9e7156aa7928d3d364c8418fe3	chew 1 glyph of athleticism
+2327	Habituated	xocalendar.gif	a6141eccb4e796983dc747f5b3b2949f	use 1 new habit
