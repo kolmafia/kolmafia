@@ -858,3 +858,15 @@ Spacegate Fabrication Facility	buy	3000	Spacegate military insignia	ROW949
 Spacegate Fabrication Facility	buy	3000	Spacegate diplomat's insignia	ROW950
 Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
 Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952
+
+# Things you can buy with XO
+
+XO Shop	buy	2	pair of candy glasses	ROW953
+XO Shop	buy	2	temporary X tattoos	ROW957
+XO Shop	buy	3	Hide-rox&trade; cookie	ROW956
+XO Shop	buy	3	jug of booze	ROW955
+XO Shop	buy	5	glyph of athleticism	ROW958
+XO Shop	buy	2	pair of scissors	ROW959
+XO Shop	buy	31	new habit	ROW960
+XO Shop	buy	23	bridge truss	ROW961
+XO Shop	buy	37	pearl necklace	ROW962

@@ -73,6 +73,7 @@ glimmering penguin feather	1	1	good	0	0	0	0	20 Antarctic Memories (+40 HP/MP reg
 glimmering phoenix feather	1	1	good	0	0	0	0	20 Phoenix, Right? (+6 exp)
 glimmering raven feather	1	1	good	0	0	0	0	20 Melancholy Burden (+60% item drop)
 glimmering roc feather	4	4	good	6-10	20-30	20-30	20-30
+glyph of athleticism	1	1	good	0	0	0	0	Unspaded, 50 Turn On, Tune In, Play Ball! (+50% Mus, +50 HP, +25% Weapon Dam)
 goblin paste	4	4	good	5-10	18-22	18-22	18-22	10 Gobliny Flavor (5 DR)
 gooey paste	4	4	good	5-10	18-22	18-22	18-22
 greasy paste	4	4	good	5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
