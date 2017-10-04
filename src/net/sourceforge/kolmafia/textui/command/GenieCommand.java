@@ -101,11 +101,11 @@ public class GenieCommand
 			}
 			else if ( parameters.startsWith( "mys" ) )
 			{
-				wish = "I was a baller";
+				wish = "I had a rabbit in a hat with a bat";
 			}
 			else if ( parameters.startsWith( "mox" ) )
 			{
-				wish = "I had a rabbit in a hat with a bat";
+				wish = "I was a baller";
 			}
 			else if ( parameters.startsWith( "mox" ) )
 			{
