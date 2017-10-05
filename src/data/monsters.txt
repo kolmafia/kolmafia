@@ -1995,7 +1995,7 @@ stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale
 swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental
 
 # Monorail Work Site (September 2017)
-Mob Penguin protector	2034	pengthug.gif	Scale: 11 Init: -10000 P: penguin	protection stick (0)	mafia thumb ring (0)
+Mob Penguin protector	2034	pengthug.gif	Scale: 11 Cap: 1000 Floor: 12 Init: -10000 P: penguin	protection stick (0)	mafia thumb ring (0)
 Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 75 P: penguin	contract enforcement stick (0)	flask of port (0)	mafia pinky ring (0)
 
 

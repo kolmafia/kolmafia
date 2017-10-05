@@ -1767,8 +1767,8 @@ Mer-kin begsign	200	Mus: 85
 Mer-kin roundshield	215	Mus: 85	shield
 Mer-kin stopwatch	200	Mys: 85
 Mer-kin takebag	200	Mys: 85
-meteorite guard	0	none	shield
-meteorb	0	none
+meteorite guard	150	none	shield
+meteorb	100	none
 Microplushie: Bropane	5	none
 Microplushie: Dorkonide	5	none
 Microplushie: Ermahgerdic Acid	5	none
@@ -2026,7 +2026,7 @@ aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20
 Ass-Stompers of Violence	200	Mus: 125
-asteroid belt	0	none
+asteroid belt	100	none
 astral belt	50	none
 astral bracer	50	none
 astral mask	50	none
@@ -2327,7 +2327,7 @@ knobby kneepads	20	none
 KoL Con 8-Bit power bracelet	0	none
 KoL Con X Bingo Card	0	none
 Krampus Horn	150	Mys: 40
-Kremlin's Greatest Briefcase	0	none
+Kremlin's Greatest Briefcase	100	none
 kumquartz ring	0	none
 La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 ladle of mystery	40	Mys: 5
@@ -2367,7 +2367,7 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
-meteorthopedic shoes	0	none
+meteorthopedic shoes	100	none
 mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
@@ -2591,9 +2591,9 @@ soul monocle	0	none
 sour ball and chain	50	Mus: 10
 Source shades	10	none
 Space Trip safety headphones	100	Mys: 35
-Spacegate diplomat's insignia	0	Mox: 75
-Spacegate military insignia	0	Mus: 75
-Spacegate scientist's insignia	0	Mys: 75
+Spacegate diplomat's insignia	200	Mox: 75
+Spacegate military insignia	200	Mus: 75
+Spacegate scientist's insignia	200	Mys: 75
 spade necklace	10	none
 spaghetti cult robe	10	none
 spaghetti cult rosary	140	Mys: 55
