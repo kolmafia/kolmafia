@@ -1605,7 +1605,7 @@ public class Maximizer
 						}
 
 						if ( price > maxPrice || price == -1 ) continue;
-						if ( priceLevel == 2 && checkedItem.inventory > 0 )
+						if ( priceLevel == 2 && ( checkedItem.initial > 0 || checkedItem.creatable > 0 ) )
 						{
 							if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
 							{
