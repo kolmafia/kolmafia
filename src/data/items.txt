@@ -2767,7 +2767,7 @@
 2742	steel lasagna	433679934	lasagna.gif	food	q	0
 2743	steel margarita	941463343	daquiri.gif	drink	q	0
 2744	steel-scented air freshener	899745433	spraycan.gif	spleen, usable	q	0
-2745	gremlin mutagen	181938691	potion7.gif	usable	t,d	124	vials of gremlin mutagen
+2745	gremlin mutagen	181938691	potion7.gif	multiple	t,d	124	vials of gremlin mutagen
 2746	extra-potent gremlin mutagen	658492681	potion7.gif	usable	t,d	184	vials of extra-potent gremlin mutagen
 2747	chunk of depleted Grimacite	714178698	grimchunk.gif	none	t	0	chunks of depleted Grimacite
 2748	furniture dolly	623524316	dolly.gif	accessory	t,d	180	furniture dollies
@@ -2879,7 +2879,7 @@
 2854	bouquet of swamp roses	336795989	swamproses.gif	none	q	0
 2855	huge mosquito proboscis	249414558	spine.gif	weapon	t,d	50	huge mosquito probosciseses
 2856	swamp lolly	366762044	supersucker.gif	usable	t,d	44	swamp lollies
-2857	seegar butt	545459465	stogie.gif	usable	t,d	36
+2857	seegar butt	545459465	stogie.gif	multiple	t,d	36
 2858	bottled swamp gas	163055284	swampgas.gif	none, combat	t,d	32	bottles of swamp gas
 2859	witch wart	615130611	witchwart.gif	accessory	t,d	65
 2860	delicious swamp muck	474310124	gooball.gif	food	t,d	18	globs of delicious swamp muck
@@ -2963,7 +2963,7 @@
 2938	miniature Jacob's ladder	978816458	jladder.gif	familiar	t,d	75
 2939	unemployed hunchbacked minion	501420751	hunch.gif	grow	t	0
 2940	Spooky Surprise Egg	523108373	spookyegg.gif	food	t,d	420
-2941	Steal This Candy	525080486	candy.gif	usable, candy1	t,d	25	Steal These Candies
+2941	Steal This Candy	525080486	candy.gif	multiple, candy1	t,d	25	Steal These Candies
 2942	chocolate filthy lucre	512578714	lucre.gif	multiple, candy1	t,d	35
 2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	usable, candy2	t,d	30	Angry Farmer's Wife Candies
 2944	the Jickinator	653861412	raygun.gif	none, combat reusable	t	0
@@ -3076,7 +3076,7 @@
 3051	cursed cutlass	321086673	cursesword.gif	weapon		0
 3052	cursed breeches	797230378	cursepants.gif	pants		0
 3053	mood ring	878474444	choker.gif	accessory	g,d	5
-3054	black candy heart	127960670	blackheart.gif	usable, curse, candy2	g,d	5
+3054	black candy heart	127960670	blackheart.gif	multiple, curse, candy2	g,d	5
 3055	cymbal syrup	342327364	potion4.gif	usable	g,d	0	bottles of cymbal syrup
 3056	metallic foil cat ears	835251732	catears.gif	hat, usable	t,d	35	metallic foil cat earses
 3057	nanofiber cloth	990761540	felt.gif	none	t,d	16	squares of nanofiber cloth
@@ -4540,7 +4540,7 @@
 4515	Lobster <i>qua</i> Grill	429299421	lobstertail.gif	food	g	0	pieces of Lobster <i>qua</i> Grill
 4516	missing wine	186390697	missingwine.gif	drink	g	0	bottles of missing wine
 4517	yellow matter custard	788868127	soupbowl.gif	food	t,d	55
-4518	delicious comfit?	409872360	lump.gif	usable, candy2	t,d	88	delicious comfits?
+4518	delicious comfit?	409872360	lump.gif	multiple, candy2	t,d	88	delicious comfits?
 4519	ittah bittah hookah	279445768	hookah.gif	familiar		0
 4520	flamingo mallet	268765322	flamallet.gif	weapon	t,d	72
 4521	croquet hedgehog	911001686	hedgeball.gif	none, combat	t,d	45
@@ -5125,7 +5125,7 @@
 5100	Pok&euml;mann figurine: Frank	299836862	pokefrank.gif	accessory	t	0	Frank figurines
 5101	Pok&euml;mann figurine: Moog	749993133	pokemoog.gif	accessory	t	0	Moog figurines
 5102	willyweed	393343803	willyweed.gif	multiple	t,d	30	fronds of willyweed
-5103	Nuclear Blastball	246849616	blastball.gif	usable, candy2	t,d	25
+5103	Nuclear Blastball	246849616	blastball.gif	multiple, candy2	t,d	25
 5104	fish juice box	568920711	fishjuice.gif	multiple	t,d	45	fish juice boxes
 5105	paint bomb	870472784	paintbomb.gif	none, combat	t,d	35
 5106	hideous egg	738192395	hideousegg.gif	none	t	0
@@ -5202,7 +5202,7 @@
 5177	Spaghetti with Moonballs	461512582	bowl.gif	food	d	100	plates of Spaghetti with Moonballs
 5178	Crepes a la Lune	515980567	crepes.gif	food	d	200	Crepeses a la Lune
 5179	Moon Pie	290960495	klpie.gif	food	d	500
-5180	Comet Pop	666206226	cometpop.gif	usable, candy1	d	10
+5180	Comet Pop	666206226	cometpop.gif	multiple, candy1	d	10
 5181	Flan in the Moon	270613216	flan.gif	usable	d	50	Flans in the Moon
 5182	1/6th Pound Cake	756938252	cake3.gif	usable	d	100
 5183	Mint-in-box Moonthril Circlet	705026970	moonbox.gif	usable		0
@@ -5279,7 +5279,7 @@
 5254	shadowy cat claw	863518314	catclaw.gif	food	t,d	30
 5255	cheezburger	929836778	burger.gif	food	t,d	30
 5256	toasted brie	512458370	toastedbrie.gif	food	t,d	30	pieces of toasted brie
-5257	potion of the field gar	865033460	potion3.gif	usable	t,d	30	potions of the field gar
+5257	potion of the field gar	865033460	potion3.gif	multiple	t,d	30	potions of the field gar
 5258	too legit potion	897208811	potion7.gif	usable	t,d	30
 5259	Bright Water	231547639	waterbottle.gif	usable	t,d	30	bottles of Bright Water
 5260	cold-filtered water	514757905	waterbottle.gif	multiple	t,d	30	bottles of cold-filtered water
@@ -6426,7 +6426,7 @@
 6401	black tear	800989357	blacktear.gif	usable	t,d	42
 6402	jagged tooth	415373394	jaggedtooth.gif	usable	t,d	17	jagged teeth
 6403	grisly shell fragment	617113636	chitinplate.gif	usable	t,d	23
-6404	violent pastilles	610227992	sororbox.gif	usable, candy2	t,d	50	fun-size tins of violent pastilles
+6404	violent pastilles	610227992	sororbox.gif	multiple, candy2	t,d	50	fun-size tins of violent pastilles
 6405	worst candy	208490422	confused.gif	usable, candy2	t,d	50	wads of the worst candy
 6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	usable	t,d	100	fudge-shaped holes in space-time
 6407	Pocket Square of Loathing	448329379	loathe_square.gif	accessory		0
@@ -6442,7 +6442,7 @@
 6417	twist of lime	126733688	wiretwist.gif	none	t,d	25	twists of lime
 6418	pencil stub	209681472	pencilstub.gif	none, combat	t,d	60
 6419	giant giant moth dust	115337305	powder.gif	usable	t,d	42	piles of giant giant moth dust
-6420	glob of spoiled mayo	732163485	blankoutglob.gif	usable	t,d	37	globs of spoiled mayo
+6420	glob of spoiled mayo	732163485	blankoutglob.gif	multiple	t,d	37	globs of spoiled mayo
 6421	tonic djinn	944827285	djinnbottle.gif	usable	t,d	77
 6422	vampire chowder	749554356	soupbowl.gif	food	t,d	35	bowls of vampire chowder
 6423	Tales of Dread	885005203	book3.gif	reusable		0	copies of Tales of Dread
@@ -7199,7 +7199,7 @@
 7174	humble pie	123782132	pie.gif	food	t,d	26
 7175	small golem	534983731	smallgolem.gif	none, combat	d	23
 7176	shaking crappy camera	708139348	camera.gif	usable	q	0
-7177	crappy waiter disguise	484405907	briefcase.gif	usable	t,d	45
+7177	crappy waiter disguise	484405907	briefcase.gif	multiple	t,d	45
 7178	Copperhead Charm	274926226	scharm2.gif	none	q	0
 7179	The First Pizza	402359444	pizza.gif	none	q	0
 7180	The Lacrosse Stick of Lacoronado	321891418	lacrosse.gif	none	q	0
@@ -8307,7 +8307,7 @@
 8281	Kokomo Resort Brand Suntan Oil	342279179	lotion.gif	usable	t,d	100	bottles of Kokomo Resort Brand Suntan Oil
 8282	Kokomo Resort Order Pad	947783783	notebook.gif	none, combat	t,d	100
 8283	The Cocktail Shaker	590266333	theshaker.gif	reusable		0
-8284	Kokomo Resort Pass	794449809	pass.gif	usable	t,d	100	Kokomo Resort Passes
+8284	Kokomo Resort Pass	794449809	pass.gif	multiple	t,d	100	Kokomo Resort Passes
 8285	Mayo Minder&trade;	243508620	mayominder.gif	usable	q	0
 8286	Mayo de Mayo&trade; mayo	675264765	mayojar.gif	usable	t	0	jars of Mayo de Mayo&trade; mayo
 8287	yellow puck	516723254	yellapuck.gif	grow	t	0
@@ -8329,7 +8329,7 @@
 8303	pixel beer	365395975	pixelbeer.gif	drink	t,d	150
 8304	yellow puck with a bow on it	215965896	msyellapuck.gif	grow	t	0	yellow pucks with bows on them
 8305	blue pumps	731653410	highheels.gif	familiar	t,d	75	pairs of blue pumps
-8306	sludgesicle	420513126	sludgesicle.gif	usable	t,d	25
+8306	sludgesicle	420513126	sludgesicle.gif	multiple	t,d	25
 8307	&Uuml;berraschthexengebr&auml;u	408549054	fancybrew.gif	avatar	t,d	5	bottles of &Uuml;berraschthexengebr&auml;u
 8308	piggy tattoo	377475455	swisspig.gif	avatar	t,d	5
 8309	baggie of regular-sized tardigrades	891381897	baggie.gif	avatar	t,d	5	baggies of regular-sized tardigrades
@@ -8431,7 +8431,7 @@
 8405	talking spade	617691448	gardenspade.gif	message		0
 8406	savory dry noodles	294214139	pasta.gif	none, fancy	t,d	10
 8407	pestopiary	840811554	soupbowl.gif	food	t,d	30
-8408	ectoplasmic orbs	920035013	ghostballs.gif	usable	t,d	30
+8408	ectoplasmic orbs	920035013	ghostballs.gif	multiple	t,d	30
 8409	crudles	956452991	bowl.gif	food	t,d	60	bowls of crudles
 8410	agnolotti arboli	507173047	ravshurikens.gif	food	t,d	60	plates of agnolotti arboli
 8411	spaghetti with ghost balls	584365029	bowl.gif	food	t,d	60	bowls of spaghetti with ghost balls
@@ -8863,16 +8863,16 @@
 8837	plaintive telegram	819771344	lttgram.gif	none	q	0
 8838	exploding gum	208323168	gumstick.gif	none, combat	t,d	5	sticks of exploding gum
 8839	root beer barrel	364849592	barrelnormal.gif	usable	t,d	5
-8840	Kudzu slaw	649517887	salad.gif	avatar, usable	t,d	5	bowls of Kudzu slaw
+8840	Kudzu slaw	649517887	salad.gif	avatar, multiple	t,d	5	bowls of Kudzu slaw
 8841	Mansquito's blood	828225858	fancybrew.gif	avatar, usable	t,d	5	bottles of Mansquito's blood
 8842	infrablack lipstick	279755220	lipstick.gif	avatar, usable	t,d	5
 8843	can of drain cleaner	424335738	starchcan.gif	avatar, usable	t,d	5	cans of drain cleaner
-8844	The Author's inkwell	987845246	inkwell.gif	avatar, usable	t,d	5
-8845	bag of random words	401499176	knobsack.gif	avatar, usable	t,d	5	bags of random words
+8844	The Author's inkwell	987845246	inkwell.gif	avatar, multiple	t,d	5
+8845	bag of random words	401499176	knobsack.gif	avatar, multiple	t,d	5	bags of random words
 8846	tube of pendulum lube	850102320	tube.gif	avatar, usable	t,d	5	tubes of pendulum lube
-8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, usable	t,d	5
+8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, multiple	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5	bottles of question juice
-8849	tube of villain white	586731454	tube.gif	avatar, usable	t,d	5
+8849	tube of villain white	586731454	tube.gif	avatar, multiple	t,d	5
 8850	your cowboy boots	529185925	cowboyboots.gif	accessory	q	0
 8851	inflatable LT&T telegraph office	940920959	inflatltt.gif	usable	t	0
 8852	nugget of quicksilver	972949009	crimnugget.gif	none	t,d	150	nuggets of quicksilver
@@ -9001,11 +9001,11 @@
 8975	exclusive club	812957838	exclusiveclub.gif	weapon	t	0
 8976	patent preventative tonic	994670440	coughsyrup.gif	usable	t,d	100
 8977	patent invisibility tonic	837072744	wine2.gif	multiple	t,d	100
-8978	patent aggression tonic	740807150	champagne.gif	usable	t,d	100
-8979	patent sallowness tonic	525068963	inkbottle.gif	usable	t,d	100
-8980	patent avarice tonic	645800628	fancybrew.gif	usable	t,d	100
-8981	patent alacrity tonic	205270181	magicshell.gif	usable	t,d	100
-8982	corrupted marrow	714979235	gooball.gif	usable	t,d	40
+8978	patent aggression tonic	740807150	champagne.gif	multiple	t,d	100
+8979	patent sallowness tonic	525068963	inkbottle.gif	multiple	t,d	100
+8980	patent avarice tonic	645800628	fancybrew.gif	multiple	t,d	100
+8981	patent alacrity tonic	205270181	magicshell.gif	multiple	t,d	100
+8982	corrupted marrow	714979235	gooball.gif	multiple	t,d	40
 8983	rodeo whiskey	762206613	fancybrew.gif	drink	t,d	40	bottles of rodeo whiskey
 8984	Thwaitgold scorpion statuette	296698569	thwaitscorp.gif	none		0
 8985	real cowboy hat	243861084	cowmanbobhat.gif	hat		0
@@ -9499,7 +9499,7 @@
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
 9475
-9476	Spant eggs	622124078	spanteggs.gif	usable	t,d	5
+9476	Spant eggs	622124078	spanteggs.gif	multiple	t,d	5
 9477
 9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
 9479	Daily Affirmation: Always be Collecting	121669048	newyoucard1.gif	multiple, combat	t,d	5
