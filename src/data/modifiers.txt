@@ -6224,6 +6224,7 @@ Effect	Stenchform	Stench Immunity, Cold Vulnerability, Sleaze Vulnerability
 Effect	Stenchtastic	Muscle Percent: +20, Mysticality Percent: +30, Moxie Percent: +10, Stench Damage: +10, Stench Resistance: +2
 Effect	Steroid Boost	Muscle: +2
 Effect	Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Effect	Stick Emporium Membership	Weapon Drop: +100
 # Stickler for Promptness: Familiar will act more often in combat
 # Sticks and Stones: +50% Damage vs. Skeletons
 Effect	Sticky Fingers	Meat Drop: +20
@@ -9661,6 +9662,7 @@ Item	Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 # rocky raccoon: Deals 50-60 Physical Damage
 # rogue swarmer: Deals Physical Damage based on how many swarmers you have
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
+Item	roll of meat	Effect: "Stick Emporium Membership", Effect Duration: 50
 Item	roll of toilet paper	Free Pull
 # roller skate decoy: Put it down, and monsters will attack it instead of you
 Item	ROM of Optimality	Skill: "Toggle Optimality"

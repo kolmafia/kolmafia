@@ -775,6 +775,9 @@
 7289	Micrometeorite	micrometeor.gif	5	0	0
 7290	Macrometeorite	macrometeor.gif	5	0	0
 7291	Meteor Shower	meteorshower.gif	5	0	0
+7292	A New Habit		5	0	0
+7293	Hugs and Kisses!		5	0	0
+
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

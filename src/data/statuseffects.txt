@@ -2326,3 +2326,4 @@
 2325	Booze Goozles	jug.gif	477e70b089e9a26f4f0113746e29419f	drink 1 jug of booze
 2326	Turn On, Tune In, Play Ball!	xorings.gif	2445ed9e7156aa7928d3d364c8418fe3	chew 1 glyph of athleticism
 2327	Habituated	xocalendar.gif	a6141eccb4e796983dc747f5b3b2949f	use 1 new habit
+2328	Stick Emporium Membership	kneestick.gif	3b6432a1426af6f9ccc26a269e769272	use 1 roll of meat
