@@ -777,6 +777,7 @@
 7291	Meteor Shower	meteorshower.gif	5	0	0
 7292	A New Habit		5	0	0
 7293	Hugs and Kisses!		5	0	0
+7294	Show them your ring	mafiaring3.gif	5	13	0
 
 
 # Skills granted by books on your Mystical Bookshelf

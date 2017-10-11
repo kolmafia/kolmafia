@@ -6330,7 +6330,7 @@
 6305	Jarlsberg's pan	908839142	jarl_fry.gif	offhand, usable	t	0
 6306	Cosmic Calorie	986883912	cosmiccalorie.gif	multiple		0
 6307	celestial olive oil	239737905	potion20.gif	usable	t	0
-6308	celestial carrot juice	322513561	potion19.gif	usable	t	0
+6308	celestial carrot juice	322513561	potion19.gif	multiple	t	0
 6309	celestial au jus	897507910	potion22.gif	usable	t	0
 6310	celestial squid ink	809451164	potion21.gif	usable	t	0
 6311	Uncle Buck	128580832	unclebuck.gif	accessory	t	0
@@ -9588,3 +9588,7 @@
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	usable	t,d	0
 9564	mafia thumb ring	422193168	onemoodring.gif	accessory	t	0
+9565
+9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
+9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
+9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100

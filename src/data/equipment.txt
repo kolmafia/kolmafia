@@ -1419,6 +1419,7 @@ star sword	165	Mus: 67	2-handed sword
 starchy crossbow	40	Mox: 5	1-handed crossbow
 starchy staff	40	Mus: 5	2-handed staff
 starchy sword	40	Mus: 5	1-handed sword
+steel drivin' hammer	110	Mus: 35	2-handed club
 steel sword	100	Mus: 20	1-handed sword
 Stick-Knife of Loathing	200	Mus: 150	1-handed knife
 sticky hand whip	10	Mus: 0	1-handed whip
@@ -2349,6 +2350,7 @@ lucky Crimbo tiki necklace	10	none
 lucky rabbit's foot	60	Mys: 15
 LWA ring	10	none
 Mafia bow tie	0	Mys: 35
+mafia middle finger ring	0	Mus: 45
 mafia pinky ring	0	Mus: 35
 Mafia stogie	0	Mys: 35
 mafia thumb ring	0	Mus: 40
