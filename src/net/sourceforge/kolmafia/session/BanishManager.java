@@ -136,6 +136,7 @@ public class BanishManager
 		new Banisher( "KGB tranquilizer dart", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "licorice rope", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
+		new Banisher( "mafia middle finger ring", 60, 1, true, Reset.TURN_RESET ),
 		new Banisher( "nanorhino", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "peel out", -1, 1, true, Reset.AVATAR_RESET ),

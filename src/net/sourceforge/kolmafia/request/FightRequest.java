@@ -8087,6 +8087,23 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.HUGS_KISSES:
+			if ( responseText.contains( "yoinks something" ) || skillSuccess )
+			{
+				Preferences.increment( "_xoHugsUsed" );
+			}
+			break;
+
+		case SkillPool.SHOW_RING:
+			// You show him your ring. "Well, I never," he exclaims as he storms off in a huff.
+			// You show them your ring. They aren't impressed.
+			if ( responseText.contains( "Well, I never" ) )
+			{
+				Preferences.setBoolean( "_mafiaMiddleFingerRingUsed", true );
+				BanishManager.banishMonster( monsterName, "mafia middle finger ring" );
+			}
+			break;
+
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:
