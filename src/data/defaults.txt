@@ -1461,6 +1461,7 @@ user	_lynyrdSnareUses	0
 user	_machineTunnelsAdv	0
 user	_macrometeoriteUses	0
 user	_madTeaParty	false
+uer	_mafiaMiddleFingerRingUsed	false
 user	_managerialManipulationUsed	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
@@ -1671,6 +1672,7 @@ user	_whiteRiceDrops	0
 user	_witchessFights	0
 user	_witchessBuff	false
 user	_workshedItemUsed	false
+user	_xoHugsUsed	0
 user	_zapCount	0
 user	_zombieClover	false
 user	choiceAdventure2	2
