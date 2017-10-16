@@ -22,6 +22,7 @@ alert mariachi	860	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude NOB
 Alphabet Giant	176	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 150 P: humanoid	heavy D (40)	original G (40)
 amateur ninja	716	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 20 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 amok putty	1539	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime	amok pudding (0)	amok putter (0)
+amorphous blob	2032	xoblob.gif	Init: -10000 P: slime	giant X (100n)	giant O (100n)
 ancestral Spookyraven portrait	1554	srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
 ancient insane monk	534	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	0	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead GHOST
@@ -291,6 +292,7 @@ ghastly organist	403	phantom.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead	opera
 ghost miner	370	ghostminer.gif	Atk: 30 Def: 27 HP: 31 Init: 50 E: spooky Phys: 100 P: undead GHOST	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 ghost of Elizabeth Spookyraven	1564	elizabeth.gif	Scale: 5 Cap: 300 Init: 100 Phys: 100 P: undead GHOST	Elizabeth's Dollie (100)	Elizabeth's paintbrush (100)
 ghuol	30	ghuol_reg.gif	Atk: 19 Def: 17 HP: 10 E: spooky Init: 60 Meat: 34 P: undead	ghuol egg (25)	ghuol ears (25)
+giant amorphous blob	2033	xoblob_big.gif	Atk: 10000 Def: 9000 HP: 20000 Init: 500 P: slime
 giant giant giant centipede	462	centipede.gif	Atk: 142 Def: 124 HP: 142 Init: 50 Meat: 150 P: bug	centipede eggs (20)	handful of sand (25)	handful of sand (15)
 giant giant moth	72	moth.gif	Atk: 16 Def: 14 HP: 11 Init: 60 P: bug	giant giant moth dust (n100)
 giant mob of baby spiders	1584	manyspiders.gif	Atk: 36 Def: 31 HP: 37 Init: 50 P: bug Meat: 20
