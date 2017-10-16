@@ -9584,7 +9584,7 @@
 9558	amorphous blob	452792037	xoblob_small.gif	usable	q	0
 9559	giant X	631512662	xobigx.gif	none	t,d	10000
 9560	giant O	640675201	xobigo.gif	none	t,d	10000
-9561
+9561	giant amorphous blob	139399975	xoblob.gif	usable	q	0
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	usable	t,d	0
 9564	mafia thumb ring	422193168	onemoodring.gif	accessory	t	0
