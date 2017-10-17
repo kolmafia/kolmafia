@@ -9592,3 +9592,6 @@
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
 9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100
+9569	mafia pointer finger ring	927834166	mafiaring4.gif	accessory	t	0
+9570	worksite credentials	802339041	businesscard.gif	accessory	t,d	10
+9571	negotiatin' hammer	300760226	sledgehammer.gif	weapon	t,d	195
