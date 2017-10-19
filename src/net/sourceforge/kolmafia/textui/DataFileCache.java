@@ -183,7 +183,7 @@ public class DataFileCache
 
 	public static BufferedReader getReader( final String filename )
 	{
-		if ( filename.startsWith( "http://" ) )
+		if (filename.startsWith( "http://" ) || filename.startsWith( "https://" ))
 		{
 			return DataUtilities.getReader( "", filename );
 		}
