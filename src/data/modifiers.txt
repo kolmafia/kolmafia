@@ -4695,6 +4695,7 @@ Effect	[800]Chocolate Reign	Moxie: +10
 Effect	[1060]Chocolate Reign	Avatar: "white chocolate golem"
 Effect	Chocolatesphere	Combat Rate: -15
 Effect	Cholestoriffic	Sleaze Damage: [min(100,T)]
+Effect	Chondruling	Hot Damage: +10, Hot Spell Damage: +10, Hot Resistance: +2
 Effect	Chorale of Companionship	Familiar Weight: +10
 Effect	Chow Downed	Familiar Weight: +5
 Effect	Christmessy	Familiar Weight: +5
@@ -8280,6 +8281,7 @@ Item	coal contact lenses	Effect: "The Perfect Snowman Disguise", Effect Duration
 Item	coal dust	Effect: "Funky Coal Patina", Effect Duration: 15
 # Item coal snakeskin: Adds Spooky Damage to kicks with your cowboy boots
 # cocktail napkin: Deals 20-40 <font color=red>Hot Damage</font>
+Item	cocoa chondrule	Effect: "Chondruling", Effect Duration: 10
 Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)

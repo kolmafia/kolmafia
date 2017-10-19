@@ -9588,7 +9588,7 @@
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	usable	t,d	0
 9564	mafia thumb ring	422193168	onemoodring.gif	accessory	t	0
-9565
+9565	cocoa chondrule	829908915	chocolump.gif	usable	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
 9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100
