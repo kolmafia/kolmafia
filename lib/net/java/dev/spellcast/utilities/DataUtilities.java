@@ -165,7 +165,7 @@ public class DataUtilities
 	{
 		try
 		{
-			if ( filename.startsWith( "http://" ) || filename.startsWith( "https://" ) )
+			if ( filename.startsWith( "http://" ) )
 			{
 				HttpURLConnection connection = (HttpURLConnection) new URL( null, filename ).openConnection();
 				connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
