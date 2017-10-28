@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -306,6 +307,10 @@ public class UseItemCommand
 								!InventoryManager.simRetrieveItem( currentMatch ).equalsIgnoreCase( "fail" );
 						}
 						RequestThread.postRequest( request );
+						while ( FightRequest.inMultiFight && KoLmafia.permitsContinue() )
+						{
+							FightRequest.INSTANCE.run();
+						}
 					}
 
 					if ( level < 2 )
