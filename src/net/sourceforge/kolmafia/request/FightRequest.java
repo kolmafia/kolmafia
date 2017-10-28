@@ -2780,6 +2780,7 @@ public class FightRequest
 			FightRequest.clearInstanceData();
 			FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 			FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+
 			return;
 		}
 
@@ -3973,6 +3974,12 @@ public class FightRequest
 		FightRequest.clearInstanceData();
 		FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher( responseText ).find();
 		FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher( responseText ).find();
+
+		// <a href="fight.php" id="againlink">The barrier between world is torn...</a>
+		if ( FightRequest.inMultiFight && responseText.contains( "The barrier between world" ) )
+		{
+			KoLAdventure.lastLocationName = "Eldritch Attunement";
+		}
 	}
 
 	// <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative; display: inline-block; z-index 0;'><img src=/images/otherimages/cartouche.gif><div style='position: absolute; left: 15; top: 30; z-index 1;'><img src=/images/itemimages/hiero12.gif></div><div style='position: absolute; left: 15; top: 62; z-index 1;'><img src=/images/itemimages/hiero24.gif></div><div style='position: absolute; left: 15; top: 94; z-index 1;'><img src=/images/itemimages/hiero21.gif></div></div>
