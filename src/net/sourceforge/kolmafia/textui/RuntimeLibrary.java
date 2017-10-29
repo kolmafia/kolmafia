@@ -1134,6 +1134,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE };
+		functions.add( new LibraryFunction( "run_choice", DataTypes.BUFFER_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "last_choice", DataTypes.INT_TYPE, params ) );
 
@@ -5254,7 +5257,14 @@ public abstract class RuntimeLibrary
 
 	public static Value run_choice( Interpreter interpreter, final Value decision )
 	{
+		return run_choice( interpreter, decision, DataTypes.TRUE_VALUE );
+	}
+
+	public static Value run_choice( Interpreter interpreter, final Value decision, final Value custom )
+	{
 		int option = (int) decision.intValue();
+		boolean handleFights = custom.intValue() == 0;
+
 		String response = null;
 		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) || ChoiceManager.lastResponseText == null ||
 		     option == 0 )
@@ -5272,7 +5282,21 @@ public abstract class RuntimeLibrary
 			// Submit the option chosen
 			String message = "Submitting option " + option + " for choice " + ChoiceManager.getLastChoice();
 			RequestLogger.printLine( message );
-			response = ChoiceManager.processChoiceAdventure( option, false );
+
+			// If want to handle fights via CCS, use ChoiceManager.CHOICE_HANDLER
+			if ( handleFights )
+			{
+				response = ChoiceManager.processChoiceAdventure( option, false );
+			}
+			// Otherwise, submit it in a new GenericRequest
+			else
+			{
+				GenericRequest request = new GenericRequest( "choice.php" );
+				request.addFormField( "whichchoice", String.valueOf( ChoiceManager.lastChoice ) );
+				request.addFormField( "option", String.valueOf( decision ) );
+				request.addFormField( "pwd", GenericRequest.passwordHash );
+				request.run();
+			}
 		}
 		return new Value( DataTypes.BUFFER_TYPE, "", new StringBuffer( response == null ? "" : response ) );
 	}
