@@ -1147,6 +1147,12 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "in_multi_fight", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "choice_follows_fight", DataTypes.BOOLEAN_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "run_combat", DataTypes.BUFFER_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
@@ -5335,6 +5341,16 @@ public abstract class RuntimeLibrary
 		}
 		
 		return value;
+	}
+
+	public static Value in_multi_fight( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( FightRequest.inMultiFight );
+	}
+
+	public static Value choice_follows_fight( Interpreter interpreter )
+	{
+		return DataTypes.makeBooleanValue( FightRequest.choiceFollowsFight );
 	}
 
 	public static Value run_combat( Interpreter interpreter )
