@@ -5269,7 +5269,7 @@ public abstract class RuntimeLibrary
 	public static Value run_choice( Interpreter interpreter, final Value decision, final Value custom )
 	{
 		int option = (int) decision.intValue();
-		boolean handleFights = custom.intValue() == 0;
+		boolean handleFights = custom.intValue() != 0;
 
 		String response = null;
 		if ( ( !ChoiceManager.handlingChoice && !FightRequest.choiceFollowsFight ) || ChoiceManager.lastResponseText == null ||
