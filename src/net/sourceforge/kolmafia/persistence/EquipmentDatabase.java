@@ -827,7 +827,7 @@ public class EquipmentDatabase
 
 	public static final boolean isMainhandOnly( final int itemId )
 	{
-		return  EquipmentDatabase.isChefStaff( itemId ) || EquipmentDatabase.isSpecialAccordion( itemId ) || EquipmentDatabase.getHands( itemId ) != 1;
+		return  EquipmentDatabase.isChefStaff( itemId ) || EquipmentDatabase.isAccordion( itemId ) || EquipmentDatabase.getHands( itemId ) != 1;
 	}
 
 	public static final int getPulverization( final int id )
