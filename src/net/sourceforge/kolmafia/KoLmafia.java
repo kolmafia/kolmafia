@@ -405,7 +405,7 @@ public abstract class KoLmafia
 		// Check for KoLmafia updates in a separate thread
 		// so as to allow for continued execution.
 
-		RequestThread.runInParallel( new UpdateCheckRunnable(), false );
+		//RequestThread.runInParallel( new UpdateCheckRunnable(), false );
 
 		// Always read input from the command line when you're not
 		// in GUI mode.
