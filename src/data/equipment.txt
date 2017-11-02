@@ -529,6 +529,7 @@ Oscus's flypaper pants	200	Mox: 200
 pair of plants	75	Mox: 15
 palm-frond capris	140	Mox: 55
 Pantaloons of Hatred	200	Mys: 125
+pantogram pants	100	none
 pants of the Slug Lord	35	Mox: 2
 Pantsgiving	100	none
 paper-plate-mail pants	80	Mox: 25

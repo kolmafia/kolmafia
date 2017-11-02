@@ -9595,3 +9595,6 @@
 9569	mafia pointer finger ring	927834166	mafiaring4.gif	accessory	t	0
 9570	worksite credentials	802339041	businesscard.gif	accessory	t,d	10
 9571	negotiatin' hammer	300760226	sledgehammer.gif	weapon	t,d	195
+9572	pantogram	575248858	pantogramgram.gif	usable	t	0
+9573	portable pantogram	202660346	pantagramaltar.gif	reusable		0
+9574	pantogram pants	508365377	pantos10.gif	pants	q	0
