@@ -660,6 +660,7 @@ Item	pair of plants	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold D
 Item	palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30, Familiar Effect: "1.5xGhuol, cap 35"
 # Pantaloons of Hatred: Generates a lot of static electricity
 Item	Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley"
+Item	pantogram pants	Lasts Until Rollover
 Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk, 3xPotato, cap 8"
 # Pantsgiving: Lets you cram in slightly more food.
 # Pantsgiving: Improves resting
