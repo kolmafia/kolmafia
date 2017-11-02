@@ -330,6 +330,9 @@ public abstract class KoLmafia
 			KoLConstants.saveStateNames.add( actualName );
 		}
 
+		// Set a user agent preemptively.  Workaround to allow https support for file_to_map and price updates to coexist.
+		GenericRequest.setUserAgent();
+
 		// Clear out any outdated data files.
 
 		KoLmafia.checkDataOverrides();
@@ -405,7 +408,7 @@ public abstract class KoLmafia
 		// Check for KoLmafia updates in a separate thread
 		// so as to allow for continued execution.
 
-		//RequestThread.runInParallel( new UpdateCheckRunnable(), false );
+		RequestThread.runInParallel( new UpdateCheckRunnable(), false );
 
 		// Always read input from the command line when you're not
 		// in GUI mode.
@@ -1974,7 +1977,8 @@ public abstract class KoLmafia
 			}
 
 			long lastUpdate = Long.parseLong( Preferences.getString( "lastRssUpdate" ) );
-			if ( System.currentTimeMillis() - lastUpdate < 86400000L )
+			long now = System.currentTimeMillis();
+			if ( now - lastUpdate < 86400000L )
 			{
 				return;
 			}
@@ -1984,7 +1988,7 @@ public abstract class KoLmafia
 				String line;
 
 				BufferedReader reader =
-					FileUtilities.getReader( "https://sourceforge.net/p/kolmafia/code/HEAD/tree/src/net/sourceforge/kolmafia/KoLConstants.java" );
+					FileUtilities.getReader( "http://svn.code.sf.net/p/kolmafia/code/src/net/sourceforge/kolmafia/KoLConstants.java" );
 
 				String lastVersion = Preferences.getString( "lastRssVersion" );
 				String currentVersion = null;
@@ -2008,6 +2012,7 @@ public abstract class KoLmafia
 				}
 
 				Preferences.setString( "lastRssVersion", currentVersion );
+				Preferences.setString( "lastRssUpdate", Long.toString(now) );
 
 				if ( currentVersion.equals( KoLConstants.VERSION_NAME ) || currentVersion.equals( lastVersion ) )
 				{
