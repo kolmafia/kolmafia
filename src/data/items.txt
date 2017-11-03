@@ -9574,7 +9574,7 @@
 9548	contract enforcement stick	704099753	kneestick.gif	weapon	t,d	95
 9549	Hide-rox&trade; cookie	458669388	xocookie.gif	food	t,d	5
 9550	jug of booze	817676160	jug.gif	drink	t,d	5
-9551	pair of candy glasses	407570273	xoglasses.gif	usable	t,d	5
+9551	pair of candy glasses	407570273	xoglasses.gif	usable, candy1	t,d	5
 9552	temporary X tattoos	857889805	xotats.gif	usable	t,d	5
 9553	glyph of athleticism	879213986	xorings.gif	spleen, usable	t,d	5
 9554	pair of scissors	690072174	xoscissors.gif	none, combat	t,d	5
