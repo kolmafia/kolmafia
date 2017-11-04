@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
+import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -9891,6 +9892,13 @@ public abstract class ChoiceManager
 			}
 			Preferences.setBoolean( "_villainLairSymbologyChoiceUsed", true );
 			break;
+
+		case 1270:
+			// Pantagramming
+			// The item that we get has a procedurally-generated name
+			request.setHasResult( false );
+			PantogramRequest.parseResponse( urlString, text );
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15495,6 +15503,7 @@ public abstract class ChoiceManager
 		case 1259: // LI-11 HQ
 		case 1266: // The Hostler
 		case 1267: // Rubbed it the Right Way
+		case 1270: // Pantagramming
 			return true;
 
 		default:

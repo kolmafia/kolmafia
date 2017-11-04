@@ -2084,6 +2084,25 @@ public abstract class InventoryManager
 		}
 	}
 
+	public static final AdventureResult PANTOGRAM_PANTS = ItemPool.get( ItemPool.PANTOGRAM_PANTS, 1 );
+
+	public static final void checkPantogram()
+	{
+		String mod = Preferences.getString( "_pantogramModifier" );
+		if ( !KoLCharacter.hasEquipped( InventoryManager.PANTOGRAM_PANTS, EquipmentManager.PANTS ) &&
+		     !KoLConstants.inventory.contains( InventoryManager.PANTOGRAM_PANTS ) )
+		{
+			return;
+		}
+		if ( mod == "" )
+		{
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.PANTOGRAM_PANTS ), true );
+			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_PANTS );
+			Preferences.setString( "_pantogramModifier", mod );
+		}
+		Modifiers.overrideModifier( "Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod );
+	}
+
 	public static final void checkKGB()
 	{
 		AdventureResult KGB = ItemPool.get( ItemPool.KREMLIN_BRIEFCASE, 1 );

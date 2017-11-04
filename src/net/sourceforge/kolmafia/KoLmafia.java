@@ -943,6 +943,7 @@ public abstract class KoLmafia
 		// has been seen at its current modifiers
 		InventoryManager.checkNoHat();
 		InventoryManager.checkJickSword();
+		InventoryManager.checkPantogram();
 
 		// Refresh familiar stuff
 		FamiliarData.reset();

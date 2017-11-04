@@ -1483,6 +1483,7 @@ user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
+user	_pantogramModifier
 user	_pantsgivingFullness	0
 user	_pantsgivingBanish	0
 user	_pantsgivingCount	0
