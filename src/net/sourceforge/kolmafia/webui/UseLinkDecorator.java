@@ -990,6 +990,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.TIME_RESIDUE:
 			case ItemPool.MEME_GENERATOR:
 			case ItemPool.MEGACOPIA:
+			case ItemPool.PORTABLE_PANTOGRAM:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
