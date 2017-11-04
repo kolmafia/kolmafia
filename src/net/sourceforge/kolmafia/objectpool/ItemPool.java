@@ -62,6 +62,7 @@ public class ItemPool
 	public static final int STOLEN_ACCORDION = 11;
 	public static final int MARIACHI_PANTS = 12;
 	public static final int WORTHLESS_ITEM = 13;	// Pseudo item
+	public static final int MOXIE_WEED = 14;
 	public static final int ASPARAGUS_KNIFE = 19;
 	public static final int CHEWING_GUM = 23;
 	public static final int TEN_LEAF_CLOVER = 24;
@@ -131,6 +132,7 @@ public class ItemPool
 	public static final int DOUGH = 159;
 	public static final int SKELETON_BONE = 163;
 	public static final int BONE_RATTLE = 168;
+	public static final int TACO_SHELL = 173;
 	public static final int BRIEFCASE = 184;
 	public static final int FAT_STACKS_OF_CASH = 185;
 	public static final int ENCHANTED_BEAN = 186;
@@ -302,6 +304,9 @@ public class ItemPool
 	public static final int BADASS_BELT = 677;
 	public static final int BONERDAGON_CHEST = 678;
 	public static final int DIGITAL_KEY = 691;
+	public static final int HAMETHYST = 704;
+	public static final int BACONSTONE = 705;
+	public static final int PORQUOISE = 706;
 	public static final int JEWELRY_PLIERS = 709;
 	public static final int BACONSTONE_EARRING = 715;
 	public static final int BACONSTONE_BRACELET = 717;
@@ -342,6 +347,7 @@ public class ItemPool
 	public static final int LAST_BANG_POTION = 827;
 	public static final int MURKY_POTION = 827;
 	public static final int ANTIDOTE = 829;
+	public static final int ROYAL_JELLY = 830;
 	public static final int SHOCK_COLLAR = 856;
 	public static final int MOONGLASSES = 857;
 	public static final int LEAD_NECKLACE = 865;
@@ -531,6 +537,7 @@ public class ItemPool
 	public static final int MILK_OF_MAGNESIUM = 1650;
 	public static final int JEWEL_EYED_WIZARD_HAT = 1653;
 	public static final int CITADEL_SATCHEL = 1656;
+	public static final int CHERRY_CLOACA_COLA = 1658;
 	public static final int FRAUDWORT = 1670;
 	public static final int SHYSTERWEED = 1671;
 	public static final int SWINDLEBLOSSOM = 1672;
@@ -548,6 +555,7 @@ public class ItemPool
 	public static final int TWO_BALL = 1901;
 	public static final int FIVE_BALL = 1904;
 	public static final int SIX_BALL = 1905;
+	public static final int EIGHT_BALL = 1907;
 	public static final int SPOOKYRAVEN_SPECTACLES = 1916;
 	public static final int ENGLISH_TO_A_F_U_E_DICTIONARY = 1919;
 	public static final int BIZARRE_ILLEGIBLE_SHEET_MUSIC = 1920;
@@ -1732,6 +1740,7 @@ public class ItemPool
 	public static final int THICK_CAULK = 5785;
 	public static final int LONG_SCREW = 5786;
 	public static final int BUTT_JOINT = 5787;
+	public static final int BUBBLIN_CRUDE = 5789;
 	public static final int BOX_OF_BEAR_ARM = 5790;
 	public static final int RIGHT_BEAR_ARM = 5791;
 	public static final int LEFT_BEAR_ARM = 5792;
@@ -2046,6 +2055,7 @@ public class ItemPool
 	public static final int SWIZZLER = 6837;
 	public static final int WALKIE_TALKIE = 6846;
 	public static final int KILLING_JAR = 6847;
+	public static final int HUGE_BOWL_OF_CANDY = 6851;
 	public static final int ULTRA_MEGA_SOUR_BALL = 6852;
 	public static final int DESERT_PAMPHLET = 6854;
 	public static final int SUSPICIOUS_ADDRESS = 6855;
@@ -2169,7 +2179,11 @@ public class ItemPool
 	public static final int GHOST_NECKLACE = 7318;
 	public static final int ELIZABETH_DOLLIE = 7319;
 	public static final int STEPHEN_LAB_COAT = 7321;
+	public static final int HAUNTED_BATTERY = 7324;
+	public static final int SYNTHETIC_MARROW = 7327;
+	public static final int FUNK = 7330;
 	public static final int CREEPY_VOICE_BOX = 7334;
+	public static final int TINY_DANCER = 7338;
 	public static final int SPOOKY_MUSIC_BOX_MECHANISM = 7339;
 	public static final int PICTURE_OF_YOU = 7350;
 	public static final int COAL_SHOVEL = 7355;
@@ -2680,6 +2694,7 @@ public class ItemPool
 	public static final int FISH_HATCHET = 9005;
 	public static final int TUNAC = 9006;
 	public static final int FISHING_POLE = 9007;
+	public static final int WRIGGLING_WORM = 9008;
 	public static final int FISHING_LINE = 9010;
 	public static final int FISHING_HAT = 9011;
 	public static final int TROUT_FISHING_IN_LOATHING = 9012;
@@ -2857,6 +2872,7 @@ public class ItemPool
 	public static final int GENIE_BOTTLE = 9529;
 	public static final int POCKET_WISH = 9537;
 	public static final int PORTABLE_PANTOGRAM = 9573;
+	public static final int PANTOGRAM_PANTS = 9574;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
