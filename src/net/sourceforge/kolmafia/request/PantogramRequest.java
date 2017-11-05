@@ -276,7 +276,7 @@ public class PantogramRequest
 				// Purple Avatar
 				ResultProcessor.processResult( ItemPool.get( ItemPool.MOXIE_WEED, -99 ) );
 			}
-			else if ( slot3.startsWith( "21" ) )
+			else if ( slot3.startsWith( "24" ) )
 			{
 				// Occasional Hilarity
 				ResultProcessor.processResult( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, -1 ) );
