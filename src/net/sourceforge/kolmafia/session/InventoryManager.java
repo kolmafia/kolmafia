@@ -2048,7 +2048,7 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( mod == "" )
+		if ( mod.equals( "" ) )
 		{
 			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.NO_HAT ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_HAT );
@@ -2062,7 +2062,7 @@ public abstract class InventoryManager
 	public static final void checkJickSword()
 	{
 		String mod = Preferences.getString( "jickSwordModifier" );
-		if ( mod != "" )
+		if ( !mod.equals( "" ) )
 		{
 			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );
 			return;
@@ -2075,7 +2075,7 @@ public abstract class InventoryManager
 			// it can be checked later
 			return;
 		}
-		if ( mod == "" )
+		if ( mod.equals( "" ) )
 		{
 			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.JICK_SWORD ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_WEAPON );
@@ -2094,7 +2094,7 @@ public abstract class InventoryManager
 		{
 			return;
 		}
-		if ( mod == "" )
+		if ( mod.equals( "" ) )
 		{
 			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.PANTOGRAM_PANTS ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_PANTS );
@@ -2202,7 +2202,7 @@ public abstract class InventoryManager
 		// We could cast Inigo's automatically here, but nah. Let the user do that.
 
 		String itemName = creator.getName();
-		StringBuffer message = new StringBuffer();
+		StringBuilder message = new StringBuilder();
 		if ( freeCrafts > 0 )
 		{
 			message.append( "You will run out of free crafting turns before you finished crafting " );
