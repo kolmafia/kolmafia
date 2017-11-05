@@ -77,7 +77,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
@@ -1287,7 +1286,7 @@ public class DebugDatabase
 	}
 
 	private static final Pattern ITEM_ENCHANTMENT_PATTERN =
-		Pattern.compile( "<font color=blue>(?!\\(awesome\\))(.*)(?:<br>)?</font>", Pattern.DOTALL );
+		Pattern.compile( "<font color=\"?blue\"?>(?!\\(awesome\\))(.*)(?:<br>)?</font>", Pattern.DOTALL );
 
  	public static final void parseItemEnchantments( String text, final ModifierList known, final ArrayList<String> unknown, final int type )
 	{
@@ -1874,7 +1873,7 @@ public class DebugDatabase
 
 	public static final String skillDescriptionText( final int skillId )
 	{
-                return DebugDatabase.skillDescriptionText( DebugDatabase.rawSkillDescriptionText( skillId ) );
+		return DebugDatabase.skillDescriptionText( DebugDatabase.rawSkillDescriptionText( skillId ) );
 	}
 
 	public static final String readSkillDescriptionText( final int skillId )
