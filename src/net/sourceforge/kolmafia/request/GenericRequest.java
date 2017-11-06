@@ -1625,6 +1625,7 @@ public class GenericRequest
 			// Disallow mall searches
 			requestURL.contains( "mall.php" ) ||
 			requestURL.contains( "manageprices.php" ) ||
+			requestURL.contains( "backoffice.php" ) ||
 			// Disallow anything to do with chat
 			request.isChatRequest;
 	}
@@ -2956,7 +2957,6 @@ public class GenericRequest
 
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
 			itemName = "Orcish Frat House blueprints";
-			nextAdventure = "Frat House";
 			break;
 
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
@@ -3202,7 +3202,8 @@ public class GenericRequest
 		case ItemPool.GIFT_CARD:
 			itemName = "gift card";
 			consumed = true;
-			EncounterManager.ignoreSpecialMonsters();
+			// Do not ignore special monsters here. That is handled
+			// elsewhere, just for the cases that will be a combat.
 			break;
 
 		case ItemPool.BARREL_MAP:
@@ -3228,6 +3229,10 @@ public class GenericRequest
 		case ItemPool.TIME_RESIDUE:
 			itemName = "time residue";
 			consumed = true;
+			break;
+
+		case ItemPool.TIME_SPINNER:
+			itemName = "Time-Spinner";
 			break;
 
 		case ItemPool.MEGACOPIA:
