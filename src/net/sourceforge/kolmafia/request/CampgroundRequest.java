@@ -1503,6 +1503,10 @@ public class CampgroundRequest
 		}
 		else if ( action.equals( "witchess" ) )
 		{
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = urlString;
+			KoLAdventure.setNextAdventure( "None" );
 			message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
 		}
 		else if ( action.equals( "fuelconvertor" ) )
