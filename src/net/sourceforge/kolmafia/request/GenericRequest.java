@@ -62,6 +62,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.util.zip.GZIPInputStream;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1682,6 +1684,7 @@ public class GenericRequest
 		}
 
 		this.formConnection.setRequestProperty( "User-Agent", GenericRequest.userAgent );
+		this.formConnection.setRequestProperty( "Accept-Encoding", "gzip" );
 
 		if ( !this.data.isEmpty() )
 		{
@@ -1913,6 +1916,10 @@ public class GenericRequest
 		try
 		{
 			istream = this.formConnection.getInputStream();
+			if ( "gzip".equals( this.formConnection.getContentEncoding() ) )
+			{
+				istream = new GZIPInputStream( istream );
+			}
 			this.responseCode = this.formConnection.getResponseCode();
 
 			//Handle HTTP 3xx Redirections
