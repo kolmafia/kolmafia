@@ -238,5 +238,5 @@
 209	Space Jellyfish	spacejelly.gif	underwater,delevel,drop	space planula	space jellybicycle	3	3	2	3
 210	Optimistic Candle	opticandle.gif	stat0,item0,drop	hopeful candle	pewter candlestick	2	3	3	3
 211	Robortender	robotender.gif	meat0,drop	unpowered Robortender	toggle switch (Bartend)	3	3	1	1
-212
+212	Cute Meteor	cutemeteor.gif	passice,combat1	cute meteoroid	meteor shower cap	1	1	1	1
 213	XO Skeleton	xoskeleton.gif	item0,hp1,mp1,drop	xo-skeleton-in-a-box	exo-xo-skeleton-skeleton	1	3	2	2
