@@ -9547,7 +9547,7 @@
 9521	meteorthopedic shoes	410465900	metalm_shoes.gif	accessory		0
 9522	shooting morning star	887651527	metalm_mace.gif	weapon		0
 9523	cute meteoroid	779521070	cutemeteorlarva.gif	grow	t	0
-9524
+9524	meteor shower cap	361862857	meteorshowercap.gif	familiar	t,d	75
 9525	thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0
 9526	perfectly fair coin	576720542	faircoin.gif	reusable		0
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
