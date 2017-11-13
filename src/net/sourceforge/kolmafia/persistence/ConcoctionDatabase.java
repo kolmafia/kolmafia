@@ -2288,13 +2288,19 @@ public class ConcoctionDatabase
 								InventoryManager.hasItem( ItemPool.BASS_CLARINET ) ||
 								InventoryManager.hasItem( ItemPool.FISH_HATCHET ) ||
 								InventoryManager.hasItem( ItemPool.TUNAC );
-		if ( clanFloundry && !gotFloundryItem  )
+		boolean floundryUsable = StandardRequest.isAllowed( "Items", "Clan Floundry" ) &&
+		                         ( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() );
+		if ( clanFloundry && !gotFloundryItem && floundryUsable )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.FLOUNDRY );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.FLOUNDRY, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.FLOUNDRY, 0 );
 		}
-		if ( gotFloundryItem )
+		if ( !floundryUsable )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "You can't use the Floundry in this path." );
+		}
+		else if ( gotFloundryItem )
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.FLOUNDRY, "You have already got a Floundry item today." );
 		}
@@ -2305,13 +2311,19 @@ public class ConcoctionDatabase
 
 		boolean gotBarrelShrine = Preferences.getBoolean( "barrelShrineUnlocked" );
 		boolean gotBarrelItem = Preferences.getBoolean( "_barrelPrayer" );
-		if ( gotBarrelShrine && !gotBarrelItem  )
+		boolean barrelUsable = StandardRequest.isAllowed( "Items", "shrine to the Barrel god" ) &&
+		                       ( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() );
+		if ( gotBarrelShrine && !gotBarrelItem && barrelUsable )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.BARREL );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.BARREL, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.BARREL, 0 );
 		}
-		if ( gotBarrelItem )
+		if ( !barrelUsable )
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.BARREL, "You can't use the Barrel Shrine in this path." );
+		}
+		else if ( gotBarrelItem )
 		{
 			ConcoctionDatabase.EXCUSE.put( CraftingType.BARREL, "You have already got a Barrel Shrine item today." );
 		}
@@ -2338,7 +2350,9 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.TERMINAL, "You do not have a Source Terminal." );
 		}
 
-		if ( Preferences.getBoolean( "spacegateAlways" ) )
+		boolean spacegateUsable = StandardRequest.isAllowed( "Items", "Spacegate access badge" ) &&
+		                          ( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() );
+		if ( Preferences.getBoolean( "spacegateAlways" ) && spacegateUsable )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SPACEGATE );
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SPACEGATE, 0 );
