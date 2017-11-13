@@ -1097,6 +1097,12 @@ public class Concoction
 			return alreadyHave + purchaseRequest.affordableCount();
 		}
 
+		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) ||
+		     Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
+		{	// Impossible to create any more of this item.
+			return alreadyHave;
+		}
+
 		if ( this.mixingMethod == CraftingType.FLOUNDRY )
 		{
 			return alreadyHave + ( ClanLoungeRequest.availableFloundryItem( this.name ) ? 1 : 0 );
@@ -1158,12 +1164,6 @@ public class Concoction
 			// out to be the case, calc2 will eventually call us again, with
 			// a requested amount that's large enough that this code block
 			// won't be executed.
-			return alreadyHave;
-		}
-
-		if ( !ConcoctionDatabase.isPermittedMethod( this.mixingMethod, this.mixingRequirements ) ||
-		     Preferences.getBoolean( "unknownRecipe" + this.getItemId() ) )
-		{	// Impossible to create any more of this item.
 			return alreadyHave;
 		}
 
