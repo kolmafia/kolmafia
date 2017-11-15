@@ -2353,10 +2353,12 @@ lucky rabbit's foot	60	Mys: 15
 LWA ring	10	none
 Mafia bow tie	0	Mys: 35
 mafia middle finger ring	0	Mus: 45
+mafia organizer badge	0	Mus: 30
 mafia pinky ring	0	Mus: 35
 mafia pointer finger ring	0	Mus: 50
 Mafia stogie	0	Mys: 35
 mafia thumb ring	0	Mus: 40
+mafia wedding ring	0	Mus: 1
 MagiMechTech NanoMechaMech	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150

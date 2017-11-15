@@ -9598,3 +9598,6 @@
 9572	pantogram	575248858	pantogramgram.gif	usable	t	0
 9573	portable pantogram	202660346	pantagramaltar.gif	reusable		0
 9574	pantogram pants	508365377	pantos10.gif	pants	q	0
+9575	mafia wedding ring	644434762	mafiaring2.gif	accessory	t	0
+9576	mafia organizer badge	298840658	gymcard.gif	accessory	t,d	10
+9577	mafia filofax	924747602	folder.gif	none, combat	t,d	100
