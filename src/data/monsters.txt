@@ -2348,6 +2348,10 @@ simple hobo	2006	nhobo1.gif	Scale: 5 Cap: 10000 Floor: 30 Init: -10000 P: weird	
 Your Brain	2007	brain.gif	NOMANUEL Scale: 6 Cap: 10000 Floor: 40 Init: -10000 P: weird	Third Eye (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 The Krampus	2008	krampus.gif	NOMANUEL Scale: 9 Cap: 10000 Floor: 50 Init: -10000 P: weird	Krampus Horn (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)	chakra sludge (100)
 
+# El Dia de los Muertos Borrachos y Agradecido (Thnaksgiving 2017)
+Guajolote Cad&aacute;ver	-30	turkeyskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	cursed wishbone (c100)
+Peregrino Cad&aacute;ver	-29	pilgrimskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	temperance whiskey (c100)
+Tio Cad&aacute;ver	-28	drunkleskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	Racisto Ruidoso (c100)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
