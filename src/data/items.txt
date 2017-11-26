@@ -9601,3 +9601,25 @@
 9575	mafia wedding ring	644434762	mafiaring2.gif	accessory	t	0
 9576	mafia organizer badge	298840658	gymcard.gif	accessory	t,d	10
 9577	mafia filofax	924747602	folder.gif	none, combat	t,d	100
+9578
+0579
+9580
+9581
+9582
+9583
+9584
+9585
+9586
+9587
+9588
+9589
+9590
+9591
+9592
+9593	temperance whiskey	338087611	glassofwater.gif	food	t	0
+9594	cursed wishbone	171358842	wishbone.gif	usable	t	0
+9595	Racisto Ruidoso	385624590	martini.gif	drink	t	0
+9596
+9597
+9598
+9599

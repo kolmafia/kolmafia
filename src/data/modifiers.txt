@@ -5734,6 +5734,7 @@ Effect	Okee-Dokee Computer	Mysticality: +30
 Effect	Okee-Dokee Go!	Initiative: +20
 Effect	Okee-Dokee, Smokee	Spell Damage Percent: +20
 Effect	Old School Pompadour	Moxie Percent: +30, Initiative: +30
+Effect	Old Time Hydration	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Oleaginous Soles	Initiative: +40
 Effect	OMG WTF	Mysticality: +10, Spell Damage: +10, Spell Critical Percent: +10
 Effect	Omphaloskepsis	Damage Reduction: [L], Meat Drop (sporadic): +4.25, Item Drop (sporadic): +4.25, Experience: +0.6375
@@ -6091,6 +6092,7 @@ Effect	Sleepy	Muscle Percent: -30
 # Sleight of Mind: You See What Taco Dan Saw
 Effect	[1342]Slicked-Back Do	Moxie: +20
 Effect	[1553]Slicked-Back Do	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
+Effect	Slightly Cursed, Mostly Lucky	Item Drop: +25, Meat Drop: +50
 Effect	Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Slime Time	Maximum HP Percent: +100
 Effect	Slimebreath	Monster Level: +50, Slime Resistance: +1
@@ -7472,6 +7474,7 @@ Item	sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1
 Item	sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
 Item	Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
 Item	tea for one	Effect: "One For Tea", Effect Duration: 40
+Item	temperance whiskey	Effect: "Old Time Hydration", Effect Duration: 100
 Item	tempura broccoli	Effect: "Down With Chow", Effect Duration: 20
 Item	tempura cauliflower	Effect: "Low on the Hog", Effect Duration: 20
 Item	thanksgiving turkey	Effect: "Thanksgetting", Effect Duration: 20
@@ -8432,6 +8435,7 @@ Item	cuppa Yet tea	Effect: "Yet tea", Effect Duration: 30
 Item	cursed microwave	Free Pull
 Item	cursed pony keg	Free Pull
 # cursed voodoo skull: Deals <font color=red>Hot Damage</font> and <font color=gray>Spooky Damage</font> based on your Mysticality
+Item	cursed wishbone	Effect: "Slightly Cursed, Mostly Lucky", Effect Duration: 30
 Item	custom avatar form	Free Pull
 Item	cyclops eyedrops	Effect: "One Very Clear Eye", Effect Duration: 10
 Item	cymbal syrup	Free Pull, Effect: "Tinnitus", Effect Duration: 20
