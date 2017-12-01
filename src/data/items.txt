@@ -6076,7 +6076,7 @@
 6051	Taco Dan's Taco Stand Flier	937938567	tacoflyer.gif	reusable	t	0
 6052	Taco Dan's Taco Stand Taco	853160405	taco.gif	food	t,d	15
 6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
-6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	usable	t,d	15
+6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	multiple	t,d	15
 6055	psychoanalytic jar	782318443	analjar_empty.gif	none		0
 6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0
 6057	Meatcleaver	992124594	meatcleaver.gif	weapon		0
@@ -9591,7 +9591,7 @@
 9565	cocoa chondrule	829908915	chocolump.gif	usable	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
-9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100
+9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100	little pieces of steel
 9569	mafia pointer finger ring	927834166	mafiaring4.gif	accessory	t	0
 9570	worksite credentials	802339041	businesscard.gif	accessory	t,d	10
 9571	negotiatin' hammer	300760226	sledgehammer.gif	weapon	t,d	195
@@ -9614,8 +9614,8 @@
 9588
 9589
 9590
-9591
-9592
+9591	locked mumming trunk	396670020	mumtrunk_closed.gif	usable	t	0
+9592	mumming trunk	875509667	mumtrunk.gif	usable		0
 9593	temperance whiskey	338087611	glassofwater.gif	food	t	0
 9594	cursed wishbone	171358842	wishbone.gif	usable	t	0
 9595	Racisto Ruidoso	385624590	martini.gif	drink	t	0
