@@ -1881,7 +1881,7 @@ public class GenericRequest
 		}
 		catch ( IOException e )
 		{
-			String message = "IOException during data post (" + this.getURLString() + ").";
+			String message = "IOException during data post (" + this.getURLString() + "): " + e.getMessage() + ".";
 
 			if ( this.shouldUpdateDebugLog() )
 			{
