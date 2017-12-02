@@ -15504,6 +15504,7 @@ public abstract class ChoiceManager
 		case 1266: // The Hostler
 		case 1267: // Rubbed it the Right Way
 		case 1270: // Pantagramming
+		case 1271: // Mummery
 			return true;
 
 		default:
