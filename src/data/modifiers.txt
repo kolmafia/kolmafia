@@ -5309,6 +5309,7 @@ Effect	Hobo Powering Up!	Hobo Power: +10
 Effect	Hobonic	Hobo Power: +5
 Effect	Hoity Toity	Item Drop: +30
 Effect	Holiday Bliss	Item Drop: +20, Meat Drop: +20
+Effect	Holiday Disappointment	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Hollow Inside	Maximum Hooch: +6
 Effect	Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
 Effect	Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
@@ -7498,6 +7499,7 @@ Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 20
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40
+Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 20
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 20
 Item	turtle soup	Effect: "[598]A Little Bit Evil", Effect Duration: 10
@@ -7771,6 +7773,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 # Item The Mad Liquor: Reduces your Fullness by 1
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
+Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40
@@ -8069,6 +8072,7 @@ Item	Bit O' Quail Spleen	Effect: "Vented Spleen", Effect Duration: 10
 Item	bite-me-red lipstick	Effect: "Vampin'", Effect Duration: 30
 Item	bitter pill	Effect: "Bitterskin", Effect Duration: 100
 Item	BitterSweetTarts	Effect: "Full of Wist", Effect Duration: 10
+Item	black and white cracker	Effect: "Holiday Disappointment", Effect Duration: 30
 Item	Black Bart's Booty	Skill: "Pirate Bellow"
 Item	Black Body&trade; spray	Effect: "Radiating Black Body&trade;", Effect Duration: 10
 # black BRICKO brick: Stuns your opponent for a few rounds

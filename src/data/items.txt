@@ -9601,11 +9601,11 @@
 9575	mafia wedding ring	644434762	mafiaring2.gif	accessory	t	0
 9576	mafia organizer badge	298840658	gymcard.gif	accessory	t,d	10
 9577	mafia filofax	924747602	folder.gif	none, combat	t,d	100
-9578
-0579
-9580
-9581
-9582
+9578	transparent nog	826403393	coffeecup.gif	food	t	0
+9579	unfinished fruitcake	177680814	crimbcoloaf.gif	food	t	0
+9580	black and white cracker	324804281	divcracker.gif	usable	t	0
+9581	neg grog	604947382	coffeecup.gif	drink	t	0
+9582	half double fruitcake	374806693	fruitcake.gif	food	t	0
 9583
 9584
 9585
