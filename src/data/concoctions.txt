@@ -2956,3 +2956,7 @@ bridge truss	XOSHOP,ROW961	X (23)
 pearl necklace	XOSHOP,ROW962	O (37)
 amorphous blob	XOSHOP,ROW963	X (111)	O (111)
 giant amorphous blob	XOSHOP,ROW964	giant X (11)	giant O (11)
+
+# Crimbo 2017
+half double fruitcake	COOK	fruitcake	unfinished fruitcake
+neg grog	MIX	bottle of rum	transparent nog
