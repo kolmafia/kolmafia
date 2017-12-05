@@ -2907,7 +2907,7 @@
 2882	tiny plastic The Big Wisniewski	926215010	fig2_11.gif	accessory	t,d	30	tiny plastic The Big Wisniewski
 2883	tiny plastic Felonia	147843406	fig2_12.gif	accessory	t,d	30	tiny plastic Feloniae
 2884	tiny plastic Beelzebozo	463746964	fig2_13.gif	accessory	t,d	30	tiny plastic Beelzebozoz
-2885	tiny plastic conservationist hippy	813778155	fig2_14.gif	accessory	t,d	30	tiny plastic conservationist hippy
+2885	tiny plastic conservationist hippy	813778155	fig2_14.gif	accessory	t,d	30	tiny plastic conservationist hippies
 2886	tiny plastic 7-foot dwarf	603455343	fig2_15.gif	accessory	t,d	30	tiny plastic 7-foot dwarves
 2887	tiny plastic angry bugbear	987461179	fig2_16.gif	accessory	t,d	30
 2888	tiny plastic anime smiley	700046234	fig2_17.gif	accessory	t,d	30
@@ -3053,7 +3053,7 @@
 3028	Corpse Island iced tea	924952398	corpseisland.gif	drink	t,d	50
 3029	red-headed corpse	356963492	corpseshot.gif	drink	t,d	50
 3030	kamicorpse-ee	706044279	corpseshot.gif	drink	t,d	50	kamicorpse-ae
-3031	purple corpsel	365780933	corpseshot.gif	drink	t,d	50	purple corpsel
+3031	purple corpsel	365780933	corpseshot.gif	drink	t,d	50
 3032	corpsebite	316114182	corpseshot.gif	drink	t,d	50
 3033	pirate fledges	642596336	fledges.gif	accessory	q	0
 3034	cursed piece of thirteen	654772088	pieceof13.gif	usable	t	0	cursed pieces of thirteen
@@ -7187,7 +7187,7 @@
 7162	plumber's lunch	425772935	lunchbox.gif	food	t,d	3	plumber's lunches
 7163	skull gearshift knob	639725530	skullknob.gif	offhand	t,d	85
 7164	nachos of the night	950915178	jarl_nachos.gif	food	t,d	22	plates of nachos of the night
-7165	Sketcherz&trade;	853013827	kicks.gif	accessory	t,d	45	pairs of Sketcherz&trade;
+7165	Sketcherz&trade;	853013827	kicks.gif	accessory	t,d	45
 7166	can of Adultwitch&trade;	766200374	manwich.gif	food	t,d	19	cans of Adultwitch&trade;
 7167	smudge stick	486337388	smudgestick.gif	multiple	t,d	8
 7168	portable wall	680592609	wallshield.gif	multiple	t,d	11
@@ -8134,14 +8134,14 @@
 8109	aerogel ascot	979456974	aeroascot.gif	accessory		0
 8110	aerogel attache case	732524845	aeroattache.gif	offhand		0
 8111	aerogel accordion	768319736	aeroaccordion.gif	weapon		0
-8112	aerosolized aerogel	828279627	aerobits.gif	spleen, usable		0
+8112	aerosolized aerogel	828279627	aerobits.gif	spleen, usable		0	wisps of aerosolized aerogel
 8113	wrought-iron wig	359556400	wroughtwig.gif	hat		0
 8114	wrought-iron winch crank	790683305	wroughtcrank.gif	accessory		0
 8115	wrought-iron widget	431029746	wroughtwidget.gif	accessory		0
 8116	wrought-iron whisk	215720810	wroughtwhisk.gif	weapon		0
 8117	wrought-iron walker	314107712	wroughtwalker.gif	accessory		0
 8118	wrought-iron waders	771154174	wroughtpants.gif	pants		0	pairs of wrought-iron waders
-8119	wrought-iron flakes	943800160	wroughtbits.gif	spleen, usable		0
+8119	wrought-iron flakes	943800160	wroughtbits.gif	spleen, usable		0	handfuls of wrought-iron flakes
 8120
 8121
 8122
@@ -8181,7 +8181,7 @@
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
 8157	Skeleton Store office key	916430296	officekey.gif	none	q	0
 8158	bone with a price tag on it	517247442	tagbone.gif	usable	q	0
-8159	half of a gold tooth	748601819	halftooth.gif	none	t,d	150
+8159	half of a gold tooth	748601819	halftooth.gif	none	t,d	150	halves of gold teeth
 8160	mouse skull	170482813	mouseskull.gif	usable	t,d	25
 8161	really thick spine	879878605	bigspine.gif	usable	t,d	25
 8162	oversized skullcap	853613051	bighelmet.gif	hat	t,d	25
@@ -8225,7 +8225,7 @@
 8199	hypnotic breadcrumbs	679762382	breadcrumbs.gif	usable	q	0
 8200	popular tart	654591716	poptart.gif	food	t,d	50
 8201	no-handed pie	870363637	0hpie.gif	none	q	0
-8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	multiple	t,d	15
+8202	Doc Galaktik's Vitality Serum	189910697	coughsyrup.gif	multiple	t,d	15	bottles of Doc Galaktik's Vitality Serum
 8203	airplane charter: Dinseylandfill	884683397	aircharter.gif	usable	t	0	airplane charters: Dinseylandfill
 8204	one-day ticket to Dinseylandfill	518275298	airdaypass.gif	usable	t	0	one-day tickets to Dinseylandfill
 8205	FunFunds&trade;	940383486	funfunds.gif	none		0	FunFunds&trade;
@@ -8296,7 +8296,7 @@
 8270	unappetizing mayolus	885654580	mayobolus.gif	food	t,d	5	unappetizing mayoli
 8271	uninteresting mayolus	332512548	mayobolus.gif	food	t,d	10	uninteresting mayoli
 8272	acceptable mayolus	718817117	mayobolus.gif	food	t,d	15	acceptable mayoli
-8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20	enticing mayol
+8273	enticing mayolus	788906409	mayobolus.gif	food	t,d	20	enticing mayoli
 8274	mouth-watering mayolus	274561499	mayobolus.gif	food	t,d	25	mouth-watering mayoli
 8275	newly-hatched mayonnaise wasp	326252153	mayolarva.gif	grow		0
 8276	mayo pump	583654667	mayopump.gif	familiar	t,d	75
@@ -8365,8 +8365,8 @@
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	avatar	t,d	5
 8340	janitor's mop	570677877	mop.gif	avatar	t,d	5
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	avatar	t,d	5	pairs of warehouse clerks' glasses
-8342	baloney rotgut	305302518	wine2.gif	avatar	t,d	5
-8343	carton of gaspers	992719966	carton.gif	avatar	t,d	5
+8342	baloney rotgut	305302518	wine2.gif	avatar	t,d	5	bottles of baloney rotgut
+8343	carton of gaspers	992719966	carton.gif	avatar	t,d	5	cartons of gaspers
 8344	bronze polish	489505325	balm.gif	avatar	t,d	5
 8345	crident	240727957	pitchfork2.gif	avatar	t,d	5
 8346	totally sweet mohawk helmet	716696471	mohawk.gif	avatar	t,d	5
