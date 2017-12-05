@@ -95,9 +95,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
-
 public class DebugDatabase
 {
 	//private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b> (\\d+)<br />" );
@@ -2159,8 +2156,8 @@ public class DebugDatabase
 			//parseInt will return 0 for null input so bother to check split for validity
 			int start = StringUtilities.parseInt(points[0]);
 			int end = StringUtilities.parseInt(points[1]);
-			start = max(0, start);
-			end = min(end, ItemDatabase.maxItemId());
+			start = Math.max(0, start);
+			end = Math.min(end, ItemDatabase.maxItemId());
 			for (int i = start; i < end; i++)
 			{
 				DebugDatabase.checkPlural(i, report);
