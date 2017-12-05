@@ -535,6 +535,8 @@ public class TurnCounter
 		case AdventurePool.GINGERBREAD_INDUSTRIAL:
 		case AdventurePool.GINGERBREAD_RETAIL:
 		case AdventurePool.GINGERBREAD_SEWERS:
+		case AdventurePool.SPACEGATE:
+		case AdventurePool.MONORAIL_WORKSITE:
 			return;
 		}
 		if ( type.equals( "Combat" ) )

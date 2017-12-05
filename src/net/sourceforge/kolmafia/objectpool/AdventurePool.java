@@ -251,8 +251,10 @@ public class AdventurePool
 	public static final String GINGERBREAD_RETAIL_DISTRICT_ID = "480";
 	public static final int GINGERBREAD_SEWERS = 481;
 	public static final String GINGERBREAD_SEWERS_ID = "481";
+	public static final int SPACEGATE = 494;
 	public static final String SPACEGATE_ID = "494";
 	public static final int SUPER_VILLAIN_LAIR = 495;
+	public static final int MONORAIL_WORKSITE = 496;
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
