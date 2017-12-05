@@ -173,8 +173,7 @@ public class CheckDataCommand
 
 		if ( command.equals( "checkplurals" ) )
 		{
-			int itemId = StringUtilities.parseInt( parameters );
-			DebugDatabase.checkPlurals( itemId );
+			DebugDatabase.checkPlurals( parameters );
 			RequestLogger.printLine( "Plurals checked." );
 			return;
 		}

@@ -86,12 +86,7 @@ import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.utilities.WikiUtilities;
+import net.sourceforge.kolmafia.utilities.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,6 +94,9 @@ import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import static java.lang.Integer.max;
+import static java.lang.Integer.min;
 
 public class DebugDatabase
 {
@@ -127,8 +125,7 @@ public class DebugDatabase
 			}
 			
 			byte[] bytes = ByteBufferUtilities.read( istream );
-			String string = StringUtilities.getEncodedString( bytes, "UTF-8" );
-			return string;
+			return StringUtilities.getEncodedString( bytes, "UTF-8" );
 		}
 		catch ( IOException e )
 		{
@@ -925,7 +922,7 @@ public class DebugDatabase
 		}
 
 		int itemId = ItemDatabase.getItemId( name );
-		int power = 0;
+		int power;
 		if ( isWeapon || hasPower )
 		{
 			power = DebugDatabase.parsePower( text );
@@ -2130,31 +2127,45 @@ public class DebugDatabase
 
 	// **********************************************************
 
-	public static final void checkPlurals( int itemId )
+	public static final void checkPlurals( final String parameters )
 	{
 		RequestLogger.printLine( "Checking plurals..." );
 		PrintStream report = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, "plurals.txt" ), true );
-
-		if ( itemId == 0 )
-		{
-			for ( Integer id : ItemDatabase.descriptionIdKeySet() )
+		if (!parameters.contains("-")) {
+			int itemId = StringUtilities.parseInt(parameters);
+			if (itemId == 0)
 			{
-				if ( id < 0 )
+				for (Integer id : ItemDatabase.descriptionIdKeySet())
 				{
-					continue;
+					if (id < 0)
+					{
+						continue;
+					}
+					while (++itemId < id)
+					{
+						report.println(itemId);
+					}
+					DebugDatabase.checkPlural(id, report);
 				}
-				while ( ++itemId < id )
-				{
-					report.println( itemId );
-				}
-				DebugDatabase.checkPlural( id, report );
+			}
+			else
+			{
+				DebugDatabase.checkPlural(itemId, report);
 			}
 		}
 		else
 		{
-			DebugDatabase.checkPlural( itemId, report );
+			String[] points = parameters.split("-");
+			//parseInt will return 0 for null input so bother to check split for validity
+			int start = StringUtilities.parseInt(points[0]);
+			int end = StringUtilities.parseInt(points[1]);
+			start = max(0, start);
+			end = min(end, ItemDatabase.maxItemId());
+			for (int i = start; i < end; i++)
+			{
+				DebugDatabase.checkPlural(i, report);
+			}
 		}
-
 		report.close();
 	}
 
@@ -2168,7 +2179,6 @@ public class DebugDatabase
 			report.println( itemId );
 			return;
 		}
-
 		String plural = ItemDatabase.getPluralById( itemId );
 		if ( plural == null )
 		{
@@ -2190,7 +2200,7 @@ public class DebugDatabase
 		boolean logit = false;
 		if ( access != null && !access.contains( ItemDatabase.QUEST_FLAG ) )
 		{
-			String otherPlural = "";
+			String otherPlural;
 			boolean checkApi = InventoryManager.getCount( itemId ) > 1;
 			if ( checkApi )
 			{
@@ -2215,7 +2225,7 @@ public class DebugDatabase
 				String wikiData = DebugDatabase.readWikiData( name );
 				Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
 				otherPlural = matcher.find() ? matcher.group( 1 ) : "";
-
+				otherPlural = CharacterEntities.unescape( otherPlural);
 				if ( otherPlural.equals( "" ) )
 				{
 					// The Wiki does not list a plural. If ours is
@@ -3370,7 +3380,6 @@ public class DebugDatabase
 		if ( yield != myyield )
 		{
 			writer.println( name + ": anvil said yield is " + yield + ", not " + myyield );
-			return;
 		}
 	}
 
