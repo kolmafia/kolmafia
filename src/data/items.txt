@@ -8363,27 +8363,27 @@
 8337	porkpocket	129749347	jarl_bagel.gif	avatar	t,d	5
 8338	Leonard's glasses	598174114	obsglasses.gif	avatar	t,d	5	pairs of Leonard's glasses
 8339	warehouse walkie-talkie	373911451	walkietalkie.gif	avatar	t,d	5
-8340	janitor's mop	570677877	mop.gif	avatar	t,d	5
+8340	janitor's mop	570677877	mop.gif	avatar	t,d	5	janitors' mops
 8341	warehouse clerk's glasses	468187859	obsglasses.gif	avatar	t,d	5	pairs of warehouse clerks' glasses
 8342	baloney rotgut	305302518	wine2.gif	avatar	t,d	5	bottles of baloney rotgut
 8343	carton of gaspers	992719966	carton.gif	avatar	t,d	5	cartons of gaspers
-8344	bronze polish	489505325	balm.gif	avatar	t,d	5
+8344	bronze polish	489505325	balm.gif	avatar	t,d	5	cans of bronze polish
 8345	crident	240727957	pitchfork2.gif	avatar	t,d	5
 8346	totally sweet mohawk helmet	716696471	mohawk.gif	avatar	t,d	5
-8347	spray chrome	545272637	spraycan.gif	avatar	t,d	5
+8347	spray chrome	545272637	spraycan.gif	avatar	t,d	5	cans of spray chrome
 8348	filthy monkey head	600582917	monkeyhead.gif	avatar	t,d	5
-8349	hand of cards	696329586	mrcards.gif	avatar	t,d	5
+8349	hand of cards	696329586	mrcards.gif	avatar	t,d	5	hands of cards
 8350	damp bar rag	763997779	dishrag.gif	avatar	t,d	5
-8351	lump of goofball ore	364435812	lore.gif	avatar	t,d	5
-8352	skeleton beans	696056433	beancan.gif	avatar	t,d	5
+8351	lump of goofball ore	364435812	lore.gif	avatar	t,d	5	lumps of goofball ore
+8352	skeleton beans	696056433	beancan.gif	avatar	t,d	5	cans of skeleton beans
 8353	grimy lab coat	371317127	labcoat.gif	avatar	t,d	5
-8354	creepy nursery rhyme	904115525	music.gif	avatar	t,d	5
-8355	iron torso box	225287311	puzzlebox.gif	avatar	t,d	5
+8354	creepy nursery rhyme	904115525	music.gif	avatar	t,d	5	copies of a creepy nursery rhyme
+8355	iron torso box	225287311	puzzlebox.gif	avatar	t,d	5	iron torso boxes
 8356	mercenary headband	472567947	ww_headband.gif	avatar	t,d	5
-8357	radioactive spider venom	890627226	ep_mojo.gif	avatar	t,d	5
+8357	radioactive spider venom	890627226	ep_mojo.gif	avatar	t,d	5	vials of radioactive spider venom
 8358	x-ray mirror	648914618	handmirror.gif	avatar	t,d	5
 8359	wrestling mask	784254553	lmask.gif	avatar	t,d	5
-8360	hawkface potion	345142806	potion9.gif	avatar	t,d	5
+8360	hawkface potion	345142806	potion9.gif	avatar	t,d	5	bottles of hawkface potion
 8361	child-sized dracula cloak	402506459	wtbcloak.gif	avatar	t,d	5
 8362	devil-summoning hat	707242976	demonhat.gif	avatar	t,d	5
 8363	shopkeeper beard	733886844	goatbeard.gif	avatar	t,d	5
