@@ -133,7 +133,7 @@ public class BanishManager
 		new Banisher( "gingerbread restraining order", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "ice hotel bell", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "ice house", -1, 1, false, Reset.NEVER_RESET ),
-		new Banisher( "KGB tranquilizer dart", 20, 1, true, Reset.TURN_RESET ),
+		new Banisher( "KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "licorice rope", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET ),
