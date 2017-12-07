@@ -8389,15 +8389,15 @@
 8363	shopkeeper beard	733886844	goatbeard.gif	avatar	t,d	5
 8364	alien autoautopsy kit	274025619	lunchbox.gif	avatar	t,d	5
 8365	novelty fruit hat	680204956	strawhat.gif	avatar	t,d	5
-8366	invisibility cream	879249656	balm.gif	avatar	t,d	5
-8367	handful of stubble	203055435	scpowder.gif	avatar	t,d	5
+8366	invisibility cream	879249656	balm.gif	avatar	t,d	5	tins of invisibility cream
+8367	handful of stubble	203055435	scpowder.gif	avatar	t,d	5	handsfull of stubble
 8368	garbage juice slurpee	747337911	sodacup.gif	avatar	t,d	5
 8369	plunge-leg	603511915	plunger.gif	avatar	t,d	5
 8370	funky eyepatch	389087225	eyepatch.gif	avatar	t,d	5	funky eyepatches
 8371	bucket of fish juice	724738264	pail.gif	avatar	t,d	5	buckets of fish juice
 8372	flashy pirate dreadlocks	655432636	hippywig.gif	avatar	t,d	5	wads of flashy pirate dreadlocks
-8373	captured boozles	526042733	baggie.gif	avatar	t,d	5
-8374	drinks tray	604754615	trayshield.gif	avatar	t,d	5
+8373	captured boozles	526042733	baggie.gif	avatar	t,d	5	bags of captured boozles
+8374	drinks tray	604754615	trayshield.gif	avatar	t,d	5	drink trays
 8375	eyebrow lifter	854797607	grapplinghook.gif	avatar	t,d	5
 8376	yellow submarine	812297540	yellowsub.gif	none	q	0
 8377	pixel lemon	649933692	pixellemon.gif	food	t,d	120
@@ -8583,8 +8583,8 @@
 8557	The Emperor's new cookie	209754040	blank.gif	usable	t,d	5
 8558	Wickers bar	951050553	wickerbar.gif	multiple	t	0
 8559	bakelite-covered bacon	113363781	bakebacon.gif	multiple	t	0	pieces of bakelite-covered bacon
-8560	Aerheads	911385583	aerhead.gif	usable	t	0
-8561	Wrotz	259155467	wrotz.gif	usable	t	0
+8560	Aerheads	911385583	aerhead.gif	usable	t	0	bags of Aerheads
+8561	Wrotz	259155467	wrotz.gif	usable	t	0	Wrotz candies
 8562
 8563
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
@@ -8676,7 +8676,7 @@
 8650	tennis ball	208715344	tennisball.gif	none, combat	t,d	10
 8651	heavy crown	172327969	heavycrown.gif	hat	t,d	180
 8652	ear poison	549879453	earpoison.gif	none, combat	t,d	25	pots of ear poison
-8653	stink-penny	736429116	stinkpenny.gif	none, combat	t,d	1
+8653	stink-penny	736429116	stinkpenny.gif	none, combat	t,d	1	stink-pennies
 8654	hawk	743446088	bonesaw.gif	weapon	t,d	140
 8655	hamlet sandwich	172123242	hamsandwich.gif	food	t,d	12	hamlet sandwiches
 8656	Othello's military jacket	244120929	miljacket.gif	shirt	t,d	300
@@ -8710,11 +8710,11 @@
 8684	Cold Fang	734391994	book4.gif	usable	t	0	copies of Cold Fang
 8685	Wal-Mart tattoo kit	547207087	waltat.gif	usable	t	0
 8686	perfect ice cube	627519104	perf_icecube.gif	none	t,d	9
-8687	The Fun-Guy Cold Weather Bartender's Guide	293008569	book3.gif	usable	t	0
+8687	The Fun-Guy Cold Weather Bartender's Guide	293008569	book3.gif	usable	t	0	copies of The Fun-Guy Cold Weather Bartender's Gui
 8688	bellhop's hat	254146151	bellhophat.gif	hat	t,d	180
 8689	ice porter	405574007	beerbottle.gif	drink	t,d	45	bottles of ice porter
 8690	exotic travel brochure	922037447	travelbrochure.gif	multiple	t,d	25
-8691	bag of foreign bribes	597574332	bribebag.gif	multiple	t	0
+8691	bag of foreign bribes	597574332	bribebag.gif	multiple	t	0	bags of foreign bribes
 8692	frozen shampoo-conditioner	239858553	frozshampoo.gif	multiple	t,d	59	bottles of frozen shampoo-conditioner
 8693	hotel minibar key	406128837	srkey1.gif	multiple	t,d	99
 8694	ice hotel bell	380862076	hotelbell.gif	none, combat	t,d	88
@@ -8725,9 +8725,9 @@
 8699	training belt	224153440	trainingbelt.gif	accessory	q	0
 8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
 8701	training helmet	689206959	traininghelmet.gif	hat	q	0
-8702	training scroll:  Shattering Punch	568969372	wosp_scroll.gif	usable	t	0
-8703	training scroll:  Snokebomb	696042206	wosp_scroll.gif	usable	t	0
-8704	training scroll:  Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0
+8702	training scroll:  Shattering Punch	568969372	wosp_scroll.gif	usable	t	0	training scroll: Shattering Punchs
+8703	training scroll:  Snokebomb	696042206	wosp_scroll.gif	usable	t	0	training scroll: Snokebombs
+8704	training scroll:  Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0	training scroll: Shivering Monkey Techniques
 8705	X-32-F snowman crate	532803965	crate.gif	usable	t	0
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75
@@ -8787,14 +8787,14 @@
 8761	bouquet of all-natural free-range flowers	277885300	bouquet.gif	offhand	q	0
 8762	stack of communist leaflets	568727566	documents.gif	offhand	q	0
 8763	BACON	570568990	jarl_bacon.gif	none	t	0	BACON
-8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0
+8764	box of Gratitude chocolates	670290981	gratbox.gif	usable		0	boxes of Gratitude chocolates
 8765	Gratitude chocolate (thyme-filled)	158122731	gratchoc1.gif	usable	t	0	Gratitude chocolates (thyme-filled)
 8766	Gratitude chocolate (bourbon-filled)	376915396	gratchoc2.gif	drink	t	0	Gratitude chocolates (bourbon-filled)
 8767	Gratitude chocolate (Meat-filled)	755340868	gratchoc3.gif	usable	t	0	Gratitude chocolates (Meat-filled)
 8768	Gratitude chocolate (octopus-filled)	167557279	gratchoc4.gif	grow	t	0	Gratitude chocolates (octopus-filled)
 8769	chocolate bowtie	950198120	bowtie.gif	familiar	t,d	75
-8770	pitted sheet metal	195139452	pittedmetal.gif	usable	t,d	25
-8771	sparking robo-battery	657116244	sparkbattery.gif	usable	t,d	25
+8770	pitted sheet metal	195139452	pittedmetal.gif	usable	t,d	25	pitted metal sheets
+8771	sparking robo-battery	657116244	sparkbattery.gif	usable	t,d	25	sparking robo-batteries
 8772	overloaded micro-reactor	467410887	reactor.gif	none, combat	t,d	25
 8773	reusable shopping bag	347233453	reusebag.gif	offhand	t	0
 8774
@@ -8872,7 +8872,7 @@
 8846	tube of pendulum lube	850102320	tube.gif	avatar, usable	t,d	5	tubes of pendulum lube
 8847	red-hot jawbreaker	843721791	jawbreaker.gif	avatar, multiple	t,d	5
 8848	question juice	852374138	confused.gif	avatar, usable	t,d	5	bottles of question juice
-8849	tube of villain white	586731454	tube.gif	avatar, multiple	t,d	5
+8849	tube of villain white	586731454	tube.gif	avatar, multiple	t,d	5	tubes of villain white
 8850	your cowboy boots	529185925	cowboyboots.gif	accessory	q	0
 8851	inflatable LT&T telegraph office	940920959	inflatltt.gif	usable	t	0
 8852	nugget of quicksilver	972949009	crimnugget.gif	none	t,d	150	nuggets of quicksilver
@@ -8910,12 +8910,12 @@
 8884	plate of Val-U Brand Every Bean Salad	880233878	franksbeans.gif	food	t,d	25	plates of Val-U Brand Every Bean Salad
 8885	plate of Shrub's Premium Baked Beans	476831047	franksbeans.gif	food	t,d	25	plates of Shrub's Premium Baked Beans
 8886	Fancy Jeff's fancy pocket square	723090130	fancysquare.gif	accessory		0
-8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0
-8888	Pecos Dave's sixgun	305060180	davesixgun.gif	sixgun, combat reusable		0
-8889	Amoon-Ra Cowtep's nemes	819147479	nemes.gif	hat		0
-8890	Glenn's golden dice	465662384	golddice.gif	usable	d	1500
+8887	Daisy's unclean bloomers	172482300	daisybloomers.gif	pants		0	pairs of Daisy's unclean bloomers
+8888	Pecos Dave's sixgun	305060180	davesixgun.gif	sixgun, combat reusable		0	Pecos Dave's sixgun
+8889	Amoon-Ra Cowtep's nemes	819147479	nemes.gif	hat		0	Amoon-Ra Cowtep's nemesis
+8890	Glenn's golden dice	465662384	golddice.gif	usable	d	1500	sets of Glenn's golden dice
 8891	Former Sheriff Dan's tin star	672557731	danstar.gif	accessory		0
-8892	El Vibrato restraints	928444655	lvcuff.gif	none, combat reusable	d	1500
+8892	El Vibrato restraints	928444655	lvcuff.gif	none, combat reusable	d	1500	sets of El Vibrato restraints
 8893	Clara's bell	667617483	clarabell.gif	usable	d	1500
 8894	Granny Hackleton's Gatling gun	674447022	grannygat.gif	weapon		0
 8895	buffalo dime	957218049	buffdime.gif	none		0
@@ -8938,7 +8938,7 @@
 8912	moomy dust	544632353	disease.gif	spleen, usable	t,d	25	handfuls of moomy dust
 8913	western-style skinning knife	240086558	skinknife.gif	weapon, combat reusable	d	77
 8914	reliable sixgun	630007259	sixgun4.gif	sixgun, combat reusable		0
-8915	steel knuckles	321514802	knuckles.gif	accessory	d	45
+8915	steel knuckles	321514802	knuckles.gif	accessory	d	45	pairs of steel knuckles
 8916	Tales of Western Braggadoccio	171555336	book3.gif	usable	t	0	copies of Tales of Western Braggadoccio
 8917	Hell and How I Bent It	339356359	book4.gif	usable	t	0	copies of Hell and How I Bent It
 8918	The Western Look	660540030	book5.gif	usable	t	0	copies of The Western Look
@@ -8953,7 +8953,7 @@
 8927	strange disc (blue)	155330801	powerball.gif	none, combat reusable	q	0
 8928	strange disc (yellow)	148455337	powerball.gif	none, combat reusable	q	0
 8929	red-hot knucklebone	361988548	knuckbone.gif	none	t	0
-8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19
+8930	demonic cow's blood	294998917	potion15.gif	usable	t,d	19	vials of demonic cow's blood
 8931	rinky-dink sixgun	920378151	sixgun1.gif	sixgun, combat reusable	t,d	75
 8932	makeshift sixgun	877959676	sixgun2.gif	sixgun, combat reusable	t,d	120
 8933	custom sixgun	381338216	sixgun3.gif	sixgun, combat reusable	t,d	180
@@ -9016,9 +9016,9 @@
 8990	electronic Brain Trainer game	146911854	lcdgame.gif	usable	t	0
 8991	do-it-yourself laser eye surgery kit	207701211	wbdrillpress.gif	usable	t	0
 8992	armored prawn	868825613	armorprawn.gif	spleen, usable	t,d	5
-8993	jumping horseradish	586850870	horseradish.gif	food	t,d	5
+8993	jumping horseradish	586850870	horseradish.gif	food	t,d	5	jumping horseradishes
 8994	Sacramento wine	111757769	wine2.gif	drink	t,d	5	bottles of Sacramento wine
-8995	Greek fire	889869567	potion4.gif	multiple	t,d	5
+8995	Greek fire	889869567	potion4.gif	multiple	t,d	5	bottles of Greek fire
 8996	ox-head shield	959124564	oxshield.gif	offhand	q	0
 8997	dented scepter	255792327	dentscepter.gif	weapon	q	0
 8998	very pointy crown	987470212	wqueencrown.gif	hat	q	0
