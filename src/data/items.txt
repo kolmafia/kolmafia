@@ -9561,7 +9561,7 @@
 9535	magical pony: Rosey Cake	111352978	pony2.gif	none	g,d	5	magical ponies named Rosey Cake
 9536	magical pony: Spectrum Dash	391123089	pony1.gif	none	g,d	5	magical ponies named Spectrum Dash
 9537	pocket wish	560865539	whitecard.gif	usable	t	0	pocket wishes
-9538	dropped scrap of paper	452049528	page.gif	reusable		1001	dropped scraps of paper
+9538	dropped scrap of paper	452049528	page.gif	reusable	d	1001	dropped scraps of paper
 9539	hunk of granite	715880131	bigrock.gif	none	t,d	0	hunks of granite
 9540	shovelful of dirt	224067704	powderpile1.gif	none	t,d	0	shovelfuls of dirt
 9541	xo-skeleton-in-a-box	173076297	xobox.gif	grow	t	0	xo-skeletons-in-boxes
@@ -9569,7 +9569,7 @@
 9543	X	889321363	xox.gif	none	t,d	1	Xes
 9544	O	791555172	xoo.gif	none	t,d	1
 9545	DUFRESNE Suds	269565518	beerbottle.gif	drink	t,d	100	bottles of DUFRESNE Suds
-9546	mafia pinky ring	608546842	fancyring.gif	accessory	t	0
+9546	mafia pinky ring	608546842	mafiaring1.gif	accessory	t	0
 9547	flask of port	181458610	flask.gif	drink	t,d	299
 9548	contract enforcement stick	704099753	kneestick.gif	weapon	t,d	95
 9549	Hide-rox&trade; cookie	458669388	xocookie.gif	food	t,d	5
@@ -9587,7 +9587,7 @@
 9561	giant amorphous blob	139399975	xoblob.gif	usable	q	0
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	usable	t,d	0	rolls of meat
-9564	mafia thumb ring	422193168	onemoodring.gif	accessory	t	0
+9564	mafia thumb ring	422193168	mafiaring5.gif	accessory	t	0
 9565	cocoa chondrule	829908915	chocolump.gif	usable	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
@@ -9597,7 +9597,7 @@
 9571	negotiatin' hammer	300760226	sledgehammer.gif	weapon	t,d	195
 9572	pantogram	575248858	pantogramgram.gif	usable	t	0
 9573	portable pantogram	202660346	pantagramaltar.gif	reusable		0
-9574	pantogram pants	508365377	pantos10.gif	pants	q	0
+9574	pantogram pants	508365377	pants.gif	pants	q	0
 9575	mafia wedding ring	644434762	mafiaring2.gif	accessory	t	0
 9576	mafia organizer badge	298840658	gymcard.gif	accessory	t,d	10
 9577	mafia filofax	924747602	folder.gif	none, combat	t,d	100
