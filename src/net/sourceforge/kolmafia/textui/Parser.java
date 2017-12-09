@@ -4401,39 +4401,49 @@ public class Parser
 
 	private void enforceSince( String revision )
 	{
-		int current = StaticEntity.getRevision();
-		if ( revision.startsWith( "r" ) ) // revision
+		try
 		{
-			revision = revision.substring( 1 );
-			try
+			if ( revision.startsWith( "r" ) ) // revision
 			{
-				int target = Integer.parseInt( revision );
-				if ( current < target )
+				revision = revision.substring( 1 );
+				int targetRevision = Integer.parseInt( revision );
+				int currentRevision = StaticEntity.getRevision();
+				if ( currentRevision < targetRevision )
 				{
-					throw this.sinceException( String.valueOf( current ), revision, true );
+					throw this.sinceException( String.valueOf( currentRevision ), revision, true );
 				}
 			}
-			catch ( NumberFormatException e )
+			else // version (or syntax error)
 			{
-				throw this.parseException( "invalid 'since' format" );
+				String [] target = revision.split( "\\." );
+				if ( target.length != 2 )
+				{
+					throw this.parseException( "invalid 'since' format" );
+				}
+
+				int targetMajor = Integer.parseInt( target[ 0 ] );
+				int targetMinor = Integer.parseInt( target[ 1 ] );
+
+				// strip "KoLMafia v" from the front
+				String currentVersion = StaticEntity.getVersion();
+				currentVersion = currentVersion.substring( currentVersion.indexOf( "v" ) + 1 );
+				// Strip " rxxxx" from end
+				currentVersion = currentVersion.substring( 0, currentVersion.indexOf( " r" ) );
+
+				String [] current = currentVersion.split( "\\." );
+				int currentMajor = Integer.parseInt( current[ 0 ] );
+				int currentMinor = Integer.parseInt( current[ 1 ] );
+
+				if ( targetMajor > currentMajor || ( targetMajor == currentMajor && targetMinor > currentMinor ) )
+				{
+					throw this.sinceException( currentVersion, revision, false );
+				}
 			}
 		}
-		else // version (or syntax error)
+		catch ( NumberFormatException e )
 		{
-			if ( revision.split( "\\." ).length != 2 ) // why don't java strings have a .count() method, this is ridiculous
-			{
-				throw this.parseException( "invalid 'since' format" );
-			}
-			String currentVersion = StaticEntity.getVersion();
-			// strip "KoLMafia v" from the front
-			currentVersion = currentVersion.substring( currentVersion.indexOf( "v" ) + 1 );
-
-			if ( currentVersion.compareTo( revision ) < 0 )
-			{
-				throw this.sinceException( currentVersion, revision, false );
-			}
+			throw this.parseException( "invalid 'since' format" );
 		}
-
 	}
 
 	public final void warning( final String msg )
