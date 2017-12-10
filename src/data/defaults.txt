@@ -1480,6 +1480,8 @@ user	_micrometeoriteUses	0
 user	_miniMartiniDrops	0
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
+user	_mummeryMods
+user	_mummeryUses
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
