@@ -4427,8 +4427,13 @@ public class Parser
 				// strip "KoLMafia v" from the front
 				String currentVersion = StaticEntity.getVersion();
 				currentVersion = currentVersion.substring( currentVersion.indexOf( "v" ) + 1 );
+
 				// Strip " rxxxx" from end
-				currentVersion = currentVersion.substring( 0, currentVersion.indexOf( " r" ) );
+				int rindex = currentVersion.indexOf( " r" );
+				if ( rindex != -1 )
+				{
+					currentVersion = currentVersion.substring( 0, rindex );
+				}
 
 				String [] current = currentVersion.split( "\\." );
 				int currentMajor = Integer.parseInt( current[ 0 ] );
