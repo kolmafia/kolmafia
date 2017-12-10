@@ -2672,6 +2672,12 @@ public class RelayRequest
 		// special handling, catching any exceptions that happen to
 		// popup along the way.
 
+		String pwd = this.getFormField( "pwd" );
+		if ( pwd == null || !pwd.equals( ( GenericRequest.passwordHash ) ) )
+		{
+			return;
+		}
+
 		String path = this.getBasePath();
 		if ( path.endsWith( "submitCommand" ) )
 		{
