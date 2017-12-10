@@ -5994,11 +5994,11 @@
 5969	soul knife	244431022	soulknife.gif	weapon	t	0
 5970	soul mask	799134456	soulmask.gif	accessory	t	0
 5971	record of infuriating silence	211644183	record.gif	usable	t	0	records of infuriating silence
-5972	record of infuriating silence (used)	558708810	record.gif	usable		0	records of infuriating silence (used)
+5972	record of infuriating silence (used)	558708810	record.gif	reusable		0	records of infuriating silence (used)
 5973	record of tranquil silence	722978031	record.gif	usable	t	0	records of tranquil silence
-5974	record of tranquil silence (used)	461968850	record.gif	usable		0	records of tranquil silence (used)
+5974	record of tranquil silence (used)	461968850	record.gif	reusable		0	records of tranquil silence (used)
 5975	record of menacing silence	477678639	record.gif	usable	t	0	records of menacing silence
-5976	record of menacing silence (used)	126984084	record.gif	usable		0	records of menacing silence (used)
+5976	record of menacing silence (used)	126984084	record.gif	reusable		0	records of menacing silence (used)
 5977	silent beret	553150840	mimeberet.gif	hat	t	0
 5978	slice of pizza	709823427	pizzaslice.gif	food	t,d	10	slices of pizza
 5979	huge gold coin	699945657	goldcoin.gif	none	t,d	250
@@ -7556,7 +7556,7 @@
 7531	alien protein powder	595646868	powderpile2.gif	spleen	t,d	75	piles of alien protein powder
 7532	rocket fuel	375972393	redmin.gif	drink	t,d	75	cans of rocket fuel
 7533	alien source code printout	951108754	punchcard.gif	usable	t	0
-7534	alien source code printout (used)	735936333	punchcard.gif	usable		0	alien source code printouts (used)
+7534	alien source code printout (used)	735936333	punchcard.gif	reusable		0	alien source code printouts (used)
 7535	stealth bomber	277101255	shot_f.gif	drink	t,d	99
 7536	space beast fur	798925250	spacefur.gif	none	t	0	pieces of space beast fur
 7537	twitching space egg	430294177	spaceegg.gif	grow	t	0
@@ -8036,8 +8036,8 @@
 8011	heavy-duty Crimbot aerial	697101835	heavyaerial.gif	familiar	t,d	70
 8012	Crimbomega drive chain	819272646	drivechain.gif	accessory	t	0
 8013	Crimbot ROM: Rapid Prototyping (dirty)	777486184	crimbotchip.gif	reusable		0	Crimbot ROMs: Rapid Prototyping (dirty)
-8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	usable		0	Crimbot ROMs: Mathematical Precision (dirty)
-8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	usable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
+8014	Crimbot ROM: Mathematical Precision (dirty)	603332262	crimbotchip.gif	reusable		0	Crimbot ROMs: Mathematical Precision (dirty)
+8015	Crimbot ROM: Ruthless Efficiency (dirty)	858719961	crimbotchip.gif	reusable		0	Crimbot ROMs: Ruthless Efficiency (dirty)
 8016	fitness wristband	515708282	fitbit.gif	usable	t	0
 8017	flask of tainted mining oil	639229886	flask.gif	multiple	t,d	10	flasks of tainted mining oil
 8018	red and green rain stick	121053600	rainstick.gif	reusable		0
@@ -8817,7 +8817,7 @@
 8791	reindeer sickle	509476173	commiesickle.gif	weapon	t	0
 8792	green face paint	315697628	balm.gif	reusable		0
 8793	red face paint	503242930	balm.gif	reusable		0	cans of red face paint
-8794	The Big Book of Communism (used)	729555641	book4.gif	usable		0
+8794	The Big Book of Communism (used)	729555641	book4.gif	reusable		0
 8795	Batfellow comic	610063693	batfellowbook.gif	usable	t	0
 8796
 8797	bat-oomerang	872551869	batarang.gif	none	q	0
@@ -9359,7 +9359,7 @@
 9333	eldritch ichor	826301199	blooddrops.gif	multiple	t	0	drops of eldritch ichor
 9334	eldritch mushroom pizza	160404947	pizza.gif	food	t,d	666
 9335	eldritch tincture	686008682	vial.gif	usable	t	0
-9336	eldritch tincture (depleted)	309912211	vial.gif	usable		0
+9336	eldritch tincture (depleted)	309912211	vial.gif	reusable		0
 9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000
 9338	HP-35 Calculator	132580267	longcalc.gif	offhand		0
 9339	Silver HP-35 Calculator	727658182	longcalc.gif	offhand		0
@@ -9528,7 +9528,7 @@
 9502	tiny plastic golden gundam	725087901	kgbgundam.gif	accessory	t,d	5
 9503	License to Chill	163081018	licensetochill.gif	reusable		0	Licenses to Chill
 9504	Celsius 233	448534493	book3.gif	usable	t	0	copies of Celsius 233
-9505	Celsius 233 (singed)	778678345	book3.gif	usable		0	copies of Celsius 233 (singed)
+9505	Celsius 233 (singed)	778678345	book3.gif	reusable		0	copies of Celsius 233 (singed)
 9506	Lazenby's Life Lesson	211516162	pamphlet.gif	usable	t	0
 9507	LI-11 Motor Pool voucher	638644193	l11voucher.gif	usable	t	0
 9508	Asdon Martin keyfob	391247220	asdonfob.gif	usable		0
