@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
+import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -9898,6 +9899,11 @@ public abstract class ChoiceManager
 			// The item that we get has a procedurally-generated name
 			request.setHasResult( false );
 			PantogramRequest.parseResponse( urlString, text );
+			break;
+
+		case 1271:
+			// Mummery
+			MummeryRequest.parseResponse( ChoiceManager.lastDecision, text );
 			break;
 		}
 

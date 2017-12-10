@@ -5905,6 +5905,9 @@ public abstract class KoLCharacter
 
 		// Horsery
 		newModifiers.add( Modifiers.parseModifiers( "Horsery", Preferences.getString( "_horsery" ) ) );
+		
+		// Mummery
+		newModifiers.add( Modifiers.parseModifiers( "Mummery", Modifiers.evaluateModifiers( "Mummery", Preferences.getString( "_mummeryMods" ) ) ) );
 
 		// Add modifiers from inventory
 		if ( InventoryManager.hasItem( ItemPool.FISHING_POLE ) )
