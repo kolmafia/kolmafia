@@ -396,6 +396,7 @@ hot wing	1	1	crappy	1	0	2-5	0
 humble pie	4	4	good	9-11	20-30	20-30	20-30
 Humpty Dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
+hushed puppy	2	1	awesome	0	0	0	0	Unspaded
 ice cream sandwich	2	4	decent	2-4	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)
 ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
 iceberg lettuce	2	6	EPIC	11-13	20-30	0	0	50 Headstrong(+25 Weapon Damage, +50% Muscle, +100 HP)
@@ -519,6 +520,7 @@ Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
 Mr. Burnsger	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Drunkenness
 Mt. McLargeHuge oyster	3	1	decent	5-7	15-20	0	0
+muffled muffuletta	2	1	awesome	0	0	0	0	Unspaded
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
@@ -688,6 +690,7 @@ shells a la shellfish	5	8	awesome	17-20	25-30	0	0
 shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
 shoots and leaves	4	1		6-10	7-8	7-8	7-8
 shrapnel jelly donut	1	4	awesome	3-5	40-60	0	0	30 Filled With Magic (+100% spell dmg)
+shushed potatoes	2	1	awesome	0	0	0	0	Unspaded
 single-serving herbal stuffing	4	1	awesome	12-16	0	0	32-35
 six tiny wedges of goat cheese	2	1	crappy	3	0	0	0
 sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400

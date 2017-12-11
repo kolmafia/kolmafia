@@ -9606,9 +9606,9 @@
 9580	black and white cracker	324804281	divcracker.gif	usable	t	0
 9581	neg grog	604947382	coffeecup.gif	drink	t	0
 9582	half double fruitcake	374806693	fruitcake.gif	food	t	0
-9583
-9584
-9585
+9583	hushed puppy	838937183	sc_ball.gif	food	t	0
+9584	muffled muffuletta	258372747	panini.gif	food	t	0
+9585	shushed potatoes	469205888	mashedpots.gif	food	t	0
 9586
 9587
 9588

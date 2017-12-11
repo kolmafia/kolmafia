@@ -5705,6 +5705,7 @@ Effect	No Accounting for... Barbarians	Avatar: "Accountant-Barbarian"
 Effect	No Squealer Healer	Avatar: "Quiet Healer"
 Effect	No Vertigo	Initiative: +20
 Effect	No Worries	Experience: +3
+Effect	Noise Cancelled	Initiative: -300
 Effect	Norwhalloped	MP Regen Min: 6, MP Regen Max: 10
 Effect	Not Sharing	Monster Level: +25
 Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
@@ -7394,6 +7395,7 @@ Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
 Item	holiday cheese log	Effect: "Stands Alone", Effect Duration: 20
 Item	honey-dew	Effect: "Mmmmmelon", Effect Duration: 10
 Item	hot hi mein	Effect: "Hot Breath", Effect Duration: 5
+Item	hushed puppy	Effect: "Noise Cancelled", Effect Duration: 100
 Item	ice cream sandwich	Effect: "Cold Throat", Effect Duration: 20
 Item	ice harvest	Effect: "Icy Demeanor", Effect Duration: 30
 Item	iceberg lettuce	Effect: "Headstrong", Effect Duration: 50
@@ -7425,6 +7427,7 @@ Item	meteoreo	Effect: "Superioreo", Effect Duration: 40
 Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
 # Item Mr. Burnsger: Reduces your Drunkenness by 2
+Item	muffled muffuletta	Effect: "Noise Cancelled", Effect Duration: 100
 Item	nachos of the night	Effect: "Night of the Nachos", Effect Duration: 20
 Item	nanite-infested candy cane	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	nanite-infested fruitcake	Effect: "Chock Full o' Nanites", Effect Duration: 20
@@ -7456,6 +7459,7 @@ Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
 Item	shrapnel jelly donut	Effect: "Filled with Magic", Effect Duration: 30
+Item	shushed potatoes	Effect: "Noise Cancelled", Effect Duration: 100
 Item	skull-shaped Crimboween cookie	Effect: "Bells in the Batfry", Effect Duration: 20
 Item	Skully's hot chocolate	Effect: "Skull Full of Hot Chocolate", Effect Duration: 10
 Item	sleazy hi mein	Effect: "Sleazy Breath", Effect Duration: 5
