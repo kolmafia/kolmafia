@@ -2329,6 +2329,6 @@
 2328	Stick Emporium Membership	kneestick.gif	3b6432a1426af6f9ccc26a269e769272	use 1 roll of meat
 2329	Chondruling	chocolump.gif	268b2c1f53d714391a0cdf76e530e1e2	use 1 cocoa chondrule
 2330	Holiday Disappointment	divcracker.gif	3b823a947fc9f9db1620f9392d191a8a	eat 1 transparent nog|eat 1 unfinished fruitcake
-2331
+2331	Noise Cancelled	echo.gif	b801fb016e420c27d463841cc9825ea0	eat either 1 shushed potatoes, 1 muffled muffuletta, 1 hushed puppy
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	use 1 cursed wishbone
