@@ -35,6 +35,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class MummeryRequest
@@ -61,28 +63,65 @@ public class MummeryRequest
 
 		String mods = Preferences.getString( "_mummeryMods" );
 		String familiar = KoLCharacter.currentFamiliar.getRace();
+		int familiarId = KoLCharacter.currentFamiliar.getId();
+		int mod1, mod2 = 0;
 		switch ( choice )
 		{
 		case 1:
-			mods += "Meat Drop: [15*fam(" + familiar + ")],";
+			mod1 = 15;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "hands" ) )
+			{
+				mod1 = 30;
+			}
+			mods += "Meat Drop: [" + mod1 + "*fam(" + familiar + ")],";
 			break;
 		case 2:
-			mods += "MP Regen Min: [4*fam(" + familiar + ")], MP Regen Max: [5*fam(" + familiar + ")],";
+			mod1 = 4; mod2 = 5;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "wings" ) )
+			{
+				mod1 = 6; mod2 = 10;
+			}
+			mods += "MP Regen Min: [" + mod1 + "*fam(" + familiar + ")], MP Regen Max: [" + mod2 + "*fam(" + familiar + ")],";
 			break;
 		case 3:
-			mods += "Experience (Muscle): [3*fam(" + familiar + ")],";
+			mod1 = 3;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "animal" ) )
+			{
+				mod1 = 4;
+			}
+			mods += "Experience (Muscle): [" + mod1 + "*fam(" + familiar + ")],";
 			break;
 		case 4:
-			mods += "Item Drop: [15*fam(" + familiar + ")],";
+			mod1 = 15;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "clothes" ) )
+			{
+				mod1 = 25;
+			}
+			mods += "Item Drop: [" + mod1 + "*fam(" + familiar + ")],";
 			break;
 		case 5:
-			mods += "Experience (Mysticality): [3*fam(" + familiar + ")],";
+			mod1 = 3;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "eyes" ) )
+			{
+				mod1 = 4;
+			}
+			mods += "Experience (Mysticality): [" + mod1 + "*fam(" + familiar + ")],";
 			break;
 		case 6:
-			mods += "HP Regen Min: [8*fam(" + familiar + ")], HP Regen Max: [10*fam(" + familiar + ")],";
+			mod1 = 8; mod2 = 10;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "mechanical" ) )
+			{
+				mod1 = 18; mod2 = 20;
+			}
+			mods += "HP Regen Min: [" + mod1 + "*fam(" + familiar + ")], HP Regen Max: [" + mod2 + "*fam(" + familiar + ")],";
 			break;
 		case 7:
-			mods += "Experience (Moxie): [2*fam(" + familiar + ")],";
+			mod1 = 2;
+			if ( FamiliarDatabase.hasAttribute( familiarId, "sleazy" ) )
+			{
+				mod1 = 4;
+			}
+			mods += "Experience (Moxie): [" + mod1 + "*fam(" + familiar + ")],";
 			break;
 
 		}
