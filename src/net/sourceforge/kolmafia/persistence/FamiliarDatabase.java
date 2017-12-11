@@ -37,7 +37,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -106,6 +108,7 @@ public class FamiliarDatabase
 	private static final BooleanArray variableById = new BooleanArray();
 
 	private static final Map<String,Integer>[] eventSkillByName = new HashMap[ 4 ];
+	private static final Map<Integer,List<String>> attributesById = new HashMap<Integer,List<String>>();
 
 	public static boolean newFamiliars = false;
 	public static int maxFamiliarId = 0;
@@ -129,7 +132,7 @@ public class FamiliarDatabase
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
 		{
-			if ( data.length != 10 )
+			if ( data.length != 10 && data.length != 11 )
 			{
 				continue;
 			}
@@ -204,6 +207,12 @@ public class FamiliarDatabase
 				for ( int i = 0; i < 4; ++i )
 				{
 					FamiliarDatabase.eventSkillByName[ i ].put( canonical, Integer.valueOf( data[ i + 6 ] ) );
+				}
+				if ( data.length == 11 )
+				{
+					String [] list = data[ 10 ].split( "\\s*,\\s*" );
+					List<String> attrs = Arrays.asList( list );
+					FamiliarDatabase.attributesById.put( familiarId, attrs );
 				}
 			}
 			catch ( Exception e )
@@ -337,7 +346,7 @@ public class FamiliarDatabase
 
 		for ( int i = 0; i < familiarNames.length; ++i )
 		{
-			if ( familiarNames[ i ].indexOf( searchString ) != -1 )
+			if ( familiarNames[ i ].contains( searchString ) )
 			{
 				familiarId = FamiliarDatabase.familiarByName.get( familiarNames[ i ] );
 				return familiarId == null ? -1 : ( (Integer) familiarId ).intValue();
@@ -744,6 +753,21 @@ public class FamiliarDatabase
 		}
 		FamiliarDatabase.newFamiliars = true;
 		FamiliarDatabase.saveDataOverride();
+	}
+
+	public static final List<String> getFamiliarAttributes( final int familiarId )
+	{
+		return FamiliarDatabase.attributesById.get( familiarId );
+	}
+
+	public static final boolean hasAttribute( final int familiarId, final String attribute )
+	{
+		List attrs = FamiliarDatabase.getFamiliarAttributes( familiarId );
+		if ( attrs == null )
+		{
+			return false;
+		}
+		return attrs.contains( attribute );
 	}
 
 	/**

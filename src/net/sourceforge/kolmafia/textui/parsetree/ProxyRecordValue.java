@@ -70,8 +70,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Interpreter;
 
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
 public class ProxyRecordValue
 	extends RecordValue
 {
@@ -487,6 +485,7 @@ public class ProxyRecordValue
 			.add( "passive", DataTypes.BOOLEAN_TYPE )
 			.add( "underwater", DataTypes.BOOLEAN_TYPE )
 			.add( "variable", DataTypes.BOOLEAN_TYPE )
+			.add( "attributes", DataTypes.STRING_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -616,6 +615,25 @@ public class ProxyRecordValue
 		public boolean get_variable()
 		{
 			return FamiliarDatabase.isVariableType( (int) this.contentLong );
+		}
+
+		public String get_attributes()
+		{
+			List<String> attrs = FamiliarDatabase.getFamiliarAttributes( (int) this.contentLong );
+			if ( attrs == null )
+			{
+				return "";
+			}
+			StringBuilder builder = new StringBuilder();
+			for ( String attr : attrs )
+			{
+				if ( builder.length() != 0 )
+				{
+					builder.append( "; " );
+				}
+				builder.append( attr );
+			}
+			return builder.toString();
 		}
 	}
 
