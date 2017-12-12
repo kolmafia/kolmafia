@@ -42,7 +42,8 @@ public class CountersCommand
 {
 	public CountersCommand()
 	{
-		this.usage = " [ clear | add <number> [<title> <img>] ] - show, clear, or add to current turn counters.";
+		this.usage = " [ clear | add <number> [<title> <img>] | warn <title> | nowarn <title> ] - show, clear, or add to current turn counters," +
+		             " or set an existing counter to (not) warn you when it expires.";
 	}
 
 	@Override
