@@ -2873,6 +2873,7 @@ public class ItemPool
 	public static final int POCKET_WISH = 9537;
 	public static final int PORTABLE_PANTOGRAM = 9573;
 	public static final int PANTOGRAM_PANTS = 9574;
+	public static final int MUMMING_TRUNK = 9592;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
