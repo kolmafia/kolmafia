@@ -809,6 +809,7 @@ public class KoLmafiaCLI
 		new MonsterDataCommand().register( "monsters" );
 		new MonsterLevelCommand().register( "mind-control" ).register( "mcd" );
 		new MoodCommand().registerPrefix( "mood" );
+		new MummeryCommand().register( "mummery" );
 		new MushroomFieldCommand().register( "field" );
 		new NamespaceAddCommand().register( "using" );
 		new NamespaceListCommand().register( "namespace" );

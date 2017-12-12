@@ -33,7 +33,14 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
+
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
@@ -42,9 +49,39 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class MummeryRequest
 	extends GenericRequest
 {
-	public MummeryRequest()
+	public MummeryRequest( int choice )
 	{
 		super( "choice.php" );
+
+		this.addFormField( "whichchoice", "1271" );
+		this.addFormField( "option", String.valueOf( choice ) );
+	}
+
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
+	@Override
+	public void run()
+	{
+		if ( !KoLConstants.inventory.contains( ItemPool.get( ItemPool.MUMMING_TRUNK, 1 ) ) )
+		{
+			KoLmafia.updateDisplay( "You need a mumming trunk first." );
+			return;
+		}
+		if ( KoLCharacter.currentFamiliar == FamiliarData.NO_FAMILIAR )
+		{
+			KoLmafia.updateDisplay( KoLConstants.MafiaState.ERROR, "You need to have a familiar to put a costume on." );
+			return;
+		}
+
+		GenericRequest useRequest = new GenericRequest( "inv_use.php" );
+		useRequest.addFormField( "whichitem", String.valueOf( ItemPool.MUMMING_TRUNK ) );
+		RequestThread.postRequest( useRequest );
+
+		super.run();
 	}
 
 	public static final void parseResponse( final int choice, final String responseText )
@@ -55,7 +92,7 @@ public class MummeryRequest
 			return;
 		}
 
-		if ( KoLCharacter.currentFamiliar == null )
+		if ( KoLCharacter.currentFamiliar == FamiliarData.NO_FAMILIAR )
 		{
 			// This probably can't happen, but just in case...
 			return;
@@ -138,6 +175,10 @@ public class MummeryRequest
 			break;
 
 		}
+
+		String message = "Costume " + choice + " applied to " + familiar;
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
 		Preferences.setString( "_mummeryUses", Preferences.getString( "_mummeryUses" ) + choice + "," );
 		Preferences.setString( "_mummeryMods", mods );
 
