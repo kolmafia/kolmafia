@@ -63,8 +63,21 @@ public class MummeryRequest
 
 		String mods = Preferences.getString( "_mummeryMods" );
 		String familiar = KoLCharacter.currentFamiliar.getRace();
+		if ( mods.contains( familiar ) )
+		{
+			// We are replacing the modifier for our current familiar
+			String[] pieces = mods.split( "," );
+			mods = "";
+			for ( String piece : pieces )
+			{
+				if ( !piece.contains( familiar ) )
+				{
+					mods += piece + ",";
+				}
+			}
+		}
 		int familiarId = KoLCharacter.currentFamiliar.getId();
-		int mod1, mod2 = 0;
+		int mod1, mod2;
 		switch ( choice )
 		{
 		case 1:
