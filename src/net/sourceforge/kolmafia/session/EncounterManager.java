@@ -333,7 +333,7 @@ public abstract class EncounterManager
 		ignoreSpecialMonsters = true;
 	}
 
-	private static final AdventureResult TELEPORTISIS = EffectPool.get( EffectPool.TELEPORTITIS );
+	private static final AdventureResult TELEPORTITIS = EffectPool.get( EffectPool.TELEPORTITIS );
 
 	private static void recognizeEncounter( final String encounterName, final String responseText )
 	{
@@ -390,7 +390,7 @@ public abstract class EncounterManager
 			if ( KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY1 ) ||
 				KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY2 ) ||
 				KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY3 ) ||
-				KoLConstants.activeEffects.contains( EncounterManager.TELEPORTISIS ) )
+				KoLConstants.activeEffects.contains( EncounterManager.TELEPORTITIS ) )
 			{
 				return;
 			}
