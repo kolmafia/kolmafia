@@ -2355,6 +2355,9 @@ Tio Cad&aacute;ver	-28	drunkleskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 
 
 # Crimbo 2017
 cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	Scale: 1 Init: -10000 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
+mouthless murmur	2043	mimemurmur.gif	Scale: -11 Init: -10000 P: weird
+silent scream	2042	mimescream.gif	Scale: 1 Init: -10000 P: weird
+voiceless whisper	2041	mimewhisper.gif	Scale: -3 Init: 150 P: weird
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
