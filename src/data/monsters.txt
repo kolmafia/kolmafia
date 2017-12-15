@@ -2353,6 +2353,9 @@ Guajolote Cad&aacute;ver	-30	turkeyskel.gif	NOMANUEL WANDERER Scale: -3 Init: -1
 Peregrino Cad&aacute;ver	-29	pilgrimskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	temperance whiskey (c100)
 Tio Cad&aacute;ver	-28	drunkleskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 P: undead	Racisto Ruidoso (c100)
 
+# Crimbo 2017
+cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	Scale: 1 Init: -10000 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
+
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 E: spooky P: construct Manuel: "possessed wine rack" Wiki: "possessed wine rack"

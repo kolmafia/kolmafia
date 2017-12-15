@@ -2025,6 +2025,7 @@ ankleweights	100	Mys: 35
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 Annual Ascot	0	none
+anti-earplugs	0	none
 aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20

@@ -783,6 +783,8 @@ public class AdventureRequest
 				image.startsWith( "bond_minion" ) ? "Villainous Minion" :
 				image.startsWith( "bond_sidekick" ) ? "Villainous Henchperson" :
 				image.startsWith( "bond_villain" ) ? "Villainous Villain" :
+				// Crimbo 2017
+				image.startsWith( "mimefunc" ) ? "cheerless mime functionary" :
 				null;
 		}
 
