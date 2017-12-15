@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -58,8 +60,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
+import net.sourceforge.kolmafia.session.EquipmentManager;
+
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
+
+
 
 public abstract class EncounterManager
 {
@@ -327,6 +333,8 @@ public abstract class EncounterManager
 		ignoreSpecialMonsters = true;
 	}
 
+	private static final AdventureResult TELEPORTISIS = EffectPool.get( EffectPool.TELEPORTITIS );
+
 	private static void recognizeEncounter( final String encounterName, final String responseText )
 	{
 		Encounter encounter = EncounterManager.findEncounter( encounterName );
@@ -378,6 +386,15 @@ public abstract class EncounterManager
 		     encounterType == EncounterType.GLYPH ||
 		     encounterType == EncounterType.BADMOON )
 		{
+			// Don't autostop if you have teleportisis
+			if ( KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY1 ) ||
+				KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY2 ) ||
+				KoLCharacter.hasEquipped( ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY3 ) ||
+				KoLConstants.activeEffects.contains( EncounterManager.TELEPORTISIS ) )
+			{
+				return;
+			}
+
 			GoalManager.checkAutoStop( encounterName );
 		}
 	}
