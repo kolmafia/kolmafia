@@ -1439,6 +1439,10 @@ public abstract class KoLmafia
 			{
 				// You're allowed to Spelunk even while falling down drunk
 			}
+			else if ( KoLCharacter.getLimitmode() == Limitmode.BATMAN )
+			{
+				// You're allowed to Batfellow even while falling down drunk
+			}
 			else if ( adventureName.equals( "An Eldritch Fissure" ) ||
 				  adventureName.equals( "An Eldritch Horror" ) ||
 				  adventureName.equals( "Trick-or-Treating" ) )
