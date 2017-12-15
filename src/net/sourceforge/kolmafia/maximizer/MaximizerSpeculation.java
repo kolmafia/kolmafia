@@ -155,8 +155,6 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( rv != 0 ) return rv;
 		rv = Double.compare( this.getTiebreaker(), other.getTiebreaker() );
 		if ( rv != 0 ) return rv;
-		rv = this.simplicity - other.simplicity;
-		if ( rv != 0 ) return rv;
 		// prefer more rollover effects and fewer breakable items
 		int countThisEffects = 0;
 		int countOtherEffects = 0;
@@ -170,8 +168,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			if ( mods == null ) continue;
 			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
 			if ( name.length() > 0 ) countThisEffects++;
-			name = mods.getString( Modifiers.BREAKABLE );
-			if ( name.length() > 0 ) countThisBreakables++;
+			if ( mods.getBoolean( Modifiers.BREAKABLE ) ) countThisBreakables++;
 		}
 		for ( int i = other.equipment.length - 1; i >= 0; --i )
 		{
@@ -181,8 +178,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			if ( mods == null ) continue;
 			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
 			if ( name.length() > 0 ) countOtherEffects++;
-			name = mods.getString( Modifiers.BREAKABLE );
-			if ( name.length() > 0 ) countOtherBreakables++;
+			if ( mods.getBoolean( Modifiers.BREAKABLE ) ) countOtherBreakables++;
 		}
 		if ( countThisEffects != countOtherEffects )
 		{
@@ -192,6 +188,8 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		{
 			return countThisBreakables < countOtherBreakables ? 1 : -1;
 		}
+		rv = this.simplicity - other.simplicity;
+		if ( rv != 0 ) return rv;
 		if ( this.attachment != null && other.attachment != null )
 		{
 			// prefer items that you don't have to buy
