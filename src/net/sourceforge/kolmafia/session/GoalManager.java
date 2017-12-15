@@ -185,20 +185,6 @@ public class GoalManager
 
 		if ( goal.isItem() )
 		{
-			if ( goal.getItemId() == HermitRequest.WORTHLESS_ITEM.getItemId() )
-			{
-				currentCount = HermitRequest.getWorthlessItemCount( true );
-			}
-			else
-			{
-				currentCount = goal.getCount( KoLConstants.inventory );
-
-				if ( InventoryManager.canUseCloset() )
-				{
-					currentCount += goal.getCount( KoLConstants.closet );
-				}
-			}
-
 			for ( int j = 0; j < EquipmentManager.FAMILIAR; ++j )
 			{
 				if ( EquipmentManager.getEquipment( j ).equals( goal ) )
