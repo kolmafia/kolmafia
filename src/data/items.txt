@@ -9622,4 +9622,31 @@
 9596
 9597
 9598
-9599
+9599	silent A	285486613	silenta.gif	none	t,d	0
+9600	silent B	448034897	silentb.gif	none	t,d	0
+9601	silent C	384523841	silentc.gif	none	t,d	0
+9602	silent D	281171820	silentd.gif	none	t,d	0
+9603	silent E	703300870	silente.gif	none	t,d	0
+9604	silent F	750865332	silentf.gif	none	t,d	0
+9605	silent G	331764129	silentg.gif	none	t,d	0
+9606	silent H	930285449	silenth.gif	none	t,d	0
+9607	silent I	607535683	silenti.gif	none	t,d	0
+9608	silent J	590829365	silentj.gif	none	t,d	0
+9609	silent K	473989357	silentk.gif	none	t,d	0
+9610	silent L	616955565	silentl.gif	none	t,d	0
+9611	silent M	443064929	silentm.gif	none	t,d	0
+9612	silent N	575642721	silentn.gif	none	t,d	0
+9613	silent O	416883726	silento.gif	none	t,d	0
+9614	silent P	393298683	silentp.gif	none	t,d	0
+9615	silent Q	683374170	silentq.gif	none	t,d	0
+9616	silent R	865461832	silentr.gif	none	t,d	0
+9617	silent S	867733428	silents.gif	none	t,d	0
+9618	silent T	655245407	silentt.gif	none	t,d	0
+9619	silent U	220158316	silentu.gif	none	t,d	0
+9620	silent V	916621447	silentv.gif	none	t,d	0
+9621	silent W	128228468	silentw.gif	none	t,d	0
+9622	silent X	994598344	silentx.gif	none	t,d	0
+9623	silent Y	472114187	silenty.gif	none	t,d	0
+9624	silent Z	120670648	silentz.gif	none	t,d	0
+9625	crystalline cheer	641113985	crystalcheer.gif	none		0	crystalline cheer
+9626	anti-earplugs	807210581	crimboplugs.gif	accessory	q	0
