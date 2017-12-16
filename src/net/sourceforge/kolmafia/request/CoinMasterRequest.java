@@ -507,7 +507,7 @@ public class CoinMasterRequest
 		}
 
 		String storageAction = data.getStorageAction();
-		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
+		boolean storage = storageAction != null && urlString.contains( storageAction );
 
 		CoinMasterRequest.buyStuff( data, itemId, count, storage );
 	}
@@ -536,7 +536,7 @@ public class CoinMasterRequest
 		}
 
 		String storageAction = data.getStorageAction();
-		boolean storage = storageAction != null && urlString.indexOf( storageAction ) != -1;
+		boolean storage = storageAction != null && urlString.contains( storageAction );
 
 		int count = CoinMasterRequest.extractCount( data, urlString );
 		if ( count == 0 )

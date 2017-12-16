@@ -9650,3 +9650,13 @@
 9624	silent Z	120670648	silentz.gif	none	t,d	0
 9625	crystalline cheer	641113985	crystalcheer.gif	none		0	crystalline cheer
 9626	anti-earplugs	807210581	crimboplugs.gif	accessory	q	0
+9627
+9628
+9629	cheer wine	359085074	redwine.gif	drink	t	0
+9630	Cheer-E-Os	705364856	bowl4.gif	food	t	0
+9631	cheer-o-gram	814117046	envelope.gif	none, usable, curse	t	0
+9632	cheerful antler hat	401157890	c17hat.gif	hat	t	0
+9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
+9634	cheerful pajama pants	710000634	c17pants.gif	pants	t	0
+
+9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0

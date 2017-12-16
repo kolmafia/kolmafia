@@ -52,6 +52,7 @@ bum cheek	20	none
 catskin cap	180	Mox: 75
 centurion helmet	100	Mox: 35
 Cerebral Cloche	90	Mox: 30
+cheerful antler hat	50	none
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
 clingfilm cap	150	Mox: 60
@@ -417,6 +418,7 @@ Can-Can skirt	90	Mox: 15
 cane-mail pants	100	none
 Cerebral Culottes	90	Mox: 30
 chain-mail monokini	30	none
+cheerful pajama pants	50	none
 Chester's cutoffs	200	Mox: 200
 clingfilm trousers	150	Mox: 60
 Cloaca-Cola fatigues	30	none
@@ -659,6 +661,7 @@ bronze breastplate	105	Mus: 37
 camouflage T-shirt	100	Mus: 25
 cane-mail shirt	100	none
 chamoisole	200	Mus: 200
+cheerful Crimbo sweater	50	none
 chest barrel	50	Mus: 10
 Chester's muscle shirt	200	Mus: 200
 clockwork trench coat	80	Mus: 25

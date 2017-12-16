@@ -132,3 +132,4 @@
 # Meteor Masquerade can use meteorite guard in place of meteorb, but there's no good way to support that, and
 # KoL equips meteorb when equipping the outfit
 131	Meteor Masquerade	meteortat.gif	meteortarboard, shooting morning star, meteorb, meteorthopedic shoes, asteroid belt
+132	Cheerful Reindeer Suit	reintat.gif	cheerful antler hat, cheerful Crimbo sweater, cheerful pajama pants
