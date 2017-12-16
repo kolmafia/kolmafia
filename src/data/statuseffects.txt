@@ -2332,3 +2332,5 @@
 2331	Noise Cancelled	echo.gif	b801fb016e420c27d463841cc9825ea0	eat either 1 shushed potatoes, 1 muffled muffuletta, 1 hushed puppy
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	use 1 cursed wishbone
+
+2343	Cheered Up	upsoda.gif	351e7fa00df23aac907f66716397a84d	use 1 Cheer-Up soda

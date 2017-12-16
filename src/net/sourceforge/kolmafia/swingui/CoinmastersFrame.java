@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo14Request;
+import net.sourceforge.kolmafia.request.Crimbo17Request;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinseyCompanyStoreRequest;
@@ -193,6 +194,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel chemCorpPanel = null;
 	private CoinmasterPanel crimbo11Panel = null;
 	private CoinmasterPanel crimbo14Panel = null;
+	private CoinmasterPanel crimbo17Panel = null;
 	private CoinmasterPanel crimboCartelPanel = null;
 	private CoinmasterPanel dimemasterPanel = null;
 	private CoinmasterPanel dinseyCompanyStorePanel = null;
@@ -526,6 +528,11 @@ public class CoinmastersFrame
 		warbearBoxPanel = new WarbearBoxPanel();
 		panel.add( warbearBoxPanel );
 		this.selectorPanel.addPanel( warbearBoxPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		crimbo17Panel = new Crimbo17Panel();
+		panel.add( crimbo17Panel );
+		this.selectorPanel.addPanel( crimbo17Panel.getPanelSelector(), panel );
 
 		// Removed coinmasters
 		this.selectorPanel.addSeparator();
@@ -1056,6 +1063,15 @@ public class CoinmastersFrame
 			this.add( this.sellPanel, BorderLayout.NORTH );
 			this.buyPanel = new BuyPanel();
 			this.add( this.buyPanel, BorderLayout.CENTER );
+		}
+	}
+
+	private class Crimbo17Panel
+		extends CoinmasterPanel
+	{
+		public Crimbo17Panel()
+		{
+			super(Crimbo17Request.CRIMBO17 );
 		}
 	}
 
