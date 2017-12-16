@@ -804,6 +804,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "crimbo17" ) )
+		{
+			Crimbo17Request.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "edunder_shopshop" ) )
 		{
 			EdShopRequest.parseResponse( urlString, responseText );
@@ -1218,6 +1224,11 @@ public class NPCPurchaseRequest
 			if ( shopId.startsWith( "crimbo14" ) )
 			{
 				return Crimbo14Request.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "crimbo17" ) )
+			{
+				return Crimbo17Request.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "edunder_shopshop" ) )
