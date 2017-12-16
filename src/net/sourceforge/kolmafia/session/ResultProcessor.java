@@ -1367,6 +1367,7 @@ public class ResultProcessor
 		case ItemPool.BACON:
 		case ItemPool.COP_DOLLAR:
 		case ItemPool.PRICELESS_DIAMOND:
+		case ItemPool.CRYSTALLINE_CHEER:
 			// Pulverized ascension rewards
 		case ItemPool.WICKERBITS:
 		case ItemPool.BAKELITE_BITS:
