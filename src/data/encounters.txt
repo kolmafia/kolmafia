@@ -103,7 +103,6 @@ The Briny Deeps	SEMIRARE	Deeps Impact
 The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
 The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
 The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
-The Cheerless Spire (Level 1)	SEMIRARE	Take Stuff From Work
 The Copperhead Club	SEMIRARE	Where There's Smoke...
 The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
 The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
@@ -158,6 +157,7 @@ Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
 The "Fun" House	CLOVER	The Boxer
 The Black Forest	CLOVER	What the Cluck?
 The Castle in the Clouds in the Sky (Basement)	CLOVER	You Never Know What You're Gonna Find
+The Cheerless Spire (Level 1)	CLOVER	Take Stuff From Work
 The Copperhead Club	CLOVER	Where There's Smoke...
 The Haunted Ballroom	CLOVER	Forward to the Past
 The Haunted Bathroom	CLOVER	That's a Tidy Bowl, Man!
