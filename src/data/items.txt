@@ -9659,4 +9659,6 @@
 9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
 9634	cheerful pajama pants	710000634	c17pants.gif	pants	t	0
 
+9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
+
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
