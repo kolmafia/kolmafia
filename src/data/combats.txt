@@ -250,7 +250,8 @@ The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	F
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
 The Cave Before Time	-1	droll	pterodactyl	sabre-toothed kiwi	Adventurer echo: 0
-The Cheerless Spire (Level 1)	-1	cheerless mime stapler clerk	cheerless mime functionary
+The Cheerless Spire (Level 1)	90	cheerless mime functionary
+The Cheerless Spire (Level 2)	90	cheerless mime scientist
 The City of Goooold	-1	mummy	Bananubis: 0
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
 The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja

@@ -158,6 +158,7 @@ The "Fun" House	CLOVER	The Boxer
 The Black Forest	CLOVER	What the Cluck?
 The Castle in the Clouds in the Sky (Basement)	CLOVER	You Never Know What You're Gonna Find
 The Cheerless Spire (Level 1)	CLOVER	Take Stuff From Work
+The Cheerless Spire (Level 2)	CLOVER	Lucky Breaktime
 The Copperhead Club	CLOVER	Where There's Smoke...
 The Haunted Ballroom	CLOVER	Forward to the Past
 The Haunted Bathroom	CLOVER	That's a Tidy Bowl, Man!
