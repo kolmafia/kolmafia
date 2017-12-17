@@ -9658,9 +9658,35 @@
 9632	cheerful antler hat	401157890	c17hat.gif	hat	t	0
 9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
 9634	cheerful pajama pants	710000634	c17pants.gif	pants	t	0
-
+9635
+9636
+9637
+9638
+9639
+9640
+9641
+9642
+9643
+9644
+9645
+9646
 9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
-
+9648
+9649
+9650
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
-
+9652
+9653
+9654
+9655
+9656
+9657
+9658
+9659
+9660
+9661
+9662
+9663
+9664
+9665
 9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0

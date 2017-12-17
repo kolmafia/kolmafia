@@ -133,7 +133,7 @@ catsup	1	1	crappy	1	0	0	0
 Caviar Carbonara	3	1		7-11	0	0	0
 centipede eggs	2	7	awesome	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
 chaos popcorn	1	1	decent	2	0	0	0
-Cheer-E-Os	3	1	awesome	0	0	0	0	Unspaded
+Cheer-E-Os	3	1	awesome	11-13	0	0	0	20-30 crystalline cheer
 cheezburger	3	1	awesome	11-13	5-12	5-12	5-12	50 Yes, Can Haz
 cherry	1	2	decent	2	0	0	0
 cherry pie	3	4	good	6-12	0	8-10	0
