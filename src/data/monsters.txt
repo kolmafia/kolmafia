@@ -2355,7 +2355,7 @@ Tio Cad&aacute;ver	-28	drunkleskel.gif	NOMANUEL WANDERER Scale: -3 Init: -10000 
 
 # Crimbo 2017
 cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	Scale: 1 Init: -10000 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
-cheerless mime scientist	2045	mimesci1.gif,mimesci2.gif,mimesci3.gif	Scale: 15 Init: -10000 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
+cheerless mime scientist	2045	mimesci1.gif,mimesci2.gif,mimesci3.gif	Scale: 15 Init: 100 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 mouthless murmur	2043	mimemurmur.gif	WANDERER Scale: -11 Init: -10000 P: weird
 silent scream	2042	mimescream.gif	WANDERER Scale: 1 Init: -10000 P: weird
 voiceless whisper	2041	mimewhisper.gif	WANDERER Scale: -3 Init: 150 P: weird
