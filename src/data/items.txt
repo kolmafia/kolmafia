@@ -9662,3 +9662,5 @@
 9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
 
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
+
+9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0

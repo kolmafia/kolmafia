@@ -2801,6 +2801,8 @@ Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
 Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, Single Equip
+# Item mime-proof sunglasses: Damage from mimes is reduced by 50
+Item	mime-proof sunglasses	Single Equip
 Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
 # mirrored aviator shades: Kill 10% More Skeletons
 Item	mirrored aviator shades	Moxie: +15, Single Equip

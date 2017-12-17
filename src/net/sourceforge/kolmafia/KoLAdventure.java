@@ -2411,7 +2411,23 @@ public class KoLAdventure
 		{
 			"out of energy for today",
 			"The Spacegate is out of energy for today.",
-		}
+		},
+
+		// ou approach the door to the spire, but you can't bear the
+		// silence. Maybe you should try those earplugs Tammy gave you.
+		{
+			"you can't bear the silence",
+			"You are not wearing your anti-earplugs..",
+		},
+
+		// You stomp around the spire for a while, but it looks like
+		// this level is all cleared out. They'll probably redeploy
+		// more mimes to it by tomorrow.
+		{
+			"redeploy more mimes to it by tomorrow",
+			"There are no more mimes left today.",
+		},
+
 	};
 
 	public static final int findAdventureFailure( String responseText )

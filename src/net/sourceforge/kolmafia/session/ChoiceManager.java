@@ -15511,6 +15511,7 @@ public abstract class ChoiceManager
 		case 1267: // Rubbed it the Right Way
 		case 1270: // Pantagramming
 		case 1271: // Mummery
+		case 1272: // R&D
 			return true;
 
 		default:
