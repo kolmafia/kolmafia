@@ -2333,4 +2333,7 @@
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	use 1 cursed wishbone
 
+2341	I'll Have the Soup	syringe.gif	0b275b69ba19320abda41b67eb2c837c	chew 1 mime army superserum
+2342
 2343	Cheered Up	upsoda.gif	351e7fa00df23aac907f66716397a84d	use 1 Cheer-Up soda
+2344	Mimeoflage	mimeface.gif	9d8574b23083e7bc1a0d42b4a85855c8	use 1 mime army camouflage kit

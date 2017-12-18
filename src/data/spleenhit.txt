@@ -105,6 +105,7 @@ mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
 Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
 Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
+mime army superserum	1	15	good	0	0	0	0	Unspaded
 molotov soda	3	2	good	8-10	0	0	0
 moomy dust	1	1	decent	0	15-20	15-20	15-20	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 moxie weed	1	1	crappy	0	0	0	1-3

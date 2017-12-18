@@ -311,6 +311,7 @@ Item	mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
 # metallic foil cat ears: Not Amused
 Item	metallic foil cat ears	Familiar Effect: "atk, cap 7"
 Item	meteortarboard	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15, Spell Critical Percent: +10
+Item	miming beret	Damage Reduction: 10, Stench Resistance: +3
 Item	miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
 Item	Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Item	moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
@@ -641,6 +642,7 @@ Item	mariachi pants	Familiar Effect: "8xPotato, cap 2"
 Item	Mayor Ghost's khakis	Spooky Spell Damage: +100, Sleaze Resistance: +5, Cold Resistance: +1, Class: "Pastamancer", Familiar Effect: "1xPotato, HP regen"
 Item	Mer-kin gladiator tailpiece	Initiative: -25, Damage Reduction: 10, Mana Cost: +2, Familiar Effect: "1xBarrr, 1xFairy"
 Item	Mer-kin scholar tailpiece	Initiative: -25, Mysticality Percent: +10, Mana Cost: +2, Familiar Effect: "1.5xBarrr, 1xFairy"
+Item	miming corduroys	Damage Reduction: 10, Hot Resistance: +3
 Item	miner's pants	Damage Absorption: +20, Familiar Effect: "stench atk, 1.5xPotato, cap 20"
 Item	monster pants	Critical Hit Percent: +5, Familiar Effect: "3xVolley, 3xPotato, cap 17"
 Item	Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxie Percent: [10*G], Familiar Effect: "cap 25"
@@ -872,6 +874,7 @@ Item	lynyrdskin tunic	Initiative: +25
 Item	Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Item	metal band T-shirt	Monster Level: +15
 Item	midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
+Item	miming shirt	Damage Reduction: 10, Cold Resistance: +3
 Item	Moonthril Cuirass	Monster Level: [10*G], Softcore Only
 Item	Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	origami pasties	Meat Drop: +30, Softcore Only
@@ -2801,8 +2804,28 @@ Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
 Item	meteorthopedic shoes	Initiative: +30, Moxie Percent: +15, Adventures: +5, Single Equip
+# Item mime army infiltration glove: <font color="blue"></font>Allows pickpocketing
+Item	mime army infiltration glove	Pickpocket Chance: +25, Initiative: -200, Single Equip
+# Item mime army insignia (cryonics): Convert all your elemental bonus damage to <font color=blue>Cold Damage</font>
+Item	mime army insignia (cryonics)	Single Equip
+# Item mime army insignia (espionage): Change all combat stat gains to Moxie
+Item	mime army insignia (espionage)	Single Equip
+# Item mime army insignia (infantry): Change all combat stat gains to Muscle
+Item	mime army insignia (infantry)	Single Equip
+# Item mime army insignia (intelligence): Change all combat stat gains to Mysticality
+Item	mime army insignia (intelligence)	Single Equip
+# Item mime army insignia (morale): Convert all your elemental bonus damage to <font color=purple>Sleaze Damage</font>
+Item	mime army insignia (morale)	Single Equip
+# Item mime army insignia (psychological warfare): Convert all your elemental bonus damage to <font color=gray>Spooky Damage</font>
+Item	mime army insignia (psychological warfare)	Single Equip
+# Item mime army insignia (pyrotechnics): Convert all your elemental bonus damage to <font color=red>Hot Damage</font>
+Item	mime army insignia (pyrotechnics)	Single Equip
+# Item mime army insignia (sanitation): Convert all your elemental bonus damage to <font color=green>Stench Damage</font>
+Item	mime army insignia (sanitation)	Single Equip
 # Item mime-proof sunglasses: Damage from mimes is reduced by 50
 Item	mime-proof sunglasses	Single Equip
+Item	miming boots	Damage Reduction: 10, Spooky Resistance: +3, Single Equip
+Item	miming gloves	Damage Reduction: 10, Sleaze Resistance: +3, Single Equip
 Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
 # mirrored aviator shades: Kill 10% More Skeletons
 Item	mirrored aviator shades	Moxie: +15, Single Equip
@@ -5369,6 +5392,7 @@ Effect	Hyphemariffic	Spooky Resistance: +9
 Effect	Hypnotized	Mysticality Percent: -50
 Effect	I Am the Slaw!	Monster Level: +20
 Effect	I See Everything Thrice!	Item Drop: +33
+Effect	I'll Have the Soup	Maximum HP Percent: +300, Damage Reduction: 20, Damage Absorption: +100
 Effect	Ice Packed	HP Regen Min: 10, HP Regen Max: 15
 Effect	Icebergled	Avatar: "Iceberglar"
 Effect	Iced and Tainted	Sprinkle Drop: +25, Cold Damage: +15, Spell Critical Percent: +5
@@ -5623,6 +5647,7 @@ Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Milk Studly	Muscle: +15
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
+Effect	Mimeoflage	Combat Rate: -15
 Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
@@ -7121,6 +7146,7 @@ Outfit	Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Outfit	Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
 Outfit	Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Outfit	Meteor Masquerade	Meat Drop: +50
+Outfit	Miming Paraphernalia	Damage Reduction: 50, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Mining Gear	Meat Drop: +5
 # Mutant Couture: Release Your Inner Mutant
 Outfit	Oil Rig	Initiative: +30
@@ -7862,6 +7888,7 @@ Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
+Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50
 Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
 Item	off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
@@ -9254,6 +9281,7 @@ Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Durat
 # military-grade fingernail clippers: Clips fingernails
 Item	milk of magnesium	Effect: "Got Milk", Effect Duration: [R+5]
 Item	Milk Studs	Effect: "Milk Studly", Effect Duration: 15
+Item	mime army camouflage kit	Effect: "Mimeoflage", Effect Duration: 30
 # miniature boiler: Deals 20-40 Physical Damage
 Item	miniature power pill	Effect: "Pill Power", Effect Duration: 30
 # Miniborg beeper: Deals 20-25 Physical Damage and hurts you a little bit
