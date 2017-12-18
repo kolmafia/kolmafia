@@ -9651,7 +9651,7 @@
 9625	crystalline cheer	641113985	crystalcheer.gif	none		0	crystalline cheer
 9626	anti-earplugs	807210581	crimboplugs.gif	accessory	q	0
 9627
-9628
+9628	mime pocket probe	715262471	cheerrod.gif	offhand		0
 9629	cheer wine	359085074	redwine.gif	drink	t	0
 9630	Cheer-E-Os	705364856	bowl4.gif	food	t	0
 9631	cheer-o-gram	814117046	envelope.gif	none, usable, curse	t	0
@@ -9675,18 +9675,29 @@
 9649
 9650
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
-9652
-9653
-9654
-9655
-9656
-9657
-9658
-9659
-9660
+9652	mime army rations	907196387	marmyfood.gif	food		0
+9653	mime army wine	939226439	wine2.gif	drink		0
+9654	mime army superserum	304041492	syringe.gif	spleen, usable		0
+9655	mime army camouflage kit	247431435	smallcase.gif	usable		0
+9656	miming beret	699433086	mimeberet.gif	hat		0
+9657	miming shirt	326832973	dv_freddysweater.gif	shirt		0
+9658	miming corduroys	206689182	tuxpants.gif	pants		0
+9659	miming boots	241837040	blackboots.gif	accessory		0
+9660	miming gloves	488176089	stickygloves.gif	accessory		0
 9661
 9662
 9663
 9664
 9665
 9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0
+9667	mime army insignia (infantry)	999272300	marmy1.gif	accessory		0
+9668	mime army insignia (intelligence)	475405090	marmy2.gif	accessory		0
+9669	mime army insignia (espionage)	663295576	marmy3.gif	accessory		0
+9670	mime army insignia (pyrotechnics)	238701986	marmy4.gif	accessory		0
+9671	mime army insignia (cryonics)	323540612	marmy5.gif	accessory		0
+9672	mime army insignia (psychological warfare)	502037270	marmy6.gif	accessory		0
+9673	mime army insignia (sanitation)	389755058	marmy7.gif	accessory		0
+9674	mime army insignia (morale)	415603685	marmy8.gif	accessory		0
+9675	mime army infiltration glove	684937657	glove.gif	accessory		0
+9676	mime army shotglass	592981629	marmyshotglass.gif	none		0
+9677	mime army challenge coin	202448379	marmycoin.gif	reusable		0
