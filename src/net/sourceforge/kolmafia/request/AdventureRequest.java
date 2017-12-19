@@ -786,6 +786,7 @@ public class AdventureRequest
 				// Crimbo 2017
 				image.startsWith( "mimefunc" ) ? "cheerless mime functionary" :
 				image.startsWith( "mimesci" ) ? "cheerless mime scientist" :
+				image.startsWith( "mimebat" ) ? "cheerless mime soldier" :
 				null;
 		}
 
