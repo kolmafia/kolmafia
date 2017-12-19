@@ -910,6 +910,7 @@ charming flute	170	Mox: 70	2-handed flute
 cheap plastic blowgun	25	Mox: 0	1-handed blowgun
 cheap plastic bottle opener	30	Mys: 0	1-handed utensil
 cheap plastic kazoo	50	Mox: 10	1-handed kazoo
+cheer extractor	40	Mus: 0	1-handed club
 Chelonian Morningstar	90	Mus: 15	1-handed flail
 Chester's bag of candy	200	Mox: 200	2-handed bag
 chisel	10	Mus: 0	1-handed knife

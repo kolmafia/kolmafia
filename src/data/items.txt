@@ -9701,3 +9701,4 @@
 9675	mime army infiltration glove	684937657	glove.gif	accessory		0
 9676	mime army shotglass	592981629	marmyshotglass.gif	none		0
 9677	mime army challenge coin	202448379	marmycoin.gif	reusable		0
+9678	cheer extractor	258961043	billyclub.gif	weapon		0
