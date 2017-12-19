@@ -1081,6 +1081,7 @@ Item	charming flute	Moxie: +8
 # cheap plastic blowgun: 50% chance of poisoning opponent.
 Item	cheap plastic bottle opener	Sleaze Damage: +2
 Item	cheap plastic kazoo	Monster Level: +10
+# Item cheer extractor: Extract 1 additional crystalline cheer from mimes in the Silent Night
 Item	Chelonian Morningstar	Muscle: +11, Never Fumble, Class: "Turtle Tamer"
 Item	Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
 # chisel
