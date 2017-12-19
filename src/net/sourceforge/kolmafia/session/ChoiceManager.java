@@ -11604,6 +11604,28 @@ public abstract class ChoiceManager
 			GenieRequest.postChoice( text );
 			break;
 
+		case 1272:
+			// R&D
+			int letterId = ChoiceManager.extractIidFromURL( urlString );
+			String letterName = ItemDatabase.getItemName( letterId );
+			if ( letterName != null )
+			{
+				// Turning in letter
+				String message = "handed over " + letterName;
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+				ResultProcessor.removeItem( letterId );
+			}
+			break;
+
+		case 1273:
+			// R&D
+			if ( text.contains( "slide the weird key into the weird lock" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.WAREHOUSE_KEY );
+			}
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
