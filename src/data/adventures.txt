@@ -304,6 +304,7 @@ The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
 Crimbo17	adventure=497	Env: indoor Stat: 0	The Cheerless Spire (Level 1)
 Crimbo17	adventure=498	Env: indoor Stat: 0	The Cheerless Spire (Level 2)
+Crimbo17	adventure=499	Env: indoor Stat: 0	The Cheerless Spire (Level 3)
 
 Crimbo16	adventure=482	Env: indoor Stat: 0	Your Bung Chakra
 Crimbo16	adventure=483	Env: indoor Stat: 0	Your Guts Chakra
