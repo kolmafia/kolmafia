@@ -630,7 +630,7 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	public static final void parseConsumption( final AdventureResult item, final AdventureResult helper, final String responseText )
+	public static final void parseConsumption( AdventureResult item, final AdventureResult helper, final String responseText )
 	{
 		if ( responseText.contains( "too drunk" ) )
 		{
@@ -651,6 +651,13 @@ public class DrinkItemRequest
 		if ( responseText.contains( "You only have" ) )
 		{
 			return;
+		}
+
+		if ( responseText.contains( "You pour your drink into your mime army shotglass." ) )
+		{
+			// Only 1 is consumed, regardless of how many we tried to consume
+			item = item.getInstance( 1 );
+			Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
 		}
 
 		// Check for consumption helpers, which will need to be removed
@@ -688,7 +695,7 @@ public class DrinkItemRequest
 				// <drink> and discard the no-longer-frosty
 				// mug."
 
-				if ( responseText.indexOf( "discard the no-longer-frosty" ) == -1 )
+				if ( !responseText.contains( "discard the no-longer-frosty" ) )
 				{
 					success = false;
 				}
