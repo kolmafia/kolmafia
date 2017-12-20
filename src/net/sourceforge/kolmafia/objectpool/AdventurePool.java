@@ -255,6 +255,9 @@ public class AdventurePool
 	public static final String SPACEGATE_ID = "494";
 	public static final int SUPER_VILLAIN_LAIR = 495;
 	public static final int MONORAIL_WORKSITE = 496;
+	public static final int CHEERLESS_SPIRE_1 = 497;
+	public static final int CHEERLESS_SPIRE_2 = 498;
+	public static final int CHEERLESS_SPIRE_3 = 499;
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final String ELDRITCH_FISSURE_ID = "town_eincursion";
