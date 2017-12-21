@@ -9609,7 +9609,7 @@
 9583	hushed puppy	838937183	sc_ball.gif	food	t	0
 9584	muffled muffuletta	258372747	panini.gif	food	t	0
 9585	shushed potatoes	469205888	mashedpots.gif	food	t	0
-9586
+9586	Mimebo TP #1	569695461	c17tp1.gif	accessory	t	0
 9587
 9588
 9589
@@ -9658,22 +9658,22 @@
 9632	cheerful antler hat	401157890	c17hat.gif	hat	t	0
 9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
 9634	cheerful pajama pants	710000634	c17pants.gif	pants	t	0
-9635
-9636
-9637
-9638
-9639
-9640
-9641
-9642
-9643
-9644
-9645
-9646
+9635	The Journal of Mime Science Vol. 1	256661273	book3.gif	usable	t	0
+9636	The Journal of Mime Science Vol. 1 (used)	549293466	book3.gif	usable		0
+9637	The Journal of Mime Science Vol. 2	216127556	book3.gif	usable	t	0
+9638	The Journal of Mime Science Vol. 2 (used)	234763537	book3.gif	usable		0
+9639	The Journal of Mime Science Vol. 3	524425167	book3.gif	usable	t	0
+9640	The Journal of Mime Science Vol. 3 (used)	130342003	book3.gif	usable		0
+9641	The Journal of Mime Science Vol. 4	347211977	book3.gif	usable	t	0
+9642	The Journal of Mime Science Vol. 4 (used)	801373544	book3.gif	usable		0
+9643	The Journal of Mime Science Vol. 5	336611126	book3.gif	usable	t	0
+9644	The Journal of Mime Science Vol. 5 (used)	404767873	book3.gif	usable		0
+9645	The Journal of Mime Science Vol. 6	262403320	book3.gif	usable	t	0
+9646	The Journal of Mime Science Vol. 6 (used)	425423509	book3.gif	usable		0
 9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
 9648
-9649
-9650
+9649	nega-mushroom	366604257	negashroom.gif	food	t	0
+9650	nega-mushroom wine	888851431	wine2.gif	drink	t	0
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
 9652	mime army rations	907196387	marmyfood.gif	food		0
 9653	mime army wine	939226439	wine2.gif	drink		0

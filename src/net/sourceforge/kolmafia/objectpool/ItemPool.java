@@ -2876,6 +2876,18 @@ public class ItemPool
 	public static final int MUMMING_TRUNK = 9592;
 	public static final int CRYSTALLINE_CHEER = 9625;
 	public static final int WAREHOUSE_KEY = 9627;
+	public static final int MIME_SCIENCE_VOL_1 = 9635;
+	public static final int MIME_SCIENCE_VOL_1_USED = 9636;
+	public static final int MIME_SCIENCE_VOL_2 = 9637;
+	public static final int MIME_SCIENCE_VOL_2_USED = 9638;
+	public static final int MIME_SCIENCE_VOL_3 = 9639;
+	public static final int MIME_SCIENCE_VOL_3_USED = 9640;
+	public static final int MIME_SCIENCE_VOL_4 = 9641;
+	public static final int MIME_SCIENCE_VOL_4_USED = 9642;
+	public static final int MIME_SCIENCE_VOL_5 = 9643;
+	public static final int MIME_SCIENCE_VOL_5_USED = 9644;
+	public static final int MIME_SCIENCE_VOL_6 = 9645;
+	public static final int MIME_SCIENCE_VOL_6_USED = 9646;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

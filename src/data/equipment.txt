@@ -2394,6 +2394,7 @@ mime army insignia (psychological warfare)	0	Mys: 200
 mime army insignia (pyrotechnics)	0	Mys: 200
 mime army insignia (sanitation)	0	Mys: 200
 mime-proof sunglasses	0	none
+Mimebo TP #1	0	none
 miming boots	0	none
 miming gloves	0	none
 mini-marshmallow dispenser	100	none

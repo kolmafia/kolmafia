@@ -2825,6 +2825,7 @@ Item	mime army insignia (pyrotechnics)	Single Equip
 Item	mime army insignia (sanitation)	Single Equip
 # Item mime-proof sunglasses: Damage from mimes is reduced by 50
 Item	mime-proof sunglasses	Single Equip
+Item	Mimebo TP #1	Moxie: +2
 Item	miming boots	Damage Reduction: 10, Spooky Resistance: +3, Single Equip
 Item	miming gloves	Damage Reduction: 10, Sleaze Resistance: +3, Single Equip
 Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
@@ -4925,6 +4926,7 @@ Effect	Doing The Hustle	Item Drop: +100
 Effect	Don't Step to Your Stepmother	Experience Percent (Moxie): +5, Moxie Percent: +25
 # Donho's Bubbly Ballad: Makes you a better diver
 Effect	Donho's Bubbly Ballad	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
+Effect	Double Negavision	Item Drop: +50
 Effect	Double-Barreled	Ranged Damage Percent: +150
 # Down the Rabbit Hole: Lets you adventure in The Rabbit Hole in The Nearby Plains
 Effect	Down With Chow	Familiar Weight: +10
@@ -5712,6 +5714,7 @@ Effect	Natural 20	Initiative: +100
 Effect	Nature's Bounty	Maximum HP: +300, HP Regen Min: 80, HP Regen Max: 100
 Effect	Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Effect	Nearly All-Natural	Mysticality Percent: +200, Booze Drop: +60
+Effect	Negavision	Item Drop: +25
 # Nerd is the Word: +25% Item Drops from Monsters (Chemistry Class only)
 Effect	Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
 # Nerf'd: Less powerful than you were before
@@ -7466,6 +7469,7 @@ Item	nanite-infested candy cane	Effect: "Chock Full o' Nanites", Effect Duration
 Item	nanite-infested fruitcake	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	nanite-infested gingerbread bugbear	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	natto pocky	Effect: "Ninja, Please", Effect Duration: 30
+Item	nega-mushroom	Effect: "Negavision", Effect Duration: 50
 Item	nut-shaped Crimbo cookie	Effect: "Nut-Rition", Effect Duration: 20
 Item	occult jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 Item	old chum	Effect: "Fishy", Effect Duration: 5
@@ -7743,6 +7747,7 @@ Item	Muschat	Effect: "L'instinct F&eacute;lin", Effect Duration: 20
 Item	Mysterious Island iced tea	Effect: "Orcmouth", Effect Duration: 40
 Item	nanite-infested eggnog	Effect: "Chock Full o' Nanites", Effect Duration: 20
 Item	natto-infused sake	Effect: "Ninja, Please", Effect Duration: 30
+Item	nega-mushroom wine	Effect: "Double Negavision", Effect Duration: 50
 Item	New Zealand iced tea	Effect: "New Zeal", Effect Duration: 20
 Item	Newark	Effect: "Hobo Powering Up!", Effect Duration: 40
 Item	non-aged vinegar	Effect: "Sour Grapes", Effect Duration: 40
@@ -10052,6 +10057,18 @@ Item	The Firegate Tapes	Skill: "Firegate"
 Item	The Fun-Guy Cold Weather Bartender's Guide	Skill: "Perfect Freeze"
 Item	The Gingerbread Vigilante's Handbook	Skill: "Licorice Rope"
 Item	The Groose in the Hoose	Free Pull
+Item	The Journal of Mime Science Vol. 1	Skill: "Silent Hunter"
+Item	The Journal of Mime Science Vol. 1 (used)	Skill: "Silent Hunter"
+Item	The Journal of Mime Science Vol. 2	Skill: "Quiet Determination"
+Item	The Journal of Mime Science Vol. 2 (used)	Skill: "Quiet Determination"
+Item	The Journal of Mime Science Vol. 3	Skill: "Quiet Judgement"
+Item	The Journal of Mime Science Vol. 3 (used)	Skill: "Quiet Judgement"
+Item	The Journal of Mime Science Vol. 4	Skill: "Silent Treatment"
+Item	The Journal of Mime Science Vol. 4 (used)	Skill: "Silent Treatment"
+Item	The Journal of Mime Science Vol. 5	Skill: "Silent Knife"
+Item	The Journal of Mime Science Vol. 5 (used)	Skill: "Silent Knife"
+Item	The Journal of Mime Science Vol. 6	Skill: "Quiet Desperation"
+Item	The Journal of Mime Science Vol. 6 (used)	Skill: "Quiet Desperation"
 Item	The Joy of Wassailing	Skill: "Wassail"
 Item	The Joy of Wassailing (used)	Skill: "Wassail"
 Item	the kindest cold cut	Effect: "Happy-go-meaty", Effect Duration: 50
