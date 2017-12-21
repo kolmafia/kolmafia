@@ -1,6 +1,6 @@
 6
 # Zone Name | URL | attributes | Location Name | goals (optional)
-# Possible attributes are Env, Stat and Level
+# Possible attributes are Env, Stat, Level, and nowander
 # environment should be indoor, outdoor, underground, underwater, none, or unknown
 Gyms	clan_gym=MUSCLE	Env: none Stat: 0	Pump Up Muscle
 Gyms	clan_gym=MYST	Env: none Stat: 0	Pump Up Mysticality
@@ -11,7 +11,7 @@ Gyms	clan_hobopolis=3	Env: none Stat: 0	Richard's Hobo Muscle
 Beach	adventure=45	Env: outdoor Stat: 10	South of the Border	+1 donkey flipbook
 Beach	adventure=122	Env: outdoor Stat: 135	The Oasis	1 stone rose, 1 drum machine
 Beach	adventure=364	Env: outdoor Stat: 120	The Arid, Extra-Dry Desert	15 worm-riding manual
-Beach	adventure=355	Env: indoor Stat: 0	The Shore, Inc. Travel Agency
+Beach	adventure=355	Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
 Beach	adventure=446	Env: outdoor Stat: 0	Kokomo Resort
 Pyramid	adventure=406	Env: underground Stat: 150	The Upper Chamber	10 crumbling wooden wheel
 Pyramid	adventure=407	Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
@@ -201,7 +201,7 @@ Orchard	adventure=128	Env: underground Stat: 165	The Feeding Chamber	1 filthworm
 Orchard	adventure=129	Env: underground Stat: 165	The Royal Guard Chamber	1 filthworm royal guard scent gland
 Orchard	adventure=130	Env: underground Stat: 170	The Filthworm Queen's Chamber
 Mountain	adventure=240	Env: underground Stat: 0	Noob Cave	1 black kitten
-Mountain	adventure=92	Env: underground Stat: 0	The Dire Warren
+Mountain	adventure=92	Env: underground Stat: 0 nowander	The Dire Warren
 Mountain	adventure=437	Env: indoor Stat: 0	The Secret Council Warehouse
 Mountain	adventure=80	Env: outdoor Stat: 68	The Valley of Rof L'm Fao	1 64735 scroll, 1 lowercase N
 Mountain	adventure=177	Env: underground Stat: 0	Mt. Molehill
@@ -302,10 +302,10 @@ Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
-Crimbo17	adventure=497	Env: indoor Stat: 0	The Cheerless Spire (Level 1)
-Crimbo17	adventure=498	Env: indoor Stat: 0	The Cheerless Spire (Level 2)
-Crimbo17	adventure=499	Env: indoor Stat: 0	The Cheerless Spire (Level 3)
-Crimbo17	adventure=500	Env: indoor Stat: 0	The Cheerless Spire (Level 4)
+Crimbo17	adventure=497	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 1)
+Crimbo17	adventure=498	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 2)
+Crimbo17	adventure=499	Env: outdoor Stat: 0 nowander	The Cheerless Spire (Level 3)
+Crimbo17	adventure=500	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 4)
 
 Crimbo16	adventure=482	Env: indoor Stat: 0	Your Bung Chakra
 Crimbo16	adventure=483	Env: indoor Stat: 0	Your Guts Chakra
@@ -395,7 +395,7 @@ Events	adventure=409	Env: outdoor	A Crater Full of Space Beasts
 Events	place=town_eincursion	Env: outdoor	An Eldritch Fissure
 Events	place=town_eicfight2	Env: outdoor	An Eldritch Horror
 
-Events	adventure=496	Env: outdoor	Monorail Work Site
+Events	adventure=496	Env: outdoor nowander	Monorail Work Site
 
 Twitch	adventure=410	Env: underground Stat: 0	The Cave Before Time
 Twitch	adventure=411	Env: indoor Stat: 0	An Illicit Bohemian Party
@@ -497,12 +497,12 @@ Industrial District (High Crime)	adventure=471	Env: none Stat: 0	Gotpork Foundry
 Industrial District (High Crime)	adventure=472	Env: none Stat: 0	Trivial Pursuits, LLC
 Downtown	adventure=473	Env: none Stat: 0	JokesterCo
 
-The Snojo	adventure=460	Env: indoor	The X-32-F Combat Training Snowman
+The Snojo	adventure=460	Env: indoor nowander	The X-32-F Combat Training Snowman
 
-The Spacegate	adventure=494	Env: outdoor	Through the Spacegate
+The Spacegate	adventure=494	Env: outdoor nowander	Through the Spacegate
 
-Gingerbread City	adventure=477	Env: indoor Stat: 0	Gingerbread Civic Center
-Gingerbread City	adventure=478	Env: indoor Stat: 0	Gingerbread Train Station
-Gingerbread City	adventure=479	Env: indoor Stat: 0	Gingerbread Industrial Zone
-Gingerbread City	adventure=480	Env: outdoor Stat: 0	Gingerbread Upscale Retail District
-Gingerbread City	adventure=481	Env: underground Stat: 0	Gingerbread Sewers
+Gingerbread City	adventure=477	Env: indoor Stat: 0 nowander	Gingerbread Civic Center
+Gingerbread City	adventure=478	Env: indoor Stat: 0 nowander	Gingerbread Train Station
+Gingerbread City	adventure=479	Env: indoor Stat: 0 nowander	Gingerbread Industrial Zone
+Gingerbread City	adventure=480	Env: outdoor Stat: 0 nowander	Gingerbread Upscale Retail District
+Gingerbread City	adventure=481	Env: underground Stat: 0 nowander	Gingerbread Sewers

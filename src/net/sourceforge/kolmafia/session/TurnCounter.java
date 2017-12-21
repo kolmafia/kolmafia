@@ -524,22 +524,8 @@ public class TurnCounter
 		{
 			return;
 		}
-		switch ( KoLAdventure.lastAdventureId() )
+		if ( !KoLAdventure.lastVisitedLocation().hasWanderers() )
 		{
-		case 0:
-		case AdventurePool.THE_SHORE:
-		case AdventurePool.TRAINING_SNOWMAN:
-		case AdventurePool.DIRE_WARREN:
-		case AdventurePool.GINGERBREAD_CIVIC:
-		case AdventurePool.GINGERBREAD_TRAIN:
-		case AdventurePool.GINGERBREAD_INDUSTRIAL:
-		case AdventurePool.GINGERBREAD_RETAIL:
-		case AdventurePool.GINGERBREAD_SEWERS:
-		case AdventurePool.SPACEGATE:
-		case AdventurePool.MONORAIL_WORKSITE:
-		case AdventurePool.CHEERLESS_SPIRE_1:
-		case AdventurePool.CHEERLESS_SPIRE_2:
-		case AdventurePool.CHEERLESS_SPIRE_3:
 			return;
 		}
 		if ( type.equals( "Combat" ) )
