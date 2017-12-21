@@ -3282,6 +3282,18 @@ public class UseItemRequest
 		case ItemPool.PEEK_A_BOO:
 		case ItemPool.CELSIUS_233:
 		case ItemPool.CELSIUS_233_SINGED:
+		case ItemPool.MIME_SCIENCE_VOL_1:
+		case ItemPool.MIME_SCIENCE_VOL_1_USED:
+		case ItemPool.MIME_SCIENCE_VOL_2:
+		case ItemPool.MIME_SCIENCE_VOL_2_USED:
+		case ItemPool.MIME_SCIENCE_VOL_3:
+		case ItemPool.MIME_SCIENCE_VOL_3_USED:
+		case ItemPool.MIME_SCIENCE_VOL_4:
+		case ItemPool.MIME_SCIENCE_VOL_4_USED:
+		case ItemPool.MIME_SCIENCE_VOL_5:
+		case ItemPool.MIME_SCIENCE_VOL_5_USED:
+		case ItemPool.MIME_SCIENCE_VOL_6:
+		case ItemPool.MIME_SCIENCE_VOL_6_USED:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you

@@ -2337,3 +2337,5 @@
 2342
 2343	Cheered Up	upsoda.gif	351e7fa00df23aac907f66716397a84d	use 1 Cheer-Up soda
 2344	Mimeoflage	mimeface.gif	9d8574b23083e7bc1a0d42b4a85855c8	use 1 mime army camouflage kit
+2345	Negavision	negavision1.gif	38cf3bcdc339faa7aaae60209d078d22	eat 1 nega-mushroom
+2346	Double Negavision	negavision2.gif	f48fa25f72d1234b295f4ffbdccbe0c9	drink 1 nega-mushroom wine

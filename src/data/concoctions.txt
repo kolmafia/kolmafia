@@ -2960,3 +2960,4 @@ giant amorphous blob	XOSHOP,ROW964	giant X (11)	giant O (11)
 # Crimbo 2017
 half double fruitcake	COOK	fruitcake	unfinished fruitcake
 neg grog	MIX	bottle of rum	transparent nog
+nega-mushroom wine	MIX_FANCY	mushroom fermenting solution	nega-mushroom
