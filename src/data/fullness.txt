@@ -397,7 +397,7 @@ hot wing	1	1	crappy	1	0	2-5	0
 humble pie	4	4	good	9-11	20-30	20-30	20-30
 Humpty Dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
-hushed puppy	2	1	awesome	0	0	0	0	Unspaded
+hushed puppy	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300% init)
 ice cream sandwich	2	4	decent	2-4	0	0	0	20 Cold Throat (+50 Cold Spell Damage, +100% Spell Damage)
 ice harvest	1	1	good	2-3	3-5	3-5	0	30 Icy Demeanor (+20 Max HP, +3 Hot Resist)
 iceberg lettuce	2	6	EPIC	11-13	20-30	0	0	50 Headstrong(+25 Weapon Damage, +50% Muscle, +100 HP)
@@ -522,7 +522,7 @@ Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
 Mr. Burnsger	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Drunkenness
 Mt. McLargeHuge oyster	3	1	decent	5-7	15-20	0	0
-muffled muffuletta	2	1	awesome	0	0	0	0	Unspaded
+muffled muffuletta	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300% init)
 mugcake	1	1	crappy	1	0	0	0
 mulberry	1	5	good	3	0	0	5-15
 musclebound rabbit roll	3	1		9-14	8-16	20-30	0	45/55 Fishy
@@ -533,7 +533,7 @@ nanite-infested candy cane	1	4	good	1-5	11-20	11-20	11-20	20 Chock Full o' Nanit
 nanite-infested fruitcake	3	1	decent	3-6	15-20	15-20	15-20	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 nanite-infested gingerbread bugbear	1	4	good	1-5	21-40	21-40	21-40	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 natto pocky	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
-nega-mushroom	2	1	awesome	0	0	0	0	Unspaded, 50 Negavision (+25% item drop)
+nega-mushroom	2	1	awesome	8-10	0	30-40	0	50 Negavision (+25% item drop)
 neutron lollipop	3	1	awesome	9-12	10-20	10-20	10-20
 New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
@@ -693,7 +693,7 @@ shells a la shellfish	5	8	awesome	17-20	25-30	0	0
 shoo-fish pie	2	3	awesome	8-10	10-30	10-30	10-30	20 Fishy
 shoots and leaves	4	1		6-10	7-8	7-8	7-8
 shrapnel jelly donut	1	4	awesome	3-5	40-60	0	0	30 Filled With Magic (+100% spell dmg)
-shushed potatoes	2	1	awesome	0	0	0	0	Unspaded
+shushed potatoes	2	1	awesome	8-10	20-30	20-30	20-30	100 Noise Cancelled (-300% init)
 single-serving herbal stuffing	4	1	awesome	12-16	0	0	32-35
 six tiny wedges of goat cheese	2	1	crappy	3	0	0	0
 sizzling weasel on a stick	5	1	EPIC	60-80	0	0	220-400
@@ -781,7 +781,6 @@ tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
 Tea, Earl Grey, Hot	1	1	EPIC	6-7	0	0	0	+1000 MP, +1000 HP
 tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)
-temperance whiskey	3	1	good	0	0	0	0	Unspaded
 tempura avocado	1	5	EPIC	5-7	0	0	50
 tempura avocado bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	45-65	80 Fishy
 tempura avocado bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy
