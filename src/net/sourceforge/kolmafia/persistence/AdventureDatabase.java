@@ -100,6 +100,7 @@ public class AdventureDatabase
 	private static final HashMap<String, String> bountyLookup = new HashMap<String, String>();
 	private static final HashMap<String, Integer> statLookup = new HashMap<String, Integer>();
 	private static final HashMap<String, Integer> waterLevelLookup = new HashMap<String, Integer>();
+	private static final HashMap<String, Boolean> wandererLookup = new HashMap<String, Boolean>();
 
 	static
 	{
@@ -204,6 +205,7 @@ public class AdventureDatabase
 			String environment = null;
 			int stat = -1;
 			int waterLevel = -1;
+			boolean hasWanderers = true;
 			StringTokenizer tokens = new StringTokenizer( data[ 2 ], " " );
 			while ( tokens.hasMoreTokens() )
 			{
@@ -219,6 +221,10 @@ public class AdventureDatabase
 				else if ( option.equals( "Level:" ) )
 				{
 					waterLevel = StringUtilities.parseInt( tokens.nextToken() );
+				}
+				else if ( option.equals( "nowander" ) )
+				{
+					hasWanderers = false;
 				}
 			}
 
@@ -243,6 +249,9 @@ public class AdventureDatabase
 			AdventureDatabase.environmentLookup.put( name, environment );
 
 			AdventureDatabase.statLookup.put( name, stat );
+
+			hasWanderers = hasWanderers && location[ 0 ].equals( "adventure" );
+			AdventureDatabase.wandererLookup.put( name, hasWanderers );
 
 			// Build base water level if not specified
 			if ( waterLevel == -1 )
@@ -973,6 +982,17 @@ public class AdventureDatabase
 			return -1;
 		}
 		return waterLevel;
+	}
+
+	public static final boolean hasWanderers( final String adventureName, final boolean adv )
+	{
+		Boolean hasWanderers = AdventureDatabase.wandererLookup.get( adventureName );
+		if ( hasWanderers == null )
+		{
+			return adv;
+		}
+
+		return hasWanderers;
 	}
 
 	public static class AdventureArray
