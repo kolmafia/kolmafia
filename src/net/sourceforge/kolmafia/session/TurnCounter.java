@@ -524,7 +524,7 @@ public class TurnCounter
 		{
 			return;
 		}
-		if ( !KoLAdventure.lastVisitedLocation().hasWanderers() )
+		if ( KoLAdventure.lastVisitedLocation() == null || !KoLAdventure.lastVisitedLocation().hasWanderers() )
 		{
 			return;
 		}
