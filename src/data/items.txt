@@ -9570,7 +9570,7 @@
 9544	O	791555172	xoo.gif	none	t,d	1
 9545	DUFRESNE Suds	269565518	beerbottle.gif	drink	t,d	100	bottles of DUFRESNE Suds
 9546	mafia pinky ring	608546842	mafiaring1.gif	accessory	t	0
-9547	flask of port	181458610	flask.gif	drink	t,d	299
+9547	flask of port	181458610	flask.gif	drink	t,d	299	flasks of port
 9548	contract enforcement stick	704099753	kneestick.gif	weapon	t,d	95
 9549	Hide-rox&trade; cookie	458669388	xocookie.gif	food	t,d	5
 9550	jug of booze	817676160	jug.gif	drink	t,d	5	jugs of booze
