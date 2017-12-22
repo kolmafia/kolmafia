@@ -15534,6 +15534,7 @@ public abstract class ChoiceManager
 		case 1270: // Pantagramming
 		case 1271: // Mummery
 		case 1272: // R&D
+		case 1273: // The Cursed Warehouse
 			return true;
 
 		default:
