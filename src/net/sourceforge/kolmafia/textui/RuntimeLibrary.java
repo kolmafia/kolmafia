@@ -748,6 +748,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "get_shop", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_shop_log", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_stash", DataTypes.ITEM_TO_INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4023,6 +4026,27 @@ public abstract class RuntimeLibrary
 				    new Value( item.getQuantity() ) );
 		}
 
+		return value;
+	}
+
+	public static Value get_shop_log( Interpreter interpreter )
+	{
+		if ( !KoLCharacter.hasStore() )
+		{
+			return new Value( DataTypes.STRING_TYPE );
+		}
+		RequestThread.postRequest( new ManageStoreRequest(true) );
+		List<StoreManager.StoreLogEntry> list = StoreManager.getStoreLog();
+		AggregateValue value =
+			new ArrayValue( new AggregateType( DataTypes.STRING_TYPE, list.size() ) );
+		for ( int i = 0; i < list.size(); i++ )
+		{
+			StoreManager.StoreLogEntry sle = list.get( i );
+			if ( sle != null )
+			{
+				value.aset( new Value( i ), new Value( sle.toString() ) );
+			}
+		}
 		return value;
 	}
 
