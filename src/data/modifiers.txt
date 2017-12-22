@@ -2825,7 +2825,6 @@ Item	mime army insignia (pyrotechnics)	Single Equip
 Item	mime army insignia (sanitation)	Single Equip
 # Item mime-proof sunglasses: Damage from mimes is reduced by 50
 Item	mime-proof sunglasses	Single Equip
-Item	Mimebo TP #1	Moxie: +2
 Item	miming boots	Damage Reduction: 10, Spooky Resistance: +3, Single Equip
 Item	miming gloves	Damage Reduction: 10, Sleaze Resistance: +3, Single Equip
 Item	mini-marshmallow dispenser	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8
@@ -3317,6 +3316,8 @@ Item	tiny plastic lobsterfrogman	Monster Level: +1
 Item	tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1, Single Equip
 Item	tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 Item	tiny plastic MechaElf	Monster Level: +4
+Item	tiny plastic mime functionary	Moxie: +2
+Item	tiny plastic mime scientist	Mysticality: +2
 Item	tiny plastic Mob Penguin	Weapon Damage: +3
 Item	tiny plastic moneybee	Monster Level: +1
 Item	tiny plastic mosquito	Familiar Weight: +1
