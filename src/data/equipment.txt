@@ -2394,7 +2394,6 @@ mime army insignia (psychological warfare)	0	Mys: 200
 mime army insignia (pyrotechnics)	0	Mys: 200
 mime army insignia (sanitation)	0	Mys: 200
 mime-proof sunglasses	0	none
-Mimebo TP #1	0	none
 miming boots	0	none
 miming gloves	0	none
 mini-marshmallow dispenser	100	none
@@ -2837,6 +2836,8 @@ tiny plastic lobsterfrogman	10	none
 tiny plastic Lord Flameface	50	Mys: 10
 tiny plastic Lord Spookyraven	50	Mys: 10
 tiny plastic MechaElf	0	none
+tiny plastic mime functionary	0	none
+tiny plastic mime scientist	0	none
 tiny plastic Mob Penguin	0	none
 tiny plastic moneybee	10	none
 tiny plastic mosquito	10	none

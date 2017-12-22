@@ -9609,8 +9609,8 @@
 9583	hushed puppy	838937183	sc_ball.gif	food	t	0
 9584	muffled muffuletta	258372747	panini.gif	food	t	0
 9585	shushed potatoes	469205888	mashedpots.gif	food	t	0
-9586	Mimebo TP #1	569695461	c17tp1.gif	accessory	t	0
-9587
+9586	tiny plastic mime functionary	569695461	c17tp1.gif	accessory	t	0
+9587	tiny plastic mime scientist	142705213	c17tp2.gif	accessory	t	0
 9588
 9589
 9590
