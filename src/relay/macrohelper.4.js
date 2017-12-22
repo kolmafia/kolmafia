@@ -49,6 +49,7 @@ var argCmds = {
 // Cmds which can be followed by an arbitrary argument (not further parsed)
 	"abort": true,
 	"skill": true,
+        "cast": true,
 	"use": true,
 	"icon": true,
 };
