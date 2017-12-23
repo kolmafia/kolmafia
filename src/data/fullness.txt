@@ -781,7 +781,7 @@ tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
 Tea, Earl Grey, Hot	1	1	EPIC	6-7	0	0	0	+1000 MP, +1000 HP
 tea for one	1	5	good	2-3	0	10-20	0	One For Tea (+10-15 MP Regen)
-temperance whiskey	3	1	good	0	0	0	0	Unspaded, 100 Old Time Hydration (+30 all stats)
+temperance whiskey	3	1	good	8-10	20-30	20-30	20-30	100 Old Time Hydration (+30 all stats)
 tempura avocado	1	5	EPIC	5-7	0	0	50
 tempura avocado bento box with anemone sauce	5	1	EPIC	24-32	75-95	5-15	45-65	80 Fishy
 tempura avocado bento box with eel sauce	5	1	EPIC	24-32	5-15	5-15	45-65	80 Fishy

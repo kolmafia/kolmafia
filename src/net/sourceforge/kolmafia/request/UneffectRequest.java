@@ -325,6 +325,10 @@ public class UneffectRequest
 			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.SAUCEROR ?
 							     EffectPool.BLOOD_SUGAR_SAUCE_MAGIC :
 							     EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE );
+		case SkillPool.SILENT_HUNTER:
+			return EffectDatabase.getEffectName( KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER ?
+							     EffectPool.SILENT_HUNTING :
+							     EffectPool.NEARLY_SILENT_HUNTING );
 		}
 
 		// Handle remaining skills with a lookup

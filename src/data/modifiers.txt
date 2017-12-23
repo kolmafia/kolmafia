@@ -3318,6 +3318,7 @@ Item	tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 Item	tiny plastic MechaElf	Monster Level: +4
 Item	tiny plastic mime functionary	Moxie: +2
 Item	tiny plastic mime scientist	Mysticality: +2
+Item	tiny plastic mime soldier	Muscle: +2
 Item	tiny plastic Mob Penguin	Weapon Damage: +3
 Item	tiny plastic moneybee	Monster Level: +1
 Item	tiny plastic mosquito	Familiar Weight: +1
@@ -5026,6 +5027,7 @@ Effect	Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -1
 Effect	Everything Must Go!	Combat Rate: +10
 Effect	Everything's Zen	Experience Percent (Mysticality): +20
 # EVISCERATE!: Attacks enemies every round
+Effect	Executive Greed	Meat Drop: +50
 # Existential Torment: Who are you?  Who are you <i>really</i>?
 Effect	Experimental Effect G-9	Muscle Percent: [pref(_g9Effect)], Mysticality Percent: [pref(_g9Effect)], Moxie Percent: [pref(_g9Effect)]
 # Expert Oiliness: Makes your Muscle and Moxie equal to your Mysticality
@@ -5455,6 +5457,7 @@ Effect	Intimidating Mien	Spooky Damage: +15
 Effect	Into the Friar	Avatar: "black friar"
 # Invisible (20 Minutes Ago): Makes You Invisible In The Past
 Effect	Invisible (20 Minutes Ago)	Critical Hit Percent: +15, Spell Critical Percent: +15
+Effect	Invisible Avarice	Meat Drop: +50
 # Effect Invisible Ties
 Effect	Ironclad	Damage Absorption: +50, Damage Reduction: 10
 # Iron Palms: Swords count as clubs
@@ -5715,6 +5718,7 @@ Effect	Natural 20	Initiative: +100
 Effect	Nature's Bounty	Maximum HP: +300, HP Regen Min: 80, HP Regen Max: 100
 Effect	Nauseated	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
 Effect	Nearly All-Natural	Mysticality Percent: +200, Booze Drop: +60
+Effect	Nearly Silent Hunting	Initiative: +25
 Effect	Negavision	Item Drop: +25
 # Nerd is the Word: +25% Item Drops from Monsters (Chemistry Class only)
 Effect	Nerd is the Word	Mysticality: +5, Item Drop: [25*loc(Chemistry Class)]
@@ -5943,6 +5947,9 @@ Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
 Effect	Quantum of Moxie	Moxie: +30
+Effect	Quiet Desperation	Moxie Percent: +25
+Effect	Quiet Determination	Muscle Percent: +25
+Effect	Quiet Judgement	Mysticality Percent: +25
 Effect	Quivering with Rage	Muscle Percent: -10
 # QWOPped Up: Always Fumble
 Effect	QWOPped Up	Initiative: -100
@@ -6093,6 +6100,8 @@ Effect	Shrieking Weasel	Monster Level: +30
 Effect	Shrimpin' Ain't Easy	Familiar Weight: +5
 # Side Affectation: Extra-Vulnerable to Hot and Stench
 Effect	Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+# Silent Hunting: You do not gain Fury
+Effect	Silent Hunting	Initiative: +100
 # Silent Running: Decreased chance of random PvP Attacks
 Effect	Silent Running	Combat Rate: -5
 Effect	Silver Age Secrets	Spell Damage Percent: [200*zone(Dreadsylvania)]
@@ -7669,6 +7678,7 @@ Item	En Una Fila Tequila	Effect: "Mr. Skullhead's Birthday Happiness", Effect Du
 Item	evil ducha de oro	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	evil horizontal tango	Effect: "[601]A Little Bit Evil", Effect Duration: 10
 Item	evil roll in the hay	Effect: "[601]A Little Bit Evil", Effect Duration: 10
+Item	executive mime flask	Effect: "Executive Greed", Effect Duration: 50
 Item	expired bottle of peppermint schnapps	Effect: "Crimbo Nostalgia", Effect Duration: 30
 Item	Extra-slimy Slimosa	Effect: "In the Slimelight", Effect Duration: 10
 Item	extremely slippery nipple	Effect: "Slippery Tongue", Effect Duration: 40
