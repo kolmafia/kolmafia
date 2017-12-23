@@ -2332,10 +2332,17 @@
 2331	Noise Cancelled	echo.gif	b801fb016e420c27d463841cc9825ea0	eat either 1 shushed potatoes, 1 muffled muffuletta, 1 hushed puppy
 2332	Old Time Hydration	glassofwater.gif	61ac2e8fef83b9aae67b1c45184a964d	eat 1 temperance whiskey
 2333	Slightly Cursed, Mostly Lucky	wishbone.gif	744905696229e8ac6521ad39fa8f9ee8	use 1 cursed wishbone
-
+2334
+2335
+2336	Silent Hunting	silenthunter.gif	0efb8c6d453e759ca2c600663640606d	cast 1 Silent Hunter
+2337	Nearly Silent Hunting	silenthunter.gif	1d67f1c5e45b5dc5e3a574ea69bd2d7c	cast 1 Silent Hunter
+2338	Quiet Determination	quietresolve.gif	6b018d046a7e757d582972a4c6947adb	cast 1 Quiet Determination
+2339	Quiet Judgement	quietjudgement.gif	8266e79da042d3f8550fa6c6434b8ef2	cast 1 Quiet Judgement
+2340	Quiet Desperation	quietdesperation.gif	6c164cc319f8af0dbf9fde3f06e4e9f6	cast 1 Quiet Desperation
 2341	I'll Have the Soup	syringe.gif	0b275b69ba19320abda41b67eb2c837c	chew 1 mime army superserum
-2342
+2342	Invisible Avarice	negadollars.gif	557ddc1ee34fba9532971b3272cd5eb5
 2343	Cheered Up	upsoda.gif	351e7fa00df23aac907f66716397a84d	use 1 Cheer-Up soda
 2344	Mimeoflage	mimeface.gif	9d8574b23083e7bc1a0d42b4a85855c8	use 1 mime army camouflage kit
 2345	Negavision	negavision1.gif	38cf3bcdc339faa7aaae60209d078d22	eat 1 nega-mushroom
 2346	Double Negavision	negavision2.gif	f48fa25f72d1234b295f4ffbdccbe0c9	drink 1 nega-mushroom wine
+2347	Executive Greed	dollarsign.gif	0ae9f292d306d28d06092c15763b905d	drink 1 executive mime flask

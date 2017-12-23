@@ -9611,7 +9611,7 @@
 9585	shushed potatoes	469205888	mashedpots.gif	food	t	0
 9586	tiny plastic mime functionary	569695461	c17tp1.gif	accessory	t	0
 9587	tiny plastic mime scientist	142705213	c17tp2.gif	accessory	t	0
-9588
+9588	tiny plastic mime soldier	687240246	c17tp3.gif	accessory	t	0
 9589
 9590
 9591	locked mumming trunk	396670020	mumtrunk_closed.gif	usable	t	0
@@ -9671,7 +9671,7 @@
 9645	The Journal of Mime Science Vol. 6	262403320	book3.gif	usable	t	0
 9646	The Journal of Mime Science Vol. 6 (used)	425423509	book3.gif	usable		0
 9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
-9648
+9648	executive mime flask	746119332	flask.gif	drink	t	0
 9649	nega-mushroom	366604257	negashroom.gif	food	t	0
 9650	nega-mushroom wine	888851431	wine2.gif	drink	t	0
 9651	Cheer-Up soda	844601600	upsoda.gif	usable	t,d	0
