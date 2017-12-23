@@ -9659,17 +9659,17 @@
 9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
 9634	cheerful pajama pants	710000634	c17pants.gif	pants	t	0
 9635	The Journal of Mime Science Vol. 1	256661273	book3.gif	usable	t	0
-9636	The Journal of Mime Science Vol. 1 (used)	549293466	book3.gif	usable		0
+9636	The Journal of Mime Science Vol. 1 (used)	549293466	book3.gif	reusable		0
 9637	The Journal of Mime Science Vol. 2	216127556	book3.gif	usable	t	0
-9638	The Journal of Mime Science Vol. 2 (used)	234763537	book3.gif	usable		0
+9638	The Journal of Mime Science Vol. 2 (used)	234763537	book3.gif	reusable		0
 9639	The Journal of Mime Science Vol. 3	524425167	book3.gif	usable	t	0
-9640	The Journal of Mime Science Vol. 3 (used)	130342003	book3.gif	usable		0
+9640	The Journal of Mime Science Vol. 3 (used)	130342003	book3.gif	reusable		0
 9641	The Journal of Mime Science Vol. 4	347211977	book3.gif	usable	t	0
-9642	The Journal of Mime Science Vol. 4 (used)	801373544	book3.gif	usable		0
+9642	The Journal of Mime Science Vol. 4 (used)	801373544	book3.gif	reusable		0
 9643	The Journal of Mime Science Vol. 5	336611126	book3.gif	usable	t	0
-9644	The Journal of Mime Science Vol. 5 (used)	404767873	book3.gif	usable		0
+9644	The Journal of Mime Science Vol. 5 (used)	404767873	book3.gif	reusable		0
 9645	The Journal of Mime Science Vol. 6	262403320	book3.gif	usable	t	0
-9646	The Journal of Mime Science Vol. 6 (used)	425423509	book3.gif	usable		0
+9646	The Journal of Mime Science Vol. 6 (used)	425423509	book3.gif	reusable		0
 9647	mime eraser	367107905	mimeeraser.gif	none, combat	t,d	0
 9648	executive mime flask	746119332	flask.gif	drink	t	0
 9649	nega-mushroom	366604257	negashroom.gif	food	t	0
