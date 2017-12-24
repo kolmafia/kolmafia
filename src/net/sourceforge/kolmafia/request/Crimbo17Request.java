@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
@@ -79,7 +80,30 @@ public class Crimbo17Request
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean canBuyItem( final int itemId )
+			{
+				String classType = KoLCharacter.getClassType();
+				switch ( itemId )
+				{
+				case ItemPool.MIME_SCIENCE_VOL_1:
+					return classType.equals( KoLCharacter.SEAL_CLUBBER );
+				case ItemPool.MIME_SCIENCE_VOL_2:
+					return classType.equals( KoLCharacter.TURTLE_TAMER );
+				case ItemPool.MIME_SCIENCE_VOL_3:
+					return classType.equals( KoLCharacter.PASTAMANCER );
+				case ItemPool.MIME_SCIENCE_VOL_4:
+					return classType.equals( KoLCharacter.SAUCEROR );
+				case ItemPool.MIME_SCIENCE_VOL_5:
+					return classType.equals( KoLCharacter.DISCO_BANDIT );
+				case ItemPool.MIME_SCIENCE_VOL_6:
+					return classType.equals( KoLCharacter.ACCORDION_THIEF );
+				}
+				return super.canBuyItem( itemId );
+			}
+		};
 
 	public Crimbo17Request()
 	{
