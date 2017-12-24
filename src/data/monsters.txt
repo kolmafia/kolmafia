@@ -2363,6 +2363,7 @@ The Silent Nightmare	2049	c17_bossguy.gif	BOSS NOMANUEL Att: 100 Def: 100 HP: 20
 mouthless murmur	2043	mimemurmur.gif	WANDERER Scale: -11 Init: -10000 P: weird Phys: 100
 silent scream	2042	mimescream.gif	WANDERER Scale: 1 Init: -10000 P: weird
 voiceless whisper	2041	mimewhisper.gif	WANDERER Scale: -3 Init: 150 P: weird
+The Silent Nightmare	-27	c17_bossguy.gif	NOMANUEL Def: 0 Atk: 0 HP: 250 Init: -10000 P: horror
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
