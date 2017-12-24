@@ -3316,6 +3316,7 @@ Item	tiny plastic lobsterfrogman	Monster Level: +1
 Item	tiny plastic Lord Flameface	Hot Damage: +20, Cold Resistance: +1, Single Equip
 Item	tiny plastic Lord Spookyraven	Maximum MP: +30, Spell Damage: +10
 Item	tiny plastic MechaElf	Monster Level: +4
+Item	tiny plastic mime executive	Meat Drop: +4
 Item	tiny plastic mime functionary	Moxie: +2
 Item	tiny plastic mime scientist	Mysticality: +2
 Item	tiny plastic mime soldier	Muscle: +2

@@ -2359,6 +2359,7 @@ cheerless mime scientist	2045	mimesci1.gif,mimesci2.gif,mimesci3.gif	Scale: 15 I
 cheerless mime soldier	2046	mimebat1.gif,mimebat2.gif,mimebat3.gif	Scale: 30 Init: 200 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 cheerless mime vizier	2047	mimeseer1.gif,mimeseer2.gif,mimeseer3.gif	Scale: 45 Init: 300 P: horror	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)
 cheerless mime executive	2048	mimeexec1.gif,mimeexec2.gif,mimeexec3.gif	Scale: 60 Init: 400 P: horror Phys: 100 Meat: 1500	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	crystalline cheer (n100)	warehouse key (p0)
+The Silent Nightmare	2049	c17_bossguy.gif	BOSS NOMANUEL Att: 100 Def: 100 HP: 200 Init: 100 P: horror
 mouthless murmur	2043	mimemurmur.gif	WANDERER Scale: -11 Init: -10000 P: weird Phys: 100
 silent scream	2042	mimescream.gif	WANDERER Scale: 1 Init: -10000 P: weird
 voiceless whisper	2041	mimewhisper.gif	WANDERER Scale: -3 Init: 150 P: weird
