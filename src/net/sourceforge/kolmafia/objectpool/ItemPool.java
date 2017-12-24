@@ -2888,6 +2888,7 @@ public class ItemPool
 	public static final int MIME_SCIENCE_VOL_5_USED = 9644;
 	public static final int MIME_SCIENCE_VOL_6 = 9645;
 	public static final int MIME_SCIENCE_VOL_6_USED = 9646;
+	public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
