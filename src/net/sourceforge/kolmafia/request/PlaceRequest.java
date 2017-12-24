@@ -466,6 +466,17 @@ public class PlaceRequest
 		{
 			// A Meditation Mat
 		}
+		else if ( place.equals( "crimbo17_silentnight" ) )
+		{
+			if ( action.equals( "crimbo17_bossfight" ) )
+			{
+				message = "Mime-Head Building";
+			}
+			else if ( action.equals( "crimbo17_warehouse" ) )
+			{
+				message = "The Warehouse";
+			}
+		}
 		else if ( place.equals( "crashsite" ) )
 		{
 			if ( action.equals( "crash_ship" ) )
