@@ -5061,7 +5061,8 @@ public abstract class KoLCharacter
 			  KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ||
 			  KoLCharacter.classtype == KoLCharacter.GELATINOUS_NOOB ||
 			  KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.FORM_OF_BIRD ) ) ||
-			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) );
+			  KoLCharacter.hasEquipped( ItemPool.TINY_BLACK_HOLE, EquipmentManager.OFFHAND ) ||
+			  KoLCharacter.hasEquipped( ItemPool.MIME_ARMY_INFILTRATION_GLOVE ) );
 	}
 
 	public static final boolean isTorsoAware()
@@ -5483,6 +5484,11 @@ public abstract class KoLCharacter
 	public static final boolean hasEquipped( final AdventureResult item )
 	{
 		return KoLCharacter.equipmentSlot( item ) != EquipmentManager.NONE;
+	}
+
+	public static final boolean hasEquipped( final int itemId )
+	{
+		return KoLCharacter.hasEquipped( ItemPool.get( itemId, 1 ) );
 	}
 
 	public static final boolean hasEquipped( AdventureResult[] equipment, final AdventureResult item, final int equipmentSlot )
