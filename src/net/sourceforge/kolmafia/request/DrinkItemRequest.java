@@ -655,8 +655,6 @@ public class DrinkItemRequest
 
 		if ( responseText.contains( "You pour your drink into your mime army shotglass." ) )
 		{
-			// Only 1 is consumed, regardless of how many we tried to consume
-			item = item.getInstance( 1 );
 			Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
 		}
 
