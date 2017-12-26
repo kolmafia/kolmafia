@@ -873,6 +873,10 @@ public class Evaluator
 		// Return true if effect cannot be gained due to current other effects or class
 		switch ( effectId )
 		{
+		case EffectPool.NEARLY_SILENT_HUNTING:
+			return KoLCharacter.getClassType() == KoLCharacter.SEAL_CLUBBER;
+
+		case EffectPool.SILENT_HUNTING:
 		case EffectPool.BARREL_CHESTED:
 			return KoLCharacter.getClassType() != KoLCharacter.SEAL_CLUBBER;
 
