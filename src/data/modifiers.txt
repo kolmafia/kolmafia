@@ -3367,6 +3367,7 @@ Item	tiny plastic Tammy the Tambourine Elf	Cold Resistance: +2
 Item	tiny plastic The Big Wisniewski	Food Drop: +3
 Item	tiny plastic the Free Man	Mysticality: +5
 Item	tiny plastic The Man	Meat Drop: +3
+Item	tiny plastic The Silent Nightmare	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
 Item	tiny plastic topiary golem	Monster Level: +1
 Item	tiny plastic Toybot	Accessory Drop: +10
 Item	tiny plastic trollipop	Monster Level: +5
