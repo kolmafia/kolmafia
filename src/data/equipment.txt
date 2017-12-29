@@ -1270,6 +1270,7 @@ pottery club	50	Mus: 0	1-handed club
 pottery yo-yo	50	Mox: 0	1-handed yoyo
 poutine pole	55	Mus: 12	2-handed staff
 prehistoric spear	100	Mox: 35	1-handed spear
+primitive alien blowgun	50	Mox: 10	1-handed blowgun
 primitive alien spear	50	Mus: 10	1-handed spear
 projectile icemaker	125	Mox: 45	2-handed crossbow
 protection stick	90	Mus: 30	1-handed club
