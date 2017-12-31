@@ -832,13 +832,21 @@ public class UseItemEnqueuePanel
 				}
 			}
 
-			if ( creation.fancydog && !Limitmode.limitClan() &&
+			if ( Limitmode.limitClan() )
+			{
+				if ( creation.hotdog || creation.speakeasy )
+				{
+					return false;
+				}
+			}
+
+			if ( creation.fancydog &&
 			     ( ConcoctionDatabase.queuedFancyDog || Preferences.getBoolean( "_fancyHotDogEaten" ) ) )
 			{
 				return false;
 			}
 
-			if ( creation.speakeasy && !Limitmode.limitClan() &&
+			if ( creation.speakeasy && 
 			     ( ConcoctionDatabase.queuedSpeakeasyDrink + Preferences.getInteger( "_speakeasyDrinksDrunk" ) >= 3 ) )
 			{
 				return false;
