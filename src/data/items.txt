@@ -9098,7 +9098,7 @@
 9072	cop dollar	531860263	copdollar.gif	none		0
 9073	detective school application	931322505	letter.gif	usable	t	0
 9074	detective roscoe	419814689	happiness.gif	weapon		0
-9075	shoe gum	921140332	glueglob.gif	usable	t,d	10	pieces of shoe gum
+9075	shoe gum	921140332	glueglob.gif	multiple	t,d	10	pieces of shoe gum
 9076	noir fedora	497634669	hobofedora.gif	hat	t	0
 9077	trench coat	846204080	trenchcoat.gif	shirt	t	0
 9078	Falcon&trade; Maltese Liquor	403046915	good40.gif	drink	t,d	10	40s of Falcon&trade; Maltese Liquor
@@ -9574,7 +9574,7 @@
 9548	contract enforcement stick	704099753	kneestick.gif	weapon	t,d	95
 9549	Hide-rox&trade; cookie	458669388	xocookie.gif	food	t,d	5
 9550	jug of booze	817676160	jug.gif	drink	t,d	5	jugs of booze
-9551	pair of candy glasses	407570273	xoglasses.gif	usable, candy1	t,d	5	pairs of candy glasses
+9551	pair of candy glasses	407570273	xoglasses.gif	multiple, candy1	t,d	5	pairs of candy glasses
 9552	temporary X tattoos	857889805	xotats.gif	usable	t,d	5	sets of temporary X tattoos
 9553	glyph of athleticism	879213986	xorings.gif	spleen, usable	t,d	5	glyphs of athleticism
 9554	pair of scissors	690072174	xoscissors.gif	none, combat	t,d	5	pairs of scissors
