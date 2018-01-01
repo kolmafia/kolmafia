@@ -2346,3 +2346,6 @@
 2345	Negavision	negavision1.gif	38cf3bcdc339faa7aaae60209d078d22	eat 1 nega-mushroom
 2346	Double Negavision	negavision2.gif	f48fa25f72d1234b295f4ffbdccbe0c9	drink 1 nega-mushroom wine
 2347	Executive Greed	dollarsign.gif	0ae9f292d306d28d06092c15763b905d	drink 1 executive mime flask
+2348
+2349
+2350	Nightlit	silentnightlight.gif	a404d3f8ddfb6a8c5556494431ba56fc

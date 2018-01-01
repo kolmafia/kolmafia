@@ -2589,6 +2589,7 @@ shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
 sicksilver ring	100	Mys: 10
+silent nightlight	0	none
 silver detective badge	0	none
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
