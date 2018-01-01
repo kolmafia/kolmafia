@@ -3046,6 +3046,7 @@ Item	shiny tribal beads	Mysticality: +6
 # shock belt: Shocks enemies that hit you
 Item	shock belt	Single Equip
 Item	sicksilver ring	Stench Damage: +20, Stench Spell Damage: +40, Muscle: +10, Single Equip
+Item	silent nightlight	Muscle: +5, Mysticality: +5, Moxie: +5, Rollover Effect: "Nightlit", Rollover Effect Duration: 50
 Item	silver detective badge	Maximum HP: +30, Maximum MP: +30, Item Drop: +15, Meat Drop: +25
 Item	silver tongue charrrm bracelet	Moxie: +5, Spell Damage: +10, Single Equip
 # Sister Accessory: (minimum of +20 Meat)
@@ -5739,6 +5740,7 @@ Effect	Newt Gets In Your Eyes	Moxie: +25
 Effect	Nigh-Invincible	Maximum HP Percent: +100, Maximum MP Percent: +100, Spell Damage Percent: +100, Weapon Damage Percent: +100
 Effect	Night of the Nachos	Spooky Spell Damage: +50, Spell Damage Percent: +100
 Effect	Night Vision	Meat Drop: +30
+Effect	Nightlit	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Nightstalkin'	Critical Hit Percent: +10
 Effect	Nihao You Doin'?	Avatar: "lucky cat statue"
 Effect	Ninja in Waiting	Avatar: "ninja dressed as a waiter"
