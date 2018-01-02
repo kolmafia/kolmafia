@@ -453,6 +453,7 @@ Item	Van der Graaf helmet	Maximum MP: +15, MP Regen Min: 1, MP Regen Max: 3, Fam
 Item	very pointy crown	Experience (Moxie): +5, Adventures: +5, Moxie Percent: +50, Combat Rate: -5, Lasts Until Rollover, Familiar Effect: "atk, 1xGhuol"
 Item	viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 Item	Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6, Familiar Effect: "1xPotato, 1xGhoul, cap 37"
+Item	wad of used tape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Item Drop: +15, Meat Drop: +30, Lasts Until Rollover
 Item	warbear dress helmet	Moxie: +10, Booze Drop: +25, Familiar Effect: "cold atk, 1xVolley, cap 25"
 # warbear electro-spiked helm: +60 WarBear Armor Penetration
 # warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
@@ -738,6 +739,7 @@ Item	three-legged pants	Muscle: +2, Maximum HP: +5, Familiar Effect: "hot atk, c
 Item	thunder down underwear	Damage Absorption: +100, Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20, Lasts Until Rollover
 Item	tighty whiteys	Spooky Resistance: +2, Familiar Effect: "sleaze atk, 3xVolley, cap 10"
 Item	time trousers	Adventures: +3, Familiar Effect: "1xPotato, cap 25"
+Item	tinsel tights	Monster Level: +25, Sleaze Damage: +10, Lasts Until Rollover
 Item	topiary tights	Cold Resistance: +3, Spooky Resistance: +3
 # toy Crimbot rocket legs: Allows use of BURN in combat
 Item	toy Crimbot rocket legs	Initiative: +30, Crimbot Outfit Power: +1
@@ -871,6 +873,8 @@ Item	Liam's mail	Damage Absorption: +50, Muscle Percent: +10, Experience: +2
 Item	loathing eagle baby-doll shirt	Moxie: +3
 Item	LOV Eardigan	Experience Percent (Muscle): +25, HP Regen Min: 8, HP Regen Max: 12, Monster Level: +25, Lasts Until Rollover
 Item	lynyrdskin tunic	Initiative: +25
+# Item makeshift garbage shirt: Doubles stat gains from monsters while it's readable
+Item	makeshift garbage shirt	Experience: +3, PvP Fights: +3, Stench Damage: +10, Lasts Until Rollover
 Item	Mer-kin breastplate	Damage Absorption: +40, HP Regen Min: 10, HP Regen Max: 20
 Item	metal band T-shirt	Monster Level: +15
 Item	midriff scrubs	Sleaze Damage: +10, Sleaze Spell Damage: +20
@@ -1037,6 +1041,8 @@ Item	breadwand	Spell Damage: +3
 Item	BRICKO sword	Weapon Damage: +6
 Item	Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Damage: +30, Brimstone
 # broken beer bottle
+# Item broken champagne bottle: Doubles item drop bonus while the champagne flows
+Item	broken champagne bottle	MP Regen Min: 4, MP Regen Max: 8, Weapon Damage Percent: +50, Lasts Until Rollover
 Item	broken sword	Spooky Resistance: +1
 Item	bubble bauble bow	Moxie: +3, Mysticality: +2, Item Drop: +5
 Item	bubblewrap crossbow	Moxie: +3, Mysticality: +2
@@ -1908,6 +1914,8 @@ Item	cuddly teddy bear	Monster Level: +10
 Item	cup of infinite pencils	Meat Drop: +15
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
+# Item deceased crimbo tree: Blocks damage while needles remain
+Item	deceased crimbo tree	Lasts Until Rollover
 Item	deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +69, Sleaze Spell Damage: +69
 Item	deck of tropical cards	Experience: +1, Stat Tuning: "Mysticality"
 # defective skull
