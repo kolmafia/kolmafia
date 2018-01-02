@@ -664,6 +664,17 @@ public class ConsumablesDatabase
 		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
 	}
 
+	public static final boolean roninRestricted( final String name )
+	{
+		if ( name == null )
+		{
+			return false;
+		}
+
+		Integer requirement = ConsumablesDatabase.levelReqByName.get( name );
+		return requirement == null ? false : requirement.intValue() >= 13;
+	}
+
 	public static final Integer getRawFullness( final String name )
 	{
 		if ( name == null )
