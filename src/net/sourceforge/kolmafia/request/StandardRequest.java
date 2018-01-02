@@ -45,6 +45,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+
 public class StandardRequest
 	extends GenericRequest
 {
@@ -93,6 +95,11 @@ public class StandardRequest
 	private static boolean isNotRestricted( final List<String> list, final String key )
 	{
 		StandardRequest.initialize();
+		// Consumables needing level 13 of higher are restricted in Standard
+		if ( ConsumablesDatabase.roninRestricted( key ) )
+		{
+			return false;
+		}
 		return list.indexOf( key.toLowerCase() ) == -1;
 	}
 

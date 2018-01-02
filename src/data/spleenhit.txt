@@ -32,7 +32,7 @@ bit-o-cactus	1	1	good	0	0	10-12	0
 black paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-stortionary Tactics (+50% meat drop)
 black polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-stortionary Tactics (+50% meat drop)
 black striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stortionary Tactics (+50% meat drop)
-blood-drive sticker	10	3	awesome	40	250-300	250-300	250-300
+blood-drive sticker	10	13	awesome	40	250-300	250-300	250-300
 blue paisley oyster egg	1	1	good	0	0	11-15	0	31-35 MP
 blue polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 MP
 blue striped oyster egg	1	1	good	0	11-15	0	0	31-35 MP
@@ -47,7 +47,7 @@ carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
 chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
 coffee pixie stick	4	4	good	5-10	0	0	0
 cold jelly	1	1	crappy	0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking
-cold wad	1	6	decent	1	24-30	16-20	8-10	10 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
+cold wad	1	6	decent	0	50-60	30-40	10-20	20 Cold Blooded (+30% mus, +20% mys, +10% mox, cold dmg/res)
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
 Crimbo paste	4	4	good	5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
@@ -79,7 +79,7 @@ gooey paste	4	4	good	5-10	18-22	18-22	18-22
 greasy paste	4	4	good	5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
 grim fairy tale	4	1	good	5-10	20-30	20-30	20-30
 groose grease	4	1	good	5-10	20-30	20-30	20-30	50 Just the Best Anapests
-guy made of bee pollen	3	8	awesome	6-10	18-60	18-60	18-60
+guy made of bee pollen	3	8	awesome	0	100-150	100-150	100-150
 handful of moss	1	1	good	0	0	0	12-14
 handful of Smithereens	1	1	decent	1-2	0	0	0	100 Smithsness Presence (Smithsness: +10)
 Hatorade	5	1	crappy	0	0	0	0	+1 PvP fight
@@ -88,7 +88,7 @@ hippy paste	4	4	good	5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4	good	5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
 homeopathic mint tea	1	1	decent	1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 hot jelly	1	1	crappy	0	50-60	0	0	50 Hot Jellied (+3 mus stats/fight, +5 hot damage, +30% mus), grants one-use 20 turn banishing skill
-hot wad	1	6	decent	1	24-30	8-10	16-20	10 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
+hot wad	1	6	decent	0	50-60	10-20	30-40	20 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
 indescribably horrible paste	4	4	good	5-10	18-22	18-22	18-22	10 Indescribable Flavor (+30 spell dmg)
 Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
 jug-o-magicalness	1	3	good	0	0	8-10	0
@@ -138,15 +138,15 @@ residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
-sleaze wad	1	6	decent	1	12-15	12-15	24-30	10 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
+sleaze wad	1	6	decent	0	20-30	20-30	50-60	20 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
 slimy alveolus	1	5	decent	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
 slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
 SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
 spooky jelly	1	1	crappy	0	15-20	15-20	15-20	50 Spooky Jellied (+5 stats/fight, +5 spooky damage, +10% all stats), next monster defeated drops all items
-spooky wad	1	6	decent	1	8-10	24-30	16-20	10 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
+spooky wad	1	6	decent	0	10-20	50-60	30-40	20 Spooky Demeanor (+30% mys, +20% mox, +10% mus, spooky dmg/res)
 steel-scented air freshener	5	5	EPIC	0	0	0	0	Spleen of Steel skill
 stench jelly	1	1	crappy	0	15-20	15-20	15-20	50 Stench Jellied (+30 item drop, +5 stench damage, +10% all stats), sets combat frequency to 0 til next non-combat
-stench wad	1	6	decent	1	16-20	24-30	8-10	10 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
+stench wad	1	6	decent	0	30-40	50-60	10-20	20 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
 strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
@@ -158,7 +158,7 @@ thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
 transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
 tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)
 turkey blaster	2	4	crappy	0	0	0	0	Restore 500-1000 HP/MP first 3 uses per day
-twinkly wad	1	6	decent	1	8-10	8-10	8-10	10 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
+twinkly wad	1	6	decent	0	15-20	15-20	15-20	20 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
 vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
