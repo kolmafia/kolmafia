@@ -9702,7 +9702,16 @@
 9676	mime army shotglass	592981629	marmyshotglass.gif	none		0
 9677	mime army challenge coin	202448379	marmycoin.gif	reusable		0
 9678	cheer extractor	258961043	billyclub.gif	weapon		0
-
+9679	kerosene-soaked skip	134037759	dumpsternofire.gif	grow	t	0
+9680	fireproof skip lid	664987460	dumpsterlid.gif	familiar	t,d	75
+9681	extra-toasted half sandwich	462950553	burntwich.gif	food	t,d	5
+9682	mulled hobo wine	273989589	burntwine.gif	drink	t,d	5
+9683	burning newspaper	328070245	fpm.gif	usable, combat	t,d	5
+9684
+9685	burning cape	876629337	fpmcape.gif	container	q	0
+9686
+9687
+9688	burning paper crane	990495182	fpmcrane.gif	offhand	q	0
 9689	January's Garbage Tote (unopened)	423585413	tote_closed.gif	usable	t	0
 9690	January's Garbage Tote	586693375	tote_open.gif	reusable		0
 9691	deceased crimbo tree	869634796	deadcrimbotree.gif	offhand	q	0
