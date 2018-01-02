@@ -1609,6 +1609,7 @@ BRICKO bulwark	60	none	shield
 Brimstone Bunker	240	Mus: 30	shield
 brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
+burning paper crane	100	none
 C.H.U.M. lantern	100	Mus: 150
 card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
@@ -1796,7 +1797,7 @@ Microplushie: Hobomosome	5	none
 Microplushie: Otakulone	5	none
 Microplushie: Raverdrine	5	none
 Microplushie: Sororitrate	5	none
-mime pocket probe	0	none
+mime pocket probe	10	none
 mini-zeppelin	10	none
 miniature candle	100	none
 miniature stuffed Goth Giant	10	none
@@ -2039,7 +2040,7 @@ ankleweights	100	Mys: 35
 anniversary balsa wood socks	10	none
 anniversary burlap belt	10	none
 Annual Ascot	0	none
-anti-earplugs	0	none
+anti-earplugs	10	none
 aquamariner's necklace	200	Mys: 85
 aquamariner's ring	200	Mys: 85
 arrrgyle socks	70	Mys: 20
@@ -2390,18 +2391,18 @@ Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
 meteorthopedic shoes	100	none
-mime army infiltration glove	0	Mox: 200
-mime army insignia (cryonics)	0	Mys: 200
-mime army insignia (espionage)	0	Mox: 200
-mime army insignia (infantry)	0	Mus: 200
-mime army insignia (intelligence)	0	Mys: 200
-mime army insignia (morale)	0	Mys: 200
-mime army insignia (psychological warfare)	0	Mys: 200
-mime army insignia (pyrotechnics)	0	Mys: 200
-mime army insignia (sanitation)	0	Mys: 200
-mime-proof sunglasses	0	none
-miming boots	0	none
-miming gloves	0	none
+mime army infiltration glove	50	Mox: 200
+mime army insignia (cryonics)	10	Mys: 200
+mime army insignia (espionage)	10	Mox: 200
+mime army insignia (infantry)	10	Mus: 200
+mime army insignia (intelligence)	10	Mys: 200
+mime army insignia (morale)	10	Mys: 200
+mime army insignia (psychological warfare)	10	Mys: 200
+mime army insignia (pyrotechnics)	10	Mys: 200
+mime army insignia (sanitation)	10	Mys: 200
+mime-proof sunglasses	10	none
+miming boots	50	none
+miming gloves	50	none
 mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
@@ -2594,7 +2595,7 @@ shiny ring	50	Mys: 10
 shiny tribal beads	80	Mys: 25
 shock belt	80	none
 sicksilver ring	100	Mys: 10
-silent nightlight	0	none
+silent nightlight	10	none
 silver detective badge	0	none
 silver tongue charrrm bracelet	190	Mys: 80
 Sister Accessory	0	none
@@ -3003,6 +3004,7 @@ bakelite backpack	120	Mus: 40
 barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
 Buddy Bjorn	100	none
+burning cape	0	none
 Camp Scout backpack	0	none
 carpe	0	none
 Cloak of Dire Shadows	120	none
