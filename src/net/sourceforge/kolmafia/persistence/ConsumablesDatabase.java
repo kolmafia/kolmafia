@@ -38,7 +38,6 @@ import java.io.PrintStream;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
@@ -661,18 +660,20 @@ public class ConsumablesDatabase
 		}
 
 		Integer requirement = ConsumablesDatabase.levelReqByName.get( name );
-		return requirement == null ? true : KoLCharacter.getLevel() >= requirement.intValue();
-	}
-
-	public static final boolean roninRestricted( final String name )
-	{
-		if ( name == null )
+		if ( requirement == null )
+		{
+			return true;
+		}
+		int req = (int) requirement;
+		if ( KoLCharacter.getLevel() < req )
 		{
 			return false;
 		}
-
-		Integer requirement = ConsumablesDatabase.levelReqByName.get( name );
-		return requirement == null ? false : requirement.intValue() >= 13;
+		if ( req >= 13 && !KoLCharacter.canInteract() )
+		{
+			return false;
+		}
+		return true;
 	}
 
 	public static final Integer getRawFullness( final String name )
