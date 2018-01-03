@@ -120,6 +120,7 @@ Item	brown paper bag mask	Moxie: +2, Maximum HP: +3, Maximum MP: +3
 Item	bubblewrap bottlecap turtleban	Mysticality: +3, Maximum MP: +5, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xPotato, 2xLep, cap 17"
 Item	bugbear beanie	Familiar Effect: "atk, cap 7"
 Item	bum cheek	Stench Resistance: +1, Familiar Effect: "stench atk, 1xVolley, cap 5"
+Item	burning paper hat	Stench Resistance: +3, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 6, HP Regen Max: 10, MP Regen Min: 6, MP Regen Max: 10, Lasts Until Rollover
 Item	catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarrr, cap 45"
 Item	centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7, Familiar Effect: "1xFairy, atk, cap 25"
 # Cerebral Cloche: Jellyfish Vision
@@ -535,6 +536,7 @@ Item	brown paper pants	Moxie: +2, Initiative: +10
 Item	bugbear bungguard	Familiar Effect: "5xBarrr, cap 7"
 Item	bullet-proof corduroys	Maximum MP: +40, Damage Reduction: 2, Familiar Effect: "stench atk, 1xBarrr, cap 42"
 Item	buoybottoms	Moxie: +11, Monster Level: +7, Initiative: -30, Familiar Effect: "1xPotato, 1xLep, cap 37"
+Item	burning paper jorts	Sleaze Resistance: +3, Maximum HP: +25, Maximum MP: +25, Spell Damage: +25, Lasts Until Rollover
 Item	burnt snowpants	Cold Resistance: +2, Hot Damage: +10, Familiar Effect: "1.5xPotato, cap 25"
 Item	Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, cap 22"
 Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 2xBarrr, cap 25"
@@ -2478,6 +2480,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
+Item	burning paper crane	Spooky Resistance: +3, Maximum HP: +25, Maximum MP: +25, Familiar Weight: +10, Lasts Until Rollover
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
@@ -3998,6 +4001,8 @@ Throne	Baby Mutant Rattlesnake	Experience (Muscle): +2
 Throne	Baby Sandworm	Maximum HP: +10, Maximum MP: +10
 Throne	Baby Yeti	Spell Damage Percent: +10
 Throne	Baby Z-Rex	Experience (Muscle): +2
+Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Bark Scorpion	Monster Level: +10
 Throne	Barrrnacle	Familiar Weight: +5
 Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
@@ -4008,6 +4013,7 @@ Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistanc
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Chauvinist Pig	Experience (Muscle): +2
 Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4017,6 +4023,7 @@ Throne	Crimbo Elf	Weapon Damage: +10
 Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Crimbo Shrub	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Cuddlefish	Initiative: +20
+Throne	Cute Meteor	Hot Damage: +15
 Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
 Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
@@ -4036,6 +4043,7 @@ Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Gelatinous Cubeling	Familiar Weight: +5
+Throne	Garbage Fire	Hot Spell Damage: +25
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Gluttonous Green Ghost	Food Drop: +15
@@ -4120,6 +4128,7 @@ Throne	Reconstituted Crow	Item Drop: +10
 Throne	Restless Cow Skull	Spooky Damage: +15
 Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Robortender	Meat Drop: +20
 Throne	Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
 Throne	Rockin' Robin	Item Drop: +15
 Throne	Rogue Program	Spell Damage Percent: +10
@@ -4150,6 +4159,7 @@ Throne	Temporal Riftlet	Initiative: +20
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
+Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
@@ -4162,6 +4172,7 @@ Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
 Throne	Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen Max: 5
+Throne	XO Skeleton	Muscle: +10, Mysticality: +10, Moxie: +10
 
 # Sneaky Pete's Motorbike section
 
@@ -7188,6 +7199,7 @@ Outfit	Pinata Provisions	Damage Reduction: 15
 Outfit	Pork Elf Prizes	Item Drop: +10
 Outfit	Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Outfit	Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
+Outfit	Pyrotechnic Paper Paraphernalia	Hot Damage: +30, Hot Spell Damage: +30
 Outfit	Radio Free Regalia	Never Fumble
 Outfit	Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Outfit	Roy Orbison Disguise	Moxie: +15

@@ -49,6 +49,7 @@ brown paper bag mask	20	none
 bubblewrap bottlecap turtleban	70	Mys: 12
 bugbear beanie	30	none
 bum cheek	20	none
+burning paper hat	100	none
 catskin cap	180	Mox: 75
 centurion helmet	100	Mox: 35
 Cerebral Cloche	90	Mox: 30
@@ -415,6 +416,7 @@ brown paper pants	20	none
 bugbear bungguard	30	none
 bullet-proof corduroys	170	Mox: 70
 buoybottoms	150	Mox: 60
+burning paper jorts	100	none
 burnt snowpants	100	Mox: 10
 Can-Can skirt	90	Mox: 15
 cane-mail pants	100	none
@@ -2117,6 +2119,7 @@ bronze detective badge	0	none
 brown plastic baby	20	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
+burning paper slippers	0	none
 C.A.R.N.I.V.O.R.E. button	200	Mys: 10
 candy dress shoes	100	Mus: 20
 candy necklace	150	Mox: 60
