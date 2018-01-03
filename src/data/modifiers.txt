@@ -7116,6 +7116,7 @@ Outfit	BRICKOfig Outfit	Item Drop: +10
 Outfit	Brogre Brouture	Muscle Percent: +50
 Outfit	Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Outfit	Ceramic Suit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
+Outfit	Cheerful Reindeer Suit	Weapon Damage: +25
 Outfit	Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus: I <i>Meant</i> To Do That!
 # Clothing of Loathing: ???

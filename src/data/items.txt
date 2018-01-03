@@ -9650,7 +9650,7 @@
 9624	silent Z	120670648	silentz.gif	none	t,d	0
 9625	crystalline cheer	641113985	crystalcheer.gif	none		0	crystalline cheer
 9626	anti-earplugs	807210581	crimboplugs.gif	accessory	q	0
-9627	warehouse key	183214173	mimewhkey.gif	none	t,d	0
+9627	warehouse key	183214173	mimewhkey.gif	reusable	t,d	0
 9628	mime pocket probe	715262471	cheerrod.gif	offhand		0
 9629	cheer wine	359085074	redwine.gif	drink	t	0	glasses of cheer wine
 9630	Cheer-E-Os	705364856	bowl4.gif	food	t	0	Cheer-E-Os
