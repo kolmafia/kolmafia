@@ -9707,10 +9707,10 @@
 9681	extra-toasted half sandwich	462950553	burntwich.gif	food	t,d	5
 9682	mulled hobo wine	273989589	burntwine.gif	drink	t,d	5
 9683	burning newspaper	328070245	fpm.gif	usable, combat	t,d	5
-9684
+9684	burning paper hat	432808877	fpmhat.gif	hat	q	0
 9685	burning cape	876629337	fpmcape.gif	container	q	0
-9686
-9687
+9686	burning paper slippers	362461086	fpmslipper.gif	accessory	q	0
+9687	burning paper jorts	565786510	fpmshorts.gif	pants	q	0
 9688	burning paper crane	990495182	fpmcrane.gif	offhand	q	0
 9689	January's Garbage Tote (unopened)	423585413	tote_closed.gif	usable	t	0
 9690	January's Garbage Tote	586693375	tote_open.gif	reusable		0
