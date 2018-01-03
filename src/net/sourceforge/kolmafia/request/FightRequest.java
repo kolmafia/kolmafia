@@ -3120,6 +3120,13 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
+		// The last drop of your party champagne dripped out during this fight, so you toss the bottle away.
+		if ( responseText.contains( "last drop of your party champagne dripped out" ) )
+		{
+			EquipmentManager.breakEquipment( ItemPool.BROKEN_CHAMPAGNE,
+				"You toss away the broken champagne bottle." );
+		}
+
 		// The Great Wolf of the Air emits an ear-splitting final
 		// howl. Your necklace shatters like a champagne flute in a
 		// Memorex comercial[sic].
