@@ -2889,7 +2889,12 @@ public class ItemPool
 	public static final int MIME_SCIENCE_VOL_6 = 9645;
 	public static final int MIME_SCIENCE_VOL_6_USED = 9646;
 	public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
+	public static final int GARBAGE_TOTE = 9690;
+	public static final int DECEASED_TREE = 9691;
 	public static final int BROKEN_CHAMPAGNE = 9692;
+	public static final int TINSEL_TIGHTS = 9693;
+	public static final int WAD_OF_TAPE = 9694;
+	public static final int MAKESHIFT_GARBAGE_SHIRT = 9699;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

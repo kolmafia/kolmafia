@@ -9905,6 +9905,25 @@ public abstract class ChoiceManager
 			// Mummery
 			MummeryRequest.parseResponse( ChoiceManager.lastDecision, text );
 			break;
+			
+		case 1275:
+			// Rummaging through the Garbage
+			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5 )
+			{
+				// Remove all of the items before parsing the newly-received one
+				EquipmentManager.removeEquipment( ItemPool.DECEASED_TREE );
+				ResultProcessor.removeItem( ItemPool.DECEASED_TREE );
+				EquipmentManager.removeEquipment( ItemPool.BROKEN_CHAMPAGNE );
+				ResultProcessor.removeItem( ItemPool.BROKEN_CHAMPAGNE );
+				EquipmentManager.removeEquipment( ItemPool.TINSEL_TIGHTS );
+				ResultProcessor.removeItem( ItemPool.TINSEL_TIGHTS );
+				EquipmentManager.removeEquipment( ItemPool.WAD_OF_TAPE );
+				ResultProcessor.removeItem( ItemPool.WAD_OF_TAPE );
+				EquipmentManager.removeEquipment( ItemPool.MAKESHIFT_GARBAGE_SHIRT );
+				ResultProcessor.removeItem( ItemPool.MAKESHIFT_GARBAGE_SHIRT );
+			}
+			// Do some parsing of needles/wine/scraps here
+			break;
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15535,6 +15554,7 @@ public abstract class ChoiceManager
 		case 1271: // Mummery
 		case 1272: // R&D
 		case 1273: // The Cursed Warehouse
+		case 1275: // Rummaging through the Garbage
 			return true;
 
 		default:

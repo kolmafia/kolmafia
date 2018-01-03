@@ -261,7 +261,7 @@ public class FoldItemCommand
 			RequestLogger.printLine( source + " => " + target );
 			return;
 		}
-		
+
 		if ( targetName.startsWith( "Loathing Legion" ) )
 		{
 			StringBuilder buf = new StringBuilder();
@@ -287,6 +287,22 @@ public class FoldItemCommand
 				KoLCharacter.updateStatus();
 				RequestLogger.printLine( "Now wearing " + targetName );
 			}
+			return;
+		}
+
+		if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
+		{
+			GenericRequest useRequest = new GenericRequest( "inv_use.php" );
+			useRequest.addFormField( "pwd", GenericRequest.passwordHash );
+			useRequest.addFormField( "whichitem", String.valueOf( ItemPool.GARBAGE_TOTE ) );
+			RequestThread.postRequest( useRequest );
+
+			GenericRequest choiceRequest = new GenericRequest( "choice.php" );
+			choiceRequest.addFormField( "whichchoice", "1275" );
+			choiceRequest.addFormField( "option", String.valueOf( targetIndex - 1 ) );
+			choiceRequest.addFormField( "pwd", GenericRequest.passwordHash );
+			RequestThread.postRequest( choiceRequest );
+
 			return;
 		}
 
