@@ -249,6 +249,9 @@ public abstract class ChoiceManager
 	private static final Pattern LOV_EXIT_PATTERN = Pattern.compile( "a sign above it that says <b>(.*?)</b>" );
 	private static final Pattern LOV_LOGENTRY_PATTERN = Pattern.compile( "you scrawl <b>(.*?)</b>" );
 	private static final Pattern VACCINE_PATTERN = Pattern.compile( "option value=(\\d+).*?class=button type=submit value=\"([^\"]*)" );
+	private static final Pattern DECEASED_TREE_PATTERN = Pattern.compile( "Looks like it has (.*?) needle" );
+	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = Pattern.compile( "Looks like it has (\\d+) ounce" );
+	private static final Pattern GARBAGE_SHIRT_PATTERN = Pattern.compile( "Looks like you can read roughly (\\d+) scrap" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -9907,6 +9910,7 @@ public abstract class ChoiceManager
 			break;
 			
 		case 1275:
+		{
 			// Rummaging through the Garbage
 			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5 )
 			{
@@ -9923,7 +9927,24 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.MAKESHIFT_GARBAGE_SHIRT );
 			}
 			// Do some parsing of needles/wine/scraps here
+			Matcher matcher = ChoiceManager.DECEASED_TREE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			matcher = ChoiceManager.BROKEN_CHAMPAGNE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_garbageChampagneCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			matcher = ChoiceManager.GARBAGE_SHIRT_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_garbageShirtCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
 			break;
+		}
+		
 		}
 
 		// Certain choices cost meat or items when selected
