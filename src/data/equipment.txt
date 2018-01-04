@@ -1814,6 +1814,7 @@ Mr. Haggis	10	none
 Mylar balloon	10	none
 naughty fortune teller	0	none
 Necrotelicomnicon	30	none
+novelty monorail ticket	0	Mox: 11
 off-hand balloon	10	none
 oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200

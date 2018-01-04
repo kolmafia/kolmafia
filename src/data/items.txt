@@ -9723,3 +9723,4 @@
 9697
 9698
 9699	makeshift garbage shirt	183649893	garbageshirt.gif	shirt	q	0
+9700	novelty monorail ticket	876417512	zepticket.gif	offhand		0
