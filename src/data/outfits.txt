@@ -118,8 +118,8 @@
 117	Bakelite Brigandine	baketat.gif	bakelite bowl, bakelite backpack, bakelite breeches, bakelite belt, bakelite badge, bakelite brooch
 118	Aeroutfit	aerotat.gif	aerogel akubra, aerogel accordion, aerogel attache case, aerogel anvil, aerogel apron, aerogel ascot
 119	Wrought Wrappings	wroughttat.gif	wrought-iron wig, wrought-iron whisk, wrought-iron waders, wrought-iron winch crank, wrought-iron widget, wrought-iron walker
-120
-121
+120	Gabardine Guise	gabtat.gif	gabardine garibaldi, gabardine gunnysack, gabardine gaiters, gabardine garland, gabardine girdle, gabardine gloves
+121	Fiberglass Finery	fibertat.gif	fiberglass fedora, fiberglass foil, fiberglass fetish, fiberglass frock, fiberglass fannypack, fiberglass fingerguard
 122	Toxic Togs	toxictat.gif	isotophat, toxic mop, Three Mile Island shorts
 123	Dinsey's Exoskeleton	wdbraintat.gif	Dinsey's oculus, Dinsey's radar dish, Dinsey's pizza cutter, Dinsey's brain, Dinsey's glove, Dinsey's pants
 124	The Emperor's New Clothes	emperortat.gif	The Emperor's new hat, The Emperor's new shirt, The Emperor's new pants
