@@ -1357,6 +1357,9 @@ user	_fragrantHerbsUsed	0
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
+user	_garbageChampagneCharge	11
+user	_garbageShirtCharge	37
+user	_garbageTreeCharge	1000
 user	_genieFightsUsed	0
 user	_genieWishesUsed	0
 user	_gibbererAdv	0

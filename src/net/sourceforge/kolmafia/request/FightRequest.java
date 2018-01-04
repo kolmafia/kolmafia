@@ -290,6 +290,15 @@ public class FightRequest
 	private static final Pattern SOURCE_INTERVAL_PATTERN =
 		Pattern.compile( "var matrix_speed = (\\d+);" );
 
+	private static final Pattern DECEASED_TREE_PATTERN = 
+		Pattern.compile( "Your crimbo tree has (\\d+) needle" );
+
+	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = 
+		Pattern.compile( "going wild with the (\\d+)" );
+
+	private static final Pattern GARBAGE_SHIRT_PATTERN = 
+		Pattern.compile( " (\\d+) more useful scrap" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -2856,6 +2865,23 @@ public class FightRequest
 				"Your stick-on eyebrow piercing broke." );
 		}
 
+		// Your crimbo tree has 987 needles left.
+		if ( responseText.contains( "Your crimbo tree has" ) )
+		{
+			Matcher treeMatcher = FightRequest.DECEASED_TREE_PATTERN.matcher( responseText );
+			if ( treeMatcher.find() )
+			{
+				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
+			}
+		}
+		// Your crimbo tree is now 100% naked, so you toss it away
+		else if ( responseText.contains( "Your crimbo tree is now 100% naked" ) )
+		{
+			Preferences.setInteger( "_garbageTreeCharge", 0 );
+			EquipmentManager.breakEquipment( ItemPool.DECEASED_TREE,
+				"You toss your crimbo tree away." );
+		}
+	
 		// "The Slime draws back and shudders, as if it's about to sneeze.
 		// Then it blasts you with a massive loogie that sticks to your
 		// rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -3120,11 +3146,49 @@ public class FightRequest
 				"Your sugar shorts shattered." );
 		}
 
-		// The last drop of your party champagne dripped out during this fight, so you toss the bottle away.
-		if ( responseText.contains( "last drop of your party champagne dripped out" ) )
+		// Your crimbo tree has 987 needles left.
+		if ( responseText.contains( "Your crimbo tree has" ) )
 		{
+			Matcher treeMatcher = FightRequest.DECEASED_TREE_PATTERN.matcher( responseText );
+			if ( treeMatcher.find() )
+			{
+				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
+			}
+		}
+
+		// The champagne is flowing and the party is going wild with the 9 ounces of champagne left in your broken bottle.
+		if ( responseText.contains( "champagne is flowing and the party is going wild" ) )
+		{
+			Matcher champagneMatcher = FightRequest.BROKEN_CHAMPAGNE_PATTERN.matcher( responseText );
+			if ( champagneMatcher.find() )
+			{
+				Preferences.setInteger( "_garbageChampagneCharge", StringUtilities.parseInt( champagneMatcher.group( 1 ) ) );
+			}
+		}
+		// The last drop of your party champagne dripped out during this fight, so you toss the bottle away.
+		else if ( responseText.contains( "last drop of your party champagne dripped out" ) )
+		{
+			Preferences.setInteger( "_garbageChampagneCharge", 0 );
 			EquipmentManager.breakEquipment( ItemPool.BROKEN_CHAMPAGNE,
 				"You toss away the broken champagne bottle." );
+		}
+
+		// You read a useful bit of information off your shirt and improve your rate of knowledge gain.
+		// Looks like there are 36 more useful scraps.
+		if ( responseText.contains( "read a useful bit of information off your shirt" ) )
+		{
+			Matcher garbageShirtMatcher = FightRequest.GARBAGE_SHIRT_PATTERN.matcher( responseText );
+			if ( garbageShirtMatcher.find() )
+			{
+				Preferences.setInteger( "_garbageShirtCharge", StringUtilities.parseInt( garbageShirtMatcher.group( 1 ) ) );
+			}
+		}
+		// You rip the last bit of usefully informative garbage off your shirt, and it falls to scraps
+		else if ( responseText.contains( "last bit of usefully informative garbage off your shirt" ) )
+		{
+			Preferences.setInteger( "_garbageShirtCharge", 0 );
+			EquipmentManager.breakEquipment( ItemPool.MAKESHIFT_GARBAGE_SHIRT,
+				"Your makeshirt garbage shirt falls apart." );
 		}
 
 		// The Great Wolf of the Air emits an ear-splitting final
