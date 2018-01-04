@@ -192,6 +192,8 @@ Item	fancy tophat	Mysticality Percent: +15, Familiar Effect: "1xBarrr, cap 25"
 Item	feathered headdress	Mysticality Percent: +40, Food Drop: +40, MP Regen Min: 10, MP Regen Max: 20, Familiar Effect: "atk, 1xVolley"
 Item	festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, cap 7"
 Item	fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
+# Item fiberglass fedora: Doubles the effectiveness of The Sonata of Sneakiness and Carlweathers Cantata of Confrontation
+Item	fiberglass fedora	Experience (Moxie): +3, Familiar Weight: +5
 # Item filter helmet: Provides protection against toxic alien atmospheres
 Item	filter helmet	Lasts Until Rollover
 Item	filthy knitted dread sack	Stench Damage: +3, Familiar Effect: "1xVolley, 1xPotato, cap 15"
@@ -211,6 +213,8 @@ Item	furry green turtle	Moxie: +3, Familiar Effect: "2xPotato, 2xFairy, cap 11"
 Item	fuzzy busby	Muscle: +11, Weapon Damage: +10, Familiar Effect: "1.5xVolley, cap 32"
 Item	fuzzy earmuffs	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1.5xVolley, cap 32"
 Item	fuzzy montera	Moxie: +7, Initiative: +7, Ranged Damage: +7, Familiar Effect: "1.5xVolley, cap 32"
+# Item gabardine garibaldi: Increases the damage of Saucegeyser
+Item	gabardine garibaldi	Spell Damage: +10, Maximum MP: +20
 Item	ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 Item	gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
 Item	ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xFairy, cap 14"
@@ -592,6 +596,8 @@ Item	frilly skirt	Familiar Effect: "4xFairy, cap 8"
 Item	furry kilt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
 Item	furry pants	Sleaze Damage: +5, Familiar Effect: "1xPotato, 1xGhuol, MP regen, cap 37"
 Item	furry skirt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
+# Item gabardine gaiters: Makes Smacks hit automatically even without a club equipped
+Item	gabardine gaiters	Muscle: +10, Weapon Damage: +15
 Item	Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, MP regen, cap 31"
 Item	gauze shorts	Damage Reduction: 3, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "1xBarrr, 1xGhuol, cap 42"
 Item	ghast iron codpiece	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xBarrr, cap 42"
@@ -1195,6 +1201,8 @@ Item	eXtreme meat sword	Muscle: +7
 Item	FDKOL fire hose	Cold Damage: +200
 Item	fear condenser	Spooky Damage: +10
 Item	fetus-smashing club	Adventures: +3
+# Item fiberglass foil: Deals damage and restores some MP at the beginning of each fight
+Item	fiberglass foil	Experience (Muscle): +3, Monster Level: +10
 Item	filthy pestle	Spell Damage: +7
 Item	finger cymbals	Maximum MP: +20
 Item	fire axe	Cold Damage: +200
@@ -1957,6 +1965,8 @@ Item	fake hand	Weapon Damage: -1
 Item	fake washboard	Experience Percent (Muscle): +25, Damage Absorption: +50, Accessory Drop: +75, Damage Reduction: 13
 Item	fancy marzipan briefcase	MP Regen Min: 4, MP Regen Max: 8, Combat Rate: -10, Lasts Until Rollover
 Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
+# Item fiberglass fetish: A Seal Spirit will accompany you in combat
+Item	fiberglass fetish	HP Regen Min: 6, HP Regen Max: 10, Stench Resistance: +5
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
@@ -2604,6 +2614,10 @@ Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+# Item fiberglass fannypack: Filled with a never-ending supply of deadly pasta
+Item	fiberglass fannypack	Mana Cost (combat): -2, Sleaze Damage: +15, Single Equip
+# Item fiberglass fingerguard: Dramatically increases the effectiveness of Disco Eye Poke
+Item	fiberglass fingerguard	Initiative: +40, Item Drop: +10, Single Equip
 Item	filigreed hamethyst earring	Muscle: +8, Critical Hit Percent: +5
 Item	filigreed hamethyst necklace	Muscle: +10, Weapon Damage: +8, PvP Fights: +2, Single Equip
 Item	filigreed hamethyst ring	Muscle: +12, Maximum HP: +25, HP Regen Min: 2, HP Regen Max: 4, Single Equip
@@ -2640,6 +2654,12 @@ Item	furry halo	Familiar Weight: +5, Unarmed, Single Equip
 Item	fuzzy bracelets	Muscle: +15, Mysticality: +15, Moxie: +15
 # Fuzzy Slippers of Hatred: Makes running more comfortable
 Item	Fuzzy Slippers of Hatred	Combat Rate: -5, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Single Equip
+# Item gabardine garland: Makes your Headbutts restore HP
+Item	gabardine garland	Maximum MP: +10, Hot Damage: +10, Single Equip
+# Item gabardine girdle: Allows you to unleash your Disco Pudge
+Item	gabardine girdle	Moxie: +10, Booze Drop: +20, Single Equip
+# Item gabardine gloves: Increases the duration of Accordion Bash stuns
+Item	gabardine gloves	HP Regen Min: 4, HP Regen Max: 8, Spooky Resistance: +3, Single Equip
 Item	Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 Item	garish pinky ring	Maximum HP: +10, Maximum MP: +10
 # Garter of the Turtle Poacher: Helps You Tame Turtles
@@ -3532,7 +3552,11 @@ Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
+# Item fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
+Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"
+# Item gabardine gunnysack: Increases the effectiveness of Vermincelli
+Item	gabardine gunnysack	Mysticality: +10, PvP Fights: +3
 Item	ghost shawl	Spell Damage: +50, Spell Critical Percent: +5
 Item	giant gym membership card	Weapon Damage: +15
 Item	Great S-Cape	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
@@ -5382,6 +5406,7 @@ Effect	Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
 Effect	Horrid, Torrid	Weapon Damage Percent: +10
 Effect	Hot Blooded	Muscle Percent: +30, Mysticality Percent: +10, Moxie Percent: +20, Hot Damage: +10, Hot Resistance: +2
 # Hot Breath: Can breathe fire in combat
+Effect	Hot Buttoned	Hot Damage: +10, Hot Spell Damage: +10
 Effect	Hot Hands	Hot Damage: +10, Hot Spell Damage: +20, Cold Resistance: +2, Spooky Resistance: +2
 Effect	Hot Jellied	Experience (Muscle): +3, Hot Damage: +5, Muscle Percent: +30
 Effect	Hot Sweat	Hot Resistance: +7
@@ -7157,12 +7182,14 @@ Outfit	Eldritch Equipage	Item Drop: +50
 Outfit	Encephalic Ensemble	Item Drop: +5
 Outfit	eXtreme Cold-Weather Gear	Cold Resistance: +5
 Outfit	Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Outfit	Fiberglass Finery	Initiative: +50
 Outfit	Filthy Hippy Disguise	Stench Damage: +5
 Outfit	Floaty Fatigues	Spell Critical Percent: +10
 Outfit	Frat Boy Ensemble	Sleaze Damage: +5
 Outfit	Frat Warrior Fatigues	Sleaze Damage: +15
 Outfit	Frigid Northlands Garb	Cold Resistance: +3
 Outfit	Furry Suit	Moxie Percent: -75, Monster Level: +5
+Outfit	Gabardine Guise	Maximum HP Percent: +100
 Outfit	Ghast Iron Gear	Spooky Damage: +20, Hot Damage: +20
 Outfit	Gingerbread Best	Sprinkle Drop: +25
 Outfit	Glad Bag Glad Rags	Stench Damage: +5, Sleaze Damage: +5, Mysticality: +10, Moxie: +10, Initiative: +10
@@ -9071,6 +9098,7 @@ Item	honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duratio
 Item	hopeful candle	Free Pull
 Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect: "Spooky Breath"
 # hot ashes: Deals <font color=red>Hot Damage</font> based on your highest stat
+Item	hot button candy	Effect: "Hot Buttoned", Effect Duration: 10
 # hot clusterbomb: Deals <font color=red>Hot Damage</font> based on your highest stat
 # hot clusterbomb: (more effective against groups)
 Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
@@ -9134,6 +9162,8 @@ Item	jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
 Item	janglin' bones	Effect: "Bony Dancer", Effect Duration: 30
 # janitor sponge: Deals 20-30 <font color=green>Stench Damage</font> and briefly stuns your opponent
 Item	janitor's mop	Effect: "Janitoriffic", Effect Duration: 30
+# Item January's Garbage Tote (unopened): Allows you to rummage up Holiday Detritus
+Item	January's Garbage Tote (unopened)	Free Pull
 # jar full of wind: Weakens enemies somewhat and briefly stuns them
 Item	jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
 # jar of swamp gas: Deals 20-30 <font color=green>Stench Damage</font>
@@ -10041,6 +10071,7 @@ Item	swamp lolly	Effect: "Sugar Rush", Effect Duration: 10
 Item	sweet nutcracker	Free Pull
 Item	Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Item	sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
+Item	sweetened reindeer fat	Effect: "Sweetened and Fattened", Effect Duration: 20
 Item	Swizzler	Effect: "Sugar Rush", Effect Duration: 5
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)

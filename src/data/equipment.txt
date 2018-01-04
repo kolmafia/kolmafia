@@ -111,6 +111,7 @@ fancy tophat	100	Mox: 35
 feathered headdress	200	Mys: 85
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
+fiberglass fedora	120	Mox: 40
 filter helmet	10	none
 filthy knitted dread sack	60	Mox: 15
 fire	10	none
@@ -128,6 +129,7 @@ furry green turtle	45	Mox: 7
 fuzzy busby	130	Mus: 50
 fuzzy earmuffs	130	Mys: 50
 fuzzy montera	130	Mox: 50
+gabardine garibaldi	50	none
 ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
 ghast iron Garibaldi	170	Mox: 70
@@ -467,6 +469,7 @@ frilly skirt	35	Mox: 2
 furry kilt	150	Mox: 60
 furry pants	150	Mox: 60
 furry skirt	150	Mox: 60
+gabardine gaiters	50	none
 Galapagosian Cuisses	125	Mus: 30
 gauze shorts	170	Mox: 70
 ghast iron codpiece	170	Mox: 70
@@ -1013,6 +1016,7 @@ eXtreme meat sword	60	Mus: 15	2-handed sword
 FDKOL fire hose	200	Mox: 85	2-handed hose
 fear condenser	85	Mox: 30	1-handed forearm replacement
 fetus-smashing club	200	Mus: 85	2-handed club
+fiberglass foil	120	Mus: 40	1-handed sword
 filthy pestle	60	Mys: 15	1-handed utensil
 finger cymbals	65	Mox: 17	1-handed cymbals
 fire axe	200	Mus: 85	2-handed axe
@@ -1672,6 +1676,7 @@ fake hand	10	none
 fake washboard	200	Mus: 50	shield
 fancy marzipan briefcase	100	Mys: 10
 fancy opera glasses	50	Mys: 10
+fiberglass fetish	120	Mus: 40
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
 flaming talons	90	Mys: 30
@@ -2221,6 +2226,8 @@ eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
 Fancy Jeff's fancy pocket square	150	Mox: 30
+fiberglass fannypack	120	Mys: 40
+fiberglass fingerguard	120	Mys: 40
 filigreed hamethyst earring	110	Mys: 40
 filigreed hamethyst necklace	110	Mys: 40
 filigreed hamethyst ring	110	Mys: 40
@@ -2250,6 +2257,9 @@ furry green earmuffs	45	Mys: 7
 furry halo	50	none
 fuzzy bracelets	0	none
 Fuzzy Slippers of Hatred	200	Mox: 125
+gabardine garland	50	none
+gabardine girdle	50	none
+gabardine gloves	50	none
 Gaia beads	175	Mys: 72
 garish pinky ring	50	Mys: 10
 Garter of the Turtle Poacher	150	Mus: 45
@@ -3016,7 +3026,9 @@ cod cape	225	Mox: 200
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drunkula's cape	300	Mys: 250
+fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50
+gabardine gunnysack	50	none
 ghost shawl	250	Mys: 200
 giant gym membership card	150	Mus: 75
 Great S-Cape	10	none
