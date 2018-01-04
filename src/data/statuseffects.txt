@@ -2349,3 +2349,5 @@
 2348
 2349
 2350	Nightlit	silentnightlight.gif	a404d3f8ddfb6a8c5556494431ba56fc
+2351
+2352	Quiet 'n' Good	bloodnplenty.gif	9e84adbe524bc8d5179f3b2cd8b84318	use 1 Good 'n' Quiet

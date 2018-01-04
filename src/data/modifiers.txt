@@ -5974,6 +5974,7 @@ Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
 Effect	Quantum of Moxie	Moxie: +30
+Effect	Quiet 'n' Good	Initiative: +30
 Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
@@ -8928,6 +8929,7 @@ Item	golden monkey statuette	Free Pull
 # golden plastic oyster egg: (Maybe)
 # golden ring: Weakens enemies a lot
 Item	Good 'n' Slimy	Effect: "Sugar Rush", Effect Duration: 5
+Item	Good 'n' Quiet	Effect: "Quiet 'n' Good", Effect Duration: 10
 Item	good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 # Goodfella contract: Make your Goodfella an offer he can't refuse
 # GOTO: Lets you escape from combat without spending an Adventure
