@@ -2878,7 +2878,7 @@
 2853	Phil Bunion's axe	147654849	paulaxe.gif	none	q	0
 2854	bouquet of swamp roses	336795989	swamproses.gif	none	q	0
 2855	huge mosquito proboscis	249414558	spine.gif	weapon	t,d	50	huge mosquito probosciseses
-2856	swamp lolly	366762044	supersucker.gif	usable	t,d	44	swamp lollies
+2856	swamp lolly	366762044	supersucker.gif	multiple	t,d	44	swamp lollies
 2857	seegar butt	545459465	stogie.gif	multiple	t,d	36
 2858	bottled swamp gas	163055284	swampgas.gif	none, combat	t,d	32	bottles of swamp gas
 2859	witch wart	615130611	witchwart.gif	accessory	t,d	65
@@ -2971,7 +2971,7 @@
 2946	V for Vivala mask	798085688	vivala.gif	accessory	t	0
 2947	The Big Book of Pirate Insults	501433602	book4.gif	none, combat reusable	t,d	250	Big Books of Pirate Insults
 2948	shot of rotgut	132499327	shot.gif	drink	t,d	50
-2949	jar of &quot;Creole Lady&quot; marrrmalade	470298832	marmalade.gif	usable	t,d	45	jars of &quot;Creole Lady&quot; marrrmalade
+2949	jar of &quot;Creole Lady&quot; marrrmalade	470298832	marmalade.gif	multiple	t,d	45	jars of &quot;Creole Lady&quot; marrrmalade
 2950	Cap'm Caronch's Map	496366910	map.gif	usable	q	0
 2951	Orcish Frat House blueprints	265693457	blueprint.gif	usable	q	0
 2952	blue glowstick	741208497	glowstick.gif	accessory		0	blue glowstyx
@@ -5179,7 +5179,7 @@
 5154	Moonthril Longbow	614880163	moonthbow.gif	weapon	q	0
 5155	Moonthril Cuirass	534033050	moonthcuirass.gif	shirt	q	0	Moonthril Cuirasses
 5156	plush alielf	655683821	pl_alielf.gif	offhand	g	0	plush alielves
-5157	Comet Drop	949974304	cometdrop.gif	usable, candy2	t,d	5
+5157	Comet Drop	949974304	cometdrop.gif	multiple, candy2	t,d	5
 5158	plush dogcat	147896938	pl_dogcat.gif	offhand	g	0
 5159	plush hamsterpus	457793100	pl_hamsterpus.gif	offhand	g	0	plush hamsterpi
 5160	plush ferrelf	837332673	pl_ferelf.gif	offhand	g	0	plush ferrelves
@@ -5548,7 +5548,7 @@
 5523	pog #09 (pirate)	508885839	pog.gif	none, combat	t	0	pog #09s (pirate)
 5524	pog #10 (hobo)	197328209	pog.gif	none, combat	t	0	pog #10s (hobo)
 5525	pog #11 (Naughty Sorceress)	479083802	pog.gif	none, combat	t	0	pog #11s (Naughty Sorceress)
-5526	Atomic Pop	704976042	supersucker.gif	usable, candy2	t,d	10
+5526	Atomic Pop	704976042	supersucker.gif	multiple, candy2	t,d	10
 5527	tiny do-rag	679662372	tinydorag.gif	familiar	t,d	75
 5528	whimpering willow bark	902885812	spookybark.gif	usable, combat	t,d	25	pieces of bark from the whimpering willow
 5529	berries of suffering	982415373	sadberries.gif	food	t,d	50	handfuls of berries of suffering
@@ -6800,7 +6800,7 @@
 6775	tin lizzie	677775886	tinlizzie.gif	none	q	0
 6776	foetid seal tear	373056705	teardrop.gif	usable	t	0
 6777	cold seal sweat	127508971	teardrop.gif	usable	t	0	drops of cold seal sweat
-6778	boiling seal blood	719099669	blooddrop.gif	usable	t	0	drops of boiling seal blood
+6778	boiling seal blood	719099669	blooddrop.gif	multiple	t	0	drops of boiling seal blood
 6779	crystalline seal eye	620172789	crystaleye.gif	accessory	t	0
 6780	studded sealhide shield	921480686	studsealshield.gif	offhand	t	0
 6781	scabrous seal epaulets	683304454	epaulets.gif	accessory	t	0
@@ -8866,7 +8866,7 @@
 8840	Kudzu slaw	649517887	salad.gif	avatar, multiple	t,d	5	bowls of Kudzu slaw
 8841	Mansquito's blood	828225858	fancybrew.gif	avatar, usable	t,d	5	bottles of Mansquito's blood
 8842	infrablack lipstick	279755220	lipstick.gif	avatar, usable	t,d	5
-8843	can of drain cleaner	424335738	starchcan.gif	avatar, usable	t,d	5	cans of drain cleaner
+8843	can of drain cleaner	424335738	starchcan.gif	avatar, multiple	t,d	5	cans of drain cleaner
 8844	The Author's inkwell	987845246	inkwell.gif	avatar, multiple	t,d	5
 8845	bag of random words	401499176	knobsack.gif	avatar, multiple	t,d	5	bags of random words
 8846	tube of pendulum lube	850102320	tube.gif	avatar, usable	t,d	5	tubes of pendulum lube
@@ -8996,7 +8996,7 @@
 8970	toy sixgun	854153791	sixgun0.gif	sixgun, combat reusable		0
 8971	snake oil	184616243	potion15.gif	usable	t,d	50
 8972	skin oil	250097471	potion20.gif	usable	t,d	50
-8973	unusual oil	811848807	lightvial.gif	usable	t,d	50
+8973	unusual oil	811848807	lightvial.gif	multiple	t,d	50
 8974	eldritch oil	650209099	darkvial.gif	usable	t,d	50
 8975	exclusive club	812957838	exclusiveclub.gif	weapon	t	0
 8976	patent preventative tonic	994670440	coughsyrup.gif	usable	t,d	100
@@ -9360,7 +9360,7 @@
 9334	eldritch mushroom pizza	160404947	pizza.gif	food	t,d	666
 9335	eldritch tincture	686008682	vial.gif	usable	t	0
 9336	eldritch tincture (depleted)	309912211	vial.gif	reusable		0
-9337	eldritch rub	466626699	bottle.gif	usable	t,d	1000
+9337	eldritch rub	466626699	bottle.gif	multiple	t,d	1000
 9338	HP-35 Calculator	132580267	longcalc.gif	offhand		0
 9339	Silver HP-35 Calculator	727658182	longcalc.gif	offhand		0
 9340	Golden HP-35 Calculator	958721500	longcalc.gif	offhand		0
@@ -9586,7 +9586,7 @@
 9560	giant O	640675201	xobigo.gif	none	t,d	10000
 9561	giant amorphous blob	139399975	xoblob.gif	usable	q	0
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
-9563	roll of meat	431527543	droll.gif	usable	t,d	0	rolls of meat
+9563	roll of meat	431527543	droll.gif	multiple	t,d	0	rolls of meat
 9564	mafia thumb ring	422193168	mafiaring5.gif	accessory	t	0
 9565	cocoa chondrule	829908915	chocolump.gif	usable	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
@@ -9720,7 +9720,7 @@
 9694	wad of used tape	289222586	usedtape.gif	hat	q	0
 9695	silent nightlight	719702616	silentnightlight.gif	accessory		0
 9696
-9697
+9697	Good 'n' Quiet	628783937	bloodnplenty.gif	usable	t,d	5
 9698
 9699	makeshift garbage shirt	183649893	garbageshirt.gif	shirt	q	0
 9700	novelty monorail ticket	876417512	zepticket.gif	offhand		0
