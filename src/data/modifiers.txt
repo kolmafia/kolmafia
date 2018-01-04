@@ -2124,6 +2124,7 @@ Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	naughty fortune teller	Softcore Only
 # Necrotelicomnicon: All Spells Cast Are Spooky
 Item	Necrotelicomnicon	Spell Damage: +10
+Item	novelty monorail ticket	Adventures: +3, Rollover Effect: "Favored by Lyle", Rollover Effect Duration: 100
 Item	off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
 # Ol' Scratch's ash can: All Spells Cast Are Hot
