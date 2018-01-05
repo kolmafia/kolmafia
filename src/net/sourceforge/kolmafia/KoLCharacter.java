@@ -6087,7 +6087,9 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
 		}
-		if ( ( equipment[ EquipmentManager.OFFHAND ].getItemId() == ItemPool.BROKEN_CHAMPAGNE || equipment[ EquipmentManager.WEAPON ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ) &&
+		if ( ( equipment[ EquipmentManager.OFFHAND ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ||
+			equipment[ EquipmentManager.WEAPON ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ||
+			equipment[ EquipmentManager.FAMILIAR ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ) &&
 			Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
 		{
 			// This is going to need some refactoring if a third doubling thing is added
