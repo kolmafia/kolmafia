@@ -1230,6 +1230,14 @@ public class Evaluator
 							continue;
 						}
 					}
+					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
+						Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
+					{
+						// This is always going to be worth including if useful
+						item.requiredFlag = true;
+						item.automaticFlag = true;
+						break gotItem;
+					}
 					String type = EquipmentDatabase.getItemType( id );
 					if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
 					{
@@ -1294,6 +1302,18 @@ public class Evaluator
 
 						item.automaticFlag = true;
 						gloveAvailable = true;
+						break gotItem;
+					}
+					break;
+				case EquipmentManager.SHIRT:
+					if ( id == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
+						( this.weight[ Modifiers.EXPERIENCE ] > 0 || this.weight[ Modifiers.MUS_EXPERIENCE ] > 0 
+						|| this.weight[ Modifiers.MYS_EXPERIENCE ] > 0 || this.weight[ Modifiers.MOX_EXPERIENCE ] > 0 ) &&
+						Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+					{
+						// This is always going to be worth including if useful
+						item.requiredFlag = true;
+						item.automaticFlag = true;
 						break gotItem;
 					}
 					break;

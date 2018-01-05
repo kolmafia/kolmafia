@@ -6075,7 +6075,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.INITIATIVE, newModifiers.getExtra( Modifiers.INITIATIVE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
 			// Add "Physical Damage" here, when that is properly defined
 		}
-		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1 ), EquipmentManager.SHIRT ) && 
+		if ( equipment[ EquipmentManager.SHIRT ].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT && 
 		     Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
 		{
 			newModifiers.add( Modifiers.EXPERIENCE, newModifiers.getExtra( Modifiers.EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
@@ -6087,7 +6087,8 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
 		}
-		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BROKEN_CHAMPAGNE, 1 ) ) && Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
+		if ( ( equipment[ EquipmentManager.OFFHAND ].getItemId() == ItemPool.BROKEN_CHAMPAGNE || equipment[ EquipmentManager.WEAPON ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ) &&
+			Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
 		{
 			// This is going to need some refactoring if a third doubling thing is added
 			int squint = 0;
