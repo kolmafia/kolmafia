@@ -1475,7 +1475,7 @@ public class Modifiers
 		this.doubles = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		this.bitmaps = new int[ Modifiers.BITMAP_MODIFIERS ];
 		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
-		this.extras = new double[ Modifiers.STENCH_SPELL_DAMAGE + 1 ];
+		this.extras = new double[ Modifiers.DOUBLE_MODIFIERS ];
 		this.reset();
 	};
 
@@ -1834,7 +1834,8 @@ public class Modifiers
 			   )
 			{
 				String name = Modifiers.getNameFromLookup( desc );
-				if ( !name.equals( "Steely-Eyed Squint" ) )
+				if ( !name.equals( "Steely-Eyed Squint" ) && 
+				     !name.equals( "broken champagne bottle" ) )
 				{
 					this.extras[ index ] += mod;
 				}
@@ -1854,6 +1855,17 @@ public class Modifiers
 		case SLEAZE_SPELL_DAMAGE:
 			String name = Modifiers.getNameFromLookup( desc );
 			if ( !name.equals( "Bendin' Hell" ) && !name.equals( "Bow-Legged Swagger" ) )
+			{
+				this.extras[ index ] += mod;
+			}
+			this.doubles[ index ] += mod;
+			break;
+		case EXPERIENCE:
+		case MUS_EXPERIENCE:
+		case MYS_EXPERIENCE:
+		case MOX_EXPERIENCE:
+			name = Modifiers.getNameFromLookup( desc );
+			if ( !name.equals( "makeshift garbage shirt" ) )
 			{
 				this.extras[ index ] += mod;
 			}

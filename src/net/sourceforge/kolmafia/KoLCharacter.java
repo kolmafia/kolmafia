@@ -6075,9 +6075,27 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.INITIATIVE, newModifiers.getExtra( Modifiers.INITIATIVE ), "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]" );
 			// Add "Physical Damage" here, when that is properly defined
 		}
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1 ), EquipmentManager.SHIRT ) && 
+		     Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+		{
+			newModifiers.add( Modifiers.EXPERIENCE, newModifiers.getExtra( Modifiers.EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
+			newModifiers.add( Modifiers.MUS_EXPERIENCE, newModifiers.getExtra( Modifiers.MUS_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
+			newModifiers.add( Modifiers.MYS_EXPERIENCE, newModifiers.getExtra( Modifiers.MYS_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
+			newModifiers.add( Modifiers.MOX_EXPERIENCE, newModifiers.getExtra( Modifiers.MOX_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
+		}
 		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
+		}
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BROKEN_CHAMPAGNE, 1 ) ) && Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
+		{
+			// This is going to need some refactoring if a third doubling thing is added
+			int squint = 0;
+			if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
+			{
+				squint = 1;
+			}
+			newModifiers.add( Modifiers.ITEMDROP, (1 + squint) * newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
 		}
 		
 		// Determine whether or not data has changed

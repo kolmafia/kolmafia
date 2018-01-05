@@ -40,6 +40,8 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1103,6 +1105,12 @@ public class MonsterData
 
 	public double getExperience()
 	{
+		int xpMultiplier = 1;
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1 ), EquipmentManager.SHIRT ) && 
+		     Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+		{
+			xpMultiplier = 2;
+		}
 		if ( this.scale != null && this.experience == null )
 		{
 			int scale = evaluate( this.scale, MonsterData.DEFAULT_SCALE );
@@ -1112,13 +1120,13 @@ public class MonsterData
 			experience = experience > cap ? cap : experience < floor ? floor : experience;
 			int ml = ML();
 			ml = ml < 0 ? 0 : ml;
-			return (double) Math.max( 1, ( experience / 8.0 + ml / 6.0 ) );
+			return (double) Math.max( 1, ( experience / 8.0 + ml / 6.0 ) * xpMultiplier );
 		}
 		if ( this.experience == null )
 		{
-			return Math.max( ( this.getAttack() / this.getBeeosity() - ML() ) / 8.0 + ML() / 6.0, 0 );
+			return Math.max( ( this.getAttack() / this.getBeeosity() - ML() ) / 8.0 + ML() / 6.0, 0 ) * xpMultiplier;
 		}
-		return evaluate( this.experience, 0 ) / 2.0;
+		return evaluate( this.experience, 0 ) * xpMultiplier / 2.0;
 	}
 
 	public boolean willUsuallyMiss()
