@@ -2663,6 +2663,16 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.BURNING_NEWSPAPER:
+			if ( combatResults )
+			{
+				if ( !KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GARBAGE_FIRE ) ) )
+				{
+					Preferences.increment( "_garbageFireDropsCrown" );
+				}
+			}
+			break;
+
 		case ItemPool.HOARDED_CANDY_WAD:
 			if ( combatResults )
 			{
@@ -3085,8 +3095,15 @@ public class ResultProcessor
 		case ItemPool.WAX_GLOB:
 			if ( combatResults )
 			{
-				// This will be updated to 0 in FightRequest later
-				Preferences.setInteger( "optimisticCandleProgress", -1 );
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.CANDLE ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "optimisticCandleProgress", -1 );
+				}
+				else
+				{
+					Preferences.increment( "_optimisticCandleDropsCrown" );
+				}
 			}
 			break;
 
