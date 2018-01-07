@@ -96,7 +96,7 @@ public class CheckedItem
 				}
 				// Cannot have more than one item from Januuary's Garbage Tote, no matter how many you have
 				// Fold groups are stored in lower case
-				if ( group.get( 1 ).equals( (String) "january's garbage tote" ) )
+				if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
 				{
 					if ( this.foldable + this.initial > 1 )
 					{
@@ -196,7 +196,7 @@ public class CheckedItem
 						}
 					}
 					// Cannot have more than one item from Januuary's Garbage Tote, no matter how many you have
-					if ( group.get( 1 ).equals( (String) "January's Garbage Tote" ) )
+					if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
 					{
 						if ( this.pullfoldable > 1 )
 						{
