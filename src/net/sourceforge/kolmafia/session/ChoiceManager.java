@@ -9945,6 +9945,13 @@ public abstract class ChoiceManager
 			break;
 		}
 		
+		case 1277:
+			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5 && text.contains( "You acquire" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.BURNING_NEWSPAPER );
+			}
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -15576,6 +15583,7 @@ public abstract class ChoiceManager
 		case 1272: // R&D
 		case 1273: // The Cursed Warehouse
 		case 1275: // Rummaging through the Garbage
+		case 1277: // Extra, Extra
 			return true;
 
 		default:
