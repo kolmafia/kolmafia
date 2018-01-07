@@ -6092,13 +6092,7 @@ public abstract class KoLCharacter
 			equipment[ EquipmentManager.FAMILIAR ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ) &&
 			Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
 		{
-			// This is going to need some refactoring if a third doubling thing is added
-			int squint = 0;
-			if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
-			{
-				squint = 1;
-			}
-			newModifiers.add( Modifiers.ITEMDROP, (1 + squint) * newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
+			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
 		}
 		
 		// Determine whether or not data has changed
