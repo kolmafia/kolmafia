@@ -2233,7 +2233,12 @@ public class Evaluator
 				if ( item.requiredFlag )
 				{
 					automatic[ slot ].add( item );
-					++total;
+					// Don't increase total if it's one of the required flagged foldables by Evaluator rather than user
+					int itemId = item.getItemId();
+					if ( itemId != ItemPool.BROKEN_CHAMPAGNE && itemId != ItemPool.MAKESHIFT_GARBAGE_SHIRT )
+					{
+						++total;
+					}
 				}
 			}
 
@@ -2259,6 +2264,7 @@ public class Evaluator
 					int foldItemsNeeded = 0;
 					if ( group != null && Preferences.getBoolean( "maximizerFoldables" ) )
 					{
+						foldItemsNeeded += Math.max( item.getCount(), this.maxUseful( slot ) );
 						// How many times have we already used this fold item?
 						for ( int checkSlot = 0; checkSlot < slot; ++checkSlot )
 						{
@@ -2270,7 +2276,7 @@ public class Evaluator
 									ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
 									if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
 									{
-										foldItemsNeeded += checkItem.getCount();
+										foldItemsNeeded += Math.max( checkItem.getCount(), this.maxUseful( checkSlot ) );
 									}
 								}
 							}
@@ -2280,13 +2286,16 @@ public class Evaluator
 						{
 							ListIterator<MaximizerSpeculation> checkIterator = speculationList[ checkSlot ].listIterator( speculationList[ checkSlot ].size() );
 							int usefulCheckCount = this.maxUseful( checkSlot );
-							while ( checkIterator.hasPrevious() && usefulCheckCount > 0 )
+							while ( checkIterator.hasPrevious() )
 							{
 								CheckedItem checkItem = checkIterator.previous().attachment;
 								ArrayList checkGroup = ItemDatabase.getFoldGroup( checkItem.getName() );
 								if ( checkGroup != null && group.get( 1 ).equals( checkGroup.get( 1 ) ) )
 								{
-									foldItemsNeeded += checkItem.getCount();
+									if ( usefulCheckCount > 0 || checkItem.requiredFlag )
+									{
+										foldItemsNeeded += Math.max( checkItem.getCount(), this.maxUseful( checkSlot ) );
+									}
 								}
 								else if ( checkItem.automaticFlag || !checkItem.conditionalFlag )
 								{
