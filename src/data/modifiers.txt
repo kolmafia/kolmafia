@@ -2493,6 +2493,7 @@ Item	brown plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 # bugbear communicator badge
 # bugbear detector: Detects Bugbears (Duh)
 Item	bugbear detector	Single Equip
+Item	burning paper slippers	Cold Resistance: +3, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Single Equip, Lasts Until Rollover
 Item	C.A.R.N.I.V.O.R.E. button	Monster Level: +15
 Item	candy dress shoes	Maximum HP: +20, Weapon Damage: +15, Critical Hit Percent: +10, Single Equip
 Item	candy necklace	Candy Drop: +10, Single Equip, Raveosity: +1
