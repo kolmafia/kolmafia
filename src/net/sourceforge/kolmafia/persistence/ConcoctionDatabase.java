@@ -2197,6 +2197,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.XO, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.XO, 0 );
 
+		// Making stuff with burning newspaper is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.NEWSPAPER );
+		ConcoctionDatabase.CREATION_COST.put(CraftingType.NEWSPAPER, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.NEWSPAPER, 0 );
+
 		// Other creatability flags
 
 		if ( KoLCharacter.isTorsoAware() )
@@ -2691,6 +2696,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.XO )
 		{
 			result.append( "XO Shop" );
+		}
+		else if ( mixingMethod == CraftingType.NEWSPAPER )
+		{
+			result.append( "burning newspaper" );
 		}
 		if ( result.length() == 0 )
 		{
@@ -3364,6 +3373,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "SPACEGATE" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.SPACEGATE;
+		}
+		
+		else if ( mix.equals( "NEWSPAPER" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.NEWSPAPER;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

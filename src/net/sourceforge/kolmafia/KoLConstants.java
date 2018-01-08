@@ -590,6 +590,7 @@ public interface KoLConstants
 		SPANT,		// Items made from spant chitin/tendons
 		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
 		XO,	// Items made using Xes and Os
+		NEWSPAPER,	// Items made from burning newspaper
 	}
 
 	public enum CraftingRequirements

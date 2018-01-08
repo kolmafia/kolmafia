@@ -2890,6 +2890,11 @@ public class ItemPool
 	public static final int MIME_SCIENCE_VOL_6_USED = 9646;
 	public static final int MIME_ARMY_INFILTRATION_GLOVE = 9675;
 	public static final int BURNING_NEWSPAPER = 9683;
+	public static final int BURNING_HAT = 9684;
+	public static final int BURNING_CAPE = 9685;
+	public static final int BURNING_SLIPPERS = 9686;
+	public static final int BURNING_JORTS = 9687;
+	public static final int BURNING_CRANE = 9688;
 	public static final int GARBAGE_TOTE = 9690;
 	public static final int DECEASED_TREE = 9691;
 	public static final int BROKEN_CHAMPAGNE = 9692;

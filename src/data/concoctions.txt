@@ -2961,3 +2961,10 @@ giant amorphous blob	XOSHOP,ROW964	giant X (11)	giant O (11)
 half double fruitcake	COOK	fruitcake	unfinished fruitcake
 neg grog	MIX	bottle of rum	transparent nog
 nega-mushroom wine	MIX_FANCY	mushroom fermenting solution	nega-mushroom
+
+# Garbage Fire
+burning paper hat	NEWSPAPER	burning newspaper
+burning cape	NEWSPAPER	burning newspaper
+burning paper slippers	NEWSPAPER	burning newspaper
+burning paper jorts	NEWSPAPER	burning newspaper
+burning paper crane	NEWSPAPER	burning newspaper

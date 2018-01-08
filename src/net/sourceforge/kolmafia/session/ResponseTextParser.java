@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.BeerPongRequest;
 import net.sourceforge.kolmafia.request.BigBrotherRequest;
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.BURTRequest;
+import net.sourceforge.kolmafia.request.BurningNewspaperRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -382,6 +383,10 @@ public class ResponseTextParser
 			else if ( location.contains( "whichchoice=1218" ) )
 			{
 				WaxGlobRequest.parseResponse( location, responseText );
+			}
+			else if ( location.contains( "whichchoice=1277" ) )
+			{
+				BurningNewspaperRequest.parseResponse( location, responseText );
 			}
 		}
 

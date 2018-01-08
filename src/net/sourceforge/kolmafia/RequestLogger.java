@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BoutiqueRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
 import net.sourceforge.kolmafia.request.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.BurningNewspaperRequest;
 import net.sourceforge.kolmafia.request.CRIMBCOGiftShopRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
@@ -697,6 +698,13 @@ public class RequestLogger
 
 		// We want to register simple visits to the Volcano Maze
 		if ( ( request instanceof VolcanoMazeRequest || isExternal ) && VolcanoMazeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// Burning Newspaper creation is an instance of choice.php
+		if ( ( request instanceof BurningNewspaperRequest || isExternal ) && BurningNewspaperRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
