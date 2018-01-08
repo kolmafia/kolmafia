@@ -384,6 +384,9 @@ public class CreateItemRequest
 
 		case XO:
 			return new XOShopRequest( conc );
+			
+		case NEWSPAPER:
+			return new BurningNewspaperRequest( conc );
 
 		case SPACEGATE:
 			return new SpacegateEquipmentRequest( conc );
