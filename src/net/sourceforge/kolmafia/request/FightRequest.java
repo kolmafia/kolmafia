@@ -2935,6 +2935,14 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
 		}
+		//You walloped your enemy so thoroughly, thanks to your weighty thumb ring, that you actually knocked them
+		//back into last week.... guess this current fight didn't take any time!
+		if ( responseText.contains( "thanks to your weighty thumb ring" ) )
+		{
+			Preferences.increment( "_mafiaThumbRingAdvs", 1 );
+			RequestLogger.printLine( "Your weighty thumb ring walloped." );
+			RequestLogger.updateSessionLog( "Your weighty thumb ring walloped." );
+		}
 
 		if ( responseText.contains( "into last week. It saves you some time, because you already beat" ) )
 		{
