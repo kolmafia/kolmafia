@@ -1928,7 +1928,7 @@ Item	cup of infinite pencils	Meat Drop: +15
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # Item deceased crimbo tree: Blocks damage while needles remain
-Item	deceased crimbo tree	Lasts Until Rollover
+Item	deceased crimbo tree	Lasts Until Rollover, Breakable
 Item	deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +69, Sleaze Spell Damage: +69
 Item	deck of tropical cards	Experience: +1, Stat Tuning: "Mysticality"
 # defective skull
