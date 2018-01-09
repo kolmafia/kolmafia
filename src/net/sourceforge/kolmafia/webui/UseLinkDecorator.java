@@ -992,6 +992,8 @@ public abstract class UseLinkDecorator
 			case ItemPool.MEME_GENERATOR:
 			case ItemPool.MEGACOPIA:
 			case ItemPool.PORTABLE_PANTOGRAM:
+			case ItemPool.AMORPHOUS_BLOB:
+			case ItemPool.GIANT_AMORPHOUS_BLOB:
 
 				// Not inline, since the redirection to a fight
 				// doesn't work ajaxified.
