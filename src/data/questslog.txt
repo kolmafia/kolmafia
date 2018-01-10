@@ -114,3 +114,6 @@ questLTTQuestByWire	Send Me a Quest By Wire	Read the plaintive telegram in your 
 
 # Protonic Accelerator Quests
 questPAGhost	Don't be Afraid of Any Ghost	Investigate the paranormal activity reported	(no completion message)
+
+# Eudora quests
+questEUNewYou	New-You VIP Club	Sharpening the saw!	(no completion message)

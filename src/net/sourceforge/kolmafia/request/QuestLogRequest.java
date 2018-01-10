@@ -163,7 +163,12 @@ public class QuestLogRequest
 
 		if ( !map.isEmpty() && source == 1 )
 		{
+			// Some quests and quest information are known only by their absence as they do not appear in completed quests
 			Preferences.setString( "ghostLocation", "" );
+			Preferences.setString( "_newYouQuestMonster", "" );
+			Preferences.setString( "_newYouQuestSkill", "" );
+			Preferences.setInteger( "_newYouQuestSharpensDone", 0 );
+			Preferences.setInteger( "_newYouQuestSharpensToDo", 0 );
 		}
 
 		Iterator<Integer> it = map.keySet().iterator();
