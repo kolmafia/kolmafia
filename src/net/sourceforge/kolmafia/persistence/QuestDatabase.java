@@ -140,6 +140,7 @@ public class QuestDatabase
 		TELEGRAM( "questLTTQuestByWire" ),
 		ORACLE( "questM26Oracle" ),
 		GHOST( "questPAGhost" ),
+		NEW_YOU( "questEUNewYou" ),
 		;
 
 		private final String pref;
@@ -170,6 +171,7 @@ public class QuestDatabase
 	public static final Pattern COMPETITION_PATTERN = Pattern.compile( "Contest #(\\d): ((\\d+) competitor|(Won!))" );
 	public static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 	public static final Pattern GHOST_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
+	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with a (.*?)!" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -333,6 +335,19 @@ public class QuestDatabase
 			if ( matcher.find() )
 			{
 				Preferences.setString( "ghostLocation", matcher.group( 1 ) );
+			}
+		}
+
+			// Get New You quest target
+		if ( pref.equals( Quest.NEW_YOU.getPref() ) )
+		{
+			Matcher matcher = QuestDatabase.NEW_YOU_QUEST_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_newYouQuestSkill", matcher.group( 1 ) );
+				Preferences.setString( "_newYouQuestSharpensDone", matcher.group( 2 ) );
+				Preferences.setString( "_newYouQuestSharpensToDo", matcher.group( 3 ) );
+				Preferences.setString( "_newYouQuestMonster", matcher.group( 4 ) );
 			}
 		}
 

@@ -1491,6 +1491,11 @@ user	_mummeryUses
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
+user	_newYouQuestCompleted	false
+user	_newYouQuestMonster
+user	_newYouQuestSkill
+user	_newYouQuestSharpensDone	0
+user	_newYouQuestSharpensToDo	0
 user	_noHatModifier
 user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0

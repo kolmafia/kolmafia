@@ -299,6 +299,9 @@ public class FightRequest
 	private static final Pattern GARBAGE_SHIRT_PATTERN = 
 		Pattern.compile( " (\\d+) more useful scrap" );
 
+	private static final Pattern SHARPEN_SAW_PATTERN = 
+		Pattern.compile( "You're really sharpening the old saw.  Looks like you've done (\\d+) out of (\\d+)!" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -2935,13 +2938,40 @@ public class FightRequest
 			EquipmentManager.discardEquipment( ItemPool.ANTIQUE_GREAVES );
 			KoLmafia.updateDisplay( MafiaState.PENDING, "Your antique greaves got rusted." );
 		}
-		//You walloped your enemy so thoroughly, thanks to your weighty thumb ring, that you actually knocked them
-		//back into last week.... guess this current fight didn't take any time!
+		// You walloped your enemy so thoroughly, thanks to your weighty thumb ring, that you actually knocked them
+		// back into last week.... guess this current fight didn't take any time!
 		if ( responseText.contains( "thanks to your weighty thumb ring" ) )
 		{
 			Preferences.increment( "_mafiaThumbRingAdvs", 1 );
 			RequestLogger.printLine( "Your weighty thumb ring walloped." );
 			RequestLogger.updateSessionLog( "Your weighty thumb ring walloped." );
+		}
+
+		// You're really sharpening the old saw.  Looks like you've done 1 out of 14!
+		if ( responseText.contains( "You're really sharpening the old saw." ) )
+		{
+			Matcher sawMatcher = FightRequest.SHARPEN_SAW_PATTERN.matcher( responseText );
+			if ( sawMatcher.find() )
+			{
+				Preferences.setString( "_newYouQuestSharpensDone", sawMatcher.group( 1 ) );
+				Preferences.setString( "_newYouQuestSharpensToDo", sawMatcher.group( 2 ) );
+				String message = "You're really sharpening the old saw.  " + sawMatcher.group( 0 );
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+		}
+		// You did it!  Your saw is so sharp!
+		else if ( responseText.contains( "Your saw is so sharp!" ) )
+		{
+			Preferences.setString( "_newYouQuestMonster", "" );
+			Preferences.setString( "_newYouQuestSkill", "" );
+			Preferences.setInteger( "_newYouQuestSharpensDone", 0 );
+			Preferences.setInteger( "_newYouQuestSharpensToDo", 0 );
+			Preferences.setBoolean( "_newYouQuestCompleted", true );
+			QuestDatabase.setQuestProgress( Quest.NEW_YOU, QuestDatabase.UNSTARTED );
+			String message = "You did it!  Your saw is so sharp!";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
 		}
 
 		if ( responseText.contains( "into last week. It saves you some time, because you already beat" ) )
