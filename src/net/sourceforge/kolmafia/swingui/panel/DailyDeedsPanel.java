@@ -3486,6 +3486,7 @@ public class DailyDeedsPanel
 			this.addListener( "_timeHelmetAdv" );
 			this.addListener( "_vmaskAdv" );
 			this.addListener( "_gnomeAdv" );
+			this.addListener( "_mafiaThumbRingAdvs" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
@@ -3505,19 +3506,23 @@ public class DailyDeedsPanel
 				|| Preferences.getInteger( "_vmaskAdv" ) > 0;
 			FamiliarData gnome = KoLCharacter.findFamiliar( FamiliarPool.REAGNIMATED_GNOME );
 			boolean hf6 = gnome != null && gnome.canEquip() ;
+			boolean hf7 = InventoryManager.getCount( ItemPool.MAFIA_THUMB_RING ) > 0
+				|| Preferences.getInteger( "_mafiaThumbRingAdvs" ) > 0;
 			String text = "Advs: ";
 			if ( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
-			if ( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if ( hf2 ) text = text + Preferences.getInteger( "_hareAdv" ) + " hare";
-			if ( hf2 && ( hf3 || hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf2 && ( hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if ( hf3 ) text = text + Preferences.getInteger( "_riftletAdv" ) + " riftlet";
-			if ( hf3 && ( hf4 || hf5 || hf6 ) ) text = text + ", ";
+			if ( hf3 && ( hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if ( hf4 ) text = text + Preferences.getInteger( "_timeHelmetAdv" ) + " time helmet";
-			if ( hf4 && ( hf5 || hf6 ) ) text = text + ", ";
+			if ( hf4 && ( hf5 || hf6 || hf7 ) ) text = text + ", ";
 			if ( hf5 ) text = text + Preferences.getInteger( "_vmaskAdv" ) + " V mask";
-			if ( hf5 && hf6 ) text = text + ", ";
+			if ( hf5 && ( hf6 || hf7 ) ) text = text + ", ";
 			if ( hf6 ) text = text + Preferences.getInteger( "_gnomeAdv" ) + " gnome";
-			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 );
+			if ( hf6 && hf7 ) text = text + ", ";
+			if ( hf6 ) text = text + Preferences.getInteger( "_mafiaThumbRingAdvs" ) + " thumb ring";
+			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 );
 			this.setText( text );
 		}
 	}
