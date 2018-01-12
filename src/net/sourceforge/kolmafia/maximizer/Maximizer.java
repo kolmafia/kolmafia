@@ -153,8 +153,7 @@ public class Maximizer
 
 		if ( maxPrice <= 0 )
 		{
-			maxPrice = Math.min( Preferences.getInteger( "autoBuyPriceLimit" ),
-					     KoLCharacter.getAvailableMeat() );
+			maxPrice = Preferences.getInteger( "autoBuyPriceLimit" );
 		}
 
 		KoLmafia.updateDisplay( Maximizer.firstTime ?
@@ -1633,6 +1632,10 @@ public class Maximizer
 				text = text + " (";
 				if ( advCost > 0 )
 				{
+					if ( Preferences.getBoolean( "maximizerNoAdventures" ) )
+					{
+						continue;
+					}
 					text += advCost + " adv, ";
 					if ( advCost > KoLCharacter.getAdventuresLeft() )
 					{
