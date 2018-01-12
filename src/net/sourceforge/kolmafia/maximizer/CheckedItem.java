@@ -165,11 +165,10 @@ public class CheckedItem
 				if ( this.getCount() == 0 )
 				{	
 					// but only if none are otherwise available
-					// Not using maxPrice as that considers on hand meat, which we don't use for Mall to Storage
-					if ( priceLevel == 0 ||
-						MallPriceDatabase.getPrice( itemId ) < Preferences.getInteger( "autoBuyPriceLimit" ) * 2 )
+					if ( priceLevel == 0 ||	MallPriceDatabase.getPrice( itemId ) < maxPrice * 2 )
 					{
 						this.pullBuyable = 1;
+						this.buyableFlag = true;
 					}
 				}
 			}
@@ -241,9 +240,23 @@ public class CheckedItem
 
 		int price = StoreManager.getMallPrice( this );
 
+		// Check if too expensive for max price settings
 		if ( price <= 0 || price > maxPrice )
 		{
 			this.mallBuyable = 0;
+			this.pullBuyable = 0;
+		}
+
+		// Check character has meat to buy with
+		if ( price > KoLCharacter.getAvailableMeat() )
+		{
+			this.mallBuyable = 0;
+		}
+
+		// Check character has storage meat to buy for pulling
+		if ( price > KoLCharacter.getStorageMeat() )
+		{
+			this.pullBuyable = 0;
 		}
 	}
 
