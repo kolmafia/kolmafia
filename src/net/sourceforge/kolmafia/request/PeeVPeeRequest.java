@@ -297,7 +297,6 @@ public class PeeVPeeRequest
 		{
 			if ( responseText.contains( "You shatter" ) )
 			{
-				KoLCharacter.setAttacksLeft( 10 );
 				KoLCharacter.setHippyStoneBroken( true );
 			}
 		}
