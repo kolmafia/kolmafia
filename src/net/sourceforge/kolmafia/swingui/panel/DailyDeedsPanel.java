@@ -3521,7 +3521,7 @@ public class DailyDeedsPanel
 			if ( hf5 && ( hf6 || hf7 ) ) text = text + ", ";
 			if ( hf6 ) text = text + Preferences.getInteger( "_gnomeAdv" ) + " gnome";
 			if ( hf6 && hf7 ) text = text + ", ";
-			if ( hf6 ) text = text + Preferences.getInteger( "_mafiaThumbRingAdvs" ) + " thumb ring";
+			if ( hf7 ) text = text + Preferences.getInteger( "_mafiaThumbRingAdvs" ) + " thumb ring";
 			this.setShown( hf1 || hf2 || hf3 || hf4 || hf5 || hf6 || hf7 );
 			this.setText( text );
 		}
