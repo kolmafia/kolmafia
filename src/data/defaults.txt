@@ -1472,7 +1472,7 @@ user	_machineTunnelsAdv	0
 user	_macrometeoriteUses	0
 user	_madTeaParty	false
 user	_mafiaMiddleFingerRingUsed	false
-user	_mafiaThumbRingAdvs 0
+user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
