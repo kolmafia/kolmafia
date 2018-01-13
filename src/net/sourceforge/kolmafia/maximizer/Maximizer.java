@@ -511,6 +511,9 @@ public class Maximizer
 			int price = 0;
 			int advCost = 0;
 			int mpCost = 0;
+			int fullCost = 0;
+			int drunkCost = 0;
+			int spleenCost = 0;
 			int soulsauceCost = 0;
 			int thunderCost = 0;
 			int rainCost = 0;
@@ -707,9 +710,9 @@ public class Maximizer
 							else continue;
 						}
 						// Fullness available?
-						int full = ClanLoungeRequest.hotdogNameToFullness( iName );
-						if ( full > 0 &&
-						     KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
+						fullCost = ClanLoungeRequest.hotdogNameToFullness( iName );
+						if ( fullCost > 0 &&
+						     KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit() )
 						{
 							continue;
 						}
@@ -805,6 +808,7 @@ public class Maximizer
 						cmd = "";
 					}
 					duration = 30;
+					spleenCost = 1;
 				}
 				else if ( cmd.startsWith( "friars " ) )
 				{
@@ -1475,26 +1479,26 @@ public class Maximizer
 						continue;
 					}
 
-					int full = ConsumablesDatabase.getFullness( iname );
-					if ( full > 0 &&
-						KoLCharacter.getFullness() + full > KoLCharacter.getFullnessLimit() )
+					fullCost = ConsumablesDatabase.getFullness( iname );
+					if ( fullCost != 0 &&
+						KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit() )
 					{
 						cmd = "";
 					}
-					full = ConsumablesDatabase.getInebriety( iname );
-					if ( full > 0 &&
-						KoLCharacter.getInebriety() + full > KoLCharacter.getInebrietyLimit() )
+					drunkCost = ConsumablesDatabase.getInebriety( iname );
+					if ( drunkCost != 0 &&
+						KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getInebrietyLimit() )
 					{
 						cmd = "";
 					}
-					full = ConsumablesDatabase.getSpleenHit( iname );
-					if ( full > 0 && !cmd.contains( "chew" ) )
+					spleenCost = ConsumablesDatabase.getSpleenHit( iname );
+					if ( spleenCost != 0 && !cmd.contains( "chew" ) )
 					{
 						RequestLogger.printLine( "(Note: extender for " +
 							name + " is a spleen item that doesn't use 'chew')" );
 					}
-					if ( full > 0 &&
-						KoLCharacter.getSpleenUse() + full > KoLCharacter.getSpleenLimit() )
+					if ( spleenCost != 0 &&
+						KoLCharacter.getSpleenUse() + spleenCost > KoLCharacter.getSpleenLimit() )
 					{
 						cmd = "";
 					}
@@ -1543,6 +1547,7 @@ public class Maximizer
 							text = "make & " + text;
 							cmd = "make \u00B6" + itemId + ";" + cmd;
 							price = ConcoctionPool.get( item ).price;
+							advCost = ConcoctionPool.get( item ).getAdventuresNeeded( 1 );
 						}
 						else if ( checkedItem.npcBuyable > 0 )
 						{
@@ -1638,6 +1643,30 @@ public class Maximizer
 					}
 					text += advCost + " adv, ";
 					if ( advCost > KoLCharacter.getAdventuresLeft() )
+					{
+						cmd = "";
+					}
+				}
+				if ( fullCost != 0 )
+				{
+					text += fullCost + " full, ";
+					if ( KoLCharacter.getFullness() + fullCost > KoLCharacter.getFullnessLimit() )
+					{
+						cmd = "";
+					}
+				}
+				if ( drunkCost != 0 )
+				{
+					text += drunkCost + " drunk, ";
+					if ( KoLCharacter.getInebriety() + drunkCost > KoLCharacter.getInebrietyLimit() )
+					{
+						cmd = "";
+					}
+				}
+				if ( spleenCost != 0 )
+				{
+					text += spleenCost + " spleen, ";
+					if ( KoLCharacter.getSpleenUse() + spleenCost > KoLCharacter.getSpleenLimit() )
 					{
 						cmd = "";
 					}
