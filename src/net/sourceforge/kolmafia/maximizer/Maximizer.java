@@ -123,7 +123,7 @@ public class Maximizer
 
 		KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
 
-		Maximizer.maximize( equipLevel, maxPrice, priceLevel, false );
+		Maximizer.maximize( equipLevel, maxPrice, priceLevel, false, 0 );
 
 		if ( !KoLmafia.permitsContinue() )
 		{
@@ -136,7 +136,7 @@ public class Maximizer
 		return !Maximizer.best.failed;
 	}
 
-	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll )
+	public static void maximize( int equipLevel, int maxPrice, int priceLevel, boolean includeAll, int filterLevel )
 	{
 		KoLmafia.forceContinue();
 		String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
@@ -161,7 +161,7 @@ public class Maximizer
 		Maximizer.firstTime = false;
 
 		Maximizer.boosts.clear();
-		if ( equipLevel != 0 )
+		if ( equipLevel != 0 && filterLevel < 2 )
 		{
 			Maximizer.best = new MaximizerSpeculation();
 			Maximizer.best.getScore();
@@ -212,6 +212,12 @@ public class Maximizer
 
 		current = Maximizer.eval.getScore(
 			KoLCharacter.getCurrentModifiers() );
+
+		// Show only equipment
+		if ( filterLevel == 1 )
+		{
+			return;
+		}
 
 		Iterator<String> i = Modifiers.getAllModifiers();
 		while ( i.hasNext() )
@@ -598,6 +604,43 @@ public class Maximizer
 				}
 				cmd = text = sources.next();
 				AdventureResult item = null;
+
+				// Check filters
+				if	( filterLevel != 0 )
+				{
+					if ( cmd.startsWith( "chew " ) )
+					{
+						if ( filterLevel != 5 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "drink " ) )
+					{
+						if ( filterLevel != 3 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "eat " ) )
+					{
+						if ( filterLevel != 4 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "use " ) )
+					{
+						if ( filterLevel != 2 )
+						{
+							continue;
+						}
+					}
+					else if ( filterLevel != 6 )
+					{
+						continue;
+					}
+				}
 
 				if ( cmd.startsWith( "#" ) )	// usage note, no command
 				{

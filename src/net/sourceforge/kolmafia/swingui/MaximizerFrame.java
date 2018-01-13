@@ -97,7 +97,7 @@ public class MaximizerFrame
 		expressionSelect.setEditable( true );
 		KoLConstants.maximizerMList.updateJComboData( expressionSelect );
 	}
-	private SmartButtonGroup equipmentSelect, mallSelect;
+	private SmartButtonGroup equipmentSelect, mallSelect, filterSelect;
 	private AutoHighlightTextField maxPriceField;
 	private JCheckBox foldableSelect, includeAll;
 	private PreferenceListenerCheckBox verboseSelect;
@@ -201,7 +201,8 @@ public class MaximizerFrame
 		Maximizer.maximize( this.equipmentSelect.getSelectedIndex(),
 			InputFieldUtilities.getValue( this.maxPriceField ),
 			this.mallSelect.getSelectedIndex(),
-			Preferences.getBoolean( "maximizerIncludeAll" ) );
+			Preferences.getBoolean( "maximizerIncludeAll" ),
+			this.filterSelect.getSelectedIndex() );
 
 		this.valueChanged( null );
 	}
@@ -238,6 +239,16 @@ public class MaximizerFrame
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
 			MaximizerFrame.this.mallSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
 
+			JPanel filterPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			MaximizerFrame.this.filterSelect = new SmartButtonGroup( filterPanel );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "none", true ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "equip" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "usable" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "booze" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "food" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "spleen" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "other" ) );
+
 			JTextArea message = new JTextArea( "Other options available under menu General -> Preferences, tab General - Maximizer." );
 			message.setColumns( 40 );
 			message.setLineWrap( true );
@@ -246,11 +257,12 @@ public class MaximizerFrame
 			message.setOpaque( false );
 			message.setFont( KoLGUIConstants.DEFAULT_FONT );
 
-			VerifiableElement[] elements = new VerifiableElement[ 4 ];
+			VerifiableElement[] elements = new VerifiableElement[ 5 ];
 			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
 			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
 			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( message );
+			elements[ 3 ] = new VerifiableElement( "Filters: ", filterPanel );
+			elements[ 4 ] = new VerifiableElement( message );
 
 			this.setContent( elements );
 		}
