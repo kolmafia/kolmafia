@@ -6486,7 +6486,7 @@ Effect	The Dinsey Spirit	Item Drop: +40
 Effect	The Dinsey Way	Meat Drop: +80
 Effect	The Effect Man Was Not Meant to Have	Spooky Damage: +40, Spooky Spell Damage: +40
 # The Eyes Have It: Makes you have an Urge to Stare at Your Hands
-Effect	The Fire Inside	Muscle Percent: [10*res(hot)], Mysticality Percent: [10*res(hot)], Moxie Percent: [10*res(hot)]
+Effect	The Fire Inside	Muscle Percent: [min(200,10*res(hot))], Mysticality Percent: [min(200,10*res(hot))], Moxie Percent: [min(200,10*res(hot))]
 Effect	The Glistening	Initiative: +20, Damage Reduction: 5
 Effect	The Good Salmonella	Muscle Percent: [20*F], Mysticality Percent: [20*F], Moxie Percent: [20*F]
 Effect	The Grass...  Is Blue...	Meat Drop: +40, Item Drop: +20
