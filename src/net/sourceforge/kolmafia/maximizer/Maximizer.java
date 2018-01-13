@@ -1652,7 +1652,7 @@ public class Maximizer
 						}
 
 						if ( price > maxPrice || price == -1 ) continue;
-						if ( priceLevel == 2 && ( checkedItem.initial > 0 || checkedItem.creatable > 0 ) )
+						if ( priceLevel == 2 && ( checkedItem.initial > 0 || checkedItem.creatable > 0 || checkedItem.pullable > 0 || checkedItem.npcBuyable > 0 ) )
 						{
 							if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
 							{
@@ -1765,9 +1765,12 @@ public class Maximizer
 							cmd = "";
 						}
 					}
-					else if ( price > KoLCharacter.getAvailableMeat() )
+					else if ( cmd.startsWith( "acquire" ) || cmd.startsWith( "make" ) || cmd.startsWith( "buy" ) )
 					{
-						cmd = "";
+						if ( price > KoLCharacter.getAvailableMeat() )
+						{
+							cmd = "";
+						}
 					}
 				}
 				text += KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
