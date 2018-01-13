@@ -50,6 +50,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -64,6 +65,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLGUIConstants;
 
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
@@ -97,8 +99,8 @@ public class MaximizerFrame
 	}
 	private SmartButtonGroup equipmentSelect, mallSelect;
 	private AutoHighlightTextField maxPriceField;
-	private JCheckBox includeAll;
-	private PreferenceListenerCheckBox foldableSelect, verboseSelect;
+	private JCheckBox foldableSelect, includeAll;
+	private PreferenceListenerCheckBox verboseSelect;
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
 
@@ -199,7 +201,7 @@ public class MaximizerFrame
 		Maximizer.maximize( this.equipmentSelect.getSelectedIndex(),
 			InputFieldUtilities.getValue( this.maxPriceField ),
 			this.mallSelect.getSelectedIndex(),
-			this.includeAll.isSelected() );
+			Preferences.getBoolean( "maximizerIncludeAll" ) );
 
 		this.valueChanged( null );
 	}
@@ -213,31 +215,42 @@ public class MaximizerFrame
 
 			MaximizerFrame.this.maxPriceField = new AutoHighlightTextField();
 			JComponentUtilities.setComponentSize( MaximizerFrame.this.maxPriceField, 80, -1 );
-			MaximizerFrame.this.foldableSelect = new PreferenceListenerCheckBox( "foldables", "maximizerFoldables" );
-			MaximizerFrame.this.includeAll = new JCheckBox( "effects with no direct source, skills you don't have, etc." );
-			MaximizerFrame.this.verboseSelect = new PreferenceListenerCheckBox( "show turns of effect and number of casts/items remaining", "verboseMaximizer" );
+			if ( Preferences.getInteger( "maximizerMaxPrice" ) > 0 )
+			{
+				MaximizerFrame.this.maxPriceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
+			}
+			MaximizerFrame.this.foldableSelect = new JCheckBox( "foldables", Preferences.getBoolean( "maximizerFoldables" ) );
 
 			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "none" ) );
-			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand", true ) );
+			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "on hand" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
+			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
 			equipPanel.add( MaximizerFrame.this.foldableSelect );
 
 			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			mallPanel.add( MaximizerFrame.this.maxPriceField );
 			MaximizerFrame.this.mallSelect = new SmartButtonGroup( mallPanel );
-			MaximizerFrame.this.mallSelect.add( new JRadioButton( "don't check", true ) );
+			MaximizerFrame.this.mallSelect.add( new JRadioButton( "don't check" ) );
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "buyable only" ) );
 			MaximizerFrame.this.mallSelect.add( new JRadioButton( "all consumables" ) );
+			MaximizerFrame.this.mallSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
 
-			VerifiableElement[] elements = new VerifiableElement[ 5 ];
+			JTextArea message = new JTextArea( "Other options available under menu General -> Preferences, tab General - Maximizer." );
+			message.setColumns( 40 );
+			message.setLineWrap( true );
+			message.setWrapStyleWord( true );
+			message.setEditable( false );
+			message.setOpaque( false );
+			message.setFont( KoLGUIConstants.DEFAULT_FONT );
+
+			VerifiableElement[] elements = new VerifiableElement[ 4 ];
 			elements[ 0 ] = new VerifiableElement( "Maximize: ", MaximizerFrame.expressionSelect );
 			elements[ 1 ] = new VerifiableElement( "Equipment: ", equipPanel );
 			elements[ 2 ] = new VerifiableElement( "Max price: ", mallPanel );
-			elements[ 3 ] = new VerifiableElement( "Verbose: ", MaximizerFrame.this.verboseSelect );
-			elements[ 4 ] = new VerifiableElement( "Include: ", MaximizerFrame.this.includeAll );
+			elements[ 3 ] = new VerifiableElement( message );
 
 			this.setContent( elements );
 		}
@@ -340,6 +353,17 @@ public class MaximizerFrame
 		{
 			super.add( b );
 			parent.add( b );
+		}
+
+		public void setSelectedIndex( int index )
+		{
+			int i = 0;
+			Enumeration e = this.getElements();
+			while ( e.hasMoreElements() )
+			{
+				((AbstractButton) e.nextElement()).setSelected( i == index );
+				++i;
+			}
 		}
 
 		public int getSelectedIndex()

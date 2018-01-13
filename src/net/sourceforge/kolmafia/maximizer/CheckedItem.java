@@ -106,7 +106,9 @@ public class CheckedItem
 			}
 		}
 
-		if ( this.initial >= 3 || equipLevel < 2 )
+		boolean skillCreateCheck = Preferences.getBoolean( "maximizerCreateOnHand" ) && equipLevel == 1 &&
+									!ItemDatabase.isEquipment( itemId );
+		if ( this.initial >= 3 || ( equipLevel < 2 && !skillCreateCheck ) )
 		{
 			return;
 		}
@@ -114,9 +116,14 @@ public class CheckedItem
 		Concoction c = ConcoctionPool.get( itemId );
 		if ( c == null )
 			return;
+
 		this.creatable = c.creatable;
 
-		if ( c.price > 0 )
+		if ( c.getAdventuresNeeded( 1 ) > 0 && Preferences.getBoolean( "maximizerNoAdventures" ) )
+		{
+			this.creatable = 0;
+		}
+		else if ( c.price > 0 )
 		{
 			this.npcBuyable = maxPrice / c.price;
 			int limit = CheckedItem.limitBuyable( itemId );
@@ -142,11 +149,13 @@ public class CheckedItem
 		}
 		else if ( InventoryManager.canUseMall( itemId ) )
 		{
-			// consider Mall buying
+			// consider Mall buying, but only if none are otherwise available
 			if ( this.getCount() == 0 )
-			{	// but only if none are otherwise available
+			{	
+				// We include things with historical price up to twice as high as limit, as current price may be lower
+				int price = Math.min( maxPrice, KoLCharacter.getAvailableMeat() );
 				if ( priceLevel == 0 ||
-					MallPriceDatabase.getPrice( itemId ) < maxPrice * 2 )
+					MallPriceDatabase.getPrice( itemId ) < price * 2 )
 				{
 					this.mallBuyable = 1;
 					this.buyableFlag = true;
@@ -161,11 +170,12 @@ public class CheckedItem
 			this.pullBuyable = 0;
 			if ( InventoryManager.canUseMallToStorage( itemId ) )
 			{
-				// consider Mall buying
+				// consider Mall buying, but only if none are otherwise available
 				if ( this.getCount() == 0 )
 				{	
-					// but only if none are otherwise available
-					if ( priceLevel == 0 ||	MallPriceDatabase.getPrice( itemId ) < maxPrice * 2 )
+					// We include things with historical price up to twice as high as limit, as current price may be lower
+					int price = Math.min( maxPrice, KoLCharacter.getStorageMeat() );
+					if ( priceLevel == 0 ||	MallPriceDatabase.getPrice( itemId ) < price * 2 )
 					{
 						this.pullBuyable = 1;
 						this.buyableFlag = true;
@@ -238,6 +248,7 @@ public class CheckedItem
 			return;
 		}
 
+		// Check mall price
 		int price = StoreManager.getMallPrice( this );
 
 		// Check if too expensive for max price settings

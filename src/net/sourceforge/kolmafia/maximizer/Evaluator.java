@@ -102,7 +102,7 @@ public class Evaluator
 	private boolean requireKnife = false;
 	private boolean requireAccordion = false;
 	private boolean noTiebreaker = false;
-	private boolean current = !KoLCharacter.canInteract();
+	private boolean current = !KoLCharacter.canInteract() || Preferences.getBoolean( "maximizerAlwaysCurrent" );
 	private HashSet<String> posOutfits, negOutfits;
 	private TreeSet<AdventureResult> posEquip, negEquip;
 

@@ -44,6 +44,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -72,6 +74,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
@@ -83,6 +86,7 @@ import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.JTextComponent;
 
 import org.jdesktop.swingx.JXPanel;
 
@@ -104,6 +108,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+
+import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
@@ -136,6 +142,7 @@ public class OptionsFrame
 
 		selectorPanel.addPanel( "General", new GeneralOptionsPanel(), true );
 		selectorPanel.addPanel( " - Item Acquisition", new ItemOptionsPanel(), true );
+		selectorPanel.addPanel( " - Maximizer", new MaximizerOptionsPanel(), true );
 		selectorPanel.addPanel( " - Session Logs", new SessionLogOptionsPanel(), true );
 		selectorPanel.addPanel( " - Extra Debugging", new DebugOptionsPanel(), true );
 
@@ -680,6 +687,140 @@ public class OptionsFrame
 			}
 
 			Preferences.setString( "maximizerList", settingString.toString() );
+		}
+	}
+
+	/**
+	 * Panel used for handling maximizer related options
+	 */
+
+	private class MaximizerOptionsPanel
+		extends GenericPanel
+		implements FocusListener
+	{
+		private JTextField combinationsField;
+		private JTextField mruField;
+		private JTextField priceField;
+		private JCheckBox currentMallBox, noAdvBox, alwaysCurrentBox, foldBox, verboseBox, incAllBox, createBox;
+		private SmartButtonGroup equipmentSelect, priceSelect;
+		
+		public MaximizerOptionsPanel()
+		{
+			super( new Dimension( 30, 16 ), new Dimension( 370, 16 ) );
+
+			combinationsField = new JTextField( 8 );
+			this.combinationsField.addFocusListener( this );
+			this.mruField = new JTextField( 4 );
+			this.mruField.addFocusListener( this );
+			this.priceField = new JTextField( 8 );
+			this.priceField.addFocusListener( this );
+			this.currentMallBox = new JCheckBox();
+			this.currentMallBox.addFocusListener( this );
+			this.noAdvBox = new JCheckBox();
+			this.noAdvBox.addFocusListener( this );
+			this.alwaysCurrentBox = new JCheckBox();
+			this.alwaysCurrentBox.addFocusListener( this );
+			this.foldBox = new JCheckBox();
+			this.foldBox.addFocusListener( this );
+			this.verboseBox = new JCheckBox();
+			this.verboseBox.addFocusListener( this );
+			this.incAllBox = new JCheckBox();
+			this.incAllBox.addFocusListener( this );
+			this.createBox = new JCheckBox();
+			this.createBox.addFocusListener( this );
+			
+			// Feels kludgy, but makes sure that column width for text fields are respected
+			JPanel combinationsPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			combinationsPanel.add( combinationsField );
+			JPanel mruPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			mruPanel.add( mruField );
+			JPanel maxPricePanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			maxPricePanel.add( priceField );
+
+			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			this.equipmentSelect = new SmartButtonGroup( equipPanel );
+			this.equipmentSelect.add( new JRadioButton( "none" ) );
+			this.equipmentSelect.add( new JRadioButton( "on hand" ) );
+			this.equipmentSelect.add( new JRadioButton( "creatable" ) );
+			this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
+
+			JPanel pricePanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
+			this.priceSelect = new SmartButtonGroup( pricePanel );
+			this.priceSelect.add( new JRadioButton( "don't check" ) );
+			this.priceSelect.add( new JRadioButton( "buyable only" ) );
+			this.priceSelect.add( new JRadioButton( "all consumables" ) );
+
+			VerifiableElement[] elements = new VerifiableElement[ 12 ];
+
+			elements[ 0 ] = new VerifiableElement( "Consider items by default: ", equipPanel, false );
+			elements[ 1 ] = new VerifiableElement( "Consider foldable items in Maximizer by default", SwingConstants.LEFT, this.foldBox );
+			elements[ 2 ] = new VerifiableElement( "Always consider non-equipment creations as on hand", SwingConstants.LEFT, this.createBox );
+			elements[ 3 ] = new VerifiableElement( "Always consider current equipment outside Hardcore / Ronin", SwingConstants.LEFT, this.alwaysCurrentBox );
+			elements[ 4 ] = new VerifiableElement( "Do not show effects that cost adventures", SwingConstants.LEFT, this.noAdvBox );
+			elements[ 5 ] = new VerifiableElement( "Maximum number of combinations to consider (0 for no max)", SwingConstants.LEFT, combinationsPanel );
+			elements[ 6 ] = new VerifiableElement( "Price check by default:", pricePanel, false );
+			elements[ 7 ] = new VerifiableElement( "Max purchase price by default", SwingConstants.LEFT, maxPricePanel);
+			elements[ 8 ] = new VerifiableElement( "Check Mall prices every session (not using historical prices)", SwingConstants.LEFT, this.currentMallBox );
+			elements[ 9 ] = new VerifiableElement( "Show cost, turns of effect and number of casts/items remaining", SwingConstants.LEFT, this.verboseBox );
+			elements[ 10 ] = new VerifiableElement( "Show all, effects with no direct source, skills you don't have, etc.", SwingConstants.LEFT, this.incAllBox );
+			elements[ 11 ] = new VerifiableElement( "Recent maximizer string buffer", SwingConstants.LEFT, mruPanel );
+
+			this.actionCancelled();
+			this.setContent( elements );
+		}
+
+		@Override
+		public boolean shouldAddStatusLabel()
+		{
+			return false;
+		}
+
+		@Override
+		public void setEnabled( final boolean isEnabled )
+		{
+		}
+
+		@Override
+		public void actionConfirmed()
+		{
+			Preferences.setInteger( "maximizerCombinationLimit", (int) InputFieldUtilities.getValue( this.combinationsField, 0 ) );
+			Preferences.setInteger( "maximizerMRUSize", (int) InputFieldUtilities.getValue( this.mruField, 0 ) );
+			Preferences.setBoolean( "maximizerCurrentMallPrices", this.currentMallBox.isSelected() );
+			Preferences.setBoolean( "maximizerNoAdventures", this.noAdvBox.isSelected() );
+			Preferences.setBoolean( "maximizerAlwaysCurrent", this.alwaysCurrentBox.isSelected() );
+			Preferences.setBoolean( "maximizerFoldables", this.foldBox.isSelected() );
+			Preferences.setBoolean( "verboseMaximizer", this.verboseBox.isSelected() );
+			Preferences.setBoolean( "maximizerIncludeAll", this.incAllBox.isSelected() );
+			Preferences.setBoolean( "maximizerCreateOnHand", this.createBox.isSelected() );
+			Preferences.setInteger( "maximizerEquipmentLevel", this.equipmentSelect.getSelectedIndex() );
+			Preferences.setInteger( "maximizerMaxPrice", (int) InputFieldUtilities.getValue( this.priceField, 0 ) );
+			Preferences.setInteger( "maximizerPriceLevel", this.priceSelect.getSelectedIndex() );
+		}
+
+		@Override
+		public void actionCancelled()
+		{
+			this.combinationsField.setText( Preferences.getString( "maximizerCombinationLimit" ) );
+			this.mruField.setText( Preferences.getString( "maximizerMRUSize" ) );
+			this.currentMallBox.setSelected( Preferences.getBoolean( "maximizerCurrentMallPrices" ) );
+			this.noAdvBox.setSelected( Preferences.getBoolean( "maximizerNoAdventures" ) );
+			this.alwaysCurrentBox.setSelected( Preferences.getBoolean( "maximizerAlwaysCurrent" ) );
+			this.foldBox.setSelected( Preferences.getBoolean( "maximizerFoldables" ) );
+			this.verboseBox.setSelected( Preferences.getBoolean( "verboseMaximizer" ) );
+			this.incAllBox.setSelected( Preferences.getBoolean( "maximizerIncludeAll" ) );
+			this.createBox.setSelected( Preferences.getBoolean( "maximizerCreateOnHand" ) );
+			this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
+			this.priceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
+			this.priceSelect.setSelectedIndex( Preferences.getInteger( "maximizerPriceLevel" ) );
+		}
+
+		public void focusLost( final FocusEvent e )
+		{
+			MaximizerOptionsPanel.this.actionConfirmed();
+		}
+
+		public void focusGained( final FocusEvent e )
+		{
 		}
 	}
 
