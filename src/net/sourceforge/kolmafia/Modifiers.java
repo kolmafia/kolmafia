@@ -915,6 +915,8 @@ public class Modifiers
 	public static final int ATTACKS_CANT_MISS = 26;
 	public static final int LOOK_LIKE_A_PIRATE = 27;
 	public static final int BREAKABLE = 28;
+	public static final int DROPS_ITEMS = 29;
+	public static final int DROPS_MEAT = 30;
 
 	private static final Object[][] booleanModifiers =
 	{
@@ -1033,6 +1035,14 @@ public class Modifiers
 		{ "Breakable",
 		  null,
 		  Pattern.compile( "Breakable" )
+		},
+		{ "Drops Items",
+		  null,
+		  Pattern.compile( "Drops Items" )
+		},
+		{ "Drops Meat",
+		  null,
+		  Pattern.compile( "Drops Meat" )
 		},
 	};
 

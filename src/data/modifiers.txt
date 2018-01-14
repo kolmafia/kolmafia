@@ -680,7 +680,7 @@ Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk,
 # Pantsgiving: Lets you cram in slightly more food.
 # Pantsgiving: Improves resting
 # Pantsgiving: Lets you use various Thanksgivingy skills
-Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25"
+Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
 # papier-m&acirc;churidars: Improves things
@@ -1019,7 +1019,7 @@ Item	big stirring stick	Mysticality: +5, Spell Damage: +5
 Item	Bigger Bugfinder Blade	Muscle: +11, Mysticality: +11, Moxie: +11, Adventures: +3
 # bill bec-de-bardiche glaive-guisarme
 # bindlestocking: On Critical:  Merry Crimbo!
-Item	bindlestocking	Item Drop: +10, Weapon Damage: +25
+Item	bindlestocking	Item Drop: +10, Weapon Damage: +25, Drops Items
 Item	Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 # black blade: Successful attacks restore some HP
 Item	black blade	Spooky Damage: +10
@@ -1245,7 +1245,7 @@ Item	frozen nunchaku	Weapon Damage: +3, Cold Damage: +3
 Item	frozen seal spine	Cold Damage: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Class: "Seal Clubber"
 Item	frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 Item	ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
-Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapon Drop: +20, Hat Drop: +20, Meat Drop: +30
+Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapon Drop: +20, Hat Drop: +20, Meat Drop: +30, Drops Meat
 Item	gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 Item	ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 Item	ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
@@ -1420,7 +1420,7 @@ Item	Mer-kin dodgeball	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 Item	Mer-kin dragnet	PvP Fights: +7, Muscle Percent: +10, Moxie Percent: +10
 # Mer-kin finpaddle: +100% Damage vs. Mer-kin
 # Mer-kin hookspear: Extracts Meat on Critical Hits
-Item	Mer-kin hookspear	Initiative: +20, Weapon Damage: +40
+Item	Mer-kin hookspear	Initiative: +20, Weapon Damage: +40, Drops Meat
 Item	Mer-kin switchblade	PvP Fights: +7, Muscle Percent: [10*G], Moxie Percent: +10
 # mecenary pistol: Allows the Use of Specialty Ammunition
 Item	mercenary pistol	Muscle: +10, Mysticality: +10, Moxie: +10, Never Fumble
@@ -1843,7 +1843,7 @@ Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
 Item	Adventurer bobblehead	Muscle Percent: [pref(item9084)], Mysticality Percent: [pref(item9084)], Moxie Percent: [pref(item9084)]
 # Item aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
-Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10
+Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10, Drops Items
 Item	ancient calendar	Adventures: +3, Damage Reduction: 4
 Item	ancient hot dog wrapper	HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 # ancient stone head: 75% Chance of Preventing Negative Status Attacks
@@ -2066,6 +2066,7 @@ Item	keg shield	Damage Absorption: +50, Mysticality: +5, Damage Reduction: 11
 Item	kickback cookbook	Spell Damage: +20
 Item	killer rag doll	Muscle: +3
 # Item KoL Con 13 snowglobe: Lets you recall precious memories at the end of every fight
+Item	KoL Con 13 snowglobe	Drops Items
 Item	KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
@@ -2818,7 +2819,7 @@ Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, S
 Item	mafia organizer badge	Adventures: +2, Single Equip
 Item	mafia pinky ring	Weapon Damage Percent: +10, Muscle Percent: +10, Single Equip
 # Item mafia pointer finger ring: Take advantage of critical moments.
-Item	mafia pointer finger ring	Critical Hit Percent: +15, Muscle Percent: +15, Single Equip
+Item	mafia pointer finger ring	Critical Hit Percent: +15, Muscle Percent: +15, Single Equip, Drops Meat
 Item	Mafia stogie	Muscle: +20, Mysticality: +20
 # Item mafia thumb ring: Occasionally knock your opponent into last week
 Item	mafia thumb ring	Weapon Damage Percent: +11, Muscle Percent: +11, Single Equip
@@ -2875,12 +2876,12 @@ Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Si
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mr. Accessory Jr.	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +25, Softcore Only
 # Mr. Cheeng's spectacles: Find... like...  far out stuff, like everywhere... man...
-Item	Mr. Cheeng's spectacles	Item Drop: +15, Spell Critical Percent: +10, Spell Damage Percent: +30, Single Equip
+Item	Mr. Cheeng's spectacles	Item Drop: +15, Spell Critical Percent: +10, Spell Damage Percent: +30, Single Equip, Drops Items
 Item	Mr. Eh?	Muscle: +11, Mysticality: +11, Moxie: +11, Softcore Only
 # Mr. Exploiter
 Item	Mr. Joe's bangles	Mysticality Percent: +10, Single Equip
 # Item Mr. Screege's spectacles: Lets you find valuables after fights
-Item	Mr. Screege's spectacles	Meat Drop: +20, Single Equip
+Item	Mr. Screege's spectacles	Meat Drop: +20, Single Equip, Drops Meat
 Item	Ms. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Mudflap-Girl Earring	Stench Resistance: +3, Hot Resistance: +3, Single Equip
 Item	Mudflap-Girl Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Sleaze Spell Damage: +40, Single Equip
@@ -3170,7 +3171,7 @@ Item	Superhero Reboots	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: +10
 Item	support cummerbund	Maximum HP: +20
 # surgical mask: Makes you look like a doctor
 Item	surgical mask	Maximum MP: +40, Surgeonosity: +1
-Item	sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaze Spell Damage: +5
+Item	sweat socks	Stench Damage: +5, Stench Spell Damage: +5, Sleaze Damage: +5, Sleaze Spell Damage: +5, Drops Items
 Item	Talisman o' Namsilat	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
 # Talisman of Baio: All Attributes Increase with Moonlight
 Item	Talisman of Baio	Muscle Percent: [+10*M], Mysticality Percent: [+10*M], Moxie Percent: [+10*M]
@@ -3521,7 +3522,7 @@ Item	wrought-iron widget	Experience (Mysticality): +3, Maximum HP: +40, Single E
 Item	wrought-iron winch crank	Initiative: +40, MP Regen Min: 4, MP Regen Max: 6, Single Equip
 # x-ray specs
 # Xiblaxian holo-wrist-puter: Detects Anomalous Materials of Xiblaxian Origin
-Item	Xiblaxian holo-wrist-puter	Item Drop: +10
+Item	Xiblaxian holo-wrist-puter	Item Drop: +10, Drops Items
 # Xiblaxian xeno-detection goggles: They Really Open Your Eyes
 Item	Xiblaxian xeno-detection goggles	Meat Drop: +15, Single Equip
 Item	Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -3548,7 +3549,7 @@ Item	black cloak	Spell Damage: +10
 Item	Buddy Bjorn	Softcore Only
 Item	burning cape	Hot Resistance: +3, Maximum HP: +25, Maximum MP: +25, Adventures: +5, Lasts Until Rollover
 # Camp Scout backpack: Helps You Be Prepared
-Item	Camp Scout backpack	Item Drop: +15, Softcore Only
+Item	Camp Scout backpack	Item Drop: +15, Softcore Only, Drops Items
 Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
@@ -3767,7 +3768,7 @@ Item	lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 Item	lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
 Item	magnifying glass	Familiar Weight: +5
 Item	many-eyed glasses	Familiar Weight: +5
-Item	Mayflower bouquet	Familiar Weight: +5, Softcore Only, Generic, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375
+Item	Mayflower bouquet	Familiar Weight: +5, Softcore Only, Generic, Experience: +0.625, Meat Drop (sporadic): +5, Item Drop (sporadic): +2.5, Experience (familiar): +0.375, Drops Items
 Item	mayo pump	Familiar Weight: +5
 Item	Meat detector	Familiar Weight: +5
 Item	meatcar model	Familiar Weight: +5
@@ -4010,16 +4011,16 @@ Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
 
 # Throne	Homemade Robot
 # Throne	MiniMechaElf
-Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30, MP Regen Min: 10, MP Regen Max: 12
-Throne	Adventurous Spelunker	Item Drop: +15
-Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
-Throne	Angry Goat	Muscle Percent: +15
+Throne	Adventurous Spelunker	Item Drop: +15, Drops Items
+Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
+Throne	Angry Goat	Muscle Percent: +15, Drops Items
 Throne	Angry Jung Man	Maximum HP: 10, Maximum MP: 10
 Throne	Animated Macaroni Duck	Familiar Weight: +5
 Throne	Artistic Goth Kid	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 3, MP Regen Max: 4
-Throne	Astral Badger	Maximum HP: +10, Maximum MP: +10
-Throne	Attention-Deficit Demon	Meat Drop: +20
+Throne	Astral Badger	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Attention-Deficit Demon	Meat Drop: +20, Drops Items
 Throne	Autonomous Disco Ball	Familiar Weight: +5
 Throne	Baby Bugged Bugbear	Muscle: -10, Mysticality: -10, Moxie: -10, Experience: +2
 Throne	Baby Gravy Fairy	Weapon Damage: +10, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
@@ -4031,11 +4032,11 @@ Throne	Baby Z-Rex	Experience (Muscle): +2
 Throne	Bad Vibe	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Bark Scorpion	Monster Level: +10
 Throne	Barrrnacle	Familiar Weight: +5
-Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10, Drops Meat
 Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
 Throne	Blood-Faced Volleyball	Experience (Moxie): +2
 Throne	Bloovian Groose	Maximum HP: +10, Maximum MP: +10
-Throne	BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Throne	BRICKO chick	 Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Items
 Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Chauvinist Pig	Experience (Muscle): +2
@@ -4043,10 +4044,10 @@ Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max:
 Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Clockwork Grapefruit	Moxie Percent: +15
-Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne	Cotton Candy Carnie	Initiative: +20
-Throne	Crimbo Elf	Weapon Damage: +10
+Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
+Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
 Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Crimbo Shrub	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Cuddlefish	Initiative: +20
@@ -4064,34 +4065,34 @@ Throne	Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6
 Throne	Feral Kobold	Item Drop: +15
 Throne	Fist Turkey	Weapon Damage: +20
 Throne	Flaming Face	Cold Resistance: +3
-Throne	Flaming Gravy Fairy	Hot Damage: +20
-Throne	Frozen Gravy Fairy	Cold Damage: +20
+Throne	Flaming Gravy Fairy	Hot Damage: +20, Drops Items
+Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Gelatinous Cubeling	Familiar Weight: +5
-Throne	Garbage Fire	Hot Spell Damage: +25
+Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
-Throne	Gluttonous Green Ghost	Food Drop: +15
-Throne	Golden Monkey	Meat Drop: +25
-Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10
-Throne	Grim Brother	Combat Rate: +5
-Throne	Grimstone Golem	Combat Rate: -5
+Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
+Throne	Golden Monkey	Meat Drop: +25, Drops Items
+Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Grim Brother	Combat Rate: +5, Drops Items
+Throne	Grimstone Golem	Combat Rate: -5, Drops Items
 Throne	Grinning Turtle	Experience (Muscle): +2
 Throne	Grouper Groupie	Meat Drop: +20
 Throne	Grue	Mysticality Percent: +15
-Throne	Hand Turkey	Meat Drop: +20
+Throne	Hand Turkey	Meat Drop: +20, Drops Meat
 Throne	Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Happy Medium	Meat Drop: +25
-Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Happy Medium	Meat Drop: +25, Drops Meat
+Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
 Throne	Hippo Ballerina	Meat Drop: +20
 Throne	Hobo Monkey	Meat Drop: +25
 Throne	Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Hovering Skull	Experience (Moxie): +2
 Throne	Hovering Sombrero	Experience (Mysticality): +2
 Throne	Howling Balloon Monkey	Spell Damage Percent: +10
-Throne	Hunchbacked Minion	Experience (Muscle): +2
+Throne	Hunchbacked Minion	Experience (Muscle): +2, Drops Items
 Throne	Imitation Crab	Muscle Percent: +15
 Throne	Inflatable Dodecapede	Mysticality Percent: +15
 Throne	Intergnat	Monster Level: +10
@@ -4100,11 +4101,11 @@ Throne	Jill-O-Lantern	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne	Jitterbug	Meat Drop: +20
 Throne	Jumpsuited Hound Dog	Weapon Damage: +20, HP Regen Min: 4, HP Regen Max: 10, MP Regen Min: 2, MP Regen Max: 10
 Throne	Killer Bee	Experience (Muscle): +2, HP Regen Min: 8, HP Regen Max: 10
-Throne	Knob Goblin Organ Grinder	Meat Drop: +25
-Throne	Leprechaun	Meat Drop: +20
+Throne	Knob Goblin Organ Grinder	Meat Drop: +25, Drops Meat
+Throne	Leprechaun	Meat Drop: +20, Drops Meat
 Throne	Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Lil' Barrel Mimic	Experience: +2
-Throne	Li'l Xenomorph	Item Drop: +15
+Throne	Li'l Xenomorph	Item Drop: +15, Drops Items
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
 Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7
 Throne	Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
@@ -4112,26 +4113,26 @@ Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
 Throne	Mechanical Songbird	Spell Damage Percent: 20, HP Regen Min: 5, HP Regen Max: 10
 Throne	Midget Clownfish	Spell Damage Percent: +10
-Throne	Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
+Throne	Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10, Drops Meat
 Throne	Mini-Crimbot	Cold Damage: +15
 Throne	Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne	Mini-Skulldozer	Initiative: +20
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5
 Throne	Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne	Ms. Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Ms. Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Mutant Cactus Bud	Meat Drop: +20
 Throne	Mutant Fire Ant	Hot Damage: +20
 Throne	Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
-Throne	Nanorhino	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Throne	Nanorhino	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Meat
 Throne	Nervous Tick	Experience (Moxie): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne	Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne	Oily Woim	Item Drop: +10
-Throne	Optimistic Candle	Item Drop: +15
+Throne	Oily Woim	Item Drop: +10, Drops Meat
+Throne	Optimistic Candle	Item Drop: +15, Drops Items
 Throne	Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
@@ -4140,61 +4141,61 @@ Throne	Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Ma
 Throne	Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
-Throne	Piano Cat	Meat Drop: +20
-Throne	Pottery Barn Owl	Hot Damage: +10
+Throne	Piano Cat	Meat Drop: +20, Drops Items
+Throne	Pottery Barn Owl	Hot Damage: +10, Drops Items
 Throne	Psychedelic Bear	Meat Drop: +20
-Throne	Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Purse Rat	Experience: +2
 Throne	Putty Buddy	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Ragamuffin Imp	Mysticality Percent: +15
 Throne	Reagnimated Gnome	Spooky Damage: +15
-Throne	Reanimated Reanimator	Experience (Mysticality): +2
-Throne	Reassembled Blackbird	Item Drop: +10
-Throne	Reconstituted Crow	Item Drop: +10
+Throne	Reanimated Reanimator	Experience (Mysticality): +2, Drops Items
+Throne	Reassembled Blackbird	Item Drop: +10, Drops Items
+Throne	Reconstituted Crow	Item Drop: +10, Drops Items
 Throne	Restless Cow Skull	Spooky Damage: +15
 Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Robortender	Meat Drop: +20
 Throne	Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
-Throne	Rockin' Robin	Item Drop: +15
+Throne	Rockin' Robin	Item Drop: +15, Drops Meat
 Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
-Throne	Sleazy Gravy Fairy	Sleaze Damage: +20
+Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
 Throne	Slimeling	Weapon Drop: +15
 Throne	Sludgepuppy	Stench Damage: +15
 Throne	Smiling Rat	Experience: +3
 Throne	Snow Angel	Spell Damage Percent: +10
 Throne	Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Space Jellyfish	Weapon Damage Percent: +20, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
-Throne	Spirit Hobo	Booze Drop: +15
-Throne	Spooky Gravy Fairy	Spooky Damage: +20
+Throne	Spirit Hobo	Booze Drop: +15, Drops Meat
+Throne	Spooky Gravy Fairy	Spooky Damage: +20, Drops Items
 Throne	Spooky Pirate Skeleton	Familiar Weight: +5
 Throne	Squamous Gibberer	Initiative: +20
 Throne	Stab Bat	Muscle Percent: +15
 Throne	Star Starfish	Spell Damage Percent: +10
 Throne	Steam-Powered Cheerleader	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Stinky Gravy Fairy	Stench Damage: +20
-Throne	Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Stinky Gravy Fairy	Stench Damage: +20, Drops Items
+Throne	Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Sugar Fruit Fairy	Experience (Mysticality): +2
-Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Syncopated Turtle	Initiative: +20
 Throne	Teddy Bear	Initiative: +20
 Throne	Teddy Borg	Initiative: +20
-Throne	Temporal Riftlet	Initiative: +20
+Throne	Temporal Riftlet	Initiative: +20, Drops Meat
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
-Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2, Drops Items
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2
-Throne	Untamed Turtle	Initiative: +20
+Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
-Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10
-Throne	Wereturtle	Muscle Percent: +15
+Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
+Throne	Wereturtle	Muscle Percent: +15, Drops Meat
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
@@ -4226,7 +4227,7 @@ Motorbike	Sweepy Red Light	Experience: +5
 
 Snowsuit	goatee	HP Regen Min: 1, HP Regen Max: 20
 Snowsuit	hat	MP Regen Min: 1, MP Regen Max: 10
-Snowsuit	nose	Item Drop: +10
+Snowsuit	nose	Item Drop: +10, Drops Items
 
 # Edpiece section
 
