@@ -149,17 +149,22 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 		if ( !(o instanceof MaximizerSpeculation) ) return 1;
 		MaximizerSpeculation other = (MaximizerSpeculation) o;
 		int rv = Double.compare( this.getScore(), other.getScore() );
+		// Always prefer success to failure
 		if ( this.failed != other.failed ) return this.failed ? -1 : 1;
+		// Prefer higher bonus
 		if ( rv != 0 ) return rv;
+		// In Bees Hate You, prefer lower B count
 		rv = other.beeosity - this.beeosity;
 		if ( rv != 0 ) return rv;
-		rv = Double.compare( this.getTiebreaker(), other.getTiebreaker() );
-		if ( rv != 0 ) return rv;
-		// prefer more rollover effects and fewer breakable items
+		// Get other comparisons
 		int countThisEffects = 0;
 		int countOtherEffects = 0;
 		int countThisBreakables = 0;
 		int countOtherBreakables = 0;
+		int countThisDropsItems = 0;
+		int countOtherDropsItems = 0;
+		int countThisDropsMeat = 0;
+		int countOtherDropsMeat = 0;
 		for ( int i = this.equipment.length - 1; i >= 0; --i )
 		{
 			if ( this.equipment[ i ] == null ) continue;
@@ -169,6 +174,8 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
 			if ( name.length() > 0 ) countThisEffects++;
 			if ( mods.getBoolean( Modifiers.BREAKABLE ) ) countThisBreakables++;
+			if ( mods.getBoolean( Modifiers.DROPS_ITEMS ) ) countThisDropsItems++;
+			if ( mods.getBoolean( Modifiers.DROPS_MEAT ) ) countThisDropsMeat++;
 		}
 		for ( int i = other.equipment.length - 1; i >= 0; --i )
 		{
@@ -179,15 +186,33 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 			String name = mods.getString( Modifiers.ROLLOVER_EFFECT );
 			if ( name.length() > 0 ) countOtherEffects++;
 			if ( mods.getBoolean( Modifiers.BREAKABLE ) ) countOtherBreakables++;
+			if ( mods.getBoolean( Modifiers.DROPS_ITEMS ) ) countOtherDropsItems++;
+			if ( mods.getBoolean( Modifiers.DROPS_MEAT ) ) countOtherDropsMeat++;
 		}
+		// Prefer item droppers
+		if ( countThisDropsItems != countOtherDropsItems )
+		{
+			return countThisDropsItems > countOtherDropsItems ? 1 : -1;
+		}
+		// Prefer meat droppers
+		if ( countThisDropsMeat != countOtherDropsMeat )
+		{
+			return countThisDropsMeat > countOtherDropsMeat ? 1 : -1;
+		}
+		// Prefer higher tiebreaker account (unless -tie used)
+		rv = Double.compare( this.getTiebreaker(), other.getTiebreaker() );
+		if ( rv != 0 ) return rv;
+		// Prefer rollover effects
 		if ( countThisEffects != countOtherEffects )
 		{
 			return countThisEffects > countOtherEffects ? 1 : -1;
 		}
+		// Prefer unbreakables
 		if ( countThisBreakables != countOtherBreakables )
 		{
 			return countThisBreakables < countOtherBreakables ? 1 : -1;
 		}
+		// Prefer worn
 		rv = this.simplicity - other.simplicity;
 		if ( rv != 0 ) return rv;
 		if ( this.attachment != null && other.attachment != null )
