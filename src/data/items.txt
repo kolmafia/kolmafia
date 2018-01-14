@@ -8146,7 +8146,7 @@
 8121	gabardine garland	896830937	gabgarland.gif	accessory		0
 8122	gabardine gunnysack	620590672	gabgunny.gif	container		0
 8123	gabardine garibaldi	815389978	gabgaribaldi.gif	hat		0
-8124	gabardine girdle	841940934\	gabgirdle.gif	accessory		0
+8124	gabardine girdle	841940934	gabgirdle.gif	accessory		0
 8125	gabardine gloves	930657605	gabgloves.gif	accessory		0
 8126
 8127	fiberglass fetish	682017245	fiberfetish.gif	offhand		0
