@@ -3182,6 +3182,20 @@ public class Modifiers
 		return null;
 	}
 
+	private static final Pattern ITEM_DROPPER_PATTERN =
+		Pattern.compile( "Occasional Hilarity" );
+
+	public static final String parseDropsItems( final String text )
+	{
+		Matcher matcher = Modifiers.ITEM_DROPPER_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			return Modifiers.modifierTag( Modifiers.booleanModifiers, Modifiers.DROPS_ITEMS );
+		}
+
+		return null;
+	}
+
 	private static final Pattern LASTS_ONE_DAY_PATTERN =
 		Pattern.compile( "This item will disappear at the end of the day" );
 

@@ -1319,6 +1319,7 @@ public class DebugDatabase
 		DebugDatabase.appendModifier( known, Modifiers.parseEffect( text ) );
 		DebugDatabase.appendModifier( known, Modifiers.parseEffectDuration( text ) );
 		DebugDatabase.appendModifier( known, Modifiers.parseSongDuration( text ) );
+		DebugDatabase.appendModifier( known, Modifiers.parseDropsItems( text ) );
 
 		if ( type == KoLConstants.EQUIP_FAMILIAR )
 		{
