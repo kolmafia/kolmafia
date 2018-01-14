@@ -279,6 +279,7 @@ public class PantogramRequest
 			else if ( slot3.startsWith( "24" ) )
 			{
 				// Occasional Hilarity
+				modList.addModifier( "Drops Items", "true" );
 				ResultProcessor.processResult( ItemPool.get( ItemPool.TEN_LEAF_CLOVER, -1 ) );
 			}
 
