@@ -680,7 +680,7 @@ Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk,
 # Pantsgiving: Lets you cram in slightly more food.
 # Pantsgiving: Improves resting
 # Pantsgiving: Lets you use various Thanksgivingy skills
-Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items
+Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items, Variable
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
 # papier-m&acirc;churidars: Improves things
@@ -4013,7 +4013,7 @@ Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
 # Throne	MiniMechaElf
 Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30, MP Regen Min: 10, MP Regen Max: 12
-Throne	Adventurous Spelunker	Item Drop: +15, Drops Items
+Throne	Adventurous Spelunker	Item Drop: +15, Drops Items, Variable
 Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Angry Goat	Muscle Percent: +15, Drops Items
 Throne	Angry Jung Man	Maximum HP: 10, Maximum MP: 10
@@ -4071,14 +4071,14 @@ Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Galloping Grill	Spell Damage Percent: +10
 Throne	Gelatinous Cubeling	Familiar Weight: +5
-Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items
+Throne	Garbage Fire	Hot Spell Damage: +25, Drops Items, Variable
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
 Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10, Drops Items
-Throne	Grim Brother	Combat Rate: +5, Drops Items
-Throne	Grimstone Golem	Combat Rate: -5, Drops Items
+Throne	Grim Brother	Combat Rate: +5, Drops Items, Variable
+Throne	Grimstone Golem	Combat Rate: -5, Drops Items, Variable
 Throne	Grinning Turtle	Experience (Muscle): +2
 Throne	Grouper Groupie	Meat Drop: +20
 Throne	Grue	Mysticality Percent: +15
@@ -4107,7 +4107,7 @@ Throne	Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP R
 Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Li'l Xenomorph	Item Drop: +15, Drops Items
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
-Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7
+Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7, Drops Items, Variable
 Throne	Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
 Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
@@ -4132,7 +4132,7 @@ Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Oily Woim	Item Drop: +10, Drops Meat
-Throne	Optimistic Candle	Item Drop: +15, Drops Items
+Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
 Throne	Origami Towel Crane	Initiative: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
@@ -4187,8 +4187,8 @@ Throne	Temporal Riftlet	Initiative: +20, Drops Meat
 Throne	Tickle-Me Emilio	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Toothsome Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Topiary Skunk	Stench Damage: +15
-Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
-Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2, Drops Items
+Throne	Trick-or-Treating Tot	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items, Variable
+Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2, Drops Items, Variable
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2

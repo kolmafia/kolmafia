@@ -2542,143 +2542,194 @@ public class Modifiers
 		}
 
 		String name = Modifiers.getNameFromLookup( lookup );
+		String type = Modifiers.getTypeFromLookup( lookup );
 
-		// We only hardcode items, for now.
-		int itemId = ItemDatabase.getItemId( name );
-
-		switch ( itemId )
+		if ( type.equals( "Item" ) )
 		{
-		case ItemPool.TUESDAYS_RUBY:
+			int itemId = ItemDatabase.getItemId( name );
+
+			switch ( itemId )
+			{
+			case ItemPool.TUESDAYS_RUBY:
+			{
+				// Reset to defaults
+
+				this.set( Modifiers.MEATDROP, 0.0 );
+				this.set( Modifiers.ITEMDROP, 0.0 );
+				this.set( Modifiers.MOX_PCT, 0.0 );
+				this.set( Modifiers.MUS_PCT, 0.0 );
+				this.set( Modifiers.MYS_PCT, 0.0 );
+				this.set( Modifiers.HP_REGEN_MIN, 0.0 );
+				this.set( Modifiers.HP_REGEN_MAX, 0.0 );
+				this.set( Modifiers.MP_REGEN_MIN, 0.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 0.0 );
+
+				// Set modifiers depending on what KoL day of the week it is
+
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+				switch ( date.get( Calendar.DAY_OF_WEEK ) )
+				{
+				case Calendar.SUNDAY:
+					// +5% Meat from Monsters
+					this.set( Modifiers.MEATDROP, 5.0 );
+					break;
+				case Calendar.MONDAY:
+					// Muscle +5%
+					this.set( Modifiers.MUS_PCT, 5.0 );
+					break;
+				case Calendar.TUESDAY:
+					// Regenerate 3-7 MP per adventure
+					this.set( Modifiers.MP_REGEN_MIN, 3.0 );
+					this.set( Modifiers.MP_REGEN_MAX, 7.0 );
+					break;
+				case Calendar.WEDNESDAY:
+					// +5% Mysticality
+					this.set( Modifiers.MYS_PCT, 5.0 );
+					break;
+				case Calendar.THURSDAY:
+					// +5% Item Drops from Monsters
+					this.set( Modifiers.ITEMDROP, 5.0 );
+					break;
+				case Calendar.FRIDAY:
+					// +5% Moxie
+					this.set( Modifiers.MOX_PCT, 5.0 );
+					break;
+				case Calendar.SATURDAY:
+					// Regenerate 3-7 HP per adventure
+					this.set( Modifiers.HP_REGEN_MIN, 3.0 );
+					this.set( Modifiers.HP_REGEN_MAX, 7.0 );
+					break;
+				}
+				return true;
+			}
+
+			case ItemPool.UNCLE_HOBO_BEARD:
+			case ItemPool.GINGERBEARD:
+			{
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+				double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
+				this.set( Modifiers.ADVENTURES, adventures );
+				return true;
+			}
+
+			case ItemPool.TIME_TWITCHING_TOOLBELT:
+			{
+				this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );
+				return true;
+			}
+
+			case ItemPool.PANTSGIVING:
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_pantsgivingCrumbs" ) < 10 );
+				return true;
+			}
+
+			case ItemPool.PATRIOT_SHIELD:
+			{
+				// Muscle classes
+				this.set( Modifiers.HP_REGEN_MIN, 0.0 );
+				this.set( Modifiers.HP_REGEN_MAX, 0.0 );
+				// Seal clubber
+				this.set( Modifiers.WEAPON_DAMAGE, 0.0 );
+				this.set( Modifiers.DAMAGE_REDUCTION, 0.0 );
+				// Turtle Tamer
+				this.set( Modifiers.FAMILIAR_WEIGHT, 0.0 );
+				// Disco Bandit
+				this.set( Modifiers.RANGED_DAMAGE, 0.0 );
+				// Accordion Thief
+				this.set( Modifiers.FOUR_SONGS, false );
+				// Mysticality classes
+				this.set( Modifiers.MP_REGEN_MIN, 0.0 );
+				this.set( Modifiers.MP_REGEN_MAX, 0.0 );
+				// Pastamancer
+				this.set( Modifiers.COMBAT_MANA_COST, 0.0 );
+				// Sauceror
+				this.set( Modifiers.SPELL_DAMAGE, 0.0 );
+
+				// Set modifiers depending on Character class
+				String classType = KoLCharacter.getClassType();
+				if ( classType == KoLCharacter.SEAL_CLUBBER || classType == KoLCharacter.ZOMBIE_MASTER || 
+					classType == KoLCharacter.ED || classType == KoLCharacter.COWPUNCHER ||
+					classType == KoLCharacter.BEANSLINGER || classType == KoLCharacter.SNAKE_OILER )
+				{
+					this.set( Modifiers.HP_REGEN_MIN, 10.0 );
+					this.set( Modifiers.HP_REGEN_MAX, 12.0 );
+					this.set( Modifiers.WEAPON_DAMAGE, 15.0 );
+					this.set( Modifiers.DAMAGE_REDUCTION, 1.0 );
+				}
+				else if ( classType == KoLCharacter.TURTLE_TAMER )
+				{
+					this.set( Modifiers.HP_REGEN_MIN, 10.0 );
+					this.set( Modifiers.HP_REGEN_MAX, 12.0 );
+					this.set( Modifiers.FAMILIAR_WEIGHT, 5.0 );
+				}
+				else if ( classType == KoLCharacter.DISCO_BANDIT || classType == KoLCharacter.AVATAR_OF_SNEAKY_PETE )
+				{
+					this.set( Modifiers.RANGED_DAMAGE, 20.0 );
+				}
+				else if ( classType == KoLCharacter.ACCORDION_THIEF )
+				{
+					this.set( Modifiers.FOUR_SONGS, true );
+				}
+				else if ( classType == KoLCharacter.PASTAMANCER )
+				{
+					this.set( Modifiers.MP_REGEN_MIN, 5.0 );
+					this.set( Modifiers.MP_REGEN_MAX, 6.0 );
+					this.set( Modifiers.COMBAT_MANA_COST, -3.0 );
+				}
+				else if ( classType == KoLCharacter.SAUCEROR || classType == KoLCharacter.AVATAR_OF_JARLSBERG )
+				{
+					this.set( Modifiers.MP_REGEN_MIN, 5.0 );
+					this.set( Modifiers.MP_REGEN_MAX, 6.0 );
+					this.set( Modifiers.SPELL_DAMAGE, 20.0 );
+				}
+				return true;
+			}
+			}
+		}
+		else if ( type.equals( "Throne" ) )
 		{
-			// Reset to defaults
-
-			this.set( Modifiers.MEATDROP, 0.0 );
-			this.set( Modifiers.ITEMDROP, 0.0 );
-			this.set( Modifiers.MOX_PCT, 0.0 );
-			this.set( Modifiers.MUS_PCT, 0.0 );
-			this.set( Modifiers.MYS_PCT, 0.0 );
-			this.set( Modifiers.HP_REGEN_MIN, 0.0 );
-			this.set( Modifiers.HP_REGEN_MAX, 0.0 );
-			this.set( Modifiers.MP_REGEN_MIN, 0.0 );
-			this.set( Modifiers.MP_REGEN_MAX, 0.0 );
-
-			// Set modifiers depending on what KoL day of the week it is
-
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			switch ( date.get( Calendar.DAY_OF_WEEK ) )
+			if ( name.equals( "Adventurous Spelunker" ) )
 			{
-			case Calendar.SUNDAY:
-				// +5% Meat from Monsters
-				this.set( Modifiers.MEATDROP, 5.0 );
-				break;
-			case Calendar.MONDAY:
-				// Muscle +5%
-				this.set( Modifiers.MUS_PCT, 5.0 );
-				break;
-			case Calendar.TUESDAY:
-				// Regenerate 3-7 MP per adventure
-				this.set( Modifiers.MP_REGEN_MIN, 3.0 );
-				this.set( Modifiers.MP_REGEN_MAX, 7.0 );
-				break;
-			case Calendar.WEDNESDAY:
-				// +5% Mysticality
-				this.set( Modifiers.MYS_PCT, 5.0 );
-				break;
-			case Calendar.THURSDAY:
-				// +5% Item Drops from Monsters
-				this.set( Modifiers.ITEMDROP, 5.0 );
-				break;
-			case Calendar.FRIDAY:
-				// +5% Moxie
-				this.set( Modifiers.MOX_PCT, 5.0 );
-				break;
-			case Calendar.SATURDAY:
-				// Regenerate 3-7 HP per adventure
-				this.set( Modifiers.HP_REGEN_MIN, 3.0 );
-				this.set( Modifiers.HP_REGEN_MAX, 7.0 );
-				break;
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_oreDropsCrown" ) < 6 );
+				return true;
 			}
-			return true;
+			if ( name.equals( "Garbage Fire" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_garbageFireDropsCrown" ) < 3 );
+				return true;
+			}
+			if ( name.equals( "Grimstone Golem" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_grimstoneMaskDropsCrown" ) < 1 );
+				return true;
+			}
+			if ( name.equals( "Grim Brother" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_grimFairyTaleDropsCrown" ) < 2 );
+				return true;
+			}
+			if ( name.equals( "Machine Elf" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_abstractionDropsCrown" ) < 25 );
+				return true;
+			}
+			if ( name.equals( "Optimistic Candle" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_optimisticCandleDropsCrown" ) < 3 );
+				return true;
+			}
+			if ( name.equals( "Trick-or-Treating Tot" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_hoardedCandyDropsCrown" ) < 3 );
+				return true;
+			}
+			if ( name.equals( "Twitching Space Critter" ) )
+			{
+				this.set( Modifiers.DROPS_ITEMS, Preferences.getInteger( "_spaceFurDropsCrown" ) < 1 );
+				return true;
+			}
 		}
-
-		case ItemPool.UNCLE_HOBO_BEARD:
-		case ItemPool.GINGERBEARD:
-		{
-			Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
-			double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 9.0 : 6.0;
-			this.set( Modifiers.ADVENTURES, adventures );
-			return true;
-		}
-
-		case ItemPool.TIME_TWITCHING_TOOLBELT:
-		{
-			this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );
-			return true;
-		}
-
-		case ItemPool.PATRIOT_SHIELD:
-		{
-			// Muscle classes
-			this.set( Modifiers.HP_REGEN_MIN, 0.0 );
-			this.set( Modifiers.HP_REGEN_MAX, 0.0 );
-			// Seal clubber
-			this.set( Modifiers.WEAPON_DAMAGE, 0.0 );
-			this.set( Modifiers.DAMAGE_REDUCTION, 0.0 );
-			// Turtle Tamer
-			this.set( Modifiers.FAMILIAR_WEIGHT, 0.0 );
-			// Disco Bandit
-			this.set( Modifiers.RANGED_DAMAGE, 0.0 );
-			// Accordion Thief
-			this.set( Modifiers.FOUR_SONGS, false );
-			// Mysticality classes
-			this.set( Modifiers.MP_REGEN_MIN, 0.0 );
-			this.set( Modifiers.MP_REGEN_MAX, 0.0 );
-			// Pastamancer
-			this.set( Modifiers.COMBAT_MANA_COST, 0.0 );
-			// Sauceror
-			this.set( Modifiers.SPELL_DAMAGE, 0.0 );
-
-			// Set modifiers depending on Character class
-			String classType = KoLCharacter.getClassType();
-			if ( classType == KoLCharacter.SEAL_CLUBBER || classType == KoLCharacter.ZOMBIE_MASTER || 
-				classType == KoLCharacter.ED || classType == KoLCharacter.COWPUNCHER ||
-				classType == KoLCharacter.BEANSLINGER || classType == KoLCharacter.SNAKE_OILER )
-			{
-				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
-				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
-				this.set( Modifiers.WEAPON_DAMAGE, 15.0 );
-				this.set( Modifiers.DAMAGE_REDUCTION, 1.0 );
-			}
-			else if ( classType == KoLCharacter.TURTLE_TAMER )
-			{
-				this.set( Modifiers.HP_REGEN_MIN, 10.0 );
-				this.set( Modifiers.HP_REGEN_MAX, 12.0 );
-				this.set( Modifiers.FAMILIAR_WEIGHT, 5.0 );
-			}
-			else if ( classType == KoLCharacter.DISCO_BANDIT || classType == KoLCharacter.AVATAR_OF_SNEAKY_PETE )
-			{
-				this.set( Modifiers.RANGED_DAMAGE, 20.0 );
-			}
-			else if ( classType == KoLCharacter.ACCORDION_THIEF )
-			{
-				this.set( Modifiers.FOUR_SONGS, true );
-			}
-			else if ( classType == KoLCharacter.PASTAMANCER )
-			{
-				this.set( Modifiers.MP_REGEN_MIN, 5.0 );
-				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
-				this.set( Modifiers.COMBAT_MANA_COST, -3.0 );
-			}
-			else if ( classType == KoLCharacter.SAUCEROR || classType == KoLCharacter.AVATAR_OF_JARLSBERG )
-			{
-				this.set( Modifiers.MP_REGEN_MIN, 5.0 );
-				this.set( Modifiers.MP_REGEN_MAX, 6.0 );
-				this.set( Modifiers.SPELL_DAMAGE, 20.0 );
-			}
-			return true;
-		}
-		}
-
 		return false;
 	}
 

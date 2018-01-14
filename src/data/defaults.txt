@@ -1252,6 +1252,7 @@ user	yearbookCameraUpgrades	0
 user	zeppelinProtestors	0
 user	zombiePoints	0
 user	_absintheDrops	0
+user	_abstractionDropsCrown	0
 user	_aguaDrops	0
 user	_akgyxothUsed	false
 user	_alienAnimalMilkUsed	false
@@ -1510,6 +1511,7 @@ user	_oilExtracted	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
+user	_oreDropsCrown	0
 user	_pantogramModifier
 user	_pantsgivingFullness	0
 user	_pantsgivingBanish	0

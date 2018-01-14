@@ -541,6 +541,9 @@ public class ItemPool
 	public static final int FRAUDWORT = 1670;
 	public static final int SHYSTERWEED = 1671;
 	public static final int SWINDLEBLOSSOM = 1672;
+	public static final int CARDBOARD_ORE = 1675;
+	public static final int STYROFOAM_ORE = 1676;
+	public static final int BUBBLEWRAP_ORE = 1677;
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int EXPRESS_CARD = 1687;
 	public static final int SWORD_PREPOSITIONS = 1734;
@@ -1079,6 +1082,9 @@ public class ItemPool
 	public static final int TEMPURA_CAULIFLOWER = 3690;
 	public static final int POTION_OF_PERCEPTION = 3693;
 	public static final int POTION_OF_PROFICIENCY = 3694;
+	public static final int VELCRO_ORE = 3698;
+	public static final int TEFLON_ORE = 3699;
+	public static final int VINYL_ORE = 3700;
 	public static final int ANEMONE_MINE_MAP = 3701;
 	public static final int VINYL_BOOTS = 3716;
 	public static final int GNOLL_EYE = 3731;
@@ -2590,6 +2596,9 @@ public class ItemPool
 	public static final int ABSTRACTION_ACTION = 8708;
 	public static final int ABSTRACTION_THOUGHT = 8709;
 	public static final int ABSTRACTION_SENSATION = 8710;
+	public static final int ABSTRACTION_PURPOSE = 8711;
+	public static final int ABSTRACTION_CATEGORY = 8712;
+	public static final int ABSTRACTION_PERCEPTION = 8713;
 	public static final int VYKEA_FRENZY_RUNE = 8722;
 	public static final int VYKEA_BLOOD_RUNE = 8723;
 	public static final int VYKEA_LIGHTNING_RUNE = 8724;
