@@ -2691,7 +2691,41 @@ public class ResultProcessor
 					Preferences.increment( "_spaceFurDropsCrown" );
 				}
 			}
+			break;
 
+		case ItemPool.CARDBOARD_ORE:
+		case ItemPool.STYROFOAM_ORE:
+		case ItemPool.BUBBLEWRAP_ORE:
+		case ItemPool.VELCRO_ORE:
+		case ItemPool.TEFLON_ORE:
+		case ItemPool.VINYL_ORE:
+			if ( combatResults )
+			{
+				// First three could still drop from a ghost miner while this is true, but that would
+				// be harder to check for
+				if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER )
+				{
+					Preferences.increment( "_oreDropsCrown" );
+				}
+			}
+			break;
+
+		case ItemPool.ABSTRACTION_ACTION:
+		case ItemPool.ABSTRACTION_THOUGHT:
+		case ItemPool.ABSTRACTION_SENSATION:
+		case ItemPool.ABSTRACTION_PURPOSE:
+		case ItemPool.ABSTRACTION_CATEGORY:
+		case ItemPool.ABSTRACTION_PERCEPTION:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.MACHINE_ELF ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.MACHINE_ELF )
+				{
+					Preferences.increment( "_abstractionDropsCrown" );
+				}
+			}
+			break;
 
 		case ItemPool.PROFESSOR_WHAT_GARMENT:
 			QuestDatabase.setQuestProgress( Quest.SHIRT, "step1" );
