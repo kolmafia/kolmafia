@@ -539,6 +539,7 @@ user	fossilW	0
 user	fratboysDefeated	0
 user	friarsBlessingReceived	false
 user	gameProBossSpecialPower	Unknown
+user	garbageFireProgress	25
 user	ghostLocation	
 user	ghostPencil1	false
 user	ghostPencil2	false
@@ -2289,6 +2290,14 @@ user	choiceAdventure1213	0
 user	choiceAdventure1214	0
 user	choiceAdventure1215	0
 user	choiceAdventure1219	1
+user	choiceAdventure1222	1
+user	choiceAdventure1223	0
+user	choiceAdventure1224	0
+user	choiceAdventure1225	0
+user	choiceAdventure1226	0
+user	choiceAdventure1227	0
+user	choiceAdventure1228	0
+user	choiceAdventure1229	0
 user	choiceAdventure1236	0
 user	choiceAdventure1237	0
 user	choiceAdventure1238	0

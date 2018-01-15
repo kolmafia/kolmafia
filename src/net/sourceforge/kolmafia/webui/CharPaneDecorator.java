@@ -664,6 +664,12 @@ public class CharPaneDecorator
 				buffer.append( "/30 charges" );
 				return buffer;
 			}
+		case FamiliarPool.GARBAGE_FIRE:
+			{
+				buffer.append( Preferences.getString( "garbageFireProgress" ) );
+				buffer.append( "/30 charges" );
+				return buffer;
+			}
 		}
 		
 		if( familiar.hasDrop() )
