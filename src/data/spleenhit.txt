@@ -62,7 +62,7 @@ enchanted barbell	1	2	decent	0	5-7	0	0
 enchanted leopard-print barbell	5	13	EPIC	15-25	50-100	50-100	50-100
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
-expensive cigar	1	7	decent	1-2	0	0	0
+expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
@@ -73,7 +73,7 @@ glimmering penguin feather	1	1	good	0	0	0	0	20 Antarctic Memories (+40 HP/MP reg
 glimmering phoenix feather	1	1	good	0	0	0	0	20 Phoenix, Right? (+6 exp)
 glimmering raven feather	1	1	good	0	0	0	0	20 Melancholy Burden (+60% item drop)
 glimmering roc feather	4	4	good	6-10	20-30	20-30	20-30
-glyph of athleticism	1	1	good	0	0	0	0	Unspaded, 50 Turn On, Tune In, Play Ball! (+50% Mus, +50 HP, +25% Weapon Dam)
+glyph of athleticism	1	1	good	0	50-75	0	0	50 Turn On, Tune In, Play Ball! (+50% Mus, +50 HP, +25% Weapon Dam)
 goblin paste	4	4	good	5-10	18-22	18-22	18-22	10 Gobliny Flavor (5 DR)
 gooey paste	4	4	good	5-10	18-22	18-22	18-22
 greasy paste	4	4	good	5-10	18-22	18-22	18-22	10 Greasy Flavor (+30 weapon dmg)
@@ -105,7 +105,7 @@ mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
 Medicinal Herb's medicinal herbs	1	3	good	0	0	0	0	full heal
 Mer-kin paste	4	4	good	5-10	18-22	18-22	18-22	10 Mer-kinny Flavor (breathe underwater)
-mime army superserum	1	15	good	0	0	0	0	Unspaded
+mime army superserum	1	15	good	0	0	0	0	Unspaded, 50 I'll Have the Soup (+300% HP, 20 DR, +100 DA)
 molotov soda	3	2	good	8-10	0	0	0
 moomy dust	1	1	decent	0	15-20	15-20	15-20	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 moxie weed	1	1	crappy	0	0	0	1-3
@@ -139,7 +139,7 @@ sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
 sleaze wad	1	6	decent	0	20-30	20-30	50-60	20 Supafly (+30% mox, +15% mus, +15% mys, sleaze dmg/res)
-slimy alveolus	1	5	decent	1-2	0	0	0	40 Slimebreath (+50 ML, slime res)
+slimy alveolus	1	5	decent	0	0	0	0	50 Slimebreath (+50 ML, slime res)
 slimy paste	4	4	good	5-10	18-22	18-22	18-22	10 Slimy Flavor (sleaze dmg/res)
 SMOOCH coffee cup	2	6	good	4-6	0	0	10-20
 spooky jelly	1	1	crappy	0	15-20	15-20	15-20	50 Spooky Jellied (+5 stats/fight, +5 spooky damage, +10% all stats), next monster defeated drops all items
@@ -161,7 +161,7 @@ turkey blaster	2	4	crappy	0	0	0	0	Restore 500-1000 HP/MP first 3 uses per day
 twinkly wad	1	6	decent	0	15-20	15-20	15-20	20 Aspect of the Twinklefairy (+10% all, +weapon/spell dmg)
 ultimate wad	15	13	EPIC	0	0	0	0	+1 level
 Unconscious Collective Dream Jar	4	1	good	5-10	20-30	20-30	20-30
-vibrating mushroom	2	4	decent	3-4	0	0	0	30 Weird Vibrations (+25 init)
+vibrating mushroom	2	4	decent	0	0	0	0	30 Weird Vibrations (+25 init)
 voodoo snuff	3	13	good	8	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 wickerbits	2	12	good	0	0	0	0	Unspaded
