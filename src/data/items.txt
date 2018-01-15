@@ -4262,10 +4262,10 @@
 4237	silver cheese-slicer	561415537	cheeseslicer.gif	weapon	t,d	70
 4238	fancy beef jerky	293476536	herbbag.gif	food	t,d	85	bags of fancy beef jerky
 4239	pipe wrench	186033978	monkeywrench.gif	weapon	t,d	55	pipe wrenches
-4240	gun cleaning kit	447418622	briefcase.gif	usable	t,d	50
+4240	gun cleaning kit	447418622	briefcase.gif	multi	t,d	50
 4241	sleep mask	355769017	sleepmask.gif	hat	t,d	80
 4242	sock garters	344817655	sockgarters.gif	accessory	t,d	35	pairs of sock garters
-4243	mariachi toothpaste	235155722	tube.gif	usable	t,d	40	tubes of mariachi toothpaste
+4243	mariachi toothpaste	235155722	tube.gif	multi	t,d	40	tubes of mariachi toothpaste
 4244	heavy leather-bound tome	470670240	book4.gif	weapon	t,d	85
 4245	leather bookmark	124254562	leathermark.gif	none	t,d	100
 4246	ivory cue ball	470263121	cueball.gif	offhand	t,d	30
