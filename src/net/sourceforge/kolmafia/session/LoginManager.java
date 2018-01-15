@@ -209,9 +209,6 @@ public class LoginManager
 
 		RequestLogger.openSessionLog();
 
-		// Some things aren't properly set by KoL until main.php is loaded
-		RequestThread.postRequest( new GenericRequest( "main.php" ) );
-
 		// Perform requests to read current character's data
 
 		KoLmafia.refreshSession();
