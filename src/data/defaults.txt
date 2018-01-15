@@ -937,6 +937,7 @@ user	questEStSocialJusticeII	unstarted
 user	questEStSuperLuber	unstarted
 user	questEStWorkWithFood	unstarted
 user	questEStZippityDooDah	unstarted
+user	questEUNewYou	unstarted
 user	questF01Primordial	unstarted
 user	questF02Hyboria	unstarted
 user	questF03Future	unstarted
