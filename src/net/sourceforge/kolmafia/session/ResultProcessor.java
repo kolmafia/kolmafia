@@ -2663,10 +2663,27 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.TOASTED_HALF_SANDWICH:
+		case ItemPool.MULLED_HOBO_WINE:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GARBAGE_FIRE ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "garbageFireProgress", -1 );
+				}
+			}
+			break;
+
 		case ItemPool.BURNING_NEWSPAPER:
 			if ( combatResults )
 			{
-				if ( !KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GARBAGE_FIRE ) ) )
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.GARBAGE_FIRE ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "garbageFireProgress", -1 );
+				}
+				else
 				{
 					Preferences.increment( "_garbageFireDropsCrown" );
 				}

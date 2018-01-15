@@ -3881,6 +3881,10 @@ public class FightRequest
 				Preferences.increment( "optimisticCandleProgress" );
 				break;
 
+			case FamiliarPool.GARBAGE_FIRE:
+				Preferences.increment( "garbageFireProgress" );
+				break;
+
 			case FamiliarPool.INTERGNAT:
 				if ( monster != null )
 				{
