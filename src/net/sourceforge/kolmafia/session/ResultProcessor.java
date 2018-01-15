@@ -3138,8 +3138,11 @@ public class ResultProcessor
 		case ItemPool.ROBIN_EGG:
 			if ( combatResults )
 			{
-				// This will be updated to 0 in FightRequest later
-				Preferences.setInteger( "rockinRobinProgress", -1 );
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.ROCKIN_ROBIN ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "rockinRobinProgress", -1 );
+				}
 			}
 			break;
 
@@ -3154,6 +3157,30 @@ public class ResultProcessor
 				else
 				{
 					Preferences.increment( "_optimisticCandleDropsCrown" );
+				}
+			}
+			break;
+
+		case ItemPool.X:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.XO_SKELETON ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "xoSkeleltonXProgress", -1 );
+					Preferences.setInteger( "xoSkeleltonOProgress", 3 );
+				}
+			}
+			break;
+
+		case ItemPool.O:
+			if ( combatResults )
+			{
+				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.XO_SKELETON ) ) )
+				{
+					// This will be updated to 0 in FightRequest later
+					Preferences.setInteger( "xoSkeleltonOProgress", -1 );
+					Preferences.setInteger( "xoSkeleltonXProgress", 4 );
 				}
 			}
 			break;

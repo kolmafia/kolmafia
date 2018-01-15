@@ -619,6 +619,8 @@ public class ValhallaManager
 		Preferences.setInteger( "rockinRobinProgress", 25 );
 		Preferences.setInteger( "optimisticCandleProgress", 25 );
 		Preferences.setInteger( "garbageFireProgress", 25 );
+		Preferences.setInteger( "xoSkeleltonXProgress", 8 );
+		Preferences.setInteger( "xoSkeleltonOProgress", 3 );
 		Preferences.setString( "demonName12", "" );
 		Preferences.setString( "sourceTerminalEnquiry", "" );
 		Preferences.setString( "sourceTerminalEducate1", "" );

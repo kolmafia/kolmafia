@@ -1247,6 +1247,8 @@ user	waxMonster
 user	welcomeBackAdv	0
 user	workteaClue
 user	writingDesksDefeated	0
+user	xoSkeleltonXProgress	8
+user	xoSkeleltonOProgress	3
 user	yearbookCameraAscensions	0
 user	yearbookCameraPending	false
 user	yearbookCameraTarget
