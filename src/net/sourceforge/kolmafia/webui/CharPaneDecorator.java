@@ -664,6 +664,14 @@ public class CharPaneDecorator
 				buffer.append( "/30 charges" );
 				return buffer;
 			}
+		case FamiliarPool.XO_SKELETON:
+			{
+				buffer.append( Preferences.getString( "xoSkeleltonXProgress" ) );
+				buffer.append( "/9 X, " );
+				buffer.append( Preferences.getString( "xoSkeleltonOProgress" ) );
+				buffer.append( "/9 O" );
+				return buffer;
+			}
 		case FamiliarPool.GARBAGE_FIRE:
 			{
 				buffer.append( Preferences.getString( "garbageFireProgress" ) );
