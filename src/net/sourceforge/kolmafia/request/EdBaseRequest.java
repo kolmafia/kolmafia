@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -90,8 +91,18 @@ public class EdBaseRequest
 		if ( matcher.find() )
 		{
 			// Assume that the displayed value includes one point
-			// for your current run + any accumulated points.
-			int newEdPoints = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
+			// for your current run + any accumulated points + points gained by levelling
+			int levelPoints = Math.min( 15, KoLCharacter.getLevel() );
+			levelPoints = levelPoints - (int) ( levelPoints / 3 );
+			int skillsKnown = 0;
+			for ( int i = 17000 ; i <= 17020 ; i++ )
+			{
+				if ( KoLCharacter.hasSkill( i ) )
+				{
+					skillsKnown++;
+				}
+			}
+			int newEdPoints = StringUtilities.parseInt( matcher.group( 1 ) ) + skillsKnown - levelPoints;
 			if ( newEdPoints > edPoints )
 			{
 				Preferences.setInteger( "edPoints", newEdPoints );
