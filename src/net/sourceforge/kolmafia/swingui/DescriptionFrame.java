@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.swingui;
 
+import javax.swing.JFrame;
 import javax.swing.ToolTipManager;
 
 import net.sourceforge.kolmafia.ImageCachingEditorKit;
@@ -75,7 +76,16 @@ public class DescriptionFrame
 		{
 			GenericFrame.createDisplay( DescriptionFrame.class );
 		}
-
+		else
+		{
+			// Ensure it is brought to front if only refreshing
+			int sta = DescriptionFrame.INSTANCE.getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
+			DescriptionFrame.INSTANCE.setExtendedState(sta);
+			DescriptionFrame.INSTANCE.setAlwaysOnTop( true );
+			DescriptionFrame.INSTANCE.toFront();
+			DescriptionFrame.INSTANCE.requestFocus();
+			DescriptionFrame.INSTANCE.setAlwaysOnTop( false );
+		}
 		DescriptionFrame.INSTANCE.refresh( request );
 	}
 }
