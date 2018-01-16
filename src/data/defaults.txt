@@ -863,6 +863,7 @@ user	numericSwagger	0
 user	nunsVisits	0
 user	oceanAction	savecontinue
 user	oceanDestination	manual
+user	odeBuffbotCheck	false
 user	oilPeakProgress	310.66
 user	olfactedMonster	unknown
 user	optimalSwagger	0

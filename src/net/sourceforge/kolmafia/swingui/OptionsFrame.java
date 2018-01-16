@@ -353,6 +353,7 @@ public class OptionsFrame
 				{ "allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing" },
 				{ "allowSummonBurning", "Cast summoning skills during buff balancing" },
 				{ "restUsingChateau", "Rest in the Chateau Mantegna rather than at your dwelling" },
+				{ "odeBuffbotCheck", "Give ode warning if you can get buffbot Ode buff" },
 
 				{},
 
