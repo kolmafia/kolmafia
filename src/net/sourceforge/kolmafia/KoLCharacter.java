@@ -5663,13 +5663,15 @@ public abstract class KoLCharacter
 				Preferences.getString( "edPiece" ),
 				Preferences.getString( "snowsuit" ),
 				null,
+				Preferences.getString( "_horsery" ),
 				false ) );
 	}
 
 	public static final Modifiers recalculateAdjustments( boolean debug, int MCD,
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
-							      String edPiece, String snowsuit, String custom, boolean applyIntrinsics )
+							      String edPiece, String snowsuit, String custom, String horsery,
+								  boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5911,7 +5913,7 @@ public abstract class KoLCharacter
 		}
 
 		// Horsery
-		newModifiers.add( Modifiers.getModifiers( "Horsery", Preferences.getString( "_horsery" ) ) );
+		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
 
 		// Mummery
 		newModifiers.add( Modifiers.parseModifiers( "Mummery", Modifiers.evaluateModifiers( "Mummery", Preferences.getString( "_mummeryMods" ) ) ) );

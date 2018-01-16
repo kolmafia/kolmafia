@@ -63,19 +63,19 @@ public class HorseryCommand
 		int choice = StringUtilities.parseInt( parameters );
 		if ( choice < 1 || choice > 4 )
 		{
-			if ( parameters.contains( "init" ) || parameters.contains( "regen" ) || parameters.contains( "normal" ) )
+			if ( parameters.contains( "init" ) || parameters.contains( "regen" ) || parameters.startsWith( "normal" ) )
 			{
 				choice = 1;
 			}
-			else if ( parameters.contains( "-combat" ) || parameters.contains( "meat" ) || parameters.contains( "dark" ) )
+			else if ( parameters.contains( "-combat" ) || parameters.contains( "meat" ) || parameters.startsWith( "dark" ) )
 			{
 				choice = 2;
 			}
-			else if ( parameters.contains( "stat" ) || parameters.contains( "random" ) || parameters.contains( "crazy" ) )
+			else if ( parameters.contains( "stat" ) || parameters.contains( "random" ) || parameters.startsWith( "crazy" ) )
 			{
 				choice = 3;
 			}
-			else if ( parameters.contains( "resist" ) || parameters.contains( "spooky" ) || parameters.contains( "pale" ) )
+			else if ( parameters.contains( "resist" ) || parameters.contains( "spooky" ) || parameters.startsWith( "pale" ) )
 			{
 				choice = 4;
 			}
@@ -95,12 +95,12 @@ public class HorseryCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the dark horse." );
 			return;
 		}
-		if ( choice == 3 && Preferences.getString( "_horsery" ).startsWith( "crazy horse" ) )
+		if ( choice == 3 && Preferences.getString( "_horsery" ).equals( "crazy horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the crazy horse." );
 			return;
 		}
-		if ( choice == 4 && Preferences.getString( "_horsery" ).startsWith( "pale horse" ) )
+		if ( choice == 4 && Preferences.getString( "_horsery" ).equals( "pale horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the pale horse." );
 			return;
