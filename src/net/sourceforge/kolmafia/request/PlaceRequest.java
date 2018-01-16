@@ -723,6 +723,13 @@ public class PlaceRequest
 				message = "Visiting The Bookmobile";
 			}
 		}
+		else if ( place.equals( "town_right" ) )
+		{
+			if ( action.equals( "town_horsery" ) )
+			{
+				message = "Visiting The Horsery";
+			}
+		}
 		else if ( place.equals( "town_wrong" ) )
 		{
 			if ( action.equals( "townwrong_precinct" ) )

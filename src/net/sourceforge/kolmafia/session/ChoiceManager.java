@@ -7072,7 +7072,8 @@ public abstract class ChoiceManager
 				{
 					Preferences.setString( "_horsery", "Muscle Percent: " + matcher.group( 1 ) +
 					                                 ", Mysticality Percent: " + matcher.group( 2 ) +
-					                                 ", Moxie Percent: " + matcher.group( 3 ) );
+					                                 ", Moxie Percent: " + matcher.group( 3 ) +
+													 ", Drops Meat" );
 				}
 				else
 				{
@@ -11693,6 +11694,40 @@ public abstract class ChoiceManager
 			{
 				// Exchanging for equipment
 				ResultProcessor.removeItem( ItemPool.METAL_METEOROID );
+			}
+			break;
+
+		case 1266:
+			// The Hostler
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				String message = "Chose the normal horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				String message = "Chose the dark horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				String message = "Chose the crazy horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				String message = "Chose the pale horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				String message = "Returned your horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 			break;
 
