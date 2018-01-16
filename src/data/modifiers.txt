@@ -10411,11 +10411,6 @@ Florist	Rad-ish Radish	Experience (Moxie): +5
 Florist	Lettuce Spray	HP Regen Min: 10, HP Regen Max: 30
 Florist	Seltzer Watercress	MP Regen Min: 5, MP Regen Max: 15
 
-# Path section
-
-Path	One Crazy Random Summer	Random Monster Modifiers: +1
-Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
-
 # Indoor Plants
 
 Florist	War Lily	Monster Level: +30
@@ -10453,3 +10448,14 @@ Florist	Crookweed	Meat Drop: +60
 # Florist:Sub-Sea Rose: Deals Cold damage
 Florist	Snori	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 20
 Florist	Up Sea Daisy	Experience: +30
+
+# Path section
+
+Path	One Crazy Random Summer	Random Monster Modifiers: +1
+Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative: [30*pref(bondInit)], Damage Reduction: [10*pref(bondDR)], Maximum HP Percent: [20*pref(bondHP)], Item Drop: [10*pref(bondItem1)+20*pref(bondItem2)+30*pref(bondItem3)], Experience: [2*pref(bondStat)+5*pref(bondStat2)], Booze Drop: [100*pref(bondBooze)], Meat Drop: [20*pref(bondMeat)], Experience (Muscle): [2*pref(bondMus2)+pref(bondMus1)], Experience (Mysticality): [2*pref(bondMys2)+pref(bondMys1)], Experience (Moxie): [2*pref(bondMox2)+pref(bondMox1)], MP Regen Min: [10*pref(bondMPregen)], MP Regen Max: [15*pref(bondMPregen)], Weapon Damage: [10*pref(bondWeapon2)], Adventures: [11*pref(bondAdv)]
+
+# Horsery
+Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+Horsery	dark horse	Combat Rate: -5, Drops Meat
+Horsery	crazy horse	Muscle Percent: [pref(_horseryCrazyMus)], Mysticality Percent: [pref(_horseryCrazyMys)], Moxie Percent: [pref(_horseryCrazyMox)]
+Horsery	pale horse	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1

@@ -945,6 +945,12 @@ public abstract class KoLmafia
 		InventoryManager.checkJickSword();
 		InventoryManager.checkPantogram();
 
+		// Check Horsery if we haven't today
+		if ( Preferences.getBoolean( "horseryAvailable" ) && Preferences.getString( "_horseryCrazyMox" ).length() == 0 )
+		{
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_right&action=town_horsery" ) );
+		}
+
 		// Refresh familiar stuff
 		FamiliarData.reset();
 
