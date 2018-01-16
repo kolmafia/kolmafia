@@ -503,9 +503,10 @@ public class DrinkItemRequest
 		// Check if character can cast Ode.
 		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
 		boolean canOde = KoLConstants.availableSkills.contains( ode ) && UseSkillRequest.hasAccordion();
+		boolean requestBuffOde = KoLCharacter.canInteract() && Preferences.getBoolean( "odeBuffbotCheck" );
 
 		// If you either can't get or don't care about both effects, don't nag
-		if ( ( !canOde || skipOdeNag ) && skipDrunkAvuncularNag )
+		if ( ( ( !canOde && !requestBuffOde) || skipOdeNag ) && skipDrunkAvuncularNag )
 		{
 			return true;
 		}
@@ -529,7 +530,7 @@ public class DrinkItemRequest
 		}
 
 		// Check for Ode
-		if ( !skipOdeNag && canOde )
+		if ( !skipOdeNag && ( canOde || requestBuffOde ) )
 		{
 			// See if already have enough turns of Ode to Booze
 			int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
@@ -546,7 +547,7 @@ public class DrinkItemRequest
 			while ( KoLCharacter.canInteract() &&
 				odeTurns < consumptionTurns &&
 				KoLCharacter.getCurrentMP() >= odeCost &&
-				KoLmafia.permitsContinue() )
+				KoLmafia.permitsContinue() && canOde )
 			{
 				ode.setBuffCount( 1 );
 				RequestThread.postRequest( ode );
