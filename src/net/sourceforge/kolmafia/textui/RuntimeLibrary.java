@@ -991,6 +991,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_adventures", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_session_adv", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_daycount", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4899,6 +4902,19 @@ public abstract class RuntimeLibrary
 	public static Value my_adventures( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getAdventuresLeft() );
+	}
+
+	public static Value my_session_adv( Interpreter interpreter )
+	{
+		int adv = 0;
+		for ( AdventureResult result : KoLConstants.tally )
+		{
+			if ( result.getConditionType().equals( "choiceadv" ) )
+			{
+				adv = result.getCount();
+			}
+		}
+		return new Value( adv );
 	}
 
 	public static Value my_daycount( Interpreter interpreter )
