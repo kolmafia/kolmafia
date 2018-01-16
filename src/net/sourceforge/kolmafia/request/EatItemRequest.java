@@ -688,6 +688,18 @@ public class EatItemRequest
 			return;
 		}
 
+		// You may only eat one of those per day.
+		if ( responseText.contains( "may only eat one of those per day" ) )
+		{
+			UseItemRequest.lastUpdate = "You may only eat one of those per day.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			if ( item.getItemId() == ItemPool.AFFIRMATION_COOKIE )
+			{
+				Preferences.setBoolean( "_affirmationCookieEaten", true );
+			}
+			return;
+		}
+
 		// Food is restricted by Standard.
 		if ( responseText.contains( "That item is too old to be used on this path" ) )
 		{
@@ -927,6 +939,7 @@ public class EatItemRequest
 		case ItemPool.AFFIRMATION_COOKIE:
 			// Not correcting based on actual consumption, as too many other things can affect it.
 			Preferences.increment( "affirmationCookiesEaten", 1 );
+			Preferences.setBoolean( "_affirmationCookieEaten", true );
 			ConsumablesDatabase.setAffirmationCookieData();
 			ConsumablesDatabase.calculateAdventureRanges();
 			return;

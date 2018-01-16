@@ -124,6 +124,7 @@ public class ConcoctionDatabase
 	public static int queuedSpeakeasyDrink = 0;
 	public static int queuedSmores = 0;
 	public static int queuedAffirmationCookies = 0;
+	public static int queuedSpaghettiBreakfast = 0;
 	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
@@ -613,7 +614,11 @@ public class ConcoctionDatabase
 		if ( c.getItemId() == ItemPool.AFFIRMATION_COOKIE )
 		{
 			ConcoctionDatabase.queuedAffirmationCookies++;
-			ConsumablesDatabase.setAffirmationCookieData();
+		}
+
+		if ( c.getItemId() == ItemPool.SPAGHETTI_BREAKFAST )
+		{
+			ConcoctionDatabase.queuedSpaghettiBreakfast++;
 		}
 	}
 
@@ -763,7 +768,11 @@ public class ConcoctionDatabase
 		if ( c.getItemId() == ItemPool.AFFIRMATION_COOKIE )
 		{
 			ConcoctionDatabase.queuedAffirmationCookies--;
-			ConsumablesDatabase.setAffirmationCookieData();
+		}
+
+		if ( c.getItemId() == ItemPool.SPAGHETTI_BREAKFAST )
+		{
+			ConcoctionDatabase.queuedAffirmationCookies--;
 		}
 
 		return qc;
