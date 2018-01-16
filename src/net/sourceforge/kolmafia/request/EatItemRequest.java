@@ -924,6 +924,12 @@ public class EatItemRequest
 			ConsumablesDatabase.calculateAdventureRanges();
 			return;
 
+		case ItemPool.AFFIRMATION_COOKIE:
+			// Not correcting based on actual consumption, as too many other things can affect it.
+			Preferences.increment( "affirmationCookiesEaten", 1 );
+			ConsumablesDatabase.setAffirmationCookieData();
+			ConsumablesDatabase.calculateAdventureRanges();
+			return;
 		}
 	}
 

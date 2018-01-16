@@ -1258,6 +1258,20 @@ public class ConsumablesDatabase
 		}
 	}
 
+	public static final void setAffirmationCookieData()
+	{
+		// Affirmation CookieHandler
+		String name = "Affirmation Cookie";
+		int size = 1;
+		int count = Math.min( 4, Preferences.getInteger( "affirmationCookiesEaten" ) + 1 + ConcoctionDatabase.queuedAffirmationCookies );
+		String adventures = String.valueOf( (int) ( ( 2 * count ) + 1 ) );
+		String muscle = String.valueOf( (int) ( 30 * count ) );
+		String mysticality = String.valueOf( (int) ( 30 * count ) );
+		String moxie = String.valueOf( (int) ( 30 * count ) );
+		String note = "";
+		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+	}
+
 	// Support for dusty bottles of wine
 
 	public static final String dustyBottleType( final int itemId )

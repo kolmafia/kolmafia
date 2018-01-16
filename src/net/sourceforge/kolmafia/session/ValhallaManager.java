@@ -555,6 +555,7 @@ public class ValhallaManager
 		Preferences.setInteger( "carboLoading", 0 );
 		Preferences.setBoolean( "popularTartUnlocked", false );
 		Preferences.setInteger( "smoresEaten", 0 );
+		Preferences.setInteger( "affirmationCookiesEaten", 0 );
 		Preferences.setInteger( "snojoMoxieWins", 0 );
 		Preferences.setInteger( "snojoMuscleWins", 0 );
 		Preferences.setInteger( "snojoMysticalityWins", 0 );
