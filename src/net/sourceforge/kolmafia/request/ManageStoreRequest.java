@@ -38,6 +38,7 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -219,7 +220,6 @@ public class ManageStoreRequest
 
 			KoLmafia.updateDisplay( "Adding " + name + " to store..." );
 			super.run();
-			KoLmafia.updateDisplay( item.getCount() + " " + name + " added to your store." );
 		}
 	}
 
@@ -298,6 +298,12 @@ public class ManageStoreRequest
 
 		if ( action.equals( "additem" ) )
 		{
+			if ( responseText.contains( "Are you sure you want to sell this item for that little Meat?" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "KOL's low price protection stopped you selling." );
+				return;
+			}
+
 			// (2) breath mints stocked for 999,999,999 meat each.
 			Matcher stockedMatcher = ManageStoreRequest.STOCKED_PATTERN.matcher( responseText );
 			if ( !stockedMatcher.find() )
@@ -335,6 +341,8 @@ public class ManageStoreRequest
 			}
 
 			StoreManager.addItem( itemId, quantity, price, limit );
+
+			KoLmafia.updateDisplay( item.getCount() + " " + item.getName() + " added to your store." );
 
 			return;
 		}
