@@ -521,6 +521,12 @@ public abstract class ChatManager
 			return;
 		}
 
+		if ( content.contains( "New message received from" ) )
+		{
+			// May have been sent items, and API request is low impact.
+			ApiRequest.updateInventory( true );
+		}
+
 		if ( content.contains( " has " ) )
 		{
 			// This is a nice idea, but if we are doing other

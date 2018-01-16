@@ -57,6 +57,7 @@ public class ApiRequest
 	extends GenericRequest
 {
 	private static final ApiRequest INSTANCE = new ApiRequest( "status" );
+	private static final ApiRequest INVENTORY = new ApiRequest( "inventory" );
 	private static final CharPaneRequest CHARPANE = new CharPaneRequest();
 
 	private String what;
@@ -106,6 +107,18 @@ public class ApiRequest
 		ApiRequest.INSTANCE.silent = silent;
 		ApiRequest.INSTANCE.run();
 		return ApiRequest.INSTANCE.redirectLocation;
+	}
+
+	public static String updateInventory()
+	{
+		return ApiRequest.updateInventory( false );
+	}
+
+	public synchronized static String updateInventory( final boolean silent )
+	{
+		ApiRequest.INVENTORY.silent = silent;
+		ApiRequest.INVENTORY.run();
+		return ApiRequest.INVENTORY.redirectLocation;
 	}
 
 	@Override
