@@ -592,6 +592,7 @@ public abstract class KoLCharacter
 		ConcoctionDatabase.resetQueue();
 		ConcoctionDatabase.refreshConcoctions();
 		ConsumablesDatabase.setSmoresData();
+		ConsumablesDatabase.setAffirmationCookieData();
 		ConsumablesDatabase.setVariableConsumables();
 		ConsumablesDatabase.calculateAdventureRanges();
 

@@ -123,6 +123,7 @@ public class ConcoctionDatabase
 	public static boolean queuedFancyDog = false;
 	public static int queuedSpeakeasyDrink = 0;
 	public static int queuedSmores = 0;
+	public static int queuedAffirmationCookies = 0;
 	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
@@ -608,6 +609,12 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.queuedSmores++;
 			ConsumablesDatabase.setSmoresData();
 		}
+
+		if ( c.getItemId() == ItemPool.AFFIRMATION_COOKIE )
+		{
+			ConcoctionDatabase.queuedAffirmationCookies++;
+			ConsumablesDatabase.setAffirmationCookieData();
+		}
 	}
 
 	public static final QueuedConcoction pop( boolean food, boolean booze, boolean spleen )
@@ -751,6 +758,12 @@ public class ConcoctionDatabase
 			ConsumablesDatabase.setSmoresData();
 			// The last s'more was smaller than the next one, so adjust queued fullness
 			ConcoctionDatabase.queuedFullness++;
+		}
+
+		if ( c.getItemId() == ItemPool.AFFIRMATION_COOKIE )
+		{
+			ConcoctionDatabase.queuedAffirmationCookies--;
+			ConsumablesDatabase.setAffirmationCookieData();
 		}
 
 		return qc;
