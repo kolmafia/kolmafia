@@ -3885,6 +3885,11 @@ public class FightRequest
 				Preferences.increment( "garbageFireProgress" );
 				break;
 
+			case FamiliarPool.XO_SKELETON:
+				Preferences.increment( "xoSkeleltonXProgress" );
+				Preferences.increment( "xoSkeleltonOProgress" );
+				break;
+
 			case FamiliarPool.INTERGNAT:
 				if ( monster != null )
 				{

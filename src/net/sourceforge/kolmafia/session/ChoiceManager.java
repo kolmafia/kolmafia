@@ -3863,6 +3863,55 @@ public abstract class ChoiceManager
 		// Choice 1217 is Sweet Synthesis
 		// Choice 1218 is Wax On
 
+		// Choice 1222 is The Tunnel of L.O.V.E.
+
+		// Choice 1223 is L.O.V. Entrance
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1223", "L.O.V.E Fight 1",
+			new Object[] { new Option( "(free) fight LOV Enforcer", 1 ),
+				       new Option( "avoid fight", 2 ) } ),
+
+		// Choice 1224 is L.O.V. Equipment Room
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1224", "L.O.V.E Choice 1",
+			new Object[] { new Option( "acquire LOV Eardigan", 1, "LOV Eardigan" ),
+				       new Option( "acquire LOV Epaulettes", 2, "LOV Epaulettes" ),
+				       new Option( "acquire LOV Earrings", 3, "LOV Earrings" ),
+				       new Option( "take nothing", 4 ) } ),
+
+		// Choice 1225 is L.O.V. Engine Room
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1225", "L.O.V.E Fight 2",
+			new Object[] { new Option( "(free) fight LOV Engineer", 1 ),
+				       new Option( "avoid fight", 2 ) } ),
+
+		// Choice 1226 is L.O.V. Emergency Room
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1226", "L.O.V.E Choice 2",
+			new Object[] { new Option( "50 adv of Lovebotamy (+10 stats/fight)", 1 ),
+				       new Option( "50 adv of Open Heart Surgery (+10 fam weight)", 2 ),
+				       new Option( "50 adv of Wandering Eye Surgery (+50 item drop)", 3 ),
+				       new Option( "get no buff", 4 ) } ),
+
+		// Choice 1227 is L.O.V. Elbow Room
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1227", "L.O.V.E Fight 3",
+			new Object[] { new Option( "(free) fight LOV Equivocator", 1 ),
+				       new Option( "avoid fight", 2 ) } ),
+
+		// Choice 1228 is L.O.V. Emporium
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1228", "L.O.V.E Choice 3",
+			new Object[] { new Option( "acquire LOV Enamorang", 1, "LOV Enamorang" ),
+				       new Option( "acquire LOV Emotionizer", 2, "LOV Emotionizer" ),
+				       new Option( "acquire LOV Extraterrestrial Chocolate", 3, "LOV Extraterrestrial Chocolate" ),
+				       new Option( "acquire LOV Echinacea Bouquet", 4, "LOV Echinacea Bouquet" ),
+				       new Option( "acquire LOV Elephant", 5, "LOV Elephant" ),
+				       new Option( "acquire 2 pieces of toast (if have Space Jellyfish)", 6, "toast" ),
+				       new Option( "take nothing", 7 ) } ),
+
+		// Choice 1229 is L.O.V. Exit
+
 		// Choice 1236 is Space Cave
 		new ChoiceAdventure(
 			"The Spacegate", "choiceAdventure1236", "Space Cave",
@@ -15490,6 +15539,25 @@ public abstract class ChoiceManager
 		}
 	}
 	
+	public static boolean noRelayChoice( int choice )
+	{
+		// Some choices are so clear (or non-standard) that we don't want to mark them up
+		// but do want a choice in Mafia GUI
+		switch ( choice )
+		{
+		case 1223: // L.O.V. Entrance
+		case 1224: // L.O.V. Equipment Room
+		case 1225: // L.O.V. Engine Room
+		case 1226: // L.O.V. Emergency Room
+		case 1227: // L.O.V. Elbow Room
+		case 1228: // L.O.V. Emporium
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
 	public static boolean canWalkAway()
 	{
 		return ChoiceManager.canWalkAway;

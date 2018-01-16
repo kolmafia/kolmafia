@@ -1809,9 +1809,9 @@ Judge Fudge	1991	gbjudge.gif	Scale: 10 Cap: 1000 Floor: 30 Init: 100 P: dude Spr
 GNG-3-R	1992	gng3r.gif	Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #3 (0)
-LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	LOV Elixir #6 (0)
-LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude	LOV Elixir #9 (0)
+LOV Enforcer	2009	lovenforcer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75	LOV Elixir #3 (c0)
+LOV Engineer	2010	lovengineer.gif	Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25	LOV Elixir #6 (c0)
+LOV Equivocator	2011	lovequivocator.gif	Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	alien plant fibers	alien plant goo
