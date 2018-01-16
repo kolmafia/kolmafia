@@ -791,10 +791,15 @@ public class StationaryButtonDecorator
 			int skillID = StringUtilities.parseInt( action );
 			UseSkillRequest actionRequest = UseSkillRequest.getUnmodifiedInstance( skillID );
 			isEnabled &= KoLConstants.availableCombatSkills.contains( actionRequest );
-			// Disable Lash if already used this Ed fight
-			if ( skillID == SkillPool.LASH_OF_COBRA && Preferences.getBoolean( "edUsedLash" ) )
+			// Some skills cannot be used by KOL does not remove them
+			switch ( skillID )
 			{
-				isEnabled = false;
+			case SkillPool.LASH_OF_COBRA:
+				isEnabled = !Preferences.getBoolean( "edUsedLash" );
+				break;
+			case SkillPool.GINGERBREAD_MOB_HIT:
+				isEnabled = !Preferences.getBoolean( "_gingerbreadMobHitUsed" );
+				break;
 			}
 		}
 
