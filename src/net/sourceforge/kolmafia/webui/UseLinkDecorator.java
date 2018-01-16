@@ -1980,6 +1980,18 @@ public abstract class UseLinkDecorator
 			useLocation = "shop.php?whichshop=bacon";
 			break;
 
+		case ItemPool.X:
+			int xcount = InventoryManager.getCount( itemId );
+			useType = "eXpend (" + xcount + ")";
+			useLocation = "shop.php?whichshop=xo";
+			break;
+
+		case ItemPool.O:
+			int ocount = InventoryManager.getCount( itemId );
+			useType = "blOw (" + ocount + ")";
+			useLocation = "shop.php?whichshop=xo";
+			break;
+
 		case ItemPool.RAD:
 			int radcount = InventoryManager.getCount( itemId );
 			useType = "mutate (" + radcount + ")";

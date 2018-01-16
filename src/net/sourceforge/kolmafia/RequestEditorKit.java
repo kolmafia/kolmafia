@@ -1875,6 +1875,12 @@ public class RequestEditorKit
 		// Find the options for the choice we've encountered
 		Object[][] spoilers = ChoiceManager.choiceSpoilers( choice );
 
+		// Some choices we don't mark up with spoilers
+		if ( ChoiceManager.noRelayChoice( choice ) )
+		{
+			spoilers = null;
+		}
+
 		if ( spoilers == null )
 		{	// Don't give up - there may be a specified choice even if there
 			// are no spoilers.
