@@ -5187,7 +5187,7 @@ Effect	Fondid	Monster Level: +15
 Effect	Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 Effect	For Your Brain Only	Mysticality: +30
 # Forbear, Warbears!: +40 WarBear Armor Penetration
-Effect	Force of Mayo Be With You	Sleaze Damage: +10, Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
+Effect	Force of Mayo Be With You	Sleaze Damage: [pref(mayoLevel)+10], Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
