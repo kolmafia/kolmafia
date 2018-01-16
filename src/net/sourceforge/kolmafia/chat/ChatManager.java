@@ -527,6 +527,12 @@ public abstract class ChatManager
 			ApiRequest.updateInventory( true );
 		}
 
+		if ( content.contains( "just attacked you!" ) )
+		{
+			// May have lost items, and API request is low impact.
+			ApiRequest.updateInventory( true );
+		}
+
 		if ( content.contains( " has " ) )
 		{
 			// This is a nice idea, but if we are doing other
