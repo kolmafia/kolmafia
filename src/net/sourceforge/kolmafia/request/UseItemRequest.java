@@ -1195,6 +1195,19 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_perfectlyFairCoinUsed" ) ? 0 : 1;
 
+		case ItemPool.AFFIRMATION_COOKIE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_affirmationCookieEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedAffirmationCookies );
+
+		case ItemPool.SPAGHETTI_BREAKFAST:
+			if ( KoLCharacter.getFullness() > 0 )
+			{
+				UseItemRequest.limiter = "have already eaten";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_spaghettiBreakfastEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedSpaghettiBreakfast );
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
