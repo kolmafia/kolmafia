@@ -7052,44 +7052,6 @@ public abstract class ChoiceManager
 				Preferences.setString( "_villainLairKey", "pete" );
 			}
 			break;
-
-		case 1266:
-			// The Hostler
-			Preferences.setBoolean( "horseryAvailable", true );
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				Preferences.setString( "_horsery", "Initiative: +10" );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
-				Preferences.setString( "_horsery", "Combat Rate: -5" );
-			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
-				Pattern pattern = Pattern.compile( "Gives you\\s+([+-]\\d+)% Muscle, ([+-]\\d+)% Mysticality, and ([+-]\\d+)%" );
-				Matcher matcher = pattern.matcher( ChoiceManager.lastResponseText );
-				if ( matcher.find() )
-				{
-					Preferences.setString( "_horsery", "Muscle Percent: " + matcher.group( 1 ) +
-					                                 ", Mysticality Percent: " + matcher.group( 2 ) +
-					                                 ", Moxie Percent: " + matcher.group( 3 ) +
-													 ", Drops Meat" );
-				}
-				else
-				{
-					// This shouldn't happen, but at least clear the setting if something goes wrong
-					Preferences.setString( "_horsery", "" );
-				}
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
-				Preferences.setString( "_horsery", "Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1" );
-			}
-			else if ( ChoiceManager.lastDecision == 5 )
-			{
-				Preferences.setString( "_horsery", "" );
-			}
-			break;
 		}
 	}
 
@@ -9947,6 +9909,30 @@ public abstract class ChoiceManager
 			Preferences.setBoolean( "_villainLairSymbologyChoiceUsed", true );
 			break;
 
+
+		case 1266:
+			// The Hostler
+			if ( ChoiceManager.lastDecision < 5 )
+			{
+				Pattern pattern = Pattern.compile( "You rent(|ed) the (.*?)!" );
+				Matcher matcher = pattern.matcher( text );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "_horsery", matcher.group( 2 ) );
+					String message = "Chose the " + matcher.group( 2 );
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Preferences.setString( "_horsery", "" );
+				String message = "Returned your horse";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
+			break;
+
 		case 1270:
 			// Pantagramming
 			// The item that we get has a procedurally-generated name
@@ -11697,40 +11683,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1266:
-			// The Hostler
-			if ( ChoiceManager.lastDecision == 1 )
-			{
-				String message = "Chose the normal horse";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
-			else if ( ChoiceManager.lastDecision == 2 )
-			{
-				String message = "Chose the dark horse";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
-				String message = "Chose the crazy horse";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
-				String message = "Chose the pale horse";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
-			else if ( ChoiceManager.lastDecision == 5 )
-			{
-				String message = "Returned your horse";
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-			}
-			break;
-
 		case 1267: // Rubbed it the Right Way
 			GenieRequest.postChoice( text );
 			break;
@@ -12869,6 +12821,41 @@ public abstract class ChoiceManager
 				KoLCharacter.updateStatus();
 			}
 			break;
+
+		case 1266:
+		{
+			// The Hostler
+			Preferences.setBoolean( "horseryAvailable", true );
+			Pattern pattern = Pattern.compile( "Gives you\\s+([+-]\\d+)% Muscle, ([+-]\\d+)% Mysticality, and ([+-]\\d+)%" );
+			Matcher matcher = pattern.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_horseryCrazyMus", matcher.group( 1 ) );
+				Preferences.setString( "_horseryCrazyMys", matcher.group( 2 ) );
+				Preferences.setString( "_horseryCrazyMox", matcher.group( 3 ) );
+			}
+			if ( !text.contains( "name=option value=1" ) )
+			{
+				Preferences.setString( "_horsery", "normal horse" );
+			}
+			else if ( !text.contains( "name=option value=2" ) )
+			{
+				Preferences.setString( "_horsery", "dark horse" );
+			}
+			else if ( !text.contains( "name=option value=3" ) )
+			{
+				Preferences.setString( "_horsery", "crazy horse" );
+			}
+			else if ( !text.contains( "name=option value=4" ) )
+			{
+				Preferences.setString( "_horsery", "pale horse" );
+			}
+			else
+			{
+				Preferences.setString( "_horsery", "" );
+			}
+			break;
+		}
 
 		case 1267:
 			// Rubbed it the Right Way

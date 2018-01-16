@@ -85,22 +85,22 @@ public class HorseryCommand
 			KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " is not a valid option." );
 			return;
 		}
-		if ( choice == 1 && Preferences.getString( "_horsery" ).startsWith( "Initiative" ) )
+		if ( choice == 1 && Preferences.getString( "_horsery" ).equals( "normal horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the normal horse." );
 			return;
 		}
-		if ( choice == 2 && Preferences.getString( "_horsery" ).startsWith( "Combat Rate" ) )
+		if ( choice == 2 && Preferences.getString( "_horsery" ).equals( "dark horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the dark horse." );
 			return;
 		}
-		if ( choice == 3 && Preferences.getString( "_horsery" ).startsWith( "Muscle Percent" ) )
+		if ( choice == 3 && Preferences.getString( "_horsery" ).startsWith( "crazy horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the crazy horse." );
 			return;
 		}
-		if ( choice == 4 && Preferences.getString( "_horsery" ).startsWith( "Cold Resistance" ) )
+		if ( choice == 4 && Preferences.getString( "_horsery" ).startsWith( "pale horse" ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You have already have the pale horse." );
 			return;
