@@ -783,6 +783,7 @@ public class KoLmafiaCLI
 		new HatterCommand().register( "hatter" );
 		new HeapDumpCommand().register( "jmap" ).register( "heapdump" );
 		new HermitCommand().register( "hermit" );
+		new HorseryCommand().register( "horsery" );
 		new HotTubCommand().register( "hottub" ).register( "soak" );
 		new IfStatement().register( "if" );
 		new ItemTraceCommand().register( "itrace" );
