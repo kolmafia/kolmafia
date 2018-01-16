@@ -495,6 +495,46 @@ public class Maximizer
 				text = text + "]";
 				Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
 			}
+
+			if ( lookup.startsWith( "Horsery:" ) )
+			{
+				String cmd, text;
+				int price = 0;
+				String name = lookup.substring( 8 );
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				spec.setHorsery( name );
+				double delta = spec.getScore() - current;
+				if ( delta <= 0.0 )
+				{
+					continue;
+				}
+				text = "horsery " + name;
+				cmd = "horsery " + name;
+				if ( !Preferences.getBoolean( "horseryAvailable" ) )
+				{
+					cmd = "";
+					if ( includeAll )
+					{
+						text = "(get a horsery and ride a " + name + ")";
+					}
+					else continue;
+				}
+				text += " (" + KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+				if ( Preferences.getString( "_horsery" ).length() > 0 )
+				{
+					price = 500;
+				}
+				if ( KoLCharacter.getAvailableMeat() < price )
+				{
+					cmd = "";
+				}
+				if ( Preferences.getBoolean( "verboseMaximizer" ) )
+				{
+					text += " [" + price + " meat]";
+				}
+				Maximizer.boosts.add( new Boost( cmd, text, (AdventureResult) null, delta ) );
+			}
+
 			if ( !lookup.startsWith( "Effect:" ) )
 			{
 				continue;
@@ -506,6 +546,7 @@ public class Maximizer
 				continue;
 			}
 
+			int price = 0;
 			double delta;
 			boolean isSpecial = false;
 			MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -514,7 +555,6 @@ public class Maximizer
 			boolean hasEffect = KoLConstants.activeEffects.contains( effect );
 			Iterator<String> sources;
 			String cmd, text;
-			int price = 0;
 			int advCost = 0;
 			int mpCost = 0;
 			int fullCost = 0;

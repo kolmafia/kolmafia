@@ -61,7 +61,7 @@ public class Speculation
 	public AdventureResult[] equipment;
 	private ArrayList<AdventureResult> effects;
 	private FamiliarData familiar, enthroned, bjorned;
-	private String edPiece, snowsuit, custom;
+	private String edPiece, snowsuit, custom, horsery;
 	protected boolean calculated = false;
 	protected Modifiers mods;
 
@@ -92,6 +92,7 @@ public class Speculation
 		this.edPiece = Preferences.getString( "edPiece" );
 		this.snowsuit = Preferences.getString( "snowsuit" );
 		this.custom = null;
+		this.horsery = Preferences.getString( "_horsery" );
 	}
 
 	public void setMindControlLevel( int MCD )
@@ -129,6 +130,11 @@ public class Speculation
 		this.custom = custom;
 	}
 
+	public void setHorsery( String horsery )
+	{
+		this.horsery = horsery;
+	}
+
 	public FamiliarData getEnthroned()
 	{
 		return this.enthroned;
@@ -157,6 +163,11 @@ public class Speculation
 	public String getCustom()
 	{
 		return this.custom;
+	}
+
+	public String getHorsery()
+	{
+		return this.horsery;
 	}
 
 	public void equip( int slot, AdventureResult item )
@@ -201,6 +212,7 @@ public class Speculation
 			this.edPiece,
 			this.snowsuit,
 			this.custom,
+			this.horsery,
 			true );
 		this.calculated = true;
 		return this.mods;
