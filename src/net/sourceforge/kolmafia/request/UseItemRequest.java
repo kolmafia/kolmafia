@@ -6004,7 +6004,6 @@ public class UseItemRequest
 			return;
 		}
 
-
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
 		{
 			Preferences.setBoolean( "_workshedItemUsed", true );
@@ -6014,6 +6013,12 @@ public class UseItemRequest
 			}
 			CampgroundRequest.setCurrentWorkshedItem( ItemPool.get( itemId, 1 ) );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
+			
+			// Get current fuel level
+			if ( itemId == ItemPool.ASDON_MARTIN )
+			{
+				RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+			}
 		}
 
 		// Finally, remove the item from inventory if it was successfully used.
