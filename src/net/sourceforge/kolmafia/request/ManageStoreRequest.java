@@ -342,7 +342,7 @@ public class ManageStoreRequest
 
 			StoreManager.addItem( itemId, quantity, price, limit );
 
-			KoLmafia.updateDisplay( item.getCount() + " " + item.getName() + " added to your store." );
+			KoLmafia.updateDisplay( quantity + " " + item.getName() + " added to your store." );
 
 			return;
 		}
