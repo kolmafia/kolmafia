@@ -1694,19 +1694,23 @@ public class Maximizer
 						if ( price > maxPrice || price == -1 ) continue;
 						if ( priceLevel == 2 && ( checkedItem.initial > 0 || checkedItem.creatable > 0 || checkedItem.pullable > 0 || checkedItem.npcBuyable > 0 ) )
 						{
-							if ( MallPriceDatabase.getPrice( item.getItemId() )	> maxPrice * 2 )
+							// Only check mall prices on tradeable items.
+							if ( ItemDatabase.isTradeable( itemId ) )
 							{
-								continue;
-							}
+								if ( MallPriceDatabase.getPrice( itemId ) > maxPrice * 2 )
+								{
+									continue;
+								}
 
-							// Depending on preference, either get historical mall price or look it up
-							if ( Preferences.getBoolean( "maximizerCurrentMallPrices" ) )
-							{
-								price = StoreManager.getMallPrice( item );
-							}
-							else
-							{
-								price = StoreManager.getMallPrice( item, 7.0f );
+								// Depending on preference, either get historical mall price or look it up
+								if ( Preferences.getBoolean( "maximizerCurrentMallPrices" ) )
+								{
+									price = StoreManager.getMallPrice( item );
+								}
+								else
+								{
+									price = StoreManager.getMallPrice( item, 7.0f );
+								}
 							}
 						}
 					}

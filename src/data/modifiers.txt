@@ -4725,6 +4725,7 @@ Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
 # Effect Burning Tongue: Lets you spit fireballs!
 # Burning, Man: Sizzle!
 Effect	Burns Effect	Avatar: "Mr. Burns"
+Effect	Burnt 'n' Turnt	Maximum MP Percent: +100
 # Busker Do
 Effect	Busy Bein' Delicious	Moxie: +5
 Effect	Butt-Rock Hair	Moxie Percent: +15
@@ -6361,6 +6362,7 @@ Effect	Stinky Weapon	Stench Damage: +3
 Effect	Stogied	Stench Damage: +50, Stench Spell Damage: +50, Hot Resistance: +5, Spooky Resistance: +5
 Effect	Stone-Faced	Damage Reduction: 3
 # Stop and Smell the Fudge: Find 25% More Fudge
+Effect	Stop the Presses!	Maximum HP Percent: +100
 Effect	Stopping to Smell the Flowers	Experience: +3
 # Stormswaddled: Damages attacking opponents
 Effect	Stormswaddled	Spell Damage Percent: +100
