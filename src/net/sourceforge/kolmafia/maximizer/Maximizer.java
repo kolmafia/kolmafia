@@ -1695,7 +1695,7 @@ public class Maximizer
 						if ( priceLevel == 2 && ( checkedItem.initial > 0 || checkedItem.creatable > 0 || checkedItem.pullable > 0 || checkedItem.npcBuyable > 0 ) )
 						{
 							// Only check mall prices on tradeable items.
-							if ( ItemDatabase.isTradeable( itemId ) )
+							if ( ItemDatabase.isTradeable( itemId ) && !ClanLoungeRequest.isSpeakeasyDrink( iname ) )
 							{
 								if ( MallPriceDatabase.getPrice( itemId ) > maxPrice * 2 )
 								{
