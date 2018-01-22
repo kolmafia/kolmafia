@@ -750,16 +750,11 @@ public abstract class KoLmafia
 	{
 		KoLmafia.setIsRefreshing( true );
 
-		KoLmafia.refreshSessionData();
-
-		AdventureFrame.updateFromPreferences();
-
-		// It would be nice to not have to do this
-		IslandManager.ensureUpdatedBigIsland();
-
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 
+		// Get ascension as it isn't yet set
+		RequestThread.postRequest( new ApiRequest( "status" ) );
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );
 
@@ -786,6 +781,13 @@ public abstract class KoLmafia
 
 		// No spurious adventure logging
 		KoLAdventure.locationLogged = true;
+
+		KoLmafia.refreshSessionData();
+
+		AdventureFrame.updateFromPreferences();
+
+		// It would be nice to not have to do this
+		IslandManager.ensureUpdatedBigIsland();
 
 		KoLmafia.setIsRefreshing( false );
 	}
