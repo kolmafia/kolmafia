@@ -7922,6 +7922,7 @@ Item	abstraction: perception	Effect: "Perception", Effect Duration: 50
 Item	abstraction: purpose	Effect: "Purpose", Effect Duration: 50
 Item	abstraction: sensation	Effect: "Sensation", Effect Duration: 50
 Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
+Item	alien animal goo	Effect: "Celestial Body", Effect Duration: 40
 Item	alien plant goo	Effect: "Celestial Mind", Effect Duration: 40
 Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
