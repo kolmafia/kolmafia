@@ -2150,6 +2150,13 @@ public class UseItemRequest
 			return;
 		}
 
+		if ( responseText.contains( "That item is too old to be used on this path." ) )
+		{
+			UseItemRequest.lastUpdate = "Restricted by Standard.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
+
 		int consumptionType = UseItemRequest.getConsumptionType( item );
 		switch ( consumptionType )
 		{
