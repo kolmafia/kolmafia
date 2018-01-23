@@ -750,11 +750,19 @@ public abstract class KoLmafia
 	{
 		KoLmafia.setIsRefreshing( true );
 
+		// Load saved counters before any requests are made, since both
+		// charpane and charsheet requests can set them.
+
+		CharPaneRequest.reset();
+		KoLCharacter.setCurrentRun( 0 );
+		TurnCounter.loadCounters();
+
+		// Get ascension status as it isn't yet set
+		RequestThread.postRequest( new ApiRequest( "status" ) );
+
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 
-		// Get ascension as it isn't yet set
-		RequestThread.postRequest( new ApiRequest( "status" ) );
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );
 
@@ -795,13 +803,6 @@ public abstract class KoLmafia
 	private static void refreshSessionData()
 	{
 		KoLmafia.updateDisplay( "Refreshing session data..." );
-
-		// Load saved counters before any requests are made, since both
-		// charpane and charsheet requests can set them.
-
-		CharPaneRequest.reset();
-		KoLCharacter.setCurrentRun( 0 );
-		TurnCounter.loadCounters();
 
 		// Some things aren't properly set by KoL until main.php is loaded
 
