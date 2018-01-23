@@ -214,7 +214,8 @@ public class OptionsFrame
 				{ "logGainMessages", "Session log records HP/MP/meat changes" },
 				{ "logStatGains", "Session log records stat gains" },
 				{ "logAcquiredItems", "Session log records items acquired" },
-				{ "logStatusEffects", "Session log records status effects gained" }
+				{ "logStatusEffects", "Session log records status effects gained" },
+				{ "logPreferenceChange", "Log preference changes" }
 			};
 
 			this.setOptions( options );

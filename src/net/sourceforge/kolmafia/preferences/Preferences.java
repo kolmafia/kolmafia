@@ -56,6 +56,7 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 
@@ -764,6 +765,13 @@ public class Preferences
 
 	private static final void setObject( final String user, final String name, final String value, final Object object )
 	{
+		if ( Preferences.getBoolean( "logPreferenceChange" ) )
+		{
+			String message = "Preference " + name + " changed from " + Preferences.getString( name ) + " to " + value;
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+
 		if ( Preferences.isGlobalProperty( name ) )
 		{
 			String actualName = Preferences.propertyName( user, name );
