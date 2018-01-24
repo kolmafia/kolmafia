@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -198,6 +199,11 @@ public class CafeRequest
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Insufficient funds." );
 			return;
+		}
+
+		if ( this.responseText.contains ( "You pour your drink into your mime army shotglass" ) )
+		{
+			Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
 		}
 
 		// Successful purchase/consumption. Let subclass deal with with it
