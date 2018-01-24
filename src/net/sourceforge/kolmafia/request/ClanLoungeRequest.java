@@ -2165,6 +2165,10 @@ public class ClanLoungeRequest
 			{
 				return;
 			}
+			if ( responseText.contains ( "You pour your drink into your mime army shotglass" ) )
+			{
+				Preferences.setBoolean( "_mimeArmyShotglassUsed", true );
+			}
 			Matcher m = WHICH_SPEAKEASY_PATTERN.matcher( urlString );
 			if ( !m.find() )
 			{
