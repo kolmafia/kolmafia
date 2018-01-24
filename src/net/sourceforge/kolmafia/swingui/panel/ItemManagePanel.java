@@ -488,7 +488,7 @@ public abstract class ItemManagePanel
 			{
 				if ( item instanceof Concoction )
 				{
-					int previous = 0, capacity = itemCount, unit = 0;
+					int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
 
 					if ( ( (Concoction) item ).getFullness() > 0 )
 					{
@@ -502,7 +502,12 @@ public abstract class ItemManagePanel
 						previous = KoLCharacter.getInebriety() + ConcoctionDatabase.getQueuedInebriety();
 						capacity = KoLCharacter.getInebrietyLimit();
 						unit = ( (Concoction) item ).getInebriety();
-						standard = previous > capacity ? itemCount : Math.max( 1, Math.min( ( capacity - previous ) / unit, itemCount ) );
+						if ( unit == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
+							InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+						{
+							shotglass = 1;
+						}
+						standard = previous > capacity ? itemCount : Math.max( 1, Math.min( ( capacity - previous ) / unit + shotglass, itemCount ) );
 					}
 					else if ( ( (Concoction) item ).getSpleenHit() > 0 )
 					{
