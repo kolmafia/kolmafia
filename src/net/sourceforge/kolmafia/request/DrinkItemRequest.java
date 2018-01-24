@@ -157,6 +157,13 @@ public class DrinkItemRequest
 			return 0;
 		}
 
+		int shotglass = 0;
+		if ( inebriety == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
+			InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+		{
+			shotglass = 1;
+		}
+
 		if ( ClanLoungeRequest.isSpeakeasyDrink( ItemDatabase.getItemName( itemId ) ) )
 		{
 			// Speakeasy not available in Bad Moon, or without VIP key
@@ -177,7 +184,7 @@ public class DrinkItemRequest
 			allowOverDrink = true;
 		}
 
-		int maxNumber = inebrietyLeft / inebriety;
+		int maxNumber = inebrietyLeft / inebriety + shotglass;
 
 		if ( allowOverDrink )
 		{

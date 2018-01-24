@@ -125,6 +125,7 @@ public class ConcoctionDatabase
 	public static int queuedSmores = 0;
 	public static int queuedAffirmationCookies = 0;
 	public static int queuedSpaghettiBreakfast = 0;
+	public static boolean queuedMimeShotglass = false;
 	public static int lastQueuedMayo = 0;
 
 	private static int queuedFullness = 0;
@@ -603,6 +604,13 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.lastQueuedMayo = 0;
 		}
 
+		if ( c.getInebriety() == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
+			InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+		{
+			ConcoctionDatabase.queuedInebriety--;
+			ConcoctionDatabase.queuedMimeShotglass = true;
+		}
+
 		queue.add( new QueuedConcoction( c, quantity, ingredients, meat, pulls, tome, stills, extrudes, advs, free ) );
 
 		if ( c.getItemId() == ItemPool.SMORE )
@@ -754,6 +762,25 @@ public class ConcoctionDatabase
 					ConcoctionDatabase.queuedFullness++;
 					ConcoctionDatabase.queuedInebriety--;
 				}
+			}
+		}
+
+		if ( ConcoctionDatabase.queuedMimeShotglass && booze )
+		{
+			// Did we remove last 1 fullness drink ?
+			boolean shotglassUsed = true;
+			for ( QueuedConcoction drink : queue )
+			{
+				Concoction drinkConc = drink.getConcoction();
+				if( drinkConc.getInebriety() == 1 )
+				{
+					shotglassUsed = false;
+				}
+			}
+			if ( shotglassUsed )
+			{
+				ConcoctionDatabase.queuedInebriety++;
+				ConcoctionDatabase.queuedMimeShotglass = false;
 			}
 		}
 
