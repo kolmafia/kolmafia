@@ -1608,6 +1608,10 @@ public class SkillDatabase
 	
 		for ( int i = 0; i < skills.length; ++i )
 		{
+			if ( skills[i] == null )
+			{
+				continue;
+			}
 			String skill = skills[ i ].getSkillName();
 			if ( skill.toLowerCase().equals( name ) )
 			{
@@ -1617,6 +1621,10 @@ public class SkillDatabase
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
+			if ( skills[i] == null )
+			{
+				continue;
+			}
 			String skill = skills[ i ].getSkillName();
 			if ( skill.toLowerCase().contains( name ) )
 			{
