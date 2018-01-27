@@ -415,9 +415,13 @@ public class DrinkItemRequest
 		return DrinkItemRequest.allowBoozeConsumption( itemName, count );
 	}
 
-	public static final boolean allowBoozeConsumption( String itemName, final int count )
+	public static final boolean allowBoozeConsumption( String itemName, int count )
 	{
 		int inebriety = ConsumablesDatabase.getInebriety( itemName );
+		if ( inebriety == 1 && InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+		{
+			count -= 1;
+		}
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
 		{
