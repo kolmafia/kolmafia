@@ -296,6 +296,15 @@ public class SpleenItemRequest
 				Preferences.increment( "_turkeyBlastersUsed", count );
 			}
 			break;
+
+		case ItemPool.HOT_JELLY:
+			Preferences.increment( "_hotJellyUses", count );
+			break;
+
+		case ItemPool.SPOOKY_JELLY:
+			Preferences.increment( "_spookyJellyUses", count );
+			break;
+
 		}
 	}
 

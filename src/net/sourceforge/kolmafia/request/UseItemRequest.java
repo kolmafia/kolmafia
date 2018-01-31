@@ -5941,15 +5941,6 @@ public class UseItemRequest
 			ResultProcessor.processItem( ItemPool.SPARE_CHOCOLATE_PARTS, -1 );
 			break;
 
-		case ItemPool.HOT_JELLY:
-			Preferences.increment( "_hotJellyUses", count );
-			break;
-
-		case ItemPool.SPOOKY_JELLY:
-			Preferences.increment( "_spookyJellyUses", count );
-			break;
-
-
 		case ItemPool.SPACEGATE_ACCESS_BADGE:
 
 			// She doesn't give you the badge back, and when you
