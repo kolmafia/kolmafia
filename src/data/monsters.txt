@@ -22,7 +22,6 @@ alert mariachi	860	mar_alert.gif	HP: 250 Def: 180 Atk: 200 Init: 300 P: dude NOB
 Alphabet Giant	176	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 150 P: humanoid	heavy D (40)	original G (40)
 amateur ninja	716	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 20 P: dude	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
 amok putty	1539	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime	amok pudding (0)	amok putter (0)
-amorphous blob	2032	xoblob.gif	Init: -10000 P: slime	giant X (100n)	giant O (100n)
 ancestral Spookyraven portrait	1554	srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
 ancient insane monk	534	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	0	protspirit.gif	HP: 80 Def: 145 Atk: 158 Init: 10 Phys: 100 P: undead GHOST
@@ -1831,6 +1830,9 @@ intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sg
 
 # Genie (Sept 2017)
 Genie	2029	genie_mad.gif	Scale: 37 Cap: 11000 Init: -10000 P: elemental	dropped scrap of paper (n100)
+
+# XO Skeleton (Oct 2017)
+amorphous blob	2032	xoblob.gif	Scale: 100 Init: -10000 P: slime	giant X (100n)	giant O (100n)
 
 # KoL Con
 
