@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -370,6 +371,9 @@ public class Expression
 				break;
 			case 'h':
 				v = Modifiers.mainhandClass.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
+				break;
+			case 'i':
+				v = FamiliarDatabase.hasAttribute( Modifiers.currentFamiliar, (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;
 				break;
 			case 'j':
 				v = Modifiers.currentEnvironment.equalsIgnoreCase( (String) this.literals.get( (int) s[ --sp ] ) ) ? 1 : 0;

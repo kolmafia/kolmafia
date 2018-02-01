@@ -760,6 +760,16 @@ public class FamiliarDatabase
 		return FamiliarDatabase.attributesById.get( familiarId );
 	}
 
+	public static final boolean hasAttribute( final String name, final String attribute )
+	{
+		int familiarId = FamiliarDatabase.getFamiliarId( name );
+		if ( familiarId == -1 )
+		{
+			return false;
+		}
+		return FamiliarDatabase.hasAttribute( familiarId, attribute );
+	}
+
 	public static final boolean hasAttribute( final int familiarId, final String attribute )
 	{
 		List attrs = FamiliarDatabase.getFamiliarAttributes( familiarId );
