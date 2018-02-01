@@ -97,6 +97,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ), 'w' );
 		}
+		if ( this.optional( "famattr(" ) )
+		{
+			return this.literal( this.until( ")" ), 'i' );
+		}
 		if ( this.optional( "mainhand(" ) )
 		{
 			return this.literal( this.until( ")" ), 'h' );
