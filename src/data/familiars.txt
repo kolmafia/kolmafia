@@ -103,8 +103,8 @@
 74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	sleazy
 75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2
 76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2
-77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical
-78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0
+77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical,hands,eyes
+78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0	mechanical
 79	Teddy Borg	teddyborg.gif	other0	teddy borg	teddy borg sewing kit	3	2	0	1	mechanical
 80	RoboGoose	robogoose.gif	combat0,block,delevel,hp0,drop	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0	mechanical,wings,animal,eyes
 81	El Vibrato Megadrone	megadrone.gif	variable	El Vibrato Megadrone		3	3	3	3	mechanical
@@ -149,7 +149,7 @@
 120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0	eyes
 121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2	wings
 122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0	mechanical
-123	BRICKO chick	brickochick.gif	combat0,drop	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1	wings
+123	BRICKO chick	brickochick.gif	combat0,drop	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1	wings,animal,eyes
 124	Baby Bugged Bugbear	babybugbug.gif	block,other0,drop,variable	panicked kernel	bugged beanie	0	0	0	0	hands,mechanical,eyes
 125	Money-Making Goblin	mmgoblin.gif	none			0	0	0	0
 126	Floating Eye	lower_e.gif	none			0	0	0	0
@@ -166,7 +166,7 @@
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	wings,animal,eyes
 138	Hippo Ballerina	hippo.gif	combat1,block,delevel,item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0	clothes,animal,eyes
 139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0,other1,drop	organ grinder	microwave stogie	0	3	2	1	hands,eyes
-140	Piano Cat	pianocat.gif	item0,meat0	sleeping piano cat	kitty sheet music	2	3	2	0
+140	Piano Cat	pianocat.gif	item0,meat0	sleeping piano cat	kitty sheet music	2	3	2	0	hands,animal,eyes
 141	Dramatic Hedgehog	dramahog.gif	stat0,meat0	rehearsing dramatic hedgehog	tiny prop sword	2	3	0	2
 142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0	animal
 143	Robot Reindeer	roboreindeer.gif	combat0,hp0,drop,variable	hibernating robot reindeer	S.L.E.I.G.H.B.E.L.L.S.	3	3	3	3	mechanical
@@ -183,7 +183,7 @@
 154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sleazy
 155	Blavious Kloop	kloop.gif	item0,meat0,drop	The Kloop in the Coop	miniscule beatbox	0	3	2	1	hands,eyes
 156	Peppermint Rhino	pep_rhino.gif	item0	peppermint rhino baby	licorice boa	1	3	1	0	animal,eyes
-157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0
+157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0	eyes,sleazy
 158	Steam-Powered Cheerleader	cheerleader.gif	delevel,item0	KoLHS Pep Squad Box	school spirit socket set	2	3	2	0	clothes,mechanical,hands,eyes
 159	Happy Medium	medium_0.gif	other0,stat0,drop	Small Medium	crystal decanter	0	3	2	2	clothes
 160	Artistic Goth Kid	crayongoth.gif	other1,stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3	clothes,eyes
@@ -213,7 +213,7 @@
 184
 185	Helix Fossil	foss_amm.gif	delevel,combat0,hp1,mp1	strange helix fossil	S.S. Ticket	0	0	0	3
 186	Xiblaxian Holo-Companion	holobuddy.gif	block,passive	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2	eyes,mechanical
-187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0
+187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0	hands,animal,eyes
 188	Fist Turkey	fistturkey.gif	combat0,item0,meat1,stat2,drop	fist turkey outline	brass turkey knuckles	3	2	2	3	wings,animal,eyes
 189	Crimbo Shrub	crimboshrub.gif	combat1,stat0,other1,variable	Crimbo sapling	even more tinsel	1	3	2	0	eyes
 190	Mini-Crimbot	minicrimbot.gif	variable	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0	mechanical
