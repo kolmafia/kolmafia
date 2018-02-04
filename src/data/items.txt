@@ -3530,7 +3530,7 @@
 3505	LWA ring	616784691	rankring2.gif	accessory		0
 3506	LARP membership card	589734444	idcard.gif	none		0
 3507	Scratch 'n' Sniff Sticker Tome	125077165	book3.gif	usable	t	0
-3508	scratch 'n' sniff sword	357198453	papersword.gif	weapon	q	0
+3508	scratch 'n' sniff sword	357198453	papersword.gif	weapon,usable	q	0
 3509	scratch 'n' sniff unicorn sticker	770830221	azunicorn.gif	sticker	t,d	30
 3510	scratch 'n' sniff apple sticker	198703778	applesticker.gif	sticker	t,d	30
 3511	scratch 'n' sniff UPC sticker	851366427	upcsticker.gif	sticker	t,d	30
@@ -3548,7 +3548,7 @@
 3523	shark cartilage	752008573	gristle.gif	multiple	t,d	500	bits of shark cartilage
 3524	eel battery	886718236	battery.gif	multiple	t,d	500	eel batteries
 3525	temporary teardrop tattoo	700314352	raindrop.gif	multiple	t,d	500
-3526	scratch 'n' sniff crossbow	954957871	papercrossbow.gif	weapon	q	0
+3526	scratch 'n' sniff crossbow	954957871	papercrossbow.gif	weapon,usable	q	0
 3527	mutant rattlesnake egg	351701182	egg.gif	grow	t	0
 3528	mutant fire ant egg	891738778	roe.gif	grow	t	0
 3529	mutant cactus bud	968330921	cactuslarva.gif	grow	t	0
