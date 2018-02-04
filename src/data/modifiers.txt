@@ -5510,6 +5510,7 @@ Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
 # Effect Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
+Effect	Insulated	Maximum MP: +6
 Effect	Insulated Trousers	Cold Resistance: +1
 Effect	Internate Debatable	Monster Level: +10
 Effect	Intimidating Mien	Spooky Damage: +15
@@ -8786,6 +8787,7 @@ Item	fat loot token	No Pull
 # ferret bait: Deals 45-60 Physical Damage
 Item	Ferrigno's Elixir of Power	Effect: "Incredibly Hulking", Effect Duration: [R]
 # fetid feather: Deals 80-120 <font color=green>Stench Damage</font>
+Item	fiberglass insulation	Effect: "Insulated", Effect Duration: 25
 Item	Field Guide to Skeletal Anatomy	Skill: "Natural Born Skeleton Killer"
 Item	Field Guide to Skeletal Anatomy (shredded)	Skill: "Natural Born Skeleton Killer"
 Item	figurine of a charred seal	Class: "Seal Clubber"
@@ -8874,6 +8876,7 @@ Item	future drug: Coolscaline	Effect: "The Style... of the Future", Effect Durat
 Item	future drug: Muscularactum	Effect: "The Strength... of the Future", Effect Duration: 25
 Item	future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 Item	Fuzzby	Free Pull
+Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
 Item	GameInformPowerDailyPro subscription card	Free Pull
 Item	gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 Item	garbage juice slurpee	Effect: "Slurpee-O'ed", Effect Duration: 30

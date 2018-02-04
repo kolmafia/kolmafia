@@ -2159,8 +2159,8 @@
 2158	Innately Truthy	jperfume.gif	32587ceb39537c44ac2132b46a6c7362	use 1 Inner Truth
 2159	Aerated	aerhead.gif	74a24a6aa0c773dd08aebe4aa749b8bc	use 1 Aerheads
 2160	Wrought Nerves	wrotz.gif	69bde4e383b663a0cb5f900d530027a0	use 1 Wrotz
-2161	Gabarding	gabarbar.gif	8b2255a45772f62cc006caec1847441b
-2162
+2161	Gabarding	gabarbar.gif	8b2255a45772f62cc006caec1847441b	use 1 Gabarbar
+2162	Insulated	fibercandy.gif	929a63585d1ee5808d0748fe436086f8	use 1 fiberglass insulation
 2163	The Power of Positive Thinking	posthinking.gif	30221520ffd80090f92dbb098c815291	eat 1 hambrosier|drink 1 chakra-mental wine|use 1 chakra malt
 2164	The Power of Negative Thinking	negthinking.gif	5fc7c52fd60d8d42cc8a4d8a169609be	eat 1 Black Angus blackburger|drink 1 black brandy|use 1 potion of spiritual gunkifying
 2165	Synthesis: Hot	molecule1.gif	70c1f50c4b1f77c7a6b2770d368a8392	synthesize Synthesis: Hot
