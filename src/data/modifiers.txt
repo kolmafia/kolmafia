@@ -7945,7 +7945,7 @@ Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
 # Item cold jelly: Freezes your liver
 Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
-Item	cold wad	Effect: "Cold Blooded", Effect Duration: 10
+Item	cold wad	Effect: "Cold Blooded", Effect Duration: 20
 Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
@@ -7968,7 +7968,7 @@ Item	hobo paste	Effect: "Hobo Flavor", Effect Duration: 10
 Item	homeopathic mint tea	Effect: "Alpine Mintiness", Effect Duration: 50
 # Item hot jelly: Lets you breathe on a monster
 Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
-Item	hot wad	Effect: "Hot Blooded", Effect Duration: 10
+Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
@@ -7991,20 +7991,20 @@ Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10
 # Item sleaze jelly: Enables Sleazy Bickering
 Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
-Item	sleaze wad	Effect: "Supafly", Effect Duration: 10
-Item	slimy alveolus	Effect: "Slimebreath", Effect Duration: 40
+Item	sleaze wad	Effect: "Supafly", Effect Duration: 20
+Item	slimy alveolus	Effect: "Slimebreath", Effect Duration: 50
 Item	slimy paste	Effect: "Slimy Flavor", Effect Duration: 10
 # Item spooky jelly: Makes you emanate Spookily
 Item	spooky jelly	Effect: "Spooky Jellied", Effect Duration: 50
-Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 10
+Item	spooky wad	Effect: "Spooky Demeanor", Effect Duration: 20
 # Item stench jelly: Makes monsters avoid you
 Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
-Item	stench wad	Effect: "Stenchtastic", Effect Duration: 10
+Item	stench wad	Effect: "Stenchtastic", Effect Duration: 20
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
-Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 10
+Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 20
 Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30
 Item	watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
 Item	yellow paisley oyster egg	Effect: "Egg-headedness", Effect Duration: 20
@@ -9106,6 +9106,9 @@ Item	honey stick	Effect: "Stuck That Way", Effect Duration: 10
 # honey-dipped locust: Restores 30-40 HP and MP
 Item	honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
 Item	hopeful candle	Free Pull
+# Horsery contract: Installs a Horsery in Seaside Town
+# Horsery contract: (and unlocks Horse Armor DLC for West of Loathing)
+Item	Horsery contract	Free Pull
 Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect: "Spooky Breath"
 # hot ashes: Deals <font color=red>Hot Damage</font> based on your highest stat
 Item	hot button candy	Effect: "Hot Buttoned", Effect Duration: 10
@@ -9231,7 +9234,7 @@ Item	lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Item	Let Me Be!	Skill: "Raise Backup Dancer"
 Item	Lewd Lemmy Hair Oil	Effect: "Motorhair", Effect Duration: 50
 # lewd playing card: Deals 100-150 Physical Damage and 100-150 <font color=blueviolet>Sleaze Damage</font>
-# Item LI-11 Motor Pool voucher
+Item	LI-11 Motor Pool voucher	Free Pull
 Item	li'l orphan tot	Free Pull
 Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 Item	Libram of BRICKOs	Free Pull, Skill: "Summon BRICKOs"
@@ -9521,6 +9524,7 @@ Item	pair of candy glasses	Effect: "Sucrose-Colored Glasses", Effect Duration: 1
 # palm-frond fan: Restores 35-45 HP and MP
 # palm-frond net: Weakens enemies somewhat
 Item	panicked kernel	Free Pull
+Item	pantogram	Free Pull
 Item	panty raider camouflage	Effect: "Hiding in Plain Sight", Effect Duration: 10
 # paperclip sproinger: Stuns your opponent for a couple of rounds and deals 10-15 Physical Damage
 Item	papier-m&acirc;ch&eacute; toothpicks	Effect: "Eyes Wide Propped", Effect Duration: 40
@@ -9972,6 +9976,8 @@ Item	Space Pirate Astrogation Handbook	Skill: "Quantum Movement"
 Item	space planula	Free Pull
 # Space Tours Tripple: Weakens enemies a little bit
 Item	Spacegate emergency disintegrator	Skill: "Disintegrate"
+# Spacegate access badge: Unlocks billions of strange alien worlds
+Item	Spacegate access badge	Free Pull
 # spangly unitard: Deals 100-250 Physical Damage and weakens your opponent somewhat
 # Item spant egg casing: Worth 25 pages of Spacegate Research
 Item	Spant eggs	Effect: "Sugary World View", Effect Duration: 10
@@ -10367,6 +10373,7 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 # X-32-F snowman crate: Installs a Combat Training Snowman the Big Mountains
 Item	X-32-F snowman crate	Free Pull
 Item	x-ray mirror	Effect: "The Visible Adventurer", Effect Duration: 30
+Item	xo-skeleton-in-a-box	Free Pull
 Item	Ye Olde Bawdy Limerick	Effect: "From Nantucket", Effect Duration: 20
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 Item	yellow candy heart	Effect: "Heart of Yellow", Effect Duration: 10
