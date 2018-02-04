@@ -594,7 +594,7 @@
 569	Lord of the Flies-sized fries	149932590	fries.gif	food	t,d	100	Lords of the Flieses-sized fries
 570	Brimstone Chicken Sandwich	209737031	burger.gif	food	t,d	100	Brimstone Chicken Sandwiches
 571	Jumbo Dr. Lucifer	851122901	drlucifer.gif	food	t,d	50
-572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	0	Children's Meals of the Damned
+572	Children's Meal of the Damned	560728646	foodbag.gif	food	t	31	Children's Meals of the Damned
 573	delicious noodles	437720617	bowl.gif	food	t,d	33	bowls of delicious noodles
 574	delicious spicy noodles	336783365	bowl.gif	food	t,d	33	bowls of delicious spicy noodles
 575	painful penne pasta	175830905	bowl.gif	food	t,d	33	bowls of painful penne pasta
@@ -1994,7 +1994,7 @@
 1969	spoon!	143708125	spoooon.gif	familiar	t,d	75	spoons!
 1970	nervous tick egg	634197201	tickegg.gif	grow	t	0
 1971	plastic pumpkin bucket	322191256	punkin.gif	familiar	t	0
-1972	silver shrimp fork	488128981	shrimpfork.gif	weapon		0
+1972	silver shrimp fork	488128981	shrimpfork.gif	weapon	t	235
 1973	half of a memo	907150750	halfmemo.gif	message	q	0
 1974	stuffed cocoabo	199200449	stuffcocoa.gif	offhand	g,d	10
 1975	stuffed baby gravy fairy	705302247	stufffairyw.gif	offhand	g,d	10	stuffed baby gravy fairies
@@ -5811,7 +5811,7 @@
 5786	long hard screw	602324275	longscrew.gif	none	q	0
 5787	messy butt joint	732783566	buttjoint.gif	none	q	0
 5788	smut orc keepsake box	252389564	keepsakebox.gif	usable	t	0	smut orc keepsake boxes
-5789	bubblin' crude	856998415	crudeoil.gif	multiple	t	0
+5789	bubblin' crude	856998415	crudeoil.gif	multiple	t	60
 5790	box of bear arms	424762876	beararms.gif	usable	t	0
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
@@ -6869,7 +6869,7 @@
 6844	ironic mint	800270383	ironmint.gif	multiple	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
 6846	walkie-talkie	879889967	walkietalkie.gif	reusable		0
-6847	killing jar	888987269	killingjar.gif	none, combat	t	0
+6847	killing jar	888987269	killingjar.gif	none, combat	t	88
 6848	security flashlight	327985938	flashlight.gif	offhand	t,d	40
 6849	Effermint&trade; tablets	230478466	effermint.gif	multiple	t,d	35	packets of Effermint&trade; tablets
 6850	sturdy cane	183101962	cane.gif	offhand	t,d	40
@@ -8585,8 +8585,8 @@
 8559	bakelite-covered bacon	113363781	bakebacon.gif	multiple	t	0	pieces of bakelite-covered bacon
 8560	Aerheads	911385583	aerhead.gif	usable	t	0	bags of Aerheads
 8561	Wrotz	259155467	wrotz.gif	multiple	t	0	Wrotz candies
-8562
-8563
+8562	Gabarbar	620139553	gabarbar.gif	usable	t	0
+8563	fiberglass insulation	592342530	fibercandy.gif	usable	t	0
 8564	shrine to the Barrel god	671094436	crate.gif	usable	t	0	shrines to the Barrel god
 8565	barrel lid	134230040	barrelshield.gif	offhand	q	0
 8566	barrel hoop earring	855987487	barrelhoop.gif	accessory	q	0
@@ -8725,9 +8725,9 @@
 8699	training belt	224153440	trainingbelt.gif	accessory	q	0
 8700	training legwarmers	867534283	trainingwarmers.gif	accessory	q	0
 8701	training helmet	689206959	traininghelmet.gif	hat	q	0
-8702	training scroll: Shattering Punch	568969372	wosp_scroll.gif	usable	t	0	training scroll: Shattering Punchs
-8703	training scroll: Snokebomb	696042206	wosp_scroll.gif	usable	t	0	training scroll: Snokebombs
-8704	training scroll: Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0	training scroll: Shivering Monkey Techniques
+8702	training scroll:  Shattering Punch	568969372	wosp_scroll.gif	usable	t	0	training scroll:  Shattering Punchs
+8703	training scroll:  Snokebomb	696042206	wosp_scroll.gif	usable	t	0	training scroll:  Snokebombs
+8704	training scroll:  Shivering Monkey Technique	284921946	wosp_scroll.gif	usable	t	0	training scroll:  Shivering Monkey Techniques
 8705	X-32-F snowman crate	532803965	crate.gif	usable	t	0
 8706	machine elf capsule	264186300	machelfcapsule.gif	grow	t	0
 8707	self-dribbling basketball	819072964	sdbasketball.gif	familiar	t,d	75
