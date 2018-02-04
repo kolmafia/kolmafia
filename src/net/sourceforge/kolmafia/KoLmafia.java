@@ -760,6 +760,11 @@ public abstract class KoLmafia
 		// Get ascension status as it isn't yet set
 		RequestThread.postRequest( new ApiRequest( "status" ) );
 
+		// Get current moon phases
+
+		RequestThread.postRequest( new MoonPhaseRequest() );
+		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
+
 		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
 		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
 
@@ -807,11 +812,6 @@ public abstract class KoLmafia
 		// Some things aren't properly set by KoL until main.php is loaded
 
 		RequestThread.postRequest( new GenericRequest( "main.php" ) );
-
-		// Get current moon phases
-
-		RequestThread.postRequest( new MoonPhaseRequest() );
-		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
 		// Forget what is trendy
 		TrendyRequest.reset();
