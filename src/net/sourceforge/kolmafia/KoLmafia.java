@@ -680,7 +680,7 @@ public abstract class KoLmafia
 
 	public static final void resetCounters()
 	{
-		Preferences.setInteger( "lastCounterDay", HolidayDatabase.getPhaseStep() );
+		Preferences.setLong( "lastCounterDay", KoLCharacter.getRollover() );
 
 		Preferences.setString( "barrelLayout", "?????????" );
 		Preferences.setBoolean( "bootsCharged", false );
@@ -760,13 +760,26 @@ public abstract class KoLmafia
 		// Get ascension status as it isn't yet set
 		RequestThread.postRequest( new ApiRequest( "status" ) );
 
-		// Get current moon phases
-
-		RequestThread.postRequest( new MoonPhaseRequest() );
-		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
-
-		boolean shouldResetCounters = Preferences.getInteger( "lastCounterDay" ) != HolidayDatabase.getPhaseStep();
-		boolean shouldResetGlobalCounters = Preferences.getInteger( "lastGlobalCounterDay" ) != HolidayDatabase.getPhaseStep();
+		boolean shouldResetCounters = false;
+		boolean shouldResetGlobalCounters = false;
+		// Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly between servers by a few seconds.
+		// Remove this code after 4th Feb 2018, it is only to handle transition
+		if ( Preferences.getLong( "lastCounterDay" ) == 10 && KoLCharacter.getRollover() < 1517804000 )
+		{
+			// Don't reset counters as we've already done it today, but mafia has changed rollover reset handling
+		}
+		else
+		{
+			shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastCounterDay" ) > 3600;
+		}
+		if ( Preferences.getLong( "lastGlobalCounterDay" ) == 10 && KoLCharacter.getRollover() < 1517804000 )
+		{
+			// Don't reset counters as we've already done it today, but mafia has changed rollover reset handling
+		}
+		else
+		{
+			shouldResetGlobalCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastGlobalCounterDay" ) > 3600;
+		}
 
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );
@@ -812,6 +825,11 @@ public abstract class KoLmafia
 		// Some things aren't properly set by KoL until main.php is loaded
 
 		RequestThread.postRequest( new GenericRequest( "main.php" ) );
+
+		// Get current moon phases
+
+		RequestThread.postRequest( new MoonPhaseRequest() );
+		KoLCharacter.setHoliday( HolidayDatabase.getHoliday() );
 
 		// Forget what is trendy
 		TrendyRequest.reset();
