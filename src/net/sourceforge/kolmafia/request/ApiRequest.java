@@ -394,6 +394,10 @@ public class ApiRequest
 				// Parse currently worn equipment
 				EquipmentManager.parseStatus( JSON );
 			}
+
+			// UNIX time of next rollover
+			long rollover = JSON.getLong( "rollover" );
+			KoLCharacter.setRollover( rollover );
 		}
 		catch ( JSONException e )
 		{

@@ -397,6 +397,7 @@ public abstract class KoLCharacter
 	private static int daycount = 0;
 	private static int turnsPlayed = 0;
 	private static int currentRun = 0;
+	private static long rollover = 0;
 	private static boolean isFullnessIncreased = false;
 	private static int holidayManaCostReduction = 0;
 
@@ -2486,6 +2487,20 @@ public abstract class KoLCharacter
 		{
 			BanishManager.update();
 		}
+	}
+
+	/**
+	 * Accessor method to retrieve the UNIX time of next rollover
+	 */
+
+	public static final long getRollover()
+	{
+		return KoLCharacter.rollover;
+	}
+
+	public static final void setRollover( final long rollover )
+	{
+		KoLCharacter.rollover = rollover;
 	}
 
 	/**

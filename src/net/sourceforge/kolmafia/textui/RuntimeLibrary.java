@@ -550,6 +550,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "gametime_to_int", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "rollover", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "moon_phase", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -2914,6 +2917,11 @@ public abstract class RuntimeLibrary
 	public static Value gametime_to_int( Interpreter interpreter )
 	{
 		return new Value( HolidayDatabase.getTimeDifference( new Date() ) );
+	}
+
+	public static Value rollover( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getRollover() );
 	}
 
 	public static Value moon_phase( Interpreter interpreter )

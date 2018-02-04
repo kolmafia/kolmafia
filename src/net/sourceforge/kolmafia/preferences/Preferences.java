@@ -56,6 +56,7 @@ import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -989,7 +990,7 @@ public class Preferences
 				}
 			}
 
-			Preferences.setInteger( "lastGlobalCounterDay", HolidayDatabase.getPhaseStep() );
+			Preferences.setLong( "lastGlobalCounterDay", KoLCharacter.getRollover() );
 
 			if ( Preferences.getBoolean( "saveSettingsOnSet" ))
 			{
