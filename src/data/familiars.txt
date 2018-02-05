@@ -65,7 +65,7 @@
 36	Stinky Gravy Fairy	familiar36.gif	combat1,item0	pregnant stinky mushroom	limburger biker boots	2	3	1	2	eyes,wings
 37	Spooky Gravy Fairy	sgfairy.gif	combat1,item0	pregnant gloomy black mushroom	miniature carton of clove cigarettes	3	3	1	2	eyes,wings
 38	Inflatable Dodecapede	familiar38.gif	combat0	deflated inflatable dodecapede	toy six-seater hovercraft	3	2	2	1
-39	Pygmy Bugbear Shaman	familiar39.gif	stat0,item0	pygmy bugbear shaman	tiny nose-bone fetish	1	3	1	2
+39	Pygmy Bugbear Shaman	familiar39.gif	stat0,item0	pygmy bugbear shaman	tiny nose-bone fetish	1	3	1	2	hands,eyes
 40	Doppelshifter	familiar40.gif	variable	doppelshifter egg	tiny makeup kit	3	3	3	3	eyes
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2	hands,eyes,wings
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1
@@ -101,7 +101,7 @@
 72	Exotic Parrot	parrot.gif	passive	exotic parrot egg	cracker	3	3	2	0	wings,animal,eyes,sleazy
 73	Wizard Action Figure	waf.gif	combat1,delevel,hp0,stat0,item0	wizard action figure	mint-condition magic wand	2	3	2	2
 74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	sleazy
-75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2
+75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2	hands,clothes,eyes,sleazy
 76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2
 77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical,hands,eyes
 78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0	mechanical
@@ -121,7 +121,7 @@
 92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hands
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0	animal,eyes
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3
-95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1
+95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1	animal,eyes
 96	Baby Mutant Rattlesnake	rattlesnake.gif	combat0,stat0	mutant rattlesnake egg	rattlesnake enrager	3	2	1	0	animal,eyes
 97	Mutant Fire Ant	fireant.gif	combat1,item0	mutant fire ant egg	ant antidepressant	3	2	0	2	animal,eyes
 98	Mutant Cactus Bud	cactusbud.gif	combat0,meat0	mutant cactus bud	cactus monocle	3	0	2	2	eyes
@@ -145,7 +145,7 @@
 116	Grouper Groupie	grouper2.gif	underwater,item0	grouper fangirl	gill rings	0	2	3	2	clothes,animal,eyes,sleazy
 117	Squamous Gibberer	gibberer.gif	block,hp1,mp1,other1,underwater	squamous polyp	unspeakable lozenges	1	2	2	3
 118	Dancing Frog	dancfrog.gif	item0,meat0	perfectly ordinary frog	miniature tophat	1	2	2	3	clothes,hands,animal,eyes
-119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1
+119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1	animal,eyes,sleazy
 120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0	eyes
 121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2	wings
 122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0	mechanical
@@ -226,7 +226,7 @@
 197	Ms. Puck Man	mspuckman.gif	block,hp1,mp1,other1,drop	yellow puck with a bow on it	blue pumps	1	2	2	3	clothes
 198	Lil' Barrel Mimic	barrelmimic.gif	stat0,hp1,mp1,drop	tiny barrel	brass bung spigot	1	2	1	3	eyes
 199	Machine Elf	machelf.gif	other0,stat3,drop	machine elf capsule	self-dribbling basketball	1	2	3	1	hands,eyes,mechanical
-200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3	animal
+200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3	animal,eyes
 201	Rockin' Robin	rockinrobin.gif	stat0,item0,drop	basking robin	tiny domino mask	3	3	3	3	wings,animal,eyes
 202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1	eyes
 203	Intergnat	intergnat.gif	item0,combat0,other0,mp1,drop	disconnected intergnat	high-speed upgrade	1	3	2	2	wings,animal,eyes
