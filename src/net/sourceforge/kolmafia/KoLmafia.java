@@ -728,6 +728,9 @@ public abstract class KoLmafia
 		Preferences.resetDailies();
 		VYKEACompanionData.initialize( false );
 		ConsequenceManager.updateOneDesc();
+
+		// Make sure Banishes are loaded before removing them
+		BanishManager.loadBanishedMonsters();
 		BanishManager.resetRollover();
 
 		// Libram summoning skills now costs 1 MP again
