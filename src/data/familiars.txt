@@ -68,7 +68,7 @@
 39	Pygmy Bugbear Shaman	familiar39.gif	stat0,item0	pygmy bugbear shaman	tiny nose-bone fetish	1	3	1	2	hands,eyes
 40	Doppelshifter	familiar40.gif	variable	doppelshifter egg	tiny makeup kit	3	3	3	3	eyes
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2	hands,eyes,wings
-42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1
+42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1	hands,clothes,mechanical,animal,eyes
 43	Temporal Riftlet	familiar43.gif	block,delevel,other1	miniscule temporal rip	1.21 jigawatts	1	3	1	2
 44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0
@@ -81,7 +81,7 @@
 52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hands,eyes
 53	Astral Badger	badger.gif	combat0,drop	astral badger	badger badge	3	0	2	3	animal,hands,eyes
 54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2
-55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2	hands
+55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2	hands,eyes
 56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0	mechanical
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2	animal,eyes
 58	Nervous Tick	tick.gif	stat0,meat0	nervous tick egg	spoon!	0	3	2	2	animal,eyes
@@ -117,7 +117,7 @@
 88	Mariachi Chihuahua	chihuahua.gif	combat0,variable	stray chihuahua	tiny sombrero	3	2	1	0	animal,eyes
 89	Hobo Monkey	hobomonkey.gif	meat0,meat1	hobo monkey	tiny bindle	0	3	3	3	hands,clothes,animal,eyes
 90	Llama Lama	llama.gif	stat0,delevel,drop	llama lama cria	zen motorcycle	1	2	3	2	animal
-91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1,drop	cotton candy cocoon	cotton candy cordial	0	2	2	3
+91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1,drop	cotton candy cocoon	cotton candy cordial	0	2	2	3	eyes
 92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hands
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0	animal,eyes
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3
@@ -126,7 +126,7 @@
 97	Mutant Fire Ant	fireant.gif	combat1,item0	mutant fire ant egg	ant antidepressant	3	2	0	2	animal,eyes
 98	Mutant Cactus Bud	cactusbud.gif	combat0,meat0	mutant cactus bud	cactus monocle	3	0	2	2	eyes
 99	Mutant Gila Monster	gilamonster.gif	combat0,other0,hp1,mp1	mutant gila monster egg	Jawmaster 2000&trade;	3	0	2	2
-100	Cuddlefish	cuddlefish.gif	block,hp1,mp1,underwater	baby cuddlefish	six-armed sweater	0	1	3	3
+100	Cuddlefish	cuddlefish.gif	block,hp1,mp1,underwater	baby cuddlefish	six-armed sweater	0	1	3	3	animal,eyes
 101	Sugar Fruit Fairy	sugarfairy.gif	stat0,item0,other1,drop	candy cornucopia	tiny ballet slippers	0	3	3	2	clothes,eyes,wings
 102	Imitation Crab	crab.gif	combat0,underwater	imitation crab zoea	imitation whetstone	3	1	2	2	animal,eyes
 103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1	hands
@@ -186,11 +186,11 @@
 157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0	eyes,sleazy
 158	Steam-Powered Cheerleader	cheerleader.gif	delevel,item0	KoLHS Pep Squad Box	school spirit socket set	2	3	2	0	clothes,mechanical,hands,eyes
 159	Happy Medium	medium_0.gif	other0,stat0,drop	Small Medium	crystal decanter	0	3	2	2	clothes
-160	Artistic Goth Kid	crayongoth.gif	other1,stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3	clothes,eyes
+160	Artistic Goth Kid	crayongoth.gif	other1,stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3	clothes,eyes,hands
 161	Flaming Face	flameface.gif	combat1	hot egg	flaming nose	3	2	2	1
 162	Reagnimated Gnome	frankengnome.gif	item0,variable	Unagnimated Gnome		0	0	0	0	hands,clothes,eyes
 163	Hovering Skull	talkskull.gif	combat0,stat0	talkative skull	shiny gold fronts	2	2	3	1
-164	Mini-Skulldozer	minidozer.gif	combat1,block	skulldozer egg	ribcage rollcage	2	1	3	0
+164	Mini-Skulldozer	minidozer.gif	combat1,block	skulldozer egg	ribcage rollcage	2	1	3	0	mechanical,eyes
 165	Angry Jung Man	jungman.gif	item0,meat0,drop	dreaming Jung man	Little Crimson Book	2	2	1	1	hands,clothes,eyes
 166	Unconscious Collective	uc.gif	stat0,meat0,drop	avatar of the Unconscious Collective	blue canary nightlight	2	1	1	3	eyes,hands
 167	Nanorhino	nanorhino.gif	combat0,combat1,delevel,other0	deactivated nanobots	nanorhino credit card	3	1	1	3	mechanical,animal,eyes
