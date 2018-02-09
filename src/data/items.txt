@@ -9724,3 +9724,37 @@
 9698	hot button candy	923492672	hotbuttoncandy.gif	usable	t,d	5
 9699	makeshift garbage shirt	183649893	garbageshirt.gif	shirt	q	0
 9700	novelty monorail ticket	876417512	zepticket.gif	offhand		0
+9701
+9702
+9703
+9704
+9705
+9706
+9707
+9708
+9709
+9710
+9711
+9712	Clan Carnival Game	395722863	crate.gif	usable	t	0
+9713
+9714
+9715
+9716
+9717
+9718
+9719	genie's turbane	525809201	genieturban.gif	hat		0
+9720	genie's scimitar	681496794	geniesword.gif	weapon		0
+9721	genie's pants	535272976	geniepants.gif	pants		0
+9722	genie's bracers	689327790	geniebracers.gif	accessory		0
+9723
+9724
+9725
+9726
+9727
+9727	heart-shaped candy whetstone	125701354	heartstone.gif	food	t,d	5
+9728	Swedish massage fish	530098641	fishy2.gif	food	t,d	5
+9729	Third Base	434274124	fruity.gif	drink	t,d	5
+9730	Bustle Hustler	443626477	8ballcocktail.gif	drink	t,d	5
+9731	Fabiotion	566108269	wbpotion.gif	usable	t,d	5
+9732	Bettie page		628593057	afuescroll.gif	usable	t,d	5
+9733	tonic o' Banderas	898307239	potion13.gif	usable	t,d	5

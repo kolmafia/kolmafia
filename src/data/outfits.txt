@@ -135,3 +135,4 @@
 132	Cheerful Reindeer Suit	reintat.gif	cheerful antler hat, cheerful Crimbo sweater, cheerful pajama pants
 133	Miming Paraphernalia	mimetat.gif	miming beret, miming shirt, miming corduroys, miming gloves, miming boots
 134	Pyrotechnic Paper Paraphernalia	fpmtat.gif	burning paper hat, burning cape, burning paper slippers, burning paper jorts, burning paper crane
+135	Genie Garments	genietat.gif	genie's turbane, genie's scimitar, genie's pants, genie's bracers

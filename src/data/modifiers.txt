@@ -221,6 +221,7 @@ Item	fuzzy montera	Moxie: +7, Initiative: +7, Ranged Damage: +7, Familiar Effect
 Item	gabardine garibaldi	Spell Damage: +10, Maximum MP: +20
 Item	ganger bandana	Muscle Percent: +5, Weapon Damage Percent: +15, Familiar Effect: "atk"
 Item	gasmask	Stench Resistance: +3, Familiar Effect: "1xBarrr, cap 12"
+Item	genie's turbane	Adventures: +2, Maximum HP: +10
 Item	ghast iron Garibaldi	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xFairy, cap 14"
 Item	giant discarded bottlecap	Damage Reduction: 3, Mysticality: -10, Familiar Effect: "atk, 1xFairy, cap 38"
 Item	giant yellow hat	Familiar Damage: +10, Experience (familiar): +1, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "2xFairy, 0.5xPotato, cap 31"
@@ -604,6 +605,7 @@ Item	furry skirt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 3
 Item	gabardine gaiters	Muscle: +10, Weapon Damage: +15
 Item	Galapagosian Cuisses	Muscle: +11, Familiar Weight: +10, Class: "Turtle Tamer", Familiar Effect: "2xBarrr, MP regen, cap 31"
 Item	gauze shorts	Damage Reduction: 3, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "1xBarrr, 1xGhuol, cap 42"
+Item	genie's pants	PvP Fights: +2, Maximum MP: +10
 Item	ghast iron codpiece	Spooky Damage: +10, Hot Damage: +10, Familiar Effect: "atk, 1xBarrr, cap 42"
 Item	giant discarded torn-up glove	Stench Damage: +5, Moxie: -10, Familiar Effect: "stench atk, 0.5xPotato, cap 38"
 Item	gingerbread trousers	Moxie: +10
@@ -1249,6 +1251,7 @@ Item	frying brainpan	Hot Spell Damage: +40, Maximum MP: +200
 Item	ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapon Drop: +20, Hat Drop: +20, Meat Drop: +30, Drops Meat
 Item	gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
+Item	genie's scimitar	Muscle: +5, Weapon Damage: +5
 Item	ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 Item	ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
 Item	ghostly dagger	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Damage Reduction: 11, Weapon Damage: -10
@@ -2675,6 +2678,7 @@ Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen M
 Item	gate transceiver	Single Equip, Lasts Until Rollover
 Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
+Item	genie's bracers	Mysticality: +5, Moxie: +5
 Item	ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
@@ -4431,6 +4435,7 @@ Effect	8-bit Apparition	Avatar: "ancient ghost"
 Effect	9/10ths of the Law	Avatar: "creepy little girl"
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
+Effect	A Girl Named Sue	Familiar Weight: +5, Experience (familiar): +5, Familiar Damage: +10
 # A Hole in the World: Time destroys everything
 Effect	[597]A Little Bit Evil	Monster Level: +2
 Effect	[598]A Little Bit Evil	Monster Level: +2
@@ -4551,6 +4556,7 @@ Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Baited Hook	Fishing Skill: +5
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
+Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
 # Barfpits: Deals Stench Damage every round
@@ -4729,6 +4735,7 @@ Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
 Effect	Burns Effect	Avatar: "Mr. Burns"
 Effect	Burnt 'n' Turnt	Maximum MP Percent: +100
 # Busker Do
+Effect	Bustle Hustlin'	Pool Skill: +5
 Effect	Busy Bein' Delicious	Moxie: +5
 Effect	Butt-Rock Hair	Moxie Percent: +15
 Effect	Buttermilk Boogie	Moxie Percent: +50, Initiative: +50, HP Regen Min: 20, HP Regen Max: 40
@@ -5109,6 +5116,7 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 # Eyes of the Dragon: (Underwater only)
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
+Effect	Faboooo	Muscle: +5, Weapon Damage: +10
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
 Effect	familiar.enq	Familiar Weight: +5
 Effect	Fan Dancing	Avatar: "fan dancer"
@@ -5616,6 +5624,7 @@ Effect	License to Punch	Muscle Percent: +100
 # Light!
 # Light-Headed: Increased chance of fumbling
 Effect	Light-Headed	Mysticality Percent: -30
+Effect	Like a Fish to Walter	Fishing Skill: +5
 Effect	Like an Egyptian	Avatar: "tomb servant"
 Effect	Limber as Mortimer	Gear Drop: +100
 Effect	Lion in Ambush	Combat Rate: +15
@@ -5691,6 +5700,7 @@ Effect	Meatwise	Meat Drop: +35
 Effect	Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Effect	Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
 Effect	Mediocri Tea	Monster Level: +30
+Effect	Meet the Meat	Meat Drop: +100, Gear Drop: +50
 Effect	Melancholy Burden	Item Drop: +60
 Effect	Memento Moir&eacute;	Experience: +3
 Effect	Memories of Puppy Love	Moxie: +20
@@ -5877,6 +5887,7 @@ Effect	Overheated	Maximum MP Percent: -50, Hot Damage: +15, Hot Spell Damage: +1
 # Oversaturated Palate: Blech
 Effect	Overstimulated	Experience (Muscle): +5
 Effect	Oxygenated Blood	Adventure Underwater
+Effect	Paging Betty	Mysticality: +5, Spell Damage: +10
 Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
 Effect	Painted-On Bikini	Sleaze Damage: +50, Sleaze Spell Damage: +50, Hot Resistance: +5, Stench Resistance: +5
 Effect	Pajama Party	Familiar Weight: +10
@@ -6135,6 +6146,7 @@ Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 Effect	Sharin' Stone	Avatar: "Stone Golem"
 # Sharp Weapon: +3-5 Weapon Damage
+Effect	Sharpened Sweet Tooth	Candy Drop: +25
 Effect	Shawarma Initiative	Initiative: +150
 Effect	Shawarma Warm War	Muscle: +15, Muscle Percent: +50, Hot Damage: +25, Hot Spell Damage: +25, Cold Resistance: +3, Spooky Resistance: +3
 Effect	She Ate Too Much Candy	Familiar Weight: [min(T,25)]
@@ -6545,6 +6557,8 @@ Effect	The Wisdom... of the Future	Mysticality Percent: +50, Mysticality: +15, E
 Effect	There Is A Spoon	Mysticality: +20
 # There is No Spoon
 Effect	There Wolf	Weapon Damage Percent: +100
+Effect	There's No N in Love	Item Drop: +50, Food Drop: +50, Booze Drop: +50
+Effect	They Call Him Shifty Because...	Experience (Moxie): +5, Moxie Percent: +100, Initiative: +50
 Effect	They Called You Mad at the University	Avatar: "government scientist"
 Effect	Thick, Sick	Damage Reduction: 5
 Effect	Thick-Skinned	Maximum HP: +50
@@ -6554,6 +6568,7 @@ Effect	Thickest, Sickest	Damage Reduction: 30
 Effect	Things Man Was Not Meant to Eat	Damage Reduction: 10, Initiative: +25, Item Drop: +20, Meat Drop: +20, Pickpocket Chance: +10, Spell Damage Percent: +100, Weapon Damage Percent: +50
 Effect	Think Win-Lose	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Thinkin' Drunk	Mysticality: +50, MP Regen Min: 10, MP Regen Max: 20
+Effect	Third Based	Pickpocket Chance: +25
 Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
 Effect	Thought	Mysticality Percent: +100
@@ -7200,6 +7215,7 @@ Outfit	Frat Warrior Fatigues	Sleaze Damage: +15
 Outfit	Frigid Northlands Garb	Cold Resistance: +3
 Outfit	Furry Suit	Moxie Percent: -75, Monster Level: +5
 Outfit	Gabardine Guise	Maximum HP Percent: +100
+Outfit	Genie Garments	Critical Hit Percent: +5
 Outfit	Ghast Iron Gear	Spooky Damage: +20, Hot Damage: +20
 Outfit	Gingerbread Best	Sprinkle Drop: +25
 Outfit	Glad Bag Glad Rags	Stench Damage: +5, Sleaze Damage: +5, Mysticality: +10, Moxie: +10, Initiative: +10
@@ -7503,6 +7519,7 @@ Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Durat
 Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
+Item	heart-shaped candy whetstone	Effect: "Sharpened Sweet Tooth", Effect Duration: 40
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
 Item	Hide-rox&trade; cookie	Effect: "Broken Bone Nubs", Effect Duration: 30
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
@@ -7591,6 +7608,7 @@ Item	squirmy violent party snack	Effect: "Broken Dancing", Effect Duration: 10
 Item	stinky hi mein	Effect: "Stinky Breath", Effect Duration: 5
 Item	Strix stix	Effect: "Sugar-Frosted Pet Guts", Effect Duration: 40
 Item	sun-dried tofu	Effect: "Oversaturated Palate", Effect Duration: 1
+Item	Swedish massage fish	Effect: "Like a Fish to Walter", Effect Duration: 40
 Item	sweet roll Alabama	Effect: "Helping Comes Second", Effect Duration: 30
 Item	Taco Dan's Taco Stand Taco	Effect: "Meaty and Cheesy", Effect Duration: 10
 Item	tea for one	Effect: "One For Tea", Effect Duration: 40
@@ -7688,6 +7706,7 @@ Item	bottle of realpagne	Effect: "The Real Deal", Effect Duration: 10
 Item	bottle of sewage schnapps	Effect: "Majorly Poisoned", Effect Duration: 20
 Item	broberry brogurt	Effect: "Broberry Brotality", Effect Duration: 40
 Item	brocolate brogurt	Effect: "Brocolate Brostidigitation", Effect Duration: 40
+Item	Bustle Hustler	Effect: "Bustle Hustlin'", Effect Duration: 40
 Item	Buttery Knob	Effect: "Gutterminded", Effect Duration: 5
 Item	buzzing mushroom wine	Effect: "Stemonitis Storm", Effect Duration: 80
 Item	Caipiranha	Effect: "Fishy", Effect Duration: 5
@@ -7893,6 +7912,7 @@ Item	Taco Dan's Taco Stand Chimichangarita	Effect: "Margaritish", Effect Duratio
 Item	Temps Tempranillo	Effect Duration: 5
 Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Duration: 30
 # Item The Mad Liquor: Reduces your Fullness by 1
+Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
@@ -8183,6 +8203,7 @@ Item	bellhop bell	Effect: "Ringing Ears", Effect Duration: 10
 Item	Ben-Gal&trade; Balm	Effect: "Go Get 'Em, Tiger!", Effect Duration: 3
 Item	Benetton's Medley of Diversity	Skill: "Benetton's Medley of Diversity"
 Item	bent scrap metal	Effect: "Armor-Plated", Effect Duration: 10
+Item	Bettie page	Effect: "Paging Betty", Effect Duration: 20
 Item	Biddy Cracker's Old-Fashioned Cookbook	Skill: "Eggsplosion"
 # big boom: Deals 80-120 Physical Damage
 Item	big dribbly candle	Effect: "Waxing Mystical", Effect Duration: 10
@@ -8395,6 +8416,7 @@ Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
 # cigarette lighter: Deals 50-60 <font color=red>Hot Damage</font>
 # cinnamon troll doll: Deals 3-5 <font color=red>Hot Damage</font>
 # cinnamon troll doll: (doesn't go away when used)
+Item	Clan Carnival Game	Free Pull
 Item	Clan Floundry	Free Pull
 Item	Clan hot dog stand	Free Pull
 Item	Clan looking glass	Free Pull
@@ -8765,6 +8787,7 @@ Item	eyebrow lifter	Effect: "Pained Smirk", Effect Duration: 50
 Item	eyedrops of newt	Effect: "Newt Gets In Your Eyes", Effect Duration: [R]
 Item	eyedrops of the ermine	Effect: "Ermine Eyes", Effect Duration: [R]
 Item	eyedrops of the ocelot	Effect: "Ocelot Eyes", Effect Duration: [R]
+Item	Fabiotion	Effect: "Faboooo", Effect Duration: 20
 Item	fabric hardener	Effect: "Hardened Fabric", Effect Duration: 20
 # fabric softener: Weakens enemies a lot
 # facehugging alien: Deals 100-300 Physical Damage after a few rounds have passed
@@ -10215,6 +10238,7 @@ Item	Tome of Rad Libs	Free Pull, Skill: "Summon Rad Libs"
 Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"
 Item	Tome of Sugar Shummoning	Free Pull, Skill: "Summon Sugar Sheets"
 # tongue depressor: Briefly stuns a monster and reveals its vital statistics
+Item	tonic o' Banderas	Effect: "Bandersnatched", Effect Duration: 20
 # tonic water: Restores 30-50 MP
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
