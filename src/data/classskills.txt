@@ -244,6 +244,7 @@
 1039	Precision of the Penguin	reticle.gif	0	0	0	14
 1040	Pride of the Puffin	trophy.gif	3	30	10	15
 1041	Silent Hunter	silenthunter.gif	3	50	10
+1042	Get Big	getbig.gif	3	15	10
 
 # Skills available to Tamers
 
@@ -290,6 +291,7 @@
 2040	Patient Smile	patientsmile.gif	9	10	10	14
 2041	Turtle Power	turtlepower.gif	3	100	10	15
 2042	Quiet Determination	quietresolve.gif	9	10	10
+2043	Gallapagosian Mating Call	matingturtle.gif	5	30	0
 
 # Butt combos removed in Tamer Revamp
 # 2103 Head + Knee Combo 5 8 0
@@ -342,6 +344,7 @@
 3040
 3041	Bind Spaghetti Elemental	t_spagdemon.gif	3	150	0
 3042	Quiet Judgement	quietjudgement.gif	9	10	10
+3043	Inscrutable Gaze	psychicgaze.gif	3	10	10
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 # Remade in Pastamancer revamp, now 7176-7181
@@ -395,6 +398,7 @@
 4038	Blood Sugar Sauce Magic	saucedrops.gif	3	0	999	15
 4039	Saucemaven	saucemaven.gif	0	0	0	11
 4040	Silent Treatment	silenttreatment.gif	5	20	0
+4041	Love Mixology	potion9.gif	3	50	0
 
 # Skills available to Bandits
 
@@ -486,6 +490,7 @@
 6042	Knowing Smile	coolsmile.gif	9	10	10	14
 6043	Mariachi Memory	mariachimem.gif	0	0	0	15
 6044	Quiet Desperation	quietdesperation.gif	9	10	10
+6045 Paul's Passionate Pop Song paulssong.gif 4	20	0
 
 # Skills granted conditionally
 
