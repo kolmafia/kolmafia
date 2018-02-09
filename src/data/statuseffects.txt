@@ -2352,3 +2352,21 @@
 2351
 2352	Quiet 'n' Good	bloodnplenty.gif	9e84adbe524bc8d5179f3b2cd8b84318	use 1 Good 'n' Quiet
 2353	Hot Buttoned	hotbuttoncandy.gif	244bf84acdb03f5de738b55f3790ff92	use 1 hot button candy
+2354
+2355
+2356	Sharpened Sweet Tooth	heartstone.gif	9ced7398c45b526cbe7855e98d1dbc9a	eat 1 heart-shaped candy whetstone
+2357	Like a Fish to Walter	fishy2.gif	46d4fc74ab55d96e8cb4282ceb65227a		eat 1 Swedish massage fish
+2358	Third Based	fruity.gif	adf7c629e7cd5654b2d6e5abc6e65cda	drink 1 Third Base
+2359	Bustle Hustlin'	8ballcocktail.gif	1d42bf06e38da4fb29879d3a688d51f9	drink 1 Bustle Hustler
+2360	Faboooo	wbpotion.gif	aa12203b22fcd864dfd820635a2c9ccf	use 1 Fabiotion
+2361	Paging Betty	afuescroll.gif	0c178972a80df4e722f9ab86b865b65d	use 1 Bettie page
+2362	Bandersnatched	potion13.gif	4189b8bef42320e88cd72704b422d55b	use 1 tonic o' Banderas
+2363
+2364
+2365
+2366	A Girl Named Sue	catprod.gif	eef202f6b563297c3a25b04f73afeaa4
+2367	There's No N in Love	pressie.gif	bcdf42bc9f425f052b44dc098d6a903e
+2368	Meet the Meat	meat.gif	c9a5d0999b6122f9e7f3683b159cec81
+2369
+2370
+2371	They Call Him Shifty Because...	discomask.gif	40a696f8a48a0f66172abdfeb3bd389c

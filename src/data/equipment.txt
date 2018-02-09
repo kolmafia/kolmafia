@@ -132,6 +132,7 @@ fuzzy montera	130	Mox: 50
 gabardine garibaldi	50	none
 ganger bandana	200	Mox: 85
 gasmask	50	Mox: 10
+genie's turbane	50	Mox: 10
 ghast iron Garibaldi	170	Mox: 70
 giant discarded bottlecap	155	Mox: 62
 giant yellow hat	125	Mox: 47
@@ -472,6 +473,7 @@ furry skirt	150	Mox: 60
 gabardine gaiters	50	none
 Galapagosian Cuisses	125	Mus: 30
 gauze shorts	170	Mox: 70
+genie's pants	50	Mox: 10
 ghast iron codpiece	170	Mox: 70
 giant discarded torn-up glove	155	Mox: 62
 gingerbread trousers	50	Mox: 10
@@ -1053,6 +1055,7 @@ frying brainpan	225	Mys: 200	1-handed saucepan
 ga-ga radio	125	Mox: 47	2-handed radio
 garbage sticker	200	Mus: 85	1-handed spear
 gatorskin umbrella	140	Mus: 100	1-handed umbrella
+genie's scimitar	50	Mus: 10	1-handed sword
 ghast iron cleaver	175	Mus: 72	1-handed club
 ghost accordion	140	Mox: 55	2-handed accordion
 ghostly dagger	110	Mus: 40	1-handed knife
@@ -2267,6 +2270,7 @@ Gary Claybender's Time Screwer	50	none
 gate transceiver	10	none
 Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
+genie's bracers	50	Mys: 10
 ghost of a necklace	60	Mys: 15
 giant designer sunglasses	10	none
 giant diamond ring	10	none

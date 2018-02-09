@@ -104,6 +104,7 @@ broberry brogurt	3	11	EPIC	15-18	100-200	0	0	40 Broberry Brotality (+100% Mus, +
 brocolate brogurt	3	11	EPIC	15-18	0	100-200	0	40 Brocolate Brostidigitation (+100% Mys, +20% Spell Crit, +25 Item drop)
 bucket of wine	10	5	decent	16-20	10-50	10-50	10-50
 bungle in the jungle	4	7	awesome	13-17	40-99	54-118	31-122
+Bustle Hustler	1	4	good	0	0	0	0	Unspaded
 Buttery Knob	2	1	good	4-5	0	0	10-20	5 Gutterminded (+50 Sleaze Dam)
 buzzing mushroom wine	4	3	EPIC	22-26	0	50-100	0	80 Stemonitis Storm
 caipifruta	3	3	good	5-10	16-20	0	0
@@ -584,6 +585,7 @@ The Cooler Out of Space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the 
 The Mad Liquor	3	6	EPIC	21-24	15-30	15-30	15-30	-1 Fullness
 thermos full of Knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thermos of &quot;whiskey&quot;	1	1	good	2-3	0	0	75-100
+Third Base	1	4	good	0	0	0	0	Unspaded
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP
 Thriller Ice	2	22	EPIC	14-16	10-20	10-20	10-20	30-40 MP
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
