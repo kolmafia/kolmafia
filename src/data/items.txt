@@ -9756,5 +9756,5 @@
 9729	Third Base	434274124	fruity.gif	drink	t,d	5
 9730	Bustle Hustler	443626477	8ballcocktail.gif	drink	t,d	5
 9731	Fabiotion	566108269	wbpotion.gif	usable	t,d	5
-9732	Bettie page		628593057	afuescroll.gif	usable	t,d	5
+9732	Bettie page	628593057	afuescroll.gif	usable	t,d	5
 9733	tonic o' Banderas	898307239	potion13.gif	usable	t,d	5
