@@ -2370,3 +2370,7 @@
 2369
 2370
 2371	They Call Him Shifty Because...	discomask.gif	40a696f8a48a0f66172abdfeb3bd389c
+2372	Big	getbig.gif	581c62434820bcc318206d2b26888f60	cast 1 Get Big
+2373	Inscrutable Gaze	psychicgaze.gif	117aebee9518a532e86e92dcf4aa1175	cast 1 Inscrutable Gaze
+2374
+2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	cast 1 Paul's Passionate Pop Song

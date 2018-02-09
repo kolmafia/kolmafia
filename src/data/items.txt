@@ -9736,12 +9736,12 @@
 9710
 9711
 9712	Clan Carnival Game	395722863	crate.gif	usable	t	0
-9713
-9714
-9715
-9716
+9713	How To Get Bigger Without Really Trying	528907871	book3.gif	usable	t	0
+9714	Illustrated Mating Rituals of the Gallapagos	806232198	book3.gif	usable	t	0
+9715	Convincing People You Can See The Future	622394964	book4.gif	usable	t	0
+9716	Love Potions and the Wizards who Mix Them	244435222	book5.gif	usable	t	0
 9717
-9718
+9718	Silly Little Love Song	194010493	music.gif	usable	t	0
 9719	genie's turbane	525809201	genieturban.gif	hat		0
 9720	genie's scimitar	681496794	geniesword.gif	weapon		0
 9721	genie's pants	535272976	geniepants.gif	pants		0

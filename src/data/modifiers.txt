@@ -4599,6 +4599,7 @@ Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
 Effect	Beyond the Pail	Avatar: "fishy pirate"
+Effect	Big	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
@@ -5516,6 +5517,7 @@ Effect	Inocente, In a Sense	Avatar: "Persona Inocente Cadáver"
 Effect	Insani Tea	Random Monster Modifiers: +3
 Effect	Insatiable Hunger	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Effect	Inscrutable exoskeleton	Damage Absorption: +300
+Effect	Inscrutable Gaze	Experience Percent (Mysticality): +10
 # Effect Inside The Snowglobe: You can access the Deep Machine Tunnels beneath Seaside Town
 Effect	Inspired!	Mysticality Percent: +20, Moxie Percent: -20
 Effect	Insulated	Maximum MP: +6
@@ -5891,6 +5893,7 @@ Effect	Paging Betty	Mysticality: +5, Spell Damage: +10
 Effect	Pained Smirk	Avatar: "Brick Mulligan, the Bartender"
 Effect	Painted-On Bikini	Sleaze Damage: +50, Sleaze Spell Damage: +50, Hot Resistance: +5, Stench Resistance: +5
 Effect	Pajama Party	Familiar Weight: +10
+Effect	Paul's Passionate Pop Song	MP Regen Min: 4, MP Regen Max: 5
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 # Effect Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
@@ -8477,6 +8480,7 @@ Item	Connery's Elixir of Audacity	Effect: "Cock of the Walk", Effect Duration: [
 Item	Conspiracy&trade; mascara	Effect: "Conspiratory Eyes", Effect Duration: 50
 # continental juice bar: Produces 3 random potions each day
 Item	control crystal	Free Pull
+Item	Convincing People You Can See The Future	Skill: "Inscrutable Gaze"
 Item	cool cat elixir	Effect: "Cool, Catlike", Effect Duration: 20
 # cool spore pod: Briefly enhances your Moxie
 # Item cop dollar
@@ -9145,6 +9149,7 @@ Item	hot nuggets	Effect: "Flaming Weapon", Effect Duration: 5
 Item	hot powder	Effect: "Flame-Retardant Trousers", Effect Duration: 5
 # hot spore pod: Briefly improves your <font color = red>Hot</font> spells
 Item	How to Avoid Scams	Effect: "How to Scam Tourists", Effect Duration: 20
+Item	How To Get Bigger Without Really Trying	Skill: "Get Big"
 Item	How to Hold a Grudge	Skill: "Chip on your Shoulder"
 # How to Play Othello: Teaches you how to play Othello better
 Item	How to Tolerate Jerks	Skill: "Thick-Skinned"
@@ -9161,6 +9166,7 @@ Item	Iceberglar scarf	Effect: "Icebergled", Effect Duration: 50
 Item	icy hairspray	Effect: "Mrs. Frozen", Effect Duration: 100
 Item	Iiti Kitty Gumdrop	Effect: "Kitty Littered", Effect Duration: 30
 # illegal firecracker: Deals 15-20 Physical Damage and 15-20 <font color=red>Hot Damage</font>
+Item	Illustrated Mating Rituals of the Gallapagos	Skill: "Gallapagosian Mating Call"
 Item	Illuminati earpiece	Effect: "Goblin in Black", Effect Duration: 50
 Item	imbued seal-blubber candle	Class: "Seal Clubber"
 # imitation crab meat: Deals 150-250 Physical Damage
@@ -9300,6 +9306,7 @@ Item	lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 Item	LOV Elixir #3	Effect: "The Power of LOV", Effect Duration: 40
 Item	LOV Elixir #6	Effect: "The Magic of LOV", Effect Duration: 40
 Item	LOV Elixir #9	Effect: "The Moxie of LOV", Effect Duration: 40
+Item	Love Potions and the Wizards who Mix Them	Skill: "Love Mixology"
 # love song of disturbing obsession: Deals <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
 # love song of icy revenge: Deals <font color=blue>Cold Damage</font> based on your Moxie
@@ -9937,6 +9944,7 @@ Item	Shrubble Bubble	Effect: "Jawin'", Effect Duration: 10
 Item	siesta-ing Casagnova gnome	Free Pull
 # silk bandages: Restores 40-80 HP
 Item	silk garter snake	Free Pull
+Item	Silly Little Love Song	Skill: "Paul's Passionate Pop Song"
 Item	silver Dreadsylvanian flask	Effect: "Silver Age Secrets", Effect Duration: 100
 Item	silver face paint	Effect: "Robot Friends", Effect Duration: 1
 Item	single of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 10
