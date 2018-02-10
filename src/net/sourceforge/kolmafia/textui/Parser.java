@@ -1118,7 +1118,7 @@ public class Parser
 			}
 			else
 			{
-				lhs = this.parseValue( scope );
+				lhs = this.parseExpression( scope );
 			}
 
 			if ( lhs == null || this.currentToken() == null )
@@ -1178,7 +1178,7 @@ public class Parser
 			}
 			else
 			{
-				rhs = this.parseValue( scope );
+				rhs = this.parseExpression( scope );
 			}
 
 			if ( rhs == null )

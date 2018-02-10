@@ -75,11 +75,6 @@ public class ArrayLiteral
 	@Override
 	public Value execute( final Interpreter interpreter )
 	{
-		if ( this.aggr != null )
-		{
-			return this.aggr;
-		}
-
 		AggregateType type = (AggregateType)this.type;
 
 		this.aggr = (AggregateValue)this.type.initialValue();

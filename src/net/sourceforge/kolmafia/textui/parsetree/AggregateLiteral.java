@@ -47,22 +47,4 @@ public abstract class AggregateLiteral
 	{
 		super( type );
 	}
-
-	@Override
-	public Value aref( final Value key, final Interpreter interpreter )
-	{
-		return this.aggr.aref( key, interpreter );
-	}
-
-	@Override
-	public void aset( final Value key, Value val, final Interpreter interpreter )
-	{
-		throw interpreter.runtimeException( "Aggregate literals are immutable" );
-	}
-
-	@Override
-	public Iterator iterator()
-	{
-		return this.aggr.iterator();
-	}
 }
