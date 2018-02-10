@@ -55,11 +55,6 @@ public class MapLiteral
 	@Override
 	public Value execute( final Interpreter interpreter )
 	{
-		if ( this.aggr != null )
-		{
-			return this.aggr;
-		}
-
 		this.aggr = (AggregateValue)this.type.initialValue();
 
 		Iterator<Value> keyIterator = this.keys.iterator();
