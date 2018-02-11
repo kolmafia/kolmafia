@@ -80,7 +80,7 @@
 51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	mechanical,robot
 52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hands,eyes
 53	Astral Badger	badger.gif	combat0,drop	astral badger	badger badge	3	0	2	3	animal,hands,eyes
-54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2
+54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2	hands,animal,eyes
 55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2	hands,eyes
 56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0	mechanical,robot
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2	animal,eyes
@@ -177,7 +177,7 @@
 148	Li'l Xenomorph	lilxeno.gif	stat0,drop,variable	mysterious chest	tiny top hat and cane	3	2	1	3	hands,animal,eyes
 149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3	mechanical,animal,eyes,robot
 150	Pair of Stomping Boots	stompboots.gif	combat0,item0,drop	fairy-worn boots	stomp box	3	0	2	2
-151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1
+151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1	hands,eyes
 152	Fancypants Scarecrow	pantscrow2.gif	variable	stuffed-shirt scarecrow		0	0	0	0	clothes,eyes
 153
 154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sleazy,animal,eyes
