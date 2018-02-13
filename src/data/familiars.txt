@@ -40,7 +40,7 @@
 11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3	animal
 12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2	eyes
 13
-14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3
+14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3	hands,eyes
 15	Baby Gravy Fairy	familiar15.gif	item0	pregnant mushroom	eye-pod	0	3	1	2	eyes,wings
 16	Cocoabo	familiar16.gif	combat0,delevel,hp0,mp0,meat1	cocoa egg	chocolate spurs	2	3	0	1	animal,eyes,wings
 17	Star Starfish	familiar17.gif	combat0,mp0	star starfish	magnifying glass	2	1	3	0	animal,sleazy
@@ -161,7 +161,7 @@
 132	Snowhitman	snowhitman.gif	none			0	0	0	0
 133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
 134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0
-135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	eyes
+135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	eyes,mechanical
 136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1	hands,clothes,eyes
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	wings,animal,eyes
 138	Hippo Ballerina	hippo.gif	combat1,block,delevel,item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0	clothes,animal,eyes
