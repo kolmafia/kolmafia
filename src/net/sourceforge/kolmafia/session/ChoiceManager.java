@@ -15674,6 +15674,7 @@ public abstract class ChoiceManager
 		case 1273: // The Cursed Warehouse
 		case 1275: // Rummaging through the Garbage
 		case 1277: // Extra, Extra
+		case 1278: // Madame Zatara’s Relationship Fortune Teller
 			return true;
 
 		default:
