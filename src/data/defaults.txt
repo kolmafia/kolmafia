@@ -782,6 +782,8 @@ user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
 user	makeFriendsMonster	
+user	makePocketWishesHardcore	false
+user	makePocketWishesSoftcore	false
 user	manaBurnSummonThreshold	10
 user	manaBurningThreshold	-0.05
 user	manaBurningTrigger	-0.05

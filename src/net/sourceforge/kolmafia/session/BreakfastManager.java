@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -71,6 +72,8 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
+
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
@@ -136,6 +139,7 @@ public class BreakfastManager
 			visitBigIsland();
 			visitVolcanoIsland();
 			checkJackass();
+			makePocketWishes();
 			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				useToys();
@@ -608,6 +612,24 @@ public class BreakfastManager
 		{
 			ArcadeRequest.checkJackassPlumber();
 			KoLmafia.forceContinue();
+		}
+	}
+
+	private static void makePocketWishes()
+	{
+		if ( !InventoryManager.hasItem( ItemPool.GENIE_BOTTLE ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "makePocketWishes" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			int num = 3 - Preferences.getInteger( "_genieWishesUsed" );
+			for ( int i = 0; i < num; i++ )
+			{
+				RequestThread.postRequest( new GenieRequest( "for more wishes" ) );
+				KoLmafia.forceContinue();
+			}
 		}
 	}
 

@@ -2421,6 +2421,7 @@ public class OptionsFrame
 		private final JCheckBox readManual;
 		private final JCheckBox useCrimboToys;
 		private final JCheckBox checkJackass;
+		private final JCheckBox makePocketWishes;
 
 		private final SkillMenu tomeSkills;
 		private final SkillMenu libramSkills;
@@ -2435,7 +2436,7 @@ public class OptionsFrame
 			JPanel centerContainer = new JPanel();
 			centerContainer.setLayout( new BoxLayout( centerContainer, BoxLayout.Y_AXIS ) );
 
-			int rows = ( UseSkillRequest.BREAKFAST_SKILLS.length + 8 ) / 2 + 1;
+			int rows = ( UseSkillRequest.BREAKFAST_SKILLS.length + 10 ) / 2 + 1;
 
 			JPanel centerPanel = new JPanel( new GridLayout( rows, 2 ) );
 
@@ -2483,6 +2484,10 @@ public class OptionsFrame
 			this.checkJackass = new JCheckBox( "check Jackass Plumber" );
 			this.checkJackass.addActionListener( this );
 			centerPanel.add( this.checkJackass );
+
+			this.makePocketWishes = new JCheckBox( "make Pocket Wishes" );
+			this.makePocketWishes.addActionListener( this );
+			centerPanel.add( this.makePocketWishes );
 
 			centerContainer.add( centerPanel );
 			centerContainer.add( Box.createVerticalStrut( 10 ) );
@@ -2568,6 +2573,8 @@ public class OptionsFrame
 				"useCrimboToys" + this.breakfastType, this.useCrimboToys.isSelected() );
 			Preferences.setBoolean(
 				"checkJackass" + this.breakfastType, this.checkJackass.isSelected() );
+			Preferences.setBoolean(
+				"makePocketWishes" + this.breakfastType, this.makePocketWishes.isSelected() );
 
 			this.tomeSkills.setPreference();
 			this.libramSkills.setPreference();
@@ -2592,6 +2599,7 @@ public class OptionsFrame
 			this.readManual.setSelected( Preferences.getBoolean( "readManual" + this.breakfastType ) );
 			this.useCrimboToys.setSelected( Preferences.getBoolean( "useCrimboToys" + this.breakfastType ) );
 			this.checkJackass.setSelected( Preferences.getBoolean( "checkJackass" + this.breakfastType ) );
+			this.makePocketWishes.setSelected( Preferences.getBoolean( "makePocketWishes" + this.breakfastType ) );
 		}
 
 		@Override
