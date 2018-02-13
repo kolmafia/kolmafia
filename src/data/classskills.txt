@@ -442,6 +442,7 @@
 5038	Sensitive Fingers	sensifingers.gif	0	0	0	14
 5039	Disco Leer	discoleer.gif	9	10	10	15
 5040	Silent Knife	silentknife.gif	5	10	0
+5041	Acquire Rhinestones	rhinestones.gif	3	10	0
 
 # Skills available to Thieves
 

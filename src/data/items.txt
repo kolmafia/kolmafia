@@ -9740,7 +9740,7 @@
 9714	Illustrated Mating Rituals of the Gallapagos	806232198	book3.gif	usable	t	0
 9715	Convincing People You Can See The Future	622394964	book4.gif	usable	t	0
 9716	Love Potions and the Wizards who Mix Them	244435222	book5.gif	usable	t	0
-9717
+9717	They'll Love You In Rhinestones	926786629	book2.gif	usable	t	0
 9718	Silly Little Love Song	194010493	music.gif	usable	t	0
 9719	genie's turbane	525809201	genieturban.gif	hat		0
 9720	genie's scimitar	681496794	geniesword.gif	weapon		0
@@ -9750,7 +9750,6 @@
 9724
 9725
 9726
-9727
 9727	heart-shaped candy whetstone	125701354	heartstone.gif	food	t,d	5
 9728	Swedish massage fish	530098641	fishy2.gif	food	t,d	5
 9729	Third Base	434274124	fruity.gif	drink	t,d	5
@@ -9758,3 +9757,16 @@
 9731	Fabiotion	566108269	wbpotion.gif	usable	t,d	5
 9732	Bettie page	628593057	afuescroll.gif	usable	t,d	5
 9733	tonic o' Banderas	898307239	potion13.gif	usable	t,d	5
+9734	heather graham cracker	236127812	grahamcracker.gif	usable	t,d	5
+9735
+9736
+9797
+9738	personal graffiti kit	390440571	smallcase.gif	none, usable, curse	t,d	5
+9739
+9740
+9741
+9742
+9743
+9744
+9745
+9746	rhinestone	402331722	rhinestone.gif	usable	t	0

@@ -2361,7 +2361,7 @@
 2360	Faboooo	wbpotion.gif	aa12203b22fcd864dfd820635a2c9ccf	use 1 Fabiotion
 2361	Paging Betty	afuescroll.gif	0c178972a80df4e722f9ab86b865b65d	use 1 Bettie page
 2362	Bandersnatched	potion13.gif	4189b8bef42320e88cd72704b422d55b	use 1 tonic o' Banderas
-2363
+2363	Graham Crackling	grahamcracker.gif	0fbfda0a077a76f7ba4525f00e1c19c5	use 1 heather graham cracker
 2364
 2365
 2366	A Girl Named Sue	catprod.gif	eef202f6b563297c3a25b04f73afeaa4	# consult fortune teller about Suzie
@@ -2374,3 +2374,4 @@
 2373	Inscrutable Gaze	psychicgaze.gif	117aebee9518a532e86e92dcf4aa1175	cast 1 Inscrutable Gaze
 2374
 2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	cast 1 Paul's Passionate Pop Song
+2376	Rhinestoned	rhinestones.gif	b87601a22d0736c8c6ed9a08518829e0	use 1 rhinestone

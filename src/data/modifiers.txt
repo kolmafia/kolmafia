@@ -5288,6 +5288,7 @@ Effect	Goofball Withdrawal	Muscle Percent: -10, Mysticality Percent: -10, Moxie 
 Effect	Got Your Boots On	Moxie Percent: +10
 Effect	Gothy	Mysticality: +20, Muscle: -10, Moxie: -10
 Effect	Gr8tness	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Graham Crackling	Maximum HP: +10, Maximum MP: +5
 Effect	Grand Blessing of She-Who-Was	Mysticality: +10, Spooky Damage: +10
 Effect	Grand Blessing of the Storm Tortoise	Initiative: +10, Maximum MP: +20
 Effect	Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
@@ -6081,6 +6082,7 @@ Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
+Effect	Rhinestoned	Moxie: [T]
 Effect	Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Effect	RIP AND TEAR	Avatar: "Space Marine"
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
@@ -7524,6 +7526,7 @@ Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
 Item	heart-shaped candy whetstone	Effect: "Sharpened Sweet Tooth", Effect Duration: 40
+Item	heather graham cracker	Effect: "Graham Crackling", Effect Duration: 20
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
 Item	Hide-rox&trade; cookie	Effect: "Broken Bone Nubs", Effect Duration: 30
 Item	hippy herbal tea	Effect: "Sleepy", Effect Duration: 5
@@ -9843,6 +9846,7 @@ Item	resolution: be smarter	Effect: "Brilliant Resolve", Effect Duration: 20
 Item	resolution: be stronger	Effect: "Strong Resolve", Effect Duration: 20
 Item	resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
+Item	rhinestone	Effect: "Rhinestoned", Effect Duration: 1
 Item	ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
 # Item robin's egg: When used in combat: weakens enemies by 50% and briefly stuns them
 Item	robin's egg	Effect: "Egged On", Effect Duration: 10
@@ -10212,6 +10216,7 @@ Item	The Snitch's Manifesto	Skill: "Tattle"
 Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
+Item	They'll Love You In Rhinestones	Skill: "Acquire Rhinestones"
 Item	thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Skill: "Summon Geeky Gifts"
 Item	Threatening Missive	Effect: "Annoyed by Threats", Effect Duration: 30
