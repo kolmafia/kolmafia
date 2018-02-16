@@ -486,6 +486,7 @@ public class ProxyRecordValue
 			.add( "underwater", DataTypes.BOOLEAN_TYPE )
 			.add( "variable", DataTypes.BOOLEAN_TYPE )
 			.add( "attributes", DataTypes.STRING_TYPE )
+			.add( "poke_level", DataTypes.INT_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -634,6 +635,12 @@ public class ProxyRecordValue
 				builder.append( attr );
 			}
 			return builder.toString();
+		}
+
+		public int get_poke_level()
+		{
+			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
+			return fam == null ? 0 : fam.getPokeLevel();
 		}
 	}
 

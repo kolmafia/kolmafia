@@ -100,6 +100,7 @@ import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FamTeamRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -896,6 +897,10 @@ public abstract class KoLmafia
 		{
 			// Inspect your servants
 			RequestThread.postRequest( new EdBaseRequest( "edbase_door", true ) );
+		}
+		else if ( KoLCharacter.inPokefam() )
+		{
+			RequestThread.postRequest( new FamTeamRequest() );
 		}
 		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() && !KoLCharacter.inBondcore() )
 		{

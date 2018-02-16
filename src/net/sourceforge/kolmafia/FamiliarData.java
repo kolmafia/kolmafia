@@ -114,6 +114,7 @@ public class FamiliarData
 	private boolean feasted;
 	private boolean favorite;
 	private int charges;
+	private int pokeLevel;
 
 	public FamiliarData( final int id )
 	{
@@ -132,6 +133,7 @@ public class FamiliarData
 		this.item = item;
 		this.feasted = false;
 		this.charges = 0;
+		this.pokeLevel = 0;
 	}
 
 	private FamiliarData( final Matcher dataMatcher )
@@ -146,6 +148,14 @@ public class FamiliarData
 		this.update( dataMatcher );
 	}
 
+	public FamiliarData( final int id, final String name, final int pokeLevel )
+	{
+		this.id = id;
+		this.name = name;
+		this.race = FamiliarDatabase.getFamiliarName( id );
+		this.pokeLevel = pokeLevel;
+	}
+
 	private final void update( final Matcher dataMatcher )
 	{
 		this.name = dataMatcher.group( 3 );
@@ -154,6 +164,12 @@ public class FamiliarData
 		String itemData = dataMatcher.group( 6 );
 		this.item = FamiliarData.parseFamiliarItem( this.id, itemData );
 		this.favorite = itemData.contains( "[unfavorite]" );
+	}
+
+	public final void update( final String name, final int pokeLevel )
+	{
+		this.name = name;
+		this.pokeLevel = pokeLevel;
 	}
 
 	public static final void reset()
@@ -478,6 +494,30 @@ public class FamiliarData
 		return familiar;
 	}
 
+	public static final FamiliarData registerFamiliar( final int id, final String name, final int pokeLevel )
+	{
+		if ( id == 0 )
+		{
+			return FamiliarData.NO_FAMILIAR;
+		}
+
+		FamiliarData familiar = KoLCharacter.findFamiliar( id );
+		if ( familiar == null )
+		{
+			// Add new familiar to list
+			familiar = new FamiliarData( id );
+			familiar.update( name, pokeLevel );
+			KoLCharacter.addFamiliar( familiar );
+		}
+		else
+		{
+			// Update existing familiar
+			familiar.update( name, pokeLevel );
+		}
+
+		return familiar;
+	}
+
 	private static final Pattern LOCK_PATTERN = Pattern.compile( "familiar.php\\?action=lockequip.*'This Familiar Equipment is (Locked|Unlocked)'" );
 
 	public static final void checkLockedItem( final String responseText )
@@ -686,6 +726,11 @@ public class FamiliarData
 	public String getRace()
 	{
 		return this.race;
+	}
+
+	public int getPokeLevel()
+	{
+		return this.pokeLevel;
 	}
 
 	public boolean getFavorite()
