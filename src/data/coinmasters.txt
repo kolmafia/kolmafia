@@ -874,3 +874,15 @@ Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 3	ROW975
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 4	ROW976
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 5	ROW977
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 6	ROW978
+
+# Pocket Familiars
+The Pok&eacute;mporium	buy	5	bronze	ROW994
+The Pok&eacute;mporium	buy	5	ginseng	ROW997
+The Pok&eacute;mporium	buy	5	metandienone	ROW992
+The Pok&eacute;mporium	buy	5	piracetam	ROW995
+The Pok&eacute;mporium	buy	5	riboflavin	ROW993
+The Pok&eacute;mporium	buy	5	ultracalcium	ROW996
+The Pok&eacute;mporium	buy	50	Team Avarice cap	ROW997
+The Pok&eacute;mporium	buy	50	Team Sloth cap	ROW999
+The Pok&eacute;mporium	buy	50	Team Wrath cap	ROW1000
+The Pok&eacute;mporium	buy	50	Mu cap	ROW1001

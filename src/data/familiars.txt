@@ -35,9 +35,9 @@
 6	Fuzzy Dice	familiar6.gif	combat0,delevel,meat1,mp0,hp0	fuzzy dice	meatcar model	2	2	2	2
 7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hands,clothes
 8	Barrrnacle	familiar8.gif	delevel,underwater	barrrnacle	sucky decal	0	2	1	3	animal
-9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0
+9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0	animal
 10	Stab Bat	familiar10.gif	combat0	rewinged stab bat	shock collar	3	2	1	0	animal,eyes,wings
-11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3	animal
+11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3	animal,eyes
 12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2	eyes
 13
 14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3	hands,eyes
@@ -86,7 +86,7 @@
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2	animal,eyes
 58	Nervous Tick	tick.gif	stat0,meat0	nervous tick egg	spoon!	0	3	2	2	animal,eyes
 59	Reassembled Blackbird	blackbird2.gif	other1	reassembled blackbird	tiny bust of Pallas	0	0	0	0	wings
-60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2
+60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2	wings
 61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3
 62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1	eyes
 63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0
@@ -100,9 +100,9 @@
 71	Ragamuffin Imp	ragimp.gif	combat1	pile of smoking rags		3	3	3	3	wings,eyes
 72	Exotic Parrot	parrot.gif	passive	exotic parrot egg	cracker	3	3	2	0	wings,animal,eyes,sleazy
 73	Wizard Action Figure	waf.gif	combat1,delevel,hp0,stat0,item0	wizard action figure	mint-condition magic wand	2	3	2	2
-74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	sleazy
+74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	hands,eyes,sleazy
 75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2	hands,clothes,eyes,sleazy
-76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2
+76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2	hands,clothes,eyes
 77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical,hands,eyes,robot
 78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0	mechanical
 79	Teddy Borg	teddyborg.gif	other0	teddy borg	teddy borg sewing kit	3	2	0	1	mechanical,robot
@@ -139,7 +139,7 @@
 110	Wereturtle	turtle.gif	combat1	sleeping wereturtle	bottle of moontan lotion	3	1	0	2	animal,eyes
 111	Baby Sandworm	babyworm.gif	stat1,drop	infant sandworm	string of dingle balls	1	2	2	3	animal,clothes
 112	Slimeling	slimeling.gif	combat0,mp0,item0,other1,drop	squirming Slime larva	undissolvable contact lenses	3	3	2	2	eyes,sleazy
-113	He-Boulder	heboulder.gif	other0,hp1,mp1,meat0	floaty stone sphere	quadroculars	3	3	2	1
+113	He-Boulder	heboulder.gif	other0,hp1,mp1,meat0	floaty stone sphere	quadroculars	3	3	2	1	eyes
 114	Rock Lobster	rocklobster.gif	combat1,mp0,underwater,drop	rock lobster	extra-strength rubber bands	3	2	2	1
 115	Urchin Urchin	urchin.gif	underwater,meat0	urchin roe	pet anemone	3	3	0	2
 116	Grouper Groupie	grouper2.gif	underwater,item0	grouper fangirl	gill rings	0	2	3	2	clothes,animal,eyes,sleazy
@@ -195,7 +195,7 @@
 166	Unconscious Collective	uc.gif	stat0,meat0,drop	avatar of the Unconscious Collective	blue canary nightlight	2	1	1	3	eyes,hands
 167	Nanorhino	nanorhino.gif	combat0,combat1,delevel,other0	deactivated nanobots	nanorhino credit card	3	1	1	3	mechanical,animal,eyes,robot
 168	Oily Woim	woim.gif	passive	woim	woimbook	2	1	3	1	animal,sleazy
-169	Homemade Robot	homemadebot.gif	none	homemade robot	homemade robot gear	0	0	0	0	mechanical,robot
+169	Homemade Robot	homemadebot.gif	none	homemade robot	homemade robot gear	0	0	0	0	mechanical,robot,hands,eyes
 170	MiniMechaElf	mechaelf.gif	combat0	Deactivated MiniMechaElf	MiniMechaElf Laser Punch Missile Launcher	3	2	0	1	mechanical,robot
 171	Gelatinous Cubeling	gcube.gif	delevel,item0,drop	dried gelatinous cube	pile of dungeon junk	2	3	0	1	eyes
 172	Adorable Space Buddy	starbuddy.gif	combat1,hp1,mp1,underwater	Star Spawn	cute bow from beyond the stars	1	2	3	3

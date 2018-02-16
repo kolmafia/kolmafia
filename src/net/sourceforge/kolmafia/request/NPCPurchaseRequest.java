@@ -852,6 +852,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "pokefam" ) )
+		{
+			PokemporiumRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		if ( shopId.equals( "detective" ) )
 		{
 			PrecinctRequest.parseResponse( urlString, responseText );
@@ -1264,6 +1270,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "bacon" ) )
 			{
 				return MemeShopRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "pokefam" ) )
+			{
+				return PokemporiumRequest.registerRequest( urlString );
 			}
 
 			if ( shopId.equals( "detective" ) )

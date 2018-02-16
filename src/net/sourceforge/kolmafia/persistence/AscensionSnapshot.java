@@ -85,6 +85,7 @@ public class AscensionSnapshot
 	public static final int GELATINOUS_NOOB = 29;
 	public static final int LICENSE = 30;
 	public static final int REPEAT = 31;
+	public static final int POKEFAM = 32;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -240,6 +241,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.POKEFAM, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.LICENSE, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
@@ -580,7 +585,8 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
 						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " :
 						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " :
-						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat."
+						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat." :
+						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars"
 						: "" );
 
 			strbuf.append( "Ascensions (Out of " );

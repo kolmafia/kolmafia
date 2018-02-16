@@ -491,6 +491,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Live. Adventure. Repeat. " );
 		}
+		else if ( KoLCharacter.inPokefam() )
+		{
+			sessionStream.print( "Pocket Familiars " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );

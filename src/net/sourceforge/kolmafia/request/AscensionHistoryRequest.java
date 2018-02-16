@@ -814,6 +814,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Gelatinous Noob" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 				path[ 1 ].equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
 				path[ 1 ].equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
+				path[ 1 ].equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -872,6 +873,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "radiation" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 					columns[ 8 ].contains( "gcube" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
+					columns[ 8 ].contains( "unknown" ) ? AscensionSnapshot.POKEFAM :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

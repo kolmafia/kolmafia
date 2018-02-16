@@ -150,6 +150,7 @@ import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.PixelRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PortalRequest;
 import net.sourceforge.kolmafia.request.PottedTeaTreeRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
@@ -1424,6 +1425,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof PixelRequest || isExternal ) && PixelRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof PokemporiumRequest || isExternal ) && PokemporiumRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

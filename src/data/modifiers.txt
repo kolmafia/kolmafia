@@ -327,6 +327,7 @@ Item	Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Item	moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
 Item	Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
 Item	moose antlers	Critical Hit Percent: +5, Familiar Effect: "atk, 1xLep, cap 27"
+Item	Mu cap	Spooky Resistance: +4, Stench Resistance: +4, Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4
 Item	muddy pirate hat	Item Drop: +5, Initiative: +20, Familiar Effect: "1xFairy, cap 31"
 Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
@@ -378,6 +379,7 @@ Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Familiar Effect: 
 # Item primitive alien mask: Reveals your inner alien
 Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
+Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6
 Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	radiation-resistant helmet	Item Drop: -10, Familiar Effect: "1xFairy, cap 12"
 Item	Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
@@ -431,6 +433,9 @@ Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Famil
 Item	suspicious-looking fedora	Moxie: +6, Weapon Damage: +6, Familiar Effect: "atk, 1xFairy, cap 15"
 Item	sweatband	PvP Fights: +2, Damage Reduction: 5, Familiar Effect: "sleaze atk, 1xFairy, cap 25"
 Item	tattered paper crown	Muscle: +3, Familiar Effect: "1xSombrero, cap 15"
+Item	Team Avarice cap	Item Drop: +100
+Item	Team Sloth cap	Combat Rate: -15
+Item	Team Wrath cap	Monster Level: +30
 Item	ten-gallon hat	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
 # The Crown of Ed the Undying: Ed's servants will level up faster
 # The Crown of Ed the Undying: Allows you to read thoughts
@@ -706,6 +711,7 @@ Item	poodle skirt	Slime Resistance: +1, Meat Drop: +25, Hot Damage: +25, Familia
 Item	porcelain plus-fours	Muscle: +4, Mysticality: +4, Moxie: +4, Maximum HP: +4, Maximum MP: +4, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Critical Hit Percent: +4, Damage Reduction: 4, Familiar Weight: +4
 Item	pottery training pants	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Damage: +5, Familiar Effect: "hot atk, 2xGhuol, cap 12"
 Item	primitive alien loincloth	Initiative: +50, Stench Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+Item	psychic's pslacks	PvP Fights: +3, HP Regen Min: 5, HP Regen Max: 10
 Item	pteruges	Weapon Damage: +10, Familiar Effect: "1xFairy, atk, cap 25"
 Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1xVolley, cap 41"
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
@@ -2208,6 +2214,7 @@ Item	portable Othello set	Othello Skill: +10
 Item	pottery shield	Hot Damage: +5, Damage Reduction: 3
 Item	pretty bouquet	Moxie: +3
 Item	primitive alien totem	Damage Reduction: 25, Spooky Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+Item	psychic's crystal ball	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: +20
 Item	pumpkin spice candle	Item Drop: +40, Lasts Until Rollover
 Item	radiator heater shield	Cold Resistance: +3, Damage Reduction: 6
 Item	rag doll	Muscle: +3
@@ -2998,6 +3005,7 @@ Item	primitive alien necklace	Experience: +5, Cold Damage: +25, HP Regen Min: 2,
 # Protects-Your-Junk: 75% Chance of Preventing Negative Status Attacks
 # Protects-Your-Junk: Grants Protection from Dreadsylvanian Curses
 Item	Protects-Your-Junk	Damage Reduction: 20, Single Equip
+Item	psychic's amulet	Spell Damage: +10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	pulled porquoise earring	Moxie: +9, Never Fumble
 Item	pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
 Item	pulled porquoise ring	Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
@@ -7258,6 +7266,7 @@ Outfit	Palmist Paraphernalia	Moxie: +7
 Outfit	Pinata Provisions	Damage Reduction: 15
 Outfit	Pork Elf Prizes	Item Drop: +10
 Outfit	Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Outfit	Psychic Enpsemble	Spell Critical Percent: +10
 Outfit	Pyretic Panhandler Paraphernalia	Hot Spell Damage: +40, MP Regen Min: 20, MP Regen Max: 30
 Outfit	Pyrotechnic Paper Paraphernalia	Hot Damage: +30, Hot Spell Damage: +30
 Outfit	Radio Free Regalia	Never Fumble
@@ -8328,6 +8337,7 @@ Item	Bright Water	Effect: "Bright!", Effect Duration: 10
 # broken BRICKO brick: (deals more damage if you use additional ones)
 # broken glass grenade: Deals 100-200 Physical Damage
 # broken glass grenade: Weakens enemies a lot
+# Item bronze: Give a Pokefamiliar Armor
 # bronze handcuffs: Handcuff yourself to your opponent
 Item	bronze polish	Effect: "Shiny Happy Gladiator", Effect Duration: 100
 # bronzed locust: Weakens enemies a lot
@@ -8961,6 +8971,7 @@ Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 # Item gingerbread restraining order: Banish a gingerbread man for the rest of the day
 # Item gingerbread smartphone
 Item	gingerbread spice latte	Effect: "Whole Latte Love", Effect Duration: 30
+# Item ginseng: Gives a Pokefamiliar Regeneration
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
@@ -9406,6 +9417,7 @@ Item	Mer-kin strongjuice	Effect: "Juiced Out", Effect Duration: 30
 Item	Merc Core Field Manual: Intimidation Techniques	Skill: "Intimidating Mien"
 Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane"
 Item	mercenary headband	Effect: "Ramboner", Effect Duration: 30
+# Item metandienone: Increase a Pokefamiliar's power by 1
 Item	Mick's IcyVapoHotness Inhaler	Effect: "Sinuses For Miles", Effect Duration: 10
 Item	Mick's IcyVapoHotness Rub	Effect: "Extreme Muscle Relaxation", Effect Duration: 10
 # military-grade fingernail clippers: Clips fingernails
@@ -9622,6 +9634,7 @@ Item	pink candy heart	Effect: "Heart of Pink", Effect Duration: 10
 Item	pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Effect Duration: 20
 # pint of sweat: Deals 25-30 <font color=green>Stench Damage</font> and 25-30 <font color=blueviolet>Sleaze Damage</font>
 # pint of sweat: (and additional Stench and Sleaze damage in subsequent rounds)
+# Item piracetam: Make a Pokefamiliar Smart
 Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
@@ -9848,6 +9861,7 @@ Item	resolution: be wealthier	Effect: "Greedy Resolve", Effect Duration: 20
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	rhinestone	Effect: "Rhinestoned", Effect Duration: 1
 Item	ribbon candy	Effect: "Sugar Rush", Effect Duration: 10
+# Item riboflavin: Increase a Pokefamiliar's maximum HP by 1
 # Item robin's egg: When used in combat: weakens enemies by 50% and briefly stuns them
 Item	robin's egg	Effect: "Egged On", Effect Duration: 10
 # Item robin nog
@@ -10290,6 +10304,7 @@ Item	twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 Item	twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
 # twisted piece of wire: Stuns your opponent for a couple of rounds
 Item	twitching trigger finger	Class: "Pastamancer"
+# Item ultracalcium: Give a Pokefamiliar Thorns
 # Item ultracoagulator: Restores all of your Bat-Health during a fight
 Item	Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Item	una poca de gracia	Effect: "Inocente, In a Sense", Effect Duration: 100

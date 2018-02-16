@@ -577,6 +577,9 @@ public class AfterLifeRequest
 			case 31:
 				builder.append( "a Live. Ascend. Repeat." );
 				break;
+			case 32:
+				builder.append( "a Pocket Familiars" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );
