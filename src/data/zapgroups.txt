@@ -176,3 +176,4 @@ barrelhead, bottoms of the barrel, chest barrel
 The Jokester's wig, The Jokester's gun, The Jokester's pants
 Source terminal file: critical.enh, Source terminal file: damage.enh, Source terminal file: substats.enh, Source terminal file: protect.enq, Source terminal file: stats.enq, Source terminal file: compress.edu, Source terminal file: duplicate.edu, Source terminal file: portscan.edu, Source terminal file: turbo.edu, Source terminal file: gram.ext, Source terminal file: pram.ext, Source terminal file: spam.ext, Source terminal file: cram.ext, Source terminal file: dram.ext, Source terminal file: tram.ext, Source terminal file: familiar.ext
 genie's turbane, genie's scimitar, genie's pants, genie's bracers
+psychic's circlet, psychic's pslacks, psychic's crystal ball, psychic's amulet
