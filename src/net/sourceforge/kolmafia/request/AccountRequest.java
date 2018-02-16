@@ -722,6 +722,10 @@ public class AccountRequest
 		{
 			path = "Live. Ascend. Repeat.";
 		}
+		else if ( path.equals( "32" ) )
+		{
+			path = "Pocket Familiars";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

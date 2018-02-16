@@ -226,6 +226,7 @@ Mohawk wig	140	Mox: 55
 moist sailor's cap	200	Mox: 85
 Moonthril Circlet	100	Mox: 40
 moose antlers	110	Mox: 40
+Mu cap	0	none
 muddy pirate hat	125	Mox: 47
 mullet wig	40	Mox: 5
 mummy costume	10	none
@@ -270,6 +271,7 @@ pottery hat	45	none
 powdered wig	70	Mox: 20
 primitive alien mask	50	Mox: 10
 propeller beanie	30	none
+psychic's circlet	100	Mox: 35
 pumpkinhead mask	10	none
 radiation-resistant helmet	50	none
 Radio Free Baseball Cap	150	Mox: 60
@@ -321,6 +323,9 @@ superhero mask	10	none
 suspicious-looking fedora	60	Mox: 15
 sweatband	100	Mox: 35
 tattered paper crown	60	Mus: 15
+Team Avarice cap	0	none
+Team Sloth cap	0	none
+Team Wrath cap	0	none
 ten-gallon hat	200	none
 The Clown Crown	0	none
 The Crown of Ed the Undying	100	none
@@ -562,6 +567,7 @@ poodle skirt	200	Mox: 200
 porcelain plus-fours	120	Mox: 40
 pottery training pants	50	none
 primitive alien loincloth	50	Mox: 10
+psychic's pslacks	100	Mox: 35
 pteruges	100	Mox: 35
 pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
@@ -1867,6 +1873,7 @@ pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
 primitive alien totem	0	Mus: 10
+psychic's crystal ball	100	Mys: 35
 pumpkin spice candle	100	Mus: 20
 radiator heater shield	100	Mus: 35	shield
 rag doll	110	Mys: 40
@@ -2529,6 +2536,7 @@ portable cassette player	20	none
 power sock	100	Mys: 10
 primitive alien necklace	0	Mys: 10
 Protects-Your-Junk	350	Mox: 100
+psychic's amulet	100	Mys: 35
 pulled porquoise earring	110	Mys: 40
 pulled porquoise pendant	110	Mys: 40
 pulled porquoise ring	110	Mys: 40
@@ -2898,6 +2906,7 @@ tiny plastic Sneaky Pete	30	none
 tiny plastic Spam Witch	10	none
 tiny plastic spiderbugbear	30	none
 tiny plastic spiny skelelton	10	none
+tiny plastic spoiler	0	none
 tiny plastic spooky pirate skeleton	10	none
 tiny plastic spooky vampire	10	none
 tiny plastic Spunky Princess	10	none

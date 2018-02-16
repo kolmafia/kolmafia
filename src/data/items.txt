@@ -8148,14 +8148,14 @@
 8123	gabardine garibaldi	815389978	gabgaribaldi.gif	hat		0
 8124	gabardine girdle	841940934	gabgirdle.gif	accessory		0
 8125	gabardine gloves	930657605	gabgloves.gif	accessory		0
-8126
+8126	gabardine smithereens	656094877	gabbits.gif	spleen, usable		0
 8127	fiberglass fetish	682017245	fiberfetish.gif	offhand		0
 8128	fiberglass foil	241698192	fiberfoil.gif	weapon		0
 8129	fiberglass fannypack	912996820	fiberfanny.gif	accessory		0
 8130	fiberglass frock	682494722	fiberfrock.gif	container		0
 8131	fiberglass fingerguard	561618209	fiberfinger.gif	accessory		0
 8132	fiberglass fedora	394094793	fiberfedora.gif	hat		0
-8133
+8133	fiberglass fibers	344652693	fiberbits.gif	spleen, usable		0
 8134	bottle of lovebug pheromones	556990927	lovebugjuice.gif	usable	t	0
 8135	winged yeti fur	169085168	furfur.gif	none	q	0
 8136	talisman of Renenutet	893207221	tal_r.gif	none, combat	q	0
@@ -8819,7 +8819,7 @@
 8793	red face paint	503242930	balm.gif	reusable		0	cans of red face paint
 8794	The Big Book of Communism (used)	729555641	book4.gif	reusable		0
 8795	Batfellow comic	610063693	batfellowbook.gif	usable	t	0
-8796
+8796	tiny plastic spoiler	430281304	tpspoiler.gif	accessory	t	0
 8797	bat-oomerang	872551869	batarang.gif	none	q	0
 8798	bat-jute	117347429	lasso.gif	none	q	0
 8799	bat-o-mite	970970954	minamite.gif	none	q	0	sticks of bat-o-mite
@@ -9746,10 +9746,10 @@
 9720	genie's scimitar	681496794	geniesword.gif	weapon		0
 9721	genie's pants	535272976	geniepants.gif	pants		0
 9722	genie's bracers	689327790	geniebracers.gif	accessory		0
-9723
-9724
-9725
-9726
+9723	psychic's circlet	897303017	diadem.gif	hat		0
+9724	psychic's crystal ball	637526279	crystalball.gif	offhand		0
+9725	psychic's pslacks	299629436	bb_pants.gif	pants		0
+9726	psychic's amulet	436054087	psychamulet.gif	accessory		0
 9727	heart-shaped candy whetstone	125701354	heartstone.gif	food	t,d	5
 9728	Swedish massage fish	530098641	fishy2.gif	food	t,d	5
 9729	Third Base	434274124	fruity.gif	drink	t,d	5
@@ -9759,14 +9759,25 @@
 9733	tonic o' Banderas	898307239	potion13.gif	usable	t,d	5
 9734	heather graham cracker	236127812	grahamcracker.gif	usable	t,d	5
 9735
-9736
-9797
+9736	heart cozy	419274968	heartwarmer.gif	none, usable, curse	t,d	5
+9737	eaves droppers	834104982	earwarmer.gif	none, usable, curse	t,d	5
 9738	personal graffiti kit	390440571	smallcase.gif	none, usable, curse	t,d	5
-9739
-9740
-9741
-9742
+9739	Mysterious Red Box	252328462	dreadbox.gif	none	t	0
+9740	Mysterious Green Box	984001760	dreadbox.gif	none	t	0
+9741	Mysterious Blue Box	153708947	dreadbox.gif	none	t	0
+9742	Mysterious Black Box	126440301	dreadbox.gif	none	t	0
 9743
 9744
 9745
 9746	rhinestone	402331722	rhinestone.gif	usable	t	0
+9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
+9748	metandienone	772060311	pokepills1.gif	none	t,d	0
+9749	riboflavin	870137319	pokepills2.gif	none	t,d	0
+9750	bronze	769239668	pokepills3.gif	none	t,d	0
+9751	piracetam	933118592	pokepills6.gif	none	t,d	0
+9752	ultracalcium	571179745	pokepills4.gif	none	t,d	0
+9753	ginseng	576658649	pokepills5.gif	none	t,d	0
+9754	Team Avarice cap	991243892	pokehat.gif	hat	q	0
+9755	Team Sloth cap	260821357	pokehat.gif	hat	q	0
+9756	Team Wrath cap	661356101	pokehat.gif	hat	q	0
+9757	Mu cap	830269864	pokehat.gif	hat	q	0

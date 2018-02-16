@@ -120,6 +120,7 @@ import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.NeandermallRequest;
 import net.sourceforge.kolmafia.request.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
@@ -217,6 +218,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel neandermallPanel = null;
 	private CoinmasterPanel ninjaPanel = null;
 	private CoinmasterPanel nuggletcraftingPanel = null;
+	private CoinmasterPanel pokemporiumPanel = null;
 	private CoinmasterPanel precinctPanel = null;
 	private CoinmasterPanel quartersmasterPanel = null;
 	private CoinmasterPanel shakeShopPanel = null;
@@ -321,6 +323,11 @@ public class CoinmastersFrame
 		edshopPanel = new EdShopPanel();
 		panel.add( edshopPanel );
 		this.selectorPanel.addPanel( edshopPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		pokemporiumPanel = new PokemporiumPanel();
+		panel.add( pokemporiumPanel );
+		this.selectorPanel.addPanel( pokemporiumPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -1071,7 +1078,16 @@ public class CoinmastersFrame
 	{
 		public Crimbo17Panel()
 		{
-			super(Crimbo17Request.CRIMBO17 );
+			super( Crimbo17Request.CRIMBO17 );
+		}
+	}
+
+	private class PokemporiumPanel
+		extends CoinmasterPanel
+	{
+		public PokemporiumPanel()
+		{
+			super( PokemporiumRequest.POKEMPORIUM );
 		}
 	}
 
