@@ -9758,7 +9758,7 @@
 9732	Bettie page	628593057	afuescroll.gif	usable	t,d	5
 9733	tonic o' Banderas	898307239	potion13.gif	usable	t,d	5
 9734	heather graham cracker	236127812	grahamcracker.gif	usable	t,d	5
-9735
+9735	Lolsipop	711746556	allyearsucker.gif	none, usable, curse	t,d	5
 9736	heart cozy	419274968	heartwarmer.gif	none, usable, curse	t,d	5
 9737	eaves droppers	834104982	earwarmer.gif	none, usable, curse	t,d	5
 9738	personal graffiti kit	390440571	smallcase.gif	none, usable, curse	t,d	5
