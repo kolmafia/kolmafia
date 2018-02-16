@@ -92,6 +92,7 @@ import net.sourceforge.kolmafia.request.DwarfContraptionRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.request.FamTeamRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
@@ -511,6 +512,11 @@ public class ResponseTextParser
 			{
 				FamiliarData.registerFamiliarData( responseText );
 			}
+		}
+
+		else if ( location.startsWith( "famteam.php" ) )
+		{
+			FamTeamRequest.parseResponse( location, responseText );
 		}
 
 		else if ( location.startsWith( "familiarbinger.php" ) )
