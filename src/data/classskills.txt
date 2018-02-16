@@ -398,7 +398,7 @@
 4038	Blood Sugar Sauce Magic	saucedrops.gif	3	0	999	15
 4039	Saucemaven	saucemaven.gif	0	0	0	11
 4040	Silent Treatment	silenttreatment.gif	5	20	0
-4041	Love Mixology	potion9.gif	3	50	0
+4041	Love Mixology	potion9.gif	1	50	0
 
 # Skills available to Bandits
 

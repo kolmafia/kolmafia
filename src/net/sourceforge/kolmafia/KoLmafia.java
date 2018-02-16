@@ -766,23 +766,8 @@ public abstract class KoLmafia
 		boolean shouldResetCounters = false;
 		boolean shouldResetGlobalCounters = false;
 		// Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly between servers by a few seconds.
-		// Remove this code after 4th Feb 2018, it is only to handle transition
-		if ( Preferences.getLong( "lastCounterDay" ) == 10 && KoLCharacter.getRollover() < 1517804000 )
-		{
-			// Don't reset counters as we've already done it today, but mafia has changed rollover reset handling
-		}
-		else
-		{
-			shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastCounterDay" ) > 3600;
-		}
-		if ( Preferences.getLong( "lastGlobalCounterDay" ) == 10 && KoLCharacter.getRollover() < 1517804000 )
-		{
-			// Don't reset counters as we've already done it today, but mafia has changed rollover reset handling
-		}
-		else
-		{
-			shouldResetGlobalCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastGlobalCounterDay" ) > 3600;
-		}
+		shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastCounterDay" ) > 3600;
+		shouldResetGlobalCounters = KoLCharacter.getRollover() - Preferences.getLong( "lastGlobalCounterDay" ) > 3600;
 
 		int ascensions = KoLCharacter.getAscensions();
 		int knownAscensions = Preferences.getInteger( "knownAscensions" );
