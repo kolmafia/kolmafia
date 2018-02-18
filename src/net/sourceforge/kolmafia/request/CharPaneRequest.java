@@ -303,6 +303,10 @@ public class CharPaneRequest
 		{
 			CharPaneRequest.checkServant( responseText );
 		}
+		else if ( KoLCharacter.inPokefam() )
+		{
+			CharPaneRequest.checkPokeFam( responseText );
+		}
 		else
 		{
 			CharPaneRequest.checkFamiliar( responseText );
@@ -1185,6 +1189,40 @@ public class CharPaneRequest
 		if ( servantMatcher.find() )
 		{
 			EdServantData.setEdServant( servantMatcher );
+		}
+	}
+
+	private static final Pattern PokeFamPattern = Pattern.compile( "familiar(\\d+).gif>&nbsp;(.*?) \\(Lvl (\\d+)\\)" , Pattern.DOTALL );
+
+	private static final void checkPokeFam( final String responseText )
+	{
+		Matcher PokeFamMatcher = CharPaneRequest.PokeFamPattern.matcher( responseText );
+		for ( int i = 0 ; i < 3 ; i++ )
+		{
+			if ( PokeFamMatcher.find() )
+			{
+				int id = StringUtilities.parseInt( PokeFamMatcher.group( 1 ) );
+				String name = PokeFamMatcher.group( 2 );
+				int level = StringUtilities.parseInt( PokeFamMatcher.group( 3 ) );
+				FamiliarData familiar = KoLCharacter.findFamiliar( id );
+				if ( familiar == null )
+				{
+					// Add new familiar to list
+					familiar = new FamiliarData( id, name, level );
+					KoLCharacter.addFamiliar( familiar );
+				}
+				else
+				{
+					// Update existing familiar
+					familiar.update( name, level );
+				}
+				KoLCharacter.addFamiliar( familiar );
+				KoLCharacter.setPokeFam( i, familiar );
+			}
+			else
+			{
+				KoLCharacter.setPokeFam( i, FamiliarData.NO_FAMILIAR );
+			}
 		}
 	}
 
