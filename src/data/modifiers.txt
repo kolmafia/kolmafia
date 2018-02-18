@@ -5332,6 +5332,7 @@ Effect	Gummibrain	Mysticality: +100
 Effect	Gummiheart	Muscle: +100
 Effect	Gummiskin	Moxie: +100
 Effect	Gunky Dory	Maximum HP: +50, HP Regen Min: 4, HP Regen Max: 10
+Effect	Gunther Than Thou	Experience (Muscle): +5, Muscle Percent: 100, Maximum HP Percent: 50
 Effect	Gutballed	Muscle Percent: -300
 Effect	Guts Feeling	Meat Drop: +50
 Effect	Gutterminded	Sleaze Damage: +50

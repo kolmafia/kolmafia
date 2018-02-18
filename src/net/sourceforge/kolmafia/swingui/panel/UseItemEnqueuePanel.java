@@ -245,7 +245,7 @@ public class UseItemEnqueuePanel
 			// The lunch listener is just after the milk listener
 			boolean lunchAvailable = KoLCharacter.hasSkill( "Song of the Glorious Lunch" )
 						|| ( Preferences.getBoolean( "barrelShrineUnlocked" ) && !Preferences.getBoolean( "_barrelPrayer" ) &&
-							KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) );
+							KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER ) && StandardRequest.isAllowed( "Items", "shrine to the Barrel god" ) );
 
 			this.buttons[ bingeIndex + 2 ].setEnabled( lunchAvailable );
 
@@ -271,7 +271,7 @@ public class UseItemEnqueuePanel
 
 			// The prayer listener is just after the ode listener
 			boolean prayerAvailable = Preferences.getBoolean( "barrelShrineUnlocked" ) && !Preferences.getBoolean( "_barrelPrayer" ) &&
-							KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
+							KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF ) && StandardRequest.isAllowed( "Items", "shrine to the Barrel god" );
 			this.buttons[ bingeIndex + 2 ].setEnabled( prayerAvailable );
 
 			// We gray out the dog hair button unless we have
