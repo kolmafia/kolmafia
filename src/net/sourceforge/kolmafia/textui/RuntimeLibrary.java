@@ -1237,6 +1237,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_enthroned_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "my_poke_fam", DataTypes.FAMILIAR_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_bjorned_familiar", DataTypes.FAMILIAR_TYPE, params ) );
 
@@ -5698,6 +5701,12 @@ public abstract class RuntimeLibrary
 	public static Value my_bjorned_familiar( Interpreter interpreter )
 	{
 		return DataTypes.makeFamiliarValue( KoLCharacter.getBjorned().getId(), true );
+	}
+
+	public static Value my_poke_fam( Interpreter interpreter, final Value arg )
+	{
+		int slot = (int) arg.intValue();
+		return DataTypes.makeFamiliarValue( KoLCharacter.getPokeFam( slot ).getId(), true );
 	}
 
 	public static Value have_familiar( Interpreter interpreter, final Value familiar )
