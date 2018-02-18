@@ -77,7 +77,7 @@
 48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot
 49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1	sleazy,eyes,wings
 50	Wild Hare	hare.gif	item0,meat0,stat0,hp1,mp1,other1	March hat	miniature dormouse	1	3	2	0	animal,eyes
-51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	mechanical,robot
+51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	robot
 52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hands,eyes
 53	Astral Badger	badger.gif	combat0,drop	astral badger	badger badge	3	0	2	3	animal,hands,eyes
 54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2	hands,animal,eyes
@@ -91,7 +91,7 @@
 62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1	eyes
 63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0
 64
-65	Ancient Yuletide Troll	crimbotroll.gif	hp1,mp1,stat0,drop	yuletide troll chrysalis	giant book of ancient carols	2	3	1	0
+65	Ancient Yuletide Troll	crimbotroll.gif	hp1,mp1,stat0,drop	yuletide troll chrysalis	giant book of ancient carols	2	3	1	0	hands,eyes
 66	Dandy Lion	dandylion.gif	hp1,mp1,item0	dandy lion cub	woolen cravat	0	3	2	1	sleazy,animal,eyes
 67	O.A.F.	oaf.gif	none	Deactivated O. A. F.	hardware upgrade	0	0	0	0	mechanical,robot
 68	Penguin Goodfella	goodfella.gif	delevel,stat0,drop	bad penguin egg	tasteful black bow tie	3	2	1	0
@@ -132,7 +132,7 @@
 103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1	hands
 104	Magic Dragonfish	dragonfishfam.gif	passive,underwater	magic dragonfish fry	fin-bit wax	1	1	2	0	animal,eyes
 105	Frumious Bandersnatch	bandersnatch.gif	other0,variable,stat0	Apathargic Bandersnatch	aquaviolet jub-jub bird	3	2	2	0	wings,animal,eyes
-106	Midget Clownfish	midgetclownfish.gif	combat1,mp0,underwater	midget clownfish	half-height unicycle	0	1	2	2
+106	Midget Clownfish	midgetclownfish.gif	combat1,mp0,underwater	midget clownfish	half-height unicycle	0	1	2	2	animal,eyes
 107	Syncopated Turtle	syncturtle.gif	item0	syncopated turtle	metrognome	0	2	3	2	animal,eyes
 108	Grinning Turtle	grinturtle.gif	stat0	grinning turtle	security blankie	1	0	0	3	animal,eyes,sleazy
 109	Purse Rat	purserat.gif	passive	designer handbag	tiny cell phone	0	0	0	0	animal,eyes
@@ -148,7 +148,7 @@
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1	animal,eyes,sleazy
 120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0	eyes
 121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2	wings
-122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0	mechanical
+122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0	mechanical,eyes
 123	BRICKO chick	brickochick.gif	combat0,drop	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1	wings,animal,eyes
 124	Baby Bugged Bugbear	babybugbug.gif	block,other0,drop,variable	panicked kernel	bugged beanie	0	0	0	0	hands,mechanical,eyes
 125	Money-Making Goblin	mmgoblin.gif	none			0	0	0	0
@@ -161,7 +161,7 @@
 132	Snowhitman	snowhitman.gif	none			0	0	0	0
 133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
 134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0
-135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	eyes,mechanical
+135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	eyes,mechanical,clothes
 136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1	hands,clothes,eyes
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	wings,animal,eyes
 138	Hippo Ballerina	hippo.gif	combat1,block,delevel,item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0	clothes,animal,eyes
@@ -207,7 +207,7 @@
 178	Grimstone Golem	grimgolem.gif	item0,meat0,drop	hibernating Grimstone Golem	grimstone galoshes	0	2	3	3	eyes
 179	Grim Brother	grimbrother.gif	stat0,meat0,drop	praying Grim Brother	Grim Brothers' story book	3	2	0	3	hands,clothes,eyes
 180	Miniature Sword & Martini Guy	smguy.gif	combat0,stat0,drop	Anniversary Miniature Sword & Martini Guy	really tiny cocktail shaker	3	3	2	2	clothes
-181	Putty Buddy	puttybuddy.gif	combat1,hp0	deactivated putty buddy	putty coat	3	1	2	1
+181	Putty Buddy	puttybuddy.gif	combat1,hp0	deactivated putty buddy	putty coat	3	1	2	1	eyes,sleazy
 182	Twitching Space Critter	spacebeastlet.gif	combat1,mp0	twitching space egg	ramekin of space nuts	3	1	1	1	animal,eyes
 183	Galloping Grill	galgrill.gif	combat1,mp0,stat1,drop	still grill	box of hickory chips	3	1	2	0	eyes
 184

@@ -873,7 +873,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "radiation" ) ? AscensionSnapshot.NUCLEAR_AUTUMN :
 					columns[ 8 ].contains( "gcube" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
-					columns[ 8 ].contains( "unknown" ) ? AscensionSnapshot.POKEFAM :
+					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

@@ -2919,6 +2919,12 @@ public class ItemPool
 	public static final int TINSEL_TIGHTS = 9693;
 	public static final int WAD_OF_TAPE = 9694;
 	public static final int MAKESHIFT_GARBAGE_SHIRT = 9699;
+	public static final int GET_BIG_BOOK = 9713;
+	public static final int GALAPAGOS_BOOK = 9714;
+	public static final int FUTURE_BOOK = 9715;
+	public static final int LOVE_POTION_BOOK = 9716;
+	public static final int RHINESTONE_BOOK = 9717;
+	public static final int LOVE_SONG_BOOK = 9718;
 	public static final int POKEDOLLAR_BILLS = 9747;
 
 	public static final AdventureResult get( String itemName, int count )

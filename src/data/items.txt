@@ -9781,3 +9781,4 @@
 9755	Team Sloth cap	260821357	pokehat.gif	hat	q	0
 9756	Team Wrath cap	661356101	pokehat.gif	hat	q	0
 9757	Mu cap	830269864	pokehat.gif	hat	q	0
+9758	thwaitgold metabug statuette	670959667	thwaitmetabug.gif	none		0
