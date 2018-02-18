@@ -111,6 +111,8 @@ public class FamTeamRequest
 				familiar.update( name, level );
 			}
 			KoLCharacter.addFamiliar( familiar );
+			int slot = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
+			KoLCharacter.setPokeFam( slot, familiar );
 		}
 
 		matcher = FamTeamRequest.BULLPEN_FAM_PATTERN.matcher( responseText );

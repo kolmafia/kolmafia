@@ -424,7 +424,13 @@ public abstract class KoLCharacter
 	public static FamiliarData currentBjorned = FamiliarData.NO_FAMILIAR;
 	private static int arenaWins = 0;
 	private static boolean isUsingStabBat = false;
-
+	public static FamiliarData[] currentPokeFam = new FamiliarData[]
+	{
+		FamiliarData.NO_FAMILIAR,
+		FamiliarData.NO_FAMILIAR,
+		FamiliarData.NO_FAMILIAR
+	};
+	
 	// Minstrel data (Avatar of Boris)
 	public static AdventureResult currentInstrument = null;
 	public static int minstrelLevel = 0;
@@ -4886,6 +4892,29 @@ public abstract class KoLCharacter
 	public static final boolean isUsingStabBat()
 	{
 		return KoLCharacter.isUsingStabBat;
+	}
+
+	public static final FamiliarData getPokeFam( final int slot )
+	{
+		if( slot < 0 || slot > 2 )
+		{
+			return FamiliarData.NO_FAMILIAR;
+		}
+		return KoLCharacter.currentPokeFam[ slot ] == null ? FamiliarData.NO_FAMILIAR : KoLCharacter.currentPokeFam[ slot ];
+	}
+
+	public static final FamiliarData[] getPokeTeam()
+	{
+		return KoLCharacter.currentPokeFam;
+	}
+
+	public static final void setPokeFam( final int slot, final FamiliarData familiar )
+	{
+		if( slot < 0 || slot > 2 )
+		{
+			return;
+		}
+		KoLCharacter.currentPokeFam[ slot ] = familiar;
 	}
 
 	/**
