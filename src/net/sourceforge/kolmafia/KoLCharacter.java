@@ -5052,7 +5052,7 @@ public abstract class KoLCharacter
 
 	public static final boolean getGuildStoreOpen()
 	{
-		if ( KoLCharacter.inNuclearAutumn() )
+		if ( KoLCharacter.inNuclearAutumn() || KoLCharacter.inPokefam() )
 		{
 			return false;
 		}

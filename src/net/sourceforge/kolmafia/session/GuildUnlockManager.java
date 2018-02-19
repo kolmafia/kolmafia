@@ -68,6 +68,12 @@ public class GuildUnlockManager
 			return;
 		}
 
+		// Cannot open Guild in Pocket Familiars
+		if ( KoLCharacter.inPokefam() )
+		{
+			return;
+		}
+
 		// See if we've already unlocked the Guild
 		if ( KoLCharacter.getGuildStoreOpen() )
 		{
