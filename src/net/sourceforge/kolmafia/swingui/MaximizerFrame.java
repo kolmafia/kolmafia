@@ -99,7 +99,7 @@ public class MaximizerFrame
 	}
 	private SmartButtonGroup equipmentSelect, mallSelect, filterSelect;
 	private AutoHighlightTextField maxPriceField;
-	private JCheckBox foldableSelect, includeAll;
+	private JCheckBox includeAll;
 	private PreferenceListenerCheckBox verboseSelect;
 	private final ShowDescriptionList boostList;
 	private JLabel listTitle = null;
@@ -220,7 +220,6 @@ public class MaximizerFrame
 			{
 				MaximizerFrame.this.maxPriceField.setText( Preferences.getString( "maximizerMaxPrice" ) );
 			}
-			MaximizerFrame.this.foldableSelect = new JCheckBox( "foldables", Preferences.getBoolean( "maximizerFoldables" ) );
 
 			JPanel equipPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			MaximizerFrame.this.equipmentSelect = new SmartButtonGroup( equipPanel );
@@ -229,7 +228,6 @@ public class MaximizerFrame
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "creatable" ) );
 			MaximizerFrame.this.equipmentSelect.add( new JRadioButton( "pullable/buyable" ) );
 			MaximizerFrame.this.equipmentSelect.setSelectedIndex( Preferences.getInteger( "maximizerEquipmentLevel" ) );
-			equipPanel.add( MaximizerFrame.this.foldableSelect );
 
 			JPanel mallPanel = new JPanel( new FlowLayout( FlowLayout.LEADING, 0, 0 ) );
 			mallPanel.add( MaximizerFrame.this.maxPriceField );
