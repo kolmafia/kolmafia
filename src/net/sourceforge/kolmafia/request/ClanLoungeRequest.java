@@ -1358,6 +1358,7 @@ public class ClanLoungeRequest
 
 		// *** KoL should move this to the second floor as soon as it leaves Standard
 		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+		findImage( responseText, "fortuneteller.gif", ItemPool.CLAN_CARNIVAL_GAME );
 
 		Matcher hottubMatcher = HOTTUB_PATTERN.matcher( responseText );
 		if ( hottubMatcher.find() )
@@ -1389,6 +1390,7 @@ public class ClanLoungeRequest
 
 		// *** KoL should move this to the second floor as soon as it leaves Standard
 		findImage( responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY );
+		findImage( responseText, "fortuneteller.gif", ItemPool.CLAN_CARNIVAL_GAME );
 
 		// Look at the Crimbo tree and report on whether there is a present waiting.
 		if ( responseText.contains( "tree5.gif" ) )

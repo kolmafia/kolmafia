@@ -2919,6 +2919,7 @@ public class ItemPool
 	public static final int TINSEL_TIGHTS = 9693;
 	public static final int WAD_OF_TAPE = 9694;
 	public static final int MAKESHIFT_GARBAGE_SHIRT = 9699;
+	public static final int CLAN_CARNIVAL_GAME = 9712;
 	public static final int GET_BIG_BOOK = 9713;
 	public static final int GALAPAGOS_BOOK = 9714;
 	public static final int FUTURE_BOOK = 9715;
