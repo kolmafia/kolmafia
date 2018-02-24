@@ -33,7 +33,7 @@
 4	Angry Goat	familiar4.gif	combat0,combat1	goat	prosthetic forehead	3	0	2	1	animal,eyes
 5	Sabre-Toothed Lime	familiar5.gif	combat0	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1
 6	Fuzzy Dice	familiar6.gif	combat0,delevel,meat1,mp0,hp0	fuzzy dice	meatcar model	2	2	2	2
-7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hands,clothes
+7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hands,eyes
 8	Barrrnacle	familiar8.gif	delevel,underwater	barrrnacle	sucky decal	0	2	1	3	animal
 9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0	animal
 10	Stab Bat	familiar10.gif	combat0	rewinged stab bat	shock collar	3	2	1	0	animal,eyes,wings
@@ -54,7 +54,7 @@
 25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1
 26	Crimbo Elf	familiar26.gif	combat0,item0	crimbo elfling	dental pliers	1	2	1	3
 27	Hanukkimbo Dreidl	familiar27.gif	combat0,block,mp0,meat1	Hanukkimbo dreidl	menorette	2	1	3	1
-28	Baby Yeti	familiar28.gif	combat1,mp0	orphan baby yeti	penguin-smacking club	3	1	1	2
+28	Baby Yeti	familiar28.gif	combat1,mp0	orphan baby yeti	penguin-smacking club	3	1	1	2	hands,clothes,animal,eyes
 29	Feather Boa Constrictor	familiar29.gif	combat1,block,meat1	silk garter snake	velvet choker	2	3	1	1	animal,eyes,sleazy
 30	Emo Squid	familiar30.gif	block,delevel,underwater	emo roe	gazing shoes	1	3	1	2
 31	Personal Raincloud	familiar31.gif	combat0,delevel,hp0,mp0,hp1,mp1,stat3	personal raindrop	rainbow tie	2	1	3	1

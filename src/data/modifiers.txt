@@ -2989,7 +2989,8 @@ Item	Pok&euml;mann figurine: Smugleaf	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Twitter	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Vegemite	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Vermouth	Familiar Weight: +3, Single Equip
-Item	polka-dot bow tie	Moxie: +3, Clownosity: +3
+# Clownosity should be +3, but breaks bitmodifiers
+Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
 # polyester pulsera: Causes Songs in your Head to Restore HP
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
 # porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
