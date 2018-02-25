@@ -344,6 +344,7 @@ public class FightRequest
 	public static boolean anapest = false;
 	public static boolean machineElf = false;
 	public static boolean innerWolf = false;
+	public static boolean pokefam = false;
 	public static boolean papier = false;
 	public static int currentRound = 0;
 	public static boolean inMultiFight = false;
@@ -789,7 +790,8 @@ public class FightRequest
 	public static final boolean wonInitiative()
 	{
 		return	FightRequest.currentRound == 1 &&
-			FightRequest.wonInitiative( FightRequest.lastResponseText );
+			( FightRequest.pokefam || 
+			  FightRequest.wonInitiative( FightRequest.lastResponseText ) );
 	}
 
 	public static final boolean wonInitiative( String text )
@@ -2171,6 +2173,11 @@ public class FightRequest
 
 	private static final boolean checkForInitiative( final String responseText )
 	{
+		if ( FightRequest.pokefam )
+		{
+			return false;
+		}
+
 		if ( FightRequest.isAutomatingFight )
 		{
 			String action = Preferences.getString( "battleAction" );
@@ -2280,6 +2287,9 @@ public class FightRequest
 		{
 			Preferences.setString( "_lastCombatStarted", FightRequest.COMBAT_START.format( new Date() ) );
 			int adventure = KoLAdventure.lastAdventureId();
+
+			// Pocket Familiars changes everything
+			FightRequest.pokefam = KoLCharacter.inPokefam();
 
 			// Adventuring in the Haiku Dungeon
 			// Currently have Haiku State of Mind
@@ -2758,7 +2768,9 @@ public class FightRequest
 		// fight is continuing.
 
 		boolean stillInBattle = finalRound && !won &&
-			( ( limitmode == Limitmode.BATMAN || FightRequest.innerWolf ) ?
+			( FightRequest.pokefam ?
+			  responseText.contains( "action=fambattle.php" ) :
+			  ( limitmode == Limitmode.BATMAN || FightRequest.innerWolf ) ?
 			  responseText.contains( "action=\"fight.php\"" ) :
 			  Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 			  responseText.contains( "(show old combat form)" ) :
@@ -5509,7 +5521,7 @@ public class FightRequest
 
 	private static final void processNormalResults( final String text, final Matcher macroMatcher )
 	{
-		TagNode fight = parseFightHTML( text, true );
+		TagNode fight = FightRequest.pokefam ? parseFamBattleHTML( text ) : parseFightHTML( text, true );
 		if ( fight == null )
 		{
 			// Do normal result processing and hope for the best.
@@ -5525,9 +5537,27 @@ public class FightRequest
 		TagStatus status = new TagStatus();
 		status.macroMatcher = macroMatcher;
 
-		FightRequest.processNode( fight, status );
+		if ( FightRequest.pokefam )
+		{
+			FightRequest.processNode( fight, status );
+		}
+		else
+		{
+			FightRequest.processFamBattleNode( fight, status );
+		}
 
 		FightRequest.shouldRefresh = status.shouldRefresh;
+	}
+
+	private static final TagNode parseFamBattleHTML( String text )
+	{
+		// Maybe we will do this.
+		return null;
+	}
+
+	private static final void processFamBattleNode( final TagNode node, final TagStatus status )
+	{
+		// Maybe we will do this.
 	}
 
 	public static final void parseFightHTML( final String text )
@@ -9008,7 +9038,8 @@ public class FightRequest
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
-		if ( !urlString.startsWith( "fight.php" ) )
+		if ( !urlString.startsWith( "fight.php" ) ||
+		     !urlString.startsWith( "fambattle.php" ))
 		{
 			return false;
 		}
@@ -9024,9 +9055,6 @@ public class FightRequest
 			return true;
 		}
 
-		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
-
-		StringBuilder action = new StringBuilder();
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : "";
 
@@ -9036,6 +9064,9 @@ public class FightRequest
 		String limitmode = KoLCharacter.getLimitmode();
 		boolean isBatfellow = ( limitmode == Limitmode.BATMAN );
 		String name = isBatfellow ? "Batfellow" : KoLCharacter.getUserName();
+
+		boolean shouldLogAction = Preferences.getBoolean( "logBattleAction" );
+		StringBuilder action = new StringBuilder();
 
 		if ( shouldLogAction )
 		{

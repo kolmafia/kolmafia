@@ -422,7 +422,7 @@ public class AdventureRequest
 
 		String urlString = request.getURLString();
 		String responseText = request.responseText;
-		boolean isFight = urlString.startsWith( "fight.php" );
+		boolean isFight = urlString.startsWith( "fight.php" ) || urlString.startsWith( "fambattle.php" );
 		boolean isChoice = urlString.startsWith( "choice.php" );
 
 		// If we were redirected into a fight or a choice through using
@@ -547,6 +547,9 @@ public class AdventureRequest
 		Pattern.compile( "You're fighting <span id='monname'> *(.*?)</span>", Pattern.DOTALL ),
 		// papier weapons can change "fighting" to some other verb
 		Pattern.compile( "You're (?:<u>.*?</u>) <span id='monname'>(.*?)</span>", Pattern.DOTALL ),
+		// Pocket Familiars have Pokefam battles
+		// <b><center>a fleet woodsman's Team:</b>
+		Pattern.compile( ">([^<]*?)'s Team:<" ),
 		// KoL sure generates a lot of bogus HTML
 		Pattern.compile( "<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL ),
 	};
@@ -1225,7 +1228,8 @@ public class AdventureRequest
 		{
 			return true;
 		}
-		else if ( formSource.startsWith( "fight.php" ) )
+		else if ( formSource.startsWith( "fight.php" ) ||
+			  formSource.startsWith( "fambattle.php" ))
 		{
 			return FightRequest.getCurrentRound() == 0;
 		}
