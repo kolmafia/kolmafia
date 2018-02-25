@@ -1529,6 +1529,7 @@ public class GenericRequest
 		String urlString = this.getURLString();
 
 		if ( urlString.startsWith( "adventure.php" ) ||
+		     urlString.startsWith( "fambattle.php" ) ||
 		     urlString.startsWith( "fight.php" ) ||
 		     urlString.startsWith( "choice.php" ) ||
 		     urlString.startsWith( "place.php" ) )
@@ -1543,7 +1544,7 @@ public class GenericRequest
 
 		if ( GenericRequest.isRatQuest && this.hasResult && !urlString.startsWith( "cellar.php" ) )
 		{
-			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" );
+			GenericRequest.isRatQuest = urlString.startsWith( "fight.php" ) || urlString.startsWith( "fambattle.php" );
 		}
 
 		if ( GenericRequest.isRatQuest )
@@ -1555,7 +1556,7 @@ public class GenericRequest
 		{
 			// Smash has resulted in a mimic.
 			// Continue tracking throughout the combat
-			GenericRequest.isBarrelSmash = urlString.startsWith( "fight.php" );
+			GenericRequest.isBarrelSmash = urlString.startsWith( "fight.php" ) || urlString.startsWith( "fambattle.php" );
 		}
 
 		if ( urlString.startsWith( "barrel.php?" ) )
@@ -2219,7 +2220,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.redirectLocation.startsWith( "fight.php" ) )
+		if ( this.redirectLocation.startsWith( "fight.php" ) || this.redirectLocation.startsWith( "fambattle.php" ) )
 		{
 			String location = this.getURLString();
 
@@ -2296,7 +2297,7 @@ public class GenericRequest
 			return true;
 		}
 
-		if ( this.formURLString.startsWith( "fight.php" ) )
+		if ( this.formURLString.startsWith( "fight.php" ) || this.formURLString.startsWith( "fambattle.php" ) )
 		{
 			if ( this.redirectLocation.startsWith( "main.php" ) )
 			{
@@ -2327,7 +2328,8 @@ public class GenericRequest
 			{
 				ChoiceManager.preChoice( this );
 			}
-			else if ( this.redirectLocation.startsWith( "fight.php" ) )
+			else if ( this.redirectLocation.startsWith( "fight.php" ) ||
+				  this.redirectLocation.startsWith( "fambattle.php" ))
 			{
 				FightRequest.preFight();
 			}
@@ -2344,7 +2346,7 @@ public class GenericRequest
 			return false;
 		}
 
-		if ( this.redirectLocation.startsWith( "fight.php" ) )
+		if ( this.redirectLocation.startsWith( "fight.php" ) || this.redirectLocation.startsWith( "fambattle.php" ) )
 		{
 			if ( LoginRequest.isInstanceRunning() )
 			{
@@ -2847,7 +2849,7 @@ public class GenericRequest
 			return;
 		}
 
-		if ( urlString.startsWith( "fight.php" ) )
+		if ( urlString.startsWith( "fight.php" ) || urlString.startsWith( "fambattle.php" ) )
 		{
 			FightRequest.processResults( urlString, this.encounter, this.responseText );
 			return;
@@ -2860,7 +2862,7 @@ public class GenericRequest
 	{
 		String path = this.getPath();
 
-		if ( ( this.hasResult && !path.startsWith( "fight.php" ) ) ||
+		if ( ( this.hasResult && !path.startsWith( "fight.php" ) && !path.startsWith( "fambattle.php" ) ) ||
 		     path.startsWith( "clan_hall.php" ) ||
 		     path.startsWith( "showclan.php" ) )
 		{
