@@ -5539,11 +5539,11 @@ public class FightRequest
 
 		if ( FightRequest.pokefam )
 		{
-			FightRequest.processNode( fight, status );
+			FightRequest.processFamBattleNode( fight, status );
 		}
 		else
 		{
-			FightRequest.processFamBattleNode( fight, status );
+			FightRequest.processNode( fight, status );
 		}
 
 		FightRequest.shouldRefresh = status.shouldRefresh;
