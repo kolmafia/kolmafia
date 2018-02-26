@@ -9038,7 +9038,7 @@ public class FightRequest
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
-		if ( !urlString.startsWith( "fight.php" ) ||
+		if ( !urlString.startsWith( "fight.php" ) &&
 		     !urlString.startsWith( "fambattle.php" ))
 		{
 			return false;
