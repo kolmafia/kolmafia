@@ -1521,6 +1521,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "get_player_id", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "get_player_name", DataTypes.STRING_TYPE, params ) );
+
 		// Quest handling functions.
 
 		params = new Type[] {};
@@ -6758,6 +6761,13 @@ public abstract class RuntimeLibrary
 		String playerName = playerNameValue.toString();
 
 		return new Value( ContactManager.getPlayerId( playerName, true ) );
+	}
+
+	public static Value get_player_name( Interpreter interpreter, final Value playerIdValue )
+	{
+		String playerId = playerIdValue.toString();
+
+		return new Value( ContactManager.getPlayerName(playerId) );
 	}
 
 	// Quest completion functions.
