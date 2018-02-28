@@ -1226,9 +1226,9 @@ Jerry Bradford	2052	larryscrote.gif	Atk: 90 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford	2053	larryscrote.gif	Atk: 120 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford	2054	larryscrote.gif	Atk: 170 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford	2055	larryscrote.gif	Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude
-Jerry Bradford	2056	larryscrote.gif	Atk: 200 Def: 0 HP: 170 Init: -10000 P: dude
+Jerry Bradford	2056	larryscrote.gif	Atk: 170 Def: 0 HP: 170 Init: -10000 P: dude
 Jerry Bradford	2057	larryscrote.gif	Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
-Jerry Bradford	2058	larryscrote.gif	Init: -10000 P: dude
+Jerry Bradford	2058	larryscrote.gif	Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford, Pokéfam World Champion	2059	larryscrote.gif	Atk: 250 Def: 0 HP: 0 Init: -10000 P: dude
 
 # Items of the Month
