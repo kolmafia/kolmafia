@@ -70,10 +70,10 @@
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2	hands,eyes,wings
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1	hands,clothes,mechanical,animal,eyes,robot
 43	Temporal Riftlet	familiar43.gif	block,delevel,other1	miniscule temporal rip	1.21 jigawatts	1	3	1	2
-44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2
+44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2	clothes,eyes
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0	eyes
 46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3	animal,eyes,wings
-47	Teddy Bear	familiar47.gif	other0	teddy bear	teddy bear sewing kit	3	2	0	1
+47	Teddy Bear	familiar47.gif	other0	teddy bear	teddy bear sewing kit	3	2	0	1	animal,eyes
 48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot
 49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1	sleazy,eyes,wings
 50	Wild Hare	hare.gif	item0,meat0,stat0,hp1,mp1,other1	March hat	miniature dormouse	1	3	2	0	animal,eyes
@@ -89,7 +89,7 @@
 60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2	wings
 61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3
 62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1	eyes
-63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0
+63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0	eyes
 64
 65	Ancient Yuletide Troll	crimbotroll.gif	hp1,mp1,stat0,drop	yuletide troll chrysalis	giant book of ancient carols	2	3	1	0	hands,eyes
 66	Dandy Lion	dandylion.gif	hp1,mp1,item0	dandy lion cub	woolen cravat	0	3	2	1	sleazy,animal,eyes
@@ -105,12 +105,12 @@
 76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2	hands,clothes,eyes
 77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical,hands,eyes,robot
 78	Bulky Buddy Box	wcb.gif	none	Bulky Buddy Box		0	0	0	0	mechanical
-79	Teddy Borg	teddyborg.gif	other0	teddy borg	teddy borg sewing kit	3	2	0	1	mechanical,robot
+79	Teddy Borg	teddyborg.gif	other0	teddy borg	teddy borg sewing kit	3	2	0	1	mechanical,robot,eyes
 80	RoboGoose	robogoose.gif	combat0,block,delevel,hp0,drop	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0	mechanical,wings,animal,eyes,robot
 81	El Vibrato Megadrone	megadrone.gif	variable	El Vibrato Megadrone		3	3	3	3	mechanical,robot
 82	Mad Hatrack	hatrack.gif	variable	sane hatrack		3	0	1	2	clothes,eyes
 83	Adorable Seal Larva	seallarva.gif	combat0,hp0,variable	adorable seal larva	pretty pink bow	3	2	1	2	animal,eyes
-84	Untamed Turtle	untamed.gif	block,variable	untamable turtle	smiley-face sticker	0	0	0	3
+84	Untamed Turtle	untamed.gif	block,variable	untamable turtle	smiley-face sticker	0	0	0	3	animal,eyes
 85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0,variable	macaroni duck	farfalle bow tie	2	2	2	2	wings,animal,eyes
 86	Pet Cheezling	cheezblob.gif	hp1,mp1,variable	friendly cheez blob	jalape&ntilde;o slices	2	2	0	2	eyes,sleazy
 87	Autonomous Disco Ball	discoball.gif	combat0,delevel,variable	unusual disco ball	stick-on mini solar panels	3	2	1	0	robot
@@ -120,7 +120,7 @@
 91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1,drop	cotton candy cocoon	cotton candy cordial	0	2	2	3	eyes
 92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hands
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0	animal,eyes
-94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3
+94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3	animal,eyes
 95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1	animal,eyes
 96	Baby Mutant Rattlesnake	rattlesnake.gif	combat0,stat0	mutant rattlesnake egg	rattlesnake enrager	3	2	1	0	animal,eyes
 97	Mutant Fire Ant	fireant.gif	combat1,item0	mutant fire ant egg	ant antidepressant	3	2	0	2	animal,eyes
@@ -160,7 +160,7 @@
 131	Worm Doctor	larva.gif	none			0	0	0	0
 132	Snowhitman	snowhitman.gif	none			0	0	0	0
 133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
-134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0
+134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0	eyes
 135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	eyes,mechanical,clothes
 136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1	hands,clothes,eyes
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	wings,animal,eyes
@@ -168,7 +168,7 @@
 139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0,other1,drop	organ grinder	microwave stogie	0	3	2	1	hands,eyes
 140	Piano Cat	pianocat.gif	item0,meat0	sleeping piano cat	kitty sheet music	2	3	2	0	hands,animal,eyes
 141	Dramatic Hedgehog	dramahog.gif	stat0,meat0	rehearsing dramatic hedgehog	tiny prop sword	2	3	0	2	animal,eyes
-142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0	animal
+142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0	hands,animal,eyes
 143	Robot Reindeer	roboreindeer.gif	combat0,hp0,drop,variable	hibernating robot reindeer	S.L.E.I.G.H.B.E.L.L.S.	3	3	3	3	mechanical,robot,eyes
 144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0
 145
@@ -217,7 +217,7 @@
 188	Fist Turkey	fistturkey.gif	combat0,item0,meat1,stat2,drop	fist turkey outline	brass turkey knuckles	3	2	2	3	wings,animal,eyes
 189	Crimbo Shrub	crimboshrub.gif	combat1,stat0,other1,variable	Crimbo sapling	even more tinsel	1	3	2	0	eyes
 190	Mini-Crimbot	minicrimbot.gif	variable	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0	mechanical,robot
-191	Topiary Skunk	topiskunk.gif	combat1,hp1	topiary skunk	topiary noseplugs	1	2	0	1	animal
+191	Topiary Skunk	topiskunk.gif	combat1,hp1	topiary skunk	topiary noseplugs	1	2	0	1	animal,eyes
 192	Golden Monkey	goldmonkey.gif	stat0,meat0,drop	golden monkey statuette	golden banana	1	2	3	0	hands,animal,eyes
 193	Adventurous Spelunker	spelunker.gif	item0,meat0,drop	Professor of Spelunkology	Stembridge sidearm	3	3	3	3	hands,clothes,eyes
 194	Sludgepuppy	sludgepuppy.gif	combat1,block	inert sludgepuppy	lead collar	1	3	3	0	animal,eyes,sleazy
