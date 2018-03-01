@@ -201,6 +201,9 @@ public class FightRequest
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
 	private static final Pattern AVAILABLE_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(\\d+)[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
 
+	// fambattle.php?pwd&famaction[backstab-209]=Backstab
+	private static final Pattern FAMBATTLE_PATTERN = Pattern.compile( "famaction.*?-(\\d+).*?=(.*)" );
+
 	public static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
 	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
 	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
@@ -9074,6 +9077,30 @@ public class FightRequest
 			action.append( FightRequest.currentRound );
 			action.append( ": " );
 			action.append( name );
+
+			if ( urlString.startsWith( "fambattle.php" ) )
+			{
+				// fambattle.php?pwd&famaction[ult_crazyblast-209]=ULTIMATE%3A+Spiky+Burst
+				// fambattle.php?pwd&famaction[sting-98]=Sting
+				// fambattle.php?pwd&famaction[backstab-209]=Backstab
+				Matcher m = FightRequest.FAMBATTLE_PATTERN.matcher( urlString );
+				if ( m.find() )
+				{
+					int famtype = StringUtilities.parseInt( m.group( 1 ) );
+					String famname = FamiliarDatabase.getFamiliarName( famtype );
+					String skill = StringUtilities.getURLDecode( m.group( 2 ) );
+					action.append( "'s  " );
+					action.append( famname );
+					action.append( " uses " );
+					action.append( skill );
+					action.append( "!" );
+					String message = action.toString();
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+				}
+				return true;
+			}
+
 			action.append( " " );
 		}
 
