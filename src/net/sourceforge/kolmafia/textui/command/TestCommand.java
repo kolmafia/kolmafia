@@ -901,6 +901,13 @@ public class TestCommand
 			return;
 		}
 
+		if ( command.equals( "fambattle" ) )
+		{
+			FightRequest.parseFamBattleHTML( TestCommand.contents );
+			TestCommand.contents = null;
+			return;
+		}
+
 		if ( command.equals( "fight" ) )
 		{
 			int round = split.length > 1 ? StringUtilities.parseInt( split[ 1 ].trim() ) : -1;

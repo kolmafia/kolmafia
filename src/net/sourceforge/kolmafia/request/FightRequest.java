@@ -5524,7 +5524,7 @@ public class FightRequest
 
 	private static final void processNormalResults( final String text, final Matcher macroMatcher )
 	{
-		TagNode fight = FightRequest.pokefam ? parseFamBattleHTML( text ) : parseFightHTML( text, true );
+		TagNode fight = FightRequest.pokefam ? parseFamBattleHTML( text, true ) : parseFightHTML( text, true );
 		if ( fight == null )
 		{
 			// Do normal result processing and hope for the best.
@@ -5542,25 +5542,93 @@ public class FightRequest
 
 		if ( FightRequest.pokefam )
 		{
-			FightRequest.processFamBattleNode( fight, status );
+			// Parse and log the pokefam part of the battle. This
+			// will return the node following that to continue with
+			// normal processing.
+			FightRequest.processFamBattle( fight, status );
 		}
-		else
-		{
-			FightRequest.processNode( fight, status );
-		}
+
+		FightRequest.processNode( fight, status );
 
 		FightRequest.shouldRefresh = status.shouldRefresh;
 	}
 
-	private static final TagNode parseFamBattleHTML( String text )
+	public static final void parseFamBattleHTML( final String text )
 	{
-		// Maybe we will do this.
+		TagNode node = FightRequest.parseFamBattleHTML( text, false );
+		FightRequest.logHTML( node );
+		FightRequest.processFamBattle( node, new TagStatus() );
+		FightRequest.logHTML( node );
+	}
+
+	private static final TagNode parseFamBattleHTML( String text, boolean logIt )
+	{
+		// Clean the HTML on the Fight page
+		TagNode node = FightRequest.cleanFightHTML( text );
+		if ( node == null )
+		{
+			if ( logIt )
+			{
+				RequestLogger.printLine( "HTML cleaning failed." );
+			}
+			return null;
+		}
+
+		// Find the top of the parse tree. Unlike normal fights, there
+		// is not always a "monster" at the top. There is always a
+		// header for the opponent's "team"
+		//
+		// <center><b>a fleet woodsman's Team:</b>
+
+		for ( Object bnode : node.getElementListByName( "b", true ) )
+		{
+			// Should be unnecessary. We need a more modern version of this package
+			if ( bnode instanceof TagNode )
+			{
+				TagNode b = (TagNode) bnode;
+				if ( b.getText().indexOf( " Team:" ) != -1 )
+				{
+					return b.getParent();
+				}
+			}
+		}
+
 		return null;
 	}
 
-	private static final void processFamBattleNode( final TagNode node, final TagStatus status )
+	public static final void processFamBattle( final TagNode node, final TagStatus status )
 	{
-		// Maybe we will do this.
+		// The node is a "center" node with the following children:
+		//
+		// <b>XXX's Team:</b>
+		// (nodes describing that team)
+		// (nodes describing your team)
+		// <b>Your Team</b>
+		// (nodes describing end-of-battle stuff)
+		// 
+		// If we want to anything with the teams, this is the place.
+
+		// Remove all the team-related stuff from the "center" node and
+		// allow regular node processing to glean whatever it wants
+		// from what remains.
+
+		Iterator it = node.getChildren().iterator();
+		boolean done = false;
+		while ( it.hasNext() && !done )
+		{
+			Object child = it.next();
+			if ( child instanceof TagNode )
+			{
+				TagNode tnode = (TagNode) child;
+				if ( tnode.getName().equals( "b" ) && tnode.getText().toString().equals( "Your Team" ) )
+				{
+					done = true;
+				}
+			}
+			it.remove();
+		}
+
+		FightRequest.logHTML( node );
 	}
 
 	public static final void parseFightHTML( final String text )
