@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
+import net.sourceforge.kolmafia.request.ClanFortuneRequest;
 import net.sourceforge.kolmafia.request.ClanHallRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeSwimmingPoolRequest;
@@ -389,6 +390,10 @@ public class ResponseTextParser
 			{
 				BurningNewspaperRequest.parseResponse( location, responseText );
 			}
+			else if ( location.contains( "whichchoice=1278" ) )
+			{
+				ClanFortuneRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "clan_hall.php" ) )
@@ -413,7 +418,14 @@ public class ResponseTextParser
 
 		else if ( location.startsWith( "clan_viplounge.php" ) )
 		{
-			ClanLoungeRequest.parseResponse( location, responseText );
+			if ( location.contains( "preaction=lovetester" ) )
+			{
+				ClanFortuneRequest.parseResponse( location, responseText );
+			}
+			else
+			{
+				ClanLoungeRequest.parseResponse( location, responseText );
+			}
 		}
 
 		else if ( location.startsWith( "closet.php" ) || location.startsWith( "fillcloset.php" ) )

@@ -769,6 +769,7 @@ public class KoLmafiaCLI
 		new FloristCommand().register( "florist" );
 		new FlowerHuntCommand().register( "flowers" ).register( "swagger" );
 		new FoldItemCommand().register( "fold" ).register( "squeeze" );
+		new FortuneCommand().register( "fortune" );
 		new ForumCommand().registerPrefix( "forum" );
 		new FriarBlessingCommand().register( "friars" );
 		new GapCommand().register("gap");

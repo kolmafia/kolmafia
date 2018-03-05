@@ -85,6 +85,7 @@ public class ClanLoungeRequest
 	public static final int HOT_DOG_STAND = 9;
 	public static final int SPEAKEASY = 10;
 	public static final int FLOUNDRY = 11;
+	public static final int FORTUNE = 12;
 
 	// Pool options
 	public static final int AGGRESSIVE_STANCE = 1;
@@ -868,6 +869,12 @@ public class ClanLoungeRequest
 		this.action = action;
 		this.option = option;
 	}
+	
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
 
 	public static final ClanLoungeRequest buyHotDogRequest( final String name )
 	{
@@ -1157,6 +1164,11 @@ public class ClanLoungeRequest
 			{
 				this.addFormField( "action", "floundry" );
 			}
+			break;
+
+		case ClanLoungeRequest.FORTUNE:
+			this.constructURLString( "clan_viplounge.php" );
+			this.addFormField( "preaction", "lovetester" );
 			break;
 
 		default:
@@ -2036,7 +2048,7 @@ public class ClanLoungeRequest
 			return;
 		}
 
-		if ( action.equals( "eathotdog" ) )//
+		if ( action.equals( "eathotdog" ) )
 		{
 			// Do nothing if consumption of a basic hot dog failed
 			// Do nothing if overeating on basic hot dogs causes you to lose stats

@@ -381,6 +381,9 @@ user	chessboardsCleared	0
 user	chosenTrip
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0
+user	clanFortuneWord1	pizza
+user	clanFortuneWord2	batman
+user	clanFortuneWord3	thick
 user	grimstoneMaskPath	
 user	clanAttacksEnabled	false
 user	cocktailSummons	0
@@ -1315,6 +1318,8 @@ user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
 user	_circleDrumUsed	false
+user	_clanFortuneBuffUsed	false
+user	_clanFortuneConsultUses	0
 user	_claraBellUsed	false
 user	_clipartSummons	0
 user	_coalPaperweightUsed	false
