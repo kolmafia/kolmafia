@@ -484,6 +484,17 @@ public class RequestEditorKit
 			// Do any location-specific decoration
 			FightDecorator.decorateLocation( buffer );
 		}
+		else if ( location.startsWith( "fambattle.php" ) )
+		{
+			// Do a subset of the above for a Pokefam battle
+			RequestEditorKit.fixTavernCellar( buffer );
+			FightDecorator.decorateEndOfFight( buffer );
+			// Not yet.
+			// StationaryButtonDecorator.decorate( location, buffer );
+			RequestEditorKit.addFambattleModifiers( buffer );
+			RequestEditorKit.addDesertProgress( buffer );
+			RequestEditorKit.addBlackForestProgress( buffer );
+		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
 			StringUtilities.singleStringReplace( buffer, RequestEditorKit.NO_PERMIT_TEXT, RequestEditorKit.BUY_PERMIT_TEXT );
@@ -1377,6 +1388,44 @@ public class RequestEditorKit
 
 		case AdventurePool.OUTSIDE_THE_CLUB:
 			NemesisDecorator.decorateRaverFight( buffer );
+			break;
+		}
+	}
+
+	private static final void addFambattleModifiers( final StringBuffer buffer )
+	{
+		RequestEditorKit.insertRoundNumbers( buffer );
+
+		// You are slowed too much by the water, and a stupid dolphin
+		// swims up and snags <b>a seaweed</b> before you can grab
+		// it.<p>
+
+		int dolphinIndex = buffer.indexOf( "a stupid dolphin swims up and snags" );
+		if ( dolphinIndex != -1 )
+		{
+			// If we have a dolphin whistle in inventory, offer a link to use it.
+			if ( InventoryManager.hasItem( ItemPool.DOLPHIN_WHISTLE ) )
+			{
+				String message = "<br><font size=1>[<a href=\"inv_use.php?pwd=" + GenericRequest.passwordHash + "&which=3&whichitem=3997\">use dolphin whistle</a>]</font><br>";
+				dolphinIndex = buffer.indexOf( "<p>", dolphinIndex );
+				buffer.replace( dolphinIndex, dolphinIndex + 3, message );
+			}
+		}
+
+		MonsterData monster = MonsterStatusTracker.getLastMonster();
+		String monsterName = monster != null ? monster.getName() : "";
+
+		// We want to decorate battlefield monsters, whether or not you
+		// actually find them on the battlefield.
+		if ( IslandManager.isBattlefieldMonster( monsterName ) )
+		{
+			IslandDecorator.decorateBattlefieldFight( buffer );
+		}
+
+		switch ( KoLAdventure.lastAdventureId() )
+		{
+		case AdventurePool.THEMTHAR_HILLS:
+			IslandDecorator.decorateThemtharFight( buffer );
 			break;
 		}
 	}

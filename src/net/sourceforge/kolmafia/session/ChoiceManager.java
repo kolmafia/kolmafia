@@ -6881,6 +6881,14 @@ public abstract class ChoiceManager
 			{
 				QuestDatabase.setQuestProgress( Quest.ISLAND_WAR, "step1" );
 				Preferences.setString( "warProgress", "started" );
+				if ( KoLCharacter.inPokefam() )
+				{
+					// The following is a guess. Since all
+					// sidequests are open, it is at least
+					// 458, and surely both sides are equal
+					Preferences.setInteger( "hippiesDefeated", 500 );
+					Preferences.setInteger( "fratboysDefeated", 500 );
+				}
 			}
 			break;
 
