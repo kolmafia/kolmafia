@@ -3639,6 +3639,7 @@ Item	100-Watt bulb	Familiar Weight: +5
 Item	affordable teak perch	Familiar Weight: +5
 # amphibious tophat: Lets your Frog Breathe Underwater
 Item	amphibious tophat	Underwater Familiar, Equips On: "Dancing Frog", Familiar Effect: "adventure underwater"
+Item	amulet coin	Familiar Weight: +10, Meat Drop: +50, Lasts Until Rollover, Generic
 Item	anniversary tiny latex mask	Familiar Weight: +1, Generic
 Item	annoying pitchfork	Monster Level: +5, Generic
 Item	ant antidepressant	Familiar Weight: +5
@@ -3814,6 +3815,8 @@ Item	missing semicolon	Familiar Weight: +11
 # moveable feast: Familiar gains 1 extra experience per Adventure
 # moveable feast: Familiar will start food fights!
 Item	moveable feast	Familiar Weight: +5, Softcore Only, Generic, Experience (familiar): +1
+# Item muscle band: Increases familiar damage
+Item	muscle band	Familiar Weight: +10, Lasts Until Rollover, Generic
 # nanorhino credit card: Helps your Nano-Rhino charge
 Item	nosy nose ringy ring	Familiar Weight: +15
 # orange boxing gloves: Causes your Puck Man to sometimes drop extra yellow pixels
@@ -3849,6 +3852,8 @@ Item	ramekin of space nuts	Familiar Weight: +5
 Item	rat head balloon	Familiar Weight: -3, Generic
 Item	rat tooth polish	Familiar Weight: +5
 Item	rattlesnake enrager	Familiar Weight: +5
+# Item razor fang: Your familiar will sometimes interrupt enemy attacks
+Item	razor fang	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	really tiny cocktail shaker	Familiar Weight: +5
 Item	rhesus monkey	Familiar Weight: +5
 Item	rhinestone cowhorn	Familiar Weight: +5
@@ -3859,6 +3864,8 @@ Item	S.S. Ticket	Familiar Weight: +5
 Item	security blankie	Familiar Weight: +5
 Item	self-dribbling basketball	Familiar Weight: +10
 Item	serrated proboscis extension	Familiar Weight: +20
+# Item shell bell: Heals you when your familiar deals damage
+Item	shell bell	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	shiny brass tailfeathers	Familiar Weight: +5
 Item	shiny gold fronts	Familiar Weight: +5
 # shock collar: Familiar Will Attack You Less Often
@@ -3868,6 +3875,8 @@ Item	slightly thicker filthy rags	Familiar Weight: +5
 Item	smile-sharpening stone	Familiar Weight: +5
 # smiley-face sticker: +10 lbs. of Volleyball
 Item	smiley-face sticker	Experience: +3.16
+# Item smoke ball: Running away is always successful, and gives stats based on the enemy
+Item	smoke ball	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	snow halo	Familiar Weight: +5
 # Snow Suit: Lets Your Familiar Do Various Tricks
 Item	Snow Suit	Familiar Weight: [max(5,20-floor(pref(_snowSuitCount)/5))], Softcore Only, Generic
@@ -4604,6 +4613,8 @@ Effect	Bendin' Hell	Hot Damage: [mod(Hot Damage)], Cold Damage: [mod(Cold Damage
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
+Effect	Berry Experiential	Experience: +6
+Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
