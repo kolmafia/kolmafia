@@ -9835,3 +9835,18 @@
 9809	Disgeist	991491721	pokefam48.gif	grow	t	0
 9810	Bowlet	278448735	pokefam49.gif	grow	t	0
 9811	Cornedbeefadon	189333702	pokefam50.gif	grow	t	0
+9812
+9813	Glum berry	603183630	berry4.gif	usable, combat	t,d	51
+9814	Egnaro berry	692961300	berry2.gif	usable, combat	t,d	51
+9815	Sitrep berry	629379312	berry1.gif	usable, combat	t,d	51
+9816
+9817	Jamocha berry	707798848	berry5.gif	usable, combat	t,d	51
+9818	Tapioc berry	461161295	berry6.gif	usable, combat	t,d	51
+9819	Snarf berry	935578159	berry7.gif	usable, combat	t,d	51
+9820	Keese berry	947270984	berry8.gif	usable, combat	t,d	51
+9821
+9822	shell bell	293981207	shellbell.gif	familiar	q	0
+9823	muscle band	468195401	muscleband.gif	familiar	q	0
+9824	amulet coin	496859322	coinamulet.gif	familiar	q	0
+9825	razor fang	315065966	pokefang.gif	familiar	q	0
+9826	smoke ball	888071924	pokesmokeball.gif	familiar	q	0
