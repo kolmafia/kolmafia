@@ -9785,51 +9785,51 @@
 9759	Pok&eacute;fam Guide to Capturing All of Them	264653010	pokebook.gif	usable	t	0	Pok&eacute;fam Guides to Capturing All of Theme
 9760	packet of tall grass seeds	134188822	grassseeds.gif	usable		0
 9761	Pok&eacute;-Gro fertilizer	404618485	pokefert.gif	usable	t	0
-9762	Globmule	494068443	pokefam1.gif	none	t	0
-9763	Bluzzard	638530557	pokefam2.gif	none	t	0
-9764	Faux	120830316	pokefam3.gif	none	t	0
+9762	Globmule	494068443	pokefam1.gif	grow	t	0
+9763	Bluzzard	638530557	pokefam2.gif	grow	t	0
+9764	Faux	120830316	pokefam3.gif	grow	t	0
 9765
 9766
-9767	Pillowbug	906890135	pokefam6.gif	none	t	0
-9768	Dressage	165521552	pokefam7.gif	none	t	0
-9769	Sequestrian	138111901	pokefam8.gif	none	t	0
-9770	Carpricorn	556414669	pokefam9.gif	none	t	0
-9771	Turpin	535305380	pokefam10.gif	none	t	0
-9772	Morphan	931785412	pokefam11.gif	none	t	0
-9773	Cycloney	916516253	pokefam12.gif	none	t	0
+9767	Pillowbug	906890135	pokefam6.gif	grow	t	0
+9768	Dressage	165521552	pokefam7.gif	grow	t	0
+9769	Sequestrian	138111901	pokefam8.gif	grow	t	0
+9770	Carpricorn	556414669	pokefam9.gif	grow	t	0
+9771	Turpin	535305380	pokefam10.gif	grow	t	0
+9772	Morphan	931785412	pokefam11.gif	grow	t	0
+9773	Cycloney	916516253	pokefam12.gif	grow	t	0
 9774
-9775	Turtive	442939862	pokefam14.gif	none	t	0
-9776	Lepardner	521500416	pokefam15.gif	none	t	0
+9775	Turtive	442939862	pokefam14.gif	grow	t	0
+9776	Lepardner	521500416	pokefam15.gif	grow	t	0
 9777
-9778	Waifuton	232894627	pokefam17.gif	none	t	0
-9779	Gorillape	121115337	pokefam18.gif	none	t	0
+9778	Waifuton	232894627	pokefam17.gif	grow	t	0
+9779	Gorillape	121115337	pokefam18.gif	grow	t	0
 9780
 9781
-9782	Ruffalo	131277889	pokefam21.gif	none	t	0
-9783	Vaporpoise	359191074	pokefam22.gif	none	t	0
-9784	Ghosprey	865565179	pokefam23.gif	none	t	0
-9785	Straypler	380763202	pokefam24.gif	none	t	0
-9786	Flan	728568746	pokefam25.gif	none	t	0
-9787	Mustardigrade	499741903	pokefam26.gif	none	t	0
-9788	Ched	381028157	pokefam27.gif	none	t	0
-9789	Gazelleton	254295612	pokefam28.gif	none	t	0
-9790	Mechamelion	232070274	pokefam29.gif	none	t	0
-9791	Bicycle	514582333	pokefam30.gif	none	t	0
-9792	Vamprey	990294285	pokefam31.gif	none	t	0
-9793	Wullabye	630867211	pokefam32.gif	none	t	0
-9794	Nursine	862898045	pokefam33.gif	none	t	0
-9795	Cantelope	393539295	pokefam34.gif	none	t	0
-9796	Ungulant 596070519 pokefam35.gif none t	0
-9797	Caramel	898641897	pokefam36.gif	none	t	0
-9798	Oppossum	898282799	pokefam37.gif	none	t	0
-9799	Amanitee 522465654	pokefam38.gif	none	t	0
-9800	Smashmoth	511726308	pokefam39.gif	none	t	0
-9801	Vulgure	750620351	pokefam40.gif	none	t	0
-9802	Squib	688437790	pokefam41.gif	none	t	0
-9803	Trafikoan	120064394	pokefam42.gif	none	t	0
+9782	Ruffalo	131277889	pokefam21.gif	grow	t	0
+9783	Vaporpoise	359191074	pokefam22.gif	grow	t	0
+9784	Ghosprey	865565179	pokefam23.gif	grow	t	0
+9785	Straypler	380763202	pokefam24.gif	grow	t	0
+9786	Flan	728568746	pokefam25.gif	grow	t	0
+9787	Mustardigrade	499741903	pokefam26.gif	grow	t	0
+9788	Ched	381028157	pokefam27.gif	grow	t	0
+9789	Gazelleton	254295612	pokefam28.gif	grow	t	0
+9790	Mechamelion	232070274	pokefam29.gif	grow	t	0
+9791	Bicycle	514582333	pokefam30.gif	grow	t	0
+9792	Vamprey	990294285	pokefam31.gif	grow	t	0
+9793	Wullabye	630867211	pokefam32.gif	grow	t	0
+9794	Nursine	862898045	pokefam33.gif	grow	t	0
+9795	Cantelope	393539295	pokefam34.gif	grow	t	0
+9796	Ungulant 596070519 pokefam35.gif grow t	0
+9797	Caramel	898641897	pokefam36.gif	grow	t	0
+9798	Oppossum	898282799	pokefam37.gif	grow	t	0
+9799	Amanitee 522465654	pokefam38.gif	grow	t	0
+9800	Smashmoth	511726308	pokefam39.gif	grow	t	0
+9801	Vulgure	750620351	pokefam40.gif	grow	t	0
+9802	Squib	688437790	pokefam41.gif	grow	t	0
+9803	Trafikoan	120064394	pokefam42.gif	grow	t	0
 9804
-9805	Shudder	616689654	pokefam44.gif	none	t	0
-9806	Glamare	184163598	pokefam45.gif	none	t	0
+9805	Shudder	616689654	pokefam44.gif	grow	t	0
+9806	Glamare	184163598	pokefam45.gif	grow	t	0
 9807
 9808	Stooper	719302716	pokefam47.gif	grow	t	0
 9809	Disgeist	991491721	pokefam48.gif	grow	t	0
