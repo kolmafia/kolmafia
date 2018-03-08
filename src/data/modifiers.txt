@@ -9490,6 +9490,7 @@ Item	My Own Pen Pal kit	Free Pull
 Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 Item	mysterious chemical residue	Effect Duration: 5
 Item	mysterious chest	Free Pull
+# Item Nadsat berry: Improves critical hit chance and energizes you for a while
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty gum	Effect: "Nasty, Nasty Breath", Effect Duration: 5
