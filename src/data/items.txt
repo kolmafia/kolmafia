@@ -9797,7 +9797,7 @@
 9771	Turpin	535305380	pokefam10.gif	grow	t	0
 9772	Morphan	931785412	pokefam11.gif	grow	t	0
 9773	Cycloney	916516253	pokefam12.gif	grow	t	0
-9774
+9774	Peaclock	849661322	pokefam13.gif	grow	t	0
 9775	Turtive	442939862	pokefam14.gif	grow	t	0
 9776	Lepardner	521500416	pokefam15.gif	grow	t	0
 9777
