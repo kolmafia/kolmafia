@@ -494,6 +494,8 @@ public class RequestEditorKit
 			RequestEditorKit.addFambattleModifiers( buffer );
 			RequestEditorKit.addDesertProgress( buffer );
 			RequestEditorKit.addBlackForestProgress( buffer );
+			FightDecorator.decorateMonster( buffer );
+			FightDecorator.decorateLocation( buffer );
 		}
 		else if ( location.startsWith( "hermit.php" ) )
 		{
