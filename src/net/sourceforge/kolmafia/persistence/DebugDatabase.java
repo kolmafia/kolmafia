@@ -606,13 +606,13 @@ public class DebugDatabase
 
 			return multi ? KoLConstants.CONSUME_MULTIPLE : KoLConstants.CONSUME_USE;
 		}
-		if ( type.startsWith( "familiar" ) )
-		{
-			return KoLConstants.GROW_FAMILIAR;
-		}
 		if ( type.equals( "familiar equipment" ) )
 		{
 			return KoLConstants.EQUIP_FAMILIAR;
+		}
+		if ( type.startsWith( "familiar" ) )
+		{
+			return KoLConstants.GROW_FAMILIAR;
 		}
 		if ( type.startsWith( "accessory" ) )
 		{
