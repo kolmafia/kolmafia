@@ -828,6 +828,10 @@ public class CompactSidePane
 		{
 			this.roninLabel.setText( "(Ronin Clear)" );
 		}
+		else if ( KoLCharacter.inPokefam() )
+		{
+			this.roninLabel.setText( "(Endless Ronin)" );
+		}
 		else
 		{
 			this.roninLabel.setText( "(Ronin for " + ( 1000 - KoLCharacter.getCurrentRun() ) + ")" );
