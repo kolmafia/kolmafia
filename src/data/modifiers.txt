@@ -3780,6 +3780,7 @@ Item	Little Crimson Book	Familiar Weight: +5
 Item	little wooden mannequin	Familiar Weight: +5
 # Loathing Legion helicopter: Familiar will act more often
 Item	Loathing Legion helicopter	Familiar Weight: +5, Softcore Only, Generic
+Item	luck incense	Familiar Weight: +10, Item Drop: +25, Lasts Until Rollover, Generic
 Item	lucky Tam O'Shanter	Meat Drop: +50, Softcore Only, Generic
 Item	lucky Tam O'Shatner	Meat Drop: +50, Softcore Only, Generic
 Item	magnifying glass	Familiar Weight: +5
