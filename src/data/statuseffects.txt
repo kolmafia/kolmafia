@@ -2375,7 +2375,7 @@
 2374
 2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	cast 1 Paul's Passionate Pop Song
 2376	Rhinestoned	rhinestones.gif	b87601a22d0736c8c6ed9a08518829e0	use 1 rhinestone
-2377
+2377	Berry Critical	berry3.gif	96f738d3eca639e360cf915cffd81e3d
 2378
 2379
 2380	Berry Statistical	berry7.gif	b2d5b36903a6918769fc02b251d11c49
