@@ -1956,15 +1956,10 @@ public class QuestManager
 		}
 		else if ( monsterName.equals( "X-32-F Combat Training Snowman" ) )
 		{
-			int snowParts = -2;
-			Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher( responseText );
-			while ( snowmanMatcher.find() )
+			int snowparts = Preferences.getInteger( "_snojoParts" );
+			if ( snowparts <= 10 )
 			{
-				snowParts++;
-			}
-			if ( snowParts <= 10 )
-			{
-				Preferences.setInteger( "_snojoFreeFights", snowParts );
+				Preferences.setInteger( "_snojoFreeFights", snowparts );
 				String snojoSetting = Preferences.getString( "snojoSetting" );
 				if ( snojoSetting.equals( "MUSCLE" ) )
 				{
@@ -2430,6 +2425,16 @@ public class QuestManager
 				// Remove it from equipment if it is equipped, otherwise remove it from inventory
 				ResultProcessor.processResult( ItemPool.get( ItemPool.GINGERSERVO, -1 ) );
 			}
+		}
+		else if ( monsterName.equals( "X-32-F Combat Training Snowman" ) )
+		{
+			int snowParts = -2;
+			Matcher snowmanMatcher = SNOWMAN_PATTERN.matcher( responseText );
+			while ( snowmanMatcher.find() )
+			{
+				snowParts++;
+			}
+			Preferences.setInteger( "_snojoParts", snowParts );
 		}
 	}
 	
