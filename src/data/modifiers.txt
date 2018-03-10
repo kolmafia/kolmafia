@@ -4613,6 +4613,7 @@ Effect	Bendin' Hell	Hot Damage: [mod(Hot Damage)], Cold Damage: [mod(Cold Damage
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
+Effect	Berry Critical	Critical Hit Percent: +30
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
 Effect	Bestial Sympathy	Familiar Weight: +3

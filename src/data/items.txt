@@ -9652,8 +9652,8 @@
 9626	anti-earplugs	807210581	crimboplugs.gif	accessory	q	0
 9627	warehouse key	183214173	mimewhkey.gif	reusable	t,d	0
 9628	mime pocket probe	715262471	cheerrod.gif	offhand		0
-9629	cheer wine	359085074	redwine.gif	drink	t	0	glasses of cheer wine
-9630	Cheer-E-Os	705364856	bowl4.gif	food	t	0	Cheer-E-Os
+9629	stale cheer wine	359085074	redwine.gif	drink	t	0	glasses of cheer wine
+9630	stale Cheer-E-Os	705364856	bowl4.gif	food	t	0	Cheer-E-Os
 9631	cheer-o-gram	814117046	envelope.gif	none, usable, curse	t	0
 9632	cheerful antler hat	401157890	c17hat.gif	hat	t	0
 9633	cheerful Crimbo sweater	332127999	c17shirt.gif	shirt	t	0
@@ -9784,12 +9784,12 @@
 9758	thwaitgold metabug statuette	670959667	thwaitmetabug.gif	none		0
 9759	Pok&eacute;fam Guide to Capturing All of Them	264653010	pokebook.gif	usable	t	0	Pok&eacute;fam Guides to Capturing All of Theme
 9760	packet of tall grass seeds	134188822	grassseeds.gif	usable		0
-9761	Pok&eacute;-Gro fertilizer	404618485	pokefert.gif	usable	t	0
+9761	Pok&eacute;-Gro fertilizer	404618485	pokefert.gif	usable	t	0	cans of Pok&eacute;-Gro fertilizer
 9762	Globmule	494068443	pokefam1.gif	grow	t	0
 9763	Bluzzard	638530557	pokefam2.gif	grow	t	0
 9764	Faux	120830316	pokefam3.gif	grow	t	0
-9765
-9766
+9765	Sledgehamster	394408916	pokefam4.gif	none	t	0
+9766	Pimpsqueak	730261080	pokefam5.gif	none	t	0
 9767	Pillowbug	906890135	pokefam6.gif	grow	t	0
 9768	Dressage	165521552	pokefam7.gif	grow	t	0
 9769	Sequestrian	138111901	pokefam8.gif	grow	t	0
@@ -9800,11 +9800,11 @@
 9774	Peaclock	849661322	pokefam13.gif	grow	t	0
 9775	Turtive	442939862	pokefam14.gif	grow	t	0
 9776	Lepardner	521500416	pokefam15.gif	grow	t	0
-9777
+9777	Aiolion	194950755	pokefam16.gif	grow	t	0
 9778	Waifuton	232894627	pokefam17.gif	grow	t	0
 9779	Gorillape	121115337	pokefam18.gif	grow	t	0
-9780
-9781
+9780	Wendtigo	830936844	pokefam19.gif	none	t	0
+9781	Snoutlet	388972828	pokefam20.gif	none	t	0
 9782	Ruffalo	131277889	pokefam21.gif	grow	t	0
 9783	Vaporpoise	359191074	pokefam22.gif	grow	t	0
 9784	Ghosprey	865565179	pokefam23.gif	grow	t	0
@@ -9822,7 +9822,7 @@
 9796	Ungulant	596070519	pokefam35.gif	grow	t	0
 9797	Caramel	898641897	pokefam36.gif	grow	t	0
 9798	Oppossum	898282799	pokefam37.gif	grow	t	0
-9799	Amanitee 522465654	pokefam38.gif	grow	t	0
+9799	Amanitee	522465654	pokefam38.gif	grow	t	0
 9800	Smashmoth	511726308	pokefam39.gif	grow	t	0
 9801	Vulgure	750620351	pokefam40.gif	grow	t	0
 9802	Squib	688437790	pokefam41.gif	grow	t	0
@@ -9830,16 +9830,16 @@
 9804
 9805	Shudder	616689654	pokefam44.gif	grow	t	0
 9806	Glamare	184163598	pokefam45.gif	grow	t	0
-9807
+9807	Unspeakachu	241618037	pokefam46.gif	grow	t	0
 9808	Stooper	719302716	pokefam47.gif	grow	t	0
 9809	Disgeist	991491721	pokefam48.gif	grow	t	0
 9810	Bowlet	278448735	pokefam49.gif	grow	t	0
-9811	Cornedbeefadon	189333702	pokefam50.gif	grow	t	0
-9812
+9811	Cornbeefadon	189333702	pokefam50.gif	grow	t	0
+9812	Mu	497250637	pokefam8675309.gif	grow	t	0
 9813	Glum berry	603183630	berry4.gif	usable, combat	t,d	51
 9814	Egnaro berry	692961300	berry2.gif	usable, combat	t,d	51
 9815	Sitrep berry	629379312	berry1.gif	usable, combat	t,d	51
-9816
+9816	Nadsat berry	362443644	berry3.gif	usable, combat	t,d	51
 9817	Jamocha berry	707798848	berry5.gif	usable, combat	t,d	51
 9818	Tapioc berry	461161295	berry6.gif	usable, combat	t,d	51
 9819	Snarf berry	935578159	berry7.gif	usable, combat	t,d	51
