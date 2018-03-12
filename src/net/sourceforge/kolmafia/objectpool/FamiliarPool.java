@@ -126,4 +126,5 @@ public class FamiliarPool
 	public static final int ROBORTENDER = 211;
 	public static final int XO_SKELETON = 213;
 	public static final int GARBAGE_FIRE = 214;
+	public static final int STOOPER = 261;
 }
