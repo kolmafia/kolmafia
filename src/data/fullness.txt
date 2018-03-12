@@ -239,7 +239,7 @@ Dreadsylvanian spooky pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear
 Dreadsylvanian stew	1	20	EPIC	7-9	10-20	10-20	10-20	50 You've Got a Stew Going (+500 Dreadsylvania Item Drop)
 Dreadsylvanian stink pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
-eagle's milk	2	2	decent	4	0	0	0
+eagle's milk	2	2	decent	3-4	0	0	0
 edible alien plant bit	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
 eldritch mushroom	1	1	crappy	3	11	11	11
 eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement
