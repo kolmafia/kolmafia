@@ -908,12 +908,17 @@ public abstract class KoLCharacter
 		{
 			limit += 5;
 		}
-		
+
 		if ( KoLCharacter.hasSkill( "Hollow Leg" ) )
 		{
 			limit += 1;
 		}
-		
+
+		if ( KoLCharacter.getFamiliar().equals( FamiliarPool.STOOPER ) )
+		{
+			limit += 1;
+		}
+
 		return limit;
 	}
 
