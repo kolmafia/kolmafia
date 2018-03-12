@@ -914,7 +914,7 @@ public abstract class KoLCharacter
 			limit += 1;
 		}
 
-		if ( KoLCharacter.getFamiliar().equals( FamiliarPool.STOOPER ) )
+		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.STOOPER )
 		{
 			limit += 1;
 		}
