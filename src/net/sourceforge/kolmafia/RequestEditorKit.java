@@ -123,6 +123,7 @@ import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.BasementDecorator;
 import net.sourceforge.kolmafia.webui.BeerPongDecorator;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
+import net.sourceforge.kolmafia.webui.ClanFortuneDecorator;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.FightDecorator;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
@@ -446,6 +447,10 @@ public class RequestEditorKit
 		else if ( location.startsWith( "clan_hobopolis.php" ) )
 		{
 			HobopolisDecorator.decorate( location, buffer );
+		}
+		else if ( location.startsWith( "clan_viplounge.php?preaction=testlove" ) )
+		{
+			ClanFortuneDecorator.decorateAnswer( buffer );
 		}
 		else if ( location.startsWith( "council.php" ) )
 		{

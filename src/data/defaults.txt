@@ -381,6 +381,9 @@ user	chessboardsCleared	0
 user	chosenTrip
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0
+user	clanFortuneReply1	beer
+user	clanFortuneReply2	robin
+user	clanFortuneReply3	thin
 user	clanFortuneWord1	pizza
 user	clanFortuneWord2	batman
 user	clanFortuneWord3	thick
