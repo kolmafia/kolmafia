@@ -381,7 +381,7 @@ handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 Happy Birthday, Claude! cake	3	1	crappy	3	0	0	0
 hardboiled egg	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
-heart-shaped candy whetstone	1	4	good	0	0	0	0	Unspaded
+heart-shaped candy whetstone	1	4	good	3	20-40	20-40	20-40	40 Sharpened Sweet Tooth (+25 Candy drop)
 Hell broth	4	3	good	7-14	-5-9	0	-5-9
 Hell ramen	4	6	awesome	11-14	13	13	13
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
@@ -773,7 +773,7 @@ suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 super ka-bob	3	11	awesome	12-15	30-38	0	0
 super salad	3	11	awesome	13-16	30-50	32-40	31-40
-Swedish massage fish	1	4	good	0	0	0	0	Unspaded
+Swedish massage fish	1	4	good	3	20-40	20-40	20-40	40 Like a Fish to Walter (+5 Fishing skill)
 sweet roll Alabama	4	4	good	9-11	15-20	5-10	0	30 Helping Comes Second (+20 Meat Drop, +25 Food Drop, +25 Booze Drop, +25 Candy Drop)
 t8r tots	1	1	crappy	1-2	0	0	0
 Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20

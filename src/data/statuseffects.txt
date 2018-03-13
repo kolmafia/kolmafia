@@ -2364,12 +2364,12 @@
 2363	Graham Crackling	grahamcracker.gif	0fbfda0a077a76f7ba4525f00e1c19c5	use 1 heather graham cracker
 2364
 2365
-2366	A Girl Named Sue	catprod.gif	eef202f6b563297c3a25b04f73afeaa4	# consult fortune teller about Suzie
-2367	There's No N in Love	pressie.gif	bcdf42bc9f425f052b44dc098d6a903e	# consult fortune teller about Hangk
-2368	Meet the Meat	meat.gif	c9a5d0999b6122f9e7f3683b159cec81	# consult fortune teller about The Meatsmith
-2369	Gunther Than Thou	strboost.gif	c43707e8017e18838acbf5d3d0ea1af2	# consult fortune teller about Gunther
-2370	Everybody Calls Him Gorgon	wizhat2.gif	02b8d870bf8b1c21cce9cdd618f6bcb5	# consult fortune teller about Gorgonzola
-2371	They Call Him Shifty Because...	discomask.gif	40a696f8a48a0f66172abdfeb3bd389c	# consult fortune teller about Shifty
+2366	A Girl Named Sue	catprod.gif	eef202f6b563297c3a25b04f73afeaa4	fortune buff susie
+2367	There's No N in Love	pressie.gif	bcdf42bc9f425f052b44dc098d6a903e	fortune buff hagnk
+2368	Meet the Meat	meat.gif	c9a5d0999b6122f9e7f3683b159cec81	fortune buff meat
+2369	Gunther Than Thou	strboost.gif	c43707e8017e18838acbf5d3d0ea1af2	fortune buff gunther
+2370	Everybody Calls Him Gorgon	wizhat2.gif	02b8d870bf8b1c21cce9cdd618f6bcb5	fortune buff gorgonzola
+2371	They Call Him Shifty Because...	discomask.gif	40a696f8a48a0f66172abdfeb3bd389c	fortune buff shifty
 2372	Big	getbig.gif	581c62434820bcc318206d2b26888f60	cast 1 Get Big
 2373	Inscrutable Gaze	psychicgaze.gif	117aebee9518a532e86e92dcf4aa1175	cast 1 Inscrutable Gaze
 2374	Tainted Love Potion	potion9.gif	75c1c2a807f9e12f6c9e3e9954586d08	use 1 Love Potion #XYZ

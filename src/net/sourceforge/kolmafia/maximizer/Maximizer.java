@@ -1178,6 +1178,36 @@ public class Maximizer
 					duration = 50;
 					usesRemaining = Preferences.getBoolean( "_olympicSwimmingPool" ) ? 0 : 1;
 				}
+				else if ( cmd.startsWith( "fortune " ) )
+				{
+					if ( KoLCharacter.inBadMoon() )
+					{
+						continue;
+					}
+					else if ( !StandardRequest.isAllowed( "Clan Item", "Clan Carnival Game" ) )
+					{
+						continue;
+					}
+					else if ( Limitmode.limitClan() )
+					{
+						continue;
+					}
+					else if ( !haveVipKey )
+					{
+						if ( includeAll )
+						{
+							text = "( get access to the VIP lounge )";
+							cmd = "";
+						}
+						else continue;
+					}
+					else if ( Preferences.getBoolean( "_clanFortuneBuffUsed" ) )
+					{
+						cmd = "";
+					}
+					duration = 100;
+					usesRemaining = Preferences.getBoolean( "_clanFortuneBuffUsed" ) ? 0 : 1;
+				}
 				else if ( cmd.startsWith( "mayosoak" ) )
 				{
 					AdventureResult workshed = CampgroundRequest.getCurrentWorkshedItem();
