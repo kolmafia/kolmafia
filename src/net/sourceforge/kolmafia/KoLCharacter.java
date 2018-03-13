@@ -6357,7 +6357,7 @@ public abstract class KoLCharacter
 				{
 					String classType = imod.getString( Modifiers.CLASS );
 					if ( classType == "" || classType.equals( KoLCharacter.getClassType() ) &&
-						( slot != EquipmentManager.FAMILIAR || KoLCharacter.getFamiliar().equals( FamiliarPool.HAND ) ) )
+						( slot != EquipmentManager.FAMILIAR || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND ) )
 					{
 						smithsness += imod.get( Modifiers.SMITHSNESS );
 					}
