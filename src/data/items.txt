@@ -9827,7 +9827,7 @@
 9801	Vulgure	750620351	pokefam40.gif	grow	t	0
 9802	Squib	688437790	pokefam41.gif	grow	t	0
 9803	Trafikoan	120064394	pokefam42.gif	grow	t	0
-9804
+9804	Slotter	714297032	pokefam43.gif	grow	t	0
 9805	Shudder	616689654	pokefam44.gif	grow	t	0
 9806	Glamare	184163598	pokefam45.gif	grow	t	0
 9807	Unspeakachu	241618037	pokefam46.gif	grow	t	0
