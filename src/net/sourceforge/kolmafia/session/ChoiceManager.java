@@ -112,6 +112,7 @@ import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import net.sourceforge.kolmafia.webui.ClanFortuneDecorator;
 import net.sourceforge.kolmafia.webui.MemoriesDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
@@ -4274,6 +4275,11 @@ public abstract class ChoiceManager
 		case 1094:
 			// Back Room SMOOCHing
 			ChoiceManager.decorateBackRoomSMOOCHing( buffer );
+			break;
+
+		case 1278:
+			// Madame Zatara’s Relationship Fortune Teller
+			ClanFortuneDecorator.decorateQuestion( buffer );
 			break;
 		}
 	}
