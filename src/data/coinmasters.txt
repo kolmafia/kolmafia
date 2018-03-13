@@ -860,8 +860,8 @@ Spacegate Fabrication Facility	buy	5000	Spacegate emergency disintegrator	ROW951
 Spacegate Fabrication Facility	buy	10000	Spacegate Initiative tattoo unit	ROW952
 
 # Crimbo 2017
-Cheer-o-Vend 3000	buy	10	cheer wine	ROW966
-Cheer-o-Vend 3000	buy	10	Cheer-E-Os	ROW967
+Cheer-o-Vend 3000	buy	10	stale cheer wine	ROW966
+Cheer-o-Vend 3000	buy	10	stale Cheer-E-Os	ROW967
 Cheer-o-Vend 3000	buy	5	Cheer-Up soda	ROW968
 Cheer-o-Vend 3000	buy	15	cheer-o-gram	ROW969
 Cheer-o-Vend 3000	buy	100	cheerful antler hat	ROW970
