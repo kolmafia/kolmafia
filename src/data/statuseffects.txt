@@ -2372,7 +2372,7 @@
 2371	They Call Him Shifty Because...	discomask.gif	40a696f8a48a0f66172abdfeb3bd389c	# consult fortune teller about Shifty
 2372	Big	getbig.gif	581c62434820bcc318206d2b26888f60	cast 1 Get Big
 2373	Inscrutable Gaze	psychicgaze.gif	117aebee9518a532e86e92dcf4aa1175	cast 1 Inscrutable Gaze
-2374
+2374	Tainted Love Potion	potion9.gif	75c1c2a807f9e12f6c9e3e9954586d08	use 1 Love Potion #XYZ
 2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	cast 1 Paul's Passionate Pop Song
 2376	Rhinestoned	rhinestones.gif	b87601a22d0736c8c6ed9a08518829e0	use 1 rhinestone
 2377	Berry Critical	berry3.gif	96f738d3eca639e360cf915cffd81e3d
