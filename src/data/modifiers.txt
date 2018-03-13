@@ -6494,6 +6494,7 @@ Effect	Takin' It Greasy	Sleaze Damage: +15
 Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
 # Talking Like a Pirate: Arrr.
 Effect	Tamarind Torment	Muscle: +5, Moxie: -5
+# Effect	Tainted Love Potion: Variable +/- mus/mys/mox/max hp/max mp
 Effect	Tangled Up	Moxie Percent: -20
 Effect	Tango, O Gnat	Avatar: "Tan Gnat"
 Effect	Tapped In	Experience: +5
@@ -9336,6 +9337,7 @@ Item	lotion of stench	Effect: "Stinky Hands", Effect Duration: [R+5]
 Item	LOV Elixir #3	Effect: "The Power of LOV", Effect Duration: 40
 Item	LOV Elixir #6	Effect: "The Magic of LOV", Effect Duration: 40
 Item	LOV Elixir #9	Effect: "The Moxie of LOV", Effect Duration: 40
+Item	Love Potion #XYZ	Effect: "Tainted Love Potion", Effect Duration: 20
 Item	Love Potions and the Wizards who Mix Them	Skill: "Love Mixology"
 # love song of disturbing obsession: Deals <font color=gray>Spooky Damage</font> based on your Mysticality
 Item	love song of disturbing obsession	Effect: "Withered Heart", Effect Duration: 5
