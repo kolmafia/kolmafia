@@ -264,7 +264,8 @@ public class TestCommand
 			}
 
 			boolean better = CampgroundRequest.hasCropOrBetter( crop, matchName );
-			RequestLogger.printLine( crop + ( better ? " is as good as " : " is worse than " ) + matchName );
+			AdventureResult match = CampgroundRequest.parseCrop( matchName );
+			RequestLogger.printLine( crop + ( better ? " is as good as " : " is worse than " ) + match );
 			return;
 		}
 

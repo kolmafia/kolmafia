@@ -2927,6 +2927,8 @@ public class ItemPool
 	public static final int RHINESTONE_BOOK = 9717;
 	public static final int LOVE_SONG_BOOK = 9718;
 	public static final int POKEDOLLAR_BILLS = 9747;
+	public static final int TALL_GRASS_SEEDS = 9760;
+	public static final int POKE_GROW_FERTILIZER = 9761;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

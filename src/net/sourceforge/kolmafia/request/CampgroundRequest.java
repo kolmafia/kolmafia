@@ -89,6 +89,7 @@ public class CampgroundRequest
 	public static final AdventureResult PLASMA_BALL = ItemPool.get( ItemPool.PLASMA_BALL, 1 );
 	public static final AdventureResult LED_CLOCK = ItemPool.get( ItemPool.LED_CLOCK, 1 );
 
+	// The following are items that (can) have modifiers in modifiers.txt
 	public static final int [] campgroundItems =
 	{
 		// Housing
@@ -96,16 +97,18 @@ public class CampgroundRequest
 		ItemPool.NEWBIESPORT_TENT,
 		ItemPool.BARSKIN_TENT,
 		ItemPool.COTTAGE,
-		ItemPool.BRICKO_PYRAMID,
 		ItemPool.HOUSE,
 		ItemPool.SANDCASTLE,
-		ItemPool.GIANT_FARADAY_CAGE,
 		ItemPool.TWIG_HOUSE,
-		ItemPool.GINGERBREAD_HOUSE,
 		ItemPool.HOBO_FORTRESS,
+		ItemPool.GINGERBREAD_HOUSE,
+		ItemPool.BRICKO_PYRAMID,
+		ItemPool.GINORMOUS_PUMPKIN,
+		ItemPool.GIANT_FARADAY_CAGE,
 		ItemPool.SNOW_FORT,
 		ItemPool.ELEVENT,
 		ItemPool.RESIDENCE_CUBE,
+		ItemPool.GIANT_PILGRIM_HAT,
 
 		// Bedding
 		ItemPool.BEANBAG_CHAIR,
@@ -164,13 +167,6 @@ public class CampgroundRequest
 		ItemPool.MAYO_CLINIC,
 		ItemPool.ASDON_MARTIN,
 
-		// Garden
-		ItemPool.PUMPKIN,
-		ItemPool.HUGE_PUMPKIN,
-		ItemPool.GINORMOUS_PUMPKIN,
-		ItemPool.PEPPERMINT_SPROUT,
-		ItemPool.GIANT_CANDY_CANE,
-
 		// Outside dwelling
 		ItemPool.MEAT_GOLEM,
 		ItemPool.PAGODA_PLANS,
@@ -214,6 +210,24 @@ public class CampgroundRequest
 		ItemPool.PLASMA_BALL,
 	};
 
+	public static class TallGrass extends AdventureResult
+	{
+		public TallGrass( int count )
+		{
+			super( "packet of grass seeds", count );
+		}
+		@Override
+		public String toString()
+		{
+			int count = this.getCount();
+			return  count == 1 ?
+				"tall grass" :
+				count < 8 ?
+				"tall grass (" + count + ")" :
+				"very tall grass";
+		}
+	}
+
 	public static final AdventureResult PUMPKIN = ItemPool.get( ItemPool.PUMPKIN, 1 );
 	public static final AdventureResult HUGE_PUMPKIN = ItemPool.get( ItemPool.HUGE_PUMPKIN, 1 );
 	public static final AdventureResult GINORMOUS_PUMPKIN = ItemPool.get( ItemPool.GINORMOUS_PUMPKIN, 1 );
@@ -233,6 +247,15 @@ public class CampgroundRequest
 	public static final AdventureResult ELEVEN_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 11 );
 	public static final AdventureResult FIFTEEN_CORNUCOPIA = ItemPool.get( ItemPool.CORNUCOPIA, 15 );
 	public static final AdventureResult MEGACOPIA = ItemPool.get( ItemPool.MEGACOPIA, 1 );
+	public static final AdventureResult NO_TALL_GRASS = new TallGrass( 0 );
+	public static final AdventureResult TALL_GRASS = new TallGrass( 1 );
+	public static final AdventureResult TWO_TALL_GRASS = new TallGrass( 2 );
+	public static final AdventureResult THREE_TALL_GRASS = new TallGrass( 3 );
+	public static final AdventureResult FOUR_TALL_GRASS = new TallGrass( 4 );
+	public static final AdventureResult FIVE_TALL_GRASS = new TallGrass( 5 );
+	public static final AdventureResult SIX_TALL_GRASS = new TallGrass( 6 );
+	public static final AdventureResult SEVEN_TALL_GRASS = new TallGrass( 7 );
+	public static final AdventureResult VERY_TALL_GRASS = new TallGrass( 8 );
 
 	private enum CropType
 	{
@@ -242,6 +265,7 @@ public class CampgroundRequest
 		BEER,
 		WINTER,
 		THANKSGARDEN,
+		GRASS,
 		;
 
 		@Override
@@ -267,6 +291,7 @@ public class CampgroundRequest
 		CROPMAP.put( FROST_FLOWER, CropType.WINTER );
 		CROPMAP.put( CORNUCOPIA, CropType.THANKSGARDEN );
 		CROPMAP.put( MEGACOPIA, CropType.THANKSGARDEN );
+		CROPMAP.put( TALL_GRASS, CropType.GRASS );
 	}
 
 	public static final List<Integer> workshedItems = new ArrayList<Integer>();
@@ -307,6 +332,14 @@ public class CampgroundRequest
 		CampgroundRequest.ELEVEN_CORNUCOPIA,
 		CampgroundRequest.FIFTEEN_CORNUCOPIA,
 		CampgroundRequest.MEGACOPIA,
+		CampgroundRequest.TALL_GRASS,
+		// CampgroundRequest.TWO_TALL_GRASS,
+		// CampgroundRequest.THREE_TALL_GRASS,
+		// CampgroundRequest.FOUR_TALL_GRASS,
+		// CampgroundRequest.FIVE_TALL_GRASS,
+		// CampgroundRequest.SIX_TALL_GRASS,
+		// CampgroundRequest.SEVEN_TALL_GRASS,
+		CampgroundRequest.VERY_TALL_GRASS,
 	};
 
 	public static void reset()
@@ -405,7 +438,11 @@ public class CampgroundRequest
 			count = StringUtilities.parseInt( crop.substring( paren + 2, crop.length() - 1 ) );
 		}
 
-		return new AdventureResult( name, count, false );
+		return  name.equals( "tall grass" ) ?
+			CampgroundRequest.TALL_GRASS.getInstance( count ) :
+			name.equals( "very tall grass" ) ?
+			CampgroundRequest.VERY_TALL_GRASS :
+			new AdventureResult( name, count, false );
 	}
 
 	public static boolean hasCropOrBetter( final String crop )
@@ -482,10 +519,44 @@ public class CampgroundRequest
 	public static void harvestCrop()
 	{
 		AdventureResult crop = CampgroundRequest.getCrop();
-		if ( crop != null && crop.getCount() > 0 )
+		if ( crop == null || crop.getCount() == 0 )
 		{
-			RequestThread.postRequest( new CampgroundRequest( "garden" ) );
+			return;
 		}
+
+		// Grass plots need special handling, since each cluster of
+		// tall grass is picked individually.
+		if ( crop.getItemId() == ItemPool.TALL_GRASS_SEEDS )
+		{
+			return;
+		}
+
+		// Harvest the entire garden in one go
+		RequestThread.postRequest( new CampgroundRequest( "garden" ) );
+
+	}
+
+	public static void growTallGrass()
+	{
+		AdventureResult crop = CampgroundRequest.getCrop();
+		if ( crop == null || crop.getItemId() != ItemPool.TALL_GRASS_SEEDS )
+		{
+			// We don't have a grass patch
+			return;
+		}
+
+		int count = crop.getCount();
+		if ( count == 8 )
+		{
+			// We already have very tall grass
+			return;
+		}
+
+		// Remove existing grass from campground
+		CampgroundRequest.removeCampgroundItem( crop );
+
+		// Improve plot of grass and add it back to the campground
+		CampgroundRequest.setCampgroundItem( crop.getInstance( count + 1 ) );
 	}
 
 	public static void useSpinningWheel()
@@ -833,6 +904,16 @@ public class CampgroundRequest
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgarden6.gif", ItemPool.CORNUCOPIA, 11 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgarden7.gif", ItemPool.CORNUCOPIA, 15 );
 		if ( !gardenFound ) gardenFound = findImage( responseText, "thanksgardenmega.gif", ItemPool.MEGACOPIA, 1 );
+		// Use special instances of the TallGrass extension of an AdventureResult
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden0.gif", NO_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden1.gif", TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden2.gif", TWO_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden3.gif", THREE_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden4.gif", FOUR_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden5.gif", FIVE_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden6.gif", SIX_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden7.gif", SEVEN_TALL_GRASS );
+		if ( !gardenFound ) gardenFound = findImage( responseText, "grassgarden8.gif", VERY_TALL_GRASS );
 
 		Matcher jungMatcher = JUNG_PATTERN.matcher( responseText );
 		if ( jungMatcher.find() )
@@ -1113,6 +1194,18 @@ public class CampgroundRequest
 		}
 
 		CampgroundRequest.setCampgroundItem( itemId, count );
+
+		return true;
+	}
+
+	private static boolean findImage( final String responseText, final String filename, AdventureResult item )
+	{
+		if ( !responseText.contains( filename ) )
+		{
+			return false;
+		}
+
+		CampgroundRequest.setCampgroundItem( item );
 
 		return true;
 	}

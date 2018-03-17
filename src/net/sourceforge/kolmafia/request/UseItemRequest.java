@@ -336,6 +336,7 @@ public class UseItemRequest
 		case ItemPool.SNOW_FORT:
 		case ItemPool.ELEVENT:
 		case ItemPool.RESIDENCE_CUBE:
+		case ItemPool.GIANT_PILGRIM_HAT:
 			return CampgroundRequest.getCurrentDwelling() != CampgroundRequest.BIG_ROCK;
 
 		case ItemPool.HOT_BEDDING:
@@ -4825,6 +4826,7 @@ public class UseItemRequest
 		case ItemPool.BEER_SEEDS:
 		case ItemPool.WINTER_SEEDS:
 		case ItemPool.THANKSGARDEN_SEEDS:
+		case ItemPool.TALL_GRASS_SEEDS:
 
 			if ( Limitmode.limitCampground() || KoLCharacter.isEd() || KoLCharacter.inNuclearAutumn() )
 			{
@@ -6006,6 +6008,19 @@ public class UseItemRequest
 			// If we got here, we did not redirect to choice.php
 			// That would imply it did not actually consume the item
 			return;
+
+		case ItemPool.POKE_GROW_FERTILIZER:
+			// You spray your garden plot with the can of Pokégro
+			// fertilizer, and a large tuft of tall grass springs
+			// up. It happens so fast, you can practically hear the
+			// bwoooooop!
+			if ( !responseText.contains( "tall grass springs up" ) )
+			{
+				// Already have Very Tall Grass or don't have a grass patch
+				return;
+			}
+			CampgroundRequest.growTallGrass();
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
