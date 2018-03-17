@@ -9788,8 +9788,8 @@
 9762	Globmule	494068443	pokefam1.gif	grow	t	0
 9763	Bluzzard	638530557	pokefam2.gif	grow	t	0
 9764	Faux	120830316	pokefam3.gif	grow	t	0
-9765	Sledgehamster	394408916	pokefam4.gif	none	t	0
-9766	Pimpsqueak	730261080	pokefam5.gif	none	t	0
+9765	Sledgehamster	394408916	pokefam4.gif	grow	t	0
+9766	Pimpsqueak	730261080	pokefam5.gif	grow	t	0
 9767	Pillowbug	906890135	pokefam6.gif	grow	t	0
 9768	Dressage	165521552	pokefam7.gif	grow	t	0
 9769	Sequestrian	138111901	pokefam8.gif	grow	t	0
@@ -9803,8 +9803,8 @@
 9777	Aiolion	194950755	pokefam16.gif	grow	t	0
 9778	Waifuton	232894627	pokefam17.gif	grow	t	0
 9779	Gorillape	121115337	pokefam18.gif	grow	t	0
-9780	Wendtigo	830936844	pokefam19.gif	none	t	0
-9781	Snoutlet	388972828	pokefam20.gif	none	t	0
+9780	Wendtigo	830936844	pokefam19.gif	grow	t	0
+9781	Snoutlet	388972828	pokefam20.gif	grow	t	0
 9782	Ruffalo	131277889	pokefam21.gif	grow	t	0
 9783	Vaporpoise	359191074	pokefam22.gif	grow	t	0
 9784	Ghosprey	865565179	pokefam23.gif	grow	t	0
