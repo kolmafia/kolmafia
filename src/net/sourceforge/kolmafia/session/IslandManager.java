@@ -115,12 +115,10 @@ public class IslandManager
 	private static int lastFratboysDefeated = 0;
 	private static int lastHippiesDefeated = 0;
 
-	private static int fratboysDefeated = 0;
 	private static int fratboyImage = 0;
 	private static int fratboyMin = 0;
 	private static int fratboyMax = 0;
 
-	private static int hippiesDefeated = 0;
 	private static int hippyImage = 0;
 	private static int hippyMin = 0;
 	private static int hippyMax = 0;
@@ -175,8 +173,6 @@ public class IslandManager
 
 		// Set variables from user settings
 
-		IslandManager.fratboysDefeated = Preferences.getInteger( "fratboysDefeated" );
-		IslandManager.hippiesDefeated = Preferences.getInteger( "hippiesDefeated" );
 		IslandManager.currentJunkyardTool = Preferences.getString( "currentJunkyardTool" );
 		IslandManager.currentJunkyardLocation = Preferences.getString( "currentJunkyardLocation" );
 		IslandManager.currentNunneryMeat = Preferences.getInteger( "currentNunneryMeat" );
@@ -241,12 +237,12 @@ public class IslandManager
 
 	public static final int fratboysDefeated()
 	{
-		return IslandManager.fratboysDefeated;
+		return Preferences.getInteger( "fratboysDefeated" );
 	}
 
 	public static final int hippiesDefeated()
 	{
-		return IslandManager.hippiesDefeated;
+		return Preferences.getInteger( "hippiesDefeated" );
 	}
 
 	private static final String sideSummary( final String side, final int kills, final int image, int min, final int max )
@@ -266,13 +262,13 @@ public class IslandManager
 	{
 		return  side.equals( "frat boys" ) ?
 			IslandManager.sideSummary( side,
-						   IslandManager.fratboysDefeated,
+						   Preferences.getInteger( "fratboysDefeated" ),
 						   IslandManager.fratboyImage,
 						   IslandManager.fratboyMin,
 						   IslandManager.fratboyMax ) :
 			side.equals( "hippies" ) ?
 			IslandManager.sideSummary( side,
-						   IslandManager.hippiesDefeated,
+						   Preferences.getInteger( "hippiesDefeated" ),
 						   IslandManager.hippyImage,
 						   IslandManager.hippyMin,
 						   IslandManager.hippyMax ) :
@@ -1015,21 +1011,17 @@ public class IslandManager
 
 		if ( loser.equals( "fratboys" ) )
 		{
-			IslandManager.fratboysDefeated = 1000;
 			Preferences.setInteger( "fratboysDefeated", 1000 );
 			message = "War finished: fratboys defeated";
 		}
 		else if ( loser.equals( "hippies" ) )
 		{
-			IslandManager.hippiesDefeated = 1000;
 			Preferences.setInteger( "hippiesDefeated", 1000 );
 			message = "War finished: hippies defeated";
 		}
 		else if ( loser.equals( "both" ) )
 		{
-			IslandManager.fratboysDefeated = 1000;
 			Preferences.setInteger( "fratboysDefeated", 1000 );
-			IslandManager.hippiesDefeated = 1000;
 			Preferences.setInteger( "hippiesDefeated", 1000 );
 			message = "War finished: both sides defeated";
 		}
@@ -1080,8 +1072,8 @@ public class IslandManager
 			return;
 		}
 
-		IslandManager.lastFratboysDefeated = IslandManager.fratboysDefeated;
-		IslandManager.lastHippiesDefeated = IslandManager.hippiesDefeated;
+		IslandManager.lastFratboysDefeated = Preferences.getInteger( "fratboysDefeated" );
+		IslandManager.lastHippiesDefeated = Preferences.getInteger( "hippiesDefeated" );
 
 		// Figure out how many enemies were defeated
 		String[][] table = IslandManager.fratboy ? IslandManager.FRAT_MESSAGES : IslandManager.HIPPY_MESSAGES;
@@ -1116,15 +1108,13 @@ public class IslandManager
 
 		if ( IslandManager.fratboy )
 		{
-			IslandManager.fratboysDefeated = Preferences.increment( "fratboysDefeated", delta, 1000, false );
 			last = IslandManager.lastFratboysDefeated;
-			current = IslandManager.fratboysDefeated;
+			current = Preferences.increment( "fratboysDefeated", delta, 1000, false );
 		}
 		else
 		{
-			IslandManager.hippiesDefeated = Preferences.increment( "hippiesDefeated", delta, 1000, false );
 			last = IslandManager.lastHippiesDefeated;
-			current = IslandManager.hippiesDefeated;
+			current = Preferences.increment( "hippiesDefeated", delta, 1000, false );
 		}
 
 		String message = IslandManager.victoryMessage( last, current );
@@ -1275,26 +1265,24 @@ public class IslandManager
 		}
 
 		// Consistency check settings against map
-		if ( IslandManager.fratboysDefeated < IslandManager.fratboyMin )
+		int currentFratboys = Preferences.getInteger( "fratboysDefeated" );
+		if ( currentFratboys < IslandManager.fratboyMin )
 		{
-			IslandManager.fratboysDefeated = IslandManager.fratboyMin;
-			Preferences.setInteger( "fratboysDefeated", IslandManager.fratboysDefeated );
+			Preferences.setInteger( "fratboysDefeated", IslandManager.fratboyMin );
 		}
-		else if ( IslandManager.fratboysDefeated > IslandManager.fratboyMax )
+		else if ( currentFratboys > IslandManager.fratboyMax )
 		{
-			IslandManager.fratboysDefeated = IslandManager.fratboyMax;
-			Preferences.setInteger( "fratboysDefeated", IslandManager.fratboysDefeated );
+			Preferences.setInteger( "fratboysDefeated", IslandManager.fratboyMax );
 		}
 
-		if ( IslandManager.hippiesDefeated < IslandManager.hippyMin )
+		int currentHippies = Preferences.getInteger( "hippiesDefeated" );
+		if ( currentHippies < IslandManager.hippyMin )
 		{
-			IslandManager.hippiesDefeated = IslandManager.hippyMin;
-			Preferences.setInteger( "hippiesDefeated", IslandManager.hippiesDefeated );
+			Preferences.setInteger( "hippiesDefeated", IslandManager.hippyMin );
 		}
-		else if ( IslandManager.hippiesDefeated > IslandManager.hippyMax )
+		else if ( currentHippies > IslandManager.hippyMax )
 		{
-			IslandManager.hippiesDefeated = IslandManager.hippyMax;
-			Preferences.setInteger( "hippiesDefeated", IslandManager.hippiesDefeated );
+			Preferences.setInteger( "hippiesDefeated", IslandManager.hippyMax );
 		}
 	}
 
