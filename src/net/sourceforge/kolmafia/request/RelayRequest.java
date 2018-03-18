@@ -2123,7 +2123,8 @@ public class RelayRequest
 		// Some paths don't need a wand
 		if ( KoLCharacter.inAxecore() || KoLCharacter.inZombiecore() || KoLCharacter.isJarlsberg() ||
 		     KoLCharacter.inHighschool() || KoLCharacter.isSneakyPete() || KoLCharacter.inRaincore() ||
-		     KoLCharacter.isEd() || KoLCharacter.inTheSource() || KoLCharacter.inBondcore() )
+		     KoLCharacter.isEd() || KoLCharacter.inTheSource() || KoLCharacter.inBondcore() ||
+		     KoLCharacter.inPokefam() )
 		{
 			return false;
 		}
