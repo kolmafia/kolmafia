@@ -216,6 +216,7 @@ public class CampgroundRequest
 		{
 			super( "packet of grass seeds", count );
 		}
+
 		@Override
 		public String toString()
 		{
@@ -225,6 +226,38 @@ public class CampgroundRequest
 				count < 8 ?
 				"tall grass (" + count + ")" :
 				"very tall grass";
+		}
+
+		@Override
+		public String getName()
+		{
+			int count = this.getCount();
+			return  count != 8 ?
+				"tall grass" :
+				"very tall grass";
+		}
+
+		@Override
+		public int getPluralCount()
+		{
+			int count = this.getCount();
+			return  count != 8 ? count : 1;
+		}
+
+		@Override
+		public String getPluralName()
+		{
+			return this.getPluralName( this.getCount() );
+		}
+
+		@Override
+		public String getPluralName( int count )
+		{
+			return  count == 1 ?
+				"patch of tall grass" :
+				count < 8 ?
+				"patches of tall grass" :
+				"patch of very tall grass";
 		}
 	}
 
@@ -519,21 +552,34 @@ public class CampgroundRequest
 	public static void harvestCrop()
 	{
 		AdventureResult crop = CampgroundRequest.getCrop();
-		if ( crop == null || crop.getCount() == 0 )
+		if ( crop == null )
 		{
+			// No garden
+			return;
+		}
+
+		int count = crop.getCount();
+		if ( count == 0 )
+		{
+			// No crop
 			return;
 		}
 
 		// Grass plots need special handling, since each cluster of
-		// tall grass is picked individually.
-		if ( crop.getItemId() == ItemPool.TALL_GRASS_SEEDS )
+		// tall grass is picked individually - except for Very Tall
+		// Grass (the 8th growth)
+		if ( crop.getItemId() != ItemPool.TALL_GRASS_SEEDS || count == 8 )
 		{
-			return;
+			// Harvest the entire garden in one go
+			count = 1;
 		}
 
-		// Harvest the entire garden in one go
-		RequestThread.postRequest( new CampgroundRequest( "garden" ) );
-
+		// Pick your crop (in multiple requests, if Tall Grass)
+		CampgroundRequest request = new CampgroundRequest( "garden" );
+		while ( count-- > 0 )
+		{
+			RequestThread.postRequest( request );
+		}
 	}
 
 	public static void growTallGrass()

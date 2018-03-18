@@ -48,7 +48,7 @@ public class GardenCommand
 {
 	public GardenCommand()
 	{
-		this.usage = "[pick] - get status of garden, or harvest it.";
+		this.usage = " [pick] - get status of garden, or harvest it.";
 	}
 
 	@Override
@@ -61,14 +61,15 @@ public class GardenCommand
 			return;
 		}
 
-		int count = crop.getCount();
-
 		if ( parameters.equals( "" ) )
 		{
-			String name = count != 1 ? ItemDatabase.getPluralName( crop.getItemId() ) : crop.getName();
+			int count = crop.getPluralCount();
+			String name = crop.getPluralName();
 			KoLmafia.updateDisplay( "Your garden has " + count + " " + name + " in it." );
 			return;
 		}
+
+		int count = crop.getCount();
 
 		if ( parameters.equals( "pick" ) )
 		{
