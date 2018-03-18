@@ -319,7 +319,7 @@ public class TavernRequest
 			return;
 		}
 
-		if ( urlString.startsWith( "fight.php" ) )
+		if ( urlString.startsWith( "fight.php" ) || urlString.startsWith( "fambattle.php" ) )
 		{
 			int square = Preferences.getInteger( "lastTavernSquare" );
 			char replacement = responseText.contains( "Baron" ) ? '4' : '1';
