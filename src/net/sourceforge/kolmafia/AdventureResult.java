@@ -534,6 +534,16 @@ public class AdventureResult
 		return this.name;
 	}
 
+	public int getPluralCount()
+	{
+		return this.getCount();
+	}
+
+	public String getPluralName()
+	{
+		return this.getPluralName( this.getPluralCount() );
+	}
+
 	public String getPluralName( final int count )
 	{
 		return count == 1 ?
