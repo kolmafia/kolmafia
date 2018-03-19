@@ -372,7 +372,8 @@ public class ValhallaDecorator
 		boolean haveBeer = InventoryManager.hasItem( ItemPool.BEER_SEEDS );
 		boolean haveWinter = InventoryManager.hasItem( ItemPool.WINTER_SEEDS );
 		boolean haveThanksGarden = InventoryManager.hasItem( ItemPool.THANKSGARDEN_SEEDS );
-		if ( !havePumpkin && !havePeppermint && !haveSkeleton && !haveBeer && !haveWinter && !haveThanksGarden )
+		boolean haveGrass = InventoryManager.hasItem( ItemPool.TALL_GRASS_SEEDS );
+		if ( !havePumpkin && !havePeppermint && !haveSkeleton && !haveBeer && !haveWinter && !haveThanksGarden && !haveGrass )
 		{
 			return;
 		}
@@ -442,6 +443,16 @@ public class ValhallaDecorator
 			buffer.append( "</option>" );
 		}
 
+		if ( haveGrass )
+		{
+			buffer.append( "<option style=\"background-color: #eeeeff\" " );
+			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+tall+grass+seeds;" );
+			buffer.append( "+use+packet+of+thanksgarden+seeds&pwd=" );
+			buffer.append( GenericRequest.passwordHash );
+			buffer.append( "\">grass" );
+			buffer.append( "</option>" );
+		}
+
 		buffer.append( "</select></form>" );
 
 		AdventureResult crop = CampgroundRequest.getCrop();
@@ -455,6 +466,7 @@ public class ValhallaDecorator
 				: ( cropName.contains( "barley" ) || cropName.contains( "beer label" ) ) ? "Beer Garden"
 				: ( cropName.contains( "ice harvest" ) || cropName.contains( "frost flower" ) ) ? "Winter Garden"
 				: ( cropName.contains( "cornucopia" ) ) ? "Thanksgarden"
+				: ( cropName.contains( "grass" ) ) ? "Grass"
 				: "Unknown";
 			buffer.append( "</nobr><br><nobr>" );
 			buffer.append( " (currently " ).append( cropString ).append( ")" );

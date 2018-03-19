@@ -2017,6 +2017,13 @@ public class RelayRequest
 					 final int mcd1, final String item1,
 					 final int mcd2, final String item2 )
 	{
+		if ( KoLCharacter.inPokefam() )
+		{
+			// Jerry Bradford replaces all the bosses; you cannot
+			// use the MCD to select your reword
+			return false;
+		}
+
 		if ( this.getFormField( CONFIRM_MCD ) != null )
 		{
 			return false;
