@@ -100,7 +100,7 @@ Comma Chameleon	x/x	x/x	2/4	Punch	Howl	Empowering Cheer	None
 Cornbeefadon	2/2	3/2	3/3	Bite	Growl	Pepperscorn	None
 Cotton Candy Carnie	1/3	1/4	2/4	Bonk	Regrow	Nasty Cloud	Regenerating
 Crimbo Elf	x/x	x/x	2/4	Punch	Hug	Universal Backrub	None
-Crimbo P. R. E. S. S. I. E.	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Crimbo P. R. E. S. S. I. E.	1/3	1/4	1/5	Punch	Laser Beam	Deluxe Impale	Smart
 Crimbo Shrub	1/3	1/4	1/5	Bonk	Hug	Universal Backrub	Regenerating
 Cuddlefish	1/3	2/3	3/3	Bonk	Splash	Violent Shred	None
 Cute Meteor	1/3	1/4	1/5	Bonk	Swoop	Deluxe Impale	Armor
@@ -122,14 +122,14 @@ Exotic Parrot	1/3	2/3	3/4	Peck	Lick	Universal Backrub	None
 Fancypants Scarecrow	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	None
 Faux	x/x	x/x	2/4	Bite	Lick	Violent Shred	None
 Feather Boa Constrictor	1/3	1/4	2/4	Bonk	Lick	Vulgar Display	None
-Feral Kobold	x/x	x/x	2/4	Claw	Backstab	Deluxe Impale	None
+Feral Kobold	x/x	2/3	2/4	Claw	Backstab	Deluxe Impale	None
 Fist Turkey	2/2	3/2	3/3	Peck	Howl	Violent Shred	None
 Flaming Face	x/x	x/x	x/x	Bite	Breath Fire	Unknown	None
 Flaming Gravy Fairy	1/3	2/3	2/4	Bonk	Breath Fire	Universal Backrub	Regenerating
 Flan	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	None
 Floating Eye	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Frozen Gravy Fairy	2/2	2/3	2/4	Bonk	Hug	Nasty Cloud	Regenerating
-Frumious Bandersnatch	1/3	2/3	x/x	Bonk	Howl	Unknown	None
+Frumious Bandersnatch	1/3	2/3	3/3	Bonk	Howl	Violent Shred	None
 Fuzzy Dice	1/3	1/4	2/4	Bionk	Armor Up	Defense Matrix	None
 Galloping Grill	1/3	1/4	1/5	Bonk	Tackle	Unknown	None
 Garbage Fire	1/3	1/4	2/4	Bonk	Tackle	Deluxe Impale	Armored
@@ -176,7 +176,7 @@ Leprechaun	1/3	2/3	2/4	Punch	Hug	Universal Backrub	None
 Levitating Potato	1/3	2/3	2/4	Bonk	Regrow	Nasty Cloud	Regenerating
 Li'l Xenomorph	x/x	x/x	x/x	Claw	Lick	Unknown	None
 Lil' Barrel Mimic	x/x	x/x	x/x	Bonk	Tackle	Unknown	Armored
-Llama Lama	x/x	x/x	3/3	Bonk	Howl	Universal Backrub	None
+Llama Lama	1/3	2/3	3/3	Bonk	Howl	Universal Backrub	None
 Machine Elf	2/2	2/3	2/4	Punch	Hug	Universal Backrub	Smart
 Mad Hatrack	x/x	x/x	x/x	Bonk	Armor Up	Unknown	Armored
 Magic Dragonfish	x/x	x/x	3/3	Bonk	Splash	Healing Rain	None
@@ -231,7 +231,7 @@ Psychedelic Bear	x/x	x/x	x/x	Bonk	Lick	Unknown	Unknown
 Puck Man	x/x	x/x	2/4	Bite	Retreat	Deluxe Impale	None
 Purse Rat	x/x	x/x	2/4	Bite	Encourage	Empowering Cheer	None
 Putty Buddy	x/x	2/3	2/4	Bonk	Encourage	Empowering Cheer	Smart
-Pygmy Bugbear Shaman	x/x	x/x	2/4	Claw	Hug	Empowering Cheer	None
+Pygmy Bugbear Shaman	x/x	2/3	2/4	Claw	Hug	Empowering Cheer	None
 Ragamuffin Imp	1/3	1/4	2/4	Claw	Breath Fire	Empowering Cheer	None
 Reagnimated Gnome	1/3	1/4	2/4	Punch	Hug	Deluxe Impale	None
 Reanimated Reanimator	1/3	2/3	2/4	Punch	Hug	Deluxe Impale	None
@@ -266,7 +266,7 @@ Spirit Hobo	1/3	2/3	2/4	Punch	Stinkblast	Nasty Cloud	None
 Spooky Gravy Fairy	1/3	2/3	2/4	Bonk	Regrow	Empowering Cheer	Regenerating
 Spooky Pirate Skeleton	1/3	1/4	2/4	Punch	Tackle	Deluxe Impale	Armored
 Squamous Gibberer	2/2	3/2	4/2	Bonk	Frighten	Unknown	None
-Squib	x/x	x/x	x/x	Bite	Splash	Unknown	None
+Squib	1/3	2/3	3/3	Bite	Splash	Violent Shred	None
 Stab Bat	2/2	3/2	4/2	Sting	Embarrass	Violent Shred	Spiked
 Star Starfish	x/x	x/x	3/3	Bonk	Embarrass	Violent Shred	None
 Steam-Powered Cheerleader	x/x	2/3	2/4	Punch	Tackle	Universal Backrub	Smart
