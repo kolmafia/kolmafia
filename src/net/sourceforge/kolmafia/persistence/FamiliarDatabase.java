@@ -845,6 +845,17 @@ public class FamiliarDatabase
 		return attrs.contains( attribute );
 	}
 
+
+	public static final PokefamData getPokeDataByName( final String name )
+	{
+		return FamiliarDatabase.pokefamByName.get( StringUtilities.getCanonicalName( name ) );
+	}
+
+	public static final PokefamData getPokeDataById( final int id )
+	{
+		return FamiliarDatabase.pokefamById.get( id );
+	}
+
 	/**
 	 * Returns the set of familiars keyed by name
 	 *

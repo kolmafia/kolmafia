@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -487,6 +488,16 @@ public class ProxyRecordValue
 			.add( "variable", DataTypes.BOOLEAN_TYPE )
 			.add( "attributes", DataTypes.STRING_TYPE )
 			.add( "poke_level", DataTypes.INT_TYPE )
+			.add( "poke_level_2_power", DataTypes.INT_TYPE )
+			.add( "poke_level_2_hp", DataTypes.INT_TYPE )
+			.add( "poke_level_3_power", DataTypes.INT_TYPE )
+			.add( "poke_level_3_hp", DataTypes.INT_TYPE )
+			.add( "poke_level_4_power", DataTypes.INT_TYPE )
+			.add( "poke_level_4_hp", DataTypes.INT_TYPE )
+			.add( "poke_move_1", DataTypes.STRING_TYPE )
+			.add( "poke_move_2", DataTypes.STRING_TYPE )
+			.add( "poke_move_3", DataTypes.STRING_TYPE )
+			.add( "poke_attribute", DataTypes.STRING_TYPE )
 			.finish( "familiar proxy" );
 
 		public FamiliarProxy( Value obj )
@@ -641,6 +652,66 @@ public class ProxyRecordValue
 		{
 			FamiliarData fam = KoLCharacter.findFamiliar( this.contentString );
 			return fam == null ? 0 : fam.getPokeLevel();
+		}
+
+		public int get_poke_level_2_power()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getPower2();
+		}
+
+		public int get_poke_level_2_hp()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getHP2();
+		}
+
+		public int get_poke_level_3_power()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getPower3();
+		}
+
+		public int get_poke_level_3_hp()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getHP3();
+		}
+
+		public int get_poke_level_4_power()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getPower4();
+		}
+
+		public int get_poke_level_4_hp()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? 0 : data.getHP4();
+		}
+
+		public String get_poke_move_1()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? "" : data.getMove1();
+		}
+
+		public String get_poke_move_2()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? "" : data.getMove2();
+		}
+
+		public String get_poke_move_3()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? "" : data.getMove3();
+		}
+
+		public String get_poke_attribute()
+		{
+			PokefamData data = FamiliarDatabase.getPokeDataById( (int) this.contentLong );
+			return data == null ? "" : data.getAttribute();
 		}
 	}
 
