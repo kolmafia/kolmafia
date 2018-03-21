@@ -82,7 +82,7 @@ Blavious Kloop	1/3	2/3	3/3	Punch	Hug	Empowering Cheer	None
 Blood-Faced Volleyball	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Bloovian Groose	x/x	x/x	3/3	Bonk	Growl	Violent Shred	None
 Bluzzard	2/2	3/2	3/3	Peck	Lick	Violent Shred	None
-Bowlet	x/x	x/x	2/4	Claw	Armor Up	Violent Shred	Armored
+Bowlet	2/2	2/3	2/4	Claw	Armor Up	Violent Shred	Armored
 BRICKO chick	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Bulky Buddy Box	x/x	x/x	x/x	Bonk	Tackle	Unknown	None
 Cantelope	1/3	1/4	2/4	Bonk	Regrow	Violent Shred	Regenerating
@@ -111,7 +111,7 @@ Dancing Frog	x/x	x/x	3/3	Punch	Splash	Violent Shred	None
 Dandy Lion	x/x	x/x	2/4	Claw	Lick	Vulgar Display	None
 Dataspider	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Disembodied Hand	1/3	1/4	2/4	Punch	Frighten	Deluxe Impale	None
-Disgeist	x/x	x/x	2/4	Claw	Frighten	Universal Backrub	None
+Disgeist	2/2	2/3	2/4	Claw	Frighten	Universal Backrub	None
 Doppelshifter	1/3	x/x	x/x	Bonk	Retreat	Unknown	None
 Dramatic Hedgehog	x/x	2/3	2/4	Sting	Growl	Spiky Burst	Spiked
 Dressage	2/2	2/3	2/4	Bonk	Howl	Violent Shred	None
@@ -255,7 +255,7 @@ Sledgehamster	x/x	x/x	x/x	Bonk	Lick	Unknown	None
 Slimeling	2/2	2/3	2/4	Bonk	Encourage	Universal Backrub	Regenerating
 Slotter	2/2	2/3	3/3	Claw	Howl	Blood Bath	None
 Sludgepuppy	1/3	x/x	2/4	Bonk	Howl	Nasty Cloud	None
-Smashmoth	1/3	x/x	x/x	Bonk	Swoop	Owl Stare	None
+Smashmoth	1/3	1/4	2/4	Bonk	Swoop	Owl Stare	None
 Smiling Rat	1/3	2/3	3/3	Claw	Encourage	Empowering Cheer	None
 Snoutlet	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Snow Angel	1/3	2/3	2/4	Bonk	Swoop	Empowering Cheer	None
@@ -269,21 +269,21 @@ Spooky Pirate Skeleton	1/3	1/4	2/4	Punch	Tackle	Deluxe Impale	Armored
 Squamous Gibberer	2/2	3/2	4/2	Bonk	Frighten	Unknown	None
 Squib	1/3	2/3	3/3	Bite	Splash	Violent Shred	None
 Stab Bat	2/2	3/2	4/2	Sting	Embarrass	Violent Shred	Spiked
-Star Starfish	x/x	x/x	3/3	Bonk	Embarrass	Violent Shred	None
+Star Starfish	2/2	2/3	3/3	Bonk	Embarrass	Violent Shred	None
 Steam-Powered Cheerleader	x/x	2/3	2/4	Punch	Tackle	Universal Backrub	Smart
 Stinky Gravy Fairy	1/3	2/3	2/4	Bonk	Swoop	Universal Backrub	Regenerating
 Stocking Mimic	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
-Stooper	x/x	x/x	2/4	Bite	Encourage	Universal Backrub	None
-Straypler	x/x	x/x	x/x	Bite	Laser Beam	Unknown	Smart
+Stooper	1/3	2/3	2/4	Bite	Encourage	Universal Backrub	None
+Straypler	x/x	x/x	2/4	Bite	Laser Beam	Deluxe Impale	Smart
 Sugar Fruit Fairy	1/3	1/4	1/5	Bonk	Hug	Universal Backrub	Regenerating
 Sweet Nutcracker	1/3	1/4	1/5	Bite	Armor Up	Deluxe Impale	Armored
-Syncopated Turtle	x/x	2/3	2/4	Bite	Stinkblast	Nasty Cloud	Armored
+Syncopated Turtle	2/2	2/3	2/4	Bite	Stinkblast	Nasty Cloud	Armored
 Teddy Bear	x/x	x/x	2/4	Claw	Lick	Empowering Cheer	None
 Teddy Borg	x/x	x/x	x/x	Claw	Encourage	Unknown	Smart
 Temporal Riftlet	x/x	x/x	2/4	Bonk	Retreat	Deluxe Impale	None
 Tickle-Me Emilio	1/3	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Toothsome Rock	1/3	1/4	1/5	Bite	Armor Up	Deluxe Impale	Armored
-Topiary Skunk	x/x	2/3	3/3	Claw	Howl	Violent Shred	Regenerating
+Topiary Skunk	1/3	2/3	3/3	Claw	Howl	Violent Shred	Regenerating
 Trafikoan	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Trick-or-Treating Tot	x/x	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Turpin	1/3	1/4	1/5	Bonk	Growl	Violent Shred	Armored
