@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.PokefamData;;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
@@ -113,6 +114,9 @@ public class FamiliarDatabase
 	public static boolean newFamiliars = false;
 	public static int maxFamiliarId = 0;
 
+	private static final Map<Integer,PokefamData> pokefamById = new TreeMap<Integer,PokefamData>();
+	private static final Map<String,PokefamData> pokefamByName = new TreeMap<String,PokefamData>();
+
 	static
 	{
 		FamiliarDatabase.newFamiliars = false;
@@ -123,7 +127,7 @@ public class FamiliarDatabase
 
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
-		// examined and float-referenced: once in the name-lookup,
+		// examined and double-referenced: once in the name-lookup,
 		// and again in the Id lookup.
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "familiars.txt", KoLConstants.FAMILIARS_VERSION );
@@ -214,6 +218,67 @@ public class FamiliarDatabase
 					List<String> attrs = Arrays.asList( list );
 					FamiliarDatabase.attributesById.put( familiarId, attrs );
 				}
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	static
+	{
+		// Do the same thing for PokefamData from fambattle.txt
+
+		BufferedReader reader = FileUtilities.getVersionedReader( "fambattle.txt", KoLConstants.FAMBATTLE_VERSION );
+
+		String[] data;
+
+		while ( ( data = FileUtilities.readData( reader ) ) != null )
+		{
+			if ( data.length != 8 )
+			{
+				continue;
+			}
+
+			try
+			{
+				String race = new String( data[ 0 ] );
+				String level2 = new String( data[ 1 ] );
+				String level3 = new String( data[ 2 ] );
+				String level4 = new String( data[ 3 ] );
+				String move1 = new String( data[ 4 ] );
+				String move2 = new String( data[ 5 ] );
+				String move3 = new String( data[ 6 ] );
+				String attribute = new String( data[ 7 ] );
+
+				String canonical = StringUtilities.getCanonicalName( race );
+				Integer id = FamiliarDatabase.familiarByName.get( canonical );
+				if ( id == null )
+				{
+					RequestLogger.printLine( "Unknown familiar in fambattle.txt: " + race );
+					continue;
+				}
+
+				PokefamData value = new PokefamData( race, level2, level3, level4, move1, move2, move3, attribute );
+
+				FamiliarDatabase.pokefamById.put( id, value );
+				FamiliarDatabase.pokefamByName.put( StringUtilities.getCanonicalName( race ), value );
 			}
 			catch ( Exception e )
 			{
