@@ -301,6 +301,16 @@ public class PokefamData
 		this.power2 = power2;
 	}
 
+	public int getHP2()
+	{
+		return this.hp2;
+	}
+
+	public void setHP2( final int hp2 )
+	{
+		this.hp2 = hp2;
+	}
+
 	public int getPower3()
 	{
 		return this.power3;
@@ -311,6 +321,16 @@ public class PokefamData
 		this.power3 = power3;
 	}
 
+	public int getHP3()
+	{
+		return this.hp3;
+	}
+
+	public void setHP3( final int hp3 )
+	{
+		this.hp3 = hp3;
+	}
+
 	public int getPower4()
 	{
 		return this.power4;
@@ -319,6 +339,16 @@ public class PokefamData
 	public void setPower4( final int power4 )
 	{
 		this.power4 = power4;
+	}
+
+	public int getHP4()
+	{
+		return this.hp4;
+	}
+
+	public void setHP4( final int hp4 )
+	{
+		this.hp4 = hp4;
 	}
 
 	public String getMove1()
