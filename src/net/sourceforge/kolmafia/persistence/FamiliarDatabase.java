@@ -935,4 +935,151 @@ public class FamiliarDatabase
 		       skills[2] + "\t" +
 		       skills[3];
 	}
+
+	// ****** PokefamData support
+
+	private final static String UNKNOWN_LEVEL = "x/x";
+
+	public static void registerPokefam( String race, int level, int power, int hp, String attribute,
+				     String move1, String move2, String move3 )
+	{
+		PokefamData current = FamiliarDatabase.getPokeDataByName( race );
+
+		// If no data on this familiar, create new entry
+		if ( current == null )
+		{
+			String levelData = power + "/" + hp;
+			String level2 = level == 2 ? levelData : UNKNOWN_LEVEL;
+			String level3 = level == 3 ? levelData : UNKNOWN_LEVEL;
+			String level4 = level >= 4 ? levelData : UNKNOWN_LEVEL;
+			String ultimate = move3 != null ? move3 : "Unknown";
+
+			PokefamData data =  new PokefamData( race, level2, level3, level4,
+							     move1, move2, ultimate, attribute );
+
+			int id = FamiliarDatabase.getFamiliarId( race );
+			FamiliarDatabase.pokefamById.put( id, data );
+			FamiliarDatabase.pokefamByName.put( StringUtilities.getCanonicalName( race ), data );
+			printNewPokefamData( data );
+			return;
+		}
+
+		// We have data on this familiar. If anything is different, update existing record
+		boolean update = false;
+
+		if ( !move1.equals( current.getMove1() ) )
+		{
+			current.setMove1( move1 );
+			update = true;
+		}
+
+		if ( !move2.equals( current.getMove2() ) )
+		{
+			current.setMove2( move2 );
+			update = true;
+		}
+
+		if ( !attribute.equals( current.getAttribute() ) )
+		{
+			current.setAttribute( attribute );
+			update = true;
+		}
+
+		switch ( level )
+		{
+		case 2:
+			if ( power != current.getPower2() )
+			{
+				current.setPower2( power );
+				update = true;
+			}
+			if ( hp != current.getHP2() )
+			{
+				current.setHP2( hp );
+				update = true;
+			}
+			break;
+		case 3:
+			if ( power != current.getPower3() )
+			{
+				current.setPower3( power );
+				update = true;
+			}
+			if ( hp != current.getHP3() )
+			{
+				current.setHP3( hp );
+				update = true;
+			}
+			break;
+		case 5:
+			if ( !move3.equals( current.getMove3() ) )
+			{
+				current.setMove3( move3 );
+				update = true;
+			}
+			// Fall through
+		case 4:
+			if ( power != current.getPower4() )
+			{
+				current.setPower4( power );
+				update = true;
+			}
+			if ( hp != current.getHP4() )
+			{
+				current.setHP4( hp );
+				update = true;
+			}
+			break;
+		}
+
+		if ( update )
+		{
+			printNewPokefamData( current );
+		}
+	}
+
+	private static void  printNewPokefamData( PokefamData data )
+	{
+		String printMe;
+		// Print what goes in items.txt
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = FamiliarDatabase.pokefamString( data );
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		printMe = "--------------------";
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+	}
+
+	private static String pokefamString( PokefamData data )
+	{
+		StringBuilder buffer = new StringBuilder();
+
+		buffer.append( data.getRace() );
+		buffer.append( "\t" );
+		buffer.append( data.getPower2() == 0 ? "x" : String.valueOf( data.getPower2() ) );
+		buffer.append( "/" );
+		buffer.append( data.getHP2() == 0 ? "x" : String.valueOf( data.getHP2() ) );
+		buffer.append( "\t" );
+		buffer.append( data.getPower3() == 0 ? "x" : String.valueOf( data.getPower3() ) );
+		buffer.append( "/" );
+		buffer.append( data.getHP3() == 0 ? "x" : String.valueOf( data.getHP3() ) );
+		buffer.append( "\t" );
+		buffer.append( data.getPower4() == 0 ? "x" : String.valueOf( data.getPower4() ) );
+		buffer.append( "/" );
+		buffer.append( data.getHP4() == 0 ? "x" : String.valueOf( data.getHP4() ) );
+		buffer.append( "\t" );
+		buffer.append( data.getMove1() );
+		buffer.append( "\t" );
+		buffer.append( data.getMove2() );
+		buffer.append( "\t" );
+		buffer.append( data.getMove3() );
+		buffer.append( "\t" );
+		buffer.append( data.getAttribute() );
+		return buffer.toString();
+	}
 }
