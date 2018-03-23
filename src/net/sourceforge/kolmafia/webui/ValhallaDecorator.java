@@ -447,7 +447,7 @@ public class ValhallaDecorator
 		{
 			buffer.append( "<option style=\"background-color: #eeeeff\" " );
 			buffer.append( "value=\"/KoLmafia/redirectedCommand?cmd=acquire+packet+of+tall+grass+seeds;" );
-			buffer.append( "+use+packet+of+thanksgarden+seeds&pwd=" );
+			buffer.append( "+use+packet+of+tall+grass+seeds&pwd=" );
 			buffer.append( GenericRequest.passwordHash );
 			buffer.append( "\">grass" );
 			buffer.append( "</option>" );
