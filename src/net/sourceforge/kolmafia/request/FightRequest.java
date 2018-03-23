@@ -641,7 +641,8 @@ public class FightRequest
 	static
 	{
 		CleanerProperties props = cleaner.getProperties();
-		props.setPruneTags( "form" );
+		// Need to parse the forms in a fambattle
+		// props.setPruneTags( "form" );
 	};
 
 	/**
@@ -5614,21 +5615,283 @@ public class FightRequest
 
 		Iterator it = node.getChildren().iterator();
 		boolean done = false;
+		int pokindex = 0;
 		while ( it.hasNext() && !done )
 		{
 			Object child = it.next();
 			if ( child instanceof TagNode )
 			{
 				TagNode tnode = (TagNode) child;
-				if ( tnode.getName().equals( "b" ) && tnode.getText().toString().equals( "Your Team" ) )
+				String name = tnode.getName();
+
+				// Each familiar is in a table
+				if ( name.equals( "table" ) )
 				{
-					done = true;
+					FightRequest.processPokefam( ++pokindex, tnode, status );
+				}
+				else if ( name.equals( "b" ) )
+				{
+					if ( tnode.getText().toString().equals( "Your Team" ) )
+					{
+						done = true;
+					}
 				}
 			}
 			it.remove();
 		}
 
 		FightRequest.logHTML( node );
+	}
+
+	// Here is the HTML tree of a familiar on your foe's team with three moves
+/*
+  <table class="">
+    <tbody>
+      <tr>
+        <td rowspan="2">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/frankengnome.gif">
+        <td class="tiny" width="150">
+          Vincentenstein
+        <td rowspan="2" width="120">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blacksword.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blacksword.gif">
+        <td rowspan="2" align="center" width="60">
+        <td rowspan="2" width="150">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+      <tr>
+        <td class="tiny">
+          Lv. 5 Reagnimated Gnome
+      <tr>
+        <td height="10">
+      <tr>
+        <td>
+        <td colspan="5" class="small" valign="center">
+          <b>
+            Skills:
+          <span title="Deal [power] damage to the frontmost enemy and reduce its power by 1.">
+            [Punch]
+          &nbsp;&nbsp;
+          <span title="Heal the frontmost ally by [power].">
+            [Hug]
+          &nbsp;&nbsp;
+          <span title="Deal 5 damage to the frontmost enemy.">
+            [ULTIMATE: Deluxe Impale]
+          &nbsp;&nbsp;
+*/
+	// Here is the HTML tree of a familiar on your team with two moves and an attribute
+
+/*
+  <table class="">
+    <tbody>
+      <tr>
+        <td rowspan="2">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/familiar7.gif">
+        <td class="tiny" width="150">
+          Boney Grrl
+        <td rowspan="2" width="120">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blacksword.gif">
+        <td rowspan="2" align="center" width="60">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/whiteshield.gif" alt="Armor:  This familiar will take 1 less damage from attacks (minimum of 1)." title="Armor:  This familiar will take 1 less damage from attacks (minimum of 1).">
+        <td rowspan="2" width="150">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+          <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+      <tr>
+        <td class="tiny">
+          Lv. 2 Spooky Pirate Skeleton
+      <tr>
+        <td height="10">
+      <tr>
+        <td>
+        <td colspan="5" class="small" valign="center">
+          <form style="display: inline" action="fambattle.php" method="post">
+            <input type="hidden" name="pwd" value="2d6e81e1b8495aa91f5a931d114089ab">
+            <input title="Deal [power] damage to the frontmost enemy and reduce its power by 1." class="button skb" type="submit" value="Punch" name="famaction[punch-7]">
+            &nbsp;
+            <input title="Knock the frontmost enemy to the back." class="button skb" type="submit" value="Tackle" name="famaction[tackle-7]">
+            &nbsp;
+ */
+
+	private static final String imgToString( final TagNode node )
+	{
+		if ( !node.getName().equals( "img" ) )
+		{
+			return "";
+		}
+		String src = node.getAttributeByName( "src" );
+		if ( src == null )
+		{
+			return "";
+		}
+		int index = src.lastIndexOf( "/" );
+		if ( index == -1 )
+		{
+			return src;
+		}
+		return src.substring( index + 1, src.length() );
+	}
+
+	private static final int ULTIMATE = "ULTIMATE: ".length();
+
+	public static final void processPokefam( final int index, final TagNode node, final TagStatus status )
+	{
+		// For now only look at the familiar at the very beginning of the fight.
+		// 
+		// Certainly, don't call FamiliarDatabase to check the attributes of a familiar
+		// part way through the battle, since  Power, HP, and attributes will change
+		// as the battle progresses.
+		if ( FightRequest.currentRound > 1 )
+		{
+			return;
+		}
+
+		// Get all the rows from the table
+		TagNode [] rows = node.getElementsByName( "tr", true );
+
+		// Row 1: familiar image, familiar name, power, attribute, hp
+		String image = "";
+		String name = "";
+		int power = 0;
+		String attribute = "None";
+		int hp = 0;
+
+		TagNode[] row1Tags = rows[0].getChildTags();
+		int td = 1;
+		for ( TagNode tdnode : row1Tags )
+		{
+			switch ( td++ )
+			{
+			case 1:
+			{
+				// Familiar Image:
+				TagNode inode = tdnode.findElementByName( "img", true );
+				image = imgToString( inode );
+				break;
+			}
+			case 2:
+			{
+				// Familiar name
+				name = tdnode.getText().toString();
+				break;
+			}
+			case 3:
+			{
+				// Familiar power: one image (blacksword.gif) per
+				power = tdnode.getElementsByName( "img", true ).length;
+				break;
+			}
+			case 4:
+			{
+				// Familiar attribute: distinct images
+				TagNode inode = tdnode.findElementByName( "img", true );
+				if ( inode != null )
+				{
+					String title = inode.getAttributeByName( "title" );
+					if ( title != null )
+					{
+						int colon = title.indexOf( ":" );
+						attribute = title.substring( 0, colon );
+					}
+				}
+				break;
+			}
+			case 5:
+			{
+				// Familiar HP: one image (blackheart.gif) per
+				hp = tdnode.getElementsByName( "img", true ).length;
+				break;
+			}
+			}
+		}
+
+		// Row 2: familiar level and race
+		int level = 0;
+		String race = "";
+
+		TagNode[] row2Tags = rows[1].getChildTags();
+		if ( row2Tags.length > 0 )
+		{
+			String famtype = row2Tags[0].getText().toString();
+			level = StringUtilities.parseInt( famtype.substring( 4, 5 ) );
+			race = famtype.substring( 6, famtype.length() );
+		}
+
+		// Row 3: nothing?
+
+		// Row 4: moves
+		String[] moves = new String[3];
+
+		TagNode[] row4Tags = rows[3].getChildTags();
+		if ( row4Tags.length > 1 )
+		{
+			TagNode tdnode = row4Tags[1];
+			if ( index <= 3 )
+			{
+				// Enemy team
+				// <span title="Deal 5 damage to the frontmost enemy.">
+				//  [ULTIMATE: Deluxe Impale]
+				TagNode[] spans = tdnode.getElementsByName( "span", false );
+				for ( int i = 0; i < spans.length; ++i )
+				{
+					// <span style="background-color: lightblue;">
+					//   <b>
+					//     <span title="Heal the frontmost ally by [power]. (This is what the enemy team will do next round.)">
+					//        [Hug]
+
+					TagNode span = spans[ i ];
+					if ( span.getAttributeByName( "title" ) == null )
+					{
+						// Next action is nested
+						// *** remember that this is the designated enemy move?
+						span = span.findElementByName( "span", true );
+					}
+					String str = span.getText().toString();
+					if ( str.startsWith( "[" ) )
+					{
+						int start = 1 + ( i == 2 ? ULTIMATE : 0 );
+						moves[ i ] = str.substring( start, str.length() - 1 );
+					}
+					// *** Get the title and log it, if the move is previously unknown?
+				}
+			}
+			else
+			{
+				// Your team
+				// <input title="Knock the frontmost enemy to the back." class="button skb" type="submit" value="Tackle" name="famaction[tackle-7]">
+				TagNode[] inputs = rows[3].getElementsByName( "input", true );
+				int move = 0;
+				for ( int i = 0; i < inputs.length; ++i )
+				{
+					TagNode input = inputs[ i ];
+					String type = input.getAttributeByName( "class" );
+					if ( type == null || !type.startsWith( "button" ) )
+					{
+						continue;
+					}
+					String str = input.getAttributeByName( "value" );
+					if ( move == 2 )
+					{
+						str = str.substring( ULTIMATE, str.length() );
+					}
+					moves[ move++ ] = str;
+					// *** Get the title and log it, if the move is previously unknown?
+				}
+			}
+		}
+
+		// System.out.println( "image = " + image );
+		// System.out.println( "name = " + name );
+		// System.out.println( "power = " + power );
+		// System.out.println( "attribute = " + attribute );
+		// System.out.println( "hp = " + hp );
+		// System.out.println( "level = " + level );
+		// System.out.println( "race = " + race );
+		// System.out.println( "move 1 = " + moves[0] );
+		// System.out.println( "move 2 = " + moves[1] );
+		// System.out.println( "move 3 = " + moves[2] );
 	}
 
 	public static final void parseFightHTML( final String text )
@@ -5810,6 +6073,13 @@ public class FightRequest
 
 		// Skip html links
 		if ( name.equals( "a" ) )
+		{
+			return;
+		}
+
+		// Skip forms. We used to prune them from the tree, but we need
+		// to see them for fambattle parsing.
+		if ( name.equals( "form" ) )
 		{
 			return;
 		}

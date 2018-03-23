@@ -153,7 +153,7 @@ public class PokefamData
 	}
 
 	public final static String NONE = "None";
-	public final static String ARMORED = "Armored";
+	public final static String ARMOR = "Armor";
 	public final static String REGENERATING = "Regenerating";
 	public final static String SMART = "Smart";
 	public final static String SPIKED = "Spiked";
@@ -163,7 +163,7 @@ public class PokefamData
 	{
 		ATTRIBUTES.put( UNKNOWN, UNKNOWN );
 		ATTRIBUTES.put( NONE, NONE );
-		ATTRIBUTES.put( ARMORED, ARMORED );
+		ATTRIBUTES.put( ARMOR, ARMOR );
 		ATTRIBUTES.put( REGENERATING, REGENERATING );
 		ATTRIBUTES.put( SMART, SMART );
 		ATTRIBUTES.put( SPIKED, SPIKED );
