@@ -5892,6 +5892,8 @@ public class FightRequest
 		// System.out.println( "move 1 = " + moves[0] );
 		// System.out.println( "move 2 = " + moves[1] );
 		// System.out.println( "move 3 = " + moves[2] );
+
+		FamiliarDatabase.registerPokefam( race, level, power, hp, attribute, moves[0], moves[1], moves[2] );
 	}
 
 	public static final void parseFightHTML( final String text )
