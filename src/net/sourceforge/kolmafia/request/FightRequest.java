@@ -9503,46 +9503,46 @@ public class FightRequest
 
 	static
 	{
-		FightRequest.registerPokefamMove( 1, "Bite", "bite", "Deal [power] damage to a random enemy." );
-		FightRequest.registerPokefamMove( 1, "Bonk", "bonk", "Deal [power] damage to the frontmost enemy." );
-		FightRequest.registerPokefamMove( 1, "Claw", "claw", "Deal [power] damage to the frontmost enemy and 1 damage to a random enemy." );
-		FightRequest.registerPokefamMove( 1, "Peck", "peck", "Deal [power] damage to the frontmost enemy." );
-		FightRequest.registerPokefamMove( 1, "Punch", "punch", "Deal [power] damage to the frontmost enemy and reduce its power by 1." );
-		FightRequest.registerPokefamMove( 1, "Sting", "sting", "Deal [power] damage to the frontmost enemy and poison it." );
+		FightRequest.mapMoveToAction( 1, "Bite", "bite", "Deal [power] damage to a random enemy." );
+		FightRequest.mapMoveToAction( 1, "Bonk", "bonk", "Deal [power] damage to the frontmost enemy." );
+		FightRequest.mapMoveToAction( 1, "Claw", "claw", "Deal [power] damage to the frontmost enemy and 1 damage to a random enemy." );
+		FightRequest.mapMoveToAction( 1, "Peck", "peck", "Deal [power] damage to the frontmost enemy." );
+		FightRequest.mapMoveToAction( 1, "Punch", "punch", "Deal [power] damage to the frontmost enemy and reduce its power by 1." );
+		FightRequest.mapMoveToAction( 1, "Sting", "sting", "Deal [power] damage to the frontmost enemy and poison it." );
 
-		FightRequest.registerPokefamMove( 2, "Armor Up", "armorup", "Become Armored." );
-		FightRequest.registerPokefamMove( 2, "Backstab", "backstab", "Deal 1 damage to the rearmost enemy and poison it." );
-		FightRequest.registerPokefamMove( 2, "Breathe Fire", "flame", "Deal 1 damage to all enemies." );
-		FightRequest.registerPokefamMove( 2, "Chill Out", "chill", "Make a random enemy Tired." );
-		FightRequest.registerPokefamMove( 2, "Embarrass", "embarrass", "Reduce a random enemy's power by 1." );
-		FightRequest.registerPokefamMove( 2, "Encourage", "encourage", "Increase the frontmost ally's power by 1." );
-		FightRequest.registerPokefamMove( 2, "Frighten", "spook", "Reduce the frontmost enemy's power by 1." );
-		FightRequest.registerPokefamMove( 2, "Growl", "growl", "Reduce 2 random enemies' power by 1." );
-		FightRequest.registerPokefamMove( 2, "Howl", "howl", "Deal 1 damage to all enemies." );
-		FightRequest.registerPokefamMove( 2, "Laser Beam", "laser", "Deal 2 damage to a random enemy." );
-		FightRequest.registerPokefamMove( 2, "Lick", "lick", "Heal all allies for 1." );
-		FightRequest.registerPokefamMove( 2, "Regrow", "regrow", "Heal itself by [power]" );
-		FightRequest.registerPokefamMove( 2, "Retreat", "retreat", "Move to the back." );
-		FightRequest.registerPokefamMove( 2, "Splash", "splash", "Deal 1 damage to two random enemies." );
-		FightRequest.registerPokefamMove( 2, "Stinkblast", "stinker", "Make a random enemy Tired." );
-		FightRequest.registerPokefamMove( 2, "Swoop", "swoop", "Avoid all attack damage this turn." );
-		FightRequest.registerPokefamMove( 2, "Tackle", "tackle", "Knock the frontmost enemy to the back." );
+		FightRequest.mapMoveToAction( 2, "Armor Up", "armorup", "Become Armored." );
+		FightRequest.mapMoveToAction( 2, "Backstab", "backstab", "Deal 1 damage to the rearmost enemy and poison it." );
+		FightRequest.mapMoveToAction( 2, "Breathe Fire", "flame", "Deal 1 damage to all enemies." );
+		FightRequest.mapMoveToAction( 2, "Chill Out", "chill", "Make a random enemy Tired." );
+		FightRequest.mapMoveToAction( 2, "Embarrass", "embarrass", "Reduce a random enemy's power by 1." );
+		FightRequest.mapMoveToAction( 2, "Encourage", "encourage", "Increase the frontmost ally's power by 1." );
+		FightRequest.mapMoveToAction( 2, "Frighten", "spook", "Reduce the frontmost enemy's power by 1." );
+		FightRequest.mapMoveToAction( 2, "Growl", "growl", "Reduce 2 random enemies' power by 1." );
+		FightRequest.mapMoveToAction( 2, "Howl", "howl", "Deal 1 damage to all enemies." );
+		FightRequest.mapMoveToAction( 2, "Laser Beam", "laser", "Deal 2 damage to a random enemy." );
+		FightRequest.mapMoveToAction( 2, "Lick", "lick", "Heal all allies for 1." );
+		FightRequest.mapMoveToAction( 2, "Regrow", "regrow", "Heal itself by [power]" );
+		FightRequest.mapMoveToAction( 2, "Retreat", "retreat", "Move to the back." );
+		FightRequest.mapMoveToAction( 2, "Splash", "splash", "Deal 1 damage to two random enemies." );
+		FightRequest.mapMoveToAction( 2, "Stinkblast", "stinker", "Make a random enemy Tired." );
+		FightRequest.mapMoveToAction( 2, "Swoop", "swoop", "Avoid all attack damage this turn." );
+		FightRequest.mapMoveToAction( 2, "Tackle", "tackle", "Knock the frontmost enemy to the back." );
 
-		FightRequest.registerPokefamMove( 3, "Bear Hug", "ult_bearhug", "Heal self for 3, teammates for 2." );
-		FightRequest.registerPokefamMove( 3, "Blood Bath", "ult_bloodbath", "Deal 12 damage spread out among all foes randomly." );
-		FightRequest.registerPokefamMove( 3, "Defense Matrix", "ult_protect", "Give all allies Armored.");
-		FightRequest.registerPokefamMove( 3, "Deluxe Impale", "ult_impale", "Deal 5 damage to the frontmost enemy." );
-		FightRequest.registerPokefamMove( 3, "Empowering Cheer", "ult_powerall", "Give all allies +1 Power." );
-		FightRequest.registerPokefamMove( 3, "Healing Rain", "ult_regenall", "Give all allies Regeneration." );
-		FightRequest.registerPokefamMove( 3, "Nasty Cloud", "ult_sporecloud", "Poisons all enemies." );
-		FightRequest.registerPokefamMove( 3, "Nuclear Bomb", "ult_nuke", "Deal 5 damage to the rearmost enemy." );
-		FightRequest.registerPokefamMove( 3, "Owl Stare", "ult_owlstare", "Heal all allies for 1 and increase power by 1." );
+		FightRequest.mapMoveToAction( 3, "Bear Hug", "ult_bearhug", "Heal self for 3, teammates for 2." );
+		FightRequest.mapMoveToAction( 3, "Blood Bath", "ult_bloodbath", "Deal 12 damage spread out among all foes randomly." );
+		FightRequest.mapMoveToAction( 3, "Defense Matrix", "ult_protect", "Give all allies Armored.");
+		FightRequest.mapMoveToAction( 3, "Deluxe Impale", "ult_impale", "Deal 5 damage to the frontmost enemy." );
+		FightRequest.mapMoveToAction( 3, "Empowering Cheer", "ult_powerall", "Give all allies +1 Power." );
+		FightRequest.mapMoveToAction( 3, "Healing Rain", "ult_regenall", "Give all allies Regeneration." );
+		FightRequest.mapMoveToAction( 3, "Nasty Cloud", "ult_sporecloud", "Poisons all enemies." );
+		FightRequest.mapMoveToAction( 3, "Nuclear Bomb", "ult_nuke", "Deal 5 damage to the rearmost enemy." );
+		FightRequest.mapMoveToAction( 3, "Owl Stare", "ult_owlstare", "Heal all allies for 1 and increase power by 1." );
 		// Pepperscorn
-		FightRequest.registerPokefamMove( 3, "Spiky Burst", "ult_crazyblast", "Deal 8 damage spread out among all foes randomly." );
-		FightRequest.registerPokefamMove( 3, "Stick Treats", "ult_stickytreats", "Heal allies for 1, tire front enemy." );
-		FightRequest.registerPokefamMove( 3, "Universal Backrub", "ult_superheal", "Heals all allies for 2." );
-		FightRequest.registerPokefamMove( 3, "Violent Shred", "ult_savage", "Deals 2 damage to all enemies." );
-		FightRequest.registerPokefamMove( 3, "Vulgar Display", "ult_weakenall", "Reduce all enemy Power by 1." );
+		FightRequest.mapMoveToAction( 3, "Spiky Burst", "ult_crazyblast", "Deal 8 damage spread out among all foes randomly." );
+		FightRequest.mapMoveToAction( 3, "Stick Treats", "ult_stickytreats", "Heal allies for 1, tire front enemy." );
+		FightRequest.mapMoveToAction( 3, "Universal Backrub", "ult_superheal", "Heals all allies for 2." );
+		FightRequest.mapMoveToAction( 3, "Violent Shred", "ult_savage", "Deals 2 damage to all enemies." );
+		FightRequest.mapMoveToAction( 3, "Vulgar Display", "ult_weakenall", "Reduce all enemy Power by 1." );
 	}
 
 	// ******
