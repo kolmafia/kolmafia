@@ -67,7 +67,7 @@ Attention-Deficit Demon	1/3	2/3	2/4	Claw	Hug	Universal Backrub	None
 Autonomous Disco Ball	1/3	1/4	1/5	Bonk	Laser Beam	Deluxe Impale	Smart
 Baby Bugged Bugbear	x/x	2/3	2/4	Claw	Hug	Universal Backrub	Smart
 Baby Gravy Fairy	1/3	1/4	2/4	Bonk	Swoop	Empowering Cheer	Regenerating
-Baby Mayonnaise Wasp	x/x	x/x	3/3	Sting	Swoop	Universal Backrub	Spiked
+Baby Mayonnaise Wasp	x/x	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
 Baby Mutant Rattlesnake	1/3	2/3	3/3	Bite	Howl	Empowering Cheer	None
 Baby Sandworm	2/2	2/3	2/4	Bonk	Howl	Violent Shred	None
 Baby Yeti	1/3	2/3	3/3	Claw	Howl	Universal Backrub	None
@@ -97,7 +97,7 @@ Choctopus	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	None
 Clockwork Grapefruit	1/3	2/3	3/3	Bonk	Regrow	Nasty Cloud	Smart
 Cocoabo	1/3	2/3	3/3	Peck	Howl	Violent Shred	None
 Coffee Pixie	1/3	2/3	2/4	Punch	Hug	Universal Backrub	None
-Comma Chameleon	x/x	x/x	2/4	Punch	Howl	Empowering Cheer	None
+Comma Chameleon	2/2	2/3	2/4	Punch	Howl	Empowering Cheer	None
 Cornbeefadon	2/2	3/2	3/3	Bite	Growl	Pepperscorn	None
 Cotton Candy Carnie	1/3	1/4	2/4	Bonk	Regrow	Nasty Cloud	Regenerating
 Crimbo Elf	2/2	2/3	2/4	Punch	Hug	Universal Backrub	None
@@ -117,7 +117,7 @@ Dramatic Hedgehog	1/3	2/3	2/4	Sting	Growl	Spiky Burst	Spiked
 Dressage	2/2	2/3	2/4	Bonk	Howl	Violent Shred	None
 Egg Benedict	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 El Vibrato Megadrone	1/3	1/4	2/4	Bonk	Laser Beam	Defense Matrix	Smart
-Emo Squid	x/x	x/x	2/4	Bonk	Splash	Healing Rain	None
+Emo Squid	1/3	1/4	2/4	Bonk	Splash	Healing Rain	None
 Evil Teddy Bear	1/3	2/3	2/4	Claw	Backstab	Empowering Cheer	None
 Exotic Parrot	1/3	2/3	3/3	Peck	Lick	Universal Backrub	None
 Fancypants Scarecrow	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	None
@@ -146,16 +146,16 @@ Golden Monkey	1/3	1/4	2/4	Punch	Tackle	Violent Shred	Armor
 Gorillape	1/3	1/4	2/4	Punch	Growl	Violent Shred	None
 Green Pixie	1/3	1/4	1/5	Punch	Hug	Empowering Cheer	None
 Grim Brother	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
-Grimstone Golem	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	Armor
+Grimstone Golem	1/3	2/3	2/4	Bonk	Hug	Deluxe Impale	Armor
 Grinning Turtle	1/3	2/3	2/4	Bite	Splash	Violent Shred	Armor
 Grouper Groupie	1/3	2/3	3/3	Bonk	Embarrass	Vulgar Display	None
 Grue	2/2	2/3	2/4	Bite	Howl	Violent Shred	None
-Hand Turkey	x/x	x/x	2/4	Peck	Lick	Violent Shred	None
+Hand Turkey	1/3	1/4	2/4	Peck	Lick	Violent Shred	None
 Hanukkimbo Dreidl	x/x	x/x	2/4	Bonk	Hug	Universal Backrub	None
 Happy Medium	x/x	2/3	2/4	Punch	Frighten	Deluxe Impale	None
 He-Boulder	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Helix Fossil	1/3	1/4	1/5	Bonk	Armor Up	Universal Backrub	Armor
-Hippo Ballerina	x/x	2/3	2/4	Bonk	Hug	Violent Shred	None
+Hippo Ballerina	1/3	2/3	2/4	Bonk	Hug	Violent Shred	None
 Hobo Monkey	1/3	1/4	2/4	Punch	Growl	Violent Shred	None
 Holiday Log	2/2	2/3	2/4	Bonk	Hug	Nasty Cloud	Regenerating
 Homemade Robot	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
@@ -179,7 +179,7 @@ Li'l Xenomorph	2/2	2/3	2/4	Claw	Lick	Universal Backrub	None
 Lil' Barrel Mimic	x/x	x/x	2/4	Bonk	Tackle	Empowering Cheer	Armor
 Llama Lama	1/3	2/3	3/3	Bonk	Howl	Universal Backrub	None
 Machine Elf	2/2	2/3	2/4	Punch	Hug	Universal Backrub	Smart
-Mad Hatrack	x/x	x/x	2/4	Bonk	Armor Up	Unknown	Armor
+Mad Hatrack	2/2	2/3	2/4	Bonk	Armor Up	Deluxe Impale	Armor
 Magic Dragonfish	1/3	2/3	3/3	Bonk	Splash	Healing Rain	None
 MagiMechTech MicroMechaMech	1/3	2/3	2/4	Bonk	Laser Beam	Deluxe Impale	Smart
 Mariachi Chihuahua	1/3	2/3	2/4	Claw	Backstab	Violent Shred	None
@@ -220,7 +220,7 @@ Pair of Stomping Boots	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Peaclock	2/2	3/2	3/3	Peck	Howl	Violent Shred	Smart
 Penguin Goodfella	1/3	2/3	3/3	Peck	Hug	Violent Shred	None
 Peppermint Rhino	2/2	2/3	2/4	Bonk	Armor Up	Violent Shred	Armor
-Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Unknown	None
+Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pet Cheezling	1/3	1/4	1/5	Bonk	Embarrass	Universal Backrub	None
 Pet Rock	x/x	x/x	x/x	Bonk	Armor Up	Unknown	Unknown
 Piano Cat	1/3	1/4	2/4	Claw	Encourage	Unknown	None
@@ -278,14 +278,14 @@ Straypler	2/2	2/3	2/4	Bite	Laser Beam	Deluxe Impale	Smart
 Sugar Fruit Fairy	1/3	1/4	1/5	Bonk	Hug	Universal Backrub	Regenerating
 Sweet Nutcracker	1/3	1/4	1/5	Bite	Armor Up	Deluxe Impale	Armor
 Syncopated Turtle	2/2	2/3	2/4	Bite	Stinkblast	Nasty Cloud	Armor
-Teddy Bear	x/x	x/x	2/4	Claw	Lick	Empowering Cheer	None
-Teddy Borg	1/3	1/4	x/x	Claw	Encourage	Unknown	Smart
+Teddy Bear	1/3	2/3	2/4	Claw	Lick	Empowering Cheer	None
+Teddy Borg	1/3	1/4	2/4	Claw	Encourage	Nuclear Bomb	Smart
 Temporal Riftlet	x/x	x/x	2/4	Bonk	Retreat	Deluxe Impale	None
-Tickle-Me Emilio	1/3	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
+Tickle-Me Emilio	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Toothsome Rock	1/3	1/4	1/5	Bite	Armor Up	Deluxe Impale	Armor
 Topiary Skunk	1/3	2/3	3/3	Claw	Howl	Violent Shred	Regenerating
 Trafikoan	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
-Trick-or-Treating Tot	x/x	2/3	2/4	Punch	Hug	Empowering Cheer	None
+Trick-or-Treating Tot	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Turpin	1/3	1/4	1/5	Bonk	Growl	Violent Shred	Armor
 Turtive	1/3	2/3	2/4	Bonk	Tackle	Violent Shred	Armor
 Twitching Space Critter	x/x	x/x	3/3	Bonk	Lick	Violent Shred	None
