@@ -78,7 +78,7 @@ Bark Scorpion	2/2	3/2	4/2	Sting	Growl	Spiky Burst	Spiked
 Barrrnacle	1/3	1/4	2/4	Bonk	Splash	Healing Rain	None
 Bicycle	x/x	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Black Cat	2/2	2/3	2/4	Claw	Howl	Violent Shred	None
-Blavious Kloop	1/3	2/3	3/3	Punch	Hug	Empowering Cheer	None
+Blavious Kloop	2/2	3/2	3/3	Punch	Hug	Empowering Cheer	None
 Blood-Faced Volleyball	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Bloovian Groose	2/2	3/2	3/3	Bonk	Growl	Violent Shred	None
 Bluzzard	2/2	3/2	3/3	Peck	Lick	Violent Shred	None
@@ -103,7 +103,7 @@ Cotton Candy Carnie	1/3	1/4	2/4	Bonk	Regrow	Nasty Cloud	Regenerating
 Crimbo Elf	2/2	2/3	2/4	Punch	Hug	Universal Backrub	None
 Crimbo P. R. E. S. S. I. E.	1/3	1/4	1/5	Punch	Laser Beam	Deluxe Impale	Smart
 Crimbo Shrub	1/3	1/4	1/5	Bonk	Hug	Universal Backrub	Regenerating
-Cuddlefish	1/3	2/3	3/3	Bonk	Splash	Violent Shred	None
+Cuddlefish	2/2	2/3	3/3	Bonk	Splash	Violent Shred	None
 Cute Meteor	1/3	1/4	1/5	Bonk	Swoop	Deluxe Impale	Armor
 Cycloney	2/2	2/3	2/4	Bonk	Swoop	Deluxe Impale	None
 Cymbal-Playing Monkey	1/3	2/3	2/4	Punch	Lick	Nuclear Bomb	Smart
@@ -162,7 +162,7 @@ Homemade Robot	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Hovering Skull	1/3	2/3	2/4	Bite	Tackle	Deluxe Impale	Armor
 Hovering Sombrero	2/2	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
 Howling Balloon Monkey	1/3	2/3	3/3	Bonk	Howl	Violent Shred	None
-Hunchbacked Minion	1/3	2/3	2/4	Punch	Frighten	Deluxe Impale	None
+Hunchbacked Minion	2/2	2/3	2/4	Punch	Frighten	Deluxe Impale	None
 Imitation Crab	2/2	3/2	3/3	Claw	Splash	Healing Rain	None
 Inflatable Dodecapede	1/3	2/3	2/4	Bonk	Splash	Healing Rain	None
 Intergnat	1/3	1/4	2/4	Bite	Swoop	Violent Shred	None
@@ -176,7 +176,7 @@ Lepardner	2/2	3/2	3/3	Claw	Lick	Nasty Cloud	None
 Leprechaun	1/3	2/3	2/4	Punch	Hug	Universal Backrub	None
 Levitating Potato	1/3	2/3	2/4	Bonk	Regrow	Nasty Cloud	Regenerating
 Li'l Xenomorph	2/2	2/3	2/4	Claw	Lick	Universal Backrub	None
-Lil' Barrel Mimic	x/x	x/x	x/x	Bonk	Tackle	Unknown	Armor
+Lil' Barrel Mimic	x/x	x/x	2/4	Bonk	Tackle	Empowering Cheer	Armor
 Llama Lama	1/3	2/3	3/3	Bonk	Howl	Universal Backrub	None
 Machine Elf	2/2	2/3	2/4	Punch	Hug	Universal Backrub	Smart
 Mad Hatrack	x/x	x/x	2/4	Bonk	Armor Up	Unknown	Armor
@@ -200,7 +200,7 @@ Ms. Puck Man	x/x	x/x	2/4	Bite	Retreat	Deluxe Impale	None
 Mu	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Mustardigrade	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Mutant Cactus Bud	2/2	2/3	2/4	Sting	Regrow	Spiky Burst	Regenerating
-Mutant Fire Ant	x/x	x/x	2/4	Bite	Howl	Violent Shred	None
+Mutant Fire Ant	1/3	2/3	2/4	Bite	Howl	Violent Shred	None
 Mutant Gila Monster	1/3	1/4	2/4	Claw	Lick	Violent Shred	None
 Nanorhino	x/x	x/x	3/3	Bonk	Lick	Universal Backrub	Smart
 Nervous Tick	2/2	3/2	3/3	Bite	Encourage	Empowering Cheer	None
@@ -223,7 +223,7 @@ Peppermint Rhino	2/2	2/3	2/4	Bonk	Armor Up	Violent Shred	Armor
 Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Unknown	None
 Pet Cheezling	1/3	1/4	1/5	Bonk	Embarrass	Universal Backrub	None
 Pet Rock	x/x	x/x	x/x	Bonk	Armor Up	Unknown	Unknown
-Piano Cat	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Piano Cat	x/x	x/x	2/4	Claw	Encourage	Unknown	None
 Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
 Plastic Grocery Bag	1/3	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
@@ -254,10 +254,10 @@ Sleazy Gravy Fairy	1/3	1/4	1/5	Bonk	Swoop	Empowering Cheer	Regenerating
 Sledgehamster	2/2	2/3	2/4	Bonk	Lick	Universal Backrub	None
 Slimeling	2/2	2/3	2/4	Bonk	Encourage	Universal Backrub	Regenerating
 Slotter	2/2	2/3	3/3	Claw	Howl	Blood Bath	None
-Sludgepuppy	1/3	x/x	2/4	Bonk	Howl	Nasty Cloud	None
+Sludgepuppy	1/3	1/4	2/4	Bonk	Howl	Nasty Cloud	None
 Smashmoth	1/3	1/4	2/4	Bonk	Swoop	Owl Stare	None
 Smiling Rat	1/3	2/3	3/3	Claw	Encourage	Empowering Cheer	None
-Snoutlet	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Snoutlet	x/x	x/x	3/3	Bonk	Laser Beam	Empowering Cheer	Smart
 Snow Angel	1/3	2/3	2/4	Bonk	Swoop	Empowering Cheer	None
 Snowhitman	1/3	1/4	2/4	Punch	Backstab	Deluxe Impale	None
 Snowy Owl	1/3	2/3	3/3	Peck	Lick	Empowering Cheer	None
