@@ -5823,6 +5823,8 @@ public class FightRequest
 
 		// Row 4: moves
 		String[] moves = new String[3];
+		String[] actions = new String[3];
+		String[] descriptions = new String[3];
 
 		TagNode[] row4Tags = rows[3].getChildTags();
 		if ( row4Tags.length > 1 )
@@ -5872,14 +5874,36 @@ public class FightRequest
 						continue;
 					}
 					String str = input.getAttributeByName( "value" );
+					String action = input.getAttributeByName( "name" );
+					String description = input.getAttributeByName( "title" );
 					if ( move == 2 )
 					{
 						str = str.substring( ULTIMATE, str.length() );
+					}
+					if ( action != null )
+					{
+						// "famaction[tackle-7]"
+						int lb = action.indexOf( "[" );
+						int dash = action.indexOf( "-" );
+						if ( lb != -1 && dash != -1 )
+						{
+							action = action.substring( lb + 1, dash );
+							actions[move] = action;
+							descriptions[move] = description;
+						}
 					}
 					moves[ move++ ] = str;
 					// *** Get the title and log it, if the move is previously unknown?
 				}
 			}
+		}
+
+		for ( int i = 0; i < 3; i++ )
+		{
+			String move = moves[ i ];
+			String action = actions[ i ];
+			String description = descriptions[ i ];
+			FightRequest.registerPokefamMove( i + 1, move, action, description );
 		}
 
 		// System.out.println( "image = " + image );
@@ -9378,6 +9402,150 @@ public class FightRequest
 			System.out.println( "unrecognized macroaction: " + action );
 		}
 	}
+
+	// ****** Move this somewhere appropriate
+
+	private static Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
+	private static Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
+	private static Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
+	private static Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
+	private static Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
+	private static Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
+
+	private static Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
+
+	private static void mapMoveToAction( int num, String move, String action, String description )
+	{
+		Map<String, String> moveToAction;
+		Map<String, String> actionToMove;
+		switch (num )
+		{
+		case 1:
+			moveToAction = FightRequest.pokefamMoveToAction1;
+			actionToMove = FightRequest.pokefamActionToMove1;
+			break;
+		case 2:
+			moveToAction = FightRequest.pokefamMoveToAction2;
+			actionToMove = FightRequest.pokefamActionToMove2;
+			break;
+		case 3:
+			moveToAction = FightRequest.pokefamMoveToAction3;
+			actionToMove = FightRequest.pokefamActionToMove3;
+			break;
+		default:
+			return;
+		}
+
+		moveToAction.put( move, action );
+		actionToMove.put( action, move );
+		FightRequest.pokefamMoveDescriptions.put( move, description );
+	}
+
+	private static String moveToAction( int num, String move )
+	{
+		Map<String, String> moveToAction;
+		switch (num )
+		{
+		case 1:
+			moveToAction = FightRequest.pokefamMoveToAction1;
+			break;
+		case 2:
+			moveToAction = FightRequest.pokefamMoveToAction2;
+			break;
+		case 3:
+			moveToAction = FightRequest.pokefamMoveToAction3;
+			break;
+		default:
+			return "";
+		}
+		return moveToAction.get( move );
+	}
+
+	private static String actionToMove( int num, String action )
+	{
+		Map<String, String> actionToMove;
+		switch (num )
+		{
+		case 1:
+			actionToMove = FightRequest.pokefamActionToMove1;
+			break;
+		case 2:
+			actionToMove = FightRequest.pokefamActionToMove2;
+			break;
+		case 3:
+			actionToMove = FightRequest.pokefamActionToMove3;
+			break;
+		default:
+			return "";
+		}
+		return actionToMove.get( action );
+	}
+
+	private static void registerPokefamMove( int num, String move, String action, String description )
+	{
+		if ( action == null )
+		{
+			return;
+		}
+
+		String currentAction = FightRequest.moveToAction( num, move );
+		if ( action.equals( currentAction ) )
+		{
+			return;
+		}
+
+		String printMe = "Pokefam move" + num + " '" + move + "' -> '" + action + "': " + description;
+		RequestLogger.printLine( printMe );
+		RequestLogger.updateSessionLog( printMe );
+
+		FightRequest.mapMoveToAction( num, move, action, description );
+	}
+
+	static
+	{
+		FightRequest.registerPokefamMove( 1, "Bite", "bite", "Deal [power] damage to a random enemy." );
+		FightRequest.registerPokefamMove( 1, "Bonk", "bonk", "Deal [power] damage to the frontmost enemy." );
+		FightRequest.registerPokefamMove( 1, "Claw", "claw", "Deal [power] damage to the frontmost enemy and 1 damage to a random enemy." );
+		FightRequest.registerPokefamMove( 1, "Peck", "peck", "Deal [power] damage to the frontmost enemy." );
+		FightRequest.registerPokefamMove( 1, "Punch", "punch", "Deal [power] damage to the frontmost enemy and reduce its power by 1." );
+		FightRequest.registerPokefamMove( 1, "Sting", "sting", "Deal [power] damage to the frontmost enemy and poison it." );
+
+		FightRequest.registerPokefamMove( 2, "Armor Up", "armorup", "Become Armored." );
+		FightRequest.registerPokefamMove( 2, "Backstab", "backstab", "Deal 1 damage to the rearmost enemy and poison it." );
+		FightRequest.registerPokefamMove( 2, "Breathe Fire", "flame", "Deal 1 damage to all enemies." );
+		FightRequest.registerPokefamMove( 2, "Chill Out", "chill", "Make a random enemy Tired." );
+		FightRequest.registerPokefamMove( 2, "Embarrass", "embarrass", "Reduce a random enemy's power by 1." );
+		FightRequest.registerPokefamMove( 2, "Encourage", "encourage", "Increase the frontmost ally's power by 1." );
+		FightRequest.registerPokefamMove( 2, "Frighten", "spook", "Reduce the frontmost enemy's power by 1." );
+		FightRequest.registerPokefamMove( 2, "Growl", "growl", "Reduce 2 random enemies' power by 1." );
+		FightRequest.registerPokefamMove( 2, "Howl", "howl", "Deal 1 damage to all enemies." );
+		FightRequest.registerPokefamMove( 2, "Laser Beam", "laser", "Deal 2 damage to a random enemy." );
+		FightRequest.registerPokefamMove( 2, "Lick", "lick", "Heal all allies for 1." );
+		FightRequest.registerPokefamMove( 2, "Regrow", "regrow", "Heal itself by [power]" );
+		FightRequest.registerPokefamMove( 2, "Retreat", "retreat", "Move to the back." );
+		FightRequest.registerPokefamMove( 2, "Splash", "splash", "Deal 1 damage to two random enemies." );
+		FightRequest.registerPokefamMove( 2, "Stinkblast", "stinker", "Make a random enemy Tired." );
+		FightRequest.registerPokefamMove( 2, "Swoop", "swoop", "Avoid all attack damage this turn." );
+		FightRequest.registerPokefamMove( 2, "Tackle", "tackle", "Knock the frontmost enemy to the back." );
+
+		FightRequest.registerPokefamMove( 3, "Bear Hug", "ult_bearhug", "Heal self for 3, teammates for 2." );
+		FightRequest.registerPokefamMove( 3, "Blood Bath", "ult_bloodbath", "Deal 12 damage spread out among all foes randomly." );
+		FightRequest.registerPokefamMove( 3, "Defense Matrix", "ult_protect", "Give all allies Armored.");
+		FightRequest.registerPokefamMove( 3, "Deluxe Impale", "ult_impale", "Deal 5 damage to the frontmost enemy." );
+		FightRequest.registerPokefamMove( 3, "Empowering Cheer", "ult_powerall", "Give all allies +1 Power." );
+		FightRequest.registerPokefamMove( 3, "Healing Rain", "ult_regenall", "Give all allies Regeneration." );
+		FightRequest.registerPokefamMove( 3, "Nasty Cloud", "ult_sporecloud", "Poisons all enemies." );
+		FightRequest.registerPokefamMove( 3, "Nuclear Bomb", "ult_nuke", "Deal 5 damage to the rearmost enemy." );
+		FightRequest.registerPokefamMove( 3, "Owl Stare", "ult_owlstare", "Heal all allies for 1 and increase power by 1." );
+		// Pepperscorn
+		FightRequest.registerPokefamMove( 3, "Spiky Burst", "ult_crazyblast", "Deal 8 damage spread out among all foes randomly." );
+		FightRequest.registerPokefamMove( 3, "Stick Treats", "ult_stickytreats", "Heal allies for 1, tire front enemy." );
+		FightRequest.registerPokefamMove( 3, "Universal Backrub", "ult_superheal", "Heals all allies for 2." );
+		FightRequest.registerPokefamMove( 3, "Violent Shred", "ult_savage", "Deals 2 damage to all enemies." );
+		FightRequest.registerPokefamMove( 3, "Vulgar Display", "ult_weakenall", "Reduce all enemy Power by 1." );
+	}
+
+	// ******
 
 	public static final boolean registerRequest( final boolean isExternal, final String urlString )
 	{
