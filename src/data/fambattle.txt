@@ -76,7 +76,7 @@ Bad Vibe	1/3	1/4	2/4	Bonk	Backstab	Deluxe Impale	None
 Bank Piggy	1/3	1/4	2/4	Bonk	Lick	Violent Shred	None
 Bark Scorpion	2/2	3/2	4/2	Sting	Growl	Spiky Burst	Spiked
 Barrrnacle	1/3	1/4	2/4	Bonk	Splash	Healing Rain	None
-Bicycle	x/x	2/3	2/4	Bite	Embarrass	Vulgar Display	None
+Bicycle	x/x	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Black Cat	2/2	2/3	2/4	Claw	Howl	Violent Shred	None
 Blavious Kloop	1/3	2/3	3/3	Punch	Hug	Empowering Cheer	None
 Blood-Faced Volleyball	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
@@ -119,7 +119,7 @@ Egg Benedict	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 El Vibrato Megadrone	1/3	1/4	2/4	Bonk	Laser Beam	Defense Matrix	Smart
 Emo Squid	x/x	x/x	2/4	Bonk	Splash	Healing Rain	None
 Evil Teddy Bear	1/3	2/3	2/4	Claw	Backstab	Empowering Cheer	None
-Exotic Parrot	1/3	2/3	3/4	Peck	Lick	Universal Backrub	None
+Exotic Parrot	1/3	2/3	3/3	Peck	Lick	Universal Backrub	None
 Fancypants Scarecrow	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	None
 Faux	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Feather Boa Constrictor	1/3	1/4	2/4	Bonk	Lick	Vulgar Display	None
@@ -228,7 +228,7 @@ Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
 Plastic Grocery Bag	1/3	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
 Pottery Barn Owl	x/x	x/x	3/3	Peck	Swoop	Violent Shred	Armor
-Psychedelic Bear	x/x	x/x	x/x	Bonk	Lick	Unknown	Unknown
+Psychedelic Bear	x/x	x/x	3/3	Bonk	Lick	Violent Shred	None
 Puck Man	1/3	2/3	2/4	Bite	Retreat	Deluxe Impale	None
 Purse Rat	1/3	2/3	2/4	Bite	Encourage	Empowering Cheer	None
 Putty Buddy	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	Smart
