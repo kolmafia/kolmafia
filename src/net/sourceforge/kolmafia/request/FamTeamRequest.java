@@ -33,6 +33,8 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.io.IOException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,14 +44,27 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.CommentToken;
+import org.htmlcleaner.ContentToken;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
 
 public class FamTeamRequest
 	extends GenericRequest
 {
-	private static final Pattern ACTIVE_FAM_PATTERN = Pattern.compile( "<div class=\"slot full \" data-pos=\"(\\d+)\"><div class=\"fambox\" data-id=\"(\\d+)\">.*? width=150>(.*?) </td>.*?class=tiny>Lv. (\\d+) (.*?)</td>" );
-	private static final Pattern BULLPEN_FAM_PATTERN = Pattern.compile( "<div class=\"fambox\" data-id=\"(\\d+)\" .*? width=150>(.*?) </td>.*?class=tiny>Lv. (\\d+) (.*?)</td>" );
+	private static final Pattern ACTIVE_PATTERN = Pattern.compile( "<div class=\"(slot[^\"]+)\" data-pos=\"(\\d+)\"><div class=\"fambox\" data-id=\"(\\d+)\">(.*?)</div></div>", Pattern.DOTALL );
+	private static final Pattern BULLPEN_PATTERN = Pattern.compile( "<div class=\"fambox\" data-id=\"(\\d+)\"[^>]+>(.*?)</div>", Pattern.DOTALL );
+	private static final Pattern FAMTYPE_PATTERN = Pattern.compile( "class=tiny>Lv. (\\d+) (.*?)</td>" );
 
 	public FamTeamRequest()
 	{
@@ -92,18 +107,40 @@ public class FamTeamRequest
 			return false;
 		}
 
-		Matcher matcher = FamTeamRequest.ACTIVE_FAM_PATTERN.matcher( responseText );
+		Matcher matcher = FamTeamRequest.ACTIVE_PATTERN.matcher( responseText );
+		boolean logit = false;	// Preferences.getBoolean( "logCleanedHTML" );
 		while ( matcher.find() )
 		{
-			int id = StringUtilities.parseInt( matcher.group( 2 ) );
-			String name = matcher.group( 3 );
-			int level = StringUtilities.parseInt( matcher.group( 4 ) );
+			String state = matcher.group( 1 );
+			int slot = StringUtilities.parseInt( matcher.group( 2 ) ) - 1;
+			int id = StringUtilities.parseInt( matcher.group( 3 ) );
+
+			if ( id == 0 )
+			{
+				KoLCharacter.setPokeFam( slot, FamiliarData.NO_FAMILIAR );
+				continue;
+			}
+
+			String famtable = matcher.group( 4 );
+
+			Matcher fmatcher = FamTeamRequest.FAMTYPE_PATTERN.matcher( famtable );
+			if ( !fmatcher.find() )
+			{
+				continue;	// Huh?
+			}
+
+			int level = StringUtilities.parseInt( fmatcher.group( 1 ) );
+			String name = fmatcher.group( 2 );
+
+			// See what we can learn about this familiar
+			// RequestLogger.printLine( "Process familiar " + name );
+			FamTeamRequest.parsePokeTeamData( famtable, logit );
+
 			FamiliarData familiar = KoLCharacter.findFamiliar( id );
 			if ( familiar == null )
 			{
 				// Add new familiar to list
 				familiar = new FamiliarData( id, name, level );
-				KoLCharacter.addFamiliar( familiar );
 			}
 			else
 			{
@@ -111,20 +148,112 @@ public class FamTeamRequest
 				familiar.update( name, level );
 			}
 			KoLCharacter.addFamiliar( familiar );
-			int slot = StringUtilities.parseInt( matcher.group( 1 ) ) - 1;
 			KoLCharacter.setPokeFam( slot, familiar );
 		}
 
-		matcher = FamTeamRequest.BULLPEN_FAM_PATTERN.matcher( responseText );
+		matcher = FamTeamRequest.BULLPEN_PATTERN.matcher( responseText );
 		while ( matcher.find() )
 		{
 			int id = StringUtilities.parseInt( matcher.group( 1 ) );
-			String name = matcher.group( 2 );
-			int level = StringUtilities.parseInt( matcher.group( 3 ) );
+			String famtable = matcher.group( 2 );
+
+			Matcher fmatcher = FamTeamRequest.FAMTYPE_PATTERN.matcher( famtable );
+			if ( !fmatcher.find() )
+			{
+				continue;	// Huh?
+			}
+
+			int level = StringUtilities.parseInt( fmatcher.group( 1 ) );
+			String name = fmatcher.group( 2 );
+
+			// See what we can learn about this familiar
+			// RequestLogger.printLine( "Process familiar " + name );
+			FamTeamRequest.parsePokeTeamData( famtable, logit );
+
 			FamiliarData.registerFamiliar( id, name, level );
 		}
 
 		return true;
+	}
+
+	// Make an HTML cleaner
+	private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+	static
+	{
+		CleanerProperties props = cleaner.getProperties();
+		// prune things, perhaps
+	};
+
+	private static final TagNode cleanPokeTeamHTML( final String text )
+	{
+		try
+		{
+			// Clean the HTML on this response page
+			return cleaner.clean( text );
+		}
+		catch ( IOException e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		return null;
+	}
+
+/*
+<html>
+  <head>
+  <body>
+    <!-- hi -->
+    <!-- hi -->
+    <table class="">
+      <tbody>
+        <tr>
+          <td rowspan="2">
+            <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/familiar32.gif">
+          <td class="tiny" width="150">
+            6655321 Grrl
+          <td rowspan="2" width="120">
+            <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blacksword.gif">
+          <td rowspan="2" align="center" width="60">
+            <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/spectacles.gif" alt="Smart:  This familiar gains 2 XP per battle." title="Smart:  This familiar gains 2 XP per battle.">
+          <td rowspan="2" width="150">
+            <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+            <img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/blackheart.gif">
+        <tr>
+          <td class="tiny">
+            Lv. 1 Clockwork Grapefruit
+        <tr>
+          <td height="10">
+        <tr>
+          <td>
+          <td colspan="5" class="small" valign="center">
+            <b>
+              Skills:
+            <span title="Deal [power] damage to the frontmost enemy.">
+              [Bonk]
+            &nbsp;&nbsp;
+            <span title="Heal itself by [power]">
+              [Regrow]
+            &nbsp;&nbsp;
+*/
+	
+	private static final int ULTIMATE = "ULTIMATE: ".length();
+
+	private static final void parsePokeTeamData( final String famtable, boolean logit )
+	{
+		TagNode node = FamTeamRequest.cleanPokeTeamHTML( famtable );
+		if ( node == null )
+		{
+			return;
+		}
+
+		if ( RequestLogger.isDebugging() && logit )
+		{
+			HTMLParserUtils.logHTML( node );
+		}
+
+		// Familiars on this page have the same format as enemey familiars in a fambattle
+		// Those have index 0 to 3
+		FightRequest.parsePokefam( 0, node );
 	}
 
 	public static final boolean registerRequest( final String urlString )

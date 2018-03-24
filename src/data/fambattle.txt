@@ -123,7 +123,7 @@ Exotic Parrot	1/3	2/3	3/3	Peck	Lick	Universal Backrub	None
 Fancypants Scarecrow	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	None
 Faux	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Feather Boa Constrictor	1/3	1/4	2/4	Bonk	Lick	Vulgar Display	None
-Feral Kobold	x/x	2/3	2/4	Claw	Backstab	Deluxe Impale	None
+Feral Kobold	1/3	2/3	2/4	Claw	Backstab	Deluxe Impale	None
 Fist Turkey	2/2	3/2	3/3	Peck	Howl	Violent Shred	None
 Flaming Face	x/x	x/x	2/4	Bite	Breathe Fire	Deluxe Impale	None
 Flaming Gravy Fairy	1/3	2/3	2/4	Bonk	Breathe Fire	Universal Backrub	Regenerating
@@ -223,7 +223,7 @@ Peppermint Rhino	2/2	2/3	2/4	Bonk	Armor Up	Violent Shred	Armor
 Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Unknown	None
 Pet Cheezling	1/3	1/4	1/5	Bonk	Embarrass	Universal Backrub	None
 Pet Rock	x/x	x/x	x/x	Bonk	Armor Up	Unknown	Unknown
-Piano Cat	x/x	1/4	2/4	Claw	Encourage	Unknown	None
+Piano Cat	1/3	1/4	2/4	Claw	Encourage	Unknown	None
 Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
 Plastic Grocery Bag	1/3	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
@@ -257,7 +257,7 @@ Slotter	2/2	2/3	3/3	Claw	Howl	Blood Bath	None
 Sludgepuppy	1/3	1/4	2/4	Bonk	Howl	Nasty Cloud	None
 Smashmoth	1/3	1/4	2/4	Bonk	Swoop	Owl Stare	None
 Smiling Rat	1/3	2/3	3/3	Claw	Encourage	Empowering Cheer	None
-Snoutlet	x/x	x/x	3/3	Bonk	Laser Beam	Empowering Cheer	Smart
+Snoutlet	2/2	x/x	3/3	Bonk	Laser Beam	Empowering Cheer	Smart
 Snow Angel	1/3	2/3	2/4	Bonk	Swoop	Empowering Cheer	None
 Snowhitman	1/3	1/4	2/4	Punch	Backstab	Deluxe Impale	None
 Snowy Owl	1/3	2/3	3/3	Peck	Lick	Empowering Cheer	None
@@ -294,7 +294,7 @@ Underworld Bonsai	2/2	2/3	2/4	Bonk	Embarrass	Nasty Cloud	Regenerating
 Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
 Uniclops	1/3	1/4	2/4	Bonk	Hug	Universal Backrub	None
 Unspeakachu	2/2	2/3	3/3	Claw	Howl	Empowering Cheer	None
-Untamed Turtle	2/2	2/3	2/4	Bite	Splash	Healing Rain	Armored
+Untamed Turtle	2/2	2/3	2/4	Bite	Splash	Healing Rain	Armor
 Urchin Urchin	1/3	x/x	2/4	Sting	Splash	Healing Rain	Spiked
 Vampire Bat	2/2	3/2	4/2	Peck	Frighten	Violent Shred	None
 Vamprey	2/2	2/3	2/4	Bite	Splash	Violent Shred	None
