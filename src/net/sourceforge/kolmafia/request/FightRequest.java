@@ -5535,7 +5535,7 @@ public class FightRequest
 
 		if ( RequestLogger.isDebugging() && Preferences.getBoolean( "logCleanedHTML" ) )
 		{
-			FightRequest.logHTML( fight );
+			HTMLParserUtils.logHTML( fight );
 		}
 
 		TagStatus status = new TagStatus();
@@ -5557,9 +5557,9 @@ public class FightRequest
 	public static final void parseFamBattleHTML( final String text )
 	{
 		TagNode node = FightRequest.parseFamBattleHTML( text, false );
-		FightRequest.logHTML( node );
+		HTMLParserUtils.logHTML( node );
 		FightRequest.processFamBattle( node, new TagStatus() );
-		FightRequest.logHTML( node );
+		HTMLParserUtils.logHTML( node );
 	}
 
 	private static final TagNode parseFamBattleHTML( String text, boolean logIt )
@@ -5640,7 +5640,7 @@ public class FightRequest
 			it.remove();
 		}
 
-		FightRequest.logHTML( node );
+		HTMLParserUtils.logHTML( node );
 	}
 
 	// Here is the HTML tree of a familiar on your foe's team with three moves
@@ -5715,7 +5715,7 @@ public class FightRequest
             &nbsp;
  */
 
-	private static final String imgToString( final TagNode node )
+	public static final String imgToString( final TagNode node )
 	{
 		if ( !node.getName().equals( "img" ) )
 		{
@@ -5748,6 +5748,11 @@ public class FightRequest
 			return;
 		}
 
+		FightRequest.parsePokefam( index, node );
+	}
+
+	public static final void parsePokefam( final int index, final TagNode node )
+	{
 		// Get all the rows from the table
 		TagNode [] rows = node.getElementsByName( "tr", true );
 
@@ -5922,7 +5927,7 @@ public class FightRequest
 
 	public static final void parseFightHTML( final String text )
 	{
-		FightRequest.logHTML( parseFightHTML( text, false ) );
+		HTMLParserUtils.logHTML( parseFightHTML( text, false ) );
 	}
 
 	private static final TagNode parseFightHTML( String text, boolean logIt )
@@ -9481,7 +9486,7 @@ public class FightRequest
 		return actionToMove.get( action );
 	}
 
-	private static void registerPokefamMove( int num, String move, String action, String description )
+	public static void registerPokefamMove( int num, String move, String action, String description )
 	{
 		if ( action == null )
 		{
@@ -9790,105 +9795,5 @@ public class FightRequest
 		}
 
 		return true;
-	}
-
-	// Log cleaned HTML
-
-	private static final void logHTML( final TagNode node )
-	{
-		if ( node != null )
-		{
-			StringBuffer buffer = new StringBuffer();
-			FightRequest.logHTML( node, buffer, 0 );
-		}
-	}
-
-	private static final void logHTML( final TagNode node, final StringBuffer buffer, int level )
-	{
-		String name = node.getName();
-
- 		// Skip scripts
- 		if ( name.equals( "script" ) )
- 		{
- 			return;
-		}
-
-		FightRequest.indent( buffer, level );
-		FightRequest.printTag( buffer, node );
-		RequestLogger.updateDebugLog( buffer.toString() );
-
-		Iterator it = node.getChildren().iterator();
-		while ( it.hasNext() )
-		{
-			Object child = it.next();
-
-			if ( child instanceof CommentToken )
-			{
-				CommentToken object = (CommentToken) child;
-				String content = object.getContent();
-				FightRequest.indent( buffer, level + 1 );
-				buffer.append( "<!--" );
-				buffer.append( content );
-				buffer.append( "-->" );
-				RequestLogger.updateDebugLog( buffer.toString() );
-				continue;
-			}
-
-			if ( child instanceof ContentToken )
-			{
-				ContentToken object = (ContentToken) child;
-				String content = object.getContent().trim();
-				if ( content.equals( "" ) )
-				{
-					continue;
-				}
-
-				FightRequest.indent( buffer, level + 1 );
-				buffer.append( content );
-				RequestLogger.updateDebugLog( buffer.toString() );
-				continue;
-			}
-
-			if ( child instanceof TagNode )
-			{
-				TagNode object = (TagNode) child;
-				FightRequest.logHTML( object, buffer, level + 1 );
-				continue;
-			}
-		}
-	}
-
-	private static final void indent( final StringBuffer buffer, int level )
-	{
-		buffer.setLength( 0 );
-		for ( int i = 0; i < level; ++i )
-		{
-			buffer.append( " " );
-			buffer.append( " " );
-		}
-	}
-
-	private static final void printTag( final StringBuffer buffer, TagNode node )
-	{
-		String name = node.getName();
-		Map attributes = node.getAttributes();
-
-		buffer.append( "<" );
-		buffer.append( name );
-
-		if ( !attributes.isEmpty() )
-		{
-			Iterator it = attributes.keySet().iterator();
-			while ( it.hasNext() )
-			{
-				String key = (String) it.next();
-				buffer.append( " " );
-				buffer.append( key );
-				buffer.append( "=\"" );
-				buffer.append( (String) attributes.get( key ) );
-				buffer.append( "\"" );
-			}
-		}
-		buffer.append( ">" );
 	}
 }
