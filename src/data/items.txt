@@ -5,7 +5,7 @@
 #       none,
 #	food, drink, spleen,
 #       usable, multiple, reusable, message,
-#       grow,
+#       grow, pokepill
 #       hat, weapon, sixgun, offhand, container, shirt, pants, accessory, familiar,
 #	sticker, card, folder, bootspur, bootskin
 #	food helper, drink helper, zap, sphere, guardian
@@ -9771,12 +9771,12 @@
 9745	Love Potion #XYZ	863678027	potion9.gif	usable	q	0
 9746	rhinestone	402331722	rhinestone.gif	usable	t	0
 9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
-9748	metandienone	772060311	pokepills1.gif	none	t,d	0
-9749	riboflavin	870137319	pokepills2.gif	none	t,d	0
-9750	bronze	769239668	pokepills3.gif	none	t,d	0
-9751	piracetam	933118592	pokepills6.gif	none	t,d	0
-9752	ultracalcium	571179745	pokepills4.gif	none	t,d	0
-9753	ginseng	576658649	pokepills5.gif	none	t,d	0
+9748	metandienone	772060311	pokepills1.gif	pokepill	t,d	0
+9749	riboflavin	870137319	pokepills2.gif	pokepill	t,d	0
+9750	bronze	769239668	pokepills3.gif	pokepill	t,d	0
+9751	piracetam	933118592	pokepills6.gif	pokepill	t,d	0
+9752	ultracalcium	571179745	pokepills4.gif	pokepill	t,d	0
+9753	ginseng	576658649	pokepills5.gif	pokepill	t,d	0
 9754	Team Avarice cap	991243892	pokehat.gif	hat	q	0
 9755	Team Sloth cap	260821357	pokehat.gif	hat	q	0
 9756	Team Wrath cap	661356101	pokehat.gif	hat	q	0

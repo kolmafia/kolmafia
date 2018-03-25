@@ -301,6 +301,7 @@ public class ItemDatabase
 		ItemDatabase.definePrimaryUse( "sphere", KoLConstants.CONSUME_SPHERE );
 		ItemDatabase.definePrimaryUse( "guardian", KoLConstants.CONSUME_GUARDIAN );
 		ItemDatabase.definePrimaryUse( "avatar", KoLConstants.CONSUME_AVATAR );
+		ItemDatabase.definePrimaryUse( "pokepill", KoLConstants.CONSUME_POKEPILL );
 
 		ItemDatabase.defineSecondaryUse( "usable", ItemDatabase.ATTR_USABLE );
 		ItemDatabase.defineSecondaryUse( "multiple", ItemDatabase.ATTR_MULTIPLE );

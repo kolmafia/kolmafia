@@ -100,6 +100,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.FamTeamRequest;
+import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 
 import net.sourceforge.kolmafia.session.BanishManager;
@@ -5748,10 +5750,23 @@ public class FightRequest
 			return;
 		}
 
-		FightRequest.parsePokefam( index, node );
+		// If this is your team:
+		// - Account for famboost items
+		// - Moves are in "input" fields of a form
+		//
+		// If this is the enemy team:
+		// - Familiars are not boosted (on round 1 - which is all we look at, for now)
+		// - Moves are in "span" fields enclosed in []
+		//
+		// We separate those out, since the Team Management page has
+		// only your familiars - which can be perma-boosted by items -
+		// but use the "span" and [] format for moves
+
+		boolean myteam = index > 3;
+		FightRequest.parsePokefam( node, myteam, !myteam );
 	}
 
-	public static final void parsePokefam( final int index, final TagNode node )
+	public static final void parsePokefam( final TagNode node, boolean myFamiliar, boolean moveSpans )
 	{
 		// Get all the rows from the table
 		TagNode [] rows = node.getElementsByName( "tr", true );
@@ -5760,6 +5775,7 @@ public class FightRequest
 		String image = "";
 		String name = "";
 		int power = 0;
+		List<String> attributes = new ArrayList<String>();
 		String attribute = "None";
 		int hp = 0;
 
@@ -5798,7 +5814,8 @@ public class FightRequest
 					if ( title != null )
 					{
 						int colon = title.indexOf( ":" );
-						attribute = title.substring( 0, colon );
+						String aname = title.substring( 0, colon );
+						attributes.add( aname );
 					}
 				}
 				break;
@@ -5824,6 +5841,31 @@ public class FightRequest
 			race = famtype.substring( 6, famtype.length() );
 		}
 
+		// If this is your familiar, it might have been boosted with a pokepill
+		// Read the "" setting and look for "<race>:<boost>" where boost can be:
+		// Power, HP, Armor, Regenerating, Smart, Spiked
+		PokeBoost boost = myFamiliar ? FamTeamRequest.getPokeBoost( race ) : PokeBoost.NONE;
+		switch (boost )
+		{
+		case POWER:
+			power -= 1;
+			break;
+		case HP:
+			hp -= 1;
+			break;
+		case ARMOR:
+		case REGENERATING:
+		case SMART:
+		case SPIKED:
+			attributes.remove( boost.toString() );
+			break;
+		}
+
+		if ( attributes.size() > 0 )
+		{
+			attribute = attributes.get( 0 );
+		}
+
 		// Row 3: nothing?
 
 		// Row 4: moves
@@ -5835,7 +5877,7 @@ public class FightRequest
 		if ( row4Tags.length > 1 )
 		{
 			TagNode tdnode = row4Tags[1];
-			if ( index <= 3 )
+			if ( moveSpans )
 			{
 				// Enemy team
 				// <span title="Deal 5 damage to the frontmost enemy.">
@@ -9542,7 +9584,7 @@ public class FightRequest
 		FightRequest.mapMoveToAction( 3, "Nasty Cloud", "ult_sporecloud", "Poisons all enemies." );
 		FightRequest.mapMoveToAction( 3, "Nuclear Bomb", "ult_nuke", "Deal 5 damage to the rearmost enemy." );
 		FightRequest.mapMoveToAction( 3, "Owl Stare", "ult_owlstare", "Heal all allies for 1 and increase power by 1." );
-		// Pepperscorn
+		FightRequest.mapMoveToAction( 3, "Pepperscorn", "ult_pepperscorn", "Give allies Spiked." );
 		FightRequest.mapMoveToAction( 3, "Spiky Burst", "ult_crazyblast", "Deal 8 damage spread out among all foes randomly." );
 		FightRequest.mapMoveToAction( 3, "Stick Treats", "ult_stickytreats", "Heal allies for 1, tire front enemy." );
 		FightRequest.mapMoveToAction( 3, "Universal Backrub", "ult_superheal", "Heals all allies for 2." );

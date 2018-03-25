@@ -2927,6 +2927,12 @@ public class ItemPool
 	public static final int RHINESTONE_BOOK = 9717;
 	public static final int LOVE_SONG_BOOK = 9718;
 	public static final int POKEDOLLAR_BILLS = 9747;
+	public static final int METANDIENONE = 9748;
+	public static final int RIBOFLAVIN = 9749;
+	public static final int BRONZE = 9750;
+	public static final int PIRACETAM = 9751;
+	public static final int ULTRACALCIUM = 9752;
+	public static final int GINSENG = 9753;
 	public static final int TALL_GRASS_SEEDS = 9760;
 	public static final int POKE_GROW_FERTILIZER = 9761;
 

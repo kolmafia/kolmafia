@@ -905,6 +905,7 @@ user	plantingDate
 user	plantingDay	-1
 user	plantingLength
 user	plantingScript
+user	pokefamBoosts
 user	poolSharkCount	0
 user	poolSkill	0
 user	popularTartUnlocked	false

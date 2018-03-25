@@ -67,7 +67,7 @@ Attention-Deficit Demon	1/3	2/3	2/4	Claw	Hug	Universal Backrub	None
 Autonomous Disco Ball	1/3	1/4	1/5	Bonk	Laser Beam	Deluxe Impale	Smart
 Baby Bugged Bugbear	x/x	2/3	2/4	Claw	Hug	Universal Backrub	Smart
 Baby Gravy Fairy	1/3	1/4	2/4	Bonk	Swoop	Empowering Cheer	Regenerating
-Baby Mayonnaise Wasp	x/x	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
+Baby Mayonnaise Wasp	1/3	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
 Baby Mutant Rattlesnake	1/3	2/3	3/3	Bite	Howl	Empowering Cheer	None
 Baby Sandworm	2/2	2/3	2/4	Bonk	Howl	Violent Shred	None
 Baby Yeti	1/3	2/3	3/3	Claw	Howl	Universal Backrub	None
@@ -76,14 +76,14 @@ Bad Vibe	1/3	1/4	2/4	Bonk	Backstab	Deluxe Impale	None
 Bank Piggy	1/3	1/4	2/4	Bonk	Lick	Violent Shred	None
 Bark Scorpion	2/2	3/2	4/2	Sting	Growl	Spiky Burst	Spiked
 Barrrnacle	1/3	1/4	2/4	Bonk	Splash	Healing Rain	None
-Bicycle	x/x	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
+Bicycle	1/3	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Black Cat	2/2	2/3	2/4	Claw	Howl	Violent Shred	None
 Blavious Kloop	2/2	3/2	3/3	Punch	Hug	Empowering Cheer	None
 Blood-Faced Volleyball	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Bloovian Groose	2/2	3/2	3/3	Bonk	Growl	Violent Shred	None
 Bluzzard	2/2	3/2	3/3	Peck	Lick	Violent Shred	None
 Bowlet	2/2	2/3	2/4	Claw	Armor Up	Violent Shred	Armor
-BRICKO chick	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+BRICKO chick	x/x	x/x	3/3	Peck	Armor Up	Defense Matrix	Armor
 Bulky Buddy Box	x/x	x/x	2/4	Bonk	Tackle	Universal Backrub	Smart
 Cantelope	1/3	1/4	2/4	Bonk	Regrow	Violent Shred	Regenerating
 Caramel	1/3	2/3	3/3	Bite	Growl	Stick Treats	None
@@ -130,7 +130,7 @@ Flaming Gravy Fairy	1/3	2/3	2/4	Bonk	Breathe Fire	Universal Backrub	Regenerating
 Flan	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	None
 Floating Eye	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Frozen Gravy Fairy	2/2	2/3	2/4	Bonk	Hug	Nasty Cloud	Regenerating
-Frumious Bandersnatch	1/3	2/3	3/3	Bonk	Howl	Violent Shred	None
+Frumious Bandersnatch	2/2	2/3	3/3	Bonk	Howl	Violent Shred	None
 Fuzzy Dice	1/3	1/4	2/4	Bonk	Armor Up	Defense Matrix	None
 Galloping Grill	1/3	1/4	1/5	Bonk	Tackle	Empowering Cheer	Armor
 Garbage Fire	1/3	1/4	2/4	Bonk	Tackle	Deluxe Impale	Armor
@@ -257,7 +257,7 @@ Slotter	2/2	2/3	3/3	Claw	Howl	Blood Bath	None
 Sludgepuppy	1/3	1/4	2/4	Bonk	Howl	Nasty Cloud	None
 Smashmoth	1/3	1/4	2/4	Bonk	Swoop	Owl Stare	None
 Smiling Rat	1/3	2/3	3/3	Claw	Encourage	Empowering Cheer	None
-Snoutlet	2/2	x/x	3/3	Bonk	Laser Beam	Empowering Cheer	Smart
+Snoutlet	2/2	2/3	3/3	Bonk	Laser Beam	Empowering Cheer	Smart
 Snow Angel	1/3	2/3	2/4	Bonk	Swoop	Empowering Cheer	None
 Snowhitman	1/3	1/4	2/4	Punch	Backstab	Deluxe Impale	None
 Snowy Owl	1/3	2/3	3/3	Peck	Lick	Empowering Cheer	None
@@ -293,7 +293,7 @@ Unconscious Collective	x/x	x/x	2/4	Punch	Encourage	Unknown	None
 Underworld Bonsai	2/2	2/3	2/4	Bonk	Embarrass	Nasty Cloud	Regenerating
 Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
 Uniclops	1/3	1/4	2/4	Bonk	Hug	Universal Backrub	None
-Unspeakachu	2/2	2/3	3/3	Claw	Howl	Empowering Cheer	None
+Unspeakachu	2/2	3/2	3/3	Claw	Howl	Empowering Cheer	None
 Untamed Turtle	2/2	2/3	2/4	Bite	Splash	Healing Rain	Armor
 Urchin Urchin	1/3	x/x	2/4	Sting	Splash	Healing Rain	Spiked
 Vampire Bat	2/2	3/2	4/2	Peck	Frighten	Violent Shred	None
