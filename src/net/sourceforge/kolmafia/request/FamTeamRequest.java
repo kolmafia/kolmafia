@@ -35,6 +35,9 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.IOException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,16 +49,19 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.CommentToken;
-import org.htmlcleaner.ContentToken;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
@@ -66,9 +72,105 @@ public class FamTeamRequest
 	private static final Pattern BULLPEN_PATTERN = Pattern.compile( "<div class=\"fambox\" data-id=\"(\\d+)\"[^>]+>(.*?)</div>", Pattern.DOTALL );
 	private static final Pattern FAMTYPE_PATTERN = Pattern.compile( "class=tiny>Lv. (\\d+) (.*?)</td>" );
 
+	public static final Pattern FAM_PATTERN = Pattern.compile( "fam=([^&]*)" );
+	public static final Pattern IID_PATTERN = Pattern.compile( "iid=([^&]*)" );
+	public static final Pattern SLOT_PATTERN = Pattern.compile( "slot=([^&]*)" );
+
+	public enum PokeBoost
+	{
+		NONE( "None" ),
+		POWER( "Power" ),
+		HP( "HP" ),
+		ARMOR( "Armor" ),
+		REGENERATING( "Regenerating" ),
+		SMART( "Smart" ),
+		SPIKED( "Spiked" ),
+		;
+
+		private final String name;
+
+		private PokeBoost( String name )
+		{
+			this.name = name;
+		}
+
+		@Override
+		public String toString()
+		{
+			return this.name;
+		}
+
+	}
+
+	private static Map<PokeBoost, Integer> boostToItemId = new HashMap<PokeBoost, Integer>();
+	private static Map<Integer, PokeBoost> itemIdToBoost = new HashMap<Integer, PokeBoost>();
+	private static Map<String, PokeBoost> nameToBoost = new HashMap<String, PokeBoost>();
+
+	private static void addBoost( PokeBoost boost, Integer id )
+	{
+		FamTeamRequest.boostToItemId.put( boost, id );
+		FamTeamRequest.itemIdToBoost.put( id, boost );
+		FamTeamRequest.nameToBoost.put( boost.toString(), boost );
+	}
+
+	static
+	{
+		addBoost( PokeBoost.POWER, ItemPool.METANDIENONE );
+		addBoost( PokeBoost.HP, ItemPool.RIBOFLAVIN );
+		addBoost( PokeBoost.ARMOR, ItemPool.BRONZE );
+		addBoost( PokeBoost.REGENERATING, ItemPool.GINSENG );
+		addBoost( PokeBoost.SMART, ItemPool.PIRACETAM );
+		addBoost( PokeBoost.SPIKED, ItemPool.ULTRACALCIUM );
+	}
+
+	public static PokeBoost getPokeBoost( String race )
+	{
+		String boosts = Preferences.getString( "pokefamBoosts" );
+		int start = boosts.indexOf( race );
+		if ( start == -1 )
+		{
+			return PokeBoost.NONE;
+		}
+		int colon = boosts.indexOf( ":", start );
+		if ( colon == -1 )
+		{
+			return PokeBoost.NONE;
+		}
+		int end = boosts.indexOf( "|", colon );
+		String name = end == -1 ? boosts.substring( colon + 1 ) : boosts.substring( colon + 1, end );
+		PokeBoost boost = FamTeamRequest.nameToBoost.get( name );
+		return boost == null ? PokeBoost.NONE : boost;
+	}
+
+	private static int getFamId( final String urlString )
+	{
+		Matcher matcher = FamTeamRequest.FAM_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( GenericRequest.decodeField( matcher.group( 1 ) ) ) : -1;
+	}
+
+	private static int getItemId( final String urlString )
+	{
+		Matcher matcher = FamTeamRequest.IID_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( GenericRequest.decodeField( matcher.group( 1 ) ) ) : -1;
+	}
+
+	private static int getSlot( final String urlString )
+	{
+		Matcher matcher = FamTeamRequest.SLOT_PATTERN.matcher( urlString );
+		return matcher.find() ? StringUtilities.parseInt( GenericRequest.decodeField( matcher.group( 1 ) ) ) : -1;
+	}
+
 	public FamTeamRequest()
 	{
 		super( "famteam.php" );
+	}
+
+	public FamTeamRequest( String race, PokeBoost boost)
+	{
+		super( "famteam.php" );
+		this.addFormField( "action", "feed" );
+		this.addFormField( "fam", String.valueOf( FamiliarDatabase.getFamiliarId( race ) ) );
+		this.addFormField( "iid", String.valueOf( FamTeamRequest.boostToItemId.get( boost ) ) );
 	}
 
 	@Override
@@ -105,6 +207,40 @@ public class FamTeamRequest
 		if ( !urlString.startsWith( "famteam.php" ) )
 		{
 			return false;
+		}
+
+		String action = GenericRequest.getAction( urlString );
+		if ( action != null )
+		{
+			if ( action.equals( "feed" ) )
+			{
+				// Familiar powered up.
+				// You can't give that familiar any more pills.
+				if ( responseText.contains( "Familiar powered up." ) )
+				{
+					int fam = getFamId( urlString );
+					int iid = getItemId( urlString );
+					if ( fam != -1 && iid != -1 )
+					{
+						StringBuilder buffer = new StringBuilder( Preferences.getString( "pokefamBoosts" ) );
+						if ( buffer.length() > 0 )
+						{
+							buffer.append( "|" );
+						}
+						buffer.append( FamiliarDatabase.getFamiliarName( fam ) );
+						buffer.append( ":" );
+						buffer.append( FamTeamRequest.itemIdToBoost.get( iid ).toString() );
+						Preferences.setString( "pokefamBoosts", buffer.toString() );
+
+						// Remove from inventory
+						ResultProcessor.processResult( ItemPool.get( iid, -1 ) );
+					}
+				}
+			}
+			else if ( action.equals( "slot" ) )
+			{
+				// Parse the page to see where familiars ended up.
+			}
 		}
 
 		Matcher matcher = FamTeamRequest.ACTIVE_PATTERN.matcher( responseText );
@@ -236,8 +372,6 @@ public class FamTeamRequest
             &nbsp;&nbsp;
 */
 	
-	private static final int ULTIMATE = "ULTIMATE: ".length();
-
 	private static final void parsePokeTeamData( final String famtable, boolean logit )
 	{
 		TagNode node = FamTeamRequest.cleanPokeTeamHTML( famtable );
@@ -251,9 +385,8 @@ public class FamTeamRequest
 			HTMLParserUtils.logHTML( node );
 		}
 
-		// Familiars on this page have the same format as enemey familiars in a fambattle
-		// Those have index 0 to 3
-		FightRequest.parsePokefam( 0, node );
+		// Familiars on this page have the same format as enemy familiars in a fambattle
+		FightRequest.parsePokefam( node, true, true );
 	}
 
 	public static final boolean registerRequest( final String urlString )
@@ -269,7 +402,36 @@ public class FamTeamRequest
 			return true;
 		}
 
-		// If it is something else, just log the URL
+		String action = GenericRequest.getAction( urlString );
+		if ( action == null )
+		{
+			// Unknown non-action. Log URL
+			return false;
+		}
+
+		if (  action.equals( "feed" ) )
+		{
+			String race = FamiliarDatabase.getFamiliarName( FamTeamRequest.getFamId( urlString ) );
+			String item = ItemDatabase.getItemName( FamTeamRequest.getItemId( urlString ) );
+			String printme = "Feeding " + item + " to " + race;
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( printme );
+			return true;
+		}
+
+		if (  action.equals( "slot" ) )
+		{
+			String race = FamiliarDatabase.getFamiliarName( FamTeamRequest.getFamId( urlString ) );
+			int slot = FamTeamRequest.getSlot( urlString );
+			String printme = "Putting  " + race + " into slot " + slot + " of your Pokefam team";
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( printme );
+			return true;
+		}
+
+		// Unknown action. Log the URL
 		return false;
 	}
 }

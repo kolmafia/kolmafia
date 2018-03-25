@@ -526,6 +526,7 @@ public interface KoLConstants
 	public static final int CONSUME_SPHERE = 33;
 	public static final int CONSUME_GUARDIAN = 34;
 	public static final int CONSUME_AVATAR = 35;
+	public static final int CONSUME_POKEPILL = 36;
 
 	// Familiar "uses"
 	public static final int CONSUME_ROBO = 95;

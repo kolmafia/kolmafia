@@ -759,6 +759,8 @@ public class ValhallaManager
 		Preferences.setBoolean( "bondStat2", false );
 		Preferences.setBoolean( "bondDesert", false );
 		Preferences.setBoolean( "bondHoney", false );
+		// Pocket Familiars
+		Preferences.setString( "pokefamBoosts", "" );
 		// Campground resets
 		Preferences.setBoolean( "hasBartender", false );
 		Preferences.setBoolean( "hasChef", false );
