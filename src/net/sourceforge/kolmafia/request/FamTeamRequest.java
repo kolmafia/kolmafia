@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -229,7 +230,18 @@ public class FamTeamRequest
 						}
 						buffer.append( FamiliarDatabase.getFamiliarName( fam ) );
 						buffer.append( ":" );
-						buffer.append( FamTeamRequest.itemIdToBoost.get( iid ).toString() );
+						String boost = FamTeamRequest.itemIdToBoost.get( iid ).toString();
+
+						// A KoL bug allows you to add an attribute that the familiar naturally has.
+						// It still counts as the sole powerup for the familiar, but we don't want
+						// to remove it when looking at the famteam or fambattle, so use "None"
+						PokefamData data = FamiliarDatabase.getPokeDataById( fam );
+						if ( data != null && data.getAttribute().equals( boost ) )
+						{
+							boost = "None";
+						}
+
+						buffer.append( boost );
 						Preferences.setString( "pokefamBoosts", buffer.toString() );
 
 						// Remove from inventory
