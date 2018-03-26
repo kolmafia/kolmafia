@@ -65,7 +65,7 @@ Artistic Goth Kid	1/3	1/4	1/5	Punch	Frighten	Deluxe Impale	None
 Astral Badger	x/x	x/x	3/3	Claw	Howl	Empowering Cheer	None
 Attention-Deficit Demon	1/3	2/3	2/4	Claw	Hug	Universal Backrub	None
 Autonomous Disco Ball	1/3	1/4	1/5	Bonk	Laser Beam	Deluxe Impale	Smart
-Baby Bugged Bugbear	x/x	2/3	2/4	Claw	Hug	Universal Backrub	Smart
+Baby Bugged Bugbear	2/2	2/3	2/4	Claw	Hug	Universal Backrub	Smart
 Baby Gravy Fairy	1/3	1/4	2/4	Bonk	Swoop	Empowering Cheer	Regenerating
 Baby Mayonnaise Wasp	1/3	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
 Baby Mutant Rattlesnake	1/3	2/3	3/3	Bite	Howl	Empowering Cheer	None
@@ -125,7 +125,7 @@ Faux	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Feather Boa Constrictor	1/3	1/4	2/4	Bonk	Lick	Vulgar Display	None
 Feral Kobold	1/3	2/3	2/4	Claw	Backstab	Deluxe Impale	None
 Fist Turkey	2/2	3/2	3/3	Peck	Howl	Violent Shred	None
-Flaming Face	x/x	x/x	2/4	Bite	Breathe Fire	Deluxe Impale	None
+Flaming Face	1/3	1/4	2/4	Bite	Breathe Fire	Deluxe Impale	None
 Flaming Gravy Fairy	1/3	2/3	2/4	Bonk	Breathe Fire	Universal Backrub	Regenerating
 Flan	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	None
 Floating Eye	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
@@ -152,7 +152,7 @@ Grouper Groupie	1/3	2/3	3/3	Bonk	Embarrass	Vulgar Display	None
 Grue	2/2	2/3	2/4	Bite	Howl	Violent Shred	None
 Hand Turkey	1/3	1/4	2/4	Peck	Lick	Violent Shred	None
 Hanukkimbo Dreidl	x/x	x/x	2/4	Bonk	Hug	Universal Backrub	None
-Happy Medium	x/x	2/3	2/4	Punch	Frighten	Deluxe Impale	None
+Happy Medium	2/2	2/3	2/4	Punch	Frighten	Deluxe Impale	None
 He-Boulder	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
 Helix Fossil	1/3	1/4	1/5	Bonk	Armor Up	Universal Backrub	Armor
 Hippo Ballerina	1/3	2/3	2/4	Bonk	Hug	Violent Shred	None
@@ -227,12 +227,12 @@ Piano Cat	1/3	1/4	2/4	Claw	Encourage	Unknown	None
 Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
 Plastic Grocery Bag	1/3	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
-Pottery Barn Owl	x/x	x/x	3/3	Peck	Swoop	Violent Shred	Armor
+Pottery Barn Owl	1/3	2/3	3/3	Peck	Swoop	Violent Shred	Armor
 Psychedelic Bear	x/x	x/x	3/3	Bonk	Lick	Violent Shred	None
 Puck Man	1/3	2/3	2/4	Bite	Retreat	Deluxe Impale	None
 Purse Rat	1/3	2/3	2/4	Bite	Encourage	Empowering Cheer	None
 Putty Buddy	2/2	2/3	2/4	Bonk	Encourage	Empowering Cheer	Smart
-Pygmy Bugbear Shaman	x/x	2/3	2/4	Claw	Hug	Empowering Cheer	None
+Pygmy Bugbear Shaman	2/2	2/3	2/4	Claw	Hug	Empowering Cheer	None
 Ragamuffin Imp	1/3	1/4	2/4	Claw	Breathe Fire	Empowering Cheer	None
 Reagnimated Gnome	1/3	1/4	2/4	Punch	Hug	Deluxe Impale	None
 Reanimated Reanimator	1/3	1/4	2/4	Punch	Hug	Deluxe Impale	None
@@ -270,7 +270,7 @@ Squamous Gibberer	2/2	3/2	4/2	Bonk	Frighten	Unknown	None
 Squib	1/3	2/3	3/3	Bite	Splash	Violent Shred	None
 Stab Bat	2/2	3/2	4/2	Sting	Embarrass	Violent Shred	Spiked
 Star Starfish	2/2	2/3	3/3	Bonk	Embarrass	Violent Shred	None
-Steam-Powered Cheerleader	x/x	2/3	2/4	Punch	Tackle	Universal Backrub	Smart
+Steam-Powered Cheerleader	1/3	2/3	2/4	Punch	Tackle	Universal Backrub	Smart
 Stinky Gravy Fairy	1/3	2/3	2/4	Bonk	Swoop	Universal Backrub	Regenerating
 Stocking Mimic	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Stooper	1/3	2/3	2/4	Bite	Encourage	Universal Backrub	None
@@ -289,7 +289,7 @@ Trick-or-Treating Tot	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Turpin	1/3	1/4	1/5	Bonk	Growl	Violent Shred	Armor
 Turtive	1/3	2/3	2/4	Bonk	Tackle	Violent Shred	Armor
 Twitching Space Critter	x/x	x/x	3/3	Bonk	Lick	Violent Shred	None
-Unconscious Collective	x/x	x/x	2/4	Punch	Encourage	Unknown	None
+Unconscious Collective	1/3	2/3	2/4	Punch	Encourage	Unknown	None
 Underworld Bonsai	2/2	2/3	2/4	Bonk	Embarrass	Nasty Cloud	Regenerating
 Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
 Uniclops	1/3	1/4	2/4	Bonk	Hug	Universal Backrub	None
