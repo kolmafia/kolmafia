@@ -2016,7 +2016,7 @@ Mob Penguin organizer	2037	penggoon.gif	Scale: 50 Cap: 1500 Floor: 51 Init: 200 
 Mob Penguin protector	2034	pengthug.gif	Scale: 11 Cap: 1000 Floor: 12 Init: -10000 P: penguin	protection stick (0)	mafia thumb ring (0)	roll of meat (p0)
 Mob Penguin steel driver	2035	penghammer.gif	Scale: 15 Cap: 1000 Floor: 16 Init: 100 P: penguin	steel drivin' hammer (0)	mafia middle finger ring (0)	little piece of steel (p0)
 Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 75 P: penguin	contract enforcement stick (0)	mafia pinky ring (0)	flask of port (p0)
-
+tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	&quot;Remember the Trees&quot; Shirt (0)
 
 # Old Events
 

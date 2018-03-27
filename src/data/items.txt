@@ -9851,3 +9851,19 @@
 9825	razor fang	315065966	pokefang.gif	familiar	q	0
 9826	smoke ball	888071924	pokesmokeball.gif	familiar	q	0
 9827	green rocket	624838605	bottlerocket.gif	usable	t,d	150
+9828
+9829
+9830
+9831
+9832
+9833
+9834
+9835
+9836
+9837
+9838
+9839
+9840
+9841
+9842
+9843	&quot;Remember the Trees&quot; Shirt	184762475	treeshirt.gif	shirt	t,d	10
