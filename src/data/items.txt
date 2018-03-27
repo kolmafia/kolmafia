@@ -9548,7 +9548,7 @@
 9522	shooting morning star	887651527	metalm_mace.gif	weapon		0
 9523	cute meteoroid	779521070	cutemeteorlarva.gif	grow	t	0
 9524	meteor shower cap	361862857	meteorshowercap.gif	familiar	t,d	75
-9525	thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0	Thwaitgold time fly statuettes
+9525	Thwaitgold time fly statuette	970606550	thwaittimefly.gif	none		0
 9526	perfectly fair coin	576720542	faircoin.gif	reusable		0
 9527	Horsery contract	424338680	horserycontract.gif	usable	t	0
 9528	corked genie bottle	452623094	gbottle_cork.gif	usable	t	0
@@ -9781,7 +9781,7 @@
 9755	Team Sloth cap	260821357	pokehat.gif	hat	q	0
 9756	Team Wrath cap	661356101	pokehat.gif	hat	q	0
 9757	Mu cap	830269864	pokehat.gif	hat	q	0
-9758	thwaitgold metabug statuette	670959667	thwaitmetabug.gif	none		0
+9758	Thwaitgold metabug statuette	670959667	thwaitmetabug.gif	none		0
 9759	Pok&eacute;fam Guide to Capturing All of Them	264653010	pokebook.gif	usable	t	0	Pok&eacute;fam Guides to Capturing All of Theme
 9760	packet of tall grass seeds	134188822	grassseeds.gif	usable		0
 9761	Pok&eacute;-Gro fertilizer	404618485	pokefert.gif	usable	t	0	cans of Pok&eacute;-Gro fertilizer
