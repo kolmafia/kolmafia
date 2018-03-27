@@ -662,6 +662,7 @@ Zombo's grievous greaves	200	Mus: 200
 # Shirts section of equipment.txt
 
 &quot;Humorous&quot; T-shirt	100	Mus: 35
+&quot;Remember the Trees&quot; Shirt	30	Mus: 10
 anniversary safety glass vest	10	none
 asbestos apron	170	Mus: 70
 Ascension Souvenir T-Shirt	15	none
