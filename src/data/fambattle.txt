@@ -223,7 +223,7 @@ Peppermint Rhino	2/2	2/3	2/4	Bonk	Armor Up	Violent Shred	Armor
 Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pet Cheezling	1/3	1/4	1/5	Bonk	Embarrass	Universal Backrub	None
 Pet Rock	x/x	x/x	x/x	Bonk	Armor Up	Unknown	Unknown
-Piano Cat	1/3	1/4	2/4	Claw	Encourage	Unknown	None
+Piano Cat	1/3	1/4	2/4	Claw	Encourage	Universal Backrub	None
 Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
 Plastic Grocery Bag	1/3	2/3	2/4	Bonk	Armor Up	Deluxe Impale	None
@@ -266,7 +266,7 @@ Space Jellyfish	1/3	1/4	2/4	Sting	Backstab	Spiky Burst	Spiked
 Spirit Hobo	1/3	2/3	2/4	Punch	Stinkblast	Nasty Cloud	None
 Spooky Gravy Fairy	1/3	2/3	2/4	Bonk	Regrow	Empowering Cheer	Regenerating
 Spooky Pirate Skeleton	1/3	1/4	2/4	Punch	Tackle	Deluxe Impale	Armor
-Squamous Gibberer	2/2	3/2	4/2	Bonk	Frighten	Unknown	None
+Squamous Gibberer	2/2	3/2	4/2	Bonk	Frighten	Healing Rain	None
 Squib	1/3	2/3	3/3	Bite	Splash	Violent Shred	None
 Stab Bat	2/2	3/2	4/2	Sting	Embarrass	Violent Shred	Spiked
 Star Starfish	2/2	2/3	3/3	Bonk	Embarrass	Violent Shred	None
@@ -310,5 +310,5 @@ Wind-up Chattering Teeth	1/3	1/4	1/5	Bite	Frighten	Deluxe Impale	Smart
 Wizard Action Figure	1/3	1/4	1/5	Punch	Tackle	Deluxe Impale	Armor
 Worm Doctor	2/2	3/2	3/3	Bonk	Growl	Violent Shred	None
 Wullabye	1/3	2/3	3/3	Bite	Growl	Universal Backrub	None
-Xiblaxian Holo-Companion	x/x	x/x	2/4	Bonk	Laser Beam	Deluxe Impale	Smart
+Xiblaxian Holo-Companion	x/x	2/3	2/4	Bonk	Laser Beam	Deluxe Impale	Smart
 XO Skeleton	1/3	1/4	1/5	Punch	Tackle	Universal Backrub	Armor
