@@ -67,7 +67,7 @@ Attention-Deficit Demon	1/3	2/3	2/4	Claw	Hug	Universal Backrub	None
 Autonomous Disco Ball	1/3	1/4	1/5	Bonk	Laser Beam	Deluxe Impale	Smart
 Baby Bugged Bugbear	2/2	2/3	2/4	Claw	Hug	Universal Backrub	Smart
 Baby Gravy Fairy	1/3	1/4	2/4	Bonk	Swoop	Empowering Cheer	Regenerating
-Baby Mayonnaise Wasp	1/3	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
+Baby Mayonnaise Wasp	2/2	2/3	3/3	Sting	Swoop	Universal Backrub	Spiked
 Baby Mutant Rattlesnake	1/3	2/3	3/3	Bite	Howl	Empowering Cheer	None
 Baby Sandworm	2/2	2/3	2/4	Bonk	Howl	Violent Shred	None
 Baby Yeti	1/3	2/3	3/3	Claw	Howl	Universal Backrub	None
