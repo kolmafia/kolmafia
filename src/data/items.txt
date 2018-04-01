@@ -9851,13 +9851,13 @@
 9825	razor fang	315065966	pokefang.gif	familiar	q	0
 9826	smoke ball	888071924	pokesmokeball.gif	familiar	q	0
 9827	green rocket	624838605	bottlerocket.gif	usable	t,d	150
-9828
-9829
-9830
-9831
-9832
-9833
-9834
+9828	magnificent oyster egg	540046000	neweggs.gif	spleen, usable	t,d	10
+9829	brilliant oyster egg	311992162	neweggs.gif	spleen, usable	t,d	10
+9830	glistening oyster egg	325294540	neweggs.gif	spleen, usable	t,d	10
+9831	scintillating oyster egg	224723762	neweggs.gif	spleen, usable	t,d	10
+9832	pearlescent oyster egg	536872131	neweggs.gif	spleen, usable	t,d	10
+9833	lustrous oyster egg	787181489	neweggs.gif	spleen, usable	t,d	10
+9834	gleaming oyster egg	237635797	neweggs.gif	spleen, usable	t,d	10
 9835
 9836
 9837

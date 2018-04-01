@@ -5073,6 +5073,10 @@ Effect	Egg-stortionary Tactics	Meat Drop: +50
 Effect	Egg-stra Arm	Muscle Percent: +10
 Effect	Egged On	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10
 Effect	Eggs-tra Sensory Perception	Item Drop: +10
+Effect	Eggscitingly Colorful	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
+Effect	Eggstraordinary Brilliance	Experience (Mysticality): +5
+Effect	Eggstraordinary Strength	Experience (Muscle): +5
+Effect	Eggstraordinary Style	Experience (Moxie): +5
 Effect	El Tango de la Maldita Suegra	Initiative: +15, Pickpocket Chance: +20
 Effect	El Vibrations	Spell Damage Percent: +100
 Effect	Elbow Sauce	Weapon Damage Percent: +50
@@ -5283,6 +5287,7 @@ Effect	Ginger Fightis	Avatar: "creepy ginger twin"
 Effect	Ginger Snapped	Spooky Damage: +10
 Effect	Gingerbread Robust	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Glasshole	Moxie Percent: +100, Pickpocket Chance: +10
+Effect	Gleam-Inducing	Familiar Weight: +5
 Effect	Gleaming White Teeth	Moxie Percent: +50
 Effect	Glittering Eyelashes	Mysticality Percent: +15
 Effect	Glo-Face	MP Regen Min: 3, MP Regen Max: 5
@@ -5683,6 +5688,7 @@ Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
 Effect	Lucky Cat is Lucky	Item Drop: +5
 Effect	Lucky Struck	Item Drop: +20
+Effect	Lustre After Wealth	Meat Drop: +50
 Effect	Lustful Heart	Moxie: [min(T,20)]
 Effect	Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Effect	Lynyrd Prytynder	Avatar: "lynyrd skinner"
@@ -5939,6 +5945,7 @@ Effect	Patient Smile	Experience (Muscle): +1
 # Paw swap: Extra-Vulnerable to Hot and Spooky
 Effect	Paw swap	Cold Resistance: +2, Hot Vulnerability, Spooky Vulnerability
 Effect	Peaceful, Easy Feeling	Monster Level: -10
+Effect	Pearly Vision	Item Drop: +25
 Effect	Pecan Pied Piper	Candy Drop: +25
 Effect	Pediplunger	Avatar: "filthy pirate"
 Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
@@ -7992,6 +7999,7 @@ Item	black striped oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration
 Item	bottle of extra-strength melodramamine	Effect: "Emotion Sickness", Effect Duration: 50
 Item	bottle of melodramamine	Effect: "Emotion Sickness", Effect Duration: 5
 Item	bottle of ultravitamins	Effect: "Vitamin-Maxed", Effect Duration: 10
+Item	brilliant oyster egg	Effect: "Eggstraordinary Brilliance", Effect Duration: 20
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
@@ -8006,11 +8014,13 @@ Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
+Item	gleaming oyster egg	Effect: "Gleam-Inducing", Effect Duration: 50
 Item	glimmering buzzard feather	Effect: "Carrion' On", Effect Duration: 20
 Item	glimmering great tit feather	Effect: "The Great Tit's Blessing", Effect Duration: 20
 Item	glimmering penguin feather	Effect: "Antarctic Memories", Effect Duration: 20
 Item	glimmering phoenix feather	Effect: "Phoenix, Right?", Effect Duration: 20
 Item	glimmering raven feather	Effect: "Melancholy Burden", Effect Duration: 20
+Item	glistening oyster egg	Effect: "Eggstraordinary Style", Effect Duration: 20
 Item	goblin paste	Effect: "Gobliny Flavor", Effect Duration: 10
 Item	greasy paste	Effect: "Greasy Flavor", Effect Duration: 10
 Item	groose grease	Effect: "Just the Best Anapests", Effect Duration: 50
@@ -8023,6 +8033,8 @@ Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
+Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
+Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration: 20
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 # Medicinal Herb's medicinal herbs: Restores all HP
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
@@ -8033,6 +8045,7 @@ Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effec
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	oily paste	Effect: "Oily Flavor", Effect Duration: 10
 Item	orc paste	Effect: "Fratty Flavor", Effect Duration: 10
+Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
 Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
@@ -8040,6 +8053,7 @@ Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
 # red striped oyster egg: Restores 30-35 HP
+Item	scintillating oyster egg	Effect: "Eggscitingly Colorful", Effect Duration: 20
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10
 # Item sleaze jelly: Enables Sleazy Bickering
 Item	sleaze jelly	Effect: "Sleazy Jellied", Effect Duration: 50
