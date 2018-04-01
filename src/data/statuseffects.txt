@@ -2381,3 +2381,10 @@
 2380	Berry Statistical	berry7.gif	b2d5b36903a6918769fc02b251d11c49
 2381
 2382	Berry Experiential	berry4.gif	644bbe5f4cdba76d224cbca0a58c8269
+2383	Eggstraordinary Strength	neweggs.gif	2c7883265ade115090d1f842b25e5f9d	chew 1 magnificent oyster egg
+2384	Eggstraordinary Brilliance	neweggs.gif	3b08e01bbfb51228106328cda1f75105	chew 1 brilliant oyster egg
+2385	Eggstraordinary Style	neweggs.gif	3a189ec6d0cb1c990d8789c71f69b8f2	chew 1 glistening oyster egg
+2386	Eggscitingly Colorful	neweggs.gif	b729f441a75bfe11eb0393b09b1a9819	chew 1 scintillating oyster egg
+2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	chew 1 pearlescent oyster egg
+2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	chew 1 lustrous oyster egg
+2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	chew 1 gleaming oyster egg

@@ -40,6 +40,7 @@ bottle of extra-strength melodramamine	3	1	good	0	0	0	0	50 Emotion Sickness (+ M
 bottle of melodramamine	1	1	good	0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
 bottle of ultravitamins	1	6	awesome	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
 Breathetastic&trade; Premium Canned Air	5	13	EPIC	20-25	60-70	60-70	60-70
+brilliant oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	good	0	0	0	10-12
@@ -69,12 +70,14 @@ fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
 giant moxie weed	1	2	decent	0	0	0	5-7
+gleaming oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 glimmering buzzard feather	1	1	good	0	0	0	0	20 Carrion' On (+60% meat drop)
 glimmering great tit feather	1	1	crappy	0	0	0	0	20 The Great Tit's Blessing (+20 ML)
 glimmering penguin feather	1	1	good	0	0	0	0	20 Antarctic Memories (+40 HP/MP regen)
 glimmering phoenix feather	1	1	good	0	0	0	0	20 Phoenix, Right? (+6 exp)
 glimmering raven feather	1	1	good	0	0	0	0	20 Melancholy Burden (+60% item drop)
 glimmering roc feather	4	4	good	6-10	20-30	20-30	20-30
+glistening oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 glyph of athleticism	1	1	good	0	50-75	0	0	50 Turn On, Tune In, Play Ball! (+50% Mus, +50 HP, +25% Weapon Dam)
 goblin paste	4	4	good	5-10	18-22	18-22	18-22	10 Gobliny Flavor (5 DR)
 gooey paste	4	4	good	5-10	18-22	18-22	18-22
@@ -99,7 +102,9 @@ lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
 liquid shifting time weirdness	2	6	awesome	4-6	20-30	20-30	20-30	10 Liquid Luck (+10% critical, +10% spell critical)
 LOV Echinacea Bouquet	1	1	crappy	0	20-40	20-40	20-40	20-40 HP, 20-40 MP
+lustrous oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 magicalness-in-a-can	1	1	crappy	0	0	1-3	0
+magnificent oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 Mariner's Friend cough drops	1	1	good	0	10-12	0	0
 Mansquito Serum	1	2	awesome	0	20-40	20-40	20-40	400 More Mansquito Than Man (+100 HP, +100% HP, 20-40 HP regen)
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
@@ -123,6 +128,7 @@ off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Percept
 oily paste	4	4	good	5-10	18-22	18-22	18-22	10 Oily Flavor (+15 mus)
 orc paste	4	4	good	5-10	18-22	18-22	18-22	10 Fratty Flavor (+15 mox)
 patent antipsychotics	1	1	good	0	0	10-12	0
+pearlescent oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
 pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
@@ -137,6 +143,7 @@ red paisley oyster egg	1	1	good	0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
 residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
+scintillating oyster egg	1	5	EPIC	0	0	0	0	Unspaded
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 single atom	1	1	decent	1	0	0	0
 sleaze jelly	1	1	crappy	0	0	0	50-60	50 Sleazy Jellied (+3 mox stats/fight, +5 sleaze damage, +30% mox), 10% off next NPC purchase (not Gift shop)
