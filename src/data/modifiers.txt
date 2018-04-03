@@ -1156,6 +1156,7 @@ Item	curdflinger	Moxie: +3, Weakens Monster
 Item	curmudgel	Monster Level: +8, Weapon Damage: +10
 Item	cursed cutlass	Muscle: +15
 Item	cyber-mattock	Item Drop: +5, Meat Drop: +10
+Item	deadfall branch	Mysticality Percent: +10, Weapon Damage Percent: +10, Adventures: +1, PvP Fights: +1
 Item	deathchucks	Weapon Damage Percent: +75, Monster Level: +15
 # debonair deboner: +25% Damage vs. Skeletons
 Item	debonair deboner	Moxie: +10
