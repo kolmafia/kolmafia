@@ -969,6 +969,7 @@ curdflinger	45	Mox: 7	1-handed crossbow
 curmudgel	125	Mus: 47	1-handed club
 cursed cutlass	200	Mus: 85	1-handed sword
 cyber-mattock	160	Mus: 65	2-handed axe
+deadfall branch	50	Mus: 15	1-handed club
 deathchucks	50	Mus: 10	2-handed flail
 debonair deboner	90	Mus: 30	1-handed club
 decaying wooden oar	200	Mus: 85	2-handed club

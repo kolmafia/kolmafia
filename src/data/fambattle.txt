@@ -120,7 +120,7 @@ El Vibrato Megadrone	1/3	1/4	2/4	Bonk	Laser Beam	Defense Matrix	Smart
 Emo Squid	1/3	1/4	2/4	Bonk	Splash	Healing Rain	None
 Evil Teddy Bear	1/3	2/3	2/4	Claw	Backstab	Empowering Cheer	None
 Exotic Parrot	1/3	2/3	3/3	Peck	Lick	Universal Backrub	None
-Fancypants Scarecrow	1/3	x/x	2/4	Bonk	Hug	Deluxe Impale	None
+Fancypants Scarecrow	1/3	1/4	2/4	Bonk	Hug	Deluxe Impale	None
 Faux	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Feather Boa Constrictor	1/3	1/4	2/4	Bonk	Lick	Vulgar Display	None
 Feral Kobold	1/3	2/3	2/4	Claw	Backstab	Deluxe Impale	None
@@ -288,7 +288,7 @@ Trafikoan	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Trick-or-Treating Tot	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Turpin	1/3	1/4	1/5	Bonk	Growl	Violent Shred	Armor
 Turtive	1/3	2/3	2/4	Bonk	Tackle	Violent Shred	Armor
-Twitching Space Critter	x/x	x/x	3/3	Bonk	Lick	Violent Shred	None
+Twitching Space Critter	2/2	x/x	3/3	Bonk	Lick	Violent Shred	None
 Unconscious Collective	1/3	2/3	2/4	Punch	Encourage	Unknown	None
 Underworld Bonsai	2/2	2/3	2/4	Bonk	Embarrass	Nasty Cloud	Regenerating
 Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
