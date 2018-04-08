@@ -9769,7 +9769,7 @@
 9743
 9744
 9745	Love Potion #XYZ	863678027	potion9.gif	usable	q	0
-9746	rhinestone	402331722	rhinestone.gif	usable	t	0
+9746	rhinestone	402331722	rhinestone.gif	multiple	t	0
 9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
 9748	metandienone	772060311	pokepills1.gif	pokepill	t,d	0
 9749	riboflavin	870137319	pokepills2.gif	pokepill	t,d	0

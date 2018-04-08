@@ -290,5 +290,5 @@
 261	Stooper	pokefam47.gif	none	Stooper		1	3	2	1
 262	Disgeist	pokefam48.gif	none	Disgeist		2	2	2	3
 263	Bowlet	pokefam49.gif	none	Bowlet		2	1	2	2
-264	Cornbeefadon	pokefam50.gif	none	Cornbeefadon		2	2	1	3
+264	Cornbeefadon	pokefam50.gif	none	Cornbeefadon		2	2	2	2
 265	Mu	pokefam8675309.gif	none	Mu		0	0	0	0
