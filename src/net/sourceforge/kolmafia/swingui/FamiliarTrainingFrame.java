@@ -618,7 +618,7 @@ public class FamiliarTrainingFrame
 					}
 
 					// Prompt for trials
-					Integer value = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 3 );
+					Integer value = InputFieldUtilities.getQuantity( "How many trials per event per rank?", 20, 10 );
 					int trials = ( value == null ) ? 0 : value.intValue();
 
 					// Quit if canceled

@@ -286,9 +286,9 @@
 257	Slotter	pokefam43.gif	none	Slotter		0	0	0	0	pokefam
 258	Shudder	pokefam44.gif	none	Shudder		0	0	0	0	pokefam
 259	Glamare	pokefam45.gif	none	Glamare		0	0	0	0	pokefam
-260	Unspeakachu	pokefam46.gif	none	Unspeakachu		3	2	2	3
-261	Stooper	pokefam47.gif	none	Stooper		1	2	2	2
-262	Disgeist	pokefam48.gif	none	Disgeist		1	2	2	3
-263	Bowlet	pokefam49.gif	none	Bowlet		3	1	2	2
+260	Unspeakachu	pokefam46.gif	none	Unspeakachu		3	3	1	3
+261	Stooper	pokefam47.gif	none	Stooper		1	3	2	1
+262	Disgeist	pokefam48.gif	none	Disgeist		2	2	2	3
+263	Bowlet	pokefam49.gif	none	Bowlet		2	1	2	2
 264	Cornbeefadon	pokefam50.gif	none	Cornbeefadon		2	2	1	3
 265	Mu	pokefam8675309.gif	none	Mu		0	0	0	0
