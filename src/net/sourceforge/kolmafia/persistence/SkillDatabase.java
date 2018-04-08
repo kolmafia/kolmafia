@@ -1291,6 +1291,15 @@ public class SkillDatabase
 		case SkillPool.INCREDIBLE_SELF_ESTEEM:
 			// Auto-awarded after unlocking if you have New-You active
 			return false;
+
+		case SkillPool.GET_BIG:
+		case SkillPool.MATING_CALL:
+		case SkillPool.INSCRUTABLE_GAZE:
+		case SkillPool.LOVE_MIXOLOGY:
+		case SkillPool.ACQUIRE_RHINESTONES:
+		case SkillPool.POP_SONG:
+			// Clan Fortune skills auto-awarded
+			return false;
 		}
 
 		switch ( skillId / 1000 )
