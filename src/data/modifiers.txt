@@ -4556,6 +4556,7 @@ Effect	Arresistible	Moxie: +50
 Effect	Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Effect	Artificially Sweet	Moxie Percent: +100
 Effect	Artisanal Retentive	Avatar: "Foodie Giant"
+Effect	Artisanal Satiaton	Experience: +3
 Effect	Ashen	Combat Rate: -10
 Effect	Ashen Burps	Monster Level: +15
 Effect	Aspect of the GravyPlum Fairy	Item Drop: +10
@@ -7860,6 +7861,7 @@ Item	herringcello	Effect: "Sugar Rush", Effect Duration: 20
 Item	Herringtini	Effect: "Fishy", Effect Duration: 15
 Item	high-end ginger wine	Effect: "High-Falutin'", Effect Duration: 30
 Item	Highest Bitter	Effect: "Mercenary", Effect Duration: 60
+Item	hipster cocktail	Effect: "Artisanal Satiaton", Effect Duration: 10
 Item	honey mead	Effect: "Sugar Rush", Effect Duration: 5
 Item	hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	Hot Socks	Effect: "[1701]Hip to the Jive", Effect Duration: 50

@@ -313,6 +313,7 @@ Herringtini	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Hi-Octane Peppermint Jet Fuel	5	5		10-15	0	0	0
 high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Meat drop, +25% Item drop)
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop)
+hipster cocktail	4	4	good	0	0	0	0	Unspaded, 10 Artisanal Satiaton (+3 exp/fight)
 Hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0

@@ -9917,3 +9917,12 @@
 9891
 9892
 9893	deadfall branch	608979264	hippyclub.gif	weapon	t,d	1
+9894
+9895
+9896
+9897
+9898
+9899
+9900
+9901
+9902	hipster cocktail	893473589	analjar_empty.gif	drink	t,d	200
