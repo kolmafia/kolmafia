@@ -2935,6 +2935,7 @@ public class ItemPool
 	public static final int GINSENG = 9753;
 	public static final int TALL_GRASS_SEEDS = 9760;
 	public static final int POKE_GROW_FERTILIZER = 9761;
+	public static final int RUBEE = 9838;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

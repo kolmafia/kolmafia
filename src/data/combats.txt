@@ -230,6 +230,7 @@ The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary
 The Ancient Burial Ground	-1	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
+The Bandit Crossroads	100	fantasy bandit
 The Barrel Full of Barrels	-1	tiny barrel mimic	small barrel mimic	medium-sized barrel mimic	huge barrel mimic
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
@@ -263,6 +264,7 @@ The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse: 1r80
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 The Crashed U. F. O.	-1	alien UFO	alien queen: 0
 The Crimbonium Mining Camp	100	ambulatory robo-minecart	exo-suited miner	semi-autonomous drill unit
+The Cursed Village	100	cursed villager
 The Daily Dungeon	-1	apathetic lizardman	dairy ooze	dodecapede	giant giant moth	mayonnaise wasp	pencil golem	sabre-toothed lime	tonic water elemental	vampire clam
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 The Dark Elbow of the Woods	90	Demoninja	G imp	L imp
@@ -287,8 +289,10 @@ The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
 The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
+The Faerie Cyrkle	100	quadfaerie
 The Feeding Chamber	100	filthworm drone
 The Filthworm Queen's Chamber	100	queen filthworm
+The Foreboding Cave	100	rubber bat
 The Fun-Guy Mansion	100	Fun-Guy Playmate
 The Fungal Nethers	100	angry mushroom guy	freaked-out mushroom guy	muscular mushroom guy: 0	armored mushroom guy: 0	wizardly mushroom guy: 0	fiery mushroom guy: 0	dancing mushroom guy: 0	wailing mushroom guy: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
@@ -342,6 +346,7 @@ The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
 The Middle Chamber	100	tomb asp	tomb rat	tomb servant
 The Mines	-1	bat	cobra	snake	spider
 The Mouldering Mansion	70	bellhop	black cat	Ourang-Outang	raven	usher
+The Mystic Wood	100	fantasy forest faerie
 The Naughty Sorceress' Chamber	100	Naughty Sorceress
 The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanctum): 0	warehouse worker	Stella, the Turtle Poacher (Inner Sanctum): 0	evil spaghetti cult zealot	Spaghetti Elemental (Inner Sanctum): 0	security slime	Lumpy, the Sinister Sauceblob (Inner Sanctum): 0	daft punk	Spirit of New Wave (Inner Sanctum): 0	mariachi bruiser	Somerset Lopez, Dread Mariachi (Inner Sanctum): 0
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
@@ -390,6 +395,7 @@ The Temple Ruins	-1	crocodile man	cultist	magma man	mummy
 The Themthar Hills	100	dirty thieving brigand
 The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Packing Robot	Thinknerd Sorting Robot
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
+The Towering Mountains	100	fantasy ourk
 The Toxic Teacups	100	toxic beastie
 The Tunnel of L.O.V.E.	-1	LOV Enforcer	LOV Engineer	LOV Equivocator
 The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0

@@ -876,6 +876,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "fantasyrealm" ) )
+		{
+			RubeeRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )
@@ -1290,6 +1296,11 @@ public class NPCPurchaseRequest
 			if ( shopId.equals( "spacegate" ) )
 			{
 				return SpacegateFabricationRequest.registerRequest( urlString );
+			}
+
+			if ( shopId.equals( "fantasyrealm" ) )
+			{
+				return RubeeRequest.registerRequest( urlString );
 			}
 
 			return false;

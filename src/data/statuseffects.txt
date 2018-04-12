@@ -2388,3 +2388,13 @@
 2387	Pearly Vision	neweggs.gif	307a890ec5d91df8ca65ffbc46e91aa4	chew 1 pearlescent oyster egg
 2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	chew 1 lustrous oyster egg
 2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	chew 1 gleaming oyster egg
+2390	Fantasy Faerie Blessing	faeriedust.gif	75ebf7c521ef696c582322f2b73ab000	# Get Blessing in The Faerie Cyrkle
+2391
+2392
+2393
+2394	Fantastic Immunity	poison.gif	217dfd5113d8aa7fe0a60e279bd311c2	use 1 universal antivenin
+2395	Fortunate, Son	dollarsign.gif	8ff1afdcea56040417a9a2f5e992dc58	# Visit Fortune Teller in The Cursed Village
+2396
+2397
+2398
+2399	Powder Power	disease.gif	7f9795080d7119dc0009eae2b9a4e916	chew 1 sachet of strange powder

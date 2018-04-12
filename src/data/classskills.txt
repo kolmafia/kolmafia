@@ -199,6 +199,7 @@
 174	Incredible Self-Esteem	newyouform.gif	3	10	50
 175	Eternal Flame	fire.gif	0	0	0
 176	Meteor Lore	meteorshower.gif	0	0	0
+177	Expert Corner-Cutter	cornercutting.gif	0	0	0
 
 # Skills available to Clubbers
 

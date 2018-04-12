@@ -99,6 +99,9 @@ Dinseylandfill	Elemental International Airport	Dinseylandfill
 That 70s Volcano	Elemental International Airport	That 70s Volcano
 The Glaciest	Elemental International Airport	The Glaciest
 
+A Monorail Station	Town	A Monorail Station
+FantasyRealm	A Monorail Station	FantasyRealm
+
 Item-Driven	Item-Driven	Item-Driven Zones
 
 Spelunky Area	Item-Driven	Spelunky Area
