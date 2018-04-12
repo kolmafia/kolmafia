@@ -162,6 +162,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.RaffleRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.RumpleRequest;
 import net.sourceforge.kolmafia.request.SeaMerkinRequest;
 import net.sourceforge.kolmafia.request.SendGiftRequest;
@@ -1474,6 +1475,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof RichardRequest || isExternal ) && RichardRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof RubeeRequest || isExternal ) && RubeeRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

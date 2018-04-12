@@ -193,6 +193,9 @@ Item	eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
 Item	f3d0r4	Moxie: +6, Familiar Effect: "atk, 1xLep, cap 27"
 Item	fancy ball mask	Moxie Percent: +10, Familiar Effect: "1xBarrr, 1xFairy, cap 22"
 Item	fancy tophat	Mysticality Percent: +15, Familiar Effect: "1xBarrr, cap 25"
+Item	FantasyRealm Mage's Hat	Mysticality: +15
+Item	FantasyRealm Rogue's Mask	Moxie: +15
+Item	FantasyRealm Warrior's Helm	Muscle: +15
 Item	feathered headdress	Mysticality Percent: +40, Food Drop: +40, MP Regen Min: 10, MP Regen Max: 20, Familiar Effect: "atk, 1xVolley"
 Item	festive holiday hat	Moxie: +1, Cold Resistance: +1, Familiar Effect: "1xFairy, cap 7"
 Item	fez of etymology	Moxie: +7, Familiar Effect: "1xLep, cap 30"
@@ -1408,6 +1411,8 @@ Item	logging hatchet	Weapon Damage: +5
 Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
+# Item LyleCo premium magnifying glass: FantasyRealm enemies will drop 1 extra Rubee
+Item	LyleCo premium magnifying glass	Rubee Drop: +1, Single Equip
 Item	Mace of the Tortoise	Muscle: +7, Class: "Turtle Tamer"
 Item	machetito	Weapon Damage: +9
 Item	macroplane grater	Spell Damage Percent: +10
@@ -2632,6 +2637,7 @@ Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	fancy black tie	Muscle Percent: +15, Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+Item	FantasyRealm G. E. M.	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Lasts Until Rollover
 # Item fiberglass fannypack: Filled with a never-ending supply of deadly pasta
 Item	fiberglass fannypack	Mana Cost (combat): -2, Sleaze Damage: +15, Single Equip
 # Item fiberglass fingerguard: Dramatically increases the effectiveness of Disco Eye Poke
@@ -2828,6 +2834,8 @@ Item	lucky cat collar	Meat Drop: +7, Single Equip
 # lucky Crimbo tiki necklace: Brings Good Luck!
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
+# Item LyleCo premium monocle: FantasyRealm enemies will drop 1 extra Rubee
+Item	LyleCo premium monocle	Rubee Drop: +1, Single Equip
 Item	Mafia bow tie	Muscle: +20, Moxie: +20
 # Item mafia middle finger ring: Show enemies your ring once a day!
 Item	mafia middle finger ring	Weapon Damage Percent: +13, Muscle Percent: +13, Single Equip
@@ -5151,6 +5159,7 @@ Effect	Fan Dancing	Avatar: "fan dancer"
 Effect	Fan-Cooled	Cold Damage: +10
 Effect	Fancy Feasted	Moxie Percent: +20
 # Fangs and Pangs: Attacks enemies every round and restores HP
+# Effect Fantastic Immunity: You're immune to FantasyRealm poisons
 Effect	Far Out	Mysticality: +1
 Effect	Fast as Lightning	Initiative: +50
 Effect	Fastbreaker	Muscle Percent: +20
@@ -5231,6 +5240,8 @@ Effect	Force of Mayo Be With You	Sleaze Damage: [pref(mayoLevel)+10], Hot Resist
 # Form of...Cockroach!: You're a Cockroach
 # Fortunate Resolve: Bonus Luck!
 Effect	Fortunate Resolve	Item Drop: +10, Meat Drop: +10, Spell Damage: +10, Initiative: +10
+# Effect Fortunate, Son: FantasyRealm enemies drop 2-3 aditional Rubees
+Effect	Fortunate, Son	Rubee Drop: +2.5
 Effect	Fortune of the Wheel	Item Drop: +100
 Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
@@ -6001,6 +6012,7 @@ Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
 Effect	Porkpocketed	Avatar: "Porkpocket"
 Effect	Pounded by the Actual Stars	Maximum MP Percent: +100
+Effect	Powder Power	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Powdered	Experience (Mysticality): +10
 Effect	Power Ballad of the Arrowsmith	Muscle: +10, Maximum HP: +20
 Effect	Power of Heka	Spell Damage: +20, Spell Critical Percent: +10, Spell Damage Percent: +50
@@ -7244,6 +7256,8 @@ Outfit	Eldritch Equipage	Item Drop: +50
 Outfit	Encephalic Ensemble	Item Drop: +5
 Outfit	eXtreme Cold-Weather Gear	Cold Resistance: +5
 Outfit	Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Outfit	FantasyRealm Thief's Outfit	Pickpocket Chance: +25
+Outfit	FantasyRealm Wizard's Outfit	Spell Damage Percent: +100
 Outfit	Fiberglass Finery	Initiative: +50
 Outfit	Filthy Hippy Disguise	Stench Damage: +5
 Outfit	Floaty Fatigues	Spell Critical Percent: +10
@@ -8054,6 +8068,7 @@ Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
 # red striped oyster egg: Restores 30-35 HP
+Item	sachet of strange powder	Effect: "Powder Power", Effect Duration: 40
 Item	scintillating oyster egg	Effect: "Eggscitingly Colorful", Effect Duration: 20
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10
 # Item sleaze jelly: Enables Sleazy Bickering
@@ -8850,6 +8865,8 @@ Item	fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
 Item	fancy calligraphy pen	Free Pull
 # fancy dress ball: Lets You Escape From Combat
 # fancy oil painting: Useful for Bridge-Building
+# Item FantasyRealm membership packet: Permanently unlocks access to FantasyRealm
+Item	FantasyRealm membership packet	Free Pull
 # Item fascinating alien plant sample: Worth 20 pages of Spacegate Research
 # Item fascinating alien zoological sample: Worth 20 pages of Spacegate Research
 # fat bottom quark: Deals 25-40 <font color=green>Stench Damage</font>
@@ -9373,6 +9390,7 @@ Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"
 # Item lump of frequently wriggling eldritch matter: Makes you feel Vaguely Uneasy
 Item	lump of goofball ore	Effect: "Tetched by an Angel", Effect Duration: 100
 Item	lump of Saccharine Maple sap	Effect: "Artificially Sweet", Effect Duration: 100
+Item	LyleCo Contractor's Manual	Skill: "Expert Corner-Cutter"
 Item	lynyrd musk	Effect: "Musky", Effect Duration: 30
 Item	lynyrd skinner toothblack	Effect: "Lynyrd Prytynder", Effect Duration: 50
 Item	M-242	Effect: "Adrenaline Rush", Effect Duration: 50
@@ -9927,6 +9945,8 @@ Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R
 Item	salt wages	Effect: "Worth Your Salt", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
 # samurai turtle: Does various ninja things
+# Item sanctified cola: Restores 400-500 MP
+Item	sanctified cola	Lasts Until Rollover
 Item	sane hatrack	Free Pull
 # sausage bomb: Deals 100-120 <font color=blueviolet>Sleaze Damage</font>
 # sausage bomb: Weakens Enemies Somewhat
@@ -10354,6 +10374,7 @@ Item	unemployed hunchbacked minion	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
 Item	unholy water	Effect: "Shocking Biology", Effect Duration: 30
 Item	uniclops egg	Free Pull
+Item	universal antivenin	Lasts Until Rollover, Effect: "Fantastic Immunity", Effect Duration: 10
 Item	Unmotivator: Crashed Meat Car	Free Pull
 Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull

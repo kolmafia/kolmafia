@@ -9858,21 +9858,21 @@
 9832	pearlescent oyster egg	536872131	neweggs.gif	spleen, usable	t,d	10
 9833	lustrous oyster egg	787181489	neweggs.gif	spleen, usable	t,d	10
 9834	gleaming oyster egg	237635797	neweggs.gif	spleen, usable	t,d	10
-9835
-9836
-9837
-9838
-9839
-9840
-9841
+9835	FantasyRealm membership packet	561463403	fr_packet.gif	usable	t	0
+9836	FantasyRealm guest pass	454421792	fr_pass.gif	usable	t	0
+9837	FantasyRealm G. E. M.	493609192	fr_gem.gif	accessory	q	0
+9838	Rubee&trade;	732393729	megagem.gif	none		0	Rubees&trade;
+9839	FantasyRealm Warrior's Helm	880434260	fr_warriorhat.gif	hat		0
+9840	FantasyRealm Mage's Hat	988157620	fr_wizardhat.gif	hat		0
+9841	FantasyRealm Rogue's Mask	256234618	fr_roguehat.gif	hat		0
 9842
 9843	&quot;Remember the Trees&quot; Shirt	184762475	treeshirt.gif	shirt	t,d	10
-9844
+9844	FantasyRealm key	316455684	simplekey.gif	none		0
 9845
 9846
 9847
-9848
-9849
+9848	LyleCo premium pickaxe	549352396	pickaxe.gif	none		0
+9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
 9850
 9851
 9852
@@ -9880,27 +9880,27 @@
 9854
 9855
 9856
-9857
-9858
-9859
-9860
-9861
-9862
-9863
+9857	universal antivenin	283524261	potion23.gif	usable	q	0
+9858	LyleCo premium monocle	898517473	monocle2.gif	accessory		0
+9859	LyleCo premium magnifying glass	762862908	magnify.gif	weapon		0
+9860	FantasyRealm tattoo kit	989773359	fr_tatkit.gif	usable	t	0
+9861	LyleCo Contractor's Manual	696806731	book4.gif	usable	t	0
+9862	FantasyRealm turkey leg	356561751	bigturkeyleg.gif	food		0
+9863	FantasyRealm mead	232234132	tankard.gif	drink		0
 9864
 9865
 9866
 9867
 9868
 9869
-9870
+9870	sachet of strange powder	522275868	sachet.gif	spleen, usable	t	0
 9871
-9872
-9873
-9874
-9875
-9876
-9877
+9872	sanctified cola	578545020	crimbcola.gif	usable	q	0
+9873	map to the Towering Mountains	500147336	map.gif	usable		0
+9874	map to the Mystic Wood	883030046	map.gif	usable		0
+9875	map to the Putrid Swamp	236486845	map.gif	usable		0
+9876	map to the Cursed Village	913230251	map.gif	usable		0
+9877	map to the Sprawling Cemetery	359690257	map.gif	usable		0
 9878
 9879
 9880

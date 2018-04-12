@@ -508,3 +508,11 @@ Gingerbread City	adventure=478	Env: indoor Stat: 0 nowander	Gingerbread Train St
 Gingerbread City	adventure=479	Env: indoor Stat: 0 nowander	Gingerbread Industrial Zone
 Gingerbread City	adventure=480	Env: outdoor Stat: 0 nowander	Gingerbread Upscale Retail District
 Gingerbread City	adventure=481	Env: underground Stat: 0 nowander	Gingerbread Sewers
+
+FantasyRealm	adventure=502	Env: outdoor Stat: 0 nowander	The Bandit Crossroads
+FantasyRealm	adventure=503	Env: outdoor Stat: 0 nowander	The Towering Mountains
+FantasyRealm	adventure=504	Env: outdoor Stat: 0 nowander	The Mystic Wood
+FantasyRealm	adventure=506	Env: outdoor Stat: 0 nowander	The Cursed Village
+FantasyRealm	adventure=510	Env: underground Stat: 0 nowander	The Foreboding Cave
+FantasyRealm	adventure=511	Env: outdoor Stat: 0 nowander	The Faerie Cyrkle
+FantasyRealm	adventure=516	Env: indoor Stat: 0 nowander	The Cursed Village Thieves' Guild

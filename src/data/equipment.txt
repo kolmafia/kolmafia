@@ -108,6 +108,9 @@ eyepatch	25	none
 f3d0r4	110	Mox: 40
 fancy ball mask	90	Mox: 15
 fancy tophat	100	Mox: 35
+FantasyRealm Mage's Hat	50	none
+FantasyRealm Rogue's Mask	50	none
+FantasyRealm Warrior's Helm	50	none
 feathered headdress	200	Mys: 85
 festive holiday hat	30	none
 fez of etymology	120	Mox: 45
@@ -1198,6 +1201,7 @@ logging hatchet	75	Mus: 22	1-handed axe
 love	150	Mox: 35	1-handed pistol
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
+LyleCo premium magnifying glass	50	Mus: 0	1-handed club
 Mace of the Tortoise	50	Mus: 10	1-handed mace
 machetito	110	Mus: 40	1-handed sword
 macroplane grater	100	Mys: 35	1-handed utensil
@@ -2238,6 +2242,7 @@ eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 fancy black tie	100	Mys: 35
 Fancy Jeff's fancy pocket square	150	Mox: 30
+FantasyRealm G. E. M.	10	none
 fiberglass fannypack	120	Mys: 40
 fiberglass fingerguard	120	Mys: 40
 filigreed hamethyst earring	110	Mys: 40
@@ -2394,6 +2399,7 @@ lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
 lucky rabbit's foot	60	Mys: 15
 LWA ring	10	none
+LyleCo premium monocle	0	none
 Mafia bow tie	0	Mys: 35
 mafia middle finger ring	0	Mus: 45
 mafia organizer badge	0	Mus: 30

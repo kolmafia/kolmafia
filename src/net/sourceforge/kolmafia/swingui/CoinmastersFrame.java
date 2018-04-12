@@ -124,6 +124,7 @@ import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
@@ -221,6 +222,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel pokemporiumPanel = null;
 	private CoinmasterPanel precinctPanel = null;
 	private CoinmasterPanel quartersmasterPanel = null;
+	private CoinmasterPanel rubeePanel = null;
 	private CoinmasterPanel shakeShopPanel = null;
 	private CoinmasterPanel shoeRepairPanel = null;
 	private CoinmasterPanel shoreGiftShopPanel = null;
@@ -476,6 +478,11 @@ public class CoinmastersFrame
 		spacegateFabricationPanel = new SpacegateFabricationPanel();
 		panel.add( spacegateFabricationPanel );
 		this.selectorPanel.addPanel( spacegateFabricationPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		rubeePanel = new RubeePanel();
+		panel.add( rubeePanel );
+		this.selectorPanel.addPanel( rubeePanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1406,6 +1413,15 @@ public class CoinmastersFrame
 		public PrecinctPanel()
 		{
 			super ( PrecinctRequest.PRECINCT );
+		}
+	}
+
+	private class RubeePanel
+		extends CoinmasterPanel
+	{
+		public RubeePanel()
+		{
+			super( RubeeRequest.RUBEE );
 		}
 	}
 

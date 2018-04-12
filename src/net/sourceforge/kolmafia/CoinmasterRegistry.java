@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.PrecinctRequest;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
@@ -148,6 +149,7 @@ public abstract class CoinmasterRegistry
 		PokemporiumRequest.POKEMPORIUM,
 		PrecinctRequest.PRECINCT,
 		QuartersmasterRequest.FRATBOY,
+		RubeeRequest.RUBEE,
 		SHAWARMARequest.SHAWARMA,
 		ShoeRepairRequest.SHOE_REPAIR,
 		ShoreGiftShopRequest.SHORE_GIFT_SHOP,
