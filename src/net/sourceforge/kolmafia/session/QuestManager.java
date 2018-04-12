@@ -1957,9 +1957,9 @@ public class QuestManager
 		else if ( monsterName.equals( "X-32-F Combat Training Snowman" ) )
 		{
 			int snowparts = Preferences.getInteger( "_snojoParts" );
+			Preferences.setInteger( "_snojoFreeFights", Math.min( snowparts, 10 ) );
 			if ( snowparts <= 10 )
 			{
-				Preferences.setInteger( "_snojoFreeFights", snowparts );
 				String snojoSetting = Preferences.getString( "snojoSetting" );
 				if ( snojoSetting.equals( "MUSCLE" ) )
 				{

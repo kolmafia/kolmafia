@@ -2398,3 +2398,4 @@
 2397
 2398
 2399	Powder Power	disease.gif	7f9795080d7119dc0009eae2b9a4e916	chew 1 sachet of strange powder
+2400	Artisanal Satiaton	analjar_empty.gif	bad8c8c5113bf8ef1a5fd160c591a716	drink 1 hipster cocktail
