@@ -594,6 +594,7 @@ tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spel
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
+two meat muck	3	4	good	0	0	0	0	Unspaded
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 unflavored wine cooler	2	1	decent	4	0	0	0
 unidentified drink	3	1		6-20	6	6	6	very random stat gain, average only

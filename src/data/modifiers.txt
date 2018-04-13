@@ -9099,6 +9099,7 @@ Item	grisly shell fragment	Effect: "Thick, Sick", Effect Duration: 1
 # Item grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
+Item	grolblin rum	Lasts Until Rollover
 # grouchy restless spirit: Deals 40-45 <font color=gray>Spooky Damage</font>
 # groupie lipstick: Deals 150-250 <font color=blueviolet>Sleaze Damage</font>
 Item	groupie spangles	Effect: "Spangled Star", Effect Duration: 5
@@ -9710,6 +9711,7 @@ Item	PlexiPips	Effect: "Sole Soul", Effect Duration: 1
 # plot hole: Deals 20-25 Physical Damage
 Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 # plump juicy grub: Restores 90-100 HP
+Item	plump purple mushroom	Lasts Until Rollover
 Item	plunge-leg	Effect: "Pediplunger", Effect Duration: 30
 # plus-sized phylactery: Contains the soul of a specific lihc
 Item	pocket maze	Effect: "Amazing", Effect Duration: 1
