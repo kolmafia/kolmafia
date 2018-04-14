@@ -9875,7 +9875,7 @@
 9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
 9850
 9851
-9852
+9852	faerie dust	341703432	faeriedust.gif	none	q	0
 9853
 9854
 9855
