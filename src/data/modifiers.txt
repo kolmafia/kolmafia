@@ -8858,6 +8858,7 @@ Item	fabric hardener	Effect: "Hardened Fabric", Effect Duration: 20
 # facehugging alien: Deals 100-300 Physical Damage after a few rounds have passed
 # facsimile dictionary: Most Enemies Don't Care About It
 # facsimile dictionary: (doesn't go away when used)
+Item	faerie dust	Lasts Until Rollover
 Item	fairy-worn boots	Free Pull
 Item	fake blood	Effect: "Bloody Bloody Bloody!", Effect Duration: 10
 Item	fake cocktail	Effect: "Liquor-ish", Effect Duration: 10
