@@ -218,6 +218,7 @@ delicious spicy noodles	3	5	awesome	9-11	0	29-33	0
 delicious star salad	3	1	decent	4	4	4	4	gain 3-5 stars
 delicious swamp muck	5	4	decent	7-8	20-30	20-30	20-30
 deluxe layer cake	10	10	awesome	42-48	200-400	200-400	200-400
+denastified haunch	1	1	awesome	0	0	0	0	Unspaded 30 Faerie Fortune (+1 Rubee drop)
 desiccated apricot	1	2	decent	2	15-17	0	0
 devil dog	3	1	awesome	11-13	0	0	0	+5 PvP fights, 30 Devil Inside (+30 Hot Damage, +3 Cold/Spooky Res)
 devil hair pasta	4	6	awesome	11-14	13	13	13

@@ -9901,8 +9901,8 @@
 9875	map to the Putrid Swamp	236486845	map.gif	usable		0
 9876	map to the Cursed Village	913230251	map.gif	usable		0
 9877	map to the Sprawling Cemetery	359690257	map.gif	usable		0
-9878
-9879
+9878	denastified haunch	397901120	fr_haunch.gif	food	t,d	45
+9879	bad rum and good cola	690212933	rocks.gif	drink	t,d	55
 9880
 9881
 9882

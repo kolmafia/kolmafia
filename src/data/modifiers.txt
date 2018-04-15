@@ -5154,6 +5154,7 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
 Effect	Faboooo	Muscle: +5, Weapon Damage: +10
+# Effect Faerie Fortune: Fantasyrealm enemies drop 1 additional Rubee
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
 Effect	familiar.enq	Familiar Weight: +5
 Effect	Fan Dancing	Avatar: "fan dancer"
@@ -7516,6 +7517,7 @@ Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 Item	cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
 Item	D roll	Effect: "On a Roll", Effect Duration: 20
+Item	denastified haunch	Effect: "Faerie Fortune", Effect Duration: 30
 Item	devil dog	Effect: "Devil Inside", Effect Duration: 30
 # dinner roll: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals Physical Damage based on your Muscle when used as a combat item
 Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30
@@ -7728,6 +7730,7 @@ Item	Aura Libre	Effect: "Transcendental Wind", Effect Duration: 15
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
+Item	bad rum and good cola	Effect: "Faerie Fortune", Effect Duration: 30
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50
 Item	Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect Duration: 30
