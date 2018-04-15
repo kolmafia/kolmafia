@@ -1850,9 +1850,12 @@ amorphous blob	2032	xoblob.gif	Scale: 100 Init: -10000 P: slime	giant X (100n)	g
 fantasy bandit	2060	fr_bandit.gif	Atk: 100 Def: 100 HP: 100 Init: 100 P: dude	Rubee&trade; (0)
 fantasy ourk	2061	fr_ourk.gif	Atk: 120 Def: 120 HP: 150 Init: 100 P: dude Phys: 100	Rubee&trade; (0)
 fantasy forest faerie	2062	fr_faerie.gif	Atk: 120 Def: 120 HP: 90 Init: 300 P: dude	Rubee&trade; (0)
+swamp monster	2063	fr_swampmonster.gif	Atk: 120 Def: 120 HP: 100 Init: 100 P: dude	Rubee&trade; (0)
 cursed villager	2064	fr_villager.gif	Atk: 130 Def: 130 HP: 30 Init: -10000 P: dude	Rubee&trade; (0)
+Spooky ghost	2065	fr_ghost.gif	Atk: 130 Def: 130 HP: 150 Init: 100 P: dude	Rubee&trade; (0)
 rubber bat	2068	fr_bat.gif	Atk: 140 Def: 140 HP: 150 Init: -10000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 quadfaerie	2069	fr_quadfaerie.gif	Atk: 140 Def: 140 HP: 100 Init: 150 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
+flock of every birds	2071	fr_birds.gif	Atk: 150 Def: 150 HP: 50 Init: 100 P: beast	Rubee&trade; (0)	Rubee&trade; (0)
 
 # KoL Con
 
