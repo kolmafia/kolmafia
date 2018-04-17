@@ -6022,6 +6022,47 @@ public class UseItemRequest
 			}
 			CampgroundRequest.growTallGrass();
 			break;
+
+		case ItemPool.FR_MEMBER:
+
+			// You fill out the forms in the packet and take them to the LyleCo kiosk at the monorail station in town.
+			// Time to escape to a realm of fantasy!
+
+			Preferences.setBoolean( "frAlways", true );
+			if ( !responseText.contains( "escape to a realm of fantasy" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.FR_GUEST:
+			//if ( responseText.contains( "????????" ) )
+			//{
+				// If you already have access it is not consumed
+			//	return;
+			//}
+			Preferences.setBoolean( "_frToday", true );
+			break;
+
+		case ItemPool.FR_MOUNTAIN_MAP:
+			Preferences.setBoolean( "frMountainsUnlocked", true );
+			break;
+
+		case ItemPool.FR_WOOD_MAP:
+			Preferences.setBoolean( "frWoodUnlocked", true );
+			break;
+
+		case ItemPool.FR_SWAMP_MAP:
+			Preferences.setBoolean( "frSwampUnlocked", true );
+			break;
+
+		case ItemPool.FR_VILLAGE_MAP:
+			Preferences.setBoolean( "frVillageUnlocked", true );
+			break;
+
+		case ItemPool.FR_CEMETARY_MAP:
+			Preferences.setBoolean( "frCemetaryUnlocked", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
