@@ -515,6 +515,7 @@ FantasyRealm	adventure=504	Env: outdoor Stat: 0 nowander	The Mystic Wood
 FantasyRealm	adventure=505	Env: outdoor Stat: 0 nowander	The Putrid Swamp
 FantasyRealm	adventure=506	Env: outdoor Stat: 0 nowander	The Cursed Village
 FantasyRealm	adventure=507	Env: outdoor Stat: 0 nowander	The Sprawling Cemetery
+FantasyRealm	adventure=509	Env: underground Stat: 0 nowander	The Old Rubee Mine
 FantasyRealm	adventure=510	Env: underground Stat: 0 nowander	The Foreboding Cave
 FantasyRealm	adventure=511	Env: outdoor Stat: 0 nowander	The Faerie Cyrkle
 FantasyRealm	adventure=513	Env: outdoor Stat: 0 nowander	Near the Witch's House

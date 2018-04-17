@@ -356,6 +356,7 @@ The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty p
 The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman	The Mad Libber: 0
 The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
+The Old Rubee Mine	100	mining grobold
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team

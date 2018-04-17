@@ -404,6 +404,10 @@ public class QuestManager
 			{
 				handlePyramidChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=realm_fantasy" ) )
+			{
+				handleFantasyRealmChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=sea_oldman" ) )
 			{
 				handleSeaChange( location, responseText );
@@ -641,6 +645,23 @@ public class QuestManager
 		if ( !Preferences.getBoolean( "spacegateAlways" ) )
 		{
 			Preferences.setBoolean( "_spacegateToday", true );
+		}
+	}
+
+	private static void handleFantasyRealmChange( final String location, final String responseText )
+	{
+		if ( !Preferences.getBoolean( "frAlways" ) )
+		{
+			Preferences.setBoolean( "_frToday", true );
+		}
+		// If Welcome Center is present, then any area available is permanently unlocked
+		if ( responseText.contains( "action=fr_initcenter" ) )
+		{
+			Preferences.setBoolean( "frMountainsUnlocked", responseText.contains( "snarfblat=503" ) );
+			Preferences.setBoolean( "frWoodUnlocked", responseText.contains( "snarfblat=504" ) );
+			Preferences.setBoolean( "frSwampUnlocked", responseText.contains( "snarfblat=505" ) );
+			Preferences.setBoolean( "frVillageUnlocked", responseText.contains( "snarfblat=506" ) );
+			Preferences.setBoolean( "frCemetaryUnlocked", responseText.contains( "snarfblat=507" ) );
 		}
 	}
 

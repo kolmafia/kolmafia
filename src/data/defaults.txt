@@ -544,8 +544,14 @@ user	fossilN	0
 user	fossilP	0
 user	fossilS	0
 user	fossilW	0
+user	frAlways	false
 user	fratboysDefeated	0
+user	frCemetaryUnlocked	false
 user	friarsBlessingReceived	false
+user	frMountainsUnlocked	false
+user	frSwampUnlocked	false
+user	frVillageUnlocked	false
+user	frWoodUnlocked	false
 user	gameProBossSpecialPower	Unknown
 user	garbageFireProgress	25
 user	ghostLocation	
@@ -1381,6 +1387,7 @@ user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
+user	_frToday	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gapBuffs	0

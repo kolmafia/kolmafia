@@ -2936,6 +2936,13 @@ public class ItemPool
 	public static final int TALL_GRASS_SEEDS = 9760;
 	public static final int POKE_GROW_FERTILIZER = 9761;
 	public static final int RUBEE = 9838;
+	public static final int FR_MEMBER = 9835;
+	public static final int FR_GUEST = 9836;
+	public static final int FR_MOUNTAIN_MAP = 9873;
+	public static final int FR_WOOD_MAP = 9874;
+	public static final int FR_SWAMP_MAP = 9875;
+	public static final int FR_VILLAGE_MAP = 9876;
+	public static final int FR_CEMETARY_MAP = 9877;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
