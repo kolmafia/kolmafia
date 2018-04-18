@@ -2008,6 +2008,14 @@ public abstract class UseLinkDecorator
 			useType = "assemble";
 			useLocation = "shop.php?whichshop=spant";
 			break;
+			
+		case ItemPool.RUBEE:
+			useType = "spend";
+			if ( KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
+			{
+				useLocation = "shop.php?whichshop=fantasyrealm";
+			}
+			break;
 
 		default:
 
