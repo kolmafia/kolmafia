@@ -521,3 +521,4 @@ FantasyRealm	adventure=511	Env: outdoor Stat: 0 nowander	The Faerie Cyrkle
 FantasyRealm	adventure=513	Env: outdoor Stat: 0 nowander	Near the Witch's House
 FantasyRealm	adventure=515	Env: outdoor Stat: 0 nowander	The Barrow Mounds
 FantasyRealm	adventure=516	Env: indoor Stat: 0 nowander	The Cursed Village Thieves' Guild
+FantasyRealm	adventure=518	Env: outdoor Stat: 0 nowander	The Labyrinthine Crypt

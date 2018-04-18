@@ -9869,7 +9869,7 @@
 9843	&quot;Remember the Trees&quot; Shirt	184762475	treeshirt.gif	shirt	t,d	10
 9844	FantasyRealm key	316455684	simplekey.gif	none		0
 9845	plump purple mushroom	974351931	danceshroom.gif	none	q	0
-9846
+9846	tainted marshmallow	265040916	roastmallow.gif	none	q	0
 9847
 9848	LyleCo premium pickaxe	549352396	pickaxe.gif	none		0
 9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
@@ -9878,7 +9878,7 @@
 9852	faerie dust	341703432	faeriedust.gif	none	q	0
 9853
 9854
-9855
+9855	to-go brew	571713150	togocup.gif	none	q	0
 9856
 9857	universal antivenin	283524261	potion23.gif	usable	q	0
 9858	LyleCo premium monocle	898517473	monocle2.gif	accessory		0
@@ -9887,14 +9887,14 @@
 9861	LyleCo Contractor's Manual	696806731	book4.gif	usable	t	0
 9862	FantasyRealm turkey leg	356561751	bigturkeyleg.gif	food		0
 9863	FantasyRealm mead	232234132	tankard.gif	drink		0
-9864
+9864	nasty haunch	783166866	fr_haunch.gif	none	q	0
 9865
 9866
-9867
+9867	hero's skull	923392362	heroskull.gif	none	q	0
 9868	grolblin rum	477555811	gascan.gif	none	q	0
 9869
 9870	sachet of strange powder	522275868	sachet.gif	spleen, usable	t	0
-9871
+9871	mourning wine	211346391	redwine.gif	drink	t	0
 9872	sanctified cola	578545020	crimbcola.gif	usable	q	0
 9873	map to the Towering Mountains	500147336	map.gif	usable		0
 9874	map to the Mystic Wood	883030046	map.gif	usable		0
@@ -9903,19 +9903,19 @@
 9877	map to the Sprawling Cemetery	359690257	map.gif	usable		0
 9878	denastified haunch	397901120	fr_haunch.gif	food	t,d	45
 9879	bad rum and good cola	690212933	rocks.gif	drink	t,d	55
-9880
-9881
-9882
-9883
+9880	Potion of Heroism	782589344	heroskull.gif	multiple	t,d	25
+9881	leggings of the Spider Queen	274825368	spiderleggings.gif	pants		0
+9882	Master Thief's utility belt	150082682	thiefbelt.gif	accessory		0
+9883	Duke Vampire's regal cloak	669418859	dukevampcape.gif	container		0
 9884
 9885
 9886
 9887
 9888
 9889
-9890
+9890	shield of the Skeleton Lord	588429087	skeletonshield.gif	offhand		0
 9891
-9892
+9892	scepter of the Skeleton Lord	284649266	skeletonscepter.gif	weapon		0
 9893	deadfall branch	608979264	hippyclub.gif	weapon	t,d	1
 9894
 9895

@@ -518,6 +518,7 @@ lava-proof pants	100	Mox: 35
 Leapin' Trousers	12	none
 leather chaps	160	Mox: 65
 Lederhosen of the Night	125	Mox: 30
+leggings of the Spider Queen	200	Mox: 40
 lemon drop trousers	50	Mox: 10
 leotarrrd	90	Mox: 30
 liar's pants	100	none
@@ -1346,6 +1347,7 @@ Saucepanic	100	Mys: 0	1-handed saucepan
 savory crossbow	80	Mox: 25	2-handed crossbow
 savory staff	80	Mus: 25	2-handed staff
 savory sword	80	Mus: 25	1-handed sword
+scepter of the Skeleton Lord	300	Mys: 50	2-handed staff
 scorpion whip	20	Mus: 0	1-handed whip
 scratch 'n' sniff crossbow	100	Mox: 0	1-handed crossbow
 scratch 'n' sniff sword	100	Mus: 0	1-handed sword
@@ -1914,6 +1916,7 @@ Seven Loco	0	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
 Shield of Icy Fate	120	none	shield
+shield of the Skeleton Lord	0	Mus: 50	shield
 Shrub's Premium Baked Beans	50	none	can of beans
 silver cow creamer	200	Mys: 85
 Silver HP-35 Calculator	0	none
@@ -2412,6 +2415,7 @@ MagiMechTech NanoMechaMech	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150
 Marvelous Unitard	10	none
+Master Thief's utility belt	0	Mox: 40
 mayfly bait necklace	0	none
 Mayor Ghost's sash	300	Mys: 100
 Mega Gem	10	none
@@ -3047,6 +3051,7 @@ cod cape	225	Mox: 200
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drunkula's cape	300	Mys: 250
+Duke Vampire's regal cloak	0	Mox: 40
 fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50
 gabardine gunnysack	50	none
