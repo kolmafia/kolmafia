@@ -2968,3 +2968,6 @@ burning cape	NEWSPAPER	burning newspaper
 burning paper slippers	NEWSPAPER	burning newspaper
 burning paper jorts	NEWSPAPER	burning newspaper
 burning paper crane	NEWSPAPER	burning newspaper
+
+# FantasyRealm
+Potion of Heroism	COMBINE	hero's skull	to-go brew

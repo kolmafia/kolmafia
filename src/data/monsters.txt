@@ -1857,6 +1857,7 @@ mining grobold	2067	fr_grolblin.gif	Atk: 140 Def: 140 HP: 100 Init: 999 P: const
 rubber bat	2068	fr_bat.gif	Atk: 140 Def: 140 HP: 150 Init: -10000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 quadfaerie	2069	fr_quadfaerie.gif	Atk: 140 Def: 140 HP: 100 Init: 150 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 flock of every birds	2071	fr_birds.gif	Atk: 150 Def: 150 HP: 50 Init: 100 P: beast	Rubee&trade; (0)	Rubee&trade; (0)
+crypt creeper	2076	fr_creeper.gif	Atk: 150 Def: 150 HP: 99999 Init: 1000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 
 # KoL Con
 
