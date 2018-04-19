@@ -754,6 +754,7 @@ Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 Item	The Emperor's new pants	Moxie: [L]
+Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100, Single Equip
 Item	The Jokester's pants	HP Regen Min: 6, HP Regen Max: 8, Moxie Percent: +20, Never Fumble
 Item	The Necbromancer's Shorts	Cold Resistance: +3, Sleaze Resistance: +3, Booze Drop: +30, Familiar Effect: "atk, 2xGhuol"
 # The Sagittarian's leisure pants: Disco Bandit Combat Skills weaken enemies by an additional 20%
@@ -854,6 +855,7 @@ Item	coconut bikini top	Mysticality: +5
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
+Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 # dreadful sweater: Lets you find 5% more Kruegerands
 Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
@@ -1189,6 +1191,8 @@ Item	double barreled barrel gun	Weapon Damage Percent: +50, Critical Hit Percent
 Item	double-barreled sling	Sleaze Damage: +5, Cold Resistance: +1
 Item	doubt cannon	Weakens Monster
 Item	Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
+# Item dragon slaying sword: Kills dragons, probably
+Item	dragon slaying sword	Lasts Until Rollover
 # dreadful glove: Lets you find 5% more Krueggerands
 Item	dreadful glove	Critical Hit Percent: +5
 Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
@@ -7266,6 +7270,7 @@ Outfit	Encephalic Ensemble	Item Drop: +5
 Outfit	eXtreme Cold-Weather Gear	Cold Resistance: +5
 Outfit	Fancy Tux	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	FantasyRealm Thief's Outfit	Pickpocket Chance: +25
+Outfit	FantasyRealm Warrior's Outfit	Weapon Damage Percent: +100
 Outfit	FantasyRealm Wizard's Outfit	Spell Damage Percent: +100
 Outfit	Fiberglass Finery	Initiative: +50
 Outfit	Filthy Hippy Disguise	Stench Damage: +5
@@ -8781,6 +8786,7 @@ Item	dollop of barbecue sauce	Effect: "Barbecue Saucy", Effect Duration: 15
 Item	donkey flipbook	Effect: "Hyperoffended", Effect Duration: 10
 Item	doppelshifter egg	Free Pull
 Item	double-ice gum	Effect: "Wintry Breath", Effect Duration: 10
+Item	dragon aluminum ore	Lasts Until Rollover
 # Dreadsylvanian seed pod: Fully restores your HP and removes negative status effects
 Item	dreaming Jung man	Free Pull
 Item	drinks tray	Effect: "Whose Drinks Are These?", Effect Duration: 30

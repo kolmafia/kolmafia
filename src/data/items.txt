@@ -9874,7 +9874,7 @@
 9848	LyleCo premium pickaxe	549352396	pickaxe.gif	none		0
 9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
 9850
-9851
+9851	dragon aluminum ore	319227011	dragonore.gif	none	q	0
 9852	faerie dust	341703432	faeriedust.gif	none	q	0
 9853
 9854
@@ -9907,9 +9907,9 @@
 9881	leggings of the Spider Queen	274825368	spiderleggings.gif	pants		0
 9882	Master Thief's utility belt	150082682	thiefbelt.gif	accessory		0
 9883	Duke Vampire's regal cloak	669418859	dukevampcape.gif	container		0
-9884
+9884	Dragonscale breastplate	910955074	fr_breastplate.gif	shirt		0
 9885
-9886
+9886	The Ghoul King's ghoulottes	693897270	ghoulpants.gif	pants		0
 9887
 9888
 9889
@@ -9919,7 +9919,7 @@
 9893	deadfall branch	608979264	hippyclub.gif	weapon	t,d	1
 9894
 9895
-9896
+9896	dragon slaying sword	566900199	fr_sword.gif	weapon	q	0
 9897
 9898	two meat muck	825078093	wine.gif	drink	t,d	200
 9899

@@ -608,6 +608,7 @@ sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
 The Emperor's new pants	10	none
+The Ghoul King's ghoulottes	200	Mus: 40
 The Jokester's pants	200	Mox: 50
 The Necbromancer's Shorts	200	Mox: 200
 The Sagittarian's leisure pants	75	none
@@ -693,6 +694,7 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 demonskin jacket	80	Mus: 25
+Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
 extra-see-thru nightie	200	Mus: 200
@@ -999,6 +1001,7 @@ double barreled barrel gun	150	Mox: 60	2-handed shotgun
 double-barreled sling	70	Mox: 20	1-handed sling
 doubt cannon	85	Mox: 30	1-handed forearm replacement
 Dr. Hobo's scalpel	35	Mus: 2	1-handed knife
+dragon slaying sword	50	Mus: 0	1-handed sword
 dreadful glove	200	Mus: 200	1-handed knife-glove
 dreadlock whip	40	Mus: 5	1-handed whip
 dripping meat crossbow	50	Mox: 10	2-handed crossbow
