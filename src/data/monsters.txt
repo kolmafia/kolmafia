@@ -1852,15 +1852,17 @@ fantasy ourk	2061	fr_ourk.gif	Atk: 120 Def: 120 HP: 150 Init: 100 P: dude Phys: 
 fantasy forest faerie	2062	fr_faerie.gif	Atk: 120 Def: 120 HP: 90 Init: 300 P: dude	Rubee&trade; (0)
 swamp monster	2063	fr_swampmonster.gif	Atk: 120 Def: 120 HP: 100 Init: 100 P: dude	Rubee&trade; (0)
 cursed villager	2064	fr_villager.gif	Atk: 130 Def: 130 HP: 30 Init: -10000 P: dude	Rubee&trade; (0)
-Spooky ghost	2065	fr_ghost.gif	Atk: 130 Def: 130 HP: 150 Init: 100 P: dude GHOST	Rubee&trade; (0)
+Spooky ghost	2065	fr_ghost.gif	Atk: 130 Def: 130 HP: 150 Init: 200 P: dude GHOST	Rubee&trade; (0)
 mining grobold	2067	fr_grolblin.gif	Atk: 140 Def: 140 HP: 100 Init: 999 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 rubber bat	2068	fr_bat.gif	Atk: 140 Def: 140 HP: 150 Init: -10000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 quadfaerie	2069	fr_quadfaerie.gif	Atk: 140 Def: 140 HP: 100 Init: 150 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 druid plants	2070	fr_druidplant.gif	Atk: 150 Def: 150 HP: 300 Init: -10000 P: plant
 flock of every birds	2071	fr_birds.gif	Atk: 150 Def: 150 HP: 50 Init: 100 P: beast	Rubee&trade; (0)	Rubee&trade; (0)
 barrow wraith?	2073	darkness.gif	Atk: 150 Def: 150 HP: 99999 Init: 100 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
+regular thief	2074	fr_thief.gif	Atk: 150 Def: 150 HP: 100 Init: 100 P: dude	Rubee&trade; (0)	Rubee&trade; (0)
 crypt creeper	2076	fr_creeper.gif	Atk: 150 Def: 150 HP: 99999 Init: 1000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 Sewage Treatment Dragon	2078	fr_dragon.gif	Atk: 300 Def: 300 HP: 300 Init: 100 E: stench P: construct	Dragonscale breastplate (n100)
+Spider Queen	2080	fr_spiderqueen.gif	Atk: 600 Def: 100 HP: 300 Init: 200 P: dude	leggings of the Spider Queen (n100)
 Ghoul King	2083	fr_ghoulking.gif	Atk: 400 Def: 400 HP: 700 Init: -10000 P: humanoid	The Ghoul King's ghoulottes (n100)
 Ogre Chieftain	2084	fr_ogrechieftain.gif	Atk: 300 Def: 700 HP: 500 Init: -10000 P: humanoid	belt of Ogrekind (n100)
 
