@@ -137,6 +137,6 @@
 134	Pyrotechnic Paper Paraphernalia	fpmtat.gif	burning paper hat, burning cape, burning paper slippers, burning paper jorts, burning paper crane
 135	Genie Garments	genietat.gif	genie's turbane, genie's scimitar, genie's pants, genie's bracers
 136	Psychic Enpsemble	psychictat.gif	psychic's amulet, psychic's circlet, psychic's crystal ball, psychic's pslacks
-#137	FantasyRealm Warrior's Outfit	frtat1.gif	FantasyRealm Warrior's Helm, Dragonscale breastplate, The Ghoul King's ghoulottes
-#138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat
+137	FantasyRealm Warrior's Outfit	frtat1.gif	FantasyRealm Warrior's Helm, Dragonscale breastplate, belt of Ogrekind, The Ghoul King's ghoulottes
+138	FantasyRealm Wizard's Outfit	frtat2.gif	FantasyRealm Mage's Hat, nozzle of the Phoenix, the Archwizard's briefs, the Ley Incursion's waist
 139	FantasyRealm Thief's Outfit	frtat3.gif	FantasyRealm Rogue's Mask, Duke Vampire's regal cloak, leggings of the Spider Queen, Master Thief's utility belt

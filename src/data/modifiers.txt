@@ -753,6 +753,7 @@ Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPot
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
+Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100
 Item	The Emperor's new pants	Moxie: [L]
 Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100, Single Equip
 Item	The Jokester's pants	HP Regen Min: 6, HP Regen Max: 8, Moxie Percent: +20, Never Fumble
@@ -1926,6 +1927,7 @@ Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
+Item	charged druidic orb	Lasts Until Rollover
 # charged magnet: Radiates a Strange Energy
 Item	charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 Item	Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
@@ -1968,6 +1970,7 @@ Item	disturbing fanfic	Sleaze Spell Damage: +30
 # double-ice box: All Spells Cast Are Cold
 # double-ice box: Deals 10-20 cold damage every round
 Item	double-ice box	Spell Damage Percent: +10
+Item	druidic orb	Lasts Until Rollover
 # Drunkula's wineglass: Prevents you from using skills and spells and combat items
 # Drunkula's wineglass: Allows adventuring while falling-down drunk
 Item	Drunkula's wineglass	Familiar Weight: -30
@@ -2162,6 +2165,7 @@ Item	naughty fortune teller	Softcore Only
 # Necrotelicomnicon: All Spells Cast Are Spooky
 Item	Necrotelicomnicon	Spell Damage: +10
 Item	novelty monorail ticket	Adventures: +3, Rollover Effect: "Favored by Lyle", Rollover Effect Duration: 100
+Item	nozzle of the Phoenix	Mysticality: +15, Mysticality Percent: +25, Hot Spell Damage: +50
 Item	off-hand balloon	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	oil lamp	Sleaze Damage: +5, Hot Damage: +5
 # Ol' Scratch's ash can: All Spells Cast Are Hot
@@ -2480,6 +2484,7 @@ Item	bejeweled pledge pin	Maximum HP: +40, Single Equip
 Item	Belt of Howling Anger	PvP Fights: +3, Critical Hit Percent: +3, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 # Belt of Loathing: 75% Chance of Preventing Negative Status Attacks
 Item	Belt of Loathing	Damage Reduction: 20, Familiar Weight: +10, Single Equip, Cloathing
+Item	belt of Ogrekind	Muscle: +15, Muscle Percent: +25, Experience (Muscle): +5, Single Equip
 # bewitching boots: Slight Cute Resistance
 Item	bewitching boots	Meat Drop: +10, Synergetic
 # bezoar ring: Protects the wearer from poison
@@ -3077,6 +3082,7 @@ Item	ring of teleportation	Single Equip
 # ring of telling skeletons what to do: Lets you tell skeletons what to do
 Item	ring of telling skeletons what to do	Muscle: +2, Mysticality: +2, Moxie: +2
 Item	Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
+Item	ring of the Skeleton Lord	Mysticality Percent: +50, Meat Drop: +50, Item Drop: +25, Single Equip
 Item	Roman sadnals	Experience: +2, Single Equip
 Item	rope with some soap on it	Spell Damage Percent: [100*zone(Hobopolis)*(1-loc(Sewer Tunnels))], Single Equip
 Item	rose-colored glasses	Maximum HP: +5, Maximum MP: +5
@@ -3216,6 +3222,7 @@ Item	tarnished tastevin	Booze Drop: +25, Single Equip
 Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Experience (Mysticality): +5, Single Equip
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
@@ -6011,6 +6018,7 @@ Effect	Pla-see-bo	Item Drop: +10
 Effect	Pneumatic	Adventure Underwater
 Effect	Pockets of Fire	Hot Damage: +10
 Effect	Poetically Licensed	Mysticality Percent: +20, Muscle Percent: -20, Experience (Mysticality): +2, Spell Damage Percent: +10
+Effect	Poison For Blood	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90
 Effect	Poker Faced	Moxie: +25
 Effect	Polar Express	MP Regen Min: 10, MP Regen Max: 20
 Effect	Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
@@ -8209,6 +8217,7 @@ Item	Antagonistic Snowman Kit	Skill: "Summon Carrot"
 Item	antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
 Item	antique tacklebox	Fishing Skill: +5
 Item	Apathargic Bandersnatch	Free Pull
+Item	arrest warrant	Lasts Until Rollover
 Item	arrowgram	Free Pull
 Item	arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
 # artificial skylight: +3 Adventures Per Day
@@ -8476,6 +8485,8 @@ Item	Cheer-Up soda	Effect: "Cheered Up", Effect Duration: 20
 # Cherry Cloaca Cola: Restores 7-9 MP
 Item	Cheshire Bitten	Free Pull
 Item	chewable paper	Free Pull
+Item	Cheswick Copperbottom's compass	Lasts Until Rollover
+Item	Chewsick Copperbottom's notes	Lasts Until Rollover
 Item	chicle de salchicha	Effect: "Here to Kick Ass", Effect Duration: 20
 Item	child-sized dracula cloak	Effect: "Kid Dracularp", Effect Duration: 30
 Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
@@ -8935,6 +8946,7 @@ Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Item	flashy pirate dreadlocks	Effect: "Why is the Shampoo Always Gone?", Effect Duration: 30
 Item	flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 Item	flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10
+Item	flask of holy water	Lasts Until Rollover
 Item	flask of mining oil	Effect Duration: 10
 Item	flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
 Item	flask of rainwater	Effect: "Fleet Woodsman, Mac", Effect Duration: 50
@@ -9574,6 +9586,8 @@ Item	ninja fear powder	Effect: "Ninja in Waiting", Effect Duration: 50
 Item	No Hats as Art	Skill: "Ceci N'Est Pas Un Chapeau"
 Item	Non-Euclidean Finance	Skill: "5-D Earning Potential"
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
+# Item notarized arrest warrant: Now it actually counts
+Item	notarized arrest warrant	Lasts Until Rollover
 Item	note from Clancy	Skill: "Request Sandwich"
 # Notes from the Elfpocalypse, Chapter I: Restores 30-40 HP and MP
 # Notes from the Elfpocalypse, Chapter II: Restores 30-40 HP and MP
@@ -9745,6 +9759,7 @@ Item	pocket maze	Effect: "Amazing", Effect Duration: 1
 # pog #09 (pirate): Does all sorts of crazy things
 # pog #10 (hobo): Does all sorts of crazy things
 # pog #11 (Naughty Sorceress): Does all sorts of crazy things
+Item	poisoned druidic s'more	Lasts Until Rollover
 # Pok&euml;mann band-aid: Restores 100 HP
 Item	Pok&euml;mann band-aid	Effect: "Aided and Abetted", Effect Duration: 10
 Item	poker face paint	Effect: "Poker Faced", Effect Duration: 10

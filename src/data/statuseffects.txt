@@ -2389,7 +2389,7 @@
 2388	Lustre After Wealth	neweggs.gif	8cda15e07f8c94b919dcb5d5956ee526	chew 1 lustrous oyster egg
 2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	chew 1 gleaming oyster egg
 2390	Fantasy Faerie Blessing	faeriedust.gif	75ebf7c521ef696c582322f2b73ab000	# Get Blessing in The Faerie Cyrkle
-2391
+2391	Poison For Blood	poison.gif	b1cff2cbb39833e32a059909ee9d784b	# Make Special Brew in Witch's House
 2392
 2393
 2394	Fantastic Immunity	poison.gif	217dfd5113d8aa7fe0a60e279bd311c2	use 1 universal antivenin
