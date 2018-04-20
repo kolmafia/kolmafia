@@ -266,6 +266,7 @@ The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 The Crashed U. F. O.	-1	alien UFO	alien queen: 0
 The Crimbonium Mining Camp	100	ambulatory robo-minecart	exo-suited miner	semi-autonomous drill unit
 The Cursed Village	100	cursed villager
+The Cursed Village Thieves' Guild	100	regular thief
 The Daily Dungeon	-1	apathetic lizardman	dairy ooze	dodecapede	giant giant moth	mayonnaise wasp	pencil golem	sabre-toothed lime	tonic water elemental	vampire clam
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
 The Dark Elbow of the Woods	90	Demoninja	G imp	L imp
@@ -392,6 +393,7 @@ The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer
 The Snake Pit	-1	cobra	snake
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
 The Spider Hole	-1	spider	spider queen: 0
+The Spider Queen's Lair	0	Spider Queen: 0
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
 The Spooky Forest	85	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1
 The Spooky Gravy Burrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
