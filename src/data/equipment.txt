@@ -607,6 +607,7 @@ stylish swimsuit	40	Mus: 5
 sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
+the Archwizard's briefs	200	Mys: 40
 The Emperor's new pants	10	none
 The Ghoul King's ghoulottes	200	Mus: 40
 The Jokester's pants	200	Mox: 50
@@ -1641,6 +1642,7 @@ card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	180	Mus: 75	shield
 Chalice of the Malkovich Prince	0	none
+charged druidic orb	0	none
 charged magnet	30	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
@@ -1840,6 +1842,7 @@ Mylar balloon	10	none
 naughty fortune teller	0	none
 Necrotelicomnicon	30	none
 novelty monorail ticket	0	Mox: 11
+nozzle of the Phoenix	200	Mys: 40
 off-hand balloon	10	none
 oil lamp	120	Mus: 45
 Ol' Scratch's ash can	200	Mys: 200
@@ -2111,6 +2114,7 @@ bejeweled cufflinks	120	Mys: 45
 bejeweled pledge pin	170	Mys: 70
 Belt of Howling Anger	120	none
 Belt of Loathing	200	Mox: 150
+belt of Ogrekind	200	Mus: 40
 bewitching boots	160	Mys: 65
 bezoar ring	100	Mys: 35
 BGE pocket calendar	0	none
@@ -2600,6 +2604,7 @@ ring of increase damage	80	Mys: 25
 ring of teleportation	80	Mys: 25
 ring of telling skeletons what to do	0	none
 Ring of the Sewer Snake	150	Mys: 60
+ring of the Skeleton Lord	300	Mox: 50
 Roman sadnals	100	Mys: 35
 rope with some soap on it	200	Mys: 200
 rose-colored glasses	20	none
@@ -2718,6 +2723,7 @@ tap shoes	70	Mys: 20
 tarnished tastevin	150	Mys: 40
 tarrrnished charrrm bracelet	150	Mys: 60
 teflon swim fins	200	Mus: 85
+the Ley Incursion's waist	200	Mys: 40
 The Lost Glasses	0	Mys: 25
 The One Mood Ring	150	Mys: 60
 The Ring	150	Mys: 60

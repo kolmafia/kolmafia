@@ -284,10 +284,13 @@ The Degrassi Knoll Restroom	100	Gnollish Flyslayer	Gnollish Plungermaster	Guard 
 The Dire Warren	100	fluffy bunny
 The Dive Bar	100	lounge lizardfish	Mer-kin tippler	nurse shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon (2009)	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
+The Dragon's Moor	0	Sewage Treatment Dragon: 0
+The Druidic Campsite	100	druid plants
 The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
+The Evil Cathedral	100	barrow wraith?
 The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
 The Faerie Cyrkle	100	quadfaerie
@@ -354,6 +357,7 @@ The Nemesis' Lair	100	hellseal guardian	Gorgolok, the Infernal Seal (Inner Sanct
 The Nightmare Meatrealm	100	bacon snake	cold cutter	groast	pork butterfly	salaminder	The Beefhemoth: 0
 The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
 The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty pirate	swarthy pirate
+The Ogre Chieftain's Keep	0	Ogre Chieftain: 0
 The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman	The Mad Libber: 0
 The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
