@@ -1862,6 +1862,7 @@ barrow wraith?	2073	darkness.gif	Atk: 150 Def: 150 HP: 99999 Init: 100 P: constr
 regular thief	2074	fr_thief.gif	Atk: 150 Def: 150 HP: 100 Init: 100 P: dude	Rubee&trade; (0)	Rubee&trade; (0)
 crypt creeper	2076	fr_creeper.gif	Atk: 150 Def: 150 HP: 99999 Init: 1000 P: construct	Rubee&trade; (0)	Rubee&trade; (0)
 Sewage Treatment Dragon	2078	fr_dragon.gif	Atk: 300 Def: 300 HP: 300 Init: 100 E: stench P: construct	Dragonscale breastplate (n100)
+Duke Vampire	2079	fr_vampire.gif	Atk: 300 Def: 300 HP: 100 Init: 200 E: sleaze P: construct	Duke Vampire's regal cloak (n100)
 Spider Queen	2080	fr_spiderqueen.gif	Atk: 600 Def: 100 HP: 300 Init: 200 P: dude	leggings of the Spider Queen (n100)
 Ghoul King	2083	fr_ghoulking.gif	Atk: 400 Def: 400 HP: 700 Init: -10000 P: humanoid	The Ghoul King's ghoulottes (n100)
 Ogre Chieftain	2084	fr_ogrechieftain.gif	Atk: 300 Def: 700 HP: 500 Init: -10000 P: humanoid	belt of Ogrekind (n100)

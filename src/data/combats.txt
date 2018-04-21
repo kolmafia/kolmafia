@@ -117,6 +117,7 @@ Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dreadsylvanian Castle	-1	cold skeleton	cold vampire	hot skeleton	hot vampire	sleaze skeleton	sleaze vampire	spooky skeleton	spooky vampire (Dreadsylvanian)	stench skeleton	stench vampire	The Unkillable Skeleton: 0	Count Drunkula: 0
 Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association: 0
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
+Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	-1	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Elf Alley	-1	Hobelf	Uncle Hobo: 0
@@ -421,7 +422,6 @@ The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scaveng
 The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King
 Through the Spacegate	-1	hostile plant	large hostile plant	exotic hostile plant	small hostile animal	large hostile animal	exotic hostile animal	Spant drone	Spant soldier	Murderbot drone	Murderbot soldier	hostile intelligent alien
-
 Thugnderdome	100	gnarly gnome	gnasty gnome	gnefarious gnome	Gnomester Blomester	gnu jack gnome	vicious gnauga
 Tower Level 1	100	wall of skin
 Tower Level 2	100	wall of meat
