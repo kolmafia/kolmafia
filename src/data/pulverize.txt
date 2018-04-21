@@ -531,6 +531,22 @@ wrought-iron whisk	wrought-iron flakes
 wrought-iron walker	wrought-iron flakes
 wrought-iron waders	wrought-iron flakes
 
+# Gabardine items
+gabardine gaiters	gabardine smithereens
+gabardine garland	gabardine smithereens
+gabardine gunnysack	gabardine smithereens
+gabardine garibaldi	gabardine smithereens
+gabardine girdle	gabardine smithereens
+gabardine gloves	gabardine smithereens
+
+# Fiberglass items
+fiberglass fetish	fiberglass fibers
+fiberglass foil	fiberglass fibers
+fiberglass fannypack	fiberglass fibers
+fiberglass frock	fiberglass fibers
+fiberglass fingerguard	fiberglass fibers
+fiberglass fedora	fiberglass fibers
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice
@@ -538,6 +554,17 @@ dice-print pajama pants	powdered dice
 dice-shaped backpack	powdered dice
 dice-print do-rag	powdered dice
 dice sunglasses	powdered dice
+
+# FantasyRealm items
+leggings of the Spider Queen	Rubee&trade;
+Master Thief's utility belt	Rubee&trade;
+Duke Vampire's regal cloak	Rubee&trade;
+Dragonscale breastplate	Rubee&trade;
+belt of Ogrekind	Rubee&trade;
+The Ghoul King's ghoulottes	Rubee&trade;
+nozzle of the Phoenix	Rubee&trade;
+the Archwizard's briefs	Rubee&trade;
+the Ley Incursion's waist	Rubee&trade;
 
 # Grim Mask Leaderboard First place rewards are not smashable
 silver cow creamer	nosmash
