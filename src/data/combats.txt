@@ -348,6 +348,7 @@ The Laugh Floor	100	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of 
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
 The Mansion of Dr. Weirdeaux	100	one of Doctor Weirdeaux's creations
 The Marinara Trench	95	diving belle	fisherfish	giant squid	Mer-kin diver
+The Master Thief's Chalet	0	Ted Schwartz, Master Thief: 0
 The Mean Streets	100	uncommon criminal
 The Mer-Kin Outpost	100	Mer-kin burglar	Mer-kin healer	Mer-kin raider
 The Middle Chamber	100	tomb asp	tomb rat	tomb servant
