@@ -716,6 +716,11 @@ public class AdventureResult
 	{
 		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
 
+		if ( parsedItem.countTokens() == 0 )
+		{
+			return null;
+		}
+
 		StringBuilder nameBuilder = new StringBuilder( parsedItem.nextToken().trim() );
 		int count = 1;
 		while ( parsedItem.hasMoreTokens() )
