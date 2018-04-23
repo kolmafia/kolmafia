@@ -231,6 +231,7 @@ Sweet-Ade Lake	-1	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
 The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Ancient Burial Ground	-1	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
+The Archwizard's Tower	0	Archwizard: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bandit Crossroads	100	fantasy bandit
 The Barrel Full of Barrels	-1	tiny barrel mimic	small barrel mimic	medium-sized barrel mimic	huge barrel mimic
