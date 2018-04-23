@@ -4640,8 +4640,11 @@ Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench 
 Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
 Effect	Berry Critical	Critical Hit Percent: +30
+Effect	Berry Defensive	Damage Reduction: 10, Damage Absorption: +100
+Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Spooky Resistance: +1
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
+Effect	Berry Thorny	Weapon Damage: +15
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
@@ -9299,6 +9302,7 @@ Item	Jackass Plumber home game	Effect: "Gamer Rage", Effect Duration: 10
 # jagged scrap metal: Deals 20-30 Physical Damage and causes bleeding
 Item	jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
 # jam band flyers: Advertise!
+Item	Jamocha berry	Effect: "Berry Thorny", Effect Duration: 20
 Item	janglin' bones	Effect: "Bony Dancer", Effect Duration: 30
 # janitor sponge: Deals 20-30 <font color=green>Stench Damage</font> and briefly stuns your opponent
 Item	janitor's mop	Effect: "Janitoriffic", Effect Duration: 30
@@ -9323,6 +9327,7 @@ Item	jug of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 50
 Item	jug of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 50
 Item	jug of Sneaky Pete's Mojo	Free Pull
 # Junk-Bond: Weakens enemies somewhat and briefly stuns them
+Item	Keese berry	Effect: "Berry Defensive", Effect Duration: 20
 # killing feather: Deals 100-120 Physical Damage
 # killing jar: Weakens enemies somewhat and briefly stuns them
 # Item kidnapped orphan: Take it downtown to Gotpork Orphanage
@@ -9559,7 +9564,8 @@ Item	My Own Pen Pal kit	Free Pull
 Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 Item	mysterious chemical residue	Effect Duration: 5
 Item	mysterious chest	Free Pull
-# Item Nadsat berry: Improves critical hit chance and energizes you for a while
+# Item Nadsat berry: Improves critical hit chance and energizes you for a while (also gives Berry Experiential)
+Item	Nadsat berry	Effect: "Berry Critical", Effect Duration: 20
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
 # Nardz energy beverage: Restores 50-70 MP
 Item	nasty gum	Effect: "Nasty, Nasty Breath", Effect Duration: 5
@@ -10098,6 +10104,7 @@ Item	smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
 Item	smut orc sunglasses	Effect: "Putting the Orc in Porcine", Effect Duration: 50
 Item	snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
 # Item snake oil: Increase the venom and medicine level of your briefcase full of snakes
+Item	Snarf berry	Effect: "Berry Statistical", Effect Duration: 20
 # sneaky wrapping paper: Hide gifts for other players in various locations
 # snow boards: Useful for Bridge-Building
 Item	snow cleats	Effect: "Snow Shoes", Effect Duration: 30
@@ -10261,6 +10268,7 @@ Item	Tallowcreme Halloween Pumpkin	Effect: "Halloweeny", Effect Duration: 10
 Item	tamarind-flavored chewing gum	Effect: "Tamarind Torment", Effect Duration: 5
 # tangle of rat tails: Deals 50-70 <font color=blueviolet>Sleaze Damage</font> and 100-120 <font color=green>Stench Damage</font>
 Item	tangled mass of creepy pasta	Effect: "Blessing of the Creepy Pasta", Effect Duration: 10
+Item	Tapioc berry	Effect: "Berry Elemental", Effect Duration: 20
 Item	Tasty Fun Good rice candy	Effect: "Sugar Rush", Effect Duration: 5
 # tattered scrap of paper: Lets you escape from combat without spending an Adventure
 # tattered scrap of paper: (Maybe)
