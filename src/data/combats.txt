@@ -234,6 +234,7 @@ The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
 The Bandit Crossroads	100	fantasy bandit
 The Barrel Full of Barrels	-1	tiny barrel mimic	small barrel mimic	medium-sized barrel mimic	huge barrel mimic
+The Barrow Mounds	100	barrow wraith?
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
@@ -292,7 +293,7 @@ The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
-The Evil Cathedral	100	barrow wraith?
+The Evil Cathedral	100	plywood cultists
 The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
 The Faerie Cyrkle	100	quadfaerie
@@ -343,6 +344,7 @@ The Jungle	-1	bee	scorpion	skeleton	tikiman
 The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
 The Knob Shaft	85	ghost miner
 The Labyrinthine Crypt	100	crypt creeper
+The Lair of the Phoenix	0	"Phoenix": 0
 The Landscaper's Lair	100	menacing lawn gnome	mowing lawn gnome	mounted lawn gnome
 The Laugh Floor	100	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of Signs: 0	Victor the Insult Comic Hellhound: 0
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
@@ -410,6 +412,7 @@ The Thinknerd Warehouse	100	amok putty: 1r90	Thinknerd Moving Robot	Thinknerd Pa
 The Tower of Procedurally-Generated Skeletons	100	procedurally-generated skeleton
 The Towering Mountains	100	fantasy ourk
 The Toxic Teacups	100	toxic beastie
+The Troll Fortress	100	swamp troll
 The Tunnel of L.O.V.E.	-1	LOV Enforcer	LOV Engineer	LOV Equivocator
 The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
 The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
