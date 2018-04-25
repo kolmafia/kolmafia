@@ -303,6 +303,7 @@ The Filthworm Queen's Chamber	100	queen filthworm
 The Foreboding Cave	100	rubber bat
 The Fun-Guy Mansion	100	Fun-Guy Playmate
 The Fungal Nethers	100	angry mushroom guy	freaked-out mushroom guy	muscular mushroom guy: 0	armored mushroom guy: 0	wizardly mushroom guy: 0	fiery mushroom guy: 0	dancing mushroom guy: 0	wailing mushroom guy: 0
+The Ghoul King's Catacomb	0	Ghoul King: 0
 The Glacier of Jerks	100	Brock "Rocky" Flox	Dolores D. Smiley	Hugo Von Douchington	Vivian Vibrian Vumian Varr	Wacky Zack Flacky	Mammon the Elephant: 0	The Large-Bellied Snitch: 0
 The Goatlet	100	dairy goat	drunk goat	sabre-toothed goat
 The Gourd!	100	tin can conspirator	goblin conspirator	spider conspirator	canned goblin conspirator	spider-goblin conspirator	tin spider conspirator	Fnord the Unspeakable: 0
@@ -348,6 +349,7 @@ The Labyrinthine Crypt	100	crypt creeper
 The Lair of the Phoenix	0	"Phoenix": 0
 The Landscaper's Lair	100	menacing lawn gnome	mowing lawn gnome	mounted lawn gnome
 The Laugh Floor	100	BL Imp	CH Imp	Pr Imp	Carbuncle Top: 0	Larry of the Field of Signs: 0	Victor the Insult Comic Hellhound: 0
+The Ley Nexus	0	Ley Incursion: 0
 The Maelstrom of Lovers	100	Bettie Barulio	Marcus Macurgeon	Marvin J. Sunny	Mortimer Strauss	Wonderful Winifred Wongle	The Terrible Pinch: 0	Thug 1 and Thug 2: 0
 The Mansion of Dr. Weirdeaux	100	one of Doctor Weirdeaux's creations
 The Marinara Trench	95	diving belle	fisherfish	giant squid	Mer-kin diver

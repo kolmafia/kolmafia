@@ -2971,3 +2971,5 @@ burning paper crane	NEWSPAPER	burning newspaper
 
 # FantasyRealm
 Potion of Heroism	COMBINE	hero's skull	to-go brew
+denastified haunch	COOK	faerie dust	nasty haunch
+bad rum and good cola	MIX	grolblin rum	sanctified cola

@@ -1689,6 +1689,7 @@ Item	Staff of the Headmaster's Victuals	MP Regen Min: 2, MP Regen Max: 3, Sleaze
 Item	Staff of the Healthy Breakfast	Spell Damage: +10, Maximum HP: +15, Item Drop: +10, MP Regen Min: 2, MP Regen Max: 4, Jiggle: "Recover Some HP"
 Item	Staff of the Hearty Dinner	Spell Damage: +10, Damage Reduction: 5, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Weaken Bad Guy"
 Item	Staff of the Kitchen Floor	Spell Damage Percent: +150, Stench Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
+Item	Staff of Kitchen Royalty	Spell Damage Percent: +200, MP Regen Min: 30, MP Regen Max: 40, Moxie Percent: +50, Adventures: +4, PvP Fights: +4
 Item	Staff of the Light Lunch	Spell Damage: +10, Initiative: +15, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Deal Some Cold Damage"
 Item	Staff of the Lunch Lady	Spell Damage Percent: +75, Maximum HP: +15, Maximum MP: +15, MP Regen Min: 5, MP Regen Max: 6, Food Drop: +25
 Item	Staff of the Midnight Snack	Spell Damage Percent: +20, Spooky Spell Damage: +10, MP Regen Min: 2, MP Regen Max: 3
