@@ -532,4 +532,5 @@ FantasyRealm	adventure=522	Env: unknown Stat: 0 nowander	The Master Thief's Chal
 FantasyRealm	adventure=523	Env: outdoor Stat: 0 nowander	The Spider Queen's Lair
 FantasyRealm	adventure=524	Env: outdoor Stat: 0 nowander	The Archwizard's Tower
 FantasyRealm	adventure=525	Env: outdoor Stat: 0 nowander	The Ley Nexus
+FantasyRealm	adventure=526	Env: outdoor Stat: 0 nowander	The Ghoul King's Catacomb
 FantasyRealm	adventure=527	Env: outdoor Stat: 0 nowander	The Ogre Chieftain's Keep

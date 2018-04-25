@@ -1435,6 +1435,7 @@ Staff of the Headmaster's Victuals	10	Mys: 0	1-handed chefstaff
 Staff of the Healthy Breakfast	10	Mys: 0	1-handed chefstaff
 Staff of the Hearty Dinner	10	Mys: 0	1-handed chefstaff
 Staff of the Kitchen Floor	10	Mys: 125	1-handed chefstaff
+Staff of Kitchen Royalty	10	Mys: 200	1-handed chefstaff
 Staff of the Light Lunch	10	Mys: 0	1-handed chefstaff
 Staff of the Lunch Lady	10	Mys: 75	1-handed chefstaff
 Staff of the Midnight Snack	10	Mys: 15	1-handed chefstaff

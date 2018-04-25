@@ -9917,7 +9917,7 @@
 9891	ring of the Skeleton Lord	908662382	skeletonring.gif	accessory		0
 9892	scepter of the Skeleton Lord	284649266	skeletonscepter.gif	weapon		0
 9893	deadfall branch	608979264	hippyclub.gif	weapon	t,d	1
-9894
+9894	Staff of Kitchen Royalty	311472250	slordstaff.gif	weapon		0
 9895	charged druidic orb	571306417	druidorb2.gif	offhand	q	0
 9896	dragon slaying sword	566900199	fr_sword.gif	weapon	q	0
 9897	notarized arrest warrant	208330367	document.gif	none	q	0
