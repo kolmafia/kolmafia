@@ -2939,11 +2939,23 @@ public class ItemPool
 	public static final int RUBEE = 9838;
 	public static final int FR_MEMBER = 9835;
 	public static final int FR_GUEST = 9836;
+	public static final int FR_KEY = 9844;
+	public static final int FR_PURPLE_MUSHROOM = 9845;
+	public static final int FR_TAINTED_MARSHMALLOW = 9846;
+	public static final int FR_CHESWICKS_NOTES = 9847;
+	public static final int FR_DRAGON_ORE = 9851;
+	public static final int FR_POISONED_SMORE = 9853;
+	public static final int FR_DRUIDIC_ORB = 9854;
+	public static final int FR_HOLY_WATER = 9856;
+	public static final int FR_CHESWICKS_COMPASS = 9865;
+	public static final int FR_ARREST_WARRANT = 9866;
 	public static final int FR_MOUNTAIN_MAP = 9873;
 	public static final int FR_WOOD_MAP = 9874;
 	public static final int FR_SWAMP_MAP = 9875;
 	public static final int FR_VILLAGE_MAP = 9876;
 	public static final int FR_CEMETARY_MAP = 9877;
+	public static final int FR_CHARGED_ORB = 9896;
+	public static final int FR_NOTARIZED_WARRANT = 9897;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

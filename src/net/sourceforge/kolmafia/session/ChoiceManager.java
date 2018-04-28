@@ -4051,6 +4051,224 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "acquire some alien rock samples", 1, "alien rock sample" ),
 				       new Option( "acquire some more alien rock samples (with geology kit)", 2, "alien rock sample" ) } ),
 
+		// Choice 1280 is Welcome to FantasyRealm
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1280", "Welcome to FantasyRealm",
+			new Object[] { new Option( "acquire FantasyRealm Warrior's Helm", 1, "FantasyRealm Warrior's Helm" ),
+				       new Option( "acquire FantasyRealm Mage's Hat", 2, "FantasyRealm Mage's Hat" ),
+				       new Option( "acquire FantasyRealm Rogue's Mask", 3, "FantasyRealm Rogue's Mask" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1281 is You'll See You at the Crossroads
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1281", "You'll See You at the Crossroads",
+			new Object[] { new Option( "unlock The Towering Mountains", 1 ),
+				       new Option( "unlock The Mystic Wood", 2 ),
+				       new Option( "unlock The Putrid Swamp", 3 ),
+				       new Option( "unlock Cursed Village", 4 ),
+				       new Option( "unlock The Sprawling Cemetery", 5 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1282 is Out of Range
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1282", "Out of Range",
+			new Object[] { new Option( "unlock The Old Rubee Mine (using FantasyRealm key)", 1 ),
+				       new Option( "unlock The Foreboding Cave", 2 ),
+				       new Option( "unlock The Master Thief's Chalet (with FantasyRealm Rogue's Mask)", 3 ),
+				       new Option( "charge druidic orb (need orb)", 4, "charged druidic orb" ),
+				       new Option( "unlock The Ogre Chieftain's Keep (with FantasyRealm Warrior's Helm)", 5 ),
+				       new Option( "1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10 ),
+				       new Option( "leave", 11 ) } ),
+
+		// Choice 1283 is Where Wood You Like to Go
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1283", "Where Wood You Like to Go",
+			new Object[] { new Option( "unlock The Faerie Cyrkle", 1 ),
+				       new Option( "unlock The Druidic Campsite (with LyleCo premium rope)", 2 ),
+				       new Option( "unlock The Ley Nexus (with Cheswick Copperbottom's compass)", 3 ),
+				       new Option( "acquire plump purple mushroom", 5, "plump purple mushroom" ),
+				       new Option( "1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10 ),
+				       new Option( "leave", 11 ) } ),
+
+		// Choice 1284 is Swamped with Leisure
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1284", "Swamped with Leisure",
+			new Object[] { new Option( "unlock Near the Witch's House", 1 ),
+				       new Option( "unlock The Troll Fortress (using FantasyRealm key)", 2 ),
+				       new Option( "unlock The Dragon's Moor (with FantasyRealm Warrior's Helm)", 3 ),
+				       new Option( "acquire tainted marshmallow", 5, "tainted marshmallow" ),
+				       new Option( "1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10 ),
+				       new Option( "leave", 11 ) } ),
+
+		// Choice 1285 is It Takes a Cursed Village
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1285", "It Takes a Cursed Village",
+			new Object[] { new Option( "unlock The Evil Cathedral", 1 ),
+				       new Option( "unlock The Cursed Village Thieves' Guild (using FantasyRealm Rogue's Mask)", 2 ),
+				       new Option( "unlock The Archwizard's Tower (with FantasyRealm Mage's Hat)", 3 ),
+				       new Option( "get 20 adv of +2-3 Rubee&trade; drop", 4 ),
+				       new Option( "acquire 40-60 Rubees&trade; (with LyleCo premium rope)", 5, "Rubee&trade;" ),
+				       new Option( "acquire dragon slaying sword (with dragon aluminum ore)", 6, "dragon slaying sword" ),
+				       new Option( "acquire notarized arrest warrant (with arrest warrant)", 7, "notarized arrest warrant" ),
+				       new Option( "1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10 ),
+				       new Option( "leave", 11 ) } ),
+
+		// Choice 1286 is Resting in Peace
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1286", "Resting in Peace",
+			new Object[] { new Option( "unlock The Labyrinthine Crypt", 1 ),
+				       new Option( "unlock The Barrow Mounds", 2 ),
+				       new Option( "unlock Duke Vampire's Chateau (with FantasyRealm Rogue's Mask)", 3 ),
+				       new Option( "acquire 40-60 Rubees&trade; (need LyleCo premium pickaxe)", 4, "Rubee&trade;" ),
+				       new Option( "acquire Chewsick Copperbottom's notes (with FantasyRealm Mage's Hat)", 5, "Chewsick Copperbottom's notes" ),
+				       new Option( "1/5 to fight Skeleton Lord (with FantasyRealm outfit)", 10 ),
+				       new Option( "leave", 11 ) } ),
+
+		// Choice 1288 is What's Yours is Yours
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1288", "What's Yours is Yours",
+			new Object[] { new Option( "acquire 20-30 Rubees&trade;", 1, "Rubee&trade;" ),
+				       new Option( "acquire dragon aluminum ore (need LyleCo premium pickaxe)", 2, "dragon aluminum ore" ),
+				       new Option( "acquire grolblin rum", 3, "grolblin rum" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1289 is A Warm Place
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1289", "A Warm Place",
+			new Object[] { new Option( "acquire 90-110 Rubees&trade; (with FantasyRealm key)", 1, "Rubee&trade;" ),
+				       new Option( "acquire sachet of strange powder", 2, "sachet of strange powder" ),
+				       new Option( "unlock The Lair of the Phoenix (with FantasyRealm Mage's Hat)", 3 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1290 is The Cyrkle Is Compleat
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1290", "The Cyrkle Is Compleat",
+			new Object[] { new Option( "get 100 adv of Fantasy Faerie Blessing", 1, "Rubee&trade;" ),
+				       new Option( "acquire faerie dust", 2, "faerie dust" ),
+				       new Option( "unlock The Spider Queen's Lair (with FantasyRealm Rogue's Mask)", 3 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1291 is Dudes, Where's My Druids?
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1291", "Dudes, Where's My Druids?",
+			new Object[] { new Option( "acquire druidic s'more", 1, "druidic s'more" ),
+				       new Option( "acquire poisoned druidic s'more (with tainted marshmallow)", 2, "poisoned druidic s'more" ),
+				       new Option( "acquire druidic orb (with FantasyRealm Mage's Hat)", 3, "druidic orb" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1292 is Witch One You Want?
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1292", "Witch One You Want?",
+			new Object[] { new Option( "get 50 adv of +200% init", 1 ),
+				       new Option( "acquire to-go brew", 2, "to-go brew" ),
+				       new Option( "get 10 adv of Poison for Blood (with plump purple mushroom)", 3 ),
+				       new Option( "acquire 40-60 Rubees&trade;", 4, "Rubee&trade;" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1293 is Altared States
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1293", "Altared States",
+			new Object[] { new Option( "acquire 20-30 Rubees&trade;", 1, "Rubee&trade;" ),
+				       new Option( "get 100 adv of +200% HP", 2 ),
+				       new Option( "acquire sanctified cola", 3, "sanctified cola" ),
+				       new Option( "acquire flask of holy water (with FantasyRealm Mage's Hat)", 4, "flask of holy water" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1294 is Neither a Barrower Nor a Lender Be
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1294", "Neither a Barrower Nor a Lender Be",
+			new Object[] { new Option( "acquire 20-30 Rubees&trade;", 1, "Rubee&trade;" ),
+				       new Option( "acquire mourning wine", 2, "mourning wine" ),
+				       new Option( "unlock The Ghoul King's Catacomb (with FantasyRealm Warrior's Helm)", 3 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1295 is Honor Among You
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1295", "Honor Among You",
+			new Object[] { new Option( "acquire 40-60 Rubees&trade;", 1, "Rubee&trade;" ),
+				       new Option( "acquire universal antivenin", 2, "universal antivenin" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1296 is For Whom the Bell Trolls
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1296", "For Whom the Bell Trolls",
+			new Object[] { new Option( "nothing happens", 1 ),
+				       new Option( "acquire nasty haunch", 2, "nasty haunch" ),
+				       new Option( "acquire Cheswick Copperbottom's compass (with Chewsick Copperbottom's notes)", 3, "Cheswick Copperbottom's compass" ),
+				       new Option( "acquire 40-60 Rubees&trade; (with LyleCo premium pickaxe)", 4, "Rubee&trade;" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1297 is Stick to the Crypt
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1297", "Stick to the Crypt",
+			new Object[] { new Option( "acquire hero's skull", 1, "hero's skull" ),
+				       new Option( "acquire 40-60 Rubees&trade;", 2, "Rubee&trade;" ),
+				       new Option( "acquire arrest warrant (with FantasyRealm Warrior's Helm)", 3, "arrest warrant" ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1298 is The "Phoenix"
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1298", "The \"Phoenix\"",
+			new Object[] { new Option( "fight \"Phoenix\" (with 5+ hot res and flask of holy water)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1299 is Stop Dragon Your Feet
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1299", "Stop Dragon Your Feet",
+			new Object[] { new Option( "fight Sewage Treatment Dragon (with 5+ stench res and dragon slaying sword)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1300 is Just Vamping
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1300", "Just Vamping",
+			new Object[] { new Option( "fight Duke Vampire (with 250%+ init and Poison for Blood)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1301 is Now You've Spied Her
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1301", "Now You've Spied Her",
+			new Object[] { new Option( "fight Spider Queen (with 500+ mox and Fantastic Immunity)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1302 is Don't Be Arch
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1302", "Don't Be Arch",
+			new Object[] { new Option( "fight Archwizard (with 5+ cold res and charged druidic orb)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1303 is Ley Lady Ley
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1303", "Ley Lady Ley",
+			new Object[] { new Option( "fight Ley Incursion (with 500+ mys and Cheswick Copperbottom's compass)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1304 is He Is the Ghoul King, He Can Do Anything
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1304", "He Is the Ghoul King, He Can Do Anything",
+			new Object[] { new Option( "fight Ghoul King (with 5+ spooky res and Fantasy Faerie Blessing)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1305 is The Brogre's Progress
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1305", "The Brogre's Progress",
+			new Object[] { new Option( "fight Ogre Chieftain (with 500+ mus and poisoned druidic s'more)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
+		// Choice 1307 is It Takes a Thief
+		new ChoiceAdventure(
+			"FantasyRealm", "choiceAdventure1307", "It Takes a Thief",
+			new Object[] { new Option( "fight Ted Schwartz, Master Thief (with 5+ sleaze res and notarized arrest warrant)", 1 ),
+				       new Option( "get beaten up", 2 ),
+				       new Option( "leave", 6 ) } ),
+
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -10001,6 +10219,515 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.BURNING_NEWSPAPER );
 			}
 			break;
+
+		case 1280:
+			// Welcome to FantasyRealm
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.setInteger( "_frHoursLeft", 5 );
+				StringBuffer unlocks = new StringBuffer();
+				unlocks.append( "The Bandit Crossroads," );
+				if ( Preferences.getBoolean( "frMountainsUnlocked" ) )
+				{
+					unlocks.append( "The Towering Mountains," );
+				}
+				if ( Preferences.getBoolean( "frWoodUnlocked" ) )
+				{
+					unlocks.append( "The Mystic Wood," );
+				}
+				if ( Preferences.getBoolean( "frSwampUnlocked" ) )
+				{
+					unlocks.append( "The Putrid Swamp," );
+				}
+				if ( Preferences.getBoolean( "frVillageUnlocked" ) )
+				{
+					unlocks.append( "The Cursed Village," );
+				}
+				if ( Preferences.getBoolean( "frCemetaryUnlocked" ) )
+				{
+					unlocks.append( "The Sprawling Cemetery," );
+				}
+				Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			}
+			break;
+
+		case 1281:
+		{
+			// You'll See You at the Crossroads
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Bandit Crossroads,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "The Towering Mountains," );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Mystic Wood," );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Putrid Swamp," );
+			}
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				unlocks.append( "The Cursed Village," );
+			}
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				unlocks.append( "The Sprawling Cemetery," );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1282:
+		{
+			// Out of Range
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 11 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Towering Mountains,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "The Old Rubee Mine," );
+				ResultProcessor.removeItem( ItemPool.FR_KEY );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Foreboding Cave," );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Master Thief's Chalet," );
+			}
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_DRUIDIC_ORB );
+			}
+			if ( ChoiceManager.lastDecision == 5 )
+			{
+				unlocks.append( "The Ogre Chieftain's Keep," );
+			}
+			if ( ChoiceManager.lastDecision == 10 )
+			{
+				Preferences.increment( "_frButtonsPressed" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1283:
+		{
+			// Where Wood You Like to Go
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 11 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Mystic Wood,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "The Faerie Cyrkle," );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Druidic Campsite," );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Ley Nexus," );
+			}
+			if ( ChoiceManager.lastDecision == 10 )
+			{
+				Preferences.increment( "_frButtonsPressed" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1284:
+		{
+			// Swamped with Leisure
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 11 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Putrid Swamp,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "Near the Witch's House," );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Troll Fortress," );
+				ResultProcessor.removeItem( ItemPool.FR_KEY );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Dragon's Moor," );
+			}
+			if ( ChoiceManager.lastDecision == 10 )
+			{
+				Preferences.increment( "_frButtonsPressed" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1285:
+		{
+			// It Takes a Cursed Village
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 11 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Cursed Village,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "The Evil Cathedral," );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Cursed Village Thieves' Guild," );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Archwizard's Tower," );
+			}
+			if ( ChoiceManager.lastDecision == 6 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_DRAGON_ORE );
+			}
+			if ( ChoiceManager.lastDecision == 7 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_ARREST_WARRANT );
+			}
+			if ( ChoiceManager.lastDecision == 10 )
+			{
+				Preferences.increment( "_frButtonsPressed" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1286:
+		{
+			// Resting in Peace
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 11 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Sprawling Cemetery,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				unlocks.append( "The Labyrinthine Crypt," );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				unlocks.append( "The Barrow Mounds," );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "Duke Vampire's Chateau," );
+			}
+			if ( ChoiceManager.lastDecision == 10 )
+			{
+				Preferences.increment( "_frButtonsPressed" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1288:
+		{
+			// What's Yours is Yours
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Old Rubee Mine,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1289:
+		{
+			// A Warm Place
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Foreboding Cave,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Lair of the Phoenix," );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1290:
+		{
+			// The Cyrkle Is Compleat
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Faerie Cyrkle,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Spider Queen's Lair," );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1291:
+		{
+			// Dudes, Where's My Druids?
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Druidic Campsite,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_TAINTED_MARSHMALLOW );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1292:
+		{
+			// Witch One You Want?
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "Near the Witch's House,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_PURPLE_MUSHROOM );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1293:
+		{
+			// Altared States
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Evil Cathedral,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1294:
+		{
+			// Neither a Barrower Nor a Lender Be
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Barrow Mounds,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				unlocks.append( "The Ghoul King's Catacomb," );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1295:
+		{
+			// Honor Among You
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Cursed Village Thieves' Guild,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1296:
+		{
+			// For Whom the Bell Trolls
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Troll Fortress,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_CHESWICKS_NOTES );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1297:
+		{
+			// Stick to the Crypt
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.decrement( "_frHoursLeft" );
+				StringUtilities.singleStringReplace( unlocks, "The Labyrinthine Crypt,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1298:
+		{
+			// The "Phoenix"
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Lair of the Phoenix,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_HOLY_WATER );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1299:
+		{
+			// Stop Dragon Your Feet
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Dragon's Moor,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1300:
+		{
+			// Just Vamping
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "Duke Vampire's Chateau,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1301:
+		{
+			// Now You've Spied Her
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Spider Queen's Lair,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1302:
+		{
+			// Don't Be Arch
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Archwizard's Tower,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_CHARGED_ORB );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1303:
+		{
+			// Ley Lady Ley
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Ley Nexus,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_CHESWICKS_COMPASS );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1304:
+		{
+			// He Is the Ghoul King, He Can Do Anything
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Ghoul King's Catacomb,", "" );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1305:
+		{
+			// The Brogre's Progress
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Ogre Chieftain's Keep,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_POISONED_SMORE );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
+
+		case 1307:
+		{
+			// It Takes a Thief
+			StringBuffer unlocks = new StringBuffer( Preferences.getString( "_frAreasUnlocked" ) );
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				StringUtilities.singleStringReplace( unlocks, "The Master Thief's Chalet,", "" );
+			}
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				ResultProcessor.removeItem( ItemPool.FR_NOTARIZED_WARRANT );
+			}
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+			break;
+		}
 
 		}
 

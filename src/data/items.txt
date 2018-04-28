@@ -9892,7 +9892,7 @@
 9866	arrest warrant	265184746	document.gif	none	q	0
 9867	hero's skull	923392362	heroskull.gif	none	q	0
 9868	grolblin rum	477555811	gascan.gif	none	q	0
-9869
+9869	druidic s'more	303021917	smore.gif	food	t	0
 9870	sachet of strange powder	522275868	sachet.gif	spleen, usable	t	0
 9871	mourning wine	211346391	redwine.gif	drink	t	0
 9872	sanctified cola	578545020	crimbcola.gif	usable	q	0
