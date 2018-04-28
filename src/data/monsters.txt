@@ -1872,6 +1872,7 @@ Ley Incursion	2082	fr_leyanomaly.gif	Atk: 400 Def: 300 HP: 500 Init: 1000 P: ele
 Ghoul King	2083	fr_ghoulking.gif	Atk: 400 Def: 400 HP: 700 Init: -10000 P: humanoid	The Ghoul King's ghoulottes (n100)
 Ogre Chieftain	2084	fr_ogrechieftain.gif	Atk: 300 Def: 700 HP: 500 Init: -10000 P: humanoid	belt of Ogrekind (n100)
 Ted Schwartz, Master Thief	2085	fr_masterthief.gif	Atk: 400 Def: 400 HP: 300 Init: 300 P: dude	Master Thief's utility belt (n100)
+Skeleton Lord	2087	skeletonlord.gif	Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)
 
 # KoL Con
 

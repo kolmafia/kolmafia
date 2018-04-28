@@ -1387,6 +1387,10 @@ user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
 user	_fragrantHerbsUsed	0
+user	_frAreasUnlocked
+user	_frButtonsPressed	0
+user	_frHoursLeft
+user	_frMonstersKilled
 user	_frToday	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
@@ -2347,6 +2351,32 @@ user	choiceAdventure1253	0
 user	choiceAdventure1254	0
 user	choiceAdventure1255	0
 user	choiceAdventure1256	0
+user	choiceAdventure1280	0
+user	choiceAdventure1281	0
+user	choiceAdventure1282	0
+user	choiceAdventure1283	0
+user	choiceAdventure1284	0
+user	choiceAdventure1285	0
+user	choiceAdventure1287	0
+user	choiceAdventure1288	0
+user	choiceAdventure1289	0
+user	choiceAdventure1290	0
+user	choiceAdventure1291	0
+user	choiceAdventure1292	0
+user	choiceAdventure1293	0
+user	choiceAdventure1294	0
+user	choiceAdventure1295	0
+user	choiceAdventure1296	0
+user	choiceAdventure1297	0
+user	choiceAdventure1298	0
+user	choiceAdventure1299	0
+user	choiceAdventure1300	0
+user	choiceAdventure1301	0
+user	choiceAdventure1302	0
+user	choiceAdventure1303	0
+user	choiceAdventure1304	0
+user	choiceAdventure1305	0
+user	choiceAdventure1307	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

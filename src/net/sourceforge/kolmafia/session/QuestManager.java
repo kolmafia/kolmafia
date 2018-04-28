@@ -663,6 +663,37 @@ public class QuestManager
 			Preferences.setBoolean( "frVillageUnlocked", responseText.contains( "snarfblat=506" ) );
 			Preferences.setBoolean( "frCemetaryUnlocked", responseText.contains( "snarfblat=507" ) );
 		}
+		// Otherwise we can see everything that is unlocked at present and correct
+		else
+		{
+			StringBuffer unlocks = new StringBuffer();
+			if ( responseText.contains( "snarfblat=502" ) ) unlocks.append( "The Bandit Crossroads," );
+			if ( responseText.contains( "snarfblat=503" ) ) unlocks.append( "The Towering Mountains," );
+			if ( responseText.contains( "snarfblat=504" ) ) unlocks.append( "The Mystic Wood," );
+			if ( responseText.contains( "snarfblat=505" ) ) unlocks.append( "The Putrid Swamp," );
+			if ( responseText.contains( "snarfblat=506" ) ) unlocks.append( "The Cursed Village," );
+			if ( responseText.contains( "snarfblat=507" ) ) unlocks.append( "The Sprawling Cemetery," );
+			if ( responseText.contains( "snarfblat=509" ) ) unlocks.append( "The Old Rubee Mine," );
+			if ( responseText.contains( "snarfblat=510" ) ) unlocks.append( "The Foreboding Cave," );
+			if ( responseText.contains( "snarfblat=511" ) ) unlocks.append( "The Faerie Cyrkle," );
+			if ( responseText.contains( "snarfblat=512" ) ) unlocks.append( "The Druidic Campsite," );
+			if ( responseText.contains( "snarfblat=513" ) ) unlocks.append( "Near the Witch's House," );
+			if ( responseText.contains( "snarfblat=514" ) ) unlocks.append( "The Evil Cathedral," );
+			if ( responseText.contains( "snarfblat=515" ) ) unlocks.append( "The Barrow Mounds," );
+			if ( responseText.contains( "snarfblat=516" ) ) unlocks.append( "The Cursed Village Thieves' Guild," );
+			if ( responseText.contains( "snarfblat=517" ) ) unlocks.append( "The Troll Fortress," );
+			if ( responseText.contains( "snarfblat=518" ) ) unlocks.append( "The Labyrinthine Crypt," );
+			if ( responseText.contains( "snarfblat=519" ) ) unlocks.append( "The Lair of the Phoenix," );
+			if ( responseText.contains( "snarfblat=520" ) ) unlocks.append( "The Dragon's Moor," );
+			if ( responseText.contains( "snarfblat=521" ) ) unlocks.append( "Duke Vampire's Chateau," );
+			if ( responseText.contains( "snarfblat=522" ) ) unlocks.append( "The Master Thief's Chalet," );
+			if ( responseText.contains( "snarfblat=523" ) ) unlocks.append( "The Spider Queen's Lair," );
+			if ( responseText.contains( "snarfblat=524" ) ) unlocks.append( "The Archwizard's Tower," );
+			if ( responseText.contains( "snarfblat=525" ) ) unlocks.append( "The Ley Nexus," );
+			if ( responseText.contains( "snarfblat=526" ) ) unlocks.append( "The Ghoul King's Catacomb," );
+			if ( responseText.contains( "snarfblat=527" ) ) unlocks.append( "The Ogre Chieftain's Keep," );
+			Preferences.setString( "_frAreasUnlocked", unlocks.toString() );
+		}
 	}
 
 	private static void handleManorFirstFloorChange( final String location, final String responseText )

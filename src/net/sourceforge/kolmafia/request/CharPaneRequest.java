@@ -318,6 +318,8 @@ public class CharPaneRequest
 
 		CharPaneRequest.checkAbsorbs( responseText );
 
+		CharPaneRequest.checkFantasyRealmHours( responseText );
+
 		// Mana cost adjustment may have changed
 
 		LockableListFactory.sort( KoLConstants.summoningSkills );
@@ -1348,6 +1350,24 @@ public class CharPaneRequest
 		else
 		{
 			KoLCharacter.setRadSickness( 0 );
+		}
+	}
+
+	private static final Pattern fantasyRealmPattern =
+		Pattern.compile( "G. E. M.<br>(\\d+) hour(|s) remaining" );
+
+	private static final void checkFantasyRealmHours( final String responseText )
+	{
+		if ( !KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
+		{
+			return;
+		}
+
+		Pattern pattern = CharPaneRequest.fantasyRealmPattern;
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			Preferences.setInteger( "_frHoursLeft", StringUtilities.parseInt( matcher.group( 1 ) ) );
 		}
 	}
 
