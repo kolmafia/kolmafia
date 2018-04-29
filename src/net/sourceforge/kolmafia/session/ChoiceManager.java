@@ -4160,8 +4160,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"FantasyRealm", "choiceAdventure1292", "Witch One You Want?",
 			new Object[] { new Option( "get 50 adv of +200% init", 1 ),
-				       new Option( "acquire to-go brew", 2, "to-go brew" ),
-				       new Option( "get 10 adv of Poison for Blood (with plump purple mushroom)", 3 ),
+				       new Option( "get 10 adv of Poison for Blood (with plump purple mushroom)", 2 ),
+				       new Option( "acquire to-go brew", 3, "to-go brew" ),
 				       new Option( "acquire 40-60 Rubees&trade;", 4, "Rubee&trade;" ),
 				       new Option( "leave", 6 ) } ),
 
