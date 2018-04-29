@@ -150,6 +150,7 @@ public class AdventurePool
 	public static final String SWAMP_BEAVER_TERRITORY_ID = "335";
 	public static final String WEIRD_SWAMP_VILLAGE_ID = "336";
 	public static final String CALIGINOUS_ABYSS_ID = "337";
+	public static final int DREAD_VILLAGE = 339;
 	public static final int HIDDEN_APARTMENT = 341;
 	public static final String HIDDEN_APARTMENT_ID = "341";
 	public static final int HIDDEN_HOSPITAL = 342;

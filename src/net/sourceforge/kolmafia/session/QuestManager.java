@@ -696,6 +696,39 @@ public class QuestManager
 		}
 	}
 
+	private static void addFantasyRealmKill( String monster )
+	{
+		if ( monster == null )
+		{
+			return;
+		}
+		StringBuffer kills = new StringBuffer( Preferences.getString( "_frMonstersKilled" ) );
+		
+		if ( monster.contains( "barrow wraith" ) )
+		{
+			monster.replaceAll( "\\?", "\\\\?" );
+		}
+		else if ( monster.contains( "Phoenix" ) )
+		{
+			monster.replaceAll( "\"", "\\\"" );
+		}
+		Pattern FR_MONSTER_PATTERN = Pattern.compile( monster + ":(\\d+)," );
+		
+		Matcher MonsterMatcher = FR_MONSTER_PATTERN.matcher( kills.toString() );
+		if ( MonsterMatcher.find() )
+		{
+			String newMonster = monster + ":" + ( StringUtilities.parseInt( MonsterMatcher.group( 1 ) ) + 1 ) + ",";
+			StringUtilities.singleStringReplace( kills, MonsterMatcher.group( 0 ), newMonster );
+		}
+		else
+		{
+			kills.append( monster );
+			kills.append( ":1," );
+		}
+
+		Preferences.setString( "_frMonstersKilled", kills.toString() );
+	}
+
 	private static void handleManorFirstFloorChange( final String location, final String responseText )
 	{
 		if ( location.contains( "action=manor1_ladys" ) )
@@ -2089,6 +2122,36 @@ public class QuestManager
 			{
 				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
 			}
+		}
+		else if ( monsterName.equals( "fantasy bandit" ) ||
+			  monsterName.equals( "fantasy ourk" ) ||
+			  monsterName.equals( "fantasy forest faerie" ) ||
+			  monsterName.equals( "swamp monster" ) ||
+			  monsterName.equals( "cursed villager" ) ||
+			  ( monsterName.equals( "spooky ghost" ) && KoLAdventure.lastAdventureId() != AdventurePool.DREAD_VILLAGE ) ||
+			  monsterName.equals( "mining grobold" ) ||
+			  monsterName.equals( "rubber bat" ) ||
+			  monsterName.equals( "quadfaerie" ) ||
+			  monsterName.equals( "druid plants" ) ||
+			  monsterName.equals( "flock of every birds" ) ||
+			  monsterName.equals( "plywood cultists" ) ||
+			  monsterName.equals( "barrow wraith?" ) ||
+			  monsterName.equals( "regular thief" ) ||
+			  monsterName.equals( "swamp troll" ) ||
+			  monsterName.equals( "crypt creeper" ) ||
+			  monsterName.equals( "\"Phoenix\"" ) ||
+			  monsterName.equals( "Sewage Treatment Dragon" ) ||
+			  monsterName.equals( "Duke Vampire" ) ||
+			  monsterName.equals( "Spider Queen" ) ||
+			  monsterName.equals( "Archwizard" ) ||
+			  monsterName.equals( "Ley Incursion" ) ||
+			  monsterName.equals( "Ghoul King" ) ||
+			  monsterName.equals( "Ogre Chieftain" ) ||
+			  monsterName.equals( "Ted Schwartz, Master Thief" ) ||
+			  monsterName.equals( "Skeleton Lord" ) )
+			  
+		{
+			QuestManager.addFantasyRealmKill( monsterName );
 		}
 
 		int adventure = KoLAdventure.lastAdventureId();

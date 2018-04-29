@@ -4143,7 +4143,7 @@ public abstract class ChoiceManager
 		// Choice 1290 is The Cyrkle Is Compleat
 		new ChoiceAdventure(
 			"FantasyRealm", "choiceAdventure1290", "The Cyrkle Is Compleat",
-			new Object[] { new Option( "get 100 adv of Fantasy Faerie Blessing", 1, "Rubee&trade;" ),
+			new Object[] { new Option( "get 100 adv of Fantasy Faerie Blessing", 1 ),
 				       new Option( "acquire faerie dust", 2, "faerie dust" ),
 				       new Option( "unlock The Spider Queen's Lair (with FantasyRealm Rogue's Mask)", 3 ),
 				       new Option( "leave", 6 ) } ),
