@@ -2319,7 +2319,7 @@
 2318	Superioreo	meteoreo.gif	90ada7abc7dc18d0e993d2d8a31679b3	eat 1 meteoreo
 2319	Meadulla Oblongota	meadeor.gif	e8e06d19e444b35a8549825e80b5c8ee	drink 1 meadeorite
 2320	What Are The Odds!?	faircoin.gif	08765fc624c117eafc6849d5e1997099	use 1 perfectly fair coin
-2321	Favored by Lyle	happy.gif	674b630f61a0cb81c8315f544fb3f63f	drink 1 DUFRESNE Suds
+2321	Favored by Lyle	happy.gif	674b630f61a0cb81c8315f544fb3f63f	monorail buff|drink 1 DUFRESNE Suds
 2322	Sucrose-Colored Glasses	xoglasses.gif	26e604cb70ce5f719805428eb353c4a6	use 1 pair of candy glasses
 2323	Straight-Edgy	xotats.gif	fc18c2b4b237352c68ed1a6ff9ba1edf	use 1 temporary X tattoos
 2324	Broken Bone Nubs	looseteeth.gif	352bd5270885c9963ba296e7a22eea72	eat 1 Hide-rox&trade; cookie
