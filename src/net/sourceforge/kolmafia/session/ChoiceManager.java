@@ -8459,6 +8459,18 @@ public abstract class ChoiceManager
 			}
 			return;
 
+		case 778:
+			// If You Could Only See
+			if ( ChoiceManager.lastDecision != 6 )
+			{
+				Preferences.setBoolean( "_tonicDjinn", true );
+				if ( !text.contains( "already had a wish today" ) )
+				{
+					ResultProcessor.processResult( ItemPool.get( ItemPool.TONIC_DJINN, -1 ) );
+				}
+			}
+			return;
+
 		case 780:
 			// Action Elevator
 			if ( ChoiceManager.lastDecision == 1 && text.contains( "penthouse is empty now" ) )
