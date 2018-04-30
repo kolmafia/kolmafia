@@ -2436,6 +2436,12 @@ public class KoLAdventure
 			"There are no more mimes left today.",
 		},
 
+		// Your G. E. M. beeps at you, indicating that your time in FantasyRealm has come to an end for today.
+		{
+			"your time in FantasyRealm has come to an end for today",
+			"Your time in FantasyRealm is over for today.",
+		},
+
 	};
 
 	public static final int findAdventureFailure( String responseText )
