@@ -600,6 +600,13 @@ public class PlaceRequest
 				message = "Ascending the Mist-Shrouded Peak";
 			}
 		}
+		else if ( place.equals( "monorail" ) )
+		{
+			if ( action.equals( "monorail_lyle" ) )
+			{
+				message = "Visiting Lyle, LyleCo CEO";
+			}
+		}
 		else if ( place.equals( "mountains" ) )
 		{
 			if ( action.equals( "mts_melvin" ) )
