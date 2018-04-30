@@ -5624,19 +5624,6 @@ public class UseItemRequest
 			Preferences.setBoolean( "_cocktailShakerUsed", true );
 			return;
 
-		case ItemPool.TONIC_DJINN:
-			if ( responseText.contains( "already had a wish today" ) )
-			{
-				Preferences.setBoolean( "_tonicDjinn", true );
-				return;
-			}
-			if ( responseText.contains( "put the bottle away" ) )
-			{
-				return;
-			}
-			Preferences.setBoolean( "_tonicDjinn", true );
-			break;
-
 		case ItemPool.TWELVE_NIGHT_ENERGY:
 			Preferences.setBoolean( "_twelveNightEnergyUsed", true );
 			break;
