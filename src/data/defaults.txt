@@ -1508,6 +1508,7 @@ user	_loveChocolatesUsed	0
 user	_loveTunnelUsed	false
 user	_lunchBreak	false
 user	_lupineHormonesUsed	false
+user	_lyleFavored	false
 user	_lynyrdSnareUses	0
 user	_machineTunnelsAdv	0
 user	_macrometeoriteUses	0

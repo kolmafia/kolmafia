@@ -173,6 +173,16 @@ public abstract class ChoiceManager
 		{
 			return 798;
 		}
+		else if ( responseText.contains( "<b>The WLF Bunker</b>" ) )
+		{
+			return 1093;
+		}
+		else if ( responseText.contains( "<b>Lyle, LyleCo CEO</b>" ) )
+		{
+			// We still don't know the choice number, so take action here instead
+			// We will either now, or in the past, have had Favored By Lyle
+			Preferences.setBoolean( "_lyleFavored", true );
+		}
 
 		return 0;
 	}
@@ -254,7 +264,9 @@ public abstract class ChoiceManager
 	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = Pattern.compile( "Looks like it has (\\d+) ounce" );
 	private static final Pattern GARBAGE_SHIRT_PATTERN = Pattern.compile( "Looks like you can read roughly (\\d+) scrap" );
 
-	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
+	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "bgcolor=blue><b>(.*?)</b></td>" );
+
+	public static final Pattern TITLE_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = EffectPool.get( EffectPool.DREAMS_AND_LIGHTS );
@@ -12548,10 +12560,9 @@ public abstract class ChoiceManager
 
 		if ( ChoiceManager.lastChoice == 0 )
 		{
-			// choice.php did not offer us any choices.  This would
-			// either be a bug in KoL itself or a non-choice page
-			// that you can visit at any time that we don't know
-			// about yet.
+			// choice.php did not offer us any choices and we couldn't work out which choice it was.
+			// This would either be a bug in KoL itself or a non-choice page
+			// that you can visit at any time that we don't know about yet.
 			return;
 		}
 
@@ -13169,13 +13180,7 @@ public abstract class ChoiceManager
 		{
 			// The WLF Bunker
 
-			// The following won't work, since visiting the WLF bunker is:
-			//     place.php?whichplace=airport_hot&action=airport4_questhub
-			// which redirects to
-			//     choice.php?forceoption=0
-			// but if there is no "whichchoice" on that page, we won't know
-			// to come here.
-
+			// There is no choice if this happens, but we recognise title in visitChoice()
 			// You enter the bunker, but the speaker is silent. You've already done your day's work, soldier!
 			if ( text.contains( "the speaker is silent" ) )
 			{
