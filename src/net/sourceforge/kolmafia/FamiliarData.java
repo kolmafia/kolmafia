@@ -795,6 +795,12 @@ public class FamiliarData
 		case FamiliarPool.HATRACK:
 		case FamiliarPool.HAND:
 		case FamiliarPool.SCARECROW:
+		case FamiliarPool.UNSPEAKACHU:
+		case FamiliarPool.STOOPER:
+		case FamiliarPool.DISGEIST:
+		case FamiliarPool.BOWLET:
+		case FamiliarPool.CORNBEEFADON:
+		case FamiliarPool.MU:
 			return false;
 		}
 		return true;
