@@ -492,7 +492,7 @@
 6042	Knowing Smile	coolsmile.gif	9	10	10	14
 6043	Mariachi Memory	mariachimem.gif	0	0	0	15
 6044	Quiet Desperation	quietdesperation.gif	9	10	10
-6045	Paul's Passionate Pop Song	paulssong.gif	4	20	0
+6045	Paul's Passionate Pop Song	paulssong.gif	4	20	5
 
 # Skills granted conditionally
 
