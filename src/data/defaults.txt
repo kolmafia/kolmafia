@@ -1340,6 +1340,7 @@ user	_communismUsed	false
 user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
+user	_expertCornerCutterUsed	0
 user	_corruptedStardustUsed	false
 user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false

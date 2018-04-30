@@ -89,6 +89,7 @@ public class CreateItemRequest
 	public static final Pattern AUTO_ANVIL_PATTERN = Pattern.compile( "auto-anvil handles some of the smithing" );
 	public static final Pattern THORS_PLIERS_PATTERN = Pattern.compile( "use Thor's Pliers to do the job super fast" );
 	public static final Pattern RAPID_PROTOTYPING_PATTERN = Pattern.compile( "That rapid prototyping programming you downloaded is really paying dividends!" );
+	public static final Pattern CORNER_CUTTER_PATTERN = Pattern.compile( "You really crafted that item the LyleCo way: record time and questionable quality!" );
 
 	public static final AdventureResult TENDER_HAMMER = ItemPool.get( ItemPool.TENDER_HAMMER, 1 );
 	public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get( ItemPool.GRIMACITE_HAMMER, 1 );
@@ -826,7 +827,7 @@ public class CreateItemRequest
 		{
 			int turnsSaved = 0;
 
-			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
+			// Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers, then Rapid Prototyping, then Corner Cutter
 			Matcher freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
@@ -851,15 +852,32 @@ public class CreateItemRequest
 			freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
+				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
 				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
+				turnsSaved += rapidPrototypingTurnsSaved;
+			}
+			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
+			{
+				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
 			}
 		}
 		else
 		{
+			int turnsSaved = 0;
+
+			// Remove from Rapid Prototyping, then Corner Cutter
 			Matcher freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
+				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created );
 				Preferences.increment( "_rapidPrototypingUsed", created, 5, false );
+				turnsSaved += rapidPrototypingTurnsSaved;
+			}
+			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
+			while ( freeTurn.find() )
+			{
+				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
 			}
 		}
 

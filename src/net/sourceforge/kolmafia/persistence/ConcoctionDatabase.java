@@ -2473,6 +2473,8 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.INIGO.getCount( KoLConstants.activeEffects ) / 5 +
 			( KoLCharacter.hasSkill( "Rapid Prototyping" ) &&
 			  StandardRequest.isAllowed( "Skill", "Rapid Prototyping" ) ? 5 - Preferences.getInteger( "_rapidPrototypingUsed" ) : 0 ) +
+			( KoLCharacter.hasSkill( "Expert Corner-Cutter" ) &&
+			  StandardRequest.isAllowed( "Skill", "Expert Corner-Cutter" ) ? 5 - Preferences.getInteger( "_expertCornerCutterUsed" ) : 0 ) +
 			ConcoctionDatabase.CRAFT_TEA.getCount( KoLConstants.activeEffects ) / 5;
 	}
 
