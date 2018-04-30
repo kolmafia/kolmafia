@@ -2947,6 +2947,7 @@ public class ItemPool
 	public static final int FR_POISONED_SMORE = 9853;
 	public static final int FR_DRUIDIC_ORB = 9854;
 	public static final int FR_HOLY_WATER = 9856;
+	public static final int CONTRACTOR_MANUAL = 9861;
 	public static final int FR_CHESWICKS_COMPASS = 9865;
 	public static final int FR_ARREST_WARRANT = 9866;
 	public static final int FR_MOUNTAIN_MAP = 9873;
