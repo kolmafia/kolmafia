@@ -292,7 +292,7 @@ public abstract class ChatManager
 
 		if ( Preferences.getBoolean( "logChatMessages" ) )
 		{
-			String fileSuffix = bufferKey;
+			String fileSuffix = bufferKey.replaceAll( " ", "_" );
 
 			if ( fileSuffix.startsWith( "/" ) )
 			{
