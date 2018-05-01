@@ -264,9 +264,7 @@ public abstract class ChoiceManager
 	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = Pattern.compile( "Looks like it has (\\d+) ounce" );
 	private static final Pattern GARBAGE_SHIRT_PATTERN = Pattern.compile( "Looks like you can read roughly (\\d+) scrap" );
 
-	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "bgcolor=blue><b>(.*?)</b></td>" );
-
-	public static final Pattern TITLE_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
+	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
 	private static final AdventureResult PAPAYA = ItemPool.get( ItemPool.PAPAYA, 1 );
 	private static final AdventureResult MAIDEN_EFFECT = EffectPool.get( EffectPool.DREAMS_AND_LIGHTS );
