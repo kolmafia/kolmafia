@@ -1264,6 +1264,13 @@ public class SkillDatabase
 		case SkillPool.CHIP_ON_YOUR_SHOULDER:
 		case SkillPool.REQUEST_SANDWICH:
 		case SkillPool.PIRATE_BELLOW:
+		case SkillPool.INCREDIBLE_SELF_ESTEEM:
+		case SkillPool.GET_BIG:
+		case SkillPool.MATING_CALL:
+		case SkillPool.INSCRUTABLE_GAZE:
+		case SkillPool.LOVE_MIXOLOGY:
+		case SkillPool.ACQUIRE_RHINESTONES:
+		case SkillPool.POP_SONG:
 			// Auto-HP-Permed
 			return false;
 
@@ -1286,19 +1293,6 @@ public class SkillDatabase
 
 		case SkillPool.SHOOT:
 			// Avatar of West of Loathing skills
-			return false;
-
-		case SkillPool.INCREDIBLE_SELF_ESTEEM:
-			// Auto-awarded after unlocking if you have New-You active
-			return false;
-
-		case SkillPool.GET_BIG:
-		case SkillPool.MATING_CALL:
-		case SkillPool.INSCRUTABLE_GAZE:
-		case SkillPool.LOVE_MIXOLOGY:
-		case SkillPool.ACQUIRE_RHINESTONES:
-		case SkillPool.POP_SONG:
-			// Clan Fortune skills auto-awarded
 			return false;
 		}
 
