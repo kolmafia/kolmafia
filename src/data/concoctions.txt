@@ -2973,3 +2973,4 @@ burning paper crane	NEWSPAPER	burning newspaper
 Potion of Heroism	COMBINE	hero's skull	to-go brew
 denastified haunch	COOK	faerie dust	nasty haunch
 bad rum and good cola	MIX	grolblin rum	sanctified cola
+Staff of Kitchen Royalty	STAFF	scepter of the Skeleton Lord	denastified haunch (3)	bad rum and good cola (3)	Potion of Heroism (3)
