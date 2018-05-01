@@ -67,6 +67,7 @@ public class DrinkItemRequest
 	public static int permittedOverdrink = 0;
 	private static int askedAboutOde = 0;
 	private static int askedAboutTuxedo = 0;
+	private static int askedAboutPinkyRing = 0;
 	private static int askedAboutDrunkAvuncular = 0;
 	private static AdventureResult queuedDrinkHelper = null;
 	private static int queuedDrinkHelperCount = 0;
@@ -448,6 +449,11 @@ public class DrinkItemRequest
 			return false;
 		}
 
+		if ( !DrinkItemRequest.askAboutPinkyRing( itemName ) )
+		{
+			return false;
+		}
+
 		if ( !UseItemRequest.askAboutPvP( itemName ) )
 		{
 			return false;
@@ -638,6 +644,58 @@ public class DrinkItemRequest
 		}
 
 		DrinkItemRequest.askedAboutTuxedo = KoLCharacter.getUserId();
+
+		return true;
+	}
+
+	private static final boolean askAboutPinkyRing( String itemName )
+	{
+		// Only affects some drinks
+		if ( !ConsumablesDatabase.isWine( ItemDatabase.getItemId( itemName ) ) )
+		{
+			return true;
+		}
+		
+		// If we've already asked about Pinky Ring, don't nag
+		if ( DrinkItemRequest.askedAboutPinkyRing == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
+		// If equipped already or can't be equipped, or we can't get one, no need to ask
+		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAFIA_PINKY_RING, 1 ) )
+			|| !EquipmentManager.canEquip( ItemPool.MAFIA_PINKY_RING )
+			|| !InventoryManager.itemAvailable( ItemPool.MAFIA_PINKY_RING ) )
+		{
+			return true;
+		}
+
+		// If autoTuxedo is true, put on Mafia Pinky Ring
+		if ( Preferences.getBoolean( "autoPinkyRing" ) )
+		{
+			if( !InventoryManager.hasItem( ItemPool.MAFIA_PINKY_RING, false ) )
+			{
+				// get Mafia Pinky Ring
+				InventoryManager.retrieveItem( ItemPool.MAFIA_PINKY_RING );
+			}
+			RequestThread.postRequest( new EquipmentRequest( ItemPool.get( ItemPool.MAFIA_PINKY_RING, 1 ), EquipmentManager.ACCESSORY3 ) );
+			if ( EquipmentManager.getEquipment( EquipmentManager.ACCESSORY3 ).getItemId() != ItemPool.MAFIA_PINKY_RING )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Failed to equip mafia pinky ring." );
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+
+		if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without mafia pinky ring ?" ) )
+		{
+			return false;
+		}
+
+		DrinkItemRequest.askedAboutPinkyRing = KoLCharacter.getUserId();
 
 		return true;
 	}

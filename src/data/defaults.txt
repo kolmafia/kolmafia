@@ -194,6 +194,7 @@ user	autoGarish	false
 user	autoManaRestore	false
 user	autoFillMayoMinder	false
 user	autoOlfact
+user	autoPinkyRing	false
 user	autoPlantHardcore	false
 user	autoPlantSoftcore	false
 user	autoPotionID	false

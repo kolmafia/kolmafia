@@ -1116,6 +1116,13 @@ public class EquipmentManager
 		{
 			ConcoctionDatabase.setRefreshNeeded( true );
 		}
+
+		// If Mafia Pinky Ring put on or off, and autoPinkyRing not set, several booze adventure gains change
+		if  ( !Preferences.getBoolean( "autoPinkyRing" ) &&
+			( old.getItemId() == ItemPool.MAFIA_PINKY_RING || item.getItemId() == ItemPool.MAFIA_PINKY_RING ) )
+		{
+			ConcoctionDatabase.setRefreshNeeded( true );
+		}
 	}
 
 	public static final void transformEquipment( AdventureResult before, AdventureResult after )
