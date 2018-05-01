@@ -122,6 +122,8 @@ public class UseItemRequest
 		Pattern.compile( "Your Mer-kin vocabulary mastery is now at <b>(\\d*?)%</b>" );
 	private static final Pattern PURPLE_WORD_PATTERN =
 		Pattern.compile( "don't forget <font color=purple><b><i>(.*?)</i></b></font>" );
+	private static final Pattern GIFT_FROM_PATTERN =
+		Pattern.compile( "<p>From: <b><a class=nounder href=\"showplayer.php\\?who=(\\d+)\">(.*?)</a></b>" );
 
 	// It goes [Xd12] feet, and doesn't hit anything interesting.
 	private static final Pattern ARROW_PATTERN =
@@ -2478,7 +2480,7 @@ public class UseItemRequest
 		case ItemPool.GIFTR:
 		case ItemPool.GIFTW:
 		case ItemPool.GIFTH:
-
+		{
 			// "You can't receive things from other players
 			// right now."
 
@@ -2489,12 +2491,23 @@ public class UseItemRequest
 				return;
 			}
 
+			// Log sender of message
+			Matcher giftFromMatcher = UseItemRequest.GIFT_FROM_PATTERN.matcher( responseText );
+			if ( giftFromMatcher.find() )
+			{
+				String giftFrom = giftFromMatcher.group( 2 );
+				String message = "Opening " + name + " from " + giftFrom;
+				RequestLogger.printLine( "<font color=\"green\">" + message + "</font>" );
+				RequestLogger.updateSessionLog( message );
+			}
+
 			if ( showHTML )
 			{
 				UseItemRequest.showItemUsage( true, responseText );
 			}
 
 			break;
+		}
 
 		case ItemPool.DANCE_CARD:
 			TurnCounter.stopCounting( "Dance Card" );
