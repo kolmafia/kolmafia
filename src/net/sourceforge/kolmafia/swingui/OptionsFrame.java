@@ -410,6 +410,7 @@ public class OptionsFrame
 				{},
 				{ "autoGarish", "Use Potion of the Field Gar when appropriate (& include in adv gain)" },
 				{ "autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)" },
+				{ "autoPinkyRing", "Wear Mafia Pinky Ring when when appropriate (& include in adv gain)" },
 				{ "autoFillMayoMinder", "Fill Mayo Minder&trade; automatically when appropriate" },				
 			};
 

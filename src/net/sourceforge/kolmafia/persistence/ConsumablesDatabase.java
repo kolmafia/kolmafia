@@ -815,6 +815,25 @@ public class ConsumablesDatabase
 			}
 			return 0.0;
 		}
+		if ( ConsumablesDatabase.isWine ( itemId ) )
+		{
+			// If we have mafia pinky ring equipped, or can get it equipped and have autoPinkyRing set, apply 25% bonus adventures
+			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAFIA_PINKY_RING, 1 ) ) ||
+			     Preferences.getBoolean( "autoPinkyRing" ) &&
+			     EquipmentManager.canEquip( ItemPool.MAFIA_PINKY_RING ) &&
+			     InventoryManager.itemAvailable( ItemPool.MAFIA_PINKY_RING ) )
+			{
+				int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+				int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
+				double bonus = 0.0;
+				for ( int i = start; i <= end ; i++ )
+				{
+					bonus += Math.floor( i * 0.25 ) / ( end - start + 1 );
+				}
+				return perUnit ? ( bonus / inebriety ) : bonus;
+			}
+			return 0.0;
+		}
 		if ( ConsumablesDatabase.isLasagna( itemId ) )
 		{
 			// If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus adventures
@@ -1126,6 +1145,81 @@ public class ConsumablesDatabase
 		case ItemPool.STENCH_BEANS_PLATE:
 		case ItemPool.SLEAZE_BEANS_PLATE:
 		case ItemPool.PREMIUM_BEANS_PLATE:
+			return true;
+		}
+		return false;
+	}
+
+	public static final boolean isWine( final int itemId )
+	{
+		switch ( itemId )
+		{
+		case ItemPool.BB_WINE_COOLER:
+		case ItemPool.BEIGNET_MILGRANET:
+		case ItemPool.BILGE_WINE:
+		case ItemPool.BLACKFLY_CHARDONNAY:
+		case ItemPool.BLOOD_RED_MUSHROOM_WINE:
+		case ItemPool.BORDEAUX_MARTEAUX:
+		case ItemPool.BOTTLE_OF_REALPAGNE:
+		case ItemPool.BOTTLE_OF_WINE:
+		case ItemPool.BOXED_CHAMPAGNE:
+		case ItemPool.BUCKET_OF_WINE:
+		case ItemPool.BUZZING_MUSHROOM_WINE:
+		case ItemPool.CANTEEN_OF_WINE:
+		case ItemPool.CARROT_CLARET:
+		case ItemPool.COMPLEX_MUSHROOM_WINE:
+		case ItemPool.COOKING_SHERRY:
+		case ItemPool.COOL_MUSHROOM_WINE:
+		case ItemPool.CRIMBCO_WINE:
+		case ItemPool.CRUELTY_FREE_WINE:
+		case ItemPool.FROMAGE_PINOTAGE:
+		case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
+		case ItemPool.DUSTY_BOTTLE_OF_PORT:
+		case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR:
+		case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL:
+		case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
+		case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
+		case ItemPool.EXPENSIVE_CHAMPAGNE:
+		case ItemPool.FLASK_OF_PORT:
+		case ItemPool.FLAMING_MUSHROOM_WINE:
+		case ItemPool.FLAT_CHAMPAGNE:
+		case ItemPool.FLAT_MUSHROOM_WINE:
+		case ItemPool.FRUITY_WINE:
+		case ItemPool.GINGERBREAD_WINE:
+		case ItemPool.GLOOMY_MUSHROOM_WINE:
+		case ItemPool.HIGH_END_GINGER_WINE:
+		case ItemPool.ICY_MUSHROOM_WINE:
+		case ItemPool.KNOB_MUSHROOM_WINE:
+		case ItemPool.KNOLL_MUSHROOM_WINE:
+		case ItemPool.LAUNDRY_SHERRY:
+		case ItemPool.LUMINEUX_LIMNIO:
+		case ItemPool.MAGNUM_OF_FANCY_CHAMPAGNE:
+		case ItemPool.MID_LEVEL_MEDIEVAL_MEAD:
+		case ItemPool.MISSING_WINE:
+		case ItemPool.MORTO_MORETO:
+		case ItemPool.MULLED_BERRY_WINE:
+		case ItemPool.MUSCHAT:
+		case ItemPool.OILY_MUSHROOM_WINE:
+		case ItemPool.OVERPOWERING_MUSHROOM_WINE:
+		case ItemPool.PINOT_RENOIR:
+		case ItemPool.PLUM_WINE:
+		case ItemPool.POINTY_MUSHROOM_WINE :
+		case ItemPool.PSYCHOTIC_TRAIN_WINE:
+		case ItemPool.RED_RED_WINE:
+		case ItemPool.SACRAMENTO_WINE:
+		case ItemPool.SMOOTH_MUSHROOM_WINE:
+		case ItemPool.SPACE_PORT:
+		case ItemPool.SPOOKY_MUSHROOM_WINE:
+		case ItemPool.STINKY_MUSHROOM_WINE:
+		case ItemPool.SUPERNOVA_CHAMPAGNE:
+		case ItemPool.SWIRLING_MUSHROOM_WINE:
+		case ItemPool.TEMPS_TEMPRANILLO:
+		case ItemPool.THISTLE_WINE:
+		case ItemPool.WARBEAR_FEASTING_MEAD:
+		case ItemPool.WARBEAR_BEARSERKER_MEAD:
+		case ItemPool.WARBEAR_BLIZZARD_MEAD:
+		case ItemPool.WHITE_WINE:
+		case ItemPool.YE_OLDE_MEAD:
 			return true;
 		}
 		return false;

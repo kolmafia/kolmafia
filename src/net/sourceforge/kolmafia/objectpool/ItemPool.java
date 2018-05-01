@@ -390,6 +390,15 @@ public class ItemPool
 	public static final int INEXPLICABLY_GLOWING_ROCK = 1121;
 	public static final int SPOOKY_GLOVE = 1125;
 	public static final int SPOOKY_BICYCLE_CHAIN = 1137;
+	public static final int FLAMING_MUSHROOM_WINE = 1139;
+	public static final int ICY_MUSHROOM_WINE = 1140;
+	public static final int STINKY_MUSHROOM_WINE = 1141;
+	public static final int POINTY_MUSHROOM_WINE = 1142;
+	public static final int FLAT_MUSHROOM_WINE = 1143;
+	public static final int COOL_MUSHROOM_WINE = 1144;
+	public static final int KNOB_MUSHROOM_WINE = 1145;
+	public static final int KNOLL_MUSHROOM_WINE = 1146;
+	public static final int SPOOKY_MUSHROOM_WINE = 1147;
 	public static final int GRAVY_MAYPOLE = 1152;
 	public static final int GIFT1 = 1167;
 	public static final int GIFT2 = 1168;
@@ -489,6 +498,8 @@ public class ItemPool
 	public static final int GIFTV = 1460;
 	public static final int LUCKY_RABBIT_FOOT = 1485;
 	public static final int MINIATURE_DORMOUSE = 1489;
+	public static final int GLOOMY_MUSHROOM_WINE = 1496;
+	public static final int OILY_MUSHROOM_WINE = 1497;
 	public static final int HILARIOUS_BOOK = 1498;
 	public static final int RUBBER_EMO_ROE = 1503;
 	public static final int FAKE_HAND = 1511;
@@ -509,6 +520,7 @@ public class ItemPool
 	public static final int GRIMACITE_GORGET = 1545;
 	public static final int GRIMACITE_GUAYABERA = 1546;
 	public static final int MSG = 1549;
+	public static final int BOXED_CHAMPAGNE = 1556;
 	public static final int COCKTAIL_ONION = 1560;
 	public static final int VODKA_GIBSON = 1569;
 	public static final int GIBSON = 1570;
@@ -579,6 +591,7 @@ public class ItemPool
 	public static final int MANETWICH = 1949;
 	public static final int VANGOGHBITUSSIN = 1950;
 	public static final int PINOT_RENOIR = 1951;
+	public static final int FLAT_CHAMPAGNE = 1953;
 	public static final int QUILL_PEN = 1957;
 	public static final int INKWELL = 1958;
 	public static final int SCRAP_OF_PAPER = 1959;
@@ -681,6 +694,7 @@ public class ItemPool
 	public static final int STUFFED_NINJA_SNOWMAN = 2333;
 	public static final int HOLY_MACGUFFIN = 2334;
 	public static final int BLACK_PUDDING = 2338;
+	public static final int BLACKFLY_CHARDONNAY = 2339;
 	public static final int FILTHWORM_QUEEN_HEART = 2347;
 	public static final int COMMUNICATIONS_WINDCHIMES = 2354;
 	public static final int ZIM_MERMANS_GUITAR = 2364;
@@ -713,6 +727,7 @@ public class ItemPool
 	public static final int POLTERGEIST = 2439;
 	public static final int ENCRYPTION_KEY = 2441;
 	public static final int COBBS_KNOB_MAP = 2442;
+	public static final int SUPERNOVA_CHAMPAGNE = 2444;
 	public static final int GOATSKIN_UMBRELLA = 2451;
 	public static final int BAR_WHIP = 2455;
 	public static final int ODOR_EXTRACTOR = 2462;
@@ -727,6 +742,8 @@ public class ItemPool
 	public static final int MOLYBDENUM_WRENCH = 2501;
 	public static final int JEWELRY_BOOK = 2502;
 	public static final int WOVEN_BALING_WIRE_BRACELETS = 2514;
+	public static final int CRUELTY_FREE_WINE = 2521;
+	public static final int THISTLE_WINE = 2522;
 	public static final int FISHY_FISH_LASAGNA = 2527;
 	public static final int GNAT_LASAGNA = 2531;
 	public static final int LONG_PORK_LASAGNA = 2535;
@@ -768,6 +785,7 @@ public class ItemPool
 	public static final int GAUZE_HAMMOCK = 2638;
 	public static final int MAXWELL_HAMMER = 2642;
 	public static final int ABSINTHE = 2655;
+	public static final int BOTTLE_OF_REALPAGNE = 2658;
 	public static final int SPIKY_COLLAR = 2667;
 	public static final int LIBRARY_CARD = 2672;
 	public static final int SPECTRE_SCEPTER = 2678;
@@ -784,6 +802,7 @@ public class ItemPool
 	public static final int HAND_CARVED_BOKKEN = 2719;
 	public static final int HAND_CARVED_BOW = 2720;
 	public static final int HAND_CARVED_STAFF = 2721;
+	public static final int PLUM_WINE = 2730;
 	public static final int STEEL_STOMACH = 2742;
 	public static final int STEEL_LIVER = 2743;
 	public static final int STEEL_SPLEEN = 2744;
@@ -801,6 +820,7 @@ public class ItemPool
 	public static final int GRIMACITE_GOWN = 2825;
 	public static final int REALLY_DENSE_MEAT_STACK = 2829;
 	public static final int BOTTLE_ROCKET = 2834;
+	public static final int COOKING_SHERRY = 2840;
 	public static final int NAVEL_RING = 2844;
 	public static final int PLASTIC_BIB = 2846;
 	public static final int GNOME_DEMODULIZER = 2848;
@@ -823,6 +843,7 @@ public class ItemPool
 	public static final int GRUMPY_BRACELET = 2973;
 	public static final int TARRRNISH_CHARRRM = 2974;
 	public static final int TARRRNISH_BRACELET = 2975;
+	public static final int BILGE_WINE = 2976;
 	public static final int BOOTY_CHARRRM = 2980;
 	public static final int BOOTY_BRACELET = 2981;
 	public static final int CANNONBALL_CHARRRM = 2982;
@@ -1064,6 +1085,7 @@ public class ItemPool
 	public static final int JAMFISH_JAM = 3641;
 	public static final int DRAGONFISH_CAVIAR = 3642;
 	public static final int GRIMACITE_KNEECAPPING_STICK = 3644;
+	public static final int CANTEEN_OF_WINE = 3645;
 	public static final int MADNESS_REEF_MAP = 3649;
 	public static final int MINIATURE_ANTLERS = 3651;
 	public static final int SPOOKY_PUTTY_MITRE = 3662;
@@ -1496,6 +1518,7 @@ public class ItemPool
 	public static final int PHOTOCOPIED_MONSTER = 4873;
 	public static final int GAUDY_KEY = 4874;
 	public static final int CRIMBCO_MUG = 4880;
+	public static final int CRIMBCO_WINE = 4881;
 	public static final int BGE_SHOTGLASS = 4893;
 	public static final int BGE_TATTOO = 4900;
 	public static final int	COAL_PAPERWEIGHT = 4905;
@@ -1613,9 +1636,17 @@ public class ItemPool
 	public static final int TEACHINGS_OF_THE_FIST = 5220;
 	public static final int FAT_LOOT_TOKEN = 5221;
 	public static final int CLIP_ART_BOOK = 5223;
+	public static final int BUCKET_OF_WINE = 5227;
 	public static final int CRYSTAL_SKULL = 5231;
 	public static final int BORROWED_TIME = 5232;
 	public static final int BOX_OF_HAMMERS = 5233;
+	public static final int LUMINEUX_LIMNIO = 5238;
+	public static final int MORTO_MORETO = 5239;
+	public static final int TEMPS_TEMPRANILLO = 5240;
+	public static final int BORDEAUX_MARTEAUX = 5241;
+	public static final int FROMAGE_PINOTAGE = 5242;
+	public static final int BEIGNET_MILGRANET = 5243;
+	public static final int MUSCHAT = 5244;
 	public static final int FIELD_GAR_POTION = 5257;
 	public static final int DICE_BOOK = 5284;
 	public static final int D4 = 5285;
@@ -1634,6 +1665,7 @@ public class ItemPool
 	public static final int BITE_LIPSTICK = 5314;
 	public static final int WHISKER_PENCIL = 5315;
 	public static final int PRESS_ON_RIBS = 5316;
+	public static final int BB_WINE_COOLER = 5323;
 	public static final int NECBRONOMICON = 5341;
 	public static final int NECBRONOMICON_USED = 5343;
 	public static final int CRIMBO_CAROL_V1_USED = 5347;
@@ -1785,6 +1817,7 @@ public class ItemPool
 	public static final int MENACING_SILENCE_RECORD = 5975;
 	public static final int MENACING_SILENCE_RECORD_USED = 5976;
 	public static final int SLICE_OF_PIZZA = 5978;
+	public static final int BOTTLE_OF_WINE = 5990;
 	public static final int BOSS_HELM = 6002;
 	public static final int BOSS_CLOAK = 6003;
 	public static final int BOSS_SWORD = 6004;
@@ -1820,6 +1853,7 @@ public class ItemPool
 	public static final int JICK_SWORD = 6146;
 	public static final int SNOW_SUIT = 6150;
 	public static final int CARROT_NOSE = 6151;
+	public static final int CARROT_CLARET = 6153;
 	public static final int PIXEL_POWER_CELL = 6155;
 	public static final int ANGER_BLASTER = 6158;
 	public static final int DOUBT_CANNON = 6159;
@@ -1841,6 +1875,7 @@ public class ItemPool
 	public static final int STAFF_OF_CHEESE = 6261;
 	public static final int STAFF_OF_STEAK = 6263;
 	public static final int STAFF_OF_CREAM = 6265;
+	public static final int YE_OLDE_MEAD = 6276;
 	public static final int MARK_V_STEAM_HAT = 6289;
 	public static final int ROCKETSHIP = 6290;
 	public static final int JARLSBERG_SOUL_FRAGMENT = 6297;
@@ -1868,6 +1903,7 @@ public class ItemPool
 	public static final int MERKIN_HALLPASS = 6368;
 	public static final int LUMP_OF_CLAY = 6369;
 	public static final int TWISTED_PIECE_OF_WIRE = 6370;
+	public static final int FRUITY_WINE = 6372;
 	public static final int ANGRY_INCH = 6374;
 	public static final int ERASER_NUBBIN = 6378;
 	public static final int CHLORINE_CRYSTAL = 6379;
@@ -2084,6 +2120,9 @@ public class ItemPool
 	public static final int WARBEAR_WHOSIT = 6913;
 	public static final int WARBEAR_BATTERY = 6916;
 	public static final int WARBEAR_BADGE = 6917;
+	public static final int WARBEAR_FEASTING_MEAD = 6924;
+	public static final int WARBEAR_BEARSERKER_MEAD = 6925;
+	public static final int WARBEAR_BLIZZARD_MEAD = 6926;
 	public static final int WARBEAR_OIL_PAN = 6961;
 	public static final int JACKHAMMER_DRILL_PRESS = 6964;
 	public static final int AUTO_ANVIL = 6965;
@@ -2120,10 +2159,14 @@ public class ItemPool
 	public static final int ICE_HOUSE = 7081;
 	public static final int SNOW_MACHINE = 7082;
 	public static final int SNOW_FORT = 7089;
+	public static final int MULLED_BERRY_WINE = 7119;
+	public static final int MAGNUM_OF_FANCY_CHAMPAGNE = 7130;
 	public static final int LUPINE_APPETITE_HORMONES = 7133;
 	public static final int WOLF_WHISTLE = 7134;
+	public static final int MID_LEVEL_MEDIEVAL_MEAD = 7138;
 	public static final int SPINNING_WHEEL = 7140;
 	public static final int ODD_SILVER_COIN = 7144;
+	public static final int EXPENSIVE_CHAMPAGNE = 7146;
 	public static final int FANCY_OIL_PAINTING = 7148;
 	public static final int SOLID_GOLD_ROSARY = 7149;
 	public static final int DOWSING_ROD = 7150;
@@ -2152,6 +2195,7 @@ public class ItemPool
 	public static final int FLEETWOOD_MAC_N_CHEESE = 7215;
 	public static final int PRICELESS_DIAMOND = 7221;
 	public static final int FLAMIN_WHATSHISNAME = 7222;
+	public static final int RED_RED_WINE = 7229;
 	public static final int RED_BUTTON = 7243;
 	public static final int GLARK_CABLE = 7246;
 	public static final int PETE_JACKET = 7250;
@@ -2194,6 +2238,8 @@ public class ItemPool
 	public static final int PICTURE_OF_YOU = 7350;
 	public static final int COAL_SHOVEL = 7355;
 	public static final int HOT_COAL = 7356;
+	public static final int LAUNDRY_SHERRY = 7366;
+	public static final int PSYCHOTIC_TRAIN_WINE = 7370;
 	public static final int DNA_LAB = 7382;
 	public static final int DNA_SYRINGE = 7383;
 	public static final int STEAM_FIST_1 = 7406;
@@ -2219,6 +2265,12 @@ public class ItemPool
 	public static final int SPRINKLE_SHAKER = 7426;
 	public static final int TACO_DAN_RECEIPT = 7428;
 	public static final int BEACH_BUCK = 7429;
+	public static final int OVERPOWERING_MUSHROOM_WINE = 7444;
+	public static final int COMPLEX_MUSHROOM_WINE = 7445;
+	public static final int SMOOTH_MUSHROOM_WINE = 7446;
+	public static final int BLOOD_RED_MUSHROOM_WINE = 7447;
+	public static final int BUZZING_MUSHROOM_WINE = 7448;
+	public static final int SWIRLING_MUSHROOM_WINE = 7449;
 	public static final int OFFENSIVE_JOKE_BOOK = 7458;
 	public static final int COOKING_WITH_GREASE_BOOK = 7459;
 	public static final int DINER_HANDBOOK = 7460;
@@ -2244,9 +2296,11 @@ public class ItemPool
 	public static final int ALIEN_SOURCE_CODE_USED = 7534;
 	public static final int SPACE_BEAST_FUR = 7536;
 	public static final int SPACE_HEATER = 7543;
+	public static final int SPACE_PORT = 7545;
 	public static final int HOT_ASHES = 7548;
 	public static final int DRY_RUB = 7553;
 	public static final int WHITE_PAGE = 7555;
+	public static final int WHITE_WINE = 7558;
 	public static final int TIME_TWITCHING_TOOLBELT = 7566;
 	public static final int CHRONER = 7567;
 	public static final int CLAN_SPEAKEASY = 7588;
@@ -2695,6 +2749,7 @@ public class ItemPool
 	public static final int WITCHESS_SET = 8989;
 	public static final int BRAIN_TRAINER_GAME = 8990;
 	public static final int LASER_EYE_SURGERY_KIT = 8991;
+	public static final int SACRAMENTO_WINE = 8994;
 	public static final int CLAN_FLOUNDRY = 9000;
 	public static final int CARPE = 9001;
 	public static final int CODPIECE = 9002;
@@ -2788,6 +2843,7 @@ public class ItemPool
 	public static final int VIGILANTE_BOOK = 9206;
 	public static final int BROKEN_CHOCOLATE_POCKETWATCH = 9215;
 	public static final int GINGERBREAD_RESTRAINING_ORDER = 9217;
+	public static final int GINGERBREAD_WINE = 9220;
 	public static final int GINGERBREAD_MUG = 9221;
 	public static final int GINGERSERVO = 9223;
 	public static final int GINGERBEARD = 9225;
@@ -2795,6 +2851,7 @@ public class ItemPool
 	public static final int GINGERBREAD_DOG_TREAT = 9233;
 	public static final int GINGERBREAD_CIGARETTE = 9237;
 	public static final int SPARE_CHOCOLATE_PARTS = 9240;
+	public static final int HIGH_END_GINGER_WINE = 9243;
 	public static final int MY_LIFE_OF_CRIME_BOOK = 9258;
 	public static final int POP_ART_BOOK = 9259;
 	public static final int NO_HATS_BOOK = 9260;
@@ -2883,6 +2940,8 @@ public class ItemPool
 	public static final int POCKET_WISH = 9537;
 	public static final int X = 9543;
 	public static final int O = 9544;
+	public static final int MAFIA_PINKY_RING = 9546;
+	public static final int FLASK_OF_PORT = 9547;
 	public static final int AMORPHOUS_BLOB = 9558;
 	public static final int GIANT_AMORPHOUS_BLOB = 9561;
 	public static final int MAFIA_THUMB_RING = 9564;
