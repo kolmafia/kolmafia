@@ -142,6 +142,7 @@ Ghuol Whelp	1/3	2/3	2/4	Claw	Hug	Universal Backrub	None
 Glamare	1/3	2/3	3/3	Bonk	Lick	Violent Shred	None
 Globmule	1/3	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Gluttonous Green Ghost	1/3	2/3	2/4	Punch	Frighten	Vulgar Display	None
+God Lobster	2/2	2/3	3/3	Claw	Frighten	Violent Shred	Armor
 Golden Monkey	1/3	1/4	2/4	Punch	Tackle	Violent Shred	Armor
 Gorillape	1/3	1/4	2/4	Punch	Growl	Violent Shred	None
 Green Pixie	1/3	1/4	1/5	Punch	Hug	Empowering Cheer	None

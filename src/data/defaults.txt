@@ -2380,6 +2380,7 @@ user	choiceAdventure1303	0
 user	choiceAdventure1304	0
 user	choiceAdventure1305	0
 user	choiceAdventure1307	0
+user	choiceAdventure1310	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

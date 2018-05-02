@@ -2390,8 +2390,8 @@
 2389	Gleam-Inducing	neweggs.gif	b70458b496853776868164e761a81060	chew 1 gleaming oyster egg
 2390	Fantasy Faerie Blessing	faeriedust.gif	75ebf7c521ef696c582322f2b73ab000	# Get Blessing in The Faerie Cyrkle
 2391	Poison For Blood	poison.gif	b1cff2cbb39833e32a059909ee9d784b	# Make Special Brew in Witch's House
-2392
-2393
+2392	Brewed Up	coffeecup.gif	cfe7d66865036bccaed8e9253288ba8d	# Make Regular Brew in Witch's House
+2393	Fantastical Health	syringe.gif	31c6291352cf5214f90e5b4acb38dd22	# Pray for health in The Evil Cathedral
 2394	Fantastic Immunity	poison.gif	217dfd5113d8aa7fe0a60e279bd311c2	use 1 universal antivenin
 2395	Fortunate, Son	dollarsign.gif	8ff1afdcea56040417a9a2f5e992dc58	# Visit Fortune Teller in The Cursed Village
 2396	Faerie Fortune	faeriedust.gif	8e16719f71692010bf252f238362fb60	eat 1 denastified haunch|drink 1 bad rum and good cola
@@ -2399,3 +2399,5 @@
 2398	Heroic Fortune	heroskull.gif	c438930d6f7016e2c7f015cbe036f901	use 1 Potion of Heroism
 2399	Powder Power	disease.gif	7f9795080d7119dc0009eae2b9a4e916	chew 1 sachet of strange powder
 2400	Artisanal Satiaton	analjar_empty.gif	bad8c8c5113bf8ef1a5fd160c591a716	drink 1 hipster cocktail
+2401	Wisdom of the God Lobster	godlob.gif	6ba242c26d1ee1ccd15db6074fa9b0e3	# Challenge God Lobster (no Lobster equipment) and get blessing
+2402	Intuition of the God Lobster	godlob_scepter.gif	a3f14e1ea52197a7a61a97c189a0f40d	# Challenge God Lobster with Scepter and get blessing

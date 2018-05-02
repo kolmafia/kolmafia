@@ -9684,7 +9684,7 @@
 9658	miming corduroys	206689182	tuxpants.gif	pants		0
 9659	miming boots	241837040	blackboots.gif	accessory		0
 9660	miming gloves	488176089	stickygloves.gif	accessory		0
-9661
+9661	God Lobster Egg	517234664	godlob_egg.gif	grow	t	0
 9662
 9663
 9664
@@ -9926,3 +9926,6 @@
 9900
 9901
 9902	hipster cocktail	893473589	analjar_empty.gif	drink	t,d	200
+9903	God Lobster's Scepter	153304640	godlob_scepter.gif	familiar	q	0
+9904	God Lobster's Ring	831191290	godlob_ring.gif	familiar	q	0
+9905	God Lobster's Rod	789773229	godlob_rod.gif	familiar	q	0
