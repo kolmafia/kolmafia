@@ -4279,6 +4279,8 @@ public abstract class ChoiceManager
 				       new Option( "get beaten up", 2 ),
 				       new Option( "leave", 6 ) } ),
 
+		// Choice 1310 is Granted a Boon
+
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
