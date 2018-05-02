@@ -1068,62 +1068,6 @@ public class ConcoctionDatabase
 		String name = c.getName();
 		GenericRequest request;
 
-		// Don't eat/drink/spleen PvP items without checking stone broken etc
-		if ( !UseItemRequest.askAboutPvP( name ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
-			return;
-		}
-
-		// Check about Milk (etc), Overdrinking and Ode
-		if ( consumptionType == KoLConstants.CONSUME_EAT && !EatItemRequest.askAboutMilk( name, quantity ) )
-		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
-			return;
-		}
-		else if ( consumptionType == KoLConstants.CONSUME_DRINK )
-		{
-			int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-			int inebriety = ConsumablesDatabase.getInebriety( name );
-			if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
-			{
-				if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
-					KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() )
-					&& !InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
-				{
-					KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
-					return;
-				}
-			}
-
-			if ( !DrinkItemRequest.askAboutOde( name, inebriety, quantity) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + quantity + " " + name + "." );
-				return;
-			}
-		}
-
-		// Check whether player meant to eat if at Drunk limit with Mayodiol in your mouth
-		if ( Preferences.getString( "mayoInMouth" ).equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() )
-		{
-			if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in your mouth, are you sure ?" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
-				return;
-			}
-		}
-
-		// Check whether player meant to eat if at Drunk limit with MayoMinder set to automatically use Mayodiol
-		if ( Preferences.getString( "mayoInMouth" ).equals( "" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() &&
-			Preferences.getString( "mayoMinderSetting" ).equals( "Mayodiol" ) && InventoryManager.hasItem( ItemPool.MAYODIOL ) )
-		{
-			if ( !InputFieldUtilities.confirm( "Eating this will cause you to overdrink due to Mayodiol in inventory with Mayo Minder&trade; set to use it, are you sure ?" ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + quantity + " " + name + "." );
-				return;
-			}
-		}
-
 		if ( ClanLoungeRequest.isHotDog( name ) )
 		{
 			request = ClanLoungeRequest.buyHotDogRequest( name );
