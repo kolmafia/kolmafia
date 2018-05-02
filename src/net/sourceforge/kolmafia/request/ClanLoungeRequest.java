@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -883,6 +884,13 @@ public class ClanLoungeRequest
 		{
 			return null;
 		}
+
+		if ( !EatItemRequest.allowFoodConsumption( name, 1 ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + name + "." );
+			return null;
+		}
+
 		ClanLoungeRequest request = new ClanLoungeRequest( HOT_DOG_STAND, ClanLoungeRequest.hotdogIndexToId( index ) );
 		return request;
 	}
@@ -894,6 +902,13 @@ public class ClanLoungeRequest
 		{
 			return null;
 		}
+		
+		if ( !DrinkItemRequest.allowBoozeConsumption( name, 1 ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + name + "." );
+			return null;
+		}
+
 		ClanLoungeRequest request = new ClanLoungeRequest( SPEAKEASY, ClanLoungeRequest.speakeasyIndexToId( index ) );
 		return request;
 	}

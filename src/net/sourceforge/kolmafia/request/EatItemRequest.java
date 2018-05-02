@@ -350,6 +350,16 @@ public class EatItemRequest
 
 	private final boolean allowFoodConsumption()
 	{
+		int count = this.itemUsed.getCount();
+		String itemName = this.itemUsed.getName();
+
+		return EatItemRequest.allowFoodConsumption( itemName, count );
+	}
+
+	public static final boolean allowFoodConsumption( String itemName, int count )
+	{
+		int itemId = ItemDatabase.getItemId( itemName );
+
 		if ( !GenericFrame.instanceExists() )
 		{
 			return true;
@@ -360,19 +370,17 @@ public class EatItemRequest
 			return true;
 		}
 
-		String itemName = this.itemUsed.getName();
-
 		if ( !askAboutGarish( itemName ) )
 		{
 			return false;
 		}
 
-		if ( !askAboutMayodiol( this.itemUsed.getItemId() ) )
+		if ( !askAboutMayodiol( itemId ) )
 		{
 			return false;
 		}
 
-		if ( !EatItemRequest.askAboutMilk( itemName, this.itemUsed.getCount() ) )
+		if ( !EatItemRequest.askAboutMilk( itemName, count ) )
 		{
 			return false;
 		}
@@ -400,7 +408,7 @@ public class EatItemRequest
 		}
 
 		// If the food is not made with noodles, no fear
-		if ( ConcoctionDatabase.noodleCreation( this.itemUsed.getItemId() ) == null )
+		if ( ConcoctionDatabase.noodleCreation( itemId ) == null )
 		{
 			return true;
 		}

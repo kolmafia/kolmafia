@@ -166,8 +166,15 @@ public class CafeRequest
 			return;
 		}
 
+		if ( this.fullness > 0 && !EatItemRequest.allowFoodConsumption( this.itemName, 1 ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + this.itemName + "." );
+			return;
+		}
+
 		if ( this.inebriety > 0 && !DrinkItemRequest.allowBoozeConsumption( this.itemName, 1 ) )
 		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + this.itemName + "." );
 			return;
 		}
 

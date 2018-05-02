@@ -35,6 +35,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -281,7 +282,7 @@ public class RestaurantCommand
 			}
 		}
 
-		if ( !command.equals( "eatsilent" ) && !EatItemRequest.askAboutMilk( hotdog, count ) )
+		if ( !command.equals( "eatsilent" ) && !EatItemRequest.allowFoodConsumption( hotdog, count ) )
 		{
 			return true;
 		}
@@ -346,20 +347,9 @@ public class RestaurantCommand
 			count = 3 - drunkCount;
 		}
 
-		int available = KoLCharacter.getInebrietyLimit() - KoLCharacter.getInebriety();
-		int inebriety = ConsumablesDatabase.getInebriety( speakeasyDrink );
-		if ( inebriety > available && DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
+		if ( !command.equals( "drinksilent" ) && !DrinkItemRequest.allowBoozeConsumption( speakeasyDrink, count ) )
 		{
-			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
-				KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() ) &&
-				!InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
-			{
-				return true;
-			}
-		}
-
-		if ( !command.equals( "drinksilent" ) && !DrinkItemRequest.askAboutOde( speakeasyDrink, inebriety, count ) )
-		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + count + " " + speakeasyDrink + "." );
 			return true;
 		}
 
