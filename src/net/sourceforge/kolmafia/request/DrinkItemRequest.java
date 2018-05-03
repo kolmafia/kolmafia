@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class DrinkItemRequest
 	extends UseItemRequest
 {
-	public static int permittedOverdrink = 0;
+	private static int ignorePrompt = 0;
 	private static int askedAboutOde = 0;
 	private static int askedAboutTuxedo = 0;
 	private static int askedAboutPinkyRing = 0;
@@ -84,9 +84,9 @@ public class DrinkItemRequest
 		return 0;
 	}
 
-	public static final void permitOverdrink()
+	public static final void ignorePrompt()
 	{
-		DrinkItemRequest.permittedOverdrink = KoLCharacter.getUserId();
+		DrinkItemRequest.ignorePrompt = KoLCharacter.getUserId();
 	}
 
 	public static final void clearDrinkHelper()
@@ -439,6 +439,11 @@ public class DrinkItemRequest
 			return true;
 		}
 
+		if ( DrinkItemRequest.ignorePrompt == KoLCharacter.getUserId() )
+		{
+			return true;
+		}
+
 		if ( !DrinkItemRequest.askAboutOde( itemName, inebriety, count ) )
 		{
 			return false;
@@ -462,8 +467,7 @@ public class DrinkItemRequest
 		// Make sure the player does not overdrink if they still
 		// have adventures or fullness remaining.
 
-		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit() &&
-		     DrinkItemRequest.permittedOverdrink != KoLCharacter.getUserId() )
+		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit()  )
 		{
 			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
 				KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() ) &&
@@ -478,13 +482,7 @@ public class DrinkItemRequest
 
 	public static final boolean askAboutOde( String itemName, final int inebriety, final int count )
 	{
-		// If user specifically said not to worry about ode, don't nag
-		// Actually, this overloads the "allowed to overdrink" flag.
 		int myUserId = KoLCharacter.getUserId();
-		if ( DrinkItemRequest.permittedOverdrink == myUserId )
-		{
-			return true;
-		}
 
 		String note = ConsumablesDatabase.getNotes( itemName );
 		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
