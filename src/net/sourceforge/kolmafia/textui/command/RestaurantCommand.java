@@ -282,7 +282,7 @@ public class RestaurantCommand
 			}
 		}
 
-		if ( !command.equals( "eatsilent" ) && !EatItemRequest.allowFoodConsumption( hotdog, count ) )
+		if ( !EatItemRequest.allowFoodConsumption( hotdog, count ) )
 		{
 			return true;
 		}
@@ -347,7 +347,7 @@ public class RestaurantCommand
 			count = 3 - drunkCount;
 		}
 
-		if ( !command.equals( "drinksilent" ) && !DrinkItemRequest.allowBoozeConsumption( speakeasyDrink, count ) )
+		if ( !DrinkItemRequest.allowBoozeConsumption( speakeasyDrink, count ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted drinking " + count + " " + speakeasyDrink + "." );
 			return true;
