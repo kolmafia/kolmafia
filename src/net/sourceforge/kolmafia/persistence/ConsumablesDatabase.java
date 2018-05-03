@@ -82,6 +82,7 @@ public class ConsumablesDatabase
 	public static final AdventureResult BEER_BARREL_POLKA = EffectPool.get( EffectPool.BEER_BARREL_POLKA );
 	public static final AdventureResult RECORD_HUNGER = EffectPool.get( EffectPool.RECORD_HUNGER );
 	public static final AdventureResult DRUNK_AVUNCULAR = EffectPool.get( EffectPool.DRUNK_AVUNCULAR );
+	public static final AdventureResult REFINED_PALATE = EffectPool.get( EffectPool.REFINED_PALATE );
 
 	private static final Map<String, Integer> levelReqByName = new HashMap<String, Integer>();
 	public static final Map<String, Integer> fullnessByName = new TreeMap<String, Integer>( KoLConstants.ignoreCaseComparator );
@@ -817,22 +818,25 @@ public class ConsumablesDatabase
 		}
 		if ( ConsumablesDatabase.isWine ( itemId ) )
 		{
-			// If we have mafia pinky ring equipped, or can get it equipped and have autoPinkyRing set, apply 25% bonus adventures
-			if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAFIA_PINKY_RING, 1 ) ) ||
-			     Preferences.getBoolean( "autoPinkyRing" ) &&
-			     EquipmentManager.canEquip( ItemPool.MAFIA_PINKY_RING ) &&
-			     InventoryManager.itemAvailable( ItemPool.MAFIA_PINKY_RING ) )
+			boolean refinedPalate = KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.REFINED_PALATE ) );
+			int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
+			int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
+			double bonus = 0.0;
+			// With Refined Palate, apply 25% bonus adventures
+			// If we have mafia pinky ring equipped, or can get it equipped and have autoPinkyRing set, apply 12.5% bonus adventures
+			for ( int i = start; i <= end ; i++ )
 			{
-				int start = ConsumablesDatabase.advStartByName.get( name ).intValue();
-				int end = ConsumablesDatabase.advEndByName.get( name ).intValue();
-				double bonus = 0.0;
-				for ( int i = start; i <= end ; i++ )
+				bonus += refinedPalate ? Math.floor( i * 0.25 ) / ( end - start + 1 ) : 0.0;
+				if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAFIA_PINKY_RING, 1 ) ) ||
+					 Preferences.getBoolean( "autoPinkyRing" ) &&
+					 EquipmentManager.canEquip( ItemPool.MAFIA_PINKY_RING ) &&
+					 InventoryManager.itemAvailable( ItemPool.MAFIA_PINKY_RING ) )
 				{
-					bonus += Math.floor( i * 0.25 ) / ( end - start + 1 );
+					double adjustedBase = refinedPalate ? Math.floor( i * 1.25 ) : i;
+					bonus += Math.rint( adjustedBase * 0.125 ) / ( end - start + 1 );
 				}
-				return perUnit ? ( bonus / inebriety ) : bonus;
 			}
-			return 0.0;
+			return perUnit ? ( bonus / inebriety ) : bonus;
 		}
 		if ( ConsumablesDatabase.isLasagna( itemId ) )
 		{

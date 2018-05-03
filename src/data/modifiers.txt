@@ -3761,6 +3761,8 @@ Item	gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*env(und
 Item	gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
 # Item God Lobster's Ring: Makes your God Lobster bestow stat gains based on an ancient mystic formula
 Item	God Lobster's Ring	Equips On: "God Lobster"
+# Item God Lobster's Robe: Makes your God Lobster prevent monster attacks
+Item	God Lobster's Robe	Equips On: "God Lobster"
 # Item God Lobster's Rod: Makes your God Lobster restore HP and MP after Combat
 Item	God Lobster's Rod	Equips On: "God Lobster"
 # Item God Lobster's Scepter: Makes your God Lobster slightly increase Item and Meat Drops
