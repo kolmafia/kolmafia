@@ -65,7 +65,7 @@ public class UseItemCommand
 	@Override
 	public void run( String command, final String parameters )
 	{
-		if ( command.equals( "overdrink" ) )
+		if ( command.equals( "overdrink" ) || command.equals( "drinksilent" ) )
 		{
 			DrinkItemRequest.ignorePrompt();
 			command = "drink";
