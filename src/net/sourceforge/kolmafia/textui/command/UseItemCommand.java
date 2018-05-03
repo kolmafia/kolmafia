@@ -67,7 +67,7 @@ public class UseItemCommand
 	{
 		if ( command.equals( "overdrink" ) )
 		{
-			DrinkItemRequest.permitOverdrink();
+			DrinkItemRequest.ignorePrompt();
 			command = "drink";
 		}
 		else if ( command.equals( "eatsilent" ) )
