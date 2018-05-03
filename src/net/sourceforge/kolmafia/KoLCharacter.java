@@ -3673,8 +3673,11 @@ public abstract class KoLCharacter
 
 	public static final void setSkillsRecalled( final boolean skillsRecalled )
 	{
+		if ( KoLCharacter.skillsRecalled != skillsRecalled )
+		{
+			ConcoctionDatabase.setRefreshNeeded( true );
+		}
 		KoLCharacter.skillsRecalled = skillsRecalled;
-		ConcoctionDatabase.setRefreshNeeded( true );
 	}
 
 	public static final boolean skillsRecalled()

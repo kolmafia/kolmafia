@@ -1127,6 +1127,7 @@ public class ResultProcessor
 			case EffectPool.DRUNK_AVUNCULAR:
 			case EffectPool.BARREL_OF_LAUGHS:
 			case EffectPool.BEER_BARREL_POLKA:
+			case EffectPool.REFINED_PALATE:
 				// Turn generation from food and booze changes
 				ConcoctionDatabase.setRefreshNeeded( true );
 				break;
