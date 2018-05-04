@@ -1874,8 +1874,8 @@ Ogre Chieftain	2084	fr_ogrechieftain.gif	Atk: 300 Def: 700 HP: 500 Init: -10000 
 Ted Schwartz, Master Thief	2085	fr_masterthief.gif	Atk: 400 Def: 400 HP: 300 Init: 300 P: dude	Master Thief's utility belt (n100)
 Skeleton Lord	2087	skeletonlord.gif	Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)
 
-# God Lobster (May 2018
-God Lobster	2088	nopic.gif	Atk: 0 Def: 0 HP: 0 Init: 1000 P: horror
+# God Lobster (May 2018)
+God Lobster	2088	nopic.gif	Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror
 
 # KoL Con
 

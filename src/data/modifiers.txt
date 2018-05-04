@@ -3759,14 +3759,16 @@ Item	gnomish housemaid's kgnee	Equips On: "Reagnimated Gnome", Familiar Effect: 
 Item	gnomish swimmer's ears	Underwater Familiar, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)], Equips On: "Reagnimated Gnome", Familiar Effect: "underwater"
 # gnomish tennis elbow: Lets your gnome attack enemies
 Item	gnomish tennis elbow	Equips On: "Reagnimated Gnome", Familiar Effect: "damage"
+# Item God Lobster's Crown: Makes your God Lobster increase Item Drops
+Item	God Lobster's Crown	Fairy: 1, Equips On: "God Lobster", Familiar Effect: "fairy"
 # Item God Lobster's Ring: Makes your God Lobster bestow stat gains based on an ancient mystic formula
-Item	God Lobster's Ring	Equips On: "God Lobster"
+Item	God Lobster's Ring	Volleyball: -1, Sombrero: +1, Equips On: "God Lobster", Familiar Effect: "sombrero"
 # Item God Lobster's Robe: Makes your God Lobster prevent monster attacks
-Item	God Lobster's Robe	Equips On: "God Lobster"
+Item	God Lobster's Robe	Equips On: "God Lobster", Familiar Effect: "block"
 # Item God Lobster's Rod: Makes your God Lobster restore HP and MP after Combat
-Item	God Lobster's Rod	Equips On: "God Lobster"
+Item	God Lobster's Rod	Equips On: "God Lobster", Familiar Effect: "whelp"
 # Item God Lobster's Scepter: Makes your God Lobster slightly increase Item and Meat Drops
-Item	God Lobster's Scepter	Equips On: "God Lobster"
+Item	God Lobster's Scepter	Leprechaun: 0.5, Fairy: 0.5, Equips On: "God Lobster", , Familiar Effect: "small fairy/lep"
 Item	golden banana	Familiar Weight: +5
 Item	green pixie spog	Familiar Weight: +5
 Item	Grim Brothers' story book	Familiar Weight: +5
@@ -4812,6 +4814,7 @@ Effect	Can't Smell Nothin'	Stench Resistance: +9
 Effect	Cancer Rising	Maximum MP Percent: +100
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Capricorn Rising	Item Drop: +5
+Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: +5
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
@@ -4896,6 +4899,7 @@ Effect	Cold-Blooded Warm Fuzzies	Muscle Percent: +20, Mysticality Percent: +20, 
 # Coldform: Cold, Cold, Cold!
 Effect	Coldfinger	Cold Damage: +50, Cold Spell Damage: +50, Stench Resistance: +5, Sleaze Resistance: +5
 Effect	Coldform	Cold Immunity, Hot Vulnerability, Spooky Vulnerability
+Effect	Color of the God Lobster	Combat Rate: +5
 Effect	Colorful Gratitude	Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5
 Effect	Colorfully Concealed	Combat Rate (Underwater): -5
 Effect	Comic Violence	Attacks Can't Miss
@@ -6257,6 +6261,7 @@ Effect	Shrieking Weasel	Monster Level: +30
 Effect	Shrimpin' Ain't Easy	Familiar Weight: +5
 # Side Affectation: Extra-Vulnerable to Hot and Stench
 Effect	Side Affectation	Spooky Resistance: +2, Hot Vulnerability, Stench Vulnerability
+Effect	Silence of the God Lobster	Combat Rate: -5
 # Silent Hunting: You do not gain Fury
 Effect	Silent Hunting	Initiative: +100
 # Silent Running: Decreased chance of random PvP Attacks
@@ -6554,6 +6559,7 @@ Effect	Tango, O Gnat	Avatar: "Tan Gnat"
 Effect	Tapped In	Experience: +5
 # Tar-Struck: Continually take damage
 Effect	Tar-Struck	Stench Damage: +20
+# Effect Taste of the God Lobster: Increases Stats from Food
 # Taste the Inferno: It burns!  It burns!
 Effect	Taunt of Horus	Combat Rate: +20
 Effect	Taurus Rising	Muscle Percent: +50
