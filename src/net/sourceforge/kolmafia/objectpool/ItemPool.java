@@ -3016,6 +3016,7 @@ public class ItemPool
 	public static final int FR_CEMETARY_MAP = 9877;
 	public static final int FR_CHARGED_ORB = 9896;
 	public static final int FR_NOTARIZED_WARRANT = 9897;
+	public static final int CLARIFIED_BUTTER = 9908;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

@@ -3255,6 +3255,11 @@ public class GenericRequest
 			// elsewhere, just for the cases that will be a combat.
 			break;
 
+		case ItemPool.CLARIFIED_BUTTER:
+			itemName = "Dish of Clarified Butter";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
