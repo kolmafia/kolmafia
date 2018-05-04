@@ -15699,6 +15699,15 @@ public abstract class ChoiceManager
 			}
 			return decision;
 
+		case 1060:
+			// Temporarily Out of Skeletons
+			if ( decision.equals( "4" ) && QuestDatabase.isQuestLaterThan( Quest.ARMORER, QuestDatabase.STARTED ) )
+			{
+				// Can only fight owner til defeated
+				return "0";
+			}
+			return decision;
+
 		case 1061:
 			// Heart of Madness
 			if ( decision.equals( "1" ) && QuestDatabase.isQuestLaterThan( Quest.ARMORER, "step4" ) )
