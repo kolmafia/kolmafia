@@ -682,6 +682,13 @@ public class PlaceRequest
 				message = "Visiting the Mad Tea Party";
 			}
 		}
+		else if ( place.equals( "snojo" ) )
+		{
+			if ( action.equals( "snojo_controller" ) )
+			{
+				message = "Visiting Snojo Control Console";
+			}
+		}
 		else if ( place.equals( "spacegate" ) )
 		{
 			if ( action.equals( "sg_requisition" ) )

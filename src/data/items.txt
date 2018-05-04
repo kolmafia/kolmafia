@@ -9931,3 +9931,4 @@
 9905	God Lobster's Rod	789773229	godlob_rod.gif	familiar	q	0
 9906	God Lobster's Robe	513666157	godlob_robe.gif	familiar	q	0
 9907	God Lobster's Crown	429475400	godlob_crown.gif	familiar	q	0
+9908	Dish of Clarified Butter	899424762	soupbowl.gif	usable	t	0
