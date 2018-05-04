@@ -2401,3 +2401,7 @@
 2400	Artisanal Satiaton	analjar_empty.gif	bad8c8c5113bf8ef1a5fd160c591a716	drink 1 hipster cocktail
 2401	Wisdom of the God Lobster	godlob.gif	6ba242c26d1ee1ccd15db6074fa9b0e3	# Challenge God Lobster (no Lobster equipment) and get blessing
 2402	Intuition of the God Lobster	godlob_scepter.gif	a3f14e1ea52197a7a61a97c189a0f40d	# Challenge God Lobster with Scepter and get blessing
+2403	Silence of the God Lobster	godlob_ring.gif	edf2bf0fc7dd87227c6e9ae7091dae41	# Challenge God Lobster with Ring and get blessing
+2404	Color of the God Lobster	godlob_rod.gif	577be6fa4852f48c8be181e9261032f5	# Challenge God Lobster with Rod and get blessing
+2405	Carapace of the God Lobster	godlob_robe.gif	870bf8253a4b7118decd9a8fd019886e	# Challenge God Lobster with Robe and get blessing
+2406	Taste of the God Lobster	godlob_crown.gif	7a540633409b261fe7c3ab1016edde76	# Challenge God Lobster with Crown and get blessing

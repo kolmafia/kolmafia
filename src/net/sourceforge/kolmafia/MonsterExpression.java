@@ -109,6 +109,10 @@ public class MonsterExpression
 		{
 			return this.literal( this.until( ")" ), '\u0092' );
 		}
+		if ( this.optional( "equipped(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'g' );
+		}
 
 		return null;
 	}
