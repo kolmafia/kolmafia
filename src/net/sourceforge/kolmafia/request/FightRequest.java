@@ -9585,6 +9585,7 @@ public class FightRequest
 		FightRequest.mapMoveToAction( 3, "Nuclear Bomb", "ult_nuke", "Deal 5 damage to the rearmost enemy." );
 		FightRequest.mapMoveToAction( 3, "Owl Stare", "ult_owlstare", "Heal all allies for 1 and increase power by 1." );
 		FightRequest.mapMoveToAction( 3, "Pepperscorn", "ult_pepperscorn", "Give allies Spiked." );
+		FightRequest.mapMoveToAction( 3, "Rainbow Storm", "ult_rainbowstorm", "Give allies regeneration and armor." );
 		FightRequest.mapMoveToAction( 3, "Spiky Burst", "ult_crazyblast", "Deal 8 damage spread out among all foes randomly." );
 		FightRequest.mapMoveToAction( 3, "Stick Treats", "ult_stickytreats", "Heal allies for 1, tire front enemy." );
 		FightRequest.mapMoveToAction( 3, "Universal Backrub", "ult_superheal", "Heals all allies for 2." );
