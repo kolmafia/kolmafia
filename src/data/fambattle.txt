@@ -38,6 +38,7 @@
 #    Nuclear Bomb       deal 5 damage to rearmost enemy
 #    Owl Stare          heal all allies by 1 and increase power by 1
 #    Pepperscorn        give all allies Spiked
+#    Rainbow Storm      give all allies regeneration and armor
 #    Spiky Burst        deal 8 damage randomly spread among all foes
 #    Stick Treats       heal all allies by 1 and tire front enemy
 #    Universal Backrub	heal all allies by 2
@@ -198,7 +199,7 @@ Money-Making Goblin	1/3	2/3	2/4	Punch	Hug	Vulgar Display	None
 Morphan	2/2	2/3	2/4	Bonk	Encourage	Universal Backrub	None
 Mosquito	2/2	3/2	3/3	Bite	Lick	Violent Shred	None
 Ms. Puck Man	x/x	x/x	2/4	Bite	Retreat	Deluxe Impale	None
-Mu	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Mu	2/2	2/3	2/4	Bonk	Howl	Rainbow Storm	None
 Mustardigrade	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Mutant Cactus Bud	2/2	2/3	2/4	Sting	Regrow	Spiky Burst	Regenerating
 Mutant Fire Ant	2/2	2/3	2/4	Bite	Howl	Violent Shred	None
