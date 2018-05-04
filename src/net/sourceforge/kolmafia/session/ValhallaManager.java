@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
 
 import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
@@ -190,6 +191,12 @@ public class ValhallaManager
 
 		// Harvest your garden
 		CampgroundRequest.harvestCrop();
+
+		// Harvest your mushroom plot
+		if ( MushroomManager.ownsPlot() )
+		{
+			MushroomManager.harvestMushrooms();
+		}
 
 		// Repackage bear arms
 		AdventureResult leftArm = ItemPool.get( ItemPool.LEFT_BEAR_ARM, 1 );
