@@ -419,9 +419,10 @@ public class DrinkItemRequest
 	public static final boolean allowBoozeConsumption( String itemName, int count )
 	{
 		int inebriety = ConsumablesDatabase.getInebriety( itemName );
+		int mimeShotglass = 0;
 		if ( inebriety == 1 && InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
 		{
-			count -= 1;
+			mimeShotglass = 1;
 		}
 		int inebrietyBonus = inebriety * count;
 		if ( inebrietyBonus < 1 )
@@ -444,7 +445,7 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		if ( !DrinkItemRequest.askAboutOde( itemName, inebriety, count ) )
+		if ( !DrinkItemRequest.askAboutOde( itemName, inebriety, count, mimeShotglass ) )
 		{
 			return false;
 		}
@@ -480,9 +481,15 @@ public class DrinkItemRequest
 		return true;
 	}
 
-	public static final boolean askAboutOde( String itemName, final int inebriety, final int count )
+	private static final boolean askAboutOde( String itemName, final int inebriety, final int count, final int shotglass )
 	{
 		int myUserId = KoLCharacter.getUserId();
+
+		// Can't use ode if shotglass brings inebriety to 0
+		if ( inebriety * count - shotglass == 0 )
+		{
+			return true;
+		}
 
 		String note = ConsumablesDatabase.getNotes( itemName );
 		String advGain = ConsumablesDatabase.getAdvRangeByName( itemName );
@@ -549,7 +556,7 @@ public class DrinkItemRequest
 		{
 			// See if already have enough turns of Ode to Booze
 			int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
-			int consumptionTurns = count * inebriety;
+			int consumptionTurns = count * inebriety - shotglass;
 
 			if ( consumptionTurns <= odeTurns )
 			{
