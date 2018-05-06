@@ -321,7 +321,7 @@ public class CompactSidePane
 			{
 				this.addServants( famPopup );
 			}
-			else
+			else if ( !KoLCharacter.inPokefam() )
 			{
 				this.addFamiliars( famPopup );
 			}

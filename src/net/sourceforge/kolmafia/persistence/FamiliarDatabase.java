@@ -1041,7 +1041,7 @@ public class FamiliarDatabase
 	private static void  printNewPokefamData( PokefamData data )
 	{
 		String printMe;
-		// Print what goes in items.txt
+		// Print what goes in fambattle.txt
 		printMe = "--------------------";
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );

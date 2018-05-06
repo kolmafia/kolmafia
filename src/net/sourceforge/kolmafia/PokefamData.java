@@ -125,6 +125,7 @@ public class PokefamData
 	public final static String NUCLEAR_BOMB = "Nuclear Bomb";
 	public final static String OWL_STARE = "Owl Stare";
 	public final static String PEPPERSCORN = "Pepperscorn";
+	public final static String RAINBOW_STORM = "Rainbow Storm";
 	public final static String SPIKY_BURST = "Spiky Burst";
 	public final static String STICK_TREATS = "Stick Treats";
 	public final static String UNIVERSAL_BACKRUB = "Universal Backrub";
@@ -145,6 +146,7 @@ public class PokefamData
 		MOVE3.put( NUCLEAR_BOMB, NUCLEAR_BOMB );
 		MOVE3.put( OWL_STARE, OWL_STARE );
 		MOVE3.put( PEPPERSCORN, PEPPERSCORN );
+		MOVE3.put( RAINBOW_STORM, RAINBOW_STORM );
 		MOVE3.put( SPIKY_BURST, SPIKY_BURST );
 		MOVE3.put( STICK_TREATS, STICK_TREATS );
 		MOVE3.put( UNIVERSAL_BACKRUB, UNIVERSAL_BACKRUB );

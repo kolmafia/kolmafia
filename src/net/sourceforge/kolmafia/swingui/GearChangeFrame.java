@@ -1361,6 +1361,10 @@ public class GearChangeFrame
 		{
 			selectedFamiliar = currentFamiliar;
 		}
+		if ( KoLCharacter.inPokefam() )
+		{
+			this.familiarSelect.setEnabled( false );
+		}
 
 		FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
 		FamiliarData selectedThroneFamiliar = (FamiliarData) this.crownFamiliars.getSelectedItem();
@@ -1377,11 +1381,11 @@ public class GearChangeFrame
 		}
 
 		this.updateEquipmentList( this.familiars, this.validFamiliars( currentFamiliar ), selectedFamiliar );
-		this.equipment[ EquipmentManager.FAMILIAR ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+		this.equipment[ EquipmentManager.FAMILIAR ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
 		this.updateEquipmentList( this.crownFamiliars, this.carriableFamiliars( currentFamiliar, bjornedFamiliar ), selectedThroneFamiliar );
-		this.equipment[ EquipmentManager.CROWNOFTHRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+		this.equipment[ EquipmentManager.CROWNOFTHRONES ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
 		this.updateEquipmentList( this.bjornFamiliars, this.carriableFamiliars( currentFamiliar, enthronedFamiliar ), selectedBjornFamiliar );
-		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() );
+		this.equipment[ EquipmentManager.BUDDYBJORN ].setEnabled( this.isEnabled && !Limitmode.limitFamiliars() && !KoLCharacter.inPokefam() );
 
 		AdventureResult bootskinItem = (AdventureResult) this.equipment[ EquipmentManager.BOOTSKIN ].getSelectedItem();
 		AdventureResult currentBootskin = EquipmentManager.getEquipment( EquipmentManager.BOOTSKIN );
