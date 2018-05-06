@@ -4077,7 +4077,7 @@ public abstract class ChoiceManager
 				       new Option( "unlock The Putrid Swamp", 3 ),
 				       new Option( "unlock Cursed Village", 4 ),
 				       new Option( "unlock The Sprawling Cemetery", 5 ),
-				       new Option( "leave", 6 ) } ),
+				       new Option( "leave", 8 ) } ),
 
 		// Choice 1282 is Out of Range
 		new ChoiceAdventure(
