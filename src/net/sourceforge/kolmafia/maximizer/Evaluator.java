@@ -434,6 +434,10 @@ public class Evaluator
 			}
 			else if ( keyword.startsWith( "switch " ) )
 			{
+				if ( KoLCharacter.inPokefam() )
+				{
+					continue;
+				}
 				keyword = keyword.substring( 7 ).trim();
 				int id = FamiliarDatabase.getFamiliarId( keyword );
 				if ( id == -1 )

@@ -196,6 +196,12 @@ public class FamiliarRequest
 			return;
 		}
 
+		if ( KoLCharacter.inPokefam() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Cannot make familiar requests in Pokefam." );
+			return;
+		}
+
 		if ( this.locking )
 		{
 			String verb = EquipmentManager.familiarItemLocked() ? "Unlocking" : "Locking";

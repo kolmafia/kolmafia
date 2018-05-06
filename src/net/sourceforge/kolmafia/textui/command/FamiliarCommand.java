@@ -61,6 +61,12 @@ public class FamiliarCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		if ( KoLCharacter.inPokefam() )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Familiars can't be used in Pokefam." );
+			return;
+		}
+
 		if ( parameters.startsWith( "list" ) )
 		{
 			ShowDataCommand.show( "familiars " + parameters.substring( 4 ).trim() );
