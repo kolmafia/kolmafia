@@ -2394,8 +2394,8 @@
 2393	Fantastical Health	syringe.gif	31c6291352cf5214f90e5b4acb38dd22	# Pray for health in The Evil Cathedral
 2394	Fantastic Immunity	poison.gif	217dfd5113d8aa7fe0a60e279bd311c2	use 1 universal antivenin
 2395	Fortunate, Son	dollarsign.gif	8ff1afdcea56040417a9a2f5e992dc58	# Visit Fortune Teller in The Cursed Village
-2396	Faerie Fortune	faeriedust.gif	8e16719f71692010bf252f238362fb60	eat 1 denastified haunch|drink 1 bad rum and good cola
-2397
+2396	Faerie Fortune	faeriedust.gif	8e16719f71692010bf252f238362fb60	eat 1 denastified haunch
+2397	Fanatical Fortune	cross.gif	5f26bd044d4339011dcd1bdcdaa89817	drink 1 bad rum and good cola
 2398	Heroic Fortune	heroskull.gif	c438930d6f7016e2c7f015cbe036f901	use 1 Potion of Heroism
 2399	Powder Power	disease.gif	7f9795080d7119dc0009eae2b9a4e916	chew 1 sachet of strange powder
 2400	Artisanal Satiaton	analjar_empty.gif	bad8c8c5113bf8ef1a5fd160c591a716	drink 1 hipster cocktail

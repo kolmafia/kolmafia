@@ -5192,6 +5192,7 @@ Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
 Effect	familiar.enq	Familiar Weight: +5
 Effect	Fan Dancing	Avatar: "fan dancer"
 Effect	Fan-Cooled	Cold Damage: +10
+# Effect Fanatical Fortune: Fantasyrealm enemies drop 1 additional Rubee
 Effect	Fancy Feasted	Moxie Percent: +20
 # Fangs and Pangs: Attacks enemies every round and restores HP
 # Effect Fantastic Immunity: You're immune to FantasyRealm poisons
@@ -7771,7 +7772,7 @@ Item	Aura Libre	Effect: "Transcendental Wind", Effect Duration: 15
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15
-Item	bad rum and good cola	Effect: "Faerie Fortune", Effect Duration: 30
+Item	bad rum and good cola	Effect: "Fanatical Fortune", Effect Duration: 30
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50
 Item	Bartles and BRAAAINS wine cooler	Effect: "Braaaains Over Braaaawwn", Effect Duration: 30
