@@ -468,7 +468,7 @@ public class DrinkItemRequest
 		// Make sure the player does not overdrink if they still
 		// have adventures or fullness remaining.
 
-		if ( KoLCharacter.getInebriety() + inebrietyBonus > KoLCharacter.getInebrietyLimit()  )
+		if ( KoLCharacter.getInebriety() + inebrietyBonus - mimeShotglass > KoLCharacter.getInebrietyLimit()  )
 		{
 			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
 				KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() ) &&
