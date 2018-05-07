@@ -1324,6 +1324,23 @@ public abstract class SorceressLairManager
 				return;
 			}
 
+			// We failed an elemental test
+			if ( mode == SorceressLairManager.HEDGE_MAZE_TRAPS )
+			{
+				if ( Preferences.getInteger( "currentHedgeMazeRoom" ) == 1 && !request.responseText.contains( "lucky you survived that" ) )
+				{
+					return;
+				}
+				if ( Preferences.getInteger( "currentHedgeMazeRoom" ) == 4 && !request.responseText.contains( "drag yourself out of the opposite end" ) )
+				{
+					return;
+				}
+				if ( Preferences.getInteger( "currentHedgeMazeRoom" ) == 7 && !request.responseText.contains( "emerge from the tunnel" ) )
+				{
+					return;
+				}
+			}
+
 			// *** If we won a fight, will we redirect into the choice?
 
 			// *** What if we ran out of turns?
