@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.swingui.CouncilFrame;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class SorceressLairManager
@@ -1172,7 +1173,7 @@ public abstract class SorceressLairManager
 			// Second trap takes 80% of maximum HP
 			// Third trap takes 70% of maximum HP
 			//
-			// With no resistances, you will lose 90% + 70% + 50% =
+			// With no resistances, you will lose 90% + 80% + 70% =
 			// 240% of your maximum HP.
 			//
 			// Elemental resistances ameliorate that. Resistance
@@ -1184,9 +1185,119 @@ public abstract class SorceressLairManager
 			// Note that if you have a telescope (or have failed a
 			// trap before) we may know the specific element(s) of
 			// the traps.
-			//
-			// For now, assume that the user has already prepared
-			// sufficiently to pass.
+
+			int hpLost = 0;
+			Element trap1 = Element.NONE;
+			Element trap2 = Element.NONE;
+			Element trap3 = Element.NONE;
+
+			if ( currentRoom <= 1 )
+			{
+				trap1 = Element.fromString( Preferences.getString( "nsChallenge3" ) );
+				// If not known, assume lowest resist
+				if ( trap1 == Element.NONE )
+				{
+					trap1 = Element.COLD;
+					if ( KoLCharacter.getElementalResistanceLevels( Element.HOT ) < 
+						KoLCharacter.getElementalResistanceLevels( trap1 ) )
+					{
+						trap1 = Element.HOT;
+					}
+					if ( KoLCharacter.getElementalResistanceLevels( Element.SLEAZE ) < 
+						KoLCharacter.getElementalResistanceLevels( trap1 ) )
+					{
+						trap1 = Element.SLEAZE;
+					}
+					if ( KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) < 
+						KoLCharacter.getElementalResistanceLevels( trap1 ) )
+					{
+						trap1 = Element.SPOOKY;
+					}
+					if ( KoLCharacter.getElementalResistanceLevels( Element.STENCH ) < 
+						KoLCharacter.getElementalResistanceLevels( trap1 ) )
+					{
+						trap1 = Element.STENCH;
+					}
+				}
+				hpLost = (int) Math.ceil( (double) KoLCharacter.getMaximumHP() * 0.9 * ( 1.0 - KoLCharacter.getElementalResistance( trap1 ) / 100 ) );
+			}
+
+			if ( currentRoom <= 4 )
+			{
+				trap2 = Element.fromString( Preferences.getString( "nsChallenge4" ) );
+				// If not known, assume lowest resist
+				if ( trap2 == Element.NONE )
+				{
+					if ( trap1 != Element.COLD && ( KoLCharacter.getElementalResistanceLevels( Element.COLD ) < 
+						KoLCharacter.getElementalResistanceLevels( trap2 ) || trap2 == Element.NONE ) )
+					{
+						trap2 = Element.COLD;
+					}
+					if ( trap1 != Element.HOT && ( KoLCharacter.getElementalResistanceLevels( Element.HOT ) < 
+						KoLCharacter.getElementalResistanceLevels( trap2 ) || trap2 == Element.NONE ) )
+					{
+						trap2 = Element.HOT;
+					}
+					if ( trap1 != Element.SLEAZE && KoLCharacter.getElementalResistanceLevels( Element.SLEAZE ) < 
+						KoLCharacter.getElementalResistanceLevels( trap2 ) )
+					{
+						trap2 = Element.SLEAZE;
+					}
+					if ( trap1 != Element.SPOOKY && KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) < 
+						KoLCharacter.getElementalResistanceLevels( trap2 ) )
+					{
+						trap2 = Element.SPOOKY;
+					}
+					if ( trap1 != Element.STENCH && KoLCharacter.getElementalResistanceLevels( Element.STENCH ) < 
+						KoLCharacter.getElementalResistanceLevels( trap2 ) )
+					{
+						trap2 = Element.STENCH;
+					}
+				}
+				hpLost += (int) Math.ceil( (double) KoLCharacter.getMaximumHP() * 0.8 * ( 1.0 - KoLCharacter.getElementalResistance( trap2 ) / 100 ) );
+			}
+
+			if ( currentRoom <= 7 )
+			{
+				trap3 = Element.fromString( Preferences.getString( "nsChallenge5" ) );
+				// If not known, assume lowest resist
+				if ( trap3 == Element.NONE )
+				{
+					if ( trap1 != Element.COLD && trap2 != Element.COLD && ( KoLCharacter.getElementalResistanceLevels( Element.COLD ) < 
+						KoLCharacter.getElementalResistanceLevels( trap3 ) || trap3 == Element.NONE ) )
+					{
+						trap3 = Element.COLD;
+					}
+					if ( trap1 != Element.HOT && trap2 != Element.HOT && ( KoLCharacter.getElementalResistanceLevels( Element.HOT ) < 
+						KoLCharacter.getElementalResistanceLevels( trap3 ) || trap3 == Element.NONE ) )
+					{
+						trap3 = Element.HOT;
+					}
+					if ( trap1 != Element.SLEAZE && trap2 != Element.SLEAZE && ( KoLCharacter.getElementalResistanceLevels( Element.SLEAZE ) < 
+						KoLCharacter.getElementalResistanceLevels( trap3 ) || trap3 == Element.NONE ) )
+					{
+						trap3 = Element.SLEAZE;
+					}
+					if ( trap1 != Element.SPOOKY && trap2 != Element.SPOOKY && KoLCharacter.getElementalResistanceLevels( Element.SPOOKY ) < 
+						KoLCharacter.getElementalResistanceLevels( trap3 ) )
+					{
+						trap3 = Element.SPOOKY;
+					}
+					if ( trap1 != Element.STENCH && trap2 != Element.STENCH && KoLCharacter.getElementalResistanceLevels( Element.STENCH ) < 
+						KoLCharacter.getElementalResistanceLevels( trap3 ) )
+					{
+						trap3 = Element.STENCH;
+					}
+				}
+				hpLost += (int) Math.ceil( (double) KoLCharacter.getMaximumHP() * 0.7 * ( 1.0 - KoLCharacter.getElementalResistance( trap3 ) / 100 ) );
+			}
+
+			// If you won't survive, prompt for confirmation
+			if ( hpLost > KoLCharacter.getMaximumHP() &&
+				!InputFieldUtilities.confirm( "You won't survive to the end of the Hedge Maze, are you sure ?" ) )
+			{	
+				return;
+			}
 		}
 
 		// Unless it's all nugglets, all the time, heal up first.
