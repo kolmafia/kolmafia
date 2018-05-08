@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1195,7 +1196,7 @@ public class CharPaneRequest
 		}
 	}
 
-	private static final Pattern PokeFamPattern = Pattern.compile( "familiar(\\d+).gif>&nbsp;(.*?) \\(Lvl (\\d+)\\)" , Pattern.DOTALL );
+	private static final Pattern PokeFamPattern = Pattern.compile( "img align=\"absmiddle\" src=http://images.kingdomofloathing.com/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)" , Pattern.DOTALL );
 
 	private static final void checkPokeFam( final String responseText )
 	{
@@ -1204,7 +1205,7 @@ public class CharPaneRequest
 		{
 			if ( PokeFamMatcher.find() )
 			{
-				int id = StringUtilities.parseInt( PokeFamMatcher.group( 1 ) );
+				int id = FamiliarDatabase.getFamiliarByImageLocation( PokeFamMatcher.group( 1 ) );
 				String name = PokeFamMatcher.group( 2 );
 				int level = StringUtilities.parseInt( PokeFamMatcher.group( 3 ) );
 				FamiliarData familiar = KoLCharacter.findFamiliar( id );
