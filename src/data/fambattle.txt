@@ -54,7 +54,7 @@
 # Type	L2	L3	L4	M1	M2	M3	AT
 
 Adorable Seal Larva	2/2	3/2	4/2	Bite	Splash	Violent Shred	None
-Adorable Space Buddy	x/x	x/x	2/4	Bonk	Encourage	Universal Backrub	None
+Adorable Space Buddy	1/3	1/4	2/4	Bonk	Encourage	Universal Backrub	None
 Adventurous Spelunker	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Aiolion	2/2	2/3	3/3	Claw	Embarrass	Violent Shred	None
 Amanitee	2/2	2/3	2/4	Bite	Regrow	Healing Rain	Regenerating
@@ -297,7 +297,7 @@ Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
 Uniclops	1/3	1/4	2/4	Bonk	Hug	Universal Backrub	None
 Unspeakachu	2/2	3/2	3/3	Claw	Howl	Empowering Cheer	None
 Untamed Turtle	2/2	2/3	2/4	Bite	Splash	Healing Rain	Armor
-Urchin Urchin	1/3	x/x	2/4	Sting	Splash	Healing Rain	Spiked
+Urchin Urchin	1/3	1/4	2/4	Sting	Splash	Healing Rain	Spiked
 Vampire Bat	2/2	3/2	4/2	Peck	Frighten	Violent Shred	None
 Vamprey	2/2	2/3	2/4	Bite	Splash	Violent Shred	None
 Vaporpoise	2/2	2/3	3/3	Bonk	Lick	Violent Shred	None
