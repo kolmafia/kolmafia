@@ -440,24 +440,27 @@ public class DrinkItemRequest
 			return true;
 		}
 
-		if ( DrinkItemRequest.ignorePrompt == KoLCharacter.getUserId() )
-		{
-			return true;
-		}
-
+		// Before prompt suppression as it contains automation
 		if ( !DrinkItemRequest.askAboutOde( itemName, inebriety, count, mimeShotglass ) )
 		{
 			return false;
 		}
 
+		// Before prompt suppression as it contains automation
 		if ( !DrinkItemRequest.askAboutTuxedo( itemName ) )
 		{
 			return false;
 		}
 
+		// Before prompt suppression as it contains automation
 		if ( !DrinkItemRequest.askAboutPinkyRing( itemName ) )
 		{
 			return false;
+		}
+
+		if ( DrinkItemRequest.ignorePrompt == KoLCharacter.getUserId() )
+		{
+			return true;
 		}
 
 		if ( !UseItemRequest.askAboutPvP( itemName ) )
@@ -513,25 +516,15 @@ public class DrinkItemRequest
 			DrinkItemRequest.askedAboutDrunkAvuncular = myUserId;
 		}
 
-		boolean skipOdeNag = ( DrinkItemRequest.askedAboutOde == myUserId );
-		boolean skipDrunkAvuncularNag = ( DrinkItemRequest.askedAboutDrunkAvuncular == myUserId );
-
-		// If we've already asked about ode and/or Drunk and Avuncular, don't nag
-		if ( skipOdeNag && skipDrunkAvuncularNag )
-		{
-			return true;
-		}
+		boolean skipOdeNag = ( DrinkItemRequest.askedAboutOde == myUserId ||
+								DrinkItemRequest.ignorePrompt == myUserId );
+		boolean skipDrunkAvuncularNag = ( DrinkItemRequest.askedAboutDrunkAvuncular == myUserId ||
+								DrinkItemRequest.ignorePrompt == myUserId );
 
 		// Check if character can cast Ode.
 		UseSkillRequest ode = UseSkillRequest.getInstance( "The Ode to Booze" );
 		boolean canOde = KoLConstants.availableSkills.contains( ode ) && UseSkillRequest.hasAccordion();
 		boolean requestBuffOde = KoLCharacter.canInteract() && Preferences.getBoolean( "odeBuffbotCheck" );
-
-		// If you either can't get or don't care about both effects, don't nag
-		if ( ( ( !canOde && !requestBuffOde) || skipOdeNag ) && skipDrunkAvuncularNag )
-		{
-			return true;
-		}
 
 		// Check for Drunk and Avuncular
 		if ( !skipDrunkAvuncularNag )
@@ -552,7 +545,7 @@ public class DrinkItemRequest
 		}
 
 		// Check for Ode
-		if ( !skipOdeNag && ( canOde || requestBuffOde ) )
+		if ( canOde || requestBuffOde )
 		{
 			// See if already have enough turns of Ode to Booze
 			int odeTurns = ConsumablesDatabase.ODE.getCount( KoLConstants.activeEffects );
@@ -590,7 +583,7 @@ public class DrinkItemRequest
 			String message = odeTurns > 0 ?
 				"The Ode to Booze will run out before you finish drinking that. Are you sure?" :
 				"Are you sure you want to drink without ode?";
-			if ( !InputFieldUtilities.confirm( message ) )
+			if ( !skipOdeNag && !InputFieldUtilities.confirm( message ) )
 			{
 				return false;
 			}
@@ -643,7 +636,8 @@ public class DrinkItemRequest
 			}
 		}
 
-		if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without Tuxedo ?" ) )
+		if ( DrinkItemRequest.ignorePrompt != KoLCharacter.getUserId() && 
+			!InputFieldUtilities.confirm( "Are you sure you want to drink without Tuxedo ?" ) )
 		{
 			return false;
 		}
@@ -695,7 +689,8 @@ public class DrinkItemRequest
 			}
 		}
 
-		if ( !InputFieldUtilities.confirm( "Are you sure you want to drink without mafia pinky ring ?" ) )
+		if ( DrinkItemRequest.ignorePrompt != KoLCharacter.getUserId() &&
+			!InputFieldUtilities.confirm( "Are you sure you want to drink without mafia pinky ring ?" ) )
 		{
 			return false;
 		}
