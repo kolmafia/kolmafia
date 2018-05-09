@@ -5806,9 +5806,9 @@ public class FightRequest
 			}
 			case 4:
 			{
-				// Familiar attribute: distinct images
-				TagNode inode = tdnode.findElementByName( "img", true );
-				if ( inode != null )
+				// Familiar attribute: distinct images, can have two
+				TagNode[] inodes = tdnode.getElementsByName( "img", true );
+				for ( TagNode inode : inodes )
 				{
 					String title = inode.getAttributeByName( "title" );
 					if ( title != null )
