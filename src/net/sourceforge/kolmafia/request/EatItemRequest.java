@@ -365,14 +365,15 @@ public class EatItemRequest
 			return true;
 		}
 
-		if ( EatItemRequest.ignorePrompt == KoLCharacter.getUserId() )
-		{
-			return true;
-		}
-
+		// Before prompt suppression as it contains automation
 		if ( !askAboutGarish( itemName ) )
 		{
 			return false;
+		}
+
+		if ( EatItemRequest.ignorePrompt == KoLCharacter.getUserId() )
+		{
+			return true;
 		}
 
 		if ( !askAboutMayodiol( itemId ) )
@@ -586,7 +587,8 @@ public class EatItemRequest
 			}
 		}
 
-		if ( !InputFieldUtilities.confirm( "Are you sure you want to eat Lasagna without Potion of the Field Gar ?" ) )
+		if ( EatItemRequest.ignorePrompt != KoLCharacter.getUserId() && 
+			!InputFieldUtilities.confirm( "Are you sure you want to eat Lasagna without Potion of the Field Gar ?" ) )
 		{
 			return false;
 		}

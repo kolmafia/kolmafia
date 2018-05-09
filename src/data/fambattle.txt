@@ -251,7 +251,7 @@ Ruffalo	1/3	1/4	2/4	Bonk	Howl	Violent Shred	None
 Sabre-Toothed Lime	2/2	2/3	2/4	Bite	Regrow	Empowering Cheer	Regenerating
 Scary Death Orb	1/3	1/4	2/4	Bonk	Backstab	Nuclear Bomb	Smart
 Sequestrian	2/2	3/2	3/3	Bonk	Howl	Violent Shred	None
-Shudder	1/3	2/3	2/4	Bonk	Lick	Violent Shred	None
+Shudder	1/3	1/4	2/4	Bonk	Lick	Violent Shred	None
 Sleazy Gravy Fairy	1/3	1/4	1/5	Bonk	Swoop	Empowering Cheer	Regenerating
 Sledgehamster	2/2	2/3	2/4	Bonk	Lick	Universal Backrub	None
 Slimeling	2/2	2/3	2/4	Bonk	Encourage	Universal Backrub	Regenerating
