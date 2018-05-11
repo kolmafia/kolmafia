@@ -461,6 +461,7 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.MISSING_FINGERS ) );
 		removableEffects.add( IntegerPool.get( EffectPool.N_SPATIAL_VISION ) );
 		removableEffects.add( IntegerPool.get( EffectPool.NATURAL_1 ) );
+		removableEffects.add( IntegerPool.get( EffectPool.ONCE_CURSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.PRESTIDIGYSFUNCTION ) );
 		removableEffects.add( IntegerPool.get( EffectPool.RAINY_SOUL_MIASMA ) );
 		removableEffects.add( IntegerPool.get( EffectPool.SLEEPY ) );
@@ -475,8 +476,10 @@ public class UneffectRequest
 		removableEffects.add( IntegerPool.get( EffectPool.TURNED_INTO_A_SKELETON ) );
 		removableEffects.add( IntegerPool.get( EffectPool.THE_COLORS ) );
 		removableEffects.add( IntegerPool.get( EffectPool.THE_DISEASE ) );
+		removableEffects.add( IntegerPool.get( EffectPool.THRICE_CURSED ) );
+		removableEffects.add( IntegerPool.get( EffectPool.TWICE_CURSED ) );
 		removableEffects.add( IntegerPool.get( EffectPool.WUSSINESS ) );
-
+		
 		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Pep Talk", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.OVERCONFIDENT ) );

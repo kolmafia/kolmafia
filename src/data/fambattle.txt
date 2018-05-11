@@ -84,7 +84,7 @@ Blood-Faced Volleyball	1/3	1/4	2/4	Bonk	Frighten	Deluxe Impale	None
 Bloovian Groose	2/2	3/2	3/3	Bonk	Growl	Violent Shred	None
 Bluzzard	2/2	3/2	3/3	Peck	Lick	Violent Shred	None
 Bowlet	2/2	2/3	2/4	Claw	Armor Up	Violent Shred	Armor
-BRICKO chick	x/x	x/x	3/3	Peck	Armor Up	Defense Matrix	Armor
+BRICKO chick	2/2	2/3	3/3	Peck	Armor Up	Defense Matrix	Armor
 Bulky Buddy Box	x/x	x/x	2/4	Bonk	Tackle	Universal Backrub	Smart
 Cantelope	1/3	1/4	2/4	Bonk	Regrow	Violent Shred	Regenerating
 Caramel	1/3	2/3	3/3	Bite	Growl	Stick Treats	None
@@ -198,7 +198,7 @@ Misshapen Animal Skeleton	1/3	1/4	2/4	Claw	Frighten	Empowering Cheer	Armor
 Money-Making Goblin	1/3	2/3	2/4	Punch	Hug	Vulgar Display	None
 Morphan	2/2	2/3	2/4	Bonk	Encourage	Universal Backrub	None
 Mosquito	2/2	3/2	3/3	Bite	Lick	Violent Shred	None
-Ms. Puck Man	x/x	x/x	2/4	Bite	Retreat	Deluxe Impale	None
+Ms. Puck Man	2/2	2/3	2/4	Bite	Retreat	Deluxe Impale	None
 Mu	2/2	2/3	2/4	Bonk	Howl	Rainbow Storm	None
 Mustardigrade	2/2	2/3	2/4	Bite	Lick	Violent Shred	None
 Mutant Cactus Bud	2/2	2/3	2/4	Sting	Regrow	Spiky Burst	Regenerating
@@ -216,15 +216,15 @@ Oily Woim	2/2	2/3	3/3	Bonk	Lick	Vulgar Display	None
 Oppossum	1/3	1/4	2/4	Claw	Encourage	Universal Backrub	None
 Optimistic Candle	2/2	2/3	2/4	Bonk	Hug	Universal Backrub	None
 Origami Towel Crane	2/2	2/3	3/3	Peck	Swoop	Violent Shred	None
-Oyster Bunny	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Oyster Bunny	x/x	2/3	3/3	Bonk	Lick	Unknown	None
 Pair of Ragged Claws	2/2	2/3	3/3	Claw	Backstab	Deluxe Impale	None
-Pair of Stomping Boots	x/x	x/x	x/x	Unknown	Unknown	Unknown	Unknown
+Pair of Stomping Boots	x/x	x/x	2/4	Bonk	Retreat	Deluxe Impale	None
 Peaclock	2/2	3/2	3/3	Peck	Howl	Violent Shred	Smart
 Penguin Goodfella	1/3	2/3	3/3	Peck	Hug	Violent Shred	None
 Peppermint Rhino	2/2	2/3	2/4	Bonk	Armor Up	Violent Shred	Armor
 Personal Raincloud	1/3	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pet Cheezling	1/3	1/4	1/5	Bonk	Embarrass	Universal Backrub	None
-Pet Rock	x/x	x/x	2/4	Bonk	Armor Up	Defense Matrix	None
+Pet Rock	1/3	1/4	2/4	Bonk	Armor Up	Defense Matrix	None
 Piano Cat	1/3	1/4	2/4	Claw	Encourage	Universal Backrub	None
 Pillowbug	2/2	2/3	2/4	Bonk	Retreat	Deluxe Impale	None
 Pimpsqueak	1/3	1/4	2/4	Bonk	Encourage	Vulgar Display	None
@@ -290,7 +290,7 @@ Trafikoan	2/2	2/3	2/4	Bonk	Embarrass	Vulgar Display	None
 Trick-or-Treating Tot	2/2	2/3	2/4	Punch	Hug	Empowering Cheer	None
 Turpin	1/3	1/4	1/5	Bonk	Growl	Violent Shred	Armor
 Turtive	1/3	2/3	2/4	Bonk	Tackle	Violent Shred	Armor
-Twitching Space Critter	2/2	x/x	3/3	Bonk	Lick	Violent Shred	None
+Twitching Space Critter	2/2	3/2	3/3	Bonk	Lick	Violent Shred	None
 Unconscious Collective	1/3	2/3	2/4	Punch	Encourage	Unknown	None
 Underworld Bonsai	2/2	2/3	2/4	Bonk	Embarrass	Nasty Cloud	Regenerating
 Ungulant	2/2	2/3	2/4	Bonk	Embarrass	Violent Shred	None
