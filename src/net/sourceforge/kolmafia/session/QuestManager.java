@@ -1865,6 +1865,8 @@ public class QuestManager
 			  monsterName.equals( "The Avatar of Jarlsberg" ) ||
 			  monsterName.equals( "The Rain King" ) ||
 			  monsterName.equals( "One Thousand Source Agents" ) ||
+			  monsterName.equals( "\"Blofeld\"" ) ||
+			  monsterName.equals( "Jerry Bradford, Pokéfam World Champion" ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
@@ -2135,7 +2137,7 @@ public class QuestManager
 			  monsterName.equals( "druid plants" ) ||
 			  monsterName.equals( "flock of every birds" ) ||
 			  monsterName.equals( "plywood cultists" ) ||
-			  monsterName.equals( "barrow wraith?" ) ||
+			  monsterName.startsWith( "barrow wraith" ) ||
 			  monsterName.equals( "regular thief" ) ||
 			  monsterName.equals( "swamp troll" ) ||
 			  monsterName.equals( "crypt creeper" ) ||
