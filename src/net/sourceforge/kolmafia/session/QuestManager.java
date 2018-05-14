@@ -1866,7 +1866,7 @@ public class QuestManager
 			  monsterName.equals( "The Rain King" ) ||
 			  monsterName.equals( "One Thousand Source Agents" ) ||
 			  monsterName.equals( "\"Blofeld\"" ) ||
-			  monsterName.equals( "Jerry Bradford, Pokéfam World Champion" ) ||
+			  ( monsterName.startsWith( "Jerry Bradford" ) && monsterName.contains( "World Champion" ) ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
