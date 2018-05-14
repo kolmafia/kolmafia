@@ -216,7 +216,7 @@ Oily Woim	2/2	2/3	3/3	Bonk	Lick	Vulgar Display	None
 Oppossum	1/3	1/4	2/4	Claw	Encourage	Universal Backrub	None
 Optimistic Candle	2/2	2/3	2/4	Bonk	Hug	Universal Backrub	None
 Origami Towel Crane	2/2	2/3	3/3	Peck	Swoop	Violent Shred	None
-Oyster Bunny	x/x	2/3	3/3	Bonk	Lick	Unknown	None
+Oyster Bunny	x/x	2/3	3/3	Bonk	Lick	Universal Backrub	None
 Pair of Ragged Claws	2/2	2/3	3/3	Claw	Backstab	Deluxe Impale	None
 Pair of Stomping Boots	x/x	x/x	2/4	Bonk	Retreat	Deluxe Impale	None
 Peaclock	2/2	3/2	3/3	Peck	Howl	Violent Shred	Smart

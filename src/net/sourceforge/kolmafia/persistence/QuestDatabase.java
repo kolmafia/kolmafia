@@ -171,7 +171,7 @@ public class QuestDatabase
 	public static final Pattern COMPETITION_PATTERN = Pattern.compile( "Contest #(\\d): ((\\d+) competitor|(Won!))" );
 	public static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 	public static final Pattern GHOST_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
-	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with a (.*?)!" );
+	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with (?:a|an) (.*?)!" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
