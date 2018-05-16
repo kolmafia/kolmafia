@@ -86,6 +86,7 @@ public class AscensionSnapshot
 	public static final int LICENSE = 30;
 	public static final int REPEAT = 31;
 	public static final int POKEFAM = 32;
+	public static final int GLOVER = 33;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -152,7 +153,7 @@ public class AscensionSnapshot
 		boolean localProfileLink )
 	{
 		AscensionSnapshot.initializeAscensionData();
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		strbuf.append( "<html><head>" );
 		strbuf.append( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
@@ -371,7 +372,7 @@ public class AscensionSnapshot
 		final int mainBoardSize, final int classBoardSize, final int maxAge, final boolean playerMoreThanOnce,
 		final boolean localProfileLink )
 	{
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		// First, print the table showing the top ascenders
 		// without a class-based filter.
@@ -484,7 +485,7 @@ public class AscensionSnapshot
 		final int mainBoardSize, final int classBoardSize, final int maxAge, final boolean playerMoreThanOnce,
 		boolean localProfileLink )
 	{
-		StringBuffer strbuf = new StringBuffer();
+		StringBuilder strbuf = new StringBuilder();
 
 		AscensionDataField[] fields = null;
 
@@ -586,7 +587,8 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " :
 						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " :
 						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat." :
-						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars"
+						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars" :
+						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover"
 						: "" );
 
 			strbuf.append( "Ascensions (Out of " );

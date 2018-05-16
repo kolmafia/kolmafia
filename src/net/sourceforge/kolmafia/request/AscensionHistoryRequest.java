@@ -815,6 +815,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "License to Adventure" ) ? AscensionSnapshot.LICENSE :
 				path[ 1 ].equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
 				path[ 1 ].equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
+				path[ 1 ].equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
