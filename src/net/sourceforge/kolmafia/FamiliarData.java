@@ -107,6 +107,7 @@ public class FamiliarData
 	private final int id;
 	private final String race;
 	private boolean beeware;
+	private boolean glover;
 	private String name;
 	private int experience;
 	private int weight;
@@ -128,6 +129,7 @@ public class FamiliarData
 		String race = FamiliarDatabase.getFamiliarName( id );
 		this.race = ( id == -1 || race == null ) ? "(none)" : race;
 		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
+		this.glover = this.race.contains( "g" ) || this.race.contains( "G" );
 
 		this.weight = weight;
 		this.item = item;
@@ -141,6 +143,7 @@ public class FamiliarData
 		this.id = StringUtilities.parseInt( dataMatcher.group( 2 ) );
 		this.race = dataMatcher.group( 4 );
 		this.beeware = this.race.contains( "b" ) || this.race.contains( "B" );
+		this.glover = this.race.contains( "g" ) || this.race.contains( "G" );
 
 		String image = dataMatcher.group( 1 );
 		FamiliarDatabase.registerFamiliar( this.id, this.race, image );
@@ -190,6 +193,12 @@ public class FamiliarData
 
 		// Familiars with a "B" in their race cannot be equipped in Beecore
 		if ( KoLCharacter.inBeecore() && this.beeware )
+		{
+			return false;
+		}
+
+		// Familiars without a "G" in their race cannot be equipped in G-Lover
+		if ( KoLCharacter.inGLover() && !this.glover )
 		{
 			return false;
 		}
