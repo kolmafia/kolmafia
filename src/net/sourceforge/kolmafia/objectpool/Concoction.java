@@ -1083,6 +1083,11 @@ public class Concoction
 			{
 				return alreadyHave;
 			}
+			
+			if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( this.ingredientArray[ 0 ].getItemId() ) )
+			{
+				return alreadyHave;
+			}
 		}
 
 		if ( this.mixingMethod == CraftingType.COINMASTER )
