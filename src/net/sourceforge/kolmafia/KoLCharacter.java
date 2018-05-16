@@ -178,6 +178,7 @@ public abstract class KoLCharacter
 	public static final String LICENSE = "License to Adventure";
 	public static final String LIVE_ASCEND_REPEAT = "Live. Ascend. Repeat.";
 	public static final String POKEFAM = "Pocket Familiars";
+	public static final String GLOVER = "G-Lover";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -4003,6 +4004,11 @@ public abstract class KoLCharacter
 	public static final boolean inPokefam()
 	{
 		return KoLCharacter.ascensionPath.equals( POKEFAM );
+	}
+
+	public static final boolean inGLover()
+	{
+		return KoLCharacter.ascensionPath.equals( GLOVER );
 	}
 
 	public static final boolean isUnarmed()
