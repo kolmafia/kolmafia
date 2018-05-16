@@ -486,6 +486,11 @@ public class UseSkillRequest
 		boolean canCastHoboSong =
 			KoLCharacter.getClassType() == KoLCharacter.ACCORDION_THIEF && KoLCharacter.getLevel() > 14;
 
+		if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( this.getSkillName() ) )
+		{
+			return 0;
+		}
+
 		switch ( this.skillId )
 		{
 		// The Smile of Mr. A can be used five times per day per Golden
