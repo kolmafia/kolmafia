@@ -150,6 +150,11 @@ public class AreaCombatData
 			{
 				currentWeighting += baseWeighting;
 			}
+			// If Gallapagosian Mating Call used, add one to encounter pool
+			if ( Preferences.getString( "gallapagosMonster" ).equals( monsterName ) )
+			{
+				currentWeighting += baseWeighting;
+			}
 			// If Staff of the Cream of the Cream jiggle, add two to encounter pool
 			if ( Preferences.getString( "_jiggleCreamedMonster" ).equals( monsterName ) )
 			{

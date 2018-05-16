@@ -8457,6 +8457,13 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.MATING_CALL:
+			if ( responseText.contains( "bellow the eerie mating call" ) || skillSuccess )
+			{
+				Preferences.setString( "gallapagosMonster", monsterName );
+			}
+			break;
+
 		case SkillPool.MAKE_FRIENDS:
 			if ( responseText.contains( "you become fast friends" ) || skillSuccess )
 			{
