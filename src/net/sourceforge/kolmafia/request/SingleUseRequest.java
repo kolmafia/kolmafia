@@ -110,6 +110,12 @@ public class SingleUseRequest
 			return;
 		}
 
+		if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( itemId ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too in love with Gs to use " + item.getName() + " to create " + this.getName() );
+			return;
+		}
+
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.
 

@@ -665,6 +665,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			{
+				return null;
+			}
+
 			return new UseLink( itemId, "grow", "inv_familiar.php?whichitem=" );
 
 		case KoLConstants.CONSUME_EAT:
@@ -742,6 +747,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			{
+				return null;
+			}
+
 			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getFullness( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
 			{
 				return null;
@@ -762,6 +772,11 @@ public abstract class UseLinkDecorator
 			}
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
 			{
 				return null;
 			}
@@ -800,6 +815,11 @@ public abstract class UseLinkDecorator
 			}
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
 			{
 				return null;
 			}
@@ -862,6 +882,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
+			{
+				return null;
+			}
+
 			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getSpleenHit( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
 			{
 				return null;
@@ -877,6 +902,11 @@ public abstract class UseLinkDecorator
 		case KoLConstants.INFINITE_USES:
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
 			{
 				return null;
 			}
@@ -1094,6 +1124,11 @@ public abstract class UseLinkDecorator
 		case KoLConstants.CONSUME_GUARDIAN:
 
 			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( itemId ) )
 			{
 				return null;
 			}

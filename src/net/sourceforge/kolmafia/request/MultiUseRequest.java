@@ -119,6 +119,12 @@ public class MultiUseRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too scared of bees to use " + this.ingredient.getName() + " to create " + this.getName() );
 			return;
 		}
+		
+		if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( this.ingredient.getItemId() ) )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too in love with Gs to use " + this.ingredient.getName() + " to create " + this.getName() );
+			return;
+		}
 
 		// Attempting to make the ingredients will pull the
 		// needed items from the closet if they are missing.

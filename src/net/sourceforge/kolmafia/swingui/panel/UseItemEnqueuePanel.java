@@ -832,6 +832,14 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			if ( KoLCharacter.inGLover() )
+			{
+				if ( item != null && !KoLCharacter.hasGs( item.getName() ) )
+				{
+					return false;
+				}
+			}
+
 			if ( Limitmode.limitClan() )
 			{
 				if ( creation.hotdog || creation.speakeasy )

@@ -2900,6 +2900,11 @@ public abstract class KoLCharacter
 		return name.contains( "b" ) || name.contains( "B" ) ;
 	}
 
+	public static final boolean hasGs( String name )
+	{
+		return name.contains( "g" ) || name.contains( "G" ) ;
+	}
+
 	public static final int getRestingHP()
 	{
 		int rv = (int) KoLCharacter.currentModifiers.get( Modifiers.BASE_RESTING_HP );

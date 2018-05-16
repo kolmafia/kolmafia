@@ -2434,6 +2434,18 @@ public class ItemDatabase
 		return KoLCharacter.hasBeeosity( ItemDatabase.getItemName( itemId ) );
 	}
 
+	public static boolean unusableInGLover( final int itemId )
+	{
+		switch ( itemId )
+		{
+		// More stuff might belong here
+		case ItemPool.COBBS_KNOB_MAP:
+		case ItemPool.ENCHANTED_BEAN:
+			return false;
+		}
+		return !KoLCharacter.hasGs( ItemDatabase.getItemName( itemId ) );
+	}
+
 	public static boolean isAllowed( final int itemId )
 	{
 		return StandardRequest.isAllowed( "Items", ItemDatabase.getDataName( itemId ) );
