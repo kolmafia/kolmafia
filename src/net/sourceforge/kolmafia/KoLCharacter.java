@@ -6155,7 +6155,7 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.MYS_EXPERIENCE, newModifiers.getExtra( Modifiers.MYS_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
 			newModifiers.add( Modifiers.MOX_EXPERIENCE, newModifiers.getExtra( Modifiers.MOX_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
 		}
-		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) )
+		if ( effects.contains( EffectPool.get( EffectPool.STEELY_EYED_SQUINT ) ) && !KoLCharacter.inGLover() )
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]" );
 		}
@@ -6182,6 +6182,11 @@ public abstract class KoLCharacter
 							 String edPiece, String snowsuit, boolean applyIntrinsics, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
+		{
+			return;
+		}
+		
+		if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( item.getName() ) )
 		{
 			return;
 		}

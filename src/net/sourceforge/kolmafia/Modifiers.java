@@ -2000,6 +2000,14 @@ public class Modifiers
 		{
 			return null;
 		}
+		if ( KoLCharacter.inGLover() )
+		{
+			String effectName = EffectDatabase.getEffectName( id );
+			if ( !KoLCharacter.hasGs( effectName ) )
+			{
+				return null;
+			}
+		}
 		String name = "[" + id + "]";
 		return Modifiers.getModifiers( "Effect", name );
 	}
