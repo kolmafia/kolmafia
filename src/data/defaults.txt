@@ -553,6 +553,7 @@ user	frMountainsUnlocked	false
 user	frSwampUnlocked	false
 user	frVillageUnlocked	false
 user	frWoodUnlocked	false
+user	gallapagosMonster	
 user	gameProBossSpecialPower	Unknown
 user	garbageFireProgress	25
 user	ghostLocation	
