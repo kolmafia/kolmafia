@@ -2563,7 +2563,7 @@ public class RelayRequest
 		}
 
 		StringBuilder warning = new StringBuilder();
-		boolean beeCore = KoLCharacter.inBeecore();
+		boolean closetClovers = KoLCharacter.inBeecore() || KoLCharacter.inGLover();
 
 		warning.append( "<html><head><script language=Javascript src=\"/" );
 		warning.append( KoLConstants.BASICS_JS );
@@ -2588,7 +2588,7 @@ public class RelayRequest
 
 		// Protect clover
 		warning.append( "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">" );
-		if ( beeCore )
+		if ( closetClovers )
 		{
 			// fillcloset.php?action=closetpush&whichitem=24&qty=all&pwd&ajax=1
 			warning.append( "<a style=\"text-decoration: none\" href=\"#\" onClick=\"inlineLoad('fillcloset.php', 'action=closetpush&whichitem=" );
@@ -2612,7 +2612,7 @@ public class RelayRequest
 		warning.append( "</a></div></td>" );
 
 		warning.append( "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the " );
-		if ( beeCore )
+		if ( closetClovers )
 		{
 			warning.append( "closet on the right to closet" );
 		}

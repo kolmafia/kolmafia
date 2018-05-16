@@ -1600,7 +1600,7 @@ public abstract class KoLmafia
 
 	public static void protectClovers()
 	{
-		if ( KoLCharacter.inBeecore() )
+		if ( KoLCharacter.inBeecore() || KoLCharacter.inGLover() )
 		{
 			KoLmafiaCLI.DEFAULT_SHELL.executeCommand( "closet", "put * ten-leaf clover" );
 		}
@@ -1872,7 +1872,8 @@ public abstract class KoLmafia
 			if ( itemId == ItemPool.TEN_LEAF_CLOVER &&
 			     destination == KoLConstants.inventory &&
 			     InventoryManager.cloverProtectionActive() &&
-			     !KoLCharacter.inBeecore() )
+			     !KoLCharacter.inBeecore() &&
+			     !KoLCharacter.inGLover() )
 			{
 				// Clover protection will miraculously turn ten-leaf
 				// clovers into disassembled clovers as soon as they
