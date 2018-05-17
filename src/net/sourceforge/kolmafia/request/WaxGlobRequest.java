@@ -111,6 +111,10 @@ public class WaxGlobRequest
 
 			super.run();
 		}
+		GenericRequest closeRequest = new GenericRequest( "choice.php" );
+		closeRequest.addFormField( "whichchoice", "1218" );
+		closeRequest.addFormField( "option", "6" );
+		closeRequest.run();
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
