@@ -622,6 +622,12 @@ public class BreakfastManager
 			return;
 		}
 
+		// Can't use Pocket Wishes in G Lover
+		if ( KoLCharacter.inGLover() )
+		{
+			return;
+		}
+
 		if ( Preferences.getBoolean( "makePocketWishes" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 		{
 			int num = 3 - Preferences.getInteger( "_genieWishesUsed" );
