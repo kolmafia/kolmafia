@@ -704,16 +704,16 @@ public class QuestManager
 		}
 		StringBuffer kills = new StringBuffer( Preferences.getString( "_frMonstersKilled" ) );
 		
+		String monsterPattern = monster;
 		if ( monster.contains( "barrow wraith" ) )
 		{
-			monster.replaceAll( "\\?", "\\\\?" );
+			monsterPattern = "barrow wraith\\?";
 		}
 		else if ( monster.contains( "Phoenix" ) )
 		{
-			monster.replaceAll( "\"", "\\\"" );
+			monsterPattern = "\\\"Phoenix\\\"";
 		}
-		Pattern FR_MONSTER_PATTERN = Pattern.compile( monster + ":(\\d+)," );
-		
+		Pattern FR_MONSTER_PATTERN = Pattern.compile( monsterPattern + ":(\\d+)," );
 		Matcher MonsterMatcher = FR_MONSTER_PATTERN.matcher( kills.toString() );
 		if ( MonsterMatcher.find() )
 		{
