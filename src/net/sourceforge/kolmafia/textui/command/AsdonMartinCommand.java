@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.SpecialOutfit;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -196,7 +197,10 @@ public class AsdonMartinCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, param + " cannot be used as fuel." );
 				return;
 			}
-			if ( !InventoryManager.retrieveItem( item ) )
+			SpecialOutfit.createImplicitCheckpoint();
+			boolean itemRetrieved = InventoryManager.retrieveItem( item );
+			SpecialOutfit.restoreImplicitCheckpoint();
+			if ( !itemRetrieved )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You don't have enough " + item.getDataName() + "." );
 				return;
