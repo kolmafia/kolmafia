@@ -6186,11 +6186,6 @@ public abstract class KoLCharacter
 			return;
 		}
 		
-		if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( item.getName() ) )
-		{
-			return;
-		}
-
 		int itemId = item.getItemId();
 		int consume = ItemDatabase.getConsumptionType( itemId );
 
@@ -6233,9 +6228,11 @@ public abstract class KoLCharacter
 				}
 			}
 
-			if ( KoLCharacter.inNoobcore() )
+			if ( KoLCharacter.inNoobcore() ||
+				( KoLCharacter.inGLover() && !KoLCharacter.hasGs( item.getName() ) ) )
 			{
 				// Remove MOST Numeric Modifiers from Items in Noobcore
+				// and in G Lover if they don't contain G's
 				Modifiers iModCopy = new Modifiers( imod );
 				for ( int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i )
 				{
@@ -6255,7 +6252,8 @@ public abstract class KoLCharacter
 		}
 
 		// Do appropriate things for specific items
-		if ( !KoLCharacter.inNoobcore() )
+		if ( !KoLCharacter.inNoobcore() &&
+			( !KoLCharacter.inGLover() || KoLCharacter.hasGs( item.getName() ) ) )
 		{
 			switch ( itemId )
 			{
