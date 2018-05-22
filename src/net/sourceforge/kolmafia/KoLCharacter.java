@@ -5211,6 +5211,10 @@ public abstract class KoLCharacter
 				{
 					return null;
 				}
+				if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( familiar.getRace() ) )
+				{
+					return null;
+				}
 				return familiar;
 			}
 		}
