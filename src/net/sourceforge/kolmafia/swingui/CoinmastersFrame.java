@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.GMartRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
@@ -208,6 +209,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel freeSnackPanel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
 	private CoinmasterPanel gameShoppePanel = null;
+	private CoinmasterPanel gmartPanel = null;
 	private CoinmasterPanel gotporkOrphanagePanel = null;
 	private CoinmasterPanel gotporkPDPanel = null;
 	private CoinmasterPanel hermitPanel = null;
@@ -330,6 +332,11 @@ public class CoinmastersFrame
 		pokemporiumPanel = new PokemporiumPanel();
 		panel.add( pokemporiumPanel );
 		this.selectorPanel.addPanel( pokemporiumPanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		gmartPanel = new PokemporiumPanel();
+		panel.add( gmartPanel );
+		this.selectorPanel.addPanel( gmartPanel.getPanelSelector(), panel );
 
 		// Aftercore coinmasters
 		this.selectorPanel.addSeparator();
@@ -1555,6 +1562,15 @@ public class CoinmastersFrame
 		public int buyDefault( final int max )
 		{
 			return max;
+		}
+	}
+
+	private class GMartPanel
+		extends CoinmasterPanel
+	{
+		public GMartPanel()
+		{
+			super( GMartRequest.GMART );
 		}
 	}
 

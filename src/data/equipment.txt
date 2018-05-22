@@ -2290,6 +2290,7 @@ gabardine girdle	50	none
 gabardine gloves	50	none
 Gaia beads	175	Mys: 72
 garish pinky ring	50	Mys: 10
+Garland of Greatness	0	none
 Garter of the Turtle Poacher	150	Mus: 45
 Gary Claybender's Time Screwer	50	none
 gate transceiver	10	none
