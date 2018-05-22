@@ -2405,3 +2405,4 @@
 2404	Color of the God Lobster	godlob_rod.gif	577be6fa4852f48c8be181e9261032f5	# Challenge God Lobster with Rod and get blessing
 2405	Carapace of the God Lobster	godlob_robe.gif	870bf8253a4b7118decd9a8fd019886e	# Challenge God Lobster with Robe and get blessing
 2406	Taste of the God Lobster	godlob_crown.gif	7a540633409b261fe7c3ab1016edde76	# Challenge God Lobster with Crown and get blessing
+2407	Gettin' the Goods	og.gif	aefae2edd0e7b84fdcc09db52621e96b	chew 1 gaseous gravy

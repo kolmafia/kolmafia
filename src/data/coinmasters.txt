@@ -903,3 +903,11 @@ FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Sprawling Cemetery	RO
 FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Towering Mountains	ROW1013
 FantasyRealm Premium Rubee&trade; Store	buy	3000	LyleCo Contractor's Manual	ROW1010
 FantasyRealm Premium Rubee&trade; Store	buy	10000	FantasyRealm tattoo kit	ROW1009
+
+# G-Lover
+G-Mart	buy	1	good guava	ROW1022
+G-Mart	buy	1	gin and ginger	ROW1023
+G-Mart	buy	1	gaseous gravy	ROW1024
+G-Mart	buy	1	A-Boo glue	ROW1020
+G-Mart	buy	3	crude oil congealer	ROW1021
+G-Mart	buy	11	gattoo	ROW1019

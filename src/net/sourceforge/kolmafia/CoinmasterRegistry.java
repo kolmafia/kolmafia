@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.GMartRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.GotporkPDRequest;
@@ -134,6 +135,7 @@ public abstract class CoinmasterRegistry
 		FreeSnackRequest.FREESNACKS,
 		FudgeWandRequest.FUDGEWAND,
 		GameShoppeRequest.GAMESHOPPE,
+		GMartRequest.GMART,
 		GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
 		GotporkPDRequest.GOTPORK_PD,
 		HermitRequest.HERMIT,

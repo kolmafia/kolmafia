@@ -113,6 +113,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.GMartRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GotporkOrphanageRequest;
@@ -1247,6 +1248,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof GameShoppeRequest || isExternal ) && GameShoppeRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof GMartRequest || isExternal ) && GMartRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
