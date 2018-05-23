@@ -2131,6 +2131,13 @@ public class UseItemRequest
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
+		if ( KoLCharacter.inGLover() &&
+		     responseText.contains( "You are too in love with G to use that item right now." ) )
+		{
+			UseItemRequest.lastUpdate = "You are too in love with G.";
+			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+			return;
+		}
 
 		if ( responseText.contains( "be at least level" ) )
 		{
