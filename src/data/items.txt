@@ -9932,7 +9932,7 @@
 9906	God Lobster's Robe	513666157	godlob_robe.gif	familiar	q	0
 9907	God Lobster's Crown	429475400	godlob_crown.gif	familiar	q	0
 9908	Dish of Clarified Butter	899424762	soupbowl.gif	usable	t	0
-9909 G 622570260 fatstacks.gif none q 0
+9909	G	622570260	fatstacks.gif	none	q	0
 9910	Garland of Greatness	221263135	garland.gif	accessory		0
 9911	gattoo	929105406	gtatitem.gif	usable		0
 9912	A-Boo glue	386827164	lighterfluid.gif	usable	q	0
