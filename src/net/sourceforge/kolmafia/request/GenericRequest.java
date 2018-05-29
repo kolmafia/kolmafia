@@ -3312,6 +3312,10 @@ public class GenericRequest
 			Preferences.setBoolean( "_eldritchTentacleFought", true );
 			break;
 
+		case 1267:
+			name = "Genie Wish";
+			break;
+
 		default:
 			return;
 		}
