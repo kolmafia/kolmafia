@@ -2227,6 +2227,7 @@ public class GenericRequest
 			GenericRequest.checkItemRedirection( location );
 			GenericRequest.checkChoiceRedirection( location );
 			GenericRequest.checkSkillRedirection( location );
+			GenericRequest.checkOtherRedirection( location );
 
 			if ( this instanceof UseItemRequest ||
 			     this instanceof ChateauRequest ||
@@ -3364,6 +3365,36 @@ public class GenericRequest
 
 		RequestLogger.updateSessionLog();
 		RequestLogger.updateSessionLog( message );
+	}
+	
+	private static final void checkOtherRedirection( final String location )
+	{
+		// This code probably needs some refactoring once it's checking more than 1 thing
+		if ( location.startsWith( "main.php" ) )
+		{
+			String otherName = null;
+
+			if ( location.contains( "fightgodlobster=1" ) )
+			{
+				Preferences.increment( "_godLobsterFights" );
+				otherName = "God Lobster";
+			}
+
+			if ( otherName != null )
+			{
+				KoLAdventure.lastVisitedLocation = null;
+				KoLAdventure.lastLocationName = null;
+				KoLAdventure.lastLocationURL = location;
+				KoLAdventure.setNextAdventure( "None" );
+
+				String message = "[" + KoLAdventure.getAdventureCount() + "] " + otherName;
+				RequestLogger.printLine();
+				RequestLogger.printLine( message );
+
+				RequestLogger.updateSessionLog();
+				RequestLogger.updateSessionLog( message );
+			}
+		}
 	}
 
 	private static final AdventureResult sealRitualCandles( final int itemId )

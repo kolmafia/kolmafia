@@ -1415,6 +1415,7 @@ user	_glarkCableUses	0
 user	_glennGoldenDiceUsed	false
 user	_gnollEyeUsed	false
 user	_gnomeAdv	0
+user	_godLobsterFights	0
 user	_gongDrops	0
 user	_gothKidFights	0
 user	_gothKidCharge	0
