@@ -9268,6 +9268,15 @@ public class FightRequest
 					Preferences.increment( "_usedReplicaBatoomerang", 1, 3, false );
 				}
 				break;
+
+			case ItemPool.AFFIRMATION_HATE:
+				if ( responseText.contains( "You gain 3 PvP Fights" ) || 
+				     responseText.contains( "belligerent" ) ||
+				     itemSuccess )
+				{
+					Preferences.setBoolean( "_affirmationHateUsed", true );
+				}
+				break;
 			}
 		}
 

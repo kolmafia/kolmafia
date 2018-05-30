@@ -1278,6 +1278,7 @@ user	zombiePoints	0
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
 user	_affirmationCookieEaten	false
+user	_affirmationHateUsed	false
 user	_aguaDrops	0
 user	_akgyxothUsed	false
 user	_alienAnimalMilkUsed	false
