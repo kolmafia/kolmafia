@@ -3768,7 +3768,7 @@ Item	God Lobster's Robe	Equips On: "God Lobster", Familiar Effect: "block"
 # Item God Lobster's Rod: Makes your God Lobster restore HP and MP after Combat
 Item	God Lobster's Rod	Equips On: "God Lobster", Familiar Effect: "whelp"
 # Item God Lobster's Scepter: Makes your God Lobster slightly increase Item and Meat Drops
-Item	God Lobster's Scepter	Leprechaun: 0.5, Fairy: 0.5, Equips On: "God Lobster", , Familiar Effect: "small fairy/lep"
+Item	God Lobster's Scepter	Leprechaun: 0.5, Fairy: 0.5, Equips On: "God Lobster", Familiar Effect: "small fairy/lep"
 Item	golden banana	Familiar Weight: +5
 Item	green pixie spog	Familiar Weight: +5
 Item	Grim Brothers' story book	Familiar Weight: +5
