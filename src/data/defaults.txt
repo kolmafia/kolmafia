@@ -1588,6 +1588,7 @@ user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
+user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
 user	_romanticFightsLeft	0
