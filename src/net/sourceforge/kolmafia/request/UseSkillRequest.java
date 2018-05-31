@@ -106,6 +106,7 @@ public class UseSkillRequest
 		"Summon Carrot",
 		"Summon Kokomo Resort Pass",
 		"Perfect Freeze",
+		"Acquire Rhinestones",
 	};
 
 	// These are skills where someone would not care if they are in-run,
@@ -529,6 +530,11 @@ public class UseSkillRequest
 		// Summon "Boner Battalion" can be used once per day
 		case SkillPool.SUMMON_BONERS:
 			maximumCast = Preferences.getBoolean( "_bonersSummoned" ) ? 0 : 1;
+			break;
+
+		// Acquire Rhinestones can be used once a day
+		case SkillPool.ACQUIRE_RHINESTONES:
+			maximumCast = Preferences.getBoolean( "_rhinestonesAcquired" ) ? 0 : 1;
 			break;
 
 		case SkillPool.REQUEST_SANDWICH:
@@ -2230,6 +2236,10 @@ public class UseSkillRequest
 
 		case SkillPool.SUMMON_BONERS:
 			Preferences.setBoolean( "_bonersSummoned", true );
+			break;
+
+		case SkillPool.ACQUIRE_RHINESTONES:
+			Preferences.setBoolean( "_rhinestonesAcquired", true );
 			break;
 
 		case SkillPool.REQUEST_SANDWICH:
