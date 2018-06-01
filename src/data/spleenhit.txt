@@ -69,6 +69,7 @@ fiberglass fibers	3	12	awesome	0	0	0	0	Unspaded
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
+gaseous gravy	1	1	EPIC	0	0	0	0	Unspaded, 50 Gettin' the Goods (+100% Item drop)
 giant moxie weed	1	2	decent	0	0	0	5-7
 gleaming oyster egg	1	5	EPIC	0	0	0	0	50 Gleam-Inducing (+5 familiar weight)
 glimmering buzzard feather	1	1	good	0	0	0	0	20 Carrion' On (+60% meat drop)
