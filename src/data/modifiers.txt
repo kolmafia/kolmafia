@@ -5327,6 +5327,7 @@ Effect	Gearhead Gear	Avatar: "Gnollish Gearhead"
 Effect	Gelded	Monster Level: +5
 Effect	Gemini Rising	Maximum HP Percent: +100
 # Get Me Off This Crazy Thing!: Jane!
+Effect	Gettin' the Goods	Item Drop: +100
 # Ghost Finger: +100 Damage vs. Ghosts
 Effect	Ghostly Shell	Damage Absorption: +80
 Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
@@ -8076,6 +8077,7 @@ Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
+Item	gaseous gravy	Effect: "Gettin' the Goods", Effect Duration: 50
 Item	gleaming oyster egg	Effect: "Gleam-Inducing", Effect Duration: 50
 Item	glimmering buzzard feather	Effect: "Carrion' On", Effect Duration: 20
 Item	glimmering great tit feather	Effect: "The Great Tit's Blessing", Effect Duration: 20
@@ -8650,6 +8652,7 @@ Item	Crimbot ROM: Ruthless Efficiency	Skill: "Ruthless Efficiency"
 Item	Crimbot ROM: Ruthless Efficiency (dirty)	Skill: "Ruthless Efficiency"
 # croquet hedgehog: Weakens enemies a little bit every round for the rest of the fight
 Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
+# Item crude oil congealer: Converts 12 bubblin' crude into a jar of oil
 # crude voodoo doll: Makes an enemy smaller than you
 Item	crumbling rat skull	Class: "Pastamancer"
 # crystal skull: Banishes a monster for a while

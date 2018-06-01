@@ -357,6 +357,7 @@ goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18
 goat cheese taco	2	1	decent	2-5	0	11-33	0
 good brain	1	1	good	3	5-7	5-7	5-7	Zombie Slayer
+good guava	2	1	EPIC	0	0	0	0	Unspaded
 gooey lava globs	2	6	awesome	7-9	0	20-40	0	100 Inner Warmth (+5 Cold resist)
 government cheese	2	1	decent	2-4	5-10	0	0
 gr8ps	1	1	crappy	1	0	0	0
