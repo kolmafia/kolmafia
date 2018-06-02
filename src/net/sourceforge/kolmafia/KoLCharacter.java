@@ -6000,6 +6000,10 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox" );
 		}
+		if ( InventoryManager.hasItem( ItemPool.BOOMBOX ) )
+		{
+			newModifiers.add( Modifiers.getModifiers( "SongBoom&trade; BoomBox", Preferences.getString( "_boomBoxSong" ) ) );
+		}
 
 		// Miscellaneous
 
