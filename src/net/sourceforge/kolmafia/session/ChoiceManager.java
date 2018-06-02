@@ -263,6 +263,8 @@ public abstract class ChoiceManager
 	private static final Pattern DECEASED_TREE_PATTERN = Pattern.compile( "Looks like it has (.*?) needle" );
 	private static final Pattern BROKEN_CHAMPAGNE_PATTERN = Pattern.compile( "Looks like it has (\\d+) ounce" );
 	private static final Pattern GARBAGE_SHIRT_PATTERN = Pattern.compile( "Looks like you can read roughly (\\d+) scrap" );
+	private static final Pattern BOOMBOX_PATTERN = Pattern.compile( "you can do <b>(\\d+)</b> more" );
+	private static final Pattern BOOMBOX_SONG_PATTERN = Pattern.compile( "&quot;(.*?)&quot;( \\(Keep playing\\)|)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -4280,7 +4282,7 @@ public abstract class ChoiceManager
 				       new Option( "leave", 6 ) } ),
 
 		// Choice 1310 is Granted a Boon
-
+		// Choice 1312 is Choose a Soundtrack
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -10753,6 +10755,52 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1312:
+			// Choose a Soundtrack
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Eye of the Giger" ) )
+				{
+					Preferences.setString( "_boomBoxSong", "Eye of the Giger" );
+					Preferences.decrement( "_boomBoxSongsLeft" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Food Vibrations" ) )
+				{
+					Preferences.setString( "_boomBoxSong", "Food Vibrations" );
+					Preferences.decrement( "_boomBoxSongsLeft" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Remainin' Alive" ) )
+				{
+					Preferences.setString( "_boomBoxSong", "Remainin' Alive" );
+					Preferences.decrement( "_boomBoxSongsLeft" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				if ( !Preferences.getString( "_boomBoxSong" ).equals( "These Fists Were Made for Punchin'" ) )
+				{
+					Preferences.setString( "_boomBoxSong", "These Fists Were Made for Punchin'" );
+					Preferences.decrement( "_boomBoxSongsLeft" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Total Eclipse of Your Meat" ) )
+				{
+					Preferences.setString( "_boomBoxSong", "Total Eclipse of Your Meat" );
+					Preferences.decrement( "_boomBoxSongsLeft" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 6 )
+			{
+				Preferences.setString( "_boomBoxSong", "" );
+			}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -13619,6 +13667,26 @@ public abstract class ChoiceManager
 			// Rubbed it the Right Way
 			GenieRequest.visitChoice( text );
 			break;
+
+		case 1312:
+		{
+			// Choose a Soundtrack
+			Matcher matcher = ChoiceManager.BOOMBOX_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_boomBoxSongsLeft", matcher.group( 1 ) );
+			}
+			Preferences.setString( "_boomBoxSong","" );
+			matcher = ChoiceManager.BOOMBOX_SONG_PATTERN.matcher( text );
+			while ( matcher.find() )
+			{
+				if ( matcher.group( 2 ) != null && matcher.group( 2 ).contains( "Keep playing" ) )
+				{
+					Preferences.setString( "_boomBoxSong", matcher.group( 1 ) );
+				}
+			}
+		}
+
 		}
 	}
 

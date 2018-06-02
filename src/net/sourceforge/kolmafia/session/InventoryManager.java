@@ -159,6 +159,12 @@ public abstract class InventoryManager
 				else
 				{
 					items.add( ItemPool.get( itemId, count ) );
+					switch ( itemId )
+					{
+					case ItemPool.BOOMBOX:
+						KoLCharacter.addAvailableSkill( "Sing Along" );
+						break;
+					}
 				}
 			}
 		}
