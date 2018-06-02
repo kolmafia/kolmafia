@@ -3228,6 +3228,10 @@ public class ResultProcessor
 				ResultProcessor.processResult( ItemPool.get( ItemPool.LICENSE_TO_KILL, -11 ) );
 			}
 			break;
+
+		case ItemPool.BOOMBOX:
+			KoLCharacter.addAvailableSkill( "Sing Along" );
+			break;
 		}
 
 		// Gaining items can achieve goals.

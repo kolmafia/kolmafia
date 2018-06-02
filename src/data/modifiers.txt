@@ -5208,6 +5208,7 @@ Effect	Feelin' the Rhythm!	Muscle: [pref(_feelinTheRhythm)], Mysticality: [pref(
 Effect	Feeling a Little Wesley	Avatar: "Wesley J. "Wes" Campbell"
 Effect	Feeling Insignificant	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
+Effect	Feeling Punchy	Weapon Damage Percent: +50
 Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
@@ -6161,6 +6162,7 @@ Effect	Reedy Pipes	Moxie Percent: +5
 # Refined Palate: Fine wines will taste even finer
 Effect	Refuse Reflux	Stench Damage: [min(100,T)]
 Effect	Relaxed Muscles	Muscle Percent: -50
+Effect	Remaining Alive	Damage Absorption: +50, Damage Reduction: 2
 Effect	Rented Costume	Avatar: "Entire Shoplifter"
 Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
@@ -8104,6 +8106,7 @@ Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
 Item	Mer-kin paste	Effect: "Mer-kinny Flavor", Effect Duration: 10
 Item	mime army superserum	Effect: "I'll Have the Soup", Effect Duration: 50
 Item	moomy dust	Effect: "Cowrruption", Effect Duration: 30
+# Item Nightmare Fuel: Lets you uneasily rest for free
 Item	off-white paisley oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
@@ -9026,6 +9029,7 @@ Item	gamer slurry	Effect: "Guild by Association", Effect Duration: 50
 Item	garbage juice slurpee	Effect: "Slurpee-O'ed", Effect Duration: 30
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
 # gas balloon: Stuns your opponent for a few rounds
+# Item Gathered Meat-Clip: Unclip some meat
 # gauze garter: Restores 80-120 HP
 Item	gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 Item	Gearhead Goo	Effect: "Gearhead Gear", Effect Duration: 30
@@ -9877,6 +9881,7 @@ Item	pulled yellow taffy	Effect: "Sour Softshoe", Effect Duration: 10
 # pumpkin bomb: Vaporizes an enemy and causes all of its items to drop
 # pumpkin carriage: <b>Allows Travel to Desert Beach</b>
 Item	pumpkin juice	Effect: "Juiced and Jacked", Effect Duration: 10
+Item	Punching Potion	Effect: "Feeling Punchy", Effect Duration: 10
 Item	punk patch	Effect: "Patchy Punk", Effect Duration: 50
 Item	puppet strings	Free Pull
 Item	purple snowcone	Effect: "Purple Tongue", Effect Duration: 20
@@ -10065,6 +10070,7 @@ Item	shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
 Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 # shaving cream: Stops Enemy From Attacking
 Item	shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
+Item	Shielding Potion	Effect: "Remaining Alive", Effect Duration: 10
 Item	shimmering tendrils	Class: "Pastamancer"
 Item	Shivering Ch&egrave;vre	Effect: "Goat Gotten", Effect Duration: 30
 Item	shoe gum	Effect: "Gummed Shoes", Effect Duration: 50
@@ -10138,6 +10144,8 @@ Item	sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 # soggy used band-aid: Heals all of your Hit Points and stuns your opponent for a few rounds
 # solid gold jewel: Can be sold for 100,000 Meat
 # sonar-in-a-biscuit: Freaks Bats Out
+# Item SongBoom&trade; BoomBox: Plays a Soundtrack for your Life<br />Let's you <i>Sing Along</i> during Fights
+Item	SongBoom&trade; BoomBox Box	Free Pull
 Item	Sorcerers of the Shore Grimoire	Free Pull, Skill: "Summon Alice's Army Cards"
 Item	sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 # soup turtle: Deals 5-10 <font color=red>Hot Damage</font>
@@ -10167,6 +10175,7 @@ Item	Spechunky bar	Effect: "Chunky", Effect Duration: 10
 # special clip: wailers: Deals <font color=gray>Spooky Damage</font> based on your Moxie
 # special edition Batfellow comic: Lets you have a fun adventure (once a week) as a dark, brooding, bat-themed superhero.
 Item	special edition Batfellow comic	Free Pull
+# Item Special Seasoning: Kicks Food Up a Notch
 # spectral jelly: Makes you nearly impervious to damage for the duration of the fight
 # spectre scepter: Invoke the Ancient Gods!
 Item	Spellbook: Drescher's Annoying Noise	Skill: "Drescher's Annoying Noise"

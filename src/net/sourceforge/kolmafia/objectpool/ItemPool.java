@@ -3019,6 +3019,7 @@ public class ItemPool
 	public static final int FR_NOTARIZED_WARRANT = 9897;
 	public static final int CLARIFIED_BUTTER = 9908;
 	public static final int G = 9909;
+	public static final int BOOMBOX = 9919;
 
 	public static final AdventureResult get( String itemName, int count )
 	{
