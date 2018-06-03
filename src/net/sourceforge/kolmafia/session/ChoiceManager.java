@@ -10757,49 +10757,54 @@ public abstract class ChoiceManager
 
 		case 1312:
 			// Choose a Soundtrack
+			if ( ChoiceManager.lastDecision != 6 && !KoLCharacter.hasSkill( "Sing Along" ) )
+			{
+				KoLCharacter.addAvailableSkill( "Sing Along" );
+			}
 			if ( ChoiceManager.lastDecision == 1 )
 			{
-				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Eye of the Giger" ) )
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "Eye of the Giger" ) )
 				{
-					Preferences.setString( "_boomBoxSong", "Eye of the Giger" );
+					Preferences.setString( "boomBoxSong", "Eye of the Giger" );
 					Preferences.decrement( "_boomBoxSongsLeft" );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 2 )
 			{
-				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Food Vibrations" ) )
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "Food Vibrations" ) )
 				{
-					Preferences.setString( "_boomBoxSong", "Food Vibrations" );
+					Preferences.setString( "boomBoxSong", "Food Vibrations" );
 					Preferences.decrement( "_boomBoxSongsLeft" );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 3 )
 			{
-				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Remainin' Alive" ) )
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "Remainin' Alive" ) )
 				{
-					Preferences.setString( "_boomBoxSong", "Remainin' Alive" );
+					Preferences.setString( "boomBoxSong", "Remainin' Alive" );
 					Preferences.decrement( "_boomBoxSongsLeft" );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 4 )
 			{
-				if ( !Preferences.getString( "_boomBoxSong" ).equals( "These Fists Were Made for Punchin'" ) )
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "These Fists Were Made for Punchin'" ) )
 				{
-					Preferences.setString( "_boomBoxSong", "These Fists Were Made for Punchin'" );
+					Preferences.setString( "boomBoxSong", "These Fists Were Made for Punchin'" );
 					Preferences.decrement( "_boomBoxSongsLeft" );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 5 )
 			{
-				if ( !Preferences.getString( "_boomBoxSong" ).equals( "Total Eclipse of Your Meat" ) )
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "Total Eclipse of Your Meat" ) )
 				{
-					Preferences.setString( "_boomBoxSong", "Total Eclipse of Your Meat" );
+					Preferences.setString( "boomBoxSong", "Total Eclipse of Your Meat" );
 					Preferences.decrement( "_boomBoxSongsLeft" );
 				}
 			}
 			else if ( ChoiceManager.lastDecision == 6 )
 			{
-				Preferences.setString( "_boomBoxSong", "" );
+				Preferences.setString( "boomBoxSong", "" );
+				KoLCharacter.removeAvailableSkill( "Sing Along" );
 			}
 		}
 
@@ -13676,13 +13681,13 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "_boomBoxSongsLeft", matcher.group( 1 ) );
 			}
-			Preferences.setString( "_boomBoxSong","" );
+			Preferences.setString( "boomBoxSong","" );
 			matcher = ChoiceManager.BOOMBOX_SONG_PATTERN.matcher( text );
 			while ( matcher.find() )
 			{
 				if ( matcher.group( 2 ) != null && matcher.group( 2 ).contains( "Keep playing" ) )
 				{
-					Preferences.setString( "_boomBoxSong", matcher.group( 1 ) );
+					Preferences.setString( "boomBoxSong", matcher.group( 1 ) );
 				}
 			}
 		}

@@ -162,7 +162,10 @@ public abstract class InventoryManager
 					switch ( itemId )
 					{
 					case ItemPool.BOOMBOX:
-						KoLCharacter.addAvailableSkill( "Sing Along" );
+						if ( !Preferences.getString( "boomBoxSong" ).equals( "" ) )
+						{
+							KoLCharacter.addAvailableSkill( "Sing Along" );
+						}
 						break;
 					}
 				}

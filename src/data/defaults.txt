@@ -343,6 +343,7 @@ user	bondWar	false
 user	bondWeapon2	false
 user	bondWpn	false
 user	boneAbacusVictories	0
+user	boomBoxSong
 user	booPeakProgress	100
 user	bootsCharged	false
 user	borisPoints	0
@@ -1307,7 +1308,6 @@ user	_bittycar
 user	_blankoutUsed	false
 user	_bonersSummoned	false
 user	_boomBoxSongsLeft	11
-user	_boomBoxSong
 user	_bootStomps	0
 user	_borrowedTimeUsed	false
 user	_bowleggedSwaggerUsed	false
