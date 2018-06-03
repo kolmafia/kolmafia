@@ -1000,6 +1000,21 @@ public class EatItemRequest
 			ResultProcessor.processItem( ItemPool.DRY_RUB, -itemsUsed );
 		}
 
+		// You add a packet of your Special Seasoning and kick things up a notch.
+		if ( responseText.contains( "packet of your Special Seasoning" ) )
+		{
+			int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.SPECIAL_SEASONING ) );
+			if ( itemsUsed > 1 )
+			{
+				RequestLogger.printLine( "You ate " + itemsUsed + " Special Seasoning with your food" );
+			}
+			else
+			{
+				RequestLogger.printLine( "You ate Special Seasoning with your food" );
+			}
+			ResultProcessor.processItem( ItemPool.SPECIAL_SEASONING, -itemsUsed );
+		}
+
 		// You feel the canticle take hold, and feel suddenly bloated
 		// as the pasta expands in your belly.
 		if ( KoLCharacter.getClassType() == KoLCharacter.PASTAMANCER &&
