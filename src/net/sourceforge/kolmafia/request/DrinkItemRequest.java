@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -42,6 +43,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -473,6 +475,14 @@ public class DrinkItemRequest
 
 		if ( KoLCharacter.getInebriety() + inebrietyBonus - mimeShotglass > KoLCharacter.getInebrietyLimit()  )
 		{
+			FamiliarData stooper = KoLCharacter.findFamiliar( FamiliarPool.STOOPER );
+			FamiliarData current = KoLCharacter.getFamiliar();
+			if ( stooper != null && ( current == null || stooper != current ) &&
+				!KoLCharacter.inPokefam() && 
+				!InputFieldUtilities.confirm( "Are you sure you want to overdrink before using Stooper?" ) )
+			{
+				return false;
+			}
 			if ( ( KoLCharacter.getAdventuresLeft() > 0 ||
 				KoLCharacter.getFullness() < KoLCharacter.getFullnessLimit() ) &&
 				!InputFieldUtilities.confirm( "Are you sure you want to overdrink?" ) )
