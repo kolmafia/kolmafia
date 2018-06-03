@@ -6002,7 +6002,7 @@ public abstract class KoLCharacter
 		}
 		if ( InventoryManager.hasItem( ItemPool.BOOMBOX ) )
 		{
-			newModifiers.add( Modifiers.getModifiers( "SongBoom&trade; BoomBox", Preferences.getString( "_boomBoxSong" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "SongBoom&trade; BoomBox", Preferences.getString( "boomBoxSong" ) ) );
 		}
 
 		// Miscellaneous

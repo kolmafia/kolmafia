@@ -639,6 +639,7 @@ public class ValhallaManager
 		Preferences.setString( "sourceTerminalEducate2", "" );
 		Preferences.setInteger( "cornucopiasOpened", 0 );
 		Preferences.setInteger( "bagOTricksCharges", 0 );
+		Preferences.setString( "boomBoxSong", "" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
