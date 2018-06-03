@@ -10756,56 +10756,59 @@ public abstract class ChoiceManager
 		}
 
 		case 1312:
+		{
 			// Choose a Soundtrack
-			if ( ChoiceManager.lastDecision != 6 && !KoLCharacter.hasSkill( "Sing Along" ) )
+			String songChosen = "";
+			switch ( ChoiceManager.lastDecision )
 			{
-				KoLCharacter.addAvailableSkill( "Sing Along" );
-			}
-			if ( ChoiceManager.lastDecision == 1 )
+			case 1:
+				songChosen = "Eye of the Giger";
+				break;
+			case 2:
+				songChosen = "Food Vibrations";
+				break;
+			case 3:
+				songChosen = "Remainin' Alive";
+				break;
+			case 4:
+				songChosen = "These Fists Were Made for Punchin'";
+				break;
+			case 5:
+				songChosen = "Total Eclipse of Your Meat";
+				break;
+			}			
+			if ( !songChosen.equals( "" ) )
 			{
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "Eye of the Giger" ) )
+				if ( !KoLCharacter.hasSkill( "Sing Along" ) )
 				{
-					Preferences.setString( "boomBoxSong", "Eye of the Giger" );
+					KoLCharacter.addAvailableSkill( "Sing Along" );
+				}
+				if ( !Preferences.getString( "boomBoxSong" ).equals( songChosen ) )
+				{
+					Preferences.setString( "boomBoxSong", songChosen );
 					Preferences.decrement( "_boomBoxSongsLeft" );
+					String message = "Setting soundtrack to " + songChosen;
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
 				}
 			}
-			else if ( ChoiceManager.lastDecision == 2 )
+			else
 			{
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "Food Vibrations" ) )
+				if ( KoLCharacter.hasSkill( "Sing Along" ) )
 				{
-					Preferences.setString( "boomBoxSong", "Food Vibrations" );
-					Preferences.decrement( "_boomBoxSongsLeft" );
+					KoLCharacter.removeAvailableSkill( "Sing Along" );
+				}
+				if ( !Preferences.getString( "boomBoxSong" ).equals( "" ) )
+				{
+					Preferences.setString( "boomBoxSong", "" );
+					String message = "Switching soundtrack off";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
 				}
 			}
-			else if ( ChoiceManager.lastDecision == 3 )
-			{
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "Remainin' Alive" ) )
-				{
-					Preferences.setString( "boomBoxSong", "Remainin' Alive" );
-					Preferences.decrement( "_boomBoxSongsLeft" );
-				}
-			}
-			else if ( ChoiceManager.lastDecision == 4 )
-			{
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "These Fists Were Made for Punchin'" ) )
-				{
-					Preferences.setString( "boomBoxSong", "These Fists Were Made for Punchin'" );
-					Preferences.decrement( "_boomBoxSongsLeft" );
-				}
-			}
-			else if ( ChoiceManager.lastDecision == 5 )
-			{
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "Total Eclipse of Your Meat" ) )
-				{
-					Preferences.setString( "boomBoxSong", "Total Eclipse of Your Meat" );
-					Preferences.decrement( "_boomBoxSongsLeft" );
-				}
-			}
-			else if ( ChoiceManager.lastDecision == 6 )
-			{
-				Preferences.setString( "boomBoxSong", "" );
-				KoLCharacter.removeAvailableSkill( "Sing Along" );
-			}
+			break;
+		}
+
 		}
 
 		// Certain choices cost meat or items when selected

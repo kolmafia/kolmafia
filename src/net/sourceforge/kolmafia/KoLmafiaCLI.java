@@ -669,6 +669,7 @@ public class KoLmafiaCLI
 		new BarrelPrayerCommand().register( "barrelprayer" );
 		new BasementCommand().register( "basement" );
 		new BjornifyCommand().register( "bjornify" );
+		new BoomBoxCommand().register( "boombox" );
 		new BountyCommand().register( "bounty" );
 		new BreakfastCommand().register( "breakfast" );
 		new BudgetCommand().register( "budget" );
