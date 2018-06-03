@@ -9942,7 +9942,7 @@
 9916	gin and ginger	680497924	rocks.gif	drink	q	0
 9917	Thwaitgold chigger statuette	227595722	thwaitchigger.gif	none		0
 9918	gaseous gravy	583612627	pressureglobe.gif	spleen, usable	q	0
-9919	SongBoom&trade; BoomBox	898864226	songboombox.gif	usable		0
+9919	SongBoom&trade; BoomBox	898864226	songboombox.gif	reusable		0
 9920	SongBoom&trade; BoomBox Box	780708531	songboomboxbox.gif	usable	t	0
 9921
 9922	Shielding Potion	272981772	shieldpotion.gif	multiple	t,d	5
