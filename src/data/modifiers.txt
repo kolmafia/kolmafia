@@ -10664,8 +10664,8 @@ Horsery	crazy horse	Muscle Percent: [pref(_horseryCrazyMus)], Mysticality Percen
 Horsery	pale horse	Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 
 # BoomBox
-SongBoom&trade; BoomBox	Eye of the Giger	Spooky Damage: [L]
-SongBoom&trade; BoomBox	Food Vibrations	Food Drop: +20
-SongBoom&trade; BoomBox	Remainin' Alive	Damage Reduction: [L]
-SongBoom&trade; BoomBox	These Fists Were Made for Punchin'	Weapon Damage: [L]
-SongBoom&trade; BoomBox	Total Eclipse of Your Meat	Meat Drop: +30
+BoomBox	Eye of the Giger	Spooky Damage: [L]
+BoomBox	Food Vibrations	Food Drop: +30
+BoomBox	Remainin' Alive	Damage Reduction: [L]
+BoomBox	These Fists Were Made for Punchin'	Weapon Damage: [L]
+BoomBox	Total Eclipse of Your Meat	Meat Drop: +30
