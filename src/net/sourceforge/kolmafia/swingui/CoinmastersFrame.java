@@ -334,7 +334,7 @@ public class CoinmastersFrame
 		this.selectorPanel.addPanel( pokemporiumPanel.getPanelSelector(), panel );
 
 		panel = new JPanel( new BorderLayout() );
-		gmartPanel = new PokemporiumPanel();
+		gmartPanel = new GMartPanel();
 		panel.add( gmartPanel );
 		this.selectorPanel.addPanel( gmartPanel.getPanelSelector(), panel );
 
