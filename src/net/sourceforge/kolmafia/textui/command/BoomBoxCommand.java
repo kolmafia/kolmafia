@@ -73,7 +73,7 @@ public class BoomBoxCommand
 			{
 				choice = 2;
 			}
-			else if ( parameters.contains( "alive" ) || parameters.startsWith( "dr" ) )
+			else if ( parameters.contains( "alive" ) || parameters.contains( "dr" ) )
 			{
 				choice = 3;
 			}

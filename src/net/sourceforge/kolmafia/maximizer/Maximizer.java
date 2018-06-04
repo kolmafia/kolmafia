@@ -535,6 +535,48 @@ public class Maximizer
 				Maximizer.boosts.add( new Boost( cmd, text, (AdventureResult) null, delta ) );
 			}
 
+			if ( lookup.startsWith( "BoomBox:" ) )
+			{
+				String cmd, text;
+				String name = lookup.substring( 8 );
+				MaximizerSpeculation spec = new MaximizerSpeculation();
+				spec.setBoomBox( name );
+				double delta = spec.getScore() - current;
+				if ( delta <= 0.0 )
+				{
+					continue;
+				}
+				text = "boombox " + name.toLowerCase();
+				cmd = "boombox " + name.toLowerCase();
+				if ( !InventoryManager.hasItem( ItemPool.BOOMBOX ) )
+				{
+					cmd = "";
+					if ( includeAll )
+					{
+						text = "(get a SongBoom&trade; BoomBox and play " + name + ")";
+					}
+					else continue;
+				}
+				int usesRemaining = Preferences.getInteger( "_boomBoxSongsLeft" );
+				text += " (" + KoLConstants.MODIFIER_FORMAT.format( delta ) + ")";
+				if ( Preferences.getBoolean( "verboseMaximizer" ) )
+				{
+					if ( usesRemaining == 1 )
+					{
+						text += " [1 use remaining]";
+					}
+					else
+					{
+						text += " [" + usesRemaining + " uses remaining]";
+					}
+				}
+				if ( usesRemaining < 1 )
+				{
+					cmd = "";
+				}
+				Maximizer.boosts.add( new Boost( cmd, text, (AdventureResult) null, delta ) );
+			}
+
 			if ( !lookup.startsWith( "Effect:" ) )
 			{
 				continue;

@@ -5737,6 +5737,7 @@ public abstract class KoLCharacter
 				Preferences.getString( "snowsuit" ),
 				null,
 				Preferences.getString( "_horsery" ),
+				Preferences.getString( "boomBoxSong" ),
 				false ) );
 	}
 
@@ -5744,7 +5745,7 @@ public abstract class KoLCharacter
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, String custom, String horsery,
-								  boolean applyIntrinsics )
+								  String boomBox, boolean applyIntrinsics )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -6000,10 +6001,9 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox" );
 		}
-		if ( InventoryManager.hasItem( ItemPool.BOOMBOX ) )
-		{
-			newModifiers.add( Modifiers.getModifiers( "SongBoom&trade; BoomBox", Preferences.getString( "boomBoxSong" ) ) );
-		}
+
+		// Boombox, no check for having one so it can work with Maximizer "show things you don't have"
+		newModifiers.add( Modifiers.getModifiers( "BoomBox", boomBox ) );
 
 		// Miscellaneous
 
