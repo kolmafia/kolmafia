@@ -3261,6 +3261,16 @@ public class GenericRequest
 			consumed = true;
 			break;
 
+		case ItemPool.AMORPHOUS_BLOB:
+			itemName = "amorphous blob";
+			consumed = true;
+			break;
+
+		case ItemPool.GIANT_AMORPHOUS_BLOB:
+			itemName = "giant amorphous blob";
+			consumed = true;
+			break;
+
 		default:
 			return;
 		}
