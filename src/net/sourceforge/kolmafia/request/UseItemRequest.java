@@ -6827,6 +6827,8 @@ public class UseItemRequest
 		case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
 		case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
 		case ItemPool.SCREENCAPPED_MONSTER:
+		case ItemPool.AMORPHOUS_BLOB:
+		case ItemPool.GIANT_AMORPHOUS_BLOB:
 			// Items that can redirect to a fight that costs turns
 			turns = 1;
 			break;
