@@ -2411,17 +2411,17 @@ public class Parser
 
 			while ( this.currentToken() != null && !this.currentToken().equals( ")" ) )
 			{
-				Type expected = types[param];
+				Type expected = types[param].getBaseType();
 				Value val;
 
 				if ( this.currentToken().equals( "," ) )
 				{
 					val = DataTypes.VOID_VALUE;
 				}
-				else if ( this.currentToken().equals( "{" ) && expected.getBaseType() instanceof AggregateType )
+				else if ( this.currentToken().equals( "{" ) && expected instanceof AggregateType )
 				{
 					this.readToken(); // read {
-					val = this.parseAggregateLiteral( scope, (AggregateType) expected.getBaseType() );
+					val = this.parseAggregateLiteral( scope, (AggregateType) expected );
 				}
 				else
 				{
@@ -2436,7 +2436,7 @@ public class Parser
 				if ( val != DataTypes.VOID_VALUE )
 				{
 					Type given = val.getType();
-					if ( !expected.equals( given ) )
+					if ( !Parser.validCoercion( expected, given, "assign" ) )
 					{
 						throw this.parseException( given + " found when " + expected + " expected for field #" + ( param + 1 ) + " (" + names[param] + ")" );
 					}
