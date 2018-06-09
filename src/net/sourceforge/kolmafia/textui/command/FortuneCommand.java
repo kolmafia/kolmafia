@@ -46,7 +46,8 @@ public class FortuneCommand
 	public FortuneCommand()
 	{
 		this.usage = " - buff mus|mys|mox|familiar|meat|item [word1 word2 word3] | <playername> [word1 word2 word3] - get a buff or an item, "
-		           + "using preference-defined words if none are specified";
+		           + "using preference-defined words if none are specified."
+				   + "\nIf playername has spaces, cannot specify words, and does not support playernames with 3 spaces";
 	}
 	
 	@Override
@@ -123,18 +124,14 @@ public class FortuneCommand
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You already consulted with a clanmate 3 times today." );
 				return;
 			}
-			if ( params.length == 1 )
-			{
-				RequestThread.postRequest( new ClanFortuneRequest( params[0] ) );
-			}
-			else if ( params.length == 4 )
+			if ( params.length == 4 )
 			{
 				RequestThread.postRequest( new ClanFortuneRequest( params[0], params[1], params[2], params[3] ) );
 			}
 			else
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "You need to choose all 3 words or none of the words for your compatibility test." );
-				return;
+				// If not 4 parameters, assume a name with spaces
+				RequestThread.postRequest( new ClanFortuneRequest( parameters ) );
 			}
 		}
 	}
