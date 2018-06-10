@@ -995,6 +995,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.GENIE_BOTTLE:
 			case ItemPool.POCKET_WISH:
 			case ItemPool.WAREHOUSE_KEY:
+			case ItemPool.BOOMBOX:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
