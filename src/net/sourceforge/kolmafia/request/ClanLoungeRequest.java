@@ -953,6 +953,10 @@ public class ClanLoungeRequest
 
 	private static String equipmentName( final String urlString )
 	{
+		if ( urlString.contains( "preaction=lovetester" ) )
+		{
+			return "Fortune Teller";
+		}
 		if ( urlString.contains( "preaction" ) )
 		{
 			return null;
