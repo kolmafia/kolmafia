@@ -2487,6 +2487,7 @@ public class ItemPool
 	public static final int WICKERBITS = 8098;
 	public static final int BAKELITE_BITS = 8105;
 	public static final int AEROGEL_ACCORDION = 8111;
+	public static final int GABARDINE_GIRDLE = 8124;
 	public static final int LOVEBUG_PHEROMONES = 8134;
 	public static final int WINGED_YETI_FUR = 8135;
 	public static final int SESHAT_TALISMAN = 8144;

@@ -105,6 +105,10 @@ public class ModifierExpression
 		{
 			return this.literal( this.until( ")" ), 'h' );
 		}
+		if ( this.optional( "equipped(" ) )
+		{
+			return this.literal( this.until( ")" ).toLowerCase(), 'g' );
+		}
 		if ( this.optional( "effect(" ) )
 		{
 			return this.literal( this.until( ")" ), 'e' );
@@ -136,6 +140,18 @@ public class ModifierExpression
 		if ( this.optional( "interact(" ) )
 		{
 			return this.literal( this.until( ")" ), '\u0094' );
+		}
+		if ( this.optional( "mus" ) )
+		{
+			return "\u0080";
+		}
+		if ( this.optional( "mys" ) )
+		{
+			return "\u0081";
+		}
+		if ( this.optional( "mox" ) )
+		{
+			return "\u0082";
 		}
 
 		return null;
