@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -72,6 +73,7 @@ public class ClanFortuneRequest
 	// q1=food q2=character q3=word
 
 	private static final Pattern USES_PATTERN = Pattern.compile( "clanmate (\\d) time" );
+	private static final Pattern TARGET_PATTERN = Pattern.compile( "whichid=(.*?)&" );
 
 	public ClanFortuneRequest()
 	{
@@ -161,8 +163,42 @@ public class ClanFortuneRequest
 		{
 			Preferences.setInteger( "_clanFortuneConsultUses", 3 );
 		}
+
+		matcher = TARGET_PATTERN.matcher( urlString );
+		if ( !matcher.find() )
+		{
+			return;
+		}
+
+		// You can only consult Madame Zatara about someone in your clan.
+		if ( responseText.contains( "about someone in your clan" ) )
+		{
+			String message = matcher.group( 1 ) + " is not in your clan";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+		// Couldn't find "chesefax" to test with.
+		else if ( responseText.contains( "Couldn't find" ) )
+		{
+			String message = "Couldn't find " + matcher.group( 1 );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+		// You're already waiting on your results with cheesefax.
+		else if ( responseText.contains( "already waiting" ) )
+		{
+			String message = "Already waiting on results from " + matcher.group( 1 );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
+		// You enter your answers and wait for cheesefax to answer, so you can get your results!
+		else if ( responseText.contains( "enter your answers and wait" ) )
+		{
+			String message = "You enter your answers and wait for " + matcher.group( 1 );
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+		}
 	}
-	
 	// You may consult Madame Zatara about your relationship with a resident of Seaside Town.
 
 	// You may still consult Madame Zatara about your relationship with a clanmate 3 times today.
