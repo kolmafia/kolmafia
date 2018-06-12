@@ -816,6 +816,9 @@ public class EquipmentManager
 				case ItemPool.KREMLIN_BRIEFCASE:
 					KoLCharacter.removeAvailableSkill( "KGB tranquilizer dart" );
 					break;
+				case ItemPool.GABARDINE_GIRDLE:
+					KoLCharacter.removeAvailableSkill( "Unleash Disco Pudge" );
+					break;
 				}
 			}
 		}
@@ -1076,6 +1079,9 @@ public class EquipmentManager
 			break;
 		case ItemPool.KREMLIN_BRIEFCASE:
 			KoLCharacter.addAvailableSkill( "KGB tranquilizer dart" );
+			break;
+		case ItemPool.GABARDINE_GIRDLE:
+			KoLCharacter.addAvailableSkill( "Unleash Disco Pudge" );
 			break;
 		}
 
