@@ -69,7 +69,7 @@ bazookafish	724	bazookafish.gif	Atk: 375 Def: 292 HP: 500 Init: 100 Meat: 220 P:
 beanbat	48	beanbat.gif	Atk: 21 Def: 18 HP: 18 Init: 60 Meat: 34 P: beast	enchanted bean (50)	sonar-in-a-biscuit (10)
 bearpig topiary animal	1246	topi2.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast	rusty hedge trimmers (15)	pestopiary (0)
 Beaver	539	beaver.gif	Atk: 162 Def: 145 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
-beefy bodyguard bat	571	beefybat.gif	Atk: 25 Def: 22 HP: 25 Init: 50 Meat: 250 P: beast NOBANISH
+beefy bodyguard bat	571	beefybat.gif	Atk: 25 Def: 22 HP: 25 Init: 50 Meat: 250 P: beast NOBANISH	beefy pill (0)
 Beer Bongadier	422	warfratbg.gif	Atk: 180 Def: 175 HP: 210 Init: 50 E: sleaze P: orc	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (2)
 biclops	1579	biclops.gif	Atk: 38 Def: 33 HP: 30 Init: 25 P: humanoid Meat: 30	duonoculars (c100)
 big creepy spider	156	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 "Hardly Poisoned at All" P: bug	spider web (25)	spider web (25)
@@ -205,7 +205,7 @@ drunk goat	82	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast	bo
 drunk pygmy	1431	pyg_drunk.gif	Atk: 150 Def: 130 HP: 160 Init: 20 P: dude Meat: 100	cold water bottle (0)	gold Boozehounds Anonymous token (0)	pygmy phone number (0)	pygmy concertinette (a0)
 drunken 7-foot dwarf	998	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 P: humanoid Meat: 20	bottle of whiskey (20)	bottle of whiskey (20)
 drunken half-orc hobo	158	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	beer-battered accordion (a0)
-drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast	rat whisker (100)	rat appendix (20)
+drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast	rat whisker (100)	rat appendix (20)	furry pill (0)
 drunken rat king	996	ratking.gif	Atk: 40 Def: 36 HP: 32 Init: 100 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
 Dusken Raider Ghost	1255	aboo_dipshit.gif	Atk: 72 Def: 68 HP: 40 Init: -10000 E: spooky P: undead Phys: 100 GHOST	A-Boo clue (c15)	Duskwalker syringe (15)	Duskwalker fangs (5)	ectoplasmic orbs (0)
 Dyspepsi-Cola General	293	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
@@ -279,11 +279,11 @@ Fruit Golem	89	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherr
 full-length mirror	1553	bigmirror.gif	SEMIRARE Scale: 0 Cap: ? Init: 50 P: construct
 funk sole brother	719	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Furry Giant	172	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 EA: sleaze P: humanoid	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
-G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)
+G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 E: hot Meat: 30 P: demon	hot wing (30)	Imp Ale (30)	leather mask (5)	vitamin G pill (0)
 ganger	737	ganger.gif	Atk: 375 Def: 360 HP: 800 Init: 100 Meat: 240 P: fish	dull fish scale (n15)	ganger bandana (n3)	temporary teardrop tattoo (c9)
 gargantulihc	194	gargantulihc.gif	Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 E: spooky P: undead	lihc eye (0)	lihc eye (0)	lihc face (0)
 gaudy pirate	633	cleanpirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 P: pirate Meat: 110	costume sword (5)	enormous hoop earring (10)	gold lam&eacute; pants (5)	gaudy key (c100)
-gaunt ghuol	190	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 20 P: undead	ghuol ears (20)	ghuol egg (20)
+gaunt ghuol	190	ghuol_skinny.gif	Atk: 55 Def: 50 HP: 50 Init: 50 E: spooky Meat: 20 P: undead	ghuol ears (20)	ghuol egg (20)	dieting pill (0)
 gelatinous cube	532	gelcube.gif	Atk: 3 Def: 2 HP: 6 Init: 50 Meat: 25 P: slime	Orcish meat locker (25)	rusty metal ring (25)	rusty metal shaft (25)
 generic duck	544	duckgeneric.gif	Atk: 167 Def: 154 HP: 180 Init: 40 Meat: 75 P: beast
 Georgepaul, the Balldodger	879	merkinballer2.gif	Atk: 1200 Def: 1150 HP: 1400 Init: 100 P: mer-kin
@@ -393,7 +393,7 @@ Knob Goblin Elite Guard	1057	kg_guard.gif	Atk: 25 Def: 27 HP: 30 Init: -10000 Me
 Knob Goblin Elite Guard Captain	263	kg_guardcaptain.gif	SEMIRARE Atk: 30 Def: 27 HP: 35 Init: -10000 Meat: 300 P: goblin	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
 Knob Goblin Embezzler	530	kg_embezzler.gif	SEMIRARE Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin	Knob Goblin visor (0)	meat stack (0)	meat stack (0)	meat stack (0)	meat stack (0)	embezzler's oil (c0)
 Knob Goblin Harem Girl	78	kg_haremgirl.gif	Atk: 25 Def: 22 HP: 20 Init: 80 E: sleaze P: goblin	disease (10)	Knob Goblin harem veil (20)	Knob Goblin harem pants (20)	finger cymbals (5)	harem girl t-shirt (c2)
-Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin	Knob Goblin deluxe scimitar (10)	Knob nuts (15)
+Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin	Knob Goblin deluxe scimitar (10)	Knob nuts (15)	excitement pill (0)
 Knob Goblin King	81	kg_king.gif	BOSS Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin
 Knob Goblin Mad Scientist	85	kg_madsci.gif	Atk: 40 Def: 36 HP: 25 Init: 70 Meat: 40 P: goblin	Knob Goblin love potion (10)	Knob Goblin seltzer (15)	Knob Goblin steroids (10)
 Knob Goblin Madam	1062	kg_madam.gif	Atk: 30 Def: 22 HP: 30 Init: 50 P: goblin	Knob Goblin perfume (25)	whalebone corset (15)
@@ -683,7 +683,7 @@ sponge	739	sponge.gif	Atk: 350 Def: 405 HP: 1000 Init: 50 P: fish	sand dollar (n
 spooky gravy fairy guard	260	sgguard.gif	Atk: 55 Def: 49 HP: 45 Init: 60 E: spooky P: plant	spooky mushroom (40)	halfberd (5)	small leather glove (10)
 spooky gravy fairy ninja	262	sgninja.gif	Atk: 65 Def: 58 HP: 55 Init: 100 E: spooky P: plant	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
 spooky gravy fairy warlock	261	sgwarlock.gif	Atk: 60 Def: 54 HP: 50 Init: 60 E: spooky P: plant	spooky mushroom (40)	enchanted toothpick (5)	spooky gravy fairy warlock hat (c0)
-spooky mummy	201	mummy.gif	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 10 E: spooky P: undead	dried face (10)	spooky shrunken head (20)
+spooky mummy	201	mummy.gif	Atk: 4 Def: 3 HP: 3 Init: 50 Meat: 10 E: spooky P: undead	dried face (10)	spooky shrunken head (20)	ancient pills (0)
 spooky music box	1551	musicbox.gif	Atk: 79 Def: 81 HP: 80 Init: 25 P: construct E: spooky	spooky music box mechanism (0)	tiny dancer (0)
 spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 E: spooky Meat: 5 P: undead Wiki: "spooky vampire (Spooky Forest)"	vampire heart (c100)	vampire collar (c4)
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)

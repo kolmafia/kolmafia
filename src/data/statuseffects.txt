@@ -2352,8 +2352,8 @@
 2351
 2352	Quiet 'n' Good	bloodnplenty.gif	9e84adbe524bc8d5179f3b2cd8b84318	use 1 Good 'n' Quiet
 2353	Hot Buttoned	hotbuttoncandy.gif	244bf84acdb03f5de738b55f3790ff92	use 1 hot button candy
-2354
-2355
+2354	Beefy	pill2.gif	3bfa4d9f2009a12545062a49fb474745	chew 1 beefy pill
+2355	Riboflavin'	pill4.gif	c375eeec297eb33e41f9a0d2ffca569b	chew 1 vitamin G pill
 2356	Sharpened Sweet Tooth	heartstone.gif	9ced7398c45b526cbe7855e98d1dbc9a	eat 1 heart-shaped candy whetstone
 2357	Like a Fish to Walter	fishy2.gif	46d4fc74ab55d96e8cb4282ceb65227a		eat 1 Swedish massage fish
 2358	Third Based	fruity.gif	adf7c629e7cd5654b2d6e5abc6e65cda	drink 1 Third Base

@@ -9,6 +9,7 @@
 # Name, Type, HP Min, HP Max, MP Min, MP Max, Adv cost, Uses left (optional), Notes (optional)
 A Relaxing Hot Tub	loc	[HP]	[HP]	0	0	0	[5-pref(_hotTubSoaks)]
 ancient Magi-Wipes	item	50	60	50	60	0
+ancient pills	item	0	0	30	40	0
 ancient turtle shell powder	item	80	100	0	0	0
 April Shower	loc	0	0	1000	1000	0	[1-pref(_aprilShower)]
 bag of pygmy blood	item	30	40	0	0	0
@@ -69,6 +70,7 @@ extra-strength red potion	item	190	210	0	0	0
 fancy blue potion	item	0	0	90	110	0
 filthy poultice	item	80	120	0	0	0
 forest tears	item	5	10	0	0	0
+furry pill	item	40	50	0	0	0
 gauze garter	item	80	120	0	0	0
 Gelatinous Reconstruction	skill	12	15	0	0	0
 generic healing potion	item	[floor(L*4.05)]	[floor(L*4.95)]	0	0	0
