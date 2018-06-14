@@ -4639,6 +4639,7 @@ Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -
 Effect	Become Intensely interested	Combat Rate: +5
 Effect	Become Superficially interested	Combat Rate: -5
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
+Effect	Beefy	Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1
 # Effect Beer Barrel Polka: Makes booze more effective!
 Effect	Beer Barrel Polka	Booze Drop: +45
 # Beer in Your Shoes: More likely to fumble
@@ -6168,6 +6169,7 @@ Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
+# Effect Riboflavin': Pickin' Pockets like a G
 Effect	Ringing Ears	Muscle Percent: +20, Mysticality Percent: -20
 Effect	RIP AND TEAR	Avatar: "Space Marine"
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
@@ -8052,9 +8054,11 @@ Item	abstraction: thought	Effect: "Thought", Effect Duration: 50
 Item	alien animal goo	Effect: "Celestial Body", Effect Duration: 40
 Item	alien plant goo	Effect: "Celestial Mind", Effect Duration: 40
 Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
+# Item ancient pills: Restore 30-40 MP
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
+Item	beefy pill	Effect: "Beefy", Effect Duration: 30
 Item	black paisley oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black polka-dot oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
 Item	black striped oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration: 20
@@ -8075,10 +8079,13 @@ Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
+# Item dieting pill: Eat less, Enjoy it More!
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
+# Item excitement pill: Get an exciting random effect!
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
+# Item furry pill: Removes a Negative Effect<br />Restores 40-50 HP
 Item	gaseous gravy	Effect: "Gettin' the Goods", Effect Duration: 50
 Item	gleaming oyster egg	Effect: "Gleam-Inducing", Effect Duration: 50
 Item	glimmering buzzard feather	Effect: "Carrion' On", Effect Duration: 20
@@ -8099,6 +8106,7 @@ Item	hot jelly	Effect: "Hot Jellied", Effect Duration: 50
 Item	hot wad	Effect: "Hot Blooded", Effect Duration: 20
 Item	indescribably horrible paste	Effect: "Indescribable Flavor", Effect Duration: 10
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
+# Item lucky pill: Lucky!
 Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
 Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration: 20
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400
@@ -8140,6 +8148,7 @@ Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Ef
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
 Item	twinkly wad	Effect: "Aspect of the Twinklefairy", Effect Duration: 20
 Item	vibrating mushroom	Effect: "Weird Vibrations", Effect Duration: 30
+Item	vitamin G pill	Effect: "Riboflavin'", Effect Duration: 5
 Item	watered-down Red Minotaur	Effect: "Water Wings", Effect Duration: 5
 Item	yellow paisley oyster egg	Effect: "Egg-headedness", Effect Duration: 20
 Item	yellow polka-dot oyster egg	Effect: "Egg-cellent Vocabulary", Effect Duration: 20

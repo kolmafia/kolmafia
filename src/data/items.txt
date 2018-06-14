@@ -9724,13 +9724,13 @@
 9698	hot button candy	923492672	hotbuttoncandy.gif	usable	t,d	5
 9699	makeshift garbage shirt	183649893	garbageshirt.gif	shirt	q	0
 9700	novelty monorail ticket	876417512	zepticket.gif	offhand		0
-9701
-9702
-9703
-9704
-9705
-9706
-9707
+9701	ancient pills	696010971	pill6.gif	spleen, usable	t,d	60
+9702	furry pill	843890316	pill7.gif	spleen, usable	t,d	60
+9703	beefy pill	630574018	pill2.gif	spleen, usable	t,d	60
+9704	excitement pill	498109333	pill3.gif	spleen, usable	t,d	60
+9705	vitamin G pill	627968432	pill4.gif	spleen, usable	t,d	60
+9706	lucky pill	839340181	pill5.gif	spleen, usable	t,d	60
+9707	dieting pill	682913922	pill5.gif	spleen, usable	t,d	60
 9708
 9709
 9710
