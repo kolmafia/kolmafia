@@ -4816,7 +4816,7 @@ Effect	Cancer Rising	Maximum MP Percent: +100
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Capricorn Rising	Item Drop: +5
 Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1, Sleaze Resistance: +1, Damage Absorption: +20, Damage Reduction: 3
-Effect	Carlweather's Cantata of Confrontation	Combat Rate:  [5*(1+equipped(fiberglass fedora)]
+Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
 Effect	Carrion' On	Meat Drop: +60
@@ -6639,7 +6639,7 @@ Effect	The Secret of the Ooze	Maximum HP Percent: +200
 Effect	The Smeezingtons	Muscle Percent: +100
 Effect	The Smile of Mr. A.	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	The Solution	Weapon Damage: +25
-Effect	The Sonata of Sneakiness	Combat Rate: [-5*(1+equipped(fiberglass fedora)]
+Effect	The Sonata of Sneakiness	Combat Rate: [-5*(1+equipped(fiberglass fedora))]
 # The Spirit of Crimbo
 Effect	The Spy Who Loved XP	Experience: +5
 Effect	The Strength... of the Future	Muscle Percent: +50, Muscle: +15, Experience (Muscle): +3
