@@ -305,6 +305,10 @@ public class SpleenItemRequest
 			Preferences.increment( "_spookyJellyUses", count );
 			break;
 
+		case ItemPool.NIGHTMARE_FUEL:
+			Preferences.increment( "_nightmareFuelCharges", count );
+			break;
+
 		}
 	}
 
