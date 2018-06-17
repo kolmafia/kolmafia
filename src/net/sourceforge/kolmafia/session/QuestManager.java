@@ -2122,7 +2122,7 @@ public class QuestManager
 		{
 			if ( QuestDatabase.isQuestStep( Quest.PALINDOME, QuestDatabase.STARTED ) )
 			{
-				Preferences.increment( "palindomeDudesDefeated", 1, 5, false );
+				Preferences.increment( "palindomeDudesDefeated", 1, 20, false );
 			}
 		}
 		else if ( monsterName.equals( "fantasy bandit" ) ||
