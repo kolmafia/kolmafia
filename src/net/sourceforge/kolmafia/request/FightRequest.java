@@ -7290,7 +7290,7 @@ public class FightRequest
 	private static boolean handleEvilometer( String text, TagStatus status )
 	{
 		if ( !text.contains( "Evilometer" ) && !text.contains( "ghost vacuum" ) &&
-		     !text.contains( "gravy sloshes" ) )
+		     !text.contains( "gravy sloshes" ) && !text.contains( "the nightmare fuel" ) )
 		{
 			return false;
 		}
@@ -7333,6 +7333,14 @@ public class FightRequest
 		if ( text.contains( "Some gravy sloshes" ) )
 		{
 			evilness++;
+		}
+
+		// The evil of the nightmare fuel in your system is in a different phase
+		// from the evil emanations in this area, so they cancel each other out a bit.
+		if ( text.contains( "the nightmare fuel" ) )
+		{
+			evilness += 2;
+			Preferences.decrement( "_nightmareFuelCharges" );
 		}
 
 		if ( evilness == 0 )

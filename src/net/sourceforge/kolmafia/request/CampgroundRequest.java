@@ -769,6 +769,14 @@ public class CampgroundRequest
 				Preferences.setBoolean( "_confusingLEDClockUsed", true );
 			}
 
+			if ( responseText.contains( "razor-sharp-claw-tipped arms" ) ||
+			     responseText.contains( "horrible mucous" ) ||
+			     responseText.contains( "Tentacles, tentacles everywhere" ) ||
+			     responseText.contains( "teeth near your neck" ) )
+			{
+				Preferences.decrement( "_nightmareFuelCharges" );
+			}
+
 			Matcher m = HOUSING_PATTERN.matcher( responseText );
 			if ( m.find() )
 			{
