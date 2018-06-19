@@ -1867,7 +1867,6 @@ public class ResultProcessor
 		case ItemPool.BONERDAGON_SKULL:
 			if ( combatResults )
 			{
-				QuestDatabase.setQuestProgress( Quest.CYRPT, QuestDatabase.FINISHED );
 				ResultProcessor.autoCreate( ItemPool.BADASS_BELT );
 			}
 			break;
