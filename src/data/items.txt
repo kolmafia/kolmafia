@@ -9508,7 +9508,7 @@
 9482	Daily Affirmation: Adapt to Change Eventually	631908932	newyoucard4.gif	multiple, combat	t,d	5	Daily Affirmations: Adapt to Change Eventually
 9483	Daily Affirmation: Be a Mind Master	763042202	newyoucard5.gif	multiple, combat	t,d	5	Daily Affirmations: Be a Mind Master
 9484	Daily Affirmation: Work For Hours a Week	594054996	newyoucard6.gif	multiple, combat	t,d	5	Daily Affirmations: Work For Hours a Day
-9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	multiple	t,d	5	Daily Affirmations: Keep Free Hate in your Heart
+9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	multiple, combat	t,d	5	Daily Affirmations: Keep Free Hate in your Heart
 9486	Affirmation Cookie	861232060	cookie.gif	food	t,d	5
 9487	License To Kill	666441939	licensetokill.gif	usable	t	0
 9488	Thwaitgold bug statue	754030701	thwaitbug.gif	none		0
