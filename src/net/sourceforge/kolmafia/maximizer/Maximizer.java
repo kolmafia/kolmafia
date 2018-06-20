@@ -787,8 +787,14 @@ public class Maximizer
 
 					if ( item != null )
 					{
-						// Resolve bang potions and slime vials
 						int itemId = item.getItemId();
+						// Cannot use/eat/drink items without G's in them in G-Lover
+						if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( item.getName() ) )
+						{
+							continue;
+						}
+
+						// Resolve bang potions and slime vials
 						if ( itemId == -1 )
 						{
 							item = item.resolveBangPotion();
