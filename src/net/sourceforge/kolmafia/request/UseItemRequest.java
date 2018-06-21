@@ -462,9 +462,14 @@ public class UseItemRequest
 			return InventoryManager.getCount( ItemPool.ENCRYPTION_KEY );
 
 		default:
-			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( itemName ) )
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				UseItemRequest.limiter = "bees";
+				return 0;
+			}
+			if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( itemId ) )
+			{
+				UseItemRequest.limiter = "g-lessness";
 				return 0;
 			}
 			break;

@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
@@ -228,12 +229,17 @@ public class BreakfastManager
 
 		for ( AdventureResult toy : toys )
 		{
-			if ( KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity( toy.getName() ) )
+			int itemId = toy.getItemId();
+
+			if ( KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore( itemId ) )
 			{
 				continue;
 			}
 
-			int itemId = toy.getItemId();
+			if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( itemId ) )
+			{
+				continue;
+			}
 
 			// Special cases
 			if ( itemId == ItemPool.CSA_FIRE_STARTING_KIT && Preferences.getInteger( "choiceAdventure595" ) == 0 )
