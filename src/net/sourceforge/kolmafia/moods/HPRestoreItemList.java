@@ -280,12 +280,25 @@ public abstract class HPRestoreItemList
 			{
 				return false;
 			}
-			if ( this.itemUsed == null || !KoLCharacter.inBeecore() )
+
+			if ( this.itemUsed == null )
 			{
 				return true;
 			}
-			String name = this.itemUsed.getName();
-			return !name.contains( "b" ) && !name.contains( "B" );
+
+			int itemId = this.itemUsed.getItemId();
+
+			if ( KoLCharacter.inBeecore() )
+			{
+				return !ItemDatabase.unusableInBeecore( itemId );
+			}
+
+			if ( KoLCharacter.inGLover() )
+			{
+				return !ItemDatabase.unusableInGLover( itemId );
+			}
+
+			return true;
 		}
 
 		public int compareTo( final HPRestoreItem o )

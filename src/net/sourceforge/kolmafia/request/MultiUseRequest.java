@@ -120,7 +120,7 @@ public class MultiUseRequest
 			return;
 		}
 		
-		if ( KoLCharacter.inGLover()&& ItemDatabase.unusableInGLover( this.ingredient.getItemId() ) )
+		if ( KoLCharacter.inGLover() && ItemDatabase.unusableInGLover( this.ingredient.getItemId() ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are too in love with Gs to use " + this.ingredient.getName() + " to create " + this.getName() );
 			return;

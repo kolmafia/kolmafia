@@ -2441,6 +2441,8 @@ public class ItemDatabase
 		// More stuff might belong here
 		case ItemPool.COBBS_KNOB_MAP:
 		case ItemPool.ENCHANTED_BEAN:
+		case ItemPool.PALINDROME_BOOK_1:
+		case ItemPool.PALINDROME_BOOK_2:
 			return false;
 		}
 		return !KoLCharacter.hasGs( ItemDatabase.getItemName( itemId ) );
