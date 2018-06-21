@@ -141,6 +141,8 @@ public class ResultProcessor
 			formURLString.startsWith( "fight.php" ) ||
 			// Using a 31337 scroll
 			formURLString.contains( "whichitem=553" ) ||
+			// Using a green rocket
+			formURLString.contains( "whichitem=9827" ) ||
 			// ...without in-line loading can redirect to inventory
 			( formURLString.startsWith( "inventory.php" ) &&
 			  formURLString.contains( "action=message" ) );
