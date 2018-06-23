@@ -382,14 +382,6 @@ public class ResponseTextParser
 			{
 				SummoningChamberRequest.parseResponse( location, responseText );
 			}
-			else if ( location.contains( "whichchoice=1218" ) )
-			{
-				WaxGlobRequest.parseResponse( location, responseText );
-			}
-			else if ( location.contains( "whichchoice=1277" ) )
-			{
-				BurningNewspaperRequest.parseResponse( location, responseText );
-			}
 			else if ( location.contains( "whichchoice=1278" ) )
 			{
 				ClanFortuneRequest.parseResponse( location, responseText );
