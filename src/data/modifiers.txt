@@ -2699,6 +2699,7 @@ Item	gabardine girdle	Moxie: +10, Booze Drop: +20, Single Equip
 Item	gabardine gloves	HP Regen Min: 4, HP Regen Max: 8, Spooky Resistance: +3, Single Equip
 Item	Gaia beads	Stench Damage: +10, Stench Spell Damage: +10
 Item	garish pinky ring	Maximum HP: +10, Maximum MP: +10
+Item	Garland of Greatness	Maximum HP Percent: [pref(garlandUpgrades)*20], Maximum MP Percent: [pref(garlandUpgrades)*20]
 # Garter of the Turtle Poacher: Helps You Tame Turtles
 Item	Garter of the Turtle Poacher	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Turtle Tamer", Single Equip
 Item	Gary Claybender's Time Screwer	Mysticality: +5, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Lasts Until Rollover

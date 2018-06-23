@@ -65,7 +65,8 @@ public class MindControlRequest
 	{
 		super( KoLCharacter.canadiaAvailable() ? "choice.php" :
 		       KoLCharacter.gnomadsAvailable() ? "gnomes.php" :
-		       "inv_use.php" );
+		       ( KoLCharacter.knollAvailable() && !KoLCharacter.inGLover() ) ? "inv_use.php" :
+		       "bogus.php" );
 
 		if ( KoLCharacter.canadiaAvailable() )
 		{
@@ -78,7 +79,7 @@ public class MindControlRequest
 			this.addFormField( "action", "changedial" );
 			this.addFormField( "whichlevel", String.valueOf( level ) );
 		}
-		else
+		else if (KoLCharacter.knollAvailable() && !KoLCharacter.inGLover() )
 		{
 			this.addFormField( "whichitem", String.valueOf( ItemPool.DETUNED_RADIO ) );
 			this.addFormField( "tuneradio", String.valueOf( level ) );
@@ -120,19 +121,27 @@ public class MindControlRequest
 			return;
 		}
 
-		if ( KoLCharacter.knollAvailable() && MindControlRequest.RADIO.getCount( KoLConstants.inventory ) == 0 )
+		if ( KoLCharacter.knollAvailable() )
 		{
-			try
+			if ( KoLCharacter.inGLover() )
 			{
-				SpecialOutfit.createImplicitCheckpoint();
-				if ( !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
-				{
-					return;
-				}
+				// Can't use detuned radio in G-Lover run
+				return;
 			}
-			finally
+			if ( MindControlRequest.RADIO.getCount( KoLConstants.inventory ) == 0 )
 			{
-				SpecialOutfit.restoreImplicitCheckpoint();
+				try
+				{
+					SpecialOutfit.createImplicitCheckpoint();
+					if ( !InventoryManager.retrieveItem( MindControlRequest.RADIO ) )
+					{
+						return;
+					}
+				}
+				finally
+				{
+					SpecialOutfit.restoreImplicitCheckpoint();
+				}
 			}
 		}
 

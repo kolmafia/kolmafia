@@ -557,6 +557,7 @@ user	frWoodUnlocked	false
 user	gallapagosMonster	
 user	gameProBossSpecialPower	Unknown
 user	garbageFireProgress	25
+user	garlandUpgrades	0
 user	ghostLocation	
 user	ghostPencil1	false
 user	ghostPencil2	false

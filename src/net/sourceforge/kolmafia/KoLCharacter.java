@@ -4361,7 +4361,8 @@ public abstract class KoLCharacter
 			return KoLCharacter.canadiaAvailable();
 		case KNOLL:
 			// detuned radio from Degrassi Knoll General Store
-			return KoLCharacter.knollAvailable();
+			// Unusable in G-Lover
+			return KoLCharacter.knollAvailable() && !KoLCharacter.inGLover();
 		case GNOMADS:
 			// Annoyotron available on beach
 			return KoLCharacter.desertBeachAccessible();
