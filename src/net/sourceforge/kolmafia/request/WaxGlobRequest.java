@@ -94,40 +94,19 @@ public class WaxGlobRequest
 
 		KoLmafia.updateDisplay( "Creating " + count + " " + name + "..." );
 
+		GenericRequest useRequest = new GenericRequest( "inv_use.php" );
+		useRequest.addFormField( "whichitem", String.valueOf( ItemPool.WAX_GLOB ) );
+		useRequest.run();
+
 		for ( int i = 0; i < count; ++i )
 		{
-			GenericRequest useRequest = new GenericRequest( "inv_use.php" );
-			useRequest.addFormField( "whichitem", String.valueOf( ItemPool.WAX_GLOB ) );
-			useRequest.run();
-
-			String responseText = useRequest.responseText;
-
-			// No response because of I/O error
-			if ( responseText == null )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "I/O error" );
-				return;
-			}
-
 			super.run();
 		}
+
 		GenericRequest closeRequest = new GenericRequest( "choice.php" );
 		closeRequest.addFormField( "whichchoice", "1218" );
 		closeRequest.addFormField( "option", "6" );
 		closeRequest.run();
-	}
-
-	public static void parseResponse( final String urlString, final String responseText )
-	{
-		if ( !urlString.startsWith( "choice.php" ) || !urlString.contains( "whichchoice=1218" ) )
-		{
-			return;
-		}
-
-		if ( responseText.contains( "You acquire" ) )
-		{
-			ResultProcessor.processItem( ItemPool.WAX_GLOB, -1 );
-		}
 	}
 
 	public static final boolean registerRequest( final String urlString )
