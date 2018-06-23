@@ -54,6 +54,7 @@ DESC_ITEM	fossilized necklace	(\d+) baboon	fossilN=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) wyrm	fossilW=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) demon	fossilD=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) spider	fossilP=[min(5,$1)]
+DESC_ITEM	Garland of Greatness	\+(\d+)%	garlandUpgrades=[$1/20]
 DESC_ITEM	hair of the fish	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_ITEM	king cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	knight cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
