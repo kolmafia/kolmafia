@@ -52,14 +52,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -1236,8 +1239,7 @@ public class SVNManager
 				KoLmafia.updateDisplay( "Checking all SVN projects..." );
 				List<File> projectsToUpdate = new ArrayList<File>();
 				List<CheckStatusRunnable> checkingRunnables = new ArrayList<CheckStatusRunnable>();
-				// checking projects should be parallelized; it is a read-only operation, which is thread-safe
-				for ( File f : projects )
+				for (File f : projects) 
 				{
 					if ( !KoLmafia.permitsContinue() )
 					{
@@ -1255,40 +1257,48 @@ public class SVNManager
 
 				if (!checkingRunnables.isEmpty())
 				{
+					int poolSize = Preferences.getInteger("svnThreadPoolSize");
+					poolSize = Math.max(1, poolSize);
 					// now start all threads and wait for them to finish.
 					// we must keep one big lock over the entire time, until no thread accesses it anymore
-					try
+					ExecutorService executor = Executors.newFixedThreadPool(poolSize);
+					SVN_LOCK.lock();
+					try 
 					{
-						Map<Thread, CheckStatusRunnable> trMap = new HashMap<Thread, CheckStatusRunnable>();
- 
-						SVN_LOCK.lock();
-	
-						for (CheckStatusRunnable r : checkingRunnables)
+						List<Future<CheckStatusRunnable>> futures = executor.invokeAll(checkingRunnables);
+						//invokeAll won't return until everything has been done so just fetch result and process
+						for (Future<CheckStatusRunnable> f : futures)
 						{
-							Thread t = new Thread( r );
-							trMap.put(t, r);
-							t.start();
-						}
-						for (Thread t : trMap.keySet())
-						{
-							CheckStatusRunnable r = trMap.get(t);
-							try
-							{
-								t.join();
-							}
-							catch (InterruptedException ie)
-							{
-								r.reportInterrupt();
-							}
-							if (r.shouldBeUpdated())
+							CheckStatusRunnable r = f.get();
+							if (r.shouldBeUpdated()) 
 							{
 								projectsToUpdate.add(r.getOriginalFile());
 							}
 						}
+					} 
+					catch (InterruptedException e) 
+					{
+						e.printStackTrace();
+					} 
+					catch (ExecutionException e)
+					{
+						e.printStackTrace();
 					}
 					finally
 					{
 						SVN_LOCK.unlock();
+						executor.shutdown();
+						try 
+						{
+							if (!executor.awaitTermination(800, TimeUnit.MILLISECONDS))
+							{
+								executor.shutdownNow();
+							}
+						} 
+						catch (InterruptedException e)
+						{
+							executor.shutdownNow();
+						}
 					}
 				}
 
@@ -1366,6 +1376,9 @@ public class SVNManager
 			}
 
 			SVNInfo wcinfo = getClientManager().getWCClient().doInfo( f, SVNRevision.WORKING );
+			//At some point will want to emit a warning if wcinfo.getURL() uses https: protocol to access SourceForge
+			//but the warning can wait until we know what should be done in response.
+			//RequestLogger.printLine(wcinfo.getURL().toString());
 			SVNRepository repo = getClientManager().createRepository( wcinfo.getURL(), mayReuseRepo );
 			long wcRevisionNumber = wcinfo.getRevision().getNumber();
 
