@@ -2120,13 +2120,28 @@ public class RequestEditorKit
 		case 611: {
 			// The Horror...
 			int index = buffer.indexOf( "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>" );
-			int count = ItemPool.get( ItemPool.BOO_CLUE, 1 ).getCount( KoLConstants.inventory );
-
-			if ( index != -1 && count > 0 )
+			if ( index == -1 )
 			{
-				String link = "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=5964&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\">Use another A-Boo clue</a>";
-				buffer.insert( index, link );
+				break;
 			}
+
+			boolean glover = KoLCharacter.inGLover();
+			int itemId = glover ? ItemPool.GLUED_BOO_CLUE : ItemPool.BOO_CLUE;
+			int count = ItemPool.get( itemId, 1 ).getCount( KoLConstants.inventory );
+			if ( count == 0 )
+			{
+				break;
+			}
+
+			String name = glover ? "glued A-Boo Clue" : "A-Boo Clue";
+			StringBuilder link = new StringBuilder( "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem=" );
+			link.append( String.valueOf( itemId ) );
+			link.append( "&pwd=" );
+			link.append( GenericRequest.passwordHash );
+			link.append( "&ajax=1');void(0);\">Use another " );
+			link.append( name );
+			link.append( "</a>" );
+			buffer.insert( index, link.toString() );
 			break;
 		}
 
