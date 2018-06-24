@@ -150,6 +150,7 @@ global	statusDropdown	0
 global	stealthLogin	true
 global	svnInstallDependencies	true
 global	svnShowCommitMessages	false
+global	svnThreadPoolSize	2
 global	svnUpdateOnLogin	false
 global	swingLookAndFeel
 global	switchEquipmentForBuffs	false
