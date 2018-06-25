@@ -198,6 +198,10 @@ public class QuestLogRequest
 		}
 
 		// Some quests vanish when completed but can be inferred by the presence of a new one
+		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, QuestDatabase.STARTED ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
+		}
 		if ( QuestDatabase.isQuestLaterThan( Quest.SPOOKYRAVEN_BABIES, QuestDatabase.UNSTARTED ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.SPOOKYRAVEN_DANCE, QuestDatabase.FINISHED );
