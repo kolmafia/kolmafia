@@ -3367,7 +3367,22 @@ public class FightRequest
 				String specialBountyItemName = specialBountyString.substring( 0, index );
 				String specialBountyMonsterName = BountyDatabase.getMonster( specialBountyItemName );
 
-				if ( monsterName.equals( specialBountyMonsterName ) && !responseText.contains( specialBountyItemName ) && !problemFamiliar() )
+				if ( monsterName.equals( "Sorrowful Hickory" ) && specialBountyItemName.equals( "hickory daiquiri" ) )
+				{
+					// There is no bounty text for hickory daiquiri, so assume success instead
+					int bountyCount = StringUtilities.parseInt( specialBountyString.substring( index + 1, specialBountyString.length() ) );
+					if ( bountyCount < 6 )
+					{
+						bountyCount++;
+						Preferences.setString( "currentSpecialBountyItem", "hickory daiquiri:" + bountyCount );
+						String updateMessage = "You acquire a bounty item: hickory daiquiri";
+						AdventureResult result = AdventureResult.tallyItem( "hickory daiquiri", false );
+						AdventureResult.addResultToList( KoLConstants.tally, result );
+						RequestLogger.updateSessionLog( updateMessage );
+						KoLmafia.updateDisplay( updateMessage );
+					}
+				}
+				else if ( monsterName.equals( specialBountyMonsterName ) && !responseText.contains( specialBountyItemName ) && !problemFamiliar() )
 				{
 					KoLmafia.updateDisplay( MafiaState.PENDING, "Special bounty item failed to drop from expected monster." );
 				}
