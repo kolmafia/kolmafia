@@ -1869,7 +1869,7 @@ public class QuestManager
 			  ( monsterName.startsWith( "Jerry Bradford" ) && monsterName.contains( "World Champion" ) ) ||
 			  responseText.contains( "Thwaitgold bee statuette" ) )
 		{
-			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step13" );
 		}
 		else if ( monsterName.equals( "The Unknown Seal Clubber" ) ||
 			  monsterName.equals( "The Unknown Turtle Tamer" ) ||
@@ -2483,6 +2483,10 @@ public class QuestManager
 		else if ( monsterName.equals( "Mob Penguin hitman" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.NEMESIS, "step20" );
+		}
+		else if ( monsterName.equals( "Naughty Sorceress (3)" )  )
+		{
+			QuestDatabase.setQuestProgress( Quest.FINAL, "step12" );
 		}
 		else if ( monsterName.equals( "hunting seal" ) ||
 			  monsterName.equals( "turtle trapper" ) ||
