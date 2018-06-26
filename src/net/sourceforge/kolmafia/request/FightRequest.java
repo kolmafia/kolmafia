@@ -8292,6 +8292,7 @@ public class FightRequest
 			( FightRequest.haiku && 
 			  ( responseText.contains( "burps taste like pride" ) ||
 				responseText.contains( "beat a retreat" ) ) ) ||
+				responseText.contains( "throws a smoke ball on the ground" ) ||
 			( FightRequest.machineElf && responseText.contains( "you are no longer anywhere" ) );
 
 		if ( !FightRequest.nextAction.startsWith( "skill" ) )
@@ -8609,7 +8610,7 @@ public class FightRequest
 
 		case SkillPool.KGB_TRANQUILIZER_DART:
 			Preferences.increment( "_kgbTranquilizerDartUses" );
-			if ( responseText.contains( "press the secret switch" ) )
+			if ( responseText.contains( "press the secret switch" ) || skillRunawaySuccess )
 			{
 				BanishManager.banishMonster( monsterName, "KGB tranquilizer dart" );
 			}
@@ -8623,7 +8624,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.FIX_JUKEBOX:
-			if ( responseText.contains( "jukebox" ) || skillSuccess)
+			if ( responseText.contains( "jukebox" ) || skillSuccess )
 			{
 				Preferences.increment( "_peteJukeboxFixed" );
 			}
@@ -8696,7 +8697,7 @@ public class FightRequest
 		case SkillPool.SHOW_RING:
 			// You show him your ring. "Well, I never," he exclaims as he storms off in a huff.
 			// You show them your ring. They aren't impressed.
-			if ( responseText.contains( "Well, I never" ) )
+			if ( responseText.contains( "Well, I never" ) || skillRunawaySuccess )
 			{
 				Preferences.setBoolean( "_mafiaMiddleFingerRingUsed", true );
 				BanishManager.banishMonster( monsterName, "mafia middle finger ring" );
@@ -8953,7 +8954,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.AM_FRONT_BUMPER:
-			if ( responseText.contains( "before flying out of sight" ) || skillSuccess )
+			if ( responseText.contains( "before flying out of sight" ) || skillRunawaySuccess )
 			{
 				BanishManager.banishMonster( monsterName, "Spring-Loaded Front Bumper" );
 				CampgroundRequest.useFuel( SkillDatabase.getFuelCost( SkillPool.AM_FRONT_BUMPER ) );
