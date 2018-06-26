@@ -244,6 +244,10 @@ public class AscensionSnapshot
 		{
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.GLOVER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.POKEFAM, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
 				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
@@ -586,9 +590,9 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.NUCLEAR_AUTUMN ? "Nuclear Autumn " :
 						pathFilter == AscensionSnapshot.GELATINOUS_NOOB ? "Gelatinous Noob " :
 						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " :
-						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat." :
-						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars" :
-						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover"
+						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat. " :
+						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars " :
+						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover "
 						: "" );
 
 			strbuf.append( "Ascensions (Out of " );

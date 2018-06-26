@@ -584,6 +584,7 @@ user	gingerTrainScheduleStudies	0
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
+user	gloverPoints	0
 user	gnasirProgress	0
 user	goldenMrAccessories	0
 user	gongPath	0
