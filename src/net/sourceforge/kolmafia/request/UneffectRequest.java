@@ -566,6 +566,11 @@ public class UneffectRequest
 
 			String skillName =  (String) removable.getKey();
 
+			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( skillName ) )
+			{
+				continue;
+			}
+
 			if ( KoLCharacter.hasSkill( skillName ) )
 			{
 				return "cast " + skillName;
@@ -643,9 +648,12 @@ public class UneffectRequest
 
 			if ( KoLCharacter.hasSkill( skillName ) )
 			{
-				KoLmafia.updateDisplay( name + " will be removed by skill " + skillName + "..." );
+				if ( !KoLCharacter.inGLover() || KoLCharacter.hasGs( skillName ) )
+				{
+					KoLmafia.updateDisplay( name + " will be removed by skill " + skillName + "..." );
 
-				return "cast " + skillName;
+					return "cast " + skillName;
+				}
 			}
 		}
 
