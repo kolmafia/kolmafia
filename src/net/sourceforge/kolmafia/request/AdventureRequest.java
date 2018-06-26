@@ -691,7 +691,7 @@ public class AdventureRequest
 				image.startsWith( "dvsleazewolf" ) ? "sleaze werewolf" :
 				image.startsWith( "dvsleazezom" ) ? "sleaze zombie" :
 				image.startsWith( "dvspookybear" ) ? "spooky bugbear" :
-				image.startsWith( "dvspookyghost" ) ? "spooky ghost" :
+				image.startsWith( "dvspookyghost" ) ? "spooky ghost (Dreadsylvanian)" :
 				image.startsWith( "dvspookyskel" ) ? "spooky skeleton" :
 				image.startsWith( "dvspookyvamp" ) ? "spooky vampire (Dreadsylvanian)" :
 				image.startsWith( "dvspookywolf" ) ? "spooky werewolf" :
