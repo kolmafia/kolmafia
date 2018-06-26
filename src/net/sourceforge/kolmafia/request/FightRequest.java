@@ -731,7 +731,7 @@ public class FightRequest
 
 	public static final boolean canOlfact()
 	{
-		return FightRequest.canOlfact && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
+		return FightRequest.canOlfact && !KoLCharacter.inGLover() && !KoLConstants.activeEffects.contains( FightRequest.ONTHETRAIL );
 	}
 
 	public static final boolean isSourceAgent()
@@ -773,14 +773,14 @@ public class FightRequest
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.JAM_BAND_FLYERS, 1 ) )
 			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
-			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR );
+			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR ) && !KoLCharacter.inGLover();
 	}
 	
 	public static final boolean canRockFlyer()
 	{
 		return KoLConstants.inventory.contains( ItemPool.get( ItemPool.ROCK_BAND_FLYERS, 1 ) )
 			&& Preferences.getInteger( "flyeredML" ) < 10000 && usedFlyer == false && !IslandManager.isBattlefieldMonster()
-			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR );
+			&& !QuestDatabase.isQuestFinished( QuestDatabase.Quest.ISLAND_WAR ) && !KoLCharacter.inGLover();
 	}
 	
 	public static void initializeAfterFight()
