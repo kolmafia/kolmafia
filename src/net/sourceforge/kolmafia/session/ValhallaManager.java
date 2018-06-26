@@ -502,6 +502,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Pocket Familiars " );
 		}
+		else if ( KoLCharacter.inGLover() )
+		{
+			sessionStream.print( "G-Lover " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );

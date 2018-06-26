@@ -142,6 +142,8 @@ public class AscensionHistoryRequest
 		int sourcePoints = 0;
 		int noobPoints = 0;
 		int bondPoints = 0;
+		int garlandUpgrades = 0;
+		int gloverPoints = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -220,6 +222,10 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.LICENSE:
 				bondPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.GLOVER:
+				gloverPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				garlandUpgrades++;
+				break;
 			}
 		}
 
@@ -227,6 +233,8 @@ public class AscensionHistoryRequest
 		Preferences.setInteger( "borisPoints", borisPoints );
 		Preferences.setInteger( "zombiePoints", zombiePoints );
 		Preferences.setInteger( "sourcePoints", sourcePoints );
+		Preferences.setInteger( "gloverPoints", gloverPoints );
+		Preferences.setInteger( "garlandUpgrades", garlandUpgrades );
 
 		// Some can be increased by buying points, so only set these if higher than preference
 		if ( jarlsbergPoints > Preferences.getInteger( "jarlsbergPoints" ) )
@@ -737,10 +745,6 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.GELATINOUS_NOOB:
 				this.stringForm.append( "GN" );
 				break;
-
-			case AscensionSnapshot.LICENSE:
-				this.stringForm.append( "LA" );
-				break;
 			}
 
 			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
@@ -875,6 +879,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "gcube" ) ? AscensionSnapshot.GELATINOUS_NOOB :
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
 					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
+					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

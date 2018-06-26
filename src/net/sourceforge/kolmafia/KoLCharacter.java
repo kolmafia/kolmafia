@@ -3497,6 +3497,12 @@ public abstract class KoLCharacter
 			currentBondPoints += bondPoints;
 			Preferences.setInteger( "bondPoints", ( currentBondPoints < 24 ? currentBondPoints : 24 ) );
 		}
+		else if ( oldPath.equals( GLOVER ) )
+		{
+			int gloverPoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "gloverPoints", gloverPoints );
+			Preferences.increment( "garlandUpgrades" );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
