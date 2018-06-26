@@ -115,7 +115,7 @@ Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
 Doubt Man's Level	-1	judgmental eye	reproachful heart	work hat	Doubt Man: 0
 Dreadsylvanian Castle	-1	cold skeleton	cold vampire	hot skeleton	hot vampire	sleaze skeleton	sleaze vampire	spooky skeleton	spooky vampire (Dreadsylvanian)	stench skeleton	stench vampire	The Unkillable Skeleton: 0	Count Drunkula: 0
-Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association: 0
+Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze ghost	sleaze zombie	spooky ghost (Dreadsylvanian)	spooky zombie	stench ghost	stench zombie	Mayor Ghost: 0	Zombie Homeowners' Association: 0
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	-1	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
