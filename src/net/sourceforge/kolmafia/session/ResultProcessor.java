@@ -3233,6 +3233,13 @@ public class ResultProcessor
 		case ItemPool.BOOMBOX:
 			KoLCharacter.addAvailableSkill( "Sing Along" );
 			break;
+
+		case ItemPool.GARLAND_OF_GREATNESS:
+			if ( combatResults )
+			{
+				Preferences.increment( "garlandUpgrades" );
+			}
+			break;
 		}
 
 		// Gaining items can achieve goals.
