@@ -201,7 +201,7 @@ public class FightRequest
 	private static int dreadCastleKisses = 0;
 
 	private static final Pattern COMBATITEM_PATTERN = Pattern.compile( "<option[^>]*?value=(\\d+)[^>]*?>[^>]*?\\((\\d+)\\)</option>" );
-	private static final Pattern AVAILABLE_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(\\d+)[^>]*?>[^>]*?\\((\\d+)[^<]*</option>" );
+	private static final Pattern AVAILABLE_COMBATSKILL_PATTERN = Pattern.compile( "<option[^>]*?value=\"(\\d+)[^>]*?>(.*?) \\((\\d+)[^<]*</option>" );
 
 	// fambattle.php?pwd&famaction[backstab-209]=Backstab
 	private static final Pattern FAMBATTLE_PATTERN = Pattern.compile( "famaction.*?-(\\d+).*?=(.*)" );
@@ -4521,7 +4521,13 @@ public class FightRequest
 		while ( m.find() )
 		{
 			int skillId = StringUtilities.parseInt( m.group( 1 ) );
-			KoLCharacter.addAvailableCombatSkill( SkillDatabase.getSkillName( skillId ) );
+			String skillName = SkillDatabase.getSkillName( skillId );
+			if ( skillName == null )
+			{
+				skillName = m.group( 2 );
+				SkillDatabase.registerSkill( skillId, skillName );
+			}
+			KoLCharacter.addAvailableCombatSkill( skillName );
 			// If lovebug skills present, they've been unlocked
 			if ( skillId >= 7245 && skillId <= 7247 )
 			{
