@@ -3501,7 +3501,6 @@ public abstract class KoLCharacter
 		{
 			int gloverPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "gloverPoints", gloverPoints );
-			Preferences.increment( "garlandUpgrades" );
 		}
 
 		// We are no longer in Hardcore
