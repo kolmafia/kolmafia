@@ -1797,6 +1797,11 @@ public class SkillDatabase
 			String effectDescid = DebugDatabase.parseSkillEffectId( text );
 			EffectDatabase.registerEffect( effectName, effectDescid, "cast 1 " + skillName );
 		}
+
+		// Update Canonical names list
+		String [] newNames = new String[ SkillDatabase.skillByName.size() ];
+		SkillDatabase.skillByName.keySet().toArray( newNames );
+		SkillDatabase.canonicalNames = newNames;
 	}
 
 	/**
