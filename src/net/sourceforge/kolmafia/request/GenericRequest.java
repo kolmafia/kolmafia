@@ -3258,7 +3258,8 @@ public class GenericRequest
 
 		case ItemPool.POCKET_WISH:
 			itemName = "pocket wish";
-			consumed = true;
+			// Do not consume the item here.  The player can walk away
+			// and keep the pocket wish still, so it is handled later.
 			// Do not ignore special monsters here. That is handled
 			// elsewhere, just for the cases that will be a combat.
 			break;
