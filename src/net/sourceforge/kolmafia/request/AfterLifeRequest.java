@@ -580,6 +580,9 @@ public class AfterLifeRequest
 			case 32:
 				builder.append( "a Pocket Familiars" );
 				break;
+			case 33:
+				builder.append( "a G-Lover" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );
