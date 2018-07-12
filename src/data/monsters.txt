@@ -1852,7 +1852,7 @@ fantasy ourk	2061	fr_ourk.gif	Atk: 120 Def: 120 HP: 150 Init: 100 P: dude Phys: 
 fantasy forest faerie	2062	fr_faerie.gif	Atk: 120 Def: 120 HP: 90 Init: 300 P: dude	Rubee&trade; (n100)
 swamp monster	2063	fr_swampmonster.gif	Atk: 120 Def: 120 HP: 100 Init: 100 P: dude Phys: 60	Rubee&trade; (n100)
 cursed villager	2064	fr_villager.gif	Atk: 130 Def: 130 HP: 30 Init: -10000 P: dude	Rubee&trade; (n100)
-spooky ghost	2065	fr_ghost.gif	Atk: 130 Def: 130 HP: 150 Init: 200 P: dude GHOST Wiki: "Spooky ghost (FantasyRealm)"	Rubee&trade; (n100)
+spooky ghost	2065	fr_ghost.gif	Atk: 130 Def: 130 HP: 150 Init: 200 P: dude Phys: 100 GHOST Wiki: "Spooky ghost (FantasyRealm)"	Rubee&trade; (n100)
 mining grobold	2067	fr_grolblin.gif	Atk: 140 Def: 140 HP: 100 Init: 999 P: construct	Rubee&trade; (n100)	Rubee&trade; (n100)
 rubber bat	2068	fr_bat.gif	Atk: 140 Def: 140 HP: 150 Init: -10000 P: construct	Rubee&trade; (n100)	Rubee&trade; (n100)
 quadfaerie	2069	fr_quadfaerie.gif	Atk: 140 Def: 140 HP: 100 Init: 150 P: construct	Rubee&trade; (n100)	Rubee&trade; (n100)
