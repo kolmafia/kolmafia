@@ -54,6 +54,7 @@ public class UseItemDecorator
 		switch ( itemId )
 		{
 		case ItemPool.BOO_CLUE:
+		case ItemPool.GLUED_BOO_CLUE:
 			UseItemDecorator.decorateBooClue( buffer );
 			break;
 
