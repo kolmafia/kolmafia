@@ -225,6 +225,7 @@ public class SkillPool
 	public static final int SOUL_FUNK = 7187;
 	public static final int DISMISS_PASTA_THRALL = 7188;
 	public static final int UNLOAD_TOMMY_GUN = 7200;
+	public static final int MUG_FOR_THE_AUDIENCE = 7201;
 	public static final int SHOVEL_HOT_COAL = 7203;
 	public static final int SMILE_OF_MR_A = 7208;
 	public static final int OVERLOAD_TEDDY_BEAR = 7210;

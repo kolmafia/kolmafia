@@ -265,6 +265,11 @@ public class SkillDatabase
 			category = SkillDatabase.BAD_MOON;
 			break;
 
+		case SkillPool.MUG_FOR_THE_AUDIENCE: // Pride
+
+			category = SkillDatabase.AVATAR_OF_SNEAKY_PETE;
+			break;
+
 		default:
 
 			// Moxious maneuver has a 7000 id, but
