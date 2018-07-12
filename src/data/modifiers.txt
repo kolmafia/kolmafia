@@ -3704,6 +3704,7 @@ Item	brass turkey knuckles	Familiar Weight: +10
 Item	bugged b&Atilde;&para;n&plusmn;&Atilde;&copy;t	Food Drop: +5, Pants Drop: +5, Candy Drop: +5, Fairy: 1.0, Equips On: "Baby Bugged Bugbear"
 Item	bugged balaclava	Monster Level: +20, Volleyball: 1.0, Equips On: "Baby Bugged Bugbear"
 Item	bugged beanie	Familiar Weight: +10
+# Item burglar/sleep mask: Helps your Cat Burglar take naps more efficiently
 Item	cactus monocle	Familiar Weight: +5
 # can of starch: Makes Origami Towel Crane More Resistant to Wear and Tear
 Item	candied yam pinky ring	Familiar Weight: +5
@@ -9370,6 +9371,7 @@ Item	Keese berry	Effect: "Berry Defensive", Effect Duration: 20
 # Item kidnapped orphan: Take it downtown to Gotpork Orphanage
 Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
+Item	kitten burglar	Free Pull
 Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
 # Knob Goblin firecracker: Deals 2-4 Physical Damage
 Item	Knob Goblin firecracker	Effect: "Missing Fingers", Effect Duration: 3
