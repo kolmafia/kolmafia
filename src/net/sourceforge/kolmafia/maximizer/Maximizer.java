@@ -917,6 +917,11 @@ public class Maximizer
 				}
 				else if ( cmd.startsWith( "synthesize " ) )
 				{
+					// Not available in G-Lover
+					if ( KoLCharacter.inGLover() )
+					{
+						continue;
+					}
 					// You must know the skill
 					if ( !KoLCharacter.hasSkill( "Sweet Synthesis" ) )
 					{
