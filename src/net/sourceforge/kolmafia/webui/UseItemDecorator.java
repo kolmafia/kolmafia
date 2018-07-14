@@ -65,6 +65,10 @@ public class UseItemDecorator
 		case ItemPool.PALINDROME_BOOK_2:
 			UseItemDecorator.decorateVolume2( buffer );
 			break;
+			
+		case ItemPool.POKE_GROW_FERTILIZER:
+			UseItemDecorator.decorateFertilizer( buffer );
+			break;
 		}
 	}
 
@@ -123,6 +127,17 @@ public class UseItemDecorator
 		StringBuilder link = new StringBuilder();
 		link.append( "<a href=\"place.php?whichplace=palindome&action=pal_mroffice\">" );
 		link.append( "[Talk to Mr. Alarm]" );
+		link.append( "</a>" );
+
+		UseItemDecorator.decorateItem( buffer, link );
+	}
+
+	private static void decorateFertilizer( final StringBuffer buffer )
+	{
+		// Add link to campground
+		StringBuilder link = new StringBuilder();
+		link.append( "<a href=\"campground.php\">" );
+		link.append( "[Visit Campground]" );
 		link.append( "</a>" );
 
 		UseItemDecorator.decorateItem( buffer, link );
