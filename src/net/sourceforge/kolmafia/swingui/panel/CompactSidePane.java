@@ -567,6 +567,12 @@ public class CompactSidePane
 				}
 			}
 
+			// Unless we have no familiar equipped, add "no familiar" at end of favorites
+			if ( KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR )
+			{
+				famPopup.add( new FamiliarMenuItem( FamiliarData.NO_FAMILIAR ) );
+			}
+
 			if ( stat.getMenuComponentCount() > 0 )
 			{
 				famPopup.add( stat );
@@ -728,7 +734,8 @@ public class CompactSidePane
 		@Override
 		protected void execute()
 		{
-			CommandDisplayFrame.executeCommand( "familiar " + this.familiar.getRace() );
+			String arg = this.familiar == FamiliarData.NO_FAMILIAR ? " none" : this.familiar.getRace();
+			CommandDisplayFrame.executeCommand( "familiar " + arg );
 		}
 	}
 
