@@ -453,7 +453,15 @@ public class Macrofier
 		}
 		else if ( action.startsWith( "attack" ) )
 		{
-			macro.append( "call mafiaround; attack\n" );
+			// Cannot attack as Jarlsberg
+			if ( KoLCharacter.isJarlsberg() )
+			{
+				macro.append( "abort \"KoLmafia CCS abort - Jarlsberg cannot attack\"\n" );
+			}
+			else
+			{
+				macro.append( "call mafiaround; attack\n" );
+			}
 		}
 		else if ( action.equals( "steal" ) )
 		{

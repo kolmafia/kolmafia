@@ -1147,6 +1147,12 @@ public class FightRequest
 		// User wants a regular attack
 		if ( FightRequest.nextAction.startsWith( "attack" ) )
 		{
+			if ( KoLCharacter.isJarlsberg() )
+			{
+				KoLmafia.updateDisplay( MafiaState.ABORT, "Cannot use 'attack' as Jarlsberg." );
+				this.skipRound();
+				return;
+			}
 			FightRequest.nextAction = "attack";
 			this.addFormField( "action", FightRequest.nextAction );
 			return;
@@ -1160,7 +1166,7 @@ public class FightRequest
 
 		if ( KoLConstants.activeEffects.contains( FightRequest.AMNESIA ) )
 		{
-			if ( !MonsterStatusTracker.willUsuallyMiss() )
+			if ( !MonsterStatusTracker.willUsuallyMiss() && !KoLCharacter.isJarlsberg() )
 			{
 				FightRequest.nextAction = "attack";
 				this.addFormField( "action", FightRequest.nextAction );
@@ -1790,7 +1796,7 @@ public class FightRequest
 
 		if ( skillName.equals( "CLEESH" ) )
 		{
-			if ( FightRequest.castCleesh )
+			if ( FightRequest.castCleesh && !KoLCharacter.isJarlsberg() )
 			{
 				FightRequest.nextAction = "attack";
 				this.addFormField( "action", FightRequest.nextAction );
