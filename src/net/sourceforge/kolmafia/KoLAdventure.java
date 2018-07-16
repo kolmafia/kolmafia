@@ -1339,6 +1339,7 @@ public class KoLAdventure
 		if ( this.areaSummary != null &&
 		     !KoLCharacter.inZombiecore() &&
 		     !KoLCharacter.inNuclearAutumn() &&
+		     !KoLCharacter.inGLover() &&
 		     this.areaSummary.poison() <= Preferences.getInteger( "autoAntidote" ) &&
 		     !KoLCharacter.hasEquipped( ItemPool.get( ItemPool.BEZOAR_RING, 1 ) ) )
 		{
