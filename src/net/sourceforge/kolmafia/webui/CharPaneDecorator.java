@@ -678,8 +678,38 @@ public class CharPaneDecorator
 				buffer.append( "/30 charges" );
 				return buffer;
 			}
+		case FamiliarPool.CAT_BURGLAR:
+			{
+				// Calculate total charges available
+				int charge = Preferences.getInteger( "_catBurglarCharge" );
+				int minChargeCost = 10;
+				int totalHeists = 0;
+				while ( charge > minChargeCost )
+				{
+					totalHeists++;
+					charge -= minChargeCost;
+					minChargeCost *= 2;
+				}
+				int heistsComplete = Preferences.getInteger( "_catBurglarHeistsComplete" );
+				int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
+				if ( totalHeists + bankHeists > heistsComplete )
+				{
+					buffer.append( heistsComplete );
+					buffer.append( "/" );
+					buffer.append( totalHeists + bankHeists );
+					buffer.append( " heists" );
+				}
+				else
+				{
+					buffer.append( charge );
+					buffer.append( "/" );
+					buffer.append( minChargeCost );
+					buffer.append( " to heist" );
+				}
+				return buffer;
+			}
 		}
-		
+
 		if( familiar.hasDrop() )
 		{
 			if ( buffer.length() != 0 )

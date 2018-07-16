@@ -3966,6 +3966,22 @@ public class FightRequest
 				}
 				break;
 
+			case FamiliarPool.CAT_BURGLAR:
+				if ( responseText.contains( "takes note of any security cameras in the area" ) ||
+					responseText.contains( "watches carefully to see if there are any guards and when they change shifts" ) ||
+					responseText.contains( "looks around for unlocked windows and accessible vents" ) ||
+					responseText.contains( "stands around casually, definitely just loitering and not casing the joint at all" ) ||
+					responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
+					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
+				{
+					Preferences.increment( "_catBurglarCharge" );
+				}
+				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" ) )
+				{
+					Preferences.increment( "_catBurglarCharge" );
+				}
+				break;
+
 			}
 
 			if ( KoLCharacter.inRaincore() )
