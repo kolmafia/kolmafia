@@ -265,6 +265,7 @@ public abstract class ChoiceManager
 	private static final Pattern GARBAGE_SHIRT_PATTERN = Pattern.compile( "Looks like you can read roughly (\\d+) scrap" );
 	private static final Pattern BOOMBOX_PATTERN = Pattern.compile( "you can do <b>(\\d+)</b> more" );
 	private static final Pattern BOOMBOX_SONG_PATTERN = Pattern.compile( "&quot;(.*?)&quot;( \\(Keep playing\\)|)" );
+	private static final Pattern HEIST_PATTERN = Pattern.compile( "He shows you a list of potential targets:<p><i>\\((\\d+) more" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -12527,6 +12528,14 @@ public abstract class ChoiceManager
 			if ( text.contains( "slide the weird key into the weird lock" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.WAREHOUSE_KEY );
+			}
+			break;
+
+		case 1320:
+			// A Heist!
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.increment( "_catBurglarHeistsComplete" );
 			}
 			break;
 

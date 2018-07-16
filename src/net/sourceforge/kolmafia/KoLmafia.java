@@ -726,6 +726,21 @@ public abstract class KoLmafia
 			Preferences.setInteger( "kolhsTotalSchoolSpirited", 0 );
 		}
 
+		// Unused cat burglar heists carry over
+		int charge = Preferences.getInteger( "_catBurglarCharge" );
+		int minChargeCost = 10;
+		int totalHeists = 0;
+		while ( charge > minChargeCost )
+		{
+			totalHeists++;
+			charge -= minChargeCost;
+			minChargeCost *= 2;
+		}
+		int heistsComplete = Preferences.getInteger( "_catBurglarHeistsComplete" );
+		int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
+		
+		Preferences.setInteger( "catBurglarBankHeists", bankHeists + totalHeists - heistsComplete );
+
 		Preferences.resetDailies();
 		VYKEACompanionData.initialize( false );
 		ConsequenceManager.updateOneDesc();

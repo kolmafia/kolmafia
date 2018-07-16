@@ -368,6 +368,7 @@ user	cameraMonster
 user	camerasUsed	0
 user	canteenUnlocked	false
 user	carboLoading	0
+user	catBurglarBankHeists	0
 user	cellarLayout	0
 user	charitableDonations	0
 user	chasmBridgeProgress	0
@@ -1325,6 +1326,8 @@ user	_candySummons	0
 user	_carboLoaded	false
 user	_carnieCandyDrops	0
 user	_carrotNoseDrops	0
+user	_catBurglarCharge	0
+user	_catBurglarHeistsComplete	0
 user	_ceciHatUsed	false
 user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
