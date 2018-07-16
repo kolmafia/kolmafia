@@ -8135,6 +8135,10 @@ public class FightRequest
 
 	private static final boolean shouldUseAntidote()
 	{
+		if ( KoLCharacter.inGLover() )
+		{
+			return false;
+		}
 		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
 		{
 			return false;

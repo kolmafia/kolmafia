@@ -654,6 +654,10 @@ public class Macrofier
 
 	public static final void macroUseAntidote( StringBuffer macro )
 	{
+		if ( KoLCharacter.inGLover() )
+		{
+			return;
+		}
 		if ( !KoLConstants.inventory.contains( FightRequest.ANTIDOTE ) )
 		{
 			return;
