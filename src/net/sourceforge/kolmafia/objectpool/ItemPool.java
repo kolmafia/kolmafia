@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -3210,6 +3211,12 @@ public class ItemPool
 	public static final void suggestIdentify( final List<Integer> items,
 		final int minId, final int maxId, final String baseName )
 	{
+		// Can't autoidentify in G-Lover
+		if ( KoLCharacter.inGLover() )
+		{
+			return;
+		}
+
 		ArrayList<Integer> possible = new ArrayList<Integer>();
 		int unknown = 0;
 
