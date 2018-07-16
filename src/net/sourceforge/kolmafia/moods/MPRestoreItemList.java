@@ -270,7 +270,7 @@ public abstract class MPRestoreItemList
 
 		public boolean isCombatUsable()
 		{
-			return this.isCombatUsable;
+			return this.isCombatUsable && this.usableInCurrentPath();
 		}
 
 		public int compareTo( final MPRestoreItem o )
