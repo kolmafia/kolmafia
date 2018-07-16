@@ -4177,7 +4177,7 @@ public class FightRequest
 		String pref = Preferences.getString( "autoOlfact" );
 		if ( !pref.equals( "" ) && !KoLConstants.activeEffects.contains( EffectPool.get( EffectPool.ON_THE_TRAIL ) ) )
 		{
-			boolean haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) &&
+			boolean haveSkill = KoLCharacter.hasSkill( "Transcendent Olfaction" ) && !KoLCharacter.inGLover() &&
 				( Preferences.getBoolean( "autoManaRestore" ) || KoLCharacter.getCurrentMP() >= SkillDatabase.getMPConsumptionById( SkillPool.OLFACTION ) );
 			boolean haveItem = KoLConstants.inventory.contains( FightRequest.EXTRACTOR );
 			if ( (haveSkill | haveItem) && shouldTag( pref, "autoOlfact triggered" ) )
