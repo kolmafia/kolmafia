@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.EnumSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -128,7 +129,7 @@ public class CraftRequest
 
 		while ( this.remaining > 0 && KoLmafia.permitsContinue() )
 		{
-			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod, EnumSet.noneOf(CraftingRequirements.class) ) )
+			if ( !KoLCharacter.inGLover() && !CreateItemRequest.autoRepairBoxServant( this.mixingMethod, EnumSet.noneOf(CraftingRequirements.class) ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				return;

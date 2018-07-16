@@ -1575,6 +1575,7 @@ public class ConcoctionDatabase
 			KoLCharacter.getAvailableMeat() >= toolCost &&
 			InventoryManager.canUseNPCStores();
 		boolean willBuyServant = Preferences.getBoolean( "autoRepairBoxServants" ) &&
+			!KoLCharacter.inGLover() &&
 			( InventoryManager.canUseMall() ||
 			  InventoryManager.canUseClanStash() );
 
@@ -2446,6 +2447,7 @@ public class ConcoctionDatabase
 		// cooking tests are made after item creation tests.
 
 		return Preferences.getBoolean( "autoRepairBoxServants" ) &&
+			!KoLCharacter.inGLover() &&
 			( ConcoctionPool.get( servantId ).total > 0 ||
 			  ConcoctionPool.get( clockworkId ).total > 0 );
 	}
