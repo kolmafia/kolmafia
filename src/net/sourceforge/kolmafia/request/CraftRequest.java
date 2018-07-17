@@ -129,7 +129,7 @@ public class CraftRequest
 
 		while ( this.remaining > 0 && KoLmafia.permitsContinue() )
 		{
-			if ( !KoLCharacter.inGLover() && !CreateItemRequest.autoRepairBoxServant( this.mixingMethod, EnumSet.noneOf(CraftingRequirements.class) ) )
+			if ( !CreateItemRequest.autoRepairBoxServant( this.mixingMethod, EnumSet.noneOf(CraftingRequirements.class) ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				return;
