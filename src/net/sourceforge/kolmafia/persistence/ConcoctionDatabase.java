@@ -1886,7 +1886,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE[ KoLConstants.COOK_FANCY ] = null;
 		}*/
 		// We might not care if cooking takes adventures
-		else if ( Preferences.getBoolean( "requireBoxServants" ) )
+		else if ( Preferences.getBoolean( "requireBoxServants" ) && !KoLCharacter.inGLover() )
 		{
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.COOK_FANCY, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.COOK_FANCY, 0 );
@@ -1996,7 +1996,7 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE[ KoLConstants.MIX_FANCY ] = null;
 		}*/
 		// We might not care if mixing takes adventures
-		else if ( Preferences.getBoolean( "requireBoxServants" ) )
+		else if ( Preferences.getBoolean( "requireBoxServants" ) && !KoLCharacter.inGLover() )
 		{
 			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.MIX_FANCY, 0 );
 			ConcoctionDatabase.CREATION_COST.put( CraftingType.MIX_FANCY, 0 );

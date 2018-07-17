@@ -1037,6 +1037,13 @@ public class CreateItemRequest
 
 	private static boolean useBoxServant( final int servant, final int clockworkServant )
 	{
+		// In G-Lover we cannot have a Box Servant
+		if ( KoLCharacter.inGLover() )
+		{
+			return ( KoLCharacter.getAdventuresLeft() > 0 ||
+			  ConcoctionDatabase.getFreeCraftingTurns() > 0 );
+		}
+
 		// We have no box servant.
 
 		if ( !Preferences.getBoolean( "autoRepairBoxServants" ) )
