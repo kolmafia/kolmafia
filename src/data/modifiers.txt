@@ -6906,6 +6906,7 @@ Effect	You've Got Questions	Avatar: "The Inquisitor"
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
 Effect	Your Eyes are Peeled!	Item Drop: +25
+Effect	Your Favorite Flavor	Hot Damage: +3, Cold Damage: +3, Stench Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Effect	Your Fifteen Minutes	Hot Damage: +15, Hot Spell Damage: +15, Initiative: +15
 Effect	Your Head is That of a Hawk	Avatar: "cultist"
 Effect	Your Interest is Peaked	Item Drop: +10, Initiative: +10, Stench Resistance: +1
@@ -9603,6 +9604,7 @@ Item	My Own Pen Pal kit	Free Pull
 Item	myrrh-soaked, chocolate-covered bacon bath ball	Effect: "Incensed", Effect Duration: 10
 Item	mysterious chemical residue	Effect Duration: 5
 Item	mysterious chest	Free Pull
+Item	mystery lollipop	Effect: "Your Favorite Flavor", Effect Duration: 5
 # Item Nadsat berry: Improves critical hit chance and energizes you for a while (also gives Berry Experiential)
 Item	Nadsat berry	Effect: "Berry Critical", Effect Duration: 20
 Item	nail file	Effect: "Extra-Sharp Weapon", Effect Duration: 20
