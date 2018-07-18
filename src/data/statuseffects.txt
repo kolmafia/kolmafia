@@ -2362,7 +2362,7 @@
 2361	Paging Betty	afuescroll.gif	0c178972a80df4e722f9ab86b865b65d	use 1 Bettie page
 2362	Bandersnatched	potion13.gif	4189b8bef42320e88cd72704b422d55b	use 1 tonic o' Banderas
 2363	Graham Crackling	grahamcracker.gif	0fbfda0a077a76f7ba4525f00e1c19c5	use 1 heather graham cracker
-2364
+2364	Tasting the Rainbow	rainbowbean.gif	ac1d415465e0db23a5c9f54337ce99bb	use 1 rainbow jellybean
 2365	Your Favorite Flavor	mysterylolly.gif	a2e0a81a5da496b7e838637486fae1a2	use 1 mystery lollipop
 2366	A Girl Named Sue	catprod.gif	eef202f6b563297c3a25b04f73afeaa4	fortune buff susie
 2367	There's No N in Love	pressie.gif	bcdf42bc9f425f052b44dc098d6a903e	fortune buff hagnk

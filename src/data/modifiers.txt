@@ -6569,6 +6569,7 @@ Effect	Tapped In	Experience: +5
 Effect	Tar-Struck	Stench Damage: +20
 # Effect Taste of the God Lobster: Increases Stats from Food
 # Taste the Inferno: It burns!  It burns!
+Effect	Tasting the Rainbow	Hot Damage: +2, Cold Damage: +2, Stench Damage: +2, Spooky Damage: +2, Sleaze Damage: +2
 Effect	Taunt of Horus	Combat Rate: +20
 Effect	Taurus Rising	Muscle Percent: +50
 Effect	Tea-hee	Experience: +5
@@ -9923,6 +9924,7 @@ Item	radium-flavored potato chips	Effect: "Radium Radicality", Effect Duration: 
 # Rain-Doh orange agent: Deals Physical Damage for Meat
 # Rain-Doh orange agent: (doesn't go away when used)
 # rainbow bomb: Deals 20-30 Physical Damage and 20-30 Prismatic Damage
+Item	rainbow jellybean	Effect: "Tasting the Rainbow", Effect Duration: 5
 Item	Rainbow's Gravity	Skill: "Rainbow Gravitation"
 Item	rattler gland	Effect: "Venomous Weapon", Effect Duration: 20
 # rattler rattle: Weakens enemies by 25%
