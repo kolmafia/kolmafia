@@ -9767,7 +9767,7 @@
 9741	Mysterious Blue Box	153708947	dreadbox.gif	none	t	0
 9742	Mysterious Black Box	126440301	dreadbox.gif	none	t	0
 9743
-9744
+9744	mystery lollipop	803282805	mysterylolly.gif	usable	t,d	1
 9745	Love Potion #XYZ	863678027	potion9.gif	usable	q	0
 9746	rhinestone	402331722	rhinestone.gif	multiple	t	0
 9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
