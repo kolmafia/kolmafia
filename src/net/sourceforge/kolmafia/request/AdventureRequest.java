@@ -327,8 +327,8 @@ public class AdventureRequest
 				// it didn't do that, you can't adventure there.
 				KoLmafia.updateDisplay( MafiaState.PENDING, "You can't adventure there." );
 				SorceressLairManager.parseTowerResponse( "", this.responseText );
+				return;
 			}
-			return;
 		}
 
 		// We're missing an item, haven't been given a quest yet, or
