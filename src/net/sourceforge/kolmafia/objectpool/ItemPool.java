@@ -3024,6 +3024,7 @@ public class ItemPool
 	public static final int GARLAND_OF_GREATNESS = 9910;
 	public static final int GLUED_BOO_CLUE = 9913;
 	public static final int BOOMBOX = 9919;
+	public static final int GUIDE_TO_SAFARI = 9921;
 	public static final int SPECIAL_SEASONING = 9924;
 	public static final int NIGHTMARE_FUEL = 9925;
 
