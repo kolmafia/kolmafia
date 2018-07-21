@@ -600,6 +600,8 @@ user	grimoireSkillsHardcore	none
 user	grimoireSkillsSoftcore	Summon Hilarious Objects
 user	grimstoneCharge	0
 user	guardTurtlesFreed	0
+user	guideToSafariAvailable	true
+user	guideToSafariCost	1000
 user	guyMadeOfBeesCount	0
 user	guyMadeOfBeesDefeated	false
 user	haciendaLayout	000000000000000000
@@ -1065,6 +1067,7 @@ user	romanticTarget
 user	royalty
 user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
+user	safariSwagger	0
 user	safePickpocket	true
 user	schoolOfHardKnocksDiplomaAvailable	true
 user	schoolOfHardKnocksDiplomaCost	1000
