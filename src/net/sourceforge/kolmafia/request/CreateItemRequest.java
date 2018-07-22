@@ -451,7 +451,7 @@ public class CreateItemRequest
 
 		while ( this.quantityNeeded > 0 && KoLmafia.permitsContinue() )
 		{
-			if ( !KoLCharacter.inGLover() && !this.autoRepairBoxServant() )
+			if ( !this.autoRepairBoxServant() )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Auto-repair was unsuccessful." );
 				break;
