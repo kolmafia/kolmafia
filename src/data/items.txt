@@ -9922,9 +9922,9 @@
 9896	dragon slaying sword	566900199	fr_sword.gif	weapon	q	0
 9897	notarized arrest warrant	208330367	document.gif	none	q	0
 9898	two meat muck	825078093	wine.gif	drink	t,d	200
-9899
-9900
-9901
+9899	chocolate Ogre Chieftain	692301606	chocogre.gif	food	t,d	5
+9900	chocolate &quot;Phoenix&quot;	455592789	chocphoenix.gif	food	t,d	5
+9901	chocolate Spider Queen	391931691	chocspiderqueen.gif	food	t,d	5
 9902	hipster cocktail	893473589	analjar_empty.gif	drink	t,d	200
 9903	God Lobster's Scepter	153304640	godlob_scepter.gif	familiar	q	0
 9904	God Lobster's Ring	831191290	godlob_ring.gif	familiar	q	0
