@@ -3251,18 +3251,16 @@ public class GenericRequest
 			break;
 
 		case ItemPool.GENIE_BOTTLE:
-			itemName = "genie bottle";
-			// Do not ignore special monsters here. That is handled
-			// elsewhere, just for the cases that will be a combat.
-			break;
-
 		case ItemPool.POCKET_WISH:
-			itemName = "pocket wish";
-			// Do not consume the item here.  The player can walk away
-			// and keep the pocket wish still, so it is handled later.
 			// Do not ignore special monsters here. That is handled
 			// elsewhere, just for the cases that will be a combat.
-			break;
+
+			// Do not consume the item here, since the player can
+			// walk away
+
+			// Lastly, do not log item usage with a turn counter,
+			// since only combats will use a turn.
+			return;
 
 		case ItemPool.CLARIFIED_BUTTER:
 			itemName = "Dish of Clarified Butter";

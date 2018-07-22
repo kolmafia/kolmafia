@@ -36,8 +36,11 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -149,7 +152,20 @@ public class GenieRequest
 		if ( responseText.contains( ">Fight!<" ) )
 		{
 			Preferences.increment( "_genieFightsUsed" );
+
+			KoLAdventure.lastVisitedLocation = null;
+			KoLAdventure.lastLocationName = null;
+			KoLAdventure.lastLocationURL = "choice.php";
+			KoLAdventure.setNextAdventure( "None" );
+
 			EncounterManager.ignoreSpecialMonsters();
+
+			String message = "[" + KoLAdventure.getAdventureCount() + "] genie summoned monster";
+			RequestLogger.printLine();
+			RequestLogger.printLine( message );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
 		}
 	}
 
