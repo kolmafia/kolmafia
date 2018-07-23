@@ -315,7 +315,7 @@ Herringtini	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 Hi-Octane Peppermint Jet Fuel	5	5		10-15	0	0	0
 high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Meat drop, +25% Item drop)
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop)
-hipster cocktail	4	4	good	0	0	0	0	Unspaded, 10 Artisanal Satiaton (+3 exp/fight)
+hipster cocktail	4	4	good	11-13	10-15	10-15	10-15	10 Artisanal Satiaton (+3 exp/fight)
 Hodgman's blanket	2	15	EPIC	14-16	300-800	300-800	300-800
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
@@ -403,7 +403,7 @@ moreltini	1	3	awesome	3-5	0	0	10-20	40 Truffle Tango (+50 Item drop)
 Morlock's Mark Bourbon	4	4	awesome	10-15	10-28	10-28	10-28
 morning dew	1	1	awesome	4	4-6	0	0	40 Granolarrrgh (+20 Stench Damage & Stench Spell Damage)
 Morto Moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
-mourning wine	2	1	good	0	0	0	0	Unspaded
+mourning wine	2	1	good	5-7	30-50	30-50	30-50
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop)
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
@@ -597,7 +597,7 @@ tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spel
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
-two meat muck	3	4	good	0	0	0	0	Unspaded
+two meat muck	3	4	good	8-9	40-50	40-50	40-50
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 unflavored wine cooler	2	1	decent	4	0	0	0
 unidentified drink	3	1		6-20	6	6	6	very random stat gain, average only

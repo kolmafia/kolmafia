@@ -9921,7 +9921,7 @@
 9895	charged druidic orb	571306417	druidorb2.gif	offhand	q	0
 9896	dragon slaying sword	566900199	fr_sword.gif	weapon	q	0
 9897	notarized arrest warrant	208330367	document.gif	none	q	0
-9898	two meat muck	825078093	wine.gif	drink	t,d	200
+9898	two meat muck	825078093	wine.gif	drink	t,d	200	bottles of two meat muck
 9899	chocolate Ogre Chieftain	692301606	chocogre.gif	food	t,d	5
 9900	chocolate &quot;Phoenix&quot;	455592789	chocphoenix.gif	food	t,d	5
 9901	chocolate Spider Queen	391931691	chocspiderqueen.gif	food	t,d	5
