@@ -639,10 +639,11 @@ public class CustomCombatPanel
 
 			this.centerPanel.add( CustomCombatPanel.this.availableScripts, BorderLayout.NORTH );
 
-			JPanel extraButtons = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
+			JPanel extraButtons = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
 
 			extraButtons.add( new ThreadedButton( "new", new NewScriptRunnable() ) );
 			extraButtons.add( new ThreadedButton( "copy", new CopyScriptRunnable() ) );
+			extraButtons.add( new ThreadedButton( "delete", new DeleteScriptRunnable() ) );
 
 			JPanel buttonHolder = new JPanel( new BorderLayout() );
 			buttonHolder.add( extraButtons, BorderLayout.NORTH );
@@ -697,6 +698,24 @@ public class CustomCombatPanel
 
 				CombatActionManager.copyStrategyLookup( name );
 				CombatActionManager.loadStrategyLookup( name );
+				CustomCombatPanel.this.refreshCombatTree();
+			}
+		}
+
+		public class DeleteScriptRunnable
+			implements Runnable
+		{
+			public void run()
+			{
+				String strategy = CombatActionManager.getStrategyLookupName();
+
+				if ( !InputFieldUtilities.confirm( "Delete " + strategy + "?" ) )
+				{
+					return;
+				}
+
+				CombatActionManager.deleteCurrentStrategyLookup();
+				CombatActionManager.loadStrategyLookup( "default" );
 				CustomCombatPanel.this.refreshCombatTree();
 			}
 		}
