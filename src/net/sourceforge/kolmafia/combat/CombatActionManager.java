@@ -173,6 +173,13 @@ public abstract class CombatActionManager
 		CombatActionManager.availableLookups.setSelectedItem( name );
 	}
 
+	public static final void deleteCurrentStrategyLookup()
+	{
+		CombatActionManager.availableLookups.remove( CombatActionManager.getStrategyLookupName() );
+		File file = CombatActionManager.getStrategyLookupFile();
+		file.delete();
+	}
+
 	public static final String getStrategyLookupName()
 	{
 		String script = Preferences.getString( "customCombatScript" );
