@@ -684,7 +684,7 @@ public class CharPaneDecorator
 				int charge = Preferences.getInteger( "_catBurglarCharge" );
 				int minChargeCost = 10;
 				int totalHeists = 0;
-				while ( charge > minChargeCost )
+				while ( charge >= minChargeCost )
 				{
 					totalHeists++;
 					charge -= minChargeCost;
