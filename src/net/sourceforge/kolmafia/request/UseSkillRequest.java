@@ -225,6 +225,8 @@ public class UseSkillRequest
 
 	public static final AdventureResult SHAKESPEARES_SISTERS_ACCORDION = ItemPool.get( ItemPool.SHAKESPEARES_SISTERS_ACCORDION, 1 );
 	public static final AdventureResult BASS_CLARINET = ItemPool.get( ItemPool.BASS_CLARINET, 1 );
+	public static final AdventureResult PANTOGRAM_PANTS = ItemPool.get( ItemPool.PANTOGRAM_PANTS, 1 );
+	public static final AdventureResult KREMLIN_BRIEFCASE = ItemPool.get( ItemPool.KREMLIN_BRIEFCASE, 1 );
 
 	public static final AdventureResult PLEXI_WATCH = ItemPool.get( ItemPool.PLEXIGLASS_POCKETWATCH, 1 );
 	public static final AdventureResult BRIM_BRACELET = ItemPool.get( ItemPool.BRIMSTONE_BRACELET, 1 );
@@ -244,6 +246,8 @@ public class UseSkillRequest
 	private static final AdventureResult[] AVOID_REMOVAL = new AdventureResult[]
 	{
 		UseSkillRequest.BASS_CLARINET,	// -3
+		UseSkillRequest.PANTOGRAM_PANTS,	// -3
+		UseSkillRequest.KREMLIN_BRIEFCASE,	// -3
 		UseSkillRequest.BRIM_BRACELET,	// -3
 		UseSkillRequest.PLEXI_WATCH,	// -3
 		UseSkillRequest.POCKET_SQUARE,	// -3
@@ -1149,6 +1153,28 @@ public class UseSkillRequest
 			if ( !UseSkillRequest.canSwitchToItem( UseSkillRequest.AVOID_REMOVAL[ i ] ) )
 			{
 				continue;
+			}
+
+			// Items in G-Lover don't help unless they have G's
+			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( UseSkillRequest.AVOID_REMOVAL[ i ].getName() ) )
+			{
+				continue;
+			}
+
+			// Some items only sometimes help
+			if ( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() == ItemPool.PANTOGRAM_PANTS )
+			{
+				if ( !Preferences.getString( "_pantogramModifier" ).contains( "Mana Cost" ) )
+				{
+					continue;
+				}
+			}
+			else if ( UseSkillRequest.AVOID_REMOVAL[ i ].getItemId() == ItemPool.KREMLIN_BRIEFCASE )
+			{
+				if ( Modifiers.getItemModifiers( ItemPool.KREMLIN_BRIEFCASE ).get( Modifiers.MANA_COST ) == 0 )
+				{
+					continue;
+				}
 			}
 
 			// If you won't lose max hp, current mp, or songs, use it
