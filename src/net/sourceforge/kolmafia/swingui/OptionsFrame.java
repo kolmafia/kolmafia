@@ -365,6 +365,7 @@ public class OptionsFrame
 				{},
 
 				{ "sharePriceData", "Share recent Mall price data with other users" },
+				{ "showIgnoringStorePrices", "Show prices in stores ignoring you" },
 			};
 
 			this.setOptions( options );
