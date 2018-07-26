@@ -43,11 +43,15 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
+
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.session.StoreManager;
+
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest
@@ -439,7 +443,8 @@ public class MallSearchRequest
 				// and discovered that it is disabled or ignoring you, skip it.
 
 				if ( MallPurchaseRequest.disabledStores.contains( shopId ) ||
-				     MallPurchaseRequest.ignoringStores.contains( shopId ))
+					( !Preferences.getBoolean( "showIgnoringStorePrices" ) &&
+					MallPurchaseRequest.ignoringStores.contains( shopId ) ) )
 				{
 					continue;
 				}

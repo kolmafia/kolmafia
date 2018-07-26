@@ -1083,6 +1083,7 @@ user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false
 user	showGainsPerUnit	false
+user	showIgnoringStorePrices	false
 user	showNoSummonOnly	false
 user	showTurnFreeOnly	false
 user	shrubGarland
