@@ -1577,8 +1577,6 @@ public class Evaluator
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
 			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
 			best.attachment = secondBest.attachment = item;
-			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
-			Arrays.fill( secondBest.equipment, EquipmentRequest.UNEQUIP );
 			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
 			best.setEnthroned( bestCarriedFamiliar );
 			secondBest.setEnthroned( secondBestCarriedFamiliar );
@@ -1596,8 +1594,6 @@ public class Evaluator
 			MaximizerSpeculation secondBest = new MaximizerSpeculation();
 			CheckedItem item = new CheckedItem( ItemPool.HATSEAT, equipLevel, maxPrice, priceLevel );
 			best.attachment = secondBest.attachment = item;
-			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
-			Arrays.fill( secondBest.equipment, EquipmentRequest.UNEQUIP );
 			best.equipment[ EquipmentManager.HAT ] = secondBest.equipment[ EquipmentManager.HAT ] = item;
 			best.setEnthroned( bestCarriedFamiliar );
 			secondBest.setEnthroned( secondBestCarriedFamiliar );
@@ -1614,7 +1610,6 @@ public class Evaluator
 				{
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					spec.attachment = item;
-					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ EquipmentManager.HAT ] = item;
 					spec.setEnthroned( familiar );
 					spec.setUnscored();
@@ -1646,7 +1641,6 @@ public class Evaluator
 		if ( this.cardNeeded )
 		{
 			MaximizerSpeculation best = new MaximizerSpeculation();
-			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
 
 			// Check each card in sleeve to see if they are worthwhile
 			for ( int c = 4967; c <= 5007; c++ )
@@ -1658,7 +1652,6 @@ public class Evaluator
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					CheckedItem sleeve = new CheckedItem( ItemPool.CARD_SLEEVE, equipLevel, maxPrice, priceLevel );
 					spec.attachment = sleeve;
-					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ EquipmentManager.OFFHAND ] = sleeve;
 					spec.equipment[ EquipmentManager.CARDSLEEVE ] = card;
 					if ( spec.compareTo( best ) > 0 )
@@ -1685,7 +1678,6 @@ public class Evaluator
 				MaximizerSpeculation best = new MaximizerSpeculation();
 				CheckedItem edPiece = new CheckedItem( ItemPool.CROWN_OF_ED, equipLevel, maxPrice, priceLevel );
 				best.attachment = edPiece;
-				Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
 				bestEdPiece = Preferences.getString( "edPiece" );
 				best.equipment[ EquipmentManager.HAT ] = edPiece;
 				best.setEdPiece( bestEdPiece );
@@ -1701,7 +1693,6 @@ public class Evaluator
 					}
 					MaximizerSpeculation spec = new MaximizerSpeculation();
 					spec.attachment = edPiece;
-					Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 					spec.equipment[ EquipmentManager.HAT ] = edPiece;
 					spec.setEdPiece( animal );
 					if ( spec.compareTo( best ) > 0 )
@@ -1721,7 +1712,6 @@ public class Evaluator
 			MaximizerSpeculation best = new MaximizerSpeculation();
 			CheckedItem snowsuit = new CheckedItem( ItemPool.SNOW_SUIT, equipLevel, maxPrice, priceLevel );
 			best.attachment = snowsuit;
-			Arrays.fill( best.equipment, EquipmentRequest.UNEQUIP );
 			bestSnowsuit = Preferences.getString( "snowsuit" );
 			best.equipment[ EquipmentManager.FAMILIAR ] = snowsuit;
 			best.setSnowsuit( bestSnowsuit );
@@ -1737,7 +1727,6 @@ public class Evaluator
 				}
 				MaximizerSpeculation spec = new MaximizerSpeculation();
 				spec.attachment = snowsuit;
-				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ EquipmentManager.FAMILIAR ] = snowsuit;
 				spec.setSnowsuit( decoration );
 				if ( spec.compareTo( best ) > 0 )
@@ -1775,7 +1764,6 @@ public class Evaluator
 						slot - EquipmentManager.ALL_SLOTS ) );
 					useSlot = EquipmentManager.FAMILIAR;
 				}
-				Arrays.fill( spec.equipment, EquipmentRequest.UNEQUIP );
 				spec.equipment[ useSlot ] = item;
 				int itemId = item.getItemId();
 				if ( itemId == ItemPool.HATSEAT )
