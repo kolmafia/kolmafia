@@ -342,7 +342,8 @@ public class ProfileRequest
 			}
 
 			int itemId = -1;
-			while ( EquipmentDatabase.contains( itemId = ItemDatabase.getItemId( token = st.nextToken() ) ) )
+			while ( st.hasMoreTokens() && 
+				EquipmentDatabase.contains( itemId = ItemDatabase.getItemId( token = st.nextToken() ) ) )
 			{
 				switch ( ItemDatabase.getConsumptionType( itemId ) )
 				{
