@@ -4516,7 +4516,9 @@ public class DailyDeedsPanel
 			boolean kf = KoLCharacter.kingLiberated();
 			boolean have = KoLConstants.campground.contains( ItemPool.get( ItemPool.POTTED_TEA_TREE, 1 ) );
 			boolean available = !Preferences.getBoolean( "_pottedTeaTreeUsed" );
-			boolean allowed = StandardRequest.isAllowed( "Items", "potted tea tree" );
+			// Can pick in standard at present
+			// boolean allowed = StandardRequest.isAllowed( "Items", "potted tea tree" );
+			boolean allowed = true;
 			boolean limited = Limitmode.limitItem( ItemPool.POTTED_TEA_TREE );
 			this.setShown( ( !bm || kf ) && have && allowed && !limited );
 			if ( !available )
