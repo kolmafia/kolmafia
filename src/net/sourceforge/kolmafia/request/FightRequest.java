@@ -2301,7 +2301,7 @@ public class FightRequest
 			int adventure = KoLAdventure.lastAdventureId();
 
 			// Pocket Familiars changes everything
-			FightRequest.pokefam = KoLCharacter.inPokefam();
+			FightRequest.pokefam = KoLCharacter.inPokefam() && !location.contains( "fight.php" );
 
 			// Adventuring in the Haiku Dungeon
 			// Currently have Haiku State of Mind
