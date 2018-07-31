@@ -1573,6 +1573,7 @@ public class ResultProcessor
 		case ItemPool.MURPHYS_FLAG:
 		case ItemPool.SHIELD_OF_BROOK:
 			QuestDatabase.advanceQuest( Quest.SHEN );
+			Preferences.setString( "shenQuestItem", result.getName() );
 			break;
 
 		case ItemPool.PALINDROME_BOOK_2:

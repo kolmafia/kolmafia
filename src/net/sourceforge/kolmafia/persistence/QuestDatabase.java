@@ -173,6 +173,7 @@ public class QuestDatabase
 	public static final Pattern GHOST_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with (?:a|an|the|some) (.*?)!" );
 	public static final Pattern SHEN_PATTERN = Pattern.compile( "Recover (.*?) from" );
+	public static final Pattern SHEN2_PATTERN = Pattern.compile( "Take (.*?) back" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -359,6 +360,14 @@ public class QuestDatabase
 			if ( matcher.find() )
 			{
 				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
+			}
+			else
+			{
+				matcher = QuestDatabase.SHEN2_PATTERN.matcher( details );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
+				}
 			}
 		}
 
