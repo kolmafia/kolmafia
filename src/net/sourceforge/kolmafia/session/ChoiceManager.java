@@ -266,6 +266,7 @@ public abstract class ChoiceManager
 	private static final Pattern BOOMBOX_PATTERN = Pattern.compile( "you can do <b>(\\d+)</b> more" );
 	private static final Pattern BOOMBOX_SONG_PATTERN = Pattern.compile( "&quot;(.*?)&quot;( \\(Keep playing\\)|)" );
 	private static final Pattern HEIST_PATTERN = Pattern.compile( "He shows you a list of potential targets:<p><i>\\((\\d+) more" );
+	private static final Pattern SHEN_PATTERN = Pattern.compile( "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -8695,11 +8696,23 @@ public abstract class ChoiceManager
 
 		case 852:
 			// Shen Copperhead, Jerk
+			// Deliberate fallthrough
 		case 853:
-			// Shen Copperhead, Huge Jerk
+		{	// Shen Copperhead, Huge Jerk
+			Matcher matcher = ChoiceManager.SHEN_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
+			}
+		}
+			// Deliberate fallthrough
 		case 854:
 			// Shen Copperhead, World's Biggest Jerk
 			QuestDatabase.advanceQuest( Quest.SHEN );
+			if ( ChoiceManager.lastChoice == 854 )
+			{
+				Preferences.setString( "shenQuestItem", "" );
+			}
 
 			// You will have exactly one of these items to ger rid of
 			ResultProcessor.removeItem( ItemPool.FIRST_PIZZA );
@@ -13006,6 +13019,17 @@ public abstract class ChoiceManager
 						ResultProcessor.processItem( ItemPool.GLASS, number - glass );
 					}
 				}
+			}
+			break;
+		}
+
+		case 851:
+		{
+			// Shen Copperhead, Nightclub Owner
+			Matcher matcher = ChoiceManager.SHEN_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
 			}
 			break;
 		}

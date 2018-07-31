@@ -172,6 +172,7 @@ public class QuestDatabase
 	public static final Pattern ORACLE_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 	public static final Pattern GHOST_QUEST_PATTERN = Pattern.compile( "<b>(.*?)</b>" );
 	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with (?:a|an|the|some) (.*?)!" );
+	public static final Pattern SHEN_PATTERN = Pattern.compile( "Recover (.*?) from" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -348,6 +349,16 @@ public class QuestDatabase
 				Preferences.setString( "_newYouQuestSharpensDone", matcher.group( 2 ) );
 				Preferences.setString( "_newYouQuestSharpensToDo", matcher.group( 3 ) );
 				Preferences.setString( "_newYouQuestMonster", matcher.group( 4 ) );
+			}
+		}
+
+			// Get Shen quest target
+		if ( pref.equals( Quest.SHEN.getPref() ) )
+		{
+			Matcher matcher = QuestDatabase.SHEN_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
 			}
 		}
 
