@@ -27,7 +27,7 @@ antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
 astral energy drink	8	1	awesome	29-35	0	0	0
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
-bakelite bits	3	12	awesome	0	0	0	0	Unspaded
+bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)
 beefy pill	1	4	decent	0	0	0	0	30 Beefy (+10 DR, +1 all res)
 bit-o-cactus	1	1	good	0	0	10-12	0
@@ -140,7 +140,7 @@ pearlescent oyster egg	1	5	EPIC	0	0	0	0	50 Pearly Vision (+25% item drop)
 penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
 pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
-porcelain powder	3	1	awesome	10	0	0	0
+porcelain powder	3	1	awesome	0	100-120	100-120	100-120
 powdered gold	4	1	good	5-10	20-30	20-30	20-30
 powdered oxygen	3	4	good	0	0	0	0	10 Hyperoxygenated Blood (Breath Underwater)
 prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
@@ -184,7 +184,7 @@ vitamin G pill	1	6	good	0	0	0	0	5 Riboflavin' (Pickin' Pockets like a G)
 voodoo snuff	3	13	good	8	0	100-150	0
 watered-down Red Minotaur	2	1	crappy	0	0	0	0	+1 PvP fight, 5 Water Wings
 wickerbits	2	12	good	0	0	0	0	Unspaded
-wrought-iron flakes	3	12	awesome	0	0	0	0	Unspaded
+wrought-iron flakes	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 yellow paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Egg-headedness (+10% mys)
 yellow polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Egg-cellent Vocabulary (+10% mox)
 yellow striped oyster egg	1	1	awesome	0	11-15	0	0	20 Egg-stra Arm (+10% mus)
