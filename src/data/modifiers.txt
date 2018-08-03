@@ -1921,6 +1921,7 @@ Item	bread basket	Food Drop: +20
 Item	BRICKO bulwark	Maximum HP: +6, Damage Reduction: 3
 Item	Brimstone Bunker	Muscle Percent: +50, Moxie Percent: -20, Damage Reduction: 25, Brimstone
 Item	brown crock marble	Stench Spell Damage: +35
+Item	Brutal brogues	Muscle Percent: +50, Weapon Damage Percent: +50, Familiar Weight: +8, Experience (Muscle): +4, Lasts Until Rollover
 Item	bumblebee marble	Spell Damage: +50
 Item	burning paper crane	Spooky Resistance: +3, Maximum HP: +25, Maximum MP: +25, Familiar Weight: +10, Lasts Until Rollover
 Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
@@ -2619,6 +2620,7 @@ Item	diving muff	Single Equip, Initiative Penalty: [10*env(underwater)], Item Dr
 # doll-eye amulet: +40% Item Drops in Spookyraven Manor
 Item	doll-eye amulet	Single Equip, Item Drop: [40*(zone(Manor0)+zone(Manor1)+zone(Manor2)+zone(Manor3))]
 Item	dope gangsta bling-bling	Moxie: +1
+Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
 # Dreadsylvania Auditor's badge: Lets you find 5% more Kruegerands
 Item	Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
@@ -2932,6 +2934,7 @@ Item	Nickel Gamma of Frugality	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop
 Item	nicksilver ring	Pickpocket Chance: +15, Item Drop: +15, Weapon Drop: +30, Single Equip
 Item	night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 Item	Nose Ring of Putrescence	Hot Resistance: +3, Spooky Resistance: +3, Single Equip
+Item	Nouveau nosering	Moxie Percent: +50, Item Drop: +25, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): +4, Lasts Until Rollover
 # Novelty Belt Buckle of Violence: Casts reflections of your spells
 Item	Novelty Belt Buckle of Violence	Muscle Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip
 Item	novelty tattoo sleeves	Muscle: +6, PvP Fights: +1, Single Equip
@@ -4627,6 +4630,8 @@ Effect	Barrel of Laughs	Maximum HP: +90
 Effect	Bartenderganger	Avatar: "Copperhead Club bartender"
 Effect	Bastard!	Weapon Damage: +12
 Effect	Basted	Sleaze Damage: +10, Damage Reduction: -2
+Effect	Bastille Braggadocio	Moxie: +25, Initiative: +25, Meat Drop: +25
+Effect	Bastille Budgeteer	Muscle: +25, Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Bat Attitude	Spell Damage Percent: +100
 Effect	Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Effect	Bats in the Belfry	Mysticality Percent: +10
@@ -4725,6 +4730,7 @@ Effect	Blue Eyed Devil	Experience Percent (Mysticality): +50
 Effect	Blue Swayed	Experience (familiar): [ceil(min(T,50)/5)], Familiar Weight: [ceil(min(T,50)/10)]
 Effect	Blue Tongue	Item Drop: +30
 Effect	Boilermade	Cold Resistance: +5, Spooky Resistance: +5
+# Effect Boiling Determination: Boosts castle attack and defense in Bastille Battalion.
 Effect	Boletus Swoletus	Muscle: +40
 Effect	Bolts about Candy	Maximum MP: +50
 Effect	Bone Chilling	Cold Damage: +40, Cold Spell Damage: +40
@@ -6240,6 +6246,7 @@ Effect	Shamboozled	Moxie Percent: +50
 Effect	Shamed &amp; Manipulated	Muscle Percent: +50, Moxie Percent: -50
 # Shape of...Mole!: You're a Mole
 Effect	Sharin' Stone	Avatar: "Stone Golem"
+# Effect Shark-Tooth Grin: Boosts military attack and defense in Bastille Battalion.
 # Sharp Weapon: +3-5 Weapon Damage
 Effect	Sharpened Sweet Tooth	Candy Drop: +25
 Effect	Shawarma Initiative	Initiative: +150
@@ -8309,6 +8316,9 @@ Item	basaltamander tongue	Effect: "Burning Tongue", Effect Duration: 10
 # baseball: Deals a 6-8 Physical Damage
 Item	Bash-&#332;s boxtop	Wiki Name: "Bash-Os boxtop"
 Item	basking robin	Free Pull
+# Item Bastille Battalion control rig: Lets you control a mobile castle in Battle Royales for Cheese
+Item	Bastille Battalion control rig	Free Pull
+Item	Bastille Battalion control rig crate	Free Pull
 # Item Bat-Aid&trade; bandage: Quickly restores 20 Bat-Health
 # Item bat-bearing: Deals 15 damage and briefly stuns foes
 # Item bat-jute: Lets you tie up and interrogate a weakened foe
@@ -8388,6 +8398,7 @@ Item	blue-frosted astral cupcake	Effect: "Cupcake of Choice", Effect Duration: 2
 # bobcat grenade: Deals 400-500 Physical Damage
 # bobcat grenade: (super effective against beasts)
 # Bohemian rhapsody: Deals Physical Damage based on your Level
+Item	boiling broth	Effect: "Boiling Determination", Effect Duration: 1
 Item	boiling seal blood	Effect: "Abyssal Blood", Effect Duration: 20
 Item	Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Item	bone bons	Effect: "Bone Chilling", Effect Duration: 20
@@ -10082,6 +10093,7 @@ Item	shamanic ham	Effect: "Shahamaniacal", Effect Duration: 50
 # shard of double-ice: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # shard of double-ice: (and leaves the monster permanently cold)
 Item	shark cartilage	Effect: "Swimming with Sharks", Effect Duration: 15
+Item	sharkfin gumbo	Effect: "Shark-Tooth Grin", Effect Duration: 1
 # sharpened hubcap: Deals 400-500 Physical Damage
 Item	shavin' razor	Effect: "Hairless and Airless", Effect Duration: 30
 # shaving cream: Stops Enemy From Attacking
