@@ -2839,6 +2839,7 @@ public class ItemPool
 	public static final int GIANT_PILGRIM_HAT = 9185;
 	public static final int THANKSGARDEN_SEEDS = 9186;
 	public static final int CASHEW = 9187;
+	public static final int BOMB_OF_UNKNOWN_ORIGIN = 9188;
 	public static final int GINGERBREAD_CITY = 9203;
 	public static final int COUNTERFEIT_CITY = 9204;
 	public static final int SPRINKLES = 9205;
