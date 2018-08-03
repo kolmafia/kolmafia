@@ -9277,6 +9277,13 @@ public class FightRequest
 			}
 			break;
 
+		case ItemPool.BOMB_OF_UNKNOWN_ORIGIN:
+			if ( responseText.contains( "decide to find something else to protest" ) )
+			{
+				Preferences.increment( "zeppelinProtestors", 10 );
+			}
+			break;
+
 		case ItemPool.DAILY_DUNGEON_MALWARE:
 			if ( responseText.contains( "It's a UNIX System" ) || responseText.contains( "You attempt to hack the monster" ) )
 			{
