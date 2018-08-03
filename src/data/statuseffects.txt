@@ -2412,3 +2412,4 @@
 2411
 2412	Bastille Braggadocio	shadesface.gif	50f6b3887032133b0e97216a0a587de0	# Use Bastille Batallion
 2413	Shark-Tooth Grin	teeth.gif	0559f349af70895a5c62aec7337b8718	use 1 sharkfin gumbo
+2414	Boiling Determination	bubbles.gif	51ac4375c7e74360763b1b89d8831578	use 1 boiling broth
