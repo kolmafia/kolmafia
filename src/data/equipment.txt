@@ -1923,7 +1923,7 @@ Seven Loco	0	none
 sewer turtle	20	none	shield
 shadowy seal eye	100	Mus: 35
 Shield of Icy Fate	120	none	shield
-shield of the Skeleton Lord	0	Mus: 50	shield
+shield of the Skeleton Lord	300	Mus: 50	shield
 Shrub's Premium Baked Beans	50	none	can of beans
 silver cow creamer	200	Mys: 85
 Silver HP-35 Calculator	0	none
@@ -2150,6 +2150,7 @@ Brimstone Brooch	200	Mys: 30
 broken clock	30	none
 bronze detective badge	0	none
 brown plastic baby	20	none
+Brutal brogues 0 none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 burning paper slippers	0	none
@@ -2225,6 +2226,7 @@ disembodied smile	20	none
 diving muff	200	Mys: 85
 doll-eye amulet	100	Mys: 35
 dope gangsta bling-bling	45	Mys: 7
+Draftsman's driving gloves	0	none
 Dreadsylvania Auditor's badge	250	Mys: 200
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100
@@ -2411,7 +2413,7 @@ lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
 lucky rabbit's foot	60	Mys: 15
 LWA ring	10	none
-LyleCo premium monocle	0	none
+LyleCo premium monocle	10	none
 Mafia bow tie	0	Mys: 35
 mafia middle finger ring	0	Mus: 45
 mafia organizer badge	0	Mus: 30
@@ -2424,7 +2426,7 @@ MagiMechTech NanoMechaMech	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150
 Marvelous Unitard	10	none
-Master Thief's utility belt	0	Mox: 40
+Master Thief's utility belt	200	Mox: 40
 mayfly bait necklace	0	none
 Mayor Ghost's sash	300	Mys: 100
 Mega Gem	10	none
@@ -2476,6 +2478,7 @@ Nickel Gamma of Frugality	200	Mys: 85
 nicksilver ring	100	Mys: 10
 night-vision goggles	50	Mox: 10
 Nose Ring of Putrescence	150	Mys: 60
+Nouveau nosering	200	none
 Novelty Belt Buckle of Violence	200	Mys: 125
 novelty tattoo sleeves	10	none
 numberwang	100	Mys: 35
@@ -3062,7 +3065,7 @@ cod cape	225	Mox: 200
 dice-shaped backpack	10	none
 Drapes-You-Regally	300	Mox: 250
 Drunkula's cape	300	Mys: 250
-Duke Vampire's regal cloak	0	Mox: 40
+Duke Vampire's regal cloak	200	Mox: 40
 fiberglass frock	120	Mus: 40
 frozen turtle shell	100	Mus: 50
 gabardine gunnysack	50	none

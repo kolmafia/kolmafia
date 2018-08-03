@@ -9950,13 +9950,13 @@
 9924	Special Seasoning	438842654	specialseasoning.gif	none	t,d	5
 9925	Nightmare Fuel	162255335	nightmarefuel.gif	spleen, usable	t,d	5
 9926	Gathered Meat-Clip	458315496	wallet.gif	multiple	t	0
-9927
-9928
-9929
-9930
-9931
-9932
-9933
+9927	Bastille Battalion control rig crate	838050441	bbattcrate.gif	usable	t	0
+9928	Bastille Battalion control rig	260412041	bbattrig.gif	usable		0
+9929	Brutal brogues	883092515	bbattshoes.gif	accessory	q	0
+9930	Draftsman's driving gloves	671054817	bbattgloves.gif	accessory	q	0
+9931	Nouveau nosering	937041118	bbattnosering.gif	accessory	q	0
+9932	sharkfin gumbo	633356051	potion17.gif	usable	t	0
+9933	boiling broth	703878469	wbpotion.gif	usable	t	0
 9934
 9935
 9936
