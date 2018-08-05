@@ -1153,6 +1153,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "last_choice", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "last_decision", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "available_choice_options", DataTypes.INT_TO_STRING_TYPE, params ) );
 
 		params = new Type[] { DataTypes.BOOLEAN_TYPE };
@@ -5379,6 +5382,11 @@ public abstract class RuntimeLibrary
 	public static Value last_choice( Interpreter interpreter )
 	{
 		return DataTypes.makeIntValue( ChoiceManager.lastChoice );
+	}
+
+	public static Value last_decision( Interpreter interpreter )
+	{
+		return DataTypes.makeIntValue( ChoiceManager.lastDecision );
 	}
 
 	public static Value available_choice_options( Interpreter interpreter )
