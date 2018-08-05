@@ -5155,6 +5155,7 @@ Effect	Employee of the Month	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	Empty Inside	Food Drop: +50, Booze Drop: +50
 Effect	Engorged Weapon	Weapon Damage: +10
 Effect	Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
+# Effect Enhanced Interrogation: Boosts psychological attack and defense in Bastille Battalion.
 Effect	Ennerderated	Avatar: "Kleptobrainiac"
 Effect	Enraged	Muscle Percent: +10
 Effect	Ermahgerd, Burke	Avatar: "Special Agent Wallace Burke Corrigan"
@@ -9337,6 +9338,7 @@ Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
 Item	Inner Wisdom	Effect: "Innately Wise", Effect Duration: 20
 # Item interesting clod of dirt: Absorb it for a useful skill!
+Item	interrogative elixir	Effect: "Enhanced Interrogation", Effect Duration: 1
 Item	invisibility cream	Effect: "Skinvisible", Effect Duration: 100
 Item	invisibility potion	Effect: "Simply Invisible", Effect Duration: 20
 Item	invisible potion	Effect: "Invisible (20 Minutes Ago)", Effect Duration: 20
