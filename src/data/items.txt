@@ -9957,7 +9957,7 @@
 9931	Nouveau nosering	937041118	bbattnosering.gif	accessory	q	0
 9932	sharkfin gumbo	633356051	potion17.gif	usable	t	0
 9933	boiling broth	703878469	wbpotion.gif	usable	t	0
-9934
+9934	interrogative elixir	935460784	potion15.gif	usable	t	0
 9935
 9936
 9937
