@@ -59,6 +59,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.zip.GZIPInputStream;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,7 +77,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -148,7 +149,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
@@ -3011,7 +3011,6 @@ public abstract class RuntimeLibrary
 			return value;
 		}
 
-		String[] files = new String[ dayCount ];
 		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
 		StringBuilder contents = new StringBuilder();
 
@@ -3021,7 +3020,29 @@ public abstract class RuntimeLibrary
 				StringUtilities.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
 
 			File path = new File( KoLConstants.SESSIONS_LOCATION, filename );
-			BufferedReader reader = FileUtilities.getReader( path );
+			BufferedReader reader = null;
+			if ( !path.exists() )
+			{
+				filename = filename + ".gz";
+				File gzpath = new File( KoLConstants.SESSIONS_LOCATION, filename );
+				if ( gzpath.exists() )
+				{
+					try
+					{
+						reader = DataUtilities.getReader( new GZIPInputStream( DataUtilities.getInputStream( gzpath ) ) );
+					}
+					catch ( IOException e )
+					{
+						StaticEntity.printStackTrace( e );
+						reader = null;
+					}
+				}
+			}
+			else
+			{
+				reader = FileUtilities.getReader( path );
+			}
+
 			timestamp.add( Calendar.DATE, -1 );
 
 			if ( reader == null )
