@@ -2150,7 +2150,7 @@ Brimstone Brooch	200	Mys: 30
 broken clock	30	none
 bronze detective badge	0	none
 brown plastic baby	20	none
-Brutal brogues 0 none
+Brutal brogues 200 none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 burning paper slippers	0	none
@@ -3057,7 +3057,7 @@ bakelite backpack	120	Mus: 40
 barskin cloak	25	Mys: 75
 black cloak	120	Mys: 75
 Buddy Bjorn	100	none
-burning cape	0	none
+burning cape	100	none
 Camp Scout backpack	0	none
 carpe	0	none
 Cloak of Dire Shadows	120	none

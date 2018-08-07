@@ -9958,9 +9958,9 @@
 9932	sharkfin gumbo	633356051	potion17.gif	usable	t	0
 9933	boiling broth	703878469	wbpotion.gif	usable	t	0
 9934	interrogative elixir	935460784	potion15.gif	usable	t	0
-9935
+9935	Bastille Battalion Fondue Trophy	337302694	bbatttrophy.gif	none	d	20000
 9936
-9937
-9938
+9937	Bastille Battalion cheese wheel	952456254	cheesewheel.gif	usable	t,d	69
+9938	Bastille Battalion control rig loaner voucher	836425947	bbattdaypass.gif	usable	t	0
 9939	kitten burglar	874990425	kittenburglar.gif	grow	t	0
 9940	burglar/sleep mask	339615758	cburglarmask.gif	familiar	t,d	75
