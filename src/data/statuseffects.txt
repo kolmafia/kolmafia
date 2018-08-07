@@ -2409,7 +2409,7 @@
 2408	Remaining Alive	shieldpotion.gif	9ef3c5d6e80f63851f4377007f5cde98	use 1 Shielding Potion
 2409	Feeling Punchy	fistpotion.gif	f5d4dfa4d0ba433027d377e5ca5fb087	use 1 Punching Potion
 2410	Bastille Budgeteer	strboost.gif	bb197326a5de61d4d4df5257c5bd0705	# Use Bastille Batallion
-2411
+2411	Bastille Bourgeoisie	snowflakes.gif	e47c96f83ffa9c589b3cd30795436e62	# Use Bastille Batallion
 2412	Bastille Braggadocio	shadesface.gif	50f6b3887032133b0e97216a0a587de0	# Use Bastille Batallion
 2413	Shark-Tooth Grin	teeth.gif	0559f349af70895a5c62aec7337b8718	use 1 sharkfin gumbo
 2414	Boiling Determination	bubbles.gif	51ac4375c7e74360763b1b89d8831578	use 1 boiling broth
