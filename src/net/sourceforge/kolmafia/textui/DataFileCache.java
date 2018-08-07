@@ -92,6 +92,7 @@ public class DataFileCache
 				KoLConstants.SCRIPT_LOCATION,
 				KoLConstants.RELAY_LOCATION,
 				KoLConstants.DATA_LOCATION,
+				KoLConstants.SESSIONS_LOCATION,
 			};
 		}
 

@@ -1650,6 +1650,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.AGGREGATE_TYPE, DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE };
 		functions.add( new LibraryFunction( "map_to_file", DataTypes.BOOLEAN_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "file_to_array", DataTypes.INT_TO_STRING_TYPE, params ) );
+
 		// Custom combat helper functions.
 
 		params = new Type[] {};
@@ -7343,6 +7346,46 @@ public abstract class RuntimeLibrary
 
 		byte[] data = cacheStream.toByteArray();
 		return DataFileCache.printBytes( filename, data );
+	}
+
+	public static Value file_to_array( Interpreter interpreter, final Value var1 )
+	{
+		String filename = var1.toString();
+		MapValue result = new MapValue( DataTypes.INT_TO_STRING_TYPE );
+
+		BufferedReader reader = DataFileCache.getReader( filename );
+		if ( reader == null )
+		{
+			return result;
+		}
+
+		String data = null;
+
+		try
+		{
+			int line = 0;
+			while ( ( data = FileUtilities.readLine( reader ) ) != null )
+			{
+				line++;
+				result.aset( new Value( line ), new Value( data ), interpreter );
+			}
+		}
+		catch (Exception e)
+		{
+			return result;
+		}
+		finally
+		{
+			try
+			{
+				reader.close();
+			}
+			catch ( Exception e )
+			{
+			}
+		}
+
+		return result;
 	}
 
 	// Custom combat helper functions.
