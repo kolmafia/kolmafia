@@ -4630,6 +4630,7 @@ Effect	Barrel of Laughs	Maximum HP: +90
 Effect	Bartenderganger	Avatar: "Copperhead Club bartender"
 Effect	Bastard!	Weapon Damage: +12
 Effect	Basted	Sleaze Damage: +10, Damage Reduction: -2
+Effect	Bastille Bourgeoisie	Mysticality: +25, Spell Critical Percent: +10, MP Regen Min: 5, MP Regen Max: 10
 Effect	Bastille Braggadocio	Moxie: +25, Initiative: +25, Meat Drop: +25
 Effect	Bastille Budgeteer	Muscle: +25, Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Bat Attitude	Spell Damage Percent: +100

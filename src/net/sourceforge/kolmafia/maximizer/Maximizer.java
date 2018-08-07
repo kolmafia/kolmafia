@@ -532,7 +532,7 @@ public class Maximizer
 				{
 					text += " [" + price + " meat]";
 				}
-				Maximizer.boosts.add( new Boost( cmd, text, (AdventureResult) null, delta ) );
+				Maximizer.boosts.add( new Boost( cmd, text, name, delta ) );
 			}
 
 			if ( lookup.startsWith( "BoomBox:" ) )
