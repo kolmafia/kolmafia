@@ -550,7 +550,7 @@
 525	grue egg	901443551	egg.gif	grow, fancy		0
 526	Frobozz Real-Estate Company Instant House (TM)	538314813	house.gif	usable	q	0
 527	volleyball	630554300	volley.gif	usable	t,d	25
-528	blood-faced volleyball	952613923	wilson.gif	grow	t,d	45
+528	blood-faced volleyball	952613923	wilson.gif	grow	t,d	35
 529	fertilized ghuol egg	266108177	egg.gif	grow	t,d	19
 530	spray paint	821779253	spraycan.gif	none	t,d	25	cans of spray paint
 531	special sauce glove	368427432	glove.gif	accessory	t,d	2500
