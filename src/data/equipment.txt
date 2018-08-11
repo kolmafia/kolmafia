@@ -2150,7 +2150,7 @@ Brimstone Brooch	200	Mys: 30
 broken clock	30	none
 bronze detective badge	0	none
 brown plastic baby	20	none
-Brutal brogues 200 none
+Brutal brogues	200	none
 bugbear communicator badge	0	none
 bugbear detector	0	none
 burning paper slippers	0	none
