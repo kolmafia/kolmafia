@@ -6076,6 +6076,13 @@ public class UseItemRequest
 		case ItemPool.FR_CEMETARY_MAP:
 			Preferences.setBoolean( "frCemetaryUnlocked", true );
 			break;
+
+		case ItemPool.CHEESE_WHEEL:
+			if ( !responseText.contains( "You pick a cheese!" ) )
+			{
+				return;
+			}
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
