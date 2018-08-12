@@ -136,6 +136,7 @@ import net.sourceforge.kolmafia.request.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MemeShopRequest;
 import net.sourceforge.kolmafia.request.MerchTableRequest;
+import net.sourceforge.kolmafia.request.MeteoroidRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MindControlRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
@@ -709,6 +710,13 @@ public class RequestLogger
 
 		// Burning Newspaper creation is an instance of choice.php
 		if ( ( request instanceof BurningNewspaperRequest || isExternal ) && BurningNewspaperRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		// metal meteoroid creation is an instance of choice.php
+		if ( ( request instanceof MeteoroidRequest || isExternal ) && MeteoroidRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

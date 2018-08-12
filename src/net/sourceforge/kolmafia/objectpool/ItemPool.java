@@ -2938,6 +2938,12 @@ public class ItemPool
 	public static final int ASDON_MARTIN = 9508;
 	public static final int METEORITE_ADE = 9513;
 	public static final int METAL_METEOROID = 9516;
+	public static final int METEORTARBOARD = 9517;
+	public static final int METEORITE_GUARD = 9518;
+	public static final int METEORB = 9519;
+	public static final int ASTEROID_BELT = 9520;
+	public static final int METEORTHOPEDIC_SHOES = 9521;
+	public static final int SHOOTING_MORNING_STAR = 9522;
 	public static final int PERFECTLY_FAIR_COIN = 9526;
 	public static final int CORKED_GENIE_BOTTLE = 9528;
 	public static final int GENIE_BOTTLE = 9529;
