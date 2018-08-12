@@ -2192,9 +2192,14 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.XO, 0 );
 
 		// Making stuff with burning newspaper is always allowed
-		ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.NEWSPAPER );
-		ConcoctionDatabase.CREATION_COST.put(CraftingType.NEWSPAPER, 0 );
-		ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.NEWSPAPER, 0 );
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.NEWSPAPER );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.NEWSPAPER, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.NEWSPAPER, 0 );
+
+		// Making stuff with metal meteoroid is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.METEOROID );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.METEOROID, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.METEOROID, 0 );
 
 		// Other creatability flags
 
@@ -2697,6 +2702,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.NEWSPAPER )
 		{
 			result.append( "burning newspaper" );
+		}
+		else if ( mixingMethod == CraftingType.METEOROID )
+		{
+			result.append( "metal meteoroid" );
 		}
 		if ( result.length() == 0 )
 		{
@@ -3375,6 +3384,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "NEWSPAPER" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.NEWSPAPER;
+		}
+
+		else if ( mix.equals( "METEOROID" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

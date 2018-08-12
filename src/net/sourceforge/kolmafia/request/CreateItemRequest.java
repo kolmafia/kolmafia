@@ -389,6 +389,9 @@ public class CreateItemRequest
 		case NEWSPAPER:
 			return new BurningNewspaperRequest( conc );
 
+		case METEOROID:
+			return new MeteoroidRequest( conc );
+
 		case SPACEGATE:
 			return new SpacegateEquipmentRequest( conc );
 

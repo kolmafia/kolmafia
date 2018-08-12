@@ -2969,6 +2969,14 @@ burning paper slippers	NEWSPAPER	burning newspaper
 burning paper jorts	NEWSPAPER	burning newspaper
 burning paper crane	NEWSPAPER	burning newspaper
 
+# Metal Meteoroid
+meteortarboard	METEOROID	metal meteoroid
+meteorite guard	METEOROID	metal meteoroid
+meteorb	METEOROID	metal meteoroid
+asteroid belt	METEOROID	metal meteoroid
+meteorthopedic shoes	METEOROID	metal meteoroid
+shooting morning star	METEOROID	metal meteoroid
+
 # FantasyRealm
 Potion of Heroism	COMBINE	hero's skull	to-go brew
 denastified haunch	COOK	faerie dust	nasty haunch

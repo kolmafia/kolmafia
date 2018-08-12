@@ -593,6 +593,7 @@ public interface KoLConstants
 		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
 		XO,	// Items made using Xes and Os
 		NEWSPAPER,	// Items made from burning newspaper
+		METEOROID,	// Items made from metal meteoroid
 	}
 
 	public enum CraftingRequirements
