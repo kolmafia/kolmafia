@@ -822,7 +822,10 @@ public class QuestDatabase
 		for ( int i = 0; i < questLogData.length; ++i )
 		{
 			// Don't reset Spring Beach Break quests
-			if ( !questLogData[ i ][ 0 ].startsWith( "questESl" ) )
+			// Don't reset Conspiracy Island quests if finished
+			if ( !questLogData[ i ][ 0 ].startsWith( "questESl" ) &&
+				!( questLogData[ i ][ 0 ].startsWith( "questESp" ) &&
+				QuestDatabase.isQuestFinished( questLogData[ i ][ 0 ] ) ) )
 			{
 				QuestDatabase.setQuestProgress( questLogData[ i ][ 0 ], QuestDatabase.UNSTARTED );
 			}
@@ -1079,7 +1082,16 @@ public class QuestDatabase
 		{
 			return false;
 		}
-		return Preferences.getString( quest.getPref() ).equals( QuestDatabase.FINISHED );
+		return QuestDatabase.isQuestFinished( quest.getPref() );
+	}
+
+	public static boolean isQuestFinished( String pref )
+	{
+		if ( pref == null )
+		{
+			return false;
+		}
+		return Preferences.getString( pref ).equals( QuestDatabase.FINISHED );
 	}
 
 	public static String questStepAfter( Quest quest, String step )
