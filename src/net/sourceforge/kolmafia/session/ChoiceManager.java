@@ -10254,6 +10254,7 @@ public abstract class ChoiceManager
 		}
 		
 		case 1277:
+			// Extra, Extra
 			if ( ChoiceManager.lastDecision >= 1 && ChoiceManager.lastDecision <= 5 && text.contains( "You acquire" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.BURNING_NEWSPAPER );
@@ -16542,6 +16543,7 @@ public abstract class ChoiceManager
 		case 1234: // Spacegate Vaccination Machine
 		case 1235: // Spacegate Terminal
 		case 1259: // LI-11 HQ
+		case 1264: // Meteor Metal Machinations
 		case 1266: // The Hostler
 		case 1267: // Rubbed it the Right Way
 		case 1270: // Pantagramming

@@ -1597,7 +1597,7 @@ public class RequestLogger
 			return;
 		}
 
-		if ( ( request instanceof SugarSheetRequest || isExternal ) && StarChartRequest.registerRequest( urlString ) )
+		if ( ( request instanceof SugarSheetRequest || isExternal ) && SugarSheetRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;
