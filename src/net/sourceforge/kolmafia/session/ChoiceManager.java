@@ -9049,18 +9049,13 @@ public abstract class ChoiceManager
 		{
 			// A Radio on a Beach
 			// Clear quests when accepting a new one as you can only have one
-			// Also clear quests if there is no quest active at the radio
+			// Also clear repeatable quests if there is no quest active at the radio
 			if ( text.contains( "your best paramilitary-sounding radio lingo" ) ||
 			     text.contains( "Maybe try again tomorrow" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.UNSTARTED );
-				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
-				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
-				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
-				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
 			}
 			// EVE quest started
 			if ( text.contains( "navigation protocol" ) )
@@ -9071,7 +9066,7 @@ public abstract class ChoiceManager
 			// EVE quest finished
 			else if ( text.contains( "a tiny parachute" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.FINISHED );
 				Preferences.resetToDefault( "EVEDirections" );
 			}
 			// Jungle Pun quest finished (start handled in ResultProcessor)
@@ -9106,7 +9101,7 @@ public abstract class ChoiceManager
 			else if ( text.contains( "toss the device into the ocean" ) )
 			{
 				ResultProcessor.removeItem( ItemPool.ESP_COLLAR );
-				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.FINISHED );
 			}
 			// Serum quest started
 			else if ( text.contains( "wonder how many vials they want" ) )
@@ -9123,7 +9118,7 @@ public abstract class ChoiceManager
 			// Serum quest finished
 			else if ( text.contains( "drop the vials into it" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.FINISHED );
 			}
 			// Smokes quest started
 			else if ( text.contains( "acquire cigarettes" ) )
@@ -9133,7 +9128,7 @@ public abstract class ChoiceManager
 			// Smokes quest finished
 			else if ( text.contains( "cigarettes with a grappling gun" ) )
 			{
-				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.FINISHED );
 			}
 			// Out of Order quest finished
 			else if ( text.contains( "takes your nifty new watch" ) )
@@ -9141,7 +9136,7 @@ public abstract class ChoiceManager
 				EquipmentManager.discardEquipment( ItemPool.GPS_WATCH );
 				ResultProcessor.removeItem( ItemPool.GPS_WATCH );
 				ResultProcessor.removeItem( ItemPool.PROJECT_TLB );
-				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.FINISHED );
 			}
 			break;
 		}
@@ -13123,6 +13118,11 @@ public abstract class ChoiceManager
 			if ( text.contains( "Omega device activated" ) )
 			{
 				Preferences.setInteger( "controlPanelOmega", 0 );
+				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.FAKE_MEDIUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SERUM, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.SMOKES, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED );
 			}
 			break;
 
