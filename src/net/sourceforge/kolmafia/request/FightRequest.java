@@ -3982,7 +3982,9 @@ public class FightRequest
 				{
 					Preferences.increment( "_catBurglarCharge" );
 				}
-				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" ) )
+				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" )||
+					responseText.contains( "takes advantage of the downtime to grab a few z's" ) ||
+					responseText.contains( "disguises himself as someone who is asleep" ) )
 				{
 					Preferences.increment( "_catBurglarCharge" );
 				}
