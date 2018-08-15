@@ -820,6 +820,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Live. Ascend. Repeat." ) ? AscensionSnapshot.REPEAT :
 				path[ 1 ].equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
 				path[ 1 ].equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
+				path[ 1 ].equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -880,6 +881,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
 					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
+					columns[ 8 ].contains( "unknown" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

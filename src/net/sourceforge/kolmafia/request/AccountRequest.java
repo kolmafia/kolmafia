@@ -730,6 +730,10 @@ public class AccountRequest
 		{
 			path = "G-Lover";
 		}
+		else if ( path.equals( "34" ) )
+		{
+			path = "Disguises Delimit";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );

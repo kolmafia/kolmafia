@@ -506,6 +506,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "G-Lover " );
 		}
+		else if ( KoLCharacter.inDisguise() )
+		{
+			sessionStream.print( "Disguises Delimit " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );
