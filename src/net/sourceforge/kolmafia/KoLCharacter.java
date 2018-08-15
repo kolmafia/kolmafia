@@ -179,6 +179,7 @@ public abstract class KoLCharacter
 	public static final String LIVE_ASCEND_REPEAT = "Live. Ascend. Repeat.";
 	public static final String POKEFAM = "Pocket Familiars";
 	public static final String GLOVER = "G-Lover";
+	public static final String DISGUISES_DELIMIT = "Disguises Delimit";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -4027,6 +4028,11 @@ public abstract class KoLCharacter
 	public static final boolean inGLover()
 	{
 		return KoLCharacter.ascensionPath.equals( GLOVER );
+	}
+
+	public static final boolean inDisguise()
+	{
+		return KoLCharacter.ascensionPath.equals( DISGUISES_DELIMIT );
 	}
 
 	public static final boolean isUnarmed()

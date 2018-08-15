@@ -583,6 +583,9 @@ public class AfterLifeRequest
 			case 33:
 				builder.append( "a G-Lover" );
 				break;
+			case 34:
+				builder.append( "a Disguises Delimit" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

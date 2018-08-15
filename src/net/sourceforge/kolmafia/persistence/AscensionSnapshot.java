@@ -87,6 +87,7 @@ public class AscensionSnapshot
 	public static final int REPEAT = 31;
 	public static final int POKEFAM = 32;
 	public static final int GLOVER = 33;
+	public static final int DISGUISES_DELIMIT = 34;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -242,6 +243,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.DISGUISES_DELIMIT, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.GLOVER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
@@ -592,7 +597,8 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.LICENSE ? "License to Adventure " :
 						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat. " :
 						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars " :
-						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover "
+						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover " :
+						pathFilter == AscensionSnapshot.DISGUISES_DELIMIT ? "Disguises Delimit "
 						: "" );
 
 			strbuf.append( "Ascensions (Out of " );
