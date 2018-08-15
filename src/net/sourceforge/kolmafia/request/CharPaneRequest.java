@@ -262,6 +262,11 @@ public class CharPaneRequest
 
 		CharPaneRequest.parseAvatar( responseText );
 
+		if ( KoLCharacter.inDisguise() )
+		{
+			CharPaneRequest.checkMask( responseText );
+		}
+
 		CharPaneRequest.setLastAdventure( responseText );
 		CharPaneRequest.refreshEffects( responseText );
 		CharPaneRequest.setInteraction();
@@ -1440,6 +1445,36 @@ public class CharPaneRequest
 			}
 		}
 		Modifiers.overrideModifier( "Generated:Enchantments Absorbed", modList.toString() );
+	}
+
+	private static final Pattern disguisePattern = Pattern.compile( "masks/mask(\\d+).png(?:.*?) alt=\\\"(.*?)\\\"" );
+
+	private static final void checkMask( final String responseText )
+	{
+		if ( !KoLCharacter.inDisguise() )
+		{
+			return;
+		}
+
+		Pattern pattern = CharPaneRequest.disguisePattern;
+		Matcher matcher = pattern.matcher( responseText );
+		if ( matcher.find() )
+		{
+			ModifierList modList = new ModifierList();
+			String[] modStrings = matcher.group( 2 ).split( "\\s*,\\s*" );
+			// Iterate over modifiers
+			for ( String modString : modStrings )
+			{
+				// Split into modifiers as some, like regeneration, get two values from one mod string
+				String mod = Modifiers.parseModifier( modString );
+				ModifierList newModList = Modifiers.splitModifiers( mod );
+				for ( Modifier modifier : newModList )
+				{
+					modList.addModifier( modifier );
+				}
+			}
+			Modifiers.overrideModifier( "Generated:Mask", modList.toString() );
+		}
 	}
 
 	private static final Pattern commaPattern =

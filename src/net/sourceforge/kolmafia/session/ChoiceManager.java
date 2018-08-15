@@ -4285,6 +4285,7 @@ public abstract class ChoiceManager
 
 		// Choice 1310 is Granted a Boon
 		// Choice 1312 is Choose a Soundtrack
+		// Choice 1321 is Disguises Delimit
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
