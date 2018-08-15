@@ -649,6 +649,11 @@ public abstract class MoodManager
 		{
 			AdventureResult effect = MoodManager.AUTO_CLEAR[ i ];
 
+			// Don't bother removing in G-Lover if no G's, as it has no effect
+			if ( KoLCharacter.inGLover() && !KoLCharacter.hasGs( effect.getName() ) )
+			{
+				continue;
+			}
 			if ( KoLConstants.activeEffects.contains( effect ) )
 			{
 				RequestThread.postRequest( new UneffectRequest( effect ) );
