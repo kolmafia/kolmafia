@@ -6066,6 +6066,11 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Generated", "Enchantments Absorbed" ) );
 		}
 
+		if ( KoLCharacter.inDisguise() )
+		{
+			newModifiers.add( Modifiers.getModifiers( "Generated", "Mask" ) );
+		}
+
 		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
 		{
 			newModifiers.applyCompanionModifiers( VYKEACompanionData.currentCompanion() );
