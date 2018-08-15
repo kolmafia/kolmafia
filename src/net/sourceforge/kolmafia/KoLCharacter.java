@@ -2897,11 +2897,19 @@ public abstract class KoLCharacter
 	public static final boolean hasBeeosity( String name )
 	{
 		// Less resource intensive than a matcher for short-enough names
+		if ( name == null )
+		{
+			return false;
+		}
 		return name.contains( "b" ) || name.contains( "B" ) ;
 	}
 
 	public static final boolean hasGs( String name )
 	{
+		if ( name == null )
+		{
+			return false;
+		}
 		return name.contains( "g" ) || name.contains( "G" ) ;
 	}
 
