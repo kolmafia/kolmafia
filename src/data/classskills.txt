@@ -795,6 +795,7 @@
 7295	Unleash Disco Pudge	gabgirdle.gif	5	0	0
 7296
 7297	Sing Along	songboombox.gif	5	0	0
+7298	Swap Mask	maskball.gif	5	1	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
