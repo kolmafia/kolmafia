@@ -345,7 +345,7 @@
 3040
 3041	Bind Spaghetti Elemental	t_spagdemon.gif	3	150	0
 3042	Quiet Judgement	quietjudgement.gif	9	10	10
-3043	Inscrutable Gaze	psychicgaze.gif	3	10	10
+3043	Inscrutable Gaze	psychicgaze.gif	9	10	10
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 # Remade in Pastamancer revamp, now 7176-7181
