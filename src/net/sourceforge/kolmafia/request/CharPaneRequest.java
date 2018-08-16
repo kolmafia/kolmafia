@@ -539,7 +539,7 @@ public class CharPaneRequest
 
 	private static final Pattern makeStatPattern( final String musString, final String mysString, final String moxString )
 	{
-		return Pattern.compile( musString + ".*?<b>(.*?)</b>.*?" + mysString + ".*?<b>(.*?)</b>.*?" + moxString + ".*?<b>(.*?)</b>" );
+		return Pattern.compile( ">" + musString + ".*?<b>(.*?)</b>.*?>" + mysString + ".*?<b>(.*?)</b>.*?>" + moxString + ".*?<b>(.*?)</b>" );
 	}
 
 	private static final Pattern compactStatsPattern =
