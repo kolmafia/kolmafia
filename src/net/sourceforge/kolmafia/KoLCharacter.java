@@ -2909,7 +2909,7 @@ public abstract class KoLCharacter
 	{
 		if ( name == null )
 		{
-			return false;
+			return true;
 		}
 		return name.contains( "g" ) || name.contains( "G" ) ;
 	}
