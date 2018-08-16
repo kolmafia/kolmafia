@@ -2778,6 +2778,13 @@ public class FightRequest
 		// the CAB enabled, there will be no link to the old combat
 		// form. Otherwise, a link to fight.php indicates that the
 		// fight is continuing.
+		// Disguises Delimit always has one link, so check for a second
+
+		Pattern fightPattern = Pattern.compile( "action=fight.php" );
+		Matcher fightMatcher = fightPattern.matcher( responseText );
+		int fightCount = 0;
+		while( fightMatcher.find() )
+			fightCount++;
 
 		boolean stillInBattle = finalRound && !won &&
 			( FightRequest.pokefam ?
@@ -2786,7 +2793,9 @@ public class FightRequest
 			  responseText.contains( "action=\"fight.php\"" ) :
 			  Preferences.getBoolean( "serverAddsCustomCombat" ) ?
 			  responseText.contains( "(show old combat form)" ) :
-			  responseText.contains( "action=fight.php" ) );
+			  KoLCharacter.inDisguise() ?
+			  fightCount > 1 :
+			  fightCount > 0 );
 
 		if ( limitmode == Limitmode.BATMAN || limitmode == Limitmode.SPELUNKY )
 		{
