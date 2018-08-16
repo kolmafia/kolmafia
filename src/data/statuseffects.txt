@@ -83,10 +83,10 @@
 82	Broken Knees	sad.gif	c377ac25ce57bab5069f08744b111930
 83	And Your Family, Too	sad.gif	4f336a7c8fb1b5b3355180116e822627
 84
-85
+85	Chokeheld	hand.gif	1eb73f3b31da1cb7844f580aa12c6761	# Fighting monster with Luchador Mask
 86	Missing Eyebrows	sad.gif	71c7813ec6c1d4f79b9a4a44a6654181
 87	Two Left Feet	twoleft.gif	bdc371492a7b729af57b724c82c6ce09
-88
+88	Bat-Intimidated	bat.gif	036a199bfec316c515e8fb6b4ae63775	# Fighting monster with Batmask
 89	Tingly Wrists	feather.gif	5a7834b36760978ce7766b95753fa4f2	# using phonics down - 1/3 chance
 90	Tingly Elbows	feather.gif	54aa2c7ffc56b273ae9a6bfe26f10aad	# using phonics down - 1/3 chance
 91	Tingly Biceps	feather.gif	fbf879a2f5e27198361d24f57cfd1130	# using phonics down - 1/3 chance
