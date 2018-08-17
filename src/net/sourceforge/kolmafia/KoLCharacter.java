@@ -377,6 +377,8 @@ public abstract class KoLCharacter
 	private static int rain = 0;
 	private static int lightning = 0;
 
+	private static String mask = null;
+
 	private static String limitmode = null;
 	
 	public static final int MAX_BASEPOINTS = 65535;
@@ -508,6 +510,8 @@ public abstract class KoLCharacter
 		KoLCharacter.thunder = 0;
 		KoLCharacter.rain = 0;
 		KoLCharacter.lightning = 0;
+
+		KoLCharacter.mask = null;
 
 		KoLCharacter.attacksLeft = 0;
 		KoLCharacter.adjustedStats = new int[ 3 ];
@@ -1516,6 +1520,16 @@ public abstract class KoLCharacter
 	public static final void decrementLightning( final int decLightning )
 	{
 		KoLCharacter.setLightning( KoLCharacter.lightning - decLightning );
+	}
+
+	public static final String getMask()
+	{
+		return KoLCharacter.mask;
+	}
+
+	public static final void setMask( final String newMask )
+	{
+		KoLCharacter.mask = newMask;
 	}
 
 	public static final int getAttacksLeft()
@@ -6066,9 +6080,9 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Generated", "Enchantments Absorbed" ) );
 		}
 
-		if ( KoLCharacter.inDisguise() )
+		if ( KoLCharacter.inDisguise() && KoLCharacter.getMask() != null )
 		{
-			newModifiers.add( Modifiers.getModifiers( "Generated", "Mask" ) );
+			newModifiers.add( Modifiers.getModifiers( "Mask", KoLCharacter.getMask() ) );
 		}
 
 		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )

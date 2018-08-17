@@ -979,6 +979,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "my_lightning", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
+		functions.add( new LibraryFunction( "my_mask", DataTypes.STRING_TYPE, params ) );
+
+		params = new Type[] {};
 		functions.add( new LibraryFunction( "my_maxfury", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] {};
@@ -4933,6 +4936,11 @@ public abstract class RuntimeLibrary
 	public static Value my_lightning( Interpreter interpreter )
 	{
 		return new Value( KoLCharacter.getLightning() );
+	}
+
+	public static Value my_mask( Interpreter interpreter )
+	{
+		return new Value( KoLCharacter.getMask() );
 	}
 
 	public static Value my_meat( Interpreter interpreter )

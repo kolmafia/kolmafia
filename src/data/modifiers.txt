@@ -10703,3 +10703,37 @@ BoomBox	Food Vibrations	Food Drop: +30
 BoomBox	Remainin' Alive	Damage Reduction: [L]
 BoomBox	These Fists Were Made for Punchin'	Weapon Damage: [L]
 BoomBox	Total Eclipse of Your Meat	Meat Drop: +30
+
+# Disguises Delimit
+Mask	Mr. mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
+Mask	devil mask	Hot Damage: +50, Hot Spell Damage: +50
+Mask	protest mask	Monster Level: +30
+Mask	batmask	Moxie: +50
+Mask	punk mask	Sleaze Resistance: +9
+Mask	hockey mask	Weapon Damage Percent: +100
+Mask	bandit mask	Combat Rate: -10
+Mask	plague doctor mask	Mysticality: +50
+Mask	robot mask	Maximum MP Percent: +100
+Mask	skull mask	Spooky Damage: +50, Spooky Spell Damage: +50
+Mask	monkey mask	Stench Damage: +50, Stench Spell Damage: +50
+Mask	luchador mask	Muscle: +50
+Mask	welding mask	Experience (Muscle): +5
+Mask	ninja mask	Initiative: +300
+Mask	snowman mask	Cold Damage: +50, Cold Spell Damage: +50
+Mask	gasmask	Stench Resistance: +9
+Mask	fencing mask	Damage Reduction: +50, Damage Absorbtion: +200
+Mask	opera mask	Spell Damage Percent: +200
+Mask	scary mask	Spooky Resistance: +9
+Mask	alien mask	HP Regen Min: 15, HP Regen Max: 20
+Mask	murderer mask	Mana Cost: -3
+Mask	pumpkin mask	Experience (Mysticality): +5
+Mask	rabbit mask	Experience (Moxie): +5
+Mask	ski mask	Cold Resistance: +9
+Mask	tiki mask	Maximum HP Percent: +200
+Mask	Bonerdagon mask	Muscle Percent: +100, Mysticality Percent: +100
+Mask	Naughty Sorceress mask	Spell Damage: +300
+Mask	Groar mask	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
+Mask	Ed the Undying mask	HP Regen Min: 40, HP Regen Max: 50
+Mask	Big Wisniewski mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
+Mask	The Man mask	Sleaze Damage: +40, Sleaze Spell Damage: +40, Stench Damage: +40, Stench Spell Damage: +40
+Mask	Boss Bat mask	Weapon Damage Percent: +100, Maximum HP Percent: +100
