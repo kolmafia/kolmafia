@@ -1536,7 +1536,7 @@ public class AdventureRequest
 		return monsterName;
 	}
 
-	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing an? (.*?)mask" );
+	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing an? (.*?)(?:m|M)ask" );
 
 	private static final String handleMask( String monsterName )
 	{

@@ -10705,7 +10705,7 @@ BoomBox	These Fists Were Made for Punchin'	Weapon Damage: [L]
 BoomBox	Total Eclipse of Your Meat	Meat Drop: +30
 
 # Disguises Delimit
-Mask	Mr. mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
+Mask	Mr. Mask	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Mask	devil mask	Hot Damage: +50, Hot Spell Damage: +50
 Mask	protest mask	Monster Level: +30
 Mask	batmask	Moxie: +50
