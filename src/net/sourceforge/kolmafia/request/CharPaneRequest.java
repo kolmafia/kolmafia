@@ -1447,7 +1447,7 @@ public class CharPaneRequest
 		Modifiers.overrideModifier( "Generated:Enchantments Absorbed", modList.toString() );
 	}
 
-	private static final Pattern disguisePattern = Pattern.compile( "masks/mask(\\d+).png(?:.*?) alt=\\\"(.*?)\\\"" );
+	private static final Pattern disguisePattern = Pattern.compile( "masks/mask(\\d+).png" );
 
 	private static final void checkMask( final String responseText )
 	{
@@ -1456,25 +1456,112 @@ public class CharPaneRequest
 			return;
 		}
 
+		String mask = null;
 		Pattern pattern = CharPaneRequest.disguisePattern;
 		Matcher matcher = pattern.matcher( responseText );
 		if ( matcher.find() )
 		{
-			ModifierList modList = new ModifierList();
-			String[] modStrings = matcher.group( 2 ).split( "\\s*,\\s*" );
-			// Iterate over modifiers
-			for ( String modString : modStrings )
+			switch( StringUtilities.parseInt( matcher.group( 1 ) ) )
 			{
-				// Split into modifiers as some, like regeneration, get two values from one mod string
-				String mod = Modifiers.parseModifier( modString );
-				ModifierList newModList = Modifiers.splitModifiers( mod );
-				for ( Modifier modifier : newModList )
-				{
-					modList.addModifier( modifier );
-				}
+			case 1:
+				mask = "Mr. mask";
+				break;
+			case 2:
+				mask = "devil mask";
+				break;
+			case 3:
+				mask = "protest mask";
+				break;
+			case 4:
+				mask = "batmask";
+				break;
+			case 5:
+				mask = "punk mask";
+				break;
+			case 6:
+				mask = "hockey mask";
+				break;
+			case 7:
+				mask = "bandit mask";
+				break;
+			case 8:
+				mask = "plague doctor mask";
+				break;
+			case 9:
+				mask = "robot mask";
+				break;
+			case 10:
+				mask = "skull mask";
+				break;
+			case 11:
+				mask = "monkey mask";
+				break;
+			case 12:
+				mask = "luchador mask";
+				break;
+			case 13:
+				mask = "welding mask";
+				break;
+			case 14:
+				mask = "ninja mask";
+				break;
+			case 15:
+				mask = "snowman mask";
+				break;
+			case 16:
+				mask = "gasmask";
+				break;
+			case 17:
+				mask = "fencing mask";
+				break;
+			case 18:
+				mask = "opera mask";
+				break;
+			case 19:
+				mask = "scary mask";
+				break;
+			case 20:
+				mask = "alien mask";
+				break;
+			case 21:
+				mask = "murderer mask";
+				break;
+			case 22:
+				mask = "pumpkin mask";
+				break;
+			case 23:
+				mask = "rabbit mask";
+				break;
+			case 24:
+				mask = "ski mask";
+				break;
+			case 25:
+				mask = "tiki mask";
+				break;
+			case 100:
+				mask = "Bonerdagon mask";
+				break;
+			case 101:
+				mask = "Naughty Sorceress mask";
+				break;
+			case 102:
+				mask = "Groar mask";
+				break;
+			case 103:
+				mask = "Ed the Undying mask";
+				break;
+			case 104:
+				mask = "Big Wisniewski mask";
+				break;
+			case 105:
+				mask = "The Man mask";
+				break;
+			case 106:
+				mask = "Boss Bat mask";
+				break;
 			}
-			Modifiers.overrideModifier( "Generated:Mask", modList.toString() );
 		}
+		KoLCharacter.setMask( mask );
 	}
 
 	private static final Pattern commaPattern =
