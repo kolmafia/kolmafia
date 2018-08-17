@@ -3987,6 +3987,7 @@ public class FightRequest
 					responseText.contains( "looks around for unlocked windows and accessible vents" ) ||
 					responseText.contains( "stands around casually, definitely just loitering and not casing the joint at all" ) ||
 					responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
+					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
 					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
 				{
 					Preferences.increment( "_catBurglarCharge" );
