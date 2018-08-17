@@ -881,7 +881,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "briefcase" ) ? AscensionSnapshot.LICENSE :
 					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
-					columns[ 8 ].contains( "unknown" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
+					columns[ 8 ].contains( "dd_icon" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )
