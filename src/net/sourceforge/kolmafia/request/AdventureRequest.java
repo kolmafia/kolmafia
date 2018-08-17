@@ -1536,7 +1536,7 @@ public class AdventureRequest
 		return monsterName;
 	}
 
-	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing an? (.*?) mask" );
+	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing an? (.*?)mask" );
 
 	private static final String handleMask( String monsterName )
 	{
@@ -1547,7 +1547,8 @@ public class AdventureRequest
 		Matcher matcher = MASK_PATTERN.matcher( monsterName );
 		if ( matcher.find() )
 		{
-			MonsterData.lastMask = matcher.group( 2 );
+			MonsterData.lastMask = matcher.group( 2 ) + "mask";
+			MonsterData.lastRandomModifiers.add( MonsterData.lastMask );
 			return matcher.group( 1 );
 		}
 		return monsterName;

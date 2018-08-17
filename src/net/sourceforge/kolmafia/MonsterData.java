@@ -463,6 +463,12 @@ public class MonsterData
 				monster.attack = new Integer( monster.getRawAttack() * 6 / 5 );
 				monster.defense = new Integer( monster.getRawDefense() * 6 / 5 );
 			}
+			else if ( modifier.equals( "Mr. mask" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 2 );
+				monster.attack = new Integer( monster.getRawAttack() * 2 );
+				monster.defense = new Integer( monster.getRawDefense() * 2 );
+			}
 		}
 
 		return monster;
