@@ -618,6 +618,7 @@ public class AdventureRequest
 		String encounter =  AdventureRequest.handleRandomModifiers( encounterToCheck.trim(), responseText );
 		encounter = AdventureRequest.handleIntergnat( encounter );
 		encounter = AdventureRequest.handleNuclearAutumn( encounter );
+		encounter = AdventureRequest.handleMask( encounter );
 
 		// Adventuring in the Wumpus cave while temporarily blind is
 		// stupid, but since we won't clear the cave after defeating it
@@ -1532,6 +1533,23 @@ public class AdventureRequest
 			MonsterData.lastRandomModifiers.add( "mutant" );
 		}
 
+		return monsterName;
+	}
+
+	private static final Pattern MASK_PATTERN = Pattern.compile( "(.*?) wearing a (.*?) mask" );
+
+	private static final String handleMask( String monsterName )
+	{
+		if ( !KoLCharacter.inDisguise() )
+		{
+			return monsterName;
+		}
+		Matcher matcher = MASK_PATTERN.matcher( monsterName );
+		if ( matcher.find() )
+		{
+			MonsterData.lastMask = matcher.group( 2 );
+			return matcher.group( 1 );
+		}
 		return monsterName;
 	}
 }

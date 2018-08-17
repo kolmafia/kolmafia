@@ -255,16 +255,6 @@ public abstract class CombatActionManager
 			line = line.substring( 5 );
 		}
 
-		// For now just fix recognising monster in Disquise
-		if ( KoLCharacter.inDisguise() )
-		{
-			if ( line.contains( "wearing" ) )
-			{
-				key = key.substring( 0, key.indexOf( " wearing" ) );
-				line = line.substring( 0, line.indexOf( " wearing" ) );
-			}
-		}
-
 		return changeCase ? key : line;
 	}
 

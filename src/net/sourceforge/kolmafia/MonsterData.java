@@ -181,6 +181,8 @@ public class MonsterData
 
 	public static final ArrayList<String> lastRandomModifiers = new ArrayList<String>();
 
+	public static String lastMask = null;
+
 	public MonsterData( final String name, final int id,
 			    final Object health, final Object attack, final Object defense,
 			    final Object initiative, final Object experience,
