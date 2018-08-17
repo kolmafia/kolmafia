@@ -16554,6 +16554,7 @@ public abstract class ChoiceManager
 		case 1275: // Rummaging through the Garbage
 		case 1277: // Extra, Extra
 		case 1278: // Madame Zatara’s Relationship Fortune Teller
+		case 1320: // A Heist!
 			return true;
 
 		default:
