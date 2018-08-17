@@ -694,6 +694,10 @@ public class CharPaneDecorator
 				int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
 				if ( totalHeists + bankHeists > heistsComplete )
 				{
+					buffer.append( charge );
+					buffer.append( "/" );
+					buffer.append( minChargeCost );
+					buffer.append( " to heist<br>" );
 					buffer.append( heistsComplete );
 					buffer.append( "/" );
 					buffer.append( totalHeists + bankHeists );
