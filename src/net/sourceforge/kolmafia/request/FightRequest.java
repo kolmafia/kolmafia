@@ -307,6 +307,9 @@ public class FightRequest
 	private static final Pattern SHARPEN_SAW_PATTERN = 
 		Pattern.compile( "You're really sharpening the old saw.  Looks like you've done (\\d+) out of (\\d+)!" );
 
+	private static final Pattern MASK_SWAP_PATTERN = 
+		Pattern.compile( "swap your mask for the monster's (.*?)<script>" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -9022,6 +9025,25 @@ public class FightRequest
 				Preferences.increment( "_meteorShowerUses" );
 			}
 			break;
+
+		case SkillPool.SWAP_MASK:
+			if ( responseText.contains( "swap your mask" ) || skillSuccess )
+			{
+				// Actual change for character's equipped mask is handled by character pane update
+				String message = null;
+				Matcher matcher = FightRequest.MASK_SWAP_PATTERN.matcher( responseText );
+				if ( matcher.find() )
+				{
+					message = "You swap your " + KoLCharacter.getMask() + " for the monster's " + matcher.group(1);
+				}
+				else
+				{
+					message = "You swap your " + KoLCharacter.getMask() + " for the monster's " + MonsterData.lastMask;
+				}
+				MonsterData.lastMask = KoLCharacter.getMask();
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
 		}
 	}
 

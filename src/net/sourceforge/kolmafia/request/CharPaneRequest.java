@@ -1464,7 +1464,7 @@ public class CharPaneRequest
 			switch( StringUtilities.parseInt( matcher.group( 1 ) ) )
 			{
 			case 1:
-				mask = "Mr. mask";
+				mask = "Mr. Mask";
 				break;
 			case 2:
 				mask = "devil mask";
