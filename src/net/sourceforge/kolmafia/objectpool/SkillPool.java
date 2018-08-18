@@ -278,6 +278,7 @@ public class SkillPool
 	public static final int METEOR_SHOWER = 7291;
 	public static final int HUGS_KISSES = 7293;
 	public static final int SHOW_RING = 7294;
+	public static final int SWAP_MASK = 7298;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
