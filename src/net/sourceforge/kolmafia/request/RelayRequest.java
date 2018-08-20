@@ -175,6 +175,7 @@ public class RelayRequest
 	private static String CONFIRM_BORING_DOORS = "confirm21";
 	private static String CONFIRM_SPELUNKY = "confirm22";
 	private static String CONFIRM_ZEPPELIN = "confirm23";
+	private static String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
@@ -2318,6 +2319,40 @@ public class RelayRequest
 		return true;
 	}
 
+	private boolean sendOverdrunkAdventureWarning( final KoLAdventure adventure )
+	{
+		if ( adventure == null )
+		{
+			return false;
+		}
+
+		// Don't warn again if you've already said ok to Wineglass warning about overdrunk (or this one)
+		if ( this.getFormField( CONFIRM_OVERDRUNK_ADVENTURE ) != null || this.getFormField( CONFIRM_WINEGLASS ) != null )
+		{
+			return false;
+		}
+
+		// If you are not overdrunk, nothing to warn about
+		if ( !KoLCharacter.isFallingDown() )
+		{
+			return false;
+		}
+
+		// Only adventure.php will shunt you into a Drunken Stupor
+		if ( !adventure.getFormSource().equals( "adventure.php" ) )
+		{
+			return false;
+		}
+
+		StringBuilder warning = new StringBuilder();
+
+		warning.append( "KoLmafia has detected that you are about to adventure while overdrunk. " );
+		warning.append( "If you are sure you wish to adventure in a Drunken Stupor, click the icon to adventure. " );
+
+		this.sendGeneralWarning( "martini.gif", warning.toString(), CONFIRM_OVERDRUNK_ADVENTURE );
+		return true;
+	}
+
 	private boolean sendSpelunkyWarning( final KoLAdventure adventure )
 	{
 		// If this is not an adventure URL, nothing to do here
@@ -3323,10 +3358,16 @@ public class RelayRequest
 		}
 
 		if ( adventureName != null &&
-		     KoLCharacter.isFallingDown() &&
-		     this.sendWineglassWarning( adventure ) )
+		     KoLCharacter.isFallingDown() )
 		{
-			return true;
+			if ( this.sendWineglassWarning( adventure ) )
+			{
+				return true;
+			}
+			if ( this.sendOverdrunkAdventureWarning( adventure ) )
+			{
+				return true;
+			}
 		}
 
 		if ( this.sendColosseumWarning( adventure ) )
