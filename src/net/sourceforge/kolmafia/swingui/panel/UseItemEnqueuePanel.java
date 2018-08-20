@@ -834,7 +834,11 @@ public class UseItemEnqueuePanel
 
 			if ( KoLCharacter.inGLover() )
 			{
-				if ( item != null && !KoLCharacter.hasGs( item.getName() ) )
+				// Can't eat/drink items with G's, except from a Restaurant
+				if ( item != null && !KoLCharacter.hasGs( item.getName() ) &&
+					 !KoLConstants.restaurantItems.contains( creation.getName() ) &&
+				     !KoLConstants.microbreweryItems.contains( creation.getName() ) &&
+				     !KoLConstants.cafeItems.contains( creation.getName() ) )
 				{
 					return false;
 				}
