@@ -107,7 +107,7 @@ public class GenieCommand
 			{
 				wish = "I was a baller";
 			}
-			else if ( parameters.startsWith( "mox" ) )
+			else if ( parameters.startsWith( "all" ) )
 			{
 				wish = "I was big";
 			}
