@@ -230,7 +230,39 @@ public class ResultProcessor
 				ItemDatabase.registerPlural( itemId, plural );
 			}
 
-	
+			// Log it if we pickpocket something "impossible"
+			if ( RequestLogger.getLastURLString().contains( "action=steal" ) )
+			{
+				MonsterData monster = MonsterStatusTracker.getLastMonster();
+				for ( AdventureResult monsterItem : monster.getItems() )
+				{
+					if ( monsterItem.getItemId() == itemId )
+					{
+						String message = null;
+						switch ( (char) monsterItem.getCount() & 0xFFFF )
+						{
+						case 'n':
+							message = "Pickpocketed item " + itemName + " which is marked as non pickpocketable.";
+							break;
+						case 'c':
+							message = "Pickpocketed item " + itemName + " which is marked as conditional.";
+							break;
+						case 'f':
+							message = "Pickpocketed item " + itemName + " which is marked as fixed chance.";
+							break;
+						case 'a':
+							message = "Pickpocketed item " + itemName + " which is marked as accordion steal.";
+							break;
+						}
+						if ( message != null )
+						{
+							RequestLogger.printLine( message );
+							RequestLogger.updateSessionLog( message );
+						}
+					}
+				}
+			}
+
 			// Perform special processing, if indicated
 			if ( comment != null )
 			{
