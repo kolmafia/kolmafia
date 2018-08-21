@@ -385,6 +385,7 @@ user	checkJackassHardcore	true
 user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
+user	chilledToTheBone	0
 user	chosenTrip
 user	cinderellaMinutesToMidnight	0
 user	cinderellaScore	0
@@ -1340,7 +1341,6 @@ user	_ceciHatUsed	false
 user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
-user	_chilledToTheBone	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolatesUsed	0
