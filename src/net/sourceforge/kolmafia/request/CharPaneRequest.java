@@ -959,6 +959,14 @@ public class CharPaneRequest
 			// Intrinsic effect
 		}
 
+		// Update chilled to the bone if blank - consequences.txt should populate it from description
+		if ( effectId == EffectPool.CHILLED_TO_THE_BONE && Preferences.getInteger( "_chilledToTheBone" ) == 0 )
+		{
+			String descId = EffectDatabase.getDescriptionId( EffectPool.CHILLED_TO_THE_BONE );
+			GenericRequest req = new GenericRequest( "desc_effect.php?whicheffect=" + descId );
+			RequestThread.postRequest( req );
+		}
+
 		return EffectPool.get( effectId, duration );
 	}
 
