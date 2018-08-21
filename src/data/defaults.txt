@@ -350,6 +350,9 @@ user	bootsCharged	false
 user	borisPoints	0
 user	breakableHandling	1
 user	breakableHandling1964	2
+user	breakableHandling9691	1
+user	breakableHandling9692	1
+user	breakableHandling9699	1
 user	breakfastAlways
 user	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 user	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
