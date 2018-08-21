@@ -3113,41 +3113,73 @@ public class UseItemRequest
 
 		case ItemPool.OVEN:
 
+			if ( responseText.contains( "already got an oven" ) )
+			{
+				return;
+			}
 			KoLCharacter.setOven( true );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.RANGE:
 
+			if ( responseText.contains( "already got a fancy oven" ) )
+			{
+				return;
+			}
 			KoLCharacter.setRange( true );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.CLOCKWORK_CHEF:
+			if ( responseText.contains( "already got a clockwork chef-in-the-box" ) )
+			{
+				return;
+			}
 			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.CHEF, 1 ) );
 			// Fall through
 		case ItemPool.CHEF:
+			if ( responseText.contains( "already got a chef-in-the-box" ) )
+			{
+				return;
+			}
 			KoLCharacter.setChef( true );
-			Preferences.setInteger( "chefTurnsUsed", 0 );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
+			Preferences.setInteger( "chefTurnsUsed", 0 );
 			break;
 
 		case ItemPool.SHAKER:
 
+			if ( responseText.contains( "already got a cocktailcrafting kit" ) )
+			{
+				return;
+			}
 			KoLCharacter.setShaker( true );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			return;
 
 		case ItemPool.COCKTAIL_KIT:
 
+			if ( responseText.contains( "already got a fancy cocktailcrafting kit" ) )
+			{
+				return;
+			}
 			KoLCharacter.setCocktailKit( true );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
 			break;
 
 		case ItemPool.CLOCKWORK_BARTENDER:
+			if ( responseText.contains( "already got a clockwork bartender-in-the-box" ) )
+			{
+				return;
+			}
 			CampgroundRequest.removeCampgroundItem( ItemPool.get( ItemPool.BARTENDER, 1 ) );
 			// Fall through
 		case ItemPool.BARTENDER:
+			if ( responseText.contains( "already got a bartender-in-the-box" ) )
+			{
+				return;
+			}
 			KoLCharacter.setBartender( true );
 			Preferences.setInteger( "bartenderTurnsUsed", 0 );
 			CampgroundRequest.setCampgroundItem( itemId, 1 );
