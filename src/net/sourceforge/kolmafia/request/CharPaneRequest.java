@@ -96,6 +96,7 @@ public class CharPaneRequest
 	extends GenericRequest
 {
 	private static final AdventureResult ABSINTHE = EffectPool.get( EffectPool.ABSINTHE );
+	private static final AdventureResult CHILLED_TO_THE_BONE = EffectPool.get( EffectPool.CHILLED_TO_THE_BONE );
 
 	private static long lastResponseTimestamp = 0;
 	private static String lastResponse = "";
@@ -959,14 +960,6 @@ public class CharPaneRequest
 			// Intrinsic effect
 		}
 
-		// Update chilled to the bone if blank - consequences.txt should populate it from description
-		if ( effectId == EffectPool.CHILLED_TO_THE_BONE && Preferences.getInteger( "_chilledToTheBone" ) == 0 )
-		{
-			String descId = EffectDatabase.getDescriptionId( EffectPool.CHILLED_TO_THE_BONE );
-			GenericRequest req = new GenericRequest( "desc_effect.php?whicheffect=" + descId );
-			RequestThread.postRequest( req );
-		}
-
 		return EffectPool.get( effectId, duration );
 	}
 
@@ -1019,6 +1012,7 @@ public class CharPaneRequest
 		LockableListFactory.sort( KoLConstants.activeEffects );
 
 		CharPaneRequest.startCounters();
+		CharPaneRequest.checkChilledToTheBone();
 	}
 
 	private static final void startCounters()
@@ -1041,6 +1035,22 @@ public class CharPaneRequest
 		else if ( absintheCount > 0 )
 		{
 			TurnCounter.startCounting( absintheCount - 1, "Wormwood loc=151 loc=152 loc=153 place.php?whichplace=wormwood", "tinybottle.gif" );
+		}
+	}
+
+	private static final void checkChilledToTheBone()
+	{
+		// Update chilled to the bone - consequences.txt should populate it from description
+		int chilledCount = CharPaneRequest.CHILLED_TO_THE_BONE.getCount( KoLConstants.activeEffects );
+		if ( chilledCount > 0 && Preferences.getInteger( "chilledToTheBone" ) == 0 )
+		{
+			String descId = EffectDatabase.getDescriptionId( EffectPool.CHILLED_TO_THE_BONE );
+			GenericRequest req = new GenericRequest( "desc_effect.php?whicheffect=" + descId );
+			RequestThread.postRequest( req );
+		}
+		if ( chilledCount == 0 && Preferences.getInteger( "chilledToTheBone" ) > 0 )
+		{
+			Preferences.setInteger( "chilledToTheBone", 0 );
 		}
 	}
 
@@ -1900,6 +1910,8 @@ public class CharPaneRequest
 
 		// If we are Absinthe Minded, start absinthe counters
 		CharPaneRequest.startCounters();
+
+		CharPaneRequest.checkChilledToTheBone();
 
 		// Do this now so that familiar weight effects are accounted for
 		KoLCharacter.recalculateAdjustments();

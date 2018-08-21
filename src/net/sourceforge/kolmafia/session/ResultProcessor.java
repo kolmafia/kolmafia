@@ -1168,7 +1168,7 @@ public class ResultProcessor
 			case EffectPool.CHILLED_TO_THE_BONE:
 				int duration = result.getCount();
 				if ( duration <= 0 ) break;
-				Preferences.setInteger( "_chilledToTheBone", (int) Math.pow( 3, duration ) );
+				Preferences.setInteger( "chilledToTheBone", (int) Math.pow( 3, duration ) );
 				break;
 			}
 
