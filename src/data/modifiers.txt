@@ -4723,8 +4723,8 @@ Effect	Blood-Rich	HP Regen Min: 8, HP Regen Max: 12
 Effect	Bloodstain-Resistant	HP Regen Min: 8, HP Regen Max: 10
 Effect	Bloodthirsty	Monster Level: +30
 Effect	Bloody Bloody Bloody!	Spooky Damage: +50
-# Bloody Grin: +500% Physical Damage
-Effect	Bloody Grin	Experience (Muscle): [25*zone(Twitch)]
+# Bloody Grin: +500% Physical Damage (currently approximated with Weapon Damage Percent)
+Effect	Bloody Grin	Experience (Muscle): [25*zone(Twitch)], Weapon Damage Percent: [500*zone(Twitch)]
 Effect	Bloody Hand	Muscle: -1
 Effect	Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
 # Bloody-minded: +50% Damage vs. Vampires
