@@ -1626,7 +1626,7 @@ public class QuestManager
 	{
 		Preferences.setInteger( "lastCouncilVisit", KoLCharacter.getLevel() );
 
-		if ( responseText.contains( "500" ) )
+		if ( responseText.contains( "Thanks for the larva, Adventurer. We'll put this to good use." ) )
 		{
 			ResultProcessor.removeItem( ItemPool.MOSQUITO_LARVA );
 		}
