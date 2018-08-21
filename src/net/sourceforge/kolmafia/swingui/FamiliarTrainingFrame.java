@@ -344,6 +344,7 @@ public class FamiliarTrainingFrame
 				FamiliarTrainingPanel.this.prizeCounter.setText( nextPrize + " wins to next prize" );
 
 				// Terrarium weight
+				// Weight counts if above 1 or with experience, to a maximum of 20
 				int totalTerrariumWeight = 0;
 
 				FamiliarData[] familiarArray = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
@@ -351,9 +352,9 @@ public class FamiliarTrainingFrame
 
 				for ( int i = 0; i < familiarArray.length; ++i )
 				{
-					if ( familiarArray[ i ].getWeight() != 1 )
+					if ( familiarArray[ i ].getWeight() != 1 || familiarArray[ i ].getTotalExperience() > 0 )
 					{
-						totalTerrariumWeight += familiarArray[ i ].getWeight();
+						totalTerrariumWeight += Math.min( familiarArray[ i ].getWeight(), 20 );
 					}
 				}
 
