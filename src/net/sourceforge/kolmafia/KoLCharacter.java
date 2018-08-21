@@ -6154,20 +6154,21 @@ public abstract class KoLCharacter
 			double moxExp = baseExp * moxExpPct + exp * ( 1 + moxExpPct );
 
 			// Adjust for prime stat
+			// The base +1 Exp for mainstat IS tuned
 			switch ( prime )
 			{
 			case 0:
-				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MUS_EXPERIENCE, 1 + musExp / 2.0f, "Class:EXP/2" );
 				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
 				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
 				break;
 			case 1:
-				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MYS_EXPERIENCE, 1 + mysExp / 2.0f, "Class:EXP/2" );
 				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
 				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 4.0f, "Class:EXP/4" );
 				break;
 			case 2:
-				newModifiers.add( Modifiers.MOX_EXPERIENCE, moxExp / 2.0f, "Class:EXP/2" );
+				newModifiers.add( Modifiers.MOX_EXPERIENCE, 1 + moxExp / 2.0f, "Class:EXP/2" );
 				newModifiers.add( Modifiers.MUS_EXPERIENCE, musExp / 4.0f, "Class:EXP/4" );
 				newModifiers.add( Modifiers.MYS_EXPERIENCE, mysExp / 4.0f, "Class:EXP/4" );
 				break;
