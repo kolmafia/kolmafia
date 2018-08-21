@@ -310,6 +310,23 @@ public class FightRequest
 	private static final Pattern MASK_SWAP_PATTERN = 
 		Pattern.compile( "swap your mask for the monster's (.*?)<script>" );
 
+	private static final Pattern BONERDAGON_BLOCK_PATTERN = 
+		Pattern.compile( "pulling the (.*?) out of your pocket" );
+
+	private static final Pattern NS1_BLOCK1_PATTERN = 
+		Pattern.compile( "you pull the (.*?) out of your pocket" );
+	private static final Pattern NS1_BLOCK2_PATTERN = 
+		Pattern.compile( "start to use the (.*?), but the Sorceress" );
+	private static final Pattern NS1_BLOCK3_PATTERN = 
+		Pattern.compile( "grabs the (.*?) out of your hands" );
+
+	private static final Pattern NS2_BLOCK1_PATTERN = 
+		Pattern.compile( "tears the (.*?) out of your hands" );
+	private static final Pattern NS2_BLOCK2_PATTERN = 
+		Pattern.compile( "the (.*?) is shattered" );
+	private static final Pattern NS2_BLOCK3_PATTERN = 
+		Pattern.compile( "use the (.*?), a nasty-looking pseudopod" );
+
 	private static final AdventureResult TOOTH = ItemPool.get( ItemPool.SEAL_TOOTH, 1);
 	private static final AdventureResult SPICES = ItemPool.get( ItemPool.SPICES, 1);
 	private static final AdventureResult MERCENARY = ItemPool.get( ItemPool.TOY_MERCENARY, 1);
@@ -7825,6 +7842,81 @@ public class FightRequest
 
 		MonsterData monster = MonsterStatusTracker.getLastMonster();
 		String monsterName = monster != null ? monster.getName() : "";
+
+		// Some monsters block items, but do not destroy them
+		if ( monsterName.equals( "Bonerdagon" ) )
+		{
+			Matcher matcher = FightRequest.BONERDAGON_BLOCK_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+		}
+		else if ( monsterName.equals( "Your Shadow" ) )
+		{
+			if ( responseText.contains( "knocks it out of your hands" ) )
+			{
+				// We can't tell which item is blocked, so assume both if funkslinging
+				return false;
+			}
+		}
+		else if ( monsterName.equals( "Naughty Sorceress" ) )
+		{
+			Matcher matcher = FightRequest.NS1_BLOCK1_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+			matcher = FightRequest.NS1_BLOCK2_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+			matcher = FightRequest.NS1_BLOCK3_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+		}
+		else if ( monsterName.equals( "Naughty Sorceress (2)" ) )
+		{
+			Matcher matcher = FightRequest.NS2_BLOCK1_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+			matcher = FightRequest.NS2_BLOCK2_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+			matcher = FightRequest.NS2_BLOCK3_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				if ( ItemDatabase.getItemName( itemId ).equals( matcher.group( 1 ) ) )
+				{
+					return false;
+				}
+			}
+		}
 
 		switch ( itemId )
 		{
