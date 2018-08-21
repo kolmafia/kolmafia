@@ -3162,10 +3162,35 @@ public class DailyDeedsPanel
 			this.addListener( "_snojoFreeFights" );
 			this.addListener( "_witchessFights" );
 			this.addListener( "_eldritchTentacleFought" );
+			this.addListener( "_godLobsterFights" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
 
+		private int count;
+		private boolean shown;
+		private static final int fightsPerLine = 5;
+		private void addFightCounter(StringBuilder buffer, String text)
+		{
+			if ( count >= fightsPerLine )
+			{
+				buffer.append( "<br>" );
+				count = 0;
+			}
+			
+			if ( count == 0 )
+			{
+				buffer.append( "Fights: " );
+			}
+			else if ( count < fightsPerLine )
+			{
+				buffer.append( ", " );
+			}
+			buffer.append( text );
+			++count;
+			shown = true;
+		}
+		
 		@Override
 		public void update()
 		{
@@ -3175,6 +3200,7 @@ public class DailyDeedsPanel
 			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
 			FamiliarData goth = KoLCharacter.findFamiliar( FamiliarPool.ARTISTIC_GOTH_KID );
 			FamiliarData machineElf = KoLCharacter.findFamiliar( FamiliarPool.MACHINE_ELF );
+			FamiliarData godLobster = KoLCharacter.findFamiliar( FamiliarPool.GOD_LOBSTER );
 			boolean hh = hipster != null && hipster.canEquip() ;
 			boolean hg = goth != null && goth.canEquip() ;
 			boolean hf = hh || hg;
@@ -3184,6 +3210,7 @@ public class DailyDeedsPanel
 			else if ( hg ) ff = "goth";
 			boolean sc = KoLCharacter.getClassType().equals(KoLCharacter.SEAL_CLUBBER);
 			boolean me = machineElf != null && machineElf.canEquip();
+			boolean gl = godLobster != null && godLobster.canEquip();
 			boolean sj = Preferences.getBoolean( "snojoAvailable" ) && StandardRequest.isAllowed( "Items", "X-32-F snowman crate" ) &&
 				!Limitmode.limitZone( "The Snojo" ) && !KoLCharacter.inBadMoon();
 			boolean wc = KoLConstants.campground.contains( ItemPool.get( ItemPool.WITCHESS_SET, 1 ) ) &&
@@ -3191,28 +3218,30 @@ public class DailyDeedsPanel
 				!KoLCharacter.inBadMoon();
 			boolean et = !(Preferences.getBoolean("_eldritchTentacleFought"));
 
-			this.setShown( bf || hf || sc || me || sj || wc || et);
+			StringBuilder buffer = new StringBuilder();
+			count = 0;
+			shown = false;
+
+			buffer.append( "<html>" );
+			
 			int maxSummons = 5;
 			if ( KoLCharacter.hasEquipped( DailyDeedsPanel.INFERNAL_SEAL_CLAW ) ||
 			     DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount( KoLConstants.inventory ) > 0 )
 			{
 				maxSummons = 10;
 			}
-			String text = "Fights: ";
-			if ( bf ) text = text + Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO";
-			if ( bf && ( hf || sc || me || sj || wc || et) ) text = text + ", ";
-			if ( hf ) text = text + Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff;
-			if ( hf && ( sc || me || sj || wc || et )  ) text = text + ", ";
-			if ( sc ) text = text + Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned";
-			if ( sc && ( me || sj || wc || et ) ) text = text + ", ";
-			if ( me ) text = text + Preferences.getInteger( "_machineTunnelsAdv" ) + "/5" + " machine elf";
-			if ( me && ( sj || wc || et) ) text = text + ", ";
-			if ( sj ) text = text + Preferences.getInteger( "_snojoFreeFights" ) + "/10" + " snojo";
-			if ( sj && (wc || et)) text = text + ", ";
-			if ( wc ) text = text + Preferences.getInteger( "_witchessFights" ) + "/5" + " witchess";
-			if ( wc && et) text = text + ", ";
-			if ( et ) text = text + " tentacle";
-			this.setText( text );
+			if ( bf ) addFightCounter( buffer, Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO" );
+			if ( hf ) addFightCounter( buffer, Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff );
+			if ( sc ) addFightCounter( buffer, Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned" );
+			if ( me ) addFightCounter( buffer, Preferences.getInteger( "_machineTunnelsAdv" ) + "/5" + " machine elf" );
+			if ( sj ) addFightCounter( buffer, Preferences.getInteger( "_snojoFreeFights" ) + "/10" + " snojo" );
+			if ( wc ) addFightCounter( buffer, Preferences.getInteger( "_witchessFights" ) + "/5" + " witchess" );
+			if ( gl ) addFightCounter( buffer, Preferences.getInteger( "_godLobsterFights" ) + "/3" + " god lobster" );
+			if ( et ) addFightCounter( buffer, "tentacle" );
+			buffer.append( "</html>" );
+
+			this.setShown( shown );
+			this.setText( buffer.toString() );
 		}
 	}
 
