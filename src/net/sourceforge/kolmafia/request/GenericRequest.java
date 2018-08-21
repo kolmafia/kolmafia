@@ -3260,13 +3260,6 @@ public class GenericRequest
 
 			// Lastly, do not log item usage with a turn counter,
 			// since only combats will use a turn.
-			// But we still want to set lcocation to null
-
-			KoLAdventure.lastVisitedLocation = null;
-			KoLAdventure.lastLocationName = null;
-			KoLAdventure.lastLocationURL = location;
-			KoLAdventure.setNextAdventure( "None" );
-
 			return;
 
 		case ItemPool.CLARIFIED_BUTTER:

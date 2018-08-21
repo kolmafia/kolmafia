@@ -6797,51 +6797,72 @@ public class UseItemRequest
 	@Override
 	public int getAdventuresUsed()
 	{
+		// Some only use adventures when used as a proxy for a non adventure game location
+		switch ( this.itemUsed.getItemId() )
+		{
+			case ItemPool.CHATEAU_WATERCOLOR:
+			case ItemPool.GOD_LOBSTER:
+			case ItemPool.WITCHESS_SET:
+				return 0;
+		}
 		return UseItemRequest.getAdventuresUsedByItem( this.itemUsed );
 	}
 
 	public static int getAdventuresUsed( final String urlString )
 	{
 		AdventureResult item =
-			urlString.contains( "action=chateau_painting" ) ?
-			ChateauRequest.CHATEAU_PAINTING :
+			urlString.contains( "action=chateau_painting" ) ? ChateauRequest.CHATEAU_PAINTING :
+			urlString.contains( "fightgodlobster=1" ) ? ItemPool.get( ItemPool.GOD_LOBSTER, 1 ) :
+			urlString.contains( "action=witchess" ) ? ItemPool.get( ItemPool.WITCHESS_SET, 1 ) :
 			UseItemRequest.extractItem( urlString );
 		return item == null ? 0 :
-			item.getItemId() == ItemPool.DECK_OF_EVERY_CARD ?
-			DeckOfEveryCardRequest.getAdventuresUsed( urlString ) :
+			item.getItemId() == ItemPool.DECK_OF_EVERY_CARD ? DeckOfEveryCardRequest.getAdventuresUsed( urlString ) :
 			UseItemRequest.getAdventuresUsedByItem( item );
 	}
 
-	public static int getAdventuresUsedByItem( AdventureResult item )
+	private static int getAdventuresUsedByItem( AdventureResult item )
 	{
 		int turns = 0;
 		switch ( item.getItemId() )
 		{
 		case ItemPool.ABYSSAL_BATTLE_PLANS:
+		case ItemPool.AMORPHOUS_BLOB:
+		case ItemPool.BARREL_MAP:
 		case ItemPool.BLACK_PUDDING:
 		case ItemPool.CARONCH_MAP:
 		case ItemPool.CHATEAU_WATERCOLOR:
+		case ItemPool.CLARIFIED_BUTTER:
 		case ItemPool.CRUDE_SCULPTURE:
 		case ItemPool.CURSED_PIECE_OF_THIRTEEN:
 		case ItemPool.DECK_OF_EVERY_CARD:
 		case ItemPool.DOLPHIN_WHISTLE:
 		case ItemPool.ENVYFISH_EGG:
 		case ItemPool.FRATHOUSE_BLUEPRINTS:
+		case ItemPool.GENIE_BOTTLE:
+		case ItemPool.GIANT_AMORPHOUS_BLOB:
+		case ItemPool.GIFT_CARD:
+		case ItemPool.GOD_LOBSTER:
 		case ItemPool.ICE_SCULPTURE:
+		case ItemPool.LYNYRD_SNARE:
+		case ItemPool.MEGACOPIA:
 		case ItemPool.PHOTOCOPIED_MONSTER:
+		case ItemPool.POCKET_WISH:
 		case ItemPool.RAIN_DOH_MONSTER:
+		case ItemPool.SCREENCAPPED_MONSTER:
 		case ItemPool.SHAKING_CAMERA:
 		case ItemPool.SHAKING_CRAPPY_CAMERA:
 		case ItemPool.SHAKING_SKULL:
 		case ItemPool.SPOOKY_PUTTY_MONSTER:
+		case ItemPool.TIME_SPINNER:
 		case ItemPool.WAX_BUGBEAR:
 		case ItemPool.WHITE_PAGE:
+		case ItemPool.WITCHESS_SET:
 		case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
 		case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
-		case ItemPool.SCREENCAPPED_MONSTER:
-		case ItemPool.AMORPHOUS_BLOB:
-		case ItemPool.GIANT_AMORPHOUS_BLOB:
 			// Items that can redirect to a fight that costs turns
+			// Although we say some things cost turns if they involve a fight as
+			// this is used as a check for whether between battle scripts should
+			// run, and a loss always counts as a turn anyway.
 			turns = 1;
 			break;
 
