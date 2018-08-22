@@ -312,6 +312,13 @@ public class MonsterDatabase
 					String keyName = CombatActionManager.encounterKey( name );
 					StringUtilities.registerPrepositions( keyName );
 					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+					if ( keyName.toLowerCase().startsWith( "the " ) )
+					{
+						// Some effects seem to sometimes remove The from the start of the monster name even if normally part of name
+						// eg. ELDRITCH HORROR Master Of Thieves
+						// So allow finding monster without the 'The' also
+						MonsterDatabase.MONSTER_DATA.put( keyName.substring( 4 ), monster );
+					}
 					for ( String image : images )
 					{
 						MonsterDatabase.MONSTER_IMAGES.put( image, monster );
