@@ -88,6 +88,12 @@ public class BuyCommand
 
 		for ( String itemName : itemNames )
 		{
+			if ( itemName.startsWith( "0 " ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Purchasing 0 of an item produces surprising results, if deliberate, purchase number in inventory or don't buy!" );
+				return;
+			}
+
 			String[] pieces = itemName.split( "@" );
 			AdventureResult match = ItemFinder.getFirstMatchingItem( pieces[ 0 ] );
 			if ( match == null )
