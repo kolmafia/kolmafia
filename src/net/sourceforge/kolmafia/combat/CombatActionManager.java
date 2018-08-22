@@ -595,13 +595,8 @@ public abstract class CombatActionManager
 			return action;
 		}
 
-		boolean isSkillNumber = true;
-		for ( int i = 0; i < action.length() && isSkillNumber; ++i )
-		{
-			isSkillNumber = Character.isDigit( action.charAt( i ) );
-		}
-
-		if ( isSkillNumber )
+		// Skill defined by just a number with no skill prefix
+		if ( StringUtilities.isNumeric( action ) )
 		{
 			return action;
 		}
@@ -695,6 +690,10 @@ public abstract class CombatActionManager
 		
 		if ( action.startsWith( "skill" ) )
 		{
+			if ( StringUtilities.isNumeric( action.substring( 5 ).trim() ) )
+			{
+				return "skill" + action.substring( 5 ).trim();
+			}
 			String name = SkillDatabase.getCombatSkillName( action.substring( 5 ).trim() );
 			return name == null ? "attack" : "skill" + SkillDatabase.getSkillId( name );
 		}
