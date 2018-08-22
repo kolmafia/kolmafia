@@ -953,7 +953,7 @@ public class AdventureResult
 
 		String conditionType = this.getConditionType();
 
-		if ( !conditionType.equals( "item" ) )
+		if ( !conditionType.equals( "item" ) && !conditionType.equals( "pirate insult" ) )
 		{
 			return this.count + " " + conditionType;
 		}
