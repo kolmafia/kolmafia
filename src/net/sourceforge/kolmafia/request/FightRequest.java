@@ -9933,7 +9933,7 @@ public class FightRequest
 				}
 				else
 				{
-					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skill );
+					FightRequest.nextAction = CombatActionManager.getShortCombatOptionName( "skill " + skillNumber );
 					if ( shouldLogAction )
 					{
 						if ( isBatfellow )
