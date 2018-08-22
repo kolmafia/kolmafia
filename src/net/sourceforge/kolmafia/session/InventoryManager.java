@@ -1898,10 +1898,6 @@ public abstract class InventoryManager
 			return false;
 		}
 		boolean canUseStash = InventoryManager.canUseClanStash();
-		if ( canUseStash && !ClanManager.isStashRetrieved() )
-		{
-			RequestThread.postRequest( new ClanStashRequest() );
-		}
 		return canUseStash &&
 			item.getCount( ClanManager.getStash() ) > 0;
 	}

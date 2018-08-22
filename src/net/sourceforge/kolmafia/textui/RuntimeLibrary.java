@@ -4121,11 +4121,6 @@ public abstract class RuntimeLibrary
 			return value;
 		}
 
-		if ( !ClanManager.stashRetrieved )
-		{
-			RequestThread.postRequest( new ClanStashRequest() );
-		}
-
 		List<AdventureResult> list = ClanManager.getStash();
 		for ( int i = 0; i < list.size(); ++i )
 		{

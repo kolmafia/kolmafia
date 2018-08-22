@@ -300,8 +300,7 @@ public class KoLmafiaGUI
 
 			if ( InventoryManager.canUseClanStash() && ClanManager.getStash().isEmpty() )
 			{
-				KoLmafia.updateDisplay( "Retrieving clan stash contents..." );
-				RequestThread.postRequest( new ClanStashRequest() );
+				// getStash() will refresh clan stash contents if empty
 			}
 		}
 		else if ( frameClass == ContactListFrame.class )

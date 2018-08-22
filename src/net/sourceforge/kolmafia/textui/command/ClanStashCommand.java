@@ -68,10 +68,6 @@ public class ClanStashCommand
 				direction = ClanStashRequest.STASH_TO_ITEMS;
 				parameters = parameters.substring( 4 ).trim();
 				list = ClanManager.getStash();
-				if ( list.isEmpty() )
-				{
-					RequestThread.postRequest( new ClanStashRequest() );
-				}
 			}
 			else if ( command.equals( "put" ) )
 			{
