@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest.BuffTool;
 
@@ -530,7 +531,8 @@ public class SkillDatabase
 
 		String classType = null;
 		boolean thrallReduced = false;
-		boolean isCombat = SkillDatabase.isCombat( skillId );
+		boolean isCombat = ( SkillDatabase.isCombat( skillId ) && !SkillDatabase.isNonCombat( skillId ) ) ||
+							( SkillDatabase.isCombat( skillId ) && FightRequest.getCurrentRound() > 0 );
 		boolean terminal = false;
 
 		switch ( skillId )
@@ -966,6 +968,18 @@ public class SkillDatabase
 		return SkillDatabase.isType( skillId, SkillDatabase.COMBAT ) ||
 		       SkillDatabase.isType( skillId, SkillDatabase.COMBAT_NONCOMBAT_REMEDY ) ||
 		       SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
+	}
+
+	/**
+	 * Returns whether or not the skill is a non combat skill (ie: can be used while not fighting).
+	 *
+	 * @return <code>true</code> if the skill can be used out of combat
+	 */
+
+	public static final boolean isNonCombat( final int skillId )
+	{
+		return !SkillDatabase.isType( skillId, SkillDatabase.COMBAT ) &&
+		       !SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
 	}
 
 	/**
