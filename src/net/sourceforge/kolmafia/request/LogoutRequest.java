@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 
 public class LogoutRequest
 	extends GenericRequest
@@ -75,6 +76,24 @@ public class LogoutRequest
 		KoLmafia.updateDisplay( "Logout request submitted." );
 
 		LogoutRequest.isRunning = false;
+		
+		// Clear up things you might be in the middle of that can stop execution on another character
+		if ( FightRequest.currentRound != 0 )
+		{
+			FightRequest.preFight();
+		}
+		if ( FightRequest.inMultiFight )
+		{
+			FightRequest.inMultiFight = false;
+		}
+		if ( FightRequest.choiceFollowsFight )
+		{
+			FightRequest.choiceFollowsFight = false;
+		}
+		if ( ChoiceManager.handlingChoice )
+		{
+			ChoiceManager.handlingChoice = false;
+		}		
 	}
 
 	@Override
