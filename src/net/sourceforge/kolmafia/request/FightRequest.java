@@ -1984,8 +1984,18 @@ public class FightRequest
 		FightRequest.isAutomatingFight = false;
 	}
 
-	public static final boolean processResults( final String urlString, final String encounter, final String responseText )
+	private static final String removeGothy( String text )
 	{
+		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i><br>&nbsp;&nbsp;", "" );
+		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i><br>&nbsp;", "" );
+		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i><br>", "" );
+		text = text.replaceAll( " <i>(?:agony|anguish|blackness|despair|fear|gloom|heart|loneliness|miasma|rain|soul|torment)</i>", "" );
+		return text;
+	}
+
+	public static final boolean processResults( final String urlString, final String encounter, String responseText )
+	{
+		responseText = FightRequest.removeGothy( responseText );
 		FightRequest.updateCombatData( urlString, encounter, responseText );
 		FightRequest.parseCombatItems( responseText );
 		FightRequest.parseAvailableCombatSkills( responseText );
@@ -7679,6 +7689,12 @@ public class FightRequest
 		text = KoLConstants.ANYTAG_PATTERN.matcher( text ).replaceAll( " " );
 		text = StringUtilities.globalStringDelete( text, "&nbsp;" );
 		text = StringUtilities.globalStringReplace( text, "  ", " " );
+
+		// Use of a tiny goth giant can cause a <br> at the start of a message
+		if ( text.contains( ": / " ) )
+		{
+			text = text.replaceFirst( ": / ", ": " );
+		}
 
 		RequestLogger.printLine( text );
 		RequestLogger.updateSessionLog( text );
