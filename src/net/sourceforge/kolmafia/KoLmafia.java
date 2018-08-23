@@ -1376,6 +1376,13 @@ public abstract class KoLmafia
 
 			KoLmafia.executeRequestOnce( request, currentIteration, totalIterations, items, creatables, wasAdventuring );
 
+			// If updates are suppressed, turn counter doesn't change, so we get stuck in an infinite loop
+			// Avoid by API update in that case.
+			if ( GenericRequest.updateSuppressed() )
+			{
+				ApiRequest.updateStatus( true );
+			}
+
 			if ( isAdventure && KoLmafia.redoSkippedAdventures &&
 			     runBeforeRequest == KoLCharacter.getCurrentRun() )
 			{

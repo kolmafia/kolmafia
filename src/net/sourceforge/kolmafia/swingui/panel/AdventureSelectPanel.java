@@ -93,6 +93,8 @@ import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 
+import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 
@@ -108,6 +110,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class AdventureSelectPanel
 	extends JPanel
@@ -440,6 +443,8 @@ public class AdventureSelectPanel
 	private class ExecuteRunnable
 		implements Runnable
 	{
+		private final PauseObject pauser = new PauseObject();
+
 		public void run()
 		{
 			KoLmafia.updateDisplay( "Validating adventure sequence..." );
@@ -449,6 +454,13 @@ public class AdventureSelectPanel
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "No location selected." );
 				return;
+			}
+
+			// If GCLI has commands, complete them before automation
+			while ( !KoLmafia.refusesContinue() && CommandDisplayFrame.hasQueuedCommands() )
+			{
+				this.pauser.pause( 500 );
+				continue;
 			}
 
 			// If there are conditions in the condition field, be

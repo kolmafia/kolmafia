@@ -413,6 +413,11 @@ public class GenericRequest
 		GenericRequest.suppressUpdate = suppressUpdate;
 	}
 
+	public static boolean updateSuppressed()
+	{
+		return GenericRequest.suppressUpdate;
+	}
+
 	public GenericRequest cloneURLString( final GenericRequest req )
 	{
 		String newURLString = req.getFullURLString();
