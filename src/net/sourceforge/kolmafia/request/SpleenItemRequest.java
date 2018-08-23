@@ -228,7 +228,6 @@ public class SpleenItemRequest
 
 		int spleenHit = ConsumablesDatabase.getSpleenHit( item.getName() );
 		int count = item.getCount();
-		int spleenUse = spleenHit * count;
 
 		if ( responseText.contains( "rupture" ) )
 		{
@@ -242,10 +241,24 @@ public class SpleenItemRequest
 				return;
 			}
 
-			int maxSpleen = KoLCharacter.getSpleenLimit();
+			int spleenLimit = KoLCharacter.getSpleenLimit();
 			int currentSpleen = KoLCharacter.getSpleenUse();
 
-			int estimatedSpleen = maxSpleen - spleenUse + 1;
+			// Based on what we think our current spleen is,
+			// calculate how many of this item we have room for.
+			int maxSpleen = ( spleenLimit - currentSpleen ) / spleenHit;
+
+			// We know that KoL did not let us spleen as many as we
+			// requested, so adjust for how many we could spleen.
+			int couldSpleen = Math.max( 0, Math.min( count - 1, maxSpleen ) );
+
+			if ( couldSpleen > 0 )
+			{
+				KoLCharacter.setSpleenUse( currentSpleen + couldSpleen * spleenHit );
+				ResultProcessor.processResult( item.getInstance( -couldSpleen ) );
+			}
+
+			int estimatedSpleen = spleenLimit - spleenHit + 1;
 
 			if ( estimatedSpleen > currentSpleen )
 			{
@@ -258,7 +271,7 @@ public class SpleenItemRequest
 		}
 
 		// The spleen item was consumed successfully
-		KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + spleenUse );
+		KoLCharacter.setSpleenUse( KoLCharacter.getSpleenUse() + count * spleenHit );
 
 		ResultProcessor.processResult( item.getNegation() );
 		KoLCharacter.updateStatus();
