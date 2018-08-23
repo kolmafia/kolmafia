@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandDisplayFrame
@@ -108,11 +109,14 @@ public class CommandDisplayFrame
 			return;
 		}
 
-		if ( CommandDisplayFrame.hasQueuedCommands() )
+		if ( CommandDisplayFrame.hasQueuedCommands() || KoLmafia.isAdventuring() )
 		{
 			RequestLogger.printLine();
 			
-			RequestLogger.printLine( " > <b>CURRENT</b>: " + handler.command );
+			if ( !KoLmafia.isAdventuring() )
+			{
+				RequestLogger.printLine( " > <b>CURRENT</b>: " + handler.command );
+			}
 
 			Iterator<String> commandIterator = CommandDisplayFrame.commandQueue.iterator();
 
@@ -136,6 +140,7 @@ public class CommandDisplayFrame
 		extends Thread
 	{
 		private String command = null;
+		private final PauseObject pauser = new PauseObject();
 
 		public CommandQueueHandler()
 		{
@@ -177,6 +182,13 @@ public class CommandDisplayFrame
 		{
 			do
 			{
+				// Don't try running commands whilst running adventures, it causes unexpected results
+				while ( !KoLmafia.refusesContinue() && KoLmafia.isAdventuring() )
+				{
+					this.pauser.pause( 500 );
+					continue;
+				}
+
 				RequestLogger.printLine();
 				RequestLogger.printLine( " > " + StringUtilities.globalStringReplace( this.command, "<", "&lt;" ) );
 				RequestLogger.printLine();
