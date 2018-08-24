@@ -1887,7 +1887,7 @@ public abstract class UseLinkDecorator
 			break;
 
 		case ItemPool.NOSTRIL_OF_THE_SERPENT:
-			if ( !InventoryManager.hasItem( ItemPool.STONE_WOOL ) )
+			if ( !InventoryManager.hasItem( ItemPool.STONE_WOOL ) || KoLCharacter.inGLover() )
 			{
 				return null;
 			}
