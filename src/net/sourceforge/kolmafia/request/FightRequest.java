@@ -4023,9 +4023,9 @@ public class FightRequest
 					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
 					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
 				{
-					Preferences.increment( "_catBurglarCharge" );
-					// if we get the heist message the mask doesn't increase the charge, it appears
-					break;
+					// To correct for odd errors, lets round to the nearest factor of 10 here as we know we just hit a heist
+					int charge = Preferences.getInteger( "_catBurglarCharge" );
+					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
 				}
 				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" )||
 					responseText.contains( "takes advantage of the downtime to grab a few z's" ) ||
