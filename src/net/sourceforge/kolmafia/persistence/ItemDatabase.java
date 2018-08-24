@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
 
@@ -2443,6 +2444,16 @@ public class ItemDatabase
 		case ItemPool.ENCHANTED_BEAN:
 		case ItemPool.PALINDROME_BOOK_1:
 		case ItemPool.PALINDROME_BOOK_2:
+			return false;
+		}
+		String itemName = ItemDatabase.getItemName( itemId );
+
+		// Can eat/drink things in cafes, even if they have G's*
+		if ( KoLConstants.restaurantItems.contains( itemName ) ||
+			KoLConstants.microbreweryItems.contains( itemName ) ||
+			KoLConstants.cafeItems.contains( itemName ) ||
+			ClanLoungeRequest.isSpeakeasyDrink( itemName ) )
+		{
 			return false;
 		}
 		return !KoLCharacter.hasGs( ItemDatabase.getItemName( itemId ) );
