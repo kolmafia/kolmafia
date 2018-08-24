@@ -70,6 +70,12 @@ public class GenieRequest
 	}
 
 	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		return true;
+	}
+
+	@Override
 	public void run()
 	{
 		if ( GenericRequest.abortIfInFightOrChoice() )

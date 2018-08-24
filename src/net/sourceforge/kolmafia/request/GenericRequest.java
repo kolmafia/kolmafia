@@ -2237,6 +2237,7 @@ public class GenericRequest
 			if ( this instanceof UseItemRequest ||
 			     this instanceof ChateauRequest ||
 			     this instanceof DeckOfEveryCardRequest ||
+			     this instanceof GenieRequest ||
 			     this instanceof UseSkillRequest )
 			{
 				this.redirectHandled = true;
