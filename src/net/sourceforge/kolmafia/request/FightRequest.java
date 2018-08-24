@@ -4015,12 +4015,17 @@ public class FightRequest
 				if ( responseText.contains( "takes note of any security cameras in the area" ) ||
 					responseText.contains( "watches carefully to see if there are any guards and when they change shifts" ) ||
 					responseText.contains( "looks around for unlocked windows and accessible vents" ) ||
-					responseText.contains( "stands around casually, definitely just loitering and not casing the joint at all" ) ||
-					responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
+					responseText.contains( "stands around casually, definitely just loitering and not casing the joint at all" ) )
+				{
+					Preferences.increment( "_catBurglarCharge" );
+				}
+				if ( responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
 					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
 					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
 				{
 					Preferences.increment( "_catBurglarCharge" );
+					// if we get the heist message the mask doesn't increase the charge, it appears
+					break;
 				}
 				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" )||
 					responseText.contains( "takes advantage of the downtime to grab a few z's" ) ||
