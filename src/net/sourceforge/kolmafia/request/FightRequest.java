@@ -4019,19 +4019,20 @@ public class FightRequest
 				{
 					Preferences.increment( "_catBurglarCharge" );
 				}
-				if ( responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
-					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
-					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
-				{
-					// To correct for odd errors, lets round to the nearest factor of 10 here as we know we just hit a heist
-					int charge = Preferences.getInteger( "_catBurglarCharge" );
-					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
-				}
 				if ( responseText.contains( "grabs a quick nap with his sleep mask, so he'll be fresh for the upcoming heist" )||
 					responseText.contains( "takes advantage of the downtime to grab a few z's" ) ||
 					responseText.contains( "disguises himself as someone who is asleep" ) )
 				{
 					Preferences.increment( "_catBurglarCharge" );
+				}
+				if ( responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
+					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
+					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
+				{
+					// Current theory is that heist message can happen even when the charge is reached from sleepmask trigger later
+					// in the combat text. And that it resets charge to next heist to 0. We round to catch other small errors too.
+					int charge = Preferences.getInteger( "_catBurglarCharge" ) + 1;
+					Preferences.setInteger( "_catBurglarCharge", (int) Math.round( charge / 10 ) * 10 );
 				}
 				break;
 
