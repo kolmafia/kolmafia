@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.lang.Integer;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -44,6 +45,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.request.HermitRequest;
 
@@ -91,19 +94,29 @@ public class HermitCommand
 		parameters = parameters.toLowerCase().trim();
 		int itemId = -1;
 
-		for ( AdventureResult item : KoLConstants.hermitItems )
+		if ( KoLCharacter.inZombiecore() && parameters.contains( "clover" ) )
 		{
-			String name = item.getName();
-			if ( name.toLowerCase().contains( parameters ) )
+			if ( !Preferences.getBoolean( "_zombieClover" ) )
 			{
-				if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+				itemId = ItemPool.TEN_LEAF_CLOVER;
+			}
+		}
+		else
+		{
+			for ( AdventureResult item : KoLConstants.hermitItems )
+			{
+				String name = item.getName();
+				if ( name.toLowerCase().contains( parameters ) )
 				{
-					RequestLogger.printLine( name );
-					return;
-				}
+					if ( KoLmafiaCLI.isExecutingCheckOnlyCommand )
+					{
+						RequestLogger.printLine( name );
+						return;
+					}
 
-				itemId = item.getItemId();
-				break;
+					itemId = item.getItemId();
+					break;
+				}
 			}
 		}
 
@@ -126,7 +139,14 @@ public class HermitCommand
 
 		if ( count > 0 )
 		{
-			RequestThread.postRequest( new HermitRequest( itemId, count ) );
+			if ( KoLCharacter.inZombiecore() )
+			{
+				RequestThread.postRequest( new HermitRequest() );
+			}
+			else
+			{
+				RequestThread.postRequest( new HermitRequest( itemId, count ) );
+			}
 		}
 	}
 }
