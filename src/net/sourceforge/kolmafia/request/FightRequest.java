@@ -7467,8 +7467,15 @@ public class FightRequest
 			}
 			if ( setting != null )
 			{
-				Preferences.decrement( setting, 1, 0 );
-				Preferences.decrement( "cyrptTotalEvilness", 1, 0 );
+				int evilness = 1;
+				// If you have a gravy boat and Lovebugs, the gravy boat message ends up in the same node as the lovebug message
+				if ( text.contains( "Some gravy sloshes" ) )
+				{
+					evilness++;
+				}
+
+				Preferences.decrement( setting, evilness, 0 );
+				Preferences.decrement( "cyrptTotalEvilness", evilness, 0 );
 				return true;
 			}
 		}
