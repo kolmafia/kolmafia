@@ -496,7 +496,7 @@ public class Maximizer
 				Maximizer.boosts.add( new Boost( cmd, text, item, delta ) );
 			}
 
-			if ( lookup.startsWith( "Horsery:" ) )
+			if ( lookup.startsWith( "Horsery:" ) && ( filterLevel == 0 || filterLevel == 7 ) )
 			{
 				String cmd, text;
 				int price = 0;
@@ -535,7 +535,7 @@ public class Maximizer
 				Maximizer.boosts.add( new Boost( cmd, text, name, delta ) );
 			}
 
-			if ( lookup.startsWith( "BoomBox:" ) )
+			if ( lookup.startsWith( "BoomBox:" ) && ( filterLevel == 0 || filterLevel == 7 ) )
 			{
 				String cmd, text;
 				String name = lookup.substring( 8 );
@@ -690,35 +690,42 @@ public class Maximizer
 				// Check filters
 				if	( filterLevel != 0 )
 				{
-					if ( cmd.startsWith( "chew " ) )
-					{
-						if ( filterLevel != 5 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "drink " ) )
-					{
-						if ( filterLevel != 3 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "eat " ) )
-					{
-						if ( filterLevel != 4 )
-						{
-							continue;
-						}
-					}
-					else if ( cmd.startsWith( "use " ) )
+					if ( cmd.startsWith( "cast " ) )
 					{
 						if ( filterLevel != 2 )
 						{
 							continue;
 						}
 					}
-					else if ( filterLevel != 6 )
+					else if ( cmd.startsWith( "chew " ) )
+					{
+						if ( filterLevel != 6 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "drink " ) )
+					{
+						if ( filterLevel != 4 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "eat " ) )
+					{
+						if ( filterLevel != 5 )
+						{
+							continue;
+						}
+					}
+					else if ( cmd.startsWith( "use " ) )
+					{
+						if ( filterLevel != 3 )
+						{
+							continue;
+						}
+					}
+					else if ( filterLevel != 7 )
 					{
 						continue;
 					}
