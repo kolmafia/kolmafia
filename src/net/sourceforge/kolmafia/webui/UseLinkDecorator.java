@@ -1873,6 +1873,12 @@ public abstract class UseLinkDecorator
 			useLocation = "adventure.php?snarfblat=355";
 			break;
 
+		case ItemPool.ZEPPELIN_TICKET:
+
+			useType = "zeppelin";
+			useLocation = "adventure.php?snarfblat=385";
+			break;
+
 		case ItemPool.BUS_PASS:
 		case ItemPool.IMP_AIR:
 
