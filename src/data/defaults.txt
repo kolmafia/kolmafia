@@ -437,6 +437,7 @@ user	crimbotChassis
 user	crimbotArm	
 user	crimbotPropulsion	
 user	crudeMonster	
+user	csServicesPerformed	
 user	currentEasyBountyItem	
 user	currentExtremity	0
 user	currentHardBountyItem	

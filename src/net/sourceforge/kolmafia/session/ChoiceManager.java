@@ -11827,13 +11827,6 @@ public abstract class ChoiceManager
 			}
 			break;
 
-		case 1089: // Community Service
-			if ( ChoiceManager.lastDecision == 30 )
-			{
-				KoLCharacter.liberateKing();
-			}
-			break;
-
 		case 1042:	// Pick a Perk
 			KoLmafia.resetAfterLimitmode();
 			break;
@@ -11870,6 +11863,66 @@ public abstract class ChoiceManager
 			if ( text.contains( "lubricating every inch of the tracks" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.SUPER_LUBER, "step2" );
+			}
+			break;
+
+		case 1089: // Community Service
+			// Choice 1091 is The Floor Is Yours
+			if ( text.contains ( "You acquire" ) )
+			{
+				String quest = null;
+				switch ( ChoiceManager.lastDecision )
+				{
+				case 1:
+					quest = "Donate Blood";
+					break;
+				case 2:
+					quest = "Feed The Children";
+					break;
+				case 3:
+					quest = "Build Playground Mazes";
+					break;
+				case 4:
+					quest = "Feed Conspirators";
+					break;
+				case 5:
+					quest = "Breed More Collies";
+					break;
+				case 6:
+					quest = "Reduce Gazelle Population";
+					break;
+				case 7:
+					quest = "Make Sausage";
+					break;
+				case 8:
+					quest = "Be a Living Statue";
+					break;
+				case 9:
+					quest = "Make Margaritas";
+					break;
+				case 10:
+					quest = "Clean Steam Tunnels";
+					break;
+				case 11:
+					quest = "Coil Wire";
+					break;
+				}
+				if ( quest != null )
+				{
+					String current = Preferences.getString( "csServicesPerformed" );
+					if ( current.equals( "" ) )
+					{
+						Preferences.setString( "csServicesPerformed", quest );
+					}
+					else
+					{
+						Preferences.setString( "csServicesPerformed", current + "," + quest );
+					}
+				}
+			}
+			if ( ChoiceManager.lastDecision == 30 )
+			{
+				KoLCharacter.liberateKing();
 			}
 			break;
 

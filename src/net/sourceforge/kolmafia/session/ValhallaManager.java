@@ -721,6 +721,8 @@ public class ValhallaManager
 		Preferences.setInteger( "procrastinatorLanguageFluency", 0 );
 		Preferences.setInteger( "spaceBabyLanguageFluency", 0 );
 		Preferences.setInteger( "spacePirateLanguageFluency", 0 );
+		// Community Service
+		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL
 		Preferences.setInteger( "awolMedicine", 0 );
 		Preferences.setInteger( "awolVenom", 0 );
