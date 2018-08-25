@@ -2454,6 +2454,16 @@ public class KoLAdventure
 			return 0;
 		}
 
+		// Sometimes we want to take some action even on a failure
+		if ( responseText.contains( "There are no Hippy soldiers left" ) )
+		{
+			Preferences.setInteger( "hippiesDefeated", 1000 );
+		}
+		else if ( responseText.contains( "There are no Frat soldiers left" ) )
+		{
+			Preferences.setInteger( "fratboysDefeated", 1000 );
+		}
+		
 		for ( int i = 1; i < ADVENTURE_FAILURES.length; ++i )
 		{
 			if ( responseText.contains( (String) ADVENTURE_FAILURES[ i ][ 0 ] ) )
