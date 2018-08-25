@@ -90,7 +90,7 @@ Cantelope	1/3	1/4	2/4	Bonk	Regrow	Violent Shred	Regenerating
 Caramel	1/3	2/3	3/3	Bite	Growl	Stick Treats	None
 Carpricorn	1/3	2/3	3/3	Bonk	Splash	Healing Rain	None
 Casagnova Gnome	1/3	2/3	2/4	Punch	Hug	Vulgar Display	None
-Cat Burglar	x/x	x/x	2/4	Claw	Lick	Violent Shred	None
+Cat Burglar	2/2	2/3	2/4	Claw	Lick	Violent Shred	None
 Chauvinist Pig	1/3	2/3	2/4	Bonk	Lick	Violent Shred	None
 Ched	2/2	2/3	2/4	Bonk	Retreat	Universal Backrub	None
 Cheshire Bat	1/3	1/4	2/4	Claw	Frighten	Empowering Cheer	None
