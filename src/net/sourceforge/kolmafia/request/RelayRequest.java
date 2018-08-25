@@ -1667,12 +1667,21 @@ public class RelayRequest
 			return false;
 		}
 
-		String message;
+		StringBuilder warning = new StringBuilder();
 
-		message =
-			"You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket, which can be bought at the Black Market. If you are sure you want to do this, click on the image to proceed.";
+		warning.append( "You are about to adventure in the Red Zeppelin, but do not have a Zeppelin Ticket. " );
+		warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
+		warning.append( "If you want to visit the Black Market, click the icon on the right. " );
 
-		this.sendGeneralWarning( "zepticket.gif", message, CONFIRM_ZEPPELIN );
+		this.sendOptionalWarning(
+			CONFIRM_ZEPPELIN,
+			warning.toString(),
+			"hand.gif",
+			"zepticket.gif",
+			"\"shop.php?whichshop=blackmarket\"",
+			null,
+			null
+			);
 
 		return true;
 	}
