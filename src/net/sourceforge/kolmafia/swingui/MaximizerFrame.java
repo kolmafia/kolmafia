@@ -241,6 +241,7 @@ public class MaximizerFrame
 			MaximizerFrame.this.filterSelect = new SmartButtonGroup( filterPanel );
 			MaximizerFrame.this.filterSelect.add( new JRadioButton( "none", true ) );
 			MaximizerFrame.this.filterSelect.add( new JRadioButton( "equip" ) );
+			MaximizerFrame.this.filterSelect.add( new JRadioButton( "cast" ) );
 			MaximizerFrame.this.filterSelect.add( new JRadioButton( "usable" ) );
 			MaximizerFrame.this.filterSelect.add( new JRadioButton( "booze" ) );
 			MaximizerFrame.this.filterSelect.add( new JRadioButton( "food" ) );
