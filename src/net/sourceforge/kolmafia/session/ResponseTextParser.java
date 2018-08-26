@@ -301,6 +301,7 @@ public class ResponseTextParser
 			&& !Preferences.getBoolean( "kingLiberated" ) )
 		{
 			// Redirect from donating body to science in Community Service
+			ChoiceManager.canWalkAway();
 			KoLCharacter.liberateKing();
 		}
 
