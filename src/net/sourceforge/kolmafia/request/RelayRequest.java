@@ -2347,6 +2347,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If you are equipped with Drunkula's wineglass, nothing to warn about
+		if ( KoLCharacter.hasEquipped( ItemPool.DRUNKULA_WINEGLASS, EquipmentManager.OFFHAND ) )
+		{
+			return false;
+		}
+
 		// Only adventure.php will shunt you into a Drunken Stupor
 		if ( !adventure.getFormSource().equals( "adventure.php" ) )
 		{
