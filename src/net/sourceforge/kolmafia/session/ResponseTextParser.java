@@ -297,6 +297,13 @@ public class ResponseTextParser
 			ApiRequest.parseResponse( location, responseText );
 		}
 
+		else if ( location.startsWith( "ascend.php" ) && location.contains( "alttext=communityservice" ) 
+			&& !Preferences.getBoolean( "kingLiberated" ) )
+		{
+			// Redirect from donating body to science in Community Service
+			KoLCharacter.liberateKing();
+		}
+
 		else if ( location.startsWith( "ascensionhistory.php" ) )
 		{
 			AscensionHistoryRequest.parseResponse( location, responseText );
