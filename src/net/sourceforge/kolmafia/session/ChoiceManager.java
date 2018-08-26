@@ -11867,7 +11867,6 @@ public abstract class ChoiceManager
 			break;
 
 		case 1089: // Community Service
-			// Choice 1091 is The Floor Is Yours
 			if ( text.contains ( "You acquire" ) )
 			{
 				String quest = null;
@@ -11919,10 +11918,6 @@ public abstract class ChoiceManager
 						Preferences.setString( "csServicesPerformed", current + "," + quest );
 					}
 				}
-			}
-			if ( ChoiceManager.lastDecision == 30 )
-			{
-				KoLCharacter.liberateKing();
 			}
 			break;
 
