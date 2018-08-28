@@ -296,6 +296,7 @@ implements Comparable<MaximizerSpeculation>, Cloneable
 				case EquipmentManager.HAT:
 				case EquipmentManager.PANTS:
 				case EquipmentManager.SHIRT:
+				case EquipmentManager.CONTAINER:
 					if ( item.equals( this.equipment[ slot ] ) )
 					{	// already worn
 						continue pieceloop;
