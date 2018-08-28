@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -407,6 +408,9 @@ public class PandamoniumRequest
 			return;
 		}
 
+		boolean paperUsed = false;
+		boolean cakeUsed = false;
+
 		// Completely replace the existing form
 		StringBuffer form = new StringBuffer();
 
@@ -418,19 +422,57 @@ public class PandamoniumRequest
 		form.append( "<table>" );
 		if ( buffer.indexOf( "<option>Bognort</option>" ) != -1 )
 		{
-			PandamoniumRequest.addBandmember( form, "Bognort", ItemPool.GIANT_MARSHMALLOW, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
+			int select = 0;
+			if ( InventoryManager.getCount( ItemPool.GIANT_MARSHMALLOW ) > 0 )
+			{
+				select = 1;
+			}
+			else if ( InventoryManager.getCount( ItemPool.GIN_SOAKED_BLOTTER_PAPER ) > 0 )
+			{
+				select = 2;
+				paperUsed = true;
+			}
+			PandamoniumRequest.addBandmember( form, "Bognort", ItemPool.GIANT_MARSHMALLOW, ItemPool.GIN_SOAKED_BLOTTER_PAPER, select );
 		}
 		if ( buffer.indexOf( "<option>Stinkface</option>" ) != -1 )
 		{
-			PandamoniumRequest.addBandmember( form, "Stinkface", ItemPool.BEER_SCENTED_TEDDY_BEAR, ItemPool.GIN_SOAKED_BLOTTER_PAPER );
+			int select = 0;
+			if ( InventoryManager.getCount( ItemPool.BEER_SCENTED_TEDDY_BEAR ) > 0 )
+			{
+				select = 1;
+			}
+			else if ( InventoryManager.getCount( ItemPool.GIN_SOAKED_BLOTTER_PAPER ) > ( paperUsed ? 1 : 0 ) )
+			{
+				select = 2;
+			}
+			PandamoniumRequest.addBandmember( form, "Stinkface", ItemPool.BEER_SCENTED_TEDDY_BEAR, ItemPool.GIN_SOAKED_BLOTTER_PAPER, select );
 		}
 		if ( buffer.indexOf( "<option>Flargwurm</option>" ) != -1 )
 		{
-			PandamoniumRequest.addBandmember( form, "Flargwurm", ItemPool.BOOZE_SOAKED_CHERRY, ItemPool.SPONGE_CAKE );
+			int select = 0;
+			if ( InventoryManager.getCount( ItemPool.BOOZE_SOAKED_CHERRY ) > 0 )
+			{
+				select = 1;
+			}
+			else if ( InventoryManager.getCount( ItemPool.SPONGE_CAKE ) > 0 )
+			{
+				select = 2;
+				cakeUsed = true;
+			}
+			PandamoniumRequest.addBandmember( form, "Flargwurm", ItemPool.BOOZE_SOAKED_CHERRY, ItemPool.SPONGE_CAKE, select );
 		}
 		if ( buffer.indexOf( "<option>Jim</option>" ) != -1 )
 		{
-			PandamoniumRequest.addBandmember( form, "Jim", ItemPool.SPONGE_CAKE, ItemPool.COMFY_PILLOW );
+			int select = 0;
+			if ( InventoryManager.getCount( ItemPool.COMFY_PILLOW ) > 0 )
+			{
+				select = 1;
+			}
+			else if ( InventoryManager.getCount( ItemPool.SPONGE_CAKE ) > ( cakeUsed ? 1 : 0 ) )
+			{
+				select = 2;
+			}
+			PandamoniumRequest.addBandmember( form, "Jim", ItemPool.COMFY_PILLOW, ItemPool.SPONGE_CAKE, select );
 		}
 		form.append( "</table>" );
 
@@ -443,7 +485,7 @@ public class PandamoniumRequest
 		PandamoniumRequest.saveSvenResponse( buffer.toString() );
 	}
 
-	private static final void addBandmember( final StringBuffer form, final String name, final int item1, final int item2 )
+	private static final void addBandmember( final StringBuffer form, final String name, final int item1, final int item2, final int select )
 	{
 		form.append( "<tr><td> Give " );
 		form.append( name );
@@ -451,8 +493,8 @@ public class PandamoniumRequest
 		form.append( "<select name=" );
 		form.append( name );
 		form.append( "><option value=0>-- select an item --</option>" );
-		PandamoniumRequest.addItem( form, item1 );
-		PandamoniumRequest.addItem( form, item2 );
+		PandamoniumRequest.addItem( form, item1, select == 1 );
+		PandamoniumRequest.addItem( form, item2, select == 2 );
 		form.append( "</select>" );
 		form.append( "<img src='" );
 		form.append( KoLmafia.imageServerPath() );
@@ -462,7 +504,7 @@ public class PandamoniumRequest
 		form.append( "</td></tr>" );
 	}
 
-	private static final void addItem( final StringBuffer form, final int itemId )
+	private static final void addItem( final StringBuffer form, final int itemId, final boolean select )
 	{
 		AdventureResult item = ItemPool.get( itemId, 1 );
 		if ( item.getCount( KoLConstants.inventory ) > 0 )
@@ -471,7 +513,12 @@ public class PandamoniumRequest
 			form.append( String.valueOf( itemId ) );
 			form.append( "\" descid=\"" );
 			form.append( ItemDatabase.getDescriptionId( itemId ) );
-			form.append( "\">" );
+			form.append( "\"" );
+			if ( Preferences.getBoolean( "relayShowSpoilers" ) && select )
+			{
+				form.append( " selected" );
+			}
+			form.append( ">" );
 			form.append( item.getName() );
 			form.append( "</option>" );
 		}

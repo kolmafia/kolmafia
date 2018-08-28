@@ -1882,8 +1882,38 @@ public abstract class UseLinkDecorator
 		case ItemPool.BUS_PASS:
 		case ItemPool.IMP_AIR:
 
-			useType = String.valueOf( InventoryManager.getCount( itemId ) );
-			useLocation = "pandamonium.php?action=moan";
+			if ( !QuestDatabase.isQuestFinished( Quest.AZAZEL ) && InventoryManager.getCount( ItemPool.AZAZELS_TUTU ) == 0 )
+			{
+				useType = String.valueOf( InventoryManager.getCount( itemId ) );
+				useLocation = "pandamonium.php?action=moan";
+			}
+			break;
+
+		case ItemPool.BEER_SCENTED_TEDDY_BEAR:
+		case ItemPool.BOOZE_SOAKED_CHERRY:
+		case ItemPool.COMFY_PILLOW:
+		case ItemPool.GIANT_MARSHMALLOW:
+		case ItemPool.SPONGE_CAKE:
+		case ItemPool.GIN_SOAKED_BLOTTER_PAPER:
+
+			if ( !QuestDatabase.isQuestFinished( Quest.AZAZEL ) && InventoryManager.getCount( ItemPool.AZAZELS_UNICORN ) == 0 )
+			{
+				if ( ( Math.min( InventoryManager.getCount( ItemPool.BEER_SCENTED_TEDDY_BEAR ), 1 ) + 
+					Math.min( InventoryManager.getCount( ItemPool.GIANT_MARSHMALLOW ), 1 ) + 
+					InventoryManager.getCount( ItemPool.GIN_SOAKED_BLOTTER_PAPER ) > 3 ) &&
+					( Math.min( InventoryManager.getCount( ItemPool.BOOZE_SOAKED_CHERRY ), 1 ) + 
+					Math.min( InventoryManager.getCount( ItemPool.COMFY_PILLOW ), 1 ) + 
+					InventoryManager.getCount( ItemPool.SPONGE_CAKE ) > 3 ) )
+				{
+					useType = "sven";
+					useLocation = "pandamonium.php?action=sven";
+				}
+				else
+				{
+					// No link if not finished so not accidentally used
+					return null;
+				}
+			}
 			break;
 
 		case ItemPool.HACIENDA_KEY:
