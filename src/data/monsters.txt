@@ -785,7 +785,7 @@ vicious gnauga	247	gnauga.gif	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast	gnauga hi
 Victor the Insult Comic Hellhound	983	victor.gif	BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	Victor, the Insult Comic Hellhound Puppet (100)
 W imp	122	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 30 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	630	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
-wailing mushroom guy	1807	mush_shrieking.gif	Atk: 25 Def: 25 HP: 20 Init: -10000 P: plant	jingling spore pod (0)
+wailing mushroom guy	1807	mush_shrieking.gif	Atk: 25 Def: 25 HP: 20 Init: -10000 P: plant	jingling spore pod (0)	frozen mushroom (0)
 waiter dressed as a ninja	1513	waiterninja.gif	Atk: 142 Def: 142 HP: 140 Init: 25 P: dude Meat: 25	crappy waiter disguise (20)	shuriken salad (15)	breadchucks (10)	ninja eyeblack (c0)
 War Frat 110th Infantryman	498	warfratc.gif	Atk: 172 Def: 154 HP: 185 Init: 40 E: sleaze P: orc	beer bomb (5)	beer helmet (10)	bejeweled pledge pin (10)	bottle opener belt buckle (10)	distressed denim pants (10)	giant foam finger (10)	keg shield (6)
 War Frat 151st Captain	499	warfrata2.gif	Atk: 180 Def: 166 HP: 205 Init: 50 E: sleaze P: orc	beer bomb (9)	beer helmet (5)	bejeweled pledge pin (4)	distressed denim pants (5)	keg shield (5)	PADL Phone (2)	perforated battle paddle (15)	red class ring (31)	flask flops (0)
