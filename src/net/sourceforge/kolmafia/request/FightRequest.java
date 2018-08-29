@@ -729,6 +729,13 @@ public class FightRequest
 		return true;
 	}
 
+	@Override
+	protected boolean shouldFollowRedirect()
+	{
+		// In Pokefam at least, this can happen as we redirect to fambattle.php
+		return true;
+	}
+
 	private static final Pattern CAN_STEAL_PATTERN =
 		Pattern.compile( "value=\"(Pick (?:His|Her|Their|Its) Pocket(?: Again)?|Look for Shiny Objects)\"" );
 
