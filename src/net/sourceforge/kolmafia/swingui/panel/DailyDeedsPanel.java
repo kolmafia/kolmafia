@@ -3195,7 +3195,8 @@ public class DailyDeedsPanel
 		public void update()
 		{
 			boolean limited = Limitmode.limitMall();
-			boolean bf = ( !KoLCharacter.isHardcore() && !limited ) ||
+			boolean bf = ( !KoLCharacter.isHardcore() && !limited &&
+				StandardRequest.isAllowed( "Items", "Libram of BRICKOs" ) ) ||
 				KoLCharacter.hasSkill( "Summon BRICKOs" );
 			FamiliarData hipster = KoLCharacter.findFamiliar( FamiliarPool.HIPSTER );
 			FamiliarData goth = KoLCharacter.findFamiliar( FamiliarPool.ARTISTIC_GOTH_KID );
