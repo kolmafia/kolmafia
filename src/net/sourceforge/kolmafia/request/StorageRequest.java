@@ -533,6 +533,7 @@ public class StorageRequest
 	{
 		KoLConstants.storage.clear();
 		KoLConstants.freepulls.clear();
+		KoLCharacter.setAvailableMeat( KoLCharacter.getStorageMeat() + KoLCharacter.getAvailableMeat() );
 		KoLCharacter.setStorageMeat( 0 );
 
 		// Doing a "pull all" in Hagnk's does not tell
