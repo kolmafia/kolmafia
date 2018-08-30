@@ -10769,52 +10769,55 @@ public abstract class ChoiceManager
 		case 1312:
 		{
 			// Choose a Soundtrack
-			String songChosen = "";
-			switch ( ChoiceManager.lastDecision )
+			if ( !text.contains( "decide not to change the station" ) )
 			{
-			case 1:
-				songChosen = "Eye of the Giger";
-				break;
-			case 2:
-				songChosen = "Food Vibrations";
-				break;
-			case 3:
-				songChosen = "Remainin' Alive";
-				break;
-			case 4:
-				songChosen = "These Fists Were Made for Punchin'";
-				break;
-			case 5:
-				songChosen = "Total Eclipse of Your Meat";
-				break;
-			}			
-			if ( !songChosen.equals( "" ) )
-			{
-				if ( !KoLCharacter.hasSkill( "Sing Along" ) )
+				String songChosen = "";
+				switch ( ChoiceManager.lastDecision )
 				{
-					KoLCharacter.addAvailableSkill( "Sing Along" );
+				case 1:
+					songChosen = "Eye of the Giger";
+					break;
+				case 2:
+					songChosen = "Food Vibrations";
+					break;
+				case 3:
+					songChosen = "Remainin' Alive";
+					break;
+				case 4:
+					songChosen = "These Fists Were Made for Punchin'";
+					break;
+				case 5:
+					songChosen = "Total Eclipse of Your Meat";
+					break;
+				}			
+				if ( !songChosen.equals( "" ) )
+				{
+					if ( !KoLCharacter.hasSkill( "Sing Along" ) )
+					{
+						KoLCharacter.addAvailableSkill( "Sing Along" );
+					}
+					if ( !Preferences.getString( "boomBoxSong" ).equals( songChosen ) )
+					{
+						Preferences.setString( "boomBoxSong", songChosen );
+						Preferences.decrement( "_boomBoxSongsLeft" );
+						String message = "Setting soundtrack to " + songChosen;
+						RequestLogger.printLine( message );
+						RequestLogger.updateSessionLog( message );
+					}
 				}
-				if ( !Preferences.getString( "boomBoxSong" ).equals( songChosen ) )
+				else
 				{
-					Preferences.setString( "boomBoxSong", songChosen );
-					Preferences.decrement( "_boomBoxSongsLeft" );
-					String message = "Setting soundtrack to " + songChosen;
-					RequestLogger.printLine( message );
-					RequestLogger.updateSessionLog( message );
-				}
-			}
-			else
-			{
-				if ( KoLCharacter.hasSkill( "Sing Along" ) )
-				{
-					KoLCharacter.removeAvailableSkill( "Sing Along" );
-				}
-				if ( !Preferences.getString( "boomBoxSong" ).equals( "" ) )
-				{
-					Preferences.setString( "boomBoxSong", "" );
-					String message = "Switching soundtrack off";
-					RequestLogger.printLine( message );
-					RequestLogger.updateSessionLog( message );
+					if ( KoLCharacter.hasSkill( "Sing Along" ) )
+					{
+						KoLCharacter.removeAvailableSkill( "Sing Along" );
+					}
+					if ( !Preferences.getString( "boomBoxSong" ).equals( "" ) )
+					{
+						Preferences.setString( "boomBoxSong", "" );
+						String message = "Switching soundtrack off";
+						RequestLogger.printLine( message );
+						RequestLogger.updateSessionLog( message );
+					}
 				}
 			}
 			break;
