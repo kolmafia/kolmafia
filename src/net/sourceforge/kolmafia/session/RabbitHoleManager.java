@@ -1042,6 +1042,12 @@ public abstract class RabbitHoleManager
 		// Parse the new board
 		RabbitHoleManager.parseChessPuzzle( responseText, false );
 
+		// Could not parse board - error already shown
+		if ( RabbitHoleManager.board == null )
+		{
+			return;
+		}
+
 		// Find the new piece
 		int newSquare = RabbitHoleManager.board.getCurrent();
 
