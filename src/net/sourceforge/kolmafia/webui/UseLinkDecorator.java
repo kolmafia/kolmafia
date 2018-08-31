@@ -1507,10 +1507,10 @@ public abstract class UseLinkDecorator
 	{
 		if ( ( Math.min( InventoryManager.getCount( ItemPool.BEER_SCENTED_TEDDY_BEAR ), 1 ) + 
 			Math.min( InventoryManager.getCount( ItemPool.GIANT_MARSHMALLOW ), 1 ) + 
-			InventoryManager.getCount( ItemPool.GIN_SOAKED_BLOTTER_PAPER ) > 2 ) &&
+			InventoryManager.getCount( ItemPool.GIN_SOAKED_BLOTTER_PAPER ) >= 2 ) &&
 			( Math.min( InventoryManager.getCount( ItemPool.BOOZE_SOAKED_CHERRY ), 1 ) + 
 			Math.min( InventoryManager.getCount( ItemPool.COMFY_PILLOW ), 1 ) + 
-			InventoryManager.getCount( ItemPool.SPONGE_CAKE ) > 2 ) )
+			InventoryManager.getCount( ItemPool.SPONGE_CAKE ) >= 2 ) )
 		{
 			return new UseLink( itemId, "sven", "pandamonium.php?action=sven" );
 		}
