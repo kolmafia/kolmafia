@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 
@@ -257,6 +258,10 @@ public class ValhallaManager
 		EquipmentManager.updateEquipmentLists();
 		ValhallaManager.resetMoonsignCafes();
 		ConcoctionDatabase.refreshConcoctions();
+		ConsumablesDatabase.setSmoresData();
+		ConsumablesDatabase.setAffirmationCookieData();
+		ConsumablesDatabase.setVariableConsumables();
+		ConsumablesDatabase.calculateAdventureRanges();
 		HermitRequest.initialize();
 
 		// Reset certain settings that the player almost certainly will
