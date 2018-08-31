@@ -54,8 +54,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 
-import net.sourceforge.kolmafia.moods.HPRestoreItemList;
-import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 
@@ -76,6 +74,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -1270,10 +1269,10 @@ public class UseItemRequest
 
 	protected static int getRestorationMaximum( final String itemName )
 	{
-		float hpRestored = HPRestoreItemList.getHealthRestored( itemName );
-		boolean restoresHP = hpRestored != Integer.MIN_VALUE;
-		float mpRestored = MPRestoreItemList.getManaRestored( itemName );
-		boolean restoresMP = mpRestored != Integer.MIN_VALUE;
+		float hpRestored = (float) RestoresDatabase.getHPAverage( itemName );
+		boolean restoresHP = hpRestored != 0;
+		float mpRestored = (float) RestoresDatabase.getMPAverage( itemName );
+		boolean restoresMP = mpRestored != 0;
 
 		if ( !restoresHP && !restoresMP )
 		{
