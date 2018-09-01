@@ -95,7 +95,7 @@ Cobb's Knob Laboratory	100	Knob Goblin Alchemist	Knob Goblin Mad Scientist: 2	Kn
 Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant	QuickBASIC Elemental: -1
 Cobb's Knob Menagerie, Level 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Cobb's Knob Menagerie, Level 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
-Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1
+Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1	The ghost of Ebenoozer Screege: 0
 Coldest Adventurer Contest	100	Snowbrawler	Ice Cream Conjurer	Iceberglar	Mrs. Freeze: 0
 Convention Hall Lobby	100	booth slime	fan slime	vendor slime
 CRIMBCO cubicles	-1	Best Game Ever	disorganized files	endless conference call	hideous slide show	tedious spreadsheet	unoptimized database	your overflowing inbox	chatty coworker	Book Of Faces	Tome Of Tropes	water cooler	Totally Malicious 'Zine	Best Game Ever
@@ -125,7 +125,7 @@ Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
 Exposure Esplanade	-1	Cold hobo	Frosty: 0
 Fastest Adventurer Contest	100	Cheetahman	Microwave Magus	Kung-Fu Hustler	Tasmanian Dervish: 0
 Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
-Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional Horror
+Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional horror
 Fightin' Fire	100	brushfire
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)	The Frattlesnake: 0
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
@@ -153,7 +153,7 @@ Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	d
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
-Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0
+Inside the Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-bats	Racecar Bob	Taco Cat	Tan Gnat	Dr. Awkward: 0	Emily Koops, a spooky lime: 0
 Investigating a Plaintive Telegram	100	buzzard	camp cook	caugr	Clara: 0	coal snake	cow cultist	diamondback rattler	Daisy the Unclean: 0	drunk cowpoke	Former Sheriff Dan Driscoll: 0	frontwinder	Granny Hackleton: 0	grizzled bear	hired gun	Jeff the Fancy Skeleton: 0	moomy	mountain lion	Pecos Dave: 0	Pharaoh Amoon-Ra Cowtep: 0	pyrobove	restless ghost	skeletal gunslinger	Snake-Eyes Glenn: 0	spidercow	surly gambler	unusual construct: 0	wannabe gunslinger
 Itznotyerzitz Mine	90	dopey 7-Foot Dwarf	grumpy 7-Foot Dwarf	sleepy 7-Foot Dwarf	7-Foot Dwarf Foreman: 0
 JokesterCo	100	The Jokester: 0
@@ -164,7 +164,7 @@ Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ni
 LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male)	factory overseer (female)	factory worker (male)	lava golem	Mr. Cheeng: 0
 Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
-Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0
+Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0	the ghost of Monsieur Baguelle: 0
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
 McMillicancuddy's Back 40	100	fire-breathing duck	scorched duck
 McMillicancuddy's Barn	100	generic duck
@@ -209,7 +209,7 @@ Seaside Megalopolis	-1	7-Foot Dwarf Replicant	Bangyomaman Warrior	cyborg policem
 Shivering Timbers	100	deadwood tree	fur tree	hangman's tree	pumpkin tree	toilet-papered tree	Underworld Tree: 0
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf
-Sinister Dodecahedron	100	death ray in a pear tree: 1	turtle mech: 2	Swiss Hen: 3	killing bird: 4	golden ring: 5	goose a-laying: 6	swarm a-swarming: 7	blade a-spinning: 8	laser lancing: 9	borg a-beeping: 10	strangler strangling: 11	stomper stomping: 12
+Sinister Dodecahedron	100	death ray in a pear tree: 1	turtle mech: 2	Swiss hen: 3	killing bird: 4	golden ring: 5	goose a-laying: 6	swarm a-swarming: 7	blade a-spinning: 8	laser lancing: 9	borg a-beeping: 10	strangler strangling: 11	stomper stomping: 12
 Sleaziest Adventurer Contest	100	Grease Trapper	Ham Shaman	Porkpocket	Leonard: 0
 Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
@@ -239,7 +239,7 @@ The Barrow Mounds	100	barrow wraith?
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
-The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker: 0	Brutus, the Toga-Clad Lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-Generation Frat Boy: 0	The Man: 0
+The Battlefield (Hippy Uniform)	100	Beer Bongadier	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Wartender	War Frat Grill Sergeant	War Frat Kegrider	Elite Beer Bongadier	Naughty Sorority Nurse	Heavy Kegtank	Panty Raider Frat Boy	War Frat Elite 110th Captain	War Frat 151st Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Mobile Grill Unit	War Frat Senior Grill Sergeant	War Frat Streaker: 0	Brutus, the toga-clad lout: 0	Danglin' Chad: 0	Monty Basingstoke-Pratt, IV: 0	Next-generation Frat Boy: 0	The Man: 0
 The Beanbat Chamber	100	beanbat	screambat: 0
 The Beehive	-1	bee	queen bee (Spelunky): 0
 The Black Forest	100	black adder	black panther	black widow	black friar	black magic woman	blackberry bush: 0
@@ -249,8 +249,8 @@ The Briniest Deepests	100	acoustic electric eel	decent white shark	ganger
 The Briny Deeps	100	funk sole brother	pumped-up bass	school of wizardfish
 The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Bubblin' Caldera	100	basaltamander	lava lamprey	lavatory	Lavalos: 0
-The Bugbear Pen	100	Angry Bugbear: 3	Bugged Bugbear: 3	Mad Bugbears: 3	Revolting Bugbear: 3	Revolving Bugbear: 3	Annoying Spooky Gravy Fairy: 2
-The Caliginous Abyss	100	Eye in the Darkness	Peanut: 0	School of Many	Slithering Thing
+The Bugbear Pen	100	angry bugbear: 3	bugged bugbear: 3	mad bugbears: 3	revolting bugbear: 3	revolving bugbear: 3	annoying spooky gravy fairy: 2
+The Caliginous Abyss	100	eye in the darkness	Peanut: 0	school of many	slithering thing
 The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
@@ -264,7 +264,7 @@ The Cheerless Spire (Level 5)	95	cheerless mime executive
 The City of Goooold	-1	mummy	Bananubis: 0
 The Clumsiness Grove	100	Sorrowful Hickory	Suffering Juniper	Tormented Baobab	Whimpering Willow	Woeful Magnolia	The Bat in the Spats: 0	The Thorax: 0
 The Copperhead Club	100	Copperhead Club bartender	fan dancer	Mob Penguin Capo	ninja dressed as a waiter	waiter dressed as a ninja
-The Coral Corral	100	Mer-Kin rustler	sea cowboy	sea cow	wild seahorse: 1r80
+The Coral Corral	100	Mer-kin rustler	sea cowboy	sea cow	wild seahorse: 1r80
 The Corpse Bog	-1	bog leech	bog skeleton	swamp hag	the ghost of Phil Bunion: 0
 The Crashed U. F. O.	-1	alien UFO	alien queen: 0
 The Crimbonium Mining Camp	100	ambulatory robo-minecart	exo-suited miner	semi-autonomous drill unit
@@ -290,10 +290,10 @@ The Dive Bar	100	lounge lizardfish	Mer-kin tippler	nurse shark
 The Don's Crimbo Compound	100	Black-and-White-Ops Penguin	Cement Cobbler Penguin	Mesmerizing Penguin	Mob Penguin Arsonist	Mob Penguin Caporegime	Mob Penguin Demolitionist	Mob Penguin Goon (2009)	Mob Penguin Kneecapper	Undercover Penguin	Don Crimbo: 0
 The Dragon's Moor	0	Sewage Treatment Dragon: 0
 The Druidic Campsite	100	druid plants
-The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	Mimic: 0	The Master of Thieves: -1
+The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	mimic: 0	The Master of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
-The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet Cast Member	Susie Soyburger	Susie Soyburger Cast Member	Timmy Tofurkey	Timmy Tofurkey Cast Member
-The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	Uppercase Q
+The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
+The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
 The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
@@ -315,9 +315,9 @@ The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist
 The Haunted Bedroom	-1	Wardr&ouml;b nightstand	animated mahogany nightstand	animated ornate nightstand	animated rustic nightstand	elegant animated nightstand	remains of a jilted mistress: 0
 The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	Pooltergeist (Ultra-Rare): -1
 The Haunted Boiler Room	-1	coaltergeist	monstrous boiler	steam elemental	Bram the Stoker: 0
-The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey
-The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0
-The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef
+The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey	The ghost of Lord Montague Spookyraven: 0
+The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0	The ghost of Waldo the Carpathian: 0
+The Haunted Kitchen	100	demonic icebox	paper towelgeist	possessed silverware drawer	skullery maid	zombie chef	The Icewoman: 0
 The Haunted Laboratory	-1	Jacob's adder	model skeleton	the gunk	Stephen Spookyraven: 0
 The Haunted Laundry Room	-1	cabinet of Dr. Limpieza	plaid ghost	possessed laundry press
 The Haunted Library	75	banshee librarian	bookbat	writing desk
@@ -325,7 +325,7 @@ The Haunted Nursery	-1	creepy doll	possessed toy chest	spooky music box
 The Haunted Pantry	80	possessed can of tomatoes	fiendish can of asparagus	flame-broiled meat blob: 1o	overdone flame-broiled meat blob: 1e	undead elbow macaroni
 The Haunted Sorority House	-1	sexy sorority ghost	sexy sorority skeleton	sexy sorority vampire	sexy sorority werewolf	sexy sorority zombie
 The Haunted Storage Room	-1	stuffed moose head	ancestral Spookyraven portrait	sheet ghost	full-length mirror: 0
-The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino
+The Haunted Wine Cellar	100	possessed wine rack	skeletal sommelier	mad wino	The ghost of Jim Unfortunato: 0
 The Heap	-1	Stench hobo	Oscus: 0
 The Hedge Maze	-1	topiary gopher: 0	topiary chihuahua herd: 0	topiary duck: 0	topiary kiwi: 0
 The Hidden Apartment Building	-1	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy shaman	ancient protector spirit (The Hidden Apartment Building): 0
@@ -339,7 +339,7 @@ The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1
 The Ice Caves	-1	alien	alien UFO	caveman	yeti
 The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
-The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1
+The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1	The ghost of Sam McGee: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungle	-1	bee	scorpion	skeleton	tikiman
@@ -367,13 +367,13 @@ The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
 The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty pirate	swarthy pirate
 The Ogre Chieftain's Keep	0	Ogre Chieftain: 0
 The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman	The Mad Libber: 0
-The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0
+The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0	:The ghost of Vanillica "Trashblossom" Gorton: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Old Rubee Mine	100	mining grobold
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
-The Overgrown Lot	-1	cooler wino	dire pigeon	malt liquor golem	sewer snake with a sewer snake in it	Lot's Wife: 0
+The Overgrown Lot	-1	cooler wino	dire pigeon	malt liquor golem	sewer snake with a sewer snake in it	Lot's Wife: 0	the ghost of Oily McBindle: 0
 The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters: 2	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess
 The Poop Deck	80	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pirate
 The Post-Mall	-1	T-9000	damned dirty ape	jet-ski bandit	Z-Rex	superdupervirus	sentient ATM: 0
@@ -392,17 +392,17 @@ The Ruined Wizard Tower	-1	bogart	haunted skullabra	smell-o-the-wisp
 The Secret Council Warehouse	100	warehouse clerk	warehouse guard	warehouse janitor
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	-1	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
-The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0
+The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0	boneless blobghost: 0
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	Crazy Bastard: -1
 The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
-The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0
+The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0
 The Snake Pit	-1	cobra	snake
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
 The Spider Hole	-1	spider	spider queen: 0
 The Spider Queen's Lair	0	Spider Queen: 0
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
-The Spooky Forest	85	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1
+The Spooky Forest	85	bar	spooky mummy	spooky vampire	triffid	warwelf	wolfman	Baiowulf: -1	The Headless Horseman: 0
 The Spooky Gravy Burrow	80	spooky gravy fairy guard	spooky gravy fairy ninja	spooky gravy fairy warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 The Spooky Old Abandoned Mine	100	cowskeleton	nest of rattlers	tetched prospector	outlaw leader: 0
 The Sprawling Cemetery	-1	spooky ghost
@@ -417,8 +417,8 @@ The Towering Mountains	100	fantasy ourk
 The Toxic Teacups	100	toxic beastie
 The Troll Fortress	100	swamp troll
 The Tunnel of L.O.V.E.	-1	LOV Enforcer	LOV Engineer	LOV Equivocator
-The Typical Tavern Cellar	-1	drunken rat	Baron Von Ratsworth: 0
-The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	smart skelton	zmobie	zobmie	Snakeleton: 0
+The Typical Tavern Cellar	-1	drunken rat	Baron von Ratsworth: 0
+The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	Smart Skelton	zmobie	zobmie	Snakeleton: 0
 The Upper Chamber	-1	Iiti Kitty	tomb bat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 The Velvet / Gold Mine	100	healing crystal golem	mine worker (female)	mine overseer (male)	mine worker (male)	mine overseer (female)	Mr. Choch: 0
