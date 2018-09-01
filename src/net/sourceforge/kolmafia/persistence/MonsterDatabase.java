@@ -309,7 +309,7 @@ public class MonsterDatabase
 
 				if ( !monster.isDummy() )
 				{
-					String keyName = CombatActionManager.encounterKey( name );
+					String keyName = CombatActionManager.encounterKey( name, false );
 					StringUtilities.registerPrepositions( keyName );
 					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
 					if ( keyName.toLowerCase().startsWith( "the " ) )
@@ -393,7 +393,7 @@ public class MonsterDatabase
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
-		String keyName = CombatActionManager.encounterKey( name );
+		String keyName = CombatActionManager.encounterKey( name, false );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
 		if ( match != null )

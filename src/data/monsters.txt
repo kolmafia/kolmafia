@@ -934,7 +934,7 @@ topiary kiwi	1713	topiarykiwi.gif	Atk: 350 Def: 350 HP: 350 Init: 150 P: plant
 # - Tower
 
 wall of bones	1708	wallofbones.gif	Atk: 1000 Def: 1000 HP: 20000 Init: -10000 P: undead
-wall of meat	1706	noart.gif	Atk: 200 Def: 200 HP: 700 Init: -10000 P: elemental
+wall of meat	1706	meatwall1.gif,meatwall2.gif,meatwall3.gif,meatwall4.gif	Atk: 200 Def: 200 HP: 700 Init: -10000 P: elemental
 wall of skin	1707	wallofskin.gif	Atk: 200 Def: 200 HP: [50+150*path(BIG!)] Init: -10000 P: construct
 # Manuel name is "(shadow opponent)" with parentheses
 Your Shadow	210	otherimages/shadows/20.gif	Atk: [150] Def: [89999] HP: [395] Init: 150 Exp: 200 P: dude Manuel: "(shadow opponent)"
@@ -1875,7 +1875,7 @@ Ted Schwartz, Master Thief	2085	fr_masterthief.gif	Atk: 400 Def: 400 HP: 300 Ini
 Skeleton Lord	2087	skeletonlord.gif	Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)
 
 # God Lobster (May 2018)
-God Lobster	2088	nopic.gif	FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror
+God Lobster	2088	godlob.gif	FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror
 
 # KoL Con
 
