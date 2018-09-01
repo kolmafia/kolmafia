@@ -2417,7 +2417,7 @@ public class FightRequest
 			// In Ed we'll only set the monster name when we have won or abandoned the fight
 			if ( !KoLCharacter.isEd() || Preferences.getInteger( "_edDefeats" ) == 0 )
 			{
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter ) );
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( encounter, false ) );
 			}
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
 
@@ -6270,7 +6270,7 @@ public class FightRequest
 			{
 				FightRequest.clearInstanceData( true );
 				String newMonster = m.group( 1 );
-				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster ), true );
+				MonsterStatusTracker.setNextMonsterName( CombatActionManager.encounterKey( newMonster, false ), true );
 				FightRequest.logText( "your opponent becomes " + newMonster + "!", status );
 			}
 
