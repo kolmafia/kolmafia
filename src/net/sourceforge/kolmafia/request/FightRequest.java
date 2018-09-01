@@ -470,6 +470,7 @@ public class FightRequest
 		GIANT_OCTOPUS( "giant octopus" ),
 		DAD_SEA_MONKEE( "Dad Sea Monkee" ),
 		TIME_SPINNER_PRANK( "time-spinner prank" ),
+		FAMILY_OF_KOBOLDS( "family of kobolds" ),
 
 		// Categories of monsters
 		BEE( "bee" ),
@@ -512,6 +513,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "giant octopus", SpecialMonster.GIANT_OCTOPUS );
 		FightRequest.specialMonsters.put( "Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE );
 		FightRequest.specialMonsters.put( "time-spinner prank", SpecialMonster.TIME_SPINNER_PRANK );
+		FightRequest.specialMonsters.put( "family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS );
 
 		FightRequest.specialMonsters.put( "angry bassist", SpecialMonster.HIPSTER );
 		FightRequest.specialMonsters.put( "blue-haired girl", SpecialMonster.HIPSTER );
@@ -2590,6 +2592,11 @@ public class FightRequest
 					}
 					break;
 				}
+
+				case FAMILY_OF_KOBOLDS:
+					// Remove 100 D4's from inventory
+					ResultProcessor.processItem( ItemPool.D4, -100 );
+					break;
 
 				case HIPSTER:
 					if ( !EncounterManager.ignoreSpecialMonsters )
