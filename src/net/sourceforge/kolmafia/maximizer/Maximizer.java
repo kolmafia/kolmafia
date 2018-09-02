@@ -2047,7 +2047,7 @@ public class Maximizer
 		String currSnowsuit = Preferences.getString( "snowsuit" );
 		Boolean setSnowsuit = false;
 		
-		if ( item == null )
+		if ( item == null || item.getItemId() == 0 )
 		{
 			item = EquipmentRequest.UNEQUIP;
 		}
