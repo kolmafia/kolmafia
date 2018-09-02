@@ -9947,7 +9947,7 @@
 9921	A Guide to Safari	460325075	book.gif	none		0
 9922	Shielding Potion	272981772	shieldpotion.gif	multiple	t,d	5
 9923	Punching Potion	528980676	fistpotion.gif	multiple	t,d	5
-9924	Special Seasoning	438842654	specialseasoning.gif	none	t,d	5
+9924	Special Seasoning	438842654	specialseasoning.gif	none	t,d	5	jars of Special Seasoning
 9925	Nightmare Fuel	162255335	nightmarefuel.gif	spleen, usable	t,d	5
 9926	Gathered Meat-Clip	458315496	wallet.gif	multiple	t	0
 9927	Bastille Battalion control rig crate	838050441	bbattcrate.gif	usable	t	0
