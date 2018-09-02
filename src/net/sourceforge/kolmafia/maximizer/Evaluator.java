@@ -2297,7 +2297,7 @@ public class Evaluator
 						}
 					}
 
-					if ( item.getCount() == 0 && item.getItemId() != 0 )
+					if ( item.getCount() == 0 )
 					{
 						// If we don't have one, and they aren't nothing, skip
 						continue;

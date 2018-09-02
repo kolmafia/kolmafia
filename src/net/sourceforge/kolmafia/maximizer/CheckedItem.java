@@ -228,6 +228,11 @@ public class CheckedItem
 	@Override
 	public final int getCount()
 	{
+		if ( this.getItemId() == 0 )
+		{
+			// We have all the no items you'd ever want!
+			return Integer.MAX_VALUE;
+		}
 		if ( this.singleFlag )
 		{
 			return Math.min( 1, this.initial + this.creatable + this.npcBuyable + this.mallBuyable + this.foldable + this.pullable + this.pullfoldable + this.pullBuyable );
