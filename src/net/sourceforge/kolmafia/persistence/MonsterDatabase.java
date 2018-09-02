@@ -45,6 +45,7 @@ import java.util.TreeMap;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -62,6 +63,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MonsterDatabase
 {
 	private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<String, MonsterData>();
+	private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<String, MonsterData>();
 	private static String[] MONSTER_STRINGS = null;
 	private static final Map<String, MonsterData> MONSTER_IMAGES = new TreeMap<String, MonsterData>();
@@ -257,6 +259,7 @@ public class MonsterDatabase
 	public static final void refreshMonsterTable()
 	{
 		MonsterDatabase.MONSTER_DATA.clear();
+		MonsterDatabase.OLD_MONSTER_DATA.clear();
 		MonsterDatabase.MONSTER_IMAGES.clear();
 
 		BufferedReader reader = FileUtilities.getVersionedReader( "monsters.txt", KoLConstants.MONSTERS_VERSION );
@@ -312,12 +315,14 @@ public class MonsterDatabase
 					String keyName = CombatActionManager.encounterKey( name, false );
 					StringUtilities.registerPrepositions( keyName );
 					MonsterDatabase.MONSTER_DATA.put( keyName, monster );
+					MonsterDatabase.OLD_MONSTER_DATA.put( keyName.toLowerCase(), monster );
 					if ( keyName.toLowerCase().startsWith( "the " ) )
 					{
 						// Some effects seem to sometimes remove The from the start of the monster name even if normally part of name
 						// eg. ELDRITCH HORROR Master Of Thieves
 						// So allow finding monster without the 'The' also
 						MonsterDatabase.MONSTER_DATA.put( keyName.substring( 4 ), monster );
+						MonsterDatabase.OLD_MONSTER_DATA.put( keyName.substring( 4 ).toLowerCase(), monster );
 					}
 					for ( String image : images )
 					{
@@ -401,6 +406,16 @@ public class MonsterDatabase
 			return match;
 		}
 
+		// Temporary code, match non case sensitive if case sensitive doesn't work
+		keyName = CombatActionManager.encounterKey( name );
+		match = (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
+
+		if ( match != null )
+		{
+			KoLmafia.updateDisplay( "Changing " + name + " to " + match.getName() + " would get rid of this message." );
+			return match;
+		}
+
 		if ( !trySubstrings )
 		{
 			return null;
@@ -439,6 +454,7 @@ public class MonsterDatabase
 	{
 		MonsterData monster = MonsterDatabase.registerMonster( name, 0, new String[0], "" );
 		MonsterDatabase.MONSTER_DATA.put( name, monster );
+		MonsterDatabase.OLD_MONSTER_DATA.put( name.toLowerCase(), monster );
 		MonsterDatabase.LEET_MONSTER_DATA.put( StringUtilities.leetify( name ), monster );
 		return monster;
 	}
