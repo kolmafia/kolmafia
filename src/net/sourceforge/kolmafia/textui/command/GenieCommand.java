@@ -134,7 +134,7 @@ public class GenieCommand
 		else if ( parameters.startsWith( "monster " ) )
 		{
 			parameters = parameters.substring( 8 );
-			MonsterData monster = MonsterDatabase.findMonster( parameters, true );
+			MonsterData monster = MonsterDatabase.findMonster( parameters, true, false );
 			if ( monster == null )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, parameters + " does not match a monster." );

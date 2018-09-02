@@ -170,7 +170,7 @@ public class IslandDecorator
 	}
 
 	// Meat drops from dirty thieving brigands
-	private static final MonsterData BRIGAND = MonsterDatabase.findMonster( "dirty thieving brigand", false );
+	private static final MonsterData BRIGAND = MonsterDatabase.findMonster( "dirty thieving brigand" );
 	private static final int BRIGAND_MIN = BRIGAND.getMinMeat();
 	private static final int BRIGAND_MAX = BRIGAND.getMaxMeat();
 

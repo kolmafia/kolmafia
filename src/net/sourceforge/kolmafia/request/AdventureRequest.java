@@ -630,7 +630,7 @@ public class AdventureRequest
 
 		// Disambiguate via responseText, if possible
 		encounter = ConsequenceManager.disambiguateMonster( encounter, responseText );
-		if ( MonsterDatabase.findMonster( encounter, false ) != null )
+		if ( MonsterDatabase.findMonster( encounter ) != null )
 		{
 			return encounter;
 		}

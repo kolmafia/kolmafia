@@ -396,13 +396,15 @@ public class MonsterDatabase
 		}
 	}
 
-	public static final MonsterData findMonster( final String name, boolean trySubstrings )
+	public static final MonsterData findMonster( final String name )
 	{
-		return findMonster( name, trySubstrings, false );
+		// Exact match monster name lookup - use this when KoL itself gives us a monster name
+		return findMonster( name, false, true );
 	}
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings, boolean matchCase )
 	{
+		// Look for case-sensitive exact match
 		String keyName = CombatActionManager.encounterKey( name, false );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
@@ -411,34 +413,25 @@ public class MonsterDatabase
 			return match;
 		}
 
-		if ( !matchCase )
+		// Look for case-sensitive fuzzy match
+		if ( trySubstrings )
 		{
-			// Temporary code, match non case sensitive if case sensitive doesn't work
-			keyName = CombatActionManager.encounterKey( name );
-			match = (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
-
-			if ( match != null )
+			MonsterDatabase.initializeMonsterStrings();
+			List<String> matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
+			if ( matchingNames.size() == 1 )
 			{
-				KoLmafia.updateDisplay( "Changing " + name + " to " + match.getName() + " would get rid of this message." );
-				return match;
+				return MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
 			}
 		}
 
-		if ( !trySubstrings )
+		// Look for case-insensitive exact match
+		if ( !matchCase )
 		{
-			return null;
+			keyName = CombatActionManager.encounterKey( name );
+			return (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
 		}
 
-		MonsterDatabase.initializeMonsterStrings();
-
-		List<String> matchingNames = StringUtilities.getMatchingNames( MonsterDatabase.MONSTER_STRINGS, keyName );
-
-		if ( matchingNames.size() != 1 )
-		{
-			return null;
-		}
-
-		return MonsterDatabase.MONSTER_DATA.get( matchingNames.get( 0 ) );
+		return null;
 	}
 
 	public static final MonsterData findMonsterByImage( final String image )
@@ -509,7 +502,7 @@ public class MonsterDatabase
 
 	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( name, false, true );
+		MonsterData monster = MonsterDatabase.findMonster( name );
 		if ( monster != null && monster.getId() == id )
 		{
 			return monster;
@@ -927,6 +920,6 @@ public class MonsterDatabase
 
 	public static final boolean contains( final String name )
 	{
-		return MonsterDatabase.findMonster( name, false, true ) != null;
+		return MonsterDatabase.findMonster( name ) != null;
 	}
 }

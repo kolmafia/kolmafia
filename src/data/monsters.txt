@@ -1049,7 +1049,7 @@ sleaze vampire	1416	dvsleazevamp1.gif,dvsleazevamp2.gif,dvsleazevamp3.gif	HP: [6
 sleaze werewolf	1401	dvsleazewolf1.gif,dvsleazewolf2.gif,dvsleazewolf3.gif	HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*10] E: sleaze P: beast	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	groping claw (c0)
 sleaze zombie	1406	dvsleazezom1.gif,dvsleazezom2.gif,dvsleazezom3.gif	HP: [600+KV*200+ML] Atk: [400+KV*100+ML] Def: [400+KV*100+ML] Init: [15+KV*10] E: sleaze P: undead	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	antique spyglass (c0)
 spooky bugbear	1394	dvspookybear1.gif,dvspookybear2.gif,dvspookybear3.gif	HP: [600+KW*200+ML] Atk: [400+KW*100+ML] Def: [400+KW*100+ML] Init: [15+KW*10] E: spooky P: beast	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	eerie fetish (c0)
-spooky ghost (Dreadsylvanian)	1409	dvspookyghost1.gif,dvspookyghost2.gif,dvspookyghost3.gif	HP: [600+KV*200+ML] Atk: [400+KV*100+ML] Def: [400+KV*100+ML] Init: [15+KV*10] E: spooky P: undead Phys: 100 GHOST Wiki: "spooky ghost"	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	ghost thread (c0)
+spooky ghost (Dreadsylvanian)	1409	dvspookyghost1.gif,dvspookyghost2.gif,dvspookyghost3.gif	HP: [600+KV*200+ML] Atk: [400+KV*100+ML] Def: [400+KV*100+ML] Init: [15+KV*10] E: spooky P: undead Phys: 100 GHOST Manuel: "spooky ghost" Wiki: "spooky ghost"	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	ghost thread (c0)
 spooky skeleton	1419	dvspookyskel1.gif,dvspookyskel2.gif,dvspookyskel3.gif	HP: [1000*2**(KC-1)+ML] Atk: [400+KC*100+ML] Def: [400+KC*100+ML] Init: [15+KC*10] E: spooky P: undead	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	old dry bone (c0)
 spooky vampire (Dreadsylvanian)	1414	dvspookyvamp1.gif,dvspookyvamp2.gif,dvspookyvamp3.gif	HP: [600+KC*200+ML] Atk: [400+KC*100+ML] Def: [400+KC*100+ML] Init: [15+KC*10] E: spooky P: undead Manuel: "spooky vampire" Wiki: "spooky vampire (Dreadsylvanian Castle)"	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	intimidating coiffure (c0)
 spooky werewolf	1399	dvspookywolf1.gif,dvspookywolf2.gif,dvspookywolf3.gif	HP: [max(500,1.25*(MUS+(KW-2)*10))+ML] Atk: [max(400,MOX+(KW-2)*10)+ML] Def: [max(400,MUS+(KW-2)*10)+ML] Exp: [(max(400,STAT+(KW-2)*10))/4+max(ML,0)/3-min(0,ML)/4] Init: [15+KW*10] E: spooky P: beast	Dreadsylvanian Almanac page (c0)	Freddy Kruegerand (c0)	wolfskull mask (c0)
@@ -2220,6 +2220,8 @@ three skeleton invaders	1003	bigskeleton3.gif	Atk: 80 Def: 72 HP: 80 Init: 50 P:
 four skeleton invaders	1004	bigskeleton4.gif	Atk: 110 Def: 99 HP: 110 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)
 five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 P: undead	bone chips (30)	bone chips (20)	bone chips (10)	bone chips (0)	bone chips (0)
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (0)
+25 skeletons	-27	skel25.gif	NOMANUEL
+100 skeletons	-26	skel100.gif	NOMANUEL
 
 # CRIMBCO cubicles (Crimbo 2010)
 disorganized files	-74	c10files.gif	NOMANUEL Scale: 0 Init: 100	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)	CRIMBCO scrip (n100)
@@ -2293,6 +2295,7 @@ The Abominable Fudgeman	-50	fudgeman.gif	NOMANUEL HP: 500 Def: 350 Atk: 350 Init
 four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horror	mime soul fragment (100)
 
 # A Smoldering Fortress (June 2012)
+brushfire	-25	brushfire.gif	NOMANUEL
 blazing bat	1210	firebat.gif	Atk: 200 Def: 180 HP: 500 P: beast E: hot Init: 50 Phys: 100
 snakefire in the grass	1209	firesnake.gif	NOMANUEL
 Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 P: demon E: hot Init: 50 Phys: 100	molten brick (c5)

@@ -142,7 +142,7 @@ public class MonsterDescriptionFrame
 		if ( this.currentMonster.getName().equals( "Ed the Undying" ) )
 		{
 			String name = "Ed the Undying (" + String.valueOf( variant + 1 ) + ")";
-			stats = MonsterDatabase.findMonster( name, false );
+			stats = MonsterDatabase.findMonster( name );
 		}
 
 		String path = "desc_monster.php?whichmonster=" + this.currentMonster.getId();

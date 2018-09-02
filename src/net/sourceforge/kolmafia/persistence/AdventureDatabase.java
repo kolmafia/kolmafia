@@ -320,7 +320,8 @@ public class AdventureDatabase
 		{
 			if ( data.length > 1 )
 			{
-				if ( !AdventureDatabase.validateAdventureArea( data[ 0 ] ) )
+				String area = data[ 0 ];
+				if ( !AdventureDatabase.validateAdventureArea( area ) )
 				{
 					RequestLogger.printLine( "Invalid adventure area: \"" + data[ 0 ] + "\"" );
 					continue;
@@ -329,11 +330,14 @@ public class AdventureDatabase
 				int combats = StringUtilities.parseInt( data[ 1 ] );
 				// There can be an ultra-rare monster even if
 				// there are no other combats
-				AreaCombatData combat = new AreaCombatData( data[0], combats );
+				AreaCombatData combat = new AreaCombatData( area, combats );
 				for ( int i = 2; i < data.length; ++i )
 				{
 					String monsterName = data[ i ];
-					combat.addMonster( monsterName );
+					if ( !combat.addMonster( monsterName ) )
+					{
+						KoLmafia.updateDisplay( "(In area '" + area + "')" );
+					}
 					// Does it drop a bounty, if so add it to the bounty lookup by area
 					// Trim any trailing ":" and following text
 					int colonIndex = data[ i ].indexOf( ":" );

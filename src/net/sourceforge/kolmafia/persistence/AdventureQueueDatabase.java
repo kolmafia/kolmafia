@@ -202,7 +202,7 @@ public class AdventureQueueDatabase
 		if ( zoneQueue == null )
 			return;
 
-		MonsterData mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster ), true );
+		MonsterData mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster ), true, true );
 
 		if ( mon == null )
 		{
@@ -210,7 +210,7 @@ public class AdventureQueueDatabase
 			// Other articles definitely should have been handled by now.
 			if ( monster.startsWith( "the " ) || monster.startsWith( "The " ) )
 			{
-				mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster.substring( 4 ) ), true );
+				mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster.substring( 4 ) ), true, true );
 			}
 
 			if ( mon == null )
@@ -363,7 +363,7 @@ public class AdventureQueueDatabase
 		int queueWeight = 0;
 		for ( String mon : zoneSet )
 		{
-			MonsterData queueMonster = MonsterDatabase.findMonster( mon, false );
+			MonsterData queueMonster = MonsterDatabase.findMonster( mon );
 			int index = data.getMonsterIndex( queueMonster );
 			boolean olfacted =
 				queueMonster != null &&

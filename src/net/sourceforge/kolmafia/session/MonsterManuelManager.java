@@ -403,7 +403,7 @@ public class MonsterManuelManager
 			return id;
 		}
 
-		monster = MonsterDatabase.findMonster( manuelName, false );
+		monster = MonsterDatabase.findMonster( manuelName );
 		return monster != null ? monster.getId() : id;
 	}
 
