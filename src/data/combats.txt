@@ -75,7 +75,7 @@ An Unsettling Abyssal Portal	100	bulwark bull seal
 Anemone Mine	-1	Anemone combatant	killer clownfish	Mer-kin miner
 Anger Man's Level	-1	frustrating knight	rage flame	ticking time bomb	Anger Man: 0
 Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fran&ccedil;ois Verte, Art Teacher: 0
-Atomic Crimbo Toy Factory	100	Mutant Circuit-Soldering Elf	Mutant Cookie-Baking Elf	Mutant Doll-Dressing Elf	Mutant Gift-Wrapping Elf	Mutant Whistle-Carving Elf
+Atomic Crimbo Toy Factory	100	mutant circuit-soldering elf	mutant cookie-baking elf	mutant doll-dressing elf	mutant gift-wrapping elf	mutant whistle-carving elf
 Barf Mountain	100	angry tourist	garbage tourist	horrible tourist family
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
@@ -83,7 +83,7 @@ Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Foot
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pirate
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
-Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	Hockey Elemental: -1
+Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	hockey elemental: -1
 Center Park After Dark	100	common criminal
 Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
@@ -162,7 +162,7 @@ Kokomo Resort	100	Drunken Tropical Vacationer	Lovestruck Tropical Honeymooners	R
 KoL Con Clan Party House	100	Arizona bark scorpion	stumbling-drunk congoer (female)	stumbling-drunk congoer (male)	swimming pool monster
 Lair of the Ninja Snowmen	100	Ninja Snowman (Chopsticks)	Ninja Snowman (Hilt)	Ninja Snowman (Mask)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster	ninja snowman assassin: 0	Frozen Solid Snake: 0
 LavaCo&trade; Lamp Factory	100	factory worker (female)	factory overseer (male)	factory overseer (female)	factory worker (male)	lava golem	Mr. Cheeng: 0
-Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	Trollipop	The Colollilossus
+Lollipop Forest	90	lollicat	lolligator	lollipede	lolliphaunt	lolrus	trollipop	The Colollilossus
 LOLmec's Lair	100	LOLmec: 0
 Madness Bakery	-1	dinner troll	baguette lady	gingerbread murderer	cr&ecirc;ep	Cake Lord: 0	the ghost of Monsieur Baguelle: 0
 Madness Reef	100	jamfish	magic dragonfish	pufferfish
@@ -188,7 +188,7 @@ Mt. Molehill	-1	digital underground dweller	dwarvish gnome	spelunking astronaut	
 Navigation	100	ancient unspeakable bugbear	N-space Virtual Assistant
 Near an Abandoned Refrigerator	100	A.M.C. gremlin	batwinged gremlin	spider gremlin	spider gremlin (tool)
 Near the Witch's House	-1	flock of every birds
-Neckback Crick	100	deadly venomtrout	water spider	Unearthed Monstrosity: 0
+Neckback Crick	100	deadly venomtrout	water spider	unearthed monstrosity: 0
 Next to that Barrel with Something Burning in it	100	A.M.C. gremlin	batwinged gremlin	batwinged gremlin (tool)	vegetable gremlin
 Noob Cave	100	crate
 Oil Peak	100	oil baron	oil cartel	oil slick	oil tycoon
@@ -251,7 +251,7 @@ The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Bubblin' Caldera	100	basaltamander	lava lamprey	lavatory	Lavalos: 0
 The Bugbear Pen	100	angry bugbear: 3	bugged bugbear: 3	mad bugbears: 3	revolting bugbear: 3	revolving bugbear: 3	annoying spooky gravy fairy: 2
 The Caliginous Abyss	100	eye in the darkness	Peanut: 0	school of many	slithering thing
-The Cannon Museum	100	Ten Skeletons	25 Skeletons	100 Skeletons
+The Cannon Museum	100	ten skeletons	25 Skeletons	100 Skeletons
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
@@ -313,7 +313,7 @@ The Hatching Chamber	100	larval filthworm
 The Haunted Ballroom	80	floating platter of hors d'oeuvres	ghastly organist: 0	zombie waltzers	tapdancing skeleton
 The Haunted Bathroom	75	claw-foot bathtub	malevolent hair clog	toilet papergeist	Guy Made Of Bees: 0	cosmetics wraith: 0
 The Haunted Bedroom	-1	Wardr&ouml;b nightstand	animated mahogany nightstand	animated ornate nightstand	animated rustic nightstand	elegant animated nightstand	remains of a jilted mistress: 0
-The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	Pooltergeist (Ultra-Rare): -1
+The Haunted Billiards Room	100	chalkdust wraith	pooltergeist	hustled spectre: 0	pooltergeist (ultra-rare): -1
 The Haunted Boiler Room	-1	coaltergeist	monstrous boiler	steam elemental	Bram the Stoker: 0
 The Haunted Conservatory	100	anglerbush	confused goth music student	man-eating plant	skeletal cat	skeletal hamster	skeletal monkey	The ghost of Lord Montague Spookyraven: 0
 The Haunted Gallery	80	guy with a pitchfork, and his wife	cubist bull	empty suit of armor	knight (Snake): 0	knight (Wolf): 0	ghost of Elizabeth Spookyraven: 0	The ghost of Waldo the Carpathian: 0
@@ -382,7 +382,7 @@ The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Putrid Swamp	-1	swamp monster
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
 The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	Red Fox: 0	Ron "The Weasel" Copperhead: 0
-The Road to the White Citadel	-1	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin alchemist: 0	sticky mummy: 0	W imp: 0
+The Road to the White Citadel	-1	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin Alchemist: 0	sticky mummy: 0	W imp: 0
 The Rogue Windmill	70	can-can dancer	courtesan	sensitive poet-type	master of ceremonies	voyeuristic artist
 The Roman Forum	-1	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Ruins of the Fully Automated Crimbo Factory	100	armored Crimbot	sparking Crimbot	unstable nuclear Crimbot
