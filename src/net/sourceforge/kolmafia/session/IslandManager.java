@@ -76,7 +76,7 @@ public class IslandManager
 
 	public static final boolean isBattlefieldMonster( final String name )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( name, false );
+		MonsterData monster = MonsterDatabase.findMonster( name );
 		return IslandManager.isBattlefieldMonster( monster );
 	}
 
@@ -1054,7 +1054,7 @@ public class IslandManager
 			return;
 		}
 
-		MonsterData monster = MonsterDatabase.findMonster( monsterName, false );
+		MonsterData monster = MonsterDatabase.findMonster( monsterName );
 
 		// Decide whether we defeated a hippy or a fratboy warrior
 		if ( IslandManager.isFratboyBattlefieldMonster( monster ) )

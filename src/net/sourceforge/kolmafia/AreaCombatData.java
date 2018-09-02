@@ -335,9 +335,10 @@ public class AreaCombatData
 			}
 		}
 
-		MonsterData monster = MonsterDatabase.findMonster( name, false );
+		MonsterData monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 		{
+			KoLmafia.updateDisplay( "Monster name '" + name + "' in combats.txt does not exactly match a known monster," );
 			return false;
 		}
 

@@ -2953,7 +2953,7 @@ public class GenericRequest
 		case ItemPool.DOLPHIN_WHISTLE:
 			itemName = "Dolphin Whistle";
 			consumed = true;
-			MonsterData m = MonsterDatabase.findMonster( "rotten dolphin thief", false );
+			MonsterData m = MonsterDatabase.findMonster( "rotten dolphin thief" );
 			if ( m != null )
 			{
 				m.clearItems();

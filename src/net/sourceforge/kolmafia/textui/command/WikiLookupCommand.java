@@ -150,7 +150,7 @@ public class WikiLookupCommand
 
 			if ( type.startsWith( "monster" ) )
 			{
-				MonsterData monster = MonsterDatabase.findMonster( target, true );
+				MonsterData monster = MonsterDatabase.findMonster( target, true, false );
 				if ( monster != null )
 				{
 					WikiUtilities.showWikiDescription( monster );

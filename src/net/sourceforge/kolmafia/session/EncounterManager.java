@@ -291,37 +291,37 @@ public abstract class EncounterManager
 
 	public static final boolean isWanderingMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.WANDERER );
 	}
 
 	public static boolean isSemiRareMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.SEMIRARE );
 	}
 
 	public static boolean isSuperlikelyMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.SUPERLIKELY );
 	}
 
 	public static boolean isFreeCombatMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.FREE_COMBAT );
 	}
 
 	public static boolean isUltrarareMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.ULTRARARE );
 	}
 
 	public static boolean isNoWanderMonster( String encounter )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( encounter, false );
+		MonsterData monster = MonsterDatabase.findMonster( encounter );
 		return monster != null && monster.getType().contains( EncounterType.NOWANDER );
 	}
 

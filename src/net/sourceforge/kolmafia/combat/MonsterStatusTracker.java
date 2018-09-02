@@ -98,19 +98,19 @@ public class MonsterStatusTracker
 	{
 		MonsterStatusTracker.reset();
 
-		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
+		MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName );
 
 		if ( MonsterStatusTracker.monsterData == null && EquipmentManager.getEquipment( EquipmentManager.WEAPON ).getItemId() == ItemPool.SWORD_PREPOSITIONS )
 		{
 			monsterName = StringUtilities.lookupPrepositions( monsterName );
-			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName, false );
+			MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName );
 		}
 
 		if ( MonsterStatusTracker.monsterData == null )
 		{
 			if ( monsterName.startsWith( "the " ) )
 			{
-				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ), false );
+				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ) );
 				if ( MonsterStatusTracker.monsterData != null )
 				{
 					monsterName = monsterName.substring( 4 );
@@ -118,7 +118,7 @@ public class MonsterStatusTracker
 			}
 			else if ( monsterName.startsWith( "el " ) || monsterName.startsWith( "la " ) )
 			{
-				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 3 ), false );
+				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 3 ) );
 				if ( MonsterStatusTracker.monsterData != null )
 				{
 					monsterName = monsterName.substring( 3 );

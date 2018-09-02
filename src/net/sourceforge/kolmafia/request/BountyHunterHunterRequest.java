@@ -359,7 +359,7 @@ public class BountyHunterHunterRequest
 			{
 				boolean matched = false;
 				// Convert monster name to correct case
-				String monsterTrueCase = MonsterDatabase.findMonster( monster, false ).getName();
+				String monsterTrueCase = MonsterDatabase.findMonster( monster, false, false ).getName();
 				String bountyImage = bountyItemMatcher.group( 1 );
 				// Try to work out what the item should be
 				String unknownEasyBountyString = Preferences.getString( "_unknownEasyBountyItem" );

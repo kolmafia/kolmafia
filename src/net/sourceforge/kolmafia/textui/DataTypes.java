@@ -589,7 +589,9 @@ public class DataTypes
 			return DataTypes.MONSTER_INIT;
 		}
 
-		MonsterData monster = MonsterDatabase.findMonster( name, true );
+		// Allow fuzzy matching and case-insensitive full matching.
+		// Since the latter allows ambiguity, caller must check
+		MonsterData monster = MonsterDatabase.findMonster( name, true, false );
 		if ( monster == null )
 		{
 			return returnDefault ? DataTypes.MONSTER_INIT : null;

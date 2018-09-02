@@ -125,7 +125,7 @@ Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
 Exposure Esplanade	-1	Cold hobo	Frosty: 0
 Fastest Adventurer Contest	100	Cheetahman	Microwave Magus	Kung-Fu Hustler	Tasmanian Dervish: 0
 Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
-Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem		X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional horror
+Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem	X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional horror
 Fightin' Fire	100	brushfire
 Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)	The Frattlesnake: 0
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
@@ -251,7 +251,7 @@ The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Bubblin' Caldera	100	basaltamander	lava lamprey	lavatory	Lavalos: 0
 The Bugbear Pen	100	angry bugbear: 3	bugged bugbear: 3	mad bugbears: 3	revolting bugbear: 3	revolving bugbear: 3	annoying spooky gravy fairy: 2
 The Caliginous Abyss	100	eye in the darkness	Peanut: 0	school of many	slithering thing
-The Cannon Museum	100	ten skeletons	25 Skeletons	100 Skeletons
+The Cannon Museum	100	ten skeletons	25 skeletons	100 skeletons
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant
 The Castle in the Clouds in the Sky (Top Floor)	95	Goth Giant	Punk Rock Giant	Raver Giant	Steampunk Giant	Burning Snake of Fire: 0
@@ -367,7 +367,7 @@ The Oasis	100	blur	oasis monster	rolling stone	swarm of scarab beatles
 The Obligatory Pirate's Cove	60	sassy pirate	smarmy pirate	shady pirate	shifty pirate	swarthy pirate
 The Ogre Chieftain's Keep	0	Ogre Chieftain: 0
 The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adjective] henchman	The Mad Libber: 0
-The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0	:The ghost of Vanillica "Trashblossom" Gorton: 0
+The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0	The ghost of Vanillica "Trashblossom" Gorton: 0
 The Old Man's Bathtime Adventures	-1	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Old Rubee Mine	100	mining grobold
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
@@ -398,7 +398,7 @@ The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mo
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0
 The Snake Pit	-1	cobra	snake
-The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer		stiff disco dancer
+The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer	stiff disco dancer
 The Spider Hole	-1	spider	spider queen: 0
 The Spider Queen's Lair	0	Spider Queen: 0
 The Spirit World	-1	spirit alarm clock: 0	spirit bedbug	spirit faucet	spirit pea
