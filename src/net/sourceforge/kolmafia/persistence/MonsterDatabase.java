@@ -398,6 +398,11 @@ public class MonsterDatabase
 
 	public static final MonsterData findMonster( final String name, boolean trySubstrings )
 	{
+		return findMonster( name, trySubstrings, false );
+	}
+
+	public static final MonsterData findMonster( final String name, boolean trySubstrings, boolean matchCase )
+	{
 		String keyName = CombatActionManager.encounterKey( name, false );
 		MonsterData match = (MonsterData) MonsterDatabase.MONSTER_DATA.get( keyName );
 
@@ -406,14 +411,17 @@ public class MonsterDatabase
 			return match;
 		}
 
-		// Temporary code, match non case sensitive if case sensitive doesn't work
-		keyName = CombatActionManager.encounterKey( name );
-		match = (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
-
-		if ( match != null )
+		if ( !matchCase )
 		{
-			KoLmafia.updateDisplay( "Changing " + name + " to " + match.getName() + " would get rid of this message." );
-			return match;
+			// Temporary code, match non case sensitive if case sensitive doesn't work
+			keyName = CombatActionManager.encounterKey( name );
+			match = (MonsterData) MonsterDatabase.OLD_MONSTER_DATA.get( keyName );
+
+			if ( match != null )
+			{
+				KoLmafia.updateDisplay( "Changing " + name + " to " + match.getName() + " would get rid of this message." );
+				return match;
+			}
 		}
 
 		if ( !trySubstrings )
@@ -501,7 +509,7 @@ public class MonsterDatabase
 
 	public static final MonsterData registerMonster( final String name, final int id, final String[] images, final String attributes )
 	{
-		MonsterData monster = MonsterDatabase.findMonster( name, false );
+		MonsterData monster = MonsterDatabase.findMonster( name, false, true );
 		if ( monster != null && monster.getId() == id )
 		{
 			return monster;
@@ -919,6 +927,6 @@ public class MonsterDatabase
 
 	public static final boolean contains( final String name )
 	{
-		return MonsterDatabase.findMonster( name, false ) != null;
+		return MonsterDatabase.findMonster( name, false, true ) != null;
 	}
 }
