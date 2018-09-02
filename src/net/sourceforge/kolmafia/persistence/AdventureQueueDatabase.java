@@ -202,7 +202,7 @@ public class AdventureQueueDatabase
 		if ( zoneQueue == null )
 			return;
 
-		MonsterData mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster ), true, true );
+		MonsterData mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster, false ) );
 
 		if ( mon == null )
 		{
@@ -210,7 +210,7 @@ public class AdventureQueueDatabase
 			// Other articles definitely should have been handled by now.
 			if ( monster.startsWith( "the " ) || monster.startsWith( "The " ) )
 			{
-				mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster.substring( 4 ) ), true, true );
+				mon = MonsterDatabase.findMonster( CombatActionManager.encounterKey( monster.substring( 4 ), false ) );
 			}
 
 			if ( mon == null )
