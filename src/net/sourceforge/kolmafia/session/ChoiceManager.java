@@ -267,6 +267,7 @@ public abstract class ChoiceManager
 	private static final Pattern BOOMBOX_SONG_PATTERN = Pattern.compile( "&quot;(.*?)&quot;( \\(Keep playing\\)|)" );
 	private static final Pattern HEIST_PATTERN = Pattern.compile( "He shows you a list of potential targets:<p><i>\\((\\d+) more" );
 	private static final Pattern SHEN_PATTERN = Pattern.compile( "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries" );
+	private static final Pattern BASTILLE_PATTERN = Pattern.compile( "You can play <b>(\\d+)</b>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -4285,6 +4286,15 @@ public abstract class ChoiceManager
 
 		// Choice 1310 is Granted a Boon
 		// Choice 1312 is Choose a Soundtrack
+
+		// Choice 1313 is Bastille Battalion
+		// Choice 1314 is Bastille Battalion (turn #x)
+		// Choice 1315 is Castle vs. Castle
+		// Choice 1316 is GAME OVER
+		// Choice 1317 is A Hello to Arms
+		// Choice 1318 is Defensive Posturing
+		// Choice 1319 is Cheese Seeking Behavior
+
 		// Choice 1321 is Disguises Delimit
    };
 
@@ -13779,6 +13789,26 @@ public abstract class ChoiceManager
 					Preferences.setString( "boomBoxSong", matcher.group( 1 ) );
 				}
 			}
+			break;
+		}
+
+		case 1313:
+			// Bastille Battalion
+			if ( !text.contains( "option=5" ) )
+			{
+				Preferences.setInteger( "_bastilleGames", 5 );
+			}
+			break;
+
+		case 1316:
+		{
+			// GAME OVER
+			Matcher matcher = ChoiceManager.BASTILLE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_bastilleGames", 5 - StringUtilities.parseInt( matcher.group( 1 ) ) );
+			}
+			break;
 		}
 
 		}

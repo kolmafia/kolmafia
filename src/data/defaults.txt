@@ -1313,6 +1313,7 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
+user	_bastilleGames	0
 user	_beanCannonUses	0
 user	_bearHugs	0
 user	_beerLensDrops	0
@@ -2406,6 +2407,13 @@ user	choiceAdventure1305	0
 user	choiceAdventure1307	0
 user	choiceAdventure1310	0
 user	choiceAdventure1312	0
+user	choiceAdventure1313	0
+user	choiceAdventure1314	0
+user	choiceAdventure1315	0
+user	choiceAdventure1316	0
+user	choiceAdventure1317	0
+user	choiceAdventure1318	0
+user	choiceAdventure1319	0
 user	choiceAdventure1321	1
 
 user	lockedItem4637	true
