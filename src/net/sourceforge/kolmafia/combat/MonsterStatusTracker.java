@@ -108,7 +108,7 @@ public class MonsterStatusTracker
 
 		if ( MonsterStatusTracker.monsterData == null )
 		{
-			if ( monsterName.startsWith( "the " ) )
+			if ( monsterName.startsWith( "the " ) || monsterName.startsWith( "The " ))
 			{
 				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 4 ) );
 				if ( MonsterStatusTracker.monsterData != null )
@@ -116,7 +116,7 @@ public class MonsterStatusTracker
 					monsterName = monsterName.substring( 4 );
 				}
 			}
-			else if ( monsterName.startsWith( "el " ) || monsterName.startsWith( "la " ) )
+			else if ( monsterName.startsWith( "el " ) || monsterName.startsWith( "la " ) || monsterName.startsWith( "El " ) || monsterName.startsWith( "La " ) )
 			{
 				MonsterStatusTracker.monsterData = MonsterDatabase.findMonster( monsterName.substring( 3 ) );
 				if ( MonsterStatusTracker.monsterData != null )
