@@ -2125,6 +2125,12 @@ public class UseItemRequest
 		if ( responseText.contains( "You don't have the item you're trying to use." ) )
 		{
 			UseItemRequest.lastUpdate = "You don't have that item.";
+			// If we think we do, then Mafia has the wrong information about inventory, so update it
+			if ( InventoryManager.getCount( itemId ) > 0 )
+			{
+				UseItemRequest.lastUpdate = "KoL says don't have that item, but KoLMafia thinks you do, so refreshing KoLMafia Inventory";
+				InventoryManager.refresh();
+			}
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
