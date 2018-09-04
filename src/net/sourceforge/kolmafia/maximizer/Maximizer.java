@@ -2059,7 +2059,11 @@ public class Maximizer
 			!( itemId == ItemPool.HATSEAT && enthroned != currEnthroned ) &&
 			!( itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned ) &&
 			!( itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals( currEdPiece ) ) &&
-			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) )
+			!( itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals( currSnowsuit ) ) &&
+			!( itemId == ItemPool.BROKEN_CHAMPAGNE &&
+				Preferences.getInteger( "garbageChampagneCharge" ) == 0 && !Preferences.getBoolean( "_garbageItemChanged" ) ) &&
+			!( itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
+				Preferences.getInteger( "garbageShirtCharge" ) == 0 && !Preferences.getBoolean( "_garbageItemChanged" ) ) )
 		{
 			if ( slot >= EquipmentManager.SLOTS ||
 			     curr.equals( EquipmentRequest.UNEQUIP ) ||
@@ -2088,7 +2092,9 @@ public class Maximizer
 		{
 			spec.setSnowsuit( snowsuit );
 		}
+
 		double delta = spec.getScore() - current;
+
 		String cmd, text;
 		if ( item.equals( EquipmentRequest.UNEQUIP ) )
 		{
@@ -2163,6 +2169,23 @@ public class Maximizer
 							count++;
 						}
 					}
+				}
+			}
+
+			// We might want to fold for a new Garbage item, even if we already have it, to reset it
+			if ( ( itemId == ItemPool.BROKEN_CHAMPAGNE && Preferences.getInteger( "garbageChampagneCharge" ) == 0 ) ||
+				( itemId == ItemPool.MAKESHIFT_GARBAGE_SHIRT && Preferences.getInteger( "garbageShirtCharge" ) == 0 ) &&
+				!Preferences.getBoolean( "_garbageItemChanged" ) )
+			{
+				if ( checkedItem.initial > count )
+				{
+					text = "fold & " + text;
+					cmd = "fold \u00B6" + item.getItemId() + ";" + cmd;
+				}
+				if ( curr.equals( item ) )
+				{
+					text = "unequip & " + text;
+					cmd = "unequip " + slotname + ";" + cmd;
 				}
 			}
 

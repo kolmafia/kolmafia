@@ -53,6 +53,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -82,7 +84,13 @@ public class FoldItemCommand
 		// If we already have the item in inventory, we're done
 		if ( target.getCount( KoLConstants.inventory ) > 0 )
 		{
-			return;
+			// Well, unless it's a garbage item, in which case we might want to fold anyway
+			if ( !( ( ( target.getItemId() == ItemPool.BROKEN_CHAMPAGNE && Preferences.getInteger( "garbageChampagneCharge" ) == 0 ) ||
+				( target.getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT && Preferences.getInteger( "garbageShirtCharge" ) == 0 ) ) &&
+				!Preferences.getBoolean( "_garbageItemChanged" ) ) )
+			{
+				return;
+			}
 		}
 
 		// Find the fold group containing this item

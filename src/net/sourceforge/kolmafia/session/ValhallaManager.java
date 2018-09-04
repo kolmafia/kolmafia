@@ -726,6 +726,10 @@ public class ValhallaManager
 		Preferences.setInteger( "procrastinatorLanguageFluency", 0 );
 		Preferences.setInteger( "spaceBabyLanguageFluency", 0 );
 		Preferences.setInteger( "spacePirateLanguageFluency", 0 );
+		// Garbage item charge
+		Preferences.setInteger( "garbageChampagneCharge", 0 );
+		Preferences.setInteger( "garbageShirtCharge", 0 );
+		Preferences.setInteger( "garbageTreeCharge", 0 );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL
