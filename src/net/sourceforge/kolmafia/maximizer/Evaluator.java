@@ -1235,7 +1235,7 @@ public class Evaluator
 						}
 					}
 					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
-						Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
+						Preferences.getInteger( "garbageChampagneCharge" ) > 0 )
 					{
 						// This is always going to be worth including if useful
 						item.requiredFlag = true;
@@ -1313,7 +1313,7 @@ public class Evaluator
 					if ( id == ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
 						( this.weight[ Modifiers.EXPERIENCE ] > 0 || this.weight[ Modifiers.MUS_EXPERIENCE ] > 0 
 						|| this.weight[ Modifiers.MYS_EXPERIENCE ] > 0 || this.weight[ Modifiers.MOX_EXPERIENCE ] > 0 ) &&
-						Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+						Preferences.getInteger( "garbageShirtCharge" ) > 0 )
 					{
 						// This is always going to be worth including if useful
 						item.requiredFlag = true;

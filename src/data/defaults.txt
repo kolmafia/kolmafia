@@ -563,7 +563,10 @@ user	frVillageUnlocked	false
 user	frWoodUnlocked	false
 user	gallapagosMonster	
 user	gameProBossSpecialPower	Unknown
+user	garbageChampagneCharge	0
 user	garbageFireProgress	25
+user	garbageShirtCharge	0
+user	garbageTreeCharge	0
 user	garlandUpgrades	0
 user	ghostLocation	
 user	ghostPencil1	false
@@ -1417,10 +1420,8 @@ user	_frToday	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_gapBuffs	0
-user	_garbageChampagneCharge	11
 user	_garbageFireDropsCrown	0
-user	_garbageShirtCharge	37
-user	_garbageTreeCharge	1000
+user	_garbageItemChanged	false
 user	_genieFightsUsed	0
 user	_genieWishesUsed	0
 user	_gibbererAdv	0

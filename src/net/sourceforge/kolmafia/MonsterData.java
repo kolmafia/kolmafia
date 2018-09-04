@@ -1115,7 +1115,7 @@ public class MonsterData
 	{
 		int xpMultiplier = 1;
 		if ( KoLCharacter.hasEquipped( ItemPool.get( ItemPool.MAKESHIFT_GARBAGE_SHIRT, 1 ), EquipmentManager.SHIRT ) && 
-		     Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+		     Preferences.getInteger( "garbageShirtCharge" ) > 0 )
 		{
 			xpMultiplier = 2;
 		}

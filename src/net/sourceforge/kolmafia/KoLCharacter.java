@@ -5778,7 +5778,7 @@ public abstract class KoLCharacter
 							      AdventureResult[] equipment, List<AdventureResult> effects,
 							      FamiliarData familiar, FamiliarData enthroned, FamiliarData bjorned,
 							      String edPiece, String snowsuit, String custom, String horsery,
-								  String boomBox, boolean applyIntrinsics )
+								  String boomBox, boolean speculation )
 	{
 		int taoFactor = KoLCharacter.hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -5867,7 +5867,7 @@ public abstract class KoLCharacter
 		for ( int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot )
 		{
 			AdventureResult item = equipment[ slot ];
-			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, applyIntrinsics, taoFactor );
+			KoLCharacter.addItemAdjustment( newModifiers, slot, item, equipment, enthroned, bjorned, edPiece, snowsuit, speculation, taoFactor );
 		}
 
 		// Consider fake hands
@@ -6195,7 +6195,7 @@ public abstract class KoLCharacter
 			// Add "Physical Damage" here, when that is properly defined
 		}
 		if ( equipment[ EquipmentManager.SHIRT ].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT && 
-		     Preferences.getInteger( "_garbageShirtCharge" ) > 0 )
+		     ( Preferences.getInteger( "garbageShirtCharge" ) > 0 || ( speculation && !Preferences.getBoolean( "_garbageItemChanged" ) ) ) )
 		{
 			newModifiers.add( Modifiers.EXPERIENCE, newModifiers.getExtra( Modifiers.EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
 			newModifiers.add( Modifiers.MUS_EXPERIENCE, newModifiers.getExtra( Modifiers.MUS_EXPERIENCE ), "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]" );
@@ -6209,7 +6209,7 @@ public abstract class KoLCharacter
 		if ( ( equipment[ EquipmentManager.OFFHAND ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ||
 			equipment[ EquipmentManager.WEAPON ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ||
 			equipment[ EquipmentManager.FAMILIAR ].getItemId() == ItemPool.BROKEN_CHAMPAGNE ) &&
-			Preferences.getInteger( "_garbageChampagneCharge" ) > 0 )
+			( Preferences.getInteger( "garbageChampagneCharge" ) > 0 || ( speculation && !Preferences.getBoolean( "_garbageItemChanged" ) ) ) )
 		{
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
 		}
@@ -6226,7 +6226,7 @@ public abstract class KoLCharacter
 
 	private static final void addItemAdjustment( Modifiers newModifiers, int slot, AdventureResult item,
 						     AdventureResult[] equipment, FamiliarData enthroned, FamiliarData bjorned,
-							 String edPiece, String snowsuit, boolean applyIntrinsics, int taoFactor )
+							 String edPiece, String snowsuit, boolean speculation, int taoFactor )
 	{
 		if ( item == null || item == EquipmentRequest.UNEQUIP )
 		{
@@ -6266,7 +6266,7 @@ public abstract class KoLCharacter
 
 		if ( imod != null )
 		{
-			if ( applyIntrinsics )
+			if ( speculation )
 			{
 				String intrinsic = imod.getString( Modifiers.INTRINSIC_EFFECT );
 				if ( intrinsic.length() > 0 )

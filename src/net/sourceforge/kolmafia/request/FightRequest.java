@@ -2951,13 +2951,13 @@ public class FightRequest
 			Matcher treeMatcher = FightRequest.DECEASED_TREE_PATTERN.matcher( responseText );
 			if ( treeMatcher.find() )
 			{
-				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
 			}
 		}
 		// Your crimbo tree is now 100% naked, so you toss it away
 		else if ( responseText.contains( "Your crimbo tree is now 100% naked" ) )
 		{
-			Preferences.setInteger( "_garbageTreeCharge", 0 );
+			Preferences.setInteger( "garbageTreeCharge", 0 );
 			EquipmentManager.breakEquipment( ItemPool.DECEASED_TREE,
 				"You toss your crimbo tree away." );
 		}
@@ -3267,7 +3267,7 @@ public class FightRequest
 			Matcher treeMatcher = FightRequest.DECEASED_TREE_PATTERN.matcher( responseText );
 			if ( treeMatcher.find() )
 			{
-				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageTreeCharge", StringUtilities.parseInt( treeMatcher.group( 1 ) ) );
 			}
 		}
 
@@ -3277,13 +3277,13 @@ public class FightRequest
 			Matcher champagneMatcher = FightRequest.BROKEN_CHAMPAGNE_PATTERN.matcher( responseText );
 			if ( champagneMatcher.find() )
 			{
-				Preferences.setInteger( "_garbageChampagneCharge", StringUtilities.parseInt( champagneMatcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageChampagneCharge", StringUtilities.parseInt( champagneMatcher.group( 1 ) ) );
 			}
 		}
 		// The last drop of your party champagne dripped out during this fight, so you toss the bottle away.
 		else if ( responseText.contains( "last drop of your party champagne dripped out" ) )
 		{
-			Preferences.setInteger( "_garbageChampagneCharge", 0 );
+			Preferences.setInteger( "garbageChampagneCharge", 0 );
 			EquipmentManager.breakEquipment( ItemPool.BROKEN_CHAMPAGNE,
 				"You toss away the broken champagne bottle." );
 		}
@@ -3295,13 +3295,13 @@ public class FightRequest
 			Matcher garbageShirtMatcher = FightRequest.GARBAGE_SHIRT_PATTERN.matcher( responseText );
 			if ( garbageShirtMatcher.find() )
 			{
-				Preferences.setInteger( "_garbageShirtCharge", StringUtilities.parseInt( garbageShirtMatcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageShirtCharge", StringUtilities.parseInt( garbageShirtMatcher.group( 1 ) ) );
 			}
 		}
 		// You rip the last bit of usefully informative garbage off your shirt, and it falls to scraps
 		else if ( responseText.contains( "last bit of usefully informative garbage off your shirt" ) )
 		{
-			Preferences.setInteger( "_garbageShirtCharge", 0 );
+			Preferences.setInteger( "garbageShirtCharge", 0 );
 			EquipmentManager.breakEquipment( ItemPool.MAKESHIFT_GARBAGE_SHIRT,
 				"Your makeshirt garbage shirt falls apart." );
 		}

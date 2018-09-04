@@ -10239,22 +10239,29 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.WAD_OF_TAPE );
 				EquipmentManager.removeEquipment( ItemPool.MAKESHIFT_GARBAGE_SHIRT );
 				ResultProcessor.removeItem( ItemPool.MAKESHIFT_GARBAGE_SHIRT );
+				if ( !Preferences.getBoolean( "_garbageItemChanged" ) )
+				{
+					Preferences.setInteger( "garbageTreeCharge", 1000 );
+					Preferences.setInteger( "garbageChampagneCharge", 11 );
+					Preferences.setInteger( "garbageShirtCharge", 37 );
+				}
+				Preferences.setBoolean( "_garbageItemChanged", true );
 			}
 			// Do some parsing of needles/wine/scraps here
 			Matcher matcher = ChoiceManager.DECEASED_TREE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				Preferences.setInteger( "_garbageTreeCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageTreeCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
 			matcher = ChoiceManager.BROKEN_CHAMPAGNE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				Preferences.setInteger( "_garbageChampagneCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageChampagneCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
 			matcher = ChoiceManager.GARBAGE_SHIRT_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				Preferences.setInteger( "_garbageShirtCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
+				Preferences.setInteger( "garbageShirtCharge", StringUtilities.parseInt( matcher.group( 1 ) ) );
 			}
 			break;
 		}
