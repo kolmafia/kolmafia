@@ -2353,6 +2353,13 @@ public class Evaluator
 					}
 				}
 			}
+
+			// Blunt object fix for only having a foldable that might be neede elsewhere
+			if ( automatic[ slot ].size() == 1 && ItemDatabase.getFoldGroup( automatic[ slot ].get( 0 ).getName() ) != null )
+			{
+				automatic[ slot ].add( new CheckedItem( 0, equipLevel, maxPrice, priceLevel ) );
+			}
+
 			if ( this.dump > 0 )
 			{
 				RequestLogger.printLine( automatic[ slot ].toString() );
