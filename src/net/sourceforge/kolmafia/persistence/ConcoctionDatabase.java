@@ -2367,6 +2367,20 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.EXCUSE.put( CraftingType.SPACEGATE, "You do not have access to Spacegate Equipment Requisition." );
 		}
 
+		boolean fantasyRealmUsable = StandardRequest.isAllowed( "Items", "FantasyRealm membership packet" ) &&
+		                          ( !KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled() ) &&
+								  !StringUtilities.isNumeric ( Preferences.getString( "_frHoursLeft" ) );
+		if ( ( Preferences.getBoolean( "frAlways" ) || Preferences.getBoolean( "_frToday" ) ) && fantasyRealmUsable )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.FANTASY_REALM );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.FANTASY_REALM, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.FANTASY_REALM, 0 );
+		}
+		else
+		{
+			ConcoctionDatabase.EXCUSE.put( CraftingType.FANTASY_REALM, "You do not have access to Fantasy Realm welcome center." );
+		}
+
 		// Now, go through all the cached adventure usage values and if
 		// the number of adventures left is zero and the request requires
 		// adventures, it is not permitted.
@@ -2706,6 +2720,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.METEOROID )
 		{
 			result.append( "metal meteoroid" );
+		}
+		else if ( mixingMethod == CraftingType.FANTASY_REALM )
+		{
+			result.append( "Fantasy Realm Welcome Center" );
 		}
 		if ( result.length() == 0 )
 		{
@@ -3389,6 +3407,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "METEOROID" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;
+		}
+
+		else if ( mix.equals( "FANTASY_REALM" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.FANTASY_REALM;
 		}
 
 		else if ( mix.startsWith( "ROW" ) )

@@ -1158,6 +1158,11 @@ public class Concoction
 			return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
 		}
 
+		if ( this.mixingMethod == CraftingType.FANTASY_REALM )
+		{
+			return alreadyHave + ( StringUtilities.isNumeric ( Preferences.getString( "_frHoursLeft" ) ) ? 0 : 1 );
+		}
+
 		if ( needToMake <= 0 )
 		{	// Have enough on hand already.
 			// Don't bother with calculating the number creatable:
