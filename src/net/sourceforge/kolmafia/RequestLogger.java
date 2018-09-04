@@ -104,6 +104,7 @@ import net.sourceforge.kolmafia.request.EdShopRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FamTeamRequest;
+import net.sourceforge.kolmafia.request.FantasyRealmRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
@@ -1220,6 +1221,12 @@ public class RequestLogger
 		}
 
 		if ( ( request instanceof FamTeamRequest || isExternal ) && FamTeamRequest.registerRequest( urlString ) )
+		{
+			RequestLogger.wasLastRequestSimple = false;
+			return;
+		}
+
+		if ( ( request instanceof FantasyRealmRequest || isExternal ) && FantasyRealmRequest.registerRequest( urlString ) )
 		{
 			RequestLogger.wasLastRequestSimple = false;
 			return;

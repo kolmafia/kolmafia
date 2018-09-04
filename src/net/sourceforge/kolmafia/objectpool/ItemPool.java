@@ -3005,10 +3005,13 @@ public class ItemPool
 	public static final int GINSENG = 9753;
 	public static final int TALL_GRASS_SEEDS = 9760;
 	public static final int POKE_GROW_FERTILIZER = 9761;
-	public static final int FANTASY_REALM_GEM = 9837;
-	public static final int RUBEE = 9838;
 	public static final int FR_MEMBER = 9835;
 	public static final int FR_GUEST = 9836;
+	public static final int FANTASY_REALM_GEM = 9837;
+	public static final int RUBEE = 9838;
+	public static final int FR_WARRIOR_HELM = 9839;
+	public static final int FR_MAGE_HAT = 9840;
+	public static final int FR_ROGUE_MASK = 9841;
 	public static final int FR_KEY = 9844;
 	public static final int FR_PURPLE_MUSHROOM = 9845;
 	public static final int FR_TAINTED_MARSHMALLOW = 9846;

@@ -395,6 +395,9 @@ public class CreateItemRequest
 		case SPACEGATE:
 			return new SpacegateEquipmentRequest( conc );
 
+		case FANTASY_REALM:
+			return new FantasyRealmRequest( conc );
+
 		default:
 			return new CreateItemRequest( conc );
 		}

@@ -594,6 +594,7 @@ public interface KoLConstants
 		XO,	// Items made using Xes and Os
 		NEWSPAPER,	// Items made from burning newspaper
 		METEOROID,	// Items made from metal meteoroid
+		FANTASY_REALM,	// Items made by visiting FantasyRealm welcome center
 	}
 
 	public enum CraftingRequirements
