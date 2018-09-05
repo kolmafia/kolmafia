@@ -1374,6 +1374,7 @@ Item	immense cyborg hand	Weapon Damage: +5, Spooky Damage: +3, Stench Damage: +3
 Item	infernal fife	Hot Damage: +7
 Item	infernal toilet brush	Stench Damage: +20, Maximum HP: +20, Maximum MP: +20, Class: "Seal Clubber"
 Item	inflatable baseball bat	Weapon Damage: +30
+Item	intimidating chainsaw	Weapon Damage Percent: +100, Reduce Enemy Defense: 10, Lasts Until Rollover
 Item	iron dagger	Muscle: +3, Spell Damage: +10, Item Drop: +5
 Item	iron pasta spoon	Spell Damage: +10
 Item	ironic battle spoon	Spell Damage: +10

@@ -100,6 +100,14 @@ public class FamiliarData
 	public static final AdventureResult PUMPKIN_BUCKET = ItemPool.get( ItemPool.PUMPKIN_BUCKET, 1 );
 	public static final AdventureResult RAT_HEAD_BALLOON = ItemPool.get( ItemPool.RAT_BALLOON, 1 );
 	public static final AdventureResult SUGAR_SHIELD = ItemPool.get( ItemPool.SUGAR_SHIELD, 1 );
+	public static final AdventureResult LOATHING_LEGION_HELICOPTER = ItemPool.get( ItemPool.LOATHING_LEGION_HELICOPTER, 1 );
+	public static final AdventureResult FILTHY_CHILD_LEASH = ItemPool.get( ItemPool.FILTHY_CHILD_LEASH, 1 );
+	public static final AdventureResult LUCK_INCENSE = ItemPool.get( ItemPool.LUCK_INCENSE, 1 );
+	public static final AdventureResult SHELL_BELL = ItemPool.get( ItemPool.SHELL_BELL, 1 );
+	public static final AdventureResult MUSCLE_BAND = ItemPool.get( ItemPool.MUSCLE_BAND, 1 );
+	public static final AdventureResult AMULET_COIN = ItemPool.get( ItemPool.AMULET_COIN, 1 );
+	public static final AdventureResult RAZOR_FANG = ItemPool.get( ItemPool.RAZOR_FANG, 1 );
+	public static final AdventureResult SMOKE_BALL = ItemPool.get( ItemPool.SMOKE_BALL, 1 );
 
 	public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
 	public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
@@ -1177,6 +1185,36 @@ public class FamiliarData
 			return FamiliarData.LIFE_PRESERVER;
 		}
 
+		if ( FamiliarData.availableItem( FamiliarData.AMULET_COIN, steal ) )
+		{
+			return FamiliarData.AMULET_COIN;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.LUCK_INCENSE, steal ) )
+		{
+			return FamiliarData.LUCK_INCENSE;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.RAZOR_FANG, steal ) )
+		{
+			return FamiliarData.RAZOR_FANG;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.SHELL_BELL, steal ) )
+		{
+			return FamiliarData.SHELL_BELL;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.SMOKE_BALL, steal ) )
+		{
+			return FamiliarData.SMOKE_BALL;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.MUSCLE_BAND, steal ) )
+		{
+			return FamiliarData.MUSCLE_BAND;
+		}
+
 		if ( FamiliarData.availableItem( FamiliarData.PET_SWEATER, steal ) )
 		{
 			return FamiliarData.PET_SWEATER;
@@ -1212,6 +1250,16 @@ public class FamiliarData
 		if ( FamiliarData.availableItem( FamiliarData.ITTAH_BITTAH_HOOKAH, steal ) )
 		{
 			return FamiliarData.ITTAH_BITTAH_HOOKAH;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.LOATHING_LEGION_HELICOPTER, steal ) )
+		{
+			return FamiliarData.LOATHING_LEGION_HELICOPTER;
+		}
+
+		if ( FamiliarData.availableItem( FamiliarData.FILTHY_CHILD_LEASH, steal ) )
+		{
+			return FamiliarData.FILTHY_CHILD_LEASH;
 		}
 
 		if ( FamiliarData.availableItem( FamiliarData.LEAD_NECKLACE, steal ) )
