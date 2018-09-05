@@ -254,6 +254,7 @@ outrageous sombrero	100	none
 oversized skullcap	20	none
 pail	30	none
 panhandle panhandling hat	150	Mus: 175
+pentagram bandana	50	none
 paperclip turban	50	none
 papier-mitre	100	Mox: 20
 parasitic headgnawer	30	none
@@ -279,6 +280,7 @@ pumpkinhead mask	10	none
 radiation-resistant helmet	50	none
 Radio Free Baseball Cap	150	Mox: 60
 raspberry beret	50	Mox: 10
+ratty knitted cap	50	none
 rave visor	150	Mox: 60
 ravioli hat	10	none
 red traffic cone	60	Mox: 15
@@ -695,6 +697,7 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 demonskin jacket	80	Mus: 25
+denim jacket	50	none
 Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
@@ -763,6 +766,7 @@ rhinestone cowboy shirt	100	Mus: 35
 safety vest	70	Mus: 20
 sea salt scrubs	200	Mus: 85
 shark jumper	200	Mus: 85
+shoe ad T-shirt	50	none
 SMOOCH breastplate	105	Mus: 37
 smooth velvet bra	50	Mus: 10
 smooth velvet shirt	50	Mus: 10
@@ -1653,6 +1657,7 @@ coffin lid	50	Mus: 10	shield
 Cold Stone of Hatred	200	Mus: 125
 collapsible baton	200	Mys: 85
 Cookbook of the Damned	30	none
+cosmetic football	50	none
 creepy doll head	100	Mys: 35
 creepy voice box	120	Mys: 45
 creme brulee torch	0	Mus: 25
@@ -2005,6 +2010,7 @@ stuffed zmobie	10	none
 Stupid University Diploma	0	none
 sturdy cane	50	Mus: 10
 sucker bucket	50	none
+surprisingly capacious handbag	50	none
 Sword of the Brouhaha Prince	0	none
 Taco Dan's Taco Stand Cocktail Sauce Bottle	10	none
 tailbone shield	250	Mus: 200	shield
@@ -2226,6 +2232,7 @@ disembodied smile	20	none
 diving muff	200	Mys: 85
 doll-eye amulet	100	Mys: 35
 dope gangsta bling-bling	45	Mys: 7
+dorky glasses	50	none
 Draftsman's driving gloves	0	none
 Dreadsylvania Auditor's badge	250	Mys: 200
 droll monocle	100	Mys: 35
@@ -2474,10 +2481,12 @@ musty moccasins	160	Mox: 65
 mysterious silver lapel pin	0	none
 natty blue ascot	200	Mys: 10
 navel ring of navel gazing	0	none
+neverending wallet chain	50	none
 Nickel Gamma of Frugality	200	Mys: 85
 nicksilver ring	100	Mys: 10
 night-vision goggles	50	Mox: 10
 Nose Ring of Putrescence	150	Mys: 60
+noticeable pumps	50	none
 Nouveau nosering	200	none
 Novelty Belt Buckle of Violence	200	Mys: 125
 novelty tattoo sleeves	10	none
@@ -2551,6 +2560,7 @@ Pok&euml;mann figurine: Vegemite	10	none
 Pok&euml;mann figurine: Vermouth	10	none
 polka-dot bow tie	50	Mys: 10
 polyester pulsera	50	none
+ponytail clip	50	none
 porcelain phantom mask	120	Mys: 40
 porquoise bracelet	50	Mys: 10
 porquoise eyebrow ring	50	Mys: 10

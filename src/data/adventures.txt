@@ -67,6 +67,7 @@ Town	adventure=458	Env: underground Stat: 0	The Deep Machine Tunnels
 Town	adventure=474	Env: outdoor Stat: 0	Investigating a Plaintive Telegram
 Town	adventure=495	Env: indoor Stat: 0	Super Villain's Lair
 Town	place=townwrong_tunnel	Env: indoor	The Tunnel of L.O.V.E.
+Town	adventure=528	Env: indoor Stat: 0	The Neverending Party
 Manor1	adventure=113	Env: indoor Stat: 0	The Haunted Pantry	pretentious palette|+3 tasty tart|1 hypnotic breadcrumbs
 Manor1	adventure=388	Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food

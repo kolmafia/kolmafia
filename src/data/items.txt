@@ -9965,3 +9965,35 @@
 9939	kitten burglar	874990425	kittenburglar.gif	grow	t	0
 9940	burglar/sleep mask	339615758	cburglarmask.gif	familiar	t,d	75
 9941	Thwaitgold masked hunter	929361142	thwaitmasked.gif	none		0
+9942	Neverending Party invitation envelope	412296986	npartyinv.gif	usable	t	0
+9943
+9944
+9945	Neverending Party favor	893959536	npartyfavor.gif	usable		0
+9946
+9947	gas can	259109785	gascan.gif	none, combat	t,d	30
+9948	Middle of the Road&trade; brand whiskey	561291924	middlewhiskey.gif	drink	t,d	30
+9949	neverending wallet chain	822762744	walletchain.gif	accessory	t,d	60
+9950	pentagram bandana	642156828	pentadana.gif	hat	t,d	60
+9951
+9952	electronics kit	391996195	electronicskit.gif	none, combat	t,d	30
+9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30
+9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60
+9955	ponytail clip	255134168	ponytailclip.gif	accessory	t,d	60
+9956
+9957	unremarkable duffel bag	164906791	duffelbag2.gif	usable	t,d	30
+9958	Purple Beast energy drink	522759471	purplebeast.gif	spleen, usable	t,d	30
+9959	cosmetic football	648525413	football2.gif	offhand	t,d	60
+9960	shoe ad T-shirt	977886142	shooshirt.gif	shirt	t,d	60
+9961
+9962	runproof mascara	634650553	mascara2.gif	usable	t,d	30
+9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30
+9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60
+9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
+9966
+9967
+9968
+9969	denim jacket	439326125	punkjacket.gif	shirt	t,d	60
+9970	ratty knitted cap	441589556	dirtybeanie.gif	hat	t,d	60
+9971
+9972
+9973	beer bomb	642281054	twobeers.gif	drink	t,d	11	beer bombs
