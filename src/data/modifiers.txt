@@ -4898,6 +4898,7 @@ Effect	Churro Chiaroscuro	Mysticality Percent: [min(200,5*T)]
 Effect	Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)], Sleaze Damage: [min(2500,5*T)], Spooky Damage: [min(2500,5*T)], Stench Damage: [min(2500,5*T)]
 Effect	Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Experience (Moxie): [ceil(min(T,50)/10)]
 Effect	Cinnamouth	Hot Damage: +11
+Effect	Citronella Armpits	Monster Level: +30
 Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
 Effect	Clerical Aura	Avatar: "Father McGruber"
@@ -6419,6 +6420,7 @@ Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200
 Effect	Speed of the Internet	Initiative: +50
 Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
+Effect	Spiced Up	Experience Percent (Muscle): +20
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
 Effect	Spicy Mouth	Mysticality: +5, Moxie: -5
 Effect	Spidercow Vision	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50, Item Drop: +25
