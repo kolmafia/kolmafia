@@ -99,6 +99,13 @@ public class Interpreter
 	// For use by RuntimeLibrary's CLI command batching feature
 	LinkedHashMap<String, LinkedHashMap<String, StringBuilder>> batched;
 
+	// For ASH stack traces.
+	private ArrayList<CallFrame> frameStack;
+	// Limit object churn across function calls.
+	private ArrayList<CallFrame> unusedCallFrames;
+
+	public static final int STACK_LIMIT = 10;
+
 	// For use in ASH relay scripts
 	private RelayRequest relayRequest = null;
 	private StringBuffer serverReplyBuffer = null;
@@ -111,18 +118,18 @@ public class Interpreter
 		return Interpreter.traceStream != NullStream.INSTANCE;
 	}
 
-	public static final void openTraceStream()
+	public static void openTraceStream()
 	{
 		Interpreter.traceStream =
 			RequestLogger.openStream( "ASH_" + KoLConstants.DAILY_FORMAT.format( new Date() ) + ".txt", Interpreter.traceStream, true );
 	}
 
-	public static final void println( final String string )
+	public static void println(final String string )
 	{
 		Interpreter.traceStream.println( string );
 	}
 
-	public static final void closeTraceStream()
+	public static void closeTraceStream()
 	{
 		RequestLogger.closeStream( Interpreter.traceStream );
 		Interpreter.traceStream = NullStream.INSTANCE;
@@ -133,6 +140,8 @@ public class Interpreter
 		this.parser = new Parser();
 		this.scope = new Scope( new VariableList(), Parser.getExistingFunctionScope() );
 		this.hadPendingState = false;
+		this.frameStack = new ArrayList<CallFrame>();
+		this.unusedCallFrames = new ArrayList<CallFrame>();
 	}
 
 	private Interpreter( final Interpreter source, final File scriptFile )
@@ -140,6 +149,8 @@ public class Interpreter
 		this.parser = new Parser( scriptFile, null, source.getImports() );
 		this.scope = source.scope;
 		this.hadPendingState = false;
+		this.frameStack = new ArrayList<CallFrame>();
+		this.unusedCallFrames = new ArrayList<CallFrame>();
 	}
 
 	public void initializeRelayScript( final RelayRequest request )
@@ -212,6 +223,11 @@ public class Interpreter
 	public void setState( final String state )
 	{
 		this.currentState = state;
+
+		if (state.equals(STATE_EXIT) && Preferences.getBoolean( "printStackOnAbort" ) )
+		{
+			this.printStackTrace();
+		}
 	}
 
 	public static void rememberPendingState()
@@ -262,7 +278,7 @@ public class Interpreter
 	}
 
 	private static final String indentation = " " + " " + " ";
-	public static final void indentLine( final PrintStream stream, final int indent )
+	public static void indentLine(final PrintStream stream, final int indent )
 	{
 		if ( stream != null && stream != NullStream.INSTANCE )
 		{
@@ -377,7 +393,7 @@ public class Interpreter
 			result = topScope.execute( this );
 		}
 
-		if ( this.currentState == Interpreter.STATE_EXIT )
+		if (this.currentState.equals(Interpreter.STATE_EXIT))
 		{
 			return result;
 		}
@@ -389,6 +405,8 @@ public class Interpreter
 			{
 				this.trace( "Executing main function" );
 			}
+			// push to interpreter stack
+			this.pushFrame( "main" );
 
 			Object[] values = new Object[ main.getVariableReferences().size() + 1];
 			values[ 0 ] = this;
@@ -399,8 +417,8 @@ public class Interpreter
 			}
 
 			result = main.execute( this, values );
+			this.popFrame();
 		}
-
 		Interpreter.interpreterStack.pop();
 
 		return result;
@@ -486,7 +504,7 @@ public class Interpreter
 			return;
 		}
 
-		PrintStream stream = this.traceStream;
+		PrintStream stream = traceStream;
 		scope.print( stream, 0 );
 
 		Function mainMethod = this.parser.getMainMethod();
@@ -498,19 +516,133 @@ public class Interpreter
 		}
 	}
 
+	// ************** Call  Stack ***************
+
+	public class CallFrame
+	{
+		private String name;
+		private int lineNumber;
+		private String fileName;
+
+		public CallFrame( String name, int lineNumber, String fileName )
+		{
+			this.reset( name, lineNumber, fileName );
+		}
+
+		public CallFrame reset( String name, int lineNumber, String fileName )
+		{
+			this.name = name;
+			this.lineNumber = lineNumber;
+			this.fileName = fileName;
+
+			return this;
+		}
+
+		public String getName()
+		{
+			return name;
+		}
+
+		public String getFileName()
+		{
+			return fileName;
+		}
+
+		public int getLineNumber()
+		{
+			return lineNumber;
+		}
+
+		public String toString()
+		{
+			return " at " + name + ", " + fileName + ":" + lineNumber;
+		}
+	}
+
+	private CallFrame getCallFrame( String name, int lineNumber, String fileName )
+	{
+		if ( unusedCallFrames.size() == 0 )
+		{
+			return new CallFrame( name, lineNumber, fileName );
+		}
+		return unusedCallFrames.remove( unusedCallFrames.size() - 1 ).reset( name, lineNumber, fileName );
+	}
+
+	public void pushFrame( String name )
+	{
+		frameStack.add( getCallFrame( name, this.lineNumber, this.fileName ) );
+	}
+
+	public CallFrame popFrame()
+	{
+		// Unclear when/why we sometimes have an empty stack.
+		if ( frameStack.size() == 0 )
+		{
+			return null;
+		}
+		CallFrame frame = frameStack.remove( frameStack.size() - 1 );
+		unusedCallFrames.add( frame );
+		return frame;
+	}
+
+	public List<CallFrame> getCallFrames()
+	{
+		return (ArrayList<CallFrame>) frameStack.clone();
+	}
+
+	private String getStackTrace()
+	{
+		StringBuilder s = new StringBuilder();
+		String fileName = null;
+		int lineNumber = 0;
+		int stacks = 0;
+		while ( frameStack.size() != 0 && stacks < STACK_LIMIT )
+		{
+			stacks++;
+			CallFrame current = popFrame();
+			if ( fileName == null )
+			{
+				fileName = current.fileName;
+				lineNumber = current.lineNumber;
+				continue;
+			}
+			s.append( "\n\u00A0\u00A0at " );
+			s.append( current.name );
+			s.append( " (" );
+			s.append( fileName );
+			s.append( ":" );
+			s.append( lineNumber );
+			s.append( ")" );
+			fileName = current.fileName;
+			lineNumber = current.lineNumber;
+		}
+
+		frameStack.clear();
+		return s.toString();
+	}
+
+	public void printStackTrace()
+	{
+		// We may attempt to print the stack trace multiple times if in STATE_EXIT.
+		if ( this.frameStack.size() > 0 )
+		{
+			RequestLogger.printLine( "Stack trace:" );
+			RequestLogger.printLine( this.getStackTrace() );
+		}
+	}
+
 	// **************** Tracing *****************
 
 	public final void resetTracing()
 	{
 		this.traceIndentation = 0;
-		this.traceStream = Interpreter.traceStream;
 	}
 
-	private final void indentLine( final int indent )
+	private void indentLine(final int indent )
 	{
-		if ( this.isTracing() )
+		if ( isTracing() )
 		{
-			Interpreter.indentLine( this.traceStream, indent );
+			Interpreter.indentLine( traceStream, indent );
 		}
 	}
 
@@ -529,7 +661,7 @@ public class Interpreter
 		if ( Interpreter.isTracing() )
 		{
 			this.indentLine( this.traceIndentation );
-			this.traceStream.println( string );
+			traceStream.println( string );
 		}
 	}
 
@@ -554,20 +686,20 @@ public class Interpreter
 
 	public final ScriptException runtimeException( final String message )
 	{
-		return Interpreter.runtimeException( message, this.fileName, this.lineNumber );
+		return this.runtimeException( message, this.fileName, this.lineNumber );
 	}
 
-	public static final ScriptException runtimeException( final String message, final String fileName, final int lineNumber )
+	public final ScriptException runtimeException( final String message, final String fileName, final int lineNumber )
 	{
-		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) );
+		return new ScriptException( message + " " + Parser.getLineAndFile( fileName, lineNumber ) + this.getStackTrace() );
 	}
 
 	public final ScriptException runtimeException2( final String message1, final String message2 )
 	{
-		return Interpreter.runtimeException2( message1, message2, this.fileName, this.lineNumber );
+		return runtimeException2( message1, message2, this.fileName, this.lineNumber );
 	}
 
-	public static final ScriptException runtimeException2( final String message1, final String message2, final String fileName, final int lineNumber )
+	public static ScriptException runtimeException2(final String message1, final String message2, final String fileName, final int lineNumber )
 	{
 		return new ScriptException( message1 + " " + Parser.getLineAndFile( fileName, lineNumber ) + " " + message2);
 	}

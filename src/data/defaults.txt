@@ -107,6 +107,7 @@ global	preferredWebBrowser
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
+global	printStackOnAbort	false
 global	protectAgainstOverdrink	true
 global	proxySet	false
 global	relayAddSounds	false

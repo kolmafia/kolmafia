@@ -208,6 +208,8 @@ import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 
+import net.sourceforge.kolmafia.textui.Interpreter.CallFrame;
+
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
 
@@ -250,6 +252,11 @@ public abstract class RuntimeLibrary
 		new String[] { "url", "revision", "last_changed_author", "last_changed_rev", "last_changed_date"}, 
 		new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE} );
 
+	private static final RecordType stackTraceRec = new RecordType(
+		"{string file; string name; int line;}",
+		new String[] { "file", "name", "line" },
+		new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE } );
+	
 	private static final AggregateType NumberologyType = new AggregateType( DataTypes.INT_TYPE, DataTypes.INT_TYPE );
 
 	public static final FunctionList functions = new FunctionList();
@@ -288,6 +295,11 @@ public abstract class RuntimeLibrary
 
 		// Basic utility functions which print information
 		// or allow for easy testing.
+
+		Type stackTraceRecArray = new AggregateType( stackTraceRec, 0 );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "get_stack_trace", stackTraceRecArray, params ) );
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_version", DataTypes.STRING_TYPE, params ) );
@@ -2091,6 +2103,29 @@ public abstract class RuntimeLibrary
 			buf.append( ", " );
 			buf.append( params );
 		}
+	}
+
+	public static Value get_stack_trace( Interpreter interpreter )
+	{
+		List<CallFrame> callStack = interpreter.getCallFrames();
+
+		int frameCount = callStack.size();
+		AggregateType type = new AggregateType( RuntimeLibrary.stackTraceRec, frameCount );
+		ArrayValue value = new ArrayValue( type );
+
+		// Topmost frame is get_stack_trace().
+		for ( int i = 0; i < frameCount - 1; ++i )
+		{
+			CallFrame frame = callStack.get( frameCount - 2 - i );
+
+			RecordValue rec = (RecordValue) value.aref( new Value( i ) );
+
+			rec.aset( 0, new Value( frame.getFileName() ), null );
+			rec.aset( 1, new Value( frame.getName() ), null );
+			rec.aset( 2, new Value( frame.getLineNumber() ), null );
+		}
+
+		return value;
 	}
 
 	public static Value get_version( Interpreter interpreter )
