@@ -9996,4 +9996,4 @@
 9970	ratty knitted cap	441589556	dirtybeanie.gif	hat	t,d	60
 9971
 9972	intimidating chainsaw	584621883	chainsaw.gif	weapon	q	0
-9973	beer bomb	642281054	twobeers.gif	drink	t,d	11	beer bombs
+9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11

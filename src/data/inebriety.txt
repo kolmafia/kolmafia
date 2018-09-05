@@ -35,7 +35,7 @@ Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Ove
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
 basic martini	1	1	good	3	3-9	3-9	3-9	10 random spy buff
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
-beer bomb	1	4	EPIC	0	0	0	0	Unspaded
+party beer bomb	1	4	EPIC	5-6	0	0	0
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights
 Beignet Milgranet	1	2	awesome	3-5	30-40	30-40	30-40	100 Sugar Rush
