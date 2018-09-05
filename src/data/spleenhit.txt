@@ -147,7 +147,7 @@ prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prisma
 puce paisley oyster egg	1	1	awesome	0	11-15	11-15	0
 puce polka-dot oyster egg	1	1	awesome	0	11-15	0	11-15
 puce striped oyster egg	1	1	awesome	0	22-30	0	0
-Purple Beast energy drink	3	1	crappy	0	0	0	0	Unspaded
+Purple Beast energy drink	3	1	crappy	0	10-20	10-20	10-20	+3 PvP fights
 red paisley oyster egg	1	1	good	0	0	11-15	0	31-35 HP
 red polka-dot oyster egg	1	1	good	0	0	0	11-15	31-35 HP
 red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
