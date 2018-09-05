@@ -365,6 +365,7 @@ Item	parasitic headgnawer	Familiar Effect: "atk, cap 7"
 Item	party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
 Item	passable elf mask	Familiar Effect: "atk, cap 2"
 Item	pentacorn hat	Familiar Effect: "atk, cap 10"
+Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
@@ -387,6 +388,7 @@ Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	radiation-resistant helmet	Item Drop: -10, Familiar Effect: "1xFairy, cap 12"
 Item	Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
 Item	raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
+Item	ratty knitted cap	Sleaze Damage: +15, Sleaze Spell Damage: +15
 Item	rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
 Item	ravioli hat	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	real cowboy hat	PvP Fights: +3
@@ -856,6 +858,7 @@ Item	coconut bikini top	Mysticality: +5
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
+Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 # dreadful sweater: Lets you find 5% more Kruegerands
 Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
@@ -925,6 +928,7 @@ Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
 Item	sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
 Item	shark jumper	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 20, HP Regen Max: 40
+Item	shoe ad T-shirt	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +3
 # SMOOCH breastplate: Damages Attacking Opponent
 Item	SMOOCH breastplate	Damage Absorption: +40
 Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10, Single Equip
@@ -1942,6 +1946,7 @@ Item	Cold Stone of Hatred	Mysticality Percent: +20, Reduce Enemy Defense: 10, Sp
 Item	collapsible baton	Mysticality Percent: +10, Spell Critical Percent: +5
 # Cookbook of the Damned: All Spells Cast Are Stinky
 Item	Cookbook of the Damned	Spell Damage: +10
+Item	cosmetic football	Muscle: +10
 Item	creepy doll head	Spooky Damage: +15
 # creepy voice box: Pull the String!  I Dare You!
 Item	creme brulee torch	Hot Damage: +30, Lasts Until Rollover
@@ -2353,6 +2358,8 @@ Item	Stupid University Diploma	Maximum HP: +3, Maximum MP: +3, Spooky Damage: +5
 Item	sturdy cane	PvP Fights: +4, Fumble: 2, Initiative: -25
 # sucker bucket: May Attract Walruses
 Item	sucker bucket	Candy Drop: +50
+# Item surprisingly capacious handbag: +50% Item Drops at the Neverending Party
+Item	surprisingly capacious handbag	Item Drop: [50*loc(The Neverending Party)]
 Item	Sword of the Brouhaha Prince	Muscle Percent: +12
 # Taco Dan's Taco Stand Cocktail Sauce Bottle
 # tailbone shield: Deals 80-100 <font color=green>Stench Damage</font> to attackers
@@ -2620,6 +2627,7 @@ Item	diving muff	Single Equip, Initiative Penalty: [10*env(underwater)], Item Dr
 # doll-eye amulet: +40% Item Drops in Spookyraven Manor
 Item	doll-eye amulet	Single Equip, Item Drop: [40*(zone(Manor0)+zone(Manor1)+zone(Manor2)+zone(Manor3))]
 Item	dope gangsta bling-bling	Moxie: +1
+Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
 # Dreadsylvania Auditor's badge: Lets you find 5% more Kruegerands
 Item	Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
@@ -2930,10 +2938,13 @@ Item	musty moccasins	Stench Resistance: +1, Item Drop: +5, Synergetic
 Item	mysterious silver lapel pin	HP Regen Min: 5, HP Regen Max: 9, Meat Drop: +5, Single Equip
 Item	natty blue ascot	Meat Drop: +20
 Item	navel ring of navel gazing	Damage Reduction: [L], Mysticality Percent: +25, Spell Damage Percent: +100, Mana Cost: -1, Single Equip, Softcore Only, Item Drop (sporadic): 4.25, Meat Drop (sporadic): 4.25, Experience: 0.6375, MP Regen Min: 2.125, MP Regen Max: 4.25
+# Item neverending wallet chain: +30% Meat Drops at the Neverending Party
+Item	neverending wallet chain	Meat Drop: [30*loc(The Neverending Party)]
 Item	Nickel Gamma of Frugality	Muscle: +9, Mysticality: +9, Moxie: +9, Item Drop: +7, Single Equip
 Item	nicksilver ring	Pickpocket Chance: +15, Item Drop: +15, Weapon Drop: +30, Single Equip
 Item	night-vision goggles	Moxie Percent: -10, Experience (Moxie): +1, Single Equip
 Item	Nose Ring of Putrescence	Hot Resistance: +3, Spooky Resistance: +3, Single Equip
+Item	noticeable pumps	Moxie: +10, Experience: +1, Single Equip
 Item	Nouveau nosering	Moxie Percent: +50, Item Drop: +25, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): +4, Lasts Until Rollover
 # Novelty Belt Buckle of Violence: Casts reflections of your spells
 Item	Novelty Belt Buckle of Violence	Muscle Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip
@@ -3021,6 +3032,7 @@ Item	Pok&euml;mann figurine: Vermouth	Familiar Weight: +3, Single Equip
 Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
 # polyester pulsera: Causes Songs in your Head to Restore HP
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
+Item	ponytail clip	Moxie: -30, Initiative: +30
 # porcelain phantom mask: Adds <font color=gray>Spooky Damage</font> to Bawdy Refrain
 Item	porcelain phantom mask	Accessory Drop: +20, Moxie Percent: +20, Single Equip
 Item	porquoise bracelet	Moxie: +4, Never Fumble
@@ -6764,6 +6776,7 @@ Effect	Uncanny Shot	Ranged Damage: +30
 # Unmotivated: You're feeling really unmotivated.
 Effect	Unmuffled	Combat Rate: +15
 Effect	Unpopular	Monster Level: +30
+Effect	Unrunnable Face	Moxie Percent: +50
 Effect	Unusual Fashion Sense	Damage Absorption: +50
 Effect	Unusual Perspective	Item Drop: +50
 Effect	Updated	Muscle: +20, Mysticality: +20, Moxie: +20
@@ -8889,6 +8902,7 @@ Item	eldritch tincture	Skill: "Evoke Eldritch Horror"
 Item	eldritch tincture (depleted)	Skill: "Evoke Eldritch Horror"
 # electric boning knife: Deals Physical Damage each round for the rest of the fight
 Item	electronic Brain Trainer game	Skill: "Brain Games"
+# Item electronics kit: Shocks your opponent, weakening and briefly stunning them.<p>Also restores 30-40 MP.
 Item	electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
 # electric muscle stimulator: Gives some Muscle stats when you rest
 # eleven-foot pole: You know...  For traps.
@@ -9640,6 +9654,7 @@ Item	Necbro wafers	Effect: "Chalk Outline", Effect Duration: 5
 Item	necrotizing body spray	Effect: "Dead Sexy", Effect Duration: 30
 Item	nervous tick egg	Free Pull
 Item	neurostim pill	Effect: "Stimulated Brain", Effect Duration: 10
+# Item Neverending Party favor: Contains fabulous prizes!
 # New Age healing crystal: Restores 500 HP
 # New Age healing crystal: (and briefly stuns your opponent)
 Item	new habit	Effect: "Habituated", Effect Duration: 365
@@ -10041,6 +10056,7 @@ Item	rotting beefsteak	Effect: "Cowrruption", Effect Duration: 30
 # round blue bomb: Deals 90-110 <font color=red>Hot Damage</font>
 Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 Item	ruby on canes	Effect: "Ruby-ous", Effect Duration: 20
+Item	runproof mascara	Effect: "Unrunnable Face", Effect Duration: 20
 # rusty bonesaw: Saws bones
 # S.O.C.K.: Allows access to the Castle in the Clouds in the Sky
 # sacramental wine: Restores 80-100 MP
@@ -10509,6 +10525,7 @@ Item	vampire glitter	Class: "Pastamancer"
 # veiny spore pod: Briefly enhances your muscle
 # very large caltrop: Deals 150-200 Physical Damage
 # very large caltrop: Stuns an enemy for a few rounds
+# Item very small red dress: Angers enemies (making them harder but worth 50 additional substats)
 Item	vial of baconstone juice	Effect: "Baconstoned", Effect Duration: 5
 Item	vial of blood simple syrup	Effect: "Blood-Gorged", Effect Duration: 20
 Item	vial of brown slime	Effect: "A Little Bit Poisoned", Effect Duration: 5

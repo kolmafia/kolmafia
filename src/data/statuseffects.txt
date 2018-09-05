@@ -2414,3 +2414,8 @@
 2413	Shark-Tooth Grin	teeth.gif	0559f349af70895a5c62aec7337b8718	use 1 sharkfin gumbo
 2414	Boiling Determination	bubbles.gif	51ac4375c7e74360763b1b89d8831578	use 1 boiling broth
 2415	Enhanced Interrogation	potion15.gif	fe166bd3b657796702c9c7535070a976	use 1 interrogative elixir
+2416	Tomes of Opportunity	book4.gif	5fbe49340d363d6d76c84b69b32b55c4	# Non-combat in The Neverending Party
+2417
+2418
+2419
+2420	Unrunnable Face	mascara2.gif	717c38b91a319f392117b4b146cffd2b	use 1 runproof mascara
