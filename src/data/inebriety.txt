@@ -386,7 +386,7 @@ melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fish
 melted Jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mentholated wine	1	1	good	2-4	0	0	0	20 Christmessy (+5 Familiar Weight)
 mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP
-Middle of the Road&trade; brand whiskey	2	1	good	0	0	0	0	Unspaded
+Middle of the Road&trade; brand whiskey	2	1	good	4-5	5-10	5-10	5-10
 mime army wine	4	15	EPIC	30-34	40-50	40-50	40-50
 mimosette	3	3	good	5-10	16-20	0	0
 mini-martini	1	11	crappy	1	0	0	0	11 It's Not Even Funny

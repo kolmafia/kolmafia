@@ -9971,12 +9971,12 @@
 9945	Neverending Party favor	893959536	npartyfavor.gif	usable		0
 9946
 9947	gas can	259109785	gascan.gif	none, combat	t,d	30
-9948	Middle of the Road&trade; brand whiskey	561291924	middlewhiskey.gif	drink	t,d	30
+9948	Middle of the Road&trade; brand whiskey	561291924	middlewhiskey.gif	drink	t,d	30	bottles of Middle of the Road&trade; brand whiskey
 9949	neverending wallet chain	822762744	walletchain.gif	accessory	t,d	60
 9950	pentagram bandana	642156828	pentadana.gif	hat	t,d	60
 9951
 9952	electronics kit	391996195	electronicskit.gif	none, combat	t,d	30
-9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30
+9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30	PB&Js with the crusts cut off
 9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60
 9955	ponytail clip	255134168	ponytailclip.gif	accessory	t,d	60
 9956
