@@ -1166,6 +1166,7 @@ immense cyborg hand	150	Mus: 60	1-handed club
 infernal fife	55	Mox: 12	2-handed flute
 infernal toilet brush	100	Mus: 35	1-handed club
 inflatable baseball bat	50	Mus: 0	2-handed club
+intimidating chainsaw	100	Mus: 35	2-handed chainsaw
 iron dagger	50	Mus: 0	1-handed knife
 iron pasta spoon	110	Mys: 40	1-handed utensil
 ironic battle spoon	40	Mys: 5	1-handed utensil

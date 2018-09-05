@@ -2506,6 +2506,7 @@ public class ItemPool
 	public static final int DINSEY_CHARTER = 8203;
 	public static final int DINSEY_TICKET = 8204;
 	public static final int FUNFUNDS = 8205;
+	public static final int FILTHY_CHILD_LEASH = 8209;
 	public static final int GARBAGE_BAG = 8211;
 	public static final int SEWAGE_CLOGGED_PISTOL = 8215;
 	public static final int TOXIC_GLOBULE = 8218;
@@ -3005,6 +3006,12 @@ public class ItemPool
 	public static final int GINSENG = 9753;
 	public static final int TALL_GRASS_SEEDS = 9760;
 	public static final int POKE_GROW_FERTILIZER = 9761;
+	public static final int LUCK_INCENSE = 9821;
+	public static final int SHELL_BELL = 9822;
+	public static final int MUSCLE_BAND = 9823;
+	public static final int AMULET_COIN = 9824;
+	public static final int RAZOR_FANG = 9825;
+	public static final int SMOKE_BALL = 9826;
 	public static final int FR_MEMBER = 9835;
 	public static final int FR_GUEST = 9836;
 	public static final int FANTASY_REALM_GEM = 9837;
