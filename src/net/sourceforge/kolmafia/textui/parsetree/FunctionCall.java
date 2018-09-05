@@ -94,7 +94,7 @@ public class FunctionCall
 
 		for ( Value paramValue : this.params )
 		{
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 			}
@@ -106,12 +106,12 @@ public class FunctionCall
 				value = DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + value.toQuotedString() );
 			}
 
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
@@ -120,12 +120,15 @@ public class FunctionCall
 			values[ paramCount++ ] = value;
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Entering function " + this.target.getName() );
 		}
 
 		interpreter.setLineAndFile( this.fileName, this.lineNumber );
+
+		// push to interpreter stack
+		interpreter.pushFrame( this.target.getName() );
 
 		Value result;
 		Profiler prev = interpreter.profiler;
@@ -151,18 +154,19 @@ public class FunctionCall
 			result = this.target.execute( interpreter, values );
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Function " + this.target.getName() + " returned: " + result );
 		}
 
-		if ( interpreter.getState() != Interpreter.STATE_EXIT )
+		if (!interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
 			interpreter.setState( Interpreter.STATE_NORMAL );
 		}
 
 		interpreter.traceUnindent();
 
+		interpreter.popFrame();
 		return result;
 	}
 

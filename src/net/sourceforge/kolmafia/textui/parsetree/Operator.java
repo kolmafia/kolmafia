@@ -69,8 +69,8 @@ public class Operator
 
 	private int operStrength()
 	{
-		if ( this.operator == Parser.POST_INCREMENT ||
-		     this.operator == Parser.POST_DECREMENT )
+		if (this.operator.equals(Parser.POST_INCREMENT) ||
+				this.operator.equals(Parser.POST_DECREMENT))
 		{
 			return 14;
 		}
@@ -79,8 +79,8 @@ public class Operator
 		     this.operator.equals( "~" ) ||
 		     this.operator.equals( "contains" ) ||
 		     this.operator.equals( "remove" ) ||
-		     this.operator == Parser.PRE_INCREMENT ||
-		     this.operator == Parser.PRE_DECREMENT )
+				this.operator.equals(Parser.PRE_INCREMENT) ||
+				this.operator.equals(Parser.PRE_DECREMENT))
 		{
 			return 13;
 		}
@@ -180,10 +180,10 @@ public class Operator
 			this.operator.equals( "/" ) ||
 			this.operator.equals( "%" ) ||
 			this.operator.equals( "**" ) ||
-			this.operator == Parser.PRE_INCREMENT ||
-			this.operator == Parser.PRE_DECREMENT ||
-			this.operator == Parser.POST_INCREMENT ||
-			this.operator == Parser.POST_DECREMENT;
+				this.operator.equals(Parser.PRE_INCREMENT) ||
+				this.operator.equals(Parser.PRE_DECREMENT) ||
+				this.operator.equals(Parser.POST_INCREMENT) ||
+				this.operator.equals(Parser.POST_DECREMENT);
 	}
 
 	public boolean isBoolean()
@@ -298,7 +298,7 @@ public class Operator
 		}
 
 		Value result = bool ? DataTypes.TRUE_VALUE : DataTypes.FALSE_VALUE;
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -319,7 +319,7 @@ public class Operator
 			// only get here if the operator is "+".
 			if ( !this.operator.equals( "+" ) )
 			{
-				throw Interpreter.runtimeException( "Operator '" + this.operator + "' applied to string operands", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Operator '" + this.operator + "' applied to string operands", this.fileName, this.lineNumber );
 			}
 
 			String string = leftValue.toStringValue().toString() + rightValue.toStringValue().toString();
@@ -334,19 +334,19 @@ public class Operator
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
 			      rfloat == 0.0 )
 			{
-				throw Interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
 			double lfloat = leftValue.toFloatValue().floatValue();
 
-			double val = 0.0;
+			double val;
 
 			if ( this.operator.equals( "**" ) )
 			{
 				val = Math.pow( lfloat, rfloat );
 				if ( Double.isNaN( val ) || Double.isInfinite( val ) )
 				{
-					throw Interpreter.runtimeException( "Invalid exponentiation: cannot take " + lfloat + " ** " + rfloat, this.fileName, this.lineNumber );
+					throw interpreter.runtimeException( "Invalid exponentiation: cannot take " + lfloat + " ** " + rfloat, this.fileName, this.lineNumber );
 				}
 			}
 			else
@@ -385,7 +385,7 @@ public class Operator
 			if (  ( this.operator.equals( "/" ) || this.operator.equals( "%" ) ) &&
 			      rint == 0 )
 			{
-				throw Interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Division by zero", this.fileName, this.lineNumber );
 			}
 
 			long lint = leftValue.intValue();
@@ -403,7 +403,7 @@ public class Operator
 			result = DataTypes.makeIntValue( val );
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -414,7 +414,7 @@ public class Operator
 	public Value applyTo( final Interpreter interpreter, final Value lhs )
 	{
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operator: " + this.operator );
 		}
@@ -423,14 +423,14 @@ public class Operator
 		if ( this.operator.equals( "remove" ) )
 		{
 			CompositeReference operand = (CompositeReference) lhs;
-                        if ( interpreter.isTracing() )
+                        if ( Interpreter.isTracing() )
                         {
                                 interpreter.traceIndent();
                                 interpreter.trace( "Operand: " + operand );
                                 interpreter.traceUnindent();
                         }
 			Value result = operand.removeKey( interpreter );
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
 			}
@@ -439,7 +439,7 @@ public class Operator
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operand: " + lhs );
 		}
@@ -451,13 +451,13 @@ public class Operator
 			leftValue = DataTypes.VOID_VALUE;
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -490,10 +490,10 @@ public class Operator
 			}
 			else
 			{
-				throw Interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Internal error: Unary minus can only be applied to numbers", this.fileName, this.lineNumber );
 			}
 		}
-		else if ( this.operator == Parser.PRE_INCREMENT || this.operator == Parser.POST_INCREMENT )
+		else if (this.operator.equals(Parser.PRE_INCREMENT) || this.operator.equals(Parser.POST_INCREMENT))
 		{
 			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
 			{
@@ -505,10 +505,10 @@ public class Operator
 			}
 			else
 			{
-				throw Interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
 			}
 		}
-		else if ( this.operator == Parser.PRE_DECREMENT || this.operator == Parser.POST_DECREMENT )
+		else if (this.operator.equals(Parser.PRE_DECREMENT) || this.operator.equals(Parser.POST_DECREMENT))
 		{
 			if ( lhs.getType().equals( DataTypes.TYPE_INT ) )
 			{
@@ -520,15 +520,15 @@ public class Operator
 			}
 			else
 			{
-				throw Interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
+				throw interpreter.runtimeException( "Internal error: pre/post increment can only be applied to numbers", this.fileName, this.lineNumber );
 			}
 		}
 		else
 		{
-			throw Interpreter.runtimeException( "Internal error: unknown unary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
+			throw interpreter.runtimeException( "Internal error: unknown unary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "<- " + result );
 		}
@@ -540,13 +540,13 @@ public class Operator
 	public Value applyTo( final Interpreter interpreter, final Value lhs, final Value rhs )
 	{
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operator: " + this.operator );
 		}
 
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operand 1: " + lhs );
 		}
@@ -557,13 +557,13 @@ public class Operator
 		{
 			leftValue = DataTypes.VOID_VALUE;
 		}
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + leftValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
 
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -572,7 +572,7 @@ public class Operator
 		// Unknown operator
 		if ( rhs == null )
 		{
-			throw Interpreter.runtimeException( "Internal error: missing right operand.", this.fileName, this.lineNumber );
+			throw interpreter.runtimeException( "Internal error: missing right operand.", this.fileName, this.lineNumber );
 		}
 
 		// Binary operators with optional right values
@@ -580,7 +580,7 @@ public class Operator
 		{
 			if ( leftValue.intValue() == 1 )
 			{
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "<- " + DataTypes.TRUE_VALUE );
 				}
@@ -588,7 +588,7 @@ public class Operator
 				return DataTypes.TRUE_VALUE;
 			}
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -598,17 +598,17 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + rightValue );
 			}
@@ -621,14 +621,14 @@ public class Operator
 			if ( leftValue.intValue() == 0 )
 			{
 				interpreter.traceUnindent();
-				if ( interpreter.isTracing() )
+				if ( Interpreter.isTracing() )
 				{
 					interpreter.trace( "<- " + DataTypes.FALSE_VALUE );
 				}
 				return DataTypes.FALSE_VALUE;
 			}
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -638,17 +638,17 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + rightValue );
 			}
@@ -659,14 +659,14 @@ public class Operator
 		// Ensure type compatibility of operands
 		if ( !Parser.validCoercion( lhs.getType(), rhs.getType(), this ) )
 		{
-			throw Interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
+			throw interpreter.runtimeException( "Internal error: left hand side and right hand side do not correspond", this.fileName, this.lineNumber );
 		}
 
 		// Special binary operator: <aggref> contains <any>
 		if ( this.operator.equals( "contains" ) )
 		{
 			interpreter.traceIndent();
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "Operand 2: " + rhs );
 			}
@@ -676,18 +676,18 @@ public class Operator
 			{
 				rightValue = DataTypes.VOID_VALUE;
 			}
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 			}
 			interpreter.traceUnindent();
-			if ( interpreter.getState() == Interpreter.STATE_EXIT )
+			if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 			{
 				interpreter.traceUnindent();
 				return null;
 			}
 			Value result = DataTypes.makeBooleanValue( leftValue.contains( rightValue ) );
-			if ( interpreter.isTracing() )
+			if ( Interpreter.isTracing() )
 			{
 				interpreter.trace( "<- " + result );
 			}
@@ -697,7 +697,7 @@ public class Operator
 
 		// Binary operators
 		interpreter.traceIndent();
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Operand 2: " + rhs );
 		}
@@ -707,12 +707,12 @@ public class Operator
 		{
 			rightValue = DataTypes.VOID_VALUE;
 		}
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + rightValue.toQuotedString() );
 		}
 		interpreter.traceUnindent();
-		if ( interpreter.getState() == Interpreter.STATE_EXIT )
+		if (interpreter.getState().equals(Interpreter.STATE_EXIT))
 		{
 			interpreter.traceUnindent();
 			return null;
@@ -731,7 +731,7 @@ public class Operator
 		}
 
 		// Unknown operator
-		throw Interpreter.runtimeException( "Internal error: unknown binary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
+		throw interpreter.runtimeException( "Internal error: unknown binary operator \"" + this.operator + "\"", this.fileName, this.lineNumber );
 	}
 
 	@Override

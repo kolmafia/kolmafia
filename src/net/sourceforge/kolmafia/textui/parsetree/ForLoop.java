@@ -102,7 +102,7 @@ public class ForLoop
 
 		interpreter.traceIndent();
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( this.toString() );
 			interpreter.trace( "Initial: " + this.initial );
@@ -112,7 +112,7 @@ public class ForLoop
 		Value initialValue = this.initial.execute( interpreter );
 		interpreter.captureValue( initialValue );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + initialValue );
 		}
@@ -123,7 +123,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Last: " + this.last );
 		}
@@ -132,7 +132,7 @@ public class ForLoop
 		Value lastValue = this.last.execute( interpreter );
 		interpreter.captureValue( lastValue );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + lastValue );
 		}
@@ -143,7 +143,7 @@ public class ForLoop
 			return null;
 		}
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "Increment: " + this.increment );
 		}
@@ -152,7 +152,7 @@ public class ForLoop
 		Value incrementValue = this.increment.execute( interpreter );
 		interpreter.captureValue( incrementValue );
 
-		if ( interpreter.isTracing() )
+		if ( Interpreter.isTracing() )
 		{
 			interpreter.trace( "[" + interpreter.getState() + "] <- " + incrementValue );
 		}
@@ -167,7 +167,7 @@ public class ForLoop
 		long increment = incrementValue.intValue();
 		long end = lastValue.intValue();
 
-		boolean up = false;
+		boolean up;
 
 		if ( this.direction > 0 )
 		{
@@ -191,7 +191,7 @@ public class ForLoop
 
 		if ( current != end && increment == 0 )
 		{
-			throw Interpreter.runtimeException( "Start not equal to end and increment equals 0", this.fileName, this.lineNumber );
+			throw interpreter.runtimeException( "Start not equal to end and increment equals 0", this.fileName, this.lineNumber );
 		}
 
 		while ( up && current <= end || !up && current >= end )
@@ -202,14 +202,14 @@ public class ForLoop
 			// Execute the scope
 			Value result = super.execute( interpreter );
 
-			if ( interpreter.getState() == Interpreter.STATE_BREAK )
+			if (interpreter.getState().equals(Interpreter.STATE_BREAK))
 			{
 				interpreter.setState( Interpreter.STATE_NORMAL );
 				interpreter.traceUnindent();
 				return DataTypes.VOID_VALUE;
 			}
 
-			if ( interpreter.getState() != Interpreter.STATE_NORMAL )
+			if (!interpreter.getState().equals(Interpreter.STATE_NORMAL))
 			{
 				interpreter.traceUnindent();
 				return result;
