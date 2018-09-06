@@ -1234,14 +1234,6 @@ public class Evaluator
 							continue;
 						}
 					}
-					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
-						Preferences.getInteger( "garbageChampagneCharge" ) > 0 )
-					{
-						// This is always going to be worth including if useful
-						item.requiredFlag = true;
-						item.automaticFlag = true;
-						break gotItem;
-					}
 					String type = EquipmentDatabase.getItemType( id );
 					if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
 					{
@@ -1277,6 +1269,14 @@ public class Evaluator
 								break;
 							}
 						}
+					}
+					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
+						Preferences.getInteger( "garbageChampagneCharge" ) > 0 )
+					{
+						// This is always going to be worth including if useful
+						item.requiredFlag = true;
+						item.automaticFlag = true;
+						break gotItem;
 					}
 					break;
 
