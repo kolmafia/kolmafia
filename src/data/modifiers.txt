@@ -2209,6 +2209,8 @@ Item	ox-head shield	Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: 
 # oyster basket
 Item	oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	padded tortoise	Damage Absorption: +20, HP Regen Min: 4, HP Regen Max: 8, Damage Reduction: 6
+# Item paint palette: Lets you paint your foes
+Item	paint palette	Spooky Damage: +8, Stench Damage: +8, Hot Damage: +8, Cold Damage: +8, Sleaze Damage: +8
 Item	painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
 # Paradaisical Cheeseburger recipe
 Item	parasitic strangleworm	Damage Reduction: [min(L,15)]

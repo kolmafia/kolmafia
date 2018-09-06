@@ -9979,7 +9979,7 @@
 9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30	PB&Js with the crusts cut off
 9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60
 9955	ponytail clip	255134168	ponytailclip.gif	accessory	t,d	60
-9956
+9956	paint palette	509302185	nicepalette.gif	offhand	t	0
 9957	unremarkable duffel bag	164906791	duffelbag2.gif	usable	t,d	30
 9958	Purple Beast energy drink	522759471	purplebeast.gif	spleen, usable	t,d	30
 9959	cosmetic football	648525413	football2.gif	offhand	t,d	60

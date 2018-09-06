@@ -819,6 +819,9 @@ public class EquipmentManager
 				case ItemPool.GABARDINE_GIRDLE:
 					KoLCharacter.removeAvailableSkill( "Unleash Disco Pudge" );
 					break;
+				case ItemPool.PAINT_PALETTE:
+					KoLCharacter.removeAvailableSkill( "Paint Job" );
+					break;
 				}
 			}
 		}
@@ -1082,6 +1085,9 @@ public class EquipmentManager
 			break;
 		case ItemPool.GABARDINE_GIRDLE:
 			KoLCharacter.addAvailableSkill( "Unleash Disco Pudge" );
+			break;
+		case ItemPool.PAINT_PALETTE:
+			KoLCharacter.addAvailableSkill( "Paint Job" );
 			break;
 		}
 
