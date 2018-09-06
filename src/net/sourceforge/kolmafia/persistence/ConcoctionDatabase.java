@@ -125,6 +125,7 @@ public class ConcoctionDatabase
 	public static int queuedSmores = 0;
 	public static int queuedAffirmationCookies = 0;
 	public static int queuedSpaghettiBreakfast = 0;
+	public static int queuedEverfullGlass = 0;
 	public static boolean queuedMimeShotglass = false;
 	public static int lastQueuedMayo = 0;
 
@@ -628,6 +629,11 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.queuedSpaghettiBreakfast++;
 		}
+
+		if ( c.getItemId() == ItemPool.EVERFULL_GLASS )
+		{
+			ConcoctionDatabase.queuedEverfullGlass++;
+		}
 	}
 
 	public static final QueuedConcoction pop( boolean food, boolean booze, boolean spleen )
@@ -799,7 +805,12 @@ public class ConcoctionDatabase
 
 		if ( c.getItemId() == ItemPool.SPAGHETTI_BREAKFAST )
 		{
-			ConcoctionDatabase.queuedAffirmationCookies--;
+			ConcoctionDatabase.queuedSpaghettiBreakfast--;
+		}
+
+		if ( c.getItemId() == ItemPool.EVERFULL_GLASS )
+		{
+			ConcoctionDatabase.queuedEverfullGlass--;
 		}
 
 		return qc;

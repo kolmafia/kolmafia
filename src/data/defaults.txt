@@ -1399,6 +1399,7 @@ user	_elronsCasts	0
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_eternalCarBatteryUsed	false
+user	_everfullGlassUsed	false
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
 user	_favorRareSummons	0

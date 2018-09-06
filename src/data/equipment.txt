@@ -2324,6 +2324,7 @@ glowing red eye	150	Mys: 60
 gnatwing earring	90	Mys: 30
 gnoll-tooth necklace	80	Mys: 10
 gold detective badge	40	none
+gold skull ring	50	Mus: 20
 gold wedding ring	0	none
 Golden Mr. Accessory	0	none
 government-issued night-vision goggles	25	none

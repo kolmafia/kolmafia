@@ -9974,7 +9974,7 @@
 9948	Middle of the Road&trade; brand whiskey	561291924	middlewhiskey.gif	drink	t,d	30	bottles of Middle of the Road&trade; brand whiskey
 9949	neverending wallet chain	822762744	walletchain.gif	accessory	t,d	60
 9950	pentagram bandana	642156828	pentadana.gif	hat	t,d	60
-9951
+9951	gold skull ring	879804164	goldskullring.gif	accessory	t	0
 9952	electronics kit	391996195	electronicskit.gif	none, combat	t,d	30
 9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30	PB&Js with the crusts cut off
 9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60
@@ -9989,7 +9989,7 @@
 9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30
 9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60
 9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
-9966
+9966	everfull glass	899127745	endlessglass.gif	drink	t	0
 9967
 9968
 9969	denim jacket	439326125	punkjacket.gif	shirt	t,d	60
@@ -9997,3 +9997,4 @@
 9971
 9972	intimidating chainsaw	584621883	chainsaw.gif	weapon	q	0
 9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11
+9974	sweet party mix	486781745	partymix.gif	food	t,d	11
