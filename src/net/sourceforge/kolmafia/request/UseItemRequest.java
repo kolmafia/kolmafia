@@ -6107,6 +6107,11 @@ public class UseItemRequest
 				return;
 			}
 			break;
+
+		case ItemPool.NEVERENDING_PARTY_INVITE:
+			Preferences.setBoolean( "neverendingPartyAlways", true );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

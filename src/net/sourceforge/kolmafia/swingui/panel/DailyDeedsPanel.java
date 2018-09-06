@@ -3163,6 +3163,8 @@ public class DailyDeedsPanel
 			this.addListener( "_witchessFights" );
 			this.addListener( "_eldritchTentacleFought" );
 			this.addListener( "_godLobsterFights" );
+			this.addListener( "_loveTunnelUsed" );
+			this.addListener( "_neverendingPartyFreeTurns" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
@@ -3218,6 +3220,10 @@ public class DailyDeedsPanel
 				StandardRequest.isAllowed( "Items", "Witchess Set" ) && !Limitmode.limitCampground() &&
 				!KoLCharacter.inBadMoon();
 			boolean et = !(Preferences.getBoolean("_eldritchTentacleFought"));
+			boolean lv = Preferences.getBoolean( "loveTunnelAvailable" ) && StandardRequest.isAllowed( "Items", "LOV Entrance Pass" ) &&
+				!Limitmode.limitZone( "Town" ) && !KoLCharacter.inBadMoon();
+			boolean np = Preferences.getBoolean( "neverendingPartyAlways" ) && StandardRequest.isAllowed( "Items", "Neverending Party invitation envelope" ) &&
+				!Limitmode.limitZone( "Town" ) && !KoLCharacter.inBadMoon();
 
 			StringBuilder buffer = new StringBuilder();
 			count = 0;
@@ -3234,10 +3240,12 @@ public class DailyDeedsPanel
 			if ( bf ) addFightCounter( buffer, Preferences.getInteger( "_brickoFights" ) + "/10 BRICKO" );
 			if ( hf ) addFightCounter( buffer, Preferences.getInteger( "_hipsterAdv" ) + "/7 "+ff );
 			if ( sc ) addFightCounter( buffer, Preferences.getInteger( "_sealsSummoned" ) + "/" + maxSummons + " seals summoned" );
-			if ( me ) addFightCounter( buffer, Preferences.getInteger( "_machineTunnelsAdv" ) + "/5" + " machine elf" );
-			if ( sj ) addFightCounter( buffer, Preferences.getInteger( "_snojoFreeFights" ) + "/10" + " snojo" );
-			if ( wc ) addFightCounter( buffer, Preferences.getInteger( "_witchessFights" ) + "/5" + " witchess" );
-			if ( gl ) addFightCounter( buffer, Preferences.getInteger( "_godLobsterFights" ) + "/3" + " god lobster" );
+			if ( me ) addFightCounter( buffer, Preferences.getInteger( "_machineTunnelsAdv" ) + "/5 machine elf" );
+			if ( sj ) addFightCounter( buffer, Preferences.getInteger( "_snojoFreeFights" ) + "/10 snojo" );
+			if ( wc ) addFightCounter( buffer, Preferences.getInteger( "_witchessFights" ) + "/5 witchess" );
+			if ( gl ) addFightCounter( buffer, Preferences.getInteger( "_godLobsterFights" ) + "/3 god lobster" );
+			if ( lv ) addFightCounter( buffer, ( Preferences.getBoolean( "_loveTunnelUsed" ) ? 3 : 0 ) + "/3 lov" );
+			if ( np ) addFightCounter( buffer, Preferences.getInteger( "_neverendingPartyFreeTurns" ) + "/10 party" );
 			if ( et ) addFightCounter( buffer, "tentacle" );
 			buffer.append( "</html>" );
 
