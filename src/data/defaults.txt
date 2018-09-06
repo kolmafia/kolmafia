@@ -875,6 +875,7 @@ user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
 user	munchiesPillsUsed	0
+user	neverendingPartyAlways	false
 user	nextAdventure
 user	nextParanormalActivity	0
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
@@ -1559,6 +1560,7 @@ user	_mummeryUses
 user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
+user	_neverendingPartyFreeTurns	0
 user	_newYouQuestCompleted	false
 user	_newYouQuestMonster
 user	_newYouQuestSkill

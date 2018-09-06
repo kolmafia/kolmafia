@@ -259,6 +259,7 @@ public class AdventurePool
 	public static final int CHEERLESS_SPIRE_1 = 497;
 	public static final int CHEERLESS_SPIRE_2 = 498;
 	public static final int CHEERLESS_SPIRE_3 = 499;
+	public static final int NEVERENDING_PARTY = 528;
 	public static final String LOWER_CHAMBER_ID = "pyramid_state";
 	public static final String SUMMONING_CHAMBER_ID = "manor4_chamber";
 	public static final String ELDRITCH_FISSURE_ID = "town_eincursion";

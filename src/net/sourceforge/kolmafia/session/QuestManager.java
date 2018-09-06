@@ -429,6 +429,10 @@ public class QuestManager
 				// don't catch town_wrong, town_right, or other places
 				handleTownChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=town_wrong" ) )
+			{
+				handleTownWrongChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=woods" ) )
 			{
 				handleWoodsChange( location, responseText );
@@ -513,9 +517,18 @@ public class QuestManager
 		QuestManager.handleTimeTower( responseText.contains( "town_tower" ) );
 		QuestManager.handleEldritchFissure( responseText.contains( "town_eincursion" ) );
 		QuestManager.handleEldritchHorror( responseText.contains( "town_eicfight2" ) );
-		if ( location.contains( "town_wrong" ) && !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
+	}
+
+	private static void handleTownWrongChange( final String location, String responseText )
+	{
+		if ( !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
+			Preferences.setBoolean( "neverendingPartyAlways", responseText.contains( "The Neverending Party" ) );
+			if ( Preferences.getInteger( "_neverendingPartyFreeTurns" ) < 10 && responseText.contains( "The Neverending Party (1)" ) )
+			{
+				Preferences.setInteger( "_neverendingPartyFreeTurns", 10 );
+			}
 		}
 	}
 
@@ -2391,6 +2404,17 @@ public class QuestManager
 				Preferences.increment( "bondVillainsDefeated" );
 			}
 			break;
+
+		case AdventurePool.NEVERENDING_PARTY:
+		{
+			int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
+			if ( turnsSpent < 10 )
+			{
+				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
+			}
+			break;
+		}
+
 		}
 
 		// Can get a message about a ghost if wearing a Proton Accelerator Pack,
@@ -2525,6 +2549,14 @@ public class QuestManager
 		else if ( monsterName.equals( "Source Agent" ) )
 		{
 			Preferences.decrement( "sourceAgentsDefeated", 1, 0 );
+		}
+		if ( KoLAdventure.lastAdventureId() == AdventurePool.NEVERENDING_PARTY )
+		{
+			int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
+			if ( turnsSpent < 10 )
+			{
+				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
+			}
 		}
 	}
 

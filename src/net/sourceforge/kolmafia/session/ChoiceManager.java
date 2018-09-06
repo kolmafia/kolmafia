@@ -4296,6 +4296,8 @@ public abstract class ChoiceManager
 		// Choice 1319 is Cheese Seeking Behavior
 
 		// Choice 1321 is Disguises Delimit
+
+		// Choice 1324 is It Hasn't Ended, It's Just Paused
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -10839,6 +10841,18 @@ public abstract class ChoiceManager
 			}
 			break;
 		}
+
+		case 1324:
+			// It Hasn't Ended, It's Just Paused
+			if ( ChoiceManager.lastDecision != 5 )
+			{
+				int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
+				if ( turnsSpent < 10 )
+				{
+					Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
+				}
+			}
+			break;
 
 		}
 
