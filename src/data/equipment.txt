@@ -1865,6 +1865,7 @@ ox-head shield	250	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
 padded tortoise	100	Mus: 35	shield
+paint palette	50	Mys: 20
 painted shield	120	Mus: 45	shield
 Paradaisical Cheeseburger recipe	10	none
 parasitic strangleworm	30	none
