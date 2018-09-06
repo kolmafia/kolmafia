@@ -149,8 +149,22 @@ public class EatItemRequest
 		{
 		case ItemPool.SPAGHETTI_BREAKFAST:
 			// This is your breakfast, you need to eat it first thing
-			return ( KoLCharacter.getFullness() == 0 && KoLCharacter.getFullnessLimit() > 0 &&
-			         !Preferences.getBoolean( "_spaghettiBreakfastEaten" ) ) ? 1 : 0;
+			if ( KoLCharacter.getFullnessLimit() == 0 )
+			{
+				UseItemRequest.limiter = "cannot eat";
+				return 0;
+			}
+			if ( KoLCharacter.getFullness() > 0 )
+			{
+				UseItemRequest.limiter = "have already eaten";
+				return 0;
+			}
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_spaghettiBreakfastEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedSpaghettiBreakfast );
+
+		case ItemPool.AFFIRMATION_COOKIE:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_affirmationCookieEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedAffirmationCookies );
 		}
 
 		int limit = KoLCharacter.getFullnessLimit();

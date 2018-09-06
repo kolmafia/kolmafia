@@ -150,6 +150,10 @@ public class DrinkItemRequest
 		case ItemPool.YELLOW_DRUNKI_BEAR:
 			// drunki-bears give inebriety but are limited by your fullness.
 			return EatItemRequest.maximumUses( itemId, itemName, 4 );
+
+		case ItemPool.EVERFULL_GLASS:
+			UseItemRequest.limiter = "daily limit";
+			return Preferences.getBoolean( "_everfullGlassUsed" ) ? 0 : 1;
 		}
 
 		int inebrietyLeft = limit - KoLCharacter.getInebriety();
@@ -804,7 +808,8 @@ public class DrinkItemRequest
 			return;
 		}
 
-		if ( item.getItemId() == ItemPool.ICE_STEIN )
+		int itemId = item.getItemId();
+		if ( itemId == ItemPool.ICE_STEIN )
 		{
 			// You're way too drunk already. (checked above)
 			// Hmm. One can of beer isn't going to be sufficient for this. This is a job for a six-pack.
@@ -823,7 +828,16 @@ public class DrinkItemRequest
 		}
 
 		// The drink was consumed successfully
-		ResultProcessor.processResult( item.getNegation() );
+		// Everfull glass is not consumed
+		if ( itemId == ItemPool.EVERFULL_GLASS )
+		{
+			Preferences.setBoolean( "_everfullGlassUsed", true );
+		}
+		// Everything else is consumed
+		else
+		{
+			ResultProcessor.processResult( item.getNegation() );
+		}
 
 		// Swizzlers and twists of lime are consumed when you drink booze
 		int swizzlerCount = InventoryManager.getCount( ItemPool.SWIZZLER );
@@ -856,7 +870,7 @@ public class DrinkItemRequest
 
 		// Perform item-specific processing
 
-		switch ( item.getItemId() )
+		switch ( itemId )
 		{
 		case ItemPool.STEEL_LIVER:
 			if ( responseText.contains( "You acquire a skill" ) )

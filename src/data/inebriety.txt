@@ -35,7 +35,6 @@ Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Ove
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
 basic martini	1	1	good	3	3-9	3-9	3-9	10 random spy buff
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
-party beer bomb	1	4	EPIC	5-6	0	0	0
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights
 Beignet Milgranet	1	2	awesome	3-5	30-40	30-40	30-40	100 Sugar Rush
@@ -222,6 +221,7 @@ emergency margarita	10	1	awesome	40	0	0	0	1 Margamergency (+200% weapon dmg, +20
 En Una Fila Tequila	4	1	good	4-8	0	0	0	20 turns of Mr. Skullhead's Birthday Happiness (Puts a birthday smile on your face)
 especially salty dog	4	4	good	9-13	32-50	32-50	32-50
 Event Horizon	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
+everfull glass	0	4		0	0	0	0	random booze
 evil ducha de oro	4	4	awesome	12-16	8-10	0	50-75	10 A Little Bit Evil (+2 ML)
 evil horizontal tango	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
 evil roll in the hay	4	4	awesome	12-16	0	0	50-75	10 A Little Bit Evil (+2 ML)
@@ -442,6 +442,7 @@ Pan-Dimensional Gargle Blaster	5	13	EPIC	23-27	50-100	50-100	50-100
 papaya sling	3	1	decent	3-8	16-30	0	0
 papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
+party beer bomb	1	4	EPIC	5-6	0	0	0
 passable stout	3	1	decent	4-5	0	20-30	10-20
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80
 perfect cosmopolitan	3	5	EPIC	18-19	20-35	10-25	1-15

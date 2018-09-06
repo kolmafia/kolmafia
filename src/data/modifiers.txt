@@ -2742,6 +2742,7 @@ Item	glowing red eye	Spooky Resistance: +2
 Item	gnatwing earring	Initiative: +15, Mysticality: +6
 Item	gnoll-tooth necklace	Muscle: +5
 Item	gold detective badge	Maximum HP: +40, Maximum MP: +40, Item Drop: +20, Meat Drop: +30
+Item	gold skull ring	PvP Fights: +7, Single Equip
 # gold wedding ring: 75% Chance of Preventing Negative Status Attacks
 Item	gold wedding ring	Adventures: +1, Single Equip
 Item	tiny plastic golden gundam	Adventures: +1, PvP Fights: +1, Muscle: +1, Mysticality: +1, Moxie: +1
