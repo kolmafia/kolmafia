@@ -9964,7 +9964,7 @@
 9938	Bastille Battalion control rig loaner voucher	836425947	bbattdaypass.gif	usable	t	0
 9939	kitten burglar	874990425	kittenburglar.gif	grow	t	0
 9940	burglar/sleep mask	339615758	cburglarmask.gif	familiar	t,d	75
-9941	Thwaitgold masked hunter	929361142	thwaitmasked.gif	none		0
+9941	Thwaitgold masked hunter statuette	929361142	thwaitmasked.gif	none		0
 9942	Neverending Party invitation envelope	412296986	npartyinv.gif	usable	t	0
 9943
 9944
