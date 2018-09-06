@@ -9990,11 +9990,11 @@
 9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60
 9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
 9966	everfull glass	899127745	endlessglass.gif	drink	t	0
-9967
-9968
+9967	van key	821096660	vankey.gif	usable	t,d	30
+9968	jam band bootleg	509692055	deadbootlet.gif	none, combat	t,d	30
 9969	denim jacket	439326125	punkjacket.gif	shirt	t,d	60
 9970	ratty knitted cap	441589556	dirtybeanie.gif	hat	t,d	60
 9971
 9972	intimidating chainsaw	584621883	chainsaw.gif	weapon	q	0
 9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11
-9974	sweet party mix	486781745	partymix.gif	food	t,d	11
+9974	sweet party mix	486781745	partymix.gif	food	t,d	11	sweet party mixes
