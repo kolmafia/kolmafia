@@ -9999,3 +9999,11 @@
 9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11
 9974	sweet party mix	486781745	partymix.gif	food	t,d	11	sweet party mixes
 9975	party balloon	742059476	partyballoon.gif	spleen, usable	t,d	11	party balloons
+9976
+9977
+9978
+9979
+9980
+9981
+9982
+9983	party crasher	949262587	partycrasher.gif	offhand		0

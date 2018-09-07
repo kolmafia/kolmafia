@@ -1869,6 +1869,7 @@ paint palette	50	Mys: 20
 painted shield	120	Mus: 45	shield
 Paradaisical Cheeseburger recipe	10	none
 parasitic strangleworm	30	none
+party crasher	50	Mus: 20	shield
 peanut brittle shield	50	Mus: 10	shield
 penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none

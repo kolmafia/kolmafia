@@ -2214,6 +2214,8 @@ Item	paint palette	Spooky Damage: +8, Stench Damage: +8, Hot Damage: +8, Cold Da
 Item	painted shield	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Damage Reduction: 7
 # Paradaisical Cheeseburger recipe
 Item	parasitic strangleworm	Damage Reduction: [min(L,15)]
+# Item party crasher: Lets you crash into your foes, stunning them
+Item	party crasher	Initiative: +25, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 9
 Item	peanut brittle shield	Candy Drop: +100, Damage Reduction: 3
 Item	penguin skin buckler	Moxie: +5, Damage Reduction: 5
 Item	penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
