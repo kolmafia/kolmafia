@@ -606,7 +606,7 @@ public class ConcoctionDatabase
 		}
 
 		if ( c.getInebriety() == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
-			InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+			InventoryManager.getCount( ItemPool.MIME_SHOTGLASS ) > 0 && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
 		{
 			ConcoctionDatabase.queuedInebriety--;
 			ConcoctionDatabase.queuedMimeShotglass = true;

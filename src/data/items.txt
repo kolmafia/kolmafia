@@ -9977,17 +9977,17 @@
 9951	gold skull ring	879804164	goldskullring.gif	accessory	t	0
 9952	electronics kit	391996195	electronicskit.gif	none, combat	t,d	30
 9953	PB&J with the crusts cut off	783390636	pbjnocrust.gif	food	t,d	30	PB&Js with the crusts cut off
-9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60
+9954	dorky glasses	399015753	dorkglasses.gif	accessory	t,d	60	pairs of dorky glasses
 9955	ponytail clip	255134168	ponytailclip.gif	accessory	t,d	60
 9956	paint palette	509302185	nicepalette.gif	offhand	t	0
 9957	unremarkable duffel bag	164906791	duffelbag2.gif	usable	t,d	30
 9958	Purple Beast energy drink	522759471	purplebeast.gif	spleen, usable	t,d	30
 9959	cosmetic football	648525413	football2.gif	offhand	t,d	60
 9960	shoe ad T-shirt	977886142	shooshirt.gif	shirt	t,d	60
-9961
-9962	runproof mascara	634650553	mascara2.gif	usable	t,d	30
-9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30
-9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60
+9961	pump-up high-tops	740438811	hightops.gif	accessory	t	0
+9962	runproof mascara	634650553	mascara2.gif	usable	t,d	30	tubes of runproof mascara
+9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30	very small red dresses
+9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60	pairs of noticeable pumps
 9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
 9966	everfull glass	899127745	endlessglass.gif	drink	t	0
 9967	van key	821096660	vankey.gif	usable	t,d	30
@@ -9998,3 +9998,4 @@
 9972	intimidating chainsaw	584621883	chainsaw.gif	weapon	q	0
 9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11
 9974	sweet party mix	486781745	partymix.gif	food	t,d	11	sweet party mixes
+9975	party balloon	742059476	partyballoon.gif	spleen, usable	t,d	11	party balloons
