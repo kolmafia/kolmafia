@@ -3054,6 +3054,7 @@ Item	psychic's amulet	Spell Damage: +10, Spooky Resistance: +1, Stench Resistanc
 Item	pulled porquoise earring	Moxie: +9, Never Fumble
 Item	pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
 Item	pulled porquoise ring	Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
+Item	pump-up high-tops	Moxie: +15, Initiative: +10, Single Equip
 Item	purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
@@ -5736,6 +5737,7 @@ Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
+Effect	Lifted Spirits	Initiative: +25, Experience: +5
 # Light!
 # Light-Headed: Increased chance of fumbling
 Effect	Light-Headed	Mysticality Percent: -30
@@ -6621,6 +6623,7 @@ Effect	Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 Effect	The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
 Effect	The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
+Effect	The Best Hair You've Ever Had	Experience Percent (Moxie): +20
 Effect	The Bone Us Round	Avatar: "sexy skeleton"
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)
 Effect	The Chains Down In The Belly-O	MP Regen Min: 20, MP Regen Max: 40
@@ -8155,6 +8158,7 @@ Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effec
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	oily paste	Effect: "Oily Flavor", Effect Duration: 10
 Item	orc paste	Effect: "Fratty Flavor", Effect Duration: 10
+Item	party balloon	Effect: "Lifted Spirits", Effect Duration: 50
 Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10

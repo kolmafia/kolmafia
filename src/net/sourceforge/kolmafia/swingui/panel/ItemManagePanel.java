@@ -503,7 +503,7 @@ public abstract class ItemManagePanel
 						capacity = KoLCharacter.getInebrietyLimit();
 						unit = ( (Concoction) item ).getInebriety();
 						if ( unit == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
-							InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+							InventoryManager.getCount( ItemPool.MIME_SHOTGLASS ) > 0 && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
 						{
 							shotglass = 1;
 						}

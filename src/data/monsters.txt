@@ -1880,7 +1880,7 @@ God Lobster	2088	godlob.gif	FREE Scale: [10*equipped(God Lobster's Scepter)+20*e
 # Neverending Party (Sept 2018)
 biker	2089	nparty_biker.gif	Scale: 20 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 100	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (0)	pentagram bandana (0)	gold skull ring (0)
 "plain" girl	2090	nparty_plaingirl.gif	Scale: -10 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 100	electronics kit (0)	PB&J with the crusts cut off (0)	dorky glasses (0)	ponytail clip (0)	paint palette (0)
-jock	2091	nparty_jock.gif	Scale: 0 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 150	unremarkable duffel bag (0)	Purple Beast energy drink (0)	cosmetic football (0)	shoe ad T-shirt (0)
+jock	2091	nparty_jock.gif	Scale: 0 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 150	unremarkable duffel bag (0)	Purple Beast energy drink (0)	cosmetic football (0)	shoe ad T-shirt (0)	pump-up high-tops (0)
 party girl	2092	nparty_partygirl.gif	Scale: 10 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 100	runproof mascara (0)	very small red dress (0)	noticeable pumps (0)	surprisingly capacious handbag (0)	everfull glass (0)
 burnout	2093	nparty_biker.gif	Scale: -5 Cap: 20000 Floor: ? Init: -10000 P: dude Meat: 50	denim jacket (0)	ratty knitted cap (0)	van key (0)	jam band bootleg (0)
 

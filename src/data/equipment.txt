@@ -2577,6 +2577,7 @@ psychic's amulet	100	Mys: 35
 pulled porquoise earring	110	Mys: 40
 pulled porquoise pendant	110	Mys: 40
 pulled porquoise ring	110	Mys: 40
+pump-up high-tops	50	Mox: 20
 purple glowstick	20	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60

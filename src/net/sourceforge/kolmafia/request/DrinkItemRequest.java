@@ -166,7 +166,7 @@ public class DrinkItemRequest
 
 		int shotglass = 0;
 		if ( inebriety == 1 && !ConcoctionDatabase.queuedMimeShotglass &&
-			InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+			InventoryManager.getCount( ItemPool.MIME_SHOTGLASS ) > 0 && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
 		{
 			shotglass = 1;
 		}
@@ -426,7 +426,7 @@ public class DrinkItemRequest
 	{
 		int inebriety = ConsumablesDatabase.getInebriety( itemName );
 		int mimeShotglass = 0;
-		if ( inebriety == 1 && InventoryManager.hasItem( ItemPool.MIME_SHOTGLASS ) && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
+		if ( inebriety == 1 && InventoryManager.getCount( ItemPool.MIME_SHOTGLASS ) > 0 && !Preferences.getBoolean( "_mimeArmyShotglassUsed" ) )
 		{
 			mimeShotglass = 1;
 		}

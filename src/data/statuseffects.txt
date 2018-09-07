@@ -2417,5 +2417,6 @@
 2416	Tomes of Opportunity	book4.gif	5fbe49340d363d6d76c84b69b32b55c4	# Non-combat in The Neverending Party
 2417	Spiced Up	spice.gif	fd48c1ec282c87b017e49193e91144b5	# Non-combat in The Neverending Party
 2418	Citronella Armpits	fatcandle.gif	2b257efe0c6b365afef1117850603017	# Non-combat in The Neverending Party
-2419
+2419	The Best Hair You've Ever Had	pompadour.gif	eb7f7c048c571f753caf076870be0da7
 2420	Unrunnable Face	mascara2.gif	717c38b91a319f392117b4b146cffd2b	use 1 runproof mascara
+2421	Lifted Spirits	partyballoon.gif	6b9a5c708de930de26abd253ef3bbea3	chew 1 party balloon
