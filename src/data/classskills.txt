@@ -796,7 +796,7 @@
 7296
 7297	Sing Along	songboombox.gif	5	0	0
 7298	Swap Mask	maskball.gif	5	1	0
-7299
+7299	Party Crash	partycrasher.gif	5	0	0
 7300	Paint Job	nicepalette.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf

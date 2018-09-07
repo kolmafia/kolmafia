@@ -822,6 +822,9 @@ public class EquipmentManager
 				case ItemPool.PAINT_PALETTE:
 					KoLCharacter.removeAvailableSkill( "Paint Job" );
 					break;
+				case ItemPool.PARTYCRASHER:
+					KoLCharacter.removeAvailableSkill( "Party Crash" );
+					break;
 				}
 			}
 		}
@@ -1088,6 +1091,9 @@ public class EquipmentManager
 			break;
 		case ItemPool.PAINT_PALETTE:
 			KoLCharacter.addAvailableSkill( "Paint Job" );
+			break;
+		case ItemPool.PARTYCRASHER:
+			KoLCharacter.addAvailableSkill( "Party Crash" );
 			break;
 		}
 
