@@ -5902,9 +5902,6 @@ public abstract class KoLCharacter
 		// Add modifiers from Passive Skills
 		newModifiers.applyPassiveModifiers();
 
-		// Add modifiers from Florist Friar plants
-		newModifiers.applyFloristModifiers();
-
 		// Add modifiers from Current Path
 		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath ) );
 
@@ -6019,9 +6016,6 @@ public abstract class KoLCharacter
 			}
 		}
 
-		// Horsery
-		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
-
 		// Mummery
 		newModifiers.add( Modifiers.parseModifiers( "Mummery", Modifiers.evaluateModifiers( "Mummery", Preferences.getString( "_mummeryMods" ) ) ) );
 
@@ -6034,14 +6028,6 @@ public abstract class KoLCharacter
 		{
 			newModifiers.add( Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox" );
 		}
-
-		// Boombox, no check for having one so it can work with Maximizer "show things you don't have"
-		newModifiers.add( Modifiers.getModifiers( "BoomBox", boomBox ) );
-
-		// Miscellaneous
-
-		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
-		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
 
 		// Temporary custom modifier
 		if ( custom != null )
@@ -6174,7 +6160,6 @@ public abstract class KoLCharacter
 			}
 		}
 
-		
 		// These depend on the modifiers from everything else, so they must be done last
 		if ( effects.contains( EffectPool.get( EffectPool.BENDIN_HELL ) ) )
 		{
@@ -6214,6 +6199,22 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
 		}
 		
+		// Some things not affected by doublers, so must be later
+		
+		// Add modifiers from Florist Friar plants
+		newModifiers.applyFloristModifiers();
+
+		// Boombox, no check for having one so it can work with Maximizer "show things you don't have"
+		newModifiers.add( Modifiers.getModifiers( "BoomBox", boomBox ) );
+
+		// Horsery
+		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
+
+		// Miscellaneous
+
+		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
+		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
+
 		// Determine whether or not data has changed
 
 		if ( debug )
