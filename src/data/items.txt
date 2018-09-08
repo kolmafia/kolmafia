@@ -9999,7 +9999,7 @@
 9973	party beer bomb	642281054	twobeers.gif	drink	t,d	11
 9974	sweet party mix	486781745	partymix.gif	food	t,d	11	sweet party mixes
 9975	party balloon	742059476	partyballoon.gif	spleen, usable	t,d	11	party balloons
-9976
+9976	fancy party pants	154986818	partypants.gif	pants		0
 9977
 9978
 9979

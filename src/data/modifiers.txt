@@ -600,6 +600,7 @@ Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Familiar Effect:
 # Item exo-servo leg braces: Allows you to move normally in high gravity environments (Spacegate)
 Item	exo-servo leg braces	Lasts Until Rollover
 Item	extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xFairy"
+Item	fancy party pants	Moxie Percent: +10, Booze Drop: +40
 Item	fancy tuxedo pants	Moxie Percent: +15, Familiar Effect: "2xVolley, 1xPotato, cap 25"
 Item	filthy corduroys	Mysticality: +3, Moxie: -3, Familiar Effect: "stench atk, 2xPotato, cap 15"
 Item	fire hose	Hot Damage: +20, Hot Spell Damage: +25, Spell Damage Percent: +30, Familiar Effect: "hot atk, 1xVolley, cap 37"
