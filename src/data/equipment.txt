@@ -469,6 +469,7 @@ eldritch pants	125	Mox: 47
 electronic dulcimer pants	10	none
 exo-servo leg braces	10	none
 extremely skinny jeans	200	Mox: 200
+fancy party pants	75	Mox: 10
 fancy tuxedo pants	100	Mox: 35
 filthy corduroys	60	Mox: 15
 fire hose	150	Mox: 60
