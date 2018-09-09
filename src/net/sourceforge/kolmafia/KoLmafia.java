@@ -1603,7 +1603,25 @@ public abstract class KoLmafia
 				if ( creatables[ i ] != null && creatables[ i ].getQuantityPossible() >= items[ i ].getCount() )
 				{
 					creatables[ i ].setQuantityNeeded( items[ i ].getCount() );
-					RequestThread.postRequest( creatables[ i ] );
+					// Don't autocreate items here as well as in ResultProcessor
+					switch ( creatables[ i ].getItemId() )
+					{
+					case ItemPool.REASSEMBLED_BLACKBIRD:
+					case ItemPool.RECONSTITUTED_CROW:
+					case ItemPool.BATSKIN_BELT:
+					case ItemPool.BADASS_BELT:
+					case ItemPool.BONERDAGON_NECKLACE:
+					case ItemPool.TALISMAN:
+					case ItemPool.MCCLUSKY_FILE:
+						if ( !Preferences.getBoolean( "autoCraft" ) )
+						{
+							RequestThread.postRequest( creatables[ i ] );
+						}
+						break;
+					default:
+						RequestThread.postRequest( creatables[ i ] );
+						break;
+					}
 					creatables[ i ] = null;
 				}
 			}
