@@ -181,10 +181,12 @@ public class EatItemRequest
 			return;
 		}
 
+		int count = this.itemUsed.getCount();
+		String name = this.itemUsed.getName();
+		int itemId = this.itemUsed.getItemId();
+
 		if ( this.consumptionType == KoLConstants.CONSUME_FOOD_HELPER )
 		{
-			int count = this.itemUsed.getCount();
-
 			if ( !InventoryManager.retrieveItem( this.itemUsed ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Helper not available." );
@@ -201,32 +203,32 @@ public class EatItemRequest
 				EatItemRequest.queuedFoodHelperCount = count;
 			}
 
-			KoLmafia.updateDisplay( this.itemUsed.getName() + " queued for next " + count + " food" +
+			KoLmafia.updateDisplay( name + " queued for next " + count + " food" +
 				(count == 1 ? "" : "s") + " eaten." );
 
 			return;
 		}
 
-		if ( !ConsumablesDatabase.meetsLevelRequirement( this.itemUsed.getName() ) )
+		if ( !ConsumablesDatabase.meetsLevelRequirement( name ) )
 		{
 			UseItemRequest.lastUpdate = "Insufficient level to consume " + this.itemUsed;
 			KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
 			return;
 		}
 
-		int itemId = this.itemUsed.getItemId();
 		UseItemRequest.lastUpdate = "";
 
 		int maximumUses = UseItemRequest.maximumUses( itemId );
-		if ( maximumUses < this.itemUsed.getCount() )
+		if ( maximumUses < count )
 		{
 			KoLmafia.updateDisplay( "(usable quantity of " + this.itemUsed +
 				" is limited to " + maximumUses + " by " +
 				UseItemRequest.limiter + ")" );
 			this.itemUsed = this.itemUsed.getInstance( maximumUses );
+			count = this.itemUsed.getCount();
 		}
 
-		if ( this.itemUsed.getCount() < 1 )
+		if ( count < 1 )
 		{
 			return;
 		}
@@ -237,8 +239,26 @@ public class EatItemRequest
 			return;
 		}
 
+		// If it's food we're consuming, we have a MayoMinder set, and we are autostocking it, do so
+		// Don't get Mayostat if it's a 1 fullness food, or it'd be wasted
+		// Don't get Mayodiol if it'd cause you to overdrink
+		String minderSetting = Preferences.getString( "mayoMinderSetting" );
+		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+		if ( consumptionType == KoLConstants.CONSUME_EAT && !ConcoctionDatabase.isMayo( itemId ) &&
+			!minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
+			!( minderSetting.equals( "Mayostat" ) && ConsumablesDatabase.getFullness( name ) == 1 ) &&
+			!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
+			workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
+		{
+			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
+			if ( count > mayoCount )
+			{
+				InventoryManager.retrieveItem( minderSetting, count - mayoCount );
+			}
+		}
+
 		int iterations = 1;
-		int origCount = this.itemUsed.getCount();
+		int origCount = count;
 
 		// The miracle of "consume some" does not apply to black puddings
 		if ( origCount > 1 &&
@@ -247,6 +267,7 @@ public class EatItemRequest
 		{
 			iterations = origCount;
 			this.itemUsed = this.itemUsed.getInstance( 1 );
+			count = this.itemUsed.getCount();
 		}
 
 		String originalURLString = this.getURLString();
@@ -256,7 +277,7 @@ public class EatItemRequest
 			EatItemRequest.foodConsumed = i - 1;
 			if ( !this.allowFoodConsumption() )
 			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + this.itemUsed.getCount() + " " + this.itemUsed.getName() + "." );
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Aborted eating " + count + " " + name + "." );
 				return;
 			}
 
@@ -267,7 +288,7 @@ public class EatItemRequest
 		if ( KoLmafia.permitsContinue() )
 		{
 			EatItemRequest.foodConsumed = origCount;
-			KoLmafia.updateDisplay( "Finished eating " + origCount + " " + this.itemUsed.getName() + "." );
+			KoLmafia.updateDisplay( "Finished eating " + origCount + " " + name + "." );
 		}
 	}
 
