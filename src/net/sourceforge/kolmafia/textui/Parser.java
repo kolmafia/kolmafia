@@ -914,12 +914,19 @@ public class Parser
 			throw this.parseException( "Reserved word '" + typeName + "' cannot be a type name" );
 		}
 
-		if ( parentScope.findType( typeName ) != null )
+		this.readToken(); // read name
+
+		Type existingType = parentScope.findType( typeName );
+		if ( existingType != null )
 		{
+			if ( existingType.getBaseType().equals( t ) )
+			{
+				// It is OK to redefine a typedef with an equivalent type
+				return true;
+			}
+				
 			throw this.parseException( "Type name '" + typeName + "' is already defined" );
 		}
-
-		this.readToken(); // read name
 
 		// Add the type to the type table
 		TypeDef type = new TypeDef( typeName, t );
