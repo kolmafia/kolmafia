@@ -1729,7 +1729,7 @@ giant stuffed bugbear	10	none
 gingerbread moneybag	0	none
 Glass Balls of the Goblin King	70	Mys: 20
 glass gnoll eye	35	Mys: 2
-glass pie plate	100	none	shield
+glass pie plate	120	none	shield
 glow-in-the-dark stuffed burrowgrub	0	none
 glowing esca	200	Mys: 85
 glowstick on a string	150	Mox: 60
@@ -1870,7 +1870,7 @@ paint palette	50	Mys: 20
 painted shield	120	Mus: 45	shield
 Paradaisical Cheeseburger recipe	10	none
 parasitic strangleworm	30	none
-party crasher	50	Mus: 20	shield
+party crasher	150	Mus: 20	shield
 peanut brittle shield	50	Mus: 10	shield
 penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
@@ -1896,7 +1896,7 @@ portable Othello set	75	Mys: 15
 pot	0	none
 pottery shield	50	none	shield
 pretty bouquet	0	none
-primitive alien totem	0	Mus: 10
+primitive alien totem	50	Mus: 10
 psychic's crystal ball	100	Mys: 35
 pumpkin spice candle	100	Mus: 20
 radiator heater shield	100	Mus: 35	shield
