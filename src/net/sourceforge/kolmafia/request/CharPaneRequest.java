@@ -1556,6 +1556,21 @@ public class CharPaneRequest
 			case 25:
 				mask = "tiki mask";
 				break;
+			case 26:
+				mask = "motorcycle mask";
+				break;
+			case 27:
+				mask = "magical cartoon princess mask";
+				break;
+			case 28:
+				mask = "catcher's mask";
+				break;
+			case 29:
+				mask = "&quot;sexy&quot; mask";
+				break;
+			case 30:
+				mask = "werewolf mask";
+				break;
 			case 100:
 				mask = "Bonerdagon mask";
 				break;

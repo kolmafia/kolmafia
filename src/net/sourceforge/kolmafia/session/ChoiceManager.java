@@ -4343,7 +4343,8 @@ public abstract class ChoiceManager
 			"Town", "choiceAdventure1328", "Neverending Party Basement",
 			new Object[] { new Option( "gain mus stats", 1 ),
 				       new Option( "get 20 adv of +20% Mox exp", 2 ),
-				       new Option( "acquire intimidating chainsaw", 3, "intimidating chainsaw" ) } ),
+				       new Option( "acquire intimidating chainsaw", 3, "intimidating chainsaw" ),
+				       new Option( "increase megawoots", 4 ) } ),
 
    };
 
