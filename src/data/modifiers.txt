@@ -6739,6 +6739,7 @@ Effect	To Protect and Servo	Avatar: "cyborg policeman"
 # Toad In The Hole: Continually take damage
 Effect	Toast Tea	Cold Resistance: +3
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
+Effect	Tomes of Opportunity	Experience Percent (Mysticality): +20
 Effect	Too Noir For Snoir	Monster Level: +50
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
