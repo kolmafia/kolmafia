@@ -2176,7 +2176,19 @@ public class QuestManager
 		{
 			QuestManager.addFantasyRealmKill( monsterName );
 		}
-
+		else if ( monsterName.equals( "biker" ) ||
+			  monsterName.equals( "\"plain\" girl" ) ||
+			  monsterName.equals( "jock" ) ||
+			  monsterName.equals( "party girl" ) ||
+			  monsterName.equals( "burnout" ) )
+		{
+			int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
+			if ( turnsSpent < 10 )
+			{
+				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
+			}
+		}
+	
 		int adventure = KoLAdventure.lastAdventureId();
 
 		switch ( adventure )
@@ -2404,16 +2416,6 @@ public class QuestManager
 				Preferences.increment( "bondVillainsDefeated" );
 			}
 			break;
-
-		case AdventurePool.NEVERENDING_PARTY:
-		{
-			int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
-			if ( turnsSpent < 10 )
-			{
-				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
-			}
-			break;
-		}
 
 		}
 

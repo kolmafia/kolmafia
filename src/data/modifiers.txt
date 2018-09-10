@@ -7005,6 +7005,7 @@ Skill	Bone Spikes	Weapon Damage: +10
 Skill	Born Showman	Moxie: [abs(ceil(N/2))]
 Skill	Brain Games	Adventures: +3
 Skill	Bravery Gland	Spooky Resistance: +3
+Skill	Budget Conscious	Meat Drop: +10
 Skill	Business Acumen	Meat Drop: +50
 # Buoyancy of the Beluga Regenerate 1 HP per Adventure for each gallon of Fury
 Skill	Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
@@ -9760,6 +9761,7 @@ Item	papier-m&acirc;chaeranthera	Effect: "Stopping to Smell the Flowers", Effect
 Item	papier-mochi	Effect: "Altered Wavelengths", Effect Duration: 40
 Item	papotion of papower	Effect: "Papowerful", Effect Duration: [R]
 Item	paranormal ricotta	Class: "Pastamancer"
+Item	Party Planning on a Budget	Skill: "Budget Conscious"
 Item	passed-out psychedelic bear	Free Pull
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5

@@ -920,6 +920,11 @@ public abstract class KoLCharacter
 			limit += 1;
 		}
 
+		if ( KoLCharacter.hasSkill( "Drinking to Drink" ) )
+		{
+			limit += 1;
+		}
+
 		if ( KoLCharacter.getFamiliar().getId() == FamiliarPool.STOOPER )
 		{
 			limit += 1;

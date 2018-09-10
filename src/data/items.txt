@@ -10001,7 +10001,7 @@
 9975	party balloon	742059476	partyballoon.gif	spleen, usable	t,d	11	party balloons
 9976	fancy party pants	154986818	partypants.gif	pants		0
 9977
-9978
+9978	Party Planning on a Budget	805730590	book3.gif	usable		0
 9979
 9980
 9981
