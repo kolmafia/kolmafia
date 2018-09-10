@@ -2420,6 +2420,13 @@ user	choiceAdventure1317	0
 user	choiceAdventure1318	0
 user	choiceAdventure1319	0
 user	choiceAdventure1321	1
+user	choiceAdventure1322	0
+user	choiceAdventure1323	1
+user	choiceAdventure1324	0
+user	choiceAdventure1325	0
+user	choiceAdventure1326	0
+user	choiceAdventure1327	0
+user	choiceAdventure1328	0
 
 user	lockedItem4637	true
 user	lockedItem4638	true

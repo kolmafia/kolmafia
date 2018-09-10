@@ -4297,7 +4297,54 @@ public abstract class ChoiceManager
 
 		// Choice 1321 is Disguises Delimit
 
+		// Choice 1322 is [Neverending Party intro]
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1322", "Neverending Party Intro",
+			new Object[] { new Option( "accept quest", 1 ),
+				       new Option( "reject quest", 2 ) } ),
+
+		// Choice 1323 is All Done!
+
 		// Choice 1324 is It Hasn't Ended, It's Just Paused
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1324", "Neverending Party Pause",
+			new Object[] { new Option( "to bedroom", 1 ),
+				       new Option( "to kitchen", 2 ),
+				       new Option( "to back yard", 3 ),
+				       new Option( "to basement", 4 ),
+				       new Option( "fight random partier", 5 ) } ),
+
+		// Choice 1325 is A Room With a View...  Of a Bed
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1325", "Neverending Party Bedroom",
+			new Object[] { new Option( "full HP/MP heal", 1 ),
+				       new Option( "get 20 adv of +20% mys exp", 2 ),
+				       new Option( "increase megawoots", 5 ) } ),
+
+		// Choice 1326 is Gone Kitchin'
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1326", "Neverending Party Kitchen",
+			new Object[] { new Option( "gain mys stats", 1 ),
+				       new Option( "get 20 adv of +20% Mus exp", 2 ),
+				       new Option( "find out food to collect", 3 ),
+				       new Option( "give collected food", 4 ),
+				       new Option( "reduce trash", 5 ) } ),
+
+		// Choice 1327 is Forward to the Back
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1327", "Neverending Party Back Yard",
+			new Object[] { new Option( "gain mox stats", 1 ),
+				       new Option( "get 50 adv of +30 ML", 2 ),
+				       new Option( "find out booze to collect", 3 ),
+				       new Option( "give collected booze", 4 ) } ),
+
+		// Choice 1328 is Basement Urges
+		new ChoiceAdventure(
+			"Town", "choiceAdventure1328", "Neverending Party Basement",
+			new Object[] { new Option( "gain mus stats", 1 ),
+				       new Option( "get 20 adv of +20% Mox exp", 2 ),
+				       new Option( "acquire intimidating chainsaw", 3, "intimidating chainsaw" ) } ),
+
    };
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
