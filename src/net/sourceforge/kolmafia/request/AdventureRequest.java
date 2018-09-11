@@ -483,6 +483,38 @@ public class AdventureRequest
 
 		}
 
+		if ( KoLCharacter.inDisguise() )
+		{
+			if ( encounter.equals( "The Bonerdagon" ) )
+			{
+				encounter = "Boss Bat wearing a Bonerdagon mask";
+			}
+			else if ( encounter.equals( "The Naughty Sorceress" ) )
+			{
+				encounter = "Knob Goblin King wearing a Naughty Sorceress mask";
+			}
+			else if ( encounter.equals( "Groar" ) )
+			{
+				encounter = "Bonerdagon wearing a Groar mask";
+			}
+			else if ( encounter.equals( "Ed the Undying" ) )
+			{
+				encounter = "Groar wearing an Ed the Undying mask";
+			}
+			else if ( encounter.equals( "The Big Wisniewski" ) )
+			{
+				encounter = "The Man wearing a Big Wisniewski mask";
+			}
+			else if ( encounter.equals( "The Man" ) )
+			{
+				encounter = "The Big Wisniewski wearing a The Man mask";
+			}
+			else if ( encounter.equals( "The Boss Bat" ) )
+			{
+				encounter = "Naughty Sorceress wearing a Boss Bat mask";
+			}
+		}
+
 		Preferences.setString( "lastEncounter", encounter );
 		RequestLogger.printLine( "Encounter: " + encounter );
 		RequestLogger.updateSessionLog( "Encounter: " + encounter );
