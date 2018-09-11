@@ -463,9 +463,15 @@ public class MonsterData
 				monster.attack = new Integer( monster.getRawAttack() * 6 / 5 );
 				monster.defense = new Integer( monster.getRawDefense() * 6 / 5 );
 			}
-			else if ( modifier.equals( "Mr. mask" ) )
+			else if ( modifier.equals( "Mr. mask" ) || modifier.equals( "Bonerdagon mask" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 2 );
+				monster.attack = new Integer( monster.getRawAttack() * 2 );
+				monster.defense = new Integer( monster.getRawDefense() * 2 );
+			}
+			else if ( modifier.equals( "ninja mask" ) )
+			{
+				monster.initiative = new Integer( 10000 );
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
 				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}

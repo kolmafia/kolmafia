@@ -1561,6 +1561,7 @@ user	_nanorhinoBanishedMonster
 user	_nanorhinoCharge	100
 user	_navelRunaways	0
 user	_neverendingPartyFreeTurns	0
+user	_neverendingPartyToday	false
 user	_newYouQuestCompleted	false
 user	_newYouQuestMonster
 user	_newYouQuestSkill
