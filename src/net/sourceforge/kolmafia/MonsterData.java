@@ -472,8 +472,10 @@ public class MonsterData
 			else if ( modifier.equals( "ninja mask" ) )
 			{
 				monster.initiative = new Integer( 10000 );
+			}
+			else if ( modifier.equals( "opera mask" ) )
+			{
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
-				monster.defense = new Integer( monster.getRawDefense() * 2 );
 			}
 		}
 
