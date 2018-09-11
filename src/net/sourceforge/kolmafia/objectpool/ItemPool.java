@@ -3047,6 +3047,7 @@ public class ItemPool
 	public static final int NIGHTMARE_FUEL = 9925;
 	public static final int CHEESE_WHEEL = 9937;
 	public static final int NEVERENDING_PARTY_INVITE = 9942;
+	public static final int NEVERENDING_PARTY_INVITE_DAILY = 9943;
 	public static final int PAINT_PALETTE = 9956;
 	public static final int EVERFULL_GLASS = 9966;
 	public static final int PARTYCRASHER = 9983;

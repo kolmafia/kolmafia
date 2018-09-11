@@ -6113,6 +6113,10 @@ public class UseItemRequest
 			Preferences.setBoolean( "neverendingPartyAlways", true );
 			break;
 
+		case ItemPool.NEVERENDING_PARTY_INVITE_DAILY:
+			Preferences.setBoolean( "_neverendingPartyToday", true );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
