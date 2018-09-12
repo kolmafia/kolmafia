@@ -144,6 +144,7 @@ public class AscensionHistoryRequest
 		int bondPoints = 0;
 		int garlandUpgrades = 0;
 		int gloverPoints = 0;
+		int masksUnlocked = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -226,6 +227,9 @@ public class AscensionHistoryRequest
 				gloverPoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				garlandUpgrades++;
 				break;
+			case AscensionSnapshot.DISGUISES_DELIMIT:
+				masksUnlocked += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -235,6 +239,7 @@ public class AscensionHistoryRequest
 		Preferences.setInteger( "sourcePoints", sourcePoints );
 		Preferences.setInteger( "gloverPoints", gloverPoints );
 		Preferences.setInteger( "garlandUpgrades", garlandUpgrades );
+		Preferences.setInteger( "masksUnlocked", masksUnlocked );
 
 		// Some can be increased by buying points, so only set these if higher than preference
 		if ( jarlsbergPoints > Preferences.getInteger( "jarlsbergPoints" ) )

@@ -3530,6 +3530,11 @@ public abstract class KoLCharacter
 			int gloverPoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "gloverPoints", gloverPoints );
 		}
+		else if ( oldPath.equals( DISGUISES_DELIMIT ) )
+		{
+			int masksUnlocked = wasInHardcore ? 2 : 1;
+			Preferences.increment( "masksUnlocked", masksUnlocked );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
