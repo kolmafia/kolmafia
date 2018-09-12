@@ -481,6 +481,14 @@ public class MonsterData
 			{
 				monster.defense = new Integer( monster.getRawDefense() * 4 );
 			}
+			else if ( modifier.equals( "fencing mask" ) )
+			{
+				if ( monster.physicalResistance == 0 )
+				{
+					// Also gives 90% elemental resistance
+					monster.physicalResistance = 90;
+				}
+			}
 			else if ( this.scale == null && modifier.equals( "Naughty Sorceress mask" ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 3 );
