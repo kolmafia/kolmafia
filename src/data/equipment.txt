@@ -752,6 +752,7 @@ Mr. Shirt	30	none
 trench coat	200	Mus: 100
 origami pasties	100	none
 Othello's military jacket	150	Mus: 40
+PARTY HARD T-shirt	10	none
 pirate shirt	50	Mus: 10
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
