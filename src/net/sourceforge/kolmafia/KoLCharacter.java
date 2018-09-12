@@ -5907,9 +5907,6 @@ public abstract class KoLCharacter
 		// Add modifiers from Passive Skills
 		newModifiers.applyPassiveModifiers();
 
-		// Add modifiers from Current Path
-		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath ) );
-
 		// For the sake of easier maintenance, execute a lot of extra
 		// string comparisons when looking at status effects.
 
@@ -5982,27 +5979,6 @@ public abstract class KoLCharacter
 			}
 		}
 
-		// If Sneaky Pete, add Motorbike effects
-
-		if ( KoLCharacter.isSneakyPete() )
-		{
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeTires" ) ) );
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeGasTank" ) ) );
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeHeadlight" ) ) );
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeCowling" ) ) );
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeMuffler" ) ) );
-			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeSeat" ) ) );
-		}
-
-		// If in Nuclear Autumn, add Radiation Sickness
-
-		if ( KoLCharacter.inNuclearAutumn() && KoLCharacter.getRadSickness() > 0 )
-		{
-			newModifiers.add( Modifiers.MUS, -KoLCharacter.getRadSickness(), "Path:Rads" );
-			newModifiers.add( Modifiers.MYS, -KoLCharacter.getRadSickness(), "Path:Rads" );
-			newModifiers.add( Modifiers.MOX, -KoLCharacter.getRadSickness(), "Path:Rads" );
-		}
-
 		// Add in strung-up quartet.
 
 		if ( KoLCharacter.getAscensions() == Preferences.getInteger( "lastQuartetAscension" ) )
@@ -6034,6 +6010,20 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.FISHING_SKILL, 5, "Inventory Item:antique tacklebox" );
 		}
 
+		// Boombox, no check for having one so it can work with Maximizer "show things you don't have"
+		newModifiers.add( Modifiers.getModifiers( "BoomBox", boomBox ) );
+
+		// Add modifiers from Florist Friar plants
+		newModifiers.applyFloristModifiers();
+
+		// Horsery
+		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
+
+		// Miscellaneous
+
+		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
+		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
+
 		// Temporary custom modifier
 		if ( custom != null )
 		{
@@ -6048,6 +6038,32 @@ public abstract class KoLCharacter
 				newModifiers.add( Modifiers.MONSTER_LEVEL,
 					Math.min( 1000, 15 * hatred * (hatred + 2) ), "Outfit:slime hatred" );
 			}
+		}
+
+		// Path specific modifiers
+
+		// Add modifiers from Current Path
+		newModifiers.add( Modifiers.getModifiers( "Path", KoLCharacter.ascensionPath ) );
+
+		// If Sneaky Pete, add Motorbike effects
+
+		if ( KoLCharacter.isSneakyPete() )
+		{
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeTires" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeGasTank" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeHeadlight" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeCowling" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeMuffler" ) ) );
+			newModifiers.add( Modifiers.getModifiers( "Motorbike", Preferences.getString( "peteMotorbikeSeat" ) ) );
+		}
+
+		// If in Nuclear Autumn, add Radiation Sickness
+
+		if ( KoLCharacter.inNuclearAutumn() && KoLCharacter.getRadSickness() > 0 )
+		{
+			newModifiers.add( Modifiers.MUS, -KoLCharacter.getRadSickness(), "Path:Rads" );
+			newModifiers.add( Modifiers.MYS, -KoLCharacter.getRadSickness(), "Path:Rads" );
+			newModifiers.add( Modifiers.MOX, -KoLCharacter.getRadSickness(), "Path:Rads" );
 		}
 
 		if ( KoLCharacter.inAxecore() && KoLCharacter.currentInstrument != null )
@@ -6204,22 +6220,6 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.ITEMDROP, newModifiers.getExtra( Modifiers.ITEMDROP ), "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]" );
 		}
 		
-		// Some things not affected by doublers, so must be later
-		
-		// Add modifiers from Florist Friar plants
-		newModifiers.applyFloristModifiers();
-
-		// Boombox, no check for having one so it can work with Maximizer "show things you don't have"
-		newModifiers.add( Modifiers.getModifiers( "BoomBox", boomBox ) );
-
-		// Horsery
-		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
-
-		// Miscellaneous
-
-		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );
-		newModifiers.add( Modifiers.getModifiers( "Generated", "fightMods" ) );
-
 		// Determine whether or not data has changed
 
 		if ( debug )
