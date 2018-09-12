@@ -463,7 +463,7 @@ public class MonsterData
 				monster.attack = new Integer( monster.getRawAttack() * 6 / 5 );
 				monster.defense = new Integer( monster.getRawDefense() * 6 / 5 );
 			}
-			else if ( modifier.equals( "Mr. mask" ) || modifier.equals( "Bonerdagon mask" ) )
+			else if ( this.scale == null && ( modifier.equals( "Mr. mask" ) || modifier.equals( "Bonerdagon mask" ) ) )
 			{
 				monster.health = new Integer( monster.getRawHP() * 2 );
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
@@ -473,9 +473,19 @@ public class MonsterData
 			{
 				monster.initiative = new Integer( 10000 );
 			}
-			else if ( modifier.equals( "opera mask" ) )
+			else if ( this.scale == null && modifier.equals( "opera mask" ) )
 			{
 				monster.attack = new Integer( monster.getRawAttack() * 2 );
+			}
+			else if ( this.scale == null && modifier.equals( "bandit mask" ) )
+			{
+				monster.defense = new Integer( monster.getRawDefense() * 4 );
+			}
+			else if ( this.scale == null && modifier.equals( "Naughty Sorceress mask" ) )
+			{
+				monster.health = new Integer( monster.getRawHP() * 3 );
+				monster.attack = new Integer( monster.getRawAttack() * 3 );
+				monster.defense = new Integer( monster.getRawDefense() * 3 );
 			}
 		}
 
