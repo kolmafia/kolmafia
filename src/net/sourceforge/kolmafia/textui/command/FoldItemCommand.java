@@ -60,7 +60,9 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FoldItemCommand
@@ -81,12 +83,15 @@ public class FoldItemCommand
 			return;
 		}
 
+		int targetId = target.getItemId();
+
 		// If we already have the item in inventory, we're done
 		if ( target.getCount( KoLConstants.inventory ) > 0 )
 		{
 			// Well, unless it's a garbage item, in which case we might want to fold anyway
-			if ( !( ( ( target.getItemId() == ItemPool.BROKEN_CHAMPAGNE && Preferences.getInteger( "garbageChampagneCharge" ) == 0 ) ||
-				( target.getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT && Preferences.getInteger( "garbageShirtCharge" ) == 0 ) ) &&
+			if ( !( ( ( targetId == ItemPool.DECEASED_TREE && Preferences.getInteger( "garbageTreeCharge" ) == 0 ) ||
+				( targetId == ItemPool.BROKEN_CHAMPAGNE && Preferences.getInteger( "garbageChampagneCharge" ) == 0 ) ||
+				( targetId == ItemPool.MAKESHIFT_GARBAGE_SHIRT && Preferences.getInteger( "garbageShirtCharge" ) == 0 ) ) &&
 				!Preferences.getBoolean( "_garbageItemChanged" ) ) )
 			{
 				return;
@@ -300,6 +305,35 @@ public class FoldItemCommand
 
 		if ( ( (String) group.get( 1 ) ).equals( "january's garbage tote" ) )
 		{
+			// If you would lose valuable charges, check user wants to continue
+			if ( !Preferences.getBoolean( "_garbageItemChanged" ) )
+			{
+				if ( InventoryManager.hasItem( ItemPool.DECEASED_TREE ) && targetId != ItemPool.DECEASED_TREE &&
+					Preferences.getInteger( "garbageTreeCharge" ) > 0 )
+				{
+					if ( !InputFieldUtilities.confirm( "You will lose your current crimbo tree needles when you make " + targetName + ", are you sure you wish to continue?" ) )
+					{
+						return;
+					}
+				}
+				if ( InventoryManager.hasItem( ItemPool.BROKEN_CHAMPAGNE ) && targetId != ItemPool.BROKEN_CHAMPAGNE &&
+					Preferences.getInteger( "garbageChampagneCharge" ) > 0 )
+				{
+					if ( !InputFieldUtilities.confirm( "You will lose your current champagne drops when you make " + targetName + ", are you sure you wish to continue?" ) )
+					{
+						return;
+					}
+				}
+				if ( InventoryManager.hasItem( ItemPool.MAKESHIFT_GARBAGE_SHIRT ) && targetId != ItemPool.MAKESHIFT_GARBAGE_SHIRT &&
+					Preferences.getInteger( "garbageShirtCharge" ) > 0 )
+				{
+					if ( !InputFieldUtilities.confirm( "You will lose your current garbage shirt scraps when you make " + targetName + ", are you sure you wish to continue?" ) )
+					{
+						return;
+					}
+				}
+			}
+
 			GenericRequest useRequest = new GenericRequest( "inv_use.php" );
 			useRequest.addFormField( "pwd", GenericRequest.passwordHash );
 			useRequest.addFormField( "whichitem", String.valueOf( ItemPool.GARBAGE_TOTE ) );
