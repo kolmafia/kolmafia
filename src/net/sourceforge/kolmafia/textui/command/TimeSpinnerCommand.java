@@ -55,6 +55,8 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -98,6 +100,7 @@ public class TimeSpinnerCommand
 
 			String[] spinnerFoods = Preferences.getString( "_timeSpinnerFoodAvailable" ).split( "," );
 			String foodIdString = String.valueOf( food.getItemId() );
+			String foodName = food.getName();
 			boolean found = false;
 			for ( String temp : spinnerFoods )
 			{
@@ -113,10 +116,31 @@ public class TimeSpinnerCommand
 				return;
 			}
 
-			if ( ConsumablesDatabase.getFullness( food.getName() ) > ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) )
+			if ( ConsumablesDatabase.getFullness( foodName ) > ( KoLCharacter.getFullnessLimit() - KoLCharacter.getFullness() ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "You are too full to eat that." );
 				return;
+			}
+
+			if ( !EatItemRequest.allowFoodConsumption( foodName, 1 ) )
+			{
+				return;
+			}
+
+			// If we have a MayoMinder set, and we are autostocking it, do so
+			// Don't get Mayostat if it's a 1 fullness food, or it'd be wasted
+			// Don't get Mayodiol if it'd cause you to overdrink
+			String minderSetting = Preferences.getString( "mayoMinderSetting" );
+			AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+			if ( !minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
+				!( minderSetting.equals( "Mayostat" ) && ConsumablesDatabase.getFullness( foodName ) == 1 ) &&
+				!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
+				workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
+			{
+				if ( Preferences.getString( "mayoInMouth" ).equals( "" ) )
+				{
+					InventoryManager.retrieveItem( minderSetting, 1 );
+				}
 			}
 
 			//inv_use.php?whichitem=9104&ajax=1&pwd

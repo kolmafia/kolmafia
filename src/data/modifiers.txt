@@ -915,6 +915,8 @@ Item	Moonthril Cuirass	Monster Level: [10*G], Softcore Only
 Item	Mr. Shirt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	origami pasties	Meat Drop: +30, Softcore Only
 Item	Othello's military jacket	Othello Skill: +10
+# Item PARTY HARD T-shirt: Makes the Neverending Party harder
+Item	PARTY HARD T-shirt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	pirate shirt	Moxie: +3
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
