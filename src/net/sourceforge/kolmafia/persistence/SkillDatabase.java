@@ -1290,6 +1290,8 @@ public class SkillDatabase
 		case SkillPool.LOVE_MIXOLOGY:
 		case SkillPool.ACQUIRE_RHINESTONES:
 		case SkillPool.POP_SONG:
+		case SkillPool.BUDGET_CONSCIOUS:
+		case SkillPool.DRINKING_TO_DRINK:
 			// Auto-HP-Permed
 			return false;
 
