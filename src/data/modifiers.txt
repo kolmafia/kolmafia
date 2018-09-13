@@ -4067,7 +4067,7 @@ Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], F
 Familiar	Cuddlefish	Underwater Familiar
 # Initiative bonus is a guess for now
 Familiar	Cute Meteor	Initiative: [2*W]
-Familiar	Disgeist	Combat Rate: [-min(5,floor(W/6))]
+Familiar	Disgeist	Combat Rate: [-min(10,floor(W/7.5))]
 Familiar	Emo Squid	Underwater Familiar
 Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
 Familiar	Grouper Groupie	Underwater Familiar
