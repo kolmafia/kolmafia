@@ -34,10 +34,13 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
 
@@ -118,6 +121,35 @@ public abstract class StoreManager
 	private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches = new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
 
 	public static boolean soldItemsRetrieved = false;
+
+	public static final String[] CATEGORY_VALUES =
+	{
+		"allitems",	// All Categories
+		// Consumables
+		"food",		// Food and Beverages
+		"booze",	// Booze
+		"othercon",	// Other Consumables
+		// Equipment
+		"weapons",	// Weapons
+		"hats",		// Hats
+		"shirts",	// Shirts
+		"container",	// Back Items
+		"pants",	// Pants
+		"acc",		// Accessories
+		"offhand",	// Off-hand Items
+		"famequip",	// Familiar Equipment
+		// Usable
+		"combat",	// Combat Items
+		"potions",	// Potions
+		"hprestore",	// HP Restorers
+		"mprestore",	// MP Restorers
+		"familiars",	// Familiars
+		// Miscellaneous
+		"mrstore",	// Mr. Store Items
+		"unlockers",	// Content Unlockers
+		"new",		// New Stuff
+	};
+	public static final Set<String> validCategories = new HashSet<String>( Arrays.asList( CATEGORY_VALUES ) );
 
 	public static final void clearCache()
 	{
@@ -772,11 +804,11 @@ public abstract class StoreManager
 		}
 	}
 
-	public static final void updateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
+	public static final int updateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
 	{
 		if ( item.getItemId() < 1 )
 		{
-			return;
+			return 0;
 		}
 		int price = -1;
 		int qty = 5;
@@ -798,6 +830,8 @@ public abstract class StoreManager
 		{
 			MallPriceDatabase.recordPrice( item.getItemId(), price );
 		}
+
+		return price;
 	}
 
 	public static final synchronized int getMallPrice( final AdventureResult item )
@@ -826,6 +860,74 @@ public abstract class StoreManager
 			price = StoreManager.getMallPrice( item );
 		}
 		return price;
+	}
+
+	public static int getMallPrices( String category )
+	{
+		// Validate the category. KoL will accept any category, but unknown categories are the same as "allItems"
+		// That takes a LONG time - and if the caller really wants it, so be it - but don't do it for typos
+		if ( !StoreManager.validCategories.contains( category ) )
+		{
+			return 0;
+		}
+
+		// Issue the search request
+		MallSearchRequest request = new MallSearchRequest( category );
+		RequestThread.postRequest( request );
+
+		List<PurchaseRequest> results = request.getResults();
+		if ( results.size() == 0 )
+		{
+			// None found
+			return 0;
+		}
+
+		// Count how many items we retrieved
+		int count = 0;
+
+		// Iterate over results and handle by item
+		int itemId = -1;
+		ArrayList<PurchaseRequest> itemResults = null;
+
+		for ( PurchaseRequest pr : results )
+		{
+			if ( pr instanceof CoinMasterPurchaseRequest )
+			{
+				continue;
+			}
+
+			int newItemId = pr.getItemId();
+			if ( itemId != newItemId )
+			{
+				// Handle previous item, if any
+				if ( itemResults != null )
+				{
+					StoreManager.flushCache( itemId );
+					Collections.sort( itemResults );
+					StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults );
+					StoreManager.mallSearches.put( itemId, itemResults );
+					++count;
+				}
+
+				// Setup for new item
+				itemId = newItemId;
+				itemResults = new ArrayList<PurchaseRequest>();
+			}
+
+			itemResults.add( pr );
+		}
+
+		// Handle final item
+		if ( itemResults != null )
+		{
+			StoreManager.flushCache( itemId );
+			Collections.sort( itemResults );
+			StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults );
+			StoreManager.mallSearches.put( itemId, itemResults );
+			++count;
+		}
+
+		return count;
 	}
 
 	/**

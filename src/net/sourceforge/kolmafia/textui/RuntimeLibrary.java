@@ -813,6 +813,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "mall_price", DataTypes.INT_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "mall_prices", DataTypes.INT_TYPE, params ) );
+
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "npc_price", DataTypes.INT_TYPE, params ) );
 
@@ -4450,6 +4453,11 @@ public abstract class RuntimeLibrary
 	public static Value mall_price( Interpreter interpreter, final Value item )
 	{
 		return new Value( StoreManager.getMallPrice( ItemPool.get( (int) item.intValue(), 0 ) ) );
+	}
+
+	public static Value mall_prices( Interpreter interpreter, final Value category )
+	{
+		return new Value( StoreManager.getMallPrices( category.toString() ) );
 	}
 
 	public static Value npc_price( Interpreter interpreter, final Value item )

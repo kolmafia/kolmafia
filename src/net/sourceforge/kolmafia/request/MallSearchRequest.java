@@ -75,15 +75,18 @@ public class MallSearchRequest
 	// (Items 1-10 of 45)
 	private static final Pattern ITERATION_PATTERN = Pattern.compile( "\\(Items (\\d+)-(\\d+) of (\\d+)\\)" );
 
+	private String searchString;
+	private int storeId;
 	private List<PurchaseRequest> results;
 	private final boolean retainAll;
-	private String searchString;
 
 	public MallSearchRequest( final int storeId )
 	{
 		super( "mallstore.php" );
 		this.addFormField( "whichstore", String.valueOf( storeId ) );
 
+		this.searchString = "";
+		this.storeId = storeId;
 		this.results = new ArrayList<PurchaseRequest>();
 		this.retainAll = true;
 	}
@@ -104,7 +107,11 @@ public class MallSearchRequest
 	{
 		super( "mall.php" );
 
-		this.searchString = searchString;
+		this.searchString = searchString.trim();
+		this.storeId = 0;
+		this.results = results;
+		this.retainAll = retainAll;
+
 		this.addFormField( "pudnuggler", this.searchString );
 		this.addFormField( "category", "allitems" );
 		this.addFormField( "consumable_byme", "0" );
@@ -115,9 +122,30 @@ public class MallSearchRequest
 		this.addFormField( "sortresultsby", "price" );
 		this.addFormField( "justitems", "0" );
 		this.addFormField( "x_cheapest", String.valueOf( cheapestCount ) );
+	}
 
-		this.results = results;
-		this.retainAll = retainAll;
+	/**
+	 * Search for a category
+	 */
+	public MallSearchRequest( final String category )
+	{
+		super( "mall.php" );
+
+		this.searchString = "";
+		this.storeId = 0;
+		this.results = new ArrayList<PurchaseRequest>();
+		this.retainAll = true;
+
+		this.addFormField( "pudnuggler", this.searchString );
+		this.addFormField( "category", category );
+		this.addFormField( "consumable_byme", "0" );
+		this.addFormField( "weaponattribute", "3" );
+		this.addFormField( "wearable_byme", "0" );
+		this.addFormField( "nolimits", "0" );
+		this.addFormField( "max_price", "0" );
+		this.addFormField( "sortresultsby", "price" );
+		this.addFormField( "justitems", "0" );
+		this.addFormField( "x_cheapest", String.valueOf( 5 ) );
 	}
 
 	@Override
@@ -173,7 +201,7 @@ public class MallSearchRequest
 	public void run()
 	{
 		boolean items;
-		if ( this.searchString == null || this.searchString.trim().length() == 0 )
+		if ( this.searchString.length() == 0 )
 		{
 			KoLmafia.updateDisplay( this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
 			items = false;
@@ -192,6 +220,8 @@ public class MallSearchRequest
 
 		// We may need to iterate over multiple pages of search results
 		this.removeFormField( "start" );
+
+		String header = items ? "Searching for " + this.searchString : "Page";
 		int page = 1;
 		int limit = 0;
 
@@ -199,15 +229,10 @@ public class MallSearchRequest
 		{
 			if ( page > 1 )
 			{
-				KoLmafia.updateDisplay( "Searching for " + this.searchString + " (" + page + " of " + limit + ")..." );
+				KoLmafia.updateDisplay( header + " (" + page + " of " + limit + ")..." );
 			}
 
 			super.run();
-
-			if ( !items )
-			{
-				break;
-			}
 
 			if ( this.responseText == null || !KoLmafia.permitsContinue() )
 			{
@@ -236,7 +261,7 @@ public class MallSearchRequest
 		}
 
 		// If an exact match, we can think about updating mall_price().
-		if ( this.searchString != null && this.searchString.startsWith( "\"" ) && this.results.size() > 0 )
+		if ( this.searchString.startsWith( "\"" ) && this.results.size() > 0 )
 		{
 			AdventureResult item = this.results.get(0).getItem();
 			StoreManager.maybeUpdateMallPrice( item, new ArrayList<PurchaseRequest>( this.results ) );
@@ -255,7 +280,7 @@ public class MallSearchRequest
 		// will look for an exact match. Otherwise, it will do fuzzy
 		// matching.
 
-		List itemNames = ItemDatabase.getMatchingNames( this.searchString );
+		List<String> itemNames = ItemDatabase.getMatchingNames( this.searchString );
 
 		// Check for any items which are not available in NPC stores and
 		// known not to be tradeable to see if there's an exact match.
@@ -380,7 +405,9 @@ public class MallSearchRequest
 
 	private void searchMall()
 	{
-		List itemNames = ItemDatabase.getMatchingNames( this.searchString );
+		List<String> itemNames = this.searchString.length() == 0 ?
+			                 new ArrayList<String>() :
+			                 ItemDatabase.getMatchingNames( this.searchString );
 
 		// Change all multi-line store names into single line store
 		// names so that the parser doesn't get confused; remove all
@@ -497,16 +524,15 @@ public class MallSearchRequest
 		}
 	}
 
-	private void finalizeList( final List itemNames )
+	private void finalizeList( final List<String> itemNames )
 	{
 		// Now, for the items which matched, check to see if there are
 		// any entries inside of the NPC store database for them and
 		// add - this is just in case some of the items become notrade
 		// so items can still be bought from the NPC stores.
 
-		for ( int i = 0; i < itemNames.size(); ++i )
+		for ( String itemName : itemNames )
 		{
-			String itemName = (String) itemNames.get( i );
 			int itemId = ItemDatabase.getItemId( itemName );
 			this.addNPCStoreItem( itemId );
 			this.addCoinMasterItem( itemId );
@@ -516,13 +542,14 @@ public class MallSearchRequest
 	@Override
 	public void processResults()
 	{
-		if ( this.searchString == null || this.searchString.trim().length() == 0 )
+		if ( this.storeId != 0 )
 		{
 			this.searchStore();
-			return;
 		}
-
-		this.searchMall();
+		else
+		{
+			this.searchMall();
+		}
 	}
 
 	private static final Pattern NOBUYERS_PATTERN = Pattern.compile( "<td valign=\"center\" class=\"buyers\">&nbsp;</td>" );
