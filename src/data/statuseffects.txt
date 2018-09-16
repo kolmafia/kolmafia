@@ -2420,3 +2420,4 @@
 2419	The Best Hair You've Ever Had	pompadour.gif	eb7f7c048c571f753caf076870be0da7
 2420	Unrunnable Face	mascara2.gif	717c38b91a319f392117b4b146cffd2b	use 1 runproof mascara
 2421	Lifted Spirits	partyballoon.gif	6b9a5c708de930de26abd253ef3bbea3	chew 1 party balloon
+2422	Party on Your Skin	pspray.gif	fab174669704d9035c34ece248025a3e	chew 1 Party-in-a-Can&trade;
