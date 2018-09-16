@@ -127,7 +127,7 @@ public class MallSearchRequest
 	/**
 	 * Search for a category
 	 */
-	public MallSearchRequest( final String category )
+	public MallSearchRequest( final String category, final String tiers )
 	{
 		super( "mall.php" );
 
@@ -138,14 +138,31 @@ public class MallSearchRequest
 
 		this.addFormField( "pudnuggler", this.searchString );
 		this.addFormField( "category", category );
+		// food_sortitemsby=name
+		// booze_sortitemsby=name
+		// othercon_sortitemsby=name
 		this.addFormField( "consumable_byme", "0" );
+		// hats_sortitemsby=name
+		// shirts_sortitemsby=name
+		// pants_sortitemsby=name
+		// weapons_sortitemsby=name
 		this.addFormField( "weaponattribute", "3" );
+		// weaponhands=3
+		// acc_sortitemsby=name
+		// offhand_sortitemsby=name
 		this.addFormField( "wearable_byme", "0" );
+		// famequip_sortitemsby=name
 		this.addFormField( "nolimits", "0" );
-		this.addFormField( "max_price", "0" );
 		this.addFormField( "sortresultsby", "price" );
 		this.addFormField( "justitems", "0" );
+		this.addFormField( "max_price", "0" );
 		this.addFormField( "x_cheapest", String.valueOf( 5 ) );
+		// if no tier is 1, search all consumables. Otherwise, search only selected tiers
+		this.addFormField( "consumable_tier_1", tiers.contains( "crappy" ) ? "1" : "0" );
+		this.addFormField( "consumable_tier_2", tiers.contains( "decent" ) ? "1" : "0" );
+		this.addFormField( "consumable_tier_3", tiers.contains( "good" ) ? "1" : "0" );
+		this.addFormField( "consumable_tier_4", tiers.contains( "awesome" ) ? "1" : "0" );
+		this.addFormField( "consumable_tier_5", tiers.contains( "EPIC" ) ? "1" : "0" );
 	}
 
 	@Override
