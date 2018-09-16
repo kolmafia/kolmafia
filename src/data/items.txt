@@ -10004,6 +10004,9 @@
 9978	Party Planning on a Budget	805730590	book3.gif	usable		0
 9979	TRIO cup of beer	999607165	threebeers.gif	drink	t,d	25	TRIO cups of beer
 9980	party platter for one	796124826	partytray.gif	food	t,d	25	party platters for one
-9981
-9982
+9981	Party-in-a-Can&trade;	853082573	pspray.gif	spleen, usable	t,d	50	Parties-in-a-Can&trade;
+9982	party pup	350120235	partypup.gif	grow		0
 9983	party crasher	949262587	partycrasher.gif	offhand		0
+9984
+9985
+9986	party mouse hat	790452170	partymousehat.gif	familiar	t,d	75

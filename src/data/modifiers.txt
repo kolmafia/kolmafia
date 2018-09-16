@@ -3892,6 +3892,7 @@ Item	overclocked avian microprocessor	Familiar Weight: +5
 Item	oversized fish scaler	Generic, Familiar Effect: "attack"
 Item	palm-frond toupee	Familiar Weight: +5
 Item	Panda outfit	Familiar Weight: +5, Item Drop: +5, Generic
+Item	party mouse hat	Familiar Weight: +5
 Item	penguin-smacking club	Familiar Damage: +15
 Item	pet anemone	Familiar Weight: +5
 Item	pet rock &quot;Groucho&quot; disguise	Familiar Weight: +11, Equips On: "Pet Rock | Toothsome Rock | Bulky Buddy Box | Holiday Log"
@@ -6018,6 +6019,7 @@ Effect	Paul's Passionate Pop Song	MP Regen Min: 4, MP Regen Max: 5
 Effect	Papowerful	Weapon Damage: +10, Spell Damage: +10, Experience: +2
 # Effect Partially Ghosted: Reduces physical damage taken by 30%
 Effect	Partially Paralyzed	Moxie Percent: -50
+Effect	Party on Your Skin	Maximum HP Percent: +50, Maximum MP Percent: +50, Familiar Weight: +5, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Pasta Eyeball	Meat Drop: +10
 Effect	Pasta Oneness	Mysticality: +2
 Effect	Pasty	Muscle Percent: +50
@@ -8166,6 +8168,7 @@ Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect 
 Item	oily paste	Effect: "Oily Flavor", Effect Duration: 10
 Item	orc paste	Effect: "Fratty Flavor", Effect Duration: 10
 Item	party balloon	Effect: "Lifted Spirits", Effect Duration: 50
+Item	Party-in-a-Can&trade;	Effect: "Party on Your Skin", Effect Duration: 50
 Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
