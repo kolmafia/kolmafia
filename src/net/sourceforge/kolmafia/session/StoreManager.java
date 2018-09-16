@@ -862,7 +862,7 @@ public abstract class StoreManager
 		return price;
 	}
 
-	public static int getMallPrices( String category )
+	public static int getMallPrices( String category, String tiers )
 	{
 		// Validate the category. KoL will accept any category, but unknown categories are the same as "allItems"
 		// That takes a LONG time - and if the caller really wants it, so be it - but don't do it for typos
@@ -872,7 +872,7 @@ public abstract class StoreManager
 		}
 
 		// Issue the search request
-		MallSearchRequest request = new MallSearchRequest( category );
+		MallSearchRequest request = new MallSearchRequest( category, tiers );
 		RequestThread.postRequest( request );
 
 		List<PurchaseRequest> results = request.getResults();
