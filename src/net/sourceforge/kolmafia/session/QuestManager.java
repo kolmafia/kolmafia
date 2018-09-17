@@ -2555,14 +2555,6 @@ public class QuestManager
 		{
 			Preferences.decrement( "sourceAgentsDefeated", 1, 0 );
 		}
-		if ( KoLAdventure.lastAdventureId() == AdventurePool.NEVERENDING_PARTY )
-		{
-			int turnsSpent = Preferences.getInteger( "_neverendingPartyFreeTurns" );
-			if ( turnsSpent < 10 )
-			{
-				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
-			}
-		}
 	}
 
 	/** After we start a fight, some quests may need to be updated.  Centralize handling for it here.
