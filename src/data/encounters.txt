@@ -59,6 +59,7 @@ Barf Mountain	STOP	The Back Door
 Pirates of the Garbage Barges	STOP	Behind the Scenes
 The Toxic Teacups	STOP	Toxic Teacup Tunnel Time
 Uncle Gator's Country Fun-Time Liquid Waste Sluice	STOP	Swamp Control
+The Neverending Party	STOP	Party's Over
 
 ### Semi-rare Adventures
 8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
