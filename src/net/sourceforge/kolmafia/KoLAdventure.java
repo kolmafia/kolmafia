@@ -2443,6 +2443,14 @@ public class KoLAdventure
 			"Your time in FantasyRealm is over for today.",
 		},
 
+		// Technically the Neverending Party is still going, because the Neverending Party never ends,
+		// but right now everybody is passed out, so it's more of a Neverending Nap.
+		// It'll probably get rowdy again by tomorrow
+		{
+			"It'll probably get rowdy again by tomorrow",
+			"The Neverending Party is over for today.",
+		},
+
 	};
 
 	public static final int findAdventureFailure( String responseText )

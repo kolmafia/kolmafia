@@ -1498,6 +1498,7 @@ Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mystic
 # papier-m&acirc;chine gun: Makes actions more exciting
 Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Item	parasitic claw	Weapon Damage: [min(L,15)]
+Item	party whip	Monster Level: +15, Item Drop: +10, Familiar Weight: +5
 # pasta spoon
 Item	Pasta Spoon of Peril	Mysticality: +7, Initiative: +15, Class: "Pastamancer"
 Item	peace accordion	Stench Damage: [12*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 19
@@ -9483,6 +9484,7 @@ Item	little red .epub file	Effect: "Xiblaxian Sympathizer", Effect Duration: 50
 Item	little red jam	Effect: "Hood Ridin'", Effect Duration: 20
 # live nautical mine: Deals a bunch of Physical Damage
 # live nautical mine: Is unsafe on land
+Item	Living to Drink, Drinking to Live	Skill: "Drinking to Drink"
 Item	llama lama cria	Free Pull
 # Loathing Legion jackhammer: Allows Meatsmithing without the Adventure cost (3 times a day)
 Item	Loathing Legion jackhammer	Softcore Only
