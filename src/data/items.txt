@@ -10008,5 +10008,5 @@
 9982	party pup	350120235	partypup.gif	grow		0
 9983	party crasher	949262587	partycrasher.gif	offhand		0
 9984	Living to Drink, Drinking to Live	136551023	book4.gif	usable	0
-9985
+9985	Party Tattoo™ gift certificate	693335963	pttatcert.gif	usable	0
 9986	party mouse hat	790452170	partymousehat.gif	familiar	t,d	75
