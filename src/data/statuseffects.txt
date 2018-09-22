@@ -2349,7 +2349,7 @@
 2348	Burnt 'n' Turnt	burntwine.gif	e63c7d2c4f9674d2e3e5caa7860f9c65	drink 1 mulled hobo wine
 2349	Stop the Presses!	burntwich.gif	01f2e59fec0c544205e227978b07f973	eat 1 extra-toasted half sandwich
 2350	Nightlit	silentnightlight.gif	a404d3f8ddfb6a8c5556494431ba56fc	# rollover effect from silent nightlight
-2351
+2351	Sweetened and Fattened	blankoutglob.gif	4f342533813501ef83882ebcf8d38b55	use 1 sweetened reindeer fat
 2352	Quiet 'n' Good	bloodnplenty.gif	9e84adbe524bc8d5179f3b2cd8b84318	use 1 Good 'n' Quiet
 2353	Hot Buttoned	hotbuttoncandy.gif	244bf84acdb03f5de738b55f3790ff92	use 1 hot button candy
 2354	Beefy	pill2.gif	3bfa4d9f2009a12545062a49fb474745	chew 1 beefy pill
