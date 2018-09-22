@@ -1929,8 +1929,10 @@ public class ResultProcessor
 			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
 			break;
 
+		case ItemPool.GAUDY_KEY:
 		case ItemPool.SNAKEHEAD_CHARM:
-			if ( result.getCount( KoLConstants.inventory ) >= 2 &&
+			if ( InventoryManager.getCount( ItemPool.GAUDY_KEY ) + 
+				 InventoryManager.getCount( ItemPool.SNAKEHEAD_CHARM ) >= 2 &&
 			     !InventoryManager.hasItem( ItemPool.TALISMAN ) )
 			{
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
