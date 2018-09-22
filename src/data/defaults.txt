@@ -1455,6 +1455,7 @@ user	_guildManualUsed	false
 user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
+user	_highTopPumps	0
 user	_hippyMeatCollected	false
 user	_hipsterAdv	0
 user	_hoardedCandyDropsCrown	0

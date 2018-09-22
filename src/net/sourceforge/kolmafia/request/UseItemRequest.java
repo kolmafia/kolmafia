@@ -1202,6 +1202,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_perfectlyFairCoinUsed" ) ? 0 : 1;
 
+		case ItemPool.PUMP_UP_HIGH_TOPS:
+			UseItemRequest.limiter = "daily limit";
+			return 3 - Preferences.getInteger( "_highTopPumps" );
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -6116,6 +6120,17 @@ public class UseItemRequest
 
 		case ItemPool.NEVERENDING_PARTY_INVITE_DAILY:
 			Preferences.setBoolean( "_neverendingPartyToday", true );
+			break;
+
+		case ItemPool.PUMP_UP_HIGH_TOPS:
+			if ( responseText.contains( "pump up the high-tops" ) )
+			{
+				Preferences.increment( "_highTopPumps" );
+			}
+			else if ( responseText.contains( "already pumped up" ) )
+			{
+				Preferences.setInteger( "_highTopPumps", 3 );
+			}
 			break;
 
 		}
