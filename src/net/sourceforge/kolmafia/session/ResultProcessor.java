@@ -2278,14 +2278,14 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.GONG:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.LLAMA )
 			{
 				Preferences.increment( "_gongDrops", 1 );
 			}
 			break;
 
 		case ItemPool.SLIME_STACK:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SLIMELING )
 			{
 				int dropped = Preferences.increment( "slimelingStacksDropped", 1 );
 				if ( dropped > Preferences.getInteger( "slimelingStacksDue" ) )
@@ -2297,42 +2297,42 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.ABSINTHE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.PIXIE )
 			{
 				Preferences.increment( "_absintheDrops", 1 );
 			}
 			break;
 
 		case ItemPool.ASTRAL_MUSHROOM:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BADGER )
 			{
 				Preferences.increment( "_astralDrops", 1 );
 			}
 			break;
 
 		case ItemPool.AGUA_DE_VIDA:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SANDWORM )
 			{
 				Preferences.increment( "_aguaDrops", 1 );
 			}
 			break;
 
 		case ItemPool.DEVILISH_FOLIO:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.KLOOP )
 			{
 				Preferences.increment( "_kloopDrops", 1 );
 			}
 			break;
 
 		case ItemPool.GROOSE_GREASE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE )
 			{
 				Preferences.increment( "_grooseDrops", 1 );
 			}
 			break;
 
 		case ItemPool.GG_TOKEN:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON )
 			{
 				Preferences.increment( "_tokenDrops", 1 );
 			}
@@ -2349,28 +2349,28 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.TRANSPORTER_TRANSPONDER:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ALIEN )
 			{
 				Preferences.increment( "_transponderDrops", 1 );
 			}
 			break;
 
 		case ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.UNCONSCIOUS_COLLECTIVE )
 			{
 				Preferences.increment( "_dreamJarDrops", 1 );
 			}
 			break;
 
 		case ItemPool.HOT_ASHES:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL )
 			{
 				Preferences.increment( "_hotAshesDrops", 1 );
 			}
 			break;
 
 		case ItemPool.PSYCHOANALYTIC_JAR:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN )
 			{
 				Preferences.increment( "_jungDrops", 1 );
 				Preferences.setInteger( "jungCharge", 0 );
@@ -2379,35 +2379,36 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.TALES_OF_SPELUNKING:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER )
 			{
 				Preferences.increment( "_spelunkingTalesDrops", 1 );
 			}
 			break;
 
 		case ItemPool.POWDERED_GOLD:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY )
 			{
 				Preferences.increment( "_powderedGoldDrops", 1 );
 			}
 			break;
 
 		case ItemPool.MINI_MARTINI:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SWORD_AND_MARTINI_GUY )
 			{
 				Preferences.increment( "_miniMartiniDrops", 1 );
 			}
 			break;
 
 		case ItemPool.POWER_PILL:
-			if ( combatResults )
+			if ( combatResults && 
+				( KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN ) )
 			{
 				Preferences.increment( "_powerPillDrops", 1 );
 			}
 			break;
 
 		case ItemPool.MACHINE_SNOWGLOBE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MACHINE_ELF )
 			{
 				Preferences.increment( "_snowglobeDrops", 1 );
 			}
@@ -2451,7 +2452,7 @@ public class ResultProcessor
 		case ItemPool.COSMIC_PASTE:
 		case ItemPool.HOBO_PASTE:
 		case ItemPool.CRIMBO_PASTE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BOOTS )
 			{
 				Preferences.increment( "_pasteDrops", 1 );
 			}
@@ -2471,7 +2472,7 @@ public class ResultProcessor
 		case ItemPool.COTTON_CANDY_PLUG:
 		case ItemPool.COTTON_CANDY_PILLOW:
 		case ItemPool.COTTON_CANDY_BALE:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.CARNIE )
 			{
 				Preferences.increment( "_carnieCandyDrops", 1 );
 			}
@@ -2677,7 +2678,8 @@ public class ResultProcessor
 					Preferences.setInteger( "grimstoneCharge", 0 );
 					KoLCharacter.findFamiliar( FamiliarPool.GRIMSTONE_GOLEM ).setCharges( 0 );
 				}
-				else
+				else if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIMSTONE_GOLEM ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIMSTONE_GOLEM )
 				{
 					Preferences.increment( "_grimstoneMaskDropsCrown" );
 				}
@@ -2691,7 +2693,8 @@ public class ResultProcessor
 				{
 					Preferences.increment( "_grimFairyTaleDrops" );
 				}
-				else
+				else if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.GRIM_BROTHER ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.GRIM_BROTHER )
 				{
 					Preferences.increment( "_grimFairyTaleDropsCrown" );
 				}
@@ -2718,7 +2721,8 @@ public class ResultProcessor
 					// This will be updated to 0 in FightRequest later
 					Preferences.setInteger( "garbageFireProgress", -1 );
 				}
-				else
+				else if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.GARBAGE_FIRE ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.GARBAGE_FIRE )
 				{
 					Preferences.increment( "_garbageFireDropsCrown" );
 				}
@@ -3173,7 +3177,7 @@ public class ResultProcessor
 		case ItemPool.ROBIN_EGG:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.ROCKIN_ROBIN ) ) )
+				if ( KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN )
 				{
 					// This will be updated to 0 in FightRequest later
 					Preferences.setInteger( "rockinRobinProgress", -1 );
@@ -3184,12 +3188,13 @@ public class ResultProcessor
 		case ItemPool.WAX_GLOB:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.CANDLE ) ) )
+				if ( KoLCharacter.currentFamiliar.getId() == FamiliarPool.CANDLE )
 				{
 					// This will be updated to 0 in FightRequest later
 					Preferences.setInteger( "optimisticCandleProgress", -1 );
 				}
-				else
+				else if ( KoLCharacter.currentBjorned.getId() == FamiliarPool.CANDLE ||
+				     KoLCharacter.currentEnthroned.getId() == FamiliarPool.CANDLE )
 				{
 					Preferences.increment( "_optimisticCandleDropsCrown" );
 				}
@@ -3199,7 +3204,7 @@ public class ResultProcessor
 		case ItemPool.X:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.XO_SKELETON ) ) )
+				if ( KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON )
 				{
 					// This will be updated to 0 in FightRequest later
 					Preferences.setInteger( "xoSkeleltonXProgress", -1 );
@@ -3211,7 +3216,7 @@ public class ResultProcessor
 		case ItemPool.O:
 			if ( combatResults )
 			{
-				if ( KoLCharacter.getFamiliar().equals( KoLCharacter.findFamiliar( FamiliarPool.XO_SKELETON ) ) )
+				if ( KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON )
 				{
 					// This will be updated to 0 in FightRequest later
 					Preferences.setInteger( "xoSkeleltonOProgress", -1 );
@@ -3250,7 +3255,7 @@ public class ResultProcessor
 		case ItemPool.SPOOKY_JELLY:
 		case ItemPool.SLEAZE_JELLY:
 		case ItemPool.STENCH_JELLY:
-			if ( combatResults )
+			if ( combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH )
 			{
 				Preferences.increment( "_spaceJellyfishDrops" );
 			}

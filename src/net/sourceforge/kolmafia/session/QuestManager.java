@@ -94,6 +94,8 @@ public class QuestManager
 	private static final Pattern WALFORD_PATTERN = Pattern.compile( "\\(Walford's bucket filled by (?:an additional |)(\\d+)%\\)" );
 	private static final Pattern SNOWMAN_PATTERN = Pattern.compile( "otherimages/combatsnowman/" );
 	private static final Pattern PARANORMAL_PATTERN = Pattern.compile( "&quot;Paranormal disturbance reported (.*?).&quot;" );
+	private static final Pattern DJ_MEAT_PATTERN = Pattern.compile( "collect (.*?) Meat for the DJ" );
+	private static final Pattern TRASH_PATTERN = Pattern.compile( "you clean up (\\d+) " );
 
 	public static final void handleQuestChange( GenericRequest request )
 	{
@@ -2189,6 +2191,46 @@ public class QuestManager
 			if ( turnsSpent < 10 )
 			{
 				Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
+			}
+			if ( Preferences.getString( "_questPartyFairQuest" ).equals( "partiers" ) )
+			{
+				int kills = KoLCharacter.hasEquipped( ItemPool.INTIMIDATING_CHAINSAW ) ? 2 : 1;
+				Preferences.decrement( "_questPartyFairProgress", kills, 0 );
+				if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+				}
+			}
+			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "woots" ) )
+			{
+				// Do not know exactly how many woots are added each time, so find out from quest log
+				( new GenericRequest( "questlog.php?which=1" ) ).run();
+			}
+			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "dj" ) )
+			{
+				Matcher djMatcher = DJ_MEAT_PATTERN.matcher( responseText );
+				if ( djMatcher.find() )
+				{
+					int meat = StringUtilities.parseInt( djMatcher.group( 0 ).replaceAll( ",", "" ) );
+					Preferences.decrement( "_questPartyFairProgress", meat, 0 );
+					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
+					{
+						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+					}
+					ResultProcessor.processMeat( -meat );
+				}
+			}
+			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "trash" ) )
+			{
+				Matcher trashMatcher = TRASH_PATTERN.matcher( responseText );
+				if ( trashMatcher.find() )
+				{
+					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( trashMatcher.group( 1 ) ), 0 );
+					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
+					{
+						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+					}
+				}
 			}
 		}
 	

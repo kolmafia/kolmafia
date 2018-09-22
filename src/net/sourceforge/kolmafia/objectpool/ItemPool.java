@@ -3048,10 +3048,17 @@ public class ItemPool
 	public static final int CHEESE_WHEEL = 9937;
 	public static final int NEVERENDING_PARTY_INVITE = 9942;
 	public static final int NEVERENDING_PARTY_INVITE_DAILY = 9943;
+	public static final int PARTY_HARD_T_SHIRT = 9944;
+	public static final int ELECTRONICS_KIT = 9952;
 	public static final int PAINT_PALETTE = 9956;
+	public static final int PURPLE_BEAST_ENERGY_DRINK = 9958;
+	public static final int VERY_SMALL_RED_DRESS = 9963;
 	public static final int EVERFULL_GLASS = 9966;
-	public static final int PARTYCRASHER = 9983;
+	public static final int JAM_BAND_BOOTLEG = 9968;
+	public static final int INTIMIDATING_CHAINSAW = 9972;
 	public static final int PARTY_PLANNING_BOOK = 9978;
+	public static final int PARTYCRASHER = 9983;
+	public static final int DRINKING_TO_DRINK_BOOK = 9984;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

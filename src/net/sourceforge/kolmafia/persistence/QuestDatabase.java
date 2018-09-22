@@ -40,9 +40,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+
+import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -141,6 +145,7 @@ public class QuestDatabase
 		ORACLE( "questM26Oracle" ),
 		GHOST( "questPAGhost" ),
 		NEW_YOU( "questEUNewYou" ),
+		PARTY_FAIR( "_questPartyFair" ),
 		;
 
 		private final String pref;
@@ -174,6 +179,14 @@ public class QuestDatabase
 	public static final Pattern NEW_YOU_QUEST_PATTERN = Pattern.compile( "Looks like you've cast (.*?) during (\\d+) of the required (\\d+) encounters with (?:a|an|the|some) (.*?)!" );
 	public static final Pattern SHEN_PATTERN = Pattern.compile( "Recover (.*?) from" );
 	public static final Pattern SHEN2_PATTERN = Pattern.compile( "Take (.*?) back" );
+	public static final Pattern PARTY_FAIR_TRASH_PATTERN = Pattern.compile( "Trash left: ~(.*?) pieces" );
+	public static final Pattern PARTY_FAIR_WOOTS_PATTERN = Pattern.compile( "Hype level: (\\d+) / 100 megawoots" );
+	public static final Pattern PARTY_FAIR_PARTIERS_PATTERN = Pattern.compile( "Partiers remaining: (\\d+)" );
+	public static final Pattern PARTY_FAIR_MEAT_PATTERN = Pattern.compile( "Remaining bill: (.*?) Meat" );
+	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_1 = Pattern.compile( "Get (\\d+) (.*?) for Gerald" );
+	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_2 = Pattern.compile( "\\(You have (\\d+)\\)" );
+	public static final Pattern PARTY_FAIR_FOOD_PATTERN_1 = Pattern.compile( "Get (\\d+) (.*?) for Geraldine" );
+	public static final Pattern PARTY_FAIR_FOOD_PATTERN_2 = Pattern.compile( "\\(You have (\\d+)\\)" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -369,6 +382,12 @@ public class QuestDatabase
 					Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
 				}
 			}
+		}
+
+			// Get Party Fair quest target
+		if ( pref.equals( Quest.PARTY_FAIR.getPref() ) )
+		{
+			return handlePartyFair( details );
 		}
 
 		// First thing to do is find which quest we're talking about.
@@ -789,6 +808,130 @@ public class QuestDatabase
 			Preferences.setString( "lttQuestName", "Wagon Train Escort Wanted" );
 			Preferences.setInteger( "lttQuestDifficulty", 3 );
 			return "step4";
+		}
+		return "";
+	}
+
+	private static String handlePartyFair( String details )
+	{
+		if ( details.contains( "Clean up the trash" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "trash" );
+			Matcher matcher = QuestDatabase.PARTY_FAIR_TRASH_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_questPartyFairProgress", matcher.group( 1 ).replace( ",", "" ) );
+			}
+			return "step1";
+		}
+		if ( details.contains( "Check the backyard" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "booze" );
+			Preferences.setString( "_questPartyFairProgress", "" );
+			return QuestDatabase.STARTED;
+		}
+		if ( details.contains( "Gerald at the" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "booze" );
+			/* Make code recogise plurals
+			int numberToGet = 0;
+			String itemToGet = "";
+			Matcher matcher = QuestDatabase.PARTY_FAIR_BOOZE_PATTERN_1.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
+				itemToGet = matcher.group( 2 );
+				AdventureResult item = ItemFinder.getFirstMatchingItem( itemToGet );
+				if ( item != null )
+				{
+					itemToGet = String.valueOf( item.getItemId() );
+				}
+			}
+			matcher = QuestDatabase.PARTY_FAIR_BOOZE_PATTERN_2.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet -= StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+			Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet ); */
+			return "step1";
+		}
+		if ( details.contains( "to the backyard of the" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "booze" );
+			return "step2";
+		}
+		if ( details.contains( "Hype level" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "woots" );
+			Matcher matcher = QuestDatabase.PARTY_FAIR_WOOTS_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_questPartyFairProgress", matcher.group( 1 ) );
+			}
+			return "step1";
+		}
+		if ( details.contains( "Clear all of the guests" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "partiers" );
+			Matcher matcher = QuestDatabase.PARTY_FAIR_PARTIERS_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_questPartyFairProgress", matcher.group( 1 ) );
+			}
+			return "step1";
+		}
+		if ( details.contains( "see what kind of snacks Geraldine wants" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "food" );
+			Preferences.setString( "_questPartyFairProgress", "" );
+			return QuestDatabase.STARTED;
+		}
+		if ( details.contains( "for Geraldine at the" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "food" );
+			/* Make code recogise plurals
+			int numberToGet = 0;
+			String itemToGet = "";
+			Matcher matcher = QuestDatabase.PARTY_FAIR_FOOD_PATTERN_1.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
+				itemToGet = matcher.group( 2 );
+				AdventureResult item = ItemFinder.getFirstMatchingItem( itemToGet );
+				if ( item != null )
+				{
+					itemToGet = String.valueOf( item.getItemId() );
+				}
+			}
+			matcher = QuestDatabase.PARTY_FAIR_FOOD_PATTERN_2.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet -= StringUtilities.parseInt( matcher.group( 1 ) );
+			}
+			Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );*/
+			return "step1";
+		}
+		if ( details.contains( "to Geraldine in the kitchen" ) )
+		{
+			Preferences.setString( "_questPartyFairQuest", "food" );
+			return "step2";
+		}
+		if ( details.contains( "Meat for the DJ" ) )
+		{
+			Preferences.setString( "_questPartyFair", "step1" );
+			Preferences.setString( "_questPartyFairQuest", "dj" );
+			Matcher matcher = QuestDatabase.PARTY_FAIR_MEAT_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "_questPartyFairProgress", matcher.group( 1 ).replaceAll( ",", "" ) );
+			}
+			return "step1";
+		}
+		if ( details.contains( "Return to the" ) )
+		{
+			Preferences.setString( "_questPartyFair", "step2" );
+			Preferences.setString( "_questPartyFairProgress", "" );
+			return "step2";
 		}
 		return "";
 	}

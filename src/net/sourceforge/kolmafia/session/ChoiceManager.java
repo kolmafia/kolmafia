@@ -268,6 +268,10 @@ public abstract class ChoiceManager
 	private static final Pattern HEIST_PATTERN = Pattern.compile( "He shows you a list of potential targets:<p><i>\\((\\d+) more" );
 	private static final Pattern SHEN_PATTERN = Pattern.compile( "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries" );
 	private static final Pattern BASTILLE_PATTERN = Pattern.compile( "You can play <b>(\\d+)</b>" );
+	private static final Pattern GERALD_PATTERN = Pattern.compile( "Gerald wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
+	private static final Pattern GERALDINE_PATTERN = Pattern.compile( "Geraldine wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
+	private static final Pattern SAFE_PATTERN = Pattern.compile( "find (\\d+) Meat in the safe" );
+	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -4297,11 +4301,12 @@ public abstract class ChoiceManager
 
 		// Choice 1321 is Disguises Delimit
 
-		// Choice 1322 is [Neverending Party intro]
+		// Choice 1322 is The Beginning of the Neverend
 		new ChoiceAdventure(
 			"Town", "choiceAdventure1322", "Neverending Party Intro",
 			new Object[] { new Option( "accept quest", 1 ),
-				       new Option( "reject quest", 2 ) } ),
+				       new Option( "reject quest", 2 ),
+				       new Option( "leave", 6 ) } ),
 
 		// Choice 1323 is All Done!
 
@@ -4319,6 +4324,8 @@ public abstract class ChoiceManager
 			"Town", "choiceAdventure1325", "Neverending Party Bedroom",
 			new Object[] { new Option( "full HP/MP heal", 1 ),
 				       new Option( "get 20 adv of +20% mys exp", 2 ),
+				       new Option( "remove partiers (with jam band bootleg)", 3 ),
+				       new Option( "get meat for dj (with 300 Moxie)", 4 ),
 				       new Option( "increase megawoots", 5 ) } ),
 
 		// Choice 1326 is Gone Kitchin'
@@ -4336,7 +4343,8 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "gain mox stats", 1 ),
 				       new Option( "get 50 adv of +30 ML", 2 ),
 				       new Option( "find out booze to collect", 3 ),
-				       new Option( "give collected booze", 4 ) } ),
+				       new Option( "give collected booze", 4 ),
+				       new Option( "remove partiers (with Purple Beast energy drink)", 5 ) } ),
 
 		// Choice 1328 is Basement Urges
 		new ChoiceAdventure(
@@ -10890,6 +10898,73 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1322:
+		{
+			// The Beginning of the Neverend
+			boolean hard = KoLCharacter.hasEquipped( ItemPool.PARTY_HARD_T_SHIRT );
+			Preferences.setBoolean( "_partyHard", hard );
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				// Decided to quest
+				String quest = Preferences.getString( "_questPartyFairQuest" );
+				if ( quest.equals( "booze" ) || quest.equals( "food" ) )
+				{
+					Preferences.setString( "_questPartyFair", "started" );
+					Preferences.setString( "_questPartyFairProgress", "" );
+				}
+				else
+				{
+					Preferences.setString( "_questPartyFair", "step1" );
+					if ( quest.equals( "woots" ) )
+					{
+						Preferences.setInteger( "_questPartyFairProgress", 10 );
+					}
+					else if ( quest.equals( "partiers" ) )
+					{
+						if ( hard )
+						{
+							Preferences.setInteger( "_questPartyFairProgress", 100 );
+						}
+						else
+						{
+							Preferences.setInteger( "_questPartyFairProgress", 50 );
+						}
+					}
+					else if ( quest.equals( "dj" ) )
+					{
+						if ( hard )
+						{
+							Preferences.setInteger( "_questPartyFairProgress", 10000 );
+						}
+						else
+						{
+							Preferences.setInteger( "_questPartyFairProgress", 5000 );
+						}
+					}
+					else if ( quest.equals( "trash" ) )
+					{
+						// The amount isn't known, so check quest log
+						( new GenericRequest( "questlog.php?which=1" ) ).run();
+					}
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				// Decided to party
+				Preferences.setString( "_questPartyFair", "" );
+				Preferences.setString( "_questPartyFairQuest", "" );
+				Preferences.setString( "_questPartyFairProgress", "" );
+			}
+			break;
+		}
+
+		case 1323:
+			// All Done!
+			QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
+			Preferences.setString( "_questPartyFairQuest", "" );
+			Preferences.setString( "_questPartyFairProgress", "" );
+			break;
+
 		case 1324:
 			// It Hasn't Ended, It's Just Paused
 			if ( ChoiceManager.lastDecision != 5 )
@@ -10899,6 +10974,134 @@ public abstract class ChoiceManager
 				{
 					Preferences.setInteger( "_neverendingPartyFreeTurns", turnsSpent + 1 );
 				}
+			}
+			break;
+
+		case 1325:
+			// A Room With a View...  Of a Bed
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				// Removes 30% of current partiers
+				int current = Preferences.getInteger( "_questPartyFairProgress" );
+				Preferences.setInteger( "_questPartyFairProgress", current - (int) Math.floor( current * 0.3 ) );
+				ResultProcessor.removeItem( ItemPool.JAM_BAND_BOOTLEG );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				// On dj quest (choice number guessed)
+				Matcher matcher = ChoiceManager.SAFE_PATTERN.matcher( text );
+				if( matcher.find() )
+				{
+					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( matcher.group( 1 ) ), 0 );
+					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
+					{
+						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+					}
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				// On woots quest
+				Preferences.increment( "_questPartyFairProgress", 20, 100, false );
+				if ( Preferences.getInteger( "_questPartyFairProgress" ) == 100 )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+				}
+				ResultProcessor.removeItem( ItemPool.VERY_SMALL_RED_DRESS );
+			}
+			break;
+
+		case 1326:
+			// Gone Kitchin'
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				Matcher matcher = ChoiceManager.GERALDINE_PATTERN.matcher( text );
+				if( matcher.find() )
+				{
+					int itemCount = StringUtilities.parseInt( matcher.group( 1 ) );
+					int itemId = ItemDatabase.getItemIdFromDescription( matcher.group( 2 ) );
+					Preferences.setString( "_questPartyFairProgress", itemCount + " " + itemId );
+				}
+				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step1" );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				String pref = Preferences.getString( "_questPartyFairProgress" );
+				String itemIdString = null;
+				int position = pref.indexOf( " " );
+				if ( position > 0 )
+				{
+					itemIdString = pref.substring( position );
+					if ( itemIdString != null )
+					{
+						ResultProcessor.processItem( StringUtilities.parseInt( itemIdString ), -10 );
+					}
+				}
+				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
+				Preferences.setString( "_questPartyFairQuest", "" );
+				Preferences.setString( "_questPartyFairProgress", "" );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				Matcher matcher = ChoiceManager.TRASH_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( matcher.group( 1 ) ), 0 );
+				}
+			}
+			break;
+
+		case 1327:
+			// Forward to the Back
+			if ( ChoiceManager.lastDecision == 3 )
+			{
+				Matcher matcher = ChoiceManager.GERALD_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					int itemCount = StringUtilities.parseInt( matcher.group( 1 ) );
+					int itemId = ItemDatabase.getItemIdFromDescription( matcher.group( 2 ) );
+					Preferences.setString( "_questPartyFairProgress", itemCount + " " + itemId );
+				}
+				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step1" );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				String pref = Preferences.getString( "_questPartyFairProgress" );
+				String itemIdString = null;
+				int position = pref.indexOf( " " );
+				if ( position > 0 )
+				{
+					itemIdString = pref.substring( position );
+					if ( itemIdString != null )
+					{
+						int itemCount = Preferences.getBoolean( "_partyHard" ) ? 20 : 10;
+						ResultProcessor.processItem( StringUtilities.parseInt( itemIdString ), -itemCount );
+					}
+				}
+				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
+				Preferences.setString( "_questPartyFairQuest", "" );
+				Preferences.setString( "_questPartyFairProgress", "" );
+			}
+			else if ( ChoiceManager.lastDecision == 5 )
+			{
+				// Removes 20% of current partiers
+				int current = Preferences.getInteger( "_questPartyFairProgress" );
+				Preferences.setInteger( "_questPartyFairProgress", current - (int) Math.floor( current * 0.2 ) );
+				ResultProcessor.removeItem( ItemPool.PURPLE_BEAST_ENERGY_DRINK );
+			}
+			break;
+
+		case 1328:
+			// Basement Urges
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				// On woots quest
+				Preferences.increment( "_questPartyFairProgress", 20, 100, false );
+				if ( Preferences.getInteger( "_questPartyFairProgress" ) == 100 )
+				{
+					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+				}
+				ResultProcessor.removeItem( ItemPool.ELECTRONICS_KIT );
 			}
 			break;
 
@@ -13880,6 +14083,34 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1322:
+			// The Beginning of the Neverend
+			if ( text.contains( "talk to him and help him get more booze" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "booze" );
+			}
+			else if ( text.contains( "Think you can help me clean the place up?" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "trash" );
+			}
+			else if ( text.contains( "helping her with whatever problem she's having with the snacks" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "food" );
+			}
+			else if ( text.contains( "megawoots right now" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "woots" );
+			}
+			else if ( text.contains( "taking up a collection from the guests" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "dj" );
+			}
+			else if ( text.contains( "all of the people to leave" ) )
+			{
+				Preferences.setString( "_questPartyFairQuest", "partiers" );
+			}
+			break;
+
 		}
 	}
 
@@ -16705,6 +16936,7 @@ public abstract class ChoiceManager
 		case 1277: // Extra, Extra
 		case 1278: // Madame Zatara’s Relationship Fortune Teller
 		case 1320: // A Heist!
+		case 1322: // The Beginning of the Neverend
 			return true;
 
 		default:
