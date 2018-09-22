@@ -346,7 +346,7 @@ public class BanishManager
 		}
 		// Banishes fail in some areas, monsters in them cannot be banished
 		MonsterData monster = MonsterDatabase.findMonster( monsterName );
-		if ( monster.isNoBanish() )
+		if ( monster != null && monster.isNoBanish() )
 		{
 			KoLmafia.updateDisplay( "Banish of " + monsterName + " by " + banishName + " failed, as monsters from this area cannot be banished." );
 			return;
