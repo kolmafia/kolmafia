@@ -1806,7 +1806,7 @@ public class Modifiers
 			extra = Math.abs( rate ) - 25.0;
 			if ( extra > 0.0 )
 			{
-				rate = ( 25.0 + Math.ceil( extra / 5.0 ) ) * ( rate < 0.0 ? -1.0 : 1.0 );
+				rate = ( 25.0 + Math.floor( extra / 5.0 ) ) * ( rate < 0.0 ? -1.0 : 1.0 );
 			}
 			this.doubles[ index ] = rate;
 			break;
