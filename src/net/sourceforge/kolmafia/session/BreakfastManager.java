@@ -107,6 +107,9 @@ public class BreakfastManager
 		ItemPool.get( ItemPool.TOASTER, 1 ),
 		ItemPool.get( ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA, 11 ),
 		ItemPool.get( ItemPool.CSA_FIRE_STARTING_KIT, 1 ),
+		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ),
+		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ), // You can pump them more than once
+		ItemPool.get( ItemPool.PUMP_UP_HIGH_TOPS, 1 ), // Three times in fact
 	};
 
 	private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get( ItemPool.VIP_LOUNGE_KEY, 1 );

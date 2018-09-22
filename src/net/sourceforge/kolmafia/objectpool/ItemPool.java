@@ -3052,6 +3052,7 @@ public class ItemPool
 	public static final int ELECTRONICS_KIT = 9952;
 	public static final int PAINT_PALETTE = 9956;
 	public static final int PURPLE_BEAST_ENERGY_DRINK = 9958;
+	public static final int PUMP_UP_HIGH_TOPS = 9961;
 	public static final int VERY_SMALL_RED_DRESS = 9963;
 	public static final int EVERFULL_GLASS = 9966;
 	public static final int JAM_BAND_BOOTLEG = 9968;

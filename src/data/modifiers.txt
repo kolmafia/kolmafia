@@ -3060,7 +3060,7 @@ Item	psychic's amulet	Spell Damage: +10, Spooky Resistance: +1, Stench Resistanc
 Item	pulled porquoise earring	Moxie: +9, Never Fumble
 Item	pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
 Item	pulled porquoise ring	Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
-Item	pump-up high-tops	Moxie: +15, Initiative: +10, Single Equip
+Item	pump-up high-tops	Moxie: +15, Initiative: [+10+5*pref(_highTopPumps)], Single Equip
 Item	purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
