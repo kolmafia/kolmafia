@@ -6575,6 +6575,7 @@ Effect	Sweet Taste	Candy Drop: +10
 Effect	Sweet Tooth	Candy Drop: +40
 Effect	Sweet, Nuts	Mysticality: +5
 Effect	Sweetbreads Flamb&eacute;	Monster Level: +25, Experience: +10
+Effect	Sweetened and Fattened	Maximum MP: +10, Damage Absorption: +30
 # Swimming Head: +25% Item Drops from Monsters (Underwater only)
 Effect	Swimming Head	Item Drop: [25*env(underwater)]
 # Swimming with Sharks: Makes you a better diver
