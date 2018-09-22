@@ -226,7 +226,7 @@ public class PlaceRequest
 			{
 				Preferences.setBoolean( "snojoAvailable", true );
 			}
-			if ( responseText.contains( "gingerbreadcity" ) )
+			if ( responseText.contains( "gingerbreadcity" ) && !Preferences.getBoolean( "gingerbreadCityAvailable" ) )
 			{
 				Preferences.setBoolean( "_gingerbreadCityToday", true );
 			}

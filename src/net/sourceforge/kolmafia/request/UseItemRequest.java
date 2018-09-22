@@ -3372,6 +3372,7 @@ public class UseItemRequest
 		case ItemPool.LOVE_SONG_BOOK:
 		case ItemPool.CONTRACTOR_MANUAL:
 		case ItemPool.PARTY_PLANNING_BOOK:
+		case ItemPool.DRINKING_TO_DRINK_BOOK:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you

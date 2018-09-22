@@ -117,3 +117,6 @@ questPAGhost	Don't be Afraid of Any Ghost	Investigate the paranormal activity re
 
 # Eudora quests
 questEUNewYou	New-You VIP Club	Sharpening the saw!	(no completion message)
+
+# Neverending Party quest
+_questPartyFair	Party Fair	(various messages)	(various messages)	(various messages)	(various messages)
