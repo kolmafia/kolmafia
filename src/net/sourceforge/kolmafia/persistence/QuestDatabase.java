@@ -184,9 +184,9 @@ public class QuestDatabase
 	public static final Pattern PARTY_FAIR_PARTIERS_PATTERN = Pattern.compile( "Partiers remaining: (\\d+)" );
 	public static final Pattern PARTY_FAIR_MEAT_PATTERN = Pattern.compile( "Remaining bill: (.*?) Meat" );
 	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_1 = Pattern.compile( "Get (\\d+) (.*?) for Gerald" );
-	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_2 = Pattern.compile( "\\(You have (\\d+)\\)" );
+	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_2 = Pattern.compile( "Take the (\\d+) (.*?) to the backyard" );
 	public static final Pattern PARTY_FAIR_FOOD_PATTERN_1 = Pattern.compile( "Get (\\d+) (.*?) for Geraldine" );
-	public static final Pattern PARTY_FAIR_FOOD_PATTERN_2 = Pattern.compile( "\\(You have (\\d+)\\)" );
+	public static final Pattern PARTY_FAIR_FOOD_PATTERN_2 = Pattern.compile( "Take the (\\d+) (.*?) to Geraldine" );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -833,31 +833,35 @@ public class QuestDatabase
 		if ( details.contains( "Gerald at the" ) )
 		{
 			Preferences.setString( "_questPartyFairQuest", "booze" );
-			/* Make code recogise plurals
 			int numberToGet = 0;
-			String itemToGet = "";
+			int itemToGet = 0;
 			Matcher matcher = QuestDatabase.PARTY_FAIR_BOOZE_PATTERN_1.matcher( details );
 			if ( matcher.find() )
 			{
 				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
-				itemToGet = matcher.group( 2 );
-				AdventureResult item = ItemFinder.getFirstMatchingItem( itemToGet );
-				if ( item != null )
-				{
-					itemToGet = String.valueOf( item.getItemId() );
-				}
+				itemToGet = ItemDatabase.getItemId( matcher.group( 2 ), numberToGet, true );
 			}
-			matcher = QuestDatabase.PARTY_FAIR_BOOZE_PATTERN_2.matcher( details );
-			if ( matcher.find() )
+			if ( itemToGet > 0 )
 			{
-				numberToGet -= StringUtilities.parseInt( matcher.group( 1 ) );
+				Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );
 			}
-			Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet ); */
 			return "step1";
 		}
 		if ( details.contains( "to the backyard of the" ) )
 		{
 			Preferences.setString( "_questPartyFairQuest", "booze" );
+			int numberToGet = 0;
+			int itemToGet = 0;
+			Matcher matcher = QuestDatabase.PARTY_FAIR_BOOZE_PATTERN_2.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
+				itemToGet = ItemDatabase.getItemId( matcher.group( 2 ), numberToGet, true );
+			}
+			if ( itemToGet > 0 )
+			{
+				Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );
+			}
 			return "step2";
 		}
 		if ( details.contains( "Hype level" ) )
@@ -889,31 +893,35 @@ public class QuestDatabase
 		if ( details.contains( "for Geraldine at the" ) )
 		{
 			Preferences.setString( "_questPartyFairQuest", "food" );
-			/* Make code recogise plurals
 			int numberToGet = 0;
-			String itemToGet = "";
+			int itemToGet = 0;
 			Matcher matcher = QuestDatabase.PARTY_FAIR_FOOD_PATTERN_1.matcher( details );
 			if ( matcher.find() )
 			{
 				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
-				itemToGet = matcher.group( 2 );
-				AdventureResult item = ItemFinder.getFirstMatchingItem( itemToGet );
-				if ( item != null )
-				{
-					itemToGet = String.valueOf( item.getItemId() );
-				}
+				itemToGet = ItemDatabase.getItemId( matcher.group( 2 ), numberToGet, true );
 			}
-			matcher = QuestDatabase.PARTY_FAIR_FOOD_PATTERN_2.matcher( details );
-			if ( matcher.find() )
+			if ( itemToGet > 0 )
 			{
-				numberToGet -= StringUtilities.parseInt( matcher.group( 1 ) );
+				Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );
 			}
-			Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );*/
 			return "step1";
 		}
 		if ( details.contains( "to Geraldine in the kitchen" ) )
 		{
 			Preferences.setString( "_questPartyFairQuest", "food" );
+			int numberToGet = 0;
+			int itemToGet = 0;
+			Matcher matcher = QuestDatabase.PARTY_FAIR_FOOD_PATTERN_2.matcher( details );
+			if ( matcher.find() )
+			{
+				numberToGet = StringUtilities.parseInt( matcher.group( 1 ) );
+				itemToGet = ItemDatabase.getItemId( matcher.group( 2 ), numberToGet, true );
+			}
+			if ( itemToGet > 0 )
+			{
+				Preferences.setString( "_questPartyFairProgress", numberToGet + " " + itemToGet );
+			}
 			return "step2";
 		}
 		if ( details.contains( "Meat for the DJ" ) )

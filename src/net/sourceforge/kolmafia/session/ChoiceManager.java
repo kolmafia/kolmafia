@@ -10909,12 +10909,12 @@ public abstract class ChoiceManager
 				String quest = Preferences.getString( "_questPartyFairQuest" );
 				if ( quest.equals( "booze" ) || quest.equals( "food" ) )
 				{
-					Preferences.setString( "_questPartyFair", "started" );
+					QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, QuestDatabase.STARTED );
 					Preferences.setString( "_questPartyFairProgress", "" );
 				}
 				else
 				{
-					Preferences.setString( "_questPartyFair", "step1" );
+					QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step1" );
 					if ( quest.equals( "woots" ) )
 					{
 						Preferences.setInteger( "_questPartyFairProgress", 10 );
@@ -10960,7 +10960,7 @@ public abstract class ChoiceManager
 
 		case 1323:
 			// All Done!
-			QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
+			QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
 			Preferences.setString( "_questPartyFairQuest", "" );
 			Preferences.setString( "_questPartyFairProgress", "" );
 			break;
@@ -10995,7 +10995,7 @@ public abstract class ChoiceManager
 					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( matcher.group( 1 ) ), 0 );
 					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
 					{
-						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+						QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
 					}
 				}
 			}
@@ -11005,7 +11005,7 @@ public abstract class ChoiceManager
 				Preferences.increment( "_questPartyFairProgress", 20, 100, false );
 				if ( Preferences.getInteger( "_questPartyFairProgress" ) == 100 )
 				{
-					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+					QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
 				}
 				ResultProcessor.removeItem( ItemPool.VERY_SMALL_RED_DRESS );
 			}
@@ -11021,6 +11021,10 @@ public abstract class ChoiceManager
 					int itemCount = StringUtilities.parseInt( matcher.group( 1 ) );
 					int itemId = ItemDatabase.getItemIdFromDescription( matcher.group( 2 ) );
 					Preferences.setString( "_questPartyFairProgress", itemCount + " " + itemId );
+					if ( InventoryManager.getCount( itemId ) >= itemCount )
+					{
+						QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
+					}
 				}
 				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step1" );
 			}
@@ -11061,6 +11065,10 @@ public abstract class ChoiceManager
 					int itemCount = StringUtilities.parseInt( matcher.group( 1 ) );
 					int itemId = ItemDatabase.getItemIdFromDescription( matcher.group( 2 ) );
 					Preferences.setString( "_questPartyFairProgress", itemCount + " " + itemId );
+					if ( InventoryManager.getCount( itemId ) >= itemCount )
+					{
+						QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
+					}
 				}
 				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step1" );
 			}
@@ -11078,7 +11086,7 @@ public abstract class ChoiceManager
 						ResultProcessor.processItem( StringUtilities.parseInt( itemIdString ), -itemCount );
 					}
 				}
-				QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
+				QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, QuestDatabase.FINISHED );
 				Preferences.setString( "_questPartyFairQuest", "" );
 				Preferences.setString( "_questPartyFairProgress", "" );
 			}
@@ -11099,7 +11107,7 @@ public abstract class ChoiceManager
 				Preferences.increment( "_questPartyFairProgress", 20, 100, false );
 				if ( Preferences.getInteger( "_questPartyFairProgress" ) == 100 )
 				{
-					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
+					QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
 				}
 				ResultProcessor.removeItem( ItemPool.ELECTRONICS_KIT );
 			}

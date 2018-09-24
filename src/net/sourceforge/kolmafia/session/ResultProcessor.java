@@ -1466,6 +1466,35 @@ public class ResultProcessor
 			NamedListenerRegistry.fireChange( "(candy)" );
 		}
 
+		// This might be a target of the Party Fair quest.
+		if ( QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step1" ) || QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step2" ) )
+		{
+			String quest = Preferences.getString( "_questPartyFairQuest" );
+			if ( quest.equals( "booze" ) || quest.equals( "food" ) )
+			{
+				String target = Preferences.getString( "_questPartyFairProgress" );
+				String itemCountString = null;
+				String itemIdString = null;
+				int position = target.indexOf( " " );
+				if ( position > 0 )
+				{
+					itemCountString = target.substring( 0, position );
+					itemIdString = target.substring( position );
+					if ( StringUtilities.parseInt( itemIdString ) == itemId )
+					{
+						if ( InventoryManager.getCount( itemId ) >= StringUtilities.parseInt( itemCountString ) )
+						{
+							QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step2" );
+						}
+						else
+						{
+							QuestDatabase.setQuestProgress( Quest.PARTY_FAIR, "step1" );
+						}
+					}
+				}
+			}
+		}
+
 		// From here on out, only positive results are handled.
 		if ( count < 0 )
 		{
