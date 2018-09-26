@@ -10776,7 +10776,7 @@ Mask	magical cartoon princess mask	Mysticality: +50, Experience (Mysticality): +
 Mask	catcher's mask	Damage Reduction: +25, Damage Absorption: +100, Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 Mask	&quot;sexy&quot; mask	Moxie: +50, Experience (Moxie): +5
 Mask	werewolf mask	Weapon Damage Percent: +100, Muscle: +30, Mysticality: +30, Moxie: +30
-Mask	Bonerdagon mask	Muscle Percent: +100, Mysticality Percent: +100
+Mask	Bonerdagon mask	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Mask	Naughty Sorceress mask	Spell Damage: +300
 Mask	Groar mask	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
 Mask	Ed the Undying mask	HP Regen Min: 40, HP Regen Max: 50
