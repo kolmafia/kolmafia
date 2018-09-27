@@ -16725,6 +16725,18 @@ public abstract class ChoiceManager
 			// follow a fight or the previous choice.
 			RequestLogger.registerLastLocation();
 			break;
+			
+		case 1310: // Granted a Boon
+		{
+			// Boon after fight, location is currently null, so don't log under that name
+			String message = "[" + KoLAdventure.getAdventureCount() + "] God Lobster";
+			RequestLogger.printLine();
+			RequestLogger.printLine( message );
+
+			RequestLogger.updateSessionLog();
+			RequestLogger.updateSessionLog( message );
+		}
+
 		}
 	}
 

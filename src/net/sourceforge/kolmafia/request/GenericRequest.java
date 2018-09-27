@@ -2862,6 +2862,15 @@ public class GenericRequest
 			return;
 		}
 
+		if ( urlString.startsWith( "main.php" ) )
+		{
+			if ( urlString.contains( "fightgodlobster=1" ) && this.responseText.contains( "can't challenge your God Lobster anymore" ) )
+			{
+				Preferences.setInteger( "_godLobsterFights", 3 );
+			}
+			return;
+		}
+
 		ResultProcessor.processResults( false, this.responseText );
 	}
 
