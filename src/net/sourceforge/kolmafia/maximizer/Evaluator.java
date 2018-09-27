@@ -1271,7 +1271,8 @@ public class Evaluator
 						}
 					}
 					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
-						Preferences.getInteger( "garbageChampagneCharge" ) > 0 )
+						( Preferences.getInteger( "garbageChampagneCharge" ) > 0 ||
+						!Preferences.getBoolean( "_garbageItemChanged" ) ) )
 					{
 						// This is always going to be worth including if useful
 						item.requiredFlag = true;
