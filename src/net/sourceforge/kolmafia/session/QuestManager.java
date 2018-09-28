@@ -2200,11 +2200,17 @@ public class QuestManager
 				{
 					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 				}
+				String message = "After Battle: There are " + Preferences.getInteger( "_questPartyFairProgress" ) + " partiers remaining.";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "woots" ) )
 			{
 				// Do not know exactly how many woots are added each time, so find out from quest log
 				( new GenericRequest( "questlog.php?which=1" ) ).run();
+				String message = "After Battle: The Party is at " + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 woots.";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "dj" ) )
 			{
@@ -2218,6 +2224,9 @@ public class QuestManager
 						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 					}
 					ResultProcessor.processMeat( -meat );
+					String message = "After Battle: You collect " + meat + " Meat for the DJ.";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
 				}
 			}
 			else if ( Preferences.getString( "_questPartyFairQuest" ).equals( "trash" ) )
@@ -2225,11 +2234,15 @@ public class QuestManager
 				Matcher trashMatcher = TRASH_PATTERN.matcher( responseText );
 				if ( trashMatcher.find() )
 				{
-					Preferences.decrement( "_questPartyFairProgress", StringUtilities.parseInt( trashMatcher.group( 1 ) ), 0 );
+					int trash = StringUtilities.parseInt( trashMatcher.group( 1 ) );
+					Preferences.decrement( "_questPartyFairProgress", trash, 0 );
 					if ( Preferences.getInteger( "_questPartyFairProgress" ) < 1 )
 					{
 						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 					}
+					String message = "After Battle: You clean up " + trash + " for the DJ.";
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
 				}
 			}
 		}
