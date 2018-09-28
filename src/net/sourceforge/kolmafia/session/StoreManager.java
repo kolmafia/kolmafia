@@ -936,6 +936,7 @@ public abstract class StoreManager
 		}
 		finally
 		{
+			RequestLogger.printLine( "Updating mallprices.txt with " + count + " prices." );
 			MallPriceDatabase.writePrices();
 		}
 
