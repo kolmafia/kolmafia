@@ -189,6 +189,12 @@ public class MallPriceDatabase
 
 	public static void recordPrice( int itemId, int price )
 	{
+		MallPriceDatabase.recordPrice( itemId, price, false );
+
+	}
+
+	public static void recordPrice( int itemId, int price, boolean deferred )
+	{
 		long timestamp = System.currentTimeMillis() / 1000L;
 		Price p = MallPriceDatabase.prices.get( itemId );
 		if ( p == null )
@@ -201,10 +207,13 @@ public class MallPriceDatabase
 			p.timestamp = timestamp;
 		}
 		++MallPriceDatabase.modCount;
-		MallPriceDatabase.writePrices();
+		if ( !deferred )
+		{
+			MallPriceDatabase.writePrices();
+		}
 	}
 
-	private static void writePrices()
+	public static void writePrices()
 	{
 		File output = new File( KoLConstants.DATA_LOCATION, "mallprices.txt" );
 		PrintStream writer = LogStream.openStream( output, true );
