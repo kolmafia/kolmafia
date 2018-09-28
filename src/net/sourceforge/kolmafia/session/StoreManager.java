@@ -806,6 +806,11 @@ public abstract class StoreManager
 
 	public static final int updateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results )
 	{
+		return StoreManager.updateMallPrice( item, results, false );
+	}
+
+	public static final int updateMallPrice( final AdventureResult item, final ArrayList<PurchaseRequest> results, final boolean deferred )
+	{
 		if ( item.getItemId() < 1 )
 		{
 			return 0;
@@ -828,7 +833,7 @@ public abstract class StoreManager
 		StoreManager.mallPrices.set( item.getItemId(), price );
 		if ( price > 0 )
 		{
-			MallPriceDatabase.recordPrice( item.getItemId(), price );
+			MallPriceDatabase.recordPrice( item.getItemId(), price, deferred );
 		}
 
 		return price;
@@ -885,46 +890,53 @@ public abstract class StoreManager
 		// Count how many items we retrieved
 		int count = 0;
 
-		// Iterate over results and handle by item
-		int itemId = -1;
-		ArrayList<PurchaseRequest> itemResults = null;
-
-		for ( PurchaseRequest pr : results )
+		try
 		{
-			if ( pr instanceof CoinMasterPurchaseRequest )
-			{
-				continue;
-			}
+			// Iterate over results and handle by item
+			int itemId = -1;
+			ArrayList<PurchaseRequest> itemResults = null;
 
-			int newItemId = pr.getItemId();
-			if ( itemId != newItemId )
+			for ( PurchaseRequest pr : results )
 			{
-				// Handle previous item, if any
-				if ( itemResults != null )
+				if ( pr instanceof CoinMasterPurchaseRequest )
 				{
-					StoreManager.flushCache( itemId );
-					Collections.sort( itemResults );
-					StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults );
-					StoreManager.mallSearches.put( itemId, itemResults );
-					++count;
+					continue;
 				}
 
-				// Setup for new item
-				itemId = newItemId;
-				itemResults = new ArrayList<PurchaseRequest>();
+				int newItemId = pr.getItemId();
+				if ( itemId != newItemId )
+				{
+					// Handle previous item, if any
+					if ( itemResults != null )
+					{
+						StoreManager.flushCache( itemId );
+						Collections.sort( itemResults );
+						StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults, true );
+						StoreManager.mallSearches.put( itemId, itemResults );
+						++count;
+					}
+
+					// Setup for new item
+					itemId = newItemId;
+					itemResults = new ArrayList<PurchaseRequest>();
+				}
+
+				itemResults.add( pr );
 			}
 
-			itemResults.add( pr );
+			// Handle final item
+			if ( itemResults != null )
+			{
+				StoreManager.flushCache( itemId );
+				Collections.sort( itemResults );
+				StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults, true );
+				StoreManager.mallSearches.put( itemId, itemResults );
+				++count;
+			}
 		}
-
-		// Handle final item
-		if ( itemResults != null )
+		finally
 		{
-			StoreManager.flushCache( itemId );
-			Collections.sort( itemResults );
-			StoreManager.updateMallPrice( ItemPool.get( itemId ), itemResults );
-			StoreManager.mallSearches.put( itemId, itemResults );
-			++count;
+			MallPriceDatabase.writePrices();
 		}
 
 		return count;
