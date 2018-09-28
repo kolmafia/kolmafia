@@ -1072,30 +1072,35 @@ public class EatItemRequest
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYONEX ) );
 				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayonex (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYONEX, -itemsUsed );
+				Preferences.increment( "mayoLevel", itemsUsed );
 			}
 			else if ( responseText.contains( "Mayodiol kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYODIOL ) );
 				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayodiol (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYODIOL, -itemsUsed );
+				Preferences.increment( "mayoLevel", itemsUsed );
 			}
 			else if ( responseText.contains( "Mayostat kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOSTAT ) );
 				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayostat (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOSTAT, -itemsUsed );
+				Preferences.increment( "mayoLevel", itemsUsed );
 			}
 			else if ( responseText.contains( "Mayozapine kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOZAPINE ) );
 				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayozapine (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOZAPINE, -itemsUsed );
+				Preferences.increment( "mayoLevel", itemsUsed );
 			}
 			else if ( responseText.contains( "Mayoflex kicks in" ) )
 			{
 				int itemsUsed = Math.min( count, InventoryManager.getCount( ItemPool.MAYOFLEX ) );
 				RequestLogger.printLine( "Mayo Minder&trade; reminded you to use Mayoflex (" + itemsUsed + " times)" );
 				ResultProcessor.processItem( ItemPool.MAYOFLEX, -itemsUsed );
+				Preferences.increment( "mayoLevel", itemsUsed );
 			}
 		}
 		
