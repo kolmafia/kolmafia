@@ -1902,12 +1902,16 @@ public class RequestEditorKit
 			return;
 		}
 
-		m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
-		if ( m.find() )
+		// No special text, just append to You win the fight if on clear the party quest
+		if ( Preferences.getString( "_questPartyFairQuest" ).equals( "partiers" ) )
 		{
-			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)";
-			buffer.insert( m.end(), progress );
-			return;
+			m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
+			if ( m.find() )
+			{
+				String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)";
+				buffer.insert( m.end(), progress );
+				return;
+			}
 		}
 	}
 
