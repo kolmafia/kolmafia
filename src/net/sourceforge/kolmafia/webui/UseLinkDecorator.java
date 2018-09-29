@@ -593,6 +593,28 @@ public abstract class UseLinkDecorator
 
 	private static final UseLink generateUseLink( int itemId, int itemCount, String location, String text )
 	{
+		// This might be a target of the Party Fair quest - if so we overwrite normal use link to prevent accidents and show progress
+		if ( QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step1" ) || QuestDatabase.isQuestStep( Quest.PARTY_FAIR, "step2" ) )
+		{
+			String quest = Preferences.getString( "_questPartyFairQuest" );
+			if ( quest.equals( "booze" ) || quest.equals( "food" ) )
+			{
+				String target = Preferences.getString( "_questPartyFairProgress" );
+				String itemCountString = null;
+				String itemIdString = null;
+				int position = target.indexOf( " " );
+				if ( position > 0 )
+				{
+					itemCountString = target.substring( 0, position );
+					itemIdString = target.substring( position );
+					if ( StringUtilities.parseInt( itemIdString ) == itemId )
+					{
+						return new UseLink( itemId, InventoryManager.getCount( itemId ), "adventure.php?snarfblat=528" );
+					}
+				}
+			}
+		}
+
 		int consumeMethod = ItemDatabase.getConsumptionType( itemId );
 		CraftingType mixingMethod = shouldAddCreateLink( itemId, location );
 

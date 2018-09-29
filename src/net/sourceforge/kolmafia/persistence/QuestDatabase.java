@@ -938,7 +938,6 @@ public class QuestDatabase
 		if ( details.contains( "Return to the" ) )
 		{
 			Preferences.setString( "_questPartyFair", "step2" );
-			Preferences.setString( "_questPartyFairProgress", "" );
 			return "step2";
 		}
 		return "";

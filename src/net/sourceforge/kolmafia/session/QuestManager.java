@@ -2200,7 +2200,7 @@ public class QuestManager
 				{
 					QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 				}
-				String message = "After Battle: There are " + Preferences.getInteger( "_questPartyFairProgress" ) + " partiers remaining.";
+				String message = "There are " + Preferences.getInteger( "_questPartyFairProgress" ) + " partiers remaining.";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
@@ -2208,7 +2208,7 @@ public class QuestManager
 			{
 				// Do not know exactly how many woots are added each time, so find out from quest log
 				( new GenericRequest( "questlog.php?which=1" ) ).run();
-				String message = "After Battle: The Party is at " + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 woots.";
+				String message = "The Party is at " + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 woots.";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
@@ -2224,7 +2224,7 @@ public class QuestManager
 						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 					}
 					ResultProcessor.processMeat( -meat );
-					String message = "After Battle: You collect " + meat + " Meat for the DJ.";
+					String message = "You collect " + meat + " Meat for the DJ.";
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 				}
@@ -2240,7 +2240,7 @@ public class QuestManager
 					{
 						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 					}
-					String message = "After Battle: You clean up " + trash + " for the DJ.";
+					String message = "You clean up " + trash + " for the DJ.";
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 				}
