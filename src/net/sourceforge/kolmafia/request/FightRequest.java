@@ -483,7 +483,8 @@ public class FightRequest
 		RAIN( "Heavy Rains" ),
 		TACO_ELF( "taco elf" ),
 		WITCHESS( "witchess" ),
-		WOL( "West of Loathing" );
+		WOL( "West of Loathing" ),
+		PORTSCAN( "portscan.edu" );
 
 		private final String name;
 
@@ -652,6 +653,9 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "menacing rodeo clown", SpecialMonster.WOL );
 		FightRequest.specialMonsters.put( "prince snake", SpecialMonster.WOL );
 		FightRequest.specialMonsters.put( "ungulith", SpecialMonster.WOL );
+
+		FightRequest.specialMonsters.put( "Source Agent", SpecialMonster.PORTSCAN );
+		FightRequest.specialMonsters.put( "Government agent", SpecialMonster.PORTSCAN );
 	};
 
 	private static final SimpleDateFormat COMBAT_START = new SimpleDateFormat( "yyyyMMddHHmmss" );
@@ -2694,6 +2698,17 @@ public class FightRequest
 						TurnCounter.stopCounting( "WoL Monster window end" );
 						TurnCounter.startCounting( 15, "WoL Monster window begin loc=*", "lparen.gif" );
 						TurnCounter.startCounting( 20, "WoL Monster window end loc=* type=wander", "rparen.gif" );
+					}
+					break;
+
+				case PORTSCAN:
+					if ( !EncounterManager.ignoreSpecialMonsters )
+					{
+						// Add special text for The Source when known
+						if ( responseText.contains( "government man runs up to you" ) || KoLCharacter.inTheSource() )
+						{
+							TurnCounter.stopCounting( "portscan.edu" );
+						}
 					}
 					break;
 				}
@@ -9110,6 +9125,7 @@ public class FightRequest
 			if ( responseText.contains( "scan nearby ports" ) || skillSuccess )
 			{
 				Preferences.increment( "_sourceTerminalPortscanUses" );
+				TurnCounter.startCounting( 0, "portscan.edu loc=* type=wander", "gyroscope.gif" );
 			}
 			break;
 
