@@ -482,6 +482,7 @@ public class RequestEditorKit
 			RequestEditorKit.addTaleOfDread( buffer );
 			RequestEditorKit.addDesertProgress( buffer );
 			RequestEditorKit.addBlackForestProgress( buffer );
+			RequestEditorKit.addPartyFairProgress( buffer );
 
 			// Do any monster-specific decoration
 			FightDecorator.decorateMonster( buffer );
@@ -1864,6 +1865,52 @@ public class RequestEditorKit
 		buffer.insert( m.end(), progress );
 	}
 
+	private static final Pattern WOOTS_PATTERN = Pattern.compile( "(entire room erupts into cheers\\.|It works\\.  Sort of\\.)" );
+	private static final Pattern TRASH_PATTERN = Pattern.compile( "(greasy paper plates|wadded up napkins|discarded bottle caps|empty beer cans|dirty plastic cups)" );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "Meat for the DJ." );
+	private static final Pattern PARTIERS_PATTERN = Pattern.compile( "You win the fight!" );
+	private static final void addPartyFairProgress( final StringBuffer buffer )
+	{
+		String lastAdventure = Preferences.getString( "lastAdventure" );
+		if ( !lastAdventure.equals( "The Neverending Party" ) ||
+		     buffer.indexOf( "WINWINWIN" ) == -1 )
+		{
+			return;
+		}
+
+		Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher( buffer );
+		if ( m.find() )
+		{
+			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + "/100 megawoots)";
+			buffer.insert( m.end(), progress );
+			return;
+		}
+
+		m = RequestEditorKit.TRASH_PATTERN.matcher( buffer );
+		if ( m.find() )
+		{
+			String progress = " (~" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " pieces of trash remaining)";
+			buffer.insert( m.end(), progress );
+			return;
+		}
+
+		m = RequestEditorKit.MEAT_PATTERN.matcher( buffer );
+		if ( m.find() )
+		{
+			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " Meat remaining)";
+			buffer.insert( m.end(), progress );
+			return;
+		}
+
+		m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
+		if ( m.find() )
+		{
+			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " Partiers remaining)";
+			buffer.insert( m.end(), progress );
+			return;
+		}
+	}
+
 	private static final void insertRoundNumbers( final StringBuffer buffer )
 	{
 		Matcher m = FightRequest.ONTURN_PATTERN.matcher( buffer );
@@ -2148,6 +2195,36 @@ public class RequestEditorKit
 		case 1027:	// The End of the Tale of Spelunking
 		case 1042:	// Pick a Perk
 			SpelunkyRequest.decorateSpelunkyExit( buffer );
+			break;
+
+		case 1325:// A Room With a View...  Of a Bed
+			StringUtilities.singleStringReplace(
+				buffer, "hurry through the door to take your place.",
+				"hurry through the door to take your place. (" + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 megawoots)" );
+			StringUtilities.singleStringReplace(
+				buffer, "start complaining and then leave.",
+				"start complaining and then leave. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Partiers remaining)" );
+			StringUtilities.singleStringReplace(
+				buffer, "contribute to the DJ's bill.",
+				"contribute to the DJ's bill. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Meat remaining)" );
+			break;
+
+		case 1326:// Gone Kitchin'
+			StringUtilities.singleStringReplace(
+				buffer, "pieces of trash in that can!]",
+				"pieces of trash in that can!] (~" + Preferences.getInteger( "_questPartyFairProgress" ) + " pieces of trash remaining)" );
+			break;
+
+		case 1327:// Forward to the Back
+			StringUtilities.singleStringReplace(
+				buffer, "flees over the back fence.",
+				"flees over the back fence. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Partiers remaining)" );
+			break;
+
+		case 1328:// Basement Urges
+			StringUtilities.singleStringReplace(
+				buffer, "burns the house down.",
+				"burns the house down. (" + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 megawoots)" );
 			break;
 		}
 	}
