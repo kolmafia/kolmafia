@@ -1596,6 +1596,11 @@ public class MonsterData
 			buffer.append( "<br />This monster is a ghost. " );
 		}
 
+		if ( this.attributes.contains( "SNAKE" ) )
+		{
+			buffer.append( "<br />This monster is a snake. " );
+		}
+
 		int minMeat = this.getMinMeat();
 		int maxMeat = this.getMaxMeat();
 		if ( maxMeat > 0 )

@@ -61,7 +61,7 @@ Baron von Ratsworth	286	ratsworth.gif	BOSS HP: [HP*1.25] Def: [MUS+min(13,3+A)] 
 baseball bat	43	ballbat.gif	Atk: 15 Def: 13 HP: 9 Init: 60 Meat: 20 P: beast	baseball (30)	sonar-in-a-biscuit (10)
 BASIC Elemental	87	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60 P: elemental	GOTO (30)
 batrat	150	batrat.gif	Atk: 23 Def: 20 HP: 20 Init: 60 Meat: 22 P: beast	bat wing (15)	bat guano (15)	batgut (15)	sonar-in-a-biscuit (15)
-Batsnake	1517	snakeboss5.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: stench	The Stankara Stone (0)
+Batsnake	1517	snakeboss5.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: stench	The Stankara Stone (0)
 Battlie Knight Ghost	1257	aboo_wars.gif	Atk: 76 Def: 64 HP: 40 Init: -10000 Phys: 100 E: spooky P: undead GHOST	A-Boo clue (c15)	Battlie Light Saver (15)	Whoompa Fur Pants (5)	ectoplasmic orbs (0)
 batwinged gremlin	548	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)	molybdenum hammer (c0)
 batwinged gremlin (tool)	549	gremlinbat.gif	Atk: 169 Def: 153 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "batwinged gremlin" Wiki: "batwinged gremlin (quest)"	gremlin juice (3)	molybdenum hammer (c0)
@@ -78,7 +78,7 @@ Big Wheelin' Twins	1241	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 Init: 60 P: d
 bizarre construct	665	vib2.gif	HP: 300 Def: 270 Atk: 300 Init: 30 P: construct	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 bizarre construct (translated)	671	vib2.gif	HP: 300 Def: 270 Atk: 300 Init: 30 P: construct Manuel: "bizarre construct" Wiki: "bizarre construct"	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 BL Imp	980	blimp.gif	Atk: 65 Def: 58 HP: 65 E: hot Init: 30 Meat: 40 P: demon	imp air (20)
-black adder	414	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 Meat: 100 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
+black adder	414	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 SNAKE Meat: 100 "Really Quite Poisoned" P: beast	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
 black friar	1577	blackfriar.gif	Atk: 130 Def: 111 HP: 122 Init: 75 P: dude	black label (0)	Mornington crescent roll (0)	black cloak (0)	black friar's tonsure (c0)
 black magic woman	1576	witchywoman.gif	Atk: 131 Def: 113 HP: 125 Init: 50 P: dude	black eye shadow (0)	little black book (0)	black magic powder (c0)
 black panther	416	panther.gif	Atk: 133 Def: 112 HP: 128 Init: 50 Meat: 150 P: beast	Black No. 2 (20)	broken wings (c50)
@@ -113,7 +113,7 @@ bugged bugbear	258	bugbugbear.gif	HP: 14 Def: 16 Atk: 17 Init: 50 P: beast	gnoll
 Bullet Bill	121	bulletbill.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: construct	black pixel (70)	black pixel (70)	black pixel (70)
 bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 P: beast	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)
 Burly Sidekick	166	sidekick.gif	Atk: 100 Def: 90 HP: 100 Init: 80 Meat: 130 P: dude	armgun (9)	cocoa eggshell fragment (30)	Mohawk wig (10)	tiny house (30)
-Burning Snake of Fire	1518	snakeboss4.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: hot	Murphy's Rancid Black Flag (n100)
+Burning Snake of Fire	1518	snakeboss4.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: hot	Murphy's Rancid Black Flag (n100)
 Burrowing Bishop	351	bishop.gif	Atk: 163 Def: 146 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
 Bush	537	bush.gif	Atk: 156 Def: 140 HP: 150 Init: 70 E: sleaze P: constellation	star (30)	star (30)	star (30)
 business hippy	335	bushippy.gif	Atk: 35 Def: 34 HP: 25 Init: -10000 Meat: 50 E: stench P: hippy	filthy corduroys (10)	filthy knitted dread sack (10)	herbs (20)	reodorant (10)
@@ -274,7 +274,7 @@ freaked-out mushroom guy	1801	mush_freaked.gif	Atk: 25 Def: 25 HP: 20 Init: 75 P
 french guard turtle	783	frenchturtle.gif	Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Manuel: "guard turtle"	guard turtle shell (0)	guard turtle collar (0)
 frog	332	frog.gif	HP: [3] Def: [2] Atk: [3] Init: -10000 Meat: 10 P: beast	squashed frog (100)	frog lip-print (c0)
 frozen duck	556	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 150 E: cold P: beast	frozen feather (10)	duct tape (5)
-Frozen Solid Snake	1514	snakeboss1.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: cold	The First Pizza (n100)
+Frozen Solid Snake	1514	snakeboss1.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: cold	The First Pizza (n100)
 Fruit Golem	89	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherry (15)	orange (15)	lime (15)
 full-length mirror	1553	bigmirror.gif	SEMIRARE Scale: 0 Cap: ? Init: 50 P: construct
 funk sole brother	719	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish	dull fish scale (n15)	slick fish meat (n5)
@@ -619,7 +619,7 @@ security slime	869	securityslime.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: slime
 senile lihc	192	lich.gif	Atk: 56 Def: 51 HP: 50 Init: 50 E: spooky P: undead	lihc eye (20)	lihc face (9)	shimmering tendrils (c5)
 serialbus	982	serialbus.gif	Atk: 60 Def: 54 HP: 60 Init: 50 E: hot Meat: 30 P: demon	bus pass (25)
 Servant of Grodstank	799	grodseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror	fustulent seal grulch (35)	infernal toilet brush (5)
-sewer snake with a sewer snake in it	1752	sewersnake.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: stench P: beast	carton of snake milk (0)	carton of snake milk (0)	sewer snake (0)
+sewer snake with a sewer snake in it	1752	sewersnake.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: stench P: beast SNAKE	carton of snake milk (0)	carton of snake milk (0)	sewer snake (0)
 shadow of Black Bubbles	798	shadowseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: horror	scrap of shadow (35)	shadowy seal eye (5)
 shady pirate	107	pirate1.gif	Atk: 67 Def: 60 HP: 57 Init: 75 Meat: 28 P: pirate	safarrri hat (10)
 shaky clown	285	clown.gif	Atk: 19 Def: 17 HP: 16 Init: 80 E: sleaze Meat: 20 P: horror	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	clown skin (10)	polka-dot bow tie (p5)
@@ -655,7 +655,7 @@ smut orc nailer	1232	smutorc_nailer.gif	Atk: 75 Def: 70 HP: 65 Init: 50 P: orc M
 smut orc pervert	1234	smutorc_pervert.gif	Atk: 85 Def: 85 HP: 75 Init: 50 E: sleaze P: orc	smut orc keepsake box (n100)	smut orc sunglasses (c0)
 smut orc pipelayer	1231	smutorc_layer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc Meat: 35	orcish rubber (0)	freshwater pearl necklace (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
 smut orc screwer	1233	smutorc_screwer.gif	Atk: 80 Def: 75 HP: 70 Init: 50 P: orc Meat: 35	backwoods screwdriver (0)	screwing pooch (0)	long hard screw (0)	messy butt joint (0)	morningwood plank (0)	raging hardwood plank (0)	thick caulk (0)	weirdwood plank (0)
-Snakeleton	1519	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: spooky	The Shield of Brook (n100)
+Snakeleton	1519	snakeboss6.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: spooky	The Shield of Brook (n100)
 Snow Queen	385	snowqueen.gif	Atk: 107 Def: 94 HP: 70 Init: 60 E: cold Phys: 100 P: elemental	crazy little Turkish delight (25)	ga-ga radio (5)	Snow Queen Crown (5)
 Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS Atk: 200 Def: 180 HP: 1000 Init: 100 Phys: 40 P: demon	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS Atk: 27 Def: 24 HP: 30 Init: 60 P: dude Manuel: "Somerset Lopez, Dread Mariachi"	El Sombrero De Lopez (100)
@@ -737,7 +737,7 @@ The Man	555	theman.gif	BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: du
 The Mariachi With No Name	706	darkmariachi.gif	WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
 The Master of Thieves	-92	masterat.gif	ULTRARARE NOMANUEL Atk: 70 Def: 63 HP: 70 Init: 10000 P: dude	Platinum Yendorian Express Card (100)
 The Nuge	1534	thenuge.gif	ULTRARARE NOMANUEL Atk: 155 Def: 150 HP: 180 Init: 10000 P: dude	The Nuge's favorite crossbow (100)
-The Snake With Like Ten Heads	1516	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast E: sleaze	The Eye of the Stars (n100)
+The Snake With Like Ten Heads	1516	snakeboss3.gif	Atk: 160 Def: 160 HP: 175 Init: 50 P: beast SNAKE E: sleaze	The Eye of the Stars (n100)
 The Temporal Bandit	-90	timebandit.gif	ULTRARARE NOMANUEL Atk: 35 Def: 31 HP: 35 Init: 10000 P: dude	Counterclockwise Watch (100)
 The Unknown Seal Clubber	1775	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000 GHOST	Bjorn's Hammer (100)
 The Unknown Turtle Tamer	1776	unknownghost.gif	Atk: 25 Def: 25 HP: 15 P: undead E: spooky Init: -10000 GHOST	Mace of the Tortoise (100)
@@ -751,7 +751,7 @@ Thinknerd Sorting Robot	1536	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 F
 tiny barrel mimic	177	mimic1.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird
 tipsy pirate	618	tipsypirate.gif	Atk: 80 Def: 72 HP: 70 Init: 50 Meat: 45 P: pirate	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 toilet papergeist	390	tpgeist.gif	Atk: 55 Def: 47 HP: 60 Init: -10000 ED: spooky P: undead	cardboard wakizashi (5)	roll of toilet paper (50)
-tomb asp	469	tombasp.gif	Atk: 170 Def: 145 HP: 155 Init: 70 Meat: 100 "Really Quite Poisoned" P: beast	unidentified jerky (12)	charming flute (7)
+tomb asp	469	tombasp.gif	Atk: 170 Def: 145 HP: 155 Init: 70 Meat: 100 "Really Quite Poisoned" P: beast SNAKE	unidentified jerky (12)	charming flute (7)
 tomb bat	575	mummybat.gif	Atk: 175 Def: 157 HP: 180 Init: 50 Meat: 50 P: beast	leathery bat skin (30)	unidentified jerky (10)	mummy wrapping (20)
 tomb rat	467	tombrat.gif	Atk: 161 Def: 148 HP: 175 Init: 50 Meat: 75 P: beast	tomb ratchet (c20)	leathery rat skin (30)	unidentified jerky (12)
 tomb rat king	997	tombratking.gif	BOSS Atk: [350] Def: [315] HP: [300] Init: -10000 Meat: 150 P: beast	tomb ratchet (c20)	tomb ratchet (c20)	tomb ratchet (c20)	leathery rat skin (0)	leathery rat skin (0)	leathery rat skin (0)	unidentified jerky (0)	unidentified jerky (0)	unidentified jerky (0)
@@ -764,7 +764,7 @@ towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 
 triffid	342	triffid.gif	Atk: 5 Def: 4 HP: 6 Init: 70 P: plant	moxie weed (30)	spooky stick (30)
 Troll Twins	1244	twins_troll.gif	Atk: 94 Def: 82 HP: 98 Init: 40 P: dude	incredible pizza (5)	troll britches (5)
 trophyfish	774	trophyfish.gif	Atk: 5000 Def: 4500 HP: 15000 Init: 200 Phys: 25 P: fish
-Trouser Snake	179	tsnake.gif	Atk: 153 Def: 137 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	line (30)
+Trouser Snake	179	tsnake.gif	Atk: 153 Def: 137 HP: 150 Init: 70 E: sleaze SNAKE P: constellation	line (30)	line (30)	line (30)
 tumbleweed	1110	tumbleweed.gif	Atk: 10 Def: 9 HP: 10 Init: -10000 P: plant
 turtle trapper	685	turtletrapper.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: dude
 Twig and Berries	352	twigberry.gif	Atk: 152 Def: 136 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	star (30)	star (30)
@@ -835,7 +835,7 @@ whiny pirate	628	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pira
 white chocolate golem	67	chocgolem.gif	Atk: 37 Def: 32 HP: 21 Init: 70 P: construct	white chocolate chips (50)	mother's secret recipe (p3)	White Chocolate Golem Seeds (c0)
 white elephant	1590	whiteelephant.gif	Atk: 45 Def: 45 HP: 50 Init: 50 P: beast Meat: 300	white blood cells (0)	white wine (0)	white elephant gift (0)
 white lion	66	lion.gif	Atk: 36 Def: 31 HP: 21 Init: 60 Meat: 30 P: beast	catgut (15)	lion oil (25)
-whitesnake	65	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 "A Little Bit Poisoned" P: beast	white snake skin (30)	bird rib (25)
+whitesnake	65	whitesnake.gif	Atk: 35 Def: 30 HP: 21 Init: 60 Meat: 10 "A Little Bit Poisoned" P: beast SNAKE	white snake skin (30)	bird rib (25)
 wild seahorse	778	seahorse.gif	NOMANUEL Atk: 500 Def: 900000 HP: 1000000 Init: 10000 P: fish Phys: 100
 witty pirate	629	pirate2.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 80 P: pirate	witty rapier (10)	silver tongue charrrm (10)
 wizardly mushroom guy	1804	mush_wizard.gif	Atk: 35 Def: 25 HP: 15 Init: 50 P: plant	glowing spore pod (0)	pointy mushroom (0)
@@ -1205,9 +1205,9 @@ emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init
 menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: horror
 grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: horror
 
-aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: beast
-prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 E: sleaze P: beast	snake oil (100)	snake oil (100)
-king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast	snake oil (100)	snake oil (100)	snake oil (100)
+aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: beast SNAKE
+prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 E: sleaze P: beast SNAKE	snake oil (100)	snake oil (100)
+king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast SNAKE	snake oil (100)	snake oil (100)	snake oil (100)
 
 # The Source
 Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*15] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
@@ -1444,7 +1444,7 @@ carton of Eggs of Confidence	1298	pa_eggs.gif	Atk: 30 Def: 100 HP: 100 Init: 100
 loaf of Bread of Wonder	1299	pa_bread.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 bundle of Meat of Happiness	1301	pa_meat.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird	the kindest cold cut (c0)
 groast	1289	groast.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: spooky P: undead Meat: 250	ectoplasm <i>au jus</i> (c0)
-bacon snake	1287	baconsnake.gif	Atk: 220 Def: 200 HP: 300 Init: 75 E: sleaze P: beast Meat: 250
+bacon snake	1287	baconsnake.gif	Atk: 220 Def: 200 HP: 300 Init: 75 E: sleaze P: beast SNAKE Meat: 250
 pork butterfly	1288	porkbutterfly.gif	Atk: 180 Def: 240 HP: 300 Init: 50 E: sleaze P: bug Meat: 250
 salaminder	1290	salaminder.gif	Atk: 200 Def: 200 HP: 300 Init: 100 E: hot P: beast Meat: 250
 cold cutter	1291	coldcutter.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: cold P: construct Meat: 250
@@ -1507,7 +1507,7 @@ chocolate hare	1494	chocohare.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast
 chocolate-cherry prairie dog	1495	ccprairie.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	candy mountain oyster (0)	chocolate-stained collar (0)
 Rock Pop weasel	1493	popweasel.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	mulberry (0)	weasel stomping pants (0)
 candied pecan tree	1496	pecantree.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: plant	candied pecan (0)	candy stick (0)
-licorice snake	1497	licosnake.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	anise-flavored venom (0)	licorice whip (0)
+licorice snake	1497	licosnake.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE	anise-flavored venom (0)	licorice whip (0)
 tricksy pixie	1498	trixiepixie.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid	sour powder (0)	pixie axie (0)
 fire truck	1499	firetruck.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	fireman's lunch (0)	fire hose (0)
 ice cream truck	1500	icecreamtruck.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	ice cream sandwich (0)	plain paper hat (0)
@@ -1578,7 +1578,7 @@ queen bee (Spelunky)	1733	spelunkbeeq.gif	Atk: 60 Def: 60 HP: 60 Init: -10000 P:
 scorpion	1719	spelunkscorp.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: bug
 shopkeeper	1738	shopkeep.gif	Atk: 60 Def: 60 HP: 150 Init: -10000 P: dude	shopkeeper beard (c0)
 skeleton	1721	spelunkskel.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: undead	x-ray mirror (c0)
-snake	1714	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast
+snake	1714	spelunksnake.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: beast SNAKE
 spider	1716	spelunkspider.gif	Atk: 20 Def: 20 HP: 20 Init: -10000 P: bug	radioactive spider venom (c0)
 spider queen	1732	spelunkspiderq.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug
 tikiman	1718	spelunktiki.gif	Atk: 30 Def: 30 HP: 30 Init: -10000 P: dude
@@ -1685,9 +1685,9 @@ restless ghost	1906	elizabeth.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)]
 buzzard	1907	vulture.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 E: stench P: beast	buzzard feather (0)
 mountain lion	1908	mtlion.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 P: beast	lion musk (0)
 grizzled bear	1909	grizzlebear.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: -10000 P: beast	bear claw (0)
-diamondback rattler	1910	diamondback.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 75 P: beast	rattler gland (0)
-coal snake	1911	coalsnake.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 P: beast	half-digested coal (0)
-frontwinder	1912	frontwinder.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 P: beast	tightly-wound spine (0)
+diamondback rattler	1910	diamondback.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 75 P: beast SNAKE	rattler gland (0)
+coal snake	1911	coalsnake.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 P: beast SNAKE	half-digested coal (0)
+frontwinder	1912	frontwinder.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 P: beast SNAKE	tightly-wound spine (0)
 caugr	1913	caugr.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: -10000 P: demon	rotting beefsteak (0)
 pyrobove	1914	pyrobove.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 100 E: hot P: demon	firemilk (0)
 spidercow	1915	cowspider.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Floor: [60*pref(lttQuestDifficulty)] Cap: 11111 Init: 50 E: spooky P: demon	spidercow eye-cluster (0)
@@ -2155,7 +2155,7 @@ stomper stomping	650	stomper.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct	c
 
 # Halloween XX (Halloween 2008)
 mutant gila monster	728	mutantgila.gif	Scale: 5 Cap: 500 Init: -10000 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
-mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
+mutant rattlesnake	726	mutantsnake.gif	Scale: 5 Cap: 500 Init: 75 P: beast SNAKE	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 mutant saguaro	727	mutantcactus.gif	Scale: 5 Cap: 500 Init: -10000 P: plant	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 swarm of mutant fire ants	729	mutantants.gif	Scale: 5 Cap: 500 Init: -10000 P: bug	beholed bedsheet (0)	invisible bag (0)	witch hat (0)
 
@@ -2177,7 +2177,7 @@ mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf	el
 Crys-Rock	854	crys_rock.gif	NOMANUEL HP: [min(240,HP*2/3)] Def: [min(300,MUS+10)] Atk: [min(300,MOX+10)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
 clod hopper	847	rock_hopper.gif	WANDERER Atk: 100 Def: 90 HP: 150 Init: 50 P: beast	floaty sand (15)	floaty sand (15)	floaty sand (15)
 rock homunculus	846	rock_guy.gif	WANDERER Atk: 30 Def: 27 HP: 40 Init: -10000 P: beast	floaty sand (20)	floaty sand (20)
-rock snake	845	rock_snake.gif	WANDERER NOMANUEL Atk: 10 Def: 9 HP: 15	floaty sand (25)
+rock snake	845	rock_snake.gif	WANDERER NOMANUEL Atk: 10 Def: 9 HP: 15 SNAKE	floaty sand (25)
 rockfish	848	rock_fish.gif	WANDERER Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	rockfish stomach (100)
 
 # The Shivering Timbers (Arborween October 2009)
@@ -2304,7 +2304,7 @@ four-shadowed mime	1164	mime.gif	Scale: -3 Cap: 50 Floor: 3 Init: -10000 P: horr
 # A Smoldering Fortress (June 2012)
 brushfire	-25	brushfire.gif	NOMANUEL
 blazing bat	1210	firebat.gif	Atk: 200 Def: 180 HP: 500 P: beast E: hot Init: 50 Phys: 100
-snakefire in the grass	1209	firesnake.gif	NOMANUEL
+snakefire in the grass	1209	firesnake.gif	NOMANUEL P: beast SNAKE
 Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 P: demon E: hot Init: 50 Phys: 100	molten brick (c5)
 
 # Crimbo Town Toy Factory (Crimbo 2012)
@@ -2437,7 +2437,7 @@ eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 E: sleaze Mea
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct
 Gnollish Sorceress	17	gnollmage.gif	HP: 5 Def: 9 Atk: 11 Meat: 24 Init: 60 P: humanoid	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 P: goblin Init: 90 Meat: 50	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
-The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
+The Frattlesnake	1515	snakeboss2.gif	Atk: 160 Def: 160 HP: 175 P: beast SNAKE E: sleaze Init: 50	The Lacrosse Stick of Lacoronado (n100)
 
 # These are KoL monster names that we disambiguate via consequences.txt.
 # With the 1337 random attribute, KoL will leetify these names.
