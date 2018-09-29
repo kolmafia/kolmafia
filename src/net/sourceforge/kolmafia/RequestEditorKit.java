@@ -1881,7 +1881,7 @@ public class RequestEditorKit
 		Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher( buffer );
 		if ( m.find() )
 		{
-			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + "/100 megawoots)";
+			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + "/100 megawoots)";
 			buffer.insert( m.end(), progress );
 			return;
 		}
@@ -1889,7 +1889,7 @@ public class RequestEditorKit
 		m = RequestEditorKit.TRASH_PATTERN.matcher( buffer );
 		if ( m.find() )
 		{
-			String progress = " (~" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " pieces of trash remaining)";
+			String progress = " (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)";
 			buffer.insert( m.end(), progress );
 			return;
 		}
@@ -1897,7 +1897,7 @@ public class RequestEditorKit
 		m = RequestEditorKit.MEAT_PATTERN.matcher( buffer );
 		if ( m.find() )
 		{
-			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " Meat remaining)";
+			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Meat remaining)";
 			buffer.insert( m.end(), progress );
 			return;
 		}
@@ -1905,7 +1905,7 @@ public class RequestEditorKit
 		m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
 		if ( m.find() )
 		{
-			String progress = " (" + String.valueOf( Preferences.getInteger( "_questPartyFairProgress" ) ) + " Partiers remaining)";
+			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)";
 			buffer.insert( m.end(), progress );
 			return;
 		}
@@ -2200,31 +2200,31 @@ public class RequestEditorKit
 		case 1325:// A Room With a View...  Of a Bed
 			StringUtilities.singleStringReplace(
 				buffer, "hurry through the door to take your place.",
-				"hurry through the door to take your place. (" + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 megawoots)" );
+				"hurry through the door to take your place. (" + Preferences.getString( "_questPartyFairProgress" ) + "/100 megawoots)" );
 			StringUtilities.singleStringReplace(
 				buffer, "start complaining and then leave.",
-				"start complaining and then leave. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Partiers remaining)" );
+				"start complaining and then leave. (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)" );
 			StringUtilities.singleStringReplace(
 				buffer, "contribute to the DJ's bill.",
-				"contribute to the DJ's bill. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Meat remaining)" );
+				"contribute to the DJ's bill. (" + Preferences.getString( "_questPartyFairProgress" ) + " Meat remaining)" );
 			break;
 
 		case 1326:// Gone Kitchin'
 			StringUtilities.singleStringReplace(
 				buffer, "pieces of trash in that can!]",
-				"pieces of trash in that can!] (~" + Preferences.getInteger( "_questPartyFairProgress" ) + " pieces of trash remaining)" );
+				"pieces of trash in that can!] (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)" );
 			break;
 
 		case 1327:// Forward to the Back
 			StringUtilities.singleStringReplace(
 				buffer, "flees over the back fence.",
-				"flees over the back fence. (" + Preferences.getInteger( "_questPartyFairProgress" ) + " Partiers remaining)" );
+				"flees over the back fence. (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)" );
 			break;
 
 		case 1328:// Basement Urges
 			StringUtilities.singleStringReplace(
 				buffer, "burns the house down.",
-				"burns the house down. (" + Preferences.getInteger( "_questPartyFairProgress" ) + "/100 megawoots)" );
+				"burns the house down. (" + Preferences.getString( "_questPartyFairProgress" ) + "/100 megawoots)" );
 			break;
 		}
 	}
