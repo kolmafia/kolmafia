@@ -926,7 +926,6 @@ public class QuestDatabase
 		}
 		if ( details.contains( "Meat for the DJ" ) )
 		{
-			Preferences.setString( "_questPartyFair", "step1" );
 			Preferences.setString( "_questPartyFairQuest", "dj" );
 			Matcher matcher = QuestDatabase.PARTY_FAIR_MEAT_PATTERN.matcher( details );
 			if ( matcher.find() )
@@ -937,7 +936,10 @@ public class QuestDatabase
 		}
 		if ( details.contains( "Return to the" ) )
 		{
-			Preferences.setString( "_questPartyFair", "step2" );
+			if ( Preferences.getString( "_questPartyFairQuest" ).equals( "woots" ) )
+			{
+				Preferences.setInteger( "_questPartyFairProgress", 100 );
+			}
 			return "step2";
 		}
 		return "";
