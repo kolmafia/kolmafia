@@ -5763,7 +5763,7 @@
 5738	Camp Scout backpack	506150298	csbackpack.gif	container	t	0
 5739	CSA fire-starting kit	572377360	briefcase.gif	usable	d	23
 5740	bag of GORP	237245113	baggie.gif	food	t,d	23
-5741	water purification pills	652054747	goofballs.gif	drink	t,d	23
+5741	water purification pills	652054747	goofballs.gif	drink	t,d	23	water purification pills
 5742	Camp Scout pup tent	713528231	tent1.gif	usable	t,d	23
 5743	CSA scoutmaster's &quot;water&quot;	941205636	waterbottle.gif	drink	t,d	23
 5744	bag of GORF	829141102	baggie.gif	food	t,d	23
@@ -9334,7 +9334,7 @@
 9308	wax face	271058427	waxface.gif	accessory		0
 9309	wax booze	793123034	waxbottle.gif	drink	t,d	10	bottles of wax booze
 9310	glob of melted wax	650729867	waxglob.gif	usable	t	0	globs of melted wax
-9311	sea jelly	727232856	jellyglob.gif	spleen, usable	t,d	30
+9311	sea jelly	727232856	jellyglob.gif	spleen, usable	t,d	30	handfuls of sea jelly
 9312	sea truffle	955920102	mushroom.gif	food	t,d	999
 9313	tarnished luggage key	844023930	ornatekey.gif	usable	t,d	100
 9314	crushed steamer trunk	753405632	undertrunk.gif	none	d	100
@@ -9886,7 +9886,7 @@
 9860	FantasyRealm tattoo kit	989773359	fr_tatkit.gif	usable	t	0
 9861	LyleCo Contractor's Manual	696806731	book4.gif	usable	t	0
 9862	FantasyRealm turkey leg	356561751	bigturkeyleg.gif	food		0
-9863	FantasyRealm mead	232234132	tankard.gif	drink		0
+9863	FantasyRealm mead	232234132	tankard.gif	drink		0	tankards of FantasyRealm mead
 9864	nasty haunch	783166866	fr_haunch.gif	none	q	0
 9865	Cheswick Copperbottom's compass	296241510	uvcompass.gif	none	q	0
 9866	arrest warrant	265184746	document.gif	none	q	0
