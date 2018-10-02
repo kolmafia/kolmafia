@@ -2108,6 +2108,25 @@ public abstract class InventoryManager
 		Modifiers.overrideModifier( "Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod );
 	}
 
+	public static final AdventureResult LATTE_MUG = ItemPool.get( ItemPool.LATTE_MUG, 1 );
+
+	public static final void checkLatte()
+	{
+		String mod = Preferences.getString( "_latteModifier" );
+		if ( !KoLCharacter.hasEquipped( InventoryManager.LATTE_MUG, EquipmentManager.OFFHAND ) &&
+		     !KoLConstants.inventory.contains( InventoryManager.LATTE_MUG ) )
+		{
+			return;
+		}
+		if ( mod.equals( "" ) )
+		{
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.LATTE_MUG ), true );
+			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_OFFHAND );
+			Preferences.setString( "_latteModifier", mod );
+		}
+		Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", mod );
+	}
+
 	public static final void checkKGB()
 	{
 		AdventureResult KGB = ItemPool.get( ItemPool.KREMLIN_BRIEFCASE, 1 );

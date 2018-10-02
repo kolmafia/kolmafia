@@ -973,6 +973,7 @@ public abstract class KoLmafia
 		InventoryManager.checkNoHat();
 		InventoryManager.checkJickSword();
 		InventoryManager.checkPantogram();
+		InventoryManager.checkLatte();
 
 		// Check Horsery if we haven't today
 		if ( Preferences.getBoolean( "horseryAvailable" ) && Preferences.getString( "_horseryCrazyMox" ).length() == 0 )

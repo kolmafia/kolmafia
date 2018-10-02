@@ -800,6 +800,9 @@
 7298	Swap Mask	maskball.gif	5	1	0
 7299	Party Crash	partycrasher.gif	5	0	0
 7300	Paint Job	nicepalette.gif	5	0	0
+7301	Throw Latte on Opponent	lattecup3.gif	5	0	0
+7302	Offer Latte to Opponent	lattecup2.gif	5	0	0
+7303	Gulp Latte	lattecup4.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

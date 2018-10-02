@@ -3060,6 +3060,7 @@ public class ItemPool
 	public static final int PARTY_PLANNING_BOOK = 9978;
 	public static final int PARTYCRASHER = 9983;
 	public static final int DRINKING_TO_DRINK_BOOK = 9984;
+	public static final int LATTE_MUG = 9987;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

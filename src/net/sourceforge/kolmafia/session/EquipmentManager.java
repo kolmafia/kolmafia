@@ -825,6 +825,11 @@ public class EquipmentManager
 				case ItemPool.PARTYCRASHER:
 					KoLCharacter.removeAvailableSkill( "Party Crash" );
 					break;
+				case ItemPool.LATTE_MUG:
+					KoLCharacter.removeAvailableSkill( "Throw Latte on Opponent" );
+					KoLCharacter.removeAvailableSkill( "Offer Latte to Opponent" );
+					KoLCharacter.removeAvailableSkill( "Gulp Latte" );
+					break;
 				}
 			}
 		}
@@ -1094,6 +1099,11 @@ public class EquipmentManager
 			break;
 		case ItemPool.PARTYCRASHER:
 			KoLCharacter.addAvailableSkill( "Party Crash" );
+			break;
+		case ItemPool.LATTE_MUG:
+			KoLCharacter.addAvailableSkill( "Throw Latte on Opponent" );
+			KoLCharacter.addAvailableSkill( "Offer Latte to Opponent" );
+			KoLCharacter.addAvailableSkill( "Gulp Latte" );
 			break;
 		}
 
