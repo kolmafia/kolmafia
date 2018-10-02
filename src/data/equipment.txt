@@ -1788,6 +1788,7 @@ KoL Con IV Pole	0	Mys: 10
 KoL Con Six Pack	0	none
 KoL Con X Treasure Map	10	none
 LARP carp	0	none
+latte lovers member's mug	0	none
 lead umbrella	0	none
 left bear arm	0	none
 left-handed melodica	160	Mox: 150

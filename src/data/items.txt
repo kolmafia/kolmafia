@@ -10010,3 +10010,5 @@
 9984	Living to Drink, Drinking to Live	136551023	book4.gif	usable		0
 9985	Party Tattoo™ gift certificate	693335963	pttatcert.gif	usable		0
 9986	party mouse hat	790452170	partymousehat.gif	familiar	t,d	75
+9987	latte lovers member's mug	294224337	lattecup1.gif	offhand		0
+9988	latte lovers club card	897524147	lattecard.gif	usable	t	0

@@ -96,6 +96,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
@@ -11113,6 +11114,13 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1329:
+			// Latte Shop
+			// The item that we get has a procedurally-generated name
+			request.setHasResult( false );
+			LatteRequest.parseResponse( urlString, text );
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -16957,6 +16965,7 @@ public abstract class ChoiceManager
 		case 1278: // Madame Zatara’s Relationship Fortune Teller
 		case 1320: // A Heist!
 		case 1322: // The Beginning of the Neverend
+		case 1329: // Latte Shop
 			return true;
 
 		default:

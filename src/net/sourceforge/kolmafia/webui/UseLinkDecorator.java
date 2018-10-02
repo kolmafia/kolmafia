@@ -1037,6 +1037,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.BOOMBOX:
 			case ItemPool.BURNING_NEWSPAPER:
 			case ItemPool.TALES_OF_SPELUNKING:
+			case ItemPool.PORTABLE_PANTOGRAM:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
@@ -1063,7 +1064,6 @@ public abstract class UseLinkDecorator
 			case ItemPool.TIME_RESIDUE:
 			case ItemPool.MEME_GENERATOR:
 			case ItemPool.MEGACOPIA:
-			case ItemPool.PORTABLE_PANTOGRAM:
 			case ItemPool.AMORPHOUS_BLOB:
 			case ItemPool.GIANT_AMORPHOUS_BLOB:
 
@@ -1076,6 +1076,13 @@ public abstract class UseLinkDecorator
 				// adventure doesn't work ajaxified.
 
 				return new UseLink( itemId, 1, "use", "inv_use.php?which=3&whichitem=", false );
+
+			case ItemPool.LATTE_MUG:
+
+				// Not inline, since the redirection to an
+				// adventure doesn't work ajaxified.
+
+				return new UseLink( itemId, 1, "use", "main.php?latte=1", false );
 
 			case ItemPool.DRUM_MACHINE:
 				if ( Preferences.getInteger( "desertExploration" ) == 100 )

@@ -9448,6 +9448,7 @@ Item	Kokomo Resort Pass	Effect: "Tropical Contact High", Effect Duration: 10
 Item	KoLHS Pep Squad Box	Free Pull
 Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 Item	labrador cookie	Effect: "Insatiable Hunger", Effect Duration: 40
+Item	latte lovers club card	Free Pull
 Item	Lava Miner's Daughter	Skill: "Asbestos Heart"
 Item	lavender candy heart	Effect: "Heart of Lavender", Effect Duration: 10
 # lavender plastic oyster egg: Deals 40-50 Physical Damage
