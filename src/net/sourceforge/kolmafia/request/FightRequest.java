@@ -1644,6 +1644,30 @@ public class FightRequest
 				return;
 			}
 		}
+		else if ( skillName.equals( "Throw Latte on Opponent" ) )
+		{
+			if ( Preferences.getBoolean( "_latteBanishUsed" ) )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Offer Latte to Opponent" ) )
+		{
+			if ( Preferences.getBoolean( "_latteCopyUsed" ) )
+			{
+				this.skipRound();
+				return;
+			}
+		}
+		else if ( skillName.equals( "Gulp Latte" ) )
+		{
+			if ( Preferences.getBoolean( "_latteDrinkUsed" ) )
+			{
+				this.skipRound();
+				return;
+			}
+		}
 		if ( skillName.equals( "Walk Away From Explosion" ) )
 		{
 			// You can't walk away from explosions whilst bored of them
@@ -8901,6 +8925,28 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.THROW_LATTE:
+			if ( responseText.contains( "They run off" ) || skillRunawaySuccess )
+			{
+				Preferences.setBoolean( "_latteBanishUsed", true );
+				BanishManager.banishMonster( monsterName, "Throw Latte on Opponent" );
+			}
+			break;
+
+		case SkillPool.OFFER_LATTE:
+			if ( responseText.contains( "its friends start following you" ) || skillSuccess )
+			{
+				Preferences.setString( "_latteMonster", monsterName );
+				Preferences.setBoolean( "_latteCopyUsed", true );
+			}
+			break;
+
+		case SkillPool.GULP_LATTE:
+			if ( responseText.contains( "take a big invigorating gulp" ) || skillSuccess )
+			{
+				Preferences.setBoolean( "_latteDrinkUsed", true );
+			}
+			break;
 
 		// Casting Carbohydrate Cudgel uses Dry Noodles
 		case SkillPool.CARBOHYDRATE_CUDGEL:

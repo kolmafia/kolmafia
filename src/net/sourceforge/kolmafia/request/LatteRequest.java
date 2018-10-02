@@ -49,7 +49,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 public class LatteRequest
 	extends GenericRequest
 {
-	private static final Pattern urlPattern = Pattern.compile( "m=(\\d)&e=(\\d)&s1=(.*)?&s2=(.*)?&s3=(.*)" );
+	private static final Pattern RESULT_PATTERN = Pattern.compile( "You get your mug filled with a (.*?)\\.</span>" );
 
 	public LatteRequest()
 	{
@@ -68,250 +68,259 @@ public class LatteRequest
 			return;
 		}
 
-		// Not matching the URL, because urgh.
+		// Find Latte result
+		Matcher matcher = RESULT_PATTERN.matcher( responseText );
 		ModifierList modList = new ModifierList();
-		if ( responseText.contains( "Autumnal" ) || responseText.contains( "pumpkin spice" ) || responseText.contains( "hint of autumn" ) )
+		if ( matcher.find() )
 		{
-			modList.addModifier( "Experience (Mysticality)", "1" );
-			modList.addModifier( "Mysticality Percent", "5" );
-			modList.addModifier( "Spell Damage", "5" );
-		}
-		if ( responseText.contains( "Cinna-" ) || responseText.contains( "cinnamon" ) )
-		{
-			modList.addModifier( "Experience (Moxie)", "1" );
-			modList.addModifier( "Moxie Percent", "5" );
-			modList.addModifier( "Pickpocket Chance", "5" );
-		}
-		if ( responseText.contains( "Vanilla" ) || responseText.contains( "vanilla" ) )
-		{
-			modList.addModifier( "Experience (Muscle)", "1" );
-			modList.addModifier( "Muscle Percent", "5" );
-			modList.addModifier( "Weapon Damage", "5" );
-		}
-		if ( responseText.contains( "Ancient exotic spiced" ) || responseText.contains( "ancient/spicy" ) || responseText.contains( "ancient spice" ) )
-		{
-			modList.addModifier( "Spooky Damage", "50" );
-		}
-		if ( responseText.contains( "Basil" ) || responseText.contains( "basil" ) )
-		{
-			modList.addModifier( "HP Regen Min", "5" );
-			modList.addModifier( "HP Regen Max", "5" );
-		}
-		if ( responseText.contains( "Belgian vanilla" ) )
-		{
-			modList.addModifier( "Muscle Percent", "20" );
-			modList.addModifier( "Mysticality Percent", "20" );
-			modList.addModifier( "Moxie Percent", "20" );
-		}
-		if ( responseText.contains( "Blue chalk" ) || responseText.contains( "blue chalk" ) )
-		{
-			modList.addModifier( "Cold Damage", "25" );
-		}
-		if ( responseText.contains( "bug-thistle" ) || responseText.contains( "Bug-thistle" ) )
-		{
-			modList.addModifier( "Mysticality", "20" );
-		}
-		if ( responseText.contains( "Butternutty" ) || responseText.contains( "butternut" ) )
-		{
-			modList.addModifier( "Spell Damage", "10" );
-		}
-		if ( responseText.contains( "Cajun" ) || responseText.contains( "cajun" ) )
-		{
-			modList.addModifier( "Meat Drop", "40" );
-		}
-		if ( responseText.contains( "Carb-loaded" ) || responseText.contains( "macaroni" ) || responseText.contains( "extra noodles" ) )
-		{
-			modList.addModifier( "Maximum HP", "20" );
-		}
-		if ( responseText.contains( "Carrot" ) || responseText.contains( "carrot" ) )
-		{
-			modList.addModifier( "Item Drop", "20" );
-		}
-		if ( responseText.contains( "Carrrdamom" ) || responseText.contains( "carrrdamom" ) )
-		{
-			modList.addModifier( "MP Regen Min", "4" );
-			modList.addModifier( "MP Regen Max", "6" );
-		}
-		if ( responseText.contains( "Chili" ) || responseText.contains( "chili seeds" ) || responseText.contains( "kick" ) )
-		{
-			modList.addModifier( "Hot Resistance", "3" );
-		}
-		if ( responseText.contains( "Cloven" ) || responseText.contains( "cloves" ) )
-		{
-			modList.addModifier( "Stench Resistance", "3" );
-		}
-		if ( responseText.contains( "Coal-boiled" ) || responseText.contains( "coal" ) )
-		{
-			modList.addModifier( "Hot Damage", "25" );
-		}
-		if ( responseText.contains( "Cocoa" ) || responseText.contains( "cocoa powder" ) || responseText.contains( "mocha loca" ) )
-		{
-			modList.addModifier( "Cold Resistance", "3" );
-		}
-		if ( responseText.contains( "Diet" ) || responseText.contains( "diet soda" ) )
-		{
-			modList.addModifier( "Initiative", "50" );
-		}
-		if ( responseText.contains( "Dyspepsi" ) )
-		{
-			modList.addModifier( "Initiative", "25" );
-		}
-		if ( responseText.contains( "Envenomed" ) || responseText.contains( "asp venom" ) || responseText.contains( "extra poison" ) )
-		{
-			modList.addModifier( "Weapon Damage", "25" );
-		}
-		if ( responseText.contains( "Extra-greasy" ) || responseText.contains( "hot sausage" ) || responseText.contains( "extra gristle" ) )
-		{
-			modList.addModifier( "Muscle Percent", "50" );
-		}
-		if ( responseText.contains( "Extra-healthy" ) || responseText.contains( "health potion" ) || responseText.contains( "shot of healing elixir" ) )
-		{
-			modList.addModifier( "HP Regen Min", "10" );
-			modList.addModifier( "HP Regen Max", "20" );
-		}
-		if ( responseText.contains( "Extra-salty" ) || responseText.contains( "rock salt" ) )
-		{
-			modList.addModifier( "Critical Hit Percent", "10" );
-		}
-		if ( responseText.contains( "Filthy" ) || responseText.contains( "filth milk" ) )
-		{
-			modList.addModifier( "Damage Reduction", "20" );
-		}
-		if ( responseText.contains( "Floured" ) || responseText.contains( "white flour" ) || responseText.contains( "dusted with flour" ) )
-		{
-			modList.addModifier( "Sleaze Resistance", "3" );
-		}
-		if ( responseText.contains( "Fortified" ) || responseText.contains( "vitamin" ) )
-		{
-			modList.addModifier( "Experience (familiar)", "3" );
-		}
-		if ( responseText.contains( "Fresh grass" ) || responseText.contains( "fresh grass" ) || responseText.contains( "fresh-cut grass" ) )
-		{
-			modList.addModifier( "Experience", "3" );
-		}
-		if ( responseText.contains( "Fungal" ) || responseText.contains( "fungus" ) || responseText.contains( "fungal scrapings" ) )
-		{
-			modList.addModifier( "Maximum MP", "30" );
-		}
-		if ( responseText.contains( "Greasy" ) || ( responseText.contains( "sausage" ) && !responseText.contains( "mega sausage" ) ) || responseText.contains( "gristle" ) )
-		{
-			modList.addModifier( "Mysticality Percent", "50" );
-		}
-		if ( responseText.contains( "Greek spice" ) || responseText.contains( "greek spice" ) )
-		{
-			modList.addModifier( "Sleaze Damage", "25" );
-		}
-		if ( responseText.contains( "Grobold rum" ) || responseText.contains( "grobold rum" ) )
-		{
-			modList.addModifier( "Sleaze Damage", "25" );
-		}
-		if ( responseText.contains( "Guarna" ) || responseText.contains( "guarna" ) )
-		{
-			modList.addModifier( "Adventures", "4" );
-		}
-		if ( responseText.contains( "Gunpowder" ) || responseText.contains( "gunpowder" ) )
-		{
-			modList.addModifier( "Weapon Damage", "50" );
-		}
-		if ( responseText.contains( "Hellish" ) || responseText.contains( "hellion" ) )
-		{
-			modList.addModifier( "PvP Fights", "6" );
-		}
-		if ( responseText.contains( "Hobo-spiced" ) || responseText.contains( "hobo spice" ) )
-		{
-			modList.addModifier( "Damage Absorption", "50" );
-		}
-		if ( responseText.contains( "Hot wing" ) || responseText.contains( "hot wing" ) )
-		{
-			modList.addModifier( "Combat Rate", "5" );
-		}
-		if ( responseText.contains( "Inky" ) || responseText.contains( " ink" ) )
-		{
-			modList.addModifier( "Combat Rate", "-5" );
-		}
-		if ( responseText.contains( "Kombucha-infused" ) || responseText.contains( "kombucha" ) )
-		{
-			modList.addModifier( "Stench Damage", "25" );
-		}
-		if ( responseText.contains( "Lihc-licked" ) || responseText.contains( "lihc saliva" ) || responseText.contains( "lihc spit" ) )
-		{
-			modList.addModifier( "Spooky Damage", "25" );
-		}
-		if ( responseText.contains( "Lizard milk" ) || responseText.contains( "lizard milk" ) )
-		{
-			modList.addModifier( "MP Regen Min", "5" );
-			modList.addModifier( "MP Regen Max", "15" );
-		}
-		if ( responseText.contains( "Moldy" ) || responseText.contains( "grave mold" ) )
-		{
-			modList.addModifier( "Spooky Damage", "20" );
-		}
-		if ( responseText.contains( "Motor oil" ) || responseText.contains( "motor oil" ) )
-		{
-			modList.addModifier( "Sleaze Damage", "20" );
-		}
-		if ( responseText.contains( "MSG" ) || responseText.contains( "with flavor" ) )
-		{
-			modList.addModifier( "Critical Hit Percent", "15" );
-		}
-		if ( responseText.contains( "Norwhal milk" ) || responseText.contains( "norwhal milk" ) )
-		{
-			modList.addModifier( "Maximum HP Percent", "200" );
-		}
-		if ( responseText.contains( "Oil-paint" ) || responseText.contains( "oil paint" ) )
-		{
-			modList.addModifier( "Cold Damage", "5" );
-			modList.addModifier( "Hot Damage", "5" );
-			modList.addModifier( "Sleaze Damage", "5" );
-			modList.addModifier( "Spooky Damage", "5" );
-			modList.addModifier( "Stench Damage", "5" );
-		}
-		if ( responseText.contains( "Paradise milk" ) || responseText.contains( "paradise milk" ) || responseText.contains( "milk of paradise" ) )
-		{
-			modList.addModifier( "Muscle", "20" );
-			modList.addModifier( "Mysticality", "20" );
-			modList.addModifier( "Moxie", "20" );
-		}
-		if ( responseText.contains( "Rawhide" ) || responseText.contains( "rawhide" ) )
-		{
-			modList.addModifier( "Familiar Weight", "5" );
-		}
-		if ( responseText.contains( "Salted" ) || responseText.contains( "salt" ) )
-		{
-			modList.addModifier( "Critical Hit Percent", "5" );
-		}
-		if ( responseText.contains( "Sandalwood-infused" ) || responseText.contains( "sandalwood splinter" ) )
-		{
-			modList.addModifier( "Muscle", "5" );
-			modList.addModifier( "Mysticality", "5" );
-			modList.addModifier( "Moxie", "5" );
-		}
-		if ( responseText.contains( "Space pumpkin" ) || responseText.contains( "space pumpkin" ) )
-		{
-			modList.addModifier( "Muscle", "10" );
-			modList.addModifier( "Mysticality", "10" );
-			modList.addModifier( "Moxie", "10" );
-		}
-		if ( responseText.contains( "Spaghetti-squashy" ) || responseText.contains( "spaghetti squash spice" ) || responseText.contains( "extra squash" ) )
-		{
-			modList.addModifier( "Spell Damage", "20" );
-		}
-		if ( responseText.contains( "Squamous-salted" ) || responseText.contains( "squamous" ) )
-		{
-			modList.addModifier( "Spooky Resistance", "3" );
-		}
-		if ( responseText.contains( "Super-greasy" ) || responseText.contains( "mega sausage" ) || responseText.contains( "super gristle" ) )
-		{
-			modList.addModifier( "Moxie Percent", "50" );
-		}
-		if ( responseText.contains( "Teeth" ) || responseText.contains( "teeth" ) )
-		{
-			modList.addModifier( "Weapon Damage", "25" );
-		}
+			String latte = matcher.group( 1 );
+			if ( latte.contains( "Autumnal" ) || latte.contains( "pumpkin spice" ) || latte.contains( "hint of autumn" ) )
+			{
+				modList.addModifier( "Experience (Mysticality)", "1" );
+				modList.addModifier( "Mysticality Percent", "5" );
+				modList.addModifier( "Spell Damage", "5" );
+			}
+			if ( latte.contains( "Cinna-" ) || latte.contains( "cinnamon" ) )
+			{
+				modList.addModifier( "Experience (Moxie)", "1" );
+				modList.addModifier( "Moxie Percent", "5" );
+				modList.addModifier( "Pickpocket Chance", "5" );
+			}
+			if ( latte.contains( "Vanilla" ) || latte.contains( "vanilla" ) )
+			{
+				modList.addModifier( "Experience (Muscle)", "1" );
+				modList.addModifier( "Muscle Percent", "5" );
+				modList.addModifier( "Weapon Damage", "5" );
+			}
+			if ( latte.contains( "Ancient exotic spiced" ) || latte.contains( "ancient/spicy" ) || latte.contains( "ancient spice" ) )
+			{
+				modList.addModifier( "Spooky Damage", "50" );
+			}
+			if ( latte.contains( "Basil" ) || latte.contains( "basil" ) )
+			{
+				modList.addModifier( "HP Regen Min", "5" );
+				modList.addModifier( "HP Regen Max", "5" );
+			}
+			if ( latte.contains( "Belgian vanilla" ) )
+			{
+				modList.addModifier( "Muscle Percent", "20" );
+				modList.addModifier( "Mysticality Percent", "20" );
+				modList.addModifier( "Moxie Percent", "20" );
+			}
+			if ( latte.contains( "Blue chalk" ) || latte.contains( "blue chalk" ) )
+			{
+				modList.addModifier( "Cold Damage", "25" );
+			}
+			if ( latte.contains( "bug-thistle" ) || latte.contains( "Bug-thistle" ) )
+			{
+				modList.addModifier( "Mysticality", "20" );
+			}
+			if ( latte.contains( "Butternutty" ) || latte.contains( "butternut" ) )
+			{
+				modList.addModifier( "Spell Damage", "10" );
+			}
+			if ( latte.contains( "Cajun" ) || latte.contains( "cajun" ) )
+			{
+				modList.addModifier( "Meat Drop", "40" );
+			}
+			if ( latte.contains( "Carb-loaded" ) || latte.contains( "macaroni" ) || latte.contains( "extra noodles" ) )
+			{
+				modList.addModifier( "Maximum HP", "20" );
+			}
+			if ( latte.contains( "Carrot" ) || latte.contains( "carrot" ) )
+			{
+				modList.addModifier( "Item Drop", "20" );
+			}
+			if ( latte.contains( "Carrrdamom" ) || latte.contains( "carrrdamom" ) )
+			{
+				modList.addModifier( "MP Regen Min", "4" );
+				modList.addModifier( "MP Regen Max", "6" );
+			}
+			if ( latte.contains( "Chili" ) || latte.contains( "chili seeds" ) || latte.contains( "kick" ) )
+			{
+				modList.addModifier( "Hot Resistance", "3" );
+			}
+			if ( latte.contains( "Cloven" ) || latte.contains( "cloves" ) )
+			{
+				modList.addModifier( "Stench Resistance", "3" );
+			}
+			if ( latte.contains( "Coal-boiled" ) || latte.contains( "coal" ) )
+			{
+				modList.addModifier( "Hot Damage", "25" );
+			}
+			if ( latte.contains( "Cocoa" ) || latte.contains( "cocoa powder" ) || latte.contains( "mocha loca" ) )
+			{
+				modList.addModifier( "Cold Resistance", "3" );
+			}
+			if ( latte.contains( "Diet" ) || latte.contains( "diet soda" ) )
+			{
+				modList.addModifier( "Initiative", "50" );
+			}
+			if ( latte.contains( "Dyspepsi" ) )
+			{
+				modList.addModifier( "Initiative", "25" );
+			}
+			if ( latte.contains( "Envenomed" ) || latte.contains( "asp venom" ) || latte.contains( "extra poison" ) )
+			{
+				modList.addModifier( "Weapon Damage", "25" );
+			}
+			if ( latte.contains( "Extra-greasy" ) || latte.contains( "hot sausage" ) || latte.contains( "extra gristle" ) )
+			{
+				modList.addModifier( "Muscle Percent", "50" );
+			}
+			if ( latte.contains( "Extra-healthy" ) || latte.contains( "health potion" ) || latte.contains( "shot of healing elixir" ) )
+			{
+				modList.addModifier( "HP Regen Min", "10" );
+				modList.addModifier( "HP Regen Max", "20" );
+			}
+			if ( latte.contains( "Extra-salty" ) || latte.contains( "rock salt" ) )
+			{
+				modList.addModifier( "Critical Hit Percent", "10" );
+			}
+			if ( latte.contains( "Filthy" ) || latte.contains( "filth milk" ) )
+			{
+				modList.addModifier( "Damage Reduction", "20" );
+			}
+			if ( latte.contains( "Floured" ) || latte.contains( "white flour" ) || latte.contains( "dusted with flour" ) )
+			{
+				modList.addModifier( "Sleaze Resistance", "3" );
+			}
+			if ( latte.contains( "Fortified" ) || latte.contains( "vitamin" ) )
+			{
+				modList.addModifier( "Experience (familiar)", "3" );
+			}
+			if ( latte.contains( "Fresh grass" ) || latte.contains( "fresh grass" ) || latte.contains( "fresh-cut grass" ) )
+			{
+				modList.addModifier( "Experience", "3" );
+			}
+			if ( latte.contains( "Fungal" ) || latte.contains( "fungus" ) || latte.contains( "fungal scrapings" ) )
+			{
+				modList.addModifier( "Maximum MP", "30" );
+			}
+			if ( latte.contains( "Greasy" ) || ( latte.contains( "sausage" ) && !latte.contains( "mega sausage" ) ) || latte.contains( "gristle" ) )
+			{
+				modList.addModifier( "Mysticality Percent", "50" );
+			}
+			if ( latte.contains( "Greek spice" ) || latte.contains( "greek spice" ) )
+			{
+				modList.addModifier( "Sleaze Damage", "25" );
+			}
+			if ( latte.contains( "Grobold rum" ) || latte.contains( "grobold rum" ) )
+			{
+				modList.addModifier( "Sleaze Damage", "25" );
+			}
+			if ( latte.contains( "Guarna" ) || latte.contains( "guarna" ) )
+			{
+				modList.addModifier( "Adventures", "4" );
+			}
+			if ( latte.contains( "Gunpowder" ) || latte.contains( "gunpowder" ) )
+			{
+				modList.addModifier( "Weapon Damage", "50" );
+			}
+			if ( latte.contains( "Hellish" ) || latte.contains( "hellion" ) )
+			{
+				modList.addModifier( "PvP Fights", "6" );
+			}
+			if ( latte.contains( "Hobo-spiced" ) || latte.contains( "hobo spice" ) )
+			{
+				modList.addModifier( "Damage Absorption", "50" );
+			}
+			if ( latte.contains( "Hot wing" ) || latte.contains( "hot wing" ) )
+			{
+				modList.addModifier( "Combat Rate", "5" );
+			}
+			if ( latte.contains( "Inky" ) || latte.contains( " ink" ) )
+			{
+				modList.addModifier( "Combat Rate", "-5" );
+			}
+			if ( latte.contains( "Kombucha-infused" ) || latte.contains( "kombucha" ) )
+			{
+				modList.addModifier( "Stench Damage", "25" );
+			}
+			if ( latte.contains( "Lihc-licked" ) || latte.contains( "lihc saliva" ) || latte.contains( "lihc spit" ) )
+			{
+				modList.addModifier( "Spooky Damage", "25" );
+			}
+			if ( latte.contains( "Lizard milk" ) || latte.contains( "lizard milk" ) )
+			{
+				modList.addModifier( "MP Regen Min", "5" );
+				modList.addModifier( "MP Regen Max", "15" );
+			}
+			if ( latte.contains( "Moldy" ) || latte.contains( "grave mold" ) )
+			{
+				modList.addModifier( "Spooky Damage", "20" );
+			}
+			if ( latte.contains( "Motor oil" ) || latte.contains( "motor oil" ) )
+			{
+				modList.addModifier( "Sleaze Damage", "20" );
+			}
+			if ( latte.contains( "MSG" ) || latte.contains( "with flavor" ) )
+			{
+				modList.addModifier( "Critical Hit Percent", "15" );
+			}
+			if ( latte.contains( "Norwhal milk" ) || latte.contains( "norwhal milk" ) )
+			{
+				modList.addModifier( "Maximum HP Percent", "200" );
+			}
+			if ( latte.contains( "Oil-paint" ) || latte.contains( "oil paint" ) )
+			{
+				modList.addModifier( "Cold Damage", "5" );
+				modList.addModifier( "Hot Damage", "5" );
+				modList.addModifier( "Sleaze Damage", "5" );
+				modList.addModifier( "Spooky Damage", "5" );
+				modList.addModifier( "Stench Damage", "5" );
+			}
+			if ( latte.contains( "Paradise milk" ) || latte.contains( "paradise milk" ) || latte.contains( "milk of paradise" ) )
+			{
+				modList.addModifier( "Muscle", "20" );
+				modList.addModifier( "Mysticality", "20" );
+				modList.addModifier( "Moxie", "20" );
+			}
+			if ( latte.contains( "Rawhide" ) || latte.contains( "rawhide" ) )
+			{
+				modList.addModifier( "Familiar Weight", "5" );
+			}
+			if ( latte.contains( "Salted" ) || latte.contains( "salt" ) )
+			{
+				modList.addModifier( "Critical Hit Percent", "5" );
+			}
+			if ( latte.contains( "Sandalwood-infused" ) || latte.contains( "sandalwood splinter" ) )
+			{
+				modList.addModifier( "Muscle", "5" );
+				modList.addModifier( "Mysticality", "5" );
+				modList.addModifier( "Moxie", "5" );
+			}
+			if ( latte.contains( "Space pumpkin" ) || latte.contains( "space pumpkin" ) )
+			{
+				modList.addModifier( "Muscle", "10" );
+				modList.addModifier( "Mysticality", "10" );
+				modList.addModifier( "Moxie", "10" );
+			}
+			if ( latte.contains( "Spaghetti-squashy" ) || latte.contains( "spaghetti squash spice" ) || latte.contains( "extra squash" ) )
+			{
+				modList.addModifier( "Spell Damage", "20" );
+			}
+			if ( latte.contains( "Squamous-salted" ) || latte.contains( "squamous" ) )
+			{
+				modList.addModifier( "Spooky Resistance", "3" );
+			}
+			if ( latte.contains( "Super-greasy" ) || latte.contains( "mega sausage" ) || latte.contains( "super gristle" ) )
+			{
+				modList.addModifier( "Moxie Percent", "50" );
+			}
+			if ( latte.contains( "Teeth" ) || latte.contains( "teeth" ) )
+			{
+				modList.addModifier( "Weapon Damage", "25" );
+			}
 
-		Preferences.setString( "_latteModifier", modList.toString() );
-		Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", modList.toString() );
-		KoLCharacter.recalculateAdjustments();
-		KoLCharacter.updateStatus();
+			Preferences.setString( "_latteModifier", modList.toString() );
+			Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", modList.toString() );
+			KoLCharacter.recalculateAdjustments();
+			KoLCharacter.updateStatus();
+			Preferences.increment( "_latteRefillsUsed", 1, 3, false );
+			Preferences.setBoolean( "_latteBanishUsed", false );
+			Preferences.setBoolean( "_latteCopyUsed", false );
+			Preferences.setBoolean( "_latteDrinkUsed", false );
+		}
 	}
 }

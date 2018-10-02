@@ -148,6 +148,7 @@ public class BanishManager
 		new Banisher( "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET ),
 		new Banisher( "stinky cheese eye", 10, 1, true, Reset.TURN_RESET ),
 		new Banisher( "tennis ball", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
+		new Banisher( "Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "thunder clap", 40, 1, false, Reset.TURN_RESET ),
 		new Banisher( "v for vivala mask", 10, 1, true, Reset.TURN_RESET ),
 		new Banisher( "walk away from explosion", 30, 1, false, Reset.TURN_RESET ),

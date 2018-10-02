@@ -79,6 +79,7 @@ generic restorative potion	item	[floor(L*4.05)]	[floor(L*4.95)]	[floor(L*2.25)]	
 gold star	item	0	0	20	30	0
 green pixel potion	item	40	60	30	40	0
 grogpagne	item	0	0	30	50	0
+Gulp Latte	skill	[HP/2]	[HP/2]	[MP/2]	[MP/2]	0	[1-pref(_latteDrinkUsed)]
 heart of dark chocolate	item	40	50	0	0	0	[1-pref(_darkChocolateHeart)]
 Hibernate	skill	[HP]	[HP]	0	0	1
 high-pressure seltzer bottle	item	0	0	150	200	0
