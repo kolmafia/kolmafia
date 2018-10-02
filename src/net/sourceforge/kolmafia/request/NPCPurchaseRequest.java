@@ -554,6 +554,11 @@ public class NPCPurchaseRequest
 
 		if ( shopId.equals( "mayoclinic" ) )
 		{
+			if ( !responseText.contains( "Mayo" ) )
+			{
+				// We don't have it installed, maybe got here through URL manipulation?
+				return;
+			}
 			boolean refreshConcoctions = false;
 			AdventureResult currentWorkshed = CampgroundRequest.getCurrentWorkshedItem();
 			if ( currentWorkshed == null || currentWorkshed.getItemId() != ItemPool.MAYO_CLINIC )
