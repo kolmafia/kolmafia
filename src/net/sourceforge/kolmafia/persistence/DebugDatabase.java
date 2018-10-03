@@ -1482,7 +1482,7 @@ public class DebugDatabase
 			// If the value contains a quoted string, it can contain commas
 			if ( mod.contains( "\"" ) || !mod.contains( "," ) )
 			{
-				known.addModifier( DebugDatabase.makeModifier( mod ) );
+				known.addToModifier( DebugDatabase.makeModifier( mod ) );
 				return;
 			}
 
@@ -1490,7 +1490,7 @@ public class DebugDatabase
 			String[] mods = mod.split( "," );
 			for ( int i = 0; i < mods.length; ++i )
 			{
-				known.addModifier( DebugDatabase.makeModifier( mods[ i ] ) );
+				known.addToModifier( DebugDatabase.makeModifier( mods[ i ] ) );
 			}
 		}
 	}
