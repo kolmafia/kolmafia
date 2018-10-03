@@ -2354,6 +2354,46 @@ public class Modifiers
 			this.list.add( new Modifier( name, value ) );
 		}
 
+		public void addToModifier( final Modifier modifier )
+		{
+			String name = modifier.getName();
+			String current = this.getModifierValue( name );
+			if ( current == null )
+			{
+				this.list.add( modifier );
+			}
+			else
+			{
+				// We can only add to numeric values
+				String value = modifier.getValue();
+				if ( StringUtilities.isNumeric( current ) && StringUtilities.isNumeric( value ) )
+				{
+					int newValue = Integer.parseInt( current ) + Integer.parseInt( value );
+					this.removeModifier( name );
+					this.list.add( new Modifier( name, String.valueOf( newValue ) ) );
+				}
+			}
+		}
+
+		public void addToModifier( final String name, final String value )
+		{
+			String current = this.getModifierValue( name );
+			if ( current == null )
+			{
+				this.list.add( new Modifier( name, value ) );
+			}
+			else
+			{
+				// We can only add to numeric values
+				if ( StringUtilities.isNumeric( current ) && StringUtilities.isNumeric( value ) )
+				{
+					int newValue = Integer.parseInt( current ) + Integer.parseInt( value );
+					this.removeModifier( name );
+					this.list.add( new Modifier( name, String.valueOf( newValue ) ) );
+				}
+			}
+		}
+
 		public boolean containsModifier( final String name )
 		{
 			for ( Modifier modifier : this.list )
