@@ -794,6 +794,7 @@ user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
+user	latteModifier	
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0
@@ -1530,7 +1531,6 @@ user	_lastZomboEye	0
 user	_latteBanishUsed	false
 user	_latteCopyUsed	false
 user	_latteDrinkUsed	false
-user	_latteModifier	
 user	_latteMonster	
 user	_latteRefillsUsed	0
 user	_leafblowerML	1
