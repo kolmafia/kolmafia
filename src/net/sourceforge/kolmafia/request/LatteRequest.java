@@ -313,7 +313,7 @@ public class LatteRequest
 				modList.addModifier( "Weapon Damage", "25" );
 			}
 
-			Preferences.setString( "_latteModifier", modList.toString() );
+			Preferences.setString( "latteModifier", modList.toString() );
 			Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", modList.toString() );
 			KoLCharacter.recalculateAdjustments();
 			KoLCharacter.updateStatus();

@@ -2112,7 +2112,7 @@ public abstract class InventoryManager
 
 	public static final void checkLatte()
 	{
-		String mod = Preferences.getString( "_latteModifier" );
+		String mod = Preferences.getString( "latteModifier" );
 		if ( !KoLCharacter.hasEquipped( InventoryManager.LATTE_MUG, EquipmentManager.OFFHAND ) &&
 		     !KoLConstants.inventory.contains( InventoryManager.LATTE_MUG ) )
 		{
@@ -2122,7 +2122,7 @@ public abstract class InventoryManager
 		{
 			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.LATTE_MUG ), true );
 			mod = DebugDatabase.parseItemEnchantments( rawText, new ArrayList<String>(), KoLConstants.EQUIP_OFFHAND );
-			Preferences.setString( "_latteModifier", mod );
+			Preferences.setString( "latteModifier", mod );
 		}
 		Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", mod );
 	}
