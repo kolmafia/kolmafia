@@ -3171,7 +3171,7 @@ public class DailyDeedsPanel
 
 		private int count;
 		private boolean shown;
-		private static final int fightsPerLine = 5;
+		private static final int fightsPerLine = 4;
 		private void addFightCounter(StringBuilder buffer, String text)
 		{
 			if ( count >= fightsPerLine )
@@ -3384,7 +3384,7 @@ public class DailyDeedsPanel
 		
 		private int count;
 		private boolean shown;
-		private static final int dropsPerLine = 5;
+		private static final int dropsPerLine = 4;
 		private void addDropCounter(StringBuilder buffer, String text)
 		{
 			if ( count >= dropsPerLine )
