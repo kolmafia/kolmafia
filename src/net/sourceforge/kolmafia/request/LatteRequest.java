@@ -37,7 +37,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -47,9 +49,14 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 import net.sourceforge.kolmafia.session.ResultProcessor;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class LatteRequest
 	extends GenericRequest
 {
+	private static final Pattern REFILL_PATTERN = Pattern.compile( "You've got <b>(\\d+)</b> refill" );
+	private static final Pattern LINE_PATTERN = Pattern.compile( "<tr style=.*?</tr>", Pattern.DOTALL );
+	private static final Pattern INPUT_PATTERN = Pattern.compile( "value=\\\"(.*?)\\\">\\s(.*?)\\s</td>" );
 	private static final Pattern RESULT_PATTERN = Pattern.compile( "You get your mug filled with a delicious (.*?) Latte (.*?)\\.</span>" );
 
 	public static final String [][] LATTE = new String[][]
@@ -72,7 +79,7 @@ public class LatteRequest
 		{ "diet", "TBC", "Diet", "diet soda", "with diet soda syrup", "Initiative: 50", "TBC" },
 		{ "dwarf", "Itznotyerzitz Mine", "Dwarf creamed", "dwarf cream", "with dwarf cream", "Muscle: 30", "milking a stalactite" },
 		{ "dyspepsi", "TBC", "Dyspepsi-flavored", "Dyspepsi", "with a shot of Dyspepsi syrup", "Initiative: 25", "TBC" },
-		{ "filth", "TBC", "Filthy", "filth milk", "with filth milk", "Damage Reduction: 20", "TBC" },
+		{ "filth", "The Feeding Chamber", "Filthy", "filth milk", "with filth milk", "Damage Reduction: 20", "filth milk" },
 		{ "flour", "The Road to the White Citadel", "Floured", "white flour", "dusted with flour", "Sleaze Resistance: 3", "bag of all-purpose flour" },
 		{ "fungus", "The Fungal Nethers", "Fresh grass and", "fresh grass", "with fresh-cut grass", "Maximum MP: 30", "patch of mushrooms" },
 		{ "grass", "The Hidden Park", "Fresh grass and", "fresh grass", "with fresh-cut grass", "Experience: 3", "pile of fresh lawn clippings" },
@@ -109,7 +116,7 @@ public class LatteRequest
 		{ "vanilla", null, "Vanilla", "vanilla", "with a shot of vanilla", "Experience (Muscle): 1, Muscle Percent: 5, Weapon Damage: 5", null },
 		{ "venom", "The Middle Chamber", "Envenomed", "asp venom", "with extra poison", "Weapon Damage: 25", "wring the poison out of it into a jar" },
 		{ "vitamins", "The Dark Elbow of the Woods", "Fortified", "vitamin", "enriched with vitamins", "Experience (familiar): 3", "specifically vitamins G, L, P, and W" },
-		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 5", "TBC" },
+		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 5", "plate of hot wings" },
 	};
 
 	public static final int INGREDIENT = 0;
@@ -144,9 +151,7 @@ public class LatteRequest
 			String first = null;
 			String second = null;
 			String third = null;
-			String firstMod = null;
-			String secondMod = null;
-			String thirdMod = null;
+			String[] mods = new String[3];
 			String start = matcher.group( 1 ).trim();
 			String middle = null;
 			String end = matcher.group( 2 ).trim();
@@ -155,7 +160,7 @@ public class LatteRequest
 			{
 				if ( start.startsWith( LATTE[i][FIRST] ) )
 				{
-					firstMod = LATTE[i][MOD];
+					mods[0] = LATTE[i][MOD];
 					first = LATTE[i][FIRST];
 					middle = start.replace( LATTE[i][FIRST], "" ).trim();
 					break;
@@ -166,18 +171,18 @@ public class LatteRequest
 			{
 				if ( middle.equals( LATTE[i][SECOND] ) )
 				{
-					secondMod = LATTE[i][MOD];
+					mods[1] = LATTE[i][MOD];
 					second = LATTE[i][SECOND];
-					if ( thirdMod != null )
+					if ( third != null )
 					{
 						break;
 					}
 				}
 				if ( end.equals( LATTE[i][THIRD] ) )
 				{
-					thirdMod = LATTE[i][MOD];
+					mods[2] = LATTE[i][MOD];
 					third = LATTE[i][THIRD];
-					if ( secondMod != null )
+					if ( second != null )
 					{
 						break;
 					}
@@ -189,7 +194,15 @@ public class LatteRequest
 			RequestLogger.updateSessionLog( message );
 
 			ModifierList modList = new ModifierList();
-			modList = Modifiers.splitModifiers( firstMod + ", " + secondMod + ", " + thirdMod );
+			for ( int i = 0 ; i < 3 ; ++i )
+			{
+				ModifierList addModList = Modifiers.splitModifiers( mods[i] );
+				for ( Modifier modifier : addModList )
+				{
+					modList.addToModifier( modifier );
+				}
+			}
+
 			Preferences.setString( "latteModifier", modList.toString() );
 			Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", modList.toString() );
 			KoLCharacter.recalculateAdjustments();
@@ -199,5 +212,67 @@ public class LatteRequest
 			Preferences.setBoolean( "_latteCopyUsed", false );
 			Preferences.setBoolean( "_latteDrinkUsed", false );
 		}
+	}
+
+	public static final void parseFight( final String location, final String responseText )
+	{
+		for ( int i = 0; i < LATTE.length; ++i )
+		{
+			if ( LATTE[i][LOCATION] == null )
+			{
+				continue;
+			}
+			if ( location.equals( LATTE[i][LOCATION] ) )
+			{
+				if ( responseText.contains( LATTE[i][DISCOVER] ) )
+				{
+					String pref = Preferences.getString( "latteUnlocks" );
+					if ( !pref.contains( LATTE[i][INGREDIENT] ) )
+					{
+						Preferences.setString( "latteUnlocks", pref + "," + LATTE[i][INGREDIENT] );
+						String message = "Unlocked " + LATTE[i][INGREDIENT] + " for Latte.";
+						RequestLogger.printLine( message );
+						RequestLogger.updateSessionLog( message );
+					}
+				}
+				break;
+			}
+		}		
+	}
+
+	public static final void parseVisitChoice( final String text )
+	{
+		Matcher matcher = LatteRequest.REFILL_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			Preferences.setInteger( "_latteRefillsUsed", 3 - StringUtilities.parseInt( matcher.group( 1 ) ) );
+		}
+		matcher = LatteRequest.LINE_PATTERN.matcher( text );
+		StringBuilder unlocks = new StringBuilder();
+		while ( matcher.find() )
+		{
+			String line = matcher.group( 0 );
+			Matcher lineMatcher = LatteRequest.INPUT_PATTERN.matcher( line );
+			if ( lineMatcher.find() )
+			{
+				String first = lineMatcher.group( 2 ).trim();
+				for ( int i = 0; i < LATTE.length; ++i )
+				{
+					if ( first.equals( LATTE[i][FIRST] ) )
+					{
+						if ( !line.contains( "&Dagger;" ) )
+						{
+							if ( unlocks.length() != 0 )
+							{
+								unlocks.append( "," );
+							}
+							unlocks.append( LATTE[i][INGREDIENT] );
+						}
+						break;
+					}
+				}
+			}
+		}
+		Preferences.setString( "latteUnlocks", unlocks.toString() );
 	}
 }

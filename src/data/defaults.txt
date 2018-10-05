@@ -795,6 +795,7 @@ user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
 user	latteModifier	
+user	latteUnlocks	cinnamon,pumpkin,vanilla
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0

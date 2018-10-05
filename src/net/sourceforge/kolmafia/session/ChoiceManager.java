@@ -273,7 +273,6 @@ public abstract class ChoiceManager
 	private static final Pattern GERALDINE_PATTERN = Pattern.compile( "Geraldine wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
 	private static final Pattern SAFE_PATTERN = Pattern.compile( "find (\\d+) Meat in the safe" );
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
-	private static final Pattern LATTE_PATTERN = Pattern.compile( "You've got <b>(\\d+)</b> refill" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -14129,15 +14128,9 @@ public abstract class ChoiceManager
 			break;
 
 		case 1329:
-		{
 			// Latte Shop
-			Matcher matcher = ChoiceManager.LATTE_PATTERN.matcher( text );
-			if ( matcher.find() )
-			{
-				Preferences.setInteger( "_latteRefillsUsed", 3 - StringUtilities.parseInt( matcher.group( 1 ) ) );
-			}
+			LatteRequest.parseVisitChoice( text );
 			break;
-		}
 
 		}
 	}
