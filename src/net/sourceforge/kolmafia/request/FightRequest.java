@@ -4217,6 +4217,17 @@ public class FightRequest
 				Preferences.increment( "boneAbacusVictories", 1 );
 			}
 
+			if ( KoLCharacter.hasEquipped( ItemPool.LATTE_MUG, EquipmentManager.OFFHAND ) )
+			{
+				KoLAdventure location = KoLAdventure.lastVisitedLocation();
+				String locationName = null;
+				if ( KoLAdventure.lastVisitedLocation() != null )
+				{
+					locationName = location.getAdventureName();
+				}
+				LatteRequest.parseFight( locationName, responseText );
+			}
+
 			if ( KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
 			{
 				if ( responseText.contains( "+1 Venom" ) )
@@ -8934,7 +8945,7 @@ public class FightRequest
 			break;
 
 		case SkillPool.OFFER_LATTE:
-			if ( responseText.contains( "its friends start following you" ) || skillSuccess )
+			if ( responseText.contains( "friends start following you" ) || skillSuccess )
 			{
 				Preferences.setString( "_latteMonster", monsterName );
 				Preferences.setBoolean( "_latteCopyUsed", true );

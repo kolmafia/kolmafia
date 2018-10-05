@@ -655,6 +655,7 @@ public class ValhallaManager
 		Preferences.setString( "boomBoxSong", "" );
 		Preferences.setInteger( "catBurglarBankHeists", 0 );
 		Preferences.setString( "latteModifier", "" );
+		Preferences.resetToDefault( "latteUnlocks" );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
