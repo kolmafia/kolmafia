@@ -179,19 +179,19 @@ public class CandyDatabase
 	}
 
 	private static final int FLAG_AVAILABLE = 0x1;
-	private static final int FLAG_ALLOWED = 0x2;
+	// *** Deprecated
+	// private static final int FLAG_ALLOWED = 0x2;
 
-	public static int makeFlags( final boolean available, final boolean allowed )
+	public static int makeFlags( final boolean available )
 	{
-		return ( available ? FLAG_AVAILABLE : 0 ) + ( allowed ? FLAG_ALLOWED : 0 );
+		return ( available ? FLAG_AVAILABLE : 0 );
 	}
 
 	public static int defaultFlags()
 	{
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		boolean available = loggedIn && !KoLCharacter.canInteract();
-		boolean allowed = loggedIn && KoLCharacter.getRestricted();
-		return CandyDatabase.makeFlags( available, allowed );
+		return CandyDatabase.makeFlags( available );
 	}
 
 	public static Set<Integer> candyForTier( final int tier )
@@ -221,16 +221,11 @@ public class CandyDatabase
 
 		// Otherwise, we must filter
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
-		boolean allowed = ( flags & FLAG_ALLOWED ) != 0;
 		Set<Integer> result = new HashSet<Integer>();
 
 		for ( Integer itemId : candies )
 		{
 			if ( available && InventoryManager.getAccessibleCount( itemId ) == 0 )
-			{
-				continue;
-			}
-			if ( allowed && !ItemDatabase.isAllowed( itemId ) )
 			{
 				continue;
 			}
@@ -297,7 +292,6 @@ public class CandyDatabase
 
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
-		boolean allowed = ( flags & FLAG_ALLOWED ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
@@ -316,10 +310,6 @@ public class CandyDatabase
 				{
 					continue;
 				}
-			}
-			if ( allowed && !ItemDatabase.isAllowed( itemId2 ) )
-			{
-				continue;
 			}
 			result.add( itemId2 );
 		}
@@ -346,7 +336,6 @@ public class CandyDatabase
 		private final String name;
 		private int count;
 		private int mallprice;
-		private boolean restricted;
 
 		public Candy( final int itemId )
 		{
@@ -354,7 +343,6 @@ public class CandyDatabase
 			this.name = ItemDatabase.getDataName( itemId );
 			this.count = InventoryManager.getAccessibleCount( itemId );
 			this.mallprice = ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0;
-			this.restricted = !ItemDatabase.isAllowedInStandard( itemId );
 		}
 
 		@Override
@@ -396,11 +384,6 @@ public class CandyDatabase
 		public int getMallPrice()
 		{
 			return this.mallprice;
-		}
-
-		public boolean getRestricted()
-		{
-			return this.restricted;
 		}
 
 		public Candy update()

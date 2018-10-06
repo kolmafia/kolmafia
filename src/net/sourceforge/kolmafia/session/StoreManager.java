@@ -867,6 +867,11 @@ public abstract class StoreManager
 		return price;
 	}
 
+	public static int getMallPrices( String category )
+	{
+		return getMallPrices( category, "" );
+	}
+
 	public static int getMallPrices( String category, String tiers )
 	{
 		// Validate the category. KoL will accept any category, but unknown categories are the same as "allItems"

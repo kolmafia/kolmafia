@@ -108,7 +108,6 @@ public class SynthesizePanel
 	// The filter checkboxes
 	private JCheckBox[] filters;
 	private boolean availableChecked = false;
-	private boolean allowedChecked = false;;
 
 	// The panel with Candy A and Candy B columns
 	private CandyPanel candyPanel;
@@ -216,13 +215,10 @@ public class SynthesizePanel
 
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		this.availableChecked = loggedIn && !KoLCharacter.canInteract();
-		this.allowedChecked = loggedIn && KoLCharacter.getRestricted();
 
-		this.filters = new JCheckBox[ 2 ];
+		this.filters = new JCheckBox[ 1 ];
 		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
 		this.filters[ 0 ].setToolTipText( "Show only items that 'acquire' will find. Inventory, at least." );
-		this.filters[ 1 ] = new JCheckBox( "allowed", this.allowedChecked );
-		this.filters[ 1 ].setToolTipText( "Show only items that are allowed under Standard restrictions." );
 
 		for ( JCheckBox checkbox : this.filters )
 		{
@@ -237,7 +233,6 @@ public class SynthesizePanel
 	public void actionPerformed( final ActionEvent e )
 	{
 		this.availableChecked = this.filters[0].isSelected();
-		this.allowedChecked = this.filters[1].isSelected();
 
 		// Filter candy lists
 		this.filterItems();
@@ -346,8 +341,7 @@ public class SynthesizePanel
 			// effect can be made using available candies
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			boolean allowed = SynthesizePanel.this.allowedChecked;
-			int flags = CandyDatabase.makeFlags( available, allowed );
+			int flags = CandyDatabase.makeFlags( available );
 
 			for ( Component component : this.getComponents() )
 			{
@@ -658,10 +652,6 @@ public class SynthesizePanel
 					{
 						return false;
 					}
-					if ( SynthesizePanel.this.allowedChecked && ((Candy)o).getRestricted() )
-					{
-						return false;
-					}
 				}
 				return true;
 			}
@@ -770,15 +760,11 @@ public class SynthesizePanel
 						// Filter out candy which has no available pairing
 						int effectId = SynthesizePanel.this.effectId();
 						int itemId = candy.getItemId();
-						int flags = CandyDatabase.makeFlags( true, SynthesizePanel.this.allowedChecked );
+						int flags = CandyDatabase.makeFlags( true );
 						if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() == 0 )
 						{
 							return false;
 						}
-					}
-					if ( SynthesizePanel.this.allowedChecked && candy.getRestricted() )
-					{
-						return false;
 					}
 				}
 				return true;
@@ -837,10 +823,6 @@ public class SynthesizePanel
 						{
 							return false;
 						}
-					}
-					if ( SynthesizePanel.this.allowedChecked && candy.getRestricted() )
-					{
-						return false;
 					}
 				}
 				return true;
@@ -1009,8 +991,7 @@ public class SynthesizePanel
 			// more restrictive
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			boolean allowed = SynthesizePanel.this.allowedChecked;
-			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, allowed );
+			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available );
 
 			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
 			if ( pair.length == 0 )
@@ -1036,19 +1017,13 @@ public class SynthesizePanel
 		@Override
 		protected void execute()
 		{
-			for ( Integer itemId : CandyDatabase.candyForTier( 2, 0 ) )
-			{
-				if ( !ItemDatabase.isTradeable( itemId ) )
-				{
-					continue;
-				}
-				float age = MallPriceDatabase.getAge( itemId );
-				if ( age > SynthesizePanel.AGE_LIMIT )
-				{
-					// Force a mall search
-					StoreManager.getMallPrice( ItemPool.get( itemId, 0 ) );
-				}
-			}
+			// As of 2018-10-06, there are 195 "potions" and 23 "food" candies.
+			//
+			// Bulk updating prices for those two categories is faster than
+			// checking them individually.
+
+			StoreManager.getMallPrices( "potions" );
+			StoreManager.getMallPrices( "food" );
 
 			// Update all visible candies
 			SynthesizePanel.this.update();
