@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
@@ -56,12 +57,12 @@ public class LatteRequest
 {
 	private static final Pattern REFILL_PATTERN = Pattern.compile( "You've got <b>(\\d+)</b> refill" );
 	private static final Pattern LINE_PATTERN = Pattern.compile( "<tr style=.*?</tr>", Pattern.DOTALL );
-	private static final Pattern INPUT_PATTERN = Pattern.compile( "value=\\\"(.*?)\\\">\\s(.*?)\\s</td>" );
+	private static final Pattern INPUT_PATTERN = Pattern.compile( "name=\\\"l(\\d)\\\" value=\\\"(.*?)\\\">\\s(.*?)\\s</td>" );
 	private static final Pattern RESULT_PATTERN = Pattern.compile( "You get your mug filled with a delicious (.*?) Latte (.*?)\\.</span>" );
 
-	public static final String [][] LATTE = new String[][]
+	private static final String [][] LATTE = new String[][]
 	{
-		// Ingredient, Location, First group name, second group name, third group name, modifier string, discovery text
+		// Ingredient, Location, First group name, second group name, third group name, modifier string, discovery text, radio 1, radio 2, radio 3
 		{ "ancient", "The Mouldering Mansion", "Ancient exotic spiced", "ancient/spicy", "with ancient spice", "Spooky Damage: 50", "urn full of ancient spices" },
 		{ "basil", "The Overgrown Lot", "Basil and", "basil", "with basil", "HP Regen Min: 5, HP Regen Max: 5", "clump of wild basil" },
 		{ "belgian", "Whitey's Grove", "Belgian vanilla", "Belgian vanilla", "with a shot of Belgian vanilla", "Muscle Percent: 20, Mysticality Percent: 20, Moxie Percent: 20", "a large vanilla bean pod" },
@@ -119,17 +120,125 @@ public class LatteRequest
 		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 5", "plate of hot wings" },
 	};
 
-	public static final int INGREDIENT = 0;
-	public static final int LOCATION = 1;
-	public static final int FIRST = 2;
-	public static final int SECOND = 3;
-	public static final int THIRD = 4;
-	public static final int MOD = 5;
-	public static final int DISCOVER = 6;
+	private static final int INGREDIENT = 0;
+	private static final int LOCATION = 1;
+	private static final int FIRST = 2;
+	private static final int SECOND = 3;
+	private static final int THIRD = 4;
+	private static final int MOD = 5;
+	private static final int DISCOVER = 6;
+	
+	private static String[][] radio = new String[LATTE.length][3];
 
 	public LatteRequest()
 	{
 		super( "choice.php" );
+	}
+
+	public static void refill( final String first, final String second, final String third )
+	{
+		int[] ingredients = new int[3];
+		for ( int i = 0; i < 3; ++i )
+		{
+			ingredients[i] = -1;
+		}
+		for ( int i = 0; i < LATTE.length; ++i )
+		{
+			if ( first.equals( LATTE[i][INGREDIENT] ) )
+			{
+				ingredients[0] = i;
+			}
+			if ( second.equals( LATTE[i][INGREDIENT] ) )
+			{
+				ingredients[1] = i;
+			}
+			if ( third.equals( LATTE[i][INGREDIENT] ) )
+			{
+				ingredients[2] = i;
+			}
+		}
+		boolean checksOk = true;
+		for ( int i = 0; i < 3; ++i )
+		{
+			if ( ingredients[i] == -1 )
+			{
+				String message = null;
+				switch ( i )
+				{
+				case 0:
+					message = "Cannot find ingredient " + first + ". Use 'latte unlocked' to see available ingredients.";
+					break;
+				case 1:
+					message = "Cannot find ingredient " + second + ". Use 'latte unlocked' to see available ingredients.";
+					break;
+				case 2:
+					message = "Cannot find ingredient " + third + ". Use 'latte unlocked' to see available ingredients.";
+					break;
+				}
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
+				checksOk = false;
+			}
+			else if ( !Preferences.getString( "latteUnlocks" ).contains( LATTE[ingredients[i]][INGREDIENT] ) )
+			{
+				String message = "Ingredient " + LATTE[ingredients[i]][INGREDIENT] + " is not unlocked. Use 'latte unlocks' to see how to unlock it.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
+				checksOk = false;
+			}
+		}
+		if ( !checksOk )
+		{
+			return;
+		}
+
+		// Refill Latte
+		String message = "Filling mug with " + LATTE[ingredients[0]][FIRST] + " " + LATTE[ingredients[1]][SECOND] + " Latte " + LATTE[ingredients[2]][THIRD] + ".";
+		RequestLogger.printLine( message );
+		message = "But sadly not yet implemented!";
+		RequestLogger.printLine( message );
+		RequestLogger.updateSessionLog( message );
+
+	}
+
+	public static final void listUnlocks( final boolean all )
+	{
+		StringBuilder output = new StringBuilder();
+		output.append( "<table border=2 cols=3>" );
+		output.append( "<tr>" );
+		output.append( "<th>Ingredient</th>" );
+		output.append( "<th>Unlock</th>" );
+		output.append( "<th>Modifier</th>" );
+		output.append( "</tr>" );
+
+		for ( int i = 0; i < LATTE.length; ++i )
+		{
+			boolean unlocked = Preferences.getString( "latteUnlocks" ).contains( LATTE[i][INGREDIENT] );
+			if ( all || unlocked )
+			{
+				output.append( "<tr>" );
+				output.append( "<td>" );
+				output.append( LATTE[i][INGREDIENT] );
+				output.append( "</td>" );
+				output.append( "<td>" );
+				if ( unlocked )
+				{
+					output.append( "unlocked" );
+				}
+				else
+				{
+					output.append( "Unlock in ");
+					output.append( LATTE[i][LOCATION] );
+				}
+				output.append( "</td>" );
+				output.append( "<td>" );
+				output.append( LATTE[i][MOD] );
+				output.append( "</td>" );
+				output.append( "</tr>" );
+			}
+		}
+		output.append( "</table>" );
+
+		RequestLogger.printLine( output.toString() );
+		RequestLogger.printLine();
 	}
 
 	public static final void parseResponse( final String urlString, final String responseText )
@@ -216,6 +325,11 @@ public class LatteRequest
 
 	public static final void parseFight( final String location, final String responseText )
 	{
+		if ( location == null || responseText == null )
+		{
+			return;
+		}
+
 		for ( int i = 0; i < LATTE.length; ++i )
 		{
 			if ( LATTE[i][LOCATION] == null )
@@ -253,14 +367,17 @@ public class LatteRequest
 		{
 			String line = matcher.group( 0 );
 			Matcher lineMatcher = LatteRequest.INPUT_PATTERN.matcher( line );
-			if ( lineMatcher.find() )
+			while ( lineMatcher.find() )
 			{
-				String first = lineMatcher.group( 2 ).trim();
+				int button = StringUtilities.parseInt( lineMatcher.group( 1 ) );
+				String value = lineMatcher.group( 2 );
+				String description = lineMatcher.group( 3 ).trim();
 				for ( int i = 0; i < LATTE.length; ++i )
 				{
-					if ( first.equals( LATTE[i][FIRST] ) )
+					if ( description.equals( LATTE[i][button+1] ) )
 					{
-						if ( !line.contains( "&Dagger;" ) )
+						radio[i][button-1] = value;
+						if ( button == 1 && !line.contains( "&Dagger;" ) )
 						{
 							if ( unlocks.length() != 0 )
 							{

@@ -791,6 +791,7 @@ public class KoLmafiaCLI
 		new ItemTraceCommand().register( "itrace" );
 		new JukeboxCommand().register( "jukebox" );
 		new KitchenCommand().registerSubstring( "kitchen" );
+		new LatteCommand().register( "latte" );
 		new LeafletCommand().register( "leaflet" );
 		new LogEchoCommand().register( "logecho" ).register( "logprint" );
 		new LoginCommand().register( "login" );
