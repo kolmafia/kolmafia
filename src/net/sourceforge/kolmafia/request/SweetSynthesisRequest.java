@@ -121,27 +121,20 @@ public class SweetSynthesisRequest
 			return;
 		}
 
-		// Check Standard restrictions, if necessary before trying to
-		// "acquire" the candies
-		if ( KoLCharacter.getRestricted() )
-		{
-			if ( !ItemDatabase.isAllowed( this.itemId1 ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Candy '" + itemName1 + "' is not permitted under Standard restrictions" );
-				return;
-			}
+		// If you are under Standard restrictions, there is nothing you
+		// can choose to do to get a restricted candy into inventory,
+		// but there are ways to find restricted candy in-run
+		//
+		// Sweet Synthesis is willing to synthesize using such candies.
+		// Therefore, do not enforce Standard restrictions here; let
+		// retrieveItem fail if the requested candies are not on hand
 
-			if ( !ItemDatabase.isAllowed( this.itemId2 ) )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Candy '" + itemName2 + "' is not permitted under Standard restrictions" );
-				return;
-			}
-		}
-
+		// Some candies can be created from ingredients using methods that consume turns.
+		// Do not allow creation; only retrieve the finished product
 		if ( this.itemId1 == this.itemId2 )
 		{
 			// Acquire both candies
-			if ( !InventoryManager.retrieveItem( this.itemId1, 2, true, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId1, 2, true, false, false ) )
 			{
 				return;
 			}
@@ -149,13 +142,13 @@ public class SweetSynthesisRequest
 		else
 		{
 			// Acquire the first candy
-			if ( !InventoryManager.retrieveItem( this.itemId1, 1, true, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId1, 1, true, false, false ) )
 			{
 				return;
 			}
 
 			// Acquire the second candy
-			if ( !InventoryManager.retrieveItem( this.itemId2, 1, true, false ) )
+			if ( !InventoryManager.retrieveItem( this.itemId2, 1, true, false, false ) )
 			{
 				return;
 			}

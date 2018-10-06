@@ -9989,7 +9989,7 @@
 9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30	very small red dresses
 9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60	pairs of noticeable pumps
 9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
-9966	everfull glass	899127745	endlessglass.gif	drink	t	0
+9966	everfull glass	899127745	endlessglass.gif	drink, reusable	t	0
 9967	van key	821096660	vankey.gif	usable	t,d	30
 9968	jam band bootleg	509692055	deadbootlet.gif	none, combat	t,d	30
 9969	denim jacket	439326125	punkjacket.gif	shirt	t,d	60
