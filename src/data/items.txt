@@ -9512,7 +9512,7 @@
 9485	Daily Affirmation: Keep Free Hate in your Heart	290338478	newyoucard7.gif	multiple, combat	t,d	5	Daily Affirmations: Keep Free Hate in your Heart
 9486	Affirmation Cookie	861232060	cookie.gif	food	t,d	5
 9487	License To Kill	666441939	licensetokill.gif	usable	t	0
-9488	Thwaitgold bug statue	754030701	thwaitbug.gif	none		0
+9488	Thwaitgold bug statuette	754030701	thwaitbug.gif	none		0
 9489	Victor's Spoils	389523822	olive.gif	usable	t,d	100
 9490	Threatening Missive	292042434	letter.gif	usable	q	0
 9491	Targeted Plague Vector	604726380	spraycan.gif	usable	q	0
@@ -10009,7 +10009,7 @@
 9982	party pup	350120235	partypup.gif	grow		0
 9983	party crasher	949262587	partycrasher.gif	offhand		0
 9984	Living to Drink, Drinking to Live	136551023	book4.gif	usable		0
-9985	Party Tattoo™ gift certificate	693335963	pttatcert.gif	usable		0
+9985	Party Tattoo&trade; gift certificate	693335963	pttatcert.gif	usable		0
 9986	party mouse hat	790452170	partymousehat.gif	familiar	t,d	75
 9987	latte lovers member's mug	294224337	lattecup1.gif	offhand		0
 9988	latte lovers club card	897524147	lattecard.gif	usable	t	0

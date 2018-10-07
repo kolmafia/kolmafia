@@ -1689,6 +1689,7 @@ Dinsey's radar dish	240	Mus: 100	shield
 dirty rigging rope	100	Mus: 30
 disturbing fanfic	60	Mys: 15
 double-ice box	70	Mys: 20
+druidic orb	0	none
 Drunkula's wineglass	300	Mys: 100
 duct tape buckler	195	Mus: 82	shield
 Dungeon Fist gauntlet	100	Mus: 35
@@ -2240,7 +2241,7 @@ diving muff	200	Mys: 85
 doll-eye amulet	100	Mys: 35
 dope gangsta bling-bling	45	Mys: 7
 dorky glasses	50	none
-Draftsman's driving gloves	0	none
+Draftsman's driving gloves	200	none
 Dreadsylvania Auditor's badge	250	Mys: 200
 droll monocle	100	Mys: 35
 Drunkula's ring of haze	300	Mys: 100

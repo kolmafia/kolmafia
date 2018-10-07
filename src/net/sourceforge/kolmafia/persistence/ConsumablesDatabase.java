@@ -1347,7 +1347,7 @@ public class ConsumablesDatabase
 		String mysticality = "0";
 		String moxie = "0";
 		String note = "";
-		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+		ConsumablesDatabase.setConsumptionData( name, size, 1, "crappy", adventures, muscle, mysticality, moxie, note );
 		ConsumablesDatabase.fullnessByName.put( name, size );
 		Concoction c = ConcoctionPool.get( name );
 		if ( c != null )
@@ -1368,7 +1368,7 @@ public class ConsumablesDatabase
 		String mysticality = String.valueOf( (int) ( 30 * count ) );
 		String moxie = String.valueOf( (int) ( 30 * count ) );
 		String note = "";
-		ConsumablesDatabase.setConsumptionData( name, size, adventures, muscle, mysticality, moxie, note );
+		ConsumablesDatabase.setConsumptionData( name, size, 1, "good", adventures, muscle, mysticality, moxie, note );
 	}
 
 	// Support for dusty bottles of wine
