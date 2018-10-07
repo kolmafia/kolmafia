@@ -245,6 +245,7 @@ public class ItemDatabase
 	public static final int ATTR_CANDY2 = 0x00008000;
 	public static final int ATTR_MATCHABLE = 0x00010000;
 	public static final int ATTR_FANCY = 0x00020000;
+	public static final int ATTR_CHOCOLATE = 0x00040000;
 
 	private static final HashMap<String, Integer> PRIMARY_USE = new HashMap<String, Integer>();
 	private static final HashMap<Integer, String> INVERSE_PRIMARY_USE = new HashMap<Integer, String>();
@@ -321,6 +322,7 @@ public class ItemDatabase
 		ItemDatabase.defineSecondaryUse( "candy2", ItemDatabase.ATTR_CANDY2 );
 		ItemDatabase.defineSecondaryUse( "matchable", ItemDatabase.ATTR_MATCHABLE );
 		ItemDatabase.defineSecondaryUse( "fancy", ItemDatabase.ATTR_FANCY );
+		ItemDatabase.defineSecondaryUse( "chocolate", ItemDatabase.ATTR_CHOCOLATE );
 	}
 
 	private static final Set secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
@@ -1919,6 +1921,17 @@ public class ItemDatabase
 	public static final boolean isCandyItem( final int itemId )
 	{
 		return ItemDatabase.getAttribute( itemId, ( ItemDatabase.ATTR_CANDY0 | ItemDatabase.ATTR_CANDY1 | ItemDatabase.ATTR_CANDY2 ) );
+	}
+
+	/**
+	 * Returns true if the item is an adventure-granting chocolate, otherwise false
+	 *
+	 * @return true if item is a chocolate
+	 */
+
+	public static final boolean isChocolateItem( final int itemId )
+	{
+		return ItemDatabase.getAttribute( itemId, ItemDatabase.ATTR_CHOCOLATE );
 	}
 
 	/**

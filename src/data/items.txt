@@ -14,7 +14,8 @@
 #	usable, multiple, reusable,
 #	combat, combat reusable,
 #	single, solo,
-#	curse, bounty, candy
+#	curse, bounty,
+#       candy1, candy2, chocolate
 #	matchable, fancy
 #
 #	Access flags:
@@ -1404,7 +1405,7 @@
 1379	tiny plastic Crimbo reindeer	396042578	figdeer.gif	accessory	t	0
 1380
 1381	aspirin	775883133	aspirin.gif	usable	t	0
-1382	fancy chocolate	862055780	choco.gif	usable, candy2	t	0
+1382	fancy chocolate	862055780	choco.gif	usable, chocolate, candy2	t	0
 1383	length of string	131340151	string.gif	none	t,d	13	lengths of string
 1384	googly eye	350584806	googlyeye.gif	none	t,d	14	google eyes
 1385	stuffing	542434584	dough.gif	none	t,d	15	wads of stuffing
@@ -2219,7 +2220,7 @@
 2194	spooky eggnog	653064642	poisoncup.gif	drink	t,d	49	mugs of spooky eggnog
 2195	ancient unspeakable fruitcake	477569162	fruitcake.gif	food	t,d	37
 2196	gingerbread horror	826206193	confused.gif	food	t,d	25
-2197	fancy but probably evil chocolate	226241729	choco.gif	usable, candy2	t	0
+2197	fancy but probably evil chocolate	226241729	choco.gif	usable, chocolate, candy2	t	0
 2198	bat-shaped Crimboween cookie	927768763	batcookie.gif	food	t,d	50
 2199	skull-shaped Crimboween cookie	929258629	skullcookie.gif	food	t,d	50
 2200	tombstone-shaped Crimboween cookie	871330717	tombcookie.gif	food	t,d	50
@@ -3113,7 +3114,7 @@
 3088	biomechanical crimborg helmet	619507061	crimborghelm.gif	hat		0
 3089	C.B.F.G.	149939402	crimborggun.gif	weapon		0
 3090	biomechanical crimborg leg armor	966481569	crimborgpants.gif	pants		0
-3091	vitachoconutriment capsule	746449292	pill.gif	usable, candy2	t	0
+3091	vitachoconutriment capsule	746449292	pill.gif	usable, chocolate, candy2	t	0
 3092	handmade hobby horse	958481582	hobbyhorse.gif	offhand, reusable	t	0
 3093	ball-in-a-cup	965687443	ballncup.gif	offhand, reusable	t	0	balls-in-cups
 3094	set of jacks	552797832	jacks.gif	offhand, reusable	t	0	sets of jacks
@@ -4356,7 +4357,7 @@
 4331	licorice garrote	390509859	licgarotte.gif	food, combat, candy2	t	0
 4332	candy knuckles	795046000	knuckles.gif	weapon, candy2	t	0	sets of candy knuckles
 4333	jawbruiser	707896286	jawbreaker.gif	food, curse, candy2	t	0
-4334	fancy chocolate car	114513584	choccar.gif	usable, candy2	t	0
+4334	fancy chocolate car	114513584	choccar.gif	usable, chocolate, candy2	t	0
 4335	tiny plastic 11 Dealer	452938703	tpc09_1.gif	accessory	t	0
 4336	tiny plastic Crimbo Casino	364037536	tpc09_2.gif	accessory	t	0
 4337	tiny plastic stocking mimic	162020757	tpc09_3.gif	accessory	t	0
@@ -4484,12 +4485,12 @@
 4459	snailmail breeches	645828332	chainpants.gif	pants	t,d	150
 4460	snailmail hauberk	143480509	chainshirt.gif	shirt	t,d	160
 4461	seal-brain elixir	441670255	potion5.gif	multiple	t,d	33
-4462	chocolate seal-clubbing club	914337293	choc1.gif	usable, candy2	t	0
-4463	chocolate turtle totem	704750003	chocototem.gif	usable, candy2	t	0
-4464	chocolate pasta spoon	799053536	choc3.gif	usable, candy2	t	0
-4465	chocolate saucepan	894875363	choc4.gif	usable, candy2	t	0
-4466	chocolate disco ball	181522203	choc5.gif	usable, candy2	t	0
-4467	chocolate stolen accordion	707981124	choc6.gif	usable, candy2	t	0
+4462	chocolate seal-clubbing club	914337293	choc1.gif	usable, chocolate, candy2	t	0
+4463	chocolate turtle totem	704750003	chocototem.gif	usable, chocolate, candy2	t	0
+4464	chocolate pasta spoon	799053536	choc3.gif	usable, chocolate, candy2	t	0
+4465	chocolate saucepan	894875363	choc4.gif	usable, chocolate, candy2	t	0
+4466	chocolate disco ball	181522203	choc5.gif	usable, chocolate, candy2	t	0
+4467	chocolate stolen accordion	707981124	choc6.gif	usable, chocolate, candy2	t	0
 4468	Libram of BRICKOs	377804923	book2.gif	usable	t	0	Librams of BRICKOs
 4469	BRICKO brick	261433979	brickobrick.gif	multiple	t	0
 4470	BRICKO eye brick	992023114	brickoeye.gif	none	t	0
@@ -4873,7 +4874,7 @@
 4848	Uncle Hobo's fingerless tinsel gloves	762908616	tinselglove.gif	accessory		0	pairs of fingerless tinsel gloves
 4849	Uncle Hobo's highest bough	697186662	highestbough.gif	weapon		0
 4850	Uncle Hobo's belt	158171507	crimbobelt.gif	accessory		0
-4851	chocolate cigar	972757071	chococigar.gif	usable, candy2	t	0
+4851	chocolate cigar	972757071	chococigar.gif	usable, chocolate, candy2	t	0
 4852	gift-a-pult	804389248	papult.gif	weapon	g	0	gifts-a-pults
 4853	holly-flavored Hob-O	930607234	hob-o.gif	multiple, candy2	t,d	5
 4854	CRIMBCO scrip	437466969	scrip.gif	none		0	CRIMBCO scrip
@@ -5937,9 +5938,9 @@
 5912	Solstice Shield	120888971	shield.gif	offhand		0
 5913	powdered candy sushi set	292870983	sushitray.gif	usable, candy2	t	0
 5914	sweet mochi ball	685433996	mochiball.gif	usable	t	0
-5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable	t	0
-5916	sweet-corn-flavored Mr. Mediocrebar	515529477	mediocrebar.gif	usable	t	0
-5917	cabbage-flavored Mr. Mediocrebar	836567876	mediocrebar.gif	usable	t	0
+5915	beet-flavored Mr. Mediocrebar	915881788	mediocrebar.gif	usable, chocolate	t	0
+5916	sweet-corn-flavored Mr. Mediocrebar	515529477	mediocrebar.gif	usable, chocolate	t	0
+5917	cabbage-flavored Mr. Mediocrebar	836567876	mediocrebar.gif	usable, chocolate	t	0
 5918	tiny plastic animelf	148154716	tpanimelf.gif	accessory	t	0
 5919	tiny plastic ChibiBuddy&trade;	688886171	tpchibi.gif	accessory	t	0	tiny plastic ChibiBuddies&trade;
 5920	tiny plastic taco-clad Crimbo elf	410361248	tptacoelf.gif	accessory	t	0	tiny plastic taco-clad Crimbo elves
@@ -8021,7 +8022,7 @@
 7996	porcelain phantom mask	139044180	porcmask.gif	accessory		0
 7997	polyesterene powder	438934830	scpowder.gif	spleen, usable		0
 7998	porcelain powder	961757708	scpowder.gif	spleen, usable		0
-7999	choco-Crimbot	269888246	chocobot.gif	usable	t	0
+7999	choco-Crimbot	269888246	chocobot.gif	usable, chocolate	t	0
 8000	smart watch	887647767	smartwatch.gif	multiple	t	0	smart watches
 8001	augmented-reality shades	201387692	googleglass.gif	usable	t	0	pairs of augmented-reality shades
 8002	toy Crimbot mega face	769336750	crimbothead.gif	hat	t	0
@@ -9292,7 +9293,7 @@
 9266	green rock candy	837289777	greencandy.gif	multiple	t,d	15	green rock candies
 9267	green-iced sweet roll	251751355	sweetroll.gif	food	t,d	20
 9268	sugar raygun	744275266	sugarraygun.gif	weapon		0
-9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable	t	0
+9269	fancy chocolate sculpture	877611076	chocosculpture.gif	usable, chocolate	t	0
 9270	no hat	887807812	nohat.gif	hat	q	0
 9271	chakra sludge	736693207	ragwad.gif	none	t,d	160	wads of chakra sludge
 9272	negative lump	442273709	chocolump.gif	none	t,d	16
@@ -9348,7 +9349,7 @@
 9322	LOV Earrings	407500745	loveearrings.gif	accessory	q	0
 9323	LOV Enamorang	851394921	loveboomerang.gif	none, combat	g,d	5
 9324	LOV Emotionizer	855486742	ancientdart.gif	none, usable, curse	g,d	5
-9325	LOV Extraterrestrial Chocolate	727798208	choco.gif	usable, candy1	g,d	5
+9325	LOV Extraterrestrial Chocolate	727798208	choco.gif	usable, chocolate, candy1	g,d	5
 9326	LOV Echinacea Bouquet	463029835	bouquet.gif	spleen, usable	g,d	5
 9327	LOV Elephant	284967813	pl_elephant.gif	offhand	g,d	5
 9328	eldritch scanner	136891875	radardish.gif	hat	t	0
