@@ -265,6 +265,7 @@ public class ProxyRecordValue
 			.add( "fancy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy", DataTypes.BOOLEAN_TYPE )
 			.add( "candy_type", DataTypes.STRING_TYPE )
+			.add( "chocolate", DataTypes.BOOLEAN_TYPE )
 			.add( "seller", DataTypes.COINMASTER_TYPE )
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.add( "name_length", DataTypes.INT_TYPE )
@@ -435,6 +436,11 @@ public class ProxyRecordValue
 		public String get_candy_type()
 		{
 			return CandyDatabase.getCandyType( (int) this.contentLong );
+		}
+
+		public boolean get_chocolate()
+		{
+			return ItemDatabase.isChocolateItem( (int) this.contentLong );
 		}
 
 		public CoinmasterData get_seller()
