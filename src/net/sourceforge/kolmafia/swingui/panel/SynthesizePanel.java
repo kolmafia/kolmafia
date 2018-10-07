@@ -108,6 +108,7 @@ public class SynthesizePanel
 	// The filter checkboxes
 	private JCheckBox[] filters;
 	private boolean availableChecked = false;
+	private boolean chocolateChecked = false;
 
 	// The panel with Candy A and Candy B columns
 	private CandyPanel candyPanel;
@@ -215,10 +216,13 @@ public class SynthesizePanel
 
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		this.availableChecked = loggedIn && !KoLCharacter.canInteract();
+		this.chocolateChecked = false;
 
-		this.filters = new JCheckBox[ 1 ];
+		this.filters = new JCheckBox[ 2 ];
 		this.filters[ 0 ] = new JCheckBox( "available", this.availableChecked );
 		this.filters[ 0 ].setToolTipText( "Show only items that 'acquire' will find. Inventory, at least." );
+		this.filters[ 1 ] = new JCheckBox( "chocolates", this.chocolateChecked );
+		this.filters[ 1 ].setToolTipText( "Allow adventure-producing chocolates as ingredients." );
 
 		for ( JCheckBox checkbox : this.filters )
 		{
@@ -233,6 +237,7 @@ public class SynthesizePanel
 	public void actionPerformed( final ActionEvent e )
 	{
 		this.availableChecked = this.filters[0].isSelected();
+		this.chocolateChecked = this.filters[1].isSelected();
 
 		// Filter candy lists
 		this.filterItems();
@@ -341,7 +346,8 @@ public class SynthesizePanel
 			// effect can be made using available candies
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			int flags = CandyDatabase.makeFlags( available );
+			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
+			int flags = CandyDatabase.makeFlags( available, nochocolate );
 
 			for ( Component component : this.getComponents() )
 			{
@@ -652,6 +658,10 @@ public class SynthesizePanel
 					{
 						return false;
 					}
+					if ( !SynthesizePanel.this.chocolateChecked && ((Candy)o).isChocolate() )
+					{
+						return false;
+					}
 				}
 				return true;
 			}
@@ -748,7 +758,10 @@ public class SynthesizePanel
 				{
 					Candy candy = (Candy)o;
 
-					if ( SynthesizePanel.this.availableChecked )
+					boolean available = SynthesizePanel.this.availableChecked;
+					boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
+
+					if ( available )
 					{
 						// Filter out candy we have none of
 						int count = candy.getCount();
@@ -760,11 +773,16 @@ public class SynthesizePanel
 						// Filter out candy which has no available pairing
 						int effectId = SynthesizePanel.this.effectId();
 						int itemId = candy.getItemId();
-						int flags = CandyDatabase.makeFlags( true );
+						int flags = CandyDatabase.makeFlags( available, nochocolate );
 						if ( CandyDatabase.sweetSynthesisPairing( effectId, itemId, flags ).size() == 0 )
 						{
 							return false;
 						}
+					}
+
+					if ( nochocolate && candy.isChocolate() )
+					{
+						return false;
 					}
 				}
 				return true;
@@ -811,6 +829,11 @@ public class SynthesizePanel
 				if ( o instanceof Candy )
 				{
 					Candy candy = (Candy)o;
+
+					if ( !SynthesizePanel.this.chocolateChecked && candy.isChocolate() )
+					{
+						return false;
+					}
 
 					if ( SynthesizePanel.this.availableChecked )
 					{
@@ -991,7 +1014,8 @@ public class SynthesizePanel
 			// more restrictive
 
 			boolean available = SynthesizePanel.this.availableChecked;
-			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available );
+			boolean nochocolate = !SynthesizePanel.this.chocolateChecked;
+			int flags = CandyDatabase.defaultFlags() | CandyDatabase.makeFlags( available, nochocolate );
 
 			Candy [] pair = CandyDatabase.synthesisPair( effectId, flags );
 			if ( pair.length == 0 )

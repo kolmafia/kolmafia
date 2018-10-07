@@ -181,17 +181,19 @@ public class CandyDatabase
 	private static final int FLAG_AVAILABLE = 0x1;
 	// *** Deprecated
 	// private static final int FLAG_ALLOWED = 0x2;
+	private static final int FLAG_NO_CHOCOLATE = 0x4;
 
-	public static int makeFlags( final boolean available )
+	public static int makeFlags( final boolean available, final boolean nochocolate )
 	{
-		return ( available ? FLAG_AVAILABLE : 0 );
+		return ( available ? FLAG_AVAILABLE : 0 ) + ( nochocolate ? FLAG_NO_CHOCOLATE : 0 );
 	}
 
 	public static int defaultFlags()
 	{
 		boolean loggedIn = KoLCharacter.getUserId() > 0;
 		boolean available = loggedIn && !KoLCharacter.canInteract();
-		return CandyDatabase.makeFlags( available );
+		boolean nochocolate = true;
+		return CandyDatabase.makeFlags( available, nochocolate );
 	}
 
 	public static Set<Integer> candyForTier( final int tier )
@@ -221,11 +223,16 @@ public class CandyDatabase
 
 		// Otherwise, we must filter
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
 		Set<Integer> result = new HashSet<Integer>();
 
 		for ( Integer itemId : candies )
 		{
 			if ( available && InventoryManager.getAccessibleCount( itemId ) == 0 )
+			{
+				continue;
+			}
+			if ( nochocolate && ItemDatabase.isChocolateItem( itemId ) )
 			{
 				continue;
 			}
@@ -292,10 +299,17 @@ public class CandyDatabase
 
 		int desiredModulus = CandyDatabase.getEffectModulus( effectId );
 		boolean available = ( flags & FLAG_AVAILABLE ) != 0;
+		boolean nochocolate = ( flags & FLAG_NO_CHOCOLATE ) != 0;
 
 		for ( int itemId2 : candidates )
 		{
 			if ( ( itemId1 + itemId2 ) % 5 != desiredModulus )
+			{
+				continue;
+			}
+			// Note that the caller can give us a chocolate as candy1,
+			// whether or not chocolates are allowed for candy2
+			if ( nochocolate && ItemDatabase.isChocolateItem( itemId2 ) )
 			{
 				continue;
 			}
@@ -334,6 +348,7 @@ public class CandyDatabase
 	{
 		private final int itemId;
 		private final String name;
+		private final boolean isChocolate;
 		private int count;
 		private int mallprice;
 
@@ -341,6 +356,7 @@ public class CandyDatabase
 		{
 			this.itemId = itemId;
 			this.name = ItemDatabase.getDataName( itemId );
+			this.isChocolate = ItemDatabase.isChocolateItem( itemId );
 			this.count = InventoryManager.getAccessibleCount( itemId );
 			this.mallprice = ItemDatabase.isTradeable( itemId ) ? MallPriceDatabase.getPrice( itemId ) : 0;
 		}
@@ -369,6 +385,11 @@ public class CandyDatabase
 		public String getName()
 		{
 			return this.name;
+		}
+
+		public boolean isChocolate()
+		{
+			return this.isChocolate;
 		}
 
 		public int getCount()
