@@ -9985,7 +9985,7 @@
 9958	Purple Beast energy drink	522759471	purplebeast.gif	spleen, usable	t,d	30
 9959	cosmetic football	648525413	football2.gif	offhand	t,d	60
 9960	shoe ad T-shirt	977886142	shooshirt.gif	shirt	t,d	60
-9961	pump-up high-tops	740438811	hightops.gif	accessory	t	0
+9961	pump-up high-tops	740438811	hightops.gif	accessory, usable	t	0
 9962	runproof mascara	634650553	mascara2.gif	usable	t,d	30	tubes of runproof mascara
 9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30	very small red dresses
 9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60	pairs of noticeable pumps
