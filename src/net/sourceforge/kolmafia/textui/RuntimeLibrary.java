@@ -259,6 +259,8 @@ public abstract class RuntimeLibrary
 	
 	private static final AggregateType NumberologyType = new AggregateType( DataTypes.INT_TYPE, DataTypes.INT_TYPE );
 
+	private static final AggregateType ItemSetType = new AggregateType( DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE );
+
 	public static final FunctionList functions = new FunctionList();
 
 	// *** Why can't the following go in KoLConstants?
@@ -812,6 +814,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] { DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "mall_price", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { RuntimeLibrary.ItemSetType };
+		functions.add( new LibraryFunction( "mall_prices", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "mall_prices", DataTypes.INT_TYPE, params ) );
@@ -4458,9 +4463,30 @@ public abstract class RuntimeLibrary
 		return new Value( StoreManager.getMallPrice( ItemPool.get( (int) item.intValue(), 0 ) ) );
 	}
 
-	public static Value mall_prices( Interpreter interpreter, final Value category )
+	public static Value mall_prices( Interpreter interpreter, final Value arg )
 	{
-		return new Value( StoreManager.getMallPrices( category.toString(), "" ) );
+		if ( arg.getType().equals( DataTypes.STRING_TYPE ) )
+		{
+			return new Value( StoreManager.getMallPrices( arg.toString(), "" ) );
+		}
+
+		// It's a set of items
+		AggregateValue aggregate = (AggregateValue)arg;
+		int size = aggregate.count();
+		Value [] keys = aggregate.keys();
+		AdventureResult [] itemIds = new AdventureResult[ size ];
+
+		// Extract the item ids into an array
+		for ( int i = 0; i < size; ++i )
+		{
+			Value item = keys[ i ];
+			itemIds[ i ] = ItemPool.get( (int) item.contentLong, 1 );
+		}
+
+		// Update the mall prices, one by one, 
+		int result = StoreManager.getMallPrices( itemIds, 0.0f );
+
+		return DataTypes.makeIntValue( result );
 	}
 
 	public static Value mall_prices( Interpreter interpreter, final Value category, final Value tiers )
