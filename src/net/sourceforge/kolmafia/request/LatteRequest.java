@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -127,7 +128,7 @@ public class LatteRequest
 	private static final int THIRD = 4;
 	private static final int MOD = 5;
 	private static final int DISCOVER = 6;
-	
+
 	private static String[][] radio = new String[LATTE.length][3];
 
 	public LatteRequest()
@@ -157,6 +158,15 @@ public class LatteRequest
 				ingredients[2] = i;
 			}
 		}
+
+		// Check unlocks and choice options
+		GenericRequest request = new GenericRequest( "main.php?latte=1", false ) ;
+		RequestThread.postRequest( request );
+		LatteRequest.parseChoiceOptions( request.responseText );
+		String l1 = radio[ingredients[0]][0];
+		String l2 = radio[ingredients[1]][1];
+		String l3 = radio[ingredients[2]][2];
+
 		boolean checksOk = true;
 		for ( int i = 0; i < 3; ++i )
 		{
@@ -193,10 +203,10 @@ public class LatteRequest
 		// Refill Latte
 		String message = "Filling mug with " + LATTE[ingredients[0]][FIRST] + " " + LATTE[ingredients[1]][SECOND] + " Latte " + LATTE[ingredients[2]][THIRD] + ".";
 		RequestLogger.printLine( message );
-		message = "But sadly not yet implemented!";
-		RequestLogger.printLine( message );
 		RequestLogger.updateSessionLog( message );
 
+		GenericRequest requestNew = new GenericRequest( "choice.php?whichchoice=1329&option=1&l1=" + l1 + "&l2=" + l2 + "&l3=" + l3 ) ;
+		RequestThread.postRequest( requestNew );
 	}
 
 	public static final void listUnlocks( final boolean all )
@@ -355,6 +365,42 @@ public class LatteRequest
 	}
 
 	public static final void parseVisitChoice( final String text )
+	{
+		Matcher matcher = LatteRequest.REFILL_PATTERN.matcher( text );
+		if ( matcher.find() )
+		{
+			Preferences.setInteger( "_latteRefillsUsed", 3 - StringUtilities.parseInt( matcher.group( 1 ) ) );
+		}
+		matcher = LatteRequest.LINE_PATTERN.matcher( text );
+		StringBuilder unlocks = new StringBuilder();
+		while ( matcher.find() )
+		{
+			String line = matcher.group( 0 );
+			Matcher lineMatcher = LatteRequest.INPUT_PATTERN.matcher( line );
+			if ( lineMatcher.find() )
+			{
+				String description = lineMatcher.group( 3 ).trim();
+				for ( int i = 0; i < LATTE.length; ++i )
+				{
+					if ( description.equals( LATTE[i][FIRST] ) )
+					{
+						if ( !line.contains( "&Dagger;" ) )
+						{
+							if ( unlocks.length() != 0 )
+							{
+								unlocks.append( "," );
+							}
+							unlocks.append( LATTE[i][INGREDIENT] );
+						}
+						break;
+					}
+				}
+			}
+		}
+		Preferences.setString( "latteUnlocks", unlocks.toString() );
+	}
+
+	public static final void parseChoiceOptions( final String text )
 	{
 		Matcher matcher = LatteRequest.REFILL_PATTERN.matcher( text );
 		if ( matcher.find() )
