@@ -1046,8 +1046,13 @@ public class SynthesizePanel
 			// Bulk updating prices for those two categories is faster than
 			// checking them individually.
 
+			// Actually, since there are 68 pages of foods but only
+			// 23 food candies, we'll get the mall prices
+			// individually for foods
+			CandyDatabase.categorizeCandies();
+
 			StoreManager.getMallPrices( "potions" );
-			StoreManager.getMallPrices( "food" );
+			StoreManager.getMallPrices( CandyDatabase.foodCandies, 0.0f );
 
 			// Update all visible candies
 			SynthesizePanel.this.update();

@@ -41,9 +41,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -59,6 +61,37 @@ public class CandyDatabase
 	public static final String UNSPADED = "unspaded";
 	public static final String SIMPLE = "simple";
 	public static final String COMPLEX = "complex";
+
+	public static AdventureResult [] potionCandies = null;
+	public static AdventureResult [] foodCandies = null;
+
+	public static void categorizeCandies()
+	{
+		if ( potionCandies != null && foodCandies != null )
+		{
+			return;
+		}
+
+		ArrayList<AdventureResult> potions = new ArrayList<AdventureResult>();
+		ArrayList<AdventureResult> foods = new ArrayList<AdventureResult>();
+
+		for ( Integer itemId : CandyDatabase.tier2Candy )
+		{
+			AdventureResult item = ItemPool.get( itemId.intValue() );
+			if ( ConsumablesDatabase.getFullness( item.getName() ) > 0 )
+			{
+				foods.add( item);
+			}
+			else
+			{
+				potions.add( item );
+			}
+			
+		}
+
+		CandyDatabase.potionCandies = potions.toArray( new AdventureResult[ potions.size() ] );
+		CandyDatabase.foodCandies = foods.toArray( new AdventureResult[ foods.size() ] );
+	}
 
 	public static void registerCandy( final Integer itemId, final String type )
 	{

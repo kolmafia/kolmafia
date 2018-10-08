@@ -867,6 +867,45 @@ public abstract class StoreManager
 		return price;
 	}
 
+	public static int getMallPrices( AdventureResult [] items, float maxAge )
+	{
+		// Count how many items we retrieved
+		int count = 0;
+
+		try
+		{
+			for ( AdventureResult item : items )
+			{
+				int itemId = item.getItemId();
+				if ( itemId < 1 ||
+				     ( !ItemDatabase.isTradeable( itemId ) && !NPCStoreDatabase.contains( itemId, true ) ) )
+				{
+					continue;
+				}
+				int price = MallPriceDatabase.getPrice( itemId );
+				if ( price > 0 && MallPriceDatabase.getAge( itemId ) <= maxAge )
+				{
+					continue;
+				}
+				if ( StoreManager.mallPrices.get( itemId ) == 0 )
+				{
+					ArrayList<PurchaseRequest> results = StoreManager.searchMall( item.getInstance( 5 ) );
+					StoreManager.flushCache( itemId );
+					StoreManager.updateMallPrice( item, results, true );
+					StoreManager.mallSearches.put( itemId, results );
+					++count;
+				}
+			}
+		}
+		finally
+		{
+			RequestLogger.printLine( "Updating mallprices.txt with " + count + " prices." );
+			MallPriceDatabase.writePrices();
+		}
+
+		return count;
+	}
+
 	public static int getMallPrices( String category )
 	{
 		return getMallPrices( category, "" );
