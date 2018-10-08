@@ -3586,6 +3586,18 @@ public class FightRequest
 			KoLmafia.updateDisplay( updateMessage );
 		}
 
+		// Check for Latte unlocks
+		if ( KoLCharacter.hasEquipped( ItemPool.LATTE_MUG, EquipmentManager.OFFHAND ) )
+		{
+			KoLAdventure location = KoLAdventure.lastVisitedLocation();
+			String locationName = null;
+			if ( KoLAdventure.lastVisitedLocation() != null )
+			{
+				locationName = location.getAdventureName();
+			}
+			LatteRequest.parseFight( locationName, responseText );
+		}
+
 		AdventureSpentDatabase.addTurn( KoLAdventure.lastLocationName );
 
 		int adventure = KoLAdventure.lastAdventureId();
@@ -4215,17 +4227,6 @@ public class FightRequest
 			     responseText.contains( "You move a bone on the abacus to record your victory" ) )
 			{
 				Preferences.increment( "boneAbacusVictories", 1 );
-			}
-
-			if ( KoLCharacter.hasEquipped( ItemPool.LATTE_MUG, EquipmentManager.OFFHAND ) )
-			{
-				KoLAdventure location = KoLAdventure.lastVisitedLocation();
-				String locationName = null;
-				if ( KoLAdventure.lastVisitedLocation() != null )
-				{
-					locationName = location.getAdventureName();
-				}
-				LatteRequest.parseFight( locationName, responseText );
 			}
 
 			if ( KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER )
