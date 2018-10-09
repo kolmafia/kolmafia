@@ -83,7 +83,7 @@ public class LatteRequest
 		{ "dyspepsi", "TBC", "Dyspepsi-flavored", "Dyspepsi", "with a shot of Dyspepsi syrup", "Initiative: 25", "TBC" },
 		{ "filth", "The Feeding Chamber", "Filthy", "filth milk", "with filth milk", "Damage Reduction: 20", "filth milk" },
 		{ "flour", "The Road to the White Citadel", "Floured", "white flour", "dusted with flour", "Sleaze Resistance: 3", "bag of all-purpose flour" },
-		{ "fungus", "The Fungal Nethers", "Fresh grass and", "fresh grass", "with fresh-cut grass", "Maximum MP: 30", "patch of mushrooms" },
+		{ "fungus", "The Fungal Nethers", "Fungal", "fungus", "with fungal scrapings", "Maximum MP: 30", "patch of mushrooms" },
 		{ "grass", "The Hidden Park", "Fresh grass and", "fresh grass", "with fresh-cut grass", "Experience: 3", "pile of fresh lawn clippings" },
 		{ "greasy", "Cobb's Knob Barracks", "Extra-greasy", "hot sausage", "with extra gristle", "Muscle Percent: 50", "big greasy sausage" },
 		{ "healing", "The Daily Dungeon", "Extra-healthy", "health potion", "with a shot of healing elixir", "HP Regen Min: 10, HP Regen Max: 20", "jug full of red syrup" },
