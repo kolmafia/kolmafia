@@ -636,6 +636,7 @@ user	hiddenBowlingAlleyProgress	0
 user	hiddenHospitalProgress	0
 user	hiddenOfficeProgress	0
 user	hiddenTavernUnlock	-1
+user	highTopPumps	0
 user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
@@ -1457,7 +1458,6 @@ user	_guildManualUsed	false
 user	_hardKnocksDiplomaUsed	false
 user	_hareAdv	0
 user	_hareCharge	0
-user	_highTopPumps	0
 user	_hippyMeatCollected	false
 user	_hipsterAdv	0
 user	_hoardedCandyDropsCrown	0
