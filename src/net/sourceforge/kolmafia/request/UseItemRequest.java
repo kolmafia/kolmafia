@@ -1204,7 +1204,7 @@ public class UseItemRequest
 
 		case ItemPool.PUMP_UP_HIGH_TOPS:
 			UseItemRequest.limiter = "daily limit";
-			return 3 - Preferences.getInteger( "_highTopPumps" );
+			return 3 - Preferences.getInteger( "highTopPumps" );
 
 		}
 
@@ -6125,11 +6125,11 @@ public class UseItemRequest
 		case ItemPool.PUMP_UP_HIGH_TOPS:
 			if ( responseText.contains( "pump up the high-tops" ) )
 			{
-				Preferences.increment( "_highTopPumps" );
+				Preferences.increment( "highTopPumps" );
 			}
 			else if ( responseText.contains( "already pumped up" ) )
 			{
-				Preferences.setInteger( "_highTopPumps", 3 );
+				Preferences.setInteger( "highTopPumps", 3 );
 			}
 			break;
 
