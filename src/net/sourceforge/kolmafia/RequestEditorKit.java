@@ -1866,7 +1866,7 @@ public class RequestEditorKit
 	}
 
 	private static final Pattern WOOTS_PATTERN = Pattern.compile( "(entire room erupts into cheers\\.|It works\\.  Sort of\\.)" );
-	private static final Pattern TRASH_PATTERN = Pattern.compile( "(greasy paper plates|wadded up napkins|discarded bottle caps|empty beer cans|dirty plastic cups)" );
+	private static final Pattern TRASH_PATTERN = Pattern.compile( "(greasy paper plates|wadded up napkins|discarded bottle caps|empty beer cans|dirty plastic cups|empty beer bottles)" );
 	private static final Pattern MEAT_PATTERN = Pattern.compile( "Meat for the DJ." );
 	private static final Pattern PARTIERS_PATTERN = Pattern.compile( "You win the fight!" );
 	private static final void addPartyFairProgress( final StringBuffer buffer )
