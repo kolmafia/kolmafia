@@ -62,7 +62,7 @@ public class RubeeRequest
 			RubeeRequest.master,
 			"FantasyRealm Premium Rubee&trade; Store",
 			RubeeRequest.class,
-			"Rubees&trade;",
+			"Rubee&trade;",
 			null,
 			false,
 			RubeeRequest.TOKEN_PATTERN,
