@@ -58,7 +58,7 @@ public class LatteRequest
 {
 	private static final Pattern REFILL_PATTERN = Pattern.compile( "You've got <b>(\\d+)</b> refill" );
 	private static final Pattern LINE_PATTERN = Pattern.compile( "<tr style=.*?</tr>", Pattern.DOTALL );
-	private static final Pattern INPUT_PATTERN = Pattern.compile( "name=\\\"l(\\d)\\\" value=\\\"(.*?)\\\">\\s(.*?)\\s</td>" );
+	private static final Pattern INPUT_PATTERN = Pattern.compile( "name=\\\"l(\\d)\\\"  value=\\\"(.*?)\\\">\\s(.*?)\\s</td>" );
 	private static final Pattern RESULT_PATTERN = Pattern.compile( "You get your mug filled with a delicious (.*?) Latte (.*?)\\.</span>" );
 
 	private static final String [][] LATTE = new String[][]
