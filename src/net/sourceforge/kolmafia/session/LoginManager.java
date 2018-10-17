@@ -128,7 +128,7 @@ public class LoginManager
 
 		if ( Preferences.getBoolean( "sharePriceData" ) )
 		{
-			MallPriceDatabase.updatePricesInParallel( "http://kolmafia.us/scripts/updateprices.php?action=getmap" );
+			MallPriceDatabase.updatePricesInParallel( "https://kolmafia.us/scripts/updateprices.php?action=getmap" );
 		}
 
 		// Also, do mushrooms, if a mushroom script has already

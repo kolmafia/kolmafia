@@ -186,7 +186,7 @@ public class LogoutManager
 		if ( Preferences.getBoolean( "sharePriceData" ) )
 		{
 			KoLmafia.updateDisplay( "Sharing mall price data with other users..." );
-			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices http://kolmafia.us/scripts/updateprices.php" );
+			KoLmafiaCLI.DEFAULT_SHELL.executeLine( "spade prices https://kolmafia.us/scripts/updateprices.php" );
 		}
 
 		// Serialize adventure queue data
