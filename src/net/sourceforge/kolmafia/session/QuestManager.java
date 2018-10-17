@@ -2240,7 +2240,7 @@ public class QuestManager
 					{
 						QuestDatabase.setQuestIfBetter( Quest.PARTY_FAIR, "step2" );
 					}
-					String message = "You clean up " + trash + " for the DJ.";
+					String message = "You clean up " + trash + " for the environment.";
 					RequestLogger.printLine( message );
 					RequestLogger.updateSessionLog( message );
 				}
