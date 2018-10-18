@@ -4387,11 +4387,11 @@ public class Parser
 		String template;
 		if ( targetIsRevision )
 		{
-			template = "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at http://builds.kolmafia.us/.";
+			template = "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
 		}
 		else
 		{
-			template = "'%s' requires version %s of kolmafia or higher (current: %s).  Up-to-date builds can be found at http://builds.kolmafia.us/.";
+			template = "'%s' requires version %s of kolmafia or higher (current: %s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
 		}
 
 		return new ScriptException( String.format( template, this.shortFileName, target, current ) );
