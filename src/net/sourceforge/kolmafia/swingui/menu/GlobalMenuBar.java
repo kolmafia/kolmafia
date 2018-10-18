@@ -223,9 +223,9 @@ public class GlobalMenuBar
 
 		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/vb/showthread.php?t=186011" ) );
 		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Forums", "https://kolmafia.us/" ) );
-		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Wiki", "http://wiki.kolmafia.us/index.php?title=Main_Page" ) );
-		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia FAQ", "http://wiki.kolmafia.us/index.php?title=Help:Frequently_Asked_Questions" ) );
-		helperMenu.add( new RelayBrowserMenuItem( "Unofficial Guide", "http://wiki.kolmafia.us/index.php?title=KoLmafia_Guide" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia Wiki", "https://wiki.kolmafia.us/index.php?title=Main_Page" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "KoLmafia FAQ", "https://wiki.kolmafia.us/index.php?title=Help:Frequently_Asked_Questions" ) );
+		helperMenu.add( new RelayBrowserMenuItem( "Unofficial Guide", "https://wiki.kolmafia.us/index.php?title=KoLmafia_Guide" ) );
 
 		helperMenu.add( new JSeparator() );
 

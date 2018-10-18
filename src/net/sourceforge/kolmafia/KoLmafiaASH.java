@@ -351,7 +351,7 @@ public abstract class KoLmafiaASH
 			description.append( " " );
 			if ( addLinks )
 			{
-				description.append( "<a href='http://wiki.kolmafia.us/index.php?title=" );
+				description.append( "<a href='https://wiki.kolmafia.us/index.php?title=" );
 				description.append( func.getName() );
 				description.append( "'>" );
 			}
