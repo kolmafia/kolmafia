@@ -33,6 +33,7 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -239,13 +240,13 @@ public class HermitRequest
 			RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
 		}
 
-		int worthless = HermitRequest.getWorthlessItemCount( false );
+		int worthless = HermitRequest.getWorthlessItemCount();
 
 		// If we want to make a trade, fetch enough worthless items
 		if ( worthless < count )
 		{
 			InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM.getInstance( count ) );
-			worthless = HermitRequest.getWorthlessItemCount( false );
+			worthless = HermitRequest.getWorthlessItemCount();
 		}
 
 		if ( worthless < count )
@@ -465,33 +466,28 @@ public class HermitRequest
 
 	public static final int getWorthlessItemCount()
 	{
-		return HermitRequest.getWorthlessItemCount( false );
+		return HermitRequest.getWorthlessItemCount( KoLConstants.inventory );
 	}
 
-	public static final int getWorthlessItemCount( boolean all )
+	public static final int getWorthlessItemCount( final List<AdventureResult> list )
 	{
-		int count =
-			HermitRequest.TRINKET.getCount( KoLConstants.inventory ) +
-			HermitRequest.GEWGAW.getCount( KoLConstants.inventory ) +
-			HermitRequest.KNICK_KNACK.getCount( KoLConstants.inventory );
+		return  HermitRequest.TRINKET.getCount( list ) +
+			HermitRequest.GEWGAW.getCount( list ) +
+			HermitRequest.KNICK_KNACK.getCount( list );
+	}
 
-		if ( all )
+	public static final int getAvailableWorthlessItemCount()
+	{
+		int count = HermitRequest.getWorthlessItemCount( KoLConstants.inventory );
+
+		if ( InventoryManager.canUseCloset() )
 		{
-			if ( InventoryManager.canUseCloset() )
-			{
-				count +=
-					HermitRequest.TRINKET.getCount( KoLConstants.closet ) +
-					HermitRequest.GEWGAW.getCount( KoLConstants.closet ) +
-					HermitRequest.KNICK_KNACK.getCount( KoLConstants.closet );
-			}
+			count += HermitRequest.getWorthlessItemCount( KoLConstants.closet );
+		}
 
-			if ( InventoryManager.canUseStorage() )
-			{
-				count +=
-					HermitRequest.TRINKET.getCount( KoLConstants.storage ) +
-					HermitRequest.GEWGAW.getCount( KoLConstants.storage ) +
-					HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
-			}
+		if ( InventoryManager.canUseStorage() )
+		{
+			count += HermitRequest.getWorthlessItemCount( KoLConstants.storage );
 		}
 
 		return count;
@@ -499,10 +495,10 @@ public class HermitRequest
 
 	public static final int getAcquirableWorthlessItemCount()
 	{
-		int count = HermitRequest.getWorthlessItemCount( true );
+		int count = HermitRequest.getAvailableWorthlessItemCount();
 		if ( InventoryManager.canUseNPCStores() )
 		{
-			int cost = InventoryManager.currentWorthlessItemCost();
+			int cost = SewerRequest.currentWorthlessItemCost();
 			count += KoLCharacter.getAvailableMeat() / cost;
 		}
 		return count;

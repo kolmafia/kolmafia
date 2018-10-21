@@ -561,6 +561,7 @@ public interface KoLConstants
 		// Extra ingredients might also be consumed.
 		// You must create multiple result items one at a time.
 		MULTI_USE,
+		SEWER,		// Items fished out of the sewer using chewing gum on a string
 		CRIMBO05,	// Items formerly creatable in Crimbo Town during Crimbo 2005
 		CRIMBO06,	// Items formerly creatable in Crimbo Town during Crimbo 2006
 		CRIMBO07,	// Items formerly creatable in Crimbo Town during Crimbo 2007
@@ -591,7 +592,7 @@ public interface KoLConstants
 		WAX,		// Items made from globs of melted wax
 		SPANT,		// Items made from spant chitin/tendons
 		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
-		XO,	// Items made using Xes and Os
+		XO,		// Items made using Xes and Os
 		NEWSPAPER,	// Items made from burning newspaper
 		METEOROID,	// Items made from metal meteoroid
 		FANTASY_REALM,	// Items made by visiting FantasyRealm welcome center

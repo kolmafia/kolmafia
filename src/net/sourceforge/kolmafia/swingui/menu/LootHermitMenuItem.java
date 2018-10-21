@@ -75,7 +75,7 @@ public class LootHermitMenuItem
 			}
 
 			int selected = selectedValue.getItemId();
-			int maximumValue = HermitRequest.getWorthlessItemCount( true );
+			int maximumValue = HermitRequest.getAvailableWorthlessItemCount();
 
 			String message = "(You have " + maximumValue + " worthless items retrievable)";
 

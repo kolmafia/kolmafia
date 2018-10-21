@@ -4,7 +4,7 @@
 #
 # Basic creation type (exactly one is required):
 # COMBINE, COOK, MIX, MALUS, JEWEL, STAR, SUGAR, PIXEL, ROLL,
-# TINKER, STAFF, SUSHI, SUSE, MUSE, PHINEAS
+# TINKER, STAFF, SUSHI, SUSE, MUSE, PHINEAS, SEWER
 # STILL (booze & mixer upgrades)
 # SMITH (basic smithing that can be done by Innabox)
 # SSMITH (smithing you have to do yourself - always requires a skill)
@@ -1591,6 +1591,26 @@ sealhide snare	PHINEAS	hellseal sinew (1)	hellseal whisker (2)	hellseal claw (2)
 sealhide seal doll	PHINEAS	hellseal hide (1)	hellseal whisker (2)	hellseal claw (1)
 seal-brain elixir	PHINEAS	hellseal brain (1)	hellseal whisker (2)	hellseal claw (1)
 
+# Things to fish out of the sewer using chewing-gum-on-a-string
+# These could be SUSE recipes except you are not guaranteed to get
+# exactly the item you seek without inventory manipulation
+
+seal-skull helmet	SEWER	chewing gum on a string
+seal-clubbing club	SEWER	chewing gum on a string
+helmet turtle	SEWER	chewing gum on a string
+turtle totem	SEWER	chewing gum on a string
+ravioli hat	SEWER	chewing gum on a string
+pasta spoon	SEWER	chewing gum on a string
+Hollandaise helmet	SEWER	chewing gum on a string
+saucepan	SEWER	chewing gum on a string
+disco mask	SEWER	chewing gum on a string
+disco ball	SEWER	chewing gum on a string
+mariachi hat	SEWER	chewing gum on a string
+stolen accordion	SEWER	chewing gum on a string
+old sweatpants	SEWER	chewing gum on a string
+worthless trinket	SEWER	chewing gum on a string
+worthless gewgaw	SEWER	chewing gum on a string
+worthless knick-knack	SEWER	chewing gum on a string
 
 # Jewelry making recipes.  These are recipes which are only available
 # once you acquire jewelry-making pliers.

@@ -2451,6 +2451,12 @@ public class KoLAdventure
 			"The Neverending Party is over for today.",
 		},
 
+		// That isn't a place you can get to the way you're dressed.
+		// (Clicking Last Adventure having unequipped Talisman o' Namsilat)
+		{
+			"That isn't a place you can get to the way you're dressed",
+			"You're not equipped properly to adventure there.",
+		},
 	};
 
 	public static final int findAdventureFailure( String responseText )

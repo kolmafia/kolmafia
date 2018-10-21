@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.HellKitchenRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
@@ -1388,8 +1389,8 @@ public class ConcoctionDatabase
 
 			if ( itemId == ItemPool.WORTHLESS_ITEM )
 			{
-				item.price = useNPCStores ? InventoryManager.currentWorthlessItemCost() : 0;
-				item.initial = HermitRequest.getWorthlessItemCount( true );
+				item.price = useNPCStores ? SewerRequest.currentWorthlessItemCost() : 0;
+				item.initial = HermitRequest.getAvailableWorthlessItemCount();
 				item.creatable = 0;
 				item.total = item.initial;
 				item.visibleTotal = item.total;
@@ -2211,6 +2212,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.METEOROID );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.METEOROID, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.METEOROID, 0 );
+
+		// Pulling stuff out of the sewer is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SEWER );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SEWER, 0 );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.SEWER, 0 );
 
 		// Other creatability flags
 
@@ -3047,6 +3053,10 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "MUSE" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.MULTI_USE;
+		}
+		else if ( mix.equals( "SEWER" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SEWER;
 		}
 		// Items formerly creatable in Crimbo Town during Crimbo 2005
 		else if ( mix.equals( "CRIMBO05" ) )
