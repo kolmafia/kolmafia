@@ -1611,6 +1611,8 @@ old sweatpants	SEWER	chewing gum on a string
 worthless trinket	SEWER	chewing gum on a string
 worthless gewgaw	SEWER	chewing gum on a string
 worthless knick-knack	SEWER	chewing gum on a string
+# pseudo item
+worthless item	SEWER	chewing gum on a string
 
 # Jewelry making recipes.  These are recipes which are only available
 # once you acquire jewelry-making pliers.

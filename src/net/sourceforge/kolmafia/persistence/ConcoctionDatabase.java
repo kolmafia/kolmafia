@@ -1387,16 +1387,6 @@ public class ConcoctionDatabase
 
 			int itemId = concoction.getItemId();
 
-			if ( itemId == ItemPool.WORTHLESS_ITEM )
-			{
-				item.price = useNPCStores ? SewerRequest.currentWorthlessItemCost() : 0;
-				item.initial = HermitRequest.getAvailableWorthlessItemCount();
-				item.creatable = 0;
-				item.total = item.initial;
-				item.visibleTotal = item.total;
-				continue;
-			}
-
 			if ( useNPCStores && NPCStoreDatabase.contains( itemId, true ) )
 			{
 				if ( itemId != ItemPool.FLAT_DOUGH )
@@ -2738,6 +2728,10 @@ public class ConcoctionDatabase
 		{
 			result.append( "metal meteoroid" );
 		}
+		else if ( mixingMethod == CraftingType.SEWER )
+		{
+			result.append( "chewing gum" );
+		}
 		else if ( mixingMethod == CraftingType.FANTASY_REALM )
 		{
 			result.append( "Fantasy Realm Welcome Center" );
@@ -3428,6 +3422,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "METEOROID" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;
+		}
+
+		else if ( mix.equals( "SEWER" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SEWER;
 		}
 
 		else if ( mix.equals( "FANTASY_REALM" ) )

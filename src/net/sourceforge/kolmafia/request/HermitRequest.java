@@ -99,11 +99,6 @@ public class HermitRequest
 			true
 			);
 
-	static
-	{
-		ConcoctionPool.set( new Concoction( WORTHLESS_ITEM, CraftingType.NOCREATE ) );
-	};
-
 	private static final Pattern CLOVER_PATTERN = Pattern.compile( "(\\d+) left in stock for today" );
 
 	public static final AdventureResult CLOVER = ItemPool.get( ItemPool.TEN_LEAF_CLOVER, 1 );
