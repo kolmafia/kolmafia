@@ -203,6 +203,11 @@ public class MultiUseRequest
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
+		if ( baseId == ItemPool.CHEWING_GUM )
+		{
+			return SewerRequest.registerRequest( urlString );
+		}
+
 		// Find concoction made by multi-using this many of this item
 		Concoction concoction = ConcoctionPool.findConcoction( CraftingType.MULTI_USE, baseId, count );
 

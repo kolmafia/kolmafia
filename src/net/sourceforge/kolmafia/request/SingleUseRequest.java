@@ -199,6 +199,11 @@ public class SingleUseRequest
 		// Item ID of the base item
 		int baseId = StringUtilities.parseInt( itemMatcher.group( 1 ) );
 
+		if ( baseId == ItemPool.CHEWING_GUM )
+		{
+			return SewerRequest.registerRequest( urlString );
+		}
+
 		// Find result concoction
 		Concoction concoction = ConcoctionDatabase.singleUseCreation( baseId );
 

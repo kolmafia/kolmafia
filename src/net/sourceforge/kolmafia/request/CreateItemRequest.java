@@ -315,6 +315,9 @@ public class CreateItemRequest
 		case MULTI_USE:
 			return new MultiUseRequest( conc );
 
+		case SEWER:
+			return new SewerRequest( conc );
+
 		case CRIMBO05:
 			return new Crimbo05Request( conc );
 

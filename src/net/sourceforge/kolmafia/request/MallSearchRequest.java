@@ -107,7 +107,7 @@ public class MallSearchRequest
 	{
 		super( "mall.php" );
 
-		this.searchString = searchString.trim();
+		this.searchString = searchString == null ? "" : searchString.trim();
 		this.storeId = 0;
 		this.results = results;
 		this.retainAll = retainAll;

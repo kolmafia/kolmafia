@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -249,7 +250,7 @@ public abstract class InventoryManager
 		// Agree with what retrieveItem looks at
 		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
 		{
-			return HermitRequest.getWorthlessItemCount( true );
+			return HermitRequest.getAvailableWorthlessItemCount();
 		}
 
 		// If this item is restricted, ignore it entirely.
@@ -546,7 +547,7 @@ public abstract class InventoryManager
 			return sim ? "pretend to have" : "";
 		}
 
-		if ( itemId == HermitRequest.WORTHLESS_ITEM.getItemId() )
+		if ( itemId == ItemPool.WORTHLESS_ITEM )
 		{
 			// Retrieve worthless items using special techniques.
 			if ( sim )
@@ -554,16 +555,8 @@ public abstract class InventoryManager
 				return "chewing gum";
 			}
 
-			try
-			{
-				SpecialOutfit.createImplicitCheckpoint();
-				return InventoryManager.retrieveWorthlessItems( item ) ? "" : null;
-			}
-			finally
-			{
-				SpecialOutfit.restoreImplicitCheckpoint();
-			}
-
+			boolean success =  SewerRequest.retrieveSewerItems( item, InventoryManager.canUseCloset(), InventoryManager.canUseStorage() );
+			return success ? "" : null;
 		}
 
 		// If it is a virtual item, see if we already bought it
@@ -877,7 +870,7 @@ public abstract class InventoryManager
 
 		boolean shouldUseCoinmasters = InventoryManager.canUseCoinmasters();
 		if ( shouldUseCoinmasters && KoLConstants.hermitItems.contains( item ) &&
-		     ( !shouldUseMall || InventoryManager.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
+		     ( !shouldUseMall || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice( item ) ) )
 		{
 			int itemCount =
 				itemId == ItemPool.TEN_LEAF_CLOVER ?
@@ -1110,388 +1103,6 @@ public abstract class InventoryManager
 
 		return null;
 	}
-
-	// *** Start of worthless item handling
-
-	private static final AdventureResult[] WORTHLESS_ITEMS = new AdventureResult[]
-	{
-		ItemPool.get( ItemPool.WORTHLESS_TRINKET, 1 ),
-		ItemPool.get( ItemPool.WORTHLESS_GEWGAW, 1 ),
-		ItemPool.get( ItemPool.WORTHLESS_KNICK_KNACK, 1 ),
-	};
-
-	private static final AdventureResult[] STARTER_ITEMS = new AdventureResult[]
-	{
-		// A hat and a weapon for all six classes
-		ItemPool.get( ItemPool.SEAL_HELMET, 1 ),
-		ItemPool.get( ItemPool.SEAL_CLUB, 1 ),
-		ItemPool.get( ItemPool.HELMET_TURTLE, 1 ),
-		ItemPool.get( ItemPool.TURTLE_TOTEM, 1 ),
-		ItemPool.get( ItemPool.RAVIOLI_HAT, 1 ),
-		ItemPool.get( ItemPool.PASTA_SPOON, 1 ),
-		ItemPool.get( ItemPool.HOLLANDAISE_HELMET, 1 ),
-		ItemPool.get( ItemPool.SAUCEPAN, 1 ),
-		ItemPool.get( ItemPool.DISCO_MASK, 1 ),
-		ItemPool.get( ItemPool.DISCO_BALL, 1 ),
-		ItemPool.get( ItemPool.MARIACHI_HAT, 1 ),
-		ItemPool.get( ItemPool.STOLEN_ACCORDION, 1 ),
-		// One pair of pants
-		ItemPool.get( ItemPool.OLD_SWEATPANTS, 1 ),
-	};
-
-	private static boolean retrieveWorthlessItems( final AdventureResult item )
-	{
-		int count = HermitRequest.getWorthlessItemCount( false );
-		int needed = item.getCount();
-
-		if ( count >= needed )
-		{
-			return true;
-		}
-
-		// Figure out if you already have enough items in the closet
-		if ( InventoryManager.canUseCloset() )
-		{
-			InventoryManager.transferWorthlessItems( false );
-			count = HermitRequest.getWorthlessItemCount();
-
-			if ( count >= needed )
-			{
-				return true;
-			}
-		}
-
-		// Figure out if you already have enough items in storage
-		if ( InventoryManager.canUseStorage() )
-		{
-			InventoryManager.pullWorthlessItems();
-			count = HermitRequest.getWorthlessItemCount();
-
-			if ( count >= needed )
-			{
-				return true;
-			}
-		}
-
-		while ( count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL ) )
-		{
-			// Read a single 31337 scroll
-			RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.SUMMON_SCROLL ) );
-
-			// If we now have a hermit script in inventory, read it
-			if ( InventoryManager.hasItem( HermitRequest.HACK_SCROLL ) )
-			{
-				RequestThread.postRequest( UseItemRequest.getInstance( HermitRequest.HACK_SCROLL ) );
-			}
-
-			count = HermitRequest.getWorthlessItemCount();
-		}
-
-		if ( count >= needed )
-		{
-			return true;
-		}
-
-		// Do not refresh concoctions while we transfer sewer items around.
-		ConcoctionDatabase.deferRefresh( true );
-
-		// If the character has any of the starter items, retrieve them to improve
-		// the probability of getting worthless items.
-
-		int missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
-
-		if ( missingStarterItemCount > 0 )
-		{
-			InventoryManager.transferChewingGumItems( InventoryManager.STARTER_ITEMS, true, false );
-			missingStarterItemCount = InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
-		}
-
-		// If you can interact with players, use the server-friendlier version of gum
-		// retrieval that pre-computes a total amount of gum and retrieves it all
-		// at once to start.
-
-		if ( KoLCharacter.canInteract() )
-		{
-			// To save server hits, retrieve all the gum needed rather than constantly
-			// purchase small amounts of gum.
-
-			int totalGumCount = missingStarterItemCount + needed - count;
-
-			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, totalGumCount ) )
-			{
-				if ( needed - count <= 3 )
-				{
-					InventoryManager.transferWorthlessItems( true );
-					RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.CHEWING_GUM, totalGumCount ) );
-				}
-				else
-				{
-					while ( needed - count > 0 )
-					{
-						int gumCount =
-							missingStarterItemCount == 0 ? Math.min( needed - count, 3 ) : missingStarterItemCount + 3;
-
-						// Put the worthless items into the closet and then use the chewing gum
-
-						int closetCount = InventoryManager.transferWorthlessItems( true );
-						RequestThread.postRequest( UseItemRequest.getInstance( ItemPool.CHEWING_GUM, gumCount ) );
-
-						// Recalculate how many worthless items are still needed and how many starter
-						// items are now present in the inventory (if it's zero already, no additional
-						// computations are needed).
-
-						int inventoryCount = HermitRequest.getWorthlessItemCount();
-						count = inventoryCount + closetCount;
-
-						if ( missingStarterItemCount != 0 )
-						{
-							missingStarterItemCount =
-								InventoryManager.STARTER_ITEMS.length - InventoryManager.getStarterItemCount();
-						}
-					}
-				}
-
-				// Pull the worthless items back out of the closet.
-
-				count = InventoryManager.transferWorthlessItems( false );
-			}
-		}
-
-		// Otherwise, go ahead and hit the server a little harder in order to retrieve
-		// the worthless items.
-
-		else
-		{
-			if ( InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
-			{
-				while ( count < needed )
-				{
-					int gumUseCount = 1;
-
-					// If you are missing at most one starter item, it is optimal
-					// to use three chewing gums instead of one.
-
-					if ( missingStarterItemCount <= 1 )
-					{
-						gumUseCount = Math.min( needed - count, 3 );
-					}
-
-					AdventureResult gum = ItemPool.get( ItemPool.CHEWING_GUM, gumUseCount );
-
-					if ( gum.getCount( KoLConstants.inventory ) < gumUseCount &&
-						!InventoryManager.retrieveItem( ItemPool.CHEWING_GUM, needed - count ) )
-					{
-						break;
-					}
-
-					// Closet your existing worthless items (since they will reduce
-					// the probability of you getting more) and then use the gum.
-
-					int closetCount = InventoryManager.transferWorthlessItems( true );
-					RequestThread.postRequest( UseItemRequest.getInstance( gum ) );
-					int inventoryCount = HermitRequest.getWorthlessItemCount();
-
-					count = inventoryCount + closetCount;
-				}
-
-				// Pull the worthless items back out of the closet.
-
-				count = InventoryManager.transferWorthlessItems( false );
-			}
-		}
-
-		// Now that we have (possibly) gotten more sewer items, refresh
-		ConcoctionDatabase.deferRefresh( false );
-
-		if ( count < needed )
-		{
-			KoLmafia.updateDisplay(
-				MafiaState.ABORT, "Unable to acquire " + item.getCount() + " worthless items." );
-		}
-
-		return count >= needed;
-	}
-
-	private static int getStarterItemCount()
-	{
-		int starterItemCount = 0;
-
-		for ( int i = 0; i < InventoryManager.STARTER_ITEMS.length; ++i )
-		{
-			AdventureResult item = InventoryManager.STARTER_ITEMS[ i ];
-			if ( item.getCount( KoLConstants.inventory ) > 0 || KoLCharacter.hasEquipped( item ) )
-			{
-				++starterItemCount;
-			}
-		}
-
-		return starterItemCount;
-	}
-
-	private static void transferChewingGumItems(
-		final AdventureResult[] items, final boolean moveOne, final boolean moveToCloset )
-	{
-		List<AdventureResult> source = moveToCloset ? KoLConstants.inventory : KoLConstants.closet;
-		List<AdventureResult> destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
-
-		AdventureResultArray attachmentList = new AdventureResultArray();
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			AdventureResult item = items[ i ];
-
-			if ( moveOne && !moveToCloset && ( item.getCount( destination ) > 0 || KoLCharacter.hasEquipped( item ) ) )
-			{
-				continue;
-			}
-
-			int itemCount = item.getCount( source );
-
-			if ( itemCount > 0 )
-			{
-				attachmentList.add( ItemPool.get( item.getItemId(), moveOne ? 1 : itemCount ) );
-			}
-		}
-
-		if ( !attachmentList.isEmpty() )
-		{
-			int moveType = moveToCloset ? ClosetRequest.INVENTORY_TO_CLOSET : ClosetRequest.CLOSET_TO_INVENTORY;
-			RequestThread.postRequest( new ClosetRequest( moveType, attachmentList.toArray() ) );
-		}
-	}
-
-	private static int transferWorthlessItems( final boolean moveToCloset )
-	{
-		InventoryManager.transferChewingGumItems( InventoryManager.WORTHLESS_ITEMS, false, moveToCloset );
-
-		List<AdventureResult> destination = moveToCloset ? KoLConstants.closet : KoLConstants.inventory;
-
-		int trinketCount = HermitRequest.TRINKET.getCount( destination );
-		int gewgawCount = HermitRequest.GEWGAW.getCount( destination );
-		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( destination );
-
-		return trinketCount + gewgawCount + knickKnackCount;
-	}
-
-	private static int pullWorthlessItems()
-	{
-		int trinketCount = HermitRequest.TRINKET.getCount( KoLConstants.storage );
-		int gewgawCount = HermitRequest.GEWGAW.getCount( KoLConstants.storage );
-		int knickKnackCount = HermitRequest.KNICK_KNACK.getCount( KoLConstants.storage );
-
-		AdventureResult[] items =
-			new AdventureResult[]
-			{
-				HermitRequest.TRINKET.getInstance( trinketCount ),
-				HermitRequest.GEWGAW.getInstance( gewgawCount ),
-				HermitRequest.KNICK_KNACK.getInstance( knickKnackCount )
-			};
-
-		RequestThread.postRequest( new StorageRequest( StorageRequest.STORAGE_TO_INVENTORY, items ) );
-
-		return trinketCount + gewgawCount + knickKnackCount;
-	}
-
-	/*
-	  16 possible sewer items:
-
-	  6 classes * 1 hat
-	  6 classes * 1 weapon
-	  1 pants
-	  3 worthless items
-
-	  Items can be in inventory or equipped.
-
-	  Unless you have all 16 possible items, using a piece of gum will
-	  retrieve one you don't have yet. If you have all the non-worthless
-	  items, you are guaranteed to get a worthless item. If are missing
-	  some non-worthless items, whether you get a worthless item or one of
-	  the missing non-worthless-items is probabilistic.
-
-	  Assume you have no worthless items in inventory
-	  Let X = number of non-worthless sewer items you have.
-	  Given X, what is the expected # of gums needed to get a worthless item?
-
-	  Consider X = 13. Of the ( 16 - 13 ) = 3 possible items, 3 are your
-	  goal and ( 3 - 3 ) = 0 are not your goal.
-
-	  E(13) = 3/3 * 1 + 0/3 = 1.0
-
-	  Consider X = 12. Of the ( 16 - 12 ) = 4 possible items, 3 are your
-	  goal and ( 4 - 3 ) = 1 are not your goal. You have a 3/4 chance of
-	  getting your goal with the first piece of gum. If you don't get one,
-	  you have used 1 gum, now have 13 sewer items and will use another
-	  piece of gum.
-
-	  E(12) = 3/4 * 1 + 1/4 * ( 1 + E(13) ) = .75 + 0.50 = 1.25
-
-	  Consider X = 11. Of the ( 16 - 11 ) = 5 possible items, 3 are your
-	  goal and ( 5 - 3 ) = 2 are not your goal. You have a 3/5 chance of
-	  getting your goal with the first piece of gum. If you don't get one,
-	  you have used 1 gum, now have 12 sewer items and will use another
-	  piece of gum.
-
-	  E(11) = 3/5 * 1 + 2/5 * ( 1 + E(12) ) = .60 + 0.90 = 1.50
-
-	  This generalizes:
-
-	  E(X) = 3/(16-X) + (13-X)/(16-X) * ( 1 + E(X + 1 ) )
-
-	  Rearranging terms:
-
-	  E(X) = 1 + ( 13 - X ) * E( X + 1 ) / ( 16 - X )
-
-	  This little ASH program calculates this:
-
-	  float [14] factors;
-
-	  factors[ 13 ] = 1.0;
-	  for x from 12 downto 0
-	  {
-		float f2 = ( 13.0 - x ) * factors[ x + 1] / (16.0 - x );
-		factors[ x ] = 1.0 + f2;
-	  }
-
-	  for i from 0 to 13
-	  {
-		float px = factors[ i ] ;
-		print( i + ": " + px + " gum = " + ceil( 50.0 * px ) + " Meat" );
-	  }
-
-	  Resulting in this:
-
-	  0: 4.25 gum = 213 Meat
-	  1: 4.0 gum = 200 Meat
-	  2: 3.75 gum = 188 Meat
-	  3: 3.5 gum = 175 Meat
-	  4: 3.25 gum = 163 Meat
-	  5: 3.0 gum = 150 Meat
-	  6: 2.75 gum = 138 Meat
-	  7: 2.5 gum = 125 Meat
-	  8: 2.25 gum = 113 Meat
-	  9: 2.0 gum = 100 Meat
-	  10: 1.75 gum = 88 Meat
-	  11: 1.5 gum = 75 Meat
-	  12: 1.25 gum = 63 Meat
-	  13: 1.0 gum = 50 Meat
-
-	  From this table, I derive the following formula for expected # of
-	  chewing gum needed to retrieve a worthless item:
-
-	  E(X) = ( 17 - X ) / 4
-	  Cost(X) = 12.5 * ( 17 - X ) Meat
-	 */
-
-	public static PurchaseRequest CHEWING_GUM = NPCStoreDatabase.getPurchaseRequest( ItemPool.CHEWING_GUM );
-
-	public static int currentWorthlessItemCost()
-	{
-		int x = InventoryManager.getStarterItemCount();
-		int gumPrice = InventoryManager.CHEWING_GUM.getPrice();
-		return (int) Math.ceil( ( gumPrice / 4.0 ) * ( 17 - x ) );
-	}
-
-	// *** End of worthless item handling
 
 	private static boolean invokeBuyScript(
 		final AdventureResult item, final int quantity, final int ingredientLevel, final boolean defaultBuy )
