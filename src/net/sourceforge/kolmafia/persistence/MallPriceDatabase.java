@@ -147,7 +147,7 @@ public class MallPriceDatabase
 			return;
 		}
 
-		if ( filename.startsWith( "http://" ) )
+		if ( filename.startsWith( "http://" ) || filename.startsWith( "https://" ))
 		{
 			if ( MallPriceDatabase.updated.contains( filename ) )
 			{
