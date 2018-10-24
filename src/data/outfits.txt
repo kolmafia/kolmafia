@@ -75,7 +75,7 @@
 74	Unblemished Uniform	staintat.gif	stainless steel skullcap, stainless steel shillelagh, stainless steel slacks, stainless steel scarf, stainless steel solitaire, stainless steel suspenders
 75	Blasphemous Bedizenment	brimtat.gif	Brimstone Beret, Brimstone Bludgeon, Brimstone Bunker, Brimstone Boxers, Brimstone Brooch, Brimstone Bracelet
 76	Smoked Pottery	potterytat.gif	pottery hat, pottery shield, pottery training pants
-77	1000th Birthday Suit	skeletat.gif	bonedanna, boneana hammock, bone spurs
+77	Thousandth Birthday Suit	skeletat.gif	bonedanna, boneana hammock, bone spurs
 78	Uncle Hobo's Rags	crimbeard.gif	Uncle Hobo's stocking cap, Uncle Hobo's gift baggy pants, Uncle Hobo's epic beard
 79	Paperclippery	cliptat.gif	paperclip turban, paperclip cape, paperclip pants, paperclip-on tie
 80	Cold Comforts	doubicetat.gif	double-ice cap, double-ice box, double-ice britches

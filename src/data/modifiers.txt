@@ -7307,7 +7307,6 @@ Skill	Wrath	Weapon Damage: +10, Spell Damage: +10, Damage Reduction: -4
 
 # Outfits section of modifiers.txt
 
-Outfit	1000th Birthday Suit	Spooky Damage: +15
 Outfit	8-Bit Finery	Initiative: +25
 Outfit	Aeroutfit	Meat Drop: +40
 Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
@@ -7424,6 +7423,7 @@ Outfit	Tawdry Tramp Togs	DB Combat Damage: +20
 Outfit	Terrifying Clown Suit	Spooky Damage: +5
 Outfit	Terrycloth Tackle	Damage Absorption: +30
 Outfit	The Jokester's Costume	Item Drop: +25, Meat Drop: +50
+Outfit	Thousandth Birthday Suit	Spooky Damage: +15
 Outfit	Time Trappings	Adventures: +3
 Outfit	Topiaria	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Toxic Togs	Stench Damage: +20, Stench Spell Damage: +20
