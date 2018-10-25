@@ -2215,8 +2215,8 @@ public class RequestEditorKit
 
 		case 1326:// Gone Kitchin'
 			StringUtilities.singleStringReplace(
-				buffer, "pieces of trash in that can!]",
-				"pieces of trash in that can!] (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)" );
+				buffer, "pieces of trash in that can!",
+				"pieces of trash in that can! (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)" );
 			break;
 
 		case 1327:// Forward to the Back
