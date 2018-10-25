@@ -2451,6 +2451,13 @@ public class KoLAdventure
 			"The Neverending Party is over for today.",
 		},
 
+		// You wouldn't be seen dead at the Neverending Party without your PARTY HARD shirt on.
+		// Not today, at least, since you've already made an appearance in it.
+		{
+			"without your PARTY HARD shirt on",
+			"Cannot adventure at The Neverending Party without your PARTY HARD shirt on.",
+		},
+
 		// That isn't a place you can get to the way you're dressed.
 		// (Clicking Last Adventure having unequipped Talisman o' Namsilat)
 		{
