@@ -271,7 +271,7 @@ public abstract class ChoiceManager
 	private static final Pattern BASTILLE_PATTERN = Pattern.compile( "You can play <b>(\\d+)</b>" );
 	private static final Pattern GERALD_PATTERN = Pattern.compile( "Gerald wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
 	private static final Pattern GERALDINE_PATTERN = Pattern.compile( "Geraldine wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
-	private static final Pattern SAFE_PATTERN = Pattern.compile( "find (\\d+) Meat in the safe" );
+	private static final Pattern SAFE_PATTERN = Pattern.compile( "find ([\\d,]+) Meat in the safe" );
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
