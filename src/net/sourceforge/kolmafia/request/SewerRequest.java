@@ -153,14 +153,28 @@ public class SewerRequest
 		return count;
 	}
 
+	private static int uniqueItemCount( final AdventureResult[] items, final List<AdventureResult> list )
+	{
+		int count = 0;
+		for ( AdventureResult item : items )
+		{
+			if ( ( item.getCount( list ) > 0 ) ||
+			     ( list == KoLConstants.inventory && KoLCharacter.hasEquipped( item ) ) )
+			{
+				count += 1;
+			}
+		}
+		return count;
+	}
+
 	private static int currentWorthlessItemCount()
 	{
 		return SewerRequest.currentItemCount( SewerRequest.WORTHLESS_ITEMS, KoLConstants.inventory );
 	}
 
-	private static int currentStarterItemCount()
+	private static int uniqueStarterItemCount()
 	{
-		return SewerRequest.currentItemCount( SewerRequest.STARTER_ITEMS, KoLConstants.inventory );
+		return SewerRequest.uniqueItemCount( SewerRequest.STARTER_ITEMS, KoLConstants.inventory );
 	}
 
 	// This is the method used by InventoryManager.retrieveItem. Which is
@@ -250,12 +264,12 @@ public class SewerRequest
 		// If the character has any of the starter items, retrieve them to improve
 		// the probability of getting worthless items.
 
-		if ( canUseCloset && SewerRequest.STARTER_ITEMS.length > SewerRequest.currentStarterItemCount() )
+		if ( canUseCloset && SewerRequest.STARTER_ITEMS.length > SewerRequest.uniqueStarterItemCount() )
 		{
 			SewerRequest.transferStarterItems( items, KoLConstants.closet );
 		}
 
-		if ( canUseStorage && SewerRequest.STARTER_ITEMS.length > SewerRequest.currentStarterItemCount() )
+		if ( canUseStorage && SewerRequest.STARTER_ITEMS.length > SewerRequest.uniqueStarterItemCount() )
 		{
 			SewerRequest.transferStarterItems( items, KoLConstants.storage );
 		}
@@ -561,7 +575,7 @@ public class SewerRequest
 
 	public static int currentWorthlessItemCost()
 	{
-		int x = SewerRequest.currentStarterItemCount();
+		int x = SewerRequest.uniqueStarterItemCount();
 		int gumPrice = SewerRequest.CHEWING_GUM.getPrice();
 		return (int) Math.ceil( ( gumPrice / 4.0 ) * ( 17 - x ) );
 	}
