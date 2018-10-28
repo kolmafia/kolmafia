@@ -161,7 +161,7 @@ public class SpelunkyRequest
 		SpelunkyRequest.adventureImages.put( "The Spider Hole", "spiderhole.gif" );
 		SpelunkyRequest.adventureImages.put( "The Ancient Burial Ground", "burialground.gif" );
 		SpelunkyRequest.adventureImages.put( "The Beehive", "beehive.gif" );
-		SpelunkyRequest.adventureImages.put( "The Crashed U. F. O.", "ufo.gif" );
+		SpelunkyRequest.adventureImages.put( "The Crashed U.F.O.", "ufo.gif" );
 		SpelunkyRequest.adventureImages.put( "The City of Goooold", "citygold.gif" );
 		SpelunkyRequest.adventureImages.put( "LOLmec's Lair", "lolmec.gif" );
 		SpelunkyRequest.adventureImages.put( "Yomama's Throne", "yomama.gif" );
