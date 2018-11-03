@@ -1038,6 +1038,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.BURNING_NEWSPAPER:
 			case ItemPool.TALES_OF_SPELUNKING:
 			case ItemPool.PORTABLE_PANTOGRAM:
+			case ItemPool.VOTER_BALLOT:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.
@@ -2133,6 +2134,14 @@ public abstract class UseLinkDecorator
 			{
 				useLocation = "shop.php?whichshop=fantasyrealm";
 			}
+			break;
+
+		case ItemPool.BLACK_SLIME_GLOB:
+		case ItemPool.GREEN_SLIME_GLOB:
+		case ItemPool.ORANGE_SLIME_GLOB:
+			int slimeCount = InventoryManager.getCount( itemId );
+			useType = "use (" + slimeCount + ")";
+			useLocation = "shop.php?whichshop=voteslime";
 			break;
 
 		default:

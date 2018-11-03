@@ -3063,6 +3063,9 @@ public class ItemPool
 	public static final int LATTE_MUG = 9987;
 	public static final int VOTER_REGISTRATION_FORM = 9989;
 	public static final int VOTER_BALLOT = 9991;
+	public static final int BLACK_SLIME_GLOB = 9996;
+	public static final int GREEN_SLIME_GLOB = 9997;
+	public static final int ORANGE_SLIME_GLOB = 9998;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

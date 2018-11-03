@@ -529,9 +529,9 @@ public class QuestManager
 	{
 		if ( !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
-			if ( responseText.contains( "Voting Booth" ) && !Preferences.getBoolean( "voteAlways" ) )
+			if ( responseText.contains( "Voting Booth" ) )
 			{
-				Preferences.setBoolean( "_voteToday", true );
+				Preferences.setBoolean( "voteAlways", true );
 			}
 		}
 	}
