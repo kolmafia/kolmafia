@@ -1884,6 +1884,9 @@ jock	2091	nparty_jock.gif	Scale: [0+100*equipped(PARTY HARD T-shirt)] Cap: 20000
 party girl	2092	nparty_partygirl.gif	Scale: [10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 11 Init: -10000 P: dude Meat: 100	runproof mascara (0)	very small red dress (0)	noticeable pumps (0)	surprisingly capacious handbag (0)	everfull glass (c0)
 burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 P: dude Meat: 50	denim jacket (0)	ratty knitted cap (0)	van key (0)	jam band bootleg (0)
 
+# Voter Registration Form (Nov 2018)
+slime blob	2097	vwslime.gif	Scale: 4 P: slime E: sleaze Init: -10000	green slime glob (0)	orange slime glob (0)	black slime glob (n0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

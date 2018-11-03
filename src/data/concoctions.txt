@@ -3010,3 +3010,8 @@ FantasyRealm Rogue's Mask	FANTASY_REALM
 
 # G-Lover
 glued A-Boo clue	SUSE	A-Boo glue	A-Boo clue
+
+# Voter Registation Form - Mad Sliemce
+slime fedora	SLIEMCE,ROW1025	black slime glob (1)	orange slime glob (100)	green slime glob (10)
+slime knuckles	SLIEMCE,ROW1026	black slime glob (1)	orange slime glob (50)	green slime glob (20)
+slime waders	SLIEMCE,ROW1027	black slime glob (1)	orange slime glob (10)	green slime glob (30)

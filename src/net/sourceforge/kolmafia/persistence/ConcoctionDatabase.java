@@ -2193,6 +2193,11 @@ public class ConcoctionDatabase
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.XO, 0 );
 		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.XO, 0 );
 
+		// Making stuff with Slime is always allowed
+		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SLIEMCE );
+		ConcoctionDatabase.CREATION_COST.put( CraftingType.SLIEMCE, 0 );
+		ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SLIEMCE, 0 );
+
 		// Making stuff with burning newspaper is always allowed
 		ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.NEWSPAPER );
 		ConcoctionDatabase.CREATION_COST.put( CraftingType.NEWSPAPER, 0 );
@@ -2719,6 +2724,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.XO )
 		{
 			result.append( "XO Shop" );
+		}
+		else if ( mixingMethod == CraftingType.SLIEMCE )
+		{
+			result.append( "Mad Sliemce" );
 		}
 		else if ( mixingMethod == CraftingType.NEWSPAPER )
 		{
@@ -3407,6 +3416,11 @@ public class ConcoctionDatabase
 		else if ( mix.equals( "XOSHOP" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.XO;
+		}
+
+		else if ( mix.equals( "SLIEMCE" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.SLIEMCE;
 		}
 
 		else if ( mix.equals( "SPACEGATE" ) )

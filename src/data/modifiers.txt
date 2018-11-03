@@ -238,6 +238,8 @@ Item	goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 Item	googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 Item	googly-heart hat	Moxie: +10, Experience (Moxie): +3
 Item	googly-star hat	Muscle: +10, Experience (Muscle): +3, Familiar Effect: "atk"
+# government-issued eyeshade: +25 Damage vs. Ghosts
+Item	government-issued eyeshade	Experience Percent (Moxie): +10, Pool Skill: +5
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 # gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
@@ -412,6 +414,7 @@ Item	six-gallon hat	Muscle: +6, Mysticality: +6, Moxie: +6, Experience: +3
 Item	skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
 # sleep mask: Can't see nothin'
 Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37"
+Item	slime fedora	Mysticality Percent: +25, Spell Critical Percent: +10, MP Regen Min: 10, MP Regen Max: 15
 Item	slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 Item	smooth velvet hat	Disco Style: +1
 Item	snailmail coif	Muscle: +10, Damage Reduction: 8, Familiar Effect: "1xPotato, 1xFairy, cap 41"
@@ -624,6 +627,8 @@ Item	gnauga hide chaps	Damage Absorption: +30, Familiar Effect: "atk, 4xBarrr, c
 Item	gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gnauga hide skirt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25"
+# government-issued slacks: +25% Damage vs. Skeletons
+Item	government-issued slacks	Experience Percent (Muscle): +10, Fishing Skill: +5
 Item	grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
 # Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Item	Great Wolf's beastly trousers	Weapon Damage Percent: +50, Familiar Weight: +10, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "1xPotato, 1.5xWhelp"
@@ -731,6 +736,7 @@ Item	scale-mail underwear	MP Regen Min: 8, MP Regen Max: 12, Spooky Resistance: 
 Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar Effect: "atk, 2xBarrr"
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
 Item	servo-assisted exo-pants	Initiative: -30, Familiar Effect: "cold atk, 1xPotato, cap 12"
+Item	slime waders	Mysticality Percent: +25, Experience (Mysticality): +3, Sleaze Resistance: +3
 Item	slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "sleaze atk, 0.5xBarrr"
 # SMOOCH codpiece: Damages Attacking Opponent
 Item	SMOOCH codpiece	Damage Reduction: 5, Damage Absorption: +20, Familiar Effect: "atk, 1xBarrr, cap 20"
@@ -1635,6 +1641,7 @@ Item	sleazy bindle	Item Drop: +10, Sleaze Damage: +25
 Item	Sledgehammer of the V&aelig;lkyr	Muscle: +23, Critical Hit Percent: +10, Class: "Seal Clubber", Weapon Damage Percent: +20
 Item	slide rule	Mysticality Percent: +5, Initiative: +10
 # slightly peevedbow
+Item	slime knuckles	Mysticality Percent: +25, Sleaze Spell Damage: +25, Spell Damage Percent: +50
 # slime-covered club: +50 Damage against Slimes
 Item	slime-covered club	Weapon Damage: [50*zone(The Slime Tube)+25], Critical Hit Percent: +7
 # slime-covered shovel: +100 Damage against Slimes
@@ -2752,6 +2759,8 @@ Item	gold skull ring	PvP Fights: +7, Single Equip
 Item	gold wedding ring	Adventures: +1, Single Equip
 Item	tiny plastic golden gundam	Adventures: +1, PvP Fights: +1, Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
+# government-issued necktie: +25% Damage vs. Zombies
+Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: +10
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 # GPS-tracking wristwatch
 Item	grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
@@ -7408,6 +7417,7 @@ Outfit	Radio Free Regalia	Never Fumble
 Outfit	Raiments of the Final Boss	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Outfit	Roy Orbison Disguise	Moxie: +15
 Outfit	Seafaring Suit	Initiative: +100
+Outfit	Slime Enslamble	Mysticality Percent: +100
 Outfit	Slimesuit	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 # Outfit SMOOCH Army Uniform: Hurt those who touch you even more!
 Outfit	Smoked Pottery	Hot Damage: +15

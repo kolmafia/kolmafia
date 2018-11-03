@@ -6133,6 +6133,14 @@ public class UseItemRequest
 			}
 			break;
 
+		case ItemPool.VOTER_REGISTRATION_FORM:
+			Preferences.setBoolean( "voteAlways", true );
+			break;
+
+		case ItemPool.VOTER_BALLOT:
+			Preferences.setBoolean( "_voteToday", true );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

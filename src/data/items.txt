@@ -10015,3 +10015,19 @@
 9988	latte lovers club card	897524147	lattecard.gif	usable	t	0
 9989	voter registration form	250172333	vrform.gif	usable	t	0
 9990	&quot;I Voted!&quot; sticker	276506535	ivoted.gif	accessory	q	0
+9991	absentee voter ballot	159815644	absballot.gif	usable	t	0
+9992
+9993
+9994
+9995
+9996	black slime glob	274504232	vglob3	none	d	250
+9997	green slime glob	299669805	vglob1.gif	none	d	50
+9998	orange slime glob	746377973	vglob2.gif	none	d	20
+9999	slime waders	833236717	eplasmboots.gif	pants	d	500
+10000
+10001	slime fedora	672123294	eplasmhat.gif	hat	d	400
+10002	slime knuckles	680587439	eplasmknucks.gif	weapon	d	300
+10003
+10004	government-issued slacks	513189704	greypants.gif	pants	d	137
+10005	government-issued eyeshade	891165020	visor.gif	hat	d	111
+10006	government-issued necktie	892432875	necktie.gif	accessory	d	123
