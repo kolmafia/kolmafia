@@ -142,3 +142,5 @@
 139	FantasyRealm Thief's Outfit	frtat3.gif	FantasyRealm Rogue's Mask, Duke Vampire's regal cloak, leggings of the Spider Queen, Master Thief's utility belt
 140
 141	Slime Enslamble	vwslimetat.gif	slime fedora, slime knuckles, slime waders
+142
+143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie

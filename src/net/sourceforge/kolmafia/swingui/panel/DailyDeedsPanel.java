@@ -3165,6 +3165,7 @@ public class DailyDeedsPanel
 			this.addListener( "_godLobsterFights" );
 			this.addListener( "_loveTunnelUsed" );
 			this.addListener( "_neverendingPartyFreeTurns" );
+			this.addListener( "_voteFreeFights" );
 			this.addListener( "(character)" );
 			this.addLabel( "" );
 		}
@@ -3224,6 +3225,9 @@ public class DailyDeedsPanel
 				!Limitmode.limitZone( "Town" ) && !KoLCharacter.inBadMoon();
 			boolean np = Preferences.getBoolean( "neverendingPartyAlways" ) && StandardRequest.isAllowed( "Items", "Neverending Party invitation envelope" ) &&
 				!Limitmode.limitZone( "Town" ) && !KoLCharacter.inBadMoon();
+			boolean vb = ( Preferences.getBoolean( "_voteToday" ) || Preferences.getBoolean( "voteAlways" ) ) &&
+				StandardRequest.isAllowed( "Items", "voter registration form" ) &&
+				!Limitmode.limitZone( "Town" ) && !KoLCharacter.inBadMoon();
 
 			StringBuilder buffer = new StringBuilder();
 			count = 0;
@@ -3246,6 +3250,7 @@ public class DailyDeedsPanel
 			if ( gl ) addFightCounter( buffer, Preferences.getInteger( "_godLobsterFights" ) + "/3 god lobster" );
 			if ( lv ) addFightCounter( buffer, ( Preferences.getBoolean( "_loveTunnelUsed" ) ? 3 : 0 ) + "/3 lov" );
 			if ( np ) addFightCounter( buffer, Preferences.getInteger( "_neverendingPartyFreeTurns" ) + "/10 party" );
+			if ( np ) addFightCounter( buffer, Preferences.getInteger( "_voteFreeFights" ) + "/3 vote" );
 			if ( et ) addFightCounter( buffer, "tentacle" );
 			buffer.append( "</html>" );
 
