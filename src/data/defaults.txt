@@ -1283,6 +1283,7 @@ user	volcanoMaze2
 user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
+user	voteAlways	false
 user	walfordBucketItem	
 user	walfordBucketProgress	0
 user	warProgress	unstarted
@@ -1765,6 +1766,12 @@ user	_volcanoItemCount2	0
 user	_volcanoItemCount3	0
 user	_voraciTeaUsed	false
 user	_volcanoItemRedeemed	false
+user	_voteLocal1	
+user	_voteLocal2	
+user	_voteLocal3	
+user	_voteLocal4	
+user	_voteModifier	
+user	_voteToday	false
 user	_VYKEACafeteriaRaided	false
 user	_VYKEACompanionType
 user	_VYKEACompanionRune

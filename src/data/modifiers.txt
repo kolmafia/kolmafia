@@ -2807,6 +2807,7 @@ Item	hockey stick of furious angry rage	Monster Level: +30, Muscle Percent: +5
 Item	Hodgman's bow tie	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Hobo Power: +25, Single Equip
 Item	Hodgman's lucky sock	Hobo Power: +50, Single Equip
 Item	hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, Maximum MP: +200, Single Equip
+Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover
 Item	ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 Item	Ice-Cold Aluminum Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Spell Damage: +40, Single Equip
 Item	Ice-Cold Beer Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Damage: +40, Single Equip
@@ -10565,6 +10566,7 @@ Item	vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 Item	violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
+Item	voter registration form	Free Pull
 Item	votive candle	Effect: "Clerical Aura", Effect Duration: 100
 Item	VYKEA woadpaint	Effect: "This Is Where You're a Viking", Effect Duration: 30
 Item	wad of cotton	Effect: "Cotton Mouthed", Effect Duration: 50

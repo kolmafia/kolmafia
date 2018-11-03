@@ -273,6 +273,8 @@ public abstract class ChoiceManager
 	private static final Pattern GERALDINE_PATTERN = Pattern.compile( "Geraldine wants (\\d+)<table>.*?descitem\\((\\d+)\\)" );
 	private static final Pattern SAFE_PATTERN = Pattern.compile( "find ([\\d,]+) Meat in the safe" );
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
+	private static final Pattern VOTE_PATTERN = Pattern.compile( "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)\\.<br /><span .*? color: blue\\\">(.*?)</span><br /></label>" );
+	private static final Pattern URL_VOTE_PATTERN = Pattern.compile( "local\\[\\]=(\\d)" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -4355,7 +4357,9 @@ public abstract class ChoiceManager
 				       new Option( "acquire intimidating chainsaw", 3, "intimidating chainsaw" ),
 				       new Option( "increase megawoots", 4 ) } ),
 
-   };
+		// Choice 1331 is Daily Loathing Ballot
+
+	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
 
@@ -11121,6 +11125,26 @@ public abstract class ChoiceManager
 			LatteRequest.parseResponse( urlString, text );
 			break;
 
+		case 1331:
+			// Daily Loathing Ballot
+			if ( ChoiceManager.lastDecision == 4 )
+			{
+				String mods = "";
+				Matcher matcher = ChoiceManager.URL_VOTE_PATTERN.matcher( urlString );
+				while ( matcher.find() )
+				{
+					if ( mods.length() > 0 )
+					{
+						mods += ", ";
+					}
+					int vote = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
+					mods += Preferences.getString( "_voteLocal" + vote );
+				}
+				Preferences.setString( "_voteModifier", mods );
+				String message = "You have cast your votes";
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
+			}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -14131,6 +14155,19 @@ public abstract class ChoiceManager
 			// Latte Shop
 			LatteRequest.parseVisitChoice( text );
 			break;
+
+		case 1331:
+		{
+			// Daily Loathing Ballot
+			Matcher matcher = ChoiceManager.VOTE_PATTERN.matcher( text );
+			while ( matcher.find() )
+			{
+				int voteValue = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
+				String voteMod = Modifiers.parseModifier( matcher.group( 3 ) );
+				Preferences.setString( "_voteLocal" + voteValue, voteMod );
+			}
+			break;
+		}
 
 		}
 	}

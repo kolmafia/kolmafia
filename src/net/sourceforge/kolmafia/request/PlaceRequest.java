@@ -33,10 +33,13 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -93,6 +96,8 @@ public class PlaceRequest
 	{
 		PlaceRequest.parseResponse( this.getURLString(), this.responseText );
 	}
+
+	private static final Pattern VOTE_PATTERN = Pattern.compile( "initiatives: <br /><font style='color: blue'>(.*?)<br>(.*?)</font>" );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -273,6 +278,18 @@ public class PlaceRequest
 		{
 			Preferences.setBoolean( "telegraphOfficeAvailable", responseText.contains( "townright_ltt" ) );
 			Preferences.setBoolean( "horseryAvailable", responseText.contains( "horsery.gif" ) );
+			if ( action.equals( "townright_vote" ) )
+			{
+				if ( responseText.contains( "already voted today" ) )
+				{
+					Matcher matcher = PlaceRequest.VOTE_PATTERN.matcher( responseText );
+					if ( matcher.find() )
+					{
+						String voteMod = Modifiers.parseModifier( matcher.group( 1 ) ) + ", " + Modifiers.parseModifier( matcher.group( 2 ) );
+						Preferences.setString( "_voteModifier", voteMod );
+					}
+				}
+			}
 		}
 		else if ( place.equals( "town_wrong" ) )
 		{
@@ -742,6 +759,10 @@ public class PlaceRequest
 			if ( action.equals( "town_horsery" ) )
 			{
 				message = "Visiting The Horsery";
+			}
+			if ( action.equals( "townright_vote" ) )
+			{
+				message = "Visiting The Voting Booth";
 			}
 		}
 		else if ( place.equals( "town_wrong" ) )

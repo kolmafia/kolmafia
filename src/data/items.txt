@@ -10013,3 +10013,5 @@
 9986	party mouse hat	790452170	partymousehat.gif	familiar	t,d	75
 9987	latte lovers member's mug	294224337	lattecup1.gif	offhand		0
 9988	latte lovers club card	897524147	lattecard.gif	usable	t	0
+9989	voter registration form	250172333	vrform.gif	usable	t	0
+9990	&quot;I Voted!&quot; sticker	276506535	ivoted.gif	accessory	q	0
