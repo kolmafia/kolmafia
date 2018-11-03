@@ -3309,6 +3309,11 @@ public class ResultProcessor
 				Preferences.increment( "garlandUpgrades" );
 			}
 			break;
+
+		case ItemPool.VOTER_REGISTRATION_FORM:
+			Preferences.setBoolean( "voteAlways", true );
+			break;
+
 		}
 
 		// Gaining items can achieve goals.

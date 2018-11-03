@@ -6024,6 +6024,9 @@ public abstract class KoLCharacter
 		// Horsery
 		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
 
+		// Voting Booth
+		newModifiers.add( Modifiers.parseModifiers( "Local Vote", Modifiers.evaluateModifiers( "Local Vote", Preferences.getString( "_voteModifier" ) ) ) );
+
 		// Miscellaneous
 
 		newModifiers.add( Modifiers.getModifiers( "Generated", "_userMods" ) );

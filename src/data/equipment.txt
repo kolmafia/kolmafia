@@ -2377,6 +2377,7 @@ hockey stick of furious angry rage	100	Mys: 35
 Hodgman's bow tie	200	Mys: 200
 Hodgman's lucky sock	200	Mys: 200
 hopping socks	200	Mys: 200
+&quot;I Voted!&quot; sticker	10	none
 ice skates	0	none
 Ice-Cold Aluminum Necklace	150	Mys: 60
 Ice-Cold Beer Ring	150	Mys: 60

@@ -471,6 +471,7 @@ public class OptionsFrame
 				{ "spacegateAlways", "Have Spacegate" },
 				{ "frAlways", "Have FantasyRealm&trade;" },
 				{ "neverendingPartyAlways", "Have Neverending Party" },
+				{ "voteAlways", "Have Voter Registration" },
 			};
 
 			this.setOptions( options );

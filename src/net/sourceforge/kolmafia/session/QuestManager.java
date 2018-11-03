@@ -431,6 +431,10 @@ public class QuestManager
 				// don't catch town_wrong, town_right, or other places
 				handleTownChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=town_right" ) )
+			{
+				handleTownRightChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=town_wrong" ) )
 			{
 				handleTownWrongChange( location, responseText );
@@ -519,6 +523,17 @@ public class QuestManager
 		QuestManager.handleTimeTower( responseText.contains( "town_tower" ) );
 		QuestManager.handleEldritchFissure( responseText.contains( "town_eincursion" ) );
 		QuestManager.handleEldritchHorror( responseText.contains( "town_eicfight2" ) );
+	}
+
+	private static void handleTownRightChange( final String location, String responseText )
+	{
+		if ( !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
+		{
+			if ( responseText.contains( "Voting Booth" ) && !Preferences.getBoolean( "voteAlways" ) )
+			{
+				Preferences.setBoolean( "_voteToday", true );
+			}
+		}
 	}
 
 	private static void handleTownWrongChange( final String location, String responseText )
