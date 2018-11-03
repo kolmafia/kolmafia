@@ -593,6 +593,7 @@ public interface KoLConstants
 		SPANT,		// Items made from spant chitin/tendons
 		SPACEGATE,	// Items granted at Spacegate Equipment Requisition
 		XO,		// Items made using Xes and Os
+		SLIEMCE,		// Items made using slime blobs
 		NEWSPAPER,	// Items made from burning newspaper
 		METEOROID,	// Items made from metal meteoroid
 		FANTASY_REALM,	// Items made by visiting FantasyRealm welcome center

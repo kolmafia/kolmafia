@@ -389,6 +389,9 @@ public class CreateItemRequest
 		case XO:
 			return new XOShopRequest( conc );
 			
+		case SLIEMCE:
+			return new SliemceRequest( conc );
+			
 		case NEWSPAPER:
 			return new BurningNewspaperRequest( conc );
 
