@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2268,6 +2269,7 @@ public class QuestManager
 		{
 			Preferences.increment( "_voteFreeFights", 1, 3, false );
 			Preferences.setInteger( "lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed() );
+			TurnCounter.stopCounting( "Vote Monster" );
 			VoteMonsterManager.checkCounter();
 		}
 
