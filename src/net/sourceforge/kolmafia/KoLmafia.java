@@ -127,11 +127,14 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
+import net.sourceforge.kolmafia.session.VoteMonsterManager;
+
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
@@ -1012,6 +1015,10 @@ public abstract class KoLmafia
 		// Check some things that are not (yet) in api.php
 		EquipmentRequest.checkCowboyBoots();
 		EquipmentRequest.checkHolster();
+
+		// Ensure turn based counters are active
+		LightsOutManager.checkCounter();
+		VoteMonsterManager.checkCounter();		
 	}
 
 	public static final boolean isRefreshing()
