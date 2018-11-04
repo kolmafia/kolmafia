@@ -1475,6 +1475,7 @@ Item	muculent machete	Muscle: +2, Meat Drop: +5
 Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
 # murderbot whip: Deals 1,000 extra damage on Critical Hit
 Item	murderbot whip	Weapon Damage: +10, Critical Hit Percent: +10
+Item	mutant arm	Monster Level: +5, Maximum HP: +25, Weapon Damage Percent: +50
 Item	nasty-ass club	Weapon Damage: +25, Monster Level: +15, Stench Damage: +15, Class: "Seal Clubber"
 Item	negotiatin' hammer	Critical Hit Percent: +12, Muscle Percent: +15, Maximum HP: +30, PvP Fights: +5
 Item	ninja mop	Weapon Damage: +5
@@ -7403,6 +7404,7 @@ Outfit	Meteor Masquerade	Meat Drop: +50
 Outfit	Miming Paraphernalia	Damage Reduction: 50, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Mining Gear	Meat Drop: +5
 # Mutant Couture: Release Your Inner Mutant
+Outfit	Mutant Parts Apparel	Muscle Percent: +100, Monster Level: +50
 Outfit	Oil Rig	Initiative: +30
 Outfit	OK Lumberjack Outfit	Critical Hit Percent: +10
 Outfit	Palmist Paraphernalia	Moxie: +7

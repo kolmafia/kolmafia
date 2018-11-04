@@ -10031,7 +10031,7 @@
 10004	government-issued slacks	513189704	greypants.gif	pants	d	137
 10005	government-issued eyeshade	891165020	visor.gif	hat	d	111
 10006	government-issued necktie	892432875	necktie.gif	accessory	d	123
-10007
+10007	mutant arm	488052371	mutantarm.gif	weapon		0
 10008
 10009
 10010
