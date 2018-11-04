@@ -2262,6 +2262,7 @@ public class QuestManager
 			}
 		}
 		else if ( monsterName.equals( "government bureaucrat" ) ||
+			      monsterName.equals( "terrible mutant" ) ||
 		          monsterName.equals( "slime blob" ) )
 		{
 			Preferences.increment( "_voteFreeFights", 1, 3, false );

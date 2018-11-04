@@ -1250,6 +1250,7 @@ user	tomeSkillsSoftcore	all
 user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
+user	trackVoteMonster	false
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0

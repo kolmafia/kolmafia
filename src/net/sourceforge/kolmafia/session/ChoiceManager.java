@@ -11138,7 +11138,11 @@ public abstract class ChoiceManager
 						mods += ", ";
 					}
 					int vote = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
-					mods += Preferences.getString( "_voteLocal" + vote );
+					String pref = Preferences.getString( "_voteLocal" + vote );
+					if ( pref.length() > 0 )
+					{
+						mods += pref;
+					}
 				}
 				Preferences.setString( "_voteModifier", mods );
 				String message = "You have cast your votes";
@@ -14164,7 +14168,10 @@ public abstract class ChoiceManager
 			{
 				int voteValue = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
 				String voteMod = Modifiers.parseModifier( matcher.group( 3 ) );
-				Preferences.setString( "_voteLocal" + voteValue, voteMod );
+				if ( voteMod != null )
+				{
+					Preferences.setString( "_voteLocal" + voteValue, voteMod );
+				}
 			}
 			break;
 		}
