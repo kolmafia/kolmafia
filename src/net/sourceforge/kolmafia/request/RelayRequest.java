@@ -107,6 +107,7 @@ import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -1613,6 +1614,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If Vote Monster due, no problem
+		if ( VoteMonsterManager.voteMonsterNow() )
+		{
+			return false;
+		}
+
 		// If they have already got access to Summoning Chamber, no problem
 		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) )
 		{
@@ -1706,6 +1713,12 @@ public class RelayRequest
 			return false;
 		}
 
+		// If Vote Monster due, no problem
+		if ( VoteMonsterManager.voteMonsterNow() )
+		{
+			return false;
+		}
+
 		// If they have already got access to Summoning Chamber, no problem
 		if ( QuestDatabase.isQuestLaterThan( Quest.MANOR, "step2" ) )
 		{
@@ -1751,7 +1764,7 @@ public class RelayRequest
 
 		// If they aren't in the Ballroom, or are in Ballroom with Lights Out due, no problem
 		if ( !AdventurePool.HAUNTED_BALLROOM_ID.equals( this.getFormField( "snarfblat" ) ) ||
-			 LightsOutManager.lightsOutNow() )
+			 LightsOutManager.lightsOutNow() || VoteMonsterManager.voteMonsterNow() )
 		{
 			return false;
 		}

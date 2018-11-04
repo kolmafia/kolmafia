@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -2266,8 +2267,10 @@ public class QuestManager
 		          monsterName.equals( "slime blob" ) )
 		{
 			Preferences.increment( "_voteFreeFights", 1, 3, false );
+			Preferences.setInteger( "lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed() );
+			VoteMonsterManager.checkCounter();
 		}
-	
+
 		int adventure = KoLAdventure.lastAdventureId();
 
 		switch ( adventure )

@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
+import net.sourceforge.kolmafia.session.VoteMonsterManager;
 
 import net.sourceforge.kolmafia.textui.Interpreter;
 
@@ -183,6 +184,8 @@ public class RecoveryManager
 		}
 
 		LightsOutManager.checkCounter();
+
+		VoteMonsterManager.checkCounter();
 
 		FightRequest.haveFought(); // reset flag
 
