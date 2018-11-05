@@ -3062,6 +3062,7 @@ public class ItemPool
 	public static final int DRINKING_TO_DRINK_BOOK = 9984;
 	public static final int LATTE_MUG = 9987;
 	public static final int VOTER_REGISTRATION_FORM = 9989;
+	public static final int I_VOTED_STICKER = 9990;
 	public static final int VOTER_BALLOT = 9991;
 	public static final int BLACK_SLIME_GLOB = 9996;
 	public static final int GREEN_SLIME_GLOB = 9997;
