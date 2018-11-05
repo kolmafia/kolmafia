@@ -10035,10 +10035,13 @@
 10008
 10009
 10010
-10011
-10012
-10013
+10011	haunted orange	822698761	orange.gif	food	t,d	50
+10012	haunted bottle of vodka	293187036	bottle.gif	drink	t,d	50
+10013	haunted pizza	141181980	pizza.gif	food	t,d	85
 10014
-10015
-10016
+10015	haunted cherry pie	236035190	0hpie.gif	food	t,d	100
+10016	haunted eggnog	697050866	coffeecup.gif	drink	t,d	65
 10017	glob of undifferentiated tissue	439844900	ragwad.gif	usable	t,d	62
+10018	haunted Hell ramen	112681925	bowl.gif	food	t,d	70
+10019	haunted gimlet	676845730	fruitym.gif	drink	t,d	180
+
