@@ -2269,6 +2269,7 @@ public class QuestManager
 		{
 			Preferences.increment( "_voteFreeFights", 1, 3, false );
 			Preferences.setInteger( "lastVoteMonsterTurn", KoLCharacter.getTurnsPlayed() );
+			Preferences.setString( "_voteMonster", monsterName );
 			TurnCounter.stopCounting( "Vote Monster" );
 			VoteMonsterManager.checkCounter();
 		}
