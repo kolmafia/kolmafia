@@ -177,6 +177,7 @@ public class RelayRequest
 	private static String CONFIRM_SPELUNKY = "confirm22";
 	private static String CONFIRM_ZEPPELIN = "confirm23";
 	private static String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
+	private static String CONFIRM_STICKER = "confirm25";
 
 	private static boolean ignoreDesertWarning = false;
 	private static boolean ignoreMohawkWigWarning = false;
@@ -3494,6 +3495,7 @@ public class RelayRequest
 		String image = null;
 		boolean cookie = false;
 		boolean lights = false;
+		boolean voteMonster = false;
 
  		String urlString = this.getURLString();
 		boolean isSkill = urlString.startsWith( "runskillz.php" );
@@ -3525,6 +3527,10 @@ public class RelayRequest
 			else if ( expired.getLabel().equals( "Spookyraven Lights Out" ) )
 			{
 				lights = true;
+			}
+			else if ( expired.getLabel().equals( "Vote Monster" ) )
+			{
+				voteMonster = true;
 			}
 			msg.append( "The " );
 			msg.append( expired.getLabel() );
@@ -3577,7 +3583,24 @@ public class RelayRequest
 				msg.append( "<br><br>" );
 				msg.append( LightsOutManager.message( true ) );
 			}
-			this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER, isSkill );
+			if ( voteMonster && !KoLCharacter.hasEquipped( ItemPool.I_VOTED_STICKER ) )
+			{
+				msg.append( "You do not have the \"I voted\" sticker equipped, to continue without, click the icon on the left to adventure. " );
+				msg.append( "If you want the sticker equipped, click the icon on the right to adventure. " );
+				this.sendOptionalWarning(
+					CONFIRM_STICKER,
+					msg.toString(),
+					image,
+					"ivoted.gif",
+					"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem=" + ItemPool.I_VOTED_STICKER + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
+					null,
+					null
+					);
+			}
+			else
+			{
+				this.sendGeneralWarning( image, msg.toString(), CONFIRM_COUNTER, isSkill );
+			}
 			return true;
 		}
 		
