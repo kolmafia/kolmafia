@@ -3069,7 +3069,7 @@ Item	psychic's amulet	Spell Damage: +10, Spooky Resistance: +1, Stench Resistanc
 Item	pulled porquoise earring	Moxie: +9, Never Fumble
 Item	pulled porquoise pendant	Moxie: +10, Meat Drop: +15, Single Equip
 Item	pulled porquoise ring	Moxie: +11, Maximum HP: +15, Maximum MP: +15, HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Single Equip
-Item	pump-up high-tops	Moxie: +15, Initiative: [+10+5*pref(highTopPumps)], Single Equip
+Item	pump-up high-tops	Moxie: +15, Initiative: [+10+5*pref(highTopPumped)], Single Equip
 Item	purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
@@ -5483,6 +5483,8 @@ Effect	Hardened Sweatshirt	Damage Absorption: +100, Damage Reduction: 10
 Effect	Hardly Poisoned at All	Muscle: -3, Mysticality: -3, Moxie: -3, Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10
 Effect	Hare-Brained	Muscle Limit: 400, Mysticality Limit: 400, Moxie Limit: 400
 Effect	Hare-o-dynamic	Initiative: +300
+Effect	Haunted Liver	Item Drop: +50, Meat Drop: +25
+Effect	Haunted Stomach	Meat Drop: +50, Item Drop: +25
 Effect	Haunting Looks	Avatar: "sexy ghost"
 Effect	Having a Ball!	Muscle Percent: [pref(ballpitBonus)], Mysticality Percent: [pref(ballpitBonus)], Moxie Percent: [pref(ballpitBonus)]
 Effect	Head on Fire, Ass Catching	Initiative: +10
@@ -7683,6 +7685,10 @@ Item	haggis-wrapped haggis-stuffed haggis	Effect: "Highland Sheen", Effect Durat
 Item	hambrosier	Effect: "The Power of Positive Thinking", Effect Duration: 50
 Item	hamlet sandwich	Effect: "Oh Hamlet Hamlet Hamlet Hamlet", Effect Duration: 50
 Item	hardboiled egg	Effect: "Too Noir For Snoir", Effect Duration: 50
+Item	haunted cherry pie	Effect: "Haunted Stomach", Effect Duration: 20
+Item	haunted Hell ramen	Effect: "Haunted Stomach", Effect Duration: 20
+Item	haunted orange	Effect: "Haunted Stomach", Effect Duration: 20
+Item	haunted pizza	Effect: "Haunted Stomach", Effect Duration: 20
 Item	heart-shaped candy whetstone	Effect: "Sharpened Sweet Tooth", Effect Duration: 40
 Item	heather graham cracker	Effect: "Graham Crackling", Effect Duration: 20
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
@@ -7965,6 +7971,9 @@ Item	green eggnog	Effect: "Just the Best Anapests", Effect Duration: 50
 Item	Green Giant	Effect: "World's Shortest Giant", Effect Duration: 15
 Item	Green Manalishi	Effect: "The Two-Prong Crown", Effect Duration: 30
 Item	gunner's daughter	Effect: "Kissed the Gunner's Daughter", Effect Duration: 40
+Item	haunted bottle of vodka	Effect: "Haunted Liver", Effect Duration: 20
+Item	haunted eggnog	Effect: "Haunted Liver", Effect Duration: 20
+Item	haunted gimlet	Effect: "Haunted Liver", Effect Duration: 20
 Item	Haymaker	Effect: "Fishy", Effect Duration: 15
 Item	hell in a bucket	Effect: "Hell ib a Hambasked", Effect Duration: 40
 Item	Herring Daiquiri	Effect: "Fishy", Effect Duration: 5

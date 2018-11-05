@@ -656,7 +656,7 @@ public class ValhallaManager
 		Preferences.setInteger( "catBurglarBankHeists", 0 );
 		Preferences.setString( "latteModifier", "" );
 		Preferences.resetToDefault( "latteUnlocks" );
-		Preferences.setInteger( "highTopPumps", 0 );
+		Preferences.setInteger( "highTopPumped", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );

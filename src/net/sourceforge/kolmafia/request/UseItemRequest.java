@@ -6125,11 +6125,12 @@ public class UseItemRequest
 		case ItemPool.PUMP_UP_HIGH_TOPS:
 			if ( responseText.contains( "pump up the high-tops" ) )
 			{
-				Preferences.increment( "highTopPumps" );
+				Preferences.increment( "_highTopPumps" );
+				Preferences.increment( "highTopPumped" );
 			}
 			else if ( responseText.contains( "already pumped up" ) )
 			{
-				Preferences.setInteger( "highTopPumps", 3 );
+				Preferences.setInteger( "_highTopPumps", 3 );
 			}
 			break;
 

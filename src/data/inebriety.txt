@@ -307,6 +307,9 @@ grog	3	3	good	5-10	8-10	0	0
 grogtini	6	6	awesome	22-26	16-20	0	0	tiny plastic sword
 gunner's daughter	1	3	EPIC	5-7	0	0	40-80	40 Kissed the Gunner's Daughter (+40 Mox)
 hacked gibson	4	4	EPIC	20-22	40-60	40-60	40-60
+haunted bottle of vodka	3	1	decent	0	0	0	0	Unspaded, 20 Haunted Liver (+50% Item drop, +25% Meat drop)
+haunted eggnog	3	3	awesome	0	0	0	0	Unspaded, 20 Haunted Liver (+50% Item drop, +25% Meat drop)
+haunted gimlet	4	6	awesome	0	0	0	0	Unspaded, 20 Haunted Liver (+50% Item drop, +25% Meat drop)
 Haymaker	2	8	awesome	8-9	15-20	15-20	15-20	15 Fishy
 hell in a bucket	1	3	EPIC	5-7	10-30	10-30	10-30	40 Hell ib a Hambasked (+40 Stench Damage & Stench Spell Damage)
 Herring Daiquiri	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
