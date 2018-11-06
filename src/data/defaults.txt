@@ -1217,6 +1217,7 @@ user	statusSpecialOps	0
 user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster	
+user	stopForFixedWanderer	false
 user	streamCrossDefaultTarget	ProtonicBot
 user	styxPixieVisited	false
 user	sugarCounter4178	0

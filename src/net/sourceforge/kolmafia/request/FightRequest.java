@@ -2463,8 +2463,16 @@ public class FightRequest
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
+				{
+					TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
+					  "Digitize Monster type=wander", "watch.gif" );
+				}
+				else
+				{
+					TurnCounter.startCounting( 10 + 10*Preferences.getInteger( "_sourceTerminalDigitizeMonsterCount" ),
 					  "Digitize Monster loc=* type=wander", "watch.gif" );
+				}
 			}
 			else if ( EncounterManager.isRomanticEncounter( responseText, true ) )
 			{
@@ -8248,7 +8256,14 @@ public class FightRequest
 			if ( responseText.contains( "hurl an enamorrang" ) || itemSuccess )
 			{
 				TurnCounter.stopCounting( "Enamorang Monster" );
-				TurnCounter.startCounting( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
+				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
+				{
+					TurnCounter.startCounting( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
+				}
+				else
+				{
+					TurnCounter.startCounting( 15, "Enamorang Monster type=wander", "watch.gif" );
+				}
 				Preferences.setString( "enamorangMonster", monsterName );
 				return true;
 			}
@@ -9174,7 +9189,14 @@ public class FightRequest
 				Preferences.increment( "_sourceTerminalDigitizeUses" );
 				Preferences.setInteger( "_sourceTerminalDigitizeMonsterCount", 0 );
 				TurnCounter.stopCounting( "Digitize Monster" );
-				TurnCounter.startCountingTemporary( 7, "Digitize Monster loc=* type=wander", "watch.gif" );
+				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
+				{
+					TurnCounter.startCountingTemporary( 7, "Digitize Monster type=wander", "watch.gif" );
+				}
+				else
+				{
+					TurnCounter.startCountingTemporary( 7, "Digitize Monster loc=* type=wander", "watch.gif" );
+				}
 				Preferences.setString( "_sourceTerminalDigitizeMonster", monsterName );
 			}
 			break;
@@ -9183,7 +9205,14 @@ public class FightRequest
 			if ( responseText.contains( "scan nearby ports" ) || skillSuccess )
 			{
 				Preferences.increment( "_sourceTerminalPortscanUses" );
-				TurnCounter.startCounting( 0, "portscan.edu loc=* type=wander", "gyroscope.gif" );
+				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
+				{
+					TurnCounter.startCounting( 0, "portscan.edu loc=* type=wander", "gyroscope.gif" );
+				}
+				else
+				{
+					TurnCounter.startCounting( 0, "portscan.edu type=wander", "gyroscope.gif" );
+				}
 			}
 			break;
 
