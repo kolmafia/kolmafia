@@ -497,6 +497,7 @@ user	dinseyToxicMultiplier	3
 user	dnaSyringe
 user	doghouseBoarded	false
 user	dolphinItem
+user	dontStopForCounters	false
 user	dreadScroll1	0
 user	dreadScroll2	0
 user	dreadScroll3	0

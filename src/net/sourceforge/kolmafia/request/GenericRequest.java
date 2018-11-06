@@ -1123,8 +1123,11 @@ public class GenericRequest
 				message += " " + LightsOutManager.message();
 			}
 
-			KoLmafia.updateDisplay( MafiaState.ERROR, message );
-			return true;
+			if ( !Preferences.getBoolean( "dontStopForCounters" ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, message );
+				return true;
+			}
 		}
 
 		return false;

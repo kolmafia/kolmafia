@@ -5411,7 +5411,11 @@ public class UseItemRequest
 			return;
 
 		case ItemPool.WARBEAR_BREAKFAST_MACHINE:
-			Preferences.setBoolean( "_warbearBreakfastMachineUsed", true );
+			// Doesn't reset if you get the breakfast miracle
+			if ( !responseText.contains( "breakfast miracle" ) )
+			{
+				Preferences.setBoolean( "_warbearBreakfastMachineUsed", true );
+			}
 			return;
 
 		case ItemPool.WARBEAR_SODA_MACHINE:
