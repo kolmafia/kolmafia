@@ -7670,6 +7670,7 @@ Item	frozen danish	Effect: "Danish Cunning", Effect Duration: 30
 Item	fudgesicle	Effect: "Fudge Headache", Effect Duration: 30
 Item	gallon of milk	Effect: "Feeling Queasy", Effect Duration: 100
 Item	ghost dog	Effect: "Scaredy Dog", Effect Duration: 30
+Item	ghostly ectoplasm	Effect: "Haunted Stomach", Effect Duration: 3
 Item	giant green gummi bear	Effect: "Gummibrain", Effect Duration: 40
 Item	giant red gummi bear	Effect: "Gummiheart", Effect Duration: 40
 Item	giant yellow gummi bear	Effect: "Gummiskin", Effect Duration: 40
@@ -7974,6 +7975,7 @@ Item	gunner's daughter	Effect: "Kissed the Gunner's Daughter", Effect Duration: 
 Item	haunted bottle of vodka	Effect: "Haunted Liver", Effect Duration: 20
 Item	haunted eggnog	Effect: "Haunted Liver", Effect Duration: 20
 Item	haunted gimlet	Effect: "Haunted Liver", Effect Duration: 20
+Item	haunted martini	Effect: "Haunted Liver", Effect Duration: 20
 Item	Haymaker	Effect: "Fishy", Effect Duration: 15
 Item	hell in a bucket	Effect: "Hell ib a Hambasked", Effect Duration: 40
 Item	Herring Daiquiri	Effect: "Fishy", Effect Duration: 5
