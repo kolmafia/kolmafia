@@ -367,6 +367,11 @@ public class OptionsFrame
 
 				{ "sharePriceData", "Share recent Mall price data with other users" },
 				{ "showIgnoringStorePrices", "Show prices in stores ignoring you" },
+
+				{},
+
+				{ "dontStopForCounters", "Don't stop automation when counters expire" },
+				{ "stopForFixedWanderer", "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due" },
 			};
 
 			this.setOptions( options );
