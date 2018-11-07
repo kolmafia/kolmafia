@@ -10032,7 +10032,7 @@
 10005	government-issued eyeshade	891165020	visor.gif	hat	d	111
 10006	government-issued necktie	892432875	necktie.gif	accessory	d	123
 10007	mutant arm	488052371	mutantarm.gif	weapon		0
-10008
+10008	mutant legs	246218562	mutantlegs.gif	pants		0
 10009
 10010	ghostly ectoplasm	740023120	ectoblob.gif	food	t,d	44
 10011	haunted orange	822698761	orange.gif	food	t,d	50

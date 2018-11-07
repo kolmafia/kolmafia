@@ -143,5 +143,5 @@
 140
 141	Slime Enslamble	vwslimetat.gif	slime fedora, slime knuckles, slime waders
 142
-#142	Mutant Parts Apparel	vwmuttat.gif	mutant arm
+#142	Mutant Parts Apparel	vwmuttat.gif	mutant arm	mutant legs
 143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie

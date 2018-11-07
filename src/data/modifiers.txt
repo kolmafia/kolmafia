@@ -681,6 +681,7 @@ Item	Moonthril Greaves	Muscle Percent: [10*G], Mysticality Percent: [10*G], Moxi
 Item	mostly rat-hide leggings	Initiative: +40, Moxie Percent: +5, Familiar Effect: "stench atk, 1xPotato"
 # muddy skirt: Deals <font color=green>Stench Damage</font> every round
 Item	muddy skirt	Familiar Effect: "sleaze atk, 1xFairy"
+Item	mutant legs	Monster Level: +10, Muscle: +10, Critical Hit Percent: +10
 Item	Newman's Own Trousers	Mysticality: +11, MP Regen Min: 3, MP Regen Max: 7, Class: "Sauceror", Familiar Effect: "hot atk, 1xPotato, cap 31"
 Item	ninja hot pants	Hot Damage: +4, Familiar Effect: "hot atk, 3xPotato, cap 17"
 Item	ninjammies	Adventures: +2, PvP Fights: +2, Rollover Effect: "Morninja", Rollover Effect Duration: 50, Familiar Effect: "atk, 0.5xPotato, cap 25"

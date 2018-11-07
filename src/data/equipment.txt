@@ -542,6 +542,7 @@ monster pants	70	none
 Moonthril Greaves	100	Mox: 40
 mostly rat-hide leggings	200	Mox: 200
 muddy skirt	225	Mox: 200
+mutant legs	200	Mus: 50
 Newman's Own Trousers	125	Mys: 30
 ninja hot pants	70	Mox: 20
 ninjammies	100	Mox: 20
