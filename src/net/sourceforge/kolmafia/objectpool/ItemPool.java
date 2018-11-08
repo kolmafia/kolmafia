@@ -3067,6 +3067,7 @@ public class ItemPool
 	public static final int BLACK_SLIME_GLOB = 9996;
 	public static final int GREEN_SLIME_GLOB = 9997;
 	public static final int ORANGE_SLIME_GLOB = 9998;
+	public static final int GOVERNMENT_REQUISITION_FORM = 10003;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

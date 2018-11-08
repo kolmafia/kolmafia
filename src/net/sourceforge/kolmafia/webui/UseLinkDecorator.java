@@ -1039,6 +1039,7 @@ public abstract class UseLinkDecorator
 			case ItemPool.TALES_OF_SPELUNKING:
 			case ItemPool.PORTABLE_PANTOGRAM:
 			case ItemPool.VOTER_BALLOT:
+			case ItemPool.GOVERNMENT_REQUISITION_FORM:
 
 				// Not inline, since the redirection to a choice
 				// doesn't work ajaxified.

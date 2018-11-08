@@ -4358,6 +4358,7 @@ public abstract class ChoiceManager
 				       new Option( "increase megawoots", 4 ) } ),
 
 		// Choice 1331 is Daily Loathing Ballot
+		// Choice 1332 is government requisition form
 
 	};
 
@@ -11149,6 +11150,13 @@ public abstract class ChoiceManager
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
+			break;
+
+		case 1332:
+			// government requisition form
+			ResultProcessor.removeItem( ItemPool.GOVERNMENT_REQUISITION_FORM );
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
