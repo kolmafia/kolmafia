@@ -1105,6 +1105,18 @@ public class ResponseTextParser
 		{
 			Preferences.increment( "skillLevel7254", 1 );
 		}
+		else if ( skillName.equals( "Pirate Bellow" ) )
+		{
+			Preferences.increment( "skillLevel118" );
+		}
+		else if ( skillName.equals( "Summon Holiday Fun!" ) )
+		{
+			Preferences.increment( "skillLevel121" );
+		}
+		else if ( skillName.equals( "Summon Carrot" ) )
+		{
+			Preferences.increment( "skillLevel128" );
+		}
 		else if ( skillName.equals( "Bear Essence" ) )
 		{
 			Preferences.increment( "skillLevel134", 1 );
@@ -1112,6 +1124,10 @@ public class ResponseTextParser
 		else if ( skillName.equals( "Calculate the Universe" ) )
 		{
 			Preferences.increment( "skillLevel144" );
+		}
+		else if ( skillName.equals( "Experience Safari" ) )
+		{
+			Preferences.increment( "skillLevel180" );
 		}
 		else if ( KoLCharacter.inNuclearAutumn() )
 		{

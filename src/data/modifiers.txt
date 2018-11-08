@@ -8277,6 +8277,7 @@ Item	A Crimbo Carol, Ch. 5 (used)	Skill: "Stealth Mistletoe"
 Item	A Crimbo Carol, Ch. 6	Skill: "Cringle's Curative Carol"
 Item	A Crimbo Carol, Ch. 6 (used)	Skill: "Cringle's Curative Carol"
 Item	a cute angel	Free Pull
+Item	A Guide to Safari	Skill: "Experience Safari"
 Item	A muse-bouche	Effect: "Pros Only", Effect Duration: 30
 # a ten-percent bonus: Gain 1,000 points in each stat
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
