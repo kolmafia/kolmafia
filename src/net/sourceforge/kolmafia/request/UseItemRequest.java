@@ -3377,6 +3377,7 @@ public class UseItemRequest
 		case ItemPool.CONTRACTOR_MANUAL:
 		case ItemPool.PARTY_PLANNING_BOOK:
 		case ItemPool.DRINKING_TO_DRINK_BOOK:
+		case ItemPool.GUIDE_TO_SAFARI:
 		{
 			// You insert the ROM in to your... ROM receptacle and
 			// absorb the knowledge of optimality. You suspect you
@@ -3389,6 +3390,7 @@ public class UseItemRequest
 			     !responseText.contains( "knew how to maximize" ) &&
 			     !responseText.contains( "additional carrot" ) &&
 			     !responseText.contains( "larynx become even more pirate" ) &&
+			     !responseText.contains( "become even more of an expert" ) &&
 			     !responseText.contains( "Beleven" ) )
 			{
 				UseItemRequest.lastUpdate = "You can't learn that skill.";

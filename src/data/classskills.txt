@@ -202,6 +202,7 @@
 177	Expert Corner-Cutter	cornercutting.gif	0	0	0
 178	Budget Conscious	meat.gif	0	0	0
 179	Drinking to Drink	martini.gif	0	0	0
+180	Experience Safari	jackmoustache.gif	4	10	15
 
 # Skills available to Clubbers
 
