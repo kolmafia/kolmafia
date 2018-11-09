@@ -8258,11 +8258,11 @@ public class FightRequest
 				TurnCounter.stopCounting( "Enamorang Monster" );
 				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
 				{
-					TurnCounter.startCounting( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
+					TurnCounter.startCounting( 15, "Enamorang Monster type=wander", "watch.gif" );
 				}
 				else
 				{
-					TurnCounter.startCounting( 15, "Enamorang Monster type=wander", "watch.gif" );
+					TurnCounter.startCounting( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
 				}
 				Preferences.setString( "enamorangMonster", monsterName );
 				return true;
@@ -9207,11 +9207,11 @@ public class FightRequest
 				Preferences.increment( "_sourceTerminalPortscanUses" );
 				if ( Preferences.getBoolean( "stopForFixedWanderer" ) )
 				{
-					TurnCounter.startCounting( 0, "portscan.edu loc=* type=wander", "gyroscope.gif" );
+					TurnCounter.startCounting( 0, "portscan.edu type=wander", "gyroscope.gif" );
 				}
 				else
 				{
-					TurnCounter.startCounting( 0, "portscan.edu type=wander", "gyroscope.gif" );
+					TurnCounter.startCounting( 0, "portscan.edu loc=* type=wander", "gyroscope.gif" );
 				}
 			}
 			break;
