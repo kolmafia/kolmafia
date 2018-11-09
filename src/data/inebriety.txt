@@ -605,6 +605,7 @@ tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 TRIO cup of beer	1	6	EPIC	6-7	10-20	10-20	10-20
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
+twice-haunted screwdriver	2	2	EPIC	0	0	0	0	Unspaded, 40 Haunted Liver (+50% Item drop, +25% Meat drop)
 two meat muck	3	4	good	8-9	40-50	40-50	40-50
 Typical Tavern swill	3	1	decent	5-6	1-2	1-2	1-2
 unflavored wine cooler	2	1	decent	4	0	0	0

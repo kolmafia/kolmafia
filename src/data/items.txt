@@ -10044,3 +10044,4 @@
 10017	glob of undifferentiated tissue	439844900	ragwad.gif	usable	t,d	62
 10018	haunted Hell ramen	112681925	bowl.gif	food	t,d	70
 10019	haunted gimlet	676845730	fruitym.gif	drink	t,d	180
+10020	twice-haunted screwdriver	187537355	rocks.gif	drink	d	100

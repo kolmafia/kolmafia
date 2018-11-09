@@ -8095,6 +8095,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
+Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
 Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
