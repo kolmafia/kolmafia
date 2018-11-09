@@ -41,6 +41,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +50,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -57,8 +59,8 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 public class DataFileCache
 {
 	private static final RollingLinkedList recentlyUsedList = new RollingLinkedList( 500 ); 
-	private static final Map<String, Long> dataFileTimestampCache = new HashMap<String, Long>();
-	private static final Map<String, byte[]> dataFileDataCache = new HashMap<String, byte[]>();
+	private static final Map<String, Long> dataFileTimestampCache = Collections.synchronizedMap(new HashMap<String, Long>());
+	private static final Map<String, byte[]> dataFileDataCache = Collections.synchronizedMap(new HashMap<String, byte[]>());
 
 	public static void clearCache()
 	{
@@ -235,6 +237,14 @@ public class DataFileCache
 		}
 
 		byte[] data = ByteBufferUtilities.read( istream );
+		if (data == null)
+		{
+			//This check is here because a NPE was being thrown intermittently and data was the most likely candidate.
+			//If the cause was a lack of synchronization then this message should never be displayed.  If it is displayed
+			//then the hypothesis about synchronization (or the fix) was incorrect.  In any event we want to see this
+			//message and the NPE if data is null.
+			RequestLogger.printLine("getBytes returning null for file " + filename + ".");
+		}
 		DataFileCache.updateCache( filename, modifiedTime, data );
 		return data;
 	}
