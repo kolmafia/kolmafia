@@ -93,7 +93,7 @@ public class LatteRequest
 		{ "guarna", "The Bat Hole Entrance", "Guarna and", "guarna", "infused with guarna", "Adventures: 4", "patch of guarana plants" },
 		{ "gunpowder", "1st Floor, Shiawase-Mitsuhama Building", "Gunpowder and", "gunpowder", "with gunpowder", "Weapon Damage: 50", "jar of gunpowder" },
 		{ "hobo", "Hobopolis Town Square", "Hobo-spiced", "hobo spice", "with hobo spice", "Damage Absorption: 50", "Hobo Spices" },
-		{ "ink", "The Haunted Library", "Inky", "ink", "with ink", "Combat Rate: -5", "large bottle of india ink" },
+		{ "ink", "The Haunted Library", "Inky", "ink", "with ink", "Combat Rate: -10", "large bottle of india ink" },
 		{ "kombucha", "Wartime Hippy Camp (Frat Disguise)", "Kombucha-infused", "kombucha", "with a kombucha chaser", "Stench Damage: 25", "bottle of homemade kombucha" },
 		{ "lihc", "The Defiled Niche", "Lihc-licked", "lihc saliva", "with lihc spit", "Spooky Damage: 25", "collect some of the saliva in a jar" },
 		{ "lizard", "The Arid, Extra-Dry Desert", "Lizard milk and", "lizard milk", "with lizard milk", "MP Regen Min: 5, MP Regen Max: 15", "must be lizard milk" },
@@ -118,7 +118,7 @@ public class LatteRequest
 		{ "vanilla", null, "Vanilla", "vanilla", "with a shot of vanilla", "Experience (Muscle): 1, Muscle Percent: 5, Weapon Damage: 5", null },
 		{ "venom", "The Middle Chamber", "Envenomed", "asp venom", "with extra poison", "Weapon Damage: 25", "wring the poison out of it into a jar" },
 		{ "vitamins", "The Dark Elbow of the Woods", "Fortified", "vitamin", "enriched with vitamins", "Experience (familiar): 3", "specifically vitamins G, L, P, and W" },
-		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 5", "plate of hot wings" },
+		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 10", "plate of hot wings" },
 	};
 
 	private static final int INGREDIENT = 0;
