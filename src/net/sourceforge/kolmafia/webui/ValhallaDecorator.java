@@ -40,10 +40,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -299,6 +301,8 @@ public class ValhallaDecorator
 		{
 			buffer.append( "<nobr><a href=\"peevpee.php?place=fight\">Use remaining PVP fights</a></nobr><br>" );
 		}
+
+		ValhallaDecorator.checkCatHeists( buffer );
 
 		ValhallaDecorator.switchSeeds( buffer );
 
@@ -717,6 +721,41 @@ public class ValhallaDecorator
 		}
 		iceHouseBuffer.append( "</a></nobr><br />" );
 		buffer.append( iceHouseBuffer );
+	}
+
+	private static final void checkCatHeists( StringBuffer buffer )
+	{
+		StringBuilder catHeistBuffer = new StringBuilder();
+
+		int charge = Preferences.getInteger( "_catBurglarCharge" );
+		int minChargeCost = 10;
+		int totalHeists = 0;
+		while ( charge >= minChargeCost )
+		{
+			totalHeists++;
+			charge -= minChargeCost;
+			minChargeCost *= 2;
+		}
+		int heistsComplete = Preferences.getInteger( "_catBurglarHeistsComplete" );
+		int bankHeists = Preferences.getInteger( "catBurglarBankHeists" );
+		if ( totalHeists + bankHeists > heistsComplete )
+		{
+			int heistsRemaining = totalHeists + bankHeists - heistsComplete;
+			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar.getId() != FamiliarPool.CAT_BURGLAR )
+			{
+				catHeistBuffer.append( "<nobr><a href=\"familiar.php?action=newfam&newfam=267&pwd=" );
+				catHeistBuffer.append( GenericRequest.passwordHash );
+			}
+			else
+			{
+				catHeistBuffer.append( "<nobr><a href=\"main.php?heist=1" );
+			}
+			catHeistBuffer.append( "\">Use remaining Cat Burglar heists (" );
+			catHeistBuffer.append( heistsRemaining );
+			catHeistBuffer.append( ")</a></nobr><br>" );
+			buffer.append( catHeistBuffer );
+		}
 	}
 
 	private static final void switchChateau( StringBuffer buffer )
