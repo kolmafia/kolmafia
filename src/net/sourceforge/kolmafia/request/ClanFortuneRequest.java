@@ -151,6 +151,14 @@ public class ClanFortuneRequest
 			return;
 		}
 
+		if ( !responseText.contains( "Relationship Fortune Teller" ) )
+		{
+			String message = "There is no Fortune Teller in this clan";
+			RequestLogger.printLine( message );
+			RequestLogger.updateSessionLog( message );
+			return;
+		}
+
 		Preferences.setBoolean( "_clanFortuneBuffUsed", !responseText.contains( "resident of Seaside Town" ) );
 
 		Matcher matcher = USES_PATTERN.matcher( responseText );
