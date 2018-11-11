@@ -180,6 +180,10 @@ public class FightDecorator
 		case AdventurePool.TRAINING_SNOWMAN:
 			FightDecorator.decorateSnojo( buffer );
 			break;
+
+		case AdventurePool.NEVERENDING_PARTY:
+			FightDecorator.decorateParty( buffer );
+			break;
 		}
 	}
 
@@ -404,6 +408,20 @@ public class FightDecorator
 		}
 		insertBuffer.append( ")" );
 
+		buffer.insert( index, insertBuffer );
+	}
+
+	private static final void decorateParty( final StringBuffer buffer )
+	{
+		String indexString = "Adventure Again (The Neverending Party)";
+		int index = buffer.indexOf( indexString );
+		if ( index == -1 ) return;
+
+		index += indexString.length();
+
+		int turns = Preferences.getInteger( "_neverendingPartyFreeTurns" );
+		StringBuilder insertBuffer = new StringBuilder();
+		insertBuffer.append( " (" ).append( turns ).append( " free fight" ).append( turns == 1 ? "" : "s" ).append( " used)" );
 		buffer.insert( index, insertBuffer );
 	}
 
