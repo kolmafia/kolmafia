@@ -419,6 +419,7 @@ Item	slime fedora	Mysticality Percent: +25, Spell Critical Percent: +10, MP Rege
 Item	slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 Item	smooth velvet hat	Disco Style: +1
 Item	snailmail coif	Muscle: +10, Damage Reduction: 8, Familiar Effect: "1xPotato, 1xFairy, cap 41"
+Item	snakeskin cowboy hat	Moxie: +5, Ranged Damage Percent: +50
 Item	snorkel	Familiar Effect: "atk, cap 2"
 Item	snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
 Item	Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
@@ -744,6 +745,7 @@ Item	slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max:
 Item	SMOOCH codpiece	Damage Reduction: 5, Damage Absorption: +20, Familiar Effect: "atk, 1xBarrr, cap 20"
 Item	smooth velvet pants	Disco Style: +1, Familiar Effect: "2xVolley, 2xPotato, cap 12"
 Item	snailmail breeches	Maximum HP: +20, Maximum MP: +20, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "1xBarrr, 0.5xFairy, cap 41"
+Item	snakeskin thighboots	Moxie: +10, Initiative: +50
 Item	snow pants	Hot Resistance: +2, Familiar Effect: "cold atk, 1xPotato, cap 12"
 Item	snowboarder pants	Damage Absorption: +20, Familiar Effect: "1xPotato, cap 25"
 Item	space beast fur pants	Damage Reduction: 5, Familiar Effect: "1xVolley"
@@ -945,6 +947,7 @@ Item	SMOOCH breastplate	Damage Absorption: +40
 Item	smooth velvet bra	Maximum HP: +20, HP Regen Min: 5, HP Regen Max: 10, Single Equip
 Item	smooth velvet shirt	Disco Style: +1
 Item	snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
+Item	snakeskin jacket	Moxie: +15, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 # Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
 Item	Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Free Pull
 # Sneaky Pete's leather jacket (collar popped): The Audience Loves/Hates You Even More!
@@ -7427,6 +7430,7 @@ Outfit	Slime Enslamble	Mysticality Percent: +100
 Outfit	Slimesuit	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 # Outfit SMOOCH Army Uniform: Hurt those who touch you even more!
 Outfit	Smoked Pottery	Hot Damage: +15
+Outfit	Snakeskin Suit	Moxie Percent: +100
 Outfit	Snowman Suit	Cold Damage: +15
 Outfit	Space Beast Furs	Damage Reduction: 25
 Outfit	Spant Armor	Damage Absorption: +200

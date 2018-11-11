@@ -1886,6 +1886,7 @@ burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap
 
 # Voter Registration Form (Nov 2018)
 angry ghost	2094	vw_ghost.gif	Scale: 4 Cap: 1000 Floor: 10 E: spooky P: undead Init: -10000 GHOST	ghostly ectoplasm (0)
+annoyed snake	2098	vwsnake.gif	Scale: 3 Cap: 1000 Floor: 10 P: beast Init: -10000	snake skin (0)
 government bureaucrat	2095	vwgovt.gif	Scale: 1 Cap: 1000 Floor: 10 P: dude Init: -10000	government requisition form (0)	absentee voter ballot (0)
 terrible mutant	2096	vwmutant.gif	Scale: 5 Cap: 1000 Floor: 10 P: humanoid Init: -10000	glob of undifferentiated tissue (0)	glob of undifferentiated tissue (0)	mutant arm (n0)	mutant legs (c0)	mutant crown (c0)
 slime blob	2097	vwslime.gif	Scale: 4 Cap: 1000 Floor: 10 P: slime E: sleaze Init: -10000	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
