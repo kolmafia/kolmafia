@@ -307,6 +307,7 @@ slime fedora	150	Mys: 30
 slime-covered helmet	200	Mox: 200
 smooth velvet hat	50	Mox: 10
 snailmail coif	165	Mox: 67
+snakeskin cowboy hat	100	Mox: 20
 snorkel	10	none
 snow hat	50	Mox: 10
 Snow Queen Crown	115	Mox: 42
@@ -596,6 +597,7 @@ slime-covered greaves	200	Mox: 200
 SMOOCH codpiece	80	Mox: 25
 smooth velvet pants	50	Mox: 10
 snailmail breeches	165	Mox: 67
+snakeskin thighboots	100	Mox: 20
 snow pants	50	Mox: 10
 snowboarder pants	100	Mox: 35
 space beast fur pants	100	Mox: 35
@@ -779,6 +781,7 @@ SMOOCH breastplate	105	Mus: 37
 smooth velvet bra	50	Mus: 10
 smooth velvet shirt	50	Mus: 10
 snailmail hauberk	165	Mus: 67
+snakeskin jacket	100	Mus: 20
 Sneaky Pete's leather jacket	100	none
 Sneaky Pete's leather jacket (collar popped)	100	none
 soggy wofl t-shirt	45	Mus: 7

@@ -3024,3 +3024,6 @@ haunted martini	MIX	ghostly ectoplasm	martini
 haunted eggnog	MIX	ghostly ectoplasm	eggnog
 haunted gimlet	MIX	ghostly ectoplasm	gimlet
 twice-haunted screwdriver	MIX	haunted bottle of vodka	haunted orange
+snakeskin cowboy hat	MUSE	snake skin (11)
+snakeskin thighboots	MUSE	snake skin (23)
+snakeskin jacket	MUSE	snake skin (37)

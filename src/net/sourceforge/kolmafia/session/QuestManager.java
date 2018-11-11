@@ -2264,6 +2264,7 @@ public class QuestManager
 			}
 		}
 		else if ( monsterName.equals( "angry ghost" ) ||
+			      monsterName.equals( "annoyed snake" ) ||
 			      monsterName.equals( "government bureaucrat" ) ||
 			      monsterName.equals( "terrible mutant" ) ||
 		          monsterName.equals( "slime blob" ) )

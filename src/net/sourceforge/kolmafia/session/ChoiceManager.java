@@ -11128,7 +11128,7 @@ public abstract class ChoiceManager
 
 		case 1331:
 			// Daily Loathing Ballot
-			if ( ChoiceManager.lastDecision == 1 )
+			if ( ChoiceManager.lastDecision == 1 && !text.contains( "must vote for a candidate" ) )
 			{
 				String mods = "";
 				Matcher matcher = ChoiceManager.URL_VOTE_PATTERN.matcher( urlString );
