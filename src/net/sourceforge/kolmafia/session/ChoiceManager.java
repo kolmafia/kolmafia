@@ -16266,7 +16266,7 @@ public abstract class ChoiceManager
 
 		case 1060:
 			// Temporarily Out of Skeletons
-			if ( decision.equals( "4" ) && QuestDatabase.isQuestLaterThan( Quest.ARMORER, QuestDatabase.STARTED ) )
+			if ( decision.equals( "4" ) && QuestDatabase.isQuestLaterThan( Quest.MEATSMITH, QuestDatabase.STARTED ) )
 			{
 				// Can only fight owner til defeated
 				return "0";
