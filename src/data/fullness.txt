@@ -389,8 +389,8 @@ handful of nuts and berries	1	12	awesome	3-4	0	50-60	0
 handful of walnuts	1	10	good	2-4	0	0	20-30
 Happy Birthday, Claude! cake	3	1	crappy	3	0	0	0
 hardboiled egg	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
-haunted cherry pie	3	4	awesome	9-12	0	16-20	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop)
-haunted Hell ramen	4	6	awesome	13-16	37	37	37	20-25 Meat, 20 Haunted Stomach (+50% Meat drop, +25% Item drop)
+haunted cherry pie	3	4	awesome	9-13	0	16-20	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop)
+haunted Hell ramen	4	6	awesome	13-16	37	37	37	20-24 Meat, 20 Haunted Stomach (+50% Meat drop, +25% Item drop)
 haunted orange	1	1	crappy	1-2	0	0	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop)
 haunted pizza	2	1	good	4-6	0	0	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop)
 heart-shaped candy whetstone	1	4	good	3	20-40	20-40	20-40	40 Sharpened Sweet Tooth (+25 Candy drop)
