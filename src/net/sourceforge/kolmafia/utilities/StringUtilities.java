@@ -786,6 +786,26 @@ public class StringUtilities
 			return 0;
 		}
 
+		String tstring = string.substring( 0, string.length() - 1 );
+		char ch = string.charAt( string.length() - 1 );
+		int multiplier =
+			( ch == 'k' || ch == 'K' ) ? 1000 :
+			( ch == 'm' || ch == 'M' ) ? 1000000 :
+			1;
+
+		if ( multiplier > 1 && StringUtilities.isNumeric( tstring ) )
+		{
+			try
+			{
+				return Integer.parseInt( tstring ) * multiplier;
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger.printLine( string + " is out of range, returning 0" );
+				return 0;
+			}
+		}
+
 		if ( StringUtilities.isNumeric( string ) )
 		{
 			try
@@ -799,26 +819,9 @@ public class StringUtilities
 			}
 		}
 		
-		String fstring = string.substring( 0, string.length() - 1 );
-		if ( StringUtilities.isFloat( fstring ) )
+		if ( StringUtilities.isFloat( tstring ) )
 		{
-			char ch = string.charAt( string.length() - 1 );
-			float base = StringUtilities.parseFloat( fstring );
-			float multiplier = 1.0f;
-			
-			switch ( ch )
-			{
-			case 'k':
-			case 'K':
-				multiplier = 1000.0f;
-				break;
-			case 'm':
-			case 'M':
-				multiplier = 1000000.0f;
-				break;
-			}
-			
-			return (int) ( base * multiplier );
+			return (int) ( StringUtilities.parseFloat( tstring ) * multiplier );
 		}
 
 		if ( throwException )
@@ -880,6 +883,26 @@ public class StringUtilities
 			return 0L;
 		}
 
+		String tstring = string.substring( 0, string.length() - 1 );
+		char ch = string.charAt( string.length() - 1 );
+		long multiplier =
+			( ch == 'k' || ch == 'K' ) ? 1000 :
+			( ch == 'm' || ch == 'M' ) ? 1000000 :
+			1;
+
+		if ( multiplier > 1 && StringUtilities.isNumeric( tstring ) )
+		{
+			try
+			{
+				return Long.parseLong( tstring ) * multiplier;
+			}
+			catch ( NumberFormatException e )
+			{
+				RequestLogger.printLine( string + " is out of range, returning 0" );
+				return 0;
+			}
+		}
+
 		if ( StringUtilities.isNumeric( string ) )
 		{
 			try
@@ -893,26 +916,9 @@ public class StringUtilities
 			}
 		}
 
-		String fstring = string.substring( 0, string.length() - 1 );
-		if ( StringUtilities.isFloat( fstring ) )
+		if ( StringUtilities.isFloat( tstring ) )
 		{
-			char ch = string.charAt( string.length() - 1 );
-			double base = StringUtilities.parseDouble( fstring );
-			double multiplier = 1.0f;
-			
-			switch ( ch )
-			{
-			case 'k':
-			case 'K':
-				multiplier = 1000.0;
-				break;
-			case 'm':
-			case 'M':
-				multiplier = 1000000.0;
-				break;
-			}
-			
-			return (long) ( base * multiplier );
+			return (long) ( StringUtilities.parseDouble( tstring ) * multiplier );
 		}
 
 		if ( throwException )
