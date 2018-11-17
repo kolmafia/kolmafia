@@ -131,7 +131,7 @@ public class Value
 
 	public Value toFloatValue()
 	{
-		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return this;
 		}
@@ -140,11 +140,11 @@ public class Value
 
 	public Value toIntValue()
 	{
-		if ( this.type.equals( DataTypes.TYPE_INT ) )
+		if ( this.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			return this;
 		}
-		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
 			return DataTypes.makeIntValue( this.contentLong != 0 );
 		}
@@ -153,7 +153,7 @@ public class Value
 
 	public Value toBooleanValue()
 	{
-		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
 			return this;
 		}
@@ -173,7 +173,7 @@ public class Value
 			return ( (StringBuffer) this.content ).toString();
 		}
 
-		if ( this.type.equals( DataTypes.TYPE_VOID ) )
+		if ( this.getType().equals( DataTypes.TYPE_VOID ) )
 		{
 			return "void";
 		}
@@ -183,12 +183,12 @@ public class Value
 			return this.contentString;
 		}
 
-		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
 			return String.valueOf( this.contentLong != 0 );
 		}
 
-		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return KoLConstants.NONSCIENTIFIC_FORMAT.format( this.floatValue() );
 		}
@@ -217,7 +217,7 @@ public class Value
 
 	public long intValue()
 	{
-		if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return (long) Double.longBitsToDouble( this.contentLong );
 		}
@@ -226,7 +226,7 @@ public class Value
 
 	public double floatValue()
 	{
-		if ( !this.type.equals( DataTypes.TYPE_FLOAT ) )
+		if ( !this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return (double) this.contentLong;
 		}
@@ -241,27 +241,27 @@ public class Value
 	
 	public Value asProxy()
 	{
-		if ( this.type == DataTypes.CLASS_TYPE )
+		if ( this.getType() == DataTypes.CLASS_TYPE )
 		{
 			return new ProxyRecordValue.ClassProxy( this );
 		}
-		if ( this.type == DataTypes.ITEM_TYPE )
+		if ( this.getType() == DataTypes.ITEM_TYPE )
 		{
 			return new ProxyRecordValue.ItemProxy( this );
 		}
-		if ( this.type == DataTypes.FAMILIAR_TYPE )
+		if ( this.getType() == DataTypes.FAMILIAR_TYPE )
 		{
 			return new ProxyRecordValue.FamiliarProxy( this );
 		}
-		if ( this.type == DataTypes.SKILL_TYPE )
+		if ( this.getType() == DataTypes.SKILL_TYPE )
 		{
 			return new ProxyRecordValue.SkillProxy( this );
 		}
-		if ( this.type == DataTypes.EFFECT_TYPE )
+		if ( this.getType() == DataTypes.EFFECT_TYPE )
 		{
 			return new ProxyRecordValue.EffectProxy( this );
 		}
-		if ( this.type == DataTypes.LOCATION_TYPE )
+		if ( this.getType() == DataTypes.LOCATION_TYPE )
 		{
 			if ( this.content == null )
 			{	// All attribute lookups on $location[none] would generate NPEs,
@@ -271,7 +271,7 @@ public class Value
 			}
 			return new ProxyRecordValue.LocationProxy( this );
 		}
-		if ( this.type == DataTypes.MONSTER_TYPE )
+		if ( this.getType() == DataTypes.MONSTER_TYPE )
 		{
 			if ( this.content == null )
 			{
@@ -280,7 +280,7 @@ public class Value
 			}
 			return new ProxyRecordValue.MonsterProxy( this );
 		}
-		if ( this.type == DataTypes.COINMASTER_TYPE )
+		if ( this.getType() == DataTypes.COINMASTER_TYPE )
 		{
 			if ( this.content == null )
 			{
@@ -289,27 +289,27 @@ public class Value
 			}
 			return new ProxyRecordValue.CoinmasterProxy( this );
 		}
-		if ( this.type == DataTypes.BOUNTY_TYPE )
+		if ( this.getType() == DataTypes.BOUNTY_TYPE )
 		{
 			return new ProxyRecordValue.BountyProxy( this );
 		}
-		if ( this.type == DataTypes.THRALL_TYPE )
+		if ( this.getType() == DataTypes.THRALL_TYPE )
 		{
 			return new ProxyRecordValue.ThrallProxy( this );
 		}
-		if ( this.type == DataTypes.SERVANT_TYPE )
+		if ( this.getType() == DataTypes.SERVANT_TYPE )
 		{
 			return new ProxyRecordValue.ServantProxy( this );
 		}
-		if ( this.type == DataTypes.VYKEA_TYPE )
+		if ( this.getType() == DataTypes.VYKEA_TYPE )
 		{
 			return new ProxyRecordValue.VykeaProxy( this );
 		}
-		if ( this.type == DataTypes.ELEMENT_TYPE )
+		if ( this.getType() == DataTypes.ELEMENT_TYPE )
 		{
 			return new ProxyRecordValue.ElementProxy( this );
 		}
-		if ( this.type == DataTypes.PHYLUM_TYPE )
+		if ( this.getType() == DataTypes.PHYLUM_TYPE )
 		{
 			return new ProxyRecordValue.PhylumProxy( this );
 		}
@@ -353,21 +353,21 @@ public class Value
 
 		Value it = (Value) o;
 
-		if ( this.type == DataTypes.BOOLEAN_TYPE ||
-		     this.type == DataTypes.INT_TYPE ||
-		     this.type == DataTypes.ITEM_TYPE ||
-		     this.type == DataTypes.EFFECT_TYPE ||
-		     this.type == DataTypes.CLASS_TYPE ||
-		     this.type == DataTypes.SKILL_TYPE ||
-		     this.type == DataTypes.FAMILIAR_TYPE ||
-		     this.type == DataTypes.SLOT_TYPE ||
-		     this.type == DataTypes.THRALL_TYPE ||
-		     this.type == DataTypes.SERVANT_TYPE )
+		if ( this.getType() == DataTypes.BOOLEAN_TYPE ||
+		     this.getType() == DataTypes.INT_TYPE ||
+		     this.getType() == DataTypes.ITEM_TYPE ||
+		     this.getType() == DataTypes.EFFECT_TYPE ||
+		     this.getType() == DataTypes.CLASS_TYPE ||
+		     this.getType() == DataTypes.SKILL_TYPE ||
+		     this.getType() == DataTypes.FAMILIAR_TYPE ||
+		     this.getType() == DataTypes.SLOT_TYPE ||
+		     this.getType() == DataTypes.THRALL_TYPE ||
+		     this.getType() == DataTypes.SERVANT_TYPE )
 		{
 			return this.contentLong < it.contentLong ? -1 : this.contentLong == it.contentLong ? 0 : 1;
 		}
 
-		if ( this.type == DataTypes.VYKEA_TYPE )
+		if ( this.getType() == DataTypes.VYKEA_TYPE )
 		{
 			// Let the underlying data type itself decide
 			VYKEACompanionData v1 = (VYKEACompanionData)( this.content );
@@ -375,14 +375,14 @@ public class Value
 			return v1.compareTo( v2 );
 		}
 
-		if ( this.type == DataTypes.FLOAT_TYPE )
+		if ( this.getType() == DataTypes.FLOAT_TYPE )
 		{
 			return Double.compare(
 				Double.longBitsToDouble( this.contentLong ),
 				Double.longBitsToDouble( it.contentLong ) );
 		}
 
-		if ( this.type == DataTypes.MONSTER_TYPE )
+		if ( this.getType() == DataTypes.MONSTER_TYPE )
 		{
 			// If we know a monster ID, compare it
 			if ( this.contentLong != 0 || it.contentLong != 0 )
@@ -426,7 +426,7 @@ public class Value
 	public int hashCode()
 	{
 		int hash;
-		hash = this.type != null ? this.type.hashCode() : 0;
+		hash = this.getType() != null ? this.getType().hashCode() : 0;
 		hash = hash + 31 * (int) this.contentLong;
 		hash = hash + 31 * ( this.contentString != null ? this.contentString.hashCode() : 0 );
 		return hash;
@@ -545,7 +545,7 @@ public class Value
 
 	public String dumpValue()
 	{
-		int type = this.type.getType();
+		int type = this.getType().getType();
 		return  type == DataTypes.TYPE_STRING ?
 			Value.escapeString( this.contentString ) :
 			type == DataTypes.TYPE_ITEM || type == DataTypes.TYPE_EFFECT ?
@@ -575,15 +575,15 @@ public class Value
 	public Object toJSON()
 		throws JSONException
 	{
-		if ( this.type.equals( DataTypes.TYPE_BOOLEAN ) )
+		if ( this.getType().equals( DataTypes.TYPE_BOOLEAN ) )
 		{
 			return new Boolean( this.contentLong > 0 );
 		}
-		else if ( this.type.equals( DataTypes.TYPE_INT ) )
+		else if ( this.getType().equals( DataTypes.TYPE_INT ) )
 		{
 			return new Long( this.contentLong );
 		}
-		else if ( this.type.equals( DataTypes.TYPE_FLOAT ) )
+		else if ( this.getType().equals( DataTypes.TYPE_FLOAT ) )
 		{
 			return new Double( Double.longBitsToDouble( this.contentLong ) );
 		}

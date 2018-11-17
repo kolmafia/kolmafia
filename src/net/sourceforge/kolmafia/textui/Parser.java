@@ -4014,7 +4014,7 @@ public class Parser
 
 		if ( oper.equals( "contains" ) )
 		{
-			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().equals( rhs );
+			return lhs.getType() == DataTypes.TYPE_AGGREGATE && ( (AggregateType) lhs ).getIndexType().getBaseType().equals( rhs );
 		}
 
 		// If the types are equal, no coercion is necessary
