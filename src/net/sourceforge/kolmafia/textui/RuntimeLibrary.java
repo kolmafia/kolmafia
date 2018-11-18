@@ -1381,6 +1381,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "get_counters", DataTypes.STRING_TYPE, params ) );
 
+		params = new Type[] { DataTypes.STRING_TYPE };
+		functions.add( new LibraryFunction( "stop_counter", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "eudora", DataTypes.STRING_TYPE, params ) );
 
@@ -6023,6 +6026,12 @@ public abstract class RuntimeLibrary
 	public static Value get_counters( Interpreter interpreter, final Value label, final Value min, final Value max )
 	{
 		return new Value( TurnCounter.getCounters( label.toString(), (int) min.intValue(), (int) max.intValue() ) );
+	}
+
+	public static Value stop_counter( Interpreter interpreter, final Value label )
+	{
+		TurnCounter.stopCounting( label.toString() );
+		return DataTypes.VOID_VALUE;
 	}
 
 	public static Value eudora ( Interpreter interpreter )
