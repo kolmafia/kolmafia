@@ -56,6 +56,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -11130,22 +11132,19 @@ public abstract class ChoiceManager
 			// Daily Loathing Ballot
 			if ( ChoiceManager.lastDecision == 1 && !text.contains( "must vote for a candidate" ) )
 			{
-				String mods = "";
+				ModifierList modList = new ModifierList();
 				Matcher matcher = ChoiceManager.URL_VOTE_PATTERN.matcher( urlString );
 				while ( matcher.find() )
 				{
-					if ( mods.length() > 0 )
-					{
-						mods += ", ";
-					}
 					int vote = StringUtilities.parseInt( matcher.group( 1 ) ) + 1;
 					String pref = Preferences.getString( "_voteLocal" + vote );
-					if ( pref.length() > 0 )
+					ModifierList addModList = Modifiers.splitModifiers( pref );
+					for ( Modifier modifier : addModList )
 					{
-						mods += pref;
+						modList.addToModifier( modifier );
 					}
 				}
-				Preferences.setString( "_voteModifier", mods );
+				Preferences.setString( "_voteModifier", modList.toString() );
 				String message = "You have cast your votes";
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
