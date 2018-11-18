@@ -33,24 +33,24 @@
 4	Angry Goat	familiar4.gif	combat0,combat1	goat	prosthetic forehead	3	0	2	1	animal,eyes
 5	Sabre-Toothed Lime	familiar5.gif	combat0	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1
 6	Fuzzy Dice	familiar6.gif	combat0,delevel,meat1,mp0,hp0	fuzzy dice	meatcar model	2	2	2	2
-7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hands,eyes
+7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hands,eyes,undead,slayer
 8	Barrrnacle	familiar8.gif	delevel,underwater	barrrnacle	sucky decal	0	2	1	3	animal
 9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0	animal
 10	Stab Bat	familiar10.gif	combat0	rewinged stab bat	shock collar	3	2	1	0	animal,eyes,wings
 11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3	animal,eyes
 12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2	eyes
 13
-14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3	hands,eyes
+14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3	hands,eyes,undead,slayer
 15	Baby Gravy Fairy	familiar15.gif	item0	pregnant mushroom	eye-pod	0	3	1	2	eyes,wings
 16	Cocoabo	familiar16.gif	combat0,delevel,hp0,mp0,meat1	cocoa egg	chocolate spurs	2	3	0	1	animal,eyes,wings
 17	Star Starfish	familiar17.gif	combat0,mp0	star starfish	magnifying glass	2	1	3	0	animal,sleazy
-18	Hovering Sombrero	hat2.gif	stat1	hovering sombrero	tiny maracas	0	3	2	1
-19	Ghost Pickle on a Stick	familiar19.gif	combat0,delevel	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2
+18	Hovering Sombrero	hat2.gif	stat1	hovering sombrero	tiny maracas	0	3	2	1	undead,slayer
+19	Ghost Pickle on a Stick	familiar19.gif	combat0,delevel	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2	undead,slayer
 20	Killer Bee	familiar20.gif	combat0,stat2	baby killer bee	brass stinger	3	1	2	0	wings,animal
 21	Whirling Maple Leaf	familiar21.gif	combat0,mp1	maple leaf	tiny Mountie hat	3	1	2	0
 22	Coffee Pixie	familiar22.gif	item0,meat0	coffee sprite	miniature espresso maker	1	1	3	2	hands,eyes,wings
 23	Cheshire Bat	familiar23.gif	stat0,meat0	Cheshire Bitten	smile-sharpening stone	1	2	3	1	animal,eyes,wings
-24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1	eyes
+24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1	eyes,slayer
 25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1	wings,animal,eyes
 26	Crimbo Elf	familiar26.gif	combat0,item0	crimbo elfling	dental pliers	1	2	1	3	hands,clothes,eyes
 27	Hanukkimbo Dreidl	familiar27.gif	combat0,block,mp0,meat1	Hanukkimbo dreidl	menorette	2	1	3	1
@@ -74,18 +74,18 @@
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0	eyes
 46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3	animal,eyes,wings
 47	Teddy Bear	familiar47.gif	other0	teddy bear	teddy bear sewing kit	3	2	0	1	animal,eyes
-48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot
+48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	mechanical,clothes,eyes,robot,undead,slayer
 49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1	sleazy,eyes,wings
 50	Wild Hare	hare.gif	item0,meat0,stat0,hp1,mp1,other1	March hat	miniature dormouse	1	3	2	0	animal,eyes
 51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	robot
-52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hands,eyes
+52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hands,eyes,undead,slayer
 53	Astral Badger	badger.gif	combat0,drop	astral badger	badger badge	3	0	2	3	animal,hands,eyes
 54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2	hands,animal,eyes
-55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2	hands,eyes
-56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0	mechanical,robot
+55	Misshapen Animal Skeleton	animskel.gif	combat0,combat1,delevel	misshapen animal skeleton	bone collar	3	2	1	2	hands,eyes,undead,slayer
+56	Scary Death Orb	orb.gif	combat1	scary death orb	tuning fork	3	2	1	0	mechanical,robot,slayer
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2	animal,eyes
 58	Nervous Tick	tick.gif	stat0,meat0	nervous tick egg	spoon!	0	3	2	2	animal,eyes
-59	Reassembled Blackbird	blackbird2.gif	other1	reassembled blackbird	tiny bust of Pallas	0	0	0	0	wings,animal,eyes
+59	Reassembled Blackbird	blackbird2.gif	other1	reassembled blackbird	tiny bust of Pallas	0	0	0	0	wings,animal,eyes,undead,slayer
 60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2	wings
 61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3
 62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1	eyes
@@ -100,7 +100,7 @@
 71	Ragamuffin Imp	ragimp.gif	combat1	pile of smoking rags		3	3	3	3	hands,clothes,wings,eyes
 72	Exotic Parrot	parrot.gif	passive	exotic parrot egg	cracker	3	3	2	0	wings,animal,eyes,sleazy
 73	Wizard Action Figure	waf.gif	combat1,delevel,hp0,stat0,item0	wizard action figure	mint-condition magic wand	2	3	2	2	hands,clothes,eyes
-74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	hands,eyes,sleazy
+74	Gluttonous Green Ghost	ggg.gif	combat0,mp0,stat0,other1	class five ecto-larva	plastic bib	2	3	3	1	hands,eyes,sleazy,undead,slayer
 75	Casagnova Gnome	cassagnome.gif	item0,meat0	siesta-ing Casagnova gnome	miniature castagnets	0	1	3	2	hands,clothes,eyes,sleazy
 76	Hunchbacked Minion	hunchback.gif	stat0,meat0	unemployed hunchbacked minion	miniature Jacob's ladder	1	3	0	2	hands,clothes,eyes
 77	Crimbo P. R. E. S. S. I. E.	pressiebot.gif	combat0,stat0,block,delevel,mp0,other0	Crimbo P. R. E. S. S. I. E.	metallic foil bow	3	2	0	1	mechanical,hands,eyes,robot
@@ -118,7 +118,7 @@
 89	Hobo Monkey	hobomonkey.gif	meat0,meat1	hobo monkey	tiny bindle	0	3	3	3	hands,clothes,animal,eyes
 90	Llama Lama	llama.gif	stat0,delevel,drop	llama lama cria	zen motorcycle	1	2	3	2	animal
 91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1,drop	cotton candy cocoon	cotton candy cordial	0	2	2	3	eyes
-92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hands
+92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hands,undead,slayer
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0	animal,eyes
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3	animal,eyes
 95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1	animal,eyes
@@ -129,7 +129,7 @@
 100	Cuddlefish	cuddlefish.gif	block,hp1,mp1,underwater	baby cuddlefish	six-armed sweater	0	1	3	3	animal,eyes
 101	Sugar Fruit Fairy	sugarfairy.gif	stat0,item0,other1,drop	candy cornucopia	tiny ballet slippers	0	3	3	2	clothes,eyes,wings
 102	Imitation Crab	crab.gif	combat0,underwater	imitation crab zoea	imitation whetstone	3	1	2	2	animal,eyes
-103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1	hands
+103	Pair of Ragged Claws	raggedclaws.gif	combat0,combat1,delevel	pair of ragged claws	radioactive chew toy	1	1	1	1	hands,undead
 104	Magic Dragonfish	dragonfishfam.gif	passive,underwater	magic dragonfish fry	fin-bit wax	1	1	2	0	animal,eyes
 105	Frumious Bandersnatch	bandersnatch.gif	other0,variable,stat0	Apathargic Bandersnatch	aquaviolet jub-jub bird	3	2	2	0	wings,animal,eyes
 106	Midget Clownfish	midgetclownfish.gif	combat1,mp0,underwater	midget clownfish	half-height unicycle	0	1	2	2	animal,eyes
@@ -173,7 +173,7 @@
 144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0
 145
 146	Obtuse Angel	obtuseangel.gif	other0,item0,drop	a cute angel	quake of arrows	2	0	3	1	hands,wings,eyes
-147	Reconstituted Crow	blackbird1.gif	other1	reconstituted crow		0	0	0	0	wings,animal,eyes
+147	Reconstituted Crow	blackbird1.gif	other1	reconstituted crow		0	0	0	0	wings,animal,eyes,undead,slayer
 148	Li'l Xenomorph	lilxeno.gif	stat0,drop,variable	mysterious chest	tiny top hat and cane	3	2	1	3	hands,animal,eyes
 149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3	mechanical,animal,eyes,robot
 150	Pair of Stomping Boots	stompboots.gif	combat0,item0,drop	fairy-worn boots	stomp box	3	0	2	2	eyes
@@ -188,9 +188,9 @@
 159	Happy Medium	medium_0.gif	other0,stat0,drop	Small Medium	crystal decanter	0	3	2	2	clothes,hands,eyes
 160	Artistic Goth Kid	crayongoth.gif	other1,stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3	clothes,eyes,hands
 161	Flaming Face	flameface.gif	combat1	hot egg	flaming nose	3	2	2	1	eyes
-162	Reagnimated Gnome	frankengnome.gif	item0,variable	Unagnimated Gnome		0	0	0	0	hands,clothes,eyes
-163	Hovering Skull	talkskull.gif	combat0,stat0	talkative skull	shiny gold fronts	2	2	3	1	eyes
-164	Mini-Skulldozer	minidozer.gif	combat1,block	skulldozer egg	ribcage rollcage	2	1	3	0	mechanical,eyes
+162	Reagnimated Gnome	frankengnome.gif	item0,variable	Unagnimated Gnome		0	0	0	0	hands,clothes,eyes,undead,slayer
+163	Hovering Skull	talkskull.gif	combat0,stat0	talkative skull	shiny gold fronts	2	2	3	1	eyes,undead,slayer
+164	Mini-Skulldozer	minidozer.gif	combat1,block	skulldozer egg	ribcage rollcage	2	1	3	0	mechanical,eyes,undead,slayer
 165	Angry Jung Man	jungman.gif	item0,meat0,drop	dreaming Jung man	Little Crimson Book	2	2	1	1	hands,clothes,eyes
 166	Unconscious Collective	uc.gif	stat0,meat0,drop	avatar of the Unconscious Collective	blue canary nightlight	2	1	1	3	eyes,hands
 167	Nanorhino	nanorhino.gif	combat0,combat1,delevel,other0	deactivated nanobots	nanorhino credit card	3	1	1	3	mechanical,animal,eyes,robot
@@ -202,7 +202,7 @@
 173	Nosy Nose	nosynose.gif	delevel,other0	wriggling severed nose	nosy nose ringy ring	1	3	1	2
 174	Mini-Adventurer	miniadv0.gif	variable	adventurer clone egg	mini-Mr. Accessory	2	2	2	2	hands,clothes,eyes
 175	Mechanical Songbird	mechbird.gif	item0	unwound mechanical songbird	shiny brass tailfeathers	1	2	2	0	wings,mechanical,animal,eyes,robot
-176	Reanimated Reanimator	reanimator.gif	stat0,other0,variable	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0	hands,clothes,eyes
+176	Reanimated Reanimator	reanimator.gif	stat0,other0,variable	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0	hands,clothes,eyes,undead,slayer
 177	Warbear Drone	wbdronefam.gif	combat0,combat1	warbear drone assembler	warbear drone codes	3	2	2	0	mechanical,robot
 178	Grimstone Golem	grimgolem.gif	item0,meat0,drop	hibernating Grimstone Golem	grimstone galoshes	0	2	3	3	eyes
 179	Grim Brother	grimbrother.gif	stat0,meat0,drop	praying Grim Brother	Grim Brothers' story book	3	2	0	3	hands,clothes,eyes
@@ -213,7 +213,7 @@
 184
 185	Helix Fossil	foss_amm.gif	delevel,combat0,hp1,mp1	strange helix fossil	S.S. Ticket	0	0	0	3
 186	Xiblaxian Holo-Companion	holobuddy.gif	block,passive	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2	eyes,mechanical
-187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0	hands,animal,eyes
+187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0	hands,animal,eyes,undead,slayer
 188	Fist Turkey	fistturkey.gif	combat0,item0,meat1,stat2,drop	fist turkey outline	brass turkey knuckles	3	2	2	3	wings,animal,eyes
 189	Crimbo Shrub	crimboshrub.gif	combat1,stat0,other1,variable	Crimbo sapling	even more tinsel	1	3	2	0	eyes
 190	Mini-Crimbot	minicrimbot.gif	variable	Mini-Crimbot crate	heavy-duty Crimbot aerial	3	3	3	0	mechanical,robot,eyes
@@ -228,7 +228,7 @@
 199	Machine Elf	machelf.gif	other0,stat3,drop	machine elf capsule	self-dribbling basketball	1	2	3	1	hands,eyes,mechanical
 200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3	animal,eyes
 201	Rockin' Robin	rockinrobin.gif	stat0,item0,drop	basking robin	tiny domino mask	3	3	3	3	wings,animal,eyes
-202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1	eyes
+202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1	eyes,undead,slayer
 203	Intergnat	intergnat.gif	item0,combat0,other0,mp1,drop	disconnected intergnat	high-speed upgrade	1	3	2	2	wings,animal,eyes
 204	Software Bug	softwarebug.gif	none	software bug	missing semicolon	0	0	0	0	mechanical,eyes
 205	Bark Scorpion	barkscorp.gif	combat0	baby bark scorpion	tiny baby scorpion	3	1	2	3	animal,eyes
@@ -239,7 +239,7 @@
 210	Optimistic Candle	opticandle.gif	stat0,item0,drop	hopeful candle	pewter candlestick	2	3	3	3	eyes
 211	Robortender	robotender.gif	meat0,drop	unpowered Robortender	toggle switch (Bartend)	3	3	1	1	hands,eyes,mechanical,robot
 212	Cute Meteor	cutemeteor.gif	passice,combat1	cute meteoroid	meteor shower cap	1	1	1	1	eyes
-213	XO Skeleton	xoskeleton.gif	item0,hp1,mp1,drop	xo-skeleton-in-a-box	exo-xo-skeleton-skeleton	1	3	2	2	hands,eyes
+213	XO Skeleton	xoskeleton.gif	item0,hp1,mp1,drop	xo-skeleton-in-a-box	exo-xo-skeleton-skeleton	1	3	2	2	hands,eyes,undead,slayer
 214	Garbage Fire	dumpsterfire.gif	item0,hp1,mp1,drop	kerosene-soaked skip	fireproof skip lid	1	2	1	1
 215	Globmule	pokefam1.gif	none	Globmule		0	0	0	0	pokefam
 216	Bluzzard	pokefam2.gif	none	Bluzzard		0	0	0	0	pokefam
@@ -288,7 +288,7 @@
 259	Glamare	pokefam45.gif	none	Glamare		0	0	0	0	pokefam
 260	Unspeakachu	pokefam46.gif	combat0,mp0	Unspeakachu		3	3	1	3	animal
 261	Stooper	pokefam47.gif	none	Stooper		1	3	2	1	animal,eyes
-262	Disgeist	pokefam48.gif	passive	Disgeist		2	2	2	3	clothes,eyes
+262	Disgeist	pokefam48.gif	passive	Disgeist		2	2	2	3	clothes,eyes,undead
 263	Bowlet	pokefam49.gif	combat0,item0	Bowlet		2	1	2	2	wings,animal
 264	Cornbeefadon	pokefam50.gif	stat0,meat0	Cornbeefadon		2	2	2	2	animal,eyes
 265	Mu	pokefam8675309.gif	combat1,passive	Mu		3	2	3	2	animal,eyes
