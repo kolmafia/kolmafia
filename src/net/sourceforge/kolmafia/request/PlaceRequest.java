@@ -40,6 +40,8 @@ import java.util.TreeSet;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.Modifiers.Modifier;
+import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 
@@ -285,8 +287,18 @@ public class PlaceRequest
 					Matcher matcher = PlaceRequest.VOTE_PATTERN.matcher( responseText );
 					if ( matcher.find() )
 					{
-						String voteMod = Modifiers.parseModifier( matcher.group( 1 ) ) + ", " + Modifiers.parseModifier( matcher.group( 2 ) );
-						Preferences.setString( "_voteModifier", voteMod );
+						ModifierList modList = new ModifierList();
+						ModifierList addModList = Modifiers.splitModifiers( Modifiers.parseModifier( matcher.group( 1 ) ) );
+						for ( Modifier modifier : addModList )
+						{
+							modList.addToModifier( modifier );
+						}
+						addModList = Modifiers.splitModifiers( Modifiers.parseModifier( matcher.group( 2 ) ) );
+						for ( Modifier modifier : addModList )
+						{
+							modList.addToModifier( modifier );
+						}
+						Preferences.setString( "_voteModifier", modList.toString() );
 					}
 				}
 			}
