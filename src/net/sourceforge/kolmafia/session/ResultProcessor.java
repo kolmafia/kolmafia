@@ -563,6 +563,12 @@ public class ResultProcessor
 			item = "Tales of the West: Cow Punching";
 		}
 
+		if ( item.startsWith( "Love Potion #" ) )
+		{
+			// Item name varies
+			item = "Love Potion #XYZ";
+		}
+
 		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = items.size() == 0 ? null : items.getFirst();

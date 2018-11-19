@@ -811,6 +811,7 @@ user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
 user	lovebugsUnlocked	false
+user	lovePotion	
 user	loveTunnelAvailable	false
 user	lowerChamberUnlock	false
 user	lttQuestDifficulty	0

@@ -264,6 +264,10 @@ public class Expression
 				v = numerator / denominator;
 				break;
 
+			case '%':
+				v = s[ --sp ] % s[ --sp ];
+				break;
+
 			case '^':
 				double base = s[ --sp ];
 				double expt = s[ --sp ];
@@ -666,11 +670,20 @@ public class Expression
 	private String factor()
 	{
 		String rv = this.value();
-		while ( this.optional( "^", "**" ) != '\0' )
+		while( true )
 		{
-			rv = this.value() + rv + "^";
+			switch ( this.optional( "^", "%" ) )
+			{
+			case '^':
+				rv = this.value() + rv + "^";
+				break;
+			case '%':
+				rv = this.value() + rv + "%";
+				break;
+			default:
+				return rv;
+			}
 		}
-		return rv;
 	}
 
 	private String value()
