@@ -6621,6 +6621,7 @@ Effect	Taking the Plunge	Avatar: "Gnollish Plungermaster"
 # Talking Like a Pirate: Arrr.
 Effect	Tamarind Torment	Muscle: +5, Moxie: -5
 # Tainted Love Potion: Variable +/- mus/mys/mox/max hp/max mp
+Effect	Tainted Love Potion	Muscle: [105-(pref(lovePotion)%30)*7], Mysticality: [102-(pref(lovePotion)%35)*6], Moxie: [105-(pref(lovePotion)%42)*5], Maximum HP Percent: [40-(pref(lovePotion)%8)*10], Maximum MP Percent: [30-(pref(lovePotion)%5)*10]
 Effect	Tangled Up	Moxie Percent: -20
 Effect	Tango, O Gnat	Avatar: "Tan Gnat"
 Effect	Tapped In	Experience: +5

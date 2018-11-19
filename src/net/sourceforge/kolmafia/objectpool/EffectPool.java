@@ -344,6 +344,7 @@ public class EffectPool
 	public static final int WATERPROOFLY = 2316;
 	public static final int SILENT_HUNTING = 2336;
 	public static final int NEARLY_SILENT_HUNTING = 2337;
+	public static final int TAINTED_LOVE_POTION = 2374;
 	
 
 	public static final AdventureResult get( final int effectId )

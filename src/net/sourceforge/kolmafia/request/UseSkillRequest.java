@@ -87,6 +87,7 @@ public class UseSkillRequest
 	private static final Pattern BOOKID_PATTERN = Pattern.compile( "preaction=(?:summon|combine)([^&]*)" );
 
 	private static final Pattern COUNT_PATTERN = Pattern.compile( "quantity=([\\*\\d,]+)" );
+	private static final Pattern LOVE_POTION_PATTERN = Pattern.compile( "<b>Love Potion #(.*?)</b>" );
 
 	// <p>1 / 50 casts used today.</td>
 	private static final Pattern LIMITED_PATTERN = Pattern.compile( "<p>(\\d+) / [\\d]+ casts used today\\.</td>", Pattern.DOTALL );
@@ -484,6 +485,8 @@ public class UseSkillRequest
 		return this.skillName;
 	}
 
+	private static final AdventureResult TAINTED_LOVE_POTION = EffectPool.get( EffectPool.TAINTED_LOVE_POTION );
+
 	public int getMaximumCast()
 	{
 		int maximumCast = Integer.MAX_VALUE;
@@ -876,6 +879,11 @@ public class UseSkillRequest
 
 		case SkillPool.INCREDIBLE_SELF_ESTEEM:
 			maximumCast = Preferences.getBoolean( "_incredibleSelfEsteemCast" ) ? 0 : 1;
+			break;
+
+		case SkillPool.LOVE_MIXOLOGY:
+			maximumCast = InventoryManager.getAccessibleCount( ItemPool.LOVE_POTION_XYZ ) > 0 ||
+							KoLConstants.activeEffects.contains( UseSkillRequest.TAINTED_LOVE_POTION ) ? 0 : 1;
 			break;
 
 		}
@@ -2498,6 +2506,17 @@ public class UseSkillRequest
 		case SkillPool.INCREDIBLE_SELF_ESTEEM:
 			Preferences.setBoolean( "_incredibleSelfEsteemCast", true );
 			break;
+
+		case SkillPool.LOVE_MIXOLOGY:
+		{
+			Matcher matcher = UseSkillRequest.LOVE_POTION_PATTERN.matcher( responseText );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "lovePotion", matcher.group( 1 ).replaceAll( ",", "" ) );
+			}
+			break;
+		}
+
 		}
 
 		if ( SkillDatabase.isLibramSkill( skillId ) )

@@ -2997,6 +2997,7 @@ public class ItemPool
 	public static final int LOVE_POTION_BOOK = 9716;
 	public static final int RHINESTONE_BOOK = 9717;
 	public static final int LOVE_SONG_BOOK = 9718;
+	public static final int LOVE_POTION_XYZ = 9747;
 	public static final int POKEDOLLAR_BILLS = 9747;
 	public static final int METANDIENONE = 9748;
 	public static final int RIBOFLAVIN = 9749;
