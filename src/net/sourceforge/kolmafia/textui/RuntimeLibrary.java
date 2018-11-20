@@ -65,6 +65,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import net.sourceforge.kolmafia.moods.MoodTrigger;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
@@ -622,6 +623,9 @@ public abstract class RuntimeLibrary
 
 		params = new Type[] {};
 		functions.add( new LibraryFunction( "get_moods", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "mood_list", new AggregateType( DataTypes.STRING_TYPE, 0), params ) );
 
 		params = new Type[] { DataTypes.INT_TYPE, DataTypes.ITEM_TYPE };
 		functions.add( new LibraryFunction( "buy", DataTypes.BOOLEAN_TYPE, params ) );
@@ -3268,6 +3272,21 @@ public abstract class RuntimeLibrary
 			value.aset( new Value( i ), new Value( moods.get( i ).getName() ) );
 		}
 
+		return value;
+	}
+
+	public static Value mood_list( Interpreter interpreter )
+	{
+		List<MoodTrigger> moodTriggers = MoodManager.getTriggers();
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, moodTriggers.size() );
+		ArrayValue value = new ArrayValue( type );
+
+		for ( int i = 0; i < moodTriggers.size(); ++i )
+		{
+			MoodTrigger mt = moodTriggers.get(i);
+			String sv = mt.getType()+" | "+mt.getName()+" | "+mt.getAction();
+			value.aset( new Value( i ), new Value( sv ));
+		}
 		return value;
 	}
 
