@@ -181,6 +181,11 @@ public class AdventureRequest
 				this.addFormField( "whichplace", "manor4" );
 				this.addFormField( "action", adventureId );
 			}
+			else if ( this.adventureId.equals( "townwrong_tunnel" ) )
+			{
+				this.addFormField( "whichplace", "town_wrong" );
+				this.addFormField( "action", "townwrong_tunnel" );
+			}
 			else if ( this.adventureId.startsWith( "ns_" ) )
 			{
 				this.addFormField( "whichplace", "nstower" );
