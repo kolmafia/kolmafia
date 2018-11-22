@@ -3282,6 +3282,7 @@ public class GenericRequest
 
 		case ItemPool.CLARIFIED_BUTTER:
 			itemName = "Dish of Clarified Butter";
+			Preferences.increment( "_godLobsterFights", 1, 3, false );
 			consumed = true;
 			break;
 
