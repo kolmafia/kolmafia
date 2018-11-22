@@ -343,6 +343,9 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "traceprint", DataTypes.VOID_TYPE, params ) );
 
+		params = new Type[] {};
+		functions.add( new LibraryFunction( "print", DataTypes.VOID_TYPE, params ) );
+
 		params = new Type[] { DataTypes.STRING_TYPE };
 		functions.add( new LibraryFunction( "print", DataTypes.VOID_TYPE, params ) );
 
@@ -2273,6 +2276,12 @@ public abstract class RuntimeLibrary
 			RequestLogger.trace( "trace: " + parameters );
 		}
 
+		return DataTypes.VOID_VALUE;
+	}
+
+	public static Value print( Interpreter interpreter )
+	{
+		RequestLogger.printLine();
 		return DataTypes.VOID_VALUE;
 	}
 
