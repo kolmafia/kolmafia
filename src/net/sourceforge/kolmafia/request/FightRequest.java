@@ -4098,8 +4098,8 @@ public class FightRequest
 				{
 					Preferences.increment( "_catBurglarCharge" );
 				}
-				if ( responseText.contains( "gets a shifty look in his eyes. Looks like he's ready for a heist and/or caper" ) ||
-					responseText.contains( "cracks his knuckles and looks around for something steal" ) ||
+				if ( responseText.contains( "Looks like he's ready for a heist" ) ||
+					responseText.contains( "cracks his knuckles and looks around for something to steal" ) ||
 					responseText.contains( "does some stretching exercises to prepare for his upcoming heist" ) )
 				{
 					// Current theory is that heist message can happen even when the charge is reached from sleepmask trigger later
