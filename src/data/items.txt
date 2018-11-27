@@ -10020,7 +10020,7 @@
 9993	snakeskin thighboots	765395004	rsnakeboots.gif	pants	d	200
 9994	snakeskin cowboy hat	139690783	rsnakehat.gif	hat	d	150
 9995	snakeskin jacket	138203499	punkjacket.gif	shirt	d	250
-9996	black slime glob	274504232	vglob3	none	d	250
+9996	black slime glob	274504232	vglob3.gif	none	d	250
 9997	green slime glob	299669805	vglob1.gif	none	d	50
 9998	orange slime glob	746377973	vglob2.gif	none	d	20
 9999	slime waders	833236717	eplasmboots.gif	pants	d	500
