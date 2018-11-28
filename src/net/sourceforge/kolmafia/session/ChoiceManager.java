@@ -4592,6 +4592,11 @@ public abstract class ChoiceManager
 			// Madame Zatara’s Relationship Fortune Teller
 			ClanFortuneDecorator.decorateQuestion( buffer );
 			break;
+
+		case 1331:
+			// Daily Loathing Ballot
+			ChoiceManager.decorateVote( buffer );
+			break;
 		}
 	}
 
@@ -4686,6 +4691,136 @@ public abstract class ChoiceManager
 		StringUtilities.globalStringReplace( buffer, "Door #2", "Raul Stamley" );
 		StringUtilities.globalStringReplace( buffer, "Door #3", "Pener Crisp" );
 		StringUtilities.globalStringReplace( buffer, "Door #4", "Deuce Freshly" );
+	}
+
+	private static final Pattern VOTE_SPEECH_PATTERN = Pattern.compile( "<p><input type='radio' name='g' value='(\\d+)' /> <b>(.*?)</b>(.*?)<br><blockquote>(.*?)</blockquote>" );
+
+	public static final void decorateVote( final StringBuffer buffer )
+	{
+		Matcher matcher = ChoiceManager.VOTE_SPEECH_PATTERN.matcher( buffer.toString() );
+		while ( matcher.find() )
+		{
+			String party = matcher.group( 3 );
+			String speech = matcher.group( 4 );
+			String find = matcher.group( 0 );
+			String replace = null;
+			if ( party.contains( "Pork Elf Historical Preservation Party" ) )
+			{
+				if ( speech.contains( "strict curtailing of unnatural modern technologies" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "reintroduce Pork Elf DNA" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "kingdom-wide seance" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
+				}
+				else
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+				}
+			}
+			else if ( party.contains( "Clan Ventrilo" ) )
+			{
+				if ( speech.contains( "bringing this blessing to the entire population" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "see your deceased loved ones again" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "stronger and more vigorous" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "implement healthcare reforms" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+				}
+				else
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+				}
+			}
+			else if ( party.contains( "Bureau of Efficient Government" ) )
+			{
+				if ( speech.contains( "graveyards are a terribly inefficient use of space" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "strictly enforced efficiency laws" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "distribute all the medications for all known diseases " ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "introduce an influx of snakes" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
+				}
+				else
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+				}
+			}
+			else if ( party.contains( "Scions of Ich'Xuul'kor" ) )
+			{
+				if ( speech.contains( "increase awareness of our really great god" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "hunt these evil people down" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "sound of a great hissing" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "make things a little bit more like he's used to" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
+				}
+				else
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+				}
+			}
+			else if ( party.contains( "Extra-Terrific Party" ) )
+			{
+				if ( speech.contains( "wondrous chemical" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for terrible mutant tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "comprehensive DNA harvesting program" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "mining and refining processes begin" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "warp engines will not destabilize" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
+				}
+				else if ( speech.contains( "breeding pair of these delightful creatures" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
+				}
+			}
+
+			if ( replace != null )
+			{
+				StringUtilities.singleStringReplace( buffer, find, replace );
+			}			
+		}
 	}
 
 	public static final Object[][] choiceSpoilers( final int choice )
