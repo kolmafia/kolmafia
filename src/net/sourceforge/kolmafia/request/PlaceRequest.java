@@ -99,7 +99,8 @@ public class PlaceRequest
 		PlaceRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
-	private static final Pattern VOTE_PATTERN = Pattern.compile( "initiatives: <br /><font style='color: blue'>(.*?)<br>(.*?)</font>" );
+	private static final Pattern VOTE_PATTERN = Pattern.compile( "initiatives: </b><div style='margin-left: 1em; color: blue'>(.*?)<br>(.*?)</div>" );
+	private static final Pattern VOTE_SPEECH_PATTERN = Pattern.compile( "<b>Today's Leader: </b>(.*?)<br><blockquote>(.*?)</blockquote>" );
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
@@ -282,7 +283,7 @@ public class PlaceRequest
 			Preferences.setBoolean( "horseryAvailable", responseText.contains( "horsery.gif" ) );
 			if ( action.equals( "townright_vote" ) )
 			{
-				if ( responseText.contains( "already voted today" ) )
+				if ( responseText.contains( "Today's Leader" ) )
 				{
 					Matcher matcher = PlaceRequest.VOTE_PATTERN.matcher( responseText );
 					if ( matcher.find() )
@@ -299,6 +300,131 @@ public class PlaceRequest
 							modList.addToModifier( modifier );
 						}
 						Preferences.setString( "_voteModifier", modList.toString() );
+					}
+					if ( Preferences.getString( "_voteMonster" ).equals( "" ) )
+					{
+						String monster = null;
+						matcher = PlaceRequest.VOTE_SPEECH_PATTERN.matcher( responseText );
+						if ( matcher.find() )
+						{
+							String party = matcher.group( 1 );
+							String speech = matcher.group( 2 );
+							if ( party.contains( "Pork Elf Historical Preservation Party" ) )
+							{
+								if ( speech.contains( "strict curtailing of unnatural modern technologies" ) )
+								{
+									monster = "government bureaucrat";
+								}
+								else if ( speech.contains( "reintroduce Pork Elf DNA" ) )
+								{
+									monster = "terrible mutant";
+								}
+								else if ( speech.contains( "kingdom-wide seance" ) )
+								{
+									monster = "angry ghost";
+								}
+								else
+								{
+									monster = "unknown";
+								}
+							}
+							else if ( party.contains( "Clan Ventrilo" ) )
+							{
+								if ( speech.contains( "bringing this blessing to the entire population" ) )
+								{
+									monster = "slime blob";
+								}
+								else if ( speech.contains( "see your deceased loved ones again" ) )
+								{
+									monster = "angry ghost";
+								}
+								else if ( speech.contains( "stronger and more vigorous" ) )
+								{
+									monster = "terrible mutant";
+								}
+								else if ( speech.contains( "implement healthcare reforms" ) )
+								{
+									monster = "unknown";
+								}
+								else
+								{
+									monster = "unknown";
+								}
+							}
+							else if ( party.contains( "Bureau of Efficient Government" ) )
+							{
+								if ( speech.contains( "graveyards are a terribly inefficient use of space" ) )
+								{
+									monster = "angry ghost";
+								}
+								else if ( speech.contains( "strictly enforced efficiency laws" ) )
+								{
+									monster = "government bureaucrat";
+								}
+								else if ( speech.contains( "distribute all the medications for all known diseases " ) )
+								{
+									monster = "terrible mutant";
+								}
+								else if ( speech.contains( "introduce an influx of snakes" ) )
+								{
+									monster = "annoyed snake";
+								}
+								else
+								{
+									monster = "unknown";
+								}
+							}
+							else if ( party.contains( "Scions of Ich'Xuul'kor" ) )
+							{
+								if ( speech.contains( "increase awareness of our really great god" ) )
+								{
+									monster = "terrible mutant";
+								}
+								else if ( speech.contains( "hunt these evil people down" ) )
+								{
+									monster = "government bureaucrat";
+								}
+								else if ( speech.contains( "sound of a great hissing" ) )
+								{
+									monster = "annoyed snake";
+								}
+								else if ( speech.contains( "make things a little bit more like he's used to" ) )
+								{
+									monster = "slime blob";
+								}
+								else
+								{
+									monster = "unknown";
+								}
+							}
+							else if ( party.contains( "Extra-Terrific Party" ) )
+							{
+								if ( speech.contains( "wondrous chemical" ) )
+								{
+									monster = "terrible mutant";
+								}
+								else if ( speech.contains( "comprehensive DNA harvesting program" ) )
+								{
+									monster = "government bureaucrat";
+								}
+								else if ( speech.contains( "mining and refining processes begin" ) )
+								{
+									monster = "slime blob";
+								}
+								else if ( speech.contains( "warp engines will not destabilize" ) )
+								{
+									monster = "angry ghost";
+								}
+								else if ( speech.contains( "breeding pair of these delightful creatures" ) )
+								{
+									monster = "annoyed snake";
+								}
+							}
+						}
+						if ( monster != null )
+						{
+							Preferences.setString( "_voteMonster", monster );
+						}
 					}
 				}
 			}
