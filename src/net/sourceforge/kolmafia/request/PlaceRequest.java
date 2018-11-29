@@ -58,6 +58,8 @@ import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class PlaceRequest
 	extends GenericRequest
 {
@@ -1082,6 +1084,19 @@ public class PlaceRequest
 		else if ( place.equals( "rabbithole" ) )
 		{
 			RabbitHoleManager.decorateRabbitHole( buffer );
+		}
+		else if ( place.equals( "town_right" ) )
+		{
+			if ( action.equals( "townright_vote" ) )
+			{
+				String pref = Preferences.getString( "_voteMonster" );
+				if ( pref.equals( "" ) )
+				{
+					pref = "unknown";
+				}
+				String replace = "<br />(wanderer today is " + pref + ")</blockquote>";
+				StringUtilities.singleStringReplace( buffer, "</blockquote>", replace );
+			}
 		}
 	}
 }
