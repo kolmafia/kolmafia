@@ -41,11 +41,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
+import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.request.EquipmentRequest;
+
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RubeeRequest
 	extends CoinMasterRequest
@@ -145,6 +153,15 @@ public class RubeeRequest
 
 	public static String accessible()
 	{
-		return null;
+		return Preferences.getBoolean( "_frToday" ) || Preferences.getBoolean( "frAlways" ) ? null : "Need access to Fantasy Realm";
+	}
+
+	public void equip()
+	{
+		if ( !KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
+		{
+			EquipmentRequest request = new EquipmentRequest( ItemPool.get( ItemPool.FANTASY_REALM_GEM, 1 ), EquipmentManager.ACCESSORY3 );
+			RequestThread.postRequest( request );
+		}
 	}
 }
