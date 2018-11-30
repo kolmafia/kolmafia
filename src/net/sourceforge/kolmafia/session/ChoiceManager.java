@@ -4739,11 +4739,11 @@ public abstract class ChoiceManager
 				}
 				else if ( speech.contains( "implement healthcare reforms" ) )
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for government bureaucrat tomorrow)</blockquote>" );
 				}
 				else
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake? tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Bureau of Efficient Government" ) )
@@ -4764,9 +4764,9 @@ public abstract class ChoiceManager
 				{
 					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
 				}
-				else
+				else if ( speech.contains( "releasing ambulatory garbage-eating slimes" ) )
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Scions of Ich'Xuul'kor" ) )
@@ -4789,7 +4789,7 @@ public abstract class ChoiceManager
 				}
 				else
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost? tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Extra-Terrific Party" ) )

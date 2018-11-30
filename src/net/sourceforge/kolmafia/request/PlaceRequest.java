@@ -327,7 +327,7 @@ public class PlaceRequest
 								}
 								else
 								{
-									monster = "unknown";
+									monster = "annoyed snake or slime blob?";
 								}
 							}
 							else if ( party.contains( "Clan Ventrilo" ) )
@@ -346,11 +346,11 @@ public class PlaceRequest
 								}
 								else if ( speech.contains( "implement healthcare reforms" ) )
 								{
-									monster = "unknown";
+									monster = "government bureaucrat";
 								}
 								else
 								{
-									monster = "unknown";
+									monster = "annoyed snake?";
 								}
 							}
 							else if ( party.contains( "Bureau of Efficient Government" ) )
@@ -371,9 +371,9 @@ public class PlaceRequest
 								{
 									monster = "annoyed snake";
 								}
-								else
+								else if ( speech.contains( "releasing ambulatory garbage-eating slimes" ) )
 								{
-									monster = "unknown";
+									monster = "slime blob";
 								}
 							}
 							else if ( party.contains( "Scions of Ich'Xuul'kor" ) )
@@ -396,7 +396,7 @@ public class PlaceRequest
 								}
 								else
 								{
-									monster = "unknown";
+									monster = "angry ghost?";
 								}
 							}
 							else if ( party.contains( "Extra-Terrific Party" ) )
