@@ -10046,5 +10046,5 @@
 10019	haunted gimlet	676845730	fruitym.gif	drink	t,d	180
 10020	twice-haunted screwdriver	187537355	rocks.gif	drink	d	100
 10021	primitive candy cane	545445592	tradcane.gif	food	t	0
-10022	runny fermented egg	960244587	hotegg.gif	booze	t	0
+10022	runny fermented egg	960244587	hotegg.gif	drink	t	0
 10023	oldcake	668566752	blackcake.gif	food	t	0
