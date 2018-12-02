@@ -3846,7 +3846,7 @@
 3820	water-polo mitt	194815300	mitt.gif	accessory	d	800
 3821	glowing syringe	988414588	syringe.gif	multiple	t,d	175
 3822	fishy wand	994220879	mintwand.gif	familiar	t,d	150
-3823	wad of cotton	177196435	lint.gif	usable		0	wads of cotton
+3823	wad of cotton	177196435	lint.gif	multiple		0	wads of cotton
 3824	Grandma's Note	624587585	page.gif	none	q	0
 3825	Grandma's Fuchsia Yarn	492404505	yarn.gif	none	q	0
 3826	Grandma's Chartreuse Yarn	418019826	yarn.gif	none	q	0
