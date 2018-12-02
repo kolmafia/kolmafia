@@ -6330,10 +6330,10 @@
 6304	Jarlsberg's pan (Cosmic portal mode)	642644188	path12icon.gif	offhand, usable	t	0
 6305	Jarlsberg's pan	908839142	jarl_fry.gif	offhand, usable	t	0
 6306	Cosmic Calorie	986883912	cosmiccalorie.gif	multiple		0
-6307	celestial olive oil	239737905	potion20.gif	usable	t	0
+6307	celestial olive oil	239737905	potion20.gif	multiple	t	0
 6308	celestial carrot juice	322513561	potion19.gif	multiple	t	0
-6309	celestial au jus	897507910	potion22.gif	usable	t	0
-6310	celestial squid ink	809451164	potion21.gif	usable	t	0
+6309	celestial au jus	897507910	potion22.gif	multiple	t	0
+6310	celestial squid ink	809451164	potion21.gif	multiple	t	0
 6311	Uncle Buck	128580832	unclebuck.gif	accessory	t	0
 6312	crate of fish meat	421662304	crate.gif	usable		0	crates of fish meat
 6313	damp old wallet	841851551	wallet.gif	usable		0
