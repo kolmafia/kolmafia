@@ -325,9 +325,13 @@ public class PlaceRequest
 								{
 									monster = "angry ghost";
 								}
+								else if ( speech.contains( "very interested in snakes" ) )
+								{
+									monster = "annoyed snake";
+								}
 								else
 								{
-									monster = "annoyed snake or slime blob?";
+									monster = "slime blob?";
 								}
 							}
 							else if ( party.contains( "Clan Ventrilo" ) )
@@ -394,9 +398,9 @@ public class PlaceRequest
 								{
 									monster = "slime blob";
 								}
-								else
+								else if ( speech.contains( "kindness energy" ) )
 								{
-									monster = "angry ghost?";
+									monster = "angry ghost";
 								}
 							}
 							else if ( party.contains( "Extra-Terrific Party" ) )

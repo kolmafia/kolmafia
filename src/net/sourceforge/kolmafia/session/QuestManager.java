@@ -543,6 +543,7 @@ public class QuestManager
 		if ( !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
+			Preferences.setBoolean( "daycareOpen", responseText.contains( "Boxing Daycare" ) );
 			if ( responseText.contains( "The Neverending Party" ) && !Preferences.getBoolean( "neverendingPartyAlways" ) )
 			{
 				Preferences.setBoolean( "_neverendingPartyToday", true );

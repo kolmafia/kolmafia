@@ -4799,6 +4799,8 @@ Effect	Bounty of Renenutet	Item Drop: +50
 # Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 # Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
 Effect	Bow-Legged Swagger	Initiative: [mod(Initiative)]
+# Effect Boxing Day Drinking: Reduces cost of recruiting staff
+Effect	Boxing Day Drinking	Pickpocket Chance: +25, Experience: +5
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Effect	Braaains	Meat Drop: +50, Initiative: -50
@@ -5302,6 +5304,7 @@ Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Reg
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
+Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Flambé-a-thon	Hot Damage: +20, Hot Spell Damage: +20
 Effect	Flame-Retardant Trousers	Hot Resistance: +1
 Effect	Flamibili Tea	Hot Damage: +30
@@ -6811,6 +6814,7 @@ Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 Effect	Uncanny Shot	Ranged Damage: +30
 # Uncertain: Muscle and Moxie +/- ???
+Effect Uncucumbered Mysticality Percent: +200, Item Drop: +25
 # Unmotivated: You're feeling really unmotivated.
 Effect	Unmuffled	Combat Rate: +15
 Effect	Unpopular	Monster Level: +30
@@ -8046,6 +8050,7 @@ Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40
 Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15
 # plastic cup of beer: Deals 30-40 <font color=blueviolet>Sleaze Damage</font>
 # primitive alien booze: Extends the duration of up to 10 of your effects by 5 Adventures
+Item	punch-drunk punch	Effect: "Boxing Day Drinking", Effect Duration: 50
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5
 Item	Quaatorade&trade;	Effect: "Quaaaaaaa", Effect Duration: 100
 Item	R'lyeh	Effect: "The Effect Man Was Not Meant to Have", Effect Duration: 40
@@ -8514,6 +8519,7 @@ Item	box of Dweebs	Effect: "Dweeby", Effect Duration: 15
 # box of hammers: (way more effective against constructs)
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 Item	box of sunshine	Free Pull
+Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds
 Item	brass Dreadsylvanian flask	Effect: "Brass Loins", Effect Duration: 100

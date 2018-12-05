@@ -4361,6 +4361,7 @@ public abstract class ChoiceManager
 
 		// Choice 1331 is Daily Loathing Ballot
 		// Choice 1332 is government requisition form
+		// Choice 1334 is Boxing Daycare (Lobby)
 
 	};
 
@@ -4718,9 +4719,13 @@ public abstract class ChoiceManager
 				{
 					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
 				}
+				else if ( speech.contains( "very interested in snakes" ) )
+				{
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
+				}
 				else
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for unknown tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob? tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Clan Ventrilo" ) )
@@ -4787,9 +4792,9 @@ public abstract class ChoiceManager
 				{
 					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
 				}
-				else
+				else if ( speech.contains( "kindness energy" ) )
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost? tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for angry ghost tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Extra-Terrific Party" ) )
@@ -11291,6 +11296,26 @@ public abstract class ChoiceManager
 			ResultProcessor.removeItem( ItemPool.GOVERNMENT_REQUISITION_FORM );
 			break;
 
+		case 1334:
+			// Boxing Daycare (Lobby)
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Preferences.setBoolean( "_daycareNap", true );
+			}
+			else if ( ChoiceManager.lastDecision == 2 && text.contains( "only allowed one spa treatment" ) )
+			{
+				Preferences.setBoolean( "_daycareNap", true );
+			}
+			break;
+
+		case 1335:
+			// Boxing Day Spa
+			if ( ChoiceManager.lastDecision != 5 )
+			{
+				Preferences.setBoolean( "_daycareSpa", true );
+			}
+			break;
+
 		}
 
 		// Certain choices cost meat or items when selected
@@ -17157,6 +17182,8 @@ public abstract class ChoiceManager
 		case 1320: // A Heist!
 		case 1322: // The Beginning of the Neverend
 		case 1329: // Latte Shop
+		case 1334: // Boxing Daycare (Lobby)
+		case 1335: // Boxing Day Spa
 			return true;
 
 		default:

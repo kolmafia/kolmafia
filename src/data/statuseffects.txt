@@ -2424,3 +2424,13 @@
 2423	Haunted Stomach	stomach.gif	ef1b25b8e0f245d41b922077054275c0	eat either 1 ghostly ectoplasm, 1 haunted orange, 1 haunted pizza, 1 haunted cherry pie, 1 haunted Hell ramen
 2424	Haunted Liver	liver.gif	0d5c5c3c6f465b61c8977fcb783b44bb	drink either 1 haunted bottle of vodka, 1 haunted martini, 1 haunted eggnog, 1 haunted gimlet
 2425	On Safari	jackmoustache.gif	ed711b284292daad806d1888ba0beefb	cast 1 Experience Safari
+2426
+2427
+2428
+2429
+2430	Boxing Day Drinking	boxingpunch.gif	8c721354cb390dbdac0f9a7a75c2c5e5	drink 1 punch-drunk punch
+2431
+2432
+2433	Uncucumbered	gash.gif	569272fa0c2817e352e809107c311669	# Daycare Spa choice 3
+2434
+2435	Flagrantly Fragrant	scentedcandle.gif	e6bdedcd75e40108d4aa649f250cb78d	# Daycare Spa choice 4
