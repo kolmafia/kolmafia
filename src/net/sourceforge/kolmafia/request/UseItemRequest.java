@@ -6148,6 +6148,10 @@ public class UseItemRequest
 			Preferences.setBoolean( "_voteToday", true );
 			break;
 
+		case ItemPool.BOXING_DAY_CARE:
+			Preferences.setBoolean( "daycareOpen", true );
+			break;
+
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )

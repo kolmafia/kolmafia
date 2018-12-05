@@ -474,6 +474,7 @@ primitive alien booze	5	1	good	15-16	8-10	8-10	8-10	Extends the duration of up t
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
 Psychotic Train wine	6	11	awesome	19-20	150-250	0	0
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP
+punch-drunk punch	1	1	EPIC	0	0	0	0	Unspaded, 50 Boxing Day Drinking (+25 pickpocket chance, +5 stats/fight, reduces cost of recruiting staff)
 Punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
 Quaatorade&trade;	1	6	EPIC	6-7	0	30-40	0	100 Quaaaaaaa (+50% mys, +50 MP, +10-20 MP regen)

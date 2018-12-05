@@ -459,6 +459,7 @@ user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
 user	dailyDungeonDone	false
 user	dampOldBootPurchased	false
+user	daycareOpen	false
 user	dbNemesisSkill1	0
 user	dbNemesisSkill2	0
 user	dbNemesisSkill3	0
@@ -1390,6 +1391,8 @@ user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_dailyDungeonMalwareUsed	false
 user	_darkChocolateHeart	false
+user	_daycareNap	false
+user	_daycareSpa	false
 user	_deckCardsSeen
 user	_deckCardsDrawn	0
 user	_defectiveTokenUsed	false
