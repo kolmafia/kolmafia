@@ -2429,8 +2429,8 @@
 2428
 2429
 2430	Boxing Day Drinking	boxingpunch.gif	8c721354cb390dbdac0f9a7a75c2c5e5	drink 1 punch-drunk punch
-2431
-2432
+2431	Boxing Day Glow	boxingspray.gif	e09d89ad6b19f75a8fd3c5524c925b72	chew 1 body spradium
+2432	Muddled	honeyglob.gif	e1657d0f246533ee1c465c16aa4ecd8e	# Daycare Spa choice 1
 2433	Uncucumbered	gash.gif	569272fa0c2817e352e809107c311669	# Daycare Spa choice 3
-2434
+2434	Ten out of Ten	nicenail.gif	bced94ef5dc8f51e25ab354f4c3e7a48	# Daycare Spa choice 2
 2435	Flagrantly Fragrant	scentedcandle.gif	e6bdedcd75e40108d4aa649f250cb78d	# Daycare Spa choice 4

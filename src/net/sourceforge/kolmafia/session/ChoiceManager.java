@@ -4723,9 +4723,9 @@ public abstract class ChoiceManager
 				{
 					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for annoyed snake tomorrow)</blockquote>" );
 				}
-				else
+				else if ( speech.contains( "lots of magical lard" ) )
 				{
-					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob? tomorrow)</blockquote>" );
+					replace = StringUtilities.singleStringReplace( find, "</blockquote>", "<br />(vote for slime blob tomorrow)</blockquote>" );
 				}
 			}
 			else if ( party.contains( "Clan Ventrilo" ) )

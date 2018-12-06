@@ -4801,6 +4801,7 @@ Effect	Bounty of Renenutet	Item Drop: +50
 Effect	Bow-Legged Swagger	Initiative: [mod(Initiative)]
 # Effect Boxing Day Drinking: Reduces cost of recruiting staff
 Effect	Boxing Day Drinking	Pickpocket Chance: +25, Experience: +5
+Effect	Boxing Day Glow	Meat Drop: +50, Familiar Weight: +5
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 # Braaaains Over Braaaawwn: +50% Damage vs. Zombies
 Effect	Braaains	Meat Drop: +50, Initiative: -50
@@ -5903,6 +5904,7 @@ Effect	Mrs. Frozen	Avatar: "Mrs. Freeze"
 Effect	Mucilaginous Mentalism	Mysticality Percent: +200
 Effect	Mucilaginous Moxiousness	Moxie Percent: +200
 Effect	Mucilaginous Muscle	Muscle Percent: +200
+Effect	Muddled	Muscle Percent: +200, Monster Level: +15
 Effect	Muddy Buddy	Avatar: "mud turtle"
 Effect	Muffled	Combat Rate: -15
 Effect	Muscle Unbound	Experience Percent (Muscle): +5
@@ -6642,6 +6644,7 @@ Effect	Techno Bliss	Item Drop: +10
 # Temporary Amnesia: Who am I?
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
+Effect	Ten out of Ten	Moxie Percent: +200, Initiative: +50
 Effect	Tenacity of the Snapper	Weapon Damage: +8
 Effect	Tennis Elbow-wow	Initiative: +50
 Effect	Tenuous Grip on Reality	Moxie Percent: -95
@@ -6814,7 +6817,7 @@ Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
 Effect	Uncanny Shot	Ranged Damage: +30
 # Uncertain: Muscle and Moxie +/- ???
-Effect Uncucumbered Mysticality Percent: +200, Item Drop: +25
+Effect	Uncucumbered	Mysticality Percent: +200, Item Drop: +25
 # Unmotivated: You're feeling really unmotivated.
 Effect	Unmuffled	Combat Rate: +15
 Effect	Unpopular	Monster Level: +30
@@ -8151,6 +8154,7 @@ Item	black striped oyster egg	Effect: "Egg-stortionary Tactics", Effect Duration
 # blue paisley oyster egg: Restores 30-35 MP
 # blue polka-dot oyster egg: Restores 30-35 MP
 # blue striped oyster egg: Restores 30-35 MP
+Item	body spradium	Effect: "Boxing Day Glow", Effect Duration: 100
 Item	bottle of extra-strength melodramamine	Effect: "Emotion Sickness", Effect Duration: 50
 Item	bottle of melodramamine	Effect: "Emotion Sickness", Effect Duration: 5
 Item	bottle of ultravitamins	Effect: "Vitamin-Maxed", Effect Duration: 10
