@@ -329,9 +329,9 @@ public class PlaceRequest
 								{
 									monster = "annoyed snake";
 								}
-								else
+								else if ( speech.contains( "lots of magical lard" ) )
 								{
-									monster = "slime blob?";
+									monster = "slime blob";
 								}
 							}
 							else if ( party.contains( "Clan Ventrilo" ) )
