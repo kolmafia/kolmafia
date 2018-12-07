@@ -277,6 +277,9 @@ public abstract class ChoiceManager
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
 	private static final Pattern VOTE_PATTERN = Pattern.compile( "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>" );
 	private static final Pattern URL_VOTE_PATTERN = Pattern.compile( "local\\[\\]=(\\d)" );
+	private static final Pattern DAYCARE_PATTERN = Pattern.compile( "Looks like (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor" );
+	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
+	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -11304,7 +11307,7 @@ public abstract class ChoiceManager
 			}
 			else if ( ChoiceManager.lastDecision == 2 && text.contains( "only allowed one spa treatment" ) )
 			{
-				Preferences.setBoolean( "_daycareNap", true );
+				Preferences.setBoolean( "_daycareSpa", true );
 			}
 			break;
 
@@ -11313,6 +11316,41 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision != 5 )
 			{
 				Preferences.setBoolean( "_daycareSpa", true );
+			}
+			break;
+
+		case 1336:
+			// Boxing Daycare
+			String message = null;
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				Matcher matcher = ChoiceManager.DAYCARE_RECRUIT_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					message = "You have recruited " + matcher.group( 1 ) + " toddlers";
+					Preferences.increment( "_daycareRecruits" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 2 )
+			{
+				Matcher matcher = ChoiceManager.DAYCARE_EQUIPMENT_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					message = "You have found " + matcher.group( 1 ) + " pieces of gym equipment";
+					Preferences.increment( "_daycareGymScavenges" );
+				}
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				if ( text.contains( "new teacher joins the staff" ) )
+				{
+					message = "You have hired a new instructor";
+				}
+			}
+			if ( message != null )
+			{
+				RequestLogger.printLine( message );
+				RequestLogger.updateSessionLog( message );
 			}
 			break;
 
@@ -14339,6 +14377,19 @@ public abstract class ChoiceManager
 				{
 					Preferences.setString( "_voteLocal" + voteValue, voteMod );
 				}
+			}
+			break;
+		}
+
+		case 1336:
+		{
+			// Boxing Daycare
+			Matcher matcher = ChoiceManager.DAYCARE_PATTERN.matcher( text );
+			while ( matcher.find() )
+			{
+				Preferences.setString( "daycareEquipment", matcher.group( 1 ).replaceAll( ",", "" ) );
+				Preferences.setString( "daycareToddlers", matcher.group( 2 ).replaceAll( ",", "" ) );
+				Preferences.setString( "daycareInstructors", matcher.group( 3 ).replaceAll( ",", "" ) );
 			}
 			break;
 		}

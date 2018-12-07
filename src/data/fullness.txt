@@ -348,6 +348,7 @@ gingerbread robot	2	1	awesome	7-11	0	0	0	20 Gingerbread Robust (+100% all stats)
 gingerbread stir-fry	3	1		3-7	0	0	0	10 Sugar Rush
 glass of baboon milk	1	2	decent	2	3-5	0	0
 glass of goat's milk	1	1	crappy	1	0	0	0
+glass of raw eggs	1	1	EPIC	0	0	0	0	Unspaded, 50 Boxing Day Breakfast (+50% gear drop, +50% weapon damage, +50% spell damage)
 glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
 glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy
 glistening nigiri	2	1		4-8	0	8-16	0	20/30 Fishy

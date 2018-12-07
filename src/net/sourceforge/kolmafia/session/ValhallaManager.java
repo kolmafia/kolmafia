@@ -733,6 +733,12 @@ public class ValhallaManager
 		Preferences.setInteger( "garbageChampagneCharge", 0 );
 		Preferences.setInteger( "garbageShirtCharge", 0 );
 		Preferences.setInteger( "garbageTreeCharge", 0 );
+		// Boxing Daycare
+		Preferences.setInteger( "daycareEquipment", 0 );
+		Preferences.setInteger( "daycareToddlers", 0 );
+		Preferences.setInteger( "daycareInstructors", 0 );
+		Preferences.setInteger( "daycareBeretHPTemp", 0 );
+		Preferences.setInteger( "daycareBeretWDTemp", 0 );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL
