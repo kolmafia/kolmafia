@@ -10074,6 +10074,7 @@
 10047
 10048
 10049	Boxing Day care package	276027156	boxingpackage.gif	usable	t	0
-10050
+10050	glass of raw eggs	193484797	eggglass.gif	food		0
 10051	punch-drunk punch	974404117	boxingpunch.gif	drink		0
 10052	body spradium	201925985	boxingspray.gif	spleen,usable		0
+10053	bauxite beret	408005024	bauxitehat.gif	hat		0

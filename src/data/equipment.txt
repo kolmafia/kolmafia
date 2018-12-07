@@ -25,6 +25,7 @@ basic meat fez	45	Mox: 7
 basic meat helmet	40	Mox: 5
 bat hat	180	Mox: 75
 battered old top-hat	200	Mox: 200
+bauxite beret	150	Mus: 10
 beer helmet	170	Mox: 70
 beholed bedsheet	10	none
 bellhop's hat	120	Mox: 35
