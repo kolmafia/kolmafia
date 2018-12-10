@@ -150,6 +150,7 @@ public class ResultProcessor
 
 	public static Pattern ITEM_TABLE_PATTERN = Pattern.compile( "<table class=\"item\".*?rel=\"(.*?)\".*?title=\"(.*?)\".*?descitem\\(([\\d]*)\\).*?</table>" );
 	public static Pattern BOLD_NAME_PATTERN = Pattern.compile( "<b>([^<]*)</b>(?: \\((stored in Hagnk's Ancestral Mini-Storage|automatically equipped)\\))?" );
+	public static Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
 
 	public static String processItems( boolean combatResults, final String results, final List<AdventureResult> items )
 	{
@@ -178,6 +179,11 @@ public class ResultProcessor
 		// src='http://images.kingdomofloathing.com/itemimages/shotgun.gif'
 		// onclick='descitem(606913715)'></td><td valign=center>You acquire an item: <b>shotgun</b>
 		// (automatically equipped)</td></tr></table>
+		//
+		// In Daycare:
+		//
+		// <table><tr><td valign=center>You lose an item: </td><td><img src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/egg.gif
+		// width=30 height=30></td><td valign=center><b>hardboiled egg</b> (44)</td></tr></table></span></td></tr></table>
 
 		StringBuffer buffer = new StringBuffer();
 		boolean changed = false;
@@ -293,6 +299,19 @@ public class ResultProcessor
 			// Otherwise, add it to the list of items we found
 			else if ( items != null )
 			{
+				items.add( item );
+			}
+		}
+
+		if ( !changed )
+		{
+			// Might be using Daycare formatting
+			itemMatcher = ResultProcessor.DAYCARE_ITEM_PATTERN.matcher( results );
+			if ( itemMatcher.find() )
+			{
+				String itemName = itemMatcher.group( 1 );
+				int count = StringUtilities.parseInt( itemMatcher.group( 2 ) );
+				AdventureResult item = ItemPool.get( itemName, -count );
 				items.add( item );
 			}
 		}
