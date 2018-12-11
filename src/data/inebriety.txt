@@ -502,7 +502,7 @@ rodeo whiskey	3	3	good	8-10	0	30-40	0
 roll in the hay	4	4	good	10-14	0	34-36	0
 Rompedores de Fantasmas	3	1	good	8-10	13	0	0	13 Desenfantasmada (+3 Mus exp, +2 spooky res)
 rum and cola	3	1	decent	5-6	0	0	10-12	14-16 MP
-runny fermented egg	1	1	good	0	0	0	0	Unspaded
+runny fermented egg	1	1	good	3-4	0	0	0
 Russian Ice	1	2	good	2-3	30-60	0	-5-10
 Sacramento wine	1	1	EPIC	5-6	15-30	15-30	15-30	50 Sacr&eacute; Mental (+50 Item drop)
 Saison du Lune	3	2	good	8-10	0	10-20	25-35

@@ -6954,6 +6954,7 @@ Effect	Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
 Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
 Effect	Yeah, It's Just Gasoline	Hot Damage: +50, Hot Spell Damage: +50, Cold Resistance: +5, Spooky Resistance: +5
+Effect	Yeast-Hungry	Food Drop: +50
 # Yellow Tongue: Eww.
 # Yes, Can Haz: Effect Cat is Not Amused
 Effect	Yet tea	Cold Damage: +30
@@ -7827,6 +7828,7 @@ Item	toasted brie	Effect: "Refined Palate", Effect Duration: 20
 Item	tobiko pocky	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	tombstone-shaped Crimboween cookie	Effect: "Crimbo Epiphany", Effect Duration: 10
 Item	toxo	Effect: "Radiated and Grodiated", Effect Duration: 40
+Item	traditional Crimbo cookie	Effect: "Yeast-Hungry", Effect Duration: 50
 Item	transparent nog	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	tree-shaped Crimbo cookie	Effect: "Yuletide Sappiness", Effect Duration: 10
 Item	triangular CRIMBCOOKIE	Effect: "Triangle, Man", Effect Duration: 10
