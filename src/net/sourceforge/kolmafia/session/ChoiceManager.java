@@ -277,6 +277,7 @@ public abstract class ChoiceManager
 	private static final Pattern TRASH_PATTERN = Pattern.compile( "must have been (\\d+) pieces of trash" );
 	private static final Pattern VOTE_PATTERN = Pattern.compile( "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>" );
 	private static final Pattern URL_VOTE_PATTERN = Pattern.compile( "local\\[\\]=(\\d)" );
+	private static final Pattern EARLY_DAYCARE_PATTERN = Pattern.compile( "mostly empty. (.*?) toddlers are training with (.*?) instructor" );
 	private static final Pattern DAYCARE_PATTERN = Pattern.compile( "(?:Looks like|Probably around) (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor" );
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
@@ -14385,7 +14386,7 @@ public abstract class ChoiceManager
 		{
 			// Boxing Daycare
 			Matcher matcher = ChoiceManager.DAYCARE_PATTERN.matcher( text );
-			while ( matcher.find() )
+			if ( matcher.find() )
 			{
 				Preferences.setString( "daycareEquipment", matcher.group( 1 ).replaceAll( ",", "" ) );
 				Preferences.setString( "daycareToddlers", matcher.group( 2 ).replaceAll( ",", "" ) );
@@ -14395,6 +14396,20 @@ public abstract class ChoiceManager
 					instructors = "1";
 				}
 				Preferences.setString( "daycareInstructors", instructors );
+			}
+			else
+			{
+				matcher = ChoiceManager.EARLY_DAYCARE_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					Preferences.setString( "daycareToddlers", matcher.group( 1 ).replaceAll( ",", "" ) );
+					String instructors = matcher.group( 2 );
+					if ( instructors.equals( "an" ) )
+					{
+						instructors = "1";
+					}
+					Preferences.setString( "daycareInstructors", instructors );
+				}
 			}
 			break;
 		}

@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -144,6 +145,7 @@ public class BreakfastManager
 			visitVolcanoIsland();
 			checkJackass();
 			makePocketWishes();
+			haveBoxingDaydream();
 			if ( Preferences.getBoolean( "useCrimboToys" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
 			{
 				useToys();
@@ -645,6 +647,30 @@ public class BreakfastManager
 				RequestThread.postRequest( new GenieRequest( "for more wishes" ) );
 				KoLmafia.forceContinue();
 			}
+		}
+	}
+
+	private static void haveBoxingDaydream()
+	{
+		if ( !Preferences.getBoolean( "daycareOpen" ) && !Preferences.getBoolean( "_daycareToday" ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "_daycareNap" ) )
+		{
+			return;
+		}
+
+		if ( !StandardRequest.isAllowed( "Items", "Boxing Day care package" ) )
+		{
+			return;
+		}
+
+		if ( Preferences.getBoolean( "haveBoxingDaydream" + ( KoLCharacter.canInteract() ? "Softcore" : "Hardcore" ) ) )
+		{
+			RequestThread.postRequest( new GenericRequest( "place.php?whichplace=town_wrong&action=townwrong_boxingdaycare" ) );
+			RequestThread.postRequest( new GenericRequest( "choice.php?whichchoice=1334&option=1" ) );
 		}
 	}
 

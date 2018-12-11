@@ -632,6 +632,8 @@ user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
 user	hasSushiMat	false
+user	haveBoxingDaydreamHardcore	false
+user	haveBoxingDaydreamSoftcore	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
@@ -1400,6 +1402,7 @@ user	_daycareGymScavenges	0
 user	_daycareNap	false
 user	_daycareRecruits	0
 user	_daycareSpa	false
+user	_daycareToday	false
 user	_deckCardsSeen
 user	_deckCardsDrawn	0
 user	_defectiveTokenUsed	false

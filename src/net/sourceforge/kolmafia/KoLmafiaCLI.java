@@ -739,6 +739,7 @@ public class KoLmafiaCLI
 		new CrimboTreeCommand().register( "crimbotree" );
 		new CrossStreamsCommand().register( "crossstreams" );
 		new DadCommand().register( "dad" );
+		new DaycareCommand().register( "daycare" );
 		new DebugCreateCommand().register( "debugcreate" );
 		new DebugRequestCommand().register( "debug" );
 		new DemonNamesCommand().register( "demons" );
