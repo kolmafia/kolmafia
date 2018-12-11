@@ -543,7 +543,6 @@ public class QuestManager
 		if ( !location.contains( "action" ) && !KoLCharacter.inBadMoon() )
 		{
 			Preferences.setBoolean( "hasDetectiveSchool", responseText.contains( "Precinct" ) );
-			Preferences.setBoolean( "daycareOpen", responseText.contains( "Boxing Daycare" ) );
 			if ( responseText.contains( "The Neverending Party" ) && !Preferences.getBoolean( "neverendingPartyAlways" ) )
 			{
 				Preferences.setBoolean( "_neverendingPartyToday", true );
@@ -551,6 +550,10 @@ public class QuestManager
 			if ( Preferences.getInteger( "_neverendingPartyFreeTurns" ) < 10 && responseText.contains( "The Neverending Party (1)" ) )
 			{
 				Preferences.setInteger( "_neverendingPartyFreeTurns", 10 );
+			}
+			if ( responseText.contains( "Boxing Daycare" ) && !Preferences.getBoolean( "daycareOpen" ) )
+			{
+				Preferences.setBoolean( "_daycareToday", true );
 			}
 		}
 	}

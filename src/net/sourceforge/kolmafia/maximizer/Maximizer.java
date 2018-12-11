@@ -1436,6 +1436,34 @@ public class Maximizer
 					{
 						cmd = "";
 					}
+					duration = 30;
+					usesRemaining = Preferences.getBoolean( "_spacegateVaccine" ) ? 0 : 1;
+				}
+				else if ( cmd.startsWith( "daycare" ) )
+				{
+					if ( !StandardRequest.isAllowed( "Items", "Boxing Day care package" ) )
+					{
+						continue;
+					}
+					boolean available = Preferences.getBoolean( "daycareOpen" ) || Preferences.getBoolean( "_daycareToday" );
+					if ( !available )
+					{
+						if ( includeAll )
+						{
+							text = "(unlock Boxing Daycare and visit spa for " + name + ")";
+							cmd = "";
+						}
+						else
+						{
+							continue;
+						}
+					}
+					else if ( Preferences.getBoolean( "_daycareSpa" ) )
+					{
+						cmd = "";
+					}
+					duration = 100;
+					usesRemaining = Preferences.getBoolean( "_daycareSpa" ) ? 0 : 1;
 				}
 				else if ( cmd.startsWith( "play" ) )
 				{

@@ -10078,3 +10078,6 @@
 10051	punch-drunk punch	974404117	boxingpunch.gif	drink		0
 10052	body spradium	201925985	boxingspray.gif	spleen,usable		0
 10053	bauxite beret	408005024	bauxitehat.gif	hat		0
+10054
+10055
+10056	Boxing Day Pass	482213061	boxingdaypass.gif	usable	t,d	1000

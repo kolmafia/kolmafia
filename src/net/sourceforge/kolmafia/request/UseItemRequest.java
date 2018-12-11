@@ -1204,7 +1204,7 @@ public class UseItemRequest
 
 		case ItemPool.PUMP_UP_HIGH_TOPS:
 			UseItemRequest.limiter = "daily limit";
-			return 3 - Preferences.getInteger( "highTopPumps" );
+			return 3 - Preferences.getInteger( "_highTopPumps" );
 
 		}
 
@@ -6150,6 +6150,10 @@ public class UseItemRequest
 
 		case ItemPool.BOXING_DAY_CARE:
 			Preferences.setBoolean( "daycareOpen", true );
+			break;
+
+		case ItemPool.BOXING_DAY_PASS:
+			Preferences.setBoolean( "_daycareToday", true );
 			break;
 
 		}

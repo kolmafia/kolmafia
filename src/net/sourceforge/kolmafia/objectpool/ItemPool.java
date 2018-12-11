@@ -3070,6 +3070,7 @@ public class ItemPool
 	public static final int ORANGE_SLIME_GLOB = 9998;
 	public static final int GOVERNMENT_REQUISITION_FORM = 10003;
 	public static final int BOXING_DAY_CARE = 10049;
+	public static final int BOXING_DAY_PASS = 10056;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

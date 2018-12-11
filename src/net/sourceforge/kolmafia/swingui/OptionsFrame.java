@@ -477,6 +477,7 @@ public class OptionsFrame
 				{ "frAlways", "Have FantasyRealm&trade;" },
 				{ "neverendingPartyAlways", "Have Neverending Party" },
 				{ "voteAlways", "Have Voter Registration" },
+				{ "daycareOpen", "Have Boxing Daycare" },
 			};
 
 			this.setOptions( options );
@@ -2463,6 +2464,7 @@ public class OptionsFrame
 		private final JCheckBox useCrimboToys;
 		private final JCheckBox checkJackass;
 		private final JCheckBox makePocketWishes;
+		private final JCheckBox haveBoxingDaydream;
 
 		private final SkillMenu tomeSkills;
 		private final SkillMenu libramSkills;
@@ -2477,7 +2479,7 @@ public class OptionsFrame
 			JPanel centerContainer = new JPanel();
 			centerContainer.setLayout( new BoxLayout( centerContainer, BoxLayout.Y_AXIS ) );
 
-			int rows = ( UseSkillRequest.BREAKFAST_SKILLS.length + 10 ) / 2 + 1;
+			int rows = ( UseSkillRequest.BREAKFAST_SKILLS.length + 11 ) / 2 + 1;
 
 			JPanel centerPanel = new JPanel( new GridLayout( rows, 2 ) );
 
@@ -2529,6 +2531,10 @@ public class OptionsFrame
 			this.makePocketWishes = new JCheckBox( "make Pocket Wishes" );
 			this.makePocketWishes.addActionListener( this );
 			centerPanel.add( this.makePocketWishes );
+
+			this.haveBoxingDaydream = new JCheckBox( "have Boxing Daydream" );
+			this.haveBoxingDaydream.addActionListener( this );
+			centerPanel.add( this.haveBoxingDaydream );
 
 			centerContainer.add( centerPanel );
 			centerContainer.add( Box.createVerticalStrut( 10 ) );
@@ -2616,6 +2622,8 @@ public class OptionsFrame
 				"checkJackass" + this.breakfastType, this.checkJackass.isSelected() );
 			Preferences.setBoolean(
 				"makePocketWishes" + this.breakfastType, this.makePocketWishes.isSelected() );
+			Preferences.setBoolean(
+				"haveBoxingDaydream" + this.breakfastType, this.haveBoxingDaydream.isSelected() );
 
 			this.tomeSkills.setPreference();
 			this.libramSkills.setPreference();
@@ -2641,6 +2649,7 @@ public class OptionsFrame
 			this.useCrimboToys.setSelected( Preferences.getBoolean( "useCrimboToys" + this.breakfastType ) );
 			this.checkJackass.setSelected( Preferences.getBoolean( "checkJackass" + this.breakfastType ) );
 			this.makePocketWishes.setSelected( Preferences.getBoolean( "makePocketWishes" + this.breakfastType ) );
+			this.haveBoxingDaydream.setSelected( Preferences.getBoolean( "haveBoxingDaydream" + this.breakfastType ) );
 		}
 
 		@Override
