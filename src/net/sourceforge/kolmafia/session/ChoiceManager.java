@@ -281,6 +281,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_PATTERN = Pattern.compile( "(?:Looks like|Probably around) (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor" );
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
+	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -11346,6 +11347,13 @@ public abstract class ChoiceManager
 				if ( text.contains( "new teacher joins the staff" ) )
 				{
 					message = "You have hired a new instructor";
+				}
+				Matcher matcher = ChoiceManager.DAYCARE_ITEM_PATTERN.matcher( text );
+				if ( matcher.find() )
+				{
+					String itemName = matcher.group( 1 );
+					int itemCount = StringUtilities.parseInt( matcher.group( 2 ).replaceAll( ",", "" ) );
+					ResultProcessor.processItem( ItemDatabase.getItemId( itemName ), -itemCount );
 				}
 			}
 			if ( message != null )
