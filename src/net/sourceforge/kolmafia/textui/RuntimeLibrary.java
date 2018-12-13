@@ -588,7 +588,10 @@ public abstract class RuntimeLibrary
 		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
 		functions.add( new LibraryFunction( "session_logs", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
 
-		// Major functions related to adventuring and
+		params = new Type[] { DataTypes.STRING_TYPE, DataTypes.STRING_TYPE, DataTypes.INT_TYPE };
+		functions.add( new LibraryFunction( "session_logs", new AggregateType( DataTypes.STRING_TYPE, 0 ), params ) );
+
+				// Major functions related to adventuring and
 		// item management.
 
 		params = new Type[] { DataTypes.LOCATION_TYPE };
@@ -3080,64 +3083,98 @@ public abstract class RuntimeLibrary
 		}
 
 		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
-		StringBuilder contents = new StringBuilder();
 
 		for ( int i = 0; i < dayCount; ++i )
 		{
-			String filename =
-				StringUtilities.globalStringReplace( name, " ", "_" ) + "_" + KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ) + ".txt";
-
-			File path = new File( KoLConstants.SESSIONS_LOCATION, filename );
-			BufferedReader reader = null;
-			if ( !path.exists() )
-			{
-				filename = filename + ".gz";
-				File gzpath = new File( KoLConstants.SESSIONS_LOCATION, filename );
-				if ( gzpath.exists() )
-				{
-					try
-					{
-						reader = DataUtilities.getReader( new GZIPInputStream( DataUtilities.getInputStream( gzpath ) ) );
-					}
-					catch ( IOException e )
-					{
-						StaticEntity.printStackTrace( e );
-						reader = null;
-					}
-				}
-			}
-			else
-			{
-				reader = FileUtilities.getReader( path );
-			}
-
+			String logContents = getContentsOfSessionLog(name, KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ));
 			timestamp.add( Calendar.DATE, -1 );
+			value.aset( new Value( i ), new Value( logContents ));
+		}
+		return value;
+	}
 
-			if ( reader == null )
+	public static Value session_logs ( Interpreter interpreter, final Value playerName,
+										 final Value baseDate, final Value count )
+	{
+		String pName = playerName.contentString;
+		int countVal = (int) count.contentLong;
+		int size = Math.abs(countVal) + 1;
+		AggregateType type = new AggregateType( DataTypes.STRING_TYPE, size );
+		ArrayValue value = new ArrayValue( type );
+		Calendar timestamp = getBaseTimeStamp(baseDate.contentString, countVal);
+		for ( int i = 0; i < size; i++)
+		{
+			String logContents = getContentsOfSessionLog(pName, KoLConstants.DAILY_FORMAT.format( timestamp.getTime() ));
+			timestamp.add( Calendar.DATE, 1 );
+			value.aset( new Value( i ), new Value( logContents ));
+		}
+		return value;
+	}
+
+	private static String getContentsOfSessionLog(String playerName, String logDate)
+	{
+		StringBuilder contents = new StringBuilder();
+		String filename =
+				StringUtilities.globalStringReplace( playerName, " ", "_" ) + "_" +
+						logDate + ".txt";
+
+		File path = new File( KoLConstants.SESSIONS_LOCATION, filename );
+		BufferedReader reader = null;
+		if ( !path.exists() )
+		{
+			filename = filename + ".gz";
+			File gzpath = new File( KoLConstants.SESSIONS_LOCATION, filename );
+			if ( gzpath.exists() )
 			{
-				continue;
-			}
-
-			try
-			{
-				contents.setLength( 0 );
-				String line;
-
-				while ( ( line = reader.readLine() ) != null )
+				try
 				{
-					contents.append( line );
-					contents.append( KoLConstants.LINE_BREAK );
+					reader = DataUtilities.getReader( new GZIPInputStream( DataUtilities.getInputStream( gzpath ) ) );
+				}
+				catch ( IOException e )
+				{
+					StaticEntity.printStackTrace( e );
+					reader = null;
 				}
 			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
-
-			value.aset( new Value( i ), new Value( contents.toString() ) );
+		}
+		else
+		{
+			reader = FileUtilities.getReader( path );
 		}
 
-		return value;
+		if ( reader != null )
+		{
+			try
+			{
+				contents.setLength(0);
+				String line;
+				while ((line = reader.readLine()) != null)
+				{
+					contents.append(line);
+					contents.append(KoLConstants.LINE_BREAK);
+				}
+			} catch (Exception e)
+			{
+				StaticEntity.printStackTrace(e);
+			}
+		}
+		return contents.toString();
+	}
+
+	private static Calendar getBaseTimeStamp(String base, int count)
+	{
+		Calendar timestamp = Calendar.getInstance( TimeZone.getTimeZone("GMT-0330") );
+		timestamp.clear();
+		int year = Integer.parseInt(base.substring(0, 4));
+		int mon = Integer.parseInt(base.substring(4, 6));
+		int day = Integer.parseInt(base.substring(6, 8));
+		mon = mon - 1; //Calendar thinks January is 0
+		timestamp.set(year, mon, day);
+		if (count < 0)
+		{
+			timestamp.add(Calendar.DATE, count);
+		}
+		return timestamp;
 	}
 
 	// Major functions related to adventuring and
