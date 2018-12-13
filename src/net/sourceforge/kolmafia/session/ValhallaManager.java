@@ -737,8 +737,6 @@ public class ValhallaManager
 		Preferences.setInteger( "daycareEquipment", 0 );
 		Preferences.setInteger( "daycareToddlers", 0 );
 		Preferences.setInteger( "daycareInstructors", 0 );
-		Preferences.setInteger( "daycareBeretHPTemp", 0 );
-		Preferences.setInteger( "daycareBeretWDTemp", 0 );
 		// Community Service
 		Preferences.setString( "csServicesPerformed", "" );	
 		// AWOL

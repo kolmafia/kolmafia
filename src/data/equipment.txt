@@ -416,6 +416,7 @@ barskin loincloth	25	none
 basic meat kilt	40	Mox: 5
 basic meat pants	40	Mox: 5
 basic meat skirt	40	Mox: 5
+bauxite boxers	150	Mox: 10
 big pants	200	Mox: 150
 biomechanical crimborg leg armor	150	Mox: 60
 black greaves	160	Mox: 65
