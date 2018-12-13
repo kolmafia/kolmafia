@@ -98,8 +98,7 @@ Item	basic meat fez	Moxie: +2, Mysticality: +1, Familiar Effect: "3xLep, cap 11"
 Item	basic meat helmet	Muscle: +1, Familiar Effect: "sleaze atk, 2xFairy, cap 10"
 Item	bat hat	Mysticality: +9, Item Drop: +5, Familiar Effect: "spooky atk, 1xVolley, cap 45"
 Item	battered old top-hat	Maximum HP: +500, Muscle Percent: +5, Familiar Effect: "0.5xVolley, 0.75xFairy"
-# Item bauxite beret Max HP and Weapon Damage scale in a way yet to be spaded
-Item	bauxite beret	Muscle: +11, Maximum HP: [pref(daycareBeretHPTemp)], Weapon Damage: [pref(daycareBeretWDTemp)]
+Item	bauxite beret	Muscle: +11, Maximum HP: [23+floor(pref(daycareToddlers)^0.35)], Weapon Damage: [37+floor(pref(daycareToddlers)^0.35)]
 Item	beer helmet	Maximum MP: +40, Familiar Effect: "0.5xBarrr, 1xFairy, cap 42"
 Item	beholed bedsheet	Familiar Effect: "8xVolley, 8xLep, cap 2"
 # bellhop's hat: Helps you blend in at the Ice Hotel
@@ -543,6 +542,7 @@ Item	barskin loincloth	Muscle: +1, Familiar Effect: "sleaze atk, 4xVolley, cap 6
 Item	basic meat kilt	Moxie: +1, Familiar Effect: "3xPotato, 3xFairy, cap 10"
 Item	basic meat pants	Moxie: +1, Familiar Effect: "atk, 2xPotato, cap 10"
 Item	basic meat skirt	Moxie: +1, Familiar Effect: "3xBarrr, 3xFairy, cap 10"
+Item	bauxite boxers	Moxie: +11, Initiative: [23+floor(pref(daycareToddlers)^0.35)], Ranged Damage: [37+floor(pref(daycareToddlers)^0.35)]
 Item	big pants	Weapon Damage: +25, Spell Damage: +25, Familiar Effect: "atk"
 Item	biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "1xBarrr, 1.5xGhuol, cap 37"
 Item	black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
@@ -7345,6 +7345,7 @@ Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
 Outfit	Arboreal Raiment	Stench Resistance: +3
 Outfit	Arrrbor Day Apparrrrrel	HP Regen Min: 10, HP Regen Max: 15
 Outfit	Bakelite Brigandine	Item Drop: +20
+Outfit	Bauxite Baubles	Pool Skill: [10+floor(pref(daycareToddlers)^0.25)]
 Outfit	Bits o' Honey	Item Drop: +5
 Outfit	Black Armaments	Muscle: +6
 Outfit	Blasphemous Bedizenment	Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30

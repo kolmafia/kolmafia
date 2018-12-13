@@ -459,8 +459,6 @@ user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
 user	dailyDungeonDone	false
 user	dampOldBootPurchased	false
-user	daycareBeretHPTemp	0
-user	daycareBeretWDTemp	0
 user	daycareEquipment	0
 user	daycareInstructors	0
 user	daycareOpen	false
