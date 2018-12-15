@@ -4366,8 +4366,20 @@ public abstract class ChoiceManager
 
 		// Choice 1331 is Daily Loathing Ballot
 		// Choice 1332 is government requisition form
-		// Choice 1334 is Boxing Daycare (Lobby)
 
+		// Choice 1333 is Canadian Cabin
+		new ChoiceAdventure(
+			"Crimbo18", "choiceAdventure1333", "Canadian Cabin",
+			new Object[] { new Option( "gain 50 adv of +100% weapon and spell damage", 1 ),
+				       new Option( "acquire grilled mooseflank (with mooseflank)", 2, "grilled mooseflank" ),
+				       new Option( "acquire antique Canadian lantern (with 10 thick walrus blubber)", 3, "antique Canadian lantern" ),
+				       new Option( "acquire muskox-skin cap (with 10 tiny bombs)", 4, "muskox-skin cap" ),
+				       new Option( "skip adventure", 10 ) } ),
+		
+		// Choice 1334 is Boxing Daycare (Lobby)
+		// Choice 1335 is Boxing Day Spa
+		// Choice 1336 is Boxing Daycare
+		
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -11299,6 +11311,22 @@ public abstract class ChoiceManager
 		case 1332:
 			// government requisition form
 			ResultProcessor.removeItem( ItemPool.GOVERNMENT_REQUISITION_FORM );
+			break;
+
+		case 1333:
+			// Canadian cabin
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				ResultProcessor.removeItem( ItemPool.MOOSEFLANK );
+			}
+			else if ( ChoiceManager.lastDecision == 3 )
+			{
+				ResultProcessor.processItem( ItemPool.WALRUS_BLUBBER, -10 );
+			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				ResultProcessor.processItem( ItemPool.TINY_BOMB, -10 );
+			}
 			break;
 
 		case 1334:
