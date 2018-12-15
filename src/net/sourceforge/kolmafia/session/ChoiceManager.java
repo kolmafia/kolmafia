@@ -4374,6 +4374,7 @@ public abstract class ChoiceManager
 				       new Option( "acquire grilled mooseflank (with mooseflank)", 2, "grilled mooseflank" ),
 				       new Option( "acquire antique Canadian lantern (with 10 thick walrus blubber)", 3, "antique Canadian lantern" ),
 				       new Option( "acquire muskox-skin cap (with 10 tiny bombs)", 4, "muskox-skin cap" ),
+				       new Option( "acquire antique beer (with Yeast-Hungry)", 5, "antique beer" ),
 				       new Option( "skip adventure", 10 ) } ),
 		
 		// Choice 1334 is Boxing Daycare (Lobby)
