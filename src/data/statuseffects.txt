@@ -2425,8 +2425,8 @@
 2424	Haunted Liver	liver.gif	0d5c5c3c6f465b61c8977fcb783b44bb	drink either 1 haunted bottle of vodka, 1 haunted martini, 1 haunted eggnog, 1 haunted gimlet
 2425	On Safari	jackmoustache.gif	ed711b284292daad806d1888ba0beefb	cast 1 Experience Safari
 2426	Yeast-Hungry	c18cracker.gif	5f13f6deef105b64ef50c877a4391f24	eat 1 traditional Crimbo cookie
-2427
-2428
+2427	Long Winter's Napped	sleepy.gif	f75c88dafc22e34f7ba064a3a4278328	# First adventure in The Canadian Wildlife Preserve
+2428	Moose-Warmed Belly	pie.gif	1c0d1491fdcc277b29cc6e77d04db08c	eat 1 moosemeat pie
 2429	Boxing Day Breakfast	eggglass.gif	82b912ba7b550e00e6529772bca864c2	eat 1 glass of raw eggs
 2430	Boxing Day Drinking	boxingpunch.gif	8c721354cb390dbdac0f9a7a75c2c5e5	drink 1 punch-drunk punch
 2431	Boxing Day Glow	boxingspray.gif	e09d89ad6b19f75a8fd3c5524c925b72	chew 1 body spradium

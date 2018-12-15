@@ -303,6 +303,8 @@ Holiday	adventure=173	Env: outdoor	Generic Summer Holiday Swimming!
 The Candy Diorama	adventure=274	Env: unknown	Lollipop Forest
 The Candy Diorama	adventure=275	Env: unknown	Fudge Mountain
 
+Crimbo18	adventure=529	Env: outdoor Stat: 0	The Canadian Wildlife Preserve
+
 Crimbo17	adventure=497	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 1)
 Crimbo17	adventure=498	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 2)
 Crimbo17	adventure=499	Env: outdoor Stat: 0 nowander	The Cheerless Spire (Level 3)

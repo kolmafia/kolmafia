@@ -251,6 +251,7 @@ The Broodling Grounds	100	hellseal pup	mother hellseal: 0
 The Bubblin' Caldera	100	basaltamander	lava lamprey	lavatory	Lavalos: 0
 The Bugbear Pen	100	angry bugbear: 3	bugged bugbear: 3	mad bugbears: 3	revolting bugbear: 3	revolving bugbear: 3	annoying spooky gravy fairy: 2
 The Caliginous Abyss	100	eye in the darkness	Peanut: 0	school of many	slithering thing
+The Canadian Wildlife Preserve	-1	wild walrus	herd of wild lemmings	wild moose	wild beaver	wild reindeer: 0
 The Cannon Museum	100	ten skeletons	25 skeletons	100 skeletons
 The Castle in the Clouds in the Sky (Basement)	95	Alphabet Giant	Fitness Giant	Furry Giant	Neckbeard Giant
 The Castle in the Clouds in the Sky (Ground Floor)	95	Foodie Giant	Possibility Giant	Procrastination Giant	Renaissance Giant

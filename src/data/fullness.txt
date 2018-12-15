@@ -373,6 +373,7 @@ green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Inebriety 80 Gummibrain (+100 Mys
 green hamhock	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
 green-iced sweet roll	1	1	good	2-3	0	0	0	40 Sprinkle Sense (+50% Sprinkle drop)
 grilled cheese sandwich	3	6	awesome	9-12	10-20	20-30	0
+grilled mooseflank	3	1	EPIC	0	0	0	0	Unspaded
 Grimdrop Chow Mein	4	5		6-11	0	0	0
 Grimgerbread House	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
@@ -532,6 +533,7 @@ mixed wildflower greens	1	10	good	2-4	25-30	0	0
 mole mol&eacute;	3	4	good	7-8	10-14	10-14	10-14
 Moon Pie	5	5	EPIC	28-32	20-30	20-30	20-30
 moose chocolate	3	6	good	8-10	20-30	20-30	20-30
+moosemeat pie	3	1	good	0	0	0	0	Unspaded, 50 Moose-Warmed Belly (+5 cold resistance)
 Mornington crescent roll	3	1	good	8-9	0	0	25-50
 mouth-watering mayolus	1	5	EPIC	6	1-40	1-40	1-40
 Mr. Burnsger	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Drunkenness
