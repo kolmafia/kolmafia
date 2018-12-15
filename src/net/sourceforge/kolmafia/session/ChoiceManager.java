@@ -12559,6 +12559,7 @@ public abstract class ChoiceManager
 			if ( ChoiceManager.lastDecision <= 4 )
 			{
 				Preferences.setBoolean( "_barrelPrayer", true );
+				ConcoctionDatabase.refreshConcoctions();
 			}
 			break;
 
