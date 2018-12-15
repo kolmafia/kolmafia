@@ -178,18 +178,24 @@ public class RelayRequest
 	private static String CONFIRM_ZEPPELIN = "confirm23";
 	private static String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
 	private static String CONFIRM_STICKER = "confirm25";
+	private static String CONFIRM_DESERT_OFFHAND = "confirm26";
+	private static String CONFIRM_MACHETE = "confirm27";
 
-	private static boolean ignoreDesertWarning = false;
-	private static boolean ignoreMohawkWigWarning = false;
 	private static boolean ignoreBoringDoorsWarning = false;
+	private static boolean ignoreDesertWarning = false;
+	private static boolean ignoreDesertOffhandWarning = false;
+	private static boolean ignoreMacheteWarning = false;
+	private static boolean ignoreMohawkWigWarning = false;
 	private static boolean ignorePoolSkillWarning = false;
 
 	public static final void reset()
 	{
-		RelayRequest.ignorePoolSkillWarning = false;
-		RelayRequest.ignoreDesertWarning = false;
-		RelayRequest.ignoreMohawkWigWarning = false;
 		RelayRequest.ignoreBoringDoorsWarning = false;
+		RelayRequest.ignoreDesertWarning = false;
+		RelayRequest.ignoreDesertOffhandWarning = false;
+		RelayRequest.ignoreMacheteWarning = false;
+		RelayRequest.ignoreMohawkWigWarning = false;
+		RelayRequest.ignorePoolSkillWarning = false;
 	}
 
 	public RelayRequest( final boolean allowOverride )
@@ -1254,6 +1260,102 @@ public class RelayRequest
 
 		this.sendGeneralWarning( "swords.gif", message, CONFIRM_HARDCOREPVP );
 
+		return true;
+	}
+
+	private boolean sendDesertOffhandWarning()
+	{
+		// Only send this warning once per session
+		if ( RelayRequest.ignoreDesertOffhandWarning )
+		{
+			return false;
+		}
+
+		// If it's already confirmed, then track that for the session
+		if ( this.getFormField( CONFIRM_DESERT_OFFHAND ) != null )
+		{
+			RelayRequest.ignoreDesertOffhandWarning = true;
+			return false;
+		}
+
+		// If they aren't in the desert, no problem
+		if ( !AdventurePool.ARID_DESERT_ID.equals( this.getFormField( "snarfblat" ) ) )
+		{
+			return false;
+		}
+
+		// All reason to care about extra exploration is gone, no problem
+		int explored = Preferences.getInteger( "desertExploration" );
+		if ( explored >= 99 )
+		{
+			return false;
+		}
+
+		// If they have compass or ornate dowsing rod equipped, no problem
+		if ( KoLCharacter.hasEquipped( ItemPool.UV_RESISTANT_COMPASS , EquipmentManager.OFFHAND ) ||
+			KoLCharacter.hasEquipped( ItemPool.DOWSING_ROD , EquipmentManager.OFFHAND ) )
+		{
+			return false;
+		}
+
+		// You can't equip them in Avatar of Boris or Suprising Fist, so no problem
+		if ( KoLCharacter.inFistcore() || KoLCharacter.inAxecore() )
+		{
+			return false;
+		}
+
+		// If you have dowsing rod, suggest it
+		if ( InventoryManager.getCount( ItemPool.DOWSING_ROD ) > 0 )
+		{
+			StringBuilder warning = new StringBuilder();
+
+			warning.append( "You are about to adventure without your ornate dowsing rod in the desert. " );
+			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
+			warning.append( "If you want to equip the ornate dowsing rod first, click the icon on the right. " );
+
+			this.sendOptionalWarning(
+				CONFIRM_DESERT_OFFHAND,
+				warning.toString(),
+				"hand.gif",
+				"dowsingrod.gif",
+				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.DOWSING_ROD + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
+				null,
+				null
+				);
+		}
+		// You can't use UV compass in G-Lover
+		else if ( KoLCharacter.inGLover() )
+		{
+			return false;
+		}
+		// If you have UV Compass, suggest it
+		else if ( InventoryManager.getCount( ItemPool.UV_RESISTANT_COMPASS ) > 0 )
+		{
+			StringBuilder warning = new StringBuilder();
+
+			warning.append( "You are about to adventure without your UV-resistant compass in the desert. " );
+			warning.append( "If you are sure you wish to adventure without it, click the icon on the left to adventure. " );
+			warning.append( "If you want to equip the UV-resistant compass first, click the icon on the right. " );
+
+			this.sendOptionalWarning(
+				CONFIRM_DESERT_OFFHAND,
+				warning.toString(),
+				"hand.gif",
+				"uvcompass.gif",
+				"\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem=" + ItemPool.UV_RESISTANT_COMPASS + "&pwd=" + GenericRequest.passwordHash + "&ajax=1');void(0);\"",
+				null,
+				null
+				);
+		}
+		// Otherwise just ask if you want to adventure
+		else 
+		{
+			String message =
+				"You are about to adventure without a UV-resistant compass in the desert. If you are sure you want to do this, click on the image to proceed.";
+
+			this.sendGeneralWarning( "uvcompass.gif", message, CONFIRM_DESERT_OFFHAND );
+		}
+	
 		return true;
 	}
 
@@ -3415,6 +3517,11 @@ public class RelayRequest
 		}
 
 		if ( this.sendBossWarning( path, adventure ) )
+		{
+			return true;
+		}
+
+		if ( this.sendDesertOffhandWarning() )
 		{
 			return true;
 		}
