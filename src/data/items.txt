@@ -10065,7 +10065,7 @@
 10038	mooseflank	903542956	jarl_steak.gif	none	t,d	30
 10039	grilled mooseflank	509041041	grilledsteak.gif	food	t,d	50
 10040	moosemeat pie	696433451	pie.gif	food	t,d	50
-10041
+10041	balanced antler	897684030	balantler.gif	weapon	t,d	1000
 10042	portable dam	939714846	damshield.gif	offhand	t,d	500
 10043	beavermouth	120789894	wine2.gif	drink	t,d	30
 10044	beaver punch (papaya)	861669377	perf_negroni.gif	drink	t,d	45

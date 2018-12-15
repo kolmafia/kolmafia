@@ -2056,10 +2056,10 @@ stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale
 swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental
 
 # Crimbo 2018
-wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	thick walrus blubber (0)	pristine walrus tusk (c0)
-herd of wild lemmings	2100	c18lemmings.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	tiny bomb (0)	plastic bazooka (c0)
-wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	mooseflank (0)
-wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	beavermouth (0)	portable dam (c0)
+wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	thick walrus blubber (10)	pristine walrus tusk (c0)
+herd of wild lemmings	2100	c18lemmings.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	tiny bomb (10)	plastic bazooka (c0)
+wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	mooseflank (10)	balanced antler (c0)
+wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	beavermouth (10)	portable dam (c0)
 wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175
 
 # Old Events

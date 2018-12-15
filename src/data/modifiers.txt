@@ -1031,6 +1031,8 @@ Item	bad-ass club	Weapon Damage: +15, Monster Level: +10, Class: "Seal Clubber"
 Item	bag of random words	Effect: "Madly Liberated", Effect Duration: 50
 Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 Item	Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
+# Item balanced antler: Keeps beasts away
+Item	balanced antler	Monster Level: +15
 Item	balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
 # bamboo bokuto
 Item	bar whip	Familiar Weight: +2
