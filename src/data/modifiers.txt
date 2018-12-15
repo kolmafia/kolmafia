@@ -1710,6 +1710,7 @@ Item	Staff of the Cozy Fish	Mysticality Percent: +15, Spell Damage Percent: +150
 Item	Staff of the Cream of the Cream	Spell Damage Percent: +50, Moxie: +30, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Attune to Monster's Essence"
 Item	Staff of the Deepest Freeze	Spell Damage Percent: +200, Cold Spell Damage: +30, MP Regen Min: 20, MP Regen Max: 30
 Item	Staff of the Electric Range	Spell Damage Percent: +50, Spooky Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
+Item	Staff of Frozen Lard	Spell Damage Percent: +200, Cold Spell Damage: +20, Sleaze Spell Damage: +20, MP Regen Min: 15, MP Regen Max: 20
 Item	Staff of the Grand Flamb&eacute;	Spell Damage Percent: +150, Cold Resistance: +5, MP Regen Min: 8, MP Regen Max: 10
 Item	Staff of the Grease Trap	Spell Damage Percent: +150, Sleaze Spell Damage: +20, MP Regen Min: 8, MP Regen Max: 10
 Item	Staff of the Greasefire	Spell Damage Percent: +35, Hot Spell Damage: +10, Sleaze Spell Damage: +10, MP Regen Min: 3, MP Regen Max: 4

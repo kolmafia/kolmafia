@@ -3033,3 +3033,4 @@ moosemeat pie	COOK	pie crust	mooseflank
 beaver punch (papaya)	MIX	papaya	beavermouth
 beaver punch (peach)	MIX	peach	beavermouth
 beaver punch (cherry)	MIX	cherry	beavermouth
+Staff of Frozen Lard	STAFF	pristine walrus tusk	moosemeat pie (3)	beaver punch (peach) (3)	cold wad (30)	sleaze wad (30)
