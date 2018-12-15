@@ -1619,7 +1619,7 @@ ancient hot dog wrapper	200	Mys: 85
 ancient stone head	85	Mus: 27	shield
 anniversary balloon	10	none
 anniversary chutney sculpture	10	none
-antique Canadian lantern	0	Mys: 60
+antique Canadian lantern	150	Mys: 60
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
 arm buzzer	100	Mus: 25	shield
