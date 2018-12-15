@@ -10054,25 +10054,25 @@
 10027
 10028
 10029
-10030
-10031
-10032
-10033
-10034
+10030	yule pup	182176224	yulepup.gif	grow	t	0
+10031	Braindeer	287519906	braindeer.gif	none, combat	q	0
+10032	Crimbo dog sweater	272370509	crimbodogsweater.gif	familiar	t,d	75
+10033	pristine walrus tusk	334408945	bigtusk.gif	weapon	t,d	1000
+10034	thick walrus blubber	149444454	abomblubber.gif	none, combat	t,d	30
 10035
-10036
-10037
-10038
-10039
-10040
+10036	tiny bomb	468613451	tinybomb.gif	none, combat	t,d	30
+10037	plastic bazooka	837373216	plasticzooka.gif	weapon	t,d	1000
+10038	mooseflank	903542956	jarl_steak.gif	none	t,d	30
+10039	grilled mooseflank	509041041	grilledsteak.gif	food	t,d	50
+10040	moosemeat pie	696433451	pie.gif	food	t,d	50
 10041
-10042
-10043
-10044
-10045
-10046
-10047
-10048
+10042	portable dam	939714846	damshield.gif	offhand	t,d	500
+10043	beavermouth	120789894	wine2.gif	drink	t,d	30
+10044	beaver punch (papaya)	861669377	perf_negroni.gif	drink	t,d	45
+10045	beaver punch (peach)	294278386	perf_negroni.gif	drink	t,d	45
+10046	beaver punch (cherry)	598400291	perf_negroni.gif	drink	t,d	45
+10047	antique Canadian lantern	546753533	canadianlantern.gif	offhand	t,d	500
+10048	muskox-skin cap	465975830	oxhat.gif	hat	t,d	500
 10049	Boxing Day care package	276027156	boxingpackage.gif	usable	t	0
 10050	glass of raw eggs	193484797	eggglass.gif	food		0
 10051	punch-drunk punch	974404117	boxingpunch.gif	drink		0
@@ -10081,3 +10081,13 @@
 10054	bauxite boxers	592272200	bauxitepants.gif	pants		0
 10055
 10056	Boxing Day Pass	482213061	boxingdaypass.gif	usable	t,d	1000
+10057
+10058
+10059
+10060
+10061
+10062
+10063
+10064
+10065
+10066	antique beer	336712990	beer.gif	drink	t	0

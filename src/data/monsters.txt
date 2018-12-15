@@ -2055,14 +2055,12 @@ stumbling-drunk congoer (female)	1972	congoerf1.gif,congoerf2.gif,congoerf3.gif	
 stumbling-drunk congoer (male)	1969	congoer1.gif,congoer2.gif,congoer3.gif	Scale: 5 Init: -10000 P: dude
 swimming pool monster	1970	poolmonster.gif	Scale: 5 Init: -10000 P: elemental
 
-# Monorail Work Site (September 2017)
-Mob Penguin negotiator	2036	penghammer.gif	Scale: 20 Cap: 1200 Floor: 21 Init: 100 P: penguin Meat: 300	negotiatin' hammer (0)	mafia pointer finger ring (0)	worksite credentials (p0)
-Mob Penguin organizer	2037	penggoon.gif	Scale: 50 Cap: 1500 Floor: 51 Init: 200 P: penguin Meat: 500	mafia filofax (0)	mafia wedding ring (0)	mafia organizer badge (p0)
-Mob Penguin protector	2034	pengthug.gif	Scale: 11 Cap: 1000 Floor: 12 Init: -10000 P: penguin Meat: 400	protection stick (0)	mafia thumb ring (0)	roll of meat (p0)
-Mob Penguin steel driver	2035	penghammer.gif	Scale: 15 Cap: 1000 Floor: 16 Init: 100 P: penguin Meat: 500	steel drivin' hammer (0)	mafia middle finger ring (0)	little piece of steel (p0)
-Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 75 P: penguin	contract enforcement stick (0)	mafia pinky ring (0)	flask of port (p0)
-tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	&quot;Remember the Trees&quot; Shirt (0)
-tree loving hippy protestor	2086	limphippy2.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	deadfall branch (0)
+# Crimbo 2018
+wild walrus	2099	c18walrus.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	thick walrus blubber (0)	pristine walrus tusk (c0)
+herd of wild lemmings	2100	c18lemmings.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	tiny bomb (0)	plastic bazooka (c0)
+wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	mooseflank (0)
+wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175	beavermouth (0)	portable dam (c0)
+wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 175
 
 # Old Events
 
@@ -2426,6 +2424,15 @@ The Silent Nightmare	2049	c17_bossguy.gif	BOSS NOMANUEL Def: 100 Atk: 100 HP: 20
 mouthless murmur	2043	mimemurmur.gif	WANDERER Scale: -11 Init: -10000 P: weird Phys: 100
 silent scream	2042	mimescream.gif	WANDERER Scale: 1 Init: -10000 P: weird
 voiceless whisper	2041	mimewhisper.gif	WANDERER Scale: -3 Init: 150 P: weird
+
+# Monorail Work Site (September 2017)
+Mob Penguin negotiator	2036	penghammer.gif	Scale: 20 Cap: 1200 Floor: 21 Init: 100 P: penguin Meat: 300	negotiatin' hammer (0)	mafia pointer finger ring (0)	worksite credentials (p0)
+Mob Penguin organizer	2037	penggoon.gif	Scale: 50 Cap: 1500 Floor: 51 Init: 200 P: penguin Meat: 500	mafia filofax (0)	mafia wedding ring (0)	mafia organizer badge (p0)
+Mob Penguin protector	2034	pengthug.gif	Scale: 11 Cap: 1000 Floor: 12 Init: -10000 P: penguin Meat: 400	protection stick (0)	mafia thumb ring (0)	roll of meat (p0)
+Mob Penguin steel driver	2035	penghammer.gif	Scale: 15 Cap: 1000 Floor: 16 Init: 100 P: penguin Meat: 500	steel drivin' hammer (0)	mafia middle finger ring (0)	little piece of steel (p0)
+Mob Penguin union rail worker	2031	pengthug.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 75 P: penguin	contract enforcement stick (0)	mafia pinky ring (0)	flask of port (p0)
+tree hugging hippy protestor	2066	limphippy1.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	&quot;Remember the Trees&quot; Shirt (0)
+tree loving hippy protestor	2086	limphippy2.gif	Scale: 6 Cap: 1000 Floor: 10 Init: 50 P: hippy E: stench	deadfall branch (0)
 
 # Retired Standard Monsters
 Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)

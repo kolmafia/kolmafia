@@ -339,6 +339,8 @@ Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
 Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	murderbot mask	Muscle: +10, Maximum HP: +20, PvP Fights: +2, Avatar: "Murderbot"
+# Item muskox-skin cap: +100% Meat Drops in the Canadian Wildlife Preserve
+Item muskox-skin cap Cold Resistance: +3, Meat Drop: [100*loc(The Canadian Wildlife Preserve)]
 Item	mutant crown	Monster Level: +15, Muscle Percent: +25, HP Regen Min: 25, HP Regen Max: 50, MP Regen Min: 25, MP Regen Max: 50
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
@@ -1533,6 +1535,9 @@ Item	pixel chain whip	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	pixel morning star	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	pixel sword	Initiative: +15
 Item	pixel whip	Muscle: +3, Mysticality: +3, Moxie: +3
+# Item plastic bazooka: Quick Draw
+# Item plastic bazooka: (you will nearly always win Initiative)
+# Item plastic bazooka: Allows you to Super Blast your enemies
 Item	plastic guitar	Moxie: +5, Initiative: +15
 Item	plastic nunchaku	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Initiative: +30
 Item	plastic replica blaster pistol	Initiative: +20, Ranged Damage: +20, Lasts Until Rollover
@@ -1554,6 +1559,7 @@ Item	poutine pole	Mysticality: +3, Sleaze Damage: +3
 Item	prehistoric spear	Critical Hit Percent: +5
 Item	primitive alien blowgun	Moxie: +20, Sleaze Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
 Item	primitive alien spear	Muscle: +20, Hot Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4
+Item	pristine walrus tusk	Cold Damage: +50, Muscle: +15
 Item	projectile icemaker	Moxie: +7, Spell Damage: +7, Cold Damage: +5
 Item	protection stick	Critical Hit Percent: +4, Muscle Percent: +6, Maximum HP: +10, PvP Fights: +1
 Item	PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
@@ -2257,6 +2263,7 @@ Item	polyester pad	Damage Reduction: 13, HP Regen Min: 4, HP Regen Max: 8
 # porcelain pepper mill: Adds Physical Damage to Saucestorm
 Item	porcelain pepper mill	Spell Critical Percent: +10, Weakens Monster
 Item	Pork 'n' Pork 'n' Pork 'n' Beans	Sleaze Spell Damage: [15*(1+skill(Beanweaver))]
+Item	portable dam	Damage Reduction: 109
 Item	portable Othello set	Othello Skill: +10
 Item	pottery shield	Hot Damage: +5, Damage Reduction: 3
 Item	pretty bouquet	Moxie: +3
@@ -2466,6 +2473,8 @@ Item	ankleweights	PvP Fights: +4, Experience: +1, Single Equip
 Item	anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
+# Item antique Canadian lantern: +15% more Item Drops in the Canadian Wildlife Preserve
+Item antique Canadian lantern Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # aquamariner's ring: Makes you a better diver
@@ -3759,6 +3768,7 @@ Item	chocolate spurs	Familiar Weight: +5
 Item	chocolate-stained collar	Candy Drop: +25, Generic
 Item	cotton candy cordial	Familiar Weight: +5
 Item	cracker	Familiar Weight: +15
+Item	Crimbo dog sweater	Familiar Weight: +5
 Item	crimsilion jub-jub bird	Familiar Weight: +5, Familiar Tuning (Muscle): 100, Familiar Effect: "mus stats", Equips On: "Frumious Bandersnatch"
 Item	crystal decanter	Familiar Weight: +5
 Item	cute bow from beyond the stars	Familiar Weight: +5
@@ -5797,6 +5807,7 @@ Effect	Locks Like the Raven	Moxie: +15
 Effect	Loco Motives	Weapon Damage: +10, Initiative: +10
 # Long Live GORF: GORF is watching.
 # Long Live GORF: GORF approves.
+Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
@@ -5895,6 +5906,7 @@ Effect	Monstrosi Tea	Monster Level: -30
 Effect	Moon June Spooned	Moxie Percent: +20, Muscle Percent: -20
 Effect	Moon'd	Experience: +5
 Effect	Moon-Eyed	Mysticality: +30
+Effect	Moose-Warmed Belly	Cold Resistance: +5
 Effect	Moose Wisdom	Mysticality: +20
 Effect	Morbidi Tea	Spooky Resistance: +3
 Effect	More Like a Suckrament	Muscle Limit: 30, Mysticality Limit: 30, Moxie Limit: 30
@@ -7750,6 +7762,7 @@ Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Item	meteoreo	Effect: "Superioreo", Effect Duration: 40
 Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
 Item	Miserable Pie	Effect: "Smithsness Dinner", Effect Duration: 50
+Item	moosemeat pie	Effect: "Moose-Warmed Belly", Effect Duration: 50
 # Mr. Burnsger: Reduces your Drunkenness by 2
 Item	muffled muffuletta	Effect: "Noise Cancelled", Effect Duration: 100
 Item	nachos of the night	Effect: "Night of the Nachos", Effect Duration: 20
@@ -10490,6 +10503,8 @@ Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They liver	Effect: "You Liver", Effect Duration: 20
 Item	They'll Love You In Rhinestones	Skill: "Acquire Rhinestones"
+# Item thick walrus blubber: Weakens foes
+# Item thick walrus blubber: (much more effective in the Canadian Wildlife Preserve)
 Item	thin black candle	Effect: "Rainy Soul Miasma", Effect Duration: 10
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Skill: "Summon Geeky Gifts"
 Item	Threatening Missive	Effect: "Annoyed by Threats", Effect Duration: 30
@@ -10506,6 +10521,8 @@ Item	tin cup	Effect: "Tingling Feeling", Effect Duration: 20
 # tin lizzie: <b>Allows Travel to Desert Beach</b>
 Item	tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 # tin snips: Deals 8-10 Physical Damage and causes bleeding
+# Item tiny bomb: Deals moderate damage to enemies
+# Item tiny bomb: (much more effective in the Canadian Wildlife Preserve)
 Item	tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
 Item	tiny canopic jar	Effect: "Ham(ster)-Handed", Effect Duration: 30
 Item	tiny dancer	Effect: "Held Closer", Effect Duration: 20

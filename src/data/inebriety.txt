@@ -18,6 +18,7 @@ Ambitious Turkey	1	5	EPIC	5-7	15-30	15-30	15-30	25 Turkey-Ambitious (+25 Init, +
 Amnesiac Ale	2	5	awesome	7-10	0	-15	0	30 All is Forgiven (+10 Familiar Weight)
 an evil little sump'm sump'm	4	4	awesome	12-16	0	20	50-75	10 A Little Bit Evil (+2 ML)
 Antarctic Ice Tea	5	1		14-19	0	0	0
+antique beer	3	1	EPIC	0	0	0	0	Unspaded
 around the world	4	4	good	10-14	0-30	0-30	0-30
 artisanal limoncello	2	6	good	5-7	0	20-30	0	30 Sugar Rush
 asbestos thermos	4	6	awesome	12-18	0	10-20	10-20	100 Inner Warmth (+5 Cold Resist)
@@ -34,6 +35,10 @@ barrel-aged martini	2	5	good	5-7	0	5-10	10-20	50 Just Aged Enough (+25 Mox)
 Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies)
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
 basic martini	1	1	good	3	3-9	3-9	3-9	10 random spy buff
+beaver punch (cherry)	3	4	awesome	0	0	0	0	Unspaded
+beaver punch (papaya)	3	1	awesome	0	0	0	0	Unspaded
+beaver punch (peach)	3	4	awesome	0	0	0	0	Unspaded
+beavermouth	3	1	crappy	0	0	0	0	Unspaded
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights

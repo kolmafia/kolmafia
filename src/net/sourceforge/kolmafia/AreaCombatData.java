@@ -1894,6 +1894,13 @@ public class AreaCombatData
 				return Preferences.getBoolean( "gingerSewersUnlocked" ) ? 0 : 1;
 			}
 		}
+		else if ( zone.equals( "The Canadian Wildlife Preserve" ) )
+		{
+			if ( monster.equals( "wild reindeer" ) )
+			{
+				return KoLCharacter.getFamiliar().getId() != FamiliarPool.YULE_HOUND ? 0 : 1;
+			}
+		}
 		return weighting;
 	}
 

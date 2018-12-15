@@ -3027,3 +3027,9 @@ twice-haunted screwdriver	MIX	haunted bottle of vodka	haunted orange
 snakeskin cowboy hat	MUSE	snake skin (11)
 snakeskin thighboots	MUSE	snake skin (23)
 snakeskin jacket	MUSE	snake skin (37)
+
+# Crimbo 2018
+moosemeat pie	COOK	pie crust	mooseflank
+beaver punch (papaya)	MIX	papaya	beavermouth
+beaver punch (peach)	MIX	peach	beavermouth
+beaver punch (cherry)	MIX	cherry	beavermouth
