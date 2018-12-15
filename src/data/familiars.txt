@@ -295,4 +295,4 @@
 266	God Lobster	godlob.gif	stat0	God Lobster Egg		0	0	0	0	animal,eyes
 267	Cat Burglar	catburglar.gif	item0,meat0	kitten burglar	burglar/sleep mask	0	0	0	0	animal,eyes,sleazy
 268	Party Mouse	partymouse.gif	stat0,drop	party pup	party mouse hat	0	0	0	0	animal,eyes
-269	Yule Hound	yulehound.gif	hp1,mp1	yule pup	Crimbo dog sweater	0	0	0	0	animal,eyes
+269	Yule Hound	yulehound.gif	hp1,mp1	yule pup	Crimbo dog sweater	2	3	1	1	animal,eyes
