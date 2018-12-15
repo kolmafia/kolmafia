@@ -2059,6 +2059,7 @@ public class ClanLoungeRequest
 			if ( responseText.contains( "You acquire" ) )
 			{
 				Preferences.setBoolean( "_floundryItemCreated", true );
+				ConcoctionDatabase.refreshConcoctions();
 			}
 
 			// *** What is the message if you've already created an
