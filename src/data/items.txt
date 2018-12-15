@@ -10059,7 +10059,7 @@
 10032	Crimbo dog sweater	272370509	crimbodogsweater.gif	familiar	t,d	75
 10033	pristine walrus tusk	334408945	bigtusk.gif	weapon	t,d	1000
 10034	thick walrus blubber	149444454	abomblubber.gif	none, combat	t,d	30
-10035
+10035	Staff of Frozen Lard	504893266	blubberstaff.gif	weapon		0
 10036	tiny bomb	468613451	tinybomb.gif	none, combat	t,d	30
 10037	plastic bazooka	837373216	plasticzooka.gif	weapon	t,d	1000
 10038	mooseflank	903542956	jarl_steak.gif	none	t,d	30
