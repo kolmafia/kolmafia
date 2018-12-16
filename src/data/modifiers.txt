@@ -340,7 +340,7 @@ Item	mummy costume	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	mummy mask	Spooky Damage: +12, Familiar Effect: "1xBarrr, 1xFairy, cap 42"
 Item	murderbot mask	Muscle: +10, Maximum HP: +20, PvP Fights: +2, Avatar: "Murderbot"
 # Item muskox-skin cap: +100% Meat Drops in the Canadian Wildlife Preserve
-Item muskox-skin cap Cold Resistance: +3, Meat Drop: [100*loc(The Canadian Wildlife Preserve)]
+Item	muskox-skin cap	Cold Resistance: +3, Meat Drop: [100*loc(The Canadian Wildlife Preserve)]
 Item	mutant crown	Monster Level: +15, Muscle Percent: +25, HP Regen Min: 25, HP Regen Max: 50, MP Regen Min: 25, MP Regen Max: 50
 Item	nasty rat mask	Moxie: +9, Monster Level: -5, Familiar Effect: "sleaze atk, 1xBarrr, cap 45"
 Item	neoprene skullcap	Moxie: +7, Familiar Effect: "atk, 1xFairy, cap 16"
@@ -2477,7 +2477,7 @@ Item	anniversary balsa wood socks	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	anniversary burlap belt	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	Annual Ascot	Muscle Percent: +12, Mysticality Percent: +12, Moxie Percent: +12
 # Item antique Canadian lantern: +15% more Item Drops in the Canadian Wildlife Preserve
-Item antique Canadian lantern Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
+Item	antique Canadian lantern	Item Drop: [15+15*loc(The Canadian Wildlife Preserve)], Cold Resistance: +3
 # aquamariner's necklace: Makes you a better diver
 Item	aquamariner's necklace	MP Regen Min: 10, MP Regen Max: 15, Meat Drop: +15, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 # aquamariner's ring: Makes you a better diver

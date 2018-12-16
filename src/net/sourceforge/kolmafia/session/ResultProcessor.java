@@ -3267,6 +3267,18 @@ public class ResultProcessor
 			}
 			break;
 
+		case ItemPool.SHIELDING_POTION:
+		case ItemPool.PUNCHING_POTION:
+		case ItemPool.SPECIAL_SEASONING:
+		case ItemPool.NIGHTMARE_FUEL:
+		case ItemPool.MEAT_CLIP:
+			if ( combatResults )
+			{
+				// This will be updated to 0 in FightRequest later
+				Preferences.setInteger( "_boomBoxFights", -1 );
+			}
+			break;
+
 		case ItemPool.NO_SPOON:
 			QuestDatabase.setQuestProgress( Quest.ORACLE, "step1" );
 			break;

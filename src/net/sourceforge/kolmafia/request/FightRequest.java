@@ -4182,6 +4182,20 @@ public class FightRequest
 				Preferences.increment( "_holoWristProgress" );
 			}
 
+			if ( responseText.contains( "FREEFREEFREE" ) )
+			{
+				String updateMessage = "This combat did not cost a turn";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
+			else
+			{
+				if ( responseText.contains( "playing on your SongBoom" ) )
+				{
+					Preferences.increment( "_boomBoxFights" );
+				}
+			}
+
 			if ( IslandManager.isBattlefieldMonster( monsterName ) )
 			{
 				IslandManager.handleBattlefieldMonster( responseText, monsterName );
