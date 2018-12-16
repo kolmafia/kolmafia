@@ -3044,8 +3044,11 @@ public class ItemPool
 	public static final int GLUED_BOO_CLUE = 9913;
 	public static final int BOOMBOX = 9919;
 	public static final int GUIDE_TO_SAFARI = 9921;
+	public static final int SHIELDING_POTION = 9922;
+	public static final int PUNCHING_POTION = 9923;
 	public static final int SPECIAL_SEASONING = 9924;
 	public static final int NIGHTMARE_FUEL = 9925;
+	public static final int MEAT_CLIP = 9926;
 	public static final int CHEESE_WHEEL = 9937;
 	public static final int NEVERENDING_PARTY_INVITE = 9942;
 	public static final int NEVERENDING_PARTY_INVITE_DAILY = 9943;
