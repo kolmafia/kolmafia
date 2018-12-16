@@ -760,7 +760,6 @@ public class CreateItemRequest
 
 		boolean paste = mode.equals( "combine" ) && ( !KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore() );
 		int created = 0;
-		int turnsUsed = 0;
 
 		m = CRAFT_COMMENT_PATTERN.matcher( responseText );
 		while ( m.find() )
@@ -769,10 +768,6 @@ public class CreateItemRequest
 			int qty = StringUtilities.parseInt( m.group( 1 ) );
 			int item1 = StringUtilities.parseInt( m.group( 2 ) );
 			int item2 = StringUtilities.parseInt( m.group( 3 ) );
-			int result = StringUtilities.parseInt( m.group( 4 ) );
-			Concoction conc = ConcoctionPool.get( result );
-			turnsUsed += conc.getAdventuresNeeded( qty );
-
 			if ( item1 > 0 )
 			{
 				ResultProcessor.processItem( item1, -qty );
@@ -848,35 +843,35 @@ public class CreateItemRequest
 			Matcher freeTurn = JACKHAMMER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), turnsUsed );
-				Preferences.increment( "_legionJackhammerCrafting", turnsUsed, 3, false );
+				int jackhammerTurnsSaved = Math.min( 3 - Preferences.getInteger( "_legionJackhammerCrafting" ), created );
+				Preferences.increment( "_legionJackhammerCrafting", created, 3, false );
 				turnsSaved += jackhammerTurnsSaved;
 			}
 			freeTurn = AUTO_ANVIL_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), turnsUsed - turnsSaved );
-				Preferences.increment( "_warbearAutoAnvilCrafting", turnsUsed - turnsSaved, 5, false );
+				int autoAnvilTurnsSaved = Math.min( 5 - Preferences.getInteger( "_warbearAutoAnvilCrafting" ), created - turnsSaved );
+				Preferences.increment( "_warbearAutoAnvilCrafting", created - turnsSaved, 5, false );
 				turnsSaved += autoAnvilTurnsSaved;
 			}
 			freeTurn = THORS_PLIERS_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), turnsUsed - turnsSaved );
-				Preferences.increment( "_thorsPliersCrafting", turnsUsed - turnsSaved, 10, false );
+				int thorsPliersTurnsSaved = Math.min( 10 - Preferences.getInteger( "_thorsPliersCrafting" ), created - turnsSaved );
+				Preferences.increment( "_thorsPliersCrafting", created - turnsSaved, 10, false );
 				turnsSaved += thorsPliersTurnsSaved;
 			}
 			freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), turnsUsed - turnsSaved );
-				Preferences.increment( "_rapidPrototypingUsed", turnsUsed - turnsSaved, 5, false );
+				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created - turnsSaved );
+				Preferences.increment( "_rapidPrototypingUsed", created - turnsSaved, 5, false );
 				turnsSaved += rapidPrototypingTurnsSaved;
 			}
 			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				Preferences.increment( "_expertCornerCutterUsed", turnsUsed - turnsSaved, 5, false );
+				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
 			}
 		}
 		else
@@ -887,14 +882,14 @@ public class CreateItemRequest
 			Matcher freeTurn = RAPID_PROTOTYPING_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), turnsUsed );
-				Preferences.increment( "_rapidPrototypingUsed", turnsUsed, 5, false );
+				int rapidPrototypingTurnsSaved = Math.min( 5 - Preferences.getInteger( "_rapidPrototypingUsed" ), created );
+				Preferences.increment( "_rapidPrototypingUsed", created, 5, false );
 				turnsSaved += rapidPrototypingTurnsSaved;
 			}
 			freeTurn = CORNER_CUTTER_PATTERN.matcher( responseText );
 			while ( freeTurn.find() )
 			{
-				Preferences.increment( "_expertCornerCutterUsed", turnsUsed - turnsSaved, 5, false );
+				Preferences.increment( "_expertCornerCutterUsed", created - turnsSaved, 5, false );
 			}
 		}
 
