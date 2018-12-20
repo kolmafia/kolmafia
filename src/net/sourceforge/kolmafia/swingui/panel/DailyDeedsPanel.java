@@ -3544,13 +3544,16 @@ public class DailyDeedsPanel
 			FamiliarData riftlet = KoLCharacter.findFamiliar( FamiliarPool.RIFTLET );
 			boolean hf3 = riftlet != null && riftlet.canEquip() ;
 			boolean hf4 = InventoryManager.getCount( ItemPool.TIME_HELMET ) > 0
-				|| Preferences.getInteger( "_timeHelmetAdv" ) > 0;
+				|| Preferences.getInteger( "_timeHelmetAdv" ) > 0
+				|| KoLCharacter.hasEquipped( ItemPool.TIME_HELMET );
 			boolean hf5 = InventoryManager.getCount( ItemPool.V_MASK ) > 0
-				|| Preferences.getInteger( "_vmaskAdv" ) > 0;
+				|| Preferences.getInteger( "_vmaskAdv" ) > 0
+				|| KoLCharacter.hasEquipped( ItemPool.V_MASK );
 			FamiliarData gnome = KoLCharacter.findFamiliar( FamiliarPool.REAGNIMATED_GNOME );
 			boolean hf6 = gnome != null && gnome.canEquip() ;
 			boolean hf7 = InventoryManager.getCount( ItemPool.MAFIA_THUMB_RING ) > 0
-				|| Preferences.getInteger( "_mafiaThumbRingAdvs" ) > 0;
+				|| Preferences.getInteger( "_mafiaThumbRingAdvs" ) > 0
+				|| KoLCharacter.hasEquipped( ItemPool.MAFIA_THUMB_RING );
 			String text = "Advs: ";
 			if ( hf1 ) text = text + Preferences.getInteger( "_gibbererAdv" ) + " gibberer";
 			if ( hf1 && ( hf2 || hf3 || hf4 || hf5 || hf6 || hf7 ) ) text = text + ", ";
