@@ -2434,3 +2434,8 @@
 2433	Uncucumbered	gash.gif	569272fa0c2817e352e809107c311669	daycare mysticality
 2434	Ten out of Ten	nicenail.gif	bced94ef5dc8f51e25ab354f4c3e7a48	daycare moxie
 2435	Flagrantly Fragrant	scentedcandle.gif	e6bdedcd75e40108d4aa649f250cb78d	daycare regen
+2436	Crimbeau'd	potion9.gif	4e557ef03a78e4d8c186b13c464f4ceb	chew 1 Crimbeau de toilette
+2437	Carol of the Bulls	music.gif	6508fec9bcd6052fb261808cf04441df	cast 1 Carol of the Bulls
+2438	Carol of the Hells	music.gif	9201ba5d987aba1b084504833c695326	cast 1 Carol of the Hells
+2439	Carol of the Thrills	music.gif	7b5fb0ad18ebbd61b328e922caf781ba	cast 1 Carol of the Thrills
+2440	Watched Over	nicewatch.gif	79b4813f9de0406da1a39bcb051c7117	# Wear Crimbolex at rollover

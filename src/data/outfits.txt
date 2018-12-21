@@ -145,4 +145,4 @@
 142
 142	Mutant Parts Apparel	vwmuttat.gif	mutant arm, mutant legs, mutant crown
 143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie
-#144 Bauxite Baubles bauxtat.gif bauxite beret, bauxite boxers
+144	Bauxite Baubles	bauxtat.gif	bauxite beret, bauxite boxers, bauxite bow-tie

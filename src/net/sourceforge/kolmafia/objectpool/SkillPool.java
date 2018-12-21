@@ -114,6 +114,9 @@ public class SkillPool
 	public static final int INCREDIBLE_SELF_ESTEEM = 174;
 	public static final int BUDGET_CONSCIOUS = 178;
 	public static final int DRINKING_TO_DRINK = 179;
+	public static final int CAROL_OF_THE_BULLS = 182;
+	public static final int CAROL_OF_THE_HELLS = 183;
+	public static final int CAROL_OF_THE_THRILLS = 184;
 	public static final int WALRUS_TONGUE = 1010;
 	public static final int BATTER_UP = 1014;
 	public static final int CLOBBER = 1022;

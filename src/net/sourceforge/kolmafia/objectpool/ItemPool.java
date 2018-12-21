@@ -3077,6 +3077,7 @@ public class ItemPool
 	public static final int MOOSEFLANK = 10038;
 	public static final int BOXING_DAY_CARE = 10049;
 	public static final int BOXING_DAY_PASS = 10056;
+	public static final int CRIMBO_CANDLE = 10072;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

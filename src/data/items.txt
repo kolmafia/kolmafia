@@ -10079,7 +10079,7 @@
 10052	body spradium	201925985	boxingspray.gif	spleen,usable		0
 10053	bauxite beret	408005024	bauxitehat.gif	hat		0
 10054	bauxite boxers	592272200	bauxitepants.gif	pants		0
-10055
+10055	bauxite bow-tie	181241069	bauxitebowtie.gif	accessory		0
 10056	Boxing Day Pass	482213061	boxingdaypass.gif	usable	t,d	1000
 10057
 10058
@@ -10089,5 +10089,19 @@
 10062
 10063
 10064
-10065
+10065	Toyleporter	802856742	toyleporter.gif	weapon	q	0
 10066	antique beer	336712990	beer.gif	drink	t	0
+10067	yule gruel	129719219	soupbowl.gif	food	t,d	5
+10068	hot watered rum	639942662	coffeecup.gif	drink	t,d	5
+10069	bottle of Crimbognac	280834842	crimbognac.gif	drink	t	0
+10070	Crimboysters Rockefeller	479239170	oystersroc.gif	food	t	0
+10071	Crimbeau de toilette	111575274	potion9.gif	spleen, usable	t	0
+10072	Crimbo candle	957016117	crimbocandle.gif	usable	t	0
+10073	Carol of the Bulls	734149089	music.gif	usable	t	0
+10074
+10075	Carol of the Hells	810080798	music.gif	usable	t	0
+10076
+10077	Carol of the Thrills	140051819	music.gif	usable	t	0
+10078
+10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0
+10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0

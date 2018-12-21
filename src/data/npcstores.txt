@@ -401,3 +401,16 @@ Underground Record Store	vault3	Lucky Strikes holo-record	300	ROW850
 Underground Record Store	vault3	The Pigs holo-record	1000	ROW880
 Underground Record Store	vault3	li'l liberty costume	1000	ROW894
 Underground Record Store	vault3	li'l unicorn costume	1000	ROW897
+
+The Crimbo Cafe	crimbo18	hot watered rum	50	ROW1030
+The Crimbo Cafe	crimbo18	yule gruel	50	ROW1029
+
+Crimbo Town Gift-O-Mat	crimbo18giftomat	bottle of Crimbognac	100000	ROW1031
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimboysters Rockefeller	100000	ROW1032
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbeau de toilette	100000	ROW1033
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo candle	250000	ROW1034
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Bulls	500000	ROW1035
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Hells	500000	ROW1036
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Thrills	500000	ROW1037
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbolex watch	1000000	ROW1039
+Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo tattoo kit	1000000	ROW1040

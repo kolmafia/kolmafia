@@ -263,6 +263,11 @@ public class NPCStoreDatabase
 			return KoLConstants.inventory.contains( ItemPool.get( ItemPool.STRANGE_GOGGLES, 1 ) ) &&
 			       KoLConstants.campground.contains( ItemPool.get( ItemPool.SUSPICIOUS_JAR, 1 ) );
 		}
+		else if ( storeId.startsWith( "crimbo18" ) )
+		{
+			// Change to false in January 2019
+			return true;
+		}
 		else if ( storeId.equals( "guildstore1" ) )
 		{
 			// Shadowy Store

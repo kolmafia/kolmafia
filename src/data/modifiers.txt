@@ -1811,6 +1811,7 @@ Item	toy accordion	Song Duration: 5
 Item	toy Crimbot power glove	Weapon Damage: +15, Crimbot Outfit Power: +1
 Item	toy ray gun	Hot Damage: +5, Critical Hit Percent: +5
 # toy taijijian
+# Item Toyleporter: Locates toys and then blasts them to the Crimbo Town Toy Factory
 # trash net
 Item	triple barreled barrel gun	Weapon Damage Percent: +100, Critical Hit Percent: +10, Meat Drop: +25
 Item	Tropical Crimbo Sword	Weapon Damage: +5
@@ -2519,6 +2520,7 @@ Item	barrel beryl ring	Moxie: +10, Initiative: +20
 Item	barrel hoop earring	Mysticality Percent: +25, Item Drop: +50, MP Regen Min: 5, MP Regen Max: 10, Lasts Until Rollover
 Item	batskin belt	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	battle broom	Experience (Mysticality): +5, MP Regen Min: 5, MP Regen Max: 10, Mysticality Percent: +50, Spell Damage Percent: +100, Spell Critical Percent: +10, Single Equip, Lasts Until Rollover
+Item	bauxite bow-tie	Mysticality: +11, Maximum MP: [23+floor(pref(daycareToddlers)^0.35)], Spell Damage: [37+floor(pref(daycareToddlers)^0.35)], Single Equip
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
@@ -2622,6 +2624,7 @@ Item	corncob pipe	Muscle Percent: +10, Single Equip
 Item	Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 # CRIMBCO lanyard: Lets you work harder!
 Item	CRIMBCO lanyard	Single Equip
+Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Nonstackable Watch
 # Crimbomega drive chain: Allows use of LUBE in combat
 Item	Crimbomega drive chain	Moxie: +5, Sleaze Damage: +20, Sleaze Spell Damage: +20, Crimbot Outfit Power: +1, Single Equip
 # crusty hula hoop: 75% Chance of Preventing Negative Status Attacks
@@ -4481,6 +4484,8 @@ Item	clockwork maid	Adventures: +8
 Item	comfy blanket	Base Resting HP: +50
 Item	comfy coffin	Spooky Resistance: +2
 Item	cottage	Base Resting HP: +29, Base Resting MP: +30
+# Item Crimbo candle: Lights up your dwelling, giving you 3 extra Adventures per day (in December only)
+Item	Crimbo candle	Variable
 Item	cuckoo clock	Adventures: +3
 Item	elevent	Base Resting HP: +49, Base Resting MP: +50
 Item	Feng Shui for Big Dumb Idiots	Bonus Resting MP: +7
@@ -4889,6 +4894,9 @@ Effect	Carapace of the God Lobster	Hot Resistance: +1, Cold Resistance: +1, Spoo
 Effect	Carlweather's Cantata of Confrontation	Combat Rate: [5*(1+equipped(fiberglass fedora))]
 Effect	Carne Obsesionada	Meat Drop: +20
 Effect	Carol of the Bones	Muscle Percent: +10
+Effect	Carol of the Bulls	Weapon Damage Percent: +100
+Effect	Carol of the Hells	Spell Damage Percent: +100
+Effect	Carol of the Thrills	Experience: +3
 Effect	Carrion' On	Meat Drop: +60
 Effect	Carrrsmic	Mysticality Percent: +10
 Effect	Castaway Physique	Muscle Percent: +25
@@ -5015,6 +5023,7 @@ Effect	Cranberry Cordiality	Meat Drop: +10
 Effect	Cravin' for a Ravin'	Meat Drop: +100
 Effect	Creepin' Up on You	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Creepypasted	Spooky Damage: +50
+Effect	Crimbeau'd	Familiar Weight: +10, Item Drop: +25, Meat Drop: +50
 Effect	Crimbo Epiphany	Mysticality Percent: +10
 Effect	Crimbo Flavor	Spell Damage: +30
 Effect	Crimbo Nostalgia	Experience: +5
@@ -6898,6 +6907,7 @@ Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
 Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
+Effect	Watched Over	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
@@ -8190,6 +8200,7 @@ Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
 Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 20
 Item	cosmic paste	Effect: "Cosmic Flavor", Effect Duration: 10
+Item	Crimbeau de toilette	Effect: "Crimbeau'd", Effect Duration: 50
 Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
@@ -8614,6 +8625,9 @@ Item	captured boozles	Effect: "Bubbles, Tiny Bubbles", Effect Duration: 30
 # carbonated soy milk: Restores 70-80 MP
 # carbonated water lily: Restores 60-70 MP
 # caret: Guarantees that your next regular attack will Critically Hit
+Item	Carol of the Bulls	Skill: "Carol of the Bulls"
+Item	Carol of the Hells	Skill: "Carol of the Hells"
+Item	Carol of the Thrills	Skill: "Carol of the Thrills"
 Item	carton of gaspers	Effect: "All Dolled Up", Effect Duration: 100
 # carton of rotten eggs: Deals 12-15 <font color=green>Stench Damage</font>
 # carton of rotten eggs: (can be used 8-10 times before the carton is empty)
