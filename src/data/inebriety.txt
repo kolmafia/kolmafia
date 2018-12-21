@@ -69,6 +69,7 @@ bottle of Amontillado	4	5	good	11-13	5-15	0	5-15	100 Bricked-In (+50 HP)
 bottle of Bloodweiser	2	1	EPIC	12-13	30-50	30-50	30-50	50 Blood Porter
 bottle of Calcutta Emerald	3	2	decent	4-8	0	0	0
 bottle of cooking sherry	2	1	decent	2-4	0	0	0
+bottle of Crimbognac	3	1	EPIC	18-21	10-40	10-40	10-40
 bottle of Definit	3	2	decent	4-8	0	0	0
 bottle of Domesticated Turkey	3	2	decent	4-8	0	0	0
 bottle of drinkin' gas	2	3	good	4-5	0	30-60	0
@@ -335,6 +336,7 @@ hot choculate	5	4		10-15	9-10	9-10	9-10
 hot mint schnocolate	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 Hot Socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4		6-10	7-8	7-8	7-8
+hot watered rum	3	1	good	0	0	0	0	Unspaded
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
 Hundred Headed IPA	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 Ice Island Long Tea	4	1	EPIC	18-22	15-30	15-30	15-30

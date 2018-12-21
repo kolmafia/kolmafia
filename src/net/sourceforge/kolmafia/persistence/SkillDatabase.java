@@ -1292,6 +1292,9 @@ public class SkillDatabase
 		case SkillPool.POP_SONG:
 		case SkillPool.BUDGET_CONSCIOUS:
 		case SkillPool.DRINKING_TO_DRINK:
+		case SkillPool.CAROL_OF_THE_BULLS:
+		case SkillPool.CAROL_OF_THE_HELLS:
+		case SkillPool.CAROL_OF_THE_THRILLS:
 			// Auto-HP-Permed
 			return false;
 

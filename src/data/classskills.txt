@@ -203,6 +203,10 @@
 178	Budget Conscious	meat.gif	0	0	0
 179	Drinking to Drink	martini.gif	0	0	0
 180	Experience Safari	jackmoustache.gif	4	10	15
+181
+182	Carol of the Bulls	music.gif	3	30	10
+183	Carol of the Hells	music.gif	3	30	10
+184	Carol of the Thrills	music.gif	3	30	10
 
 # Skills available to Clubbers
 

@@ -2665,6 +2665,14 @@ public class Modifiers
 				return true;
 			}
 
+			case ItemPool.CRIMBO_CANDLE:
+			{
+				Calendar date = Calendar.getInstance( TimeZone.getTimeZone( "GMT-0700" ) );
+				double adventures = date.get( Calendar.MONTH ) == Calendar.DECEMBER ? 3.0 : 0.0;
+				this.set( Modifiers.ADVENTURES, adventures );
+				return true;
+			}
+
 			case ItemPool.TIME_TWITCHING_TOOLBELT:
 			{
 				this.set( Modifiers.FREE_PULL, Preferences.getBoolean( "timeTowerAvailable" ) );

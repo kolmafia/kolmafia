@@ -138,6 +138,7 @@ public class CampgroundRequest
 		ItemPool.MEAT_GLOBE,
 		ItemPool.PICTURE_OF_YOU,
 		ItemPool.TIN_ROOF,
+		ItemPool.CRIMBO_CANDLE,
 
 		// Inside dwelling: "Tasteful" items
 		ItemPool.BLACK_BLUE_LIGHT,
@@ -203,6 +204,7 @@ public class CampgroundRequest
 		ItemPool.LUCKY_CAT_STATUE,
 		ItemPool.MEAT_GLOBE,
 		ItemPool.TIN_ROOF,
+		ItemPool.CRIMBO_CANDLE,
 
 		// Inside dwelling: "Tasteful" items
 		ItemPool.BLACK_BLUE_LIGHT,
