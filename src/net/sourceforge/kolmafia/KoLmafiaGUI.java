@@ -298,9 +298,9 @@ public class KoLmafiaGUI
 				RequestThread.postRequest( new ClanWarRequest() );
 			}
 
-			if ( InventoryManager.canUseClanStash() && ClanManager.getStash().isEmpty() )
+			if ( InventoryManager.canUseClanStash() )
 			{
-				// getStash() will refresh clan stash contents if empty
+				ClanManager.getStash();
 			}
 		}
 		else if ( frameClass == ContactListFrame.class )
