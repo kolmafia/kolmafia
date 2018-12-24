@@ -4209,7 +4209,7 @@ public abstract class RuntimeLibrary
 	{
 		if ( !KoLCharacter.hasStore() )
 		{
-			return new Value( DataTypes.STRING_TYPE );
+			return new ArrayValue( new AggregateType( DataTypes.STRING_TYPE, 1) );
 		}
 		RequestThread.postRequest( new ManageStoreRequest(true) );
 		List<StoreManager.StoreLogEntry> list = StoreManager.getStoreLog();
