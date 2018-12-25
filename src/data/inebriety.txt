@@ -18,7 +18,7 @@ Ambitious Turkey	1	5	EPIC	5-7	15-30	15-30	15-30	25 Turkey-Ambitious (+25 Init, +
 Amnesiac Ale	2	5	awesome	7-10	0	-15	0	30 All is Forgiven (+10 Familiar Weight)
 an evil little sump'm sump'm	4	4	awesome	12-16	0	20	50-75	10 A Little Bit Evil (+2 ML)
 Antarctic Ice Tea	5	1		14-19	0	0	0
-antique beer	3	1	EPIC	0	0	0	0	Unspaded
+antique beer	3	1	EPIC	15-17	10-20	10-20	10-20
 around the world	4	4	good	10-14	0-30	0-30	0-30
 artisanal limoncello	2	6	good	5-7	0	20-30	0	30 Sugar Rush
 asbestos thermos	4	6	awesome	12-18	0	10-20	10-20	100 Inner Warmth (+5 Cold Resist)
@@ -38,7 +38,7 @@ basic martini	1	1	good	3	3-9	3-9	3-9	10 random spy buff
 beaver punch (cherry)	3	4	awesome	9-12	0	10-50	0
 beaver punch (papaya)	3	1	awesome	9-12	10-50	0	0
 beaver punch (peach)	3	4	awesome	9-12	0	0	10-50
-beavermouth	3	1	crappy	0	0	0	0	Unspaded
+beavermouth	3	1	crappy	3-4	0	0	4-10
 Bee's Knees	2	1	awesome	6-8	10-20	10-20	10-20	25 On the Trolley (+100% all stats)
 beertini	3	2	decent	4-8	0	10-12	10-12
 beery blood	2	1	good	0	0	0	0	+3 PvP fights
@@ -336,7 +336,7 @@ hot choculate	5	4		10-15	9-10	9-10	9-10
 hot mint schnocolate	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 Hot Socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4		6-10	7-8	7-8	7-8
-hot watered rum	3	1	good	0	0	0	0	Unspaded
+hot watered rum	3	1	good	9-10	0	0	0
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP
 Hundred Headed IPA	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 Ice Island Long Tea	4	1	EPIC	18-22	15-30	15-30	15-30
@@ -481,7 +481,7 @@ primitive alien booze	5	1	good	15-16	8-10	8-10	8-10	Extends the duration of up t
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
 Psychotic Train wine	6	11	awesome	19-20	150-250	0	0
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP
-punch-drunk punch	1	1	EPIC	0	0	0	0	Unspaded, 50 Boxing Day Drinking (+25 pickpocket chance, +5 stats/fight, reduces cost of recruiting staff)
+punch-drunk punch	1	1	EPIC	6-7	1-25	1-25	1-25	50 Boxing Day Drinking (+25 pickpocket chance, +5 stats/fight, reduces cost of recruiting staff)
 Punchplanter	2	1	good	4-5	5-10	5-10	5-10	5 Fishy
 purple corpsel	3	1	good	5-10	29-34	0	0
 Quaatorade&trade;	1	6	EPIC	6-7	0	30-40	0	100 Quaaaaaaa (+50% mys, +50 MP, +10-20 MP regen)
