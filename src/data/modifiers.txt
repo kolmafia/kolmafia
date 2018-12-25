@@ -2814,6 +2814,7 @@ Item	hamethyst necklace	Muscle: +4, Weapon Damage: +5, PvP Fights: +2, Single Eq
 Item	hamethyst ring	Muscle: +5, Maximum HP: +10, HP Regen Min: 2, HP Regen Max: 4, Single Equip
 # Hand in Glove: (+Monster Level and Does Damage in Combat based on Smithsness)
 Item	Hand in Glove	Muscle: +5, Smithsness: +5, Single Equip, Monster Level: [K]
+Item	hand-knitted Crimbo socks	Maximum HP: +10, HP Regen Min: 3, HP Regen Max: 5, Cold Resistance: +1
 Item	hardened slime belt	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, HP Regen Min: 10, HP Regen Max: 30, MP Regen Min: 10, MP Regen Max: 30, Mysticality Percent: +20, Single Equip
 Item	hare pin	Moxie Percent: +20, Initiative: +40, Single Equip
 # hazardous sauce dosimeter: Lets you gather more Soulsauce
@@ -3330,6 +3331,7 @@ Item	tiny die-cast Zeppo the Reindeer	Spooky Damage: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
+Item	tiny plastic Abuela Crimbo	Spooky Resistance: +1
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
@@ -3468,6 +3470,7 @@ Item	tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
 Item	tiny plastic ninja snowman	Monster Level: +1
 Item	tiny plastic Norville Rogers	Monster Level: +1
 Item	tiny plastic Orcish Frat Boy	Monster Level: +1
+Item	tiny plastic orphan	Stench Resistance: +1
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
 Item	tiny plastic Professor What	Monster Level: +1
@@ -9738,6 +9741,7 @@ Item	murderbot shield unit	Effect: "Shielded Unit", Effect Duration: 20
 Item	murderbot spring injector	Effect: "Spring Training", Effect Duration: 20
 Item	muscle oil	Effect: "Built Body", Effect Duration: 100
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
+Item	My First Art of War	Skill: "Army of Toddlers"
 Item	My Life of Crime, a Memoir	Skill: "Gingerbread Mob Hit"
 Item	My Own Pen Pal kit	Free Pull
 # mylar scout drone: Weakens enemies somewhat

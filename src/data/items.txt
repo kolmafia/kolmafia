@@ -9874,7 +9874,7 @@
 9847	Chewsick Copperbottom's notes	550978069	blacknotebook.gif	none	q	0
 9848	LyleCo premium pickaxe	549352396	pickaxe.gif	none		0
 9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
-9850
+9850	My First Art of War	938042466	book4.gif	usable	d	1000
 9851	dragon aluminum ore	319227011	dragonore.gif	none	q	0
 9852	faerie dust	341703432	faeriedust.gif	none	q	0
 9853	poisoned druidic s'more	332874033	smore.gif	none	q	0
@@ -10052,8 +10052,8 @@
 10025	tiny plastic wild beaver	538326834	tpbeaver.gif	accessory	t	0
 10026	tiny plastic reindeer	734514028	tpreindeer.gif	accessory	t	0
 10027	tiny plastic Caf&eacute; Elf	207952980	tpcafeelf.gif	accessory	t	0
-10028
-10029
+10028	tiny plastic orphan	566953989	tpdolphin.gif	accessory	t	0
+10029	tiny plastic Abuela Crimbo	532474620	tpabuela.gif	accessory	t	0
 10030	yule pup	182176224	yulepup.gif	grow	t	0
 10031	Braindeer	287519906	braindeer.gif	none, combat reusable	q	0
 10032	Crimbo dog sweater	272370509	crimbodogsweater.gif	familiar	t,d	75
@@ -10105,3 +10105,4 @@
 10078
 10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0
 10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0
+10081	hand-knitted Crimbo socks	290044310	abuelasocks.gif	accessory		0
