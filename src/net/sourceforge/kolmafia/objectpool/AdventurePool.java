@@ -161,6 +161,11 @@ public class AdventurePool
 	public static final String HIDDEN_BOWLING_ALLEY_ID = "344";
 	public static final int HIDDEN_PARK = 345;
 	public static final String HIDDEN_PARK_ID = "345";
+	public static final String NW_SHRINE_ID = "346";
+	public static final String SW_SHRINE_ID = "347";
+	public static final String NE_SHRINE_ID = "348";
+	public static final String SE_SHRINE_ID = "349";
+	public static final String ZIGGURAT_ID = "350";
 	public static final int DEGRASSI_KNOLL_GARAGE = 354;
 	public static final String THE_SHORE_ID = "355";
 	public static final int THE_SHORE = 355;

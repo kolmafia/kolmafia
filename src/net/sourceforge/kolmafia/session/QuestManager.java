@@ -351,6 +351,10 @@ public class QuestManager
 			{
 				handleGingerbreadCityChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=hiddencity" ) )
+			{
+				handleHiddenCityChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=manor1" ) )
 			{
 				handleManorFirstFloorChange( location, responseText );
@@ -684,6 +688,42 @@ public class QuestManager
 		if ( responseText.contains( "digitalclock.gif" ) )
 		{
 			Preferences.setBoolean( "gingerAdvanceClockUnlocked", true );
+		}
+	}
+
+	private static void handleHiddenCityChange( final String location, final String responseText )
+	{
+		if ( responseText.contains( "snarfblat=341" ) )
+		{
+			if ( Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
+			{
+				Preferences.setInteger( "hiddenApartmentProgress", 1 );
+			}
+		}
+		if ( responseText.contains( "snarfblat=342" ) )
+		{
+			if ( Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
+			{
+				Preferences.setInteger( "hiddenHospitalProgress", 1 );
+			}
+		}
+		if ( responseText.contains( "snarfblat=343" ) )
+		{
+			if ( Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
+			{
+				Preferences.setInteger( "hiddenOfficeProgress", 1 );
+			}
+		}
+		if ( responseText.contains( "snarfblat=344" ) )
+		{
+			if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
+			{
+				Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
+			}
+		}
+		if ( responseText.contains( "whichshop=hiddentavern" ) )
+		{
+			Preferences.setInteger( "hiddenTavernUnlock", KoLCharacter.getAscensions() );
 		}
 	}
 
