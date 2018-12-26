@@ -13489,6 +13489,50 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 781:
+			// Earthbound and Down
+			if ( !text.contains( "option=1" ) )
+			{
+				if ( Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
+				{
+					Preferences.setInteger( "hiddenApartmentProgress", 1 );
+				}
+			}
+			break;
+
+		case 783:
+			// Water You Dune
+			if ( !text.contains( "option=1" ) )
+			{
+				if ( Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
+				{
+					Preferences.setInteger( "hiddenHospitalProgress", 1 );
+				}
+			}
+			break;
+
+		case 785:
+			// Air Apparent
+			if ( !text.contains( "option=1" ) )
+			{
+				if ( Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
+				{
+					Preferences.setInteger( "hiddenOfficeProgress", 1 );
+				}
+			}
+			break;
+
+		case 787:
+			// Fire When Ready
+			if ( !text.contains( "option=1" ) )
+			{
+				if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
+				{
+					Preferences.setInteger( "hiddenBowlingAlleyProgress", 1 );
+				}
+			}
+			break;
+
 		case 798:
 			// Hippy Talkin'
 			if ( text.contains( "You should totally keep it!" ) )

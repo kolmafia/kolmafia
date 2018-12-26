@@ -559,6 +559,7 @@ public class ItemPool
 	public static final int BUBBLEWRAP_ORE = 1677;
 	public static final int GROUCHO_DISGUISE = 1678;
 	public static final int EXPRESS_CARD = 1687;
+	public static final int MUCULENT_MACHETE = 1721;
 	public static final int SWORD_PREPOSITIONS = 1734;
 	public static final int GALLERY_KEY = 1765;
 	public static final int BALLROOM_KEY = 1766;
@@ -1377,6 +1378,7 @@ public class ItemPool
 	public static final int TEDDYBEAR_BACKPACK = 4430;
 	public static final int STRANGE_CUBE = 4436;
 	public static final int INSTANT_KARMA = 4448;
+	public static final int MACHETITO = 4452;
 	public static final int LEAFBLOWER = 4455;
 	public static final int SNAILMAIL_BITS = 4457;
 	public static final int CHOCOLATE_SEAL_CLUBBING_CLUB = 4462;
@@ -2051,6 +2053,7 @@ public class ItemPool
 	public static final int SUPERWATER = 6675;
 	public static final int CRUDE_SCULPTURE = 6677;
 	public static final int YEARBOOK_CAMERA = 6678;
+	public static final int ANTIQUE_MACHETE = 6679;
 	public static final int BOWL_OF_SCORPIONS = 6681;
 	public static final int BOOK_OF_MATCHES = 6683;
 	public static final int MCCLUSKY_FILE_PAGE5 = 6693;

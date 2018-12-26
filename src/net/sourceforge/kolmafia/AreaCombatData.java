@@ -1457,7 +1457,7 @@ public class AreaCombatData
 				return 0;
 			}
 		}
-		else if ( zone.equals( "An Overgrown Shrine (Northeast)" ) )
+		else if ( zone.equals( "An Overgrown Shrine (Northwest)" ) )
 		{
 			// Assume lianas are dealt with once Apartment opened. Player may leave without doing so, but that's
 			// abit niche for me to care!
@@ -1466,7 +1466,7 @@ public class AreaCombatData
 				return 0;
 			}
 		}
-		else if ( zone.equals( "An Overgrown Shrine (Northwest)" ) )
+		else if ( zone.equals( "An Overgrown Shrine (Northeast)" ) )
 		{
 			// Assume lianas are dealt with once Office opened. Player may leave without doing so, but that's
 			// abit niche for me to care!
@@ -1475,7 +1475,7 @@ public class AreaCombatData
 				return 0;
 			}
 		}
-		else if ( zone.equals( "An Overgrown Shrine (Southeast)" ) )
+		else if ( zone.equals( "An Overgrown Shrine (Southwest)" ) )
 		{
 			// Assume lianas are dealt with once Hospital opened. Player may leave without doing so, but that's
 			// abit niche for me to care!
@@ -1484,7 +1484,7 @@ public class AreaCombatData
 				return 0;
 			}
 		}
-		else if ( zone.equals( "An Overgrown Shrine (Southwest)" ) )
+		else if ( zone.equals( "An Overgrown Shrine (Southeast)" ) )
 		{
 			// Assume lianas are dealt with once Bowling Alley opened. Player may leave without doing so, but that's
 			// abit niche for me to care!
