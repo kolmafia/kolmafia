@@ -13491,7 +13491,7 @@ public abstract class ChoiceManager
 
 		case 781:
 			// Earthbound and Down
-			if ( !text.contains( "option=1" ) )
+			if ( !text.contains( "option value=1" ) )
 			{
 				if ( Preferences.getInteger( "hiddenApartmentProgress" ) == 0 )
 				{
@@ -13502,7 +13502,7 @@ public abstract class ChoiceManager
 
 		case 783:
 			// Water You Dune
-			if ( !text.contains( "option=1" ) )
+			if ( !text.contains( "option value=1" ) )
 			{
 				if ( Preferences.getInteger( "hiddenHospitalProgress" ) == 0 )
 				{
@@ -13513,7 +13513,7 @@ public abstract class ChoiceManager
 
 		case 785:
 			// Air Apparent
-			if ( !text.contains( "option=1" ) )
+			if ( !text.contains( "option value=1" ) )
 			{
 				if ( Preferences.getInteger( "hiddenOfficeProgress" ) == 0 )
 				{
@@ -13524,7 +13524,7 @@ public abstract class ChoiceManager
 
 		case 787:
 			// Fire When Ready
-			if ( !text.contains( "option=1" ) )
+			if ( !text.contains( "option value=1" ) )
 			{
 				if ( Preferences.getInteger( "hiddenBowlingAlleyProgress" ) == 0 )
 				{
