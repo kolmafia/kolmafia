@@ -3027,6 +3027,7 @@ public class ItemPool
 	public static final int FR_PURPLE_MUSHROOM = 9845;
 	public static final int FR_TAINTED_MARSHMALLOW = 9846;
 	public static final int FR_CHESWICKS_NOTES = 9847;
+	public static final int MY_FIRST_ART_OF_WAR = 9850;
 	public static final int FR_DRAGON_ORE = 9851;
 	public static final int FR_POISONED_SMORE = 9853;
 	public static final int FR_DRUIDIC_ORB = 9854;
