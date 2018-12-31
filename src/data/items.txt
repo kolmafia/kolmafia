@@ -9866,7 +9866,7 @@
 9839	FantasyRealm Warrior's Helm	880434260	fr_warriorhat.gif	hat		0
 9840	FantasyRealm Mage's Hat	988157620	fr_wizardhat.gif	hat		0
 9841	FantasyRealm Rogue's Mask	256234618	fr_roguehat.gif	hat		0
-9842
+9842	lump of bauxite	543708946	chocolump.gif	none	d	10000
 9843	&quot;Remember the Trees&quot; Shirt	184762475	treeshirt.gif	shirt	t,d	10
 9844	FantasyRealm key	316455684	simplekey.gif	none		0
 9845	plump purple mushroom	974351931	danceshroom.gif	none	q	0
@@ -10090,7 +10090,7 @@
 10063
 10064
 10065	Toyleporter	802856742	toyleporter.gif	weapon	q	0
-10066	antique beer	336712990	beer.gif	drink	t	0
+10066	antique beer	336712990	beer.gif	drink	t	0	cans of antique beer
 10067	yule gruel	129719219	soupbowl.gif	food	t,d	5
 10068	hot watered rum	639942662	coffeecup.gif	drink	t,d	5
 10069	bottle of Crimbognac	280834842	crimbognac.gif	drink	t	0

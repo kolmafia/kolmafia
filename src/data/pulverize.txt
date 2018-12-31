@@ -566,6 +566,11 @@ nozzle of the Phoenix	Rubee&trade;
 the Archwizard's briefs	Rubee&trade;
 the Ley Incursion's waist	Rubee&trade;
 
+# Bauxite items
+bauxite beret	lump of bauxite
+bauxite boxers	lump of bauxite
+bauxite bow-tie	lump of bauxite
+
 # Grim Mask Leaderboard First place rewards are not smashable
 silver cow creamer	nosmash
 wolf whistle	nosmash
