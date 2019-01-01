@@ -9874,7 +9874,7 @@
 9847	Chewsick Copperbottom's notes	550978069	blacknotebook.gif	none	q	0
 9848	LyleCo premium pickaxe	549352396	pickaxe.gif	none		0
 9849	LyleCo premium rope	988419526	ropecoil.gif	none		0
-9850	My First Art of War	938042466	book4.gif	usable	d	1000
+9850	My First Art of War	938042466	book4.gif	usable	d	10000
 9851	dragon aluminum ore	319227011	dragonore.gif	none	q	0
 9852	faerie dust	341703432	faeriedust.gif	none	q	0
 9853	poisoned druidic s'more	332874033	smore.gif	none	q	0
@@ -10106,3 +10106,69 @@
 10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0
 10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0
 10081	hand-knitted Crimbo socks	290044310	abuelasocks.gif	accessory		0
+10082
+10083
+10084
+10085
+10086
+10087
+10088
+10089
+10090
+10091
+10092
+10093
+10094
+10095
+10096
+10097
+10098
+10099
+10100
+10101
+10102
+10103
+10104
+10105
+10106
+10107
+10108
+10109
+10110
+10111
+10112
+10113
+10114
+10115
+10116
+10117
+10118
+10119
+10120
+10121
+10122
+10123
+10124
+10125
+10126
+10127
+10128
+10129
+10130
+10131
+10132
+10133
+10134
+10135
+10136
+10137
+10138
+10139
+10140
+10141
+10142
+10143
+10144
+10145
+10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
+10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75

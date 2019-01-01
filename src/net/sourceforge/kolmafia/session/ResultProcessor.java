@@ -1969,16 +1969,6 @@ public class ResultProcessor
 			ResultProcessor.autoCreate( ItemPool.BONERDAGON_NECKLACE );
 			break;
 
-		case ItemPool.GAUDY_KEY:
-		case ItemPool.SNAKEHEAD_CHARM:
-			if ( InventoryManager.getCount( ItemPool.GAUDY_KEY ) + 
-				 InventoryManager.getCount( ItemPool.SNAKEHEAD_CHARM ) >= 2 &&
-			     !InventoryManager.hasItem( ItemPool.TALISMAN ) )
-			{
-				ResultProcessor.autoCreate( ItemPool.TALISMAN );
-			}
-			break;
-
 		case ItemPool.COPPERHEAD_CHARM:
 		case ItemPool.COPPERHEAD_CHARM_RAMPANT:
 			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) )
@@ -1990,17 +1980,8 @@ public class ResultProcessor
 				QuestDatabase.setQuestProgress( Quest.RON, QuestDatabase.FINISHED );
 			}
 			if ( InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM ) &&
-			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) &&
-			     !InventoryManager.hasItem( ItemPool.TALISMAN ) )
+			     InventoryManager.hasItem( ItemPool.COPPERHEAD_CHARM_RAMPANT ) )
 			{
-				Concoction conc = new Concoction( ItemPool.get( ItemPool.TALISMAN, 1 ),
-						CraftingType.ACOMBINE,
-						EnumSet.noneOf( KoLConstants.CraftingRequirements.class ),
-						EnumSet.noneOf( KoLConstants.CraftingMisc.class ),
-						0 );
-				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM, 1 ) );
-				conc.addIngredient( ItemPool.get( ItemPool.COPPERHEAD_CHARM_RAMPANT, 1 ) );
-				ConcoctionPool.set( conc );
 				ResultProcessor.autoCreate( ItemPool.TALISMAN );
 			}
 			break;

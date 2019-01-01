@@ -213,7 +213,7 @@ Barrrtleby's Barrrgain Books	bartlebys	pirate brochure	300	ROW612
 Barrrtleby's Barrrgain Books	bartlebys	pirate pamphlet	300	ROW613
 Barrrtleby's Barrrgain Books	bartlebys	pirate tract	300	ROW614
 Barrrtleby's Barrrgain Books	bartlebys	The Big Book of Pirate Insults	500	ROW615
-Barrrtleby's Barrrgain Books	bartlebys	abridged dictionary	1000	ROW617
+# Barrrtleby's Barrrgain Books	bartlebys	abridged dictionary	1000	ROW617
 
 Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate brochure	300	ROW612
 Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate pamphlet	300	ROW613
