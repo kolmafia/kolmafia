@@ -1535,10 +1535,10 @@
 1509	slap and tickle with a fly in it	684534052	rocks.gif	message	g,d	5	slaps and tickles with flies in them
 1510	bag of airline peanuts	274299402	nutsack.gif	none, combat	g,d	5	bags of airline peanuts
 1511	fake hand	826737671	glove.gif	offhand	g,d	5
-1512	Knob Goblin pet-buffing spray	972920674	spraycan.gif	multiple	t,d	125	cans of Knob Goblin pet-buffing spray
-1513	Knob Goblin learning pill	588931144	pill.gif	multiple	t,d	150
-1514	Knob Goblin eyedrops	883126629	eyedrops.gif	multiple	t,d	100	bottles of Knob Goblin eyedrops
-1515	Knob Goblin nasal spray	618000270	nosespray.gif	multiple	t,d	75	bottles of Knob Goblin nasal spray
+1512	Knob Goblin pet-buffing spray	972920674	spraycan.gif	spleen	t,d	125	cans of Knob Goblin pet-buffing spray
+1513	Knob Goblin learning pill	588931144	pill.gif	spleen	t,d	150
+1514	Knob Goblin eyedrops	883126629	eyedrops.gif	spleen	t,d	100	bottles of Knob Goblin eyedrops
+1515	Knob Goblin nasal spray	618000270	nosespray.gif	spleen	t,d	75	bottles of Knob Goblin nasal spray
 1516	KWE-brand transistor radio	186460114	radio.gif	usable	q	0
 1517
 1518	vampire heart	446675937	heart.gif	none	q	0
@@ -10068,9 +10068,9 @@
 10041	balanced antler	897684030	balantler.gif	weapon	t,d	1000
 10042	portable dam	939714846	damshield.gif	offhand	t,d	500
 10043	beavermouth	120789894	wine2.gif	drink	t,d	30
-10044	beaver punch (papaya)	861669377	perf_negroni.gif	drink	t,d	45
-10045	beaver punch (peach)	294278386	perf_negroni.gif	drink	t,d	45
-10046	beaver punch (cherry)	598400291	perf_negroni.gif	drink	t,d	45
+10044	beaver punch (papaya)	861669377	perf_negroni.gif	drink	t,d	45	glasses of beaver punch (papaya)
+10045	beaver punch (peach)	294278386	perf_negroni.gif	drink	t,d	45	glasses of beaver punch (peach)
+10046	beaver punch (cherry)	598400291	perf_negroni.gif	drink	t,d	45	glasses of beaver punch (cherry)
 10047	antique Canadian lantern	546753533	canadianlantern.gif	offhand	t,d	500
 10048	muskox-skin cap	465975830	oxhat.gif	hat	t,d	500
 10049	Boxing Day care package	276027156	boxingpackage.gif	usable	t	0

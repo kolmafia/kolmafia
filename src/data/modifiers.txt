@@ -4742,7 +4742,7 @@ Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
 Effect	Big Punkin'	Moxie: +30
 Effect	Big Square Head	Avatar: "Arthur Frankenstein"
-Effect	Big Veiny Brain	Experience: +2, Meat Drop: -20, Item Drop: -10
+Effect	Big Veiny Brain	Experience: +3, Meat Drop: -10, Item Drop: -5
 Effect	Biker Swagger	Monster Level: +30
 Effect	Bilious	Monster Level: +25, Slime Resistance: +1
 Effect	Bilious Brains	Mysticality Percent: +100
@@ -6099,7 +6099,7 @@ Effect	Peaceful, Easy Feeling	Monster Level: -10
 Effect	Pearly Vision	Item Drop: +25
 Effect	Pecan Pied Piper	Candy Drop: +25
 Effect	Pediplunger	Avatar: "filthy pirate"
-Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -20, Item Drop: +15
+Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -30, Item Drop: +20
 # Pemmican't: +10 Damage against Seals
 Effect	Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Effect	Penne Fedora	Moxie: +10
@@ -6909,7 +6909,7 @@ Effect	Warlock, Warstock, and Warbarrel	Spell Damage Percent: +150
 Effect	Warm Belly	Hot Damage: [+3*D]
 Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
 # Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
-Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +30, Item Drop: -10
+Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +40, Item Drop: -20
 Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
@@ -9514,15 +9514,15 @@ Item	Keese berry	Effect: "Berry Defensive", Effect Duration: 20
 Item	Kissin' Cousins	Skill: "Awesome Balls of Fire"
 # kite: Weakens enemies somewhat and briefly stuns them
 Item	kitten burglar	Free Pull
-Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 10
+Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
 # Knob Goblin firecracker: Deals 2-4 Physical Damage
 Item	Knob Goblin firecracker	Effect: "Missing Fingers", Effect Duration: 3
-Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 10
+Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
 Item	Knob Goblin love potion	Effect: "Knob Goblin Lust Frenzy", Effect Duration: 5
 Item	Knob Goblin Mutagen	Effect: "Weirdly Scientific", Effect Duration: 30
-Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 10
+Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin perfume	Effect: "Knob Goblin Perfume", Effect Duration: 1
-Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 10
+Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 # Knob Goblin seltzer: Restores 8-12 MP
 Item	Knob Goblin sharpening spray	Effect: "Sharp Weapon", Effect Duration: 5
 Item	Knob Goblin steroids	Effect: "Steroid Boost", Effect Duration: 5
