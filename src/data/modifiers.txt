@@ -3960,6 +3960,8 @@ Item	rattlesnake enrager	Familiar Weight: +5
 # razor fang: Your familiar will sometimes interrupt enemy attacks
 Item	razor fang	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	really tiny cocktail shaker	Familiar Weight: +5
+# Item red-and-green microcamera: Increases operational effectiveness
+Item	red-and-green microcamera	Familiar Weight: +5
 Item	rhesus monkey	Familiar Weight: +5
 Item	rhinestone cowhorn	Familiar Weight: +5
 Item	ribcage rollcage	Familiar Weight: +5
@@ -9015,6 +9017,7 @@ Item	electronic Brain Trainer game	Skill: "Brain Games"
 Item	electric copperhead potion	Effect: "Bartenderganger", Effect Duration: 50
 # electric muscle stimulator: Gives some Muscle stats when you rest
 # eleven-foot pole: You know...  For traps.
+Item	elf sleeper agent	Free Pull
 Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
 Item	Ellsbury's journal	Skill: "Unaccompanied Miner"
 Item	Ellsbury's journal (used)	Skill: "Unaccompanied Miner"
