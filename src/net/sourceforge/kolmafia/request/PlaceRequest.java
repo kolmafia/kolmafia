@@ -352,9 +352,9 @@ public class PlaceRequest
 								{
 									monster = "government bureaucrat";
 								}
-								else
+								else if ( speech.contains( "flavored drink in a tube" ) )
 								{
-									monster = "annoyed snake?";
+									monster = "annoyed snake";
 								}
 							}
 							else if ( party.contains( "Bureau of Efficient Government" ) )
