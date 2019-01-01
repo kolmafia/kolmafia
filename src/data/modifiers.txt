@@ -2659,6 +2659,7 @@ Item	Dinsey's glove	Moxie Percent: +30, Single Equip
 Item	Dinsey's oculus	Initiative: +40, Muscle Percent: +30, Single Equip
 Item	dirty hobo gloves	Stench Damage: +2, Single Equip
 Item	disbelief suspenders	Sleaze Resistance: +1
+Item	discarded bowtie	Combat Rate: -5, Monster Level: -10, Lasts Until Rollover
 Item	disembodied smile	Spooky Damage: +2, Single Equip
 # diving muff: Makes you a better diver
 Item	diving muff	Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
@@ -4923,6 +4924,7 @@ Effect	Celestial Vision	Item Drop: +30
 Effect	Censored Can	Avatar: "tin can conspirator"
 Effect	Cereal Killer	Experience: +200
 Effect	Certainty	Item Drop: +100
+# Effect Chai Guru Deva Om
 Effect	Chain Chain Chains	Spooky Damage: +10
 # Chalk Outline: Your Spookiness is Spookier
 Effect	Chalked Weapon	Pool Skill: +5, Attacks Can't Miss
@@ -6178,6 +6180,7 @@ Effect	Proprie Tea	Sleaze Resistance: +3
 Effect	Pros Only	Avatar: "sensitive poet-type"
 Effect	protect.enq	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+# Effect Proto-Stimulated
 Effect	Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Effect	Puckered Up	Candy Drop: [min(T,50)]
@@ -8260,6 +8263,7 @@ Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
 Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
 Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
+Item	prototype stimulant	Effect: "Proto-Stimulated", Effect Duration: 50
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
 # red striped oyster egg: Restores 30-35 HP
@@ -9233,6 +9237,7 @@ Item	ginger snaps	Effect: "Ready to Snap", Effect Duration: 15
 # gingerbread restraining order: Banish a gingerbread man for the rest of the day
 # gingerbread smartphone
 Item	gingerbread spice latte	Effect: "Whole Latte Love", Effect Duration: 30
+# Item gingernade: Deals 200-250 damage
 # ginseng: Gives a Pokefamiliar Regeneration
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
@@ -10083,6 +10088,7 @@ Item	ravenous eye	Effect: "Stark Raven Mad", Effect Duration: 50
 # razor-sharp can lid: Deals 2-3 Physical Damage
 # razor-tipped yo-yo: Deals 30-40 Physical Damage
 Item	Really Expensive Jewelry and You	Skill: "Really Expensive Jewelrycrafting"
+# Item really nice net: Weakens your foe and stuns them for a few rounds
 # really really sticky spider web: Weakens enemies a little bit
 # really sticky spider web: Weakens enemies slightly
 # really thick bandage: Restores 100-120 HP
@@ -10224,6 +10230,7 @@ Item	Senior Mints	Effect: "Sugar Rush", Effect Duration: 3
 Item	sensitive poetry journal	Effect: "Moon June Spooned", Effect Duration: 10
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 Item	serum of sarcasm	Effect: "Superhuman Sarcasm", Effect Duration: [R]
+# Item sew-on bandage: Restores up to 300 HP
 # sewing kit: Restores up to 1,000 HP
 # sewing kit: (doesn't go away when used)
 Item	shady shades	Effect: "Throwing Some Shade", Effect Duration: 1
@@ -10548,6 +10555,7 @@ Item	tin cup	Effect: "Tingling Feeling", Effect Duration: 20
 # tin lizzie: <b>Allows Travel to Desert Beach</b>
 Item	tin magnolia	Effect: "Tin, Man", Effect Duration: 10
 # tin snips: Deals 8-10 Physical Damage and causes bleeding
+Item	tin thermos of chai	Effect: "Chai Guru Deva Om", Effect Duration: 30
 # Item tiny bomb: Deals moderate damage to enemies
 # Item tiny bomb: (much more effective in the Canadian Wildlife Preserve)
 Item	tiny bottle of absinthe	Effect: "Absinthe-Minded", Effect Duration: 10
@@ -10594,6 +10602,7 @@ Item	triggerfingerbone	Effect: "Itchy Trigger Finger", Effect Duration: 20
 # tropical orchid: Weakens enemies a little bit
 Item	Trout Fishing in Loathing	Skill: "Astute Angler"
 Item	true grit	Effect: "Truly Gritty", Effect Duration: 10
+# Item tryptophan dart: Knocks an enemy out.  You won't see them for the rest of the day.
 Item	tube of dread wax	Effect: "Crusty Head", Effect Duration: 10
 # tube of herbal ointment: Restores 14-16 HP
 Item	tube of pendulum lube	Effect: "Swung Step", Effect Duration: 50
