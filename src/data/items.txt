@@ -10172,3 +10172,15 @@
 10145
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
+10148
+10149	tin thermos of chai	543809374	elfopthermos.gif	usable	t,d	30
+10150	prototype stimulant	851023933	elfopsyringe.gif	spleen, usable	t,d	30
+10151
+10152	sew-on bandage	241193251	elfopbandage.gif	usable, combat	t,d	30
+10153	really nice net	416368194	elfopnet.gif	none, combat	t,d	30
+10154
+10155	elf army field rations	979741195	elfopration.gif	food	t,d	30
+10156	gingernade	473398986	elfopgrenade.gif	none, combat	t,d	30
+10157	discarded bowtie	469929988	elfopbowtie.gif	accessory	q	0
+10158	martiny	932242068	elfopmartini.gif	drink	t,d	30
+10159	tryptophan dart	346425436	elfopdart.gif	none, combat	t,d	30

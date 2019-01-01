@@ -2259,6 +2259,7 @@ Dinsey's glove	200	Mys: 100
 Dinsey's oculus	200	Mus: 100
 dirty hobo gloves	20	none
 disbelief suspenders	50	Mys: 10
+discarded bowtie	0	none
 disembodied smile	20	none
 diving muff	200	Mys: 85
 doll-eye amulet	100	Mys: 35
