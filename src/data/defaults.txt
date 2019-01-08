@@ -1515,6 +1515,7 @@ user	_interviewVlad	false
 user	_interviewIsabella	false
 user	_interviewMasquerade	false
 user	_ironicMoustache	false
+user	_jackassPlumberGame	false
 user	_jarlsCheeseSummoned	false
 user	_jarlsCreamSummoned	false
 user	_jarlsDoughSummoned	false
@@ -1523,19 +1524,19 @@ user	_jarlsFruitSummoned	false
 user	_jarlsMeatSummoned	false
 user	_jarlsPotatoSummoned	false
 user	_jarlsVeggiesSummoned	false
+user	_jerksHealthMagazinesUsed	0
+user	_jickJarAvailable	unknown
 user	_jiggleCheese	0
 user	_jiggleCheesedMonsters
 user	_jiggleCream	0
 user	_jiggleCreamedMonster
 user	_jiggleLife	0
 user	_jiggleSteak	0
+user	_jingleBellUsed	false
 user	_jitbCharge	0
 user	_jukebox	false
 user	_jungDrops	0
 user	_kloopDrops	0
-user	_jackassPlumberGame	false
-user	_jickJarAvailable	unknown
-user	_jingleBellUsed	false
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
 user	_kgbLeftDrawerUsed	false

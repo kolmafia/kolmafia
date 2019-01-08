@@ -2163,6 +2163,7 @@ public class ItemPool
 	public static final int ICE_HOUSE = 7081;
 	public static final int SNOW_MACHINE = 7082;
 	public static final int SNOW_FORT = 7089;
+	public static final int JERKS_HEALTH_MAGAZINE = 7100;
 	public static final int MULLED_BERRY_WINE = 7119;
 	public static final int MAGNUM_OF_FANCY_CHAMPAGNE = 7130;
 	public static final int LUPINE_APPETITE_HORMONES = 7133;
