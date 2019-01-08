@@ -10172,7 +10172,7 @@
 10145
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
-10148
+10148	cobbled-together Meat detector	379535516	elfopdetector.gif	offhand	q	0
 10149	tin thermos of chai	543809374	elfopthermos.gif	usable	t,d	30
 10150	prototype stimulant	851023933	elfopsyringe.gif	spleen, usable	t,d	30
 10151

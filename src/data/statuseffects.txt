@@ -171,10 +171,10 @@
 170	Spirit of Wormwood	skull.gif	4d36ad259b82421689a27b2b843a7e3b	cast 1 Spirit of Wormwood
 171	Spirit of Bacon Grease	bacon.gif	6938d4564e4225d47983a1a834a09604	cast 1 Spirit of Bacon Grease
 172	Yellow Tongue	tongue.gif	3dbc5202908b9b8e507d7f062360b293	use 1 yellow snowcone
-173	Big Veiny Brain	realbrain.gif	55b5adcb51868b248c9808720b1884f8	use 1 Knob Goblin learning pill
-174	Peeled Eyeballs	bseye.gif	76a38896d00f40442e3741d7e94bb5df	use 1 Knob Goblin eyedrops
-175	Wasabi Sinuses	pupils.gif	c9cd2df50d6fb5a9d8d7544892c7e5b2	use 1 Knob Goblin nasal spray
-176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752	use 1 Knob Goblin pet-buffing spray
+173	Big Veiny Brain	realbrain.gif	55b5adcb51868b248c9808720b1884f8	chew 1 Knob Goblin learning pill
+174	Peeled Eyeballs	bseye.gif	76a38896d00f40442e3741d7e94bb5df	chew 1 Knob Goblin eyedrops
+175	Wasabi Sinuses	pupils.gif	c9cd2df50d6fb5a9d8d7544892c7e5b2	chew 1 Knob Goblin nasal spray
+176	Heavy Petting	happy.gif	0bbb62f04a5dd69a88b608fe656a7752	chew 1 Knob Goblin pet-buffing spray
 177
 178	Bootyliciousness	chest.gif	4dd00fb300f035693ca9ac4f6e33c4f4	# clan buff
 179	Make Meat FA$T!	meat.gif	2b0a872a72b015c6db5c4974140f0483	# clan buff

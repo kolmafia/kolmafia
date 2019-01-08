@@ -1968,6 +1968,7 @@ Item	charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 Item	Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 # clockwork detective skull
 Item	clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
+Item	cobbled-together Meat detector	Meat Drop: +15, Lasts Until Rollover
 # Codex of Capsaicin Conjuration: All Spells Cast Are Hot
 Item	Codex of Capsaicin Conjuration	Spell Damage: +10
 Item	coffin lid	Spooky Resistance: +1, Damage Reduction: 3

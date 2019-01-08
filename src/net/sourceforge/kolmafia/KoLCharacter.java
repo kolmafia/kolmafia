@@ -3646,6 +3646,13 @@ public abstract class KoLCharacter
 			{
 				ClanLoungeRequest.visitLounge( ClanLoungeRequest.FLOUNDRY );
 			}
+
+			// Check Campground
+			CampgroundRequest.reset();
+			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
+			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
+			KoLCharacter.checkTelescope();
 		}
 
 		// Stop expecting Path-related Wandering Monsters
