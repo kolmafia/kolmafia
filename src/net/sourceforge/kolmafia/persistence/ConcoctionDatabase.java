@@ -449,6 +449,7 @@ public class ConcoctionDatabase
 		{
 		case ItemPool.QUANTUM_TACO:
 		case ItemPool.MUNCHIES_PILL:
+		case ItemPool.MAGICAL_SAUSAGE:
 			return true;
 		}
 		if ( ConcoctionDatabase.isMayo( id ) && ConcoctionDatabase.lastQueuedMayo == 0 &&

@@ -1580,6 +1580,7 @@ Item	ratarang	Ranged Damage: +7, Moxie: +3
 Item	rattail whip	Moxie: +5, Monster Level: +5
 Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 Item	red hot poker	Hot Damage: +15
+Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
 Item	regret hose	Cold Damage: +10
@@ -2134,6 +2135,8 @@ Item	KoL Con 13 snowglobe	Drops Items
 Item	KoL Con IV Pole	Maximum HP: +4, Maximum MP: +4, Muscle: +4, Mysticality: +4, Moxie: +4, Hot Damage: +4
 Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
+# Item Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
+Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
 # left bear arm: Lets you act like a bear
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10
@@ -3664,6 +3667,7 @@ Item	dice-shaped backpack	Random Monster Modifiers: +1
 Item	Drapes-You-Regally	Meat Drop: +20, Booze Drop: +20, Hat Drop: +20, Class: "Disco Bandit"
 Item	Drunkula's cape	Adventures: +3, Candy Drop: +20, Accessory Drop: +20, Class: "Sauceror"
 Item	Duke Vampire's regal cloak	Moxie: +15, Moxie Percent: +25, Initiative: +50, Single Equip
+Item	elf army poncho	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
 # fiberglass frock: Makes it so dealing Cold damage causes ongoing additional Cold damage
 Item	fiberglass frock	Experience (Mysticality): +3, Maximum MP: +20
 Item	frozen turtle shell	Cold Damage: +15, Stench Resistance: +2, Sleaze Resistance: +2, Class: "Turtle Tamer"
@@ -3858,6 +3862,7 @@ Item	ironic moustache	Familiar Weight: +10, Effect: "+10 lbs."
 Item	ittah bittah hookah	Familiar Weight: +5, Generic
 # jalape&ntilde;o slices: +10 lbs. of Leprechaun
 Item	jalape&ntilde;o slices	Meat Drop: +60.9
+Item	jar of magical relish	Familiar Weight: +5
 Item	Jawmaster 2000&trade;	Familiar Weight: +5
 Item	kill screen	Random Monster Modifiers: +1, Generic
 Item	kitty sheet music	Familiar Weight: +5
@@ -9542,6 +9547,7 @@ Item	Kokomo Resort Brand Suntan Oil	Effect: "Tropical Contact High", Effect Dura
 # Kokomo Resort Order Pad: Boring!
 Item	Kokomo Resort Pass	Effect: "Tropical Contact High", Effect Duration: 10
 Item	KoLHS Pep Squad Box	Free Pull
+Item	Kramco Industries packing carton	Free Pull
 Item	kumquat supersucker	Effect: "Koyaaniskumquatsi", Effect Duration: 30
 Item	labrador cookie	Effect: "Insatiable Hunger", Effect Duration: 40
 Item	latte lovers club card	Free Pull

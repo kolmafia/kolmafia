@@ -9472,6 +9472,13 @@ public class FightRequest
 				BanishManager.banishCurrentMonster( "Be a Mind Master" );
 			}
 			break;
+		case ItemPool.TRYPTOPHAN_DART:
+			if ( responseText.contains( "asleep on a nearby recliner" ) || itemSuccess )
+			{
+				BanishManager.banishCurrentMonster( "tryptophan dart" );
+				Preferences.setBoolean( "_tryptophanDartUsed", true );
+			}
+			break;
 		case ItemPool.ROCK_BAND_FLYERS:
 		case ItemPool.JAM_BAND_FLYERS:
 			// You slap a flyer up on your opponent. It enrages it.

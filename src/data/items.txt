@@ -10081,14 +10081,14 @@
 10054	bauxite boxers	592272200	bauxitepants.gif	pants		0
 10055	bauxite bow-tie	181241069	bauxitebowtie.gif	accessory		0
 10056	Boxing Day Pass	482213061	boxingdaypass.gif	usable	t,d	1000
-10057
-10058
-10059
-10060
-10061
-10062
-10063
-10064
+10057	Kramco Industries packing carton	517438078	saugrindbox.gif	usable	t	0
+10058	Kramco Sausage-o-Matic&trade;	166574479	saugrinder.gif	offhand		0
+10059	magical sausage casing	195081875	saugrindcasing.gif	none	d	10
+10060	magical sausage	271133112	saugrindsausage.gif	food	d	1
+10061	red-hot sausage fork	680666380	saugrindfork.gif	weapon	t,d	50
+10062	bag of sausage links	645735245	saugrindbag.gif	usable	t,d	65
+10063	sausage golem	491166772	saugrindgolem.gif	grow	d	250
+10064	jar of magical relish	314478305	saugrindrelish.gif	familiar	t,d	75
 10065	Toyleporter	802856742	toyleporter.gif	weapon	q	0
 10066	antique beer	336712990	beer.gif	drink	t	0	cans of antique beer
 10067	yule gruel	129719219	soupbowl.gif	food	t,d	5
@@ -10178,7 +10178,7 @@
 10151
 10152	sew-on bandage	241193251	elfopbandage.gif	usable, combat	t,d	30
 10153	really nice net	416368194	elfopnet.gif	none, combat	t,d	30
-10154
+10154	elf army poncho	227963158	elfopponcho.gif	container	q	0
 10155	elf army field rations	979741195	elfopration.gif	food	t,d	30
 10156	gingernade	473398986	elfopgrenade.gif	none, combat	t,d	30
 10157	discarded bowtie	469929988	elfopbowtie.gif	accessory	q	0

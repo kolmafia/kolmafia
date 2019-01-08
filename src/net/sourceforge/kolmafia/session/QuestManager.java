@@ -2319,6 +2319,10 @@ public class QuestManager
 			TurnCounter.stopCounting( "Vote Monster" );
 			VoteMonsterManager.checkCounter();
 		}
+		else if ( monsterName.equals( "sausage goblin" ) )
+		{
+			Preferences.increment( "_sausageFights" );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
