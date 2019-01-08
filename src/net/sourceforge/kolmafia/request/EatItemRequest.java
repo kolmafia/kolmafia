@@ -255,7 +255,7 @@ public class EatItemRequest
 			workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
 		{
 			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
-			if ( count > mayoCount )
+			if ( count > mayoCount && ConsumablesDatabase.getFullness( name ) != 0 )
 			{
 				InventoryManager.retrieveItem( minderSetting, count - mayoCount );
 			}

@@ -289,7 +289,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
 	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
-	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (\\d+) of the (\\d+) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
+	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -14542,7 +14542,7 @@ public abstract class ChoiceManager
 			Matcher matcher = ChoiceManager.SAUSAGE_PATTERN.matcher( text );
 			if ( matcher.find() )
 			{
-				Preferences.setInteger( "_sausagesMade", StringUtilities.parseInt( matcher.group( 2 ) ) / 111 - 1 );
+				Preferences.setInteger( "_sausagesMade", StringUtilities.parseInt( matcher.group( 2 ).replaceAll( ",", "" ) ) / 111 - 1 );
 				Preferences.setString( "_sausageGrinderUnits", matcher.group( 3 ) );
 			}
 			break;

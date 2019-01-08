@@ -137,7 +137,7 @@ public class TimeSpinnerCommand
 				!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
 				workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
 			{
-				if ( Preferences.getString( "mayoInMouth" ).equals( "" ) )
+				if ( Preferences.getString( "mayoInMouth" ).equals( "" ) && ConsumablesDatabase.getFullness( foodName ) != 0 )
 				{
 					InventoryManager.retrieveItem( minderSetting, 1 );
 				}
