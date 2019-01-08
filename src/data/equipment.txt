@@ -1676,6 +1676,7 @@ charged magnet	30	none
 Cloaca-Cola shield	70	none	shield
 clockwork detective skull	80	Mox: 25
 clownskin buckler	60	Mus: 15	shield
+cobbled-together Meat detector	0	none
 Codex of Capsaicin Conjuration	30	none
 coffin lid	50	Mus: 10	shield
 Cold Stone of Hatred	200	Mus: 125
