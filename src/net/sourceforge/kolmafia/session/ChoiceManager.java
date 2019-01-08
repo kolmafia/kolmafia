@@ -211,6 +211,13 @@ public abstract class ChoiceManager
 		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
 	}
 
+	public static final Pattern URL_QTY_PATTERN = Pattern.compile( "qty=(\\d+)" );
+	public static int extractQtyFromURL( final String urlString )
+	{
+		Matcher matcher = ChoiceManager.URL_QTY_PATTERN.matcher( urlString );
+		return  matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : -1;
+	}
+
 	private static final Pattern URL_SKILLID_PATTERN = Pattern.compile( "skillid=(\\d+)" );
 	private static final Pattern TATTOO_PATTERN = Pattern.compile( "otherimages/sigils/hobotat(\\d+).gif" );
 	private static final Pattern REANIMATOR_ARM_PATTERN = Pattern.compile( "(\\d+) arms??<br>" );
@@ -282,6 +289,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_RECRUIT_PATTERN = Pattern.compile( "attract (.*?) new children" );
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
 	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
+	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (\\d+) of the (\\d+) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -12084,6 +12092,7 @@ public abstract class ChoiceManager
 		case 825:
 		case 826:
 		case 827:
+		{
 			// The Prince's Ball
 			if ( ChoiceManager.parseCinderellaTime() == false )
 			{
@@ -12104,7 +12113,8 @@ public abstract class ChoiceManager
 				Preferences.setString( "grimstoneMaskPath", "" );
 			}
 			break;
-			
+		}
+
 		case 829:
 			// We all wear masks
 			if ( ChoiceManager.lastDecision != 6 )
@@ -12164,6 +12174,7 @@ public abstract class ChoiceManager
 			break;
 		
 		case 856:
+		{
 			// This Looks Like a Good Bush for an Ambush
 			Matcher lynyrdMatcher = ChoiceManager.LYNYRD_PATTERN.matcher( text );
 			if ( lynyrdMatcher.find() )
@@ -12173,8 +12184,10 @@ public abstract class ChoiceManager
 				RequestLogger.printLine( "Scared off " + protestersScared + " protesters" );
 			}
 			break;
+		}
 
 		case 857:
+		{
 			// Bench Warrant
 			Matcher benchWarrantMatcher = ChoiceManager.BENCH_WARRANT_PATTERN.matcher( text );
 			if ( benchWarrantMatcher.find() )
@@ -12184,6 +12197,7 @@ public abstract class ChoiceManager
 				RequestLogger.printLine( "Creeped out " + protestersCreeped + " protesters" );
 			}
 			break;
+		}
 
 		case 858:
 			// Fire Up Above
@@ -12299,6 +12313,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 875:
+		{
 			// Welcome To Our ool Table
 			Matcher poolSkillMatcher = ChoiceManager.POOL_SKILL_PATTERN.matcher( text );
 			if ( poolSkillMatcher.find() )
@@ -12306,6 +12321,7 @@ public abstract class ChoiceManager
 				Preferences.increment( "poolSkill", StringUtilities.parseInt( poolSkillMatcher.group( 1 ) ) );
 			}
 			break;
+		}
 
 		case 918:
 			// Yachtzee!
@@ -12354,6 +12370,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 974:
+		{
 			// Around The World
 			Matcher pinkWordMatcher = ChoiceManager.PINK_WORD_PATTERN.matcher( text );
 			if ( pinkWordMatcher.find() )
@@ -12364,8 +12381,10 @@ public abstract class ChoiceManager
 				RequestLogger.updateSessionLog( message );
 			}
 			break;
+		}
 
 		case 975:
+		{
 			// Crazy Still After All These Years
 			Matcher stillMatcher = ChoiceManager.STILL_PATTERN.matcher( text );
 			if ( stillMatcher.find() )
@@ -12373,6 +12392,7 @@ public abstract class ChoiceManager
 				ResultProcessor.processItem( ItemPool.COCKTAIL_ONION, -StringUtilities.parseInt( stillMatcher.group( 1 ) ) );
 			}
 			break;
+		}
 
 		case 977:
 			// [Chariot Betting]
@@ -12565,6 +12585,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 1101:
+		{
 			// It's a Barrel Smashing Party!
 			if ( ChoiceManager.lastDecision == 2 )
 			{
@@ -12591,6 +12612,7 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( itemId );
 			}
 			break;
+		}
 
 		case 1103:
 			// Doing the Maths
@@ -12800,6 +12822,7 @@ public abstract class ChoiceManager
 			break;
 
 		case 1199:
+		{
 			// The Far Future
 			if ( text.contains( "item appears in the replicator" ) ||
 			     text.contains( "convoluted nature of time-travel" ) )
@@ -12813,6 +12836,7 @@ public abstract class ChoiceManager
 				Preferences.setInteger( "timeSpinnerMedals", StringUtilities.parseInt( medalMatcher.group( 1 ) ) );
 			}
 			break;
+		}
 
 		case 1202:
 			// Noon in the Civic Center
@@ -13169,6 +13193,22 @@ public abstract class ChoiceManager
 				Preferences.increment( "_catBurglarHeistsComplete" );
 			}
 			break;
+
+		case 1339:
+		{
+			// A Little Pump and Grind
+			if ( ChoiceManager.lastDecision == 1 && text.contains( "filling counter increments" ) )
+			{
+				int itemId = ChoiceManager.extractIidFromURL( request.getURLString() );
+				int qty = ChoiceManager.extractQtyFromURL( request.getURLString() );
+				ResultProcessor.processResult( ItemPool.get( itemId, -qty ) );
+			}
+			else if ( ChoiceManager.lastDecision == 2 && text.contains( "You acquire an item" ) )
+			{
+				ResultProcessor.removeItem( ItemPool.MAGICAL_SAUSAGE_CASING );
+			}
+			break;
+		}
 
 		}
 
@@ -14492,6 +14532,18 @@ public abstract class ChoiceManager
 					}
 					Preferences.setString( "daycareInstructors", instructors );
 				}
+			}
+			break;
+		}
+
+		case 1339:
+		{
+			// A Little Pump and Grind
+			Matcher matcher = ChoiceManager.SAUSAGE_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				Preferences.setInteger( "_sausagesMade", StringUtilities.parseInt( matcher.group( 2 ) ) / 111 - 1 );
+				Preferences.setString( "_sausageGrinderUnits", matcher.group( 3 ) );
 			}
 			break;
 		}
@@ -16963,6 +17015,21 @@ public abstract class ChoiceManager
 					RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
 				}
 				return true;
+
+			case 1339:	// A Little Pump and Grind
+				if ( decision == 1 )
+				{
+					int itemId = ChoiceManager.extractIidFromURL( urlString );
+					int qty = ChoiceManager.extractQtyFromURL( urlString );
+					String name = ItemDatabase.getItemName( itemId );
+					if ( name != null )
+					{
+						RequestLogger.updateSessionLog( "grinding " + qty + " " + name );
+						return true;
+					}
+				}
+				return true;
+
 			}
 
 			if ( decision != 0 )
@@ -17338,6 +17405,7 @@ public abstract class ChoiceManager
 		case 1334: // Boxing Daycare (Lobby)
 		case 1335: // Boxing Day Spa
 		case 1336: // Boxing Daycare
+		case 1339: // A Little Pump and Grind
 			return true;
 
 		default:

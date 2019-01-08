@@ -1397,6 +1397,7 @@ user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_dailyDungeonMalwareUsed	false
 user	_darkChocolateHeart	false
+user	_tryptophanDartUsed	false
 user	_daycareGymScavenges	0
 user	_daycareNap	false
 user	_daycareRecruits	0
@@ -1654,6 +1655,10 @@ user	_riftletAdv	0
 user	_roboDrinks
 user	_romanticFightsLeft	0
 user	_saltGrainsConsumed	0
+user	_sausageGrinderUnits	0
+user	_sausageFights	0
+user	_sausagesEaten	0
+user	_sausagesMade	0
 user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0

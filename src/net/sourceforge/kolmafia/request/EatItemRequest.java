@@ -165,6 +165,10 @@ public class EatItemRequest
 		case ItemPool.AFFIRMATION_COOKIE:
 			UseItemRequest.limiter = "daily limit";
 			return Preferences.getBoolean( "_affirmationCookieEaten" ) ? 0 : ( 1 - ConcoctionDatabase.queuedAffirmationCookies );
+
+		case ItemPool.MAGICAL_SAUSAGE:
+			UseItemRequest.limiter = "daily limit";
+			return 23 - Preferences.getInteger( "_sausagesEaten" );
 		}
 
 		int limit = KoLCharacter.getFullnessLimit();
@@ -988,6 +992,11 @@ public class EatItemRequest
 			ConsumablesDatabase.setAffirmationCookieData();
 			ConsumablesDatabase.calculateAdventureRanges();
 			return;
+
+		case ItemPool.MAGICAL_SAUSAGE:
+			Preferences.increment( "_sausagesEaten", item.getCount(), 23, false );
+			return;
+
 		}
 	}
 

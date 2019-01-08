@@ -497,7 +497,7 @@ public class UseItemRequest
 		}
 
 		int fullness = ConsumablesDatabase.getFullness( itemName );
-		if ( fullness > 0 )
+		if ( fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE )
 		{
 			return EatItemRequest.maximumUses( itemId, itemName, fullness );
 		}
@@ -2199,7 +2199,7 @@ public class UseItemRequest
 		}
 
 		int fullness = ConsumablesDatabase.getFullness( name );
-		if ( fullness > 0 )
+		if ( fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE )
 		{
 			EatItemRequest.parseConsumption( item, helper, responseText );
 			return;

@@ -511,6 +511,7 @@ magical glistening maki	3	1		7-12	0	8-16	0	50/60 Fishy
 magical Jack LaLanne roll	3	1		9-14	28-46	20-30	20-30	50/60 Fishy
 magical musclebound rabbit roll	3	1		9-14	8-16	20-30	0	50/60 Fishy
 magical python roll	3	1		9-14	8-16	0	20-30	50/60 Fishy
+magical sausage	0	1	EPIC	1	0	0	0	999 MP
 magical slick maki	3	1		7-12	0	0	8-16	50/60 Fishy
 magical slippery snake roll	3	1		9-14	0	0	28-46	50/60 Fishy
 magical sneaky rabbit roll	3	1		9-14	0	20-30	8-16	50/60 Fishy

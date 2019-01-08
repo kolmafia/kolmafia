@@ -1891,6 +1891,9 @@ government bureaucrat	2095	vwgovt.gif	Scale: 1 Cap: 1000 Floor: 10 P: dude Init:
 terrible mutant	2096	vwmutant.gif	Scale: 5 Cap: 1000 Floor: 10 P: humanoid Init: -10000	glob of undifferentiated tissue (0)	glob of undifferentiated tissue (0)	mutant arm (n0)	mutant legs (c0)	mutant crown (c0)
 slime blob	2097	vwslime.gif	Scale: 4 Cap: 1000 Floor: 10 P: slime E: sleaze Init: -10000	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
 
+# Kramco Sausage-o-Matic (Jan 2019
+sausage goblin	2104	sausagegoblin.gif	Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 E: sleaze P: goblin	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
