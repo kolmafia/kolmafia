@@ -398,6 +398,9 @@ public class CreateItemRequest
 		case METEOROID:
 			return new MeteoroidRequest( conc );
 
+		case SAUSAGE_O_MATIC:
+			return new SausageOMaticRequest( conc );
+
 		case SPACEGATE:
 			return new SpacegateEquipmentRequest( conc );
 

@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -1037,7 +1038,7 @@ public class ConcoctionDatabase
 			workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
 		{
 			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
-			if ( quantity > mayoCount )
+			if ( quantity > mayoCount && c.getFullness() != 0 )
 			{
 				InventoryManager.retrieveItem( minderSetting, quantity - mayoCount );
 			}
@@ -2156,6 +2157,14 @@ public class ConcoctionDatabase
 		}
 		ConcoctionDatabase.EXCUSE.put( CraftingType.COINMASTER, "You have not selected the option to trade with coin masters." );
 
+		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.SAUSAGE_O_MATIC, 1 ) ) || KoLCharacter.hasEquipped( ItemPool.SAUSAGE_O_MATIC, EquipmentManager.OFFHAND ) )
+		{
+			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.SAUSAGE_O_MATIC );
+			ConcoctionDatabase.ADVENTURE_USAGE.put( CraftingType.SAUSAGE_O_MATIC, 0 );
+			ConcoctionDatabase.CREATION_COST.put( CraftingType.SAUSAGE_O_MATIC, 111 * ( 1 + Preferences.getInteger( "_sausagesMade" ) ) );
+		}
+		ConcoctionDatabase.EXCUSE.put( CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;." );
+
 		if ( KoLConstants.inventory.contains( ItemPool.get( ItemPool.FIVE_D_PRINTER, 1 ) ) )
 		{
 			ConcoctionDatabase.PERMIT_METHOD.add( CraftingType.FIVE_D );
@@ -2737,6 +2746,10 @@ public class ConcoctionDatabase
 		else if ( mixingMethod == CraftingType.METEOROID )
 		{
 			result.append( "metal meteoroid" );
+		}
+		else if ( mixingMethod == CraftingType.SAUSAGE_O_MATIC )
+		{
+			result.append( "Kramco Sausage-o-Matic" );
 		}
 		else if ( mixingMethod == CraftingType.SEWER )
 		{
@@ -3434,9 +3447,9 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.mixingMethod = CraftingType.NEWSPAPER;
 		}
 
-		else if ( mix.equals( "METEOROID" ) )
+		else if ( mix.equals( "SAUSAGE_O_MATIC" ) )
 		{
-			ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;
+			ConcoctionDatabase.mixingMethod = CraftingType.SAUSAGE_O_MATIC;
 		}
 
 		else if ( mix.equals( "SEWER" ) )

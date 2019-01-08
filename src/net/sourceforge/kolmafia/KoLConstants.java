@@ -597,6 +597,7 @@ public interface KoLConstants
 		NEWSPAPER,	// Items made from burning newspaper
 		METEOROID,	// Items made from metal meteoroid
 		FANTASY_REALM,	// Items made by visiting FantasyRealm welcome center
+		SAUSAGE_O_MATIC,	// Items made by Kramco Sausage-o-Matic
 	}
 
 	public enum CraftingRequirements
