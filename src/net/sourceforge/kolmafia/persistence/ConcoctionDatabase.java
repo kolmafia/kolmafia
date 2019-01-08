@@ -3447,6 +3447,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.mixingMethod = CraftingType.NEWSPAPER;
 		}
 
+		else if ( mix.equals( "METEOROID" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.METEOROID;
+		}
+
 		else if ( mix.equals( "SAUSAGE_O_MATIC" ) )
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.SAUSAGE_O_MATIC;
