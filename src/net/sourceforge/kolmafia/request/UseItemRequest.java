@@ -1206,6 +1206,10 @@ public class UseItemRequest
 			UseItemRequest.limiter = "daily limit";
 			return 3 - Preferences.getInteger( "_highTopPumps" );
 
+		case ItemPool.JERKS_HEALTH_MAGAZINE:
+			UseItemRequest.limiter = "daily limit";
+			return ( 5 - Preferences.getInteger( "_jerksHealthMagazinesUsed" ) );
+
 		}
 
 		if ( restorationMaximum < Integer.MAX_VALUE )
@@ -6155,6 +6159,10 @@ public class UseItemRequest
 
 		case ItemPool.BOXING_DAY_PASS:
 			Preferences.setBoolean( "_daycareToday", true );
+			break;
+
+		case ItemPool.JERKS_HEALTH_MAGAZINE:
+			Preferences.increment( "_jerksHealthMagazinesUsed", count );
 			break;
 
 		}
