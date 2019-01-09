@@ -265,8 +265,7 @@ public class NPCStoreDatabase
 		}
 		else if ( storeId.startsWith( "crimbo18" ) )
 		{
-			// Change to false in January 2019
-			return true;
+			return false;
 		}
 		else if ( storeId.equals( "guildstore1" ) )
 		{
