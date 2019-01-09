@@ -1102,7 +1102,7 @@ public class ChoiceOptionsPanel
 		switch ( this.fallSelect.getSelectedIndex() )
 		{
 		case 0: // Ignore this adventure
-			Preferences.setString( "choiceAdventure889", "4" );
+			Preferences.setString( "choiceAdventure889", "5" );
 			break;
 
 		case 1: // Muscle
