@@ -965,6 +965,7 @@ Item	sugar shirt	Experience: +3, Breakable
 Item	supportive bra	Moxie: +3
 # surgical apron: Makes you look like a gross doctor
 Item	surgical apron	Damage Reduction: 6, Surgeonosity: +1
+Item	tailored vest	Experience: +3, Lasts Until Rollover
 Item	The Emperor's new shirt	Muscle: [L]
 # Thinknerd T-Shirt	enchantment varies per player?
 Item	trench coat	Experience Percent (Muscle): +20, Muscle Percent: +20, Spooky Resistance: +4

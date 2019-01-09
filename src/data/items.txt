@@ -10175,7 +10175,7 @@
 10148	cobbled-together Meat detector	379535516	elfopdetector.gif	offhand	q	0
 10149	tin thermos of chai	543809374	elfopthermos.gif	usable	t,d	30
 10150	prototype stimulant	851023933	elfopsyringe.gif	spleen, usable	t,d	30
-10151
+10151	tailored vest	995621294	elfopvest.gif	shirt	q	0
 10152	sew-on bandage	241193251	elfopbandage.gif	usable, combat	t,d	30
 10153	really nice net	416368194	elfopnet.gif	none, combat	t,d	30
 10154	elf army poncho	227963158	elfopponcho.gif	container	q	0
