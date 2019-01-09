@@ -796,6 +796,7 @@ Stephen's lab coat	120	Mus: 45
 sugar shirt	100	none
 supportive bra	50	Mox: 10
 surgical apron	155	Mus: 62
+tailored vest	100	none
 The Emperor's new shirt	10	none
 Thinknerd T-Shirt	10	none
 trench coat	200	Mus: 100

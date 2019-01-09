@@ -3181,10 +3181,11 @@ public abstract class ChoiceManager
 		// Take a Look, it's in a Book!
 		new ChoiceSpoiler(
 			"choiceAdventure889", "Haunted Library",
-			new Object[] { "background history",
-				       "cocktailcrafting recipe",
-				       "muscle substats",
-				       "skip adventure" } ),
+			new Object[] { new Option( "background history", 1 ),
+				       new Option( "cocktailcrafting recipe", 2 ),
+				       new Option( "muscle substats", 3 ),
+				       new Option( "dictionary (?)", 4, "dictionary" ),
+				       new Option( "skip", 5 ) } ),
 
 		// Choice 890 is Lights Out in the Storage Room
 		// Choice 891 is Lights Out in the Laundry Room
