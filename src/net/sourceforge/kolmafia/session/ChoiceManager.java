@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.request.LatteRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
+import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -9293,16 +9294,21 @@ public abstract class ChoiceManager
 		{
 			// A Radio on a Beach
 			// Clear quests when accepting a new one as you can only have one
+			if ( text.contains( "your best paramilitary-sounding radio lingo" ) )
+			{
+				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
+				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.UNSTARTED );
+			}
 			// Also clear repeatable quests if there is no quest active at the radio
-			if ( text.contains( "your best paramilitary-sounding radio lingo" ) ||
-			     text.contains( "Maybe try again tomorrow" ) )
+			if ( text.contains( "Maybe try again tomorrow" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.JUNGLE_PUN, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.GORE, QuestDatabase.UNSTARTED );
 				QuestDatabase.setQuestProgress( Quest.CLIPPER, QuestDatabase.UNSTARTED );
 			}
 			// EVE quest started
-			if ( text.contains( "navigation protocol" ) )
+			else if ( text.contains( "navigation protocol" ) )
 			{
 				QuestDatabase.setQuestProgress( Quest.EVE, QuestDatabase.STARTED );
 				Preferences.setString( "EVEDirections", "LLRLR0" );
@@ -9381,6 +9387,11 @@ public abstract class ChoiceManager
 				ResultProcessor.removeItem( ItemPool.GPS_WATCH );
 				ResultProcessor.removeItem( ItemPool.PROJECT_TLB );
 				QuestDatabase.setQuestProgress( Quest.OUT_OF_ORDER, QuestDatabase.FINISHED );
+			}
+			// Can't parse quest due to static so visit quest log
+			else
+			{
+				RequestThread.postRequest( new QuestLogRequest() );
 			}
 			break;
 		}
