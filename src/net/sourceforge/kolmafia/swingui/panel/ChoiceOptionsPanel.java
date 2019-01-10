@@ -1416,7 +1416,7 @@ public class ChoiceOptionsPanel
 		}
 
 		index = Preferences.getInteger( "choiceAdventure889" );
-		if ( index == 4 )
+		if ( index == 5 )
 		{
 			this.fallSelect.setSelectedIndex( 0 );
 		}
