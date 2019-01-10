@@ -1104,6 +1104,7 @@ public class ConsumablesDatabase
 		case ItemPool.SPOOKY_HI_MEIN:
 		case ItemPool.STINKY_HI_MEIN:
 		case ItemPool.HELL_RAMEN:
+		case ItemPool.HAUNTED_HELL_RAMEN:
 		case ItemPool.FETTUCINI_INCONNU:
 		case ItemPool.SPAGHETTI_WITH_SKULLHEADS:
 		case ItemPool.GNOCCHETTI_DI_NIETZSCHE:

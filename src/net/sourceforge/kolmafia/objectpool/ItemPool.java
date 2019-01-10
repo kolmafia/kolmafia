@@ -3077,6 +3077,7 @@ public class ItemPool
 	public static final int GREEN_SLIME_GLOB = 9997;
 	public static final int ORANGE_SLIME_GLOB = 9998;
 	public static final int GOVERNMENT_REQUISITION_FORM = 10003;
+	public static final int HAUNTED_HELL_RAMEN = 10018;
 	public static final int WALRUS_BLUBBER = 10034;
 	public static final int TINY_BOMB = 10036;
 	public static final int MOOSEFLANK = 10038;
