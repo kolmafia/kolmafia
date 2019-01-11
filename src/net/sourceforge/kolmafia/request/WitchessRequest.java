@@ -51,6 +51,11 @@ public class WitchessRequest
 	@Override
 	public void run()
 	{
+		if ( !StandardRequest.isAllowed( "Items", "Witchess Set" ) )
+		{
+			KoLmafia.updateDisplay( "Witchess is too old to use in your current path." );
+			return;
+		}
 		if ( Preferences.getBoolean( "_witchessBuff" ) )
 		{
 			KoLmafia.updateDisplay( "You already got your Witchess buff today." );

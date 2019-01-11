@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.WitchessRequest;
 
 
@@ -52,6 +53,10 @@ public class WitchessCommand
 	@Override
 	public void run( final String cmd, final String parameters )
 	{
+		if ( !StandardRequest.isAllowed( "Items", "Witchess Set" ) )
+		{
+			return;
+		}
 		if ( Preferences.getBoolean( "_witchessBuff" ) )
 		{
 			KoLmafia.updateDisplay( "You already got your Witchess buff today." );
