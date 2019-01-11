@@ -1514,6 +1514,10 @@ public class Maximizer
 				}
 				else if ( cmd.equals( "witchess" ) )
 				{
+					if ( !StandardRequest.isAllowed( "Items", "Witchess Set" ) )
+					{
+						continue;
+					}
 					if ( !KoLConstants.campground.contains( ItemPool.get( ItemPool.WITCHESS_SET, 1 ) ) )
 					{
 						if ( includeAll )
