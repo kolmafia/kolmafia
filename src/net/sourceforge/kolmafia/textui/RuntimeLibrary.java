@@ -7265,10 +7265,19 @@ public abstract class RuntimeLibrary
 
 	public static Value set_property( Interpreter interpreter, final Value nameValue, final Value value )
 	{
-		// Avoid code duplication for combat related settings
 		String name = nameValue.toString();
+
+		if ( !Preferences.isUserEditable( name ) )
+		{
+			return DataTypes.VOID_VALUE;
+		}
+
+		// Only print to CLI if changing built-in property
 		boolean builtin = Preferences.containsDefault( name );
+
+		// Avoid code duplication for combat related settings; call "set" command
 		SetPreferencesCommand.setProperty( name, value.toString(), builtin );
+
 		return DataTypes.VOID_VALUE;
 	}
 
