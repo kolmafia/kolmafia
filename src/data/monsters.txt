@@ -262,7 +262,7 @@ Fitness Giant	1332	giant_fitness.gif	Atk: 150 Def: 140 HP: 200 Init: 40 Meat: 10
 flame-broiled meat blob	148	meatblob.gif	Atk: 2 Def: 1 HP: 2 Init: 60 E: hot Meat: 20 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 Flaming Troll	142	flametroll.gif	Atk: 83 Def: 74 HP: 73 Init: 60 Meat: 40 P: humanoid	flaming talons (10)	Trollhouse cookies (40)
 Flange	538	flange.gif	Atk: 159 Def: 143 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
-fleet woodsman	1527	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 P: dude Meat: 75	fleetwood chain (20)	Green Manalishi (15)	flask of rainwater (c0)
+fleet woodsman	1527	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 P: dude Meat: 75	fleetwood chain (20)	Green Manalishi (20)	flask of rainwater (c0)
 floating platter of hors d'oeuvres	404	horstray.gif	Atk: 65 Def: 55 HP: 70 Init: -10000 ED: spooky P: construct	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d'oeuvre tray (4)
 flock of seagulls	699	seagulls.gif	WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: beast
 Flock of Stab-bats	133	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 160 P: beast	bat wing (30)	batblade (25)	batgut (30)
@@ -1535,10 +1535,10 @@ Sloppy Seconds Burger	1566	ssd_burger.gif	Scale: 5 Cap: 11111 Init: -10000 P: we
 Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze NOBANISH	 bottle of vodka (0)	bottle of rum (0)	bottle of tequila (0)
 Sloppy Seconds Sundae	1568	ssd_sundae.gif	Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze NOBANISH	 possessed sugar cube (0)
 Fun-Guy Playmate	1569	fun-gal1.gif	HP: [30] Def: [30] Atk: [30] Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (0)	pencil thin mushroom (c0)
-broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 P: fish E: sleaze	BROS Energy Drink (0)	8-billed baseball cap (0)
-cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 P: fish E: sleaze	giant shrimp fork (0)	shrimp cocktail (0)
+broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 P: fish E: sleaze	BROS Energy Drink (25)	8-billed baseball cap (5)
+cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 P: fish E: sleaze	giant shrimp fork (5)	shrimp cocktail (25)
 taco fish	1573	tacofish.gif	Atk: 350 Def: 400 HP: 500 Init: 50 P: fish E: sleaze
-wild girl	1570	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: 100 P: dude E: sleaze	extremely wet T-shirt (0)	go-go potion (0)	string of moist beads (0)
+wild girl	1570	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: 100 P: dude E: sleaze	extremely wet T-shirt (5)	go-go potion (25)	string of moist beads (30)
 son of a son of a sailor	1574	sonofsailor.gif	Atk: 350 Def: 350 HP: 600 Init: 50 P: dude E: sleaze
 drownedbeat	1575	drownedbeat.gif	Atk: 400 Def: 325 HP: 450 Init: 25 P: dude E: sleaze	bike rental broupon (c100)
 
