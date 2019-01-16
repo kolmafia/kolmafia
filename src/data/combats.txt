@@ -52,7 +52,7 @@ A Grocery Bag	100	bag of Potatoes of Security	box of Batter Mix of Hope	bundle o
 A Kitchen Drawer	100	Butterknife of Regret	Cookie Cutter of Loneliness	Creme Brulee Torch of Fury	Spatula of Despair	Whisk of Misery
 A Massive Ziggurat	-1	dense liana	Protector Spectre: 0
 A Maze of Sewer Tunnels	95	C. H. U. M.	giant zombie goldfish	sewer gator	C. H. U. M. chieftain: 0
-A Mob of Zeppelin Protesters	80	Blue Oyster cultist	eagle	fleet woodsman	Jefferson pilot	lynyrd skinner	The Nuge: -1
+A Mob of Zeppelin Protesters	90	Blue Oyster cultist	eagle	fleet woodsman	Jefferson pilot	lynyrd skinner	The Nuge: -1
 A Monorail Station	100	Mob Penguin union rail worker	Mob Penguin protector	Mob Penguin steel driver	Mob Penguin negotiator	Mob Penguin organizer	tree hugging hippy protestor	tree loving hippy protestor
 A Pile of Old Servers	100	antique database server
 A Scorching Abyssal Portal	100	scout seal
