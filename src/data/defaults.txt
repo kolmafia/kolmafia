@@ -1371,6 +1371,7 @@ user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
+user	_chocolateSculpturesUsed	0
 user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false

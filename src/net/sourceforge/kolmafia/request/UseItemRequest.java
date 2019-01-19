@@ -1458,6 +1458,18 @@ public class UseItemRequest
 			}
 			break;
 
+		case ItemPool.CHOCOLATE_SCULPTURE:
+			if ( Preferences.getInteger( "_chocolateSculpturesUsed" ) < 3 )
+			{
+				break;
+			}
+			if ( !InputFieldUtilities.confirm( "Fancy chocolate sculptures are wasted after" +
+			     " using 3. Are you sure you want to use it?" ) )
+			{
+				return;
+			}
+			break;
+
 		case ItemPool.ALIEN_ANIMAL_MILK:
 			if ( KoLCharacter.getFullness() >= 3 )
 			{
@@ -4931,6 +4943,26 @@ public class UseItemRequest
 			else
 			{
 				Preferences.setInteger( "_vitachocCapsulesUsed", 3 );
+			}
+			break;
+
+		case ItemPool.CHOCOLATE_SCULPTURE:
+			if ( responseText.contains( "doesn't taste as good" ) )
+			{
+				Preferences.setInteger( "_chocolateSculpturesUsed", 2 );
+			}
+			else if ( responseText.contains( "starting to get tired" ) )
+			{
+				Preferences.setInteger( "_chocolateSculpturesUsed", 3 );
+			}
+			else if ( responseText.contains( "didn't enjoy" ) )
+			{
+				int sculptures = Preferences.getInteger( "_chocolateSculpturesUsed" );
+				Preferences.setInteger( "_chocolateSculpturesUsed", Math.max( sculptures, 4 ) );
+			}
+			else
+			{
+				Preferences.setInteger( "_chocolateSculpturesUsed", 1 );
 			}
 			break;
 
