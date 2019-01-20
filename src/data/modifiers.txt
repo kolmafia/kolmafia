@@ -130,6 +130,8 @@ Item	catskin cap	Muscle: +9, Maximum HP: +40, Familiar Effect: "1xVolley, 1xBarr
 Item	centurion helmet	Muscle: +7, Mysticality: +7, Moxie: +7, Familiar Effect: "1xFairy, atk, cap 25"
 # Cerebral Cloche: Jellyfish Vision
 Item	Cerebral Cloche	Maximum HP: +15, Familiar Effect: "1.5xLep, cap 22"
+# Item chalk chapeau: Weakens enemies who hit you
+Item	chalk chapeau	PvP Fights: +3, HP Regen Min: 3, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 6
 Item	cheerful antler hat	Cold Resistance: +2, Moxie: -15
 Item	chef's hat	Mysticality: +2, MP Regen Min: 1, MP Regen Max: 1, Familiar Effect: "atk, 3xLep, cap 7"
 Item	chrome helmet turtle	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "cold atk, 1xFairy, cap 30"
@@ -306,6 +308,8 @@ Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
 # makeshift turban: Interferes with your vision
 Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
 Item	makeshift yakuza mask	Moxie: -10
+# Item marble mariachi hat: Damages enemies who hit you
+Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30
 Item	mariachi hat	Moxie: +1, Familiar Effect: "atk, cap 2"
 Item	Mark I Steam-Hat	Mysticality: +5, Maximum HP: +20, Familiar Effect: "1xLep, cap 37"
 Item	Mark II Steam-Hat	Mysticality: +5, Maximum HP: +20, Initiative: +15, Familiar Effect: "1xLep, cap 37"
@@ -570,6 +574,8 @@ Item	Can-Can skirt	Muscle Percent: +10, Familiar Effect: "1.5xFairy, 2xPotato, c
 Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 1, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 4, PvP Fights: +3, Familiar Effect: "atk, 2xBarrr, cap 25"
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Item	chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
+# Item chalk chinos: Weakens enemies who hit you
+Item	chalk chinos	Experience (Mysticality): +2, Initiative: +20
 Item	cheerful pajama pants	Cold Resistance: +2, Moxie: -15
 Item	Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit", Familiar Effect: "sleaze atk, 1.5xGhuol"
 Item	clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
@@ -676,6 +682,8 @@ Item	los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, ca
 Item	lynyrdskin breeches	Initiative: +25, Familiar Effect: "1xPotato, 1.5xGhuol, cap 42"
 Item	makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
 Item	manly bloomers	Muscle: +6, Moxie: -3, Familiar Effect: "3xBarrr, 1xGhuol, cap 13"
+# Item marble maebari: Damages enemies who hit you
+Item	marble maebari	Muscle Percent: +20, Sleaze Damage: +20
 Item	mariachi pants	Familiar Effect: "8xPotato, cap 2"
 Item	Mayor Ghost's khakis	Spooky Spell Damage: +100, Sleaze Resistance: +5, Cold Resistance: +1, Class: "Pastamancer", Familiar Effect: "1xPotato, HP regen"
 Item	Mer-kin gladiator tailpiece	Initiative: -25, Damage Reduction: 10, Mana Cost: +2, Familiar Effect: "1xBarrr, 1xFairy"
@@ -1964,6 +1972,8 @@ Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
+# Item chalk chalice: Weakens enemies who hit you
+Item	chalk chalice	Maximum MP: +15, Hot Spell Damage: +20
 Item	charged druidic orb	Lasts Until Rollover
 # charged magnet: Radiates a Strange Energy
 Item	charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
@@ -2164,6 +2174,8 @@ Item	mad scientist's sock monkey	Moxie: +3
 Item	magic lamp	Mysticality: +5
 Item	magical ice cubes	Cold Damage: +1
 Item	makeshift castanets	DB Combat Damage: +10, Class: "Disco Bandit"
+# Item marble mignonette bowl: Damages enemies who hit you
+Item	marble mignonette bowl	MP Regen Min: 4, MP Regen Max: 8, Cold Spell Damage: +40
 Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
 Item	marionette	Mysticality: +3
 Item	marionette collective	Mysticality: +3
@@ -2589,6 +2601,10 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20
+# Item chalk chain: Weakens enemies who hit you
+Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equip
+# Item chalk choker: Weakens enemies who hit you
+Item	chalk choker	Experience (Moxie): +2, Pants Drop: +20, Single Equip
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
 Item	cheap studded belt	Damage Reduction: 1
 # cheap sunglasses: +60% Meat Drops from Tourists
@@ -2922,6 +2938,10 @@ Item	mafia wedding ring	Muscle Percent: +10, Mysticality Percent: +10, Moxie Per
 Item	MagiMechTech NanoMechaMech	Single Equip
 Item	makeshift SCUBA gear	Stench Resistance: +2, Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	malevolent medallion	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, MP Regen Min: 10, MP Regen Max: 30, Slime Hates It: +1, Single Equip
+# Item marble magnet: Damages enemies who hit you
+Item	marble magnet	Mysticality Percent: +20, Spell Damage Percent: +30, Single Equip
+# Item marble medallion: Damages enemies who hit you
+Item	marble medallion	Moxie Percent: +20, Spooky Resistance: +5, Single Equip
 Item	Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only
 Item	Master Thief's utility belt	Moxie: +15, Moxie Percent: +25, Experience (Moxie): +5, Single Equip
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
@@ -3662,6 +3682,8 @@ Item	burning cape	Hot Resistance: +3, Maximum HP: +25, Maximum MP: +25, Adventur
 # Camp Scout backpack: Helps You Be Prepared
 Item	Camp Scout backpack	Item Drop: +15, Softcore Only, Drops Items
 Item	carpe	Mysticality Percent: +50, MP Regen Min: 5, MP Regen Max: 10, Meat Drop: +50, Combat Rate: +10, Lasts Until Rollover
+# Item chalk chlamys: Weakens enemies who hit you
+Item	chalk chlamys	Adventures: +2, Combat Rate: -5
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 Item	dice-shaped backpack	Random Monster Modifiers: +1
@@ -3684,6 +3706,8 @@ Item	little deuce cape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Perc
 Item	Lord Flameface's cloak	Cold Resistance: +2
 Item	LOV Epaulettes	Experience Percent (Mysticality): +25, MP Regen Min: 4, MP Regen Max: 6, Mana Cost (combat): -3, Lasts Until Rollover
 Item	makeshift cape	Item Drop: +5
+# Item marble mantle: Damages enemies who hit you
+Item	marble mantle	Damage Reduction: 10, Weapon Damage Percent: +30
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
@@ -4931,10 +4955,11 @@ Effect	Celestial Vision	Item Drop: +30
 Effect	Censored Can	Avatar: "tin can conspirator"
 Effect	Cereal Killer	Experience: +200
 Effect	Certainty	Item Drop: +100
-# Effect Chai Guru Deva Om
+Effect	Chai Guru Deva Om	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 Effect	Chain Chain Chains	Spooky Damage: +10
 # Chalk Outline: Your Spookiness is Spookier
 Effect	Chalked Weapon	Pool Skill: +5, Attacks Can't Miss
+Effect	Chalked-Up Teeth	Moxie: +25
 Effect	Chalky Hand	Never Fumble, Weapon Damage: +3, Pool Skill: +3
 Effect	Chalky White Pallor	Mysticality Percent: +50
 Effect	Chapped Legs	Muscle: -4, Moxie: +8
@@ -5873,6 +5898,7 @@ Effect	Mallowed Out	Muscle Percent: [min(500,+5*T)], Mysticality Percent: [min(5
 Effect	Man's Worst Enemy	Familiar Weight: +5
 Effect	Mana Tea	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
 Effect	Manbait	Monster Level: +30
+Effect	Marbles in Your Mouth	Moxie: +50
 Effect	Marco Polarity	Experience (Mysticality): [L]
 Effect	Margamergency	Weapon Damage Percent: +200, Spell Damage Percent: +200
 Effect	Margaritish	Moxie Percent: [min(200,5*T)]
@@ -6187,7 +6213,7 @@ Effect	Proprie Tea	Sleaze Resistance: +3
 Effect	Pros Only	Avatar: "sensitive poet-type"
 Effect	protect.enq	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Protection from Bad Stuff	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
-# Effect Proto-Stimulated
+Effect	Proto-Stimulated	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Provocative Perkiness	Initiative: +20
 # Psalm of Pointiness: Damages Attacking Opponents
 Effect	Puckered Up	Candy Drop: [min(T,50)]
@@ -7398,6 +7424,7 @@ Outfit	BRICKOfig Outfit	Item Drop: +10
 Outfit	Brogre Brouture	Muscle Percent: +50
 Outfit	Bugbear Costume	Mysticality: +3, Spell Damage: +3
 Outfit	Ceramic Suit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
+Outfit	Chalk Chostume	Experience: +5
 Outfit	Cheerful Reindeer Suit	Weapon Damage: +25
 Outfit	Cloaca-Cola Uniform	MP Regen Min: 1, MP Regen Max: 3
 # Clockwork Apparatus: I <i>Meant</i> To Do That!
@@ -7462,6 +7489,7 @@ Outfit	Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Saucemaestro: Better Saucespheres
 # Legendary Regalia of the Seal Crusher: +100% Item Drops from Infernal Seals
 Outfit	Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
+Outfit	Marble Materials	Familiar Weight: +10
 Outfit	Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
 Outfit	Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Outfit	Meteor Masquerade	Meat Drop: +50
@@ -8631,6 +8659,7 @@ Item	can of spinach	Effect: "Pop-eyed", Effect Duration: 10
 # can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	can of V-11	Effect: "It's Ridiculous", Effect Duration: 111
 Item	candied bolts	Effect: "Bolts about Candy", Effect Duration: 20
+Item	candy chalk	Effect: "Chalked-Up Teeth", Effect Duration: 20
 Item	candied kobold	Effect: "Sugar Rush", Effect Duration: 3
 Item	candied nuts	Effect: "Nuts about Candy", Effect Duration: 20
 Item	candy brain	Effect: "Sugar Rush", Effect Duration: 15
@@ -9638,6 +9667,7 @@ Item	mafia aria	Effect: "Macho Profundo", Effect Duration: 5
 # magical mystery juice: Restores an amount of MP that increases as you level up
 Item	magicberry tablets	Effect: "Magic Tongue", Effect Duration: 1
 # magnolia blossom: Restores 15-30 HP and MP
+Item	Mallomarbles	Effect: "Marbles in Your Mouth", Effect Duration: 20
 Item	mangled finger	Effect: "It Tickles! It Tickles!", Effect Duration: 20
 Item	Mansquito's blood	Effect: "Blood of the Jerk that Bit You", Effect Duration: 50
 Item	Manual of Numberology	Skill: "Calculate the Universe"

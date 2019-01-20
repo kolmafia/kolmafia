@@ -146,3 +146,5 @@
 142	Mutant Parts Apparel	vwmuttat.gif	mutant arm, mutant legs, mutant crown
 143	Government-Issued Garb	vwgovttat.gif	government-issued slacks, government-issued eyeshade, government-issued necktie
 144	Bauxite Baubles	bauxtat.gif	bauxite beret, bauxite boxers, bauxite bow-tie
+145	Chalk Chostume	chalktat.gif	chalk chapeau, chalk chalice, chalk chlamys, chalk chinos, chalk chain, chalk choker
+146	Marble Materials	marbletat.gif	marble mariachi hat, marble mignonette bowl, marble mantle, marble maebari, marble magnet, marble medallion
