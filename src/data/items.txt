@@ -10106,22 +10106,22 @@
 10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0
 10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0
 10081	hand-knitted Crimbo socks	290044310	abuelasocks.gif	accessory		0
-10082
-10083
-10084
-10085
-10086
-10087
-10088
-10089
-10090
-10091
-10092
-10093
-10094
-10095
+10082	chalk chlamys	391117305	chalkchlamys.gif	container		0
+10083	chalk chain	178062531	chalkchain.gif	accessory		0
+10084	chalk chalice	752511478	chalkchalice.gif	offhand		0
+10085	chalk chinos	673662708	chalkchinos.gif	pants		0
+10086	chalk chapeau	128828450	chalkchapeau.gif	hat		0
+10087	chalk choker	226026698	chalkchoker.gif	accessory		0
+10088	chalk chunks	467946203	chalkchunks.gif	spleen, usable		0
+10089	candy chalk	354029566	stirringstick.gif	usable	t,d	15
+10090	marble maebari	463444861	marblemaebari.gif	pants		0
+10091	marble mantle	803846379	marblemantle.gif	container		0
+10092	marble magnet	738707903	marblemagnet.gif	accessory		0
+10093	marble mignonette bowl	835217008	marblebowl.gif	offhand		0
+10094	marble medallion	427535135	marblemedallion.gif	accessory		0
+10095	marble mariachi hat	506380732	marblehat.gif	hat		0
 10096
-10097
+10097	Mallomarbles	759433074	mallomarbles.gif	usable	t,d	15
 10098
 10099
 10100

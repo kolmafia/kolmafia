@@ -2439,5 +2439,7 @@
 2438	Carol of the Hells	music.gif	9201ba5d987aba1b084504833c695326	cast 1 Carol of the Hells
 2439	Carol of the Thrills	music.gif	7b5fb0ad18ebbd61b328e922caf781ba	cast 1 Carol of the Thrills
 2440	Watched Over	nicewatch.gif	79b4813f9de0406da1a39bcb051c7117	# Wear Crimbolex at rollover
-#0	Chai Guru Deva Om		96445a82e91bbdf6cbc1df0c50f9acb8	use 1 tin thermos of chai
-#0	Proto-Stimulated		adc87f857d066b1d0270d150c4694b32	chew 1 prototype stimulant
+2441	Chalked-Up Teeth	stirringstick.gif	e74e4022c50bb49d52d9ff5a714e5fa2	use 1 candy chalk
+2442	Marbles in Your Mouth	mallomarbles.gif	0493ace9f60eed178f6d5c9fe4deabc6	use 1 Mallomarbles
+2443	Proto-Stimulated		adc87f857d066b1d0270d150c4694b32	chew 1 prototype stimulant
+2444	Chai Guru Deva Om		96445a82e91bbdf6cbc1df0c50f9acb8	use 1 tin thermos of chai

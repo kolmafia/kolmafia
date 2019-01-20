@@ -54,6 +54,7 @@ burning paper hat	100	none
 catskin cap	180	Mox: 75
 centurion helmet	100	Mox: 35
 Cerebral Cloche	90	Mox: 30
+chalk chapeau	50	none
 cheerful antler hat	50	none
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
@@ -205,6 +206,7 @@ MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
 makeshift turban	100	Mox: 35
 makeshift yakuza mask	10	none
+marble mariachi hat	120	Mox: 40
 mariachi hat	10	none
 Mark I Steam-Hat	150	Mox: 60
 Mark II Steam-Hat	150	Mox: 60
@@ -442,6 +444,7 @@ Can-Can skirt	90	Mox: 15
 cane-mail pants	100	none
 Cerebral Culottes	90	Mox: 30
 chain-mail monokini	30	none
+chalk chinos	50	none
 cheerful pajama pants	50	none
 Chester's cutoffs	200	Mox: 200
 clingfilm trousers	150	Mox: 60
@@ -537,6 +540,7 @@ los chinos	55	Mox: 12
 lynyrdskin breeches	170	Mox: 70
 makeshift skirt	100	Mox: 35
 manly bloomers	55	Mox: 12
+marble maebari	120	Mus: 40
 mariachi pants	10	none
 Mayor Ghost's khakis	300	Mys: 250
 Mer-kin gladiator tailpiece	200	Mus: 85
@@ -1674,6 +1678,7 @@ card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
 catskin buckler	180	Mus: 75	shield
 Chalice of the Malkovich Prince	0	none
+chalk chalice	50	none
 charged druidic orb	0	none
 charged magnet	30	none
 Cloaca-Cola shield	70	none	shield
@@ -1842,6 +1847,7 @@ magic lamp	30	none
 magical ice cubes	30	none
 makeshift castanets	160	Mox: 150
 marinara jug	160	Mys: 150
+marble mignonette bowl	120	Mys: 40
 marionette	110	Mys: 40
 marionette collective	110	Mys: 40
 meat shield	60	Mus: 15	shield
@@ -2204,6 +2210,8 @@ Cat-Herding Prod	0	none
 Caveman Dan's favorite rock	100	Mus: 35
 cement sandals	50	Mus: 10
 cement shoes	0	Mys: 35
+chalk chain	50	none
+chalk choker	50	none
 cheap elven gloves	30	none
 cheap studded belt	10	none
 cheap sunglasses	80	Mys: 20
@@ -2473,6 +2481,8 @@ mafia wedding ring	0	Mus: 1
 MagiMechTech NanoMechaMech	60	Mys: 15
 makeshift SCUBA gear	10	none
 malevolent medallion	200	Mys: 150
+marble magnet	120	Mys: 40
+marble medallion	120	Mox: 40
 Marvelous Unitard	10	none
 Master Thief's utility belt	200	Mox: 40
 mayfly bait necklace	0	none
@@ -3117,6 +3127,7 @@ Buddy Bjorn	100	none
 burning cape	100	none
 Camp Scout backpack	0	none
 carpe	0	none
+chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
 dice-shaped backpack	10	none
@@ -3136,6 +3147,7 @@ little deuce cape	150	Mus: 75
 Lord Flameface's cloak	0	Mys: 75
 LOV Epaulettes	100	none
 makeshift cape	100	Mys: 75
+marble mantle	120	Mus: 40
 Mayor Ghost's cloak	300	Mys: 250
 Misty Cape	130	Mox: 75
 Misty Cloak	130	Mus: 75
