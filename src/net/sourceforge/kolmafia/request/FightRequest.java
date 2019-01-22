@@ -3645,6 +3645,12 @@ public class FightRequest
 
 		if ( !won )
 		{
+			if ( responseText.contains( "FREEFREEFREE" ) )
+			{
+				String updateMessage = "This combat did not cost a turn";
+				RequestLogger.updateSessionLog( updateMessage );
+				KoLmafia.updateDisplay( updateMessage );
+			}
 			QuestManager.updateQuestFightLost( responseText, monsterName );
 		}
 		else
