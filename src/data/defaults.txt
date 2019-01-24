@@ -567,7 +567,6 @@ user	frMountainsUnlocked	false
 user	frSwampUnlocked	false
 user	frVillageUnlocked	false
 user	frWoodUnlocked	false
-user	gallapagosMonster	
 user	gameProBossSpecialPower	Unknown
 user	garbageChampagneCharge	0
 user	garbageFireProgress	25
@@ -1239,6 +1238,7 @@ user	sugarCounter4182	0
 user	sugarCounter4183	0
 user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
+user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPotentialMalware	false
 user	tacoDanCocktailSauce	0
@@ -1450,6 +1450,7 @@ user	_frMonstersKilled
 user	_frToday	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
+user	_gallapagosMonster
 user	_gapBuffs	0
 user	_garbageFireDropsCrown	0
 user	_garbageItemChanged	false
@@ -2536,3 +2537,4 @@ user	unknownRecipe7755	true
 user	unknownRecipe7756	true
 user	unknownRecipe7757	true
 user	unknownRecipe7758	true
+

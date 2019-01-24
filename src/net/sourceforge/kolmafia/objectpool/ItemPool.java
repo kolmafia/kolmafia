@@ -2931,6 +2931,7 @@ public class ItemPool
 	public static final int SPACE_BABY_BAWBAW = 9464;
 	public static final int PORTABLE_SPACEGATE = 9465;
 	public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
+	public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
 	public static final int AFFIRMATION_MIND_MASTER = 9483;
 	public static final int AFFIRMATION_HATE = 9485;
 	public static final int AFFIRMATION_COOKIE = 9486;
@@ -3333,3 +3334,4 @@ public class ItemPool
 		}
 	}
 }
+
