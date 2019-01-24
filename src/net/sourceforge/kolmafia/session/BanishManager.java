@@ -120,7 +120,7 @@ public class BanishManager
 		new Banisher( "beancannon", -1, 5, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "breathe out", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "bundle of &quot;fragrant&quot; herbs", -1, 3, true, Reset.ROLLOVER_RESET ),
-		new Banisher( "chatterboxing", 20, 1, true, Reset.TURN_RESET ),
+		new Banisher( "chatterboxing", 20, 1, true, Reset.TURN_ROLLOVER_RESET ),
 		new Banisher( "classy monkey", 20, 1, false, Reset.TURN_RESET ),
 		new Banisher( "cocktail napkin", 20, 1, true, Reset.TURN_RESET ),
 		new Banisher( "crystal skull", 20, 1, false, Reset.TURN_RESET ),

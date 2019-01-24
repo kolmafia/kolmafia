@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
 
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -151,14 +152,21 @@ public class AreaCombatData
 				currentWeighting += baseWeighting;
 			}
 			// If Gallapagosian Mating Call used, add one to encounter pool
-			if ( Preferences.getString( "gallapagosMonster" ).equals( monsterName ) )
+			if ( Preferences.getString( "_gallapagosMonster" ).equals( monsterName ) )
 			{
 				currentWeighting += baseWeighting;
 			}
-			// If Offer Latte to Opponent used, add one (?) to encounter pool
-			if ( Preferences.getString( "_latteMonster" ).equals( monsterName ) )
+			// If Offer Latte to Opponent used, add two to encounter pool
+			if ( Preferences.getString( "_latteMonster" ).equals( monsterName ) &&
+			     TurnCounter.isCounting( "Latte Monster" ) )
 			{
-				currentWeighting += baseWeighting;
+				currentWeighting += 2 * baseWeighting;
+			}
+			// If Superficially Interested used, add three(?) to encounter pool
+			if ( Preferences.getString( "superficiallyInterestedMonster" ).equals( monsterName ) &&
+			     TurnCounter.isCounting( "Superficially Interested Monster" ) )
+			{
+				currentWeighting += 3 * baseWeighting;
 			}
 			// If Staff of the Cream of the Cream jiggle, add two to encounter pool
 			if ( Preferences.getString( "_jiggleCreamedMonster" ).equals( monsterName ) )
