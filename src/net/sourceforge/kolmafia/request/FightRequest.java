@@ -7043,7 +7043,7 @@ public class FightRequest
 			}
 			return false;
 		}
-
+		
 		// Combat item usage: process the children of this node
 		// to pick up damage to the monster and stat gains
 		return true;
@@ -8752,7 +8752,7 @@ public class FightRequest
 		case SkillPool.MATING_CALL:
 			if ( responseText.contains( "bellow the eerie mating call" ) || skillSuccess )
 			{
-				Preferences.setString( "gallapagosMonster", monsterName );
+				Preferences.setString( "_gallapagosMonster", monsterName );
 			}
 			break;
 
@@ -8983,6 +8983,8 @@ public class FightRequest
 		case SkillPool.OFFER_LATTE:
 			if ( responseText.contains( "friends start following you" ) || skillSuccess )
 			{
+				TurnCounter.stopCounting( "Latte Monster" );
+				TurnCounter.startCounting( 30, "Latte Monster loc=*", "snout.gif" );
 				Preferences.setString( "_latteMonster", monsterName );
 				Preferences.setBoolean( "_latteCopyUsed", true );
 			}
@@ -9470,6 +9472,15 @@ public class FightRequest
 			if ( responseText.contains( "pull a nuclear bomb out of the stockpile" ) || itemRunawaySuccess )
 			{
 				Preferences.increment( "_nuclearStockpileUsed", 1, 10, false );
+			}
+			break;
+		case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED:
+			if ( responseText.contains( "are feeling really, really interested" ) || itemSuccess )
+			{
+				MonsterData monster = MonsterStatusTracker.getLastMonster();
+				Preferences.setString( "superficiallyInterestedMonster", monster.getName() );
+				TurnCounter.stopCounting( "Superficially Interested Monster" );
+				TurnCounter.startCounting( 80, "Superficially Interested Monster loc=*", "snout.gif" );
 			}
 			break;
 		case ItemPool.AFFIRMATION_MIND_MASTER:

@@ -766,6 +766,7 @@ public abstract class KoLmafia
 		TurnCounter.stopCounting( "Event Monster window end" );
 		TurnCounter.stopCounting( "Taco Elf window begin" );
 		TurnCounter.stopCounting( "Taco Elf window end" );
+		TurnCounter.stopCounting( "Latte Monster" );
 	}
 
 	public static void refreshSession()
