@@ -168,7 +168,7 @@ public class PantogramRequest
 			String slot2 = matcher.group( 4 );
 			if ( slot2.startsWith( "-1" ) )
 			{
-				modList.addModifier( "Weapon Damage Percent", "20" );
+				modList.addModifier( "Weapon Damage", "20" );
 			}
 			else if ( slot2.startsWith( "-2" ) )
 			{

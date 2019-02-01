@@ -115,7 +115,7 @@ public class LatteRequest
 		{ "squash", "The Copperhead Club", "Spaghetti-squashy", "spaghetti squash spice", "with extra squash", "Spell Damage: 20", "steal a spaghetti squash" },
 		{ "squamous", "The Caliginous Abyss", "Squamous-salted", "squamous", "with squamous salt", "Spooky Resistance: 3", "break off a shard" },
 		{ "teeth", "The VERY Unquiet Garves", "Teeth", "teeth", "with teeth in it", "Spooky Damage: 25, Weapon Damage: 25", "handful of loose teeth" },
-		{ "vanilla", null, "Vanilla", "vanilla", "with a shot of vanilla", "Experience (Muscle): 1, Muscle Percent: 5, Weapon Damage: 5", null },
+		{ "vanilla", null, "Vanilla", "vanilla", "with a shot of vanilla", "Experience (Muscle): 1, Muscle Percent: 5, Weapon Damage Percent: 5", null },
 		{ "venom", "The Middle Chamber", "Envenomed", "asp venom", "with extra poison", "Weapon Damage: 25", "wring the poison out of it into a jar" },
 		{ "vitamins", "The Dark Elbow of the Woods", "Fortified", "vitamin", "enriched with vitamins", "Experience (familiar): 3", "specifically vitamins G, L, P, and W" },
 		{ "wing", "The Dark Heart of the Woods", "Hot wing and", "hot wing", "with a hot wing in it", "Combat Rate: 10", "plate of hot wings" },
