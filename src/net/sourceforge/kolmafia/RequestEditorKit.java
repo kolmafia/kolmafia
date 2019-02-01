@@ -1878,34 +1878,42 @@ public class RequestEditorKit
 			return;
 		}
 
-		Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher( buffer );
-		if ( m.find() )
-		{
-			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + "/100 megawoots)";
-			buffer.insert( m.end(), progress );
-			return;
-		}
+		String partyQuest = Preferences.getString( "_questPartyFairQuest" );
 
-		m = RequestEditorKit.TRASH_PATTERN.matcher( buffer );
-		if ( m.find() )
-		{
-			String progress = " (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)";
-			buffer.insert( m.end(), progress );
-			return;
+		if ( partyQuest.equals( "woots" ) )
+		{	
+			Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher( buffer );
+			if ( m.find() )
+			{
+				String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + "/100 megawoots)";
+				buffer.insert( m.end(), progress );
+				return;
+			}
 		}
-
-		m = RequestEditorKit.MEAT_PATTERN.matcher( buffer );
-		if ( m.find() )
+		else if ( partyQuest.equals( "trash" ) )
 		{
-			String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Meat remaining)";
-			buffer.insert( m.end(), progress );
-			return;
+			Matcher m = RequestEditorKit.TRASH_PATTERN.matcher( buffer );
+			if ( m.find() )
+			{
+				String progress = " (~" + Preferences.getString( "_questPartyFairProgress" ) + " pieces of trash remaining)";
+				buffer.insert( m.end(), progress );
+				return;
+			}
 		}
-
+		else if ( partyQuest.equals( "trash" ) )
+		{
+			Matcher m = RequestEditorKit.MEAT_PATTERN.matcher( buffer );
+			if ( m.find() )
+			{
+				String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Meat remaining)";
+				buffer.insert( m.end(), progress );
+				return;
+			}
+		}
 		// No special text, just append to You win the fight if on clear the party quest
-		if ( Preferences.getString( "_questPartyFairQuest" ).equals( "partiers" ) )
+		else if ( partyQuest.equals( "partiers" ) )
 		{
-			m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
+			Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher( buffer );
 			if ( m.find() )
 			{
 				String progress = " (" + Preferences.getString( "_questPartyFairProgress" ) + " Partiers remaining)";
