@@ -9141,7 +9141,7 @@
 9114	The Pigs holo-record	844450292	record.gif	multiple	t	0
 9115	Drunk Uncles holo-record	397571130	record.gif	multiple	t	0
 9116	time residue	497149659	timeresidue.gif	usable	t	0	bits of time residue
-9117
+9117	repaid diaper	206741927	diaper.gif	pants	t	0
 9118	Riker's Search History	949442473	sheet.gif	none, combat	t,d	100	print-outs of Riker's Search History
 9119	Shot of Kardashian Gin	642408954	shot.gif	drink	t,d	100	Shots of Kardashian Gin
 9120	Unstable Pointy Ears	169906892	ears.gif	accessory	q	0
@@ -10184,3 +10184,8 @@
 10157	discarded bowtie	469929988	elfopbowtie.gif	accessory	q	0
 10158	martiny	932242068	elfopmartini.gif	drink	t,d	30
 10159	tryptophan dart	346425436	elfopdart.gif	none, combat	t,d	30
+10160	licorice snake	205645323	licsnake.gif	usable	t,d	5
+10161	virgin jello shot	615419235	celloshot.gif	usable	t,d	5
+10162	mutated candy lump	627332640	vglob2.gif	multiple	t,d	5
+10163	government-issued candy	855701086	mochiball.gif	multiple	t,d	5	government-issued candies
+10164	Pneumo bar	809533509	pneumobar.gif	usable	t,d	5

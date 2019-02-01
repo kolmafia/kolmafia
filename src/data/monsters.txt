@@ -588,6 +588,7 @@ Red Snapper	1524	redsnapper.gif	Atk: 155 Def: 157 HP: 150 Init: 75 P: dude Meat:
 regular old bat	44	regbat.gif	Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 22 P: beast	bat guano (15)	batgut (15)	bat wing (15)
 remaindered skeleton	1745	headlessskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 E: spooky P: undead	skeleton bone (0)	remaindered axe (0)	low-budget shield (0)
 remains of a jilted mistress	396	mistress.gif	Atk: 65 Def: 60 HP: 65 Init: 50 ED: spooky P: undead	antique hand mirror (40)	gilt perfume bottle (c0)
+Remarkable Elba Kramer	1966	elbakramer.gif	ULTRARARE NOMANUEL	repaid diaper (n100)
 Renaissance Giant	1335	giant_renfair.gif	Atk: 125 Def: 110 HP: 150 Init: 40 Meat: 100 P: humanoid	giant turkey leg (10)	Ye Olde Bawdy Limerick (25)	Ye Olde Meade (15)	Ye Olde Medieval Insult (25)
 revolting bugbear	254	angbugbear.gif	Atk: 13 Def: 12 HP: 10 Init: 50 E: stench P: beast
 revolving bugbear	255	revbugbear.gif	Atk: 14 Def: 13 HP: 11 Init: 50 P: beast

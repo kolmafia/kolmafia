@@ -2443,3 +2443,7 @@
 2442	Marbles in Your Mouth	mallomarbles.gif	0493ace9f60eed178f6d5c9fe4deabc6	use 1 Mallomarbles
 2443	Proto-Stimulated		adc87f857d066b1d0270d150c4694b32	chew 1 prototype stimulant
 2444	Chai Guru Deva Om		96445a82e91bbdf6cbc1df0c50f9acb8	use 1 tin thermos of chai
+2445	Whippin' It Good	licsnake.gif	ee6c594b8781e800bfb9c4d710468f5b	use 1 licorice snake
+2446	Slightly Mutated	vglob2.gif	53bd0e4774833233c6bdd382969ca4a2	use 1 mutated candy lump
+2447	Standard Cheer	mochiball.gif	0a44269adec20e7f6c44972e7e290a15	use 1 government-issued candy
+2448	Bubblin' Rage	bubbles2.gif	5b95ed4a336e3fb2c2957d7deffca38b	use 1 Pneumo bar
