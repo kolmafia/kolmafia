@@ -593,6 +593,7 @@ pygmy briefs	165	Mox: 67
 Radio Free Pants	150	Mox: 60
 ratskin pajama pants	150	Mox: 50
 red silk skirt	155	Mox: 62
+repaid diaper	200	Mox: 20
 rusty metal greaves	150	Mus: 60
 saffron antaravasaka	100	Mox: 35
 scale-mail underwear	200	Mox: 85

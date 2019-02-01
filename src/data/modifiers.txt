@@ -744,6 +744,7 @@ Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
+Item	repaid diaper	Familiar Weight: +15
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
 # saffron antaravasaka: Improves chances of finding lumps and sludge
 Item	saffron antaravasaka	MP Regen Min: 4, MP Regen Max: 6, Spell Critical Percent: +5
@@ -4900,6 +4901,7 @@ Effect	Bruised	Muscle: -100, Mysticality: -100, Moxie: -100
 Effect	Bubble Vision	Item Drop: [max(0,101-T)]
 Effect	Bubble, Bubble	Moxie: -5, Muscle: +5
 Effect	Bubbles, Tiny Bubbles	Avatar: "Drunken Tropical Vacationer"
+Effect	Bubblin' Rage	Initiative: +20, Weapon Damage: +20, Weapon Damage Percent: +20
 Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 # Buggy Flavor: 25% chance of poisoning opponent
@@ -6445,6 +6447,7 @@ Effect	[1342]Slicked-Back Do	Moxie: +20
 Effect	[1553]Slicked-Back Do	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 Effect	Slightly Cursed, Mostly Lucky	Item Drop: +25, Meat Drop: +50
 Effect	Slightly Larger Than Usual	Muscle: +10, Mysticality: +10, Moxie: +10
+Effect	Slightly Mutated	Mysticality: +15, Spooky Damage: +15
 Effect	Slime Time	Maximum HP Percent: +100
 Effect	Slimebreath	Monster Level: +50, Slime Resistance: +1
 # Slimed: Continually take damage
@@ -6579,6 +6582,7 @@ Effect	Squid Squint	Meat Drop: +30
 Effect	Squirming Like a Toad	Moxie Percent: +10, Familiar Weight: +5
 # Stabilizing Oiliness: Makes your Mysticality and Moxie equal to your Muscle
 Effect	Stabilizing Oiliness	Equalize: "Muscle"
+Effect	Standard Cheer	Muscle: +1, Mysticality: +1, Moxie: +1, Maximum HP: +1, Maximum MP: +1, Damage Absorption: +1, Damage Reduction: 1
 Effect	Standard Issue Bravery	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Stands Alone	Stench Damage: +10
 Effect	Stark Raven Mad	Avatar: "raven"
@@ -6983,6 +6987,7 @@ Effect	Wet Willied	Underwater Familiar
 Effect	What's That Smell?	Stench Damage: +3
 Effect	When the Plague Hits Your Eye	Avatar: "Plague Chef"
 Effect	Which Nurse? Witch Nurse!	Avatar: "pygmy witch nurse"
+Effect	Whippin' It Good	Critical Hit Percent: +5
 Effect	Whispering Strands	Initiative: +10
 Effect	White Blooded	Maximum HP: +50
 Effect	White Knuckles	Never Fumble
@@ -9323,6 +9328,7 @@ Item	good ash	Effect: "Feeling a Little Wesley", Effect Duration: 100
 Item	gourmet gourami oil	Effect: "Fishy, Oily", Effect Duration: 40
 Item	government	Effect: "I See Everything Thrice!", Effect Duration: 10
 Item	government-issue identification badge	Effect: "Agent's Shield", Effect Duration: 100
+Item	government-issued candy	Effect: "Standard Cheer", Effect Duration: 20
 Item	Granny Tood's Thanksgarden Catalog	Free Pull
 # grape troll doll: Deals 3-5 <font color=blueviolet>Sleaze Damage</font>
 # grape troll doll: (doesn't go away when used)
@@ -9603,6 +9609,7 @@ Item	Libram of Love Songs	Skill: "Summon Love Song"
 Item	Libram of Pulled Taffy	Free Pull, Skill: "Summon Taffy"
 Item	Libram of Resolutions	Free Pull, Skill: "Summon Resolutions"
 Item	licorice root	Effect: "Rootin' Around", Effect Duration: 20
+Item	licorice snake	Effect: "Whippin' It Good", Effect Duration: 20
 Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 # linen bandages: Restores 10-20 HP
@@ -9787,6 +9794,7 @@ Item	murderbot shield unit	Effect: "Shielded Unit", Effect Duration: 20
 Item	murderbot spring injector	Effect: "Spring Training", Effect Duration: 20
 Item	muscle oil	Effect: "Built Body", Effect Duration: 100
 Item	musk turtle	Effect: "High Colognic", Effect Duration: 15
+Item	mutated candy lump	Effect: "Slightly Mutated", Effect Duration: 20
 Item	My First Art of War	Skill: "Army of Toddlers"
 Item	My Life of Crime, a Memoir	Skill: "Gingerbread Mob Hit"
 Item	My Own Pen Pal kit	Free Pull
@@ -9987,6 +9995,7 @@ Item	plum lozenge	Effect: "The Halls of Muscularity", Effect Duration: [R]
 Item	plump purple mushroom	Lasts Until Rollover
 Item	plunge-leg	Effect: "Pediplunger", Effect Duration: 30
 # plus-sized phylactery: Contains the soul of a specific lihc
+Item	Pneumo bar	Effect: "Bubblin' Rage", Effect Duration: 20
 Item	pocket maze	Effect: "Amazing", Effect Duration: 1
 # pog #01 (spider): Does all sorts of crazy things
 # pog #02 (Knob goblin): Does all sorts of crazy things
@@ -10705,6 +10714,7 @@ Item	vial of squid ink	Effect: "Inky Camouflage", Effect Duration: 20
 Item	vial of swamp vapors	Effect: "Hag-gard", Effect Duration: 50
 Item	vial of The Glistening	Effect: "The Glistening", Effect Duration: 15
 Item	violent pastilles	Effect: "Everything Must Go!", Effect Duration: 10
+Item	virgin jello shot	Effect: "Sugar Rush", Effect Duration: 100
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	voodoo glowskull	Effect: "Shortie Shaman Shurprise", Effect Duration: 50
 Item	voter registration form	Free Pull
