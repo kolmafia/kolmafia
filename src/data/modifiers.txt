@@ -2906,6 +2906,9 @@ Item	La Hebilla del Cintur&oacute;n de Lopez	Moxie: +11, HP Regen Min: 5, HP Reg
 Item	ladle of mystery	Maximum HP: +20, Maximum MP: +20, Class: "Sauceror"
 Item	Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 # left half of a heart necklace
+# Item Lil' Doctor&trade; bag: Regenerate 4-7 HP per Adventure</font>
+# Item Lil' Doctor&trade; bag: Lets you perform various medical procedures on enemies
+Item	Lil' Doctor&trade; bag	Maximum HP: +15, Single Equip
 Item	loafers	Initiative: +10, Single Equip
 Item	Loathing Legion necktie	Experience: +4, Single Equip, Softcore Only
 Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only

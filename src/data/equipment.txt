@@ -1801,7 +1801,7 @@ HP-35 Calculator	0	none
 hypnodisk	200	none
 ice baby	0	none
 ice bucket	0	none
-Idol of Ak'gyxoth	0	none
+Idol of Ak'gyxoth	200	none
 incredibly creepy marionette	110	Mys: 40
 iShield	100	Mus: 35	shield
 ivory cue ball	30	none
@@ -2455,6 +2455,7 @@ La Hebilla del Cintur&oacute;n de Lopez	150	Mox: 45
 ladle of mystery	40	Mys: 5
 Lead Zeta of Chastity	200	Mys: 85
 left half of a heart necklace	10	none
+Lil' Doctor&trade; bag	100	none
 loafers	0	none
 Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
