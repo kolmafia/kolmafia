@@ -492,7 +492,7 @@ public class Type
 			this.addValues( list, EquipmentRequest.slotNames );
 			break;
 		case DataTypes.TYPE_MONSTER:
-			this.addValues( list, MonsterDatabase.entrySet() );
+			this.addValues( list, MonsterDatabase.valueSet() );
 			break;
 		case DataTypes.TYPE_ELEMENT:
 			this.addValues( list, MonsterDatabase.ELEMENT_ARRAY, 1, -1 );

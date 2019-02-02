@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -488,6 +489,11 @@ public class MonsterDatabase
 	public static final Set entrySet()
 	{
 		return MonsterDatabase.MONSTER_DATA.entrySet();
+	}
+
+	public static final Set valueSet()
+	{
+		return new TreeSet( MonsterDatabase.MONSTER_DATA.values() );
 	}
 
 	public static final Set<Integer> idKeySet()
