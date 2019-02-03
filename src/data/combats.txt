@@ -127,7 +127,7 @@ Fastest Adventurer Contest	100	Cheetahman	Microwave Magus	Kung-Fu Hustler	Tasman
 Fear Man's Level	-1	animated possessions	morbid skull	natural spider	Fear Man: 0
 Fernswarthy's Basement	47	Beast with X Ears	Beast with X Eyes	X Stone Golem	X-headed Hydra	Ghost of Fernswarthy's Grandfather	X Bottles of Beer on a Golem	X-dimensional horror
 Fightin' Fire	100	brushfire
-Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)	The Frattlesnake: 0
+Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Galley	100	angry cavebugbear	trendy bugbear chef
 Gingerbread Civic Center	-1	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
@@ -398,7 +398,7 @@ The Skeleton Store	-1	factory-irregular skeleton	novelty tropical skeleton	remai
 The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
 The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
-The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0
+The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0	The Frattlesnake: 0
 The Snake Pit	-1	cobra	snake
 The Space Odyssey Discotheque	100	awkward disco dancer	flexible disco dancer	stiff disco dancer
 The Spider Hole	-1	spider	spider queen: 0
