@@ -2908,7 +2908,7 @@ Item	Lead Zeta of Chastity	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +1
 # left half of a heart necklace
 # Item Lil' Doctor&trade; bag: Regenerate 4-7 HP per Adventure</font>
 # Item Lil' Doctor&trade; bag: Lets you perform various medical procedures on enemies
-Item	Lil' Doctor&trade; bag	Maximum HP: +15, Single Equip
+Item	Lil' Doctor&trade; bag	Maximum HP: +15, HP Regen Min: 4, HP Regen Max: 7, Single Equip
 Item	loafers	Initiative: +10, Single Equip
 Item	Loathing Legion necktie	Experience: +4, Single Equip, Softcore Only
 Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only
