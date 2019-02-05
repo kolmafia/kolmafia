@@ -830,6 +830,11 @@ public class EquipmentManager
 					KoLCharacter.removeAvailableSkill( "Offer Latte to Opponent" );
 					KoLCharacter.removeAvailableSkill( "Gulp Latte" );
 					break;
+				case ItemPool.DOCTOR_BAG:
+					KoLCharacter.removeAvailableSkill( "Otoscope" );
+					KoLCharacter.removeAvailableSkill( "Reflex Hammer" );
+					KoLCharacter.removeAvailableSkill( "Chest X-Ray" );
+					break;				
 				}
 			}
 		}
@@ -1105,6 +1110,11 @@ public class EquipmentManager
 			KoLCharacter.addAvailableSkill( "Offer Latte to Opponent" );
 			KoLCharacter.addAvailableSkill( "Gulp Latte" );
 			break;
+		case ItemPool.DOCTOR_BAG:
+			KoLCharacter.addAvailableSkill( "Otoscope" );
+			KoLCharacter.addAvailableSkill( "Reflex Hammer" );
+			KoLCharacter.addAvailableSkill( "Chest X-Ray" );
+			break;				
 		}
 
 		// If we are either swapping out or in a stinky cheese item,

@@ -3090,6 +3090,7 @@ public class ItemPool
 	public static final int MAGICAL_SAUSAGE = 10060;
 	public static final int CRIMBO_CANDLE = 10072;
 	public static final int TRYPTOPHAN_DART = 10159;
+	public static final int DOCTOR_BAG = 10166;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

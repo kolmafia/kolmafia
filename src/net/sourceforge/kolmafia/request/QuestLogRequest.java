@@ -175,6 +175,11 @@ public class QuestLogRequest
 				Preferences.setInteger( "_newYouQuestSharpensDone", 0 );
 				Preferences.setInteger( "_newYouQuestSharpensToDo", 0 );
 			}
+			if ( !responseText.contains( "Doctor, Doctor" ) )
+			{
+				Preferences.setString( "doctorBagQuestItem", "" );
+				Preferences.setString( "doctorBagQuestLocation", "" );
+			}
 		}
 
 		Iterator<Integer> it = map.keySet().iterator();

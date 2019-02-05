@@ -58,6 +58,7 @@ DESC_ITEM	Garland of Greatness	\+(\d+)%	garlandUpgrades=[$1/20]
 DESC_ITEM	hair of the fish	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_ITEM	king cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	knight cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
+DESC_ITEM	Lil' Doctor&trade; bag	HP \+(\d+)<br>	doctorBagUpgrades=[$1/5-3]
 DESC_ITEM	photocopied monster	likeness of (a|an) (.*?) on it	photocopyMonster=$2
 DESC_ITEM	queen cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	rook cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]

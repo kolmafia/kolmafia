@@ -120,3 +120,6 @@ questEUNewYou	New-You VIP Club	Sharpening the saw!	(no completion message)
 
 # Neverending Party quest
 _questPartyFair	Party Fair	(various messages)	(various messages)	(various messages)	(various messages)
+
+# Lil' Doctor™ bag
+questDoctorBag	Doctor, Doctor	Acquire 	to the patient	(no completion message)

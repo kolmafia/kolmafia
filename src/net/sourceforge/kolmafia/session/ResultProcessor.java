@@ -1506,6 +1506,16 @@ public class ResultProcessor
 			}
 		}
 
+		// This might be a target of the Doctor, Doctor quest.
+		if ( QuestDatabase.isQuestStep( Quest.PARTY_FAIR, QuestDatabase.STARTED ) )
+		{
+			int targetItemId = ItemDatabase.getItemId( Preferences.getString( "doctorBagQuestItem" ) );
+			if ( targetItemId == itemId )
+			{
+				QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, "step1" );
+			}
+		}
+
 		// From here on out, only positive results are handled.
 		if ( count < 0 )
 		{
