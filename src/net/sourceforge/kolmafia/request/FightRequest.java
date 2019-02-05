@@ -9304,6 +9304,33 @@ public class FightRequest
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 			}
+			break;
+
+		case SkillPool.OTOSCOPE:
+			if ( responseText.contains( "jam it into your enemy's ear" ) || skillSuccess )
+			{
+				Preferences.increment( "_otoscopeUsed" );
+				Modifiers.overrideModifier( "Generated:fightMods", "Item Drop: +200" );
+				KoLCharacter.recalculateAdjustments();
+				KoLCharacter.updateStatus();
+			}
+			break;
+
+		case SkillPool.REFLEX_HAMMER:
+			if ( responseText.contains( "short distance into the future" ) || skillRunawaySuccess )
+			{
+				Preferences.increment( "_reflexHammerUsed" );
+				BanishManager.banishMonster( monsterName, "Reflex Hammer" );
+			}
+			break;
+
+		case SkillPool.CHEST_X_RAY:
+			if ( responseText.contains( "nowhere to be seen" ) || skillSuccess )
+			{
+				Preferences.increment( "_chestXRayUsed" );
+			}
+			break;
+
 		}
 	}
 

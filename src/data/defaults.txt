@@ -1374,6 +1374,7 @@ user	_ceciHatUsed	false
 user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
+user	_chestXRayUsed	0
 user	_chipBags	0
 user	_chocolateCigarsUsed	0
 user	_chocolateSculpturesUsed	0
@@ -1393,7 +1394,6 @@ user	_communismUsed	false
 user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
-user	_expertCornerCutterUsed	0
 user	_corruptedStardustUsed	false
 user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
@@ -1403,7 +1403,6 @@ user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_dailyDungeonMalwareUsed	false
 user	_darkChocolateHeart	false
-user	_tryptophanDartUsed	false
 user	_daycareGymScavenges	0
 user	_daycareNap	false
 user	_daycareRecruits	0
@@ -1434,6 +1433,7 @@ user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
+user	_expertCornerCutterUsed	0
 user	_falloutShelterSpaUsed	false
 user	_fancyHotDogEaten	false
 user	_favorRareSummons	0
@@ -1617,6 +1617,7 @@ user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
 user	_oreDropsCrown	0
+user	_otoscopeUsed	0
 user	_pantogramModifier
 user	_pantsgivingFullness	0
 user	_pantsgivingBanish	0
@@ -1656,6 +1657,7 @@ user	_raindohCopiesMade	0
 user	_rainStickUsed	false
 user	_rapidPrototypingUsed	0
 user	_raveStealCount	0
+user	_reflexHammerUsed	0
 user	_requestSandwichSucceeded	false
 user	_resolutionAdv	0
 user	_rhinestonesAcquired	false
@@ -1763,6 +1765,7 @@ user	_transponderDrops	0
 user	_treasuryEliteMeatCollected	false
 user	_treasuryHaremMeatCollected	false
 user	_trivialAvocationsGame	false
+user	_tryptophanDartUsed	false
 user	_turkeyBlastersUsed	0
 user	_turkeyBooze	0
 user	_turkeyMuscle	0
