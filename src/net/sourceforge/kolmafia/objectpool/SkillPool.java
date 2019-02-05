@@ -287,6 +287,9 @@ public class SkillPool
 	public static final int THROW_LATTE = 7301;
 	public static final int OFFER_LATTE = 7302;
 	public static final int GULP_LATTE = 7303;
+	public static final int OTOSCOPE = 7305;
+	public static final int REFLEX_HAMMER = 7306;
+	public static final int CHEST_X_RAY = 7307;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;
