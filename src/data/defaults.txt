@@ -1096,6 +1096,7 @@ user	rumpelstiltskinTurnsUsed	0
 user	rumpelstiltskinKidsRescued	0
 user	safariSwagger	0
 user	safePickpocket	true
+user	sausageGrinderUnits	0
 user	schoolOfHardKnocksDiplomaAvailable	true
 user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
@@ -1665,7 +1666,6 @@ user	_riftletAdv	0
 user	_roboDrinks
 user	_romanticFightsLeft	0
 user	_saltGrainsConsumed	0
-user	_sausageGrinderUnits	0
 user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0

@@ -76,7 +76,7 @@ public class SausageOMaticRequest
 		int count = 0;
 		int currentSausages = this.createdItem.getCount( KoLConstants.inventory );
 		int sausagesMade = Preferences.getInteger( "_sausagesMade" );
-		int grinderUnits = Preferences.getInteger( "_sausageGrinderUnits" );
+		int grinderUnits = Preferences.getInteger( "sausageGrinderUnits" );
 
 		// Work out total meat cost to make requested sausages
 		while ( count < quantityNeeded && KoLmafia.permitsContinue() )

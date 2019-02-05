@@ -14641,7 +14641,7 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				Preferences.setInteger( "_sausagesMade", StringUtilities.parseInt( matcher.group( 2 ).replaceAll( ",", "" ) ) / 111 - 1 );
-				Preferences.setString( "_sausageGrinderUnits", matcher.group( 3 ) );
+				Preferences.setString( "sausageGrinderUnits", matcher.group( 3 ) );
 			}
 			break;
 		}
