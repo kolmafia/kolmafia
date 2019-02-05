@@ -499,6 +499,10 @@ user	dinseySocialJusticeIIProgress	0
 user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
 user	dnaSyringe
+user	doctorBagQuestItem	
+user	doctorBagQuestLights	0	
+user	doctorBagQuestLocation	
+user	doctorBagUpgrades	0
 user	doghouseBoarded	false
 user	dolphinItem
 user	dontStopForCounters	false
@@ -961,6 +965,7 @@ user	pyramidBombUsed	false
 user	rockinRobinProgress	25
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
+user	questDoctorBag	unstarted
 user	questECoBucket	unstarted
 user	questESlAudit	unstarted
 user	questESlBacteria	unstarted
@@ -2482,6 +2487,8 @@ user	choiceAdventure1327	0
 user	choiceAdventure1328	0
 user	choiceAdventure1332	1
 user	choiceAdventure1333	0
+user	choiceAdventure1340	0
+user	choiceAdventure1341	1
 
 user	lockedItem4637	true
 user	lockedItem4638	true

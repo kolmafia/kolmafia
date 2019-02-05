@@ -146,6 +146,7 @@ public class QuestDatabase
 		GHOST( "questPAGhost" ),
 		NEW_YOU( "questEUNewYou" ),
 		PARTY_FAIR( "_questPartyFair" ),
+		DOCTOR_BAG( "questDoctorBag" ),
 		;
 
 		private final String pref;
@@ -187,6 +188,8 @@ public class QuestDatabase
 	public static final Pattern PARTY_FAIR_BOOZE_PATTERN_2 = Pattern.compile( "Take the (\\d+) (.*?) to the backyard" );
 	public static final Pattern PARTY_FAIR_FOOD_PATTERN_1 = Pattern.compile( "Get (\\d+) (.*?) for Geraldine" );
 	public static final Pattern PARTY_FAIR_FOOD_PATTERN_2 = Pattern.compile( "Take the (\\d+) (.*?) to Geraldine" );
+	public static final Pattern DOCTOR_BAG_ITEM_PATTERN = Pattern.compile( "Acquire (a|an) (.*?)\\." );
+	public static final Pattern DOCTOR_BAG_LOCATION_PATTERN = Pattern.compile( "Take (a|an) (.*?) to the patient in <a(?:.*?)><b>(.*?)</b></a>\\." );
 
 	private static String[][] questLogData = null;
 	private static String[][] councilData = null;
@@ -388,6 +391,12 @@ public class QuestDatabase
 		if ( pref.equals( Quest.PARTY_FAIR.getPref() ) )
 		{
 			return handlePartyFair( details );
+		}
+
+			// Get Doctor, Doctor quest target
+		if ( pref.equals( Quest.DOCTOR_BAG.getPref() ) )
+		{
+			return handleDoctorBag( details );
 		}
 
 		// First thing to do is find which quest we're talking about.
@@ -941,6 +950,30 @@ public class QuestDatabase
 				Preferences.setInteger( "_questPartyFairProgress", 100 );
 			}
 			return "step2";
+		}
+		return "";
+	}
+
+	private static String handleDoctorBag( String details )
+	{
+		if ( details.contains( "Acquire " ) )
+		{
+			Matcher matcher = QuestDatabase.DOCTOR_BAG_ITEM_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "doctorBagQuestItem", matcher.group( 2 ) );
+			}
+			return "started";
+		}
+		if ( details.contains( "to the patient" ) )
+		{
+			Matcher matcher = QuestDatabase.DOCTOR_BAG_LOCATION_PATTERN.matcher( details );
+			if ( matcher.find() )
+			{
+				Preferences.setString( "doctorBagQuestItem", matcher.group( 2 ) );
+				Preferences.setString( "doctorBagQuestLocation", matcher.group( 3 ) );
+			}
+			return "step1";
 		}
 		return "";
 	}

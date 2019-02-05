@@ -291,6 +291,7 @@ public abstract class ChoiceManager
 	private static final Pattern DAYCARE_EQUIPMENT_PATTERN = Pattern.compile( "manage to find (.*?) used" );
 	private static final Pattern DAYCARE_ITEM_PATTERN = Pattern.compile( "<td valign=center>You lose an item: </td>(?:.*?)<b>(.*?)</b> \\((.*?)\\)</td>" );
 	private static final Pattern SAUSAGE_PATTERN = Pattern.compile( "grinder needs (.*?) of the (.*?) required units of filling to make a sausage.  Your grinder reads \\\"(\\d+)\\\" units." );
+	private static final Pattern DOCTOR_BAG_PATTERN = Pattern.compile( "We've received a report of a patient (.*?), in (.*?)\\." );
 
 	public static final Pattern DECISION_BUTTON_PATTERN = Pattern.compile( "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">" );
 
@@ -4390,7 +4391,18 @@ public abstract class ChoiceManager
 		// Choice 1334 is Boxing Daycare (Lobby)
 		// Choice 1335 is Boxing Day Spa
 		// Choice 1336 is Boxing Daycare
-		
+
+		// Choice 1339 is A Little Pump and Grind
+
+		// Choice 1340 is Is There A Doctor In The House?
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1340", "Lil' Doctor&trade; bag",
+			new Object[] { new Option( "get quest", 1 ),
+				       new Option( "refuse quest", 2 ),
+				       new Option( "stop offering quest", 3 ) } ),
+
+		// Choice 1341 is A Pound of Cure
+
 	};
 
 	public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -11412,6 +11424,80 @@ public abstract class ChoiceManager
 			}
 			break;
 
+		case 1340:
+			// Is There A Doctor In The House?
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				if ( Preferences.getString( "doctorBagQuestItem" ) == "" )
+				{
+					// We didn't recognise quest text, so get it from quest log
+					RequestThread.postRequest( new QuestLogRequest() );
+				}
+				int itemId = ItemDatabase.getItemId( Preferences.getString( "doctorBagQuestItem" ) );
+
+				if ( itemId > 0 )
+				{
+					if ( InventoryManager.getCount( itemId ) > 0 )
+					{
+						QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, "step1" );
+					}
+					else
+					{
+						QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, QuestDatabase.STARTED );
+					}
+				}
+				else
+				{
+					QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, QuestDatabase.STARTED );
+				}
+			}
+			else
+			{
+				QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, QuestDatabase.UNSTARTED );
+				Preferences.setString( "doctorBagQuestItem", "" );
+				Preferences.setString( "doctorBagQuestLocation", "" );
+			}
+			break;
+
+		case 1341:
+			// A Pound of Cure
+			if ( ChoiceManager.lastDecision == 1 )
+			{
+				String itemName = Preferences.getString( "doctorBagQuestItem" );
+				if ( !itemName.equals( "" ) )
+				{
+					ResultProcessor.processItem( ItemDatabase.getItemId( itemName ), -1 );
+				}
+				else
+				{
+					// Don't know item to remove so refresh inventory instead
+					ApiRequest.updateInventory();
+				}
+				QuestDatabase.setQuestProgress( Quest.DOCTOR_BAG, QuestDatabase.UNSTARTED );
+				Preferences.setString( "doctorBagQuestItem", "" );
+				Preferences.setString( "doctorBagQuestLocation", "" );
+				if ( text.contains( "One of the five green lights" ) )
+				{
+					Preferences.setInteger( "doctorBagQuestLights", 1 );
+				}
+				else if ( text.contains( "second of the five green lights" ) )
+				{
+					Preferences.setInteger( "doctorBagQuestLights", 2 );
+				}
+				else if ( text.contains( "third of the five green lights" ) )
+				{
+					Preferences.setInteger( "doctorBagQuestLights", 3 );
+				}
+				else if ( text.contains( "fourth of the five green lights" ) )
+				{
+					Preferences.setInteger( "doctorBagQuestLights", 4 );
+				}
+				else if ( text.contains( "lights go dark again" ) )
+				{
+					Preferences.setInteger( "doctorBagQuestLights", 0 );
+					Preferences.increment( "doctorBagUpgrades" );
+				}
+			}
 		}
 
 		// Certain choices cost meat or items when selected
@@ -14556,6 +14642,56 @@ public abstract class ChoiceManager
 			{
 				Preferences.setInteger( "_sausagesMade", StringUtilities.parseInt( matcher.group( 2 ).replaceAll( ",", "" ) ) / 111 - 1 );
 				Preferences.setString( "_sausageGrinderUnits", matcher.group( 3 ) );
+			}
+			break;
+		}
+
+		case 1340:
+		{
+			// Is There A Doctor In The House?
+			Matcher matcher = ChoiceManager.DOCTOR_BAG_PATTERN.matcher( text );
+			if ( matcher.find() )
+			{
+				String malady = matcher.group( 1 );
+				String item = "";
+				if ( malady.contains( "tropical heatstroke" ) )
+				{
+					item = "palm-frond fan";
+				}
+				else if ( malady.contains( "archaic cough" ) )
+				{
+					item = "antique bottle of cough syrup";
+				}
+				else if ( malady.contains( "broken limb" ) )
+				{
+					item = "cast";
+				}
+				else if ( malady.contains( "low vim and vigor" ) )
+				{
+					item = "Doc Galaktik's Vitality Serum";
+				}
+				else if ( malady.contains( "bad clams" ) )
+				{
+					item = "anti-anti-antidote";
+				}
+				else if ( malady.contains( "criss-cross laceration" ) )
+				{
+					item = "plaid bandage";
+				}
+				else if ( malady.contains( "knocked out by a random encounter" ) )
+				{
+					item = "phonics down";
+				}
+				else if ( malady.contains( "Thin Blood Syndrome" ) )
+				{
+					item = "red blood cells";
+				}
+				else if ( malady.contains( "a blood shortage" ) )
+				{
+					item = "bag of pygmy blood";
+				}
+				Preferences.setString( "doctorBagQuestItem", item );
+				Preferences.setString( "doctorBagQuestLocation", matcher.group( 2 ) );
 			}
 			break;
 		}

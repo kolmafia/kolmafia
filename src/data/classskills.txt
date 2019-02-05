@@ -808,6 +808,10 @@
 7301	Throw Latte on Opponent	lattecup3.gif	5	0	0
 7302	Offer Latte to Opponent	lattecup2.gif	5	0	0
 7303	Gulp Latte	lattecup4.gif	5	0	0
+7304
+7305	Otoscope	otoscope.gif	5	0	0
+7306	Reflex Hammer	reflexhammer.gif	5	0	0
+7307	Chest X-Ray	chestxray.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
