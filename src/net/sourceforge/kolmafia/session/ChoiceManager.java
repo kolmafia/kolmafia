@@ -4396,12 +4396,15 @@ public abstract class ChoiceManager
 
 		// Choice 1340 is Is There A Doctor In The House?
 		new ChoiceAdventure(
-			"Item-Driven", "choiceAdventure1340", "Lil' Doctor&trade; bag",
+			"Item-Driven", "choiceAdventure1340", "Lil' Doctor&trade; bag Quest",
 			new Object[] { new Option( "get quest", 1 ),
 				       new Option( "refuse quest", 2 ),
 				       new Option( "stop offering quest", 3 ) } ),
 
 		// Choice 1341 is A Pound of Cure
+		new ChoiceAdventure(
+			"Item-Driven", "choiceAdventure1341", "Lil' Doctor&trade; bag Cure",
+			new Object[] { new Option( "cure patient", 1 ) } ),
 
 	};
 
@@ -11495,6 +11498,9 @@ public abstract class ChoiceManager
 				else if ( text.contains( "lights go dark again" ) )
 				{
 					Preferences.setInteger( "doctorBagQuestLights", 0 );
+				}
+				if ( text.contains( "bag has been permanently upgraded" ) )
+				{
 					Preferences.increment( "doctorBagUpgrades" );
 				}
 			}
