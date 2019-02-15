@@ -4739,6 +4739,7 @@ Effect	Bastille Budgeteer	Muscle: +25, Critical Hit Percent: +10, HP Regen Min: 
 Effect	Bat Attitude	Spell Damage Percent: +100
 Effect	Bat-Intimidated	Moxie Percent: -90
 Effect	Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Effect	Bats Form	Initiative: +150, Item Drop: +150
 Effect	Bats in the Belfry	Mysticality Percent: +10
 Effect	Batted Around	Avatar: "perpendicular bat"
 Effect	Batteries Included	Crimbot Outfit Power: +4
@@ -4951,6 +4952,7 @@ Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
 Effect	Cautious Prowl	Item Drop: +50
 Effect	Cavemanipulated	Avatar: "caveman"
+Effect	Ceaseless Snarling	Monster Level: +30
 Effect	Celestial Body	Weapon Damage Percent: +100, Critical Hit Percent: +20
 Effect	Celestial Camouflage	Combat Rate: -5
 Effect	Celestial Mind	Spell Damage Percent: +100, Spell Critical Percent: +20
@@ -5004,6 +5006,7 @@ Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
 Effect	Clerical Aura	Avatar: "Father McGruber"
 Effect	Cletus's Canticle of Celerity	Initiative: +20
+Effect 	Cloak of Shadows	Combat Rate: -5
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 # Clumsy: Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
@@ -5955,6 +5958,7 @@ Effect	Minty Freshness	Moxie Percent: +10
 Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
+Effect	Mist Form	Damage Reduction: 20, Damage Absorption: +200, Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
 Effect	Mister Master	Avatar: "master of ceremonies"
 Effect	Mistified	Damage Reduction: 30
 Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
@@ -6531,6 +6535,7 @@ Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Sparkly!: +50 Damage vs. Undead
 Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200
 # Spectral: You take and deal almost no damage
+Effect	Spectral Awareness	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Speed of the Internet	Initiative: +50
 Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
@@ -7020,6 +7025,7 @@ Effect	Withered Heart	Item Drop: [min(T,20)], Mysticality: [min(T,20)]
 Effect	Wizard Squint	Spell Critical Percent: +10
 Effect	Woad Warrior	Muscle: +25
 # Wolf's Bane: +50% Damage vs. Werewolves
+Effect	Wolf Form	Muscle Percent: +150, Meat Drop: +150
 Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25
@@ -7104,6 +7110,7 @@ Skill	Backwards Knees	Initiative: +20
 Skill	Bad Breath	Stench Damage: +3
 Skill	Barrel Chested	Muscle Percent: +50
 Skill	Basic Self-Worth	Experience: +3
+Skill	Batlike Reflexes	Initiative: +75
 # Batter Up! Autokills and banishes monster
 Skill	Bean Runner	Initiative: +75
 # Bear Essence +20% Picnic Basket Drops from monsters each time skill taken
@@ -7170,11 +7177,13 @@ Skill	Extra Muscles	Muscle Percent: +50
 # Eye of the Stoat Improves your Smacks
 Skill	Fashionably Late	Adventures: +1
 Skill	Ferocity	Critical Hit Percent: +25
-# Flavour of Magic
-# Flashy Dancer Opponents cannot act during Disco Dances
+# Ferocity	Your combat skills do 50% more damage
 Skill	Financial Ambition	Meat Drop: +40
 Skill	Fingernails	Weapon Damage: +7
 # Five Finger Discount Items in stores cost 5% less Meat
+# Flavour of Magic
+# Flashy Dancer Opponents cannot act during Disco Dances
+Skill	Flesh Scent	Meat Drop: +100
 Skill	Flop Sweat	Sleaze Damage: +9
 Skill	Food Coma	Base Resting MP: 9999
 Skill	Fortitude of the Muskox	HP Regen Min: +1, HP Regen Max: +2
@@ -7204,12 +7213,14 @@ Skill	Hunter's Sprint	Initiative: +100
 Skill	Hyperactive Amygdala	Spooky Resistance: +2
 Skill	Hypersane	Spooky Resistance: +3
 Skill	Hypno-Eyes	Moxie Percent: +50
+# Hypnotic Eyes: You can Darkly Feast on enemies with up to 100 HP, and Feasting Darkly is more effective
 Skill	Ice Water In Your Veins	Cold Damage: +11
 # Immaculate Seasoning: auto-choose hot vs. cold
 # Impetuous Sauciness: +5 reagent potion duration
 Skill	Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 Skill	Index Fingers	Pickpocket Chance: +40
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
+# Intimidating Aura: Gain more blood from the Blood Bank each day
 # Intrinsic Spiciness Sauce Spell Damage: +10
 Skill	Introspection	Mysticality: +20
 # Ire of the Orca Fury capacity increases to 5 gallons
@@ -7233,7 +7244,9 @@ Skill	Legendary Impatience	Initiative: +100
 # Louder Bellows: Improves Intimidating Bellow
 Skill	Lysosomes	Absorb Stats: +5
 Skill	Lower Hypothalamus	Cold Resistance: +1
+Skill	Macabre Cunning	Experience: +5
 Skill	Mad Looting Skillz	Item Drop: +20
+Skill	Madness of Untold Aeons	Mysticality Percent: +150
 Skill	Marginally Insane	Maximum MP Percent: +10
 Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
@@ -7277,6 +7290,7 @@ Skill	Politeness	Sleaze Resistance: +2
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
+# Preternatural Strength	Your Muscle cannot be lower than your Mysticality
 Skill	Profound Shame	Sleaze Resistance: +3
 # Pulverize
 Skill	Quantum Movement	Initiative: +20
@@ -7301,6 +7315,7 @@ Skill	Rudimentary Alimentary Canal	Absorb Adventures: +1
 Skill	Saccade Reflex	Item Drop: +40
 # Saucemaven Get more Adventures from the saucy food you eat
 # Salacious Cocktailcrafting
+# Sanguine Magnetism: Recover some HP after each combat
 # Seething of the Snow Leopard Gain additional bonus damage from Fury
 Skill	Seething of the Snow Leopard	Weapon Damage: [2*Y]
 Skill	Self-Lubricating Feet	Initiative: +20
@@ -7313,10 +7328,12 @@ Skill	Sense of Purpose	Experience: +5
 Skill	Sense of Sarcasm	Moxie: +20
 Skill	Sense of Style	Moxie: +5
 Skill	Sensitive Fingers	Pickpocket Chance: +10
+Skill	Sharp Eyes	Item Drop: +100
 Skill	Shiver Reflex	Cold Resistance: +2
 Skill	Shivering Monkey Technique	Initiative: +15
 Skill	Shock-Absorbing Joints	Damage Reduction: 10
 Skill	Sick Pythons	Weapon Damage: +20
+# Sinister Charm	Your Moxie cannot be lower than your Mysticality
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
@@ -7332,6 +7349,7 @@ Skill	Spinal Discs	Damage Reduction: 10
 Skill	Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: allows wielding of chefstaves
 # Spleen of Steel
+# Spot Weakness: Weakens foes at the start of combat
 # Sticky Fingers: Pickpocketing also gives Meat
 # Still Another Extra Spleen: Still another +5 spleen capacity
 # Stomach of Steel
@@ -7390,6 +7408,7 @@ Skill	Warm Heart	Hot Damage: +5
 Skill	Warm Smile	Hot Damage: +3
 Skill	Waxy Ears	Sleaze Damage: +5
 Skill	Weak Esophageal Sphincter	Stench Damage: +9
+Skill	Wisdom of Countless Centuries	Experience: +3
 Skill	Wisdom of the Elder Tortoises	Maximum MP Percent: +50
 Skill	Work Ethic	Experience: +3
 # Wrath of the Wolverine Lets you build Fury by defeating opponents (up to a maximum of 3 gallons of Fury)

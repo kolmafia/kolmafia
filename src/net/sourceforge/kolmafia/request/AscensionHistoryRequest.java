@@ -145,6 +145,7 @@ public class AscensionHistoryRequest
 		int garlandUpgrades = 0;
 		int gloverPoints = 0;
 		int masksUnlocked = 0;
+		int gyfftePoints = 0;
 		String playerName = null;
 		String playerId = null;
 
@@ -230,6 +231,9 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.DISGUISES_DELIMIT:
 				masksUnlocked += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
 				break;
+			case AscensionSnapshot.DARK_GYFFTE:
+				gyfftePoints += lastField.typeId == AscensionSnapshot.HARDCORE ? 2 : 1;
+				break;
 			}
 		}
 
@@ -273,6 +277,10 @@ public class AscensionHistoryRequest
 		if ( bondPoints > Preferences.getInteger( "bondPoints" ) )
 		{
 			Preferences.setInteger( "bondPoints", ( bondPoints < 24 ? bondPoints : 24 ) );
+		}
+		if ( gyfftePoints > Preferences.getInteger( "darkGyfftePoints" ) )
+		{
+			Preferences.setInteger( "darkGyfftePoints", ( gyfftePoints < 24 ? gyfftePoints : 24 ) );
 		}
 	}
 
@@ -750,6 +758,10 @@ public class AscensionHistoryRequest
 			case AscensionSnapshot.GELATINOUS_NOOB:
 				this.stringForm.append( "GN" );
 				break;
+
+			case AscensionSnapshot.VAMPYRE:
+				this.stringForm.append( "V" );
+				break;
 			}
 
 			this.stringForm.append( ")&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=right>" );
@@ -783,6 +795,7 @@ public class AscensionHistoryRequest
 				columns[ 3 ].startsWith( "BS" ) ? AscensionSnapshot.BEAN_SLINGER :
 				columns[ 3 ].startsWith( "SO" ) ? AscensionSnapshot.SNAKE_OILER :
 				columns[ 3 ].startsWith( "GN" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+				columns[ 3 ].startsWith( "V" ) ? AscensionSnapshot.VAMPYRE :
 				AscensionSnapshot.UNKNOWN_CLASS;
 
 			String[] path = columns[ 7 ].split( "," );
@@ -826,6 +839,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "Pocket Familiars" ) ? AscensionSnapshot.POKEFAM :
 				path[ 1 ].equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
 				path[ 1 ].equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
+				path[ 1 ].equals( "Dark Gyffte" ) ? AscensionSnapshot.DARK_GYFFTE :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 
@@ -849,6 +863,7 @@ public class AscensionHistoryRequest
 					columns[ 3 ].contains( "beancan" ) ? AscensionSnapshot.BEAN_SLINGER :
 					columns[ 3 ].contains( "tinysnake" ) ? AscensionSnapshot.SNAKE_OILER :
 					columns[ 3 ].contains( "gelatinousicon" ) ? AscensionSnapshot.GELATINOUS_NOOB :
+					columns[ 3 ].contains( "TBC" ) ? AscensionSnapshot.VAMPYRE :
 					AscensionSnapshot.UNKNOWN_CLASS;
 
 				this.typeId = columns[ 8 ].contains( "hardcore" ) ? AscensionSnapshot.HARDCORE :
@@ -887,6 +902,7 @@ public class AscensionHistoryRequest
 					columns[ 8 ].contains( "spiritorb" ) ? AscensionSnapshot.POKEFAM :
 					columns[ 8 ].contains( "g-loveheart" ) ? AscensionSnapshot.GLOVER :
 					columns[ 8 ].contains( "dd_icon" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
+					columns[ 8 ].contains( "TBC" ) ? AscensionSnapshot.DARK_GYFFTE :
 					AscensionSnapshot.NOPATH;
 			}
 			catch ( Exception e )

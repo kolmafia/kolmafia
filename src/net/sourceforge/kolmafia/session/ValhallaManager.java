@@ -515,6 +515,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Disguises Delimit " );
 		}
+		else if ( KoLCharacter.isVampyre() )
+		{
+			sessionStream.print( "Dark Gyffte " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );

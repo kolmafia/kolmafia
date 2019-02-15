@@ -1338,3 +1338,44 @@
 23304	Frown Muscles	sad.gif	3	5	10
 23305	Anger Glands	angry.gif	3	5	20
 23306	Powerful Vocal Chords	echo.gif	3	5	40
+
+# Dark Gyffte
+
+24001	Dark Feast	vampfangs.gif	5	0	0
+24002	Wisdom of Countless Centuries	mortarboard.gif	0	0	0
+
+# Beastcraft
+
+24010	Savage Bite	savagebite.gif	5	3	0
+24011	Crush	crush.gif	5	10	0
+24012	Baleful Howl	echo.gif	5	30	0
+24013	Ceaseless Snarl	grrrrr.gif	3	10	20
+24014	Wolf Form	wolfmask.gif	3	10	999
+24015	Preternatural Strength	strboost.gif	0	0	0
+24016	Flesh Scent	meat.gif	0	0	0
+24017	Ferocity	angry.gif	0	0	0
+24018	Intimidating Aura	intimidate.gif	0	0	0
+
+# Haemoturgy
+
+24020	Blood Spike	bloodspike.gif	5	3	0
+24021	Blood Chains	fchain.gif	5	5	0
+24022	Chill of the Tomb	snowflakes.gif	5	7	0
+24023	Blood Cloak	wtbcloak.gif	3	10	20
+24024	Mist Form	puff.gif	3	10	999
+24025	Madness of Untold Aeons	vampmadness.gif	0	0	0
+24026	Hypnotic Eyes	hypeyes.gif	0	0	0
+24027	Macabre Cunning	realbrain.gif	0	0	0
+24028	Sanguine Magnetism	blooddrops.gif	0	0	0
+
+# Aesthesis
+
+24030	Piercing Gaze	celesteyes.gif	5	3	0
+24031	Perceive Soul	famspirit.gif	5	15	0
+24032	Ensorcel	handcuffs.gif	5	30	0
+24033	Spectral Awareness	elements.gif	3	10	20
+24034	Flock of Bats Form	batflock.gif	3	10	999
+24035	Sinister Charm	sinistercharm.gif	0	0	0
+24036	Batlike Reflexes	regularbat.gif	0	0	0
+24037	Sharp Eyes	eyesleft.gif	0	0	0
+24038	Spot Weakness	blueprint.gif	0	0	0

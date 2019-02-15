@@ -10191,3 +10191,22 @@
 10164	Pneumo bar	809533509	pneumobar.gif	usable	t,d	5
 10165	mint condition Lil' Doctor&trade; bag	209412266	dbag_mint.gif	usable	t	0
 10166	Lil' Doctor&trade; bag	325464874	dbag.gif	accessory		0
+10167
+10168	blood bag	205374773	bloodbag.gif	usable	q	0
+10169
+10170
+10171
+10172
+10173
+10174
+10175
+10176
+10177
+10178
+10179
+10180
+10181
+10182
+10183
+10184
+10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
