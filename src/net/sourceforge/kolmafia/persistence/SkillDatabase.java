@@ -115,6 +115,7 @@ public class SkillDatabase
 	private static final String SOURCE = "The Source";
 	private static final String NUCLEAR_AUTUMN = "Nuclear Autumn";
 	private static final String GELATINOUS_NOOB = "Gelatinous Noob";
+	private static final String VAMPYRE = "Vampyre";
 
 	private static final String[] CATEGORIES = new String[]
 	{
@@ -142,6 +143,7 @@ public class SkillDatabase
 		SkillDatabase.SOURCE,		// 21xxx
 		SkillDatabase.NUCLEAR_AUTUMN,	// 22xxx
 		SkillDatabase.GELATINOUS_NOOB,	// 23xxx
+		SkillDatabase.VAMPYRE,	// 24xxx
 		// The following are convenience categories, not implied by skill id
 		SkillDatabase.GNOME_SKILLS,
 		SkillDatabase.BAD_MOON
@@ -460,6 +462,10 @@ public class SkillDatabase
 		if ( name == KoLCharacter.GELATINOUS_NOOB )
 		{
 			return 23000;
+		}
+		if ( name == KoLCharacter.VAMPYRE )
+		{
+			return 24000;
 		}
 
 		return 0;
@@ -1336,6 +1342,7 @@ public class SkillDatabase
 		case 21:			// The Source skills
 		case 22:			// Nuclear Autumn skills
 		case 23:			// Gelatinous Noob skills
+		case 24:			// Vampyre skills
 			return false;
 		}
 

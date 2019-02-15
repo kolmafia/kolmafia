@@ -5514,6 +5514,11 @@ public class UseItemRequest
 			Preferences.increment( "bondPoints" );
 			break;
 
+		case ItemPool.VAMPYRE_BLOOD:
+			// Get success text
+			Preferences.increment( "darkGyfftePoints" );
+			break;
+
 		case ItemPool.ESSENCE_OF_ANNOYANCE:
 			if ( !responseText.contains( "You quaff" ) )
 			{

@@ -88,6 +88,7 @@ public class AscensionSnapshot
 	public static final int POKEFAM = 32;
 	public static final int GLOVER = 33;
 	public static final int DISGUISES_DELIMIT = 34;
+	public static final int DARK_GYFFTE = 35;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -105,6 +106,7 @@ public class AscensionSnapshot
 	public static final int BEAN_SLINGER = 19;
 	public static final int SNAKE_OILER = 20;
 	public static final int NOOB = 23;
+	public static final int VAMPYRE = 24;
 
 	public static final int UNKNOWN_TYPE = -1;
 	public static final int NORMAL = 1;
@@ -243,6 +245,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.DARK_GYFFTE, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.DISGUISES_DELIMIT, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
@@ -406,6 +412,7 @@ public class AscensionSnapshot
 		case AscensionSnapshot.AVATAR_OF_SNEAKY_PETE:
 		case AscensionSnapshot.ACTUALLY_ED_THE_UNDYING:
 		case AscensionSnapshot.GELATINOUS_NOOB:
+		case AscensionSnapshot.DARK_GYFFTE:
 			break;
 		case AscensionSnapshot.AVATAR_OF_WEST_OF_LOATHING:
 			strbuf.append( "<br><a class=small href=\"javascript:void(0);\" onClick=\"javascript: var element = document.getElementById('sec" );
@@ -598,8 +605,9 @@ public class AscensionSnapshot
 						pathFilter == AscensionSnapshot.REPEAT ? "Live. Ascend. Repeat. " :
 						pathFilter == AscensionSnapshot.POKEFAM ? "Pocket Familiars " :
 						pathFilter == AscensionSnapshot.GLOVER ? "G-Lover " :
-						pathFilter == AscensionSnapshot.DISGUISES_DELIMIT ? "Disguises Delimit "
-						: "" );
+						pathFilter == AscensionSnapshot.DISGUISES_DELIMIT ? "Disguises Delimit " :
+						pathFilter == AscensionSnapshot.DARK_GYFFTE ? "Dark Gyffte " :
+						"" );
 
 			strbuf.append( "Ascensions (Out of " );
 			strbuf.append( resultsList.size() );

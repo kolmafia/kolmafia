@@ -936,7 +936,10 @@ public abstract class KoLmafia
 		{
 			KoLmafia.updateDisplay( "Retrieving campground data..." );
 			CampgroundRequest.reset();
-			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			if( !KoLCharacter.isVampyre() )
+			{
+				RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			}
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
@@ -1135,7 +1138,10 @@ public abstract class KoLmafia
 		if ( !KoLCharacter.isEd() )
 		{
 			CampgroundRequest.reset();
-			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			if ( !KoLCharacter.isVampyre() )
+			{
+				RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
+			}
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			RequestThread.postRequest( new CampgroundRequest( "bookshelf" ) );

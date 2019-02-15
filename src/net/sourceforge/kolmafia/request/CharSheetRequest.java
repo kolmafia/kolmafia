@@ -161,9 +161,9 @@ public class CharSheetRequest
 		// Mana point parsing is exactly the same as hit point
 		// parsing - so this is just a copy-paste of the code.
 
-		if ( !KoLCharacter.inZombiecore() )
+		if ( !KoLCharacter.inZombiecore() && !KoLCharacter.isVampyre() )
 		{
-			// Zombie Masters have no MP
+			// Zombie Masters and Vampyres have no MP
 			while ( !token.startsWith( "Current" ) )
 			{
 				token = cleanContent.nextToken();
@@ -180,9 +180,9 @@ public class CharSheetRequest
 
 			KoLCharacter.setMP( currentMP, maximumMP, CharSheetRequest.retrieveBase( token, maximumMP ) );
 		}
-		else
+		else if ( !KoLCharacter.isVampyre() )
 		{
-			// *** They DO have a Horde.
+			// Zombie Masters DO have a Horde.
 			while ( !token.startsWith( "Zombie Horde" ) )
 			{
 				token = cleanContent.nextToken();

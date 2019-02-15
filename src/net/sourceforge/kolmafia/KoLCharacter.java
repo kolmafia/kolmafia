@@ -154,6 +154,7 @@ public abstract class KoLCharacter
 	public static final String COWPUNCHER = "Cow Puncher";
 	public static final String BEANSLINGER = "Beanslinger";
 	public static final String SNAKE_OILER = "Snake Oiler";
+	public static final String VAMPYRE = "Vampyre";
 
 	// Paths
 	public static final String BEES_HATE_YOU = "Bees Hate You";
@@ -180,6 +181,7 @@ public abstract class KoLCharacter
 	public static final String POKEFAM = "Pocket Familiars";
 	public static final String GLOVER = "G-Lover";
 	public static final String DISGUISES_DELIMIT = "Disguises Delimit";
+	public static final String DARK_GYFFTE = "Dark Gyffte";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -766,6 +768,11 @@ public abstract class KoLCharacter
 			limit = 3;
 		}
 
+		else if ( KoLCharacter.isVampyre() )
+		{
+			limit = 5;
+		}
+
 		else if ( KoLCharacter.inBadMoon() )
 		{
 			if ( KoLCharacter.hasSkill( "Pride" ) )
@@ -908,6 +915,11 @@ public abstract class KoLCharacter
 			{
 				limit += 2;
 			}
+		}
+
+		else if ( KoLCharacter.isVampyre() )
+		{
+			limit = 4;
 		}
 
 		if ( KoLCharacter.hasSkill( "Liver of Steel" ) )
@@ -1186,7 +1198,8 @@ public abstract class KoLCharacter
 		     classType.equals( KoLCharacter.PASTAMANCER ) ||
 		     classType.equals( KoLCharacter.AVATAR_OF_JARLSBERG ) ||
 		     classType.equals( KoLCharacter.ED ) ||
-		     classType.equals( KoLCharacter.BEANSLINGER ) )
+		     classType.equals( KoLCharacter.BEANSLINGER ) ||
+		     classType.equals( KoLCharacter.VAMPYRE ) )
 		{
 			return 1;
 		}
@@ -1217,6 +1230,7 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG ? "Blend" :
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_SNEAKY_PETE ? "Snap Fingers" :
 			KoLCharacter.classtype == KoLCharacter.ED ? "Curse of Indecision" :
+			KoLCharacter.classtype == KoLCharacter.VAMPYRE ? "Chill of the Tomb" :
 			Preferences.getBoolean( "considerShadowNoodles" ) ? "Shadow Noodles" : "none";
 	}
 
@@ -1582,6 +1596,7 @@ public abstract class KoLCharacter
 			classtype == 19 ? KoLCharacter.BEANSLINGER :
 			classtype == 20 ? KoLCharacter.SNAKE_OILER :
 			classtype == 23 ? KoLCharacter.GELATINOUS_NOOB :
+			classtype == 24 ? KoLCharacter.VAMPYRE :
 			"Unknown";
 
 		KoLCharacter.classtype = classname;
@@ -1659,6 +1674,7 @@ public abstract class KoLCharacter
 			classname.equals( KoLCharacter.BEANSLINGER ) ? KoLCharacter.BEANSLINGER :
 			classname.equals( KoLCharacter.SNAKE_OILER ) ? KoLCharacter.SNAKE_OILER :
 			classname.equals( KoLCharacter.GELATINOUS_NOOB ) ? KoLCharacter.GELATINOUS_NOOB :
+			classname.equals( KoLCharacter.VAMPYRE ) ? KoLCharacter.VAMPYRE :
 			KoLCharacter.SEAL_CLUBBER_RANKS.contains( classname ) ? KoLCharacter.SEAL_CLUBBER :
 			KoLCharacter.TURTLE_TAMER_RANKS.contains( classname ) ? KoLCharacter.TURTLE_TAMER :
 			KoLCharacter.PASTAMANCER_RANKS.contains( classname ) ? KoLCharacter.PASTAMANCER :
@@ -1693,7 +1709,13 @@ public abstract class KoLCharacter
 			KoLCharacter.classtype == KoLCharacter.SAUCEROR ||
 			KoLCharacter.classtype == KoLCharacter.AVATAR_OF_JARLSBERG ||
 			KoLCharacter.classtype == KoLCharacter.ED ||
-			KoLCharacter.classtype == KoLCharacter.BEANSLINGER;
+			KoLCharacter.classtype == KoLCharacter.BEANSLINGER ||
+			KoLCharacter.classtype == KoLCharacter.VAMPYRE;
+	}
+
+	public static final boolean isVampyre()
+	{
+		return KoLCharacter.classtype == KoLCharacter.VAMPYRE;
 	}
 
 	public static final boolean isMoxieClass()
@@ -3535,6 +3557,11 @@ public abstract class KoLCharacter
 			int masksUnlocked = wasInHardcore ? 2 : 1;
 			Preferences.increment( "masksUnlocked", masksUnlocked );
 		}
+		else if ( oldPath.equals( DARK_GYFFTE ) )
+		{
+			int gifftePoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "darkGifftePoints", gifftePoints );
+		}
 
 		// We are no longer in Hardcore
 		KoLCharacter.setHardcore( false );
@@ -3568,7 +3595,8 @@ public abstract class KoLCharacter
 		     oldPath.equals( AVATAR_OF_JARLSBERG ) ||
 		     oldPath.equals( AVATAR_OF_SNEAKY_PETE ) ||
 		     oldPath.equals( ACTUALLY_ED_THE_UNDYING ) ||
-		     oldPath.equals( GELATINOUS_NOOB ) )
+		     oldPath.equals( GELATINOUS_NOOB ) ||
+		     oldPath.equals( DARK_GYFFTE ) )
 		{
 			return;
 		}
@@ -3588,6 +3616,12 @@ public abstract class KoLCharacter
 			RequestThread.postRequest( new CampgroundRequest( "inspectkitchen" ) );
 			RequestThread.postRequest( new CampgroundRequest( "workshed" ) );
 			KoLCharacter.checkTelescope();
+		}
+
+		if ( oldPath.equals( DARK_GYFFTE ) )
+		{
+			// We haven't previously seen our dwelling
+			RequestThread.postRequest( new CampgroundRequest( "inspectdwelling" ) );
 		}
 
 		// If we were in a path that grants skills only while on the path, rest them
@@ -5484,7 +5518,7 @@ public abstract class KoLCharacter
 		}
 
 		// Don't even look if you are an Avatar
-		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.inNoobcore() )
+		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.inZombiecore() || KoLCharacter.inNuclearAutumn() || KoLCharacter.inNoobcore() || KoLCharacter.isVampyre() )
 		{
 			return null;
 		}

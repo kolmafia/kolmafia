@@ -912,7 +912,7 @@ public class CompactSidePane
 				this.statusValueLabel[ count ].setText( String.valueOf( KoLCharacter.getCurrentMP() ) );
 				count++;
 			}
-			else
+			else if ( !KoLCharacter.isVampyre() )
 			{
 				this.statusLabel[ count ].setText( "    MP: " );
 				this.statusValueLabel[ count ].setText( KoLConstants.COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + KoLConstants.COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
