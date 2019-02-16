@@ -2323,6 +2323,14 @@ public class QuestManager
 		{
 			Preferences.increment( "_sausageFights" );
 		}
+		else if ( monsterName.equals( "Steve Belmont" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
+		}
+		else if ( monsterName.equals( "Richardo Belmont" ) )
+		{
+			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 

@@ -830,6 +830,9 @@ public class AdventureRequest
 				image.startsWith( "mimebat" ) ? "cheerless mime soldier" :
 				image.startsWith( "mimeseer" ) ? "cheerless mime vizier" :
 				image.startsWith( "mimeexec" ) ? "cheerless mime executive" :
+				// Dark Gyffte
+				image.startsWith( "stevebelmont" ) ? "Steve Belmont" :
+				image.startsWith( "ricardobelmont" ) ? "Ricardo Belmont" :
 				null;
 		}
 
