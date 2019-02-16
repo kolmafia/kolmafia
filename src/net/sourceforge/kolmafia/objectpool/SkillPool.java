@@ -359,4 +359,19 @@ public class SkillPool
 	public static final int FROWN_MUSCLES = 23304;
 	public static final int ANGER_GLANDS = 23305;
 	public static final int POWERFUL_VOCAL_CHORDS = 23306;
+	public static final int SAVAGE_BITE = 24010;
+	public static final int CRUSH = 24011;
+	public static final int BALEFUL_HOWL = 24012;
+	public static final int CEASELESS_SNARL = 24013;
+	public static final int WOLF_FORM = 24014;
+	public static final int BLOOD_SPIKE = 24020;
+	public static final int BLOOD_CHAINS = 24021;
+	public static final int CHILL_OF_THE_TOMB = 24022;
+	public static final int BLOOD_CLOAK = 24023;
+	public static final int MIST_FORM = 24024;
+	public static final int PIERCING_GAZE = 24030;
+	public static final int PERCEIVE_SOUL = 24031;
+	public static final int ENSORCEL = 24032;
+	public static final int SPECTRAL_AWARENESS = 24033;
+	public static final int FLOCK_OF_BATS_FORM = 24034;
 }

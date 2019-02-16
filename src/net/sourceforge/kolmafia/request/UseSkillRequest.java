@@ -432,6 +432,10 @@ public class UseSkillRequest
 		{
 			maxPossible = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( skillId );
 		}
+		else if ( SkillDatabase.isVampyreSkill( skillId ) )
+		{
+			maxPossible = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost( skillId );
+		}
 		else
 		{
 			int mpCost = SkillDatabase.getMPConsumptionById( this.skillId );
@@ -906,6 +910,7 @@ public class UseSkillRequest
 		int thunderCost = SkillDatabase.getThunderCost( this.skillId );
 		int rainCost = SkillDatabase.getRainCost( skillId );
 		int lightningCost = SkillDatabase.getLightningCost( skillId );
+		int hpCost = SkillDatabase.getHPCost( skillId );
 		int numCosts = 0;
 		int itemCost = 0;
 		StringBuilder costString = new StringBuilder();
@@ -1017,9 +1022,19 @@ public class UseSkillRequest
 			costString.append( " bolts of lightning" );
 			numCosts++;
 		}
+		if ( hpCost > 0 )
+		{
+			if ( numCosts > 0 )
+			{
+				costString.append( ", " );
+			}
+			costString.append( hpCost );
+			costString.append( " hp" );
+			numCosts++;
+		}
 		if ( mpCost > 0 || 
 			( advCost == 0 && soulCost == 0 && this.skillId != SkillPool.SUMMON_ANNOYANCE &&
-			thunderCost == 0 && rainCost == 0 && lightningCost == 0 && itemCost == 0 ) )
+			thunderCost == 0 && rainCost == 0 && lightningCost == 0 && itemCost == 0 && hpCost == 0 ) )
 		{
 			if ( numCosts > 0 )
 			{
@@ -1417,6 +1432,14 @@ public class UseSkillRequest
 				return;
 			}
 
+			int hpCost = SkillDatabase.getHPCost( this.skillId );
+			if ( hpCost > 0 && KoLCharacter.getCurrentHP() < hpCost )
+			{
+				UseSkillRequest.lastUpdate = "You have too little HP to cast " + this.skillName + ".";
+				KoLmafia.updateDisplay( UseSkillRequest.lastUpdate );
+				return;
+			}
+
 			boolean single = false;
 
 			AdventureResult mana = SkillDatabase.getManaItemCost( this.skillId );
@@ -1635,6 +1658,10 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isLightningSkill( this.skillId ) )
 		{
 			currentCast = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( this.skillId );
+		}
+		else if ( SkillDatabase.isVampyreSkill( this.skillId ) )
+		{
+			currentCast = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost( this.skillId );
 		}
 		else
 		{
@@ -2548,6 +2575,11 @@ public class UseSkillRequest
 			KoLCharacter.decrementLightning( SkillDatabase.getLightningCost( skillId ) * count );
 		}
 
+		else if ( SkillDatabase.isVampyreSkill( skillId ) )
+		{
+			ResultProcessor.processResult( new AdventureResult( AdventureResult.HP, 0 - SkillDatabase.getHPCost( skillId ) * count ) );
+		}
+
 		if ( mpCost > 0 )
 		{
 			ResultProcessor.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
@@ -2700,6 +2732,10 @@ public class UseSkillRequest
 		else if ( SkillDatabase.isLightningSkill( skillId ) )
 		{
 			maxcasts = KoLCharacter.getLightning() / SkillDatabase.getLightningCost( skillId );
+		}
+		else if ( SkillDatabase.isVampyreSkill( skillId ) )
+		{
+			maxcasts = KoLCharacter.getCurrentHP() / SkillDatabase.getHPCost( skillId );
 		}
 		else
 		{
