@@ -852,7 +852,7 @@ public class UseItemEnqueuePanel
 			if ( KoLCharacter.isVampyre() )
 			{
 				// Vampyres, and only Vampyres can eat/drink bag of blood concoctions
-				if ( ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) && !item.getName().equals( "magical sausage" ) &&
+				if ( ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) && !name.equals( "magical sausage" ) &&
 					( ConsumablesDatabase.getNotes( name ) == null || !ConsumablesDatabase.getNotes( name ).startsWith( "Vampyre" ) ) )
 				{
 					return false;
