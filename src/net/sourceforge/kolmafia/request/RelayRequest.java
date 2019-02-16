@@ -2066,7 +2066,7 @@ public class RelayRequest
 		}
 
 		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || 
-		     KoLCharacter.isEd() || KoLCharacter.inBondcore() || KoLCharacter.inPokefam() )
+		     KoLCharacter.isEd() || KoLCharacter.inBondcore() || KoLCharacter.inPokefam() || KoLCharacter.isVampyre() )
 		{
 			return false;
 		}

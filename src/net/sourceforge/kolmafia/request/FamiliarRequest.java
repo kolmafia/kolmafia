@@ -403,7 +403,7 @@ public class FamiliarRequest
 		// Familiars weren't cool enough for Pete.
 		// Ed already has more than enough servants.
 		if ( KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete() || KoLCharacter.isEd() ||
-		     KoLCharacter.inBondcore() )
+		     KoLCharacter.inBondcore() || KoLCharacter.isVampyre() )
 		{
 			return;
 		}

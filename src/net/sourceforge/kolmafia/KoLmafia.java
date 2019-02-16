@@ -921,7 +921,8 @@ public abstract class KoLmafia
 		{
 			RequestThread.postRequest( new FamTeamRequest() );
 		}
-		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete() && !KoLCharacter.inBondcore() )
+		else if ( !KoLCharacter.inAxecore() && !KoLCharacter.isJarlsberg() && !KoLCharacter.isSneakyPete()
+			&& !KoLCharacter.inBondcore() && !KoLCharacter.isVampyre() )
 		{
 			// Retrieve the Terrarium
 			RequestThread.postRequest( new FamiliarRequest() );
