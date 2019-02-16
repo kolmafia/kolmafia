@@ -1134,6 +1134,9 @@ public abstract class RuntimeLibrary
 		functions.add( new LibraryFunction( "fuel_cost", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.SKILL_TYPE };
+		functions.add( new LibraryFunction( "hp_cost", DataTypes.INT_TYPE, params ) );
+
+		params = new Type[] { DataTypes.SKILL_TYPE };
 		functions.add( new LibraryFunction( "turns_per_cast", DataTypes.INT_TYPE, params ) );
 
 		params = new Type[] { DataTypes.EFFECT_TYPE };
@@ -5322,6 +5325,11 @@ public abstract class RuntimeLibrary
 	public static Value fuel_cost( Interpreter interpreter, final Value skill )
 	{
 		return new Value( SkillDatabase.getFuelCost( (int) skill.intValue() ) );
+	}
+
+	public static Value hp_cost( Interpreter interpreter, final Value skill )
+	{
+		return new Value( SkillDatabase.getHPCost( (int) skill.intValue() ) );
 	}
 
 	public static Value turns_per_cast( Interpreter interpreter, final Value skill )

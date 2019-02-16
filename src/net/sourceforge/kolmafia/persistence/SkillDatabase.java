@@ -1166,6 +1166,41 @@ public class SkillDatabase
 		}
 	}
 
+	public static final boolean isVampyreSkill( final int skillId )
+	{
+		return SkillDatabase.getSkillCategory( skillId ) == SkillDatabase.VAMPYRE;
+	}
+
+	public static final int getHPCost( final int skillId )
+	{
+		switch ( skillId )
+		{
+		case SkillPool.BLOOD_SPIKE:
+		case SkillPool.PIERCING_GAZE:
+		case SkillPool.SAVAGE_BITE:
+			return 3;
+		case SkillPool.BLOOD_CHAINS:
+			return 5;
+		case SkillPool.CHILL_OF_THE_TOMB:
+			return 7;
+		case SkillPool.BLOOD_CLOAK:
+		case SkillPool.CEASELESS_SNARL:
+		case SkillPool.CRUSH:
+		case SkillPool.FLOCK_OF_BATS_FORM:
+		case SkillPool.MIST_FORM:
+		case SkillPool.SPECTRAL_AWARENESS:
+		case SkillPool.WOLF_FORM:
+			return 10;
+		case SkillPool.PERCEIVE_SOUL:
+			return 15;
+		case SkillPool.BALEFUL_HOWL:
+		case SkillPool.ENSORCEL:
+			return 30;
+		default:
+			return 0;
+		}
+	}
+
 	public static final AdventureResult getManaItemCost( final int skillId )
 	{
 		switch ( skillId )

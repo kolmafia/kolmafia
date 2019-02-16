@@ -607,6 +607,7 @@ public class Maximizer
 			int rainCost = 0;
 			int lightningCost = 0;
 			int fuelCost = 0;
+			int hpCost = 0;
 			int duration = 0;
 			int usesRemaining = 0;
 			int itemsRemaining = 0;
@@ -908,6 +909,7 @@ public class Maximizer
 					thunderCost = SkillDatabase.getThunderCost( skillId );
 					rainCost = SkillDatabase.getRainCost( skillId );
 					lightningCost = SkillDatabase.getLightningCost( skillId );
+					hpCost = SkillDatabase.getHPCost( skillId );
 					duration = SkillDatabase.getEffectDuration( skillId );
 					UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance( skillName );
 					if ( skill != null )
@@ -1925,6 +1927,14 @@ public class Maximizer
 				{
 					text += lightningCost + " bolts of lightning, ";
 					if ( lightningCost > KoLCharacter.getLightning() )
+					{
+						cmd = "";
+					}
+				}
+				if ( hpCost > 0 )
+				{
+					text += hpCost + " hp, ";
+					if ( hpCost > KoLCharacter.getCurrentHP() )
 					{
 						cmd = "";
 					}
