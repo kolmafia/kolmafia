@@ -1232,6 +1232,10 @@ Jerry Bradford	2057	larryscrote.gif	Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford	2058	larryscrote.gif	Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford, Pokéfam World Champion	2059	larryscrote.gif	Atk: 250 Def: 0 HP: 0 Init: -10000 P: dude
 
+# Dark Gyffte
+Steve Belmont	2105	stevebelmont.gif	Atk: 40 Def: 40 HP: 50 Init: 100 P: dude	white money bag (n100)
+Ricardo Belmont	2106	ricardobelmont.gif	Atk: 60 Def: 60 HP: 80 Init: 150 P: dude	white money bag (n100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)

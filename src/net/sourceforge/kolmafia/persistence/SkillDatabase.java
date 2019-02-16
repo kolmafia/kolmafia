@@ -933,8 +933,10 @@ public class SkillDatabase
 	public static final boolean isPassive( final int skillId )
 	{
 		// Shake it off is a passive as well as a non-combat heal
+		// Vampyre skills all have a passive (-hp) effect
 		return SkillDatabase.isType( skillId, SkillDatabase.PASSIVE ) ||
-				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE );
+				SkillDatabase.isType( skillId, SkillDatabase.COMBAT_PASSIVE ) ||
+				SkillDatabase.isVampyreSkill( skillId );
 	}
 
 	/**

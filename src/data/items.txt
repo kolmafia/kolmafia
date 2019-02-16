@@ -10205,7 +10205,7 @@
 10178	vampagne	210395318	vampagne.gif	drink	t	0
 10179	plain snowcone	886740326	snowcone.gif	food	t,d	5
 10180
-10181
+10181	white money bag	733952412	moneybag1.gif	none	d	1000
 10182
 10183
 10184
