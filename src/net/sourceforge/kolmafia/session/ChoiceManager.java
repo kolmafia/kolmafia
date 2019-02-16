@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -4405,6 +4406,8 @@ public abstract class ChoiceManager
 		new ChoiceAdventure(
 			"Item-Driven", "choiceAdventure1341", "Lil' Doctor&trade; bag Cure",
 			new Object[] { new Option( "cure patient", 1 ) } ),
+
+		// Choice 1342 is Torpor
 
 	};
 
@@ -11504,6 +11507,34 @@ public abstract class ChoiceManager
 					Preferences.increment( "doctorBagUpgrades" );
 				}
 			}
+			break;
+
+		case 1342:
+			// Torpor
+			if ( ChoiceManager.lastDecision == 2 )
+			{
+				// You can learn or forget Vampyre skills
+				for ( int i = 10 ; i < 39 ; i++ )
+				{
+					if ( urlString.contains( "sk[]=" + i ) && !KoLCharacter.hasSkill( 24000 + i ) )
+					{
+						String skillName = SkillDatabase.getSkillName( 24000 + i );
+						KoLCharacter.addAvailableSkill( skillName );
+						message = "You have learned " + skillName;
+						RequestLogger.printLine( message );
+						RequestLogger.updateSessionLog( message );
+					}
+					if ( !urlString.contains( "sk[]=" + i ) && KoLCharacter.hasSkill( 24000 + i ) )
+					{
+						String skillName = SkillDatabase.getSkillName( 24000 + i );
+						KoLCharacter.removeAvailableSkill( skillName );
+						message = "You have forgotten " + skillName;
+						RequestLogger.printLine( message );
+						RequestLogger.updateSessionLog( message );
+					}
+				}
+			}
+			break;
 		}
 
 		// Certain choices cost meat or items when selected

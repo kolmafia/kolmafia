@@ -1077,6 +1077,9 @@ public class Modifiers
 	public static final int AVATAR = 14;
 	public static final int ROLLOVER_EFFECT = 15;
 	public static final int SKILL = 16;
+	public static final int FLOOR_BUFFED_MUSCLE = 17;
+	public static final int FLOOR_BUFFED_MYST = 18;
+	public static final int FLOOR_BUFFED_MOXIE = 19;
 
 	private static final Object[][] stringModifiers =
 	{
@@ -1154,6 +1157,18 @@ public class Modifiers
 		{ "Skill",
 		  Pattern.compile( "Grants Skill:.*?<b>(.*?)</b>" ),
 		  Pattern.compile( "Skill: \"(.*?)\"" )
+		},
+		{ "Floor Buffed Muscle",
+		  null,
+		  Pattern.compile( "Floor Buffed Muscle: \"(.*?)\"" )
+		},
+		{ "Floor Buffed Mysticality",
+		  null,
+		  Pattern.compile( "Floor Buffed Mysticality: \"(.*?)\"" )
+		},
+		{ "Floor Buffed Moxie",
+		  null,
+		  Pattern.compile( "Floor Buffed Moxie: \"(.*?)\"" )
 		},
 	};
 
@@ -1255,9 +1270,55 @@ public class Modifiers
 		rv[ Modifiers.BUFFED_MOX ] = mox + (int) this.get( Modifiers.MOX ) +
 			(int) Math.ceil( this.get( Modifiers.MOX_PCT ) * mox / 100.0);
 
-		int hpbase = rv[ Modifiers.BUFFED_MUS ];
+		String mus_buffed_floor = this.getString( Modifiers.FLOOR_BUFFED_MUSCLE );
+		if ( mus_buffed_floor.startsWith( "Mys" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MYS ] > rv[ Modifiers.BUFFED_MUS ] )
+			{
+				rv[ Modifiers.BUFFED_MUS ] = rv[ Modifiers.BUFFED_MYS ];
+			}
+		}
+		else if ( mus_buffed_floor.startsWith( "Mox" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MOX ] > rv[ Modifiers.BUFFED_MUS ] )
+			{
+				rv[ Modifiers.BUFFED_MUS ] = rv[ Modifiers.BUFFED_MOX ];
+			}
+		}
+		String mys_buffed_floor  = this.getString( Modifiers.FLOOR_BUFFED_MYST );
+		if ( mys_buffed_floor.startsWith( "Mus" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MUS ] > rv[ Modifiers.BUFFED_MYS ] )
+			{
+				rv[ Modifiers.BUFFED_MYS ] = rv[ Modifiers.BUFFED_MUS ];
+			}
+		}
+		else if ( mys_buffed_floor.startsWith( "Mox" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MOX ] > rv[ Modifiers.BUFFED_MYS ] )
+			{
+				rv[ Modifiers.BUFFED_MYS ] = rv[ Modifiers.BUFFED_MOX ];
+			}
+		}
+		String mox_buffed_floor = this.getString( Modifiers.FLOOR_BUFFED_MOXIE );
+		if ( mox_buffed_floor.startsWith( "Mus" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MUS ] > rv[ Modifiers.BUFFED_MOX ] )
+			{
+				rv[ Modifiers.BUFFED_MOX ] = rv[ Modifiers.BUFFED_MUS ];
+			}
+		}
+		else if ( mox_buffed_floor.startsWith( "Mys" ) )
+		{
+			if ( rv[ Modifiers.BUFFED_MYS ] > rv[ Modifiers.BUFFED_MOX ] )
+			{
+				rv[ Modifiers.BUFFED_MOX ] = rv[ Modifiers.BUFFED_MYS ];
+			}
+		}
+
+		int hpbase = KoLCharacter.isVampyre() ? KoLCharacter.getBaseMuscle() : rv[ Modifiers.BUFFED_MUS ] + 3;
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-		int hp = (int) Math.ceil( (hpbase + 3) * ( C + this.get( Modifiers.HP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.HP );
+		int hp = (int) Math.ceil( hpbase * ( C + this.get( Modifiers.HP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.HP );
 		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
@@ -2746,6 +2807,21 @@ public class Modifiers
 				}
 				return true;
 			}
+			}
+		}
+		else if ( type.equals( "Skill" ) )
+		{
+			if ( name.equals( "Ferocity" ) )
+			{
+				if ( KoLCharacter.isVampyre() )
+				{
+					this.set( Modifiers.HP, -10.0 );
+				}
+				else if ( KoLCharacter.isAvatarOfBoris() )
+				{
+					this.set( Modifiers.CRITICAL_PCT, 25.0 );
+				}
+				return true;
 			}
 		}
 		else if ( type.equals( "Throne" ) )
