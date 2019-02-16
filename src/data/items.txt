@@ -10193,17 +10193,17 @@
 10166	Lil' Doctor&trade; bag	325464874	dbag.gif	accessory		0
 10167
 10168	blood bag	205374773	bloodbag.gif	usable	q	0
-10169
-10170
-10171
-10172
-10173
-10174
-10175
-10176
-10177
-10178
-10179
+10169	bloodstick	196622331	bloodbread.gif	food	t	0
+10170	bottle of Sanguiovese	687060892	wine.gif	drink	t	0
+10171	actual blood sausage	284188350	sausage.gif	food	t	0
+10172	mulled blood	958220017	redwine.gif	drink	t	0
+10173	blood snowcone	169850363	redsnowcone.gif	food	t	0
+10174	Red Russian	666902677	redrussian.gif	drink	t	0
+10175	blood roll-up	874800525	bloodrollup.gif	food	t	0
+10176	dusty bottle of blood	137333455	wine2.gif	drink	t	0
+10177	blood-soaked sponge cake	265444448	bloodcake.gif	food	t	0
+10178	vampagne	210395318	vampagne.gif	drink	t	0
+10179	plain snowcone	886740326	snowcone.gif	food	t,d	5
 10180
 10181
 10182
