@@ -145,6 +145,16 @@ public class EatItemRequest
 			return 0;
 		}
 
+		if ( KoLCharacter.isVampyre() && !itemName.equals( "magical sausage" ) &&
+			( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "Vampyre" ) ) )
+		{
+			return 0;
+		}
+		else if ( !KoLCharacter.isVampyre() && ConsumablesDatabase.getNotes( itemName ) != null && ConsumablesDatabase.getNotes( itemName ).startsWith( "Vampyre" ) )
+		{
+			return 0;
+		}
+
 		switch ( itemId )
 		{
 		case ItemPool.SPAGHETTI_BREAKFAST:

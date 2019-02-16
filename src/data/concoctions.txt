@@ -3037,3 +3037,23 @@ Staff of Frozen Lard	STAFF	pristine walrus tusk	moosemeat pie (3)	beaver punch (
 
 # Kramco Sausage-o-Matic
 magical sausage	SAUSAGE_O_MATIC	magical sausage casing
+
+# Dark Gyffte
+bloodstick	COOK	blood bag	wad of dough
+actual blood sausage	COOK	blood bag	batgut
+actual blood sausage	COOK	blood bag	ratgut
+blood snowcone	COOK	blood bag	plain snowcone
+blood roll-up	COOK	blood bag	blackberry
+blood-soaked sponge cake	COOK	blood bag	gauze garter
+blood-soaked sponge cake	COOK	blood bag	filthy poultice
+bottle of Sanguiovese	MIX	blood bag	fermenting powder
+mulled blood	MIX	blood bag	spices
+Red Russian	MIX	blood bag	glass of goat's milk
+dusty bottle of blood	MIX	blood bag	dusty bottle of Merlot
+dusty bottle of blood	MIX	blood bag	dusty bottle of Port
+dusty bottle of blood	MIX	blood bag	dusty bottle of Pinot Noir
+dusty bottle of blood	MIX	blood bag	dusty bottle of Zinfandel
+dusty bottle of blood	MIX	blood bag	dusty bottle of Marsala
+dusty bottle of blood	MIX	blood bag	dusty bottle of Muscat
+vampagne	MIX	blood bag	Monstar energy beverage
+vampagne	MIX	blood bag	carbonated soy milk

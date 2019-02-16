@@ -133,6 +133,15 @@ public class DrinkItemRequest
 			return 0;
 		}
 
+		if ( KoLCharacter.isVampyre() && ( ConsumablesDatabase.getNotes( itemName ) == null || !ConsumablesDatabase.getNotes( itemName ).startsWith( "Vampyre" ) ) )
+		{
+			return 0;
+		}
+		else if ( !KoLCharacter.isVampyre() && ConsumablesDatabase.getNotes( itemName ) != null && ConsumablesDatabase.getNotes( itemName ).startsWith( "Vampyre" ) )
+		{
+			return 0;
+		}
+
 		UseItemRequest.limiter = "inebriety";
 		int limit = KoLCharacter.getInebrietyLimit();
 		int maxAvailable = Integer.MAX_VALUE;

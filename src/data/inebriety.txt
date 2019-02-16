@@ -95,6 +95,7 @@ bottle of Rapier Witbier	2	6	EPIC	10-12	20-30	20-30	20-30	20 Jokin' Drunk (+50 M
 bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen)
 bottle of rum	3	1	crappy	3	0	0	0
 bottle of sake	3	1	crappy	3	0	0	0
+bottle of Sanguiovese	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
 bottle of sewage schnapps	3	1	crappy	0	0	0	0	20 Majorly Poisoned, lose 30 HP
 bottle of single-barrel whiskey	3	13	EPIC	13-20	40-50	40-50	40-50
 bottle of tequila	3	1	crappy	3	0	0	0
@@ -202,6 +203,7 @@ dry vodka martini	3	3	good	5-10	0	0	8-10
 ducha de oro	4	4	good	10-14	8-10	25-27	0
 DUFRESNE Suds	1	3	good	3	100	50	75	10 Favored by Lyle (+10% all stats)
 Dump Truck	2	8	awesome	8-9	30-40	0	0	15 Mortarfied (+100 DA)
+dusty bottle of blood	1	1	EPIC	20	20-25	20-25	20-25	Vampyre
 dusty bottle of Marsala	2	1	good	6-8	5-10	5-10	5-10	lose 60-70% HP
 dusty bottle of Merlot	2	1	decent	3-4	5-10	5-10	5-10
 dusty bottle of Muscat	2	1	decent	3-5	0	0	0	lose 80-90% HP
@@ -420,6 +422,7 @@ Morto Moreto	1	5	EPIC	4-6	0	0	0	100 Majorly Poisoned
 mourning wine	2	1	good	5-7	30-50	30-50	30-50
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop)
+mulled blood	1	1	EPIC	14	10-15	10-15	10-15	Vampyre
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (Unimplemented)
 Murderer's Punch	3	6	good	8-10	10-20	0	0	40 Punchy, Murdery (+50% Weapon Damage)
@@ -498,6 +501,7 @@ Red Dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
 red hot boilermaker	4	9	good	11-13	25-30	10-14	10-14	50 Boilermade (+5 Cold/Spooky Res)
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP
 red rum	3	3	decent	4	0	0	0	20-30 HP
+Red Russian	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
 red-headed corpse	3	1	good	6-10	0	31-35	0
 redrum	3	1	decent	5-6	0	15-30	0
 regular-size brogurt	1	5	good	2-3	15-30	0	15-30
@@ -624,6 +628,7 @@ unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
 Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	+1 PvP fight
+vampagne	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
 very fancy whiskey	2	1	EPIC	13-15	5-20	5-20	5-20
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vintage smart drink	10	1	awesome	40	0	0	0	1 Smart Drunk (+120 HP, +20 Familiar Weight)
