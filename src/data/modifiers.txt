@@ -7305,7 +7305,7 @@ Skill	Politeness	Sleaze Resistance: +2
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin +1% chance of Critical Hit for each gallon of Fury
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
-Skill	Preternatural Strength	Floor Buffed Muscle: Mysticality, Maximum HP: -15
+Skill	Preternatural Strength	Floor Buffed Muscle: "Mysticality", Maximum HP: -15
 Skill	Profound Shame	Sleaze Resistance: +3
 # Pulverize
 Skill	Quantum Movement	Initiative: +20
@@ -7350,7 +7350,7 @@ Skill	Shiver Reflex	Cold Resistance: +2
 Skill	Shivering Monkey Technique	Initiative: +15
 Skill	Shock-Absorbing Joints	Damage Reduction: 10
 Skill	Sick Pythons	Weapon Damage: +20
-Skill	Sinister Charm	Floor Buffed Moxie: Mysticality, Maximum HP: -15
+Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
