@@ -6140,11 +6140,6 @@ public abstract class KoLCharacter
 			newModifiers.add( Modifiers.getModifiers( "Mask", KoLCharacter.getMask() ) );
 		}
 
-		if ( KoLCharacter.isVampyre() )
-		{
-			newModifiers.add( Modifiers.HP, 20 * ( 1 + Preferences.getInteger( "darkGifftePoints" ) ), "Path:Dark Gyffte" );
-		}
-
 		if ( VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION )
 		{
 			newModifiers.applyCompanionModifiers( VYKEACompanionData.currentCompanion() );

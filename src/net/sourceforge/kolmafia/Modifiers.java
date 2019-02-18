@@ -1319,6 +1319,12 @@ public class Modifiers
 		int hpbase = KoLCharacter.isVampyre() ? KoLCharacter.getBaseMuscle() : rv[ Modifiers.BUFFED_MUS ] + 3;
 		double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
 		int hp = (int) Math.ceil( hpbase * ( C + this.get( Modifiers.HP_PCT ) / 100.0 ) ) + (int) this.get( Modifiers.HP );
+		if ( KoLCharacter.isVampyre() )
+		{
+			// This block could be merged into the previous calculation, but that
+			// would result in a significant reduction in readability
+			hp = hpbase + (int) this.get( Modifiers.HP );
+		}
 		rv[ Modifiers.BUFFED_HP ] = Math.max( hp, mus );
 
 		int mpbase = (int) rv[ Modifiers.BUFFED_MYS ];
