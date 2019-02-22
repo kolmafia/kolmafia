@@ -3559,8 +3559,8 @@ public abstract class KoLCharacter
 		}
 		else if ( oldPath.equals( DARK_GYFFTE ) )
 		{
-			int gifftePoints = wasInHardcore ? 2 : 1;
-			Preferences.increment( "darkGifftePoints", gifftePoints );
+			int gyfftePoints = wasInHardcore ? 2 : 1;
+			Preferences.increment( "darkGyfftePoints", gyfftePoints );
 		}
 
 		// We are no longer in Hardcore

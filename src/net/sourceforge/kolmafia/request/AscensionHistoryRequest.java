@@ -280,7 +280,7 @@ public class AscensionHistoryRequest
 		}
 		if ( gyfftePoints > Preferences.getInteger( "darkGyfftePoints" ) )
 		{
-			Preferences.setInteger( "darkGyfftePoints", ( gyfftePoints < 24 ? gyfftePoints : 24 ) );
+			Preferences.setInteger( "darkGyfftePoints", ( gyfftePoints < 23 ? gyfftePoints : 23 ) );
 		}
 	}
 

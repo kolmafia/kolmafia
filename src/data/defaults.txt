@@ -459,7 +459,7 @@ user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
 user	dailyDungeonDone	false
 user	dampOldBootPurchased	false
-user	darkGifftePoints	0
+user	darkGyfftePoints	0
 user	daycareEquipment	0
 user	daycareInstructors	0
 user	daycareOpen	false
