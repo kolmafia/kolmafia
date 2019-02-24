@@ -10204,9 +10204,9 @@
 10177	blood-soaked sponge cake	265444448	bloodcake.gif	food	t	0
 10178	vampagne	210395318	vampagne.gif	drink	t	0
 10179	plain snowcone	886740326	snowcone.gif	food	t,d	5
-10180
+10180	Booke of Vampyric Knowledge	352913194	book4.gif	usable	t	0
 10181	white money bag	733952412	moneybag1.gif	none	d	1000
-10182
+10182	red money bag	326697784	moneybag2.gif	none	d	3000
 10183
 10184
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
