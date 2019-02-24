@@ -8615,6 +8615,7 @@ Item	Boletus Broletus mushroom	Effect: "Boletus Swoletus", Effect Duration: 10
 Item	bone bons	Effect: "Bone Chilling", Effect Duration: 20
 Item	booby trap	Effect: "Ravonovichy", Effect Duration: 100
 # book of matches: Deals 40-60 <font color=red>Hot Damage</font>
+# Booke of Vampyric Knowledge: Grants one of several Vampyric skills
 Item	Boosty Juice	Effect: "Juicy Boost", Effect Duration: 300
 Item	BOOterfinger	Effect: "BOOsted", Effect Duration: 50
 # boozebomb: Deals 400-500 Physical Damage

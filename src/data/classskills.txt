@@ -1341,8 +1341,8 @@
 
 # Dark Gyffte
 
-24001	Dark Feast	vampfangs.gif	5	0	0
-24002	Wisdom of Countless Centuries	mortarboard.gif	0	0	0
+24000	Dark Feast	vampfangs.gif	5	0	0
+24001	Wisdom of Countless Centuries	mortarboard.gif	0	0	0
 
 # Beastcraft
 
