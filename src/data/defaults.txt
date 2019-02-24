@@ -1805,6 +1805,7 @@ user	_volcanoItemCount2	0
 user	_volcanoItemCount3	0
 user	_voraciTeaUsed	false
 user	_volcanoItemRedeemed	false
+user	_volcanoSuperduperheatedMetal	false
 user	_voteFreeFights	0
 user	_voteLocal1	
 user	_voteLocal2	
