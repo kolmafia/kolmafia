@@ -3099,9 +3099,16 @@ public class ResultProcessor
 			break;
 
 		case ItemPool.SUPERHEATED_METAL:
+			if ( combatResults )
+			{
+				ResultProcessor.removeItem( ItemPool.HEAT_RESISTANT_SHEET_METAL );
+			}
+			break;
+
 		case ItemPool.SUPERDUPERHEATED_METAL:
 			if ( combatResults )
 			{
+				Preferences.setBoolean( "_volcanoSuperduperheatedMetal", true );
 				ResultProcessor.removeItem( ItemPool.HEAT_RESISTANT_SHEET_METAL );
 			}
 			break;
