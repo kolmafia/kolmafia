@@ -9056,7 +9056,7 @@
 9029	no spoon	324807416	nospoon.gif	reusable	q	0
 9030	delicious star salad	875793075	salad.gif	food	t,d	1	bowls of delicious star salad
 9031	Thwaitgold moth statuette	396156390	thwaitmoth.gif	none		0
-9032	bowl of Tastee-Wheet&trade;	153693983	soupbowl.gif	food	t	0	bowls of Tastee-Wheet™
+9032	bowl of Tastee-Wheet&trade;	153693983	soupbowl.gif	food	t	0	bowls of Tastee-Wheet&trade;
 9033	Source terminal	356709315	sourceterminal.gif	usable	t	0
 9034	Source essence	674096283	10101.gif	none	t,d	1	bits of Source essence
 9035	browser cookie	268852403	browsercookie.gif	food	t,d	40
