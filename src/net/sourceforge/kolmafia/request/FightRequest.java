@@ -2449,16 +2449,9 @@ public class FightRequest
 			}
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
 
-			// Apparently digitize monsters always show up before arrow monsters if they are set to arrive
-			// on the same turn, so check in that order
-			// Where does LOV Enamorang fit in?
-			if ( EncounterManager.isEnamorangEncounter( responseText, true ) )
-			{
-				EncounterManager.ignoreSpecialMonsters();
-				TurnCounter.stopCounting( "Enamorang Monster" );
-				Preferences.setString( "enamorangMonster", "" );
-			}
-			else if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
+			// https://imgur.com/a/Eh5MiUZ shows the order is Digitize, Arrow, Enamorang,
+			// so check in that order
+			if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
 				Preferences.increment( "_sourceTerminalDigitizeMonsterCount" );
@@ -2489,6 +2482,14 @@ public class FightRequest
 				{
 					Preferences.setString( "romanticTarget", "" );
 				}
+			}
+			else if ( EncounterManager.isEnamorangEncounter( responseText, true ) )
+			{
+				EncounterManager.ignoreSpecialMonsters();
+				TurnCounter.stopCounting( "Enamorang Monster" );
+				TurnCounter.stopCounting( "Enamorang unknown monster window begin" );
+				TurnCounter.stopCounting( "Enamorang unknown monster window end" );
+				Preferences.setString( "enamorangMonster", "" );
 			}
 
 			// Increment stinky cheese counter
@@ -8285,7 +8286,21 @@ public class FightRequest
 					TurnCounter.startCounting( 15, "Enamorang Monster loc=* type=wander", "watch.gif" );
 				}
 				Preferences.setString( "enamorangMonster", monsterName );
+				Preferences.increment( "_enamorangs" );
 				return true;
+			}
+
+			if ( responseText.contains( "enamorrang'd someone recently" ) && !TurnCounter.isCounting( "Enamorang Monster" ) )
+			{
+				TurnCounter.startCounting( 0, "Enamorang unknown monster window begin loc=* type=wander", "lparen.gif" );
+				TurnCounter.startCounting( 15, "Enamorang unknown monster window end loc=* type=wander", "rparen.gif" );
+				return false;
+			}
+
+			if ( responseText.contains( "enamorrang'd five times today") )
+			{
+				Preferences.setInteger( "_enamorangs", 5 );
+				return false;
 			}
 			return false;
 
