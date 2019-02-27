@@ -1563,6 +1563,7 @@ user	_kolhsCutButNotDried	false
 user	_kolhsIsskayLikeAnAshtray	false
 user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
+user	_lastSausageMonsterTurn	0
 user	_lastZomboEye	0
 user	_latteBanishUsed	false
 user	_latteCopyUsed	false
