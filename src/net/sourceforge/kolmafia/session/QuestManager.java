@@ -753,7 +753,7 @@ public class QuestManager
 		// Otherwise we can see everything that is unlocked at present and correct
 		else
 		{
-			StringBuffer unlocks = new StringBuffer();
+			StringBuilder unlocks = new StringBuilder();
 			if ( responseText.contains( "snarfblat=502" ) ) unlocks.append( "The Bandit Crossroads," );
 			if ( responseText.contains( "snarfblat=503" ) ) unlocks.append( "The Towering Mountains," );
 			if ( responseText.contains( "snarfblat=504" ) ) unlocks.append( "The Mystic Wood," );
@@ -2322,6 +2322,7 @@ public class QuestManager
 		else if ( monsterName.equals( "sausage goblin" ) )
 		{
 			Preferences.increment( "_sausageFights" );
+			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
 		}
 		else if ( monsterName.equals( "Steve Belmont" ) )
 		{
