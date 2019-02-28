@@ -13345,6 +13345,10 @@ public abstract class ChoiceManager
 			break;
 		}
 
+		case 1344: // Thank You, Come Again
+			ChoiceManager.handleAfterAvatar();
+			break;
+
 		}
 
 		if ( ChoiceManager.handlingChoice )
