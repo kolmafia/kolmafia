@@ -1233,9 +1233,14 @@ Jerry Bradford	2058	larryscrote.gif	Atk: 200 Def: 0 HP: 0 Init: -10000 P: dude
 Jerry Bradford, Pokéfam World Champion	2059	larryscrote.gif	Atk: 250 Def: 0 HP: 0 Init: -10000 P: dude
 
 # Dark Gyffte
-Sharona	2111	sharona.gif	Atk: 150 Def: 150 HP: 250 P: dude	red money bag (n100)
 Steve Belmont	2105	stevebelmont.gif	Atk: 40 Def: 40 HP: 50 Init: 100 P: dude	white money bag (n100)
 Ricardo Belmont	2106	ricardobelmont.gif	Atk: 60 Def: 60 HP: 80 Init: 150 P: dude	white money bag (n100)
+Jayden Belmont	2107	jaydenbelmont.gif	Atk: 100 Def: 100 HP: 150 Init: 200 P: dude	red money bag (n100)
+Travis Belmont	2108	travisbelmont.gif	Atk: 200 Def: 200 HP: 250 Init: 250 P: dude	red money bag (n100)	Staff of Fats (n100)
+Greg Dagreasy	2109	gregdagreasy.gif	Atk: 200 Def: 300 HP: 200 Init: 250 P: dude	red money bag (n100)	Eye of Ed (100)
+Sylvia Belgrande	2110	sylviabelgrande.gif	Atk: 200 Def: 200 HP: 200 Init: 250 P: dude	red money bag (n100)	ancient amulet (100)
+Sharona	2111	sharona.gif	Atk: 150 Def: 150 HP: 250 Init: 150 P: dude	red money bag (n100)
+Jake Norris	2112	jakenorris.gif	Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
 
 # Items of the Month
 
