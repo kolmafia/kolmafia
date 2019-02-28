@@ -10208,5 +10208,5 @@
 10181	white money bag	733952412	moneybag1.gif	none	d	1000
 10182	red money bag	326697784	moneybag2.gif	none	d	3000
 10183	blue money bag	938341934	moneybag2.gif	none	d	5000
-10184
+10184	Thwaitgold mosquito statuette	626054918	thwaitsquito.gif	none		0
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
