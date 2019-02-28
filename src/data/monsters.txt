@@ -1241,6 +1241,8 @@ Greg Dagreasy	2109	gregdagreasy.gif	Atk: 200 Def: 300 HP: 200 Init: 250 P: dude	
 Sylvia Belgrande	2110	sylviabelgrande.gif	Atk: 200 Def: 200 HP: 200 Init: 250 P: dude	red money bag (n100)	ancient amulet (100)
 Sharona	2111	sharona.gif	Atk: 150 Def: 150 HP: 250 Init: 150 P: dude	red money bag (n100)
 Jake Norris	2112	jakenorris.gif	Atk: 250 Def: 250 HP: 2000 Init: 300 P: dude	blue money bag (n100)
+%alucard%	2114	reyalpeht.gif	Atk: 300 Def: 300 HP: 1000 Init: 10000 P: dude
+Your Lack of Reflection	2115	towermirror.gif	Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror
 
 # Items of the Month
 
