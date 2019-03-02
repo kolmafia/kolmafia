@@ -5006,7 +5006,7 @@ Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
 Effect	Clerical Aura	Avatar: "Father McGruber"
 Effect	Cletus's Canticle of Celerity	Initiative: +20
-Effect 	Cloak of Shadows	Combat Rate: -5
+Effect	Cloak of Shadows	Combat Rate: -15
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 # Clumsy: Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
