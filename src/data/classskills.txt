@@ -253,6 +253,7 @@
 1040	Pride of the Puffin	trophy.gif	3	30	10	15
 1041	Silent Hunter	silenthunter.gif	3	50	10
 1042	Get Big	getbig.gif	3	15	10
+1043	Blood Frenzy	bloodfrenzy.gif	3	30	10
 
 # Skills available to Tamers
 
@@ -300,6 +301,7 @@
 2041	Turtle Power	turtlepower.gif	3	100	10	15
 2042	Quiet Determination	quietresolve.gif	9	10	10
 2043	Gallapagosian Mating Call	matingturtle.gif	5	30	0
+2044	Blood Bond	bloodbond.gif	3	30	10
 
 # Butt combos removed in Tamer Revamp
 # 2103 Head + Knee Combo 5 8 0
@@ -353,6 +355,7 @@
 3041	Bind Spaghetti Elemental	t_spagdemon.gif	3	150	0
 3042	Quiet Judgement	quietjudgement.gif	9	10	10
 3043	Inscrutable Gaze	psychicgaze.gif	9	10	10
+3044	Blood Bucatini	bloodbucatini.gif	3	10	0
 
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 # Remade in Pastamancer revamp, now 7176-7181
@@ -407,6 +410,7 @@
 4039	Saucemaven	saucemaven.gif	0	0	0	11
 4040	Silent Treatment	silenttreatment.gif	5	20	0
 4041	Love Mixology	potion9.gif	1	50	0
+4042	Blood Bubble	jarl_choco.gif	3	30	3
 
 # Skills available to Bandits
 
@@ -451,6 +455,7 @@
 5039	Disco Leer	discoleer.gif	9	10	10	15
 5040	Silent Knife	silentknife.gif	5	10	0
 5041	Acquire Rhinestones	rhinestones.gif	1	10	0
+5041	Blood Blade	bloodknife.gif	1	50	0
 
 # Skills available to Thieves
 
@@ -500,6 +505,7 @@
 6043	Mariachi Memory	mariachimem.gif	0	0	0	15
 6044	Quiet Desperation	quietdesperation.gif	9	10	10
 6045	Paul's Passionate Pop Song	paulssong.gif	4	20	5
+6046	Bram's Bloody Bagatelle	bloodsong.gif	4	50	5
 
 # Skills granted conditionally
 

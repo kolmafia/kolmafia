@@ -3091,6 +3091,7 @@ public class ItemPool
 	public static final int CRIMBO_CANDLE = 10072;
 	public static final int TRYPTOPHAN_DART = 10159;
 	public static final int DOCTOR_BAG = 10166;
+	public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
 	public static final int VAMPYRE_BLOOD = 10185;
 
 	public static final AdventureResult get( String itemName, int count )

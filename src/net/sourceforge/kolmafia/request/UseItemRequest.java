@@ -3573,6 +3573,26 @@ public class UseItemRequest
 			ResponseTextParser.learnSkillFromResponse( responseText );
 			break;
 
+		case ItemPool.BOOKE_OF_VAMPYRIC_KNOWLEDGE:
+			// You learn a different skill depending on class
+			// You stare at the pages of the book, trying to decipher the crimson runes written on them. Your brain doesn't understand them, but your blood does.
+			// You've already learned all the darke secrettes this book has to offer you.
+			if ( responseText.contains( "already learned all the darke secrettes" ) )
+			{
+				UseItemRequest.lastUpdate = "You've already learned the blood skill for your class.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+			// This book is just a bunch of gibberish, written in blood.
+			if ( responseText.contains( "bunch of gibberish" ) )
+			{
+				UseItemRequest.lastUpdate = "That book has nothing to teach your class.";
+				KoLmafia.updateDisplay( MafiaState.ERROR, UseItemRequest.lastUpdate );
+				return;
+			}
+			ResponseTextParser.learnSkillFromResponse( responseText );
+			break;
+
 		case ItemPool.SLIME_SOAKED_HYPOPHYSIS:
 		case ItemPool.SLIME_SOAKED_BRAIN:
 		case ItemPool.SLIME_SOAKED_SWEAT_GLAND:

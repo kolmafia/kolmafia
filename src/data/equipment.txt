@@ -896,6 +896,7 @@ black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
+blood knife	300	Mus: 0	1-handed knife
 Bloodbath	200	Mus: 200	2-handed sword
 blunt icepick	50	Mus: 0	1-handed club
 boilgun	80	Mox: 25	2-handed rifle
