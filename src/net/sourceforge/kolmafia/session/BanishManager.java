@@ -114,6 +114,7 @@ public class BanishManager
 	// whether banish is turn free, type of reset.
 	private static final Banisher[] BANISHER = new Banisher[]
 	{
+		new Banisher( "baleful howl", -1, 1, true, Reset.ROLLOVER_RESET ),
 		new Banisher( "banishing shout", -1, 3, false, Reset.AVATAR_RESET ),
 		new Banisher( "batter up!", -1, 1, false, Reset.ROLLOVER_RESET ),
 		new Banisher( "Be a Mind Master", 80, 1, true, Reset.TURN_RESET ),
