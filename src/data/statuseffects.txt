@@ -2453,3 +2453,7 @@
 2452	Ceaseless Snarling	grrrrr.gif	c0bdbfa756eae55c97f5dee410738968	cast 1 Ceaseless Snarl
 2453	Cloak of Shadows	wtbcloak.gif	ce633af52a20df1ae6ede331651d29b1	cast 1 Blood Cloak
 2454	Spectral Awareness	elements.gif	4aa3a730e7347d5d51252cde422c5ecf	cast 1 Spectral Awareness
+2455	Frenzied, Bloody	bloodfrenzy.gif	cc775d86f48fe74196f3f6a6c17cf3a5	cast 1 Blood Frenzy
+2456	Blood Bond	bloodbond.gif	5e3903ce818e16ddaec9167389fc988d	cast 1 Blood Bond
+2457	Blood Bubble	jarl_choco.gif	03a2694dd77ef8a08db950e036c9c910	cast 1 Blood Bubble
+2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	cast 1 Bram's Bloody Bagatelle

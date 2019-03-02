@@ -184,8 +184,9 @@ public class ValhallaDecorator
 				continue;
 			}
 
-			buffer.append( "<nobr>" );
 			boolean alreadyPermed = skillList.contains( String.valueOf( skillId ) );
+
+			buffer.append( "<nobr>" );
 			if ( alreadyPermed )
 			{
 				buffer.append( "<font color=darkgray><s>" );

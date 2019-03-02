@@ -1078,6 +1078,8 @@ Item	black blade	Spooky Damage: +10
 Item	black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
 Item	blammer	Critical Hit Percent: +7, Weakens Monster
+# Item blood knife: Gross!
+Item	blood knife	Lasts Until Rollover
 Item	Bloodbath	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
 Item	blunt icepick	Cold Damage: +15
 Item	boilgun	Hot Damage: +8, Maximum MP: +10
@@ -4817,6 +4819,9 @@ Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Blinking Belly	Combat Rate: +10
 Effect	Block-Rockin' Beet	Damage Reduction: 15
+# Blood Bond: Lose 8-10 HP per Adventure
+Effect	Blood Bond	Familiar Weight: +5
+# Blood Bubble: The first attack against you will always miss
 Effect	Blood of the Jerk that Bit You	Avatar: "Mansquito"
 # Blood Porter
 Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent: +10
@@ -4874,6 +4879,7 @@ Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
 Effect	Braaains	Meat Drop: +50, Initiative: -50
 Effect	Brain Freeze	Spell Damage: +25, Moxie Percent: +50, Maximum MP: +100
 Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zone(Twitch)]
+# Bram's Bloody Bagatelle: Damage both you and your enemies each round
 # Brass Loins: Physical Damage +100% (in Dreadsylvania only)
 # Brass Loins: Triple bonus damage against Bugbears, Werewolves, Zombies, Ghosts, Skeletons and Vampires
 Effect	Brawnee's Anthem of Absorption	Damage Reduction: [L^1.2]
@@ -5420,6 +5426,8 @@ Effect	Fratty Flavor	Moxie: +15
 Effect	Freaked Out	Spooky Damage: +10, Damage Reduction: -2
 Effect	Free Bird	Mysticality: +20
 Effect	French Bronilla Brogueishness	Moxie Percent: +100, Initiative: +100, Pickpocket Chance: +25
+# Frenzied, Bloody: Lose 8-10 HP per Adventure
+Effect	Frenzied, Bloody	Weapon Damage Percent: +50
 Effect	Fresh Scent	Combat Rate: -5
 Effect	Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
