@@ -9346,6 +9346,14 @@ public class FightRequest
 			}
 			break;
 
+		case SkillPool.BALEFUL_HOWL:
+			if ( responseText.contains( "spooked by its balefulness" ) || skillSuccess )
+			{
+				BanishManager.banishMonster( monsterName, "baleful howl" );
+				Preferences.increment( "_balefulHowlUses" );
+			}
+			break;
+
 		}
 	}
 
