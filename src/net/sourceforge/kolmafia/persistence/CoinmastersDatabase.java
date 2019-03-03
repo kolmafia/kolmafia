@@ -298,6 +298,9 @@ public class CoinmastersDatabase
 
 		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
 			return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
+
+		case ItemPool.GLITCH_ITEM:
+			return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
 		}
 
 		return true;
