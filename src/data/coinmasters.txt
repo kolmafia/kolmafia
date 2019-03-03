@@ -521,6 +521,7 @@ The Swagger Shop	buy	1000	Manual of Numberology
 The Swagger Shop	buy	1000	ROM of Optimality
 The Swagger Shop	buy	1000	School of Hard Knocks Diploma
 The Swagger Shop	buy	1000	A Guide to Safari
+The Swagger Shop	buy	1000	[glitch season reward name]
 The Swagger Shop	buy	5000	Essence of Annoyance
 
 # Things you can buy with topiary nugglets

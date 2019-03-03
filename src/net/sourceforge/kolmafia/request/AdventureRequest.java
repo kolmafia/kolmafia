@@ -833,6 +833,8 @@ public class AdventureRequest
 				// Dark Gyffte
 				image.startsWith( "stevebelmont" ) ? "Steve Belmont" :
 				image.startsWith( "ricardobelmont" ) ? "Ricardo Belmont" :
+				image.startsWith( "jaydenbelmont" ) ? "Jayden Belmont" :
+				image.startsWith( "travisbelmont" ) ? "Travis Belmont" :
 				null;
 		}
 
