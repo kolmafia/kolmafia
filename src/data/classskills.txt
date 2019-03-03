@@ -455,7 +455,7 @@
 5039	Disco Leer	discoleer.gif	9	10	10	15
 5040	Silent Knife	silentknife.gif	5	10	0
 5041	Acquire Rhinestones	rhinestones.gif	1	10	0
-5041	Blood Blade	bloodknife.gif	1	50	0
+5042	Blood Blade	bloodknife.gif	1	50	0
 
 # Skills available to Thieves
 
