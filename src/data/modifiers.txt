@@ -2807,7 +2807,7 @@ Item	gold skull ring	PvP Fights: +7, Single Equip
 Item	gold wedding ring	Adventures: +1, Single Equip
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 # government-issued necktie: +25% Damage vs. Zombies
-Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: +25, Single Equip
+Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: [5*G], Single Equip
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 # GPS-tracking wristwatch
 Item	grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
