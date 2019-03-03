@@ -2226,7 +2226,7 @@ public class RelayRequest
 			return false;
 		}
 
-		if ( KoLCharacter.inRaincore() )
+  		if ( KoLCharacter.inRaincore() || KoLCharacter.isVampyre()  )
 		{
 			return false;
 		}
