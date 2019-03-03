@@ -1198,6 +1198,18 @@ public class SkillDatabase
 		case SkillPool.BALEFUL_HOWL:
 		case SkillPool.ENSORCEL:
 			return 30;
+
+			// Vampyre Book Skills
+		case SkillPool.BLOOD_FRENZY:
+		case SkillPool.BLOOD_BOND:
+		case SkillPool.BLOOD_BUBBLE:
+			return 30;
+		case SkillPool.BLOOD_BUCATINI:
+			return 10;
+		case SkillPool.BLOOD_bLADE:
+		case SkillPool.BRAMS_BLOODY_BAGATELLE:
+			return 50;
+
 		default:
 			return 0;
 		}
