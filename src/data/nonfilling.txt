@@ -7,7 +7,7 @@ BRICKO gargantuchicken	15
 BRICKO octopus	5
 BRICKO python	7
 BRICKO vacuum cleaner	9
-dolphin whistle	13
+dolphin whistle	11
 figurine of a charred seal	6
 figurine of a cold seal	6
 figurine of a cute baby seal	5
