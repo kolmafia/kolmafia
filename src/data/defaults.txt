@@ -1409,6 +1409,7 @@ user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
 user	_dailyDungeonMalwareUsed	false
 user	_darkChocolateHeart	false
+user	_daycareFights	false
 user	_daycareGymScavenges	0
 user	_daycareNap	false
 user	_daycareRecruits	0

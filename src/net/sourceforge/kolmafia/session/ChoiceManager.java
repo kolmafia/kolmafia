@@ -11424,6 +11424,13 @@ public abstract class ChoiceManager
 					ResultProcessor.processItem( ItemDatabase.getItemId( itemName ), -itemCount );
 				}
 			}
+			else if ( ChoiceManager.lastDecision == 4 )
+			{
+				if ( text.contains( "step into the ring" ) )
+				{
+					Preferences.setBoolean( "_daycareFights", true );
+				}
+			}
 			if ( message != null )
 			{
 				RequestLogger.printLine( message );
