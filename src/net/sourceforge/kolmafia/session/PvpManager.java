@@ -71,6 +71,8 @@ public class PvpManager
 	private static final Pattern STANCE_DROPDOWN_PATTERN = Pattern.compile( "<select name=\"stance\">.*?</select>", Pattern.DOTALL );
 	private static final Pattern STANCE_OPTION_PATTERN = Pattern.compile( "<option value=\"([\\d]*)\" (?:selected)?>(.*?)</option>" );
 
+	public static boolean noFight = false;
+
 	public static final boolean checkStances()
 	{
 		if ( !PvpManager.stancesKnown )
@@ -180,6 +182,13 @@ public class PvpManager
 			if ( KoLmafia.refusesContinue() )
 			{
 				break;
+			}
+
+			// If no fight occurred, reduce fightsCompleted
+			if ( PvpManager.noFight )
+			{
+				fightsCompleted--;
+				PvpManager.noFight = false;
 			}
 
 			KoLmafia.forceContinue();
