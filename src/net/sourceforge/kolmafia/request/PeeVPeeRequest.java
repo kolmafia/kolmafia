@@ -254,6 +254,12 @@ public class PeeVPeeRequest
 
 				if ( you == null )
 				{
+					// In Glitch, we can be sent against players that have unbroken stones, just carry on.
+					if ( responseText.contains( "contains a Mystical Magical Hippy Stone" ) )
+					{
+						PvpManager.noFight = true;
+						return;
+					}
 					// Something went wrong.  Ideally we won't get here, but this will at least
 					// prevent looping through failed attacks
 					KoLmafia.updateDisplay( MafiaState.ABORT, "Something went wrong with executing your PvP fights" );
