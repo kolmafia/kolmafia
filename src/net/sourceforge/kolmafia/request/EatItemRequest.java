@@ -256,13 +256,15 @@ public class EatItemRequest
 		// If it's food we're consuming, we have a MayoMinder set, and we are autostocking it, do so
 		// Don't get Mayostat if it's a 1 fullness food, or it'd be wasted
 		// Don't get Mayodiol if it'd cause you to overdrink
+		// Don't get Mayoflex if the food does not give adventures
 		String minderSetting = Preferences.getString( "mayoMinderSetting" );
 		AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
 		if ( consumptionType == KoLConstants.CONSUME_EAT && !ConcoctionDatabase.isMayo( itemId ) &&
-			!minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
-			!( minderSetting.equals( "Mayostat" ) && ConsumablesDatabase.getFullness( name ) == 1 ) &&
-			!( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
-			workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
+		     !minderSetting.equals( "" ) && Preferences.getBoolean( "autoFillMayoMinder" ) &&
+		     !( minderSetting.equals( "Mayostat" ) && ConsumablesDatabase.getFullness( name ) == 1 ) &&
+		     !( minderSetting.equals( "Mayodiol" ) && KoLCharacter.getInebrietyLimit() == KoLCharacter.getInebriety() ) &&
+		     !( minderSetting.equals( "Mayoflex" ) && ConsumablesDatabase.getAdvRangeByName( name ).equals( "0" ) ) &&
+		     workshedItem != null && workshedItem.getItemId() == ItemPool.MAYO_CLINIC )
 		{
 			int mayoCount = Preferences.getString( "mayoInMouth" ).equals( "" ) ? 0 : 1;
 			if ( count > mayoCount && ConsumablesDatabase.getFullness( name ) != 0 )
