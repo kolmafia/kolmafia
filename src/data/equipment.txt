@@ -3186,6 +3186,7 @@ Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
+vampyric cloake	0	none
 whatsit-covered turtle shell	50	Mus: 20
 wicker slicker	50	none
 wings of fire	100	Mys: 100
