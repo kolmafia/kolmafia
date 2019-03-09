@@ -10212,3 +10212,6 @@
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
 10186	blood knife	218466960	bloodknife.gif	weapon	q	0
 10207	[glitch season reward name]	286010589	nopic.gif	none		0
+
+10241	vampyric cloake pattern	872832745	cloakepattern.gif	usable	t	0
+10242	vampyric cloake	894240195	cloake.gif	container		0
