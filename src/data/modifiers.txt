@@ -3756,7 +3756,7 @@ Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
 # toy jet pack: Jane!  Get Me Off This Crazy Thing!
 # Item vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
-Item	vampyric cloake	Item Drop: +15, Maximum HP: [10*L], Initiative: +25, Adventures: +4, Experience: +3
+Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
 # wicker slicker: Lets you use Shell Up multiple times per fight
 Item	wicker slicker	Experience (Muscle): +2, Sleaze Resistance: +3
