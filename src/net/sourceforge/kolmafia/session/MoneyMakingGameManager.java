@@ -56,7 +56,7 @@ public class MoneyMakingGameManager
 	private static final Pattern PENDING_BETS_PATTERN = Pattern.compile( "Your Pending Bets:.*?<table>(.*?)</table>" );
 	private static final Pattern MY_BET_PATTERN = Pattern.compile( "<tr>.*?([0123456789,]+) Meat.*?betid value='(\\d*)'.*?</tr>" );
 
-	private static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "(Last 20 Bets|Bets Found).*?<table.*?>(.*?)</table>" );
+	private static final Pattern RECENT_BETS_PATTERN = Pattern.compile( "(Last 20|Bets Found).*?<table.*?>(.*?)</table>" );
 	private static final Pattern OFFERED_BET_PATTERN = Pattern.compile( "<tr>.*?showplayer.*?<b>(.*?)</b> \\(#(\\d*)\\).*?([0123456789,]+) Meat.*?whichbet value='(\\d*)'.*?</tr>" );
 
 	// Babycakes (#311877) took your 1,000 Meat bet, and you lost. Better luck next time.
