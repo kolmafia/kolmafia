@@ -7564,6 +7564,11 @@ public abstract class ChoiceManager
 				Preferences.setString( "_villainLairKey", "pete" );
 			}
 			break;
+
+		case 1345:
+			// Blech House
+			Preferences.setInteger( "smutOrcNoncombatProgress", 0 );
+			break;
 		}
 	}
 

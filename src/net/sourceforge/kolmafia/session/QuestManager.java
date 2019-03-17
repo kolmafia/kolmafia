@@ -2332,6 +2332,38 @@ public class QuestManager
 		{
 			QuestDatabase.setQuestProgress( Quest.GOBLIN, QuestDatabase.FINISHED );
 		}
+		else if ( monsterName.equals( "smut orc jacker" ) || 
+		          monsterName.equals( "smut orc nailer" ) || 
+		          monsterName.equals( "smut orc pipelayer" ) || 
+		          monsterName.equals( "smut orc screwer" ) )
+		{
+			// Out of the corner of your eye, you see another smut orc shiver and disappear into a nasty-looking shack.
+			if ( responseText.contains( "another smut orc shiver" ) )
+			{
+				Preferences.increment( "smutOrcNoncombatProgress", 1, 15, false );
+			}
+			// Out of the corner of your eye, you see two smut orcs give one another a meaningful glance, 
+			// shiver, and disappear into a nearby shack.
+			else if ( responseText.contains( "you see two smut orcs" ) )
+			{
+				Preferences.increment( "smutOrcNoncombatProgress", 2, 15, false );
+			}
+			// You see a nearby group of smut orcs huddling together for warmth. You are glad they are as far away as they are.
+			else if ( responseText.contains( "smut orcs huddling together" ) )
+			{
+				Preferences.increment( "smutOrcNoncombatProgress", 3, 15, false );
+			}
+			// You hear a bunch of windows being slammed shut against the cold.
+			else if ( responseText.contains( "windows being slammed shut" ) )
+			{
+				Preferences.increment( "smutOrcNoncombatProgress", 4, 15, false );
+			}
+			// Dozens of nearby smut orcs, shivering in the cold, rush into their shacks and slam the doors.
+			else if ( responseText.contains( "Dozens of nearby smut orcs" ) )
+			{
+				Preferences.increment( "smutOrcNoncombatProgress", 5, 15, false );
+			}
+		}
 
 		int adventure = KoLAdventure.lastAdventureId();
 
