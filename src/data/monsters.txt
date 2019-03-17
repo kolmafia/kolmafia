@@ -492,7 +492,7 @@ muscular mushroom guy	1802	mush_beefy.gif	Atk: 30 Def: 30 HP: 20 Init: 25 P: pla
 Naughty Sorceress	243	sorcform1.gif	BOSS Atk: 190 Def: 171 HP: 400 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
 Naughty Sorceress (2)	244	sorcblob.gif	BOSS Atk: 205 Def: 184 HP: 600 Init: 10000 Exp: 0 Skill: 50 Item: 25 P: dude
 Naughty Sorceress (3)	245	bigsaus.gif	BOSS Atk: 9999999 Def: 8999999 HP: 9999999 Init: 10000 Exp: 500 P: dude	Instant Karma (c100)
-Naughty Sorority Nurse	510	warfratmd2.gif	Atk: 180 Def: 166 HP: 160 Init: 30 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (16)	kick-ass kicks (2)	PADL Phone (3)
+Naughty Sorority Nurse	510	warfratmd2.gif	Atk: 180 Def: 166 HP: 160 Init: 30 ED: sleaze P: orc	energy drink IV (27)	gauze garter (25)	gauze garter (20)	kick-ass kicks (2)	PADL Phone (3)
 navy seal	801	navyseal.gif	FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: demon	frost-rimed seal hide (35)	frozen seal spine (5)
 Neckbeard Giant	1333	giant_neckbeard.gif	Atk: 125 Def: 120 HP: 150 Init: 40 Meat: 150 P: humanoid	giant penguin keychain (15)	O'RLY manual (15)	open sauce (25)	giant neckbeard (c0)
 Neil	512	neil.gif	Atk: 195 Def: 175 HP: 240 Init: 40 ED: stench Meat: 200 P: hippy	bullet-proof corduroys (0)	green clay bead (0)	Lockenstock&trade; sandals (0)	longhaired hippy wig (100)	reinforced beaded headband (0)
