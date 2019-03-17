@@ -661,6 +661,7 @@ public class ValhallaManager
 		Preferences.setString( "latteModifier", "" );
 		Preferences.resetToDefault( "latteUnlocks" );
 		Preferences.setInteger( "highTopPumped", 0 );
+		Preferences.setInteger( "smutOrcNoncombatProgress", 0 );
 		// Copied monsters
 		Preferences.setString( "cameraMonster", "" );
 		Preferences.setString( "crappyCameraMonster", "" );
