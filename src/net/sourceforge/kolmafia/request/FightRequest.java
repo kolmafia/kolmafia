@@ -9353,6 +9353,34 @@ public class FightRequest
 				Preferences.increment( "_balefulHowlUses" );
 			}
 			break;
+ 
+		case SkillPool.ARMY_TODDLER:
+			if ( responseText.contains( "You cry havoc" ) || skillSuccess )
+			{
+				Preferences.setBoolean( "_armyToddlerCast", true );
+			}
+			break;
+
+		case SkillPool.BECOME_WOLF:
+			if ( responseText.contains( "You pull your cloake up over your head" ) || skillSuccess )
+			{
+				Preferences.increment( "_vampyreCloakeFormUses" );
+			}
+			break;
+
+		case SkillPool.BECOME_MIST:
+			if ( responseText.contains( "You wrap your cloake around your face" ) || skillSuccess )
+			{
+				Preferences.increment( "_vampyreCloakeFormUses" );
+			}
+			break;
+
+		case SkillPool.BECOME_BAT:
+			if ( responseText.contains( "You wrap your cloake around your arms" ) || skillSuccess )
+			{
+				Preferences.increment( "_vampyreCloakeFormUses" );
+			}
+			break;
 
 		}
 	}

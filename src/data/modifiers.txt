@@ -4740,6 +4740,7 @@ Effect	Basted	Sleaze Damage: +10, Damage Reduction: -2
 Effect	Bastille Bourgeoisie	Mysticality: +25, Spell Critical Percent: +10, MP Regen Min: 5, MP Regen Max: 10
 Effect	Bastille Braggadocio	Moxie: +25, Initiative: +25, Meat Drop: +25
 Effect	Bastille Budgeteer	Muscle: +25, Critical Hit Percent: +10, HP Regen Min: 10, HP Regen Max: 20
+Effect	Bat-Adjacent Form	Item Drop: +50
 Effect	Bat Attitude	Spell Damage Percent: +100
 Effect	Bat-Intimidated	Moxie Percent: -90
 Effect	Batigue	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -5969,6 +5970,7 @@ Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
 # Missing Kidney: Call 911 Immediately
 Effect	Mist Form	Damage Reduction: 20, Damage Absorption: +200, Hot Resistance: +4, Cold Resistance: +4, Stench Resistance: +4, Spooky Resistance: +4, Sleaze Resistance: +4
+Effect	Misty Form	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Mister Master	Avatar: "master of ceremonies"
 Effect	Mistified	Damage Reduction: 30
 Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
@@ -7036,6 +7038,7 @@ Effect	Wizard Squint	Spell Critical Percent: +10
 Effect	Woad Warrior	Muscle: +25
 # Wolf's Bane: +50% Damage vs. Werewolves
 Effect	Wolf Form	Muscle Percent: +150, Meat Drop: +150
+Effect	Wolfish Form	Muscle Percent: +50, Meat Drop: +50
 Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25

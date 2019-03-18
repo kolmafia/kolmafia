@@ -1338,6 +1338,7 @@ user	_allYearSucker	false
 user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
+user	_armyToddlerCast	false
 user	_astralDrops	0
 user	_baconMachineUsed	false
 user	_badlyRomanticArrows	0
@@ -1792,6 +1793,7 @@ user	_untakenHardBountyItem
 user	_untakenSpecialBountyItem
 user	_usedReplicaBatoomerang	0
 user	_userMods
+user	_vampyreCloakeFormUses	0
 user	_victorSpoilsUsed	false
 user	_villainLairCanLidUsed	false
 user	_villainLairColor
