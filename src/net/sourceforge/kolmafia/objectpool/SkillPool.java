@@ -114,6 +114,7 @@ public class SkillPool
 	public static final int INCREDIBLE_SELF_ESTEEM = 174;
 	public static final int BUDGET_CONSCIOUS = 178;
 	public static final int DRINKING_TO_DRINK = 179;
+	public static final int ARMY_TODDLER = 181;
 	public static final int CAROL_OF_THE_BULLS = 182;
 	public static final int CAROL_OF_THE_HELLS = 183;
 	public static final int CAROL_OF_THE_THRILLS = 184;
@@ -296,6 +297,9 @@ public class SkillPool
 	public static final int OTOSCOPE = 7305;
 	public static final int REFLEX_HAMMER = 7306;
 	public static final int CHEST_X_RAY = 7307;
+	public static final int BECOME_WOLF = 7308;
+	public static final int BECOME_MIST = 7309;
+	public static final int BECOME_BAT = 7310;
 	public static final int GOOD_SINGING_VOICE = 11016;
 	public static final int BANISHING_SHOUT = 11020;
 	public static final int DEMAND_SANDWICH = 11021;

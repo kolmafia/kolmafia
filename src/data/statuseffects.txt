@@ -2457,3 +2457,7 @@
 2456	Blood Bond	bloodbond.gif	5e3903ce818e16ddaec9167389fc988d	cast 1 Blood Bond
 2457	Blood Bubble	jarl_choco.gif	03a2694dd77ef8a08db950e036c9c910	cast 1 Blood Bubble
 2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	cast 1 Bram's Bloody Bagatelle
+
+2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte
+2463	Misty Form	puff.gif	abd6b0c8dcf218f7a8ce96d6ade8300f	# use Become a Cloud of Mist with Vampyre Cloake equipped outside Dark Gyffte
+2464	Bat-Adjacent Form	bat.gif	f3d87b2cab931ca81c9b08ffdb16a7cf	# use Become a Bat with Vampyre Cloake equipped outside Dark Gyffte
