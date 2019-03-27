@@ -1904,15 +1904,17 @@ public class Modifiers
 			break;
 		case ITEMDROP:
 			String type = Modifiers.getTypeFromLookup( desc );
-			if ( type.equals( "Bjorn" )
+			if ( type.equals( "Ballroom" )
+			   || type.equals( "Bjorn" )
 			   || type.equals( "Effect" )
 			   || type.equals( "Item" )
+			   || type.equals( "Local Vote" )
 			   || type.equals( "Outfit" )
+			   || type.equals( "Path" )
 			   || type.equals( "Sign" )
 			   || type.equals( "Skill" )
 			   || type.equals( "Synergy" )
 			   || type.equals( "Throne" )
-			   || type.equals( "Path" )
 			   )
 			{
 				String name = Modifiers.getNameFromLookup( desc );

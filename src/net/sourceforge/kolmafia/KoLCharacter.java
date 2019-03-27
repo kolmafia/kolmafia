@@ -6066,7 +6066,7 @@ public abstract class KoLCharacter
 		newModifiers.add( Modifiers.getModifiers( "Horsery", horsery ) );
 
 		// Voting Booth
-		newModifiers.add( Modifiers.parseModifiers( "Local Vote", Modifiers.evaluateModifiers( "Local Vote", Preferences.getString( "_voteModifier" ) ) ) );
+		newModifiers.add( Modifiers.parseModifiers( "Local Vote:Local Vote", Modifiers.evaluateModifiers( "Local Vote:Local Vote", Preferences.getString( "_voteModifier" ) ) ) );
 
 		// Miscellaneous
 
