@@ -2319,11 +2319,6 @@ public class QuestManager
 			TurnCounter.stopCounting( "Vote Monster" );
 			VoteMonsterManager.checkCounter();
 		}
-		else if ( monsterName.equals( "sausage goblin" ) )
-		{
-			Preferences.increment( "_sausageFights" );
-			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
-		}
 		else if ( monsterName.equals( "Steve Belmont" ) )
 		{
 			QuestDatabase.setQuestProgress( Quest.BAT, "step4" );
@@ -2766,6 +2761,11 @@ public class QuestManager
 				snowParts++;
 			}
 			Preferences.setInteger( "_snojoParts", snowParts );
+		}
+		else if ( monsterName.equals( "sausage goblin" ) )
+		{
+			Preferences.increment( "_sausageFights" );
+			Preferences.setInteger( "_lastSausageMonsterTurn", KoLCharacter.getTurnsPlayed() );
 		}
 	}
 	
