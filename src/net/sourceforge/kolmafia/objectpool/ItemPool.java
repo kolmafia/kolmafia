@@ -3094,6 +3094,7 @@ public class ItemPool
 	public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
 	public static final int VAMPYRE_BLOOD = 10185;
 	public static final int GLITCH_ITEM = 10207;
+	public static final int PIRATE_REALM_FUN_LOG = 10225;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

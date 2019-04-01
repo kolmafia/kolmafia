@@ -1814,7 +1814,6 @@ public abstract class UseLinkDecorator
 		// Link to the chasm if you just untinkered a dictionary.
 
 		case ItemPool.BRIDGE:
-		case ItemPool.DICTIONARY:
 		case ItemPool.MORNINGWOOD_PLANK:
 		case ItemPool.HARDWOOD_PLANK:
 		case ItemPool.WEIRDWOOD_PLANK:
@@ -2135,6 +2134,11 @@ public abstract class UseLinkDecorator
 			{
 				useLocation = "shop.php?whichshop=fantasyrealm";
 			}
+			break;
+			
+		case ItemPool.PIRATE_REALM_FUN_LOG:
+			useType = "order stuff";
+			useLocation = "shop.php?whichshop=piraterealm";
 			break;
 
 		case ItemPool.BLACK_SLIME_GLOB:
