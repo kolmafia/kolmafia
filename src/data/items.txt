@@ -10211,7 +10211,25 @@
 10184	Thwaitgold mosquito statuette	626054918	thwaitsquito.gif	none		0
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
 10186	blood knife	218466960	bloodknife.gif	weapon	q	0
+10187	PirateRealm membership packet	413970562	pr_packet.gif	usable	t	0
+
+10189	PirateRealm eyepatch	770885063	pr_eyepatch.gif	accessory	q	0
+10190	bloody harpoon	997300883	pr_harpoon.gif	weapon	q	0
+10191	cursed compass	443721576	pr_compass.gif	offhand	q	0
+10192	ancient skull key	398364831	pr_key.gif	none	q	0
+
+10197	tomb-opener	534692748	pr_tombopener.gif	none	q	0
+10198	Red Roger's map	413656908	pr_map.gif	none	q	0
+
 10207	[glitch season reward name]	286010589	nopic.gif	none		0
+
+10217	Red Roger's reliquary	722664376	pr_relicbag.gif	usable	d	42
+
+10219	Red Roger's red left hand	308019616	pr_lefthand.gif	offhand	0
+
+10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
+
+10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat	0
 
 10241	vampyric cloake pattern	872832745	cloakepattern.gif	usable	t	0
 10242	vampyric cloake	894240195	cloake.gif	container		0

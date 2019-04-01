@@ -379,6 +379,8 @@ Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
+# Item PirateRealm party hat: Gain more FunPoints during PirateRealm adventures
+Item	PirateRealm party hat	Muscle: +10, Mysticality: +10, Moxie: +10
 Item	pixel hat	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effect: "atk, 2xVolley, cap 12"
 Item	plaid cowboy hat	Weapon Damage: +20, Hot Resistance: +2, Familiar Effect: "2xLep, 1xBarrr, cap 25"
 Item	plain paper hat	Cold Damage: +20, Cold Spell Damage: +25, Spell Damage Percent: +30, Familiar Effect: "cold atk, cap 37"
@@ -1078,6 +1080,8 @@ Item	black blade	Spooky Damage: +10
 Item	black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
 Item	blammer	Critical Hit Percent: +7, Weakens Monster
+# Item bloody harpoon: +100% Physical Damage (in PirateRealm only)
+Item	bloody harpoon	Lasts Until Rollover
 # Item blood knife: Gross!
 Item	blood knife	Lasts Until Rollover
 Item	Bloodbath	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 25, HP Regen Max: 30, MP Regen Min: 25, MP Regen Max: 30
@@ -2003,6 +2007,8 @@ Item	Crimbo tree flocker	Cold Damage: +10
 Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
+# Item cursed compass: +100% Item Drops (in PirateRealm only)
+Item	cursed compass	Lasts Until Rollover
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # deceased crimbo tree: Blocks damage while needles remain
@@ -2305,6 +2311,7 @@ Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
 Item	red LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Red Menace", Rollover Effect Duration: 50
 Item	red wagon	Mysticality Percent: +15, Spell Damage Percent: +50, Maximum MP: +300
+# Item Red Roger's red left hand: +100% Item Drops (in PirateRealm only)
 Item	Red X Shield	Maximum HP: +20, Maximum MP: +20, Damage Reduction: 11
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
@@ -3074,6 +3081,7 @@ Item	Pine-Fresh air freshener	Stench Resistance: +1
 Item	pink glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
 Item	pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+Item	PirateRealm eyepatch	Muscle Limit: 20, Mysticality Limit: 20, Moxie Limit: 20, Lasts Until Rollover
 Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7, Look like a Pirate
 Item	plaid pocket square	Meat Drop: +15
 Item	plastic detective badge	Maximum HP: +10, Maximum MP: +10, Item Drop: +5, Meat Drop: +15
@@ -8419,6 +8427,7 @@ Item	37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 # 668 scroll: Mostly Just Confuses Enemies
 # 8-ball: Weakens enemies very slightly
 Item	8-bit banana	Effect: "Banono", Effect Duration: 20
+Item	ancient skull key	Lasts Until Rollover
 Item	A Beginner's Guide to Charming Snakes	Class: "Pastamancer", Skill: "Stringozzi Serpent"
 Item	A Beginner's Guide to Charming Snakes (used)	Class: "Pastamancer", Skill: "Stringozzi Serpent"
 Item	A Crimbo Carol, Ch. 1	Skill: "Holiday Weight Gain"
@@ -10025,6 +10034,7 @@ Item	pink-frosted astral cupcake	Effect: "Your Cupcake Senses Are Tingling", Eff
 # pint of sweat: Deals 25-30 <font color=green>Stench Damage</font> and 25-30 <font color=blueviolet>Sleaze Damage</font>
 # pint of sweat: (and additional Stench and Sleaze damage in subsequent rounds)
 # piracetam: Make a Pokefamiliar Smart
+Item	PirateRealm membership packet	Free Pull
 Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
@@ -10236,6 +10246,7 @@ Item	red eye	Effect: "Seeing Red", Effect Duration: 20
 Item	red face paint	Free Pull
 Item	red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 Item	red letter	Effect: "Red Lettered", Effect Duration: 20
+Item	Red Roger's map	Lasts Until Rollover
 Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 # red pixel potion: Heals 100-120 Hit Points
 # red plastic oyster egg: Restores 35-40 Hit Points
@@ -10676,6 +10687,7 @@ Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Item	tomato soup poster	Effect: "War is Hol", Effect Duration: 100
 # tomayohawk-style reflex hammer: Stops enemy from attacking and deals <font color=blueviolet>Sleaze Damage</font> based on your blood-mayonnaise concentration.
 Item	tomayohawk-style reflex hammer	Lasts Until Rollover
+Item	tomb-opener	Lasts Until Rollover
 Item	Tome of Clip Art	Free Pull, Skill: "Summon Clip Art"
 Item	Tome of Rad Libs	Free Pull, Skill: "Summon Rad Libs"
 Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"

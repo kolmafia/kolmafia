@@ -270,6 +270,7 @@ pentacorn hat	40	Mox: 5
 pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
+PirateRealm party hat	50	none
 pixel hat	50	Mox: 10
 plaid cowboy hat	100	Mox: 35
 plain paper hat	150	Mox: 60
@@ -896,6 +897,7 @@ black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
+bloody harpoon 50 Mus: 0 2-handed spear
 blood knife	300	Mus: 0	1-handed knife
 Bloodbath	200	Mus: 200	2-handed sword
 blunt icepick	50	Mus: 0	1-handed club
@@ -1705,6 +1707,7 @@ crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
 cursed coffee cup	0	none
+cursed compass	0	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 deceased crimbo tree	0	none
@@ -1946,6 +1949,7 @@ red balloon	10	none
 red book	150	Mys: 60
 red China marble	203	Mys: 85
 red LavaCo Lamp&trade;	100	Mus: 35
+Red Roger's red left hand	0	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 reusable shopping bag	10	none
@@ -2586,6 +2590,7 @@ Pine-Fresh air freshener	50	Mys: 10
 pink glowstick	20	none
 Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
+PirateRealm eyepatch	0	none
 pirate fledges	140	Mys: 60
 plaid pocket square	150	Mys: 50
 plastic detective badge	10	none
