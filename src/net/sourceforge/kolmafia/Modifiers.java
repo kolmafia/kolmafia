@@ -85,6 +85,7 @@ public class Modifiers
 {
 	private static final HashMap<String, Object> modifiersByName = new HashMap<String, Object>();
 	private static final HashMap<String,String> familiarEffectByName = new HashMap<String,String>();
+	private static final HashMap<String,Integer> modifierIndicesByName = new HashMap<String,Integer>();
 	private static final ArrayList<UseSkillRequest> passiveSkills = new ArrayList<UseSkillRequest>();
 	private static final ArrayList synergies = new ArrayList();
 	private static final ArrayList<String> mutexes = new ArrayList<String>();
@@ -828,8 +829,10 @@ public class Modifiers
 	private static final HashSet<String> numericModifiers = new HashSet<String>();
 	static
 	{
-		for ( Object[] modifier : Modifiers.doubleModifiers )
+		for ( int i = 0; i < DOUBLE_MODIFIERS; ++i )
 		{
+			Object[] modifier = Modifiers.doubleModifiers[i];
+			modifierIndicesByName.put( (String) modifier[ 0 ], i );
 			String tag = modifier.length > 3 ?
 				(String) modifier[ 3 ] :
 				(String) modifier[ 0 ];
@@ -889,7 +892,16 @@ public class Modifiers
 
 	public static final int BITMAP_MODIFIERS = Modifiers.bitmapModifiers.length;
 	private static final int[] bitmapMasks = new int[ BITMAP_MODIFIERS ];
-	static { Arrays.fill( bitmapMasks, 1 ); };
+	static
+	{
+		Arrays.fill( bitmapMasks, 1 );
+
+		for ( int i = 0; i < BITMAP_MODIFIERS; ++i )
+		{
+			Object[] modifier = Modifiers.bitmapModifiers[i];
+			modifierIndicesByName.put( (String) modifier[ 0 ], DOUBLE_MODIFIERS + i );
+		}
+	};
 
 	public static final int SOFTCORE = 0;
 	public static final int SINGLE = 1;
@@ -1058,7 +1070,12 @@ public class Modifiers
 		{
 			KoLmafia.updateDisplay( "Too many boolean modifiers to fit into bitmaps[0].  Will have to store bitmaps as longs, or use two bitmaps to hold the booleans." );
 		}
-	}
+		for ( int i = 0; i < BOOLEAN_MODIFIERS; ++i )
+		{
+			Object[] modifier = Modifiers.booleanModifiers[i];
+			modifierIndicesByName.put( (String) modifier[ 0 ], DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i );
+		}
+	};
 
 	public static final int CLASS = 0;
 	public static final int INTRINSIC_EFFECT = 1;
@@ -1173,6 +1190,16 @@ public class Modifiers
 	};
 
 	public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
+
+	static
+	{
+		for ( int i = 0; i < STRING_MODIFIERS; ++i )
+		{
+			Object[] modifier = Modifiers.stringModifiers[i];
+			modifierIndicesByName.put( (String) modifier[ 0 ],
+									   DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i );
+		}
+	};
 
 	// Indexes for array returned by predict():
 	public static final int BUFFED_MUS = 0;
@@ -1567,6 +1594,22 @@ public class Modifiers
 		this.set( copy );
 	};
 
+	public Modifiers( String name, ModifierList mods )
+	{
+		this.name = name;
+		this.variable = false;
+		this.doubles = new double[ Modifiers.DOUBLE_MODIFIERS ];
+		this.bitmaps = new int[ Modifiers.BITMAP_MODIFIERS ];
+		this.strings = new String[ Modifiers.STRING_MODIFIERS ];
+		this.extras = new double[ Modifiers.DOUBLE_MODIFIERS ];
+		this.reset();
+
+		for ( Modifier m : mods )
+		{
+			this.add( m );
+		}
+	}
+
 	public String getName()
 	{
 		return this.name;
@@ -1708,7 +1751,7 @@ public class Modifiers
 		// that can change within a session, like character level.
 		if ( name.equals( "Evaluated Modifiers" ) )
 		{
-			return Modifiers.evaluateModifiers( this.name, this.strings[ Modifiers.MODIFIERS ] );
+			return Modifiers.evaluateModifiers( this.name, this.strings[ Modifiers.MODIFIERS ] ).toString();
 		}
 
 		int index = Modifiers.findName( Modifiers.stringModifiers, name );
@@ -2051,6 +2094,35 @@ public class Modifiers
 		{
 			this.bitmaps[ i ] |= mods.bitmaps[ i ];
 		}
+	}
+
+	public boolean add( final Modifier mod )
+	{
+		if ( mod == null )
+		{
+			return false;
+		}
+
+		Integer index = modifierIndicesByName.get( mod.getName() );
+		if (index == null) {
+			return false;
+		}
+		if (index < DOUBLE_MODIFIERS) {
+		  return this.set( index, Double.parseDouble(mod.getValue()) );
+		}
+
+		index -= DOUBLE_MODIFIERS;
+		if (index < BITMAP_MODIFIERS) {
+		  return this.set( index, Integer.parseInt(mod.getValue()) );
+		}
+
+		index -= BITMAP_MODIFIERS;
+		if (index < BOOLEAN_MODIFIERS) {
+		  return this.set( index, mod.getValue().equals("true"));
+		}
+
+		index -= BOOLEAN_MODIFIERS;
+		return this.set( index, mod.getValue() );
 	}
 
 	public static final Modifiers getItemModifiers( final int id )
@@ -2616,12 +2688,12 @@ public class Modifiers
 		return list;
 	}
 
-	public final static String evaluateModifiers( final String lookup, final String modifiers )
+	public final static ModifierList evaluateModifiers( final String lookup, final String modifiers )
 	{
 		// Nothing to do if no expressions
 		if ( !modifiers.contains( "[" ) )
 		{
-			return modifiers;
+			return new ModifierList();
 		}
 
 		// Otherwise, break apart the string and rebuild it with all
@@ -2633,7 +2705,7 @@ public class Modifiers
 			modifier.eval( lookup );
 		}
 
-		return list.toString();
+		return list;
 	}
 
 	public final static String trimModifiers( final String modifiers, final String remove )
