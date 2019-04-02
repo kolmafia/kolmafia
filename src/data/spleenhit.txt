@@ -118,6 +118,7 @@ lucky pill	1	7	awesome	0	0	0	0	Get lucky
 lustrous oyster egg	1	5	EPIC	0	0	0	0	50 Lustre After Wealth (+50% meat drop)
 magicalness-in-a-can	1	1	crappy	0	0	1-3	0
 magnificent oyster egg	1	5	EPIC	0	50-60	0	0	20 Eggstraordinary Strength (+5 mus stats/fight)
+marble molecules	3	1	awesome	0	0	0	0	Unspaded
 Mariner's Friend cough drops	1	1	good	0	10-12	0	0
 Mansquito Serum	1	2	awesome	0	20-40	20-40	20-40	400 More Mansquito Than Man (+100 HP, +100% HP, 20-40 HP regen)
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
