@@ -10120,7 +10120,7 @@
 10093	marble mignonette bowl	835217008	marblebowl.gif	offhand		0
 10094	marble medallion	427535135	marblemedallion.gif	accessory		0
 10095	marble mariachi hat	506380732	marblehat.gif	hat		0
-10096
+10096	marble molecules	452097243	marblechunks.gif	spleen, usable		0
 10097	Mallomarbles	759433074	mallomarbles.gif	usable	t,d	15
 10098
 10099
