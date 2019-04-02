@@ -514,7 +514,7 @@ public class PastaThrallData
 		try
 		{
 			KoLCharacter.setPastaThrall( this );
-			return Modifiers.evaluateModifiers( this.modsLookup, this.mods );
+			return Modifiers.evaluateModifiers( this.modsLookup, this.mods ).toString();
 		}
 		finally
 		{

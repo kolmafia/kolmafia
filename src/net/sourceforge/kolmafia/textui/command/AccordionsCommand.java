@@ -143,7 +143,7 @@ public class AccordionsCommand
 			output.append( "<tr>" );
 
 			output.append( "<td colspan=4>" );
-			output.append( Modifiers.evaluateModifiers( accordion.getModsLookup(), accordion.getEnchantments() ) );
+			output.append( Modifiers.evaluateModifiers( accordion.getModsLookup(), accordion.getEnchantments() ).toString() );
 			output.append( "</td>" );
 
 			output.append( "</tr>" );
