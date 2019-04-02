@@ -296,5 +296,5 @@
 267	Cat Burglar	catburglar.gif	item0,meat0	kitten burglar	burglar/sleep mask	1	3	2	3	animal,eyes,sleazy
 268	Party Mouse	partymouse.gif	stat0,drop	party pup	party mouse hat	0	0	0	0	animal,eyes
 269	Yule Hound	yulehound.gif	hp1,mp1	yule pup	Crimbo dog sweater	2	3	1	1	animal,eyes
-270	Sausage Golem	suagrindgolem.gif	combat1,m0	sausage golem	jar of magical relish	0	0	0	0
+270	Sausage Golem	saugrindgolem.gif	combat1,m0	sausage golem	jar of magical relish	0	0	0	0
 271	Elf Operative	elfopelf.gif	stat0,item0,drop	elf sleeper agent	red-and-green microcamera	3	3	2	2
