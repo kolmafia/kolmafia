@@ -1053,7 +1053,7 @@ elevenderizing hammer	115	Mus: 11	1-handed club
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
-especially homoerotic frat-paddle	150	Mus: 60	1-handed club
+# especially homoerotic frat-paddle	150	Mus: 60	1-handed club
 evil paper umbrella	30	Mus: 0	1-handed umbrella
 evil-ass club	160	Mus: 65	2-handed club
 exclusive club	100	Mus: 0	1-handed club
@@ -1175,7 +1175,6 @@ hilarious comedy prop	10	Mus: 0	1-handed club
 hippo whip	20	Mus: 0	1-handed whip
 hippy bongo	70	Mox: 20	1-handed drum
 Hodgman's whackin' stick	200	Mus: 200	1-handed club
-homoerotic frat-paddle	70	Mus: 20	1-handed club
 honey dipper	175	Mys: 72	1-handed utensil
 hot cross bow	130	Mox: 45	2-handed crossbow
 hot-ass club	160	Mus: 65	2-handed club
@@ -1284,6 +1283,7 @@ oil pan	125	Mys: 47	1-handed saucepan
 Ol' Scratch's infernal pitchfork	200	Mus: 200	2-handed polearm
 old dry bone	225	Mus: 200	1-handed club
 old school Mafi<i>a kni</i>cke&frac12;&aelig;	120	Mys: 41	1-handed sword
+Orcish frat-paddle	70	Mus: 20	1-handed club
 origami riding crop	100	Mus: 0	1-handed crop
 Othello's dagger	150	Mus: 50	1-handed knife
 out-of-tune biwa	30	Mox: 0	2-handed guitar

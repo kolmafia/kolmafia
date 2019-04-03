@@ -1394,7 +1394,6 @@ Item	hippo whip	Monster Level: +10
 Item	hippy bongo	Stench Damage: +5
 # Hodgman's whackin' stick: On Critical: Insanity!
 Item	Hodgman's whackin' stick	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
-Item	homoerotic frat-paddle	Sleaze Damage: +4
 Item	honey dipper	Mysticality Percent: +5, MP Regen Min: 3, MP Regen Max: 7, Spell Damage: +15
 Item	hot cross bow	Moxie: +7, Muscle: +5, Hot Damage: +5
 Item	hot-ass club	Weapon Damage: +25, Monster Level: +15, Hot Damage: +15, Class: "Seal Clubber"
@@ -1518,6 +1517,7 @@ Item	oil pan	Mysticality Percent: +10
 Item	Ol' Scratch's infernal pitchfork	Hot Damage: +40, Critical Hit Percent: +10
 Item	old dry bone	Spooky Damage: +50
 Item	old school Mafi<i>a kni</i>cke&frac12;&aelig;	Ranged Damage: +27
+Item	Orcish frat-paddle	Sleaze Damage: +4
 # origami riding crop: Makes you prone to innuendo (heh heh)
 Item	origami riding crop	Sleaze Damage: +10, Initiative: +15, Softcore Only
 Item	Othello's dagger	Othello Skill: +10, Single Equip

@@ -264,7 +264,7 @@
 238	bottle of vodka	403270950	bottle.gif	drink	t,d	35	bottles of vodka
 239	Orcish baseball cap	507012744	cap.gif	hat	t,d	80
 240	Orcish cargo shorts	802888217	shorts.gif	pants	t,d	80	pairs of Orcish cargo shorts
-241	homoerotic frat-paddle	694527990	paddle.gif	weapon	t,d	90
+241	Orcish frat-paddle	694527990	paddle.gif	weapon	t,d	90
 242	orange	483194968	orange.gif	food	t,d	35
 243	grapefruit	872946900	grapefruit.gif	food	t,d	35
 244	grapes	744725007	grapes.gif	food	t,d	35	bunches of grapes
