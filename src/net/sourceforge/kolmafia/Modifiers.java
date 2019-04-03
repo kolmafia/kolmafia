@@ -2693,7 +2693,7 @@ public class Modifiers
 		// Nothing to do if no expressions
 		if ( !modifiers.contains( "[" ) )
 		{
-			return new ModifierList();
+			return Modifiers.splitModifiers( modifiers );
 		}
 
 		// Otherwise, break apart the string and rebuild it with all
