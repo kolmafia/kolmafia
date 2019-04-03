@@ -407,6 +407,7 @@ Hell broth	4	3	good	7-14	-5-9	0	-5-9
 Hell ramen	4	6	awesome	11-14	13	13	13
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
 herbal stuffing	4	7	awesome	15-21	0	0	70-75
+hibiscus petal	1	1	decent	0	0	0	0	Unspaded
 Hide-rox&trade; cookie	1	1	awesome	3-5	0	20-30	0	30 Broken Bone Nubs (+50% Myst, +25 MP, +25% Spell Dam)
 high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
 hippy herbal tea	1	1	decent	2	0	4-7	0	5 Sleepy (-30% mus)
@@ -607,6 +608,7 @@ pickled egg	1	1	crappy	1	1-2	1-2	1-2
 pie man was not meant to eat	100	15	EPIC	100-200	100-200	100-200	100-200
 piece of wedding cake	2	1	decent	2-5	0	0	0
 pigeon egg	1	1	decent	2	0	0	0
+pineapple slab	1	1	decent	0	0	0	0	Unspaded
 pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)

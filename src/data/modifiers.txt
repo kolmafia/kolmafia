@@ -1597,6 +1597,7 @@ Item	rattail whip	Moxie: +5, Monster Level: +5
 Item	rave whistle	Maximum HP: +10, Monster Level: +10, Raveosity: +1
 Item	red hot poker	Hot Damage: +15
 Item	red-hot sausage fork	Hot Damage: +8, Food Drop: +10
+# Item Red Roger's red right hand: +50 Physical Damage (in PirateRealm only)
 # Red Rover BB gun: You'll Put Your Eye Out!
 Item	Red Rover BB gun	Critical Hit Percent: +15
 Item	regret hose	Cold Damage: +10
@@ -5973,6 +5974,7 @@ Effect	Mind Vision	Mysticality Percent: +50
 Effect	Minerva's Zen	Mysticality Percent: +100
 Effect	Minioned	Muscle: +20, Mysticality: -5, Moxie: -5
 Effect	Ministrations in the Dark	Combat Rate: -10
+Effect	Mint-Condition Breath	Moxie Percent: +50
 Effect	Minty Freshness	Moxie Percent: +10
 Effect	Missing Eyebrows	Moxie: -3
 Effect	Missing Fingers	Muscle: -3
@@ -6852,6 +6854,9 @@ Effect	Thunderspell	Mysticality Percent: +100
 Effect	Ticking Clock	Initiative: +30
 Effect	Tiffany's Breakfast	Item Drop: [min(40,T)]
 Effect	Tightly-Wound Spine	Initiative: +25
+Effect	Tiki Temerity	Moxie Percent: +100, Experience Percent (Moxie): +10
+Effect	Tiki Thoughtfulness	Mysticality Percent: +100, Experience Percent (Mysticality): +10
+Effect	Tiki Toughness	Muscle Percent: +100, Experience Percent (Muscle): +10
 # Timer 1
 # Timer 10
 # Timer 2
@@ -8091,6 +8096,7 @@ Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
 Item	eighth plague	Effect: "Wings of the Dragonfly", Effect Duration: 40
 Item	eldritch elixir	Effect: "Eldritch Attunement", Effect Duration: 5
 Item	eldritch extract	Effect: "Eldritch Concentration", Effect Duration: 10
+Item	Electric Punch	Effect: "Tiki Thoughtfulness", Effect Duration: 30
 Item	electric snakebite	Effect: "Once Bitten Twice Fried", Effect Duration: 20
 Item	elemental caipiroska	Effect: "Magically Delicious", Effect Duration: 40
 Item	elven cellocello	Effect: "Sugar Rush", Effect Duration: 20
@@ -8154,6 +8160,7 @@ Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
+Item	Island Hurricane	Effect: "Tiki Temerity", Effect Duration: 20
 Item	Jack-O-Lantern beer	Effect: "Toothy Grin", Effect Duration: 30
 Item	Jackhammer	Effect: "Mortarfied", Effect Duration: 10
 Item	jug of booze	Effect: "Booze Goozles", Effect Duration: 30
@@ -8230,6 +8237,7 @@ Item	Silver Bullet beer	Effect: "Wolf's Bane", Effect Duration: 30
 Item	Simepore slime	Effect: "The Secret of the Ooze", Effect Duration: 40
 Item	single entendre	Effect: "Pounded by the Actual Stars", Effect Duration: 40
 Item	Sizzling Sinner	Effect: "Heart Aflame", Effect Duration: 15
+Item	Skull Punch	Effect: "Tiki Toughness", Effect Duration: 30
 Item	Slimebite	Effect: "In the Slimelight", Effect Duration: 15
 Item	Slimosa	Effect: "In the Slimelight", Effect Duration: 5
 Item	slimy fermented bile bladder	Effect: "Bilious", Effect Duration: 20
@@ -9545,6 +9553,7 @@ Item	How To Get Bigger Without Really Trying	Skill: "Get Big"
 Item	How to Hold a Grudge	Skill: "Chip on your Shoulder"
 # How to Play Othello: Teaches you how to play Othello better
 Item	How to Tolerate Jerks	Skill: "Thick-Skinned"
+Item	huge mint leaf	Effect: "Mint-Condition Breath", Effect Duration: 20
 Item	Huggler Radio	Free Pull
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
