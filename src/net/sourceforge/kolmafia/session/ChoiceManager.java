@@ -983,7 +983,7 @@ public abstract class ChoiceManager
 			"Island", "choiceAdventure138", "Frat House",
 			new Object[] { new Option( "Orcish cargo shorts", "Orcish cargo shorts" ),
 				       new Option( "Orcish baseball cap", "Orcish baseball cap" ),
-				       new Option( "homoerotic frat-paddle", "homoerotic frat-paddle" ),
+				       new Option( "Orcish frat-paddle", "Orcish frat-paddle" ),
 				       "complete the outfit" } ),
 
 		// Bait and Switch

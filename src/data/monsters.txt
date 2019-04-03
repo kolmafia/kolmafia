@@ -522,7 +522,7 @@ one-eyed Gnoll	18	dk_oneeye.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humano
 One-Eyed Willie	178	oneeyed.gif	Atk: 150 Def: 135 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)
 Orcish Frat Boy (Music Lover)	62	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	roofie (25)	packet of beer nuts (p15)
 Orcish Frat Boy (Paddler)	63	fratboy.gif	Atk: 40 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	bottle of gin (20)	ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)	packet of beer nuts (p15)
-Orcish Frat Boy (Pledge)	64	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	bottle of vodka (20)	homoerotic frat-paddle (5)	ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)
+Orcish Frat Boy (Pledge)	64	fratskirt.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze Meat: 30 P: orc Manuel: "Orcish Frat Boy"	bottle of vodka (20)	Orcish frat-paddle (5)	ice-cold Sir Schlitz (20)	deodorant (5)	frilly skirt (0)	packet of beer nuts (p15)
 Orcish Frat Boy Spy	409	fratbong.gif	Atk: 165 Def: 153 HP: 180 Init: 60 E: sleaze P: orc	beer helmet (30)	distressed denim pants (30)	bejeweled pledge pin (30)
 overdone flame-broiled meat blob	282	meatblob.gif	Atk: 4 Def: 1 HP: 2 Init: 60 E: hot Meat: 20 P: slime	meat paste (40)	meat paste (40)	meat paste (40)
 P imp	123	pimp.gif	Atk: 42 Def: 37 HP: 42 Init: 60 E: hot Meat: 30 P: demon	Imp Ale (30)	hot wing (30)	diamond-studded cane (5)
@@ -2101,7 +2101,7 @@ zombie yeast beast	304	zomyeast.gif	Atk: 17 Def: 15 HP: 8 Init: 60 E: spooky P: 
 white zombie	308	zombie2.gif	Atk: 38 Def: 33 HP: 21 Init: 70 E: spooky P: undead	cranberries (0)	zombie pineal gland (0)	piece of wedding cake (0)
 zombie apathetic lizardman	298	zomlizard.gif	Atk: 20 Def: 18 HP: 12 Init: 60 E: spooky P: undead	zombie pineal gland (0)
 Zombie Clown	302	zomclown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 E: spooky P: horror	bloody clown pants (0)	long skinny balloon (0)	big red clown nose (0)	zombie pineal gland (0)
-zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc	ice-cold Sir Schlitz (0)	bottle of tequila (0)	homoerotic frat-paddle (0)	zombie pineal gland (0)	deodorant (0)
+zombie frat boy	305	zomfrat.gif	Atk: 41 Def: 36 HP: 30 Init: 60 E: sleaze P: orc	ice-cold Sir Schlitz (0)	bottle of tequila (0)	Orcish frat-paddle (0)	zombie pineal gland (0)	deodorant (0)
 zombie hippy	306	zomhippy.gif	Atk: 41 Def: 36 HP: 30 Init: 25 E: spooky P: hippy	filthy corduroys (0)	filthy knitted dread sack (0)	windchimes (0)	reodorant (0)	zombie pineal gland (0)
 zombie zmobie	303	zombie2.gif	Atk: 20 Def: 18 HP: 11 Init: 60 E: spooky P: undead	loose teeth (0)	cranberries (0)	zombie pineal gland (0)
 
