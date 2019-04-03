@@ -1354,6 +1354,7 @@ rattail whip	30	Mus: 0	1-handed whip
 rave whistle	135	Mox: 52	1-handed whistle
 red hot poker	165	Mus: 67	1-handed club
 red-hot sausage fork	100	Mus: 0	1-handed fork
+Red Roger's red right hand	120	Mus: 0	1-handed
 Red Rover BB gun	50	Mox: 10	2-handed gun
 regret hose	85	Mox: 30	1-handed forearm replacement
 reindeer hammer	100	Mus: 0	1-handed club
