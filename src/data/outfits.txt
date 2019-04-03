@@ -1,7 +1,7 @@
 2
 1	Bugbear Costume	bugbear.gif	bugbear beanie, bugbear bungguard
 2	Filthy Hippy Disguise	hippy.gif	filthy knitted dread sack, filthy corduroys
-3	Frat Boy Ensemble	fratboy.gif	Orcish baseball cap, homoerotic frat-paddle, Orcish cargo shorts
+3	Frat Boy Ensemble	fratboy.gif	Orcish baseball cap, Orcish frat-paddle, Orcish cargo shorts
 4	Knob Goblin Harem Girl Disguise	haremgirl.gif	Knob Goblin harem veil, Knob Goblin harem pants
 5	Knob Goblin Elite Guard Uniform	eliteguard.gif	Knob Goblin elite helm, Knob Goblin elite polearm, Knob Goblin elite pants
 6	Hot and Cold Running Ninja Suit	ninja.gif	cold ninja mask, icy-hot katana, ninja hot pants

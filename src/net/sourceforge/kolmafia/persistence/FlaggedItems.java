@@ -169,7 +169,7 @@ public class FlaggedItems
 		"bugbear bungguard",
 		"filthy knitted dread sack",
 		"filthy corduroys",
-		"homoerotic frat-paddle",
+		"Orcish frat-paddle",
 		"Orcish baseball cap",
 		"Orcish cargo shorts",
 		"Knob Goblin harem veil",
