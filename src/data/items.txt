@@ -10234,12 +10234,12 @@
 10214	huge mint leaf	520209705	pr_mintleaf.gif	multiple	t,d	10
 
 10217	Red Roger's reliquary	722664376	pr_relicbag.gif	usable	d	42
-10218	Red Roger's red right hand	836243499	pr_righthand.gif	weapon	0
-10219	Red Roger's red left hand	308019616	pr_lefthand.gif	offhand	0
+10218	Red Roger's red right hand	836243499	pr_righthand.gif	weapon		0
+10219	Red Roger's red left hand	308019616	pr_lefthand.gif	offhand		0
 
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
 
-10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat	0
+10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat		0
 
 10234	Island Hurricane	264070776	pr_tiki1_3.gif	drink	t,d	20
 10235	Skull Punch	345617422	pr_tiki2_1.gif	drink	t,d	30
