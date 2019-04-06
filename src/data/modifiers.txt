@@ -2307,6 +2307,8 @@ Item	rag doll	Muscle: +3
 # Rain-Doh green lantern: Makes Spells Smell Worse
 Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only
 Item	Rainbow Jello Mould	Moxie Percent: +25
+# Item recursed compass: Now it's even more cursed
+Item	recursed compass	Lasts Until Rollover
 # red balloon
 Item	red book	Spell Damage: +20, HP Regen Min: 5, HP Regen Max: 10
 Item	red China marble	Hot Spell Damage: +40
@@ -3157,6 +3159,10 @@ Item	Red Balloon of Valor	Muscle: +5, Mysticality: +5, Moxie: +5, Item Drop: +11
 Item	Red Fox glove	Critical Hit Percent: +5, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Attacks Can't Miss, Single Equip
 Item	red masque	Spooky Damage: +15, Maximum HP: +30, Single Equip
 Item	red plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
+# Item Red Roger's red left foot: Gain more FunPoints during PirateRealm island adventures
+Item	Red Roger's red left foot	Single Equip
+# Item Red Roger's red right foot: Gain more FunPoints during PirateRealm sailing adventures
+Item	Red Roger's red right foot	Single Equip
 Item	red shoe	Hot Resistance: +2, Combat Rate: -5, Single Equip
 Item	red-hot medallion	Hot Damage: +30, Single Equip
 Item	reinforced furry underpants	Mysticality: +2, Sleaze Damage: +2
@@ -3989,6 +3995,7 @@ Item	Petite Paintbrush	Adventures: +1, Generic
 Item	pewter candlestick	Familiar Weight: +10
 Item	pile of dungeon junk	Familiar Weight: +5
 # plastic bib: Makes your ghost better at eating stuff
+Item	plastic pirate hat	Familiar Weight: +5
 # plastic pumpkin bucket: Familiar Will Occasionally Play Tricks on Enemies
 Item	plastic pumpkin bucket	Familiar Weight: +5, Item Drop: +13, Softcore Only, Generic
 Item	portable motorcycle	Familiar Weight: +5
@@ -6763,6 +6770,7 @@ Effect	Thaumodynamic	Experience Percent (Mysticality): +5
 # The 'Tussin: Wait, What?
 Effect	The Applause That Refreshes	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
 Effect	The Ballad of Richie Thingfinder	Meat Drop: +50, Item Drop: +20
+Effect	The Best a Pirate Can Get	Moxie: +10, Experience Percent (Moxie): +25
 Effect	The Best Hair You've Ever Had	Experience Percent (Moxie): +20
 Effect	The Bone Us Round	Avatar: "sexy skeleton"
 # The Captain's Hammer: +50 Physical Damage (when Unarmed)
@@ -6885,7 +6893,7 @@ Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
 # Top Dog: +50% Damage vs. Vampires
 # Top Dog: +50% Damage vs. Skeletons
-Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10, Critical Hit Percent: 10
+Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10
 Effect	Tortious	Monster Level: +10
 Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
@@ -8971,6 +8979,8 @@ Item	cuppa Vitali tea	Effect: "Vitali Tea", Effect Duration: 30
 # cuppa Voraci tea: Increase your stomach capacity by 1
 Item	cuppa Wit tea	Effect: "Wit Tea", Effect Duration: 30
 Item	cuppa Yet tea	Effect: "Yet tea", Effect Duration: 30
+# Item curious anemometer: Increases the sailing speed of your PirateRealm ship
+Item	curious anemometer	Lasts Until Rollover
 # cursed cannonball: Deals <font color=gray>Spooky Damage</font> based on your Muscle
 # cursed dirty joke scroll: Deals <font color=blueviolet>Sleaze Damage</font> and <font color=gray>Spooky Damage</font> based on your Moxie
 Item	cursed microwave	Free Pull
@@ -10047,6 +10057,7 @@ Item	PirateRealm membership packet	Free Pull
 Item	pirate brochure	Effect: "Muscularrr", Effect Duration: 10
 Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
+Item	pirate shaving cream	Effect: "The Best a Pirate Can Get", Effect Duration: 40
 Item	pirate tract	Effect: "Carrrsmic", Effect Duration: 10
 Item	pitted sheet metal	Effect: "Ironclad", Effect Duration: 20
 # pixel coin: Sell it for 2,000 Meat

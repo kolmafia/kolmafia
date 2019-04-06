@@ -2457,7 +2457,7 @@
 2456	Blood Bond	bloodbond.gif	5e3903ce818e16ddaec9167389fc988d	cast 1 Blood Bond
 2457	Blood Bubble	jarl_choco.gif	03a2694dd77ef8a08db950e036c9c910	cast 1 Blood Bubble
 2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	cast 1 Bram's Bloody Bagatelle
-
+2459	The Best a Pirate Can Get	pr_shavingcream.gif	579f7b8ec468f4120a9e9c4efbe44169	use 1 pirate shaving cream
 2460	Mint-Condition Breath	pr_mintleaf.gif	41aabe6bd233a3239d32834219e5a658	use 1 huge mint leaf
 
 2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte

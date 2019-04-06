@@ -10212,38 +10212,59 @@
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
 10186	blood knife	218466960	bloodknife.gif	weapon	q	0
 10187	PirateRealm membership packet	413970562	pr_packet.gif	usable	t	0
-
+10188
 10189	PirateRealm eyepatch	770885063	pr_eyepatch.gif	accessory	q	0
 10190	bloody harpoon	997300883	pr_harpoon.gif	weapon	q	0
 10191	cursed compass	443721576	pr_compass.gif	offhand	q	0
 10192	ancient skull key	398364831	pr_key.gif	none	q	0
-
+10193	curious anemometer	384974864	pr_anemometer.gif	none	q	0
+10194
+10195
+10196	recursed compass	273628051	pr_compass.gif	offhand	q	0
 10197	tomb-opener	534692748	pr_tombopener.gif	none	q	0
 10198	Red Roger's map	413656908	pr_map.gif	none	q	0
-
+10199
 10200	melty plastic grenade	239266542	pr_meltygrenade.gif	none, combat	t,d	30
 10201	bottle of dark rhum	599231907	pr_rhum.gif	drink	t,d	20
-
+10202
 10203	bottle of super-extra-dark rhum	626331997	pr_rhum.gif	drink	t,d	20
-
+10204	pirate shaving cream	529804567	pr_shavingcream.gif	usable	t,d	15
+10205
+10206
 10207	[glitch season reward name]	286010589	nopic.gif	none		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
-
+10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
+10210
+10211
 10212	pineapple slab	641021297	pr_pineapple.gif	food	t,d	10
 10213	hibiscus petal	564682423	pr_petal.gif	food	t,d	10
 10214	huge mint leaf	520209705	pr_mintleaf.gif	multiple	t,d	10
-
+10215	cocoa of youth	564818555	coffeecup.gif	usable	t,d	200
+10216
 10217	Red Roger's reliquary	722664376	pr_relicbag.gif	usable	d	42
 10218	Red Roger's red right hand	836243499	pr_righthand.gif	weapon		0
 10219	Red Roger's red left hand	308019616	pr_lefthand.gif	offhand		0
-
+10220	Red Roger's red right foot	807764119	pr_rightfoot.gif	accessory		0
+10221	Red Roger's red left foot	723702841	pr_leftfoot.gif	accessory		0
+10222
+10223
+10224
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
-
+10226
+10227
+10228
+10229
+10230
 10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat		0
-
+10232
+10233
 10234	Island Hurricane	264070776	pr_tiki1_3.gif	drink	t,d	20
 10235	Skull Punch	345617422	pr_tiki2_1.gif	drink	t,d	30
 10236	Electric Punch	545514977	pr_tiki2_2.gif	drink	t,d	30
-
+10237
+10238
+10239
+10240
 10241	vampyric cloake pattern	872832745	cloakepattern.gif	usable	t	0
 10242	vampyric cloake	894240195	cloake.gif	container		0
+10243	plastic pirate hat	634762498	pr_piratehat.gif	familiar	t,d	75
