@@ -1946,6 +1946,7 @@ rag doll	110	Mys: 40
 Raggedy Hippy doll	10	none
 Rain-Doh green lantern	100	none
 Rainbow Jello Mould	0	Mus: 10
+recursed compass	0	none
 red balloon	10	none
 red book	150	Mys: 60
 red China marble	203	Mys: 85
@@ -2659,6 +2660,8 @@ Red Balloon of Valor	200	Mys: 85
 Red Fox glove	200	Mys: 50
 red masque	160	Mys: 65
 red plastic baby	20	none
+Red Roger's red left foot	0	none
+Red Roger's red right foot	0	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
