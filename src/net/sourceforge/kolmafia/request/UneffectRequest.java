@@ -500,6 +500,18 @@ public class UneffectRequest
 		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Iron Palm Technique", removableEffects );
 		removableEffects.add( IntegerPool.get( EffectPool.IRON_PALMS ) );
+		
+		removableEffects = new HashSet<Integer>();
+		removeWithSkillMap.put( "Wolf Form", removableEffects );
+		removableEffects.add( IntegerPool.get( EffectPool.WOLF_FORM ) );
+		
+		removableEffects = new HashSet<Integer>();
+		removeWithSkillMap.put( "Mist Form", removableEffects );
+		removableEffects.add( IntegerPool.get( EffectPool.MIST_FORM ) );
+		
+		removableEffects = new HashSet<Integer>();
+		removeWithSkillMap.put( "Flock of Bats Form", removableEffects );
+		removableEffects.add( IntegerPool.get( EffectPool.BATS_FORM ) );
 
 		removableEffects = new HashSet<Integer>();
 		removeWithSkillMap.put( "Absorb Cowrruption", removableEffects );
