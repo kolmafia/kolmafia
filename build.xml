@@ -195,6 +195,29 @@
 
 	</target>
 
+	<target name="test-compile" depends="compile">
+		<javac srcdir="${test}" destdir="${build}" includeantruntime="false">
+		<classpath>
+			<pathelement path="${classpath}"/>
+			<fileset dir="${lib}/testjar" includes="**/*.jar" />
+		</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="test-compile">
+		<junit printsummary="on" haltonfailure="yes" fork="true">
+			<classpath>
+				<pathelement location="${build}"/>
+				<pathelement path="${classpath}"/>
+				<fileset dir="${lib}/testjar" includes="**/*.jar" />
+			</classpath>
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${test}" includes="**/*Test.java" />
+			</batchtest>
+		</junit>
+	</target>
+
 	<!-- ========================================== -->
 	<!--  generate a zipped TAR of the source code  -->
 	<!-- ========================================== -->
