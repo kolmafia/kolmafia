@@ -148,3 +148,10 @@
 144	Bauxite Baubles	bauxtat.gif	bauxite beret, bauxite boxers, bauxite bow-tie
 145	Chalk Chostume	chalktat.gif	chalk chapeau, chalk chalice, chalk chlamys, chalk chinos, chalk chain, chalk choker
 146	Marble Materials	marbletat.gif	marble mariachi hat, marble mignonette bowl, marble mantle, marble maebari, marble magnet, marble medallion
+147
+148
+149
+150
+151
+152
+153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat

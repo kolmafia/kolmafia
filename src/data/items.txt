@@ -10212,7 +10212,7 @@
 10185	bucket of ancient Vampyre blood	564016942	vampbucket.gif	usable	t	0
 10186	blood knife	218466960	bloodknife.gif	weapon	q	0
 10187	PirateRealm membership packet	413970562	pr_packet.gif	usable	t	0
-10188
+10188	PirateRealm guest pass	908883620	pr_daypass.gif	usable	t	0
 10189	PirateRealm eyepatch	770885063	pr_eyepatch.gif	accessory	q	0
 10190	bloody harpoon	997300883	pr_harpoon.gif	weapon	q	0
 10191	cursed compass	443721576	pr_compass.gif	offhand	q	0

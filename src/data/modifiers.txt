@@ -7583,6 +7583,7 @@ Outfit	OK Lumberjack Outfit	Critical Hit Percent: +10
 Outfit	Palmist Paraphernalia	Moxie: +7
 # Paperclippery: Helpful!
 Outfit	Pinata Provisions	Damage Reduction: 15
+Outfit	PirateRealm Assortment	Moxie Percent: +20
 Outfit	Pork Elf Prizes	Item Drop: +10
 Outfit	Primitive Radio Duds	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Outfit	Psychic Enpsemble	Spell Critical Percent: +10
@@ -10059,6 +10060,7 @@ Item	pirate cream pie	Effect: "Well Excuuuuse Me!", Effect Duration: 30
 Item	pirate pamphlet	Effect: "Charrrming", Effect Duration: 10
 Item	pirate shaving cream	Effect: "The Best a Pirate Can Get", Effect Duration: 40
 Item	pirate tract	Effect: "Carrrsmic", Effect Duration: 10
+# Item PirateRealm guest pass: Gives you access to PirateRealm for the day
 Item	pitted sheet metal	Effect: "Ironclad", Effect Duration: 20
 # pixel coin: Sell it for 2,000 Meat
 # pixel cross: Deals 80-100 Physical Damage
