@@ -55,32 +55,31 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class RubeeRequest
+public class FunALogRequest
 	extends CoinMasterRequest
 {
-	public static final String master = "FantasyRealm Rubee&trade; Store";
-	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(RubeeRequest.master );
-	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(RubeeRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(RubeeRequest.master );
+	public static final String master = "PirateRealm Fun-a-Log";
+	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(FunALogRequest.master );
+	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(FunALogRequest.master );
+	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(FunALogRequest.master );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<td>([\\d,]+) Rubees&trade;" );
-	public static final AdventureResult COIN = ItemPool.get( ItemPool.RUBEE, 1 );
-	public static final CoinmasterData RUBEE =
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) FunPoints?</b>" );
+	public static final CoinmasterData FUN_A_LOG =
 		new CoinmasterData(
-			RubeeRequest.master,
-			"FantasyRealm Store",
-			RubeeRequest.class,
-			"Rubee&trade;",
-			null,
+			FunALogRequest.master,
+			"Fun-a-Log",
+			FunALogRequest.class,
+			"FunPoint",
+			"You have no FunPoints",
 			false,
-			RubeeRequest.TOKEN_PATTERN,
-			RubeeRequest.COIN,
+			FunALogRequest.TOKEN_PATTERN,
 			null,
-			RubeeRequest.itemRows,
-			"shop.php?whichshop=fantasyrealm",
+			"availableFunPoints",
+			FunALogRequest.itemRows,
+			"shop.php?whichshop=piraterealm",
 			"buyitem",
-			RubeeRequest.buyItems,
-			RubeeRequest.buyPrices,
+			FunALogRequest.buyItems,
+			FunALogRequest.buyPrices,
 			null,
 			null,
 			null,
@@ -94,40 +93,40 @@ public class RubeeRequest
 			true
 			);
 
-	public RubeeRequest()
+	public FunALogRequest()
 	{
-		super(RubeeRequest.RUBEE );
+		super( FunALogRequest.FUN_A_LOG );
 	}
 
-	public RubeeRequest( final boolean buying, final AdventureResult [] attachments )
+	public FunALogRequest( final boolean buying, final AdventureResult [] attachments )
 	{
-		super(RubeeRequest.RUBEE, buying, attachments );
+		super(FunALogRequest.FUN_A_LOG, buying, attachments );
 	}
 
-	public RubeeRequest( final boolean buying, final AdventureResult attachment )
+	public FunALogRequest( final boolean buying, final AdventureResult attachment )
 	{
-		super(RubeeRequest.RUBEE, buying, attachment );
+		super(FunALogRequest.FUN_A_LOG, buying, attachment );
 	}
 
-	public RubeeRequest( final boolean buying, final int itemId, final int quantity )
+	public FunALogRequest( final boolean buying, final int itemId, final int quantity )
 	{
-		super(RubeeRequest.RUBEE, buying, itemId, quantity );
+		super(FunALogRequest.FUN_A_LOG, buying, itemId, quantity );
 	}
 
 	@Override
 	public void processResults()
 	{
-		RubeeRequest.parseResponse( this.getURLString(), this.responseText );
+		FunALogRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
 	public static void parseResponse( final String urlString, final String responseText )
 	{
-		if ( !urlString.contains( "whichshop=fantasyrealm" ) )
+		if ( !urlString.contains( "whichshop=piraterealm" ) )
 		{
 			return;
 		}
 
-		CoinmasterData data = RubeeRequest.RUBEE;
+		CoinmasterData data = FunALogRequest.FUN_A_LOG;
 
 		String action = GenericRequest.getAction( urlString );
 		if ( action != null )
@@ -142,26 +141,17 @@ public class RubeeRequest
 
 	public static boolean registerRequest( final String urlString )
 	{
-		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=fantasyrealm" ) )
+		if ( !urlString.startsWith( "shop.php" ) || !urlString.contains( "whichshop=piraterealm" ) )
 		{
 			return false;
 		}
 
-		CoinmasterData data = RubeeRequest.RUBEE;
+		CoinmasterData data = FunALogRequest.FUN_A_LOG;
 		return CoinMasterRequest.registerRequest( data, urlString, true );
 	}
 
 	public static String accessible()
 	{
-		return Preferences.getBoolean( "_frToday" ) || Preferences.getBoolean( "frAlways" ) ? null : "Need access to Fantasy Realm";
-	}
-
-	public void equip()
-	{
-		if ( !KoLCharacter.hasEquipped( ItemPool.FANTASY_REALM_GEM ) )
-		{
-			EquipmentRequest request = new EquipmentRequest( ItemPool.get( ItemPool.FANTASY_REALM_GEM, 1 ), EquipmentManager.ACCESSORY3 );
-			RequestThread.postRequest( request );
-		}
+		return Preferences.getBoolean( "_prToday" ) || Preferences.getBoolean( "prAlways" ) ? null : "Need access to Pirate Realm";
 	}
 }

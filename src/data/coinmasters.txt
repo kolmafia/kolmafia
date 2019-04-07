@@ -890,21 +890,21 @@ The Pok&eacute;mporium	buy	50	Team Wrath cap	ROW1000
 The Pok&eacute;mporium	buy	50	Mu cap	ROW1001
 
 # FantasyRealm
-FantasyRealm Premium Rubee&trade; Store	buy	10	FantasyRealm key	ROW1003
-FantasyRealm Premium Rubee&trade; Store	buy	100	FantasyRealm mead	ROW1012
-FantasyRealm Premium Rubee&trade; Store	buy	100	FantasyRealm turkey leg	ROW1011
-FantasyRealm Premium Rubee&trade; Store	buy	150	LyleCo premium magnifying glass	ROW1008
-FantasyRealm Premium Rubee&trade; Store	buy	150	LyleCo premium monocle	ROW1007
-FantasyRealm Premium Rubee&trade; Store	buy	300	LyleCo premium pickaxe	ROW1004
-FantasyRealm Premium Rubee&trade; Store	buy	300	LyleCo premium rope	ROW1005
-FantasyRealm Premium Rubee&trade; Store	buy	350	FantasyRealm guest pass	ROW1018
-FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Cursed Village	ROW1016
-FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Mystic Wood	ROW1014
-FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Putrid Swamp	ROW1015
-FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Sprawling Cemetery	ROW1017
-FantasyRealm Premium Rubee&trade; Store	buy	500	map to the Towering Mountains	ROW1013
-FantasyRealm Premium Rubee&trade; Store	buy	3000	LyleCo Contractor's Manual	ROW1010
-FantasyRealm Premium Rubee&trade; Store	buy	10000	FantasyRealm tattoo kit	ROW1009
+FantasyRealm Rubee&trade; Store	buy	10	FantasyRealm key	ROW1003
+FantasyRealm Rubee&trade; Store	buy	100	FantasyRealm mead	ROW1012
+FantasyRealm Rubee&trade; Store	buy	100	FantasyRealm turkey leg	ROW1011
+FantasyRealm Rubee&trade; Store	buy	150	LyleCo premium magnifying glass	ROW1008
+FantasyRealm Rubee&trade; Store	buy	150	LyleCo premium monocle	ROW1007
+FantasyRealm Rubee&trade; Store	buy	300	LyleCo premium pickaxe	ROW1004
+FantasyRealm Rubee&trade; Store	buy	300	LyleCo premium rope	ROW1005
+FantasyRealm Rubee&trade; Store	buy	350	FantasyRealm guest pass	ROW1018
+FantasyRealm Rubee&trade; Store	buy	500	map to the Cursed Village	ROW1016
+FantasyRealm Rubee&trade; Store	buy	500	map to the Mystic Wood	ROW1014
+FantasyRealm Rubee&trade; Store	buy	500	map to the Putrid Swamp	ROW1015
+FantasyRealm Rubee&trade; Store	buy	500	map to the Sprawling Cemetery	ROW1017
+FantasyRealm Rubee&trade; Store	buy	500	map to the Towering Mountains	ROW1013
+FantasyRealm Rubee&trade; Store	buy	3000	LyleCo Contractor's Manual	ROW1010
+FantasyRealm Rubee&trade; Store	buy	10000	FantasyRealm tattoo kit	ROW1009
 
 # G-Lover
 G-Mart	buy	1	good guava	ROW1022
@@ -913,3 +913,7 @@ G-Mart	buy	1	gaseous gravy	ROW1024
 G-Mart	buy	1	A-Boo glue	ROW1020
 G-Mart	buy	3	crude oil congealer	ROW1021
 G-Mart	buy	11	gattoo	ROW1019
+
+# PirateRealm
+PirateRealm Fun-a-Log	buy	20	PirateRealm party hat	ROW1064
+PirateRealm Fun-a-Log	buy	600	PirateRealm guest pass	ROW1067

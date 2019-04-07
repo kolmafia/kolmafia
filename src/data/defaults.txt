@@ -214,6 +214,7 @@ user	autoSteal	true
 user	autoTuxedo	false
 user	availableCandyCredits	0
 user	availableDimes	0
+user	availableFunPoints	0
 user	availableQuarters	0
 user	availableStoreCredits	0
 user	availableSwagger	0
@@ -955,6 +956,7 @@ user	poolSharkCount	0
 user	poolSkill	0
 user	popularTartUnlocked	false
 user	postAscensionScript
+user	prAlways	false
 user	prayedForGlamour	false
 user	prayedForProtection	false
 user	prayedForVigor	false
@@ -1656,6 +1658,7 @@ user	_pottedTeaTreeUsed	false
 user	_powderedGoldDrops	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
+user	_prToday	false
 user	_precisionCasts	0
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false

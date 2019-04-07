@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.FDKOLRequest;
 import net.sourceforge.kolmafia.request.FishboneryRequest;
 import net.sourceforge.kolmafia.request.FreeSnackRequest;
 import net.sourceforge.kolmafia.request.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.FunALogRequest;
 import net.sourceforge.kolmafia.request.GMartRequest;
 import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -208,6 +209,7 @@ public class CoinmastersFrame
 	private CoinmasterPanel fishboneryPanel = null;
 	private CoinmasterPanel freeSnackPanel = null;
 	private CoinmasterPanel fudgeWandPanel = null;
+	private CoinmasterPanel funALogPanel = null;
 	private CoinmasterPanel gameShoppePanel = null;
 	private CoinmasterPanel gmartPanel = null;
 	private CoinmasterPanel gotporkOrphanagePanel = null;
@@ -490,6 +492,11 @@ public class CoinmastersFrame
 		rubeePanel = new RubeePanel();
 		panel.add( rubeePanel );
 		this.selectorPanel.addPanel( rubeePanel.getPanelSelector(), panel );
+
+		panel = new JPanel( new BorderLayout() );
+		funALogPanel = new FunALogPanel();
+		panel.add( funALogPanel );
+		this.selectorPanel.addPanel( funALogPanel.getPanelSelector(), panel );
 
 		// Events coinmasters
 		this.selectorPanel.addSeparator();
@@ -1429,6 +1436,15 @@ public class CoinmastersFrame
 		public RubeePanel()
 		{
 			super( RubeeRequest.RUBEE );
+		}
+	}
+
+	private class FunALogPanel
+		extends CoinmasterPanel
+	{
+		public FunALogPanel()
+		{
+			super( FunALogRequest.FUN_A_LOG );
 		}
 	}
 

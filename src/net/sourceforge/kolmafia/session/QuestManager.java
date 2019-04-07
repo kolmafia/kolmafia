@@ -424,6 +424,10 @@ public class QuestManager
 			{
 				handleFantasyRealmChange( location, responseText );
 			}
+			else if ( location.contains( "whichplace=realm_pirate" ) )
+			{
+				handlePirateRealmChange( location, responseText );
+			}
 			else if ( location.contains( "whichplace=sea_oldman" ) )
 			{
 				handleSeaChange( location, responseText );
@@ -814,6 +818,14 @@ public class QuestManager
 		}
 
 		Preferences.setString( "_frMonstersKilled", kills.toString() );
+	}
+
+	private static void handlePirateRealmChange( final String location, final String responseText )
+	{
+		if ( !Preferences.getBoolean( "prAlways" ) )
+		{
+			Preferences.setBoolean( "_prToday", true );
+		}
 	}
 
 	private static void handleManorFirstFloorChange( final String location, final String responseText )

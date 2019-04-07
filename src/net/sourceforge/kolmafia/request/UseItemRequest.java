@@ -6222,6 +6222,26 @@ public class UseItemRequest
 			Preferences.increment( "_jerksHealthMagazinesUsed", count );
 			break;
 
+		case ItemPool.PR_MEMBER:
+
+			// You fill out the forms in the packet and take them to the LyleCo kiosk at the monorail station in town.
+			// Time to escape to a realm of swashbuckling adventure!
+
+			Preferences.setBoolean( "prAlways", true );
+			if ( !responseText.contains( "escape to a realm of swashbuckling adventure" ) )
+			{
+				return;
+			}
+			break;
+
+		case ItemPool.PR_GUEST:
+			//if ( responseText.contains( "????????" ) )
+			//{
+				// If you already have access it is not consumed
+			//	return;
+			//}
+			Preferences.setBoolean( "_prToday", true );
+			break;
 		}
 
 		if ( CampgroundRequest.isWorkshedItem( itemId ) )
