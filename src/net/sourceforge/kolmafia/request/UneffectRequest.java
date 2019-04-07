@@ -734,9 +734,7 @@ public class UneffectRequest
 		}
 
 		if ( effect.getCount() == Integer.MAX_VALUE &&
-		     this.effectId != EffectPool.OVERCONFIDENT &&
-		     this.effectId != EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE &&
-		     this.effectId != EffectPool.BLOOD_SUGAR_SAUCE_MAGIC )
+		     !( removeWithSkillMap.containsKey( effect.getName() ) ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is intrinsic and cannot be removed." );
 			return;
