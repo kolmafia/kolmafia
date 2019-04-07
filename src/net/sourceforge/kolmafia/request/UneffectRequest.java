@@ -256,6 +256,11 @@ public class UneffectRequest
 		return false;
 	}
 
+	public static final boolean isRemovableIntrinsic( final int effectId )
+	{
+		return !"".equals( getUneffectSkill( effectId ) );
+	}
+
 	/**
 	 * Given the name of an effect, return the name of the skill that created that effect
 	 *
@@ -733,8 +738,7 @@ public class UneffectRequest
 			return;
 		}
 
-		if ( effect.getCount() == Integer.MAX_VALUE &&
-		     !( removeWithSkillMap.containsKey( effect.getName() ) ) )
+		if ( effect.getCount() == Integer.MAX_VALUE && !isRemovableIntrinsic( this.effectId ) )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, effect.getName() + " is intrinsic and cannot be removed." );
 			return;
