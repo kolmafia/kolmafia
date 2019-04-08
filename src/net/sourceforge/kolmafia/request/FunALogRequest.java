@@ -67,7 +67,7 @@ public class FunALogRequest
 	public static final String master = "PirateRealm Fun-a-Log";
 	private static final List<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(FunALogRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(FunALogRequest.master );
-	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(FunALogRequest.master );
+	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(FunALogRequest.master );
 
 	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) FunPoints?</b>" );
 	public static final CoinmasterData FUN_A_LOG =
@@ -145,9 +145,11 @@ public class FunALogRequest
 		Set<Integer> originalItems = new HashSet( FunALogRequest.buyPrices.keySet() );
 		List<AdventureResult> items = FunALogRequest.buyItems;
 		Map<Integer, Integer> prices = FunALogRequest.buyPrices;
+		Map<Integer, Integer> rows = FunALogRequest.itemRows;
 
 		items.clear();
 		prices.clear();
+		rows.clear();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -168,6 +170,7 @@ public class FunALogRequest
 			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
 			items.add( item );
 			prices.put( itemId, price );
+			rows.put( itemId, row );
 
 			// If this item was not previously known, print a coinmasters.txt line for it
 			if ( !originalItems.contains( itemId ) )
