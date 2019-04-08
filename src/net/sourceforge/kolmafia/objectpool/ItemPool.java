@@ -2342,6 +2342,7 @@ public class ItemPool
 	public static final int XIBLAXIAN_CIRCUITRY = 7733;
 	public static final int XIBLAXIAN_POLYMER = 7734;
 	public static final int XIBLAXIAN_ALLOY = 7735;
+	public static final int XIBLAXIAN_CRYSTAL = 7736;
 	public static final int XIBLAXIAN_HOLOTRAINING_SIMCODE = 7739;
 	public static final int XIBLAXIAN_POLITICAL_PRISONER = 7742;
 	public static final int XIBLAXIAN_SCHEMATIC_COWL = 7743;

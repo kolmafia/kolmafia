@@ -35,7 +35,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,7 +46,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -62,8 +60,6 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -3022,6 +3018,13 @@ public class ResultProcessor
 		case ItemPool.ED_EYE:
 			EquipmentManager.removeEquipment( ItemPool.ED_STAFF );
 			ResultProcessor.removeItem( ItemPool.ED_STAFF );
+			break;
+
+		case ItemPool.XIBLAXIAN_CRYSTAL:
+			if ( RequestLogger.getLastURLString().contains( "mining.php" ) )
+			{
+				Preferences.setBoolean( "_holoWristCrystal", true );
+			}
 			break;
 
 		case ItemPool.SCARAB_BEETLE_STATUETTE:
