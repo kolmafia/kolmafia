@@ -908,7 +908,10 @@ public class ResponseTextParser
 		// item, but that's probably not guaranteed to be true forever.
 		// Update: you can now learn them from the April Shower
 		ResponseTextParser.learnRecipe( location, responseText );
-	}
+
+		// New items may show up on many pages.
+		ResponseTextParser.findNewItems( responseText );
+}
 
 	private static final Pattern DIV_LINK_PATTERN = Pattern.compile( "<div id=([^ ]+)[^>]*><a .*?</a></div>", Pattern.DOTALL );
 	public static String parseDivLabel( final String label, final String responseText )
@@ -998,6 +1001,20 @@ public class ResponseTextParser
 		ConcoctionDatabase.setRefreshNeeded( false );
 	}
 
+	public static Pattern ITEM_DESC_PATTERN = Pattern.compile( "on[cC]lick='(?:javascript:)?descitem\\(([\\d]*)\\)'" );
+	public static void findNewItems( final String responseText )
+	{
+		Matcher itemDescMatcher = ResponseTextParser.ITEM_DESC_PATTERN.matcher( responseText );
+		while ( itemDescMatcher.find() )
+		{
+			String descId = itemDescMatcher.group( 1 );
+			// If we don't know this descid, it's an unknown item.
+			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
+			{
+				ItemDatabase.registerItem( descId );
+			}
+		}
+	}
 	public static void learnSkill( final String location, final String responseText )
 	{
 		if ( !ResponseTextParser.hasResult( location ) )
