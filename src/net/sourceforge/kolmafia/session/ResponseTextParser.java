@@ -911,7 +911,7 @@ public class ResponseTextParser
 
 		// New items may show up on many pages.
 		ResponseTextParser.findNewItems( responseText );
-}
+	}
 
 	private static final Pattern DIV_LINK_PATTERN = Pattern.compile( "<div id=([^ ]+)[^>]*><a .*?</a></div>", Pattern.DOTALL );
 	public static String parseDivLabel( final String label, final String responseText )
@@ -1015,6 +1015,7 @@ public class ResponseTextParser
 			}
 		}
 	}
+
 	public static void learnSkill( final String location, final String responseText )
 	{
 		if ( !ResponseTextParser.hasResult( location ) )
