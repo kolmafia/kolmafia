@@ -198,7 +198,7 @@ Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin (tool)	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
-PirateRealm Island	-1	giant crab	giant giant crab: 0	plastic pirate	signal	pirate radio: 0
+PirateRealm Island	-1	giant crab	giant giant crab: 0	plastic pirate	signal	pirate radio: 0	plastic skeleton	vape ghost	Red Roger: 0
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin

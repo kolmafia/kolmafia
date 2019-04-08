@@ -1910,10 +1910,13 @@ sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap
 
 # PirateRealm (Apr 2019)
 giant crab	2116	pr_crab.gif	Atk: 25 Def: 25 HP: 30 Init: 50 P: beast
+plastic skeleton	2118	pr_skeleton.gif	Atk: 30 Def: 30 HP: 40 Init: 50 P: undead
 plastic pirate	2119	pr_piratefigure.gif	Atk: 35 Def: 30 HP: 30 Init: 75 P: construct
 giant giant crab	2121	pr_bosscrab.gif	Atk: 80 Def: 80 HP: 200 Init: 50 P: beast
+vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead
 signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird	signal fragment
 pirate radio	2132	pr_radio.gif	Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct
+Red Roger	2134	pr_redroger.gif	Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct	Red Roger's reliquary (n100)
 
 # KoL Con
 
