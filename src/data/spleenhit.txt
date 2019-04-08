@@ -142,6 +142,7 @@ off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perce
 off-white striped oyster egg	1	1	awesome	0	11-15	0	0	20 Eggs-tra Sensory Perception (+10% item drop)
 oily paste	4	4	good	5-10	18-22	18-22	18-22	10 Oily Flavor (+15 mus)
 orc paste	4	4	good	5-10	18-22	18-22	18-22	10 Fratty Flavor (+15 mox)
+oversized ice molecule	1	1	awesome	0	0	0	0	Unspaded
 party balloon	1	2	good	0	10-20	10-20	10-20	50 Lifted Spirits (+25 init, +5 stats/fight)
 Party-in-a-Can&trade;	1	4	crappy	0	1-50	1-50	1-50	50 Party on Your Skin (+50% HP, +50% MP, +5 familiar weight, +3 all res)
 patent antipsychotics	1	1	good	0	0	10-12	0

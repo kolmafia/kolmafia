@@ -3095,6 +3095,7 @@ Item	plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mystic
 Item	plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
 Item	plexiglass pinky ring	Spell Damage: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Mysticality Percent: +30, Single Equip
 Item	plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
+Item	plush sea serpent	Damage Reduction: 10, Monster Level: -100
 Item	Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Single Equip, Cloathing
 Item	pogo stick	Initiative: +30, Moxie Percent: +10, Single Equip
 Item	Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
@@ -8236,6 +8237,7 @@ Item	salacious screwdiver	Effect: "Brined Liver", Effect Duration: 30
 Item	salinated mint julep	Effect: "Brined Liver", Effect Duration: 10
 Item	Sazerorc	Effect: "Orc Chops", Effect Duration: 5
 Item	Sazuruk-hai	Effect: "Orc Chops", Effect Duration: 10
+Item	Scorpion Bowl	Effect: "Tiki Toughness", Effect Duration: 40
 Item	scotch on the rocks	Effect: "Hair on Your Chest", Effect Duration: 30
 Item	screwdiver	Effect: "Brined Liver", Effect Duration: 20
 Item	sham champagne	Effect: "Shamboozled", Effect Duration: 10
@@ -8260,6 +8262,7 @@ Item	slug of rum	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of shochu	Effect: "Brined Liver", Effect Duration: 10
 Item	slug of vodka	Effect: "Brined Liver", Effect Duration: 10
 Item	smooth mushroom wine	Effect: "Gyromitra Gymnastics", Effect Duration: 80
+Item	Smuggler's Punch	Effect: "Tiki Thoughtfulness", Effect Duration: 30
 Item	snakebite	Effect: "Sweet Tooth", Effect Duration: 30
 Item	Sockdollager	Effect: "In a Lather", Effect Duration: 25
 Item	soilzerac	Effect: "Here's Mud in Your Eye", Effect Duration: 40
@@ -8276,6 +8279,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted ", Effect Duration: 10
+Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
 Item	unquiet spirits	Effect: "Hollow Inside", Effect Duration: 50
@@ -8379,6 +8383,7 @@ Item	off-white polka-dot oyster egg	Effect: "Eggs-tra Sensory Perception", Effec
 Item	off-white striped oyster egg	Effect: "Eggs-tra Sensory Perception", Effect Duration: 20
 Item	oily paste	Effect: "Oily Flavor", Effect Duration: 10
 Item	orc paste	Effect: "Fratty Flavor", Effect Duration: 10
+Item	oversized ice molecule	Effect: "Icy Composition", Effect Duration: 50
 Item	party balloon	Effect: "Lifted Spirits", Effect Duration: 50
 Item	Party-in-a-Can&trade;	Effect: "Party on Your Skin", Effect Duration: 50
 Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50

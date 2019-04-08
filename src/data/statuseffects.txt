@@ -2463,7 +2463,7 @@
 2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte
 2463	Misty Form	puff.gif	abd6b0c8dcf218f7a8ce96d6ade8300f	# use Become a Cloud of Mist with Vampyre Cloake equipped outside Dark Gyffte
 2464	Bat-Adjacent Form	bat.gif	f3d87b2cab931ca81c9b08ffdb16a7cf	# use Become a Bat with Vampyre Cloake equipped outside Dark Gyffte
-
+2465	Icy Composition	pr_icemolecule.gif	105624ec56315e81a67249913d6003fd	chew 1 oversized ice molecule
 2466	Tiki Toughness	pr_tiki1_1.gif	1478ae44e314cb5c9cbc5698378745d2	drink 1 Skull Punch
 2467	Tiki Thoughtfulness	pr_tiki2_2.gif	f10b22f26778a43113677e601d1ac2c6	drink 1 Electric Punch
 2468	Tiki Temerity	pr_tiki3_3.gif	5db844a5ad44119d0554d4cc68684d50	drink 1 Island Hurricane
