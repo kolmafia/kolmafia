@@ -6192,6 +6192,7 @@ Effect	Perspicacious Pressure	Mysticality Percent: +300
 Effect	Pet Shop Song	Initiative: +10
 Effect	Petit Forbearance	MP Regen Min: 8, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Pewtershot	Damage Absorption: +250, Damage Reduction: 25
 # Phairly Balanced: Equalize all your stats to your highest stat
 Effect	Phairly Balanced	Equalize: "High"
 Effect	Phairly Pheromonal	Familiar Weight: +4
@@ -8170,6 +8171,8 @@ Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Island Hurricane	Effect: "Tiki Temerity", Effect Duration: 20
+Item	Island Landslide	Effect: "Tiki Toughness", Effect Duration: 20
+Item	Island Thunderstorm	Effect: "Tiki Thoughtfulness", Effect Duration: 20
 Item	Jack-O-Lantern beer	Effect: "Toothy Grin", Effect Duration: 30
 Item	Jackhammer	Effect: "Mortarfied", Effect Duration: 10
 Item	jug of booze	Effect: "Booze Goozles", Effect Duration: 30
@@ -8380,6 +8383,7 @@ Item	party balloon	Effect: "Lifted Spirits", Effect Duration: 50
 Item	Party-in-a-Can&trade;	Effect: "Party on Your Skin", Effect Duration: 50
 Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10
+Item	pewter shavings	Effect: "Pewtershot", Effect Duration: 100
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
 Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
 Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10

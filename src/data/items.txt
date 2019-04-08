@@ -10247,7 +10247,7 @@
 10220	Red Roger's red right foot	807764119	pr_rightfoot.gif	accessory		0
 10221	Red Roger's red left foot	723702841	pr_leftfoot.gif	accessory		0
 10222
-10223
+10223	pewter shavings	465321022	pr_shavings.gif	spleen, usable	t,d	25
 10224
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
 10226
@@ -10256,8 +10256,8 @@
 10229
 10230
 10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat		0
-10232
-10233
+10232	Island Landslide	136689035	pr_tiki1_1.gif	drink	t,d	20
+10233	Island Thunderstorm	307008286	pr_tiki1_2.gif	drink	t,d	20
 10234	Island Hurricane	264070776	pr_tiki1_3.gif	drink	t,d	20
 10235	Skull Punch	345617422	pr_tiki2_1.gif	drink	t,d	30
 10236	Electric Punch	545514977	pr_tiki2_2.gif	drink	t,d	30

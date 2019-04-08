@@ -2459,7 +2459,7 @@
 2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	cast 1 Bram's Bloody Bagatelle
 2459	The Best a Pirate Can Get	pr_shavingcream.gif	579f7b8ec468f4120a9e9c4efbe44169	use 1 pirate shaving cream
 2460	Mint-Condition Breath	pr_mintleaf.gif	41aabe6bd233a3239d32834219e5a658	use 1 huge mint leaf
-
+2461	Pewtershot	pr_shavings.gif	2ec98f6b5ba231f82d6cf5d4b24f0082	chew 1 pewter shavings
 2462	Wolfish Form	wolfmask.gif	6555961182dfaffbe6e745f610eab032	# use Become a Wolf with Vampyre Cloake equipped outside Dark Gyffte
 2463	Misty Form	puff.gif	abd6b0c8dcf218f7a8ce96d6ade8300f	# use Become a Cloud of Mist with Vampyre Cloake equipped outside Dark Gyffte
 2464	Bat-Adjacent Form	bat.gif	f3d87b2cab931ca81c9b08ffdb16a7cf	# use Become a Bat with Vampyre Cloake equipped outside Dark Gyffte
