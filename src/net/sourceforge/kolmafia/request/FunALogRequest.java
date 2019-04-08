@@ -33,20 +33,24 @@
 
 package net.sourceforge.kolmafia.request;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import java.util.regex.Pattern;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
+import java.util.regex.Matcher;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -55,11 +59,13 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+
 public class FunALogRequest
 	extends CoinMasterRequest
 {
 	public static final String master = "PirateRealm Fun-a-Log";
-	private static final LockableListModel<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(FunALogRequest.master );
+	private static final List<AdventureResult> buyItems = CoinmastersDatabase.getBuyItems(FunALogRequest.master );
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(FunALogRequest.master );
 	private static Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(FunALogRequest.master );
 
@@ -119,6 +125,10 @@ public class FunALogRequest
 		FunALogRequest.parseResponse( this.getURLString(), this.responseText );
 	}
 
+	// <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/pr_partyhat.gif" class="hand pop" rel="desc_item.php?whichitem=971293634" onClick='javascript:descitem(971293634)'></td><td valign=center><a onClick='javascript:descitem(971293634)'><b>PirateRealm party hat</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td>F</td><td><b>20</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=piraterealm&action=buyitem&quantity=1&whichrow=1064&pwd=5f195b385cbe62956e089308af45f544' value='Buy'></td></tr>
+
+	private static final Pattern ITEM_PATTERN =
+		Pattern.compile( "<tr rel=\"(\\d+)\">.*?whichrow value=(\\d+)>.*?desc_item.php\\?whichitem=(\\d+).*?<b>(.*?)</b>.*?<td>F</td><td><b>([,\\d]+)</b>" );
 	public static void parseResponse( final String urlString, final String responseText )
 	{
 		if ( !urlString.contains( "whichshop=piraterealm" ) )
@@ -126,17 +136,72 @@ public class FunALogRequest
 			return;
 		}
 
+		// Learn new Fun-a-Log simply visiting the shop
+		// Refresh the Coin Master inventory every time we visit.
+
 		CoinmasterData data = FunALogRequest.FUN_A_LOG;
 
-		String action = GenericRequest.getAction( urlString );
-		if ( action != null )
+		// keySet returns a "set view" of the collection. Copy it to preserve initial items
+		Set<Integer> originalItems = new HashSet( FunALogRequest.buyPrices.keySet() );
+		List<AdventureResult> items = FunALogRequest.buyItems;
+		Map<Integer, Integer> prices = FunALogRequest.buyPrices;
+
+		items.clear();
+		prices.clear();
+
+		Matcher matcher = ITEM_PATTERN.matcher( responseText );
+		while ( matcher.find() )
 		{
-			CoinMasterRequest.parseResponse( data, urlString, responseText );
-			return;
+			int itemId = StringUtilities.parseInt( matcher.group(1) );
+			int row = StringUtilities.parseInt( matcher.group(2) );
+			String descId = matcher.group(3);
+			String itemName = matcher.group(4);
+			int price = StringUtilities.parseInt( matcher.group(5) );
+
+			String match = ItemDatabase.getItemDataName( itemId );
+			if ( match == null || !match.equals( itemName ) )
+			{
+				ItemDatabase.registerItem( itemId, itemName, descId );
+			}
+
+			// Add it to the Fun-a-Log inventory
+			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
+			items.add( item );
+			prices.put( itemId, price );
+
+			// If this item was not previously known, print a coinmasters.txt line for it
+			if ( !originalItems.contains( itemId ) )
+			{
+				StringBuilder builder = new StringBuilder();
+				builder.append( master );
+				builder.append( "\t" );
+				builder.append( "buy" );
+				builder.append( "\t" );
+				builder.append( String.valueOf( price ) );
+				builder.append( "\t" );
+				builder.append( itemName );
+				builder.append( "\t" );
+				builder.append( "ROW" );
+				builder.append( String.valueOf( row ) );
+
+				String printMe = "--------------------";
+				RequestLogger.printLine( printMe );
+				RequestLogger.updateSessionLog( printMe );
+
+				printMe = builder.toString();
+				RequestLogger.printLine( printMe );
+				RequestLogger.updateSessionLog( printMe );
+
+				printMe = "--------------------";
+				RequestLogger.printLine( printMe );
+				RequestLogger.updateSessionLog( printMe );
+			}
 		}
 
-		// Parse current coin balances
-		CoinMasterRequest.parseBalance( data, responseText );
+		// Register the purchase requests, now that we know what is available
+		data.registerPurchaseRequests();
+
+		CoinMasterRequest.parseResponse( data, urlString, responseText );
 	}
 
 	public static boolean registerRequest( final String urlString )

@@ -3086,6 +3086,7 @@ Item	Pink Heart of Spirit	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: 
 Item	pink plastic baby	Maximum HP: +5, Maximum MP: +5, Single Equip
 Item	PirateRealm eyepatch	Muscle Limit: 20, Mysticality Limit: 20, Moxie Limit: 20, Lasts Until Rollover
 Item	pirate fledges	Muscle: +7, Mysticality: +7, Moxie: +7, Look like a Pirate
+Item	pirate radio ring	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Spell Damage Percent: +15, Single Equip
 Item	plaid pocket square	Meat Drop: +15
 Item	plastic detective badge	Maximum HP: +10, Maximum MP: +10, Item Drop: +5, Meat Drop: +15
 Item	plastic Duskwalker necklace	Moxie: +5, Familiar Weight: +3, Single Equip, Lasts Until Rollover
