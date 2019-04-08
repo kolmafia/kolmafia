@@ -2594,6 +2594,7 @@ Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
 PirateRealm eyepatch	0	none
 pirate fledges	140	Mys: 60
+pirate radio ring	0	none
 plaid pocket square	150	Mys: 50
 plastic detective badge	10	none
 plastic Duskwalker necklace	50	none

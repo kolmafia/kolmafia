@@ -10234,7 +10234,7 @@
 10207	[glitch season reward name]	286010589	nopic.gif	none		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
-10210
+10210	pirate radio ring	651533160	pr_radioring.gif	accessory		0
 10211
 10212	pineapple slab	641021297	pr_pineapple.gif	food	t,d	10
 10213	hibiscus petal	564682423	pr_petal.gif	food	t,d	10

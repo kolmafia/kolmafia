@@ -916,4 +916,6 @@ G-Mart	buy	11	gattoo	ROW1019
 
 # PirateRealm
 PirateRealm Fun-a-Log	buy	20	PirateRealm party hat	ROW1064
+PirateRealm Fun-a-Log	buy	100	crabsicle	ROW1053
 PirateRealm Fun-a-Log	buy	600	PirateRealm guest pass	ROW1067
+PirateRealm Fun-a-Log	buy	1000	pirate radio ring	ROW1059
