@@ -463,13 +463,20 @@ public class ResponseTextParser
 			ShrineRequest.parseResponse( location, responseText );
 		}
 
-		else if ( location.startsWith( "desc_skill.php" ) && location.contains( "self=true" ) )
+		else if ( location.startsWith( "desc_skill.php" ) )
 		{
 			Matcher m = ResponseTextParser.NEWSKILL2_PATTERN.matcher( location );
 			if ( m.find() )
 			{
 				int skill = StringUtilities.parseInt( m.group( 1 ) );
-				ConsequenceManager.parseSkillDesc( skill, responseText );
+				String skillName = SkillDatabase.getSkillName( skill );
+				if ( skillName == null )
+				{
+					SkillDatabase.registerSkill( responseText, skill, null );
+				}
+				if ( location.contains( "self=true" ) ) {
+					ConsequenceManager.parseSkillDesc( skill, responseText );
+				}
 			}
 		}
 

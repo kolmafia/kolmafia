@@ -207,6 +207,9 @@
 182	Carol of the Bulls	music.gif	4	30	10
 183	Carol of the Hells	music.gif	4	30	10
 184	Carol of the Thrills	music.gif	4	30	10
+185
+186	Tiki Mixology	pr_tiki2_3.gif	0	0	0
+187	Prevent Scurvy and Sobriety	pr_rhum.gif	3	50	0
 
 # Skills available to Clubbers
 

@@ -1832,7 +1832,11 @@ public class SkillDatabase
 		{
 			return;
 		}
+		SkillDatabase.registerSkill( text, skillId, skillName );
+	}
 
+	public static final void registerSkill( String text, final int skillId, String skillName )
+	{
 		if ( skillName == null )
 		{
 			skillName = DebugDatabase.parseName( text );
