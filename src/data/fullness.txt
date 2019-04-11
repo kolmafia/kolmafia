@@ -611,6 +611,7 @@ pigeon egg	1	1	decent	2	0	0	0
 pineapple slab	1	1	decent	0	0	0	0	Unspaded
 pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
+pirate fork	4	1		0	0	0	0	Unspaded
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0

@@ -10218,7 +10218,7 @@
 10191	cursed compass	443721576	pr_compass.gif	offhand	q	0
 10192	ancient skull key	398364831	pr_key.gif	none	q	0
 10193	curious anemometer	384974864	pr_anemometer.gif	none	q	0
-10194
+10194	Red Roger's flag	211068639	pr_flag.gif	none	q	0
 10195
 10196	recursed compass	273628051	pr_compass.gif	offhand	q	0
 10197	tomb-opener	534692748	pr_tombopener.gif	none	q	0
@@ -10229,7 +10229,7 @@
 10202	bottle of extra-dark rhum	451398358	pr_rhum.gif	drink	t,d	20
 10203	bottle of super-extra-dark rhum	626331997	pr_rhum.gif	drink	t,d	20
 10204	pirate shaving cream	529804567	pr_shavingcream.gif	usable	t,d	15
-10205
+10205	conquistador's breastplate	471803689	pr_breastplate.gif	shirt		0
 10206
 10207	[glitch season reward name]	286010589	nopic.gif	none		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
@@ -10251,9 +10251,9 @@
 10224
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
 10226	plush sea serpent	125725891	pr_serpent.gif	accessory	t,d	75
-10227
-10228
-10229
+10227	pirate fork	477726449	pr_fork.gif	food		0
+10228	Scurvy and Sobriety Prevention	319727011	book3.gif	usable	d	150
+10229	lucky gold ring	610669800	weddingring.gif	accessory		0
 10230
 10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat		0
 10232	Island Landslide	136689035	pr_tiki1_1.gif	drink	t,d	20

@@ -881,6 +881,7 @@ Item	clockwork trench coat	Damage Absorption: +15
 Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
 Item	coconut bikini top	Mysticality: +5
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
+Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
@@ -2936,6 +2937,8 @@ Item	lube-shoes	Moxie: -10
 Item	lucky bottlecap	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	lucky cat collar	Meat Drop: +7, Single Equip
 # lucky Crimbo tiki necklace: Brings Good Luck!
+# Item lucky gold ring: Find various valuable currencies after combat
+Item	lucky gold ring	Single Equip
 Item	lucky rabbit's foot	Item Drop: +7, Meat Drop: +7
 Item	LWA ring	MP Regen Min: 2, MP Regen Max: 3
 Item	LyleCo premium monocle	Rubee Drop: +1, Single Equip
@@ -7924,6 +7927,10 @@ Item	pawn cookie	Effect: "Pwnd", Effect Duration: 30
 Item	pecan pie	Effect: "Pecan Pied Piper", Effect Duration: 30
 Item	petit 4.1	Effect: "Petit Force", Effect Duration: 20
 Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10
+# Item pirate fork: (</font><font color=green>?</font><font color=red>?</font><font color=#999999>?</font><font color=blue>)</font></b>
+# Item pirate fork: Size: <b>4</b>
+# Item pirate fork: Cannot be traded or discarded
+# Item pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
 Item	pixel banana	Effect: "Going Ape", Effect Duration: 40
 Item	plumber's lunch	Effect: "Egg Burps", Effect Duration: 20
 Item	poisonous caviar	Effect: "Majorly Poisoned", Effect Duration: 50
@@ -7937,6 +7944,7 @@ Item	rocky road ice cream	Effect: "A Contender", Effect Duration: 40
 Item	rook cookie	Effect: "Towering Strength", Effect Duration: 30
 Item	sausage without a cause	Effect: "East of Eaten", Effect Duration: 1
 Item	savage macho dog	Effect: "Macho, Macho Dog", Effect Duration: 50
+Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety"
 Item	sea truffle	Effect: "Trufflin'", Effect Duration: 10
 Item	shadowy cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	shoo-fish pie	Effect: "Fishy", Effect Duration: 20
@@ -10278,6 +10286,8 @@ Item	red eye	Effect: "Seeing Red", Effect Duration: 20
 Item	red face paint	Free Pull
 Item	red foxglove	Effect: "Digitalis, Dig It", Effect Duration: 10
 Item	red letter	Effect: "Red Lettered", Effect Duration: 20
+# Item Red Roger's flag: Increases the likelihood of sea battles in PirateRealm
+Item	Red Roger's flag	Lasts Until Rollover
 Item	Red Roger's map	Lasts Until Rollover
 Item	Red Pill	Effect: "There is No Spoon", Effect Duration: 5
 # red pixel potion: Heals 100-120 Hit Points
