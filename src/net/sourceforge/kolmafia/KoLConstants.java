@@ -621,6 +621,7 @@ public interface KoLConstants
 		AC,		// Requires Advanced Cocktailcrafting
 		SHC,		// Requires Superhuman Cocktailcrafting
 		SALACIOUS,	// Requires Salacious Cocktailcrafting
+		TIKI,		// Requires Tiki Mixology
 		NOBEE,		// Not on Bees Hate You path
 		BAKE,		// Requires Avatar of Jarlsberg skill Bake
 		BLEND,		// Requires Avatar of Jarlsberg skill Blend

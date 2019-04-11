@@ -34,6 +34,7 @@
 # PASTA, TNOODLE, TEMPURA, SAUCE, SSAUCE, DSAUCE (skilled cooking)
 # ACOCK, SCOCK, SACOCK (skilled mixing)
 # EJEWEL (skilled jewelrymaking)
+# TIKI (Tiki mixing)
 
 # JARLS for Avatar of Jarlsberg crafting
 # Combination of Jarlsberg crafting and the required skill
@@ -3057,3 +3058,14 @@ dusty bottle of blood	MIX	blood bag	dusty bottle of Marsala
 dusty bottle of blood	MIX	blood bag	dusty bottle of Muscat
 vampagne	MIX	blood bag	Monstar energy beverage
 vampagne	MIX	blood bag	carbonated soy milk
+
+# PirateRealm
+Island Landslide	TIKI	bottle of dark rhum	pineapple slab
+Island Thunderstorm	TIKI	bottle of extra-dark rhum	pineapple slab
+Island Hurricane	TIKI	bottle of super-extra-dark rhum	pineapple slab
+Skull Punch	TIKI	bottle of dark rhum	hibiscus petal
+Electric Punch	TIKI	bottle of extra-dark rhum	hibiscus petal
+Smuggler's Punch	TIKI	bottle of super-extra-dark rhum	hibiscus petal
+Scorpion Bowl	TIKI	bottle of dark rhum	huge mint leaf
+Turtle Bowl	TIKI	bottle of extra-dark rhum	huge mint leaf
+Cobra Bowl	TIKI	bottle of super-extra-dark rhum	huge mint leaf

@@ -893,6 +893,12 @@ public class NPCPurchaseRequest
 			return;
 		}
 
+		if ( shopId.equals( "piraterealm" ) )
+		{
+			FunALogRequest.parseResponse( urlString, responseText );
+			return;
+		}
+
 		// When we purchase items from NPC stores using ajax, the
 		// response tells us nothing about the contents of the store.
 		if ( urlString.contains( "ajax=1" ) )

@@ -10219,7 +10219,7 @@
 10192	ancient skull key	398364831	pr_key.gif	none	q	0
 10193	curious anemometer	384974864	pr_anemometer.gif	none	q	0
 10194	Red Roger's flag	211068639	pr_flag.gif	none	q	0
-10195
+10195	Glass Jack's spyglass	918020659	pr_spyglass.gif	none	q	0
 10196	recursed compass	273628051	pr_compass.gif	offhand	q	0
 10197	tomb-opener	534692748	pr_tombopener.gif	none	q	0
 10198	Red Roger's map	413656908	pr_map.gif	none	q	0
@@ -10235,7 +10235,7 @@
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
 10210	pirate radio ring	651533160	pr_radioring.gif	accessory		0
-10211
+10211	Island Drinkin', a Tiki Mixology Odyssey	662704198	book4.gif	usable		0
 10212	pineapple slab	641021297	pr_pineapple.gif	food	t,d	10
 10213	hibiscus petal	564682423	pr_petal.gif	food	t,d	10
 10214	huge mint leaf	520209705	pr_mintleaf.gif	multiple	t,d	10
@@ -10246,9 +10246,9 @@
 10219	Red Roger's red left hand	308019616	pr_lefthand.gif	offhand		0
 10220	Red Roger's red right foot	807764119	pr_rightfoot.gif	accessory		0
 10221	Red Roger's red left foot	723702841	pr_leftfoot.gif	accessory		0
-10222
+10222	Red Roger's skull	569021535	pr_rogerskull.gif	grow		0
 10223	pewter shavings	465321022	pr_shavings.gif	spleen, usable	t,d	25
-10224
+10224	Red Roger tattoo kit	829615551	pr_rogertat.gif	usable		0
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
 10226	plush sea serpent	125725891	pr_serpent.gif	accessory	t,d	75
 10227	pirate fork	477726449	pr_fork.gif	food		0
