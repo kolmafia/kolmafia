@@ -298,4 +298,4 @@
 269	Yule Hound	yulehound.gif	hp1,mp1	yule pup	Crimbo dog sweater	2	3	1	1	animal,eyes
 270	Sausage Golem	saugrindgolem.gif	combat1,m0	sausage golem	jar of magical relish	0	0	0	0
 271	Elf Operative	elfopelf.gif	stat0,item0,drop	elf sleeper agent	red-and-green microcamera	3	3	2	2
-272	Plastic Pirate Skull		none	Red Roger's skull		0	0	0	0
+272	Plastic Pirate Skull	pr_rogerskull.gif	delevel,hp1,mp1	Red Roger's skull	plastic pirate hat	0	0	0	0
