@@ -885,6 +885,10 @@ public class UseSkillRequest
 			maximumCast = Preferences.getBoolean( "_incredibleSelfEsteemCast" ) ? 0 : 1;
 			break;
 
+		case SkillPool.PREVENT_SCURVY:
+			maximumCast = Preferences.getBoolean( "_preventScurvy" ) ? 0 : 1;
+			break;
+
 		case SkillPool.LOVE_MIXOLOGY:
 			maximumCast = InventoryManager.getAccessibleCount( ItemPool.LOVE_POTION_XYZ ) > 0 ||
 							KoLConstants.activeEffects.contains( UseSkillRequest.TAINTED_LOVE_POTION ) ? 0 : 1;
@@ -2532,6 +2536,10 @@ public class UseSkillRequest
 
 		case SkillPool.INCREDIBLE_SELF_ESTEEM:
 			Preferences.setBoolean( "_incredibleSelfEsteemCast", true );
+			break;
+
+		case SkillPool.PREVENT_SCURVY:
+			Preferences.setBoolean( "_preventScurvy", true );
 			break;
 
 		case SkillPool.LOVE_MIXOLOGY:

@@ -1661,6 +1661,7 @@ user	_powerPillDrops	0
 user	_powerPillUses	0
 user	_prToday	false
 user	_precisionCasts	0
+user 	_preventScurvy	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
 user	_psychokineticHugUsed	false

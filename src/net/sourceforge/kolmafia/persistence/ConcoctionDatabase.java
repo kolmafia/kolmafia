@@ -2037,6 +2037,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.SALACIOUS );
 		}
 
+		if ( KoLCharacter.hasSkill( "Tiki Mixology" ) )
+		{
+			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.TIKI );
+		}
+
 		// Using Crosby Nash's Still is possible if the person has
 		// Superhuman Cocktailcrafting and is a Moxie class character.
 
@@ -2821,6 +2826,9 @@ public class ConcoctionDatabase
 		if ( mixingRequirements.contains( CraftingRequirements.SALACIOUS ) )
 			result.append( " (Salacious Cocktailcrafting)" );
 
+		if ( mixingRequirements.contains( CraftingRequirements.TIKI ) )
+			result.append( " (Tiki Mixology)" );
+
 		if ( mixingRequirements.contains( CraftingRequirements.NOBEE ) )
 			result.append( " (Unavailable in Beecore)" );
 
@@ -3282,6 +3290,12 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.mixingMethod = CraftingType.MIX_FANCY;
 			ConcoctionDatabase.requirements.add( CraftingRequirements.SALACIOUS );
+		}
+		// Items requiring Tiki Mixology
+		else if ( mix.equals( "TIKI" ) )
+		{
+			ConcoctionDatabase.mixingMethod = CraftingType.MIX;
+			ConcoctionDatabase.requirements.add( CraftingRequirements.TIKI );
 		}
 		// Items requiring pliers and Really Expensive Jewelrycrafting
 		else if ( mix.equals( "EJEWEL" ) )

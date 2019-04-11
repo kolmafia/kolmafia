@@ -9384,6 +9384,8 @@ Item	gingerbread spice latte	Effect: "Whole Latte Love", Effect Duration: 30
 # ginseng: Gives a Pokefamiliar Regeneration
 Item	giraffe-necked turtle	Effect: "Adorable Lookout", Effect Duration: 15
 # glark cable: Instantly defeats most monsters on the Red Zeppelin
+# Item Glass Jack's spyglass: Reveals the distant secrets of PirateRealm
+Item	Glass Jack's spyglass	Lasts Until Rollover
 Item	glass of gnat milk	Effect: "Tango, O Gnat", Effect Duration: 30
 Item	glass of warm milk	Effect: "Polyphonic Yawn", Effect Duration: 30
 Item	glass of warm water	Free Pull
@@ -9630,6 +9632,7 @@ Item	irradiated pet snacks	Effect: "Healthy Green Glow", Effect Duration: 10
 Item	irradiated turtle	Effect: "Turtle Power", Effect Duration: 15
 Item	irresistibility potion	Effect: "Simply Irresistible", Effect Duration: 20
 Item	irritability potion	Effect: "Simply Irritable", Effect Duration: 20
+Item	Island Drinkin', a Tiki Mixology Odyssey	Skill: "Tiki Mixology"
 Item	jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
 Item	Jackass Plumber home game	Effect: "Gamer Rage", Effect Duration: 10
 # jagged scrap metal: Deals 20-30 Physical Damage and causes bleeding

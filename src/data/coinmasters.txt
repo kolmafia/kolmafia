@@ -929,3 +929,4 @@ PirateRealm Fun-a-Log	buy	2000	pirate fork	ROW1065
 PirateRealm Fun-a-Log	buy	2000	Scurvy and Sobriety Prevention	ROW1066
 PirateRealm Fun-a-Log	buy	2000	lucky gold ring	ROW1068
 PirateRealm Fun-a-Log	buy	3000	Island Drinkin', a Tiki Mixology Odyssey	ROW1060
+PirateRealm Fun-a-Log	buy	5000	Red Roger tattoo kit	ROW1061
