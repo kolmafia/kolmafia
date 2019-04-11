@@ -712,6 +712,7 @@ clockwork trench coat	80	Mus: 25
 clownskin harness	60	Mus: 15
 coconut bikini top	100	Mus: 35
 Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
+conquistador's breastplate	80	none
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
 demonskin jacket	80	Mus: 25
@@ -2476,6 +2477,7 @@ LOV Earrings	100	none
 lucky bottlecap	200	Mys: 200
 lucky cat collar	60	Mys: 15
 lucky Crimbo tiki necklace	10	none
+lucky gold ring	0	none
 lucky rabbit's foot	60	Mys: 15
 LWA ring	10	none
 LyleCo premium monocle	10	none

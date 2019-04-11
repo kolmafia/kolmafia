@@ -917,5 +917,15 @@ G-Mart	buy	11	gattoo	ROW1019
 # PirateRealm
 PirateRealm Fun-a-Log	buy	20	PirateRealm party hat	ROW1064
 PirateRealm Fun-a-Log	buy	100	crabsicle	ROW1053
+PirateRealm Fun-a-Log	buy	100	pirate shaving cream	ROW1057
+PirateRealm Fun-a-Log	buy	100	bottle of dark rhum	ROW1054
+PirateRealm Fun-a-Log	buy	100	bottle of extra-dark rhum	ROW1055
+PirateRealm Fun-a-Log	buy	100	bottle of super-extra-dark rhum	ROW1056
 PirateRealm Fun-a-Log	buy	600	PirateRealm guest pass	ROW1067
+PirateRealm Fun-a-Log	buy	1000	conquistador's breastplate	ROW1058
+PirateRealm Fun-a-Log	buy	1000	plush sea serpent	ROW1062
 PirateRealm Fun-a-Log	buy	1000	pirate radio ring	ROW1059
+PirateRealm Fun-a-Log	buy	2000	pirate fork	ROW1065
+PirateRealm Fun-a-Log	buy	2000	Scurvy and Sobriety Prevention	ROW1066
+PirateRealm Fun-a-Log	buy	2000	lucky gold ring	ROW1068
+PirateRealm Fun-a-Log	buy	3000	Island Drinkin', a Tiki Mixology Odyssey	ROW1060
