@@ -1548,6 +1548,7 @@ Item	pewter claymore	HP Regen Min: 6, HP Regen Max: 12, MP Regen Min: 6, MP Rege
 # Pigsticker of Violence: Lets you stab opponents as they fail to attack you
 Item	Pigsticker of Violence	HP Regen Min: 20, HP Regen Max: 30, Critical Hit Percent: +10, Weapon Damage Percent: +60
 Item	pipe wrench	Weapon Damage: +8
+Item	piratical blunderbuss	Familiar Weight: +5, Booze Drop: +30
 Item	pitchfork	Weapon Damage: +7
 Item	pixel boomerang	Item Drop: +5
 Item	pixel chain whip	Muscle: +4, Mysticality: +4, Moxie: +4

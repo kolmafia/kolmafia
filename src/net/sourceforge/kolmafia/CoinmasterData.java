@@ -331,6 +331,16 @@ public class CoinmasterData
 		return this.buyPrices;
 	}
 
+	public boolean availableItem( final int itemId )
+	{
+		if ( this.buyItems == null )
+		{
+			return false;
+		}
+		AdventureResult item = ItemPool.get( itemId, 1 );
+		return ( this.buyItems.contains( item ) );
+	}
+
 	public boolean canBuyItem( final int itemId )
 	{
 		if ( this.buyItems == null )

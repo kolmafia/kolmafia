@@ -97,7 +97,16 @@ public class FunALogRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean availableItem( final int itemId )
+			{
+				return unlockedItems.contains( ItemDatabase.getItemName( itemId ) );
+			}
+		};
+
+	private static String unlockedItems= ""; 
 
 	public FunALogRequest()
 	{
@@ -141,15 +150,12 @@ public class FunALogRequest
 
 		CoinmasterData data = FunALogRequest.FUN_A_LOG;
 
-		// keySet returns a "set view" of the collection. Copy it to preserve initial items
-		Set<Integer> originalItems = new HashSet( FunALogRequest.buyPrices.keySet() );
+		Set<Integer> originalItems = FunALogRequest.buyPrices.keySet();
 		List<AdventureResult> items = FunALogRequest.buyItems;
 		Map<Integer, Integer> prices = FunALogRequest.buyPrices;
 		Map<Integer, Integer> rows = FunALogRequest.itemRows;
 
-		items.clear();
-		prices.clear();
-		rows.clear();
+		StringBuilder unlocked = new StringBuilder();
 
 		Matcher matcher = ITEM_PATTERN.matcher( responseText );
 		while ( matcher.find() )
@@ -166,15 +172,23 @@ public class FunALogRequest
 				ItemDatabase.registerItem( itemId, itemName, descId );
 			}
 
-			// Add it to the Fun-a-Log inventory
-			AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
-			items.add( item );
-			prices.put( itemId, price );
-			rows.put( itemId, row );
+			// Add it to the unlocked items
+			if ( unlocked.length() > 0 )
+			{
+				unlocked.append( "|" );
+			}
+			unlocked.append( itemName );
 
-			// If this item was not previously known, print a coinmasters.txt line for it
+			// If this item was not previously known, 
 			if ( !originalItems.contains( itemId ) )
 			{
+				// Add it to the Fun-a-Log inventory
+				AdventureResult item = ItemPool.get( itemId, PurchaseRequest.MAX_QUANTITY );
+				items.add( item );
+				prices.put( itemId, price );
+				rows.put( itemId, row );
+
+				// Print a coinmasters.txt line for it
 				StringBuilder builder = new StringBuilder();
 				builder.append( master );
 				builder.append( "\t" );
@@ -200,6 +214,9 @@ public class FunALogRequest
 				RequestLogger.updateSessionLog( printMe );
 			}
 		}
+
+		// Remember which items we have unlocked
+		unlockedItems = unlocked.toString();
 
 		// Register the purchase requests, now that we know what is available
 		data.registerPurchaseRequests();
