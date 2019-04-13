@@ -287,13 +287,9 @@ public abstract class ClanManager
 
 	public static final LockableListModel<AdventureResult> getStash()
 	{
-		// Don't run multiple stash queries simultaneously.
-		synchronized ( ClanManager.stashContents )
+		if ( !ClanManager.isStashRetrieved() )
 		{
-			if ( !ClanManager.isStashRetrieved() )
-			{
-				RequestThread.postRequest( new ClanStashRequest() );
-			}
+			RequestThread.postRequest( new ClanStashRequest() );
 		}
 		return ClanManager.stashContents;
 	}
