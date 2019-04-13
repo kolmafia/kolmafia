@@ -41,6 +41,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.KoLCharacter;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
@@ -82,7 +83,35 @@ public class CrimboCartelRequest
 			null,
 			null,
 			true
-			);
+			)
+		{
+			@Override
+			public final boolean availableItem( final int itemId )
+			{
+				switch( itemId )
+				{
+				case ItemPool.CRIMBO_CAROL_V1:
+					return KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER );
+
+				case ItemPool.CRIMBO_CAROL_V2:
+					return KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER );
+
+				case ItemPool.CRIMBO_CAROL_V3:
+					return KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER );
+
+				case ItemPool.CRIMBO_CAROL_V4:
+					return KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
+
+				case ItemPool.CRIMBO_CAROL_V5:
+					return KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT );
+
+				case ItemPool.CRIMBO_CAROL_V6:
+					return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
+				}
+
+				return super.availableItem( itemId );
+			}
+		};
 
 	public CrimboCartelRequest()
 	{

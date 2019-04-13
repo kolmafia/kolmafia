@@ -10254,7 +10254,7 @@
 10227	pirate fork	477726449	pr_fork.gif	food		0
 10228	Scurvy and Sobriety Prevention	319727011	book3.gif	usable	d	150
 10229	lucky gold ring	610669800	weddingring.gif	accessory		0
-10230
+10230	piratical blunderbuss	141455552	pr_gun.gif	weapon		0
 10231	PirateRealm party hat	971293634	pr_partyhat.gif	hat		0
 10232	Island Landslide	136689035	pr_tiki1_1.gif	drink	t,d	20
 10233	Island Thunderstorm	307008286	pr_tiki1_2.gif	drink	t,d	20

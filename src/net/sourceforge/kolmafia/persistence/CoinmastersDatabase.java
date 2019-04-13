@@ -253,59 +253,6 @@ public class CoinmastersDatabase
 		return ( price == null ) ? 0 : price.intValue();
 	}
 
-	public static final boolean availableItem( final int itemId )
-	{
-		switch( itemId )
-		{
-		case ItemPool.CRIMBO_CAROL_V1:
-			return KoLCharacter.getClassType().equals( KoLCharacter.SEAL_CLUBBER );
-
-		case ItemPool.CRIMBO_CAROL_V2:
-			return KoLCharacter.getClassType().equals( KoLCharacter.TURTLE_TAMER );
-
-		case ItemPool.CRIMBO_CAROL_V3:
-			return KoLCharacter.getClassType().equals( KoLCharacter.PASTAMANCER );
-
-		case ItemPool.CRIMBO_CAROL_V4:
-			return KoLCharacter.getClassType().equals( KoLCharacter.SAUCEROR );
-
-		case ItemPool.CRIMBO_CAROL_V5:
-			return KoLCharacter.getClassType().equals( KoLCharacter.DISCO_BANDIT );
-
-		case ItemPool.CRIMBO_CAROL_V6:
-			return KoLCharacter.getClassType().equals( KoLCharacter.ACCORDION_THIEF );
-
-		case ItemPool.BLACK_BARTS_BOOTY:
-			return Preferences.getInteger( "pirateSwagger" ) >= Preferences.getInteger( "blackBartsBootyCost" );
-
-		case ItemPool.HOLIDAY_FUN_BOOK:
-			return Preferences.getInteger( "holidaySwagger" ) >= Preferences.getInteger( "holidayHalsBookCost" );
-
-		case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
-			return Preferences.getInteger( "iceSwagger" ) >= Preferences.getInteger( "antagonisticSnowmanKitCost" );
-
-		case ItemPool.MAP_TO_KOKOMO:
-			return Preferences.getInteger( "drunkenSwagger" ) >= Preferences.getInteger( "mapToKokomoCost" );
-
-		case ItemPool.ESSENCE_OF_BEAR:
-			return Preferences.getInteger( "bearSwagger" ) >= Preferences.getInteger( "essenceOfBearCost" );
-
-		case ItemPool.MANUAL_OF_NUMBEROLOGY:
-			return Preferences.getInteger( "numericSwagger" ) >= Preferences.getInteger( "manualOfNumberologyCost" );
-
-		case ItemPool.ROM_OF_OPTIMALITY:
-			return Preferences.getInteger( "optimalSwagger" ) >= Preferences.getInteger( "ROMOfOptimalityCost" );
-
-		case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
-			return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
-
-		case ItemPool.GLITCH_ITEM:
-			return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
-		}
-
-		return true;
-	}
-
 	public static final void clearPurchaseRequests( CoinmasterData data )
 	{
 		// Clear all purchase requests for a particular Coin Master

@@ -152,6 +152,42 @@ public class SwaggerShopRequest
 				}
 				return super.canBuyItem( itemId );
 			}
+
+			@Override
+			public final boolean availableItem( final int itemId )
+			{
+				switch ( itemId )
+				{
+				case ItemPool.BLACK_BARTS_BOOTY:
+					return Preferences.getInteger( "pirateSwagger" ) >= Preferences.getInteger( "blackBartsBootyCost" );
+
+				case ItemPool.HOLIDAY_FUN_BOOK:
+					return Preferences.getInteger( "holidaySwagger" ) >= Preferences.getInteger( "holidayHalsBookCost" );
+
+				case ItemPool.ANTAGONISTIC_SNOWMAN_KIT:
+					return Preferences.getInteger( "iceSwagger" ) >= Preferences.getInteger( "antagonisticSnowmanKitCost" );
+
+				case ItemPool.MAP_TO_KOKOMO:
+					return Preferences.getInteger( "drunkenSwagger" ) >= Preferences.getInteger( "mapToKokomoCost" );
+
+				case ItemPool.ESSENCE_OF_BEAR:
+					return Preferences.getInteger( "bearSwagger" ) >= Preferences.getInteger( "essenceOfBearCost" );
+
+				case ItemPool.MANUAL_OF_NUMBEROLOGY:
+					return Preferences.getInteger( "numericSwagger" ) >= Preferences.getInteger( "manualOfNumberologyCost" );
+
+				case ItemPool.ROM_OF_OPTIMALITY:
+					return Preferences.getInteger( "optimalSwagger" ) >= Preferences.getInteger( "ROMOfOptimalityCost" );
+
+				case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+					return Preferences.getInteger( "schoolSwagger" ) >= Preferences.getInteger( "schoolOfHardKnocksDiplomaCost" );
+
+				case ItemPool.GLITCH_ITEM:
+					return Preferences.getInteger( "glitchSwagger" ) >= Preferences.getInteger( "glitchItemCost" );
+				}
+
+				return super.availableItem( itemId );
+			}
 		};
 
 	static

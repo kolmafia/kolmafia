@@ -1817,7 +1817,7 @@ public class CoinmastersFrame
 				AdventureResult item = (AdventureResult) items[ i ];
 				int itemId = item.getItemId();
 
-				if ( !CoinmastersDatabase.availableItem( itemId ) )
+				if ( !data.availableItem( itemId ) )
 				{
 					// This was shown but was grayed out.
 					items[ i ] = null;
@@ -2228,7 +2228,7 @@ public class CoinmastersFrame
 				return defaultComponent;
 			}
 
-			boolean show = CoinmastersDatabase.availableItem( itemId );
+			boolean show = data.availableItem( itemId );
 
 			int price = cost.getCount();
 
