@@ -219,7 +219,7 @@ Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate brochure	300	ROW61
 Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate pamphlet	300	ROW613
 Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	pirate tract	300	ROW614
 Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	Massive Manual of Marauder Mockery	500	ROW616
-Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	abridged dictionary	1000	ROW617
+# Barrrtleby's Barrrgain Books (Bees Hate You)	bartlebys	abridged dictionary	1000	ROW617
 
 Meatsmith's Shop	meatsmith	meatsmithing guide	50	ROW495
 Meatsmith's Shop	meatsmith	sword hilt	100	ROW492
