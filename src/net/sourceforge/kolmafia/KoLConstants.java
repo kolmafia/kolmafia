@@ -610,7 +610,8 @@ public interface KoLConstants
 		TORSO,
 		SUPER_MEATSMITHING,
 		ARMORCRAFTINESS,
-		EXPENSIVE,	// Requires Really Expensive Jewerlycrafting
+		ELDRITCH,	// Requires Eldritch Intellect
+		EXPENSIVE,	// Requires Really Expensive Jewelrycrafting
 		REAGENT,	// Requires Advanced Saucecrafting
 		WAY,		 // Requires The Way of Sauce
 		DEEP_SAUCERY,

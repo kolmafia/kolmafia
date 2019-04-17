@@ -1947,6 +1947,11 @@ public class ConcoctionDatabase
 			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.PATENT );
 		}
 
+		if ( KoLCharacter.hasSkill( "Eldritch Intellect" ) )
+		{
+			ConcoctionDatabase.REQUIREMENT_MET.add( CraftingRequirements.ELDRITCH );
+		}
+
 		// Mixing is permitted, so long as the person has a shaker or a
 		// cocktailcrafting kit installed in their kitchen
 
@@ -2793,6 +2798,9 @@ public class ConcoctionDatabase
 		if ( mixingRequirements.contains( CraftingRequirements.ARMORCRAFTINESS ) )
 			result.append( " (Armorcraftiness)" );
 
+		if ( mixingRequirements.contains( CraftingRequirements.ELDRITCH ) )
+			result.append( " (Eldritch Intellect)" );
+
 		if ( mixingRequirements.contains( CraftingRequirements.EXPENSIVE ) )
 			result.append( " (Really Expensive Jewelrycrafting)" );
 
@@ -3171,7 +3179,12 @@ public class ConcoctionDatabase
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.ARMORCRAFTINESS );
 		}
-		// Requires Really Expensive Jewerlycrafting
+		// Requires Eldritch Intellect
+		else if ( mix.equals( "ELDRITCH" ) )
+		{
+			ConcoctionDatabase.requirements.add( CraftingRequirements.ELDRITCH );
+		}
+		// Requires Really Expensive Jewelrycrafting
 		else if ( mix.equals( "EXPENSIVE" ) )
 		{
 			ConcoctionDatabase.requirements.add( CraftingRequirements.EXPENSIVE );

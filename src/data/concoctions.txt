@@ -17,6 +17,7 @@
 # HAMMER (requires a tenderizing hammer - implied for smithing)
 # GRIMACITE (requires a depleted Grimacite hammer)
 # TORSO, WEAPON, ARMOR (smithing-related skills)
+# ELDRITCH (requires Eldritch Intellect)
 # EXPENSIVE (jewelrymaking skill)
 # REAGENT, WAY, DEEP, PASTAMASTERY, TRANSNOODLE, TEMPURAMANCY, PATENT (cooking)
 # AC, SHC, SALACIOUS (cocktailcrafting skills)
@@ -117,7 +118,7 @@ Staff of Ed, almost	COMBINE	[2180]ancient amulet	[2268]Staff of Fats
 [2325]Staff of Ed	COMBINE	headpiece of the Staff of Ed	[2268]Staff of Fats
 [2325]Staff of Ed	COMBINE	[2286]Eye of Ed	Staff of Ed, almost
 
-meat stack	COMBINE, MANUAL	fairy gravy boat	meat from yesterday
+meat stack	ACOMBINE, MANUAL	fairy gravy boat	meat from yesterday
 
 
 # Items involved with defacing skillbooks into used skillbooks
@@ -288,8 +289,6 @@ unfrosted Knob cake	COOK	Knob cake pan	Knob batter
 Knob cake	COOK_FANCY	unfrosted Knob cake	Knob frosting
 unstable fulminate	COOK_FANCY	bottle of Chateau de Vinegar	blasting soda
 
-Humpty Dumplings	COOK	eggman noodles	Vial of <i>jus de larmes</i>
-
 baneful bandolier	SMITH	caustic slime nodule	slime-covered necklace
 bitter pill	SAUCE	caustic slime nodule	scrumptious reagent
 corroded breeches	SMITH	caustic slime nodule	slime-covered greaves
@@ -410,8 +409,6 @@ jumping bean taco	COOK	pile of jumping beans	taco shell
 Knob shroomkabob	COOK	Knob mushroom	skewer
 Knoll shroomkabob	COOK	Knoll mushroom	skewer
 lihc eye pie	COOK	lihc eye	pie crust
-loaf of soda bread	COOK	wad of dough	soda water
-magical baguette	COOK	magicalness-in-a-can	wad of dough
 menudo	COOK	catgut	spices
 papaya taco	COOK	papaya	taco shell
 pr0n cocktail	COOK	pr0n legs	ketchup
@@ -422,7 +419,6 @@ rat scrapple	COOK	ratgut	spices
 royal jelly taco	COOK	royal jelly	taco shell
 skewered cat appendix	COOK	cat appendix	skewer
 spooky shroomkabob	COOK	spooky mushroom	skewer
-standard-issue cupcake	COOK	glob of enchanted icing	wad of dough
 stuffed spooky mushroom	COOK	spooky mushroom	goat cheese
 tofu casserole	COOK	wad of tofu	Gnollish casserole dish
 tofu taco	COOK	wad of tofu	taco shell
@@ -597,8 +593,8 @@ pebblebr&auml;u	MIX	floaty pebbles	ice-cold Willer
 green beer	MIX, SSPD	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, SSPD	ten-leaf clover	ice-cold Willer
 # Allow manual crafting on unpredicted/held-over SSPDs
-green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
-green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
+green beer     MIX, MANUAL     ten-leaf clover	ice-cold Sir Schlitz
+green beer     MIX, MANUAL     ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
 
@@ -1782,8 +1778,8 @@ clingfilm slippers	MUSE, NOBEE	bit of clingfilm (7)
 clingfilm cap	MUSE, NOBEE	bit of clingfilm (9)
 clingfilm trousers	MUSE, NOBEE	bit of clingfilm (11)
 
-brick of sand	MUSE	handful of sand (5)
-sandcastle	MUSE, NOBEE	brick of sand (20)
+brick of sand	MUSE, NODISCOVERY	handful of sand (5)
+sandcastle	MUSE, NOBEE, NODISCOVERY	brick of sand (20)
 
 house of twigs and spit	MUSE	interesting-looking twig (100)
 
@@ -2258,10 +2254,6 @@ giant yellow gummi bear	SUSE	giant yellow gummi ingot
 red drunki-bear	MIX	bottle of vodka	giant red gummi bear
 green drunki-bear	MIX	bottle of vodka	giant green gummi bear
 yellow drunki-bear	MIX	bottle of vodka	giant yellow gummi bear
-
-# Crimbo 2013 items
-
-warbear hoverbelt	MUSE	warbear hoverbelt piecepart (8)
 
 # Brushfire items
 
@@ -2852,10 +2844,10 @@ bankruptcy barrel	BARREL
 # Eldritch Tentacle Event
 
 eldritch extract	MUSE	eldritch effluvium (37)
-eldritch concentrate	MUSE	eldritch effluvium (111)
-eldritch distillate	COOK	eldritch extract	handful of fire
+eldritch concentrate	ELDRITCH, MUSE	eldritch effluvium (111)
+eldritch distillate	COOK, ELDRITCH	eldritch extract	handful of fire
 eldritch essence	COOK_FANCY	eldritch concentrate	jar of oil
-eldritch elixir	MIX	eldritch distillate	eldritch distillate
+eldritch elixir	ELDRITCH, MIX	eldritch distillate	eldritch distillate
 eldritch rub	MUSE	eldritch ichor (111)
 eldritch tincture	MUSE	eldritch ichor (666)
 eldritch mushroom pizza	COOK	eldritch mushroom	plain pizza
