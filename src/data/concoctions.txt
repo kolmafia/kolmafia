@@ -593,8 +593,8 @@ pebblebr&auml;u	MIX	floaty pebbles	ice-cold Willer
 green beer	MIX, SSPD	ten-leaf clover	ice-cold Sir Schlitz
 green beer	MIX, SSPD	ten-leaf clover	ice-cold Willer
 # Allow manual crafting on unpredicted/held-over SSPDs
-green beer     MIX, MANUAL     ten-leaf clover	ice-cold Sir Schlitz
-green beer     MIX, MANUAL     ten-leaf clover	ice-cold Willer
+green beer	MIX, MANUAL	ten-leaf clover	ice-cold Sir Schlitz
+green beer	MIX, MANUAL	ten-leaf clover	ice-cold Willer
 
 flask of peppermint schnapps	MIX	fermenting powder	flask of peppermint oil
 
