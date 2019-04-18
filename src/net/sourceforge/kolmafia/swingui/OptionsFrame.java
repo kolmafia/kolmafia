@@ -461,7 +461,7 @@ public class OptionsFrame
 		{
 			super( new Dimension( 20, 16 ), new Dimension( 370, 16 ) );
 
-			String helpText = "Some Items of the month have daily passes, and so KoLMafia cannot tell if you have them from seeing the zone. You can mark them here instead.";
+			String helpText = "Some Items Of The Month have daily passes, and so KoLMafia cannot tell if you have them from seeing the zone. You can mark them here instead.";
 
 			String[][] options =
 			{
@@ -474,7 +474,8 @@ public class OptionsFrame
 				{ "coldAirportAlways", "Have The Glaciest" },
 				{ "gingerbreadCityAvailable", "Have Gingerbread City" },
 				{ "spacegateAlways", "Have Spacegate" },
-				{ "frAlways", "Have FantasyRealm&trade;" },
+				{ "frAlways", "<html>Have FantasyRealm&trade;</html>" },
+				{ "prAlways", "<html>Have PirateRealm&trade;</tml>" },
 				{ "neverendingPartyAlways", "Have Neverending Party" },
 				{ "voteAlways", "Have Voter Registration" },
 				{ "daycareOpen", "Have Boxing Daycare" },
