@@ -46,7 +46,7 @@ public class BooleanArray
 
 	public boolean get( final int index )
 	{
-		return index < 0 || index >= this.internalList.size() ? false : ( (Boolean) this.internalList.get( index ) ).booleanValue();
+		return index >= 0 && index < this.internalList.size() && this.internalList.get(index);
 	}
 
 	public void set( final int index, final boolean value )
