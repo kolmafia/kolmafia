@@ -102,6 +102,7 @@ The Glaciest	Elemental International Airport	The Glaciest
 A Monorail Station	Town	A Monorail Station
 FantasyRealm	A Monorail Station	FantasyRealm
 PirateRealm	A Monorail Station	PirateRealm
+PirateRealm Island	PirateRealm	PirateRealm Island
 
 Item-Driven	Item-Driven	Item-Driven Zones
 

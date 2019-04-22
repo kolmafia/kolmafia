@@ -540,3 +540,26 @@ FantasyRealm	adventure=527	Env: outdoor Stat: 0 nowander	The Ogre Chieftain's Ke
 
 PirateRealm	adventure=530	Env: outdoor Stat: 0 nowander	Sailing the PirateRealm Seas
 PirateRealm	adventure=531	Env: outdoor Stat: 0 nowander	PirateRealm Island
+
+# Every PirateRealm Island has the same adventure #.
+
+# First Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Battle Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Crab Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Glass Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Dessert Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Key Key
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Skull Island
+# Second Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Isla Gublar
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Cemetery Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Jungle Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Trash Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Prison Island
+# Third Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Signal Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Tiki Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Storm Island
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Red Roger's Fortress
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	Jack's Hideout
+PirateRealm Island	adventure=531	Env: outdoor Stat: 0 nowander	The Temple
