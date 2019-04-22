@@ -51,8 +51,9 @@ public class MaximizerTest
 		KoLCharacter.setStatPoints( 15, 225, 0, 0, 0, 0 );
 		try
 		{
-			// 2 flaming crutch, 2 white sword
-			InventoryManager.parseInventory( new JSONObject( "{\"473\": \"2\", \"269\": \"2\"}" ) );
+			// 2 flaming crutch, 2 white sword, 1 dense meat sword.
+			// Max required muscle to equip any of these is 15.
+			InventoryManager.parseInventory( new JSONObject( "{\"473\": \"2\", \"269\": \"2\", \"1728\": \"1\"}" ) );
 		}
 		catch ( JSONException e )
 		{
