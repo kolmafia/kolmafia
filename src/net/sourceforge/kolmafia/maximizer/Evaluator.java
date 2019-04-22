@@ -1532,7 +1532,7 @@ public class Evaluator
 				}
 			}
 			// "break gotItem" goes here
-			ranked[ slot ].add( item );
+			if ( slot !=-1 ) ranked[ slot ].add( item );
 			if ( auxSlot != -1 ) ranked[ auxSlot ].add( item );
 		}
 
