@@ -385,6 +385,12 @@ public class AdventureDatabase
 		return url.contains( "snarfblat=531" );
 	}
 
+	public static final String pirateRealmIslandName()
+	{
+		String island = Preferences.getString( "_LastPirateRealmIsland" );
+		return island == "" ? "PirateRealm Island" : island;
+	}
+
 	public static final void addAdventure( final KoLAdventure location )
 	{
 		AdventureDatabase.adventures.add( location );
@@ -612,7 +618,7 @@ public class AdventureDatabase
 
 		if ( isPirateRealmIsland( adventureURL ) )
 		{
-			return getAdventure( Preferences.getString( "_LastPirateRealmIsland" ) );
+			return getAdventure( pirateRealmIslandName() );
 		}
 
 		return null;
