@@ -198,7 +198,6 @@ Outside the Club	100	breakdancing raver	pop-and-lock raver	running man
 Outskirts of Camp Logging Camp	70	axe handle	cloud of disembodied whiskers	poutine ooze	forest spirit
 Over Where the Old Tires Are	100	A.M.C. gremlin	erudite gremlin	erudite gremlin (tool)	spider gremlin
 Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	Hypnotist of Hey Deze: -1
-PirateRealm Island	-1	giant crab	giant giant crab: 0	plastic pirate	signal	pirate radio: 0	plastic skeleton	vape ghost	Red Roger: 0
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
 Post-War Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
@@ -467,6 +466,28 @@ Your Liver Chakra	100	fear of an uncertain future	the most embarrassing moment i
 Your Nipple Chakra	100	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
 Your Nose Chakra	100	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
 Your Hat Chakra	100	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
+
+# PirateRealm Island
+# First Island - 4 combats and a boss or reward
+Battle Island	100	melty army man
+Crab Island	100	giant crab	giant giant crab: 0
+Glass Island	100	translucent monkey
+Dessert Island	100	melty freezeface
+Key Key	100	plastic pirate
+Skull Island	100	plastic skeleton
+# Second Island - 4 combats and a boss or reward
+Isla Gublar	100	toy dinosaur
+Cemetery Island	100	plastic skeleton	vape ghost
+Jungle Island	100	translucent monkey	jungle titan: 0
+Trash Island	100	cockroach
+Prison Island	100	plastic pirate
+# Third Island - 9 combats and a boss or reward
+Signal Island	100	signal	pirate radio: 0
+Tiki Island	100	tiki idol
+Storm Island	100	strong wind
+Red Roger's Fortress	100	plastic pirate	Red Roger: 0
+Jack's Hideout	100	carnivorous plant	Glass Jack Hummel: 0
+The Temple	100	plastic skeleton	pewter torsohunter
 
 # Areas with no combat data
 

@@ -1910,7 +1910,7 @@ sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap
 
 # PirateRealm (Apr 2019)
 giant crab	2116	pr_crab.gif	Atk: 25 Def: 25 HP: 30 Init: 50 P: beast
-melty army man	2117	pr_armyman.gif	Atk: 30 Def: 20 HP: 30 Init: 50 E: stench P: dude
+melty army man	2117	pr_armyman.gif	Atk: 30 Def: 20 HP: 30 Init: 50 E: stench P: dude	melty plastic grenade
 plastic skeleton	2118	pr_skeleton.gif	Atk: 30 Def: 30 HP: 40 Init: 50 P: undead
 plastic pirate	2119	pr_piratefigure.gif	Atk: 35 Def: 30 HP: 30 Init: 75 P: construct
 translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast
@@ -1919,10 +1919,10 @@ toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 P: bug
 vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead
 signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird	signal fragment
-tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 E: sleaze P: construct
+tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 E: sleaze P: construct	hibiscus petal	huge mint leaf	pineapple slab
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct	pewter shavings
 carnivorous plant	2129	pr_plant.gif	Atk: 100 Def: 80 HP: 80 Init: -10000 P: plant
-strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird	windicle (100)
+strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird	windicle
 jungle titan	2131	pr_titan.gif	Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude
 pirate radio	2132	pr_radio.gif	Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct
 melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 E: cold P: construct	oversized ice molecule

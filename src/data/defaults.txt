@@ -1573,6 +1573,7 @@ user	_kolhsCutButNotDried	false
 user	_kolhsIsskayLikeAnAshtray	false
 user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
+user	_LastPirateRealmIsland
 user	_lastSausageMonsterTurn	0
 user	_lastZomboEye	0
 user	_latteBanishUsed	false

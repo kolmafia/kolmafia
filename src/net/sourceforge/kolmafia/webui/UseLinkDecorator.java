@@ -980,6 +980,9 @@ public abstract class UseLinkDecorator
 
 			case ItemPool.VOLCANO_MAP:
 				return new UseLink( itemId, 1, "read", "volcanoisland.php?intro=1" );
+			
+			case ItemPool.PIRATE_REALM_FUN_LOG:
+				return new UseLink( itemId, 1, "order stuff", "shop.php?whichshop=piraterealm" );
 
 			case ItemPool.ENCHANTED_BEAN:
 
@@ -2134,11 +2137,6 @@ public abstract class UseLinkDecorator
 			{
 				useLocation = "shop.php?whichshop=fantasyrealm";
 			}
-			break;
-			
-		case ItemPool.PIRATE_REALM_FUN_LOG:
-			useType = "order stuff";
-			useLocation = "shop.php?whichshop=piraterealm";
 			break;
 
 		case ItemPool.BLACK_SLIME_GLOB:

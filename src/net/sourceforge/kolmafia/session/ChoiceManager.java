@@ -17237,6 +17237,18 @@ public abstract class ChoiceManager
 				}
 				return true;
 
+			case 1352: 	//  Island #1, Who Are You?
+			case 1353: 	//  What's Behind Island #2?
+			case 1354: 	//  Third Island's the Charm
+			{
+				String desc = ChoiceManager.choiceDescription( choice, decision );
+				RequestLogger.updateSessionLog( "Took choice " + choice + "/" + decision + ": " + desc );
+				if ( desc != null && !desc.equals( "Decide Later" ) )
+				{
+					Preferences.setString( "_LastPirateRealmIsland", desc );
+				}
+				return true;
+			}
 			}
 
 			if ( decision != 0 )

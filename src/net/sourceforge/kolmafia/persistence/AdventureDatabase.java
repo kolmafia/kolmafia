@@ -380,6 +380,11 @@ public class AdventureDatabase
 		}
 	}
 
+	public static final boolean isPirateRealmIsland( final String url )
+	{
+		return url.contains( "snarfblat=531" );
+	}
+
 	public static final void addAdventure( final KoLAdventure location )
 	{
 		AdventureDatabase.adventures.add( location );
@@ -392,6 +397,13 @@ public class AdventureDatabase
 		request.removeFormField( "pwd" );
 
 		String url = request.getURLString();
+
+		// All PirateRealm Island adventures have the same URL, so we
+		// can't look them up that way. Don't add them to the hash table
+		if ( isPirateRealmIsland( url ) )
+		{
+			return;
+		}
 
 		AdventureDatabase.adventureLookup.put( url, location );
 
@@ -590,15 +602,20 @@ public class AdventureDatabase
 		adventureURL = StringUtilities.singleStringReplace( adventureURL, "action=ignorewarning&whichzone", "snarfblat" );
 
 		KoLAdventure location = AdventureDatabase.adventureLookup.get( adventureURL );
-		if ( location == null )
+		if ( location != null )
 		{
-			return null;
+			// *** Why exclude these?
+			return  location.getRequest() instanceof ClanRumpusRequest ||
+				location.getRequest() instanceof RichardRequest
+				? null : location;
 		}
 
-		// *** Why exclude these?
-		return  location.getRequest() instanceof ClanRumpusRequest ||
-			location.getRequest() instanceof RichardRequest
-			? null : location;
+		if ( isPirateRealmIsland( adventureURL ) )
+		{
+			return getAdventure( Preferences.getString( "_LastPirateRealmIsland" ) );
+		}
+
+		return null;
 	}
 
 	public static final KoLAdventure getAdventure( final String adventureName )
