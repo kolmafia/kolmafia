@@ -1204,36 +1204,6 @@ public class Evaluator
 					{
 						continue;
 					}
-					if ( this.requireClub && !EquipmentDatabase.isClub( id ) )
-					{
-						continue;
-					}
-					if ( this.requireUtensil && !EquipmentDatabase.isUtensil( id ) )
-					{
-						continue;
-					}
-					if ( this.requireKnife && !EquipmentDatabase.isKnife( id ) )
-					{
-						continue;
-					}
-					if ( this.requireAccordion && !EquipmentDatabase.isAccordion( id ) )
-					{
-						continue;
-					}
-					if ( this.effective )
-					{
-						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
-							weaponType != WeaponType.RANGED &&
-							( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
-						{
-							continue;
-						}
-						if ( KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle() &&
-							weaponType != WeaponType.MELEE )
-						{
-							continue;
-						}
-					}
 					String type = EquipmentDatabase.getItemType( id );
 					if ( this.weaponType != null && type.indexOf( this.weaponType ) == -1 )
 					{
@@ -1268,6 +1238,36 @@ public class Evaluator
 							default:
 								break;
 							}
+						}
+					}
+					if ( this.requireClub && !EquipmentDatabase.isClub( id ) )
+					{
+						slot = auxSlot;
+					}
+					if ( this.requireUtensil && !EquipmentDatabase.isUtensil( id ) )
+					{
+						slot = auxSlot;
+					}
+					if ( this.requireKnife && !EquipmentDatabase.isKnife( id ) )
+					{
+						slot = auxSlot;
+					}
+					if ( this.requireAccordion && !EquipmentDatabase.isAccordion( id ) )
+					{
+						slot = auxSlot;
+					}
+					if ( this.effective )
+					{
+						if ( KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle() &&
+							weaponType != WeaponType.RANGED &&
+							( !EquipmentDatabase.isKnife( id ) || !KoLCharacter.hasSkill( "Tricky Knifework" ) ) )
+						{
+							slot = auxSlot;
+						}
+						if ( KoLCharacter.getAdjustedMoxie() < KoLCharacter.getAdjustedMuscle() &&
+							weaponType != WeaponType.MELEE )
+						{
+							slot = auxSlot;
 						}
 					}
 					if ( id == ItemPool.BROKEN_CHAMPAGNE && this.weight[ Modifiers.ITEMDROP ] > 0 &&
