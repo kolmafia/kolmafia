@@ -170,8 +170,7 @@ Item	Dolphin King's crown	Muscle: +2, Mysticality: +2, Moxie: +2, Familiar Effec
 # double-ice cap: Stuns opponents who hit you
 Item	double-ice cap	MP Regen Min: 5, MP Regen Max: 9, Cold Damage: +10, Familiar Effect: "1xPotato, 1xFairy, cap 17"
 Item	draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, cap 25"
-# dreadful fedora: Lets you find 5% more Kruegerands
-Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Familiar Effect: "spooky atk, 1xLep"
+Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Kruegerand Drop: +5, Familiar Effect: "spooky atk, 1xLep"
 Item	duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
 Item	dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
@@ -887,8 +886,7 @@ Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
-# dreadful sweater: Lets you find 5% more Kruegerands
-Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
+Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: +5
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
 Item	extra-see-thru nightie	Moxie Percent: +15
 Item	eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
@@ -1235,8 +1233,7 @@ Item	doubt cannon	Weakens Monster
 Item	Dr. Hobo's scalpel	Weapon Damage: +3, Stench Damage: +1
 # dragon slaying sword: Kills dragons, probably
 Item	dragon slaying sword	Lasts Until Rollover
-# dreadful glove: Lets you find 5% more Krueggerands
-Item	dreadful glove	Critical Hit Percent: +5
+Item	dreadful glove	Critical Hit Percent: +5, Kruegerand Drop: +5
 Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
@@ -2704,8 +2701,7 @@ Item	doll-eye amulet	Single Equip, Item Drop: [40*(zone(Manor0)+zone(Manor1)+zon
 Item	dope gangsta bling-bling	Moxie: +1
 Item	dorky glasses	Moxie: -30, Mysticality: +30, Single Equip
 Item	Draftsman's driving gloves	Mysticality Percent: +50, Spell Damage Percent: +50, Adventures: +8, Experience (Mysticality): +4, Lasts Until Rollover
-# Dreadsylvania Auditor's badge: Lets you find 5% more Kruegerands
-Item	Dreadsylvania Auditor's badge	Item Drop: +10, Single Equip
+Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: +5, Single Equip
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
 # Drunkula's ring of haze: The first attack against you will always miss
 Item	Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip

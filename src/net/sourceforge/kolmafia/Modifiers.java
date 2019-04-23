@@ -239,6 +239,7 @@ public class Modifiers
 	public static final int ABSORB_ADV = 127;
 	public static final int ABSORB_STAT = 128;
 	public static final int RUBEE_DROP = 129;
+	public static final int KRUEGERAND_DROP = 130;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -821,6 +822,10 @@ public class Modifiers
 		{ "Rubee Drop",
 		  Pattern.compile( "FantasyRealm enemies will drop (\\d+) extra Rubee" ),
 		  Pattern.compile( "Rubee Drop: " + EXPR )
+		},
+		{ "Kruegerand Drop",
+		  Pattern.compile( "Lets you find (\\d+)% more Kruegerands" ),
+		  Pattern.compile( "Kruegerand Drop: " + EXPR )
 		},
 	};
 
