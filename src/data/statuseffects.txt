@@ -2449,7 +2449,7 @@
 2448	Bubblin' Rage	bubbles2.gif	5b95ed4a336e3fb2c2957d7deffca38b	use 1 Pneumo bar
 2449	Wolf Form	wolfmask.gif	4f8c211be81ee34a6b3c3cb2e06218c9	cast 1 Wolf Form
 2450	Mist Form	puff.gif	7807830b4765b2cc589c16c5834cc7cb	cast 1 Mist Form
-2451	Bats Form	batflock.gif	a728291f873e6a4bab2dbd2be3ea4cd4	cast 1 Bats Form
+2451	Bats Form	batflock.gif	a728291f873e6a4bab2dbd2be3ea4cd4	cast 1 Flock of Bats Form
 2452	Ceaseless Snarling	grrrrr.gif	c0bdbfa756eae55c97f5dee410738968	cast 1 Ceaseless Snarl
 2453	Cloak of Shadows	wtbcloak.gif	ce633af52a20df1ae6ede331651d29b1	cast 1 Blood Cloak
 2454	Spectral Awareness	elements.gif	4aa3a730e7347d5d51252cde422c5ecf	cast 1 Spectral Awareness
