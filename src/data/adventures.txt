@@ -431,7 +431,7 @@ Psychoses	adventure=316	Env: outdoor	The Gourd!
 Psychoses	adventure=317	Env: indoor	The Tower of Procedurally-Generated Skeletons
 Psychoses	adventure=318	Env: outdoor	The Old Man's Bathtime Adventures
 
-Skid Row	adventure=369	Env: indoor Stat: 0	The Inner Wolf Gym
+Skid Row	adventure=369	Env: indoor nowander Stat: 0	The Inner Wolf Gym
 Skid Row	place=ioty2014_wolf	Env: none Stat: 0	Unleash Your Inner Wolf
 
 The Candy Witch and the Relentless Child Thieves	adventure=370	Env: outdoor Stat: 0	Sweet-Ade Lake
@@ -449,7 +449,7 @@ The Prince's Ball	adventure=379	Env: indoor Stat: 0	The Prince's Canapes Table
 
 Rumpelstiltskin's Home For Children	adventure=380	Env: outdoor Stat: 0	Ye Olde Medievale Villagee
 Rumpelstiltskin's Home For Children	adventure=381	Env: outdoor Stat: 0	Portal to Terrible Parents
-Rumpelstiltskin's Home For Children	adventure=382	Env: none Stat: 0	Rumpelstiltskin's Workshop
+Rumpelstiltskin's Home For Children	adventure=382	Env: none nowander Stat: 0	Rumpelstiltskin's Workshop
 
 Spring Break Beach	adventure=402	Env: indoor Stat: 0	The Fun-Guy Mansion
 Spring Break Beach	adventure=403	Env: indoor Stat: 0	Sloppy Seconds Diner	4 choiceadv
@@ -474,33 +474,33 @@ The Glaciest	adventure=455	Env: indoor Stat: 0	The Ice Hotel
 The Glaciest	adventure=456	Env: indoor Stat: 0	VYKEA
 The Glaciest	adventure=457	Env: underwater Stat: 0	The Ice Hole
 
-Spelunky Area	adventure=424	Env: none Stat: 0	The Mines
-Spelunky Area	adventure=425	Env: none Stat: 0	The Jungle
-Spelunky Area	adventure=426	Env: none Stat: 0	The Ice Caves
-Spelunky Area	adventure=427	Env: none Stat: 0	The Temple Ruins
-Spelunky Area	adventure=428	Env: none Stat: 0	Hell
-Spelunky Area	adventure=429	Env: none Stat: 0	The Snake Pit
-Spelunky Area	adventure=430	Env: none Stat: 0	The Spider Hole
-Spelunky Area	adventure=431	Env: none Stat: 0	The Ancient Burial Ground
-Spelunky Area	adventure=432	Env: none Stat: 0	The Beehive
-Spelunky Area	adventure=433	Env: none Stat: 0	The Crashed U. F. O.
-Spelunky Area	adventure=434	Env: none Stat: 0	The City of Goooold
-Spelunky Area	adventure=435	Env: none Stat: 0	LOLmec's Lair
-Spelunky Area	adventure=436	Env: none Stat: 0	Yomama's Throne
+Spelunky Area	adventure=424	Env: none nowander Stat: 0	The Mines
+Spelunky Area	adventure=425	Env: none nowander Stat: 0	The Jungle
+Spelunky Area	adventure=426	Env: none nowander Stat: 0	The Ice Caves
+Spelunky Area	adventure=427	Env: none nowander Stat: 0	The Temple Ruins
+Spelunky Area	adventure=428	Env: none nowander Stat: 0	Hell
+Spelunky Area	adventure=429	Env: none nowander Stat: 0	The Snake Pit
+Spelunky Area	adventure=430	Env: none nowander Stat: 0	The Spider Hole
+Spelunky Area	adventure=431	Env: none nowander Stat: 0	The Ancient Burial Ground
+Spelunky Area	adventure=432	Env: none nowander Stat: 0	The Beehive
+Spelunky Area	adventure=433	Env: none nowander Stat: 0	The Crashed U. F. O.
+Spelunky Area	adventure=434	Env: none nowander Stat: 0	The City of Goooold
+Spelunky Area	adventure=435	Env: none nowander Stat: 0	LOLmec's Lair
+Spelunky Area	adventure=436	Env: none nowander Stat: 0	Yomama's Throne
 
-Center Park (Low Crime)	adventure=461	Env: none Stat: 0	Center Park After Dark
-Slums (Moderate Crime)	adventure=462	Env: none Stat: 0	The Mean Streets
-Industrial District (High Crime)	adventure=463	Env: none Stat: 0	Warehouse Row
-Center Park (Low Crime)	adventure=464	Env: none Stat: 0	Gotpork Conservatory of Flowers
-Center Park (Low Crime)	adventure=465	Env: none Stat: 0	Gotpork Municipal Reservoir
-Center Park (Low Crime)	adventure=466	Env: none Stat: 0	Gotpork Gardens Cemetery
-Slums (Moderate Crime)	adventure=467	Env: none Stat: 0	Gotpork City Sewers
-Slums (Moderate Crime)	adventure=468	Env: none Stat: 0	Porkham Asylum
-Slums (Moderate Crime)	adventure=469	Env: none Stat: 0	The Old Gotpork Library
-Industrial District (High Crime)	adventure=470	Env: none Stat: 0	Gotpork Clock, Inc.
-Industrial District (High Crime)	adventure=471	Env: none Stat: 0	Gotpork Foundry
-Industrial District (High Crime)	adventure=472	Env: none Stat: 0	Trivial Pursuits, LLC
-Downtown	adventure=473	Env: none Stat: 0	JokesterCo
+Center Park (Low Crime)	adventure=461	Env: none nowander Stat: 0	Center Park After Dark
+Slums (Moderate Crime)	adventure=462	Env: none nowander Stat: 0	The Mean Streets
+Industrial District (High Crime)	adventure=463	Env: none nowander Stat: 0	Warehouse Row
+Center Park (Low Crime)	adventure=464	Env: none nowander Stat: 0	Gotpork Conservatory of Flowers
+Center Park (Low Crime)	adventure=465	Env: none nowander Stat: 0	Gotpork Municipal Reservoir
+Center Park (Low Crime)	adventure=466	Env: none nowander Stat: 0	Gotpork Gardens Cemetery
+Slums (Moderate Crime)	adventure=467	Env: none nowander Stat: 0	Gotpork City Sewers
+Slums (Moderate Crime)	adventure=468	Env: none nowander Stat: 0	Porkham Asylum
+Slums (Moderate Crime)	adventure=469	Env: none nowander Stat: 0	The Old Gotpork Library
+Industrial District (High Crime)	adventure=470	Env: none nowander Stat: 0	Gotpork Clock, Inc.
+Industrial District (High Crime)	adventure=471	Env: none nowander Stat: 0	Gotpork Foundry
+Industrial District (High Crime)	adventure=472	Env: none nowander Stat: 0	Trivial Pursuits, LLC
+Downtown	adventure=473	Env: none nowander Stat: 0	JokesterCo
 
 The Snojo	adventure=460	Env: indoor nowander	The X-32-F Combat Training Snowman
 
