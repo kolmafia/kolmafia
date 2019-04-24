@@ -2228,7 +2228,7 @@ public class CoinmastersFrame
 				return defaultComponent;
 			}
 
-			boolean show = data.availableItem( itemId );
+			boolean show = !this.buying || data.availableItem( itemId );
 
 			int price = cost.getCount();
 
