@@ -144,15 +144,6 @@ public class ValhallaManager
 
 	public static void preAscension()
 	{
-		// Create a badass belt
-
-		CreateItemRequest belt = CreateItemRequest.getInstance( ItemPool.BADASS_BELT );
-		if ( belt != null && belt.getQuantityPossible() > 0 )
-		{
-			belt.setQuantityNeeded( belt.getQuantityPossible() );
-			RequestThread.postRequest( belt );
-		}
-
 		// Trade in gunpowder.
 
 		if ( InventoryManager.hasItem( ItemPool.GUNPOWDER ) )
