@@ -108,6 +108,7 @@ public class UseSkillRequest
 		"Summon Kokomo Resort Pass",
 		"Perfect Freeze",
 		"Acquire Rhinestones",
+		"Prevent Scurvy and Sobriety",
 	};
 
 	// These are skills where someone would not care if they are in-run,
@@ -825,11 +826,6 @@ public class UseSkillRequest
 			{
 				maximumCast = 0;
 				break;
-			}
-			if ( Preferences.getInteger( "skillLevel144" ) == 0 )
-			{
-				// If the skill is being cast, then the limit must be at least 1
-				Preferences.setInteger( "skillLevel144", 1 );
 			}
 			maximumCast = Preferences.getInteger( "skillLevel144" ) > Preferences.getInteger( "_universeCalculated" ) ? 1 : 0;
 			break;
@@ -2551,6 +2547,14 @@ public class UseSkillRequest
 			}
 			break;
 		}
+
+		case SkillPool.CALCULATE_THE_UNIVERSE:
+			if ( Preferences.getInteger( "skillLevel144" ) == 0 )
+			{
+				// If the skill is being cast, then the limit must be at least 1
+				Preferences.setInteger( "skillLevel144", 1 );
+			}
+			break;
 
 		}
 
