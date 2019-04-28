@@ -1293,15 +1293,19 @@ public abstract class SorceressLairManager
 			}
 
 			// If you won't survive, prompt for confirmation
-			if ( hpLost > KoLCharacter.getMaximumHP() &&
-				!InputFieldUtilities.confirm( "You won't survive to the end of the Hedge Maze, are you sure ?" ) )
+			// *** Cannot heal in Darke Gyffte
+			if ( ( ( hpLost >= KoLCharacter.getMaximumHP() ) ||
+			       ( KoLCharacter.inDarkGyffte() && ( hpLost >= KoLCharacter.getCurrentHP() ) ) ) &&
+			     !InputFieldUtilities.confirm( "You won't survive to the end of the Hedge Maze, are you sure ?" ) )
 			{	
 				return;
 			}
 		}
 
 		// Unless it's all nugglets, all the time, heal up first.
-		if ( mode != SorceressLairManager.HEDGE_MAZE_NUGGLETS )
+		// *** Cannot heal in Darke Gyffte. Validated sufficient HP above
+		if ( mode != SorceressLairManager.HEDGE_MAZE_NUGGLETS &&
+		     !KoLCharacter.inDarkGyffte() )
 		{
 			RecoveryManager.recoverHP( KoLCharacter.getMaximumHP() );
 			if ( !KoLmafia.permitsContinue() )

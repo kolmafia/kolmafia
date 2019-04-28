@@ -4100,6 +4100,11 @@ public abstract class KoLCharacter
 		return KoLCharacter.ascensionPath.equals( DISGUISES_DELIMIT );
 	}
 
+	public static final boolean inDarkGyffte()
+	{
+		return KoLCharacter.ascensionPath.equals( DARK_GYFFTE );
+	}
+
 	public static final boolean isUnarmed()
 	{
 		AdventureResult weapon = EquipmentManager.getEquipment( EquipmentManager.WEAPON );
