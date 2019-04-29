@@ -3097,6 +3097,7 @@ public class ItemPool
 	public static final int GLITCH_ITEM = 10207;
 	public static final int PR_MEMBER = 10187;
 	public static final int PR_GUEST = 10188;
+	public static final int ISLAND_DRINKIN = 10211;
 	public static final int PIRATE_REALM_FUN_LOG = 10225;
 	public static final int SCURVY_AND_SOBRIETY_PREVENTION = 10228;
 
