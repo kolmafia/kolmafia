@@ -69,7 +69,7 @@ public class FunALogRequest
 	private static final Map<Integer, Integer> buyPrices = CoinmastersDatabase.getBuyPrices(FunALogRequest.master );
 	private static final Map<Integer, Integer> itemRows = CoinmastersDatabase.getRows(FunALogRequest.master );
 
-	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) FunPoints?</b>" );
+	private static final Pattern TOKEN_PATTERN = Pattern.compile( "<b>You have ([\\d,]+) FunPoints?\\.</b>" );
 	public static final CoinmasterData FUN_A_LOG =
 		new CoinmasterData(
 			FunALogRequest.master,
