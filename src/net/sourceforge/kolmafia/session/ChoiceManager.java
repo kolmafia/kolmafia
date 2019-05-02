@@ -1910,7 +1910,7 @@ public abstract class ChoiceManager
 
 		// Entrance to the Forgotten City
 		new ChoiceAdventure(
-			"Memories", "choiceAdventure360", "Jungles: Forgotten City",
+			"Memories", "choiceAdventure366", "Jungles: Forgotten City",
 			new Object[] { new Option( "skip adventure", 2 ) } ),
 
 		// Choice 367 is Ancient Temple (unlocked)
