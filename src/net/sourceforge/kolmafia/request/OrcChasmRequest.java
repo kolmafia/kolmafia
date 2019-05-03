@@ -93,6 +93,10 @@ public class OrcChasmRequest
 		{
 			ResultProcessor.processItem( ItemPool.FANCY_OIL_PAINTING, -1 * InventoryManager.getCount( ItemPool.FANCY_OIL_PAINTING ) );
 		}
+		else if ( responseText.contains( "bridge truss" ) )
+		{
+			ResultProcessor.removeItem( ItemPool.BRIDGE_TRUSS );
+		}
 	}
 
 	private static final void ensureUpdatedChasm()

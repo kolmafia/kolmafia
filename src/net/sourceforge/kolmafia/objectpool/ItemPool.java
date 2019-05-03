@@ -2960,6 +2960,7 @@ public class ItemPool
 	public static final int O = 9544;
 	public static final int MAFIA_PINKY_RING = 9546;
 	public static final int FLASK_OF_PORT = 9547;
+	public static final int BRIDGE_TRUSS = 9556;
 	public static final int AMORPHOUS_BLOB = 9558;
 	public static final int GIANT_AMORPHOUS_BLOB = 9561;
 	public static final int MAFIA_THUMB_RING = 9564;
