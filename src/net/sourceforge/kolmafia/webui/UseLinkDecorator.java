@@ -1824,6 +1824,8 @@ public abstract class UseLinkDecorator
 		case ItemPool.LONG_SCREW:
 		case ItemPool.BUTT_JOINT:
 		case ItemPool.SNOW_BOARDS:
+		case ItemPool.FANCY_OIL_PAINTING:
+		case ItemPool.BRIDGE_TRUSS:
 
 			int urlEnd = OrcChasmRequest.getChasmProgress();
 			if ( urlEnd == 30 )
