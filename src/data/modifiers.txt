@@ -488,9 +488,8 @@ Item	viking helmet	Muscle: +1, Familiar Effect: "atk, cap 5"
 Item	Voluminous Radio Hat	MP Regen Min: 5, MP Regen Max: 6, Familiar Effect: "1xPotato, 1xGhoul, cap 37"
 Item	wad of used tape	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Item Drop: +15, Meat Drop: +30, Lasts Until Rollover
 Item	warbear dress helmet	Moxie: +10, Booze Drop: +25, Familiar Effect: "cold atk, 1xVolley, cap 25"
-# warbear electro-spiked helm: +60 WarBear Armor Penetration
 # warbear electro-spiked helm: Troubling Vulnerability to All Elements (-5)
-Item	warbear electro-spiked helm	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xFairy"
+Item	warbear electro-spiked helm	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xFairy"
 # warbear fancy fedora: +15% Item Drops from WarBears
 Item	warbear fancy fedora	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Familiar Effect: "atk, 1xLep"
 # warbear feathered fedora: +10% Item Drops from WarBears
@@ -501,11 +500,9 @@ Item	warbear heated ushanka	Supercold Resistance: +3, Weapon Damage Percent: -25
 Item	warbear lined ushanka	Supercold Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 37"
 # warbear plain fedora: +5% Item Drops from WarBears
 Item	warbear plain fedora	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Familiar Effect: "atk, 1xLep, cap 12"
-# warbear plain helm: +20 WarBear Armor Penetration
-Item	warbear plain helm	Weapon Damage Percent: +25, Spell Damage Percent: +50, Familiar Effect: "atk, 1xFairy, cap 12"
+Item	warbear plain helm	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Familiar Effect: "atk, 1xFairy, cap 12"
 Item	warbear plain ushanka	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "1xBarrr, 1xLep, cap 12"
-# warbear spiked helm: +40 WarBear Armor Penetration
-Item	warbear spiked helm	Familiar Effect: "atk, 1xFairy, cap 37"
+Item	warbear spiked helm	WarBear Armor Penetration: +40, Familiar Effect: "atk, 1xFairy, cap 37"
 Item	water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 Item	wax hat	Moxie: +7, Maximum HP: +10, Familiar Effect: "1xPotato, 1xFairy"
 Item	webbed comic mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
@@ -817,11 +814,9 @@ Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: 
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Item	Voluminous Radio Pants	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "2xGhoul, cap 37"
 Item	Wal-Mart overalls	Moxie Percent: +40, Experience (Moxie): +4, Initiative: +30
-# warbear battle greaves: +20 WarBear Armor Penetration
-Item	warbear battle greaves	Weapon Damage Percent: +25, Spell Damage Percent: +50, Familiar Effect: "atk, 1xBarrr, cap 25"
-# warbear bearserker greaves: +60 WarBear Armor Penetration
+Item	warbear battle greaves	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Familiar Effect: "atk, 1xBarrr, cap 25"
 # warbear bearserker greaves: Troubling Vulnerability to All Elements (-5)
-Item	warbear bearserker greaves	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xBarrr"
+Item	warbear bearserker greaves	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "atk, 1xBarrr"
 # warbear ceremonial party pants: +10% Item Drops from WarBears
 Item	warbear ceremonial party pants	Familiar Effect: "1xPotato, 1xGhuol, cap 37"
 Item	warbear dress greaves	Muscle: +10, Food Drop: +25, Familiar Effect: "2xBarrr, cap 25"
@@ -830,8 +825,7 @@ Item	warbear fleece-lined long johns	Supercold Resistance: +2, Familiar Effect: 
 # warbear high festival pants: +15% Item Drops from WarBears
 Item	warbear high festival pants	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Familiar Effect: "1xPotato, 1xGhoul"
 Item	warbear long johns	Supercold Resistance: +1, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Familiar Effect: "hot atk, 1xVolley, cap 12"
-# warbear officer greaves: +40 WarBear Armor Penetration
-Item	warbear officer greaves	Familiar Effect: "atk, 1xBarrr, cap 37"
+Item	warbear officer greaves	WarBear Armor Penetration: +40, Familiar Effect: "atk, 1xBarrr, cap 37"
 # warbear party pants: +5% Item Drops from WarBears
 Item	warbear party pants	Initiative: +25, Maximum HP: +50, Maximum MP: +50, Familiar Effect: "1xPotato, 1xGhoul, cap 12"
 Item	Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1, Class: "Disco Bandit", Familiar Effect: "1xVolley, 1xPotato"
@@ -3629,13 +3623,10 @@ Item	warbear hoverbelt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 1
 # warbear laser beacon: Attracts Cool Lasers
 # warbear laser beacon: (Lasers respond to Disco Momentum)
 Item	warbear laser beacon	Class: "Disco Bandit", Single Equip
-# warbear laser bowtie: +20 WarBear Armor Penetration
-Item	warbear laser bowtie	Weapon Damage Percent: +25, Spell Damage Percent: +50, Single Equip
-# warbear nuclear bowtie: +60 WarBear Armor Penetration
+Item	warbear laser bowtie	WarBear Armor Penetration: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, Single Equip
 # warbear nuclear bowtie: Troubling Vulnerability to All Elements (-5)
-Item	warbear nuclear bowtie	Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip, Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
-# warbear plasma bowtie: +40 WarBear Armor Penetration
-Item	warbear plasma bowtie	Single Equip
+Item	warbear nuclear bowtie	WarBear Armor Penetration: +60, Muscle Percent: -25, Mysticality Percent: -25, Moxie Percent: -25, Single Equip, Cold Resistance: -5, Hot Resistance: -5, Sleaze Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5
+Item	warbear plasma bowtie	WarBear Armor Penetration: +40, Single Equip
 # warbear polarized goggles: +15% Item Drops from WarBears
 Item	warbear polarized goggles	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Single Equip
 # warbear snowblindness goggles: +10% Item Drops from WarBears
@@ -4769,7 +4760,7 @@ Effect	Batteries Included	Crimbot Outfit Power: +4
 Effect	Batwards Masking	Avatar: "Batburglar"
 Effect	Be a Mind Master	Spell Damage Percent: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Bear Clawed	Weapon Damage Percent: +100
-# Bearserker Bearrage: +20 WarBear Armor Penetration
+Effect	Bearserker Bearrage	WarBear Armor Penetration: +20
 Effect	Beastly Flavor	Familiar Weight: +3
 Effect	Beaten Up	Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 Effect	Become Intensely interested	Combat Rate: +5
@@ -5434,7 +5425,7 @@ Effect	Flyin' Drunk	Initiative: +100, Damage Reduction: 25
 Effect	Fondid	Monster Level: +15
 Effect	Football Eyes	Muscle Percent: +10, Weapon Damage: +15, Initiative: -40
 Effect	For Your Brain Only	Mysticality: +30
-# Forbear, Warbears!: +40 WarBear Armor Penetration
+Effect	Forbear, Warbears!	WarBear Armor Penetration: +40
 Effect	Force of Mayo Be With You	Sleaze Damage: [pref(mayoLevel)+10], Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 # Form of...Bird!: You're a Bird
 # Form of...Cockroach!: You're a Cockroach
@@ -6984,17 +6975,16 @@ Effect	Wandering Eye Surgery	Item Drop: +50
 Effect	War is Hol	Avatar: "François Verte, Art Teacher"
 Effect	Warbear Blubber	Supercold Resistance: +3
 # Warbear Hunter: +10% Item Drops from WarBears
-# Warbear Hunter: +40 WarBear Armor Penetration
-Effect	Warbear Hunter	Supercold Resistance: +2
+Effect	Warbear Hunter	WarBear Armor Penetration: +40, Supercold Resistance: +2
 # Warbear Loot Lust: +15% Item Drops from WarBears
 Effect	Warbear on the Inside	Supercold Resistance: +2
-# Warbear Warlust: +60 WarBear Armor Penetration
+Effect	Warbear Warlust	WarBear Armor Penetration: +60
 Effect	Warlock Fairy Wizard Sorcerer	Avatar: "spooky gravy fairy warlock"
 Effect	Warlock, Warstock, and Warbarrel	Spell Damage Percent: +150
 # Warm Belly: Makes sushi taste better
 Effect	Warm Belly	Hot Damage: [+3*D]
 Effect	Warm Shoulders	Familiar Weight: +5, Experience (familiar): +5
-# Warriors, Come out to Playyyy: +60 WarBear Armor Penetration
+Effect	Warriors, Come out to Playyyy	WarBear Armor Penetration: +60
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +40, Item Drop: -20
 Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
