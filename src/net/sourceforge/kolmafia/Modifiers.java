@@ -240,6 +240,7 @@ public class Modifiers
 	public static final int ABSORB_STAT = 128;
 	public static final int RUBEE_DROP = 129;
 	public static final int KRUEGERAND_DROP = 130;
+	public static final int WARBEAR_ARMOR_PENETRATION = 131;
 
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
@@ -826,6 +827,10 @@ public class Modifiers
 		{ "Kruegerand Drop",
 		  Pattern.compile( "Lets you find (\\d+)% more Kruegerands" ),
 		  Pattern.compile( "Kruegerand Drop: " + EXPR )
+		},
+		{ "WarBear Armor Penetration",
+		  Pattern.compile( "([+-]\\d+) WarBear Armor Penetration" ),
+		  Pattern.compile( "WarBear Armor Penetration: " + EXPR )
 		},
 	};
 
