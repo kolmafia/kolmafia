@@ -8149,7 +8149,7 @@
 8123	gabardine garibaldi	815389978	gabgaribaldi.gif	hat		0
 8124	gabardine girdle	841940934	gabgirdle.gif	accessory		0
 8125	gabardine gloves	930657605	gabgloves.gif	accessory		0
-8126	gabardine smithereens	656094877	gabbits.gif	spleen, usable		0
+8126	gabardine smithereens	656094877	gabbits.gif	spleen, usable		0	handfuls of gabardine smithereens
 8127	fiberglass fetish	682017245	fiberfetish.gif	offhand		0
 8128	fiberglass foil	241698192	fiberfoil.gif	weapon		0
 8129	fiberglass fannypack	912996820	fiberfanny.gif	accessory		0
@@ -10112,7 +10112,7 @@
 10085	chalk chinos	673662708	chalkchinos.gif	pants		0
 10086	chalk chapeau	128828450	chalkchapeau.gif	hat		0
 10087	chalk choker	226026698	chalkchoker.gif	accessory		0
-10088	chalk chunks	467946203	chalkchunks.gif	spleen, usable		0
+10088	chalk chunks	467946203	chalkchunks.gif	spleen, usable		0	helpin's of chalk chunks
 10089	candy chalk	354029566	stirringstick.gif	usable	t,d	15
 10090	marble maebari	463444861	marblemaebari.gif	pants		0
 10091	marble mantle	803846379	marblemantle.gif	container		0
