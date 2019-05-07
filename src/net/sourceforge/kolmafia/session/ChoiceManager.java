@@ -7303,6 +7303,7 @@ public abstract class ChoiceManager
 	{
 		FightRequest.choiceFollowsFight = false;
 		ChoiceManager.handlingChoice = true;
+		FightRequest.currentRound = 0;
 
 		String choice = request.getFormField( "whichchoice" );
 		String option = request.getFormField( "option" );

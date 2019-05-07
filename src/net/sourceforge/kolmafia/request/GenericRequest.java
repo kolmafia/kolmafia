@@ -2867,6 +2867,7 @@ public class GenericRequest
 
 		if ( urlString.startsWith( "main.php" ) )
 		{
+			FightRequest.currentRound = 0;
 			if ( urlString.contains( "fightgodlobster=1" ) && this.responseText.contains( "can't challenge your God Lobster anymore" ) )
 			{
 				Preferences.setInteger( "_godLobsterFights", 3 );
