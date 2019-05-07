@@ -1282,6 +1282,7 @@ Item	flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 Item	foam pistol	Critical Hit Percent: +5, Experience Percent (Mysticality): +5
 Item	foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
 Item	fouet de tortue-dressage	Familiar Weight: +10, Familiar Damage: +10
+Item	Fourth of May Cosplay Saber	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 # Frankly Mr. Shank: Disco Bandit Combat Skills weaken enemies by an additional 25%
 # Frankly Mr. Shank: (+% to Moxie Based on Smithsness)
 Item	Frankly Mr. Shank	Smithsness: +5, Class: "Disco Bandit", Moxie Percent: [2*K]
@@ -9280,6 +9281,7 @@ Item	Fly-By-Knight Heraldry form	Free Pull
 Item	foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
 Item	forest spirit rattle	Effect: "Rattlin' Head", Effect Duration: 50
 # forest tears: Restores 5-10 HP
+Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
 Item	Freddie's blessing of Mercury	Effect: "You're High as a Crow, Marty", Effect Duration: 50
 Item	freezer-burned frost-bitten tortellini	Effect: "Blessing of the Frozen Tortellini", Effect Duration: 10
@@ -9965,6 +9967,7 @@ Item	old rosewater cream	Effect: "Rosewater Mark", Effect Duration: 25
 Item	Olympic-sized Clan crate	Free Pull
 Item	Omphalotus Omphaloskepsis mushroom	Effect: "Omphalotus Omnipresence", Effect Duration: 10
 Item	one glove	Effect: "Smoothly Criminal...ing", Effect Duration: 50
+Item	one piece of bubble gum	Effect: "Sugar Rush", Effect Duration: 10
 Item	one pill	Effect Duration: 0
 # onion shurikens: Deals 10-15 <font color=blueviolet>Sleaze Damage</font>
 # opium grenade: Stuns your opponent for a few rounds

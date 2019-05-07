@@ -10268,3 +10268,7 @@
 10241	vampyric cloake pattern	872832745	cloakepattern.gif	usable	t	0
 10242	vampyric cloake	894240195	cloake.gif	container		0
 10243	plastic pirate hat	634762498	pr_piratehat.gif	familiar	t,d	75
+10244	one piece of bubble gum	829221842	pieceof13.gif	usable	t,d	37
+
+10250	Fourth of May Cosplay Saber kit	328783447	may4swordkit.gif	usable	t	0
+10251	Fourth of May Cosplay Saber	651314979	may4sword.gif	weapon		0
