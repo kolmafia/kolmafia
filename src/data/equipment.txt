@@ -1086,6 +1086,7 @@ flypaper staff	80	Mus: 25	2-handed staff
 foam pistol	120	Mox: 0	1-handed pistol
 foot-long hot daub	85	Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
+Fourth of May Cosplay Saber	100	Mus: 0	1-handed saber
 Frankly Mr. Shank	100	Mus: 0	1-handed knife
 freezin' bindle	200	Mus: 200	2-handed polearm
 frigid derringer	100	Mox: 10	1-handed pistol
