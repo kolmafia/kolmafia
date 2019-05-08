@@ -705,7 +705,7 @@ public abstract class UseLinkDecorator
 			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
-				if ( KoLCharacter.canEat() )
+				if ( KoLCharacter.canEat() && !KoLCharacter.isVampyre() )
 				{
 					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
 				}
@@ -724,7 +724,7 @@ public abstract class UseLinkDecorator
 			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
-				if ( KoLCharacter.canEat() )
+				if ( KoLCharacter.canEat()&& !KoLCharacter.isVampyre() )
 				{
 					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
 				}
@@ -744,7 +744,7 @@ public abstract class UseLinkDecorator
 			{
 				ArrayList<UseLink> uses = new ArrayList<UseLink>();
 
-				if ( KoLCharacter.canEat() )
+				if ( KoLCharacter.canEat() && !KoLCharacter.isVampyre() )
 				{
 					uses.add( new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=" ) );
 				}
@@ -787,6 +787,11 @@ public abstract class UseLinkDecorator
 				return null;
 			}
 
+			if ( KoLCharacter.isVampyre() && !ConsumablesDatabase.consumableByVampyres( itemId ) )
+			{
+				return null;
+			}
+
 			if ( itemId == ItemPool.BLACK_PUDDING )
 			{
 				return new UseLink( itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=", false );
@@ -812,6 +817,11 @@ public abstract class UseLinkDecorator
 			}
 
 			if ( KoLCharacter.inNuclearAutumn() && ConsumablesDatabase.getInebriety( ItemDatabase.getCanonicalName( itemId ) ) > 1 )
+			{
+				return null;
+			}
+
+			if ( KoLCharacter.isVampyre() && !ConsumablesDatabase.consumableByVampyres( itemId ) )
 			{
 				return null;
 			}
