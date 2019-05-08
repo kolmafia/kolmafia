@@ -849,21 +849,18 @@ public class UseItemEnqueuePanel
 				}
 			}
 
+			// Vampyres, and only Vampyres can eat/drink bag of blood concoctions
 			if ( KoLCharacter.isVampyre() )
 			{
-				// Vampyres, and only Vampyres can eat/drink bag of blood concoctions
-				if ( ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) && !name.equals( "magical sausage" ) &&
-					( ConsumablesDatabase.getNotes( name ) == null || !ConsumablesDatabase.getNotes( name ).startsWith( "Vampyre" ) ) )
+				if ( ( UseItemEnqueuePanel.this.food || UseItemEnqueuePanel.this.booze ) &&
+				     !ConsumablesDatabase.consumableByVampyres( name ) )
 				{
 					return false;
 				}
 			}
-			else
+			else if ( ConsumablesDatabase.consumableOnlyByVampyres( name ) )
 			{
-				if ( ConsumablesDatabase.getNotes( name ) != null && ConsumablesDatabase.getNotes( name ).startsWith( "Vampyre" ) )
-				{
-					return false;
-				}
+				return false;
 			}
 
 			if ( Limitmode.limitClan() )

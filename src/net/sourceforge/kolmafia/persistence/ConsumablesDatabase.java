@@ -1392,4 +1392,20 @@ public class ConsumablesDatabase
 		String type = ConsumablesDatabase.dustyBottleType( itemId );
 		return type.equals( "dusty" ) ? name : StringUtilities.globalStringReplace( name, " of", " of " + type );
 	}
+
+	public static final boolean consumableOnlyByVampyres( final String name )
+	{
+		String notes = ConsumablesDatabase.getNotes( name );
+		return ( notes != null && notes.startsWith( "Vampyre" ) );
+	}
+
+	public static final boolean consumableByVampyres( final String name )
+	{
+		return ( name.equals( "magical sausage" ) || ConsumablesDatabase.consumableOnlyByVampyres( name ) );
+	}
+
+	public static final boolean consumableByVampyres( final int itemId )
+	{
+		return ConsumablesDatabase.consumableByVampyres( ItemDatabase.getDisplayName( itemId ) );
+	}
 }
