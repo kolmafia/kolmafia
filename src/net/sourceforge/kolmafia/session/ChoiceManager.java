@@ -105,6 +105,7 @@ import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.SaberRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
@@ -11548,6 +11549,10 @@ public abstract class ChoiceManager
 					}
 				}
 			}
+			break;
+
+		case 1386:
+			SaberRequest.parseResponse( urlString, text );
 			break;
 		}
 
