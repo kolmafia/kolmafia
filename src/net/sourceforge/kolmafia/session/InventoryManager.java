@@ -91,7 +91,6 @@ import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
 
 import net.sourceforge.kolmafia.session.Limitmode;
 
@@ -101,7 +100,6 @@ import net.sourceforge.kolmafia.textui.Interpreter;
 
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1608,7 +1606,7 @@ public abstract class InventoryManager
 		ItemListenerRegistry.fireItemChanged( itemId );
 	}
 
-	private static Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );
+	private static final Pattern COT_PATTERN = Pattern.compile( "Current Occupant:.*?<b>.* the (.*?)</b>" );
 	public static final AdventureResult CROWN_OF_THRONES = ItemPool.get( ItemPool.HATSEAT, 1 );
 
 	public static final void checkCrownOfThrones()
@@ -1686,12 +1684,11 @@ public abstract class InventoryManager
 		}
 	}
 
-	public static final AdventureResult NO_HAT = ItemPool.get( ItemPool.NO_HAT, 1 );
-
 	public static final void checkNoHat()
 	{
+		AdventureResult NO_HAT = ItemPool.get( ItemPool.NO_HAT, 1 );
 		String mod = Preferences.getString( "_noHatModifier" );
-		if ( !KoLCharacter.hasEquipped( InventoryManager.NO_HAT, EquipmentManager.HAT ) && !KoLConstants.inventory.contains( InventoryManager.NO_HAT ) )
+		if ( !KoLCharacter.hasEquipped( NO_HAT, EquipmentManager.HAT ) && !KoLConstants.inventory.contains( NO_HAT ) )
 		{
 			return;
 		}
@@ -1704,18 +1701,17 @@ public abstract class InventoryManager
 		Modifiers.overrideModifier( "Item:[" + ItemPool.NO_HAT + "]", mod );
 	}
 
-	public static final AdventureResult JICK_SWORD = ItemPool.get( ItemPool.JICK_SWORD, 1 );
-
 	public static final void checkJickSword()
 	{
+		AdventureResult JICK_SWORD = ItemPool.get( ItemPool.JICK_SWORD, 1 );
 		String mod = Preferences.getString( "jickSwordModifier" );
 		if ( !mod.equals( "" ) )
 		{
 			Modifiers.overrideModifier( "Item:[" + ItemPool.JICK_SWORD + "]", mod );
 			return;
 		}
-		if ( !KoLCharacter.hasEquipped( InventoryManager.JICK_SWORD, EquipmentManager.WEAPON ) &&
-		     !KoLConstants.inventory.contains( InventoryManager.JICK_SWORD ) )
+		if ( !KoLCharacter.hasEquipped( JICK_SWORD, EquipmentManager.WEAPON ) &&
+		     !KoLConstants.inventory.contains( JICK_SWORD ) )
 		{
 			// There are other places it could be, but it only needs to be
 			// checked once ever, and if the sword isn't being used then
@@ -1731,13 +1727,12 @@ public abstract class InventoryManager
 		}
 	}
 
-	public static final AdventureResult PANTOGRAM_PANTS = ItemPool.get( ItemPool.PANTOGRAM_PANTS, 1 );
-
 	public static final void checkPantogram()
 	{
+		AdventureResult PANTOGRAM_PANTS = ItemPool.get( ItemPool.PANTOGRAM_PANTS, 1 );
 		String mod = Preferences.getString( "_pantogramModifier" );
-		if ( !KoLCharacter.hasEquipped( InventoryManager.PANTOGRAM_PANTS, EquipmentManager.PANTS ) &&
-		     !KoLConstants.inventory.contains( InventoryManager.PANTOGRAM_PANTS ) )
+		if ( !KoLCharacter.hasEquipped( PANTOGRAM_PANTS, EquipmentManager.PANTS ) &&
+		     !KoLConstants.inventory.contains( PANTOGRAM_PANTS ) )
 		{
 			return;
 		}
@@ -1750,13 +1745,12 @@ public abstract class InventoryManager
 		Modifiers.overrideModifier( "Item:[" + ItemPool.PANTOGRAM_PANTS + "]", mod );
 	}
 
-	public static final AdventureResult LATTE_MUG = ItemPool.get( ItemPool.LATTE_MUG, 1 );
-
 	public static final void checkLatte()
 	{
+		AdventureResult LATTE_MUG = ItemPool.get( ItemPool.LATTE_MUG, 1 );
 		String mod = Preferences.getString( "latteModifier" );
-		if ( !KoLCharacter.hasEquipped( InventoryManager.LATTE_MUG, EquipmentManager.OFFHAND ) &&
-		     !KoLConstants.inventory.contains( InventoryManager.LATTE_MUG ) )
+		if ( !KoLCharacter.hasEquipped( LATTE_MUG, EquipmentManager.OFFHAND ) &&
+		     !KoLConstants.inventory.contains( LATTE_MUG ) )
 		{
 			return;
 		}
@@ -1767,6 +1761,35 @@ public abstract class InventoryManager
 			Preferences.setString( "latteModifier", mod );
 		}
 		Modifiers.overrideModifier( "Item:[" + ItemPool.LATTE_MUG + "]", mod );
+	}
+
+	public static final void checkSaber()
+	{
+		AdventureResult SABER = ItemPool.get( ItemPool.FOURTH_SABER, 1 );
+		if ( !KoLCharacter.hasEquipped( SABER ) && SABER.getCount( KoLConstants.inventory ) == 0 && SABER.getCount( KoLConstants.closet ) == 0 )
+		{
+			return;
+		}
+		if ( Preferences.getString( "_saberMod" ).equals( "0" ) )
+		{
+			String rawText = DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( ItemPool.FOURTH_SABER ), true );
+			if ( rawText.contains( "15-20 MP" ) )
+			{
+				Preferences.setInteger( "_saberMod", 1 );
+			}
+			else if ( rawText.contains( "Monster Level" ) )
+			{
+				Preferences.setInteger( "_saberMod", 2 );
+			}
+			else if ( rawText.contains( "Serious" ) )
+			{
+				Preferences.setInteger( "_saberMod", 3 );
+			}
+			else if ( rawText.contains( "Familiar Weight" ) )
+			{
+				Preferences.setInteger( "_saberMod", 4 );
+			}
+		}
 	}
 
 	public static final void checkKGB()

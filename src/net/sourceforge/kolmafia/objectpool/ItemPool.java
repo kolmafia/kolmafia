@@ -3101,6 +3101,7 @@ public class ItemPool
 	public static final int ISLAND_DRINKIN = 10211;
 	public static final int PIRATE_REALM_FUN_LOG = 10225;
 	public static final int SCURVY_AND_SOBRIETY_PREVENTION = 10228;
+	public static final int FOURTH_SABER = 10251;
 
 	public static final AdventureResult get( String itemName, int count )
 	{

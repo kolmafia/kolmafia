@@ -1681,6 +1681,7 @@ user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
 user	_romanticFightsLeft	0
+user	_saberMod	0
 user	_saltGrainsConsumed	0
 user	_sausageFights	0
 user	_sausagesEaten	0
