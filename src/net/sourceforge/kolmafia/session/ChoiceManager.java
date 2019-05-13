@@ -4410,6 +4410,13 @@ public abstract class ChoiceManager
 			new Object[] { new Option( "cure patient", 1 ) } ),
 
 		// Choice 1342 is Torpor
+		
+		// Choice 1345 is Blech House
+		new ChoiceAdventure(
+			"Mountain", "choiceAdventure1345", "Blech House",
+			new Object[] { new Option( "use muscle/weapon damage", 1 ),
+			               new Option( "use myst/spell damage", 2 ),
+			               new Option( "use mox/sleaze res", 3 ) } ),
 
 	};
 
