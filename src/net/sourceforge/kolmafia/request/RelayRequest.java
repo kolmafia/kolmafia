@@ -1873,7 +1873,8 @@ public class RelayRequest
 		String message;
 
 		message =
-			"You are about to adventure without reading the Mortar disolving recipe with glasses equipped. If you are sure you want to do this, click on the image to proceed.";
+			"You are about to adventure without reading the Mortar dissolving recipe with glasses equipped. " + 
+			" If you are sure you want to do this, click on the image to proceed.";
 
 		this.sendGeneralWarning( "burgerrecipe.gif", message, CONFIRM_CELLAR );
 
