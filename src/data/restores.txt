@@ -41,7 +41,7 @@ Cloaca-Cola	item	0	0	[10*(1+equipped(Dyspepsi-Cola-issue canteen))]	[14*(1+equip
 Cloaca Cola Polar	item	0	0	100	200	0
 comfy pillow	item	20	30	0	0	0
 Comfy Sofa	loc	[L*5-1]	[L*5+1]	[L*5-1]	[L*5+1]	1
-cotton bandages	item	20	40	0	0	0
+cotton bandages	item	40	80	0	0	0
 cotton candy bale	item	41	82	41	82	0
 cotton candy cone	item	26	52	26	52	0
 cotton candy pillow	item	34	68	34	68	0
@@ -89,7 +89,7 @@ Knob Goblin seltzer	item	0	0	8	12	0
 Knob Goblin superseltzer	item	0	0	25	29	0
 Lasagna Bandages	skill	10	30	0	0	0
 Laugh It Off	skill	1	2	0	0	0
-linen bandages	item	10	20	0	0	0
+linen bandages	item	20	40	0	0	0
 magical mystery juice	item	0	0	[floor(L*1.5)+4]	[floor(L*1.5)+6]	0
 magnolia blossom	item	15	30	15	30	0
 Marquis de Poivre soda	item	0	0	30	40	0
@@ -138,7 +138,7 @@ scroll of drastic healing	item	[HP]	[HP]	0	0	0
 sew-on bandage	item	300	300	0	0	0
 sewing kit	item	1000	1000	0	0
 Shake it off	skill	[HP]	[HP]	0	0	0
-silk bandages	item	40	80	0	0	0
+silk bandages	item	80	160	0	0	0
 soda water	item	0	0	3	5	0
 Soul Food	skill	0	0	15	15	0
 sparking robo-battery	item	0	0	80	100	0
