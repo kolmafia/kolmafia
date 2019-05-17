@@ -13898,6 +13898,11 @@ public abstract class ChoiceManager
 			{
 				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
 			}
+			else
+			{
+				// In Ed, the item isn't mentioned, so get it from Quest Log instead.
+				RequestThread.postRequest( new QuestLogRequest() );
+			}
 			break;
 		}
 
