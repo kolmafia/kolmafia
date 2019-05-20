@@ -8970,6 +8970,12 @@ public abstract class ChoiceManager
 		case 851:
 			// Shen Copperhead, Nightclub Owner
 			QuestDatabase.setQuestProgress( Quest.SHEN, "step1" );
+			if ( Preferences.getString( "shenQuestItem" ) == "" )
+			{
+				// We didn't recognise quest text before accepting quest, so get it from quest log
+				RequestThread.postRequest( new QuestLogRequest() );
+			}
+
 			break;
 
 		case 852:
@@ -13897,11 +13903,6 @@ public abstract class ChoiceManager
 			if ( matcher.find() )
 			{
 				Preferences.setString( "shenQuestItem", matcher.group( 1 ) );
-			}
-			else
-			{
-				// In Ed, the item isn't mentioned, so get it from Quest Log instead.
-				RequestThread.postRequest( new QuestLogRequest() );
 			}
 			break;
 		}
