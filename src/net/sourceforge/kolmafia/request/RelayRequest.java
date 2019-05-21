@@ -797,15 +797,19 @@ public class RelayRequest
 		{
 		}
 
-		// Make sure that the file is in the file system
-		if ( !override.exists() )
-		{
-			this.sendNotFound();
-			return;
-		}
-
 		// Read the file
-		StringBuffer replyBuffer = this.readContents( DataUtilities.getReader( override ) );
+		StringBuffer replyBuffer = null;
+
+		if ( override.exists() )
+		{
+			// If the file is in the file system, it is a local override
+			replyBuffer = this.readContents( DataUtilities.getReader( override ) );
+		} else {
+			// If the file is not in the file system, it's probably a KoL
+			// file which is not in the image directory for some reason.
+			// Download it from KoL.
+			replyBuffer = FileUtilities.downloadFile( "http://www.kingdomofloathing.com/" + filename );
+		}
 
 		// If it is a KoLmafia built-in file, as opposed to the
 		// user-supplied relay script, do special things

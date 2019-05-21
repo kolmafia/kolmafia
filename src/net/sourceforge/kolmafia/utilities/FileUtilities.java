@@ -34,6 +34,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -241,54 +242,23 @@ public class FileUtilities
 		return true;
 	}
 
-	public static final void downloadFile( final String remote, final File local )
+	private static HttpURLConnection connectToRemoteFile( final String remote )
 	{
-		// Assume that any file with content is good
-		FileUtilities.downloadFile( remote, local, false );
-	}
-
-	public static final void downloadFile( final String remote, final File local, boolean probeLastModified )
-	{
-		if ( !local.exists() || local.length() == 0 )
-		{
-			// If we don't have it cached, don't probe
-			probeLastModified = false;
-		}
-		else if ( !probeLastModified )
-		{
-			// If we are not probing, assume that a file with content is good
-			return;
-		}
-
-		HttpURLConnection connection;
 		try
 		{
-			connection = (HttpURLConnection) new URL( null, remote ).openConnection();
+			return (HttpURLConnection) new URL( null, remote ).openConnection();
 		}
 		catch ( IOException e )
 		{
-			return;
+			return null;
 		}
+	}
 
-		if ( probeLastModified )
-		{
-			//This isn't perfect, because the user could've modified the file themselves, but it's better than nothing.
-			connection.setIfModifiedSince( local.lastModified() );
-		}
-
-		if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
-		{
-			Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher( local.getPath() );
-			if ( idMatcher.find() )
-			{
-				connection.setRequestProperty(
-					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
-			}
-		}
-
+	private static void downloadFileToStream( final String remote, final HttpURLConnection connection, final OutputStream ostream )
+	{
 		if ( RequestLogger.isDebugging() )
 		{
-			GenericRequest.printRequestProperties( remote, (HttpURLConnection)connection );
+			GenericRequest.printRequestProperties( remote, connection );
 		}
 
 		if ( RequestLogger.isTracing() )
@@ -336,7 +306,7 @@ public class FileUtilities
 
 		if ( RequestLogger.isDebugging() )
 		{
-			GenericRequest.printHeaderFields( remote, (HttpURLConnection)connection );
+			GenericRequest.printHeaderFields( remote, connection );
 		}
 
 		if ( RequestLogger.isTracing() )
@@ -344,7 +314,6 @@ public class FileUtilities
 			RequestLogger.trace( "Retrieved: " + remote );
 		}
 
-		OutputStream ostream = DataUtilities.getOutputStream( local );
 		try
 		{
 			// If it's Javascript, then modify it so that
@@ -392,6 +361,66 @@ public class FileUtilities
 		{
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	public static final StringBuffer downloadFile( final String remote )
+	{
+		HttpURLConnection connection = connectToRemoteFile( remote );
+		if ( connection == null )
+		{
+			System.out.println( remote );
+			return new StringBuffer();
+		}
+
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+		downloadFileToStream( remote, connection, ostream );
+		return new StringBuffer( StringUtilities.getEncodedString( ostream.toByteArray(), "UTF-8" ) );
+	}
+
+	public static final void downloadFile( final String remote, final File local )
+	{
+		// Assume that any file with content is good
+		FileUtilities.downloadFile( remote, local, false );
+	}
+
+	public static final void downloadFile( final String remote, final File local, boolean probeLastModified )
+	{
+		if ( !local.exists() || local.length() == 0 )
+		{
+			// If we don't have it cached, don't probe
+			probeLastModified = false;
+		}
+		else if ( !probeLastModified )
+		{
+			// If we are not probing, assume that a file with content is good
+			return;
+		}
+
+		HttpURLConnection connection = connectToRemoteFile( remote );
+		if ( connection == null )
+		{
+			return;
+		}
+
+		if ( probeLastModified )
+		{
+			//This isn't perfect, because the user could've modified the file themselves, but it's better than nothing.
+			connection.setIfModifiedSince( local.lastModified() );
+		}
+
+		if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+		{
+			Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher( local.getPath() );
+			if ( idMatcher.find() )
+			{
+				connection.setRequestProperty(
+					"Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group( 1 ) );
+			}
+		}
+		
+		OutputStream ostream = DataUtilities.getOutputStream( local );
+
+		downloadFileToStream( remote, connection, ostream );
 
 		// Don't keep a 0-length file
 		if ( local.exists() && local.length() == 0 )
