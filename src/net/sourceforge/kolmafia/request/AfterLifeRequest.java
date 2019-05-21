@@ -592,6 +592,9 @@ public class AfterLifeRequest
 			case 35:
 				builder.append( "a Dark Gyffte" );
 				break;
+			case 36:
+				builder.append( "a Two Crazy Random Summer" );
+				break;
 			default:
 				builder.append( "(Path " );
 				builder.append( String.valueOf( path ) );

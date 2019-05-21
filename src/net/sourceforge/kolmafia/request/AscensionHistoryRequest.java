@@ -840,6 +840,7 @@ public class AscensionHistoryRequest
 				path[ 1 ].equals( "G-Lover" ) ? AscensionSnapshot.GLOVER :
 				path[ 1 ].equals( "Disguises Delimit" ) ? AscensionSnapshot.DISGUISES_DELIMIT :
 				path[ 1 ].equals( "Dark Gyffte" ) ? AscensionSnapshot.DARK_GYFFTE :
+				path[ 1 ].equals( "Two Crazy Random Summer" ) ? AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO :
 				AscensionSnapshot.UNKNOWN_PATH;
 		}
 

@@ -510,6 +510,10 @@ public class ValhallaManager
 		{
 			sessionStream.print( "Dark Gyffte " );
 		}
+		else if ( KoLCharacter.isCrazyRandomTwo() )
+		{
+			sessionStream.print( "Two Crazy Random Summer " );
+		}
 		else if ( KoLCharacter.getRestricted() )
 		{
 			sessionStream.print( "Standard " );

@@ -89,6 +89,7 @@ public class AscensionSnapshot
 	public static final int GLOVER = 33;
 	public static final int DISGUISES_DELIMIT = 34;
 	public static final int DARK_GYFFTE = 35;
+	public static final int CRAZY_RANDOM_SUMMER_TWO = 36;
 
 	public static final int UNKNOWN_CLASS = -1;
 	public static final int SEAL_CLUBBER = 1;
@@ -245,6 +246,10 @@ public class AscensionSnapshot
 
 		if ( typeFilter != AscensionSnapshot.CASUAL )
 		{
+			strbuf.append( KoLConstants.LINE_BREAK );
+			strbuf.append( AscensionSnapshot.getPathedAscensionData(
+				typeFilter, AscensionSnapshot.CRAZY_RANDOM_SUMMER_TWO, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,
+				localProfileLink ) );
 			strbuf.append( KoLConstants.LINE_BREAK );
 			strbuf.append( AscensionSnapshot.getPathedAscensionData(
 				typeFilter, AscensionSnapshot.DARK_GYFFTE, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce,

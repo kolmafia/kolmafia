@@ -738,6 +738,10 @@ public class AccountRequest
 		{
 			path = "Dark Gyffte";
 		}
+		else if ( path.equals( "36" ) )
+		{
+			path = "Two Crazy Random Summer";
+		}
 		KoLCharacter.setPath( path );
 
 		boolean hardcore = JSON.getInt( "hardcore" ) == 1 || sign.equals( "Bad Moon" );
