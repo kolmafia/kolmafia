@@ -182,6 +182,7 @@ public abstract class KoLCharacter
 	public static final String GLOVER = "G-Lover";
 	public static final String DISGUISES_DELIMIT = "Disguises Delimit";
 	public static final String DARK_GYFFTE = "Dark Gyffte";
+	public static final String CRAZY_RANDOM_TWO = "Two Crazy Random Summer";
 
 	public static final String SEAL_CLUBBER = "Seal Clubber";
 	private static final List<String> SEAL_CLUBBER_RANKS = new ArrayList<String>();
@@ -4048,6 +4049,11 @@ public abstract class KoLCharacter
 	public static final boolean isCrazyRandom()
 	{
 		return KoLCharacter.ascensionPath.equals( CRAZY_RANDOM );
+	}
+
+	public static final boolean isCrazyRandomTwo()
+	{
+		return KoLCharacter.ascensionPath.equals( CRAZY_RANDOM_TWO );
 	}
 
 	public static final boolean isCommunityService()
