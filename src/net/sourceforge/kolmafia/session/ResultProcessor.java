@@ -600,10 +600,11 @@ public class ResultProcessor
 			item = "Love Potion #XYZ";
 		}
 
+		boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
+
 		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = items.size() == 0 ? null : items.getFirst();
-			boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
 
 			if ( result != null && ( !checkItemName || item.equals( result.getName() ) ) )
 			{
@@ -670,7 +671,7 @@ public class ResultProcessor
 
 		AdventureResult result = items.size() == 0 ? null : items.getFirst();
 
-		if ( result != null && itemName.equals( result.getName() ) )
+		if ( result != null && ( !checkItemName || itemName.equals( result.getName() ) ) )
 		{
 			items.removeFirst();
 			ResultProcessor.processItem( combatResults, acquisition, result, data );
