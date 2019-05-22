@@ -183,6 +183,9 @@ public class ResultProcessor
 		StringBuffer buffer = new StringBuffer();
 		boolean changed = false;
 
+		// Item names have a lot of extra adjectives in Two Crazy Random Summer
+		boolean crazyRandomAdjectives = KoLCharacter.isCrazyRandomTwo();
+
 		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
 		while ( itemMatcher.find() )
 		{
@@ -192,6 +195,9 @@ public class ResultProcessor
 			Matcher boldMatcher = ResultProcessor.BOLD_NAME_PATTERN.matcher( itemMatcher.group(0) );
 			String boldName = boldMatcher.find() ? boldMatcher.group(1) : null;
 			String comment = boldName != null ? boldMatcher.group(2) : null;
+
+			// Both itemName and boldName can have adjectives. If
+			// it's a new item, we can't know the real name.
 
 			// If we don't know this descid, it's an unknown item.
 			if ( ItemDatabase.getItemIdFromDescription( descId ) == -1 )
@@ -203,6 +209,12 @@ public class ResultProcessor
 			AdventureResult item = ItemDatabase.itemFromRelString( relString );
 			int itemId = item.getItemId();
 			int count = item.getCount();
+			String name = item.getName();
+
+			if ( crazyRandomAdjectives )
+			{
+				ResultProcessor.handleCrazyRandomAdjectives( item, boldName );
+			}
 
 			// Check if multiusability conflicts with our expectations
 			boolean multi= ItemDatabase.relStringMultiusable( relString );
@@ -211,24 +223,27 @@ public class ResultProcessor
 			{
 				String message =
 					( multi ) ?
-					itemName + " is multiusable, but KoLmafia thought it was not" :
-					itemName + " is not multiusable, but KoLmafia thought it was";
+					name + " is multiusable, but KoLmafia thought it was not" :
+					name + " is not multiusable, but KoLmafia thought it was";
 
 				RequestLogger.printLine( message );
 				RequestLogger.updateSessionLog( message );
 				ItemDatabase.registerMultiUsability( itemId, multi );
 			}
 
-			// If we got more than one, check if plural name
-			// conflicts with our expectations
-			String plural = ItemDatabase.extractItemsPlural( count, boldName );
-			String ourPlural = plural == null ? null : ItemDatabase.getPluralName( itemId );
-			if ( plural != null && !plural.equals( ourPlural ) )
+			// If we got more than one, check plural name.
+			// Can't do this in Two Crazy Random Summer
+			if ( !crazyRandomAdjectives )
 			{
-				String message = "Unexpected plural of '" + itemName + "' found: " + plural;
-				RequestLogger.printLine( message );
-				RequestLogger.updateSessionLog( message );
-				ItemDatabase.registerPlural( itemId, plural );
+				String plural = ItemDatabase.extractItemsPlural( count, boldName );
+				String ourPlural = plural == null ? null : ItemDatabase.getPluralName( itemId );
+				if ( plural != null && !plural.equals( ourPlural ) )
+				{
+					String message = "Unexpected plural of '" + name + "' found: " + plural;
+					RequestLogger.printLine( message );
+					RequestLogger.updateSessionLog( message );
+					ItemDatabase.registerPlural( itemId, plural );
+				}
 			}
 
 			// Log it if we pickpocket something "impossible"
@@ -243,16 +258,16 @@ public class ResultProcessor
 						switch ( (char) monsterItem.getCount() & 0xFFFF )
 						{
 						case 'n':
-							message = "Pickpocketed item " + itemName + " which is marked as non pickpocketable.";
+							message = "Pickpocketed item " + name + " which is marked as non pickpocketable.";
 							break;
 						case 'c':
-							message = "Pickpocketed item " + itemName + " which is marked as conditional.";
+							message = "Pickpocketed item " + name + " which is marked as conditional.";
 							break;
 						case 'f':
-							message = "Pickpocketed item " + itemName + " which is marked as fixed chance.";
+							message = "Pickpocketed item " + name + " which is marked as fixed chance.";
 							break;
 						case 'a':
-							message = "Pickpocketed item " + itemName + " which is marked as accordion steal.";
+							message = "Pickpocketed item " + name + " which is marked as accordion steal.";
 							break;
 						}
 						if ( message != null )
@@ -311,6 +326,9 @@ public class ResultProcessor
 	{
 		LinkedList<AdventureResult> items = new LinkedList<AdventureResult>();
 
+		// Item names have a lot of extra adjectives in Two Crazy Random Summer
+		boolean crazyRandomAdjectives = KoLCharacter.isCrazyRandomTwo();
+
 		Matcher itemMatcher = ResultProcessor.ITEM_TABLE_PATTERN.matcher( results );
 		while ( itemMatcher.find() )
 		{
@@ -327,13 +345,25 @@ public class ResultProcessor
 				ItemDatabase.registerItem( itemName, descId, relString, boldName );
 			}
 
+			AdventureResult item = ItemDatabase.itemFromRelString( relString );
+			if ( crazyRandomAdjectives )
+			{
+				ResultProcessor.handleCrazyRandomAdjectives( item, boldName );
+			}
+
 			if ( !hagnk )
 			{
-				items.add( ItemDatabase.itemFromRelString( relString ) );
+				items.add( item );
 			}
 		}
 
 		return items;
+	}
+
+	private static void handleCrazyRandomAdjectives( final AdventureResult item, final String name )
+	{
+		// If we want to register the adjectives for a particular item, we could do it here.
+		// System.out.println( "Item '" + item.getName() + "' is named '" +  name + "' in TCRS" );
 	}
 
 	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>
@@ -573,8 +603,9 @@ public class ResultProcessor
 		if ( acquisition.contains( "an item" ) )
 		{
 			AdventureResult result = items.size() == 0 ? null : items.getFirst();
+			boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
 
-			if ( result != null && item.equals( result.getName() ) )
+			if ( result != null && ( !checkItemName || item.equals( result.getName() ) ) )
 			{
 				items.removeFirst();
 				ResultProcessor.processItem( combatResults, acquisition, result, data );
