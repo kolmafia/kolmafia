@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia.persistence;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -273,6 +274,8 @@ public class TCRSDatabase
 		{
 			applyModifiers( entry.getKey(), entry.getValue() );
 		}
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 		return true;
 	}
 
@@ -282,6 +285,16 @@ public class TCRSDatabase
 		return applyModifiers( id, TCRSMap.get( id ) );
 	}
 
+	private static int qualityMultiplier( String quality )
+	{
+		return  "EPIC".equals( quality ) ? 5 :
+			"awesome".equals( quality ) ? 4 :
+			"good".equals( quality ) ? 3 :
+			"decent".equals( quality ) ? 2 :
+			"crappy".equals( quality ) ? 1 :
+			0;
+	}
+
 	public static boolean applyModifiers( final Integer itemId, final TCRS tcrs )
 	{
 		// Adjust item data to have TCRS modifiers
@@ -289,6 +302,34 @@ public class TCRSDatabase
 		{
 			return false;
 		}
+
+		String itemName = ItemDatabase.getItemName( itemId );
+		if ( itemName == null )
+		{
+			return false;
+		}
+
+		int usage = ItemDatabase.getConsumptionType( itemId );
+		if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK || usage == KoLConstants.CONSUME_SPLEEN )
+		{
+			Integer lint = ConsumablesDatabase.getLevelReqByName( itemName );
+			int level = lint == null ? 0 : lint.intValue();
+			// Guess
+			int adv = tcrs.size * qualityMultiplier( tcrs.quality );
+			int mus = 0;
+			int mys = 0;
+			int mox = 0;
+			// Could include effect
+			String comment = "Unspaded";
+			ConsumablesDatabase.updateConsumableSize( itemName, usage, tcrs.size );
+			ConsumablesDatabase.updateConsumable( itemName, tcrs.size, level, tcrs.quality, String.valueOf( adv ),
+							      String.valueOf( mus ), String.valueOf( mys ), String.valueOf( mox ),
+							      comment );
+		}
+
+		// Set modifiers
+		Modifiers.updateItem( itemName, tcrs.modifiers );
+
 		return true;
 	}
 

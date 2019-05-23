@@ -4509,6 +4509,12 @@ public class Modifiers
 		Modifiers.registerObject( "Outfit", name, unknown, known );
 	}
 
+	public static final void updateItem( final String name, final String known )
+	{
+		String lookup = Modifiers.getLookupName( "Item", name );
+		Modifiers.modifiersByName.put( lookup, known );
+	}
+
 	private static final void registerObject( final String type, final String name, final ArrayList<String> unknown, final String known )
 	{
 		for ( String value : unknown )
