@@ -94,6 +94,7 @@ public class TCRSCommand
 
 		if ( command.equals( "apply" ) )
 		{
+			TCRSDatabase.applyModifiers();
 			return;
 		}
 

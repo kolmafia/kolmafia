@@ -597,6 +597,22 @@ public class ConsumablesDatabase
 		return KoLConstants.SINGLE_PRECISION_FORMAT.format( ( isNegative ? 1 : statFactor ) * num / statUnit );
 	}
 
+	public static void updateConsumableSize( final String itemName, final int usage, final int size )
+	{
+		if ( usage == KoLConstants.CONSUME_EAT )
+		{
+			ConsumablesDatabase.fullnessByName.put( itemName, size );
+		}
+		else if ( usage == KoLConstants.CONSUME_DRINK )
+		{
+			ConsumablesDatabase.inebrietyByName.put( itemName, size );
+		}
+		else if ( usage == KoLConstants.CONSUME_SPLEEN )
+		{
+			ConsumablesDatabase.spleenHitByName.put( itemName, size );
+		}
+	}
+
 	public static void registerConsumable( final String itemName, final int usage, final String text )
 	{
 		// Get information from description
@@ -622,18 +638,7 @@ public class ConsumablesDatabase
 		String quality = DebugDatabase.parseQuality( text );
 
 		// Add consumption data for this session
-		if ( usage == KoLConstants.CONSUME_EAT )
-		{
-			ConsumablesDatabase.fullnessByName.put( itemName, size );
-		}
-		else if ( usage == KoLConstants.CONSUME_DRINK )
-		{
-			ConsumablesDatabase.inebrietyByName.put( itemName, size );
-		}
-		else if ( usage == KoLConstants.CONSUME_SPLEEN )
-		{
-			ConsumablesDatabase.spleenHitByName.put( itemName, size );
-		}
+		ConsumablesDatabase.updateConsumableSize( itemName, usage, size );
 
 		ConsumablesDatabase.setConsumptionData( itemName, size, level, quality, "0", "0", "0", "0", "Unspaded" );
 
@@ -641,6 +646,13 @@ public class ConsumablesDatabase
 		String printMe = ConsumablesDatabase.consumableString( itemName, size, level, quality, "0", "0", "0", "0", "Unspaded" );
 		RequestLogger.printLine( printMe );
 		RequestLogger.updateSessionLog( printMe );
+	}
+
+	public static void updateConsumable( final String itemName, final int size, final int level, final String quality,
+					     final String advs, final String mus, final String mys, final String mox,
+					     final String comment )
+	{
+		ConsumablesDatabase.setConsumptionData( itemName, size, level, quality, advs, mus, mys, mox, comment );
 	}
 
 	public static final Integer getLevelReqByName( final String name )
