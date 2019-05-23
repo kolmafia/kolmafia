@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -362,8 +363,12 @@ public class ResultProcessor
 
 	private static void handleCrazyRandomAdjectives( final AdventureResult item, final String name )
 	{
-		// If we want to register the adjectives for a particular item, we could do it here.
-		// System.out.println( "Item '" + item.getName() + "' is named '" +  name + "' in TCRS" );
+		// Add to TCRS data map if not already present
+		int itemId = item.getItemId();
+		if ( TCRSDatabase.derive( itemId ) )
+		{
+			TCRSDatabase.applyModifiers( itemId );
+		}
 	}
 
 	// <table><tr><td><img class=hand src="http://images.kingdomofloathing.com/itemimages/breath.gif" onClick='eff("7ecbd57bcb86d63be06bb6d4b8e7229f");' width=30 height=30 alt="Hot Breath" title="Hot Breath"></td><td valign=center class=effect>You acquire an effect: <b>Hot Breath</b><br>(duration: 5 Adventures)</td></tr></table>

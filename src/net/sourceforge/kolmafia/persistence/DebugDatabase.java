@@ -863,6 +863,12 @@ public class DebugDatabase
 		return StringUtilities.parseInt( matcher.group( 1 ) );
 	}
 
+	public static final int parseConsumableSize( final String text )
+	{
+		Matcher matcher = DebugDatabase.SIZE_PATTERN.matcher( text );
+		return matcher.find() ? StringUtilities.parseInt( matcher.group( 1 ) ) : 0;
+	}
+
 	private static final void checkEquipment( final PrintStream report )
 	{
 

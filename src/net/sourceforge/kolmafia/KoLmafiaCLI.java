@@ -877,6 +877,7 @@ public class KoLmafiaCLI
 		new SwimmingPoolCommand().register( "swim" );
 		new SynthesizeCommand().register( "synthesize" );
 		new TaleOfDreadCommand().register( "taleofdread" );
+		new TCRSCommand().register( "tcrs" );
 		new TeaTreeCommand().register( "teatree" );
 		new TelescopeCommand().register( "telescope" );
 		new TerminalCommand().register( "terminal" );
