@@ -326,6 +326,16 @@ public abstract class KoLCharacter
 		"Packrat"
 	};
 
+	public static final String[] STANDARD_CLASSES = new String[]
+	{
+		KoLCharacter.SEAL_CLUBBER,
+		KoLCharacter.TURTLE_TAMER,
+		KoLCharacter.PASTAMANCER,
+		KoLCharacter.SAUCEROR,
+		KoLCharacter.DISCO_BANDIT,
+		KoLCharacter.ACCORDION_THIEF,
+	};
+
 	public static final int MALE = -1;
 	public static final int FEMALE = 1;
 
