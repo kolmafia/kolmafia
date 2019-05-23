@@ -215,6 +215,11 @@ public class ConsumablesDatabase
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
 		ConsumablesDatabase.setConsumptionData( name, size, 1, "", adventures, muscle, mysticality, moxie, note );
+		Concoction c = ConcoctionPool.get( name );
+		if ( c != null )
+		{
+			c.setConsumptionData();
+		}
 	}
 
 	private static final void setConsumptionData( final String name, final int size, final int level, final String quality,

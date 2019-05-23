@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -219,10 +220,6 @@ public class TCRSDatabase
 
 		for ( Integer id : keys )
 		{
-			if ( verbose && ( ( id % 100 ) == 0 ) )
-			{
-				RequestLogger.printLine( id + "..." );
-			}
 			derive( id );
 		}
 
@@ -315,7 +312,7 @@ public class TCRSDatabase
 			Integer lint = ConsumablesDatabase.getLevelReqByName( itemName );
 			int level = lint == null ? 0 : lint.intValue();
 			// Guess
-			int adv = tcrs.size * qualityMultiplier( tcrs.quality );
+			int adv = ( usage == KoLConstants.CONSUME_SPLEEN ) ? 0 : (tcrs.size * qualityMultiplier( tcrs.quality ) );
 			int mus = 0;
 			int mys = 0;
 			int mox = 0;
