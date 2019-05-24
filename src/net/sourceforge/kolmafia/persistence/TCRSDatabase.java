@@ -249,11 +249,24 @@ public class TCRSDatabase
 			return false;
 		}
 
+		TCRS tcrs = deriveItem( itemId );
+		if ( tcrs == null )
+		{
+			return false;
+		}
+		
+		TCRSMap.put( itemId, tcrs );
+
+		return true;
+	}
+
+	public static TCRS deriveItem( final int itemId )
+	{
 		// Read the Item Description
 		String text = DebugDatabase.itemDescriptionText( itemId, false );
 		if ( text == null )
 		{
-			return false;
+			return null;
 		}
 
 		// Parse the things that are changed in TCRS
@@ -263,11 +276,8 @@ public class TCRSDatabase
 		ArrayList<String> unknown = new ArrayList<String>();
 		String modifiers = DebugDatabase.parseItemEnchantments( text, unknown, -1 );
 
-		// Create and save the TCRS object
-		TCRS tcrs = new TCRS( name, size, quality, modifiers );
-		TCRSMap.put( itemId, tcrs );
-
-		return true;
+		// Create and return the TCRS object
+		return new TCRS( name, size, quality, modifiers );
 	}
 
 	public static boolean applyModifiers()
@@ -294,6 +304,10 @@ public class TCRSDatabase
 
 	public static boolean applyModifiers( int itemId )
 	{
+		if ( ItemDatabase.isFamiliarEquipment( itemId ) )
+		{
+			return false;
+		}
 		Integer id = IntegerPool.get( itemId );
 		return applyModifiers( id, TCRSMap.get( id ) );
 	}

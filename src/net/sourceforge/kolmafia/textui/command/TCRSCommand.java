@@ -36,14 +36,17 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase.TCRS;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TCRSCommand
 	extends AbstractCommand
 {
 	public TCRSCommand()
 	{
-		this.usage = " load | save | derive | apply - handle item modifiers for Two Crazy Random Summerlist or manipulate your closet.";
+		this.usage = " load | save | derive | check # | apply - handle item modifiers for Two Crazy Random Summer.";
 	}
 
 	@Override
@@ -89,6 +92,30 @@ public class TCRSCommand
 		if ( command.equals( "derive" ) )
 		{
 			TCRSDatabase.derive( true );
+			return;
+		}
+
+		if ( command.equals( "check" ) )
+		{
+			if ( split.length != 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Check what item #?" );
+				return;
+			}
+
+			int itemId = StringUtilities.parseInt( split[ 1 ] );
+			TCRS tcrs = TCRSDatabase.deriveItem( itemId );
+			if ( tcrs == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Item #" + itemId + " does not have a description" );
+				return;
+			}
+			
+			RequestLogger.printLine( "name = " + tcrs.name );
+			RequestLogger.printLine( "size = " + tcrs.size );
+			RequestLogger.printLine( "quality = " + tcrs.quality );
+			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
+
 			return;
 		}
 
