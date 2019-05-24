@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2018, KoLmafia development team
+ * Copyright (c) 2005-2019, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -11565,7 +11565,11 @@ public abstract class ChoiceManager
 			break;
 
 		case 1386:
-			SaberRequest.parseResponse( urlString, text );
+			SaberRequest.parseUpgrade( urlString, text );
+			break;
+
+		case 1387:
+			SaberRequest.parseForce( urlString, text );
 			break;
 		}
 

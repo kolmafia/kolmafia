@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2018, KoLmafia development team
+ * Copyright (c) 2005-2019, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -542,6 +542,7 @@ public class AdventureRequest
 				     !EncounterManager.isEnamorangEncounter( responseText, false ) &&
 				     !EncounterManager.isDigitizedEncounter( responseText, false ) &&
 				     !EncounterManager.isRomanticEncounter( responseText, false ) &&
+				     !EncounterManager.isSaberForceMonster() &&
 				     !FightRequest.edFightInProgress() )
 				{
 					AdventureQueueDatabase.enqueue( KoLAdventure.lastVisitedLocation(), encounter );
