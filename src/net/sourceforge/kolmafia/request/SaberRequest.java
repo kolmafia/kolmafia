@@ -96,7 +96,7 @@ public class SaberRequest
 
 		if ( urlString.contains( "option=1" ) )
 		{
-			BanishManager.banishCurrentMonster( urlString );
+			BanishManager.banishCurrentMonster( "Saber Force" );
 			Preferences.increment( "_saberForceUses" );
 		}
 		else if ( urlString.contains( "option=2" ) )
