@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.request.FightRequest;
 
@@ -270,6 +271,7 @@ public class ProxyRecordValue
 			.add( "buyer", DataTypes.COINMASTER_TYPE )
 			.add( "name_length", DataTypes.INT_TYPE )
 			.add( "noob_skill", DataTypes.SKILL_TYPE )
+			.add( "tcrs_name", DataTypes.STRING_TYPE )
 			.finish( "item proxy" );
 
 		public ItemProxy( Value obj )
@@ -280,6 +282,11 @@ public class ProxyRecordValue
 		public String get_name()
 		{
 			return ItemDatabase.getDataName( (int) this.contentLong );
+		}
+
+		public String get_tcrs_name()
+		{
+			return TCRSDatabase.getTCRSName( (int) this.contentLong );
 		}
 
 		public String get_plural()

@@ -93,6 +93,12 @@ public class TCRSDatabase
 		TCRSMap.clear();
 	}
 
+	public static String getTCRSName( int itemId )
+	{
+		TCRS tcrs = TCRSMap.get( itemId );
+		return ( tcrs == null ) ? ItemDatabase.getDataName( itemId ) : tcrs.name;
+	}
+
 	public static String filename()
 	{
 		return filename( KoLCharacter.getClassType(), KoLCharacter.getSign() );
@@ -269,7 +275,17 @@ public class TCRSDatabase
 		// Adjust item data to have TCRS modifiers
 		for ( Entry<Integer, TCRS> entry : TCRSMap.entrySet() )
 		{
-			applyModifiers( entry.getKey(), entry.getValue() );
+			Integer id = entry.getKey();
+			TCRS tcrs = entry.getValue();
+			String name = ItemDatabase.getItemDataName( id.intValue() );
+
+			// If the path name is the same as the standard name,
+			// leave modifiers intact.
+			if ( !tcrs.name.equals( name ) )
+			{
+				// Otherwise, make the changes.
+				applyModifiers( id, tcrs );
+			}
 		}
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
