@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2018, KoLmafia development team
+ * Copyright (c) 2005-2019, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -287,6 +287,18 @@ public abstract class EncounterManager
 		}
 
 		return false;
+	}
+
+	public static final boolean isSaberForceMonster()
+	{
+		// There's no message to check for, and the monster generally shows up 
+		// immediately, so assume the correct monster is from this skill
+		if ( Preferences.getInteger( "_saberForceMonsterCount" ) < 1 )
+		{
+			return false;
+		}
+		String name = MonsterStatusTracker.getLastMonsterName();
+		return name.equalsIgnoreCase( Preferences.getString( "_saberForceMonster" ) );
 	}
 
 	public static final boolean isWanderingMonster( String encounter )

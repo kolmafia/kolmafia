@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2005-2018, KoLmafia development team
+ * Copyright (c) 2005-2019, KoLmafia development team
  * http://kolmafia.sourceforge.net/
  * All rights reserved.
  *
@@ -2449,8 +2449,8 @@ public class FightRequest
 			}
 			MonsterData monster = MonsterStatusTracker.getLastMonster();
 
-			// https://imgur.com/a/Eh5MiUZ shows the order is Digitize, Arrow, Enamorang,
-			// so check in that order
+			// http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link there 
+			// is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
 			if ( EncounterManager.isDigitizedEncounter( responseText, true ) )
 			{
 				EncounterManager.ignoreSpecialMonsters();
@@ -2490,6 +2490,12 @@ public class FightRequest
 				TurnCounter.stopCounting( "Enamorang unknown monster window begin" );
 				TurnCounter.stopCounting( "Enamorang unknown monster window end" );
 				Preferences.setString( "enamorangMonster", "" );
+			}
+			else if ( EncounterManager.isSaberForceMonster() )
+			{
+				// This is earlier in the chain than the things above, but since
+				// there's no message it's easiest to check it after
+				Preferences.decrement( "_saberForceMonsterCount" );
 			}
 
 			// Increment stinky cheese counter

@@ -33,7 +33,10 @@
 
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.preferences.Preferences;
+
+import net.sourceforge.kolmafia.session.BanishManager;
 
 public class SaberRequest
 	extends GenericRequest
@@ -43,8 +46,12 @@ public class SaberRequest
 		super( "choice.php" );
 	}
 
-	public static final void parseResponse( final String urlString, final String responseText )
+	public static final void parseUpgrade( final String urlString, final String responseText )
 	{
+		if ( !urlString.contains( "whichchoice=1386" ) )
+		{
+			return;
+		}
 		// choice 5, walk away
 		// You'll decide later. Maybe in a sequel.
 		if ( urlString.contains( "option=5" ) )
@@ -78,5 +85,37 @@ public class SaberRequest
 		{
 			Preferences.setInteger( "_saberMod", 4 );
 		}
+	}
+
+	public static final void parseForce( final String urlString, final String responseText )
+	{
+		if ( !urlString.contains( "whichchoice=1387" ) )
+		{
+			return;
+		}
+
+		if ( urlString.contains( "option=1" ) )
+		{
+			BanishManager.banishCurrentMonster( urlString );
+			Preferences.increment( "_saberForceUses" );
+		}
+		else if ( urlString.contains( "option=2" ) )
+		{
+			Preferences.setString( "_saberForceMonster", MonsterStatusTracker.getLastMonsterName() );
+			Preferences.setInteger( "_saberForceMonsterCount", 3 );
+			Preferences.increment( "_saberForceUses" );
+		}
+		else if ( urlString.contains( "option=3" ) )
+		{
+			Preferences.increment( "_saberForceUses" );
+		}
+		else
+		{
+			return;
+		}
+		
+		// Eventually try to reduce delay in the last adventured area, and remove the
+		// last monster from the queue.  Not reducing delay when the fight didn't come
+		// from a location will likely be non-trivial.
 	}
 }
