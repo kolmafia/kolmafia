@@ -237,6 +237,14 @@ public class FunALogRequest
 
 	public static String accessible()
 	{
-		return Preferences.getBoolean( "_prToday" ) || Preferences.getBoolean( "prAlways" ) ? null : "Need access to Pirate Realm";
+		// You have to have the Fun-A-Log in your inventory in order to
+		// purchase from it.  It is a quest item, so if you have it, it
+		// will be there.  You get it the first time you complete a
+		// PirateRealm adventure.  Therefore, you needed access to the
+		// PirateRealm at least once to get it, but you do not need
+		// current access to PirateRealm to use it.
+
+		return InventoryManager.hasItem( ItemPool.PIRATE_REALM_FUN_LOG )  ? null : "Need PirateRealm fun-a-log";
+
 	}
 }
