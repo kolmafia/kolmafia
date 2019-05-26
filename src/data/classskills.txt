@@ -824,6 +824,7 @@
 7308	Become a Wolf	wolfmask.gif	5	0	1
 7309	Become a Cloud of Mist	puff.gif	5	0	1
 7310	Become a Bat	bat.gif	5	0	1
+7311	Use the Force	may4sword.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
