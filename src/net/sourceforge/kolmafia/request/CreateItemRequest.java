@@ -207,11 +207,6 @@ public class CreateItemRequest
 		return CreateItemRequest.getInstance( ConcoctionPool.get( itemId ), rNINP );
 	}
 
-	public static final CreateItemRequest getInstance( final String name )
-	{
-		return CreateItemRequest.getInstance( ConcoctionPool.get( name ), true );
-	}
-
 	public static final CreateItemRequest getInstance( final AdventureResult item )
 	{
 		return CreateItemRequest.getInstance( ConcoctionPool.get( item ), true );

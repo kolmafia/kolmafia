@@ -2517,11 +2517,6 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( itemId ) );
 	}
 
-	public static final CraftingType getMixingMethod( final String name )
-	{
-		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( name ) );
-	}
-
 	public static final CraftingType getMixingMethod( final int itemId, final String name )
 	{
 		return ConcoctionDatabase.getMixingMethod( ConcoctionPool.get( itemId, name ) );
@@ -2881,9 +2876,9 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( itemId ) );
 	}
 
-	public static final AdventureResult[] getIngredients( final String name )
+	public static final AdventureResult[] getIngredients( final int itemId, final String name )
 	{
-		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( name ) );
+		return ConcoctionDatabase.getIngredients( ConcoctionDatabase.getStandardIngredients( itemId, name ) );
 	}
 
 	public static final AdventureResult[] getIngredients( AdventureResult[] ingredients )
@@ -2948,9 +2943,9 @@ public class ConcoctionDatabase
 		return ConcoctionDatabase.getStandardIngredients( ConcoctionPool.get( itemId ) );
 	}
 
-	public static final AdventureResult[] getStandardIngredients( final String name )
+	public static final AdventureResult[] getStandardIngredients( final int itemId, final String name )
 	{
-		return ConcoctionDatabase.getStandardIngredients( ConcoctionPool.get( name ) );
+		return ConcoctionDatabase.getStandardIngredients( ConcoctionPool.get( itemId, name ) );
 	}
 
 	public static final AdventureResult[] getStandardIngredients( final Concoction item )

@@ -297,6 +297,7 @@ public class TCRSDatabase
 				applyModifiers( id, tcrs );
 			}
 		}
+		ConcoctionDatabase.refreshConcoctions();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
 		return true;

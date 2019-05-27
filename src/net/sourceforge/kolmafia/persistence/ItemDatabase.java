@@ -1020,7 +1020,7 @@ public class ItemDatabase
 			ItemDatabase.noobSkillIdByItemSource.set( itemId, skillId );
 		}
 
-			// Add the new item to the ConcoctionPool
+		// Add the new item to the ConcoctionPool
 		AdventureResult ar = ItemPool.get( itemId, 1 );
 		Concoction c = new Concoction( ar, CraftingType.NOCREATE );
 		ConcoctionPool.set( c );

@@ -597,7 +597,7 @@ public class SushiRequest
 			return;
 		}
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( name );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( -1, name );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult ingredient = ingredients[ i ];
@@ -644,7 +644,7 @@ public class SushiRequest
 		buf.append( name );
 		buf.append( " from " );
 
-		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( name );
+		AdventureResult[] ingredients = ConcoctionDatabase.getIngredients( -1, name );
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			AdventureResult ingredient = ingredients[ i ];
