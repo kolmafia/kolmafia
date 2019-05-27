@@ -579,7 +579,8 @@ public class ClanLoungeRequest
 		for ( int i = 0; i < SPEAKEASY_DATA.length; ++i )
 		{
 			String itemName = (String) SPEAKEASY_DATA[i][0];
-			Concoction concoction = ConcoctionPool.get( itemName );
+			int itemId = ItemDatabase.getItemId( itemName, 1, false );
+			Concoction concoction = ConcoctionPool.get( itemId, itemName );
 			concoction.speakeasy = true;
 			concoction.price = ClanLoungeRequest.speakeasyNameToCost( itemName );
 			ClanLoungeRequest.ALL_SPEAKEASY.add( concoction );

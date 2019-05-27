@@ -1455,7 +1455,7 @@
 1429	roll of drink tickets	114581568	tickets.gif	multiple	t,d	90	rolls of drink tickets
 1430	pregnant gloomy black mushroom	590939155	blackshroo.gif	grow	d	150
 1431	pregnant oily golden mushroom	266780479	sleazeroom.gif	grow	d	150
-1432	oily golden mushroom	857416597	sleazeroom.gif	message		0
+1432	oily golden mushroom	857416597	sleazeroom.gif	food		0
 1433	fruit bowl	160382985	fruitbowl.gif	multiple	t,d	200	bowls of fruit
 1434	fruit basket	593246625	fruitbask.gif	multiple	t,d	400	fruits basket
 1435	hot pink lipstick	398407608	lipstick.gif	familiar	t	0	tubes of hot pink lipstick

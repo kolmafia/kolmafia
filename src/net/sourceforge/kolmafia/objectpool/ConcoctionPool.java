@@ -51,10 +51,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionPool
 {
-	// Canonical Name -> Concoction
-	// *** since item names can be duplicated, this only has last entered name
-	private static final Map<String, Concoction> names = new TreeMap<String, Concoction>();
-
 	// ItemID -> Concoction
 	private static final Map<Integer,Concoction> items = new TreeMap<Integer,Concoction>();
 
@@ -87,14 +83,6 @@ public class ConcoctionPool
 		return ConcoctionPool.items.get( itemId );
 	}
 
-	public static Concoction get( final String name )
-	{
-		// *** item names can be duplicated.
-		// *** why is this canonical?
-		String cname = StringUtilities.getCanonicalName( name );
-		return ConcoctionPool.names.get( cname );
-	}
-
 	public static Concoction get( final int itemId, final String name )
 	{
 		if ( itemId > 0 )
@@ -113,12 +101,6 @@ public class ConcoctionPool
 	public static void set( final Concoction c )
 	{
 		String name = c.getName();
-
-		// *** item names can be duplicated.
-		// *** why is this canonical?
-		String cname = StringUtilities.getCanonicalName( name );
-		ConcoctionPool.names.put( cname, c );
-
 		int itemId = c.getItemId();
 
 		if ( itemId > 0 )
@@ -128,6 +110,7 @@ public class ConcoctionPool
 		else
 		{
 			ConcoctionPool.nonitems.put( name, c );
+			String cname = StringUtilities.getCanonicalName( name );
 			if ( !name.equals( cname ) )
 			{
 				ConcoctionPool.nonitemsCanonical.put( cname, c );

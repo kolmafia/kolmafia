@@ -215,11 +215,6 @@ public class ConsumablesDatabase
 		final String muscle, final String mysticality, final String moxie, final String note )
 	{
 		ConsumablesDatabase.setConsumptionData( name, size, 1, "", adventures, muscle, mysticality, moxie, note );
-		Concoction c = ConcoctionPool.get( name );
-		if ( c != null )
-		{
-			c.setConsumptionData();
-		}
 	}
 
 	private static final void setConsumptionData( final String name, final int size, final int level, final String quality,
@@ -235,6 +230,12 @@ public class ConsumablesDatabase
 		if ( note != null && note.length() > 0 )
 		{
 			ConsumablesDatabase.notesByName.put( name, note );
+		}
+		int itemId = ItemDatabase.getItemId( name, 1, false );
+		Concoction c = ConcoctionPool.get( itemId, name );
+		if ( c != null )
+		{
+			c.setConsumptionData();
 		}
 	}
 
@@ -441,7 +442,8 @@ public class ConsumablesDatabase
 
 	private static final void calculateAdventureRange( final String name, final String type )
 	{
-		Concoction c = ConcoctionPool.get( name );
+		int itemId = ItemDatabase.getItemId( name, 1, false );
+		Concoction c = ConcoctionPool.get( itemId, name );
 		int advs = ( c == null ) ? 0 : c.getAdventuresNeeded( 1, true );
 
 		int unitCost = ConsumablesDatabase.unitCostByName.get( name ).intValue();
@@ -935,7 +937,8 @@ public class ConsumablesDatabase
 
 		if ( ConsumablesDatabase.getRawFullness( name ) != null )
 		{
-			boolean sushi = ConcoctionDatabase.getMixingMethod( cname ) == CraftingType.SUSHI;
+			int itemId = ItemDatabase.getItemId( name, 1, false );
+			boolean sushi = ConcoctionDatabase.getMixingMethod( itemId, name ) == CraftingType.SUSHI;
 			boolean milk = KoLConstants.activeEffects.contains( ConsumablesDatabase.MILK );
 			boolean lunch = KoLConstants.activeEffects.contains( ConsumablesDatabase.GLORIOUS_LUNCH ) ||
 							ConsumablesDatabase.BARREL_OF_LAUGHS.getCount( KoLConstants.activeEffects ) >= 5;
@@ -1367,7 +1370,7 @@ public class ConsumablesDatabase
 		String note = "";
 		ConsumablesDatabase.setConsumptionData( name, size, 1, "crappy", adventures, muscle, mysticality, moxie, note );
 		ConsumablesDatabase.fullnessByName.put( name, size );
-		Concoction c = ConcoctionPool.get( name );
+		Concoction c = ConcoctionPool.get( ItemPool.SMORE );
 		if ( c != null )
 		{
 			c.setConsumptionData();
