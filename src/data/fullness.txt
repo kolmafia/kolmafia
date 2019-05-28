@@ -195,6 +195,7 @@ cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg
 cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
+crabsicle	2	4	EPIC	0	0	0	0	Unspaded
 cranberries	1	1	crappy	1	0	0	0
 cranberry cylinder	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 crappy brain	1	1	crappy	1	1	1	1	Zombie Slayer
@@ -564,6 +565,7 @@ New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
+oily golden mushroom	0	1	crappy	0	0	0	0	Unspaded
 old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 oldcake	1	1	good	3-4	0	0	0
 olive	1	1	crappy	1	0	0	0

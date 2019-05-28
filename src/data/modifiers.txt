@@ -3168,6 +3168,7 @@ Item	ridiculous belt	Muscle: +11
 Item	ridiculous earring	Mysticality: +11
 Item	ridiculous sunglasses	Moxie: +11
 # right half of a heart necklace
+Item	ring	Single Equip
 Item	ring of adornment	Moxie: +10
 Item	ring of aggravate monster	Monster Level: +5
 Item	ring of cold resistance	Cold Resistance: +2

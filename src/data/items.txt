@@ -9769,7 +9769,7 @@
 9742	Mysterious Black Box	126440301	dreadbox.gif	none	t	0
 9743	rainbow jellybean	722559610	rainbowbean.gif	multiple	t,d	1
 9744	mystery lollipop	803282805	mysterylolly.gif	usable	t,d	1
-9745	Love Potion #XYZ	863678027	potion9.gif	usable	q	0
+9745	Love Potion #0	863678027	potion9.gif	usable	q	0
 9746	rhinestone	402331722	rhinestone.gif	multiple	t	0
 9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
 9748	metandienone	772060311	pokepills1.gif	pokepill	t,d	0
@@ -10250,7 +10250,7 @@
 10223	pewter shavings	465321022	pr_shavings.gif	spleen, usable	t,d	25
 10224	Red Roger tattoo kit	829615551	pr_rogertat.gif	usable		0
 10225	PirateRealm fun-a-log	914228079	pr_funalog.gif	usable	q	0
-10226	plush sea serpent	125725891	pr_serpent.gif	accessory	t,d	75
+10226	plush sea serpent	125725891	pr_serpent.gif	accessory	t	0
 10227	pirate fork	477726449	pr_fork.gif	food		0
 10228	Scurvy and Sobriety Prevention	319727011	book3.gif	usable	d	150
 10229	lucky gold ring	610669800	weddingring.gif	accessory		0
