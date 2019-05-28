@@ -48,6 +48,7 @@ bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoni
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
 can-can-in-a-can	1	1	good	0	0	0	10-12
 carrot juice	3	1	good	4-5	0	0	0	10 Pla-see-bo (+10% item drop)
+chalk chunks	2	1	good	0	0	0	0	Unspaded
 chlorophyll paste	4	4	good	5-10	18-22	18-22	18-22	10 Chlorophyll Flavor (mp regen)
 coffee pixie stick	4	4	good	5-10	0	0	0
 cold jelly	1	1	crappy	0	0	50-60	0	50 Cold Jellied (+3 mys stats/fight, +5 cold damage, +30% mys), gain base booze when drinking

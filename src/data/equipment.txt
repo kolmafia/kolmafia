@@ -898,7 +898,7 @@ black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
 blammer	50	Mus: 0	1-handed club
-bloody harpoon 50 Mus: 0 2-handed spear
+bloody harpoon	50	Mus: 0	2-handed spear
 blood knife	300	Mus: 0	1-handed knife
 Bloodbath	200	Mus: 200	2-handed sword
 blunt icepick	50	Mus: 0	1-handed club
@@ -1954,7 +1954,7 @@ red balloon	10	none
 red book	150	Mys: 60
 red China marble	203	Mys: 85
 red LavaCo Lamp&trade;	100	Mus: 35
-Red Roger's red left hand	0	none
+Red Roger's red left hand	120	none
 red wagon	200	Mys: 200
 Red X Shield	180	Mus: 70	shield
 reusable shopping bag	10	none
@@ -2596,7 +2596,7 @@ Pine-Fresh air freshener	50	Mys: 10
 pink glowstick	20	none
 Pink Heart of Spirit	200	Mys: 85
 pink plastic baby	20	none
-PirateRealm eyepatch	0	none
+PirateRealm eyepatch	10	none
 pirate fledges	140	Mys: 60
 pirate radio ring	0	none
 plaid pocket square	150	Mys: 50
@@ -2607,6 +2607,7 @@ plastic vampire fangs	0	none
 plexiglass pendant	180	Mys: 75
 plexiglass pinky ring	180	Mys: 75
 plexiglass pocketwatch	180	Mys: 75
+plush sea serpent	50	none
 Pocket Square of Loathing	200	Mys: 150
 pogo stick	150	Mys: 50
 Pok&euml;mann figurine: Bloodkip	10	none
@@ -2665,8 +2666,8 @@ Red Balloon of Valor	200	Mys: 85
 Red Fox glove	200	Mys: 50
 red masque	160	Mys: 65
 red plastic baby	20	none
-Red Roger's red left foot	0	none
-Red Roger's red right foot	0	none
+Red Roger's red left foot	120	none
+Red Roger's red right foot	120	none
 red shoe	150	Mys: 40
 red-hot medallion	50	none
 reinforced furry underpants	30	none
@@ -2675,6 +2676,7 @@ ridiculous belt	0	none
 ridiculous earring	0	none
 ridiculous sunglasses	0	none
 right half of a heart necklace	10	none
+ring	0	none
 ring of adornment	80	Mys: 25
 ring of aggravate monster	80	Mys: 25
 ring of cold resistance	80	Mys: 25
@@ -3200,7 +3202,7 @@ Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none
 toy jet pack	175	Mys: 75
-vampyric cloake	0	none
+vampyric cloake	100	none
 whatsit-covered turtle shell	50	Mus: 20
 wicker slicker	50	none
 wings of fire	100	Mys: 100
