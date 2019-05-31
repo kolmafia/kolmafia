@@ -348,6 +348,8 @@ public interface KoLConstants
 	public static final int ADVENTURES_VERSION = 6;
 	public static final int BOUNTY_VERSION = 2;
 	public static final int BUFFBOTS_VERSION = 1;
+	public static final int CAFE_BOOZE_VERSION = 1;
+	public static final int CAFE_FOOD_VERSION = 1;
 	public static final int CLASSSKILLS_VERSION = 4;
 	public static final int COINMASTERS_VERSION = 2;
 	public static final int COMBATS_VERSION = 1;

@@ -65,28 +65,13 @@ public class TCRSCommand
 
 		if ( command.equals( "load" ) )
 		{
-			if ( !TCRSDatabase.load() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "File " + file + " does not exist" );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( "Read file " + file );
-			}
+			TCRSDatabase.load( true );
 			return;
 		}
 
 		if ( command.equals( "save" ) )
 		{
-			if ( !TCRSDatabase.save() )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Could not save file " + file );
-			}
-			else
-			{
-				KoLmafia.updateDisplay( "Wrote file " + file );
-			}
-			return;
+			TCRSDatabase.save( true );
 		}
 
 		if ( command.equals( "derive" ) )

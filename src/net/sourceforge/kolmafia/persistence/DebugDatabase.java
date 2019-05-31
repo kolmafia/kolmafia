@@ -433,6 +433,19 @@ public class DebugDatabase
 		return DebugDatabase.itemDescriptionText( DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), forceReload ) );
 	}
 
+	public static final String cafeItemDescriptionText( final String descId )
+	{
+		if ( descId == null )
+		{
+			return "";
+		}
+
+		DebugDatabase.DESC_ITEM_REQUEST.clearDataFields();
+		DebugDatabase.DESC_ITEM_REQUEST.addFormField( "whichitem", descId );
+		RequestThread.postRequest( DebugDatabase.DESC_ITEM_REQUEST );
+		return DebugDatabase.DESC_ITEM_REQUEST.responseText;
+	}
+
 	public static final String rawItemDescriptionText( final int itemId )
 	{
 		return DebugDatabase.rawItemDescriptionText( ItemDatabase.getDescriptionId( itemId ), false );

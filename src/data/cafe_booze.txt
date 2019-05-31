@@ -1,0 +1,34 @@
+1
+-1	Petite Porter
+-2	Scrawny Stout
+-3	Infinitesimal IPA
+-4	eggnogtini
+-5	candycaine
+-6	braincracker sweet
+-16	fermented honey
+-17	moons-shine
+-18	gin
+-19	ecto-nog
+-20	hot toady
+-21	hot choculate
+-49	Cyder
+-50	Oil Nog
+-51	Hi-Octane Peppermint Jet Fuel
+-58	Grimacider
+-59	Isotope Nog
+-60	Mutagin 'n' Tonic
+-70	Gin and Herring
+-71	Black and Tan and Red All Over
+-72	Antarctic Ice Tea
+-76	CRIMBCO Ribbon Candy Schnapps
+-77	CRIMBCO Egg Substitute Nog Substitute
+-78	CRIMBCO Extreme Braincracker Sour
+-82	Horseradish-infused Vodka
+-83	Jerkitini
+-84	Desert Island Iced Tea
+-88	Crimbo Saketini
+-89	Crimboku Drop
+-90	Flaming Crimbo Log
+-107	Fortified Eggnog Slurry
+-108	Hot Buttered Rum
+-109	Spicy Hot Chocolate
