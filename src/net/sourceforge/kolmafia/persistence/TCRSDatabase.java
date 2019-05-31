@@ -80,6 +80,8 @@ public class TCRSDatabase
 
 	// Sorted by itemId
 	private static Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
+	private static Map<Integer, TCRS> TCRSBoozeMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
+	private static Map<Integer, TCRS> TCRSFoodMap = new TreeMap<Integer, TCRS>( new CafeDatabase.InverseIntegerOrder() );
 
 	static
 	{
@@ -91,6 +93,8 @@ public class TCRSDatabase
 		characterClass = "";
 		characterSign = "";
 		TCRSMap.clear();
+		TCRSBoozeMap.clear();
+		TCRSFoodMap.clear();
 	}
 
 	public static String getTCRSName( int itemId )
@@ -101,10 +105,10 @@ public class TCRSDatabase
 
 	public static String filename()
 	{
-		return filename( KoLCharacter.getClassType(), KoLCharacter.getSign() );
+		return filename( KoLCharacter.getClassType(), KoLCharacter.getSign(), "" );
 	}
 
-	public static String filename( String cclass, String csign )
+	public static String filename( String cclass, String csign, String suffix )
 	{
 		if ( !Arrays.asList( KoLCharacter.STANDARD_CLASSES ).contains( cclass) ||
 		     !Arrays.asList( KoLCharacter.ZODIACS ).contains( csign) )
@@ -112,33 +116,43 @@ public class TCRSDatabase
 			return null;
 		}
 
-		return "TCRS_" + StringUtilities.globalStringReplace( cclass, " ", "_" ) + "_" + csign + ".txt";
+		return "TCRS_" + StringUtilities.globalStringReplace( cclass, " ", "_" ) + "_" + csign + suffix + ".txt";
 	}
 
-	public static boolean load()
+	public static boolean load( final boolean verbose )
 	{
 		if ( !KoLCharacter.isCrazyRandomTwo() )
 		{
 			return false;
 		}
-		return load( KoLCharacter.getClassType(), KoLCharacter.getSign() );
+		return load( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
 	}
 
-	public static boolean load( String cclass, String csign )
+	public static boolean load( String cclass, String csign, final boolean verbose )
 	{
-		String fileName = filename( cclass, csign );
-		if ( fileName == null )
+		if ( load( filename( cclass, csign, "" ), TCRSMap, verbose ) )
 		{
-			return false;
+			characterClass = cclass;
+			characterSign = csign;
 		}
+		load( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
+		load( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
+		return true;
+	}
 
-		TCRSMap.clear();
+	private static boolean load( String fileName, Map< Integer, TCRS> map, final boolean verbose )
+	{
+		map.clear();
 
 		BufferedReader reader = FileUtilities.getReader( fileName );
 
 		// No reader, no file
 		if ( reader == null )
 		{
+			if ( verbose )
+			{
+				RequestLogger.printLine( "Could not read file " + fileName );
+			}
 			return false;
 		}
 
@@ -157,26 +171,36 @@ public class TCRSDatabase
 			String modifiers = data[ 4 ];
 
 			TCRS item = new TCRS( name, size, quality, modifiers );
-			TCRSMap.put( itemId, item );
+			map.put( itemId, item );
 		}
 
-		characterClass = cclass;
-		characterSign = csign;
+		if ( verbose )
+		{
+			RequestLogger.printLine( "Read file " + fileName );
+		}
+
 		return true;
 	}
 
-	public static boolean save()
+	public static boolean save( final boolean verbose )
 	{
 		if ( !KoLCharacter.isCrazyRandomTwo() )
 		{
 			return false;
 		}
-		return save( KoLCharacter.getClassType(), KoLCharacter.getSign() );
+		return save( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
 	}
 
-	public static boolean save( String cclass, String csign )
+	public static boolean save( String cclass, String csign, final boolean verbose )
 	{
-		String fileName = filename( cclass, csign );
+		save( filename( cclass, csign, "" ), TCRSMap, verbose );
+		save( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
+		save( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
+		return true;
+	}
+
+	private static boolean save(  final String fileName, final Map<Integer, TCRS> map, final boolean verbose )
+	{
 		if ( fileName == null )
 		{
 			return false;
@@ -184,7 +208,17 @@ public class TCRSDatabase
 
 		PrintStream writer = LogStream.openStream( new File( KoLConstants.DATA_LOCATION, fileName ), true );
 
-		for ( Entry<Integer, TCRS> entry : TCRSMap.entrySet() )
+		// No writer, no file
+		if ( writer == null )
+		{
+			if ( verbose )
+			{
+				RequestLogger.printLine( "Could not write file " + fileName );
+			}
+			return false;
+		}
+
+		for ( Entry<Integer, TCRS> entry : map.entrySet() )
 		{
 			TCRS tcrs = entry.getValue();
 			Integer itemId = entry.getKey();
@@ -198,6 +232,11 @@ public class TCRSDatabase
 
 		writer.close();
 
+		if ( verbose )
+		{
+			RequestLogger.printLine( "Wrote file " + fileName );
+		}
+
 		return true;
 	}
 
@@ -208,6 +247,13 @@ public class TCRSDatabase
 			return false;
 		}
 
+		deriveNonCafe( verbose );
+		deriveCafe( verbose );
+		return true;
+	}
+
+	private static boolean deriveNonCafe( final boolean verbose )
+	{
 		String myClass = KoLCharacter.getClassType();
 		String mySign =  KoLCharacter.getSign();
 
@@ -221,7 +267,7 @@ public class TCRSDatabase
 
 		if ( verbose )
 		{
-			KoLmafia.updateDisplay( "Deriving TCRS item adjustments for all items..." );
+			KoLmafia.updateDisplay( "Deriving TCRS item adjustments for all real items..." );
 		}
 
 		for ( Integer id : keys )
@@ -268,7 +314,11 @@ public class TCRSDatabase
 		{
 			return null;
 		}
+		return deriveItem( text );
+	}
 
+	private static TCRS deriveItem( final String text )
+	{
 		// Parse the things that are changed in TCRS
 		String name = DebugDatabase.parseName( text );
 		int size = DebugDatabase.parseConsumableSize( text );
@@ -280,9 +330,65 @@ public class TCRSDatabase
 		return new TCRS( name, size, quality, modifiers );
 	}
 
+	private static boolean deriveCafe( final boolean verbose)
+	{
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Deriving TCRS item adjustments for all cafe booze items..." );
+		}
+
+		for ( Integer id : CafeDatabase.cafeBoozeKeySet() )
+		{
+			deriveCafe( id, CafeDatabase.boozeDescId( id ), TCRSBoozeMap  );
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Done!" );
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Deriving TCRS item adjustments for all cafe food items..." );
+		}
+
+		for ( Integer id : CafeDatabase.cafeFoodKeySet() )
+		{
+			deriveCafe( id, CafeDatabase.foodDescId( id ), TCRSFoodMap );
+		}
+
+		if ( verbose )
+		{
+			KoLmafia.updateDisplay( "Done!" );
+		}
+
+		return true;
+	}
+
+	private  static boolean deriveCafe( final int itemId, String descId, Map<Integer, TCRS> map  )
+	{
+		// Don't do this if we already know the item
+		if ( map.containsKey( itemId ) )
+		{
+			return false;
+		}
+
+		String text = DebugDatabase.cafeItemDescriptionText( descId );
+
+		TCRS tcrs = deriveItem( text );
+		if ( tcrs == null )
+		{
+			return false;
+		}
+		
+		map.put( itemId, tcrs );
+
+		return true;
+	}
+
 	public static boolean applyModifiers()
 	{
-		// Adjust item data to have TCRS modifiers
+		// Adjust non-cafe item data to have TCRS modifiers
 		for ( Entry<Integer, TCRS> entry : TCRSMap.entrySet() )
 		{
 			Integer id = entry.getKey();
@@ -297,6 +403,30 @@ public class TCRSDatabase
 				applyModifiers( id, tcrs );
 			}
 		}
+
+		// Do the same for cafe consumable
+		for ( Entry<Integer, TCRS> entry : TCRSBoozeMap.entrySet() )
+		{
+			Integer id = entry.getKey();
+			TCRS tcrs = entry.getValue();
+			String name = CafeDatabase.getCafeBoozeName( id.intValue() );
+			if ( !tcrs.name.equals( name ) )
+			{
+				applyConsumableModifiers( KoLConstants.CONSUME_DRINK, name,  tcrs );
+			}
+		}
+
+		for ( Entry<Integer, TCRS> entry : TCRSFoodMap.entrySet() )
+		{
+			Integer id = entry.getKey();
+			TCRS tcrs = entry.getValue();
+			String name = CafeDatabase.getCafeFoodName( id.intValue() );
+			if ( !tcrs.name.equals( name ) )
+			{
+				applyConsumableModifiers( KoLConstants.CONSUME_EAT, name,  tcrs );
+			}
+		}
+
 		ConcoctionDatabase.refreshConcoctions();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
@@ -340,25 +470,30 @@ public class TCRSDatabase
 		int usage = ItemDatabase.getConsumptionType( itemId );
 		if ( usage == KoLConstants.CONSUME_EAT || usage == KoLConstants.CONSUME_DRINK || usage == KoLConstants.CONSUME_SPLEEN )
 		{
-			Integer lint = ConsumablesDatabase.getLevelReqByName( itemName );
-			int level = lint == null ? 0 : lint.intValue();
-			// Guess
-			int adv = ( usage == KoLConstants.CONSUME_SPLEEN ) ? 0 : (tcrs.size * qualityMultiplier( tcrs.quality ) );
-			int mus = 0;
-			int mys = 0;
-			int mox = 0;
-			// Could include effect
-			String comment = "Unspaded";
-			ConsumablesDatabase.updateConsumableSize( itemName, usage, tcrs.size );
-			ConsumablesDatabase.updateConsumable( itemName, tcrs.size, level, tcrs.quality, String.valueOf( adv ),
-							      String.valueOf( mus ), String.valueOf( mys ), String.valueOf( mox ),
-							      comment );
+			applyConsumableModifiers( usage, itemName, tcrs );
 		}
 
 		// Set modifiers
 		Modifiers.updateItem( itemName, tcrs.modifiers );
 
 		return true;
+	}
+
+	private static void applyConsumableModifiers( final int usage, final String itemName, final TCRS tcrs )
+	{
+		Integer lint = ConsumablesDatabase.getLevelReqByName( itemName );
+		int level = lint == null ? 0 : lint.intValue();
+		// Guess
+		int adv = ( usage == KoLConstants.CONSUME_SPLEEN ) ? 0 : (tcrs.size * qualityMultiplier( tcrs.quality ) );
+		int mus = 0;
+		int mys = 0;
+		int mox = 0;
+		// Could include effect
+		String comment = "Unspaded";
+		ConsumablesDatabase.updateConsumableSize( itemName, usage, tcrs.size );
+		ConsumablesDatabase.updateConsumable( itemName, tcrs.size, level, tcrs.quality, String.valueOf( adv ),
+						      String.valueOf( mus ), String.valueOf( mys ), String.valueOf( mox ),
+						      comment );
 	}
 
 	public static boolean resetModifiers()

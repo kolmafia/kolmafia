@@ -1,0 +1,46 @@
+1
+-1	Peche a la Frog
+-2	As Jus Gezund Heit
+-3	Bouillabaise Coucher Avec Moi
+-7	gumdrop chow mein
+-8	candy cane pizza
+-9	gingerbread stir-fry
+-10	twigs and gravel
+-11	shoots and leaves
+-12	bowl of unidentifiable goo
+-13	gingerbread massacre
+-14	It Came From Beyond Dessert
+-15	vampire cake
+-52	Soylent Red and Green
+-53	Disc-Shaped Nutrition Unit
+-54	Gingerborg Hive
+-61	Candy Cane Surprise
+-62	Grimdrop Chow Mein
+-63	Grimgerbread House
+-67	Caviar Carbonara
+-68	Halibut Alfredo
+-69	Red Herring Velvet Cake
+-73	CRIMBCO Reconstituted Gruel
+-74	New and Improved CRIMBCO Reconstituted Gruel
+-75	CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins
+-79	Brussels Sprout Stir-Fry
+-80	Carrot, Cabbage, and Kale Pizza
+-81	Turnip and Rutabaga Pie
+-85	Rainbow Spider Fun Roll
+-86	Vegas Volcano Lava Roll
+-87	Crazy Dragon Shogun Buddha Roll
+-92	basic hot dog
+-93	savage macho dog
+-94	one with everything
+-95	sly dog
+-96	devil dog
+-97	chilly dog
+-98	ghost dog
+-99	junkyard dog
+-100	wet dog
+-101	sleeping dog
+-102	optimal dog
+-103	video games hot dog
+-104	Peppermint Nutrition Block
+-105	Gingerbread Nutrition Block
+-106	Cinnamon Nutrition Block
