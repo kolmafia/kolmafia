@@ -691,7 +691,7 @@ public class TCRSDatabase
 		boolean nonCafeLoaded = false;
 
 		// If local TCRS data file is not present, offer to derive it
-		if ( !localFileExists( cclass, sign, verbose ) )
+		if ( !localFileExists( cclass, sign, false ) )
 		{
 			String message = "No TCRS data is available for " + cclass + "/" + sign + ". Would you like to derive it? (This will take a long time, but you only have to do it once.)";
 			if ( InputFieldUtilities.confirm( message  ) &&
@@ -721,7 +721,7 @@ public class TCRSDatabase
 		boolean cafeLoaded = false;
 
 		// If local TCRS data file is not present, offer to derive it
-		if ( !localCafeFileExists( cclass, sign, verbose ) )
+		if ( !localCafeFileExists( cclass, sign, false ) )
 		{
 			String message = "No TCRS cafe data is available for " + cclass + "/" + sign + ". Would you like to derive it? (This will not take long, and you only have to do it once.)";
 			if ( InputFieldUtilities.confirm( message  ) &&
