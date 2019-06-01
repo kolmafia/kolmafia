@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.moods.MoodTrigger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
+import net.sourceforge.kolmafia.persistence.CafeDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -276,22 +277,41 @@ public class ShowDescriptionList
 
 		if ( item instanceof AdventureResult )
 		{
-			if ( ( (AdventureResult) item ).isItem() )
+			AdventureResult ar = (AdventureResult) item;
+			if ( ar.isItem() )
 			{
-				StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (AdventureResult) item ).getItemId() ) );
+				int itemId = ar.getItemId();
+				String descId =
+					( itemId != -1 ) ?
+					ItemDatabase.getDescriptionId( itemId ) :
+					CafeDatabase.nameToDescId( ar.getName() );
+				StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + descId );
 			}
-			if ( ( (AdventureResult) item ).isStatusEffect() )
+			if ( ar.isStatusEffect() )
 			{
-				StaticEntity.openDescriptionFrame( "desc_effect.php?whicheffect=" + EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ( (AdventureResult) item ).getName() ) ) );
+				String descId = EffectDatabase.getDescriptionId( EffectDatabase.getEffectId( ar.getName() ) );
+				StaticEntity.openDescriptionFrame( "desc_effect.php?whicheffect=" + descId );
 			}
 		}
 		else if ( item instanceof Concoction )
 		{
-			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (Concoction) item ).getItemId() ) );
+			Concoction c = (Concoction) item;
+			int itemId = c.getItemId();
+			String descId =
+				( itemId != -1 ) ?
+				ItemDatabase.getDescriptionId( itemId ) :
+				CafeDatabase.nameToDescId( c.getName() );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + descId );
 		}
 		else if ( item instanceof QueuedConcoction )
 		{
-			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + ItemDatabase.getDescriptionId( ( (QueuedConcoction) item ).getItemId() ) );
+			QueuedConcoction c = (QueuedConcoction) item;
+			int itemId = c.getItemId();
+			String descId =
+				( itemId != -1 ) ?
+				ItemDatabase.getDescriptionId( itemId ) :
+				CafeDatabase.nameToDescId( c.getName() );
+			StaticEntity.openDescriptionFrame( "desc_item.php?whichitem=" + descId );
 		}
 		else if ( item instanceof CreateItemRequest )
 		{
