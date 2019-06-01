@@ -71,6 +71,11 @@ public class TCRSCommand
 			}
 			String cclass = split [ 0];
 			String sign = split[ 1 ];
+			if ( TCRSDatabase.anyLocalFileExists( cclass, sign, true ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "Will not overwrite. Aborting." );
+				return;
+			}
 			TCRSDatabase.fetch( cclass, sign, true );
 			TCRSDatabase.fetchCafe( cclass, sign, true );
 			return;
