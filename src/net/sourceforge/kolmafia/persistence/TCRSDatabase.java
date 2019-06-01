@@ -548,6 +548,15 @@ public class TCRSDatabase
 	// *** Primitives for checking presence of local file, checking
 	// presence of remote file, and fetching the remote file.
 
+	public static boolean anyLocalFileExists( String classType, String sign, final boolean verbose )
+	{
+		boolean retval = false;
+		retval |= localFileExists( filename( classType, sign, "" ), verbose );
+		retval |= localFileExists( filename( classType, sign, "_cafe_booze" ), verbose );
+		retval |= localFileExists( filename( classType, sign, "_cafe_food" ), verbose );
+		return retval;
+	}
+
 	public static boolean localFileExists( String localFilename, final boolean verbose )
 	{
 		File localFile = new File( KoLConstants.DATA_LOCATION, localFilename );
