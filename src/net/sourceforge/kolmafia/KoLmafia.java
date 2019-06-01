@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -879,6 +880,10 @@ public abstract class KoLmafia
 		// anything that depends on that.
 
 		KoLCharacter.resetPerAscensionData();
+
+		// If we in Two Crazy Random Summer, this is a good time to
+		// load all the modified item data
+		TCRSDatabase.loadTCRSData();
 
 		// Hermit items depend on character class
 		HermitRequest.initialize();

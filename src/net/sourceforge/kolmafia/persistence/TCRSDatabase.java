@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
@@ -128,7 +129,10 @@ public class TCRSDatabase
 		{
 			return false;
 		}
-		return load( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		boolean retval = true;
+		retval &= load( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		retval &= loadCafe( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		return retval;
 	}
 
 	public static boolean load( String cclass, String csign, final boolean verbose )
@@ -137,9 +141,16 @@ public class TCRSDatabase
 		{
 			characterClass = cclass;
 			characterSign = csign;
+			return true;
 		}
-		load( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
-		load( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
+		return false;
+	}
+
+	public static boolean loadCafe( String cclass, String csign, final boolean verbose )
+	{
+		boolean retval = true;
+		retval &= load( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
+		retval &= load( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
 		return true;
 	}
 
@@ -191,14 +202,22 @@ public class TCRSDatabase
 		{
 			return false;
 		}
-		return save( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		boolean retval = true;
+		retval &= save( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		retval &= saveCafe( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+		return retval;
 	}
 
 	public static boolean save( String cclass, String csign, final boolean verbose )
 	{
-		save( filename( cclass, csign, "" ), TCRSMap, verbose );
-		save( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
-		save( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
+		return save( filename( cclass, csign, "" ), TCRSMap, verbose );
+	}
+	
+	public static boolean saveCafe( String cclass, String csign, final boolean verbose )
+	{
+		boolean retval = true;
+		retval &= save( filename( cclass, csign, "_cafe_booze" ), TCRSBoozeMap, verbose );
+		retval &= save( filename( cclass, csign, "_cafe_food" ), TCRSFoodMap, verbose );
 		return true;
 	}
 
@@ -250,18 +269,15 @@ public class TCRSDatabase
 			return false;
 		}
 
-		deriveNonCafe( verbose );
+		derive( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
 		deriveCafe( verbose );
 		return true;
 	}
 
-	private static boolean deriveNonCafe( final boolean verbose )
+	private static boolean derive( final String cclass, final String sign, final boolean verbose )
 	{
-		String myClass = KoLCharacter.getClassType();
-		String mySign =  KoLCharacter.getSign();
-
 		// If we don't currently have data for this class/sign, start fresh
-		if ( !myClass.equals( characterClass ) || !mySign.equals( characterSign ) )
+		if ( !cclass.equals( characterClass ) || !sign.equals( characterSign ) )
 		{
 			reset();
 		}
@@ -279,8 +295,8 @@ public class TCRSDatabase
 		}
 
 
-		characterClass = myClass;
-		characterSign = mySign;
+		characterClass = cclass;
+		characterSign = sign;
 
 		if ( verbose )
 		{
@@ -501,8 +517,55 @@ public class TCRSDatabase
 
 	public static boolean resetModifiers()
 	{
-		// Adjust item data to have non-TCRS modifiers
+		if ( KoLCharacter.isCrazyRandomTwo() )
+		{
+			return false;
+		}
+
+		// *** Adjust item data to have non-TCRS modifiers
 		return true;
+	}
+
+	// *** Primitives for checking presence of local files
+
+	public static boolean localFileExists( String classType, String sign, final boolean verbose )
+	{
+		boolean retval = false;
+		retval |= localFileExists( filename( classType, sign, "" ), verbose );
+		return retval;
+	}
+
+	public static boolean localCafeFileExists( String classType, String sign, final boolean verbose )
+	{
+		boolean retval = true;
+		retval &= localFileExists( filename( classType, sign, "_cafe_booze" ), verbose );
+		retval &= localFileExists( filename( classType, sign, "_cafe_food" ), verbose );
+		return retval;
+	}
+
+	public static boolean anyLocalFileExists( String classType, String sign, final boolean verbose )
+	{
+		boolean retval = false;
+		retval |= localFileExists( filename( classType, sign, "" ), verbose );
+		retval |= localFileExists( filename( classType, sign, "_cafe_booze" ), verbose );
+		retval |= localFileExists( filename( classType, sign, "_cafe_food" ), verbose );
+		return retval;
+	}
+
+	private static boolean localFileExists( String localFilename, final boolean verbose )
+	{
+		File localFile = new File( KoLConstants.DATA_LOCATION, localFilename );
+		return localFileExists( localFile, verbose );
+	}
+
+	private  static boolean localFileExists( File localFile, final boolean verbose )
+	{
+		boolean exists = localFile.exists() && localFile.length() > 0;
+		if ( verbose )
+		{
+			RequestLogger.printLine( "Local file " + localFile.getName() + " " + ( exists ? "already exists" : "does not exist" ) + "." );
+		}
+		return exists;
 	}
 
 	// *** support for fetching TCRS files from KoLmafia's SVN repository
@@ -543,34 +606,6 @@ public class TCRSDatabase
 		fetchRemoteFile( filename( classType, sign, "_cafe_booze" ), verbose );
 		fetchRemoteFile( filename( classType, sign, "_cafe_food" ), verbose );
 		return retval;
-	}
-
-	// *** Primitives for checking presence of local file, checking
-	// presence of remote file, and fetching the remote file.
-
-	public static boolean anyLocalFileExists( String classType, String sign, final boolean verbose )
-	{
-		boolean retval = false;
-		retval |= localFileExists( filename( classType, sign, "" ), verbose );
-		retval |= localFileExists( filename( classType, sign, "_cafe_booze" ), verbose );
-		retval |= localFileExists( filename( classType, sign, "_cafe_food" ), verbose );
-		return retval;
-	}
-
-	public static boolean localFileExists( String localFilename, final boolean verbose )
-	{
-		File localFile = new File( KoLConstants.DATA_LOCATION, localFilename );
-		return localFileExists( localFile, verbose );
-	}
-
-	public static boolean localFileExists( File localFile, final boolean verbose )
-	{
-		boolean exists = localFile.exists() && localFile.length() > 0;
-		if ( verbose )
-		{
-			RequestLogger.printLine( "Local file " + localFile.getName() + " " + ( exists ? "already exists" : "does not exist" ) + "." );
-		}
-		return exists;
 	}
 
 	// *** Primitives for fetching a file from the SVN repository, overwriting existing file, if any.
@@ -630,6 +665,89 @@ public class TCRSDatabase
 		}
 
 		remoteFetched.add( remoteFileName );
+		return true;
+	}
+
+	// *** support for loading up TCRS data appropriate to your current class/sign
+
+	public static boolean loadTCRSData()
+	{
+		if ( !KoLCharacter.isCrazyRandomTwo() )
+		{
+			return false;
+		}
+
+		return loadTCRSData( KoLCharacter.getClassType(), KoLCharacter.getSign(), true );
+	}
+
+	private static boolean loadTCRSData( final String cclass, final String sign, final boolean verbose )
+	{
+		// If local TCRS data file is not present, fetch from repository
+		if ( !localFileExists( cclass, sign, verbose ) )
+		{
+			fetch( cclass, sign, verbose );
+		}
+
+		boolean nonCafeLoaded = false;
+
+		// If local TCRS data file is not present, offer to derive it
+		if ( !localFileExists( cclass, sign, verbose ) )
+		{
+			String message = "No TCRS data is available for " + cclass + "/" + sign + ". Would you like to derive it? (This will take a long time, but you only have to do it once.)";
+			if ( InputFieldUtilities.confirm( message  ) &&
+			     derive( cclass, sign, verbose ) )
+			{
+				save( cclass, sign, verbose );
+				nonCafeLoaded = true;
+			}
+			else
+			{
+				nonCafeLoaded = false;
+			}
+
+		}
+		// Otherwise, load it
+		else
+		{
+			nonCafeLoaded = load( cclass, sign, verbose );
+		}
+
+		// Now do the same thing for cafe data.
+		if ( !localCafeFileExists( cclass, sign, verbose ) )
+		{
+			fetchCafe( cclass, sign, verbose );
+		}
+
+		boolean cafeLoaded = false;
+
+		// If local TCRS data file is not present, offer to derive it
+		if ( !localCafeFileExists( cclass, sign, verbose ) )
+		{
+			String message = "No TCRS cafe data is available for " + cclass + "/" + sign + ". Would you like to derive it? (This will not take long, and you only have to do it once.)";
+			if ( InputFieldUtilities.confirm( message  ) &&
+			     deriveCafe( verbose ) )
+			     
+			{
+				saveCafe( cclass, sign, verbose );
+				cafeLoaded = true;
+			}
+			else
+			{
+				cafeLoaded = false;
+			}
+
+		}
+		// Otherwise, load it
+		else
+		{
+			cafeLoaded = loadCafe( cclass, sign, verbose );
+		}
+
+		if ( nonCafeLoaded || cafeLoaded )
+		{
+			applyModifiers();
+		}
+
 		return true;
 	}
 }
