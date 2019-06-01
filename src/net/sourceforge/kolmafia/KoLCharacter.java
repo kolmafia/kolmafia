@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
@@ -3572,6 +3573,10 @@ public abstract class KoLCharacter
 		{
 			int gyfftePoints = wasInHardcore ? 2 : 1;
 			Preferences.increment( "darkGyfftePoints", gyfftePoints );
+		}
+		else if ( oldPath.equals( CRAZY_RANDOM_TWO ) )
+		{
+			TCRSDatabase.resetModifiers();
 		}
 
 		// We are no longer in Hardcore
