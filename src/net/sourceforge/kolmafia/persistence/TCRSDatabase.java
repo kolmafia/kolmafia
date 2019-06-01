@@ -33,12 +33,12 @@
 
 package net.sourceforge.kolmafia.persistence;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -46,11 +46,14 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -92,6 +95,7 @@ public class TCRSDatabase
 	{
 		characterClass = "";
 		characterSign = "";
+		remoteFetched.clear();
 		TCRSMap.clear();
 		TCRSBoozeMap.clear();
 		TCRSFoodMap.clear();
@@ -499,6 +503,74 @@ public class TCRSDatabase
 	public static boolean resetModifiers()
 	{
 		// Adjust item data to have non-TCRS modifiers
+		return true;
+	}
+
+	// *** support for fetching TCRS files from KoLmafia's SVN repository
+
+	private static HashSet<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
+
+	public static boolean fetchRemoteFiles( final boolean verbose )
+	{
+		return fetchRemoteFiles( KoLCharacter.getClassType(), KoLCharacter.getSign(), verbose );
+	}
+
+	public static boolean fetchRemoteFiles( String classType, String sign, final boolean verbose )
+	{
+		boolean retval = fetchRemoteFile( filename( classType, sign, "" ), verbose );
+		fetchRemoteFile( filename( classType, sign, "_cafe_booze" ), verbose );
+		fetchRemoteFile( filename( classType, sign, "_cafe_food" ), verbose );
+		return retval;
+	}
+
+	public static boolean fetchRemoteFile( String localFilename, final boolean verbose )
+	{
+		String remoteFileName = "https://sourceforge.net/p/kolmafia/code/HEAD/tree/data/TCRS/" +
+				localFilename + "?format=raw";
+		if ( remoteFetched.contains( remoteFileName ) )
+		{
+			if ( verbose )
+			{
+				RequestLogger.printLine( "Already fetched remote version of " + localFilename + " in this session." );
+			}
+			return true;
+		}
+
+		// Because we know we want a remote file the directory and override parameters will be ignored.
+		BufferedReader remoteReader = DataUtilities.getReader( "", remoteFileName, false );
+		File output = new File( KoLConstants.DATA_LOCATION, localFilename );
+
+		try
+		{
+			PrintWriter writer = new PrintWriter( new FileWriter( output ) );
+			String aLine;
+			while (( aLine = remoteReader.readLine() ) != null )
+			{
+				// if the remote copy uses a different EOl than
+				// the local OS then this will implicitly convert
+				writer.println( aLine );
+			}
+			remoteReader.close();
+			writer.close();
+		}
+		catch ( IOException exception )
+		{
+			// The reader and writer should be closed but since
+			// that can throw an exception...
+			RequestLogger.printLine( "IO Exception for " + localFilename + ": "+ exception.toString() );
+			return false;
+		}
+		if ( output.length() <= 0 )
+		{
+			// Do we care if we delete a file that is known to
+			// exist and is empty?  No.
+			output.delete();
+			return false;
+		}
+		else
+		{
+			remoteFetched.add( remoteFileName );
+		}
 		return true;
 	}
 }
