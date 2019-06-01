@@ -60,6 +60,9 @@ public class CafeDatabase
 	private static final Map<Integer, String> cafeFood = new TreeMap<Integer, String>( new InverseIntegerOrder() );
 	private static final Map<Integer, String> cafeBooze = new TreeMap<Integer, String>( new InverseIntegerOrder() );
 
+	// Map from item name to descid, since ItemDatabase can't help with these
+	private static final Map<String, String> nameToDescId = new TreeMap<String, String>();;
+
 	static
 	{
 		CafeDatabase.readCafeData( "cafe_booze.txt",  KoLConstants.CAFE_BOOZE_VERSION, CafeDatabase.cafeBooze );
@@ -127,13 +130,21 @@ public class CafeDatabase
 		return CafeDatabase.cafeFood.entrySet();
 	}
 
+	public static final String nameToDescId( final String name )
+	{
+		return nameToDescId.get( name );
+	}
+
 	private static final void saveCafeItem( String[] data, Map<Integer, String> map )
 	{
 		if ( data.length < 2 )
 			return;
 
 		String id = data[ 0 ];
+		int itemId = StringUtilities.parseInt( id );
 		String name = data[ 1 ];
-		map.put( StringUtilities.parseInt( id ), name  );
+		map.put( itemId, name  );
+		String descId = ( map == cafeBooze ) ? boozeDescId( itemId ) : foodDescId( itemId );
+		nameToDescId.put( name, descId );
 	}
 }

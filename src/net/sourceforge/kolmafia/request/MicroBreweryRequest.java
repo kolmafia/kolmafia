@@ -149,7 +149,8 @@ public class MicroBreweryRequest
 				String descId = matcher.group( 2 );
 				String itemName = matcher.group( 3 );
 				String match = ItemDatabase.getItemDataName( itemId );
-				if ( match == null || !match.equals( itemName ) )
+				boolean checkItemName = !KoLCharacter.isCrazyRandomTwo();
+				if ( match == null || ( checkItemName && !match.equals( itemName ) ) )
 				{
 					ItemDatabase.registerItem( itemId, itemName, descId );
 				}
