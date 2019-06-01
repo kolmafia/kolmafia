@@ -95,7 +95,6 @@ public class TCRSDatabase
 	{
 		characterClass = "";
 		characterSign = "";
-		remoteFetched.clear();
 		TCRSMap.clear();
 		TCRSBoozeMap.clear();
 		TCRSFoodMap.clear();
@@ -508,7 +507,30 @@ public class TCRSDatabase
 
 	// *** support for fetching TCRS files from KoLmafia's SVN repository
 
-	private static HashSet<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
+	// Remote files we have fetched this session
+	private static Set<String> remoteFetched = new HashSet<String>(); //remote files fetched this session
+
+	// *** Fetching files from the SVN repository, in two parts, since the
+	// non-cafe code was released a week before the cafe code, and some
+	// class/signs have only the non-cafe file
+
+	public static boolean fetch( final String classType, final String sign,  final boolean verbose )
+	{
+		boolean retval = fetchRemoteFile( filename( classType, sign, "" ), verbose );
+		return retval;
+	}
+
+	public static boolean fetchCafe( final String classType, final String sign,  final boolean verbose )
+	{
+		boolean retval = true;
+		retval &= fetchRemoteFile( filename( classType, sign, "_cafe_booze" ), verbose );
+		retval &= fetchRemoteFile( filename( classType, sign, "_cafe_food" ), verbose );
+		return retval;
+	}
+
+	// *** If we want to get all three files at once - and count it a
+	// success as long as the non-cafe file is present -use these.
+	// Not recommended.
 
 	public static boolean fetchRemoteFiles( final boolean verbose )
 	{
@@ -522,6 +544,27 @@ public class TCRSDatabase
 		fetchRemoteFile( filename( classType, sign, "_cafe_food" ), verbose );
 		return retval;
 	}
+
+	// *** Primitives for checking presence of local file, checking
+	// presence of remote file, and fetching the remote file.
+
+	public static boolean localFileExists( String localFilename, final boolean verbose )
+	{
+		File localFile = new File( KoLConstants.DATA_LOCATION, localFilename );
+		return localFileExists( localFile, verbose );
+	}
+
+	public static boolean localFileExists( File localFile, final boolean verbose )
+	{
+		boolean exists = localFile.exists() && localFile.length() > 0;
+		if ( verbose )
+		{
+			RequestLogger.printLine( "Local file " + localFile.getName() + " " + ( exists ? "already exists" : "does not exist" ) + "." );
+		}
+		return exists;
+	}
+
+	// *** Primitives for fetching a file from the SVN repository, overwriting existing file, if any.
 
 	public static boolean fetchRemoteFile( String localFilename, final boolean verbose )
 	{
@@ -552,6 +595,10 @@ public class TCRSDatabase
 			}
 			remoteReader.close();
 			writer.close();
+			if ( verbose )
+			{
+				RequestLogger.printLine( "Fetched remote version of " + localFilename + " from the repository." );
+			}
 		}
 		catch ( IOException exception )
 		{
@@ -560,17 +607,20 @@ public class TCRSDatabase
 			RequestLogger.printLine( "IO Exception for " + localFilename + ": "+ exception.toString() );
 			return false;
 		}
+
 		if ( output.length() <= 0 )
 		{
 			// Do we care if we delete a file that is known to
 			// exist and is empty?  No.
+			if ( verbose )
+			{
+				RequestLogger.printLine( "File " + localFilename + " is empty. Deleting." );
+			}
 			output.delete();
 			return false;
 		}
-		else
-		{
-			remoteFetched.add( remoteFileName );
-		}
+
+		remoteFetched.add( remoteFileName );
 		return true;
 	}
 }

@@ -46,21 +46,42 @@ public class TCRSCommand
 {
 	public TCRSCommand()
 	{
-		this.usage = " load | save | derive | check # | apply - handle item modifiers for Two Crazy Random Summer.";
+		this.usage = " fetch CLASS, SIGN | load | save | derive | check # | apply - handle item modifiers for Two Crazy Random Summer.";
 	}
 
 	@Override
 	public void run( final String cmd, String parameters )
 	{
-		String[] split = parameters.split( " +" );
-		String command = split[ 0 ];
+		int index = parameters.indexOf( " " );
+		if ( index == -1 )
+		{
+			KoLmafia.updateDisplay( MafiaState.ERROR, "Wha?" );
+			return;
+		}
+		String command = parameters.substring( 0, index );
+		parameters = parameters.substring( index + 1 );
+		String[] split = parameters.split( " *, *" );
+
+		if ( command.equals( "fetch" ) )
+		{
+			if ( split.length != 2 )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "fetch CLASS SIGN." );
+				return;
+			}
+			String cclass = split [ 0];
+			String sign = split[ 1 ];
+			TCRSDatabase.fetch( cclass, sign, true );
+			TCRSDatabase.fetchCafe( cclass, sign, true );
+			return;
+		}
 
 		if ( !KoLCharacter.isCrazyRandomTwo() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are not in a Two Crazy Random Summer run" );
 			return;
 		}
-
+		
 		String file = TCRSDatabase.filename();
 
 		if ( command.equals( "load" ) )
