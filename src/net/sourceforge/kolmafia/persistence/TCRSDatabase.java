@@ -112,15 +112,20 @@ public class TCRSDatabase
 		return filename( KoLCharacter.getClassType(), KoLCharacter.getSign(), "" );
 	}
 
-	public static String filename( String cclass, String csign, String suffix )
+	public static boolean validate( String cclass, String csign  )
 	{
-		if ( !Arrays.asList( KoLCharacter.STANDARD_CLASSES ).contains( cclass) ||
-		     !Arrays.asList( KoLCharacter.ZODIACS ).contains( csign) )
+		return ( Arrays.asList( KoLCharacter.STANDARD_CLASSES ).contains( cclass) &&
+			 Arrays.asList( KoLCharacter.ZODIACS ).contains( csign) );
+	}
+
+	public static String filename( String cclass, String sign, String suffix )
+	{
+		if ( !validate( cclass, sign ) )
 		{
 			return null;
 		}
 
-		return "TCRS_" + StringUtilities.globalStringReplace( cclass, " ", "_" ) + "_" + csign + suffix + ".txt";
+		return "TCRS_" + StringUtilities.globalStringReplace( cclass, " ", "_" ) + "_" + sign + suffix + ".txt";
 	}
 
 	public static boolean load( final boolean verbose )
@@ -554,6 +559,10 @@ public class TCRSDatabase
 
 	private static boolean localFileExists( String localFilename, final boolean verbose )
 	{
+		if ( localFilename == null )
+		{
+			return false;
+		}
 		File localFile = new File( KoLConstants.DATA_LOCATION, localFilename );
 		return localFileExists( localFile, verbose );
 	}

@@ -52,18 +52,23 @@ public class TCRSCommand
 	@Override
 	public void run( final String cmd, String parameters )
 	{
+		String command;
+
 		int index = parameters.indexOf( " " );
 		if ( index == -1 )
 		{
-			KoLmafia.updateDisplay( MafiaState.ERROR, "Wha?" );
-			return;
+			command = parameters;
+			parameters = "";
 		}
-		String command = parameters.substring( 0, index );
-		parameters = parameters.substring( index + 1 );
-		String[] split = parameters.split( " *, *" );
+		else
+		{
+			command = parameters.substring( 0, index );
+			parameters = parameters.substring( index + 1 );
+		}
 
 		if ( command.equals( "fetch" ) )
 		{
+			String[] split = parameters.split( " *, *" );
 			if ( split.length != 2 )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "fetch CLASS SIGN." );
@@ -71,6 +76,11 @@ public class TCRSCommand
 			}
 			String cclass = split [ 0];
 			String sign = split[ 1 ];
+			if ( !TCRSDatabase.validate( cclass, sign ) )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, cclass + " is not a valid class or " + sign + " is not a valid sign." );
+				return;
+			}
 			if ( TCRSDatabase.anyLocalFileExists( cclass, sign, true ) )
 			{
 				KoLmafia.updateDisplay( MafiaState.ERROR, "Will not overwrite. Aborting." );
@@ -108,13 +118,7 @@ public class TCRSCommand
 
 		if ( command.equals( "check" ) )
 		{
-			if ( split.length != 2 )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "Check what item #?" );
-				return;
-			}
-
-			int itemId = StringUtilities.parseInt( split[ 1 ] );
+			int itemId = StringUtilities.parseInt( parameters );
 			TCRS tcrs = TCRSDatabase.deriveItem( itemId );
 			if ( tcrs == null )
 			{
