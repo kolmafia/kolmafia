@@ -412,6 +412,42 @@ public class TCRSDatabase
 
 	public static boolean applyModifiers()
 	{
+		// Remove food/booze/spleen/potion sources for effects
+		StringBuilder buffer = new StringBuilder();
+		for ( Integer id : EffectDatabase.keys() )
+		{
+			String actions = EffectDatabase.getActions( id );
+			if ( actions == null || actions.startsWith( "#" ) )
+			{
+				continue;
+			}
+			if ( actions.contains( "eat " ) ||
+			     actions.contains( "drink " ) ||
+			     actions.contains( "chew " ) ||
+			     actions.contains( "use " ) )
+			{
+				String [] split = actions.split( " *\\| *" );
+				buffer.setLength( 0 );
+				for ( String action : split )
+				{
+					if ( action.equals( "" ) ||
+					     action.startsWith( "eat " ) ||
+					     action.startsWith( "drink " ) ||
+					     action.startsWith( "chew " ) ||
+					     action.startsWith( "use " ) )
+					{
+						continue;
+					}
+					if ( buffer.length() > 0 )
+					{
+						buffer.append( "|" );
+					}
+					buffer.append( action );
+				}
+				EffectDatabase.setActions( id, buffer.length() == 0 ? null : buffer.toString() );
+			}
+		}
+
 		// Adjust non-cafe item data to have TCRS modifiers
 		for ( Entry<Integer, TCRS> entry : TCRSMap.entrySet() )
 		{
@@ -428,7 +464,7 @@ public class TCRSDatabase
 			}
 		}
 
-		// Do the same for cafe consumable
+		// Do the same for cafe consumables
 		for ( Entry<Integer, TCRS> entry : TCRSBoozeMap.entrySet() )
 		{
 			Integer id = entry.getKey();
@@ -500,7 +536,81 @@ public class TCRSDatabase
 		// Set modifiers
 		Modifiers.updateItem( itemName, tcrs.modifiers );
 
+		// Add as effect source, if appropriate
+		String effectName = Modifiers.getStringModifier( "Item", itemName, "Effect" );
+		if ( effectName != null && !effectName.equals( "" ) )
+		{
+			addEffectSource( itemName, usage, effectName );
+		}
+
 		return true;
+	}
+
+	private static void addEffectSource( final String itemName, final int usage, final String effectName )
+	{
+		int effectId = EffectDatabase.getEffectId( effectName );
+		if ( effectId == -1 )
+		{
+			return;
+		}
+		String verb = 
+			( usage == KoLConstants.CONSUME_EAT ) ? "eat " :
+			( usage == KoLConstants.CONSUME_DRINK ) ? "drink " :
+			( usage == KoLConstants.CONSUME_SPLEEN ) ? "chew " :
+			"use ";
+		String actions = EffectDatabase.getActions( effectId );
+		boolean added = false;
+		StringBuilder buffer = new StringBuilder();
+		if ( actions != null )
+		{
+			String either = verb + "either ";
+			String [] split = actions.split( " *\\| *" );
+			for ( String action : split )
+			{
+				if ( action == "" )
+				{
+					continue;
+				}
+				if ( buffer.length() > 0 )
+				{
+					buffer.append( "|" );
+				}
+				if ( added )
+				{
+					buffer.append( action );
+					continue;
+				}
+				if ( action.startsWith( either ) )
+				{
+					buffer.append( action );
+					buffer.append( ", 1 " );
+				}
+				else if ( action.startsWith( verb ) )
+				{
+					buffer.append( StringUtilities.singleStringReplace( action, verb, either ) );
+					buffer.append( ", 1 " );
+				}
+				else
+				{
+					buffer.append( action );
+					continue;
+				}
+				buffer.append( itemName );
+				added = true ;
+			}
+		}
+
+		if ( !added )
+		{
+			if ( buffer.length() > 0 )
+			{
+				buffer.append( "|" );
+			}
+			buffer.append( verb );
+			buffer.append( " 1 " );
+			buffer.append( itemName );
+		}
+		EffectDatabase.setActions( effectId, buffer.toString() );
 	}
 
 	private static void applyConsumableModifiers( final int usage, final String itemName, final TCRS tcrs )
