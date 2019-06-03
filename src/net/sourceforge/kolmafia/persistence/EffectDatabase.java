@@ -247,6 +247,26 @@ public class EffectDatabase
 		return rv.iterator();
 	}
 
+	public static final String getActions( final int effectId )
+	{
+		return ( effectId == -1 ) ? null : EffectDatabase.getActions( IntegerPool.get( effectId ) );
+	}
+
+	public static final String getActions( final Integer effectId )
+	{
+		return EffectDatabase.defaultActions.get( effectId );
+	}
+
+	public static final void setActions( final int effectId, final String actions )
+	{
+		EffectDatabase.setActions( IntegerPool.get( effectId ), actions );
+	}
+
+	public static final void setActions( final Integer effectId, final String actions )
+	{
+		EffectDatabase.defaultActions.put( effectId, actions );
+	}
+
 	public static final String getActionNote( final int effectId )
 	{
 		if ( effectId == -1 )
@@ -466,6 +486,11 @@ public class EffectDatabase
 	public static final Collection<String> values()
 	{
 		return EffectDatabase.nameById.values();
+	}
+
+	public static final Set<Integer> keys()
+	{
+		return EffectDatabase.nameById.keySet();
 	}
 
 	/**
