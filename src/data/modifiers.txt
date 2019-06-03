@@ -3091,7 +3091,7 @@ Item	plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15, Mystic
 Item	plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equip
 Item	plexiglass pinky ring	Spell Damage: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Mysticality Percent: +30, Single Equip
 Item	plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
-Item	plush sea serpent	Damage Reduction: 10, Monster Level: -100
+Item	plush sea serpent	Damage Reduction: 10, Monster Level: [-100*env(underwater)]
 Item	Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Single Equip, Cloathing
 Item	pogo stick	Initiative: +30, Moxie Percent: +10, Single Equip
 Item	Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
