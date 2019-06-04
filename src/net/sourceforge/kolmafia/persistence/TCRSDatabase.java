@@ -294,11 +294,18 @@ public class TCRSDatabase
 			KoLmafia.updateDisplay( "Deriving TCRS item adjustments for all real items..." );
 		}
 
+		int total = keys.size();
+		int count = 0;
+
 		for ( Integer id : keys )
 		{
+			if ( verbose && ++count % 100 == 1 )
+			{
+				String message = "Progress: " + count + "/" + total + "...";
+				KoLmafia.updateDisplay( message );
+			}
 			derive( id );
 		}
-
 
 		characterClass = cclass;
 		characterSign = sign;
