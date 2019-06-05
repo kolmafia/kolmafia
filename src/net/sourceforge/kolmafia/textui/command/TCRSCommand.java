@@ -142,6 +142,7 @@ public class TCRSCommand
 
 		if ( command.equals( "reset" ) )
 		{
+			TCRSDatabase.resetModifiers();
 			return;
 		}
 	}

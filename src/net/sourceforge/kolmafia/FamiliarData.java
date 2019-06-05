@@ -1115,11 +1115,17 @@ public class FamiliarData
 			return true;
 		}
 
+		if ( !ItemDatabase.isFamiliarEquipment( itemId ) )
+		{
+			return false;
+		}
+
 		Modifiers mods = Modifiers.getItemModifiers( itemId );
 		if ( mods == null )
 		{
 			return false;
 		}
+
 		if ( mods.getBoolean( Modifiers.GENERIC ) )
 		{
 			return true;
@@ -1130,14 +1136,15 @@ public class FamiliarData
 		{
 			return false;
 		}
-		String[] pieces = others.split( "\\s*\\|\\s*" );
-		for ( int i = pieces.length - 1; i >= 0; --i )
+
+		for ( String it : others.split( "\\s*\\|\\s*" ) )
 		{
-			if ( pieces[ i ].equals( this.getRace() ) )
+			if ( it.equals( this.getRace() ) )
 			{
 				return true;
 			}
 		}
+
 		return false;
 	}
 
