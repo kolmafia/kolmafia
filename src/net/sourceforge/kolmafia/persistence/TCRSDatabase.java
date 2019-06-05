@@ -499,10 +499,6 @@ public class TCRSDatabase
 
 	public static boolean applyModifiers( int itemId )
 	{
-		if ( ItemDatabase.isFamiliarEquipment( itemId ) )
-		{
-			return false;
-		}
 		Integer id = IntegerPool.get( itemId );
 		return applyModifiers( id, TCRSMap.get( id ) );
 	}
@@ -521,6 +517,11 @@ public class TCRSDatabase
 	{
 		// Adjust item data to have TCRS modifiers
 		if ( tcrs == null )
+		{
+			return false;
+		}
+
+		if ( ItemDatabase.isFamiliarEquipment( itemId ) )
 		{
 			return false;
 		}
