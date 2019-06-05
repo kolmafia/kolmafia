@@ -79,8 +79,7 @@ public class TCRSDatabase
 		}
 	}
 
-	private static String characterClass;	// Character class
-	private static String characterSign;	// Zodiac Sign
+	private static String currentClassSign;	// Character class/Zodiac Sign
 
 	// Sorted by itemId
 	private static Map<Integer, TCRS> TCRSMap = new TreeMap<Integer, TCRS>();
@@ -94,8 +93,7 @@ public class TCRSDatabase
 
 	public static void reset()
 	{
-		characterClass = "";
-		characterSign = "";
+		currentClassSign = "";
 		TCRSMap.clear();
 		TCRSBoozeMap.clear();
 		TCRSFoodMap.clear();
@@ -144,8 +142,7 @@ public class TCRSDatabase
 	{
 		if ( load( filename( cclass, csign, "" ), TCRSMap, verbose ) )
 		{
-			characterClass = cclass;
-			characterSign = csign;
+			currentClassSign = cclass + "/" + csign;
 			return true;
 		}
 		return false;
@@ -282,7 +279,8 @@ public class TCRSDatabase
 	private static boolean derive( final String cclass, final String sign, final boolean verbose )
 	{
 		// If we don't currently have data for this class/sign, start fresh
-		if ( !cclass.equals( characterClass ) || !sign.equals( characterSign ) )
+		String classSign = cclass + "/" + sign;
+		if ( !currentClassSign.equals( classSign ) )
 		{
 			reset();
 		}
@@ -307,8 +305,7 @@ public class TCRSDatabase
 			derive( id );
 		}
 
-		characterClass = cclass;
-		characterSign = sign;
+		currentClassSign = classSign;
 
 		if ( verbose )
 		{
@@ -637,15 +634,26 @@ public class TCRSDatabase
 						      comment );
 	}
 
-	public static boolean resetModifiers()
+	public static void resetModifiers()
 	{
-		if ( KoLCharacter.isCrazyRandomTwo() )
+		// Reset all the data structures that we altered in-place to
+		// supper a particular TCRS class/sign to standard KoL values.
+
+		// Nothing to reset if we didn't load TCRS data
+		if ( currentClassSign.equals( "" ) )
 		{
-			return false;
+			return;
 		}
 
-		// *** Adjust item data to have non-TCRS modifiers
-		return true;
+		TCRSDatabase.reset();
+
+		Modifiers.resetModifiers();
+		EffectDatabase.reset();
+		ConsumablesDatabase.reset();
+
+		ConcoctionDatabase.refreshConcoctions();
+		KoLCharacter.recalculateAdjustments();
+		KoLCharacter.updateStatus();
 	}
 
 	// *** Primitives for checking presence of local files

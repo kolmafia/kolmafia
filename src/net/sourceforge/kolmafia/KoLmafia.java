@@ -882,7 +882,8 @@ public abstract class KoLmafia
 		KoLCharacter.resetPerAscensionData();
 
 		// If we in Two Crazy Random Summer, this is a good time to
-		// load all the modified item data
+		// load all the modified item data. Reset to KoL defaults first.
+		TCRSDatabase.resetModifiers();
 		TCRSDatabase.loadTCRSData();
 
 		// Hermit items depend on character class

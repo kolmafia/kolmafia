@@ -158,12 +158,17 @@ public class ConsumablesDatabase
 	private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
 	private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
-	static
+	public static void reset()
 	{
 		ConsumablesDatabase.readConsumptionData( "fullness.txt", KoLConstants.FULLNESS_VERSION, ConsumablesDatabase.fullnessByName );
 		ConsumablesDatabase.readConsumptionData( "inebriety.txt", KoLConstants.INEBRIETY_VERSION, ConsumablesDatabase.inebrietyByName );
 		ConsumablesDatabase.readConsumptionData( "spleenhit.txt", KoLConstants.SPLEENHIT_VERSION , ConsumablesDatabase.spleenHitByName );
 		ConsumablesDatabase.readNonfillingData();
+	}
+
+	static
+	{
+		ConsumablesDatabase.reset();
 	}
 
 	public static void writeConsumable( final PrintStream writer, final String name, final int size,
@@ -192,8 +197,9 @@ public class ConsumablesDatabase
 
 	private static void readConsumptionData( String filename, int version, Map<String, Integer> map )
 	{
-		BufferedReader reader = FileUtilities.getVersionedReader( filename, version );
+		map.clear();
 
+		BufferedReader reader = FileUtilities.getVersionedReader( filename, version );
 		String[] data;
 
 		while ( ( data = FileUtilities.readData( reader ) ) != null )
@@ -317,13 +323,17 @@ public class ConsumablesDatabase
 	private static final void saveConsumptionValues( String[] data, Map<String, Integer> map )
 	{
 		if ( data.length < 2 )
+		{
 			return;
+		}
 
 		String name = data[ 0 ];
 		map.put( name, Integer.valueOf( data[ 1 ] ) );
 
 		if ( data.length < 8 )
+		{
 			return;
+		}
 
 		String holiday = HolidayDatabase.getHoliday();
 		boolean isBorisDay = ( holiday.contains( "Feast of Boris" ) || holiday.contains( "Drunksgiving" ) );
