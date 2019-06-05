@@ -86,7 +86,7 @@ public class EffectDatabase
 		EffectDatabase.reset();
 	}
 
-	private static void reset()
+	public static void reset()
 	{
 		EffectDatabase.newEffects = false;
 

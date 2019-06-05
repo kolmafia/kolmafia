@@ -4001,8 +4001,15 @@ public class Modifiers
 		return lookup;
 	}
 
-	static
+	public static void resetModifiers()
 	{
+		Modifiers.modifiersByName.clear();
+		Modifiers.familiarEffectByName.clear();
+		Modifiers.modifierIndicesByName.clear();
+		Modifiers.passiveSkills.clear();
+		Modifiers.synergies.clear();
+		Modifiers.mutexes.clear();
+
 		BufferedReader reader = FileUtilities.getVersionedReader( "modifiers.txt", KoLConstants.MODIFIERS_VERSION );
 		String[] data;
 
@@ -4113,6 +4120,11 @@ public class Modifiers
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	static
+	{
+		Modifiers.resetModifiers();
 	}
 
 	public static void writeModifiers( final File output )
