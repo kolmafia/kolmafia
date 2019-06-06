@@ -1,0 +1,45 @@
+-1	spoiled diet Peche a la Frog	1	crappy	
+-2	half-sized spoiled As Jus Gezund Heit	2	crappy	
+-3	adequate jittery Bouillabaise Coucher Avec Moi	3	good	
+-7	tasty tiny mirror gumdrop chow mein	1	awesome	
+-8	yummy candy cane pizza	4	awesome	
+-9	half-sized spoiled gingerbread stir-fry	2	crappy	
+-10	normal ghostly twigs and gravel	3	good	
+-11	decent shoots and leaves	3	good	
+-12	normal bite-sized wobbly bowl of unidentifiable goo	1	good	
+-13	toothsome small gingerbread massacre	2	awesome	
+-14	miniature adequate blinking It Came From Beyond Dessert	2	good	
+-15	stale blurry vampire cake	4	decent	
+-52	tasty shaking Soylent Red and Green	4	awesome	
+-53	enchanted flavorless pulsating Disc-Shaped Nutrition Unit	3	decent	
+-54	spoiled big Gingerborg Hive	5	crappy	
+-61	miniature stale Candy Cane Surprise	2	decent	
+-62	moldy skewed Grimdrop Chow Mein	3	crappy	
+-63	rotten small Grimgerbread House	2	crappy	
+-67	spoiled teal huge Caviar Carbonara	4	crappy	
+-68	flavorless Halibut Alfredo	3	decent	
+-69	delicious bouncing purple blurry Red Herring Velvet Cake	3	awesome	
+-73	bland massive skewed CRIMBCO Reconstituted Gruel	8	decent	
+-74	rotten huge blinking New and Improved CRIMBCO Reconstituted Gruel	3	crappy	
+-75	super-sized toothsome cyan CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	awesome	
+-79	rotten half-sized Brussels Sprout Stir-Fry	2	crappy	
+-80	decent Carrot, Cabbage, and Kale Pizza	3	good	
+-81	yummy Turnip and Rutabaga Pie	3	awesome	
+-85	rotten spinning Rainbow Spider Fun Roll	3	crappy	
+-86	spoiled Vegas Volcano Lava Roll	4	crappy	
+-87	immense rotten Crazy Dragon Shogun Buddha Roll	9	crappy	
+-92	flavorless basic hot dog	4	decent	
+-93	rotten savage macho dog	4	crappy	
+-94	small spoiled olive one with everything	2	crappy	
+-95	big bland bouncing sly dog	5	decent	
+-96	half-sized decent devil dog	2	good	
+-97	rotten blurry chilly dog	3	crappy	
+-98	decent ghost dog	4	good	
+-99	bland junkyard dog	3	decent	
+-100	flavorless wet dog	4	decent	
+-101	bland jumbo twirling sleeping dog	5	decent	
+-102	rotten skewed optimal dog	3	crappy	
+-103	tasty miniature huge video games hot dog	2	awesome	
+-104	flavorless Peppermint Nutrition Block	4	decent	
+-105	yummy diet Gingerbread Nutrition Block	1	awesome	
+-106	special bland Cinnamon Nutrition Block	4	decent	
