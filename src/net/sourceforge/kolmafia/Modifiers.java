@@ -241,7 +241,7 @@ public class Modifiers
 	public static final int RUBEE_DROP = 129;
 	public static final int KRUEGERAND_DROP = 130;
 	public static final int WARBEAR_ARMOR_PENETRATION = 131;
-
+	public static final int CLOWNINESS = 132;
 	public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
 	private static final Object[][] doubleModifiers =
@@ -832,6 +832,10 @@ public class Modifiers
 		  Pattern.compile( "([+-]\\d+) WarBear Armor Penetration" ),
 		  Pattern.compile( "WarBear Armor Penetration: " + EXPR )
 		},
+		{ "Clowniness",
+		  Pattern.compile( "Makes you look (\\d+)% clowny" ),
+		  Pattern.compile( "Clowniness: " + EXPR )
+		},
 	};
 
 	public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -856,23 +860,18 @@ public class Modifiers
 	}
 
 	public static final int BOOLEANS = 0;
-	public static final int CLOWNOSITY = 1;
-	public static final int BRIMSTONE = 2;
-	public static final int CLOATHING = 3;
-	public static final int SYNERGETIC = 4;
-	public static final int RAVEOSITY = 5;
-	public static final int MUTEX = 6;
-	public static final int MUTEX_VIOLATIONS = 7;
+	public static final int BRIMSTONE = 1;
+	public static final int CLOATHING = 2;
+	public static final int SYNERGETIC = 3;
+	public static final int RAVEOSITY = 4;
+	public static final int MUTEX = 5;
+	public static final int MUTEX_VIOLATIONS = 6;
 
 	private static final Object[][] bitmapModifiers =
 	{
 		{ "(booleans)",
 		  null,
 		  null
-		},
-		{ "Clownosity",
-		  null,
-		  Pattern.compile( "Clownosity: (\\+?\\d+)" )
 		},
 		{ "Brimstone",
 		  null,
