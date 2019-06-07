@@ -426,11 +426,11 @@
 428	nothing-in-the-box	0		
 429	bouncing bouncing beanbag chair	0		
 430	red squat blurry acid-squirting flower	0		Single Equip
-431	spinning clown shoes of Leguizamo	0		Monster Level: +20
-432	horrifying bloody clown pants	0		
+431	spinning clown shoes of Leguizamo	0		Monster Level: +20, Clowniness: 25
+432	horrifying bloody clown pants	0		, Clowniness: 25
 433	ghostly skinny balloon	0		
-434	balloon helmet of extreme caution	0		Monster Level: -25
-435	upside-down ribald gravedigger's balloon sword	0		Sleaze Damage: +10
+434	balloon helmet of extreme caution	0		Monster Level: -25, Clowniness: 50
+435	upside-down ribald gravedigger's balloon sword	0		Sleaze Damage: +10, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	pulsating chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	bouncing grievous box-in-the-box	0		Weapon Damage Percent: +50
 446	shaking pulsating nothing-in-the-box-in-the-box	0		
 447	therapeutic box-in-the-box-in-the-box	0		HP Regen Min: 5, HP Regen Max: 7
-448	miser's stiffened foolscap fool's cap	0		Damage Reduction: 1, Meat Drop: +10
-449	dance instructor's clown nose	0		Experience Percent (Moxie): +10
+448	miser's stiffened foolscap fool's cap	0		Damage Reduction: 1, Meat Drop: +10, Clowniness: 25
+449	dance instructor's clown nose	0		Experience Percent (Moxie): +10, Clowniness: 25
 450	blue pretentious paintbrush	0		
 451	pretentious palette	0		
 452	green disease	0		
@@ -2205,7 +2205,7 @@
 2230	icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	skewed Socratic bow tie	0		Experience (Mysticality): +1
+2233	skewed Socratic bow tie	0		Experience (Mysticality): +1, Clowniness: 75
 2234	cyan Jack Frost's calavera concertina	0		Cold Spell Damage: +50, Song Duration: 7
 2235	gray ribald razor-sharp ratarang	0		Weapon Damage Percent: +25, Sleaze Damage: +10
 2236	aerosolized dry activated turtle pheromones	0		Effect: "Warm Shoulders", Effect Duration: 65
@@ -2445,17 +2445,17 @@
 2472	wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	wobbly upside-down clown skin	0		
-2475	family-friendly Tesla clown wig	0		Sleaze Resistance: +1, MP Regen Min: 7, MP Regen Max: 10
-2476	ghostly Herculean clownskin belt	0		Experience (Muscle): +1
-2477	zippy clownskin buckler	0		Initiative: +20, Damage Reduction: 3
-2478	clown whip of doom	0		
+2475	family-friendly Tesla clown wig	0		Sleaze Resistance: +1, MP Regen Min: 7, MP Regen Max: 10, Clowniness: 50
+2476	ghostly Herculean clownskin belt	0		Experience (Muscle): +1, Clowniness: 50
+2477	zippy clownskin buckler	0		Initiative: +20, Damage Reduction: 3, Clowniness: 50
+2478	clown whip of doom	0		, Clowniness: 50
 2479	demon skin	0		
 2480	friendly demon-horned hat	0		Familiar Weight: +3
 2481	narrow skewed demon buckler of the brute	0		Muscle Percent: +30, Damage Reduction: 5
 2482	squat Annie Oakley's dance instructor's educational demon whip	0		Experience: +1, Experience Percent (Moxie): +10, Critical Hit Percent: +20
 2483	Jack Frost's barskin cloak	0		Cold Spell Damage: +50
 2484	Jeselnik's chilly snakeskin duster	0		Cold Damage: +5, Sleaze Damage: +25
-2485	tumbling jittery knitted veiny clownskin harness	0		Maximum HP: +10, Cold Resistance: +3
+2485	tumbling jittery knitted veiny clownskin harness	0		Maximum HP: +10, Cold Resistance: +3, Clowniness: 50
 2486	Jim Carey's grievous demonskin jacket	0		Weapon Damage Percent: +50, Monster Level: +25
 2487	curative hipposkin poncho	0		HP Regen Min: 3, HP Regen Max: 5
 2488	censurious yak anorak	0		Sleaze Resistance: +3

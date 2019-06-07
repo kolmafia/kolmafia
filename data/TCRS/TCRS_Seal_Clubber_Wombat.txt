@@ -426,11 +426,11 @@
 428	mirror nothing-in-the-box	0		
 429	beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	clown shoes of vim and vigor	0		Maximum HP Percent: +50
-432	pulsating maroon bloody clown pants of mayonnaise	0		Sleaze Spell Damage: +50
+431	clown shoes of vim and vigor	0		Maximum HP Percent: +50, Clowniness: 25
+432	pulsating maroon bloody clown pants of mayonnaise	0		Sleaze Spell Damage: +50, Clowniness: 25
 433	bouncing skinny balloon	0		
-434	skewed deadly balloon helmet	0		Weapon Damage: +5
-435	wool sizzling balloon sword	0		Hot Damage: +10, Cold Resistance: +1
+434	skewed deadly balloon helmet	0		Weapon Damage: +5, Clowniness: 50
+435	wool sizzling balloon sword	0		Hot Damage: +10, Cold Resistance: +1, Clowniness: 50
 436	purple balloon monkey	0		
 437	squat twirling chef skull	0		
 438	chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	squat nasty box-in-the-box	0		Stench Damage: +5
 446	nothing-in-the-box-in-the-box	0		
 447	shaking nasty box-in-the-box-in-the-box	0		Stench Damage: +5
-448	rosewater-soaked savvy foolscap fool's cap	0		Mysticality Percent: +20, Stench Resistance: +3
-449	clown nose of the wise owl	0		Mysticality: +20
+448	rosewater-soaked savvy foolscap fool's cap	0		Mysticality Percent: +20, Stench Resistance: +3, Clowniness: 25
+449	clown nose of the wise owl	0		Mysticality: +20, Clowniness: 25
 450	pretentious paintbrush	0		
 451	blurry tumbling pretentious palette	0		
 452	ghostly disease	0		
@@ -2205,7 +2205,7 @@
 2230	blinking icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	bow tie of the sweet-tooth	0		Candy Drop: +100
+2233	bow tie of the sweet-tooth	0		Candy Drop: +100, Clowniness: 75
 2234	careful calavera concertina	0		Monster Level: -10, Song Duration: 7
 2235	mirror grievous slick ratarang	0		Moxie: +10, Weapon Damage Percent: +50
 2236	energized improved skewed turtle pheromones	0		Effect: "Rational Thought", Effect Duration: 57
@@ -2445,17 +2445,17 @@
 2472	wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	lime green clown skin	0		
-2475	foul-smelling deadly clown wig	0		Weapon Damage: +5, Stench Damage: +10
-2476	blurry clownskin belt of the sewer	0		Stench Damage: +25
-2477	teal chilly clownskin buckler	0		Cold Damage: +5, Damage Reduction: 3
-2478	Samson's clown whip	0		Experience (Muscle): +5
+2475	foul-smelling deadly clown wig	0		Weapon Damage: +5, Stench Damage: +10, Clowniness: 50
+2476	blurry clownskin belt of the sewer	0		Stench Damage: +25, Clowniness: 50
+2477	teal chilly clownskin buckler	0		Cold Damage: +5, Damage Reduction: 3, Clowniness: 50
+2478	Samson's clown whip	0		Experience (Muscle): +5, Clowniness: 50
 2479	ghostly demon skin	0		
 2480	shaking dance instructor's demon-horned hat	0		Experience Percent (Moxie): +10
 2481	sinister demon buckler	0		Spell Damage: +10, Damage Reduction: 5
 2482	mansplainer's forbidden demon whip of Calamity Jane	0		Spell Damage Percent: +50, Critical Hit Percent: +15, Monster Level: +15
 2483	ghostly Rosewater's barskin cloak	0		Mysticality Percent: +30
 2484	spinning mansplainer's Socratic snakeskin duster	0		Experience (Mysticality): +1, Monster Level: +15
-2485	mirror banded clownskin harness of horror	0		Damage Absorption: +100, Spooky Spell Damage: +25
+2485	mirror banded clownskin harness of horror	0		Damage Absorption: +100, Spooky Spell Damage: +25, Clowniness: 50
 2486	demonskin jacket of terror of the early riser	0		Spooky Spell Damage: +10, Adventures: +7
 2487	bouncing hipposkin poncho of the ox	0		Muscle: +20
 2488	maroon gravedigger's yak anorak	0		Spooky Damage: +10
