@@ -89,7 +89,7 @@ Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFai
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
 Item	balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
-Item	balloon helmet	Damage Absorption: +20, Clownosity: +1, Familiar Effect: "3xFairy, cap 12"
+Item	balloon helmet	Damage Absorption: +20, Clowniness: 25, Familiar Effect: "3xFairy, cap 12"
 Item	bark beret	Damage Reduction: 4, Familiar Effect: "2xPotato, 2.5xLep, cap 10"
 Item	Baron von Ratsworth's tophat	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "1xPotato, 3xGhuol, cap 18"
 Item	barrelhead	Maximum MP: +25, MP Regen Min: 3, MP Regen Max: 5
@@ -138,7 +138,7 @@ Item	chrome helmet turtle	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effec
 Item	clingfilm cap	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, MP Regen Min: 2, MP Regen Max: 3, Familiar Effect: "1xVolley, cap 37"
 Item	Cloaca-Cola helmet	Damage Absorption: +10, Familiar Effect: "3xFairy, cap 7"
 Item	clockwork hat	Spooky Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 20"
-Item	clown wig	Mysticality: +3, Spell Damage: +3, Clownosity: +2, Familiar Effect: "chromatic atk, 1xPotato, cap 12"
+Item	clown wig	Mysticality: +3, Spell Damage: +3, Clowniness: 50, Familiar Effect: "chromatic atk, 1xPotato, cap 12"
 Item	coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 Item	Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 25"
 Item	cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
@@ -213,7 +213,7 @@ Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
-Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clownosity: +1, Familiar Effect: "3xVolley, cap 10"
+Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clowniness: 25, Familiar Effect: "3xVolley, cap 10"
 Item	football helmet	Familiar Effect: "atk, cap 37"
 Item	four-gallon hat	Muscle: +4, Mysticality: +4, Moxie: +4, Experience: +3
 Item	Frosty's old silk hat	Muscle Percent: +20, Cold Damage: +30, Class: "Seal Clubber", Familiar Effect: "cold atk"
@@ -552,7 +552,7 @@ Item	biomechanical crimborg leg armor	Hot Damage: +5, Stench Damage: +5, Familia
 Item	black greaves	Muscle: +10, Damage Absorption: +30, Familiar Effect: "atk, 1xBarrr, cap 40"
 # bloodied surgical dungarees: Makes you look like a gross doctor
 Item	bloodied surgical dungarees	MP Regen Min: 3, MP Regen Max: 5, Surgeonosity: +1, Familiar Effect: "1xPotato, 1xFairy, cap 38"
-Item	bloody clown pants	Spooky Damage: +3, Clownosity: +1, Familiar Effect: "3xPotato, 2xFairy, cap 12"
+Item	bloody clown pants	Spooky Damage: +3, Clowniness: 25, Familiar Effect: "3xPotato, 2xFairy, cap 12"
 Item	boneana hammock	Sleaze Spell Damage: +20, Sleaze Damage: +20, Familiar Effect: "sleaze atk, 1xVolley, cap 30"
 Item	Boss Bat britches	Moxie: +5, Familiar Effect: "atk, 3xGhuol, cap 16"
 Item	bottoms of the barrel	Maximum HP: +50, HP Regen Min: 5, HP Regen Max: 10
@@ -871,7 +871,7 @@ Item	cheerful Crimbo sweater	Cold Resistance: +2, Moxie: -15
 Item	chest barrel	Damage Reduction: 5, Damage Absorption: +50
 Item	Chester's muscle shirt	Muscle Percent: +20, Damage Reduction: 10
 Item	clockwork trench coat	Damage Absorption: +15
-Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clownosity: +2
+Item	clownskin harness	Spooky Damage: +2, Sleaze Damage: +2, Clowniness: 50
 Item	coconut bikini top	Mysticality: +5
 # Colonel Mustard's Lonely Spades Club Jacket: + ???
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15
@@ -1038,7 +1038,7 @@ Item	bag of unfinished business	Stench Damage: +40, Familiar Weight: +5
 Item	Bal-musette accordion	PvP Fights: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 # Item balanced antler: Keeps beasts away
 Item	balanced antler	Monster Level: +15
-Item	balloon sword	Never Fumble, Weapon Damage: -2, Clownosity: +2
+Item	balloon sword	Never Fumble, Weapon Damage: -2, Clowniness: 50
 # bamboo bokuto
 Item	bar whip	Familiar Weight: +2
 Item	baritone accordion	HP Regen Min: [2*(1+skill(Accordion Appreciation))], HP Regen Max: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 7
@@ -1167,7 +1167,7 @@ Item	clockwork staff	Spell Damage: +10, Critical Hit Percent: +15
 # clockwork sword: Heals 3-24 HP on Critical Hit
 Item	clockwork sword	Weapon Damage: +10, Critical Hit Percent: +15
 # clown hammer: Squeaky!
-Item	clown whip	Sleaze Resistance: +2, Clownosity: +2
+Item	clown whip	Sleaze Resistance: +2, Clowniness: 50
 Item	club of corruption	Weapon Damage: +3, Class: "Seal Clubber"
 Item	club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 # coal shovel: Lets you hurl hot coals at your foes
@@ -1981,7 +1981,7 @@ Item	charged druidic orb	Lasts Until Rollover
 Item	charged magnet	Maximum MP: +5, MP Regen Min: 1, MP Regen Max: 2
 Item	Cloaca-Cola shield	Mysticality: +1, Damage Reduction: 4
 # clockwork detective skull
-Item	clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clownosity: +2
+Item	clownskin buckler	Spooky Damage: +3, Damage Reduction: 3, Clowniness: 50
 Item	cobbled-together Meat detector	Meat Drop: +15, Lasts Until Rollover
 # Codex of Capsaicin Conjuration: All Spells Cast Are Hot
 Item	Codex of Capsaicin Conjuration	Spell Damage: +10
@@ -2560,7 +2560,7 @@ Item	bewitching boots	Meat Drop: +10, Synergetic
 # bezoar ring: Protects the wearer from poison
 Item	BGE pocket calendar	Adventures: +3, Single Equip
 Item	BGE tiny plastic toy	Familiar Weight: +3, Single Equip
-Item	big red clown nose	Maximum HP: +7, Clownosity: +1
+Item	big red clown nose	Maximum HP: +7, Clowniness: 25
 Item	bitter bowtie	Cold Resistance: +1, Meat Drop: +10, Synergetic
 Item	black belt	Muscle: +7, Weapon Damage: +7, Single Equip
 # black glass
@@ -2636,8 +2636,8 @@ Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, 
 # Claybender glasses: +15 Damage vs. Ghosts
 Item	Claybender glasses	Item Drop: +4, Single Equip
 Item	clingfilm slippers	Spell Damage: +15, Single Equip
-Item	clown shoes	Maximum MP: +7, Clownosity: +1
-Item	clownskin belt	Maximum MP: +15, Clownosity: +2
+Item	clown shoes	Maximum MP: +7, Clowniness: 25
+Item	clownskin belt	Maximum MP: +15, Clowniness: 50
 # club necklace
 Item	coarse hemp socks	Adventures: [1+10*event(Crimbo2015)], Single Equip
 Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Combat Rate: -10, Lasts Until Rollover
@@ -3109,8 +3109,7 @@ Item	Pok&euml;mann figurine: Smugleaf	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Twitter	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Vegemite	Familiar Weight: +3, Single Equip
 Item	Pok&euml;mann figurine: Vermouth	Familiar Weight: +3, Single Equip
-# Clownosity should be +3, but breaks bitmodifiers
-Item	polka-dot bow tie	Moxie: +3, Clownosity: +2
+Item	polka-dot bow tie	Moxie: +3, Clowniness: 75
 # polyester pulsera: Causes Songs in your Head to Restore HP
 Item	polyester pulsera	Pickpocket Chance: +10, Initiative: +20, Single Equip
 Item	ponytail clip	Moxie: -30, Initiative: +30

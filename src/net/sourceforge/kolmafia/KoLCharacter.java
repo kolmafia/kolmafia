@@ -2907,7 +2907,7 @@ public abstract class KoLCharacter
 
 	public static final int getClownosity()
 	{
-		return KoLCharacter.currentModifiers.getBitmap( Modifiers.CLOWNOSITY );
+		return(  (int) KoLCharacter.currentModifiers.get( Modifiers.CLOWNINESS ) ) / 25;
 	}
 
 	/**

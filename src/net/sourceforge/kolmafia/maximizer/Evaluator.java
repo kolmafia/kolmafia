@@ -790,7 +790,7 @@ public class Evaluator
 		// Similar to setting a max.
 		if ( this.clownosity > 0 )
 		{
-			int osity = mods.getBitmap( Modifiers.CLOWNOSITY );
+			int osity = ( (int) mods.get( Modifiers.CLOWNINESS ) ) / 25;
 			score += Math.min( osity, this.clownosity );
 			if ( osity < this.clownosity )
 				this.failed = true;
@@ -1475,7 +1475,7 @@ public class Evaluator
 					( slimeHateUseful &&
 						mods.get( Modifiers.SLIME_HATES_IT ) > 0.0 ) ||
 					( this.clownosity > 0 &&
-						mods.getRawBitmap( Modifiers.CLOWNOSITY ) != 0 ) ||
+						mods.get( Modifiers.CLOWNINESS ) != 0 ) ||
 					( this.raveosity > 0 &&
 						mods.getRawBitmap( Modifiers.RAVEOSITY ) != 0 ) ||
 					( (mods.getRawBitmap( Modifiers.SYNERGETIC )
