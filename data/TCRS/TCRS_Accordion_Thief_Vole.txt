@@ -426,11 +426,11 @@
 428	skewed nothing-in-the-box	0		
 429	beanbag chair	0		
 430	huge blinking gray acid-squirting flower	0		Single Equip
-431	clown shoes of the detective	0		Item Drop: +20
-432	razor-sharp bloody clown pants	0		Weapon Damage Percent: +25
+431	clown shoes of the detective	0		Item Drop: +20, Clowniness: 25
+432	razor-sharp bloody clown pants	0		Weapon Damage Percent: +25, Clowniness: 25
 433	skinny balloon	0		
-434	skewed frightening balloon helmet	0		Spooky Damage: +5
-435	ghostly careful balloon sword of vim and vigor	0		Maximum HP Percent: +50, Monster Level: -10
+434	skewed frightening balloon helmet	0		Spooky Damage: +5, Clowniness: 50
+435	ghostly careful balloon sword of vim and vigor	0		Maximum HP Percent: +50, Monster Level: -10, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	box-in-the-box of horror	0		Spooky Spell Damage: +25
 446	nothing-in-the-box-in-the-box	0		
 447	spinning box-in-the-box-in-the-box of the ox	0		Muscle: +20
-448	friendly foolscap fool's cap of the dark arts	0		Spell Damage Percent: +100, Familiar Weight: +3
-449	tumbling clown nose of the wise owl	0		Mysticality: +20
+448	friendly foolscap fool's cap of the dark arts	0		Spell Damage Percent: +100, Familiar Weight: +3, Clowniness: 25
+449	tumbling clown nose of the wise owl	0		Mysticality: +20, Clowniness: 25
 450	bouncing pretentious paintbrush	0		
 451	green pretentious palette	0		
 452	disease	0		
@@ -2205,7 +2205,7 @@
 2230	tumbling icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	huge medical-grade bow tie	0		HP Regen Min: 7, HP Regen Max: 10
+2233	huge medical-grade bow tie	0		HP Regen Min: 7, HP Regen Max: 10, Clowniness: 75
 2234	mirror slick calavera concertina	0		Moxie: +10, Song Duration: 7
 2235	sinister Samson's ratarang	0		Experience (Muscle): +5, Spell Damage: +10
 2236	adjusted unsweetened turtle pheromones	0		Effect: "Carrrsmic", Effect Duration: 46
@@ -2445,17 +2445,17 @@
 2472	wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	clown skin	0		
-2475	nasty clown wig of dire peril	0		Weapon Damage: +20, Stench Damage: +5
-2476	spinning Jim Carey's clownskin belt	0		Monster Level: +25
-2477	red horrifying clownskin buckler	0		Spooky Damage: +25, Damage Reduction: 3
-2478	clown whip of incineration	0		Hot Spell Damage: +50
+2475	nasty clown wig of dire peril	0		Weapon Damage: +20, Stench Damage: +5, Clowniness: 50
+2476	spinning Jim Carey's clownskin belt	0		Monster Level: +25, Clowniness: 50
+2477	red horrifying clownskin buckler	0		Spooky Damage: +25, Damage Reduction: 3, Clowniness: 50
+2478	clown whip of incineration	0		Hot Spell Damage: +50, Clowniness: 50
 2479	demon skin	0		
 2480	red Van der Graaf demon-horned hat	0		MP Regen Min: 5, MP Regen Max: 7
 2481	jittery Lo Pan's demon buckler	0		Spell Critical Percent: +30, Damage Reduction: 5
 2482	horrifying Tesla stylish demon whip	0		Moxie: +25, Spooky Damage: +25, MP Regen Min: 7, MP Regen Max: 10
 2483	narrow barskin cloak of Tarzan	0		Experience (Muscle): +3
 2484	reassuring stiffened snakeskin duster	0		Damage Reduction: 1, Spooky Resistance: +1
-2485	teal foul-smelling Rosewater's clownskin harness	0		Mysticality Percent: +30, Stench Damage: +10
+2485	teal foul-smelling Rosewater's clownskin harness	0		Mysticality Percent: +30, Stench Damage: +10, Clowniness: 50
 2486	huge Usain Bolt's demonskin jacket of dire peril	0		Weapon Damage: +20, Initiative: +80
 2487	blurry skewed hipposkin poncho of incineration	0		Hot Spell Damage: +50
 2488	teal foul-smelling yak anorak	0		Stench Damage: +10

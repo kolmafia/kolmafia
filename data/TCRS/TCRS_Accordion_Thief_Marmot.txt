@@ -424,11 +424,11 @@
 428	nothing-in-the-box	0		
 429	beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	Sherlock's clown shoes	0		Item Drop: +25
-432	mirror bouncing studded bloody clown pants	0		Damage Absorption: +80
+431	Sherlock's clown shoes	0		Item Drop: +25, Clowniness: 25
+432	mirror bouncing studded bloody clown pants	0		Damage Absorption: +80, Clowniness: 25
 433	shaking red spinning skinny balloon	0		
-434	wobbly veiny balloon helmet	0		Maximum HP: +10
-435	ghostly blue knitted balloon sword of the early riser	0		Cold Resistance: +3, Adventures: +7
+434	wobbly veiny balloon helmet	0		Maximum HP: +10, Clowniness: 50
+435	ghostly blue knitted balloon sword of the early riser	0		Cold Resistance: +3, Adventures: +7, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	chef-in-the-box	0		
@@ -441,8 +441,8 @@
 445	wobbly box-in-the-box of the blizzard	0		Cold Spell Damage: +25
 446	nothing-in-the-box-in-the-box	0		
 447	wobbly reassuring box-in-the-box-in-the-box	0		Spooky Resistance: +1
-448	red foolscap fool's cap of dire peril of the dark arts	0		Weapon Damage: +20, Spell Damage Percent: +100
-449	strapping clown nose	0		Muscle: +5
+448	red foolscap fool's cap of dire peril of the dark arts	0		Weapon Damage: +20, Spell Damage Percent: +100, Clowniness: 25
+449	strapping clown nose	0		Muscle: +5, Clowniness: 25
 450	pretentious paintbrush	0		
 451	pretentious palette	0		
 452	ghostly disease	0		
@@ -2200,7 +2200,7 @@
 2230	icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	frightening bow tie	0		Spooky Damage: +5
+2233	frightening bow tie	0		Spooky Damage: +5, Clowniness: 75
 2234	vibrating calavera concertina	0		Maximum MP Percent: +10, Song Duration: 7
 2235	olive chaotic ratarang of wisdom	0		Mysticality: +15, Spell Critical Percent: +10
 2236	aerosolized triple-galvanized blinking turtle pheromones	0		Effect: "Coal-Powered", Effect Duration: 56
@@ -2440,17 +2440,17 @@
 2472	upside-down wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	clown skin	0		
-2475	personal trainer's clown wig of the storm	0		Experience Percent (Muscle): +10, Maximum MP Percent: +40
-2476	brawny clownskin belt	0		Muscle Percent: +20
-2477	reassuring clownskin buckler	0		Spooky Resistance: +1, Damage Reduction: 3
-2478	extremely unsafe clown whip	0		Weapon Damage Percent: +100
+2475	personal trainer's clown wig of the storm	0		Experience Percent (Muscle): +10, Maximum MP Percent: +40, Clowniness: 50
+2476	brawny clownskin belt	0		Muscle Percent: +20, Clowniness: 50
+2477	reassuring clownskin buckler	0		Spooky Resistance: +1, Damage Reduction: 3, Clowniness: 50
+2478	extremely unsafe clown whip	0		Weapon Damage Percent: +100, Clowniness: 50
 2479	tumbling demon skin	0		
 2480	clever demon-horned hat	0		Maximum MP: +20
 2481	demon buckler of the ox	0		Muscle: +20, Damage Reduction: 5
 2482	lard-coated razor-sharp demon whip of the sewer	0		Weapon Damage Percent: +25, Stench Damage: +25, Sleaze Spell Damage: +25
 2483	zippy barskin cloak	0		Initiative: +20
 2484	vibrating Fonzie's snakeskin duster	0		Experience (Moxie): +1, Maximum MP Percent: +10
-2485	gray Usain Bolt's supercool clownskin harness	0		Moxie Percent: +20, Initiative: +80
+2485	gray Usain Bolt's supercool clownskin harness	0		Moxie Percent: +20, Initiative: +80, Clowniness: 50
 2486	educational demonskin jacket of dire peril	0		Experience: +1, Weapon Damage: +20
 2487	wobbly bouncing hipposkin poncho of Leguizamo	0		Monster Level: +20
 2488	ghostly rock-hard yak anorak	0		Damage Reduction: 5

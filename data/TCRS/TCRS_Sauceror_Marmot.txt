@@ -426,11 +426,11 @@
 428	nothing-in-the-box	0		
 429	beanbag chair	0		
 430	teal acid-squirting flower	0		Single Equip
-431	clown shoes of Gandalf	0		Spell Critical Percent: +20
-432	family-friendly bloody clown pants	0		Sleaze Resistance: +1
+431	clown shoes of Gandalf	0		Spell Critical Percent: +20, Clowniness: 25
+432	family-friendly bloody clown pants	0		Sleaze Resistance: +1, Clowniness: 25
 433	skinny balloon	0		
-434	blinking nasty balloon helmet	0		Stench Damage: +5
-435	tumbling resourceful educational balloon sword	0		Experience: +1, Maximum MP: +50
+434	blinking nasty balloon helmet	0		Stench Damage: +5, Clowniness: 50
+435	tumbling resourceful educational balloon sword	0		Experience: +1, Maximum MP: +50, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
 438	narrow chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	spinning Herculean box-in-the-box	0		Experience (Muscle): +1
 446	upside-down wobbly nothing-in-the-box-in-the-box	0		
 447	huge smooth box-in-the-box-in-the-box	0		Moxie: +15
-448	executive foolscap fool's cap of the detective	0		Item Drop: +20, Meat Drop: +40
-449	nippy clown nose	0		Cold Damage: +10
+448	executive foolscap fool's cap of the detective	0		Item Drop: +20, Meat Drop: +40, Clowniness: 25
+449	nippy clown nose	0		Cold Damage: +10, Clowniness: 25
 450	pretentious paintbrush	0		
 451	lime green tumbling pretentious palette	0		
 452	ghostly disease	0		
@@ -2205,7 +2205,7 @@
 2230	icicle katana	0		Familiar Weight: +5
 2231	mote	0		
 2232	smudged alchemical recipe	0		
-2233	narrow auspicious bow tie	0		Item Drop: +10
+2233	narrow auspicious bow tie	0		Item Drop: +10, Clowniness: 75
 2234	steel-toed calavera concertina	0		Damage Reduction: 9, Song Duration: 7
 2235	fuchsia tumbling horrifying curative ratarang	0		Spooky Damage: +25, HP Regen Min: 3, HP Regen Max: 5
 2236	flattened extra-vacuum-sealed turtle pheromones	0		Effect: "This Is Where You're a Viking", Effect Duration: 46
@@ -2445,17 +2445,17 @@
 2472	wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	clown skin	0		
-2475	fuchsia MacGyver's clown wig of the businessman	0		Maximum MP: +100, Meat Drop: +50
-2476	tumbling shaking clownskin belt of the detective	0		Item Drop: +20
-2477	fuchsia foul-smelling clownskin buckler	0		Stench Damage: +10, Damage Reduction: 3
-2478	pulsating ribald clown whip	0		Sleaze Damage: +10
+2475	fuchsia MacGyver's clown wig of the businessman	0		Maximum MP: +100, Meat Drop: +50, Clowniness: 50
+2476	tumbling shaking clownskin belt of the detective	0		Item Drop: +20, Clowniness: 50
+2477	fuchsia foul-smelling clownskin buckler	0		Stench Damage: +10, Damage Reduction: 3, Clowniness: 50
+2478	pulsating ribald clown whip	0		Sleaze Damage: +10, Clowniness: 50
 2479	yellow demon skin	0		
 2480	skewed skewed smelly demon-horned hat	0		Stench Spell Damage: +10
 2481	smooth demon buckler	0		Moxie: +15, Damage Reduction: 5
 2482	pulsating executive rosy-cheeked wizardly demon whip	0		Mysticality: +25, Maximum HP Percent: +30, Meat Drop: +40
 2483	mirror narrow barskin cloak of the sewer	0		Stench Damage: +25
 2484	snakeskin duster of Calamity Jane of the early riser	0		Critical Hit Percent: +15, Adventures: +7
-2485	huge shaking huge Jeselnik's arcane researcher's clownskin harness	0		Experience Percent (Mysticality): +10, Sleaze Damage: +25
+2485	huge shaking huge Jeselnik's arcane researcher's clownskin harness	0		Experience Percent (Mysticality): +10, Sleaze Damage: +25, Clowniness: 50
 2486	huge ribald ruddy demonskin jacket	0		Maximum HP Percent: +40, Sleaze Damage: +10
 2487	resourceful hipposkin poncho	0		Maximum MP: +50
 2488	experienced yak anorak	0		Experience: +2

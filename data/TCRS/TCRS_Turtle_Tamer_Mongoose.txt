@@ -426,11 +426,11 @@
 428	nothing-in-the-box	0		
 429	wobbly beanbag chair	0		
 430	acid-squirting flower	0		Single Equip
-431	teal Samson's clown shoes	0		Experience (Muscle): +5
-432	sharpshooter's bloody clown pants	0		Critical Hit Percent: +10
+431	teal Samson's clown shoes	0		Experience (Muscle): +5, Clowniness: 25
+432	sharpshooter's bloody clown pants	0		Critical Hit Percent: +10, Clowniness: 25
 433	blue skinny balloon	0		
-434	perfumed balloon helmet	0		Stench Resistance: +5
-435	hale rock-hard balloon sword	0		Damage Reduction: 5, Maximum HP: +20
+434	perfumed balloon helmet	0		Stench Resistance: +5, Clowniness: 50
+435	hale rock-hard balloon sword	0		Damage Reduction: 5, Maximum HP: +20, Clowniness: 50
 436	balloon monkey	0		
 437	blue chef skull	0		
 438	lime green chef-in-the-box	0		
@@ -443,8 +443,8 @@
 445	grievous box-in-the-box	0		Weapon Damage Percent: +50
 446	purple nothing-in-the-box-in-the-box	0		
 447	squat extremely unsafe box-in-the-box-in-the-box	0		Weapon Damage Percent: +100
-448	purple rosy-cheeked foolscap fool's cap of courage	0		Maximum HP Percent: +30, Spooky Resistance: +3
-449	narrow electrified clown nose	0		MP Regen Min: 3, MP Regen Max: 5
+448	purple rosy-cheeked foolscap fool's cap of courage	0		Maximum HP Percent: +30, Spooky Resistance: +3, Clowniness: 25
+449	narrow electrified clown nose	0		MP Regen Min: 3, MP Regen Max: 5, Clowniness: 25
 450	pretentious paintbrush	0		
 451	ghostly pretentious palette	0		
 452	narrow disease	0		
@@ -2205,7 +2205,7 @@
 2230	blinking icicle katana	0		Familiar Weight: +5
 2231	fuchsia mote	0		
 2232	purple smudged alchemical recipe	0		
-2233	wobbly beefy bow tie	0		Muscle: +10
+2233	wobbly beefy bow tie	0		Muscle: +10, Clowniness: 75
 2234	perfumed calavera concertina	0		Stench Resistance: +5, Song Duration: 7
 2235	bouncing groovy ratarang of the blizzard	0		Moxie Percent: +10, Cold Spell Damage: +25
 2236	magnetized magnetized wobbly blue turtle pheromones	0		Effect: "Boletus Swoletus", Effect Duration: 48
@@ -2445,17 +2445,17 @@
 2472	wilted lettuce	0		
 2473	empty greasepaint tube	0		
 2474	clown skin	0		
-2475	skewed clown wig of Leguizamo of chilblains	0		Monster Level: +20, Cold Damage: +25
-2476	perfumed clownskin belt	0		Stench Resistance: +5
-2477	wobbly padded clownskin buckler	0		Damage Absorption: +20, Damage Reduction: 3
-2478	beefy clown whip	0		Muscle: +10
+2475	skewed clown wig of Leguizamo of chilblains	0		Monster Level: +20, Cold Damage: +25, Clowniness: 50
+2476	perfumed clownskin belt	0		Stench Resistance: +5, Clowniness: 50
+2477	wobbly padded clownskin buckler	0		Damage Absorption: +20, Damage Reduction: 3, Clowniness: 50
+2478	beefy clown whip	0		Muscle: +10, Clowniness: 50
 2479	demon skin	0		
 2480	boxer's demon-horned hat	0		Muscle Percent: +10
 2481	beefy demon buckler	0		Muscle: +10, Damage Reduction: 5
 2482	blurry Temple Grandin's supercool demon whip of incineration	0		Moxie Percent: +20, Familiar Weight: +7, Hot Spell Damage: +50
 2483	maroon jittery fortified barskin cloak	0		Damage Absorption: +60
 2484	mirror Jack Frost's snakeskin duster of terror	0		Cold Spell Damage: +50, Spooky Spell Damage: +10
-2485	censurious Van der Graaf clownskin harness	0		Sleaze Resistance: +3, MP Regen Min: 5, MP Regen Max: 7
+2485	censurious Van der Graaf clownskin harness	0		Sleaze Resistance: +3, MP Regen Min: 5, MP Regen Max: 7, Clowniness: 50
 2486	Tesla demonskin jacket of doom	0		Spooky Spell Damage: +50, MP Regen Min: 7, MP Regen Max: 10
 2487	frightening hipposkin poncho	0		Spooky Damage: +5
 2488	yak anorak of the bloodbag	0		Maximum HP: +100
