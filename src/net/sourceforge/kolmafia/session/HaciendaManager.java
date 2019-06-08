@@ -36,10 +36,12 @@ package net.sourceforge.kolmafia.session;
 import java.lang.StringBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -88,7 +90,7 @@ public class HaciendaManager
 		"taco shells",
 		"fettucini Inconnu",
 		"silver salt-shaker",
-		"cans of sterno",
+		"can of sterno",
 		"silver pat&eacute; knife",
 		"fancy beef jerky",
 		"pipe wrench",
@@ -136,13 +138,10 @@ public class HaciendaManager
 			RequestLogger.updateSessionLog( clue );
 		}
 		// If a reward, mark R
-		else if ( text.contains( "You acquire" ) || text.contains( "large handful of meat" ) )
+		else if ( text.contains( "large handful of meat" ) ||
+			  HaciendaManager.verifyReward( text ))
 		{
-			// Verify that it's an reward from here, not elsewhere
-			if ( HaciendaManager.verifyReward( text ) )
-			{
-				newLayout.setCharAt( currentSearch, 'R' );
-			}
+			newLayout.setCharAt( currentSearch, 'R' );
 		}
 		else
 		{
@@ -318,11 +317,17 @@ public class HaciendaManager
 	
 	private static boolean verifyReward( final String text )
 	{
-		for ( String s : REWARDS )
+		List<AdventureResult> items = new ArrayList<AdventureResult>();
+		ResultProcessor.processItems( false, text, items );
+		if ( items.size() > 0 )
 		{
-			if ( text.contains( s ) )
+			String itemName = items.get(0).getName();
+			for ( String s : REWARDS )
 			{
-				return true;
+				if ( s.equals( itemName ) )
+				{
+					return true;
+				}
 			}
 		}
 		return false;
