@@ -10037,5 +10037,5 @@
 10244	tarnished pickled ionized narrow one piece of bubble gum	0		Effect: "The Moxie of LOV", Effect Duration: 44
 10250	Fourth of May Cosplay Saber kit	0		Free Pull
 10251	blinking lion tamer's stiffened Fourth of May Cosplay Saber of the ox	0		Muscle: +20, Damage Reduction: 1, Experience (familiar): +2
-10252	Van der Graaf electrified Da Vinci's ring of the dark arts	0		Experience (Mysticality): +1, Spell Damage Percent: +100, MP Regen Min: 2, MP Regen Max: 2, Single Equip
+10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		

@@ -10036,5 +10036,5 @@
 10244	electrified anodized skewed red one piece of bubble gum	0		Effect: "Stuck-Up Hair", Effect Duration: 65
 10250	Fourth of May Cosplay Saber kit	0		Free Pull
 10251	padded Fourth of May Cosplay Saber of the brazier of the overflowing toilet	0		Damage Absorption: +20, Hot Spell Damage: +25, Stench Spell Damage: +50
-10252	cool ring	0		Moxie: +1, Single Equip
+10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		

@@ -10036,5 +10036,5 @@
 10244	tarnished liquefied frozen one piece of bubble gum	0		Effect: "Healthy Green Glow", Effect Duration: 44
 10250	purple Fourth of May Cosplay Saber kit	0		Free Pull
 10251	purple stanky Fourth of May Cosplay Saber of the empath of doom	0		Familiar Weight: +5, Stench Spell Damage: +25, Spooky Spell Damage: +50
-10252	rosewater-soaked knitted gravedigger's Jack Frost's coward's Socratic smooth ring of the brute of the storm of the cheetah	0		Moxie: +2, Muscle Percent: +10, Experience (Mysticality): +1, Maximum MP Percent: +10, Monster Level: -2, Cold Spell Damage: +5, Spooky Damage: +1, Cold Resistance: +1, Stench Resistance: +1, Initiative: +6, Single Equip
+10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		

@@ -10037,5 +10037,5 @@
 10244	vacuum-sealed one piece of bubble gum	0		Effect: "It Didn't Kill You", Effect Duration: 43
 10250	Fourth of May Cosplay Saber kit	0		Free Pull
 10251	supercool Fourth of May Cosplay Saber of the wise owl of extreme caution	0		Mysticality: +20, Moxie Percent: +20, Monster Level: -25
-10252	miser's rosewater-soaked sizzling Fonzie's ring	0		Experience (Moxie): +1, Hot Damage: +1, Stench Resistance: +1, Meat Drop: +1, Single Equip
+10252	ring	0		Single Equip
 10253	tumbling Thwaitgold nymph statuette	0		

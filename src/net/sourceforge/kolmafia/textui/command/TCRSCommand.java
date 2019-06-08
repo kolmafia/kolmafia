@@ -134,6 +134,21 @@ public class TCRSCommand
 			return;
 		}
 
+		if ( command.equals( "ring" ) )
+		{
+			TCRS tcrs = TCRSDatabase.deriveRing();
+			if ( tcrs == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'ring'!" );
+				return;
+			}
+			
+			RequestLogger.printLine( "name = " + tcrs.name );
+			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
+
+			return;
+		}
+
 		if ( command.equals( "apply" ) )
 		{
 			TCRSDatabase.applyModifiers();
