@@ -10037,5 +10037,5 @@
 10244	magnetized polymerized shaking one piece of bubble gum	0		Effect: "Enraged", Effect Duration: 65
 10250	Fourth of May Cosplay Saber kit	0		Free Pull
 10251	lightning-fast Oprah's Fourth of May Cosplay Saber of Leguizamo	0		Maximum MP Percent: +50, Monster Level: +20, Initiative: +40
-10252	rosewater-soaked ring of the ox	0		Muscle: +2, Stench Resistance: +1, Single Equip
+10252	ring	0		Single Equip
 10253	Thwaitgold nymph statuette	0		

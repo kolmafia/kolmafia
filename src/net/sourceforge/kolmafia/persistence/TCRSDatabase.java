@@ -40,6 +40,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -336,12 +337,25 @@ public class TCRSDatabase
 
 	public static TCRS deriveItem( final int itemId )
 	{
+		// The "ring" is the path reward for completing a TCRS run.
+		// Its enchantments are character-specific.
+		if ( itemId == ItemPool.RING )
+		{
+			return new TCRS( "ring", 0, "", "Single Equip" );
+		}
+
 		// Read the Item Description
 		String text = DebugDatabase.itemDescriptionText( itemId, false );
 		if ( text == null )
 		{
 			return null;
 		}
+		return deriveItem( text );
+	}
+
+	public static TCRS deriveRing()
+	{
+		String text = DebugDatabase.itemDescriptionText( ItemPool.RING, false );
 		return deriveItem( text );
 	}
 
