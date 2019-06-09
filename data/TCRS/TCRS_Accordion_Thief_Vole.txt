@@ -6569,11 +6569,11 @@
 6681	mediocre Bowl of Scorpions	3	decent	
 6682	artisanal fuchsia Fog Murderer	3	EPIC	
 6683	book of matches	0		
-6684	blurry Jeselnik's surgical mask	0		Sleaze Damage: +25
-6685	reassuring head mirror	0		Spooky Resistance: +1
-6686	fuchsia beefy half-size scalpel	0		Muscle: +10
-6687	blinking surgical apron of chilblains	0		Cold Damage: +25
-6688	skewed Jack Frost's bloodied surgical dungarees	0		Cold Spell Damage: +50
+6684	blurry Jeselnik's surgical mask	0		Sleaze Damage: +25, Surgeonosity: +1
+6685	reassuring head mirror	0		Spooky Resistance: +1, Surgeonosity: +1
+6686	fuchsia beefy half-size scalpel	0		Muscle: +10, Surgeonosity: +1
+6687	blinking surgical apron of chilblains	0		Cold Damage: +25, Surgeonosity: +1
+6688	skewed Jack Frost's bloodied surgical dungarees	0		Cold Spell Damage: +50, Surgeonosity: +1
 6689	cyan McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	wobbly McClusky file (page 3)	0		

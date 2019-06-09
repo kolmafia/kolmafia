@@ -6570,11 +6570,11 @@
 6681	hand-crafted triple-distilled Bowl of Scorpions	9	EPIC	
 6682	tolerable practically non-alcoholic Fog Murderer	1	good	
 6683	bouncing book of matches	0		
-6684	ruddy surgical mask	0		Maximum HP Percent: +40
-6685	Usain Bolt's head mirror	0		Initiative: +80
-6686	twirling dance instructor's half-size scalpel	0		Experience Percent (Moxie): +10
-6687	skewed thinker's surgical apron	0		Mysticality: +10
-6688	bloodied surgical dungarees of the bloodbag	0		Maximum HP: +100
+6684	ruddy surgical mask	0		Maximum HP Percent: +40, Surgeonosity: +1
+6685	Usain Bolt's head mirror	0		Initiative: +80, Surgeonosity: +1
+6686	twirling dance instructor's half-size scalpel	0		Experience Percent (Moxie): +10, Surgeonosity: +1
+6687	skewed thinker's surgical apron	0		Mysticality: +10, Surgeonosity: +1
+6688	bloodied surgical dungarees of the bloodbag	0		Maximum HP: +100, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

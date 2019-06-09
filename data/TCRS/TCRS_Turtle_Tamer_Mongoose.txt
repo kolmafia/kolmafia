@@ -6567,11 +6567,11 @@
 6681	mediocre Bowl of Scorpions	4	decent	
 6682	lousy Fog Murderer	4	decent	
 6683	book of matches	0		
-6684	clever surgical mask	0		Maximum MP: +20
-6685	head mirror of the early riser	0		Adventures: +7
-6686	cyan Sinatra's half-size scalpel	0		Experience (Moxie): +5
-6687	surgical apron of the boozehound	0		Booze Drop: +100
-6688	experienced bloodied surgical dungarees	0		Experience: +2
+6684	clever surgical mask	0		Maximum MP: +20, Surgeonosity: +1
+6685	head mirror of the early riser	0		Adventures: +7, Surgeonosity: +1
+6686	cyan Sinatra's half-size scalpel	0		Experience (Moxie): +5, Surgeonosity: +1
+6687	surgical apron of the boozehound	0		Booze Drop: +100, Surgeonosity: +1
+6688	experienced bloodied surgical dungarees	0		Experience: +2, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

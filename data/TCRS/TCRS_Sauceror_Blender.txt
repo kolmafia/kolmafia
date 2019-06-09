@@ -6569,11 +6569,11 @@
 6681	acceptable Bowl of Scorpions	4	good	
 6682	mediocre weak tumbling Fog Murderer	2	decent	
 6683	green book of matches	0		
-6684	ribald surgical mask	0		Sleaze Damage: +10
-6685	blue spinning head mirror of Tarzan	0		Experience (Muscle): +3
-6686	shellacked half-size scalpel	0		Damage Reduction: 7
-6687	stanky surgical apron	0		Stench Spell Damage: +25
-6688	shaking hardened bloodied surgical dungarees	0		Damage Reduction: 3
+6684	ribald surgical mask	0		Sleaze Damage: +10, Surgeonosity: +1
+6685	blue spinning head mirror of Tarzan	0		Experience (Muscle): +3, Surgeonosity: +1
+6686	shellacked half-size scalpel	0		Damage Reduction: 7, Surgeonosity: +1
+6687	stanky surgical apron	0		Stench Spell Damage: +25, Surgeonosity: +1
+6688	shaking hardened bloodied surgical dungarees	0		Damage Reduction: 3, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	blue McClusky file (page 2)	0		
 6691	teal McClusky file (page 3)	0		

@@ -6569,11 +6569,11 @@
 6681	bad Bowl of Scorpions	4	decent	
 6682	bad Fog Murderer	3	decent	
 6683	gray book of matches	0		
-6684	inspector's surgical mask	0		Item Drop: +15
-6685	twirling groovy head mirror	0		Moxie Percent: +10
-6686	thinker's half-size scalpel	0		Mysticality: +10
-6687	avaricious surgical apron	0		Meat Drop: +30
-6688	wholesome bloodied surgical dungarees	0		Maximum HP Percent: +10
+6684	inspector's surgical mask	0		Item Drop: +15, Surgeonosity: +1
+6685	twirling groovy head mirror	0		Moxie Percent: +10, Surgeonosity: +1
+6686	thinker's half-size scalpel	0		Mysticality: +10, Surgeonosity: +1
+6687	avaricious surgical apron	0		Meat Drop: +30, Surgeonosity: +1
+6688	wholesome bloodied surgical dungarees	0		Maximum HP Percent: +10, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	upside-down McClusky file (page 2)	0		
 6691	skewed McClusky file (page 3)	0		

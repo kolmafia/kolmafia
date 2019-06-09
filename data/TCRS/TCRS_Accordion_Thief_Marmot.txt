@@ -6560,11 +6560,11 @@
 6681	drinkable fancy Bowl of Scorpions	4	good	Effect: "Cold-Blooded Warm Fuzzies", Effect Duration: 45
 6682	bad mirror Fog Murderer	3	decent	
 6683	book of matches	0		
-6684	twirling manspreader's surgical mask	0		Monster Level: +10
-6685	head mirror of vim and vigor	0		Maximum HP Percent: +50
-6686	bouncing half-size scalpel of the glutton	0		Food Drop: +100
-6687	healthy surgical apron	0		Maximum HP Percent: +20
-6688	upside-down Temple Grandin's bloodied surgical dungarees	0		Familiar Weight: +7
+6684	twirling manspreader's surgical mask	0		Monster Level: +10, Surgeonosity: +1
+6685	head mirror of vim and vigor	0		Maximum HP Percent: +50, Surgeonosity: +1
+6686	bouncing half-size scalpel of the glutton	0		Food Drop: +100, Surgeonosity: +1
+6687	healthy surgical apron	0		Maximum HP Percent: +20, Surgeonosity: +1
+6688	upside-down Temple Grandin's bloodied surgical dungarees	0		Familiar Weight: +7, Surgeonosity: +1
 6689	tumbling McClusky file (page 1)	0		
 6690	olive blinking McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

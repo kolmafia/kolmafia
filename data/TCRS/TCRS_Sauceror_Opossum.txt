@@ -6569,11 +6569,11 @@
 6681	high-proof special perfectly mixed Bowl of Scorpions	6	EPIC	Effect: "Punchy, Murdery", Effect Duration: 50
 6682	hand-crafted watered-down Fog Murderer	2	EPIC	
 6683	ghostly book of matches	0		
-6684	brawny surgical mask	0		Muscle Percent: +20
-6685	head mirror of horror	0		Spooky Spell Damage: +25
-6686	dangerous half-size scalpel	0		Weapon Damage: +10
-6687	rosy-cheeked surgical apron	0		Maximum HP Percent: +30
-6688	brainy bloodied surgical dungarees	0		Mysticality: +5
+6684	brawny surgical mask	0		Muscle Percent: +20, Surgeonosity: +1
+6685	head mirror of horror	0		Spooky Spell Damage: +25, Surgeonosity: +1
+6686	dangerous half-size scalpel	0		Weapon Damage: +10, Surgeonosity: +1
+6687	rosy-cheeked surgical apron	0		Maximum HP Percent: +30, Surgeonosity: +1
+6688	brainy bloodied surgical dungarees	0		Mysticality: +5, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	upside-down McClusky file (page 2)	0		
 6691	twirling McClusky file (page 3)	0		

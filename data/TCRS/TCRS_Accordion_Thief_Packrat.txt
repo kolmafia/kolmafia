@@ -6569,11 +6569,11 @@
 6681	practically non-alcoholic artisanal Bowl of Scorpions	1	EPIC	
 6682	acceptable Fog Murderer	4	good	
 6683	book of matches	0		
-6684	yellow aromatic surgical mask	0		Stench Resistance: +1
-6685	Tesla head mirror	0		MP Regen Min: 7, MP Regen Max: 10
-6686	half-size scalpel of horror	0		Spooky Spell Damage: +25
-6687	huge Sherlock's surgical apron	0		Item Drop: +25
-6688	bloodied surgical dungarees of the glutton	0		Food Drop: +100
+6684	yellow aromatic surgical mask	0		Stench Resistance: +1, Surgeonosity: +1
+6685	Tesla head mirror	0		MP Regen Min: 7, MP Regen Max: 10, Surgeonosity: +1
+6686	half-size scalpel of horror	0		Spooky Spell Damage: +25, Surgeonosity: +1
+6687	huge Sherlock's surgical apron	0		Item Drop: +25, Surgeonosity: +1
+6688	bloodied surgical dungarees of the glutton	0		Food Drop: +100, Surgeonosity: +1
 6689	gray McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

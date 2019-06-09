@@ -735,7 +735,10 @@ public class Modifiers
 		  Pattern.compile( "Pool Skill: " + EXPR )
 		},
 		{ "Surgeonosity",
-		  null,
+		  new Object[] {
+			Pattern.compile( "Makes you look like a doctor" ),
+			Pattern.compile( "Makes you look like a gross doctor" ),
+		  },
 		  Pattern.compile( "Surgeonosity: (\\+?\\d+)" )
 		},
 		{ "Familiar Damage",
@@ -3711,7 +3714,13 @@ public class Modifiers
 
 				if ( matcher.groupCount() == 0 )
 				{
-					return Modifiers.modifierTag( table, i );
+					String tag = Modifiers.modifierTag( table, i );
+					// Kludge for Sureonosity, which always gives +1
+					if ( tag.equals( "Surgeonosity" ) )
+					{
+						return ( tag + ": +1" );
+					}
+					return tag;
 				}
 
 				String tag = Modifiers.modifierTag( table, i );

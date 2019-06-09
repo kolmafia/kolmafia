@@ -6568,11 +6568,11 @@
 6681	lousy squat Bowl of Scorpions	3	decent	
 6682	hand-crafted Fog Murderer	3	EPIC	
 6683	skewed ghostly book of matches	0		
-6684	brainy surgical mask	0		Mysticality: +5
-6685	tumbling head mirror of wisdom	0		Mysticality: +15
-6686	half-size scalpel of Gandalf	0		Spell Critical Percent: +20
-6687	lime green aromatic surgical apron	0		Stench Resistance: +1
-6688	occult bloodied surgical dungarees	0		Spell Damage Percent: +25
+6684	brainy surgical mask	0		Mysticality: +5, Surgeonosity: +1
+6685	tumbling head mirror of wisdom	0		Mysticality: +15, Surgeonosity: +1
+6686	half-size scalpel of Gandalf	0		Spell Critical Percent: +20, Surgeonosity: +1
+6687	lime green aromatic surgical apron	0		Stench Resistance: +1, Surgeonosity: +1
+6688	occult bloodied surgical dungarees	0		Spell Damage Percent: +25, Surgeonosity: +1
 6689	blinking McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	tumbling McClusky file (page 3)	0		
