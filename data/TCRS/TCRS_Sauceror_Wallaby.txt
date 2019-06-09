@@ -6569,11 +6569,11 @@
 6681	hand-crafted weak Bowl of Scorpions	2	EPIC	
 6682	aged watered-down fancy Fog Murderer	2	awesome	Effect: "Alpine Mintiness", Effect Duration: 15
 6683	tumbling ghostly book of matches	0		
-6684	ghostly fireproof surgical mask	0		Hot Resistance: +3
-6685	huge dance instructor's head mirror	0		Experience Percent (Moxie): +10
-6686	red half-size scalpel of the sewer	0		Stench Damage: +25
-6687	smooth surgical apron	0		Moxie: +15
-6688	bloodied surgical dungarees of the wise owl	0		Mysticality: +20
+6684	ghostly fireproof surgical mask	0		Hot Resistance: +3, Surgeonosity: +1
+6685	huge dance instructor's head mirror	0		Experience Percent (Moxie): +10, Surgeonosity: +1
+6686	red half-size scalpel of the sewer	0		Stench Damage: +25, Surgeonosity: +1
+6687	smooth surgical apron	0		Moxie: +15, Surgeonosity: +1
+6688	bloodied surgical dungarees of the wise owl	0		Mysticality: +20, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	upside-down olive McClusky file (page 2)	0		
 6691	skewed McClusky file (page 3)	0		

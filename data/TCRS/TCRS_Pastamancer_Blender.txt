@@ -6569,11 +6569,11 @@
 6681	triple-distilled tolerable Bowl of Scorpions	10	good	
 6682	tolerable boozy olive pulsating Fog Murderer	5	good	
 6683	cyan book of matches	0		
-6684	veiny surgical mask	0		Maximum HP: +10
-6685	beefy head mirror	0		Muscle: +10
-6686	bouncing smooth half-size scalpel	0		Moxie: +15
-6687	shaking brawny surgical apron	0		Muscle Percent: +20
-6688	huge occult bloodied surgical dungarees	0		Spell Damage Percent: +25
+6684	veiny surgical mask	0		Maximum HP: +10, Surgeonosity: +1
+6685	beefy head mirror	0		Muscle: +10, Surgeonosity: +1
+6686	bouncing smooth half-size scalpel	0		Moxie: +15, Surgeonosity: +1
+6687	shaking brawny surgical apron	0		Muscle Percent: +20, Surgeonosity: +1
+6688	huge occult bloodied surgical dungarees	0		Spell Damage Percent: +25, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

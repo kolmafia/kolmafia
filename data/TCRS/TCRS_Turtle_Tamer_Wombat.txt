@@ -6566,11 +6566,11 @@
 6681	tolerable tumbling Bowl of Scorpions	3	good	
 6682	tolerable Fog Murderer	3	good	
 6683	book of matches	0		
-6684	banded surgical mask	0		Damage Absorption: +100
-6685	head mirror of temperance	0		Sleaze Resistance: +5
-6686	wobbly dance instructor's half-size scalpel	0		Experience Percent (Moxie): +10
-6687	huge wool surgical apron	0		Cold Resistance: +1
-6688	twirling executive bloodied surgical dungarees	0		Meat Drop: +40
+6684	banded surgical mask	0		Damage Absorption: +100, Surgeonosity: +1
+6685	head mirror of temperance	0		Sleaze Resistance: +5, Surgeonosity: +1
+6686	wobbly dance instructor's half-size scalpel	0		Experience Percent (Moxie): +10, Surgeonosity: +1
+6687	huge wool surgical apron	0		Cold Resistance: +1, Surgeonosity: +1
+6688	twirling executive bloodied surgical dungarees	0		Meat Drop: +40, Surgeonosity: +1
 6689	skewed mirror McClusky file (page 1)	0		
 6690	olive McClusky file (page 2)	0		
 6691	skewed McClusky file (page 3)	0		

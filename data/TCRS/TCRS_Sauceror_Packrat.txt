@@ -444,7 +444,7 @@
 446	nothing-in-the-box-in-the-box	0		
 447	personal trainer's box-in-the-box-in-the-box	0		Experience Percent (Muscle): +10
 448	mansplainer's foolscap fool's cap of chilblains	0		Monster Level: +15, Cold Damage: +25, Clowniness: 25
-449	jittery ribald clown nose	0		, Clowniness: 25
+449	jittery ribald clown nose	0		Clowniness: 25
 450	green pretentious paintbrush	0		
 451	pretentious palette	0		
 452	tumbling wobbly disease	0		
@@ -2446,9 +2446,9 @@
 2473	tumbling empty greasepaint tube	0		
 2474	clown skin	0		
 2475	dog trainer's clown wig of the businessman	0		Experience (familiar): +1, Meat Drop: +50, Clowniness: 50
-2476	twirling clownskin belt of the sweet-tooth	0		, Clowniness: 50
+2476	twirling clownskin belt of the sweet-tooth	0		Clowniness: 50
 2477	upside-down rosy-cheeked clownskin buckler	0		Maximum HP Percent: +30, Damage Reduction: 3, Clowniness: 50
-2478	scandalous clown whip	0		, Clowniness: 50
+2478	scandalous clown whip	0		Clowniness: 50
 2479	demon skin	0		
 2480	twirling nippy demon-horned hat	0		Cold Damage: +10
 2481	Jeselnik's demon buckler	0		Sleaze Damage: +25, Damage Reduction: 5
@@ -6569,11 +6569,11 @@
 6681	perfectly mixed watered-down ghostly gray Bowl of Scorpions	2	EPIC	
 6682	artisanal Fog Murderer	3	EPIC	
 6683	upside-down book of matches	0		
-6684	tumbling surgical mask of doom	0		
-6685	Jack Frost's head mirror	0		
-6686	jittery cool half-size scalpel	0		
-6687	yellow wicked surgical apron	0		
-6688	tumbling bloodied surgical dungarees of dire peril	0		
+6684	tumbling surgical mask of doom	0		Surgeonosity: +1
+6685	Jack Frost's head mirror	0		Surgeonosity: +1
+6686	jittery cool half-size scalpel	0		Surgeonosity: +1
+6687	yellow wicked surgical apron	0		Surgeonosity: +1
+6688	tumbling bloodied surgical dungarees of dire peril	0		Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	lime green McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

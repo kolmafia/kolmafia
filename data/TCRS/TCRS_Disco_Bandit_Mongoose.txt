@@ -6569,11 +6569,11 @@
 6681	weak acceptable gray Bowl of Scorpions	2	good	
 6682	lousy Fog Murderer	3	decent	
 6683	mirror book of matches	0		
-6684	tumbling hale surgical mask	0		Maximum HP: +20
-6685	family-friendly head mirror	0		Sleaze Resistance: +1
-6686	half-size scalpel of wisdom	0		Mysticality: +15
-6687	yellow supercool surgical apron	0		Moxie Percent: +20
-6688	blinking bloodied surgical dungarees of Tarzan	0		Experience (Muscle): +3
+6684	tumbling hale surgical mask	0		Maximum HP: +20, Surgeonosity: +1
+6685	family-friendly head mirror	0		Sleaze Resistance: +1, Surgeonosity: +1
+6686	half-size scalpel of wisdom	0		Mysticality: +15, Surgeonosity: +1
+6687	yellow supercool surgical apron	0		Moxie Percent: +20, Surgeonosity: +1
+6688	blinking bloodied surgical dungarees of Tarzan	0		Experience (Muscle): +3, Surgeonosity: +1
 6689	squat McClusky file (page 1)	0		
 6690	huge McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

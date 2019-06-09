@@ -6569,11 +6569,11 @@
 6681	hand-crafted blurry Bowl of Scorpions	3	EPIC	
 6682	mediocre Fog Murderer	4	decent	
 6683	skewed book of matches	0		
-6684	Sherlock's surgical mask	0		Item Drop: +25
-6685	head mirror of the detective	0		Item Drop: +20
-6686	censurious half-size scalpel	0		Sleaze Resistance: +3
-6687	Samson's surgical apron	0		Experience (Muscle): +5
-6688	horrifying bloodied surgical dungarees	0		Spooky Damage: +25
+6684	Sherlock's surgical mask	0		Item Drop: +25, Surgeonosity: +1
+6685	head mirror of the detective	0		Item Drop: +20, Surgeonosity: +1
+6686	censurious half-size scalpel	0		Sleaze Resistance: +3, Surgeonosity: +1
+6687	Samson's surgical apron	0		Experience (Muscle): +5, Surgeonosity: +1
+6688	horrifying bloodied surgical dungarees	0		Spooky Damage: +25, Surgeonosity: +1
 6689	spinning McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

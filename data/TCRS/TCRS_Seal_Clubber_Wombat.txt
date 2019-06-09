@@ -6569,11 +6569,11 @@
 6681	perfectly mixed irresponsibly strong Bowl of Scorpions	6	EPIC	
 6682	bad special weak Fog Murderer	2	decent	Effect: "Carol of the Bones", Effect Duration: 45
 6683	book of matches	0		
-6684	therapeutic surgical mask	0		HP Regen Min: 5, HP Regen Max: 7
-6685	frightening head mirror	0		Spooky Damage: +5
-6686	hardened half-size scalpel	0		Damage Reduction: 3
-6687	shaking smartaleck's surgical apron	0		Moxie Percent: +30
-6688	gray Temple Grandin's bloodied surgical dungarees	0		Familiar Weight: +7
+6684	therapeutic surgical mask	0		HP Regen Min: 5, HP Regen Max: 7, Surgeonosity: +1
+6685	frightening head mirror	0		Spooky Damage: +5, Surgeonosity: +1
+6686	hardened half-size scalpel	0		Damage Reduction: 3, Surgeonosity: +1
+6687	shaking smartaleck's surgical apron	0		Moxie Percent: +30, Surgeonosity: +1
+6688	gray Temple Grandin's bloodied surgical dungarees	0		Familiar Weight: +7, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	lime green McClusky file (page 3)	0		

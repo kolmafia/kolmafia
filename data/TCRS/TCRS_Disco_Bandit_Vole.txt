@@ -6569,11 +6569,11 @@
 6681	practically non-alcoholic aged Bowl of Scorpions	1	awesome	
 6682	lousy weak ghostly Fog Murderer	2	decent	
 6683	skewed book of matches	0		
-6684	wizardly surgical mask	0		Mysticality: +25
-6685	bouncing Tesla head mirror	0		MP Regen Min: 7, MP Regen Max: 10
-6686	sharpshooter's half-size scalpel	0		Critical Hit Percent: +10
-6687	wobbly surgical apron of wisdom	0		Mysticality: +15
-6688	Oprah's bloodied surgical dungarees	0		Maximum MP Percent: +50
+6684	wizardly surgical mask	0		Mysticality: +25, Surgeonosity: +1
+6685	bouncing Tesla head mirror	0		MP Regen Min: 7, MP Regen Max: 10, Surgeonosity: +1
+6686	sharpshooter's half-size scalpel	0		Critical Hit Percent: +10, Surgeonosity: +1
+6687	wobbly surgical apron of wisdom	0		Mysticality: +15, Surgeonosity: +1
+6688	Oprah's bloodied surgical dungarees	0		Maximum MP Percent: +50, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	McClusky file (page 2)	0		
 6691	huge McClusky file (page 3)	0		

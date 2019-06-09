@@ -6569,11 +6569,11 @@
 6681	high-proof drinkable Bowl of Scorpions	9	good	
 6682	weak delicious upside-down Fog Murderer	2	awesome	
 6683	huge book of matches	0		
-6684	squat manspreader's surgical mask	0		Monster Level: +10
-6685	upside-down hardened head mirror	0		Damage Reduction: 3
-6686	yellow knitted half-size scalpel	0		Cold Resistance: +3
-6687	beefcake's surgical apron	0		Muscle: +25
-6688	red resourceful bloodied surgical dungarees	0		Maximum MP: +50
+6684	squat manspreader's surgical mask	0		Monster Level: +10, Surgeonosity: +1
+6685	upside-down hardened head mirror	0		Damage Reduction: 3, Surgeonosity: +1
+6686	yellow knitted half-size scalpel	0		Cold Resistance: +3, Surgeonosity: +1
+6687	beefcake's surgical apron	0		Muscle: +25, Surgeonosity: +1
+6688	red resourceful bloodied surgical dungarees	0		Maximum MP: +50, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	blue McClusky file (page 2)	0		
 6691	blurry McClusky file (page 3)	0		

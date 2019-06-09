@@ -6569,11 +6569,11 @@
 6681	delicious Bowl of Scorpions	4	awesome	
 6682	artisanal weak shaking Fog Murderer	2	EPIC	
 6683	book of matches	0		
-6684	surgical mask of terror	0		Spooky Spell Damage: +10
-6685	resourceful head mirror	0		Maximum MP: +50
-6686	blue slick half-size scalpel	0		Moxie: +10
-6687	asbestos-lined surgical apron	0		Hot Resistance: +5
-6688	mirror savvy bloodied surgical dungarees	0		Mysticality Percent: +20
+6684	surgical mask of terror	0		Spooky Spell Damage: +10, Surgeonosity: +1
+6685	resourceful head mirror	0		Maximum MP: +50, Surgeonosity: +1
+6686	blue slick half-size scalpel	0		Moxie: +10, Surgeonosity: +1
+6687	asbestos-lined surgical apron	0		Hot Resistance: +5, Surgeonosity: +1
+6688	mirror savvy bloodied surgical dungarees	0		Mysticality Percent: +20, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	twirling McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		

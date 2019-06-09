@@ -6569,11 +6569,11 @@
 6681	boozy lousy Bowl of Scorpions	5	decent	
 6682	artisanal twirling Fog Murderer	3	EPIC	
 6683	mirror book of matches	0		
-6684	sizzling surgical mask	0		Hot Damage: +10
-6685	head mirror of wisdom	0		Mysticality: +15
-6686	electrified half-size scalpel	0		MP Regen Min: 3, MP Regen Max: 5
-6687	stiffened surgical apron	0		Damage Reduction: 1
-6688	maroon Lo Pan's bloodied surgical dungarees	0		Spell Critical Percent: +30
+6684	sizzling surgical mask	0		Hot Damage: +10, Surgeonosity: +1
+6685	head mirror of wisdom	0		Mysticality: +15, Surgeonosity: +1
+6686	electrified half-size scalpel	0		MP Regen Min: 3, MP Regen Max: 5, Surgeonosity: +1
+6687	stiffened surgical apron	0		Damage Reduction: 1, Surgeonosity: +1
+6688	maroon Lo Pan's bloodied surgical dungarees	0		Spell Critical Percent: +30, Surgeonosity: +1
 6689	McClusky file (page 1)	0		
 6690	spinning McClusky file (page 2)	0		
 6691	McClusky file (page 3)	0		
