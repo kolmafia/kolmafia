@@ -132,7 +132,14 @@ public class CafeDatabase
 
 	public static final String nameToDescId( final String name )
 	{
-		return nameToDescId.get( name );
+		String descId = nameToDescId.get( name );
+		if ( descId != null )
+		{
+			return descId;
+		}
+		// Some cafes offer real items. Look them up in ItemDatabase
+		int id = ItemDatabase.getItemId( name, 1, false );
+		return (id == -1 ) ? null : ItemDatabase.getDescriptionId( id );
 	}
 
 	private static final void saveCafeItem( String[] data, Map<Integer, String> map )
