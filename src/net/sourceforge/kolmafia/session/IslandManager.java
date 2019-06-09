@@ -1438,7 +1438,7 @@ public class IslandManager
 		{
 			Preferences.setString( "sidequestJunkyardCompleted", "hippy" );
 		}
-		else if ( responseText.contains( "rusty chain necklace" ) ||
+		else if ( responseText.contains( "chain necklace" ) ||
 			  responseText.contains( "sawblade shield" ) ||
 			  responseText.contains( "wrench bracelet" ) )
 		{
