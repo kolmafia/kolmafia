@@ -429,7 +429,7 @@
 431	frightening clown shoes	0		Spooky Damage: +5, Clowniness: 25
 432	greasy bloody clown pants	0		Sleaze Spell Damage: +10, Clowniness: 25
 433	skinny balloon	0		
-434	steel-toed balloon helmet	0		Damage Reduction: 9, Clowniness: 50
+434	steel-toed balloon helmet	0		Damage Reduction: 9, Clowniness: 25
 435	pulsating mirror spinning mansplainer's smooth balloon sword	0		Moxie: +15, Monster Level: +15, Clowniness: 50
 436	upside-down mirror balloon monkey	0		
 437	chef skull	0		

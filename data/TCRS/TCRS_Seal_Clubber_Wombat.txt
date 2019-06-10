@@ -429,7 +429,7 @@
 431	clown shoes of vim and vigor	0		Maximum HP Percent: +50, Clowniness: 25
 432	pulsating maroon bloody clown pants of mayonnaise	0		Sleaze Spell Damage: +50, Clowniness: 25
 433	bouncing skinny balloon	0		
-434	skewed deadly balloon helmet	0		Weapon Damage: +5, Clowniness: 50
+434	skewed deadly balloon helmet	0		Weapon Damage: +5, Clowniness: 25
 435	wool sizzling balloon sword	0		Hot Damage: +10, Cold Resistance: +1, Clowniness: 50
 436	purple balloon monkey	0		
 437	squat twirling chef skull	0		

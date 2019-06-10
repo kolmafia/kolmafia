@@ -427,7 +427,7 @@
 431	Sherlock's clown shoes	0		Item Drop: +25, Clowniness: 25
 432	mirror bouncing studded bloody clown pants	0		Damage Absorption: +80, Clowniness: 25
 433	shaking red spinning skinny balloon	0		
-434	wobbly veiny balloon helmet	0		Maximum HP: +10, Clowniness: 50
+434	wobbly veiny balloon helmet	0		Maximum HP: +10, Clowniness: 25
 435	ghostly blue knitted balloon sword of the early riser	0		Cold Resistance: +3, Adventures: +7, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		

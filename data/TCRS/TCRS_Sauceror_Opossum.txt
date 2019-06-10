@@ -429,7 +429,7 @@
 431	clown shoes of Flo-Jo	0		Initiative: +100, Clowniness: 25
 432	fuchsia personal trainer's bloody clown pants	0		Experience Percent (Muscle): +10, Clowniness: 25
 433	gray skinny balloon	0		
-434	grievous balloon helmet	0		Weapon Damage Percent: +50, Clowniness: 50
+434	grievous balloon helmet	0		Weapon Damage Percent: +50, Clowniness: 25
 435	avaricious ribald balloon sword	0		Sleaze Damage: +10, Meat Drop: +30, Clowniness: 50
 436	huge balloon monkey	0		
 437	ghostly chef skull	0		

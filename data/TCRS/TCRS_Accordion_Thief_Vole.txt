@@ -429,7 +429,7 @@
 431	clown shoes of the detective	0		Item Drop: +20, Clowniness: 25
 432	razor-sharp bloody clown pants	0		Weapon Damage Percent: +25, Clowniness: 25
 433	skinny balloon	0		
-434	skewed frightening balloon helmet	0		Spooky Damage: +5, Clowniness: 50
+434	skewed frightening balloon helmet	0		Spooky Damage: +5, Clowniness: 25
 435	ghostly careful balloon sword of vim and vigor	0		Maximum HP Percent: +50, Monster Level: -10, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
