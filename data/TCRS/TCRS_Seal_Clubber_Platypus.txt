@@ -429,7 +429,7 @@
 431	quilted clown shoes	0		Damage Absorption: +40, Clowniness: 25
 432	bloody clown pants of wisdom	0		Mysticality: +15, Clowniness: 25
 433	skinny balloon	0		
-434	smartaleck's balloon helmet	0		Moxie Percent: +30, Clowniness: 50
+434	smartaleck's balloon helmet	0		Moxie Percent: +30, Clowniness: 25
 435	Lo Pan's extremely unsafe balloon sword	0		Weapon Damage Percent: +100, Spell Critical Percent: +30, Clowniness: 50
 436	balloon monkey	0		
 437	squat bouncing chef skull	0		

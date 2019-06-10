@@ -429,7 +429,7 @@
 431	spinning clown shoes of Leguizamo	0		Monster Level: +20, Clowniness: 25
 432	horrifying bloody clown pants	0		, Clowniness: 25
 433	ghostly skinny balloon	0		
-434	balloon helmet of extreme caution	0		Monster Level: -25, Clowniness: 50
+434	balloon helmet of extreme caution	0		Monster Level: -25, Clowniness: 25
 435	upside-down ribald gravedigger's balloon sword	0		Sleaze Damage: +10, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		

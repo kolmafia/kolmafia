@@ -429,7 +429,7 @@
 431	mirror shaking clown shoes of bravery	0		Spooky Resistance: +5, Clowniness: 25
 432	pulsating bloody clown pants of the glutton	0		Food Drop: +100, Clowniness: 25
 433	lime green skinny balloon	0		
-434	huge shaking sharpshooter's balloon helmet	0		Critical Hit Percent: +10, Clowniness: 50
+434	huge shaking sharpshooter's balloon helmet	0		Critical Hit Percent: +10, Clowniness: 25
 435	smooth balloon sword of the dark arts	0		Moxie: +15, Spell Damage Percent: +100, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		

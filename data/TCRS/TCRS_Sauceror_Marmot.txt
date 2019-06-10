@@ -429,7 +429,7 @@
 431	clown shoes of Gandalf	0		Spell Critical Percent: +20, Clowniness: 25
 432	family-friendly bloody clown pants	0		Sleaze Resistance: +1, Clowniness: 25
 433	skinny balloon	0		
-434	blinking nasty balloon helmet	0		Stench Damage: +5, Clowniness: 50
+434	blinking nasty balloon helmet	0		Stench Damage: +5, Clowniness: 25
 435	tumbling resourceful educational balloon sword	0		Experience: +1, Maximum MP: +50, Clowniness: 50
 436	balloon monkey	0		
 437	chef skull	0		
