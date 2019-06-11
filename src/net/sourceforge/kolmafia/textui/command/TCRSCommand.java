@@ -91,6 +91,36 @@ public class TCRSCommand
 			return;
 		}
 
+		if ( command.equals( "ring" ) )
+		{
+			TCRS tcrs = TCRSDatabase.deriveRing();
+			if ( tcrs == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'ring'!" );
+				return;
+			}
+			
+			RequestLogger.printLine( "name = " + tcrs.name );
+			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
+
+			return;
+		}
+
+		if ( command.equals( "spoon" ) )
+		{
+			TCRS tcrs = TCRSDatabase.deriveSpoon();
+			if ( tcrs == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'spoon'!" );
+				return;
+			}
+			
+			RequestLogger.printLine( "name = " + tcrs.name );
+			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
+
+			return;
+		}
+
 		if ( !KoLCharacter.isCrazyRandomTwo() )
 		{
 			KoLmafia.updateDisplay( MafiaState.ERROR, "You are not in a Two Crazy Random Summer run" );
@@ -129,36 +159,6 @@ public class TCRSCommand
 			RequestLogger.printLine( "name = " + tcrs.name );
 			RequestLogger.printLine( "size = " + tcrs.size );
 			RequestLogger.printLine( "quality = " + tcrs.quality );
-			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
-
-			return;
-		}
-
-		if ( command.equals( "ring" ) )
-		{
-			TCRS tcrs = TCRSDatabase.deriveRing();
-			if ( tcrs == null )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'ring'!" );
-				return;
-			}
-			
-			RequestLogger.printLine( "name = " + tcrs.name );
-			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
-
-			return;
-		}
-
-		if ( command.equals( "spoon" ) )
-		{
-			TCRS tcrs = TCRSDatabase.deriveSpoon();
-			if ( tcrs == null )
-			{
-				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'spoon'!" );
-				return;
-			}
-			
-			RequestLogger.printLine( "name = " + tcrs.name );
 			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
 
 			return;
