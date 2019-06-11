@@ -149,6 +149,21 @@ public class TCRSCommand
 			return;
 		}
 
+		if ( command.equals( "spoon" ) )
+		{
+			TCRS tcrs = TCRSDatabase.deriveSpoon();
+			if ( tcrs == null )
+			{
+				KoLmafia.updateDisplay( MafiaState.ERROR, "No item description for the 'spoon'!" );
+				return;
+			}
+			
+			RequestLogger.printLine( "name = " + tcrs.name );
+			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
+
+			return;
+		}
+
 		if ( command.equals( "apply" ) )
 		{
 			TCRSDatabase.applyModifiers();

@@ -363,6 +363,12 @@ public class TCRSDatabase
 		return deriveItem( text );
 	}
 
+	public static TCRS deriveSpoon()
+	{
+		String text = DebugDatabase.itemDescriptionText( ItemPool.HEWN_MOON_RUNE_SPOON, false );
+		return deriveItem( text );
+	}
+
 	private static TCRS deriveItem( final String text )
 	{
 		// Parse the things that are changed in TCRS
