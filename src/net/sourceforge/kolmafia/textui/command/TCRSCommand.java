@@ -115,9 +115,12 @@ public class TCRSCommand
 				return;
 			}
 			
-			RequestLogger.printLine( "name = " + tcrs.name );
-			RequestLogger.printLine( "modifiers = '" + tcrs.modifiers + "'" );
-
+			String line1 = "name = " + tcrs.name;
+			RequestLogger.printLine( line1 );
+			RequestLogger.updateSessionLog( line1 );
+			String line2 = "modifiers = '" + tcrs.modifiers + "'";
+			RequestLogger.printLine( line2 );
+			RequestLogger.updateSessionLog( line2 );
 			return;
 		}
 

@@ -465,6 +465,11 @@ public class TCRSDatabase
 		return deriveItem( text );
 	}
 
+	public static void deriveApplyItem( final int id )
+	{
+		applyModifiers( id, deriveItem( DebugDatabase.itemDescriptionText( id, false ) ) );
+	}
+
 	private static TCRS deriveItem( final String text )
 	{
 		// Parse the things that are changed in TCRS
@@ -772,6 +777,9 @@ public class TCRSDatabase
 		EffectDatabase.reset();
 		ConsumablesDatabase.reset();
 
+		deriveApplyItem( ItemPool.RING  );
+		deriveApplyItem( ItemPool.HEWN_MOON_RUNE_SPOON  );
+
 		ConcoctionDatabase.refreshConcoctions();
 		KoLCharacter.recalculateAdjustments();
 		KoLCharacter.updateStatus();
@@ -1023,6 +1031,8 @@ public class TCRSDatabase
 		if ( nonCafeLoaded || cafeLoaded )
 		{
 			applyModifiers();
+			deriveApplyItem( ItemPool.RING  );
+			deriveApplyItem( ItemPool.HEWN_MOON_RUNE_SPOON  );
 		}
 
 		return true;
