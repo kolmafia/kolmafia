@@ -540,7 +540,7 @@ public class TCRSDatabase
 			return false;
 		}
 
-		String itemName = ItemDatabase.getItemName( itemId );
+		String itemName = ItemDatabase.getItemDataName( itemId );
 		if ( itemName == null )
 		{
 			return false;
