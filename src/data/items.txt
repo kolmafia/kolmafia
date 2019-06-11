@@ -10274,3 +10274,6 @@
 10251	Fourth of May Cosplay Saber	651314979	may4sword.gif	weapon		0
 10252	ring	170559868	dcring.gif	accessory		0
 10253	Thwaitgold nymph statuette	738887502	thwaitnymph.gif	none		0
+
+10254	hewn moon-rune spoon	576117737	runespoon.gif	accessory		0
+10256	rune-strewn spoon cocoon	503105318	spooncocoon.gif	usable	t	0

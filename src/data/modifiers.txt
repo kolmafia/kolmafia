@@ -2855,6 +2855,7 @@ Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumbl
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
 # hemp string
+Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum HP: +25, Single Equip
 # high-friction boots: Allows you to move normally on extremely windy planets
 Item	high-friction boots	Single Equip, Lasts Until Rollover
 Item	hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -6602,6 +6603,7 @@ Effect	Spooky Weapon	Spooky Damage: +3
 Effect	Spookyform	Spooky Immunity, Hot Vulnerability, Stench Vulnerability
 Effect	Spookypants	Spooky Resistance: +1
 Effect	Spookyravin'	Familiar Weight: +10
+Effect	Spoon Boon	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +10, Cold Spell Damage: +10, Stench Spell Damage: +10, Spooky Spell Damage: +10, Sleaze Spell Damage: +10, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Spore-Wreathed	Reduce Enemy Defense: 20
 Effect	Spring Training	Initiative: +100
 Effect	Springy Fusilli	Initiative: +40
@@ -9521,6 +9523,7 @@ Item	henna face paint	Effect: "Florid Cheeks", Effect Duration: 10
 Item	henna tattoo	Effect: "Hennaliciousness", Effect Duration: 5
 Item	hero's skull	Lasts Until Rollover
 Item	Hersey&trade; SMOOCH	Effect: "Kissed By Fire", Effect Duration: 20
+Item	rune-strewn spoon cocoon	Free Pull
 Item	hi-octane carrot juice	Effect: "Beta Carotene Overdose", Effect Duration: 30
 Item	hibernating Grimstone Golem	Free Pull
 Item	hibernating robot reindeer	Free Pull

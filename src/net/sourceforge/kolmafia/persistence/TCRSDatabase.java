@@ -343,6 +343,10 @@ public class TCRSDatabase
 		{
 			return new TCRS( "ring", 0, "", "Single Equip" );
 		}
+		if (  itemId == ItemPool.HEWN_MOON_RUNE_SPOON )
+		{
+			return new TCRS( "hewn moon-rune spoon", 0, "", "Single Equip" );
+		}
 
 		// Read the Item Description
 		String text = DebugDatabase.itemDescriptionText( itemId, false );

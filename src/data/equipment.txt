@@ -2418,6 +2418,7 @@ heat-resistant gloves	100	Mox: 35
 heat-resistant necktie	100	Mys: 35
 Helps-You-Sleep	300	Mox: 100
 hemp string	70	Mys: 20
+hewn moon-rune spoon	0	none
 high-friction boots	10	none
 hippy medical kit	175	Mys: 72
 hippy protest button	160	Mys: 65
