@@ -625,7 +625,7 @@ public class FightRequest
 		FightRequest.specialMonsters.put( "hunting seal", SpecialMonster.NEMESIS );
 		FightRequest.specialMonsters.put( "turtle trapper", SpecialMonster.NEMESIS );
 		FightRequest.specialMonsters.put( "evil spaghetti cult assassin", SpecialMonster.NEMESIS );
-		FightRequest.specialMonsters.put( "B&eacute;arnaise zombie", SpecialMonster.NEMESIS );
+		FightRequest.specialMonsters.put( "b&eacute;arnaise zombie", SpecialMonster.NEMESIS );
 		FightRequest.specialMonsters.put( "flock of seagulls", SpecialMonster.NEMESIS );
 		FightRequest.specialMonsters.put( "mariachi bandolero", SpecialMonster.NEMESIS );
 		FightRequest.specialMonsters.put( "Argarggagarg the Dire Hellseal", SpecialMonster.NEMESIS );
